@@ -94,7 +94,7 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Get, __invoke)
 	}
 	if (!(ZEPHIR_IS_EMPTY(&cast_zv))) {
 		ZEPHIR_MAKE_REF(&value);
-		ZEPHIR_CALL_FUNCTION(NULL, "settype", NULL, 9, &value, &cast_zv);
+		ZEPHIR_CALL_FUNCTION(NULL, "settype", NULL, 13, &value, &cast_zv);
 		ZEPHIR_UNREF(&value);
 		zephir_check_call_status();
 	}

@@ -1,0 +1,5 @@
+
+extern zend_class_entry *phalcon_acl_exceptions_parametertypemismatch_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Acl_Exceptions_ParameterTypeMismatch);
+

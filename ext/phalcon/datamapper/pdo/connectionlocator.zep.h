@@ -30,16 +30,16 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_pdo_connection
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, name, IS_STRING, 0, "''")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_pdo_connectionlocator_setmaster, 0, 1, Phalcon\\DataMapper\\Pdo\\ConnectionLocatorInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_datamapper_pdo_connectionlocator_setmaster, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_OBJ_INFO(0, callableObject, Phalcon\\DataMapper\\Pdo\\Connection\\ConnectionInterface, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_pdo_connectionlocator_setread, 0, 2, Phalcon\\DataMapper\\Pdo\\ConnectionLocatorInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_datamapper_pdo_connectionlocator_setread, 0, 2, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 	ZEND_ARG_INFO(0, callableObject)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_pdo_connectionlocator_setwrite, 0, 2, Phalcon\\DataMapper\\Pdo\\ConnectionLocatorInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_datamapper_pdo_connectionlocator_setwrite, 0, 2, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 	ZEND_ARG_INFO(0, callableObject)
 ZEND_END_ARG_INFO()

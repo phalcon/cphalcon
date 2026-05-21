@@ -7,7 +7,7 @@ PHP_METHOD(Phalcon_Html_Helper_Link, add);
 PHP_METHOD(Phalcon_Html_Helper_Link, getTag);
 PHP_METHOD(Phalcon_Html_Helper_Link, getAttributes);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_html_helper_link_add, 0, 0, 1)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_html_helper_link_add, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, url, IS_STRING, 0)
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, attributes, IS_ARRAY, 0, "[]")
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, position, IS_LONG, 0, "-1")

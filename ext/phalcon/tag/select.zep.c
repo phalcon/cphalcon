@@ -461,8 +461,9 @@ PHP_METHOD(Phalcon_Tag_Select, optionsFromResultset)
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(&escaper, &_0);
 	_1 = zephir_get_iterator(resultset);
-	_1->funcs->rewind(_1);
-	for (;_1->funcs->valid(_1) == SUCCESS && !EG(exception); _1->funcs->move_forward(_1)) {
+	if (EXPECTED(_1 != NULL)) {
+		_1->funcs->rewind(_1);
+		for (;_1->funcs->valid(_1) == SUCCESS && !EG(exception); _1->funcs->move_forward(_1)) {
 		{
 			ZEPHIR_ITERATOR_COPY(&option, _1);
 		}
@@ -535,6 +536,7 @@ PHP_METHOD(Phalcon_Tag_Select, optionsFromResultset)
 		}
 	}
 	zend_iterator_dtor(_1);
+	}
 	RETURN_CCTOR(&code);
 }
 

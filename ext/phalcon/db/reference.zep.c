@@ -16,6 +16,7 @@
 #include "kernel/array.h"
 #include "kernel/memory.h"
 #include "kernel/exception.h"
+#include "kernel/fcall.h"
 #include "ext/spl/spl_exceptions.h"
 
 
@@ -110,8 +111,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Reference)
 PHP_METHOD(Phalcon_Db_Reference, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval definition;
-	zval name_zv, *definition_param = NULL, columns, schema, referencedTable, referencedSchema, referencedColumns, onDelete, onUpdate;
+	zval name_zv, *definition_param = NULL, columns, schema, referencedTable, referencedSchema, referencedColumns, onDelete, onUpdate, _0$$3, _1$$4, _2$$5, _3$$10;
 	zend_string *name = NULL;
 	zval *this_ptr = getThis();
 
@@ -123,6 +125,10 @@ PHP_METHOD(Phalcon_Db_Reference, __construct)
 	ZVAL_UNDEF(&referencedColumns);
 	ZVAL_UNDEF(&onDelete);
 	ZVAL_UNDEF(&onUpdate);
+	ZVAL_UNDEF(&_0$$3);
+	ZVAL_UNDEF(&_1$$4);
+	ZVAL_UNDEF(&_2$$5);
+	ZVAL_UNDEF(&_3$$10);
 	ZVAL_UNDEF(&definition);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_STR(name)
@@ -137,19 +143,34 @@ PHP_METHOD(Phalcon_Db_Reference, __construct)
 	zephir_update_property_zval(this_ptr, ZEND_STRL("name"), &name_zv);
 	zephir_memory_observe(&referencedTable);
 	if (UNEXPECTED(!(zephir_array_isset_string_fetch(&referencedTable, &definition, SL("referencedTable"), 0)))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Referenced table is required", "phalcon/Db/Reference.zep", 103);
+		ZEPHIR_INIT_VAR(&_0$$3);
+		object_init_ex(&_0$$3, phalcon_db_exceptions_referencedtablerequired_ce);
+		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 362);
+		zephir_check_call_status();
+		zephir_throw_exception_debug(&_0$$3, "phalcon/Db/Reference.zep", 108);
+		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	zephir_update_property_zval(this_ptr, ZEND_STRL("referencedTable"), &referencedTable);
 	zephir_memory_observe(&columns);
 	if (UNEXPECTED(!(zephir_array_isset_string_fetch(&columns, &definition, SL("columns"), 0)))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Foreign key columns are required", "phalcon/Db/Reference.zep", 109);
+		ZEPHIR_INIT_VAR(&_1$$4);
+		object_init_ex(&_1$$4, phalcon_db_exceptions_foreignkeycolumnsrequired_ce);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 363);
+		zephir_check_call_status();
+		zephir_throw_exception_debug(&_1$$4, "phalcon/Db/Reference.zep", 114);
+		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	zephir_update_property_zval(this_ptr, ZEND_STRL("columns"), &columns);
 	zephir_memory_observe(&referencedColumns);
 	if (UNEXPECTED(!(zephir_array_isset_string_fetch(&referencedColumns, &definition, SL("referencedColumns"), 0)))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Referenced columns of the foreign key are required", "phalcon/Db/Reference.zep", 117);
+		ZEPHIR_INIT_VAR(&_2$$5);
+		object_init_ex(&_2$$5, phalcon_db_exceptions_referencedcolumnsrequired_ce);
+		ZEPHIR_CALL_METHOD(NULL, &_2$$5, "__construct", NULL, 364);
+		zephir_check_call_status();
+		zephir_throw_exception_debug(&_2$$5, "phalcon/Db/Reference.zep", 120);
+		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	zephir_update_property_zval(this_ptr, ZEND_STRL("referencedColumns"), &referencedColumns);
@@ -170,7 +191,12 @@ PHP_METHOD(Phalcon_Db_Reference, __construct)
 		zephir_update_property_zval(this_ptr, ZEND_STRL("onUpdate"), &onUpdate);
 	}
 	if (UNEXPECTED(zephir_fast_count_int(&columns) != zephir_fast_count_int(&referencedColumns))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Number of columns is not equals than the number of columns referenced", "phalcon/Db/Reference.zep", 141);
+		ZEPHIR_INIT_VAR(&_3$$10);
+		object_init_ex(&_3$$10, phalcon_db_exceptions_referencedcolumncountmismatch_ce);
+		ZEPHIR_CALL_METHOD(NULL, &_3$$10, "__construct", NULL, 365);
+		zephir_check_call_status();
+		zephir_throw_exception_debug(&_3$$10, "phalcon/Db/Reference.zep", 142);
+		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	ZEPHIR_MM_RESTORE();

@@ -31,16 +31,16 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_profiler_getprofiles, 0, 0, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_db_profiler_reset, 0, 0, Phalcon\\Db\\Profiler, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_db_profiler_reset, 0, 0, MAY_BE_STATIC)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_db_profiler_startprofile, 0, 1, Phalcon\\Db\\Profiler, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_db_profiler_startprofile, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, sqlStatement, IS_STRING, 0)
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, sqlVariables, IS_ARRAY, 0, "[]")
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, sqlBindTypes, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_db_profiler_stopprofile, 0, 0, Phalcon\\Db\\Profiler, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_db_profiler_stopprofile, 0, 0, MAY_BE_STATIC)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_db_profiler_method_entry) {

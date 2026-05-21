@@ -218,7 +218,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, get)
 	if (zephir_array_isset_fetch(&cookie, &_0, &name_zv, 0)) {
 		RETURN_CCTOR(&cookie);
 	}
-	ZEPHIR_CALL_METHOD(&container, this_ptr, "checkcontainer", NULL, 406);
+	ZEPHIR_CALL_METHOD(&container, this_ptr, "checkcontainer", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_2);
 	zephir_create_array(&_2, 1, 0);
@@ -337,7 +337,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, send)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	ZEPHIR_CALL_FUNCTION(&_0, "headers_sent", NULL, 407);
+	ZEPHIR_CALL_FUNCTION(&_0, "headers_sent", NULL, 0);
 	zephir_check_call_status();
 	_1 = ZEPHIR_IS_TRUE_IDENTICAL(&_0);
 	if (!(_1)) {
@@ -349,7 +349,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, send)
 		RETURN_MM_BOOL(0);
 	}
 	zephir_read_property(&_3, this_ptr, ZEND_STRL("cookies"), PH_NOISY_CC | PH_READONLY);
-	zephir_is_iterable(&_3, 0, "phalcon/Http/Response/Cookies.zep", 223);
+	zephir_is_iterable(&_3, 0, "phalcon/Http/Response/Cookies.zep", 224);
 	if (Z_TYPE_P(&_3) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_3), _4)
 		{
@@ -576,7 +576,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set)
 	}
 	zephir_read_property(&_10, this_ptr, ZEND_STRL("registered"), PH_NOISY_CC | PH_READONLY);
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&_10)) {
-		ZEPHIR_CALL_METHOD(&container, this_ptr, "checkcontainer", NULL, 406);
+		ZEPHIR_CALL_METHOD(&container, this_ptr, "checkcontainer", NULL, 0);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_11$$6);
 		ZVAL_STRING(&_11$$6, "response");
@@ -653,19 +653,26 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, useEncryption)
 
 PHP_METHOD(Phalcon_Http_Response_Cookies, checkContainer)
 {
-	zval container, _0;
+	zval container, _0, _1$$3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&container);
 	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1$$3);
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("container"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&container, &_0);
 	if (Z_TYPE_P(&container) == IS_NULL) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_cookie_exception_ce, "A dependency injection container is required to access the 'response' service", "phalcon/Http/Response/Cookies.zep", 355);
+		ZEPHIR_INIT_VAR(&_1$$3);
+		object_init_ex(&_1$$3, phalcon_http_response_exceptions_responseserviceunavailable_ce);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 0);
+		zephir_check_call_status();
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Http/Response/Cookies.zep", 354);
+		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	RETURN_CCTOR(&container);

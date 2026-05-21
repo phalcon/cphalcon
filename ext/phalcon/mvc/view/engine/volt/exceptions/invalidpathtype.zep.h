@@ -1,0 +1,14 @@
+
+extern zend_class_entry *phalcon_mvc_view_engine_volt_exceptions_invalidpathtype_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Mvc_View_Engine_Volt_Exceptions_InvalidPathType);
+
+PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Exceptions_InvalidPathType, __construct);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_exceptions_invalidpathtype___construct, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_mvc_view_engine_volt_exceptions_invalidpathtype_method_entry) {
+PHP_ME(Phalcon_Mvc_View_Engine_Volt_Exceptions_InvalidPathType, __construct, arginfo_phalcon_mvc_view_engine_volt_exceptions_invalidpathtype___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_FE_END
+};

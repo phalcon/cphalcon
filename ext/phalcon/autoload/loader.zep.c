@@ -120,7 +120,7 @@ PHP_METHOD(Phalcon_Autoload_Loader, __construct)
 	ZVAL_STRING(&_0, "sha256");
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "php");
-	ZEPHIR_CALL_FUNCTION(&_2, "hash", NULL, 94, &_0, &_1);
+	ZEPHIR_CALL_FUNCTION(&_2, "hash", NULL, 132, &_0, &_1);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "php");
@@ -186,7 +186,7 @@ PHP_METHOD(Phalcon_Autoload_Loader, addDirectory)
 	ZVAL_STR_COPY(&directory_zv, directory);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "sha256");
-	ZEPHIR_CALL_FUNCTION(&_1, "hash", NULL, 94, &_0, &directory_zv);
+	ZEPHIR_CALL_FUNCTION(&_1, "hash", NULL, 132, &_0, &directory_zv);
 	zephir_check_call_status();
 	zephir_update_property_array(this_ptr, SL("directories"), &_1, &directory_zv);
 	RETURN_THIS();
@@ -219,7 +219,7 @@ PHP_METHOD(Phalcon_Autoload_Loader, addExtension)
 	ZVAL_STR_COPY(&extension_zv, extension);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "sha256");
-	ZEPHIR_CALL_FUNCTION(&_1, "hash", NULL, 94, &_0, &extension_zv);
+	ZEPHIR_CALL_FUNCTION(&_1, "hash", NULL, 132, &_0, &extension_zv);
 	zephir_check_call_status();
 	zephir_update_property_array(this_ptr, SL("extensions"), &_1, &extension_zv);
 	RETURN_THIS();
@@ -252,7 +252,7 @@ PHP_METHOD(Phalcon_Autoload_Loader, addFile)
 	ZVAL_STR_COPY(&file_zv, file);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "sha256");
-	ZEPHIR_CALL_FUNCTION(&_1, "hash", NULL, 94, &_0, &file_zv);
+	ZEPHIR_CALL_FUNCTION(&_1, "hash", NULL, 132, &_0, &file_zv);
 	zephir_check_call_status();
 	zephir_update_property_array(this_ptr, SL("files"), &_1, &file_zv);
 	RETURN_THIS();
@@ -319,7 +319,7 @@ PHP_METHOD(Phalcon_Autoload_Loader, addNamespace)
 	ZEPHIR_INIT_VAR(&_1);
 	ZEPHIR_CONCAT_VV(&_1, &_0, &nsSeparator);
 	ZEPHIR_CPY_WRT(&nsName, &_1);
-	ZEPHIR_CALL_METHOD(&_2, this_ptr, "checkdirectories", NULL, 197, directories, &dirSeparator);
+	ZEPHIR_CALL_METHOD(&_2, this_ptr, "checkdirectories", NULL, 282, directories, &dirSeparator);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(directories, &_2);
 	zephir_read_property(&_3, this_ptr, ZEND_STRL("namespaces"), PH_NOISY_CC | PH_READONLY);
@@ -333,18 +333,18 @@ PHP_METHOD(Phalcon_Autoload_Loader, addNamespace)
 	} else {
 		zephir_read_property(&_5, this_ptr, ZEND_STRL("namespaces"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_OBS_NVAR(&source);
-		zephir_array_fetch(&source, &_5, &nsName, PH_NOISY, "phalcon/Autoload/Loader.zep", 169);
+		zephir_array_fetch(&source, &_5, &nsName, PH_NOISY, "phalcon/Autoload/Loader.zep", 171);
 	}
 	if (prepend) {
 		zephir_read_property(&_6, this_ptr, ZEND_STRL("namespaces"), PH_NOISY_CC | PH_READONLY);
 		zephir_memory_observe(&target);
-		zephir_array_fetch(&target, &_6, &nsName, PH_NOISY, "phalcon/Autoload/Loader.zep", 170);
+		zephir_array_fetch(&target, &_6, &nsName, PH_NOISY, "phalcon/Autoload/Loader.zep", 172);
 	} else {
 		ZEPHIR_CPY_WRT(&target, directories);
 	}
 	ZEPHIR_INIT_VAR(&_7);
 	zephir_fast_array_merge(&_7, &source, &target);
-	ZEPHIR_CALL_FUNCTION(&_2, "array_unique", NULL, 198, &_7);
+	ZEPHIR_CALL_FUNCTION(&_2, "array_unique", NULL, 283, &_7);
 	zephir_check_call_status();
 	zephir_update_property_array(this_ptr, SL("namespaces"), &nsName, &_2);
 	RETURN_THIS();
@@ -390,40 +390,40 @@ PHP_METHOD(Phalcon_Autoload_Loader, autoload)
 	zephir_update_property_zval(this_ptr, ZEND_STRL("debug"), &_0);
 	ZEPHIR_INIT_VAR(&_1);
 	ZEPHIR_CONCAT_SV(&_1, "Loading: ", &className_zv);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "adddebug", NULL, 199, &_1);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "adddebug", NULL, 284, &_1);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "loader:beforeCheckClass");
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "firemanagerevent", NULL, 0, &_2, &className_zv);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_3, this_ptr, "autoloadcheckclasses", NULL, 200, &className_zv);
+	ZEPHIR_CALL_METHOD(&_3, this_ptr, "autoloadcheckclasses", NULL, 285, &className_zv);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_TRUE_IDENTICAL(&_3)) {
 		RETURN_MM_BOOL(1);
 	}
 	ZEPHIR_INIT_VAR(&_4);
 	ZEPHIR_CONCAT_SV(&_4, "Class: 404: ", &className_zv);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "adddebug", NULL, 199, &_4);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "adddebug", NULL, 284, &_4);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_5, this_ptr, "autoloadchecknamespaces", NULL, 201, &className_zv);
+	ZEPHIR_CALL_METHOD(&_5, this_ptr, "autoloadchecknamespaces", NULL, 286, &className_zv);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_TRUE_IDENTICAL(&_5)) {
 		RETURN_MM_BOOL(1);
 	}
 	ZEPHIR_INIT_VAR(&_6);
 	ZEPHIR_CONCAT_SV(&_6, "Namespace: 404: ", &className_zv);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "adddebug", NULL, 199, &_6);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "adddebug", NULL, 284, &_6);
 	zephir_check_call_status();
 	zephir_read_property(&_8, this_ptr, ZEND_STRL("directories"), PH_NOISY_CC | PH_READONLY);
 	ZVAL_BOOL(&_9, 1);
-	ZEPHIR_CALL_METHOD(&_7, this_ptr, "autoloadcheckdirectories", NULL, 202, &_8, &className_zv, &_9);
+	ZEPHIR_CALL_METHOD(&_7, this_ptr, "autoloadcheckdirectories", NULL, 287, &_8, &className_zv, &_9);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_TRUE_IDENTICAL(&_7)) {
 		RETURN_MM_BOOL(1);
 	}
 	ZEPHIR_INIT_VAR(&_10);
 	ZEPHIR_CONCAT_SV(&_10, "Directories: 404: ", &className_zv);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "adddebug", NULL, 199, &_10);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "adddebug", NULL, 284, &_10);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "loader:afterCheckClass");
@@ -546,7 +546,7 @@ PHP_METHOD(Phalcon_Autoload_Loader, loadFiles)
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("files"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&files, &_0);
-	zephir_is_iterable(&files, 0, "phalcon/Autoload/Loader.zep", 322);
+	zephir_is_iterable(&files, 0, "phalcon/Autoload/Loader.zep", 324);
 	if (Z_TYPE_P(&files) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&files), _1)
 		{
@@ -638,7 +638,7 @@ PHP_METHOD(Phalcon_Autoload_Loader, register)
 		ZVAL_STRING(&_2$$3, "autoload");
 		zephir_array_fast_append(&_1$$3, &_2$$3);
 		ZVAL_BOOL(&_3$$3, (prepend ? 1 : 0));
-		ZEPHIR_CALL_FUNCTION(NULL, "spl_autoload_register", NULL, 203, &_1$$3, &__$true, &_3$$3);
+		ZEPHIR_CALL_FUNCTION(NULL, "spl_autoload_register", NULL, 288, &_1$$3, &__$true, &_3$$3);
 		zephir_check_call_status();
 		if (1) {
 			zephir_update_property_zval(this_ptr, ZEND_STRL("isRegistered"), &__$true);
@@ -692,7 +692,7 @@ PHP_METHOD(Phalcon_Autoload_Loader, setClasses)
 		array_init(&_0$$3);
 		zephir_update_property_zval(this_ptr, ZEND_STRL("classes"), &_0$$3);
 	}
-	zephir_is_iterable(&classes, 0, "phalcon/Autoload/Loader.zep", 364);
+	zephir_is_iterable(&classes, 0, "phalcon/Autoload/Loader.zep", 366);
 	if (Z_TYPE_P(&classes) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&classes), _3, _4, _1)
 		{
@@ -774,7 +774,7 @@ PHP_METHOD(Phalcon_Autoload_Loader, setDirectories)
 	} else {
 		ZVAL_BOOL(&_2, 0);
 	}
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "addtocollection", NULL, 204, &directories, &_0, &_1, &_2);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "addtocollection", NULL, 289, &directories, &_0, &_1, &_2);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -826,13 +826,13 @@ PHP_METHOD(Phalcon_Autoload_Loader, setExtensions)
 		ZVAL_STRING(&_1$$3, "sha256");
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZVAL_STRING(&_2$$3, "php");
-		ZEPHIR_CALL_FUNCTION(&_3$$3, "hash", NULL, 94, &_1$$3, &_2$$3);
+		ZEPHIR_CALL_FUNCTION(&_3$$3, "hash", NULL, 132, &_1$$3, &_2$$3);
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(&_1$$3);
 		ZVAL_STRING(&_1$$3, "php");
 		zephir_update_property_array(this_ptr, SL("extensions"), &_3$$3, &_1$$3);
 	}
-	zephir_is_iterable(&extensions, 0, "phalcon/Autoload/Loader.zep", 407);
+	zephir_is_iterable(&extensions, 0, "phalcon/Autoload/Loader.zep", 409);
 	if (Z_TYPE_P(&extensions) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&extensions), _4)
 		{
@@ -885,12 +885,14 @@ PHP_METHOD(Phalcon_Autoload_Loader, setExtensions)
 PHP_METHOD(Phalcon_Autoload_Loader, setFileCheckingCallback)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval *method = NULL, method_sub, __$null, _0$$4;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *method = NULL, method_sub, __$null, _0$$4, _1$$5;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&method_sub);
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&_0$$4);
+	ZVAL_UNDEF(&_1$$5);
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
@@ -911,7 +913,12 @@ PHP_METHOD(Phalcon_Autoload_Loader, setFileCheckingCallback)
 		zephir_create_closure_ex(&_0$$4, NULL, phalcon_5__closure_ce, SL("__invoke"));
 		zephir_update_property_zval(this_ptr, ZEND_STRL("fileCheckingCallback"), &_0$$4);
 	} else {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_autoload_exception_ce, "The 'method' parameter must be either a callable or NULL", "phalcon/Autoload/Loader.zep", 441);
+		ZEPHIR_INIT_VAR(&_1$$5);
+		object_init_ex(&_1$$5, phalcon_autoload_exceptions_loadermethodnotcallable_ce);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$5, "__construct", NULL, 290);
+		zephir_check_call_status();
+		zephir_throw_exception_debug(&_1$$5, "phalcon/Autoload/Loader.zep", 441);
+		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	RETURN_THIS();
@@ -961,7 +968,7 @@ PHP_METHOD(Phalcon_Autoload_Loader, setFiles)
 	} else {
 		ZVAL_BOOL(&_2, 0);
 	}
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "addtocollection", NULL, 204, &files, &_0, &_1, &_2);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "addtocollection", NULL, 289, &files, &_0, &_1, &_2);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -1026,7 +1033,7 @@ PHP_METHOD(Phalcon_Autoload_Loader, setNamespaces)
 			}
 			ZEPHIR_INIT_NVAR(&directories);
 			ZVAL_COPY(&directories, _1);
-			ZEPHIR_CALL_METHOD(&_5$$4, this_ptr, "checkdirectories", &_6, 197, &directories, &dirSeparator);
+			ZEPHIR_CALL_METHOD(&_5$$4, this_ptr, "checkdirectories", &_6, 282, &directories, &dirSeparator);
 			zephir_check_call_status();
 			ZEPHIR_CPY_WRT(&directories, &_5$$4);
 			ZEPHIR_CALL_METHOD(NULL, this_ptr, "addnamespace", &_7, 0, &name, &directories);
@@ -1045,7 +1052,7 @@ PHP_METHOD(Phalcon_Autoload_Loader, setNamespaces)
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(&directories, &namespaces, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_8$$5, this_ptr, "checkdirectories", &_6, 197, &directories, &dirSeparator);
+				ZEPHIR_CALL_METHOD(&_8$$5, this_ptr, "checkdirectories", &_6, 282, &directories, &dirSeparator);
 				zephir_check_call_status();
 				ZEPHIR_CPY_WRT(&directories, &_8$$5);
 				ZEPHIR_CALL_METHOD(NULL, this_ptr, "addnamespace", &_7, 0, &name, &directories);
@@ -1088,7 +1095,7 @@ PHP_METHOD(Phalcon_Autoload_Loader, unregister)
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZVAL_STRING(&_2$$3, "autoload");
 		zephir_array_fast_append(&_1$$3, &_2$$3);
-		ZEPHIR_CALL_FUNCTION(NULL, "spl_autoload_unregister", NULL, 205, &_1$$3);
+		ZEPHIR_CALL_FUNCTION(NULL, "spl_autoload_unregister", NULL, 291, &_1$$3);
 		zephir_check_call_status();
 		if (0) {
 			zephir_update_property_zval(this_ptr, ZEND_STRL("isRegistered"), &__$true);
@@ -1140,7 +1147,7 @@ PHP_METHOD(Phalcon_Autoload_Loader, requireFile)
 	zephir_memory_observe(&file_zv);
 	ZVAL_STR_COPY(&file_zv, file);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("fileCheckingCallback"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_FUNCTION(&_1, "call_user_func", NULL, 206, &_0, &file_zv);
+	ZEPHIR_CALL_FUNCTION(&_1, "call_user_func", NULL, 292, &_0, &file_zv);
 	zephir_check_call_status();
 	if (!ZEPHIR_IS_FALSE_IDENTICAL(&_1)) {
 		ZEPHIR_INIT_VAR(&_2$$3);
@@ -1149,7 +1156,7 @@ PHP_METHOD(Phalcon_Autoload_Loader, requireFile)
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_3$$3);
 		ZEPHIR_CONCAT_SV(&_3$$3, "Require: ", &file_zv);
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "adddebug", NULL, 199, &_3$$3);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "adddebug", NULL, 284, &_3$$3);
 		zephir_check_call_status();
 		if (zephir_require_once_zval(&file_zv) == FAILURE) {
 			RETURN_MM_NULL();
@@ -1158,7 +1165,7 @@ PHP_METHOD(Phalcon_Autoload_Loader, requireFile)
 	}
 	ZEPHIR_INIT_VAR(&_4);
 	ZEPHIR_CONCAT_SV(&_4, "Require: 404: ", &file_zv);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "adddebug", NULL, 199, &_4);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "adddebug", NULL, 284, &_4);
 	zephir_check_call_status();
 	RETURN_MM_BOOL(0);
 }
@@ -1312,7 +1319,7 @@ PHP_METHOD(Phalcon_Autoload_Loader, autoloadCheckClasses)
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_3$$3);
 		ZEPHIR_CONCAT_SV(&_3$$3, "Class: load: ", &filePath);
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "adddebug", NULL, 199, &_3$$3);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "adddebug", NULL, 284, &_3$$3);
 		zephir_check_call_status();
 		RETURN_MM_BOOL(1);
 	}
@@ -1424,7 +1431,7 @@ PHP_METHOD(Phalcon_Autoload_Loader, autoloadCheckDirectories)
 						if (isDirectory) {
 							ZEPHIR_INIT_NVAR(&_10$$6);
 							ZEPHIR_CONCAT_SV(&_10$$6, "Directories: ", &filePath);
-							ZEPHIR_CALL_METHOD(NULL, this_ptr, "adddebug", &_11, 199, &_10$$6);
+							ZEPHIR_CALL_METHOD(NULL, this_ptr, "adddebug", &_11, 284, &_10$$6);
 							zephir_check_call_status();
 						}
 						RETURN_MM_BOOL(1);
@@ -1454,7 +1461,7 @@ PHP_METHOD(Phalcon_Autoload_Loader, autoloadCheckDirectories)
 							if (isDirectory) {
 								ZEPHIR_INIT_NVAR(&_14$$9);
 								ZEPHIR_CONCAT_SV(&_14$$9, "Directories: ", &filePath);
-								ZEPHIR_CALL_METHOD(NULL, this_ptr, "adddebug", &_11, 199, &_14$$9);
+								ZEPHIR_CALL_METHOD(NULL, this_ptr, "adddebug", &_11, 284, &_14$$9);
 								zephir_check_call_status();
 							}
 							RETURN_MM_BOOL(1);
@@ -1499,7 +1506,7 @@ PHP_METHOD(Phalcon_Autoload_Loader, autoloadCheckDirectories)
 							if (isDirectory) {
 								ZEPHIR_INIT_NVAR(&_20$$13);
 								ZEPHIR_CONCAT_SV(&_20$$13, "Directories: ", &filePath);
-								ZEPHIR_CALL_METHOD(NULL, this_ptr, "adddebug", &_11, 199, &_20$$13);
+								ZEPHIR_CALL_METHOD(NULL, this_ptr, "adddebug", &_11, 284, &_20$$13);
 								zephir_check_call_status();
 							}
 							RETURN_MM_BOOL(1);
@@ -1529,7 +1536,7 @@ PHP_METHOD(Phalcon_Autoload_Loader, autoloadCheckDirectories)
 								if (isDirectory) {
 									ZEPHIR_INIT_NVAR(&_23$$16);
 									ZEPHIR_CONCAT_SV(&_23$$16, "Directories: ", &filePath);
-									ZEPHIR_CALL_METHOD(NULL, this_ptr, "adddebug", &_11, 199, &_23$$16);
+									ZEPHIR_CALL_METHOD(NULL, this_ptr, "adddebug", &_11, 284, &_23$$16);
 									zephir_check_call_status();
 								}
 								RETURN_MM_BOOL(1);
@@ -1619,13 +1626,13 @@ PHP_METHOD(Phalcon_Autoload_Loader, autoloadCheckNamespaces)
 			ZVAL_LONG(&_7$$3, zephir_fast_strlen_ev(&prefix));
 			ZEPHIR_INIT_NVAR(&fileName);
 			zephir_substr(&fileName, &className_zv, zephir_get_intval(&_7$$3), 0, ZEPHIR_SUBSTR_NO_LENGTH);
-			ZEPHIR_CALL_METHOD(&_8$$3, this_ptr, "autoloadcheckdirectories", &_9, 202, &directories, &fileName);
+			ZEPHIR_CALL_METHOD(&_8$$3, this_ptr, "autoloadcheckdirectories", &_9, 287, &directories, &fileName);
 			zephir_check_call_status();
 			if (ZEPHIR_IS_TRUE_IDENTICAL(&_8$$3)) {
 				zephir_read_property(&_10$$5, this_ptr, ZEND_STRL("checkedPath"), PH_NOISY_CC | PH_READONLY);
 				ZEPHIR_INIT_NVAR(&_11$$5);
 				ZEPHIR_CONCAT_SVSV(&_11$$5, "Namespace: ", &prefix, " - ", &_10$$5);
-				ZEPHIR_CALL_METHOD(NULL, this_ptr, "adddebug", &_12, 199, &_11$$5);
+				ZEPHIR_CALL_METHOD(NULL, this_ptr, "adddebug", &_12, 284, &_11$$5);
 				zephir_check_call_status();
 				RETURN_MM_BOOL(1);
 			}
@@ -1654,13 +1661,13 @@ PHP_METHOD(Phalcon_Autoload_Loader, autoloadCheckNamespaces)
 				ZVAL_LONG(&_15$$6, zephir_fast_strlen_ev(&prefix));
 				ZEPHIR_INIT_NVAR(&fileName);
 				zephir_substr(&fileName, &className_zv, zephir_get_intval(&_15$$6), 0, ZEPHIR_SUBSTR_NO_LENGTH);
-				ZEPHIR_CALL_METHOD(&_16$$6, this_ptr, "autoloadcheckdirectories", &_9, 202, &directories, &fileName);
+				ZEPHIR_CALL_METHOD(&_16$$6, this_ptr, "autoloadcheckdirectories", &_9, 287, &directories, &fileName);
 				zephir_check_call_status();
 				if (ZEPHIR_IS_TRUE_IDENTICAL(&_16$$6)) {
 					zephir_read_property(&_17$$8, this_ptr, ZEND_STRL("checkedPath"), PH_NOISY_CC | PH_READONLY);
 					ZEPHIR_INIT_NVAR(&_18$$8);
 					ZEPHIR_CONCAT_SVSV(&_18$$8, "Namespace: ", &prefix, " - ", &_17$$8);
-					ZEPHIR_CALL_METHOD(NULL, this_ptr, "adddebug", &_12, 199, &_18$$8);
+					ZEPHIR_CALL_METHOD(NULL, this_ptr, "adddebug", &_12, 284, &_18$$8);
 					zephir_check_call_status();
 					RETURN_MM_BOOL(1);
 				}
@@ -1690,24 +1697,25 @@ PHP_METHOD(Phalcon_Autoload_Loader, checkDirectories)
 	zend_bool _0;
 	zval results;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_8 = NULL;
+	zephir_fcall_cache_entry *_9 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_string *dirSeparator = NULL;
-	zval *directories = NULL, directories_sub, dirSeparator_zv, directory, *_2, _3, _1$$4, _4$$5, _5$$5, _6$$5, _7$$5, _9$$6, _10$$6, _11$$6, _12$$6;
+	zval *directories = NULL, directories_sub, dirSeparator_zv, directory, *_3, _4, _1$$3, _2$$4, _5$$5, _6$$5, _7$$5, _8$$5, _10$$6, _11$$6, _12$$6, _13$$6;
 
 	ZVAL_UNDEF(&directories_sub);
 	ZVAL_UNDEF(&dirSeparator_zv);
 	ZVAL_UNDEF(&directory);
-	ZVAL_UNDEF(&_3);
-	ZVAL_UNDEF(&_1$$4);
-	ZVAL_UNDEF(&_4$$5);
+	ZVAL_UNDEF(&_4);
+	ZVAL_UNDEF(&_1$$3);
+	ZVAL_UNDEF(&_2$$4);
 	ZVAL_UNDEF(&_5$$5);
 	ZVAL_UNDEF(&_6$$5);
 	ZVAL_UNDEF(&_7$$5);
-	ZVAL_UNDEF(&_9$$6);
+	ZVAL_UNDEF(&_8$$5);
 	ZVAL_UNDEF(&_10$$6);
 	ZVAL_UNDEF(&_11$$6);
 	ZVAL_UNDEF(&_12$$6);
+	ZVAL_UNDEF(&_13$$6);
 	ZVAL_UNDEF(&results);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_ZVAL(directories)
@@ -1724,55 +1732,60 @@ PHP_METHOD(Phalcon_Autoload_Loader, checkDirectories)
 		_0 = !(Z_TYPE_P(directories) == IS_ARRAY);
 	}
 	if (_0) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_autoload_exception_ce, "The directories parameter is not a string or array", "phalcon/Autoload/Loader.zep", 727);
+		ZEPHIR_INIT_VAR(&_1$$3);
+		object_init_ex(&_1$$3, phalcon_autoload_exceptions_loaderdirectoriesnotarray_ce);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 293);
+		zephir_check_call_status();
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Autoload/Loader.zep", 725);
+		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	if (Z_TYPE_P(directories) == IS_STRING) {
-		ZEPHIR_INIT_VAR(&_1$$4);
-		zephir_create_array(&_1$$4, 1, 0);
-		zephir_array_fast_append(&_1$$4, directories);
-		ZEPHIR_CPY_WRT(directories, &_1$$4);
+		ZEPHIR_INIT_VAR(&_2$$4);
+		zephir_create_array(&_2$$4, 1, 0);
+		zephir_array_fast_append(&_2$$4, directories);
+		ZEPHIR_CPY_WRT(directories, &_2$$4);
 	}
 	ZEPHIR_INIT_VAR(&results);
 	array_init(&results);
-	zephir_is_iterable(directories, 0, "phalcon/Autoload/Loader.zep", 741);
+	zephir_is_iterable(directories, 0, "phalcon/Autoload/Loader.zep", 739);
 	if (Z_TYPE_P(directories) == IS_ARRAY) {
-		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(directories), _2)
+		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(directories), _3)
 		{
 			ZEPHIR_INIT_NVAR(&directory);
-			ZVAL_COPY(&directory, _2);
-			ZEPHIR_INIT_NVAR(&_4$$5);
-			zephir_fast_trim(&_4$$5, &directory, &dirSeparator_zv, ZEPHIR_TRIM_RIGHT);
+			ZVAL_COPY(&directory, _3);
 			ZEPHIR_INIT_NVAR(&_5$$5);
-			ZEPHIR_CONCAT_VV(&_5$$5, &_4$$5, &dirSeparator_zv);
-			ZEPHIR_CPY_WRT(&directory, &_5$$5);
+			zephir_fast_trim(&_5$$5, &directory, &dirSeparator_zv, ZEPHIR_TRIM_RIGHT);
 			ZEPHIR_INIT_NVAR(&_6$$5);
-			ZVAL_STRING(&_6$$5, "sha256");
-			ZEPHIR_CALL_FUNCTION(&_7$$5, "hash", &_8, 94, &_6$$5, &directory);
+			ZEPHIR_CONCAT_VV(&_6$$5, &_5$$5, &dirSeparator_zv);
+			ZEPHIR_CPY_WRT(&directory, &_6$$5);
+			ZEPHIR_INIT_NVAR(&_7$$5);
+			ZVAL_STRING(&_7$$5, "sha256");
+			ZEPHIR_CALL_FUNCTION(&_8$$5, "hash", &_9, 132, &_7$$5, &directory);
 			zephir_check_call_status();
-			zephir_array_update_zval(&results, &_7$$5, &directory, PH_COPY | PH_SEPARATE);
+			zephir_array_update_zval(&results, &_8$$5, &directory, PH_COPY | PH_SEPARATE);
 		} ZEND_HASH_FOREACH_END();
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, directories, "rewind", NULL, 0);
 		zephir_check_call_status();
 		while (1) {
-			ZEPHIR_CALL_METHOD(&_3, directories, "valid", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_4, directories, "valid", NULL, 0);
 			zephir_check_call_status();
-			if (!zend_is_true(&_3)) {
+			if (!zend_is_true(&_4)) {
 				break;
 			}
 			ZEPHIR_CALL_METHOD(&directory, directories, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_INIT_NVAR(&_9$$6);
-				zephir_fast_trim(&_9$$6, &directory, &dirSeparator_zv, ZEPHIR_TRIM_RIGHT);
 				ZEPHIR_INIT_NVAR(&_10$$6);
-				ZEPHIR_CONCAT_VV(&_10$$6, &_9$$6, &dirSeparator_zv);
-				ZEPHIR_CPY_WRT(&directory, &_10$$6);
+				zephir_fast_trim(&_10$$6, &directory, &dirSeparator_zv, ZEPHIR_TRIM_RIGHT);
 				ZEPHIR_INIT_NVAR(&_11$$6);
-				ZVAL_STRING(&_11$$6, "sha256");
-				ZEPHIR_CALL_FUNCTION(&_12$$6, "hash", &_8, 94, &_11$$6, &directory);
+				ZEPHIR_CONCAT_VV(&_11$$6, &_10$$6, &dirSeparator_zv);
+				ZEPHIR_CPY_WRT(&directory, &_11$$6);
+				ZEPHIR_INIT_NVAR(&_12$$6);
+				ZVAL_STRING(&_12$$6, "sha256");
+				ZEPHIR_CALL_FUNCTION(&_13$$6, "hash", &_9, 132, &_12$$6, &directory);
 				zephir_check_call_status();
-				zephir_array_update_zval(&results, &_12$$6, &directory, PH_COPY | PH_SEPARATE);
+				zephir_array_update_zval(&results, &_13$$6, &directory, PH_COPY | PH_SEPARATE);
 			ZEPHIR_CALL_METHOD(NULL, directories, "next", NULL, 0);
 			zephir_check_call_status();
 		}

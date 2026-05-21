@@ -19,7 +19,6 @@
 #include "kernel/exception.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
-#include "kernel/concat.h"
 #include "Zend/zend_closures.h"
 
 
@@ -187,13 +186,13 @@ PHP_METHOD(Phalcon_Html_TagFactory, __construct)
 	zephir_update_property_zval(this_ptr, ZEND_STRL("url"), url);
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, phalcon_html_helper_doctype_ce);
-	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 378);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 0);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("doctype"), &_0);
 	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getdefaultservices", NULL, 0);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("factories"), &_1);
-	zephir_is_iterable(&services, 0, "phalcon/Html/TagFactory.zep", 168);
+	zephir_is_iterable(&services, 0, "phalcon/Html/TagFactory.zep", 169);
 	if (Z_TYPE_P(&services) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&services), _4, _5, _2)
 		{
@@ -309,23 +308,21 @@ PHP_METHOD(Phalcon_Html_TagFactory, has)
  */
 PHP_METHOD(Phalcon_Html_TagFactory, newInstance)
 {
-	zval _2$$3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval name_zv, factory, _0, _3, _6, _7, _1$$3, _4$$4, _5$$4;
+	zval name_zv, factory, _0, _2, _5, _6, _1$$3, _3$$4, _4$$4;
 	zend_string *name = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name_zv);
 	ZVAL_UNDEF(&factory);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_5);
 	ZVAL_UNDEF(&_6);
-	ZVAL_UNDEF(&_7);
 	ZVAL_UNDEF(&_1$$3);
+	ZVAL_UNDEF(&_3$$4);
 	ZVAL_UNDEF(&_4$$4);
-	ZVAL_UNDEF(&_5$$4);
-	ZVAL_UNDEF(&_2$$3);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(name)
 	ZEND_PARSE_PARAMETERS_END();
@@ -336,28 +333,26 @@ PHP_METHOD(Phalcon_Html_TagFactory, newInstance)
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("factories"), PH_NOISY_CC | PH_READONLY);
 	if (!(zephir_array_isset_value(&_0, &name_zv))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
-		object_init_ex(&_1$$3, phalcon_html_exception_ce);
-		ZEPHIR_INIT_VAR(&_2$$3);
-		ZEPHIR_CONCAT_SVS(&_2$$3, "Service ", &name_zv, " is not registered");
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 49, &_2$$3);
+		object_init_ex(&_1$$3, phalcon_html_exceptions_servicenotregistered_ce);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 0, &name_zv);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Html/TagFactory.zep", 211);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Html/TagFactory.zep", 212);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	zephir_read_property(&_3, this_ptr, ZEND_STRL("instances"), PH_NOISY_CC | PH_READONLY);
-	if (!(zephir_array_isset_value(&_3, &name_zv))) {
-		zephir_read_property(&_4$$4, this_ptr, ZEND_STRL("factories"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_2, this_ptr, ZEND_STRL("instances"), PH_NOISY_CC | PH_READONLY);
+	if (!(zephir_array_isset_value(&_2, &name_zv))) {
+		zephir_read_property(&_3$$4, this_ptr, ZEND_STRL("factories"), PH_NOISY_CC | PH_READONLY);
 		zephir_memory_observe(&factory);
-		zephir_array_fetch(&factory, &_4$$4, &name_zv, PH_NOISY, "phalcon/Html/TagFactory.zep", 215);
-		ZEPHIR_INIT_VAR(&_5$$4);
-		ZEPHIR_CALL_USER_FUNC(&_5$$4, &factory);
+		zephir_array_fetch(&factory, &_3$$4, &name_zv, PH_NOISY, "phalcon/Html/TagFactory.zep", 216);
+		ZEPHIR_INIT_VAR(&_4$$4);
+		ZEPHIR_CALL_USER_FUNC(&_4$$4, &factory);
 		zephir_check_call_status();
-		zephir_update_property_array(this_ptr, SL("instances"), &name_zv, &_5$$4);
+		zephir_update_property_array(this_ptr, SL("instances"), &name_zv, &_4$$4);
 	}
-	zephir_read_property(&_6, this_ptr, ZEND_STRL("instances"), PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch(&_7, &_6, &name_zv, PH_NOISY | PH_READONLY, "phalcon/Html/TagFactory.zep", 219);
-	RETURN_CTOR(&_7);
+	zephir_read_property(&_5, this_ptr, ZEND_STRL("instances"), PH_NOISY_CC | PH_READONLY);
+	zephir_array_fetch(&_6, &_5, &name_zv, PH_NOISY | PH_READONLY, "phalcon/Html/TagFactory.zep", 220);
+	RETURN_CTOR(&_6);
 }
 
 /**

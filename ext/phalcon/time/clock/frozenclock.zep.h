@@ -14,7 +14,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_time_clock_frozenclock___construct, 0, 0,
 	ZEND_ARG_OBJ_INFO(0, now, DateTimeImmutable, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_time_clock_frozenclock_adjust, 0, 1, Phalcon\\Time\\Clock\\FrozenClock, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_time_clock_frozenclock_adjust, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, modifier, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
@@ -27,7 +27,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_time_clock_frozenclock_now, 0, 0, DateTimeImmutable, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_time_clock_frozenclock_set, 0, 1, Phalcon\\Time\\Clock\\FrozenClock, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_time_clock_frozenclock_set, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_OBJ_INFO(0, now, DateTimeImmutable, 0)
 ZEND_END_ARG_INFO()
 

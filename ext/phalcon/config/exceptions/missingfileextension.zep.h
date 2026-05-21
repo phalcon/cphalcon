@@ -1,0 +1,14 @@
+
+extern zend_class_entry *phalcon_config_exceptions_missingfileextension_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Config_Exceptions_MissingFileExtension);
+
+PHP_METHOD(Phalcon_Config_Exceptions_MissingFileExtension, __construct);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_config_exceptions_missingfileextension___construct, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_config_exceptions_missingfileextension_method_entry) {
+PHP_ME(Phalcon_Config_Exceptions_MissingFileExtension, __construct, arginfo_phalcon_config_exceptions_missingfileextension___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_FE_END
+};

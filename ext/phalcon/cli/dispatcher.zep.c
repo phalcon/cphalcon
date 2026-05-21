@@ -116,7 +116,7 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, callActionMethod)
 	} else {
 	ZEPHIR_OBS_COPY_OR_DUP(&params, params_param);
 	}
-	ZEPHIR_CALL_FUNCTION(&localParams, "array_values", NULL, 22, &params);
+	ZEPHIR_CALL_FUNCTION(&localParams, "array_values", NULL, 27, &params);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_read_property(&_1, this_ptr, ZEND_STRL("options"), PH_NOISY_CC | PH_READONLY);
@@ -410,7 +410,7 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, throwDispatchException)
 	ZEPHIR_INIT_VAR(&exception);
 	object_init_ex(&exception, phalcon_cli_dispatcher_exception_ce);
 	ZVAL_LONG(&_0, exceptionCode);
-	ZEPHIR_CALL_METHOD(NULL, &exception, "__construct", NULL, 49, &message_zv, &_0);
+	ZEPHIR_CALL_METHOD(NULL, &exception, "__construct", NULL, 8, &message_zv, &_0);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_1, this_ptr, "handleexception", NULL, 0, &exception);
 	zephir_check_call_status();

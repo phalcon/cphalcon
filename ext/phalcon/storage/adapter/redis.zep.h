@@ -67,15 +67,15 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_adapter_redis_do
 	ZEND_ARG_INFO(0, ttl)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_storage_adapter_redis_checkauth, 0, 1, Phalcon\\Storage\\Adapter\\Redis, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_storage_adapter_redis_checkauth, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_OBJ_INFO(0, connection, Redis, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_storage_adapter_redis_checkconnect, 0, 1, Phalcon\\Storage\\Adapter\\Redis, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_storage_adapter_redis_checkconnect, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_OBJ_INFO(0, connection, Redis, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_storage_adapter_redis_checkindex, 0, 1, Phalcon\\Storage\\Adapter\\Redis, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_storage_adapter_redis_checkindex, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_OBJ_INFO(0, connection, Redis, 0)
 ZEND_END_ARG_INFO()
 

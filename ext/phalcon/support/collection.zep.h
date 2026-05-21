@@ -95,11 +95,11 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_collection_count, 0, 0, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_support_collection_each, 0, 1, Phalcon\\Support\\Collection\\CollectionInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_support_collection_each, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_INFO(0, callback)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_support_collection_filter, 0, 1, Phalcon\\Support\\Collection\\CollectionInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_support_collection_filter, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_INFO(0, callback)
 ZEND_END_ARG_INFO()
 
@@ -147,7 +147,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_collection_last, 0, 0, IS_MIXED, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_support_collection_map, 0, 1, Phalcon\\Support\\Collection\\CollectionInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_support_collection_map, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_INFO(0, callback)
 ZEND_END_ARG_INFO()
 
@@ -194,7 +194,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_collection_set, 
 	ZEND_ARG_INFO(0, value)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_support_collection_sort, 0, 0, Phalcon\\Support\\Collection\\CollectionInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_support_collection_sort, 0, 0, MAY_BE_STATIC)
 	ZEND_ARG_INFO(0, callback)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, order, IS_LONG, 0, "4")
 ZEND_END_ARG_INFO()
@@ -214,12 +214,12 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_collection_values, 0, 0, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_support_collection_where, 0, 2, Phalcon\\Support\\Collection\\CollectionInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_support_collection_where, 0, 2, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, propertyOrMethod, IS_STRING, 0)
 	ZEND_ARG_INFO(0, value)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_support_collection_cloneempty, 0, 0, Phalcon\\Contracts\\Support\\Collection, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_support_collection_cloneempty, 0, 0, MAY_BE_STATIC)
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, data, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 

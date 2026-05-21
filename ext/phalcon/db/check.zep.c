@@ -15,6 +15,7 @@
 #include "kernel/array.h"
 #include "kernel/memory.h"
 #include "kernel/exception.h"
+#include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/object.h"
 #include "ext/spl/spl_exceptions.h"
@@ -85,15 +86,18 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Check)
  */
 PHP_METHOD(Phalcon_Db_Check, __construct)
 {
-	zend_bool _0;
+	zend_bool _1;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval definition;
-	zval name_zv, *definition_param = NULL, expression;
+	zval name_zv, *definition_param = NULL, expression, _0$$3, _2$$4;
 	zend_string *name = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name_zv);
 	ZVAL_UNDEF(&expression);
+	ZVAL_UNDEF(&_0$$3);
+	ZVAL_UNDEF(&_2$$4);
 	ZVAL_UNDEF(&definition);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_STR(name)
@@ -107,15 +111,25 @@ PHP_METHOD(Phalcon_Db_Check, __construct)
 	ZEPHIR_OBS_COPY_OR_DUP(&definition, definition_param);
 	zephir_memory_observe(&expression);
 	if (UNEXPECTED(!(zephir_array_isset_string_fetch(&expression, &definition, SL("expression"), 0)))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "CHECK expression is required", "phalcon/Db/Check.zep", 69);
+		ZEPHIR_INIT_VAR(&_0$$3);
+		object_init_ex(&_0$$3, phalcon_db_exceptions_checkexpressionrequired_ce);
+		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 334);
+		zephir_check_call_status();
+		zephir_throw_exception_debug(&_0$$3, "phalcon/Db/Check.zep", 72);
+		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	_0 = Z_TYPE_P(&expression) != IS_STRING;
-	if (!(_0)) {
-		_0 = ZEPHIR_IS_STRING_IDENTICAL(&expression, "");
+	_1 = Z_TYPE_P(&expression) != IS_STRING;
+	if (!(_1)) {
+		_1 = ZEPHIR_IS_STRING_IDENTICAL(&expression, "");
 	}
-	if (UNEXPECTED(_0)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "CHECK expression must be a non-empty string", "phalcon/Db/Check.zep", 75);
+	if (UNEXPECTED(_1)) {
+		ZEPHIR_INIT_VAR(&_2$$4);
+		object_init_ex(&_2$$4, phalcon_db_exceptions_invalidcheckexpression_ce);
+		ZEPHIR_CALL_METHOD(NULL, &_2$$4, "__construct", NULL, 335);
+		zephir_check_call_status();
+		zephir_throw_exception_debug(&_2$$4, "phalcon/Db/Check.zep", 76);
+		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	zephir_update_property_zval(this_ptr, ZEND_STRL("name"), &name_zv);

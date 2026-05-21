@@ -123,7 +123,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Callback, validate)
 	zend_bool _1$$3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *validation, validation_sub, *field, field_sub, callback, returnedValue, data, _0, _2$$6;
+	zval *validation, validation_sub, *field, field_sub, callback, returnedValue, data, _0, _3$$3, _2$$6;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&validation_sub);
@@ -132,6 +132,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Callback, validate)
 	ZVAL_UNDEF(&returnedValue);
 	ZVAL_UNDEF(&data);
 	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_3$$3);
 	ZVAL_UNDEF(&_2$$6);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_OBJECT_OF_CLASS(validation, phalcon_filter_validation_ce)
@@ -151,7 +152,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Callback, validate)
 			ZEPHIR_CALL_METHOD(&data, validation, "getdata", NULL, 0);
 			zephir_check_call_status();
 		}
-		ZEPHIR_CALL_FUNCTION(&returnedValue, "call_user_func", NULL, 206, &callback, &data);
+		ZEPHIR_CALL_FUNCTION(&returnedValue, "call_user_func", NULL, 292, &callback, &data);
 		zephir_check_call_status();
 		_1$$3 = Z_TYPE_P(&returnedValue) == IS_OBJECT;
 		if (_1$$3) {
@@ -171,7 +172,12 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Callback, validate)
 			zephir_check_call_status();
 			RETURN_MM();
 		}
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_filter_validation_validator_exception_ce, "Callback must return bool or Phalcon\\Filter\\Validation\\Validator object", "phalcon/Filter/Validation/Validator/Callback.zep", 114);
+		ZEPHIR_INIT_VAR(&_3$$3);
+		object_init_ex(&_3$$3, phalcon_filter_validation_exceptions_invalidcallbackreturn_ce);
+		ZEPHIR_CALL_METHOD(NULL, &_3$$3, "__construct", NULL, 0);
+		zephir_check_call_status();
+		zephir_throw_exception_debug(&_3$$3, "phalcon/Filter/Validation/Validator/Callback.zep", 113);
+		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	RETURN_MM_BOOL(1);

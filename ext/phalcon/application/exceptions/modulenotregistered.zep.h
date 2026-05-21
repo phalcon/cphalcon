@@ -1,0 +1,15 @@
+
+extern zend_class_entry *phalcon_application_exceptions_modulenotregistered_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Application_Exceptions_ModuleNotRegistered);
+
+PHP_METHOD(Phalcon_Application_Exceptions_ModuleNotRegistered, __construct);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_application_exceptions_modulenotregistered___construct, 0, 0, 1)
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_application_exceptions_modulenotregistered_method_entry) {
+	PHP_ME(Phalcon_Application_Exceptions_ModuleNotRegistered, __construct, arginfo_phalcon_application_exceptions_modulenotregistered___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_FE_END
+};

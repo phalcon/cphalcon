@@ -1,0 +1,14 @@
+
+extern zend_class_entry *phalcon_messages_exceptions_messagesnotiterable_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Messages_Exceptions_MessagesNotIterable);
+
+PHP_METHOD(Phalcon_Messages_Exceptions_MessagesNotIterable, __construct);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_messages_exceptions_messagesnotiterable___construct, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_messages_exceptions_messagesnotiterable_method_entry) {
+PHP_ME(Phalcon_Messages_Exceptions_MessagesNotIterable, __construct, arginfo_phalcon_messages_exceptions_messagesnotiterable___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_FE_END
+};

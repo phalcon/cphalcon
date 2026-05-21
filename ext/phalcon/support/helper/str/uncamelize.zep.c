@@ -75,13 +75,13 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Uncamelize, __invoke)
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_VS(&_0, &delimiter_zv, "\\0");
-	ZEPHIR_CALL_FUNCTION(&_1, "lcfirst", NULL, 99, &text_zv);
+	ZEPHIR_CALL_FUNCTION(&_1, "lcfirst", NULL, 138, &text_zv);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "/[A-Z]/");
-	ZEPHIR_CALL_FUNCTION(&_3, "preg_replace", NULL, 57, &_2, &_0, &_1);
+	ZEPHIR_CALL_FUNCTION(&_3, "preg_replace", NULL, 75, &_2, &_0, &_1);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_FUNCTION("mb_strtolower", NULL, 8, &_3);
+	ZEPHIR_RETURN_CALL_FUNCTION("mb_strtolower", NULL, 12, &_3);
 	zephir_check_call_status();
 	RETURN_MM();
 }

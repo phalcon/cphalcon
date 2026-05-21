@@ -126,7 +126,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_addtrace, 0, 1
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, position, IS_LONG, 0, "null")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_attach, 0, 1, Phalcon\\Mvc\\RouterInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_router_attach, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_OBJ_INFO(0, route, Phalcon\\Mvc\\Router\\RouteInterface, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, position, IS_LONG, 0, "null")
 ZEND_END_ARG_INFO()
@@ -199,7 +199,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_isexactcontrollername, 0, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_loadfromconfig, 0, 1, Phalcon\\Mvc\\RouterInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_router_loadfromconfig, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_INFO(0, config)
 ZEND_END_ARG_INFO()
 
@@ -213,35 +213,35 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_mountgroupfro
 	ZEND_ARG_ARRAY_INFO(0, groupData, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_mount, 0, 1, Phalcon\\Mvc\\RouterInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_router_mount, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_OBJ_INFO(0, group, Phalcon\\Mvc\\Router\\GroupInterface, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_notfound, 0, 1, Phalcon\\Mvc\\RouterInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_router_notfound, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_INFO(0, paths)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_removeextraslashes, 0, 1, Phalcon\\Mvc\\RouterInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_router_removeextraslashes, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, remove, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_setdefaultaction, 0, 1, Phalcon\\Mvc\\RouterInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_router_setdefaultaction, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, actionName, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_setdefaultcontroller, 0, 1, Phalcon\\Mvc\\RouterInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_router_setdefaultcontroller, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, controllerName, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_setdefaultmodule, 0, 1, Phalcon\\Mvc\\RouterInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_router_setdefaultmodule, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, moduleName, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_setdefaultnamespace, 0, 1, Phalcon\\Mvc\\RouterInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_router_setdefaultnamespace, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, namespaceName, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_setdefaults, 0, 1, Phalcon\\Mvc\\RouterInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_router_setdefaults, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_ARRAY_INFO(0, defaults, 0)
 ZEND_END_ARG_INFO()
 
@@ -250,15 +250,15 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_seteventsmana
 	ZEND_ARG_OBJ_INFO(0, eventsManager, Phalcon\\Events\\ManagerInterface, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_setkeyroutenames, 0, 1, Phalcon\\Mvc\\Router, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_router_setkeyroutenames, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_ARRAY_INFO(0, routeNames, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_setkeyrouteids, 0, 1, Phalcon\\Mvc\\Router, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_router_setkeyrouteids, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_ARRAY_INFO(0, routeIds, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_seturisource, 0, 1, Phalcon\\Mvc\\Router, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_router_seturisource, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, uriSource, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 

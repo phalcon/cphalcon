@@ -1,0 +1,20 @@
+
+extern zend_class_entry *phalcon_config_exceptions_cannotloadconfigfile_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Config_Exceptions_CannotLoadConfigFile);
+
+PHP_METHOD(Phalcon_Config_Exceptions_CannotLoadConfigFile, __construct);
+PHP_METHOD(Phalcon_Config_Exceptions_CannotLoadConfigFile, getFileName);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_config_exceptions_cannotloadconfigfile___construct, 0, 0, 1)
+	ZEND_ARG_TYPE_INFO(0, fileName, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_config_exceptions_cannotloadconfigfile_getfilename, 0, 0, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_config_exceptions_cannotloadconfigfile_method_entry) {
+	PHP_ME(Phalcon_Config_Exceptions_CannotLoadConfigFile, __construct, arginfo_phalcon_config_exceptions_cannotloadconfigfile___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Config_Exceptions_CannotLoadConfigFile, getFileName, arginfo_phalcon_config_exceptions_cannotloadconfigfile_getfilename, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};

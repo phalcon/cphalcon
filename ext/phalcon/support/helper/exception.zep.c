@@ -23,11 +23,11 @@
 * file that was distributed with this source code.
 */
 /**
-* Phalcon\Support\Exception
-*/
+ * Exceptions thrown in Phalcon\Support\Helper will use this class
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Exception)
 {
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Support\\Helper, Exception, phalcon, support_helper_exception, zend_ce_exception, NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Support\\Helper, Exception, phalcon, support_helper_exception, phalcon_support_exception_ce, NULL, 0);
 
 	return SUCCESS;
 }

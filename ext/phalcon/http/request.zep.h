@@ -331,25 +331,25 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_numfiles, 0
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, onlySuccessful, _IS_BOOL, 0, "false")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_request_sethttpmethodparameteroverride, 0, 1, Phalcon\\Http\\Request, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_http_request_sethttpmethodparameteroverride, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, override, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_request_setparameterfilters, 0, 1, Phalcon\\Http\\RequestInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_http_request_setparameterfilters, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, filters, IS_ARRAY, 0, "[]")
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, scope, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_request_setstricthostcheck, 0, 0, Phalcon\\Http\\RequestInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_http_request_setstricthostcheck, 0, 0, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, flag, _IS_BOOL, 0, "true")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_request_settrustedproxies, 0, 1, Phalcon\\Http\\RequestInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_http_request_settrustedproxies, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_ARRAY_INFO(0, trustedProxies, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_request_settrustedproxyheader, 0, 1, Phalcon\\Http\\RequestInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_http_request_settrustedproxyheader, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, trustedProxyHeader, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 

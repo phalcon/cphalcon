@@ -89,12 +89,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify)
 	zephir_check_call_status();
 	zephir_memory_observe(&value);
 	if (UNEXPECTED(!(zephir_array_isset_string_fetch(&value, &options, SL("value"), 0)))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The option 'value' is required", "phalcon/Mvc/Model/Behavior/SoftDelete.zep", 43);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_behavior_exceptions_missingrequiredoption_ce, "value", "phalcon/Mvc/Model/Behavior/SoftDelete.zep", 44);
 		return;
 	}
 	zephir_memory_observe(&field);
 	if (UNEXPECTED(!(zephir_array_isset_string_fetch(&field, &options, SL("field"), 0)))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The option 'field' is required", "phalcon/Mvc/Model/Behavior/SoftDelete.zep", 50);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_behavior_exceptions_missingrequiredoption_ce, "field", "phalcon/Mvc/Model/Behavior/SoftDelete.zep", 51);
 		return;
 	}
 	ZVAL_BOOL(&_0, 1);
@@ -118,7 +118,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify)
 	if (!(zephir_is_true(&_2))) {
 		ZEPHIR_CALL_METHOD(&_3$$7, &updateModel, "getmessages", NULL, 0);
 		zephir_check_call_status();
-		zephir_is_iterable(&_3$$7, 0, "phalcon/Mvc/Model/Behavior/SoftDelete.zep", 85);
+		zephir_is_iterable(&_3$$7, 0, "phalcon/Mvc/Model/Behavior/SoftDelete.zep", 86);
 		if (Z_TYPE_P(&_3$$7) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_3$$7), _4$$7)
 			{

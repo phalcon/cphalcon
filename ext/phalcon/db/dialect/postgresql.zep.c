@@ -227,13 +227,13 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, addForeignKey)
 	}
 	ZEPHIR_CALL_METHOD(&_6, reference, "getcolumns", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_5, this_ptr, "getcolumnlist", NULL, 74, &_6);
+	ZEPHIR_CALL_METHOD(&_5, this_ptr, "getcolumnlist", NULL, 99, &_6);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_7, reference, "getreferencedtable", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_9, reference, "getreferencedcolumns", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_8, this_ptr, "getcolumnlist", NULL, 74, &_9);
+	ZEPHIR_CALL_METHOD(&_8, this_ptr, "getcolumnlist", NULL, 99, &_9);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_10);
 	ZEPHIR_CONCAT_SVSSVSVS(&_10, " FOREIGN KEY (", &_5, ")", " REFERENCES \"", &_7, "\" (", &_8, ")");
@@ -374,7 +374,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, addPrimaryKey)
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_2, index, "getcolumns", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getcolumnlist", NULL, 74, &_2);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getcolumnlist", NULL, 99, &_2);
 	zephir_check_call_status();
 	ZEPHIR_CONCAT_SVSVSVS(return_value, "ALTER TABLE ", &_0, " ADD CONSTRAINT \"", &tableName_zv, "_PRIMARY\" PRIMARY KEY (", &_1, ")");
 	RETURN_MM();
@@ -525,7 +525,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, createTable)
 	ZEPHIR_OBS_COPY_OR_DUP(&definition, definition_param);
 	zephir_memory_observe(&columns);
 	if (UNEXPECTED(!(zephir_array_isset_string_fetch(&columns, &definition, SL("columns"), 0)))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "The index 'columns' is required in the definition array", "phalcon/Db/Dialect/Postgresql.zep", 156);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exceptions_missingdefinitionkey_ce, "columns", "phalcon/Db/Dialect/Postgresql.zep", 157);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&table, this_ptr, "preparetable", NULL, 0, &tableName_zv, &schemaName_zv);
@@ -552,7 +552,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, createTable)
 	array_init(&createLines);
 	ZEPHIR_INIT_VAR(&primaryColumns);
 	array_init(&primaryColumns);
-	zephir_is_iterable(&columns, 0, "phalcon/Db/Dialect/Postgresql.zep", 221);
+	zephir_is_iterable(&columns, 0, "phalcon/Db/Dialect/Postgresql.zep", 222);
 	if (Z_TYPE_P(&columns) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&columns), _2)
 		{
@@ -597,9 +597,9 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, createTable)
 			if (zephir_is_true(&_18$$7)) {
 				ZEPHIR_CALL_METHOD(&_19$$11, &column, "getname", NULL, 0);
 				zephir_check_call_status();
-				zephir_array_append(&primaryColumns, &_19$$11, PH_SEPARATE, "phalcon/Db/Dialect/Postgresql.zep", 208);
+				zephir_array_append(&primaryColumns, &_19$$11, PH_SEPARATE, "phalcon/Db/Dialect/Postgresql.zep", 209);
 			}
-			zephir_array_append(&createLines, &columnLine, PH_SEPARATE, "phalcon/Db/Dialect/Postgresql.zep", 211);
+			zephir_array_append(&createLines, &columnLine, PH_SEPARATE, "phalcon/Db/Dialect/Postgresql.zep", 212);
 			ZEPHIR_CALL_METHOD(&_20$$7, &column, "getcomment", NULL, 0);
 			zephir_check_call_status();
 			if (zephir_is_true(&_20$$7)) {
@@ -662,9 +662,9 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, createTable)
 				if (zephir_is_true(&_35$$13)) {
 					ZEPHIR_CALL_METHOD(&_36$$17, &column, "getname", NULL, 0);
 					zephir_check_call_status();
-					zephir_array_append(&primaryColumns, &_36$$17, PH_SEPARATE, "phalcon/Db/Dialect/Postgresql.zep", 208);
+					zephir_array_append(&primaryColumns, &_36$$17, PH_SEPARATE, "phalcon/Db/Dialect/Postgresql.zep", 209);
 				}
-				zephir_array_append(&createLines, &columnLine, PH_SEPARATE, "phalcon/Db/Dialect/Postgresql.zep", 211);
+				zephir_array_append(&createLines, &columnLine, PH_SEPARATE, "phalcon/Db/Dialect/Postgresql.zep", 212);
 				ZEPHIR_CALL_METHOD(&_37$$13, &column, "getcomment", NULL, 0);
 				zephir_check_call_status();
 				if (zephir_is_true(&_37$$13)) {
@@ -682,15 +682,15 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, createTable)
 	}
 	ZEPHIR_INIT_NVAR(&column);
 	if (!(ZEPHIR_IS_EMPTY(&primaryColumns))) {
-		ZEPHIR_CALL_METHOD(&_41$$19, this_ptr, "getcolumnlist", NULL, 74, &primaryColumns);
+		ZEPHIR_CALL_METHOD(&_41$$19, this_ptr, "getcolumnlist", NULL, 99, &primaryColumns);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_42$$19);
 		ZEPHIR_CONCAT_SVS(&_42$$19, "PRIMARY KEY (", &_41$$19, ")");
-		zephir_array_append(&createLines, &_42$$19, PH_SEPARATE, "phalcon/Db/Dialect/Postgresql.zep", 222);
+		zephir_array_append(&createLines, &_42$$19, PH_SEPARATE, "phalcon/Db/Dialect/Postgresql.zep", 223);
 	}
 	zephir_memory_observe(&indexes);
 	if (zephir_array_isset_string_fetch(&indexes, &definition, SL("indexes"), 0)) {
-		zephir_is_iterable(&indexes, 0, "phalcon/Db/Dialect/Postgresql.zep", 252);
+		zephir_is_iterable(&indexes, 0, "phalcon/Db/Dialect/Postgresql.zep", 253);
 		if (Z_TYPE_P(&indexes) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&indexes), _43$$20)
 			{
@@ -731,7 +731,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, createTable)
 					}
 				}
 				if (!(ZEPHIR_IS_EMPTY(&indexSql))) {
-					zephir_array_append(&createLines, &indexSql, PH_SEPARATE, "phalcon/Db/Dialect/Postgresql.zep", 249);
+					zephir_array_append(&createLines, &indexSql, PH_SEPARATE, "phalcon/Db/Dialect/Postgresql.zep", 250);
 				}
 			} ZEND_HASH_FOREACH_END();
 		} else {
@@ -780,7 +780,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, createTable)
 						}
 					}
 					if (!(ZEPHIR_IS_EMPTY(&indexSql))) {
-						zephir_array_append(&createLines, &indexSql, PH_SEPARATE, "phalcon/Db/Dialect/Postgresql.zep", 249);
+						zephir_array_append(&createLines, &indexSql, PH_SEPARATE, "phalcon/Db/Dialect/Postgresql.zep", 250);
 					}
 				ZEPHIR_CALL_METHOD(NULL, &indexes, "next", NULL, 0);
 				zephir_check_call_status();
@@ -790,7 +790,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, createTable)
 	}
 	zephir_memory_observe(&references);
 	if (zephir_array_isset_string_fetch(&references, &definition, SL("references"), 0)) {
-		zephir_is_iterable(&references, 0, "phalcon/Db/Dialect/Postgresql.zep", 280);
+		zephir_is_iterable(&references, 0, "phalcon/Db/Dialect/Postgresql.zep", 281);
 		if (Z_TYPE_P(&references) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&references), _64$$33)
 			{
@@ -800,7 +800,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, createTable)
 				zephir_check_call_status();
 				ZEPHIR_CALL_METHOD(&_68$$34, &reference, "getcolumns", NULL, 0);
 				zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_67$$34, this_ptr, "getcolumnlist", NULL, 74, &_68$$34);
+				ZEPHIR_CALL_METHOD(&_67$$34, this_ptr, "getcolumnlist", NULL, 99, &_68$$34);
 				zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(&_69$$34);
 				ZEPHIR_CONCAT_SVSVS(&_69$$34, "CONSTRAINT \"", &_66$$34, "\" FOREIGN KEY (", &_67$$34, ") REFERENCES ");
@@ -812,7 +812,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, createTable)
 				zephir_concat_self(&referenceSql, &_70$$34);
 				ZEPHIR_CALL_METHOD(&_73$$34, &reference, "getreferencedcolumns", NULL, 0);
 				zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_72$$34, this_ptr, "getcolumnlist", NULL, 74, &_73$$34);
+				ZEPHIR_CALL_METHOD(&_72$$34, this_ptr, "getcolumnlist", NULL, 99, &_73$$34);
 				zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(&_74$$34);
 				ZEPHIR_CONCAT_SVS(&_74$$34, " (", &_72$$34, ")");
@@ -831,7 +831,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, createTable)
 					ZEPHIR_CONCAT_SV(&_76$$36, " ON UPDATE ", &onUpdate);
 					zephir_concat_self(&referenceSql, &_76$$36);
 				}
-				zephir_array_append(&createLines, &referenceSql, PH_SEPARATE, "phalcon/Db/Dialect/Postgresql.zep", 278);
+				zephir_array_append(&createLines, &referenceSql, PH_SEPARATE, "phalcon/Db/Dialect/Postgresql.zep", 279);
 			} ZEND_HASH_FOREACH_END();
 		} else {
 			ZEPHIR_CALL_METHOD(NULL, &references, "rewind", NULL, 0);
@@ -848,7 +848,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, createTable)
 					zephir_check_call_status();
 					ZEPHIR_CALL_METHOD(&_79$$37, &reference, "getcolumns", NULL, 0);
 					zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(&_78$$37, this_ptr, "getcolumnlist", NULL, 74, &_79$$37);
+					ZEPHIR_CALL_METHOD(&_78$$37, this_ptr, "getcolumnlist", NULL, 99, &_79$$37);
 					zephir_check_call_status();
 					ZEPHIR_INIT_NVAR(&_80$$37);
 					ZEPHIR_CONCAT_SVSVS(&_80$$37, "CONSTRAINT \"", &_77$$37, "\" FOREIGN KEY (", &_78$$37, ") REFERENCES ");
@@ -860,7 +860,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, createTable)
 					zephir_concat_self(&referenceSql, &_81$$37);
 					ZEPHIR_CALL_METHOD(&_84$$37, &reference, "getreferencedcolumns", NULL, 0);
 					zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(&_83$$37, this_ptr, "getcolumnlist", NULL, 74, &_84$$37);
+					ZEPHIR_CALL_METHOD(&_83$$37, this_ptr, "getcolumnlist", NULL, 99, &_84$$37);
 					zephir_check_call_status();
 					ZEPHIR_INIT_NVAR(&_85$$37);
 					ZEPHIR_CONCAT_SVS(&_85$$37, " (", &_83$$37, ")");
@@ -879,7 +879,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, createTable)
 						ZEPHIR_CONCAT_SV(&_87$$39, " ON UPDATE ", &onUpdate);
 						zephir_concat_self(&referenceSql, &_87$$39);
 					}
-					zephir_array_append(&createLines, &referenceSql, PH_SEPARATE, "phalcon/Db/Dialect/Postgresql.zep", 278);
+					zephir_array_append(&createLines, &referenceSql, PH_SEPARATE, "phalcon/Db/Dialect/Postgresql.zep", 279);
 				ZEPHIR_CALL_METHOD(NULL, &references, "next", NULL, 0);
 				zephir_check_call_status();
 			}
@@ -888,7 +888,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, createTable)
 	}
 	zephir_memory_observe(&checks);
 	if (zephir_array_isset_string_fetch(&checks, &definition, SL("checks"), 0)) {
-		zephir_is_iterable(&checks, 0, "phalcon/Db/Dialect/Postgresql.zep", 289);
+		zephir_is_iterable(&checks, 0, "phalcon/Db/Dialect/Postgresql.zep", 290);
 		if (Z_TYPE_P(&checks) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&checks), _88$$40)
 			{
@@ -898,7 +898,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, createTable)
 				ZVAL_STRING(&_91$$41, "\"");
 				ZEPHIR_CALL_METHOD(&_90$$41, this_ptr, "getcheckclause", &_92, 0, &check, &_91$$41);
 				zephir_check_call_status();
-				zephir_array_append(&createLines, &_90$$41, PH_SEPARATE, "phalcon/Db/Dialect/Postgresql.zep", 287);
+				zephir_array_append(&createLines, &_90$$41, PH_SEPARATE, "phalcon/Db/Dialect/Postgresql.zep", 288);
 			} ZEND_HASH_FOREACH_END();
 		} else {
 			ZEPHIR_CALL_METHOD(NULL, &checks, "rewind", NULL, 0);
@@ -915,7 +915,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, createTable)
 					ZVAL_STRING(&_94$$42, "\"");
 					ZEPHIR_CALL_METHOD(&_93$$42, this_ptr, "getcheckclause", &_92, 0, &check, &_94$$42);
 					zephir_check_call_status();
-					zephir_array_append(&createLines, &_93$$42, PH_SEPARATE, "phalcon/Db/Dialect/Postgresql.zep", 287);
+					zephir_array_append(&createLines, &_93$$42, PH_SEPARATE, "phalcon/Db/Dialect/Postgresql.zep", 288);
 				ZEPHIR_CALL_METHOD(NULL, &checks, "next", NULL, 0);
 				zephir_check_call_status();
 			}
@@ -978,7 +978,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, createMaterializedView)
 	}
 	zephir_memory_observe(&viewSql);
 	if (UNEXPECTED(!(zephir_array_isset_string_fetch(&viewSql, &definition, SL("sql"), 0)))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "The index 'sql' is required in the definition array", "phalcon/Db/Dialect/Postgresql.zep", 310);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exceptions_missingdefinitionkey_ce, "sql", "phalcon/Db/Dialect/Postgresql.zep", 309);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "preparetable", NULL, 0, &viewName_zv, &schemaName_zv);
@@ -1025,7 +1025,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, createView)
 	}
 	zephir_memory_observe(&viewSql);
 	if (UNEXPECTED(!(zephir_array_isset_string_fetch(&viewSql, &definition, SL("sql"), 0)))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "The index 'sql' is required in the definition array", "phalcon/Db/Dialect/Postgresql.zep", 328);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exceptions_missingdefinitionkey_ce, "sql", "phalcon/Db/Dialect/Postgresql.zep", 325);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "preparetable", NULL, 0, &viewName_zv, &schemaName_zv);
@@ -1783,14 +1783,14 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getColumnDefinition)
 		}
 		if (UNEXPECTED(ZEPHIR_IS_EMPTY(&columnSql))) {
 			ZEPHIR_INIT_VAR(&_5$$74);
-			object_init_ex(&_5$$74, phalcon_db_exception_ce);
+			object_init_ex(&_5$$74, phalcon_db_exceptions_unrecognizeddatatype_ce);
 			ZEPHIR_CALL_METHOD(&_6$$74, column, "getname", NULL, 0);
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(&_7$$74);
-			ZEPHIR_CONCAT_SV(&_7$$74, "Unrecognized PostgreSQL data type at column ", &_6$$74);
-			ZEPHIR_CALL_METHOD(NULL, &_5$$74, "__construct", NULL, 49, &_7$$74);
+			ZVAL_STRING(&_7$$74, "PostgreSQL");
+			ZEPHIR_CALL_METHOD(NULL, &_5$$74, "__construct", NULL, 345, &_7$$74, &_6$$74);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_5$$74, "phalcon/Db/Dialect/Postgresql.zep", 781);
+			zephir_throw_exception_debug(&_5$$74, "phalcon/Db/Dialect/Postgresql.zep", 776);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -1800,7 +1800,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getColumnDefinition)
 			if (Z_TYPE_P(&typeValues) == IS_ARRAY) {
 				ZEPHIR_INIT_VAR(&valueSql$$76);
 				ZVAL_STRING(&valueSql$$76, "");
-				zephir_is_iterable(&typeValues, 0, "phalcon/Db/Dialect/Postgresql.zep", 796);
+				zephir_is_iterable(&typeValues, 0, "phalcon/Db/Dialect/Postgresql.zep", 791);
 				if (Z_TYPE_P(&typeValues) == IS_ARRAY) {
 					ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&typeValues), _8$$76)
 					{
@@ -1808,7 +1808,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getColumnDefinition)
 						ZVAL_COPY(&value$$76, _8$$76);
 						ZEPHIR_INIT_NVAR(&_10$$77);
 						ZVAL_STRING(&_10$$77, "\'");
-						ZEPHIR_CALL_FUNCTION(&_11$$77, "addcslashes", &_12, 231, &value$$76, &_10$$77);
+						ZEPHIR_CALL_FUNCTION(&_11$$77, "addcslashes", &_12, 342, &value$$76, &_10$$77);
 						zephir_check_call_status();
 						ZEPHIR_INIT_NVAR(&_13$$77);
 						ZEPHIR_CONCAT_SVS(&_13$$77, "'", &_11$$77, "', ");
@@ -1827,7 +1827,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getColumnDefinition)
 						zephir_check_call_status();
 							ZEPHIR_INIT_NVAR(&_14$$78);
 							ZVAL_STRING(&_14$$78, "\'");
-							ZEPHIR_CALL_FUNCTION(&_15$$78, "addcslashes", &_12, 231, &value$$76, &_14$$78);
+							ZEPHIR_CALL_FUNCTION(&_15$$78, "addcslashes", &_12, 342, &value$$76, &_14$$78);
 							zephir_check_call_status();
 							ZEPHIR_INIT_NVAR(&_16$$78);
 							ZEPHIR_CONCAT_SVS(&_16$$78, "'", &_15$$78, "', ");
@@ -1847,7 +1847,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getColumnDefinition)
 			} else {
 				ZEPHIR_INIT_VAR(&_21$$79);
 				ZVAL_STRING(&_21$$79, "\'");
-				ZEPHIR_CALL_FUNCTION(&_22$$79, "addcslashes", &_12, 231, &typeValues, &_21$$79);
+				ZEPHIR_CALL_FUNCTION(&_22$$79, "addcslashes", &_12, 342, &typeValues, &_21$$79);
 				zephir_check_call_status();
 				ZEPHIR_INIT_VAR(&_23$$79);
 				ZEPHIR_CONCAT_SVS(&_23$$79, "('", &_22$$79, "')");
@@ -2121,20 +2121,21 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, modifyColumn)
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, returning)
 {
-	zval _1$$4;
+	zval _2$$4;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval columns;
-	zval sqlQuery_zv, *columns_param = NULL, first, _2, _0$$4;
+	zval sqlQuery_zv, *columns_param = NULL, first, _3, _0$$3, _1$$4;
 	zend_string *sqlQuery = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&sqlQuery_zv);
 	ZVAL_UNDEF(&first);
-	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_0$$4);
-	ZVAL_UNDEF(&columns);
+	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_0$$3);
 	ZVAL_UNDEF(&_1$$4);
+	ZVAL_UNDEF(&columns);
+	ZVAL_UNDEF(&_2$$4);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_STR(sqlQuery)
 		ZEPHIR_Z_PARAM_ARRAY(columns, columns_param)
@@ -2146,22 +2147,27 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, returning)
 	ZVAL_STR_COPY(&sqlQuery_zv, sqlQuery);
 	ZEPHIR_OBS_COPY_OR_DUP(&columns, columns_param);
 	if (UNEXPECTED(ZEPHIR_IS_EMPTY(&columns))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "RETURNING requires at least one column or '*'", "phalcon/Db/Dialect/Postgresql.zep", 907);
+		ZEPHIR_INIT_VAR(&_0$$3);
+		object_init_ex(&_0$$3, phalcon_db_exceptions_returningrequirescolumn_ce);
+		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 347);
+		zephir_check_call_status();
+		zephir_throw_exception_debug(&_0$$3, "phalcon/Db/Dialect/Postgresql.zep", 900);
+		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	if (zephir_fast_count_int(&columns) == 1) {
-		zephir_memory_observe(&_0$$4);
-		zephir_array_fetch_long(&_0$$4, &columns, 0, PH_NOISY, "phalcon/Db/Dialect/Postgresql.zep", 911);
-		zephir_cast_to_string(&_1$$4, &_0$$4);
-		ZEPHIR_CPY_WRT(&first, &_1$$4);
+		zephir_memory_observe(&_1$$4);
+		zephir_array_fetch_long(&_1$$4, &columns, 0, PH_NOISY, "phalcon/Db/Dialect/Postgresql.zep", 904);
+		zephir_cast_to_string(&_2$$4, &_1$$4);
+		ZEPHIR_CPY_WRT(&first, &_2$$4);
 		if (ZEPHIR_IS_STRING(&first, "*")) {
 			ZEPHIR_CONCAT_VS(return_value, &sqlQuery_zv, " RETURNING *");
 			RETURN_MM();
 		}
 	}
-	ZEPHIR_CALL_METHOD(&_2, this_ptr, "getcolumnlist", NULL, 74, &columns);
+	ZEPHIR_CALL_METHOD(&_3, this_ptr, "getcolumnlist", NULL, 99, &columns);
 	zephir_check_call_status();
-	ZEPHIR_CONCAT_VSV(return_value, &sqlQuery_zv, " RETURNING ", &_2);
+	ZEPHIR_CONCAT_VSV(return_value, &sqlQuery_zv, " RETURNING ", &_3);
 	RETURN_MM();
 }
 
@@ -2408,7 +2414,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, castDefault)
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_1);
 	zephir_fast_strtoupper(&_1, &columnDefinition);
-	if (zephir_memnstr_str(&_1, SL("BOOLEAN"), "phalcon/Db/Dialect/Postgresql.zep", 1020)) {
+	if (zephir_memnstr_str(&_1, SL("BOOLEAN"), "phalcon/Db/Dialect/Postgresql.zep", 1013)) {
 		zephir_cast_to_string(&_2$$4, &defaultValue);
 		ZEPHIR_INIT_VAR(&boolStr$$4);
 		zephir_fast_strtolower(&boolStr$$4, &_2$$4);
@@ -2433,7 +2439,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, castDefault)
 	}
 	ZEPHIR_INIT_VAR(&_6);
 	zephir_fast_strtoupper(&_6, &defaultValue);
-	if (zephir_memnstr_str(&_6, SL("CURRENT_TIMESTAMP"), "phalcon/Db/Dialect/Postgresql.zep", 1026)) {
+	if (zephir_memnstr_str(&_6, SL("CURRENT_TIMESTAMP"), "phalcon/Db/Dialect/Postgresql.zep", 1019)) {
 		RETURN_MM_STRING("CURRENT_TIMESTAMP");
 	}
 	_7 = ZEPHIR_IS_LONG_IDENTICAL(&columnType, 0);
@@ -2458,7 +2464,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, castDefault)
 	} else {
 		ZEPHIR_INIT_VAR(&_12$$7);
 		ZVAL_STRING(&_12$$7, "\'");
-		ZEPHIR_CALL_FUNCTION(&_13$$7, "addcslashes", NULL, 231, &defaultValue, &_12$$7);
+		ZEPHIR_CALL_FUNCTION(&_13$$7, "addcslashes", NULL, 342, &defaultValue, &_12$$7);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_14$$7);
 		ZEPHIR_CONCAT_SVS(&_14$$7, "'", &_13$$7, "'");

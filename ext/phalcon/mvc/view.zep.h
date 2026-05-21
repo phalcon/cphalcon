@@ -80,27 +80,27 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view___set, 0, 0, 2)
 	ZEND_ARG_INFO(0, value)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_view_cleantemplateafter, 0, 0, Phalcon\\Mvc\\View, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_view_cleantemplateafter, 0, 0, MAY_BE_STATIC)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_view_cleantemplatebefore, 0, 0, Phalcon\\Mvc\\View, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_view_cleantemplatebefore, 0, 0, MAY_BE_STATIC)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_view_disablelevel, 0, 1, Phalcon\\Mvc\\ViewInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_view_disablelevel, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_INFO(0, level)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_view_disable, 0, 0, Phalcon\\Mvc\\View, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_view_disable, 0, 0, MAY_BE_STATIC)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_view_enable, 0, 0, Phalcon\\Mvc\\View, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_view_enable, 0, 0, MAY_BE_STATIC)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_exists, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, view, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_view_finish, 0, 0, Phalcon\\Mvc\\View, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_view_finish, 0, 0, MAY_BE_STATIC)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_getactionname, 0, 0, IS_STRING, 0)
@@ -179,11 +179,11 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_partial, 0, 0, 1)
 	ZEND_ARG_INFO(0, params)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_view_pick, 0, 1, Phalcon\\Mvc\\View, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_view_pick, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_INFO(0, renderView)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_view_registerengines, 0, 1, Phalcon\\Mvc\\View, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_view_registerengines, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_ARRAY_INFO(0, engines, 0)
 ZEND_END_ARG_INFO()
 
@@ -193,14 +193,14 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_render, 0, 0, 2)
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, params, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_view_reset, 0, 0, Phalcon\\Mvc\\View, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_view_reset, 0, 0, MAY_BE_STATIC)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_view_setbasepath, 0, 1, Phalcon\\Mvc\\View, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_view_setbasepath, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, basePath, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_view_setcontent, 0, 1, Phalcon\\Mvc\\View, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_view_setcontent, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, content, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
@@ -209,54 +209,54 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_seteventsmanage
 	ZEND_ARG_OBJ_INFO(0, eventsManager, Phalcon\\Events\\ManagerInterface, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_view_setlayout, 0, 1, Phalcon\\Mvc\\View, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_view_setlayout, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, layout, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_view_setlayoutsdir, 0, 1, Phalcon\\Mvc\\View, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_view_setlayoutsdir, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, layoutsDir, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_view_setmainview, 0, 1, Phalcon\\Mvc\\View, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_view_setmainview, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, viewPath, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_view_setpartialsdir, 0, 1, Phalcon\\Mvc\\View, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_view_setpartialsdir, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, partialsDir, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_view_setparamtoview, 0, 2, Phalcon\\Mvc\\View, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_view_setparamtoview, 0, 2, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
 	ZEND_ARG_INFO(0, value)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_view_setrenderlevel, 0, 1, Phalcon\\Mvc\\ViewInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_view_setrenderlevel, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, level, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_view_settemplateafter, 0, 1, Phalcon\\Mvc\\View, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_view_settemplateafter, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_INFO(0, templateAfter)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_view_settemplatebefore, 0, 1, Phalcon\\Mvc\\View, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_view_settemplatebefore, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_INFO(0, templateBefore)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_view_setvar, 0, 2, Phalcon\\Mvc\\View, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_view_setvar, 0, 2, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
 	ZEND_ARG_INFO(0, value)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_view_setvars, 0, 1, Phalcon\\Mvc\\View, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_view_setvars, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_ARRAY_INFO(0, params, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, merge, _IS_BOOL, 0, "true")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_view_setviewsdir, 0, 1, Phalcon\\Mvc\\View, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_view_setviewsdir, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_INFO(0, viewsDir)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_view_start, 0, 0, Phalcon\\Mvc\\View, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_view_start, 0, 0, MAY_BE_STATIC)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_tostring, 0, 2, IS_STRING, 0)

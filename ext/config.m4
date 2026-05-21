@@ -9,17 +9,24 @@ if test "$PHP_PHALCON" = "yes"; then
 	fi
 
 	AC_DEFINE(HAVE_PHALCON, 1, [Whether you have Phalcon])
-	phalcon_sources="phalcon.c kernel/main.c kernel/memory.c kernel/exception.c kernel/debug.c kernel/backtrace.c kernel/object.c kernel/array.c kernel/string.c kernel/fcall.c kernel/require.c kernel/file.c kernel/operators.c kernel/math.c kernel/concat.c kernel/variables.c kernel/filter.c kernel/iterator.c kernel/time.c kernel/exit.c phalcon/di/injectionawareinterface.zep.c
+	phalcon_sources="phalcon.c kernel/main.c kernel/memory.c kernel/exception.c kernel/debug.c kernel/backtrace.c kernel/object.c kernel/array.c kernel/string.c kernel/fcall.c kernel/require.c kernel/file.c kernel/operators.c kernel/math.c kernel/concat.c kernel/variables.c kernel/filter.c kernel/iterator.c kernel/time.c kernel/exit.c phalcon/mvc/model/exception.zep.c
+	phalcon/db/exception.zep.c
+	phalcon/di/injectionawareinterface.zep.c
 	phalcon/contracts/events/eventsaware.zep.c
 	phalcon/events/eventsawareinterface.zep.c
 	phalcon/filter/validation/validatorinterface.zep.c
 	phalcon/html/helper/abstracthelper.zep.c
 	phalcon/filter/validation/abstractvalidator.zep.c
+	phalcon/mvc/view/exception.zep.c
+	phalcon/mvc/view/engine/volt/exception.zep.c
 	phalcon/storage/adapter/adapterinterface.zep.c
+	phalcon/di/exception.zep.c
 	phalcon/contracts/support/collection.zep.c
+	phalcon/filter/validation/exception.zep.c
 	phalcon/support/collection/collectioninterface.zep.c
 	phalcon/di/abstractinjectionaware.zep.c
 	phalcon/factory/abstractconfigfactory.zep.c
+	phalcon/mvc/router/exception.zep.c
 	phalcon/forms/element/elementinterface.zep.c
 	phalcon/storage/serializer/serializerinterface.zep.c
 	phalcon/factory/abstractfactory.zep.c
@@ -27,21 +34,37 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/storage/adapter/abstractadapter.zep.c
 	phalcon/storage/serializer/abstractserializer.zep.c
 	phalcon/di/injectable.zep.c
+	phalcon/forms/exception.zep.c
 	phalcon/support/helper/str/abstractstr.zep.c
+	phalcon/acl/exception.zep.c
+	phalcon/encryption/crypt/exception/exception.zep.c
+	phalcon/image/exception.zep.c
+	phalcon/application/exception.zep.c
+	phalcon/mvc/micro/exception.zep.c
 	phalcon/support/collection.zep.c
+	phalcon/logger/exception.zep.c
 	phalcon/support/helper/arr/abstractarr.zep.c
+	phalcon/translate/exception.zep.c
+	phalcon/assets/exception.zep.c
 	phalcon/storage/serializer/none.zep.c
 	phalcon/cache/adapter/adapterinterface.zep.c
+	phalcon/config/exception.zep.c
 	phalcon/dispatcher/dispatcherinterface.zep.c
 	phalcon/encryption/crypt/padding/padinterface.zep.c
 	phalcon/encryption/security/uuid/uuidinterface.zep.c
 	phalcon/filter/validation/validator/file/abstractfile.zep.c
+	phalcon/paginator/exception.zep.c
+	phalcon/session/exception.zep.c
+	phalcon/support/exception.zep.c
 	phalcon/assets/assetinterface.zep.c
 	phalcon/config/configinterface.zep.c
 	phalcon/contracts/db/adapter/adapter.zep.c
 	phalcon/contracts/paginator/adapter.zep.c
+	phalcon/encryption/security/jwt/exceptions/validatorexception.zep.c
 	phalcon/encryption/security/uuid/abstractuuid.zep.c
+	phalcon/events/exception.zep.c
 	phalcon/mvc/model/metadatainterface.zep.c
+	phalcon/storage/exception.zep.c
 	phalcon/config/config.zep.c
 	phalcon/contracts/db/dialect.zep.c
 	phalcon/datamapper/query/abstractquery.zep.c
@@ -51,17 +74,24 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/mvc/model/metadata.zep.c
 	phalcon/paginator/adapter/adapterinterface.zep.c
 	phalcon/annotations/adapter/adapterinterface.zep.c
+	phalcon/cli/console/exception.zep.c
 	phalcon/datamapper/pdo/connection/pdointerface.zep.c
 	phalcon/db/adapter/abstractadapter.zep.c
 	phalcon/db/dialectinterface.zep.c
+	phalcon/dispatcher/exception.zep.c
 	phalcon/html/helper/abstractseries.zep.c
 	phalcon/html/link/interfaces/linkinterface.zep.c
 	phalcon/html/link/interfaces/linkproviderinterface.zep.c
+	phalcon/http/cookie/exception.zep.c
+	phalcon/http/request/exception.zep.c
+	phalcon/http/response/exception.zep.c
 	phalcon/logger/adapter/adapterinterface.zep.c
 	phalcon/paginator/adapter/abstractadapter.zep.c
 	phalcon/translate/adapter/adapterinterface.zep.c
 	phalcon/annotations/adapter/abstractadapter.zep.c
+	phalcon/annotations/exception.zep.c
 	phalcon/assets/filterinterface.zep.c
+	phalcon/cli/router/exception.zep.c
 	phalcon/contracts/forms/schema.zep.c
 	phalcon/datamapper/pdo/connection/connectioninterface.zep.c
 	phalcon/datamapper/query/abstractconditions.zep.c
@@ -71,14 +101,17 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/encryption/security/jwt/signer/signerinterface.zep.c
 	phalcon/events/abstracteventsaware.zep.c
 	phalcon/filter/validation/validatorcompositeinterface.zep.c
+	phalcon/flash/exception.zep.c
 	phalcon/flash/flashinterface.zep.c
+	phalcon/html/exception.zep.c
 	phalcon/html/helper/abstractlist.zep.c
 	phalcon/image/adapter/adapterinterface.zep.c
 	phalcon/logger/adapter/abstractadapter.zep.c
 	phalcon/logger/formatter/formatterinterface.zep.c
+	phalcon/mvc/application/exception.zep.c
 	phalcon/mvc/model/behaviorinterface.zep.c
-	phalcon/mvc/model/exception.zep.c
 	phalcon/mvc/model/resultsetinterface.zep.c
+	phalcon/mvc/url/exception.zep.c
 	phalcon/mvc/view/engine/engineinterface.zep.c
 	phalcon/mvc/viewbaseinterface.zep.c
 	phalcon/storage/adapter/redis.zep.c
@@ -86,10 +119,11 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/translate/adapter/abstractadapter.zep.c
 	phalcon/acl/adapter/adapterinterface.zep.c
 	phalcon/application/abstractapplication.zep.c
-	phalcon/application/exception.zep.c
 	phalcon/assets/asset.zep.c
 	phalcon/assets/inline.zep.c
+	phalcon/autoload/exception.zep.c
 	phalcon/cache/cacheinterface.zep.c
+	phalcon/cache/exception/invalidargumentexception.zep.c
 	phalcon/contracts/db/check.zep.c
 	phalcon/contracts/db/column.zep.c
 	phalcon/contracts/db/index.zep.c
@@ -106,9 +140,9 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/datamapper/pdo/exception/exception.zep.c
 	phalcon/di/di.zep.c
 	phalcon/dispatcher/abstractdispatcher.zep.c
-	phalcon/dispatcher/exception.zep.c
 	phalcon/domain/payload/readableinterface.zep.c
 	phalcon/domain/payload/writeableinterface.zep.c
+	phalcon/encryption/security/exception.zep.c
 	phalcon/encryption/security/jwt/token/abstractitem.zep.c
 	phalcon/encryption/security/uuid/nodeproviderinterface.zep.c
 	phalcon/encryption/security/uuid/timebaseduuidinterface.zep.c
@@ -122,6 +156,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/image/adapter/abstractadapter.zep.c
 	phalcon/logger/formatter/abstractformatter.zep.c
 	phalcon/logger/loggerinterface.zep.c
+	phalcon/messages/exception.zep.c
 	phalcon/mvc/entityinterface.zep.c
 	phalcon/mvc/model/behavior.zep.c
 	phalcon/mvc/model/metadata/strategy/strategyinterface.zep.c
@@ -130,6 +165,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/mvc/routerinterface.zep.c
 	phalcon/mvc/view/engine/abstractengine.zep.c
 	phalcon/session/adapter/abstractadapter.zep.c
+	phalcon/support/helper/exception.zep.c
 	phalcon/time/clock/clockinterface.zep.c
 	phalcon/translate/interpolator/interpolatorinterface.zep.c
 	phalcon/acl/adapter/abstractadapter.zep.c
@@ -149,15 +185,15 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/db/indexinterface.zep.c
 	phalcon/db/referenceinterface.zep.c
 	phalcon/db/resultinterface.zep.c
-	phalcon/di/exception.zep.c
 	phalcon/di/factorydefault.zep.c
 	phalcon/di/serviceinterface.zep.c
 	phalcon/domain/payload/payloadinterface.zep.c
 	phalcon/encryption/crypt/cryptinterface.zep.c
-	phalcon/encryption/crypt/exception/exception.zep.c
+	phalcon/encryption/security/jwt/exceptions/unsupportedalgorithmexception.zep.c
 	phalcon/encryption/security/jwt/signer/abstractsigner.zep.c
 	phalcon/events/eventinterface.zep.c
 	phalcon/events/managerinterface.zep.c
+	phalcon/filter/exception.zep.c
 	phalcon/filter/filterinterface.zep.c
 	phalcon/filter/validation/abstractcombinedfieldsvalidator.zep.c
 	phalcon/filter/validation/validationinterface.zep.c
@@ -182,6 +218,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/logger/abstractlogger.zep.c
 	phalcon/messages/messageinterface.zep.c
 	phalcon/mvc/controllerinterface.zep.c
+	phalcon/mvc/dispatcher/exception.zep.c
 	phalcon/mvc/dispatcherinterface.zep.c
 	phalcon/mvc/micro/collectioninterface.zep.c
 	phalcon/mvc/model/binderinterface.zep.c
@@ -199,7 +236,6 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/mvc/router/groupinterface.zep.c
 	phalcon/mvc/router/routeinterface.zep.c
 	phalcon/mvc/url/urlinterface.zep.c
-	phalcon/mvc/view/exception.zep.c
 	phalcon/mvc/viewinterface.zep.c
 	phalcon/paginator/repositoryinterface.zep.c
 	phalcon/session/adapter/noop.zep.c
@@ -212,12 +248,24 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/storage/adapter/stream.zep.c
 	phalcon/storage/adapter/weak.zep.c
 	phalcon/storage/serializer/igbinary.zep.c
-	phalcon/support/exception.zep.c
+	phalcon/support/collection/exception.zep.c
+	phalcon/support/debug/exception.zep.c
+	phalcon/time/clock/exception.zep.c
 	phalcon/acl/adapter/memory.zep.c
 	phalcon/acl/component.zep.c
 	phalcon/acl/componentawareinterface.zep.c
 	phalcon/acl/enum.zep.c
-	phalcon/acl/exception.zep.c
+	phalcon/acl/exceptions/accessrulenotfound.zep.c
+	phalcon/acl/exceptions/circularinheritanceerror.zep.c
+	phalcon/acl/exceptions/elementnotfound.zep.c
+	phalcon/acl/exceptions/forbiddenwildcard.zep.c
+	phalcon/acl/exceptions/invalidaccesslist.zep.c
+	phalcon/acl/exceptions/invalidcomponentimplementation.zep.c
+	phalcon/acl/exceptions/invalidroleimplementation.zep.c
+	phalcon/acl/exceptions/invalidroletype.zep.c
+	phalcon/acl/exceptions/missingfunctionparameters.zep.c
+	phalcon/acl/exceptions/parametertypemismatch.zep.c
+	phalcon/acl/exceptions/rolenotfoundexception.zep.c
 	phalcon/acl/role.zep.c
 	phalcon/acl/roleawareinterface.zep.c
 	phalcon/annotations/adapter/apcu.zep.c
@@ -226,20 +274,32 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/annotations/annotation.zep.c
 	phalcon/annotations/annotationsfactory.zep.c
 	phalcon/annotations/collection.zep.c
-	phalcon/annotations/exception.zep.c
+	phalcon/annotations/exceptions/annotationnotfound.zep.c
+	phalcon/annotations/exceptions/annotationsdirectorynotwritable.zep.c
+	phalcon/annotations/exceptions/cannotreadannotationdata.zep.c
+	phalcon/annotations/exceptions/unknownannotationexpression.zep.c
 	phalcon/annotations/reader.zep.c
 	phalcon/annotations/reflection.zep.c
+	phalcon/application/exceptions/modulenotregistered.zep.c
 	phalcon/assets/asset/css.zep.c
 	phalcon/assets/asset/js.zep.c
 	phalcon/assets/collection.zep.c
-	phalcon/assets/exception.zep.c
+	phalcon/assets/exceptions/assetsourcetargetcollision.zep.c
+	phalcon/assets/exceptions/cannotreadasset.zep.c
+	phalcon/assets/exceptions/collectionnotfound.zep.c
+	phalcon/assets/exceptions/invalidassetsourcepath.zep.c
+	phalcon/assets/exceptions/invalidassettargetpath.zep.c
+	phalcon/assets/exceptions/invalidfilter.zep.c
+	phalcon/assets/exceptions/invalidtargetpath.zep.c
+	phalcon/assets/exceptions/targetpathisdirectory.zep.c
 	phalcon/assets/filters/cssmin.zep.c
 	phalcon/assets/filters/jsmin.zep.c
 	phalcon/assets/filters/none.zep.c
 	phalcon/assets/inline/css.zep.c
 	phalcon/assets/inline/js.zep.c
 	phalcon/assets/manager.zep.c
-	phalcon/autoload/exception.zep.c
+	phalcon/autoload/exceptions/loaderdirectoriesnotarray.zep.c
+	phalcon/autoload/exceptions/loadermethodnotcallable.zep.c
 	phalcon/autoload/loader.zep.c
 	phalcon/cache/adapter/apcu.zep.c
 	phalcon/cache/adapter/libmemcached.zep.c
@@ -251,14 +311,20 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/cache/adapterfactory.zep.c
 	phalcon/cache/cache.zep.c
 	phalcon/cache/cachefactory.zep.c
+	phalcon/cache/exception/cachekeysnotiterable.zep.c
 	phalcon/cache/exception/exception.zep.c
-	phalcon/cache/exception/invalidargumentexception.zep.c
+	phalcon/cache/exception/invalidcachekey.zep.c
 	phalcon/cli/console.zep.c
-	phalcon/cli/console/exception.zep.c
+	phalcon/cli/console/exceptions/consolemodulenotregistered.zep.c
+	phalcon/cli/console/exceptions/containerrequired.zep.c
+	phalcon/cli/console/exceptions/invalidmoduledefinitionpath.zep.c
+	phalcon/cli/console/exceptions/moduledefinitionpathnotfound.zep.c
 	phalcon/cli/dispatcher.zep.c
 	phalcon/cli/dispatcher/exception.zep.c
 	phalcon/cli/router.zep.c
-	phalcon/cli/router/exception.zep.c
+	phalcon/cli/router/exceptions/beforematchnotcallable.zep.c
+	phalcon/cli/router/exceptions/invalidroutepaths.zep.c
+	phalcon/cli/router/exceptions/routerargumentsinvalidtype.zep.c
 	phalcon/cli/router/route.zep.c
 	phalcon/cli/routerinterface.zep.c
 	phalcon/cli/task.zep.c
@@ -268,7 +334,13 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/config/adapter/php.zep.c
 	phalcon/config/adapter/yaml.zep.c
 	phalcon/config/configfactory.zep.c
-	phalcon/config/exception.zep.c
+	phalcon/config/exceptions/cannotloadconfigfile.zep.c
+	phalcon/config/exceptions/confignotarrayorobject.zep.c
+	phalcon/config/exceptions/groupedadapterrequiresarray.zep.c
+	phalcon/config/exceptions/invalidmergedata.zep.c
+	phalcon/config/exceptions/missingconfigoption.zep.c
+	phalcon/config/exceptions/missingfileextension.zep.c
+	phalcon/config/exceptions/missingyamlextension.zep.c
 	phalcon/contracts/events/subscriber.zep.c
 	phalcon/contracts/mvc/model/relation/cachekeyprovider.zep.c
 	phalcon/datamapper/pdo/connection.zep.c
@@ -276,6 +348,9 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/datamapper/pdo/connectionlocator.zep.c
 	phalcon/datamapper/pdo/exception/cannotdisconnect.zep.c
 	phalcon/datamapper/pdo/exception/connectionnotfound.zep.c
+	phalcon/datamapper/pdo/exception/drivernotsupported.zep.c
+	phalcon/datamapper/pdo/exception/unknowndrivermethod.zep.c
+	phalcon/datamapper/pdo/exception/unknownquerymethod.zep.c
 	phalcon/datamapper/pdo/profiler/memorylogger.zep.c
 	phalcon/datamapper/pdo/profiler/profiler.zep.c
 	phalcon/datamapper/query/bind.zep.c
@@ -294,7 +369,55 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/db/dialect/postgresql.zep.c
 	phalcon/db/dialect/sqlite.zep.c
 	phalcon/db/enum.zep.c
-	phalcon/db/exception.zep.c
+	phalcon/db/exceptions/cannotinsertwithoutdata.zep.c
+	phalcon/db/exceptions/cannotpreparestatement.zep.c
+	phalcon/db/exceptions/checkexpressionrequired.zep.c
+	phalcon/db/exceptions/columntyperejectsautoincrement.zep.c
+	phalcon/db/exceptions/columntyperejectsscale.zep.c
+	phalcon/db/exceptions/columntyperequired.zep.c
+	phalcon/db/exceptions/conflicttargetcolumnrequired.zep.c
+	phalcon/db/exceptions/conflictupdatecolumnrequired.zep.c
+	phalcon/db/exceptions/foreignkeycolumnsrequired.zep.c
+	phalcon/db/exceptions/generatedautoincrementconflict.zep.c
+	phalcon/db/exceptions/generateddefaultconflict.zep.c
+	phalcon/db/exceptions/incompletebindtypes.zep.c
+	phalcon/db/exceptions/invalidbindparameter.zep.c
+	phalcon/db/exceptions/invalidcheckexpression.zep.c
+	phalcon/db/exceptions/invalidgenerationexpression.zep.c
+	phalcon/db/exceptions/invalidgroupbyexpression.zep.c
+	phalcon/db/exceptions/invalidindexcolumns.zep.c
+	phalcon/db/exceptions/invalidindexdirections.zep.c
+	phalcon/db/exceptions/invalidindexwhere.zep.c
+	phalcon/db/exceptions/invalidlistexpression.zep.c
+	phalcon/db/exceptions/invalidorderbyexpression.zep.c
+	phalcon/db/exceptions/invalidsqlexpression.zep.c
+	phalcon/db/exceptions/invalidsqlexpressiontype.zep.c
+	phalcon/db/exceptions/invalidunaryexpression.zep.c
+	phalcon/db/exceptions/invalidwhereconditions.zep.c
+	phalcon/db/exceptions/matchedparameternotfound.zep.c
+	phalcon/db/exceptions/materializedviewsnotsupported.zep.c
+	phalcon/db/exceptions/missingdefinitionkey.zep.c
+	phalcon/db/exceptions/missingforeignkeychecks.zep.c
+	phalcon/db/exceptions/missingsqlitedatabase.zep.c
+	phalcon/db/exceptions/mysqlonconflictnotsupported.zep.c
+	phalcon/db/exceptions/nestedtransactionchangeblocked.zep.c
+	phalcon/db/exceptions/noactivetransaction.zep.c
+	phalcon/db/exceptions/referencedcolumncountmismatch.zep.c
+	phalcon/db/exceptions/referencedcolumnsrequired.zep.c
+	phalcon/db/exceptions/referencedtablerequired.zep.c
+	phalcon/db/exceptions/returningnotsupported.zep.c
+	phalcon/db/exceptions/returningrequirescolumn.zep.c
+	phalcon/db/exceptions/savepointsnotsupported.zep.c
+	phalcon/db/exceptions/sqlitealterchecknotsupported.zep.c
+	phalcon/db/exceptions/sqlitealtercolumnnotsupported.zep.c
+	phalcon/db/exceptions/sqlitealterforeignkeynotsupported.zep.c
+	phalcon/db/exceptions/sqlitealterprimarykeynotsupported.zep.c
+	phalcon/db/exceptions/sqlitedropchecknotsupported.zep.c
+	phalcon/db/exceptions/sqlitedropforeignkeynotsupported.zep.c
+	phalcon/db/exceptions/sqlitedropprimarykeynotsupported.zep.c
+	phalcon/db/exceptions/tablemusthavecolumn.zep.c
+	phalcon/db/exceptions/unrecognizeddatatype.zep.c
+	phalcon/db/exceptions/updatefieldcountmismatch.zep.c
 	phalcon/db/index.zep.c
 	phalcon/db/profiler.zep.c
 	phalcon/db/profiler/item.zep.c
@@ -302,16 +425,47 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/db/reference.zep.c
 	phalcon/db/result/pdoresult.zep.c
 	phalcon/di/exception/serviceresolutionexception.zep.c
+	phalcon/di/exceptions/aliasalreadyinuse.zep.c
+	phalcon/di/exceptions/aliasnamemustbestring.zep.c
+	phalcon/di/exceptions/argumenttyperequired.zep.c
+	phalcon/di/exceptions/callargumentsmustbearray.zep.c
+	phalcon/di/exceptions/circularaliasreference.zep.c
+	phalcon/di/exceptions/containerrequired.zep.c
+	phalcon/di/exceptions/definitionmustbearrayforread.zep.c
+	phalcon/di/exceptions/definitionmustbearrayforupdate.zep.c
+	phalcon/di/exceptions/methodcallmustbearray.zep.c
+	phalcon/di/exceptions/methodnamerequired.zep.c
+	phalcon/di/exceptions/missingclassnameparameter.zep.c
+	phalcon/di/exceptions/missingparameterkey.zep.c
+	phalcon/di/exceptions/propertyinjectionrequiresinstance.zep.c
+	phalcon/di/exceptions/propertymustbearray.zep.c
+	phalcon/di/exceptions/propertynamerequired.zep.c
+	phalcon/di/exceptions/propertyvaluerequired.zep.c
+	phalcon/di/exceptions/servicecannotberesolved.zep.c
+	phalcon/di/exceptions/setterinjectionrequiresinstance.zep.c
+	phalcon/di/exceptions/setterparametersmustbearray.zep.c
+	phalcon/di/exceptions/unknownservicetype.zep.c
 	phalcon/di/factorydefault/cli.zep.c
 	phalcon/di/initializationawareinterface.zep.c
 	phalcon/di/service.zep.c
 	phalcon/di/service/builder.zep.c
 	phalcon/di/serviceproviderinterface.zep.c
+	phalcon/dispatcher/exceptions/forwardininitializeforbidden.zep.c
 	phalcon/domain/payload/payload.zep.c
 	phalcon/domain/payload/payloadfactory.zep.c
 	phalcon/domain/payload/status.zep.c
 	phalcon/encryption/crypt.zep.c
+	phalcon/encryption/crypt/exception/decryptionfailed.zep.c
+	phalcon/encryption/crypt/exception/emptydecryptionkey.zep.c
+	phalcon/encryption/crypt/exception/emptyencryptionkey.zep.c
+	phalcon/encryption/crypt/exception/encryptionfailed.zep.c
+	phalcon/encryption/crypt/exception/invalidpaddingsize.zep.c
+	phalcon/encryption/crypt/exception/ivlengthcalculationfailed.zep.c
 	phalcon/encryption/crypt/exception/mismatch.zep.c
+	phalcon/encryption/crypt/exception/missingauthdata.zep.c
+	phalcon/encryption/crypt/exception/missingopensslextension.zep.c
+	phalcon/encryption/crypt/exception/randombytesgenerationfailed.zep.c
+	phalcon/encryption/crypt/exception/unsupportedalgorithm.zep.c
 	phalcon/encryption/crypt/padfactory.zep.c
 	phalcon/encryption/crypt/padding/ansi.zep.c
 	phalcon/encryption/crypt/padding/iso10126.zep.c
@@ -321,10 +475,20 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/encryption/crypt/padding/space.zep.c
 	phalcon/encryption/crypt/padding/zero.zep.c
 	phalcon/encryption/security.zep.c
-	phalcon/encryption/security/exception.zep.c
+	phalcon/encryption/security/exceptions/invalidrandominput.zep.c
+	phalcon/encryption/security/exceptions/unknownhashalgorithm.zep.c
 	phalcon/encryption/security/jwt/builder.zep.c
-	phalcon/encryption/security/jwt/exceptions/unsupportedalgorithmexception.zep.c
-	phalcon/encryption/security/jwt/exceptions/validatorexception.zep.c
+	phalcon/encryption/security/jwt/exceptions/emptypassphrase.zep.c
+	phalcon/encryption/security/jwt/exceptions/invalidaudience.zep.c
+	phalcon/encryption/security/jwt/exceptions/invalidaudiencetype.zep.c
+	phalcon/encryption/security/jwt/exceptions/invalidclaims.zep.c
+	phalcon/encryption/security/jwt/exceptions/invalidexpirationtime.zep.c
+	phalcon/encryption/security/jwt/exceptions/invalidheader.zep.c
+	phalcon/encryption/security/jwt/exceptions/invalidnotbefore.zep.c
+	phalcon/encryption/security/jwt/exceptions/malformedjwtstring.zep.c
+	phalcon/encryption/security/jwt/exceptions/missingjwttypheader.zep.c
+	phalcon/encryption/security/jwt/exceptions/unsupportedhmacalgorithm.zep.c
+	phalcon/encryption/security/jwt/exceptions/weakpassphrase.zep.c
 	phalcon/encryption/security/jwt/signer/hmac.zep.c
 	phalcon/encryption/security/jwt/signer/none.zep.c
 	phalcon/encryption/security/jwt/token/enum.zep.c
@@ -344,10 +508,15 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/encryption/security/uuid/version6.zep.c
 	phalcon/encryption/security/uuid/version7.zep.c
 	phalcon/events/event.zep.c
-	phalcon/events/exception.zep.c
+	phalcon/events/exceptions/eventnotcancelable.zep.c
+	phalcon/events/exceptions/invalideventhandler.zep.c
+	phalcon/events/exceptions/invalideventsource.zep.c
+	phalcon/events/exceptions/invalideventtype.zep.c
+	phalcon/events/exceptions/invalidsubscriberconfiguration.zep.c
+	phalcon/events/exceptions/nolistenersforevent.zep.c
 	phalcon/events/manager.zep.c
 	phalcon/factory/exception.zep.c
-	phalcon/filter/exception.zep.c
+	phalcon/filter/exceptions/filternotregistered.zep.c
 	phalcon/filter/filter.zep.c
 	phalcon/filter/filterfactory.zep.c
 	phalcon/filter/sanitize/absint.zep.c
@@ -374,7 +543,25 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/filter/sanitize/upperwords.zep.c
 	phalcon/filter/sanitize/url.zep.c
 	phalcon/filter/validation.zep.c
-	phalcon/filter/validation/exception.zep.c
+	phalcon/filter/validation/exceptions/fieldnotprintable.zep.c
+	phalcon/filter/validation/exceptions/filterserviceunavailable.zep.c
+	phalcon/filter/validation/exceptions/invalidallowedtypes.zep.c
+	phalcon/filter/validation/exceptions/invalidcallbackreturn.zep.c
+	phalcon/filter/validation/exceptions/invaliddomainoption.zep.c
+	phalcon/filter/validation/exceptions/invalidfieldtype.zep.c
+	phalcon/filter/validation/exceptions/invalidfilterservice.zep.c
+	phalcon/filter/validation/exceptions/invalidstrictoption.zep.c
+	phalcon/filter/validation/exceptions/invalidvalidationdata.zep.c
+	phalcon/filter/validation/exceptions/invalidvalidator.zep.c
+	phalcon/filter/validation/exceptions/invalidvalidatorscope.zep.c
+	phalcon/filter/validation/exceptions/missingmbstring.zep.c
+	phalcon/filter/validation/exceptions/nodatatovalidate.zep.c
+	phalcon/filter/validation/exceptions/novalidators.zep.c
+	phalcon/filter/validation/exceptions/novalidatorsincomposite.zep.c
+	phalcon/filter/validation/exceptions/uniquenessconversionmustbearray.zep.c
+	phalcon/filter/validation/exceptions/uniquenessmodelrequired.zep.c
+	phalcon/filter/validation/exceptions/uniquenessonlyforphalconmodel.zep.c
+	phalcon/filter/validation/exceptions/validationentitynotobject.zep.c
 	phalcon/filter/validation/validator/alnum.zep.c
 	phalcon/filter/validation/validator/alpha.zep.c
 	phalcon/filter/validation/validator/between.zep.c
@@ -406,7 +593,9 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/filter/validation/validator/url.zep.c
 	phalcon/filter/validation/validatorfactory.zep.c
 	phalcon/flash/direct.zep.c
-	phalcon/flash/exception.zep.c
+	phalcon/flash/exceptions/escaperserviceunavailable.zep.c
+	phalcon/flash/exceptions/flashmessagenotstringorarray.zep.c
+	phalcon/flash/exceptions/sessionserviceunavailable.zep.c
 	phalcon/flash/session.zep.c
 	phalcon/forms/element/check.zep.c
 	phalcon/forms/element/checkgroup.zep.c
@@ -422,7 +611,20 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/forms/element/submit.zep.c
 	phalcon/forms/element/text.zep.c
 	phalcon/forms/element/textarea.zep.c
-	phalcon/forms/exception.zep.c
+	phalcon/forms/exceptions/elementnotinform.zep.c
+	phalcon/forms/exceptions/formelementnamerequired.zep.c
+	phalcon/forms/exceptions/formnotinlocator.zep.c
+	phalcon/forms/exceptions/formnotregistered.zep.c
+	phalcon/forms/exceptions/invalidentity.zep.c
+	phalcon/forms/exceptions/invalidfiltertype.zep.c
+	phalcon/forms/exceptions/invalidjsonschema.zep.c
+	phalcon/forms/exceptions/jsonschemanotarray.zep.c
+	phalcon/forms/exceptions/noformelements.zep.c
+	phalcon/forms/exceptions/schemaentrymissingkey.zep.c
+	phalcon/forms/exceptions/schemaentrynotarray.zep.c
+	phalcon/forms/exceptions/unknownformelementtype.zep.c
+	phalcon/forms/exceptions/yamlextensionrequired.zep.c
+	phalcon/forms/exceptions/yamlschemanotarray.zep.c
 	phalcon/forms/form.zep.c
 	phalcon/forms/formslocator.zep.c
 	phalcon/forms/loader/arrayloader.zep.c
@@ -439,7 +641,11 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/html/escaper/jsescaper.zep.c
 	phalcon/html/escaper/urlescaper.zep.c
 	phalcon/html/escaperfactory.zep.c
-	phalcon/html/exception.zep.c
+	phalcon/html/exceptions/attributenotrenderable.zep.c
+	phalcon/html/exceptions/friendlytitleconversionfailed.zep.c
+	phalcon/html/exceptions/invalidresultsetvalue.zep.c
+	phalcon/html/exceptions/servicenotregistered.zep.c
+	phalcon/html/exceptions/usingrequirestwovalues.zep.c
 	phalcon/html/helper/anchor.zep.c
 	phalcon/html/helper/base.zep.c
 	phalcon/html/helper/body.zep.c
@@ -474,52 +680,150 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/html/link/serializer/header.zep.c
 	phalcon/html/tagfactory.zep.c
 	phalcon/http/cookie.zep.c
-	phalcon/http/cookie/exception.zep.c
+	phalcon/http/cookie/exceptions/cookiekeytooshort.zep.c
+	phalcon/http/cookie/exceptions/cryptinterfacerequired.zep.c
+	phalcon/http/cookie/exceptions/cryptserviceunavailable.zep.c
+	phalcon/http/cookie/exceptions/filterserviceunavailable.zep.c
 	phalcon/http/request.zep.c
-	phalcon/http/request/exception.zep.c
+	phalcon/http/request/exceptions/filterserviceunavailable.zep.c
+	phalcon/http/request/exceptions/invalidhost.zep.c
+	phalcon/http/request/exceptions/invalidhttpmethod.zep.c
+	phalcon/http/request/exceptions/missingfilters.zep.c
+	phalcon/http/request/exceptions/sanitizernotfound.zep.c
 	phalcon/http/request/file.zep.c
 	phalcon/http/response.zep.c
 	phalcon/http/response/cookies.zep.c
-	phalcon/http/response/exception.zep.c
+	phalcon/http/response/exceptions/nonstandardstatuscoderequiresmessage.zep.c
+	phalcon/http/response/exceptions/responsealreadysent.zep.c
+	phalcon/http/response/exceptions/responseserviceunavailable.zep.c
+	phalcon/http/response/exceptions/urlserviceunavailable.zep.c
 	phalcon/http/response/headers.zep.c
 	phalcon/image/adapter/gd.zep.c
 	phalcon/image/adapter/imagick.zep.c
 	phalcon/image/enum.zep.c
-	phalcon/image/exception.zep.c
+	phalcon/image/exceptions/compositefailed.zep.c
+	phalcon/image/exceptions/extensionnotloaded.zep.c
+	phalcon/image/exceptions/imageloadfailed.zep.c
+	phalcon/image/exceptions/missingdimensions.zep.c
+	phalcon/image/exceptions/missingheight.zep.c
+	phalcon/image/exceptions/missingwidth.zep.c
+	phalcon/image/exceptions/resizefailed.zep.c
+	phalcon/image/exceptions/resourcetypeerror.zep.c
+	phalcon/image/exceptions/textrenderingfailed.zep.c
+	phalcon/image/exceptions/unsupportedimagetype.zep.c
+	phalcon/image/exceptions/versionmismatch.zep.c
 	phalcon/image/imagefactory.zep.c
+	phalcon/logger/adapter/exceptions/fileopenfailed.zep.c
+	phalcon/logger/adapter/exceptions/invalidstreammode.zep.c
+	phalcon/logger/adapter/exceptions/syslogopenfailed.zep.c
 	phalcon/logger/adapter/noop.zep.c
 	phalcon/logger/adapter/stream.zep.c
 	phalcon/logger/adapter/syslog.zep.c
 	phalcon/logger/adapterfactory.zep.c
 	phalcon/logger/enum.zep.c
-	phalcon/logger/exception.zep.c
+	phalcon/logger/exceptions/adapternotfound.zep.c
+	phalcon/logger/exceptions/deserializationfailed.zep.c
+	phalcon/logger/exceptions/noadaptersconfigured.zep.c
+	phalcon/logger/exceptions/serializationfailed.zep.c
+	phalcon/logger/exceptions/transactionalreadyactive.zep.c
+	phalcon/logger/exceptions/transactionnotactive.zep.c
 	phalcon/logger/formatter/json.zep.c
 	phalcon/logger/formatter/line.zep.c
 	phalcon/logger/item.zep.c
 	phalcon/logger/logger.zep.c
 	phalcon/logger/loggerfactory.zep.c
-	phalcon/messages/exception.zep.c
+	phalcon/messages/exceptions/messagenotobject.zep.c
+	phalcon/messages/exceptions/messagesnotiterable.zep.c
 	phalcon/messages/message.zep.c
 	phalcon/messages/messages.zep.c
 	phalcon/mvc/application.zep.c
-	phalcon/mvc/application/exception.zep.c
+	phalcon/mvc/application/exceptions/containerrequired.zep.c
+	phalcon/mvc/application/exceptions/invalidmoduledefinition.zep.c
+	phalcon/mvc/application/exceptions/moduledefinitionpathnotfound.zep.c
 	phalcon/mvc/controller.zep.c
 	phalcon/mvc/controller/bindmodelinterface.zep.c
 	phalcon/mvc/dispatcher.zep.c
-	phalcon/mvc/dispatcher/exception.zep.c
+	phalcon/mvc/dispatcher/exceptions/responseserviceunavailable.zep.c
 	phalcon/mvc/micro.zep.c
 	phalcon/mvc/micro/collection.zep.c
-	phalcon/mvc/micro/exception.zep.c
+	phalcon/mvc/micro/exceptions/containerrequired.zep.c
+	phalcon/mvc/micro/exceptions/errorhandlernotcallable.zep.c
+	phalcon/mvc/micro/exceptions/handlernotcallable.zep.c
+	phalcon/mvc/micro/exceptions/invalidregisteredhandler.zep.c
+	phalcon/mvc/micro/exceptions/lazyhandlernotfound.zep.c
+	phalcon/mvc/micro/exceptions/missingcollectionmainhandler.zep.c
+	phalcon/mvc/micro/exceptions/nohandlerstomount.zep.c
+	phalcon/mvc/micro/exceptions/nomatchedroutehandler.zep.c
+	phalcon/mvc/micro/exceptions/notfoundhandlernotcallable.zep.c
+	phalcon/mvc/micro/exceptions/responsehandlernotcallable.zep.c
 	phalcon/mvc/micro/lazyloader.zep.c
 	phalcon/mvc/micro/middlewareinterface.zep.c
 	phalcon/mvc/model.zep.c
+	phalcon/mvc/model/behavior/exceptions/missingrequiredoption.zep.c
 	phalcon/mvc/model/behavior/softdelete.zep.c
 	phalcon/mvc/model/behavior/timestampable.zep.c
 	phalcon/mvc/model/binder.zep.c
 	phalcon/mvc/model/binder/bindableinterface.zep.c
 	phalcon/mvc/model/criteria.zep.c
+	phalcon/mvc/model/exceptions/belongstorequiresobject.zep.c
+	phalcon/mvc/model/exceptions/bindtypenotdefined.zep.c
+	phalcon/mvc/model/exceptions/cannotresolveattribute.zep.c
+	phalcon/mvc/model/exceptions/columnnotinmap.zep.c
+	phalcon/mvc/model/exceptions/columnnotintablecolumns.zep.c
+	phalcon/mvc/model/exceptions/columnnotintablemap.zep.c
+	phalcon/mvc/model/exceptions/corruptcolumntype.zep.c
+	phalcon/mvc/model/exceptions/cursorisimmutable.zep.c
+	phalcon/mvc/model/exceptions/datatypenotdefined.zep.c
+	phalcon/mvc/model/exceptions/handlermustimplementbindable.zep.c
+	phalcon/mvc/model/exceptions/identitynotincolumnmap.zep.c
+	phalcon/mvc/model/exceptions/identitynotintablecolumns.zep.c
+	phalcon/mvc/model/exceptions/indexnotincursor.zep.c
+	phalcon/mvc/model/exceptions/indexnotinrow.zep.c
+	phalcon/mvc/model/exceptions/invalidconnectionservice.zep.c
+	phalcon/mvc/model/exceptions/invalidcontainer.zep.c
+	phalcon/mvc/model/exceptions/invaliddumpresultkey.zep.c
+	phalcon/mvc/model/exceptions/invalidfindparameters.zep.c
+	phalcon/mvc/model/exceptions/invalidgetmodelnamereturn.zep.c
+	phalcon/mvc/model/exceptions/invalidmodelname.zep.c
+	phalcon/mvc/model/exceptions/invalidmodelsmanagerservice.zep.c
+	phalcon/mvc/model/exceptions/invalidmodelsmetadataservice.zep.c
+	phalcon/mvc/model/exceptions/invalidresultsetcacheservice.zep.c
+	phalcon/mvc/model/exceptions/invalidreturnedrecord.zep.c
+	phalcon/mvc/model/exceptions/invalidserializationdata.zep.c
+	phalcon/mvc/model/exceptions/managerormservicesunavailable.zep.c
+	phalcon/mvc/model/exceptions/methodnotfound.zep.c
+	phalcon/mvc/model/exceptions/missingmethodname.zep.c
+	phalcon/mvc/model/exceptions/missingmodelclassname.zep.c
+	phalcon/mvc/model/exceptions/modelcouldnotload.zep.c
+	phalcon/mvc/model/exceptions/modelormservicesunavailable.zep.c
+	phalcon/mvc/model/exceptions/primarykeyattributenotset.zep.c
+	phalcon/mvc/model/exceptions/primarykeyrequired.zep.c
+	phalcon/mvc/model/exceptions/propertynotaccessible.zep.c
+	phalcon/mvc/model/exceptions/recordcannotrefresh.zep.c
+	phalcon/mvc/model/exceptions/recordnotpersisted.zep.c
+	phalcon/mvc/model/exceptions/referencedfieldsmismatch.zep.c
+	phalcon/mvc/model/exceptions/relationaliasmustbestring.zep.c
+	phalcon/mvc/model/exceptions/relationnotdefined.zep.c
+	phalcon/mvc/model/exceptions/relationrequiresobjectorarray.zep.c
+	phalcon/mvc/model/exceptions/resultsetcolumnnotinmap.zep.c
+	phalcon/mvc/model/exceptions/rowisimmutable.zep.c
+	phalcon/mvc/model/exceptions/snapshotsdisabled.zep.c
+	phalcon/mvc/model/exceptions/staticmethodrequiresoneargument.zep.c
+	phalcon/mvc/model/exceptions/unknownrelationtype.zep.c
+	phalcon/mvc/model/exceptions/updatesnapshotdisabled.zep.c
 	phalcon/mvc/model/manager.zep.c
 	phalcon/mvc/model/metadata/apcu.zep.c
+	phalcon/mvc/model/metadata/exceptions/cannotobtaintablecolumns.zep.c
+	phalcon/mvc/model/metadata/exceptions/columnmapnotarray.zep.c
+	phalcon/mvc/model/metadata/exceptions/containerrequired.zep.c
+	phalcon/mvc/model/metadata/exceptions/corruptedmetadata.zep.c
+	phalcon/mvc/model/metadata/exceptions/invalidcontainer.zep.c
+	phalcon/mvc/model/metadata/exceptions/invalidmetadataformodel.zep.c
+	phalcon/mvc/model/metadata/exceptions/metadatadirectorynotwritable.zep.c
+	phalcon/mvc/model/metadata/exceptions/metadatastrategyfailed.zep.c
+	phalcon/mvc/model/metadata/exceptions/noannotationsforclass.zep.c
+	phalcon/mvc/model/metadata/exceptions/nopropertyannotationsforclass.zep.c
+	phalcon/mvc/model/metadata/exceptions/tablenotindatabase.zep.c
 	phalcon/mvc/model/metadata/libmemcached.zep.c
 	phalcon/mvc/model/metadata/memory.zep.c
 	phalcon/mvc/model/metadata/redis.zep.c
@@ -528,6 +832,60 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/mvc/model/metadata/stream.zep.c
 	phalcon/mvc/model/query.zep.c
 	phalcon/mvc/model/query/builder.zep.c
+	phalcon/mvc/model/query/exceptions/ambiguouscolumn.zep.c
+	phalcon/mvc/model/query/exceptions/ambiguousjoinrelation.zep.c
+	phalcon/mvc/model/query/exceptions/bindparameternotinplaceholders.zep.c
+	phalcon/mvc/model/query/exceptions/bindtyperequiresarray.zep.c
+	phalcon/mvc/model/query/exceptions/bindvaluerequired.zep.c
+	phalcon/mvc/model/query/exceptions/builder/buildercolumnnotinmap.zep.c
+	phalcon/mvc/model/query/exceptions/builder/builderconditioninvalid.zep.c
+	phalcon/mvc/model/query/exceptions/builder/modelrequired.zep.c
+	phalcon/mvc/model/query/exceptions/builder/noprimarykey.zep.c
+	phalcon/mvc/model/query/exceptions/builder/operatornotavailable.zep.c
+	phalcon/mvc/model/query/exceptions/columnnotindomain.zep.c
+	phalcon/mvc/model/query/exceptions/columnnotinselectedmodels.zep.c
+	phalcon/mvc/model/query/exceptions/corruptedast.zep.c
+	phalcon/mvc/model/query/exceptions/corrupteddeleteast.zep.c
+	phalcon/mvc/model/query/exceptions/corruptedinsertast.zep.c
+	phalcon/mvc/model/query/exceptions/corruptedselectast.zep.c
+	phalcon/mvc/model/query/exceptions/corruptedupdateast.zep.c
+	phalcon/mvc/model/query/exceptions/deletemultiplenotsupported.zep.c
+	phalcon/mvc/model/query/exceptions/duplicatealias.zep.c
+	phalcon/mvc/model/query/exceptions/emptyarrayplaceholdervalue.zep.c
+	phalcon/mvc/model/query/exceptions/insertcolumncountmismatch.zep.c
+	phalcon/mvc/model/query/exceptions/invalidcachedresultset.zep.c
+	phalcon/mvc/model/query/exceptions/invalidcachingoptions.zep.c
+	phalcon/mvc/model/query/exceptions/invalidcolumndefinition.zep.c
+	phalcon/mvc/model/query/exceptions/invalidinjectedmanager.zep.c
+	phalcon/mvc/model/query/exceptions/invalidinjectedmetadata.zep.c
+	phalcon/mvc/model/query/exceptions/invalidquerycacheservice.zep.c
+	phalcon/mvc/model/query/exceptions/invalidresultsetclass.zep.c
+	phalcon/mvc/model/query/exceptions/joinaliasalreadyused.zep.c
+	phalcon/mvc/model/query/exceptions/joinfieldcountmismatch.zep.c
+	phalcon/mvc/model/query/exceptions/missingcachekey.zep.c
+	phalcon/mvc/model/query/exceptions/missingmetadata.zep.c
+	phalcon/mvc/model/query/exceptions/missingmodelattribute.zep.c
+	phalcon/mvc/model/query/exceptions/missingmodelsmanager.zep.c
+	phalcon/mvc/model/query/exceptions/mixeddatabasesystems.zep.c
+	phalcon/mvc/model/query/exceptions/modelsourcenotfound.zep.c
+	phalcon/mvc/model/query/exceptions/modelslistnotloaded.zep.c
+	phalcon/mvc/model/query/exceptions/multiplesqlstatementsnotsupported.zep.c
+	phalcon/mvc/model/query/exceptions/nomodelforalias.zep.c
+	phalcon/mvc/model/query/exceptions/phqlcolumnnotinmap.zep.c
+	phalcon/mvc/model/query/exceptions/queryoperationnotsupported.zep.c
+	phalcon/mvc/model/query/exceptions/readconnectionmissing.zep.c
+	phalcon/mvc/model/query/exceptions/relationshipnotfound.zep.c
+	phalcon/mvc/model/query/exceptions/resultsetclassnotfound.zep.c
+	phalcon/mvc/model/query/exceptions/resultsetnoncacheable.zep.c
+	phalcon/mvc/model/query/exceptions/unknownbindtype.zep.c
+	phalcon/mvc/model/query/exceptions/unknowncolumntype.zep.c
+	phalcon/mvc/model/query/exceptions/unknownjointype.zep.c
+	phalcon/mvc/model/query/exceptions/unknownmodeloralias.zep.c
+	phalcon/mvc/model/query/exceptions/unknownphqlexpression.zep.c
+	phalcon/mvc/model/query/exceptions/unknownphqlexpressiontype.zep.c
+	phalcon/mvc/model/query/exceptions/unknownphqlstatement.zep.c
+	phalcon/mvc/model/query/exceptions/updatemultiplenotsupported.zep.c
+	phalcon/mvc/model/query/exceptions/writeconnectionmissing.zep.c
 	phalcon/mvc/model/query/lang.zep.c
 	phalcon/mvc/model/query/status.zep.c
 	phalcon/mvc/model/relation.zep.c
@@ -540,34 +898,100 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/mvc/model/validationfailed.zep.c
 	phalcon/mvc/moduledefinitioninterface.zep.c
 	phalcon/mvc/router/annotations.zep.c
-	phalcon/mvc/router/exception.zep.c
+	phalcon/mvc/router/exceptions/annotationsserviceunavailable.zep.c
+	phalcon/mvc/router/exceptions/beforematchnotcallable.zep.c
+	phalcon/mvc/router/exceptions/configkeymustbearray.zep.c
+	phalcon/mvc/router/exceptions/emptygroupofroutes.zep.c
+	phalcon/mvc/router/exceptions/grouproutesmustbearray.zep.c
+	phalcon/mvc/router/exceptions/invalidcallbackparameter.zep.c
+	phalcon/mvc/router/exceptions/invalidconfigsource.zep.c
+	phalcon/mvc/router/exceptions/invalidnotfoundpaths.zep.c
+	phalcon/mvc/router/exceptions/invalidroutepaths.zep.c
+	phalcon/mvc/router/exceptions/invalidrouteposition.zep.c
+	phalcon/mvc/router/exceptions/invalidrouterfactoryconfig.zep.c
+	phalcon/mvc/router/exceptions/missinggrouproutekey.zep.c
+	phalcon/mvc/router/exceptions/missingrouteconfigkey.zep.c
+	phalcon/mvc/router/exceptions/requestserviceunavailable.zep.c
+	phalcon/mvc/router/exceptions/unknownhttpmethod.zep.c
+	phalcon/mvc/router/exceptions/wrongpathskey.zep.c
 	phalcon/mvc/router/group.zep.c
 	phalcon/mvc/router/route.zep.c
 	phalcon/mvc/router/routerfactory.zep.c
 	phalcon/mvc/url.zep.c
-	phalcon/mvc/url/exception.zep.c
+	phalcon/mvc/url/exceptions/missingroutename.zep.c
+	phalcon/mvc/url/exceptions/routenotfound.zep.c
+	phalcon/mvc/url/exceptions/routerserviceunavailable.zep.c
 	phalcon/mvc/view.zep.c
 	phalcon/mvc/view/engine/php.zep.c
 	phalcon/mvc/view/engine/volt.zep.c
 	phalcon/mvc/view/engine/volt/compiler.zep.c
-	phalcon/mvc/view/engine/volt/exception.zep.c
+	phalcon/mvc/view/engine/volt/exceptions/cannotopencompiledfile.zep.c
+	phalcon/mvc/view/engine/volt/exceptions/corruptedstatement.zep.c
+	phalcon/mvc/view/engine/volt/exceptions/corruptedstatementwithdata.zep.c
+	phalcon/mvc/view/engine/volt/exceptions/invalidcompilationprefix.zep.c
+	phalcon/mvc/view/engine/volt/exceptions/invalidextension.zep.c
+	phalcon/mvc/view/engine/volt/exceptions/invalidhaystack.zep.c
+	phalcon/mvc/view/engine/volt/exceptions/invalidintermediaterepresentation.zep.c
+	phalcon/mvc/view/engine/volt/exceptions/invalidoptiontype.zep.c
+	phalcon/mvc/view/engine/volt/exceptions/invalidpathclosurereturn.zep.c
+	phalcon/mvc/view/engine/volt/exceptions/invalidpathtype.zep.c
+	phalcon/mvc/view/engine/volt/exceptions/invalidstatement.zep.c
+	phalcon/mvc/view/engine/volt/exceptions/invaliduserfilterdefinition.zep.c
+	phalcon/mvc/view/engine/volt/exceptions/invaliduserfunctiondefinition.zep.c
+	phalcon/mvc/view/engine/volt/exceptions/macroalreadydefined.zep.c
+	phalcon/mvc/view/engine/volt/exceptions/macronotfound.zep.c
+	phalcon/mvc/view/engine/volt/exceptions/mbstringrequired.zep.c
+	phalcon/mvc/view/engine/volt/exceptions/templatefilenotfound.zep.c
+	phalcon/mvc/view/engine/volt/exceptions/templatefilenotopenable.zep.c
+	phalcon/mvc/view/engine/volt/exceptions/templatepathcollision.zep.c
+	phalcon/mvc/view/engine/volt/exceptions/unknownvoltexpression.zep.c
+	phalcon/mvc/view/engine/volt/exceptions/unknownvoltfilter.zep.c
+	phalcon/mvc/view/engine/volt/exceptions/unknownvoltfiltertype.zep.c
+	phalcon/mvc/view/engine/volt/exceptions/unknownvoltstatement.zep.c
+	phalcon/mvc/view/engine/volt/exceptions/voltdirectorynotwritable.zep.c
+	phalcon/mvc/view/exceptions/invalidengineregistration.zep.c
+	phalcon/mvc/view/exceptions/invalidviewsdirtype.zep.c
+	phalcon/mvc/view/exceptions/simpleviewnotfound.zep.c
+	phalcon/mvc/view/exceptions/simpleviewservicesunavailable.zep.c
+	phalcon/mvc/view/exceptions/viewnotfound.zep.c
+	phalcon/mvc/view/exceptions/viewservicesunavailable.zep.c
+	phalcon/mvc/view/exceptions/viewsdiritemmustbestring.zep.c
 	phalcon/mvc/view/simple.zep.c
 	phalcon/paginator/adapter/model.zep.c
 	phalcon/paginator/adapter/nativearray.zep.c
 	phalcon/paginator/adapter/querybuilder.zep.c
 	phalcon/paginator/adapter/querybuildercursor.zep.c
-	phalcon/paginator/exception.zep.c
+	phalcon/paginator/exceptions/buildermodelnotdefined.zep.c
+	phalcon/paginator/exceptions/invalidbuilderinstance.zep.c
+	phalcon/paginator/exceptions/invalidcursorcolumn.zep.c
+	phalcon/paginator/exceptions/invalidlimit.zep.c
+	phalcon/paginator/exceptions/missingcolumnsforhaving.zep.c
+	phalcon/paginator/exceptions/missingrequiredparameter.zep.c
+	phalcon/paginator/exceptions/paginatordatanotarray.zep.c
 	phalcon/paginator/paginatorfactory.zep.c
 	phalcon/paginator/repository.zep.c
+	phalcon/session/adapter/exceptions/adapterruntimeerror.zep.c
+	phalcon/session/adapter/exceptions/invalidsavepath.zep.c
+	phalcon/session/adapter/exceptions/savepathunavailable.zep.c
 	phalcon/session/adapter/libmemcached.zep.c
 	phalcon/session/adapter/redis.zep.c
 	phalcon/session/adapter/stream.zep.c
 	phalcon/session/bag.zep.c
-	phalcon/session/exception.zep.c
+	phalcon/session/exceptions/invalidsessionadapter.zep.c
+	phalcon/session/exceptions/invalidsessionname.zep.c
+	phalcon/session/exceptions/sessionalreadystarted.zep.c
+	phalcon/session/exceptions/sessionmodificationdenied.zep.c
 	phalcon/session/manager.zep.c
 	phalcon/storage/adapterfactory.zep.c
-	phalcon/storage/exception.zep.c
+	phalcon/storage/exceptions/authenticationfailed.zep.c
+	phalcon/storage/exceptions/clusterconnectionfailed.zep.c
+	phalcon/storage/exceptions/connectionfailed.zep.c
+	phalcon/storage/exceptions/databaseselectionfailed.zep.c
+	phalcon/storage/exceptions/invalidconfiguration.zep.c
+	phalcon/storage/exceptions/storageerror.zep.c
 	phalcon/storage/serializer/base64.zep.c
+	phalcon/storage/serializer/exceptions/invalidserializationinput.zep.c
+	phalcon/storage/serializer/exceptions/invalidunserializationinput.zep.c
 	phalcon/storage/serializer/json.zep.c
 	phalcon/storage/serializer/memcachedigbinary.zep.c
 	phalcon/storage/serializer/memcachedjson.zep.c
@@ -580,11 +1004,13 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/storage/serializer/redisnone.zep.c
 	phalcon/storage/serializer/redisphp.zep.c
 	phalcon/storage/serializerfactory.zep.c
-	phalcon/support/collection/exception.zep.c
+	phalcon/support/collection/exceptions/invalidvaluetype.zep.c
+	phalcon/support/collection/exceptions/readonlyviolation.zep.c
 	phalcon/support/collection/readonlycollection.zep.c
 	phalcon/support/debug.zep.c
 	phalcon/support/debug/dump.zep.c
-	phalcon/support/debug/exception.zep.c
+	phalcon/support/debug/exceptions/requesthalted.zep.c
+	phalcon/support/debug/exceptions/runtimewarning.zep.c
 	phalcon/support/helper/arr/blacklist.zep.c
 	phalcon/support/helper/arr/chunk.zep.c
 	phalcon/support/helper/arr/filter.zep.c
@@ -607,10 +1033,11 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/support/helper/arr/validateall.zep.c
 	phalcon/support/helper/arr/validateany.zep.c
 	phalcon/support/helper/arr/whitelist.zep.c
-	phalcon/support/helper/exception.zep.c
 	phalcon/support/helper/file/basename.zep.c
 	phalcon/support/helper/json/decode.zep.c
 	phalcon/support/helper/json/encode.zep.c
+	phalcon/support/helper/json/exceptions/jsondecodeerror.zep.c
+	phalcon/support/helper/json/exceptions/jsonencodeerror.zep.c
 	phalcon/support/helper/number/isbetween.zep.c
 	phalcon/support/helper/str/camelize.zep.c
 	phalcon/support/helper/str/concat.zep.c
@@ -621,6 +1048,9 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/support/helper/str/dirseparator.zep.c
 	phalcon/support/helper/str/dynamic.zep.c
 	phalcon/support/helper/str/endswith.zep.c
+	phalcon/support/helper/str/exceptions/insufficientarguments.zep.c
+	phalcon/support/helper/str/exceptions/invalidreplaceformat.zep.c
+	phalcon/support/helper/str/exceptions/syntaxerror.zep.c
 	phalcon/support/helper/str/firstbetween.zep.c
 	phalcon/support/helper/str/friendly.zep.c
 	phalcon/support/helper/str/humanize.zep.c
@@ -651,13 +1081,21 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/tag.zep.c
 	phalcon/tag/exception.zep.c
 	phalcon/tag/select.zep.c
-	phalcon/time/clock/exception.zep.c
+	phalcon/time/clock/exceptions/invalidmodifier.zep.c
 	phalcon/time/clock/frozenclock.zep.c
 	phalcon/time/clock/systemclock.zep.c
 	phalcon/translate/adapter/csv.zep.c
 	phalcon/translate/adapter/gettext.zep.c
 	phalcon/translate/adapter/nativearray.zep.c
-	phalcon/translate/exception.zep.c
+	phalcon/translate/exceptions/fileopenerror.zep.c
+	phalcon/translate/exceptions/immutableobject.zep.c
+	phalcon/translate/exceptions/interpolatornotregistered.zep.c
+	phalcon/translate/exceptions/invaliddatatype.zep.c
+	phalcon/translate/exceptions/keynotfound.zep.c
+	phalcon/translate/exceptions/missingcontent.zep.c
+	phalcon/translate/exceptions/missinggettextextension.zep.c
+	phalcon/translate/exceptions/missingrequiredparameter.zep.c
+	phalcon/translate/exceptions/translatornotregistered.zep.c
 	phalcon/translate/interpolator/associativearray.zep.c
 	phalcon/translate/interpolator/indexedarray.zep.c
 	phalcon/translate/interpolatorfactory.zep.c
@@ -755,7 +1193,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/mvc/url/utils.c"
 	PHP_NEW_EXTENSION(phalcon, $phalcon_sources, $ext_shared,, )
 	PHP_ADD_BUILD_DIR([$ext_builddir/kernel/])
-	for dir in "phalcon phalcon/acl phalcon/acl/adapter phalcon/annotations phalcon/annotations/adapter phalcon/application phalcon/assets phalcon/assets/asset phalcon/assets/filters phalcon/assets/inline phalcon/autoload phalcon/cache phalcon/cache/adapter phalcon/cache/exception phalcon/cli phalcon/cli/console phalcon/cli/dispatcher phalcon/cli/router phalcon/config phalcon/config/adapter phalcon/contracts/db phalcon/contracts/db/adapter phalcon/contracts/encryption/security phalcon/contracts/events phalcon/contracts/forms phalcon/contracts/html/helper/input phalcon/contracts/mvc/model/relation phalcon/contracts/paginator phalcon/contracts/support phalcon/datamapper/pdo phalcon/datamapper/pdo/connection phalcon/datamapper/pdo/exception phalcon/datamapper/pdo/profiler phalcon/datamapper/query phalcon/db phalcon/db/adapter phalcon/db/adapter/pdo phalcon/db/dialect phalcon/db/profiler phalcon/db/result phalcon/di phalcon/di/exception phalcon/di/factorydefault phalcon/di/service phalcon/dispatcher phalcon/domain/payload phalcon/encryption phalcon/encryption/crypt phalcon/encryption/crypt/exception phalcon/encryption/crypt/padding phalcon/encryption/security phalcon/encryption/security/jwt phalcon/encryption/security/jwt/exceptions phalcon/encryption/security/jwt/signer phalcon/encryption/security/jwt/token phalcon/encryption/security/uuid phalcon/events phalcon/factory phalcon/filter phalcon/filter/sanitize phalcon/filter/validation phalcon/filter/validation/validator phalcon/filter/validation/validator/file phalcon/filter/validation/validator/file/resolution phalcon/filter/validation/validator/file/size phalcon/filter/validation/validator/stringlength phalcon/flash phalcon/forms phalcon/forms/element phalcon/forms/loader phalcon/html phalcon/html/attributes phalcon/html/escaper phalcon/html/helper phalcon/html/helper/input phalcon/html/helper/input/select phalcon/html/link phalcon/html/link/interfaces phalcon/html/link/serializer phalcon/http phalcon/http/cookie phalcon/http/message phalcon/http/request phalcon/http/response phalcon/image phalcon/image/adapter phalcon/logger phalcon/logger/adapter phalcon/logger/formatter phalcon/messages phalcon/mvc phalcon/mvc/application phalcon/mvc/controller phalcon/mvc/dispatcher phalcon/mvc/micro phalcon/mvc/model phalcon/mvc/model/behavior phalcon/mvc/model/binder phalcon/mvc/model/metadata phalcon/mvc/model/metadata/strategy phalcon/mvc/model/query phalcon/mvc/model/resultset phalcon/mvc/model/transaction phalcon/mvc/router phalcon/mvc/url phalcon/mvc/view phalcon/mvc/view/engine phalcon/mvc/view/engine/volt phalcon/paginator phalcon/paginator/adapter phalcon/session phalcon/session/adapter phalcon/storage phalcon/storage/adapter phalcon/storage/serializer phalcon/support phalcon/support/collection phalcon/support/debug phalcon/support/helper phalcon/support/helper/arr phalcon/support/helper/file phalcon/support/helper/json phalcon/support/helper/number phalcon/support/helper/str phalcon/tag phalcon/time/clock phalcon/translate phalcon/translate/adapter phalcon/translate/interpolator"; do
+	for dir in "phalcon phalcon/acl phalcon/acl/adapter phalcon/acl/exceptions phalcon/annotations phalcon/annotations/adapter phalcon/annotations/exceptions phalcon/application phalcon/application/exceptions phalcon/assets phalcon/assets/asset phalcon/assets/exceptions phalcon/assets/filters phalcon/assets/inline phalcon/autoload phalcon/autoload/exceptions phalcon/cache phalcon/cache/adapter phalcon/cache/exception phalcon/cli phalcon/cli/console phalcon/cli/console/exceptions phalcon/cli/dispatcher phalcon/cli/router phalcon/cli/router/exceptions phalcon/config phalcon/config/adapter phalcon/config/exceptions phalcon/contracts/db phalcon/contracts/db/adapter phalcon/contracts/encryption/security phalcon/contracts/events phalcon/contracts/forms phalcon/contracts/html/helper/input phalcon/contracts/mvc/model/relation phalcon/contracts/paginator phalcon/contracts/support phalcon/datamapper/pdo phalcon/datamapper/pdo/connection phalcon/datamapper/pdo/exception phalcon/datamapper/pdo/profiler phalcon/datamapper/query phalcon/db phalcon/db/adapter phalcon/db/adapter/pdo phalcon/db/dialect phalcon/db/exceptions phalcon/db/profiler phalcon/db/result phalcon/di phalcon/di/exception phalcon/di/exceptions phalcon/di/factorydefault phalcon/di/service phalcon/dispatcher phalcon/dispatcher/exceptions phalcon/domain/payload phalcon/encryption phalcon/encryption/crypt phalcon/encryption/crypt/exception phalcon/encryption/crypt/padding phalcon/encryption/security phalcon/encryption/security/exceptions phalcon/encryption/security/jwt phalcon/encryption/security/jwt/exceptions phalcon/encryption/security/jwt/signer phalcon/encryption/security/jwt/token phalcon/encryption/security/uuid phalcon/events phalcon/events/exceptions phalcon/factory phalcon/filter phalcon/filter/exceptions phalcon/filter/sanitize phalcon/filter/validation phalcon/filter/validation/exceptions phalcon/filter/validation/validator phalcon/filter/validation/validator/file phalcon/filter/validation/validator/file/resolution phalcon/filter/validation/validator/file/size phalcon/filter/validation/validator/stringlength phalcon/flash phalcon/flash/exceptions phalcon/forms phalcon/forms/element phalcon/forms/exceptions phalcon/forms/loader phalcon/html phalcon/html/attributes phalcon/html/escaper phalcon/html/exceptions phalcon/html/helper phalcon/html/helper/input phalcon/html/helper/input/select phalcon/html/link phalcon/html/link/interfaces phalcon/html/link/serializer phalcon/http phalcon/http/cookie phalcon/http/cookie/exceptions phalcon/http/message phalcon/http/request phalcon/http/request/exceptions phalcon/http/response phalcon/http/response/exceptions phalcon/image phalcon/image/adapter phalcon/image/exceptions phalcon/logger phalcon/logger/adapter phalcon/logger/adapter/exceptions phalcon/logger/exceptions phalcon/logger/formatter phalcon/messages phalcon/messages/exceptions phalcon/mvc phalcon/mvc/application phalcon/mvc/application/exceptions phalcon/mvc/controller phalcon/mvc/dispatcher phalcon/mvc/dispatcher/exceptions phalcon/mvc/micro phalcon/mvc/micro/exceptions phalcon/mvc/model phalcon/mvc/model/behavior phalcon/mvc/model/behavior/exceptions phalcon/mvc/model/binder phalcon/mvc/model/exceptions phalcon/mvc/model/metadata phalcon/mvc/model/metadata/exceptions phalcon/mvc/model/metadata/strategy phalcon/mvc/model/query phalcon/mvc/model/query/exceptions phalcon/mvc/model/query/exceptions/builder phalcon/mvc/model/resultset phalcon/mvc/model/transaction phalcon/mvc/router phalcon/mvc/router/exceptions phalcon/mvc/url phalcon/mvc/url/exceptions phalcon/mvc/view phalcon/mvc/view/engine phalcon/mvc/view/engine/volt phalcon/mvc/view/engine/volt/exceptions phalcon/mvc/view/exceptions phalcon/paginator phalcon/paginator/adapter phalcon/paginator/exceptions phalcon/session phalcon/session/adapter phalcon/session/adapter/exceptions phalcon/session/exceptions phalcon/storage phalcon/storage/adapter phalcon/storage/exceptions phalcon/storage/serializer phalcon/storage/serializer/exceptions phalcon/support phalcon/support/collection phalcon/support/collection/exceptions phalcon/support/debug phalcon/support/debug/exceptions phalcon/support/helper phalcon/support/helper/arr phalcon/support/helper/file phalcon/support/helper/json phalcon/support/helper/json/exceptions phalcon/support/helper/number phalcon/support/helper/str phalcon/support/helper/str/exceptions phalcon/tag phalcon/time/clock phalcon/time/clock/exceptions phalcon/translate phalcon/translate/adapter phalcon/translate/exceptions phalcon/translate/interpolator"; do
 		PHP_ADD_BUILD_DIR([$ext_builddir/$dir])
 	done
 	PHP_SUBST(PHALCON_SHARED_LIBADD)

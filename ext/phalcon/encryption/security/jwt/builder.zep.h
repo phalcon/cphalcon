@@ -35,15 +35,15 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_encryption_security_jwt_builder___constru
 	ZEND_ARG_OBJ_INFO(0, signer, Phalcon\\Encryption\\Security\\JWT\\Signer\\SignerInterface, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_encryption_security_jwt_builder_init, 0, 0, Phalcon\\Encryption\\Security\\JWT\\Builder, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_encryption_security_jwt_builder_init, 0, 0, MAY_BE_STATIC)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_encryption_security_jwt_builder_addclaim, 0, 2, Phalcon\\Encryption\\Security\\JWT\\Builder, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_encryption_security_jwt_builder_addclaim, 0, 2, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 	ZEND_ARG_INFO(0, value)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_encryption_security_jwt_builder_addheader, 0, 2, Phalcon\\Encryption\\Security\\JWT\\Builder, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_encryption_security_jwt_builder_addheader, 0, 2, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 	ZEND_ARG_INFO(0, value)
 ZEND_END_ARG_INFO()
@@ -84,39 +84,39 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_jwt_builder_getpassphrase, 0, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_encryption_security_jwt_builder_setaudience, 0, 1, Phalcon\\Encryption\\Security\\JWT\\Builder, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_encryption_security_jwt_builder_setaudience, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_INFO(0, audience)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_encryption_security_jwt_builder_setcontenttype, 0, 1, Phalcon\\Encryption\\Security\\JWT\\Builder, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_encryption_security_jwt_builder_setcontenttype, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, contentType, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_encryption_security_jwt_builder_setexpirationtime, 0, 1, Phalcon\\Encryption\\Security\\JWT\\Builder, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_encryption_security_jwt_builder_setexpirationtime, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, timestamp, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_encryption_security_jwt_builder_setid, 0, 1, Phalcon\\Encryption\\Security\\JWT\\Builder, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_encryption_security_jwt_builder_setid, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, id, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_encryption_security_jwt_builder_setissuedat, 0, 1, Phalcon\\Encryption\\Security\\JWT\\Builder, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_encryption_security_jwt_builder_setissuedat, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, timestamp, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_encryption_security_jwt_builder_setissuer, 0, 1, Phalcon\\Encryption\\Security\\JWT\\Builder, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_encryption_security_jwt_builder_setissuer, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, issuer, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_encryption_security_jwt_builder_setnotbefore, 0, 1, Phalcon\\Encryption\\Security\\JWT\\Builder, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_encryption_security_jwt_builder_setnotbefore, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, timestamp, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_encryption_security_jwt_builder_setsubject, 0, 1, Phalcon\\Encryption\\Security\\JWT\\Builder, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_encryption_security_jwt_builder_setsubject, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, subject, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_encryption_security_jwt_builder_setpassphrase, 0, 1, Phalcon\\Encryption\\Security\\JWT\\Builder, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_encryption_security_jwt_builder_setpassphrase, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, passphrase, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 

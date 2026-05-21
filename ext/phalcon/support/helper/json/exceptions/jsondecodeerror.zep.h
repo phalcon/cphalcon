@@ -1,0 +1,5 @@
+
+extern zend_class_entry *phalcon_support_helper_json_exceptions_jsondecodeerror_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Json_Exceptions_JsonDecodeError);
+

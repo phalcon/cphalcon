@@ -46,5 +46,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Contracts_Forms_Schema)
 
 /**
  * Returns an ordered list of normalized element definitions.
+ *
+ * @phpstan-return array<int, array<string, mixed>>
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Forms_Schema, load);

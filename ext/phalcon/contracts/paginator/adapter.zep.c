@@ -32,17 +32,29 @@ ZEPHIR_INIT_CLASS(Phalcon_Contracts_Paginator_Adapter)
 
 /**
  * Get current rows limit
+ *
+ * @return int
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Paginator_Adapter, getLimit);
 /**
  * Returns a slice of the resultset to show in the pagination
+ *
+ * @return Repository
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Paginator_Adapter, paginate);
 /**
  * Set the current page number
+ *
+ * @param int $page
+ *
+ * @return Adapter
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Paginator_Adapter, setCurrentPage);
 /**
  * Set current rows limit
+ *
+ * @param int $limit
+ *
+ * @return Adapter
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Paginator_Adapter, setLimit);

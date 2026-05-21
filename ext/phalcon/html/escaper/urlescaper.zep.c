@@ -87,7 +87,7 @@ PHP_METHOD(Phalcon_Html_Escaper_UrlEscaper, escape)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&input_zv);
 	ZVAL_STR_COPY(&input_zv, input);
-	ZEPHIR_RETURN_CALL_FUNCTION("rawurlencode", NULL, 370, &input_zv);
+	ZEPHIR_RETURN_CALL_FUNCTION("rawurlencode", NULL, 0, &input_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }
