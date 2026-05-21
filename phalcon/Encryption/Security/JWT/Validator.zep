@@ -99,7 +99,7 @@ class Validator
      *
      * @return Validator
      */
-    public function set(string claim, var value) -> <Validator>
+    public function set(string claim, var value) -> <static>
     {
         let this->claims[claim] = value;
 
@@ -113,7 +113,7 @@ class Validator
      *
      * @return Validator
      */
-    public function setToken(<Token> token) -> <Validator>
+    public function setToken(<Token> token) -> <static>
     {
         let this->token = token;
 
@@ -128,7 +128,7 @@ class Validator
      *
      * @return Validator
      */
-    public function validateClaim(string name, var value) -> <Validator>
+    public function validateClaim(string name, var value) -> <static>
     {
         var claimValue;
 
@@ -149,7 +149,7 @@ class Validator
      * @return Validator
      * @throws ValidatorException
      */
-    public function validateAudience(var audience) -> <Validator>
+    public function validateAudience(var audience) -> <static>
     {
         var item, tokenAudience;
 
@@ -180,7 +180,7 @@ class Validator
      * @return Validator
      * @throws ValidatorException
      */
-    public function validateExpiration(int timestamp) -> <Validator>
+    public function validateExpiration(int timestamp) -> <static>
     {
         var tokenExpirationTime;
 
@@ -204,7 +204,7 @@ class Validator
      * @return Validator
      * @throws ValidatorException
      */
-    public function validateId(string id) -> <Validator>
+    public function validateId(string id) -> <static>
     {
         var tokenId;
 
@@ -225,7 +225,7 @@ class Validator
      * @return Validator
      * @throws ValidatorException
      */
-    public function validateIssuedAt(int timestamp) -> <Validator>
+    public function validateIssuedAt(int timestamp) -> <static>
     {
         var tokenIssuedAt;
 
@@ -246,7 +246,7 @@ class Validator
      * @return Validator
      * @throws ValidatorException
      */
-    public function validateIssuer(string! issuer) -> <Validator>
+    public function validateIssuer(string! issuer) -> <static>
     {
         var tokenIssuer;
 
@@ -267,7 +267,7 @@ class Validator
      * @return Validator
      * @throws ValidatorException
      */
-    public function validateNotBefore(int timestamp) -> <Validator>
+    public function validateNotBefore(int timestamp) -> <static>
     {
         var tokenNotBefore;
 
@@ -292,7 +292,7 @@ class Validator
     public function validateSignature(
         <SignerInterface> signer,
         string passphrase
-    ) -> <Validator> {
+    ) -> <static> {
         if (
             true !== signer->verify(
                 this->token->getSignature()->getHash(),

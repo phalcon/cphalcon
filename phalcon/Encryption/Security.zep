@@ -270,7 +270,7 @@ class Security extends AbstractInjectionAware implements SecurityContract
     /**
      * Removes the value of the CSRF token and key from session
      */
-    public function destroyToken() -> <Security>
+    public function destroyToken() -> <static>
     {
         var session;
 
@@ -580,7 +580,7 @@ class Security extends AbstractInjectionAware implements SecurityContract
      *
      * @return Security
      */
-    public function refreshToken() -> <Security>
+    public function refreshToken() -> <static>
     {
         var session;
 
@@ -608,7 +608,7 @@ class Security extends AbstractInjectionAware implements SecurityContract
      *
      * @return Security
      */
-    public function setAutoRefresh(bool autoRefresh) -> <Security>
+    public function setAutoRefresh(bool autoRefresh) -> <static>
     {
         let this->autoRefresh = autoRefresh;
 
@@ -622,7 +622,7 @@ class Security extends AbstractInjectionAware implements SecurityContract
      *
      * @return Security
      */
-    public function setDefaultHash(int defaultHash) -> <Security>
+    public function setDefaultHash(int defaultHash) -> <static>
     {
         let this->defaultHash = defaultHash;
 
@@ -637,7 +637,7 @@ class Security extends AbstractInjectionAware implements SecurityContract
      *
      * @return Security
      */
-    public function setRandomBytes(int! randomBytes) -> <Security>
+    public function setRandomBytes(int! randomBytes) -> <static>
     {
         let this->numberBytes = randomBytes;
 
@@ -651,7 +651,7 @@ class Security extends AbstractInjectionAware implements SecurityContract
      *
      * @return Security
      */
-    public function setWorkFactor(int workFactor) -> <Security>
+    public function setWorkFactor(int workFactor) -> <static>
     {
         let this->workFactor = workFactor;
 

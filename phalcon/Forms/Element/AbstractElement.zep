@@ -491,7 +491,7 @@ abstract class AbstractElement implements ElementInterface
     /**
      * Sets the TagFactory
      */
-    public function setTagFactory(<TagFactory> tagFactory) -> <AbstractElement>
+    public function setTagFactory(<TagFactory> tagFactory) -> <static>
     {
         let this->tagFactory = tagFactory;
 

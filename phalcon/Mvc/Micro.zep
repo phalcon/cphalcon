@@ -150,7 +150,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
      *
      * @param callable|MiddlewareInterface handler
      */
-    public function after(handler) -> <Micro>
+    public function after(handler) -> <static>
     {
         let this->afterHandlers[] = handler;
 
@@ -162,7 +162,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
      *
      * @param callable handler
      */
-    public function afterBinding(handler) -> <Micro>
+    public function afterBinding(handler) -> <static>
     {
         let this->afterBindingHandlers[] = handler;
 
@@ -174,7 +174,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
      *
      * @param callable|MiddlewareInterface handler
      */
-    public function before(handler) -> <Micro>
+    public function before(handler) -> <static>
     {
         let this->beforeHandlers[] = handler;
 
@@ -217,7 +217,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
      *
      * @param callable handler
      */
-    public function error(var handler) -> <Micro>
+    public function error(var handler) -> <static>
     {
         let this->errorHandler = handler;
 
@@ -229,7 +229,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
      *
      * @param callable handler
      */
-    public function finish(handler) -> <Micro>
+    public function finish(handler) -> <static>
     {
         let this->finishHandlers[] = handler;
 
@@ -855,7 +855,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
     /**
      * Mounts a collection of handlers
      */
-    public function mount(<CollectionInterface> collection) -> <Micro>
+    public function mount(<CollectionInterface> collection) -> <static>
     {
         var mainHandler, handlers, lazyHandler, prefix, methods, pattern,
             subHandler, realHandler, prefixedPattern, route, handler, name;
@@ -937,7 +937,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
      *
      * @param callable handler
      */
-    public function notFound(var handler) -> <Micro>
+    public function notFound(var handler) -> <static>
     {
         let this->notFoundHandler = handler;
 
@@ -1123,9 +1123,11 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
      *
      * @param callable activeHandler
      */
-    public function setActiveHandler(activeHandler)
+    public function setActiveHandler(activeHandler) -> <self>
     {
         let this->activeHandler = activeHandler;
+
+        return this;
     }
 
     /**
@@ -1148,7 +1150,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
      * );
      * ```
      */
-    public function setModelBinder(<BinderInterface> modelBinder, var cache = null) -> <Micro>
+    public function setModelBinder(<BinderInterface> modelBinder, var cache = null) -> <static>
     {
         if typeof cache === "string" {
             let cache = this->getService(cache);
@@ -1169,7 +1171,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
      *
      * @param callable handler
      */
-    public function setResponseHandler(handler) -> <Micro>
+    public function setResponseHandler(handler) -> <static>
     {
         let this->responseHandler = handler;
 

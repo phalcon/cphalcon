@@ -123,7 +123,7 @@ class ConnectionLocator implements ConnectionLocatorInterface
      *
      * @return ConnectionLocatorInterface
      */
-    public function setMaster(<ConnectionInterface> callableObject) -> <ConnectionLocatorInterface>
+    public function setMaster(<ConnectionInterface> callableObject) -> <static>
     {
         let this->master = callableObject;
 
@@ -141,7 +141,7 @@ class ConnectionLocator implements ConnectionLocatorInterface
     public function setRead(
         string name,
         callable callableObject
-    ) -> <ConnectionLocatorInterface> {
+    ) -> <static> {
         let this->read[name] = callableObject;
 
         return this;
@@ -158,7 +158,7 @@ class ConnectionLocator implements ConnectionLocatorInterface
     public function setWrite(
         string name,
         callable callableObject
-    ) -> <ConnectionLocatorInterface> {
+    ) -> <static> {
         let this->write[name] = callableObject;
 
         return this;

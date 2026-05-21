@@ -87,7 +87,7 @@ class Doctype
     public function __invoke(
         int type = self::HTML5,
         string delimiter = "\n"
-    ) -> <Doctype> {
+    ) -> <static> {
         let this->type      = type,
             this->delimiter = delimiter;
 

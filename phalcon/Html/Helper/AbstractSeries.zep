@@ -39,7 +39,7 @@ abstract class AbstractSeries extends AbstractHelper
     public function __invoke(
         string indent = "    ",
         string delimiter = null
-    ) -> <AbstractSeries> {
+    ) -> <static> {
         let this->delimiter = null === delimiter ? PHP_EOL : delimiter,
             this->indent    = indent;
 
@@ -70,7 +70,7 @@ abstract class AbstractSeries extends AbstractHelper
     /**
      * Resets the internal store.
      */
-    public function reset() -> <AbstractSeries>
+    public function reset() -> <static>
     {
         let this->store = [];
 

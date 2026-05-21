@@ -59,7 +59,7 @@ class Title extends AbstractHelper
     public function __invoke(
         string indent = "    ",
         string delimiter = null
-    ) -> <Title> {
+    ) -> <static> {
         let this->delimiter = null === delimiter ? PHP_EOL : delimiter,
             this->indent    = indent;
 
@@ -104,7 +104,7 @@ class Title extends AbstractHelper
      *
      * @return Title
      */
-    public function append(string text, bool raw = false) -> <Title>
+    public function append(string text, bool raw = false) -> <static>
     {
         let text = raw ? text : this->escaper->html(text);
 
@@ -131,7 +131,7 @@ class Title extends AbstractHelper
      *
      * @return Title
      */
-    public function set(string text, bool raw = false) -> <Title>
+    public function set(string text, bool raw = false) -> <static>
     {
         let text = raw ? text : this->escaper->html(text);
 
@@ -148,7 +148,7 @@ class Title extends AbstractHelper
      *
      * @return Title
      */
-    public function setSeparator(string separator, bool raw = false) -> <Title>
+    public function setSeparator(string separator, bool raw = false) -> <static>
     {
         let this->separator = raw ? separator : this->escaper->html(separator);
 
@@ -163,7 +163,7 @@ class Title extends AbstractHelper
      *
      * @return Title
      */
-    public function prepend(string text, bool raw = false) -> <Title>
+    public function prepend(string text, bool raw = false) -> <static>
     {
         var prepend;
 

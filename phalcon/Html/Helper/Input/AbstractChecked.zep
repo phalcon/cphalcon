@@ -96,7 +96,7 @@ abstract class AbstractChecked extends AbstractInput
      *
      * @return AbstractChecked
      */
-    public function label(array attributes = []) -> <AbstractChecked>
+    public function label(array attributes = []) -> <static>
     {
         var text;
 
@@ -133,7 +133,7 @@ abstract class AbstractChecked extends AbstractInput
      *
      * @return AbstractChecked
      */
-    public function strict(bool flag = true) -> <AbstractChecked>
+    public function strict(bool flag = true) -> <static>
     {
         let this->strict = flag;
 

@@ -29,7 +29,7 @@ class Script extends AbstractSeries
      * @return $this
      * @throws Exception
      */
-    public function add(string url, array attributes = [], int position = -1)
+    public function add(string url, array attributes = [], int position = -1) -> <static>
     {
         this->pushOrPlace(
             [
@@ -68,7 +68,7 @@ class Script extends AbstractSeries
      *
      * @return Script
      */
-    public function endInternal(array attributes = [], int position = -1) -> <Script>
+    public function endInternal(array attributes = [], int position = -1) -> <static>
     {
         var content;
 

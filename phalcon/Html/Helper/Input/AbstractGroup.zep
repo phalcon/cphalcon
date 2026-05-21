@@ -64,7 +64,7 @@ abstract class AbstractGroup extends AbstractHelper
         array options,
         var checked = null,
         array attributes = []
-    ) -> <AbstractGroup> {
+    ) -> <static> {
         let this->name             = name,
             this->options          = options,
             this->checked          = checked,

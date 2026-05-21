@@ -92,7 +92,7 @@ abstract class AbstractLinkProvider
      *
      * @return $this
      */
-    protected function doWithLink(link)
+    protected function doWithLink(link) -> <static>
     {
         var key, newInstance;
 
@@ -115,7 +115,7 @@ abstract class AbstractLinkProvider
      *
      * @return $this
      */
-    protected function doWithoutLink(link)
+    protected function doWithoutLink(link) -> <static>
     {
         var key, newInstance;
 

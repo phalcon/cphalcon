@@ -35,7 +35,7 @@ class Style extends AbstractSeries
      * @return $this
      * @throws Exception
      */
-    public function add(string url, array attributes = [], int position = -1)
+    public function add(string url, array attributes = [], int position = -1) -> <static>
     {
         this->pushOrPlace(
             [
@@ -58,7 +58,7 @@ class Style extends AbstractSeries
      *
      * @param bool $flag
      */
-    public function setStyle(bool flag) -> <Style>
+    public function setStyle(bool flag) -> <static>
     {
         let this->isStyle = flag;
 

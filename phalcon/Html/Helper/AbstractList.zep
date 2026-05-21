@@ -47,7 +47,7 @@ abstract class AbstractList extends AbstractHelper
         string indent = "    ",
         string delimiter = null,
         array attributes = []
-    ) -> <AbstractList> {
+    ) -> <static> {
         let this->attributes = attributes,
             this->delimiter  = empty(delimiter) ? PHP_EOL : delimiter,
 	        this->indent     = indent,

@@ -714,9 +714,11 @@ abstract class AbstractConnection implements ConnectionInterface
      *
      * @param ProfilerInterface $profiler
      */
-    public function setProfiler(<ProfilerInterface> profiler)
+    public function setProfiler(<ProfilerInterface> profiler) -> <static>
     {
         let this->profiler = profiler;
+
+        return this;
     }
 
     /**

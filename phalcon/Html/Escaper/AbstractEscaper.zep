@@ -121,7 +121,7 @@ abstract class AbstractEscaper
     /**
      * @param bool $doubleEncode
      */
-    public function setDoubleEncode(bool doubleEncode)
+    public function setDoubleEncode(bool doubleEncode) -> <static>
     {
         let this->doubleEncode = doubleEncode;
 
@@ -131,7 +131,7 @@ abstract class AbstractEscaper
     /**
      * @param string $encoding
      */
-    public function setEncoding(string encoding)
+    public function setEncoding(string encoding) -> <static>
     {
         let this->encoding = encoding;
 
@@ -141,7 +141,7 @@ abstract class AbstractEscaper
     /**
      * @param int $flags
      */
-    public function setFlags(int flags)
+    public function setFlags(int flags) -> <static>
     {
         let this->flags = flags;
 

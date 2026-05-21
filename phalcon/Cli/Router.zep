@@ -461,7 +461,7 @@ class Router extends AbstractInjectionAware
     /**
      * Sets the default action name
      */
-    public function setDefaultAction(string actionName) -> <Router>
+    public function setDefaultAction(string actionName) -> <static>
     {
         let this->defaultAction = actionName;
         
@@ -471,7 +471,7 @@ class Router extends AbstractInjectionAware
     /**
      * Sets the name of the default module
      */
-    public function setDefaultModule(string moduleName) -> <Router>
+    public function setDefaultModule(string moduleName) -> <static>
     {
         let this->defaultModule = moduleName;
         return this;
@@ -491,7 +491,7 @@ class Router extends AbstractInjectionAware
      * );
      *```
      */
-    public function setDefaults(array! defaults) -> <Router>
+    public function setDefaults(array! defaults) -> <static>
     {
         var module, task, action, params;
 

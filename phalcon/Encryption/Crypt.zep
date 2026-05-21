@@ -496,7 +496,7 @@ class Crypt implements CryptInterface
      *
      * @return CryptInterface
      */
-    public function setAuthData(string data) -> <CryptInterface>
+    public function setAuthData(string data) -> <static>
     {
         let this->authData = data;
 
@@ -508,7 +508,7 @@ class Crypt implements CryptInterface
      *
      * @return CryptInterface
      */
-    public function setAuthTag(string tag) -> <CryptInterface>
+    public function setAuthTag(string tag) -> <static>
     {
         let this->authTag = tag;
 
@@ -520,7 +520,7 @@ class Crypt implements CryptInterface
      *
      * @return CryptInterface
      */
-    public function setAuthTagLength(int length) -> <CryptInterface>
+    public function setAuthTagLength(int length) -> <static>
     {
         let this->authTagLength = length;
 
@@ -535,7 +535,7 @@ class Crypt implements CryptInterface
      * @return CryptInterface
      * @throws Exception
      */
-    public function setCipher(string cipher) -> <CryptInterface>
+    public function setCipher(string cipher) -> <static>
     {
         this->checkCipherHashIsAvailable(cipher, "cipher");
 
@@ -564,7 +564,7 @@ class Crypt implements CryptInterface
      *
      * @return CryptInterface
      */
-    public function setKey(string key) -> <CryptInterface>
+    public function setKey(string key) -> <static>
     {
         let this->key = key;
 
@@ -579,7 +579,7 @@ class Crypt implements CryptInterface
      * @return CryptInterface
      * @throws Exception
      */
-    public function setHashAlgorithm(string hashAlgorithm) -> <CryptInterface>
+    public function setHashAlgorithm(string hashAlgorithm) -> <static>
     {
         this->checkCipherHashIsAvailable(hashAlgorithm, "hash");
 
@@ -595,7 +595,7 @@ class Crypt implements CryptInterface
      *
      * @return CryptInterface
      */
-    public function setPadding(int scheme) -> <CryptInterface>
+    public function setPadding(int scheme) -> <static>
     {
         let this->padding = scheme;
 
@@ -609,7 +609,7 @@ class Crypt implements CryptInterface
      *
      * @return CryptInterface
      */
-    public function useSigning(bool useSigning) -> <CryptInterface>
+    public function useSigning(bool useSigning) -> <static>
     {
         let this->useSigning = useSigning;
 
@@ -912,7 +912,7 @@ class Crypt implements CryptInterface
      * @return Crypt
      * @throws Exception
      */
-    protected function initializeAvailableCiphers() -> <Crypt>
+    protected function initializeAvailableCiphers() -> <static>
     {
         var available, cipher;
         array allowed;

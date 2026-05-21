@@ -313,7 +313,7 @@ class QueryBuilder extends AbstractAdapter
     /**
      * Set query builder object
      */
-    public function setQueryBuilder(<Builder> builder) -> <QueryBuilder>
+    public function setQueryBuilder(<Builder> builder) -> <static>
     {
         let this->builder = builder;
 

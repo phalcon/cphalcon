@@ -93,7 +93,7 @@ class Loader extends AbstractEventsAware
      *
      * @return Loader
      */
-    public function addClass(string name, string file) -> <Loader>
+    public function addClass(string name, string file) -> <static>
     {
         let this->classes[name] = file;
 
@@ -107,7 +107,7 @@ class Loader extends AbstractEventsAware
      *
      * @return Loader
      */
-    public function addDirectory(string directory) -> <Loader>
+    public function addDirectory(string directory) -> <static>
     {
         let this->directories[hash("sha256", directory)] = directory;
 
@@ -121,7 +121,7 @@ class Loader extends AbstractEventsAware
      *
      * @return Loader
      */
-    public function addExtension(string extension) -> <Loader>
+    public function addExtension(string extension) -> <static>
     {
         let this->extensions[hash("sha256", extension)] = extension;
 
@@ -135,7 +135,7 @@ class Loader extends AbstractEventsAware
      *
      * @return Loader
      */
-    public function addFile(string file) -> <Loader>
+    public function addFile(string file) -> <static>
     {
         let this->files[hash("sha256", file)] = file;
 
@@ -154,7 +154,7 @@ class Loader extends AbstractEventsAware
         string name,
         var directories,
         bool prepend = false
-    ) -> <Loader> {
+    ) -> <static> {
         var dirSeparator, nsName, nsSeparator, source, target;
 
         let nsName       = name,
@@ -326,7 +326,7 @@ class Loader extends AbstractEventsAware
     /**
      * Register the autoload method
      */
-    public function register(bool prepend = false) -> <Loader>
+    public function register(bool prepend = false) -> <static>
     {
         if (true !== this->isRegistered) {
             this->loadFiles();
@@ -351,7 +351,7 @@ class Loader extends AbstractEventsAware
      *
      * @return Loader
      */
-    public function setClasses(array classes, bool merge = false) -> <Loader>
+    public function setClasses(array classes, bool merge = false) -> <static>
     {
         var className, name;
 
@@ -374,7 +374,7 @@ class Loader extends AbstractEventsAware
      *
      * @return Loader
      */
-    public function setDirectories(array directories, bool merge = false) -> <Loader>
+    public function setDirectories(array directories, bool merge = false) -> <static>
     {
         return this->addToCollection(
             directories,
@@ -393,7 +393,7 @@ class Loader extends AbstractEventsAware
      *
      * @return Loader
      */
-    public function setExtensions(array extensions, bool merge = false) -> <Loader>
+    public function setExtensions(array extensions, bool merge = false) -> <static>
     {
         var extension;
 
@@ -429,7 +429,7 @@ class Loader extends AbstractEventsAware
      * @return Loader
      * @throws Exception
      */
-    public function setFileCheckingCallback(method = null) -> <Loader>
+    public function setFileCheckingCallback(method = null) -> <static>
     {
         if (true === is_callable(method)) {
             let this->fileCheckingCallback = method;
@@ -453,7 +453,7 @@ class Loader extends AbstractEventsAware
      *
      * @return Loader
      */
-    public function setFiles(array files, bool merge = false) -> <Loader>
+    public function setFiles(array files, bool merge = false) -> <static>
     {
         return this->addToCollection(
             files,
@@ -471,7 +471,7 @@ class Loader extends AbstractEventsAware
      *
      * @return Loader
      */
-    public function setNamespaces(array namespaces, bool merge = false) -> <Loader>
+    public function setNamespaces(array namespaces, bool merge = false) -> <static>
     {
         var dirSeparator, directories, name;
 
@@ -494,7 +494,7 @@ class Loader extends AbstractEventsAware
      *
      * @return Loader
      */
-    public function unregister() -> <Loader>
+    public function unregister() -> <static>
     {
         if (true === this->isRegistered) {
             spl_autoload_unregister(
@@ -580,7 +580,7 @@ class Loader extends AbstractEventsAware
         string collectionName,
         string method,
         bool merge = false
-    ) -> <Loader> {
+    ) -> <static> {
         var element;
 
         if (!merge) {

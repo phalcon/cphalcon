@@ -276,7 +276,7 @@ class Redis extends AbstractAdapter
      * @return Redis
      * @throws AuthenticationFailed
      */
-    private function checkAuth(<\Redis> connection) -> <Redis>
+    private function checkAuth(<\Redis> connection) -> <static>
     {
         var auth, error;
 
@@ -301,7 +301,7 @@ class Redis extends AbstractAdapter
      * @return Redis
      * @throws ConnectionFailed
      */
-    private function checkConnect(<\Redis> connection) -> <Redis>
+    private function checkConnect(<\Redis> connection) -> <static>
     {
         var auth, connectionOptions, ex, host, method, options, parameter,
             persistentId, port, retryInterval, readTimeout, result, ssl, timeout;
@@ -365,7 +365,7 @@ class Redis extends AbstractAdapter
      * @return Redis
      * @throws DatabaseSelectionFailed
      */
-    private function checkIndex(<\Redis> connection) -> <Redis>
+    private function checkIndex(<\Redis> connection) -> <static>
     {
         var index;
 

@@ -243,7 +243,7 @@ class QueryBuilderCursor extends AbstractAdapter
      * Pass the value returned by Repository::getNext() to advance to the
      * next page, or null to restart from the first page.
      */
-    public function setCursor(var cursor) -> <QueryBuilderCursor>
+    public function setCursor(var cursor) -> <static>
     {
         let this->cursor = cursor;
 
@@ -253,7 +253,7 @@ class QueryBuilderCursor extends AbstractAdapter
     /**
      * Set query builder object
      */
-    public function setQueryBuilder(<Builder> builder) -> <QueryBuilderCursor>
+    public function setQueryBuilder(<Builder> builder) -> <static>
     {
         let this->builder = builder;
 

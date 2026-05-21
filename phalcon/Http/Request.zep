@@ -1358,7 +1358,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
      *
      * @return Request
      */
-    public function setHttpMethodParameterOverride(bool override) -> <Request>
+    public function setHttpMethodParameterOverride(bool override) -> <static>
     {
         let this->httpMethodParameterOverride = override;
 
@@ -1373,7 +1373,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
         string! name,
         array filters = [],
         array scope = []
-    ) -> <RequestInterface> {
+    ) -> <static> {
         var filterService, sanitizer, localScope, scopeMethod;
 
         if unlikely count(filters) < 1 {
@@ -1410,7 +1410,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
      * Sets if the `Request::getHttpHost` method must be use strict validation
      * of host name or not
      */
-    public function setStrictHostCheck(bool flag = true) -> <RequestInterface>
+    public function setStrictHostCheck(bool flag = true) -> <static>
     {
         let this->strictHostCheck = flag;
 
@@ -1424,7 +1424,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
      * @return RequestInterface
      * @throws Exception
      */
-    public function setTrustedProxies(array trustedProxies) -> <RequestInterface>
+    public function setTrustedProxies(array trustedProxies) -> <static>
     {
         var filterService, trustedProxy, filtered;
 
@@ -1448,7 +1448,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
      * @param  string $trustedProxyHeader
      * @return RequestInterface
      */
-    public function setTrustedProxyHeader(string trustedProxyHeader) -> <RequestInterface>
+    public function setTrustedProxyHeader(string trustedProxyHeader) -> <static>
     {
         var trustedHeader;
 

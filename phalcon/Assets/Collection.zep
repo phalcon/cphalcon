@@ -91,7 +91,7 @@ class Collection implements Countable, IteratorAggregate
      *
      * @param AssetInterface $asset
      */
-    public function add(<AssetInterface> asset) -> <Collection>
+    public function add(<AssetInterface> asset) -> <static>
     {
         this->addAsset(asset);
 
@@ -115,7 +115,7 @@ class Collection implements Countable, IteratorAggregate
         array attributes = [],
         string version = null,
         bool autoVersion = false
-    ) -> <Collection> {
+    ) -> <static> {
         return this->processAdd(
             "Css",
             path,
@@ -132,7 +132,7 @@ class Collection implements Countable, IteratorAggregate
      *
      * @param FilterInterface $filter
      */
-    public function addFilter(<FilterInterface> filter) -> <Collection>
+    public function addFilter(<FilterInterface> filter) -> <static>
     {
         let this->filters[] = filter;
 
@@ -144,7 +144,7 @@ class Collection implements Countable, IteratorAggregate
      *
      * @param Inline $code
      */
-    public function addInline(<$Inline> code) -> <Collection>
+    public function addInline(<$Inline> code) -> <static>
     {
         this->addAsset(code);
 
@@ -162,7 +162,7 @@ class Collection implements Countable, IteratorAggregate
         string content,
         bool filter = true,
         array attributes = []
-    ) -> <Collection> {
+    ) -> <static> {
         return this->processAddInline("Css", content, filter, attributes);
     }
 
@@ -177,7 +177,7 @@ class Collection implements Countable, IteratorAggregate
         string content,
         bool filter = true,
         array attributes = []
-    ) -> <Collection> {
+    ) -> <static> {
         return this->processAddInline("Js", content, filter, attributes);
     }
 
@@ -198,7 +198,7 @@ class Collection implements Countable, IteratorAggregate
         array attributes = [],
         string version = null,
         bool autoVersion = false
-    ) -> <Collection> {
+    ) -> <static> {
         return this->processAdd(
             "Js",
             path,
@@ -407,7 +407,7 @@ class Collection implements Countable, IteratorAggregate
      *
      * @return Collection
      */
-    public function join(bool flag) -> <Collection>
+    public function join(bool flag) -> <static>
     {
         let this->join = flag;
 
@@ -419,7 +419,7 @@ class Collection implements Countable, IteratorAggregate
      *
      * @param array $attributes
      */
-    public function setAttributes(array attributes) -> <Collection>
+    public function setAttributes(array attributes) -> <static>
     {
         let this->attributes = attributes;
 
@@ -429,7 +429,7 @@ class Collection implements Countable, IteratorAggregate
     /**
      * @param bool $flag
      */
-    public function setAutoVersion(bool flag) -> <Collection>
+    public function setAutoVersion(bool flag) -> <static>
     {
         let this->autoVersion = flag;
 
@@ -441,7 +441,7 @@ class Collection implements Countable, IteratorAggregate
      *
      * @param array $filters
      */
-    public function setFilters(array filters) -> <Collection>
+    public function setFilters(array filters) -> <static>
     {
         let this->filters = filters;
 
@@ -453,7 +453,7 @@ class Collection implements Countable, IteratorAggregate
      *
      * @param bool $flag
      */
-    public function setIsLocal(bool flag) -> <Collection>
+    public function setIsLocal(bool flag) -> <static>
     {
         let this->isLocal = flag;
 
@@ -465,7 +465,7 @@ class Collection implements Countable, IteratorAggregate
      *
      * @param string $prefix
      */
-    public function setPrefix(string prefix) -> <Collection>
+    public function setPrefix(string prefix) -> <static>
     {
         let this->prefix = prefix;
 
@@ -477,7 +477,7 @@ class Collection implements Countable, IteratorAggregate
      *
      * @param bool $flag
      */
-    public function setTargetIsLocal(bool flag) -> <Collection>
+    public function setTargetIsLocal(bool flag) -> <static>
     {
         let this->targetIsLocal = flag;
 
@@ -489,7 +489,7 @@ class Collection implements Countable, IteratorAggregate
      *
      * @param string $targetPath
      */
-    public function setTargetPath(string targetPath) -> <Collection>
+    public function setTargetPath(string targetPath) -> <static>
     {
         let this->targetPath = targetPath;
 
@@ -501,7 +501,7 @@ class Collection implements Countable, IteratorAggregate
      *
      * @param string $targetUri
      */
-    public function setTargetUri(string targetUri) -> <Collection>
+    public function setTargetUri(string targetUri) -> <static>
     {
         let this->targetUri = targetUri;
 
@@ -513,7 +513,7 @@ class Collection implements Countable, IteratorAggregate
      *
      * @param string $sourcePath
      */
-    public function setSourcePath(string sourcePath) -> <Collection>
+    public function setSourcePath(string sourcePath) -> <static>
     {
         let this->sourcePath = sourcePath;
 
@@ -525,7 +525,7 @@ class Collection implements Countable, IteratorAggregate
      *
      * @param string $version
      */
-    public function setVersion(string version) -> <Collection>
+    public function setVersion(string version) -> <static>
     {
         let this->version = version;
 
@@ -567,7 +567,7 @@ class Collection implements Countable, IteratorAggregate
         array attributes = [],
         string version = null,
         bool autoVersion = false
-    ) -> <Collection> {
+    ) -> <static> {
         var attrs, flag, name;
 
         let name  = "Phalcon\\Assets\\Asset\\" . className,
@@ -594,7 +594,7 @@ class Collection implements Countable, IteratorAggregate
         string content,
         bool filter = true,
         array attributes = []
-    ) -> <Collection> {
+    ) -> <static> {
         var asset, attrs, name;
 
         let name  = "Phalcon\\Assets\\Inline\\" . className,

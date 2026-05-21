@@ -343,7 +343,7 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
      *
      * @return Simple
      */
-    public function setContent(string! content) -> <Simple>
+    public function setContent(string! content) -> <static>
     {
         let this->content = content;
 
@@ -369,7 +369,7 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
      *
      * @return Simple
      */
-    public function setParamToView(string! key, var value) -> <Simple>
+    public function setParamToView(string! key, var value) -> <static>
     {
         return this->setVar(key, value);
     }
@@ -383,7 +383,7 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
      *
      * @return Simple
      */
-    public function setVar(string! key, var value) -> <Simple>
+    public function setVar(string! key, var value) -> <static>
     {
         let this->viewParams[key] = value;
 
@@ -403,7 +403,7 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
      *
      * @return Simple
      */
-    public function setVars(array! params, bool merge = true) -> <Simple>
+    public function setVars(array! params, bool merge = true) -> <static>
     {
         if merge {
             let params = array_merge(this->viewParams, params);

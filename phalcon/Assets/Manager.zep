@@ -69,7 +69,7 @@ class Manager extends AbstractInjectionAware
      *
      * @param Asset $asset
      */
-    public function addAsset(<Asset> asset) -> <Manager>
+    public function addAsset(<Asset> asset) -> <static>
     {
         /**
          * Adds the asset by its type
@@ -85,7 +85,7 @@ class Manager extends AbstractInjectionAware
      * @param string $type
      * @param Asset  $asset
      */
-    public function addAssetByType(string! type, <Asset> asset) -> <Manager>
+    public function addAssetByType(string! type, <Asset> asset) -> <static>
     {
         var collection;
 
@@ -113,7 +113,7 @@ class Manager extends AbstractInjectionAware
         array attributes = [],
         string version = null,
         bool autoVersion = false
-    ) -> <Manager>
+    ) -> <static>
     {
         this->addAssetByType(
             "css",
@@ -128,7 +128,7 @@ class Manager extends AbstractInjectionAware
      *
      * @param Inline $code
      */
-    public function addInlineCode(<$Inline> code) -> <Manager>
+    public function addInlineCode(<$Inline> code) -> <static>
     {
         /**
          * Adds the inline code by its type
@@ -144,7 +144,7 @@ class Manager extends AbstractInjectionAware
      * @param string $type
      * @param Inline $code
      */
-    public function addInlineCodeByType(string! type, <$Inline> code) -> <Manager>
+    public function addInlineCodeByType(string! type, <$Inline> code) -> <static>
     {
         var collection;
 
@@ -166,7 +166,7 @@ class Manager extends AbstractInjectionAware
         string content,
         bool filter = true,
         array attributes = []
-    ) -> <Manager> {
+    ) -> <static> {
         this->addInlineCodeByType(
             "css",
             new InlineCss(content, filter, attributes)
@@ -186,7 +186,7 @@ class Manager extends AbstractInjectionAware
         string content,
         bool filter = true,
         array attributes = []
-    ) -> <Manager> {
+    ) -> <static> {
         this->addInlineCodeByType(
             "js",
             new InlineJs(content, filter, attributes)
@@ -217,7 +217,7 @@ class Manager extends AbstractInjectionAware
         array attributes = [],
         string version = null,
         bool autoVersion = false
-    ) -> <Manager>
+    ) -> <static>
     {
         this->addAssetByType(
             "js",
@@ -848,7 +848,7 @@ class Manager extends AbstractInjectionAware
      * @param string     $name
      * @param Collection $collection
      */
-    public function set(string! name, <Collection> collection) -> <Manager>
+    public function set(string! name, <Collection> collection) -> <static>
     {
         let this->collections[name] = collection;
 
@@ -860,7 +860,7 @@ class Manager extends AbstractInjectionAware
      *
      * @param array $options
      */
-    public function setOptions(array options) -> <Manager>
+    public function setOptions(array options) -> <static>
     {
         let this->options = options;
 
@@ -872,7 +872,7 @@ class Manager extends AbstractInjectionAware
      *
      * @param bool $implicitOutput
      */
-    public function useImplicitOutput(bool implicitOutput) -> <Manager>
+    public function useImplicitOutput(bool implicitOutput) -> <static>
     {
         let this->implicitOutput = implicitOutput;
 

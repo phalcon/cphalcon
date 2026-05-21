@@ -146,7 +146,7 @@ class Console extends AbstractApplication
     /**
      * Set an specific argument
      */
-    public function setArgument(array! arguments = null, bool! str = true, bool! shift = true) -> <Console>
+    public function setArgument(array! arguments = null, bool! str = true, bool! shift = true) -> <static>
     {
         var arg, pos, args, opts, handleArgs;
 

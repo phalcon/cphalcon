@@ -56,7 +56,7 @@ class Ol extends AbstractList
         string text,
         array attributes = [],
         bool raw = false
-    ) -> <AbstractList> {
+    ) -> <static> {
         let this->store[] = [
             "renderFullElement",
             [

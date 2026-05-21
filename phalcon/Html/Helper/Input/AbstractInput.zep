@@ -47,7 +47,7 @@ abstract class AbstractInput extends AbstractHelper
         string name,
         string value = null,
         array attributes = []
-    ) -> <AbstractInput> {
+    ) -> <static> {
         let this->attributes = [
             "type" : this->type,
             "name" : name
@@ -96,7 +96,7 @@ abstract class AbstractInput extends AbstractHelper
      *
      * @return AbstractInput
      */
-    public function setValue(string value = null) -> <AbstractInput>
+    public function setValue(string value = null) -> <static>
     {
         if value !== null {
             let this->attributes["value"] = value;
