@@ -510,6 +510,9 @@
 
 - Fixed `Phalcon\Mvc\Model\Row::offsetGet()` / `offsetExists()` throwing `The index does not exist in the row` when accessing a column whose value is `null` [#17041](https://github.com/phalcon/cphalcon/issues/17041)
 - Fixed `Phalcon\Mvc\View::getContent()` throwing `TypeError` after `View::start()`. `start()` was assigning `$this->content = null` [#17041](https://github.com/phalcon/cphalcon/issues/17041)
+- Fixed `Phalcon\Mvc\Model::getChangedFields()` / `hasChanged()` flagging every null-valued column of a freshly-loaded row as changed [#17042](https://github.com/phalcon/cphalcon/issues/17042)
+- Fixed `Phalcon\Mvc\Model::getUpdatedFields()` flagging unchanged null-valued columns as updated [#17042](https://github.com/phalcon/cphalcon/issues/17042)
+- Fixed `Phalcon\Forms\Form::clear()` leaving a previously-bound `null` field value in the data array instead of unsetting it before reassigning the element default [#17042](https://github.com/phalcon/cphalcon/issues/17042)
 
 ### Removed
 
