@@ -43,8 +43,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Translate_Adapter_AdapterInterface, has);
 /**
  * Returns the translation related to the given key
  *
- * @param string $translateKey
- * @param array  $placeholders
+ * @phpstan-param array<string, string> $placeholders
  *
  * @return string
  */
@@ -52,8 +51,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Translate_Adapter_AdapterInterface, query);
 /**
  * Returns the translation string of the given key
  *
- * @param string $translateKey
- * @param array  $placeholders
+ * @phpstan-param array<string, string> $placeholders
  *
  * @return string
  */

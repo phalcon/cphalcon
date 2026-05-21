@@ -9,7 +9,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractGroup, isChecked);
 PHP_METHOD(Phalcon_Html_Helper_Input_AbstractGroup, renderItem);
 zend_object *zephir_init_properties_Phalcon_Html_Helper_Input_AbstractGroup(zend_class_entry *class_type);
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_html_helper_input_abstractgroup___invoke, 0, 2, Phalcon\\Html\\Helper\\Input\\AbstractGroup, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_html_helper_input_abstractgroup___invoke, 0, 2, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 	ZEND_ARG_ARRAY_INFO(0, options, 0)
 	ZEND_ARG_INFO(0, checked)

@@ -277,10 +277,10 @@ class Libmemcached extends AbstractAdapter
      * @param \Memcached $connection
      * @param array      $client
      *
-     * @return Libmemcached
+     * @return static
      * @throws InvalidConfiguration
      */
-    private function setOptions(<\Memcached> connection, array client) -> <Libmemcached>
+    private function setOptions(<\Memcached> connection, array client) -> <static>
     {
         if (true !== connection->setOptions(client)) {
             throw new InvalidConfiguration(
@@ -296,13 +296,13 @@ class Libmemcached extends AbstractAdapter
      * @param string     $saslUser
      * @param string     $saslPass
      *
-     * @return Libmemcached
+     * @return static
      */
     private function setSasl(
         <\Memcached> connection,
         string saslUser,
         string saslPass
-    ) -> <Libmemcached> {
+    ) -> <static> {
         if (true !== empty(saslUser)) {
             connection->setSaslAuthData(saslUser, saslPass);
         }
@@ -341,10 +341,10 @@ class Libmemcached extends AbstractAdapter
      * @param \Memcached $connection
      * @param array      $servers
      *
-     * @return Libmemcached
+     * @return static
      * @throws ConnectionFailed
      */
-    private function setServers(<\Memcached> connection, array servers) -> <Libmemcached>
+    private function setServers(<\Memcached> connection, array servers) -> <static>
     {
         if (true !== connection->addServers(servers)) {
             throw new ConnectionFailed(

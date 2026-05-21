@@ -1,0 +1,14 @@
+
+extern zend_class_entry *phalcon_encryption_crypt_exception_ivlengthcalculationfailed_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Encryption_Crypt_Exception_IvLengthCalculationFailed);
+
+PHP_METHOD(Phalcon_Encryption_Crypt_Exception_IvLengthCalculationFailed, __construct);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_encryption_crypt_exception_ivlengthcalculationfailed___construct, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_encryption_crypt_exception_ivlengthcalculationfailed_method_entry) {
+PHP_ME(Phalcon_Encryption_Crypt_Exception_IvLengthCalculationFailed, __construct, arginfo_phalcon_encryption_crypt_exception_ivlengthcalculationfailed___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_FE_END
+};

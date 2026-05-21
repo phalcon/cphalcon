@@ -1,0 +1,14 @@
+
+extern zend_class_entry *phalcon_autoload_exceptions_loaderdirectoriesnotarray_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Autoload_Exceptions_LoaderDirectoriesNotArray);
+
+PHP_METHOD(Phalcon_Autoload_Exceptions_LoaderDirectoriesNotArray, __construct);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_autoload_exceptions_loaderdirectoriesnotarray___construct, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_autoload_exceptions_loaderdirectoriesnotarray_method_entry) {
+PHP_ME(Phalcon_Autoload_Exceptions_LoaderDirectoriesNotArray, __construct, arginfo_phalcon_autoload_exceptions_loaderdirectoriesnotarray___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_FE_END
+};

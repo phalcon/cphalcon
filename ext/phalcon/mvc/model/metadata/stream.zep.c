@@ -185,7 +185,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, write)
 		ZEPHIR_CONCAT_SVS(&_5$$3, "<?php return ", &_4$$3, "; ");
 		zephir_file_put_contents(&_3$$3, &path, &_5$$3);
 		if (ZEPHIR_IS_FALSE_IDENTICAL(&_3$$3)) {
-			ZEPHIR_CALL_METHOD(NULL, this_ptr, "throwwriteexception", NULL, 490, &option);
+			ZEPHIR_CALL_METHOD(NULL, this_ptr, "throwwriteexception", NULL, 0, &option);
 			zephir_check_call_status_or_jump(try_end_1);
 		}
 
@@ -199,7 +199,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, write)
 		if (zephir_is_instance_of(&_6, SL("Exception"))) {
 			zend_clear_exception();
 			ZEPHIR_CPY_WRT(&_7, &_6);
-			ZEPHIR_CALL_METHOD(NULL, this_ptr, "throwwriteexception", NULL, 490, &option);
+			ZEPHIR_CALL_METHOD(NULL, this_ptr, "throwwriteexception", NULL, 0, &option);
 			zephir_check_call_status();
 		}
 	}
@@ -213,10 +213,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, throwWriteException)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *option, option_sub, _0$$4;
+	zval *option, option_sub, _0$$3, _1$$4;
 
 	ZVAL_UNDEF(&option_sub);
-	ZVAL_UNDEF(&_0$$4);
+	ZVAL_UNDEF(&_0$$3);
+	ZVAL_UNDEF(&_1$$4);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(option)
 	ZEND_PARSE_PARAMETERS_END();
@@ -224,12 +225,17 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, throwWriteException)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &option);
 	if (zephir_is_true(option)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Meta-Data directory cannot be written", "phalcon/Mvc/Model/MetaData/Stream.zep", 94);
+		ZEPHIR_INIT_VAR(&_0$$3);
+		object_init_ex(&_0$$3, phalcon_mvc_model_metadata_exceptions_metadatadirectorynotwritable_ce);
+		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 0);
+		zephir_check_call_status();
+		zephir_throw_exception_debug(&_0$$3, "phalcon/Mvc/Model/MetaData/Stream.zep", 93);
+		ZEPHIR_MM_RESTORE();
 		return;
 	} else {
-		ZEPHIR_INIT_VAR(&_0$$4);
-		ZVAL_STRING(&_0$$4, "Meta-Data directory cannot be written");
-		ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", NULL, 10, &_0$$4);
+		ZEPHIR_INIT_VAR(&_1$$4);
+		ZVAL_STRING(&_1$$4, "Meta-Data directory cannot be written");
+		ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", NULL, 14, &_1$$4);
 		zephir_check_call_status();
 	}
 	ZEPHIR_MM_RESTORE();

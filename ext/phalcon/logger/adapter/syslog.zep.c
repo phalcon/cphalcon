@@ -18,7 +18,6 @@
 #include "kernel/operators.h"
 #include "kernel/fcall.h"
 #include "kernel/exception.h"
-#include "ext/spl/spl_exceptions.h"
 
 
 /**
@@ -131,7 +130,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, close)
 	if (!(zephir_is_true(&_0))) {
 		RETURN_MM_BOOL(1);
 	}
-	ZEPHIR_RETURN_CALL_FUNCTION("closelog", NULL, 456);
+	ZEPHIR_RETURN_CALL_FUNCTION("closelog", NULL, 0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -141,14 +140,13 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, close)
  *
  * @param Item $item
  *
- * @throws LogicException
+ * @throws SyslogOpenFailed
  */
 PHP_METHOD(Phalcon_Logger_Adapter_Syslog, process)
 {
-	zval _6$$3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *item, item_sub, __$true, __$false, level, message, result, _0, _1, _2, _9, _3$$3, _4$$3, _5$$3, _7$$3, _8$$3;
+	zval *item, item_sub, __$true, __$false, level, message, result, _0, _1, _2, _6, _3$$3, _4$$3, _5$$3;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&item_sub);
@@ -160,13 +158,10 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, process)
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_9);
+	ZVAL_UNDEF(&_6);
 	ZVAL_UNDEF(&_3$$3);
 	ZVAL_UNDEF(&_4$$3);
 	ZVAL_UNDEF(&_5$$3);
-	ZVAL_UNDEF(&_7$$3);
-	ZVAL_UNDEF(&_8$$3);
-	ZVAL_UNDEF(&_6$$3);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT_OF_CLASS(item, phalcon_logger_item_ce)
 	ZEND_PARSE_PARAMETERS_END();
@@ -182,18 +177,12 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, process)
 	zephir_check_call_status();
 	if (!zephir_is_true(&result)) {
 		ZEPHIR_INIT_VAR(&_3$$3);
-		object_init_ex(&_3$$3, spl_ce_LogicException);
+		object_init_ex(&_3$$3, phalcon_logger_adapter_exceptions_syslogopenfailed_ce);
 		zephir_read_property(&_4$$3, this_ptr, ZEND_STRL("name"), PH_NOISY_CC | PH_READONLY);
-		zephir_memory_observe(&_5$$3);
-		zephir_read_property(&_5$$3, this_ptr, ZEND_STRL("facility"), PH_NOISY_CC);
-		zephir_cast_to_string(&_6$$3, &_5$$3);
-		ZEPHIR_INIT_VAR(&_7$$3);
-		ZVAL_STRING(&_7$$3, "Cannot open syslog for name [%s] and facility [%s]");
-		ZEPHIR_CALL_FUNCTION(&_8$$3, "sprintf", NULL, 90, &_7$$3, &_4$$3, &_6$$3);
+		zephir_read_property(&_5$$3, this_ptr, ZEND_STRL("facility"), PH_NOISY_CC | PH_READONLY);
+		ZEPHIR_CALL_METHOD(NULL, &_3$$3, "__construct", NULL, 0, &_4$$3, &_5$$3);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, &_3$$3, "__construct", NULL, 455, &_8$$3);
-		zephir_check_call_status();
-		zephir_throw_exception_debug(&_3$$3, "phalcon/Logger/Adapter/Syslog.zep", 106);
+		zephir_throw_exception_debug(&_3$$3, "phalcon/Logger/Adapter/Syslog.zep", 100);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -202,11 +191,11 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, process)
 	} else {
 		zephir_update_property_zval(this_ptr, ZEND_STRL("opened"), &__$false);
 	}
-	ZEPHIR_CALL_METHOD(&_9, item, "getlevel", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_6, item, "getlevel", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&level, this_ptr, "logleveltosyslog", NULL, 457, &_9);
+	ZEPHIR_CALL_METHOD(&level, this_ptr, "logleveltosyslog", NULL, 0, &_6);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(NULL, "syslog", NULL, 458, &level, &message);
+	ZEPHIR_CALL_FUNCTION(NULL, "syslog", NULL, 0, &level, &message);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
@@ -245,7 +234,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, openlog)
 	ZVAL_STR_COPY(&ident_zv, ident);
 	ZVAL_LONG(&_0, option);
 	ZVAL_LONG(&_1, facility);
-	ZEPHIR_RETURN_CALL_FUNCTION("openlog", NULL, 459, &ident_zv, &_0, &_1);
+	ZEPHIR_RETURN_CALL_FUNCTION("openlog", NULL, 0, &ident_zv, &_0, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 }

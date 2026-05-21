@@ -37,7 +37,7 @@ final class FrozenClock implements ClockInterface
      *
      * @throws Exception When the modifier string cannot be parsed
      */
-    public function adjust(string modifier) -> <FrozenClock>
+    public function adjust(string modifier) -> <static>
     {
         var ex, modified;
         bool failed;
@@ -109,7 +109,7 @@ final class FrozenClock implements ClockInterface
     /**
      * Sets the clock to a new value. All consumers receive the same modification
      */
-    public function set(<DateTimeImmutable> now) -> <FrozenClock>
+    public function set(<DateTimeImmutable> now) -> <static>
     {
         let this->now = now;
 

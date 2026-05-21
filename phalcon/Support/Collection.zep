@@ -221,7 +221,7 @@ class Collection implements
      *
      * @return static
      */
-    public function each(callable callback) -> <CollectionInterface>
+    public function each(callable callback) -> <static>
     {
         var key, value;
 
@@ -243,7 +243,7 @@ class Collection implements
      *
      * @return static
      */
-    public function filter(callable callback) -> <CollectionInterface>
+    public function filter(callable callback) -> <static>
     {
         var key, result, value;
 
@@ -477,7 +477,7 @@ class Collection implements
      *
      * @return static
      */
-    public function map(callable callback) -> <CollectionInterface>
+    public function map(callable callback) -> <static>
     {
         var key, result, value;
 
@@ -638,7 +638,7 @@ class Collection implements
      *
      * @return static
      */
-    public function sort(var callback = null, int order = 4) -> <CollectionInterface>
+    public function sort(var callback = null, int order = 4) -> <static>
     {
         var result;
 
@@ -726,7 +726,7 @@ class Collection implements
      *
      * @return static
      */
-    public function where(string propertyOrMethod, mixed value) -> <CollectionInterface>
+    public function where(string propertyOrMethod, mixed value) -> <static>
     {
         var key, result, item;
 
@@ -749,7 +749,7 @@ class Collection implements
      *
      * @return static
      */
-    protected function cloneEmpty(array data = []) -> <CollectionInterface>
+    protected function cloneEmpty(array data = []) -> <static>
     {
         var className;
 

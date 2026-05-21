@@ -71,13 +71,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetGet)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval index_sub, _0, _1;
+	zval index_sub, _0, _2, _1$$3;
 	zval *index;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&index_sub);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_1$$3);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(index)
 	ZEND_PARSE_PARAMETERS_END();
@@ -87,12 +88,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetGet)
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "offsetexists", NULL, 0, index);
 	zephir_check_call_status();
 	if (!(zephir_is_true(&_0))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The index does not exist in the row", "phalcon/Mvc/Model/Row.zep", 42);
+		ZEPHIR_INIT_VAR(&_1$$3);
+		object_init_ex(&_1$$3, phalcon_mvc_model_exceptions_indexnotinrow_ce);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 0);
+		zephir_check_call_status();
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Mvc/Model/Row.zep", 44);
+		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	zephir_memory_observe(&_1);
-	zephir_read_property_zval(&_1, this_ptr, index, PH_NOISY_CC);
-	RETURN_CCTOR(&_1);
+	zephir_memory_observe(&_2);
+	zephir_read_property_zval(&_2, this_ptr, index, PH_NOISY_CC);
+	RETURN_CCTOR(&_2);
 }
 
 /**
@@ -122,17 +128,27 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetExists)
  */
 PHP_METHOD(Phalcon_Mvc_Model_Row, offsetSet)
 {
-	zval offset_sub, value_sub;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval offset_sub, value_sub, _0;
 	zval *offset, *value;
 
 	ZVAL_UNDEF(&offset_sub);
 	ZVAL_UNDEF(&value_sub);
+	ZVAL_UNDEF(&_0);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_ZVAL(offset)
 		Z_PARAM_ZVAL(value)
 	ZEND_PARSE_PARAMETERS_END();
-	zephir_fetch_params_without_memory_grow(2, 0, &offset, &value);
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_mvc_model_exception_ce, "Row is an immutable ArrayAccess object", "phalcon/Mvc/Model/Row.zep", 66);
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_fetch_params(1, 2, 0, &offset, &value);
+	ZEPHIR_INIT_VAR(&_0);
+	object_init_ex(&_0, phalcon_mvc_model_exceptions_rowisimmutable_ce);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 0);
+	zephir_check_call_status();
+	zephir_throw_exception_debug(&_0, "phalcon/Mvc/Model/Row.zep", 68);
+	ZEPHIR_MM_RESTORE();
 	return;
 }
 
@@ -143,15 +159,25 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetSet)
  */
 PHP_METHOD(Phalcon_Mvc_Model_Row, offsetUnset)
 {
-	zval offset_sub;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval offset_sub, _0;
 	zval *offset;
 
 	ZVAL_UNDEF(&offset_sub);
+	ZVAL_UNDEF(&_0);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(offset)
 	ZEND_PARSE_PARAMETERS_END();
-	zephir_fetch_params_without_memory_grow(1, 0, &offset);
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_mvc_model_exception_ce, "Row is an immutable ArrayAccess object", "phalcon/Mvc/Model/Row.zep", 76);
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_fetch_params(1, 1, 0, &offset);
+	ZEPHIR_INIT_VAR(&_0);
+	object_init_ex(&_0, phalcon_mvc_model_exceptions_rowisimmutable_ce);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 0);
+	zephir_check_call_status();
+	zephir_throw_exception_debug(&_0, "phalcon/Mvc/Model/Row.zep", 78);
+	ZEPHIR_MM_RESTORE();
 	return;
 }
 
@@ -213,7 +239,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, toArray)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	ZEPHIR_RETURN_CALL_FUNCTION("get_object_vars", NULL, 471, this_ptr);
+	ZEPHIR_RETURN_CALL_FUNCTION("get_object_vars", NULL, 0, this_ptr);
 	zephir_check_call_status();
 	RETURN_MM();
 }

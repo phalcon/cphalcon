@@ -41,13 +41,13 @@ abstract class AbstractInput extends AbstractHelper
      * @param string|null $value
      * @param array       $attributes
      *
-     * @return AbstractInput
+     * @return static
      */
     public function __invoke(
         string name,
         string value = null,
         array attributes = []
-    ) -> <AbstractInput> {
+    ) -> <static> {
         let this->attributes = [
             "type" : this->type,
             "name" : name
@@ -94,9 +94,9 @@ abstract class AbstractInput extends AbstractHelper
      *
      * @param string|null $value
      *
-     * @return AbstractInput
+     * @return static
      */
-    public function setValue(string value = null) -> <AbstractInput>
+    public function setValue(string value = null) -> <static>
     {
         if value !== null {
             let this->attributes["value"] = value;

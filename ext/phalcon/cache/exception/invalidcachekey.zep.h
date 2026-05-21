@@ -1,0 +1,14 @@
+
+extern zend_class_entry *phalcon_cache_exception_invalidcachekey_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Cache_Exception_InvalidCacheKey);
+
+PHP_METHOD(Phalcon_Cache_Exception_InvalidCacheKey, __construct);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_exception_invalidcachekey___construct, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_cache_exception_invalidcachekey_method_entry) {
+PHP_ME(Phalcon_Cache_Exception_InvalidCacheKey, __construct, arginfo_phalcon_cache_exception_invalidcachekey___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_FE_END
+};

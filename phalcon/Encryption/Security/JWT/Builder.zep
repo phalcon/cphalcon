@@ -84,9 +84,9 @@ class Builder
     }
 
     /**
-     * @return Builder
+     * @return static
      */
-    public function init() -> <Builder>
+    public function init() -> <static>
     {
         let this->passphrase = "",
             this->claims     = new Collection(),
@@ -106,9 +106,9 @@ class Builder
      * @param string $name
      * @param mixed  $value
      *
-     * @return Builder
+     * @return static
      */
-    public function addClaim(string! name, var value) -> <Builder>
+    public function addClaim(string! name, var value) -> <static>
     {
         this->claims->set(name, value);
 
@@ -121,9 +121,9 @@ class Builder
      * @param string $name
      * @param mixed  $value
      *
-     * @return Builder
+     * @return static
      */
-    public function addHeader(string! name, var value) -> <Builder>
+    public function addHeader(string! name, var value) -> <static>
     {
         this->jose->set(name, value);
 
@@ -260,10 +260,10 @@ class Builder
      *
      * @param mixed $audience
      *
-     * @return Builder
+     * @return static
      * @throws ValidatorException
      */
-    public function setAudience(var audience) -> <Builder>
+    public function setAudience(var audience) -> <static>
     {
         var aud;
 
@@ -285,9 +285,9 @@ class Builder
      *
      * @param string $contentType
      *
-     * @return Builder
+     * @return static
      */
-    public function setContentType(string contentType) -> <Builder>
+    public function setContentType(string contentType) -> <static>
     {
         this->jose->set(Enum::CONTENT_TYPE, contentType);
 
@@ -305,10 +305,10 @@ class Builder
      *
      * @param int $timestamp
      *
-     * @return Builder
+     * @return static
      * @throws ValidatorException
      */
-    public function setExpirationTime(int timestamp) -> <Builder>
+    public function setExpirationTime(int timestamp) -> <static>
     {
         if timestamp < time() {
             throw new InvalidExpirationTime();
@@ -329,9 +329,9 @@ class Builder
      *
      * @param string $id
      *
-     * @return Builder
+     * @return static
      */
-    public function setId(string! id) -> <Builder>
+    public function setId(string! id) -> <static>
     {
         return this->setClaim(Enum::ID, id);
     }
@@ -344,9 +344,9 @@ class Builder
      *
      * @param int $timestamp
      *
-     * @return Builder
+     * @return static
      */
-    public function setIssuedAt(int! timestamp) -> <Builder>
+    public function setIssuedAt(int! timestamp) -> <static>
     {
         return this->setClaim(Enum::ISSUED_AT, timestamp);
     }
@@ -359,9 +359,9 @@ class Builder
      *
      * @param string $issuer
      *
-     * @return Builder
+     * @return static
      */
-    public function setIssuer(string! issuer) -> <Builder>
+    public function setIssuer(string! issuer) -> <static>
     {
         return this->setClaim(Enum::ISSUER, issuer);
     }
@@ -377,10 +377,10 @@ class Builder
      *
      * @param int $timestamp
      *
-     * @return Builder
+     * @return static
      * @throws ValidatorException
      */
-    public function setNotBefore(int! timestamp) -> <Builder>
+    public function setNotBefore(int! timestamp) -> <static>
     {
         if timestamp > time() {
             throw new InvalidNotBefore();
@@ -400,9 +400,9 @@ class Builder
      *
      * @param string $subject
      *
-     * @return Builder
+     * @return static
      */
-    public function setSubject(string! subject) -> <Builder>
+    public function setSubject(string! subject) -> <static>
     {
         return this->setClaim(Enum::SUBJECT, subject);
     }
@@ -410,10 +410,10 @@ class Builder
     /**
      * @param string $passphrase
      *
-     * @return Builder
+     * @return static
      * @throws ValidatorException
      */
-    public function setPassphrase(string! passphrase) -> <Builder>
+    public function setPassphrase(string! passphrase) -> <static>
     {
         if !preg_match(
             "/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[\W_]).{16,}$/",

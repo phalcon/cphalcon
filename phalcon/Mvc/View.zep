@@ -255,7 +255,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
     /**
      * Resets any template before layouts
      */
-    public function cleanTemplateAfter() -> <View>
+    public function cleanTemplateAfter() -> <static>
     {
         let this->templatesAfter = [];
 
@@ -265,7 +265,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
     /**
      * Resets any "template before" layouts
      */
-    public function cleanTemplateBefore() -> <View>
+    public function cleanTemplateBefore() -> <static>
     {
         let this->templatesBefore = [];
 
@@ -282,7 +282,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
      * );
      *```
      */
-    public function disableLevel(var level) -> <ViewInterface>
+    public function disableLevel(var level) -> <static>
     {
         if typeof level == "array" {
             let this->disabledLevels = level;
@@ -296,7 +296,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
     /**
      * Disables the auto-rendering process
      */
-    public function disable() -> <View>
+    public function disable() -> <static>
     {
         let this->disabled = true;
 
@@ -306,7 +306,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
     /**
      * Enables the auto-rendering process
      */
-    public function enable() -> <View>
+    public function enable() -> <static>
     {
         let this->disabled = false;
 
@@ -325,7 +325,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
     /**
      * Finishes the render process by stopping the output buffering
      */
-    public function finish() -> <View>
+    public function finish() -> <static>
     {
         ob_end_clean();
 
@@ -706,7 +706,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
      * }
      * ```
      */
-    public function pick(var renderView) -> <View>
+    public function pick(var renderView) -> <static>
     {
         var pickView, layout, parts;
 
@@ -745,7 +745,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
      * );
      * ```
      */
-    public function registerEngines(array! engines) -> <View>
+    public function registerEngines(array! engines) -> <static>
     {
         let this->registeredEngines = engines;
 
@@ -764,7 +764,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
         string! controllerName,
         string! actionName,
         array params = []
-    ) -> <View> | false
+    ) -> <static> | false
     {
         var result;
 
@@ -780,7 +780,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
     /**
      * Resets the view component to its factory default values
      */
-    public function reset() -> <View>
+    public function reset() -> <static>
     {
         let this->disabled        = false,
             this->engines         = false,
@@ -800,7 +800,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
      * $view->setBasePath(__DIR__ . "/");
      * ```
      */
-    public function setBasePath(string basePath) -> <View>
+    public function setBasePath(string basePath) -> <static>
     {
         let this->basePath = basePath;
 
@@ -814,7 +814,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
      * $this->view->setContent("<h1>hello</h1>");
      *```
      */
-    public function setContent(string content) -> <View>
+    public function setContent(string content) -> <static>
     {
         let this->content = content;
 
@@ -837,7 +837,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
      * $this->view->setLayout("main");
      * ```
      */
-    public function setLayout(string layout) -> <View>
+    public function setLayout(string layout) -> <static>
     {
         let this->layout = layout;
 
@@ -853,7 +853,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
      * $view->setLayoutsDir("../common/layouts/");
      *```
      */
-    public function setLayoutsDir(string layoutsDir) -> <View>
+    public function setLayoutsDir(string layoutsDir) -> <static>
     {
         let this->layoutsDir = layoutsDir;
 
@@ -869,7 +869,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
      * $this->view->setMainView("base");
      * ```
      */
-    public function setMainView(string viewPath) -> <View>
+    public function setMainView(string viewPath) -> <static>
     {
         let this->mainView = viewPath;
 
@@ -885,7 +885,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
      * $view->setPartialsDir("../common/partials/");
      *```
      */
-    public function setPartialsDir(string partialsDir) -> <View>
+    public function setPartialsDir(string partialsDir) -> <static>
     {
         let this->partialsDir = partialsDir;
 
@@ -899,7 +899,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
      * $this->view->setParamToView("products", $products);
      *```
      */
-    public function setParamToView(string! key, var value) -> <View>
+    public function setParamToView(string! key, var value) -> <static>
     {
         let this->viewParams[key] = value;
 
@@ -916,7 +916,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
      * );
      * ```
      */
-    public function setRenderLevel(int level) -> <ViewInterface>
+    public function setRenderLevel(int level) -> <static>
     {
         let this->renderLevel = level;
 
@@ -926,7 +926,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
     /**
      * Sets a "template after" controller layout
      */
-    public function setTemplateAfter(var templateAfter) -> <View>
+    public function setTemplateAfter(var templateAfter) -> <static>
     {
         if typeof templateAfter !== "array" {
             let this->templatesAfter = [templateAfter];
@@ -940,7 +940,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
     /**
      * Sets a template before the controller layout
      */
-    public function setTemplateBefore(var templateBefore) -> <View>
+    public function setTemplateBefore(var templateBefore) -> <static>
     {
         if typeof templateBefore !== "array" {
             let this->templatesBefore = [templateBefore];
@@ -958,7 +958,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
      * $this->view->setVar("products", $products);
      *```
      */
-    public function setVar(string! key, var value) -> <View>
+    public function setVar(string! key, var value) -> <static>
     {
         let this->viewParams[key] = value;
 
@@ -976,7 +976,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
      * );
      *```
      */
-    public function setVars(array! params, bool merge = true) -> <View>
+    public function setVars(array! params, bool merge = true) -> <static>
     {
         if merge {
             let this->viewParams = array_merge(this->viewParams, params);
@@ -991,7 +991,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
      * Sets the views directory. Depending of your platform,
      * always add a trailing slash or backslash
      */
-    public function setViewsDir(var viewsDir) -> <View>
+    public function setViewsDir(var viewsDir) -> <static>
     {
         var position, directory, newViewsDir;
 
@@ -1021,7 +1021,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
     /**
      * Starts rendering process enabling the output buffering
      */
-    public function start() -> <View>
+    public function start() -> <static>
     {
         ob_start();
 

@@ -101,39 +101,39 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_escaper_normalizeen
 	ZEND_ARG_TYPE_INFO(0, input, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_html_escaper_setattributeescaper, 0, 1, Phalcon\\Html\\Escaper, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_html_escaper_setattributeescaper, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_OBJ_INFO(0, escaper, Phalcon\\Html\\Escaper\\AttributeEscaper, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_html_escaper_setcssescaper, 0, 1, Phalcon\\Html\\Escaper, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_html_escaper_setcssescaper, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_OBJ_INFO(0, escaper, Phalcon\\Html\\Escaper\\CssEscaper, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_html_escaper_setdoubleencode, 0, 1, Phalcon\\Html\\Escaper, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_html_escaper_setdoubleencode, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, doubleEncode, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_html_escaper_setencoding, 0, 1, Phalcon\\Html\\Escaper\\EscaperInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_html_escaper_setencoding, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, encoding, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_html_escaper_setflags, 0, 1, Phalcon\\Html\\Escaper\\EscaperInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_html_escaper_setflags, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, flags, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_html_escaper_sethtmlescaper, 0, 1, Phalcon\\Html\\Escaper, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_html_escaper_sethtmlescaper, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_OBJ_INFO(0, escaper, Phalcon\\Html\\Escaper\\HtmlEscaper, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_html_escaper_sethtmlquotetype, 0, 1, Phalcon\\Html\\Escaper\\EscaperInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_html_escaper_sethtmlquotetype, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, flags, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_html_escaper_setjsescaper, 0, 1, Phalcon\\Html\\Escaper, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_html_escaper_setjsescaper, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_OBJ_INFO(0, escaper, Phalcon\\Html\\Escaper\\JsEscaper, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_html_escaper_seturlescaper, 0, 1, Phalcon\\Html\\Escaper, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_html_escaper_seturlescaper, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_OBJ_INFO(0, escaper, Phalcon\\Html\\Escaper\\UrlEscaper, 0)
 ZEND_END_ARG_INFO()
 

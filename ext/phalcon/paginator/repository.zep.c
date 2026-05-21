@@ -93,7 +93,7 @@ PHP_METHOD(Phalcon_Paginator_Repository, __get)
 	zephir_get_class(&_2, this_ptr, 0);
 	ZEPHIR_INIT_VAR(&_3);
 	ZEPHIR_CONCAT_SVSV(&_3, "Access to undefined property ", &_2, "::", &property_zv);
-	ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", NULL, 10, &_3);
+	ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", NULL, 14, &_3);
 	zephir_check_call_status();
 	RETURN_MM_NULL();
 }

@@ -139,7 +139,7 @@ abstract class AbstractLink
      *
      * @return mixed
      */
-    protected function doWithAttribute(string key, var value)
+    protected function doWithAttribute(string key, var value) -> <static>
     {
         var newInstance;
 
@@ -155,7 +155,7 @@ abstract class AbstractLink
      *
      * @return mixed
      */
-    protected function doWithHref(string href)
+    protected function doWithHref(string href) -> <static>
     {
         var newInstance;
 
@@ -172,7 +172,7 @@ abstract class AbstractLink
      *
      * @return mixed
      */
-    protected function doWithRel(string key)
+    protected function doWithRel(string key) -> <static>
     {
         var newInstance;
 
@@ -188,7 +188,7 @@ abstract class AbstractLink
      *
      * @return mixed
      */
-    protected function doWithoutAttribute(string key)
+    protected function doWithoutAttribute(string key) -> <static>
     {
         var newInstance;
 
@@ -204,7 +204,7 @@ abstract class AbstractLink
      *
      * @return mixed
      */
-    protected function doWithoutRel(string key)
+    protected function doWithoutRel(string key) -> <static>
     {
         var newInstance;
 

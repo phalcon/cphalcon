@@ -1,0 +1,14 @@
+
+extern zend_class_entry *phalcon_cli_console_exceptions_invalidmoduledefinitionpath_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Cli_Console_Exceptions_InvalidModuleDefinitionPath);
+
+PHP_METHOD(Phalcon_Cli_Console_Exceptions_InvalidModuleDefinitionPath, __construct);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_console_exceptions_invalidmoduledefinitionpath___construct, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_cli_console_exceptions_invalidmoduledefinitionpath_method_entry) {
+PHP_ME(Phalcon_Cli_Console_Exceptions_InvalidModuleDefinitionPath, __construct, arginfo_phalcon_cli_console_exceptions_invalidmoduledefinitionpath___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_FE_END
+};

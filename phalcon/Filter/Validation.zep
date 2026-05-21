@@ -117,9 +117,9 @@ class Validation extends Injectable implements ValidationInterface
      * @param string|array       $field
      * @param ValidatorInterface $validator
      *
-     * @return ValidationInterface
+     * @return static
      */
-    public function add(var field, <ValidatorInterface> validator) -> <ValidationInterface>
+    public function add(var field, <ValidatorInterface> validator) -> <static>
     {
         var singleField;
 
@@ -146,7 +146,7 @@ class Validation extends Injectable implements ValidationInterface
      *
      * @param MessageInterface $message
      */
-    public function appendMessage(<MessageInterface> message) -> <ValidationInterface>
+    public function appendMessage(<MessageInterface> message) -> <static>
     {
         var messages;
 
@@ -179,7 +179,7 @@ class Validation extends Injectable implements ValidationInterface
      * @param array|object $data the data that needs to be validated
      * @param array $whitelist only allow these fields to be mutated when entity is used
      */
-    public function bind(var entity, var data, array whitelist = []) -> <ValidationInterface>
+    public function bind(var entity, var data, array whitelist = []) -> <static>
     {
         var container, field, value, fieldFilters, filterService, filters, method;
 
@@ -461,9 +461,9 @@ class Validation extends Injectable implements ValidationInterface
      * @param string|array       $field
      * @param ValidatorInterface $validator
      *
-     * @return ValidationInterface
+     * @return static
      */
-    public function rule(var field, <ValidatorInterface> validator) -> <ValidationInterface>
+    public function rule(var field, <ValidatorInterface> validator) -> <static>
     {
         return this->add(field, validator);
     }
@@ -471,7 +471,7 @@ class Validation extends Injectable implements ValidationInterface
     /**
      * Adds the validators to a field
      */
-    public function rules(var field, array! validators) -> <ValidationInterface>
+    public function rules(var field, array! validators) -> <static>
     {
         var validator;
 
@@ -504,7 +504,7 @@ class Validation extends Injectable implements ValidationInterface
      * @param string field
      * @param array|string filters
      */
-    public function setFilters(var field, filters) -> <ValidationInterface>
+    public function setFilters(var field, filters) -> <static>
     {
         var singleField;
 
@@ -529,7 +529,7 @@ class Validation extends Injectable implements ValidationInterface
         let this->labels = labels;
     }
 
-    public function setValidators(array validators) -> <Validation>
+    public function setValidators(array validators) -> <static>
     {
         let this->validators = validators;
 

@@ -78,7 +78,7 @@ PHP_METHOD(Phalcon_Acl_Component, __construct)
 	ZVAL_STR_COPY(&description_zv, description);
 	}
 	if (UNEXPECTED(ZEPHIR_IS_STRING_IDENTICAL(&name_zv, "*"))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_acl_exception_ce, "Component name cannot be '*'", "phalcon/Acl/Component.zep", 38);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_acl_exceptions_forbiddenwildcard_ce, "component", "phalcon/Acl/Component.zep", 40);
 		return;
 	}
 	zephir_update_property_zval(this_ptr, ZEND_STRL("name"), &name_zv);

@@ -480,7 +480,7 @@ abstract class Dialect implements DialectInterface
     /**
      * Registers custom SQL functions
      */
-    public function registerCustomFunction(string name, callable customFunction) -> <Dialect>
+    public function registerCustomFunction(string name, callable customFunction) -> <static>
     {
         let this->customFunctions[name] = customFunction;
 

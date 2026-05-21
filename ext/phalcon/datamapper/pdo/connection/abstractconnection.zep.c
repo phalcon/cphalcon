@@ -17,7 +17,6 @@
 #include "kernel/memory.h"
 #include "kernel/concat.h"
 #include "kernel/exception.h"
-#include "ext/spl/spl_exceptions.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
 #include "kernel/main.h"
@@ -100,8 +99,8 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, __call)
 		ZEPHIR_INIT_VAR(&message);
 		ZEPHIR_CONCAT_SVSVS(&message, "Class '", &className, "' does not have a method '", name, "'");
 		ZEPHIR_INIT_VAR(&_1$$3);
-		object_init_ex(&_1$$3, spl_ce_BadMethodCallException);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 98, &message);
+		object_init_ex(&_1$$3, phalcon_datamapper_pdo_exception_unknowndrivermethod_ce);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 137, &message);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$3, "phalcon/DataMapper/Pdo/Connection/AbstractConnection.zep", 59);
 		ZEPHIR_MM_RESTORE();
@@ -1607,6 +1606,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, setProfiler)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &profiler);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("profiler"), profiler);
+	RETURN_THISW();
 }
 
 /**
@@ -1656,7 +1656,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, performBind)
 	if (Z_TYPE_P(arguments) == IS_ARRAY) {
 		if (zephir_array_isset_value_long(arguments, 1)) {
 			zephir_memory_observe(&type);
-			zephir_array_fetch_long(&type, arguments, 1, PH_NOISY, "phalcon/DataMapper/Pdo/Connection/AbstractConnection.zep", 743);
+			zephir_array_fetch_long(&type, arguments, 1, PH_NOISY, "phalcon/DataMapper/Pdo/Connection/AbstractConnection.zep", 745);
 		} else {
 			ZEPHIR_INIT_NVAR(&type);
 			ZVAL_LONG(&type, 2);
@@ -1664,12 +1664,12 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, performBind)
 		_1$$4 = ZEPHIR_IS_LONG_IDENTICAL(&type, 5);
 		if (_1$$4) {
 			zephir_memory_observe(&_2$$4);
-			zephir_array_fetch_long(&_2$$4, arguments, 0, PH_NOISY, "phalcon/DataMapper/Pdo/Connection/AbstractConnection.zep", 748);
+			zephir_array_fetch_long(&_2$$4, arguments, 0, PH_NOISY, "phalcon/DataMapper/Pdo/Connection/AbstractConnection.zep", 750);
 			_1$$4 = ((Z_TYPE_P(&_2$$4) == IS_TRUE || Z_TYPE_P(&_2$$4) == IS_FALSE) == 1);
 		}
 		if (_1$$4) {
 			ZEPHIR_INIT_VAR(&_3$$7);
-			zephir_array_fetch_long(&_4$$7, arguments, 0, PH_NOISY | PH_READONLY, "phalcon/DataMapper/Pdo/Connection/AbstractConnection.zep", 749);
+			zephir_array_fetch_long(&_4$$7, arguments, 0, PH_NOISY | PH_READONLY, "phalcon/DataMapper/Pdo/Connection/AbstractConnection.zep", 751);
 			if (zephir_is_true(&_4$$7)) {
 				ZEPHIR_INIT_NVAR(&_3$$7);
 				ZVAL_STRING(&_3$$7, "1");

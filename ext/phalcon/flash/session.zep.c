@@ -248,7 +248,7 @@ PHP_METHOD(Phalcon_Flash_Session, output)
 	}
 	ZEPHIR_CALL_METHOD(&messages, this_ptr, "getsessionmessages", NULL, 0, &_0);
 	zephir_check_call_status();
-	zephir_is_iterable(&messages, 0, "phalcon/Flash/Session.zep", 120);
+	zephir_is_iterable(&messages, 0, "phalcon/Flash/Session.zep", 121);
 	if (Z_TYPE_P(&messages) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&messages), _3, _4, _1)
 		{
@@ -446,7 +446,12 @@ PHP_METHOD(Phalcon_Flash_Session, getSessionService)
 		zephir_update_property_zval(this_ptr, ZEND_STRL("sessionService"), &_7$$4);
 		RETURN_MM_MEMBER(getThis(), "sessionService");
 	}
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_flash_exception_ce, "A dependency injection container is required to access the 'session' service", "phalcon/Flash/Session.zep", 208);
+	ZEPHIR_INIT_NVAR(&_5);
+	object_init_ex(&_5, phalcon_flash_exceptions_sessionserviceunavailable_ce);
+	ZEPHIR_CALL_METHOD(NULL, &_5, "__construct", NULL, 0);
+	zephir_check_call_status();
+	zephir_throw_exception_debug(&_5, "phalcon/Flash/Session.zep", 207);
+	ZEPHIR_MM_RESTORE();
 	return;
 }
 

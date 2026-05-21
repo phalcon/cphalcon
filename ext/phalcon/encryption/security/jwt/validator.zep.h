@@ -31,45 +31,45 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_jwt_
 	ZEND_ARG_TYPE_INFO(0, claim, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_encryption_security_jwt_validator_set, 0, 2, Phalcon\\Encryption\\Security\\JWT\\Validator, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_encryption_security_jwt_validator_set, 0, 2, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, claim, IS_STRING, 0)
 	ZEND_ARG_INFO(0, value)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_encryption_security_jwt_validator_settoken, 0, 1, Phalcon\\Encryption\\Security\\JWT\\Validator, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_encryption_security_jwt_validator_settoken, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_OBJ_INFO(0, token, Phalcon\\Encryption\\Security\\JWT\\Token\\Token, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_encryption_security_jwt_validator_validateclaim, 0, 2, Phalcon\\Encryption\\Security\\JWT\\Validator, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_encryption_security_jwt_validator_validateclaim, 0, 2, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 	ZEND_ARG_INFO(0, value)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_encryption_security_jwt_validator_validateaudience, 0, 1, Phalcon\\Encryption\\Security\\JWT\\Validator, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_encryption_security_jwt_validator_validateaudience, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_INFO(0, audience)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_encryption_security_jwt_validator_validateexpiration, 0, 1, Phalcon\\Encryption\\Security\\JWT\\Validator, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_encryption_security_jwt_validator_validateexpiration, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, timestamp, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_encryption_security_jwt_validator_validateid, 0, 1, Phalcon\\Encryption\\Security\\JWT\\Validator, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_encryption_security_jwt_validator_validateid, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, id, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_encryption_security_jwt_validator_validateissuedat, 0, 1, Phalcon\\Encryption\\Security\\JWT\\Validator, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_encryption_security_jwt_validator_validateissuedat, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, timestamp, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_encryption_security_jwt_validator_validateissuer, 0, 1, Phalcon\\Encryption\\Security\\JWT\\Validator, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_encryption_security_jwt_validator_validateissuer, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, issuer, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_encryption_security_jwt_validator_validatenotbefore, 0, 1, Phalcon\\Encryption\\Security\\JWT\\Validator, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_encryption_security_jwt_validator_validatenotbefore, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, timestamp, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_encryption_security_jwt_validator_validatesignature, 0, 2, Phalcon\\Encryption\\Security\\JWT\\Validator, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_encryption_security_jwt_validator_validatesignature, 0, 2, MAY_BE_STATIC)
 	ZEND_ARG_OBJ_INFO(0, signer, Phalcon\\Encryption\\Security\\JWT\\Signer\\SignerInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, passphrase, IS_STRING, 0)
 ZEND_END_ARG_INFO()

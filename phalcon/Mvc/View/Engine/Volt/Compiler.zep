@@ -173,9 +173,9 @@ class Compiler implements InjectionAwareInterface
      *
      * @var mixed extension
      *
-     * @return Compiler
+     * @return static
      */
-    public function addExtension(extension) -> <Compiler>
+    public function addExtension(extension) -> <static>
     {
         if unlikely typeof extension != "object" {
             throw new InvalidExtension();
@@ -199,9 +199,9 @@ class Compiler implements InjectionAwareInterface
      * @param string name
      * @param mixed definition
      *
-     * @return Compiler
+     * @return static
      */
-    public function addFilter(string! name, var definition) -> <Compiler>
+    public function addFilter(string! name, var definition) -> <static>
     {
         let this->filters[name] = definition;
 
@@ -214,9 +214,9 @@ class Compiler implements InjectionAwareInterface
      * @param string name
      * @param mixed definition
      *
-     * @return Compiler
+     * @return static
      */
-    public function addFunction(string! name, var definition) -> <Compiler>
+    public function addFunction(string! name, var definition) -> <static>
     {
         let this->functions[name] = definition;
 
@@ -2227,15 +2227,17 @@ class Compiler implements InjectionAwareInterface
      *
      * @param mixed value
      */
-    public function setOption(string! option, value)
+    public function setOption(string! option, value) -> <self>
     {
         let this->options[option] = value;
+
+        return this;
     }
 
     /**
      * Sets the compiler options
      */
-    public function setOptions(array! options) -> <Compiler>
+    public function setOptions(array! options) -> <self>
     {
         let this->options = options;
 
@@ -2245,7 +2247,7 @@ class Compiler implements InjectionAwareInterface
     /**
      * Set a unique prefix to be used as prefix for compiled variables
      */
-    public function setUniquePrefix(string! prefix) -> <Compiler>
+    public function setUniquePrefix(string! prefix) -> <self>
     {
         let this->prefix = prefix;
 

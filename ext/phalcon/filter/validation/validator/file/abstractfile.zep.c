@@ -214,13 +214,13 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, checkUploadIsE
 		object_init_ex(&_7$$3, phalcon_messages_message_ce);
 		ZEPHIR_CALL_METHOD(&_8$$3, this_ptr, "getmessagefileempty", NULL, 0);
 		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(&_9$$3, "strtr", NULL, 5, &_8$$3, &replacePairs);
+		ZEPHIR_CALL_FUNCTION(&_9$$3, "strtr", NULL, 6, &_8$$3, &replacePairs);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_10$$3);
 		zephir_get_class(&_10$$3, this_ptr, 0);
 		ZEPHIR_CALL_METHOD(&_11$$3, this_ptr, "preparecode", NULL, 0, &field_zv);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, &_7$$3, "__construct", NULL, 6, &_9$$3, &field_zv, &_10$$3, &_11$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_7$$3, "__construct", NULL, 7, &_9$$3, &field_zv, &_10$$3, &_11$$3);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_7$$3);
 		zephir_check_call_status();
@@ -290,13 +290,13 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, checkUploadIsV
 		object_init_ex(&_3$$3, phalcon_messages_message_ce);
 		ZEPHIR_CALL_METHOD(&_4$$3, this_ptr, "getmessagevalid", NULL, 0);
 		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(&_5$$3, "strtr", NULL, 5, &_4$$3, &replacePairs);
+		ZEPHIR_CALL_FUNCTION(&_5$$3, "strtr", NULL, 6, &_4$$3, &replacePairs);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_6$$3);
 		zephir_get_class(&_6$$3, this_ptr, 0);
 		ZEPHIR_CALL_METHOD(&_7$$3, this_ptr, "preparecode", NULL, 0, &field_zv);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, &_3$$3, "__construct", NULL, 6, &_5$$3, &field_zv, &_6$$3, &_7$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_3$$3, "__construct", NULL, 7, &_5$$3, &field_zv, &_6$$3, &_7$$3);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_3$$3);
 		zephir_check_call_status();
@@ -421,13 +421,13 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, checkUploadMax
 		object_init_ex(&_8$$8, phalcon_messages_message_ce);
 		ZEPHIR_CALL_METHOD(&_9$$8, this_ptr, "getmessageinisize", NULL, 0);
 		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(&_10$$8, "strtr", NULL, 5, &_9$$8, &replacePairs);
+		ZEPHIR_CALL_FUNCTION(&_10$$8, "strtr", NULL, 6, &_9$$8, &replacePairs);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_11$$8);
 		zephir_get_class(&_11$$8, this_ptr, 0);
 		ZEPHIR_CALL_METHOD(&_12$$8, this_ptr, "preparecode", NULL, 0, &field_zv);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, &_8$$8, "__construct", NULL, 6, &_10$$8, &field_zv, &_11$$8, &_12$$8);
+		ZEPHIR_CALL_METHOD(NULL, &_8$$8, "__construct", NULL, 7, &_10$$8, &field_zv, &_11$$8, &_12$$8);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_8$$8);
 		zephir_check_call_status();
@@ -498,11 +498,11 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, getFileSizeInB
 		zephir_array_fetch_long(&unit, &matches, 2, PH_NOISY, "phalcon/Filter/Validation/Validator/File/AbstractFile.zep", 288);
 	}
 	zephir_array_fetch_long(&_4, &matches, 1, PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/File/AbstractFile.zep", 291);
-	ZEPHIR_CALL_FUNCTION(&_5, "floatval", NULL, 28, &_4);
+	ZEPHIR_CALL_FUNCTION(&_5, "floatval", NULL, 32, &_4);
 	zephir_check_call_status();
 	zephir_array_fetch(&_6, &byteUnits, &unit, PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/File/AbstractFile.zep", 291);
 	ZVAL_LONG(&_7, 2);
-	ZEPHIR_CALL_FUNCTION(&_8, "pow", NULL, 29, &_7, &_6);
+	ZEPHIR_CALL_FUNCTION(&_8, "pow", NULL, 33, &_7, &_6);
 	zephir_check_call_status();
 	mul_function(return_value, &_5, &_8);
 	RETURN_MM();
@@ -675,7 +675,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, checkIsUploade
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
-	ZEPHIR_RETURN_CALL_FUNCTION("is_uploaded_file", NULL, 30, &name_zv);
+	ZEPHIR_RETURN_CALL_FUNCTION("is_uploaded_file", NULL, 34, &name_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }

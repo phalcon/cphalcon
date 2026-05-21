@@ -419,7 +419,7 @@ class Application extends AbstractApplication
     /**
      * Enables or disables sending cookies by each request handling
      */
-    public function sendCookiesOnHandleRequest(bool sendCookies) -> <Application>
+    public function sendCookiesOnHandleRequest(bool sendCookies) -> <static>
     {
         let this->sendCookies = sendCookies;
 
@@ -430,7 +430,7 @@ class Application extends AbstractApplication
     /**
      * Enables or disables sending headers by each request handling
      */
-    public function sendHeadersOnHandleRequest(bool sendHeaders) -> <Application>
+    public function sendHeadersOnHandleRequest(bool sendHeaders) -> <static>
     {
         let this->sendHeaders = sendHeaders;
 
@@ -441,7 +441,7 @@ class Application extends AbstractApplication
      * By default. The view is implicitly buffering all the output
      * You can full disable the view component using this method
      */
-    public function useImplicitView(bool implicitView) -> <Application>
+    public function useImplicitView(bool implicitView) -> <static>
     {
         let this->implicitView = implicitView;
 

@@ -23,7 +23,7 @@ class Link extends Style
      * @param string $url
      * @param array  $attributes
      */
-    public function add(string url, array attributes = [], int position = -1)
+    public function add(string url, array attributes = [], int position = -1) -> <static>
     {
         this->pushOrPlace(
             [

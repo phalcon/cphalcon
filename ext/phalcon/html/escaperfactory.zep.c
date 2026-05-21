@@ -46,7 +46,7 @@ PHP_METHOD(Phalcon_Html_EscaperFactory, newInstance)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	object_init_ex(return_value, phalcon_html_escaper_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 371);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0);
 	zephir_check_call_status();
 	RETURN_MM();
 }

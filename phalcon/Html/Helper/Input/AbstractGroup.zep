@@ -57,14 +57,14 @@ abstract class AbstractGroup extends AbstractHelper
      * @param mixed  $checked
      * @param array  $attributes
      *
-     * @return AbstractGroup
+     * @return static
      */
     public function __invoke(
         string name,
         array options,
         var checked = null,
         array attributes = []
-    ) -> <AbstractGroup> {
+    ) -> <static> {
         let this->name             = name,
             this->options          = options,
             this->checked          = checked,

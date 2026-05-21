@@ -34,10 +34,10 @@ PHP_METHOD(Phalcon_Support_Debug, printTableHeader);
 PHP_METHOD(Phalcon_Support_Debug, getArrVal);
 zend_object *zephir_init_properties_Phalcon_Support_Debug(zend_class_entry *class_type);
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_support_debug_clearvars, 0, 0, Phalcon\\Support\\Debug, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_support_debug_clearvars, 0, 0, MAY_BE_STATIC)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_support_debug_debugvar, 0, 1, Phalcon\\Support\\Debug, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_support_debug_debugvar, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_INFO(0, varz)
 ZEND_END_ARG_INFO()
 
@@ -53,15 +53,15 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_debug_halt, 0, 0, IS_VOID, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_support_debug_listen, 0, 0, Phalcon\\Support\\Debug, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_support_debug_listen, 0, 0, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, exceptions, _IS_BOOL, 0, "true")
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, lowSeverity, _IS_BOOL, 0, "false")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_support_debug_listenexceptions, 0, 0, Phalcon\\Support\\Debug, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_support_debug_listenexceptions, 0, 0, MAY_BE_STATIC)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_support_debug_listenlowseverity, 0, 0, Phalcon\\Support\\Debug, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_support_debug_listenlowseverity, 0, 0, MAY_BE_STATIC)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_debug_onuncaughtexception, 0, 1, _IS_BOOL, 0)
@@ -80,23 +80,23 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_debug_renderhtml
 	ZEND_ARG_OBJ_INFO(0, exception, Throwable, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_support_debug_setblacklist, 0, 1, Phalcon\\Support\\Debug, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_support_debug_setblacklist, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_ARRAY_INFO(0, blacklist, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_support_debug_setshowbacktrace, 0, 1, Phalcon\\Support\\Debug, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_support_debug_setshowbacktrace, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, showBackTrace, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_support_debug_setshowfilefragment, 0, 1, Phalcon\\Support\\Debug, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_support_debug_setshowfilefragment, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, showFileFragment, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_support_debug_setshowfiles, 0, 1, Phalcon\\Support\\Debug, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_support_debug_setshowfiles, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, showFiles, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_support_debug_seturi, 0, 1, Phalcon\\Support\\Debug, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_support_debug_seturi, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, uri, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 

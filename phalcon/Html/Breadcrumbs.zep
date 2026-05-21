@@ -56,7 +56,7 @@ class Breadcrumbs
      * $breadcrumbs->add("Users");
      * ```
      */
-    public function add(string label, string link = "") -> <Breadcrumbs>
+    public function add(string label, string link = "") -> <static>
     {
         let this->elements[link] = label;
 
@@ -165,9 +165,9 @@ class Breadcrumbs
     /**
      * @param string $separator
      *
-     * @return Breadcrumbs
+     * @return static
      */
-    public function setSeparator(string separator) -> <Breadcrumbs>
+    public function setSeparator(string separator) -> <static>
     {
         let this->separator = separator;
 

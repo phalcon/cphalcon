@@ -26,11 +26,6 @@
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
-/**
- * Class IndexedArray
- *
- * @package Phalcon\Translate\Interpolator
- */
 ZEPHIR_INIT_CLASS(Phalcon_Translate_Interpolator_IndexedArray)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Translate\\Interpolator, IndexedArray, phalcon, translate_interpolator_indexedarray, phalcon_translate_interpolator_indexedarray_method_entry, 0);
@@ -42,8 +37,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Translate_Interpolator_IndexedArray)
 /**
  * Replaces placeholders by the values passed
  *
- * @param string $translation
- * @param array  $placeholders
+ * @phpstan-param array<string, string> $placeholders
  *
  * @return string
  */
@@ -78,7 +72,7 @@ PHP_METHOD(Phalcon_Translate_Interpolator_IndexedArray, replacePlaceholders)
 	}
 	if (1 != ZEPHIR_IS_EMPTY(&placeholders)) {
 		ZEPHIR_MAKE_REF(&placeholders);
-		ZEPHIR_CALL_FUNCTION(NULL, "array_unshift", NULL, 304, &placeholders, &translation_zv);
+		ZEPHIR_CALL_FUNCTION(NULL, "array_unshift", NULL, 470, &placeholders, &translation_zv);
 		ZEPHIR_UNREF(&placeholders);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_0$$3);

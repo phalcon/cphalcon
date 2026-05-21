@@ -16,10 +16,10 @@
 #include "kernel/string.h"
 #include "kernel/operators.h"
 #include "kernel/exception.h"
-#include "ext/spl/spl_exceptions.h"
-#include "kernel/object.h"
 #include "kernel/fcall.h"
+#include "kernel/object.h"
 #include "kernel/array.h"
+#include "ext/spl/spl_exceptions.h"
 
 
 /**
@@ -98,13 +98,14 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, __construct)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval attributes;
-	zval *name_param = NULL, *attributes_param = NULL, _0, _1;
+	zval *name_param = NULL, *attributes_param = NULL, _0, _2, _1$$3;
 	zval name;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&attributes);
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_ZVAL(name_param)
@@ -125,16 +126,21 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, __construct)
 	zephir_fast_trim(&_0, &name, NULL , ZEPHIR_TRIM_BOTH);
 	zephir_get_strval(&name, &_0);
 	if (UNEXPECTED(ZEPHIR_IS_EMPTY(&name))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Form element name is required", "phalcon/Forms/Element/AbstractElement.zep", 96);
+		ZEPHIR_INIT_VAR(&_1$$3);
+		object_init_ex(&_1$$3, phalcon_forms_exceptions_formelementnamerequired_ce);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 9);
+		zephir_check_call_status();
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Forms/Element/AbstractElement.zep", 96);
+		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	zephir_update_property_zval(this_ptr, ZEND_STRL("name"), &name);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("attributes"), &attributes);
-	ZEPHIR_INIT_VAR(&_1);
-	object_init_ex(&_1, phalcon_messages_messages_ce);
-	ZEPHIR_CALL_METHOD(NULL, &_1, "__construct", NULL, 7);
+	ZEPHIR_INIT_VAR(&_2);
+	object_init_ex(&_2, phalcon_messages_messages_ce);
+	ZEPHIR_CALL_METHOD(NULL, &_2, "__construct", NULL, 10);
 	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, ZEND_STRL("messages"), &_1);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("messages"), &_2);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -757,11 +763,13 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, setFilters)
 {
 	zend_bool _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval *filters = NULL, filters_sub, _1$$4;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *filters = NULL, filters_sub, _1$$3, _2$$4;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&filters_sub);
-	ZVAL_UNDEF(&_1$$4);
+	ZVAL_UNDEF(&_1$$3);
+	ZVAL_UNDEF(&_2$$4);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(filters)
 	ZEND_PARSE_PARAMETERS_END();
@@ -774,14 +782,19 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, setFilters)
 		_0 = Z_TYPE_P(filters) != IS_ARRAY;
 	}
 	if (UNEXPECTED(_0)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_forms_exception_ce, "The filter needs to be an array or string", "phalcon/Forms/Element/AbstractElement.zep", 439);
+		ZEPHIR_INIT_VAR(&_1$$3);
+		object_init_ex(&_1$$3, phalcon_forms_exceptions_invalidfiltertype_ce);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 11);
+		zephir_check_call_status();
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Forms/Element/AbstractElement.zep", 439);
+		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	if (Z_TYPE_P(filters) == IS_STRING) {
-		ZEPHIR_INIT_VAR(&_1$$4);
-		zephir_create_array(&_1$$4, 1, 0);
-		zephir_array_fast_append(&_1$$4, filters);
-		ZEPHIR_CPY_WRT(filters, &_1$$4);
+		ZEPHIR_INIT_VAR(&_2$$4);
+		zephir_create_array(&_2$$4, 1, 0);
+		zephir_array_fast_append(&_2$$4, filters);
+		ZEPHIR_CPY_WRT(filters, &_2$$4);
 	}
 	zephir_update_property_zval(this_ptr, ZEND_STRL("filters"), filters);
 	RETURN_THIS();

@@ -521,12 +521,12 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      * @param RouteInterface $route
      * @param int            $position
      *
-     * @return RouterInterface
+     * @return static
      */
     public function attach(
         <RouteInterface> route,
         int position = Router::POSITION_LAST
-    ) -> <RouterInterface> {
+    ) -> <static> {
         switch position {
             case self::POSITION_LAST:
                 let this->routes[] = route;
@@ -1180,9 +1180,9 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      *
      * @param array|ConfigInterface config
      *
-     * @return RouterInterface
+     * @return static
      */
-    public function loadFromConfig(var config) -> <RouterInterface>
+    public function loadFromConfig(var config) -> <static>
     {
         var routes, routeData, defaults, notFoundPaths, removeExtra, groups, groupData;
 
@@ -1365,9 +1365,9 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      *
      * @param GroupInterface group
      *
-     * @return RouterInterface
+     * @return static
      */
-    public function mount(<GroupInterface> group) -> <RouterInterface>
+    public function mount(<GroupInterface> group) -> <static>
     {
         var groupRoutes, beforeMatch, hostname, route, eventsManager;
 
@@ -1416,9 +1416,9 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      *
      * @param array|string|null paths
      *
-     * @return RouterInterface
+     * @return static
      */
-    public function notFound(var paths) -> <RouterInterface>
+    public function notFound(var paths) -> <static>
     {
         if unlikely (typeof paths !== "array" && typeof paths !== "string") {
             throw new InvalidNotFoundPaths();
@@ -1434,9 +1434,9 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      *
      * @param bool remove
      *
-     * @return RouterInterface
+     * @return static
      */
-    public function removeExtraSlashes(bool! remove) -> <RouterInterface>
+    public function removeExtraSlashes(bool! remove) -> <static>
     {
         let this->removeExtraSlashes = remove;
 
@@ -1448,9 +1448,9 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      *
      * @param string actionName
      *
-     * @return RouterInterface
+     * @return static
      */
-    public function setDefaultAction(string! actionName) -> <RouterInterface>
+    public function setDefaultAction(string! actionName) -> <static>
     {
         let this->defaultAction = actionName;
 
@@ -1462,9 +1462,9 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      *
      * @param string controllerName
      *
-     * @return RouterInterface
+     * @return static
      */
-    public function setDefaultController(string! controllerName) -> <RouterInterface>
+    public function setDefaultController(string! controllerName) -> <static>
     {
         let this->defaultController = controllerName;
 
@@ -1476,9 +1476,9 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      *
      * @param string moduleName
      *
-     * @return RouterInterface
+     * @return static
      */
-    public function setDefaultModule(string! moduleName) -> <RouterInterface>
+    public function setDefaultModule(string! moduleName) -> <static>
     {
         let this->defaultModule = moduleName;
 
@@ -1490,9 +1490,9 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      *
      * @parma string namespaceName
      *
-     * @return RouterInterface
+     * @return static
      */
-    public function setDefaultNamespace(string! namespaceName) -> <RouterInterface>
+    public function setDefaultNamespace(string! namespaceName) -> <static>
     {
         let this->defaultNamespace = namespaceName;
 
@@ -1515,9 +1515,9 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      *
      * @param array defaults
      *
-     * @return RouterInterface
+     * @return static
      */
-    public function setDefaults(array! defaults) -> <RouterInterface>
+    public function setDefaults(array! defaults) -> <static>
     {
         var namespaceName, module, controller, action, params;
 
@@ -1564,9 +1564,9 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
     /**
      * @param array $routeNames
      *
-     * @return Router
+     * @return static
      */
-    public function setKeyRouteNames(array routeNames) -> <Router>
+    public function setKeyRouteNames(array routeNames) -> <static>
     {
         let this->keyRouteNames = routeNames;
 
@@ -1576,9 +1576,9 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
     /**
      * @param array $routeIds
      *
-     * @return Router
+     * @return static
      */
-    public function setKeyRouteIds(array routeIds) -> <Router>
+    public function setKeyRouteIds(array routeIds) -> <static>
     {
         let this->keyRouteIds = routeIds;
 
@@ -1594,7 +1594,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      * );
      * ```
      */
-    public function setUriSource(int uriSource) -> <Router>
+    public function setUriSource(int uriSource) -> <static>
     {
         let this->uriSource = uriSource;
 

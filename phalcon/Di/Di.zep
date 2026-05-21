@@ -642,7 +642,7 @@ class Di implements DiInterface
      * @return Di
      * @throws Exception
      */
-    public function setAlias(string name, var aliases) -> <Di>
+    public function setAlias(string name, var aliases) -> <self>
     {
         var alias, currentAliases, localAliases;
 

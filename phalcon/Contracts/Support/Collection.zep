@@ -72,7 +72,7 @@ interface Collection extends ArrayAccess, IteratorAggregate
      *
      * @return static
      */
-    public function each(callable callback) -> <Collection>;
+    public function each(callable callback) -> <static>;
 
     /**
      * Returns a new collection of items for which the callback returns true.
@@ -84,7 +84,7 @@ interface Collection extends ArrayAccess, IteratorAggregate
      *
      * @return static
      */
-    public function filter(callable callback) -> <Collection>;
+    public function filter(callable callback) -> <static>;
 
     /**
      * Returns the first value in the collection or null when empty.
@@ -187,7 +187,7 @@ interface Collection extends ArrayAccess, IteratorAggregate
      *
      * @return static
      */
-    public function map(callable callback) -> <Collection>;
+    public function map(callable callback) -> <static>;
 
     /**
      * Reduces the collection to a single value using the callback.
@@ -235,7 +235,7 @@ interface Collection extends ArrayAccess, IteratorAggregate
      *
      * @return static
      */
-    public function sort(callable callback = null, int order = 4) -> <Collection>;
+    public function sort(callable callback = null, int order = 4) -> <static>;
 
     /**
      * Returns the collection as an array.
@@ -273,5 +273,5 @@ interface Collection extends ArrayAccess, IteratorAggregate
      *
      * @return static
      */
-    public function where(string propertyOrMethod, mixed value) -> <Collection>;
+    public function where(string propertyOrMethod, mixed value) -> <static>;
 }

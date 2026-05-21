@@ -12,15 +12,15 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_application_handle, 0, 0, 1)
 	ZEND_ARG_TYPE_INFO(0, uri, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_application_sendcookiesonhandlerequest, 0, 1, Phalcon\\Mvc\\Application, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_application_sendcookiesonhandlerequest, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, sendCookies, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_application_sendheadersonhandlerequest, 0, 1, Phalcon\\Mvc\\Application, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_application_sendheadersonhandlerequest, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, sendHeaders, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_application_useimplicitview, 0, 1, Phalcon\\Mvc\\Application, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_application_useimplicitview, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, implicitView, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 

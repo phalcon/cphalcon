@@ -127,7 +127,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     /**
      * Adds an element to the form
      */
-    public function add(<ElementInterface> element, string position = null, bool type = null) -> <Form>
+    public function add(<ElementInterface> element, string position = null, bool type = null) -> <static>
     {
         var name, key, value;
         array elements;
@@ -191,7 +191,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
      * @param object entity
      * @param array whitelist
      */
-    public function bind(array! data, var entity = null, array whitelist = []) -> <Form>
+    public function bind(array! data, var entity = null, array whitelist = []) -> <static>
     {
         var filter, key, value, element, candidate, filters, container, filteredValue;
         var elementName, dataKey;
@@ -313,7 +313,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
      *
      * @param array|string|null fields
      */
-    public function clear(var fields = null) -> <Form>
+    public function clear(var fields = null) -> <static>
     {
         var elements, element, data, field;
 
@@ -809,10 +809,10 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
      * @param Schema       $schema
      * @param FormsLocator $locator
      *
-     * @return Form
+     * @return static
      * @throws Exception
      */
-    public function load(<Schema> schema, <FormsLocator> locator) -> <Form>
+    public function load(<Schema> schema, <FormsLocator> locator) -> <static>
     {
         var attributes, definition, element, factory, name, options, type;
 
@@ -917,9 +917,9 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     /**
      * Sets the form's action
      *
-     * @return Form
+     * @return static
      */
-    public function setAction(string! action) -> <Form>
+    public function setAction(string! action) -> <static>
     {
         this->getAttributes()->set("action", action);
 
@@ -929,7 +929,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     /**
     * Set form attributes collection
     */
-    public function setAttributes(<Attributes> attributes) -> <AttributesInterface>
+    public function setAttributes(<Attributes> attributes) -> <static>
     {
         let this->attributes = attributes;
 
@@ -941,7 +941,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
      *
      * @param object entity
      */
-    public function setEntity(var entity) -> <Form>
+    public function setEntity(var entity) -> <static>
     {
         let this->entity = entity;
 
@@ -951,7 +951,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     /**
      * Sets the tagFactory for the form
      */
-    public function setTagFactory(<TagFactory> tagFactory) -> <Form>
+    public function setTagFactory(<TagFactory> tagFactory) -> <static>
     {
         let this->tagFactory = tagFactory;
 
@@ -963,7 +963,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
      *
      * @param ValidationInterface validation
      */
-    public function setValidation(<ValidationInterface> validation) -> <Form>
+    public function setValidation(<ValidationInterface> validation) -> <static>
     {
         let this->validation = validation;
 
@@ -975,7 +975,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
      *
      * @param array whitelist
      */
-    public function setWhitelist(array whitelist) -> <Form>
+    public function setWhitelist(array whitelist) -> <static>
     {
         let this->whitelist = whitelist;
 
@@ -985,7 +985,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     /**
      * Sets an option for the form
      */
-    public function setUserOption(string option, var value) -> <Form>
+    public function setUserOption(string option, var value) -> <static>
     {
         let this->options[option] = value;
 
@@ -995,7 +995,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     /**
      * Sets options for the element
      */
-    public function setUserOptions(array! options) -> <Form>
+    public function setUserOptions(array! options) -> <static>
     {
         let this->options = options;
 

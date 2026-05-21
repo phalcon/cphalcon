@@ -36,9 +36,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Translate_InterpolatorFactory)
 }
 
 /**
- * InterpolatorFactor constructor.
- *
- * @param array $services
+ * @phpstan-param array<string, string> $services
  */
 PHP_METHOD(Phalcon_Translate_InterpolatorFactory, __construct)
 {
@@ -105,7 +103,7 @@ PHP_METHOD(Phalcon_Translate_InterpolatorFactory, newInstance)
 PHP_METHOD(Phalcon_Translate_InterpolatorFactory, getExceptionClass)
 {
 
-	RETURN_STRING("Phalcon\\Translate\\Exception");
+	RETURN_STRING("Phalcon\\Translate\\Exceptions\\InterpolatorNotRegistered");
 }
 
 /**

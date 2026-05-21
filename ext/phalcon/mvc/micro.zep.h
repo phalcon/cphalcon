@@ -47,15 +47,15 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_micro___construct, 0, 0, 0)
 	ZEND_ARG_OBJ_INFO(0, container, Phalcon\\Di\\DiInterface, 1)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_micro_after, 0, 1, Phalcon\\Mvc\\Micro, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_micro_after, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_INFO(0, handler)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_micro_afterbinding, 0, 1, Phalcon\\Mvc\\Micro, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_micro_afterbinding, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_INFO(0, handler)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_micro_before, 0, 1, Phalcon\\Mvc\\Micro, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_micro_before, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_INFO(0, handler)
 ZEND_END_ARG_INFO()
 
@@ -64,11 +64,11 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_micro_delete, 0, 2, P
 	ZEND_ARG_INFO(0, handler)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_micro_error, 0, 1, Phalcon\\Mvc\\Micro, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_micro_error, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_INFO(0, handler)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_micro_finish, 0, 1, Phalcon\\Mvc\\Micro, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_micro_finish, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_INFO(0, handler)
 ZEND_END_ARG_INFO()
 
@@ -129,11 +129,11 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_micro_map, 0, 2, Phal
 	ZEND_ARG_INFO(0, handler)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_micro_mount, 0, 1, Phalcon\\Mvc\\Micro, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_micro_mount, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_OBJ_INFO(0, collection, Phalcon\\Mvc\\Micro\\CollectionInterface, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_micro_notfound, 0, 1, Phalcon\\Mvc\\Micro, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_micro_notfound, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_INFO(0, handler)
 ZEND_END_ARG_INFO()
 
@@ -176,7 +176,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_micro_put, 0, 2, Phal
 	ZEND_ARG_INFO(0, handler)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_micro_setactivehandler, 0, 0, 1)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_micro_setactivehandler, 0, 1, self, 0)
 	ZEND_ARG_INFO(0, activeHandler)
 ZEND_END_ARG_INFO()
 
@@ -185,12 +185,12 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_micro_setdi, 0, 1, I
 	ZEND_ARG_OBJ_INFO(0, container, Phalcon\\Di\\DiInterface, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_micro_setmodelbinder, 0, 1, Phalcon\\Mvc\\Micro, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_micro_setmodelbinder, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_OBJ_INFO(0, modelBinder, Phalcon\\Mvc\\Model\\BinderInterface, 0)
 	ZEND_ARG_INFO(0, cache)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_micro_setresponsehandler, 0, 1, Phalcon\\Mvc\\Micro, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_micro_setresponsehandler, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_INFO(0, handler)
 ZEND_END_ARG_INFO()
 

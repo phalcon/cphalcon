@@ -50,14 +50,14 @@ class Select extends AbstractList
      * @param array       $attributes
      * @param bool        $raw
      *
-     * @return Select
+     * @return static
      */
     public function add(
         string text,
         string value = null,
         array attributes = [],
         bool raw = false
-    ) -> <Select> {
+    ) -> <static> {
         let attributes = this->processValue(attributes, value);
 
         let this->store[] = [
@@ -82,14 +82,14 @@ class Select extends AbstractList
      * @param array  $attributes
      * @param bool   $raw
      *
-     * @return Select
+     * @return static
      */
     public function addPlaceholder(
         string text,
         var value = null,
         array attributes = [],
         bool raw = false
-    ) -> <Select> {
+    ) -> <static> {
         if null !== value {
             let attributes["value"] = (string) value;
         }
@@ -116,9 +116,9 @@ class Select extends AbstractList
      *
      * @param SelectData data
      *
-     * @return Select
+     * @return static
      */
-    public function fromData(<SelectData> data) -> <Select>
+    public function fromData(<SelectData> data) -> <static>
     {
         var attributes, key, optionAttrs, subAttrs, subKey, subValue, value;
 
@@ -151,12 +151,12 @@ class Select extends AbstractList
      * @param string $label
      * @param array  $attributes
      *
-     * @return Select
+     * @return static
      */
     public function optGroup(
         string label = null,
         array attributes = []
-    ) -> <Select> {
+    ) -> <static> {
         if !this->inOptGroup {
             let this->store[]     = [
                 "optGroupStart",
@@ -188,9 +188,9 @@ class Select extends AbstractList
      *
      * @param string $text
      *
-     * @return Select
+     * @return static
      */
-    public function placeholder(string text) -> <Select>
+    public function placeholder(string text) -> <static>
     {
         let this->store[] = [
             "renderFullElement",
@@ -213,9 +213,9 @@ class Select extends AbstractList
     /**
      * @param string $selected
      *
-     * @return Select
+     * @return static
      */
-    public function selected(string selected) -> <Select>
+    public function selected(string selected) -> <static>
     {
         let this->selected = selected;
 
@@ -230,9 +230,9 @@ class Select extends AbstractList
      *
      * @param bool $flag
      *
-     * @return Select
+     * @return static
      */
-    public function strict(bool flag = true) -> <Select>
+    public function strict(bool flag = true) -> <static>
     {
         let this->strict = flag;
 

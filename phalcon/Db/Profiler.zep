@@ -137,7 +137,7 @@ class Profiler
     /**
      * Resets the profiler, cleaning up all the profiles
      */
-    public function reset() -> <Profiler>
+    public function reset() -> <static>
     {
         let this->allProfiles = [];
 
@@ -151,7 +151,7 @@ class Profiler
         string sqlStatement,
         array sqlVariables = [],
         array sqlBindTypes = []
-    ) -> <Profiler> {
+    ) -> <static> {
         var activeProfile;
 
         let activeProfile = new Item();
@@ -173,7 +173,7 @@ class Profiler
     /**
      * Stops the active profile
      */
-    public function stopProfile() -> <Profiler>
+    public function stopProfile() -> <static>
     {
         var activeProfile;
 

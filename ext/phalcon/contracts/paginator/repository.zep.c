@@ -73,14 +73,20 @@ ZEPHIR_INIT_CLASS(Phalcon_Contracts_Paginator_Repository)
 
 /**
  * Gets the aliases for properties repository
+ *
+ * @return array
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Paginator_Repository, getAliases);
 /**
  * Gets number of the current page
+ *
+ * @return int
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Paginator_Repository, getCurrent);
 /**
  * Gets number of the first page
+ *
+ * @return int
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Paginator_Repository, getFirst);
 /**
@@ -89,29 +95,47 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Paginator_Repository, getFirst);
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Paginator_Repository, getItems);
 /**
  * Gets number of the last page
+ *
+ * @return int
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Paginator_Repository, getLast);
 /**
  * Gets current rows limit
+ *
+ * @return int
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Paginator_Repository, getLimit);
 /**
  * Gets number of the next page
+ *
+ * @return int
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Paginator_Repository, getNext);
 /**
  * Gets number of the previous page
+ *
+ * @return int
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Paginator_Repository, getPrevious);
 /**
  * Gets the total number of items
+ *
+ * @return int
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Paginator_Repository, getTotalItems);
 /**
  * Sets the aliases for properties repository
+ *
+ * @param array $aliases
+ *
+ * @return Repository
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Paginator_Repository, setAliases);
 /**
  * Sets values for properties of the repository
+ *
+ * @param array $properties
+ *
+ * @return Repository
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Paginator_Repository, setProperties);
