@@ -88,6 +88,19 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
     protected action = "";
 
     /**
+     * Pre-merged per-method candidate buckets in attach order. For each HTTP
+     * method seen on any registered route, the bucket contains the
+     * method-specific routes followed by the "*" (no-constraint) routes.
+     * The "*" key itself holds only the no-constraint routes — used when the
+     * request method has no specific bucket.
+     *
+     * Built in rebuildMethodIndex(); consumed by handle() in reverse.
+     *
+     * @var array
+     */
+    protected candidatesByMethod = [];
+
+    /**
      * @var string
      */
     protected controller = "";
@@ -548,9 +561,10 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      */
     public function clear() -> void
     {
-        let this->routes            = [],
-            this->methodRoutes      = [],
-            this->methodRoutesDirty = true;
+        let this->routes             = [],
+            this->methodRoutes       = [],
+            this->candidatesByMethod = [],
+            this->methodRoutesDirty  = true;
     }
 
     /**
@@ -705,9 +719,10 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
 
     protected function rebuildMethodIndex() -> void
     {
-        var route, methods, method;
+        var route, methods, method, methodSpecific, starRoutes;
 
-        let this->methodRoutes = [];
+        let this->methodRoutes       = [],
+            this->candidatesByMethod = [];
 
         for route in this->routes {
             let methods = route->getHttpMethods();
@@ -721,6 +736,19 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
                     let this->methodRoutes[method][] = route;
                 }
             }
+        }
+
+        if !fetch starRoutes, this->methodRoutes["*"] {
+            let starRoutes = [];
+        }
+
+        for method, methodSpecific in this->methodRoutes {
+            if method == "*" {
+                let this->candidatesByMethod["*"] = starRoutes;
+                continue;
+            }
+
+            let this->candidatesByMethod[method] = array_merge(methodSpecific, starRoutes);
         }
 
         let this->methodRoutesDirty = false;
@@ -809,7 +837,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
     {
         var action, beforeMatch, candidateRoutes, container, controller,
             converter, converters, currentHostName, eventsManager, handledUri,
-            hostname, matched, matches, matchPosition, methodCandidates,
+            hostname, matched, matches, matchPosition,
             module, notFoundPaths, params, paramsStr, part, parts, paths,
             pattern, position, realUri, regexHostName, request, requestMethod,
             route, routeFound, strParams, vnamespace;
@@ -868,16 +896,15 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
             this->rebuildMethodIndex();
         }
 
-        let requestMethod    = request->getMethod(),
-            methodCandidates = [],
-            candidateRoutes  = [];
+        let requestMethod   = request->getMethod(),
+            candidateRoutes = [];
 
-        if fetch methodCandidates, this->methodRoutes[requestMethod] {
-            let candidateRoutes = methodCandidates;
+        if !fetch candidateRoutes, this->candidatesByMethod[requestMethod] {
+            fetch candidateRoutes, this->candidatesByMethod["*"];
         }
 
-        if fetch methodCandidates, this->methodRoutes["*"] {
-            let candidateRoutes = array_merge(candidateRoutes, methodCandidates);
+        if typeof candidateRoutes !== "array" {
+            let candidateRoutes = [];
         }
 
         /**
