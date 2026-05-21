@@ -128,14 +128,14 @@ final class GetUpdatedFieldsTest extends AbstractDatabaseTestCase
         $connection = self::getConnection();
         (new InvoicesMigration($connection));
 
-        $connection->execute(
+        $stmt = $connection->prepare(
             'INSERT INTO co_invoices (inv_id, inv_cst_id, inv_status_flag, inv_title, inv_total, inv_created_at) '
-            . 'VALUES (98, NULL, NULL, :title, NULL, :createdAt)',
-            [
-                ':title'     => 'null-cols',
-                ':createdAt' => date('Y-m-d H:i:s'),
-            ]
+            . 'VALUES (98, NULL, NULL, :title, NULL, :createdAt)'
         );
+        $stmt->execute([
+            ':title'     => 'null-cols',
+            ':createdAt' => date('Y-m-d H:i:s'),
+        ]);
 
         $invoice = InvoicesKeepSnapshots::findFirst(98);
         $this->assertNotFalse($invoice);

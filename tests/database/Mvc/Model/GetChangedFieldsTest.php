@@ -104,15 +104,14 @@ final class GetChangedFieldsTest extends AbstractDatabaseTestCase
      */
     public function testMvcModelGetChangedFieldsIgnoresNullValuedColumns(): void
     {
-        $connection = self::getConnection();
-        $connection->execute(
+        $stmt = self::getConnection()->prepare(
             'INSERT INTO co_invoices (inv_id, inv_cst_id, inv_status_flag, inv_title, inv_total, inv_created_at) '
-            . 'VALUES (99, NULL, NULL, :title, NULL, :createdAt)',
-            [
-                ':title'     => 'null-cols',
-                ':createdAt' => date('Y-m-d H:i:s'),
-            ]
+            . 'VALUES (99, NULL, NULL, :title, NULL, :createdAt)'
         );
+        $stmt->execute([
+            ':title'     => 'null-cols',
+            ':createdAt' => date('Y-m-d H:i:s'),
+        ]);
 
         $invoice = InvoicesKeepSnapshots::findFirst(99);
         $this->assertNotFalse($invoice);
