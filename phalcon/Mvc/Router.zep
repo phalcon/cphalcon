@@ -126,6 +126,34 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
     protected candidatesMetaByMethod = [];
 
     /**
+     * Combined PCRE pattern per method bucket (chunked list of strings).
+     * Each chunk uses (?|...) branch reset and (*:N) mark labels. Built
+     * only when the bucket meets gating: no hostname routes; standard
+     * pattern shape.
+     *
+     * @var array
+     */
+    protected combinedRegexByMethod = [];
+
+    /**
+     * Boolean per method bucket: true when the combined regex cannot be
+     * built (hostname route present, exotic pattern shape, etc.).
+     *
+     * @var array
+     */
+    protected combinedRegexDisabled = [];
+
+    /**
+     * Map from MARK label back to the route index in
+     * candidatesByMethod[method]. One per chunk.
+     *
+     *   combinedRegexMarkMap[method][chunkIdx][markLabel] = routeIdx
+     *
+     * @var array
+     */
+    protected combinedRegexMarkMap = [];
+
+    /**
      * @var string
      */
     protected controller = "";
@@ -635,6 +663,9 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
             this->staticShadowedByMethod = [],
             this->hostnameByMethod       = [],
             this->hostnameLessByMethod   = [],
+            this->combinedRegexByMethod  = [],
+            this->combinedRegexDisabled  = [],
+            this->combinedRegexMarkMap   = [],
             this->methodRoutesDirty      = true;
     }
 
@@ -899,6 +930,68 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
             }
         }
 
+        /**
+         * Combined-regex builder: for each method bucket without hostname
+         * constraints, combine all regex routes into a single PCRE pattern
+         * with (?|...) branch reset and (*:N) mark labels. Alternatives
+         * are ordered in reverse-attach so PCRE's left-to-right first-match
+         * yields reverse-iteration semantics.
+         */
+        var combinedAlternatives, combinedMark, combinedPattern,
+            combinedBody, combinedBodyMatch, combinedShape,
+            hostnameBucketRef;
+
+        let this->combinedRegexByMethod = [],
+            this->combinedRegexMarkMap  = [],
+            this->combinedRegexDisabled = [];
+
+        for method, candidates in this->candidatesByMethod {
+            let hostnameBucketRef = this->hostnameByMethod[method];
+
+            if !empty hostnameBucketRef {
+                let this->combinedRegexDisabled[method] = true;
+                continue;
+            }
+
+            let combinedAlternatives = [],
+                combinedMark         = [];
+
+            for bucketIdx, bucketRoute in candidates {
+                let bucketPattern = bucketRoute->getCompiledPattern();
+
+                if !memstr(bucketPattern, "^") {
+                    continue;
+                }
+
+                let combinedBodyMatch = [];
+                let combinedShape = preg_match("/^#\\^(.+)\\$#u$/", bucketPattern, combinedBodyMatch);
+
+                if !combinedShape {
+                    let this->combinedRegexDisabled[method] = true;
+                    let combinedAlternatives = [];
+                    break;
+                }
+
+                let combinedBody = combinedBodyMatch[1];
+                let combinedAlternatives[] = combinedBody . "(*:" . bucketIdx . ")";
+                let combinedMark[(string) bucketIdx] = bucketIdx;
+            }
+
+            if isset this->combinedRegexDisabled[method] {
+                continue;
+            }
+
+            if empty combinedAlternatives {
+                continue;
+            }
+
+            let combinedAlternatives = array_reverse(combinedAlternatives);
+            let combinedPattern = "#^(?|" . implode("|", combinedAlternatives) . ")$#u";
+
+            let this->combinedRegexByMethod[method] = [combinedPattern];
+            let this->combinedRegexMarkMap[method]  = [combinedMark];
+        }
+
         let this->methodRoutesDirty = false;
     }
 
@@ -1146,6 +1239,89 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
 
                     break;
                 }
+            }
+        }
+
+        /**
+         * Combined-regex fast path: one preg_match per chunk replaces N
+         * per-route preg_matches. Disabled when events are attached or the
+         * bucket has hostname constraints.
+         */
+        var combinedChunks, combinedMarkMaps, combinedChunkIdx, combinedChunk,
+            combinedMatchesLocal, combinedMarkLabel, combinedRouteIdx,
+            combinedRoute, combinedRouteMeta, combinedBeforeMatch,
+            combinedPaths, combinedConverters, combinedPart, combinedPosition,
+            combinedMatchPosition, combinedConverter;
+
+        if !routeFound
+            && eventsManager === null
+            && !isset this->combinedRegexDisabled[requestMethod]
+            && fetch combinedChunks, this->combinedRegexByMethod[requestMethod]
+        {
+            let combinedMarkMaps = this->combinedRegexMarkMap[requestMethod];
+
+            for combinedChunkIdx, combinedChunk in combinedChunks {
+                let combinedMatchesLocal = [];
+
+                if !preg_match(combinedChunk, handledUri, combinedMatchesLocal) {
+                    continue;
+                }
+
+                let combinedMarkLabel = combinedMatchesLocal["MARK"];
+
+                if !fetch combinedRouteIdx, combinedMarkMaps[combinedChunkIdx][combinedMarkLabel] {
+                    continue;
+                }
+
+                let combinedRoute     = candidateRoutes[combinedRouteIdx],
+                    combinedRouteMeta = candidatesMeta[combinedRouteIdx];
+
+                let combinedBeforeMatch = combinedRouteMeta["beforeMatch"];
+
+                if combinedBeforeMatch !== null {
+                    if unlikely !is_callable(combinedBeforeMatch) {
+                        throw new BeforeMatchNotCallable();
+                    }
+
+                    if !{combinedBeforeMatch}(handledUri, combinedRoute, this) {
+                        continue;
+                    }
+                }
+
+                let combinedPaths      = combinedRoute->getPaths(),
+                    parts              = combinedPaths,
+                    matches            = combinedMatchesLocal,
+                    combinedConverters = combinedRoute->getConverters(),
+                    this->matches      = combinedMatchesLocal,
+                    this->matchedRoute = combinedRoute,
+                    routeFound         = true;
+
+                for combinedPart, combinedPosition in combinedPaths {
+                    if unlikely typeof combinedPart !== "string" {
+                        throw new WrongPathsKey(combinedPart);
+                    }
+
+                    if typeof combinedPosition !== "string" && typeof combinedPosition !== "integer" {
+                        continue;
+                    }
+
+                    if fetch combinedMatchPosition, combinedMatchesLocal[combinedPosition] {
+                        if typeof combinedConverters === "array" && fetch combinedConverter, combinedConverters[combinedPart] {
+                            let parts[combinedPart] = {combinedConverter}(combinedMatchPosition);
+                            continue;
+                        }
+
+                        let parts[combinedPart] = combinedMatchPosition;
+                    } else {
+                        if typeof combinedConverters === "array" && fetch combinedConverter, combinedConverters[combinedPart] {
+                            let parts[combinedPart] = {combinedConverter}(combinedPosition);
+                        } elseif typeof combinedPosition === "integer" {
+                            unset parts[combinedPart];
+                        }
+                    }
+                }
+
+                break;
             }
         }
 
