@@ -910,19 +910,9 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
                  * Check if the hostname restriction is the same as the current
                  * in the route
                  */
-                if memstr(hostname, "(") {
-                    if !memstr(hostname, "#") {
-                        let regexHostName = "#^" . hostname;
+                let regexHostName = route->getCompiledHostName();
 
-                        if !memstr(hostname, ":") {
-                            let regexHostName .= "(:[[:digit:]]+)?";
-                        }
-
-                        let regexHostName .= "$#i";
-                    } else {
-                        let regexHostName = hostname;
-                    }
-
+                if regexHostName !== null {
                     let matched = preg_match(regexHostName, currentHostName);
                 } else {
                     let matched = currentHostName == hostname;
