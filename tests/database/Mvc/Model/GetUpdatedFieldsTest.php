@@ -128,25 +128,29 @@ final class GetUpdatedFieldsTest extends AbstractDatabaseTestCase
         $connection = self::getConnection();
         (new InvoicesMigration($connection));
 
-        $stmt = $connection->prepare(
-            'INSERT INTO co_invoices (inv_id, inv_cst_id, inv_status_flag, inv_title, inv_total, inv_created_at) '
-            . 'VALUES (98, NULL, NULL, :title, NULL, :createdAt)'
-        );
-        $stmt->execute([
-            ':title'     => 'null-cols',
-            ':createdAt' => date('Y-m-d H:i:s'),
-        ]);
+        try {
+            $stmt = $connection->prepare(
+                'INSERT INTO co_invoices (inv_id, inv_cst_id, inv_status_flag, inv_title, inv_total, inv_created_at) '
+                . 'VALUES (98, NULL, NULL, :title, NULL, :createdAt)'
+            );
+            $stmt->execute([
+                ':title'     => 'null-cols',
+                ':createdAt' => date('Y-m-d H:i:s'),
+            ]);
 
-        $invoice = InvoicesKeepSnapshots::findFirst(98);
-        $this->assertNotFalse($invoice);
+            $invoice = InvoicesKeepSnapshots::findFirst(98);
+            $this->assertNotFalse($invoice);
 
-        $invoice->inv_title = 'Updated';
-        $this->assertTrue($invoice->save());
+            $invoice->inv_title = 'Updated';
+            $this->assertTrue($invoice->save());
 
-        $updated = $invoice->getUpdatedFields();
-        $this->assertContains('inv_title', $updated);
-        $this->assertNotContains('inv_cst_id', $updated);
-        $this->assertNotContains('inv_status_flag', $updated);
-        $this->assertNotContains('inv_total', $updated);
+            $updated = $invoice->getUpdatedFields();
+            $this->assertContains('inv_title', $updated);
+            $this->assertNotContains('inv_cst_id', $updated);
+            $this->assertNotContains('inv_status_flag', $updated);
+            $this->assertNotContains('inv_total', $updated);
+        } finally {
+            $connection->exec('DELETE FROM co_invoices WHERE inv_id = 98');
+        }
     }
 }

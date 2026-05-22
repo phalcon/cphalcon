@@ -48,7 +48,6 @@ final class GetChangedFieldsTest extends AbstractDatabaseTestCase
      * @group mysql
      * @group pgsql
      * @group sqlite
-     * @group pgsql
      */
     public function testMvcModelGetChangedFieldsNewModel(): void
     {
@@ -72,7 +71,6 @@ final class GetChangedFieldsTest extends AbstractDatabaseTestCase
      * @group mysql
      * @group pgsql
      * @group sqlite
-     * @group pgsql
      */
     public function testMvcModelGetChangedFieldsWithSnapshot(): void
     {
@@ -104,27 +102,32 @@ final class GetChangedFieldsTest extends AbstractDatabaseTestCase
      */
     public function testMvcModelGetChangedFieldsIgnoresNullValuedColumns(): void
     {
-        $stmt = self::getConnection()->prepare(
-            'INSERT INTO co_invoices (inv_id, inv_cst_id, inv_status_flag, inv_title, inv_total, inv_created_at) '
-            . 'VALUES (99, NULL, NULL, :title, NULL, :createdAt)'
-        );
-        $stmt->execute([
-            ':title'     => 'null-cols',
-            ':createdAt' => date('Y-m-d H:i:s'),
-        ]);
+        $connection = self::getConnection();
+        try {
+            $stmt = $connection->prepare(
+                'INSERT INTO co_invoices (inv_id, inv_cst_id, inv_status_flag, inv_title, inv_total, inv_created_at) '
+                . 'VALUES (99, NULL, NULL, :title, NULL, :createdAt)'
+            );
+            $stmt->execute([
+                ':title'     => 'null-cols',
+                ':createdAt' => date('Y-m-d H:i:s'),
+            ]);
 
-        $invoice = InvoicesKeepSnapshots::findFirst(99);
-        $this->assertNotFalse($invoice);
+            $invoice = InvoicesKeepSnapshots::findFirst(99);
+            $this->assertNotFalse($invoice);
 
-        $this->assertSame([], $invoice->getChangedFields());
-        $this->assertFalse($invoice->hasChanged('inv_cst_id'));
-        $this->assertFalse($invoice->hasChanged('inv_status_flag'));
-        $this->assertFalse($invoice->hasChanged('inv_total'));
+            $this->assertSame([], $invoice->getChangedFields());
+            $this->assertFalse($invoice->hasChanged('inv_cst_id'));
+            $this->assertFalse($invoice->hasChanged('inv_status_flag'));
+            $this->assertFalse($invoice->hasChanged('inv_total'));
 
-        $invoice->inv_title = 'Updated';
+            $invoice->inv_title = 'Updated';
 
-        $this->assertSame(['inv_title'], $invoice->getChangedFields());
-        $this->assertFalse($invoice->hasChanged('inv_cst_id'));
-        $this->assertTrue($invoice->hasChanged('inv_title'));
+            $this->assertSame(['inv_title'], $invoice->getChangedFields());
+            $this->assertFalse($invoice->hasChanged('inv_cst_id'));
+            $this->assertTrue($invoice->hasChanged('inv_title'));
+        } finally {
+            $connection->exec('DELETE FROM co_invoices WHERE inv_id = 99');
+        }
     }
 }
