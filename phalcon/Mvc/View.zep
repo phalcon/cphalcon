@@ -1025,7 +1025,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
     {
         ob_start();
 
-        let this->content = null;
+        let this->content = "";
 
         return this;
     }

@@ -40,21 +40,31 @@ class Row extends \stdClass implements EntityInterface, ResultInterface, ArrayAc
      */
     public function offsetGet(mixed index) -> mixed
     {
-        if !this->offsetExists(index) {
+        var value, key;
+
+        let key = (string) index;
+
+        if !fetch value, this->{key} {
             throw new IndexNotInRow();
         }
 
-        return this->{index};
+        return value;
     }
 
     /**
-     * Checks whether offset exists in the row
+     * Checks whether offset exists in the row. Returns true when the property
+     * is present on the row, regardless of whether its value is null - column
+     * presence is the contract, not value truthiness.
      *
      * @param string|int $index
      */
     public function offsetExists(mixed index) -> bool
     {
-        return isset this->{index};
+        var value, key;
+
+        let key = (string) index;
+
+        return (bool) fetch value, this->{key};
     }
 
     /**

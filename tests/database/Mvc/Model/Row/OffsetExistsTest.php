@@ -45,4 +45,27 @@ final class OffsetExistsTest extends AbstractDatabaseTestCase
             isset($row['inv_id'])
         );
     }
+
+    /**
+     * Regression coverage for [#17041]: a property that exists on the row
+     * but holds a null value must still report as set - column presence is
+     * the contract, not value truthiness. Resultset\Complex rows that come
+     * back from SELECT projections include NULL columns and userland code
+     * relies on `isset($row['col'])` to detect column presence regardless
+     * of the value.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-21
+     *
+     * @group mysql
+     * @group pgsql
+     * @group sqlite
+     */
+    public function testMvcModelRowOffsetExistsForNullValuedColumn(): void
+    {
+        $row = new Row();
+        $row->writeAttribute('inv_discount', null);
+
+        $this->assertTrue(isset($row['inv_discount']));
+    }
 }
