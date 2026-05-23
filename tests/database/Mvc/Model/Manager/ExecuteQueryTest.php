@@ -86,6 +86,12 @@ final class ExecuteQueryTest extends AbstractDatabaseTestCase
      */
     public function testMvcModelManagerExecuteQueryIssue16976(): void
     {
+        $this->markTestSkipped(
+            "Skipped pending re-implementation of #16976. "
+            . "Original fix reverted because the substitution path triggered "
+            . "a use-after-free during record->update (#17042)."
+        );
+
         /** @var ManagerInterface $manager */
         $manager = $this->getService("modelsManager");
 
