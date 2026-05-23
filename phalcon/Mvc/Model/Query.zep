@@ -4003,12 +4003,12 @@ class Query implements QueryInterface, InjectionAwareInterface
                 tempSqlModelsAliases = this->sqlModelsAliases,
                 tempSqlAliasesModelsInstances = this->sqlAliasesModelsInstances;
 
-            let this->models = models + this->models,
-                this->modelsInstances = modelsInstances + this->modelsInstances,
-                this->sqlAliases = sqlAliases + this->sqlAliases,
-                this->sqlAliasesModels = sqlAliasesModels + this->sqlAliasesModels,
-                this->sqlModelsAliases = sqlModelsAliases + this->sqlModelsAliases,
-                this->sqlAliasesModelsInstances = sqlAliasesModelsInstances + this->sqlAliasesModelsInstances;
+            let this->models = array_merge(this->models, models),
+                this->modelsInstances = array_merge(this->modelsInstances, modelsInstances),
+                this->sqlAliases = array_merge(this->sqlAliases, sqlAliases),
+                this->sqlAliasesModels = array_merge(this->sqlAliasesModels, sqlAliasesModels),
+                this->sqlModelsAliases = array_merge(this->sqlModelsAliases, sqlModelsAliases),
+                this->sqlAliasesModelsInstances = array_merge(this->sqlAliasesModelsInstances, sqlAliasesModelsInstances);
         }
 
         fetch joins, select["joins"];
