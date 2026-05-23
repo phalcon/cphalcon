@@ -1529,7 +1529,9 @@ class Compiler implements InjectionAwareInterface
 
                 case PHVOLT_T_STRING:
                     if likely doubleQuotes === false {
-                        let exprCode = "'" . expr["value"] . "'";
+                        let exprCode = "'"
+                            . preg_replace("/(?<!\\\\)'/", "\\\\'", expr["value"])
+                            . "'";
                     } else {
                         let exprCode = "\"" . expr["value"] . "\"";
                     }
