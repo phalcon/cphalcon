@@ -52,11 +52,11 @@ final class GetAddSetNamespacesTest extends AbstractUnitTestCase
 
         $expected = [
             'Phalcon\Loader\\'   => [
-                hash("sha256", '/path/to/loader/') => '/path/to/loader/',
+                '/path/to/loader/' => '/path/to/loader/',
             ],
             'Phalcon\Provider\\' => [
-                hash("sha256", '/path/to/provider/source/') => '/path/to/provider/source/',
-                hash("sha256", '/path/to/provider/target/') => '/path/to/provider/target/',
+                '/path/to/provider/source/' => '/path/to/provider/source/',
+                '/path/to/provider/target/' => '/path/to/provider/target/',
             ],
         ];
         $actual   = $loader->getNamespaces();
@@ -91,11 +91,11 @@ final class GetAddSetNamespacesTest extends AbstractUnitTestCase
 
         $expected = [
             'Phalcon\Loader\\'   => [
-                hash("sha256", '/path/to/loader/') => '/path/to/loader/',
+                '/path/to/loader/' => '/path/to/loader/',
             ],
             'Phalcon\Provider\\' => [
-                hash("sha256", '/path/to/provider/source/') => '/path/to/provider/source/',
-                hash("sha256", '/path/to/provider/target/') => '/path/to/provider/target/',
+                '/path/to/provider/source/' => '/path/to/provider/source/',
+                '/path/to/provider/target/' => '/path/to/provider/target/',
             ],
         ];
         $actual   = $loader->getNamespaces();
@@ -132,9 +132,9 @@ final class GetAddSetNamespacesTest extends AbstractUnitTestCase
 
         $expected = [
             'Phalcon\Loader\\' => [
-                hash("sha256", '/path/to/provider/target/') => '/path/to/provider/target/',
-                hash("sha256", '/path/to/loader/')          => '/path/to/loader/',
-                hash("sha256", '/path/to/provider/source/') => '/path/to/provider/source/',
+                '/path/to/provider/target/' => '/path/to/provider/target/',
+                '/path/to/loader/'          => '/path/to/loader/',
+                '/path/to/provider/source/' => '/path/to/provider/source/',
             ],
         ];
         $actual   = $loader->getNamespaces();
