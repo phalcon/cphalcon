@@ -49,6 +49,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+          token: ${{ github.token }}
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -71,6 +75,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+          token: ${{ github.token }}
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -112,6 +120,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+          token: ${{ github.token }}
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -191,6 +203,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+          token: ${{ github.token }}
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -261,6 +277,10 @@ jobs:
           - '8.5'
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+          token: ${{ github.token }}
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -312,6 +332,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+          token: ${{ github.token }}
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -374,6 +398,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+          token: ${{ github.token }}
 
       - name: Setup platform specific environment
         shell: pwsh
@@ -512,6 +540,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+          token: ${{ github.token }}
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -631,6 +663,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+          token: ${{ github.token }}
 
       - name: "Setup platform specific environment"
         shell: pwsh
@@ -725,6 +761,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+          token: ${{ github.token }}
 
       - name: "Setup platform specific environment"
         shell: pwsh
@@ -831,6 +871,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+          token: ${{ github.token }}
 
       - name: "Setup platform specific environment"
         shell: pwsh
@@ -940,6 +984,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+          token: ${{ github.token }}
       - name: Get the extension matrix
         id: extension-matrix
         uses: php/php-windows-builder/extension-matrix@v1
@@ -962,6 +1010,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+          token: ${{ github.token }}
 
       - name: Generate build folder
         run: |
@@ -1003,6 +1055,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+          token: ${{ github.token }}
 
       - name: Download Phalcon build artifacts
         id: download
@@ -1045,6 +1101,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+          token: ${{ github.token }}
 
       - name: Download IDE stubs artifact
         uses: actions/download-artifact@v8
