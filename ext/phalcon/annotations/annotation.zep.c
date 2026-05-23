@@ -65,9 +65,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Annotation)
 PHP_METHOD(Phalcon_Annotations_Annotation, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_4 = NULL;
+	zephir_fcall_cache_entry *_3 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *reflectionData_param = NULL, name, exprArguments, argument, resolvedArgument, _0$$3, *_1$$4, _2$$4, _3$$5, _5$$8;
+	zval *reflectionData_param = NULL, name, exprArguments, argument, resolvedArgument, _0$$3, *_1$$4, _4$$4, _2$$5, _5$$8;
 	zval reflectionData, arguments;
 	zval *this_ptr = getThis();
 
@@ -78,8 +78,8 @@ PHP_METHOD(Phalcon_Annotations_Annotation, __construct)
 	ZVAL_UNDEF(&argument);
 	ZVAL_UNDEF(&resolvedArgument);
 	ZVAL_UNDEF(&_0$$3);
-	ZVAL_UNDEF(&_2$$4);
-	ZVAL_UNDEF(&_3$$5);
+	ZVAL_UNDEF(&_4$$4);
+	ZVAL_UNDEF(&_2$$5);
 	ZVAL_UNDEF(&_5$$8);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		ZEPHIR_Z_PARAM_ARRAY(reflectionData, reflectionData_param)
@@ -103,8 +103,8 @@ PHP_METHOD(Phalcon_Annotations_Annotation, __construct)
 			{
 				ZEPHIR_INIT_NVAR(&argument);
 				ZVAL_COPY(&argument, _1$$4);
-				zephir_array_fetch_string(&_3$$5, &argument, SL("expr"), PH_NOISY | PH_READONLY, "phalcon/Annotations/Annotation.zep", 62);
-				ZEPHIR_CALL_METHOD(&resolvedArgument, this_ptr, "getexpression", &_4, 0, &_3$$5);
+				zephir_array_fetch_string(&_2$$5, &argument, SL("expr"), PH_NOISY | PH_READONLY, "phalcon/Annotations/Annotation.zep", 62);
+				ZEPHIR_CALL_METHOD(&resolvedArgument, this_ptr, "getexpression", &_3, 0, &_2$$5);
 				zephir_check_call_status();
 				ZEPHIR_OBS_NVAR(&name);
 				if (zephir_array_isset_string_fetch(&name, &argument, SL("name"), 0)) {
@@ -117,15 +117,15 @@ PHP_METHOD(Phalcon_Annotations_Annotation, __construct)
 			ZEPHIR_CALL_METHOD(NULL, &exprArguments, "rewind", NULL, 0);
 			zephir_check_call_status();
 			while (1) {
-				ZEPHIR_CALL_METHOD(&_2$$4, &exprArguments, "valid", NULL, 0);
+				ZEPHIR_CALL_METHOD(&_4$$4, &exprArguments, "valid", NULL, 0);
 				zephir_check_call_status();
-				if (!zend_is_true(&_2$$4)) {
+				if (!zend_is_true(&_4$$4)) {
 					break;
 				}
 				ZEPHIR_CALL_METHOD(&argument, &exprArguments, "current", NULL, 0);
 				zephir_check_call_status();
 					zephir_array_fetch_string(&_5$$8, &argument, SL("expr"), PH_NOISY | PH_READONLY, "phalcon/Annotations/Annotation.zep", 62);
-					ZEPHIR_CALL_METHOD(&resolvedArgument, this_ptr, "getexpression", &_4, 0, &_5$$8);
+					ZEPHIR_CALL_METHOD(&resolvedArgument, this_ptr, "getexpression", &_3, 0, &_5$$8);
 					zephir_check_call_status();
 					ZEPHIR_OBS_NVAR(&name);
 					if (zephir_array_isset_string_fetch(&name, &argument, SL("name"), 0)) {
@@ -194,9 +194,9 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExprArguments)
 PHP_METHOD(Phalcon_Annotations_Annotation, getExpression)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_4 = NULL;
+	zephir_fcall_cache_entry *_3 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *expr_param = NULL, value, item, resolvedItem, arrayValue, name, type, _0$$7, *_1$$7, _2$$7, _3$$8, _5$$11, _6$$15;
+	zval *expr_param = NULL, value, item, resolvedItem, arrayValue, name, type, _0$$7, *_1$$7, _4$$7, _2$$8, _5$$11, _6$$15;
 	zval expr;
 	zval *this_ptr = getThis();
 
@@ -208,8 +208,8 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression)
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&type);
 	ZVAL_UNDEF(&_0$$7);
-	ZVAL_UNDEF(&_2$$7);
-	ZVAL_UNDEF(&_3$$8);
+	ZVAL_UNDEF(&_4$$7);
+	ZVAL_UNDEF(&_2$$8);
 	ZVAL_UNDEF(&_5$$11);
 	ZVAL_UNDEF(&_6$$15);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
@@ -252,8 +252,8 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression)
 				{
 					ZEPHIR_INIT_NVAR(&item);
 					ZVAL_COPY(&item, _1$$7);
-					zephir_array_fetch_string(&_3$$8, &item, SL("expr"), PH_NOISY | PH_READONLY, "phalcon/Annotations/Annotation.zep", 141);
-					ZEPHIR_CALL_METHOD(&resolvedItem, this_ptr, "getexpression", &_4, 251, &_3$$8);
+					zephir_array_fetch_string(&_2$$8, &item, SL("expr"), PH_NOISY | PH_READONLY, "phalcon/Annotations/Annotation.zep", 141);
+					ZEPHIR_CALL_METHOD(&resolvedItem, this_ptr, "getexpression", &_3, 256, &_2$$8);
 					zephir_check_call_status();
 					ZEPHIR_OBS_NVAR(&name);
 					if (zephir_array_isset_string_fetch(&name, &item, SL("name"), 0)) {
@@ -266,15 +266,15 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression)
 				ZEPHIR_CALL_METHOD(NULL, &_0$$7, "rewind", NULL, 0);
 				zephir_check_call_status();
 				while (1) {
-					ZEPHIR_CALL_METHOD(&_2$$7, &_0$$7, "valid", NULL, 0);
+					ZEPHIR_CALL_METHOD(&_4$$7, &_0$$7, "valid", NULL, 0);
 					zephir_check_call_status();
-					if (!zend_is_true(&_2$$7)) {
+					if (!zend_is_true(&_4$$7)) {
 						break;
 					}
 					ZEPHIR_CALL_METHOD(&item, &_0$$7, "current", NULL, 0);
 					zephir_check_call_status();
 						zephir_array_fetch_string(&_5$$11, &item, SL("expr"), PH_NOISY | PH_READONLY, "phalcon/Annotations/Annotation.zep", 141);
-						ZEPHIR_CALL_METHOD(&resolvedItem, this_ptr, "getexpression", &_4, 251, &_5$$11);
+						ZEPHIR_CALL_METHOD(&resolvedItem, this_ptr, "getexpression", &_3, 256, &_5$$11);
 						zephir_check_call_status();
 						ZEPHIR_OBS_NVAR(&name);
 						if (zephir_array_isset_string_fetch(&name, &item, SL("name"), 0)) {
@@ -291,13 +291,13 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression)
 		}
 		if (ZEPHIR_IS_LONG(&type, 300)) {
 			object_init_ex(return_value, phalcon_annotations_annotation_ce);
-			ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 252, &expr);
+			ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 257, &expr);
 			zephir_check_call_status();
 			RETURN_MM();
 		}
 		ZEPHIR_INIT_VAR(&_6$$15);
 		object_init_ex(&_6$$15, phalcon_annotations_exceptions_unknownannotationexpression_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_6$$15, "__construct", NULL, 253, &type);
+		ZEPHIR_CALL_METHOD(NULL, &_6$$15, "__construct", NULL, 258, &type);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_6$$15, "phalcon/Annotations/Annotation.zep", 156);
 		ZEPHIR_MM_RESTORE();

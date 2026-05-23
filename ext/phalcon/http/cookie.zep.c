@@ -1183,7 +1183,7 @@ PHP_METHOD(Phalcon_Http_Cookie, assertSignKeyIsLongEnough)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&signKey_zv);
 	ZVAL_STR_COPY(&signKey_zv, signKey);
-	ZEPHIR_CALL_FUNCTION(&length, "mb_strlen", NULL, 415, &signKey_zv);
+	ZEPHIR_CALL_FUNCTION(&length, "mb_strlen", NULL, 420, &signKey_zv);
 	zephir_check_call_status();
 	if (UNEXPECTED(ZEPHIR_LT_LONG(&length, 32))) {
 		ZEPHIR_INIT_VAR(&_0$$3);

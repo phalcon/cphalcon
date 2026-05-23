@@ -216,7 +216,7 @@ PHP_METHOD(Phalcon_Messages_Messages, filter)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval fieldName_zv, filtered, messages, message, _0, *_1$$3, _2$$3, _3$$5, _4$$8;
+	zval fieldName_zv, filtered, messages, message, _0, *_1$$3, _3$$3, _2$$5, _4$$8;
 	zend_string *fieldName = NULL;
 	zval *this_ptr = getThis();
 
@@ -225,8 +225,8 @@ PHP_METHOD(Phalcon_Messages_Messages, filter)
 	ZVAL_UNDEF(&messages);
 	ZVAL_UNDEF(&message);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_2$$3);
-	ZVAL_UNDEF(&_3$$5);
+	ZVAL_UNDEF(&_3$$3);
+	ZVAL_UNDEF(&_2$$5);
 	ZVAL_UNDEF(&_4$$8);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(fieldName)
@@ -247,9 +247,9 @@ PHP_METHOD(Phalcon_Messages_Messages, filter)
 				ZEPHIR_INIT_NVAR(&message);
 				ZVAL_COPY(&message, _1$$3);
 				if ((zephir_method_exists_ex(&message, ZEND_STRL("getfield")) == SUCCESS)) {
-					ZEPHIR_CALL_METHOD(&_3$$5, &message, "getfield", NULL, 0);
+					ZEPHIR_CALL_METHOD(&_2$$5, &message, "getfield", NULL, 0);
 					zephir_check_call_status();
-					if (ZEPHIR_IS_EQUAL(&fieldName_zv, &_3$$5)) {
+					if (ZEPHIR_IS_EQUAL(&fieldName_zv, &_2$$5)) {
 						zephir_array_append(&filtered, &message, PH_SEPARATE, "phalcon/Messages/Messages.zep", 143);
 					}
 				}
@@ -258,9 +258,9 @@ PHP_METHOD(Phalcon_Messages_Messages, filter)
 			ZEPHIR_CALL_METHOD(NULL, &messages, "rewind", NULL, 0);
 			zephir_check_call_status();
 			while (1) {
-				ZEPHIR_CALL_METHOD(&_2$$3, &messages, "valid", NULL, 0);
+				ZEPHIR_CALL_METHOD(&_3$$3, &messages, "valid", NULL, 0);
 				zephir_check_call_status();
-				if (!zend_is_true(&_2$$3)) {
+				if (!zend_is_true(&_3$$3)) {
 					break;
 				}
 				ZEPHIR_CALL_METHOD(&message, &messages, "current", NULL, 0);
@@ -292,17 +292,17 @@ PHP_METHOD(Phalcon_Messages_Messages, filter)
  */
 PHP_METHOD(Phalcon_Messages_Messages, jsonSerialize)
 {
-	zend_bool _3$$3, _5$$6;
+	zend_bool _2$$3, _5$$6;
 	zval records;
-	zval message, _0, *_1, _2, _4$$4, _6$$7;
+	zval message, _0, *_1, _4, _3$$4, _6$$7;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&message);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_4$$4);
+	ZVAL_UNDEF(&_4);
+	ZVAL_UNDEF(&_3$$4);
 	ZVAL_UNDEF(&_6$$7);
 	ZVAL_UNDEF(&records);
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
@@ -317,14 +317,14 @@ PHP_METHOD(Phalcon_Messages_Messages, jsonSerialize)
 		{
 			ZEPHIR_INIT_NVAR(&message);
 			ZVAL_COPY(&message, _1);
-			_3$$3 = Z_TYPE_P(&message) == IS_OBJECT;
-			if (_3$$3) {
-				_3$$3 = (zephir_method_exists_ex(&message, ZEND_STRL("jsonserialize")) == SUCCESS);
+			_2$$3 = Z_TYPE_P(&message) == IS_OBJECT;
+			if (_2$$3) {
+				_2$$3 = (zephir_method_exists_ex(&message, ZEND_STRL("jsonserialize")) == SUCCESS);
 			}
-			if (_3$$3) {
-				ZEPHIR_CALL_METHOD(&_4$$4, &message, "jsonserialize", NULL, 0);
+			if (_2$$3) {
+				ZEPHIR_CALL_METHOD(&_3$$4, &message, "jsonserialize", NULL, 0);
 				zephir_check_call_status();
-				zephir_array_append(&records, &_4$$4, PH_SEPARATE, "phalcon/Messages/Messages.zep", 170);
+				zephir_array_append(&records, &_3$$4, PH_SEPARATE, "phalcon/Messages/Messages.zep", 170);
 			} else {
 				zephir_array_append(&records, &message, PH_SEPARATE, "phalcon/Messages/Messages.zep", 172);
 			}
@@ -333,9 +333,9 @@ PHP_METHOD(Phalcon_Messages_Messages, jsonSerialize)
 		ZEPHIR_CALL_METHOD(NULL, &_0, "rewind", NULL, 0);
 		zephir_check_call_status();
 		while (1) {
-			ZEPHIR_CALL_METHOD(&_2, &_0, "valid", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_4, &_0, "valid", NULL, 0);
 			zephir_check_call_status();
-			if (!zend_is_true(&_2)) {
+			if (!zend_is_true(&_4)) {
 				break;
 			}
 			ZEPHIR_CALL_METHOD(&message, &_0, "current", NULL, 0);
@@ -513,7 +513,7 @@ PHP_METHOD(Phalcon_Messages_Messages, offsetUnset)
 		zephir_read_property(&_1$$3, this_ptr, ZEND_STRL("messages"), PH_NOISY_CC | PH_READONLY);
 		ZVAL_LONG(&_2$$3, 1);
 		ZEPHIR_MAKE_REF(&_1$$3);
-		ZEPHIR_CALL_FUNCTION(NULL, "array_splice", NULL, 483, &_1$$3, index, &_2$$3);
+		ZEPHIR_CALL_FUNCTION(NULL, "array_splice", NULL, 487, &_1$$3, index, &_2$$3);
 		ZEPHIR_UNREF(&_1$$3);
 		zephir_check_call_status();
 	}

@@ -126,7 +126,7 @@ PHP_METHOD(Phalcon_Forms_Loader_JsonLoader, load)
 		ZVAL_BOOL(&_6$$4, 1);
 		ZVAL_LONG(&_7$$4, 512);
 		ZVAL_LONG(&_8$$4, 4194304);
-		ZEPHIR_CALL_METHOD(&definitions, &_5$$4, "__invoke", NULL, 310, &json, &_6$$4, &_7$$4, &_8$$4);
+		ZEPHIR_CALL_METHOD(&definitions, &_5$$4, "__invoke", NULL, 315, &json, &_6$$4, &_7$$4, &_8$$4);
 		zephir_check_call_status_or_jump(try_end_1);
 
 	try_end_1:

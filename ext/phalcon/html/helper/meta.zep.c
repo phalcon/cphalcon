@@ -46,7 +46,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Meta)
  *
  * @param array $attributes
  *
- * @return Meta
+ * @return static
  */
 PHP_METHOD(Phalcon_Html_Helper_Meta, add)
 {
@@ -106,7 +106,7 @@ PHP_METHOD(Phalcon_Html_Helper_Meta, add)
  * @param string $content
  * @param int    $position
  *
- * @return Meta
+ * @return static
  * @throws Exception
  */
 PHP_METHOD(Phalcon_Html_Helper_Meta, addHttp)
@@ -153,7 +153,7 @@ PHP_METHOD(Phalcon_Html_Helper_Meta, addHttp)
  * @param string $content
  * @param int    $position
  *
- * @return Meta
+ * @return static
  * @throws Exception
  */
 PHP_METHOD(Phalcon_Html_Helper_Meta, addName)
@@ -200,7 +200,7 @@ PHP_METHOD(Phalcon_Html_Helper_Meta, addName)
  * @param string $content
  * @param int    $position
  *
- * @return Meta
+ * @return static
  * @throws Exception
  */
 PHP_METHOD(Phalcon_Html_Helper_Meta, addProperty)
@@ -257,7 +257,7 @@ PHP_METHOD(Phalcon_Html_Helper_Meta, getTag)
  * @param string $content
  * @param int    $position
  *
- * @return Meta
+ * @return static
  * @throws Exception
  */
 PHP_METHOD(Phalcon_Html_Helper_Meta, addElement)

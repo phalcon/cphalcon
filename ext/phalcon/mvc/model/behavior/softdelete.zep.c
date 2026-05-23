@@ -48,9 +48,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify)
 {
 	zend_bool _9;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_6 = NULL, *_7 = NULL;
+	zephir_fcall_cache_entry *_5 = NULL, *_7 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval type_zv, *model, model_sub, options, value, field, updateModel, message, modelsManager, metaData, _0, _1, _2, _8, _10, _11, _3$$7, *_4$$7, _5$$7, _12$$10, _13$$10;
+	zval type_zv, *model, model_sub, options, value, field, updateModel, message, modelsManager, metaData, _0, _1, _2, _8, _10, _11, _3$$7, *_4$$7, _6$$7, _12$$10, _13$$10;
 	zend_string *type = NULL;
 	zval *this_ptr = getThis();
 
@@ -70,7 +70,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify)
 	ZVAL_UNDEF(&_10);
 	ZVAL_UNDEF(&_11);
 	ZVAL_UNDEF(&_3$$7);
-	ZVAL_UNDEF(&_5$$7);
+	ZVAL_UNDEF(&_6$$7);
 	ZVAL_UNDEF(&_12$$10);
 	ZVAL_UNDEF(&_13$$10);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
@@ -124,16 +124,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify)
 			{
 				ZEPHIR_INIT_NVAR(&message);
 				ZVAL_COPY(&message, _4$$7);
-				ZEPHIR_CALL_METHOD(NULL, model, "appendmessage", &_6, 0, &message);
+				ZEPHIR_CALL_METHOD(NULL, model, "appendmessage", &_5, 0, &message);
 				zephir_check_call_status();
 			} ZEND_HASH_FOREACH_END();
 		} else {
 			ZEPHIR_CALL_METHOD(NULL, &_3$$7, "rewind", NULL, 0);
 			zephir_check_call_status();
 			while (1) {
-				ZEPHIR_CALL_METHOD(&_5$$7, &_3$$7, "valid", NULL, 0);
+				ZEPHIR_CALL_METHOD(&_6$$7, &_3$$7, "valid", NULL, 0);
 				zephir_check_call_status();
-				if (!zend_is_true(&_5$$7)) {
+				if (!zend_is_true(&_6$$7)) {
 					break;
 				}
 				ZEPHIR_CALL_METHOD(&message, &_3$$7, "current", NULL, 0);

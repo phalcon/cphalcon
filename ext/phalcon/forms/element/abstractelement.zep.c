@@ -230,16 +230,16 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, addValidator)
 PHP_METHOD(Phalcon_Forms_Element_AbstractElement, addValidators)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_3 = NULL;
+	zephir_fcall_cache_entry *_2 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool merge;
-	zval *validators_param = NULL, *merge_param = NULL, validator, *_1, _2, _0$$3;
+	zval *validators_param = NULL, *merge_param = NULL, validator, *_1, _3, _0$$3;
 	zval validators;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&validators);
 	ZVAL_UNDEF(&validator);
-	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_0$$3);
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		ZEPHIR_Z_PARAM_ARRAY(validators, validators_param)
@@ -265,21 +265,21 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, addValidators)
 		{
 			ZEPHIR_INIT_NVAR(&validator);
 			ZVAL_COPY(&validator, _1);
-			ZEPHIR_CALL_METHOD(NULL, this_ptr, "addvalidator", &_3, 0, &validator);
+			ZEPHIR_CALL_METHOD(NULL, this_ptr, "addvalidator", &_2, 0, &validator);
 			zephir_check_call_status();
 		} ZEND_HASH_FOREACH_END();
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, &validators, "rewind", NULL, 0);
 		zephir_check_call_status();
 		while (1) {
-			ZEPHIR_CALL_METHOD(&_2, &validators, "valid", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_3, &validators, "valid", NULL, 0);
 			zephir_check_call_status();
-			if (!zend_is_true(&_2)) {
+			if (!zend_is_true(&_3)) {
 				break;
 			}
 			ZEPHIR_CALL_METHOD(&validator, &validators, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(NULL, this_ptr, "addvalidator", &_3, 0, &validator);
+				ZEPHIR_CALL_METHOD(NULL, this_ptr, "addvalidator", &_2, 0, &validator);
 				zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(NULL, &validators, "next", NULL, 0);
 			zephir_check_call_status();

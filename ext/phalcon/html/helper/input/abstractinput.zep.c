@@ -61,7 +61,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Input_AbstractInput)
  * @param string|null $value
  * @param array       $attributes
  *
- * @return AbstractInput
+ * @return static
  */
 PHP_METHOD(Phalcon_Html_Helper_Input_AbstractInput, __invoke)
 {
@@ -181,7 +181,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractInput, __toString)
  *
  * @param string|null $value
  *
- * @return AbstractInput
+ * @return static
  */
 PHP_METHOD(Phalcon_Html_Helper_Input_AbstractInput, setValue)
 {

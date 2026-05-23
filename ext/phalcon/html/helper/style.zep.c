@@ -51,7 +51,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Style)
  * @param string $url
  * @param array  $attributes
  *
- * @return $this
+ * @return static
  * @throws Exception
  */
 PHP_METHOD(Phalcon_Html_Helper_Style, add)

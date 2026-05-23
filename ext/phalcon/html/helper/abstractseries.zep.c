@@ -56,7 +56,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_AbstractSeries)
  * @param string $indent
  * @param string $delimiter
  *
- * @return AbstractSeries
+ * @return static
  */
 PHP_METHOD(Phalcon_Html_Helper_AbstractSeries, __invoke)
 {

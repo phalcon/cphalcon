@@ -207,7 +207,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Redis, __construct)
 PHP_METHOD(Phalcon_Storage_Adapter_Redis, clear)
 {
 	zval strippedKeys;
-	zval keys, key, _0, *_1, _2, _7, _8, _3$$4, _4$$4, _5$$5, _6$$5;
+	zval keys, key, _0, *_1, _4, _7, _8, _2$$4, _3$$4, _5$$5, _6$$5;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS, prefixLength = 0;
 	zval *this_ptr = getThis();
@@ -215,11 +215,11 @@ PHP_METHOD(Phalcon_Storage_Adapter_Redis, clear)
 	ZVAL_UNDEF(&keys);
 	ZVAL_UNDEF(&key);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_7);
 	ZVAL_UNDEF(&_8);
+	ZVAL_UNDEF(&_2$$4);
 	ZVAL_UNDEF(&_3$$4);
-	ZVAL_UNDEF(&_4$$4);
 	ZVAL_UNDEF(&_5$$5);
 	ZVAL_UNDEF(&_6$$5);
 	ZVAL_UNDEF(&strippedKeys);
@@ -241,18 +241,18 @@ PHP_METHOD(Phalcon_Storage_Adapter_Redis, clear)
 		{
 			ZEPHIR_INIT_NVAR(&key);
 			ZVAL_COPY(&key, _1);
-			ZVAL_LONG(&_3$$4, prefixLength);
-			ZEPHIR_INIT_NVAR(&_4$$4);
-			zephir_substr(&_4$$4, &key, zephir_get_intval(&_3$$4), 0, ZEPHIR_SUBSTR_NO_LENGTH);
-			zephir_array_append(&strippedKeys, &_4$$4, PH_SEPARATE, "phalcon/Storage/Adapter/Redis.zep", 99);
+			ZVAL_LONG(&_2$$4, prefixLength);
+			ZEPHIR_INIT_NVAR(&_3$$4);
+			zephir_substr(&_3$$4, &key, zephir_get_intval(&_2$$4), 0, ZEPHIR_SUBSTR_NO_LENGTH);
+			zephir_array_append(&strippedKeys, &_3$$4, PH_SEPARATE, "phalcon/Storage/Adapter/Redis.zep", 99);
 		} ZEND_HASH_FOREACH_END();
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, &keys, "rewind", NULL, 0);
 		zephir_check_call_status();
 		while (1) {
-			ZEPHIR_CALL_METHOD(&_2, &keys, "valid", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_4, &keys, "valid", NULL, 0);
 			zephir_check_call_status();
-			if (!zend_is_true(&_2)) {
+			if (!zend_is_true(&_4)) {
 				break;
 			}
 			ZEPHIR_CALL_METHOD(&key, &keys, "current", NULL, 0);
@@ -683,7 +683,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Redis, doSet)
 /**
  * @param \Redis $connection
  *
- * @return Redis
+ * @return static
  * @throws AuthenticationFailed
  */
 PHP_METHOD(Phalcon_Storage_Adapter_Redis, checkAuth)
@@ -749,7 +749,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Redis, checkAuth)
 /**
  * @param \Redis $connection
  *
- * @return Redis
+ * @return static
  * @throws ConnectionFailed
  */
 PHP_METHOD(Phalcon_Storage_Adapter_Redis, checkConnect)
@@ -877,7 +877,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Redis, checkConnect)
 /**
  * @param \Redis $connection
  *
- * @return Redis
+ * @return static
  * @throws DatabaseSelectionFailed
  */
 PHP_METHOD(Phalcon_Storage_Adapter_Redis, checkIndex)

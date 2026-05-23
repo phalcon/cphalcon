@@ -201,7 +201,7 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, __construct)
  * @param string           $name    The name of the adapter
  * @param AdapterInterface $adapter The adapter to add to the stack
  *
- * @return AbstractLogger
+ * @return static
  */
 PHP_METHOD(Phalcon_Logger_AbstractLogger, addAdapter)
 {
@@ -226,7 +226,7 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, addAdapter)
  *
  * @param array $adapters
  *
- * @return AbstractLogger
+ * @return static
  */
 PHP_METHOD(Phalcon_Logger_AbstractLogger, excludeAdapters)
 {
@@ -365,7 +365,7 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, getName)
  *
  * @param string $name The name of the adapter
  *
- * @return AbstractLogger
+ * @return static
  * @throws AdapterNotFound
  */
 PHP_METHOD(Phalcon_Logger_AbstractLogger, removeAdapter)
@@ -408,7 +408,7 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, removeAdapter)
  *
  * @param array $adapters An array of adapters
  *
- * @return AbstractLogger
+ * @return static
  */
 PHP_METHOD(Phalcon_Logger_AbstractLogger, setAdapters)
 {
@@ -434,7 +434,7 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, setAdapters)
  *
  * @param int $level
  *
- * @return AbstractLogger
+ * @return static
  */
 PHP_METHOD(Phalcon_Logger_AbstractLogger, setLogLevel)
 {
@@ -481,7 +481,7 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, addMessage)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval context;
 	zend_string *message = NULL;
-	zval *level_param = NULL, message_zv, *context_param = NULL, adapter, collection, item, levelName, levels, method, _0, _1$$3, _3$$3, _4$$3, _5$$3, _6$$3, _7$$3, *_8$$3, _9$$3, _2$$4, _10$$5, _11$$7;
+	zval *level_param = NULL, message_zv, *context_param = NULL, adapter, collection, item, levelName, levels, method, _0, _1$$3, _3$$3, _4$$3, _5$$3, _6$$3, _7$$3, *_8$$3, _10$$3, _2$$4, _9$$5, _11$$7;
 	zend_long level, ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -499,9 +499,9 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, addMessage)
 	ZVAL_UNDEF(&_5$$3);
 	ZVAL_UNDEF(&_6$$3);
 	ZVAL_UNDEF(&_7$$3);
-	ZVAL_UNDEF(&_9$$3);
+	ZVAL_UNDEF(&_10$$3);
 	ZVAL_UNDEF(&_2$$4);
-	ZVAL_UNDEF(&_10$$5);
+	ZVAL_UNDEF(&_9$$5);
 	ZVAL_UNDEF(&_11$$7);
 	ZVAL_UNDEF(&context);
 	ZEND_PARSE_PARAMETERS_START(2, 3)
@@ -569,9 +569,9 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, addMessage)
 				ZVAL_COPY(&adapter, _8$$3);
 				ZEPHIR_INIT_NVAR(&method);
 				ZVAL_STRING(&method, "process");
-				ZEPHIR_CALL_METHOD(&_10$$5, &adapter, "intransaction", NULL, 0);
+				ZEPHIR_CALL_METHOD(&_9$$5, &adapter, "intransaction", NULL, 0);
 				zephir_check_call_status();
-				if (ZEPHIR_IS_TRUE_IDENTICAL(&_10$$5)) {
+				if (ZEPHIR_IS_TRUE_IDENTICAL(&_9$$5)) {
 					ZEPHIR_INIT_NVAR(&method);
 					ZVAL_STRING(&method, "add");
 				}
@@ -582,9 +582,9 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, addMessage)
 			ZEPHIR_CALL_METHOD(NULL, &collection, "rewind", NULL, 0);
 			zephir_check_call_status();
 			while (1) {
-				ZEPHIR_CALL_METHOD(&_9$$3, &collection, "valid", NULL, 0);
+				ZEPHIR_CALL_METHOD(&_10$$3, &collection, "valid", NULL, 0);
 				zephir_check_call_status();
-				if (!zend_is_true(&_9$$3)) {
+				if (!zend_is_true(&_10$$3)) {
 					break;
 				}
 				ZEPHIR_CALL_METHOD(&adapter, &collection, "current", NULL, 0);

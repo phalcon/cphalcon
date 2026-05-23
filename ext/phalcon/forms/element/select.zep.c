@@ -101,17 +101,17 @@ PHP_METHOD(Phalcon_Forms_Element_Select, __construct)
  */
 PHP_METHOD(Phalcon_Forms_Element_Select, addOption)
 {
-	zend_string *_3$$3;
-	zend_ulong _2$$3;
+	zend_string *_2$$3;
+	zend_ulong _1$$3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *option, option_sub, key, value, *_0$$3, _1$$3;
+	zval *option, option_sub, key, value, *_0$$3, _3$$3;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&option_sub);
 	ZVAL_UNDEF(&key);
 	ZVAL_UNDEF(&value);
-	ZVAL_UNDEF(&_1$$3);
+	ZVAL_UNDEF(&_3$$3);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(option)
 	ZEND_PARSE_PARAMETERS_END();
@@ -121,13 +121,13 @@ PHP_METHOD(Phalcon_Forms_Element_Select, addOption)
 	if (Z_TYPE_P(option) == IS_ARRAY) {
 		zephir_is_iterable(option, 0, "phalcon/Forms/Element/Select.zep", 52);
 		if (Z_TYPE_P(option) == IS_ARRAY) {
-			ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(option), _2$$3, _3$$3, _0$$3)
+			ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(option), _1$$3, _2$$3, _0$$3)
 			{
 				ZEPHIR_INIT_NVAR(&key);
-				if (_3$$3 != NULL) { 
-					ZVAL_STR_COPY(&key, _3$$3);
+				if (_2$$3 != NULL) { 
+					ZVAL_STR_COPY(&key, _2$$3);
 				} else {
-					ZVAL_LONG(&key, _2$$3);
+					ZVAL_LONG(&key, _1$$3);
 				}
 				ZEPHIR_INIT_NVAR(&value);
 				ZVAL_COPY(&value, _0$$3);
@@ -137,9 +137,9 @@ PHP_METHOD(Phalcon_Forms_Element_Select, addOption)
 			ZEPHIR_CALL_METHOD(NULL, option, "rewind", NULL, 0);
 			zephir_check_call_status();
 			while (1) {
-				ZEPHIR_CALL_METHOD(&_1$$3, option, "valid", NULL, 0);
+				ZEPHIR_CALL_METHOD(&_3$$3, option, "valid", NULL, 0);
 				zephir_check_call_status();
-				if (!zend_is_true(&_1$$3)) {
+				if (!zend_is_true(&_3$$3)) {
 					break;
 				}
 				ZEPHIR_CALL_METHOD(&key, option, "key", NULL, 0);

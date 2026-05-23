@@ -74,7 +74,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Title)
  * @param string      $indent
  * @param string|null $delimiter
  *
- * @return Title
+ * @return static
  */
 PHP_METHOD(Phalcon_Html_Helper_Title, __invoke)
 {
@@ -192,7 +192,7 @@ PHP_METHOD(Phalcon_Html_Helper_Title, __toString)
  * @param string $text
  * @param bool   $raw
  *
- * @return Title
+ * @return static
  */
 PHP_METHOD(Phalcon_Html_Helper_Title, append)
 {
@@ -249,7 +249,7 @@ PHP_METHOD(Phalcon_Html_Helper_Title, get)
  * @param string $text
  * @param bool   $raw
  *
- * @return Title
+ * @return static
  */
 PHP_METHOD(Phalcon_Html_Helper_Title, set)
 {
@@ -295,7 +295,7 @@ PHP_METHOD(Phalcon_Html_Helper_Title, set)
  * @param string $separator
  * @param bool   $raw
  *
- * @return Title
+ * @return static
  */
 PHP_METHOD(Phalcon_Html_Helper_Title, setSeparator)
 {
@@ -343,7 +343,7 @@ PHP_METHOD(Phalcon_Html_Helper_Title, setSeparator)
  * @param string $text
  * @param bool   $raw
  *
- * @return Title
+ * @return static
  */
 PHP_METHOD(Phalcon_Html_Helper_Title, prepend)
 {
@@ -384,7 +384,7 @@ PHP_METHOD(Phalcon_Html_Helper_Title, prepend)
 	zephir_read_property(&_2, this_ptr, ZEND_STRL("prepend"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&prepend, &_2);
 	ZEPHIR_MAKE_REF(&prepend);
-	ZEPHIR_CALL_FUNCTION(NULL, "array_unshift", NULL, 470, &prepend, &text);
+	ZEPHIR_CALL_FUNCTION(NULL, "array_unshift", NULL, 475, &prepend, &text);
 	ZEPHIR_UNREF(&prepend);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("prepend"), &prepend);

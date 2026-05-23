@@ -100,7 +100,7 @@ PHP_METHOD(Phalcon_Html_Helper_Ol, __construct)
  * @param array  $attributes
  * @param bool   $raw
  *
- * @return AbstractList
+ * @return static
  */
 PHP_METHOD(Phalcon_Html_Helper_Ol, add)
 {

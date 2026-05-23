@@ -510,8 +510,13 @@
 
 - Fixed `Phalcon\Mvc\Model\Row::offsetGet()` / `offsetExists()` throwing `The index does not exist in the row` when accessing a column whose value is `null` [#17041](https://github.com/phalcon/cphalcon/issues/17041)
 - Fixed `Phalcon\Mvc\View::getContent()` throwing `TypeError` after `View::start()`. `start()` was assigning `$this->content = null` [#17041](https://github.com/phalcon/cphalcon/issues/17041)
+- Fixed `Phalcon\Mvc\Model::getChangedFields()` / `hasChanged()` flagging every null-valued column of a freshly-loaded row as changed [#17042](https://github.com/phalcon/cphalcon/issues/17042)
+- Fixed `Phalcon\Mvc\Model::getUpdatedFields()` flagging unchanged null-valued columns as updated [#17042](https://github.com/phalcon/cphalcon/issues/17042)
+- Fixed `Phalcon\Forms\Form::clear()` leaving a previously-bound `null` field value in the data array instead of unsetting it before reassigning the element default [#17042](https://github.com/phalcon/cphalcon/issues/17042)
 
 ### Removed
+
+- Reverted the `Phalcon\Mvc\Model\Query::executeUpdate()` named-placeholder substitution introduced for [#16976](https://github.com/phalcon/cphalcon/issues/16976). The substitution path was triggering a use-after-free in the model update flow under PostgreSQL ([#17042](https://github.com/phalcon/cphalcon/issues/17042)). Issue [#16976](https://github.com/phalcon/cphalcon/issues/16976) is reopened and will be addressed with a different approach.
 
 ## [5.13.0](https://github.com/phalcon/cphalcon/releases/tag/v5.13.0) (2026-05-18)
 

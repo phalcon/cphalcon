@@ -47,20 +47,20 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Arr_Flatten)
 PHP_METHOD(Phalcon_Support_Helper_Arr_Flatten, __invoke)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_3 = NULL, *_5 = NULL, *_7 = NULL;
+	zephir_fcall_cache_entry *_2 = NULL, *_4 = NULL, *_6 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool deep;
-	zval *collection_param = NULL, *deep_param = NULL, data, item, *_0, _1, _2$$3, _4$$3, _6$$3, _8$$4, _9$$4, _10$$4;
+	zval *collection_param = NULL, *deep_param = NULL, data, item, *_0, _7, _1$$3, _3$$3, _5$$3, _8$$4, _9$$4, _10$$4;
 	zval collection;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&collection);
 	ZVAL_UNDEF(&data);
 	ZVAL_UNDEF(&item);
-	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_2$$3);
-	ZVAL_UNDEF(&_4$$3);
-	ZVAL_UNDEF(&_6$$3);
+	ZVAL_UNDEF(&_7);
+	ZVAL_UNDEF(&_1$$3);
+	ZVAL_UNDEF(&_3$$3);
+	ZVAL_UNDEF(&_5$$3);
 	ZVAL_UNDEF(&_8$$4);
 	ZVAL_UNDEF(&_9$$4);
 	ZVAL_UNDEF(&_10$$4);
@@ -85,38 +85,38 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Flatten, __invoke)
 		{
 			ZEPHIR_INIT_NVAR(&item);
 			ZVAL_COPY(&item, _0);
-			ZEPHIR_CALL_METHOD(&_2$$3, this_ptr, "processnotarray", &_3, 0, &data, &item);
+			ZEPHIR_CALL_METHOD(&_1$$3, this_ptr, "processnotarray", &_2, 0, &data, &item);
 			zephir_check_call_status();
-			ZEPHIR_CPY_WRT(&data, &_2$$3);
+			ZEPHIR_CPY_WRT(&data, &_1$$3);
 			if (deep) {
-				ZVAL_BOOL(&_4$$3, 1);
+				ZVAL_BOOL(&_3$$3, 1);
 			} else {
-				ZVAL_BOOL(&_4$$3, 0);
+				ZVAL_BOOL(&_3$$3, 0);
 			}
-			ZEPHIR_CALL_METHOD(&_2$$3, this_ptr, "processarraydeep", &_5, 0, &data, &item, &_4$$3);
+			ZEPHIR_CALL_METHOD(&_1$$3, this_ptr, "processarraydeep", &_4, 0, &data, &item, &_3$$3);
 			zephir_check_call_status();
-			ZEPHIR_CPY_WRT(&data, &_2$$3);
+			ZEPHIR_CPY_WRT(&data, &_1$$3);
 			if (deep) {
-				ZVAL_BOOL(&_6$$3, 1);
+				ZVAL_BOOL(&_5$$3, 1);
 			} else {
-				ZVAL_BOOL(&_6$$3, 0);
+				ZVAL_BOOL(&_5$$3, 0);
 			}
-			ZEPHIR_CALL_METHOD(&_2$$3, this_ptr, "processarray", &_7, 0, &data, &item, &_6$$3);
+			ZEPHIR_CALL_METHOD(&_1$$3, this_ptr, "processarray", &_6, 0, &data, &item, &_5$$3);
 			zephir_check_call_status();
-			ZEPHIR_CPY_WRT(&data, &_2$$3);
+			ZEPHIR_CPY_WRT(&data, &_1$$3);
 		} ZEND_HASH_FOREACH_END();
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, &collection, "rewind", NULL, 0);
 		zephir_check_call_status();
 		while (1) {
-			ZEPHIR_CALL_METHOD(&_1, &collection, "valid", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_7, &collection, "valid", NULL, 0);
 			zephir_check_call_status();
-			if (!zend_is_true(&_1)) {
+			if (!zend_is_true(&_7)) {
 				break;
 			}
 			ZEPHIR_CALL_METHOD(&item, &collection, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_8$$4, this_ptr, "processnotarray", &_3, 0, &data, &item);
+				ZEPHIR_CALL_METHOD(&_8$$4, this_ptr, "processnotarray", &_2, 0, &data, &item);
 				zephir_check_call_status();
 				ZEPHIR_CPY_WRT(&data, &_8$$4);
 				if (deep) {
@@ -124,7 +124,7 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Flatten, __invoke)
 				} else {
 					ZVAL_BOOL(&_9$$4, 0);
 				}
-				ZEPHIR_CALL_METHOD(&_8$$4, this_ptr, "processarraydeep", &_5, 0, &data, &item, &_9$$4);
+				ZEPHIR_CALL_METHOD(&_8$$4, this_ptr, "processarraydeep", &_4, 0, &data, &item, &_9$$4);
 				zephir_check_call_status();
 				ZEPHIR_CPY_WRT(&data, &_8$$4);
 				if (deep) {
@@ -132,7 +132,7 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Flatten, __invoke)
 				} else {
 					ZVAL_BOOL(&_10$$4, 0);
 				}
-				ZEPHIR_CALL_METHOD(&_8$$4, this_ptr, "processarray", &_7, 0, &data, &item, &_10$$4);
+				ZEPHIR_CALL_METHOD(&_8$$4, this_ptr, "processarray", &_6, 0, &data, &item, &_10$$4);
 				zephir_check_call_status();
 				ZEPHIR_CPY_WRT(&data, &_8$$4);
 			ZEPHIR_CALL_METHOD(NULL, &collection, "next", NULL, 0);

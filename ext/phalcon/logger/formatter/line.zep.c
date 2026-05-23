@@ -193,7 +193,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, getFormat)
  *
  * @param string $format
  *
- * @return Line
+ * @return static
  */
 PHP_METHOD(Phalcon_Logger_Formatter_Line, setFormat)
 {

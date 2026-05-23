@@ -564,7 +564,7 @@ PHP_METHOD(Phalcon_Html_Escaper, normalizeEncoding)
 /**
  * @param AttributeEscaper $escaper
  *
- * @return Escaper
+ * @return static
  */
 PHP_METHOD(Phalcon_Html_Escaper, setAttributeEscaper)
 {
@@ -583,7 +583,7 @@ PHP_METHOD(Phalcon_Html_Escaper, setAttributeEscaper)
 /**
  * @param CssEscaper $escaper
  *
- * @return Escaper
+ * @return static
  */
 PHP_METHOD(Phalcon_Html_Escaper, setCssEscaper)
 {
@@ -765,7 +765,7 @@ PHP_METHOD(Phalcon_Html_Escaper, setFlags)
 /**
  * @param HtmlEscaper $escaper
  *
- * @return Escaper
+ * @return static
  */
 PHP_METHOD(Phalcon_Html_Escaper, setHtmlEscaper)
 {
@@ -809,7 +809,7 @@ PHP_METHOD(Phalcon_Html_Escaper, setHtmlQuoteType)
 /**
  * @param JsEscaper $escaper
  *
- * @return Escaper
+ * @return static
  */
 PHP_METHOD(Phalcon_Html_Escaper, setJsEscaper)
 {
@@ -828,7 +828,7 @@ PHP_METHOD(Phalcon_Html_Escaper, setJsEscaper)
 /**
  * @param UrlEscaper $escaper
  *
- * @return Escaper
+ * @return static
  */
 PHP_METHOD(Phalcon_Html_Escaper, setUrlEscaper)
 {

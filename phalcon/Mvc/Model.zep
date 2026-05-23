@@ -2025,9 +2025,12 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         for name, _ in allAttributes {
             /**
              * If some attribute is not present in the snapshot, we assume the
-             * record as changed
+             * record as changed. array_key_exists() is used so a snapshot
+             * that legitimately stores `null` (e.g. a nullable DB column
+             * loaded from a fresh row) is not mistaken for an absent key
+             * under the post-5.13.0 Zephir `isset` semantics [#17042].
              */
-            if !isset snapshot[name] {
+            if !array_key_exists(name, snapshot) {
                 let changed[] = name;
 
                 continue;
@@ -2370,9 +2373,12 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         for name, value in snapshot {
             /**
              * If some attribute is not present in the oldSnapshot, we assume
-             * the record as changed
+             * the record as changed. array_key_exists() is used so a
+             * snapshot that legitimately stores `null` is not mistaken for
+             * an absent key under the post-5.13.0 Zephir `isset` semantics
+             * [#17042].
              */
-            if !isset oldSnapshot[name] || value !== oldSnapshot[name] {
+            if !array_key_exists(name, oldSnapshot) || value !== oldSnapshot[name] {
                 let updated[] = name;
             }
         }
@@ -4299,49 +4305,38 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                                         let snapshotValue = snapshotValue->getValue();
                                     }
 
-                                    /**
-                                     * A RawValue holds a SQL expression (e.g.
-                                     * "col + 2"). It cannot be meaningfully
-                                     * compared to a stored scalar, so always
-                                     * treat the field as changed. This fixes
-                                     * the case where the current DB value is 0
-                                     * and the expression evaluates (via
-                                     * floatval) to 0.0, incorrectly suppressing
-                                     * the UPDATE.
-                                     */
+                                    let updateValue = value;
                                     if is_object(value) && value instanceof RawValue {
-                                        let changed = true;
-                                    } else {
-                                        let updateValue = value;
+                                        let updateValue = value->getValue();
+                                    }
 
-                                        switch dataType {
+                                    switch dataType {
 
-                                            case Column::TYPE_BOOLEAN:
-                                                let changed = (bool) snapshotValue !== (bool) updateValue;
-                                                break;
+                                        case Column::TYPE_BOOLEAN:
+                                            let changed = (bool) snapshotValue !== (bool) updateValue;
+                                            break;
 
-                                            case Column::TYPE_DECIMAL:
-                                            case Column::TYPE_FLOAT:
-                                                let changed = floatval(snapshotValue) !== floatval(updateValue);
-                                                break;
+                                        case Column::TYPE_DECIMAL:
+                                        case Column::TYPE_FLOAT:
+                                            let changed = floatval(snapshotValue) !== floatval(updateValue);
+                                            break;
 
-                                            case Column::TYPE_INTEGER:
-                                            case Column::TYPE_DATE:
-                                            case Column::TYPE_VARCHAR:
-                                            case Column::TYPE_DATETIME:
-                                            case Column::TYPE_CHAR:
-                                            case Column::TYPE_TEXT:
-                                            case Column::TYPE_VARCHAR:
-                                            case Column::TYPE_BIGINTEGER:
-                                                let changed = (string) snapshotValue !== (string) updateValue;
-                                                break;
+                                        case Column::TYPE_INTEGER:
+                                        case Column::TYPE_DATE:
+                                        case Column::TYPE_VARCHAR:
+                                        case Column::TYPE_DATETIME:
+                                        case Column::TYPE_CHAR:
+                                        case Column::TYPE_TEXT:
+                                        case Column::TYPE_VARCHAR:
+                                        case Column::TYPE_BIGINTEGER:
+                                            let changed = (string) snapshotValue !== (string) updateValue;
+                                            break;
 
-                                            /**
-                                            * Any other type is not really supported...
-                                            */
-                                            default:
-                                                let changed = updateValue != snapshotValue;
-                                        }
+                                        /**
+                                        * Any other type is not really supported...
+                                        */
+                                        default:
+                                            let changed = updateValue != snapshotValue;
                                     }
                                 }
                             }

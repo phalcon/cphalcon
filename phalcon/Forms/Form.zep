@@ -337,7 +337,13 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
             }
 
             for field in fields {
-                if isset data[field] {
+                /**
+                 * array_key_exists() is used so a stored `null` value is
+                 * still recognized as present and unset before the default
+                 * is assigned (post-5.13.0 Zephir `isset` returns false on
+                 * null) [#17042].
+                 */
+                if array_key_exists(field, data) {
                     unset data[field];
                 }
 

@@ -85,7 +85,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetGet)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &index);
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "offsetexists", NULL, 0, index);
+	ZEPHIR_CALL_FUNCTION(&_0, "property_exists", NULL, 28, this_ptr, index);
 	zephir_check_call_status();
 	if (!(zephir_is_true(&_0))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
@@ -102,12 +102,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetGet)
 }
 
 /**
- * Checks whether offset exists in the row
+ * Checks whether offset exists in the row. Returns true when the property
+ * is present on the row, regardless of whether its value is null - column
+ * presence is the contract, not value truthiness.
  *
  * @param string|int $index
  */
 PHP_METHOD(Phalcon_Mvc_Model_Row, offsetExists)
 {
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval index_sub;
 	zval *index;
 	zval *this_ptr = getThis();
@@ -116,8 +120,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetExists)
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(index)
 	ZEND_PARSE_PARAMETERS_END();
-	zephir_fetch_params_without_memory_grow(1, 0, &index);
-	RETURN_BOOL(zephir_isset_property_value_zval(this_ptr, index));
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_fetch_params(1, 1, 0, &index);
+	ZEPHIR_RETURN_CALL_FUNCTION("property_exists", NULL, 28, this_ptr, index);
+	zephir_check_call_status();
+	RETURN_MM();
 }
 
 /**
@@ -147,7 +155,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetSet)
 	object_init_ex(&_0, phalcon_mvc_model_exceptions_rowisimmutable_ce);
 	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 0);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(&_0, "phalcon/Mvc/Model/Row.zep", 68);
+	zephir_throw_exception_debug(&_0, "phalcon/Mvc/Model/Row.zep", 70);
 	ZEPHIR_MM_RESTORE();
 	return;
 }
@@ -176,7 +184,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetUnset)
 	object_init_ex(&_0, phalcon_mvc_model_exceptions_rowisimmutable_ce);
 	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 0);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(&_0, "phalcon/Mvc/Model/Row.zep", 78);
+	zephir_throw_exception_debug(&_0, "phalcon/Mvc/Model/Row.zep", 80);
 	ZEPHIR_MM_RESTORE();
 	return;
 }

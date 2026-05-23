@@ -2405,12 +2405,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/zephir-lang/zephir.git",
-                "reference": "cc5a2e1c9a9e39214596f6ce40240c8f0a73da6f"
+                "reference": "d71d279c602f297af9ce6ce41c2e4e3f8cb83838"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zephir-lang/zephir/zipball/cc5a2e1c9a9e39214596f6ce40240c8f0a73da6f",
-                "reference": "cc5a2e1c9a9e39214596f6ce40240c8f0a73da6f",
+                "url": "https://api.github.com/repos/zephir-lang/zephir/zipball/d71d279c602f297af9ce6ce41c2e4e3f8cb83838",
+                "reference": "d71d279c602f297af9ce6ce41c2e4e3f8cb83838",
                 "shasum": ""
             },
             "require": {
@@ -2430,6 +2430,7 @@
                 "ext-pdo": "*",
                 "ext-pdo_sqlite": "*",
                 "ext-zip": "*",
+                "phpbench/phpbench": "~1.2.0",
                 "phpunit/phpunit": "^9.5",
                 "psr/log": "1.1.*",
                 "squizlabs/php_codesniffer": "^4.0"
@@ -2483,7 +2484,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-05-21T13:37:22+00:00"
+            "time": "2026-05-23T14:47:57+00:00"
         },
         {
             "name": "phar-io/manifest",

@@ -198,16 +198,16 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, begin)
  */
 PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, commit)
 {
-	zval item, queue, _0, *_1, _2;
+	zval item, queue, _0, *_1, _3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_3 = NULL;
+	zephir_fcall_cache_entry *_2 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&item);
 	ZVAL_UNDEF(&queue);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_3);
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
@@ -221,21 +221,21 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, commit)
 		{
 			ZEPHIR_INIT_NVAR(&item);
 			ZVAL_COPY(&item, _1);
-			ZEPHIR_CALL_METHOD(NULL, this_ptr, "process", &_3, 0, &item);
+			ZEPHIR_CALL_METHOD(NULL, this_ptr, "process", &_2, 0, &item);
 			zephir_check_call_status();
 		} ZEND_HASH_FOREACH_END();
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, &queue, "rewind", NULL, 0);
 		zephir_check_call_status();
 		while (1) {
-			ZEPHIR_CALL_METHOD(&_2, &queue, "valid", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_3, &queue, "valid", NULL, 0);
 			zephir_check_call_status();
-			if (!zend_is_true(&_2)) {
+			if (!zend_is_true(&_3)) {
 				break;
 			}
 			ZEPHIR_CALL_METHOD(&item, &queue, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(NULL, this_ptr, "process", &_3, 0, &item);
+				ZEPHIR_CALL_METHOD(NULL, this_ptr, "process", &_2, 0, &item);
 				zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(NULL, &queue, "next", NULL, 0);
 			zephir_check_call_status();

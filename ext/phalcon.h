@@ -1177,7 +1177,5 @@
 #include "phalcon/79__closure.zep.h"
 #include "phalcon/80__closure.zep.h"
 #include "phalcon/81__closure.zep.h"
-#include "phalcon/82__closure.zep.h"
-#include "phalcon/83__closure.zep.h"
 
 #endif

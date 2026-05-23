@@ -118,7 +118,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, paginate)
 	}
 	ZVAL_LONG(&_0, (show * ((pageNumber - 1))));
 	ZVAL_LONG(&_5, show);
-	ZEPHIR_CALL_FUNCTION(&_6, "array_slice", NULL, 0, &items, &_0, &_5);
+	ZEPHIR_CALL_FUNCTION(&_6, "array_slice", NULL, 189, &items, &_0, &_5);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(&items, &_6);
 	if (pageNumber < totalPages) {
