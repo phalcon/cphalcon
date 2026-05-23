@@ -42,6 +42,8 @@ use Phalcon\Support\Settings;
  */
 abstract class AbstractPdo extends AbstractAdapter
 {
+    const BIND_PATTERN = "/\\?([0-9]+)|:([a-zA-Z0-9_]+):/";
+
     /**
      * Last affected rows
      *
@@ -335,7 +337,7 @@ abstract class AbstractPdo extends AbstractAdapter
             value;
 
         let placeHolders = [],
-            bindPattern = "/\\?([0-9]+)|:([a-zA-Z0-9_]+):/",
+            bindPattern = self::BIND_PATTERN,
             matches = null,
             setOrder = 2;
 

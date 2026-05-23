@@ -28,6 +28,15 @@ class Memory extends AbstractAdapter
     protected data = [];
 
     /**
+     * Maximum number of items retained in the in-memory store.
+     * 0 (default) keeps the original unbounded behavior; a positive
+     * value drops the oldest entry FIFO before a new key is stored.
+     *
+     * @var int
+     */
+    protected maxItems = 0;
+
+    /**
      * Memory constructor.
      *
      * @param SerializerFactory $factory
@@ -62,6 +71,27 @@ class Memory extends AbstractAdapter
     public function getKeys(string prefix = "") -> array
     {
         return this->getFilteredKeys(array_keys(this->data), prefix);
+    }
+
+    /**
+     * Returns the configured store cap (0 = unlimited). See setMaxItems().
+     */
+    public function getMaxItems() -> int
+    {
+        return this->maxItems;
+    }
+
+    /**
+     * Caps the number of items retained in the in-memory store.
+     * 0 disables the cap (the default; preserves the original
+     * unbounded behavior). When the cap is exceeded, the oldest
+     * entry is evicted FIFO before a new key is stored.
+     */
+    public function setMaxItems(int maxItems) -> <static>
+    {
+        let this->maxItems = maxItems;
+
+        return this;
     }
 
     /**
@@ -187,7 +217,7 @@ class Memory extends AbstractAdapter
      */
     protected function doSet(string! key, var value, var ttl = null) -> bool
     {
-        var content, prefixedKey;
+        var content, firstKey, prefixedKey;
 
         if (typeof ttl === "integer" && ttl < 1) {
             return this->delete(key);
@@ -195,6 +225,15 @@ class Memory extends AbstractAdapter
 
         let content     = this->getSerializedData(value),
             prefixedKey = this->getPrefixedKey(key);
+
+        if this->maxItems > 0
+            && !array_key_exists(prefixedKey, this->data)
+            && count(this->data) >= this->maxItems {
+            let firstKey = array_key_first(this->data);
+            if firstKey !== null {
+                unset(this->data[firstKey]);
+            }
+        }
 
         let this->data[prefixedKey] = content;
 
