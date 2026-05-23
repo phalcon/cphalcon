@@ -132,7 +132,7 @@ PHP_METHOD(Phalcon_Time_Clock_FrozenClock, adjust)
 		ZEPHIR_GLOBAL(warning).enable = zend_is_true(&__$false);
 		ZEPHIR_INIT_VAR(&_7$$6);
 		ZEPHIR_INIT_NVAR(&_7$$6);
-		zephir_create_closure_ex(&_7$$6, NULL, phalcon_83__closure_ce, SL("__invoke"));
+		zephir_create_closure_ex(&_7$$6, NULL, phalcon_81__closure_ce, SL("__invoke"));
 		ZVAL_LONG(&_8$$6, 2);
 		ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 225, &_7$$6, &_8$$6);
 		zephir_check_call_status();

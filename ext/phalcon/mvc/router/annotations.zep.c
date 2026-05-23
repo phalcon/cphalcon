@@ -1086,7 +1086,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, setActionPreformatCallback)
 	} else if (Z_TYPE_P(callback) == IS_NULL) {
 		ZEPHIR_INIT_VAR(&_0$$4);
 		ZEPHIR_INIT_NVAR(&_0$$4);
-		zephir_create_closure_ex(&_0$$4, NULL, phalcon_79__closure_ce, SL("__invoke"));
+		zephir_create_closure_ex(&_0$$4, NULL, phalcon_77__closure_ce, SL("__invoke"));
 		zephir_update_property_zval(this_ptr, ZEND_STRL("actionPreformatCallback"), &_0$$4);
 	} else {
 		ZEPHIR_INIT_VAR(&_1$$5);
