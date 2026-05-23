@@ -507,7 +507,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
         let authHeaders = this->resolveAuthorizationHeaders();
 
         // Protect for future (child classes) changes
-        let headers = authHeaders + headers;
+        let headers = array_merge(headers, authHeaders);
 
         return headers;
     }
@@ -1692,7 +1692,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
             );
 
             if typeof resolved === "array" {
-                let headers = resolved + headers;
+                let headers = array_merge(headers, resolved);
             }
         }
 
@@ -1747,7 +1747,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
             );
 
             if typeof resolved === "array" {
-                let headers = resolved + headers;
+                let headers = array_merge(headers, resolved);
             }
 
         }

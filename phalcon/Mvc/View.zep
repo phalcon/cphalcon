@@ -655,7 +655,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
              * Merge the new params as parameters
              */
             let viewParams = this->viewParams;
-            let this->viewParams = params + viewParams;
+            let this->viewParams = array_merge(viewParams, params);
 
             /**
              * Create a virtual symbol table
