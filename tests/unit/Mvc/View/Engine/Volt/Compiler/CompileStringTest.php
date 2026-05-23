@@ -495,6 +495,23 @@ class CompileStringTest extends AbstractUnitTestCase
                 '{{ \'Let\\\'s Encrypt\' }}',
                 '<?= \'Let\\\'s Encrypt\' ?>',
             ],
+            // Issue: 17046 - literal single quotes inside a double-quoted volt string
+            [
+                '{{ "say \'hi\'" }}',
+                "<?= 'say \\'hi\\'' ?>",
+            ],
+            // Issue: 17046 - the reported set/concatenation case
+            [
+                '{% set ga_action="send_ga(\'Link\', \'External\', \'"'
+                . ' ~ item.title|striptags|url_encode ~ "\');" %}',
+                "<?php \$ga_action = 'send_ga(\\'Link\\', \\'External\\', \\''"
+                . " . urlencode(strip_tags(\$item->title)) . '\\');'; ?>",
+            ],
+            // Issue: 17046 - double-quoted volt with only literal single quotes
+            [
+                '{% set x = "it\'s" %}',
+                "<?php \$x = 'it\\'s'; ?>",
+            ],
         ];
     }
 
