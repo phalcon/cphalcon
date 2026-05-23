@@ -477,7 +477,7 @@ abstract class AbstractPdo extends AbstractAdapter
      * );
      *```
      */
-    public function executePrepared(<\PDOStatement> statement, array! placeholders, dataTypes) -> <\PDOStatement>
+    public function executePrepared(<\PDOStatement> statement, array! placeholders, array dataTypes = []) -> <\PDOStatement>
     {
         var wildcard, value, type, castValue, parameter, position, itemValue;
 
@@ -490,7 +490,7 @@ abstract class AbstractPdo extends AbstractAdapter
                 throw new InvalidBindParameter();
             }
 
-            if typeof dataTypes == "array" && fetch type, dataTypes[wildcard] {
+            if fetch type, dataTypes[wildcard] {
                 /**
                  * The bind type needs to be string because the precision
                  * is lost if it is casted as a double
