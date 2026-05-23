@@ -3775,7 +3775,7 @@ class Query implements QueryInterface, InjectionAwareInterface
             tempSqlAliases, tempSqlModelsAliases,
             tempSqlAliasesModelsInstances, tempSqlAliasesModels, with, withs,
             withItem, automaticJoins, number, relation, joinAlias,
-            relationModel, bestAlias, eagerType;
+            relationModel, bestAlias, eagerType, mergeKey, mergeValue;
         array sqlModels, sqlTables, sqlAliases, sqlColumns, sqlAliasesModels,
             sqlModelsAliases, sqlAliasesModelsInstances, models,
             modelsInstances;
@@ -4003,12 +4003,34 @@ class Query implements QueryInterface, InjectionAwareInterface
                 tempSqlModelsAliases = this->sqlModelsAliases,
                 tempSqlAliasesModelsInstances = this->sqlAliasesModelsInstances;
 
-            let this->models = array_merge(this->models, models),
-                this->modelsInstances = array_merge(this->modelsInstances, modelsInstances),
-                this->sqlAliases = array_merge(this->sqlAliases, sqlAliases),
-                this->sqlAliasesModels = array_merge(this->sqlAliasesModels, sqlAliasesModels),
-                this->sqlModelsAliases = array_merge(this->sqlModelsAliases, sqlModelsAliases),
-                this->sqlAliasesModelsInstances = array_merge(this->sqlAliasesModelsInstances, sqlAliasesModelsInstances);
+            /**
+             * In-place updates instead of array_merge: preserves the
+             * "right-side wins, original order kept" semantics that
+             * union (+) cannot give, with no fresh array allocation.
+             */
+            for mergeKey, mergeValue in models {
+                let this->models[mergeKey] = mergeValue;
+            }
+
+            for mergeKey, mergeValue in modelsInstances {
+                let this->modelsInstances[mergeKey] = mergeValue;
+            }
+
+            for mergeKey, mergeValue in sqlAliases {
+                let this->sqlAliases[mergeKey] = mergeValue;
+            }
+
+            for mergeKey, mergeValue in sqlAliasesModels {
+                let this->sqlAliasesModels[mergeKey] = mergeValue;
+            }
+
+            for mergeKey, mergeValue in sqlModelsAliases {
+                let this->sqlModelsAliases[mergeKey] = mergeValue;
+            }
+
+            for mergeKey, mergeValue in sqlAliasesModelsInstances {
+                let this->sqlAliasesModelsInstances[mergeKey] = mergeValue;
+            }
         }
 
         fetch joins, select["joins"];

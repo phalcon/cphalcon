@@ -81,6 +81,16 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     protected rawBody = "";
 
     /**
+     * Cached snapshot of $_SERVER taken on first access. Reset
+     * implicitly by Request instance lifetime — one Request per
+     * request is the common model; long-running workers create a
+     * new Request each cycle.
+     *
+     * @var array|null
+     */
+    protected serverCache = null;
+
+    /**
      * @var bool
      */
     protected strictHostCheck = false;
@@ -1822,11 +1832,17 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
 
     private function getServerArray() -> array
     {
-        if _SERVER {
-            return _SERVER;
+        if this->serverCache !== null {
+            return this->serverCache;
         }
 
-        return [];
+        if _SERVER {
+            let this->serverCache = _SERVER;
+        } else {
+            let this->serverCache = [];
+        }
+
+        return this->serverCache;
     }
 
     /**

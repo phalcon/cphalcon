@@ -891,11 +891,18 @@ class Memory extends AbstractAdapter
     {
         var accessList, checkRoleToInherit, usedRoleToInherit;
         array usedRoleToInherits, checkRoleToInherits;
-        string accessKey;
+        string accessKey, roleComponentPrefix, inheritPrefix;
 
         let accessList = this->access;
 
-        let accessKey = roleName . "!" . componentName . "!" . access;
+        /**
+         * Build the shared `<role>!<component>!` prefix once and reuse
+         * it for the two component-scoped lookups below; only the
+         * role-only `<role>!*!*` key sits outside the prefix.
+         */
+        let roleComponentPrefix = roleName . "!" . componentName . "!";
+
+        let accessKey = roleComponentPrefix . access;
 
         /**
          * Check if there is a direct combination for role-component-access
@@ -907,7 +914,7 @@ class Memory extends AbstractAdapter
         /**
          * Check if there is a direct combination for role-*-*
          */
-        let accessKey = roleName . "!" . componentName . "!*";
+        let accessKey = roleComponentPrefix . "*";
 
         if isset accessList[accessKey] {
             return accessKey;
@@ -943,7 +950,8 @@ class Memory extends AbstractAdapter
 
                 let usedRoleToInherits[checkRoleToInherit] = true;
 
-                let accessKey = checkRoleToInherit . "!" . componentName . "!" . access;
+                let inheritPrefix = checkRoleToInherit . "!" . componentName . "!";
+                let accessKey = inheritPrefix . access;
 
                 /**
                  * Check if there is a direct combination in one of the
@@ -956,7 +964,7 @@ class Memory extends AbstractAdapter
                 /**
                  * Check if there is a direct combination for role-*-*
                  */
-                let accessKey = checkRoleToInherit . "!" . componentName . "!*";
+                let accessKey = inheritPrefix . "*";
 
                 if isset accessList[accessKey] {
                     return accessKey;
