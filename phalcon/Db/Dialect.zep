@@ -582,6 +582,7 @@ abstract class Dialect implements DialectInterface
     {
         var tables, columns, sql, distinct, joins, where, escapeChar, groupBy,
             having, orderBy, limit, forUpdate, bindCounts;
+        array parts;
 
         if unlikely !fetch tables, definition["tables"] {
             throw new MissingDefinitionKey("tables");
@@ -609,49 +610,38 @@ abstract class Dialect implements DialectInterface
         let escapeChar = this->escapeChar;
 
         /**
-         * Resolve COLUMNS
+         * Accumulate the top-level clauses in an array and join once.
+         * Each segment is appended without a leading space; implode adds
+         * the separator. The conditional LIMIT / FOR UPDATE tails are
+         * handled after the join because LIMIT wraps the assembled SQL.
          */
-        let sql .= " " . this->getColumnList(columns, escapeChar, bindCounts);
+        let parts = [
+            sql,
+            this->getColumnList(columns, escapeChar, bindCounts),
+            this->getSqlExpressionFrom(tables, escapeChar)
+        ];
 
-        /**
-         * Resolve FROM
-         */
-        let sql .= " " . this->getSqlExpressionFrom(tables, escapeChar);
-
-        /**
-         * Resolve JOINs
-         */
         if fetch joins, definition["joins"] && joins {
-            let sql .= " " . this->getSqlExpressionJoins(definition["joins"], escapeChar, bindCounts);
+            let parts[] = this->getSqlExpressionJoins(definition["joins"], escapeChar, bindCounts);
         }
 
-        /**
-         * Resolve WHERE
-         */
         if fetch where, definition["where"] && where {
-            let sql .= " " . this->getSqlExpressionWhere(where, escapeChar, bindCounts);
+            let parts[] = this->getSqlExpressionWhere(where, escapeChar, bindCounts);
         }
 
-        /**
-         * Resolve GROUP BY
-         */
         if fetch groupBy, definition["group"] && groupBy {
-            let sql .= " " . this->getSqlExpressionGroupBy(groupBy, escapeChar);
+            let parts[] = this->getSqlExpressionGroupBy(groupBy, escapeChar);
         }
 
-        /**
-         * Resolve HAVING
-         */
         if fetch having, definition["having"] && having {
-            let sql .= " " . this->getSqlExpressionHaving(having, escapeChar, bindCounts);
+            let parts[] = this->getSqlExpressionHaving(having, escapeChar, bindCounts);
         }
 
-        /**
-         * Resolve ORDER BY
-         */
         if fetch orderBy, definition["order"] && orderBy {
-            let sql .= " " . this->getSqlExpressionOrderBy(orderBy, escapeChar, bindCounts);
+            let parts[] = this->getSqlExpressionOrderBy(orderBy, escapeChar, bindCounts);
         }
+
+        let sql = implode(" ", parts);
 
         /**
          * Resolve LIMIT

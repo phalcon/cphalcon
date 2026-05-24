@@ -121,6 +121,16 @@ class Crypt implements CryptInterface
     protected hashAlgorithm = self::DEFAULT_ALGORITHM;
 
     /**
+     * Memoized `strlen(hash($algo, "", true))` results, keyed by
+     * algorithm name. The hash output length is deterministic for a
+     * given algorithm, so this collapses the per-decrypt strlen+hash
+     * call to a single hash lookup after warm-up.
+     *
+     * @var array
+     */
+    protected hashLengthCache = [];
+
+    /**
      * The cipher iv length.
      *
      * @var int
@@ -223,8 +233,11 @@ class Crypt implements CryptInterface
         let digest        = "",
             hashAlgorithm = this->getHashAlgorithm();
         if true === this->useSigning {
-            let hashLength = strlen(hash(hashAlgorithm, "", true)),
-                digest     = mb_substr(input, ivLength, hashLength, "8bit"),
+            if !fetch hashLength, this->hashLengthCache[hashAlgorithm] {
+                let hashLength = strlen(hash(hashAlgorithm, "", true));
+                let this->hashLengthCache[hashAlgorithm] = hashLength;
+            }
+            let digest     = mb_substr(input, ivLength, hashLength, "8bit"),
                 cipherText = mb_substr(input, ivLength + hashLength, null, "8bit");
         } else {
             let cipherText = mb_substr(input, ivLength, null, "8bit");

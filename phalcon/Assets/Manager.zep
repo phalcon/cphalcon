@@ -367,6 +367,7 @@ class Manager extends AbstractInjectionAware
     {
         string output;
         bool filterNeeded;
+        array outputParts;
         var asset, assets, callback, callbackMethod, collectionSourcePath,
             collectionTargetPath, completeSourcePath, completeTargetPath,
             content, filter, filters, filteredContent, filteredJoinedContent,
@@ -379,6 +380,7 @@ class Manager extends AbstractInjectionAware
             filteredJoinedContent = "",
             join                  = false,
             output                = "",
+            outputParts           = [],
             options               = this->options;
 
         let callbackMethod = ("css" === type) ? "cssLink" : "jsLink",
@@ -550,7 +552,7 @@ class Manager extends AbstractInjectionAware
                 if (true === this->implicitOutput) {
                     echo html;
                 } else {
-                    let output .= html;
+                    let outputParts[] = html;
                 }
 
                 continue;
@@ -641,7 +643,7 @@ class Manager extends AbstractInjectionAware
                 if (true === this->implicitOutput) {
                     echo html;
                 } else {
-                    let output .= html;
+                    let outputParts[] = html;
                 }
             }
         }
@@ -675,9 +677,11 @@ class Manager extends AbstractInjectionAware
             if (true === this->implicitOutput) {
                 echo html;
             } else {
-                let output .= html;
+                let outputParts[] = html;
             }
         }
+
+        let output = implode("", outputParts);
 
         return output;
     }

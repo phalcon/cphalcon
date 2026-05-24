@@ -27,6 +27,16 @@ abstract class AbstractAdapter implements AdapterInterface
     protected annotations = [];
 
     /**
+     * Maximum number of class annotation entries retained in the
+     * in-memory cache. 0 (default) keeps the original unbounded
+     * behavior; a positive value clears the cache when adding a new
+     * class would exceed it.
+     *
+     * @var int
+     */
+    protected annotationsLimit = 0;
+
+    /**
      * @var Reader
      */
     protected reader;
@@ -63,12 +73,25 @@ abstract class AbstractAdapter implements AdapterInterface
             let reader = this->getReader(),
                 parsedAnnotations = reader->parse(realClassName);
 
+            if this->annotationsLimit > 0 && count(this->annotations) >= this->annotationsLimit {
+                let this->annotations = [];
+            }
+
             let classAnnotations = new Reflection(parsedAnnotations),
                 this->annotations[realClassName] = classAnnotations;
                 this->{"write"}(realClassName, classAnnotations);
         }
 
         return classAnnotations;
+    }
+
+    /**
+     * Returns the configured annotations-cache cap (0 = unlimited).
+     * See setAnnotationsLimit().
+     */
+    public function getAnnotationsLimit() -> int
+    {
+        return this->annotationsLimit;
     }
 
     /**
@@ -159,6 +182,10 @@ abstract class AbstractAdapter implements AdapterInterface
         let methods = classAnnotations->getMethodsAnnotations();
 
         if typeof methods === "array" {
+            if fetch method, methods[methodName] {
+                return method;
+            }
+
             for methodKey, method in methods {
                 if !strcasecmp(methodKey, methodName) {
                     return method;
@@ -197,6 +224,17 @@ abstract class AbstractAdapter implements AdapterInterface
         }
 
         return this->reader;
+    }
+
+    /**
+     * Caps the number of class entries retained in the annotations
+     * cache. 0 disables the cap (the default; preserves the original
+     * unbounded behavior). When the cap is exceeded, the cache is
+     * cleared and repopulated on subsequent reads.
+     */
+    public function setAnnotationsLimit(int annotationsLimit)
+    {
+        let this->annotationsLimit = annotationsLimit;
     }
 
     /**

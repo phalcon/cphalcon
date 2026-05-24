@@ -139,13 +139,21 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
      */
     public function getBasicAuth() -> array | null
     {
-        if !this->hasServer("PHP_AUTH_USER") {
+        var password, server, username;
+
+        let server = this->getServerArray();
+
+        if !fetch username, server["PHP_AUTH_USER"] {
             return null;
         }
 
+        if !fetch password, server["PHP_AUTH_PW"] {
+            let password = null;
+        }
+
         return [
-            "username": this->getServer("PHP_AUTH_USER"),
-            "password": this->getServer("PHP_AUTH_PW")
+            "username": username,
+            "password": password
         ];
     }
 

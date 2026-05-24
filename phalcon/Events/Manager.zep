@@ -100,6 +100,18 @@ class Manager implements ManagerInterface
     protected methodExistsCache = [];
 
     /**
+     * Maximum number of distinct handler classes retained in
+     * methodExistsCache. 0 (default) keeps the original unbounded
+     * behavior; a positive value clears the cache when adding a new
+     * class would exceed it. Re-warming is cheap (method_exists is
+     * O(1)) and the cap is meant for very long-lived workers that see
+     * many distinct listener classes over time.
+     *
+     * @var int
+     */
+    protected methodExistsCacheLimit = 0;
+
+    /**
      * Memoized getSubscribedEvents() maps keyed by Subscriber class name.
      * The static method's return is stable for the lifetime of a class
      * definition, so the cache never needs invalidation.
@@ -648,6 +660,15 @@ class Manager implements ManagerInterface
     }
 
     /**
+     * Returns the configured method_exists-cache cap (0 = unlimited).
+     * See setMethodExistsCacheLimit().
+     */
+    public function getMethodExistsCacheLimit() -> int
+    {
+        return this->methodExistsCacheLimit;
+    }
+
+    /**
      * Returns all the responses returned by every handler executed by the last
      * 'fire' executed
      */
@@ -762,6 +783,18 @@ class Manager implements ManagerInterface
     }
 
     /**
+     * Caps the number of distinct handler classes retained in the
+     * method_exists memoization cache. 0 disables the cap (the
+     * default; preserves the original unbounded behavior). When the
+     * cap is exceeded, the cache is cleared and re-warms on subsequent
+     * fires.
+     */
+    public function setMethodExistsCacheLimit(int methodExistsCacheLimit) -> void
+    {
+        let this->methodExistsCacheLimit = methodExistsCacheLimit;
+    }
+
+    /**
      * Enables/disables the stop-on-false short-circuit. When true, a
      * listener returning literal `false` (with cancelable=true) stops
      * the current event's queue and pins the fire() return as `false`.
@@ -841,6 +874,11 @@ class Manager implements ManagerInterface
                 let handlerClass = tuple[3];
 
                 if !isset this->methodExistsCache[handlerClass][eventName] {
+                    if !isset this->methodExistsCache[handlerClass]
+                        && this->methodExistsCacheLimit > 0
+                        && count(this->methodExistsCache) >= this->methodExistsCacheLimit {
+                        let this->methodExistsCache = [];
+                    }
                     let this->methodExistsCache[handlerClass][eventName] = method_exists(handler, eventName);
                 }
 
@@ -890,6 +928,11 @@ class Manager implements ManagerInterface
                 let handlerClass = tuple[3];
 
                 if !isset this->methodExistsCache[handlerClass][eventName] {
+                    if !isset this->methodExistsCache[handlerClass]
+                        && this->methodExistsCacheLimit > 0
+                        && count(this->methodExistsCache) >= this->methodExistsCacheLimit {
+                        let this->methodExistsCache = [];
+                    }
                     let this->methodExistsCache[handlerClass][eventName] = method_exists(handler, eventName);
                 }
 

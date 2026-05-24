@@ -1184,11 +1184,16 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         }
 
         /**
-         * Models that keep snapshots store the original data in t
+         * Models that keep snapshots store the original data in t.
+         * At hydration both snapshot and oldSnapshot are the same
+         * "as fetched" baseline — reuse the column-mapped result of
+         * setSnapshotData() instead of running the column-map walk
+         * a second time. PHP's COW lets the two refs share memory
+         * until one is mutated by save().
          */
         if keepSnapshots {
             instance->setSnapshotData(data, columnMap);
-            instance->setOldSnapshotData(data, columnMap);
+            instance->setOldSnapshotData(instance->getSnapshotData());
         }
 
         /**

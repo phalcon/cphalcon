@@ -42,6 +42,8 @@ use Phalcon\Support\Settings;
  */
 abstract class AbstractPdo extends AbstractAdapter
 {
+    const BIND_PATTERN = "/\\?([0-9]+)|:([a-zA-Z0-9_]+):/";
+
     /**
      * Last affected rows
      *
@@ -335,7 +337,7 @@ abstract class AbstractPdo extends AbstractAdapter
             value;
 
         let placeHolders = [],
-            bindPattern = "/\\?([0-9]+)|:([a-zA-Z0-9_]+):/",
+            bindPattern = self::BIND_PATTERN,
             matches = null,
             setOrder = 2;
 
@@ -475,7 +477,7 @@ abstract class AbstractPdo extends AbstractAdapter
      * );
      *```
      */
-    public function executePrepared(<\PDOStatement> statement, array! placeholders, dataTypes) -> <\PDOStatement>
+    public function executePrepared(<\PDOStatement> statement, array! placeholders, array dataTypes = []) -> <\PDOStatement>
     {
         var wildcard, value, type, castValue, parameter, position, itemValue;
 
@@ -488,7 +490,7 @@ abstract class AbstractPdo extends AbstractAdapter
                 throw new InvalidBindParameter();
             }
 
-            if typeof dataTypes == "array" && fetch type, dataTypes[wildcard] {
+            if fetch type, dataTypes[wildcard] {
                 /**
                  * The bind type needs to be string because the precision
                  * is lost if it is casted as a double

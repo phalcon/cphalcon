@@ -80,6 +80,15 @@ class Profiler
     protected allProfiles;
 
     /**
+     * Maximum number of profiles to retain. 0 (default) keeps the
+     * original unbounded behavior; a positive value drops the oldest
+     * profile FIFO before a new one is appended.
+     *
+     * @var int
+     */
+    protected maxProfiles = 0;
+
+    /**
      * Total time spent by all profiles to complete in nanoseconds
      *
      * @var float
@@ -92,6 +101,15 @@ class Profiler
     public function getLastProfile() -> <Item>
     {
         return this->activeProfile;
+    }
+
+    /**
+     * Returns the configured maximum number of retained profiles
+     * (0 = unlimited)
+     */
+    public function getMaxProfiles() -> int
+    {
+        return this->maxProfiles;
     }
 
     /**
@@ -145,6 +163,17 @@ class Profiler
     }
 
     /**
+     * Sets the maximum number of retained profiles. 0 disables the cap
+     * (the default; preserves the original unbounded behavior).
+     */
+    public function setMaxProfiles(int maxProfiles) -> <static>
+    {
+        let this->maxProfiles = maxProfiles;
+
+        return this;
+    }
+
+    /**
      * Starts the profile of a SQL sentence
      */
     public function startProfile(
@@ -175,11 +204,18 @@ class Profiler
      */
     public function stopProfile() -> <static>
     {
-        var activeProfile;
+        var activeProfile, firstKey;
 
         let activeProfile = <Item> this->activeProfile;
 
         activeProfile->setFinalTime(hrtime(true));
+
+        if this->maxProfiles > 0 && count(this->allProfiles) >= this->maxProfiles {
+            let firstKey = array_key_first(this->allProfiles);
+            if firstKey !== null {
+                unset(this->allProfiles[firstKey]);
+            }
+        }
 
         let this->totalNanoseconds = this->totalNanoseconds + activeProfile->getTotalElapsedNanoseconds(),
             this->allProfiles[]    = activeProfile;

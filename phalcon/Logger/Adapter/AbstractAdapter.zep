@@ -57,6 +57,16 @@ abstract class AbstractAdapter implements AdapterInterface
     protected queue = [];
 
     /**
+     * Maximum number of items retained in the transaction queue.
+     * 0 (default) keeps the original unbounded behavior; a positive
+     * value drops the oldest queued item FIFO before a new one is
+     * appended in add().
+     *
+     * @var int
+     */
+    protected queueLimit = 0;
+
+    /**
      * Destructor cleanup
      *
      * @throws TransactionAlreadyActive
@@ -95,6 +105,15 @@ abstract class AbstractAdapter implements AdapterInterface
      */
     public function add(<Item> item) -> <AdapterInterface>
     {
+        var firstKey;
+
+        if this->queueLimit > 0 && count(this->queue) >= this->queueLimit {
+            let firstKey = array_key_first(this->queue);
+            if firstKey !== null {
+                unset(this->queue[firstKey]);
+            }
+        }
+
         let this->queue[] = item;
 
         return this;
@@ -150,6 +169,14 @@ abstract class AbstractAdapter implements AdapterInterface
     }
 
     /**
+     * Returns the configured transaction-queue cap (0 = unlimited)
+     */
+    public function getQueueLimit() -> int
+    {
+        return this->queueLimit;
+    }
+
+    /**
      * Returns the whether the logger is currently in an active transaction or
      * not
      */
@@ -189,6 +216,18 @@ abstract class AbstractAdapter implements AdapterInterface
     public function setFormatter(<FormatterInterface> formatter) -> <AdapterInterface>
     {
         let this->formatter = formatter;
+
+        return this;
+    }
+
+    /**
+     * Sets the maximum number of items retained in the transaction
+     * queue. 0 disables the cap (the default; preserves the original
+     * unbounded behavior).
+     */
+    public function setQueueLimit(int queueLimit) -> <AdapterInterface>
+    {
+        let this->queueLimit = queueLimit;
 
         return this;
     }
