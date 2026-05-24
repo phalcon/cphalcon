@@ -285,6 +285,7 @@ class Memory extends AbstractAdapter
         var roleInheritName, roleToInherit, checkRoleToInherit,
             roleToInheritList, usedRoleToInherit;
         array checkRoleToInherits, usedRoleToInherits;
+        int pendingIndex;
 
         this->checkExists(this->roles, roleName, "Role", "role list");
 
@@ -341,8 +342,17 @@ class Memory extends AbstractAdapter
 
                 let usedRoleToInherits = [];
 
-                while !empty checkRoleToInherits {
-                    let checkRoleToInherit = array_shift(checkRoleToInherits);
+                /**
+                 * Walk the inheritance queue with an integer cursor instead
+                 * of `array_shift`. New roles enqueued by the body land at
+                 * the end of `checkRoleToInherits`, so advancing `pendingIndex`
+                 * preserves FIFO order without paying `array_shift`'s O(n)
+                 * reindex per pop.
+                 */
+                let pendingIndex = 0;
+                while pendingIndex < count(checkRoleToInherits) {
+                    let checkRoleToInherit = checkRoleToInherits[pendingIndex];
+                    let pendingIndex++;
 
                     if isset usedRoleToInherits[checkRoleToInherit] {
                         continue;
@@ -892,6 +902,7 @@ class Memory extends AbstractAdapter
         var accessList, checkRoleToInherit, usedRoleToInherit;
         array usedRoleToInherits, checkRoleToInherits;
         string accessKey, roleComponentPrefix, inheritPrefix;
+        int pendingIndex;
 
         let accessList = this->access;
 
@@ -941,8 +952,16 @@ class Memory extends AbstractAdapter
 
             let usedRoleToInherits = [];
 
-            while !empty checkRoleToInherits {
-                let checkRoleToInherit = array_shift(checkRoleToInherits);
+            /**
+             * Walk the inheritance queue with an integer cursor instead of
+             * `array_shift`. New roles enqueued by the body land at the end
+             * of `checkRoleToInherits`, so advancing `pendingIndex` preserves
+             * FIFO order without paying `array_shift`'s O(n) reindex per pop.
+             */
+            let pendingIndex = 0;
+            while pendingIndex < count(checkRoleToInherits) {
+                let checkRoleToInherit = checkRoleToInherits[pendingIndex];
+                let pendingIndex++;
 
                 if isset usedRoleToInherits[checkRoleToInherit] {
                     continue;
