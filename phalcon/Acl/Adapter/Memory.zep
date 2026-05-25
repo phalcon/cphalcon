@@ -669,7 +669,7 @@ class Memory extends AbstractAdapter
         /**
          * Check in the inherits roles
          */
-        let this->accessGranted = haveAccess;
+        let this->accessGranted = (null === haveAccess) ? Enum::DENY : haveAccess;
 
         this->fireManagerEvent("acl:afterCheckAccess", this);
 
