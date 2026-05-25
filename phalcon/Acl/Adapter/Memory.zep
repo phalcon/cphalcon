@@ -150,7 +150,7 @@ class Memory extends AbstractAdapter
      *
      * @var mixed
      */
-    protected func;
+    protected functions;
 
     /**
      * Default action for no arguments is `allow`
@@ -510,16 +510,14 @@ class Memory extends AbstractAdapter
             let localAccess = accessList;
         }
 
-        if typeof accessList === "array" {
-            for accessName in localAccess {
-                let accessKey = componentName . "!" . accessName;
+        for accessName in localAccess {
+            let accessKey = componentName . "!" . accessName;
 
-                if isset this->accessList[accessKey] {
-                    unset this->accessList[accessKey];
-                }
+            if isset this->accessList[accessKey] {
+                unset this->accessList[accessKey];
             }
         }
-     }
+    }
 
     /**
      * Returns the latest function used to acquire access
@@ -642,7 +640,7 @@ class Memory extends AbstractAdapter
             this->activeKey       = null,
             this->activeFunction  = null,
             accessList            = this->access,
-            funcList              = this->func;
+            funcList              = this->functions;
 
         let this->activeFunctionCustomArgumentsCount = 0;
 
@@ -869,7 +867,7 @@ class Memory extends AbstractAdapter
                 let this->access[accessKey] = action;
 
                 if func != null {
-                    let this->func[accessKey] = func;
+                    let this->functions[accessKey] = func;
                 }
             }
         } else {
@@ -889,7 +887,7 @@ class Memory extends AbstractAdapter
             let this->access[accessKey] = action;
 
             if func != null {
-                let this->func[accessKey] = func;
+                let this->functions[accessKey] = func;
             }
         }
     }
