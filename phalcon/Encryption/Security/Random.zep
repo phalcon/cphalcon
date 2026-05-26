@@ -307,14 +307,14 @@ class Random
      *
      * @throws Exception If secure random number generator is not available or unexpected partial read
      */
-    protected function base(string alphabet, int base, n = 16) -> string
+    protected function base(string alphabet, int base, number = 16) -> string
     {
         var bytes, idx;
         string byteString = "";
 
         let bytes = unpack(
             "C*",
-            this->bytes(n)
+            this->bytes(number)
         );
 
         for idx in bytes {

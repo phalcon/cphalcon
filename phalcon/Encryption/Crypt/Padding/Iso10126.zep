@@ -18,8 +18,7 @@ namespace Phalcon\Encryption\Crypt\Padding;
 class Iso10126 implements PadInterface
 {
     /**
-     * @param string $input
-     * @param int    $blockSize
+     * @param int $paddingSize
      *
      * @return string
      */
