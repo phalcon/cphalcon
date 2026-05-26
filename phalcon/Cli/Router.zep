@@ -38,7 +38,7 @@ use Phalcon\Di\DiInterface;
  * echo $router->getTaskName();
  *```
  */
-class Router extends AbstractInjectionAware
+class Router extends AbstractInjectionAware implements RouterInterface
 {
     /**
      * @var string
@@ -105,22 +105,21 @@ class Router extends AbstractInjectionAware
      */
     public function __construct(bool defaultRoutes = true)
     {
-        array routes;
-
-        let routes = [];
+        var route;
 
         if defaultRoutes {
             // Two routes are added by default to match
             // /:task/:action and /:task/:action/:params
 
-            let routes[] = new Route(
+            let route = new Route(
                 "#^(?::delimiter)?([a-zA-Z0-9\\_\\-]+)[:delimiter]{0,1}$#",
                 [
                     "task": 1
                 ]
             );
+            let this->routes[route->getRouteId()] = route;
 
-            let routes[] = new Route(
+            let route = new Route(
                 "#^(?::delimiter)?([a-zA-Z0-9\\_\\-]+):delimiter([a-zA-Z0-9\\.\\_]+)(:delimiter.*)*$#",
                 [
                     "task":   1,
@@ -128,9 +127,8 @@ class Router extends AbstractInjectionAware
                     "params": 3
                 ]
             );
+            let this->routes[route->getRouteId()] = route;
         }
-
-        let this->routes = routes;
     }
 
     /**
@@ -147,7 +145,7 @@ class Router extends AbstractInjectionAware
         var route;
 
         let route = new Route(pattern, paths),
-            this->routes[] = route;
+            this->routes[route->getRouteId()] = route;
 
         return route;
     }
@@ -186,6 +184,14 @@ class Router extends AbstractInjectionAware
 
     /**
      * Returns processed extra params
+     */
+    public function getParameters() -> array
+    {
+        return this->params;
+    }
+
+    /**
+     * Returns processed extra params
      *
      * @todo deprecate this in future versions
      */
@@ -195,26 +201,14 @@ class Router extends AbstractInjectionAware
     }
 
     /**
-     * Returns processed extra params
-     */
-    public function getParameters() -> array
-    {
-        return this->params;
-    }
-
-    /**
      * Returns a route object by its id
      *
      * @param int id
      */
     public function getRouteById(var id) -> <RouteInterface> | bool
     {
-        var route;
-
-        for route in this->routes {
-            if route->getRouteId() == id {
-                return route;
-            }
+        if isset this->routes[id] {
+            return this->routes[id];
         }
 
         return false;
@@ -521,9 +515,11 @@ class Router extends AbstractInjectionAware
     /**
      * Sets the default controller name
      */
-    public function setDefaultTask(string taskName) -> void
+    public function setDefaultTask(string taskName) -> <static>
     {
         let this->defaultTask = taskName;
+
+        return this;
     }
 
     /**
