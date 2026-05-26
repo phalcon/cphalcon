@@ -146,7 +146,7 @@ class Ini extends Config
         }
 
         // Decode float/int
-        if typeof ini === "string" && is_numeric(ini) {
+        if is_numeric(ini) {
             if preg_match("/[.]+/", ini) {
                 return (double) ini;
             }
