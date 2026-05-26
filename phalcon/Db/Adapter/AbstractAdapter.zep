@@ -1025,7 +1025,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      * echo $connection->limit("SELECT * FROM robots", 5);
      * ```
      */
-    public function limit(string! sqlQuery, int number) -> string
+    public function limit(string! sqlQuery, var number) -> string
     {
         return this->dialect->limit(sqlQuery, number);
     }
