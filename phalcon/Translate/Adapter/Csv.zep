@@ -114,6 +114,24 @@ class Csv extends AbstractAdapter
     }
 
     /**
+     * Returns the internal array
+     *
+     * @return array
+     */
+    public function toArray() -> array
+    {
+        return this->translate;
+    }
+
+    /**
+     * @todo to be removed when we get traits
+     */
+    protected function phpFopen(string filename, string mode)
+    {
+        return fopen(filename, mode);
+    }
+
+    /**
      * Load translations from file
      *
      * @param string $file
@@ -150,23 +168,5 @@ class Csv extends AbstractAdapter
         }
 
         fclose(fileHandler);
-    }
-
-    /**
-     * Returns the internal array
-     *
-     * @return array
-     */
-    public function toArray() -> array
-    {
-        return this->translate;
-    }
-
-    /**
-     * @todo to be removed when we get traits
-     */
-    protected function phpFopen(string filename, string mode)
-    {
-        return fopen(filename, mode);
     }
 }

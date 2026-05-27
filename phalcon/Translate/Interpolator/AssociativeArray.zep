@@ -14,8 +14,6 @@ use Phalcon\Support\Helper\Str\Interpolate;
 
 /**
  * Class AssociativeArray
- *
- * @package Phalcon\Translate\Interpolator
  */
 class AssociativeArray implements InterpolatorInterface
 {
