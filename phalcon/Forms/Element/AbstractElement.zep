@@ -156,7 +156,9 @@ abstract class AbstractElement implements ElementInterface
         }
 
         for validator in validators {
-            this->addValidator(validator);
+            if validator instanceof ValidatorInterface {
+                this->addValidator(validator);
+            }
         }
 
         return this;
