@@ -15,12 +15,6 @@
 
 namespace Phalcon\Time\Clock;
 
-use Throwable;
-
 class Exception extends \Exception
 {
-    public static function invalidModifier(string message, <Throwable> ex = null) -> <Exception>
-    {
-        return new Exception("Invalid modifier: \"" . message . "\"", 0, ex);
-    }
 }
