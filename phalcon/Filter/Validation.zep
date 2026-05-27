@@ -66,9 +66,9 @@ class Validation extends Injectable implements ValidationInterface
     protected labels = [];
 
     /**
-     * @var Messages|null
+     * @var Messages
      */
-    protected messages = null;
+    protected messages;
 
     /**
      * List of validators
@@ -89,6 +89,8 @@ class Validation extends Injectable implements ValidationInterface
      */
     public function __construct(array validators = [])
     {
+        let this->messages = new Messages();
+
         let this->validators = array_filter(
             validators,
             function(var element) {
@@ -148,17 +150,7 @@ class Validation extends Injectable implements ValidationInterface
      */
     public function appendMessage(<MessageInterface> message) -> <static>
     {
-        var messages;
-
-        let messages = this->messages;
-
-        if typeof messages != "object" {
-            let messages = new Messages();
-        }
-
-        messages->appendMessage(message);
-
-        let this->messages = messages;
+        this->messages->appendMessage(message);
 
         return this;
     }
@@ -680,7 +672,7 @@ class Validation extends Injectable implements ValidationInterface
      */
     public function fails() -> bool
     {
-        if unlikely !is_null(this->messages) && this->messages->count() > 0 {
+        if this->messages->count() > 0 {
             return true;
         }
 

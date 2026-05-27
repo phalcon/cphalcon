@@ -36,8 +36,8 @@ use Phalcon\Filter\Exceptions\FilterNotRegistered;
  * @method string       trim(string $input)
  * @method string       upper(string $input)
  * @method string       upperFirst(string $input)
- * @method null         upperWords(string $input): strin
- * @method null         url(string $input): strin
+ * @method string|null  upperWords(string $input)
+ * @method string|null  url(string $input)
  *
  * @property array $mapper
  * @property array $services
