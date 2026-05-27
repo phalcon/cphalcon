@@ -14,9 +14,9 @@ use Phalcon\Html\Link\Interfaces\EvolvableLinkProviderInterface;
 use Phalcon\Html\Link\Interfaces\LinkInterface;
 
 /**
- * Class Phalcon\Http\Link\LinkProvider
+ * Class Phalcon\Html\Link\EvolvableLinkProvider
  *
- * @property LinkInterface[] links
+ * @property LinkInterface[] $links
  */
 class EvolvableLinkProvider extends LinkProvider implements EvolvableLinkProviderInterface
 {

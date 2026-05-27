@@ -13,12 +13,7 @@ namespace Phalcon\Html\Link;
 use Phalcon\Html\Link\Interfaces\EvolvableLinkInterface;
 
 /**
- * Class Phalcon\Http\Link\EvolvableLink
- *
- * @property array  attributes
- * @property string href
- * @property array  rels
- * @property bool   templated
+ * Class Phalcon\Html\Link\EvolvableLink
  */
 class EvolvableLink extends Link implements EvolvableLinkInterface
 {
