@@ -12,10 +12,8 @@ namespace Phalcon\Html\Attributes;
 use Phalcon\Html\Attributes;
 
 /**
-* Phalcon\Html\Attributes\AttributesInterface
-*
-* Interface Phalcon\Html\Attributes\AttributesInterface
-*/
+ * Html Attributes Interface
+ */
 interface AttributesInterface
 {
     /**

@@ -10,14 +10,12 @@
 namespace Phalcon\Html\Attributes;
 
 /**
-* Phalcon\Html\Attributes\RenderInterface
-*
-* Interface Phalcon\Html\Attributes\RenderInterface
-*/
+ * Rendering interface for HTML attributes
+ */
 interface RenderInterface
 {
     /**
-     * Generate a string represetation
+     * Generate a string representation
      */
     public function render() -> string;
 }
