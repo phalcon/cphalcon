@@ -37,7 +37,7 @@ class Dynamic
         var ldS, rdS, matches, match, words, word, sub;
         string pattern;
 
-        if unlikely substr_count(text, leftDelimiter) !== substr_count(text, rightDelimiter) {
+        if unlikely mb_substr_count(text, leftDelimiter) !== mb_substr_count(text, rightDelimiter) {
             throw new SyntaxError(text);
         }
 

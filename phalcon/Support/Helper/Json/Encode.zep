@@ -55,7 +55,7 @@ class Encode
                 error   = json_last_error(),
                 message = json_last_error_msg();
         } catch \JsonException, ex {
-            throw new JsonEncodeError("json_encode error: " . ex->getMessage(), ex->getCode(), ex);
+            throw new JsonEncodeError(ex->getMessage(), ex->getCode(), ex);
         }
         /**
          * The above will throw an exception when JSON_THROW_ON_ERROR is
@@ -64,7 +64,7 @@ class Encode
          */
         if (JSON_ERROR_NONE !== error) {
             json_encode(null);
-            throw new JsonEncodeError("json_encode error: " . message, error);
+            throw new JsonEncodeError(message, error);
         }
 
         return (string) encoded;

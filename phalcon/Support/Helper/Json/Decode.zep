@@ -55,7 +55,7 @@ class Decode
                 error   = json_last_error(),
                 message = json_last_error_msg();
         } catch \JsonException, ex {
-            throw new JsonDecodeError("json_decode error: " . ex->getMessage(), ex->getCode(), ex);
+            throw new JsonDecodeError(ex->getMessage(), ex->getCode(), ex);
         }
 
         /**
@@ -65,7 +65,7 @@ class Decode
          */
         if (JSON_ERROR_NONE !== error) {
             json_encode(null);
-            throw new JsonDecodeError("json_decode error: " . message, error);
+            throw new JsonDecodeError(message, error);
         }
 
         return decoded;

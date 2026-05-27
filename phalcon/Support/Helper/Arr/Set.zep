@@ -41,10 +41,10 @@ class Set
      *
      * @return array
      */
-    private function checkNull(array collection, var value, var index) -> array
+    private function checkNotNull(array collection, var value, var index) -> array
     {
-        if null === index {
-            let collection[] = value;
+        if null !== index {
+            let collection[index] = value;
         }
 
         return collection;
@@ -55,12 +55,12 @@ class Set
      * @param mixed $value
      * @param mixed $index
      *
-     * @return array<int|string,mixed>
+     * @return array
      */
-    private function checkNotNull(array collection, var value, var index) -> array
+    private function checkNull(array collection, var value, var index) -> array
     {
-        if null !== index {
-            let collection[index] = value;
+        if null === index {
+            let collection[] = value;
         }
 
         return collection;
