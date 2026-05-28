@@ -136,7 +136,10 @@ interface LoggerInterface
     public function notice(string message, array context = []) -> void;
 
     /**
-     * Normal but significant events.
+     * Exceptional occurrences that are not errors.
+     *
+     * Example: Use of deprecated APIs, poor use of an API, undesirable things
+     * that are not necessarily wrong.
      *
      * @param string $message
      * @param array  $context

@@ -21,7 +21,7 @@ use DateTimeImmutable;
  * @property string            $message
  * @property int               $level
  * @property string            $levelName
- * @property DateTimeImmutable $datetime
+ * @property DateTimeImmutable $dateTime
  */
 class Item
 {
@@ -36,11 +36,6 @@ class Item
     protected dateTime;
 
     /**
-     * @var string
-     */
-    protected message;
-
-    /**
      * @var int
      */
     protected level;
@@ -51,12 +46,17 @@ class Item
     protected levelName;
 
     /**
+     * @var string
+     */
+    protected message;
+
+    /**
      * Item constructor.
      *
      * @param string            $message
      * @param string            $levelName
      * @param int               $level
-     * @param DateTimeImmutable $datetime
+     * @param DateTimeImmutable $dateTime
      * @param array             $context
      */
     public function __construct(
@@ -90,14 +90,6 @@ class Item
     }
 
     /**
-     * @return string
-     */
-    public function getMessage() -> string
-    {
-        return this->message;
-    }
-
-    /**
      * @return int
      */
     public function getLevel() -> int
@@ -111,5 +103,13 @@ class Item
     public function getLevelName() -> string
     {
         return this->levelName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMessage() -> string
+    {
+        return this->message;
     }
 }

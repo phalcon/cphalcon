@@ -460,8 +460,8 @@ abstract class AbstractAdapter implements AdapterInterface
      * Add a text to an image with a specified opacity
      *
      * @param string      $text
-     * @param int         $offsetX
-     * @param int         $offsetY
+     * @param mixed       $offsetX
+     * @param mixed       $offsetY
      * @param int         $opacity
      * @param string      $color
      * @param int         $size
@@ -471,8 +471,8 @@ abstract class AbstractAdapter implements AdapterInterface
      */
     public function text(
         string text,
-        int offsetX = 0,
-        int offsetY = 0,
+        offsetX = false,
+        offsetY = false,
         int opacity = 100,
         string color = "000000",
         int size = 12,

@@ -32,7 +32,6 @@ use Phalcon\Logger\Item;
  * @property resource|null $handler
  * @property string        $mode
  * @property string        $name
- * @property array         $options
  */
 class Stream extends AbstractAdapter
 {
@@ -56,13 +55,6 @@ class Stream extends AbstractAdapter
      * @var string
      */
     protected name;
-
-    /**
-     * Path options
-     *
-     * @var array
-     */
-    protected options;
 
     /**
      * Stream constructor.
@@ -121,16 +113,18 @@ class Stream extends AbstractAdapter
      */
     public function process(<Item> item) -> void
     {
-        var message;
+        var fileHandler, message;
 
         if (!is_resource(this->handler)) {
-            let this->handler = this->phpFopen(this->name, this->mode);
+            let fileHandler = this->phpFopen(this->name, this->mode);
 
-            if (!is_resource(this->handler)) {
+            if (!is_resource(fileHandler)) {
                 let this->handler = null;
 
                 throw new FileOpenFailed(this->name, this->mode);
             }
+
+            let this->handler = fileHandler;
         }
 
         let message = this->getFormattedItem(item) . PHP_EOL;

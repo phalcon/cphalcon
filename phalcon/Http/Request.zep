@@ -932,7 +932,11 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
 
         let serverAddr = this->getServer("SERVER_ADDR");
 
-        return serverAddr ? serverAddr : gethostbyname("localhost");
+        if null === serverAddr {
+            return gethostbyname("localhost");
+        }
+
+        return serverAddr;
     }
 
     /**
