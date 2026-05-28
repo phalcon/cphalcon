@@ -552,9 +552,10 @@ class Compiler implements InjectionAwareInterface
      * @param array statement
      * @param bool extendsMode
      */
-    public function compileCall(array! statement, bool extendsMode)
+    public function compileCall(array! statement, bool extendsMode) -> string
     {
         // Not implemented?
+        return "";
     }
 
     /**
