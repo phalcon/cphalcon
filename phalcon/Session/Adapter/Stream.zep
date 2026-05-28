@@ -41,6 +41,20 @@ use Phalcon\Session\Adapter\Exceptions\SavePathUnavailable;
 class Stream extends Noop
 {
     /**
+     * Session options
+     *
+     * @var array
+     */
+    protected options = [];
+
+    /**
+     * Session prefix
+     *
+     * @var string
+     */
+    protected prefix = "";
+
+    /**
      * @var string
      */
     private path = "";
@@ -57,7 +71,8 @@ class Stream extends Noop
     {
         var path;
 
-        parent::__construct(options);
+        let this->prefix  = this->getArrVal(options, "prefix", ""),
+            this->options = options;
 
         /**
          * Get the save_path from the passed options. If not defined
@@ -123,7 +138,7 @@ class Stream extends Noop
             }
         }
 
-        return true;
+        return 1;
     }
 
     /**
@@ -217,6 +232,16 @@ class Stream extends Noop
         error_reporting(errorLevel);
 
         return glob;
+    }
+
+    /**
+     * Helper method to get the name prefixed
+     */
+    protected function getPrefixedName(var name) -> string
+    {
+        let name = (string) name;
+
+        return this->prefix . name;
     }
 
     /**

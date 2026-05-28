@@ -11,7 +11,6 @@
 namespace Phalcon\Session;
 
 use InvalidArgumentException;
-use RuntimeException;
 use SessionHandlerInterface;
 
 /**
@@ -55,14 +54,14 @@ interface ManagerInterface
     public function __unset(string key) -> void;
 
     /**
-     * Check whether the session has been started
-     */
-    public function exists() -> bool;
-
-    /**
      * Destroy/end a session
      */
     public function destroy() -> void;
+
+    /**
+     * Check whether the session has been started
+     */
+    public function exists() -> bool;
 
     /**
      * Gets a session variable from an application context
@@ -70,14 +69,14 @@ interface ManagerInterface
     public function get(string key, var defaultValue = null, bool remove = false) -> var;
 
     /**
+     * Returns the stored session adapter
+     */
+    public function getAdapter() -> <SessionHandlerInterface> | null;
+
+    /**
      * Returns the session id
      */
     public function getId() -> string;
-
-    /**
-     * Returns the stored session adapter
-     */
-    public function getAdapter() -> <SessionHandlerInterface>;
 
     /**
      * Returns the name of the session
@@ -93,6 +92,11 @@ interface ManagerInterface
      * Check whether a session variable is set in an application context
      */
     public function has(string key) -> bool;
+
+    /**
+     * Regenerates the session id using the adapter.
+     */
+    public function regenerateId(bool deleteOldSession = true) -> <ManagerInterface>;
 
     /**
      * Removes a session variable from an application context
@@ -128,18 +132,13 @@ interface ManagerInterface
     public function setOptions(array options) -> void;
 
     /**
-     * Returns the status of the current session.
-     */
-    public function status() -> int;
-
-    /**
      * Starts the session (if headers are already sent the session will not be
      * started)
      */
     public function start() -> bool;
 
     /**
-     * Regenerates the session id using the adapter.
+     * Returns the status of the current session.
      */
-    public function regenerateId(bool deleteOldSession = true) -> <ManagerInterface>;
+    public function status() -> int;
 }

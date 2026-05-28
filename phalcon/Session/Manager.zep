@@ -11,7 +11,6 @@
 namespace Phalcon\Session;
 
 use InvalidArgumentException;
-use RuntimeException;
 use SessionHandlerInterface;
 use Phalcon\Di\AbstractInjectionAware;
 use Phalcon\Di\DiInterface;
@@ -19,7 +18,6 @@ use Phalcon\Session\Exceptions\InvalidSessionAdapter;
 use Phalcon\Session\Exceptions\InvalidSessionName;
 use Phalcon\Session\Exceptions\SessionAlreadyStarted;
 use Phalcon\Session\Exceptions\SessionModificationDenied;
-use Phalcon\Support\Helper\Arr\Get;
 
 /**
  * @property SessionHandlerInterface|null $adapter
@@ -161,7 +159,7 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
     /**
      * Returns the stored session adapter
      */
-    public function getAdapter() -> <SessionHandlerInterface>
+    public function getAdapter() -> <SessionHandlerInterface> | null
     {
         return this->adapter;
     }
@@ -187,6 +185,14 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
     }
 
     /**
+     * Get internal options
+     */
+    public function getOptions() -> array
+    {
+        return this->options;
+    }
+
+    /**
      * Check whether a session variable is set in an application context
      */
     public function has(string key) -> bool
@@ -201,14 +207,6 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
         let uniqueKey = this->getUniqueKey(key);
 
         return isset _SESSION[uniqueKey];
-    }
-
-    /**
-     * Get internal options
-     */
-    public function getOptions() -> array
-    {
-        return this->options;
     }
 
     /**
@@ -321,8 +319,6 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
     {
         var name, value;
 
-        let name = this->getName();
-
         /**
          * Check if the session exists
          */
@@ -337,18 +333,20 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
             return false;
         }
 
-        if unlikely !(this->adapter instanceof SessionHandlerInterface) {
-            throw new InvalidSessionAdapter();
-        }
-
         /**
          * Verify that the session value is alphanumeric, otherwise we
          * unset the cookie to allow it to be created by session_start().
          */
+        let name = this->getName();
+
         if fetch value, _COOKIE[name] {
             if !preg_match("/^[a-z0-9]+$/iD", value) {
                 unset _COOKIE[name];
             }
+        }
+
+        if unlikely !(this->adapter instanceof SessionHandlerInterface) {
+            throw new InvalidSessionAdapter();
         }
 
         /**
@@ -395,22 +393,6 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
     }
 
     /**
-     * Returns the key prefixed
-     *
-     * @param string $key
-     *
-     * @return string
-     */
-    private function getUniqueKey(string key) -> string
-    {
-        var prefix;
-
-        let prefix = (true !== empty(this->uniqueId)) ? this->uniqueId . "#" : "";
-
-        return prefix . key;
-    }
-
-    /**
      * @todo Remove this when we get traits
      */
     private function getArrVal(
@@ -425,5 +407,21 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
         }
 
         return value;
+    }
+
+    /**
+     * Returns the key prefixed
+     *
+     * @param string $key
+     *
+     * @return string
+     */
+    private function getUniqueKey(string key) -> string
+    {
+        var prefix;
+
+        let prefix = (true !== empty(this->uniqueId)) ? this->uniqueId . "#" : "";
+
+        return prefix . key;
     }
 }
