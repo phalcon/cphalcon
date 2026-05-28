@@ -13,8 +13,6 @@ namespace Phalcon\Http\Response;
 use Phalcon\Http\Cookie\CookieInterface;
 
 /**
- * Phalcon\Http\Response\CookiesInterface
- *
  * Interface for Phalcon\Http\Response\Cookies
  */
 interface CookiesInterface

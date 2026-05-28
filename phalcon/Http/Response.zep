@@ -19,14 +19,14 @@ use Phalcon\Events\EventsAwareInterface;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Http\Message\ResponseStatusCodeInterface;
 use Phalcon\Http\Response\CookiesInterface;
-use Phalcon\Http\Response\Exception;
 use Phalcon\Http\Response\Exceptions\NonStandardStatusCodeRequiresMessage;
 use Phalcon\Http\Response\Exceptions\ResponseAlreadySent;
 use Phalcon\Http\Response\Exceptions\UrlServiceUnavailable;
+use Phalcon\Http\Response\Headers;
 use Phalcon\Http\Response\HeadersInterface;
 use Phalcon\Mvc\Url\UrlInterface;
 use Phalcon\Mvc\ViewInterface;
-use Phalcon\Http\Response\Headers;
+use Phalcon\Support\Helper\File\Basename;
 use Phalcon\Support\Helper\Json\Encode;
 
 /**
@@ -79,11 +79,6 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
      * @var bool
      */
     protected sent = false;
-
-    /**
-     * @var array
-     */
-    protected statusCodes = [];
 
     /**
      * @var Encode
@@ -517,6 +512,14 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     }
 
     /**
+     * Sets the events manager
+     */
+    public function setEventsManager(<ManagerInterface> eventsManager) -> void
+    {
+        let this->eventsManager = eventsManager;
+    }
+
+    /**
      * Sets an Expires header in the response that allows to use the HTTP cache
      *
      *```php
@@ -546,14 +549,6 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     }
 
     /**
-     * Sets the events manager
-     */
-    public function setEventsManager(<ManagerInterface> eventsManager) -> void
-    {
-        let this->eventsManager = eventsManager;
-    }
-
-    /**
      * Sets an attached file to be sent at the end of the request
      */
     public function setFileToSend(string filePath, attachmentName = null, attachment = true) -> <ResponseInterface>
@@ -562,7 +557,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
         var basePathEncoding = "ASCII";
 
         if typeof attachmentName != "string" {
-            let basePath = this->getBasename(filePath);
+            let basePath = (new Basename())->__invoke(filePath);
         } else {
             let basePath = attachmentName;
         }
@@ -685,6 +680,20 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     public function setNotModified() -> <ResponseInterface>
     {
         this->setStatusCode(304, "Not modified");
+
+        return this;
+    }
+
+    /**
+     * Send a raw header to the response
+     *
+     *```php
+     * $response->setRawHeader("HTTP/1.1 404 Not Found");
+     *```
+     */
+    public function setRawHeader(string header) -> <ResponseInterface>
+    {
+        this->headers->setRaw(header);
 
         return this;
     }
@@ -835,39 +844,5 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
         this->headers->set("Status", code . " " . message);
 
         return this;
-    }
-
-    /**
-     * Send a raw header to the response
-     *
-     *```php
-     * $response->setRawHeader("HTTP/1.1 404 Not Found");
-     *```
-     */
-    public function setRawHeader(string header) -> <ResponseInterface>
-    {
-        this->headers->setRaw(header);
-
-        return this;
-    }
-
-    /**
-     * @todo Remove this when we get traits
-     */
-    private function getBasename(string! uri, var suffix = null) -> string
-    {
-	    var filename, matches;
-
-        let uri = rtrim(uri, DIRECTORY_SEPARATOR);
-        let filename = preg_match(
-		        "@[^" . preg_quote(DIRECTORY_SEPARATOR, "@") . "]+$@",
-		        uri,
-		        matches
-            ) ? matches[0] : "";
-        if suffix {
-		    let filename = preg_replace("@" . preg_quote(suffix, "@") . "$@", "", filename);
-        }
-
-        return filename;
     }
 }

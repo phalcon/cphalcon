@@ -36,24 +36,24 @@ namespace Phalcon\Http\Request;
 class File implements FileInterface
 {
     /**
-     * @var string|null
+     * @var int
      */
-    protected error = null;
+    protected error = 0;
 
     /**
      * @var string
      */
-    protected extension;
-
-    /**
-     * @var string|null
-     */
-    protected key = null;
+    protected extension = "";
 
     /**
      * @var string
      */
-    protected name;
+    protected key = "";
+
+    /**
+     * @var string
+     */
+    protected name = "";
 
     /**
      * @var string
@@ -66,19 +66,19 @@ class File implements FileInterface
     protected size = 0;
 
     /**
-     * @var string|null
+     * @var string
      */
-    protected tmp = null;
+    protected tmpName = "";
 
     /**
      * @var string
      */
-    protected type;
+    protected type = "";
 
     /**
      * Phalcon\Http\Request\File constructor
      */
-    public function __construct(array! file, key = null)
+    public function __construct(array! file, string key = "")
     {
         var name;
 
@@ -90,20 +90,20 @@ class File implements FileInterface
             }
         }
 
-        let this->tmp   = this->getArrVal(file, "tmp_name"),
-            this->size  = this->getArrVal(file, "size"),
-            this->type  = this->getArrVal(file, "type"),
-            this->error = this->getArrVal(file, "error");
+        let this->tmpName = this->getArrVal(file, "tmp_name"),
+            this->size    = this->getArrVal(file, "size"),
+            this->type    = this->getArrVal(file, "type"),
+            this->error   = this->getArrVal(file, "error");
 
-        if key {
+        if !empty(key) {
             let this->key = key;
         }
     }
 
     /**
-     * @return string|null
+     * @return int
      */
-    public function getError() -> string | null
+    public function getError() -> int
     {
         return this->error;
     }
@@ -117,9 +117,9 @@ class File implements FileInterface
     }
 
     /**
-     * @return string|null
+     * @return string
      */
-    public function getKey() -> string | null
+    public function getKey() -> string
     {
         return this->key;
     }
@@ -134,22 +134,26 @@ class File implements FileInterface
 
     /**
      * Gets the real mime type of the upload file using finfo
+     *
+     * @return string
      */
     public function getRealType() -> string
     {
         var finfo, mime;
 
-        let finfo = finfo_open(FILEINFO_MIME_TYPE);
+        if empty(this->realType) {
+            let finfo = finfo_open(FILEINFO_MIME_TYPE);
 
-        if finfo === false {
-            return "";
+            if finfo !== false {
+                let mime = finfo_file(finfo, this->tmpName);
+
+                finfo_close(finfo);
+
+                let this->realType = mime;
+            }
         }
 
-        let mime = finfo_file(finfo, this->tmp);
-
-        finfo_close(finfo);
-
-        return mime;
+        return this->realType;
     }
 
     /**
@@ -165,7 +169,7 @@ class File implements FileInterface
      */
     public function getTempName() -> string
     {
-        return this->tmp;
+        return this->tmpName;
     }
 
     /**
@@ -182,11 +186,11 @@ class File implements FileInterface
      */
     public function isUploadedFile() -> bool
     {
-        var tmp;
+        var name;
 
-        let tmp = this->getTempName();
+        let name = this->tmpName;
 
-        return typeof tmp == "string" && is_uploaded_file(tmp);
+        return !empty(name) && is_uploaded_file(name);
     }
 
     /**
@@ -194,7 +198,7 @@ class File implements FileInterface
      */
     public function moveTo(string! destination) -> bool
     {
-        return move_uploaded_file(this->tmp, destination);
+        return move_uploaded_file(this->tmpName, destination);
     }
 
     /**
