@@ -460,8 +460,8 @@ abstract class AbstractAdapter implements AdapterInterface
      * Add a text to an image with a specified opacity
      *
      * @param string      $text
-     * @param mixed       $offsetX
-     * @param mixed       $offsetY
+     * @param int         $offsetX
+     * @param int         $offsetY
      * @param int         $opacity
      * @param string      $color
      * @param int         $size
@@ -471,8 +471,8 @@ abstract class AbstractAdapter implements AdapterInterface
      */
     public function text(
         string text,
-        offsetX = false,
-        offsetY = false,
+        int offsetX = 0,
+        int offsetY = 0,
         int opacity = 100,
         string color = "000000",
         int size = 12,
@@ -545,7 +545,7 @@ abstract class AbstractAdapter implements AdapterInterface
 
         let op = this->checkHighLow(opacity);
 
-        this->{"processWatermark"}(watermark, x, y, opacity);
+        this->{"processWatermark"}(watermark, x, y, op);
 
         return this;
     }

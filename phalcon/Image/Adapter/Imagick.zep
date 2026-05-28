@@ -234,10 +234,14 @@ class Imagick extends AbstractAdapter
         while (true) {
             background->newImage(this->width, this->height, pixel1);
 
-            if (true !== background->getImageAlphaChannel()) {
-                background->setImageAlphaChannel(
-                    constant("Imagick::ALPHACHANNEL_SET")
-                );
+            try {
+                if (true !== background->getImageAlphaChannel()) {
+                    background->setImageAlphaChannel(
+                        constant("Imagick::ALPHACHANNEL_SET")
+                    );
+                }
+            } catch ImagickException {
+                throw new Exception("Imagick::getImageAlphaChannel failed");
             }
 
             background->setImageBackgroundColor(pixel2);
