@@ -58,12 +58,12 @@ interface RouterInterface
      *
      * @todo change param type to string
      */
-    public function getRouteById(var id) -> <RouteInterface>;
+    public function getRouteById(var id) -> <RouteInterface> | bool;
 
     /**
      * Returns a route object by its name
      */
-    public function getRouteByName(string! name) -> <RouteInterface>;
+    public function getRouteByName(string! name) -> <RouteInterface> | bool;
 
     /**
      * Return all the routes defined in the router
