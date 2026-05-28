@@ -82,8 +82,7 @@ class Escaper implements EscaperInterface
         string encoding = "utf-8",
         int flags = 11,
         bool doubleEncode = true
-    )
-    {
+    ) {
         let this->attributeEscaper = new AttributeEscaper(),
             this->cssEscaper       = new CssEscaper(),
             this->htmlEscaper      = new HtmlEscaper(),
@@ -98,7 +97,7 @@ class Escaper implements EscaperInterface
             this->setFlags(flags);
         }
 
-        if true !== doubleEncode {
+        if doubleEncode !== true {
             this->setDoubleEncode(doubleEncode);
         }
     }
