@@ -21,7 +21,7 @@ use Phalcon\Mvc\Url\Exceptions\RouterServiceUnavailable;
 use Phalcon\Mvc\Url\UrlInterface;
 
 /**
- * This components helps in the generation of: URIs, URLs and Paths
+ * This component helps in the generation of: URIs, URLs and Paths
  *
  *```php
  * // Generate a URL appending the URI to the base URI
@@ -42,12 +42,12 @@ class Url extends AbstractInjectionAware implements UrlInterface
     /**
      * @var null | string
      */
-    protected baseUri = null;
+    protected basePath = null;
 
     /**
      * @var null | string
      */
-    protected basePath = null;
+    protected baseUri = null;
 
     /**
      * @var RouterInterface | null
@@ -114,7 +114,7 @@ class Url extends AbstractInjectionAware implements UrlInterface
      */
     public function get(
         var uri = null,
-        var args = null,
+        var arguments = null,
         bool local = null,
         var baseUri = null,
         bool replaceArgs = false
@@ -206,7 +206,7 @@ class Url extends AbstractInjectionAware implements UrlInterface
             let uri = preg_replace("#(?<!:)//+#", "/", baseUri . strUri);
         }
 
-        if args {
+        if arguments {
             let queryPos = strpos(uri, "?");
 
             if replaceArgs && queryPos !== false {
@@ -217,13 +217,13 @@ class Url extends AbstractInjectionAware implements UrlInterface
                     existing
                 );
 
-                let args = array_merge(existing, (array) args),
+                let arguments = array_merge(existing, (array) arguments),
                     uri  = (string) substr(uri, 0, queryPos);
 
                 let queryPos = false;
             }
 
-            let queryString = http_build_query(args);
+            let queryString = http_build_query(arguments);
 
             if typeof queryString == "string" && strlen(queryString) {
                 if queryPos !== false {
@@ -240,7 +240,7 @@ class Url extends AbstractInjectionAware implements UrlInterface
     /**
      * Returns the base path
      */
-    public function getBasePath() -> string
+    public function getBasePath() -> string | null
     {
         return this->basePath;
     }
@@ -315,6 +315,14 @@ class Url extends AbstractInjectionAware implements UrlInterface
     }
 
     /**
+     * Generates a local path
+     */
+    public function path(string path = null) -> string
+    {
+        return this->basePath . path;
+    }
+
+    /**
      * Sets a base path for all the generated paths
      *
      *```php
@@ -360,13 +368,5 @@ class Url extends AbstractInjectionAware implements UrlInterface
         let this->staticBaseUri = staticBaseUri;
 
         return this;
-    }
-
-    /**
-     * Generates a local path
-     */
-    public function path(string path = null) -> string
-    {
-        return this->basePath . path;
     }
 }
