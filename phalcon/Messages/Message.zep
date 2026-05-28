@@ -35,19 +35,19 @@ class Message implements MessageInterface, JsonSerializable
     protected message;
 
     /**
-     * @var string
-     */
-    protected type;
-
-    /**
      * @var array
      */
     protected metaData = [];
 
     /**
+     * @var string
+     */
+    protected type;
+
+    /**
      * Phalcon\Messages\Message constructor
      */
-    public function __construct(string! message, var field = "", string type = "", int code = 0, array metaData = [])
+    public function __construct(string! message, string field = "", string type = "", int code = 0, array metaData = [])
     {
         let this->message  = message,
             this->field    = field,
@@ -89,19 +89,19 @@ class Message implements MessageInterface, JsonSerializable
     }
 
     /**
-     * @return string
-     */
-    public function getType() -> string
-    {
-        return this->type;
-    }
-
-    /**
      * @return array
      */
     public function getMetaData() -> array
     {
         return this->metaData;
+    }
+
+    /**
+     * @return string
+     */
+    public function getType() -> string
+    {
+        return this->type;
     }
 
     /**
@@ -131,7 +131,7 @@ class Message implements MessageInterface, JsonSerializable
     /**
      * Sets field name related to message
      */
-    public function setField(var field) -> <MessageInterface>
+    public function setField(string! field) -> <MessageInterface>
     {
         let this->field = field;
 
