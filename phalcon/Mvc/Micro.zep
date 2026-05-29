@@ -989,7 +989,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
             let cache = this->getService(cache);
         }
 
-        if cache instanceof AdapterInterface {
+        if typeof cache == "object" && cache instanceof AdapterInterface {
             modelBinder->setCache(cache);
         }
 
