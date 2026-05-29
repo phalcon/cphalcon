@@ -23,8 +23,6 @@ use Phalcon\Mvc\View\Exceptions\SimpleViewServicesUnavailable;
 use Phalcon\Mvc\ViewBaseInterface;
 
 /**
- * Phalcon\Mvc\View\Simple
- *
  * This component allows to render views without hierarchical levels
  *
  *```php
@@ -82,14 +80,14 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
     protected registeredEngines = [];
 
     /**
-     * @var string
-     */
-    protected viewsDir;
-
-    /**
      * @var array
      */
     protected viewParams = [];
+
+    /**
+     * @var string
+     */
+    protected viewsDir;
 
     /**
      * Phalcon\Mvc\View\Simple constructor

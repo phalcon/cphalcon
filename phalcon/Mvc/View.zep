@@ -24,8 +24,6 @@ use Phalcon\Mvc\View\Exceptions\ViewServicesUnavailable;
 use Phalcon\Mvc\View\Exceptions\ViewsDirItemMustBeString;
 
 /**
- * Phalcon\Mvc\View
- *
  * Phalcon\Mvc\View is a class for working with the "view" portion of the
  * model-view-controller pattern. That is, it exists to help keep the view
  * script separate from the model and controller scripts. It provides a system
@@ -273,6 +271,16 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
     }
 
     /**
+     * Disables the auto-rendering process
+     */
+    public function disable() -> <static>
+    {
+        let this->disabled = true;
+
+        return this;
+    }
+
+    /**
      * Disables a specific level of rendering
      *
      *```php
@@ -289,16 +297,6 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
         } else {
             let this->disabledLevels[level] = true;
         }
-
-        return this;
-    }
-
-    /**
-     * Disables the auto-rendering process
-     */
-    public function disable() -> <static>
-    {
-        let this->disabled = true;
 
         return this;
     }
@@ -397,22 +395,6 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
     }
 
     /**
-     * @return array
-     */
-    public function getRegisteredEngines() -> array
-    {
-        return this->registeredEngines;
-    }
-
-    /**
-     * @return int
-     */
-    public function getRenderLevel() -> int
-    {
-        return this->renderLevel;
-    }
-
-    /**
      * Returns the internal event manager
      */
     public function getEventsManager() -> <ManagerInterface> | null
@@ -423,7 +405,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
     /**
      * Returns the name of the main view
      */
-    public function getLayout() -> string
+    public function getLayout() -> string | null
     {
         return this->layout;
     }
@@ -490,6 +472,14 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
     }
 
     /**
+     * @return array
+     */
+    public function getRegisteredEngines() -> array
+    {
+        return this->registeredEngines;
+    }
+
+    /**
      * Perform the automatic rendering returning the output as a string
      *
      * ```php
@@ -552,6 +542,14 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
     }
 
     /**
+     * @return int
+     */
+    public function getRenderLevel() -> int
+    {
+        return this->renderLevel;
+    }
+
+    /**
      * Returns a parameter previously set in the view
      *
      * @return mixed|null
@@ -572,18 +570,6 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
      */
     public function getViewsDir() -> string | array
     {
-        return this->viewsDirs;
-    }
-
-    /**
-     * Gets views directories
-     */
-    protected function getViewsDirs() -> array
-    {
-        if typeof this->viewsDirs === "string" {
-            return [this->viewsDirs];
-        }
-
         return this->viewsDirs;
     }
 
@@ -733,6 +719,220 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
     }
 
     /**
+     * Processes the view and templates; Fires events if needed
+     */
+    public function processRender(
+        string! controllerName,
+        string! actionName,
+        array params = [],
+        bool fireEvents = true
+    ) -> bool
+    {
+        bool silence;
+        int renderLevel;
+        var layoutsDir, layout, pickView, layoutName, engines, renderView,
+            pickViewAction, eventsManager, disabledLevels, templatesBefore,
+            templatesAfter, templateBefore, templateAfter;
+
+        let this->currentRenderLevel = 0;
+
+        /**
+         * If the view is disabled we simply update the buffer from any output
+         * produced in the controller
+         */
+        if this->disabled !== false {
+            let this->content = ob_get_contents();
+
+            return false;
+        }
+
+        let this->controllerName = controllerName,
+            this->actionName     = actionName;
+
+        this->setVars(params);
+
+        /**
+         * Check if there is a layouts directory set
+         */
+        let layoutsDir = this->layoutsDir;
+
+        if !layoutsDir {
+            let layoutsDir = "layouts/";
+        }
+
+        /**
+         * Check if the user has defined a custom layout
+         */
+        let layout = this->layout;
+
+        if layout {
+            let layoutName = layout;
+        } else {
+            let layoutName = controllerName;
+        }
+
+        /**
+         * Load the template engines
+         */
+        let engines = this->loadTemplateEngines();
+
+        /**
+         * Check if the user has picked a view different than the automatic
+         */
+        let pickView = this->pickView;
+
+        if pickView === null {
+            let renderView = controllerName . "/" . actionName;
+        } else {
+            /**
+             * The 'picked' view is an array, where the first element is
+             * controller and the second the action
+             */
+            let renderView = pickView[0];
+
+            if layoutName === null {
+                if fetch pickViewAction, pickView[1] {
+                    let layoutName = pickViewAction;
+                }
+            }
+        }
+
+        let eventsManager = <ManagerInterface> this->eventsManager;
+
+        /**
+         * Create a virtual symbol table.
+         * Variables are shared across symbol tables in PHP5
+         */
+        create_symbol_table();
+
+        /**
+         * Call beforeRender if there is an events manager
+         */
+        if fireEvents && typeof eventsManager === "object" {
+            if eventsManager->fire("view:beforeRender", this) === false {
+                return false;
+            }
+        }
+
+        /**
+         * Get the current content in the buffer maybe some output from the
+         * controller?
+         */
+        let this->content = ob_get_contents(),
+            silence       = true;
+
+        /**
+         * Disabled levels allow to avoid an specific level of rendering
+         */
+        let disabledLevels = this->disabledLevels;
+
+        /**
+         * Render level will tell use when to stop
+         */
+        let renderLevel = (int) this->renderLevel;
+
+        if renderLevel {
+            /**
+             * Inserts view related to action
+             */
+            if renderLevel >= self::LEVEL_ACTION_VIEW {
+                if !isset disabledLevels[self::LEVEL_ACTION_VIEW] {
+                    let this->currentRenderLevel = self::LEVEL_ACTION_VIEW;
+
+                    this->engineRender(
+                        engines,
+                        renderView,
+                        silence
+                    );
+                }
+            }
+
+            /**
+             * Inserts templates before layout
+             */
+            if renderLevel >= self::LEVEL_BEFORE_TEMPLATE  {
+                if !isset disabledLevels[self::LEVEL_BEFORE_TEMPLATE] {
+                    let this->currentRenderLevel = self::LEVEL_BEFORE_TEMPLATE,
+                        templatesBefore          = this->templatesBefore,
+                        silence                  = false;
+
+                    for templateBefore in templatesBefore {
+                        this->engineRender(
+                            engines,
+                            layoutsDir . templateBefore,
+                            silence
+                        );
+                    }
+
+                    let silence = true;
+                }
+            }
+
+            /**
+             * Inserts controller layout
+             */
+            if renderLevel >= self::LEVEL_LAYOUT {
+                if !isset disabledLevels[self::LEVEL_LAYOUT] {
+                    let this->currentRenderLevel = self::LEVEL_LAYOUT;
+
+                    this->engineRender(
+                        engines,
+                        layoutsDir . layoutName,
+                        silence
+                    );
+                }
+            }
+
+            /**
+             * Inserts templates after layout
+             */
+            if renderLevel >= self::LEVEL_AFTER_TEMPLATE {
+                if !isset disabledLevels[self::LEVEL_AFTER_TEMPLATE] {
+                    let this->currentRenderLevel = self::LEVEL_AFTER_TEMPLATE,
+                        templatesAfter           = this->templatesAfter,
+                        silence                  = false;
+
+                    for templateAfter in templatesAfter {
+                        this->engineRender(
+                            engines,
+                            layoutsDir . templateAfter,
+                            silence
+                        );
+                    }
+
+                    let silence = true;
+                }
+            }
+
+            /**
+             * Inserts main view
+             */
+            if renderLevel >= self::LEVEL_MAIN_LAYOUT {
+                if !isset disabledLevels[self::LEVEL_MAIN_LAYOUT] {
+                    let this->currentRenderLevel = self::LEVEL_MAIN_LAYOUT;
+
+                    this->engineRender(
+                        engines,
+                        this->mainView,
+                        silence
+                    );
+                }
+            }
+
+            let this->currentRenderLevel = 0;
+        }
+
+        /**
+         * Call afterRender event
+         */
+        if fireEvents && typeof eventsManager === "object" {
+            eventsManager->fire("view:afterRender", this);
+        }
+
+        return true;
+    }
+
+    /**
      * Register templating engines
      *
      * ```php
@@ -877,6 +1077,20 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
     }
 
     /**
+     * Adds parameters to views (alias of setVar)
+     *
+     *```php
+     * $this->view->setParamToView("products", $products);
+     *```
+     */
+    public function setParamToView(string! key, var value) -> <static>
+    {
+        let this->viewParams[key] = value;
+
+        return this;
+    }
+
+    /**
      * Sets a partials sub-directory. Must be a directory under the views
      * directory. Depending of your platform, always add a trailing slash or
      * backslash
@@ -888,20 +1102,6 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
     public function setPartialsDir(string partialsDir) -> <static>
     {
         let this->partialsDir = partialsDir;
-
-        return this;
-    }
-
-    /**
-     * Adds parameters to views (alias of setVar)
-     *
-     *```php
-     * $this->view->setParamToView("products", $products);
-     *```
-     */
-    public function setParamToView(string! key, var value) -> <static>
-    {
-        let this->viewParams[key] = value;
 
         return this;
     }
@@ -1130,6 +1330,18 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
     }
 
     /**
+     * Gets views directories
+     */
+    protected function getViewsDirs() -> array
+    {
+        if typeof this->viewsDirs === "string" {
+            return [this->viewsDirs];
+        }
+
+        return this->viewsDirs;
+    }
+
+    /**
      * Checks if a path is absolute or not
      */
     final protected function isAbsolutePath(string path)
@@ -1208,220 +1420,6 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
         }
 
         return engines;
-    }
-
-    /**
-     * Processes the view and templates; Fires events if needed
-     */
-    public function processRender(
-        string! controllerName,
-        string! actionName,
-        array params = [],
-        bool fireEvents = true
-    ) -> bool
-    {
-        bool silence;
-        int renderLevel;
-        var layoutsDir, layout, pickView, layoutName, engines, renderView,
-            pickViewAction, eventsManager, disabledLevels, templatesBefore,
-            templatesAfter, templateBefore, templateAfter;
-
-        let this->currentRenderLevel = 0;
-
-        /**
-         * If the view is disabled we simply update the buffer from any output
-         * produced in the controller
-         */
-        if this->disabled !== false {
-            let this->content = ob_get_contents();
-
-            return false;
-        }
-
-        let this->controllerName = controllerName,
-            this->actionName     = actionName;
-
-        this->setVars(params);
-
-        /**
-         * Check if there is a layouts directory set
-         */
-        let layoutsDir = this->layoutsDir;
-
-        if !layoutsDir {
-            let layoutsDir = "layouts/";
-        }
-
-        /**
-         * Check if the user has defined a custom layout
-         */
-        let layout = this->layout;
-
-        if layout {
-            let layoutName = layout;
-        } else {
-            let layoutName = controllerName;
-        }
-
-        /**
-         * Load the template engines
-         */
-        let engines = this->loadTemplateEngines();
-
-        /**
-         * Check if the user has picked a view different than the automatic
-         */
-        let pickView = this->pickView;
-
-        if pickView === null {
-            let renderView = controllerName . "/" . actionName;
-        } else {
-            /**
-             * The 'picked' view is an array, where the first element is
-             * controller and the second the action
-             */
-            let renderView = pickView[0];
-
-            if layoutName === null {
-                if fetch pickViewAction, pickView[1] {
-                    let layoutName = pickViewAction;
-                }
-            }
-        }
-
-        let eventsManager = <ManagerInterface> this->eventsManager;
-
-        /**
-         * Create a virtual symbol table.
-         * Variables are shared across symbol tables in PHP5
-         */
-        create_symbol_table();
-
-        /**
-         * Call beforeRender if there is an events manager
-         */
-        if fireEvents && typeof eventsManager === "object" {
-            if eventsManager->fire("view:beforeRender", this) === false {
-                return false;
-            }
-        }
-
-        /**
-         * Get the current content in the buffer maybe some output from the
-         * controller?
-         */
-        let this->content = ob_get_contents(),
-            silence       = true;
-
-        /**
-         * Disabled levels allow to avoid an specific level of rendering
-         */
-        let disabledLevels = this->disabledLevels;
-
-        /**
-         * Render level will tell use when to stop
-         */
-        let renderLevel = (int) this->renderLevel;
-
-        if renderLevel {
-            /**
-             * Inserts view related to action
-             */
-            if renderLevel >= self::LEVEL_ACTION_VIEW {
-                if !isset disabledLevels[self::LEVEL_ACTION_VIEW] {
-                    let this->currentRenderLevel = self::LEVEL_ACTION_VIEW;
-
-                    this->engineRender(
-                        engines,
-                        renderView,
-                        silence
-                    );
-                }
-            }
-
-            /**
-             * Inserts templates before layout
-             */
-            if renderLevel >= self::LEVEL_BEFORE_TEMPLATE  {
-                if !isset disabledLevels[self::LEVEL_BEFORE_TEMPLATE] {
-                    let this->currentRenderLevel = self::LEVEL_BEFORE_TEMPLATE,
-                        templatesBefore          = this->templatesBefore,
-                        silence                  = false;
-
-                    for templateBefore in templatesBefore {
-                        this->engineRender(
-                            engines,
-                            layoutsDir . templateBefore,
-                            silence
-                        );
-                    }
-
-                    let silence = true;
-                }
-            }
-
-            /**
-             * Inserts controller layout
-             */
-            if renderLevel >= self::LEVEL_LAYOUT {
-                if !isset disabledLevels[self::LEVEL_LAYOUT] {
-                    let this->currentRenderLevel = self::LEVEL_LAYOUT;
-
-                    this->engineRender(
-                        engines,
-                        layoutsDir . layoutName,
-                        silence
-                    );
-                }
-            }
-
-            /**
-             * Inserts templates after layout
-             */
-            if renderLevel >= self::LEVEL_AFTER_TEMPLATE {
-                if !isset disabledLevels[self::LEVEL_AFTER_TEMPLATE] {
-                    let this->currentRenderLevel = self::LEVEL_AFTER_TEMPLATE,
-                        templatesAfter           = this->templatesAfter,
-                        silence                  = false;
-
-                    for templateAfter in templatesAfter {
-                        this->engineRender(
-                            engines,
-                            layoutsDir . templateAfter,
-                            silence
-                        );
-                    }
-
-                    let silence = true;
-                }
-            }
-
-            /**
-             * Inserts main view
-             */
-            if renderLevel >= self::LEVEL_MAIN_LAYOUT {
-                if !isset disabledLevels[self::LEVEL_MAIN_LAYOUT] {
-                    let this->currentRenderLevel = self::LEVEL_MAIN_LAYOUT;
-
-                    this->engineRender(
-                        engines,
-                        this->mainView,
-                        silence
-                    );
-                }
-            }
-
-            let this->currentRenderLevel = 0;
-        }
-
-        /**
-         * Call afterRender event
-         */
-        if fireEvents && typeof eventsManager === "object" {
-            eventsManager->fire("view:afterRender", this);
-        }
-
-        return true;
     }
 
     /**
