@@ -36,7 +36,7 @@ interface Adapter
      *
      * @param int $page
      *
-     * @return Adapter
+     * @return AdapterInterface
      */
     public function setCurrentPage(int page) -> <AdapterInterface>;
 

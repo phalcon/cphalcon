@@ -402,7 +402,7 @@ class Crypt implements CryptInterface
     /**
      * Returns a list of available ciphers.
      *
-     * @return array
+     * @phpstan-return array<array-key, string>
      */
     public function getAvailableCiphers() -> array
     {

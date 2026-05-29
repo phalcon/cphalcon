@@ -138,7 +138,7 @@ class Router extends AbstractInjectionAware implements RouterInterface
      * $router->add("/about", "About::main");
      *```
      *
-     * @param string|array paths
+     * @phpstan-param array|string|null $paths
      */
     public function add(string! pattern, paths = null) -> <RouteInterface>
     {
@@ -203,7 +203,7 @@ class Router extends AbstractInjectionAware implements RouterInterface
     /**
      * Returns a route object by its id
      *
-     * @param int id
+     * @phpstan-param string $id
      */
     public function getRouteById(var id) -> <RouteInterface> | bool
     {
@@ -458,7 +458,7 @@ class Router extends AbstractInjectionAware implements RouterInterface
     public function setDefaultAction(string actionName) -> <static>
     {
         let this->defaultAction = actionName;
-        
+
         return this;
     }
 

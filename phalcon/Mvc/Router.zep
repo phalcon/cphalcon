@@ -1348,23 +1348,23 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
     /**
      * Returns a route object by its id
      *
-     * @param mixed id
+     * @param mixed $routeId
      *
      * @return RouteInterface|bool
      */
-    public function getRouteById(var id) -> <RouteInterface> | bool
+    public function getRouteById(var routeId) -> <RouteInterface> | bool
     {
-        var route, routeId, key;
+        var localRouteId, route, key;
 
-        if fetch key, this->keyRouteIds[id] {
+        if fetch key, this->keyRouteIds[routeId] {
             return this->routes[key];
         }
 
         for key, route in this->routes {
-            let routeId = route->getRouteId();
-            let this->keyRouteIds[routeId] = key;
+            let localRouteId = route->getRouteId();
+            let this->keyRouteIds[localRouteId] = key;
 
-            if routeId == id {
+            if localRouteId == routeId {
                 return route;
             }
         }

@@ -79,7 +79,6 @@ interface CryptInterface
     /**
      * Returns a list of available cyphers
      *
-     * @return array
      * @phpstan-return array<array-key, string>
      */
     public function getAvailableCiphers() -> array;
