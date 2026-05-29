@@ -15,6 +15,7 @@ use Phalcon\Di\DiInterface;
 use Phalcon\Messages\MessageInterface;
 use Phalcon\Mvc\Model\CriteriaInterface;
 use Phalcon\Mvc\Model\MetaDataInterface;
+use Phalcon\Mvc\Model\ResultInterface;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
 use Phalcon\Mvc\Model\TransactionInterface;
@@ -66,9 +67,9 @@ interface ModelInterface
      * @param int dirtyState
      * @param bool keepSnapshots
      *
-     * @return ModelInterface
+     * @return ModelInterface|ResultInterface
      */
-    public static function cloneResultMap(base, array! data, var columnMap, int dirtyState = 0, bool keepSnapshots = false) -> <ModelInterface>;
+    public static function cloneResultMap(base, array! data, var columnMap, int dirtyState = 0, bool keepSnapshots = false) -> <ModelInterface> | <ResultInterface>;
 
     /**
      * Returns an hydrated result based on the data and the column map
@@ -277,14 +278,14 @@ interface ModelInterface
     public static function sum(parameters = null) -> float | <ResultsetInterface>;
 
     /**
-     * Check whether validation process has generated any messages
-     */
-    public function validationHasFailed() -> bool;
-
-    /**
      * Updates a model instance. If the instance does not exist in the
      * persistence it will throw an exception. Returning true on success or
      * false otherwise.
      */
     public function update() -> bool;
+
+    /**
+     * Check whether validation process has generated any messages
+     */
+    public function validationHasFailed() -> bool;
 }
