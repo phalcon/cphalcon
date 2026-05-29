@@ -81,16 +81,16 @@ interface CollectionInterface
      * Sets the main handler
      *
      * @param mixed $handler
-     * @param bool  $lazy
+     * @param bool  $isLazy
      *
      * @return CollectionInterface
      */
-    public function setHandler(var handler, bool lazy = false) -> <CollectionInterface>;
+    public function setHandler(var handler, bool isLazy = false) -> <CollectionInterface>;
 
     /**
      * Sets if the main handler must be lazy loaded
      */
-    public function setLazy(bool! lazy) -> <CollectionInterface>;
+    public function setLazy(bool! isLazy) -> <CollectionInterface>;
 
     /**
      * Sets a prefix for all routes added to the collection

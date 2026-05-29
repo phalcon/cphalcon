@@ -176,25 +176,31 @@ class Dispatcher extends BaseDispatcher implements DispatcherInterface
     /**
      * Sets the controller name to be dispatched
      */
-    public function setControllerName(string! controllerName)
+    public function setControllerName(string! controllerName) -> <DispatcherInterface>
     {
         let this->handlerName = controllerName;
+
+        return this;
     }
 
     /**
      * Sets the default controller suffix
      */
-    public function setControllerSuffix(string! controllerSuffix)
+    public function setControllerSuffix(string! controllerSuffix) -> <DispatcherInterface>
     {
         let this->handlerSuffix = controllerSuffix;
+
+        return this;
     }
 
     /**
      * Sets the default controller name
      */
-    public function setDefaultController(string! controllerName)
+    public function setDefaultController(string! controllerName) -> <DispatcherInterface>
     {
         let this->defaultHandler = controllerName;
+
+        return this;
     }
 
     /**

@@ -12,6 +12,7 @@ namespace Phalcon\Mvc;
 
 use ArrayAccess;
 use Closure;
+use Phalcon\Cache\Adapter\AdapterInterface;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Di\Injectable;
@@ -188,27 +189,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
      */
     public function delete(string! routePattern, handler) -> <RouteInterface>
     {
-        var router, route;
-
-        /**
-         * We create a router even if there is no one in the DI
-         */
-        let router = this->getRouter();
-
-        /**
-         * Routes are added to the router restricting to DELETE
-         */
-        let route = router->addDelete(routePattern);
-
-        /**
-         * Using the id produced by the router we store the handler
-         */
-        let this->handlers[route->getRouteId()] = handler;
-
-        /**
-         * The route is returned, the developer can add more things on it
-         */
-        return route;
+        return this->addRoute("addDelete", routePattern, handler);
     }
 
     /**
@@ -243,27 +224,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
      */
     public function get(string! routePattern, handler) -> <RouteInterface>
     {
-        var router, route;
-
-        /**
-         * We create a router even if there is no one in the DI
-         */
-        let router = this->getRouter();
-
-        /**
-         * Routes are added to the router restricting to GET
-         */
-        let route = router->addGet(routePattern);
-
-        /**
-         * Using the id produced by the router we store the handler
-         */
-        let this->handlers[route->getRouteId()] = handler;
-
-        /**
-         * The route is returned, the developer can add more things on it
-         */
-        return route;
+        return this->addRoute("addGet", routePattern, handler);
     }
 
     /**
@@ -363,9 +324,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
      */
     public function getService(string! serviceName)
     {
-        if this->container === null {
-            let this->container = new FactoryDefault();
-        }
+        this->checkDiContainer();
 
         return this->container->get(serviceName);
     }
@@ -377,9 +336,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
      */
     public function getSharedService(string! serviceName)
     {
-        if this->container === null {
-            let this->container = new FactoryDefault();
-        }
+        this->checkDiContainer();
 
         return this->container->getShared(serviceName);
     }
@@ -706,7 +663,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
              * Calling beforeNotFound event
              */
             if this->eventsManager !== null {
-                let returnedValue = this->eventsManager->fire(
+                this->eventsManager->fire(
                     "micro:beforeException",
                     this,
                     e
@@ -785,9 +742,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
      */
     public function hasService(string! serviceName) -> bool
     {
-        if this->container === null {
-            let this->container = new FactoryDefault();
-        }
+        this->checkDiContainer();
 
         return this->container->has(serviceName);
     }
@@ -799,27 +754,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
      */
     public function head(string! routePattern, handler) -> <RouteInterface>
     {
-        var router, route;
-
-        /**
-         * We create a router even if there is no one in the DI
-         */
-        let router = this->getRouter();
-
-        /**
-         * Routes are added to the router restricting to HEAD
-         */
-        let route = router->addHead(routePattern);
-
-        /**
-         * Using the id produced by the router we store the handler
-         */
-        let this->handlers[route->getRouteId()] = handler;
-
-        /**
-         * The route is returned, the developer can add more things on it
-         */
-        return route;
+        return this->addRoute("addHead", routePattern, handler);
     }
 
     /**
@@ -829,27 +764,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
      */
     public function map(string! routePattern, handler) -> <RouteInterface>
     {
-        var router, route;
-
-        /**
-         * We create a router even if there is no one in the DI
-         */
-        let router = this->getRouter();
-
-        /**
-         * Routes are added to the router
-         */
-        let route = router->add(routePattern);
-
-        /**
-         * Using the id produced by the router we store the handler
-         */
-        let this->handlers[route->getRouteId()] = handler;
-
-        /**
-         * The route is returned, the developer can add more things on it
-         */
-        return route;
+        return this->addRoute("add", routePattern, handler);
     }
 
     /**
@@ -991,9 +906,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
      */
     public function offsetUnset(mixed offset) -> void
     {
-        if this->container === null {
-            let this->container = new FactoryDefault();
-        }
+        this->checkDiContainer();
 
         this->container->remove(offset);
     }
@@ -1005,27 +918,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
      */
     public function options(string! routePattern, handler) -> <RouteInterface>
     {
-        var router, route;
-
-        /**
-         * We create a router even if there is no one in the DI
-         */
-        let router = this->getRouter();
-
-        /**
-         * Routes are added to the router restricting to OPTIONS
-         */
-        let route = router->addOptions(routePattern);
-
-        /**
-         * Using the id produced by the router we store the handler
-         */
-        let this->handlers[route->getRouteId()] = handler;
-
-        /**
-         * The route is returned, the developer can add more things on it
-         */
-        return route;
+        return this->addRoute("addOptions", routePattern, handler);
     }
 
     /**
@@ -1035,27 +928,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
      */
     public function patch(string! routePattern, handler) -> <RouteInterface>
     {
-        var router, route;
-
-        /**
-         * We create a router even if there is no one in the DI
-         */
-        let router = this->getRouter();
-
-        /**
-         * Routes are added to the router restricting to PATCH
-         */
-        let route = router->addPatch(routePattern);
-
-        /**
-         * Using the id produced by the router we store the handler
-         */
-        let this->handlers[route->getRouteId()] = handler;
-
-        /**
-         * The route is returned, the developer can add more things on it
-         */
-        return route;
+        return this->addRoute("addPatch", routePattern, handler);
     }
 
     /**
@@ -1065,27 +938,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
      */
     public function post(string! routePattern, handler) -> <RouteInterface>
     {
-        var router, route;
-
-        /**
-         * We create a router even if there is no one in the DI
-         */
-        let router = this->getRouter();
-
-        /**
-         * Routes are added to the router restricting to POST
-         */
-        let route = router->addPost(routePattern);
-
-        /**
-         * Using the id produced by the router we store the handler
-         */
-        let this->handlers[route->getRouteId()] = handler;
-
-        /**
-         * The route is returned, the developer can add more things on it
-         */
-        return route;
+        return this->addRoute("addPost", routePattern, handler);
     }
 
     /**
@@ -1095,27 +948,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
      */
     public function put(string! routePattern, handler) -> <RouteInterface>
     {
-        var router, route;
-
-        /**
-         * We create a router even if there is no one in the DI
-         */
-        let router = this->getRouter();
-
-        /**
-         * Routes are added to the router restricting to PUT
-         */
-        let route = router->addPut(routePattern);
-
-        /**
-         * Using the id produced by the router we store the handler
-         */
-        let this->handlers[route->getRouteId()] = handler;
-
-        /**
-         * The route is returned, the developer can add more things on it
-         */
-        return route;
+        return this->addRoute("addPut", routePattern, handler);
     }
 
     /**
@@ -1156,7 +989,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
             let cache = this->getService(cache);
         }
 
-        if cache != null {
+        if cache instanceof AdapterInterface {
             modelBinder->setCache(cache);
         }
 
@@ -1181,13 +1014,11 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
     /**
      * Sets a service from the DI
      */
-    public function setService(string! serviceName, var definition, bool shared = false) -> <ServiceInterface>
+    public function setService(string! serviceName, var definition, bool isShared = false) -> <ServiceInterface>
     {
-        if this->container === null {
-            let this->container = new FactoryDefault();
-        }
+        this->checkDiContainer();
 
-        return this->container->set(serviceName, definition, shared);
+        return this->container->set(serviceName, definition, isShared);
     }
 
     /**
@@ -1197,5 +1028,49 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
     public function stop() -> void
     {
         let this->stopped = true;
+    }
+
+    /**
+     * Helper method to route an action
+     *
+     * @param string         method
+     * @param string         routePattern
+     * @param array|callable handler
+     *
+     * @return RouteInterface
+     */
+    private function addRoute(string! method, string! routePattern, handler) -> <RouteInterface>
+    {
+        var router, route;
+
+        /**
+         * We create a router even if there is no one in the DI
+         */
+        let router = this->getRouter();
+
+        /**
+         * Routes are added to the router
+         */
+        let route = router->{method}(routePattern);
+
+        /**
+         * Using the id produced by the router we store the handler
+         */
+        let this->handlers[route->getRouteId()] = handler;
+
+        /**
+         * The route is returned, the developer can add more things on it
+         */
+        return route;
+    }
+
+    /**
+     * @return void
+     */
+    private function checkDiContainer() -> void
+    {
+        if this->container === null {
+            let this->container = new FactoryDefault();
+        }
     }
 }
