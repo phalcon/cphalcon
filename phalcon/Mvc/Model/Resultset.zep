@@ -513,6 +513,14 @@ abstract class Resultset
     }
 
     /**
+     * Checks whether offset exists in the resultset
+     */
+    public function offsetExists(var index) -> bool
+    {
+        return index < this->count;
+    }
+
+    /**
      * Gets row in a specific position of the resultset
      */
     public function offsetGet(mixed index) -> mixed
@@ -527,14 +535,6 @@ abstract class Resultset
         this->seek(index);
 
         return this->{"current"}();
-    }
-
-    /**
-     * Checks whether offset exists in the resultset
-     */
-    public function offsetExists(var index) -> bool
-    {
-        return index < this->count;
     }
 
     /**
@@ -743,7 +743,7 @@ abstract class Resultset
             let this->count = 0;
             let this->rows = [];
 
-            return;
+            return true;
         }
         let result = this->result;
         let success = result->execute();
@@ -768,7 +768,7 @@ abstract class Resultset
         /**
          * Small result-sets with less equals 32 rows are fetched at once
          */
-        let prefetchRecords = (int) globals_get("orm.resultset_prefetch_records");
+        let prefetchRecords = (int) Settings::get("orm.resultset_prefetch_records");
         if prefetchRecords > 0 && rowCount <= prefetchRecords {
             /**
              * Fetch ALL rows from database
