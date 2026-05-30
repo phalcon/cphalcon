@@ -20,8 +20,6 @@ use PHPUnit\Framework\Attributes\DataProvider;
 final class LevelsTest extends AbstractDatabaseTestCase
 {
     /**
-     * @dataProvider providerLevels
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-01-25
      */

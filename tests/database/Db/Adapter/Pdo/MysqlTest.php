@@ -17,6 +17,8 @@ use PDOException;
 use Phalcon\Db\Adapter\Pdo\Mysql;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+
 use function env;
 
 final class MysqlTest extends AbstractDatabaseTestCase
@@ -66,13 +68,12 @@ final class MysqlTest extends AbstractDatabaseTestCase
     /**
      * Tests Mysql::addForeignKey
      *
-     * @dataProvider getShouldAddForeignKeyProvider
-     *
      * @issue  https://github.com/phalcon/cphalcon/issues/556
      * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
      * @since  2017-07-03
      * @group  mysql
      */
+    #[DataProvider('getShouldAddForeignKeyProvider')]
     public function testDbAdapterPdoMysqlShouldAddForeignKey(
         string $sql,
         bool $expected
@@ -86,13 +87,12 @@ final class MysqlTest extends AbstractDatabaseTestCase
     /**
      * Tests Mysql::getForeignKey via information_schema lookup
      *
-     * @dataProvider getShouldCheckAddedForeignKeyProvider
-     *
      * @issue  https://github.com/phalcon/cphalcon/issues/556
      * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
      * @since  2017-07-03
      * @group  mysql
      */
+    #[DataProvider('getShouldCheckAddedForeignKeyProvider')]
     public function testDbAdapterPdoMysqlShouldCheckAddedForeignKey(
         string $addSql,
         string $checkSql
@@ -109,13 +109,12 @@ final class MysqlTest extends AbstractDatabaseTestCase
     /**
      * Tests Mysql::dropForeignKey
      *
-     * @dataProvider getShouldDropForeignKeyProvider
-     *
      * @issue  https://github.com/phalcon/cphalcon/issues/556
      * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
      * @since  2017-07-03
      * @group  mysql
      */
+    #[DataProvider('getShouldDropForeignKeyProvider')]
     public function testDbAdapterPdoMysqlShouldDropForeignKey(
         string $addSql,
         string $dropSql

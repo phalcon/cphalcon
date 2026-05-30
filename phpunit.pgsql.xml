@@ -6,7 +6,7 @@
          colors="true"
 >
     <testsuites>
-        <testsuite name="sqlite tests">
+        <testsuite name="pgsql tests">
             <directory>./tests/database</directory>
         </testsuite>
     </testsuites>

@@ -51,7 +51,6 @@ use Phalcon\Mvc\Model\Query\Exceptions\ModelSourceNotFound;
 use Phalcon\Mvc\Model\Query\Exceptions\MultipleSqlStatementsNotSupported;
 use Phalcon\Mvc\Model\Query\Exceptions\NoModelForAlias;
 use Phalcon\Mvc\Model\Query\Exceptions\PhqlColumnNotInMap;
-use Phalcon\Mvc\Model\Query\Exceptions\QueryOperationNotSupported;
 use Phalcon\Mvc\Model\Query\Exceptions\ReadConnectionMissing;
 use Phalcon\Mvc\Model\Query\Exceptions\RelationshipNotFound;
 use Phalcon\Mvc\Model\Query\Exceptions\ResultsetClassNotFound;
@@ -186,6 +185,11 @@ class Query implements QueryInterface, InjectionAwareInterface
     protected intermediate;
 
     /**
+     * @var array|null
+     */
+    protected static internalPhqlCache;
+
+    /**
      * @var \Phalcon\Mvc\Model\ManagerInterface|null
      */
     protected manager = null;
@@ -246,16 +250,6 @@ class Query implements QueryInterface, InjectionAwareInterface
     protected sqlModelsAliases = [];
 
     /**
-     * @var int|null
-     */
-    protected type;
-
-    /**
-     * @var bool
-     */
-    protected uniqueRow = false;
-
-    /**
      * TransactionInterface so that the query can wrap a transaction
      * around batch updates and intermediate selects within the transaction.
      * however if a model got a transaction set inside it will use the local
@@ -266,9 +260,14 @@ class Query implements QueryInterface, InjectionAwareInterface
     protected transaction = null;
 
     /**
-     * @var array|null
+     * @var int|null
      */
-    protected static internalPhqlCache;
+    protected type;
+
+    /**
+     * @var bool
+     */
+    protected uniqueRow = false;
 
     /**
      * Phalcon\Mvc\Model\Query constructor
@@ -484,22 +483,6 @@ class Query implements QueryInterface, InjectionAwareInterface
     }
 
     /**
-     * Returns the current cache backend instance
-     */
-    public function getCache() -> <AdapterInterface>
-    {
-        return this->cache;
-    }
-
-    /**
-     * Returns the current cache options
-     */
-    public function getCacheOptions() -> array
-    {
-        return this->cacheOptions;
-    }
-
-    /**
      * Returns default bind params
      */
     public function getBindParams() -> array
@@ -513,6 +496,22 @@ class Query implements QueryInterface, InjectionAwareInterface
     public function getBindTypes() -> array
     {
         return this->bindTypes;
+    }
+
+    /**
+     * Returns the current cache backend instance
+     */
+    public function getCache() -> <AdapterInterface>
+    {
+        return this->cache;
+    }
+
+    /**
+     * Returns the current cache options
+     */
+    public function getCacheOptions() -> array
+    {
+        return this->cacheOptions;
     }
 
     /**
@@ -581,6 +580,14 @@ class Query implements QueryInterface, InjectionAwareInterface
     }
 
     /**
+     * @return TransactionInterface|null
+     */
+    public function getTransaction() -> <TransactionInterface> | null
+    {
+        return this->transaction;
+    }
+
+    /**
      * Gets the type of PHQL statement executed
      *
      * @return int
@@ -599,14 +606,6 @@ class Query implements QueryInterface, InjectionAwareInterface
     public function getUniqueRow() -> bool
     {
         return this->uniqueRow;
-    }
-
-    /**
-     * @return TransactionInterface|null
-     */
-    public function getTransaction() -> <TransactionInterface> | null
-    {
-        return this->transaction;
     }
 
     /**
@@ -666,19 +665,19 @@ class Query implements QueryInterface, InjectionAwareInterface
 
                 switch type {
                     case PHQL_T_SELECT:
-                        let irPhql = this->_prepareSelect();
+                        let irPhql = this->prepareSelect();
                         break;
 
                     case PHQL_T_INSERT:
-                        let irPhql = this->_prepareInsert();
+                        let irPhql = this->prepareInsert();
                         break;
 
                     case PHQL_T_UPDATE:
-                        let irPhql = this->_prepareUpdate();
+                        let irPhql = this->prepareUpdate();
                         break;
 
                     case PHQL_T_DELETE:
-                        let irPhql = this->_prepareDelete();
+                        let irPhql = this->prepareDelete();
                         break;
 
                     default:
@@ -1528,9 +1527,6 @@ class Query implements QueryInterface, InjectionAwareInterface
 
                     break;
 
-                case PHQL_T_BPLACEHOLDER:
-                    throw new QueryOperationNotSupported();
-
                 default:
                     let updateValue = new RawValue(
                         dialect->getSqlExpression(exprValue)
@@ -2213,7 +2209,7 @@ class Query implements QueryInterface, InjectionAwareInterface
                 case PHQL_T_SELECT:
                     let exprReturn = [
                         "type":  "select",
-                        "value": this->_prepareSelect(expr, true)
+                        "value": this->prepareSelect(expr, true)
                     ];
 
                     break;
@@ -2327,25 +2323,6 @@ class Query implements QueryInterface, InjectionAwareInterface
         }
 
         return groupParts;
-    }
-
-    /**
-     * Returns a processed limit clause for a SELECT statement
-     */
-    final protected function getLimitClause(array! limitClause) -> array
-    {
-        var number, offset;
-        array limit = [];
-
-        if fetch number, limitClause["number"] {
-            let limit["number"] = this->getExpression(number);
-        }
-
-        if fetch offset, limitClause["offset"] {
-            let limit["offset"] = this->getExpression(offset);
-        }
-
-        return limit;
     }
 
     /**
@@ -2760,6 +2737,25 @@ class Query implements QueryInterface, InjectionAwareInterface
         }
 
         return sqlJoins;
+    }
+
+    /**
+     * Returns a processed limit clause for a SELECT statement
+     */
+    final protected function getLimitClause(array! limitClause) -> array
+    {
+        var number, offset;
+        array limit = [];
+
+        if fetch number, limitClause["number"] {
+            let limit["number"] = this->getExpression(number);
+        }
+
+        if fetch offset, limitClause["offset"] {
+            let limit["offset"] = this->getExpression(offset);
+        }
+
+        return limit;
     }
 
     /**
@@ -3517,77 +3513,10 @@ class Query implements QueryInterface, InjectionAwareInterface
     }
 
     /**
-     * Refreshes the schema/source of every model referenced in a cached
-     * intermediate representation. The PHQL cache is keyed by the PHQL
-     * string only, so a model that switches its schema or source at
-     * runtime (for instance via setSchema()/setSource() in initialize())
-     * would otherwise see the value frozen at first parse. See #17020.
-     */
-    final protected function refreshSchemasInIntermediate(array irPhql) -> array
-    {
-        var manager, models, tables, modelName, model, schema, source,
-            currentTable, alias, index;
-
-        let manager = this->manager;
-
-        if typeof manager != "object" {
-            return irPhql;
-        }
-
-        if !fetch models, irPhql["models"] {
-            return irPhql;
-        }
-
-        if !fetch tables, irPhql["tables"] {
-            return irPhql;
-        }
-
-        for index, modelName in models {
-            if !isset tables[index] {
-                continue;
-            }
-
-            let model = manager->load(modelName),
-                schema = model->getSchema(),
-                source = model->getSource(),
-                currentTable = tables[index],
-                alias = null;
-
-            /**
-             * Extract the alias from the cached entry (when present) so it
-             * survives the rebuild. The cached shape is either a plain
-             * source string, [source, schema], [source, null, alias] or
-             * [source, schema, alias].
-             */
-            if typeof currentTable == "array" && isset currentTable[2] {
-                let alias = currentTable[2];
-            }
-
-            if schema {
-                if alias !== null {
-                    let tables[index] = [source, schema, alias];
-                } else {
-                    let tables[index] = [source, schema];
-                }
-            } else {
-                if alias !== null {
-                    let tables[index] = [source, null, alias];
-                } else {
-                    let tables[index] = source;
-                }
-            }
-        }
-
-        let irPhql["tables"] = tables;
-
-        return irPhql;
-    }
-
-    /**
      * Analyzes a DELETE intermediate code and produces an array to be executed
      * later
      */
-    final protected function _prepareDelete() -> array
+    final protected function prepareDelete() -> array
     {
         var ast, delete, tables, models, modelsInstances, sqlTables, sqlModels,
             sqlAliases, sqlAliasesModelsInstances, deleteTables, manager, table,
@@ -3685,7 +3614,7 @@ class Query implements QueryInterface, InjectionAwareInterface
      * Analyzes an INSERT intermediate code and produces an array to be executed
      * later
      */
-    final protected function _prepareInsert() -> array
+    final protected function prepareInsert() -> array
     {
         var ast, qualifiedName, manager, modelName, model, source, schema,
             exprValues, exprValue, sqlInsert, metaData, fields, sqlFields,
@@ -3764,7 +3693,7 @@ class Query implements QueryInterface, InjectionAwareInterface
     /**
      * Analyzes a SELECT intermediate code and produces an array to be executed later
      */
-    final protected function _prepareSelect(var ast = null, bool merge = false) -> array
+    final protected function prepareSelect(var ast = null, bool merge = false) -> array
     {
         int position;
         var select, tables, columns, selectedModels, manager, metaData,
@@ -4157,7 +4086,7 @@ class Query implements QueryInterface, InjectionAwareInterface
      * Analyzes an UPDATE intermediate code and produces an array to be executed
      * later
      */
-    final protected function _prepareUpdate() -> array
+    final protected function prepareUpdate() -> array
     {
         var ast, update, tables, values, modelsInstances, models, sqlTables,
             sqlAliases, sqlAliasesModelsInstances, updateTables, completeSource,
@@ -4283,5 +4212,72 @@ class Query implements QueryInterface, InjectionAwareInterface
         }
 
         return sqlUpdate;
+    }
+
+    /**
+     * Refreshes the schema/source of every model referenced in a cached
+     * intermediate representation. The PHQL cache is keyed by the PHQL
+     * string only, so a model that switches its schema or source at
+     * runtime (for instance via setSchema()/setSource() in initialize())
+     * would otherwise see the value frozen at first parse. See #17020.
+     */
+    final protected function refreshSchemasInIntermediate(array irPhql) -> array
+    {
+        var manager, models, tables, modelName, model, schema, source,
+            currentTable, alias, index;
+
+        let manager = this->manager;
+
+        if typeof manager != "object" {
+            return irPhql;
+        }
+
+        if !fetch models, irPhql["models"] {
+            return irPhql;
+        }
+
+        if !fetch tables, irPhql["tables"] {
+            return irPhql;
+        }
+
+        for index, modelName in models {
+            if !isset tables[index] {
+                continue;
+            }
+
+            let model = manager->load(modelName),
+                schema = model->getSchema(),
+                source = model->getSource(),
+                currentTable = tables[index],
+                alias = null;
+
+            /**
+             * Extract the alias from the cached entry (when present) so it
+             * survives the rebuild. The cached shape is either a plain
+             * source string, [source, schema], [source, null, alias] or
+             * [source, schema, alias].
+             */
+            if typeof currentTable == "array" && isset currentTable[2] {
+                let alias = currentTable[2];
+            }
+
+            if schema {
+                if alias !== null {
+                    let tables[index] = [source, schema, alias];
+                } else {
+                    let tables[index] = [source, schema];
+                }
+            } else {
+                if alias !== null {
+                    let tables[index] = [source, null, alias];
+                } else {
+                    let tables[index] = source;
+                }
+            }
+        }
+
+        let irPhql["tables"] = tables;
+
+        return irPhql;
     }
 }
