@@ -631,7 +631,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
     /**
      * Reads metadata from the adapter
      */
-    public function read(string | null key) -> array | null
+    public function read(var key) -> array | null
     {
         return this->adapter->get(key);
     }

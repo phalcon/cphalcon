@@ -10,6 +10,7 @@
 
 namespace Phalcon\Mvc\Model\MetaData\Strategy;
 
+use Phalcon\Db\Adapter\AdapterInterface;
 use Phalcon\Di\DiInterface;
 use Phalcon\Mvc\Model\MetaData;
 use Phalcon\Mvc\Model\MetaData\Exceptions\CannotObtainTableColumns;
@@ -18,8 +19,6 @@ use Phalcon\Mvc\Model\MetaData\Exceptions\TableNotInDatabase;
 use Phalcon\Mvc\ModelInterface;
 
 /**
- * Phalcon\Mvc\Model\MetaData\Strategy\Introspection
- *
  * Queries the table meta-data in order to introspect the model's metadata
  */
 class Introspection implements StrategyInterface

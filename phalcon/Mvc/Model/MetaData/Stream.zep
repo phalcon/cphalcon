@@ -51,7 +51,7 @@ class Stream extends MetaData
     /**
      * Reads meta-data from files
      */
-    public function read(string | null key) -> array | null
+    public function read(var key) -> array | null
     {
         var path;
 
@@ -71,7 +71,7 @@ class Stream extends MetaData
     /**
      * Writes the meta-data to files
      */
-    public function write(string | null key, array data) -> void
+    public function write(var key, array data) -> void
     {
         var option, path;
 
