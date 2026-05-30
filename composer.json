@@ -102,13 +102,15 @@
     "test-db-sqlite-debug": "php -d extension=ext/modules/phalcon.so vendor/bin/phpunit -c phpunit.sqlite.xml --fail-on-all-issues --display-all-issues",
     "test-db-sqlite-coverage": "php -d extension=ext/modules/phalcon.so vendor/bin/phpunit -c phpunit.sqlite.xml --coverage-clover tests/_output/coverage.xml",
     "test-db": [
-      "@test-db-mysql"
+      "@test-db-mysql",
+      "@test-db-pgsql",
+      "@test-db-sqlite"
     ],
     "test-all": [
       "@test-unit",
-      "@test-cli",
-      "@test-integration",
-      "@test-db"
+      "@test-db-mysql",
+      "@test-db-pgsql",
+      "@test-db-sqlite"
     ],
     "clean-build-stubs": [
       "./vendor/bin/zephir fullclean",
