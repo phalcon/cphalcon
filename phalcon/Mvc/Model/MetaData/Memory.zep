@@ -11,7 +11,6 @@
 namespace Phalcon\Mvc\Model\MetaData;
 
 use Phalcon\Mvc\Model\MetaData;
-use Phalcon\Mvc\Model\Exception;
 
 /**
  * Phalcon\Mvc\Model\MetaData\Memory
@@ -22,18 +21,9 @@ use Phalcon\Mvc\Model\Exception;
 class Memory extends MetaData
 {
     /**
-     * Phalcon\Mvc\Model\MetaData\Memory constructor
-     *
-     * @param array options
-     */
-    public function __construct(var options = null)
-    {
-    }
-
-    /**
      * Reads the meta-data from temporal memory
      */
-    public function read(string! key) -> array | null
+    public function read(string | null key) -> array | null
     {
         return null;
     }
@@ -41,7 +31,7 @@ class Memory extends MetaData
     /**
      * Writes the meta-data to temporal memory
      */
-    public function write(string! key, array data) -> void
+    public function write(string | null key, array data) -> void
     {
         return;
     }

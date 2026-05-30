@@ -12,7 +12,6 @@ namespace Phalcon\Mvc\Model\MetaData\Strategy;
 
 use Phalcon\Db\Column;
 use Phalcon\Di\DiInterface;
-use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\MetaData;
 use Phalcon\Mvc\Model\MetaData\Exceptions\InvalidContainer;
 use Phalcon\Mvc\Model\MetaData\Exceptions\NoAnnotationsForClass;
@@ -345,14 +344,14 @@ class Annotations implements StrategyInterface
              * Column will be skipped on INSERT operation
              */
             if columnAnnotation->getNamedParameter("skip_on_insert") {
-                let skipOnInsert[] = columnName;
+                let skipOnInsert[columnName] = true;
             }
 
             /**
              * Column will be skipped on UPDATE operation
              */
             if columnAnnotation->getNamedParameter("skip_on_update") {
-                let skipOnUpdate[] = columnName;
+                let skipOnUpdate[columnName] = true;
             }
 
             /**

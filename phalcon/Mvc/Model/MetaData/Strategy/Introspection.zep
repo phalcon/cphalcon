@@ -10,10 +10,7 @@
 
 namespace Phalcon\Mvc\Model\MetaData\Strategy;
 
-use Phalcon\Db\Adapter\AdapterInterface;
-use Phalcon\Db\Column;
 use Phalcon\Di\DiInterface;
-use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\MetaData;
 use Phalcon\Mvc\Model\MetaData\Exceptions\CannotObtainTableColumns;
 use Phalcon\Mvc\Model\MetaData\Exceptions\ColumnMapNotArray;
