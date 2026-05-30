@@ -2,6 +2,11 @@
 
 ## [5.13.1](https://github.com/phalcon/cphalcon/releases/tag/v5.13.1) (2026-xx-xx)
 
+### Tools
+
+- Zephir Parser v2.0.2
+- Zephir 0.22.0
+
 ### Changed
 
 - `Phalcon\Mvc\Router::handle()` internal optimizations: O(1) hash lookup for literal-URI routes; per-HTTP-method buckets; hot-loop reads; PCRE patterns chunked; per-route metadata cache deduplicated by route id. [#17012](https://github.com/phalcon/cphalcon/issues/17012) [[doc]](https://docs.phalcon.io/5.13/routing/)
