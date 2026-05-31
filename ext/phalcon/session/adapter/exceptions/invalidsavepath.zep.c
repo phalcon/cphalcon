@@ -17,6 +17,14 @@
 #include "kernel/object.h"
 
 
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Session_Adapter_Exceptions_InvalidSavePath)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Session\\Adapter\\Exceptions, InvalidSavePath, phalcon, session_adapter_exceptions_invalidsavepath, phalcon_session_exception_ce, phalcon_session_adapter_exceptions_invalidsavepath_method_entry, 0);

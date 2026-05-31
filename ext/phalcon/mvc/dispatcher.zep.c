@@ -235,6 +235,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerName)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&controllerName_zv, controllerName);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("handlerName"), &controllerName_zv);
+	RETURN_THISW();
 }
 
 /**
@@ -252,6 +253,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerSuffix)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&controllerSuffix_zv, controllerSuffix);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("handlerSuffix"), &controllerSuffix_zv);
+	RETURN_THISW();
 }
 
 /**
@@ -269,6 +271,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, setDefaultController)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&controllerName_zv, controllerName);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("defaultHandler"), &controllerName_zv);
+	RETURN_THISW();
 }
 
 /**
@@ -348,7 +351,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, throwDispatchException)
 		object_init_ex(&_1$$3, phalcon_mvc_dispatcher_exceptions_responseserviceunavailable_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Mvc/Dispatcher.zep", 226);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Mvc/Dispatcher.zep", 232);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -372,7 +375,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, throwDispatchException)
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&_2)) {
 		RETURN_MM_BOOL(0);
 	}
-	zephir_throw_exception_debug(&exception, "phalcon/Mvc/Dispatcher.zep", 248);
+	zephir_throw_exception_debug(&exception, "phalcon/Mvc/Dispatcher.zep", 254);
 	ZEPHIR_MM_RESTORE();
 	return;
 }

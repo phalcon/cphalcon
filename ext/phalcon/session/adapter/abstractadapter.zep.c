@@ -103,6 +103,23 @@ PHP_METHOD(Phalcon_Session_Adapter_AbstractAdapter, gc)
 		Z_PARAM_LONG(max_lifetime)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &max_lifetime_param);
+	RETURN_LONG(1);
+}
+
+/**
+ * Open
+ */
+PHP_METHOD(Phalcon_Session_Adapter_AbstractAdapter, open)
+{
+	zval *path, path_sub, *name, name_sub;
+
+	ZVAL_UNDEF(&path_sub);
+	ZVAL_UNDEF(&name_sub);
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_ZVAL(path)
+		Z_PARAM_ZVAL(name)
+	ZEND_PARSE_PARAMETERS_END();
+	zephir_fetch_params_without_memory_grow(2, 0, &path, &name);
 	RETURN_BOOL(1);
 }
 
@@ -137,23 +154,6 @@ PHP_METHOD(Phalcon_Session_Adapter_AbstractAdapter, read)
 		ZEPHIR_CPY_WRT(&_1, &data);
 	}
 	RETURN_CCTOR(&_1);
-}
-
-/**
- * Open
- */
-PHP_METHOD(Phalcon_Session_Adapter_AbstractAdapter, open)
-{
-	zval *path, path_sub, *name, name_sub;
-
-	ZVAL_UNDEF(&path_sub);
-	ZVAL_UNDEF(&name_sub);
-	ZEND_PARSE_PARAMETERS_START(2, 2)
-		Z_PARAM_ZVAL(path)
-		Z_PARAM_ZVAL(name)
-	ZEND_PARSE_PARAMETERS_END();
-	zephir_fetch_params_without_memory_grow(2, 0, &path, &name);
-	RETURN_BOOL(1);
 }
 
 /**

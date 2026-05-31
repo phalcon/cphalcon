@@ -155,7 +155,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection, __construct)
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_datamapper_pdo_exception_drivernotsupported_ce);
 		zephir_array_fetch_long(&_2$$3, &parts, 0, PH_NOISY | PH_READONLY, "phalcon/DataMapper/Pdo/Connection.zep", 66);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 322, &_2$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 323, &_2$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$3, "phalcon/DataMapper/Pdo/Connection.zep", 66);
 		ZEPHIR_MM_RESTORE();
@@ -177,7 +177,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection, __construct)
 	if (Z_TYPE_P(profiler) == IS_NULL) {
 		ZEPHIR_INIT_NVAR(profiler);
 		object_init_ex(profiler, phalcon_datamapper_pdo_profiler_profiler_ce);
-		ZEPHIR_CALL_METHOD(NULL, profiler, "__construct", NULL, 323);
+		ZEPHIR_CALL_METHOD(NULL, profiler, "__construct", NULL, 324);
 		zephir_check_call_status();
 	}
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setprofiler", NULL, 0, profiler);
@@ -236,6 +236,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection, __debugInfo)
  */
 PHP_METHOD(Phalcon_DataMapper_Pdo_Connection, connect)
 {
+	zend_bool _12$$3;
 	zval dsn, options, password, query, queries, username, _0, _1$$3, _2$$3, _3$$3, _4$$3, _5$$3, _6$$3, _7$$3, _8$$3, *_9$$3, _11$$3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_10 = NULL;
@@ -303,7 +304,14 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection, connect)
 		} else {
 			ZEPHIR_CALL_METHOD(NULL, &queries, "rewind", NULL, 0);
 			zephir_check_call_status();
+			_12$$3 = 1;
 			while (1) {
+				if (_12$$3) {
+					_12$$3 = 0;
+				} else {
+					ZEPHIR_CALL_METHOD(NULL, &queries, "next", NULL, 0);
+					zephir_check_call_status();
+				}
 				ZEPHIR_CALL_METHOD(&_11$$3, &queries, "valid", NULL, 0);
 				zephir_check_call_status();
 				if (!zend_is_true(&_11$$3)) {
@@ -313,8 +321,6 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection, connect)
 				zephir_check_call_status();
 					ZEPHIR_CALL_METHOD(NULL, this_ptr, "exec", &_10, 0, &query);
 					zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(NULL, &queries, "next", NULL, 0);
-				zephir_check_call_status();
 			}
 		}
 		ZEPHIR_INIT_NVAR(&query);

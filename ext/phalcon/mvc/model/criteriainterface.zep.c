@@ -17,8 +17,8 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the
- * LICENSE.txt file that was distributed with this source code.
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
  */
 /**
  * Phalcon\Mvc\Model\CriteriaInterface
@@ -130,6 +130,14 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, groupBy);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, having);
 /**
+ * Appends an IN condition to the current conditions
+ *
+ *```php
+ * $criteria->inWhere("id", [1, 2, 3]);
+ *```
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, inWhere);
+/**
  * Adds an INNER join to the query
  *
  *```php
@@ -150,14 +158,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, having);
  *```
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, innerJoin);
-/**
- * Appends an IN condition to the current conditions
- *
- *```php
- * $criteria->inWhere("id", [1, 2, 3]);
- *```
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, inWhere);
 /**
  * Adds a LEFT join to the query
  *
@@ -194,16 +194,16 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, notBetweenWhere);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, notInWhere);
 /**
- * Adds the order-by parameter to the criteria
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, orderBy);
-/**
  * Appends a condition to the current conditions using an OR operator
  *
  * @param array bindParams
  * @param array bindTypes
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, orWhere);
+/**
+ * Adds the order-by parameter to the criteria
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, orderBy);
 /**
  * Adds a RIGHT join to the query
  *

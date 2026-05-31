@@ -273,7 +273,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_limit, 0, 2, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, sqlQuery, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, number, IS_LONG, 0)
+	ZEND_ARG_INFO(0, number)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_listtables, 0, 0, IS_ARRAY, 0)

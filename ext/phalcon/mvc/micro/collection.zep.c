@@ -63,7 +63,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Micro_Collection)
 	/**
 	 * @var bool
 	 */
-	zend_declare_property_bool(phalcon_mvc_micro_collection_ce, SL("lazy"), 0, ZEND_ACC_PROTECTED);
+	zend_declare_property_bool(phalcon_mvc_micro_collection_ce, SL("isLazy"), 0, ZEND_ACC_PROTECTED);
 	/**
 	 * @var string
 	 */
@@ -247,7 +247,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, head)
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, isLazy)
 {
 
-	RETURN_MEMBER(getThis(), "lazy");
+	RETURN_MEMBER(getThis(), "isLazy");
 }
 
 /**
@@ -540,14 +540,14 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, put)
  * Sets the main handler.
  *
  * @param mixed handler
- * @param bool lazy
+ * @param bool isLazy
  *
  * @return CollectionInterface
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, setHandler)
 {
-	zend_bool lazy;
-	zval *handler, handler_sub, *lazy_param = NULL, __$true, __$false;
+	zend_bool isLazy;
+	zval *handler, handler_sub, *isLazy_param = NULL, __$true, __$false;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&handler_sub);
@@ -556,18 +556,18 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, setHandler)
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_ZVAL(handler)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_BOOL(lazy)
+		Z_PARAM_BOOL(isLazy)
 	ZEND_PARSE_PARAMETERS_END();
-	zephir_fetch_params_without_memory_grow(1, 1, &handler, &lazy_param);
-	if (!lazy_param) {
-		lazy = 0;
+	zephir_fetch_params_without_memory_grow(1, 1, &handler, &isLazy_param);
+	if (!isLazy_param) {
+		isLazy = 0;
 	} else {
 		}
 	zephir_update_property_zval(this_ptr, ZEND_STRL("handler"), handler);
-	if (lazy) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("lazy"), &__$true);
+	if (isLazy) {
+		zephir_update_property_zval(this_ptr, ZEND_STRL("isLazy"), &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("lazy"), &__$false);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("isLazy"), &__$false);
 	}
 	RETURN_THISW();
 }
@@ -575,31 +575,31 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, setHandler)
 /**
  * Sets if the main handler must be lazy loaded
  *
- * @param bool lazy
+ * @param bool isLazy
  *
  * @return CollectionInterface
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, setLazy)
 {
-	zval *lazy_param = NULL, __$true, __$false;
-	zend_bool lazy;
+	zval *isLazy_param = NULL, __$true, __$false;
+	zend_bool isLazy;
 	zval *this_ptr = getThis();
 
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_BOOL(lazy)
+		Z_PARAM_BOOL(isLazy)
 	ZEND_PARSE_PARAMETERS_END();
-	zephir_fetch_params_without_memory_grow(1, 0, &lazy_param);
-	if (UNEXPECTED(Z_TYPE_P(lazy_param) != IS_TRUE && Z_TYPE_P(lazy_param) != IS_FALSE)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'lazy' must be of the type bool"));
+	zephir_fetch_params_without_memory_grow(1, 0, &isLazy_param);
+	if (UNEXPECTED(Z_TYPE_P(isLazy_param) != IS_TRUE && Z_TYPE_P(isLazy_param) != IS_FALSE)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'isLazy' must be of the type bool"));
 		RETURN_NULL();
 	}
-	lazy = (Z_TYPE_P(lazy_param) == IS_TRUE);
-	if (lazy) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("lazy"), &__$true);
+	isLazy = (Z_TYPE_P(isLazy_param) == IS_TRUE);
+	if (isLazy) {
+		zephir_update_property_zval(this_ptr, ZEND_STRL("isLazy"), &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("lazy"), &__$false);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("isLazy"), &__$false);
 	}
 	RETURN_THISW();
 }

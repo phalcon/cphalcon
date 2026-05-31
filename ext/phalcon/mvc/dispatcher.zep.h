@@ -43,15 +43,15 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_dispatcher_getpreviousnamespacename, 0, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_dispatcher_setcontrollername, 0, 0, 1)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_dispatcher_setcontrollername, 0, 1, Phalcon\\Mvc\\DispatcherInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, controllerName, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_dispatcher_setcontrollersuffix, 0, 0, 1)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_dispatcher_setcontrollersuffix, 0, 1, Phalcon\\Mvc\\DispatcherInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, controllerSuffix, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_dispatcher_setdefaultcontroller, 0, 0, 1)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_dispatcher_setdefaultcontroller, 0, 1, Phalcon\\Mvc\\DispatcherInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, controllerName, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 

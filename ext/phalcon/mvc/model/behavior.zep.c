@@ -72,6 +72,60 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, __construct)
 }
 
 /**
+ * Acts as fallbacks when a missing method is called on the model
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Behavior, missingMethod)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zval arguments;
+	zend_string *method = NULL;
+	zval *model, model_sub, method_zv, *arguments_param = NULL;
+
+	ZVAL_UNDEF(&model_sub);
+	ZVAL_UNDEF(&method_zv);
+	ZVAL_UNDEF(&arguments);
+	ZEND_PARSE_PARAMETERS_START(2, 3)
+		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
+		Z_PARAM_STR(method)
+		Z_PARAM_OPTIONAL
+		ZEPHIR_Z_PARAM_ARRAY(arguments, arguments_param)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	model = ZEND_CALL_ARG(execute_data, 1);
+	if (ZEND_NUM_ARGS() > 2) {
+		arguments_param = ZEND_CALL_ARG(execute_data, 3);
+	}
+	ZVAL_STR(&method_zv, method);
+	if (!arguments_param) {
+		ZEPHIR_INIT_VAR(&arguments);
+		array_init(&arguments);
+	} else {
+		zephir_get_arrval(&arguments, arguments_param);
+	}
+	RETURN_MM_NULL();
+}
+
+/**
+ * This method receives the notifications from the EventsManager
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Behavior, notify)
+{
+	zval type_zv, *model, model_sub;
+	zend_string *type = NULL;
+
+	ZVAL_UNDEF(&type_zv);
+	ZVAL_UNDEF(&model_sub);
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_STR(type)
+		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
+	ZEND_PARSE_PARAMETERS_END();
+	model = ZEND_CALL_ARG(execute_data, 2);
+	ZVAL_STR(&type_zv, type);
+	RETURN_NULL();
+}
+
+/**
  * Returns the behavior options related to an event
  *
  * @return array
@@ -113,41 +167,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, getOptions)
 }
 
 /**
- * Acts as fallbacks when a missing method is called on the model
- */
-PHP_METHOD(Phalcon_Mvc_Model_Behavior, missingMethod)
-{
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval arguments;
-	zend_string *method = NULL;
-	zval *model, model_sub, method_zv, *arguments_param = NULL;
-
-	ZVAL_UNDEF(&model_sub);
-	ZVAL_UNDEF(&method_zv);
-	ZVAL_UNDEF(&arguments);
-	ZEND_PARSE_PARAMETERS_START(2, 3)
-		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
-		Z_PARAM_STR(method)
-		Z_PARAM_OPTIONAL
-		ZEPHIR_Z_PARAM_ARRAY(arguments, arguments_param)
-	ZEND_PARSE_PARAMETERS_END();
-	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	model = ZEND_CALL_ARG(execute_data, 1);
-	if (ZEND_NUM_ARGS() > 2) {
-		arguments_param = ZEND_CALL_ARG(execute_data, 3);
-	}
-	ZVAL_STR(&method_zv, method);
-	if (!arguments_param) {
-		ZEPHIR_INIT_VAR(&arguments);
-		array_init(&arguments);
-	} else {
-		zephir_get_arrval(&arguments, arguments_param);
-	}
-	RETURN_MM_NULL();
-}
-
-/**
  * Checks whether the behavior must take action on certain event
  */
 PHP_METHOD(Phalcon_Mvc_Model_Behavior, mustTakeAction)
@@ -164,24 +183,5 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, mustTakeAction)
 	ZVAL_STR(&eventName_zv, eventName);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("options"), PH_NOISY_CC | PH_READONLY);
 	RETURN_BOOL(zephir_array_isset_value(&_0, &eventName_zv));
-}
-
-/**
- * This method receives the notifications from the EventsManager
- */
-PHP_METHOD(Phalcon_Mvc_Model_Behavior, notify)
-{
-	zval type_zv, *model, model_sub;
-	zend_string *type = NULL;
-
-	ZVAL_UNDEF(&type_zv);
-	ZVAL_UNDEF(&model_sub);
-	ZEND_PARSE_PARAMETERS_START(2, 2)
-		Z_PARAM_STR(type)
-		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
-	ZEND_PARSE_PARAMETERS_END();
-	model = ZEND_CALL_ARG(execute_data, 2);
-	ZVAL_STR(&type_zv, type);
-	RETURN_NULL();
 }
 

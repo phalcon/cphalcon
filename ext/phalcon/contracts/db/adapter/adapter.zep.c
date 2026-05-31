@@ -46,13 +46,13 @@ ZEPHIR_INIT_CLASS(Phalcon_Contracts_Db_Adapter_Adapter)
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Adapter_Adapter, addColumn);
 /**
- * Adds an index to a table
- */
-ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Adapter_Adapter, addIndex);
-/**
  * Adds a foreign key to a table
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Adapter_Adapter, addForeignKey);
+/**
+ * Adds an index to a table
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Adapter_Adapter, addIndex);
 /**
  * Adds a primary key to a table
  */
@@ -249,11 +249,11 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Adapter_Adapter, getRealSQLStatement);
 /**
  * Active SQL statement in the object
  */
-ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Adapter_Adapter, getSQLStatement);
+ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Adapter_Adapter, getSQLBindTypes);
 /**
  * Active SQL statement in the object
  */
-ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Adapter_Adapter, getSQLBindTypes);
+ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Adapter_Adapter, getSQLStatement);
 /**
  * Active SQL statement in the object
  */

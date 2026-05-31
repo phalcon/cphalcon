@@ -114,11 +114,12 @@ PHP_METHOD(Phalcon_Support_Helper_Str_AbstractStr, toEndsWith)
  */
 PHP_METHOD(Phalcon_Support_Helper_Str_AbstractStr, toInterpolate)
 {
+	zend_bool _5;
 	zend_ulong _1;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval context;
-	zval input_zv, *context_param = NULL, left_zv, right_zv, key, replace, value, *_0, _4, _3$$4, _5$$5;
+	zval input_zv, *context_param = NULL, left_zv, right_zv, key, replace, value, *_0, _4, _3$$4, _6$$5;
 	zend_string *input = NULL, *left = NULL, *right = NULL, *_2;
 
 	ZVAL_UNDEF(&input_zv);
@@ -129,7 +130,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_AbstractStr, toInterpolate)
 	ZVAL_UNDEF(&value);
 	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_3$$4);
-	ZVAL_UNDEF(&_5$$5);
+	ZVAL_UNDEF(&_6$$5);
 	ZVAL_UNDEF(&context);
 	ZEND_PARSE_PARAMETERS_START(1, 4)
 		Z_PARAM_STR(input)
@@ -191,7 +192,14 @@ PHP_METHOD(Phalcon_Support_Helper_Str_AbstractStr, toInterpolate)
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, &context, "rewind", NULL, 0);
 		zephir_check_call_status();
+		_5 = 1;
 		while (1) {
+			if (_5) {
+				_5 = 0;
+			} else {
+				ZEPHIR_CALL_METHOD(NULL, &context, "next", NULL, 0);
+				zephir_check_call_status();
+			}
 			ZEPHIR_CALL_METHOD(&_4, &context, "valid", NULL, 0);
 			zephir_check_call_status();
 			if (!zend_is_true(&_4)) {
@@ -201,11 +209,9 @@ PHP_METHOD(Phalcon_Support_Helper_Str_AbstractStr, toInterpolate)
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(&value, &context, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_INIT_NVAR(&_5$$5);
-				ZEPHIR_CONCAT_VVV(&_5$$5, &left_zv, &key, &right_zv);
-				zephir_array_update_zval(&replace, &_5$$5, &value, PH_COPY | PH_SEPARATE);
-			ZEPHIR_CALL_METHOD(NULL, &context, "next", NULL, 0);
-			zephir_check_call_status();
+				ZEPHIR_INIT_NVAR(&_6$$5);
+				ZEPHIR_CONCAT_VVV(&_6$$5, &left_zv, &key, &right_zv);
+				zephir_array_update_zval(&replace, &_6$$5, &value, PH_COPY | PH_SEPARATE);
 		}
 	}
 	ZEPHIR_INIT_NVAR(&value);

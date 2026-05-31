@@ -33,8 +33,7 @@
  */
 /**
  * Escapes a string for use inside a CSS value by replacing non-alphanumeric
- * characters with their hexadecimal escape sequence. Wraps the C-level
- * `phalcon_escape_css` after normalising the input to UTF-32.
+ * characters with their hexadecimal escape sequence.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Html_Escaper_CssEscaper)
 {

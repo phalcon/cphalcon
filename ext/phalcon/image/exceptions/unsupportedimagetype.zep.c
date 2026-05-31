@@ -19,6 +19,14 @@
 #include "kernel/object.h"
 
 
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Image_Exceptions_UnsupportedImageType)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Image\\Exceptions, UnsupportedImageType, phalcon, image_exceptions_unsupportedimagetype, phalcon_image_exception_ce, phalcon_image_exceptions_unsupportedimagetype_method_entry, 0);

@@ -35,9 +35,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_Adapter_AbstractAdapter)
 	/**
 	 * Access Granted
 	 *
-	 * @var bool
+	 * @var int
 	 */
-	zend_declare_property_bool(phalcon_acl_adapter_abstractadapter_ce, SL("accessGranted"), 0, ZEND_ACC_PROTECTED);
+	zend_declare_property_long(phalcon_acl_adapter_abstractadapter_ce, SL("accessGranted"), 0, ZEND_ACC_PROTECTED);
 	/**
 	 * Active access which the list is checking if some role can access it
 	 *

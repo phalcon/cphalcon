@@ -251,10 +251,10 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, validateClaim)
  */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, validateAudience)
 {
-	zend_bool _0;
+	zend_bool _0, _10;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *audience = NULL, audience_sub, item, tokenAudience, _3, _4, _5, _6, *_7, _9, _1$$3, _2$$4, _8$$6, _10$$8;
+	zval *audience = NULL, audience_sub, item, tokenAudience, _3, _4, _5, _6, *_7, _9, _1$$3, _2$$4, _8$$6, _11$$8;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&audience_sub);
@@ -268,7 +268,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, validateAudience)
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$4);
 	ZVAL_UNDEF(&_8$$6);
-	ZVAL_UNDEF(&_10$$8);
+	ZVAL_UNDEF(&_11$$8);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(audience)
 	ZEND_PARSE_PARAMETERS_END();
@@ -283,7 +283,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, validateAudience)
 	if (_0) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_encryption_security_jwt_exceptions_invalidaudiencetype_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 451);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 452);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Encryption/Security/JWT/Validator.zep", 157);
 		ZEPHIR_MM_RESTORE();
@@ -320,7 +320,14 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, validateAudience)
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, audience, "rewind", NULL, 0);
 		zephir_check_call_status();
+		_10 = 1;
 		while (1) {
+			if (_10) {
+				_10 = 0;
+			} else {
+				ZEPHIR_CALL_METHOD(NULL, audience, "next", NULL, 0);
+				zephir_check_call_status();
+			}
 			ZEPHIR_CALL_METHOD(&_9, audience, "valid", NULL, 0);
 			zephir_check_call_status();
 			if (!zend_is_true(&_9)) {
@@ -329,13 +336,11 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, validateAudience)
 			ZEPHIR_CALL_METHOD(&item, audience, "current", NULL, 0);
 			zephir_check_call_status();
 				if (1 != zephir_fast_in_array(&item, &tokenAudience)) {
-					ZVAL_UNDEF(&_10$$8);
-					ZEPHIR_INIT_NVAR(&_10$$8);
-					ZVAL_STRING(&_10$$8, "Validation: audience not allowed");
-					zephir_update_property_array_append(this_ptr, SL("errors"), &_10$$8);
+					ZVAL_UNDEF(&_11$$8);
+					ZEPHIR_INIT_NVAR(&_11$$8);
+					ZVAL_STRING(&_11$$8, "Validation: audience not allowed");
+					zephir_update_property_array_append(this_ptr, SL("errors"), &_11$$8);
 				}
-			ZEPHIR_CALL_METHOD(NULL, audience, "next", NULL, 0);
-			zephir_check_call_status();
 		}
 	}
 	ZEPHIR_INIT_NVAR(&item);
@@ -392,7 +397,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, validateExpiration)
 	_7 = zephir_is_true(&_6);
 	if (_7) {
 		ZVAL_LONG(&_9, timestamp);
-		ZEPHIR_CALL_METHOD(&_8, this_ptr, "gettimestamp", NULL, 452, &_9);
+		ZEPHIR_CALL_METHOD(&_8, this_ptr, "gettimestamp", NULL, 453, &_9);
 		zephir_check_call_status();
 		_7 = ZEPHIR_GT_LONG(&_8, tokenExpirationTime);
 	}
@@ -492,7 +497,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, validateIssuedAt)
 	zephir_check_call_status();
 	tokenIssuedAt = zephir_get_intval(&_2);
 	ZVAL_LONG(&_5, timestamp);
-	ZEPHIR_CALL_METHOD(&_4, this_ptr, "gettimestamp", NULL, 452, &_5);
+	ZEPHIR_CALL_METHOD(&_4, this_ptr, "gettimestamp", NULL, 453, &_5);
 	zephir_check_call_status();
 	if (ZEPHIR_LE_LONG(&_4, tokenIssuedAt)) {
 		ZVAL_UNDEF(&_6$$3);
@@ -590,7 +595,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, validateNotBefore)
 	zephir_check_call_status();
 	tokenNotBefore = zephir_get_intval(&_2);
 	ZVAL_LONG(&_5, timestamp);
-	ZEPHIR_CALL_METHOD(&_4, this_ptr, "gettimestamp", NULL, 452, &_5);
+	ZEPHIR_CALL_METHOD(&_4, this_ptr, "gettimestamp", NULL, 453, &_5);
 	zephir_check_call_status();
 	if (ZEPHIR_LE_LONG(&_4, tokenNotBefore)) {
 		ZVAL_UNDEF(&_6$$3);

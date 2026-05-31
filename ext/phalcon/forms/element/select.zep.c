@@ -101,6 +101,7 @@ PHP_METHOD(Phalcon_Forms_Element_Select, __construct)
  */
 PHP_METHOD(Phalcon_Forms_Element_Select, addOption)
 {
+	zend_bool _4$$3;
 	zend_string *_2$$3;
 	zend_ulong _1$$3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -136,7 +137,14 @@ PHP_METHOD(Phalcon_Forms_Element_Select, addOption)
 		} else {
 			ZEPHIR_CALL_METHOD(NULL, option, "rewind", NULL, 0);
 			zephir_check_call_status();
+			_4$$3 = 1;
 			while (1) {
+				if (_4$$3) {
+					_4$$3 = 0;
+				} else {
+					ZEPHIR_CALL_METHOD(NULL, option, "next", NULL, 0);
+					zephir_check_call_status();
+				}
 				ZEPHIR_CALL_METHOD(&_3$$3, option, "valid", NULL, 0);
 				zephir_check_call_status();
 				if (!zend_is_true(&_3$$3)) {
@@ -147,8 +155,6 @@ PHP_METHOD(Phalcon_Forms_Element_Select, addOption)
 				ZEPHIR_CALL_METHOD(&value, option, "current", NULL, 0);
 				zephir_check_call_status();
 					zephir_update_property_array(this_ptr, SL("optionsValues"), &key, &value);
-				ZEPHIR_CALL_METHOD(NULL, option, "next", NULL, 0);
-				zephir_check_call_status();
 			}
 		}
 		ZEPHIR_INIT_NVAR(&value);

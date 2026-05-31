@@ -91,11 +91,11 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_micro_collection_sethandler, 0, 1, Phalcon\\Mvc\\Micro\\CollectionInterface, 0)
 	ZEND_ARG_INFO(0, handler)
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, lazy, _IS_BOOL, 0, "false")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, isLazy, _IS_BOOL, 0, "false")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_micro_collection_setlazy, 0, 1, Phalcon\\Mvc\\Micro\\CollectionInterface, 0)
-	ZEND_ARG_TYPE_INFO(0, lazy, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, isLazy, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_micro_collection_setprefix, 0, 1, Phalcon\\Mvc\\Micro\\CollectionInterface, 0)

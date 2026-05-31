@@ -85,7 +85,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, __construct)
 /**
  * Returns validation record messages which stop the transaction
  *
- * @return ModelInterface
+ * @return ModelInterface|null
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, getRecord)
 {
@@ -96,7 +96,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, getRecord)
 /**
  * Returns validation record messages which stop the transaction
  *
- * @return MessageInterface[]
+ * @return MessageInterface[]|string
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, getRecordMessages)
 {

@@ -39,41 +39,17 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Memory)
 }
 
 /**
- * Phalcon\Mvc\Model\MetaData\Memory constructor
- *
- * @param array options
- */
-PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memory, __construct)
-{
-	zval *options = NULL, options_sub, __$null;
-
-	ZVAL_UNDEF(&options_sub);
-	ZVAL_NULL(&__$null);
-	bool is_null_true = 1;
-	ZEND_PARSE_PARAMETERS_START(0, 1)
-		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(options)
-	ZEND_PARSE_PARAMETERS_END();
-	zephir_fetch_params_without_memory_grow(0, 1, &options);
-	if (!options) {
-		options = &options_sub;
-		options = &__$null;
-	}
-}
-
-/**
  * Reads the meta-data from temporal memory
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memory, read)
 {
-	zval key_zv;
-	zend_string *key = NULL;
+	zval *key, key_sub;
 
-	ZVAL_UNDEF(&key_zv);
+	ZVAL_UNDEF(&key_sub);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_STR(key)
+		Z_PARAM_ZVAL(key)
 	ZEND_PARSE_PARAMETERS_END();
-	ZVAL_STR(&key_zv, key);
+	zephir_fetch_params_without_memory_grow(1, 0, &key);
 	RETURN_NULL();
 }
 
@@ -84,19 +60,17 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memory, write)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval data;
-	zval key_zv, *data_param = NULL;
-	zend_string *key = NULL;
+	zval *key, key_sub, *data_param = NULL;
 
-	ZVAL_UNDEF(&key_zv);
+	ZVAL_UNDEF(&key_sub);
 	ZVAL_UNDEF(&data);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
-		Z_PARAM_STR(key)
+		Z_PARAM_ZVAL(key)
 		ZEPHIR_Z_PARAM_ARRAY(data, data_param)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	data_param = ZEND_CALL_ARG(execute_data, 2);
-	ZVAL_STR(&key_zv, key);
+	zephir_fetch_params(1, 2, 0, &key, &data_param);
 	zephir_get_arrval(&data, data_param);
 	RETURN_MM_NULL();
 }

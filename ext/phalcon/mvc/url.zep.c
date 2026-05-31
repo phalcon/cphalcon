@@ -32,7 +32,7 @@
  * file that was distributed with this source code.
  */
 /**
- * This components helps in the generation of: URIs, URLs and Paths
+ * This component helps in the generation of: URIs, URLs and Paths
  *
  *```php
  * // Generate a URL appending the URI to the base URI
@@ -55,11 +55,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Url)
 	/**
 	 * @var null | string
 	 */
-	zend_declare_property_null(phalcon_mvc_url_ce, SL("baseUri"), ZEND_ACC_PROTECTED);
+	zend_declare_property_null(phalcon_mvc_url_ce, SL("basePath"), ZEND_ACC_PROTECTED);
 	/**
 	 * @var null | string
 	 */
-	zend_declare_property_null(phalcon_mvc_url_ce, SL("basePath"), ZEND_ACC_PROTECTED);
+	zend_declare_property_null(phalcon_mvc_url_ce, SL("baseUri"), ZEND_ACC_PROTECTED);
 	/**
 	 * @var RouterInterface | null
 	 */
@@ -147,11 +147,11 @@ PHP_METHOD(Phalcon_Mvc_Url, get)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool local, replaceArgs, _0$$3, _1$$3, _18$$9, _29$$19, _37$$19;
-	zval *uri = NULL, uri_sub, *args = NULL, args_sub, *local_param = NULL, *baseUri = NULL, baseUri_sub, *replaceArgs_param = NULL, __$null, container, existing, hostname, queryPos, queryString, router, routeName, route, _2$$4, _3$$4, _4$$4, _5$$4, _6$$10, _7$$9, _14$$9, _16$$9, _17$$9, _8$$11, _10$$11, _11$$11, _13$$11, _9$$12, _12$$13, _15$$14, _19$$15, _20$$15, _21$$15, _22$$16, _23$$17, _25$$18, _26$$18, _27$$18, _28$$19, _30$$20, _31$$20, _34$$20, _35$$20, _38$$22, _39$$23;
+	zval *uri = NULL, uri_sub, *arguments = NULL, arguments_sub, *local_param = NULL, *baseUri = NULL, baseUri_sub, *replaceArgs_param = NULL, __$null, container, existing, hostname, queryPos, queryString, router, routeName, route, _2$$4, _3$$4, _4$$4, _5$$4, _6$$10, _7$$9, _14$$9, _16$$9, _17$$9, _8$$11, _10$$11, _11$$11, _13$$11, _9$$12, _12$$13, _15$$14, _19$$15, _20$$15, _21$$15, _22$$16, _23$$17, _25$$18, _26$$18, _27$$18, _28$$19, _30$$20, _31$$20, _34$$20, _35$$20, _38$$22, _39$$23;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&uri_sub);
-	ZVAL_UNDEF(&args_sub);
+	ZVAL_UNDEF(&arguments_sub);
 	ZVAL_UNDEF(&baseUri_sub);
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&container);
@@ -202,25 +202,25 @@ PHP_METHOD(Phalcon_Mvc_Url, get)
 	ZEND_PARSE_PARAMETERS_START(0, 5)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ZVAL_OR_NULL(uri)
-		Z_PARAM_ZVAL_OR_NULL(args)
+		Z_PARAM_ZVAL_OR_NULL(arguments)
 		Z_PARAM_BOOL_OR_NULL(local, is_null_true)
 		Z_PARAM_ZVAL_OR_NULL(baseUri)
 		Z_PARAM_BOOL(replaceArgs)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_fetch_params(1, 0, 5, &uri, &args, &local_param, &baseUri, &replaceArgs_param);
+	zephir_fetch_params(1, 0, 5, &uri, &arguments, &local_param, &baseUri, &replaceArgs_param);
 	if (!uri) {
 		uri = &uri_sub;
 		ZEPHIR_CPY_WRT(uri, &__$null);
 	} else {
 		ZEPHIR_SEPARATE_PARAM(uri);
 	}
-	if (!args) {
-		args = &args_sub;
-		ZEPHIR_CPY_WRT(args, &__$null);
+	if (!arguments) {
+		arguments = &arguments_sub;
+		ZEPHIR_CPY_WRT(arguments, &__$null);
 	} else {
-		ZEPHIR_SEPARATE_PARAM(args);
+		ZEPHIR_SEPARATE_PARAM(arguments);
 	}
 	if (!local_param) {
 		local = 0;
@@ -362,10 +362,10 @@ PHP_METHOD(Phalcon_Mvc_Url, get)
 		ZVAL_STRING(&_26$$18, "#(?<!:)//+#");
 		ZEPHIR_INIT_VAR(&_27$$18);
 		ZVAL_STRING(&_27$$18, "/");
-		ZEPHIR_CALL_FUNCTION(uri, "preg_replace", NULL, 75, &_26$$18, &_27$$18, &_25$$18);
+		ZEPHIR_CALL_FUNCTION(uri, "preg_replace", NULL, 76, &_26$$18, &_27$$18, &_25$$18);
 		zephir_check_call_status();
 	}
-	if (zephir_is_true(args)) {
+	if (zephir_is_true(arguments)) {
 		ZEPHIR_INIT_VAR(&_28$$19);
 		ZVAL_STRING(&_28$$19, "?");
 		ZEPHIR_INIT_VAR(&queryPos);
@@ -385,9 +385,9 @@ PHP_METHOD(Phalcon_Mvc_Url, get)
 			ZEPHIR_CALL_FUNCTION(NULL, "parse_str", NULL, 0, &_32$$20, &existing);
 			ZEPHIR_UNREF(&existing);
 			zephir_check_call_status();
-			zephir_get_arrval(&_33$$20, args);
-			ZEPHIR_INIT_NVAR(args);
-			zephir_fast_array_merge(args, &existing, &_33$$20);
+			zephir_get_arrval(&_33$$20, arguments);
+			ZEPHIR_INIT_NVAR(arguments);
+			zephir_fast_array_merge(arguments, &existing, &_33$$20);
 			ZVAL_LONG(&_34$$20, 0);
 			ZEPHIR_INIT_VAR(&_35$$20);
 			zephir_substr(&_35$$20, uri, 0 , zephir_get_intval(&queryPos), 0);
@@ -396,7 +396,7 @@ PHP_METHOD(Phalcon_Mvc_Url, get)
 			ZEPHIR_INIT_NVAR(&queryPos);
 			ZVAL_BOOL(&queryPos, 0);
 		}
-		ZEPHIR_CALL_FUNCTION(&queryString, "http_build_query", NULL, 0, args);
+		ZEPHIR_CALL_FUNCTION(&queryString, "http_build_query", NULL, 0, arguments);
 		zephir_check_call_status();
 		_37$$19 = Z_TYPE_P(&queryString) == IS_STRING;
 		if (_37$$19) {
@@ -424,7 +424,7 @@ PHP_METHOD(Phalcon_Mvc_Url, get)
 PHP_METHOD(Phalcon_Mvc_Url, getBasePath)
 {
 
-	RETURN_MEMBER_TYPED(getThis(), "basePath", IS_STRING);
+	RETURN_MEMBER(getThis(), "basePath");
 }
 
 /**
@@ -543,6 +543,36 @@ PHP_METHOD(Phalcon_Mvc_Url, getStaticBaseUri)
 }
 
 /**
+ * Generates a local path
+ */
+PHP_METHOD(Phalcon_Mvc_Url, path)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zval path_zv, _0;
+	zend_string *path = NULL;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&path_zv);
+	ZVAL_UNDEF(&_0);
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_STR_OR_NULL(path)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	if (!path) {
+		ZEPHIR_INIT_VAR(&path_zv);
+	} else {
+		zephir_memory_observe(&path_zv);
+	ZVAL_STR_COPY(&path_zv, path);
+	}
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("basePath"), PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_CONCAT_VV(return_value, &_0, &path_zv);
+	RETURN_MM();
+}
+
+/**
  * Sets a base path for all the generated paths
  *
  *```php
@@ -613,35 +643,5 @@ PHP_METHOD(Phalcon_Mvc_Url, setStaticBaseUri)
 	ZVAL_STR(&staticBaseUri_zv, staticBaseUri);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("staticBaseUri"), &staticBaseUri_zv);
 	RETURN_THISW();
-}
-
-/**
- * Generates a local path
- */
-PHP_METHOD(Phalcon_Mvc_Url, path)
-{
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval path_zv, _0;
-	zend_string *path = NULL;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&path_zv);
-	ZVAL_UNDEF(&_0);
-	bool is_null_true = 1;
-	ZEND_PARSE_PARAMETERS_START(0, 1)
-		Z_PARAM_OPTIONAL
-		Z_PARAM_STR_OR_NULL(path)
-	ZEND_PARSE_PARAMETERS_END();
-	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	if (!path) {
-		ZEPHIR_INIT_VAR(&path_zv);
-	} else {
-		zephir_memory_observe(&path_zv);
-	ZVAL_STR_COPY(&path_zv, path);
-	}
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("basePath"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CONCAT_VV(return_value, &_0, &path_zv);
-	RETURN_MM();
 }
 

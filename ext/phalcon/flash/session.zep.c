@@ -222,7 +222,7 @@ PHP_METHOD(Phalcon_Flash_Session, output)
 	zephir_fcall_cache_entry *_4 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *remove_param = NULL, message, messages, type, _0, *_1, _5;
-	zend_bool remove;
+	zend_bool remove, _6;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&message);
@@ -266,7 +266,14 @@ PHP_METHOD(Phalcon_Flash_Session, output)
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, &messages, "rewind", NULL, 0);
 		zephir_check_call_status();
+		_6 = 1;
 		while (1) {
+			if (_6) {
+				_6 = 0;
+			} else {
+				ZEPHIR_CALL_METHOD(NULL, &messages, "next", NULL, 0);
+				zephir_check_call_status();
+			}
 			ZEPHIR_CALL_METHOD(&_5, &messages, "valid", NULL, 0);
 			zephir_check_call_status();
 			if (!zend_is_true(&_5)) {
@@ -278,8 +285,6 @@ PHP_METHOD(Phalcon_Flash_Session, output)
 			zephir_check_call_status();
 				ZEPHIR_CALL_METHOD(NULL, this_ptr, "outputmessage", &_4, 0, &type, &message);
 				zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(NULL, &messages, "next", NULL, 0);
-			zephir_check_call_status();
 		}
 	}
 	ZEPHIR_INIT_NVAR(&message);

@@ -58,9 +58,10 @@ PHP_METHOD(Phalcon_Filter_Validation_AbstractValidatorComposite, getValidators)
  */
 PHP_METHOD(Phalcon_Filter_Validation_AbstractValidatorComposite, validate)
 {
+	zend_bool _7;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *validation, validation_sub, *field, field_sub, validator, _0, _3, *_4, _6, _1$$3, _2$$3, _5$$4, _7$$6;
+	zval *validation, validation_sub, *field, field_sub, validator, _0, _3, *_4, _6, _1$$3, _2$$3, _5$$4, _8$$6;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&validation_sub);
@@ -72,7 +73,7 @@ PHP_METHOD(Phalcon_Filter_Validation_AbstractValidatorComposite, validate)
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$3);
 	ZVAL_UNDEF(&_5$$4);
-	ZVAL_UNDEF(&_7$$6);
+	ZVAL_UNDEF(&_8$$6);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_OBJECT_OF_CLASS(validation, phalcon_filter_validation_ce)
 		Z_PARAM_ZVAL(field)
@@ -87,7 +88,7 @@ PHP_METHOD(Phalcon_Filter_Validation_AbstractValidatorComposite, validate)
 		object_init_ex(&_1$$3, phalcon_filter_validation_exceptions_novalidatorsincomposite_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		zephir_get_class(&_2$$3, this_ptr, 0);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 149, &_2$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 150, &_2$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Filter/Validation/AbstractValidatorComposite.zep", 42);
 		ZEPHIR_MM_RESTORE();
@@ -110,7 +111,14 @@ PHP_METHOD(Phalcon_Filter_Validation_AbstractValidatorComposite, validate)
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, &_3, "rewind", NULL, 0);
 		zephir_check_call_status();
+		_7 = 1;
 		while (1) {
+			if (_7) {
+				_7 = 0;
+			} else {
+				ZEPHIR_CALL_METHOD(NULL, &_3, "next", NULL, 0);
+				zephir_check_call_status();
+			}
 			ZEPHIR_CALL_METHOD(&_6, &_3, "valid", NULL, 0);
 			zephir_check_call_status();
 			if (!zend_is_true(&_6)) {
@@ -118,13 +126,11 @@ PHP_METHOD(Phalcon_Filter_Validation_AbstractValidatorComposite, validate)
 			}
 			ZEPHIR_CALL_METHOD(&validator, &_3, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_7$$6, &validator, "validate", NULL, 0, validation, field);
+				ZEPHIR_CALL_METHOD(&_8$$6, &validator, "validate", NULL, 0, validation, field);
 				zephir_check_call_status();
-				if (ZEPHIR_IS_FALSE_IDENTICAL(&_7$$6)) {
+				if (ZEPHIR_IS_FALSE_IDENTICAL(&_8$$6)) {
 					RETURN_MM_BOOL(0);
 				}
-			ZEPHIR_CALL_METHOD(NULL, &_3, "next", NULL, 0);
-			zephir_check_call_status();
 		}
 	}
 	ZEPHIR_INIT_NVAR(&validator);

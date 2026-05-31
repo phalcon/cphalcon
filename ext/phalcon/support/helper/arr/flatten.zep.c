@@ -49,8 +49,8 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Flatten, __invoke)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_2 = NULL, *_4 = NULL, *_6 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zend_bool deep;
-	zval *collection_param = NULL, *deep_param = NULL, data, item, *_0, _7, _1$$3, _3$$3, _5$$3, _8$$4, _9$$4, _10$$4;
+	zend_bool deep, _8;
+	zval *collection_param = NULL, *deep_param = NULL, data, item, *_0, _7, _1$$3, _3$$3, _5$$3, _9$$4, _10$$4, _11$$4;
 	zval collection;
 	zval *this_ptr = getThis();
 
@@ -61,9 +61,9 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Flatten, __invoke)
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_3$$3);
 	ZVAL_UNDEF(&_5$$3);
-	ZVAL_UNDEF(&_8$$4);
 	ZVAL_UNDEF(&_9$$4);
 	ZVAL_UNDEF(&_10$$4);
+	ZVAL_UNDEF(&_11$$4);
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		ZEPHIR_Z_PARAM_ARRAY(collection, collection_param)
 		Z_PARAM_OPTIONAL
@@ -108,7 +108,14 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Flatten, __invoke)
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, &collection, "rewind", NULL, 0);
 		zephir_check_call_status();
+		_8 = 1;
 		while (1) {
+			if (_8) {
+				_8 = 0;
+			} else {
+				ZEPHIR_CALL_METHOD(NULL, &collection, "next", NULL, 0);
+				zephir_check_call_status();
+			}
 			ZEPHIR_CALL_METHOD(&_7, &collection, "valid", NULL, 0);
 			zephir_check_call_status();
 			if (!zend_is_true(&_7)) {
@@ -116,27 +123,25 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Flatten, __invoke)
 			}
 			ZEPHIR_CALL_METHOD(&item, &collection, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_8$$4, this_ptr, "processnotarray", &_2, 0, &data, &item);
+				ZEPHIR_CALL_METHOD(&_9$$4, this_ptr, "processnotarray", &_2, 0, &data, &item);
 				zephir_check_call_status();
-				ZEPHIR_CPY_WRT(&data, &_8$$4);
-				if (deep) {
-					ZVAL_BOOL(&_9$$4, 1);
-				} else {
-					ZVAL_BOOL(&_9$$4, 0);
-				}
-				ZEPHIR_CALL_METHOD(&_8$$4, this_ptr, "processarraydeep", &_4, 0, &data, &item, &_9$$4);
-				zephir_check_call_status();
-				ZEPHIR_CPY_WRT(&data, &_8$$4);
+				ZEPHIR_CPY_WRT(&data, &_9$$4);
 				if (deep) {
 					ZVAL_BOOL(&_10$$4, 1);
 				} else {
 					ZVAL_BOOL(&_10$$4, 0);
 				}
-				ZEPHIR_CALL_METHOD(&_8$$4, this_ptr, "processarray", &_6, 0, &data, &item, &_10$$4);
+				ZEPHIR_CALL_METHOD(&_9$$4, this_ptr, "processarraydeep", &_4, 0, &data, &item, &_10$$4);
 				zephir_check_call_status();
-				ZEPHIR_CPY_WRT(&data, &_8$$4);
-			ZEPHIR_CALL_METHOD(NULL, &collection, "next", NULL, 0);
-			zephir_check_call_status();
+				ZEPHIR_CPY_WRT(&data, &_9$$4);
+				if (deep) {
+					ZVAL_BOOL(&_11$$4, 1);
+				} else {
+					ZVAL_BOOL(&_11$$4, 0);
+				}
+				ZEPHIR_CALL_METHOD(&_9$$4, this_ptr, "processarray", &_6, 0, &data, &item, &_11$$4);
+				zephir_check_call_status();
+				ZEPHIR_CPY_WRT(&data, &_9$$4);
 		}
 	}
 	ZEPHIR_INIT_NVAR(&item);
@@ -146,35 +151,6 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Flatten, __invoke)
 /**
  * @param array $data
  * @param mixed $item
- *
- * @return array
- */
-PHP_METHOD(Phalcon_Support_Helper_Arr_Flatten, processNotArray)
-{
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval *data_param = NULL, *item, item_sub;
-	zval data;
-
-	ZVAL_UNDEF(&data);
-	ZVAL_UNDEF(&item_sub);
-	ZEND_PARSE_PARAMETERS_START(2, 2)
-		ZEPHIR_Z_PARAM_ARRAY(data, data_param)
-		Z_PARAM_ZVAL(item)
-	ZEND_PARSE_PARAMETERS_END();
-	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_fetch_params(1, 2, 0, &data_param, &item);
-	zephir_get_arrval(&data, data_param);
-	if (Z_TYPE_P(item) != IS_ARRAY) {
-		zephir_array_append(&data, item, PH_SEPARATE, "phalcon/Support/Helper/Arr/Flatten.zep", 49);
-	}
-	RETURN_CTOR(&data);
-}
-
-/**
- * @param array $data
- * @param mixed $item
- * @param bool  $deep
  *
  * @return array
  */
@@ -254,6 +230,34 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Flatten, processArrayDeep)
 		zephir_check_call_status();
 		zephir_fast_array_merge(&_1$$3, &data, &_2$$3);
 		ZEPHIR_CPY_WRT(&data, &_1$$3);
+	}
+	RETURN_CTOR(&data);
+}
+
+/**
+ * @param array $data
+ * @param mixed $item
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Support_Helper_Arr_Flatten, processNotArray)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zval *data_param = NULL, *item, item_sub;
+	zval data;
+
+	ZVAL_UNDEF(&data);
+	ZVAL_UNDEF(&item_sub);
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		ZEPHIR_Z_PARAM_ARRAY(data, data_param)
+		Z_PARAM_ZVAL(item)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_fetch_params(1, 2, 0, &data_param, &item);
+	zephir_get_arrval(&data, data_param);
+	if (Z_TYPE_P(item) != IS_ARRAY) {
+		zephir_array_append(&data, item, PH_SEPARATE, "phalcon/Support/Helper/Arr/Flatten.zep", 80);
 	}
 	RETURN_CTOR(&data);
 }

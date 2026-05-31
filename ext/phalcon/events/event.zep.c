@@ -143,7 +143,7 @@ PHP_METHOD(Phalcon_Events_Event, __construct)
 		object_init_ex(&_1$$3, phalcon_events_exceptions_invalideventsource_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		zephir_gettype(&_2$$3, source);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 477, &type_zv, &_2$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 478, &type_zv, &_2$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Events/Event.zep", 79);
 		ZEPHIR_MM_RESTORE();
@@ -281,7 +281,7 @@ PHP_METHOD(Phalcon_Events_Event, stop)
 	if (UNEXPECTED(!zephir_is_true(&_0))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_events_exceptions_eventnotcancelable_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 478);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 479);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Events/Event.zep", 166);
 		ZEPHIR_MM_RESTORE();

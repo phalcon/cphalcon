@@ -61,6 +61,33 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, jsonSerialize)
 }
 
 /**
+ * Checks whether offset exists in the row. Returns true when the property
+ * is present on the row, regardless of whether its value is null - column
+ * presence is the contract, not value truthiness.
+ *
+ * @param string|int $index
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Row, offsetExists)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval index_sub;
+	zval *index;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&index_sub);
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(index)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_fetch_params(1, 1, 0, &index);
+	ZEPHIR_RETURN_CALL_FUNCTION("property_exists", NULL, 28, this_ptr, index);
+	zephir_check_call_status();
+	RETURN_MM();
+}
+
+/**
  * Gets a record in a specific position of the row
  *
  * @param string|int index
@@ -92,40 +119,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetGet)
 		object_init_ex(&_1$$3, phalcon_mvc_model_exceptions_indexnotinrow_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Mvc/Model/Row.zep", 44);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Mvc/Model/Row.zep", 56);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	zephir_memory_observe(&_2);
 	zephir_read_property_zval(&_2, this_ptr, index, PH_NOISY_CC);
 	RETURN_CCTOR(&_2);
-}
-
-/**
- * Checks whether offset exists in the row. Returns true when the property
- * is present on the row, regardless of whether its value is null - column
- * presence is the contract, not value truthiness.
- *
- * @param string|int $index
- */
-PHP_METHOD(Phalcon_Mvc_Model_Row, offsetExists)
-{
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval index_sub;
-	zval *index;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&index_sub);
-	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_ZVAL(index)
-	ZEND_PARSE_PARAMETERS_END();
-	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_fetch_params(1, 1, 0, &index);
-	ZEPHIR_RETURN_CALL_FUNCTION("property_exists", NULL, 28, this_ptr, index);
-	zephir_check_call_status();
-	RETURN_MM();
 }
 
 /**

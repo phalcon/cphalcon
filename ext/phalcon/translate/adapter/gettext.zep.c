@@ -408,19 +408,20 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, setDefaultDomain)
  */
 PHP_METHOD(Phalcon_Translate_Adapter_Gettext, setDirectory)
 {
+	zend_bool _5$$4;
 	zend_string *_2$$4;
 	zend_ulong _1$$4;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_3 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *directory, directory_sub, key, value, *_0$$4, _4$$4, _5$$7;
+	zval *directory, directory_sub, key, value, *_0$$4, _4$$4, _6$$7;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&directory_sub);
 	ZVAL_UNDEF(&key);
 	ZVAL_UNDEF(&value);
 	ZVAL_UNDEF(&_4$$4);
-	ZVAL_UNDEF(&_5$$7);
+	ZVAL_UNDEF(&_6$$7);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(directory)
 	ZEND_PARSE_PARAMETERS_END();
@@ -450,7 +451,14 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, setDirectory)
 		} else {
 			ZEPHIR_CALL_METHOD(NULL, directory, "rewind", NULL, 0);
 			zephir_check_call_status();
+			_5$$4 = 1;
 			while (1) {
+				if (_5$$4) {
+					_5$$4 = 0;
+				} else {
+					ZEPHIR_CALL_METHOD(NULL, directory, "next", NULL, 0);
+					zephir_check_call_status();
+				}
 				ZEPHIR_CALL_METHOD(&_4$$4, directory, "valid", NULL, 0);
 				zephir_check_call_status();
 				if (!zend_is_true(&_4$$4)) {
@@ -462,16 +470,14 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, setDirectory)
 				zephir_check_call_status();
 					ZEPHIR_CALL_FUNCTION(NULL, "bindtextdomain", &_3, 0, &key, &value);
 					zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(NULL, directory, "next", NULL, 0);
-				zephir_check_call_status();
 			}
 		}
 		ZEPHIR_INIT_NVAR(&value);
 		ZEPHIR_INIT_NVAR(&key);
 	} else {
-		ZEPHIR_CALL_METHOD(&_5$$7, this_ptr, "getdefaultdomain", NULL, 0);
+		ZEPHIR_CALL_METHOD(&_6$$7, this_ptr, "getdefaultdomain", NULL, 0);
 		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(NULL, "bindtextdomain", &_3, 0, &_5$$7, directory);
+		ZEPHIR_CALL_FUNCTION(NULL, "bindtextdomain", &_3, 0, &_6$$7, directory);
 		zephir_check_call_status();
 	}
 	ZEPHIR_MM_RESTORE();

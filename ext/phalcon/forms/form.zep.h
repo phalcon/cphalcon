@@ -96,7 +96,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_form_getlabel, 0, 
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_form_getmessages, 0, 0, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_forms_form_getmessages, 0, 0, Phalcon\\Messages\\Messages, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_forms_form_getmessagesfor, 0, 1, Phalcon\\Messages\\Messages, 0)
@@ -219,7 +219,7 @@ ZEPHIR_INIT_FUNCS(phalcon_forms_form_method_entry) {
 PHP_ME(Phalcon_Forms_Form, getEntity, arginfo_phalcon_forms_form_getentity, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, getFilteredValue, arginfo_phalcon_forms_form_getfilteredvalue, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, getLabel, arginfo_phalcon_forms_form_getlabel, ZEND_ACC_PUBLIC)
-PHP_ME(Phalcon_Forms_Form, getMessages, arginfo_phalcon_forms_form_getmessages, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Forms_Form, getMessages, arginfo_phalcon_forms_form_getmessages, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, getMessagesFor, arginfo_phalcon_forms_form_getmessagesfor, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, getTagFactory, arginfo_phalcon_forms_form_gettagfactory, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, getUserOption, arginfo_phalcon_forms_form_getuseroption, ZEND_ACC_PUBLIC)

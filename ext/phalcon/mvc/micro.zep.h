@@ -41,6 +41,8 @@ PHP_METHOD(Phalcon_Mvc_Micro, setModelBinder);
 PHP_METHOD(Phalcon_Mvc_Micro, setResponseHandler);
 PHP_METHOD(Phalcon_Mvc_Micro, setService);
 PHP_METHOD(Phalcon_Mvc_Micro, stop);
+PHP_METHOD(Phalcon_Mvc_Micro, addRoute);
+PHP_METHOD(Phalcon_Mvc_Micro, checkDiContainer);
 zend_object *zephir_init_properties_Phalcon_Mvc_Micro(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_micro___construct, 0, 0, 0)
@@ -197,10 +199,19 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_micro_setservice, 0, 2, Phalcon\\Di\\ServiceInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, serviceName, IS_STRING, 0)
 	ZEND_ARG_INFO(0, definition)
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, shared, _IS_BOOL, 0, "false")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, isShared, _IS_BOOL, 0, "false")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_micro_stop, 0, 0, IS_VOID, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_micro_addroute, 0, 3, Phalcon\\Mvc\\Router\\RouteInterface, 0)
+	ZEND_ARG_TYPE_INFO(0, method, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, routePattern, IS_STRING, 0)
+	ZEND_ARG_INFO(0, handler)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_micro_checkdicontainer, 0, 0, IS_VOID, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_micro_zephir_init_properties_phalcon_mvc_micro, 0, 0, 0)
@@ -245,5 +256,7 @@ PHP_ME(Phalcon_Mvc_Micro, getReturnedValue, arginfo_phalcon_mvc_micro_getreturne
 	PHP_ME(Phalcon_Mvc_Micro, setResponseHandler, arginfo_phalcon_mvc_micro_setresponsehandler, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Micro, setService, arginfo_phalcon_mvc_micro_setservice, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Micro, stop, arginfo_phalcon_mvc_micro_stop, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Micro, addRoute, arginfo_phalcon_mvc_micro_addroute, ZEND_ACC_PRIVATE)
+	PHP_ME(Phalcon_Mvc_Micro, checkDiContainer, arginfo_phalcon_mvc_micro_checkdicontainer, ZEND_ACC_PRIVATE)
 	PHP_FE_END
 };

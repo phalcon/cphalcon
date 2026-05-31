@@ -27,7 +27,7 @@
  * @license https://github.com/auraphp/Aura.Html/blob/2.x/LICENSE
  */
 /**
- * Exceptions thrown in Phalcon\Html\Escaper will use this class
+ * Class Exception
  */
 ZEPHIR_INIT_CLASS(Phalcon_Html_Escaper_Exception)
 {

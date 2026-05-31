@@ -144,7 +144,7 @@ PHP_METHOD(Phalcon_Cache_AbstractCache, checkKey)
 	if (zephir_is_true(&_2)) {
 		ZEPHIR_INIT_VAR(&_4$$3);
 		object_init_ex(&_4$$3, phalcon_cache_exception_invalidcachekey_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_4$$3, "__construct", NULL, 172);
+		ZEPHIR_CALL_METHOD(NULL, &_4$$3, "__construct", NULL, 173);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_4$$3, "phalcon/Cache/AbstractCache.zep", 88);
 		ZEPHIR_MM_RESTORE();
@@ -182,7 +182,7 @@ PHP_METHOD(Phalcon_Cache_AbstractCache, checkKeys)
 	if (!(_0)) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_cache_exception_cachekeysnotiterable_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 173);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 174);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Cache/AbstractCache.zep", 102);
 		ZEPHIR_MM_RESTORE();
@@ -264,10 +264,11 @@ PHP_METHOD(Phalcon_Cache_AbstractCache, doDelete)
  */
 PHP_METHOD(Phalcon_Cache_AbstractCache, doDeleteMultiple)
 {
+	zend_bool _4;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_2 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *keys, keys_sub, key, keysArray, result, _0, *_1, _3, _4;
+	zval *keys, keys_sub, key, keysArray, result, _0, *_1, _3, _5;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&keys_sub);
@@ -276,7 +277,7 @@ PHP_METHOD(Phalcon_Cache_AbstractCache, doDeleteMultiple)
 	ZVAL_UNDEF(&result);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_3);
-	ZVAL_UNDEF(&_4);
+	ZVAL_UNDEF(&_5);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(keys)
 	ZEND_PARSE_PARAMETERS_END();
@@ -304,7 +305,14 @@ PHP_METHOD(Phalcon_Cache_AbstractCache, doDeleteMultiple)
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, keys, "rewind", NULL, 0);
 		zephir_check_call_status();
+		_4 = 1;
 		while (1) {
+			if (_4) {
+				_4 = 0;
+			} else {
+				ZEPHIR_CALL_METHOD(NULL, keys, "next", NULL, 0);
+				zephir_check_call_status();
+			}
 			ZEPHIR_CALL_METHOD(&_3, keys, "valid", NULL, 0);
 			zephir_check_call_status();
 			if (!zend_is_true(&_3)) {
@@ -315,13 +323,11 @@ PHP_METHOD(Phalcon_Cache_AbstractCache, doDeleteMultiple)
 				ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkkey", &_2, 0, &key);
 				zephir_check_call_status();
 				zephir_array_append(&keysArray, &key, PH_SEPARATE, "phalcon/Cache/AbstractCache.zep", 156);
-			ZEPHIR_CALL_METHOD(NULL, keys, "next", NULL, 0);
-			zephir_check_call_status();
 		}
 	}
 	ZEPHIR_INIT_NVAR(&key);
-	zephir_read_property(&_4, this_ptr, ZEND_STRL("adapter"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&result, &_4, "deletemultiple", NULL, 0, &keysArray);
+	zephir_read_property(&_5, this_ptr, ZEND_STRL("adapter"), PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_CALL_METHOD(&result, &_5, "deletemultiple", NULL, 0, &keysArray);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "cache:afterDeleteMultiple");
@@ -394,10 +400,11 @@ PHP_METHOD(Phalcon_Cache_AbstractCache, doGet)
  */
 PHP_METHOD(Phalcon_Cache_AbstractCache, doGetMultiple)
 {
+	zend_bool _10$$4;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_8 = NULL, *_11 = NULL;
+	zephir_fcall_cache_entry *_8 = NULL, *_12 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *keys, keys_sub, *defaultValue = NULL, defaultValue_sub, __$null, adapterClass, element, results, serializer, _0, _1$$3, _2$$3, _3$$3, _4$$3, _5$$3, *_6$$4, _9$$4, _7$$5, _10$$6;
+	zval *keys, keys_sub, *defaultValue = NULL, defaultValue_sub, __$null, adapterClass, element, results, serializer, _0, _1$$3, _2$$3, _3$$3, _4$$3, _5$$3, *_6$$4, _9$$4, _7$$5, _11$$6;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&keys_sub);
@@ -415,7 +422,7 @@ PHP_METHOD(Phalcon_Cache_AbstractCache, doGetMultiple)
 	ZVAL_UNDEF(&_5$$3);
 	ZVAL_UNDEF(&_9$$4);
 	ZVAL_UNDEF(&_7$$5);
-	ZVAL_UNDEF(&_10$$6);
+	ZVAL_UNDEF(&_11$$6);
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_ZVAL(keys)
@@ -456,7 +463,7 @@ PHP_METHOD(Phalcon_Cache_AbstractCache, doGetMultiple)
 		ZEPHIR_CALL_FUNCTION(&_5$$3, "array_map", NULL, 19, &_4$$3, &results);
 		zephir_check_call_status();
 		ZEPHIR_CPY_WRT(&results, &_5$$3);
-		ZEPHIR_CALL_FUNCTION(&_5$$3, "array_combine", NULL, 174, keys, &results);
+		ZEPHIR_CALL_FUNCTION(&_5$$3, "array_combine", NULL, 175, keys, &results);
 		zephir_check_call_status();
 		ZEPHIR_CPY_WRT(&results, &_5$$3);
 	} else {
@@ -473,7 +480,14 @@ PHP_METHOD(Phalcon_Cache_AbstractCache, doGetMultiple)
 		} else {
 			ZEPHIR_CALL_METHOD(NULL, keys, "rewind", NULL, 0);
 			zephir_check_call_status();
+			_10$$4 = 1;
 			while (1) {
+				if (_10$$4) {
+					_10$$4 = 0;
+				} else {
+					ZEPHIR_CALL_METHOD(NULL, keys, "next", NULL, 0);
+					zephir_check_call_status();
+				}
 				ZEPHIR_CALL_METHOD(&_9$$4, keys, "valid", NULL, 0);
 				zephir_check_call_status();
 				if (!zend_is_true(&_9$$4)) {
@@ -481,11 +495,9 @@ PHP_METHOD(Phalcon_Cache_AbstractCache, doGetMultiple)
 				}
 				ZEPHIR_CALL_METHOD(&element, keys, "current", NULL, 0);
 				zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(&_10$$6, this_ptr, "get", &_11, 0, &element, defaultValue);
+					ZEPHIR_CALL_METHOD(&_11$$6, this_ptr, "get", &_12, 0, &element, defaultValue);
 					zephir_check_call_status();
-					zephir_array_update_zval(&results, &element, &_10$$6, PH_COPY | PH_SEPARATE);
-				ZEPHIR_CALL_METHOD(NULL, keys, "next", NULL, 0);
-				zephir_check_call_status();
+					zephir_array_update_zval(&results, &element, &_11$$6, PH_COPY | PH_SEPARATE);
 			}
 		}
 		ZEPHIR_INIT_NVAR(&element);
@@ -617,11 +629,11 @@ PHP_METHOD(Phalcon_Cache_AbstractCache, doSetMultiple)
 {
 	zend_string *_4;
 	zend_ulong _3;
-	zend_bool result = 0;
+	zend_bool result = 0, _8;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_6 = NULL, *_9 = NULL;
+	zephir_fcall_cache_entry *_6 = NULL, *_10 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *values, values_sub, *ttl = NULL, ttl_sub, __$null, key, value, _0, _1, *_2, _7, _10, _5$$3, _8$$5;
+	zval *values, values_sub, *ttl = NULL, ttl_sub, __$null, key, value, _0, _1, *_2, _7, _11, _5$$3, _9$$5;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&values_sub);
@@ -632,9 +644,9 @@ PHP_METHOD(Phalcon_Cache_AbstractCache, doSetMultiple)
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_7);
-	ZVAL_UNDEF(&_10);
+	ZVAL_UNDEF(&_11);
 	ZVAL_UNDEF(&_5$$3);
-	ZVAL_UNDEF(&_8$$5);
+	ZVAL_UNDEF(&_9$$5);
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_ZVAL(values)
@@ -678,7 +690,14 @@ PHP_METHOD(Phalcon_Cache_AbstractCache, doSetMultiple)
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, values, "rewind", NULL, 0);
 		zephir_check_call_status();
+		_8 = 1;
 		while (1) {
+			if (_8) {
+				_8 = 0;
+			} else {
+				ZEPHIR_CALL_METHOD(NULL, values, "next", NULL, 0);
+				zephir_check_call_status();
+			}
 			ZEPHIR_CALL_METHOD(&_7, values, "valid", NULL, 0);
 			zephir_check_call_status();
 			if (!zend_is_true(&_7)) {
@@ -688,22 +707,20 @@ PHP_METHOD(Phalcon_Cache_AbstractCache, doSetMultiple)
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(&value, values, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_8$$5, this_ptr, "set", &_9, 0, &key, &value, ttl);
+				ZEPHIR_CALL_METHOD(&_9$$5, this_ptr, "set", &_10, 0, &key, &value, ttl);
 				zephir_check_call_status();
-				if (!ZEPHIR_IS_TRUE_IDENTICAL(&_8$$5)) {
+				if (!ZEPHIR_IS_TRUE_IDENTICAL(&_9$$5)) {
 					result = 0;
 				}
-			ZEPHIR_CALL_METHOD(NULL, values, "next", NULL, 0);
-			zephir_check_call_status();
 		}
 	}
 	ZEPHIR_INIT_NVAR(&value);
 	ZEPHIR_INIT_NVAR(&key);
 	ZEPHIR_INIT_NVAR(&_1);
 	zephir_array_keys(&_1, values);
-	ZEPHIR_INIT_VAR(&_10);
-	ZVAL_STRING(&_10, "cache:afterSetMultiple");
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "fire", NULL, 0, &_10, &_1);
+	ZEPHIR_INIT_VAR(&_11);
+	ZVAL_STRING(&_11, "cache:afterSetMultiple");
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "fire", NULL, 0, &_11, &_1);
 	zephir_check_call_status();
 	RETURN_MM_BOOL(result);
 }

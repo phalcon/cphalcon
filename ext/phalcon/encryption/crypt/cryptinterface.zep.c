@@ -67,11 +67,11 @@ ZEPHIR_DOC_METHOD(Phalcon_Encryption_Crypt_CryptInterface, encrypt);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Encryption_Crypt_CryptInterface, encryptBase64);
 /**
- * Returns a list of available cyphers
+ * Returns authentication data
  *
- * @return array
+ * @return string
  */
-ZEPHIR_DOC_METHOD(Phalcon_Encryption_Crypt_CryptInterface, getAvailableCiphers);
+ZEPHIR_DOC_METHOD(Phalcon_Encryption_Crypt_CryptInterface, getAuthData);
 /**
  * Returns the authentication tag
  *
@@ -79,17 +79,17 @@ ZEPHIR_DOC_METHOD(Phalcon_Encryption_Crypt_CryptInterface, getAvailableCiphers);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Encryption_Crypt_CryptInterface, getAuthTag);
 /**
- * Returns authentication data
- *
- * @return string
- */
-ZEPHIR_DOC_METHOD(Phalcon_Encryption_Crypt_CryptInterface, getAuthData);
-/**
  * Returns the authentication tag length
  *
  * @return int
  */
 ZEPHIR_DOC_METHOD(Phalcon_Encryption_Crypt_CryptInterface, getAuthTagLength);
+/**
+ * Returns a list of available cyphers
+ *
+ * @phpstan-return array<array-key, string>
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Encryption_Crypt_CryptInterface, getAvailableCiphers);
 /**
  * Returns the current cipher
  *
@@ -103,14 +103,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Encryption_Crypt_CryptInterface, getCipher);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Encryption_Crypt_CryptInterface, getKey);
 /**
- * Sets the authentication tag
- *
- * @param string $tag
- *
- * @return CryptInterface
- */
-ZEPHIR_DOC_METHOD(Phalcon_Encryption_Crypt_CryptInterface, setAuthTag);
-/**
  * Sets authentication data
  *
  * @param string $data
@@ -118,6 +110,14 @@ ZEPHIR_DOC_METHOD(Phalcon_Encryption_Crypt_CryptInterface, setAuthTag);
  * @return CryptInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Encryption_Crypt_CryptInterface, setAuthData);
+/**
+ * Sets the authentication tag
+ *
+ * @param string $tag
+ *
+ * @return CryptInterface
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Encryption_Crypt_CryptInterface, setAuthTag);
 /**
  * Sets the authentication tag length
  *

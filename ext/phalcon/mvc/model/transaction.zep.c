@@ -13,8 +13,8 @@
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-#include "kernel/object.h"
 #include "kernel/fcall.h"
+#include "kernel/object.h"
 #include "kernel/operators.h"
 #include "kernel/exception.h"
 
@@ -28,8 +28,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Mvc\Model\Transaction
- *
  * Transactions are protective blocks where SQL statements are only permanent if
  * they can all succeed as one atomic action. Phalcon\Transaction is intended to
  * be used with Phalcon_Model_Base. Phalcon Transactions should be created using
@@ -96,13 +94,13 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Transaction)
 	 */
 	zend_declare_property_null(phalcon_mvc_model_transaction_ce, SL("messages"), ZEND_ACC_PROTECTED);
 	/**
-	 * @var ModelInterface|null
-	 */
-	zend_declare_property_null(phalcon_mvc_model_transaction_ce, SL("rollbackRecord"), ZEND_ACC_PROTECTED);
-	/**
 	 * @var bool
 	 */
 	zend_declare_property_bool(phalcon_mvc_model_transaction_ce, SL("rollbackOnAbort"), 0, ZEND_ACC_PROTECTED);
+	/**
+	 * @var ModelInterface|null
+	 */
+	zend_declare_property_null(phalcon_mvc_model_transaction_ce, SL("rollbackRecord"), ZEND_ACC_PROTECTED);
 	/**
 	 * @var bool
 	 */
@@ -126,13 +124,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, __construct)
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_string *service = NULL;
 	zend_bool autoBegin;
-	zval *container, container_sub, *autoBegin_param = NULL, service_zv, connection, _0;
+	zval *container, container_sub, *autoBegin_param = NULL, service_zv, connection;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&container_sub);
 	ZVAL_UNDEF(&service_zv);
 	ZVAL_UNDEF(&connection);
-	ZVAL_UNDEF(&_0);
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_OBJECT_OF_CLASS(container, phalcon_di_diinterface_ce)
 		Z_PARAM_OPTIONAL
@@ -157,9 +154,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, __construct)
 		zephir_memory_observe(&service_zv);
 	ZVAL_STR_COPY(&service_zv, service);
 	}
-	ZEPHIR_INIT_VAR(&_0);
-	array_init(&_0);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("messages"), &_0);
 	ZEPHIR_CALL_METHOD(&connection, container, "get", NULL, 0, &service_zv);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("connection"), &connection);
@@ -358,7 +352,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback)
 			zephir_read_property(&_4$$7, this_ptr, ZEND_STRL("rollbackRecord"), PH_NOISY_CC | PH_READONLY);
 			ZEPHIR_CALL_METHOD(NULL, &_3$$7, "__construct", NULL, 0, &rollbackMessage, &_4$$7);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_3$$7, "phalcon/Mvc/Model/Transaction.zep", 215);
+			zephir_throw_exception_debug(&_3$$7, "phalcon/Mvc/Model/Transaction.zep", 211);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}

@@ -157,7 +157,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_AbstractAdapter, setLimit)
 	if (limit <= 0) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		object_init_ex(&_0$$3, phalcon_paginator_exceptions_invalidlimit_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 69);
+		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 70);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_0$$3, "phalcon/Paginator/Adapter/AbstractAdapter.zep", 103);
 		ZEPHIR_MM_RESTORE();

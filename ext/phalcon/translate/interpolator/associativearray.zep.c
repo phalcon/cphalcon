@@ -28,8 +28,6 @@
  */
 /**
  * Class AssociativeArray
- *
- * @package Phalcon\Translate\Interpolator
  */
 ZEPHIR_INIT_CLASS(Phalcon_Translate_Interpolator_AssociativeArray)
 {

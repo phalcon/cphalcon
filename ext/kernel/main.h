@@ -332,6 +332,21 @@ int zephir_fetch_parameters(int num_args, int required_args, int optional_args, 
 		RETURN_NULL(); \
 	}
 
+/* Fetch the fixed (leading) parameters of a variadic method. Unlike
+ * zephir_fetch_parameters() this does not reject calls that pass more
+ * arguments than declared; the extra arguments are collected separately
+ * via zephir_get_args_from(). */
+int zephir_fetch_parameters_variadic(int num_args, int required_args, int optional_args, ...);
+
+#define zephir_fetch_params_variadic(memory_grow, required_params, optional_params, ...) \
+	if (zephir_fetch_parameters_variadic(ZEND_NUM_ARGS(), required_params, optional_params, __VA_ARGS__) == FAILURE) { \
+		if (memory_grow) { \
+			RETURN_MM_NULL(); \
+		} else { \
+			RETURN_NULL(); \
+		} \
+	}
+
 #define ZEPHIR_CREATE_OBJECT(obj, class_type) \
 	{ \
 		zend_object *object = zend_objects_new(class_type); \
@@ -380,6 +395,11 @@ int zephir_is_php_version(unsigned int id);
 
 void zephir_get_args(zval* return_value);
 void zephir_get_arg(zval* return_value, zend_long idx);
+
+/* Collect the arguments starting at the 0-based index `skip` into an array.
+ * Used to populate the array of a variadic parameter from the trailing
+ * arguments that follow the fixed (declared) parameters. */
+void zephir_get_args_from(zval* return_value, uint32_t skip);
 
 void zephir_module_init();
 
