@@ -67,9 +67,15 @@ interface ModelInterface
      * @param int dirtyState
      * @param bool keepSnapshots
      *
-     * @return ModelInterface|ResultInterface
+     * @return ModelInterface
      */
-    public static function cloneResultMap(base, array! data, var columnMap, int dirtyState = 0, bool keepSnapshots = false) -> <ModelInterface> | <ResultInterface>;
+    public static function cloneResultMap(
+        var base,
+        array! data,
+        var columnMap,
+        int dirtyState = 0,
+        bool keepSnapshots = false
+    ) -> <ModelInterface>;
 
     /**
      * Returns an hydrated result based on the data and the column map

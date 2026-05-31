@@ -1015,8 +1015,13 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *
      * @return ModelInterface
      */
-    public static function cloneResultMap(var base, array! data, var columnMap, int dirtyState = 0, bool keepSnapshots = null) -> <ModelInterface>
-    {
+    public static function cloneResultMap(
+        var base,
+        array! data,
+        var columnMap,
+        int dirtyState = 0,
+        bool keepSnapshots = null
+    ) -> <ModelInterface> {
         var instance, attribute, key, value, castValue, attributeName, metaData, reverseMap, notNullAttributes,
             disableSetters, setter;
         array localMethods;
