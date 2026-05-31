@@ -16,7 +16,6 @@ namespace Phalcon\Tests\Database\Db\Adapter\Pdo;
 use PDOException;
 use Phalcon\Db\Adapter\Pdo\Mysql;
 use Phalcon\Tests\AbstractDatabaseTestCase;
-
 use PHPUnit\Framework\Attributes\DataProvider;
 
 use function env;
