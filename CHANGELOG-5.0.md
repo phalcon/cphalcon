@@ -388,7 +388,6 @@
         - `MultipleSqlStatementsNotSupported`
         - `NoModelForAlias`
         - `PhqlColumnNotInMap`
-        - `QueryOperationNotSupported`
         - `ReadConnectionMissing`
         - `RelationshipNotFound`
         - `ResultsetClassNotFound`
