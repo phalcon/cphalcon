@@ -42,14 +42,6 @@ class Link extends Style
     }
 
     /**
-     * @return string
-     */
-    protected function getTag() -> string
-    {
-        return "link";
-    }
-
-    /**
      * Returns the necessary attributes
      *
      * @param string $url
@@ -68,5 +60,13 @@ class Link extends Style
         unset(attributes["href"]);
 
         return array_merge(required, attributes);
+    }
+
+    /**
+     * @return string
+     */
+    protected function getTag() -> string
+    {
+        return "link";
     }
 }

@@ -4,8 +4,8 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the
- * LICENSE.txt file that was distributed with this source code.
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
  */
 
 namespace Phalcon\Mvc\Model;
@@ -102,16 +102,6 @@ class Binder implements BinderInterface
     }
 
     /**
-     * Find the model by param value.
-     *
-     * @return mixed
-     */
-    protected function findBoundModel(var paramValue, string className) -> var | bool
-    {
-        return {className}::findFirst(paramValue);
-    }
-
-    /**
      * Return the active bound models
      *
      * @return array
@@ -119,6 +109,14 @@ class Binder implements BinderInterface
     public function getBoundModels() -> array
     {
         return this->boundModels;
+    }
+
+    /**
+     * Sets cache instance
+     */
+    public function getCache() -> <AdapterInterface>
+    {
+        return this->cache;
     }
 
     /**
@@ -132,11 +130,23 @@ class Binder implements BinderInterface
     }
 
     /**
-     * Sets cache instance
+     * Gets cache instance
      */
-    public function getCache() -> <AdapterInterface>
+    public function setCache(<AdapterInterface> cache) -> <BinderInterface>
     {
-        return this->cache;
+        let this->cache = cache;
+
+        return this;
+    }
+
+    /**
+     * Find the model by param value.
+     *
+     * @return mixed
+     */
+    protected function findBoundModel(var paramValue, string className) -> var | bool
+    {
+        return {className}::findFirst(paramValue);
     }
 
     /**
@@ -244,15 +254,5 @@ class Binder implements BinderInterface
         let this->internalCache[cacheKey] = paramsCache;
 
         return params;
-    }
-
-    /**
-     * Gets cache instance
-     */
-    public function setCache(<AdapterInterface> cache) -> <BinderInterface>
-    {
-        let this->cache = cache;
-
-        return this;
     }
 }

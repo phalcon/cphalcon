@@ -4,8 +4,8 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the
- * LICENSE.txt file that was distributed with this source code.
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
  */
 
 namespace Phalcon\Mvc\Model;
@@ -1221,7 +1221,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     /**
      * Get last initialized model
      */
-    public function getLastInitialized() -> <ModelInterface>
+    public function getLastInitialized() -> <ModelInterface> | null
     {
         return this->lastInitialized;
     }
@@ -2003,6 +2003,51 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     }
 
     /**
+     * Dispatch an event to the listeners and behaviors
+     * This method expects that the endpoint listeners/behaviors returns true
+     * meaning that a least one was implemented
+     *
+     * @param ModelInterface $model
+     * @param string         $eventName
+     * @param mixed          $data
+     */
+    public function missingMethod(<ModelInterface> model, string! eventName, var data)
+    {
+        var modelsBehaviors, result, eventsManager, behavior;
+
+        /**
+         * Dispatch events to the global events manager
+         */
+        if fetch modelsBehaviors, this->behaviors[get_class_lower(model)] {
+            /**
+             * Notify all the events on the behavior
+             */
+            for behavior in modelsBehaviors {
+                let result = behavior->missingMethod(model, eventName, data);
+
+                if result !== null {
+                    return result;
+                }
+            }
+        }
+
+        /**
+         * Dispatch events to the global events manager
+         */
+        let eventsManager = this->eventsManager;
+
+        if typeof eventsManager == "object" {
+            return eventsManager->fire(
+                "model:" . eventName,
+                model,
+                data
+            );
+        }
+
+        return null;
+    }
+
+    /**
      * Receives events generated in the models and dispatches them to an
      * events-manager if available. Notify the behaviors that are listening in
      * the model
@@ -2067,48 +2112,28 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     }
 
     /**
-     * Dispatch an event to the listeners and behaviors
-     * This method expects that the endpoint listeners/behaviors returns true
-     * meaning that a least one was implemented
+     * Removes a behavior from a model
      *
      * @param ModelInterface $model
-     * @param string         $eventName
-     * @param mixed          $data
+     * @param string         $behaviorClass
+     *
+     * @return void
      */
-    public function missingMethod(<ModelInterface> model, string! eventName, var data)
+    public function removeBehavior(<ModelInterface> model, string! behaviorClass) -> void
     {
-        var modelsBehaviors, result, eventsManager, behavior;
+        var entityName, key, behavior;
 
-        /**
-         * Dispatch events to the global events manager
-         */
-        if fetch modelsBehaviors, this->behaviors[get_class_lower(model)] {
-            /**
-             * Notify all the events on the behavior
-             */
-            for behavior in modelsBehaviors {
-                let result = behavior->missingMethod(model, eventName, data);
+        let entityName = get_class_lower(model);
 
-                if result !== null {
-                    return result;
+        if isset this->behaviors[entityName] {
+            for key, behavior in this->behaviors[entityName] {
+                if get_class(behavior) === behaviorClass {
+                    unset this->behaviors[entityName][key];
                 }
             }
+
+            let this->behaviors[entityName] = array_values(this->behaviors[entityName]);
         }
-
-        /**
-         * Dispatch events to the global events manager
-         */
-        let eventsManager = this->eventsManager;
-
-        if typeof eventsManager == "object" {
-            return eventsManager->fire(
-                "model:" . eventName,
-                model,
-                data
-            );
-        }
-
-        return null;
     }
 
     /**

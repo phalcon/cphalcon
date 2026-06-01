@@ -154,10 +154,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_modelinterface_sum, 0, 0, 0)
 	ZEND_ARG_INFO(0, parameters)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_modelinterface_validationhasfailed, 0, 0, _IS_BOOL, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_modelinterface_update, 0, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_modelinterface_update, 0, 0, _IS_BOOL, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_modelinterface_validationhasfailed, 0, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_mvc_modelinterface_method_entry) {
@@ -198,7 +198,7 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_modelinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ModelInterface, setWriteConnectionService, arginfo_phalcon_mvc_modelinterface_setwriteconnectionservice)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ModelInterface, skipOperation, arginfo_phalcon_mvc_modelinterface_skipoperation)
 	ZEND_FENTRY(sum, NULL, arginfo_phalcon_mvc_modelinterface_sum, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_ModelInterface, validationHasFailed, arginfo_phalcon_mvc_modelinterface_validationhasfailed)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ModelInterface, update, arginfo_phalcon_mvc_modelinterface_update)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_ModelInterface, validationHasFailed, arginfo_phalcon_mvc_modelinterface_validationhasfailed)
 	PHP_FE_END
 };

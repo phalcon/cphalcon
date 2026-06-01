@@ -67,6 +67,8 @@ class ResultsetData implements SelectData
     }
 
     /**
+     * Returns per-option attribute maps, keyed by option value.
+     *
      * @return array
      */
     public function getAttributes() -> array
@@ -110,7 +112,8 @@ class ResultsetData implements SelectData
     /**
      * Walks the resultset once, building both the option map and the
      * per-option resolved attribute map. Closures in `attributesMap`
-     * receive the current row; string values are passed through.
+     * receive the current row; static values are passed through.
+     * `false` or `null` values skip the attribute entirely.
      */
     protected function resolve() -> void
     {

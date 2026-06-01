@@ -11,7 +11,6 @@
 namespace Phalcon\Translate\Adapter;
 
 use ArrayAccess;
-use Phalcon\Support\Helper\Arr\Get;
 use Phalcon\Translate\Exceptions\ImmutableObject;
 use Phalcon\Translate\InterpolatorFactory;
 

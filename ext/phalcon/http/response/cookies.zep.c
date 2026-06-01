@@ -29,8 +29,6 @@
  * LICENSE.txt file that was distributed with this source code.
  */
 /**
- * Phalcon\Http\Response\Cookies
- *
  * This class is a bag to manage the cookies.
  *
  * A cookies bag is automatically registered as part of the 'response' service
@@ -91,7 +89,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Response_Cookies)
 	/**
 	 * @var bool
 	 */
-	zend_declare_property_bool(phalcon_http_response_cookies_ce, SL("registered"), 0, ZEND_ACC_PROTECTED);
+	zend_declare_property_bool(phalcon_http_response_cookies_ce, SL("isRegistered"), 0, ZEND_ACC_PROTECTED);
 	/**
 	 * The cookie's sign key.
 	 * @var string|null
@@ -321,7 +319,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, reset)
  */
 PHP_METHOD(Phalcon_Http_Response_Cookies, send)
 {
-	zend_bool _1;
+	zend_bool _1, _6;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval __$true, __$false, cookie, _0, _2, _3, *_4, _5;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -349,7 +347,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, send)
 		RETURN_MM_BOOL(0);
 	}
 	zephir_read_property(&_3, this_ptr, ZEND_STRL("cookies"), PH_NOISY_CC | PH_READONLY);
-	zephir_is_iterable(&_3, 0, "phalcon/Http/Response/Cookies.zep", 224);
+	zephir_is_iterable(&_3, 0, "phalcon/Http/Response/Cookies.zep", 222);
 	if (Z_TYPE_P(&_3) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_3), _4)
 		{
@@ -361,7 +359,14 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, send)
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, &_3, "rewind", NULL, 0);
 		zephir_check_call_status();
+		_6 = 1;
 		while (1) {
+			if (_6) {
+				_6 = 0;
+			} else {
+				ZEPHIR_CALL_METHOD(NULL, &_3, "next", NULL, 0);
+				zephir_check_call_status();
+			}
 			ZEPHIR_CALL_METHOD(&_5, &_3, "valid", NULL, 0);
 			zephir_check_call_status();
 			if (!zend_is_true(&_5)) {
@@ -371,8 +376,6 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, send)
 			zephir_check_call_status();
 				ZEPHIR_CALL_METHOD(NULL, &cookie, "send", NULL, 0);
 				zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(NULL, &_3, "next", NULL, 0);
-			zephir_check_call_status();
 		}
 	}
 	ZEPHIR_INIT_NVAR(&cookie);
@@ -574,7 +577,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set)
 		ZEPHIR_CALL_METHOD(NULL, &cookie, "setsignkey", NULL, 0, &_9$$5);
 		zephir_check_call_status();
 	}
-	zephir_read_property(&_10, this_ptr, ZEND_STRL("registered"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_10, this_ptr, ZEND_STRL("isRegistered"), PH_NOISY_CC | PH_READONLY);
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&_10)) {
 		ZEPHIR_CALL_METHOD(&container, this_ptr, "checkcontainer", NULL, 0);
 		zephir_check_call_status();
@@ -585,9 +588,9 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set)
 		ZEPHIR_CALL_METHOD(NULL, &response, "setcookies", NULL, 0, this_ptr);
 		zephir_check_call_status();
 		if (1) {
-			zephir_update_property_zval(this_ptr, ZEND_STRL("registered"), &__$true);
+			zephir_update_property_zval(this_ptr, ZEND_STRL("isRegistered"), &__$true);
 		} else {
-			zephir_update_property_zval(this_ptr, ZEND_STRL("registered"), &__$false);
+			zephir_update_property_zval(this_ptr, ZEND_STRL("isRegistered"), &__$false);
 		}
 	}
 	RETURN_THIS();
@@ -671,7 +674,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, checkContainer)
 		object_init_ex(&_1$$3, phalcon_http_response_exceptions_responseserviceunavailable_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Http/Response/Cookies.zep", 354);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Http/Response/Cookies.zep", 352);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

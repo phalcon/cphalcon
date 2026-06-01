@@ -16,9 +16,7 @@ use Phalcon\Factory\AbstractFactory;
 use Phalcon\Support\Helper\Arr\Get;
 
 /**
- * Class PadFactory
- *
- * @package Phalcon\Crypt
+ * Factory for creating pad classes
  */
 class PadFactory extends AbstractFactory
 {

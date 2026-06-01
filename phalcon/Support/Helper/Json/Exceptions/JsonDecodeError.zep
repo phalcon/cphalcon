@@ -11,7 +11,12 @@
 namespace Phalcon\Support\Helper\Json\Exceptions;
 
 use InvalidArgumentException;
+use Throwable;
 
 class JsonDecodeError extends InvalidArgumentException
 {
+    public function __construct(string message = "", int code = 0, <Throwable> previous = null)
+    {
+        parent::__construct("json_decode error: " . message, code, previous);
+    }
 }

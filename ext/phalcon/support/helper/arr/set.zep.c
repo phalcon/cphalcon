@@ -86,37 +86,6 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Set, __invoke)
  *
  * @return array
  */
-PHP_METHOD(Phalcon_Support_Helper_Arr_Set, checkNull)
-{
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval *collection_param = NULL, *value, value_sub, *index, index_sub;
-	zval collection;
-
-	ZVAL_UNDEF(&collection);
-	ZVAL_UNDEF(&value_sub);
-	ZVAL_UNDEF(&index_sub);
-	ZEND_PARSE_PARAMETERS_START(3, 3)
-		ZEPHIR_Z_PARAM_ARRAY(collection, collection_param)
-		Z_PARAM_ZVAL(value)
-		Z_PARAM_ZVAL(index)
-	ZEND_PARSE_PARAMETERS_END();
-	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_fetch_params(1, 3, 0, &collection_param, &value, &index);
-	zephir_get_arrval(&collection, collection_param);
-	if (Z_TYPE_P(index) == IS_NULL) {
-		zephir_array_append(&collection, value, PH_SEPARATE, "phalcon/Support/Helper/Arr/Set.zep", 47);
-	}
-	RETURN_CTOR(&collection);
-}
-
-/**
- * @param array $collection
- * @param mixed $value
- * @param mixed $index
- *
- * @return array<int|string,mixed>
- */
 PHP_METHOD(Phalcon_Support_Helper_Arr_Set, checkNotNull)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -137,6 +106,37 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Set, checkNotNull)
 	zephir_get_arrval(&collection, collection_param);
 	if (Z_TYPE_P(index) != IS_NULL) {
 		zephir_array_update_zval(&collection, index, value, PH_COPY | PH_SEPARATE);
+	}
+	RETURN_CTOR(&collection);
+}
+
+/**
+ * @param array $collection
+ * @param mixed $value
+ * @param mixed $index
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Support_Helper_Arr_Set, checkNull)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zval *collection_param = NULL, *value, value_sub, *index, index_sub;
+	zval collection;
+
+	ZVAL_UNDEF(&collection);
+	ZVAL_UNDEF(&value_sub);
+	ZVAL_UNDEF(&index_sub);
+	ZEND_PARSE_PARAMETERS_START(3, 3)
+		ZEPHIR_Z_PARAM_ARRAY(collection, collection_param)
+		Z_PARAM_ZVAL(value)
+		Z_PARAM_ZVAL(index)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_fetch_params(1, 3, 0, &collection_param, &value, &index);
+	zephir_get_arrval(&collection, collection_param);
+	if (Z_TYPE_P(index) == IS_NULL) {
+		zephir_array_append(&collection, value, PH_SEPARATE, "phalcon/Support/Helper/Arr/Set.zep", 63);
 	}
 	RETURN_CTOR(&collection);
 }

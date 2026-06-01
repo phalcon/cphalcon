@@ -24,7 +24,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Storage_Serializer_SerializerInterface)
 {
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Storage\\Serializer, SerializerInterface, phalcon, storage_serializer_serializerinterface, phalcon_storage_serializer_serializerinterface_method_entry);
 
-	zend_class_implements(phalcon_storage_serializer_serializerinterface_ce, 1, zend_ce_serializable);
 	return SUCCESS;
 }
 
@@ -33,6 +32,18 @@ ZEPHIR_INIT_CLASS(Phalcon_Storage_Serializer_SerializerInterface)
  */
 ZEPHIR_DOC_METHOD(Phalcon_Storage_Serializer_SerializerInterface, getData);
 /**
+ * Serializes data
+ *
+ * @return mixed
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Storage_Serializer_SerializerInterface, serialize);
+/**
  * @param mixed $data
  */
 ZEPHIR_DOC_METHOD(Phalcon_Storage_Serializer_SerializerInterface, setData);
+/**
+ * Unserializes data
+ *
+ * @param mixed $data
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Storage_Serializer_SerializerInterface, unserialize);

@@ -47,7 +47,7 @@ class Json extends AbstractFormatter
     {
         var message, options;
 
-        let message = $this->getInterpolatedMessage($item, $item->getMessage());
+        let message = this->getInterpolatedMessage(item, item->getMessage());
         let options = JSON_HEX_TAG
             + JSON_HEX_APOS
             + JSON_HEX_AMP

@@ -26,13 +26,6 @@ use Phalcon\Encryption\Security\Uuid\Version7;
  * Each call creates a new immutable version object. Cast to string for the
  * UUID value; use the returned object for additional methods such as
  * getDateTime() or getNode().
- *
- * @method Version1 v1()
- * @method Version3 v3(string $namespaceName, string $name)
- * @method Version4 v4()
- * @method Version5 v5(string $namespaceName, string $name)
- * @method Version6 v6()
- * @method Version7 v7()
  */
 class Uuid
 {

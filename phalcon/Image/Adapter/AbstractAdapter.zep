@@ -545,7 +545,7 @@ abstract class AbstractAdapter implements AdapterInterface
 
         let op = this->checkHighLow(opacity);
 
-        this->{"processWatermark"}(watermark, x, y, opacity);
+        this->{"processWatermark"}(watermark, x, y, op);
 
         return this;
     }

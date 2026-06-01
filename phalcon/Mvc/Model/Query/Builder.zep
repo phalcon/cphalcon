@@ -25,8 +25,6 @@ use Phalcon\Mvc\Model\QueryInterface;
 use Phalcon\Support\Settings;
 
 /**
- * Phalcon\Mvc\Model\Query\Builder
- *
  * Helps to create PHQL queries using an OO interface
  *
  *```php
@@ -1173,6 +1171,21 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     }
 
     /**
+     * Appends an IN condition to the current WHERE conditions
+     *
+     *```php
+     * $builder->inWhere(
+     *     "id",
+     *     [1, 2, 3]
+     * );
+     *```
+     */
+    public function inWhere(string! expr, array! values, string! operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
+    {
+        return this->conditionIn("Where", operator, expr, values);
+    }
+
+    /**
      * Adds an INNER join to the query
      *
      *```php
@@ -1200,21 +1213,6 @@ class Builder implements BuilderInterface, InjectionAwareInterface
         let this->joins[] = [model, conditions, alias, "INNER"];
 
         return this;
-    }
-
-    /**
-     * Appends an IN condition to the current WHERE conditions
-     *
-     *```php
-     * $builder->inWhere(
-     *     "id",
-     *     [1, 2, 3]
-     * );
-     *```
-     */
-    public function inWhere(string! expr, array! values, string! operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
-    {
-        return this->conditionIn("Where", operator, expr, values);
     }
 
     /**
@@ -1374,24 +1372,6 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     }
 
     /**
-     * Sets an ORDER BY condition clause
-     *
-     *```php
-     * $builder->orderBy("Robots.name");
-     * $builder->orderBy(["1", "Robots.name"]);
-     * $builder->orderBy(["Robots.name DESC"]);
-     *```
-     *
-     * @param array|string orderBy
-     */
-    public function orderBy(var orderBy) -> <BuilderInterface>
-    {
-        let this->order = orderBy;
-
-        return this;
-    }
-
-    /**
      * Appends a condition to the current HAVING conditions clause using an OR operator
      *
      *```php
@@ -1450,6 +1430,24 @@ class Builder implements BuilderInterface, InjectionAwareInterface
         }
 
         return this->where(conditions, bindParams, bindTypes);
+    }
+
+    /**
+     * Sets an ORDER BY condition clause
+     *
+     *```php
+     * $builder->orderBy("Robots.name");
+     * $builder->orderBy(["1", "Robots.name"]);
+     * $builder->orderBy(["Robots.name DESC"]);
+     *```
+     *
+     * @param array|string orderBy
+     */
+    public function orderBy(var orderBy) -> <BuilderInterface>
+    {
+        let this->order = orderBy;
+
+        return this;
     }
 
     /**

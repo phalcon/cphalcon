@@ -10,9 +10,7 @@
 
 namespace Phalcon\Storage\Serializer;
 
-use Serializable;
-
-interface SerializerInterface extends Serializable
+interface SerializerInterface
 {
     /**
      * @return mixed
@@ -20,7 +18,21 @@ interface SerializerInterface extends Serializable
     public function getData() -> var;
 
     /**
+     * Serializes data
+     *
+     * @return mixed
+     */
+    public function serialize() -> var;
+
+    /**
      * @param mixed $data
      */
     public function setData(var data) -> void;
+
+    /**
+     * Unserializes data
+     *
+     * @param mixed $data
+     */
+    public function unserialize(var data) -> void;
 }

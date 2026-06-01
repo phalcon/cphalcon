@@ -37,6 +37,30 @@ int zephir_has_constructor_ce(const zend_class_entry *ce)
 	return 0;
 }
 
+int zephir_check_constructor_access(const zval *object)
+{
+	zend_object *obj;
+
+	if (Z_TYPE_P(object) != IS_OBJECT) {
+		return SUCCESS;
+	}
+
+	obj = Z_OBJ_P(object);
+
+	/*
+	 * The get_constructor handler enforces PHP's visibility rules against the
+	 * currently executing scope and throws an Error when the constructor is
+	 * not accessible (e.g. protected or private). This mirrors what the engine
+	 * does for "new ClassName()" and prevents dynamic instantiation from
+	 * bypassing the access control.
+	 *
+	 * @see https://github.com/zephir-lang/zephir/issues/882
+	 */
+	obj->handlers->get_constructor(obj);
+
+	return EG(exception) ? FAILURE : SUCCESS;
+}
+
 /**
  * Creates a unique key to cache the current method/function call address for the current scope
  */

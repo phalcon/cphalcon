@@ -175,6 +175,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/cache/abstractcache.zep.c
 	phalcon/cli/dispatcherinterface.zep.c
 	phalcon/cli/router/routeinterface.zep.c
+	phalcon/cli/routerinterface.zep.c
 	phalcon/cli/taskinterface.zep.c
 	phalcon/contracts/encryption/security/security.zep.c
 	phalcon/contracts/events/stoppable.zep.c
@@ -326,7 +327,6 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/cli/router/exceptions/invalidroutepaths.zep.c
 	phalcon/cli/router/exceptions/routerargumentsinvalidtype.zep.c
 	phalcon/cli/router/route.zep.c
-	phalcon/cli/routerinterface.zep.c
 	phalcon/cli/task.zep.c
 	phalcon/config/adapter/grouped.zep.c
 	phalcon/config/adapter/ini.zep.c
@@ -872,7 +872,6 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/mvc/model/query/exceptions/multiplesqlstatementsnotsupported.zep.c
 	phalcon/mvc/model/query/exceptions/nomodelforalias.zep.c
 	phalcon/mvc/model/query/exceptions/phqlcolumnnotinmap.zep.c
-	phalcon/mvc/model/query/exceptions/queryoperationnotsupported.zep.c
 	phalcon/mvc/model/query/exceptions/readconnectionmissing.zep.c
 	phalcon/mvc/model/query/exceptions/relationshipnotfound.zep.c
 	phalcon/mvc/model/query/exceptions/resultsetclassnotfound.zep.c

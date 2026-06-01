@@ -38,7 +38,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Cache_AdapterFactory)
 	/**
 	 * @var SerializerFactory
 	 */
-	zend_declare_property_null(phalcon_cache_adapterfactory_ce, SL("serializerFactory"), ZEND_ACC_PRIVATE);
+	zend_declare_property_null(phalcon_cache_adapterfactory_ce, SL("serializerFactory"), ZEND_ACC_PROTECTED);
 	return SUCCESS;
 }
 

@@ -106,7 +106,7 @@ PHP_METHOD(Phalcon_Session_Bag, __construct)
 		ZEPHIR_INIT_NVAR(&data);
 		array_init(&data);
 	}
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "init", NULL, 0, &data);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_session_bag_ce, getThis(), "__construct", NULL, 0, &data);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }

@@ -82,6 +82,34 @@ int zephir_fetch_parameters(int num_args, int required_args, int optional_args, 
 	return SUCCESS;
 }
 
+int zephir_fetch_parameters_variadic(int num_args, int required_args, int optional_args, ...)
+{
+	va_list va;
+	zval *arg, **p;
+	int i, fixed_args;
+
+	if (num_args < required_args) {
+		zephir_throw_exception_string(spl_ce_BadMethodCallException, SL("Wrong number of parameters"));
+		return FAILURE;
+	}
+
+	fixed_args = required_args + optional_args;
+
+	va_start(va, optional_args);
+
+	for (i = 0; i < fixed_args; i++) {
+		p = va_arg(va, zval **);
+		if (i < num_args) {
+			arg = ZEND_CALL_ARG(EG(current_execute_data), i + 1);
+			*p = arg;
+		}
+	}
+
+	va_end(va);
+
+	return SUCCESS;
+}
+
 /**
  * Gets the global zval into PG macro
  */
@@ -503,6 +531,54 @@ void zephir_get_args(zval *return_value)
 				ZVAL_DEREF(q);
 				Z_TRY_ADDREF_P(q);
 				zend_hash_next_index_insert_new(Z_ARRVAL_P(return_value), q);
+			}
+
+			++p;
+			++i;
+		}
+	}
+}
+
+void zephir_get_args_from(zval *return_value, uint32_t skip)
+{
+	zend_execute_data *ex = EG(current_execute_data);
+	uint32_t arg_count    = ZEND_CALL_NUM_ARGS(ex);
+
+	array_init(return_value);
+
+	if (arg_count > skip) {
+		uint32_t first_extra_arg = ex->func->op_array.num_args;
+		zval *p    = ZEND_CALL_ARG(ex, 1);
+		uint32_t i = 0;
+
+		if (arg_count > first_extra_arg) {
+			while (i < first_extra_arg) {
+				if (i >= skip) {
+					zval *q = p;
+
+					if (Z_TYPE_P(q) != IS_UNDEF) {
+						ZVAL_DEREF(q);
+						Z_TRY_ADDREF_P(q);
+						zend_hash_next_index_insert_new(Z_ARRVAL_P(return_value), q);
+					}
+				}
+
+				++p;
+				++i;
+			}
+
+			p = ZEND_CALL_VAR_NUM(ex, i);
+		}
+
+		while (i < arg_count) {
+			if (i >= skip) {
+				zval *q = p;
+
+				if (Z_TYPE_P(q) != IS_UNDEF) {
+					ZVAL_DEREF(q);
+					Z_TRY_ADDREF_P(q);
+					zend_hash_next_index_insert_new(Z_ARRVAL_P(return_value), q);
+				}
 			}
 
 			++p;

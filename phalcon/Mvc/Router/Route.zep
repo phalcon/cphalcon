@@ -13,8 +13,6 @@ namespace Phalcon\Mvc\Router;
 use Phalcon\Mvc\Router\Exceptions\InvalidRoutePaths;
 
 /**
- * Phalcon\Mvc\Router\Route
- *
  * This class represents every route added to the router
  */
 class Route implements RouteInterface
@@ -54,19 +52,14 @@ class Route implements RouteInterface
     protected hostname = null;
 
     /**
-     * @var string
-     */
-    protected id = "";
-
-    /**
-     * @var array|string
-     */
-    protected methods = [];
-
-    /**
      * @var callable|null
      */
     protected match = null;
+
+    /**
+     * @var array|string|null
+     */
+    protected methods = [];
 
     /**
      * @var string|null
@@ -84,6 +77,11 @@ class Route implements RouteInterface
     protected pattern;
 
     /**
+     * @var string
+     */
+    protected routeId = "";
+
+    /**
      * @var int
      */
     protected static uniqueId = 0;
@@ -93,7 +91,7 @@ class Route implements RouteInterface
      */
     public function __construct(string! pattern, var paths = null, var httpMethods = null) // TODO: Make paths array
     {
-        var routeId, uniqueId;
+        var uniqueId;
 
         // Configure the route (extract parameters, paths, etc)
         this->reConfigure(pattern, paths);
@@ -105,8 +103,7 @@ class Route implements RouteInterface
         let uniqueId = self::uniqueId;
 
         // TODO: Add a function that increase static members
-        let routeId        = uniqueId,
-            this->id       = (string) routeId,
+        let this->routeId  = (string) uniqueId,
             self::uniqueId = uniqueId + 1;
     }
 
@@ -348,7 +345,7 @@ class Route implements RouteInterface
     /**
      * Returns the 'before match' callback if any
      */
-    public function getBeforeMatch() -> callable
+    public function getBeforeMatch() -> callable | null
     {
         return this->beforeMatch;
     }
@@ -422,14 +419,6 @@ class Route implements RouteInterface
     }
 
     /**
-     * Returns the HTTP methods that constraint matching the route
-     */
-    public function getHttpMethods() -> array | string
-    {
-        return this->methods;
-    }
-
-    /**
      * Returns the hostname restriction if any
      */
     public function getHostname() -> string | null
@@ -438,17 +427,17 @@ class Route implements RouteInterface
     }
 
     /**
-     * @return string
+     * Returns the HTTP methods that constraint matching the route
      */
-    public function getId() -> string
+    public function getHttpMethods() -> array | string | null
     {
-        return this->id;
+        return this->methods;
     }
 
     /**
      * Returns the 'match' callback if any
      */
-    public function getMatch() -> callable
+    public function getMatch() -> callable | null
     {
         return this->match;
     }
@@ -492,7 +481,7 @@ class Route implements RouteInterface
      */
     public function getRouteId() -> string
     {
-        return this->id;
+        return this->routeId;
     }
 
     /**
@@ -665,6 +654,21 @@ class Route implements RouteInterface
     }
 
     /**
+     * Sets a hostname restriction to the route
+     *
+     *```php
+     * $route->setHostname("localhost");
+     *```
+     */
+    public function setHostname(string! hostname) -> <RouteInterface>
+    {
+        let this->hostname        = hostname,
+            this->compiledHostName = false;
+
+        return this;
+    }
+
+    /**
      * Sets a set of HTTP methods that constraint the matching of the route (alias of via)
      *
      *```php
@@ -681,21 +685,6 @@ class Route implements RouteInterface
     public function setHttpMethods(var httpMethods) -> <RouteInterface>
     {
         return this->via(httpMethods);
-    }
-
-    /**
-     * Sets a hostname restriction to the route
-     *
-     *```php
-     * $route->setHostname("localhost");
-     *```
-     */
-    public function setHostname(string! hostname) -> <RouteInterface>
-    {
-        let this->hostname        = hostname,
-            this->compiledHostName = false;
-
-        return this;
     }
 
     /**
@@ -724,7 +713,7 @@ class Route implements RouteInterface
      */
     public function setRouteId(string! routeId) -> <RouteInterface>
     {
-        let this->id = routeId;
+        let this->routeId = routeId;
 
         return this;
     }

@@ -17,6 +17,14 @@
 #include "kernel/object.h"
 
 
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Session_Exceptions_InvalidSessionAdapter)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Session\\Exceptions, InvalidSessionAdapter, phalcon, session_exceptions_invalidsessionadapter, phalcon_session_exception_ce, phalcon_session_exceptions_invalidsessionadapter_method_entry, 0);

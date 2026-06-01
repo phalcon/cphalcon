@@ -552,9 +552,10 @@ class Compiler implements InjectionAwareInterface
      * @param array statement
      * @param bool extendsMode
      */
-    public function compileCall(array! statement, bool extendsMode)
+    public function compileCall(array! statement, bool extendsMode) -> string
     {
         // Not implemented?
+        return "";
     }
 
     /**
@@ -1994,10 +1995,6 @@ class Compiler implements InjectionAwareInterface
                 return "(new Phalcon\\Support\\Version)->getId()";
             }
 
-            if name == "preload" {
-                return "$this->preload(" . arguments . ")";
-            }
-
             /**
              * Read PHP constants in templates
              */
@@ -2229,7 +2226,7 @@ class Compiler implements InjectionAwareInterface
      *
      * @param mixed value
      */
-    public function setOption(string! option, value) -> <self>
+    public function setOption(string! option, value) -> <static>
     {
         let this->options[option] = value;
 
@@ -2239,7 +2236,7 @@ class Compiler implements InjectionAwareInterface
     /**
      * Sets the compiler options
      */
-    public function setOptions(array! options) -> <self>
+    public function setOptions(array! options) -> <static>
     {
         let this->options = options;
 
@@ -2249,7 +2246,7 @@ class Compiler implements InjectionAwareInterface
     /**
      * Set a unique prefix to be used as prefix for compiled variables
      */
-    public function setUniquePrefix(string! prefix) -> <self>
+    public function setUniquePrefix(string! prefix) -> <static>
     {
         let this->prefix = prefix;
 

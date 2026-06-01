@@ -46,11 +46,10 @@ PHP_METHOD(Phalcon_Translate_Interpolator_IndexedArray, replacePlaceholders)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval placeholders;
-	zval translation_zv, *placeholders_param = NULL, _0$$3;
+	zval translation_zv, *placeholders_param = NULL;
 	zend_string *translation = NULL;
 
 	ZVAL_UNDEF(&translation_zv);
-	ZVAL_UNDEF(&_0$$3);
 	ZVAL_UNDEF(&placeholders);
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(translation)
@@ -71,13 +70,7 @@ PHP_METHOD(Phalcon_Translate_Interpolator_IndexedArray, replacePlaceholders)
 		zephir_get_arrval(&placeholders, placeholders_param);
 	}
 	if (1 != ZEPHIR_IS_EMPTY(&placeholders)) {
-		ZEPHIR_MAKE_REF(&placeholders);
-		ZEPHIR_CALL_FUNCTION(NULL, "array_unshift", NULL, 475, &placeholders, &translation_zv);
-		ZEPHIR_UNREF(&placeholders);
-		zephir_check_call_status();
-		ZEPHIR_INIT_VAR(&_0$$3);
-		ZVAL_STRING(&_0$$3, "sprintf");
-		ZEPHIR_CALL_USER_FUNC_ARRAY(return_value, &_0$$3, &placeholders);
+		ZEPHIR_RETURN_CALL_FUNCTION("vsprintf", NULL, 0, &translation_zv, &placeholders);
 		zephir_check_call_status();
 		RETURN_MM();
 	}

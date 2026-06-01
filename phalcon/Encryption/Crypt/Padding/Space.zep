@@ -38,14 +38,14 @@ class Space implements PadInterface
         var length, inputArray;
         int counter, paddingSize;
 
-        let length      = mb_strlen(input),
+        let length      = strlen(input),
             inputArray  = str_split(input),
             counter     = length - 1,
             paddingSize = 0;
 
         while (
             counter >= 0 &&
-            inputArray[counter] == chr(32) &&
+            inputArray[counter] === chr(32) &&
             paddingSize <= blockSize
         ) {
             let paddingSize++,

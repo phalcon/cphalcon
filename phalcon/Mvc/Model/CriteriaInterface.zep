@@ -4,8 +4,8 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the
- * LICENSE.txt file that was distributed with this source code.
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
  */
 
 namespace Phalcon\Mvc\Model;
@@ -137,6 +137,15 @@ interface CriteriaInterface
     public function having(var having) -> <CriteriaInterface>;
 
     /**
+     * Appends an IN condition to the current conditions
+     *
+     *```php
+     * $criteria->inWhere("id", [1, 2, 3]);
+     *```
+     */
+    public function inWhere(string! expr, array! values) -> <CriteriaInterface>;
+
+    /**
      * Adds an INNER join to the query
      *
      *```php
@@ -157,15 +166,6 @@ interface CriteriaInterface
      *```
      */
     public function innerJoin(string! model, var conditions = null, var alias = null) -> <CriteriaInterface>;
-
-    /**
-     * Appends an IN condition to the current conditions
-     *
-     *```php
-     * $criteria->inWhere("id", [1, 2, 3]);
-     *```
-     */
-    public function inWhere(string! expr, array! values) -> <CriteriaInterface>;
 
     /**
      * Adds a LEFT join to the query
@@ -207,17 +207,17 @@ interface CriteriaInterface
     public function notInWhere(string! expr, array! values) -> <CriteriaInterface>;
 
     /**
-     * Adds the order-by parameter to the criteria
-     */
-    public function orderBy(string! orderColumns) -> <CriteriaInterface>;
-
-    /**
      * Appends a condition to the current conditions using an OR operator
      *
      * @param array bindParams
      * @param array bindTypes
      */
     public function orWhere(string! conditions, bindParams = null, bindTypes = null) -> <CriteriaInterface>;
+
+    /**
+     * Adds the order-by parameter to the criteria
+     */
+    public function orderBy(string! orderColumns) -> <CriteriaInterface>;
 
     /**
      * Adds a RIGHT join to the query

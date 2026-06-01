@@ -411,6 +411,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, doDelete)
  */
 PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, doDeleteMultiple)
 {
+	zend_bool _3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *keys_param = NULL, result, value, _0, *_1, _2;
@@ -452,7 +453,14 @@ PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, doDeleteMultiple)
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, &result, "rewind", NULL, 0);
 		zephir_check_call_status();
+		_3 = 1;
 		while (1) {
+			if (_3) {
+				_3 = 0;
+			} else {
+				ZEPHIR_CALL_METHOD(NULL, &result, "next", NULL, 0);
+				zephir_check_call_status();
+			}
 			ZEPHIR_CALL_METHOD(&_2, &result, "valid", NULL, 0);
 			zephir_check_call_status();
 			if (!zend_is_true(&_2)) {
@@ -463,8 +471,6 @@ PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, doDeleteMultiple)
 				if (!ZEPHIR_IS_TRUE_IDENTICAL(&value)) {
 					RETURN_MM_BOOL(0);
 				}
-			ZEPHIR_CALL_METHOD(NULL, &result, "next", NULL, 0);
-			zephir_check_call_status();
 		}
 	}
 	ZEPHIR_INIT_NVAR(&value);

@@ -77,15 +77,15 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_criteriainterfa
 	ZEND_ARG_INFO(0, having)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_criteriainterface_inwhere, 0, 2, Phalcon\\Mvc\\Model\\CriteriaInterface, 0)
+	ZEND_ARG_TYPE_INFO(0, expr, IS_STRING, 0)
+	ZEND_ARG_ARRAY_INFO(0, values, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_criteriainterface_innerjoin, 0, 1, Phalcon\\Mvc\\Model\\CriteriaInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, model, IS_STRING, 0)
 	ZEND_ARG_INFO(0, conditions)
 	ZEND_ARG_INFO(0, alias)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_criteriainterface_inwhere, 0, 2, Phalcon\\Mvc\\Model\\CriteriaInterface, 0)
-	ZEND_ARG_TYPE_INFO(0, expr, IS_STRING, 0)
-	ZEND_ARG_ARRAY_INFO(0, values, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_criteriainterface_leftjoin, 0, 1, Phalcon\\Mvc\\Model\\CriteriaInterface, 0)
@@ -110,14 +110,14 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_criteriainterfa
 	ZEND_ARG_ARRAY_INFO(0, values, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_criteriainterface_orderby, 0, 1, Phalcon\\Mvc\\Model\\CriteriaInterface, 0)
-	ZEND_ARG_TYPE_INFO(0, orderColumns, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_criteriainterface_orwhere, 0, 1, Phalcon\\Mvc\\Model\\CriteriaInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, conditions, IS_STRING, 0)
 	ZEND_ARG_INFO(0, bindParams)
 	ZEND_ARG_INFO(0, bindTypes)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_criteriainterface_orderby, 0, 1, Phalcon\\Mvc\\Model\\CriteriaInterface, 0)
+	ZEND_ARG_TYPE_INFO(0, orderColumns, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_criteriainterface_rightjoin, 0, 1, Phalcon\\Mvc\\Model\\CriteriaInterface, 0)
@@ -161,14 +161,14 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_criteriainterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, getWhere, arginfo_phalcon_mvc_model_criteriainterface_getwhere)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, groupBy, arginfo_phalcon_mvc_model_criteriainterface_groupby)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, having, arginfo_phalcon_mvc_model_criteriainterface_having)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, innerJoin, arginfo_phalcon_mvc_model_criteriainterface_innerjoin)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, inWhere, arginfo_phalcon_mvc_model_criteriainterface_inwhere)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, innerJoin, arginfo_phalcon_mvc_model_criteriainterface_innerjoin)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, leftJoin, arginfo_phalcon_mvc_model_criteriainterface_leftjoin)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, limit, arginfo_phalcon_mvc_model_criteriainterface_limit)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, notBetweenWhere, arginfo_phalcon_mvc_model_criteriainterface_notbetweenwhere)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, notInWhere, arginfo_phalcon_mvc_model_criteriainterface_notinwhere)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, orderBy, arginfo_phalcon_mvc_model_criteriainterface_orderby)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, orWhere, arginfo_phalcon_mvc_model_criteriainterface_orwhere)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, orderBy, arginfo_phalcon_mvc_model_criteriainterface_orderby)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, rightJoin, arginfo_phalcon_mvc_model_criteriainterface_rightjoin)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, setModelName, arginfo_phalcon_mvc_model_criteriainterface_setmodelname)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, sharedLock, arginfo_phalcon_mvc_model_criteriainterface_sharedlock)

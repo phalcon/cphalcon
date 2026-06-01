@@ -49,7 +49,7 @@ class Messages implements ArrayAccess, Countable, Iterator, JsonSerializable
      * );
      *```
      */
-    public function appendMessage(<MessageInterface> message)
+    public function appendMessage(<MessageInterface> message) -> void
     {
         let this->messages[] = message;
     }
@@ -271,7 +271,7 @@ class Messages implements ArrayAccess, Countable, Iterator, JsonSerializable
     /**
      * Check if the current message in the iterator is valid
      */
-    public function valid() -> boolean
+    public function valid() -> bool
     {
         return isset this->messages[this->position];
     }

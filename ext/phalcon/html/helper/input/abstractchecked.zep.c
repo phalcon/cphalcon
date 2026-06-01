@@ -289,27 +289,29 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractChecked, processChecked)
 	zephir_array_unset_string(&attributes, SL("checked"), PH_SEPARATE);
 	if (Z_TYPE_P(&checked) != IS_NULL) {
 		matched = 0;
-		_1$$4 = Z_TYPE_P(&checked) == IS_STRING;
-		if (_1$$4) {
-			ZEPHIR_INIT_VAR(&_2$$4);
-			zephir_fast_strtolower(&_2$$4, &checked);
-			_1$$4 = ZEPHIR_IS_STRING_IDENTICAL(&_2$$4, "checked");
-		}
 		if (ZEPHIR_IS_TRUE_IDENTICAL(&checked)) {
 			matched = 1;
-		} else if (_1$$4) {
-			matched = 1;
 		} else {
-			zephir_memory_observe(&value);
-			if (!(zephir_array_isset_string_fetch(&value, &attributes, SL("value"), 0))) {
-				ZEPHIR_INIT_NVAR(&value);
-				ZVAL_NULL(&value);
+			_1$$4 = Z_TYPE_P(&checked) == IS_STRING;
+			if (_1$$4) {
+				ZEPHIR_INIT_VAR(&_2$$4);
+				zephir_fast_strtolower(&_2$$4, &checked);
+				_1$$4 = ZEPHIR_IS_STRING_IDENTICAL(&_2$$4, "checked");
 			}
-			zephir_read_property(&_3$$7, this_ptr, ZEND_STRL("strict"), PH_NOISY_CC | PH_READONLY);
-			if (zephir_is_true(&_3$$7)) {
-				matched = ZEPHIR_IS_IDENTICAL(&checked, &value);
+			if (_1$$4) {
+				matched = 1;
 			} else {
-				matched = ZEPHIR_IS_EQUAL(&checked, &value);
+				zephir_memory_observe(&value);
+				if (!(zephir_array_isset_string_fetch(&value, &attributes, SL("value"), 0))) {
+					ZEPHIR_INIT_NVAR(&value);
+					ZVAL_NULL(&value);
+				}
+				zephir_read_property(&_3$$7, this_ptr, ZEND_STRL("strict"), PH_NOISY_CC | PH_READONLY);
+				if (zephir_is_true(&_3$$7)) {
+					matched = ZEPHIR_IS_IDENTICAL(&checked, &value);
+				} else {
+					matched = ZEPHIR_IS_EQUAL(&checked, &value);
+				}
 			}
 		}
 		if (matched) {

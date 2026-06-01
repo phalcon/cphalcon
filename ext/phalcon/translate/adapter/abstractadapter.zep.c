@@ -214,9 +214,9 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, offsetSet)
 	zephir_fetch_params(1, 2, 0, &offset, &value);
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, phalcon_translate_exceptions_immutableobject_ce);
-	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 130);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 131);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(&_0, "phalcon/Translate/Adapter/AbstractAdapter.zep", 104);
+	zephir_throw_exception_debug(&_0, "phalcon/Translate/Adapter/AbstractAdapter.zep", 103);
 	ZEPHIR_MM_RESTORE();
 	return;
 }
@@ -245,9 +245,9 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, offsetUnset)
 	zephir_fetch_params(1, 1, 0, &offset);
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, phalcon_translate_exceptions_immutableobject_ce);
-	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 130);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 131);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(&_0, "phalcon/Translate/Adapter/AbstractAdapter.zep", 117);
+	zephir_throw_exception_debug(&_0, "phalcon/Translate/Adapter/AbstractAdapter.zep", 116);
 	ZEPHIR_MM_RESTORE();
 	return;
 }

@@ -6,6 +6,10 @@
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
+ *
+ * Implementation of this file has been influenced by AuraPHP
+ * @link    https://github.com/auraphp/Aura.Html
+ * @license https://github.com/auraphp/Aura.Html/blob/2.x/LICENSE
  */
 
 namespace Phalcon\Html;
@@ -74,13 +78,28 @@ class Escaper implements EscaperInterface
      */
     protected urlEscaper;
 
-    public function __construct()
-    {
+    public function __construct(
+        string encoding = "utf-8",
+        int flags = 11,
+        bool doubleEncode = true
+    ) {
         let this->attributeEscaper = new AttributeEscaper(),
             this->cssEscaper       = new CssEscaper(),
             this->htmlEscaper      = new HtmlEscaper(),
             this->jsEscaper        = new JsEscaper(),
             this->urlEscaper       = new UrlEscaper();
+
+        if "utf-8" !== encoding {
+            this->setEncoding(encoding);
+        }
+
+        if 11 !== flags {
+            this->setFlags(flags);
+        }
+
+        if doubleEncode !== true {
+            this->setDoubleEncode(doubleEncode);
+        }
     }
 
     /**
@@ -91,7 +110,7 @@ class Escaper implements EscaperInterface
      *
      * @return string
      */
-    public function attributes(var input) -> string
+    public function attributes(var input = null) -> string
     {
         return this->attributeEscaper->escape(input);
     }
@@ -130,17 +149,6 @@ class Escaper implements EscaperInterface
     }
 
     /**
-     * @param string $input
-     *
-     * @return string
-     * @deprecated
-     */
-    public function escapeJs(string input) -> string
-    {
-        return this->js(input);
-    }
-
-    /**
      * @param string|null $input
      *
      * @return string
@@ -160,6 +168,17 @@ class Escaper implements EscaperInterface
     public function escapeHtmlAttr(string input = null) -> string
     {
         return this->attributes((string) input);
+    }
+
+    /**
+     * @param string $input
+     *
+     * @return string
+     * @deprecated
+     */
+    public function escapeJs(string input) -> string
+    {
+        return this->js(input);
     }
 
     /**

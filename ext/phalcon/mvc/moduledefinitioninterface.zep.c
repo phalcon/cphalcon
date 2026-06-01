@@ -21,8 +21,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Mvc\ModuleDefinitionInterface
- *
  * This interface must be implemented by class module definitions
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_ModuleDefinitionInterface)

@@ -10,12 +10,13 @@
 
 namespace Phalcon\Http\Response;
 
+use IteratorAggregate;
+use Traversable;
+
 /**
- * Phalcon\Http\Response\Headers
- *
  * This class is a bag to manage the response headers
  */
-class Headers implements HeadersInterface
+class Headers implements HeadersInterface, IteratorAggregate
 {
     /**
      * @var array
@@ -29,8 +30,12 @@ class Headers implements HeadersInterface
 
     /**
      * Gets a header value from the internal bag
+     *
+     * @param string $name
+     *
+     * @return string|bool|null
      */
-    public function get(string name) -> string | bool
+    public function get(string name) -> string | bool | null
     {
         var headers, headerValue;
 
@@ -44,7 +49,19 @@ class Headers implements HeadersInterface
     }
 
     /**
+     * @return Traversable
+     */
+    public function getIterator() -> <Traversable>
+    {
+        return new \ArrayIterator(this->headers);
+    }
+
+    /**
      * Checks if a header exists
+     *
+     * @param string $name
+     *
+     * @return bool
      */
     public function has(string name) -> bool
     {
@@ -75,8 +92,10 @@ class Headers implements HeadersInterface
 
     /**
      * Reset set headers
+     *
+     * @return void
      */
-    public function reset()
+    public function reset() -> void
     {
         let this->headers = [];
     }

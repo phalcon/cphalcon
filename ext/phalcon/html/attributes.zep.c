@@ -28,6 +28,10 @@
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
+ *
+ * Implementation of this file has been influenced by AuraPHP
+ * @link    https://github.com/auraphp/Aura.Html
+ * @license https://github.com/auraphp/Aura.Html/blob/2.x/LICENSE
  */
 /**
  * This class helps to work with HTML Attributes
@@ -132,7 +136,7 @@ PHP_METHOD(Phalcon_Html_Attributes, renderAttributes)
 	zephir_array_unset_string(&results, SL("escape"), PH_SEPARATE);
 	ZEPHIR_INIT_VAR(&result);
 	ZVAL_STRING(&result, "");
-	zephir_is_iterable(&results, 0, "phalcon/Html/Attributes.zep", 81);
+	zephir_is_iterable(&results, 0, "phalcon/Html/Attributes.zep", 85);
 	ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&results), _1, _2, _0)
 	{
 		ZEPHIR_INIT_NVAR(&key);
@@ -159,14 +163,14 @@ PHP_METHOD(Phalcon_Html_Attributes, renderAttributes)
 				zephir_gettype(&_6$$5, &value);
 				ZEPHIR_CALL_METHOD(NULL, &_5$$5, "__construct", &_7, 0, &key, &_6$$5);
 				zephir_check_call_status();
-				zephir_throw_exception_debug(&_5$$5, "phalcon/Html/Attributes.zep", 72);
+				zephir_throw_exception_debug(&_5$$5, "phalcon/Html/Attributes.zep", 76);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
 			ZVAL_LONG(&_8$$4, 3);
 			ZEPHIR_INIT_NVAR(&_9$$4);
 			ZVAL_STRING(&_9$$4, "utf-8");
-			ZEPHIR_CALL_FUNCTION(&_10$$4, "htmlspecialchars", &_11, 502, &value, &_8$$4, &_9$$4, &__$true);
+			ZEPHIR_CALL_FUNCTION(&_10$$4, "htmlspecialchars", &_11, 503, &value, &_8$$4, &_9$$4, &__$true);
 			zephir_check_call_status();
 			ZEPHIR_INIT_NVAR(&_12$$4);
 			ZEPHIR_CONCAT_VSVS(&_12$$4, &key, "=\"", &_10$$4, "\" ");

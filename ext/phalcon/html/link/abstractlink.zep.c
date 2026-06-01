@@ -27,10 +27,10 @@
  * file that was distributed with this source code.
  */
 /**
- * @property array  $attributes
- * @property string $href
- * @property array  $rels
- * @property bool   $templated
+ * @property Collection $attributes
+ * @property string     $href
+ * @property Collection $rels
+ * @property bool       $templated
  */
 ZEPHIR_INIT_CLASS(Phalcon_Html_Link_AbstractLink)
 {
@@ -219,49 +219,6 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLink, doIsTemplated)
 }
 
 /**
- * Determines if a href is a templated link or not.
- *
- * @see https://tools.ietf.org/html/rfc6570
- *
- * @param string $href
- *
- * @return bool
- */
-PHP_METHOD(Phalcon_Html_Link_AbstractLink, hrefIsTemplated)
-{
-	zend_bool _2;
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval href_zv, _0, _1, _3;
-	zend_string *href = NULL;
-
-	ZVAL_UNDEF(&href_zv);
-	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_3);
-	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_STR(href)
-	ZEND_PARSE_PARAMETERS_END();
-	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_memory_observe(&href_zv);
-	ZVAL_STR_COPY(&href_zv, href);
-	ZEPHIR_INIT_VAR(&_0);
-	ZVAL_STRING(&_0, "{");
-	ZEPHIR_CALL_FUNCTION(&_1, "mb_strpos", NULL, 157, &href_zv, &_0);
-	zephir_check_call_status();
-	_2 = !ZEPHIR_IS_FALSE_IDENTICAL(&_1);
-	if (_2) {
-		ZEPHIR_INIT_NVAR(&_0);
-		ZVAL_STRING(&_0, "}");
-		ZEPHIR_CALL_FUNCTION(&_3, "mb_strpos", NULL, 157, &href_zv, &_0);
-		zephir_check_call_status();
-		_2 = !ZEPHIR_IS_FALSE_IDENTICAL(&_3);
-	}
-	RETURN_MM_BOOL(_2);
-}
-
-/**
  * @param string       $key
  * @param string|array $value
  *
@@ -431,5 +388,48 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLink, doWithoutRel)
 	ZEPHIR_CALL_METHOD(NULL, &_0, "remove", NULL, 0, &key_zv);
 	zephir_check_call_status();
 	RETURN_CCTOR(&newInstance);
+}
+
+/**
+ * Determines if a href is a templated link or not.
+ *
+ * @see https://tools.ietf.org/html/rfc6570
+ *
+ * @param string $href
+ *
+ * @return bool
+ */
+PHP_METHOD(Phalcon_Html_Link_AbstractLink, hrefIsTemplated)
+{
+	zend_bool _2;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval href_zv, _0, _1, _3;
+	zend_string *href = NULL;
+
+	ZVAL_UNDEF(&href_zv);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_3);
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(href)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&href_zv);
+	ZVAL_STR_COPY(&href_zv, href);
+	ZEPHIR_INIT_VAR(&_0);
+	ZVAL_STRING(&_0, "{");
+	ZEPHIR_CALL_FUNCTION(&_1, "mb_strpos", NULL, 158, &href_zv, &_0);
+	zephir_check_call_status();
+	_2 = !ZEPHIR_IS_FALSE_IDENTICAL(&_1);
+	if (_2) {
+		ZEPHIR_INIT_NVAR(&_0);
+		ZVAL_STRING(&_0, "}");
+		ZEPHIR_CALL_FUNCTION(&_3, "mb_strpos", NULL, 158, &href_zv, &_0);
+		zephir_check_call_status();
+		_2 = !ZEPHIR_IS_FALSE_IDENTICAL(&_3);
+	}
+	RETURN_MM_BOOL(_2);
 }
 

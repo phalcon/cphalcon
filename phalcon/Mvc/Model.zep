@@ -13,7 +13,6 @@ namespace Phalcon\Mvc;
 use JsonSerializable;
 use Phalcon\Db\Adapter\AdapterInterface;
 use Phalcon\Db\Column;
-use Phalcon\Db\DialectInterface;
 use Phalcon\Db\Enum;
 use Phalcon\Db\RawValue;
 use Phalcon\Di\AbstractInjectionAware;
@@ -1016,8 +1015,13 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *
      * @return ModelInterface
      */
-    public static function cloneResultMap(var base, array! data, var columnMap, int dirtyState = 0, bool keepSnapshots = null) -> <ModelInterface>
-    {
+    public static function cloneResultMap(
+        var base,
+        array! data,
+        var columnMap,
+        int dirtyState = 0,
+        bool keepSnapshots = null
+    ) -> <ModelInterface> {
         var instance, attribute, key, value, castValue, attributeName, metaData, reverseMap, notNullAttributes,
             disableSetters, setter;
         array localMethods;
@@ -3303,42 +3307,42 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
          * Enables/Disables globally the internal events
          */
         if fetch disableEvents, options["events"] {
-            Settings::set("orm.events", disableEvents);
+            Settings::set("orm.events", (bool) disableEvents);
         }
 
         /**
          * Enables/Disables virtual foreign keys
          */
         if fetch virtualForeignKeys, options["virtualForeignKeys"] {
-            Settings::set("orm.virtual_foreign_keys", virtualForeignKeys);
+            Settings::set("orm.virtual_foreign_keys", (bool) virtualForeignKeys);
         }
 
         /**
          * Enables/Disables column renaming
          */
         if fetch columnRenaming, options["columnRenaming"] {
-            Settings::set("orm.column_renaming", columnRenaming);
+            Settings::set("orm.column_renaming", (bool) columnRenaming);
         }
 
         /**
          * Enables/Disables automatic not null validation
          */
         if fetch notNullValidations, options["notNullValidations"] {
-            Settings::set("orm.not_null_validations", notNullValidations);
+            Settings::set("orm.not_null_validations", (bool) notNullValidations);
         }
 
         /**
          * Enables/Disables throws an exception if the saving process fails
          */
         if fetch exceptionOnFailedSave, options["exceptionOnFailedSave"] {
-            Settings::set("orm.exception_on_failed_save", exceptionOnFailedSave);
+            Settings::set("orm.exception_on_failed_save", (bool) exceptionOnFailedSave);
         }
 
         /**
          * Enables/Disables throws an exception if the saving process fails
          */
         if fetch exceptionOnFailedMetaDataSave, options["exceptionOnFailedMetaDataSave"] {
-            Settings::set("orm.exception_on_failed_metadata_save", exceptionOnFailedMetaDataSave);
+            Settings::set("orm.exception_on_failed_metadata_save", (bool) exceptionOnFailedMetaDataSave);
         }
 
         /**
@@ -3346,51 +3350,51 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
          * applications
          */
         if fetch phqlLiterals, options["phqlLiterals"] {
-            Settings::set("orm.enable_literals", phqlLiterals);
+            Settings::set("orm.enable_literals", (bool) phqlLiterals);
         }
 
         /**
          * Enables/Disables late state binding on model hydration
          */
         if fetch lateStateBinding, options["lateStateBinding"] {
-            Settings::set("orm.late_state_binding", lateStateBinding);
+            Settings::set("orm.late_state_binding", (bool) lateStateBinding);
         }
 
         /**
          * Enables/Disables automatic cast to original types on hydration
          */
         if fetch castOnHydrate, options["castOnHydrate"] {
-            Settings::set("orm.cast_on_hydrate", castOnHydrate);
+            Settings::set("orm.cast_on_hydrate", (bool) castOnHydrate);
         }
 
         /**
          * Allows to ignore unknown columns when hydrating objects
          */
         if fetch ignoreUnknownColumns, options["ignoreUnknownColumns"] {
-            Settings::set("orm.ignore_unknown_columns", ignoreUnknownColumns);
+            Settings::set("orm.ignore_unknown_columns", (bool) ignoreUnknownColumns);
         }
 
         if fetch caseInsensitiveColumnMap, options["caseInsensitiveColumnMap"] {
             Settings::set(
                 "orm.case_insensitive_column_map",
-                caseInsensitiveColumnMap
+                (bool) caseInsensitiveColumnMap
             );
         }
 
         if fetch updateSnapshotOnSave, options["updateSnapshotOnSave"] {
-            Settings::set("orm.update_snapshot_on_save", updateSnapshotOnSave);
+            Settings::set("orm.update_snapshot_on_save", (bool) updateSnapshotOnSave);
         }
 
         if fetch disableAssignSetters, options["disableAssignSetters"] {
-            Settings::set("orm.disable_assign_setters", disableAssignSetters);
+            Settings::set("orm.disable_assign_setters", (bool) disableAssignSetters);
         }
 
         if fetch prefetchRecords, options["prefetchRecords"] {
-            Settings::set("orm.resultset_prefetch_records", prefetchRecords);
+            Settings::set("orm.resultset_prefetch_records", (int) prefetchRecords);
         }
 
         if fetch lastInsertId, options["castLastInsertIdToInt"] {
-            Settings::set("orm.cast_last_insert_id_to_int", lastInsertId);
+            Settings::set("orm.cast_last_insert_id_to_int", (bool) lastInsertId);
         }
     }
 
@@ -3444,7 +3448,15 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      */
     public static function sum(var parameters = null) -> float | <ResultsetInterface>
     {
-        return self::groupResult("SUM", "sumatory", parameters);
+        var result;
+
+        let result = self::groupResult("SUM", "sumatory", parameters);
+
+        if typeof result === "string" {
+            return (float) result;
+        }
+
+        return result;
     }
 
     /**
@@ -4328,7 +4340,6 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
                                         case Column::TYPE_INTEGER:
                                         case Column::TYPE_DATE:
-                                        case Column::TYPE_VARCHAR:
                                         case Column::TYPE_DATETIME:
                                         case Column::TYPE_CHAR:
                                         case Column::TYPE_TEXT:

@@ -172,21 +172,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getMethod);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getPort);
 /**
- * Gets HTTP URI which request has been made to
- *
- *```php
- * // Returns /some/path?with=queryParams
- * $uri = $request->getURI();
- *
- * // Returns /some/path
- * $uri = $request->getURI(true);
- *```
- *
- * @param bool onlyPath If true, query part will be omitted
- * @return string
- */
-ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getURI);
-/**
  * Gets a variable from the $_POST superglobal applying filters if needed
  * If no parameters are given the $_POST superglobal is returned
  *
@@ -253,6 +238,21 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getServerName);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getUploadedFiles);
 /**
+ * Gets HTTP URI which request has been made to
+ *
+ *```php
+ * // Returns /some/path?with=queryParams
+ * $uri = $request->getURI();
+ *
+ * // Returns /some/path
+ * $uri = $request->getURI(true);
+ *```
+ *
+ * @param bool onlyPath If true, query part will be omitted
+ * @return string
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getURI);
+/**
  * Gets HTTP user agent used to made the request
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getUserAgent);
@@ -269,10 +269,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, hasFiles);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, hasHeader);
 /**
- * Checks whether $_GET superglobal has certain index
- */
-ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, hasQuery);
-/**
  * Checks whether $_POST superglobal has certain index
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, hasPost);
@@ -280,6 +276,10 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, hasPost);
  * Checks whether the PUT data has certain index
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, hasPut);
+/**
+ * Checks whether $_GET superglobal has certain index
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, hasQuery);
 /**
  * Checks whether $_SERVER superglobal has certain index
  */

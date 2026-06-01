@@ -24,7 +24,6 @@ use Phalcon\Http\Request\Exceptions\SanitizerNotFound;
 use Phalcon\Http\Request\File;
 use Phalcon\Http\Request\FileInterface;
 use Phalcon\Support\Helper\Json\Decode;
-use UnexpectedValueException;
 use stdClass;
 
 /**
@@ -63,7 +62,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     /**
      * @var bool
      */
-    protected httpMethodParameterOverride = false;
+    protected methodOverride = false;
 
     /**
      * @var array
@@ -182,39 +181,6 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     public function getBestLanguage() -> string
     {
         return this->getBestQuality(this->getLanguages(), "language");
-    }
-
-    /**
-     * Return the HTTP method parameter override flag
-     *
-     * @return bool
-     */
-    public function getHttpMethodParameterOverride() -> bool
-    {
-        return this->httpMethodParameterOverride;
-    }
-
-    /**
-     * Gets the preferred ISO locale variant.
-     *
-     * Gets the preferred locale accepted by the client from the
-     * "Accept-Language" request HTTP header and returns the
-     * base part of it i.e. `en` instead of `en-US`.
-     *
-     * Note: This method relies on the `$_SERVER["HTTP_ACCEPT_LANGUAGE"]` header.
-     *
-     * @link https://www.iso.org/standard/50707.html
-     */
-    public function getPreferredIsoLocaleVariant() -> string
-    {
-        var language;
-
-        let language = this->getBestLanguage(),
-            language = explode("-", language),
-            language = language[0],
-            language = "*" === language ? "" : language;
-
-        return language;
     }
 
     /**
@@ -349,18 +315,25 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     }
 
     /**
-     * Retrieves a query/get value always sanitized with the preset filters
+     * Gets filtered data
      */
-    public function getFilteredQuery(
+    public function getFilteredData(
+        string methodKey,
+        string method,
         string name = null,
         var defaultValue = null,
         bool notAllowEmpty = false,
         bool noRecursive = false
     ) -> var {
-        return this->getFilteredData(
-            self::METHOD_GET,
-            "getQuery",
+        var filters;
+
+        if !fetch filters, this->queryFilters[methodKey][name] {
+            let filters = [];
+        }
+
+        return this->{method}(
             name,
+            filters,
             defaultValue,
             notAllowEmpty,
             noRecursive
@@ -417,6 +390,25 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
         return this->getFilteredData(
             self::METHOD_PUT,
             "getPut",
+            name,
+            defaultValue,
+            notAllowEmpty,
+            noRecursive
+        );
+    }
+
+    /**
+     * Retrieves a query/get value always sanitized with the preset filters
+     */
+    public function getFilteredQuery(
+        string name = null,
+        var defaultValue = null,
+        bool notAllowEmpty = false,
+        bool noRecursive = false
+    ) -> var {
+        return this->getFilteredData(
+            self::METHOD_GET,
+            "getQuery",
             name,
             defaultValue,
             notAllowEmpty,
@@ -606,6 +598,16 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     }
 
     /**
+     * Return the HTTP method parameter override flag
+     *
+     * @return bool
+     */
+    public function getHttpMethodParameterOverride() -> bool
+    {
+        return this->methodOverride;
+    }
+
+    /**
      * Gets web page that refers active request. ie: http://www.google.com
      */
     public function getHTTPReferer() -> string
@@ -679,7 +681,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
 
             if !empty overridedMethod {
                 let returnMethod = strtoupper(overridedMethod);
-            } elseif this->httpMethodParameterOverride {
+            } elseif this->methodOverride {
                 if fetch spoofedMethod, _REQUEST["_method"] {
                     let returnMethod = strtoupper(spoofedMethod);
                 }
@@ -779,6 +781,29 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
             notAllowEmpty,
             noRecursive
         );
+    }
+
+    /**
+     * Gets the preferred ISO locale variant.
+     *
+     * Gets the preferred locale accepted by the client from the
+     * "Accept-Language" request HTTP header and returns the
+     * base part of it i.e. `en` instead of `en-US`.
+     *
+     * Note: This method relies on the `$_SERVER["HTTP_ACCEPT_LANGUAGE"]` header.
+     *
+     * @link https://www.iso.org/standard/50707.html
+     */
+    public function getPreferredIsoLocaleVariant() -> string
+    {
+        var language;
+
+        let language = this->getBestLanguage(),
+            language = explode("-", language),
+            language = language[0],
+            language = "*" === language ? "" : language;
+
+        return language;
     }
 
     /**
@@ -923,11 +948,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
 
         let serverName = this->getServer("SERVER_NAME");
 
-        if null === serverName {
-            return "localhost";
-        }
-
-        return serverName;
+        return serverName ? serverName : "localhost";
     }
 
     /**
@@ -964,26 +985,22 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
                                 "error":    file["error"]
                             ];
 
-                            if namedKeys == true {
-                                let files[file["key"]] = new File(
-                                    dataFile,
-                                    file["key"]
-                                );
-                            } else {
-                                let files[] = new File(
-                                    dataFile,
-                                    file["key"]
-                                );
-                            }
+                            let files = this->processFiles(
+                                files,
+                                namedKeys,
+                                dataFile,
+                                file["key"]
+                            );
                         }
                     }
                 } else {
                     if onlySuccessful == false || input["error"] == UPLOAD_ERR_OK {
-                        if namedKeys == true {
-                            let files[prefix] = new File(input, prefix);
-                        } else {
-                            let files[] = new File(input, prefix);
-                        }
+                        let files = this->processFiles(
+                            files,
+                            namedKeys,
+                            input,
+                            prefix
+                        );
                     }
                 }
             }
@@ -1042,7 +1059,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
      */
     public function has(string! name) -> bool
     {
-        return isset _REQUEST[name];
+        return array_key_exists(name, _REQUEST);
     }
 
     /**
@@ -1074,7 +1091,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
 
         let patch = this->getPatch();
 
-        return isset patch[name];
+        return array_key_exists(name, patch);
     }
 
     /**
@@ -1086,7 +1103,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
 
         let post = this->getPost();
 
-        return isset post[name];
+        return array_key_exists(name, post);
     }
 
     /**
@@ -1098,7 +1115,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
 
         let put = this->getPut();
 
-        return isset put[name];
+        return array_key_exists(name, put);
     }
 
     /**
@@ -1106,7 +1123,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
      */
     public function hasQuery(string! name) -> bool
     {
-        return isset _GET[name];
+        return array_key_exists(name, _GET);
     }
 
     /**
@@ -1118,7 +1135,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
 
         let server = this->getServerArray();
 
-        return isset server[name];
+        return array_key_exists(name, server);
     }
 
     /**
@@ -1128,17 +1145,6 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     {
         return this->hasServer("HTTP_X_REQUESTED_WITH") &&
             this->getServer("HTTP_X_REQUESTED_WITH") === "XMLHttpRequest";
-    }
-
-    /**
-     * Checks whether request content type contains json data
-     *
-     * @return bool
-     */
-    public function isJson() -> bool
-    {
-        return this->hasServer("CONTENT_TYPE") &&
-            stripos(this->getServer("CONTENT_TYPE"), "json") !== false;
     }
 
     /**
@@ -1175,6 +1181,17 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     public function isHead() -> bool
     {
         return this->getMethod() === self::METHOD_HEAD;
+    }
+
+    /**
+     * Checks whether request content type contains json data
+     *
+     * @return bool
+     */
+    public function isJson() -> bool
+    {
+        return this->hasServer("CONTENT_TYPE") &&
+            stripos(this->getServer("CONTENT_TYPE"), "json") !== false;
     }
 
     /**
@@ -1240,15 +1257,6 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     }
 
     /**
-     * Checks whether HTTP method is PUT.
-     * if _SERVER["REQUEST_METHOD"]==="PUT"
-     */
-    public function isPut() -> bool
-    {
-        return this->getMethod() === self::METHOD_PUT;
-    }
-
-    /**
      * Checks whether HTTP method is PURGE (Squid and Varnish support).
      * if _SERVER["REQUEST_METHOD"]==="PURGE"
      */
@@ -1258,20 +1266,20 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     }
 
     /**
+     * Checks whether HTTP method is PUT.
+     * if _SERVER["REQUEST_METHOD"]==="PUT"
+     */
+    public function isPut() -> bool
+    {
+        return this->getMethod() === self::METHOD_PUT;
+    }
+
+    /**
      * Checks whether request has been made using any secure layer
      */
     public function isSecure() -> bool
     {
         return this->getScheme() === "https";
-    }
-
-    /**
-     * Checks if the `Request::getHttpHost` method will be use strict validation
-     * of host name or not
-     */
-    public function isStrictHostCheck() -> bool
-    {
-        return this->strictHostCheck;
     }
 
     /**
@@ -1292,6 +1300,15 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
         }
 
         return memstr(contentType, "application/soap+xml");
+    }
+
+    /**
+     * Checks if the `Request::getHttpHost` method will be use strict validation
+     * of host name or not
+     */
+    public function isStrictHostCheck() -> bool
+    {
+        return this->strictHostCheck;
     }
 
     /**
@@ -1368,7 +1385,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
      */
     public function setHttpMethodParameterOverride(bool override) -> <static>
     {
-        let this->httpMethodParameterOverride = override;
+        let this->methodOverride = override;
 
         return this;
     }
@@ -1471,60 +1488,6 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     }
 
     /**
-     * Check if an IP address exists in CIDR range
-     *
-     * @param string $ip The IP address to check.
-     * @param string $cidr The CIDR range to compare against.
-     * @return bool True if the IP is in range, false otherwise.
-     */
-    protected function isIpAddressInCIDR(string ip, string cidr) -> bool
-    {
-        var parts, maskBytes, mask, tempMask, remainingBits,
-            subnet, maskLength, ipBin, subnetBin, ipBits, subnetBits, ipByte, subnetByte;
-
-        let parts       = explode('/', cidr),
-            subnet      = parts[0],
-            maskLength  = parts[1];
-
-        let ipBin     = inet_pton(ip),
-            subnetBin = inet_pton(subnet);
-
-        if ipBin === false || subnetBin === false || strlen(ipBin) !== strlen(subnetBin) {
-            return false; // Invalid IP
-        }
-
-        let ipBits        = unpack("H*", ipBin),
-            subnetBits    = unpack("H*", subnetBin);
-
-        let ipBits     = ipBits[1],
-            subnetBits = subnetBits[1];
-
-        // Convert hex string to binary string
-        let ipBits     = hex2bin(str_pad(ipBits, strlen(ipBits), "0")),
-            subnetBits = hex2bin(str_pad(subnetBits, strlen(subnetBits), "0"));
-
-        let maskBytes     = (int)floor(maskLength / 8);
-        let remainingBits = maskLength % 8;
-
-        // Compare full bytes
-        if strncmp(ipBits, subnetBits, maskBytes) !== 0 {
-            return false;
-        }
-
-        if remainingBits === 0 {
-            return true;
-        }
-
-        let ipByte     = ord(ipBits[maskBytes]),
-            subnetByte = ord(subnetBits[maskBytes]);
-
-        let tempMask = (1 << (8 - remainingBits)) - 1;
-        let mask = 0xFF ^ tempMask;
-
-        return (ipByte & mask) === (subnetByte & mask);
-    }
-
-    /**
      * Process a request header and return the one with best quality
      */
     protected function getBestQuality(array qualityParts, string! name) -> string
@@ -1599,33 +1562,6 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     }
 
     /**
-     * Recursively counts file in an array of files
-     */
-    protected function hasFileHelper(var data, bool onlySuccessful) -> long
-    {
-        var value;
-        int numberFiles = 0;
-
-        if typeof data !== "array" {
-            return 1;
-        }
-
-        for value in data {
-            if typeof value !== "array" {
-                if !value || !onlySuccessful {
-                    let numberFiles++;
-                }
-            }
-
-            if typeof value === "array" {
-                let numberFiles += this->hasFileHelper(value, onlySuccessful);
-            }
-        }
-
-        return numberFiles;
-    }
-
-    /**
      * Process a request header and return an array of values with their qualities
      */
     protected function getQualityHeader(string! serverIndex, string! name) -> array
@@ -1667,6 +1603,87 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
         }
 
         return returnedParts;
+    }
+
+    /**
+     * Recursively counts file in an array of files
+     */
+    protected function hasFileHelper(var data, bool onlySuccessful) -> long
+    {
+        var value;
+        int numberFiles = 0;
+
+        if typeof data !== "array" {
+            return 1;
+        }
+
+        for value in data {
+            if typeof value !== "array" {
+                if !value || !onlySuccessful {
+                    let numberFiles++;
+                }
+            }
+
+            if typeof value === "array" {
+                let numberFiles += this->hasFileHelper(value, onlySuccessful);
+            }
+        }
+
+        return numberFiles;
+    }
+
+    /**
+     * Check if an IP address exists in CIDR range
+     *
+     * @param string $ip The IP address to check.
+     * @param string $cidr The CIDR range to compare against.
+     * @return bool True if the IP is in range, false otherwise.
+     */
+    protected function isIpAddressInCIDR(string ip, string cidr) -> bool
+    {
+        var parts, maskBytes, mask, tempMask, remainingBits,
+            subnet, maskLength, ipBin, subnetBin, ipBits, subnetBits, ipByte, subnetByte;
+
+        let parts       = explode('/', cidr),
+            subnet      = parts[0],
+            maskLength  = parts[1];
+
+        let ipBin     = inet_pton(ip),
+            subnetBin = inet_pton(subnet);
+
+        if ipBin === false || subnetBin === false || strlen(ipBin) !== strlen(subnetBin) {
+            return false; // Invalid IP
+        }
+
+        let ipBits        = unpack("H*", ipBin),
+            subnetBits    = unpack("H*", subnetBin);
+
+        let ipBits     = ipBits[1],
+            subnetBits = subnetBits[1];
+
+        // Convert hex string to binary string
+        let ipBits     = hex2bin(str_pad(ipBits, strlen(ipBits), "0")),
+            subnetBits = hex2bin(str_pad(subnetBits, strlen(subnetBits), "0"));
+
+        let maskBytes     = (int)floor(maskLength / 8);
+        let remainingBits = maskLength % 8;
+
+        // Compare full bytes
+        if strncmp(ipBits, subnetBits, maskBytes) !== 0 {
+            return false;
+        }
+
+        if remainingBits === 0 {
+            return true;
+        }
+
+        let ipByte     = ord(ipBits[maskBytes]),
+            subnetByte = ord(subnetBits[maskBytes]);
+
+        let tempMask = (1 << (8 - remainingBits)) - 1;
+        let mask = 0xFF ^ tempMask;
+
+        return (ipByte & mask) === (subnetByte & mask);
     }
 
     /**
@@ -1828,116 +1845,6 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
         return this->filterService;
     }
 
-    private function getServerArray() -> array
-    {
-        if _SERVER {
-            return _SERVER;
-        }
-
-        return [];
-    }
-
-    /**
-     * Gets filtered data
-     */
-    public function getFilteredData(
-        string methodKey,
-        string method,
-        string name = null,
-        var defaultValue = null,
-        bool notAllowEmpty = false,
-        bool noRecursive = false
-    ) -> var {
-        var filters;
-
-        if !fetch filters, this->queryFilters[methodKey][name] {
-            let filters = [];
-        }
-
-        return this->{method}(
-            name,
-            filters,
-            defaultValue,
-            notAllowEmpty,
-            noRecursive
-        );
-    }
-
-    /**
-     * Verify if given IP address is trusted
-     *
-     * @param string $ip
-     * @return bool
-     */
-    private function isProxyTrusted(string $ip) -> bool
-    {
-        var trusted;
-
-        for trusted in this->trustedProxies {
-            if (strpos(trusted, '/') !== false) {
-                return this->isIpAddressInCIDR(ip, trusted);
-            } else {
-                return ip === trusted;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * Verify if given IP address is public, eg. not private or reserved IP
-     *
-     * @param string $forwardedIp
-     * @return string|false
-     * @throws \Phalcon\Filter\Exception
-     */
-    private function isValidPublicIp(string forwardedIp) -> string | bool
-    {
-        var filterService, filtered;
-
-        let filterService = this->getFilterService();
-        let filtered = filterService->sanitize(forwardedIp, [
-            "ip" : [
-                "filter" : FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE
-            ]
-        ]);
-
-        return filtered;
-    }
-
-     /**
-     * Return post data from rawBody, form data, or urlencoded form data
-     *
-     * @param array|null $data
-     * @return array
-     */
-    private function getPostData(var data) -> array
-    {
-        var result;
-
-        if empty data {
-            if this->isJson() {
-                let result = this->getJsonRawBody(true);
-            } elseif this->getContentType() && stripos(this->getContentType(), "multipart/form-data") !== false {
-                let result = this->getFormData();
-            } else {
-                // this is more like a fallback to application/x-www-form-urlencoded parsing raw body
-                // the web server should technically take care of adding these to $_POST, but who knows...
-                let result = [];
-                parse_str(this->getRawBody(), result);
-            }
-        } else {
-            let result = data;
-        }
-
-        // sanity check, if after all parsing is not an array, set an empty one
-        if typeof result != "array" {
-            let result = [];
-        }
-
-        return result;
-    }
-
     /**
      * parse multipart/form-data from raw data
      */
@@ -2009,5 +1916,107 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
         }
 
         return dataset;
+    }
+
+    /**
+     * Return post data from rawBody, form data, or urlencoded form data
+     *
+     * @param array|null $data
+     * @return array
+     */
+    private function getPostData(var data) -> array
+    {
+        var result;
+
+        if empty data {
+            if this->isJson() {
+                let result = this->getJsonRawBody(true);
+            } elseif this->getContentType() && stripos(this->getContentType(), "multipart/form-data") !== false {
+                let result = this->getFormData();
+            } else {
+                // this is more like a fallback to application/x-www-form-urlencoded parsing raw body
+                // the web server should technically take care of adding these to $_POST, but who knows...
+                let result = [];
+                parse_str(this->getRawBody(), result);
+            }
+        } else {
+            let result = data;
+        }
+
+        // sanity check, if after all parsing is not an array, set an empty one
+        if typeof result != "array" {
+            let result = [];
+        }
+
+        return result;
+    }
+
+    private function getServerArray() -> array
+    {
+        if _SERVER {
+            return _SERVER;
+        }
+
+        return [];
+    }
+
+    /**
+     * Verify if given IP address is trusted
+     *
+     * @param string $ip
+     * @return bool
+     */
+    private function isProxyTrusted(string $ip) -> bool
+    {
+        var trusted;
+
+        for trusted in this->trustedProxies {
+            if (strpos(trusted, '/') !== false) {
+                return this->isIpAddressInCIDR(ip, trusted);
+            } else {
+                return ip === trusted;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Verify if given IP address is public, eg. not private or reserved IP
+     *
+     * @param string $forwardedIp
+     * @return string|false
+     * @throws \Phalcon\Filter\Exception
+     */
+    private function isValidPublicIp(string forwardedIp) -> string | bool
+    {
+        var filterService, filtered;
+
+        let filterService = this->getFilterService();
+        let filtered = filterService->sanitize(forwardedIp, [
+            "ip" : [
+                "filter" : FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE
+            ]
+        ]);
+
+        return filtered;
+    }
+
+    /**
+     * Helper to build the uploaded files array
+     */
+    private function processFiles(
+        array files,
+        bool namedKeys,
+        array input,
+        string key
+    ) -> array {
+        if namedKeys == true {
+            let files[key] = new File(input, key);
+        } else {
+            let files[] = new File(input, key);
+        }
+
+        return files;
     }
 }

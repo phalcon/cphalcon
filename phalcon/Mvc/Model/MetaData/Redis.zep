@@ -10,8 +10,8 @@
 
 namespace Phalcon\Mvc\Model\MetaData;
 
-use Phalcon\Mvc\Model\MetaData;
 use Phalcon\Cache\AdapterFactory;
+use Phalcon\Mvc\Model\MetaData;
 
 /**
  * Phalcon\Mvc\Model\MetaData\Redis

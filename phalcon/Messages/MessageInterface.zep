@@ -27,14 +27,14 @@ interface MessageInterface
      *
      * @return int
      */
-    public function getCode();
+    public function getCode() -> int;
 
     /**
      * Returns field name related to message
      *
      * @return string
      */
-    public function getField();
+    public function getField() -> string;
 
     /**
      * Returns verbose message

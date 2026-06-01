@@ -1030,17 +1030,17 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
     /**
      * @return array
      */
-    public function getKeyRouteNames() -> array
+    public function getKeyRouteIds() -> array
     {
-        return this->keyRouteNames;
+        return this->keyRouteIds;
     }
 
     /**
      * @return array
      */
-    public function getKeyRouteIds() -> array
+    public function getKeyRouteNames() -> array
     {
-        return this->keyRouteIds;
+        return this->keyRouteNames;
     }
 
     /**
@@ -1129,242 +1129,26 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
         return "/";
     }
 
-    protected function extractRealUri(string! uri) -> string
-    {
-        var urlParts, realUri;
-
-        let urlParts = explode("?", uri, 2),
-            realUri  = urlParts[0];
-
-        return realUri;
-    }
-
-    protected function rebuildMethodIndex() -> void
-    {
-        var route, methods, method, methodSpecific, starRoutes,
-            candidates, candidateRoute, candidatePattern, isRegex,
-            bucketRoute, bucketPattern, staticUri, staticBucket,
-            staticRoutesList;
-
-        let this->methodRoutes           = [],
-            this->candidatesByMethod     = [],
-            this->routeMeta              = [],
-            this->staticByMethod         = [],
-            this->staticShadowedByMethod = [];
-
-        for route in this->routes {
-            let methods = route->getHttpMethods();
-
-            if methods === null {
-                let this->methodRoutes["*"][] = route;
-            } elseif typeof methods == "string" {
-                let this->methodRoutes[methods][] = route;
-            } else {
-                for method in methods {
-                    let this->methodRoutes[method][] = route;
-                }
-            }
-        }
-
-        if !fetch starRoutes, this->methodRoutes["*"] {
-            let starRoutes = [];
-        }
-
-        for method, methodSpecific in this->methodRoutes {
-            if method == "*" {
-                let this->candidatesByMethod["*"] = starRoutes;
-                continue;
-            }
-
-            let this->candidatesByMethod[method] = array_merge(methodSpecific, starRoutes);
-        }
-
-        /**
-         * Build the single-source per-route metadata cache, keyed by the
-         * route's intrinsic id. One entry per route — replaces the previous
-         * per-method-bucket replication.
-         */
-        let this->routeMeta = [];
-
-        for candidateRoute in this->routes {
-            let candidatePattern = candidateRoute->getCompiledPattern();
-            let isRegex          = false;
-
-            if memstr(candidatePattern, "^") {
-                let isRegex = true;
-            }
-
-            let this->routeMeta[candidateRoute->getRouteId()] = [
-                "pattern":     candidatePattern,
-                "isRegex":     isRegex,
-                "hostname":    candidateRoute->getHostName(),
-                "hostRegex":   candidateRoute->getCompiledHostName(),
-                "beforeMatch": candidateRoute->getBeforeMatch()
-            ];
-        }
-
-        /**
-         * Build the static-route hash + shadow flags. For each method bucket
-         * (already merged with "*" routes), walk in attach order; when a
-         * regex route is encountered, mark any earlier-registered static URI
-         * it would match as shadowed. The fast path consults staticByMethod
-         * only when staticShadowedByMethod has no entry for that URI.
-         */
-        for method, candidates in this->candidatesByMethod {
-            for bucketRoute in candidates {
-                let bucketPattern = bucketRoute->getCompiledPattern();
-
-                if !memstr(bucketPattern, "^") {
-                    let this->staticByMethod[method][bucketPattern][] = bucketRoute;
-                } else {
-                    if fetch staticBucket, this->staticByMethod[method] {
-                        for staticUri, staticRoutesList in staticBucket {
-                            if preg_match(bucketPattern, staticUri) {
-                                let this->staticShadowedByMethod[method][staticUri] = true;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        /**
-         * Hostname bucketing: split each method bucket into hostname-keyed
-         * sub-buckets and a hostname-less list. Routes are referenced by
-         * their integer index into candidatesByMethod[method].
-         */
-        var bucketIdx, bucketHostname;
-
-        let this->hostnameByMethod     = [],
-            this->hostnameLessByMethod = [];
-
-        for method, candidates in this->candidatesByMethod {
-            let this->hostnameByMethod[method]     = [],
-                this->hostnameLessByMethod[method] = [];
-
-            for bucketIdx, bucketRoute in candidates {
-                let bucketHostname = bucketRoute->getHostName();
-
-                if bucketHostname === null {
-                    let this->hostnameLessByMethod[method][] = bucketIdx;
-                } else {
-                    let this->hostnameByMethod[method][bucketHostname][] = bucketIdx;
-                }
-            }
-        }
-
-        /**
-         * Combined-regex builder: for each method bucket without hostname
-         * constraints, combine all regex routes into a single PCRE pattern
-         * with (?|...) branch reset and (*:N) mark labels. Alternatives
-         * are ordered in reverse-attach so PCRE's left-to-right first-match
-         * yields reverse-iteration semantics.
-         */
-        var combinedAlternatives, combinedMark, combinedBody,
-            combinedBodyMatch, combinedShape, hostnameBucketRef;
-
-        let this->combinedRegexByMethod = [],
-            this->combinedRegexMarkMap  = [],
-            this->combinedRegexDisabled = [];
-
-        for method, candidates in this->candidatesByMethod {
-            let hostnameBucketRef = this->hostnameByMethod[method];
-
-            if !empty hostnameBucketRef {
-                let this->combinedRegexDisabled[method] = true;
-                continue;
-            }
-
-            let combinedAlternatives = [],
-                combinedMark         = [];
-
-            for bucketIdx, bucketRoute in candidates {
-                let bucketPattern = bucketRoute->getCompiledPattern();
-
-                if !memstr(bucketPattern, "^") {
-                    continue;
-                }
-
-                let combinedBodyMatch = [];
-                let combinedShape = preg_match("/^#\\^(.+)\\$#u$/", bucketPattern, combinedBodyMatch);
-
-                if !combinedShape {
-                    let this->combinedRegexDisabled[method] = true;
-                    let combinedAlternatives = [];
-                    break;
-                }
-
-                let combinedBody = combinedBodyMatch[1];
-                let combinedAlternatives[] = combinedBody . "(*:" . bucketIdx . ")";
-                let combinedMark[(string) bucketIdx] = bucketIdx;
-            }
-
-            if isset this->combinedRegexDisabled[method] {
-                continue;
-            }
-
-            if empty combinedAlternatives {
-                continue;
-            }
-
-            /**
-             * Reverse alternatives so PCRE's left-to-right first-match
-             * gives reverse-attach-wins. Then chunk into groups of
-             * REGEX_CHUNK_SIZE so each chunk stays below the PCRE
-             * optimizer cliff. chunks[0] holds the LATEST-attached batch
-             * — handle() tries chunks 0..N in order.
-             */
-            var chunkedPatterns, chunkedMarkMaps, chunkOffset, chunkSlice,
-                chunkSliceMap, chunkMarkSubset, reversedMarkIds, chunkMarkId;
-
-            let combinedAlternatives = array_reverse(combinedAlternatives);
-            let reversedMarkIds      = array_reverse(array_keys(combinedMark));
-
-            let chunkedPatterns = [],
-                chunkedMarkMaps = [],
-                chunkOffset     = 0;
-
-            while chunkOffset < count(combinedAlternatives) {
-                let chunkSlice       = array_slice(combinedAlternatives, chunkOffset, self::REGEX_CHUNK_SIZE),
-                    chunkMarkSubset  = array_slice(reversedMarkIds,      chunkOffset, self::REGEX_CHUNK_SIZE),
-                    chunkSliceMap    = [];
-
-                for chunkMarkId in chunkMarkSubset {
-                    let chunkSliceMap[chunkMarkId] = combinedMark[chunkMarkId];
-                }
-
-                let chunkedPatterns[] = "#^(?|" . implode("|", chunkSlice) . ")$#u";
-                let chunkedMarkMaps[] = chunkSliceMap;
-                let chunkOffset += self::REGEX_CHUNK_SIZE;
-            }
-
-            let this->combinedRegexByMethod[method] = chunkedPatterns;
-            let this->combinedRegexMarkMap[method]  = chunkedMarkMaps;
-        }
-
-        let this->methodRoutesDirty = false;
-    }
-
     /**
      * Returns a route object by its id
      *
-     * @param mixed id
+     * @param mixed $routeId
      *
      * @return RouteInterface|bool
      */
-    public function getRouteById(var id) -> <RouteInterface> | bool
+    public function getRouteById(var routeId) -> <RouteInterface> | bool
     {
-        var route, routeId, key;
+        var localRouteId, route, key;
 
-        if fetch key, this->keyRouteIds[id] {
+        if fetch key, this->keyRouteIds[routeId] {
             return this->routes[key];
         }
 
         for key, route in this->routes {
-            let routeId = route->getRouteId();
-            let this->keyRouteIds[routeId] = key;
+            let localRouteId = route->getRouteId();
+            let this->keyRouteIds[localRouteId] = key;
 
-            if routeId == id {
+            if localRouteId == routeId {
                 return route;
             }
         }
@@ -2009,131 +1793,6 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
     }
 
     /**
-     * Adds a single route from a config array entry. Used by loadFromConfig.
-     *
-     * @param array routeData
-     *
-     * @return void
-     */
-    protected function addRouteFromConfig(array routeData) -> void
-    {
-        var method, methodClass, pattern, paths, route;
-
-        if !fetch pattern, routeData["pattern"] {
-            throw new MissingRouteConfigKey("pattern");
-        }
-
-        if !fetch paths, routeData["paths"] {
-            throw new MissingRouteConfigKey("paths");
-        }
-
-        let method = "";
-        if isset routeData["method"] && routeData["method"] !== null {
-            let method = strtolower((string) routeData["method"]);
-        }
-
-        switch method {
-            case "":
-            case "connect":
-            case "delete":
-            case "get":
-            case "head":
-            case "options":
-            case "patch":
-            case "post":
-            case "purge":
-            case "put":
-            case "trace":
-                let methodClass = "add" . ucfirst(method);
-                let route = this->{methodClass}(pattern, paths);
-                break;
-            default:
-                throw new UnknownHttpMethod(method);
-        }
-
-        if isset routeData["name"] {
-            route->setName((string) routeData["name"]);
-        }
-        if isset routeData["hostname"] {
-            route->setHostname((string) routeData["hostname"]);
-        }
-    }
-
-    /**
-     * Builds a Group from a config entry and mounts it. Used by loadFromConfig.
-     *
-     * @param array groupData
-     *
-     * @return void
-     */
-    protected function mountGroupFromConfig(array groupData) -> void
-    {
-        var group, paths, routes, routeData, method, methodClass, pattern, routePaths, route;
-
-        let paths = null;
-        if isset groupData["paths"] {
-            let paths = groupData["paths"];
-        }
-
-        let group = new Group(paths);
-
-        if isset groupData["prefix"] {
-            group->setPrefix((string) groupData["prefix"]);
-        }
-
-        if isset groupData["hostname"] {
-            group->setHostname((string) groupData["hostname"]);
-        }
-
-        if !fetch routes, groupData["routes"] {
-            let routes = [];
-        }
-
-        if typeof routes !== "array" {
-            throw new GroupRoutesMustBeArray();
-        }
-
-        for routeData in routes {
-            if !fetch pattern, routeData["pattern"] {
-                throw new MissingGroupRouteKey("pattern");
-            }
-            if !fetch routePaths, routeData["paths"] {
-                throw new MissingGroupRouteKey("paths");
-            }
-
-            let method = "";
-            if isset routeData["method"] && routeData["method"] !== null {
-                let method = strtolower((string) routeData["method"]);
-            }
-
-            switch method {
-                case "":
-                case "connect":
-                case "delete":
-                case "get":
-                case "head":
-                case "options":
-                case "patch":
-                case "post":
-                case "purge":
-                case "put":
-                case "trace":
-                    let methodClass = "add" . ucfirst(method);
-                    let route = group->{methodClass}(pattern, routePaths);
-                    break;
-                default:
-                    throw new UnknownHttpMethod(method);
-            }
-
-            if isset routeData["name"] {
-                route->setName((string) routeData["name"]);
-            }
-        }
-
-        this->mount(group);
-    }
-
-    /**
      * Mounts a group of routes in the router
      *
      * @param GroupInterface group
@@ -2301,17 +1960,17 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
 
         // Set a default module
         if fetch module, defaults["module"] {
-            let this->defaultModule = module;
+            let this->defaultModule = (string)module;
         }
 
         // Set a default controller
         if fetch controller, defaults["controller"] {
-            let this->defaultController = controller;
+            let this->defaultController = (string)controller;
         }
 
         // Set a default action
         if fetch action, defaults["action"] {
-            let this->defaultAction = action;
+            let this->defaultAction = (string)action;
         }
 
         // Set default parameters
@@ -2335,18 +1994,6 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
     }
 
     /**
-     * @param array $routeNames
-     *
-     * @return static
-     */
-    public function setKeyRouteNames(array routeNames) -> <static>
-    {
-        let this->keyRouteNames = routeNames;
-
-        return this;
-    }
-
-    /**
      * @param array $routeIds
      *
      * @return static
@@ -2354,6 +2001,18 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
     public function setKeyRouteIds(array routeIds) -> <static>
     {
         let this->keyRouteIds = routeIds;
+
+        return this;
+    }
+
+    /**
+     * @param array $routeNames
+     *
+     * @return static
+     */
+    public function setKeyRouteNames(array routeNames) -> <static>
+    {
+        let this->keyRouteNames = routeNames;
 
         return this;
     }
@@ -2382,5 +2041,346 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
     public function wasMatched() -> bool
     {
         return this->wasMatched;
+    }
+
+    /**
+     * Adds a single route from a config array entry. Used by loadFromConfig.
+     *
+     * @param array routeData
+     *
+     * @return void
+     */
+    protected function addRouteFromConfig(array routeData) -> void
+    {
+        var method, methodClass, pattern, paths, route;
+
+        if !fetch pattern, routeData["pattern"] {
+            throw new MissingRouteConfigKey("pattern");
+        }
+
+        if !fetch paths, routeData["paths"] {
+            throw new MissingRouteConfigKey("paths");
+        }
+
+        let method = "";
+        if isset routeData["method"] && routeData["method"] !== null {
+            let method = strtolower((string) routeData["method"]);
+        }
+
+        switch method {
+            case "":
+            case "connect":
+            case "delete":
+            case "get":
+            case "head":
+            case "options":
+            case "patch":
+            case "post":
+            case "purge":
+            case "put":
+            case "trace":
+                let methodClass = "add" . ucfirst(method);
+                let route = this->{methodClass}(pattern, paths);
+                break;
+            default:
+                throw new UnknownHttpMethod(method);
+        }
+
+        if isset routeData["name"] {
+            route->setName((string) routeData["name"]);
+        }
+        if isset routeData["hostname"] {
+            route->setHostname((string) routeData["hostname"]);
+        }
+    }
+
+    protected function extractRealUri(string! uri) -> string
+    {
+        var urlParts, realUri;
+
+        let urlParts = explode("?", uri, 2),
+            realUri  = urlParts[0];
+
+        return realUri;
+    }
+
+    /**
+     * Builds a Group from a config entry and mounts it. Used by loadFromConfig.
+     *
+     * @param array groupData
+     *
+     * @return void
+     */
+    protected function mountGroupFromConfig(array groupData) -> void
+    {
+        var group, paths, routes, routeData, method, methodClass, pattern, routePaths, route;
+
+        let paths = null;
+        if isset groupData["paths"] {
+            let paths = groupData["paths"];
+        }
+
+        let group = new Group(paths);
+
+        if isset groupData["prefix"] {
+            group->setPrefix((string) groupData["prefix"]);
+        }
+
+        if isset groupData["hostname"] {
+            group->setHostname((string) groupData["hostname"]);
+        }
+
+        if !fetch routes, groupData["routes"] {
+            let routes = [];
+        }
+
+        if typeof routes !== "array" {
+            throw new GroupRoutesMustBeArray();
+        }
+
+        for routeData in routes {
+            if !fetch pattern, routeData["pattern"] {
+                throw new MissingGroupRouteKey("pattern");
+            }
+            if !fetch routePaths, routeData["paths"] {
+                throw new MissingGroupRouteKey("paths");
+            }
+
+            let method = "";
+            if isset routeData["method"] && routeData["method"] !== null {
+                let method = strtolower((string) routeData["method"]);
+            }
+
+            switch method {
+                case "":
+                case "connect":
+                case "delete":
+                case "get":
+                case "head":
+                case "options":
+                case "patch":
+                case "post":
+                case "purge":
+                case "put":
+                case "trace":
+                    let methodClass = "add" . ucfirst(method);
+                    let route = group->{methodClass}(pattern, routePaths);
+                    break;
+                default:
+                    throw new UnknownHttpMethod(method);
+            }
+
+            if isset routeData["name"] {
+                route->setName((string) routeData["name"]);
+            }
+        }
+
+        this->mount(group);
+    }
+
+    protected function rebuildMethodIndex() -> void
+    {
+        var route, methods, method, methodSpecific, starRoutes,
+            candidates, candidateRoute, candidatePattern, isRegex,
+            bucketRoute, bucketPattern, staticUri, staticBucket,
+            staticRoutesList;
+
+        let this->methodRoutes           = [],
+            this->candidatesByMethod     = [],
+            this->routeMeta              = [],
+            this->staticByMethod         = [],
+            this->staticShadowedByMethod = [];
+
+        for route in this->routes {
+            let methods = route->getHttpMethods();
+
+            if methods === null {
+                let this->methodRoutes["*"][] = route;
+            } elseif typeof methods == "string" {
+                let this->methodRoutes[methods][] = route;
+            } else {
+                for method in methods {
+                    let this->methodRoutes[method][] = route;
+                }
+            }
+        }
+
+        if !fetch starRoutes, this->methodRoutes["*"] {
+            let starRoutes = [];
+        }
+
+        for method, methodSpecific in this->methodRoutes {
+            if method == "*" {
+                let this->candidatesByMethod["*"] = starRoutes;
+                continue;
+            }
+
+            let this->candidatesByMethod[method] = array_merge(methodSpecific, starRoutes);
+        }
+
+        /**
+         * Build the single-source per-route metadata cache, keyed by the
+         * route's intrinsic id. One entry per route — replaces the previous
+         * per-method-bucket replication.
+         */
+        let this->routeMeta = [];
+
+        for candidateRoute in this->routes {
+            let candidatePattern = candidateRoute->getCompiledPattern();
+            let isRegex          = false;
+
+            if memstr(candidatePattern, "^") {
+                let isRegex = true;
+            }
+
+            let this->routeMeta[candidateRoute->getRouteId()] = [
+                "pattern":     candidatePattern,
+                "isRegex":     isRegex,
+                "hostname":    candidateRoute->getHostName(),
+                "hostRegex":   candidateRoute->getCompiledHostName(),
+                "beforeMatch": candidateRoute->getBeforeMatch()
+            ];
+        }
+
+        /**
+         * Build the static-route hash + shadow flags. For each method bucket
+         * (already merged with "*" routes), walk in attach order; when a
+         * regex route is encountered, mark any earlier-registered static URI
+         * it would match as shadowed. The fast path consults staticByMethod
+         * only when staticShadowedByMethod has no entry for that URI.
+         */
+        for method, candidates in this->candidatesByMethod {
+            for bucketRoute in candidates {
+                let bucketPattern = bucketRoute->getCompiledPattern();
+
+                if !memstr(bucketPattern, "^") {
+                    let this->staticByMethod[method][bucketPattern][] = bucketRoute;
+                } else {
+                    if fetch staticBucket, this->staticByMethod[method] {
+                        for staticUri, staticRoutesList in staticBucket {
+                            if preg_match(bucketPattern, staticUri) {
+                                let this->staticShadowedByMethod[method][staticUri] = true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        /**
+         * Hostname bucketing: split each method bucket into hostname-keyed
+         * sub-buckets and a hostname-less list. Routes are referenced by
+         * their integer index into candidatesByMethod[method].
+         */
+        var bucketIdx, bucketHostname;
+
+        let this->hostnameByMethod     = [],
+            this->hostnameLessByMethod = [];
+
+        for method, candidates in this->candidatesByMethod {
+            let this->hostnameByMethod[method]     = [],
+                this->hostnameLessByMethod[method] = [];
+
+            for bucketIdx, bucketRoute in candidates {
+                let bucketHostname = bucketRoute->getHostName();
+
+                if bucketHostname === null {
+                    let this->hostnameLessByMethod[method][] = bucketIdx;
+                } else {
+                    let this->hostnameByMethod[method][bucketHostname][] = bucketIdx;
+                }
+            }
+        }
+
+        /**
+         * Combined-regex builder: for each method bucket without hostname
+         * constraints, combine all regex routes into a single PCRE pattern
+         * with (?|...) branch reset and (*:N) mark labels. Alternatives
+         * are ordered in reverse-attach so PCRE's left-to-right first-match
+         * yields reverse-iteration semantics.
+         */
+        var combinedAlternatives, combinedMark, combinedBody,
+            combinedBodyMatch, combinedShape, hostnameBucketRef;
+
+        let this->combinedRegexByMethod = [],
+            this->combinedRegexMarkMap  = [],
+            this->combinedRegexDisabled = [];
+
+        for method, candidates in this->candidatesByMethod {
+            let hostnameBucketRef = this->hostnameByMethod[method];
+
+            if !empty hostnameBucketRef {
+                let this->combinedRegexDisabled[method] = true;
+                continue;
+            }
+
+            let combinedAlternatives = [],
+                combinedMark         = [];
+
+            for bucketIdx, bucketRoute in candidates {
+                let bucketPattern = bucketRoute->getCompiledPattern();
+
+                if !memstr(bucketPattern, "^") {
+                    continue;
+                }
+
+                let combinedBodyMatch = [];
+                let combinedShape = preg_match("/^#\\^(.+)\\$#u$/", bucketPattern, combinedBodyMatch);
+
+                if !combinedShape {
+                    let this->combinedRegexDisabled[method] = true;
+                    let combinedAlternatives = [];
+                    break;
+                }
+
+                let combinedBody = combinedBodyMatch[1];
+                let combinedAlternatives[] = combinedBody . "(*:" . bucketIdx . ")";
+                let combinedMark[(string) bucketIdx] = bucketIdx;
+            }
+
+            if isset this->combinedRegexDisabled[method] {
+                continue;
+            }
+
+            if empty combinedAlternatives {
+                continue;
+            }
+
+            /**
+             * Reverse alternatives so PCRE's left-to-right first-match
+             * gives reverse-attach-wins. Then chunk into groups of
+             * REGEX_CHUNK_SIZE so each chunk stays below the PCRE
+             * optimizer cliff. chunks[0] holds the LATEST-attached batch
+             * — handle() tries chunks 0..N in order.
+             */
+            var chunkedPatterns, chunkedMarkMaps, chunkOffset, chunkSlice,
+                chunkSliceMap, chunkMarkSubset, reversedMarkIds, chunkMarkId;
+
+            let combinedAlternatives = array_reverse(combinedAlternatives);
+            let reversedMarkIds      = array_reverse(array_keys(combinedMark));
+
+            let chunkedPatterns = [],
+                chunkedMarkMaps = [],
+                chunkOffset     = 0;
+
+            while chunkOffset < count(combinedAlternatives) {
+                let chunkSlice       = array_slice(combinedAlternatives, chunkOffset, self::REGEX_CHUNK_SIZE),
+                    chunkMarkSubset  = array_slice(reversedMarkIds,      chunkOffset, self::REGEX_CHUNK_SIZE),
+                    chunkSliceMap    = [];
+
+                for chunkMarkId in chunkMarkSubset {
+                    let chunkSliceMap[chunkMarkId] = combinedMark[chunkMarkId];
+                }
+
+                let chunkedPatterns[] = "#^(?|" . implode("|", chunkSlice) . ")$#u";
+                let chunkedMarkMaps[] = chunkSliceMap;
+                let chunkOffset += self::REGEX_CHUNK_SIZE;
+            }
+
+            let this->combinedRegexByMethod[method] = chunkedPatterns;
+            let this->combinedRegexMarkMap[method]  = chunkedMarkMaps;
+        }
+
+        let this->methodRoutesDirty = false;
     }
 }

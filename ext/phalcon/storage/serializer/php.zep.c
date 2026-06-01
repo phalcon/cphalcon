@@ -114,7 +114,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_Php, unserialize)
 	ZEPHIR_INIT_VAR(&_3);
 	ZEPHIR_INIT_NVAR(&_3);
 	zephir_create_closure_ex(&_3, NULL, phalcon_78__closure_ce, SL("__invoke"));
-	ZVAL_LONG(&_4, 8);
+	ZVAL_LONG(&_4, (8 | 2));
 	ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 225, &_3, &_4);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&result, this_ptr, "phpunserialize", NULL, 0, data);

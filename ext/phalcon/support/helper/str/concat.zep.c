@@ -51,7 +51,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Str_Concat)
  */
 PHP_METHOD(Phalcon_Support_Helper_Str_Concat, __invoke)
 {
-	zval argument, arguments, delimiter, data, first, last, prefix, suffix, _1, _2, *_3, _5, _7, _0$$3, _4$$6, _6$$7;
+	zend_bool _6;
+	zval argument, arguments, delimiter, data, first, last, prefix, suffix, _1, _2, *_3, _5, _8, _0$$3, _4$$6, _7$$7;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 
@@ -66,10 +67,10 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Concat, __invoke)
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_5);
-	ZVAL_UNDEF(&_7);
+	ZVAL_UNDEF(&_8);
 	ZVAL_UNDEF(&_0$$3);
 	ZVAL_UNDEF(&_4$$6);
-	ZVAL_UNDEF(&_6$$7);
+	ZVAL_UNDEF(&_7$$7);
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
@@ -89,7 +90,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Concat, __invoke)
 	ZEPHIR_UNREF(&arguments);
 	zephir_check_call_status();
 	ZVAL_LONG(&_1, 1);
-	ZEPHIR_CALL_FUNCTION(&_2, "array_slice", NULL, 189, &arguments, &_1);
+	ZEPHIR_CALL_FUNCTION(&_2, "array_slice", NULL, 200, &arguments, &_1);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(&arguments, &_2);
 	ZEPHIR_MAKE_REF(&arguments);
@@ -125,7 +126,14 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Concat, __invoke)
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, &arguments, "rewind", NULL, 0);
 		zephir_check_call_status();
+		_6 = 1;
 		while (1) {
+			if (_6) {
+				_6 = 0;
+			} else {
+				ZEPHIR_CALL_METHOD(NULL, &arguments, "next", NULL, 0);
+				zephir_check_call_status();
+			}
 			ZEPHIR_CALL_METHOD(&_5, &arguments, "valid", NULL, 0);
 			zephir_check_call_status();
 			if (!zend_is_true(&_5)) {
@@ -133,17 +141,15 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Concat, __invoke)
 			}
 			ZEPHIR_CALL_METHOD(&argument, &arguments, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_INIT_NVAR(&_6$$7);
-				zephir_fast_trim(&_6$$7, &argument, &delimiter, ZEPHIR_TRIM_BOTH);
-				zephir_array_append(&data, &_6$$7, PH_SEPARATE, "phalcon/Support/Helper/Str/Concat.zep", 58);
-			ZEPHIR_CALL_METHOD(NULL, &arguments, "next", NULL, 0);
-			zephir_check_call_status();
+				ZEPHIR_INIT_NVAR(&_7$$7);
+				zephir_fast_trim(&_7$$7, &argument, &delimiter, ZEPHIR_TRIM_BOTH);
+				zephir_array_append(&data, &_7$$7, PH_SEPARATE, "phalcon/Support/Helper/Str/Concat.zep", 58);
 		}
 	}
 	ZEPHIR_INIT_NVAR(&argument);
-	ZEPHIR_INIT_VAR(&_7);
-	zephir_fast_join(&_7, &delimiter, &data);
-	ZEPHIR_CONCAT_VVV(return_value, &prefix, &_7, &suffix);
+	ZEPHIR_INIT_VAR(&_8);
+	zephir_fast_join(&_8, &delimiter, &data);
+	ZEPHIR_CONCAT_VVV(return_value, &prefix, &_8, &suffix);
 	RETURN_MM();
 }
 

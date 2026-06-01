@@ -173,14 +173,12 @@ class Repository implements RepositoryInterface, JsonSerializable
      */
     protected function getRealNameProperty(string property) -> string
     {
-        var aliases;
+        var name;
 
-        let aliases = this->getAliases();
-
-        if isset aliases[property] {
-            return aliases[property];
+        if !fetch name, this->aliases[property] {
+            return property;
         }
 
-        return property;
+        return name;
     }
 }

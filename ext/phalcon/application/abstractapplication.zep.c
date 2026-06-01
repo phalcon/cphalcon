@@ -131,7 +131,7 @@ PHP_METHOD(Phalcon_Application_AbstractApplication, getModule)
 	if (UNEXPECTED(!(zephir_array_isset_fetch(&module, &_0, &name_zv, 0)))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_application_exceptions_modulenotregistered_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 131, &name_zv);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 132, &name_zv);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Application/AbstractApplication.zep", 82);
 		ZEPHIR_MM_RESTORE();

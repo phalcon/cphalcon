@@ -490,6 +490,16 @@ class Loader extends AbstractEventsAware
     }
 
     /**
+     * returns isRegistered
+     *
+     * @return bool
+     */
+    public function isRegistered() -> bool
+    {
+        return this->isRegistered;
+    }
+
+    /**
      * Unregister the autoload method
      *
      * @return static
@@ -509,16 +519,6 @@ class Loader extends AbstractEventsAware
 
         return this;
     }
-
-    /**
-     * returns isRegister
-     *
-     * @return bool
-     */
-     public function isRegistered() -> bool
-     {
-        return this->isRegistered;
-     }
 
     /**
      * If the file exists, require it and return true; false otherwise

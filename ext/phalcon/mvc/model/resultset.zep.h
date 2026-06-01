@@ -17,8 +17,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, isFresh);
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, jsonSerialize);
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, key);
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, next);
-PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetGet);
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetExists);
+PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetGet);
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetSet);
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetUnset);
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, rewind);
@@ -77,11 +77,11 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_resultset_next, 0, 0, IS_VOID, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_resultset_offsetget, 0, 1, IS_MIXED, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_resultset_offsetexists, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_INFO(0, index)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_resultset_offsetexists, 0, 1, _IS_BOOL, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_resultset_offsetget, 0, 1, IS_MIXED, 0)
 	ZEND_ARG_INFO(0, index)
 ZEND_END_ARG_INFO()
 
@@ -144,8 +144,8 @@ PHP_ME(Phalcon_Mvc_Model_Resultset, getFirst, arginfo_phalcon_mvc_model_resultse
 	PHP_ME(Phalcon_Mvc_Model_Resultset, jsonSerialize, arginfo_phalcon_mvc_model_resultset_jsonserialize, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Resultset, key, arginfo_phalcon_mvc_model_resultset_key, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Resultset, next, arginfo_phalcon_mvc_model_resultset_next, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Model_Resultset, offsetGet, arginfo_phalcon_mvc_model_resultset_offsetget, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Resultset, offsetExists, arginfo_phalcon_mvc_model_resultset_offsetexists, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Resultset, offsetGet, arginfo_phalcon_mvc_model_resultset_offsetget, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Resultset, offsetSet, arginfo_phalcon_mvc_model_resultset_offsetset, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Resultset, offsetUnset, arginfo_phalcon_mvc_model_resultset_offsetunset, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Resultset, rewind, arginfo_phalcon_mvc_model_resultset_rewind, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC)

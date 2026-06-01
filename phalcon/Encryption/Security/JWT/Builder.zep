@@ -26,14 +26,7 @@ use Phalcon\Support\Collection\CollectionInterface;
 use Phalcon\Support\Helper\Json\Encode;
 
 /**
- * Builder
- *
- * The builder offers
- *
- * @property CollectionInterface $claims
- * @property CollectionInterface $jose
- * @property string              $passphrase
- * @property SignerInterface     $signer
+ * JWT Builder
  *
  * @link https://tools.ietf.org/html/rfc7519
  */
@@ -81,23 +74,6 @@ class Builder
             Enum::ALGO,
             this->signer->getAlgHeader()
         );
-    }
-
-    /**
-     * @return static
-     */
-    public function init() -> <static>
-    {
-        let this->passphrase = "",
-            this->claims     = new Collection(),
-            this->jose       = new Collection(
-                [
-                    Enum::TYPE : "JWT",
-                    Enum::ALGO : "none"
-                ]
-            );
-
-        return this;
     }
 
     /**
@@ -203,6 +179,14 @@ class Builder
     }
 
     /**
+     * @return string
+     */
+    public function getPassphrase() -> string
+    {
+        return this->passphrase;
+    }
+
+    /**
      * @return string|null
      */
     public function getSubject() -> string | null
@@ -238,11 +222,20 @@ class Builder
     }
 
     /**
-     * @return string
+     * @return static
      */
-    public function getPassphrase() -> string
+    public function init() -> <static>
     {
-        return this->passphrase;
+        let this->passphrase = "",
+            this->claims     = new Collection(),
+            this->jose       = new Collection(
+                [
+                    Enum::TYPE : "JWT",
+                    Enum::ALGO : "none"
+                ]
+            );
+
+        return this;
     }
 
     /**
@@ -327,13 +320,13 @@ class Builder
      * to prevent the JWT from being replayed.  The "jti" value is a case-
      * sensitive string.  Use of this claim is OPTIONAL.
      *
-     * @param string $id
+     * @param string $jwtId
      *
      * @return static
      */
-    public function setId(string! id) -> <static>
+    public function setId(string! jwtId) -> <static>
     {
-        return this->setClaim(Enum::ID, id);
+        return this->setClaim(Enum::ID, jwtId);
     }
 
     /**
@@ -390,24 +383,6 @@ class Builder
     }
 
     /**
-     * The "sub" (subject) claim identifies the principal that is the
-     * subject of the JWT.  The claims in a JWT are normally statements
-     * about the subject.  The subject value MUST either be scoped to be
-     * locally unique in the context of the issuer or be globally unique.
-     * The processing of this claim is generally application specific.  The
-     * "sub" value is a case-sensitive string containing a StringOrURI
-     * value.  Use of this claim is OPTIONAL.
-     *
-     * @param string $subject
-     *
-     * @return static
-     */
-    public function setSubject(string! subject) -> <static>
-    {
-        return this->setClaim(Enum::SUBJECT, subject);
-    }
-
-    /**
      * @param string $passphrase
      *
      * @return static
@@ -425,6 +400,24 @@ class Builder
         let this->passphrase = passphrase;
 
         return this;
+    }
+
+    /**
+     * The "sub" (subject) claim identifies the principal that is the
+     * subject of the JWT.  The claims in a JWT are normally statements
+     * about the subject.  The subject value MUST either be scoped to be
+     * locally unique in the context of the issuer or be globally unique.
+     * The processing of this claim is generally application specific.  The
+     * "sub" value is a case-sensitive string containing a StringOrURI
+     * value.  Use of this claim is OPTIONAL.
+     *
+     * @param string $subject
+     *
+     * @return static
+     */
+    public function setSubject(string! subject) -> <static>
+    {
+        return this->setClaim(Enum::SUBJECT, subject);
     }
 
     /**

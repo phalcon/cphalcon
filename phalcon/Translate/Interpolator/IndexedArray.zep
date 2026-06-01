@@ -24,9 +24,7 @@ class IndexedArray implements InterpolatorInterface
         array placeholders = []
     ) -> string {
         if true !== empty(placeholders) {
-            array_unshift(placeholders, translation);
-
-            return call_user_func_array("sprintf", placeholders);
+            return vsprintf(translation, placeholders);
         }
 
         return translation;

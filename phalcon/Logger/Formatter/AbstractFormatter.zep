@@ -41,15 +41,15 @@ abstract class AbstractFormatter extends AbstractStr implements FormatterInterfa
      */
     public function getDateFormat() -> string
     {
-        return $this->dateFormat;
+        return this->dateFormat;
     }
 
     /**
      * @param string $format
      */
-    public function setDateFormat(string $format) -> void
+    public function setDateFormat(string format) -> void
     {
-        let this->dateFormat = $format;
+        let this->dateFormat = format;
     }
 
     /**
@@ -74,7 +74,7 @@ abstract class AbstractFormatter extends AbstractStr implements FormatterInterfa
         <Item> item,
         string message
     ) -> string {
-        return $this->toInterpolate(
+        return this->toInterpolate(
             message,
             item->getContext(),
             this->interpolatorLeft,

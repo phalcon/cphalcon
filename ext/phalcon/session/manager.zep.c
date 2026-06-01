@@ -20,8 +20,8 @@
 #include "ext/session/php_session.h"
 #include "kernel/exception.h"
 #include "kernel/string.h"
-#include "kernel/concat.h"
 #include "ext/spl/spl_exceptions.h"
+#include "kernel/concat.h"
 
 
 /**
@@ -377,6 +377,15 @@ PHP_METHOD(Phalcon_Session_Manager, getName)
 }
 
 /**
+ * Get internal options
+ */
+PHP_METHOD(Phalcon_Session_Manager, getOptions)
+{
+
+	RETURN_MEMBER_TYPED(getThis(), "options", IS_ARRAY);
+}
+
+/**
  * Check whether a session variable is set in an application context
  */
 PHP_METHOD(Phalcon_Session_Manager, has)
@@ -407,15 +416,6 @@ PHP_METHOD(Phalcon_Session_Manager, has)
 	ZEPHIR_CALL_METHOD(&uniqueKey, this_ptr, "getuniquekey", NULL, 0, &key_zv);
 	zephir_check_call_status();
 	RETURN_MM_BOOL(zephir_array_isset_value(&_SESSION, &uniqueKey));
-}
-
-/**
- * Get internal options
- */
-PHP_METHOD(Phalcon_Session_Manager, getOptions)
-{
-
-	RETURN_MEMBER_TYPED(getThis(), "options", IS_ARRAY);
 }
 
 /**
@@ -566,7 +566,7 @@ PHP_METHOD(Phalcon_Session_Manager, setId)
 		object_init_ex(&_1$$3, phalcon_session_exceptions_sessionalreadystarted_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Session/Manager.zep", 272);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Session/Manager.zep", 270);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -615,7 +615,7 @@ PHP_METHOD(Phalcon_Session_Manager, setName)
 		object_init_ex(&_1$$3, phalcon_session_exceptions_sessionmodificationdenied_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Session/Manager.zep", 293);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Session/Manager.zep", 291);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -631,7 +631,7 @@ PHP_METHOD(Phalcon_Session_Manager, setName)
 		object_init_ex(&_6$$4, phalcon_session_exceptions_invalidsessionname_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_6$$4, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_6$$4, "phalcon/Session/Manager.zep", 297);
+		zephir_throw_exception_debug(&_6$$4, "phalcon/Session/Manager.zep", 295);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -681,7 +681,7 @@ PHP_METHOD(Phalcon_Session_Manager, setOptions)
 PHP_METHOD(Phalcon_Session_Manager, start)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval _COOKIE, name, value, _0, _1, _2, _8, _3$$5, _4$$6, _5$$6, _6$$6, _7$$6;
+	zval _COOKIE, name, value, _0, _1, _6, _8, _2$$5, _3$$5, _4$$5, _5$$5, _7$$7;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -690,19 +690,17 @@ PHP_METHOD(Phalcon_Session_Manager, start)
 	ZVAL_UNDEF(&value);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_6);
 	ZVAL_UNDEF(&_8);
+	ZVAL_UNDEF(&_2$$5);
 	ZVAL_UNDEF(&_3$$5);
-	ZVAL_UNDEF(&_4$$6);
-	ZVAL_UNDEF(&_5$$6);
-	ZVAL_UNDEF(&_6$$6);
-	ZVAL_UNDEF(&_7$$6);
+	ZVAL_UNDEF(&_4$$5);
+	ZVAL_UNDEF(&_5$$5);
+	ZVAL_UNDEF(&_7$$7);
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_get_global(&_COOKIE, SL("_COOKIE"));
 
-	ZEPHIR_CALL_METHOD(&name, this_ptr, "getname", NULL, 0);
-	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "exists", NULL, 0);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_TRUE_IDENTICAL(&_0)) {
@@ -713,29 +711,31 @@ PHP_METHOD(Phalcon_Session_Manager, start)
 	if (ZEPHIR_IS_TRUE_IDENTICAL(&_1)) {
 		RETURN_MM_BOOL(0);
 	}
-	zephir_memory_observe(&_2);
-	zephir_read_property(&_2, this_ptr, ZEND_STRL("adapter"), PH_NOISY_CC);
-	if (UNEXPECTED(!(zephir_is_instance_of(&_2, SL("SessionHandlerInterface"))))) {
-		ZEPHIR_INIT_VAR(&_3$$5);
-		object_init_ex(&_3$$5, phalcon_session_exceptions_invalidsessionadapter_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_3$$5, "__construct", NULL, 0);
-		zephir_check_call_status();
-		zephir_throw_exception_debug(&_3$$5, "phalcon/Session/Manager.zep", 341);
-		ZEPHIR_MM_RESTORE();
-		return;
-	}
+	ZEPHIR_CALL_METHOD(&name, this_ptr, "getname", NULL, 0);
+	zephir_check_call_status();
 	zephir_memory_observe(&value);
 	if (zephir_array_isset_fetch(&value, &_COOKIE, &name, 0)) {
-		ZEPHIR_INIT_VAR(&_4$$6);
-		ZEPHIR_INIT_VAR(&_5$$6);
-		ZVAL_STRING(&_5$$6, "/^[a-z0-9]+$/iD");
-		ZEPHIR_INIT_VAR(&_6$$6);
-		ZEPHIR_INIT_VAR(&_7$$6);
-		ZVAL_STRING(&_7$$6, "/^[a-z0-9]+$/iD");
-		zephir_preg_match(&_6$$6, &_7$$6, &value, &_4$$6, 0, 0 , 0 );
-		if (!(zephir_is_true(&_6$$6))) {
+		ZEPHIR_INIT_VAR(&_2$$5);
+		ZEPHIR_INIT_VAR(&_3$$5);
+		ZVAL_STRING(&_3$$5, "/^[a-z0-9]+$/iD");
+		ZEPHIR_INIT_VAR(&_4$$5);
+		ZEPHIR_INIT_VAR(&_5$$5);
+		ZVAL_STRING(&_5$$5, "/^[a-z0-9]+$/iD");
+		zephir_preg_match(&_4$$5, &_5$$5, &value, &_2$$5, 0, 0 , 0 );
+		if (!(zephir_is_true(&_4$$5))) {
 			zephir_array_unset(&_COOKIE, &name, PH_SEPARATE);
 		}
+	}
+	zephir_memory_observe(&_6);
+	zephir_read_property(&_6, this_ptr, ZEND_STRL("adapter"), PH_NOISY_CC);
+	if (UNEXPECTED(!(zephir_is_instance_of(&_6, SL("SessionHandlerInterface"))))) {
+		ZEPHIR_INIT_VAR(&_7$$7);
+		object_init_ex(&_7$$7, phalcon_session_exceptions_invalidsessionadapter_ce);
+		ZEPHIR_CALL_METHOD(NULL, &_7$$7, "__construct", NULL, 0);
+		zephir_check_call_status();
+		zephir_throw_exception_debug(&_7$$7, "phalcon/Session/Manager.zep", 349);
+		ZEPHIR_MM_RESTORE();
+		return;
 	}
 	zephir_read_property(&_8, this_ptr, ZEND_STRL("adapter"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_FUNCTION(NULL, "session_set_save_handler", NULL, 0, &_8);
@@ -792,6 +792,43 @@ PHP_METHOD(Phalcon_Session_Manager, phpHeadersSent)
 }
 
 /**
+ * @todo Remove this when we get traits
+ */
+PHP_METHOD(Phalcon_Session_Manager, getArrVal)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zval *collection_param = NULL, *index, index_sub, *defaultValue = NULL, defaultValue_sub, __$null, value;
+	zval collection;
+
+	ZVAL_UNDEF(&collection);
+	ZVAL_UNDEF(&index_sub);
+	ZVAL_UNDEF(&defaultValue_sub);
+	ZVAL_NULL(&__$null);
+	ZVAL_UNDEF(&value);
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 3)
+		ZEPHIR_Z_PARAM_ARRAY(collection, collection_param)
+		Z_PARAM_ZVAL(index)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL_OR_NULL(defaultValue)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_fetch_params(1, 2, 1, &collection_param, &index, &defaultValue);
+	ZEPHIR_OBS_COPY_OR_DUP(&collection, collection_param);
+	if (!defaultValue) {
+		defaultValue = &defaultValue_sub;
+		defaultValue = &__$null;
+	}
+	zephir_memory_observe(&value);
+	if (UNEXPECTED(!(zephir_array_isset_fetch(&value, &collection, index, 0)))) {
+		RETVAL_ZVAL(defaultValue, 1, 0);
+		RETURN_MM();
+	}
+	RETURN_CCTOR(&value);
+}
+
+/**
  * Returns the key prefixed
  *
  * @param string $key
@@ -828,43 +865,6 @@ PHP_METHOD(Phalcon_Session_Manager, getUniqueKey)
 	}
 	ZEPHIR_CONCAT_VV(return_value, &prefix, &key_zv);
 	RETURN_MM();
-}
-
-/**
- * @todo Remove this when we get traits
- */
-PHP_METHOD(Phalcon_Session_Manager, getArrVal)
-{
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval *collection_param = NULL, *index, index_sub, *defaultValue = NULL, defaultValue_sub, __$null, value;
-	zval collection;
-
-	ZVAL_UNDEF(&collection);
-	ZVAL_UNDEF(&index_sub);
-	ZVAL_UNDEF(&defaultValue_sub);
-	ZVAL_NULL(&__$null);
-	ZVAL_UNDEF(&value);
-	bool is_null_true = 1;
-	ZEND_PARSE_PARAMETERS_START(2, 3)
-		ZEPHIR_Z_PARAM_ARRAY(collection, collection_param)
-		Z_PARAM_ZVAL(index)
-		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(defaultValue)
-	ZEND_PARSE_PARAMETERS_END();
-	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_fetch_params(1, 2, 1, &collection_param, &index, &defaultValue);
-	ZEPHIR_OBS_COPY_OR_DUP(&collection, collection_param);
-	if (!defaultValue) {
-		defaultValue = &defaultValue_sub;
-		defaultValue = &__$null;
-	}
-	zephir_memory_observe(&value);
-	if (UNEXPECTED(!(zephir_array_isset_fetch(&value, &collection, index, 0)))) {
-		RETVAL_ZVAL(defaultValue, 1, 0);
-		RETURN_MM();
-	}
-	RETURN_CCTOR(&value);
 }
 
 zend_object *zephir_init_properties_Phalcon_Session_Manager(zend_class_entry *class_type)

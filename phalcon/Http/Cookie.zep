@@ -71,7 +71,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
     /**
      * @var bool
      */
-    protected restored = false;
+    protected isRestored = false;
 
     /**
      * @var bool
@@ -168,7 +168,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
      */
     public function getDomain() -> string
     {
-        if !this->restored {
+        if !this->isRestored {
             this->restore();
         }
 
@@ -180,7 +180,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
      */
     public function getExpiration() -> int
     {
-        if !this->restored {
+        if !this->isRestored {
             this->restore();
         }
 
@@ -192,7 +192,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
      */
     public function getHttpOnly() -> bool
     {
-        if !this->restored {
+        if !this->isRestored {
             this->restore();
         }
 
@@ -220,7 +220,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
      */
     public function getPath() -> string
     {
-        if !this->restored {
+        if !this->isRestored {
             this->restore();
         }
 
@@ -233,7 +233,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
      */
     public function getSecure() -> bool
     {
-        if !this->restored {
+        if !this->isRestored {
             this->restore();
         }
 
@@ -247,7 +247,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
     {
         var container, value, crypt, decryptedValue, filter, signKey, name;
 
-        if !this->restored {
+        if !this->isRestored {
             this->restore();
         }
 
@@ -348,7 +348,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
         var container, definition, domain, expire, httpOnly, options, path,
             secure, session;
 
-        if !this->restored {
+        if !this->isRestored {
             let container = this->container;
 
             if typeof container == "object" && container->has("session") {
@@ -385,7 +385,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
                 }
             }
 
-            let this->restored = true;
+            let this->isRestored = true;
         }
 
         return this;
@@ -412,36 +412,23 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
 
         let container = this->container;
 
-        let definition = [];
+        let definition              = [],
+            definition["expire"]   = expire,
+            definition["path"]     = path,
+            definition["domain"]   = domain,
+            definition["secure"]   = secure,
+            definition["httpOnly"] = httpOnly,
+            definition["options"]  = options;
 
-        if expire != 0 {
-            let definition["expire"] = expire;
-        }
-
-        if !empty path {
-            let definition["path"] = path;
-        }
-
-        if !empty domain {
-            let definition["domain"] = domain;
-        }
-
-        if !empty secure {
-            let definition["secure"] = secure;
-        }
-
-        if !empty httpOnly {
-            let definition["httpOnly"] = httpOnly;
-        }
-
-        if !empty options {
-            let definition["options"] = options;
-        }
+        /**
+         * Remove all the empty elements
+         */
+        let definition = array_filter(definition);
 
         /**
          * The definition is stored in session
          */
-        if count(definition) && container->has("session") {
+        if !empty(definition) && container->has("session") {
             let session = <SessionManagerInterface> container->getShared("session");
 
             if session->exists() {
@@ -502,7 +489,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
      */
     public function setDomain(string! domain) -> <CookieInterface>
     {
-        if !this->restored {
+        if !this->isRestored {
             this->restore();
         }
 
@@ -516,7 +503,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
      */
     public function setExpiration(int expire) -> <CookieInterface>
     {
-        if !this->restored {
+        if !this->isRestored {
             this->restore();
         }
 
@@ -530,7 +517,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
      */
     public function setHttpOnly(bool httpOnly) -> <CookieInterface>
     {
-        if !this->restored {
+        if !this->isRestored {
             this->restore();
         }
 
@@ -554,7 +541,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
      */
     public function setPath(string! path) -> <CookieInterface>
     {
-        if !this->restored {
+        if !this->isRestored {
             this->restore();
         }
 
@@ -568,7 +555,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
      */
     public function setSecure(bool secure) -> <CookieInterface>
     {
-        if !this->restored {
+        if !this->isRestored {
             this->restore();
         }
 
@@ -585,7 +572,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
      *
      * Use NULL to disable cookie signing.
      *
-     * @see \Phalcon\Security\Random
+     * @see \Phalcon\Encryption\Security\Random
      * @throws \Phalcon\Http\Cookie\Exception
      */
     public function setSignKey(string signKey = null) -> <CookieInterface>

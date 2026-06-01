@@ -34,6 +34,10 @@
  * A container for Token related data. It stores the claims, headers, signature
  * and payload. It also calculates and returns the token string.
  *
+ * @property Item      $claims
+ * @property Item      $headers
+ * @property Signature $signature
+ *
  * @link https://tools.ietf.org/html/rfc7519
  */
 ZEPHIR_INIT_CLASS(Phalcon_Encryption_Security_JWT_Token_Token)
@@ -163,8 +167,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, getToken)
 
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getpayload", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getsignature", NULL, 0);
-	zephir_check_call_status();
+	zephir_read_property(&_1, this_ptr, ZEND_STRL("signature"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&_2, &_1, "getencoded", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_CONCAT_VSV(return_value, &_0, ".", &_2);
@@ -229,7 +232,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, validate)
 	ZEPHIR_CALL_METHOD(&_0, validator, "get", NULL, 0, &_1);
 	zephir_check_call_status();
 	zephir_array_update_string(&methods, SL("validateNotBefore"), &_0, PH_COPY | PH_SEPARATE);
-	zephir_is_iterable(&methods, 0, "phalcon/Encryption/Security/JWT/Token/Token.zep", 131);
+	zephir_is_iterable(&methods, 0, "phalcon/Encryption/Security/JWT/Token/Token.zep", 135);
 	ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&methods), _3, _4, _2)
 	{
 		ZEPHIR_INIT_NVAR(&method);

@@ -32,6 +32,18 @@ class Row extends \stdClass implements EntityInterface, ResultInterface, ArrayAc
     }
 
     /**
+     * Checks whether offset exists in the row. Returns true when the property
+     * is present on the row, regardless of whether its value is null - column
+     * presence is the contract, not value truthiness.
+     *
+     * @param string|int $index
+     */
+    public function offsetExists(mixed index) -> bool
+    {
+        return property_exists(this, index);
+    }
+
+    /**
      * Gets a record in a specific position of the row
      *
      * @param string|int index
@@ -45,18 +57,6 @@ class Row extends \stdClass implements EntityInterface, ResultInterface, ArrayAc
         }
 
         return this->{index};
-    }
-
-    /**
-     * Checks whether offset exists in the row. Returns true when the property
-     * is present on the row, regardless of whether its value is null - column
-     * presence is the contract, not value truthiness.
-     *
-     * @param string|int $index
-     */
-    public function offsetExists(mixed index) -> bool
-    {
-        return property_exists(this, index);
     }
 
     /**

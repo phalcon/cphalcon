@@ -334,11 +334,11 @@ PHP_METHOD(Phalcon_Storage_Adapter_Apcu, doDelete)
  */
 PHP_METHOD(Phalcon_Storage_Adapter_Apcu, doDeleteMultiple)
 {
-	zend_bool _5;
+	zend_bool _4, _6;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_2 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *keys_param = NULL, prefixedKeys, key, result, *_0, _3, _1$$3, _4$$4;
+	zval *keys_param = NULL, prefixedKeys, key, result, *_0, _3, _1$$3, _5$$4;
 	zval keys;
 	zval *this_ptr = getThis();
 
@@ -348,7 +348,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Apcu, doDeleteMultiple)
 	ZVAL_UNDEF(&result);
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_1$$3);
-	ZVAL_UNDEF(&_4$$4);
+	ZVAL_UNDEF(&_5$$4);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		ZEPHIR_Z_PARAM_ARRAY(keys, keys_param)
 	ZEND_PARSE_PARAMETERS_END();
@@ -371,7 +371,14 @@ PHP_METHOD(Phalcon_Storage_Adapter_Apcu, doDeleteMultiple)
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, &keys, "rewind", NULL, 0);
 		zephir_check_call_status();
+		_4 = 1;
 		while (1) {
+			if (_4) {
+				_4 = 0;
+			} else {
+				ZEPHIR_CALL_METHOD(NULL, &keys, "next", NULL, 0);
+				zephir_check_call_status();
+			}
 			ZEPHIR_CALL_METHOD(&_3, &keys, "valid", NULL, 0);
 			zephir_check_call_status();
 			if (!zend_is_true(&_3)) {
@@ -379,21 +386,19 @@ PHP_METHOD(Phalcon_Storage_Adapter_Apcu, doDeleteMultiple)
 			}
 			ZEPHIR_CALL_METHOD(&key, &keys, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_4$$4, this_ptr, "getprefixedkey", &_2, 0, &key);
+				ZEPHIR_CALL_METHOD(&_5$$4, this_ptr, "getprefixedkey", &_2, 0, &key);
 				zephir_check_call_status();
-				zephir_array_append(&prefixedKeys, &_4$$4, PH_SEPARATE, "phalcon/Storage/Adapter/Apcu.zep", 154);
-			ZEPHIR_CALL_METHOD(NULL, &keys, "next", NULL, 0);
-			zephir_check_call_status();
+				zephir_array_append(&prefixedKeys, &_5$$4, PH_SEPARATE, "phalcon/Storage/Adapter/Apcu.zep", 154);
 		}
 	}
 	ZEPHIR_INIT_NVAR(&key);
 	ZEPHIR_CALL_METHOD(&result, this_ptr, "phpapcudelete", NULL, 0, &prefixedKeys);
 	zephir_check_call_status();
-	_5 = Z_TYPE_P(&result) == IS_ARRAY;
-	if (_5) {
-		_5 = zephir_fast_count_int(&result) == 0;
+	_6 = Z_TYPE_P(&result) == IS_ARRAY;
+	if (_6) {
+		_6 = zephir_fast_count_int(&result) == 0;
 	}
-	RETURN_MM_BOOL(_5);
+	RETURN_MM_BOOL(_6);
 }
 
 /**

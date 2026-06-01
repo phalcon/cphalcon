@@ -154,10 +154,6 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Callback, validate)
 		}
 		ZEPHIR_CALL_FUNCTION(&returnedValue, "call_user_func", NULL, 297, &callback, &data);
 		zephir_check_call_status();
-		_1$$3 = Z_TYPE_P(&returnedValue) == IS_OBJECT;
-		if (_1$$3) {
-			_1$$3 = zephir_instance_of_ev(&returnedValue, phalcon_filter_validation_validatorinterface_ce);
-		}
 		if (((Z_TYPE_P(&returnedValue) == IS_TRUE || Z_TYPE_P(&returnedValue) == IS_FALSE) == 1)) {
 			if (!(zephir_is_true(&returnedValue))) {
 				ZEPHIR_CALL_METHOD(&_2$$6, this_ptr, "messagefactory", NULL, 0, validation, field);
@@ -167,10 +163,16 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Callback, validate)
 				RETURN_MM_BOOL(0);
 			}
 			RETURN_MM_BOOL(1);
-		} else if (_1$$3) {
-			ZEPHIR_RETURN_CALL_METHOD(&returnedValue, "validate", NULL, 0, validation, field);
-			zephir_check_call_status();
-			RETURN_MM();
+		} else {
+			_1$$3 = Z_TYPE_P(&returnedValue) == IS_OBJECT;
+			if (_1$$3) {
+				_1$$3 = zephir_instance_of_ev(&returnedValue, phalcon_filter_validation_validatorinterface_ce);
+			}
+			if (_1$$3) {
+				ZEPHIR_RETURN_CALL_METHOD(&returnedValue, "validate", NULL, 0, validation, field);
+				zephir_check_call_status();
+				RETURN_MM();
+			}
 		}
 		ZEPHIR_INIT_VAR(&_3$$3);
 		object_init_ex(&_3$$3, phalcon_filter_validation_exceptions_invalidcallbackreturn_ce);

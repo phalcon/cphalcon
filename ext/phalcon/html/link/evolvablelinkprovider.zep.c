@@ -26,9 +26,9 @@
  * file that was distributed with this source code.
  */
 /**
- * Class Phalcon\Http\Link\LinkProvider
+ * Class Phalcon\Html\Link\EvolvableLinkProvider
  *
- * @property LinkInterface[] links
+ * @property LinkInterface[] $links
  */
 ZEPHIR_INIT_CLASS(Phalcon_Html_Link_EvolvableLinkProvider)
 {

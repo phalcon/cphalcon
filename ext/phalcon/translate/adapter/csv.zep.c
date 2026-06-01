@@ -216,6 +216,44 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, query)
 }
 
 /**
+ * Returns the internal array
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Translate_Adapter_Csv, toArray)
+{
+
+	RETURN_MEMBER_TYPED(getThis(), "translate", IS_ARRAY);
+}
+
+/**
+ * @todo to be removed when we get traits
+ */
+PHP_METHOD(Phalcon_Translate_Adapter_Csv, phpFopen)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval filename_zv, mode_zv;
+	zend_string *filename = NULL, *mode = NULL;
+
+	ZVAL_UNDEF(&filename_zv);
+	ZVAL_UNDEF(&mode_zv);
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_STR(filename)
+		Z_PARAM_STR(mode)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&filename_zv);
+	ZVAL_STR_COPY(&filename_zv, filename);
+	zephir_memory_observe(&mode_zv);
+	ZVAL_STR_COPY(&mode_zv, mode);
+	ZEPHIR_RETURN_CALL_FUNCTION("fopen", NULL, 230, &filename_zv, &mode_zv);
+	zephir_check_call_status();
+	RETURN_MM();
+}
+
+/**
  * Load translations from file
  *
  * @param string $file
@@ -278,7 +316,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, load)
 		object_init_ex(&_1$$3, phalcon_translate_exceptions_fileopenerror_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 0, &file_zv);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Translate/Adapter/Csv.zep", 135);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Translate/Adapter/Csv.zep", 153);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -289,7 +327,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, load)
 		if (ZEPHIR_IS_FALSE_IDENTICAL(&data)) {
 			break;
 		}
-		zephir_array_fetch_long(&_4$$4, &data, 0, PH_NOISY | PH_READONLY, "phalcon/Translate/Adapter/Csv.zep", 145);
+		zephir_array_fetch_long(&_4$$4, &data, 0, PH_NOISY | PH_READONLY, "phalcon/Translate/Adapter/Csv.zep", 163);
 		ZVAL_LONG(&_2$$4, 0);
 		ZVAL_LONG(&_5$$4, 1);
 		ZEPHIR_INIT_NVAR(&_6$$4);
@@ -301,51 +339,13 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, load)
 		if (_7$$4) {
 			continue;
 		}
-		zephir_array_fetch_long(&_8$$4, &data, 1, PH_NOISY | PH_READONLY, "phalcon/Translate/Adapter/Csv.zep", 149);
+		zephir_array_fetch_long(&_8$$4, &data, 1, PH_NOISY | PH_READONLY, "phalcon/Translate/Adapter/Csv.zep", 167);
 		ZEPHIR_OBS_NVAR(&_9$$4);
-		zephir_array_fetch_long(&_9$$4, &data, 0, PH_NOISY, "phalcon/Translate/Adapter/Csv.zep", 149);
+		zephir_array_fetch_long(&_9$$4, &data, 0, PH_NOISY, "phalcon/Translate/Adapter/Csv.zep", 167);
 		zephir_update_property_array(this_ptr, SL("translate"), &_9$$4, &_8$$4);
 	}
 	zephir_fclose(&fileHandler);
 	ZEPHIR_MM_RESTORE();
-}
-
-/**
- * Returns the internal array
- *
- * @return array
- */
-PHP_METHOD(Phalcon_Translate_Adapter_Csv, toArray)
-{
-
-	RETURN_MEMBER_TYPED(getThis(), "translate", IS_ARRAY);
-}
-
-/**
- * @todo to be removed when we get traits
- */
-PHP_METHOD(Phalcon_Translate_Adapter_Csv, phpFopen)
-{
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval filename_zv, mode_zv;
-	zend_string *filename = NULL, *mode = NULL;
-
-	ZVAL_UNDEF(&filename_zv);
-	ZVAL_UNDEF(&mode_zv);
-	ZEND_PARSE_PARAMETERS_START(2, 2)
-		Z_PARAM_STR(filename)
-		Z_PARAM_STR(mode)
-	ZEND_PARSE_PARAMETERS_END();
-	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_memory_observe(&filename_zv);
-	ZVAL_STR_COPY(&filename_zv, filename);
-	zephir_memory_observe(&mode_zv);
-	ZVAL_STR_COPY(&mode_zv, mode);
-	ZEPHIR_RETURN_CALL_FUNCTION("fopen", NULL, 230, &filename_zv, &mode_zv);
-	zephir_check_call_status();
-	RETURN_MM();
 }
 
 zend_object *zephir_init_properties_Phalcon_Translate_Adapter_Csv(zend_class_entry *class_type)

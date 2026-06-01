@@ -10,17 +10,10 @@
 
 namespace Phalcon\Html\Link;
 
-use Phalcon\Support\Collection;
-use Phalcon\Support\Collection\CollectionInterface;
 use Phalcon\Html\Link\Interfaces\LinkInterface;
 
 /**
- * Class Phalcon\Http\Link\Link
- *
- * @property array  attributes
- * @property string href
- * @property array  rels
- * @property bool   templated
+ * Class Phalcon\Html\Link\Link
  */
 class Link extends AbstractLink implements LinkInterface
 {

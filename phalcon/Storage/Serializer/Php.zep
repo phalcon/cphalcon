@@ -52,7 +52,7 @@ class Php extends AbstractSerializer
             function (number, message, file, line) {
                 globals_set("warning.enable", true);
             },
-            E_NOTICE
+            E_NOTICE | E_WARNING
         );
 
         let result = this->phpUnserialize(data);

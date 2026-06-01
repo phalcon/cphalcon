@@ -234,7 +234,7 @@ class Breadcrumbs extends AbstractHelper
      */
     public function render() -> string
     {
-        var lastUrl, lastElement, element;
+        var data, lastUrl, lastElement, element;
         array output;
         /*
          * Early exit for empty data
@@ -243,13 +243,14 @@ class Breadcrumbs extends AbstractHelper
             return "";
         }
 
-        let output = [];
-        let lastUrl = array_key_last(this->data);
-        let lastElement = this->data[lastUrl];
+        let data        = this->data,
+            output      = [],
+            lastUrl     = array_key_last(data),
+            lastElement = data[lastUrl];
 
-        unset this->data[lastUrl];
+        unset data[lastUrl];
 
-        for element in this->data {
+        for element in data {
             let output[] = this->getLink(this->template["line"], element);
         }
 

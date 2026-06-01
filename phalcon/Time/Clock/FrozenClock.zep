@@ -35,7 +35,7 @@ final class FrozenClock implements ClockInterface
     /**
      * Mutates the clock to a new value. All consumers receive the same modification
      *
-     * @throws Exception When the modifier string cannot be parsed
+     * @throws InvalidModifier
      */
     public function adjust(string modifier) -> <static>
     {

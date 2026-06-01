@@ -86,12 +86,12 @@ class Select extends AbstractList
      */
     public function addPlaceholder(
         string text,
-        var value = null,
+        string value = null,
         array attributes = [],
         bool raw = false
     ) -> <static> {
         if null !== value {
-            let attributes["value"] = (string) value;
+            let attributes["value"] = value;
         }
 
         let this->store[] = [
@@ -184,7 +184,7 @@ class Select extends AbstractList
     /**
      * Adds a non-selectable placeholder option as the first entry. Renders
      * as `<option value="" disabled selected>$text</option>`, matching the
-     * common HTML idiom for "Choose…"-style prompts.
+     * common HTML idiom for "Choose..."-style prompts.
      *
      * @param string $text
      *
@@ -281,7 +281,7 @@ class Select extends AbstractList
      */
     private function processValue(
         array attributes,
-        var value = null
+        string value = null
     ) -> array {
         var matched;
 

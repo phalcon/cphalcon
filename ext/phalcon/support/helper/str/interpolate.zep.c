@@ -47,11 +47,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Str_Interpolate)
  */
 PHP_METHOD(Phalcon_Support_Helper_Str_Interpolate, __invoke)
 {
+	zend_bool _5$$3;
 	zend_ulong _1$$3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval context, replace;
-	zval message_zv, *context_param = NULL, leftToken_zv, rightToken_zv, key, value, *_0$$3, _4$$3, _3$$4, _5$$5;
+	zval message_zv, *context_param = NULL, leftToken_zv, rightToken_zv, key, value, *_0$$3, _4$$3, _3$$4, _6$$5;
 	zend_string *message = NULL, *leftToken = NULL, *rightToken = NULL, *_2$$3;
 
 	ZVAL_UNDEF(&message_zv);
@@ -61,7 +62,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Interpolate, __invoke)
 	ZVAL_UNDEF(&value);
 	ZVAL_UNDEF(&_4$$3);
 	ZVAL_UNDEF(&_3$$4);
-	ZVAL_UNDEF(&_5$$5);
+	ZVAL_UNDEF(&_6$$5);
 	ZVAL_UNDEF(&context);
 	ZVAL_UNDEF(&replace);
 	ZEND_PARSE_PARAMETERS_START(1, 4)
@@ -122,7 +123,14 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Interpolate, __invoke)
 		} else {
 			ZEPHIR_CALL_METHOD(NULL, &context, "rewind", NULL, 0);
 			zephir_check_call_status();
+			_5$$3 = 1;
 			while (1) {
+				if (_5$$3) {
+					_5$$3 = 0;
+				} else {
+					ZEPHIR_CALL_METHOD(NULL, &context, "next", NULL, 0);
+					zephir_check_call_status();
+				}
 				ZEPHIR_CALL_METHOD(&_4$$3, &context, "valid", NULL, 0);
 				zephir_check_call_status();
 				if (!zend_is_true(&_4$$3)) {
@@ -132,11 +140,9 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Interpolate, __invoke)
 				zephir_check_call_status();
 				ZEPHIR_CALL_METHOD(&value, &context, "current", NULL, 0);
 				zephir_check_call_status();
-					ZEPHIR_INIT_NVAR(&_5$$5);
-					ZEPHIR_CONCAT_VVV(&_5$$5, &leftToken_zv, &key, &rightToken_zv);
-					zephir_array_update_zval(&replace, &_5$$5, &value, PH_COPY | PH_SEPARATE);
-				ZEPHIR_CALL_METHOD(NULL, &context, "next", NULL, 0);
-				zephir_check_call_status();
+					ZEPHIR_INIT_NVAR(&_6$$5);
+					ZEPHIR_CONCAT_VVV(&_6$$5, &leftToken_zv, &key, &rightToken_zv);
+					zephir_array_update_zval(&replace, &_6$$5, &value, PH_COPY | PH_SEPARATE);
 			}
 		}
 		ZEPHIR_INIT_NVAR(&value);

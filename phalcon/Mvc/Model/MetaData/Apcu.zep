@@ -10,9 +10,8 @@
 
 namespace Phalcon\Mvc\Model\MetaData;
 
-use Phalcon\Mvc\Model\MetaData;
-use Phalcon\Mvc\Model\Exception;
 use Phalcon\Cache\AdapterFactory;
+use Phalcon\Mvc\Model\MetaData;
 
 /**
  * Phalcon\Mvc\Model\MetaData\Apcu

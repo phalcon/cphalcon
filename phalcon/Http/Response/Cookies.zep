@@ -17,8 +17,6 @@ use Phalcon\Http\Cookie\Exception;
 use Phalcon\Http\Response\Exceptions\ResponseServiceUnavailable;
 
 /**
- * Phalcon\Http\Response\Cookies
- *
  * This class is a bag to manage the cookies.
  *
  * A cookies bag is automatically registered as part of the 'response' service
@@ -79,7 +77,7 @@ class Cookies extends AbstractInjectionAware implements CookiesInterface
     /**
      * @var bool
      */
-    protected registered = false;
+    protected isRegistered = false;
 
     /**
      * The cookie's sign key.
@@ -301,7 +299,7 @@ class Cookies extends AbstractInjectionAware implements CookiesInterface
         /**
          * Register the cookies bag in the response
          */
-        if this->registered === false {
+        if this->isRegistered === false {
             let container = this->checkContainer();
             let response  = container->getShared("response");
 
@@ -311,7 +309,7 @@ class Cookies extends AbstractInjectionAware implements CookiesInterface
              */
             response->setCookies(this);
 
-            let this->registered = true;
+            let this->isRegistered = true;
         }
 
         return this;

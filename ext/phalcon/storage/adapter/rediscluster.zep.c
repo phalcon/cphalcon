@@ -187,9 +187,10 @@ PHP_METHOD(Phalcon_Storage_Adapter_RedisCluster, __construct)
  */
 PHP_METHOD(Phalcon_Storage_Adapter_RedisCluster, clear)
 {
+	zend_bool _4;
 	zval adapter, master, _0, *_1, _3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_2 = NULL, *_4 = NULL;
+	zephir_fcall_cache_entry *_2 = NULL, *_5 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -216,7 +217,14 @@ PHP_METHOD(Phalcon_Storage_Adapter_RedisCluster, clear)
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, &_0, "rewind", NULL, 0);
 		zephir_check_call_status();
+		_4 = 1;
 		while (1) {
+			if (_4) {
+				_4 = 0;
+			} else {
+				ZEPHIR_CALL_METHOD(NULL, &_0, "next", NULL, 0);
+				zephir_check_call_status();
+			}
 			ZEPHIR_CALL_METHOD(&_3, &_0, "valid", NULL, 0);
 			zephir_check_call_status();
 			if (!zend_is_true(&_3)) {
@@ -224,10 +232,8 @@ PHP_METHOD(Phalcon_Storage_Adapter_RedisCluster, clear)
 			}
 			ZEPHIR_CALL_METHOD(&master, &_0, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(NULL, &adapter, "flushall", &_4, 0, &master);
+				ZEPHIR_CALL_METHOD(NULL, &adapter, "flushall", &_5, 0, &master);
 				zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(NULL, &_0, "next", NULL, 0);
-			zephir_check_call_status();
 		}
 	}
 	ZEPHIR_INIT_NVAR(&master);
@@ -363,34 +369,34 @@ PHP_METHOD(Phalcon_Storage_Adapter_RedisCluster, setSerializer)
 	add_assoc_long_ex(&map, SL("redis_php"), 1);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "\\Redis::SERIALIZER_IGBINARY");
-	ZEPHIR_CALL_FUNCTION(&_1, "defined", NULL, 127, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "defined", NULL, 128, &_0);
 	zephir_check_call_status();
 	if (zephir_is_true(&_1)) {
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZVAL_STRING(&_2$$3, "\\Redis::SERIALIZER_IGBINARY");
-		ZEPHIR_CALL_FUNCTION(&_3$$3, "constant", NULL, 128, &_2$$3);
+		ZEPHIR_CALL_FUNCTION(&_3$$3, "constant", NULL, 129, &_2$$3);
 		zephir_check_call_status();
 		zephir_array_update_string(&map, SL("redis_igbinary"), &_3$$3, PH_COPY | PH_SEPARATE);
 	}
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "\\Redis::SERIALIZER_MSGPACK");
-	ZEPHIR_CALL_FUNCTION(&_4, "defined", NULL, 127, &_0);
+	ZEPHIR_CALL_FUNCTION(&_4, "defined", NULL, 128, &_0);
 	zephir_check_call_status();
 	if (zephir_is_true(&_4)) {
 		ZEPHIR_INIT_VAR(&_5$$4);
 		ZVAL_STRING(&_5$$4, "\\Redis::SERIALIZER_MSGPACK");
-		ZEPHIR_CALL_FUNCTION(&_6$$4, "constant", NULL, 128, &_5$$4);
+		ZEPHIR_CALL_FUNCTION(&_6$$4, "constant", NULL, 129, &_5$$4);
 		zephir_check_call_status();
 		zephir_array_update_string(&map, SL("redis_msgpack"), &_6$$4, PH_COPY | PH_SEPARATE);
 	}
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "\\Redis::SERIALIZER_JSON");
-	ZEPHIR_CALL_FUNCTION(&_7, "defined", NULL, 127, &_0);
+	ZEPHIR_CALL_FUNCTION(&_7, "defined", NULL, 128, &_0);
 	zephir_check_call_status();
 	if (zephir_is_true(&_7)) {
 		ZEPHIR_INIT_VAR(&_8$$5);
 		ZVAL_STRING(&_8$$5, "\\Redis::SERIALIZER_JSON");
-		ZEPHIR_CALL_FUNCTION(&_9$$5, "constant", NULL, 128, &_8$$5);
+		ZEPHIR_CALL_FUNCTION(&_9$$5, "constant", NULL, 129, &_8$$5);
 		zephir_check_call_status();
 		zephir_array_update_string(&map, SL("redis_json"), &_9$$5, PH_COPY | PH_SEPARATE);
 	}

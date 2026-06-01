@@ -61,17 +61,24 @@ final class FindReturnTypeTest extends AbstractUnitTestCase
         $reflection = new ReflectionMethod(Model::class, 'findFirst');
         $returnType = $reflection->getReturnType();
 
-        // The Zephir `var | null` declaration compiles to no specific type
-        // hint in the reflection layer (or a permissive one), so the test
-        // here is intentionally tolerant: we only assert it's not the
-        // narrow `ResultsetInterface` that find() declares.
+        // findFirst() may legitimately return a ModelInterface, a Row, or
+        // null depending on the projection. The two Phalcon flavors express
+        // that differently (cphalcon: untyped `var | null` -> no
+        // declared return type at the reflection layer; phalcon PHP:
+        // `ModelInterface | Row | null` -> ReflectionUnionType). The test
+        // is intentionally tolerant: assert only that findFirst() does NOT
+        // declare the narrow ResultsetInterface that find() declares.
         if ($returnType instanceof ReflectionNamedType) {
             $this->assertNotSame(
                 ResultsetInterface::class,
                 $returnType->getName()
             );
         } else {
-            $this->assertNull($returnType);
+            // Either no declared return type or a union/intersection —
+            // both are acceptable. The narrow `ResultsetInterface` would
+            // be reported as a ReflectionNamedType, which the branch
+            // above handles.
+            $this->addToAssertionCount(1);
         }
     }
 }

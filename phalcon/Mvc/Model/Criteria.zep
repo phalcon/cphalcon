@@ -4,8 +4,8 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the
- * LICENSE.txt file that was distributed with this source code.
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
  */
 
 namespace Phalcon\Mvc\Model;
@@ -525,33 +525,6 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     }
 
     /**
-     * Adds an INNER join to the query
-     *
-     *```php
-     * <?php
-     *
-     * $criteria->innerJoin(
-     *     Invoices::class
-     * );
-     *
-     * $criteria->innerJoin(
-     *     Invoices::class,
-     *     "inv_cst_id = Customers.cst_id"
-     * );
-     *
-     * $criteria->innerJoin(
-     *     Invoices::class,
-     *     "i.inv_cst_id = Customers.cst_id",
-     *     "i"
-     * );
-     *```
-     */
-    public function innerJoin(string! model, var conditions = null, var alias = null) -> <CriteriaInterface>
-    {
-        return this->addJoinClause(model, conditions, alias, "INNER");
-    }
-
-    /**
      * Appends an IN condition to the current conditions
      *
      * ```php
@@ -601,6 +574,33 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
         let this->hiddenParamNumber = hiddenParam;
 
         return this;
+    }
+
+    /**
+     * Adds an INNER join to the query
+     *
+     *```php
+     * <?php
+     *
+     * $criteria->innerJoin(
+     *     Invoices::class
+     * );
+     *
+     * $criteria->innerJoin(
+     *     Invoices::class,
+     *     "inv_cst_id = Customers.cst_id"
+     * );
+     *
+     * $criteria->innerJoin(
+     *     Invoices::class,
+     *     "i.inv_cst_id = Customers.cst_id",
+     *     "i"
+     * );
+     *```
+     */
+    public function innerJoin(string! model, var conditions = null, var alias = null) -> <CriteriaInterface>
+    {
+        return this->addJoinClause(model, conditions, alias, "INNER");
     }
 
     /**
@@ -774,16 +774,6 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     }
 
     /**
-     * Adds the order-by clause to the criteria
-     */
-    public function orderBy(string! orderColumns) -> <CriteriaInterface>
-    {
-        let this->params["order"] = orderColumns;
-
-        return this;
-    }
-
-    /**
      * Appends a condition to the current conditions using an OR operator
      */
     public function orWhere(string! conditions, var bindParams = null, var bindTypes = null) -> <CriteriaInterface>
@@ -795,6 +785,16 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
         }
 
         return this->where(conditions, bindParams, bindTypes);
+    }
+
+    /**
+     * Adds the order-by clause to the criteria
+     */
+    public function orderBy(string! orderColumns) -> <CriteriaInterface>
+    {
+        let this->params["order"] = orderColumns;
+
+        return this;
     }
 
     /**

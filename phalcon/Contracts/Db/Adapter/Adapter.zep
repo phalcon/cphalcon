@@ -39,14 +39,14 @@ interface Adapter
     public function addColumn(string! tableName, string! schemaName, <ColumnInterface> column) -> bool;
 
     /**
-     * Adds an index to a table
-     */
-    public function addIndex(string! tableName, string! schemaName, <IndexInterface> index) -> bool;
-
-    /**
      * Adds a foreign key to a table
      */
     public function addForeignKey(string! tableName, string! schemaName, <ReferenceInterface> reference) -> bool;
+
+    /**
+     * Adds an index to a table
+     */
+    public function addIndex(string! tableName, string! schemaName, <IndexInterface> index) -> bool;
 
     /**
      * Adds a primary key to a table
@@ -266,7 +266,7 @@ interface Adapter
      *
      * @todo Return NULL if this is not supported by the adapter
      */
-    public function getDefaultValue() -> <RawValue>;
+    public function getDefaultValue() -> <RawValue> | null;
 
     /**
      * Return internal PDO handler
@@ -286,12 +286,12 @@ interface Adapter
     /**
      * Active SQL statement in the object
      */
-    public function getSQLStatement() -> string;
+    public function getSQLBindTypes() -> array;
 
     /**
      * Active SQL statement in the object
      */
-    public function getSQLBindTypes() -> array;
+    public function getSQLStatement() -> string;
 
     /**
      * Active SQL statement in the object
@@ -348,7 +348,7 @@ interface Adapter
     /**
      * Appends a LIMIT clause to sqlQuery argument
      */
-    public function limit(string! sqlQuery, int number) -> string;
+    public function limit(string! sqlQuery, var number) -> string;
 
     /**
      * List all tables on a database
@@ -407,7 +407,7 @@ interface Adapter
     /**
      * Set if nested transactions should use savepoints
      */
-    public function setNestedTransactionsWithSavepoints(bool nestedTransactionsWithSavepoints) -> <Adapter>;
+    public function setNestedTransactionsWithSavepoints(bool nestedTransactionsWithSavepoints) -> <\Phalcon\Db\Adapter\AdapterInterface>;
 
     /**
      * Check whether the database system requires a sequence to produce

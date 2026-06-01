@@ -73,6 +73,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Forms_FormsLocator)
  */
 PHP_METHOD(Phalcon_Forms_FormsLocator, __construct)
 {
+	zend_bool _6;
 	zend_string *_3;
 	zend_ulong _2;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -121,7 +122,14 @@ PHP_METHOD(Phalcon_Forms_FormsLocator, __construct)
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, &definitions, "rewind", NULL, 0);
 		zephir_check_call_status();
+		_6 = 1;
 		while (1) {
+			if (_6) {
+				_6 = 0;
+			} else {
+				ZEPHIR_CALL_METHOD(NULL, &definitions, "next", NULL, 0);
+				zephir_check_call_status();
+			}
 			ZEPHIR_CALL_METHOD(&_5, &definitions, "valid", NULL, 0);
 			zephir_check_call_status();
 			if (!zend_is_true(&_5)) {
@@ -133,8 +141,6 @@ PHP_METHOD(Phalcon_Forms_FormsLocator, __construct)
 			zephir_check_call_status();
 				ZEPHIR_CALL_METHOD(NULL, this_ptr, "set", &_4, 0, &name, &definition);
 				zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(NULL, &definitions, "next", NULL, 0);
-			zephir_check_call_status();
 		}
 	}
 	ZEPHIR_INIT_NVAR(&definition);

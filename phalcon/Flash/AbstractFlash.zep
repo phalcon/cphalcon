@@ -432,7 +432,7 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
 
         let escaper = this->getEscaperService();
 
-        return escaper->escapeHtml(message);
+        return escaper->html(message);
     }
 
     /**

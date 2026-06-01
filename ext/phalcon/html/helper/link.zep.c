@@ -114,15 +114,6 @@ PHP_METHOD(Phalcon_Html_Helper_Link, add)
 }
 
 /**
- * @return string
- */
-PHP_METHOD(Phalcon_Html_Helper_Link, getTag)
-{
-
-	RETURN_STRING("link");
-}
-
-/**
  * Returns the necessary attributes
  *
  * @param string $url
@@ -156,5 +147,14 @@ PHP_METHOD(Phalcon_Html_Helper_Link, getAttributes)
 	zephir_array_unset_string(&attributes, SL("href"), PH_SEPARATE);
 	zephir_fast_array_merge(return_value, &required, &attributes);
 	RETURN_MM();
+}
+
+/**
+ * @return string
+ */
+PHP_METHOD(Phalcon_Html_Helper_Link, getTag)
+{
+
+	RETURN_STRING("link");
 }
 

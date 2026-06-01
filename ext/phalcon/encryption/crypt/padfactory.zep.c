@@ -30,9 +30,7 @@
  * file that was distributed with this source code.
  */
 /**
- * Class PadFactory
- *
- * @package Phalcon\Crypt
+ * Factory for creating pad classes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Encryption_Crypt_PadFactory)
 {

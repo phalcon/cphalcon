@@ -58,11 +58,13 @@ class ReadOnlyCollection extends Collection
 
         try {
             parent::__unserialize(data);
-        } catch Throwable, ex {
+        } catch \Throwable, ex {
             let this->constructed = true;
-            
+
             throw ex;
         }
+
+        let this->constructed = true;
     }
 
     /**

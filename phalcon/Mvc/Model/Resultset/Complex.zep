@@ -71,6 +71,41 @@ class Complex extends Resultset
         parent::__construct(result, cache);
     }
 
+    public function __serialize() -> array
+    {
+        var records, cache, columnTypes, hydrateMode;
+
+        /**
+         * Obtain the records as an array
+         */
+        let records = this->toArray();
+
+        let cache       = this->cache,
+            columnTypes = this->columnTypes,
+            hydrateMode = this->hydrateMode;
+
+        return [
+           "cache"       : cache,
+           "rows"        : records,
+           "columnTypes" : columnTypes,
+           "hydrateMode" : hydrateMode
+        ];
+    }
+
+    public function __unserialize(array data) -> void
+    {
+        /**
+         * Rows are already hydrated
+         */
+        let this->disableHydration = true;
+
+        let this->rows        = data["rows"],
+            this->count       = count(data["rows"]),
+            this->cache       = data["cache"],
+            this->columnTypes = data["columnTypes"],
+            this->hydrateMode = data["hydrateMode"];
+    }
+
     /**
      * Returns current row in the resultset
      */
@@ -292,29 +327,6 @@ class Complex extends Resultset
     }
 
     /**
-     * Returns a complete resultset as an array, if the resultset has a big
-     * number of rows it could consume more memory than currently it does.
-     */
-    public function toArray() -> array
-    {
-        var current;
-        array records;
-
-        let records = [];
-
-        this->rewind();
-
-        while this->valid() {
-            let current = this->current();
-            let records[] = current;
-
-            this->next();
-        }
-
-        return records;
-    }
-
-    /**
      * Serializing a resultset will dump all related rows into a big array,
      * serialize it and return the resulting string
      */
@@ -343,6 +355,29 @@ class Complex extends Resultset
         }
 
         return serialize(data);
+    }
+
+    /**
+     * Returns a complete resultset as an array, if the resultset has a big
+     * number of rows it could consume more memory than currently it does.
+     */
+    public function toArray() -> array
+    {
+        var current;
+        array records;
+
+        let records = [];
+
+        this->rewind();
+
+        while this->valid() {
+            let current = this->current();
+            let records[] = current;
+
+            this->next();
+        }
+
+        return records;
     }
 
     /**
@@ -380,40 +415,5 @@ class Complex extends Resultset
             this->cache       = resultset["cache"],
             this->columnTypes = resultset["columnTypes"],
             this->hydrateMode = resultset["hydrateMode"];
-    }
-
-    public function __serialize() -> array
-    {
-        var records, cache, columnTypes, hydrateMode;
-
-        /**
-         * Obtain the records as an array
-         */
-        let records = this->toArray();
-
-        let cache       = this->cache,
-            columnTypes = this->columnTypes,
-            hydrateMode = this->hydrateMode;
-
-        return [
-           "cache"       : cache,
-           "rows"        : records,
-           "columnTypes" : columnTypes,
-           "hydrateMode" : hydrateMode
-        ];
-    }
-
-    public function __unserialize(array data) -> void
-    {
-        /**
-         * Rows are already hydrated
-         */
-        let this->disableHydration = true;
-
-        let this->rows        = data["rows"],
-            this->count       = count(data["rows"]),
-            this->cache       = data["cache"],
-            this->columnTypes = data["columnTypes"],
-            this->hydrateMode = data["hydrateMode"];
     }
 }

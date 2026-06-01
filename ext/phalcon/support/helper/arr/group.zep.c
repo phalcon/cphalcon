@@ -45,10 +45,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Arr_Group)
  */
 PHP_METHOD(Phalcon_Support_Helper_Arr_Group, __invoke)
 {
+	zend_bool _6;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_2 = NULL, *_3 = NULL, *_4 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *collection_param = NULL, *method, method_sub, element, filtered, *_0, _5, _1$$3, _6$$4;
+	zval *collection_param = NULL, *method, method_sub, element, filtered, *_0, _5, _1$$3, _7$$4;
 	zval collection;
 	zval *this_ptr = getThis();
 
@@ -58,7 +59,7 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Group, __invoke)
 	ZVAL_UNDEF(&filtered);
 	ZVAL_UNDEF(&_5);
 	ZVAL_UNDEF(&_1$$3);
-	ZVAL_UNDEF(&_6$$4);
+	ZVAL_UNDEF(&_7$$4);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		ZEPHIR_Z_PARAM_ARRAY(collection, collection_param)
 		Z_PARAM_ZVAL(method)
@@ -88,7 +89,14 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Group, __invoke)
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, &collection, "rewind", NULL, 0);
 		zephir_check_call_status();
+		_6 = 1;
 		while (1) {
+			if (_6) {
+				_6 = 0;
+			} else {
+				ZEPHIR_CALL_METHOD(NULL, &collection, "next", NULL, 0);
+				zephir_check_call_status();
+			}
 			ZEPHIR_CALL_METHOD(&_5, &collection, "valid", NULL, 0);
 			zephir_check_call_status();
 			if (!zend_is_true(&_5)) {
@@ -96,17 +104,15 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Group, __invoke)
 			}
 			ZEPHIR_CALL_METHOD(&element, &collection, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_6$$4, this_ptr, "processcallable", &_2, 0, &filtered, method, &element);
+				ZEPHIR_CALL_METHOD(&_7$$4, this_ptr, "processcallable", &_2, 0, &filtered, method, &element);
 				zephir_check_call_status();
-				ZEPHIR_CPY_WRT(&filtered, &_6$$4);
-				ZEPHIR_CALL_METHOD(&_6$$4, this_ptr, "processobject", &_3, 0, &filtered, method, &element);
+				ZEPHIR_CPY_WRT(&filtered, &_7$$4);
+				ZEPHIR_CALL_METHOD(&_7$$4, this_ptr, "processobject", &_3, 0, &filtered, method, &element);
 				zephir_check_call_status();
-				ZEPHIR_CPY_WRT(&filtered, &_6$$4);
-				ZEPHIR_CALL_METHOD(&_6$$4, this_ptr, "processother", &_4, 0, &filtered, method, &element);
+				ZEPHIR_CPY_WRT(&filtered, &_7$$4);
+				ZEPHIR_CALL_METHOD(&_7$$4, this_ptr, "processother", &_4, 0, &filtered, method, &element);
 				zephir_check_call_status();
-				ZEPHIR_CPY_WRT(&filtered, &_6$$4);
-			ZEPHIR_CALL_METHOD(NULL, &collection, "next", NULL, 0);
-			zephir_check_call_status();
+				ZEPHIR_CPY_WRT(&filtered, &_7$$4);
 		}
 	}
 	ZEPHIR_INIT_NVAR(&element);

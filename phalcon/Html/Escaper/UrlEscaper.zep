@@ -15,9 +15,7 @@
 namespace Phalcon\Html\Escaper;
 
 /**
- * Escapes a string for use as a URL component via `rawurlencode`. The
- * encoding/flags/doubleEncode setters are accepted for symmetry with the
- * other contexts but have no effect on the output.
+ * Escapes a string for use as a URL component via `rawurlencode`.
  */
 class UrlEscaper extends AbstractEscaper
 {

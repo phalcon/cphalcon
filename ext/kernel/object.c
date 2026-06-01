@@ -975,6 +975,27 @@ int zephir_unset_property(zval* object, const char* name)
 }
 
 /**
+ * Unsets an object property whose name is given as a zval string.
+ * Mirrors zephir_unset_property() but accepts a dynamic zval name,
+ * enabling unset(obj->{variable}) compiled via zephir_unset_property_zval().
+ */
+int zephir_unset_property_zval(zval *object, const zval *name)
+{
+	const zend_class_entry *scope;
+
+	if (Z_TYPE_P(object) != IS_OBJECT || Z_TYPE_P(name) != IS_STRING) {
+		return FAILURE;
+	}
+
+	scope = zephir_get_scope(0);
+	zephir_set_scope(Z_OBJCE_P(object));
+	Z_OBJ_HT_P(object)->unset_property(Z_OBJ_P(object), Z_STR_P(name), 0);
+	zephir_set_scope(scope);
+
+	return SUCCESS;
+}
+
+/**
  * Unsets an index in an array property
  *
  * TODO: This only works with zephir_read_property() + zephir_array_unset_string(), which might be incorrect

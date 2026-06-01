@@ -66,9 +66,9 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     protected entity = null;
 
     /**
-     * @var Messages|array|null
+     * @var Messages
      */
-    protected messages = null;
+    protected messages;
 
     /**
      * @var int
@@ -112,9 +112,10 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
         let this->options = userOptions;
 
         /**
-        * Set form attributes
-        */
-        let this->attributes = new Attributes();
+         * Set form attributes/messages
+         */
+        let this->attributes = new Attributes(),
+            this->messages   = new Messages();
 
         /**
          * Check for an 'initialize' method and call it
@@ -489,17 +490,9 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
      * }
      * ```
      */
-    public function getMessages() -> <Messages> | array
+    public function getMessages() -> <Messages>
     {
-        var messages;
-
-        let messages = this->messages;
-
-        if !(typeof messages == "object" && messages instanceof Messages) {
-            return new Messages();
-        }
-
-        return messages;
+        return this->messages;
     }
 
     /**
@@ -905,7 +898,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
         /**
          * Clean the iterator index
          */
-        let this->elementsIndexed = null;
+        let this->elementsIndexed = [];
 
         return false;
     }

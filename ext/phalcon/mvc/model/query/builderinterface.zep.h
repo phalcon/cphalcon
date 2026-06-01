@@ -64,6 +64,9 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_builderinterface_getlimit, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_builderinterface_getmodels, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_builderinterface_getoffset, 0, 0, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
@@ -118,9 +121,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_builderin
 	ZEND_ARG_INFO(0, offset)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_builderinterface_getmodels, 0, 0, 0)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_builderinterface_notbetweenwhere, 0, 3, Phalcon\\Mvc\\Model\\Query\\BuilderInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, expr, IS_STRING, 0)
 	ZEND_ARG_INFO(0, minimum)
@@ -138,14 +138,14 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_builderin
 	ZEND_ARG_TYPE_INFO(0, offset, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_builderinterface_orderby, 0, 1, Phalcon\\Mvc\\Model\\Query\\BuilderInterface, 0)
-	ZEND_ARG_INFO(0, orderBy)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_builderinterface_orwhere, 0, 1, Phalcon\\Mvc\\Model\\Query\\BuilderInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, conditions, IS_STRING, 0)
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, bindParams, IS_ARRAY, 0, "[]")
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, bindTypes, IS_ARRAY, 0, "[]")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_builderinterface_orderby, 0, 1, Phalcon\\Mvc\\Model\\Query\\BuilderInterface, 0)
+	ZEND_ARG_INFO(0, orderBy)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_builderinterface_rightjoin, 0, 1, Phalcon\\Mvc\\Model\\Query\\BuilderInterface, 0)
@@ -187,6 +187,7 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_query_builderinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Query_BuilderInterface, getHaving, arginfo_phalcon_mvc_model_query_builderinterface_gethaving)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Query_BuilderInterface, getJoins, arginfo_phalcon_mvc_model_query_builderinterface_getjoins)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Query_BuilderInterface, getLimit, arginfo_phalcon_mvc_model_query_builderinterface_getlimit)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Query_BuilderInterface, getModels, arginfo_phalcon_mvc_model_query_builderinterface_getmodels)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Query_BuilderInterface, getOffset, arginfo_phalcon_mvc_model_query_builderinterface_getoffset)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Query_BuilderInterface, getOrderBy, arginfo_phalcon_mvc_model_query_builderinterface_getorderby)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Query_BuilderInterface, getPhql, arginfo_phalcon_mvc_model_query_builderinterface_getphql)
@@ -199,12 +200,11 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_query_builderinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Query_BuilderInterface, join, arginfo_phalcon_mvc_model_query_builderinterface_join)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Query_BuilderInterface, leftJoin, arginfo_phalcon_mvc_model_query_builderinterface_leftjoin)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Query_BuilderInterface, limit, arginfo_phalcon_mvc_model_query_builderinterface_limit)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Query_BuilderInterface, getModels, arginfo_phalcon_mvc_model_query_builderinterface_getmodels)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Query_BuilderInterface, notBetweenWhere, arginfo_phalcon_mvc_model_query_builderinterface_notbetweenwhere)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Query_BuilderInterface, notInWhere, arginfo_phalcon_mvc_model_query_builderinterface_notinwhere)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Query_BuilderInterface, offset, arginfo_phalcon_mvc_model_query_builderinterface_offset)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Query_BuilderInterface, orderBy, arginfo_phalcon_mvc_model_query_builderinterface_orderby)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Query_BuilderInterface, orWhere, arginfo_phalcon_mvc_model_query_builderinterface_orwhere)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Query_BuilderInterface, orderBy, arginfo_phalcon_mvc_model_query_builderinterface_orderby)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Query_BuilderInterface, rightJoin, arginfo_phalcon_mvc_model_query_builderinterface_rightjoin)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Query_BuilderInterface, setBindParams, arginfo_phalcon_mvc_model_query_builderinterface_setbindparams)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Query_BuilderInterface, setBindTypes, arginfo_phalcon_mvc_model_query_builderinterface_setbindtypes)

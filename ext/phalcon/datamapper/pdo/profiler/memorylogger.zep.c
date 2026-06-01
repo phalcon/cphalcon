@@ -451,12 +451,13 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_MemoryLogger, warning)
  */
 PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_MemoryLogger, log)
 {
+	zend_bool _5;
 	zend_ulong _1;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval context, replace;
 	zend_string *message = NULL, *_2;
-	zval *level, level_sub, message_zv, *context_param = NULL, key, value, *_0, _4, _6, _3$$3, _5$$4;
+	zval *level, level_sub, message_zv, *context_param = NULL, key, value, *_0, _4, _7, _3$$3, _6$$4;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&level_sub);
@@ -464,9 +465,9 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_MemoryLogger, log)
 	ZVAL_UNDEF(&key);
 	ZVAL_UNDEF(&value);
 	ZVAL_UNDEF(&_4);
-	ZVAL_UNDEF(&_6);
+	ZVAL_UNDEF(&_7);
 	ZVAL_UNDEF(&_3$$3);
-	ZVAL_UNDEF(&_5$$4);
+	ZVAL_UNDEF(&_6$$4);
 	ZVAL_UNDEF(&context);
 	ZVAL_UNDEF(&replace);
 	ZEND_PARSE_PARAMETERS_START(2, 3)
@@ -510,7 +511,14 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_MemoryLogger, log)
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, &context, "rewind", NULL, 0);
 		zephir_check_call_status();
+		_5 = 1;
 		while (1) {
+			if (_5) {
+				_5 = 0;
+			} else {
+				ZEPHIR_CALL_METHOD(NULL, &context, "next", NULL, 0);
+				zephir_check_call_status();
+			}
 			ZEPHIR_CALL_METHOD(&_4, &context, "valid", NULL, 0);
 			zephir_check_call_status();
 			if (!zend_is_true(&_4)) {
@@ -520,18 +528,16 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_MemoryLogger, log)
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(&value, &context, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_INIT_NVAR(&_5$$4);
-				ZEPHIR_CONCAT_SVS(&_5$$4, "{", &key, "}");
-				zephir_array_update_zval(&replace, &_5$$4, &value, PH_COPY | PH_SEPARATE);
-			ZEPHIR_CALL_METHOD(NULL, &context, "next", NULL, 0);
-			zephir_check_call_status();
+				ZEPHIR_INIT_NVAR(&_6$$4);
+				ZEPHIR_CONCAT_SVS(&_6$$4, "{", &key, "}");
+				zephir_array_update_zval(&replace, &_6$$4, &value, PH_COPY | PH_SEPARATE);
 		}
 	}
 	ZEPHIR_INIT_NVAR(&value);
 	ZEPHIR_INIT_NVAR(&key);
-	ZEPHIR_CALL_FUNCTION(&_6, "strtr", NULL, 6, &message_zv, &replace);
+	ZEPHIR_CALL_FUNCTION(&_7, "strtr", NULL, 6, &message_zv, &replace);
 	zephir_check_call_status();
-	zephir_update_property_array_append(this_ptr, SL("messages"), &_6);
+	zephir_update_property_array_append(this_ptr, SL("messages"), &_7);
 	ZEPHIR_MM_RESTORE();
 }
 

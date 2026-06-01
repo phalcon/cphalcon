@@ -137,6 +137,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_TagFactory)
  */
 PHP_METHOD(Phalcon_Html_TagFactory, __construct)
 {
+	zend_bool _7;
 	zend_string *_4;
 	zend_ulong _3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -210,7 +211,14 @@ PHP_METHOD(Phalcon_Html_TagFactory, __construct)
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, &services, "rewind", NULL, 0);
 		zephir_check_call_status();
+		_7 = 1;
 		while (1) {
+			if (_7) {
+				_7 = 0;
+			} else {
+				ZEPHIR_CALL_METHOD(NULL, &services, "next", NULL, 0);
+				zephir_check_call_status();
+			}
 			ZEPHIR_CALL_METHOD(&_6, &services, "valid", NULL, 0);
 			zephir_check_call_status();
 			if (!zend_is_true(&_6)) {
@@ -222,8 +230,6 @@ PHP_METHOD(Phalcon_Html_TagFactory, __construct)
 			zephir_check_call_status();
 				ZEPHIR_CALL_METHOD(NULL, this_ptr, "set", &_5, 0, &name, &definition);
 				zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(NULL, &services, "next", NULL, 0);
-			zephir_check_call_status();
 		}
 	}
 	ZEPHIR_INIT_NVAR(&definition);
