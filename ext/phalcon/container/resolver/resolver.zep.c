@@ -95,7 +95,7 @@ PHP_METHOD(Phalcon_Container_Resolver_Resolver, isResolvableClass)
 /**
  * Resolve a call
  *
- * @param object   $container
+ * @param object   $ioc
  * @param callable $callable
  * @param array    $arguments
  *
@@ -108,10 +108,10 @@ PHP_METHOD(Phalcon_Container_Resolver_Resolver, resolveCall)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval arguments;
-	zval *container, container_sub, *callableObject, callableObject_sub, *arguments_param = NULL, closure, reflection, params, resolved;
+	zval *ioc, ioc_sub, *callableObject, callableObject_sub, *arguments_param = NULL, closure, reflection, params, resolved;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&container_sub);
+	ZVAL_UNDEF(&ioc_sub);
 	ZVAL_UNDEF(&callableObject_sub);
 	ZVAL_UNDEF(&closure);
 	ZVAL_UNDEF(&reflection);
@@ -119,13 +119,13 @@ PHP_METHOD(Phalcon_Container_Resolver_Resolver, resolveCall)
 	ZVAL_UNDEF(&resolved);
 	ZVAL_UNDEF(&arguments);
 	ZEND_PARSE_PARAMETERS_START(3, 3)
-		Z_PARAM_OBJECT(container)
+		Z_PARAM_OBJECT(ioc)
 		Z_PARAM_ZVAL(callableObject)
 		ZEPHIR_Z_PARAM_ARRAY(arguments, arguments_param)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_fetch_params(1, 3, 0, &container, &callableObject, &arguments_param);
+	zephir_fetch_params(1, 3, 0, &ioc, &callableObject, &arguments_param);
 	zephir_get_arrval(&arguments, arguments_param);
 	if (zephir_is_instance_of(callableObject, SL("Closure"))) {
 		ZEPHIR_CPY_WRT(&closure, callableObject);
@@ -140,7 +140,7 @@ PHP_METHOD(Phalcon_Container_Resolver_Resolver, resolveCall)
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&params, &reflection, "getparameters", NULL, 250);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&resolved, this_ptr, "resolveparameters", NULL, 0, container, &params, &arguments);
+	ZEPHIR_CALL_METHOD(&resolved, this_ptr, "resolveparameters", NULL, 0, ioc, &params, &arguments);
 	zephir_check_call_status();
 	ZEPHIR_CALL_USER_FUNC_ARRAY(return_value, callableObject, &resolved);
 	zephir_check_call_status();
@@ -150,7 +150,7 @@ PHP_METHOD(Phalcon_Container_Resolver_Resolver, resolveCall)
 /**
  * Resolve a class
  *
- * @param object $container
+ * @param object $ioc
  * @param string $className
  * @param array  $arguments
  *
@@ -163,10 +163,10 @@ PHP_METHOD(Phalcon_Container_Resolver_Resolver, resolveClass)
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval arguments;
 	zend_string *className = NULL;
-	zval *container, container_sub, className_zv, *arguments_param = NULL, reflection, constructor, params, resolved, _0$$3;
+	zval *ioc, ioc_sub, className_zv, *arguments_param = NULL, reflection, constructor, params, resolved, _0$$3;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&container_sub);
+	ZVAL_UNDEF(&ioc_sub);
 	ZVAL_UNDEF(&className_zv);
 	ZVAL_UNDEF(&reflection);
 	ZVAL_UNDEF(&constructor);
@@ -175,13 +175,13 @@ PHP_METHOD(Phalcon_Container_Resolver_Resolver, resolveClass)
 	ZVAL_UNDEF(&_0$$3);
 	ZVAL_UNDEF(&arguments);
 	ZEND_PARSE_PARAMETERS_START(3, 3)
-		Z_PARAM_OBJECT(container)
+		Z_PARAM_OBJECT(ioc)
 		Z_PARAM_STR(className)
 		ZEPHIR_Z_PARAM_ARRAY(arguments, arguments_param)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	container = ZEND_CALL_ARG(execute_data, 1);
+	ioc = ZEND_CALL_ARG(execute_data, 1);
 	arguments_param = ZEND_CALL_ARG(execute_data, 3);
 	zephir_memory_observe(&className_zv);
 	ZVAL_STR_COPY(&className_zv, className);
@@ -201,7 +201,7 @@ PHP_METHOD(Phalcon_Container_Resolver_Resolver, resolveClass)
 	}
 	ZEPHIR_CALL_METHOD(&params, &constructor, "getparameters", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&resolved, this_ptr, "resolveparameters", NULL, 0, container, &params, &arguments);
+	ZEPHIR_CALL_METHOD(&resolved, this_ptr, "resolveparameters", NULL, 0, ioc, &params, &arguments);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(&reflection, "newinstanceargs", NULL, 344, &resolved);
 	zephir_check_call_status();
@@ -211,7 +211,7 @@ PHP_METHOD(Phalcon_Container_Resolver_Resolver, resolveClass)
 /**
  * Resolve a method
  *
- * @param object           $container
+ * @param object           $ioc
  * @param ReflectionMethod $method
  * @param object           $object
  *
@@ -222,28 +222,28 @@ PHP_METHOD(Phalcon_Container_Resolver_Resolver, resolveMethod)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *container, container_sub, *method, method_sub, *instance, instance_sub, params, resolved, _0;
+	zval *ioc, ioc_sub, *method, method_sub, *instance, instance_sub, params, resolved, _0;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&container_sub);
+	ZVAL_UNDEF(&ioc_sub);
 	ZVAL_UNDEF(&method_sub);
 	ZVAL_UNDEF(&instance_sub);
 	ZVAL_UNDEF(&params);
 	ZVAL_UNDEF(&resolved);
 	ZVAL_UNDEF(&_0);
 	ZEND_PARSE_PARAMETERS_START(3, 3)
-		Z_PARAM_OBJECT(container)
+		Z_PARAM_OBJECT(ioc)
 		Z_PARAM_OBJECT_OF_CLASS(method, zephir_get_internal_ce(SL("reflectionmethod")))
 		Z_PARAM_OBJECT(instance)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_fetch_params(1, 3, 0, &container, &method, &instance);
+	zephir_fetch_params(1, 3, 0, &ioc, &method, &instance);
 	ZEPHIR_CALL_METHOD(&params, method, "getparameters", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_0);
 	array_init(&_0);
-	ZEPHIR_CALL_METHOD(&resolved, this_ptr, "resolveparameters", NULL, 0, container, &params, &_0);
+	ZEPHIR_CALL_METHOD(&resolved, this_ptr, "resolveparameters", NULL, 0, ioc, &params, &_0);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, method, "invokeargs", NULL, 0, instance, &resolved);
 	zephir_check_call_status();
@@ -253,11 +253,11 @@ PHP_METHOD(Phalcon_Container_Resolver_Resolver, resolveMethod)
 /**
  * Resolve parameters
  *
- * @param object              $container
+ * @param object              $ioc
  * @param ReflectionParameter $parameter
  *
  * @return mixed
- * @throws Invalid
+ * @throws CannotResolveParameter
  * @throws ReflectionException
  */
 PHP_METHOD(Phalcon_Container_Resolver_Resolver, resolveParameter)
@@ -265,9 +265,9 @@ PHP_METHOD(Phalcon_Container_Resolver_Resolver, resolveParameter)
 	zend_bool _0, _2$$3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *container, container_sub, *parameter, parameter_sub, type, typeName, declaringClass, declaringName, _1, _4, _6, _7, _3$$3, _5$$5;
+	zval *ioc, ioc_sub, *parameter, parameter_sub, type, typeName, declaringClass, declaringName, _1, _4, _6, _7, _3$$3, _5$$5;
 
-	ZVAL_UNDEF(&container_sub);
+	ZVAL_UNDEF(&ioc_sub);
 	ZVAL_UNDEF(&parameter_sub);
 	ZVAL_UNDEF(&type);
 	ZVAL_UNDEF(&typeName);
@@ -280,12 +280,12 @@ PHP_METHOD(Phalcon_Container_Resolver_Resolver, resolveParameter)
 	ZVAL_UNDEF(&_3$$3);
 	ZVAL_UNDEF(&_5$$5);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
-		Z_PARAM_OBJECT(container)
+		Z_PARAM_OBJECT(ioc)
 		Z_PARAM_OBJECT_OF_CLASS(parameter, zephir_get_internal_ce(SL("reflectionparameter")))
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_fetch_params(1, 2, 0, &container, &parameter);
+	zephir_fetch_params(1, 2, 0, &ioc, &parameter);
 	ZEPHIR_CALL_METHOD(&type, parameter, "gettype", NULL, 0);
 	zephir_check_call_status();
 	_0 = zephir_is_instance_of(&type, SL("ReflectionNamedType"));
@@ -297,14 +297,14 @@ PHP_METHOD(Phalcon_Container_Resolver_Resolver, resolveParameter)
 	if (_0) {
 		ZEPHIR_CALL_METHOD(&typeName, &type, "getname", NULL, 0);
 		zephir_check_call_status();
-		_2$$3 = (zephir_method_exists_ex(container, ZEND_STRL("has")) == SUCCESS);
+		_2$$3 = (zephir_method_exists_ex(ioc, ZEND_STRL("has")) == SUCCESS);
 		if (_2$$3) {
-			ZEPHIR_CALL_METHOD(&_3$$3, container, "has", NULL, 0, &typeName);
+			ZEPHIR_CALL_METHOD(&_3$$3, ioc, "has", NULL, 0, &typeName);
 			zephir_check_call_status();
 			_2$$3 = zephir_is_true(&_3$$3);
 		}
 		if (_2$$3) {
-			ZEPHIR_RETURN_CALL_METHOD(container, "get", NULL, 0, &typeName);
+			ZEPHIR_RETURN_CALL_METHOD(ioc, "get", NULL, 0, &typeName);
 			zephir_check_call_status();
 			RETURN_MM();
 		}
@@ -350,10 +350,10 @@ PHP_METHOD(Phalcon_Container_Resolver_Resolver, resolveParameters)
 	zephir_fcall_cache_entry *_5 = NULL, *_9 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval parameters, arguments;
-	zval *container, container_sub, *parameters_param = NULL, *arguments_param = NULL, resolved, position, parameter, name, *_0, _10, _3$$4, _4$$4, _6$$5, _7$$5, _8$$3, _12$$7, _13$$7, _14$$8, _15$$8, _16$$6;
+	zval *ioc, ioc_sub, *parameters_param = NULL, *arguments_param = NULL, resolved, position, parameter, name, *_0, _10, _3$$4, _4$$4, _6$$5, _7$$5, _8$$3, _12$$7, _13$$7, _14$$8, _15$$8, _16$$6;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&container_sub);
+	ZVAL_UNDEF(&ioc_sub);
 	ZVAL_UNDEF(&resolved);
 	ZVAL_UNDEF(&position);
 	ZVAL_UNDEF(&parameter);
@@ -372,13 +372,13 @@ PHP_METHOD(Phalcon_Container_Resolver_Resolver, resolveParameters)
 	ZVAL_UNDEF(&parameters);
 	ZVAL_UNDEF(&arguments);
 	ZEND_PARSE_PARAMETERS_START(3, 3)
-		Z_PARAM_OBJECT(container)
+		Z_PARAM_OBJECT(ioc)
 		ZEPHIR_Z_PARAM_ARRAY(parameters, parameters_param)
 		ZEPHIR_Z_PARAM_ARRAY(arguments, arguments_param)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_fetch_params(1, 3, 0, &container, &parameters_param, &arguments_param);
+	zephir_fetch_params(1, 3, 0, &ioc, &parameters_param, &arguments_param);
 	zephir_get_arrval(&parameters, parameters_param);
 	zephir_get_arrval(&arguments, arguments_param);
 	ZEPHIR_INIT_VAR(&resolved);
@@ -399,19 +399,19 @@ PHP_METHOD(Phalcon_Container_Resolver_Resolver, resolveParameters)
 			zephir_check_call_status();
 			if (zephir_array_key_exists(&arguments, &position)) {
 				zephir_array_fetch(&_4$$4, &arguments, &position, PH_NOISY | PH_READONLY, "phalcon/Container/Resolver/Resolver.zep", 198);
-				ZEPHIR_CALL_METHOD(&_3$$4, this_ptr, "resolvearg", &_5, 365, container, &_4$$4);
+				ZEPHIR_CALL_METHOD(&_3$$4, this_ptr, "resolvearg", &_5, 365, ioc, &_4$$4);
 				zephir_check_call_status();
 				zephir_array_update_zval(&resolved, &position, &_3$$4, PH_COPY | PH_SEPARATE);
 				continue;
 			}
 			if (zephir_array_key_exists(&arguments, &name)) {
 				zephir_array_fetch(&_7$$5, &arguments, &name, PH_NOISY | PH_READONLY, "phalcon/Container/Resolver/Resolver.zep", 203);
-				ZEPHIR_CALL_METHOD(&_6$$5, this_ptr, "resolvearg", &_5, 365, container, &_7$$5);
+				ZEPHIR_CALL_METHOD(&_6$$5, this_ptr, "resolvearg", &_5, 365, ioc, &_7$$5);
 				zephir_check_call_status();
 				zephir_array_update_zval(&resolved, &position, &_6$$5, PH_COPY | PH_SEPARATE);
 				continue;
 			}
-			ZEPHIR_CALL_METHOD(&_8$$3, this_ptr, "resolveparameter", &_9, 0, container, &parameter);
+			ZEPHIR_CALL_METHOD(&_8$$3, this_ptr, "resolveparameter", &_9, 0, ioc, &parameter);
 			zephir_check_call_status();
 			zephir_array_update_zval(&resolved, &position, &_8$$3, PH_COPY | PH_SEPARATE);
 		} ZEND_HASH_FOREACH_END();
@@ -439,19 +439,19 @@ PHP_METHOD(Phalcon_Container_Resolver_Resolver, resolveParameters)
 				zephir_check_call_status();
 				if (zephir_array_key_exists(&arguments, &position)) {
 					zephir_array_fetch(&_13$$7, &arguments, &position, PH_NOISY | PH_READONLY, "phalcon/Container/Resolver/Resolver.zep", 198);
-					ZEPHIR_CALL_METHOD(&_12$$7, this_ptr, "resolvearg", &_5, 365, container, &_13$$7);
+					ZEPHIR_CALL_METHOD(&_12$$7, this_ptr, "resolvearg", &_5, 365, ioc, &_13$$7);
 					zephir_check_call_status();
 					zephir_array_update_zval(&resolved, &position, &_12$$7, PH_COPY | PH_SEPARATE);
 					continue;
 				}
 				if (zephir_array_key_exists(&arguments, &name)) {
 					zephir_array_fetch(&_15$$8, &arguments, &name, PH_NOISY | PH_READONLY, "phalcon/Container/Resolver/Resolver.zep", 203);
-					ZEPHIR_CALL_METHOD(&_14$$8, this_ptr, "resolvearg", &_5, 365, container, &_15$$8);
+					ZEPHIR_CALL_METHOD(&_14$$8, this_ptr, "resolvearg", &_5, 365, ioc, &_15$$8);
 					zephir_check_call_status();
 					zephir_array_update_zval(&resolved, &position, &_14$$8, PH_COPY | PH_SEPARATE);
 					continue;
 				}
-				ZEPHIR_CALL_METHOD(&_16$$6, this_ptr, "resolveparameter", &_9, 0, container, &parameter);
+				ZEPHIR_CALL_METHOD(&_16$$6, this_ptr, "resolveparameter", &_9, 0, ioc, &parameter);
 				zephir_check_call_status();
 				zephir_array_update_zval(&resolved, &position, &_16$$6, PH_COPY | PH_SEPARATE);
 		}
@@ -465,17 +465,17 @@ PHP_METHOD(Phalcon_Container_Resolver_Resolver, resolveType)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *container, container_sub, *type, type_sub;
+	zval *ioc, ioc_sub, *type, type_sub;
 
-	ZVAL_UNDEF(&container_sub);
+	ZVAL_UNDEF(&ioc_sub);
 	ZVAL_UNDEF(&type_sub);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
-		Z_PARAM_OBJECT(container)
+		Z_PARAM_OBJECT(ioc)
 		Z_PARAM_ZVAL(type)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_fetch_params(1, 2, 0, &container, &type);
+	zephir_fetch_params(1, 2, 0, &ioc, &type);
 	if (zephir_is_instance_of(type, SL("ReflectionNamedType"))) {
 		ZEPHIR_RETURN_CALL_METHOD(type, "getname", NULL, 0);
 		zephir_check_call_status();
@@ -489,23 +489,23 @@ PHP_METHOD(Phalcon_Container_Resolver_Resolver, resolveArg)
 	zend_bool _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *container, container_sub, *arg, arg_sub;
+	zval *ioc, ioc_sub, *arg, arg_sub;
 
-	ZVAL_UNDEF(&container_sub);
+	ZVAL_UNDEF(&ioc_sub);
 	ZVAL_UNDEF(&arg_sub);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
-		Z_PARAM_OBJECT(container)
+		Z_PARAM_OBJECT(ioc)
 		Z_PARAM_ZVAL(arg)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_fetch_params(1, 2, 0, &container, &arg);
+	zephir_fetch_params(1, 2, 0, &ioc, &arg);
 	_0 = Z_TYPE_P(arg) == IS_OBJECT;
 	if (_0) {
 		_0 = zephir_instance_of_ev(arg, phalcon_container_resolver_lazy_lazy_ce);
 	}
 	if (_0) {
-		ZEPHIR_RETURN_CALL_METHOD(arg, "resolve", NULL, 0, container);
+		ZEPHIR_RETURN_CALL_METHOD(arg, "resolve", NULL, 0, ioc);
 		zephir_check_call_status();
 		RETURN_MM();
 	}

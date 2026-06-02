@@ -504,7 +504,7 @@ PHP_METHOD(Phalcon_Container_Container, getDefinition)
  * @param string $name
  *
  * @return object
- * @throws NotFound
+ * @throws InstanceNotFound
  */
 PHP_METHOD(Phalcon_Container_Container, getInstance)
 {
@@ -547,7 +547,7 @@ PHP_METHOD(Phalcon_Container_Container, getInstance)
  * @param string $name
  *
  * @return mixed
- * @throws NotFound
+ * @throws ParameterNotFound
  */
 PHP_METHOD(Phalcon_Container_Container, getParameter)
 {
@@ -599,8 +599,8 @@ PHP_METHOD(Phalcon_Container_Container, getResolver)
  * @param string $serviceName
  *
  * @return object
- * @throws Invalid
- * @throws NotFound
+ * @throws ServiceNotFound
+ * @throws ServiceNotRegistered
  */
 PHP_METHOD(Phalcon_Container_Container, getService)
 {
@@ -640,7 +640,7 @@ PHP_METHOD(Phalcon_Container_Container, getService)
  * @param string $name
  *
  * @return bool
- * @throws Invalid
+ * @throws CircularAliasFound
  */
 PHP_METHOD(Phalcon_Container_Container, has)
 {
@@ -792,7 +792,7 @@ PHP_METHOD(Phalcon_Container_Container, hasParameter)
  * @param string $serviceName
  *
  * @return bool
- * @throws Invalid
+ * @throws CircularAliasFound
  */
 PHP_METHOD(Phalcon_Container_Container, hasService)
 {
@@ -832,8 +832,9 @@ PHP_METHOD(Phalcon_Container_Container, isAutowireEnabled)
  * @param string $name
  *
  * @return mixed
- * @throws Invalid
- * @throws NotFound
+ * @throws CircularAliasFound
+ * @throws ReflectionException
+ * @throws ServiceNotFound
  */
 PHP_METHOD(Phalcon_Container_Container, new)
 {
@@ -900,7 +901,7 @@ PHP_METHOD(Phalcon_Container_Container, newDefinition)
  * @param mixed  $definition
  *
  * @return ServiceDefinition
- * @throws Invalid
+ * @throws NoProcessorFound
  */
 PHP_METHOD(Phalcon_Container_Container, set)
 {
@@ -939,8 +940,8 @@ PHP_METHOD(Phalcon_Container_Container, set)
  * @param string $name
  * @param string $alias
  *
- * @return $this
- * @throws Invalid
+ * @return static
+ * @throws CircularAliasFound
  */
 PHP_METHOD(Phalcon_Container_Container, setAlias)
 {
@@ -973,7 +974,7 @@ PHP_METHOD(Phalcon_Container_Container, setAlias)
  *
  * @param bool $enabled
  *
- * @return $this
+ * @return static
  */
 PHP_METHOD(Phalcon_Container_Container, setAutowire)
 {
@@ -1001,7 +1002,7 @@ PHP_METHOD(Phalcon_Container_Container, setAutowire)
  * @param string            $name
  * @param ServiceDefinition $definition
  *
- * @return $this
+ * @return static
  */
 PHP_METHOD(Phalcon_Container_Container, setDefinition)
 {
@@ -1028,7 +1029,7 @@ PHP_METHOD(Phalcon_Container_Container, setDefinition)
  * @param object $instance
  * @param string $lifetime
  *
- * @return $this
+ * @return static
  */
 PHP_METHOD(Phalcon_Container_Container, setInstance)
 {
@@ -1058,7 +1059,7 @@ PHP_METHOD(Phalcon_Container_Container, setInstance)
  * @param string $name
  * @param mixed  $value
  *
- * @return $this
+ * @return static
  */
 PHP_METHOD(Phalcon_Container_Container, setParameter)
 {
@@ -1119,7 +1120,7 @@ PHP_METHOD(Phalcon_Container_Container, setTag)
 		zephir_update_property_array(this_ptr, SL("tags"), &tag_zv, &_1$$3);
 	}
 	zephir_read_property(&_2, this_ptr, ZEND_STRL("tags"), PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch(&_3, &_2, &tag_zv, PH_NOISY | PH_READONLY, "phalcon/Container/Container.zep", 552);
+	zephir_array_fetch(&_3, &_2, &tag_zv, PH_NOISY | PH_READONLY, "phalcon/Container/Container.zep", 553);
 	ZEPHIR_CALL_FUNCTION(&_4, "in_array", NULL, 336, &serviceName_zv, &_3, &__$true);
 	zephir_check_call_status();
 	if (!zephir_is_true(&_4)) {
@@ -1238,7 +1239,7 @@ PHP_METHOD(Phalcon_Container_Container, unsetInstances)
 	zephir_memory_observe(&lifetime_zv);
 	ZVAL_STR_COPY(&lifetime_zv, lifetime);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("instanceLifetimes"), PH_NOISY_CC | PH_READONLY);
-	zephir_is_iterable(&_0, 0, "phalcon/Container/Container.zep", 611);
+	zephir_is_iterable(&_0, 0, "phalcon/Container/Container.zep", 612);
 	if (Z_TYPE_P(&_0) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&_0), _2, _3, _1)
 		{
@@ -1325,7 +1326,7 @@ PHP_METHOD(Phalcon_Container_Container, unsetParameter)
  * @param string $target
  *
  * @return void
- * @throws Invalid
+ * @throws CircularAliasFound
  */
 PHP_METHOD(Phalcon_Container_Container, detectCircularAlias)
 {
@@ -1367,7 +1368,7 @@ PHP_METHOD(Phalcon_Container_Container, detectCircularAlias)
 			object_init_ex(&_0$$4, phalcon_container_exceptions_circularaliasfound_ce);
 			ZEPHIR_CALL_METHOD(NULL, &_0$$4, "__construct", &_1, 337, &alias_zv);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_0$$4, "phalcon/Container/Container.zep", 643);
+			zephir_throw_exception_debug(&_0$$4, "phalcon/Container/Container.zep", 644);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -1380,7 +1381,7 @@ PHP_METHOD(Phalcon_Container_Container, detectCircularAlias)
 		}
 		zephir_array_update_zval(&seen, &current, &__$true, PH_COPY | PH_SEPARATE);
 		zephir_read_property(&_3$$3, this_ptr, ZEND_STRL("aliases"), PH_NOISY_CC | PH_READONLY);
-		zephir_array_fetch(&_4$$3, &_3$$3, &current, PH_NOISY | PH_READONLY, "phalcon/Container/Container.zep", 655);
+		zephir_array_fetch(&_4$$3, &_3$$3, &current, PH_NOISY | PH_READONLY, "phalcon/Container/Container.zep", 656);
 		ZEPHIR_CPY_WRT(&current, &_4$$3);
 	}
 	ZEPHIR_MM_RESTORE();
@@ -1392,7 +1393,7 @@ PHP_METHOD(Phalcon_Container_Container, detectCircularAlias)
  * @param mixed $definition
  *
  * @return Processor
- * @throws Invalid
+ * @throws NoProcessorFound
  */
 PHP_METHOD(Phalcon_Container_Container, findProcessor)
 {
@@ -1416,7 +1417,7 @@ PHP_METHOD(Phalcon_Container_Container, findProcessor)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &definition);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("processors"), PH_NOISY_CC | PH_READONLY);
-	zephir_is_iterable(&_0, 0, "phalcon/Container/Container.zep", 677);
+	zephir_is_iterable(&_0, 0, "phalcon/Container/Container.zep", 678);
 	if (Z_TYPE_P(&_0) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_0), _1)
 		{
@@ -1458,7 +1459,7 @@ PHP_METHOD(Phalcon_Container_Container, findProcessor)
 	object_init_ex(&_6, phalcon_container_exceptions_noprocessorfound_ce);
 	ZEPHIR_CALL_METHOD(NULL, &_6, "__construct", NULL, 338);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(&_6, "phalcon/Container/Container.zep", 677);
+	zephir_throw_exception_debug(&_6, "phalcon/Container/Container.zep", 678);
 	ZEPHIR_MM_RESTORE();
 	return;
 }
@@ -1470,8 +1471,7 @@ PHP_METHOD(Phalcon_Container_Container, findProcessor)
  * @param bool   $cache
  *
  * @return mixed
- * @throws Invalid
- * @throws NotFound
+ * @throws ServiceNotFound
  * @throws ReflectionException
  */
 PHP_METHOD(Phalcon_Container_Container, resolve)
@@ -1550,7 +1550,7 @@ PHP_METHOD(Phalcon_Container_Container, resolve)
  * @param string $name
  *
  * @return string
- * @throws Invalid
+ * @throws CircularAliasFound
  */
 PHP_METHOD(Phalcon_Container_Container, resolveAlias)
 {

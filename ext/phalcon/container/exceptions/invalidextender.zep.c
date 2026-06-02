@@ -56,8 +56,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Container_Exceptions_InvalidExtender)
 /**
  * Invalid extender (not callable)
  *
- * @param string     $service
- * @param int|string $key
+ * @param string $service
+ * @param string $key
  *
  * @return static
  */

@@ -11,7 +11,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_container_resolver_lazy_call___construct,
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_container_resolver_lazy_call_resolve, 0, 1, IS_MIXED, 0)
-	ZEND_ARG_INFO(0, container)
+	ZEND_ARG_INFO(0, ioc)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_container_resolver_lazy_call_method_entry) {

@@ -65,7 +65,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Container_ContainerFactory)
  *
  * @param Provider $provider
  *
- * @return $this
+ * @return static
  */
 PHP_METHOD(Phalcon_Container_ContainerFactory, addProvider)
 {

@@ -73,6 +73,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Container_Definition_ServiceDefinition)
 	 * @var array<array-key, callable>
 	 */
 	zend_declare_property_null(phalcon_container_definition_servicedefinition_ce, SL("extenders"), ZEND_ACC_PROTECTED);
+	/**
+	 * @var callable | null
+	 */
 	zend_declare_property_null(phalcon_container_definition_servicedefinition_ce, SL("factory"), ZEND_ACC_PROTECTED);
 	/**
 	 * @var bool
@@ -144,8 +147,8 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, __construct)
  *
  * @param callable $extender
  *
- * @return $this
- * @throws Invalid
+ * @return static
+ * @throws FrozenDefinition
  */
 PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, addExtender)
 {
@@ -172,8 +175,8 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, addExtender)
  *
  * @param string $tag
  *
- * @return $this
- * @throws Invalid
+ * @return static
+ * @throws FrozenDefinition
  */
 PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, addTag)
 {
@@ -289,7 +292,7 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, buildService)
 		zephir_check_call_status();
 	}
 	zephir_read_property(&_5, this_ptr, ZEND_STRL("extenders"), PH_NOISY_CC | PH_READONLY);
-	zephir_is_iterable(&_5, 0, "phalcon/Container/Definition/ServiceDefinition.zep", 176);
+	zephir_is_iterable(&_5, 0, "phalcon/Container/Definition/ServiceDefinition.zep", 177);
 	if (Z_TYPE_P(&_5) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_5), _6)
 		{
@@ -449,7 +452,7 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, getArguments)
  * Returns the class
  *
  * @return string
- * @throws Invalid
+ * @throws NoClassSet
  */
 PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, getClass)
 {
@@ -471,7 +474,7 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, getClass)
 		zephir_read_property(&_2$$3, this_ptr, ZEND_STRL("serviceName"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 346, &_2$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Container/Definition/ServiceDefinition.zep", 238);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Container/Definition/ServiceDefinition.zep", 239);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -504,7 +507,7 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, getExtenders)
  * Returns the factory
  *
  * @return callable
- * @throws Invalid
+ * @throws NoFactorySet
  */
 PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, getFactory)
 {
@@ -526,7 +529,7 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, getFactory)
 		zephir_read_property(&_2$$3, this_ptr, ZEND_STRL("serviceName"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 347, &_2$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Container/Definition/ServiceDefinition.zep", 273);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Container/Definition/ServiceDefinition.zep", 274);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -666,8 +669,8 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, isFrozen)
  * @param int|string $param
  * @param mixed      $value
  *
- * @return $this
- * @throws Invalid
+ * @return static
+ * @throws FrozenDefinition
  */
 PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, setArgument)
 {
@@ -696,7 +699,7 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, setArgument)
  *
  * @param object $container
  *
- * @return $this
+ * @return static
  */
 PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, setContainer)
 {
@@ -717,8 +720,8 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, setContainer)
  *
  * @param string $className
  *
- * @return $this
- * @throws Invalid
+ * @return static
+ * @throws FrozenDefinition
  */
 PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, setClass)
 {
@@ -747,8 +750,9 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, setClass)
  *
  * @param array<array-key, callable> $extenders
  *
- * @return $this
- * @throws Invalid
+ * @return static
+ * @throws FrozenDefinition
+ * @throws InvalidExtender
  */
 PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, setExtenders)
 {
@@ -782,7 +786,7 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, setExtenders)
 	zephir_get_arrval(&extenders, extenders_param);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkfrozen", NULL, 0);
 	zephir_check_call_status();
-	zephir_is_iterable(&extenders, 0, "phalcon/Container/Definition/ServiceDefinition.zep", 436);
+	zephir_is_iterable(&extenders, 0, "phalcon/Container/Definition/ServiceDefinition.zep", 438);
 	if (Z_TYPE_P(&extenders) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&extenders), _1, _2, _0)
 		{
@@ -801,7 +805,7 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, setExtenders)
 				zephir_cast_to_string(&_5$$4, &key);
 				ZEPHIR_CALL_METHOD(NULL, &_3$$4, "__construct", &_6, 348, &_4$$4, &_5$$4);
 				zephir_check_call_status();
-				zephir_throw_exception_debug(&_3$$4, "phalcon/Container/Definition/ServiceDefinition.zep", 432);
+				zephir_throw_exception_debug(&_3$$4, "phalcon/Container/Definition/ServiceDefinition.zep", 434);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
@@ -833,7 +837,7 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, setExtenders)
 					zephir_cast_to_string(&_11$$6, &key);
 					ZEPHIR_CALL_METHOD(NULL, &_9$$6, "__construct", &_6, 348, &_10$$6, &_11$$6);
 					zephir_check_call_status();
-					zephir_throw_exception_debug(&_9$$6, "phalcon/Container/Definition/ServiceDefinition.zep", 432);
+					zephir_throw_exception_debug(&_9$$6, "phalcon/Container/Definition/ServiceDefinition.zep", 434);
 					ZEPHIR_MM_RESTORE();
 					return;
 				}
@@ -850,8 +854,8 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, setExtenders)
  *
  * @param callable $factory
  *
- * @return $this
- * @throws Invalid
+ * @return static
+ * @throws FrozenDefinition
  */
 PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, setFactory)
 {
@@ -877,8 +881,8 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, setFactory)
  * Set cachable
  * @param bool $isCacheable
  *
- * @return $this
- * @throws Invalid
+ * @return static
+ * @throws FrozenDefinition
  */
 PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, setIsCacheable)
 {
@@ -911,8 +915,8 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, setIsCacheable)
  *
  * @param string $lifetime
  *
- * @return $this
- * @throws Invalid
+ * @return static
+ * @throws FrozenDefinition
  */
 PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, setLifetime)
 {
@@ -939,8 +943,8 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, setLifetime)
 /**
  * Unset class
  *
- * @return $this
- * @throws Invalid
+ * @return static
+ * @throws FrozenDefinition
  */
 PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, unsetClass)
 {
@@ -962,8 +966,8 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, unsetClass)
 /**
  * Unset extenders
  *
- * @return $this
- * @throws Invalid
+ * @return static
+ * @throws FrozenDefinition
  */
 PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, unsetExtenders)
 {
@@ -987,8 +991,8 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, unsetExtenders)
 /**
  * Unset the factory
  *
- * @return $this
- * @throws Invalid
+ * @return static
+ * @throws FrozenDefinition
  */
 PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, unsetFactory)
 {
@@ -1011,7 +1015,7 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, unsetFactory)
  * Check if frozen
  *
  * @return void
- * @throws Invalid
+ * @throws FrozenDefinition
  */
 PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, checkFrozen)
 {
@@ -1033,7 +1037,7 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, checkFrozen)
 		zephir_read_property(&_2$$3, this_ptr, ZEND_STRL("serviceName"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 349, &_2$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Container/Definition/ServiceDefinition.zep", 539);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Container/Definition/ServiceDefinition.zep", 541);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -1076,7 +1080,7 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, resolveArgs)
 	zephir_get_arrval(&args, args_param);
 	ZEPHIR_INIT_VAR(&resolved);
 	array_init(&resolved);
-	zephir_is_iterable(&args, 0, "phalcon/Container/Definition/ServiceDefinition.zep", 565);
+	zephir_is_iterable(&args, 0, "phalcon/Container/Definition/ServiceDefinition.zep", 567);
 	if (Z_TYPE_P(&args) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&args), _1, _2, _0)
 		{

@@ -57,7 +57,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Container_Resolver_Lazy_CsEnv)
 /**
  * Resolve the getEnv() from keys as a comma separated list
  *
- * @param object $container
+ * @param object $ioc
  *
  * @return array
  * @throws EnvNotDefined
@@ -70,10 +70,10 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_CsEnv, resolve)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_9 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *container, container_sub, values, result, key, value, _0, _1, _2, _3, _4, *_5$$3, _10$$3, _8$$4, _12$$5;
+	zval *ioc, ioc_sub, values, result, key, value, _0, _1, _2, _3, _4, *_5$$3, _10$$3, _8$$4, _12$$5;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&container_sub);
+	ZVAL_UNDEF(&ioc_sub);
 	ZVAL_UNDEF(&values);
 	ZVAL_UNDEF(&result);
 	ZVAL_UNDEF(&key);
@@ -87,11 +87,11 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_CsEnv, resolve)
 	ZVAL_UNDEF(&_8$$4);
 	ZVAL_UNDEF(&_12$$5);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT(container)
+		Z_PARAM_OBJECT(ioc)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_fetch_params(1, 1, 0, &container);
+	zephir_fetch_params(1, 1, 0, &ioc);
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getenv", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_1);

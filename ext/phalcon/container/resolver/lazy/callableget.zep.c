@@ -74,27 +74,27 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_CallableGet, __construct)
 /**
  * Resolve to a closure on a get()
  *
- * @param object $container
+ * @param object $ioc
  *
  * @return mixed
  */
 PHP_METHOD(Phalcon_Container_Resolver_Lazy_CallableGet, resolve)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval *container, container_sub, instance;
+	zval *ioc, ioc_sub, instance;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&container_sub);
+	ZVAL_UNDEF(&ioc_sub);
 	ZVAL_UNDEF(&instance);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT(container)
+		Z_PARAM_OBJECT(ioc)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_fetch_params(1, 1, 0, &container);
+	zephir_fetch_params(1, 1, 0, &ioc);
 	ZEPHIR_INIT_VAR(&instance);
 	zephir_create_closure_ex(&instance, this_ptr, phalcon_11__closure_ce, SL("__invoke"));
-	zephir_update_static_property_ce(phalcon_11__closure_ce, ZEND_STRL("container"), container);
+	zephir_update_static_property_ce(phalcon_11__closure_ce, ZEND_STRL("ioc"), ioc);
 	RETURN_CCTOR(&instance);
 }
 

@@ -102,7 +102,7 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_StaticCall, __construct)
 /**
  * Resolve a static method call
  *
- * @param object $container
+ * @param object $ioc
  *
  * @return mixed
  */
@@ -111,10 +111,10 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_StaticCall, resolve)
 	zval _2;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *container, container_sub, className, arguments, _0, _1, _3;
+	zval *ioc, ioc_sub, className, arguments, _0, _1, _3;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&container_sub);
+	ZVAL_UNDEF(&ioc_sub);
 	ZVAL_UNDEF(&className);
 	ZVAL_UNDEF(&arguments);
 	ZVAL_UNDEF(&_0);
@@ -122,16 +122,16 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_StaticCall, resolve)
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_2);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT(container)
+		Z_PARAM_OBJECT(ioc)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_fetch_params(1, 1, 0, &container);
+	zephir_fetch_params(1, 1, 0, &ioc);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("className"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&className, this_ptr, "resolveargument", NULL, 0, container, &_0);
+	ZEPHIR_CALL_METHOD(&className, this_ptr, "resolveargument", NULL, 0, ioc, &_0);
 	zephir_check_call_status();
 	zephir_read_property(&_1, this_ptr, ZEND_STRL("arguments"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&arguments, this_ptr, "resolvearguments", NULL, 0, container, &_1);
+	ZEPHIR_CALL_METHOD(&arguments, this_ptr, "resolvearguments", NULL, 0, ioc, &_1);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_2);
 	zephir_create_array(&_2, 2, 0);

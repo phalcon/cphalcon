@@ -14,7 +14,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_container_resolver_lazy_env___construct, 
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_container_resolver_lazy_env_resolve, 0, 1, IS_MIXED, 0)
-	ZEND_ARG_INFO(0, container)
+	ZEND_ARG_INFO(0, ioc)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_container_resolver_lazy_env_cast, 0, 1, IS_MIXED, 0)

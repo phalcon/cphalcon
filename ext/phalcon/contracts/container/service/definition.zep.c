@@ -59,8 +59,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Container_Service_Definition, hasFactory);
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Container_Service_Definition, setClass);
 /**
  * @param array<array-key, callable> $extenders
- *
- * @return $this
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Container_Service_Definition, setExtenders);
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Container_Service_Definition, setFactory);

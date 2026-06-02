@@ -75,7 +75,7 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_NewInstance, __construct)
 /**
  * Resolve a new instance
  *
- * @param object $container
+ * @param object $ioc
  *
  * @return mixed
  */
@@ -83,22 +83,22 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_NewInstance, resolve)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *container, container_sub, id, _0;
+	zval *ioc, ioc_sub, id, _0;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&container_sub);
+	ZVAL_UNDEF(&ioc_sub);
 	ZVAL_UNDEF(&id);
 	ZVAL_UNDEF(&_0);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT(container)
+		Z_PARAM_OBJECT(ioc)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_fetch_params(1, 1, 0, &container);
+	zephir_fetch_params(1, 1, 0, &ioc);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("id"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&id, this_ptr, "resolveargument", NULL, 0, container, &_0);
+	ZEPHIR_CALL_METHOD(&id, this_ptr, "resolveargument", NULL, 0, ioc, &_0);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_METHOD(container, "new", NULL, 0, &id);
+	ZEPHIR_RETURN_CALL_METHOD(ioc, "new", NULL, 0, &id);
 	zephir_check_call_status();
 	RETURN_MM();
 }

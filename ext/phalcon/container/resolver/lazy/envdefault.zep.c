@@ -99,7 +99,7 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_EnvDefault, __construct)
 /**
  * Resolve an environment variable, returning the default if not defined
  *
- * @param object $container
+ * @param object $ioc
  *
  * @return mixed
  */
@@ -107,20 +107,20 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_EnvDefault, resolve)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *container, container_sub, _0, _1;
+	zval *ioc, ioc_sub, _0, _1;
 
-	ZVAL_UNDEF(&container_sub);
+	ZVAL_UNDEF(&ioc_sub);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT(container)
+		Z_PARAM_OBJECT(ioc)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_fetch_params(1, 1, 0, &container);
+	zephir_fetch_params(1, 1, 0, &ioc);
 	/* try_start_1: */
 
-		ZEPHIR_RETURN_CALL_PARENT(phalcon_container_resolver_lazy_envdefault_ce, getThis(), "resolve", NULL, 0, container);
+		ZEPHIR_RETURN_CALL_PARENT(phalcon_container_resolver_lazy_envdefault_ce, getThis(), "resolve", NULL, 0, ioc);
 		zephir_check_call_status_or_jump(try_end_1);
 		RETURN_MM();
 

@@ -17,42 +17,42 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_container_resolver_resol
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_container_resolver_resolver_resolvecall, 0, 3, IS_MIXED, 0)
-	ZEND_ARG_INFO(0, container)
+	ZEND_ARG_INFO(0, ioc)
 	ZEND_ARG_INFO(0, callableObject)
 	ZEND_ARG_ARRAY_INFO(0, arguments, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_container_resolver_resolver_resolveclass, 0, 3, MAY_BE_OBJECT)
-	ZEND_ARG_INFO(0, container)
+	ZEND_ARG_INFO(0, ioc)
 	ZEND_ARG_TYPE_INFO(0, className, IS_STRING, 0)
 	ZEND_ARG_ARRAY_INFO(0, arguments, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_container_resolver_resolver_resolvemethod, 0, 3, IS_VOID, 0)
 
-	ZEND_ARG_INFO(0, container)
+	ZEND_ARG_INFO(0, ioc)
 	ZEND_ARG_OBJ_INFO(0, method, ReflectionMethod, 0)
 	ZEND_ARG_INFO(0, instance)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_container_resolver_resolver_resolveparameter, 0, 2, IS_MIXED, 0)
-	ZEND_ARG_INFO(0, container)
+	ZEND_ARG_INFO(0, ioc)
 	ZEND_ARG_OBJ_INFO(0, parameter, ReflectionParameter, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_container_resolver_resolver_resolveparameters, 0, 3, IS_ARRAY, 0)
-	ZEND_ARG_INFO(0, container)
+	ZEND_ARG_INFO(0, ioc)
 	ZEND_ARG_ARRAY_INFO(0, parameters, 0)
 	ZEND_ARG_ARRAY_INFO(0, arguments, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_container_resolver_resolver_resolvetype, 0, 2, IS_MIXED, 0)
-	ZEND_ARG_INFO(0, container)
+	ZEND_ARG_INFO(0, ioc)
 	ZEND_ARG_INFO(0, type)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_container_resolver_resolver_resolvearg, 0, 2, IS_MIXED, 0)
-	ZEND_ARG_INFO(0, container)
+	ZEND_ARG_INFO(0, ioc)
 	ZEND_ARG_INFO(0, arg)
 ZEND_END_ARG_INFO()
 
