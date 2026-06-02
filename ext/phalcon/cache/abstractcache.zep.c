@@ -144,7 +144,7 @@ PHP_METHOD(Phalcon_Cache_AbstractCache, checkKey)
 	if (zephir_is_true(&_2)) {
 		ZEPHIR_INIT_VAR(&_4$$3);
 		object_init_ex(&_4$$3, phalcon_cache_exception_invalidcachekey_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_4$$3, "__construct", NULL, 173);
+		ZEPHIR_CALL_METHOD(NULL, &_4$$3, "__construct", NULL, 175);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_4$$3, "phalcon/Cache/AbstractCache.zep", 88);
 		ZEPHIR_MM_RESTORE();
@@ -182,7 +182,7 @@ PHP_METHOD(Phalcon_Cache_AbstractCache, checkKeys)
 	if (!(_0)) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_cache_exception_cachekeysnotiterable_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 174);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 176);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Cache/AbstractCache.zep", 102);
 		ZEPHIR_MM_RESTORE();
@@ -463,7 +463,7 @@ PHP_METHOD(Phalcon_Cache_AbstractCache, doGetMultiple)
 		ZEPHIR_CALL_FUNCTION(&_5$$3, "array_map", NULL, 19, &_4$$3, &results);
 		zephir_check_call_status();
 		ZEPHIR_CPY_WRT(&results, &_5$$3);
-		ZEPHIR_CALL_FUNCTION(&_5$$3, "array_combine", NULL, 175, keys, &results);
+		ZEPHIR_CALL_FUNCTION(&_5$$3, "array_combine", NULL, 177, keys, &results);
 		zephir_check_call_status();
 		ZEPHIR_CPY_WRT(&results, &_5$$3);
 	} else {

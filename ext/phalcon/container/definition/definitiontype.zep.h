@@ -1,0 +1,5 @@
+
+extern zend_class_entry *phalcon_container_definition_definitiontype_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Container_Definition_DefinitionType);
+

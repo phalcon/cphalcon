@@ -15,7 +15,7 @@ PHP_METHOD(Phalcon_Mvc_Url, setBaseUri);
 PHP_METHOD(Phalcon_Mvc_Url, setStaticBaseUri);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_url___construct, 0, 0, 0)
-	ZEND_ARG_OBJ_INFO(0, router, Phalcon\\Mvc\\RouterInterface, 1)
+	ZEND_ARG_OBJ_TYPE_MASK(0, router, Phalcon\\Mvc\\RouterInterface, MAY_BE_NULL, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_url_get, 0, 0, IS_STRING, 0)

@@ -7,7 +7,7 @@ PHP_METHOD(Phalcon_Time_Clock_Exceptions_InvalidModifier, __construct);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_time_clock_exceptions_invalidmodifier___construct, 0, 0, 1)
 	ZEND_ARG_TYPE_INFO(0, message, IS_STRING, 0)
-	ZEND_ARG_OBJ_INFO(0, ex, Throwable, 1)
+	ZEND_ARG_OBJ_TYPE_MASK(0, ex, Throwable, MAY_BE_NULL, "null")
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_time_clock_exceptions_invalidmodifier_method_entry) {

@@ -8,7 +8,7 @@ PHP_METHOD(Phalcon_Mvc_Application, sendCookiesOnHandleRequest);
 PHP_METHOD(Phalcon_Mvc_Application, sendHeadersOnHandleRequest);
 PHP_METHOD(Phalcon_Mvc_Application, useImplicitView);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_application_handle, 0, 0, 1)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_TYPE_MASK_EX(arginfo_phalcon_mvc_application_handle, 0, 1, Phalcon\\Http\\ResponseInterface, MAY_BE_BOOL)
 	ZEND_ARG_TYPE_INFO(0, uri, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 

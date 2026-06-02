@@ -25,7 +25,7 @@ zend_object *zephir_init_properties_Phalcon_Html_Helper_Breadcrumbs(zend_class_e
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_html_helper_breadcrumbs___construct, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, escaper, Phalcon\\Html\\Escaper\\EscaperInterface, 0)
-	ZEND_ARG_OBJ_INFO(0, url, Phalcon\\Mvc\\Url\\UrlInterface, 1)
+	ZEND_ARG_OBJ_TYPE_MASK(0, url, Phalcon\\Mvc\\Url\\UrlInterface, MAY_BE_NULL, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_html_helper_breadcrumbs___invoke, 0, 0, MAY_BE_STATIC)

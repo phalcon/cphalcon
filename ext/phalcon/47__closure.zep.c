@@ -44,7 +44,9 @@ PHP_METHOD(phalcon_47__closure, __invoke)
 	ZVAL_STRING(&_1, "doctype");
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "newinstance", NULL, 0, &_1);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &escaper, &_0);
+	ZEPHIR_INIT_NVAR(&_1);
+	ZVAL_STRING(&_1, "date");
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &escaper, &_0, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 }

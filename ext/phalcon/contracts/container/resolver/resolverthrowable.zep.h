@@ -1,0 +1,5 @@
+
+extern zend_class_entry *phalcon_contracts_container_resolver_resolverthrowable_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Contracts_Container_Resolver_ResolverThrowable);
+

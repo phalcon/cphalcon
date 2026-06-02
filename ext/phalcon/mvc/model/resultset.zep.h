@@ -40,7 +40,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_resultset_coun
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_resultset_delete, 0, 0, _IS_BOOL, 0)
-	ZEND_ARG_OBJ_INFO(0, conditionCallback, Closure, 1)
+	ZEND_ARG_OBJ_TYPE_MASK(0, conditionCallback, Closure, MAY_BE_NULL, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_resultset_filter, 0, 1, IS_ARRAY, 0)
@@ -114,7 +114,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_resultset_update, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_INFO(0, data)
-	ZEND_ARG_OBJ_INFO(0, conditionCallback, Closure, 1)
+	ZEND_ARG_OBJ_TYPE_MASK(0, conditionCallback, Closure, MAY_BE_NULL, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_resultset_valid, 0, 0, _IS_BOOL, 0)

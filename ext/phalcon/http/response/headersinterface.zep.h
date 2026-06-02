@@ -3,7 +3,7 @@ extern zend_class_entry *phalcon_http_response_headersinterface_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Http_Response_HeadersInterface);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_headersinterface_get, 0, 0, 1)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_http_response_headersinterface_get, 0, 1, MAY_BE_NULL|MAY_BE_STRING|MAY_BE_BOOL)
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 

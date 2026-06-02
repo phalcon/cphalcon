@@ -1,0 +1,5 @@
+
+extern zend_class_entry *phalcon_contracts_container_service_lifetime_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Contracts_Container_Service_Lifetime);
+

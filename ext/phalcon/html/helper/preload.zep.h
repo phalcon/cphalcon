@@ -8,7 +8,7 @@ PHP_METHOD(Phalcon_Html_Helper_Preload, __invoke);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_html_helper_preload___construct, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, escaper, Phalcon\\Html\\Escaper\\EscaperInterface, 0)
-	ZEND_ARG_OBJ_INFO(0, response, Phalcon\\Http\\ResponseInterface, 1)
+	ZEND_ARG_OBJ_TYPE_MASK(0, response, Phalcon\\Http\\ResponseInterface, MAY_BE_NULL, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_helper_preload___invoke, 0, 1, IS_STRING, 0)
