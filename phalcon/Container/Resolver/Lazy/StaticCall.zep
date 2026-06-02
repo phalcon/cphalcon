@@ -60,16 +60,16 @@ class StaticCall extends Lazy
     /**
      * Resolve a static method call
      *
-     * @param object $container
+     * @param object $ioc
      *
      * @return mixed
      */
-    public function resolve(object container) -> mixed
+    public function resolve(object ioc) -> mixed
     {
         var className, arguments;
 
-        let className = this->resolveArgument(container, this->className);
-        let arguments = this->resolveArguments(container, this->arguments);
+        let className = this->resolveArgument(ioc, this->className);
+        let arguments = this->resolveArguments(ioc, this->arguments);
 
         return call_user_func_array([className, this->method], arguments);
     }

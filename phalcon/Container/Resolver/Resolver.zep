@@ -62,7 +62,7 @@ class Resolver implements ResolverService
     /**
      * Resolve a call
      *
-     * @param object   $container
+     * @param object   $ioc
      * @param callable $callable
      * @param array    $arguments
      *
@@ -70,7 +70,7 @@ class Resolver implements ResolverService
      * @throws ReflectionException
      */
     public function resolveCall(
-        object container,
+        object ioc,
         callable callableObject,
         array arguments
     ) -> mixed {
@@ -81,7 +81,7 @@ class Resolver implements ResolverService
             : Closure::fromCallable(callableObject);
         let reflection = new ReflectionFunction(closure);
         let params     = reflection->getParameters();
-        let resolved   = this->resolveParameters(container, params, arguments);
+        let resolved   = this->resolveParameters(ioc, params, arguments);
 
         return call_user_func_array(callableObject, resolved);
     }
@@ -89,7 +89,7 @@ class Resolver implements ResolverService
     /**
      * Resolve a class
      *
-     * @param object $container
+     * @param object $ioc
      * @param string $className
      * @param array  $arguments
      *
@@ -97,7 +97,7 @@ class Resolver implements ResolverService
      * @throws ReflectionException
      */
     public function resolveClass(
-        object container,
+        object ioc,
         string className,
         array arguments
     ) -> object {
@@ -111,7 +111,7 @@ class Resolver implements ResolverService
         }
 
         let params   = constructor->getParameters();
-        let resolved = this->resolveParameters(container, params, arguments);
+        let resolved = this->resolveParameters(ioc, params, arguments);
 
         return reflection->newInstanceArgs(resolved);
     }
@@ -119,7 +119,7 @@ class Resolver implements ResolverService
     /**
      * Resolve a method
      *
-     * @param object           $container
+     * @param object           $ioc
      * @param ReflectionMethod $method
      * @param object           $object
      *
@@ -127,14 +127,14 @@ class Resolver implements ResolverService
      * @throws ReflectionException
      */
     public function resolveMethod(
-        object container,
+        object ioc,
         <ReflectionMethod> method,
         object instance
     ) -> void {
         var params, resolved;
 
         let params   = method->getParameters();
-        let resolved = this->resolveParameters(container, params, []);
+        let resolved = this->resolveParameters(ioc, params, []);
 
         method->invokeArgs(instance, resolved);
     }
@@ -142,15 +142,15 @@ class Resolver implements ResolverService
     /**
      * Resolve parameters
      *
-     * @param object              $container
+     * @param object              $ioc
      * @param ReflectionParameter $parameter
      *
      * @return mixed
-     * @throws Invalid
+     * @throws CannotResolveParameter
      * @throws ReflectionException
      */
     public function resolveParameter(
-        object container,
+        object ioc,
         <ReflectionParameter> parameter
     ) -> mixed {
         var type, typeName, declaringClass, declaringName;
@@ -160,8 +160,8 @@ class Resolver implements ResolverService
         if (type instanceof ReflectionNamedType && !type->isBuiltin()) {
             let typeName = type->getName();
 
-            if (method_exists(container, "has") && container->has(typeName)) {
-                return container->get(typeName);
+            if (method_exists(ioc, "has") && ioc->has(typeName)) {
+                return ioc->get(typeName);
             }
         }
 
@@ -183,7 +183,7 @@ class Resolver implements ResolverService
     }
 
     public function resolveParameters(
-        object container,
+        object ioc,
         array parameters,
         array arguments
     ) -> array {
@@ -195,23 +195,23 @@ class Resolver implements ResolverService
             let name = parameter->getName();
 
             if (array_key_exists(position, arguments)) {
-                let resolved[position] = this->resolveArg(container, arguments[position]);
+                let resolved[position] = this->resolveArg(ioc, arguments[position]);
                 continue;
             }
 
             if (array_key_exists(name, arguments)) {
-                let resolved[position] = this->resolveArg(container, arguments[name]);
+                let resolved[position] = this->resolveArg(ioc, arguments[name]);
                 continue;
             }
 
-            let resolved[position] = this->resolveParameter(container, parameter);
+            let resolved[position] = this->resolveParameter(ioc, parameter);
         }
 
         return resolved;
     }
 
     public function resolveType(
-        object container,
+        object ioc,
         var type
     ) -> mixed {
         if (type instanceof ReflectionNamedType) {
@@ -221,10 +221,10 @@ class Resolver implements ResolverService
         return null;
     }
 
-    private function resolveArg(object container, var arg) -> mixed
+    private function resolveArg(object ioc, var arg) -> mixed
     {
         if (typeof arg === "object" && arg instanceof Lazy) {
-            return arg->resolve(container);
+            return arg->resolve(ioc);
         }
 
         return arg;

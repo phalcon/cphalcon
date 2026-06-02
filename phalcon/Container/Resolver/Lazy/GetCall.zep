@@ -60,17 +60,17 @@ class GetCall extends Lazy
     /**
      * Resolve a shared instance method call
      *
-     * @param object $container
+     * @param object $ioc
      *
      * @return mixed
      */
-    public function resolve(object container) -> mixed
+    public function resolve(object ioc) -> mixed
     {
         var id, arguments, service;
 
-        let id        = this->resolveArgument(container, this->id);
-        let arguments = this->resolveArguments(container, this->arguments);
-        let service   = container->get(id);
+        let id        = this->resolveArgument(ioc, this->id);
+        let arguments = this->resolveArguments(ioc, this->arguments);
+        let service   = ioc->get(id);
 
         return call_user_func_array([service, this->method], arguments);
     }

@@ -31,7 +31,6 @@ namespace Phalcon\Contracts\Container\Service;
 
 use Throwable as PhpThrowable;
 
-// Copied from service-interop/interface. Source: https://github.com/service-interop/interface
 interface Throwable extends PhpThrowable
 {
 }

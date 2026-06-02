@@ -32,8 +32,6 @@ namespace Phalcon\Container\Definition;
 
 use Phalcon\Container\Exceptions\FrozenDefinition;
 use Phalcon\Container\Exceptions\InvalidExtender;
-use Phalcon\Container\Exceptions\FrozenDefinition;
-use Phalcon\Container\Exceptions\InvalidExtender;
 use Phalcon\Container\Exceptions\NoClassSet;
 use Phalcon\Container\Exceptions\NoFactorySet;
 use ReflectionClass;
@@ -64,6 +62,9 @@ class ServiceDefinition
      */
     protected extenders  = [];
 
+    /**
+     * @var callable | null
+     */
     protected factory = null;
     /**
      * @var bool
@@ -110,8 +111,8 @@ class ServiceDefinition
      *
      * @param callable $extender
      *
-     * @return $this
-     * @throws Invalid
+     * @return static
+     * @throws FrozenDefinition
      */
     public function addExtender(callable extender) -> <static>
     {
@@ -126,8 +127,8 @@ class ServiceDefinition
      *
      * @param string $tag
      *
-     * @return $this
-     * @throws Invalid
+     * @return static
+     * @throws FrozenDefinition
      */
     public function addTag(string tag) -> <static>
     {
@@ -230,7 +231,7 @@ class ServiceDefinition
      * Returns the class
      *
      * @return string
-     * @throws Invalid
+     * @throws NoClassSet
      */
     public function getClass() -> string
     {
@@ -265,7 +266,7 @@ class ServiceDefinition
      * Returns the factory
      *
      * @return callable
-     * @throws Invalid
+     * @throws NoFactorySet
      */
     public function getFactory() -> callable
     {
@@ -372,8 +373,8 @@ class ServiceDefinition
      * @param int|string $param
      * @param mixed      $value
      *
-     * @return $this
-     * @throws Invalid
+     * @return static
+     * @throws FrozenDefinition
      */
     public function setArgument(var param, var value) -> <static>
     {
@@ -388,7 +389,7 @@ class ServiceDefinition
      *
      * @param object $container
      *
-     * @return $this
+     * @return static
      */
     public function setContainer(object container) -> <static>
     {
@@ -402,8 +403,8 @@ class ServiceDefinition
      *
      * @param string $className
      *
-     * @return $this
-     * @throws Invalid
+     * @return static
+     * @throws FrozenDefinition
      */
     public function setClass(string className) -> <static>
     {
@@ -418,8 +419,9 @@ class ServiceDefinition
      *
      * @param array<array-key, callable> $extenders
      *
-     * @return $this
-     * @throws Invalid
+     * @return static
+     * @throws FrozenDefinition
+     * @throws InvalidExtender
      */
     public function setExtenders(array extenders) -> <static>
     {
@@ -443,8 +445,8 @@ class ServiceDefinition
      *
      * @param callable $factory
      *
-     * @return $this
-     * @throws Invalid
+     * @return static
+     * @throws FrozenDefinition
      */
     public function setFactory(callable factory) -> <static>
     {
@@ -458,8 +460,8 @@ class ServiceDefinition
      * Set cachable
      * @param bool $isCacheable
      *
-     * @return $this
-     * @throws Invalid
+     * @return static
+     * @throws FrozenDefinition
      */
     public function setIsCacheable(bool isCacheable) -> <static>
     {
@@ -474,8 +476,8 @@ class ServiceDefinition
      *
      * @param string $lifetime
      *
-     * @return $this
-     * @throws Invalid
+     * @return static
+     * @throws FrozenDefinition
      */
     public function setLifetime(string lifetime) -> <static>
     {
@@ -488,8 +490,8 @@ class ServiceDefinition
     /**
      * Unset class
      *
-     * @return $this
-     * @throws Invalid
+     * @return static
+     * @throws FrozenDefinition
      */
     public function unsetClass() -> <static>
     {
@@ -502,8 +504,8 @@ class ServiceDefinition
     /**
      * Unset extenders
      *
-     * @return $this
-     * @throws Invalid
+     * @return static
+     * @throws FrozenDefinition
      */
     public function unsetExtenders() -> <static>
     {
@@ -516,8 +518,8 @@ class ServiceDefinition
     /**
      * Unset the factory
      *
-     * @return $this
-     * @throws Invalid
+     * @return static
+     * @throws FrozenDefinition
      */
     public function unsetFactory() -> <static>
     {
@@ -531,7 +533,7 @@ class ServiceDefinition
      * Check if frozen
      *
      * @return void
-     * @throws Invalid
+     * @throws FrozenDefinition
      */
     protected function checkFrozen() -> void
     {

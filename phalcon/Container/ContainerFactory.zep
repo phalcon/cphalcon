@@ -45,7 +45,7 @@ class ContainerFactory implements IocContainerFactory
      *
      * @param Provider $provider
      *
-     * @return $this
+     * @return static
      */
     public function addProvider(<Provider> provider) -> <static>
     {

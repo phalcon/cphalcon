@@ -48,16 +48,16 @@ class Call extends Lazy
     /**
      * Resolve the callable
      *
-     * @param object $container
+     * @param object $ioc
      *
      * @return mixed
      */
-    public function resolve(object container) -> mixed
+    public function resolve(object ioc) -> mixed
     {
         var callableObject;
 
         let callableObject = this->callableObject;
 
-        return {callableObject}(container);
+        return {callableObject}(ioc);
     }
 }

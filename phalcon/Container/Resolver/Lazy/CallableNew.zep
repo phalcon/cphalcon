@@ -48,20 +48,20 @@ class CallableNew extends Lazy
     /**
      * Resolve to a closure on a new()
      *
-     * @param object $container
+     * @param object $ioc
      *
      * @return mixed
      */
-    public function resolve(object container) -> mixed
+    public function resolve(object ioc) -> mixed
     {
         var instance;
 
-        let instance = function () use (container) {
+        let instance = function () use (ioc) {
             var id;
 
-            let id = this->resolveArgument(container, this->id);
+            let id = this->resolveArgument(ioc, this->id);
 
-            return container->$new(id);
+            return ioc->$new(id);
         };
 
         return instance;

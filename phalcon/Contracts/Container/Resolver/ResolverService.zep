@@ -34,7 +34,6 @@ use ReflectionMethod;
 use ReflectionParameter;
 use ReflectionType;
 
-// Copied from resolver-interop/interface. Source: https://github.com/resolver-interop/interface
 interface ResolverService extends ReflectionParameterResolver
 {
     public function isResolvableClass(string className) -> bool;

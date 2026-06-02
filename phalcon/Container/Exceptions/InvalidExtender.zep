@@ -35,8 +35,8 @@ class InvalidExtender extends Exception
     /**
      * Invalid extender (not callable)
      *
-     * @param string     $service
-     * @param int|string $key
+     * @param string $service
+     * @param string $key
      *
      * @return static
      */

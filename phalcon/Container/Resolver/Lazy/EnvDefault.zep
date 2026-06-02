@@ -54,14 +54,14 @@ class EnvDefault extends Env
     /**
      * Resolve an environment variable, returning the default if not defined
      *
-     * @param object $container
+     * @param object $ioc
      *
      * @return mixed
      */
-    public function resolve(object container) -> mixed
+    public function resolve(object ioc) -> mixed
     {
         try {
-            return parent::resolve(container);
+            return parent::resolve(ioc);
         } catch EnvNotDefined {
             return this->defaultValue;
         }

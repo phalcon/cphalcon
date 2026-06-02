@@ -32,7 +32,6 @@ namespace Phalcon\Contracts\Container\Resolver;
 use Phalcon\Contracts\Container\Ioc\IocContainer;
 use ReflectionMethod;
 
-// Copied from resolver-interop/interface. Source: https://github.com/resolver-interop/interface
 interface ReflectionMethodResolver
 {
     public function resolveMethod(<IocContainer> ioc, <ReflectionMethod> method, object instance) -> void;

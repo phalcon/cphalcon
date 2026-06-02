@@ -56,12 +56,12 @@ class Env extends Lazy
     /**
      * Resolve an environment variable
      *
-     * @param object $container
+     * @param object $ioc
      *
      * @return mixed
      * @throws EnvNotDefined
      */
-    public function resolve(object container) -> mixed
+    public function resolve(object ioc) -> mixed
     {
         return this->cast(this->getEnv());
     }

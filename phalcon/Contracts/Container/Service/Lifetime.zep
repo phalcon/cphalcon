@@ -30,7 +30,6 @@
 
 namespace Phalcon\Contracts\Container\Service;
 
-// Copied from service-interop/interface. Source: https://github.com/service-interop/interface
 class Lifetime
 {
     const SCOPED    = "SCOPED";

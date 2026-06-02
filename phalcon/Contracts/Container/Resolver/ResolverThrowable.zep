@@ -31,7 +31,6 @@ namespace Phalcon\Contracts\Container\Resolver;
 
 use Throwable;
 
-// Copied from resolver-interop/interface. Source: https://github.com/resolver-interop/interface
 interface ResolverThrowable extends Throwable
 {
 }

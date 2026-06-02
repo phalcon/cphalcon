@@ -105,42 +105,42 @@ class ArrayValues extends Lazy implements ArrayAccess, Countable, IteratorAggreg
     /**
      * Resolve to an array, where each element has itself been lazy-resolved.
      *
-     * @param object $container
+     * @param object $ioc
      *
      * @return array<array-key, mixed>
      */
-    public function resolve(object container) -> array
+    public function resolve(object ioc) -> array
     {
-        return this->resolveValues(container, this->values);
+        return this->resolveValues(ioc, this->values);
     }
 
-    protected function resolveValue(object container, var value) -> mixed
+    protected function resolveValue(object ioc, var value) -> mixed
     {
         if (typeof value === "object" && value instanceof Lazy) {
-            return value->resolve(container);
+            return value->resolve(ioc);
         }
 
         if (is_array(value)) {
-            return this->resolveValues(container, value);
+            return this->resolveValues(ioc, value);
         }
 
         return value;
     }
 
     /**
-     * @param object                  $container
+     * @param object                  $ioc
      * @param array<array-key, mixed> $values
      *
      * @return array
      */
-    protected function resolveValues(object container, array values) -> array
+    protected function resolveValues(object ioc, array values) -> array
     {
         var result, key, value;
 
         let result = [];
 
         for key, value in values {
-            let result[key] = this->resolveValue(container, value);
+            let result[key] = this->resolveValue(ioc, value);
         }
 
         return result;

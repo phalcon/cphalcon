@@ -252,7 +252,7 @@ class Container implements Collection
      * @param string $name
      *
      * @return object
-     * @throws NotFound
+     * @throws InstanceNotFound
      */
     public function getInstance(string name) -> object
     {
@@ -269,7 +269,7 @@ class Container implements Collection
      * @param string $name
      *
      * @return mixed
-     * @throws NotFound
+     * @throws ParameterNotFound
      */
     public function getParameter(string name) -> mixed
     {
@@ -296,8 +296,8 @@ class Container implements Collection
      * @param string $serviceName
      *
      * @return object
-     * @throws Invalid
-     * @throws NotFound
+     * @throws ServiceNotFound
+     * @throws ServiceNotRegistered
      */
     public function getService(string serviceName) -> object
     {
@@ -318,7 +318,7 @@ class Container implements Collection
      * @param string $name
      *
      * @return bool
-     * @throws Invalid
+     * @throws CircularAliasFound
      */
     public function has(string name) -> bool
     {
@@ -389,7 +389,7 @@ class Container implements Collection
      * @param string $serviceName
      *
      * @return bool
-     * @throws Invalid
+     * @throws CircularAliasFound
      */
     public function hasService(string serviceName) -> bool
     {
@@ -412,8 +412,9 @@ class Container implements Collection
      * @param string $name
      *
      * @return mixed
-     * @throws Invalid
-     * @throws NotFound
+     * @throws CircularAliasFound
+     * @throws ReflectionException
+     * @throws ServiceNotFound
      */
     public function $new(string name) -> mixed
     {
@@ -441,7 +442,7 @@ class Container implements Collection
      * @param mixed  $definition
      *
      * @return ServiceDefinition
-     * @throws Invalid
+     * @throws NoProcessorFound
      */
     public function set(string name, var definition) -> <ServiceDefinition>
     {
@@ -462,8 +463,8 @@ class Container implements Collection
      * @param string $name
      * @param string $alias
      *
-     * @return $this
-     * @throws Invalid
+     * @return static
+     * @throws CircularAliasFound
      */
 
     public function setAlias(string name, string alias) -> <static>
@@ -479,7 +480,7 @@ class Container implements Collection
      *
      * @param bool $enabled
      *
-     * @return $this
+     * @return static
      */
     public function setAutowire(bool enabled) -> <static>
     {
@@ -494,7 +495,7 @@ class Container implements Collection
      * @param string            $name
      * @param ServiceDefinition $definition
      *
-     * @return $this
+     * @return static
      */
     public function setDefinition(string name, <ServiceDefinition> definition) -> <static>
     {
@@ -510,7 +511,7 @@ class Container implements Collection
      * @param object $instance
      * @param string $lifetime
      *
-     * @return $this
+     * @return static
      */
     public function setInstance(string name, object instance, string lifetime) -> <static>
     {
@@ -526,7 +527,7 @@ class Container implements Collection
      * @param string $name
      * @param mixed  $value
      *
-     * @return $this
+     * @return static
      */
     public function setParameter(string name, var value) -> <static>
     {
@@ -629,7 +630,7 @@ class Container implements Collection
      * @param string $target
      *
      * @return void
-     * @throws Invalid
+     * @throws CircularAliasFound
      */
     private function detectCircularAlias(string alias, string target) -> void
     {
@@ -662,7 +663,7 @@ class Container implements Collection
      * @param mixed $definition
      *
      * @return Processor
-     * @throws Invalid
+     * @throws NoProcessorFound
      */
     private function findProcessor(var definition) -> <Processor>
     {
@@ -684,8 +685,7 @@ class Container implements Collection
      * @param bool   $cache
      *
      * @return mixed
-     * @throws Invalid
-     * @throws NotFound
+     * @throws ServiceNotFound
      * @throws ReflectionException
      */
     private function resolve(string name, bool cache) -> mixed
@@ -725,7 +725,7 @@ class Container implements Collection
      * @param string $name
      *
      * @return string
-     * @throws Invalid
+     * @throws CircularAliasFound
      */
     private function resolveAlias(string name) -> string
     {

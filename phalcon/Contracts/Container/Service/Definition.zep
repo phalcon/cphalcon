@@ -31,7 +31,6 @@ namespace Phalcon\Contracts\Container\Service;
 
 use Phalcon\Contracts\Container\Ioc\IocContainer;
 
-// Copied from service-interop/interface. Source: https://github.com/service-interop/interface
 interface Definition
 {
     public function addExtender(callable extender) -> <static>;
@@ -48,8 +47,6 @@ interface Definition
 
     /**
      * @param array<array-key, callable> $extenders
-     *
-     * @return $this
      */
     public function setExtenders(array extenders) -> <static>;
     public function setFactory(callable factory) -> <static>;

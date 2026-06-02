@@ -37,12 +37,12 @@ class CsEnv extends Env
     /**
      * Resolve the getEnv() from keys as a comma separated list
      *
-     * @param object $container
+     * @param object $ioc
      *
      * @return array
      * @throws EnvNotDefined
      */
-    public function resolve(object container) -> array
+    public function resolve(object ioc) -> array
     {
         var values, result, key, value;
 

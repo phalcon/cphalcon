@@ -32,7 +32,6 @@ namespace Phalcon\Contracts\Container\Resolver;
 use Phalcon\Contracts\Container\Ioc\IocContainer;
 use ReflectionParameter;
 
-// Copied from resolver-interop/interface. Source: https://github.com/resolver-interop/interface
 interface ReflectionParameterResolver
 {
     public function resolveParameter(<IocContainer> ioc, <ReflectionParameter> parameter) -> mixed;
