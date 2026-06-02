@@ -161,8 +161,6 @@ final class WebTest extends AbstractUnitTestCase
      */
     public function testContainerProviderWebResolvesCrypt(): void
     {
-        $this->markTestSkipped('Enable after Container autowires compiled-class defaults');
-
         $this->assertInstanceOf(Crypt::class, $this->container->get('crypt'));
         $this->assertInstanceOf(CryptInterface::class, $this->container->get(CryptInterface::class));
     }
