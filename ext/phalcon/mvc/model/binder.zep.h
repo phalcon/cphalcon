@@ -15,7 +15,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Binder, getParamsFromReflection);
 zend_object *zephir_init_properties_Phalcon_Mvc_Model_Binder(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_binder___construct, 0, 0, 0)
-	ZEND_ARG_OBJ_INFO(0, cache, Phalcon\\Cache\\Adapter\\AdapterInterface, 1)
+	ZEND_ARG_OBJ_TYPE_MASK(0, cache, Phalcon\\Cache\\Adapter\\AdapterInterface, MAY_BE_NULL, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_binder_bindtohandler, 0, 3, IS_ARRAY, 0)

@@ -122,7 +122,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_acl_adapter_memory_allow
 	ZEND_ARG_INFO(0, func)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_acl_adapter_memory_canaccess, 0, 0, 3)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_acl_adapter_memory_canaccess, 0, 3, MAY_BE_STRING|MAY_BE_BOOL)
 	ZEND_ARG_TYPE_INFO(0, roleName, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, componentName, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, access, IS_STRING, 0)

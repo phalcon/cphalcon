@@ -30,8 +30,8 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, checkClasses);
 zend_object *zephir_init_properties_Phalcon_Flash_AbstractFlash(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_flash_abstractflash___construct, 0, 0, 0)
-	ZEND_ARG_OBJ_INFO(0, escaper, Phalcon\\Html\\Escaper\\EscaperInterface, 1)
-	ZEND_ARG_OBJ_INFO(0, session, Phalcon\\Session\\ManagerInterface, 1)
+	ZEND_ARG_OBJ_TYPE_MASK(0, escaper, Phalcon\\Html\\Escaper\\EscaperInterface, MAY_BE_NULL, "null")
+	ZEND_ARG_OBJ_TYPE_MASK(0, session, Phalcon\\Session\\ManagerInterface, MAY_BE_NULL, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_flash_abstractflash_clear, 0, 0, IS_VOID, 0)

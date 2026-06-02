@@ -12,9 +12,8 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/fcall.h"
-#include "kernel/operators.h"
 #include "kernel/memory.h"
+#include "kernel/array.h"
 #include "kernel/object.h"
 
 
@@ -27,29 +26,27 @@ ZEPHIR_INIT_CLASS(phalcon_13__closure)
 
 PHP_METHOD(phalcon_13__closure, __invoke)
 {
+	zend_bool _1;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval options, attributes;
-	zval *name_param = NULL, *options_param = NULL, *attributes_param = NULL;
-	zval name;
+	zval *element, element_sub, _0, _2;
 
-	ZVAL_UNDEF(&name);
-	ZVAL_UNDEF(&options);
-	ZVAL_UNDEF(&attributes);
-	ZEND_PARSE_PARAMETERS_START(3, 3)
-		Z_PARAM_ZVAL(name_param)
-		ZEPHIR_Z_PARAM_ARRAY(options, options_param)
-		ZEPHIR_Z_PARAM_ARRAY(attributes, attributes_param)
+	ZVAL_UNDEF(&element_sub);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_2);
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(element)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_fetch_params(1, 3, 0, &name_param, &options_param, &attributes_param);
-	zephir_get_strval(&name, name_param);
-	zephir_get_arrval(&options, options_param);
-	zephir_get_arrval(&attributes, attributes_param);
-	object_init_ex(return_value, phalcon_forms_element_hidden_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &name, &attributes);
-	zephir_check_call_status();
-	RETURN_MM();
+	zephir_fetch_params(1, 1, 0, &element);
+	zephir_memory_observe(&_0);
+	zephir_array_fetch_long(&_0, element, 0, PH_NOISY, "phalcon/Filter/Validation.zep", 97);
+	_1 = Z_TYPE_P(&_0) != IS_ARRAY;
+	if (!(_1)) {
+		zephir_memory_observe(&_2);
+		zephir_array_fetch_long(&_2, element, 1, PH_NOISY, "phalcon/Filter/Validation.zep", 97);
+		_1 = !(zephir_instance_of_ev(&_2, phalcon_filter_validation_abstractcombinedfieldsvalidator_ce));
+	}
+	RETURN_MM_BOOL(_1);
 }
 
