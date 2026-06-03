@@ -45,7 +45,7 @@ PHP_METHOD(phalcon_49__closure, __invoke)
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "newinstance", NULL, 0, &_1);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_1);
-	ZVAL_STRING(&_1, "datetime-local");
+	ZVAL_STRING(&_1, "color");
 	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &escaper, &_0, &_1);
 	zephir_check_call_status();
 	RETURN_MM();

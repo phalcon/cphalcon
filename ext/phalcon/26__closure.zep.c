@@ -47,7 +47,7 @@ PHP_METHOD(phalcon_26__closure, __invoke)
 	zephir_get_strval(&name, name_param);
 	zephir_get_arrval(&options, options_param);
 	zephir_get_arrval(&attributes, attributes_param);
-	object_init_ex(return_value, phalcon_forms_element_submit_ce);
+	object_init_ex(return_value, phalcon_forms_element_radio_ce);
 	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &name, &attributes);
 	zephir_check_call_status();
 	RETURN_MM();

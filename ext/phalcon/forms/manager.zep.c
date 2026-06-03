@@ -251,9 +251,9 @@ PHP_METHOD(Phalcon_Forms_Manager, loadForm)
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("locator"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_2);
 	ZEPHIR_INIT_NVAR(&_2);
-	zephir_create_closure_ex(&_2, NULL, phalcon_29__closure_ce, SL("__invoke"));
-	zephir_update_static_property_ce(phalcon_29__closure_ce, ZEND_STRL("schema"), schema);
-	zephir_update_static_property_ce(phalcon_29__closure_ce, ZEND_STRL("locator"), &locator);
+	zephir_create_closure_ex(&_2, NULL, phalcon_32__closure_ce, SL("__invoke"));
+	zephir_update_static_property_ce(phalcon_32__closure_ce, ZEND_STRL("schema"), schema);
+	zephir_update_static_property_ce(phalcon_32__closure_ce, ZEND_STRL("locator"), &locator);
 	ZEPHIR_CALL_METHOD(NULL, &_0, "set", NULL, 0, &name_zv, &_2);
 	zephir_check_call_status();
 	RETURN_CCTOR(&form);

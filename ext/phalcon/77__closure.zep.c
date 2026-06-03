@@ -39,7 +39,7 @@ PHP_METHOD(phalcon_77__closure, __invoke)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_read_static_property_ce(&escaper, phalcon_77__closure_ce, SL("escaper"), PH_NOISY_CC);
 
-	object_init_ex(return_value, phalcon_html_helper_script_ce);
+	object_init_ex(return_value, phalcon_html_helper_ol_ce);
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "doctype");
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "newinstance", NULL, 0, &_1);
