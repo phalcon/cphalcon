@@ -563,7 +563,6 @@ zend_class_entry *phalcon_container_resolver_lazy_newcall_ce;
 zend_class_entry *phalcon_container_resolver_lazy_newinstance_ce;
 zend_class_entry *phalcon_container_resolver_lazy_staticcall_ce;
 zend_class_entry *phalcon_container_resolver_resolver_ce;
-zend_class_entry *phalcon_contracts_container_service_lifetime_ce;
 zend_class_entry *phalcon_datamapper_pdo_connection_ce;
 zend_class_entry *phalcon_datamapper_pdo_connection_decorated_ce;
 zend_class_entry *phalcon_datamapper_pdo_connectionlocator_ce;
@@ -1797,7 +1796,6 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Container_Resolver_Lazy_NewInstance);
 	ZEPHIR_INIT(Phalcon_Container_Resolver_Lazy_StaticCall);
 	ZEPHIR_INIT(Phalcon_Container_Resolver_Resolver);
-	ZEPHIR_INIT(Phalcon_Contracts_Container_Service_Lifetime);
 	ZEPHIR_INIT(Phalcon_DataMapper_Pdo_Connection);
 	ZEPHIR_INIT(Phalcon_DataMapper_Pdo_ConnectionLocator);
 	ZEPHIR_INIT(Phalcon_DataMapper_Pdo_Connection_Decorated);

@@ -46,10 +46,19 @@ ZEPHIR_INIT_CLASS(Phalcon_Container_Definition_ServiceLifetime)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Container\\Definition, ServiceLifetime, phalcon, container_definition_servicelifetime, NULL, 0);
 
+	/**
+	 * @var string
+	 */
 	zephir_declare_class_constant_string(phalcon_container_definition_servicelifetime_ce, SL("SCOPED"), "SCOPED");
 
+	/**
+	 * @var string
+	 */
 	zephir_declare_class_constant_string(phalcon_container_definition_servicelifetime_ce, SL("SINGLETON"), "SINGLETON");
 
+	/**
+	 * @var string
+	 */
 	zephir_declare_class_constant_string(phalcon_container_definition_servicelifetime_ce, SL("TRANSIENT"), "TRANSIENT");
 
 	return SUCCESS;

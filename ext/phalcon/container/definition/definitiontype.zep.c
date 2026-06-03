@@ -46,12 +46,24 @@ ZEPHIR_INIT_CLASS(Phalcon_Container_Definition_DefinitionType)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Container\\Definition, DefinitionType, phalcon, container_definition_definitiontype, NULL, 0);
 
+	/**
+	 * @var string
+	 */
 	zephir_declare_class_constant_string(phalcon_container_definition_definitiontype_ce, SL("CLOSURE_TYPE"), "closure");
 
+	/**
+	 * @var string
+	 */
 	zephir_declare_class_constant_string(phalcon_container_definition_definitiontype_ce, SL("OBJECT_TYPE"), "object");
 
+	/**
+	 * @var string
+	 */
 	zephir_declare_class_constant_string(phalcon_container_definition_definitiontype_ce, SL("PARAMETER_TYPE"), "parameter");
 
+	/**
+	 * @var string
+	 */
 	zephir_declare_class_constant_string(phalcon_container_definition_definitiontype_ce, SL("STRING_TYPE"), "string");
 
 	return SUCCESS;

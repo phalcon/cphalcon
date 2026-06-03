@@ -29,12 +29,24 @@ ZEPHIR_INIT_CLASS(Phalcon_Encryption_Security_Uuid_UuidInterface)
 {
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Encryption\\Security\\Uuid, UuidInterface, phalcon, encryption_security_uuid_uuidinterface, NULL);
 
+	/**
+	 * @var string
+	 */
 	zephir_declare_class_constant_string(phalcon_encryption_security_uuid_uuidinterface_ce, SL("NAMESPACE_DNS"), "6ba7b810-9dad-11d1-80b4-00c04fd430c8");
 
+	/**
+	 * @var string
+	 */
 	zephir_declare_class_constant_string(phalcon_encryption_security_uuid_uuidinterface_ce, SL("NAMESPACE_OID"), "6ba7b812-9dad-11d1-80b4-00c04fd430c8");
 
+	/**
+	 * @var string
+	 */
 	zephir_declare_class_constant_string(phalcon_encryption_security_uuid_uuidinterface_ce, SL("NAMESPACE_URL"), "6ba7b811-9dad-11d1-80b4-00c04fd430c8");
 
+	/**
+	 * @var string
+	 */
 	zephir_declare_class_constant_string(phalcon_encryption_security_uuid_uuidinterface_ce, SL("NAMESPACE_X500"), "6ba7b814-9dad-11d1-80b4-00c04fd430c8");
 
 	return SUCCESS;
