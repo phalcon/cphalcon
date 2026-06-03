@@ -2408,12 +2408,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/zephir-lang/zephir.git",
-                "reference": "6b05341cb238c43adb7b616e904740c3c46a18ed"
+                "reference": "9d2def774717eac3df63ccee5ad3e87c9295861a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zephir-lang/zephir/zipball/6b05341cb238c43adb7b616e904740c3c46a18ed",
-                "reference": "6b05341cb238c43adb7b616e904740c3c46a18ed",
+                "url": "https://api.github.com/repos/zephir-lang/zephir/zipball/9d2def774717eac3df63ccee5ad3e87c9295861a",
+                "reference": "9d2def774717eac3df63ccee5ad3e87c9295861a",
                 "shasum": ""
             },
             "require": {
@@ -2487,7 +2487,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-06-02T17:51:10+00:00"
+            "time": "2026-06-02T22:23:28+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -3401,16 +3401,16 @@
         },
         {
             "name": "predis/predis",
-            "version": "v3.4.2",
+            "version": "v3.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/predis/predis.git",
-                "reference": "2033429520d8997a7815a2485f56abe6d2d0e075"
+                "reference": "8cc4319c06924c8ff0c5c7eec4243a19e3be32f1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/predis/predis/zipball/2033429520d8997a7815a2485f56abe6d2d0e075",
-                "reference": "2033429520d8997a7815a2485f56abe6d2d0e075",
+                "url": "https://api.github.com/repos/predis/predis/zipball/8cc4319c06924c8ff0c5c7eec4243a19e3be32f1",
+                "reference": "8cc4319c06924c8ff0c5c7eec4243a19e3be32f1",
                 "shasum": ""
             },
             "require": {
@@ -3452,7 +3452,7 @@
             ],
             "support": {
                 "issues": "https://github.com/predis/predis/issues",
-                "source": "https://github.com/predis/predis/tree/v3.4.2"
+                "source": "https://github.com/predis/predis/tree/v3.5.0"
             },
             "funding": [
                 {
@@ -3460,7 +3460,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-03-09T20:33:04+00:00"
+            "time": "2026-06-02T19:25:56+00:00"
         },
         {
             "name": "psr/container",
