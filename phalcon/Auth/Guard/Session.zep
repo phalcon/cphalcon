@@ -278,7 +278,7 @@ class Session extends AbstractGuard implements GuardStateful, BasicAuth
     /**
      * @phpstan-param AuthCredentials $credentials
      *
-     * @phpstan-assert-if-true !null this->lastUserAttempted
+     * @phpstan-assert-if-true !null $this->lastUserAttempted
      */
     public function validate(array credentials = []) -> bool
     {

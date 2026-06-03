@@ -13,6 +13,7 @@
 
 namespace Phalcon\Auth\Adapter;
 
+use Phalcon\Contracts\Auth\Adapter\Adapter;
 use Phalcon\Support\AbstractLocator;
 
 /**
@@ -26,16 +27,25 @@ use Phalcon\Support\AbstractLocator;
  */
 class AdapterLocator extends AbstractLocator
 {
+    /**
+     * @return class-string<\Throwable>
+     */
     protected function getExceptionClass() -> string
     {
         return "Phalcon\\Auth\\Exception";
     }
 
+    /**
+     * @return class-string
+     */
     protected function getInterfaceClass() -> string
     {
         return "Phalcon\\Contracts\\Auth\\Adapter\\Adapter";
     }
 
+    /**
+     * @return array<string, class-string<Adapter>>
+     */
     protected function getServices() -> array
     {
         return [

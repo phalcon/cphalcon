@@ -44,6 +44,9 @@ class TokenGuardConfig extends AbstractGuardConfig
                 "storageKey"
             );
         }
+
+        let this->inputKey   = inputKey;
+        let this->storageKey = storageKey;
     }
 
     public function getInputKey() -> string

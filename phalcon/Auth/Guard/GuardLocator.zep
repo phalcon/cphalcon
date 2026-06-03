@@ -13,6 +13,7 @@
 
 namespace Phalcon\Auth\Guard;
 
+use Phalcon\Contracts\Auth\Guard\Guard;
 use Phalcon\Support\AbstractLocator;
 
 /**
@@ -24,16 +25,25 @@ use Phalcon\Support\AbstractLocator;
  */
 class GuardLocator extends AbstractLocator
 {
+    /**
+     * @return class-string<\Throwable>
+     */
     protected function getExceptionClass() -> string
     {
         return "Phalcon\\Auth\\Exception";
     }
 
+    /**
+     * @return class-string
+     */
     protected function getInterfaceClass() -> string
     {
         return "Phalcon\\Contracts\\Auth\\Guard\\Guard";
     }
 
+    /**
+     * @return array<string, class-string<Guard>>
+     */
     protected function getServices() -> array
     {
         return [

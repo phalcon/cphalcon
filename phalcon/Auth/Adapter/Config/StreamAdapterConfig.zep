@@ -36,6 +36,8 @@ class StreamAdapterConfig extends AbstractAdapterConfig
             );
         }
 
+        let this->file = file;
+
         parent::__construct(model);
     }
 

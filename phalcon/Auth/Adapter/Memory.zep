@@ -75,6 +75,9 @@ class Memory extends AbstractArrayAdapter
         return this->hydrate(this->idStore[id]);
     }
 
+    /**
+     * @phpstan-return list<AuthUserRow>
+     */
     protected function loadUsers() -> array
     {
         return this->config->getUsers();

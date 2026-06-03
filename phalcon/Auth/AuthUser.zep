@@ -35,7 +35,7 @@ class AuthUser implements AuthUserContract
      */
     public function __construct(array data)
     {
-        if (!isset(data["id"]) || (typeof data["int"] !== "int" && typeof data["id"] !== "string")) {
+        if (!isset(data["id"]) || (typeof data["id"] !== "int" && typeof data["id"] !== "string")) {
             throw new DataMustContainIdKey();
         }
 

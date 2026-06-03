@@ -74,7 +74,7 @@ class Manager implements ManagerContract
     }
 
     /**
-     * @param array<string, class-string<Access>> $accessList
+     * @phpstan-param array<string, class-string<Access>> $accessList
      */
     public function addAccessList(array accessList) -> <self>
     {

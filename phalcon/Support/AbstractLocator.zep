@@ -51,7 +51,8 @@ abstract class AbstractLocator
 
         var definition, name;
 
-        let this->services = this->getServices();
+        let this->container = container;
+        let this->services  = this->getServices();
 
         for name, definition in services {
             this->register(name, definition);
@@ -119,7 +120,7 @@ abstract class AbstractLocator
     /**
      * Register a service or override an existing one.
      *
-     * @param class-string<T> $definition
+     * @phpstan-param class-string<T> $definition
      *
      * @throws Exception
      */

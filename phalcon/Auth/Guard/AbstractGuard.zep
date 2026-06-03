@@ -115,11 +115,12 @@ abstract class AbstractGuard extends AbstractEventsAware implements Guard
     }
 
     /**
+     * user should be ?AuthUser
      * @phpstan-param AuthCredentials $credentials
      *
      * @phpstan-assert-if-true !null $user
      */
-    protected function hasValidCredentials(<AuthUser> user = null, array credentials) -> bool
+    protected function hasValidCredentials(var user, array credentials) -> bool
     {
         if (user === null) {
             return false;
