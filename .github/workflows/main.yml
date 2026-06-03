@@ -96,12 +96,12 @@ jobs:
       - name: Generate and validate stubs
         run: |
           vendor/bin/zephir stubs
-          vendor/bin/psalm ide/
+          vendor/bin/psalm -c resources/psalm.xml ide/
 
       - name: Fix code style on generated stubs
         # phpcbf exits 1 when it fixes files; passing the path on the CLI overrides
         # the <file> entries in phpcs.xml so the PSR12 ruleset is applied to the stubs.
-        run: vendor/bin/phpcbf --standard=phpcs.xml ide/${{ env.PHALCON_VERSION }}/ || true
+        run: vendor/bin/phpcbf --standard=resources/phpcs.xml ide/${{ env.PHALCON_VERSION }}/ || true
 
       - name: Upload IDE stubs artifact
         uses: actions/upload-artifact@v7
@@ -594,7 +594,7 @@ jobs:
         shell: bash
         run: |
           if [ "${{ runner.os }}" = "Linux" ]; then
-            ./.ci/linux-setup-locales.sh
+            ./resources/linux-setup-locales.sh
           fi
 
           cp tests/support/_config/.env.default .env
@@ -602,7 +602,7 @@ jobs:
 
       - name: Run Unit Tests
         if: always()
-        run: vendor/bin/phpunit -c phpunit.xml.dist
+        run: vendor/bin/phpunit -c resources/phpunit.xml.dist
 
       - name: Upload Unit Test Coverage
         uses: actions/upload-artifact@v7
@@ -616,7 +616,7 @@ jobs:
         shell: bash
         run: |
           echo "-- Creating Release Notes"
-          ./.ci/release-notes.sh ./CHANGELOG-5.0.md
+          ./resources/release-notes.sh ./CHANGELOG-5.0.md
 
   database_mysql_test:
     permissions:
@@ -699,7 +699,7 @@ jobs:
       - name: Prepare test Environment
         run: |
           echo "::group::Set up locales"
-          ./.ci/linux-setup-locales.sh
+          ./resources/linux-setup-locales.sh
           echo "::endgroup::"
 
       - name: Validate composer
@@ -721,7 +721,7 @@ jobs:
           DATA_MYSQL_USER: root
           DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
-        run: vendor/bin/phpunit -c phpunit.mysql.xml
+        run: vendor/bin/phpunit -c resources/phpunit.mysql.xml
       - name: Upload Database (MySQL) Coverage
         uses: actions/upload-artifact@v7
         if: always()
@@ -797,7 +797,7 @@ jobs:
       - name: Prepare test Environment
         run: |
           echo "::group::Set up locales"
-          ./.ci/linux-setup-locales.sh
+          ./resources/linux-setup-locales.sh
           echo "::endgroup::"
 
       - name: Validate composer
@@ -818,7 +818,7 @@ jobs:
           DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
         if: always()
-        run: vendor/bin/phpunit -c phpunit.sqlite.xml
+        run: vendor/bin/phpunit -c resources/phpunit.sqlite.xml
       - name: Upload Database (SQLite) Coverage
         uses: actions/upload-artifact@v7
         if: always()
@@ -907,7 +907,7 @@ jobs:
       - name: Prepare test Environment
         run: |
           echo "::group::Set up locales"
-          ./.ci/linux-setup-locales.sh
+          ./resources/linux-setup-locales.sh
           echo "::endgroup::"
 
       - name: Validate composer
@@ -927,7 +927,7 @@ jobs:
         env:
           DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
-        run: vendor/bin/phpunit -c phpunit.pgsql.xml
+        run: vendor/bin/phpunit -c resources/phpunit.pgsql.xml
       - name: Upload Database (Postgres) Coverage
         uses: actions/upload-artifact@v7
         if: always()
@@ -1076,7 +1076,7 @@ jobs:
           find ./build-artifacts -type f \( -name 'phalcon*.zip' -o -name 'php_phalcon*.zip' \) -not -path '*/logs/*' -exec cp {} ./build-artifacts/release/ ";"
           find ./build-artifacts -type f -name 'phalcon*.tgz' -exec cp {} ./build-artifacts/release/ ";"
           echo "-- Creating Release Notes"
-          ./.ci/release-notes.sh ./CHANGELOG-5.0.md > ./build-artifacts/release/release-notes.md
+          ./resources/release-notes.sh ./CHANGELOG-5.0.md > ./build-artifacts/release/release-notes.md
 
       - name: Create Release
         uses: ncipollo/release-action@v1

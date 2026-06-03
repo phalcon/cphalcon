@@ -1,6 +1,6 @@
 parameters:
     paths:
-        - src
+        - ../src
     level: 1
     ignoreErrors:
         - "#Unsafe usage of new static#"
