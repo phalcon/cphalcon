@@ -120,7 +120,7 @@ $tasks = [
         ],
     ],
     [
-        'file'    => $root . '/docker/Dockerfile',
+        'file'    => $root . '/resources/docker/develop/Dockerfile',
         'patches' => [
             [
                 '/ARG PHALCON_VERSION="v[^"]*"/',
