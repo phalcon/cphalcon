@@ -97,7 +97,7 @@ PHP_METHOD(Phalcon_Auth_Guard_UserRemember, __construct)
 		_0 = Z_TYPE_P(payload) != IS_STRING;
 	}
 	if (_0) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(zend_ce_type_error, "The parameter must be 'int' or 'string'", "phalcon/Auth/Guard/UserRemember.zep", 49);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(zend_ce_type_error, "The parameter must be 'array' or 'string'", "phalcon/Auth/Guard/UserRemember.zep", 49);
 		return;
 	}
 
