@@ -46,7 +46,7 @@ abstract class AbstractLocator
         array services = []
     ) {
         if (!(container instanceof Collection) && !(container instanceof DiInterface)) {
-            throw new TypeError("The parameter must be an instance of Collection or DiInterface");
+            throw new \TypeError("The parameter must be an instance of Collection or DiInterface");
         }
 
         var definition, name;
