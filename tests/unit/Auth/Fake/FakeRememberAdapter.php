@@ -52,7 +52,7 @@ final class FakeRememberAdapter extends Memory implements RememberAdapter
     }
 
     public function retrieveByToken(
-        int | string $id,
+        $id,
         string $token,
         ?string $userAgent = null
     ): ?AuthUser {
