@@ -101,10 +101,6 @@ class Model extends AbstractAdapter implements RememberAdapter
             ]
         );
 
-        if (found === false) {
-            return null;
-        }
-
         /** @var AuthUser $found */
         return found;
     }
@@ -126,10 +122,6 @@ class Model extends AbstractAdapter implements RememberAdapter
                 "bind"       : ["id" : id]
             ]
         );
-
-        if (found === false) {
-            return null;
-        }
 
         /** @var AuthUser $found */
         return found;

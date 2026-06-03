@@ -46,7 +46,7 @@ final class UserRemember
     public function __construct(var payload)
     {
         if (typeof payload !== "array" && typeof payload !== "string") {
-            throw new \TypeError("The parameter must be 'int' or 'string'");
+            throw new \TypeError("The parameter must be 'array' or 'string'");
         }
 
         var data, rawId;
