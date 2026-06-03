@@ -42,6 +42,9 @@ use Phalcon\Support\Settings;
  */
 abstract class AbstractPdo extends AbstractAdapter
 {
+    /**
+     * @var string
+     */
     const BIND_PATTERN = "/\\?([0-9]+)|:([a-zA-Z0-9_]+):/";
 
     /**

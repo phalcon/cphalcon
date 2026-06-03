@@ -32,6 +32,8 @@ interface Dialect
 {
     /**
      * No row-lock modifier — the default behavior for `forUpdate()`.
+     *
+     * @var string
      */
     const LOCK_NONE = "";
 
@@ -40,6 +42,8 @@ interface Dialect
      * if a row it needs is locked instead of blocking. MySQL 8.0+ and
      * PostgreSQL 9.5+ recognize this. SQLite has no row-level locking and
      * silently ignores the modifier.
+     *
+     * @var string
      */
     const LOCK_NOWAIT = "NOWAIT";
 
@@ -47,6 +51,8 @@ interface Dialect
      * Append `SKIP LOCKED` to the `FOR UPDATE` clause — the query returns
      * rows that are not currently locked and silently skips ones that are.
      * MySQL 8.0+ and PostgreSQL 9.5+ recognize this. SQLite ignores it.
+     *
+     * @var string
      */
     const LOCK_SKIP_LOCKED = "SKIP LOCKED";
 

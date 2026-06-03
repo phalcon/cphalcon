@@ -32,7 +32,16 @@ namespace Phalcon\Container\Definition;
 
 class ServiceLifetime
 {
+    /**
+     * @var string
+     */
     const SCOPED    = "SCOPED";
+    /**
+     * @var string
+     */
     const SINGLETON = "SINGLETON";
+    /**
+     * @var string
+     */
     const TRANSIENT = "TRANSIENT";
 }
