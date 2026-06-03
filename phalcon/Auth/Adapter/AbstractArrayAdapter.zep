@@ -63,7 +63,7 @@ abstract class AbstractArrayAdapter extends AbstractAdapter
     public function retrieveById(var id) -> <AuthUserContract> | null
     {
         if (typeof id !== "int" && typeof id !== "string") {
-            throw new TypeError("The parameter must be 'int' or 'string'");
+            throw new \TypeError("The parameter must be 'int' or 'string'");
         }
 
         var row;

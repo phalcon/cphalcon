@@ -23,7 +23,7 @@ class FileCannotRead extends Exception
     public function __construct(string path)
     {
         parent::__construct(
-            'Stream adapter cannot read file: ' . path
+            "Stream adapter cannot read file: " . path
         );
     }
 }

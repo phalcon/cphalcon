@@ -112,10 +112,10 @@ class Model extends AbstractAdapter implements RememberAdapter
     public function retrieveById(var id) -> <AuthUser> | null
     {
         if (typeof id !== "int" && typeof id !== "string") {
-            throw new TypeError("The parameter must be 'int' or 'string'");
+            throw new \TypeError("The parameter must be 'int' or 'string'");
         }
 
-        var found, idColumn, model;
+        var found, idColumn, modelClass;
 
         /** @var class-string<ModelInterface> $modelClass */
         let modelClass = this->config->getModel();

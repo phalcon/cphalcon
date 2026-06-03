@@ -65,7 +65,7 @@ class Memory extends AbstractArrayAdapter
     public function retrieveById(var id) -> <AuthUser> | null
     {
         if (typeof id !== "int" && typeof id !== "string") {
-            throw new TypeError("The parameter must be 'int' or 'string'");
+            throw new \TypeError("The parameter must be 'int' or 'string'");
         }
 
         if (!isset(this->idStore[id])) {

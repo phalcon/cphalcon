@@ -119,11 +119,11 @@ class ManagerFactory
      */
     public function load(var config) -> <Manager>
     {
-        if (typeof id !== "array" && !(config instanceof ConfigInterface)) {
-            throw new TypeError("The parameter must be an array or instance of ConfigInterface");
+        if (typeof config !== "array" && !(config instanceof ConfigInterface)) {
+            throw new \TypeError("The parameter must be an array or instance of ConfigInterface");
         }
 
-        var accessList, adapter, gconf, guards, manager, name;
+        var accessList, adapter, gconf, guard, guards, manager, name;
 
         if (config instanceof ConfigInterface) {
             /** @var AuthConfig $config */

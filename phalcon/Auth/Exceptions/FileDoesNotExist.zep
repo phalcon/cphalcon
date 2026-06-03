@@ -23,7 +23,7 @@ class FileDoesNotExist extends Exception
     public function __construct(string path)
     {
         parent::__construct(
-            'Stream adapter file does not exist: ' . path
+            "Stream adapter file does not exist: " . path
         );
     }
 }

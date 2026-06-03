@@ -23,7 +23,7 @@ class ConfigRequiresNonEmptyValue extends Exception
     public function __construct(
         string configName,
         string configKey,
-        string suffix = ''
+        string suffix = ""
     ) {
         parent::__construct(
             configName . " requires a non-empty '"

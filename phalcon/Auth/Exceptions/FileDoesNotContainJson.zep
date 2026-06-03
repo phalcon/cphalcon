@@ -23,7 +23,7 @@ class FileDoesNotContainJson extends Exception
     public function __construct(string path)
     {
         parent::__construct(
-            'Stream adapter file does not contain a JSON array: ' . path
+            "Stream adapter file does not contain a JSON array: " . path
         );
     }
 }

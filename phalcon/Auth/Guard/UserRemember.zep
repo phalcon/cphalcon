@@ -46,7 +46,7 @@ final class UserRemember
     public function __construct(var payload)
     {
         if (typeof payload !== "array" && typeof payload !== "string") {
-            throw new TypeError("The parameter must be 'int' or 'string'");
+            throw new \TypeError("The parameter must be 'int' or 'string'");
         }
 
         var data, rawId;
@@ -65,8 +65,8 @@ final class UserRemember
         let rawId = isset(data["id"]) ? data["id"] : null;
 
         let this->id        = (typeof rawId === "int" || typeof rawId === "string") ? rawId : null;
-        let this->token     = isset(data["token"]) ? (string) data['token'] : "";
-        let this->userAgent = isset(data["user_agent"]) ? (string) data['user_agent'] : "";
+        let this->token     = isset(data["token"]) ? (string) data["token"] : "";
+        let this->userAgent = isset(data["user_agent"]) ? (string) data["user_agent"] : "";
     }
 
     public function getId() -> int | string | null

@@ -101,7 +101,7 @@ class Session extends AbstractGuard implements GuardStateful, BasicAuth
      */
     public function attempt(array credentials = [], bool remember = false) -> bool
     {
-        var respolved;
+        var resolved;
 
         let resolved                = this->adapter->retrieveByCredentials(credentials);
         let this->lastUserAttempted = resolved;
@@ -166,7 +166,7 @@ class Session extends AbstractGuard implements GuardStateful, BasicAuth
     public function loginById(var id, bool remember = false) -> false | <AuthUser>
     {
         if (typeof id !== "int" && typeof id !== "string") {
-            throw new TypeError("The parameter must be 'int' or 'string'");
+            throw new \TypeError("The parameter must be 'int' or 'string'");
         }
 
         var resolved;
@@ -282,6 +282,8 @@ class Session extends AbstractGuard implements GuardStateful, BasicAuth
      */
     public function validate(array credentials = []) -> bool
     {
+        var resolved;
+
         let resolved                = this->adapter->retrieveByCredentials(credentials);
         let this->lastUserAttempted = resolved;
 

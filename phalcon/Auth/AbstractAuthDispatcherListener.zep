@@ -46,11 +46,11 @@ abstract class AbstractAuthDispatcherListener
      * the dispatch should proceed, false when a forward was issued, and
      * throws when access is denied without a redirect target.
      *
-     * @phpstan-param (callable(array<string, mixed>) -> void)|null $forwardHandler
+     * @phpstan-param callable|null $forwardHandler
      *
      * @throws Exception
      */
-    protected function enforce(string actionName, callable forwardHandler = null) -> bool
+    protected function enforce(string actionName, var forwardHandler = null) -> bool
     {
         var access, target;
 

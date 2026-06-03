@@ -62,7 +62,7 @@ class Stream extends AbstractArrayAdapter
      */
     protected function loadUsers() -> array
     {
-        var contents, data, path, rows;
+        var contents, data, ex, path, rows;
 
         let path = this->config->getFile();
 
@@ -95,5 +95,10 @@ class Stream extends AbstractArrayAdapter
     protected function phpFileExists(string filename) -> bool
     {
         return file_exists(filename);
+    }
+
+    protected function phpFileGetContents(string filename)
+    {
+        return file_get_contents(filename);
     }
 }
