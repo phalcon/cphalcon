@@ -23,8 +23,8 @@ function cleanup() {
 }
 
 function compile_lemon() {
-  "$CC" -g "$BASE_PATH/3rdparty/lemon/lemon.c" -o "$BASE_PATH/.ci/lemon"
-  chmod +x "$BASE_PATH/.ci/lemon"
+  "$CC" -g "$BASE_PATH/3rdparty/lemon/lemon.c" -o "$BASE_PATH/bin/lemon"
+  chmod +x "$BASE_PATH/bin/lemon"
 }
 
 function replace() {
@@ -64,7 +64,7 @@ function generate_parser() {
   local tprefix="$3"
 
   cp "$BASE_PATH/3rdparty/lemon/lempar.c" .
-  "$BASE_PATH/.ci/lemon" -s parser.php.lemon
+  "$BASE_PATH/bin/lemon" -s parser.php.lemon
 
   echo '#include "php_phalcon.h"' > parser.c
   cat parser.php.c >> parser.c

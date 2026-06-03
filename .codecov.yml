@@ -29,7 +29,6 @@ ignore:
   - "*.json"
   - "*.md"
   # ignore folders and all its contents
-  - ".ci/.*"
   - ".github/.*"
   - ".zephir/.*"
   - "backers/.*"

@@ -103,9 +103,7 @@ You will also need to provide Codeception configuration and run Docker container
 $ cp tests/_config/.env.default .env
 
 # Run Docker containers
-$ cd tests
-$ docker-compose up -d
-$ cd ..
+$ docker compose up -d
 ```
 
 Then, run the tests on a terminal:

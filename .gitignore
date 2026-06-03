@@ -50,7 +50,7 @@ ext/run-tests.php
 *.phc
 *.dSYM
 *.deps
-.ci/lemon
+bin/lemon
 
 # local tests
 .local/

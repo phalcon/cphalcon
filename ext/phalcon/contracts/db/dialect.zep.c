@@ -40,6 +40,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Contracts_Db_Dialect)
 
 	/**
 	 * No row-lock modifier — the default behavior for `forUpdate()`.
+	 *
+	 * @var string
 	 */
 	zephir_declare_class_constant_string(phalcon_contracts_db_dialect_ce, SL("LOCK_NONE"), "");
 
@@ -48,6 +50,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Contracts_Db_Dialect)
 	 * if a row it needs is locked instead of blocking. MySQL 8.0+ and
 	 * PostgreSQL 9.5+ recognize this. SQLite has no row-level locking and
 	 * silently ignores the modifier.
+	 *
+	 * @var string
 	 */
 	zephir_declare_class_constant_string(phalcon_contracts_db_dialect_ce, SL("LOCK_NOWAIT"), "NOWAIT");
 
@@ -55,6 +59,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Contracts_Db_Dialect)
 	 * Append `SKIP LOCKED` to the `FOR UPDATE` clause — the query returns
 	 * rows that are not currently locked and silently skips ones that are.
 	 * MySQL 8.0+ and PostgreSQL 9.5+ recognize this. SQLite ignores it.
+	 *
+	 * @var string
 	 */
 	zephir_declare_class_constant_string(phalcon_contracts_db_dialect_ce, SL("LOCK_SKIP_LOCKED"), "SKIP LOCKED");
 

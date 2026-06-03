@@ -17,20 +17,48 @@ namespace Phalcon\Encryption\Security\JWT\Token;
  */
 class Enum
 {
+    /**
+     * @var string
+     */
     const ALGO = "alg";
     /**
      * Claims
+     *
+     * @var string
      */
     const AUDIENCE        = "aud";
+    /**
+     * @var string
+     */
     const CONTENT_TYPE    = "cty";
+    /**
+     * @var string
+     */
     const EXPIRATION_TIME = "exp";
+    /**
+     * @var string
+     */
     const ID              = "jti";
+    /**
+     * @var string
+     */
     const ISSUED_AT       = "iat";
+    /**
+     * @var string
+     */
     const ISSUER          = "iss";
+    /**
+     * @var string
+     */
     const NOT_BEFORE      = "nbf";
+    /**
+     * @var string
+     */
     const SUBJECT         = "sub";
     /**
      * Headers
+     *
+     * @var string
      */
     const TYPE = "typ";
 }

@@ -448,7 +448,6 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/contracts/container/ioc/ioctypealiases.zep.c
 	phalcon/contracts/container/resolver/reflectionmethodresolver.zep.c
 	phalcon/contracts/container/service/definition.zep.c
-	phalcon/contracts/container/service/lifetime.zep.c
 	phalcon/contracts/events/subscriber.zep.c
 	phalcon/contracts/mvc/model/relation/cachekeyprovider.zep.c
 	phalcon/datamapper/pdo/connection.zep.c

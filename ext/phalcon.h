@@ -443,7 +443,6 @@
 #include "phalcon/contracts/container/ioc/ioctypealiases.zep.h"
 #include "phalcon/contracts/container/resolver/reflectionmethodresolver.zep.h"
 #include "phalcon/contracts/container/service/definition.zep.h"
-#include "phalcon/contracts/container/service/lifetime.zep.h"
 #include "phalcon/contracts/events/subscriber.zep.h"
 #include "phalcon/contracts/mvc/model/relation/cachekeyprovider.zep.h"
 #include "phalcon/datamapper/pdo/connection.zep.h"
