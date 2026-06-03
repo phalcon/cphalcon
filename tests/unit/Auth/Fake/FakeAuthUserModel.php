@@ -96,16 +96,16 @@ class FakeAuthUserModel implements AuthUser, AuthRemember
      *
      * @param array{0?: string, conditions?: string, bind?: array<string, mixed>}|string $parameters
      */
-    public static function findFirst(array | string $parameters = []): static | false
+    public static function findFirst(array | string $parameters = []): static | null
     {
         if (is_string($parameters)) {
-            return false;
+            return null;
         }
 
         $bind = $parameters['bind'] ?? [];
 
         if (!is_array($bind)) {
-            return false;
+            return null;
         }
 
         foreach (self::$rows as $row) {
@@ -126,7 +126,7 @@ class FakeAuthUserModel implements AuthUser, AuthRemember
             }
         }
 
-        return false;
+        return null;
     }
 
     public function getAuthIdentifier(): int | string

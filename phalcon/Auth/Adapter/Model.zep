@@ -101,7 +101,7 @@ class Model extends AbstractAdapter implements RememberAdapter
             ]
         );
 
-        /** @var AuthUser $found */
+        /** @var AuthUser|null $found */
         return found;
     }
 
@@ -123,7 +123,7 @@ class Model extends AbstractAdapter implements RememberAdapter
             ]
         );
 
-        /** @var AuthUser $found */
+        /** @var AuthUser|null $found */
         return found;
     }
 
