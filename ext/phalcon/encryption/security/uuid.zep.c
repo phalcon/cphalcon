@@ -53,7 +53,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid, v1)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	object_init_ex(return_value, phalcon_encryption_security_uuid_version1_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 502);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -81,7 +81,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid, v3)
 	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
 	object_init_ex(return_value, phalcon_encryption_security_uuid_version3_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 503, &namespaceName_zv, &name_zv);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &namespaceName_zv, &name_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -97,7 +97,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid, v4)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	object_init_ex(return_value, phalcon_encryption_security_uuid_version4_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 504);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -125,7 +125,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid, v5)
 	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
 	object_init_ex(return_value, phalcon_encryption_security_uuid_version5_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 505, &namespaceName_zv, &name_zv);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &namespaceName_zv, &name_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -141,7 +141,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid, v6)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	object_init_ex(return_value, phalcon_encryption_security_uuid_version6_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 506);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -157,7 +157,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid, v7)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	object_init_ex(return_value, phalcon_encryption_security_uuid_version7_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 507);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0);
 	zephir_check_call_status();
 	RETURN_MM();
 }

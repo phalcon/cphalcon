@@ -30,6 +30,7 @@
 
 namespace Phalcon\Container\Provider;
 
+use Phalcon\Auth\Access\AccessLocator;
 use Phalcon\Contracts\Container\Service\Collection;
 use Phalcon\Contracts\Container\Service\Provider;
 use Phalcon\Filter\Filter;
@@ -93,6 +94,13 @@ class Web implements Provider
         services->setAlias("Phalcon\\Mvc\\Url\\UrlInterface", "url");
 
         // --- FQCN bindings (set + alias) — no unique interface available ---
+
+        services->set(
+            "Phalcon\\Auth\\Access\\AccessLocator",
+            function (container) {
+                return new AccessLocator(container);
+            }
+        );
 
         services->set("Phalcon\\Annotations\\Adapter\\Memory", "Phalcon\\Annotations\\Adapter\\Memory");
         services->setAlias("Phalcon\\Annotations\\Adapter\\Memory", "annotationsMemory");

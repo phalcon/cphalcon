@@ -1,0 +1,24 @@
+
+extern zend_class_entry *phalcon_auth_access_accesslocator_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Auth_Access_AccessLocator);
+
+PHP_METHOD(Phalcon_Auth_Access_AccessLocator, getExceptionClass);
+PHP_METHOD(Phalcon_Auth_Access_AccessLocator, getInterfaceClass);
+PHP_METHOD(Phalcon_Auth_Access_AccessLocator, getServices);
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_auth_access_accesslocator_getexceptionclass, 0, 0, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_auth_access_accesslocator_getinterfaceclass, 0, 0, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_auth_access_accesslocator_getservices, 0, 0, IS_ARRAY, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_auth_access_accesslocator_method_entry) {
+	PHP_ME(Phalcon_Auth_Access_AccessLocator, getExceptionClass, arginfo_phalcon_auth_access_accesslocator_getexceptionclass, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Auth_Access_AccessLocator, getInterfaceClass, arginfo_phalcon_auth_access_accesslocator_getinterfaceclass, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Auth_Access_AccessLocator, getServices, arginfo_phalcon_auth_access_accesslocator_getservices, ZEND_ACC_PROTECTED)
+	PHP_FE_END
+};

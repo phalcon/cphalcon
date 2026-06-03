@@ -113,13 +113,13 @@ PHP_METHOD(Phalcon_Storage_Serializer_Php, unserialize)
 	ZEPHIR_GLOBAL(warning).enable = zend_is_true(&__$false);
 	ZEPHIR_INIT_VAR(&_3);
 	ZEPHIR_INIT_NVAR(&_3);
-	zephir_create_closure_ex(&_3, NULL, phalcon_85__closure_ce, SL("__invoke"));
+	zephir_create_closure_ex(&_3, NULL, phalcon_88__closure_ce, SL("__invoke"));
 	ZVAL_LONG(&_4, (8 | 2));
-	ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 227, &_3, &_4);
+	ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 231, &_3, &_4);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&result, this_ptr, "phpunserialize", NULL, 0, data);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(NULL, "restore_error_handler", NULL, 228);
+	ZEPHIR_CALL_FUNCTION(NULL, "restore_error_handler", NULL, 232);
 	zephir_check_call_status();
 	_5 = ZEPHIR_GLOBAL(warning).enable;
 	if (!(_5)) {

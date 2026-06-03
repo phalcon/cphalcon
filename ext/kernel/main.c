@@ -425,6 +425,69 @@ int zephir_declare_class_constant(zend_class_entry *ce, const char *name, size_t
 	return SUCCESS;
 }
 
+/**
+ * Deep-copies a (request) zval into persistent, immutable memory so it can be
+ * stored as a constant on a persistently-registered (internal) class. Only the
+ * value kinds that may appear in a Zephir array constant are handled: scalars,
+ * strings and (nested) arrays.
+ *
+ * @see https://github.com/zephir-lang/zephir/issues/2533
+ */
+static void zephir_persist_constant_zval(zval *dst, zval *src)
+{
+	switch (Z_TYPE_P(src)) {
+		case IS_STRING:
+			ZVAL_STR(dst, zend_string_init(Z_STRVAL_P(src), Z_STRLEN_P(src), 1));
+			GC_ADD_FLAGS(Z_STR_P(dst), IS_STR_PERSISTENT);
+			break;
+
+		case IS_ARRAY: {
+			zend_array *ht;
+			zend_ulong idx;
+			zend_string *key;
+			zval *val;
+
+			ht = (zend_array *) pemalloc(sizeof(zend_array), 1);
+			zend_hash_init(ht, zend_hash_num_elements(Z_ARRVAL_P(src)), NULL, NULL, 1);
+
+			ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(src), idx, key, val) {
+				zval copy;
+				zephir_persist_constant_zval(&copy, val);
+				if (key) {
+					zend_string *pkey = zend_string_init(ZSTR_VAL(key), ZSTR_LEN(key), 1);
+					GC_ADD_FLAGS(pkey, IS_STR_PERSISTENT);
+					zend_hash_add_new(ht, pkey, &copy);
+					zend_string_release(pkey);
+				} else {
+					zend_hash_index_add_new(ht, idx, &copy);
+				}
+			} ZEND_HASH_FOREACH_END();
+
+			ZVAL_ARR(dst, ht);
+			GC_ADD_FLAGS(ht, IS_ARRAY_IMMUTABLE);
+			GC_SET_REFCOUNT(ht, 1);
+			/* store as a non-refcounted (immutable) array zval */
+			Z_TYPE_INFO_P(dst) = IS_ARRAY;
+			break;
+		}
+
+		default:
+			/* IS_LONG / IS_DOUBLE / IS_TRUE / IS_FALSE / IS_NULL: no allocation */
+			ZVAL_COPY_VALUE(dst, src);
+			break;
+	}
+}
+
+int zephir_declare_class_constant_array(zend_class_entry *ce, const char *name, size_t name_length, zval *value)
+{
+	zval persisted;
+
+	zephir_persist_constant_zval(&persisted, value);
+	zval_ptr_dtor(value);
+
+	return zephir_declare_class_constant(ce, name, name_length, &persisted);
+}
+
 int zephir_declare_class_constant_null(zend_class_entry *ce, const char *name, size_t name_length)
 {
 	zval constant;

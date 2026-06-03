@@ -373,6 +373,8 @@ int zephir_fetch_parameters_variadic(int num_args, int required_args, int option
 #define ZEPHIR_GET_IMKEY(var, it) it->funcs->get_current_key(it, &var);
 
 /* Declare class constants */
+int zephir_declare_class_constant(zend_class_entry *ce, const char *name, size_t name_length, zval *value);
+int zephir_declare_class_constant_array(zend_class_entry *ce, const char *name, size_t name_length, zval *value);
 int zephir_declare_class_constant_null(zend_class_entry *ce, const char *name, size_t name_length);
 int zephir_declare_class_constant_long(zend_class_entry *ce, const char *name, size_t name_length, zend_long value);
 int zephir_declare_class_constant_bool(zend_class_entry *ce, const char *name, size_t name_length, zend_bool value);

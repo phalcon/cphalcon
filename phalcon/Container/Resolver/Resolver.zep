@@ -40,6 +40,7 @@ use ReflectionFunction;
 use ReflectionMethod;
 use ReflectionNamedType;
 use ReflectionParameter;
+use ReflectionType;
 
 class Resolver implements ResolverService
 {
@@ -210,6 +211,9 @@ class Resolver implements ResolverService
         return resolved;
     }
 
+    /**
+     * type is ReflectionType
+     */
     public function resolveType(
         object ioc,
         var type

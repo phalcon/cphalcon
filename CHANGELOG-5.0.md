@@ -1,6 +1,6 @@
 # Changelog
 
-## [5.13.1](https://github.com/phalcon/cphalcon/releases/tag/v5.13.1) (2026-xx-xx)
+## [5.14.0](https://github.com/phalcon/cphalcon/releases/tag/v5.14.0) (2026-06-03)
 
 ### Tools
 
@@ -12,9 +12,9 @@
 - Alignment with v6; docblocks; sorting; return types; minor fixes (image watermark opacity calc, serializer/helpers, readonly-becoming-mutable, ACL local access). [#17055](https://github.com/phalcon/cphalcon/issues/17055)
 - Changed return types to `-> <static>` or `-> <self>` in various components. The change is a covariant narrowing on implementation methods and does not touch any interface contracts, so userland classes that implement Phalcon interfaces and return the interface type continue to work unchanged. [#17035](https://github.com/phalcon/cphalcon/issues/17035)
 - Internal performance work across `Autoload`, `Dispatcher`, `Annotations`, `Db`, `Mvc\Model`, `Mvc\Model\Query`, `Tag`, `Assets`, `Acl\Adapter\Memory`, `Http\Request`, `Encryption\Crypt`. Behavior preserved. [#17049](https://github.com/phalcon/cphalcon/issues/17049)
-- `Phalcon\Autoload\Loader` getters (`getDirectories`, `getExtensions`, `getFiles`) return arrays keyed by the value string instead of by a SHA256 hash of it; iteration order and contents are unchanged. [#17049](https://github.com/phalcon/cphalcon/issues/17049) [[doc]](https://docs.phalcon.io/5.13/autoload/)
-- `Phalcon\Mvc\Router::handle()` internal optimizations: O(1) hash lookup for literal-URI routes; per-HTTP-method buckets; hot-loop reads; PCRE patterns chunked; per-route metadata cache deduplicated by route id. [#17012](https://github.com/phalcon/cphalcon/issues/17012) [[doc]](https://docs.phalcon.io/5.13/routing/)
-- `Phalcon\Mvc\Router\Route::getCompiledHostName()` now uses cache for hostname/converters. [#17012](https://github.com/phalcon/cphalcon/issues/17012) [[doc]](https://docs.phalcon.io/5.13/routing/)
+- `Phalcon\Autoload\Loader` getters (`getDirectories`, `getExtensions`, `getFiles`) return arrays keyed by the value string instead of by a SHA256 hash of it; iteration order and contents are unchanged. [#17049](https://github.com/phalcon/cphalcon/issues/17049) [[doc]](https://docs.phalcon.io/5.14/autoload/)
+- `Phalcon\Mvc\Router::handle()` internal optimizations: O(1) hash lookup for literal-URI routes; per-HTTP-method buckets; hot-loop reads; PCRE patterns chunked; per-route metadata cache deduplicated by route id. [#17012](https://github.com/phalcon/cphalcon/issues/17012) [[doc]](https://docs.phalcon.io/5.14/routing/)
+- `Phalcon\Mvc\Router\Route::getCompiledHostName()` now uses cache for hostname/converters. [#17012](https://github.com/phalcon/cphalcon/issues/17012) [[doc]](https://docs.phalcon.io/5.14/routing/)
 
 ### Added
 
@@ -22,7 +22,17 @@
     - `Phalcon\Container\Container` / `Phalcon\Container\ContainerFactory` - the container and its factory, configured through `Phalcon\Contracts\Container\Service\Provider` providers (`Phalcon\Container\Provider\Web`, `Phalcon\Container\Provider\Cli`).
     - `Phalcon\Container\Definition\ServiceDefinition` - fluent service definitions with autowiring, factories, extenders, tags, aliases, and configurable service lifetimes (`Phalcon\Container\Definition\ServiceLifetime`).
     - `Phalcon\Container\Resolver\Resolver` - reflection-based constructor / method / parameter autowiring, plus the `Phalcon\Container\Resolver\Lazy\*` family for lazy resolution (`Get`, `GetCall`, `NewInstance`, `Call`, `Env`, `CsEnv`, `ArrayValues`, etc.).
-    - `Phalcon\Container\Exceptions\*` - granular, per-cause exceptions (`ServiceNotFound`, `CircularAliasFound`, `FrozenDefinition`, `CannotResolveParameter`, `NoProcessorFound`, etc.). [#16897](https://github.com/phalcon/cphalcon/issues/16897)
+    - `Phalcon\Container\Exceptions\*` - granular, per-cause exceptions (`ServiceNotFound`, `CircularAliasFound`, `FrozenDefinition`, `CannotResolveParameter`, `NoProcessorFound`, etc.). [#16897](https://github.com/phalcon/cphalcon/issues/16897) [[doc]](https://docs.phalcon.io/5.14/container/)
+- Added a new authentication and authorization layer under `Phalcon\Auth`, with its contracts under `Phalcon\Contracts\Auth`. Built on top of `Phalcon\Container`, it adds:
+    - `Phalcon\Auth\Manager` / `Phalcon\Auth\ManagerFactory` - the central manager that wires guards and access gates together, and its factory.
+    - `Phalcon\Auth\AuthUser` - a lightweight user value object returned by array-backed adapters when no application model class is configured.
+    - Guards under `Phalcon\Auth\Guard` - `Session` and `Token` (with `AbstractGuard` and `UserRemember`), resolved via `Phalcon\Auth\Guard\GuardLocator` and configured through `Phalcon\Auth\Guard\Config\*` (`AbstractGuardConfig`, `SessionGuardConfig`, `TokenGuardConfig`).
+    - Adapters under `Phalcon\Auth\Adapter` - `Memory`, `Model`, and `Stream` user providers (with `AbstractAdapter` and `AbstractArrayAdapter`), resolved via `Phalcon\Auth\Adapter\AdapterLocator` and configured through `Phalcon\Auth\Adapter\Config\*` (`AbstractAdapterConfig`, `MemoryAdapterConfig`, `ModelAdapterConfig`, `StreamAdapterConfig`).
+    - Access gates under `Phalcon\Auth\Access` - `Auth` and `Guest` (with `AbstractAccess`), resolved via `Phalcon\Auth\Access\AccessLocator`.
+    - Dispatcher listeners `Phalcon\Auth\Mvc\AuthDispatcherListener` and `Phalcon\Auth\Cli\AuthDispatcherListener` (with `Phalcon\Auth\AbstractAuthDispatcherListener`) to guard MVC and CLI dispatch.
+    - `Phalcon\Auth\Exception` plus granular `Phalcon\Auth\Exceptions\*` (`AccessDenied`, `ConfigRequiresNonEmptyValue`, `DataMustContainIdKey`, `DoesNotImplement`, `FileCannotRead`, `FileDoesNotContainJson`, `FileDoesNotExist`, `FileNotValidJson`).
+    - Contracts under `Phalcon\Contracts\Auth` - `Manager`, `AuthUser`, `AuthRemember`, `RememberToken`, `Access\Access`, `Adapter\Adapter`, `Adapter\AdapterConfig`, `Adapter\RememberAdapter`, `Guard\Guard`, `Guard\GuardConfig`, `Guard\GuardStateful`, `Guard\BasicAuth`.
+    - `Phalcon\Support\AbstractLocator` - the shared service-locator base extended by the guard, adapter, and access locators. [#16273](https://github.com/phalcon/cphalcon/issues/16273) [[doc]](https://docs.phalcon.io/5.14/auth/)
 - Added granular exception classes across the framework. Every namespace that previously surfaced failures through a single umbrella `Phalcon\<Namespace>\Exception` (or its sub-namespace counterpart) now ships per-cause classes under a sibling `Exceptions/` folder. Each new class extends the existing per-namespace parent so `catch (Phalcon\<Namespace>\Exception $e)` continues to work unchanged. New classes:
     - `Phalcon\Acl\Exceptions`
         - `AccessRuleNotFound`
@@ -388,7 +398,6 @@
         - `MultipleSqlStatementsNotSupported`
         - `NoModelForAlias`
         - `PhqlColumnNotInMap`
-        - `QueryOperationNotSupported`
         - `ReadConnectionMissing`
         - `RelationshipNotFound`
         - `ResultsetClassNotFound`
@@ -514,29 +523,29 @@
         - `MissingGettextExtension`
         - `MissingRequiredParameter`
         - `TranslatorNotRegistered` [#17019](https://github.com/phalcon/cphalcon/issues/17019)
-- `Phalcon\Mvc\Router\Route::setRouteId(string $routeId)` - setter intended for restoring cached routes [#17012](https://github.com/phalcon/cphalcon/issues/17012) [[doc]](https://docs.phalcon.io/5.13/routing/)
-- `Phalcon\Mvc\Router::buildDispatcherDump()` / `Phalcon\Mvc\Router::loadDispatcherFromArray(array $dump)` - used to build/load the routes [#17012](https://github.com/phalcon/cphalcon/issues/17012) [[doc]](https://docs.phalcon.io/5.13/routing/)
-- `Phalcon\Mvc\Router::dumpDispatcher(string $path)` / `Phalcon\Mvc\Router::loadDispatcher(string $path)` - file-shaped helpers that write/read routes [#17012](https://github.com/phalcon/cphalcon/issues/17012) [[doc]](https://docs.phalcon.io/5.13/routing/)
-- `Phalcon\Mvc\Router::useCache()` - to use a `Phalcon\Cache` adapter to store routes [#17012](https://github.com/phalcon/cphalcon/issues/17012) [[doc]](https://docs.phalcon.io/5.13/routing/)
+- `Phalcon\Mvc\Router\Route::setRouteId(string $routeId)` - setter intended for restoring cached routes [#17012](https://github.com/phalcon/cphalcon/issues/17012) [[doc]](https://docs.phalcon.io/5.14/routing/)
+- `Phalcon\Mvc\Router::buildDispatcherDump()` / `Phalcon\Mvc\Router::loadDispatcherFromArray(array $dump)` - used to build/load the routes [#17012](https://github.com/phalcon/cphalcon/issues/17012) [[doc]](https://docs.phalcon.io/5.14/routing/)
+- `Phalcon\Mvc\Router::dumpDispatcher(string $path)` / `Phalcon\Mvc\Router::loadDispatcher(string $path)` - file-shaped helpers that write/read routes [#17012](https://github.com/phalcon/cphalcon/issues/17012) [[doc]](https://docs.phalcon.io/5.14/routing/)
+- `Phalcon\Mvc\Router::useCache()` - to use a `Phalcon\Cache` adapter to store routes [#17012](https://github.com/phalcon/cphalcon/issues/17012) [[doc]](https://docs.phalcon.io/5.14/routing/)
 - Opt-in memory caps for long-running workers (Swoole / RoadRunner / queue consumers). Default `0` preserves the original unbounded behavior: [#17049](https://github.com/phalcon/cphalcon/issues/17049)
-    - `Phalcon\Db\Profiler::setMaxProfiles(int)` / `getMaxProfiles()` [[doc]](https://docs.phalcon.io/5.13/db-layer/)
-    - `Phalcon\Logger\Adapter\AbstractAdapter::setQueueLimit(int)` / `getQueueLimit()` [[doc]](https://docs.phalcon.io/5.13/logger/)
-    - `Phalcon\Events\Manager::setMethodExistsCacheLimit(int)` / `getMethodExistsCacheLimit()` [[doc]](https://docs.phalcon.io/5.13/events/)
-    - `Phalcon\Annotations\Adapter\AbstractAdapter::setAnnotationsLimit(int)` / `getAnnotationsLimit()` [[doc]](https://docs.phalcon.io/5.13/annotations/)
-    - `Phalcon\Storage\Adapter\Memory::setMaxItems(int)` / `getMaxItems()` [[doc]](https://docs.phalcon.io/5.13/storage/)
+    - `Phalcon\Db\Profiler::setMaxProfiles(int)` / `getMaxProfiles()` [[doc]](https://docs.phalcon.io/5.14/db-layer/)
+    - `Phalcon\Logger\Adapter\AbstractAdapter::setQueueLimit(int)` / `getQueueLimit()` [[doc]](https://docs.phalcon.io/5.14/logger/)
+    - `Phalcon\Events\Manager::setMethodExistsCacheLimit(int)` / `getMethodExistsCacheLimit()` [[doc]](https://docs.phalcon.io/5.14/events/)
+    - `Phalcon\Annotations\Adapter\AbstractAdapter::setAnnotationsLimit(int)` / `getAnnotationsLimit()` [[doc]](https://docs.phalcon.io/5.14/annotations/)
+    - `Phalcon\Storage\Adapter\Memory::setMaxItems(int)` / `getMaxItems()` [[doc]](https://docs.phalcon.io/5.14/storage/)
 
 ### Fixed
 
-- Fixed `Phalcon\Mvc\Model\Row::offsetGet()` / `offsetExists()` throwing `The index does not exist in the row` when accessing a column whose value is `null` [#17041](https://github.com/phalcon/cphalcon/issues/17041) [[doc]](https://docs.phalcon.io/5.13/db-models/)
-- Fixed `Phalcon\Mvc\View::getContent()` throwing `TypeError` after `View::start()`. `start()` was assigning `$this->content = null` [#17041](https://github.com/phalcon/cphalcon/issues/17041) [[doc]](https://docs.phalcon.io/5.13/views/)
-- Fixed `Phalcon\Mvc\Model::getChangedFields()` / `hasChanged()` flagging every null-valued column of a freshly-loaded row as changed [#17042](https://github.com/phalcon/cphalcon/issues/17042) [[doc]](https://docs.phalcon.io/5.13/db-models/)
-- Fixed `Phalcon\Mvc\Model::getUpdatedFields()` flagging unchanged null-valued columns as updated [#17042](https://github.com/phalcon/cphalcon/issues/17042) [[doc]](https://docs.phalcon.io/5.13/db-models/)
-- Fixed `Phalcon\Forms\Form::clear()` leaving a previously-bound `null` field value in the data array instead of unsetting it before reassigning the element default [#17042](https://github.com/phalcon/cphalcon/issues/17042) [[doc]](https://docs.phalcon.io/5.13/forms/)
-- Fixed `Phalcon\Mvc\View\Engine\Volt\Compiler` emitting invalid PHP when a double-quoted Volt string contained literal single quotes (e.g. `"send_ga('Link', ...)"`). Only un-escaped single quotes are now escaped, so the `'Let\'s Encrypt'` case from [#17002](https://github.com/phalcon/cphalcon/issues/17002) is preserved [#17046](https://github.com/phalcon/cphalcon/issues/17046) [[doc]](https://docs.phalcon.io/5.13/volt/)
+- Fixed `Phalcon\Mvc\Model\Row::offsetGet()` / `offsetExists()` throwing `The index does not exist in the row` when accessing a column whose value is `null` [#17041](https://github.com/phalcon/cphalcon/issues/17041) [[doc]](https://docs.phalcon.io/5.14/db-models/)
+- Fixed `Phalcon\Mvc\View::getContent()` throwing `TypeError` after `View::start()`. `start()` was assigning `$this->content = null` [#17041](https://github.com/phalcon/cphalcon/issues/17041) [[doc]](https://docs.phalcon.io/5.14/views/)
+- Fixed `Phalcon\Mvc\Model::getChangedFields()` / `hasChanged()` flagging every null-valued column of a freshly-loaded row as changed [#17042](https://github.com/phalcon/cphalcon/issues/17042) [[doc]](https://docs.phalcon.io/5.14/db-models/)
+- Fixed `Phalcon\Mvc\Model::getUpdatedFields()` flagging unchanged null-valued columns as updated [#17042](https://github.com/phalcon/cphalcon/issues/17042) [[doc]](https://docs.phalcon.io/5.14/db-models/)
+- Fixed `Phalcon\Forms\Form::clear()` leaving a previously-bound `null` field value in the data array instead of unsetting it before reassigning the element default [#17042](https://github.com/phalcon/cphalcon/issues/17042) [[doc]](https://docs.phalcon.io/5.14/forms/)
+- Fixed `Phalcon\Mvc\View\Engine\Volt\Compiler` emitting invalid PHP when a double-quoted Volt string contained literal single quotes (e.g. `"send_ga('Link', ...)"`). Only un-escaped single quotes are now escaped, so the `'Let\'s Encrypt'` case from [#17002](https://github.com/phalcon/cphalcon/issues/17002) is preserved [#17046](https://github.com/phalcon/cphalcon/issues/17046) [[doc]](https://docs.phalcon.io/5.14/volt/)
 
 ### Removed
 
-- Reverted the `Phalcon\Mvc\Model\Query::executeUpdate()` named-placeholder substitution introduced for [#16976](https://github.com/phalcon/cphalcon/issues/16976). The substitution path was triggering a use-after-free in the model update flow under PostgreSQL ([#17042](https://github.com/phalcon/cphalcon/issues/17042)). Issue [#16976](https://github.com/phalcon/cphalcon/issues/16976) is reopened and will be addressed with a different approach. [[doc]](https://docs.phalcon.io/5.13/db-phql/)
+- Reverted the `Phalcon\Mvc\Model\Query::executeUpdate()` named-placeholder substitution introduced for [#16976](https://github.com/phalcon/cphalcon/issues/16976). The substitution path was triggering a use-after-free in the model update flow under PostgreSQL ([#17042](https://github.com/phalcon/cphalcon/issues/17042)). Issue [#16976](https://github.com/phalcon/cphalcon/issues/16976) is reopened and will be addressed with a different approach. [[doc]](https://docs.phalcon.io/5.14/db-phql/)
 
 ## [5.13.0](https://github.com/phalcon/cphalcon/releases/tag/v5.13.0) (2026-05-18)
 
