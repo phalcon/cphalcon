@@ -96,7 +96,7 @@ jobs:
       - name: Generate and validate stubs
         run: |
           vendor/bin/zephir stubs
-          vendor/bin/psalm -c resources/psalm.xml ide/
+          composer analyze
 
       - name: Fix code style on generated stubs
         # phpcbf exits 1 when it fixes files; passing the path on the CLI overrides
