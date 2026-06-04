@@ -34,7 +34,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_auth_guard_session_fromoptions, 0, 3, MAY_BE_STATIC)
 	ZEND_ARG_OBJ_INFO(0, adapter, Phalcon\\Contracts\\Auth\\Adapter\\Adapter, 0)
-	ZEND_ARG_OBJ_INFO(0, container, Phalcon\\Contracts\\Container\\Service\\Collection, 0)
+	ZEND_ARG_INFO(0, container)
 	ZEND_ARG_ARRAY_INFO(0, options, 0)
 ZEND_END_ARG_INFO()
 

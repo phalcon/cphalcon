@@ -21,7 +21,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_auth_internal_options_re
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_auth_internal_options_resolveservice, 0, 3, MAY_BE_OBJECT)
-	ZEND_ARG_OBJ_INFO(0, container, Phalcon\\Contracts\\Container\\Service\\Collection, 0)
+	ZEND_ARG_INFO(0, container)
 	ZEND_ARG_TYPE_INFO(0, serviceId, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, context, IS_STRING, 0)
 ZEND_END_ARG_INFO()

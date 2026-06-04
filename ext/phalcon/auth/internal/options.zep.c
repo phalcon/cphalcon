@@ -75,7 +75,7 @@ PHP_METHOD(Phalcon_Auth_Internal_Options, arrayOption)
 	zephir_get_arrval(&defaultValue, defaultValue_param);
 	if (zephir_array_isset_value(&options, &key_zv)) {
 		zephir_memory_observe(&value);
-		zephir_array_fetch(&value, &options, &key_zv, PH_NOISY, "phalcon/Auth/Internal/Options.zep", 35);
+		zephir_array_fetch(&value, &options, &key_zv, PH_NOISY, "phalcon/Auth/Internal/Options.zep", 36);
 	} else {
 		ZEPHIR_CPY_WRT(&value, &defaultValue);
 	}
@@ -136,7 +136,7 @@ PHP_METHOD(Phalcon_Auth_Internal_Options, requireString)
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 8, &_3$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Auth/Internal/Options.zep", 59);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Auth/Internal/Options.zep", 60);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -154,20 +154,21 @@ PHP_METHOD(Phalcon_Auth_Internal_Options, requireString)
  */
 PHP_METHOD(Phalcon_Auth_Internal_Options, resolveService)
 {
+	zend_bool _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_string *serviceId = NULL, *context = NULL;
-	zval *container, container_sub, serviceId_zv, context_zv, _0, _1$$3, _2$$3, _3$$3;
+	zval *container, container_sub, serviceId_zv, context_zv, _1, _2$$4, _3$$4, _4$$4;
 
 	ZVAL_UNDEF(&container_sub);
 	ZVAL_UNDEF(&serviceId_zv);
 	ZVAL_UNDEF(&context_zv);
-	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1$$3);
-	ZVAL_UNDEF(&_2$$3);
-	ZVAL_UNDEF(&_3$$3);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2$$4);
+	ZVAL_UNDEF(&_3$$4);
+	ZVAL_UNDEF(&_4$$4);
 	ZEND_PARSE_PARAMETERS_START(3, 3)
-		Z_PARAM_OBJECT_OF_CLASS(container, phalcon_contracts_container_service_collection_ce)
+		Z_PARAM_ZVAL(container)
 		Z_PARAM_STR(serviceId)
 		Z_PARAM_STR(context)
 	ZEND_PARSE_PARAMETERS_END();
@@ -178,18 +179,26 @@ PHP_METHOD(Phalcon_Auth_Internal_Options, resolveService)
 	ZVAL_STR_COPY(&serviceId_zv, serviceId);
 	zephir_memory_observe(&context_zv);
 	ZVAL_STR_COPY(&context_zv, context);
-	ZEPHIR_CALL_METHOD(&_0, container, "has", NULL, 0, &serviceId_zv);
+	_0 = !((zephir_instance_of_ev(container, phalcon_contracts_container_service_collection_ce)));
+	if (_0) {
+		_0 = !((zephir_instance_of_ev(container, phalcon_di_diinterface_ce)));
+	}
+	if (_0) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(zend_ce_type_error, "The parameter must be an instance of Collection or DiInterface", "phalcon/Auth/Internal/Options.zep", 81);
+		return;
+	}
+	ZEPHIR_CALL_METHOD(&_1, container, "has", NULL, 0, &serviceId_zv);
 	zephir_check_call_status();
-	if (!zephir_is_true(&_0)) {
-		ZEPHIR_INIT_VAR(&_1$$3);
-		object_init_ex(&_1$$3, phalcon_auth_exception_ce);
-		ZEPHIR_INIT_VAR(&_2$$3);
-		ZVAL_STRING(&_2$$3, "Auth %s requires service '%s' to be bound in the container");
-		ZEPHIR_CALL_FUNCTION(&_3$$3, "sprintf", NULL, 126, &_2$$3, &context_zv, &serviceId_zv);
+	if (!zephir_is_true(&_1)) {
+		ZEPHIR_INIT_VAR(&_2$$4);
+		object_init_ex(&_2$$4, phalcon_auth_exception_ce);
+		ZEPHIR_INIT_VAR(&_3$$4);
+		ZVAL_STRING(&_3$$4, "Auth %s requires service '%s' to be bound in the container");
+		ZEPHIR_CALL_FUNCTION(&_4$$4, "sprintf", NULL, 126, &_3$$4, &context_zv, &serviceId_zv);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 8, &_3$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_2$$4, "__construct", NULL, 8, &_4$$4);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Auth/Internal/Options.zep", 86);
+		zephir_throw_exception_debug(&_2$$4, "phalcon/Auth/Internal/Options.zep", 91);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

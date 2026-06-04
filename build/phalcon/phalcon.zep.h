@@ -17179,7 +17179,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_auth_guard_session_fromoptions, 0, 3, MAY_BE_STATIC)
 	ZEND_ARG_OBJ_INFO(0, adapter, Phalcon\\Contracts\\Auth\\Adapter\\Adapter, 0)
-	ZEND_ARG_OBJ_INFO(0, container, Phalcon\\Contracts\\Container\\Service\\Collection, 0)
+	ZEND_ARG_INFO(0, container)
 	ZEND_ARG_ARRAY_INFO(0, options, 0)
 ZEND_END_ARG_INFO()
 
@@ -17300,7 +17300,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_auth_guard_token_fromoptions, 0, 3, MAY_BE_STATIC)
 	ZEND_ARG_OBJ_INFO(0, adapter, Phalcon\\Contracts\\Auth\\Adapter\\Adapter, 0)
-	ZEND_ARG_OBJ_INFO(0, container, Phalcon\\Contracts\\Container\\Service\\Collection, 0)
+	ZEND_ARG_INFO(0, container)
 	ZEND_ARG_ARRAY_INFO(0, options, 0)
 ZEND_END_ARG_INFO()
 
@@ -17380,7 +17380,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_auth_internal_options_re
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_auth_internal_options_resolveservice, 0, 3, MAY_BE_OBJECT)
-	ZEND_ARG_OBJ_INFO(0, container, Phalcon\\Contracts\\Container\\Service\\Collection, 0)
+	ZEND_ARG_INFO(0, container)
 	ZEND_ARG_TYPE_INFO(0, serviceId, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, context, IS_STRING, 0)
 ZEND_END_ARG_INFO()
@@ -17531,7 +17531,7 @@ static PHP_METHOD(Phalcon_Auth_ManagerFactory, buildGuard);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_auth_managerfactory___construct, 0, 0, 2)
 	ZEND_ARG_OBJ_INFO(0, hasher, Phalcon\\Encryption\\Security, 0)
-	ZEND_ARG_OBJ_INFO(0, container, Phalcon\\Contracts\\Container\\Service\\Collection, 0)
+	ZEND_ARG_INFO(0, container)
 	ZEND_ARG_OBJ_TYPE_MASK(0, adapterLocator, Phalcon\\Auth\\Adapter\\AdapterLocator, MAY_BE_NULL, "null")
 	ZEND_ARG_OBJ_TYPE_MASK(0, guardLocator, Phalcon\\Auth\\Guard\\GuardLocator, MAY_BE_NULL, "null")
 	ZEND_ARG_OBJ_TYPE_MASK(0, accessLocator, Phalcon\\Auth\\Access\\AccessLocator, MAY_BE_NULL, "null")
