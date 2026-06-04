@@ -25,6 +25,7 @@ use Phalcon\Contracts\Auth\Guard\BasicAuth;
 use Phalcon\Contracts\Auth\Guard\GuardStateful;
 use Phalcon\Contracts\Auth\RememberToken;
 use Phalcon\Contracts\Container\Service\Collection;
+use Phalcon\Di\DiInterface;
 use Phalcon\Http\RequestInterface;
 use Phalcon\Http\Response\CookiesInterface;
 use Phalcon\Session\ManagerInterface as SessionManagerInterface;
@@ -74,9 +75,13 @@ class Session extends AbstractGuard implements GuardStateful, BasicAuth
 
     public static function fromOptions(
         <Adapter> adapter,
-        <Collection> container,
+        var container,
         array options
     ) -> <static> {
+        if (!(container instanceof Collection) && !(container instanceof DiInterface)) {
+            throw new \TypeError("The parameter must be an instance of Collection or DiInterface");
+        }
+
         var config;
 
         let config = new SessionGuardConfig(

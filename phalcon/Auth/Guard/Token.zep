@@ -18,6 +18,7 @@ use Phalcon\Auth\Internal\Options;
 use Phalcon\Contracts\Auth\Adapter\Adapter;
 use Phalcon\Contracts\Auth\AuthUser;
 use Phalcon\Contracts\Container\Service\Collection;
+use Phalcon\Di\DiInterface;
 use Phalcon\Http\RequestInterface;
 
 /**
@@ -44,9 +45,13 @@ class Token extends AbstractGuard
 
     public static function fromOptions(
         <Adapter> adapter,
-        <Collection> container,
+        var container,
         array options
     ) -> <static> {
+        if (!(container instanceof Collection) && !(container instanceof DiInterface)) {
+            throw new \TypeError("The parameter must be an instance of Collection or DiInterface");
+        }
+
         return new static(
             adapter,
             Options::resolveService(container, "Phalcon\\Http\\RequestInterface", "Token guard"),

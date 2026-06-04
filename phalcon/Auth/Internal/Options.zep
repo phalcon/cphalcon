@@ -15,6 +15,7 @@ namespace Phalcon\Auth\Internal;
 
 use Phalcon\Auth\Exception;
 use Phalcon\Contracts\Container\Service\Collection;
+use Phalcon\Di\DiInterface;
 
 /**
  * Internal option-parsing helpers shared by adapter / guard fromOptions()
@@ -72,10 +73,14 @@ final class Options
      * @throws Exception
      */
     public static function resolveService(
-        <Collection> container,
+        var container,
         string serviceId,
         string context
     ) -> object {
+        if (!(container instanceof Collection) && !(container instanceof DiInterface)) {
+            throw new \TypeError("The parameter must be an instance of Collection or DiInterface");
+        }
+
         if (!container->has(serviceId)) {
             throw new Exception(
                 sprintf(

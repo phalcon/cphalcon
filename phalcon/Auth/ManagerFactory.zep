@@ -21,6 +21,7 @@ use Phalcon\Contracts\Auth\Access\Access;
 use Phalcon\Contracts\Auth\Adapter\Adapter;
 use Phalcon\Contracts\Auth\Guard\Guard;
 use Phalcon\Contracts\Container\Service\Collection;
+use Phalcon\Di\DiInterface;
 use Phalcon\Encryption\Security;
 
 /**
@@ -100,11 +101,15 @@ class ManagerFactory
 
     public function __construct(
         <Security> hasher,
-        <Collection> container,
+        var container,
         <AdapterLocator> adapterLocator = null,
         <GuardLocator> guardLocator = null,
         <AccessLocator> accessLocator = null
     ) {
+        if (!(container instanceof Collection) && !(container instanceof DiInterface)) {
+            throw new \TypeError("The parameter must be an instance of Collection or DiInterface");
+        }
+
         let this->container      = container;
         let this->hasher         = hasher;
         let this->adapterLocator = adapterLocator !== null ? adapterLocator : new AdapterLocator(container);
@@ -203,7 +208,7 @@ class ManagerFactory
 
         return {className}::fromOptions(
             adapter,
-            this->container,
+            this-> container,
             options
         );
     }
