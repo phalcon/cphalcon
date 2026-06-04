@@ -13,11 +13,11 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Forms\Form;
 
+use Phalcon\Forms\Element\Text;
+use Phalcon\Forms\Form;
+use Phalcon\Messages\Messages;
 use Phalcon\Tests\AbstractUnitTestCase;
 
-/**
- * Class GetMessagesForTest extends AbstractUnitTestCase
- */
 final class GetMessagesForTest extends AbstractUnitTestCase
 {
     /**
@@ -26,6 +26,17 @@ final class GetMessagesForTest extends AbstractUnitTestCase
      */
     public function testFormsFormGetMessagesFor(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $form = new Form();
+        $form->add(new Text('email'));
+
+        // No validation run yet → empty Messages
+        $messages = $form->getMessagesFor('email');
+        $this->assertInstanceOf(Messages::class, $messages);
+        $this->assertCount(0, $messages);
+
+        // Unknown element → empty Messages, no exception
+        $messages = $form->getMessagesFor('not_added');
+        $this->assertInstanceOf(Messages::class, $messages);
+        $this->assertCount(0, $messages);
     }
 }

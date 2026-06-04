@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Translate\InterpolatorFactory;
 
 use Phalcon\Tests\AbstractUnitTestCase;
-use Phalcon\Translate\Exception;
+use Phalcon\Translate\Exceptions\InterpolatorNotRegistered;
 use Phalcon\Translate\Interpolator\AssociativeArray;
 use Phalcon\Translate\Interpolator\IndexedArray;
 use Phalcon\Translate\InterpolatorFactory;
@@ -55,7 +55,7 @@ final class NewInstanceTest extends AbstractUnitTestCase
     public function testTranslateInterpolatorFactoryNewInstanceException(): void
     {
 
-        $this->expectException(Exception::class);
+        $this->expectException(InterpolatorNotRegistered::class);
         $this->expectExceptionMessage('Service unknown is not registered');
 
         $adapter = new InterpolatorFactory();

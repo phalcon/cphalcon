@@ -48,6 +48,14 @@ abstract class AbstractAdapter implements SessionHandlerInterface
      */
     public function gc(int max_lifetime) -> int|false
     {
+        return 1;
+    }
+
+    /**
+     * Open
+     */
+    public function open(var path, var name) -> bool
+    {
         return true;
     }
 
@@ -60,14 +68,6 @@ abstract class AbstractAdapter implements SessionHandlerInterface
         let data = this->adapter->get(id);
 
         return null === data ? "" : data;
-    }
-
-    /**
-     * Open
-     */
-    public function open(var path, var name) -> bool
-    {
-        return true;
     }
 
     /**

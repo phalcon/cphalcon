@@ -10,16 +10,15 @@
 
 namespace Phalcon\Mvc\Model\MetaData\Strategy;
 
-use Phalcon\Di\DiInterface;
 use Phalcon\Db\Adapter\AdapterInterface;
-use Phalcon\Db\Column;
-use Phalcon\Mvc\ModelInterface;
-use Phalcon\Mvc\Model\Exception;
+use Phalcon\Di\DiInterface;
 use Phalcon\Mvc\Model\MetaData;
+use Phalcon\Mvc\Model\MetaData\Exceptions\CannotObtainTableColumns;
+use Phalcon\Mvc\Model\MetaData\Exceptions\ColumnMapNotArray;
+use Phalcon\Mvc\Model\MetaData\Exceptions\TableNotInDatabase;
+use Phalcon\Mvc\ModelInterface;
 
 /**
- * Phalcon\Mvc\Model\MetaData\Strategy\Introspection
- *
  * Queries the table meta-data in order to introspect the model's metadata
  */
 class Introspection implements StrategyInterface
@@ -41,7 +40,7 @@ class Introspection implements StrategyInterface
             let userColumnMap = model->{"columnMap"}();
 
             if unlikely typeof userColumnMap != "array" {
-                throw new Exception("columnMap() not returned an array");
+                throw new ColumnMapNotArray();
             }
 
             let reversedColumnMap = [],
@@ -87,9 +86,7 @@ class Introspection implements StrategyInterface
             /**
              * The table not exists
              */
-            throw new Exception(
-                "Table '" . completeTable . "' does not exist in database when dumping meta-data for " . get_class(model)
-            );
+            throw new TableNotInDatabase(completeTable, get_class(model));
         }
 
         /**
@@ -107,9 +104,7 @@ class Introspection implements StrategyInterface
             /**
              * The table not exists
              */
-            throw new Exception(
-                "Cannot obtain table columns for the mapped source '" . completeTable . "' used in model " . get_class(model)
-            );
+            throw new CannotObtainTableColumns(completeTable, get_class(model));
         }
 
         /**

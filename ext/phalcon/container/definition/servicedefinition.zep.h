@@ -1,0 +1,186 @@
+
+extern zend_class_entry *phalcon_container_definition_servicedefinition_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Container_Definition_ServiceDefinition);
+
+PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, __construct);
+PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, addExtender);
+PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, addTag);
+PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, buildService);
+PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, freeze);
+PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, getArguments);
+PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, getClass);
+PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, getConstructorArgs);
+PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, getExtenders);
+PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, getFactory);
+PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, getLifetime);
+PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, getServiceName);
+PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, getTags);
+PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, getType);
+PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, hasClass);
+PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, hasExtenders);
+PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, hasFactory);
+PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, isCacheable);
+PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, isFrozen);
+PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, setArgument);
+PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, setContainer);
+PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, setClass);
+PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, setExtenders);
+PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, setFactory);
+PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, setIsCacheable);
+PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, setLifetime);
+PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, unsetClass);
+PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, unsetExtenders);
+PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, unsetFactory);
+PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, checkFrozen);
+PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, resolveArgs);
+zend_object *zephir_init_properties_Phalcon_Container_Definition_ServiceDefinition(zend_class_entry *class_type);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_container_definition_servicedefinition___construct, 0, 0, 2)
+	ZEND_ARG_TYPE_INFO(0, serviceName, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, type, IS_STRING, 0)
+	ZEND_ARG_INFO(0, raw)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_container_definition_servicedefinition_addextender, 0, 1, MAY_BE_STATIC)
+	ZEND_ARG_INFO(0, extender)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_container_definition_servicedefinition_addtag, 0, 1, MAY_BE_STATIC)
+	ZEND_ARG_TYPE_INFO(0, tag, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_container_definition_servicedefinition_buildservice, 0, 1, MAY_BE_OBJECT)
+	ZEND_ARG_INFO(0, container)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_container_definition_servicedefinition_freeze, 0, 1, IS_VOID, 0)
+
+	ZEND_ARG_INFO(0, container)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_container_definition_servicedefinition_getarguments, 0, 0, IS_ARRAY, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_container_definition_servicedefinition_getclass, 0, 0, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_container_definition_servicedefinition_getconstructorargs, 0, 0, IS_ARRAY, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_container_definition_servicedefinition_getextenders, 0, 0, IS_ARRAY, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_container_definition_servicedefinition_getfactory, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_container_definition_servicedefinition_getlifetime, 0, 0, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_container_definition_servicedefinition_getservicename, 0, 0, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_container_definition_servicedefinition_gettags, 0, 0, IS_ARRAY, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_container_definition_servicedefinition_gettype, 0, 0, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_container_definition_servicedefinition_hasclass, 0, 0, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_container_definition_servicedefinition_hasextenders, 0, 0, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_container_definition_servicedefinition_hasfactory, 0, 0, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_container_definition_servicedefinition_iscacheable, 0, 0, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_container_definition_servicedefinition_isfrozen, 0, 0, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_container_definition_servicedefinition_setargument, 0, 2, MAY_BE_STATIC)
+	ZEND_ARG_INFO(0, param)
+	ZEND_ARG_INFO(0, value)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_container_definition_servicedefinition_setcontainer, 0, 1, MAY_BE_STATIC)
+	ZEND_ARG_INFO(0, container)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_container_definition_servicedefinition_setclass, 0, 1, MAY_BE_STATIC)
+	ZEND_ARG_TYPE_INFO(0, className, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_container_definition_servicedefinition_setextenders, 0, 1, MAY_BE_STATIC)
+	ZEND_ARG_ARRAY_INFO(0, extenders, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_container_definition_servicedefinition_setfactory, 0, 1, MAY_BE_STATIC)
+	ZEND_ARG_INFO(0, factory)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_container_definition_servicedefinition_setiscacheable, 0, 1, MAY_BE_STATIC)
+	ZEND_ARG_TYPE_INFO(0, isCacheable, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_container_definition_servicedefinition_setlifetime, 0, 1, MAY_BE_STATIC)
+	ZEND_ARG_TYPE_INFO(0, lifetime, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_container_definition_servicedefinition_unsetclass, 0, 0, MAY_BE_STATIC)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_container_definition_servicedefinition_unsetextenders, 0, 0, MAY_BE_STATIC)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_container_definition_servicedefinition_unsetfactory, 0, 0, MAY_BE_STATIC)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_container_definition_servicedefinition_checkfrozen, 0, 0, IS_VOID, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_container_definition_servicedefinition_resolveargs, 0, 2, IS_ARRAY, 0)
+	ZEND_ARG_INFO(0, container)
+	ZEND_ARG_ARRAY_INFO(0, args, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_container_definition_servicedefinition_zephir_init_properties_phalcon_container_definition_servicedefinition, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_container_definition_servicedefinition_method_entry) {
+	PHP_ME(Phalcon_Container_Definition_ServiceDefinition, __construct, arginfo_phalcon_container_definition_servicedefinition___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Container_Definition_ServiceDefinition, addExtender, arginfo_phalcon_container_definition_servicedefinition_addextender, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Container_Definition_ServiceDefinition, addTag, arginfo_phalcon_container_definition_servicedefinition_addtag, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Container_Definition_ServiceDefinition, buildService, arginfo_phalcon_container_definition_servicedefinition_buildservice, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Container_Definition_ServiceDefinition, freeze, arginfo_phalcon_container_definition_servicedefinition_freeze, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Container_Definition_ServiceDefinition, getArguments, arginfo_phalcon_container_definition_servicedefinition_getarguments, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Container_Definition_ServiceDefinition, getClass, arginfo_phalcon_container_definition_servicedefinition_getclass, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Container_Definition_ServiceDefinition, getConstructorArgs, arginfo_phalcon_container_definition_servicedefinition_getconstructorargs, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Container_Definition_ServiceDefinition, getExtenders, arginfo_phalcon_container_definition_servicedefinition_getextenders, ZEND_ACC_PUBLIC)
+PHP_ME(Phalcon_Container_Definition_ServiceDefinition, getFactory, arginfo_phalcon_container_definition_servicedefinition_getfactory, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Container_Definition_ServiceDefinition, getLifetime, arginfo_phalcon_container_definition_servicedefinition_getlifetime, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Container_Definition_ServiceDefinition, getServiceName, arginfo_phalcon_container_definition_servicedefinition_getservicename, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Container_Definition_ServiceDefinition, getTags, arginfo_phalcon_container_definition_servicedefinition_gettags, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Container_Definition_ServiceDefinition, getType, arginfo_phalcon_container_definition_servicedefinition_gettype, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Container_Definition_ServiceDefinition, hasClass, arginfo_phalcon_container_definition_servicedefinition_hasclass, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Container_Definition_ServiceDefinition, hasExtenders, arginfo_phalcon_container_definition_servicedefinition_hasextenders, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Container_Definition_ServiceDefinition, hasFactory, arginfo_phalcon_container_definition_servicedefinition_hasfactory, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Container_Definition_ServiceDefinition, isCacheable, arginfo_phalcon_container_definition_servicedefinition_iscacheable, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Container_Definition_ServiceDefinition, isFrozen, arginfo_phalcon_container_definition_servicedefinition_isfrozen, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Container_Definition_ServiceDefinition, setArgument, arginfo_phalcon_container_definition_servicedefinition_setargument, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Container_Definition_ServiceDefinition, setContainer, arginfo_phalcon_container_definition_servicedefinition_setcontainer, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Container_Definition_ServiceDefinition, setClass, arginfo_phalcon_container_definition_servicedefinition_setclass, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Container_Definition_ServiceDefinition, setExtenders, arginfo_phalcon_container_definition_servicedefinition_setextenders, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Container_Definition_ServiceDefinition, setFactory, arginfo_phalcon_container_definition_servicedefinition_setfactory, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Container_Definition_ServiceDefinition, setIsCacheable, arginfo_phalcon_container_definition_servicedefinition_setiscacheable, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Container_Definition_ServiceDefinition, setLifetime, arginfo_phalcon_container_definition_servicedefinition_setlifetime, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Container_Definition_ServiceDefinition, unsetClass, arginfo_phalcon_container_definition_servicedefinition_unsetclass, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Container_Definition_ServiceDefinition, unsetExtenders, arginfo_phalcon_container_definition_servicedefinition_unsetextenders, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Container_Definition_ServiceDefinition, unsetFactory, arginfo_phalcon_container_definition_servicedefinition_unsetfactory, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Container_Definition_ServiceDefinition, checkFrozen, arginfo_phalcon_container_definition_servicedefinition_checkfrozen, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Container_Definition_ServiceDefinition, resolveArgs, arginfo_phalcon_container_definition_servicedefinition_resolveargs, ZEND_ACC_PRIVATE)
+	PHP_FE_END
+};

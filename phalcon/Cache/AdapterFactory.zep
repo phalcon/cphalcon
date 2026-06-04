@@ -23,7 +23,7 @@ class AdapterFactory extends AbstractFactory
     /**
      * @var SerializerFactory
      */
-    private serializerFactory;
+    protected serializerFactory;
 
     /**
      * AdapterFactory constructor.

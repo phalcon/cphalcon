@@ -26,9 +26,9 @@ class Meta extends AbstractSeries
      *
      * @param array $attributes
      *
-     * @return Meta
+     * @return static
      */
-    public function add(array attributes = [], int position = -1) -> <Meta>
+    public function add(array attributes = [], int position = -1) -> <static>
     {
         this->pushOrPlace(
             [
@@ -50,10 +50,10 @@ class Meta extends AbstractSeries
      * @param string $content
      * @param int    $position
      *
-     * @return Meta
+     * @return static
      * @throws Exception
      */
-    public function addHttp(string httpEquiv, string content, int position = -1) -> <Meta>
+    public function addHttp(string httpEquiv, string content, int position = -1) -> <static>
     {
         return this->addElement("http-equiv", httpEquiv, content, position);
     }
@@ -63,10 +63,10 @@ class Meta extends AbstractSeries
      * @param string $content
      * @param int    $position
      *
-     * @return Meta
+     * @return static
      * @throws Exception
      */
-    public function addName(string name, string content, int position = -1) -> <Meta>
+    public function addName(string name, string content, int position = -1) -> <static>
     {
         this->addElement("name", name, content, position);
 
@@ -78,10 +78,10 @@ class Meta extends AbstractSeries
      * @param string $content
      * @param int    $position
      *
-     * @return Meta
+     * @return static
      * @throws Exception
      */
-    public function addProperty(string name, string content, int position = -1) -> <Meta>
+    public function addProperty(string name, string content, int position = -1) -> <static>
     {
         this->addElement("property", name, content, position);
 
@@ -102,7 +102,7 @@ class Meta extends AbstractSeries
      * @param string $content
      * @param int    $position
      *
-     * @return Meta
+     * @return static
      * @throws Exception
      */
     private function addElement(
@@ -110,7 +110,7 @@ class Meta extends AbstractSeries
         string value,
         string content,
         int position = -1
-    ) -> <Meta> {
+    ) -> <static> {
         array attributes;
 
         let attributes = [

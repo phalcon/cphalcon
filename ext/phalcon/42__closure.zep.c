@@ -39,14 +39,12 @@ PHP_METHOD(phalcon_42__closure, __invoke)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_read_static_property_ce(&escaper, phalcon_42__closure_ce, SL("escaper"), PH_NOISY_CC);
 
-	object_init_ex(return_value, phalcon_html_helper_input_generic_ce);
+	object_init_ex(return_value, phalcon_html_helper_element_ce);
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "doctype");
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "newinstance", NULL, 0, &_1);
 	zephir_check_call_status();
-	ZEPHIR_INIT_NVAR(&_1);
-	ZVAL_STRING(&_1, "datetime-local");
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &escaper, &_0, &_1);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &escaper, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }

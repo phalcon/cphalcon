@@ -41,13 +41,13 @@ abstract class AbstractList extends AbstractHelper
      * @param string $delimiter
      * @param array  $attributes
      *
-     * @return AbstractList
+     * @return static
      */
     public function __invoke(
         string indent = "    ",
         string delimiter = null,
         array attributes = []
-    ) -> <AbstractList> {
+    ) -> <static> {
         let this->attributes = attributes,
             this->delimiter  = empty(delimiter) ? PHP_EOL : delimiter,
 	        this->indent     = indent,

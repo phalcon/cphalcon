@@ -9,7 +9,7 @@ PHP_METHOD(Phalcon_Html_Helper_Script, endInternal);
 PHP_METHOD(Phalcon_Html_Helper_Script, getAttributes);
 PHP_METHOD(Phalcon_Html_Helper_Script, getTag);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_html_helper_script_add, 0, 0, 1)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_html_helper_script_add, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, url, IS_STRING, 0)
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, attributes, IS_ARRAY, 0, "[]")
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, position, IS_LONG, 0, "-1")
@@ -18,7 +18,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_helper_script_begininternal, 0, 0, IS_VOID, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_html_helper_script_endinternal, 0, 0, Phalcon\\Html\\Helper\\Script, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_html_helper_script_endinternal, 0, 0, MAY_BE_STATIC)
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, attributes, IS_ARRAY, 0, "[]")
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, position, IS_LONG, 0, "-1")
 ZEND_END_ARG_INFO()

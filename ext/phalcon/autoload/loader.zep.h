@@ -26,8 +26,8 @@ PHP_METHOD(Phalcon_Autoload_Loader, setExtensions);
 PHP_METHOD(Phalcon_Autoload_Loader, setFileCheckingCallback);
 PHP_METHOD(Phalcon_Autoload_Loader, setFiles);
 PHP_METHOD(Phalcon_Autoload_Loader, setNamespaces);
-PHP_METHOD(Phalcon_Autoload_Loader, unregister);
 PHP_METHOD(Phalcon_Autoload_Loader, isRegistered);
+PHP_METHOD(Phalcon_Autoload_Loader, unregister);
 PHP_METHOD(Phalcon_Autoload_Loader, requireFile);
 PHP_METHOD(Phalcon_Autoload_Loader, addDebug);
 PHP_METHOD(Phalcon_Autoload_Loader, addToCollection);
@@ -41,24 +41,24 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_autoload_loader___construct, 0, 0, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, isDebug, _IS_BOOL, 0, "false")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_autoload_loader_addclass, 0, 2, Phalcon\\Autoload\\Loader, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_autoload_loader_addclass, 0, 2, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, file, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_autoload_loader_adddirectory, 0, 1, Phalcon\\Autoload\\Loader, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_autoload_loader_adddirectory, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, directory, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_autoload_loader_addextension, 0, 1, Phalcon\\Autoload\\Loader, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_autoload_loader_addextension, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, extension, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_autoload_loader_addfile, 0, 1, Phalcon\\Autoload\\Loader, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_autoload_loader_addfile, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, file, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_autoload_loader_addnamespace, 0, 2, Phalcon\\Autoload\\Loader, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_autoload_loader_addnamespace, 0, 2, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 	ZEND_ARG_INFO(0, directories)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, prepend, _IS_BOOL, 0, "false")
@@ -95,43 +95,43 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_autoload_loader_loadfiles, 0, 0, IS_VOID, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_autoload_loader_register, 0, 0, Phalcon\\Autoload\\Loader, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_autoload_loader_register, 0, 0, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, prepend, _IS_BOOL, 0, "false")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_autoload_loader_setclasses, 0, 1, Phalcon\\Autoload\\Loader, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_autoload_loader_setclasses, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_ARRAY_INFO(0, classes, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, merge, _IS_BOOL, 0, "false")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_autoload_loader_setdirectories, 0, 1, Phalcon\\Autoload\\Loader, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_autoload_loader_setdirectories, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_ARRAY_INFO(0, directories, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, merge, _IS_BOOL, 0, "false")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_autoload_loader_setextensions, 0, 1, Phalcon\\Autoload\\Loader, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_autoload_loader_setextensions, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_ARRAY_INFO(0, extensions, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, merge, _IS_BOOL, 0, "false")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_autoload_loader_setfilecheckingcallback, 0, 0, Phalcon\\Autoload\\Loader, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_autoload_loader_setfilecheckingcallback, 0, 0, MAY_BE_STATIC)
 	ZEND_ARG_INFO(0, method)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_autoload_loader_setfiles, 0, 1, Phalcon\\Autoload\\Loader, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_autoload_loader_setfiles, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_ARRAY_INFO(0, files, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, merge, _IS_BOOL, 0, "false")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_autoload_loader_setnamespaces, 0, 1, Phalcon\\Autoload\\Loader, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_autoload_loader_setnamespaces, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_ARRAY_INFO(0, namespaces, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, merge, _IS_BOOL, 0, "false")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_autoload_loader_unregister, 0, 0, Phalcon\\Autoload\\Loader, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_autoload_loader_isregistered, 0, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_autoload_loader_isregistered, 0, 0, _IS_BOOL, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_autoload_loader_unregister, 0, 0, MAY_BE_STATIC)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_autoload_loader_requirefile, 0, 1, _IS_BOOL, 0)
@@ -143,7 +143,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_autoload_loader_adddebug
 	ZEND_ARG_TYPE_INFO(0, message, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_autoload_loader_addtocollection, 0, 3, Phalcon\\Autoload\\Loader, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_autoload_loader_addtocollection, 0, 3, MAY_BE_STATIC)
 	ZEND_ARG_ARRAY_INFO(0, collection, 0)
 	ZEND_ARG_TYPE_INFO(0, collectionName, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, method, IS_STRING, 0)
@@ -196,8 +196,8 @@ ZEPHIR_INIT_FUNCS(phalcon_autoload_loader_method_entry) {
 	PHP_ME(Phalcon_Autoload_Loader, setFileCheckingCallback, arginfo_phalcon_autoload_loader_setfilecheckingcallback, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Autoload_Loader, setFiles, arginfo_phalcon_autoload_loader_setfiles, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Autoload_Loader, setNamespaces, arginfo_phalcon_autoload_loader_setnamespaces, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Autoload_Loader, unregister, arginfo_phalcon_autoload_loader_unregister, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Autoload_Loader, isRegistered, arginfo_phalcon_autoload_loader_isregistered, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Autoload_Loader, unregister, arginfo_phalcon_autoload_loader_unregister, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Autoload_Loader, requireFile, arginfo_phalcon_autoload_loader_requirefile, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Autoload_Loader, addDebug, arginfo_phalcon_autoload_loader_adddebug, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Autoload_Loader, addToCollection, arginfo_phalcon_autoload_loader_addtocollection, ZEND_ACC_PRIVATE)

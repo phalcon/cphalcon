@@ -1,0 +1,15 @@
+
+extern zend_class_entry *phalcon_datamapper_pdo_exception_unknowndrivermethod_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_DataMapper_Pdo_Exception_UnknownDriverMethod);
+
+PHP_METHOD(Phalcon_DataMapper_Pdo_Exception_UnknownDriverMethod, __construct);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_datamapper_pdo_exception_unknowndrivermethod___construct, 0, 0, 1)
+	ZEND_ARG_TYPE_INFO(0, message, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_datamapper_pdo_exception_unknowndrivermethod_method_entry) {
+	PHP_ME(Phalcon_DataMapper_Pdo_Exception_UnknownDriverMethod, __construct, arginfo_phalcon_datamapper_pdo_exception_unknowndrivermethod___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_FE_END
+};

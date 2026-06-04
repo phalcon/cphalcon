@@ -29,8 +29,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Mvc\Router\Group
- *
  * Helper class to create a group of routes with common attributes
  *
  *```php
@@ -154,14 +152,14 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, __construct)
  * $router->add("/about", "About::index");
  *```
  *
- * @param string pattenr
+ * @param string pattern
  * @param string|array paths = [
  *     'module => '',
  *     'controller' => '',
  *     'action' => '',
  *     'namespace' => ''
  * ]
- * @param httpMethods array|string|null
+ * @param array|string|null httpMethods
  *
  * @return RouteInterface
  */
@@ -702,7 +700,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addTrace)
  * The developer can implement any arbitrary conditions here
  * If the callback returns false the route is treated as not matched
  *
- * @paramm callable beforeMatch
+ * @param callable beforeMatch
  *
  * @return GroupInterface
  */
@@ -929,7 +927,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addRoute)
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("prefix"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_1);
 	ZEPHIR_CONCAT_VV(&_1, &_0, &pattern_zv);
-	ZEPHIR_CALL_METHOD(NULL, &route, "__construct", NULL, 124, &_1, &mergedPaths, httpMethods);
+	ZEPHIR_CALL_METHOD(NULL, &route, "__construct", NULL, 189, &_1, &mergedPaths, httpMethods);
 	zephir_check_call_status();
 	zephir_update_property_array_append(this_ptr, SL("routes"), &route);
 	ZEPHIR_CALL_METHOD(NULL, &route, "setgroup", NULL, 0, this_ptr);

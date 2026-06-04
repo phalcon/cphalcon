@@ -16,9 +16,7 @@ use Phalcon\Translate\Interpolator\InterpolatorInterface;
 class InterpolatorFactory extends AbstractFactory
 {
     /**
-     * InterpolatorFactor constructor.
-     *
-     * @param array $services
+     * @phpstan-param array<string, string> $services
      */
     public function __construct(array! services = [])
     {
@@ -47,7 +45,7 @@ class InterpolatorFactory extends AbstractFactory
      */
     protected function getExceptionClass() -> string
     {
-        return "Phalcon\\Translate\\Exception";
+        return "Phalcon\\Translate\\Exceptions\\InterpolatorNotRegistered";
     }
 
     /**

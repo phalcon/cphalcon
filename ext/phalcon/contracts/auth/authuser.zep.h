@@ -1,0 +1,16 @@
+
+extern zend_class_entry *phalcon_contracts_auth_authuser_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Contracts_Auth_AuthUser);
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_contracts_auth_authuser_getauthidentifier, 0, 0, MAY_BE_LONG|MAY_BE_STRING)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_auth_authuser_getauthpassword, 0, 0, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_contracts_auth_authuser_method_entry) {
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Auth_AuthUser, getAuthIdentifier, arginfo_phalcon_contracts_auth_authuser_getauthidentifier)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Auth_AuthUser, getAuthPassword, arginfo_phalcon_contracts_auth_authuser_getauthpassword)
+	PHP_FE_END
+};

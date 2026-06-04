@@ -18,7 +18,6 @@
 #include "kernel/array.h"
 #include "kernel/exception.h"
 #include "kernel/fcall.h"
-#include "kernel/concat.h"
 
 
 /**
@@ -110,7 +109,6 @@ PHP_METHOD(Phalcon_Application_AbstractApplication, getEventsManager)
  */
 PHP_METHOD(Phalcon_Application_AbstractApplication, getModule)
 {
-	zval _2$$3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval name_zv, module, _0, _1$$3;
@@ -121,7 +119,6 @@ PHP_METHOD(Phalcon_Application_AbstractApplication, getModule)
 	ZVAL_UNDEF(&module);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
-	ZVAL_UNDEF(&_2$$3);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(name)
 	ZEND_PARSE_PARAMETERS_END();
@@ -133,12 +130,10 @@ PHP_METHOD(Phalcon_Application_AbstractApplication, getModule)
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("modules"), PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(!(zephir_array_isset_fetch(&module, &_0, &name_zv, 0)))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
-		object_init_ex(&_1$$3, phalcon_application_exception_ce);
-		ZEPHIR_INIT_VAR(&_2$$3);
-		ZEPHIR_CONCAT_SVS(&_2$$3, "Module '", &name_zv, "' is not registered in the application container");
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 49, &_2$$3);
+		object_init_ex(&_1$$3, phalcon_application_exceptions_modulenotregistered_ce);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 133, &name_zv);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Application/AbstractApplication.zep", 83);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Application/AbstractApplication.zep", 82);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

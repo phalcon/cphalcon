@@ -33,8 +33,8 @@ PHP_METHOD(Phalcon_Encryption_Security, processTokenKey);
 PHP_METHOD(Phalcon_Encryption_Security, processUserToken);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_encryption_security___construct, 0, 0, 0)
-	ZEND_ARG_OBJ_INFO(0, session, Phalcon\\Session\\ManagerInterface, 1)
-	ZEND_ARG_OBJ_INFO(0, request, Phalcon\\Http\\RequestInterface, 1)
+	ZEND_ARG_OBJ_TYPE_MASK(0, session, Phalcon\\Session\\ManagerInterface, MAY_BE_NULL, "null")
+	ZEND_ARG_OBJ_TYPE_MASK(0, request, Phalcon\\Http\\RequestInterface, MAY_BE_NULL, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_checkhash, 0, 2, _IS_BOOL, 0)
@@ -52,11 +52,11 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_computehmac, 0, 3, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, data, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, algo, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, algorithm, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, raw, _IS_BOOL, 0, "false")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_encryption_security_destroytoken, 0, 0, Phalcon\\Encryption\\Security, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_encryption_security_destroytoken, 0, 0, MAY_BE_STATIC)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_getdefaulthash, 0, 0, IS_LONG, 0)
@@ -100,22 +100,22 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_isle
 	ZEND_ARG_TYPE_INFO(0, passwordHash, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_encryption_security_refreshtoken, 0, 0, Phalcon\\Encryption\\Security, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_encryption_security_refreshtoken, 0, 0, MAY_BE_STATIC)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_encryption_security_setautorefresh, 0, 1, Phalcon\\Encryption\\Security, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_encryption_security_setautorefresh, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, autoRefresh, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_encryption_security_setdefaulthash, 0, 1, Phalcon\\Encryption\\Security, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_encryption_security_setdefaulthash, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, defaultHash, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_encryption_security_setrandombytes, 0, 1, Phalcon\\Encryption\\Security, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_encryption_security_setrandombytes, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, randomBytes, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_encryption_security_setworkfactor, 0, 1, Phalcon\\Encryption\\Security, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_encryption_security_setworkfactor, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, workFactor, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 

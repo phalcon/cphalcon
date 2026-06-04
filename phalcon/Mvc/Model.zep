@@ -13,7 +13,6 @@ namespace Phalcon\Mvc;
 use JsonSerializable;
 use Phalcon\Db\Adapter\AdapterInterface;
 use Phalcon\Db\Column;
-use Phalcon\Db\DialectInterface;
 use Phalcon\Db\Enum;
 use Phalcon\Db\RawValue;
 use Phalcon\Di\AbstractInjectionAware;
@@ -26,17 +25,42 @@ use Phalcon\Mvc\Model\BehaviorInterface;
 use Phalcon\Mvc\Model\Criteria;
 use Phalcon\Mvc\Model\CriteriaInterface;
 use Phalcon\Mvc\Model\Exception;
+use Phalcon\Mvc\Model\Exceptions\BelongsToRequiresObject;
+use Phalcon\Mvc\Model\Exceptions\BindTypeNotDefined;
+use Phalcon\Mvc\Model\Exceptions\CannotResolveAttribute;
+use Phalcon\Mvc\Model\Exceptions\ColumnNotInMap;
+use Phalcon\Mvc\Model\Exceptions\ColumnNotInTableColumns;
+use Phalcon\Mvc\Model\Exceptions\ColumnNotInTableMap;
+use Phalcon\Mvc\Model\Exceptions\DataTypeNotDefined;
+use Phalcon\Mvc\Model\Exceptions\IdentityNotInColumnMap;
+use Phalcon\Mvc\Model\Exceptions\IdentityNotInTableColumns;
+use Phalcon\Mvc\Model\Exceptions\InvalidDumpResultKey;
+use Phalcon\Mvc\Model\Exceptions\InvalidFindParameters;
+use Phalcon\Mvc\Model\Exceptions\InvalidModelsManagerService;
+use Phalcon\Mvc\Model\Exceptions\InvalidModelsMetadataService;
+use Phalcon\Mvc\Model\Exceptions\MethodNotFound;
+use Phalcon\Mvc\Model\Exceptions\ModelOrmServicesUnavailable;
+use Phalcon\Mvc\Model\Exceptions\PrimaryKeyAttributeNotSet;
+use Phalcon\Mvc\Model\Exceptions\PrimaryKeyRequired;
+use Phalcon\Mvc\Model\Exceptions\PropertyNotAccessible;
+use Phalcon\Mvc\Model\Exceptions\RecordCannotRefresh;
+use Phalcon\Mvc\Model\Exceptions\RecordNotPersisted;
+use Phalcon\Mvc\Model\Exceptions\RelationNotDefined;
+use Phalcon\Mvc\Model\Exceptions\RelationRequiresObjectOrArray;
+use Phalcon\Mvc\Model\Exceptions\SnapshotsDisabled;
+use Phalcon\Mvc\Model\Exceptions\StaticMethodRequiresOneArgument;
+use Phalcon\Mvc\Model\Exceptions\UpdateSnapshotDisabled;
 use Phalcon\Mvc\Model\ManagerInterface;
 use Phalcon\Mvc\Model\MetaDataInterface;
 use Phalcon\Mvc\Model\Query;
 use Phalcon\Mvc\Model\Query\Builder;
 use Phalcon\Mvc\Model\Query\BuilderInterface;
 use Phalcon\Mvc\Model\QueryInterface;
+use Phalcon\Mvc\Model\Relation;
+use Phalcon\Mvc\Model\RelationInterface;
 use Phalcon\Mvc\Model\ResultInterface;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
-use Phalcon\Mvc\Model\Relation;
-use Phalcon\Mvc\Model\RelationInterface;
 use Phalcon\Mvc\Model\TransactionInterface;
 use Phalcon\Mvc\Model\ValidationFailed;
 use Phalcon\Mvc\ModelInterface;
@@ -210,9 +234,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         }
 
         if container === null {
-            throw new Exception(
-                "A dependency injection container is required to access the services related to the ODM in '" . get_class(this) . "'"
-            );
+            throw new ModelOrmServicesUnavailable(get_class(this));
         }
 
         let this->container = container;
@@ -223,9 +245,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         if modelsManager === null {
             let modelsManager = <ManagerInterface> container->getShared("modelsManager");
             if modelsManager === null {
-                throw new Exception(
-                    "The injected service 'modelsManager' is not valid in '" . get_class(this) . "'"
-                );
+                throw new InvalidModelsManagerService(get_class(this));
             }
         }
 
@@ -292,9 +312,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         /**
          * The method does not exist throw an exception
          */
-        throw new Exception(
-            "The method '" . method . "' does not exist on model '" . modelName . "'"
-        );
+        throw new MethodNotFound(method, modelName);
     }
 
     /**
@@ -318,9 +336,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         /**
          * The method does not exist throw an exception
          */
-        throw new Exception(
-            "The method '" . method . "' does not exist on model '" . modelName . "'"
-        );
+        throw new MethodNotFound(method, modelName);
     }
 
 
@@ -590,9 +606,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             let manager = this->getModelsManager();
 
             if unlikely !manager->isVisibleModelProperty(this, property) {
-                throw new Exception(
-                    "Cannot access property '" . property . "' (not public) in '" . get_class(this) . "'"
-                );
+                throw new PropertyNotAccessible(property, get_class(this));
             }
         }
 
@@ -619,9 +633,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
          */
         let container = Di::getDefault();
         if container === null {
-            throw new Exception(
-                "A dependency injection container is required to access the services related to the ODM in '" . get_class(this) . "'"
-            );
+            throw new ModelOrmServicesUnavailable(get_class(this));
         }
 
         /**
@@ -634,9 +646,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
          */
         let manager = <ManagerInterface> container->getShared("modelsManager");
         if manager === null {
-            throw new Exception(
-                "The injected service 'modelsManager' is not valid in '" . get_class(this) . "'"
-            );
+            throw new InvalidModelsManagerService(get_class(this));
         }
 
         /**
@@ -861,9 +871,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             if typeof columnMap === "array" {
                 if !fetch attributeField, columnMap[attribute] {
                     if unlikely !Settings::get("orm.ignore_unknown_columns") {
-                        throw new Exception(
-                            "Column '" . attribute. "' does not make part of the column map in '" . get_class(this) . "'"
-                        );
+                        throw new ColumnNotInMap(attribute, get_class(this));
                     }
 
                     continue;
@@ -971,9 +979,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
         for key, value in data {
             if unlikely typeof key !== "string" {
-                throw new Exception(
-                    "Invalid key in array data provided to dumpResult() in '" . get_class(base) . "'"
-                );
+                throw new InvalidDumpResultKey(get_class(base));
             }
 
             let instance->{key} = value;
@@ -1009,8 +1015,13 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *
      * @return ModelInterface
      */
-    public static function cloneResultMap(var base, array! data, var columnMap, int dirtyState = 0, bool keepSnapshots = null) -> <ModelInterface>
-    {
+    public static function cloneResultMap(
+        var base,
+        array! data,
+        var columnMap,
+        int dirtyState = 0,
+        bool keepSnapshots = null
+    ) -> <ModelInterface> {
         var instance, attribute, key, value, castValue, attributeName, metaData, reverseMap, notNullAttributes,
             disableSetters, setter;
         array localMethods;
@@ -1083,18 +1094,14 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                     let reverseMap = metaData->getReverseColumnMap(instance);
                     if !fetch attribute, reverseMap[key] {
                         if unlikely !Settings::get("orm.ignore_unknown_columns") {
-                            throw new Exception(
-                                "Column '" . key . "' does not make part of the column map in '" . get_class(base) . "'"
-                            );
+                            throw new ColumnNotInMap(key, get_class(base));
                         }
 
                         continue;
                     }
                 } else {
                     if unlikely !Settings::get("orm.ignore_unknown_columns") {
-                        throw new Exception(
-                            "Column '" . key . "' does not make part of the column map in '" . get_class(base) . "'"
-                        );
+                        throw new ColumnNotInMap(key, get_class(base));
                     }
 
                     continue;
@@ -1181,11 +1188,16 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         }
 
         /**
-         * Models that keep snapshots store the original data in t
+         * Models that keep snapshots store the original data in t.
+         * At hydration both snapshot and oldSnapshot are the same
+         * "as fetched" baseline — reuse the column-mapped result of
+         * setSnapshotData() instead of running the column-map walk
+         * a second time. PHP's COW lets the two refs share memory
+         * until one is mutated by save().
          */
         if keepSnapshots {
             instance->setSnapshotData(data, columnMap);
-            instance->setOldSnapshotData(data, columnMap);
+            instance->setOldSnapshotData(instance->getSnapshotData());
         }
 
         /**
@@ -1244,12 +1256,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                  */
                 if !fetch attribute, columnMap[key] {
                     if unlikely !Settings::get("orm.ignore_unknown_columns") {
-                        /**
-                         * @todo unless we pass the model name in the funciton we cannot tell what model has this problem
-                         */
-                        throw new Exception(
-                            "Column '" . key . "' does not make part of the column map"
-                        );
+                        throw new ColumnNotInMap(key, get_called_class());
                     }
 
                     continue;
@@ -1477,9 +1484,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
          * We can't create dynamic SQL without a primary key
          */
         if unlikely !count(primaryKeys) {
-            throw new Exception(
-                "A primary key must be defined in the model in order to perform the operation in '" . get_class(this) . "'"
-            );
+            throw new PrimaryKeyRequired(get_class(this));
         }
 
         /**
@@ -1491,9 +1496,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
              * types
              */
             if unlikely !fetch bindType, bindDataTypes[primaryKey] {
-                throw new Exception(
-                    "Column '" . primaryKey . "' have not defined a bind data type in '" . get_class(this) . "'"
-                );
+                throw new BindTypeNotDefined(primaryKey, get_class(this));
             }
 
             /**
@@ -1501,9 +1504,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
              */
             if typeof columnMap == "array" {
                 if unlikely !fetch attributeField, columnMap[primaryKey] {
-                    throw new Exception(
-                        "Column '" . primaryKey . "' isn't part of the column map in '" . get_class(this) . "'"
-                    );
+                    throw new ColumnNotInTableMap(primaryKey, get_class(this));
                 }
             } else {
                 let attributeField = primaryKey;
@@ -1514,10 +1515,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
              * conditions
              */
             if unlikely !fetch value, this->{attributeField} {
-                throw new Exception(
-                    "Cannot delete the record because the primary key attribute: '"
-                    . attributeField . "' was not set in '" . get_class(this) . "'"
-                );
+                throw new PrimaryKeyAttributeNotSet(attributeField, get_class(this));
             }
 
             /**
@@ -1922,9 +1920,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         } elseif typeof parameters === "string" || is_numeric(parameters) {
             let params = [parameters];
         } else {
-            throw new Exception(
-                "Parameters passed must be of type array, string, numeric or null in '" . get_called_class() . "'"
-            );
+            throw new InvalidFindParameters(get_called_class());
         }
 
         let query = static::getPreparedQuery(params, 1);
@@ -2008,9 +2004,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         let snapshot = this->snapshot;
 
         if unlikely typeof snapshot !== "array" {
-            throw new Exception(
-                "The 'keepSnapshots' option must be enabled to track changes in '" . get_class(this) . "'"
-            );
+            throw new SnapshotsDisabled(get_class(this));
         }
 
         /**
@@ -2040,9 +2034,12 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         for name, _ in allAttributes {
             /**
              * If some attribute is not present in the snapshot, we assume the
-             * record as changed
+             * record as changed. array_key_exists() is used so a snapshot
+             * that legitimately stores `null` (e.g. a nullable DB column
+             * loaded from a fresh row) is not mistaken for an absent key
+             * under the post-5.13.0 Zephir `isset` semantics [#17042].
              */
-            if !isset snapshot[name] {
+            if !array_key_exists(name, snapshot) {
                 let changed[] = name;
 
                 continue;
@@ -2164,9 +2161,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             let metaData = <MetaDataInterface> container->getShared("modelsMetadata");
 
             if unlikely typeof metaData != "object" {
-                throw new Exception(
-                    "The injected service 'modelsMetadata' is not valid in '" . get_class(this) . "'"
-                );
+                throw new InvalidModelsMetadataService(get_class(this));
             }
 
             /**
@@ -2239,10 +2234,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         );
 
         if unlikely typeof relation !== "object" {
-            throw new Exception(
-                "There is no defined relations for the model '"
-                . className . "' using alias '" . alias . "'"
-            );
+            throw new RelationNotDefined(className, alias);
         }
 
         /**
@@ -2371,24 +2363,18 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         let oldSnapshot = this->oldSnapshot;
 
         if unlikely !Settings::get("orm.update_snapshot_on_save") {
-            throw new Exception(
-                "The 'updateSnapshotOnSave' option must be enabled for this method to work properly in '" . get_class(this) . "'"
-            );
+            throw new UpdateSnapshotDisabled(get_class(this));
         }
 
         if unlikely typeof snapshot != "array" {
-            throw new Exception(
-                "The 'keepSnapshots' option must be enabled to track changes"
-            );
+            throw new SnapshotsDisabled(get_class(this));
         }
 
         /**
          * Dirty state must be DIRTY_PERSISTENT to make the checking
          */
         if unlikely this->dirtyState != self::DIRTY_STATE_PERSISTENT {
-            throw new Exception(
-                "Change checking cannot be performed because the object has not been persisted or is deleted in '" . get_class(this) . "'"
-            );
+            throw new RecordNotPersisted(get_class(this));
         }
 
         let updated = [];
@@ -2396,9 +2382,12 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         for name, value in snapshot {
             /**
              * If some attribute is not present in the oldSnapshot, we assume
-             * the record as changed
+             * the record as changed. array_key_exists() is used so a
+             * snapshot that legitimately stores `null` is not mistaken for
+             * an absent key under the post-5.13.0 Zephir `isset` semantics
+             * [#17042].
              */
-            if !isset oldSnapshot[name] || value !== oldSnapshot[name] {
+            if !array_key_exists(name, oldSnapshot) || value !== oldSnapshot[name] {
                 let updated[] = name;
             }
         }
@@ -2652,9 +2641,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         array fields;
 
         if unlikely this->dirtyState != self::DIRTY_STATE_PERSISTENT {
-            throw new Exception(
-                "The record cannot be refreshed because it does not exist or is deleted in '" . get_class(this) . "'"
-            );
+            throw new RecordCannotRefresh(get_class(this));
         }
 
         let metaData       = this->getModelsMetaData(),
@@ -2677,9 +2664,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
              * We need to check if the record exists
              */
             if unlikely !this->has(metaData, readConnection) {
-                throw new Exception(
-                    "The record cannot be refreshed because it does not exist or is deleted in '" . get_class(this) . "'"
-                );
+                throw new RecordCannotRefresh(get_class(this));
             }
 
             let uniqueKey = this->uniqueKey;
@@ -2688,9 +2673,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         let uniqueParams = this->uniqueParams;
 
         if unlikely typeof uniqueParams != "array" {
-            throw new Exception(
-                "The record cannot be refreshed because it does not exist or is deleted in '" . get_class(this) . "'"
-            );
+            throw new RecordCannotRefresh(get_class(this));
         }
 
         /**
@@ -3020,9 +3003,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
              */
             let container = Di::getDefault();
             if container === null {
-                throw new Exception(
-                    "A dependency injection container is required to access the services related to the ODM in '" . get_class(this) . "'"
-                );
+                throw new ModelOrmServicesUnavailable(get_class(this));
             }
 
             /**
@@ -3036,9 +3017,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             let manager = <ManagerInterface> container->getShared("modelsManager");
 
             if unlikely typeof manager !== "object" {
-                throw new Exception(
-                    "The injected service 'modelsManager' is not valid in '" . get_class(this) . "'"
-                );
+                throw new InvalidModelsManagerService(get_class(this));
             }
 
             /**
@@ -3175,9 +3154,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                  */
                 if !fetch attribute, columnMap[key] {
                     if unlikely !Settings::get("orm.ignore_unknown_columns") {
-                        throw new Exception(
-                            "Column '" . key . "' does not make part of the column map in '" . get_class(this) . "'"
-                        );
+                        throw new ColumnNotInMap(key, get_class(this));
                     }
 
                     continue;
@@ -3186,9 +3163,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 if typeof attribute === "array" {
                     if !fetch attribute, attribute[0] {
                         if unlikely !Settings::get("orm.ignore_unknown_columns") {
-                            throw new Exception(
-                                "Column '" . key . "' does not make part of the column map in '" . get_class(this) . "'"
-                            );
+                            throw new ColumnNotInMap(key, get_class(this));
                         }
 
                         continue;
@@ -3240,9 +3215,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                  */
                 if !fetch attribute, columnMap[key] {
                     if unlikely !Settings::get("orm.ignore_unknown_columns") {
-                        throw new Exception(
-                            "Column '" . key . "' does not make part of the column map in '" . get_class(this) . "'"
-                        );
+                        throw new ColumnNotInMap(key, get_class(this));
                     }
 
                     continue;
@@ -3251,9 +3224,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 if typeof attribute == "array" {
                     if !fetch attribute, attribute[0] {
                         if unlikely !Settings::get("orm.ignore_unknown_columns") {
-                            throw new Exception(
-                                "Column '" . key . "' does not make part of the column map in '" . get_class(this) . "'"
-                            );
+                            throw new ColumnNotInMap(key, get_class(this));
                         }
 
                         continue;
@@ -3336,42 +3307,42 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
          * Enables/Disables globally the internal events
          */
         if fetch disableEvents, options["events"] {
-            Settings::set("orm.events", disableEvents);
+            Settings::set("orm.events", (bool) disableEvents);
         }
 
         /**
          * Enables/Disables virtual foreign keys
          */
         if fetch virtualForeignKeys, options["virtualForeignKeys"] {
-            Settings::set("orm.virtual_foreign_keys", virtualForeignKeys);
+            Settings::set("orm.virtual_foreign_keys", (bool) virtualForeignKeys);
         }
 
         /**
          * Enables/Disables column renaming
          */
         if fetch columnRenaming, options["columnRenaming"] {
-            Settings::set("orm.column_renaming", columnRenaming);
+            Settings::set("orm.column_renaming", (bool) columnRenaming);
         }
 
         /**
          * Enables/Disables automatic not null validation
          */
         if fetch notNullValidations, options["notNullValidations"] {
-            Settings::set("orm.not_null_validations", notNullValidations);
+            Settings::set("orm.not_null_validations", (bool) notNullValidations);
         }
 
         /**
          * Enables/Disables throws an exception if the saving process fails
          */
         if fetch exceptionOnFailedSave, options["exceptionOnFailedSave"] {
-            Settings::set("orm.exception_on_failed_save", exceptionOnFailedSave);
+            Settings::set("orm.exception_on_failed_save", (bool) exceptionOnFailedSave);
         }
 
         /**
          * Enables/Disables throws an exception if the saving process fails
          */
         if fetch exceptionOnFailedMetaDataSave, options["exceptionOnFailedMetaDataSave"] {
-            Settings::set("orm.exception_on_failed_metadata_save", exceptionOnFailedMetaDataSave);
+            Settings::set("orm.exception_on_failed_metadata_save", (bool) exceptionOnFailedMetaDataSave);
         }
 
         /**
@@ -3379,51 +3350,51 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
          * applications
          */
         if fetch phqlLiterals, options["phqlLiterals"] {
-            Settings::set("orm.enable_literals", phqlLiterals);
+            Settings::set("orm.enable_literals", (bool) phqlLiterals);
         }
 
         /**
          * Enables/Disables late state binding on model hydration
          */
         if fetch lateStateBinding, options["lateStateBinding"] {
-            Settings::set("orm.late_state_binding", lateStateBinding);
+            Settings::set("orm.late_state_binding", (bool) lateStateBinding);
         }
 
         /**
          * Enables/Disables automatic cast to original types on hydration
          */
         if fetch castOnHydrate, options["castOnHydrate"] {
-            Settings::set("orm.cast_on_hydrate", castOnHydrate);
+            Settings::set("orm.cast_on_hydrate", (bool) castOnHydrate);
         }
 
         /**
          * Allows to ignore unknown columns when hydrating objects
          */
         if fetch ignoreUnknownColumns, options["ignoreUnknownColumns"] {
-            Settings::set("orm.ignore_unknown_columns", ignoreUnknownColumns);
+            Settings::set("orm.ignore_unknown_columns", (bool) ignoreUnknownColumns);
         }
 
         if fetch caseInsensitiveColumnMap, options["caseInsensitiveColumnMap"] {
             Settings::set(
                 "orm.case_insensitive_column_map",
-                caseInsensitiveColumnMap
+                (bool) caseInsensitiveColumnMap
             );
         }
 
         if fetch updateSnapshotOnSave, options["updateSnapshotOnSave"] {
-            Settings::set("orm.update_snapshot_on_save", updateSnapshotOnSave);
+            Settings::set("orm.update_snapshot_on_save", (bool) updateSnapshotOnSave);
         }
 
         if fetch disableAssignSetters, options["disableAssignSetters"] {
-            Settings::set("orm.disable_assign_setters", disableAssignSetters);
+            Settings::set("orm.disable_assign_setters", (bool) disableAssignSetters);
         }
 
         if fetch prefetchRecords, options["prefetchRecords"] {
-            Settings::set("orm.resultset_prefetch_records", prefetchRecords);
+            Settings::set("orm.resultset_prefetch_records", (int) prefetchRecords);
         }
 
         if fetch lastInsertId, options["castLastInsertIdToInt"] {
-            Settings::set("orm.cast_last_insert_id_to_int", lastInsertId);
+            Settings::set("orm.cast_last_insert_id_to_int", (bool) lastInsertId);
         }
     }
 
@@ -3477,7 +3448,15 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      */
     public static function sum(var parameters = null) -> float | <ResultsetInterface>
     {
-        return self::groupResult("SUM", "sumatory", parameters);
+        var result;
+
+        let result = self::groupResult("SUM", "sumatory", parameters);
+
+        if typeof result === "string" {
+            return (float) result;
+        }
+
+        return result;
     }
 
     /**
@@ -3515,9 +3494,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
                 if !fetch attributeField, columnMap[attribute] {
                     if unlikely !Settings::get("orm.ignore_unknown_columns") {
-                        throw new Exception(
-                            "Column '" . attribute . "' does not make part of the column map in '" . get_class(this) . "'"
-                        );
+                        throw new ColumnNotInMap(attribute, get_class(this));
                     }
 
                     continue;
@@ -4010,9 +3987,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
              */
             if typeof columnMap === "array" {
                 if unlikely !fetch attributeField, columnMap[field] {
-                    throw new Exception(
-                        "Column '" . field . "' in '" . get_class(this) . "' isn't part of the column map"
-                    );
+                    throw new ColumnNotInTableMap(field, get_class(this));
                 }
             } else {
                 let attributeField = field;
@@ -4029,9 +4004,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                      */
                     if fetch rawValue, rawValues[attributeField] {
                         if unlikely !fetch bindType, bindDataTypes[field] {
-                            throw new Exception(
-                                "Column '" . field . "' in '" . get_class(this) . "' have not defined a bind data type"
-                            );
+                            throw new BindTypeNotDefined(field, get_class(this));
                         }
 
                         let fields[]                 = field,
@@ -4056,9 +4029,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                          * Every column must have a bind data type defined
                          */
                         if unlikely !fetch bindType, bindDataTypes[field] {
-                            throw new Exception(
-                                "Column '" . field . "' in '" . get_class(this) . "' have not defined a bind data type"
-                            );
+                            throw new BindTypeNotDefined(field, get_class(this));
                         }
 
                         let fields[]    = field,
@@ -4107,9 +4078,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
              */
             if typeof columnMap == "array" {
                 if unlikely !fetch attributeField, columnMap[identityField] {
-                    throw new Exception(
-                        "Identity column '" . identityField . "' isn't part of the column map in '" . get_class(this) . "'"
-                    );
+                    throw new IdentityNotInColumnMap(identityField, get_class(this));
                 }
             } else {
                 let attributeField = identityField;
@@ -4145,9 +4114,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                      * The field is valid we look for a bind value (normally int)
                      */
                     if unlikely !fetch bindType, bindDataTypes[identityField] {
-                        throw new Exception(
-                            "Identity column '" . identityField . "' isn\'t part of the table columns in '" . get_class(this) . "'"
-                        );
+                        throw new IdentityNotInTableColumns(identityField, get_class(this));
                     }
 
                     let values[]    = value,
@@ -4301,9 +4268,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 if typeof columnMap === "array" {
                     if unlikely !fetch attributeField, columnMap[field] {
                         if unlikely !Settings::get("orm.ignore_unknown_columns") {
-                            throw new Exception(
-                                "Column '" . field . "' in '" . get_class(this) . "' isn't part of the column map"
-                            );
+                            throw new ColumnNotInTableMap(field, get_class(this));
                         }
                     }
                 } else {
@@ -4314,9 +4279,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                      * Check a bind type for field to update
                      */
                     if unlikely !fetch bindType, bindDataTypes[field] {
-                        throw new Exception(
-                            "Column '" . field . "' in '" . get_class(this) . "' have not defined a bind data type"
-                        );
+                        throw new BindTypeNotDefined(field, get_class(this));
                     }
                     /**
                      * Get the field's value
@@ -4349,9 +4312,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                                     let changed = true;
                                 } else {
                                     if unlikely !fetch dataType, dataTypes[field] {
-                                        throw new Exception(
-                                            "Column '" . field . "' in '" . get_class(this) . "' have not defined a data type"
-                                        );
+                                        throw new DataTypeNotDefined(field, get_class(this));
                                     }
 
                                     /**
@@ -4361,49 +4322,37 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                                         let snapshotValue = snapshotValue->getValue();
                                     }
 
-                                    /**
-                                     * A RawValue holds a SQL expression (e.g.
-                                     * "col + 2"). It cannot be meaningfully
-                                     * compared to a stored scalar, so always
-                                     * treat the field as changed. This fixes
-                                     * the case where the current DB value is 0
-                                     * and the expression evaluates (via
-                                     * floatval) to 0.0, incorrectly suppressing
-                                     * the UPDATE.
-                                     */
+                                    let updateValue = value;
                                     if is_object(value) && value instanceof RawValue {
-                                        let changed = true;
-                                    } else {
-                                        let updateValue = value;
+                                        let updateValue = value->getValue();
+                                    }
 
-                                        switch dataType {
+                                    switch dataType {
 
-                                            case Column::TYPE_BOOLEAN:
-                                                let changed = (bool) snapshotValue !== (bool) updateValue;
-                                                break;
+                                        case Column::TYPE_BOOLEAN:
+                                            let changed = (bool) snapshotValue !== (bool) updateValue;
+                                            break;
 
-                                            case Column::TYPE_DECIMAL:
-                                            case Column::TYPE_FLOAT:
-                                                let changed = floatval(snapshotValue) !== floatval(updateValue);
-                                                break;
+                                        case Column::TYPE_DECIMAL:
+                                        case Column::TYPE_FLOAT:
+                                            let changed = floatval(snapshotValue) !== floatval(updateValue);
+                                            break;
 
-                                            case Column::TYPE_INTEGER:
-                                            case Column::TYPE_DATE:
-                                            case Column::TYPE_VARCHAR:
-                                            case Column::TYPE_DATETIME:
-                                            case Column::TYPE_CHAR:
-                                            case Column::TYPE_TEXT:
-                                            case Column::TYPE_VARCHAR:
-                                            case Column::TYPE_BIGINTEGER:
-                                                let changed = (string) snapshotValue !== (string) updateValue;
-                                                break;
+                                        case Column::TYPE_INTEGER:
+                                        case Column::TYPE_DATE:
+                                        case Column::TYPE_DATETIME:
+                                        case Column::TYPE_CHAR:
+                                        case Column::TYPE_TEXT:
+                                        case Column::TYPE_VARCHAR:
+                                        case Column::TYPE_BIGINTEGER:
+                                            let changed = (string) snapshotValue !== (string) updateValue;
+                                            break;
 
-                                            /**
-                                            * Any other type is not really supported...
-                                            */
-                                            default:
-                                                let changed = updateValue != snapshotValue;
-                                        }
+                                        /**
+                                        * Any other type is not really supported...
+                                        */
+                                        default:
+                                            let changed = updateValue != snapshotValue;
                                     }
                                 }
                             }
@@ -4441,9 +4390,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 if typeof columnMap === "array" {
                     if unlikely !fetch attributeField, columnMap[field] {
                         if unlikely !Settings::get("orm.ignore_unknown_columns") {
-                            throw new Exception(
-                                "Column '" . field . "' in '" . get_class(this) . "' isn't part of the column map"
-                            );
+                            throw new ColumnNotInTableMap(field, get_class(this));
                         }
                     }
                 } else {
@@ -4455,9 +4402,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                      * Check a bind type for field to update
                      */
                     if unlikely !fetch bindType, bindDataTypes[field] {
-                        throw new Exception(
-                            "Column '" . field . "' in '" . get_class(this) . "' have not defined a bind data type"
-                        );
+                        throw new BindTypeNotDefined(field, get_class(this));
                     }
 
                     /**
@@ -4515,9 +4460,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
              * We can't create dynamic SQL without a primary key
              */
             if unlikely !count(primaryKeys) {
-                throw new Exception(
-                    "A primary key must be defined in the model in order to perform the operation in '" . get_class(this) . "'"
-                );
+                throw new PrimaryKeyRequired(get_class(this));
             }
 
             let uniqueParams = [];
@@ -4528,9 +4471,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                  */
                 if typeof columnMap == "array" {
                     if unlikely !fetch attributeField, columnMap[field] {
-                        throw new Exception(
-                           "Column '" . field . "' in '" . get_class(this) . "' isn't part of the column map"
-                        );
+                        throw new ColumnNotInTableMap(field, get_class(this));
                     }
                 } else {
                     let attributeField = field;
@@ -4631,9 +4572,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             for field in primaryKeys {
                 if typeof columnMap === "array" {
                     if unlikely !fetch attributeField, columnMap[field] {
-                        throw new Exception(
-                            "Column '" . field . "' in '" . get_class(this) . "' isn't part of the column map"
-                        );
+                        throw new ColumnNotInTableMap(field, get_class(this));
                     }
                 } else {
                     let attributeField = field;
@@ -4661,9 +4600,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 }
 
                 if unlikely !fetch type, bindDataTypes[field] {
-                    throw new Exception(
-                        "Column '" . field . "' in '" . get_class(this) . "' isn't part of the table columns"
-                    );
+                    throw new ColumnNotInTableColumns(field, get_class(this));
                 }
 
                 let uniqueTypes[] = type,
@@ -4956,9 +4893,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         }
 
         if unlikely !array_key_exists(0, arguments) {
-            throw new Exception(
-                "The static method '" . method . "' in '" . get_called_class() . "' requires one argument"
-            );
+            throw new StaticMethodRequiresOneArgument(method, get_called_class());
         }
 
         let model    = create_instance(modelName),
@@ -4993,9 +4928,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 let field = uncamelize(extraMethod);
 
                 if unlikely !isset attributes[field] {
-                    throw new Exception(
-                        "Cannot resolve attribute '" . extraMethod . "' in the model '" . get_called_class() . "'"
-                    );
+                    throw new CannotResolveAttribute(extraMethod, get_called_class());
                 }
             }
         }
@@ -5160,9 +5093,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                     if typeof columnMap === "array" {
                         if unlikely !fetch attributeField, columnMap[field] {
                             if unlikely !Settings::get("orm.ignore_unknown_columns") {
-                                throw new Exception(
-                                    "Column '" . field . "' in '" . get_class(this) . "' isn't part of the column map"
-                                );
+                                throw new ColumnNotInTableMap(field, get_class(this));
                             }
                         }
                     } else {
@@ -5362,9 +5293,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                     if unlikely typeof record !== "object" {
                         connection->rollback(nesting);
 
-                        throw new Exception(
-                            "Only objects can be stored as part of belongs-to relations in '" . get_class(this) . "' Relation " . name
-                        );
+                        throw new BelongsToRequiresObject(get_class(this), name);
                     }
 
                     /**
@@ -5470,9 +5399,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 if unlikely (typeof record !== "object" && typeof record !== "array") {
                     connection->rollback(nesting);
 
-                    throw new Exception(
-                        "Only objects/arrays can be stored as part of has-many/has-one/has-one-through/has-many-to-many relations on model " . className . " on Relation " . name
-                    );
+                    throw new RelationRequiresObjectOrArray(className, name);
                 }
 
                 let columns = relation->getFields(),
@@ -5664,7 +5591,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                                  * referenced model
                                  */
                                 this->appendMessagesFrom(recordAfter);
-        
+
                                 /**
                                  * Rollback the implicit transaction
                                  */
@@ -5679,9 +5606,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 if unlikely typeof record !== "array" {
                     connection->rollback(nesting);
 
-                    throw new Exception(
-                        "There are no defined relations for the model '" . className . "' using alias '" . name . "'"
-                    );
+                    throw new RelationNotDefined(className, name);
                 }
             }
         }

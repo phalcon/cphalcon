@@ -19,12 +19,14 @@
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
+ *
+ * Implementation of this file has been influenced by AuraPHP
+ * @link    https://github.com/auraphp/Aura.Html
+ * @license https://github.com/auraphp/Aura.Html/blob/2.x/LICENSE
  */
 /**
-* Phalcon\Html\Attributes\RenderInterface
-*
-* Interface Phalcon\Html\Attributes\RenderInterface
-*/
+ * Rendering interface for HTML attributes
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Html_Attributes_RenderInterface)
 {
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Html\\Attributes, RenderInterface, phalcon, html_attributes_renderinterface, phalcon_html_attributes_renderinterface_method_entry);
@@ -33,6 +35,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Attributes_RenderInterface)
 }
 
 /**
- * Generate a string represetation
+ * Generate a string representation
  */
 ZEPHIR_DOC_METHOD(Phalcon_Html_Attributes_RenderInterface, render);

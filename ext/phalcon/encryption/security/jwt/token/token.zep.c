@@ -34,6 +34,10 @@
  * A container for Token related data. It stores the claims, headers, signature
  * and payload. It also calculates and returns the token string.
  *
+ * @property Item      $claims
+ * @property Item      $headers
+ * @property Signature $signature
+ *
  * @link https://tools.ietf.org/html/rfc7519
  */
 ZEPHIR_INIT_CLASS(Phalcon_Encryption_Security_JWT_Token_Token)
@@ -163,8 +167,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, getToken)
 
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getpayload", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getsignature", NULL, 0);
-	zephir_check_call_status();
+	zephir_read_property(&_1, this_ptr, ZEND_STRL("signature"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&_2, &_1, "getencoded", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_CONCAT_VSV(return_value, &_0, ".", &_2);
@@ -178,19 +181,18 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, getToken)
  */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, validate)
 {
-	zend_string *_5;
-	zend_ulong _4;
+	zend_string *_4;
+	zend_ulong _3;
 	zval methods;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *validator, validator_sub, claimId, method, _0, _1, *_2, _3;
+	zval *validator, validator_sub, claimId, method, _0, _1, *_2;
 
 	ZVAL_UNDEF(&validator_sub);
 	ZVAL_UNDEF(&claimId);
 	ZVAL_UNDEF(&method);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&methods);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT_OF_CLASS(validator, phalcon_encryption_security_jwt_validator_ce)
@@ -230,40 +232,20 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, validate)
 	ZEPHIR_CALL_METHOD(&_0, validator, "get", NULL, 0, &_1);
 	zephir_check_call_status();
 	zephir_array_update_string(&methods, SL("validateNotBefore"), &_0, PH_COPY | PH_SEPARATE);
-	zephir_is_iterable(&methods, 0, "phalcon/Encryption/Security/JWT/Token/Token.zep", 131);
-	if (Z_TYPE_P(&methods) == IS_ARRAY) {
-		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&methods), _4, _5, _2)
-		{
-			ZEPHIR_INIT_NVAR(&method);
-			if (_5 != NULL) { 
-				ZVAL_STR_COPY(&method, _5);
-			} else {
-				ZVAL_LONG(&method, _4);
-			}
-			ZEPHIR_INIT_NVAR(&claimId);
-			ZVAL_COPY(&claimId, _2);
-			ZEPHIR_CALL_METHOD_ZVAL(NULL, validator, &method, NULL, 0, &claimId);
-			zephir_check_call_status();
-		} ZEND_HASH_FOREACH_END();
-	} else {
-		ZEPHIR_CALL_METHOD(NULL, &methods, "rewind", NULL, 0);
-		zephir_check_call_status();
-		while (1) {
-			ZEPHIR_CALL_METHOD(&_3, &methods, "valid", NULL, 0);
-			zephir_check_call_status();
-			if (!zend_is_true(&_3)) {
-				break;
-			}
-			ZEPHIR_CALL_METHOD(&method, &methods, "key", NULL, 0);
-			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&claimId, &methods, "current", NULL, 0);
-			zephir_check_call_status();
-				ZEPHIR_CALL_METHOD_ZVAL(NULL, validator, &method, NULL, 0, &claimId);
-				zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(NULL, &methods, "next", NULL, 0);
-			zephir_check_call_status();
+	zephir_is_iterable(&methods, 0, "phalcon/Encryption/Security/JWT/Token/Token.zep", 135);
+	ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&methods), _3, _4, _2)
+	{
+		ZEPHIR_INIT_NVAR(&method);
+		if (_4 != NULL) { 
+			ZVAL_STR_COPY(&method, _4);
+		} else {
+			ZVAL_LONG(&method, _3);
 		}
-	}
+		ZEPHIR_INIT_NVAR(&claimId);
+		ZVAL_COPY(&claimId, _2);
+		ZEPHIR_CALL_METHOD_ZVAL(NULL, validator, &method, NULL, 0, &claimId);
+		zephir_check_call_status();
+	} ZEND_HASH_FOREACH_END();
 	ZEPHIR_INIT_NVAR(&claimId);
 	ZEPHIR_INIT_NVAR(&method);
 	ZEPHIR_RETURN_CALL_METHOD(validator, "geterrors", NULL, 0);

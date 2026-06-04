@@ -13,10 +13,10 @@ namespace Phalcon\Html\Link;
 use Phalcon\Support\Collection;
 
 /**
- * @property array  $attributes
- * @property string $href
- * @property array  $rels
- * @property bool   $templated
+ * @property Collection $attributes
+ * @property string     $href
+ * @property Collection $rels
+ * @property bool       $templated
  */
 abstract class AbstractLink
 {
@@ -118,28 +118,12 @@ abstract class AbstractLink
     }
 
     /**
-     * Determines if a href is a templated link or not.
-     *
-     * @see https://tools.ietf.org/html/rfc6570
-     *
-     * @param string $href
-     *
-     * @return bool
-     */
-    protected function hrefIsTemplated(string href) -> bool
-    {
-        return (
-            false !== mb_strpos(href, "{") &&
-            false !== mb_strpos(href, "}")
-        );
-    }
-    /**
      * @param string       $key
      * @param string|array $value
      *
      * @return mixed
      */
-    protected function doWithAttribute(string key, var value)
+    protected function doWithAttribute(string key, var value) -> <static>
     {
         var newInstance;
 
@@ -155,7 +139,7 @@ abstract class AbstractLink
      *
      * @return mixed
      */
-    protected function doWithHref(string href)
+    protected function doWithHref(string href) -> <static>
     {
         var newInstance;
 
@@ -172,7 +156,7 @@ abstract class AbstractLink
      *
      * @return mixed
      */
-    protected function doWithRel(string key)
+    protected function doWithRel(string key) -> <static>
     {
         var newInstance;
 
@@ -184,11 +168,11 @@ abstract class AbstractLink
     }
 
     /**
-    * @param string $key
+     * @param string $key
      *
      * @return mixed
      */
-    protected function doWithoutAttribute(string key)
+    protected function doWithoutAttribute(string key) -> <static>
     {
         var newInstance;
 
@@ -200,11 +184,11 @@ abstract class AbstractLink
     }
 
     /**
-    * @param string $key
+     * @param string $key
      *
      * @return mixed
      */
-    protected function doWithoutRel(string key)
+    protected function doWithoutRel(string key) -> <static>
     {
         var newInstance;
 
@@ -213,5 +197,22 @@ abstract class AbstractLink
         newInstance->rels->remove(key);
 
         return newInstance;
+    }
+
+    /**
+     * Determines if a href is a templated link or not.
+     *
+     * @see https://tools.ietf.org/html/rfc6570
+     *
+     * @param string $href
+     *
+     * @return bool
+     */
+    protected function hrefIsTemplated(string href) -> bool
+    {
+        return (
+            false !== mb_strpos(href, "{") &&
+            false !== mb_strpos(href, "}")
+        );
     }
 }

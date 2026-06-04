@@ -58,10 +58,12 @@ final class DbDescribePostgresqlTest extends AbstractDatabaseTestCase
      */
     public function testDbPostgresqlDescribeIndexes(): void
     {
-        /**
-         * @todo Check the references (SQL dump file)
-         */
-        $this->markTestSkipped('Need implementation - index data not yet defined');
+        $db = $this->container->get('db');
+
+        $indexes = $db->describeIndexes('co_invoices');
+
+        $this->assertArrayHasKey('co_invoices_pk', $indexes);
+        $this->assertSame(['inv_id'], $indexes['co_invoices_pk']->getColumns());
     }
 
     /**
@@ -73,10 +75,17 @@ final class DbDescribePostgresqlTest extends AbstractDatabaseTestCase
      */
     public function testDbPostgresqlDescribeReferences(): void
     {
-        /**
-         * @todo Check the references (SQL dump file)
-         */
-        $this->markTestSkipped('Need implementation - references data not yet defined');
+        $db = $this->container->get('db');
+
+        $references = $db->describeReferences('foreign_key_child');
+
+        $this->assertNotEmpty($references);
+        $this->assertArrayHasKey('test_describereferences', $references);
+
+        $ref = $references['test_describereferences'];
+        $this->assertSame('foreign_key_parent', $ref->getReferencedTable());
+        $this->assertSame(['child_int'], $ref->getColumns());
+        $this->assertSame(['refer_int'], $ref->getReferencedColumns());
     }
 
     /**

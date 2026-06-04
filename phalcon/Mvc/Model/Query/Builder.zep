@@ -10,17 +10,21 @@
 
 namespace Phalcon\Mvc\Model\Query;
 
-use Phalcon\Di\Di;
 use Phalcon\Db\Column;
+use Phalcon\Di\Di;
 use Phalcon\Di\DiInterface;
-use Phalcon\Mvc\Model\Exception;
 use Phalcon\Di\InjectionAwareInterface;
+use Phalcon\Mvc\Model\Exception;
+use Phalcon\Mvc\Model\Exceptions\ManagerOrmServicesUnavailable;
+use Phalcon\Mvc\Model\Query\Exceptions\Builder\BuilderColumnNotInMap;
+use Phalcon\Mvc\Model\Query\Exceptions\Builder\BuilderConditionInvalid;
+use Phalcon\Mvc\Model\Query\Exceptions\Builder\ModelRequired;
+use Phalcon\Mvc\Model\Query\Exceptions\Builder\NoPrimaryKey;
+use Phalcon\Mvc\Model\Query\Exceptions\Builder\OperatorNotAvailable;
 use Phalcon\Mvc\Model\QueryInterface;
 use Phalcon\Support\Settings;
 
 /**
- * Phalcon\Mvc\Model\Query\Builder
- *
  * Helps to create PHQL queries using an OO interface
  *
  *```php
@@ -701,15 +705,11 @@ class Builder implements BuilderInterface, InjectionAwareInterface
         let models = this->models;
         if typeof models == "array" {
             if unlikely !count(models) {
-                throw new Exception(
-                    "At least one model is required to build the query"
-                );
+                throw new ModelRequired();
             }
         } else {
             if unlikely !models {
-                throw new Exception(
-                    "At least one model is required to build the query"
-                );
+                throw new ModelRequired();
             }
         }
 
@@ -722,9 +722,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
              */
             if typeof models == "array" {
                 if unlikely count(models) > 1 {
-                    throw new Exception(
-                        "Cannot build the query. Invalid condition"
-                    );
+                    throw new BuilderConditionInvalid();
                 }
 
                 let model = models[0];
@@ -761,9 +759,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 
                     if typeof columnMap == "array" {
                         if unlikely !fetch attributeField, columnMap[firstPrimaryKey] {
-                            throw new Exception(
-                                "Column '" . firstPrimaryKey . "' isn't part of the column map"
-                            );
+                            throw new BuilderColumnNotInMap(firstPrimaryKey);
                         }
                     } else {
                         let attributeField = firstPrimaryKey;
@@ -785,9 +781,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
              * A primary key is mandatory in these cases
              */
             if unlikely noPrimary {
-                throw new Exception(
-                    "Source related to this model does not have a primary key defined"
-                );
+                throw new NoPrimaryKey();
             }
         }
 
@@ -1051,9 +1045,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
         let container = <DiInterface> this->container;
 
         if unlikely typeof container != "object" {
-            throw new Exception(
-                "A dependency injection container is required to access the services related to the ORM"
-            );
+            throw new ManagerOrmServicesUnavailable();
         }
 
         /**
@@ -1179,6 +1171,21 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     }
 
     /**
+     * Appends an IN condition to the current WHERE conditions
+     *
+     *```php
+     * $builder->inWhere(
+     *     "id",
+     *     [1, 2, 3]
+     * );
+     *```
+     */
+    public function inWhere(string! expr, array! values, string! operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
+    {
+        return this->conditionIn("Where", operator, expr, values);
+    }
+
+    /**
      * Adds an INNER join to the query
      *
      *```php
@@ -1206,21 +1213,6 @@ class Builder implements BuilderInterface, InjectionAwareInterface
         let this->joins[] = [model, conditions, alias, "INNER"];
 
         return this;
-    }
-
-    /**
-     * Appends an IN condition to the current WHERE conditions
-     *
-     *```php
-     * $builder->inWhere(
-     *     "id",
-     *     [1, 2, 3]
-     * );
-     *```
-     */
-    public function inWhere(string! expr, array! values, string! operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
-    {
-        return this->conditionIn("Where", operator, expr, values);
     }
 
     /**
@@ -1380,24 +1372,6 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     }
 
     /**
-     * Sets an ORDER BY condition clause
-     *
-     *```php
-     * $builder->orderBy("Robots.name");
-     * $builder->orderBy(["1", "Robots.name"]);
-     * $builder->orderBy(["Robots.name DESC"]);
-     *```
-     *
-     * @param array|string orderBy
-     */
-    public function orderBy(var orderBy) -> <BuilderInterface>
-    {
-        let this->order = orderBy;
-
-        return this;
-    }
-
-    /**
      * Appends a condition to the current HAVING conditions clause using an OR operator
      *
      *```php
@@ -1456,6 +1430,24 @@ class Builder implements BuilderInterface, InjectionAwareInterface
         }
 
         return this->where(conditions, bindParams, bindTypes);
+    }
+
+    /**
+     * Sets an ORDER BY condition clause
+     *
+     *```php
+     * $builder->orderBy("Robots.name");
+     * $builder->orderBy(["1", "Robots.name"]);
+     * $builder->orderBy(["Robots.name DESC"]);
+     *```
+     *
+     * @param array|string orderBy
+     */
+    public function orderBy(var orderBy) -> <BuilderInterface>
+    {
+        let this->order = orderBy;
+
+        return this;
     }
 
     /**
@@ -1587,12 +1579,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
         var hiddenParam, nextHiddenParam, minimumKey, maximumKey, operatorMethod;
 
         if unlikely (operator !== Builder::OPERATOR_AND && operator !== Builder::OPERATOR_OR) {
-            throw new Exception(
-                sprintf(
-                    "Operator % is not available.",
-                    operator
-                )
-            );
+            throw new OperatorNotAvailable(operator);
         }
 
         let operatorMethod = operator . clause;
@@ -1635,12 +1622,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
         int hiddenParam;
 
         if unlikely (operator !== Builder::OPERATOR_AND && operator !== Builder::OPERATOR_OR) {
-            throw new Exception(
-                sprintf(
-                    "Operator % is not available.",
-                    operator
-                )
-            );
+            throw new OperatorNotAvailable(operator);
         }
 
         let operatorMethod = operator . clause;
@@ -1689,12 +1671,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
         var hiddenParam, nextHiddenParam, minimumKey, maximumKey, operatorMethod;
 
         if unlikely (operator !== Builder::OPERATOR_AND && operator !== Builder::OPERATOR_OR) {
-            throw new Exception(
-                sprintf(
-                    "Operator % is not available.",
-                    operator
-                )
-            );
+            throw new OperatorNotAvailable(operator);
         }
 
         let operatorMethod = operator . clause;
@@ -1736,12 +1713,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
         int hiddenParam;
 
         if unlikely (operator !== Builder::OPERATOR_AND && operator !== Builder::OPERATOR_OR) {
-            throw new Exception(
-                sprintf(
-                    "Operator % is not available.",
-                    operator
-                )
-            );
+            throw new OperatorNotAvailable(operator);
         }
 
         let operatorMethod = operator . clause;

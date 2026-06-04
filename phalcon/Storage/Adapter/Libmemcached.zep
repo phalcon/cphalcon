@@ -12,6 +12,8 @@ namespace Phalcon\Storage\Adapter;
 use DateInterval;
 use Exception as BaseException;
 use Phalcon\Storage\Exception as StorageException;
+use Phalcon\Storage\Exceptions\ConnectionFailed;
+use Phalcon\Storage\Exceptions\InvalidConfiguration;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Support\Exception as SupportException;
 
@@ -275,13 +277,13 @@ class Libmemcached extends AbstractAdapter
      * @param \Memcached $connection
      * @param array      $client
      *
-     * @return Libmemcached
-     * @throws StorageException
+     * @return static
+     * @throws InvalidConfiguration
      */
-    private function setOptions(<\Memcached> connection, array client) -> <Libmemcached>
+    private function setOptions(<\Memcached> connection, array client) -> <static>
     {
         if (true !== connection->setOptions(client)) {
-            throw new StorageException(
+            throw new InvalidConfiguration(
                 "Cannot set Memcached client options"
             );
         }
@@ -294,13 +296,13 @@ class Libmemcached extends AbstractAdapter
      * @param string     $saslUser
      * @param string     $saslPass
      *
-     * @return Libmemcached
+     * @return static
      */
     private function setSasl(
         <\Memcached> connection,
         string saslUser,
         string saslPass
-    ) -> <Libmemcached> {
+    ) -> <static> {
         if (true !== empty(saslUser)) {
             connection->setSaslAuthData(saslUser, saslPass);
         }
@@ -339,13 +341,13 @@ class Libmemcached extends AbstractAdapter
      * @param \Memcached $connection
      * @param array      $servers
      *
-     * @return Libmemcached
-     * @throws StorageException
+     * @return static
+     * @throws ConnectionFailed
      */
-    private function setServers(<\Memcached> connection, array servers) -> <Libmemcached>
+    private function setServers(<\Memcached> connection, array servers) -> <static>
     {
         if (true !== connection->addServers(servers)) {
-            throw new StorageException(
+            throw new ConnectionFailed(
                 "Cannot connect to the Memcached server(s)"
             );
         }

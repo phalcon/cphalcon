@@ -11,6 +11,7 @@
 namespace Phalcon\Support\Collection;
 
 use Phalcon\Support\Collection;
+use Phalcon\Support\Collection\Exceptions\ReadOnlyViolation;
 
 /**
  * A read only Collection object
@@ -57,28 +58,30 @@ class ReadOnlyCollection extends Collection
 
         try {
             parent::__unserialize(data);
-        } catch Throwable, ex {
+        } catch \Throwable, ex {
             let this->constructed = true;
-            
+
             throw ex;
         }
+
+        let this->constructed = true;
     }
 
     /**
-     * @throws Exception
+     * @throws ReadOnlyViolation
      */
     public function clear() -> void
     {
-        throw new Exception("The object is read only");
+        throw new ReadOnlyViolation();
     }
 
     /**
-     * @throws Exception
+     * @throws ReadOnlyViolation
      */
     public function init(array data = []) -> void
     {
         if (this->constructed) {
-            throw new Exception("The object is read only");
+            throw new ReadOnlyViolation();
         }
 
         parent::init(data);
@@ -89,11 +92,11 @@ class ReadOnlyCollection extends Collection
      *
      * @param string $element Name of the element
      *
-     * @throws Exception
+     * @throws ReadOnlyViolation
      */
     public function remove(string element) -> void
     {
-        throw new Exception("The object is read only");
+        throw new ReadOnlyViolation();
     }
 
     /**
@@ -101,11 +104,11 @@ class ReadOnlyCollection extends Collection
      *
      * @param array<int|string, mixed> $data
      *
-     * @throws Exception
+     * @throws ReadOnlyViolation
      */
     public function replace(array data) -> void
     {
-        throw new Exception("The object is read only");
+        throw new ReadOnlyViolation();
     }
 
     /**
@@ -114,10 +117,10 @@ class ReadOnlyCollection extends Collection
      * @param string $element Name of the element
      * @param mixed  $value   Value to store for the element
      *
-     * @throws Exception
+     * @throws ReadOnlyViolation
      */
     public function set(string element, var value) -> void
     {
-        throw new Exception("The object is read only");
+        throw new ReadOnlyViolation();
     }
 }

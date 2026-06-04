@@ -10,6 +10,7 @@
 
 namespace Phalcon\Config;
 
+use Phalcon\Config\Exceptions\InvalidMergeData;
 use Phalcon\Support\Collection;
 
 /**
@@ -103,7 +104,7 @@ class Config extends Collection implements ConfigInterface
             return this;
         }
 
-        throw new Exception("Invalid data type for merge.");
+        throw new InvalidMergeData();
     }
 
     /**

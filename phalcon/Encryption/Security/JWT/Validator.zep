@@ -10,6 +10,7 @@
 
 namespace Phalcon\Encryption\Security\JWT;
 
+use Phalcon\Encryption\Security\JWT\Exceptions\InvalidAudienceType;
 use Phalcon\Encryption\Security\JWT\Exceptions\ValidatorException;
 use Phalcon\Encryption\Security\JWT\Signer\SignerInterface;
 use Phalcon\Encryption\Security\JWT\Token\Enum;
@@ -96,9 +97,9 @@ class Validator
      * @param string $claim
      * @param mixed  $value
      *
-     * @return Validator
+     * @return static
      */
-    public function set(string claim, var value) -> <Validator>
+    public function set(string claim, var value) -> <static>
     {
         let this->claims[claim] = value;
 
@@ -110,9 +111,9 @@ class Validator
      *
      * @param Token $token
      *
-     * @return Validator
+     * @return static
      */
-    public function setToken(<Token> token) -> <Validator>
+    public function setToken(<Token> token) -> <static>
     {
         let this->token = token;
 
@@ -125,9 +126,9 @@ class Validator
      * @param string          $name
      * @param bool|int|string $value
      *
-     * @return Validator
+     * @return static
      */
-    public function validateClaim(string name, var value) -> <Validator>
+    public function validateClaim(string name, var value) -> <static>
     {
         var claimValue;
 
@@ -145,17 +146,15 @@ class Validator
      *
      * @param string|array $audience
      *
-     * @return Validator
+     * @return static
      * @throws ValidatorException
      */
-    public function validateAudience(var audience) -> <Validator>
+    public function validateAudience(var audience) -> <static>
     {
         var item, tokenAudience;
 
         if (typeof audience !== "string" && typeof audience !== "array") {
-            throw new ValidatorException(
-                "Audience must be a string or an array"
-            );
+            throw new InvalidAudienceType();
         }
 
         if (typeof audience === "string") {
@@ -178,10 +177,10 @@ class Validator
      *
      * @param int $timestamp
      *
-     * @return Validator
+     * @return static
      * @throws ValidatorException
      */
-    public function validateExpiration(int timestamp) -> <Validator>
+    public function validateExpiration(int timestamp) -> <static>
     {
         var tokenExpirationTime;
 
@@ -202,10 +201,10 @@ class Validator
      *
      * @param string $id
      *
-     * @return Validator
+     * @return static
      * @throws ValidatorException
      */
-    public function validateId(string id) -> <Validator>
+    public function validateId(string id) -> <static>
     {
         var tokenId;
 
@@ -223,10 +222,10 @@ class Validator
      *
      * @param int $timestamp
      *
-     * @return Validator
+     * @return static
      * @throws ValidatorException
      */
-    public function validateIssuedAt(int timestamp) -> <Validator>
+    public function validateIssuedAt(int timestamp) -> <static>
     {
         var tokenIssuedAt;
 
@@ -244,10 +243,10 @@ class Validator
      *
      * @param string $issuer
      *
-     * @return Validator
+     * @return static
      * @throws ValidatorException
      */
-    public function validateIssuer(string! issuer) -> <Validator>
+    public function validateIssuer(string! issuer) -> <static>
     {
         var tokenIssuer;
 
@@ -265,10 +264,10 @@ class Validator
      *
      * @param int $timestamp
      *
-     * @return Validator
+     * @return static
      * @throws ValidatorException
      */
-    public function validateNotBefore(int timestamp) -> <Validator>
+    public function validateNotBefore(int timestamp) -> <static>
     {
         var tokenNotBefore;
 
@@ -287,13 +286,13 @@ class Validator
      * @param SignerInterface $signer
      * @param string          $passphrase
      *
-     * @return Validator
+     * @return static
      * @throws ValidatorException
      */
     public function validateSignature(
         <SignerInterface> signer,
         string passphrase
-    ) -> <Validator> {
+    ) -> <static> {
         if (
             true !== signer->verify(
                 this->token->getSignature()->getHash(),

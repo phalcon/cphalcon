@@ -17,8 +17,8 @@ on:
 
 env:
   # All versions should be declared here
-  PHALCON_VERSION: 5.13.0
-  ZEPHIR_PARSER_VERSION: 1.8.0
+  PHALCON_VERSION: 5.14.0
+  ZEPHIR_PARSER_VERSION: 2.0.3
   # For tests
   LANG: en_US.UTF-8
   LANGUAGE: en_US.UTF-8
@@ -49,6 +49,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+          token: ${{ github.token }}
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -71,6 +75,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+          token: ${{ github.token }}
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -88,12 +96,12 @@ jobs:
       - name: Generate and validate stubs
         run: |
           vendor/bin/zephir stubs
-          vendor/bin/psalm ide/
+          composer analyze
 
       - name: Fix code style on generated stubs
         # phpcbf exits 1 when it fixes files; passing the path on the CLI overrides
         # the <file> entries in phpcs.xml so the PSR12 ruleset is applied to the stubs.
-        run: vendor/bin/phpcbf --standard=phpcs.xml ide/${{ env.PHALCON_VERSION }}/ || true
+        run: vendor/bin/phpcbf --standard=resources/phpcs.xml ide/${{ env.PHALCON_VERSION }}/ || true
 
       - name: Upload IDE stubs artifact
         uses: actions/upload-artifact@v7
@@ -112,6 +120,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+          token: ${{ github.token }}
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -191,6 +203,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+          token: ${{ github.token }}
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -261,6 +277,10 @@ jobs:
           - '8.5'
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+          token: ${{ github.token }}
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -312,6 +332,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+          token: ${{ github.token }}
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -374,6 +398,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+          token: ${{ github.token }}
 
       - name: Setup platform specific environment
         shell: pwsh
@@ -512,6 +540,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+          token: ${{ github.token }}
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -562,15 +594,15 @@ jobs:
         shell: bash
         run: |
           if [ "${{ runner.os }}" = "Linux" ]; then
-            ./.ci/linux-setup-locales.sh
+            ./resources/linux-setup-locales.sh
           fi
 
           cp tests/support/_config/.env.default .env
-          php tests/support/_config/generate-db-schemas.php
+          php bin/generate-db-schemas.php
 
       - name: Run Unit Tests
         if: always()
-        run: vendor/bin/phpunit -c phpunit.xml.dist
+        run: vendor/bin/phpunit -c resources/phpunit.xml.dist
 
       - name: Upload Unit Test Coverage
         uses: actions/upload-artifact@v7
@@ -584,7 +616,7 @@ jobs:
         shell: bash
         run: |
           echo "-- Creating Release Notes"
-          ./.ci/release-notes.sh ./CHANGELOG-5.0.md
+          ./resources/release-notes.sh ./CHANGELOG-5.0.md
 
   database_mysql_test:
     permissions:
@@ -631,6 +663,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+          token: ${{ github.token }}
 
       - name: "Setup platform specific environment"
         shell: pwsh
@@ -663,7 +699,7 @@ jobs:
       - name: Prepare test Environment
         run: |
           echo "::group::Set up locales"
-          ./.ci/linux-setup-locales.sh
+          ./resources/linux-setup-locales.sh
           echo "::endgroup::"
 
       - name: Validate composer
@@ -677,7 +713,7 @@ jobs:
       - name: Setup Tests
         run: |
           cp tests/support/_config/.env.default .env
-          php tests/support/_config/generate-db-schemas.php
+          php bin/generate-db-schemas.php
 
       - name: Run Database Tests (MySQL)
         env:
@@ -685,7 +721,7 @@ jobs:
           DATA_MYSQL_USER: root
           DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
-        run: vendor/bin/phpunit -c phpunit.mysql.xml
+        run: vendor/bin/phpunit -c resources/phpunit.mysql.xml
       - name: Upload Database (MySQL) Coverage
         uses: actions/upload-artifact@v7
         if: always()
@@ -725,6 +761,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+          token: ${{ github.token }}
 
       - name: "Setup platform specific environment"
         shell: pwsh
@@ -757,7 +797,7 @@ jobs:
       - name: Prepare test Environment
         run: |
           echo "::group::Set up locales"
-          ./.ci/linux-setup-locales.sh
+          ./resources/linux-setup-locales.sh
           echo "::endgroup::"
 
       - name: Validate composer
@@ -771,14 +811,14 @@ jobs:
       - name: Setup Tests
         run: |
           cp tests/support/_config/.env.default .env
-          php tests/support/_config/generate-db-schemas.php
+          php bin/generate-db-schemas.php
 
       - name: Run Database Tests (SQLite)
         env:
           DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
         if: always()
-        run: vendor/bin/phpunit -c phpunit.sqlite.xml
+        run: vendor/bin/phpunit -c resources/phpunit.sqlite.xml
       - name: Upload Database (SQLite) Coverage
         uses: actions/upload-artifact@v7
         if: always()
@@ -831,6 +871,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+          token: ${{ github.token }}
 
       - name: "Setup platform specific environment"
         shell: pwsh
@@ -863,7 +907,7 @@ jobs:
       - name: Prepare test Environment
         run: |
           echo "::group::Set up locales"
-          ./.ci/linux-setup-locales.sh
+          ./resources/linux-setup-locales.sh
           echo "::endgroup::"
 
       - name: Validate composer
@@ -877,13 +921,13 @@ jobs:
       - name: Setup Tests
         run: |
           cp tests/support/_config/.env.default .env
-          php tests/support/_config/generate-db-schemas.php
+          php bin/generate-db-schemas.php
 
       - name: Run Database Tests (Postgres)
         env:
           DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
-        run: vendor/bin/phpunit -c phpunit.pgsql.xml
+        run: vendor/bin/phpunit -c resources/phpunit.pgsql.xml
       - name: Upload Database (Postgres) Coverage
         uses: actions/upload-artifact@v7
         if: always()
@@ -940,6 +984,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+          token: ${{ github.token }}
       - name: Get the extension matrix
         id: extension-matrix
         uses: php/php-windows-builder/extension-matrix@v1
@@ -962,6 +1010,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+          token: ${{ github.token }}
 
       - name: Generate build folder
         run: |
@@ -1003,6 +1055,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+          token: ${{ github.token }}
 
       - name: Download Phalcon build artifacts
         id: download
@@ -1020,7 +1076,7 @@ jobs:
           find ./build-artifacts -type f \( -name 'phalcon*.zip' -o -name 'php_phalcon*.zip' \) -not -path '*/logs/*' -exec cp {} ./build-artifacts/release/ ";"
           find ./build-artifacts -type f -name 'phalcon*.tgz' -exec cp {} ./build-artifacts/release/ ";"
           echo "-- Creating Release Notes"
-          ./.ci/release-notes.sh ./CHANGELOG-5.0.md > ./build-artifacts/release/release-notes.md
+          ./resources/release-notes.sh ./CHANGELOG-5.0.md > ./build-artifacts/release/release-notes.md
 
       - name: Create Release
         uses: ncipollo/release-action@v1
@@ -1045,6 +1101,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+          token: ${{ github.token }}
 
       - name: Download IDE stubs artifact
         uses: actions/download-artifact@v8

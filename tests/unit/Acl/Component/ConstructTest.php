@@ -37,7 +37,7 @@ final class ConstructTest extends AbstractUnitTestCase
     public function testAclComponentConstructWithWildcardThrowsException(): void
     {
         $this->expectException(Exception::class);
-        $this->expectExceptionMessage("Component name cannot be '*'");
+        $this->expectExceptionMessage("The component name cannot be '*'");
 
         (new Component('*'));
     }

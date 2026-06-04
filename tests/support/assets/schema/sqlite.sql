@@ -179,6 +179,55 @@ create table co_dialect
             
 
 
+DROP TABLE IF EXISTS foreign_key_child;
+            
+
+
+DROP TABLE IF EXISTS foreign_key_parent;
+            
+
+
+CREATE TABLE foreign_key_parent (
+    id        INTEGER PRIMARY KEY AUTOINCREMENT,
+    name      varchar(70) NOT NULL,
+    refer_int INTEGER     NOT NULL,
+    UNIQUE (refer_int)
+);
+            
+
+
+CREATE TABLE foreign_key_child (
+    id        INTEGER PRIMARY KEY AUTOINCREMENT,
+    name      varchar(70) NOT NULL,
+    child_int INTEGER     NOT NULL,
+    UNIQUE (child_int)
+);
+            
+
+DROP TABLE IF EXISTS co_invoices_fk;
+
+DROP TABLE IF EXISTS co_customers_fk;
+
+
+CREATE TABLE co_customers_fk (
+    cst_id   integer CONSTRAINT co_customers_fk_pk PRIMARY KEY AUTOINCREMENT,
+    cst_name text
+);
+            
+
+
+CREATE TABLE co_invoices_fk (
+    inv_id     integer CONSTRAINT co_invoices_fk_pk PRIMARY KEY AUTOINCREMENT,
+    inv_cst_id integer NOT NULL,
+    inv_title  text,
+    CONSTRAINT co_invoices_fk_cst_fk
+        FOREIGN KEY (inv_cst_id)
+        REFERENCES co_customers_fk (cst_id)
+        ON UPDATE CASCADE ON DELETE RESTRICT
+);
+            
+
+
 drop table if exists co_invoices;
             
 

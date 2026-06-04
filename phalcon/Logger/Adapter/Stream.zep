@@ -10,8 +10,8 @@
 
 namespace Phalcon\Logger\Adapter;
 
-use LogicException;
-use Phalcon\Logger\Exception;
+use Phalcon\Logger\Adapter\Exceptions\FileOpenFailed;
+use Phalcon\Logger\Adapter\Exceptions\InvalidStreamMode;
 use Phalcon\Logger\Item;
 
 /**
@@ -32,7 +32,6 @@ use Phalcon\Logger\Item;
  * @property resource|null $handler
  * @property string        $mode
  * @property string        $name
- * @property array         $options
  */
 class Stream extends AbstractAdapter
 {
@@ -58,19 +57,12 @@ class Stream extends AbstractAdapter
     protected name;
 
     /**
-     * Path options
-     *
-     * @var array
-     */
-    protected options;
-
-    /**
      * Stream constructor.
      *
      * @param string $name
      * @param array  $options
      *
-     * @throws Exception
+     * @throws InvalidStreamMode
      */
     public function __construct(string name, array options = [])
     {
@@ -81,7 +73,7 @@ class Stream extends AbstractAdapter
          */
         let mode = true === isset(options["mode"]) ? options["mode"] : "ab";
         if (false !== mb_strpos(mode, "r")) {
-            throw new Exception("Adapter cannot be opened in read mode");
+            throw new InvalidStreamMode();
         }
 
         let this->name = name,
@@ -121,22 +113,18 @@ class Stream extends AbstractAdapter
      */
     public function process(<Item> item) -> void
     {
-        var message;
+        var fileHandler, message;
 
         if (!is_resource(this->handler)) {
-            let this->handler = this->phpFopen(this->name, this->mode);
+            let fileHandler = this->phpFopen(this->name, this->mode);
 
-            if (!is_resource(this->handler)) {
+            if (!is_resource(fileHandler)) {
                 let this->handler = null;
 
-                throw new LogicException(
-                    "The file '" .
-                    this->name .
-                    "' cannot be opened with mode '" .
-                    this->mode .
-                    "'"
-                );
+                throw new FileOpenFailed(this->name, this->mode);
             }
+
+            let this->handler = fileHandler;
         }
 
         let message = this->getFormattedItem(item) . PHP_EOL;

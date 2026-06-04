@@ -19,6 +19,7 @@ use Phalcon\Db\Dialect\Sqlite;
 use Phalcon\Db\Exception;
 use Phalcon\Db\Reference;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class AddForeignKeyTest extends AbstractDatabaseTestCase
 {
@@ -123,10 +124,6 @@ final class AddForeignKeyTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Db\Dialect :: addForeignKey
-     *
-     * @dataProvider getDialects
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-01-20
      *
@@ -134,6 +131,7 @@ final class AddForeignKeyTest extends AbstractDatabaseTestCase
      * @group pgsql
      * @group sqlite
      */
+    #[DataProvider('getDialects')]
     public function testDbDialectAddForeignKey(
         string $dialectClass,
         string $expected
@@ -152,10 +150,6 @@ final class AddForeignKeyTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Db\Dialect :: addForeignKey - onDelete
-     *
-     * @dataProvider getDialectsOnDelete
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-01-20
      *
@@ -163,6 +157,7 @@ final class AddForeignKeyTest extends AbstractDatabaseTestCase
      * @group pgsql
      * @group sqlite
      */
+    #[DataProvider('getDialectsOnDelete')]
     public function testDbDialectAddForeignKeyOnDelete(
         string $dialectClass,
         string $expected
@@ -182,10 +177,6 @@ final class AddForeignKeyTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Db\Dialect :: addForeignKey - onUpdate
-     *
-     * @dataProvider getDialectsOnUpdate
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-01-20
      *
@@ -193,6 +184,7 @@ final class AddForeignKeyTest extends AbstractDatabaseTestCase
      * @group pgsql
      * @group sqlite
      */
+    #[DataProvider('getDialectsOnUpdate')]
     public function testDbDialectAddForeignKeyOnUpdate(
         string $dialectClass,
         string $expected

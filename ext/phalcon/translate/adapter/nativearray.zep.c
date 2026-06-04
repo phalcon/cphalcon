@@ -19,7 +19,6 @@
 #include "kernel/operators.h"
 #include "kernel/object.h"
 #include "ext/spl/spl_exceptions.h"
-#include "kernel/concat.h"
 
 
 /**
@@ -31,14 +30,12 @@
  * file that was distributed with this source code.
  */
 /**
- * Class NativeArray
- *
  * Defines translation lists using PHP arrays
  *
- * @package Phalcon\Translate\Adapter
- *
- * @property array $translate
- * @property bool  $triggerError
+ * @phpstan-type TOptions array{
+ *      content?: array<string, string>,
+ *      triggerError?: bool
+ * }
  */
 ZEPHIR_INIT_CLASS(Phalcon_Translate_Adapter_NativeArray)
 {
@@ -54,7 +51,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Translate_Adapter_NativeArray)
 	zend_declare_property_bool(phalcon_translate_adapter_nativearray_ce, SL("triggerError"), 0, ZEND_ACC_PRIVATE);
 	phalcon_translate_adapter_nativearray_ce->create_object = zephir_init_properties_Phalcon_Translate_Adapter_NativeArray;
 
-	zend_class_implements(phalcon_translate_adapter_nativearray_ce, 1, zend_ce_arrayaccess);
 	return SUCCESS;
 }
 
@@ -62,10 +58,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Translate_Adapter_NativeArray)
  * NativeArray constructor.
  *
  * @param InterpolatorFactory $interpolator
- * @param array               $options = [
- *                                'content'      => '',
- *                                'triggerError' => false
- *                            ]
+ * @param TOptions            $options
  *
  * @throws Exception
  */
@@ -74,7 +67,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, __construct)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval options;
-	zval *interpolator, interpolator_sub, *options_param = NULL, __$true, __$false, data, error;
+	zval *interpolator, interpolator_sub, *options_param = NULL, __$true, __$false, data, error, _0$$3, _1$$5;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&interpolator_sub);
@@ -82,6 +75,8 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, __construct)
 	ZVAL_BOOL(&__$false, 0);
 	ZVAL_UNDEF(&data);
 	ZVAL_UNDEF(&error);
+	ZVAL_UNDEF(&_0$$3);
+	ZVAL_UNDEF(&_1$$5);
 	ZVAL_UNDEF(&options);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_OBJECT_OF_CLASS(interpolator, phalcon_translate_interpolatorfactory_ce)
@@ -95,7 +90,12 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, __construct)
 	zephir_check_call_status();
 	zephir_memory_observe(&data);
 	if (UNEXPECTED(!(zephir_array_isset_string_fetch(&data, &options, SL("content"), 0)))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_translate_exception_ce, "Translation content was not provided", "phalcon/Translate/Adapter/NativeArray.zep", 57);
+		ZEPHIR_INIT_VAR(&_0$$3);
+		object_init_ex(&_0$$3, phalcon_translate_exceptions_missingcontent_ce);
+		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 0);
+		zephir_check_call_status();
+		zephir_throw_exception_debug(&_0$$3, "phalcon/Translate/Adapter/NativeArray.zep", 54);
+		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	zephir_memory_observe(&error);
@@ -107,7 +107,12 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, __construct)
 		}
 	}
 	if (UNEXPECTED(Z_TYPE_P(&data) != IS_ARRAY)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_translate_exception_ce, "Translation data must be an array", "phalcon/Translate/Adapter/NativeArray.zep", 65);
+		ZEPHIR_INIT_VAR(&_1$$5);
+		object_init_ex(&_1$$5, phalcon_translate_exceptions_invaliddatatype_ce);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$5, "__construct", NULL, 0);
+		zephir_check_call_status();
+		zephir_throw_exception_debug(&_1$$5, "phalcon/Translate/Adapter/NativeArray.zep", 62);
+		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	zephir_update_property_zval(this_ptr, ZEND_STRL("translate"), &data);
@@ -176,7 +181,6 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, has)
  */
 PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, notFound)
 {
-	zval _2$$3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval index_zv, _0, _1$$3;
@@ -186,7 +190,6 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, notFound)
 	ZVAL_UNDEF(&index_zv);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
-	ZVAL_UNDEF(&_2$$3);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(index)
 	ZEND_PARSE_PARAMETERS_END();
@@ -197,12 +200,10 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, notFound)
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("triggerError"), PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(ZEPHIR_IS_TRUE_IDENTICAL(&_0))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
-		object_init_ex(&_1$$3, phalcon_translate_exception_ce);
-		ZEPHIR_INIT_VAR(&_2$$3);
-		ZEPHIR_CONCAT_SV(&_2$$3, "Cannot find translation key: ", &index_zv);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 49, &_2$$3);
+		object_init_ex(&_1$$3, phalcon_translate_exceptions_keynotfound_ce);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 0, &index_zv);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Translate/Adapter/NativeArray.zep", 107);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Translate/Adapter/NativeArray.zep", 104);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -212,8 +213,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, notFound)
 /**
  * Returns the translation related to the given key
  *
- * @param string $index
- * @param array  $placeholders
+ * @phpstan-param array<string, string> $placeholders
  *
  * @return string
  * @throws Exception
@@ -264,7 +264,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query)
 /**
  * Returns the internal array
  *
- * @return array
+ * @phpstan-return array<string, string>
  */
 PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, toArray)
 {

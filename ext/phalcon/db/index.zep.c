@@ -16,6 +16,7 @@
 #include "kernel/object.h"
 #include "kernel/array.h"
 #include "kernel/exception.h"
+#include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "ext/spl/spl_exceptions.h"
 
@@ -146,10 +147,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Index)
  */
 PHP_METHOD(Phalcon_Db_Index, __construct)
 {
-	zval _2$$5;
+	zval _3$$5;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval columnsOrDefinition;
-	zval name_zv, *columnsOrDefinition_param = NULL, type_zv, __$true, __$false, definitionType, invisible, directions, where, concurrent, _0$$3, _1$$3;
+	zval name_zv, *columnsOrDefinition_param = NULL, type_zv, __$true, __$false, definitionType, invisible, directions, where, concurrent, _0$$3, _2$$3, _1$$4, _4$$8, _5$$10;
 	zend_string *name = NULL, *type = NULL;
 	zval *this_ptr = getThis();
 
@@ -163,9 +165,12 @@ PHP_METHOD(Phalcon_Db_Index, __construct)
 	ZVAL_UNDEF(&where);
 	ZVAL_UNDEF(&concurrent);
 	ZVAL_UNDEF(&_0$$3);
-	ZVAL_UNDEF(&_1$$3);
+	ZVAL_UNDEF(&_2$$3);
+	ZVAL_UNDEF(&_1$$4);
+	ZVAL_UNDEF(&_4$$8);
+	ZVAL_UNDEF(&_5$$10);
 	ZVAL_UNDEF(&columnsOrDefinition);
-	ZVAL_UNDEF(&_2$$5);
+	ZVAL_UNDEF(&_3$$5);
 	ZEND_PARSE_PARAMETERS_START(2, 3)
 		Z_PARAM_STR(name)
 		ZEPHIR_Z_PARAM_ARRAY(columnsOrDefinition, columnsOrDefinition_param)
@@ -189,17 +194,22 @@ PHP_METHOD(Phalcon_Db_Index, __construct)
 	zephir_update_property_zval(this_ptr, ZEND_STRL("name"), &name_zv);
 	if (zephir_array_isset_value_string(&columnsOrDefinition, SL("columns"))) {
 		zephir_memory_observe(&_0$$3);
-		zephir_array_fetch_string(&_0$$3, &columnsOrDefinition, SL("columns"), PH_NOISY, "phalcon/Db/Index.zep", 135);
+		zephir_array_fetch_string(&_0$$3, &columnsOrDefinition, SL("columns"), PH_NOISY, "phalcon/Db/Index.zep", 139);
 		if (UNEXPECTED(Z_TYPE_P(&_0$$3) != IS_ARRAY)) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Index definition 'columns' key must be an array", "phalcon/Db/Index.zep", 138);
+			ZEPHIR_INIT_VAR(&_1$$4);
+			object_init_ex(&_1$$4, phalcon_db_exceptions_invalidindexcolumns_ce);
+			ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 437);
+			zephir_check_call_status();
+			zephir_throw_exception_debug(&_1$$4, "phalcon/Db/Index.zep", 140);
+			ZEPHIR_MM_RESTORE();
 			return;
 		}
-		zephir_array_fetch_string(&_1$$3, &columnsOrDefinition, SL("columns"), PH_NOISY | PH_READONLY, "phalcon/Db/Index.zep", 141);
-		zephir_update_property_zval(this_ptr, ZEND_STRL("columns"), &_1$$3);
+		zephir_array_fetch_string(&_2$$3, &columnsOrDefinition, SL("columns"), PH_NOISY | PH_READONLY, "phalcon/Db/Index.zep", 143);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("columns"), &_2$$3);
 		zephir_memory_observe(&definitionType);
 		if (zephir_array_isset_string_fetch(&definitionType, &columnsOrDefinition, SL("type"), 0)) {
-			zephir_cast_to_string(&_2$$5, &definitionType);
-			zephir_update_property_zval(this_ptr, ZEND_STRL("type"), &_2$$5);
+			zephir_cast_to_string(&_3$$5, &definitionType);
+			zephir_update_property_zval(this_ptr, ZEND_STRL("type"), &_3$$5);
 		}
 		zephir_memory_observe(&invisible);
 		if (zephir_array_isset_string_fetch(&invisible, &columnsOrDefinition, SL("invisible"), 0)) {
@@ -212,7 +222,12 @@ PHP_METHOD(Phalcon_Db_Index, __construct)
 		zephir_memory_observe(&directions);
 		if (zephir_array_isset_string_fetch(&directions, &columnsOrDefinition, SL("directions"), 0)) {
 			if (UNEXPECTED(Z_TYPE_P(&directions) != IS_ARRAY)) {
-				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Index definition 'directions' key must be an array", "phalcon/Db/Index.zep", 155);
+				ZEPHIR_INIT_VAR(&_4$$8);
+				object_init_ex(&_4$$8, phalcon_db_exceptions_invalidindexdirections_ce);
+				ZEPHIR_CALL_METHOD(NULL, &_4$$8, "__construct", NULL, 438);
+				zephir_check_call_status();
+				zephir_throw_exception_debug(&_4$$8, "phalcon/Db/Index.zep", 155);
+				ZEPHIR_MM_RESTORE();
 				return;
 			}
 			zephir_update_property_zval(this_ptr, ZEND_STRL("directions"), &directions);
@@ -220,7 +235,12 @@ PHP_METHOD(Phalcon_Db_Index, __construct)
 		zephir_memory_observe(&where);
 		if (zephir_array_isset_string_fetch(&where, &columnsOrDefinition, SL("where"), 0)) {
 			if (UNEXPECTED(Z_TYPE_P(&where) != IS_STRING)) {
-				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Index definition 'where' key must be a string", "phalcon/Db/Index.zep", 165);
+				ZEPHIR_INIT_VAR(&_5$$10);
+				object_init_ex(&_5$$10, phalcon_db_exceptions_invalidindexwhere_ce);
+				ZEPHIR_CALL_METHOD(NULL, &_5$$10, "__construct", NULL, 439);
+				zephir_check_call_status();
+				zephir_throw_exception_debug(&_5$$10, "phalcon/Db/Index.zep", 163);
+				ZEPHIR_MM_RESTORE();
 				return;
 			}
 			zephir_update_property_zval(this_ptr, ZEND_STRL("where"), &where);

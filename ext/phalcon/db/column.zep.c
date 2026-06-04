@@ -16,9 +16,9 @@
 #include "kernel/array.h"
 #include "kernel/memory.h"
 #include "kernel/exception.h"
+#include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "ext/spl/spl_exceptions.h"
-#include "kernel/fcall.h"
 
 
 /**
@@ -582,8 +582,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Column)
 PHP_METHOD(Phalcon_Db_Column, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval definition;
-	zval name_zv, *definition_param = NULL, __$true, __$false, type, notNull, primary, size, scale, dunsigned, first, after, bindType, isNumeric, autoIncrement, defaultValue, typeReference, typeValues, comment, generated, generationStored, invisible, isArray, _0$$25, _1$$25;
+	zval name_zv, *definition_param = NULL, __$true, __$false, type, notNull, primary, size, scale, dunsigned, first, after, bindType, isNumeric, autoIncrement, defaultValue, typeReference, typeValues, comment, generated, generationStored, invisible, isArray, _0$$3, _1$$11, _2$$19, _3$$26, _4$$25, _6$$25, _5$$27, _7$$28;
 	zend_string *name = NULL;
 	zval *this_ptr = getThis();
 
@@ -609,8 +610,14 @@ PHP_METHOD(Phalcon_Db_Column, __construct)
 	ZVAL_UNDEF(&generationStored);
 	ZVAL_UNDEF(&invisible);
 	ZVAL_UNDEF(&isArray);
-	ZVAL_UNDEF(&_0$$25);
-	ZVAL_UNDEF(&_1$$25);
+	ZVAL_UNDEF(&_0$$3);
+	ZVAL_UNDEF(&_1$$11);
+	ZVAL_UNDEF(&_2$$19);
+	ZVAL_UNDEF(&_3$$26);
+	ZVAL_UNDEF(&_4$$25);
+	ZVAL_UNDEF(&_6$$25);
+	ZVAL_UNDEF(&_5$$27);
+	ZVAL_UNDEF(&_7$$28);
 	ZVAL_UNDEF(&definition);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_STR(name)
@@ -625,7 +632,12 @@ PHP_METHOD(Phalcon_Db_Column, __construct)
 	zephir_update_property_zval(this_ptr, ZEND_STRL("name"), &name_zv);
 	zephir_memory_observe(&type);
 	if (UNEXPECTED(!(zephir_array_isset_string_fetch(&type, &definition, SL("type"), 0)))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column type is required", "phalcon/Db/Column.zep", 588);
+		ZEPHIR_INIT_VAR(&_0$$3);
+		object_init_ex(&_0$$3, phalcon_db_exceptions_columntyperequired_ce);
+		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 418);
+		zephir_check_call_status();
+		zephir_throw_exception_debug(&_0$$3, "phalcon/Db/Column.zep", 595);
+		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	zephir_update_property_zval(this_ptr, ZEND_STRL("type"), &type);
@@ -656,7 +668,12 @@ PHP_METHOD(Phalcon_Db_Column, __construct)
 				zephir_update_property_zval(this_ptr, ZEND_STRL("scale"), &scale);
 				break;
 			}
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column type does not support scale parameter", "phalcon/Db/Column.zep", 638);
+			ZEPHIR_INIT_VAR(&_1$$11);
+			object_init_ex(&_1$$11, phalcon_db_exceptions_columntyperejectsscale_ce);
+			ZEPHIR_CALL_METHOD(NULL, &_1$$11, "__construct", NULL, 419);
+			zephir_check_call_status();
+			zephir_throw_exception_debug(&_1$$11, "phalcon/Db/Column.zep", 643);
+			ZEPHIR_MM_RESTORE();
 			return;
 		} while(0);
 
@@ -691,7 +708,12 @@ PHP_METHOD(Phalcon_Db_Column, __construct)
 					}
 					break;
 				}
-				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column type cannot be auto-increment", "phalcon/Db/Column.zep", 682);
+				ZEPHIR_INIT_VAR(&_2$$19);
+				object_init_ex(&_2$$19, phalcon_db_exceptions_columntyperejectsautoincrement_ce);
+				ZEPHIR_CALL_METHOD(NULL, &_2$$19, "__construct", NULL, 420);
+				zephir_check_call_status();
+				zephir_throw_exception_debug(&_2$$19, "phalcon/Db/Column.zep", 685);
+				ZEPHIR_MM_RESTORE();
 				return;
 			} while(0);
 
@@ -717,17 +739,32 @@ PHP_METHOD(Phalcon_Db_Column, __construct)
 	if (zephir_array_isset_string_fetch(&generated, &definition, SL("generated"), 0)) {
 		if (Z_TYPE_P(&generated) != IS_NULL) {
 			if (UNEXPECTED(Z_TYPE_P(&generated) != IS_STRING)) {
-				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column generation expression must be a string", "phalcon/Db/Column.zep", 725);
+				ZEPHIR_INIT_VAR(&_3$$26);
+				object_init_ex(&_3$$26, phalcon_db_exceptions_invalidgenerationexpression_ce);
+				ZEPHIR_CALL_METHOD(NULL, &_3$$26, "__construct", NULL, 421);
+				zephir_check_call_status();
+				zephir_throw_exception_debug(&_3$$26, "phalcon/Db/Column.zep", 726);
+				ZEPHIR_MM_RESTORE();
 				return;
 			}
-			zephir_read_property(&_0$$25, this_ptr, ZEND_STRL("autoIncrement"), PH_NOISY_CC | PH_READONLY);
-			if (UNEXPECTED(zephir_is_true(&_0$$25))) {
-				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Generated column cannot also be auto-increment", "phalcon/Db/Column.zep", 731);
+			zephir_read_property(&_4$$25, this_ptr, ZEND_STRL("autoIncrement"), PH_NOISY_CC | PH_READONLY);
+			if (UNEXPECTED(zephir_is_true(&_4$$25))) {
+				ZEPHIR_INIT_VAR(&_5$$27);
+				object_init_ex(&_5$$27, phalcon_db_exceptions_generatedautoincrementconflict_ce);
+				ZEPHIR_CALL_METHOD(NULL, &_5$$27, "__construct", NULL, 422);
+				zephir_check_call_status();
+				zephir_throw_exception_debug(&_5$$27, "phalcon/Db/Column.zep", 730);
+				ZEPHIR_MM_RESTORE();
 				return;
 			}
-			zephir_read_property(&_1$$25, this_ptr, ZEND_STRL("defaultValue"), PH_NOISY_CC | PH_READONLY);
-			if (UNEXPECTED(Z_TYPE_P(&_1$$25) != IS_NULL)) {
-				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Generated column cannot have a default value", "phalcon/Db/Column.zep", 737);
+			zephir_read_property(&_6$$25, this_ptr, ZEND_STRL("defaultValue"), PH_NOISY_CC | PH_READONLY);
+			if (UNEXPECTED(Z_TYPE_P(&_6$$25) != IS_NULL)) {
+				ZEPHIR_INIT_VAR(&_7$$28);
+				object_init_ex(&_7$$28, phalcon_db_exceptions_generateddefaultconflict_ce);
+				ZEPHIR_CALL_METHOD(NULL, &_7$$28, "__construct", NULL, 423);
+				zephir_check_call_status();
+				zephir_throw_exception_debug(&_7$$28, "phalcon/Db/Column.zep", 734);
+				ZEPHIR_MM_RESTORE();
 				return;
 			}
 			zephir_update_property_zval(this_ptr, ZEND_STRL("generated"), &generated);

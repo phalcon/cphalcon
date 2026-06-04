@@ -12,6 +12,9 @@ namespace Phalcon\Paginator\Adapter;
 
 use Phalcon\Mvc\Model\Query\Builder;
 use Phalcon\Paginator\Exception;
+use Phalcon\Paginator\Exceptions\InvalidBuilderInstance;
+use Phalcon\Paginator\Exceptions\InvalidCursorColumn;
+use Phalcon\Paginator\Exceptions\MissingRequiredParameter;
 use Phalcon\Paginator\RepositoryInterface;
 
 /**
@@ -95,28 +98,23 @@ class QueryBuilderCursor extends AbstractAdapter
         var builder, cursorColumn, cursor;
 
         if unlikely !isset config["limit"] {
-            throw new Exception("Parameter 'limit' is required");
+            throw new MissingRequiredParameter("limit");
         }
 
         if unlikely !fetch builder, config["builder"] {
-            throw new Exception("Parameter 'builder' is required");
+            throw new MissingRequiredParameter("builder");
         }
 
         if unlikely !(builder instanceof Builder) {
-            throw new Exception(
-                "Parameter 'builder' must be an instance " .
-                "of Phalcon\\Mvc\\Model\\Query\\Builder"
-            );
+            throw new InvalidBuilderInstance();
         }
 
         if unlikely !fetch cursorColumn, config["cursorColumn"] {
-            throw new Exception("Parameter 'cursorColumn' is required");
+            throw new MissingRequiredParameter("cursorColumn");
         }
 
         if unlikely typeof cursorColumn != "string" || empty cursorColumn {
-            throw new Exception(
-                "Parameter 'cursorColumn' must be a non-empty string"
-            );
+            throw new InvalidCursorColumn();
         }
 
         let this->cursorColumn = cursorColumn;
@@ -245,7 +243,7 @@ class QueryBuilderCursor extends AbstractAdapter
      * Pass the value returned by Repository::getNext() to advance to the
      * next page, or null to restart from the first page.
      */
-    public function setCursor(var cursor) -> <QueryBuilderCursor>
+    public function setCursor(var cursor) -> <static>
     {
         let this->cursor = cursor;
 
@@ -255,7 +253,7 @@ class QueryBuilderCursor extends AbstractAdapter
     /**
      * Set query builder object
      */
-    public function setQueryBuilder(<Builder> builder) -> <QueryBuilderCursor>
+    public function setQueryBuilder(<Builder> builder) -> <static>
     {
         let this->builder = builder;
 

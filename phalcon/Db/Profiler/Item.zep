@@ -117,7 +117,7 @@ class Item
     /**
      * Return the timestamp when the profile ended
      */
-    public function setFinalTime(double finalTime) -> <Item>
+    public function setFinalTime(double finalTime) -> <static>
     {
         let this->finalTime = finalTime;
 
@@ -127,7 +127,7 @@ class Item
     /**
      * Return the timestamp when the profile started
      */
-    public function setInitialTime(double initialTime) -> <Item>
+    public function setInitialTime(double initialTime) -> <static>
     {
         let this->initialTime = initialTime;
 
@@ -137,7 +137,7 @@ class Item
     /**
      * Return the SQL bind types related to the profile
      */
-    public function setSqlBindTypes(array sqlBindTypes) -> <Item>
+    public function setSqlBindTypes(array sqlBindTypes) -> <static>
     {
         let this->sqlBindTypes = sqlBindTypes;
 
@@ -147,7 +147,7 @@ class Item
     /**
      * Return the SQL statement related to the profile
      */
-    public function setSqlStatement(string sqlStatement) -> <Item>
+    public function setSqlStatement(string sqlStatement) -> <static>
     {
         let this->sqlStatement = sqlStatement;
 
@@ -157,7 +157,7 @@ class Item
     /**
      * Return the SQL variables related to the profile
      */
-    public function setSqlVariables(array sqlVariables) -> <Item>
+    public function setSqlVariables(array sqlVariables) -> <static>
     {
         let this->sqlVariables = sqlVariables;
 

@@ -14,8 +14,9 @@ use Phalcon\Contracts\Encryption\Security\Security as SecurityContract;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\AbstractInjectionAware;
 use Phalcon\Http\RequestInterface;
-use Phalcon\Encryption\Security\Random;
 use Phalcon\Encryption\Security\Exception;
+use Phalcon\Encryption\Security\Exceptions\UnknownHashAlgorithm;
+use Phalcon\Encryption\Security\Random;
 use Phalcon\Session\ManagerInterface as SessionInterface;
 
 /**
@@ -248,29 +249,19 @@ class Security extends AbstractInjectionAware implements SecurityContract
     public function computeHmac(
         string data,
         string key,
-        string algo,
+        string algorithm,
         bool raw = false
     ) -> string {
         var hmac;
 
         try {
-            let hmac = hash_hmac(algo, data, key, raw);
+            let hmac = hash_hmac(algorithm, data, key, raw);
         } catch \ValueError {
-            throw new Exception(
-                sprintf(
-                    "Unknown hashing algorithm: %s",
-                    algo
-                )
-            );
+            throw new UnknownHashAlgorithm(algorithm);
         }
 
         if unlikely !hmac {
-            throw new Exception(
-                sprintf(
-                    "Unknown hashing algorithm: %s",
-                    algo
-                )
-            );
+            throw new UnknownHashAlgorithm(algorithm);
         }
 
         return hmac;
@@ -279,7 +270,7 @@ class Security extends AbstractInjectionAware implements SecurityContract
     /**
      * Removes the value of the CSRF token and key from session
      */
-    public function destroyToken() -> <Security>
+    public function destroyToken() -> <static>
     {
         var session;
 
@@ -587,9 +578,9 @@ class Security extends AbstractInjectionAware implements SecurityContract
      * after a successful login or any other state change where rotating the
      * token is appropriate.
      *
-     * @return Security
+     * @return static
      */
-    public function refreshToken() -> <Security>
+    public function refreshToken() -> <static>
     {
         var session;
 
@@ -615,9 +606,9 @@ class Security extends AbstractInjectionAware implements SecurityContract
      *
      * @param bool $autoRefresh
      *
-     * @return Security
+     * @return static
      */
-    public function setAutoRefresh(bool autoRefresh) -> <Security>
+    public function setAutoRefresh(bool autoRefresh) -> <static>
     {
         let this->autoRefresh = autoRefresh;
 
@@ -629,9 +620,9 @@ class Security extends AbstractInjectionAware implements SecurityContract
      *
      * @param int $defaultHash
      *
-     * @return Security
+     * @return static
      */
-    public function setDefaultHash(int defaultHash) -> <Security>
+    public function setDefaultHash(int defaultHash) -> <static>
     {
         let this->defaultHash = defaultHash;
 
@@ -644,9 +635,9 @@ class Security extends AbstractInjectionAware implements SecurityContract
      *
      * @param int $randomBytes
      *
-     * @return Security
+     * @return static
      */
-    public function setRandomBytes(int! randomBytes) -> <Security>
+    public function setRandomBytes(int! randomBytes) -> <static>
     {
         let this->numberBytes = randomBytes;
 
@@ -658,9 +649,9 @@ class Security extends AbstractInjectionAware implements SecurityContract
      *
      * @param int $workFactor
      *
-     * @return Security
+     * @return static
      */
-    public function setWorkFactor(int workFactor) -> <Security>
+    public function setWorkFactor(int workFactor) -> <static>
     {
         let this->workFactor = workFactor;
 

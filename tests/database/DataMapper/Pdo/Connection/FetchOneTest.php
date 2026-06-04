@@ -78,8 +78,6 @@ final class FetchOneTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * @dataProvider providerFetchOneBindTypes
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-01-25
      */

@@ -5,7 +5,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_Ip);
 
 PHP_METHOD(Phalcon_Filter_Sanitize_Ip, __invoke);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_sanitize_ip___invoke, 0, 0, 1)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_filter_sanitize_ip___invoke, 0, 1, MAY_BE_STRING|MAY_BE_FALSE)
 	ZEND_ARG_TYPE_INFO(0, input, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, filter, IS_LONG, 0, "0")
 ZEND_END_ARG_INFO()

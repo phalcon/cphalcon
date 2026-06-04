@@ -27,15 +27,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, getParams);
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, getWhere);
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, groupBy);
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, having);
-PHP_METHOD(Phalcon_Mvc_Model_Criteria, innerJoin);
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, inWhere);
+PHP_METHOD(Phalcon_Mvc_Model_Criteria, innerJoin);
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, join);
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, leftJoin);
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, limit);
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, notBetweenWhere);
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, notInWhere);
-PHP_METHOD(Phalcon_Mvc_Model_Criteria, orderBy);
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, orWhere);
+PHP_METHOD(Phalcon_Mvc_Model_Criteria, orderBy);
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, rightJoin);
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, setDI);
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, setModelName);
@@ -98,7 +98,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_criteria_fromin
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, operator, IS_STRING, 0, "'AND'")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_criteria_getcolumns, 0, 0, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_model_criteria_getcolumns, 0, 0, MAY_BE_NULL|MAY_BE_STRING|MAY_BE_ARRAY)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_criteria_getconditions, 0, 0, IS_STRING, 1)
@@ -113,7 +113,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_criteria_gethaving, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_criteria_getlimit, 0, 0, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_model_criteria_getlimit, 0, 0, MAY_BE_NULL|MAY_BE_LONG|MAY_BE_ARRAY)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_criteria_getmodelname, 0, 0, IS_STRING, 0)
@@ -136,15 +136,15 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_criteria_having
 	ZEND_ARG_INFO(0, having)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_criteria_inwhere, 0, 2, Phalcon\\Mvc\\Model\\CriteriaInterface, 0)
+	ZEND_ARG_TYPE_INFO(0, expr, IS_STRING, 0)
+	ZEND_ARG_ARRAY_INFO(0, values, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_criteria_innerjoin, 0, 1, Phalcon\\Mvc\\Model\\CriteriaInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, model, IS_STRING, 0)
 	ZEND_ARG_INFO(0, conditions)
 	ZEND_ARG_INFO(0, alias)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_criteria_inwhere, 0, 2, Phalcon\\Mvc\\Model\\CriteriaInterface, 0)
-	ZEND_ARG_TYPE_INFO(0, expr, IS_STRING, 0)
-	ZEND_ARG_ARRAY_INFO(0, values, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_criteria_join, 0, 1, Phalcon\\Mvc\\Model\\CriteriaInterface, 0)
@@ -176,14 +176,14 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_criteria_notinw
 	ZEND_ARG_ARRAY_INFO(0, values, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_criteria_orderby, 0, 1, Phalcon\\Mvc\\Model\\CriteriaInterface, 0)
-	ZEND_ARG_TYPE_INFO(0, orderColumns, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_criteria_orwhere, 0, 1, Phalcon\\Mvc\\Model\\CriteriaInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, conditions, IS_STRING, 0)
 	ZEND_ARG_INFO(0, bindParams)
 	ZEND_ARG_INFO(0, bindTypes)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_criteria_orderby, 0, 1, Phalcon\\Mvc\\Model\\CriteriaInterface, 0)
+	ZEND_ARG_TYPE_INFO(0, orderColumns, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_criteria_rightjoin, 0, 1, Phalcon\\Mvc\\Model\\CriteriaInterface, 0)
@@ -234,27 +234,27 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_criteria_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model_Criteria, execute, arginfo_phalcon_mvc_model_criteria_execute, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Criteria, forUpdate, arginfo_phalcon_mvc_model_criteria_forupdate, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Criteria, fromInput, arginfo_phalcon_mvc_model_criteria_frominput, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
-PHP_ME(Phalcon_Mvc_Model_Criteria, getColumns, arginfo_phalcon_mvc_model_criteria_getcolumns, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Criteria, getColumns, arginfo_phalcon_mvc_model_criteria_getcolumns, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Criteria, getConditions, arginfo_phalcon_mvc_model_criteria_getconditions, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Criteria, getDI, arginfo_phalcon_mvc_model_criteria_getdi, ZEND_ACC_PUBLIC)
 PHP_ME(Phalcon_Mvc_Model_Criteria, getGroupBy, arginfo_phalcon_mvc_model_criteria_getgroupby, ZEND_ACC_PUBLIC)
 PHP_ME(Phalcon_Mvc_Model_Criteria, getHaving, arginfo_phalcon_mvc_model_criteria_gethaving, ZEND_ACC_PUBLIC)
-PHP_ME(Phalcon_Mvc_Model_Criteria, getLimit, arginfo_phalcon_mvc_model_criteria_getlimit, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Criteria, getLimit, arginfo_phalcon_mvc_model_criteria_getlimit, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Criteria, getModelName, arginfo_phalcon_mvc_model_criteria_getmodelname, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Criteria, getOrderBy, arginfo_phalcon_mvc_model_criteria_getorderby, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Criteria, getParams, arginfo_phalcon_mvc_model_criteria_getparams, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Criteria, getWhere, arginfo_phalcon_mvc_model_criteria_getwhere, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Criteria, groupBy, arginfo_phalcon_mvc_model_criteria_groupby, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Criteria, having, arginfo_phalcon_mvc_model_criteria_having, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Model_Criteria, innerJoin, arginfo_phalcon_mvc_model_criteria_innerjoin, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Criteria, inWhere, arginfo_phalcon_mvc_model_criteria_inwhere, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Criteria, innerJoin, arginfo_phalcon_mvc_model_criteria_innerjoin, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Criteria, join, arginfo_phalcon_mvc_model_criteria_join, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Criteria, leftJoin, arginfo_phalcon_mvc_model_criteria_leftjoin, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Criteria, limit, arginfo_phalcon_mvc_model_criteria_limit, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Criteria, notBetweenWhere, arginfo_phalcon_mvc_model_criteria_notbetweenwhere, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Criteria, notInWhere, arginfo_phalcon_mvc_model_criteria_notinwhere, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Model_Criteria, orderBy, arginfo_phalcon_mvc_model_criteria_orderby, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Criteria, orWhere, arginfo_phalcon_mvc_model_criteria_orwhere, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Criteria, orderBy, arginfo_phalcon_mvc_model_criteria_orderby, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Criteria, rightJoin, arginfo_phalcon_mvc_model_criteria_rightjoin, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Criteria, setDI, arginfo_phalcon_mvc_model_criteria_setdi, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Criteria, setModelName, arginfo_phalcon_mvc_model_criteria_setmodelname, ZEND_ACC_PUBLIC)

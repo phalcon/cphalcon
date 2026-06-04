@@ -53,10 +53,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getBindTypes);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getColumnMap);
 /**
- * Returns attributes (which have default values) and their default values
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getDefaultValues);
-/**
  * Returns attributes and their data types
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getDataTypes);
@@ -64,6 +60,10 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getDataTypes);
  * Returns attributes which types are numerical
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getDataTypesNumeric);
+/**
+ * Returns attributes (which have default values) and their default values
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getDefaultValues);
 /**
  * Returns attributes allow empty strings
  */
@@ -137,10 +137,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, setAutomaticUpdateAttribu
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, setEmptyStringAttributes);
 /**
- * Writes meta-data for certain model using a MODEL_* constant
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, writeMetaDataIndex);
-/**
  * Set the meta-data extraction strategy
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, setStrategy);
@@ -148,3 +144,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, setStrategy);
  * Writes meta-data to the adapter
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, write);
+/**
+ * Writes meta-data for certain model using a MODEL_* constant
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, writeMetaDataIndex);

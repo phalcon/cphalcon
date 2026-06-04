@@ -11,6 +11,7 @@
 namespace Phalcon\Forms;
 
 use Phalcon\Contracts\Forms\Schema;
+use Phalcon\Forms\Exceptions\FormNotRegistered;
 use Phalcon\Forms\Form;
 
 /**
@@ -65,7 +66,7 @@ class Manager
         var form;
 
         if unlikely !fetch form, this->forms[name] {
-            throw new Exception("There is no form with name='" . name . "'");
+            throw new FormNotRegistered(name);
         }
 
         return form;
@@ -119,7 +120,7 @@ class Manager
     /**
      * Registers a form in the Forms Manager
      */
-    public function set(string name, <Form> form) -> <Manager>
+    public function set(string name, <Form> form) -> <static>
     {
         let this->forms[name] = form;
 

@@ -363,25 +363,26 @@ PHP_METHOD(Phalcon_DataMapper_Query_AbstractConditions, where)
  */
 PHP_METHOD(Phalcon_DataMapper_Query_AbstractConditions, whereEquals)
 {
-	zend_string *_3;
-	zend_ulong _2;
+	zend_bool _8;
+	zend_string *_2;
+	zend_ulong _1;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_4 = NULL;
+	zephir_fcall_cache_entry *_3 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *columnsValues_param = NULL, key, value, *_0, _1, _5$$5, _6$$6, _7$$7, _8$$10, _9$$11, _10$$12;
+	zval *columnsValues_param = NULL, key, value, *_0, _7, _4$$5, _5$$6, _6$$7, _9$$10, _10$$11, _11$$12;
 	zval columnsValues;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&columnsValues);
 	ZVAL_UNDEF(&key);
 	ZVAL_UNDEF(&value);
-	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_5$$5);
-	ZVAL_UNDEF(&_6$$6);
-	ZVAL_UNDEF(&_7$$7);
-	ZVAL_UNDEF(&_8$$10);
-	ZVAL_UNDEF(&_9$$11);
-	ZVAL_UNDEF(&_10$$12);
+	ZVAL_UNDEF(&_7);
+	ZVAL_UNDEF(&_4$$5);
+	ZVAL_UNDEF(&_5$$6);
+	ZVAL_UNDEF(&_6$$7);
+	ZVAL_UNDEF(&_9$$10);
+	ZVAL_UNDEF(&_10$$11);
+	ZVAL_UNDEF(&_11$$12);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		ZEPHIR_Z_PARAM_ARRAY(columnsValues, columnsValues_param)
 	ZEND_PARSE_PARAMETERS_END();
@@ -391,43 +392,50 @@ PHP_METHOD(Phalcon_DataMapper_Query_AbstractConditions, whereEquals)
 	zephir_get_arrval(&columnsValues, columnsValues_param);
 	zephir_is_iterable(&columnsValues, 0, "phalcon/DataMapper/Query/AbstractConditions.zep", 162);
 	if (Z_TYPE_P(&columnsValues) == IS_ARRAY) {
-		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&columnsValues), _2, _3, _0)
+		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&columnsValues), _1, _2, _0)
 		{
 			ZEPHIR_INIT_NVAR(&key);
-			if (_3 != NULL) { 
-				ZVAL_STR_COPY(&key, _3);
+			if (_2 != NULL) { 
+				ZVAL_STR_COPY(&key, _2);
 			} else {
-				ZVAL_LONG(&key, _2);
+				ZVAL_LONG(&key, _1);
 			}
 			ZEPHIR_INIT_NVAR(&value);
 			ZVAL_COPY(&value, _0);
 			if (zephir_is_numeric(&key)) {
-				ZEPHIR_CALL_METHOD(NULL, this_ptr, "where", &_4, 0, &value);
+				ZEPHIR_CALL_METHOD(NULL, this_ptr, "where", &_3, 0, &value);
 				zephir_check_call_status();
 			} else if (Z_TYPE_P(&value) == IS_NULL) {
-				ZEPHIR_INIT_NVAR(&_5$$5);
-				ZEPHIR_CONCAT_VS(&_5$$5, &key, " IS NULL");
-				ZEPHIR_CALL_METHOD(NULL, this_ptr, "where", &_4, 0, &_5$$5);
+				ZEPHIR_INIT_NVAR(&_4$$5);
+				ZEPHIR_CONCAT_VS(&_4$$5, &key, " IS NULL");
+				ZEPHIR_CALL_METHOD(NULL, this_ptr, "where", &_3, 0, &_4$$5);
 				zephir_check_call_status();
 			} else if (Z_TYPE_P(&value) == IS_ARRAY) {
-				ZEPHIR_INIT_NVAR(&_6$$6);
-				ZEPHIR_CONCAT_VS(&_6$$6, &key, " IN ");
-				ZEPHIR_CALL_METHOD(NULL, this_ptr, "where", &_4, 0, &_6$$6, &value);
+				ZEPHIR_INIT_NVAR(&_5$$6);
+				ZEPHIR_CONCAT_VS(&_5$$6, &key, " IN ");
+				ZEPHIR_CALL_METHOD(NULL, this_ptr, "where", &_3, 0, &_5$$6, &value);
 				zephir_check_call_status();
 			} else {
-				ZEPHIR_INIT_NVAR(&_7$$7);
-				ZEPHIR_CONCAT_VS(&_7$$7, &key, " = ");
-				ZEPHIR_CALL_METHOD(NULL, this_ptr, "where", &_4, 0, &_7$$7, &value);
+				ZEPHIR_INIT_NVAR(&_6$$7);
+				ZEPHIR_CONCAT_VS(&_6$$7, &key, " = ");
+				ZEPHIR_CALL_METHOD(NULL, this_ptr, "where", &_3, 0, &_6$$7, &value);
 				zephir_check_call_status();
 			}
 		} ZEND_HASH_FOREACH_END();
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, &columnsValues, "rewind", NULL, 0);
 		zephir_check_call_status();
+		_8 = 1;
 		while (1) {
-			ZEPHIR_CALL_METHOD(&_1, &columnsValues, "valid", NULL, 0);
+			if (_8) {
+				_8 = 0;
+			} else {
+				ZEPHIR_CALL_METHOD(NULL, &columnsValues, "next", NULL, 0);
+				zephir_check_call_status();
+			}
+			ZEPHIR_CALL_METHOD(&_7, &columnsValues, "valid", NULL, 0);
 			zephir_check_call_status();
-			if (!zend_is_true(&_1)) {
+			if (!zend_is_true(&_7)) {
 				break;
 			}
 			ZEPHIR_CALL_METHOD(&key, &columnsValues, "key", NULL, 0);
@@ -435,26 +443,24 @@ PHP_METHOD(Phalcon_DataMapper_Query_AbstractConditions, whereEquals)
 			ZEPHIR_CALL_METHOD(&value, &columnsValues, "current", NULL, 0);
 			zephir_check_call_status();
 				if (zephir_is_numeric(&key)) {
-					ZEPHIR_CALL_METHOD(NULL, this_ptr, "where", &_4, 0, &value);
+					ZEPHIR_CALL_METHOD(NULL, this_ptr, "where", &_3, 0, &value);
 					zephir_check_call_status();
 				} else if (Z_TYPE_P(&value) == IS_NULL) {
-					ZEPHIR_INIT_NVAR(&_8$$10);
-					ZEPHIR_CONCAT_VS(&_8$$10, &key, " IS NULL");
-					ZEPHIR_CALL_METHOD(NULL, this_ptr, "where", &_4, 0, &_8$$10);
+					ZEPHIR_INIT_NVAR(&_9$$10);
+					ZEPHIR_CONCAT_VS(&_9$$10, &key, " IS NULL");
+					ZEPHIR_CALL_METHOD(NULL, this_ptr, "where", &_3, 0, &_9$$10);
 					zephir_check_call_status();
 				} else if (Z_TYPE_P(&value) == IS_ARRAY) {
-					ZEPHIR_INIT_NVAR(&_9$$11);
-					ZEPHIR_CONCAT_VS(&_9$$11, &key, " IN ");
-					ZEPHIR_CALL_METHOD(NULL, this_ptr, "where", &_4, 0, &_9$$11, &value);
+					ZEPHIR_INIT_NVAR(&_10$$11);
+					ZEPHIR_CONCAT_VS(&_10$$11, &key, " IN ");
+					ZEPHIR_CALL_METHOD(NULL, this_ptr, "where", &_3, 0, &_10$$11, &value);
 					zephir_check_call_status();
 				} else {
-					ZEPHIR_INIT_NVAR(&_10$$12);
-					ZEPHIR_CONCAT_VS(&_10$$12, &key, " = ");
-					ZEPHIR_CALL_METHOD(NULL, this_ptr, "where", &_4, 0, &_10$$12, &value);
+					ZEPHIR_INIT_NVAR(&_11$$12);
+					ZEPHIR_CONCAT_VS(&_11$$12, &key, " = ");
+					ZEPHIR_CALL_METHOD(NULL, this_ptr, "where", &_3, 0, &_11$$12, &value);
 					zephir_check_call_status();
 				}
-			ZEPHIR_CALL_METHOD(NULL, &columnsValues, "next", NULL, 0);
-			zephir_check_call_status();
 		}
 	}
 	ZEPHIR_INIT_NVAR(&value);
@@ -903,7 +909,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_AbstractConditions, appendCondition)
 	}
 	zephir_read_property(&_5, this_ptr, ZEND_STRL("store"), PH_NOISY_CC | PH_READONLY);
 	zephir_array_fetch(&_6, &_5, &store_zv, PH_NOISY | PH_READONLY, "phalcon/DataMapper/Query/AbstractConditions.zep", 331);
-	ZEPHIR_CALL_FUNCTION(&key, "array_key_last", NULL, 15, &_6);
+	ZEPHIR_CALL_FUNCTION(&key, "array_key_last", NULL, 20, &_6);
 	zephir_check_call_status();
 	zephir_read_property(&_7, this_ptr, ZEND_STRL("store"), PH_NOISY_CC | PH_READONLY);
 	zephir_array_fetch(&_8, &_7, &store_zv, PH_NOISY | PH_READONLY, "phalcon/DataMapper/Query/AbstractConditions.zep", 333);

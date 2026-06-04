@@ -13,7 +13,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Dispatcher;
 
+use Phalcon\Mvc\Dispatcher;
 use Phalcon\Tests\AbstractUnitTestCase;
+use ReflectionProperty;
 
 final class SetDefaultActionTest extends AbstractUnitTestCase
 {
@@ -23,6 +25,12 @@ final class SetDefaultActionTest extends AbstractUnitTestCase
      */
     public function testDispatcherSetDefaultAction(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $dispatcher = new Dispatcher();
+
+        $dispatcher->setDefaultAction('list');
+
+        $property = new ReflectionProperty($dispatcher, 'defaultAction');
+        $property->setAccessible(true);
+        $this->assertSame('list', $property->getValue($dispatcher));
     }
 }

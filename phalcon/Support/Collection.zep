@@ -14,10 +14,9 @@ use ArrayAccess;
 use ArrayIterator;
 use Countable;
 use IteratorAggregate;
-use InvalidArgumentException; // @todo this will also be removed when traits are available
 use JsonSerializable;
-use Phalcon\Contracts\Support\Collection as CollectionContract;
 use Phalcon\Support\Collection\CollectionInterface;
+use Phalcon\Support\Collection\Exceptions\InvalidValueType;
 use Phalcon\Support\Helper\Json\Encode;
 use Traversable;
 
@@ -222,7 +221,7 @@ class Collection implements
      *
      * @return static
      */
-    public function each(callable callback) -> <CollectionInterface>
+    public function each(callable callback) -> <static>
     {
         var key, value;
 
@@ -244,7 +243,7 @@ class Collection implements
      *
      * @return static
      */
-    public function filter(callable callback) -> <CollectionInterface>
+    public function filter(callable callback) -> <static>
     {
         var key, result, value;
 
@@ -478,7 +477,7 @@ class Collection implements
      *
      * @return static
      */
-    public function map(callable callback) -> <CollectionInterface>
+    public function map(callable callback) -> <static>
     {
         var key, result, value;
 
@@ -639,7 +638,7 @@ class Collection implements
      *
      * @return static
      */
-    public function sort(var callback = null, int order = 4) -> <CollectionInterface>
+    public function sort(var callback = null, int order = 4) -> <static>
     {
         var result;
 
@@ -727,7 +726,7 @@ class Collection implements
      *
      * @return static
      */
-    public function where(string propertyOrMethod, mixed value) -> <CollectionInterface>
+    public function where(string propertyOrMethod, mixed value) -> <static>
     {
         var key, result, item;
 
@@ -750,7 +749,7 @@ class Collection implements
      *
      * @return static
      */
-    protected function cloneEmpty(array data = []) -> <CollectionContract>
+    protected function cloneEmpty(array data = []) -> <static>
     {
         var className;
 
@@ -828,7 +827,7 @@ class Collection implements
      *
      * @param mixed $value
      *
-     * @throws InvalidArgumentException
+     * @throws InvalidValueType
      */
     protected function validateType(var value) -> void
     {
@@ -862,10 +861,7 @@ class Collection implements
         }
 
         if (!ok) {
-            throw new InvalidArgumentException(
-                "Value must be of type '" . this->type
-                . "', '" . get_debug_type(value) . "' given"
-            );
+            throw new InvalidValueType(this->type, value);
         }
     }
 

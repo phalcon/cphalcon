@@ -45,7 +45,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           push: true
-          file: docker/Dockerfile
+          file: resources/docker/develop/Dockerfile
           tags: |
             phalconphp/cphalcon:${{ github.ref_name }}-php${{ matrix.php }}
             ghcr.io/phalcon/cphalcon:${{ github.ref_name }}-php${{ matrix.php }}

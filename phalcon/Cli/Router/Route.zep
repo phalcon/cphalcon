@@ -10,6 +10,8 @@
 
 namespace Phalcon\Cli\Router;
 
+use Phalcon\Cli\Router\Exceptions\InvalidRoutePaths;
+
 /**
  * This class represents every route added to the router
  */
@@ -450,9 +452,7 @@ class Route implements RouteInterface
                     let namespaceName = get_ns_class(taskName);
 
                     if unlikely (namespaceName === null || realClassName === null) {
-                        throw new Exception(
-                            "The route contains invalid paths"
-                        );
+                        throw new InvalidRoutePaths();
                     }
 
                     // Update the namespace
@@ -476,7 +476,7 @@ class Route implements RouteInterface
         }
 
         if unlikely typeof routePaths !== "array" {
-            throw new Exception("The route contains invalid paths");
+            throw new InvalidRoutePaths();
         }
 
         /**

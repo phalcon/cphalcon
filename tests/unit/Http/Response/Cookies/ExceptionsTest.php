@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Http\Response\Cookies;
 
-use Phalcon\Http\Cookie\Exception;
 use Phalcon\Http\Response\Cookies;
+use Phalcon\Http\Response\Exceptions\ResponseServiceUnavailable;
 use Phalcon\Tests\AbstractUnitTestCase;
 
 final class ExceptionsTest extends AbstractUnitTestCase
@@ -30,7 +30,7 @@ final class ExceptionsTest extends AbstractUnitTestCase
      */
     public function testHttpResponseCookiesGetThrowsExceptionWhenContainerIsNull(): void
     {
-        $this->expectException(Exception::class);
+        $this->expectException(ResponseServiceUnavailable::class);
         $this->expectExceptionMessage(
             "A dependency injection container is required to access the 'response' service"
         );

@@ -16,7 +16,7 @@
 namespace Phalcon\DataMapper\Pdo\Connection;
 
 use BadMethodCallException;
-use Phalcon\DataMapper\Pdo\Exception\CannotBindValue;
+use Phalcon\DataMapper\Pdo\Exception\UnknownDriverMethod;
 use Phalcon\DataMapper\Pdo\Profiler\ProfilerInterface;
 
 /**
@@ -56,7 +56,7 @@ abstract class AbstractConnection implements ConnectionInterface
                 message   = "Class '" . className
                           . "' does not have a method '" . name . "'";
 
-            throw new BadMethodCallException(message);
+            throw new UnknownDriverMethod(message);
         }
 
         return call_user_func_array(
@@ -714,9 +714,11 @@ abstract class AbstractConnection implements ConnectionInterface
      *
      * @param ProfilerInterface $profiler
      */
-    public function setProfiler(<ProfilerInterface> profiler)
+    public function setProfiler(<ProfilerInterface> profiler) -> <static>
     {
         let this->profiler = profiler;
+
+        return this;
     }
 
     /**

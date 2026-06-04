@@ -14,6 +14,7 @@ use Exception;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\AbstractInjectionAware;
 use Phalcon\Dispatcher\Exception as PhalconException;
+use Phalcon\Dispatcher\Exceptions\ForwardInInitializeForbidden;
 use Phalcon\Events\EventsAwareInterface;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Filter\FilterInterface;
@@ -72,6 +73,11 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
      * @var array
      */
     protected handlerHashes = [];
+
+    /**
+     * @var array
+     */
+    protected handlerHookCache = [];
 
     /**
      * @var string
@@ -219,7 +225,7 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
         int numberDispatches;
         var value, handler, container, namespaceName, handlerName, actionName,
             eventsManager, handlerClass, status, actionMethod,
-            modelBinder, bindCacheKey, isNewHandler, handlerHash, e;
+            modelBinder, bindCacheKey, isNewHandler, handlerHash, hookCache, e;
 
         let container = <DiInterface> this->container;
 
@@ -369,6 +375,17 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
 
             let this->activeHandler = handler;
 
+            if !isset this->handlerHookCache[handlerClass] {
+                let this->handlerHookCache[handlerClass] = [
+                    method_exists(handler, "beforeExecuteRoute"),
+                    method_exists(handler, "initialize"),
+                    method_exists(handler, "afterBinding"),
+                    method_exists(handler, "afterExecuteRoute")
+                ];
+            }
+
+            let hookCache = this->handlerHookCache[handlerClass];
+
             let namespaceName = this->namespaceName;
             let handlerName = this->handlerName;
             let actionName = this->actionName;
@@ -452,7 +469,7 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
                 }
             }
 
-            if method_exists(handler, "beforeExecuteRoute") {
+            if hookCache[0] {
                 try {
                     // Calling "beforeExecuteRoute" as direct method
                     if handler->beforeExecuteRoute(this) === false || this->finished === false {
@@ -489,7 +506,7 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
              * @see https://github.com/phalcon/cphalcon/pull/13112
              */
             if isNewHandler {
-                if method_exists(handler, "initialize") {
+                if hookCache[1] {
                     try {
                         let this->isControllerInitialize = true;
 
@@ -573,7 +590,7 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
             /**
              * Calling afterBinding as callback and event
              */
-            if method_exists(handler, "afterBinding") {
+            if hookCache[2] {
                 if handler->afterBinding(this) === false {
                     continue;
                 }
@@ -632,7 +649,7 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
             /**
              * Calling "afterExecuteRoute" as direct method
              */
-            if method_exists(handler, "afterExecuteRoute") {
+            if hookCache[3] {
                 try {
                     if handler->afterExecuteRoute(this, value) === false || this->finished === false {
                         continue;
@@ -708,9 +725,7 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
              * application to break out of the defined logic inside the
              * dispatcher which handles all dispatch exceptions.
              */
-            throw new PhalconException(
-                "Forwarding inside a controller's initialize() method is forbidden"
-            );
+            throw new ForwardInInitializeForbidden();
         }
 
         /**

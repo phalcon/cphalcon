@@ -1,0 +1,16 @@
+
+extern zend_class_entry *phalcon_support_collection_exceptions_invalidvaluetype_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Support_Collection_Exceptions_InvalidValueType);
+
+PHP_METHOD(Phalcon_Support_Collection_Exceptions_InvalidValueType, __construct);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_support_collection_exceptions_invalidvaluetype___construct, 0, 0, 2)
+	ZEND_ARG_TYPE_INFO(0, type, IS_STRING, 0)
+	ZEND_ARG_INFO(0, value)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_support_collection_exceptions_invalidvaluetype_method_entry) {
+	PHP_ME(Phalcon_Support_Collection_Exceptions_InvalidValueType, __construct, arginfo_phalcon_support_collection_exceptions_invalidvaluetype___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_FE_END
+};

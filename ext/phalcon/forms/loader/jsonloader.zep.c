@@ -18,7 +18,6 @@
 #include "kernel/operators.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
-#include "kernel/concat.h"
 #include "kernel/file.h"
 
 
@@ -66,14 +65,14 @@ PHP_METHOD(Phalcon_Forms_Loader_JsonLoader, __construct)
 }
 
 /**
- * @return array
+ * @phpstan-return array<int, array<string, mixed>>
  * @throws Exception
  */
 PHP_METHOD(Phalcon_Forms_Loader_JsonLoader, load)
 {
 	zval _4$$3;
-	zend_bool _1, _13;
-	zval ex, definitions, json, loader, _0, _2, _9, _14, _3$$3, _5$$4, _6$$4, _7$$4, _8$$4, _10$$5, _11$$5, _12$$5;
+	zend_bool _1, _12;
+	zval ex, definitions, json, loader, _0, _2, _9, _13, _3$$3, _5$$4, _6$$4, _7$$4, _8$$4, _10$$5, _11$$5, _14$$6;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
@@ -85,7 +84,7 @@ PHP_METHOD(Phalcon_Forms_Loader_JsonLoader, load)
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_9);
-	ZVAL_UNDEF(&_14);
+	ZVAL_UNDEF(&_13);
 	ZVAL_UNDEF(&_3$$3);
 	ZVAL_UNDEF(&_5$$4);
 	ZVAL_UNDEF(&_6$$4);
@@ -93,18 +92,18 @@ PHP_METHOD(Phalcon_Forms_Loader_JsonLoader, load)
 	ZVAL_UNDEF(&_8$$4);
 	ZVAL_UNDEF(&_10$$5);
 	ZVAL_UNDEF(&_11$$5);
-	ZVAL_UNDEF(&_12$$5);
+	ZVAL_UNDEF(&_14$$6);
 	ZVAL_UNDEF(&_4$$3);
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_memory_observe(&json);
 	zephir_read_property(&json, this_ptr, ZEND_STRL("source"), PH_NOISY_CC);
-	ZEPHIR_CALL_FUNCTION(&_0, "is_file", NULL, 357, &json);
+	ZEPHIR_CALL_FUNCTION(&_0, "is_file", NULL, 0, &json);
 	zephir_check_call_status();
 	_1 = zephir_is_true(&_0);
 	if (_1) {
-		ZEPHIR_CALL_FUNCTION(&_2, "is_readable", NULL, 358, &json);
+		ZEPHIR_CALL_FUNCTION(&_2, "is_readable", NULL, 0, &json);
 		zephir_check_call_status();
 		_1 = zephir_is_true(&_2);
 	}
@@ -127,7 +126,7 @@ PHP_METHOD(Phalcon_Forms_Loader_JsonLoader, load)
 		ZVAL_BOOL(&_6$$4, 1);
 		ZVAL_LONG(&_7$$4, 512);
 		ZVAL_LONG(&_8$$4, 4194304);
-		ZEPHIR_CALL_METHOD(&definitions, &_5$$4, "__invoke", NULL, 214, &json, &_6$$4, &_7$$4, &_8$$4);
+		ZEPHIR_CALL_METHOD(&definitions, &_5$$4, "__invoke", NULL, 305, &json, &_6$$4, &_7$$4, &_8$$4);
 		zephir_check_call_status_or_jump(try_end_1);
 
 	try_end_1:
@@ -140,33 +139,36 @@ PHP_METHOD(Phalcon_Forms_Loader_JsonLoader, load)
 			zend_clear_exception();
 			ZEPHIR_CPY_WRT(&ex, &_9);
 			ZEPHIR_INIT_VAR(&_10$$5);
-			object_init_ex(&_10$$5, phalcon_forms_exception_ce);
+			object_init_ex(&_10$$5, phalcon_forms_exceptions_invalidjsonschema_ce);
 			ZEPHIR_CALL_METHOD(&_11$$5, &ex, "getmessage", NULL, 0);
 			zephir_check_call_status();
-			ZEPHIR_INIT_VAR(&_12$$5);
-			ZEPHIR_CONCAT_SV(&_12$$5, "JSON form schema is invalid: ", &_11$$5);
-			ZEPHIR_CALL_METHOD(NULL, &_10$$5, "__construct", NULL, 49, &_12$$5);
+			ZEPHIR_CALL_METHOD(NULL, &_10$$5, "__construct", NULL, 0, &_11$$5);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_10$$5, "phalcon/Forms/Loader/JsonLoader.zep", 56);
+			zephir_throw_exception_debug(&_10$$5, "phalcon/Forms/Loader/JsonLoader.zep", 58);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
 	}
-	_13 = Z_TYPE_P(&definitions) != IS_ARRAY;
-	if (!(_13)) {
-		ZEPHIR_CALL_FUNCTION(&_14, "array_is_list", NULL, 359, &definitions);
+	_12 = Z_TYPE_P(&definitions) != IS_ARRAY;
+	if (!(_12)) {
+		ZEPHIR_CALL_FUNCTION(&_13, "array_is_list", NULL, 0, &definitions);
 		zephir_check_call_status();
-		_13 = !zephir_is_true(&_14);
+		_12 = !zephir_is_true(&_13);
 	}
-	if (_13) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_forms_exception_ce, "JSON form schema must decode to an array", "phalcon/Forms/Loader/JsonLoader.zep", 60);
+	if (_12) {
+		ZEPHIR_INIT_VAR(&_14$$6);
+		object_init_ex(&_14$$6, phalcon_forms_exceptions_jsonschemanotarray_ce);
+		ZEPHIR_CALL_METHOD(NULL, &_14$$6, "__construct", NULL, 0);
+		zephir_check_call_status();
+		zephir_throw_exception_debug(&_14$$6, "phalcon/Forms/Loader/JsonLoader.zep", 62);
+		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	ZEPHIR_INIT_VAR(&loader);
 	object_init_ex(&loader, phalcon_forms_loader_arrayloader_ce);
-	ZEPHIR_CALL_METHOD(NULL, &loader, "__construct", NULL, 360, &definitions);
+	ZEPHIR_CALL_METHOD(NULL, &loader, "__construct", NULL, 0, &definitions);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_METHOD(&loader, "load", NULL, 361);
+	ZEPHIR_RETURN_CALL_METHOD(&loader, "load", NULL, 0);
 	zephir_check_call_status();
 	RETURN_MM();
 }

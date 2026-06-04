@@ -11,6 +11,7 @@
 namespace Phalcon\Paginator\Adapter;
 
 use Phalcon\Paginator\Exception;
+use Phalcon\Paginator\Exceptions\PaginatorDataNotArray;
 use Phalcon\Paginator\RepositoryInterface;
 
 /**
@@ -54,7 +55,7 @@ class NativeArray extends AbstractAdapter
             items  = config["data"];
 
         if unlikely typeof items != "array" {
-            throw new Exception("Invalid data for paginator");
+            throw new PaginatorDataNotArray();
         }
 
         let show       = (int) this->limitRows,

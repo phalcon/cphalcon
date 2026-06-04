@@ -16,6 +16,9 @@ use Phalcon\Events\ManagerInterface;
 use Phalcon\Html\Link\Link;
 use Phalcon\Html\Link\Serializer\Header;
 use Phalcon\Mvc\View\Engine\Volt\Compiler;
+use Phalcon\Mvc\View\Engine\Volt\Exceptions\InvalidHaystack;
+use Phalcon\Mvc\View\Engine\Volt\Exceptions\MacroNotFound;
+use Phalcon\Mvc\View\Engine\Volt\Exceptions\MbstringRequired;
 use Phalcon\Mvc\View\Exception;
 
 /**
@@ -56,7 +59,7 @@ class Volt extends AbstractEngine implements EventsAwareInterface
         var macro;
 
         if unlikely !fetch macro, this->macros[name] {
-            throw new Exception("Macro '" . name . "' does not exist");
+            throw new MacroNotFound(name);
         }
 
         return call_user_func(macro, arguments);
@@ -70,9 +73,7 @@ class Volt extends AbstractEngine implements EventsAwareInterface
     public function convertEncoding(string text, string! from, string! to) -> string
     {
         if unlikely !function_exists("mb_convert_encoding") {
-            throw new Exception(
-                "'mbstring' is required to perform the charset conversion"
-            );
+            throw new MbstringRequired();
         }
 
         return mb_convert_encoding(text, to, from);
@@ -162,7 +163,7 @@ class Volt extends AbstractEngine implements EventsAwareInterface
             return strpos(haystack, needle) !== false;
         }
 
-        throw new Exception("Invalid haystack");
+        throw new InvalidHaystack();
     }
 
     /**

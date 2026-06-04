@@ -13,8 +13,6 @@ namespace Phalcon\Mvc;
 use Phalcon\Cache\Adapter\AdapterInterface;
 
 /**
- * Phalcon\Mvc\ViewInterface
- *
  * Interface for Phalcon\Mvc\View and Phalcon\Mvc\View\Simple
  */
 interface ViewBaseInterface

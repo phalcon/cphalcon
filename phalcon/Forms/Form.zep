@@ -12,17 +12,20 @@ namespace Phalcon\Forms;
 
 use Countable;
 use Iterator;
-use Phalcon\Di\Injectable;
-use Phalcon\Support\Settings;
-use Phalcon\Di\DiInterface;
 use Phalcon\Contracts\Forms\Schema;
+use Phalcon\Di\DiInterface;
+use Phalcon\Di\Injectable;
 use Phalcon\Filter\FilterInterface;
 use Phalcon\Forms\Element\Check;
 use Phalcon\Forms\Element\ElementInterface;
+use Phalcon\Forms\Exceptions\ElementNotInForm;
+use Phalcon\Forms\Exceptions\InvalidEntity;
+use Phalcon\Forms\Exceptions\NoFormElements;
 use Phalcon\Html\Attributes;
 use Phalcon\Html\Attributes\AttributesInterface;
 use Phalcon\Html\TagFactory;
 use Phalcon\Messages\Messages;
+use Phalcon\Support\Settings;
 use Phalcon\Tag;
 use Phalcon\Filter\Validation;
 use Phalcon\Filter\Validation\ValidationInterface;
@@ -63,9 +66,9 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     protected entity = null;
 
     /**
-     * @var Messages|array|null
+     * @var Messages
      */
-    protected messages = null;
+    protected messages;
 
     /**
      * @var int
@@ -98,7 +101,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     public function __construct(var entity = null, array userOptions = [])
     {
         if unlikely (entity !== null && typeof entity != "object") {
-            throw new Exception("The base entity is not valid");
+            throw new InvalidEntity();
         }
 
         let this->entity = entity;
@@ -109,9 +112,10 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
         let this->options = userOptions;
 
         /**
-        * Set form attributes
-        */
-        let this->attributes = new Attributes();
+         * Set form attributes/messages
+         */
+        let this->attributes = new Attributes(),
+            this->messages   = new Messages();
 
         /**
          * Check for an 'initialize' method and call it
@@ -124,7 +128,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     /**
      * Adds an element to the form
      */
-    public function add(<ElementInterface> element, string position = null, bool type = null) -> <Form>
+    public function add(<ElementInterface> element, string position = null, bool type = null) -> <static>
     {
         var name, key, value;
         array elements;
@@ -188,7 +192,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
      * @param object entity
      * @param array whitelist
      */
-    public function bind(array! data, var entity = null, array whitelist = []) -> <Form>
+    public function bind(array! data, var entity = null, array whitelist = []) -> <static>
     {
         var filter, key, value, element, candidate, filters, container, filteredValue;
         var elementName, dataKey;
@@ -196,7 +200,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
         string method;
 
         if unlikely empty this->elements {
-            throw new Exception("There are no elements in the form");
+            throw new NoFormElements();
         }
 
         if empty whitelist {
@@ -310,7 +314,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
      *
      * @param array|string|null fields
      */
-    public function clear(var fields = null) -> <Form>
+    public function clear(var fields = null) -> <static>
     {
         var elements, element, data, field;
 
@@ -334,7 +338,13 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
             }
 
             for field in fields {
-                if isset data[field] {
+                /**
+                 * array_key_exists() is used so a stored `null` value is
+                 * still recognized as present and unset before the default
+                 * is assigned (post-5.13.0 Zephir `isset` returns false on
+                 * null) [#17042].
+                 */
+                if array_key_exists(field, data) {
                     unset data[field];
                 }
 
@@ -379,9 +389,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
         var element;
 
         if unlikely !fetch element, this->elements[name] {
-            throw new Exception(
-                "Element with ID=" . name . " is not part of the form"
-            );
+            throw new ElementNotInForm(name);
         }
 
         return element;
@@ -454,9 +462,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
         var element, label;
 
         if unlikely !fetch element, this->elements[name] {
-            throw new Exception(
-                "Element with ID=" . name . " is not part of the form"
-            );
+            throw new ElementNotInForm(name);
         }
 
         let label = element->getLabel();
@@ -484,17 +490,9 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
      * }
      * ```
      */
-    public function getMessages() -> <Messages> | array
+    public function getMessages() -> <Messages>
     {
-        var messages;
-
-        let messages = this->messages;
-
-        if !(typeof messages == "object" && messages instanceof Messages) {
-            return new Messages();
-        }
-
-        return messages;
+        return this->messages;
     }
 
     /**
@@ -810,10 +808,10 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
      * @param Schema       $schema
      * @param FormsLocator $locator
      *
-     * @return Form
+     * @return static
      * @throws Exception
      */
-    public function load(<Schema> schema, <FormsLocator> locator) -> <Form>
+    public function load(<Schema> schema, <FormsLocator> locator) -> <static>
     {
         var attributes, definition, element, factory, name, options, type;
 
@@ -855,9 +853,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
         var element;
 
         if unlikely !fetch element, this->elements[name] {
-            throw new Exception(
-                "Element with ID=" . name . " is not part of the form"
-            );
+            throw new ElementNotInForm(name);
         }
 
         return element->label(attributes);
@@ -879,9 +875,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
         var element;
 
         if unlikely !fetch element, this->elements[name] {
-            throw new Exception(
-                "Element with ID=" . name . " is not part of the form"
-            );
+            throw new ElementNotInForm(name);
         }
 
         return element->render(attributes);
@@ -904,7 +898,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
         /**
          * Clean the iterator index
          */
-        let this->elementsIndexed = null;
+        let this->elementsIndexed = [];
 
         return false;
     }
@@ -922,9 +916,9 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     /**
      * Sets the form's action
      *
-     * @return Form
+     * @return static
      */
-    public function setAction(string! action) -> <Form>
+    public function setAction(string! action) -> <static>
     {
         this->getAttributes()->set("action", action);
 
@@ -934,7 +928,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     /**
     * Set form attributes collection
     */
-    public function setAttributes(<Attributes> attributes) -> <AttributesInterface>
+    public function setAttributes(<Attributes> attributes) -> <static>
     {
         let this->attributes = attributes;
 
@@ -946,7 +940,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
      *
      * @param object entity
      */
-    public function setEntity(var entity) -> <Form>
+    public function setEntity(var entity) -> <static>
     {
         let this->entity = entity;
 
@@ -956,7 +950,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     /**
      * Sets the tagFactory for the form
      */
-    public function setTagFactory(<TagFactory> tagFactory) -> <Form>
+    public function setTagFactory(<TagFactory> tagFactory) -> <static>
     {
         let this->tagFactory = tagFactory;
 
@@ -968,7 +962,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
      *
      * @param ValidationInterface validation
      */
-    public function setValidation(<ValidationInterface> validation) -> <Form>
+    public function setValidation(<ValidationInterface> validation) -> <static>
     {
         let this->validation = validation;
 
@@ -980,7 +974,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
      *
      * @param array whitelist
      */
-    public function setWhitelist(array whitelist) -> <Form>
+    public function setWhitelist(array whitelist) -> <static>
     {
         let this->whitelist = whitelist;
 
@@ -990,7 +984,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     /**
      * Sets an option for the form
      */
-    public function setUserOption(string option, var value) -> <Form>
+    public function setUserOption(string option, var value) -> <static>
     {
         let this->options[option] = value;
 
@@ -1000,7 +994,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     /**
      * Sets options for the element
      */
-    public function setUserOptions(array! options) -> <Form>
+    public function setUserOptions(array! options) -> <static>
     {
         let this->options = options;
 

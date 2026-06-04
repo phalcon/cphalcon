@@ -19,11 +19,11 @@ interface UrlInterface
      * Generates a URL
      *
      * @param string|array uri
-     * @param array|object args Optional arguments to be appended to the query string
+     * @param array|object arguments Optional arguments to be appended to the query string
      */
     public function get(
         uri = null,
-        args = null,
+        arguments = null,
         bool local = null,
         var baseUri = null,
         bool replaceArgs = false
@@ -32,12 +32,17 @@ interface UrlInterface
     /**
      * Returns a base path
      */
-    public function getBasePath() -> string;
+    public function getBasePath() -> string | null;
 
     /**
      * Returns the prefix for all the generated urls. By default /
      */
     public function getBaseUri() -> string;
+
+    /**
+     * Generates a local path
+     */
+    public function path(string path = null) -> string;
 
     /**
      * Sets a base paths for all the generated paths
@@ -48,9 +53,4 @@ interface UrlInterface
      * Sets a prefix to all the urls generated
      */
     public function setBaseUri(string! baseUri) -> <UrlInterface>;
-
-    /**
-     * Generates a local path
-     */
-    public function path(string path = null) -> string;
 }

@@ -1,0 +1,25 @@
+
+extern zend_class_entry *phalcon_auth_adapter_config_memoryadapterconfig_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Auth_Adapter_Config_MemoryAdapterConfig);
+
+PHP_METHOD(Phalcon_Auth_Adapter_Config_MemoryAdapterConfig, __construct);
+PHP_METHOD(Phalcon_Auth_Adapter_Config_MemoryAdapterConfig, getUsers);
+zend_object *zephir_init_properties_Phalcon_Auth_Adapter_Config_MemoryAdapterConfig(zend_class_entry *class_type);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_auth_adapter_config_memoryadapterconfig___construct, 0, 0, 0)
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, users, IS_ARRAY, 0, "[]")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, model, IS_STRING, 1, "null")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_auth_adapter_config_memoryadapterconfig_getusers, 0, 0, IS_ARRAY, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_auth_adapter_config_memoryadapterconfig_zephir_init_properties_phalcon_auth_adapter_config_memoryadapterconfig, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_auth_adapter_config_memoryadapterconfig_method_entry) {
+	PHP_ME(Phalcon_Auth_Adapter_Config_MemoryAdapterConfig, __construct, arginfo_phalcon_auth_adapter_config_memoryadapterconfig___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Auth_Adapter_Config_MemoryAdapterConfig, getUsers, arginfo_phalcon_auth_adapter_config_memoryadapterconfig_getusers, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};

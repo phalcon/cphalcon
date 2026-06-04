@@ -41,9 +41,9 @@ class Failed extends Exception
     /**
      * Returns validation record messages which stop the transaction
      *
-     * @return ModelInterface
+     * @return ModelInterface|null
      */
-    public function getRecord() -> <ModelInterface>
+    public function getRecord() -> <ModelInterface> | null
     {
         return this->record;
     }
@@ -51,9 +51,9 @@ class Failed extends Exception
     /**
      * Returns validation record messages which stop the transaction
      *
-     * @return MessageInterface[]
+     * @return MessageInterface[]|string
      */
-    public function getRecordMessages() -> <MessageInterface[]>
+    public function getRecordMessages() -> array | string
     {
         var record;
 

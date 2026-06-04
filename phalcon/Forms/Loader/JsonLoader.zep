@@ -13,6 +13,8 @@ namespace Phalcon\Forms\Loader;
 use InvalidArgumentException;
 use Phalcon\Contracts\Forms\Schema;
 use Phalcon\Forms\Exception;
+use Phalcon\Forms\Exceptions\InvalidJsonSchema;
+use Phalcon\Forms\Exceptions\JsonSchemaNotArray;
 use Phalcon\Support\Helper\Json\Decode;
 
 /**
@@ -37,7 +39,7 @@ class JsonLoader implements Schema
     }
 
     /**
-     * @return array
+     * @phpstan-return array<int, array<string, mixed>>
      * @throws Exception
      */
     public function load() -> array
@@ -53,11 +55,11 @@ class JsonLoader implements Schema
         try {
             let definitions = (new Decode())->__invoke(json, true, 512, JSON_THROW_ON_ERROR);
         } catch InvalidArgumentException, ex {
-            throw new Exception("JSON form schema is invalid: " . ex->getMessage());
+            throw new InvalidJsonSchema(ex->getMessage());
         }
 
         if typeof definitions !== "array" || !array_is_list(definitions) {
-            throw new Exception("JSON form schema must decode to an array");
+            throw new JsonSchemaNotArray();
         }
 
         let loader = new ArrayLoader(definitions);

@@ -12,6 +12,19 @@ namespace Phalcon\Di\Service;
 
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\Exception;
+use Phalcon\Di\Exceptions\ArgumentTypeRequired;
+use Phalcon\Di\Exceptions\CallArgumentsMustBeArray;
+use Phalcon\Di\Exceptions\MethodCallMustBeArray;
+use Phalcon\Di\Exceptions\MethodNameRequired;
+use Phalcon\Di\Exceptions\MissingClassNameParameter;
+use Phalcon\Di\Exceptions\MissingParameterKey;
+use Phalcon\Di\Exceptions\PropertyInjectionRequiresInstance;
+use Phalcon\Di\Exceptions\PropertyMustBeArray;
+use Phalcon\Di\Exceptions\PropertyNameRequired;
+use Phalcon\Di\Exceptions\PropertyValueRequired;
+use Phalcon\Di\Exceptions\SetterInjectionRequiresInstance;
+use Phalcon\Di\Exceptions\SetterParametersMustBeArray;
+use Phalcon\Di\Exceptions\UnknownServiceType;
 
 /**
  * Phalcon\Di\Service\Builder
@@ -36,9 +49,7 @@ class Builder
          * The class name is required
          */
         if unlikely !fetch className, definition["className"] {
-            throw new Exception(
-                "Invalid service definition. Missing 'className' parameter"
-            );
+            throw new MissingClassNameParameter();
         }
 
         if typeof parameters === "array" {
@@ -73,15 +84,11 @@ class Builder
          */
         if fetch paramCalls, definition["calls"] {
             if unlikely typeof instance !== "object" {
-                throw new Exception(
-                    "The definition has setter injection parameters but the constructor didn't return an instance"
-                );
+                throw new SetterInjectionRequiresInstance();
             }
 
             if unlikely typeof paramCalls != "array" {
-                throw new Exception(
-                    "Setter injection parameters must be an array"
-                );
+                throw new SetterParametersMustBeArray();
             }
 
             /**
@@ -92,18 +99,14 @@ class Builder
                  * The call parameter must be an array of arrays
                  */
                 if unlikely typeof method != "array" {
-                    throw new Exception(
-                        "Method call must be an array on position " . methodPosition
-                    );
+                    throw new MethodCallMustBeArray(methodPosition);
                 }
 
                 /**
                  * A param 'method' is required
                  */
                 if unlikely !fetch methodName, method["method"] {
-                    throw new Exception(
-                        "The method name is required on position " . methodPosition
-                    );
+                    throw new MethodNameRequired(methodPosition);
                 }
 
                 /**
@@ -113,10 +116,7 @@ class Builder
 
                 if fetch arguments, method["arguments"] {
                     if unlikely typeof arguments != "array" {
-                        throw new Exception(
-                            "Call arguments must be an array on position " .
-                            (string) methodPosition
-                        );
+                        throw new CallArgumentsMustBeArray((int) methodPosition);
                     }
 
                     if count(arguments) {
@@ -147,15 +147,11 @@ class Builder
          */
         if fetch paramCalls, definition["properties"] {
             if unlikely typeof instance !== "object" {
-                throw new Exception(
-                    "The definition has properties injection parameters but the constructor didn't return an instance"
-                );
+                throw new PropertyInjectionRequiresInstance();
             }
 
             if unlikely typeof paramCalls !== "array" {
-                throw new Exception(
-                    "Setter injection parameters must be an array"
-                );
+                throw new SetterParametersMustBeArray();
             }
 
             /**
@@ -166,27 +162,21 @@ class Builder
                  * The call parameter must be an array of arrays
                  */
                 if unlikely typeof property != "array" {
-                    throw new Exception(
-                        "Property must be an array on position " . propertyPosition
-                    );
+                    throw new PropertyMustBeArray(propertyPosition);
                 }
 
                 /**
                  * A param 'name' is required
                  */
                 if unlikely !fetch propertyName, property["name"] {
-                    throw new Exception(
-                        "The property name is required on position " . propertyPosition
-                    );
+                    throw new PropertyNameRequired(propertyPosition);
                 }
 
                 /**
                  * A param 'value' is required
                  */
                 if unlikely !fetch propertyValue, property["value"] {
-                    throw new Exception(
-                        "The property value is required on position " . propertyPosition
-                    );
+                    throw new PropertyValueRequired(propertyPosition);
                 }
 
                 /**
@@ -216,9 +206,7 @@ class Builder
          * All the arguments must have a type
          */
         if unlikely !fetch type, argument["type"] {
-            throw new Exception(
-                "Argument at position " . position . " must have a type"
-            );
+            throw new ArgumentTypeRequired(position);
         }
 
         switch type {
@@ -228,9 +216,7 @@ class Builder
              */
             case "service":
                 if unlikely !fetch name, argument["name"] {
-                    throw new Exception(
-                        "Service \"name\" is required in parameter on position " . position
-                    );
+                    throw new MissingParameterKey("name", position);
                 }
 
                 return container->get(name);
@@ -240,9 +226,7 @@ class Builder
              */
             case "parameter":
                 if unlikely !fetch value, argument["value"] {
-                    throw new Exception(
-                        "Service \"value\" is required in parameter on position " . position
-                    );
+                    throw new MissingParameterKey("value", position);
                 }
 
                 return value;
@@ -252,9 +236,7 @@ class Builder
              */
             case "instance":
                 if unlikely !fetch name, argument["className"] {
-                    throw new Exception(
-                        "Service \"className\" is required in parameter on position " . position
-                    );
+                    throw new MissingParameterKey("className", position);
                 }
 
                 if fetch instanceArguments, argument["arguments"] {
@@ -274,9 +256,7 @@ class Builder
                 /**
                  * Unknown parameter type
                  */
-                throw new Exception(
-                    "Unknown service type in parameter on position " . position
-                );
+                throw new UnknownServiceType(position);
         }
     }
 

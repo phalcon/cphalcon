@@ -26,12 +26,7 @@
  * file that was distributed with this source code.
  */
 /**
- * Class Phalcon\Http\Link\EvolvableLink
- *
- * @property array  attributes
- * @property string href
- * @property array  rels
- * @property bool   templated
+ * Class Phalcon\Html\Link\EvolvableLink
  */
 ZEPHIR_INIT_CLASS(Phalcon_Html_Link_EvolvableLink)
 {

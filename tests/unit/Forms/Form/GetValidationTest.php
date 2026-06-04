@@ -13,11 +13,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Forms\Form;
 
+use Phalcon\Filter\Validation;
+use Phalcon\Forms\Form;
 use Phalcon\Tests\AbstractUnitTestCase;
 
-/**
- * Class GetValidationTest extends AbstractUnitTestCase
- */
 final class GetValidationTest extends AbstractUnitTestCase
 {
     /**
@@ -26,6 +25,11 @@ final class GetValidationTest extends AbstractUnitTestCase
      */
     public function testFormsFormGetValidation(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $form = new Form();
+        $this->assertNull($form->getValidation());
+
+        $validation = new Validation();
+        $form->setValidation($validation);
+        $this->assertSame($validation, $form->getValidation());
     }
 }

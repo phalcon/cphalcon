@@ -28,8 +28,6 @@
  */
 /**
  * Class AssociativeArray
- *
- * @package Phalcon\Translate\Interpolator
  */
 ZEPHIR_INIT_CLASS(Phalcon_Translate_Interpolator_AssociativeArray)
 {
@@ -42,8 +40,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Translate_Interpolator_AssociativeArray)
 /**
  * Replaces placeholders by the values passed
  *
- * @param string $translation
- * @param array  $placeholders
+ * @phpstan-param array<string, string> $placeholders
  *
  * @return string
  */

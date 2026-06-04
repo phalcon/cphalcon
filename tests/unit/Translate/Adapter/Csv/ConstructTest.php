@@ -19,7 +19,8 @@ use Phalcon\Tests\Unit\Translate\Fake\FakeCsvFopen;
 use Phalcon\Tests\Unit\Translate\Fake\TranslateCsvTrait;
 use Phalcon\Translate\Adapter\AdapterInterface;
 use Phalcon\Translate\Adapter\Csv;
-use Phalcon\Translate\Exception;
+use Phalcon\Translate\Exceptions\MissingRequiredParameter;
+use Phalcon\Translate\Exceptions\FileOpenError;
 use Phalcon\Translate\InterpolatorFactory;
 
 use function supportDir;
@@ -49,7 +50,7 @@ final class ConstructTest extends AbstractUnitTestCase
     public function testTranslateAdapterCsvContentParamExist(): void
     {
 
-        $this->expectException(Exception::class);
+        $this->expectException(MissingRequiredParameter::class);
         $this->expectExceptionMessage("Parameter 'content' is required");
 
         (new Csv(new InterpolatorFactory(), []));
@@ -63,7 +64,7 @@ final class ConstructTest extends AbstractUnitTestCase
     {
 
         $message = "Error opening translation file '" . supportDir('assets/translation/csv/en.csv') . "'";
-        $this->expectException(Exception::class);
+        $this->expectException(FileOpenError::class);
         $this->expectExceptionMessage($message);
 
         $language = $this->getCsvConfig()['en'];

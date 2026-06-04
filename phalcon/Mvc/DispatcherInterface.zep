@@ -22,7 +22,7 @@ interface DispatcherInterface extends DispatcherInterfaceBase
     /**
      * Returns the active controller in the dispatcher
      */
-    public function getActiveController() -> <ControllerInterface>;
+    public function getActiveController() -> <ControllerInterface> | null;
 
     /**
      * Gets last dispatched controller name
@@ -32,20 +32,20 @@ interface DispatcherInterface extends DispatcherInterfaceBase
     /**
      * Returns the latest dispatched controller
      */
-    public function getLastController() -> <ControllerInterface>;
-
-    /**
-     * Sets the default controller suffix
-     */
-    public function setControllerSuffix(string! controllerSuffix);
+    public function getLastController() -> <ControllerInterface> | null;
 
     /**
      * Sets the controller name to be dispatched
      */
-    public function setControllerName(string! controllerName);
+    public function setControllerName(string! controllerName) -> <DispatcherInterfaceBase>;
+
+    /**
+     * Sets the default controller suffix
+     */
+    public function setControllerSuffix(string! controllerSuffix) -> <DispatcherInterfaceBase>;
 
     /**
      * Sets the default controller name
      */
-    public function setDefaultController(string! controllerName);
+    public function setDefaultController(string! controllerName) -> <DispatcherInterfaceBase>;
 }

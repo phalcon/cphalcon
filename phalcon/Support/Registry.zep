@@ -14,8 +14,6 @@ use Phalcon\Support\Collection;
 use Traversable;
 
 /**
- * Phalcon\Registry
- *
  * A registry is a container for storing objects and values in the application
  * space. By storing the value in a registry, the same object is always
  * available throughout your application.

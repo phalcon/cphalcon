@@ -12,6 +12,9 @@ namespace Phalcon\Config;
 
 use Phalcon\Config\Config;
 use Phalcon\Config\ConfigInterface;
+use Phalcon\Config\Exceptions\ConfigNotArrayOrObject;
+use Phalcon\Config\Exceptions\MissingConfigOption;
+use Phalcon\Config\Exceptions\MissingFileExtension;
 use Phalcon\Factory\AbstractFactory;
 
 /**
@@ -156,9 +159,7 @@ class ConfigFactory extends AbstractFactory
                 extension = pathinfo(config, PATHINFO_EXTENSION);
 
             if true  == empty(extension) {
-                throw new Exception(
-                    "You need to provide the extension in the file path"
-                );
+                throw new MissingFileExtension();
             }
 
             let config = [
@@ -172,9 +173,7 @@ class ConfigFactory extends AbstractFactory
         }
 
         if typeof config !== "array" {
-            throw new Exception(
-                "Config must be array or Phalcon\\Config\\Config object"
-            );
+            throw new ConfigNotArrayOrObject();
         }
 
         this->checkConfigArray(config);
@@ -190,15 +189,11 @@ class ConfigFactory extends AbstractFactory
     private function checkConfigArray(array config) -> void
     {
         if true !== isset(config["filePath"]) {
-            throw new Exception(
-                "You must provide 'filePath' option in factory config parameter."
-            );
+            throw new MissingConfigOption("filePath");
         }
 
         if true !== isset(config["adapter"]) {
-            throw new Exception(
-                "You must provide 'adapter' option in factory config parameter."
-            );
+            throw new MissingConfigOption("adapter");
         }
     }
 }

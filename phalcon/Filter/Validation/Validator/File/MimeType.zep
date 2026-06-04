@@ -10,9 +10,10 @@
 
 namespace Phalcon\Filter\Validation\Validator\File;
 
-use Phalcon\Messages\Message;
 use Phalcon\Filter\Validation;
 use Phalcon\Filter\Validation\Exception;
+use Phalcon\Filter\Validation\Exceptions\InvalidAllowedTypes;
+use Phalcon\Messages\Message;
 
 /**
  * Checks if a value has a correct file mime type
@@ -91,9 +92,7 @@ class MimeType extends AbstractFile
         }
 
         if unlikely typeof types != "array" {
-            throw new Exception(
-                "Option 'allowedTypes' must be an array"
-            );
+            throw new InvalidAllowedTypes();
         }
 
         if function_exists("finfo_open") {

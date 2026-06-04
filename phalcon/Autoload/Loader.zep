@@ -10,6 +10,8 @@
 
 namespace Phalcon\Autoload;
 
+use Phalcon\Autoload\Exceptions\LoaderDirectoriesNotArray;
+use Phalcon\Autoload\Exceptions\LoaderMethodNotCallable;
 use Phalcon\Events\AbstractEventsAware;
 
 /**
@@ -79,7 +81,7 @@ class Loader extends AbstractEventsAware
      */
     public function __construct(bool isDebug = false)
     {
-        let this->extensions[hash("sha256", "php")] = "php",
+        let this->extensions["php"] = "php",
             this->isDebug    = isDebug;
     }
 
@@ -89,9 +91,9 @@ class Loader extends AbstractEventsAware
      * @param string $name
      * @param string $file
      *
-     * @return Loader
+     * @return static
      */
-    public function addClass(string name, string file) -> <Loader>
+    public function addClass(string name, string file) -> <static>
     {
         let this->classes[name] = file;
 
@@ -103,11 +105,11 @@ class Loader extends AbstractEventsAware
      *
      * @param string $directory
      *
-     * @return Loader
+     * @return static
      */
-    public function addDirectory(string directory) -> <Loader>
+    public function addDirectory(string directory) -> <static>
     {
-        let this->directories[hash("sha256", directory)] = directory;
+        let this->directories[directory] = directory;
 
         return this;
     }
@@ -117,11 +119,11 @@ class Loader extends AbstractEventsAware
      *
      * @param string $extension
      *
-     * @return Loader
+     * @return static
      */
-    public function addExtension(string extension) -> <Loader>
+    public function addExtension(string extension) -> <static>
     {
-        let this->extensions[hash("sha256", extension)] = extension;
+        let this->extensions[extension] = extension;
 
         return this;
     }
@@ -131,11 +133,11 @@ class Loader extends AbstractEventsAware
      *
      * @param string $file
      *
-     * @return Loader
+     * @return static
      */
-    public function addFile(string file) -> <Loader>
+    public function addFile(string file) -> <static>
     {
-        let this->files[hash("sha256", file)] = file;
+        let this->files[file] = file;
 
         return this;
     }
@@ -145,14 +147,14 @@ class Loader extends AbstractEventsAware
      * @param mixed  $directories
      * @param bool   $prepend
      *
-     * @return Loader
+     * @return static
      * @throws Exception
      */
     public function addNamespace(
         string name,
         var directories,
         bool prepend = false
-    ) -> <Loader> {
+    ) -> <static> {
         var dirSeparator, nsName, nsSeparator, source, target;
 
         let nsName       = name,
@@ -324,7 +326,7 @@ class Loader extends AbstractEventsAware
     /**
      * Register the autoload method
      */
-    public function register(bool prepend = false) -> <Loader>
+    public function register(bool prepend = false) -> <static>
     {
         if (true !== this->isRegistered) {
             this->loadFiles();
@@ -347,9 +349,9 @@ class Loader extends AbstractEventsAware
      * @param array $classes
      * @param bool  $merge
      *
-     * @return Loader
+     * @return static
      */
-    public function setClasses(array classes, bool merge = false) -> <Loader>
+    public function setClasses(array classes, bool merge = false) -> <static>
     {
         var className, name;
 
@@ -370,9 +372,9 @@ class Loader extends AbstractEventsAware
      * @param array $directories
      * @param bool  $merge
      *
-     * @return Loader
+     * @return static
      */
-    public function setDirectories(array directories, bool merge = false) -> <Loader>
+    public function setDirectories(array directories, bool merge = false) -> <static>
     {
         return this->addToCollection(
             directories,
@@ -389,15 +391,15 @@ class Loader extends AbstractEventsAware
      * @param array $extensions
      * @param bool  $merge
      *
-     * @return Loader
+     * @return static
      */
-    public function setExtensions(array extensions, bool merge = false) -> <Loader>
+    public function setExtensions(array extensions, bool merge = false) -> <static>
     {
         var extension;
 
         if (!merge) {
             let this->extensions = [],
-                this->extensions[hash("sha256", "php")] = "php";
+                this->extensions["php"] = "php";
         }
 
         for extension in extensions {
@@ -424,10 +426,10 @@ class Loader extends AbstractEventsAware
      *
      * @param string|callable|null $method
      *
-     * @return Loader
+     * @return static
      * @throws Exception
      */
-    public function setFileCheckingCallback(method = null) -> <Loader>
+    public function setFileCheckingCallback(method = null) -> <static>
     {
         if (true === is_callable(method)) {
             let this->fileCheckingCallback = method;
@@ -436,9 +438,7 @@ class Loader extends AbstractEventsAware
                 return true;
             };
         } else {
-            throw new Exception(
-                "The 'method' parameter must be either a callable or NULL"
-            );
+            throw new LoaderMethodNotCallable();
         }
 
         return this;
@@ -451,9 +451,9 @@ class Loader extends AbstractEventsAware
      * @param array $files
      * @param bool  $merge
      *
-     * @return Loader
+     * @return static
      */
-    public function setFiles(array files, bool merge = false) -> <Loader>
+    public function setFiles(array files, bool merge = false) -> <static>
     {
         return this->addToCollection(
             files,
@@ -469,9 +469,9 @@ class Loader extends AbstractEventsAware
      * @param array $namespaces
      * @param bool  $merge
      *
-     * @return Loader
+     * @return static
      */
-    public function setNamespaces(array namespaces, bool merge = false) -> <Loader>
+    public function setNamespaces(array namespaces, bool merge = false) -> <static>
     {
         var dirSeparator, directories, name;
 
@@ -490,11 +490,21 @@ class Loader extends AbstractEventsAware
     }
 
     /**
+     * returns isRegistered
+     *
+     * @return bool
+     */
+    public function isRegistered() -> bool
+    {
+        return this->isRegistered;
+    }
+
+    /**
      * Unregister the autoload method
      *
-     * @return Loader
+     * @return static
      */
-    public function unregister() -> <Loader>
+    public function unregister() -> <static>
     {
         if (true === this->isRegistered) {
             spl_autoload_unregister(
@@ -509,16 +519,6 @@ class Loader extends AbstractEventsAware
 
         return this;
     }
-
-    /**
-     * returns isRegister
-     *
-     * @return bool
-     */
-     public function isRegistered() -> bool
-     {
-        return this->isRegistered;
-     }
 
     /**
      * If the file exists, require it and return true; false otherwise
@@ -573,14 +573,14 @@ class Loader extends AbstractEventsAware
      * @param string $method
      * @param bool   $merge
      *
-     * @return Loader
+     * @return static
      */
     private function addToCollection(
         array collection,
         string collectionName,
         string method,
         bool merge = false
-    ) -> <Loader> {
+    ) -> <static> {
         var element;
 
         if (!merge) {
@@ -722,9 +722,7 @@ class Loader extends AbstractEventsAware
         array results;
 
         if (!is_string(directories) && !is_array(directories)) {
-            throw new Exception(
-                "The directories parameter is not a string or array"
-            );
+            throw new LoaderDirectoriesNotArray();
         }
 
         if (is_string(directories)) {
@@ -735,7 +733,7 @@ class Loader extends AbstractEventsAware
         for directory in directories {
             let directory = rtrim(directory, dirSeparator) . dirSeparator;
 
-            let results[hash("sha256", directory)] = directory;
+            let results[directory] = directory;
         }
 
         return results;

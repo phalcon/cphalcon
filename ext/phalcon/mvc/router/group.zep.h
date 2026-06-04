@@ -101,7 +101,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_group_gethostname, 0, 0, IS_STRING, 1)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_group_getpaths, 0, 0, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_router_group_getpaths, 0, 0, MAY_BE_NULL|MAY_BE_ARRAY|MAY_BE_STRING)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_group_getprefix, 0, 0, IS_STRING, 1)
@@ -148,7 +148,7 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_router_group_method_entry) {
 	PHP_ME(Phalcon_Mvc_Router_Group, clear, arginfo_phalcon_mvc_router_group_clear, ZEND_ACC_PUBLIC)
 PHP_ME(Phalcon_Mvc_Router_Group, getBeforeMatch, arginfo_phalcon_mvc_router_group_getbeforematch, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router_Group, getHostname, arginfo_phalcon_mvc_router_group_gethostname, ZEND_ACC_PUBLIC)
-PHP_ME(Phalcon_Mvc_Router_Group, getPaths, arginfo_phalcon_mvc_router_group_getpaths, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Router_Group, getPaths, arginfo_phalcon_mvc_router_group_getpaths, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router_Group, getPrefix, arginfo_phalcon_mvc_router_group_getprefix, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router_Group, getRoutes, arginfo_phalcon_mvc_router_group_getroutes, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router_Group, setHostname, arginfo_phalcon_mvc_router_group_sethostname, ZEND_ACC_PUBLIC)

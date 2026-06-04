@@ -59,8 +59,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, isUsingDynamicUpdate);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, isVisibleModelProperty);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, keepSnapshots);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, load);
-PHP_METHOD(Phalcon_Mvc_Model_Manager, notifyEvent);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, missingMethod);
+PHP_METHOD(Phalcon_Mvc_Model_Manager, notifyEvent);
+PHP_METHOD(Phalcon_Mvc_Model_Manager, removeBehavior);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, setConnectionService);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, setCustomEventsManager);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, setDI);
@@ -178,7 +179,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_manager_getbel
 	ZEND_ARG_OBJ_INFO(0, model, Phalcon\\Mvc\\ModelInterface, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_getbelongstorecords, 0, 0, 3)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_TYPE_MASK_EX(arginfo_phalcon_mvc_model_manager_getbelongstorecords, 0, 3, Phalcon\\Mvc\\Model\\ResultsetInterface, MAY_BE_BOOL)
 	ZEND_ARG_TYPE_INFO(0, modelName, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, modelRelation, IS_STRING, 0)
 	ZEND_ARG_OBJ_INFO(0, record, Phalcon\\Mvc\\ModelInterface, 0)
@@ -208,7 +209,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_manager_gethas
 	ZEND_ARG_OBJ_INFO(0, model, Phalcon\\Mvc\\ModelInterface, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_gethasmanyrecords, 0, 0, 3)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_TYPE_MASK_EX(arginfo_phalcon_mvc_model_manager_gethasmanyrecords, 0, 3, Phalcon\\Mvc\\Model\\ResultsetInterface, MAY_BE_BOOL)
 	ZEND_ARG_TYPE_INFO(0, modelName, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, modelRelation, IS_STRING, 0)
 	ZEND_ARG_OBJ_INFO(0, record, Phalcon\\Mvc\\ModelInterface, 0)
@@ -228,7 +229,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_manager_gethas
 	ZEND_ARG_OBJ_INFO(0, model, Phalcon\\Mvc\\ModelInterface, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_gethasonerecords, 0, 0, 3)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_TYPE_MASK_EX(arginfo_phalcon_mvc_model_manager_gethasonerecords, 0, 3, Phalcon\\Mvc\\ModelInterface, MAY_BE_BOOL)
 	ZEND_ARG_TYPE_INFO(0, modelName, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, modelRelation, IS_STRING, 0)
 	ZEND_ARG_OBJ_INFO(0, record, Phalcon\\Mvc\\ModelInterface, 0)
@@ -240,7 +241,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_manager_gethas
 	ZEND_ARG_OBJ_INFO(0, model, Phalcon\\Mvc\\ModelInterface, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_manager_getlastinitialized, 0, 0, Phalcon\\Mvc\\ModelInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_manager_getlastinitialized, 0, 0, Phalcon\\Mvc\\ModelInterface, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_manager_getlastquery, 0, 0, Phalcon\\Mvc\\Model\\QueryInterface, 0)
@@ -265,7 +266,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_manager_getrea
 	ZEND_ARG_OBJ_INFO(0, model, Phalcon\\Mvc\\ModelInterface, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_getrelationbyalias, 0, 0, 2)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_TYPE_MASK_EX(arginfo_phalcon_mvc_model_manager_getrelationbyalias, 0, 2, Phalcon\\Mvc\\Model\\RelationInterface, MAY_BE_BOOL)
 	ZEND_ARG_TYPE_INFO(0, modelName, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, alias, IS_STRING, 0)
 ZEND_END_ARG_INFO()
@@ -281,7 +282,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_manager_getrel
 	ZEND_ARG_TYPE_INFO(0, modelName, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_getrelationsbetween, 0, 0, 2)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_model_manager_getrelationsbetween, 0, 2, MAY_BE_ARRAY|MAY_BE_BOOL)
 	ZEND_ARG_TYPE_INFO(0, first, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, second, IS_STRING, 0)
 ZEND_END_ARG_INFO()
@@ -355,15 +356,21 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_manager_load, 0
 	ZEND_ARG_TYPE_INFO(0, modelName, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_missingmethod, 0, 0, 3)
+	ZEND_ARG_OBJ_INFO(0, model, Phalcon\\Mvc\\ModelInterface, 0)
+	ZEND_ARG_TYPE_INFO(0, eventName, IS_STRING, 0)
+	ZEND_ARG_INFO(0, data)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_notifyevent, 0, 0, 2)
 	ZEND_ARG_TYPE_INFO(0, eventName, IS_STRING, 0)
 	ZEND_ARG_OBJ_INFO(0, model, Phalcon\\Mvc\\ModelInterface, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_missingmethod, 0, 0, 3)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_manager_removebehavior, 0, 2, IS_VOID, 0)
+
 	ZEND_ARG_OBJ_INFO(0, model, Phalcon\\Mvc\\ModelInterface, 0)
-	ZEND_ARG_TYPE_INFO(0, eventName, IS_STRING, 0)
-	ZEND_ARG_INFO(0, data)
+	ZEND_ARG_TYPE_INFO(0, behaviorClass, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_manager_setconnectionservice, 0, 2, IS_VOID, 0)
@@ -506,8 +513,9 @@ PHP_ME(Phalcon_Mvc_Model_Manager, __destruct, arginfo_phalcon_mvc_model_manager_
 	PHP_ME(Phalcon_Mvc_Model_Manager, isVisibleModelProperty, arginfo_phalcon_mvc_model_manager_isvisiblemodelproperty, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Manager, keepSnapshots, arginfo_phalcon_mvc_model_manager_keepsnapshots, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Manager, load, arginfo_phalcon_mvc_model_manager_load, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Model_Manager, notifyEvent, arginfo_phalcon_mvc_model_manager_notifyevent, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Manager, missingMethod, arginfo_phalcon_mvc_model_manager_missingmethod, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Manager, notifyEvent, arginfo_phalcon_mvc_model_manager_notifyevent, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Manager, removeBehavior, arginfo_phalcon_mvc_model_manager_removebehavior, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Manager, setConnectionService, arginfo_phalcon_mvc_model_manager_setconnectionservice, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Manager, setCustomEventsManager, arginfo_phalcon_mvc_model_manager_setcustomeventsmanager, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Manager, setDI, arginfo_phalcon_mvc_model_manager_setdi, ZEND_ACC_PUBLIC)

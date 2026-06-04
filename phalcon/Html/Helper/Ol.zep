@@ -50,13 +50,13 @@ class Ol extends AbstractList
      * @param array  $attributes
      * @param bool   $raw
      *
-     * @return AbstractList
+     * @return static
      */
     public function add(
         string text,
         array attributes = [],
         bool raw = false
-    ) -> <AbstractList> {
+    ) -> <static> {
         let this->store[] = [
             "renderFullElement",
             [

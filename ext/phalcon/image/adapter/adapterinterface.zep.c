@@ -67,6 +67,14 @@ ZEPHIR_DOC_METHOD(Phalcon_Image_Adapter_AdapterInterface, crop);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Image_Adapter_AdapterInterface, flip);
 /**
+ * @return int
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Image_Adapter_AdapterInterface, getHeight);
+/**
+ * @return int
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Image_Adapter_AdapterInterface, getWidth);
+/**
  * Add a mask to an image
  *
  * @param AdapterInterface $mask

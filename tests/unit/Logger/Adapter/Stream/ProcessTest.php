@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Logger\Adapter\Stream;
 
 use DateTimeImmutable;
 use DateTimeZone;
-use LogicException;
+use Phalcon\Logger\Adapter\Exceptions\FileOpenFailed;
 use Phalcon\Logger\Adapter\Stream;
 use Phalcon\Logger\Enum;
 use Phalcon\Logger\Item;
@@ -68,7 +68,7 @@ final class ProcessTest extends AbstractUnitTestCase
         $fileName   = $this->getNewFileName('log', 'log');
         $outputPath = logsDir();
 
-        $this->expectException(LogicException::class);
+        $this->expectException(FileOpenFailed::class);
         $this->expectExceptionMessage(
             "The file '" .
             $outputPath .

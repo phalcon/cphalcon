@@ -13,7 +13,7 @@ PHP_METHOD(Phalcon_Forms_Manager, set);
 zend_object *zephir_init_properties_Phalcon_Forms_Manager(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_manager___construct, 0, 0, 0)
-	ZEND_ARG_OBJ_INFO(0, locator, Phalcon\\Forms\\FormsLocator, 1)
+	ZEND_ARG_OBJ_TYPE_MASK(0, locator, Phalcon\\Forms\\FormsLocator, MAY_BE_NULL, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_forms_manager_create, 0, 1, Phalcon\\Forms\\Form, 0)
@@ -38,7 +38,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_forms_manager_loadform, 0
 	ZEND_ARG_INFO(0, entity)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_forms_manager_set, 0, 2, Phalcon\\Forms\\Manager, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_forms_manager_set, 0, 2, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 	ZEND_ARG_OBJ_INFO(0, form, Phalcon\\Forms\\Form, 0)
 ZEND_END_ARG_INFO()

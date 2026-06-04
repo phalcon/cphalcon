@@ -6,6 +6,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Storage_Adapter_Memory);
 PHP_METHOD(Phalcon_Storage_Adapter_Memory, __construct);
 PHP_METHOD(Phalcon_Storage_Adapter_Memory, clear);
 PHP_METHOD(Phalcon_Storage_Adapter_Memory, getKeys);
+PHP_METHOD(Phalcon_Storage_Adapter_Memory, getMaxItems);
+PHP_METHOD(Phalcon_Storage_Adapter_Memory, setMaxItems);
 PHP_METHOD(Phalcon_Storage_Adapter_Memory, setForever);
 PHP_METHOD(Phalcon_Storage_Adapter_Memory, doDecrement);
 PHP_METHOD(Phalcon_Storage_Adapter_Memory, doDelete);
@@ -27,12 +29,19 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_adapter_memory_g
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, prefix, IS_STRING, 0, "''")
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_adapter_memory_getmaxitems, 0, 0, IS_LONG, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_storage_adapter_memory_setmaxitems, 0, 1, MAY_BE_STATIC)
+	ZEND_ARG_TYPE_INFO(0, maxItems, IS_LONG, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_adapter_memory_setforever, 0, 2, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
 	ZEND_ARG_INFO(0, value)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_storage_adapter_memory_dodecrement, 0, 0, 1)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_storage_adapter_memory_dodecrement, 0, 1, MAY_BE_LONG|MAY_BE_BOOL)
 	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, value, IS_LONG, 0, "1")
 ZEND_END_ARG_INFO()
@@ -49,7 +58,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_adapter_memory_d
 	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_storage_adapter_memory_doincrement, 0, 0, 1)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_storage_adapter_memory_doincrement, 0, 1, MAY_BE_LONG|MAY_BE_BOOL)
 	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, value, IS_LONG, 0, "1")
 ZEND_END_ARG_INFO()
@@ -67,6 +76,8 @@ ZEPHIR_INIT_FUNCS(phalcon_storage_adapter_memory_method_entry) {
 	PHP_ME(Phalcon_Storage_Adapter_Memory, __construct, arginfo_phalcon_storage_adapter_memory___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Storage_Adapter_Memory, clear, arginfo_phalcon_storage_adapter_memory_clear, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Storage_Adapter_Memory, getKeys, arginfo_phalcon_storage_adapter_memory_getkeys, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Storage_Adapter_Memory, getMaxItems, arginfo_phalcon_storage_adapter_memory_getmaxitems, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Storage_Adapter_Memory, setMaxItems, arginfo_phalcon_storage_adapter_memory_setmaxitems, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Storage_Adapter_Memory, setForever, arginfo_phalcon_storage_adapter_memory_setforever, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Storage_Adapter_Memory, doDecrement, arginfo_phalcon_storage_adapter_memory_dodecrement, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Storage_Adapter_Memory, doDelete, arginfo_phalcon_storage_adapter_memory_dodelete, ZEND_ACC_PROTECTED)

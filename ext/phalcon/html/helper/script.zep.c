@@ -47,7 +47,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Script)
  * @param string $url
  * @param array  $attributes
  *
- * @return $this
+ * @return static
  * @throws Exception
  */
 PHP_METHOD(Phalcon_Html_Helper_Script, add)
@@ -130,7 +130,7 @@ PHP_METHOD(Phalcon_Html_Helper_Script, beginInternal)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	ZEPHIR_CALL_FUNCTION(NULL, "ob_start", NULL, 296);
+	ZEPHIR_CALL_FUNCTION(NULL, "ob_start", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
@@ -144,7 +144,7 @@ PHP_METHOD(Phalcon_Html_Helper_Script, beginInternal)
  * @param array $attributes
  * @param int   $position
  *
- * @return Script
+ * @return static
  */
 PHP_METHOD(Phalcon_Html_Helper_Script, endInternal)
 {
@@ -183,7 +183,7 @@ PHP_METHOD(Phalcon_Html_Helper_Script, endInternal)
 		position = -1;
 	} else {
 		}
-	ZEPHIR_CALL_FUNCTION(&_0, "ob_get_clean", NULL, 298);
+	ZEPHIR_CALL_FUNCTION(&_0, "ob_get_clean", NULL, 0);
 	zephir_check_call_status();
 	zephir_cast_to_string(&_1, &_0);
 	ZEPHIR_CPY_WRT(&content, &_1);

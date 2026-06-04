@@ -26,6 +26,10 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * Implementation of this file has been influenced by AuraPHP
+ * @link    https://github.com/auraphp/Aura.Html
+ * @license https://github.com/auraphp/Aura.Html/blob/2.x/LICENSE
  */
 /**
  * Renders a group of `<input type="checkbox">` elements from an options array.
@@ -90,7 +94,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_CheckboxGroup, isChecked)
 		zephir_array_fast_append(&_2$$5, &_3$$5);
 		ZEPHIR_CPY_WRT(&selected, &_2$$5);
 	}
-	ZEPHIR_RETURN_CALL_FUNCTION("in_array", NULL, 337, &value_zv, &selected, &__$false);
+	ZEPHIR_RETURN_CALL_FUNCTION("in_array", NULL, 140, &value_zv, &selected, &__$false);
 	zephir_check_call_status();
 	RETURN_MM();
 }

@@ -14,6 +14,9 @@ use Phalcon\Di\Di;
 use Phalcon\Di\DiInterface;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Exception;
+use Phalcon\Mvc\Model\Exceptions\InvalidContainer;
+use Phalcon\Mvc\Model\Exceptions\InvalidSerializationData;
+use Phalcon\Mvc\Model\Exceptions\ResultsetColumnNotInMap;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\Row;
 use Phalcon\Mvc\ModelInterface;
@@ -73,11 +76,39 @@ class Simple extends Resultset
         parent::__construct(result, cache);
     }
 
+    public function __serialize() -> array
+    {
+        return [
+            "model"         : this->model,
+            "cache"         : this->cache,
+            "rows"          : this->toArray(false),
+            "columnMap"     : this->columnMap,
+            "hydrateMode"   : this->hydrateMode,
+            "keepSnapshots" : this->keepSnapshots
+        ];
+    }
+
+    public function __unserialize(array data) -> void
+    {
+        var keepSnapshots;
+
+        let this->model       = data["model"],
+            this->rows        = data["rows"],
+            this->count       = count(data["rows"]),
+            this->cache       = data["cache"],
+            this->columnMap   = data["columnMap"],
+            this->hydrateMode = data["hydrateMode"];
+
+        if fetch keepSnapshots, data["keepSnapshots"] {
+            let this->keepSnapshots = keepSnapshots;
+        }
+    }
+
     /**
      * Returns current row in the resultset
      * @return TValue
      */
-    final public function current() -> <ModelInterface> | null
+    final public function current() -> <ModelInterface> | <Row> | null
     {
         var row, hydrateMode, columnMap, activeRow, modelName;
 
@@ -165,6 +196,41 @@ class Simple extends Resultset
     }
 
     /**
+     * Serializing a resultset will dump all related rows into a big array
+     */
+    public function serialize() -> string
+    {
+        var container, serializer;
+        array data;
+
+        let container = Di::getDefault();
+        if container === null {
+            throw new InvalidContainer();
+        }
+
+        let data = [
+            "model"         : this->model,
+            "cache"         : this->cache,
+            "rows"          : this->toArray(false),
+            "columnMap"     : this->columnMap,
+            "hydrateMode"   : this->hydrateMode,
+            "keepSnapshots" : this->keepSnapshots
+        ];
+
+        if container->has("serializer") {
+            let serializer = <SerializerInterface> container->getShared("serializer");
+            serializer->setData(data);
+
+            return serializer->serialize();
+        }
+
+        /**
+         * Serialize the cache using the serialize function
+         */
+        return serialize(data);
+    }
+
+    /**
      * Returns a complete resultset as an array, if the resultset has a big
      * number of rows it could consume more memory than currently it does.
      * Export the resultset to an array couldn't be faster with a large number
@@ -222,16 +288,12 @@ class Simple extends Resultset
                              * Check if the key is part of the column map
                              */
                             if unlikely !fetch renamedKey, columnMap[key] {
-                                throw new Exception(
-                                    "Column '" . key . "' is not part of the column map"
-                                );
+                                throw new ResultsetColumnNotInMap(key);
                             }
 
                             if typeof renamedKey == "array" {
                                 if unlikely !fetch renamedKey, renamedKey[0] {
-                                    throw new Exception(
-                                        "Column '" . key . "' is not part of the column map"
-                                    );
+                                    throw new ResultsetColumnNotInMap(key);
                                 }
                             }
 
@@ -253,43 +315,6 @@ class Simple extends Resultset
     }
 
     /**
-     * Serializing a resultset will dump all related rows into a big array
-     */
-    public function serialize() -> string
-    {
-        var container, serializer;
-        array data;
-
-        let container = Di::getDefault();
-        if container === null {
-            throw new Exception(
-                "The dependency injector container is not valid"
-            );
-        }
-
-        let data = [
-            "model"         : this->model,
-            "cache"         : this->cache,
-            "rows"          : this->toArray(false),
-            "columnMap"     : this->columnMap,
-            "hydrateMode"   : this->hydrateMode,
-            "keepSnapshots" : this->keepSnapshots
-        ];
-
-        if container->has("serializer") {
-            let serializer = <SerializerInterface> container->getShared("serializer");
-            serializer->setData(data);
-
-            return serializer->serialize();
-        }
-
-        /**
-         * Serialize the cache using the serialize function
-         */
-        return serialize(data);
-    }
-
-    /**
      * Unserializing a resultset will allow to only works on the rows present in
      * the saved state
      */
@@ -299,9 +324,7 @@ class Simple extends Resultset
 
         let container = Di::getDefault();
         if container === null {
-            throw new Exception(
-                "The dependency injector container is not valid"
-            );
+            throw new InvalidContainer();
         }
 
         if container->has("serializer") {
@@ -314,7 +337,7 @@ class Simple extends Resultset
         }
 
         if unlikely typeof resultset !== "array" {
-            throw new Exception("Invalid serialization data");
+            throw new InvalidSerializationData();
         }
 
         let this->model       = resultset["model"],
@@ -325,34 +348,6 @@ class Simple extends Resultset
             this->hydrateMode = resultset["hydrateMode"];
 
         if fetch keepSnapshots, resultset["keepSnapshots"] {
-            let this->keepSnapshots = keepSnapshots;
-        }
-    }
-
-    public function __serialize() -> array
-    {
-        return [
-            "model"         : this->model,
-            "cache"         : this->cache,
-            "rows"          : this->toArray(false),
-            "columnMap"     : this->columnMap,
-            "hydrateMode"   : this->hydrateMode,
-            "keepSnapshots" : this->keepSnapshots
-        ];
-    }
-
-    public function __unserialize(array data) -> void
-    {
-        var keepSnapshots;
-
-        let this->model       = data["model"],
-            this->rows        = data["rows"],
-            this->count       = count(data["rows"]),
-            this->cache       = data["cache"],
-            this->columnMap   = data["columnMap"],
-            this->hydrateMode = data["hydrateMode"];
-
-        if fetch keepSnapshots, data["keepSnapshots"] {
             let this->keepSnapshots = keepSnapshots;
         }
     }

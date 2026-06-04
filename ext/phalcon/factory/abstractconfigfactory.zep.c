@@ -149,6 +149,8 @@ PHP_METHOD(Phalcon_Factory_AbstractConfigFactory, getException)
 		RETURN_MM_NULL();
 	}
 	object_init_ex(return_value, _1);
+	ZEPHIR_LAST_CALL_STATUS = zephir_check_constructor_access(return_value);
+	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &message_zv);
 	zephir_check_call_status();
 	RETURN_MM();

@@ -44,7 +44,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_di___call, 0, 0, 1)
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, arguments, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_di_attempt, 0, 0, 2)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_TYPE_MASK_EX(arginfo_phalcon_di_di_attempt, 0, 2, Phalcon\\Di\\ServiceInterface, MAY_BE_BOOL)
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 	ZEND_ARG_INFO(0, definition)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, shared, _IS_BOOL, 0, "false")
@@ -148,7 +148,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_di_di_set, 0, 2, Phalcon\
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, shared, _IS_BOOL, 0, "false")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_di_di_setalias, 0, 2, Phalcon\\Di\\Di, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_di_di_setalias, 0, 2, self, 0)
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 	ZEND_ARG_INFO(0, aliases)
 ZEND_END_ARG_INFO()

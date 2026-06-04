@@ -16,6 +16,7 @@
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/object.h"
+#include "kernel/string.h"
 #include "kernel/array.h"
 
 
@@ -97,9 +98,9 @@ PHP_METHOD(Phalcon_Encryption_Crypt_Padding_Space, unpad)
 	blockSize_param = ZEND_CALL_ARG(execute_data, 2);
 	zephir_memory_observe(&input_zv);
 	ZVAL_STR_COPY(&input_zv, input);
-	ZEPHIR_CALL_FUNCTION(&length, "mb_strlen", NULL, 262, &input_zv);
-	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&inputArray, "str_split", NULL, 112, &input_zv);
+	ZEPHIR_INIT_VAR(&length);
+	ZVAL_LONG(&length, zephir_fast_strlen_ev(&input_zv));
+	ZEPHIR_CALL_FUNCTION(&inputArray, "str_split", NULL, 166, &input_zv);
 	zephir_check_call_status();
 	counter = (zephir_get_numberval(&length) - 1);
 	paddingSize = 0;
@@ -108,9 +109,9 @@ PHP_METHOD(Phalcon_Encryption_Crypt_Padding_Space, unpad)
 		if (_0) {
 			zephir_array_fetch_long(&_1, &inputArray, counter, PH_NOISY | PH_READONLY, "phalcon/Encryption/Crypt/Padding/Space.zep", 48);
 			ZVAL_LONG(&_2, 32);
-			ZEPHIR_CALL_FUNCTION(&_3, "chr", &_4, 259, &_2);
+			ZEPHIR_CALL_FUNCTION(&_3, "chr", &_4, 493, &_2);
 			zephir_check_call_status();
-			_0 = ZEPHIR_IS_EQUAL(&_1, &_3);
+			_0 = ZEPHIR_IS_IDENTICAL(&_1, &_3);
 		}
 		_5 = _0;
 		if (_5) {

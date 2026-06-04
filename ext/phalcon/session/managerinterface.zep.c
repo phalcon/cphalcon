@@ -64,25 +64,25 @@ ZEPHIR_DOC_METHOD(Phalcon_Session_ManagerInterface, __set);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Session_ManagerInterface, __unset);
 /**
- * Check whether the session has been started
- */
-ZEPHIR_DOC_METHOD(Phalcon_Session_ManagerInterface, exists);
-/**
  * Destroy/end a session
  */
 ZEPHIR_DOC_METHOD(Phalcon_Session_ManagerInterface, destroy);
+/**
+ * Check whether the session has been started
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Session_ManagerInterface, exists);
 /**
  * Gets a session variable from an application context
  */
 ZEPHIR_DOC_METHOD(Phalcon_Session_ManagerInterface, get);
 /**
- * Returns the session id
- */
-ZEPHIR_DOC_METHOD(Phalcon_Session_ManagerInterface, getId);
-/**
  * Returns the stored session adapter
  */
 ZEPHIR_DOC_METHOD(Phalcon_Session_ManagerInterface, getAdapter);
+/**
+ * Returns the session id
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Session_ManagerInterface, getId);
 /**
  * Returns the name of the session
  */
@@ -95,6 +95,10 @@ ZEPHIR_DOC_METHOD(Phalcon_Session_ManagerInterface, getOptions);
  * Check whether a session variable is set in an application context
  */
 ZEPHIR_DOC_METHOD(Phalcon_Session_ManagerInterface, has);
+/**
+ * Regenerates the session id using the adapter.
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Session_ManagerInterface, regenerateId);
 /**
  * Removes a session variable from an application context
  */
@@ -123,15 +127,11 @@ ZEPHIR_DOC_METHOD(Phalcon_Session_ManagerInterface, setName);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Session_ManagerInterface, setOptions);
 /**
- * Returns the status of the current session.
- */
-ZEPHIR_DOC_METHOD(Phalcon_Session_ManagerInterface, status);
-/**
  * Starts the session (if headers are already sent the session will not be
  * started)
  */
 ZEPHIR_DOC_METHOD(Phalcon_Session_ManagerInterface, start);
 /**
- * Regenerates the session id using the adapter.
+ * Returns the status of the current session.
  */
-ZEPHIR_DOC_METHOD(Phalcon_Session_ManagerInterface, regenerateId);
+ZEPHIR_DOC_METHOD(Phalcon_Session_ManagerInterface, status);

@@ -43,22 +43,6 @@ class Flatten
      *
      * @return array
      */
-    private function processNotArray(array data, item) -> array
-    {
-        if typeof item !== "array" {
-            let data[] = item;
-        }
-
-        return data;
-    }
-
-    /**
-     * @param array $data
-     * @param mixed $item
-     * @param bool  $deep
-     *
-     * @return array
-     */
     private function processArray(array data, var item, bool deep) -> array
     {
         if typeof item === "array" && !deep {
@@ -79,6 +63,21 @@ class Flatten
     {
         if typeof item === "array" && deep {
             let data = array_merge(data, this->__invoke(item, true));
+        }
+
+        return data;
+    }
+
+    /**
+     * @param array $data
+     * @param mixed $item
+     *
+     * @return array
+     */
+    private function processNotArray(array data, item) -> array
+    {
+        if typeof item !== "array" {
+            let data[] = item;
         }
 
         return data;

@@ -11,8 +11,18 @@
 namespace Phalcon\Encryption;
 
 use Phalcon\Encryption\Crypt\CryptInterface;
+use Phalcon\Encryption\Crypt\Exception\DecryptionFailed;
+use Phalcon\Encryption\Crypt\Exception\EmptyDecryptionKey;
+use Phalcon\Encryption\Crypt\Exception\EmptyEncryptionKey;
+use Phalcon\Encryption\Crypt\Exception\EncryptionFailed;
 use Phalcon\Encryption\Crypt\Exception\Exception;
+use Phalcon\Encryption\Crypt\Exception\InvalidPaddingSize;
+use Phalcon\Encryption\Crypt\Exception\IvLengthCalculationFailed;
 use Phalcon\Encryption\Crypt\Exception\Mismatch;
+use Phalcon\Encryption\Crypt\Exception\MissingAuthData;
+use Phalcon\Encryption\Crypt\Exception\MissingOpensslExtension;
+use Phalcon\Encryption\Crypt\Exception\RandomBytesGenerationFailed;
+use Phalcon\Encryption\Crypt\Exception\UnsupportedAlgorithm;
 use Phalcon\Encryption\Crypt\PadFactory;
 
 /**
@@ -111,6 +121,16 @@ class Crypt implements CryptInterface
     protected hashAlgorithm = self::DEFAULT_ALGORITHM;
 
     /**
+     * Memoized `strlen(hash($algo, "", true))` results, keyed by
+     * algorithm name. The hash output length is deterministic for a
+     * given algorithm, so this collapses the per-decrypt strlen+hash
+     * call to a single hash lookup after warm-up.
+     *
+     * @var array
+     */
+    protected hashLengthCache = [];
+
+    /**
      * The cipher iv length.
      *
      * @var int
@@ -195,7 +215,7 @@ class Crypt implements CryptInterface
         }
 
         if true === empty(decryptKey) {
-            throw new Exception("Decryption key cannot be empty");
+            throw new EmptyDecryptionKey();
         }
 
         let cipher   = this->cipher,
@@ -213,8 +233,11 @@ class Crypt implements CryptInterface
         let digest        = "",
             hashAlgorithm = this->getHashAlgorithm();
         if true === this->useSigning {
-            let hashLength = strlen(hash(hashAlgorithm, "", true)),
-                digest     = mb_substr(input, ivLength, hashLength, "8bit"),
+            if !fetch hashLength, this->hashLengthCache[hashAlgorithm] {
+                let hashLength = strlen(hash(hashAlgorithm, "", true));
+                let this->hashLengthCache[hashAlgorithm] = hashLength;
+            }
+            let digest     = mb_substr(input, ivLength, hashLength, "8bit"),
                 cipherText = mb_substr(input, ivLength + hashLength, null, "8bit");
         } else {
             let cipherText = mb_substr(input, ivLength, null, "8bit");
@@ -302,7 +325,7 @@ class Crypt implements CryptInterface
         }
 
         if true === empty(encryptKey) {
-            throw new Exception("Encryption key cannot be empty");
+            throw new EmptyEncryptionKey();
         }
 
         let cipher   = this->cipher,
@@ -316,11 +339,11 @@ class Crypt implements CryptInterface
         try {
             let iv = this->phpOpensslRandomPseudoBytes(ivLength);
         } catch \ValueError {
-            throw new Exception("Cannot calculate Random Pseudo Bytes");
+            throw new RandomBytesGenerationFailed();
         }
 
         if false === iv {
-            throw new Exception("Cannot calculate Random Pseudo Bytes");
+            throw new RandomBytesGenerationFailed();
         }
 
         let padded = this->encryptGetPadded(mode, input, blockSize);
@@ -379,7 +402,7 @@ class Crypt implements CryptInterface
     /**
      * Returns a list of available ciphers.
      *
-     * @return array
+     * @phpstan-return array<array-key, string>
      */
     public function getAvailableCiphers() -> array
     {
@@ -484,9 +507,9 @@ class Crypt implements CryptInterface
     /**
      * @param string $data
      *
-     * @return CryptInterface
+     * @return static
      */
-    public function setAuthData(string data) -> <CryptInterface>
+    public function setAuthData(string data) -> <static>
     {
         let this->authData = data;
 
@@ -496,9 +519,9 @@ class Crypt implements CryptInterface
     /**
      * @param string $tag
      *
-     * @return CryptInterface
+     * @return static
      */
-    public function setAuthTag(string tag) -> <CryptInterface>
+    public function setAuthTag(string tag) -> <static>
     {
         let this->authTag = tag;
 
@@ -508,9 +531,9 @@ class Crypt implements CryptInterface
     /**
      * @param int $length
      *
-     * @return CryptInterface
+     * @return static
      */
-    public function setAuthTagLength(int length) -> <CryptInterface>
+    public function setAuthTagLength(int length) -> <static>
     {
         let this->authTagLength = length;
 
@@ -522,10 +545,10 @@ class Crypt implements CryptInterface
      *
      * @param string $cipher
      *
-     * @return CryptInterface
+     * @return static
      * @throws Exception
      */
-    public function setCipher(string cipher) -> <CryptInterface>
+    public function setCipher(string cipher) -> <static>
     {
         this->checkCipherHashIsAvailable(cipher, "cipher");
 
@@ -552,9 +575,9 @@ class Crypt implements CryptInterface
      *
      * @param string $key
      *
-     * @return CryptInterface
+     * @return static
      */
-    public function setKey(string key) -> <CryptInterface>
+    public function setKey(string key) -> <static>
     {
         let this->key = key;
 
@@ -566,10 +589,10 @@ class Crypt implements CryptInterface
      *
      * @param string $hashAlgorithm
      *
-     * @return CryptInterface
+     * @return static
      * @throws Exception
      */
-    public function setHashAlgorithm(string hashAlgorithm) -> <CryptInterface>
+    public function setHashAlgorithm(string hashAlgorithm) -> <static>
     {
         this->checkCipherHashIsAvailable(hashAlgorithm, "hash");
 
@@ -583,9 +606,9 @@ class Crypt implements CryptInterface
      *
      * @param int $scheme
      *
-     * @return CryptInterface
+     * @return static
      */
-    public function setPadding(int scheme) -> <CryptInterface>
+    public function setPadding(int scheme) -> <static>
     {
         let this->padding = scheme;
 
@@ -597,9 +620,9 @@ class Crypt implements CryptInterface
      *
      * @param bool $useSigning
      *
-     * @return CryptInterface
+     * @return static
      */
-    public function useSigning(bool useSigning) -> <CryptInterface>
+    public function useSigning(bool useSigning) -> <static>
     {
         let this->useSigning = useSigning;
 
@@ -627,13 +650,7 @@ class Crypt implements CryptInterface
         let available = this->{method}(),
             lower     = mb_strtolower(cipher);
         if true !== in_array(lower, available) {
-            throw new Exception(
-                sprintf(
-                    "The %s algorithm '%s' is not supported on this system.",
-                    type,
-                    cipher
-                )
-            );
+            throw new UnsupportedAlgorithm(type, cipher);
         }
     }
 
@@ -664,9 +681,7 @@ class Crypt implements CryptInterface
             let paddingSize = blockSize - (strlen(input) % blockSize);
 
             if paddingSize >= 256 || paddingSize < 0 {
-                throw new Exception(
-                    "Padding size cannot be less than 0 or greater than 256"
-                );
+                throw new InvalidPaddingSize();
             }
 
             let service = this->padFactory->padNumberToService(paddingType),
@@ -808,7 +823,7 @@ class Crypt implements CryptInterface
         }
 
         if (false === decrypted) {
-            throw new Exception("Could not decrypt data");
+            throw new DecryptionFailed();
         }
 
         return decrypted;
@@ -865,9 +880,7 @@ class Crypt implements CryptInterface
             let authData = this->authData;
 
             if true === empty(authData) {
-                throw new Exception(
-                    "Auth data must be provided when using AEAD mode"
-                );
+                throw new MissingAuthData();
             }
 
             let authTag       = this->authTag,
@@ -896,7 +909,7 @@ class Crypt implements CryptInterface
         }
 
         if (false === encrypted) {
-            throw new Exception("Could not encrypt data");
+            throw new EncryptionFailed();
         }
 
         /**
@@ -909,16 +922,16 @@ class Crypt implements CryptInterface
     /**
      * Initialize available cipher algorithms.
      *
-     * @return Crypt
+     * @return static
      * @throws Exception
      */
-    protected function initializeAvailableCiphers() -> <Crypt>
+    protected function initializeAvailableCiphers() -> <static>
     {
         var available, cipher;
         array allowed;
 
         if true !== this->phpFunctionExists("openssl_get_cipher_methods") {
-            throw new Exception("This class requires the openssl extension for PHP");
+            throw new MissingOpensslExtension();
         }
 
         let available = openssl_get_cipher_methods(true),
@@ -986,9 +999,7 @@ class Crypt implements CryptInterface
 
         let length = openssl_cipher_iv_length(cipher);
         if false === length {
-            throw new Exception(
-                "Cannot calculate the initialization vector (IV) length of the cipher"
-            );
+            throw new IvLengthCalculationFailed();
         }
 
         return length;

@@ -391,6 +391,14 @@ ZEPHIR_ATTR_WARN_UNUSED_RESULT static inline int zephir_call_user_func_array(zva
 
 int zephir_has_constructor_ce(const zend_class_entry *ce) ZEPHIR_ATTR_PURE ZEPHIR_ATTR_NONNULL;
 
+/**
+ * Throws an Error and returns FAILURE when the object's constructor is not
+ * accessible from the current scope, mirroring PHP's "new" operator.
+ *
+ * @see https://github.com/zephir-lang/zephir/issues/882
+ */
+int zephir_check_constructor_access(const zval *object) ZEPHIR_ATTR_NONNULL;
+
 ZEPHIR_ATTR_WARN_UNUSED_RESULT ZEPHIR_ATTR_NONNULL static inline int zephir_has_constructor(const zval *object)
 {
 	return Z_TYPE_P(object) == IS_OBJECT ? zephir_has_constructor_ce(Z_OBJCE_P(object)) : 0;

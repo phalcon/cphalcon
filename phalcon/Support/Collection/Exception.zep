@@ -10,11 +10,11 @@
 
 namespace Phalcon\Support\Collection;
 
-use Throwable;
+use Phalcon\Support\Exception as SupportException;
 
 /**
  * Exceptions for the Collection object
  */
-class Exception extends \Exception
+class Exception extends SupportException
 {
 }

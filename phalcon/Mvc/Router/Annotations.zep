@@ -10,9 +10,11 @@
 
 namespace Phalcon\Mvc\Router;
 
+use Phalcon\Annotations\Annotation;
 use Phalcon\Di\DiInterface;
 use Phalcon\Mvc\Router;
-use Phalcon\Annotations\Annotation;
+use Phalcon\Mvc\Router\Exceptions\AnnotationsServiceUnavailable;
+use Phalcon\Mvc\Router\Exceptions\InvalidCallbackParameter;
 
 /**
  * Phalcon\Mvc\Router\Annotations
@@ -68,7 +70,7 @@ class Annotations extends Router
      * A resource is a class that contains routing annotations
      * The class is located in a module
      */
-    public function addModuleResource(string! module, string! handler, string! prefix = null) -> <Annotations>
+    public function addModuleResource(string! module, string! handler, string! prefix = null) -> <static>
     {
         let this->handlers[] = [prefix, handler, module];
 
@@ -79,7 +81,7 @@ class Annotations extends Router
      * Adds a resource to the annotations handler
      * A resource is a class that contains routing annotations
      */
-    public function addResource(string! handler, string! prefix = null) -> <Annotations>
+    public function addResource(string! handler, string! prefix = null) -> <static>
     {
         let this->handlers[] = [prefix, handler];
 
@@ -109,9 +111,7 @@ class Annotations extends Router
         let container = <DiInterface> this->container;
 
         if unlikely typeof container != "object" {
-            throw new Exception(
-                "A dependency injection container is required to access the 'annotations' service"
-            );
+            throw new AnnotationsServiceUnavailable();
         }
 
         let handlers = this->handlers;
@@ -427,9 +427,11 @@ class Annotations extends Router
     /**
      * Changes the action method suffix
      */
-    public function setActionSuffix(string! actionSuffix)
+    public function setActionSuffix(string! actionSuffix) -> <self>
     {
         let this->actionSuffix = actionSuffix;
+
+        return this;
     }
 
     /**
@@ -461,7 +463,7 @@ class Annotations extends Router
      *
      * @param callable|string|null $callback
      */
-    public function setActionPreformatCallback(var callback = null)
+    public function setActionPreformatCallback(var callback = null) -> <self>
     {
         if likely is_callable(callback) {
             let this->actionPreformatCallback = callback;
@@ -470,10 +472,10 @@ class Annotations extends Router
                 return uncamelize(action, "-");
             };
         } else {
-            throw new Exception(
-                "The 'callback' parameter must be either a callable or NULL."
-            );
+            throw new InvalidCallbackParameter();
         }
+
+        return this;
     }
 
     /**
@@ -487,8 +489,10 @@ class Annotations extends Router
     /**
      * Changes the controller class suffix
      */
-    public function setControllerSuffix(string! controllerSuffix)
+    public function setControllerSuffix(string! controllerSuffix) -> <self>
     {
         let this->controllerSuffix = controllerSuffix;
+
+        return this;
     }
 }

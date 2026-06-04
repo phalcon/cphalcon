@@ -1,0 +1,21 @@
+
+extern zend_class_entry *phalcon_auth_adapter_config_streamadapterconfig_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Auth_Adapter_Config_StreamAdapterConfig);
+
+PHP_METHOD(Phalcon_Auth_Adapter_Config_StreamAdapterConfig, __construct);
+PHP_METHOD(Phalcon_Auth_Adapter_Config_StreamAdapterConfig, getFile);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_auth_adapter_config_streamadapterconfig___construct, 0, 0, 1)
+	ZEND_ARG_TYPE_INFO(0, file, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, model, IS_STRING, 1, "null")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_auth_adapter_config_streamadapterconfig_getfile, 0, 0, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_auth_adapter_config_streamadapterconfig_method_entry) {
+	PHP_ME(Phalcon_Auth_Adapter_Config_StreamAdapterConfig, __construct, arginfo_phalcon_auth_adapter_config_streamadapterconfig___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Auth_Adapter_Config_StreamAdapterConfig, getFile, arginfo_phalcon_auth_adapter_config_streamadapterconfig_getfile, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};

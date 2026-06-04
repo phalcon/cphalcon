@@ -27,16 +27,49 @@ use Phalcon\Support\Helper\Str\Friendly;
  */
 class Tag
 {
+    /**
+     * @var int
+     */
     const HTML32 = 1;
+    /**
+     * @var int
+     */
     const HTML401_STRICT = 2;
+    /**
+     * @var int
+     */
     const HTML401_TRANSITIONAL = 3;
+    /**
+     * @var int
+     */
     const HTML401_FRAMESET = 4;
+    /**
+     * @var int
+     */
     const HTML5 = 5;
+    /**
+     * @var int
+     */
     const XHTML10_STRICT = 6;
+    /**
+     * @var int
+     */
     const XHTML10_TRANSITIONAL = 7;
+    /**
+     * @var int
+     */
     const XHTML10_FRAMESET = 8;
+    /**
+     * @var int
+     */
     const XHTML11 = 9;
+    /**
+     * @var int
+     */
     const XHTML20 = 10;
+    /**
+     * @var int
+     */
     const XHTML5 = 11;
 
     /**
@@ -909,7 +942,8 @@ class Tag
      */
     public static function renderAttributes(string! code, array! attributes) -> string
     {
-        var order, escaper, attrs, attribute, value, escaped, key, newCode;
+        var order, escaper, attrs, attribute, value, escaped, key;
+        array attrParts;
 
         let order = [
             "rel"    : null,
@@ -942,7 +976,7 @@ class Tag
 
         unset attrs["escape"];
 
-        let newCode = code;
+        let attrParts = [];
 
         for key, value in attrs {
             if typeof key == "string" && value !== null {
@@ -958,11 +992,15 @@ class Tag
                     let escaped = value;
                 }
 
-                let newCode .= " " . key . "=\"" . escaped . "\"";
+                let attrParts[] = key . "=\"" . escaped . "\"";
             }
         }
 
-        return newCode;
+        if empty attrParts {
+            return code;
+        }
+
+        return code . " " . implode(" ", attrParts);
     }
 
     /**

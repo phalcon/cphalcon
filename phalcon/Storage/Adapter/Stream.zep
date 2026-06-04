@@ -12,9 +12,8 @@ namespace Phalcon\Storage\Adapter;
 use DateInterval;
 use FilesystemIterator;
 use Iterator;
-use Phalcon\Storage\Exception;
+use Phalcon\Storage\Exceptions\InvalidConfiguration;
 use Phalcon\Storage\SerializerFactory;
-use Phalcon\Storage\Traits\StorageErrorHandlerTrait;
 use Phalcon\Support\Exception as SupportException;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
@@ -48,7 +47,7 @@ class Stream extends AbstractAdapter
      *     'prefix'            => ''
      * ]
      *
-     * @throws Exception
+     * @throws InvalidConfiguration
      */
     public function __construct(<SerializerFactory> factory, array! options = [])
     {
@@ -56,7 +55,7 @@ class Stream extends AbstractAdapter
 
         let storageDir = this->getArrVal(options, "storageDir", "");
         if empty storageDir {
-            throw new Exception("The 'storageDir' must be specified in the options");
+            throw new InvalidConfiguration("The 'storageDir' must be specified in the options");
         }
 
         /**

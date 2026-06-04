@@ -30,9 +30,7 @@
  * @license https://github.com/auraphp/Aura.Html/blob/2.x/LICENSE
  */
 /**
- * Escapes a string for use as a URL component via `rawurlencode`. The
- * encoding/flags/doubleEncode setters are accepted for symmetry with the
- * other contexts but have no effect on the output.
+ * Escapes a string for use as a URL component via `rawurlencode`.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Html_Escaper_UrlEscaper)
 {
@@ -87,7 +85,7 @@ PHP_METHOD(Phalcon_Html_Escaper_UrlEscaper, escape)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&input_zv);
 	ZVAL_STR_COPY(&input_zv, input);
-	ZEPHIR_RETURN_CALL_FUNCTION("rawurlencode", NULL, 370, &input_zv);
+	ZEPHIR_RETURN_CALL_FUNCTION("rawurlencode", NULL, 0, &input_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }

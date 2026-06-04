@@ -12,6 +12,10 @@ namespace Phalcon\Events;
 
 use Closure;
 use Phalcon\Contracts\Events\Subscriber;
+use Phalcon\Events\Exceptions\InvalidEventHandler;
+use Phalcon\Events\Exceptions\InvalidEventType;
+use Phalcon\Events\Exceptions\InvalidSubscriberConfiguration;
+use Phalcon\Events\Exceptions\NoListenersForEvent;
 
 /**
  * Phalcon Events Manager, offers an easy way to intercept and manipulate, if
@@ -94,6 +98,18 @@ class Manager implements ManagerInterface
      * @var array
      */
     protected methodExistsCache = [];
+
+    /**
+     * Maximum number of distinct handler classes retained in
+     * methodExistsCache. 0 (default) keeps the original unbounded
+     * behavior; a positive value clears the cache when adding a new
+     * class would exceed it. Re-warming is cheap (method_exists is
+     * O(1)) and the cap is meant for very long-lived workers that see
+     * many distinct listener classes over time.
+     *
+     * @var int
+     */
+    protected methodExistsCacheLimit = 0;
 
     /**
      * Memoized getSubscribedEvents() maps keyed by Subscriber class name.
@@ -222,9 +238,7 @@ class Manager implements ManagerInterface
         } elseif is_callable(handler) {
             let type = 3;
         } else {
-            throw new Exception(
-                "Event handler must be an Object or Callable"
-            );
+            throw new InvalidEventHandler();
         }
 
         this->insertHandlerEntry(eventType, handler, type, priority);
@@ -275,9 +289,7 @@ class Manager implements ManagerInterface
         var existing, newQueue, queue;
 
         if unlikely false === this->isValidHandler(handler) {
-            throw new Exception(
-                "Event handler must be an Object or Callable"
-            );
+            throw new InvalidEventHandler();
         }
 
         if fetch queue, this->events[eventType] {
@@ -341,7 +353,7 @@ class Manager implements ManagerInterface
      * @param mixed  data
      * @return mixed
      */
-    final public function fire(
+    public function fire(
         string eventType,
         object source,
         var data = null,
@@ -357,15 +369,17 @@ class Manager implements ManagerInterface
             return null;
         }
 
+        if this->beforeFire(eventType, source, data, cancelable) === false {
+            return null;
+        }
+
         // Fast exit on a manager with no listeners attached at all.
         // Done BEFORE parsing the eventType so a misformed name (no
         // colon) doesn't raise "Invalid event type" on a manager that
         // would have had nothing to dispatch to anyway.
         if empty this->events {
             if unlikely this->strict {
-                throw new Exception(
-                    "No listeners attached for event " . eventType
-                );
+                throw new NoListenersForEvent(eventType);
             }
 
             return null;
@@ -381,7 +395,7 @@ class Manager implements ManagerInterface
             let colonPos = strpos(eventType, ":");
 
             if unlikely colonPos === false {
-                throw new Exception("Invalid event type " . eventType);
+                throw new InvalidEventType(eventType);
             }
 
             let type      = substr(eventType, 0, colonPos);
@@ -398,9 +412,7 @@ class Manager implements ManagerInterface
         // user-attached behavior, a DB event without a tracer, etc.).
         if !hasTypeQueue && !hasFullQueue {
             if unlikely this->strict {
-                throw new Exception(
-                    "No listeners attached for event " . eventType
-                );
+                throw new NoListenersForEvent(eventType);
             }
 
             return null;
@@ -475,7 +487,7 @@ class Manager implements ManagerInterface
 
         let this->fireDepth = wasDepth;
 
-        return status;
+        return this->afterFire(status, eventType, source, data, cancelable);
     }
 
     /**
@@ -507,9 +519,7 @@ class Manager implements ManagerInterface
         // Fast exit on a manager with no listeners. Mirrors fire().
         if empty this->events {
             if unlikely this->strict {
-                throw new Exception(
-                    "No listeners attached for event " . eventType
-                );
+                throw new NoListenersForEvent(eventType);
             }
 
             return [];
@@ -522,7 +532,7 @@ class Manager implements ManagerInterface
             let colonPos = strpos(eventType, ":");
 
             if unlikely colonPos === false {
-                throw new Exception("Invalid event type " . eventType);
+                throw new InvalidEventType(eventType);
             }
 
             let type      = substr(eventType, 0, colonPos);
@@ -536,9 +546,7 @@ class Manager implements ManagerInterface
 
         if !hasTypeQueue && !hasFullQueue {
             if unlikely this->strict {
-                throw new Exception(
-                    "No listeners attached for event " . eventType
-                );
+                throw new NoListenersForEvent(eventType);
             }
 
             return [];
@@ -656,6 +664,15 @@ class Manager implements ManagerInterface
     }
 
     /**
+     * Returns the configured method_exists-cache cap (0 = unlimited).
+     * See setMethodExistsCacheLimit().
+     */
+    public function getMethodExistsCacheLimit() -> int
+    {
+        return this->methodExistsCacheLimit;
+    }
+
+    /**
      * Returns all the responses returned by every handler executed by the last
      * 'fire' executed
      */
@@ -770,6 +787,18 @@ class Manager implements ManagerInterface
     }
 
     /**
+     * Caps the number of distinct handler classes retained in the
+     * method_exists memoization cache. 0 disables the cap (the
+     * default; preserves the original unbounded behavior). When the
+     * cap is exceeded, the cache is cleared and re-warms on subsequent
+     * fires.
+     */
+    public function setMethodExistsCacheLimit(int methodExistsCacheLimit) -> void
+    {
+        let this->methodExistsCacheLimit = methodExistsCacheLimit;
+    }
+
+    /**
      * Enables/disables the stop-on-false short-circuit. When true, a
      * listener returning literal `false` (with cancelable=true) stops
      * the current event's queue and pins the fire() return as `false`.
@@ -790,6 +819,44 @@ class Manager implements ManagerInterface
     public function setStrict(bool strict) -> void
     {
         let this->strict = strict;
+    }
+
+    /**
+     * Extension seam invoked after an event has been dispatched to its
+     * listener queues. Receives the computed dispatch result as `status`
+     * and returns the value fire() hands back to its caller; the base
+     * implementation returns `status` unchanged. A subclass can override
+     * it to run bookkeeping or to post-process / rewrite the result.
+     *
+     * Only called when the event was actually dispatched; the halted and
+     * no-listener short-circuits in fire() return before reaching it.
+     */
+    protected function afterFire(
+        var status,
+        string eventType,
+        object source,
+        var data = null,
+        bool cancelable = true
+    ) -> var {
+        return status;
+    }
+
+    /**
+     * Extension seam invoked before an event is dispatched. The base
+     * implementation returns true, so dispatch proceeds unchanged. A
+     * subclass can override it to inspect the source and data and, by
+     * returning false, abort the dispatch entirely - for example to
+     * redirect a deferred event onto an external queue. Invoked before the
+     * no-listener short-circuits, so it sees every fire(), including those
+     * with no locally attached listeners.
+     */
+    protected function beforeFire(
+        string eventType,
+        object source,
+        var data = null,
+        bool cancelable = true
+    ) -> bool {
+        return true;
     }
 
     /**
@@ -849,6 +916,11 @@ class Manager implements ManagerInterface
                 let handlerClass = tuple[3];
 
                 if !isset this->methodExistsCache[handlerClass][eventName] {
+                    if !isset this->methodExistsCache[handlerClass]
+                        && this->methodExistsCacheLimit > 0
+                        && count(this->methodExistsCache) >= this->methodExistsCacheLimit {
+                        let this->methodExistsCache = [];
+                    }
                     let this->methodExistsCache[handlerClass][eventName] = method_exists(handler, eventName);
                 }
 
@@ -898,6 +970,11 @@ class Manager implements ManagerInterface
                 let handlerClass = tuple[3];
 
                 if !isset this->methodExistsCache[handlerClass][eventName] {
+                    if !isset this->methodExistsCache[handlerClass]
+                        && this->methodExistsCacheLimit > 0
+                        && count(this->methodExistsCache) >= this->methodExistsCacheLimit {
+                        let this->methodExistsCache = [];
+                    }
                     let this->methodExistsCache[handlerClass][eventName] = method_exists(handler, eventName);
                 }
 
@@ -1036,15 +1113,11 @@ class Manager implements ManagerInterface
         }
 
         if unlikely typeof params != "array" {
-            throw new Exception(
-                "Invalid event subscriber configuration for " . eventName
-            );
+            throw new InvalidSubscriberConfiguration(eventName);
         }
 
         if !fetch firstParam, params[0] {
-            throw new Exception(
-                "Invalid event subscriber configuration for " . eventName
-            );
+            throw new InvalidSubscriberConfiguration(eventName);
         }
 
         if typeof firstParam == "string" {
@@ -1093,8 +1166,6 @@ class Manager implements ManagerInterface
             return;
         }
 
-        throw new Exception(
-            "Invalid event subscriber configuration for " . eventName
-        );
+        throw new InvalidSubscriberConfiguration(eventName);
     }
 }

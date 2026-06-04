@@ -25,15 +25,15 @@ zend_object *zephir_init_properties_Phalcon_Html_Helper_Breadcrumbs(zend_class_e
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_html_helper_breadcrumbs___construct, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, escaper, Phalcon\\Html\\Escaper\\EscaperInterface, 0)
-	ZEND_ARG_OBJ_INFO(0, url, Phalcon\\Mvc\\Url\\UrlInterface, 1)
+	ZEND_ARG_OBJ_TYPE_MASK(0, url, Phalcon\\Mvc\\Url\\UrlInterface, MAY_BE_NULL, "null")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_html_helper_breadcrumbs___invoke, 0, 0, Phalcon\\Html\\Helper\\Breadcrumbs, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_html_helper_breadcrumbs___invoke, 0, 0, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, indent, IS_STRING, 0, "'    '")
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, delimiter, IS_STRING, 1, "null")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_html_helper_breadcrumbs_add, 0, 1, Phalcon\\Html\\Helper\\Breadcrumbs, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_html_helper_breadcrumbs_add, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, text, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, link, IS_STRING, 0, "''")
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, icon, IS_STRING, 0, "''")
@@ -43,7 +43,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_helper_breadcrumbs_clear, 0, 0, IS_VOID, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_html_helper_breadcrumbs_clearattributes, 0, 0, Phalcon\\Html\\Helper\\Breadcrumbs, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_html_helper_breadcrumbs_clearattributes, 0, 0, MAY_BE_STATIC)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_helper_breadcrumbs_getattributes, 0, 0, IS_ARRAY, 0)
@@ -66,19 +66,19 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_helper_breadcrumbs_render, 0, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_html_helper_breadcrumbs_setattributes, 0, 1, Phalcon\\Html\\Helper\\Breadcrumbs, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_html_helper_breadcrumbs_setattributes, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_ARRAY_INFO(0, attributes, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_html_helper_breadcrumbs_setprefix, 0, 1, Phalcon\\Html\\Helper\\Breadcrumbs, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_html_helper_breadcrumbs_setprefix, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, prefix, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_html_helper_breadcrumbs_setseparator, 0, 1, Phalcon\\Html\\Helper\\Breadcrumbs, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_html_helper_breadcrumbs_setseparator, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, separator, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_html_helper_breadcrumbs_settemplate, 0, 3, Phalcon\\Html\\Helper\\Breadcrumbs, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_html_helper_breadcrumbs_settemplate, 0, 3, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, main, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, line, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, last, IS_STRING, 0)

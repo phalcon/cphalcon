@@ -153,19 +153,20 @@ PHP_METHOD(Phalcon_DataMapper_Query_Insert, column)
  */
 PHP_METHOD(Phalcon_DataMapper_Query_Insert, columns)
 {
-	zend_string *_3;
-	zend_ulong _2;
+	zend_bool _5;
+	zend_string *_2;
+	zend_ulong _1;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_4 = NULL;
+	zephir_fcall_cache_entry *_3 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *columns_param = NULL, column, value, *_0, _1;
+	zval *columns_param = NULL, column, value, *_0, _4;
 	zval columns;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&columns);
 	ZVAL_UNDEF(&column);
 	ZVAL_UNDEF(&value);
-	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_4);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		ZEPHIR_Z_PARAM_ARRAY(columns, columns_param)
 	ZEND_PARSE_PARAMETERS_END();
@@ -175,31 +176,38 @@ PHP_METHOD(Phalcon_DataMapper_Query_Insert, columns)
 	zephir_get_arrval(&columns, columns_param);
 	zephir_is_iterable(&columns, 0, "phalcon/DataMapper/Query/Insert.zep", 76);
 	if (Z_TYPE_P(&columns) == IS_ARRAY) {
-		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&columns), _2, _3, _0)
+		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&columns), _1, _2, _0)
 		{
 			ZEPHIR_INIT_NVAR(&column);
-			if (_3 != NULL) { 
-				ZVAL_STR_COPY(&column, _3);
+			if (_2 != NULL) { 
+				ZVAL_STR_COPY(&column, _2);
 			} else {
-				ZVAL_LONG(&column, _2);
+				ZVAL_LONG(&column, _1);
 			}
 			ZEPHIR_INIT_NVAR(&value);
 			ZVAL_COPY(&value, _0);
 			if (Z_TYPE_P(&column) == IS_LONG) {
-				ZEPHIR_CALL_METHOD(NULL, this_ptr, "column", &_4, 0, &value);
+				ZEPHIR_CALL_METHOD(NULL, this_ptr, "column", &_3, 0, &value);
 				zephir_check_call_status();
 			} else {
-				ZEPHIR_CALL_METHOD(NULL, this_ptr, "column", &_4, 0, &column, &value);
+				ZEPHIR_CALL_METHOD(NULL, this_ptr, "column", &_3, 0, &column, &value);
 				zephir_check_call_status();
 			}
 		} ZEND_HASH_FOREACH_END();
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, &columns, "rewind", NULL, 0);
 		zephir_check_call_status();
+		_5 = 1;
 		while (1) {
-			ZEPHIR_CALL_METHOD(&_1, &columns, "valid", NULL, 0);
+			if (_5) {
+				_5 = 0;
+			} else {
+				ZEPHIR_CALL_METHOD(NULL, &columns, "next", NULL, 0);
+				zephir_check_call_status();
+			}
+			ZEPHIR_CALL_METHOD(&_4, &columns, "valid", NULL, 0);
 			zephir_check_call_status();
-			if (!zend_is_true(&_1)) {
+			if (!zend_is_true(&_4)) {
 				break;
 			}
 			ZEPHIR_CALL_METHOD(&column, &columns, "key", NULL, 0);
@@ -207,14 +215,12 @@ PHP_METHOD(Phalcon_DataMapper_Query_Insert, columns)
 			ZEPHIR_CALL_METHOD(&value, &columns, "current", NULL, 0);
 			zephir_check_call_status();
 				if (Z_TYPE_P(&column) == IS_LONG) {
-					ZEPHIR_CALL_METHOD(NULL, this_ptr, "column", &_4, 0, &value);
+					ZEPHIR_CALL_METHOD(NULL, this_ptr, "column", &_3, 0, &value);
 					zephir_check_call_status();
 				} else {
-					ZEPHIR_CALL_METHOD(NULL, this_ptr, "column", &_4, 0, &column, &value);
+					ZEPHIR_CALL_METHOD(NULL, this_ptr, "column", &_3, 0, &column, &value);
 					zephir_check_call_status();
 				}
-			ZEPHIR_CALL_METHOD(NULL, &columns, "next", NULL, 0);
-			zephir_check_call_status();
 		}
 	}
 	ZEPHIR_INIT_NVAR(&value);
@@ -309,7 +315,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Insert, getStatement)
 	zephir_check_call_status();
 	zephir_read_property(&_1, this_ptr, ZEND_STRL("store"), PH_NOISY_CC | PH_READONLY);
 	zephir_array_fetch_string(&_2, &_1, SL("FROM"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Query/Insert.zep", 113);
-	ZEPHIR_CALL_METHOD(&_3, this_ptr, "buildcolumns", NULL, 222);
+	ZEPHIR_CALL_METHOD(&_3, this_ptr, "buildcolumns", NULL, 404);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_4, this_ptr, "buildreturning", NULL, 0);
 	zephir_check_call_status();
@@ -442,12 +448,13 @@ PHP_METHOD(Phalcon_DataMapper_Query_Insert, set)
  */
 PHP_METHOD(Phalcon_DataMapper_Query_Insert, buildColumns)
 {
-	zend_string *_6;
-	zend_ulong _5;
+	zend_bool _9;
+	zend_string *_5;
+	zend_ulong _4;
 	zval columns;
-	zval column, _0, _1, _2, *_3, _4, _10, _11, _12, _13, _14, _15, _16, _17, _7$$3, _9$$4;
+	zval column, _0, _1, _2, *_3, _8, _11, _12, _13, _14, _15, _16, _17, _18, _6$$3, _10$$4;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_8 = NULL;
+	zephir_fcall_cache_entry *_7 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -455,8 +462,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Insert, buildColumns)
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_4);
-	ZVAL_UNDEF(&_10);
+	ZVAL_UNDEF(&_8);
 	ZVAL_UNDEF(&_11);
 	ZVAL_UNDEF(&_12);
 	ZVAL_UNDEF(&_13);
@@ -464,8 +470,9 @@ PHP_METHOD(Phalcon_DataMapper_Query_Insert, buildColumns)
 	ZVAL_UNDEF(&_15);
 	ZVAL_UNDEF(&_16);
 	ZVAL_UNDEF(&_17);
-	ZVAL_UNDEF(&_7$$3);
-	ZVAL_UNDEF(&_9$$4);
+	ZVAL_UNDEF(&_18);
+	ZVAL_UNDEF(&_6$$3);
+	ZVAL_UNDEF(&_10$$4);
 	ZVAL_UNDEF(&columns);
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
@@ -477,59 +484,64 @@ PHP_METHOD(Phalcon_DataMapper_Query_Insert, buildColumns)
 	ZEPHIR_INIT_VAR(&_2);
 	zephir_is_iterable(&_1, 0, "phalcon/DataMapper/Query/Insert.zep", 180);
 	if (Z_TYPE_P(&_1) == IS_ARRAY) {
-		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&_1), _5, _6, _3)
+		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&_1), _4, _5, _3)
 		{
 			ZEPHIR_INIT_NVAR(&column);
-			if (_6 != NULL) { 
-				ZVAL_STR_COPY(&column, _6);
+			if (_5 != NULL) { 
+				ZVAL_STR_COPY(&column, _5);
 			} else {
-				ZVAL_LONG(&column, _5);
+				ZVAL_LONG(&column, _4);
 			}
 			ZEPHIR_INIT_NVAR(&_2);
 			ZVAL_COPY(&_2, _3);
-			ZEPHIR_CALL_METHOD(&_7$$3, this_ptr, "quoteidentifier", &_8, 0, &column);
+			ZEPHIR_CALL_METHOD(&_6$$3, this_ptr, "quoteidentifier", &_7, 0, &column);
 			zephir_check_call_status();
-			zephir_array_append(&columns, &_7$$3, PH_SEPARATE, "phalcon/DataMapper/Query/Insert.zep", 177);
+			zephir_array_append(&columns, &_6$$3, PH_SEPARATE, "phalcon/DataMapper/Query/Insert.zep", 177);
 		} ZEND_HASH_FOREACH_END();
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, &_1, "rewind", NULL, 0);
 		zephir_check_call_status();
+		_9 = 1;
 		while (1) {
-			ZEPHIR_CALL_METHOD(&_4, &_1, "valid", NULL, 0);
+			if (_9) {
+				_9 = 0;
+			} else {
+				ZEPHIR_CALL_METHOD(NULL, &_1, "next", NULL, 0);
+				zephir_check_call_status();
+			}
+			ZEPHIR_CALL_METHOD(&_8, &_1, "valid", NULL, 0);
 			zephir_check_call_status();
-			if (!zend_is_true(&_4)) {
+			if (!zend_is_true(&_8)) {
 				break;
 			}
 			ZEPHIR_CALL_METHOD(&column, &_1, "key", NULL, 0);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(&_2, &_1, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_9$$4, this_ptr, "quoteidentifier", &_8, 0, &column);
+				ZEPHIR_CALL_METHOD(&_10$$4, this_ptr, "quoteidentifier", &_7, 0, &column);
 				zephir_check_call_status();
-				zephir_array_append(&columns, &_9$$4, PH_SEPARATE, "phalcon/DataMapper/Query/Insert.zep", 177);
-			ZEPHIR_CALL_METHOD(NULL, &_1, "next", NULL, 0);
-			zephir_check_call_status();
+				zephir_array_append(&columns, &_10$$4, PH_SEPARATE, "phalcon/DataMapper/Query/Insert.zep", 177);
 		}
 	}
 	ZEPHIR_INIT_NVAR(&_2);
 	ZEPHIR_INIT_NVAR(&column);
-	ZEPHIR_INIT_VAR(&_10);
-	ZEPHIR_INIT_VAR(&_12);
-	ZVAL_STRING(&_12, ",");
-	ZEPHIR_CALL_METHOD(&_11, this_ptr, "indent", NULL, 0, &columns, &_12);
+	ZEPHIR_INIT_VAR(&_11);
+	ZEPHIR_INIT_VAR(&_13);
+	ZVAL_STRING(&_13, ",");
+	ZEPHIR_CALL_METHOD(&_12, this_ptr, "indent", NULL, 0, &columns, &_13);
 	zephir_check_call_status();
-	zephir_fast_trim(&_10, &_11, NULL , ZEPHIR_TRIM_LEFT);
-	ZEPHIR_INIT_NVAR(&_12);
-	zephir_read_property(&_14, this_ptr, ZEND_STRL("store"), PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch_string(&_15, &_14, SL("COLUMNS"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Query/Insert.zep", 183);
-	ZEPHIR_CALL_FUNCTION(&_16, "array_values", NULL, 22, &_15);
+	zephir_fast_trim(&_11, &_12, NULL , ZEPHIR_TRIM_LEFT);
+	ZEPHIR_INIT_NVAR(&_13);
+	zephir_read_property(&_15, this_ptr, ZEND_STRL("store"), PH_NOISY_CC | PH_READONLY);
+	zephir_array_fetch_string(&_16, &_15, SL("COLUMNS"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Query/Insert.zep", 183);
+	ZEPHIR_CALL_FUNCTION(&_17, "array_values", NULL, 27, &_16);
 	zephir_check_call_status();
-	ZEPHIR_INIT_VAR(&_17);
-	ZVAL_STRING(&_17, ",");
-	ZEPHIR_CALL_METHOD(&_13, this_ptr, "indent", NULL, 0, &_16, &_17);
+	ZEPHIR_INIT_VAR(&_18);
+	ZVAL_STRING(&_18, ",");
+	ZEPHIR_CALL_METHOD(&_14, this_ptr, "indent", NULL, 0, &_17, &_18);
 	zephir_check_call_status();
-	zephir_fast_trim(&_12, &_13, NULL , ZEPHIR_TRIM_LEFT);
-	ZEPHIR_CONCAT_SVSVS(return_value, " (", &_10, ") VALUES (", &_12, ")");
+	zephir_fast_trim(&_13, &_14, NULL , ZEPHIR_TRIM_LEFT);
+	ZEPHIR_CONCAT_SVSVS(return_value, " (", &_11, ") VALUES (", &_13, ")");
 	RETURN_MM();
 }
 

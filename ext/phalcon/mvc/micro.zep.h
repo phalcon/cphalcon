@@ -41,21 +41,23 @@ PHP_METHOD(Phalcon_Mvc_Micro, setModelBinder);
 PHP_METHOD(Phalcon_Mvc_Micro, setResponseHandler);
 PHP_METHOD(Phalcon_Mvc_Micro, setService);
 PHP_METHOD(Phalcon_Mvc_Micro, stop);
+PHP_METHOD(Phalcon_Mvc_Micro, addRoute);
+PHP_METHOD(Phalcon_Mvc_Micro, checkDiContainer);
 zend_object *zephir_init_properties_Phalcon_Mvc_Micro(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_micro___construct, 0, 0, 0)
-	ZEND_ARG_OBJ_INFO(0, container, Phalcon\\Di\\DiInterface, 1)
+	ZEND_ARG_OBJ_TYPE_MASK(0, container, Phalcon\\Di\\DiInterface, MAY_BE_NULL, "null")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_micro_after, 0, 1, Phalcon\\Mvc\\Micro, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_micro_after, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_INFO(0, handler)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_micro_afterbinding, 0, 1, Phalcon\\Mvc\\Micro, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_micro_afterbinding, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_INFO(0, handler)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_micro_before, 0, 1, Phalcon\\Mvc\\Micro, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_micro_before, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_INFO(0, handler)
 ZEND_END_ARG_INFO()
 
@@ -64,11 +66,11 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_micro_delete, 0, 2, P
 	ZEND_ARG_INFO(0, handler)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_micro_error, 0, 1, Phalcon\\Mvc\\Micro, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_micro_error, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_INFO(0, handler)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_micro_finish, 0, 1, Phalcon\\Mvc\\Micro, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_micro_finish, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_INFO(0, handler)
 ZEND_END_ARG_INFO()
 
@@ -129,11 +131,11 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_micro_map, 0, 2, Phal
 	ZEND_ARG_INFO(0, handler)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_micro_mount, 0, 1, Phalcon\\Mvc\\Micro, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_micro_mount, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_OBJ_INFO(0, collection, Phalcon\\Mvc\\Micro\\CollectionInterface, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_micro_notfound, 0, 1, Phalcon\\Mvc\\Micro, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_micro_notfound, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_INFO(0, handler)
 ZEND_END_ARG_INFO()
 
@@ -176,7 +178,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_micro_put, 0, 2, Phal
 	ZEND_ARG_INFO(0, handler)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_micro_setactivehandler, 0, 0, 1)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_micro_setactivehandler, 0, 1, self, 0)
 	ZEND_ARG_INFO(0, activeHandler)
 ZEND_END_ARG_INFO()
 
@@ -185,22 +187,31 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_micro_setdi, 0, 1, I
 	ZEND_ARG_OBJ_INFO(0, container, Phalcon\\Di\\DiInterface, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_micro_setmodelbinder, 0, 1, Phalcon\\Mvc\\Micro, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_micro_setmodelbinder, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_OBJ_INFO(0, modelBinder, Phalcon\\Mvc\\Model\\BinderInterface, 0)
 	ZEND_ARG_INFO(0, cache)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_micro_setresponsehandler, 0, 1, Phalcon\\Mvc\\Micro, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_micro_setresponsehandler, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_INFO(0, handler)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_micro_setservice, 0, 2, Phalcon\\Di\\ServiceInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, serviceName, IS_STRING, 0)
 	ZEND_ARG_INFO(0, definition)
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, shared, _IS_BOOL, 0, "false")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, isShared, _IS_BOOL, 0, "false")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_micro_stop, 0, 0, IS_VOID, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_micro_addroute, 0, 3, Phalcon\\Mvc\\Router\\RouteInterface, 0)
+	ZEND_ARG_TYPE_INFO(0, method, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, routePattern, IS_STRING, 0)
+	ZEND_ARG_INFO(0, handler)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_micro_checkdicontainer, 0, 0, IS_VOID, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_micro_zephir_init_properties_phalcon_mvc_micro, 0, 0, 0)
@@ -245,5 +256,7 @@ PHP_ME(Phalcon_Mvc_Micro, getReturnedValue, arginfo_phalcon_mvc_micro_getreturne
 	PHP_ME(Phalcon_Mvc_Micro, setResponseHandler, arginfo_phalcon_mvc_micro_setresponsehandler, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Micro, setService, arginfo_phalcon_mvc_micro_setservice, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Micro, stop, arginfo_phalcon_mvc_micro_stop, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Micro, addRoute, arginfo_phalcon_mvc_micro_addroute, ZEND_ACC_PRIVATE)
+	PHP_ME(Phalcon_Mvc_Micro, checkDiContainer, arginfo_phalcon_mvc_micro_checkdicontainer, ZEND_ACC_PRIVATE)
 	PHP_FE_END
 };

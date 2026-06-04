@@ -31,7 +31,7 @@ final class GetAddSetExtensionsTest extends AbstractUnitTestCase
     {
         $loader = new Loader();
 
-        $expected = [hash("sha256", 'php') => 'php'];
+        $expected = ['php' => 'php'];
         $actual   = $loader->getExtensions();
         $this->assertSame($expected, $actual);
 
@@ -44,8 +44,8 @@ final class GetAddSetExtensionsTest extends AbstractUnitTestCase
         );
 
         $expected = [
-            hash("sha256", 'php') => 'php',
-            hash("sha256", 'inc') => 'inc',
+            'php' => 'php',
+            'inc' => 'inc',
         ];
         $actual   = $loader->getExtensions();
         $this->assertSame($expected, $actual);
@@ -54,7 +54,7 @@ final class GetAddSetExtensionsTest extends AbstractUnitTestCase
          * Clear
          */
         $loader->setExtensions([]);
-        $expected = [hash("sha256", 'php') => 'php'];
+        $expected = ['php' => 'php'];
         $actual   = $loader->getExtensions();
         $this->assertSame($expected, $actual);
 
@@ -64,9 +64,9 @@ final class GetAddSetExtensionsTest extends AbstractUnitTestCase
             ->addExtension('inc')
         ;
         $expected = [
-            hash("sha256", 'php')  => 'php',
-            hash("sha256", 'inc')  => 'inc',
-            hash("sha256", 'phpt') => 'phpt',
+            'php'  => 'php',
+            'inc'  => 'inc',
+            'phpt' => 'phpt',
         ];
         $actual   = $loader->getExtensions();
         $this->assertSame($expected, $actual);

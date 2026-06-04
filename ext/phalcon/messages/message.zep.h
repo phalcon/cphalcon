@@ -8,8 +8,8 @@ PHP_METHOD(Phalcon_Messages_Message, __toString);
 PHP_METHOD(Phalcon_Messages_Message, getCode);
 PHP_METHOD(Phalcon_Messages_Message, getField);
 PHP_METHOD(Phalcon_Messages_Message, getMessage);
-PHP_METHOD(Phalcon_Messages_Message, getType);
 PHP_METHOD(Phalcon_Messages_Message, getMetaData);
+PHP_METHOD(Phalcon_Messages_Message, getType);
 PHP_METHOD(Phalcon_Messages_Message, jsonSerialize);
 PHP_METHOD(Phalcon_Messages_Message, setCode);
 PHP_METHOD(Phalcon_Messages_Message, setField);
@@ -20,7 +20,7 @@ zend_object *zephir_init_properties_Phalcon_Messages_Message(zend_class_entry *c
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_messages_message___construct, 0, 0, 1)
 	ZEND_ARG_TYPE_INFO(0, message, IS_STRING, 0)
-	ZEND_ARG_INFO(0, field)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, field, IS_STRING, 0, "''")
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, type, IS_STRING, 0, "''")
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, code, IS_LONG, 0, "0")
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, metaData, IS_ARRAY, 0, "[]")
@@ -38,10 +38,10 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_messages_message_getmessage, 0, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_messages_message_gettype, 0, 0, IS_STRING, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_messages_message_getmetadata, 0, 0, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_messages_message_getmetadata, 0, 0, IS_ARRAY, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_messages_message_gettype, 0, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_messages_message_jsonserialize, 0, 0, IS_ARRAY, 0)
@@ -52,7 +52,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_messages_message_setcode,
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_messages_message_setfield, 0, 1, Phalcon\\Messages\\MessageInterface, 0)
-	ZEND_ARG_INFO(0, field)
+	ZEND_ARG_TYPE_INFO(0, field, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_messages_message_setmessage, 0, 1, Phalcon\\Messages\\MessageInterface, 0)
@@ -76,8 +76,8 @@ ZEPHIR_INIT_FUNCS(phalcon_messages_message_method_entry) {
 	PHP_ME(Phalcon_Messages_Message, getCode, arginfo_phalcon_messages_message_getcode, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Messages_Message, getField, arginfo_phalcon_messages_message_getfield, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Messages_Message, getMessage, arginfo_phalcon_messages_message_getmessage, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Messages_Message, getType, arginfo_phalcon_messages_message_gettype, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Messages_Message, getMetaData, arginfo_phalcon_messages_message_getmetadata, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Messages_Message, getType, arginfo_phalcon_messages_message_gettype, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Messages_Message, jsonSerialize, arginfo_phalcon_messages_message_jsonserialize, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Messages_Message, setCode, arginfo_phalcon_messages_message_setcode, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Messages_Message, setField, arginfo_phalcon_messages_message_setfield, ZEND_ACC_PUBLIC)

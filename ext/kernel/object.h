@@ -86,6 +86,7 @@ int zephir_update_property_array_multi(zval *object, const char *property, uint3
 
 /** Unset properties */
 int zephir_unset_property(zval* object, const char* name);
+int zephir_unset_property_zval(zval *object, const zval *name);
 int zephir_unset_property_array(zval *object, char *property, unsigned int property_length, zval *index);
 
 /** Static properties */

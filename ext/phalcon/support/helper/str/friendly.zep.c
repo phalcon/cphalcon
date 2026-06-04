@@ -49,7 +49,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Str_Friendly)
  * @param mixed|null $replace
  *
  * @return string
- * @throws Exception
+ * @throws InvalidReplaceFormat
  */
 PHP_METHOD(Phalcon_Support_Helper_Str_Friendly, __invoke)
 {
@@ -132,7 +132,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Friendly, __invoke)
 	ZEPHIR_INIT_VAR(&_1);
 	ZEPHIR_INIT_VAR(&_2);
 	zephir_array_keys(&_2, &matrix);
-	ZEPHIR_CALL_FUNCTION(&_3, "array_values", NULL, 22, &matrix);
+	ZEPHIR_CALL_FUNCTION(&_3, "array_values", NULL, 27, &matrix);
 	zephir_check_call_status();
 	zephir_fast_str_replace(&_1, &_2, &_3, &text);
 	zephir_get_strval(&text, &_1);
@@ -140,7 +140,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Friendly, __invoke)
 	ZVAL_STRING(&_4, "/[^a-zA-Z0-9\\/_|+ -]/");
 	ZEPHIR_INIT_VAR(&_5);
 	ZVAL_STRING(&_5, "");
-	ZEPHIR_CALL_FUNCTION(&friendly, "preg_replace", NULL, 57, &_4, &_5, &text);
+	ZEPHIR_CALL_FUNCTION(&friendly, "preg_replace", NULL, 76, &_4, &_5, &text);
 	zephir_check_call_status();
 	if (lowercase) {
 		ZEPHIR_INIT_VAR(&_6$$5);
@@ -149,7 +149,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Friendly, __invoke)
 	}
 	ZEPHIR_INIT_NVAR(&_4);
 	ZVAL_STRING(&_4, "/[\\/_|+ -]+/");
-	ZEPHIR_CALL_FUNCTION(&_7, "preg_replace", NULL, 57, &_4, &separator_zv, &friendly);
+	ZEPHIR_CALL_FUNCTION(&_7, "preg_replace", NULL, 76, &_4, &separator_zv, &friendly);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(&friendly, &_7);
 	zephir_fast_trim(return_value, &friendly, &separator_zv, ZEPHIR_TRIM_BOTH);
@@ -160,7 +160,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Friendly, __invoke)
  * @param mixed $replace
  *
  * @return array
- * @throws Exception
+ * @throws InvalidReplaceFormat
  */
 PHP_METHOD(Phalcon_Support_Helper_Str_Friendly, checkReplace)
 {
@@ -182,7 +182,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Friendly, checkReplace)
 		_0 = Z_TYPE_P(replace) != IS_STRING;
 	}
 	if (_0) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_support_helper_exception_ce, "Parameter replace must be an array or a string", "phalcon/Support/Helper/Str/Friendly.zep", 74);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_support_helper_str_exceptions_invalidreplaceformat_ce, "Parameter replace must be an array or a string", "phalcon/Support/Helper/Str/Friendly.zep", 74);
 		return;
 	}
 	if (Z_TYPE_P(replace) == IS_STRING) {
@@ -199,21 +199,21 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Friendly, checkReplace)
  * @param mixed $replace
  *
  * @return array
- * @throws Exception
  */
 PHP_METHOD(Phalcon_Support_Helper_Str_Friendly, getMatrix)
 {
+	zend_bool _3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *replace_param = NULL, item, *_0, _1, _2$$3, _3$$4;
+	zval *replace_param = NULL, item, *_0, _2, _1$$3, _4$$4;
 	zval replace, matrix;
 
 	ZVAL_UNDEF(&replace);
 	ZVAL_UNDEF(&matrix);
 	ZVAL_UNDEF(&item);
-	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_2$$3);
-	ZVAL_UNDEF(&_3$$4);
+	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_1$$3);
+	ZVAL_UNDEF(&_4$$4);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		ZEPHIR_Z_PARAM_ARRAY(replace, replace_param)
 	ZEND_PARSE_PARAMETERS_END();
@@ -301,32 +301,37 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Friendly, getMatrix)
 	add_assoc_stringl_ex(&matrix, SL("&"), SL(" and "));
 	add_assoc_stringl_ex(&matrix, SL("\r\n"), SL(" "));
 	add_assoc_stringl_ex(&matrix, SL("\n"), SL(" "));
-	zephir_is_iterable(&replace, 0, "phalcon/Support/Helper/Str/Friendly.zep", 122);
+	zephir_is_iterable(&replace, 0, "phalcon/Support/Helper/Str/Friendly.zep", 121);
 	if (Z_TYPE_P(&replace) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&replace), _0)
 		{
 			ZEPHIR_INIT_NVAR(&item);
 			ZVAL_COPY(&item, _0);
-			ZEPHIR_INIT_NVAR(&_2$$3);
-			ZVAL_STRING(&_2$$3, " ");
-			zephir_array_update_zval(&matrix, &item, &_2$$3, PH_COPY | PH_SEPARATE);
+			ZEPHIR_INIT_NVAR(&_1$$3);
+			ZVAL_STRING(&_1$$3, " ");
+			zephir_array_update_zval(&matrix, &item, &_1$$3, PH_COPY | PH_SEPARATE);
 		} ZEND_HASH_FOREACH_END();
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, &replace, "rewind", NULL, 0);
 		zephir_check_call_status();
+		_3 = 1;
 		while (1) {
-			ZEPHIR_CALL_METHOD(&_1, &replace, "valid", NULL, 0);
+			if (_3) {
+				_3 = 0;
+			} else {
+				ZEPHIR_CALL_METHOD(NULL, &replace, "next", NULL, 0);
+				zephir_check_call_status();
+			}
+			ZEPHIR_CALL_METHOD(&_2, &replace, "valid", NULL, 0);
 			zephir_check_call_status();
-			if (!zend_is_true(&_1)) {
+			if (!zend_is_true(&_2)) {
 				break;
 			}
 			ZEPHIR_CALL_METHOD(&item, &replace, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_INIT_NVAR(&_3$$4);
-				ZVAL_STRING(&_3$$4, " ");
-				zephir_array_update_zval(&matrix, &item, &_3$$4, PH_COPY | PH_SEPARATE);
-			ZEPHIR_CALL_METHOD(NULL, &replace, "next", NULL, 0);
-			zephir_check_call_status();
+				ZEPHIR_INIT_NVAR(&_4$$4);
+				ZVAL_STRING(&_4$$4, " ");
+				zephir_array_update_zval(&matrix, &item, &_4$$4, PH_COPY | PH_SEPARATE);
 		}
 	}
 	ZEPHIR_INIT_NVAR(&item);

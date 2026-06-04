@@ -170,7 +170,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, format)
 	ZEPHIR_CALL_METHOD(&_5, item, "getmessage", NULL, 0);
 	zephir_check_call_status();
 	zephir_array_update_zval(&_1, &_11, &_5, PH_COPY);
-	ZEPHIR_CALL_FUNCTION(&message, "strtr", NULL, 5, &_0, &_1);
+	ZEPHIR_CALL_FUNCTION(&message, "strtr", NULL, 6, &_0, &_1);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getinterpolatedmessage", NULL, 0, item, &message);
 	zephir_check_call_status();
@@ -193,7 +193,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, getFormat)
  *
  * @param string $format
  *
- * @return Line
+ * @return static
  */
 PHP_METHOD(Phalcon_Logger_Formatter_Line, setFormat)
 {

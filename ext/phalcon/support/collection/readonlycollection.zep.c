@@ -169,7 +169,7 @@ PHP_METHOD(Phalcon_Support_Collection_ReadOnlyCollection, __unserialize)
 		ZEPHIR_INIT_VAR(&_0);
 		ZVAL_OBJ(&_0, EG(exception));
 		Z_ADDREF_P(&_0);
-		if (zephir_is_instance_of(&_0, SL("Phalcon\\Support\\Collection\\Throwable"))) {
+		if (zephir_is_instance_of(&_0, SL("Throwable"))) {
 			zend_clear_exception();
 			ZEPHIR_CPY_WRT(&ex, &_0);
 			if (1) {
@@ -177,37 +177,55 @@ PHP_METHOD(Phalcon_Support_Collection_ReadOnlyCollection, __unserialize)
 			} else {
 				zephir_update_property_zval(this_ptr, ZEND_STRL("constructed"), &__$false);
 			}
-			zephir_throw_exception_debug(&ex, "phalcon/Support/Collection/ReadOnlyCollection.zep", 63);
+			zephir_throw_exception_debug(&ex, "phalcon/Support/Collection/ReadOnlyCollection.zep", 64);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
+	}
+	if (1) {
+		zephir_update_property_zval(this_ptr, ZEND_STRL("constructed"), &__$true);
+	} else {
+		zephir_update_property_zval(this_ptr, ZEND_STRL("constructed"), &__$false);
 	}
 	ZEPHIR_MM_RESTORE();
 }
 
 /**
- * @throws Exception
+ * @throws ReadOnlyViolation
  */
 PHP_METHOD(Phalcon_Support_Collection_ReadOnlyCollection, clear)
 {
+	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_support_collection_exception_ce, "The object is read only", "phalcon/Support/Collection/ReadOnlyCollection.zep", 72);
+	ZVAL_UNDEF(&_0);
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+
+	ZEPHIR_INIT_VAR(&_0);
+	object_init_ex(&_0, phalcon_support_collection_exceptions_readonlyviolation_ce);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 0);
+	zephir_check_call_status();
+	zephir_throw_exception_debug(&_0, "phalcon/Support/Collection/ReadOnlyCollection.zep", 75);
+	ZEPHIR_MM_RESTORE();
 	return;
 }
 
 /**
- * @throws Exception
+ * @throws ReadOnlyViolation
  */
 PHP_METHOD(Phalcon_Support_Collection_ReadOnlyCollection, init)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *data_param = NULL, _0;
+	zval *data_param = NULL, _0, _1$$3;
 	zval data;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&data);
 	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1$$3);
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
 		ZEPHIR_Z_PARAM_ARRAY(data, data_param)
@@ -223,7 +241,12 @@ PHP_METHOD(Phalcon_Support_Collection_ReadOnlyCollection, init)
 	}
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("constructed"), PH_NOISY_CC | PH_READONLY);
 	if (zephir_is_true(&_0)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_support_collection_exception_ce, "The object is read only", "phalcon/Support/Collection/ReadOnlyCollection.zep", 81);
+		ZEPHIR_INIT_VAR(&_1$$3);
+		object_init_ex(&_1$$3, phalcon_support_collection_exceptions_readonlyviolation_ce);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 0);
+		zephir_check_call_status();
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Support/Collection/ReadOnlyCollection.zep", 84);
+		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_support_collection_readonlycollection_ce, getThis(), "init", NULL, 0, &data);
@@ -236,19 +259,30 @@ PHP_METHOD(Phalcon_Support_Collection_ReadOnlyCollection, init)
  *
  * @param string $element Name of the element
  *
- * @throws Exception
+ * @throws ReadOnlyViolation
  */
 PHP_METHOD(Phalcon_Support_Collection_ReadOnlyCollection, remove)
 {
-	zval element_zv;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval element_zv, _0;
 	zend_string *element = NULL;
 
 	ZVAL_UNDEF(&element_zv);
+	ZVAL_UNDEF(&_0);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(element)
 	ZEND_PARSE_PARAMETERS_END();
-	ZVAL_STR(&element_zv, element);
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_support_collection_exception_ce, "The object is read only", "phalcon/Support/Collection/ReadOnlyCollection.zep", 96);
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&element_zv);
+	ZVAL_STR_COPY(&element_zv, element);
+	ZEPHIR_INIT_VAR(&_0);
+	object_init_ex(&_0, phalcon_support_collection_exceptions_readonlyviolation_ce);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 0);
+	zephir_check_call_status();
+	zephir_throw_exception_debug(&_0, "phalcon/Support/Collection/ReadOnlyCollection.zep", 99);
+	ZEPHIR_MM_RESTORE();
 	return;
 }
 
@@ -257,15 +291,17 @@ PHP_METHOD(Phalcon_Support_Collection_ReadOnlyCollection, remove)
  *
  * @param array<int|string, mixed> $data
  *
- * @throws Exception
+ * @throws ReadOnlyViolation
  */
 PHP_METHOD(Phalcon_Support_Collection_ReadOnlyCollection, replace)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval *data_param = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *data_param = NULL, _0;
 	zval data;
 
 	ZVAL_UNDEF(&data);
+	ZVAL_UNDEF(&_0);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		ZEPHIR_Z_PARAM_ARRAY(data, data_param)
 	ZEND_PARSE_PARAMETERS_END();
@@ -273,7 +309,12 @@ PHP_METHOD(Phalcon_Support_Collection_ReadOnlyCollection, replace)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &data_param);
 	zephir_get_arrval(&data, data_param);
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_support_collection_exception_ce, "The object is read only", "phalcon/Support/Collection/ReadOnlyCollection.zep", 108);
+	ZEPHIR_INIT_VAR(&_0);
+	object_init_ex(&_0, phalcon_support_collection_exceptions_readonlyviolation_ce);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 0);
+	zephir_check_call_status();
+	zephir_throw_exception_debug(&_0, "phalcon/Support/Collection/ReadOnlyCollection.zep", 111);
+	ZEPHIR_MM_RESTORE();
 	return;
 }
 
@@ -283,22 +324,33 @@ PHP_METHOD(Phalcon_Support_Collection_ReadOnlyCollection, replace)
  * @param string $element Name of the element
  * @param mixed  $value   Value to store for the element
  *
- * @throws Exception
+ * @throws ReadOnlyViolation
  */
 PHP_METHOD(Phalcon_Support_Collection_ReadOnlyCollection, set)
 {
-	zval element_zv, *value, value_sub;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval element_zv, *value, value_sub, _0;
 	zend_string *element = NULL;
 
 	ZVAL_UNDEF(&element_zv);
 	ZVAL_UNDEF(&value_sub);
+	ZVAL_UNDEF(&_0);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_STR(element)
 		Z_PARAM_ZVAL(value)
 	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	value = ZEND_CALL_ARG(execute_data, 2);
-	ZVAL_STR(&element_zv, element);
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_support_collection_exception_ce, "The object is read only", "phalcon/Support/Collection/ReadOnlyCollection.zep", 121);
+	zephir_memory_observe(&element_zv);
+	ZVAL_STR_COPY(&element_zv, element);
+	ZEPHIR_INIT_VAR(&_0);
+	object_init_ex(&_0, phalcon_support_collection_exceptions_readonlyviolation_ce);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 0);
+	zephir_check_call_status();
+	zephir_throw_exception_debug(&_0, "phalcon/Support/Collection/ReadOnlyCollection.zep", 124);
+	ZEPHIR_MM_RESTORE();
 	return;
 }
 

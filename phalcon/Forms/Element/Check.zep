@@ -53,7 +53,7 @@ class Check extends AbstractElement
      * this opt-in, an unchecked checkbox leaves the entity property
      * untouched. See cphalcon issue #16982.
      */
-    public function setUncheckedValue(var value) -> <Check>
+    public function setUncheckedValue(var value) -> <static>
     {
         let this->uncheckedValue = value;
         let this->uncheckedValueSet = true;

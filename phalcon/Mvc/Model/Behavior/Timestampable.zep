@@ -11,9 +11,10 @@
 namespace Phalcon\Mvc\Model\Behavior;
 
 use Closure;
-use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\Model\Behavior;
+use Phalcon\Mvc\Model\Behavior\Exceptions\MissingRequiredOption;
 use Phalcon\Mvc\Model\Exception;
+use Phalcon\Mvc\ModelInterface;
 
 /**
  * Phalcon\Mvc\Model\Behavior\Timestampable
@@ -47,7 +48,7 @@ class Timestampable extends Behavior
          * The field name is required in this behavior
          */
         if unlikely !fetch field, options["field"] {
-            throw new Exception("The option 'field' is required");
+            throw new MissingRequiredOption("field");
         }
 
         let timestamp = this->getTimestamp(options);

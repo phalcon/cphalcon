@@ -11,8 +11,8 @@ PHP_METHOD(Phalcon_Html_Helper_Doctype, getType);
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_html_helper_doctype___construct, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_html_helper_doctype___invoke, 0, 0, Phalcon\\Html\\Helper\\Doctype, 0)
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, type, IS_LONG, 0, "null")
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_html_helper_doctype___invoke, 0, 0, MAY_BE_STATIC)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, type, IS_LONG, 0, "5")
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, delimiter, IS_STRING, 0, "'\\n'")
 ZEND_END_ARG_INFO()
 

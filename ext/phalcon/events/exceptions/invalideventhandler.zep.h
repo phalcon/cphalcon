@@ -1,0 +1,14 @@
+
+extern zend_class_entry *phalcon_events_exceptions_invalideventhandler_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Events_Exceptions_InvalidEventHandler);
+
+PHP_METHOD(Phalcon_Events_Exceptions_InvalidEventHandler, __construct);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_exceptions_invalideventhandler___construct, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_events_exceptions_invalideventhandler_method_entry) {
+PHP_ME(Phalcon_Events_Exceptions_InvalidEventHandler, __construct, arginfo_phalcon_events_exceptions_invalideventhandler___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_FE_END
+};

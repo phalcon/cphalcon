@@ -10,7 +10,7 @@
 
 namespace Phalcon\Support\Helper\Json;
 
-use InvalidArgumentException;
+use Phalcon\Support\Helper\Json\Exceptions\JsonEncodeError;
 
 /**
  * Encodes a string using `json_encode` and throws an exception if the
@@ -21,8 +21,9 @@ use InvalidArgumentException;
  * JSON_HEX_TAG, JSON_HEX_APOS, JSON_HEX_AMP, JSON_HEX_QUOT,
  * JSON_UNESCAPED_SLASHES
  *
- * Any error will throw InvalidArgumentException, regardless of whether
- * JSON_THROW_ON_ERROR is specified in the options.
+ * If JSON_THROW_ON_ERROR is defined in the options a JsonException will be
+ * thrown in the case of an error. Otherwise, any error will throw
+ * JsonEncodeError
  *
  * @see  https://www.ietf.org/rfc/rfc4627.txt
  */
@@ -35,7 +36,7 @@ class Encode
      *
      * @return string
      *
-     * @throws InvalidArgumentException if the JSON cannot be encoded.
+     * @throws JsonEncodeError if the JSON cannot be encoded.
      * @link https://www.php.net/manual/en/function.json-encode.php
      */
     public function __invoke(
@@ -54,12 +55,16 @@ class Encode
                 error   = json_last_error(),
                 message = json_last_error_msg();
         } catch \JsonException, ex {
-            throw new InvalidArgumentException("json_encode error: " . ex->getMessage(), ex->getCode(), ex);
+            throw new JsonEncodeError(ex->getMessage(), ex->getCode(), ex);
         }
-
+        /**
+         * The above will throw an exception when JSON_THROW_ON_ERROR is
+         * specified. If not, the code below will handle the exception when
+         * an error occurs
+         */
         if (JSON_ERROR_NONE !== error) {
             json_encode(null);
-            throw new InvalidArgumentException("json_encode error: " . message, error);
+            throw new JsonEncodeError(message, error);
         }
 
         return (string) encoded;

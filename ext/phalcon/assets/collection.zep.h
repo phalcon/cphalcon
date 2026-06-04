@@ -44,11 +44,11 @@ PHP_METHOD(Phalcon_Assets_Collection, processAddInline);
 PHP_METHOD(Phalcon_Assets_Collection, processAttributes);
 zend_object *zephir_init_properties_Phalcon_Assets_Collection(zend_class_entry *class_type);
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_assets_collection_add, 0, 1, Phalcon\\Assets\\Collection, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_assets_collection_add, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_OBJ_INFO(0, asset, Phalcon\\Assets\\AssetInterface, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_assets_collection_addcss, 0, 1, Phalcon\\Assets\\Collection, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_assets_collection_addcss, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, path, IS_STRING, 0)
 	ZEND_ARG_INFO(0, isLocal)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, filter, _IS_BOOL, 0, "true")
@@ -57,27 +57,27 @@ ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, attributes, IS_ARRAY, 0, "[]")
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, autoVersion, _IS_BOOL, 0, "false")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_assets_collection_addfilter, 0, 1, Phalcon\\Assets\\Collection, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_assets_collection_addfilter, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_OBJ_INFO(0, filter, Phalcon\\Assets\\FilterInterface, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_assets_collection_addinline, 0, 1, Phalcon\\Assets\\Collection, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_assets_collection_addinline, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_OBJ_INFO(0, code, Phalcon\\Assets\\Inline, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_assets_collection_addinlinecss, 0, 1, Phalcon\\Assets\\Collection, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_assets_collection_addinlinecss, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, content, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, filter, _IS_BOOL, 0, "true")
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, attributes, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_assets_collection_addinlinejs, 0, 1, Phalcon\\Assets\\Collection, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_assets_collection_addinlinejs, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, content, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, filter, _IS_BOOL, 0, "true")
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, attributes, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_assets_collection_addjs, 0, 1, Phalcon\\Assets\\Collection, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_assets_collection_addjs, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, path, IS_STRING, 0)
 	ZEND_ARG_INFO(0, isLocal)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, filter, _IS_BOOL, 0, "true")
@@ -139,47 +139,47 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_collection_islocal, 0, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_assets_collection_join, 0, 1, Phalcon\\Assets\\Collection, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_assets_collection_join, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, flag, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_assets_collection_setattributes, 0, 1, Phalcon\\Assets\\Collection, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_assets_collection_setattributes, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_ARRAY_INFO(0, attributes, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_assets_collection_setautoversion, 0, 1, Phalcon\\Assets\\Collection, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_assets_collection_setautoversion, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, flag, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_assets_collection_setfilters, 0, 1, Phalcon\\Assets\\Collection, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_assets_collection_setfilters, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_ARRAY_INFO(0, filters, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_assets_collection_setislocal, 0, 1, Phalcon\\Assets\\Collection, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_assets_collection_setislocal, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, flag, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_assets_collection_setprefix, 0, 1, Phalcon\\Assets\\Collection, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_assets_collection_setprefix, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, prefix, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_assets_collection_settargetislocal, 0, 1, Phalcon\\Assets\\Collection, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_assets_collection_settargetislocal, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, flag, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_assets_collection_settargetpath, 0, 1, Phalcon\\Assets\\Collection, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_assets_collection_settargetpath, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, targetPath, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_assets_collection_settargeturi, 0, 1, Phalcon\\Assets\\Collection, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_assets_collection_settargeturi, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, targetUri, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_assets_collection_setsourcepath, 0, 1, Phalcon\\Assets\\Collection, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_assets_collection_setsourcepath, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, sourcePath, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_assets_collection_setversion, 0, 1, Phalcon\\Assets\\Collection, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_assets_collection_setversion, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, version, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
@@ -187,7 +187,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_collection_addass
 	ZEND_ARG_OBJ_INFO(0, asset, Phalcon\\Assets\\AssetInterface, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_assets_collection_processadd, 0, 2, Phalcon\\Assets\\Collection, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_assets_collection_processadd, 0, 2, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, className, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, path, IS_STRING, 0)
 	ZEND_ARG_INFO(0, isLocal)
@@ -197,7 +197,7 @@ ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, attributes, IS_ARRAY, 0, "[]")
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, autoVersion, _IS_BOOL, 0, "false")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_assets_collection_processaddinline, 0, 2, Phalcon\\Assets\\Collection, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_assets_collection_processaddinline, 0, 2, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, className, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, content, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, filter, _IS_BOOL, 0, "true")

@@ -11,15 +11,22 @@
 namespace Phalcon\Db\Adapter;
 
 use Phalcon\Db\CheckInterface;
-use Phalcon\Db\DialectInterface;
 use Phalcon\Db\ColumnInterface;
+use Phalcon\Db\DialectInterface;
 use Phalcon\Db\Enum;
 use Phalcon\Db\Exception;
+use Phalcon\Db\Exceptions\CannotInsertWithoutData;
+use Phalcon\Db\Exceptions\IncompleteBindTypes;
+use Phalcon\Db\Exceptions\InvalidWhereConditions;
+use Phalcon\Db\Exceptions\NestedTransactionChangeBlocked;
+use Phalcon\Db\Exceptions\SavepointsNotSupported;
+use Phalcon\Db\Exceptions\TableMustHaveColumn;
+use Phalcon\Db\Exceptions\UpdateFieldCountMismatch;
 use Phalcon\Db\Index;
 use Phalcon\Db\IndexInterface;
+use Phalcon\Db\RawValue;
 use Phalcon\Db\Reference;
 use Phalcon\Db\ReferenceInterface;
-use Phalcon\Db\RawValue;
 use Phalcon\Events\EventsAwareInterface;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Support\Settings;
@@ -289,9 +296,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
         let dialect = this->dialect;
 
         if unlikely !dialect->supportsSavePoints() {
-            throw new Exception(
-                "Savepoints are not supported by this database adapter."
-            );
+            throw new SavepointsNotSupported();
         }
 
         return this->{"execute"}(
@@ -307,11 +312,11 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
         var columns;
 
         if unlikely !fetch columns, definition["columns"] {
-            throw new Exception("The table must contain at least one column");
+            throw new TableMustHaveColumn();
         }
 
         if unlikely !count(columns) {
-            throw new Exception("The table must contain at least one column");
+            throw new TableMustHaveColumn();
         }
 
         return this->{"execute"}(
@@ -329,7 +334,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     public function createView(string! viewName, array! definition, string schemaName = null) -> bool
     {
         if unlikely !isset definition["sql"] {
-            throw new Exception("The table must contain at least one column");
+            throw new TableMustHaveColumn();
         }
 
         return this->{"execute"}(
@@ -900,9 +905,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
          * A valid array with more than one element is required
          */
         if unlikely !count(values) {
-            throw new Exception(
-                "Unable to insert into " . table . " without data"
-            );
+            throw new CannotInsertWithoutData(table);
         }
 
         let placeholders  = [],
@@ -929,9 +932,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
 
                     if typeof dataTypes == "array" {
                         if unlikely !fetch bindType, dataTypes[position] {
-                            throw new Exception(
-                                "Incomplete number of bind types"
-                            );
+                            throw new IncompleteBindTypes();
                         }
 
                         let bindDataTypes[] = bindType;
@@ -1024,7 +1025,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      * echo $connection->limit("SELECT * FROM robots", 5);
      * ```
      */
-    public function limit(string! sqlQuery, int number) -> string
+    public function limit(string! sqlQuery, var number) -> string
     {
         return this->dialect->limit(sqlQuery, number);
     }
@@ -1108,9 +1109,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
         let dialect = this->dialect;
 
         if unlikely !dialect->supportsSavePoints() {
-            throw new Exception(
-                "Savepoints are not supported by this database adapter"
-            );
+            throw new SavepointsNotSupported();
         }
 
         if !dialect->supportsReleaseSavePoints() {
@@ -1132,9 +1131,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
         let dialect = this->dialect;
 
         if unlikely !dialect->supportsSavePoints() {
-            throw new Exception(
-                "Savepoints are not supported by this database adapter"
-            );
+            throw new SavepointsNotSupported();
         }
 
         return this->{"execute"}(
@@ -1164,15 +1161,11 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     public function setNestedTransactionsWithSavepoints(bool nestedTransactionsWithSavepoints) -> <AdapterInterface>
     {
         if unlikely this->transactionLevel > 0 {
-            throw new Exception(
-                "Nested transaction with savepoints behavior cannot be changed while a transaction is open"
-            );
+            throw new NestedTransactionChangeBlocked();
         }
 
         if unlikely !this->dialect->supportsSavePoints() {
-            throw new Exception(
-                "Savepoints are not supported by this database adapter"
-            );
+            throw new SavepointsNotSupported();
         }
 
         let this->transactionsWithSavepoints = nestedTransactionsWithSavepoints;
@@ -1375,9 +1368,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
          */
         for position, value in values {
             if unlikely !fetch field, fields[position] {
-                throw new Exception(
-                    "The number of values in the update is not the same as fields"
-                );
+                throw new UpdateFieldCountMismatch();
             }
 
             let escapedField = this->escapeIdentifier(field);
@@ -1396,9 +1387,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
 
                     if typeof dataTypes == "array" {
                         if unlikely !fetch bindType, dataTypes[position] {
-                            throw new Exception(
-                                "Incomplete number of bind types"
-                            );
+                            throw new IncompleteBindTypes();
                         }
 
                         let bindDataTypes[] = bindType;
@@ -1435,7 +1424,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
                  * Array conditions may have bound params and bound types
                  */
                 if unlikely typeof whereCondition != "array" {
-                    throw new Exception("Invalid WHERE clause conditions");
+                    throw new InvalidWhereConditions();
                 }
 
                 /**

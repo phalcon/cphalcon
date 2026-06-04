@@ -1,0 +1,14 @@
+
+extern zend_class_entry *phalcon_mvc_model_exceptions_cursorisimmutable_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Exceptions_CursorIsImmutable);
+
+PHP_METHOD(Phalcon_Mvc_Model_Exceptions_CursorIsImmutable, __construct);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_exceptions_cursorisimmutable___construct, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_mvc_model_exceptions_cursorisimmutable_method_entry) {
+PHP_ME(Phalcon_Mvc_Model_Exceptions_CursorIsImmutable, __construct, arginfo_phalcon_mvc_model_exceptions_cursorisimmutable___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_FE_END
+};

@@ -15,13 +15,14 @@ use Phalcon\Di\DiInterface;
 use Phalcon\Di\Injectable;
 use Phalcon\Events\EventsAwareInterface;
 use Phalcon\Events\ManagerInterface;
-use Phalcon\Mvc\ViewBaseInterface;
 use Phalcon\Mvc\View\Engine\EngineInterface;
 use Phalcon\Mvc\View\Engine\Php as PhpEngine;
+use Phalcon\Mvc\View\Exceptions\InvalidEngineRegistration;
+use Phalcon\Mvc\View\Exceptions\SimpleViewNotFound;
+use Phalcon\Mvc\View\Exceptions\SimpleViewServicesUnavailable;
+use Phalcon\Mvc\ViewBaseInterface;
 
 /**
- * Phalcon\Mvc\View\Simple
- *
  * This component allows to render views without hierarchical levels
  *
  *```php
@@ -79,14 +80,14 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
     protected registeredEngines = [];
 
     /**
-     * @var string
-     */
-    protected viewsDir;
-
-    /**
      * @var array
      */
     protected viewParams = [];
+
+    /**
+     * @var string
+     */
+    protected viewsDir;
 
     /**
      * Phalcon\Mvc\View\Simple constructor
@@ -338,9 +339,9 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
      * $this->view->setContent("<h1>hello</h1>");
      *```
      *
-     * @return Simple
+     * @return static
      */
-    public function setContent(string! content) -> <Simple>
+    public function setContent(string! content) -> <static>
     {
         let this->content = content;
 
@@ -364,9 +365,9 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
      * $this->view->setParamToView("products", $products);
      *```
      *
-     * @return Simple
+     * @return static
      */
-    public function setParamToView(string! key, var value) -> <Simple>
+    public function setParamToView(string! key, var value) -> <static>
     {
         return this->setVar(key, value);
     }
@@ -378,9 +379,9 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
      * $this->view->setVar("products", $products);
      *```
      *
-     * @return Simple
+     * @return static
      */
-    public function setVar(string! key, var value) -> <Simple>
+    public function setVar(string! key, var value) -> <static>
     {
         let this->viewParams[key] = value;
 
@@ -398,9 +399,9 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
      * );
      *```
      *
-     * @return Simple
+     * @return static
      */
-    public function setVars(array! params, bool merge = true) -> <Simple>
+    public function setVars(array! params, bool merge = true) -> <static>
     {
         if merge {
             let params = array_merge(this->viewParams, params);
@@ -452,9 +453,7 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
                 let engines[".phtml"] = new PhpEngine(this, di);
             } else {
                 if typeof di != "object" {
-                    throw new Exception(
-                        "A dependency injection container is required to access the application services"
-                    );
+                    throw new SimpleViewServicesUnavailable();
                 }
 
                 for extension, engineService in registeredEngines {
@@ -480,9 +479,7 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
                             ]
                         );
                     } else {
-                        throw new Exception(
-                            "Invalid template engine registration for extension: " . extension
-                        );
+                        throw new InvalidEngineRegistration(extension);
                     }
 
                     let engines[extension] = engineObject;
@@ -579,9 +576,7 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
          * Always throw an exception if the view does not exist
          */
         if notExists {
-            throw new Exception(
-                "View '" . viewsDirPath . "' was not found in the views directory"
-            );
+            throw new SimpleViewNotFound(viewsDirPath);
         }
 
         /**

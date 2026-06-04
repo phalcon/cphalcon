@@ -33,6 +33,22 @@ abstract class Behavior implements BehaviorInterface
     }
 
     /**
+     * Acts as fallbacks when a missing method is called on the model
+     */
+    public function missingMethod(<ModelInterface> model, string method, array arguments = [])
+    {
+        return null;
+    }
+
+    /**
+     * This method receives the notifications from the EventsManager
+     */
+    public function notify(string type, <ModelInterface> model)
+    {
+        return null;
+    }
+
+    /**
      * Returns the behavior options related to an event
      *
      * @return array
@@ -55,26 +71,10 @@ abstract class Behavior implements BehaviorInterface
     }
 
     /**
-     * Acts as fallbacks when a missing method is called on the model
-     */
-    public function missingMethod(<ModelInterface> model, string method, array arguments = [])
-    {
-        return null;
-    }
-
-    /**
      * Checks whether the behavior must take action on certain event
      */
     protected function mustTakeAction(string! eventName) -> bool
     {
         return isset this->options[eventName];
-    }
-
-    /**
-     * This method receives the notifications from the EventsManager
-     */
-    public function notify(string type, <ModelInterface> model)
-    {
-        return null;
     }
 }

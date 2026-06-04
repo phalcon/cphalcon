@@ -10,6 +10,8 @@
 
 namespace Phalcon\Acl;
 
+use Phalcon\Acl\Exceptions\ForbiddenWildcard;
+
 /**
  * This class defines component entity and its description
  */
@@ -35,7 +37,7 @@ class Component implements ComponentInterface
     public function __construct(string! name, string description = null)
     {
         if unlikely name === "*" {
-            throw new Exception("Component name cannot be '*'");
+            throw new ForbiddenWildcard("component");
         }
 
         let this->name = name,

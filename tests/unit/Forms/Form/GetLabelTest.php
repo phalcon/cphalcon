@@ -13,11 +13,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Forms\Form;
 
+use Phalcon\Forms\Element\Text;
+use Phalcon\Forms\Form;
 use Phalcon\Tests\AbstractUnitTestCase;
 
-/**
- * Class GetLabelTest extends AbstractUnitTestCase
- */
 final class GetLabelTest extends AbstractUnitTestCase
 {
     /**
@@ -26,6 +25,19 @@ final class GetLabelTest extends AbstractUnitTestCase
      */
     public function testFormsFormGetLabel(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $form = new Form();
+
+        $element = new Text('email');
+        $element->setLabel('Email address');
+
+        $form->add($element);
+
+        $this->assertSame('Email address', $form->getLabel('email'));
+
+        // Element without a label falls back to its name
+        $unlabeled = new Text('username');
+        $form->add($unlabeled);
+
+        $this->assertSame('username', $form->getLabel('username'));
     }
 }

@@ -16,6 +16,8 @@ namespace Phalcon\Html\Helper\Input\Select;
 
 use InvalidArgumentException;
 use Phalcon\Contracts\Html\Helper\Input\SelectData;
+use Phalcon\Html\Exceptions\InvalidResultsetValue;
+use Phalcon\Html\Exceptions\UsingRequiresTwoValues;
 use Phalcon\Mvc\Model\ResultsetInterface;
 
 class ResultsetData implements SelectData
@@ -56,9 +58,7 @@ class ResultsetData implements SelectData
         array attributesMap = []
     ) {
         if unlikely count(using) !== 2 {
-            throw new InvalidArgumentException(
-                "The 'using' parameter requires exactly two values"
-            );
+            throw new UsingRequiresTwoValues();
         }
 
         let this->resultset     = resultset;
@@ -67,6 +67,8 @@ class ResultsetData implements SelectData
     }
 
     /**
+     * Returns per-option attribute maps, keyed by option value.
+     *
      * @return array
      */
     public function getAttributes() -> array
@@ -110,7 +112,8 @@ class ResultsetData implements SelectData
     /**
      * Walks the resultset once, building both the option map and the
      * per-option resolved attribute map. Closures in `attributesMap`
-     * receive the current row; string values are passed through.
+     * receive the current row; static values are passed through.
+     * `false` or `null` values skip the attribute entirely.
      */
     protected function resolve() -> void
     {
@@ -124,9 +127,7 @@ class ResultsetData implements SelectData
 
         for option in this->resultset {
             if typeof option != "object" && typeof option != "array" {
-                throw new InvalidArgumentException(
-                    "Resultset returned an invalid value"
-                );
+                throw new InvalidResultsetValue();
             }
 
             let optionValue = this->readField(option, usingZero),

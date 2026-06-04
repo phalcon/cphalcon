@@ -1,0 +1,83 @@
+
+extern zend_class_entry *phalcon_container_resolver_lazy_arrayvalues_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Container_Resolver_Lazy_ArrayValues);
+
+PHP_METHOD(Phalcon_Container_Resolver_Lazy_ArrayValues, __construct);
+PHP_METHOD(Phalcon_Container_Resolver_Lazy_ArrayValues, count);
+PHP_METHOD(Phalcon_Container_Resolver_Lazy_ArrayValues, getIterator);
+PHP_METHOD(Phalcon_Container_Resolver_Lazy_ArrayValues, merge);
+PHP_METHOD(Phalcon_Container_Resolver_Lazy_ArrayValues, offsetExists);
+PHP_METHOD(Phalcon_Container_Resolver_Lazy_ArrayValues, offsetGet);
+PHP_METHOD(Phalcon_Container_Resolver_Lazy_ArrayValues, offsetSet);
+PHP_METHOD(Phalcon_Container_Resolver_Lazy_ArrayValues, offsetUnset);
+PHP_METHOD(Phalcon_Container_Resolver_Lazy_ArrayValues, resolve);
+PHP_METHOD(Phalcon_Container_Resolver_Lazy_ArrayValues, resolveValue);
+PHP_METHOD(Phalcon_Container_Resolver_Lazy_ArrayValues, resolveValues);
+zend_object *zephir_init_properties_Phalcon_Container_Resolver_Lazy_ArrayValues(zend_class_entry *class_type);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_container_resolver_lazy_arrayvalues___construct, 0, 0, 0)
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, values, IS_ARRAY, 0, "[]")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_container_resolver_lazy_arrayvalues_count, 0, 0, IS_LONG, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_container_resolver_lazy_arrayvalues_getiterator, 0, 0, ArrayIterator, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_container_resolver_lazy_arrayvalues_merge, 0, 1, IS_VOID, 0)
+
+	ZEND_ARG_INFO(0, values)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_container_resolver_lazy_arrayvalues_offsetexists, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_INFO(0, offset)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_container_resolver_lazy_arrayvalues_offsetget, 0, 1, IS_MIXED, 0)
+	ZEND_ARG_INFO(0, offset)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_container_resolver_lazy_arrayvalues_offsetset, 0, 2, IS_VOID, 0)
+
+	ZEND_ARG_INFO(0, offset)
+	ZEND_ARG_INFO(0, value)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_container_resolver_lazy_arrayvalues_offsetunset, 0, 1, IS_VOID, 0)
+
+	ZEND_ARG_INFO(0, offset)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_container_resolver_lazy_arrayvalues_resolve, 0, 1, IS_ARRAY, 0)
+	ZEND_ARG_INFO(0, ioc)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_container_resolver_lazy_arrayvalues_resolvevalue, 0, 2, IS_MIXED, 0)
+	ZEND_ARG_INFO(0, ioc)
+	ZEND_ARG_INFO(0, value)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_container_resolver_lazy_arrayvalues_resolvevalues, 0, 2, IS_ARRAY, 0)
+	ZEND_ARG_INFO(0, ioc)
+	ZEND_ARG_ARRAY_INFO(0, values, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_container_resolver_lazy_arrayvalues_zephir_init_properties_phalcon_container_resolver_lazy_arrayvalues, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_container_resolver_lazy_arrayvalues_method_entry) {
+	PHP_ME(Phalcon_Container_Resolver_Lazy_ArrayValues, __construct, arginfo_phalcon_container_resolver_lazy_arrayvalues___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Container_Resolver_Lazy_ArrayValues, count, arginfo_phalcon_container_resolver_lazy_arrayvalues_count, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Container_Resolver_Lazy_ArrayValues, getIterator, arginfo_phalcon_container_resolver_lazy_arrayvalues_getiterator, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Container_Resolver_Lazy_ArrayValues, merge, arginfo_phalcon_container_resolver_lazy_arrayvalues_merge, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Container_Resolver_Lazy_ArrayValues, offsetExists, arginfo_phalcon_container_resolver_lazy_arrayvalues_offsetexists, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Container_Resolver_Lazy_ArrayValues, offsetGet, arginfo_phalcon_container_resolver_lazy_arrayvalues_offsetget, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Container_Resolver_Lazy_ArrayValues, offsetSet, arginfo_phalcon_container_resolver_lazy_arrayvalues_offsetset, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Container_Resolver_Lazy_ArrayValues, offsetUnset, arginfo_phalcon_container_resolver_lazy_arrayvalues_offsetunset, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Container_Resolver_Lazy_ArrayValues, resolve, arginfo_phalcon_container_resolver_lazy_arrayvalues_resolve, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Container_Resolver_Lazy_ArrayValues, resolveValue, arginfo_phalcon_container_resolver_lazy_arrayvalues_resolvevalue, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Container_Resolver_Lazy_ArrayValues, resolveValues, arginfo_phalcon_container_resolver_lazy_arrayvalues_resolvevalues, ZEND_ACC_PROTECTED)
+	PHP_FE_END
+};

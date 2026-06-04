@@ -246,12 +246,12 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, skipOperation);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, sum);
 /**
- * Check whether validation process has generated any messages
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, validationHasFailed);
-/**
  * Updates a model instance. If the instance does not exist in the
  * persistence it will throw an exception. Returning true on success or
  * false otherwise.
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, update);
+/**
+ * Check whether validation process has generated any messages
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, validationHasFailed);

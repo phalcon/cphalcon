@@ -19,6 +19,7 @@ use Phalcon\Tests\Support\Migrations\CustomersMigration;
 use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Models\CustomersKeepSnapshotsRelationFail;
 use Phalcon\Tests\Support\Models\Invoices;
+use Phalcon\Tests\Support\Models\InvoicesKeepSnapshots;
 use Phalcon\Tests\Support\Models\InvoicesValidationFails;
 use Phalcon\Tests\Support\Traits\DiTrait;
 
@@ -105,5 +106,47 @@ final class GetUpdatedFieldsTest extends AbstractDatabaseTestCase
         // stale post-UPDATE value ('Jane'), so the next save can detect the change
         $snapshotAfterRollback = $customer->getSnapshotData();
         $this->assertEquals('John', $snapshotAfterRollback['cst_name_first']);
+    }
+
+    /**
+     * Regression coverage for [#17042]: when both the current snapshot and
+     * the previous oldSnapshot hold `null` for a nullable column, the
+     * column must NOT be reported as updated. The pre-fix
+     * `isset $oldSnapshot[name]` compiled by the post-5.13.0 Zephir
+     * runtime returned false for null-valued entries, flagging unchanged
+     * nullable columns as updated.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-21
+     *
+     * @group mysql
+     * @group pgsql
+     * @group sqlite
+     */
+    public function testMvcModelGetUpdatedFieldsIgnoresUnchangedNullColumns(): void
+    {
+        $connection = self::getConnection();
+        (new InvoicesMigration($connection));
+
+        $stmt = $connection->prepare(
+            'INSERT INTO co_invoices (inv_id, inv_cst_id, inv_status_flag, inv_title, inv_total, inv_created_at) '
+            . 'VALUES (98, NULL, NULL, :title, NULL, :createdAt)'
+        );
+        $stmt->execute([
+            ':title'     => 'null-cols',
+            ':createdAt' => date('Y-m-d H:i:s'),
+        ]);
+
+        $invoice = InvoicesKeepSnapshots::findFirst(98);
+        $this->assertNotFalse($invoice);
+
+        $invoice->inv_title = 'Updated';
+        $this->assertTrue($invoice->save());
+
+        $updated = $invoice->getUpdatedFields();
+        $this->assertContains('inv_title', $updated);
+        $this->assertNotContains('inv_cst_id', $updated);
+        $this->assertNotContains('inv_status_flag', $updated);
+        $this->assertNotContains('inv_total', $updated);
     }
 }

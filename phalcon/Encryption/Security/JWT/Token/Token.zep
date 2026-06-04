@@ -19,6 +19,10 @@ use Phalcon\Encryption\Security\JWT\Validator;
  * A container for Token related data. It stores the claims, headers, signature
  * and payload. It also calculates and returns the token string.
  *
+ * @property Item      $claims
+ * @property Item      $headers
+ * @property Signature $signature
+ *
  * @link https://tools.ietf.org/html/rfc7519
  */
 class Token
@@ -102,7 +106,7 @@ class Token
      */
     public function getToken() -> string
     {
-        return this->getPayload() . "." . this->getSignature()->getEncoded();
+        return this->getPayload() . "." . this->signature->getEncoded();
     }
 
     /**

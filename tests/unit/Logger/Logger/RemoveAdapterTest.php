@@ -78,7 +78,7 @@ final class RemoveAdapterTest extends AbstractUnitTestCase
 
             $logger->removeAdapter('unknown');
         } catch (Exception $ex) {
-            $expected = 'Adapter does not exist for this logger';
+            $expected = 'Adapter does not exist for this logger: unknown';
             $actual   = $ex->getMessage();
             $this->assertSame($expected, $actual);
         }

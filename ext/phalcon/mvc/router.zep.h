@@ -17,12 +17,17 @@ PHP_METHOD(Phalcon_Mvc_Router, addPut);
 PHP_METHOD(Phalcon_Mvc_Router, addTrace);
 PHP_METHOD(Phalcon_Mvc_Router, attach);
 PHP_METHOD(Phalcon_Mvc_Router, clear);
+PHP_METHOD(Phalcon_Mvc_Router, buildDispatcherDump);
+PHP_METHOD(Phalcon_Mvc_Router, loadDispatcherFromArray);
+PHP_METHOD(Phalcon_Mvc_Router, dumpDispatcher);
+PHP_METHOD(Phalcon_Mvc_Router, loadDispatcher);
+PHP_METHOD(Phalcon_Mvc_Router, useCache);
 PHP_METHOD(Phalcon_Mvc_Router, getEventsManager);
 PHP_METHOD(Phalcon_Mvc_Router, getActionName);
 PHP_METHOD(Phalcon_Mvc_Router, getControllerName);
 PHP_METHOD(Phalcon_Mvc_Router, getDefaults);
-PHP_METHOD(Phalcon_Mvc_Router, getKeyRouteNames);
 PHP_METHOD(Phalcon_Mvc_Router, getKeyRouteIds);
+PHP_METHOD(Phalcon_Mvc_Router, getKeyRouteNames);
 PHP_METHOD(Phalcon_Mvc_Router, getMatchedRoute);
 PHP_METHOD(Phalcon_Mvc_Router, getMatches);
 PHP_METHOD(Phalcon_Mvc_Router, getMethodRoutes);
@@ -30,16 +35,12 @@ PHP_METHOD(Phalcon_Mvc_Router, getModuleName);
 PHP_METHOD(Phalcon_Mvc_Router, getNamespaceName);
 PHP_METHOD(Phalcon_Mvc_Router, getParams);
 PHP_METHOD(Phalcon_Mvc_Router, getRewriteUri);
-PHP_METHOD(Phalcon_Mvc_Router, extractRealUri);
-PHP_METHOD(Phalcon_Mvc_Router, rebuildMethodIndex);
 PHP_METHOD(Phalcon_Mvc_Router, getRouteById);
 PHP_METHOD(Phalcon_Mvc_Router, getRouteByName);
 PHP_METHOD(Phalcon_Mvc_Router, getRoutes);
 PHP_METHOD(Phalcon_Mvc_Router, handle);
 PHP_METHOD(Phalcon_Mvc_Router, isExactControllerName);
 PHP_METHOD(Phalcon_Mvc_Router, loadFromConfig);
-PHP_METHOD(Phalcon_Mvc_Router, addRouteFromConfig);
-PHP_METHOD(Phalcon_Mvc_Router, mountGroupFromConfig);
 PHP_METHOD(Phalcon_Mvc_Router, mount);
 PHP_METHOD(Phalcon_Mvc_Router, notFound);
 PHP_METHOD(Phalcon_Mvc_Router, removeExtraSlashes);
@@ -49,10 +50,14 @@ PHP_METHOD(Phalcon_Mvc_Router, setDefaultModule);
 PHP_METHOD(Phalcon_Mvc_Router, setDefaultNamespace);
 PHP_METHOD(Phalcon_Mvc_Router, setDefaults);
 PHP_METHOD(Phalcon_Mvc_Router, setEventsManager);
-PHP_METHOD(Phalcon_Mvc_Router, setKeyRouteNames);
 PHP_METHOD(Phalcon_Mvc_Router, setKeyRouteIds);
+PHP_METHOD(Phalcon_Mvc_Router, setKeyRouteNames);
 PHP_METHOD(Phalcon_Mvc_Router, setUriSource);
 PHP_METHOD(Phalcon_Mvc_Router, wasMatched);
+PHP_METHOD(Phalcon_Mvc_Router, addRouteFromConfig);
+PHP_METHOD(Phalcon_Mvc_Router, extractRealUri);
+PHP_METHOD(Phalcon_Mvc_Router, mountGroupFromConfig);
+PHP_METHOD(Phalcon_Mvc_Router, rebuildMethodIndex);
 zend_object *zephir_init_properties_Phalcon_Mvc_Router(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router___construct, 0, 0, 0)
@@ -63,75 +68,99 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_add, 0, 1, Pha
 	ZEND_ARG_TYPE_INFO(0, pattern, IS_STRING, 0)
 	ZEND_ARG_INFO(0, paths)
 	ZEND_ARG_INFO(0, httpMethods)
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, position, IS_LONG, 0, "null")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, position, IS_LONG, 0, "1")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_addconnect, 0, 1, Phalcon\\Mvc\\Router\\RouteInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, pattern, IS_STRING, 0)
 	ZEND_ARG_INFO(0, paths)
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, position, IS_LONG, 0, "null")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, position, IS_LONG, 0, "1")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_adddelete, 0, 1, Phalcon\\Mvc\\Router\\RouteInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, pattern, IS_STRING, 0)
 	ZEND_ARG_INFO(0, paths)
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, position, IS_LONG, 0, "null")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, position, IS_LONG, 0, "1")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_addget, 0, 1, Phalcon\\Mvc\\Router\\RouteInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, pattern, IS_STRING, 0)
 	ZEND_ARG_INFO(0, paths)
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, position, IS_LONG, 0, "null")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, position, IS_LONG, 0, "1")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_addhead, 0, 1, Phalcon\\Mvc\\Router\\RouteInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, pattern, IS_STRING, 0)
 	ZEND_ARG_INFO(0, paths)
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, position, IS_LONG, 0, "null")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, position, IS_LONG, 0, "1")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_addoptions, 0, 1, Phalcon\\Mvc\\Router\\RouteInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, pattern, IS_STRING, 0)
 	ZEND_ARG_INFO(0, paths)
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, position, IS_LONG, 0, "null")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, position, IS_LONG, 0, "1")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_addpatch, 0, 1, Phalcon\\Mvc\\Router\\RouteInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, pattern, IS_STRING, 0)
 	ZEND_ARG_INFO(0, paths)
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, position, IS_LONG, 0, "null")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, position, IS_LONG, 0, "1")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_addpost, 0, 1, Phalcon\\Mvc\\Router\\RouteInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, pattern, IS_STRING, 0)
 	ZEND_ARG_INFO(0, paths)
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, position, IS_LONG, 0, "null")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, position, IS_LONG, 0, "1")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_addpurge, 0, 1, Phalcon\\Mvc\\Router\\RouteInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, pattern, IS_STRING, 0)
 	ZEND_ARG_INFO(0, paths)
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, position, IS_LONG, 0, "null")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, position, IS_LONG, 0, "1")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_addput, 0, 1, Phalcon\\Mvc\\Router\\RouteInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, pattern, IS_STRING, 0)
 	ZEND_ARG_INFO(0, paths)
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, position, IS_LONG, 0, "null")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, position, IS_LONG, 0, "1")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_addtrace, 0, 1, Phalcon\\Mvc\\Router\\RouteInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, pattern, IS_STRING, 0)
 	ZEND_ARG_INFO(0, paths)
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, position, IS_LONG, 0, "null")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, position, IS_LONG, 0, "1")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_attach, 0, 1, Phalcon\\Mvc\\RouterInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_router_attach, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_OBJ_INFO(0, route, Phalcon\\Mvc\\Router\\RouteInterface, 0)
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, position, IS_LONG, 0, "null")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, position, IS_LONG, 0, "1")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_clear, 0, 0, IS_VOID, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_builddispatcherdump, 0, 0, IS_ARRAY, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_loaddispatcherfromarray, 0, 1, IS_VOID, 0)
+
+	ZEND_ARG_ARRAY_INFO(0, dump, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_dumpdispatcher, 0, 1, IS_VOID, 0)
+
+	ZEND_ARG_TYPE_INFO(0, path, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_loaddispatcher, 0, 1, IS_VOID, 0)
+
+	ZEND_ARG_TYPE_INFO(0, path, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_usecache, 0, 1, IS_VOID, 0)
+
+	ZEND_ARG_OBJ_INFO(0, cache, Phalcon\\Cache\\Adapter\\AdapterInterface, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, key, IS_STRING, 0, "'phalcon.router.dispatcher'")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_geteventsmanager, 0, 0, Phalcon\\Events\\ManagerInterface, 1)
@@ -146,10 +175,10 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_getdefaults, 0, 0, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_getkeyroutenames, 0, 0, IS_ARRAY, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_getkeyrouteids, 0, 0, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_getkeyrouteids, 0, 0, IS_ARRAY, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_getkeyroutenames, 0, 0, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_getmatchedroute, 0, 0, Phalcon\\Mvc\\Router\\RouteInterface, 1)
@@ -173,18 +202,11 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_getrewriteuri, 0, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_extractrealuri, 0, 1, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, uri, IS_STRING, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_TYPE_MASK_EX(arginfo_phalcon_mvc_router_getroutebyid, 0, 1, Phalcon\\Mvc\\Router\\RouteInterface, MAY_BE_BOOL)
+	ZEND_ARG_INFO(0, routeId)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_rebuildmethodindex, 0, 0, IS_VOID, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_getroutebyid, 0, 0, 1)
-	ZEND_ARG_INFO(0, id)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_getroutebyname, 0, 0, 1)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_TYPE_MASK_EX(arginfo_phalcon_mvc_router_getroutebyname, 0, 1, Phalcon\\Mvc\\Router\\RouteInterface, MAY_BE_BOOL)
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
@@ -199,49 +221,39 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_isexactcontrollername, 0, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_loadfromconfig, 0, 1, Phalcon\\Mvc\\RouterInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_router_loadfromconfig, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_INFO(0, config)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_addroutefromconfig, 0, 1, IS_VOID, 0)
-
-	ZEND_ARG_ARRAY_INFO(0, routeData, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_mountgroupfromconfig, 0, 1, IS_VOID, 0)
-
-	ZEND_ARG_ARRAY_INFO(0, groupData, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_mount, 0, 1, Phalcon\\Mvc\\RouterInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_router_mount, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_OBJ_INFO(0, group, Phalcon\\Mvc\\Router\\GroupInterface, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_notfound, 0, 1, Phalcon\\Mvc\\RouterInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_router_notfound, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_INFO(0, paths)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_removeextraslashes, 0, 1, Phalcon\\Mvc\\RouterInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_router_removeextraslashes, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, remove, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_setdefaultaction, 0, 1, Phalcon\\Mvc\\RouterInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_router_setdefaultaction, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, actionName, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_setdefaultcontroller, 0, 1, Phalcon\\Mvc\\RouterInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_router_setdefaultcontroller, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, controllerName, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_setdefaultmodule, 0, 1, Phalcon\\Mvc\\RouterInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_router_setdefaultmodule, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, moduleName, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_setdefaultnamespace, 0, 1, Phalcon\\Mvc\\RouterInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_router_setdefaultnamespace, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, namespaceName, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_setdefaults, 0, 1, Phalcon\\Mvc\\RouterInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_router_setdefaults, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_ARRAY_INFO(0, defaults, 0)
 ZEND_END_ARG_INFO()
 
@@ -250,19 +262,36 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_seteventsmana
 	ZEND_ARG_OBJ_INFO(0, eventsManager, Phalcon\\Events\\ManagerInterface, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_setkeyroutenames, 0, 1, Phalcon\\Mvc\\Router, 0)
-	ZEND_ARG_ARRAY_INFO(0, routeNames, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_setkeyrouteids, 0, 1, Phalcon\\Mvc\\Router, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_router_setkeyrouteids, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_ARRAY_INFO(0, routeIds, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_seturisource, 0, 1, Phalcon\\Mvc\\Router, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_router_setkeyroutenames, 0, 1, MAY_BE_STATIC)
+	ZEND_ARG_ARRAY_INFO(0, routeNames, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_router_seturisource, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, uriSource, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_wasmatched, 0, 0, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_addroutefromconfig, 0, 1, IS_VOID, 0)
+
+	ZEND_ARG_ARRAY_INFO(0, routeData, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_extractrealuri, 0, 1, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, uri, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_mountgroupfromconfig, 0, 1, IS_VOID, 0)
+
+	ZEND_ARG_ARRAY_INFO(0, groupData, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_rebuildmethodindex, 0, 0, IS_VOID, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_zephir_init_properties_phalcon_mvc_router, 0, 0, 0)
@@ -283,12 +312,17 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_router_method_entry) {
 	PHP_ME(Phalcon_Mvc_Router, addTrace, arginfo_phalcon_mvc_router_addtrace, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router, attach, arginfo_phalcon_mvc_router_attach, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router, clear, arginfo_phalcon_mvc_router_clear, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Router, buildDispatcherDump, arginfo_phalcon_mvc_router_builddispatcherdump, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Router, loadDispatcherFromArray, arginfo_phalcon_mvc_router_loaddispatcherfromarray, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Router, dumpDispatcher, arginfo_phalcon_mvc_router_dumpdispatcher, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Router, loadDispatcher, arginfo_phalcon_mvc_router_loaddispatcher, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Router, useCache, arginfo_phalcon_mvc_router_usecache, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router, getEventsManager, arginfo_phalcon_mvc_router_geteventsmanager, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router, getActionName, arginfo_phalcon_mvc_router_getactionname, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router, getControllerName, arginfo_phalcon_mvc_router_getcontrollername, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router, getDefaults, arginfo_phalcon_mvc_router_getdefaults, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Router, getKeyRouteNames, arginfo_phalcon_mvc_router_getkeyroutenames, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router, getKeyRouteIds, arginfo_phalcon_mvc_router_getkeyrouteids, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Router, getKeyRouteNames, arginfo_phalcon_mvc_router_getkeyroutenames, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router, getMatchedRoute, arginfo_phalcon_mvc_router_getmatchedroute, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router, getMatches, arginfo_phalcon_mvc_router_getmatches, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router, getMethodRoutes, arginfo_phalcon_mvc_router_getmethodroutes, ZEND_ACC_PUBLIC)
@@ -296,16 +330,12 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_router_method_entry) {
 	PHP_ME(Phalcon_Mvc_Router, getNamespaceName, arginfo_phalcon_mvc_router_getnamespacename, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router, getParams, arginfo_phalcon_mvc_router_getparams, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router, getRewriteUri, arginfo_phalcon_mvc_router_getrewriteuri, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Router, extractRealUri, arginfo_phalcon_mvc_router_extractrealuri, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Mvc_Router, rebuildMethodIndex, arginfo_phalcon_mvc_router_rebuildmethodindex, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Router, getRouteById, arginfo_phalcon_mvc_router_getroutebyid, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router, getRouteByName, arginfo_phalcon_mvc_router_getroutebyname, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router, getRoutes, arginfo_phalcon_mvc_router_getroutes, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router, handle, arginfo_phalcon_mvc_router_handle, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router, isExactControllerName, arginfo_phalcon_mvc_router_isexactcontrollername, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router, loadFromConfig, arginfo_phalcon_mvc_router_loadfromconfig, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Router, addRouteFromConfig, arginfo_phalcon_mvc_router_addroutefromconfig, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Mvc_Router, mountGroupFromConfig, arginfo_phalcon_mvc_router_mountgroupfromconfig, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Router, mount, arginfo_phalcon_mvc_router_mount, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router, notFound, arginfo_phalcon_mvc_router_notfound, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router, removeExtraSlashes, arginfo_phalcon_mvc_router_removeextraslashes, ZEND_ACC_PUBLIC)
@@ -315,9 +345,13 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_router_method_entry) {
 	PHP_ME(Phalcon_Mvc_Router, setDefaultNamespace, arginfo_phalcon_mvc_router_setdefaultnamespace, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router, setDefaults, arginfo_phalcon_mvc_router_setdefaults, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router, setEventsManager, arginfo_phalcon_mvc_router_seteventsmanager, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Router, setKeyRouteNames, arginfo_phalcon_mvc_router_setkeyroutenames, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router, setKeyRouteIds, arginfo_phalcon_mvc_router_setkeyrouteids, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Router, setKeyRouteNames, arginfo_phalcon_mvc_router_setkeyroutenames, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router, setUriSource, arginfo_phalcon_mvc_router_seturisource, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router, wasMatched, arginfo_phalcon_mvc_router_wasmatched, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Router, addRouteFromConfig, arginfo_phalcon_mvc_router_addroutefromconfig, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Router, extractRealUri, arginfo_phalcon_mvc_router_extractrealuri, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Router, mountGroupFromConfig, arginfo_phalcon_mvc_router_mountgroupfromconfig, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Router, rebuildMethodIndex, arginfo_phalcon_mvc_router_rebuildmethodindex, ZEND_ACC_PROTECTED)
 	PHP_FE_END
 };

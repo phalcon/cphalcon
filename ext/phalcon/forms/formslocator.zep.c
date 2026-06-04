@@ -17,7 +17,6 @@
 #include "kernel/object.h"
 #include "kernel/operators.h"
 #include "kernel/exception.h"
-#include "kernel/concat.h"
 #include "kernel/array.h"
 
 
@@ -74,12 +73,13 @@ ZEPHIR_INIT_CLASS(Phalcon_Forms_FormsLocator)
  */
 PHP_METHOD(Phalcon_Forms_FormsLocator, __construct)
 {
-	zend_string *_4;
-	zend_ulong _3;
+	zend_bool _6;
+	zend_string *_3;
+	zend_ulong _2;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_5 = NULL;
+	zephir_fcall_cache_entry *_4 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *definitions_param = NULL, name, definition, _0, *_1, _2;
+	zval *definitions_param = NULL, name, definition, _0, *_1, _5;
 	zval definitions;
 	zval *this_ptr = getThis();
 
@@ -87,7 +87,7 @@ PHP_METHOD(Phalcon_Forms_FormsLocator, __construct)
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&definition);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_5);
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
 		ZEPHIR_Z_PARAM_ARRAY(definitions, definitions_param)
@@ -104,38 +104,43 @@ PHP_METHOD(Phalcon_Forms_FormsLocator, __construct)
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getdefaultservices", NULL, 0);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("elements"), &_0);
-	zephir_is_iterable(&definitions, 0, "phalcon/Forms/FormsLocator.zep", 76);
+	zephir_is_iterable(&definitions, 0, "phalcon/Forms/FormsLocator.zep", 78);
 	if (Z_TYPE_P(&definitions) == IS_ARRAY) {
-		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&definitions), _3, _4, _1)
+		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&definitions), _2, _3, _1)
 		{
 			ZEPHIR_INIT_NVAR(&name);
-			if (_4 != NULL) { 
-				ZVAL_STR_COPY(&name, _4);
+			if (_3 != NULL) { 
+				ZVAL_STR_COPY(&name, _3);
 			} else {
-				ZVAL_LONG(&name, _3);
+				ZVAL_LONG(&name, _2);
 			}
 			ZEPHIR_INIT_NVAR(&definition);
 			ZVAL_COPY(&definition, _1);
-			ZEPHIR_CALL_METHOD(NULL, this_ptr, "set", &_5, 0, &name, &definition);
+			ZEPHIR_CALL_METHOD(NULL, this_ptr, "set", &_4, 0, &name, &definition);
 			zephir_check_call_status();
 		} ZEND_HASH_FOREACH_END();
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, &definitions, "rewind", NULL, 0);
 		zephir_check_call_status();
+		_6 = 1;
 		while (1) {
-			ZEPHIR_CALL_METHOD(&_2, &definitions, "valid", NULL, 0);
+			if (_6) {
+				_6 = 0;
+			} else {
+				ZEPHIR_CALL_METHOD(NULL, &definitions, "next", NULL, 0);
+				zephir_check_call_status();
+			}
+			ZEPHIR_CALL_METHOD(&_5, &definitions, "valid", NULL, 0);
 			zephir_check_call_status();
-			if (!zend_is_true(&_2)) {
+			if (!zend_is_true(&_5)) {
 				break;
 			}
 			ZEPHIR_CALL_METHOD(&name, &definitions, "key", NULL, 0);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(&definition, &definitions, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(NULL, this_ptr, "set", &_5, 0, &name, &definition);
+				ZEPHIR_CALL_METHOD(NULL, this_ptr, "set", &_4, 0, &name, &definition);
 				zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(NULL, &definitions, "next", NULL, 0);
-			zephir_check_call_status();
 		}
 	}
 	ZEPHIR_INIT_NVAR(&definition);
@@ -157,10 +162,9 @@ PHP_METHOD(Phalcon_Forms_FormsLocator, __construct)
  */
 PHP_METHOD(Phalcon_Forms_FormsLocator, get)
 {
-	zval _2$$3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval name_zv, *entity = NULL, entity_sub, __$null, factory, instance, _0, _3, _4, _1$$3, _5$$5;
+	zval name_zv, *entity = NULL, entity_sub, __$null, factory, instance, _0, _2, _3, _1$$3, _4$$5;
 	zend_string *name = NULL;
 	zval *this_ptr = getThis();
 
@@ -170,11 +174,10 @@ PHP_METHOD(Phalcon_Forms_FormsLocator, get)
 	ZVAL_UNDEF(&factory);
 	ZVAL_UNDEF(&instance);
 	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
-	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_1$$3);
-	ZVAL_UNDEF(&_5$$5);
-	ZVAL_UNDEF(&_2$$3);
+	ZVAL_UNDEF(&_4$$5);
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(name)
@@ -196,28 +199,26 @@ PHP_METHOD(Phalcon_Forms_FormsLocator, get)
 	zephir_check_call_status();
 	if (!(zephir_is_true(&_0))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
-		object_init_ex(&_1$$3, phalcon_forms_exception_ce);
-		ZEPHIR_INIT_VAR(&_2$$3);
-		ZEPHIR_CONCAT_SVS(&_2$$3, "Form '", &name_zv, "' is not registered in the FormsLocator");
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 49, &_2$$3);
+		object_init_ex(&_1$$3, phalcon_forms_exceptions_formnotinlocator_ce);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 0, &name_zv);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Forms/FormsLocator.zep", 97);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	zephir_read_property(&_3, this_ptr, ZEND_STRL("factories"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_2, this_ptr, ZEND_STRL("factories"), PH_NOISY_CC | PH_READONLY);
 	zephir_memory_observe(&factory);
-	zephir_array_fetch(&factory, &_3, &name_zv, PH_NOISY, "phalcon/Forms/FormsLocator.zep", 100);
+	zephir_array_fetch(&factory, &_2, &name_zv, PH_NOISY, "phalcon/Forms/FormsLocator.zep", 100);
 	if (Z_TYPE_P(entity) != IS_NULL) {
 		ZEPHIR_RETURN_CALL_ZVAL_FUNCTION(&factory, NULL, 0, entity);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
 	zephir_memory_observe(&instance);
-	zephir_read_property(&_4, this_ptr, ZEND_STRL("instances"), PH_NOISY_CC | PH_READONLY);
-	if (!(zephir_array_isset_fetch(&instance, &_4, &name_zv, 0))) {
-		ZVAL_NULL(&_5$$5);
-		ZEPHIR_CALL_ZVAL_FUNCTION(&instance, &factory, NULL, 0, &_5$$5);
+	zephir_read_property(&_3, this_ptr, ZEND_STRL("instances"), PH_NOISY_CC | PH_READONLY);
+	if (!(zephir_array_isset_fetch(&instance, &_3, &name_zv, 0))) {
+		ZVAL_NULL(&_4$$5);
+		ZEPHIR_CALL_ZVAL_FUNCTION(&instance, &factory, NULL, 0, &_4$$5);
 		zephir_check_call_status();
 		zephir_update_property_array(this_ptr, SL("instances"), &name_zv, &instance);
 	}
@@ -234,19 +235,17 @@ PHP_METHOD(Phalcon_Forms_FormsLocator, get)
  */
 PHP_METHOD(Phalcon_Forms_FormsLocator, getElement)
 {
-	zval _2$$3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval type_zv, _0, _3, _4, _1$$3;
+	zval type_zv, _0, _2, _3, _1$$3;
 	zend_string *type = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&type_zv);
 	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
-	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_1$$3);
-	ZVAL_UNDEF(&_2$$3);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(type)
 	ZEND_PARSE_PARAMETERS_END();
@@ -257,18 +256,16 @@ PHP_METHOD(Phalcon_Forms_FormsLocator, getElement)
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("elements"), PH_NOISY_CC | PH_READONLY);
 	if (!(zephir_array_isset_value(&_0, &type_zv))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
-		object_init_ex(&_1$$3, phalcon_forms_exception_ce);
-		ZEPHIR_INIT_VAR(&_2$$3);
-		ZEPHIR_CONCAT_SVS(&_2$$3, "Unknown form element type \"", &type_zv, "\"");
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 49, &_2$$3);
+		object_init_ex(&_1$$3, phalcon_forms_exceptions_unknownformelementtype_ce);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 0, &type_zv);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Forms/FormsLocator.zep", 127);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Forms/FormsLocator.zep", 125);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	zephir_read_property(&_3, this_ptr, ZEND_STRL("elements"), PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch(&_4, &_3, &type_zv, PH_NOISY | PH_READONLY, "phalcon/Forms/FormsLocator.zep", 130);
-	RETURN_CTOR(&_4);
+	zephir_read_property(&_2, this_ptr, ZEND_STRL("elements"), PH_NOISY_CC | PH_READONLY);
+	zephir_array_fetch(&_3, &_2, &type_zv, PH_NOISY | PH_READONLY, "phalcon/Forms/FormsLocator.zep", 128);
+	RETURN_CTOR(&_3);
 }
 
 /**
@@ -393,59 +390,59 @@ PHP_METHOD(Phalcon_Forms_FormsLocator, getDefaultServices)
 	zephir_create_array(return_value, 14, 0);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_INIT_NVAR(&_0);
-	zephir_create_closure_ex(&_0, NULL, phalcon_8__closure_ce, SL("__invoke"));
+	zephir_create_closure_ex(&_0, NULL, phalcon_18__closure_ce, SL("__invoke"));
 	zephir_array_update_string(return_value, SL("check"), &_0, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_0);
 	ZEPHIR_INIT_NVAR(&_0);
-	zephir_create_closure_ex(&_0, NULL, phalcon_9__closure_ce, SL("__invoke"));
+	zephir_create_closure_ex(&_0, NULL, phalcon_19__closure_ce, SL("__invoke"));
 	zephir_array_update_string(return_value, SL("checkgroup"), &_0, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_0);
 	ZEPHIR_INIT_NVAR(&_0);
-	zephir_create_closure_ex(&_0, NULL, phalcon_10__closure_ce, SL("__invoke"));
+	zephir_create_closure_ex(&_0, NULL, phalcon_20__closure_ce, SL("__invoke"));
 	zephir_array_update_string(return_value, SL("date"), &_0, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_0);
 	ZEPHIR_INIT_NVAR(&_0);
-	zephir_create_closure_ex(&_0, NULL, phalcon_11__closure_ce, SL("__invoke"));
+	zephir_create_closure_ex(&_0, NULL, phalcon_21__closure_ce, SL("__invoke"));
 	zephir_array_update_string(return_value, SL("email"), &_0, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_0);
 	ZEPHIR_INIT_NVAR(&_0);
-	zephir_create_closure_ex(&_0, NULL, phalcon_12__closure_ce, SL("__invoke"));
+	zephir_create_closure_ex(&_0, NULL, phalcon_22__closure_ce, SL("__invoke"));
 	zephir_array_update_string(return_value, SL("file"), &_0, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_0);
 	ZEPHIR_INIT_NVAR(&_0);
-	zephir_create_closure_ex(&_0, NULL, phalcon_13__closure_ce, SL("__invoke"));
+	zephir_create_closure_ex(&_0, NULL, phalcon_23__closure_ce, SL("__invoke"));
 	zephir_array_update_string(return_value, SL("hidden"), &_0, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_0);
 	ZEPHIR_INIT_NVAR(&_0);
-	zephir_create_closure_ex(&_0, NULL, phalcon_14__closure_ce, SL("__invoke"));
+	zephir_create_closure_ex(&_0, NULL, phalcon_24__closure_ce, SL("__invoke"));
 	zephir_array_update_string(return_value, SL("numeric"), &_0, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_0);
 	ZEPHIR_INIT_NVAR(&_0);
-	zephir_create_closure_ex(&_0, NULL, phalcon_15__closure_ce, SL("__invoke"));
+	zephir_create_closure_ex(&_0, NULL, phalcon_25__closure_ce, SL("__invoke"));
 	zephir_array_update_string(return_value, SL("password"), &_0, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_0);
 	ZEPHIR_INIT_NVAR(&_0);
-	zephir_create_closure_ex(&_0, NULL, phalcon_16__closure_ce, SL("__invoke"));
+	zephir_create_closure_ex(&_0, NULL, phalcon_26__closure_ce, SL("__invoke"));
 	zephir_array_update_string(return_value, SL("radio"), &_0, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_0);
 	ZEPHIR_INIT_NVAR(&_0);
-	zephir_create_closure_ex(&_0, NULL, phalcon_17__closure_ce, SL("__invoke"));
+	zephir_create_closure_ex(&_0, NULL, phalcon_27__closure_ce, SL("__invoke"));
 	zephir_array_update_string(return_value, SL("radiogroup"), &_0, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_0);
 	ZEPHIR_INIT_NVAR(&_0);
-	zephir_create_closure_ex(&_0, NULL, phalcon_18__closure_ce, SL("__invoke"));
+	zephir_create_closure_ex(&_0, NULL, phalcon_28__closure_ce, SL("__invoke"));
 	zephir_array_update_string(return_value, SL("select"), &_0, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_0);
 	ZEPHIR_INIT_NVAR(&_0);
-	zephir_create_closure_ex(&_0, NULL, phalcon_19__closure_ce, SL("__invoke"));
+	zephir_create_closure_ex(&_0, NULL, phalcon_29__closure_ce, SL("__invoke"));
 	zephir_array_update_string(return_value, SL("submit"), &_0, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_0);
 	ZEPHIR_INIT_NVAR(&_0);
-	zephir_create_closure_ex(&_0, NULL, phalcon_20__closure_ce, SL("__invoke"));
+	zephir_create_closure_ex(&_0, NULL, phalcon_30__closure_ce, SL("__invoke"));
 	zephir_array_update_string(return_value, SL("text"), &_0, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_0);
 	ZEPHIR_INIT_NVAR(&_0);
-	zephir_create_closure_ex(&_0, NULL, phalcon_21__closure_ce, SL("__invoke"));
+	zephir_create_closure_ex(&_0, NULL, phalcon_31__closure_ce, SL("__invoke"));
 	zephir_array_update_string(return_value, SL("textarea"), &_0, PH_COPY | PH_SEPARATE);
 	RETURN_MM();
 }

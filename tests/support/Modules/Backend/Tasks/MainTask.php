@@ -2,7 +2,7 @@
 
 namespace Phalcon\Tests\Support\Modules\Backend\Tasks;
 
-class MainTask extends \Phalcon\CLI\Task
+class MainTask extends \Phalcon\Cli\Task
 {
     public function throwAction()
     {

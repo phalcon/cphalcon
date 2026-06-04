@@ -10,11 +10,13 @@
 
 namespace Phalcon\Cli;
 
-use Phalcon\Di\DiInterface;
-use Phalcon\Di\AbstractInjectionAware;
-use Phalcon\Cli\Router\Route;
 use Phalcon\Cli\Router\Exception;
+use Phalcon\Cli\Router\Exceptions\BeforeMatchNotCallable;
+use Phalcon\Cli\Router\Exceptions\RouterArgumentsInvalidType;
+use Phalcon\Cli\Router\Route;
 use Phalcon\Cli\Router\RouteInterface;
+use Phalcon\Di\AbstractInjectionAware;
+use Phalcon\Di\DiInterface;
 
 /**
  * Phalcon\Cli\Router is the standard framework router. Routing is the process
@@ -36,7 +38,7 @@ use Phalcon\Cli\Router\RouteInterface;
  * echo $router->getTaskName();
  *```
  */
-class Router extends AbstractInjectionAware
+class Router extends AbstractInjectionAware implements RouterInterface
 {
     /**
      * @var string
@@ -103,22 +105,21 @@ class Router extends AbstractInjectionAware
      */
     public function __construct(bool defaultRoutes = true)
     {
-        array routes;
-
-        let routes = [];
+        var route;
 
         if defaultRoutes {
             // Two routes are added by default to match
             // /:task/:action and /:task/:action/:params
 
-            let routes[] = new Route(
+            let route = new Route(
                 "#^(?::delimiter)?([a-zA-Z0-9\\_\\-]+)[:delimiter]{0,1}$#",
                 [
                     "task": 1
                 ]
             );
+            let this->routes[route->getRouteId()] = route;
 
-            let routes[] = new Route(
+            let route = new Route(
                 "#^(?::delimiter)?([a-zA-Z0-9\\_\\-]+):delimiter([a-zA-Z0-9\\.\\_]+)(:delimiter.*)*$#",
                 [
                     "task":   1,
@@ -126,9 +127,8 @@ class Router extends AbstractInjectionAware
                     "params": 3
                 ]
             );
+            let this->routes[route->getRouteId()] = route;
         }
-
-        let this->routes = routes;
     }
 
     /**
@@ -138,14 +138,14 @@ class Router extends AbstractInjectionAware
      * $router->add("/about", "About::main");
      *```
      *
-     * @param string|array paths
+     * @phpstan-param array|string|null $paths
      */
     public function add(string! pattern, paths = null) -> <RouteInterface>
     {
         var route;
 
         let route = new Route(pattern, paths),
-            this->routes[] = route;
+            this->routes[route->getRouteId()] = route;
 
         return route;
     }
@@ -184,6 +184,14 @@ class Router extends AbstractInjectionAware
 
     /**
      * Returns processed extra params
+     */
+    public function getParameters() -> array
+    {
+        return this->params;
+    }
+
+    /**
+     * Returns processed extra params
      *
      * @todo deprecate this in future versions
      */
@@ -193,26 +201,14 @@ class Router extends AbstractInjectionAware
     }
 
     /**
-     * Returns processed extra params
-     */
-    public function getParameters() -> array
-    {
-        return this->params;
-    }
-
-    /**
      * Returns a route object by its id
      *
-     * @param int id
+     * @phpstan-param string $id
      */
     public function getRouteById(var id) -> <RouteInterface> | bool
     {
-        var route;
-
-        for route in this->routes {
-            if route->getRouteId() == id {
-                return route;
-            }
+        if isset this->routes[id] {
+            return this->routes[id];
         }
 
         return false;
@@ -270,7 +266,7 @@ class Router extends AbstractInjectionAware
 
         if typeof arguments !== "array" {
             if unlikely (typeof arguments != "string" && arguments !== null) {
-                throw new Exception("Arguments must be an array or string");
+                throw new RouterArgumentsInvalidType();
             }
 
             for route in reverse this->routes {
@@ -296,9 +292,7 @@ class Router extends AbstractInjectionAware
                          * Check first if the callback is callable
                          */
                         if unlikely !is_callable(beforeMatch) {
-                            throw new Exception(
-                                "Before-Match callback is not callable in matched route"
-                            );
+                            throw new BeforeMatchNotCallable();
                         }
 
                         /**
@@ -461,17 +455,17 @@ class Router extends AbstractInjectionAware
     /**
      * Sets the default action name
      */
-    public function setDefaultAction(string actionName) -> <Router>
+    public function setDefaultAction(string actionName) -> <static>
     {
         let this->defaultAction = actionName;
-        
+
         return this;
     }
 
     /**
      * Sets the name of the default module
      */
-    public function setDefaultModule(string moduleName) -> <Router>
+    public function setDefaultModule(string moduleName) -> <static>
     {
         let this->defaultModule = moduleName;
         return this;
@@ -491,7 +485,7 @@ class Router extends AbstractInjectionAware
      * );
      *```
      */
-    public function setDefaults(array! defaults) -> <Router>
+    public function setDefaults(array! defaults) -> <static>
     {
         var module, task, action, params;
 
@@ -521,9 +515,11 @@ class Router extends AbstractInjectionAware
     /**
      * Sets the default controller name
      */
-    public function setDefaultTask(string taskName) -> void
+    public function setDefaultTask(string taskName) -> <static>
     {
         let this->defaultTask = taskName;
+
+        return this;
     }
 
     /**

@@ -16,6 +16,9 @@ use Phalcon\Mvc\ModelInterface;
 use Phalcon\Filter\Validation;
 use Phalcon\Filter\Validation\AbstractCombinedFieldsValidator;
 use Phalcon\Filter\Validation\Exception;
+use Phalcon\Filter\Validation\Exceptions\UniquenessConversionMustBeArray;
+use Phalcon\Filter\Validation\Exceptions\UniquenessModelRequired;
+use Phalcon\Filter\Validation\Exceptions\UniquenessOnlyForPhalconModel;
 use Phalcon\Support\Settings;
 //use Phalcon\Mvc\CollectionInterface;
 //use Phalcon\Mvc\Collection;
@@ -177,7 +180,7 @@ class Uniqueness extends AbstractCombinedFieldsValidator
             let values = {convert}(values);
 
             if unlikely !is_array(values) {
-                throw new Exception("Value conversion must return an array");
+                throw new UniquenessConversionMustBeArray();
             }
         }
 
@@ -188,9 +191,7 @@ class Uniqueness extends AbstractCombinedFieldsValidator
             let record = validation->getEntity();
 
             if unlikely empty record {
-                throw new Exception(
-                    "Model of record must be set to property \"model\""
-                );
+                throw new UniquenessModelRequired();
             }
         }
 
@@ -208,9 +209,7 @@ class Uniqueness extends AbstractCombinedFieldsValidator
 //        } elseif isDocument {
 //            let params = this->isUniquenessCollection(record, field, values);
         } else {
-            throw new Exception(
-                "The uniqueness validator works only with Phalcon\\Mvc\\Model"
-            );
+            throw new UniquenessOnlyForPhalconModel();
 //
 // @todo: Restore when new Collection is reintroduced
 //

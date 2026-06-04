@@ -14,8 +14,8 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Filter\Validation\Validator\Callback;
 
 use Phalcon\Filter\Validation;
+use Phalcon\Filter\Validation\Exceptions\InvalidCallbackReturn;
 use Phalcon\Filter\Validation\Validator\Callback;
-use Phalcon\Filter\Validation\Validator\Exception;
 use Phalcon\Filter\Validation\Validator\PresenceOf;
 use Phalcon\Filter\Validation\Validator\StringLength;
 use Phalcon\Filter\Validation\Validator\StringLength\Min;
@@ -31,7 +31,7 @@ final class ValidateTest extends AbstractUnitTestCase
      */
     public function testFilterValidationValidatorCallbackValidateException(): void
     {
-        $this->expectException(Exception::class);
+        $this->expectException(InvalidCallbackReturn::class);
         $this->expectExceptionMessage(
             'Callback must return bool or Phalcon\Filter\Validation\Validator object'
         );

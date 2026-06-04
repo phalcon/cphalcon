@@ -17,8 +17,8 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the
- * LICENSE.txt file that was distributed with this source code.
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
  */
 /**
  * Phalcon\Mvc\Model\ManagerInterface
@@ -53,6 +53,16 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, addBelongsTo);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, addHasMany);
 /**
+ * Setups a relation n-m between two models
+ *
+ * @param    string fields
+ * @param    string intermediateFields
+ * @param    string intermediateReferencedFields
+ * @param    string referencedFields
+ * @param   array options
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, addHasManyToMany);
+/**
  * Setup a 1-1 relation between two models
  *
  * @param    mixed  fields
@@ -71,15 +81,9 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, addHasOne);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, addHasOneThrough);
 /**
- * Setups a relation n-m between two models
- *
- * @param    string fields
- * @param    string intermediateFields
- * @param    string intermediateReferencedFields
- * @param    string referencedFields
- * @param   array options
+ * Clears the internal reusable list
  */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, addHasManyToMany);
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, clearReusableObjects);
 /**
  * Creates a Phalcon\Mvc\Model\Query\Builder
  *
@@ -90,10 +94,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, createBuilder);
  * Creates a Phalcon\Mvc\Model\Query without execute it
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, createQuery);
-/**
- * Clears the internal reusable list
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, clearReusableObjects);
 /**
  * Creates a Phalcon\Mvc\Model\Query and execute it
  *
@@ -143,10 +143,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getHasManyToMany);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getHasOne);
 /**
- * Gets hasOneThrough relations defined on a model
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getHasOneThrough);
-/**
  * Gets hasOne relations defined on a model
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getHasOneAndHasMany);
@@ -160,6 +156,10 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getHasOneAndHasMany);
  * @param string|null       $method
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getHasOneRecords);
+/**
+ * Gets hasOneThrough relations defined on a model
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getHasOneThrough);
 /**
  * Get last initialized model
  */
@@ -233,6 +233,10 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, hasBelongsTo);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, hasHasMany);
 /**
+ * Checks whether a model has a hasManyToMany relation with another model
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, hasHasManyToMany);
+/**
  * Checks whether a model has a hasOne relation with another model
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, hasHasOne);
@@ -240,14 +244,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, hasHasOne);
  * Checks whether a model has a hasOneThrough relation with another model
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, hasHasOneThrough);
-/**
- * Checks whether a model has a hasManyToMany relation with another model
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, hasHasManyToMany);
-/**
- * Loads a model throwing an exception if it does not exist
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, load);
 /**
  * Initializes a model in the model manager
  */
@@ -280,6 +276,10 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, isVisibleModelProperty);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, keepSnapshots);
 /**
+ * Loads a model throwing an exception if it does not exist
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, load);
+/**
  * Dispatch an event to the listeners and behaviors
  * This method expects that the endpoint listeners/behaviors returns true
  * meaning that a least one is implemented
@@ -294,9 +294,21 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, missingMethod);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, notifyEvent);
 /**
+ * Removes a behavior from a model
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, removeBehavior);
+/**
  * Sets both write and read connection service for a model
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, setConnectionService);
+/**
+ * Sets the mapped schema for a model
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, setModelSchema);
+/**
+ * Sets the mapped source for a model
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, setModelSource);
 /**
  * Sets read connection service for a model
  */
@@ -311,14 +323,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, setReadConnectionService);
  * @return void
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, setReusableRecords);
-/**
- * Sets the mapped schema for a model
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, setModelSchema);
-/**
- * Sets the mapped source for a model
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, setModelSource);
 /**
  * Sets write connection service for a model
  */
