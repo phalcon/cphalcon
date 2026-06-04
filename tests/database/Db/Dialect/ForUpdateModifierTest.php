@@ -22,7 +22,7 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class ForUpdateModifierTest extends AbstractDatabaseTestCase
 {
     /**
-     * The default `forUpdate()` call (no modifier) is unchanged — the
+     * The default `forUpdate()` call (no modifier) is unchanged - the
      * existing one-argument call site keeps producing plain `FOR UPDATE`.
      *
      * @author Phalcon Team <team@phalcon.io>
@@ -114,7 +114,7 @@ final class ForUpdateModifierTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * SQLite ignores the modifier — it has no row-level locking.
+     * SQLite ignores the modifier - it has no row-level locking.
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15

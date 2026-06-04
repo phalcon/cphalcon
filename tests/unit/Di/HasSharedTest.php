@@ -30,7 +30,7 @@ final class HasSharedTest extends AbstractUnitTestCase
     }
 
     /**
-     * Registering a service does NOT populate the shared-instance cache —
+     * Registering a service does NOT populate the shared-instance cache -
      * resolution happens lazily on the first getShared() call.
      *
      * @issue https://github.com/phalcon/cphalcon/issues/13440

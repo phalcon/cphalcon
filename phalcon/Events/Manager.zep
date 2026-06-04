@@ -58,7 +58,7 @@ class Manager implements ManagerInterface
     /**
      * When true, a listener returning literal `false` (with the event's
      * `cancelable` flag on) short-circuits the dispatch loop and pins
-     * the fire() return as `false`. Default off — preserves the pre-5.13
+     * the fire() return as `false`. Default off - preserves the pre-5.13
      * "last-wins" contract for codebases that rely on later listeners
      * overriding an earlier false return [#17019].
      *
@@ -82,7 +82,7 @@ class Manager implements ManagerInterface
      *
      * Shape: `eventNameCache[$eventType] = [typePrefix, eventName]`
      *
-     * Unbounded by design — distinct event types in a typical Phalcon
+     * Unbounded by design - distinct event types in a typical Phalcon
      * application are well under 100 keys, and the cache never needs
      * invalidation (parse is deterministic for a given eventType string).
      *
@@ -137,14 +137,14 @@ class Manager implements ManagerInterface
      * `type` is classified once at attach() time so dispatch() can
      * route via a simple branch:
      *
-     *   0 — Closure: direct invocation via `{handler}(args)`, no
+     *   0 - Closure: direct invocation via `{handler}(args)`, no
      *       arg-array alloc per call
-     *   1 — [obj, method] array callable: direct dynamic dispatch
+     *   1 - [obj, method] array callable: direct dynamic dispatch
      *       `handler[0]->{handler[1]}(args)`
-     *   2 — plain object: dynamic dispatch via method named after the
+     *   2 - plain object: dynamic dispatch via method named after the
      *       event (the classic Phalcon listener pattern); class name is
      *       captured at attach time to skip get_class() per fire
-     *   3 — generic callable (string fn name, invokable object,
+     *   3 - generic callable (string fn name, invokable object,
      *       [class, staticMethod]): call_user_func_array
      *
      * @var array
@@ -204,10 +204,10 @@ class Manager implements ManagerInterface
         // Classify the handler type ONCE so fireQueue() doesn't have to
         // run instanceof / is_callable per fire per listener.
         //
-        //   0 — Closure: direct invocation via Zephir {handler}(args)
-        //   1 — [obj, method] array callable: direct dynamic dispatch
-        //   2 — plain object, method named after the event (classic Phalcon)
-        //   3 — generic callable: string function, invokable object,
+        //   0 - Closure: direct invocation via Zephir {handler}(args)
+        //   1 - [obj, method] array callable: direct dynamic dispatch
+        //   2 - plain object, method named after the event (classic Phalcon)
+        //   3 - generic callable: string function, invokable object,
         //       [class, staticMethod] etc.
         if handler instanceof Closure {
             let type = 0;
@@ -220,10 +220,10 @@ class Manager implements ManagerInterface
             let type = 1;
         } elseif typeof handler == "object" {
             if is_callable(handler) {
-                // Invokable object — generic callable.
+                // Invokable object - generic callable.
                 let type = 3;
             } else {
-                // Plain object — method named after the event. Capture
+                // Plain object - method named after the event. Capture
                 // the class name once at attach time so fireQueue() can
                 // skip get_class() per fire (type=2 tuples carry it).
                 this->insertHandlerEntry(
@@ -363,7 +363,7 @@ class Manager implements ManagerInterface
             status, type, wasDepth;
         bool collect, hasFullQueue, hasTypeQueue;
 
-        // Manager-level kill switch — halt() trips this and every fire
+        // Manager-level kill switch - halt() trips this and every fire
         // returns null without dispatching until resume() clears it.
         if this->halted {
             return null;
@@ -434,7 +434,7 @@ class Manager implements ManagerInterface
         }
 
         // Wrap dispatch in try/catch so a throwing listener cannot
-        // leak the incremented fireDepth or the stashed responses —
+        // leak the incremented fireDepth or the stashed responses -
         // important for long-lived managers (workers, daemons) where
         // a single dirty teardown would poison every subsequent fire.
         try {
@@ -511,7 +511,7 @@ class Manager implements ManagerInterface
             fireEvents, responses, stashed, type, wasDepth;
         bool hasFullQueue, hasTypeQueue;
 
-        // Manager-level kill switch — see fire().
+        // Manager-level kill switch - see fire().
         if this->halted {
             return [];
         }
@@ -557,7 +557,7 @@ class Manager implements ManagerInterface
         let stashed         = this->responses;
         let this->responses = [];
 
-        // Same exception-safety wrap as fire() — a throwing listener
+        // Same exception-safety wrap as fire() - a throwing listener
         // must not leak fireDepth or strand the stashed responses.
         try {
             let event = new Event(eventName, source, data, cancelable);
@@ -726,7 +726,7 @@ class Manager implements ManagerInterface
 
     /**
      * Returns whether strict mode is enabled. When true, fire()/fireAll()
-     * throw when an event has no matching listeners — useful in dev to
+     * throw when an event has no matching listeners - useful in dev to
      * catch typos. Default off.
      */
     public function isStrict() -> bool
@@ -745,7 +745,7 @@ class Manager implements ManagerInterface
 
     /**
      * Removes a previously registered subscriber. Detaches every listener the
-     * subscriber declared via getSubscribedEvents(). Idempotent — calling
+     * subscriber declared via getSubscribedEvents(). Idempotent - calling
      * with a subscriber that was never added (or already removed) is a no-op.
      */
     public function removeSubscriber(<Subscriber> subscriber) -> void
@@ -804,7 +804,7 @@ class Manager implements ManagerInterface
      * the current event's queue and pins the fire() return as `false`.
      * Later listeners cannot overwrite the cancel. Default off.
      *
-     * Independent of halt() / event->stop() — only governs how the
+     * Independent of halt() / event->stop() - only governs how the
      * dispatch loop reacts to a `false` listener return.
      */
     public function setStopOnFalse(bool flag) -> void
@@ -864,12 +864,12 @@ class Manager implements ManagerInterface
      * and by fireQueue() as a BC wrapper. Owns the documented
      * aggregation contract:
      *
-     * 1. **Last non-null wins** — `status` only updates when a listener
+     * 1. **Last non-null wins** - `status` only updates when a listener
      *    returns a non-null value. A chain of nulls leaves the last
      *    real return intact.
-     * 2. **stop() determinism** — when a listener calls
+     * 2. **stop() determinism** - when a listener calls
      *    `$event->stop()` (and cancelable=true), that listener's
-     *    return value becomes the dispatch return — even if null.
+     *    return value becomes the dispatch return - even if null.
      *
      * Note: returning `false` from a listener does **not** short-circuit
      * the queue. Callers that want to stop downstream listeners must call
@@ -937,7 +937,7 @@ class Manager implements ManagerInterface
                 let this->responses[] = ret;
             }
 
-            // Opt-in hard `false`-cancel — single-handler variant.
+            // Opt-in hard `false`-cancel - single-handler variant.
             if this->stopOnFalse && cancelable && ret === false {
                 return false;
             }
@@ -957,13 +957,13 @@ class Manager implements ManagerInterface
             if type == 0 {
                 let ret = {handler}(event, source, data);
             } elseif type == 1 {
-                // [obj, method] direct dispatch — no arg-array alloc,
+                // [obj, method] direct dispatch - no arg-array alloc,
                 // no call_user_func_array overhead.
                 let handlerObject   = handler[0];
                 let handlerCallable = handler[1];
                 let ret = handlerObject->{handlerCallable}(event, source, data);
             } elseif type == 2 {
-                // Plain object — method named after the event. Class
+                // Plain object - method named after the event. Class
                 // name was captured at attach time (tuple[3]); cache
                 // method_exists per (class, eventName) since classes
                 // don't gain methods at runtime.
@@ -1022,7 +1022,7 @@ class Manager implements ManagerInterface
 
     /**
      * Stores a pre-classified listener tuple in the queue for an event
-     * type. Bypasses attach()'s type classification — callers that
+     * type. Bypasses attach()'s type classification - callers that
      * already know the type (the subscriber path) skip the instanceof /
      * is_callable cascade.
      *

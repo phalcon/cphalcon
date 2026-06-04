@@ -53,7 +53,7 @@ final class ContainerAutoInjectTest extends AbstractUnitTestCase
 
         $component = $container->get(InjectionAwareComponent::class);
 
-        // Container must have injected itself — no Di involved
+        // Container must have injected itself - no Di involved
         $this->assertSame($container, $component->getDI());
     }
 
@@ -66,7 +66,7 @@ final class ContainerAutoInjectTest extends AbstractUnitTestCase
         $container = new Container();
         $container->set('stdClass', stdClass::class);
 
-        // Must not throw — stdClass does not implement InjectionAwareInterface
+        // Must not throw - stdClass does not implement InjectionAwareInterface
         $obj = $container->get('stdClass');
         $this->assertInstanceOf(stdClass::class, $obj);
     }

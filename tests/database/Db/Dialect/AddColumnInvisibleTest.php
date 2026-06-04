@@ -22,7 +22,7 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class AddColumnInvisibleTest extends AbstractDatabaseTestCase
 {
     /**
-     * MySQL — INVISIBLE columns emit the `INVISIBLE` keyword after
+     * MySQL - INVISIBLE columns emit the `INVISIBLE` keyword after
      * NOT NULL/NULL.
      *
      * @author Phalcon Team <team@phalcon.io>
@@ -50,7 +50,7 @@ final class AddColumnInvisibleTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * MySQL — `INVISIBLE` is omitted by default (regression for
+     * MySQL - `INVISIBLE` is omitted by default (regression for
      * non-invisible columns).
      *
      * @author Phalcon Team <team@phalcon.io>
@@ -75,7 +75,7 @@ final class AddColumnInvisibleTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * PostgreSQL — has no INVISIBLE concept; the flag must not leak into
+     * PostgreSQL - has no INVISIBLE concept; the flag must not leak into
      * its DDL.
      *
      * @author Phalcon Team <team@phalcon.io>
@@ -101,7 +101,7 @@ final class AddColumnInvisibleTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * SQLite — same: no INVISIBLE concept.
+     * SQLite - same: no INVISIBLE concept.
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15

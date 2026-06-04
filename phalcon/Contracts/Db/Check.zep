@@ -22,7 +22,7 @@ interface Check
 
     /**
      * Gets the constraint name. An empty string indicates an unnamed CHECK
-     * constraint — the dialect will emit the clause without a `CONSTRAINT`
+     * constraint - the dialect will emit the clause without a `CONSTRAINT`
      * prefix in that case.
      */
     public function getName() -> string;

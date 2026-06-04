@@ -22,7 +22,7 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class SharedLockModifierTest extends AbstractDatabaseTestCase
 {
     /**
-     * PostgreSQL — default emits `FOR SHARE`.
+     * PostgreSQL - default emits `FOR SHARE`.
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
@@ -38,7 +38,7 @@ final class SharedLockModifierTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * PostgreSQL — `FOR SHARE NOWAIT`.
+     * PostgreSQL - `FOR SHARE NOWAIT`.
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
@@ -57,7 +57,7 @@ final class SharedLockModifierTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * PostgreSQL — `FOR SHARE SKIP LOCKED`.
+     * PostgreSQL - `FOR SHARE SKIP LOCKED`.
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
@@ -76,7 +76,7 @@ final class SharedLockModifierTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * MySQL — modifier is silently ignored (legacy `LOCK IN SHARE MODE`
+     * MySQL - modifier is silently ignored (legacy `LOCK IN SHARE MODE`
      * does not support `NOWAIT` / `SKIP LOCKED`).
      *
      * @author Phalcon Team <team@phalcon.io>
@@ -104,7 +104,7 @@ final class SharedLockModifierTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * SQLite — no row-level locking, modifier is ignored.
+     * SQLite - no row-level locking, modifier is ignored.
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15

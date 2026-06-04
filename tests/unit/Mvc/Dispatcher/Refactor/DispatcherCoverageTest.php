@@ -29,7 +29,7 @@ use Phalcon\Tests\Unit\Mvc\Dispatcher\Helper\DispatcherTestDefaultTwoController;
 class DispatcherCoverageTest extends BaseDispatcher
 {
     /**
-     * Tests cyclic routing detection — exception thrown path (L289-293).
+     * Tests cyclic routing detection - exception thrown path (L289-293).
      *
      * The dispatcher forwards on every beforeDispatch event; after 256
      * iterations it detects the cycle and throws EXCEPTION_CYCLIC_ROUTING.
@@ -57,7 +57,7 @@ class DispatcherCoverageTest extends BaseDispatcher
     }
 
     /**
-     * Tests cyclic routing detection — exception suppressed path (L289-295).
+     * Tests cyclic routing detection - exception suppressed path (L289-295).
      *
      * When the beforeException listener returns false the exception is not
      * thrown and dispatch() reaches the break at L295.
@@ -88,7 +88,7 @@ class DispatcherCoverageTest extends BaseDispatcher
     }
 
     /**
-     * Tests invalid handler (not an object) — exception thrown path (L359-362).
+     * Tests invalid handler (not an object) - exception thrown path (L359-362).
      *
      * @return void
      */
@@ -116,7 +116,7 @@ class DispatcherCoverageTest extends BaseDispatcher
     }
 
     /**
-     * Tests invalid handler (not an object) — event returns false, break path
+     * Tests invalid handler (not an object) - event returns false, break path
      * (L359-362, L368).
      *
      * When the beforeException listener returns false and $this->finished is
@@ -151,7 +151,7 @@ class DispatcherCoverageTest extends BaseDispatcher
     }
 
     /**
-     * Tests action not found — beforeNotFoundAction returns false path (L390).
+     * Tests action not found - beforeNotFoundAction returns false path (L390).
      *
      * When the beforeNotFoundAction event returns false, the loop continues
      * with $this->finished still true, which causes the while condition to
@@ -179,7 +179,7 @@ class DispatcherCoverageTest extends BaseDispatcher
     }
 
     /**
-     * Tests action not found — beforeNotFoundAction forwards (L394).
+     * Tests action not found - beforeNotFoundAction forwards (L394).
      *
      * When the beforeNotFoundAction event forwards to a valid action, finished
      * becomes false and the continue at L394 causes the loop to restart with
@@ -213,7 +213,7 @@ class DispatcherCoverageTest extends BaseDispatcher
     }
 
     /**
-     * Tests action not found — exception suppressed, break path (L408-412).
+     * Tests action not found - exception suppressed, break path (L408-412).
      *
      * When beforeException returns false and $this->finished is true,
      * dispatch() reaches the break at L412.
@@ -238,7 +238,7 @@ class DispatcherCoverageTest extends BaseDispatcher
     }
 
     /**
-     * Tests action not found — exception suppressed + forward, continue path
+     * Tests action not found - exception suppressed + forward, continue path
      * (L408-409).
      *
      * When beforeException returns false AND forwards (finished=false), dispatch
@@ -349,7 +349,7 @@ class DispatcherCoverageTest extends BaseDispatcher
     }
 
     /**
-     * Tests action execution exception — exception suppressed, continue path
+     * Tests action execution exception - exception suppressed, continue path
      * (L609-614).
      *
      * When the action throws and beforeException returns false, handleException
@@ -387,7 +387,7 @@ class DispatcherCoverageTest extends BaseDispatcher
     }
 
     /**
-     * Tests action execution exception — exception bubbles (L609, L617).
+     * Tests action execution exception - exception bubbles (L609, L617).
      *
      * When the action throws and the beforeException listener does not return
      * false, the exception is re-thrown at L617.
@@ -406,7 +406,7 @@ class DispatcherCoverageTest extends BaseDispatcher
     }
 
     /**
-     * Tests invalid handler — exception suppressed + forward, continue path
+     * Tests invalid handler - exception suppressed + forward, continue path
      * (L365).
      *
      * When beforeException returns false AND forwards (finished=false), dispatch

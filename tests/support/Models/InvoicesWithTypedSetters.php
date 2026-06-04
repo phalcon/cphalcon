@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Support\Models;
 
 /**
  * Model used to verify that a TypeError from a strictly-typed setter during
- * ORM hydration does not propagate — the ORM must fall back to direct property
+ * ORM hydration does not propagate - the ORM must fall back to direct property
  * assignment instead.
  *
  * @see https://github.com/phalcon/cphalcon/issues/16956

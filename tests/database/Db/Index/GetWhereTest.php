@@ -20,7 +20,7 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class GetWhereTest extends AbstractDatabaseTestCase
 {
     /**
-     * Legacy positional constructor — `getWhere()` is empty.
+     * Legacy positional constructor - `getWhere()` is empty.
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15

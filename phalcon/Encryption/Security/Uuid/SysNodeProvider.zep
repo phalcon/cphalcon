@@ -17,16 +17,16 @@ namespace Phalcon\Encryption\Security\Uuid;
  * Discovers the hardware MAC address and returns it as a 12-character hex node.
  *
  * Two-layer cache:
- *   1. Instance property  — free on all calls after the first within this instance.
- *   2. APCu               — cross-request within the same PHP-FPM worker (optional).
+ *   1. Instance property  - free on all calls after the first within this instance.
+ *   2. APCu               - cross-request within the same PHP-FPM worker (optional).
  *
  * Falls back to RandomNodeProvider if no valid MAC address is found.
  *
  * Platform support:
- *   Linux   — reads /sys/class/net/*\/address
- *   macOS   — passthru("ifconfig 2>&1")
- *   Windows — passthru("ipconfig /all 2>&1")
- *   FreeBSD — passthru("netstat -i -f link 2>&1")
+ *   Linux   - reads /sys/class/net/*\/address
+ *   macOS   - passthru("ifconfig 2>&1")
+ *   Windows - passthru("ipconfig /all 2>&1")
+ *   FreeBSD - passthru("netstat -i -f link 2>&1")
  */
 class SysNodeProvider implements NodeProviderInterface
 {

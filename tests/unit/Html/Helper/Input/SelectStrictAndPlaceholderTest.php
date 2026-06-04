@@ -23,7 +23,7 @@ final class SelectStrictAndPlaceholderTest extends AbstractUnitTestCase
         $select = new Select(new Escaper(), new Doctype());
         $select('x', null, []);
         $select->selected('1');         // stored as string
-        $select->add('First', '1');    // string value — matches loose
+        $select->add('First', '1');    // string value - matches loose
         $select->add('Second', '2');
 
         $rendered = (string) $select;
@@ -61,7 +61,7 @@ final class SelectStrictAndPlaceholderTest extends AbstractUnitTestCase
         $select->strict();
         $select('x', null, []);
         $select->selected('1');
-        // add() takes string $value — even with strict, identical strings match
+        // add() takes string $value - even with strict, identical strings match
         $select->add('One', '1');
 
         $rendered = (string) $select;

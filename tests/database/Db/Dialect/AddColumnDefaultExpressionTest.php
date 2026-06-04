@@ -23,7 +23,7 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class AddColumnDefaultExpressionTest extends AbstractDatabaseTestCase
 {
     /**
-     * MySQL — a RawValue default is emitted unquoted (used for expressions
+     * MySQL - a RawValue default is emitted unquoted (used for expressions
      * like `(UUID())` introduced in MySQL 8.0.13).
      *
      * @author Phalcon Team <team@phalcon.io>
@@ -50,7 +50,7 @@ final class AddColumnDefaultExpressionTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * PostgreSQL — RawValue default is emitted verbatim (e.g.
+     * PostgreSQL - RawValue default is emitted verbatim (e.g.
      * `gen_random_uuid()`, `nextval('seq')`).
      *
      * @author Phalcon Team <team@phalcon.io>
@@ -83,7 +83,7 @@ final class AddColumnDefaultExpressionTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * SQLite — RawValue default is emitted verbatim (3.31+ supports
+     * SQLite - RawValue default is emitted verbatim (3.31+ supports
      * arbitrary expressions in DEFAULT).
      *
      * @author Phalcon Team <team@phalcon.io>
@@ -116,7 +116,7 @@ final class AddColumnDefaultExpressionTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * MySQL — non-RawValue strings still go through the existing quoting
+     * MySQL - non-RawValue strings still go through the existing quoting
      * path. Regression test for the unchanged behavior.
      *
      * @author Phalcon Team <team@phalcon.io>
@@ -142,7 +142,7 @@ final class AddColumnDefaultExpressionTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * MySQL — CURRENT_TIMESTAMP string remains unquoted (legacy whitelist).
+     * MySQL - CURRENT_TIMESTAMP string remains unquoted (legacy whitelist).
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15

@@ -20,8 +20,8 @@ use Phalcon\Contracts\Auth\AuthUser as AuthUserContract;
 /**
  * Common base for adapters whose user records come from an in-memory list
  * (Memory and Stream). Subclasses provide the row source via loadUsers();
- * everything else — credentials matching, hydration, the empty-credentials
- * guard, and a default linear retrieveById — is shared here.
+ * everything else - credentials matching, hydration, the empty-credentials
+ * guard, and a default linear retrieveById - is shared here.
  *
  * @phpstan-import-type AuthCredentials from \Phalcon\Contracts\Auth\Adapter\Adapter
  * @phpstan-type AuthUserRow array{id?: int|string}&array<string, mixed>
@@ -35,7 +35,7 @@ abstract class AbstractArrayAdapter extends AbstractAdapter
      * Walks the user list and returns the first row whose non-'password'
      * keys all match strictly. Returns null when no row matches or when
      * $credentials carries no identifying field at all (only 'password',
-     * or empty) — protects callers from the silent "first row wins" footgun.
+     * or empty) - protects callers from the silent "first row wins" footgun.
      *
      * @phpstan-param AuthCredentials $credentials
      */
@@ -79,8 +79,8 @@ abstract class AbstractArrayAdapter extends AbstractAdapter
 
     /**
      * Tests whether a credentials payload carries at least one identifying
-     * field (i.e. anything other than 'password'). An empty payload — or a
-     * payload that only contains 'password' — is treated as "no lookup".
+     * field (i.e. anything other than 'password'). An empty payload - or a
+     * payload that only contains 'password' - is treated as "no lookup".
      *
      * @phpstan-param AuthCredentials $credentials
      */

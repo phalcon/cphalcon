@@ -22,7 +22,7 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class AddIndexInvisibleTest extends AbstractDatabaseTestCase
 {
     /**
-     * MySQL — invisible index emits `INVISIBLE` after the column list.
+     * MySQL - invisible index emits `INVISIBLE` after the column list.
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
@@ -48,7 +48,7 @@ final class AddIndexInvisibleTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * MySQL — visible index (default) emits no `INVISIBLE` keyword.
+     * MySQL - visible index (default) emits no `INVISIBLE` keyword.
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
@@ -66,7 +66,7 @@ final class AddIndexInvisibleTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * PostgreSQL — has no INVISIBLE concept; the flag must not leak.
+     * PostgreSQL - has no INVISIBLE concept; the flag must not leak.
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
@@ -90,7 +90,7 @@ final class AddIndexInvisibleTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * SQLite — same: no INVISIBLE concept.
+     * SQLite - same: no INVISIBLE concept.
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15

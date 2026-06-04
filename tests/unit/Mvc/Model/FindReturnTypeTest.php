@@ -74,7 +74,7 @@ final class FindReturnTypeTest extends AbstractUnitTestCase
                 $returnType->getName()
             );
         } else {
-            // Either no declared return type or a union/intersection —
+            // Either no declared return type or a union/intersection -
             // both are acceptable. The narrow `ResultsetInterface` would
             // be reported as a ReflectionNamedType, which the branch
             // above handles.

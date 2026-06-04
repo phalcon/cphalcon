@@ -136,7 +136,7 @@ jobs:
 
       - name: Setup APT Repositories
         run: |
-          # Remove Microsoft repos — our builds often fail due to
+          # Remove Microsoft repos - our builds often fail due to
           # unstable/offline Microsoft servers.
           sudo rm -f /etc/apt/sources.list.d/dotnetdev.list
           sudo rm -f /etc/apt/sources.list.d/azure*.list
@@ -218,7 +218,7 @@ jobs:
 
       - name: Setup APT Repositories
         run: |
-          # Remove Microsoft repos — our builds often fail due to
+          # Remove Microsoft repos - our builds often fail due to
           # unstable/offline Microsoft servers.
           sudo rm -f /etc/apt/sources.list.d/dotnetdev.list
           sudo rm -f /etc/apt/sources.list.d/azure*.list

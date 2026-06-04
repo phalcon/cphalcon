@@ -24,7 +24,7 @@ class Route implements RouteInterface
 
     /**
      * Cached compiled hostname regex. `false` means "not yet computed";
-     * `null` means "hostname is literal — use string equality"; any string
+     * `null` means "hostname is literal - use string equality"; any string
      * means "use this as the PCRE pattern."
      *
      * @var string|null|false
@@ -707,7 +707,7 @@ class Route implements RouteInterface
     }
 
     /**
-     * Sets the route's id. Intended for restoring cached routes — most
+     * Sets the route's id. Intended for restoring cached routes - most
      * applications should rely on the auto-incrementing id assigned by
      * the constructor.
      */

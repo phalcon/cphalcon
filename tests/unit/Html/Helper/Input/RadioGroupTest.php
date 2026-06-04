@@ -72,7 +72,7 @@ final class RadioGroupTest extends AbstractUnitTestCase
     }
 
     // -----------------------------------------------------------------------
-    // Checked state — single scalar
+    // Checked state - single scalar
     // -----------------------------------------------------------------------
 
     public function testMarksCheckedWhenValueMatchesScalar(): void

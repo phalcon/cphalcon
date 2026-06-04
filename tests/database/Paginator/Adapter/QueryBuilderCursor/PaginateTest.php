@@ -124,7 +124,7 @@ final class PaginateTest extends AbstractDatabaseTestCase
             ]
         );
 
-        // page 1 — 5 rows, next cursor set
+        // page 1 - 5 rows, next cursor set
         $page1 = $paginator->paginate();
         $page1Items = $page1->getItems();
         $this->assertCount(5, $page1Items);
@@ -134,7 +134,7 @@ final class PaginateTest extends AbstractDatabaseTestCase
         // repository object
         $page1Next = $page1->getNext();
 
-        // page 2 — 5 rows, next cursor set
+        // page 2 - 5 rows, next cursor set
         $paginator->setCursor($page1Next);
         $page2 = $paginator->paginate();
         $page2Items = $page2->getItems();
@@ -145,7 +145,7 @@ final class PaginateTest extends AbstractDatabaseTestCase
         // Capture before page 3 overwrites
         $page2Next = $page2->getNext();
 
-        // page 3 — 1 remaining row, no further page
+        // page 3 - 1 remaining row, no further page
         $paginator->setCursor($page2Next);
         $page3 = $paginator->paginate();
         $page3Items = $page3->getItems();

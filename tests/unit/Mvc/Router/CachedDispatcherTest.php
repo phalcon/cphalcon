@@ -346,7 +346,7 @@ final class CachedDispatcherTest extends AbstractUnitTestCase
     }
 
     /**
-     * The dump file must not be left in a partial state — atomic write
+     * The dump file must not be left in a partial state - atomic write
      * via temp + rename. After a successful dump no temp file should remain.
      *
      * @author Phalcon Team <team@phalcon.io>

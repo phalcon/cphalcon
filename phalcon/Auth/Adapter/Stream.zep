@@ -53,7 +53,7 @@ class Stream extends AbstractArrayAdapter
     }
 
     /**
-     * Loads and decodes the JSON users file. Re-read on every call — if you
+     * Loads and decodes the JSON users file. Re-read on every call - if you
      * need caching, wrap it.
      *
      * @phpstan-return list<AuthUserRow>

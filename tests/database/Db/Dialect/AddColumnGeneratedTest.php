@@ -79,7 +79,7 @@ final class AddColumnGeneratedTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * MySQL — confirm DEFAULT/AUTO_INCREMENT are not emitted for a generated
+     * MySQL - confirm DEFAULT/AUTO_INCREMENT are not emitted for a generated
      * column (they cannot legally coexist; both would otherwise be appended
      * after the type by `addColumn`).
      *
@@ -108,7 +108,7 @@ final class AddColumnGeneratedTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * PostgreSQL — always emits STORED regardless of `generationStored`.
+     * PostgreSQL - always emits STORED regardless of `generationStored`.
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15

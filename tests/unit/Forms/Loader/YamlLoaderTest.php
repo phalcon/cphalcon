@@ -32,7 +32,7 @@ final class YamlLoaderTest extends AbstractUnitTestCase
     }
 
     // -----------------------------------------------------------------------
-    // Missing extension path (tested without guard — we test the exception)
+    // Missing extension path (tested without guard - we test the exception)
     // -----------------------------------------------------------------------
 
     public function testLoadThrowsWhenExtensionNotLoaded(): void

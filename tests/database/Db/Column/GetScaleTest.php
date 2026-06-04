@@ -66,7 +66,7 @@ final class GetScaleTest extends AbstractDatabaseTestCase
      */
     public function testDbColumnGetScaleDateTimeTimeTimeStamp(): void
     {
-        // pgsql/sqlite are excluded above — the FractalDates schema and
+        // pgsql/sqlite are excluded above - the FractalDates schema and
         // sub-second precision behavior tested here are mysql-specific.
         $connection = self::getConnection();
         $migration  = new FractalDatesMigration($connection);

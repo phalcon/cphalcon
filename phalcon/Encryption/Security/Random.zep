@@ -54,7 +54,7 @@ use Phalcon\Encryption\Security\Exceptions\InvalidRandomInput;
  * echo $random->base64Safe(8);          // mGyy0evy3ok
  * echo $random->base64Safe(null, true); // DRrAgOFkS4rvRiVHFefcQ==
  *
- * // Random UUID (version 4) — returns a string
+ * // Random UUID (version 4) - returns a string
  * echo $random->uuid(); // db082997-2572-4e2c-a046-5eefe97b1235
  * echo $random->uuid(); // da2aa0e2-b4d0-4e3c-99f5-f5ef62c57fe2
  *

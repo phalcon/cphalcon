@@ -22,7 +22,7 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class AddIndexDirectionsTest extends AbstractDatabaseTestCase
 {
     /**
-     * MySQL — explicit per-column directions are emitted.
+     * MySQL - explicit per-column directions are emitted.
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
@@ -48,7 +48,7 @@ final class AddIndexDirectionsTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * MySQL — missing trailing positions default to ASC.
+     * MySQL - missing trailing positions default to ASC.
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
@@ -75,7 +75,7 @@ final class AddIndexDirectionsTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * MySQL — empty directions array preserves legacy plain rendering.
+     * MySQL - empty directions array preserves legacy plain rendering.
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
@@ -94,7 +94,7 @@ final class AddIndexDirectionsTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * PostgreSQL — directions are emitted on `CREATE INDEX`.
+     * PostgreSQL - directions are emitted on `CREATE INDEX`.
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
@@ -121,7 +121,7 @@ final class AddIndexDirectionsTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * SQLite — directions are emitted on `CREATE INDEX`.
+     * SQLite - directions are emitted on `CREATE INDEX`.
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15

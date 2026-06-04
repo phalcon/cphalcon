@@ -130,7 +130,7 @@ class Manager implements ManagerContract
     public function except(string ...actions) -> <self>
     {
         if (this->activeAccess === null) {
-            throw new Exception("No active access — call access() first");
+            throw new Exception("No active access - call access() first");
         }
 
         this->activeAccess->setExceptActions(array_values(actions));
@@ -210,7 +210,7 @@ class Manager implements ManagerContract
     public function only(string ...actions) -> <self>
     {
         if (this->activeAccess === null) {
-            throw new Exception("No active access — call access() first");
+            throw new Exception("No active access - call access() first");
         }
 
         this->activeAccess->setOnlyActions(array_values(actions));

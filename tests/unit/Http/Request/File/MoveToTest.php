@@ -41,7 +41,7 @@ final class MoveToTest extends AbstractUnitTestCase
         // moveTo() delegates to move_uploaded_file(), which only succeeds
         // for genuine HTTP-uploaded files (per is_uploaded_file()).
         // Outside a real upload context it emits a warning and returns
-        // false — silence the warning and assert the return value.
+        // false - silence the warning and assert the return value.
         $destination = outputDir('tests/' . uniqid('move-', true) . '.txt');
 
         $previous = error_reporting(0);

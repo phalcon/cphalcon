@@ -112,7 +112,7 @@ final class CombinedRegexTest extends AbstractUnitTestCase
 
     /**
      * The presence of a hostname-constrained route in the bucket disables
-     * combined regex for that bucket — reverse-attach order with the
+     * combined regex for that bucket - reverse-attach order with the
      * hostname route is preserved by falling back to the per-route loop.
      *
      * @author Phalcon Team <team@phalcon.io>

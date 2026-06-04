@@ -130,7 +130,7 @@ final class StaticRouteFastPathTest extends AbstractUnitTestCase
 
     /**
      * A no-method ("*") regex attached after a method-specific static must
-     * be detected as a shadow during rebuild — otherwise the static fast
+     * be detected as a shadow during rebuild - otherwise the static fast
      * path would incorrectly win for the GET request.
      *
      * @author Phalcon Team <team@phalcon.io>

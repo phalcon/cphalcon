@@ -68,7 +68,7 @@ class Index implements IndexInterface
 
     /**
      * Whether to build the index without taking a strong lock that blocks
-     * writes — emits `CONCURRENTLY` between `INDEX` and the index name on
+     * writes - emits `CONCURRENTLY` between `INDEX` and the index name on
      * PostgreSQL (`CREATE INDEX CONCURRENTLY name ON ...`). MySQL and
      * SQLite have no equivalent and ignore the flag.
      *
@@ -78,7 +78,7 @@ class Index implements IndexInterface
 
     /**
      * Per-column sort directions (`ASC` / `DESC`). Empty array means
-     * "emit no per-column direction" — preserves the legacy plain
+     * "emit no per-column direction" - preserves the legacy plain
      * `(col1, col2)` rendering. When populated, entries shorter than
      * the columns list default to `ASC` for the missing positions.
      *
@@ -88,7 +88,7 @@ class Index implements IndexInterface
 
     /**
      * Whether the index is declared `INVISIBLE` (MySQL 8.0+). Invisible
-     * indexes are ignored by the optimizer — useful for testing what
+     * indexes are ignored by the optimizer - useful for testing what
      * happens when an index is removed before actually dropping it.
      * PostgreSQL and SQLite have no equivalent and ignore the flag.
      *

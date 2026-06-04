@@ -93,7 +93,7 @@ class Web implements Provider
         services->bind("Phalcon\\Mvc\\Url\\UrlInterface", "Phalcon\\Mvc\\Url");
         services->setAlias("Phalcon\\Mvc\\Url\\UrlInterface", "url");
 
-        // --- FQCN bindings (set + alias) — no unique interface available ---
+        // --- FQCN bindings (set + alias) - no unique interface available ---
 
         services->set(
             "Phalcon\\Auth\\Access\\AccessLocator",

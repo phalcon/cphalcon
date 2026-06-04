@@ -22,7 +22,7 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class AddIndexPartialTest extends AbstractDatabaseTestCase
 {
     /**
-     * PostgreSQL — emits `WHERE <expr>` for partial indexes.
+     * PostgreSQL - emits `WHERE <expr>` for partial indexes.
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
@@ -46,7 +46,7 @@ final class AddIndexPartialTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * SQLite — emits `WHERE <expr>` for partial indexes.
+     * SQLite - emits `WHERE <expr>` for partial indexes.
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
@@ -70,7 +70,7 @@ final class AddIndexPartialTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * MySQL — has no partial-index feature; the WHERE predicate is ignored.
+     * MySQL - has no partial-index feature; the WHERE predicate is ignored.
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15

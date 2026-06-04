@@ -103,7 +103,7 @@ final class AuthTest extends AbstractUnitTestCase
         $manager = $this->buildManager();
         $manager->addGuard('web', $guard, true);
 
-        // Not logged in — allowedIf() is false
+        // Not logged in - allowedIf() is false
         $access = new Auth($manager);
         $access->setExceptActions(['login']);
 
@@ -122,7 +122,7 @@ final class AuthTest extends AbstractUnitTestCase
 
         $guard->login($user);
 
-        // Logged in — allowedIf() is true
+        // Logged in - allowedIf() is true
         $access = new Auth($manager);
         $access->setOnlyActions(['admin']);
 

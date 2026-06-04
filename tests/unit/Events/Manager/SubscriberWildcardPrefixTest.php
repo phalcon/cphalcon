@@ -22,7 +22,7 @@ final class SubscriberWildcardPrefixTest extends AbstractUnitTestCase
     /**
      * Subscribing to the bare prefix ("db") must catch every "db:*" fire
      * because Manager::fire dispatches both the prefix queue and the
-     * full-name queue. This is Phalcon's wildcard mechanism — no new syntax
+     * full-name queue. This is Phalcon's wildcard mechanism - no new syntax
      * is needed in the Subscriber contract.
      */
     public function testPrefixKeyCatchesEveryNamespacedEvent(): void

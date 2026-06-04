@@ -29,7 +29,7 @@ final class ToStringTest extends AbstractUnitTestCase
         // Select::render() still uses legacy Phalcon\Tag, which pulls
         // the escaper service off the global DI. Stand one up so the
         // __toString call resolves to a concrete render path. Reset
-        // afterwards — well-isolated tests must not rely on DI state
+        // afterwards - well-isolated tests must not rely on DI state
         // left behind by their predecessors.
         $di = new Di();
         $di->setShared('escaper', new Escaper());

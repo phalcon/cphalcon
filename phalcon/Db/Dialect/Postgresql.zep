@@ -912,7 +912,7 @@ class Postgresql extends Dialect
     }
 
     /**
-     * Returns a SQL modified with a `FOR SHARE` clause — PostgreSQL's
+     * Returns a SQL modified with a `FOR SHARE` clause - PostgreSQL's
      * equivalent of MySQL's `LOCK IN SHARE MODE`. The optional `modifier`
      * appends a row-lock disposition keyword (pass `Dialect::LOCK_NOWAIT`
      * or `Dialect::LOCK_SKIP_LOCKED`).
@@ -999,7 +999,7 @@ class Postgresql extends Dialect
         let defaultValue = column->getDefault();
 
         /**
-         * RawValue defaults are emitted verbatim — this is how the caller
+         * RawValue defaults are emitted verbatim - this is how the caller
          * signals an SQL expression (e.g. `nextval('seq')`, `gen_random_uuid()`,
          * a function call, or any other dialect-specific expression).
          */

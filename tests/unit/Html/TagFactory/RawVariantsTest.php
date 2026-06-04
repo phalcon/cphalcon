@@ -17,7 +17,7 @@ use Phalcon\Tests\AbstractUnitTestCase;
 
 /**
  * Verifies that the `*Raw` factory entries skip escaping while their non-Raw
- * counterparts continue to escape. The pair shares a class — the difference
+ * counterparts continue to escape. The pair shares a class - the difference
  * is a `forceRaw` constructor flag injected by the factory recipe.
  */
 final class RawVariantsTest extends AbstractUnitTestCase

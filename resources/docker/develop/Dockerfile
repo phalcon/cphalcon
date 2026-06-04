@@ -2,7 +2,7 @@
 ARG PHP_VERSION=8.4
 
 ############################################################
-# base — runtime image: PHP-FPM + Phalcon runtime extensions
+# base - runtime image: PHP-FPM + Phalcon runtime extensions
 ############################################################
 FROM php:${PHP_VERSION}-fpm AS base
 
@@ -73,7 +73,7 @@ HEALTHCHECK --interval=5s --timeout=1s \
     CMD php-fpm-healthcheck || exit 1
 
 ############################################################
-# dev — compile + local development environment (non-root)
+# dev - compile + local development environment (non-root)
 ############################################################
 FROM base AS dev
 
@@ -151,7 +151,7 @@ WORKDIR /srv
 USER ${USER}
 
 ############################################################
-# phalcon — compile the extension (.so) for the prod image
+# phalcon - compile the extension (.so) for the prod image
 ############################################################
 FROM dev AS phalcon
 
@@ -171,7 +171,7 @@ RUN --mount=type=cache,target=/app/.composer/cache,uid=1000,gid=1000 \
     && cat compile-errors.log
 
 ############################################################
-# prod — minimal runtime image shipping the compiled .so
+# prod - minimal runtime image shipping the compiled .so
 ############################################################
 FROM base AS prod
 

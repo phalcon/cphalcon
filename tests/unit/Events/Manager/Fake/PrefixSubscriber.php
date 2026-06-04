@@ -16,7 +16,7 @@ namespace Phalcon\Tests\Unit\Events\Manager\Fake;
 use Phalcon\Contracts\Events\Subscriber;
 
 /**
- * Subscribes to the bare prefix "db" to catch every "db:*" fire — exercises
+ * Subscribes to the bare prefix "db" to catch every "db:*" fire - exercises
  * the manager's existing two-level dispatch (prefix queue + full-name queue).
  */
 class PrefixSubscriber implements Subscriber

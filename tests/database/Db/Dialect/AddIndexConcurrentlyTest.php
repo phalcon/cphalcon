@@ -22,7 +22,7 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class AddIndexConcurrentlyTest extends AbstractDatabaseTestCase
 {
     /**
-     * PostgreSQL — emits `CONCURRENTLY` between `INDEX` and the name.
+     * PostgreSQL - emits `CONCURRENTLY` between `INDEX` and the name.
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
@@ -46,7 +46,7 @@ final class AddIndexConcurrentlyTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * PostgreSQL — default (no `concurrently`) preserves legacy emission.
+     * PostgreSQL - default (no `concurrently`) preserves legacy emission.
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
@@ -64,7 +64,7 @@ final class AddIndexConcurrentlyTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * MySQL — has no CONCURRENTLY concept; the flag must not leak.
+     * MySQL - has no CONCURRENTLY concept; the flag must not leak.
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
@@ -88,7 +88,7 @@ final class AddIndexConcurrentlyTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * SQLite — has no CONCURRENTLY concept.
+     * SQLite - has no CONCURRENTLY concept.
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15

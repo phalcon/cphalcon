@@ -36,7 +36,7 @@ abstract class AbstractUuid implements UuidInterface
     const TIME_OFFSET_INT = 0x01B21DD213814000;
 
     /**
-     * Cached SysNodeProvider instance — shared within the request via static.
+     * Cached SysNodeProvider instance - shared within the request via static.
      *
      * @var NodeProviderInterface|null
      */

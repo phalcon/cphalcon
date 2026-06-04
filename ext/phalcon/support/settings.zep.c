@@ -67,7 +67,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Settings)
  *
  * Resolution order:
  *   1. PHP-level override (set via Settings::set())
- *   2. globals_get() — the C-level value, honouring php.ini / .htaccess
+ *   2. globals_get() — the C-level value, honoring php.ini / .htaccess
  *   3. null — for unknown keys
  *
  * @param string $key

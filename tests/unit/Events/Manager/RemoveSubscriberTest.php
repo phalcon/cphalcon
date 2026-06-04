@@ -54,12 +54,12 @@ final class RemoveSubscriberTest extends AbstractUnitTestCase
         $manager          = new Manager();
         $simpleSubscriber = new SimpleSubscriber();
 
-        // Never added — must not throw.
+        // Never added - must not throw.
         $manager->removeSubscriber($simpleSubscriber);
 
         $manager->addSubscriber($simpleSubscriber);
         $manager->removeSubscriber($simpleSubscriber);
-        // Double-remove — must not throw.
+        // Double-remove - must not throw.
         $manager->removeSubscriber($simpleSubscriber);
 
         $this->assertCount(0, $manager->getListeners('test:hello'));
