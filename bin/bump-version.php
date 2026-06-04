@@ -229,8 +229,8 @@ $runStep = function (string $label, string $cwd, array $command) {
     }
 };
 
-$runStep('zephir fullclean', $root,            ['zephir', 'fullclean']);
-$runStep('zephir generate',  $root,            ['zephir', 'generate']);
+$runStep('zephir fullclean', $root,            ['./vendor/bin/zephir', 'fullclean']);
+$runStep('zephir generate',  $root,            ['./vendor/bin/zephir', 'generate']);
 $runStep('ext/install',      $root . '/ext',   ['./install']);
 $runStep('build/gen-build',  $root . '/build', ['php', 'gen-build.php']);
 
