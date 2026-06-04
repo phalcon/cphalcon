@@ -173,7 +173,7 @@ RUN --mount=type=cache,target=/app/.composer/cache,uid=1000,gid=1000 \
 FROM base AS prod
 
 ARG PHP_VERSION=8.4
-ARG PHALCON_VERSION="v5.13.0"
+ARG PHALCON_VERSION="v5.14.0"
 ARG USER=phalcon
 
 ENV PATH=/app/bin:/app:${PATH} \
