@@ -12,6 +12,10 @@
 - Alignment with v6; docblocks; sorting; return types; minor fixes (image watermark opacity calc, serializer/helpers, readonly-becoming-mutable, ACL local access). [#17055](https://github.com/phalcon/cphalcon/issues/17055)
 - Changed return types to `-> <static>` or `-> <self>` in various components. The change is a covariant narrowing on implementation methods and does not touch any interface contracts, so userland classes that implement Phalcon interfaces and return the interface type continue to work unchanged. [#17035](https://github.com/phalcon/cphalcon/issues/17035)
 - Internal performance work across `Autoload`, `Dispatcher`, `Annotations`, `Db`, `Mvc\Model`, `Mvc\Model\Query`, `Tag`, `Assets`, `Acl\Adapter\Memory`, `Http\Request`, `Encryption\Crypt`. Behavior preserved. [#17049](https://github.com/phalcon/cphalcon/issues/17049)
+- Moved CI tools/scripts in `resources/` removed unused ones [#17066](https://github.com/phalcon/cphalcon/pull/17066)
+- Moved docker in `resources/` [#17066](https://github.com/phalcon/cphalcon/pull/17066)
+- Refactored docker images (more flexible less cruft) [#17066](https://github.com/phalcon/cphalcon/pull/17066)
+- Reorganization of quality tool config files (in `resources/`) [#17066](https://github.com/phalcon/cphalcon/pull/17066)
 - `Phalcon\Autoload\Loader` getters (`getDirectories`, `getExtensions`, `getFiles`) return arrays keyed by the value string instead of by a SHA256 hash of it; iteration order and contents are unchanged. [#17049](https://github.com/phalcon/cphalcon/issues/17049) [[doc]](https://docs.phalcon.io/5.14/autoload/)
 - `Phalcon\Mvc\Router::handle()` internal optimizations: O(1) hash lookup for literal-URI routes; per-HTTP-method buckets; hot-loop reads; PCRE patterns chunked; per-route metadata cache deduplicated by route id. [#17012](https://github.com/phalcon/cphalcon/issues/17012) [[doc]](https://docs.phalcon.io/5.14/routing/)
 - `Phalcon\Mvc\Router\Route::getCompiledHostName()` now uses cache for hostname/converters. [#17012](https://github.com/phalcon/cphalcon/issues/17012) [[doc]](https://docs.phalcon.io/5.14/routing/)
@@ -523,16 +527,16 @@
         - `MissingGettextExtension`
         - `MissingRequiredParameter`
         - `TranslatorNotRegistered` [#17019](https://github.com/phalcon/cphalcon/issues/17019)
-- `Phalcon\Mvc\Router\Route::setRouteId(string $routeId)` - setter intended for restoring cached routes [#17012](https://github.com/phalcon/cphalcon/issues/17012) [[doc]](https://docs.phalcon.io/5.14/routing/)
-- `Phalcon\Mvc\Router::buildDispatcherDump()` / `Phalcon\Mvc\Router::loadDispatcherFromArray(array $dump)` - used to build/load the routes [#17012](https://github.com/phalcon/cphalcon/issues/17012) [[doc]](https://docs.phalcon.io/5.14/routing/)
-- `Phalcon\Mvc\Router::dumpDispatcher(string $path)` / `Phalcon\Mvc\Router::loadDispatcher(string $path)` - file-shaped helpers that write/read routes [#17012](https://github.com/phalcon/cphalcon/issues/17012) [[doc]](https://docs.phalcon.io/5.14/routing/)
-- `Phalcon\Mvc\Router::useCache()` - to use a `Phalcon\Cache` adapter to store routes [#17012](https://github.com/phalcon/cphalcon/issues/17012) [[doc]](https://docs.phalcon.io/5.14/routing/)
 - Opt-in memory caps for long-running workers (Swoole / RoadRunner / queue consumers). Default `0` preserves the original unbounded behavior: [#17049](https://github.com/phalcon/cphalcon/issues/17049)
     - `Phalcon\Db\Profiler::setMaxProfiles(int)` / `getMaxProfiles()` [[doc]](https://docs.phalcon.io/5.14/db-layer/)
     - `Phalcon\Logger\Adapter\AbstractAdapter::setQueueLimit(int)` / `getQueueLimit()` [[doc]](https://docs.phalcon.io/5.14/logger/)
     - `Phalcon\Events\Manager::setMethodExistsCacheLimit(int)` / `getMethodExistsCacheLimit()` [[doc]](https://docs.phalcon.io/5.14/events/)
     - `Phalcon\Annotations\Adapter\AbstractAdapter::setAnnotationsLimit(int)` / `getAnnotationsLimit()` [[doc]](https://docs.phalcon.io/5.14/annotations/)
     - `Phalcon\Storage\Adapter\Memory::setMaxItems(int)` / `getMaxItems()` [[doc]](https://docs.phalcon.io/5.14/storage/)
+- `Phalcon\Mvc\Router\Route::setRouteId(string $routeId)` - setter intended for restoring cached routes [#17012](https://github.com/phalcon/cphalcon/issues/17012) [[doc]](https://docs.phalcon.io/5.14/routing/)
+- `Phalcon\Mvc\Router::buildDispatcherDump()` / `Phalcon\Mvc\Router::loadDispatcherFromArray(array $dump)` - used to build/load the routes [#17012](https://github.com/phalcon/cphalcon/issues/17012) [[doc]](https://docs.phalcon.io/5.14/routing/)
+- `Phalcon\Mvc\Router::dumpDispatcher(string $path)` / `Phalcon\Mvc\Router::loadDispatcher(string $path)` - file-shaped helpers that write/read routes [#17012](https://github.com/phalcon/cphalcon/issues/17012) [[doc]](https://docs.phalcon.io/5.14/routing/)
+- `Phalcon\Mvc\Router::useCache()` - to use a `Phalcon\Cache` adapter to store routes [#17012](https://github.com/phalcon/cphalcon/issues/17012) [[doc]](https://docs.phalcon.io/5.14/routing/)
 
 ### Fixed
 
@@ -544,10 +548,11 @@
 - Fixed `Phalcon\Mvc\Router::handle()` falling back to a default catch-all route instead of matching an HTTP-method-constrained route attached afterward. [#17062](https://github.com/phalcon/cphalcon/issues/17062) [[doc]](https://docs.phalcon.io/5.14/routing/)
 - Fixed `Phalcon\Mvc\View::getContent()` throwing `TypeError` after `View::start()`. `start()` was assigning `$this->content = null` [#17041](https://github.com/phalcon/cphalcon/issues/17041) [[doc]](https://docs.phalcon.io/5.14/views/)
 - Fixed `Phalcon\Mvc\View\Engine\Volt\Compiler` emitting invalid PHP when a double-quoted Volt string contained literal single quotes (e.g. `"send_ga('Link', ...)"`). Only un-escaped single quotes are now escaped, so the `'Let\'s Encrypt'` case from [#17002](https://github.com/phalcon/cphalcon/issues/17002) is preserved [#17046](https://github.com/phalcon/cphalcon/issues/17046) [[doc]](https://docs.phalcon.io/5.14/volt/)
-- Fixed `$this->eventsManager` resolving to `null` inside `Phalcon\Mvc\Controller` methods [#17060](https://github.com/phalcon/cphalcon/issues/17060) [[doc]](https://docs.phalcon.io/5.14/controllers/)
+- Fixed warning in `Phalcon\Auth\ManagerFactory` emitted in tests (random commit but had to be fixed) [#17066](https://github.com/phalcon/cphalcon/pull/17066)
 
 ### Removed
 
+- Removed unused `Phalcon\Contracts\Container\Service\Lifetime` [#17066](https://github.com/phalcon/cphalcon/pull/17066)
 - Reverted the `Phalcon\Mvc\Model\Query::executeUpdate()` named-placeholder substitution introduced for [#16976](https://github.com/phalcon/cphalcon/issues/16976). The substitution path was triggering a use-after-free in the model update flow under PostgreSQL ([#17042](https://github.com/phalcon/cphalcon/issues/17042)). Issue [#16976](https://github.com/phalcon/cphalcon/issues/16976) is reopened and will be addressed with a different approach. [[doc]](https://docs.phalcon.io/5.14/db-phql/)
 
 ## [5.13.0](https://github.com/phalcon/cphalcon/releases/tag/v5.13.0) (2026-05-18)
