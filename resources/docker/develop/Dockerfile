@@ -141,6 +141,9 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     && chown -R "${USER}:${GROUP}" "${COMPOSER_HOME}" \
 # Make the dirs `make install` writes to (extension dir + headers) writable so `cpl` installs as the user \
     && chown -R "${USER}:${GROUP}" "$(php-config --extension-dir)" "$(php-config --include-dir)" /usr/local/etc/php/conf.d \
+# Own the WORKDIR so the user can create `.zephir`/`ext` dirs during `zephir build` \
+    && mkdir -p /srv \
+    && chown "${USER}:${GROUP}" /srv \
 # Cleanup \
     && rm -rf /tmp/* /var/tmp/*
 
