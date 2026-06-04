@@ -353,7 +353,7 @@ class Manager implements ManagerInterface
      * @param mixed  data
      * @return mixed
      */
-    final public function fire(
+    public function fire(
         string eventType,
         object source,
         var data = null,
@@ -366,6 +366,10 @@ class Manager implements ManagerInterface
         // Manager-level kill switch — halt() trips this and every fire
         // returns null without dispatching until resume() clears it.
         if this->halted {
+            return null;
+        }
+
+        if this->beforeFire(eventType, source, data, cancelable) === false {
             return null;
         }
 
@@ -483,7 +487,7 @@ class Manager implements ManagerInterface
 
         let this->fireDepth = wasDepth;
 
-        return status;
+        return this->afterFire(status, eventType, source, data, cancelable);
     }
 
     /**
@@ -815,6 +819,44 @@ class Manager implements ManagerInterface
     public function setStrict(bool strict) -> void
     {
         let this->strict = strict;
+    }
+
+    /**
+     * Extension seam invoked after an event has been dispatched to its
+     * listener queues. Receives the computed dispatch result as `status`
+     * and returns the value fire() hands back to its caller; the base
+     * implementation returns `status` unchanged. A subclass can override
+     * it to run bookkeeping or to post-process / rewrite the result.
+     *
+     * Only called when the event was actually dispatched; the halted and
+     * no-listener short-circuits in fire() return before reaching it.
+     */
+    protected function afterFire(
+        var status,
+        string eventType,
+        object source,
+        var data = null,
+        bool cancelable = true
+    ) -> var {
+        return status;
+    }
+
+    /**
+     * Extension seam invoked before an event is dispatched. The base
+     * implementation returns true, so dispatch proceeds unchanged. A
+     * subclass can override it to inspect the source and data and, by
+     * returning false, abort the dispatch entirely - for example to
+     * redirect a deferred event onto an external queue. Invoked before the
+     * no-listener short-circuits, so it sees every fire(), including those
+     * with no locally attached listeners.
+     */
+    protected function beforeFire(
+        string eventType,
+        object source,
+        var data = null,
+        bool cancelable = true
+    ) -> bool {
+        return true;
     }
 
     /**

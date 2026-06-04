@@ -27,7 +27,7 @@ use Phalcon\Events\Exceptions\InvalidEventSource;
  * }
  * ```
  */
-final class Event implements EventInterface, Stoppable
+class Event implements EventInterface, Stoppable
 {
     /**
      * Is event cancelable?
