@@ -1,6 +1,6 @@
 # Changelog
 
-## [5.14.0](https://github.com/phalcon/cphalcon/releases/tag/v5.14.0) (2026-06-03)
+## [5.14.0](https://github.com/phalcon/cphalcon/releases/tag/v5.14.0) (2026-06-04)
 
 ### Tools
 
