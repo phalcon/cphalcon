@@ -527,20 +527,22 @@
         - `MissingGettextExtension`
         - `MissingRequiredParameter`
         - `TranslatorNotRegistered` [#17019](https://github.com/phalcon/cphalcon/issues/17019)
-- Opt-in memory caps for long-running workers (Swoole / RoadRunner / queue consumers). Default `0` preserves the original unbounded behavior: [#17049](https://github.com/phalcon/cphalcon/issues/17049)
+- Added `Phalcon\Events\Manager::fire()` `beforeFire()` / `afterFire()` extension seams to `Manager::fire()`. [#17065](https://github.com/phalcon/cphalcon/issues/17065) [[doc]](https://docs.phalcon.io/5.14/events/)
+- Added opt-in memory caps for long-running workers (Swoole / RoadRunner / queue consumers). Default `0` preserves the original unbounded behavior: [#17049](https://github.com/phalcon/cphalcon/issues/17049)
     - `Phalcon\Db\Profiler::setMaxProfiles(int)` / `getMaxProfiles()` [[doc]](https://docs.phalcon.io/5.14/db-layer/)
     - `Phalcon\Logger\Adapter\AbstractAdapter::setQueueLimit(int)` / `getQueueLimit()` [[doc]](https://docs.phalcon.io/5.14/logger/)
     - `Phalcon\Events\Manager::setMethodExistsCacheLimit(int)` / `getMethodExistsCacheLimit()` [[doc]](https://docs.phalcon.io/5.14/events/)
     - `Phalcon\Annotations\Adapter\AbstractAdapter::setAnnotationsLimit(int)` / `getAnnotationsLimit()` [[doc]](https://docs.phalcon.io/5.14/annotations/)
     - `Phalcon\Storage\Adapter\Memory::setMaxItems(int)` / `getMaxItems()` [[doc]](https://docs.phalcon.io/5.14/storage/)
-- `Phalcon\Mvc\Router\Route::setRouteId(string $routeId)` - setter intended for restoring cached routes [#17012](https://github.com/phalcon/cphalcon/issues/17012) [[doc]](https://docs.phalcon.io/5.14/routing/)
-- `Phalcon\Mvc\Router::buildDispatcherDump()` / `Phalcon\Mvc\Router::loadDispatcherFromArray(array $dump)` - used to build/load the routes [#17012](https://github.com/phalcon/cphalcon/issues/17012) [[doc]](https://docs.phalcon.io/5.14/routing/)
-- `Phalcon\Mvc\Router::dumpDispatcher(string $path)` / `Phalcon\Mvc\Router::loadDispatcher(string $path)` - file-shaped helpers that write/read routes [#17012](https://github.com/phalcon/cphalcon/issues/17012) [[doc]](https://docs.phalcon.io/5.14/routing/)
-- `Phalcon\Mvc\Router::useCache()` - to use a `Phalcon\Cache` adapter to store routes [#17012](https://github.com/phalcon/cphalcon/issues/17012) [[doc]](https://docs.phalcon.io/5.14/routing/)
+- Added `Phalcon\Mvc\Router\Route::setRouteId(string $routeId)` - setter intended for restoring cached routes [#17012](https://github.com/phalcon/cphalcon/issues/17012) [[doc]](https://docs.phalcon.io/5.14/routing/)
+- Added `Phalcon\Mvc\Router::buildDispatcherDump()` / `Phalcon\Mvc\Router::loadDispatcherFromArray(array $dump)` - used to build/load the routes [#17012](https://github.com/phalcon/cphalcon/issues/17012) [[doc]](https://docs.phalcon.io/5.14/routing/)
+- Added `Phalcon\Mvc\Router::dumpDispatcher(string $path)` / `Phalcon\Mvc\Router::loadDispatcher(string $path)` - file-shaped helpers that write/read routes [#17012](https://github.com/phalcon/cphalcon/issues/17012) [[doc]](https://docs.phalcon.io/5.14/routing/)
+- Added `Phalcon\Mvc\Router::useCache()` - to use a `Phalcon\Cache` adapter to store routes [#17012](https://github.com/phalcon/cphalcon/issues/17012) [[doc]](https://docs.phalcon.io/5.14/routing/)
 
 ### Fixed
 
 - Fixed `$this->eventsManager` resolving to `null` inside `Phalcon\Mvc\Controller` methods [#17060](https://github.com/phalcon/cphalcon/issues/17060) [[doc]](https://docs.phalcon.io/5.14/controllers/)
+- Fixed `Phalcon\Events\Event` and `Phalcon\Events\Manager::fire()` being declared `final` in 5.13.0 ([#17006](https://github.com/phalcon/cphalcon/issues/17006)), which prevented subclassing the events manager. [#17065](https://github.com/phalcon/cphalcon/issues/17065) [[doc]](https://docs.phalcon.io/5.14/events/)
 - Fixed `Phalcon\Forms\Form::clear()` leaving a previously-bound `null` field value in the data array instead of unsetting it before reassigning the element default [#17042](https://github.com/phalcon/cphalcon/issues/17042) [[doc]](https://docs.phalcon.io/5.14/forms/)
 - Fixed `Phalcon\Mvc\Model::getChangedFields()` / `hasChanged()` flagging every null-valued column of a freshly-loaded row as changed [#17042](https://github.com/phalcon/cphalcon/issues/17042) [[doc]](https://docs.phalcon.io/5.14/db-models/)
 - Fixed `Phalcon\Mvc\Model::getUpdatedFields()` flagging unchanged null-valued columns as updated [#17042](https://github.com/phalcon/cphalcon/issues/17042) [[doc]](https://docs.phalcon.io/5.14/db-models/)
