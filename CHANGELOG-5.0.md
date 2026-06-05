@@ -16,6 +16,8 @@
 
 ### Fixed
 
+- Fixed `Phalcon\Di\Injectable::__get()` to no longer cache resolved services as dynamic object properties. Services accessed via magic properties (e.g. `$this->request`) are now re-resolved through the container on each access, so replacing or updating a service in the container is reflected in controllers, views, and other injectable classes. Properties already declared on the class continue to be populated. [#17052](https://github.com/phalcon/cphalcon/issues/17052)
+
 ### Removed
 
 
