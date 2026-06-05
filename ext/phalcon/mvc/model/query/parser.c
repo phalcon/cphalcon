@@ -2661,7 +2661,6 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 	phql_scanner_token token;
 	void* phql_parser;
 	char *error;
-	unsigned long phql_key = 0;
 	zval *temp_ast;
 
 	if (!phql) {
@@ -2671,9 +2670,8 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 
 	cache_level = phalcon_globals_ptr->orm.cache_level;
 	if (cache_level >= 0) {
-		phql_key = zend_inline_hash_func(phql, phql_length + 1);
 		if (phalcon_globals_ptr->orm.parser_cache != NULL) {
-			if ((temp_ast = zend_hash_index_find(phalcon_globals_ptr->orm.parser_cache, phql_key)) != NULL) {
+			if ((temp_ast = zend_hash_str_find(phalcon_globals_ptr->orm.parser_cache, phql, phql_length)) != NULL) {
 				ZVAL_ZVAL(*result, temp_ast, 1, 0);
 				return SUCCESS;
 			}
@@ -3070,9 +3068,10 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 
 					Z_TRY_ADDREF_P(*result);
 
-					zend_hash_index_update(
+					zend_hash_str_update(
 						phalcon_globals_ptr->orm.parser_cache,
-						phql_key,
+						phql,
+						phql_length,
 						*result
 					);
 				}
