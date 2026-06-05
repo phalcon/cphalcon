@@ -59,7 +59,7 @@ abstract class Injectable extends stdClass implements InjectionAwareInterface
      */
     public function __get(string! propertyName) -> var | null
     {
-        var container;
+        var container, service;
 
         let container = <DiInterface> this->getDI();
 
@@ -85,12 +85,20 @@ abstract class Injectable extends stdClass implements InjectionAwareInterface
         }
 
         /**
-         * Resolve the service through the container on every access so that
-         * updates to the service definition are reflected. The instance is no
-         * longer stored as a property to avoid returning a stale reference.
+         * Resolve the service through the container. Only cache it on the
+         * object when the property is already declared on the class. This way
+         * dynamic services (e.g. request, response) are re-resolved on each
+         * access and reflect updates to the service definition, while declared
+         * component properties keep being populated as before.
          */
         if container->has(propertyName) {
-            return container->getShared(propertyName);
+            let service = container->getShared(propertyName);
+
+            if property_exists(this, propertyName) {
+                let this->{propertyName} = service;
+            }
+
+            return service;
         }
 
         /**
