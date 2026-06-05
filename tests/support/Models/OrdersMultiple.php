@@ -118,6 +118,19 @@ class OrdersMultiple extends Model
             ]
         );
 
+        $this->hasManyToMany(
+            'ord_id',
+            OrdersProductsFieldsOne::class,
+            'oxp_ord_id',
+            'oxp_prd_id',
+            Products::class,
+            'prd_id',
+            [
+                'alias' => 'productsFieldsOneSync',
+                'sync'  => true,
+            ]
+        );
+
         $this->hasOneThrough(
             'ord_id',
             OrdersProductsFieldsOne::class,

@@ -199,6 +199,14 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     protected snapshot = [];
 
     /**
+     * Per-save many-to-many sync overrides, keyed by lowercased relation
+     * alias (or "*" wildcard) => bool. Cleared after each save().
+     *
+     * @var array
+     */
+    protected syncRelated = [];
+
+    /**
      * @var TransactionInterface|null
      */
     protected transaction = null;
@@ -554,7 +562,13 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
                         unset this->related[lowerProperty];
 
-                        if count(related) > 0 {
+                        /**
+                         * For many-to-many keep an (even empty) entry so that
+                         * save() can synchronize the relationship - assigning an
+                         * empty array must be able to clear all intermediate rows
+                         * when syncing is enabled.
+                         */
+                        if count(related) > 0 || relation->getType() === Relation::HAS_MANY_THROUGH {
                             let this->dirtyRelated[lowerProperty] = related,
                                 this->dirtyState = self::DIRTY_STATE_TRANSIENT;
                         } else {
@@ -2802,6 +2816,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
         if hasRelatedToSave {
             if this->preSaveRelatedRecords(writeConnection, relatedToSave, visited) === false {
+                let this->syncRelated = [];
+
                 return false;
             }
         }
@@ -2851,6 +2867,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             if hasRelatedToSave {
                 writeConnection->rollback(false);
             }
+
+            let this->syncRelated = [];
 
             /**
              * Throw exceptions on failed saves?
@@ -2949,6 +2967,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             (<ManagerInterface> this->modelsManager)->clearReusableObjects();
             this->fireEvent("afterSave");
         }
+
+        let this->syncRelated = [];
 
         return success;
     }
@@ -3239,6 +3259,53 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
 
         let this->snapshot = snapshot;
+    }
+
+    /**
+     * Marks one or more many-to-many relationships to be synchronized (or not)
+     * on the next save() call, overriding the relation's `sync` option for that
+     * save only. The flag is cleared after save().
+     *
+     * When syncing is enabled, intermediate rows for related records no longer
+     * present in the assigned array are deleted.
+     *
+     *```php
+     * // Sync only the "tags" relationship on this save
+     * $post->setSync("tags")->save();
+     *
+     * // Sync every many-to-many relationship on this save
+     * $post->setSync()->save();
+     *
+     * // Disable syncing for every relationship on this save
+     * $post->setSync("*", false)->save();
+     *
+     * // Disable syncing for specific relationships on this save
+     * $post->setSync(["tags", "categories"], false)->save();
+     *```
+     *
+     * @param string|array|null elements
+     */
+    public function setSync(var elements = null, bool enabled = true) -> <ModelInterface>
+    {
+        var alias;
+
+        if elements === null || elements === "*" {
+            let this->syncRelated["*"] = enabled;
+
+            return this;
+        }
+
+        if typeof elements === "array" {
+            for alias in elements {
+                let this->syncRelated[strtolower(alias)] = enabled;
+            }
+
+            return this;
+        }
+
+        let this->syncRelated[strtolower(elements)] = enabled;
+
+        return this;
     }
 
     /**
@@ -5370,10 +5437,11 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             columns, referencedModel, referencedFields, relatedRecords,
             recordAfter, intermediateModel, intermediateFields,
             intermediateModelName,
-            intermediateReferencedFields, existingIntermediateModel, columnA, columnB;
-        bool isThrough;
+            intermediateReferencedFields, existingIntermediateModel, columnA, columnB,
+            existingRecords, existingRecord, keepKey, override;
+        bool isThrough, doSync;
         int columnCount, referencedFieldsCount, i, j, t, h;
-        array conditions, placeholders, loopConditions, loopPlaceholders;
+        array conditions, placeholders, loopConditions, loopPlaceholders, keptKeys;
 
         let nesting = false,
             className = get_class(this),
@@ -5426,6 +5494,18 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                         intermediateReferencedFields = relation->getIntermediateReferencedFields();
                     let placeholders = [];
                     let conditions = [];
+                    let keptKeys = [];
+
+                    /**
+                     * Resolve sync behavior: per-save override (specific alias,
+                     * then "*" wildcard) wins over the relation's `sync` option.
+                     */
+                    let doSync = (bool) relation->getOption("sync");
+                    if fetch override, this->syncRelated[name] {
+                        let doSync = (bool) override;
+                    } elseif fetch override, this->syncRelated["*"] {
+                        let doSync = (bool) override;
+                    }
 
                     /**
                      * Always check for existing intermediate models
@@ -5546,6 +5626,61 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                             connection->rollback(nesting);
 
                             return false;
+                        }
+
+                        /**
+                         * Track the referenced key of each kept record so that
+                         * sync can delete the intermediate rows left behind.
+                         */
+                        if doSync {
+                            if unlikely typeof referencedFields === "array" {
+                                let keepKey = "";
+                                for columnA in referencedFields {
+                                    let keepKey .= recordAfter->{columnA} . "|";
+                                }
+                            } else {
+                                let keepKey = (string) recordAfter->{referencedFields};
+                            }
+                            let keptKeys[keepKey] = true;
+                        }
+                    }
+
+                    /**
+                     * Sync: remove intermediate rows for records that are no
+                     * longer present in the assigned array. Only applies to
+                     * many-to-many (HAS_MANY_THROUGH).
+                     */
+                    if doSync && relation->getType() === Relation::HAS_MANY_THROUGH {
+                        let intermediateModel = <ModelInterface> manager->load(
+                            intermediateModelName
+                        );
+
+                        let existingRecords = intermediateModel->find(
+                            [
+                                join(" AND ", conditions),
+                                "bind": placeholders
+                            ]
+                        );
+
+                        for existingRecord in existingRecords {
+                            if unlikely typeof intermediateReferencedFields === "array" {
+                                let keepKey = "";
+                                for columnB in intermediateReferencedFields {
+                                    let keepKey .= existingRecord->{columnB} . "|";
+                                }
+                            } else {
+                                let keepKey = (string) existingRecord->{intermediateReferencedFields};
+                            }
+
+                            if !isset keptKeys[keepKey] {
+                                if !existingRecord->delete() {
+                                    this->appendMessagesFrom(existingRecord);
+
+                                    connection->rollback(nesting);
+
+                                    return false;
+                                }
+                            }
                         }
                     }
                 } else {
