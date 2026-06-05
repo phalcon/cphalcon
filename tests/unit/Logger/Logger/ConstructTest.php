@@ -62,6 +62,7 @@ final class ConstructTest extends AbstractUnitTestCase
         $this->assertSame(5, Enum::NOTICE);
         $this->assertSame(4, Enum::WARNING);
         $this->assertSame(8, Enum::CUSTOM);
+        $this->assertSame(9, Enum::TRACE);
     }
 
     /**

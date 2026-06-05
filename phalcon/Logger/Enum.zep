@@ -50,5 +50,9 @@ class Enum
     /**
      * @var int
      */
+    const TRACE     = 9;
+    /**
+     * @var int
+     */
     const WARNING   = 4;
 }
