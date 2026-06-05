@@ -237,7 +237,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Weak, setDefaultSerializer)
 }
 
 /**
- * Decrements a stored number — not supported for WeakReference
+ * Decrements a stored number - not supported for WeakReference
  *
  * @param string $key
  * @param int    $value
@@ -385,7 +385,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Weak, doHas)
 }
 
 /**
- * Increments a stored number — not supported for WeakReference
+ * Increments a stored number - not supported for WeakReference
  *
  * @param string $key
  * @param int    $value

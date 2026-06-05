@@ -84,7 +84,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Index)
 	zend_declare_property_null(phalcon_db_index_ce, SL("columns"), ZEND_ACC_PROTECTED);
 	/**
 	 * Whether to build the index without taking a strong lock that blocks
-	 * writes — emits `CONCURRENTLY` between `INDEX` and the index name on
+	 * writes - emits `CONCURRENTLY` between `INDEX` and the index name on
 	 * PostgreSQL (`CREATE INDEX CONCURRENTLY name ON ...`). MySQL and
 	 * SQLite have no equivalent and ignore the flag.
 	 *
@@ -93,7 +93,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Index)
 	zend_declare_property_bool(phalcon_db_index_ce, SL("concurrent"), 0, ZEND_ACC_PROTECTED);
 	/**
 	 * Per-column sort directions (`ASC` / `DESC`). Empty array means
-	 * "emit no per-column direction" — preserves the legacy plain
+	 * "emit no per-column direction" - preserves the legacy plain
 	 * `(col1, col2)` rendering. When populated, entries shorter than
 	 * the columns list default to `ASC` for the missing positions.
 	 *
@@ -102,7 +102,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Index)
 	zend_declare_property_null(phalcon_db_index_ce, SL("directions"), ZEND_ACC_PROTECTED);
 	/**
 	 * Whether the index is declared `INVISIBLE` (MySQL 8.0+). Invisible
-	 * indexes are ignored by the optimizer — useful for testing what
+	 * indexes are ignored by the optimizer - useful for testing what
 	 * happens when an index is removed before actually dropping it.
 	 * PostgreSQL and SQLite have no equivalent and ignore the flag.
 	 *

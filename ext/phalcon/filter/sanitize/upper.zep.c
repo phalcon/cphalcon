@@ -65,7 +65,7 @@ PHP_METHOD(Phalcon_Filter_Sanitize_Upper, __invoke)
 		ZVAL_LONG(&_0$$3, 0);
 		ZEPHIR_INIT_VAR(&_1$$3);
 		ZVAL_STRING(&_1$$3, "UTF-8");
-		ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_case", NULL, 16, &input_zv, &_0$$3, &_1$$3);
+		ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_case", NULL, 17, &input_zv, &_0$$3, &_1$$3);
 		zephir_check_call_status();
 		RETURN_MM();
 	}

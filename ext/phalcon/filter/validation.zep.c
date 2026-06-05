@@ -412,7 +412,7 @@ PHP_METHOD(Phalcon_Filter_Validation, bind)
 					zephir_check_call_status();
 				} else {
 					zephir_read_property(&_18$$8, this_ptr, ZEND_STRL("entity"), PH_NOISY_CC | PH_READONLY);
-					ZEPHIR_CALL_FUNCTION(&_19$$8, "property_exists", &_20, 28, &_18$$8, &field);
+					ZEPHIR_CALL_FUNCTION(&_19$$8, "property_exists", &_20, 14, &_18$$8, &field);
 					zephir_check_call_status();
 					if (zephir_is_true(&_19$$8)) {
 						zephir_update_property_zval_zval(entity, &field, &value);
@@ -468,7 +468,7 @@ PHP_METHOD(Phalcon_Filter_Validation, bind)
 						zephir_check_call_status();
 					} else {
 						zephir_read_property(&_29$$14, this_ptr, ZEND_STRL("entity"), PH_NOISY_CC | PH_READONLY);
-						ZEPHIR_CALL_FUNCTION(&_30$$14, "property_exists", &_20, 28, &_29$$14, &field);
+						ZEPHIR_CALL_FUNCTION(&_30$$14, "property_exists", &_20, 14, &_29$$14, &field);
 						zephir_check_call_status();
 						if (zephir_is_true(&_30$$14)) {
 							zephir_update_property_zval_zval(entity, &field, &value);
@@ -820,7 +820,7 @@ PHP_METHOD(Phalcon_Filter_Validation, getValue)
 					ZEPHIR_CALL_METHOD(NULL, &entity, "writeattribute", NULL, 0, &field_zv, &value);
 					zephir_check_call_status();
 				} else {
-					ZEPHIR_CALL_FUNCTION(&_9$$13, "property_exists", NULL, 28, &entity, &field_zv);
+					ZEPHIR_CALL_FUNCTION(&_9$$13, "property_exists", NULL, 14, &entity, &field_zv);
 					zephir_check_call_status();
 					if (zephir_is_true(&_9$$13)) {
 						zephir_update_property_zval_zval(&entity, &field_zv, &value);

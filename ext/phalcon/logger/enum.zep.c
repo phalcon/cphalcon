@@ -72,6 +72,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Enum)
 	/**
 	 * @var int
 	 */
+	zephir_declare_class_constant_long(phalcon_logger_enum_ce, SL("TRACE"), 9);
+
+	/**
+	 * @var int
+	 */
 	zephir_declare_class_constant_long(phalcon_logger_enum_ce, SL("WARNING"), 4);
 
 	return SUCCESS;

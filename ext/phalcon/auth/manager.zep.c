@@ -340,11 +340,11 @@ PHP_METHOD(Phalcon_Auth_Manager, except)
 	zephir_get_args_from(&actions, 0);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("activeAccess"), PH_NOISY_CC | PH_READONLY);
 	if (Z_TYPE_P(&_0) == IS_NULL) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_auth_exception_ce, "No active access — call access() first", "phalcon/Auth/Manager.zep", 133);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_auth_exception_ce, "No active access - call access() first", "phalcon/Auth/Manager.zep", 133);
 		return;
 	}
 	zephir_read_property(&_1, this_ptr, ZEND_STRL("activeAccess"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_FUNCTION(&_2, "array_values", NULL, 27, &actions);
+	ZEPHIR_CALL_FUNCTION(&_2, "array_values", NULL, 28, &actions);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, &_1, "setexceptactions", NULL, 0, &_2);
 	zephir_check_call_status();
@@ -513,11 +513,11 @@ PHP_METHOD(Phalcon_Auth_Manager, only)
 	zephir_get_args_from(&actions, 0);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("activeAccess"), PH_NOISY_CC | PH_READONLY);
 	if (Z_TYPE_P(&_0) == IS_NULL) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_auth_exception_ce, "No active access — call access() first", "phalcon/Auth/Manager.zep", 213);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_auth_exception_ce, "No active access - call access() first", "phalcon/Auth/Manager.zep", 213);
 		return;
 	}
 	zephir_read_property(&_1, this_ptr, ZEND_STRL("activeAccess"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_FUNCTION(&_2, "array_values", NULL, 27, &actions);
+	ZEPHIR_CALL_FUNCTION(&_2, "array_values", NULL, 28, &actions);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, &_1, "setonlyactions", NULL, 0, &_2);
 	zephir_check_call_status();

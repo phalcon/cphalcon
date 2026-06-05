@@ -609,7 +609,7 @@ PHP_METHOD(Phalcon_Forms_Form, bind)
 					zephir_update_property_zval_zval(entity, &key, &filteredValue);
 					continue;
 				}
-				ZEPHIR_CALL_FUNCTION(&_38$$24, "property_exists", &_39, 28, entity, &key);
+				ZEPHIR_CALL_FUNCTION(&_38$$24, "property_exists", &_39, 14, entity, &key);
 				zephir_check_call_status();
 				if (zephir_is_true(&_38$$24)) {
 					zephir_update_property_zval_zval(entity, &key, &filteredValue);
@@ -735,7 +735,7 @@ PHP_METHOD(Phalcon_Forms_Form, bind)
 						zephir_update_property_zval_zval(entity, &key, &filteredValue);
 						continue;
 					}
-					ZEPHIR_CALL_FUNCTION(&_58$$39, "property_exists", &_39, 28, entity, &key);
+					ZEPHIR_CALL_FUNCTION(&_58$$39, "property_exists", &_39, 14, entity, &key);
 					zephir_check_call_status();
 					if (zephir_is_true(&_58$$39)) {
 						zephir_update_property_zval_zval(entity, &key, &filteredValue);
@@ -2122,7 +2122,7 @@ PHP_METHOD(Phalcon_Forms_Form, rewind)
 	ZVAL_LONG(&_0, 0);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("position"), &_0);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("elements"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_FUNCTION(&_1, "array_values", NULL, 27, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "array_values", NULL, 28, &_0);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("elementsIndexed"), &_1);
 	ZEPHIR_MM_RESTORE();

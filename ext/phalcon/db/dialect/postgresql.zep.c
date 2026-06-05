@@ -2198,7 +2198,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, returning)
 }
 
 /**
- * Returns a SQL modified with a `FOR SHARE` clause — PostgreSQL's
+ * Returns a SQL modified with a `FOR SHARE` clause - PostgreSQL's
  * equivalent of MySQL's `LOCK IN SHARE MODE`. The optional `modifier`
  * appends a row-lock disposition keyword (pass `Dialect::LOCK_NOWAIT`
  * or `Dialect::LOCK_SKIP_LOCKED`).

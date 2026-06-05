@@ -437,7 +437,7 @@ PHP_METHOD(Phalcon_Html_Helper_Breadcrumbs, render)
 	ZEPHIR_CPY_WRT(&data, &_1);
 	ZEPHIR_INIT_VAR(&output);
 	array_init(&output);
-	ZEPHIR_CALL_FUNCTION(&lastUrl, "array_key_last", NULL, 20, &data);
+	ZEPHIR_CALL_FUNCTION(&lastUrl, "array_key_last", NULL, 21, &data);
 	zephir_check_call_status();
 	zephir_memory_observe(&lastElement);
 	zephir_array_fetch(&lastElement, &data, &lastUrl, PH_NOISY, "phalcon/Html/Helper/Breadcrumbs.zep", 244);

@@ -69,7 +69,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Events_Manager)
 	/**
 	 * When true, a listener returning literal `false` (with the event's
 	 * `cancelable` flag on) short-circuits the dispatch loop and pins
-	 * the fire() return as `false`. Default off — preserves the pre-5.13
+	 * the fire() return as `false`. Default off - preserves the pre-5.13
 	 * "last-wins" contract for codebases that rely on later listeners
 	 * overriding an earlier false return [#17019].
 	 *
@@ -91,7 +91,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Events_Manager)
 	 *
 	 * Shape: `eventNameCache[$eventType] = [typePrefix, eventName]`
 	 *
-	 * Unbounded by design — distinct event types in a typical Phalcon
+	 * Unbounded by design - distinct event types in a typical Phalcon
 	 * application are well under 100 keys, and the cache never needs
 	 * invalidation (parse is deterministic for a given eventType string).
 	 *
@@ -142,14 +142,14 @@ ZEPHIR_INIT_CLASS(Phalcon_Events_Manager)
 	 * `type` is classified once at attach() time so dispatch() can
 	 * route via a simple branch:
 	 *
-	 *   0 — Closure: direct invocation via `{handler}(args)`, no
+	 *   0 - Closure: direct invocation via `{handler}(args)`, no
 	 *       arg-array alloc per call
-	 *   1 — [obj, method] array callable: direct dynamic dispatch
+	 *   1 - [obj, method] array callable: direct dynamic dispatch
 	 *       `handler[0]->{handler[1]}(args)`
-	 *   2 — plain object: dynamic dispatch via method named after the
+	 *   2 - plain object: dynamic dispatch via method named after the
 	 *       event (the classic Phalcon listener pattern); class name is
 	 *       captured at attach time to skip get_class() per fire
-	 *   3 — generic callable (string fn name, invokable object,
+	 *   3 - generic callable (string fn name, invokable object,
 	 *       [class, staticMethod]): call_user_func_array
 	 *
 	 * @var array
@@ -1362,7 +1362,7 @@ PHP_METHOD(Phalcon_Events_Manager, getSubscribers)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("subscribers"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_RETURN_CALL_FUNCTION("array_values", NULL, 27, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("array_values", NULL, 28, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -1417,7 +1417,7 @@ PHP_METHOD(Phalcon_Events_Manager, isStopOnFalse)
 
 /**
  * Returns whether strict mode is enabled. When true, fire()/fireAll()
- * throw when an event has no matching listeners — useful in dev to
+ * throw when an event has no matching listeners - useful in dev to
  * catch typos. Default off.
  */
 PHP_METHOD(Phalcon_Events_Manager, isStrict)
@@ -1448,7 +1448,7 @@ PHP_METHOD(Phalcon_Events_Manager, isValidHandler)
 
 /**
  * Removes a previously registered subscriber. Detaches every listener the
- * subscriber declared via getSubscribedEvents(). Idempotent — calling
+ * subscriber declared via getSubscribedEvents(). Idempotent - calling
  * with a subscriber that was never added (or already removed) is a no-op.
  */
 PHP_METHOD(Phalcon_Events_Manager, removeSubscriber)
@@ -1593,7 +1593,7 @@ PHP_METHOD(Phalcon_Events_Manager, setMethodExistsCacheLimit)
  * the current event's queue and pins the fire() return as `false`.
  * Later listeners cannot overwrite the cancel. Default off.
  *
- * Independent of halt() / event->stop() — only governs how the
+ * Independent of halt() / event->stop() - only governs how the
  * dispatch loop reacts to a `false` listener return.
  */
 PHP_METHOD(Phalcon_Events_Manager, setStopOnFalse)
@@ -1740,12 +1740,12 @@ PHP_METHOD(Phalcon_Events_Manager, beforeFire)
  * and by fireQueue() as a BC wrapper. Owns the documented
  * aggregation contract:
  *
- * 1. **Last non-null wins** — `status` only updates when a listener
+ * 1. **Last non-null wins** - `status` only updates when a listener
  *    returns a non-null value. A chain of nulls leaves the last
  *    real return intact.
- * 2. **stop() determinism** — when a listener calls
+ * 2. **stop() determinism** - when a listener calls
  *    `$event->stop()` (and cancelable=true), that listener's
- *    return value becomes the dispatch return — even if null.
+ *    return value becomes the dispatch return - even if null.
  *
  * Note: returning `false` from a listener does **not** short-circuit
  * the queue. Callers that want to stop downstream listeners must call
@@ -2131,7 +2131,7 @@ PHP_METHOD(Phalcon_Events_Manager, dispatch)
 
 /**
  * Stores a pre-classified listener tuple in the queue for an event
- * type. Bypasses attach()'s type classification — callers that
+ * type. Bypasses attach()'s type classification - callers that
  * already know the type (the subscriber path) skip the instanceof /
  * is_callable cascade.
  *

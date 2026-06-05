@@ -137,6 +137,15 @@ ZEPHIR_DOC_METHOD(Phalcon_Logger_LoggerInterface, log);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Logger_LoggerInterface, notice);
 /**
+ * Extra-verbose diagnostic output.
+ *
+ * @param string $message
+ * @param array  $context
+ *
+ * @return void
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Logger_LoggerInterface, trace);
+/**
  * Exceptional occurrences that are not errors.
  *
  * Example: Use of deprecated APIs, poor use of an API, undesirable things

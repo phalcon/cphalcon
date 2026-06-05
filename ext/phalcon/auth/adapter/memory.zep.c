@@ -32,7 +32,7 @@
  * @link    https://github.com/sinbadxiii/cphalcon-auth
  */
 /**
- * In-memory adapter — useful for tests and small read-only user lists.
+ * In-memory adapter - useful for tests and small read-only user lists.
  *
  * @phpstan-import-type AuthUserRow from AbstractArrayAdapter
  *

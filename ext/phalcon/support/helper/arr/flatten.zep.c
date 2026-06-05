@@ -181,7 +181,7 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Flatten, processArray)
 	}
 	if (_0) {
 		ZEPHIR_INIT_VAR(&_1$$3);
-		ZEPHIR_CALL_FUNCTION(&_2$$3, "array_values", NULL, 27, item);
+		ZEPHIR_CALL_FUNCTION(&_2$$3, "array_values", NULL, 28, item);
 		zephir_check_call_status();
 		zephir_fast_array_merge(&_1$$3, &data, &_2$$3);
 		ZEPHIR_CPY_WRT(&data, &_1$$3);

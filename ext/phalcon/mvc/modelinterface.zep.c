@@ -227,6 +227,13 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, setReadConnectionService);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, setSnapshotData);
 /**
+ * Marks one or more many-to-many relationships to be synchronized (or not)
+ * on the next save() call.
+ *
+ * @param string|array|null elements
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, setSync);
+/**
  * Sets a transaction related to the Model instance
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, setTransaction);
