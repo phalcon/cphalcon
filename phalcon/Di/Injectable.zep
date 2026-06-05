@@ -59,7 +59,7 @@ abstract class Injectable extends stdClass implements InjectionAwareInterface
      */
     public function __get(string! propertyName) -> var | null
     {
-        var container, service;
+        var container;
 
         let container = <DiInterface> this->getDI();
 
@@ -85,13 +85,12 @@ abstract class Injectable extends stdClass implements InjectionAwareInterface
         }
 
         /**
-         * Fallback to the PHP userland if the cache is not available
+         * Resolve the service through the container on every access so that
+         * updates to the service definition are reflected. The instance is no
+         * longer stored as a property to avoid returning a stale reference.
          */
         if container->has(propertyName) {
-            let service = container->getShared(propertyName);
-            let this->{propertyName} = service;
-
-            return service;
+            return container->getShared(propertyName);
         }
 
         /**

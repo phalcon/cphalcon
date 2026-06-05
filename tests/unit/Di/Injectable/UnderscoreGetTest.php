@@ -85,6 +85,47 @@ final class UnderscoreGetTest extends AbstractUnitTestCase
     }
 
     /**
+     * @issue  https://github.com/phalcon/cphalcon/issues/17052
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-04
+     */
+    public function testDiInjectableUnderscoreGetReflectsReplacedService(): void
+    {
+        Di::reset();
+        $container = new Di();
+
+        $container->setShared(
+            'someService',
+            function (): stdClass {
+                return new stdClass();
+            }
+        );
+
+        $container->set('component', InjectableComponent::class);
+
+        /** @var InjectableComponent $component */
+        $component = $container->get('component');
+
+        // First magic access resolves through the container
+        $first = $component->someService;
+        $this->assertSame($container->getShared('someService'), $first);
+
+        // Replace the service in the container after the first access
+        $container->remove('someService');
+        $container->setShared(
+            'someService',
+            function (): stdClass {
+                return new stdClass();
+            }
+        );
+
+        // The magic property must reflect the replacement, not a stale instance
+        $second = $component->someService;
+        $this->assertNotSame($first, $second);
+        $this->assertSame($container->getShared('someService'), $second);
+    }
+
+    /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-09-09
      */
