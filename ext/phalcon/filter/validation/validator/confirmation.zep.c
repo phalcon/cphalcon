@@ -151,7 +151,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Confirmation, validate)
 	ZEPHIR_CALL_METHOD(&fieldWith, this_ptr, "getoption", NULL, 0, &_0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&fieldWith) == IS_ARRAY) {
-		zephir_array_fetch(&_1$$3, &fieldWith, field, PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/Confirmation.zep", 87);
+		zephir_array_fetch(&_1$$3, &fieldWith, field, PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/Confirmation.zep", 88);
 		ZEPHIR_CPY_WRT(&fieldWith, &_1$$3);
 	}
 	ZEPHIR_CALL_METHOD(&value, validation, "getvalue", NULL, 0, field);
@@ -160,7 +160,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Confirmation, validate)
 	zephir_check_call_status();
 	zephir_cast_to_string(&_3, &value);
 	zephir_cast_to_string(&_4, &valueWith);
-	ZEPHIR_CALL_METHOD(&_2, this_ptr, "compare", NULL, 318, &_3, &_4);
+	ZEPHIR_CALL_METHOD(&_2, this_ptr, "compare", NULL, 0, &_3, &_4);
 	zephir_check_call_status();
 	if (!(zephir_is_true(&_2))) {
 		ZEPHIR_INIT_VAR(&_5$$4);
@@ -168,7 +168,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Confirmation, validate)
 		ZEPHIR_CALL_METHOD(&labelWith, this_ptr, "getoption", NULL, 0, &_5$$4);
 		zephir_check_call_status();
 		if (Z_TYPE_P(&labelWith) == IS_ARRAY) {
-			zephir_array_fetch(&_6$$5, &labelWith, &fieldWith, PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/Confirmation.zep", 97);
+			zephir_array_fetch(&_6$$5, &labelWith, &fieldWith, PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/Confirmation.zep", 98);
 			ZEPHIR_CPY_WRT(&labelWith, &_6$$5);
 		}
 		if (ZEPHIR_IS_EMPTY(&labelWith)) {
@@ -194,7 +194,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Confirmation, compare)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *a_param = NULL, *b_param = NULL, _0, _1, _2, _6, _3$$3, _4$$3, _5$$3;
+	zval *a_param = NULL, *b_param = NULL, _0, _1, _2, _7, _3$$4, _4$$3, _5$$3, _6$$3;
 	zval a, b;
 	zval *this_ptr = getThis();
 
@@ -203,10 +203,11 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Confirmation, compare)
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_6);
-	ZVAL_UNDEF(&_3$$3);
+	ZVAL_UNDEF(&_7);
+	ZVAL_UNDEF(&_3$$4);
 	ZVAL_UNDEF(&_4$$3);
 	ZVAL_UNDEF(&_5$$3);
+	ZVAL_UNDEF(&_6$$3);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_ZVAL(a_param)
 		Z_PARAM_ZVAL(b_param)
@@ -223,22 +224,27 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Confirmation, compare)
 	zephir_check_call_status();
 	if (zephir_is_true(&_0)) {
 		if (UNEXPECTED(!((zephir_function_exists_ex(ZEND_STRL("mb_strtolower")) == SUCCESS)))) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_filter_validation_exception_ce, "Extension 'mbstring' is required", "phalcon/Filter/Validation/Validator/Confirmation.zep", 128);
+			ZEPHIR_INIT_VAR(&_3$$4);
+			object_init_ex(&_3$$4, phalcon_filter_validation_exceptions_missingmbstring_ce);
+			ZEPHIR_CALL_METHOD(NULL, &_3$$4, "__construct", NULL, 0);
+			zephir_check_call_status();
+			zephir_throw_exception_debug(&_3$$4, "phalcon/Filter/Validation/Validator/Confirmation.zep", 129);
+			ZEPHIR_MM_RESTORE();
 			return;
 		}
-		ZEPHIR_INIT_VAR(&_3$$3);
-		ZVAL_STRING(&_3$$3, "utf-8");
-		ZEPHIR_CALL_FUNCTION(&_4$$3, "mb_strtolower", NULL, 7, &a, &_3$$3);
+		ZEPHIR_INIT_VAR(&_4$$3);
+		ZVAL_STRING(&_4$$3, "utf-8");
+		ZEPHIR_CALL_FUNCTION(&_5$$3, "mb_strtolower", NULL, 12, &a, &_4$$3);
 		zephir_check_call_status();
-		zephir_get_strval(&a, &_4$$3);
-		ZEPHIR_INIT_NVAR(&_3$$3);
-		ZVAL_STRING(&_3$$3, "utf-8");
-		ZEPHIR_CALL_FUNCTION(&_5$$3, "mb_strtolower", NULL, 7, &b, &_3$$3);
+		zephir_get_strval(&a, &_5$$3);
+		ZEPHIR_INIT_NVAR(&_4$$3);
+		ZVAL_STRING(&_4$$3, "utf-8");
+		ZEPHIR_CALL_FUNCTION(&_6$$3, "mb_strtolower", NULL, 12, &b, &_4$$3);
 		zephir_check_call_status();
-		zephir_get_strval(&b, &_5$$3);
+		zephir_get_strval(&b, &_6$$3);
 	}
-	ZEPHIR_CALL_FUNCTION(&_6, "strcmp", NULL, 319, &a, &b);
+	ZEPHIR_CALL_FUNCTION(&_7, "strcmp", NULL, 0, &a, &b);
 	zephir_check_call_status();
-	RETURN_MM_BOOL(ZEPHIR_IS_LONG_IDENTICAL(&_6, 0));
+	RETURN_MM_BOOL(ZEPHIR_IS_LONG_IDENTICAL(&_7, 0));
 }
 

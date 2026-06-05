@@ -18,12 +18,14 @@ PHP_METHOD(Phalcon_Di_Di, loadFromConfig);
 PHP_METHOD(Phalcon_Di_Di, loadFromPhp);
 PHP_METHOD(Phalcon_Di_Di, loadFromYaml);
 PHP_METHOD(Phalcon_Di_Di, has);
+PHP_METHOD(Phalcon_Di_Di, hasShared);
 PHP_METHOD(Phalcon_Di_Di, offsetGet);
 PHP_METHOD(Phalcon_Di_Di, offsetExists);
 PHP_METHOD(Phalcon_Di_Di, offsetSet);
 PHP_METHOD(Phalcon_Di_Di, offsetUnset);
 PHP_METHOD(Phalcon_Di_Di, register);
 PHP_METHOD(Phalcon_Di_Di, remove);
+PHP_METHOD(Phalcon_Di_Di, removeShared);
 PHP_METHOD(Phalcon_Di_Di, reset);
 PHP_METHOD(Phalcon_Di_Di, set);
 PHP_METHOD(Phalcon_Di_Di, setAlias);
@@ -42,7 +44,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_di___call, 0, 0, 1)
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, arguments, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_di_attempt, 0, 0, 2)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_TYPE_MASK_EX(arginfo_phalcon_di_di_attempt, 0, 2, Phalcon\\Di\\ServiceInterface, MAY_BE_BOOL)
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 	ZEND_ARG_INFO(0, definition)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, shared, _IS_BOOL, 0, "false")
@@ -99,6 +101,10 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_di_has, 0, 1, _IS_BOO
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_di_hasshared, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_di_offsetget, 0, 1, IS_MIXED, 0)
 	ZEND_ARG_INFO(0, name)
 ZEND_END_ARG_INFO()
@@ -128,6 +134,11 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_di_remove, 0, 1, IS_V
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_di_removeshared, 0, 1, IS_VOID, 0)
+
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_di_reset, 0, 0, IS_VOID, 0)
 ZEND_END_ARG_INFO()
 
@@ -137,7 +148,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_di_di_set, 0, 2, Phalcon\
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, shared, _IS_BOOL, 0, "false")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_di_di_setalias, 0, 2, Phalcon\\Di\\Di, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_di_di_setalias, 0, 2, self, 0)
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 	ZEND_ARG_INFO(0, aliases)
 ZEND_END_ARG_INFO()
@@ -184,12 +195,14 @@ PHP_ME(Phalcon_Di_Di, __construct, arginfo_phalcon_di_di___construct, ZEND_ACC_P
 	PHP_ME(Phalcon_Di_Di, loadFromPhp, arginfo_phalcon_di_di_loadfromphp, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Di_Di, loadFromYaml, arginfo_phalcon_di_di_loadfromyaml, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Di_Di, has, arginfo_phalcon_di_di_has, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Di_Di, hasShared, arginfo_phalcon_di_di_hasshared, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Di_Di, offsetGet, arginfo_phalcon_di_di_offsetget, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Di_Di, offsetExists, arginfo_phalcon_di_di_offsetexists, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Di_Di, offsetSet, arginfo_phalcon_di_di_offsetset, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Di_Di, offsetUnset, arginfo_phalcon_di_di_offsetunset, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Di_Di, register, arginfo_phalcon_di_di_register, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Di_Di, remove, arginfo_phalcon_di_di_remove, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Di_Di, removeShared, arginfo_phalcon_di_di_removeshared, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Di_Di, reset, arginfo_phalcon_di_di_reset, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Di_Di, set, arginfo_phalcon_di_di_set, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Di_Di, setAlias, arginfo_phalcon_di_di_setalias, ZEND_ACC_PUBLIC)

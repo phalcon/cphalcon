@@ -31,53 +31,6 @@ use SessionHandlerInterface;
 class Noop implements SessionHandlerInterface
 {
     /**
-     * The connection of some adapters
-     *
-     * @var null
-     */
-    protected connection = null;
-
-    /**
-     * Session options
-     *
-     * @var array
-     */
-    protected options = [];
-
-    /**
-     * Session prefix
-     *
-     * @var string
-     */
-    protected prefix = "";
-
-    /**
-     * Time To Live
-     *
-     * @var int
-     */
-    protected ttl = 8600;
-
-    /**
-     * Constructor
-     *
-     * @param array options = [
-     *     'prefix' => ''
-     * ]
-     */
-    public function __construct(array! options = [])
-    {
-        var prefix;
-
-        if !fetch prefix, options["prefix"] {
-            let prefix = "";
-        }
-
-        let this->prefix  = prefix,
-            this->options = options;
-    }
-
-    /**
      * Close
      */
     public function close() -> bool
@@ -101,6 +54,14 @@ class Noop implements SessionHandlerInterface
      */
     public function gc(int max_lifetime) -> int|false
     {
+        return 1;
+    }
+
+    /**
+     * Open
+     */
+    public function open(var path, var name) -> bool
+    {
         return true;
     }
 
@@ -113,28 +74,10 @@ class Noop implements SessionHandlerInterface
     }
 
     /**
-     * Open
-     */
-    public function open(var path, var name) -> bool
-    {
-        return true;
-    }
-
-    /**
      * Write
      */
     public function write(var id, var data) -> bool
     {
         return true;
-    }
-
-    /**
-     * Helper method to get the name prefixed
-     */
-    protected function getPrefixedName(var name) -> string
-    {
-        let name = (string) name;
-
-        return this->prefix . name;
     }
 }

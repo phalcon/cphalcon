@@ -24,7 +24,7 @@ use function parse_str;
 final class GetPatchTest extends AbstractHttpBase
 {
     /**
-     * @issue  16188
+     * @issue  https://github.com/phalcon/cphalcon/issues/16188
      * @author Phalcon Team <team@phalcon.io>
      * @since  2022-11-01
      */
@@ -63,7 +63,7 @@ final class GetPatchTest extends AbstractHttpBase
     }
 
     /**
-     * @issue  16188
+     * @issue  https://github.com/phalcon/cphalcon/issues/16188
      * @author Phalcon Team <team@phalcon.io>
      * @since  2022-11-01
      */

@@ -12,6 +12,9 @@ namespace Phalcon\Storage\Adapter;
 use DateInterval;
 use Exception as BaseException;
 use Phalcon\Storage\Exception as StorageException;
+use Phalcon\Storage\Exceptions\AuthenticationFailed;
+use Phalcon\Storage\Exceptions\ConnectionFailed;
+use Phalcon\Storage\Exceptions\DatabaseSelectionFailed;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Support\Exception as SupportException;
 
@@ -270,10 +273,10 @@ class Redis extends AbstractAdapter
     /**
      * @param \Redis $connection
      *
-     * @return Redis
-     * @throws StorageException
+     * @return static
+     * @throws AuthenticationFailed
      */
-    private function checkAuth(<\Redis> connection) -> <Redis>
+    private function checkAuth(<\Redis> connection) -> <static>
     {
         var auth, error;
 
@@ -286,9 +289,7 @@ class Redis extends AbstractAdapter
         }
 
         if error {
-            throw new StorageException(
-                "Failed to authenticate with the Redis server"
-            );
+            throw new AuthenticationFailed();
         }
 
         return this;
@@ -297,41 +298,41 @@ class Redis extends AbstractAdapter
     /**
      * @param \Redis $connection
      *
-     * @return Redis
-     * @throws StorageException
+     * @return static
+     * @throws ConnectionFailed
      */
-    private function checkConnect(<\Redis> connection) -> <Redis>
+    private function checkConnect(<\Redis> connection) -> <static>
     {
         var auth, connectionOptions, ex, host, method, options, parameter,
             persistentId, port, retryInterval, readTimeout, result, ssl, timeout;
 
+        let options       = this->options,
+            host          = options["host"],
+            port          = options["port"],
+            timeout       = options["timeout"],
+            retryInterval = options["retryInterval"],
+            readTimeout   = options["readTimeout"],
+            auth          = options["auth"],
+            ssl           = options["ssl"];
+
+        let connectionOptions = [];
+        if (true !== empty(auth)) {
+            let connectionOptions["auth"] = auth;
+        }
+        if (true !== empty(ssl)) {
+            let connectionOptions["stream"] = ssl;
+        }
+
+        if true !== options["persistent"] {
+            let method    = "connect",
+                parameter = null;
+        } else {
+            let method       = "pconnect",
+                persistentId = this->options["persistentId"],
+                parameter    = !empty(persistentId) ? persistentId : "persistentId" . options["index"];
+        }
+
         try {
-            let options       = this->options,
-                host          = options["host"],
-                port          = options["port"],
-                timeout       = options["timeout"],
-                retryInterval = options["retryInterval"],
-                readTimeout   = options["readTimeout"],
-                auth          = options["auth"],
-                ssl           = options["ssl"];
-
-            let connectionOptions = [];
-            if (true !== empty(auth)) {
-                let connectionOptions["auth"] = auth;
-            }
-            if (true !== empty(ssl)) {
-                let connectionOptions["stream"] = ssl;
-            }
-
-            if true !== options["persistent"] {
-                let method    = "connect",
-                    parameter = null;
-            } else {
-                let method       = "pconnect",
-                    persistentId = this->options["persistentId"],
-                    parameter    = !empty(persistentId) ? persistentId : "persistentId" . options["index"];
-            }
-
             let result = connection->{method}(
                 host,
                 port,
@@ -341,18 +342,18 @@ class Redis extends AbstractAdapter
                 readTimeout,
                 connectionOptions
             );
-
-            if !result {
-                throw new StorageException(
-                    sprintf(
-                        "Could not connect to the Redis server [%s:%s]",
-                        host,
-                        port
-                    )
-                );
-            }
         } catch \Exception, ex {
-            throw new StorageException(ex->getMessage());
+            throw new ConnectionFailed(ex->getMessage());
+        }
+
+        if !result {
+            throw new ConnectionFailed(
+                sprintf(
+                    "Could not connect to the Redis server [%s:%s]",
+                    host,
+                    port
+                )
+            );
         }
 
         return this;
@@ -361,19 +362,17 @@ class Redis extends AbstractAdapter
     /**
      * @param \Redis $connection
      *
-     * @return Redis
-     * @throws StorageException
+     * @return static
+     * @throws DatabaseSelectionFailed
      */
-    private function checkIndex(<\Redis> connection) -> <Redis>
+    private function checkIndex(<\Redis> connection) -> <static>
     {
         var index;
 
         let index = this->options["index"];
 
         if (index > 0 && true !== connection->select(index)) {
-            throw new StorageException(
-                "Redis server selected database failed"
-            );
+            throw new DatabaseSelectionFailed();
         }
 
         return this;

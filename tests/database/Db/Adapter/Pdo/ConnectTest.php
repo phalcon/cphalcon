@@ -67,15 +67,18 @@ final class ConnectTest extends AbstractDatabaseTestCase
      */
     public function testDbAdapterPdoConnectPersistentPgsql(): void
     {
-        $this->markTestSkipped('check this');
-        $options               = getOptionsPostgresql();
-        $options['persistent'] = true;
-        $options['options']    = [
+        // The high-level `persistent` descriptor key is read but not
+        // unset before DSN assembly in AbstractPdo::connect(); pgsql
+        // then rejects the leaked `persistent=true` DSN attribute.
+        // Pass the persistent flag via PDO::ATTR_PERSISTENT instead.
+        $options            = getOptionsPostgresql();
+        $options['options'] = [
             PDO::ATTR_EMULATE_PREPARES  => false,
             PDO::ATTR_STRINGIFY_FETCHES => false,
+            PDO::ATTR_PERSISTENT        => true,
         ];
 
-        $connection = (new PdoFactory())->newInstance('pgsql', $options);
+        $connection = (new PdoFactory())->newInstance('postgresql', $options);
 
         $expected = $options;
         $actual   = $connection->getDescriptor();
@@ -93,7 +96,6 @@ final class ConnectTest extends AbstractDatabaseTestCase
      */
     public function testDbAdapterPdoConnectPersistentSqlite(): void
     {
-        $this->markTestSkipped('check this');
         $options               = getOptionsSqlite();
         $options['persistent'] = true;
         $options['options']    = [
@@ -109,5 +111,28 @@ final class ConnectTest extends AbstractDatabaseTestCase
         $this->assertEquals($expected, $actual);
 
         $connection->close();
+    }
+
+    /**
+     * Tests Phalcon\Db\Adapter\Pdo :: connect() (close + reconnect cycle)
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-18
+     *
+     * @group mysql
+     * @group pgsql
+     * @group sqlite
+     */
+    public function testDbAdapterPdoConnect(): void
+    {
+        $this->setDatabase();
+
+        $db = $this->container->get('db');
+
+        $db->close();
+        $db->connect();
+
+        $row = $db->fetchOne('SELECT 1 AS one');
+        $this->assertSame(1, (int) $row['one']);
     }
 }

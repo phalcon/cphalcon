@@ -10,16 +10,16 @@
 
 namespace Phalcon\Storage\Serializer;
 
-use InvalidArgumentException;
+use Phalcon\Storage\Serializer\Exceptions\InvalidUnserializationInput;
 
 class Php extends AbstractSerializer
 {
     /**
      * Serializes data
      *
-     * @return string
+     * @return mixed
      */
-	public function serialize() -> string
+	public function serialize() -> mixed
 	{
         if (true !== this->isSerializable(this->data)) {
             return this->data;
@@ -44,17 +44,15 @@ class Php extends AbstractSerializer
         }
 
         if unlikely typeof data != "string" {
-            throw new InvalidArgumentException(
-                "Data for the unserializer must of type string"
-            );
+            throw new InvalidUnserializationInput();
         }
-	
+
         globals_set("warning.enable", false);
         set_error_handler(
             function (number, message, file, line) {
                 globals_set("warning.enable", true);
             },
-            E_NOTICE
+            E_NOTICE | E_WARNING
         );
 
         let result = this->phpUnserialize(data);

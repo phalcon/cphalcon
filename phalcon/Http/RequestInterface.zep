@@ -184,22 +184,6 @@ interface RequestInterface
     public function getPort() -> int;
 
     /**
-     * Gets HTTP URI which request has been made to
-     *
-     *```php
-     * // Returns /some/path?with=queryParams
-     * $uri = $request->getURI();
-     *
-     * // Returns /some/path
-     * $uri = $request->getURI(true);
-     *```
-     *
-     * @param bool onlyPath If true, query part will be omitted
-     * @return string
-     */
-    public function getURI(bool onlyPath = false) -> string;
-
-    /**
      * Gets a variable from the $_POST superglobal applying filters if needed
      * If no parameters are given the $_POST superglobal is returned
      *
@@ -297,6 +281,22 @@ interface RequestInterface
     ) -> <FileInterface[]>;
 
     /**
+     * Gets HTTP URI which request has been made to
+     *
+     *```php
+     * // Returns /some/path?with=queryParams
+     * $uri = $request->getURI();
+     *
+     * // Returns /some/path
+     * $uri = $request->getURI(true);
+     *```
+     *
+     * @param bool onlyPath If true, query part will be omitted
+     * @return string
+     */
+    public function getURI(bool onlyPath = false) -> string;
+
+    /**
      * Gets HTTP user agent used to made the request
      */
     public function getUserAgent() -> string;
@@ -317,11 +317,6 @@ interface RequestInterface
     public function hasHeader(string! header) -> bool;
 
     /**
-     * Checks whether $_GET superglobal has certain index
-     */
-    public function hasQuery(string! name) -> bool;
-
-    /**
      * Checks whether $_POST superglobal has certain index
      */
     public function hasPost(string! name) -> bool;
@@ -330,6 +325,11 @@ interface RequestInterface
      * Checks whether the PUT data has certain index
      */
     public function hasPut(string! name) -> bool;
+
+    /**
+     * Checks whether $_GET superglobal has certain index
+     */
+    public function hasQuery(string! name) -> bool;
 
     /**
      * Checks whether $_SERVER superglobal has certain index
@@ -407,5 +407,5 @@ interface RequestInterface
     /**
      * Returns the number of files available
      */
-    public function numFiles(bool onlySuccessful = false) -> long;
+    public function numFiles(bool onlySuccessful = false) -> int;
 }

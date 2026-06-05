@@ -18,9 +18,12 @@
 #include "kernel/globals.h"
 #include "kernel/main.h"
 
-/* Working with scopes */
+/* Working with scopes.
+ * In PHP 8.5, EG(fake_scope) became `const zend_class_entry *` while
+ * zend_get_executed_scope() still returns non-const. The cast keeps the
+ * assignment well-typed on both PHP 8.4 (non-const target) and 8.5+ (const). */
 # define zephir_get_scope(e) ((e) ? zend_get_executed_scope() : EG(fake_scope))
-# define zephir_set_scope(s) EG(fake_scope) = (s)
+# define zephir_set_scope(s) EG(fake_scope) = (zend_class_entry *) (s)
 
 /** Class Retrieving/Checking */
 int zephir_class_exists(zval *class_name, int autoload);
@@ -41,9 +44,26 @@ int zephir_zval_is_traversable(zval *object);
 /** Method exists */
 int zephir_method_exists(zval *object, const zval *method_name);
 
-/** Isset properties */
+/** Isset properties (key/property existence only) */
 int zephir_isset_property(zval *object, const char *property_name, unsigned int property_length);
 int zephir_isset_property_zval(zval *object, const zval *property);
+
+/**
+ * PHP isset() semantics for object properties: property exists AND the
+ * stored value is not IS_NULL. Used by the user-facing isset() codegen path.
+ * See https://github.com/zephir-lang/zephir/issues/2385.
+ */
+int zephir_isset_property_value(zval *object, const char *property_name, unsigned int property_length);
+int zephir_isset_property_value_zval(zval *object, const zval *property);
+
+/**
+ * Same as zephir_isset_property_value() but takes a pre-allocated zend_string,
+ * skipping the per-call zend_string_init/release. Intended for compile-time
+ * known property names: the codegen emits a method-static zend_string * slot
+ * that is lazily initialized on first use and reused for the lifetime of the
+ * worker process.
+ */
+int zephir_isset_property_value_fast(zval *object, zend_string *property_name);
 
 /** Reading properties */
 int zephir_read_property_ex(zval *result, zval *object, const char *property_name, uint32_t property_length, int silent);
@@ -66,6 +86,7 @@ int zephir_update_property_array_multi(zval *object, const char *property, uint3
 
 /** Unset properties */
 int zephir_unset_property(zval* object, const char* name);
+int zephir_unset_property_zval(zval *object, const zval *name);
 int zephir_unset_property_array(zval *object, char *property, unsigned int property_length, zval *index);
 
 /** Static properties */

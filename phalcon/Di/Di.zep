@@ -10,18 +10,22 @@
 
 namespace Phalcon\Di;
 
-use Phalcon\Di\Service;
-use Phalcon\Di\DiInterface;
-use Phalcon\Di\Exception;
-use Phalcon\Di\Exception\ServiceResolutionException;
 use Phalcon\Config\Adapter\Php;
 use Phalcon\Config\Adapter\Yaml;
 use Phalcon\Config\ConfigInterface;
-use Phalcon\Di\ServiceInterface;
-use Phalcon\Events\ManagerInterface;
+use Phalcon\Di\DiInterface;
+use Phalcon\Di\Exception;
+use Phalcon\Di\Exception\ServiceResolutionException;
+use Phalcon\Di\Exceptions\AliasAlreadyInUse;
+use Phalcon\Di\Exceptions\AliasNameMustBeString;
+use Phalcon\Di\Exceptions\CircularAliasReference;
+use Phalcon\Di\Exceptions\ServiceCannotBeResolved;
 use Phalcon\Di\InitializationAwareInterface;
 use Phalcon\Di\InjectionAwareInterface;
+use Phalcon\Di\Service;
+use Phalcon\Di\ServiceInterface;
 use Phalcon\Di\ServiceProviderInterface;
+use Phalcon\Events\ManagerInterface;
 
 /**
  * Phalcon\Di\Di is a component that implements Dependency Injection/Service
@@ -213,9 +217,7 @@ class Di implements DiInterface
                 try {
                     let instance = service->resolve(parameters, this);
                 } catch ServiceResolutionException {
-                    throw new Exception(
-                        "Service '" . name . "' cannot be resolved"
-                    );
+                    throw new ServiceCannotBeResolved(name);
                 }
 
                 // If the service is shared then we'll cache the instance.
@@ -470,6 +472,23 @@ class Di implements DiInterface
     }
 
     /**
+     * Check whether the DI has a cached shared instance for a service name.
+     *
+     * Unlike `has()`, which reports on the service *definition* registry,
+     * this method reports only on the resolved-instance cache populated by
+     * `getShared()`.
+     */
+    public function hasShared(string! name) -> bool
+    {
+        /**
+         * Resolve the alias, if any
+         */
+        let name = this->resolveAlias(name);
+
+        return isset(this->sharedInstances[name]);
+    }
+
+    /**
      * Allows to obtain a shared service using the array syntax
      *
      *```php
@@ -562,6 +581,36 @@ class Di implements DiInterface
     }
 
     /**
+     * Removes the cached shared instance for a service, leaving the service
+     * definition intact so the next `getShared()` call rebuilds it.
+     */
+    public function removeShared(string! name) -> void
+    {
+        var sharedInstances, service;
+
+        let sharedInstances = this->sharedInstances;
+
+        /**
+         * Resolve the alias, if any
+         */
+        let name = this->resolveAlias(name);
+
+        unset sharedInstances[name];
+
+        let this->sharedInstances = sharedInstances;
+
+        /**
+         * `Service::resolve` caches the resolved instance on the Service
+         * itself for shared services; clear that too so the next
+         * `getShared()` call goes through full resolution.
+         */
+        if isset this->services[name] {
+            let service = this->services[name];
+            service->setSharedInstance(null);
+        }
+    }
+
+    /**
      * Resets the internal default DI
      */
     public static function reset() -> void
@@ -593,7 +642,7 @@ class Di implements DiInterface
      * @return Di
      * @throws Exception
      */
-    public function setAlias(string name, var aliases) -> <Di>
+    public function setAlias(string name, var aliases) -> <self>
     {
         var alias, currentAliases, localAliases;
 
@@ -609,11 +658,11 @@ class Di implements DiInterface
 
         for alias in localAliases {
             if (typeof alias !== "string") {
-                throw new Exception("Alias name must be a string");
+                throw new AliasNameMustBeString();
             }
 
             if (true === isset(currentAliases[alias]) || true === this->has(alias)) {
-                throw new Exception("Alias '" . alias . "' is already in use by an existing service");
+                throw new AliasAlreadyInUse(alias);
             }
 
             let currentAliases[alias] = name;
@@ -675,12 +724,7 @@ class Di implements DiInterface
 
         while (isset(this->aliases[current])) {
             if (isset(seen[current])) {
-                throw new Exception(
-                    sprintf(
-                        "Circular alias reference detected while resolving '%s'",
-                        name
-                    )
-                );
+                throw new CircularAliasReference(name);
             }
             let seen[current] = true;
             let current       = this->aliases[current];

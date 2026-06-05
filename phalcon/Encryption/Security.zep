@@ -10,11 +10,13 @@
 
 namespace Phalcon\Encryption;
 
+use Phalcon\Contracts\Encryption\Security\Security as SecurityContract;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\AbstractInjectionAware;
 use Phalcon\Http\RequestInterface;
-use Phalcon\Encryption\Security\Random;
 use Phalcon\Encryption\Security\Exception;
+use Phalcon\Encryption\Security\Exceptions\UnknownHashAlgorithm;
+use Phalcon\Encryption\Security\Random;
 use Phalcon\Session\ManagerInterface as SessionInterface;
 
 /**
@@ -34,7 +36,7 @@ use Phalcon\Session\ManagerInterface as SessionInterface;
  * }
  *```
  */
-class Security extends AbstractInjectionAware
+class Security extends AbstractInjectionAware implements SecurityContract
 {
     /**
      * @var int
@@ -88,6 +90,11 @@ class Security extends AbstractInjectionAware
      * @var int
      */
     const CRYPT_STD_DES    = 1;
+
+    /**
+     * @var bool
+     */
+    protected autoRefresh = true;
 
     /**
      * @var int
@@ -242,29 +249,19 @@ class Security extends AbstractInjectionAware
     public function computeHmac(
         string data,
         string key,
-        string algo,
+        string algorithm,
         bool raw = false
     ) -> string {
         var hmac;
 
         try {
-            let hmac = hash_hmac(algo, data, key, raw);
+            let hmac = hash_hmac(algorithm, data, key, raw);
         } catch \ValueError {
-            throw new Exception(
-                sprintf(
-                    "Unknown hashing algorithm: %s",
-                    algo
-                )
-            );
+            throw new UnknownHashAlgorithm(algorithm);
         }
 
         if unlikely !hmac {
-            throw new Exception(
-                sprintf(
-                    "Unknown hashing algorithm: %s",
-                    algo
-                )
-            );
+            throw new UnknownHashAlgorithm(algorithm);
         }
 
         return hmac;
@@ -273,7 +270,7 @@ class Security extends AbstractInjectionAware
     /**
      * Removes the value of the CSRF token and key from session
      */
-    public function destroyToken() -> <Security>
+    public function destroyToken() -> <static>
     {
         var session;
 
@@ -397,14 +394,31 @@ class Security extends AbstractInjectionAware
      */
     public function getToken() -> string | null
     {
-        var session;
+        var session, sessionToken;
 
         if (null === this->token) {
+            /** @var SessionInterface|null $session */
+            let session = this->getLocalService("session", "localSession");
+
+            /**
+             * When auto-refresh is disabled, reuse any existing session
+             * token instead of generating a new one. This avoids the
+             * per-request session write that backend stores (DynamoDB,
+             * Redis with billing per write, etc.) would otherwise incur.
+             */
+            if (false === this->autoRefresh && null !== session) {
+                let sessionToken = session->get(this->tokenValueSessionId);
+                if (null !== sessionToken) {
+                    let this->token        = sessionToken,
+                        this->requestToken = sessionToken;
+
+                    return this->token;
+                }
+            }
+
             let this->requestToken = this->getSessionToken(),
                 this->token        = this->random->base64Safe(this->numberBytes);
 
-            /** @var SessionInterface|null $session */
-            let session = this->getLocalService("session", "localSession");
             if (null !== session) {
                 session->set(
                     this->tokenValueSessionId,
@@ -425,12 +439,25 @@ class Security extends AbstractInjectionAware
      */
     public function getTokenKey() -> string | null
     {
-        var session;
+        var session, sessionTokenKey;
 
         if (null === this->tokenKey) {
             /** @var SessionInterface|null $session */
             let session = this->getLocalService("session", "localSession");
             if (null !== session) {
+                /**
+                 * Auto-refresh disabled: reuse the existing session value
+                 * if present, so no write occurs on read-only requests.
+                 */
+                if (false === this->autoRefresh) {
+                    let sessionTokenKey = session->get(this->tokenKeySessionId);
+                    if (null !== sessionTokenKey) {
+                        let this->tokenKey = sessionTokenKey;
+
+                        return this->tokenKey;
+                    }
+                }
+
                 let this->tokenKey = this->random->base64Safe(this->numberBytes);
                 session->set(
                     this->tokenKeySessionId,
@@ -546,13 +573,56 @@ class Security extends AbstractInjectionAware
     }
 
     /**
+     * Forces the regeneration of the CSRF token and key, writing the new
+     * values to the session even when auto-refresh has been disabled. Useful
+     * after a successful login or any other state change where rotating the
+     * token is appropriate.
+     *
+     * @return static
+     */
+    public function refreshToken() -> <static>
+    {
+        var session;
+
+        let this->token        = this->random->base64Safe(this->numberBytes),
+            this->tokenKey     = this->random->base64Safe(this->numberBytes),
+            this->requestToken = null;
+
+        /** @var SessionInterface|null $session */
+        let session = this->getLocalService("session", "localSession");
+        if (null !== session) {
+            session->set(this->tokenValueSessionId, this->token);
+            session->set(this->tokenKeySessionId, this->tokenKey);
+        }
+
+        return this;
+    }
+
+    /**
+     * Toggles automatic regeneration of the CSRF token on every call to
+     * `getToken()` / `getTokenKey()`. When set to `false`, existing session
+     * values are reused (no session write), and a new token is only minted
+     * when none is present or `refreshToken()` is called explicitly.
+     *
+     * @param bool $autoRefresh
+     *
+     * @return static
+     */
+    public function setAutoRefresh(bool autoRefresh) -> <static>
+    {
+        let this->autoRefresh = autoRefresh;
+
+        return this;
+    }
+
+    /**
      * Sets the default hash
      *
      * @param int $defaultHash
      *
-     * @return Security
+     * @return static
      */
-    public function setDefaultHash(int defaultHash) -> <Security>
+    public function setDefaultHash(int defaultHash) -> <static>
     {
         let this->defaultHash = defaultHash;
 
@@ -565,9 +635,9 @@ class Security extends AbstractInjectionAware
      *
      * @param int $randomBytes
      *
-     * @return Security
+     * @return static
      */
-    public function setRandomBytes(int! randomBytes) -> <Security>
+    public function setRandomBytes(int! randomBytes) -> <static>
     {
         let this->numberBytes = randomBytes;
 
@@ -579,9 +649,9 @@ class Security extends AbstractInjectionAware
      *
      * @param int $workFactor
      *
-     * @return Security
+     * @return static
      */
-    public function setWorkFactor(int workFactor) -> <Security>
+    public function setWorkFactor(int workFactor) -> <static>
     {
         let this->workFactor = workFactor;
 

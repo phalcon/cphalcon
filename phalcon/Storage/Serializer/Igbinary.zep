@@ -15,9 +15,9 @@ class Igbinary extends AbstractSerializer
     /**
      * Serializes data
      *
-     * @return string
+     * @return mixed
      */
-    public function serialize() -> string
+    public function serialize() -> mixed
     {
         var result;
 
@@ -75,18 +75,6 @@ class Igbinary extends AbstractSerializer
     }
 
     /**
-     * Wrapper for `igbinary_serialize`
-     *
-     * @param mixed $value
-     *
-     * @return string|null
-     */
-    protected function phpIgbinarySerialize(var value) -> string | null
-    {
-        return igbinary_serialize(value);
-    }
-
-    /**
      * Serialize
      *
      * @param mixed $value
@@ -108,5 +96,17 @@ class Igbinary extends AbstractSerializer
     protected function doUnserialize(value)
     {
         return igbinary_unserialize(value);
+    }
+
+    /**
+     * Wrapper for `igbinary_serialize`
+     *
+     * @param mixed $value
+     *
+     * @return string|null
+     */
+    protected function phpIgbinarySerialize(var value) -> string | null
+    {
+        return igbinary_serialize(value);
     }
 }

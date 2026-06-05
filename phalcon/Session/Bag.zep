@@ -70,7 +70,7 @@ class Bag extends Collection implements BagInterface, InjectionAwareInterface
             let data = [];
         }
 
-        this->init(data);
+        parent::__construct(data);
     }
 
     /**

@@ -13,6 +13,10 @@ namespace Phalcon\Db\Adapter\Pdo;
 use Phalcon\Db\Adapter\AbstractAdapter;
 use Phalcon\Db\Column;
 use Phalcon\Db\Exception;
+use Phalcon\Db\Exceptions\CannotPrepareStatement;
+use Phalcon\Db\Exceptions\InvalidBindParameter;
+use Phalcon\Db\Exceptions\MatchedParameterNotFound;
+use Phalcon\Db\Exceptions\NoActiveTransaction;
 use Phalcon\Db\Result\PdoResult;
 use Phalcon\Db\ResultInterface;
 use Phalcon\Events\ManagerInterface;
@@ -38,6 +42,11 @@ use Phalcon\Support\Settings;
  */
 abstract class AbstractPdo extends AbstractAdapter
 {
+    /**
+     * @var string
+     */
+    const BIND_PATTERN = "/\\?([0-9]+)|:([a-zA-Z0-9_]+):/";
+
     /**
      * Last affected rows
      *
@@ -149,7 +158,7 @@ abstract class AbstractPdo extends AbstractAdapter
          * Check the transaction nesting level
          */
         if this->transactionLevel === 0 {
-            throw new Exception("There is no active transaction");
+            throw new NoActiveTransaction();
         }
 
         if this->transactionLevel === 1 {
@@ -331,7 +340,7 @@ abstract class AbstractPdo extends AbstractAdapter
             value;
 
         let placeHolders = [],
-            bindPattern = "/\\?([0-9]+)|:([a-zA-Z0-9_]+):/",
+            bindPattern = self::BIND_PATTERN,
             matches = null,
             setOrder = 2;
 
@@ -339,15 +348,11 @@ abstract class AbstractPdo extends AbstractAdapter
             for placeMatch in matches {
                 if !fetch value, params[placeMatch[1]] {
                     if unlikely !isset placeMatch[2] {
-                        throw new Exception(
-                            "Matched parameter was not found in parameters list"
-                        );
+                        throw new MatchedParameterNotFound();
                     }
 
                     if unlikely !fetch value, params[placeMatch[2]] {
-                        throw new Exception(
-                            "Matched parameter was not found in parameters list"
-                        );
+                        throw new MatchedParameterNotFound();
                     }
                 }
 
@@ -475,7 +480,7 @@ abstract class AbstractPdo extends AbstractAdapter
      * );
      *```
      */
-    public function executePrepared(<\PDOStatement> statement, array! placeholders, dataTypes) -> <\PDOStatement>
+    public function executePrepared(<\PDOStatement> statement, array! placeholders, array dataTypes = []) -> <\PDOStatement>
     {
         var wildcard, value, type, castValue, parameter, position, itemValue;
 
@@ -485,10 +490,10 @@ abstract class AbstractPdo extends AbstractAdapter
             } elseif typeof wildcard == "string" {
                 let parameter = wildcard;
             } else {
-                throw new Exception("Invalid bind parameter (1)");
+                throw new InvalidBindParameter();
             }
 
-            if typeof dataTypes == "array" && fetch type, dataTypes[wildcard] {
+            if fetch type, dataTypes[wildcard] {
                 /**
                  * The bind type needs to be string because the precision
                  * is lost if it is casted as a double
@@ -715,7 +720,7 @@ abstract class AbstractPdo extends AbstractAdapter
 
         let statement = this->pdo->prepare(sqlStatement);
         if unlikely typeof statement != "object" {
-            throw new Exception("Cannot prepare statement");
+            throw new CannotPrepareStatement();
         }
 
         this->prepareRealSql(sqlStatement, bindParams);
@@ -753,7 +758,7 @@ abstract class AbstractPdo extends AbstractAdapter
          * Check the transaction nesting level
          */
         if this->transactionLevel === 0 {
-            throw new Exception("There is no active transaction");
+            throw new NoActiveTransaction();
         }
 
         if this->transactionLevel === 1 {

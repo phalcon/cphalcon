@@ -12,6 +12,13 @@ namespace Phalcon\Assets;
 
 use Phalcon\Assets\Asset\Css as AssetCss;
 use Phalcon\Assets\Asset\Js as AssetJs;
+use Phalcon\Assets\Exceptions\AssetSourceTargetCollision;
+use Phalcon\Assets\Exceptions\CollectionNotFound;
+use Phalcon\Assets\Exceptions\InvalidAssetSourcePath;
+use Phalcon\Assets\Exceptions\InvalidAssetTargetPath;
+use Phalcon\Assets\Exceptions\InvalidFilter;
+use Phalcon\Assets\Exceptions\InvalidTargetPath;
+use Phalcon\Assets\Exceptions\TargetPathIsDirectory;
 use Phalcon\Assets\Inline\Css as InlineCss;
 use Phalcon\Assets\Inline\Js as InlineJs;
 use Phalcon\Di\AbstractInjectionAware;
@@ -62,7 +69,7 @@ class Manager extends AbstractInjectionAware
      *
      * @param Asset $asset
      */
-    public function addAsset(<Asset> asset) -> <Manager>
+    public function addAsset(<Asset> asset) -> <static>
     {
         /**
          * Adds the asset by its type
@@ -78,7 +85,7 @@ class Manager extends AbstractInjectionAware
      * @param string $type
      * @param Asset  $asset
      */
-    public function addAssetByType(string! type, <Asset> asset) -> <Manager>
+    public function addAssetByType(string! type, <Asset> asset) -> <static>
     {
         var collection;
 
@@ -106,7 +113,7 @@ class Manager extends AbstractInjectionAware
         array attributes = [],
         string version = null,
         bool autoVersion = false
-    ) -> <Manager>
+    ) -> <static>
     {
         this->addAssetByType(
             "css",
@@ -121,7 +128,7 @@ class Manager extends AbstractInjectionAware
      *
      * @param Inline $code
      */
-    public function addInlineCode(<$Inline> code) -> <Manager>
+    public function addInlineCode(<$Inline> code) -> <static>
     {
         /**
          * Adds the inline code by its type
@@ -137,7 +144,7 @@ class Manager extends AbstractInjectionAware
      * @param string $type
      * @param Inline $code
      */
-    public function addInlineCodeByType(string! type, <$Inline> code) -> <Manager>
+    public function addInlineCodeByType(string! type, <$Inline> code) -> <static>
     {
         var collection;
 
@@ -159,7 +166,7 @@ class Manager extends AbstractInjectionAware
         string content,
         bool filter = true,
         array attributes = []
-    ) -> <Manager> {
+    ) -> <static> {
         this->addInlineCodeByType(
             "css",
             new InlineCss(content, filter, attributes)
@@ -179,7 +186,7 @@ class Manager extends AbstractInjectionAware
         string content,
         bool filter = true,
         array attributes = []
-    ) -> <Manager> {
+    ) -> <static> {
         this->addInlineCodeByType(
             "js",
             new InlineJs(content, filter, attributes)
@@ -210,7 +217,7 @@ class Manager extends AbstractInjectionAware
         array attributes = [],
         string version = null,
         bool autoVersion = false
-    ) -> <Manager>
+    ) -> <static>
     {
         this->addAssetByType(
             "js",
@@ -286,7 +293,7 @@ class Manager extends AbstractInjectionAware
     public function get(string! name) -> <Collection>
     {
         if unlikely true !== isset(this->collections[name]) {
-            throw new Exception("The collection does not exist in the manager");
+            throw new CollectionNotFound();
         }
 
         return this->collections[name];
@@ -360,6 +367,7 @@ class Manager extends AbstractInjectionAware
     {
         string output;
         bool filterNeeded;
+        array outputParts;
         var asset, assets, callback, callbackMethod, collectionSourcePath,
             collectionTargetPath, completeSourcePath, completeTargetPath,
             content, filter, filters, filteredContent, filteredJoinedContent,
@@ -372,6 +380,7 @@ class Manager extends AbstractInjectionAware
             filteredJoinedContent = "",
             join                  = false,
             output                = "",
+            outputParts           = [],
             options               = this->options;
 
         let callbackMethod = ("css" === type) ? "cssLink" : "jsLink",
@@ -452,15 +461,11 @@ class Manager extends AbstractInjectionAware
                  * We need a valid final target path
                  */
                 if (true === empty(completeTargetPath)) {
-                    throw new Exception(
-                        "Path '" . completeTargetPath . "' is not a valid target path (1)"
-                    );
+                    throw new InvalidTargetPath(completeTargetPath);
                 }
 
                 if (true === is_dir(completeTargetPath)) {
-                    throw new Exception(
-                        "Path '" . completeTargetPath . "' is not a valid target path (2), it is a directory."
-                    );
+                    throw new TargetPathIsDirectory(completeTargetPath);
                 }
             }
         }
@@ -488,9 +493,7 @@ class Manager extends AbstractInjectionAware
                     if (true === empty(sourcePath)) {
                         let sourcePath = asset->getPath();
 
-                        throw new Exception(
-                            "Asset '" . sourcePath . "' does not have a valid source path"
-                        );
+                        throw new InvalidAssetSourcePath(sourcePath);
                     }
                 }
 
@@ -504,9 +507,7 @@ class Manager extends AbstractInjectionAware
                  * We need a valid final target path
                  */
                 if (true === empty(targetPath)) {
-                    throw new Exception(
-                        "Asset '" . sourcePath . "' does not have a valid target path"
-                    );
+                    throw new InvalidAssetTargetPath(sourcePath);
                 }
 
                 if (true === asset->isLocal()) {
@@ -514,9 +515,7 @@ class Manager extends AbstractInjectionAware
                      * Make sure the target path is not the same source path
                      */
                     if (targetPath === sourcePath) {
-                        throw new Exception(
-                            "Asset '" . targetPath . "' have the same source and target paths"
-                        );
+                        throw new AssetSourceTargetCollision(targetPath);
                     }
 
                     if (true === file_exists(targetPath)) {
@@ -553,7 +552,7 @@ class Manager extends AbstractInjectionAware
                 if (true === this->implicitOutput) {
                     echo html;
                 } else {
-                    let output .= html;
+                    let outputParts[] = html;
                 }
 
                 continue;
@@ -578,7 +577,7 @@ class Manager extends AbstractInjectionAware
                          * Filters must be valid objects
                          */
                         if (typeof filter !== "object") {
-                            throw new Exception("The filter is not valid");
+                            throw new InvalidFilter();
                         }
 
                         /**
@@ -644,7 +643,7 @@ class Manager extends AbstractInjectionAware
                 if (true === this->implicitOutput) {
                     echo html;
                 } else {
-                    let output .= html;
+                    let outputParts[] = html;
                 }
             }
         }
@@ -678,9 +677,11 @@ class Manager extends AbstractInjectionAware
             if (true === this->implicitOutput) {
                 echo html;
             } else {
-                let output .= html;
+                let outputParts[] = html;
             }
         }
+
+        let output = implode("", outputParts);
 
         return output;
     }
@@ -739,7 +740,7 @@ class Manager extends AbstractInjectionAware
                      * Filters must be valid objects
                      */
                     if (typeof filter !== "object") {
-                        throw new Exception("The filter is not valid");
+                        throw new InvalidFilter();
                     }
 
                     /**
@@ -851,7 +852,7 @@ class Manager extends AbstractInjectionAware
      * @param string     $name
      * @param Collection $collection
      */
-    public function set(string! name, <Collection> collection) -> <Manager>
+    public function set(string! name, <Collection> collection) -> <static>
     {
         let this->collections[name] = collection;
 
@@ -863,7 +864,7 @@ class Manager extends AbstractInjectionAware
      *
      * @param array $options
      */
-    public function setOptions(array options) -> <Manager>
+    public function setOptions(array options) -> <static>
     {
         let this->options = options;
 
@@ -875,7 +876,7 @@ class Manager extends AbstractInjectionAware
      *
      * @param bool $implicitOutput
      */
-    public function useImplicitOutput(bool implicitOutput) -> <Manager>
+    public function useImplicitOutput(bool implicitOutput) -> <static>
     {
         let this->implicitOutput = implicitOutput;
 

@@ -42,7 +42,7 @@ final class GetAddSetFilesTest extends AbstractUnitTestCase
                 'classOne.php',
             ]
         );
-        $expected = [hash("sha256", 'classOne.php') => 'classOne.php'];
+        $expected = ['classOne.php' => 'classOne.php'];
         $actual   = $loader->getFiles();
         $this->assertSame($expected, $actual);
 
@@ -62,8 +62,8 @@ final class GetAddSetFilesTest extends AbstractUnitTestCase
         ;
 
         $expected = [
-            hash("sha256", 'classOne.php') => 'classOne.php',
-            hash("sha256", 'classTwo.php') => 'classTwo.php',
+            'classOne.php' => 'classOne.php',
+            'classTwo.php' => 'classTwo.php',
         ];
         $actual   = $loader->getFiles();
         $this->assertSame($expected, $actual);

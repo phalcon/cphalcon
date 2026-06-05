@@ -18,7 +18,8 @@ use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Translate\Fake\TranslateNativeArrayTrait;
 use Phalcon\Translate\Adapter\AdapterInterface;
 use Phalcon\Translate\Adapter\NativeArray;
-use Phalcon\Translate\Exception;
+use Phalcon\Translate\Exceptions\InvalidDataType;
+use Phalcon\Translate\Exceptions\MissingContent;
 use Phalcon\Translate\InterpolatorFactory;
 
 final class ConstructTest extends AbstractUnitTestCase
@@ -48,7 +49,7 @@ final class ConstructTest extends AbstractUnitTestCase
     public function testTranslateAdapterNativeArrayContentNotArray(): void
     {
 
-        $this->expectException(Exception::class);
+        $this->expectException(InvalidDataType::class);
         $this->expectExceptionMessage('Translation data must be an array');
 
         (new NativeArray(new InterpolatorFactory(), ['content' => 1234,]));
@@ -61,7 +62,7 @@ final class ConstructTest extends AbstractUnitTestCase
     public function testTranslateAdapterNativeArrayContentParamExist(): void
     {
 
-        $this->expectException(Exception::class);
+        $this->expectException(MissingContent::class);
         $this->expectExceptionMessage('Translation content was not provided');
 
         (new NativeArray(new InterpolatorFactory(), []));

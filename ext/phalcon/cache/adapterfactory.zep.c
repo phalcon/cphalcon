@@ -38,7 +38,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Cache_AdapterFactory)
 	/**
 	 * @var SerializerFactory
 	 */
-	zend_declare_property_null(phalcon_cache_adapterfactory_ce, SL("serializerFactory"), ZEND_ACC_PRIVATE);
+	zend_declare_property_null(phalcon_cache_adapterfactory_ce, SL("serializerFactory"), ZEND_ACC_PROTECTED);
 	return SUCCESS;
 }
 
@@ -130,6 +130,7 @@ PHP_METHOD(Phalcon_Cache_AdapterFactory, newInstance)
 	if (ZEND_NUM_ARGS() > 1) {
 		options_param = ZEND_CALL_ARG(execute_data, 2);
 	}
+	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
 	if (!options_param) {
 		ZEPHIR_INIT_VAR(&options);

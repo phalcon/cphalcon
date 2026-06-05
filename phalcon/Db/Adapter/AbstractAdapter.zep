@@ -10,15 +10,23 @@
 
 namespace Phalcon\Db\Adapter;
 
-use Phalcon\Db\DialectInterface;
+use Phalcon\Db\CheckInterface;
 use Phalcon\Db\ColumnInterface;
+use Phalcon\Db\DialectInterface;
 use Phalcon\Db\Enum;
 use Phalcon\Db\Exception;
+use Phalcon\Db\Exceptions\CannotInsertWithoutData;
+use Phalcon\Db\Exceptions\IncompleteBindTypes;
+use Phalcon\Db\Exceptions\InvalidWhereConditions;
+use Phalcon\Db\Exceptions\NestedTransactionChangeBlocked;
+use Phalcon\Db\Exceptions\SavepointsNotSupported;
+use Phalcon\Db\Exceptions\TableMustHaveColumn;
+use Phalcon\Db\Exceptions\UpdateFieldCountMismatch;
 use Phalcon\Db\Index;
 use Phalcon\Db\IndexInterface;
+use Phalcon\Db\RawValue;
 use Phalcon\Db\Reference;
 use Phalcon\Db\ReferenceInterface;
-use Phalcon\Db\RawValue;
 use Phalcon\Events\EventsAwareInterface;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Support\Settings;
@@ -222,6 +230,21 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     }
 
     /**
+     * Adds a CHECK constraint to a table. MySQL 8.0.16+ and PostgreSQL
+     * issue `ALTER TABLE ... ADD CONSTRAINT ... CHECK (...)`; SQLite throws.
+     */
+    public function addCheck(string! tableName, string! schemaName, <CheckInterface> check) -> bool
+    {
+        return this->{"execute"}(
+            this->dialect->addCheck(
+                tableName,
+                schemaName,
+                check
+            )
+        );
+    }
+
+    /**
      * Adds a foreign key to a table
      */
     public function addForeignKey(string! tableName, string! schemaName, <ReferenceInterface> reference) -> bool
@@ -273,9 +296,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
         let dialect = this->dialect;
 
         if unlikely !dialect->supportsSavePoints() {
-            throw new Exception(
-                "Savepoints are not supported by this database adapter."
-            );
+            throw new SavepointsNotSupported();
         }
 
         return this->{"execute"}(
@@ -291,11 +312,11 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
         var columns;
 
         if unlikely !fetch columns, definition["columns"] {
-            throw new Exception("The table must contain at least one column");
+            throw new TableMustHaveColumn();
         }
 
         if unlikely !count(columns) {
-            throw new Exception("The table must contain at least one column");
+            throw new TableMustHaveColumn();
         }
 
         return this->{"execute"}(
@@ -313,7 +334,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     public function createView(string! viewName, array! definition, string schemaName = null) -> bool
     {
         if unlikely !isset definition["sql"] {
-            throw new Exception("The table must contain at least one column");
+            throw new TableMustHaveColumn();
         }
 
         return this->{"execute"}(
@@ -474,6 +495,20 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
                 tableName,
                 schemaName,
                 columnName
+            )
+        );
+    }
+
+    /**
+     * Drops a CHECK constraint from a table. SQLite throws.
+     */
+    public function dropCheck(string! tableName, string! schemaName, string! checkName) -> bool
+    {
+        return this->{"execute"}(
+            this->dialect->dropCheck(
+                tableName,
+                schemaName,
+                checkName
             )
         );
     }
@@ -681,11 +716,13 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     }
 
     /**
-     * Returns a SQL modified with a FOR UPDATE clause
+     * Returns a SQL modified with a FOR UPDATE clause. The optional
+     * `modifier` is passed straight to the dialect (use `Dialect::LOCK_NOWAIT`
+     * / `Dialect::LOCK_SKIP_LOCKED` / `Dialect::LOCK_NONE`).
      */
-    public function forUpdate(string! sqlQuery) -> string
+    public function forUpdate(string! sqlQuery, string modifier = "") -> string
     {
-        return this->dialect->forUpdate(sqlQuery);
+        return this->dialect->forUpdate(sqlQuery, modifier);
     }
 
     /**
@@ -707,7 +744,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     /**
      * Gets the active connection unique identifier
      */
-    public function getConnectionId() -> string
+    public function getConnectionId() -> int
     {
         return this->connectionId;
     }
@@ -868,9 +905,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
          * A valid array with more than one element is required
          */
         if unlikely !count(values) {
-            throw new Exception(
-                "Unable to insert into " . table . " without data"
-            );
+            throw new CannotInsertWithoutData(table);
         }
 
         let placeholders  = [],
@@ -897,9 +932,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
 
                     if typeof dataTypes == "array" {
                         if unlikely !fetch bindType, dataTypes[position] {
-                            throw new Exception(
-                                "Incomplete number of bind types"
-                            );
+                            throw new IncompleteBindTypes();
                         }
 
                         let bindDataTypes[] = bindType;
@@ -992,7 +1025,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      * echo $connection->limit("SELECT * FROM robots", 5);
      * ```
      */
-    public function limit(string! sqlQuery, int number) -> string
+    public function limit(string! sqlQuery, var number) -> string
     {
         return this->dialect->limit(sqlQuery, number);
     }
@@ -1076,9 +1109,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
         let dialect = this->dialect;
 
         if unlikely !dialect->supportsSavePoints() {
-            throw new Exception(
-                "Savepoints are not supported by this database adapter"
-            );
+            throw new SavepointsNotSupported();
         }
 
         if !dialect->supportsReleaseSavePoints() {
@@ -1100,9 +1131,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
         let dialect = this->dialect;
 
         if unlikely !dialect->supportsSavePoints() {
-            throw new Exception(
-                "Savepoints are not supported by this database adapter"
-            );
+            throw new SavepointsNotSupported();
         }
 
         return this->{"execute"}(
@@ -1132,15 +1161,11 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     public function setNestedTransactionsWithSavepoints(bool nestedTransactionsWithSavepoints) -> <AdapterInterface>
     {
         if unlikely this->transactionLevel > 0 {
-            throw new Exception(
-                "Nested transaction with savepoints behavior cannot be changed while a transaction is open"
-            );
+            throw new NestedTransactionChangeBlocked();
         }
 
         if unlikely !this->dialect->supportsSavePoints() {
-            throw new Exception(
-                "Savepoints are not supported by this database adapter"
-            );
+            throw new SavepointsNotSupported();
         }
 
         let this->transactionsWithSavepoints = nestedTransactionsWithSavepoints;
@@ -1171,11 +1196,81 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     }
 
     /**
-     * Returns a SQL modified with a LOCK IN SHARE MODE clause
+     * Returns a SQL modified with a shared-lock clause. The optional
+     * `modifier` is passed straight to the dialect (use
+     * `Dialect::LOCK_NOWAIT` / `Dialect::LOCK_SKIP_LOCKED` for PostgreSQL).
      */
-    public function sharedLock(string! sqlQuery) -> string
+    public function sharedLock(string! sqlQuery, string modifier = "") -> string
     {
-        return this->dialect->sharedLock(sqlQuery);
+        return this->dialect->sharedLock(sqlQuery, modifier);
+    }
+
+    /**
+     * Creates a materialized view (PostgreSQL only - MySQL and SQLite
+     * throw via the dialect).
+     */
+    public function createMaterializedView(string! viewName, array! definition, string schemaName = null) -> bool
+    {
+        return this->{"execute"}(
+            this->dialect->createMaterializedView(
+                viewName,
+                definition,
+                schemaName
+            )
+        );
+    }
+
+    /**
+     * Drops a materialized view (PostgreSQL only).
+     */
+    public function dropMaterializedView(string! viewName, string schemaName = null, bool ifExists = true) -> bool
+    {
+        return this->{"execute"}(
+            this->dialect->dropMaterializedView(
+                viewName,
+                schemaName,
+                ifExists
+            )
+        );
+    }
+
+    /**
+     * Refreshes a materialized view (PostgreSQL only). Pass
+     * `concurrent = true` for non-blocking refresh.
+     */
+    public function refreshMaterializedView(string! viewName, string schemaName = null, bool concurrent = false) -> bool
+    {
+        return this->{"execute"}(
+            this->dialect->refreshMaterializedView(
+                viewName,
+                schemaName,
+                concurrent
+            )
+        );
+    }
+
+    /**
+     * Appends an `ON CONFLICT (...) DO UPDATE SET col = excluded.col`
+     * upsert clause to the supplied INSERT statement. Supported by
+     * PostgreSQL and SQLite 3.24+; MySQL throws.
+     */
+    public function onConflictUpdate(string! sqlQuery, array! conflictColumns, array! updateColumns) -> string
+    {
+        return this->dialect->onConflictUpdate(
+            sqlQuery,
+            conflictColumns,
+            updateColumns
+        );
+    }
+
+    /**
+     * Appends a RETURNING clause to an INSERT/UPDATE/DELETE SQL statement
+     * and returns the modified SQL. Supported by PostgreSQL and SQLite 3.35+;
+     * MySQL throws (no RETURNING construct). Pass `["*"]` for `RETURNING *`.
+     */
+    public function returning(string! sqlQuery, array! columns) -> string
+    {
+        return this->dialect->returning(sqlQuery, columns);
     }
 
     /**
@@ -1273,9 +1368,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
          */
         for position, value in values {
             if unlikely !fetch field, fields[position] {
-                throw new Exception(
-                    "The number of values in the update is not the same as fields"
-                );
+                throw new UpdateFieldCountMismatch();
             }
 
             let escapedField = this->escapeIdentifier(field);
@@ -1294,9 +1387,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
 
                     if typeof dataTypes == "array" {
                         if unlikely !fetch bindType, dataTypes[position] {
-                            throw new Exception(
-                                "Incomplete number of bind types"
-                            );
+                            throw new IncompleteBindTypes();
                         }
 
                         let bindDataTypes[] = bindType;
@@ -1333,7 +1424,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
                  * Array conditions may have bound params and bound types
                  */
                 if unlikely typeof whereCondition != "array" {
-                    throw new Exception("Invalid WHERE clause conditions");
+                    throw new InvalidWhereConditions();
                 }
 
                 /**

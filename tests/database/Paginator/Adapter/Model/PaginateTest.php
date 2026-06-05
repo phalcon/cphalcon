@@ -266,7 +266,7 @@ final class PaginateTest extends AbstractDatabaseTestCase
     /**
      * Tests Phalcon\Paginator\Adapter\QueryBuilder :: paginate()
      *
-     * @issue  14639
+     * @issue  https://github.com/phalcon/cphalcon/issues/14639
      *
      * @group mysql
      * @group pgsql

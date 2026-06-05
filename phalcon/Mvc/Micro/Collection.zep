@@ -44,7 +44,7 @@ class Collection implements CollectionInterface
     /**
      * @var bool
      */
-    protected lazy = false;
+    protected isLazy = false;
 
     /**
      * @var string
@@ -130,7 +130,7 @@ class Collection implements CollectionInterface
      */
     public function isLazy() -> bool
     {
-        return this->lazy;
+        return this->isLazy;
     }
 
     /**
@@ -244,14 +244,14 @@ class Collection implements CollectionInterface
      * Sets the main handler.
      *
      * @param mixed handler
-     * @param bool lazy
+     * @param bool isLazy
      *
      * @return CollectionInterface
      */
-    public function setHandler(var handler, bool lazy = false) -> <CollectionInterface>
+    public function setHandler(var handler, bool isLazy = false) -> <CollectionInterface>
     {
         let this->handler = handler,
-            this->lazy = lazy;
+            this->isLazy = isLazy;
 
         return this;
     }
@@ -259,13 +259,13 @@ class Collection implements CollectionInterface
     /**
      * Sets if the main handler must be lazy loaded
      *
-     * @param bool lazy
+     * @param bool isLazy
      *
      * @return CollectionInterface
      */
-    public function setLazy(bool! lazy) -> <CollectionInterface>
+    public function setLazy(bool! isLazy) -> <CollectionInterface>
     {
-        let this->lazy = lazy;
+        let this->isLazy = isLazy;
 
         return this;
     }

@@ -90,7 +90,7 @@ final class ConstructTest extends AbstractUnitTestCase
 
         $this->expectException(Exception::class);
         $this->expectExceptionMessage(
-            'Configuration file ' . basename($filePath) . ' can\'t be loaded'
+            'Configuration file ' . basename($filePath) . ' cannot be loaded'
         );
 
         (new FakeYamlParseFile($filePath));

@@ -32,21 +32,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Encryption_Security_JWT_Token_Enum)
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Encryption\\Security\\JWT\\Token, Enum, phalcon, encryption_security_jwt_token_enum, NULL, 0);
 
 	/**
-	 * Headers
-	 *
-	 * @var string
-	 */
-	zephir_declare_class_constant_string(phalcon_encryption_security_jwt_token_enum_ce, SL("TYPE"), "typ");
-
-	/**
 	 * @var string
 	 */
 	zephir_declare_class_constant_string(phalcon_encryption_security_jwt_token_enum_ce, SL("ALGO"), "alg");
-
-	/**
-	 * @var string
-	 */
-	zephir_declare_class_constant_string(phalcon_encryption_security_jwt_token_enum_ce, SL("CONTENT_TYPE"), "cty");
 
 	/**
 	 * Claims
@@ -54,6 +42,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Encryption_Security_JWT_Token_Enum)
 	 * @var string
 	 */
 	zephir_declare_class_constant_string(phalcon_encryption_security_jwt_token_enum_ce, SL("AUDIENCE"), "aud");
+
+	/**
+	 * @var string
+	 */
+	zephir_declare_class_constant_string(phalcon_encryption_security_jwt_token_enum_ce, SL("CONTENT_TYPE"), "cty");
 
 	/**
 	 * @var string
@@ -84,6 +77,13 @@ ZEPHIR_INIT_CLASS(Phalcon_Encryption_Security_JWT_Token_Enum)
 	 * @var string
 	 */
 	zephir_declare_class_constant_string(phalcon_encryption_security_jwt_token_enum_ce, SL("SUBJECT"), "sub");
+
+	/**
+	 * Headers
+	 *
+	 * @var string
+	 */
+	zephir_declare_class_constant_string(phalcon_encryption_security_jwt_token_enum_ce, SL("TYPE"), "typ");
 
 	return SUCCESS;
 }

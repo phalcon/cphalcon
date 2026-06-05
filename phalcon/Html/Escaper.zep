@@ -6,6 +6,10 @@
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
+ *
+ * Implementation of this file has been influenced by AuraPHP
+ * @link    https://github.com/auraphp/Aura.Html
+ * @license https://github.com/auraphp/Aura.Html/blob/2.x/LICENSE
  */
 
 namespace Phalcon\Html;
@@ -74,13 +78,28 @@ class Escaper implements EscaperInterface
      */
     protected urlEscaper;
 
-    public function __construct()
-    {
+    public function __construct(
+        string encoding = "utf-8",
+        int flags = 11,
+        bool doubleEncode = true
+    ) {
         let this->attributeEscaper = new AttributeEscaper(),
             this->cssEscaper       = new CssEscaper(),
             this->htmlEscaper      = new HtmlEscaper(),
             this->jsEscaper        = new JsEscaper(),
             this->urlEscaper       = new UrlEscaper();
+
+        if "utf-8" !== encoding {
+            this->setEncoding(encoding);
+        }
+
+        if 11 !== flags {
+            this->setFlags(flags);
+        }
+
+        if doubleEncode !== true {
+            this->setDoubleEncode(doubleEncode);
+        }
     }
 
     /**
@@ -91,7 +110,7 @@ class Escaper implements EscaperInterface
      *
      * @return string
      */
-    public function attributes(var input) -> string
+    public function attributes(var input = null) -> string
     {
         return this->attributeEscaper->escape(input);
     }
@@ -130,17 +149,6 @@ class Escaper implements EscaperInterface
     }
 
     /**
-     * @param string $input
-     *
-     * @return string
-     * @deprecated
-     */
-    public function escapeJs(string input) -> string
-    {
-        return this->js(input);
-    }
-
-    /**
      * @param string|null $input
      *
      * @return string
@@ -160,6 +168,17 @@ class Escaper implements EscaperInterface
     public function escapeHtmlAttr(string input = null) -> string
     {
         return this->attributes((string) input);
+    }
+
+    /**
+     * @param string $input
+     *
+     * @return string
+     * @deprecated
+     */
+    public function escapeJs(string input) -> string
+    {
+        return this->js(input);
     }
 
     /**
@@ -266,9 +285,9 @@ class Escaper implements EscaperInterface
     /**
      * @param AttributeEscaper $escaper
      *
-     * @return Escaper
+     * @return static
      */
-    public function setAttributeEscaper(<AttributeEscaper> escaper) -> <Escaper>
+    public function setAttributeEscaper(<AttributeEscaper> escaper) -> <static>
     {
         let this->attributeEscaper = escaper;
 
@@ -278,9 +297,9 @@ class Escaper implements EscaperInterface
     /**
      * @param CssEscaper $escaper
      *
-     * @return Escaper
+     * @return static
      */
-    public function setCssEscaper(<CssEscaper> escaper) -> <Escaper>
+    public function setCssEscaper(<CssEscaper> escaper) -> <static>
     {
         let this->cssEscaper = escaper;
 
@@ -292,7 +311,7 @@ class Escaper implements EscaperInterface
      *
      * @param bool $doubleEncode
      */
-    public function setDoubleEncode(bool doubleEncode) -> <Escaper>
+    public function setDoubleEncode(bool doubleEncode) -> <static>
     {
         this->attributeEscaper->setDoubleEncode(doubleEncode);
         this->cssEscaper->setDoubleEncode(doubleEncode);
@@ -308,7 +327,7 @@ class Escaper implements EscaperInterface
      *
      * @param string $encoding
      */
-    public function setEncoding(string encoding) -> <EscaperInterface>
+    public function setEncoding(string encoding) -> <static>
     {
         this->attributeEscaper->setEncoding(encoding);
         this->cssEscaper->setEncoding(encoding);
@@ -324,7 +343,7 @@ class Escaper implements EscaperInterface
      *
      * @param int $flags
      */
-    public function setFlags(int flags) -> <EscaperInterface>
+    public function setFlags(int flags) -> <static>
     {
         this->attributeEscaper->setFlags(flags);
         this->cssEscaper->setFlags(flags);
@@ -338,9 +357,9 @@ class Escaper implements EscaperInterface
     /**
      * @param HtmlEscaper $escaper
      *
-     * @return Escaper
+     * @return static
      */
-    public function setHtmlEscaper(<HtmlEscaper> escaper) -> <Escaper>
+    public function setHtmlEscaper(<HtmlEscaper> escaper) -> <static>
     {
         let this->htmlEscaper = escaper;
 
@@ -352,7 +371,7 @@ class Escaper implements EscaperInterface
      *
      * @deprecated
      */
-    public function setHtmlQuoteType(int flags) -> <EscaperInterface>
+    public function setHtmlQuoteType(int flags) -> <static>
     {
         return this->setFlags(flags);
     }
@@ -360,9 +379,9 @@ class Escaper implements EscaperInterface
     /**
      * @param JsEscaper $escaper
      *
-     * @return Escaper
+     * @return static
      */
-    public function setJsEscaper(<JsEscaper> escaper) -> <Escaper>
+    public function setJsEscaper(<JsEscaper> escaper) -> <static>
     {
         let this->jsEscaper = escaper;
 
@@ -372,9 +391,9 @@ class Escaper implements EscaperInterface
     /**
      * @param UrlEscaper $escaper
      *
-     * @return Escaper
+     * @return static
      */
-    public function setUrlEscaper(<UrlEscaper> escaper) -> <Escaper>
+    public function setUrlEscaper(<UrlEscaper> escaper) -> <static>
     {
         let this->urlEscaper = escaper;
 

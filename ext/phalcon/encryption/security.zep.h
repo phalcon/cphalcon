@@ -20,6 +20,8 @@ PHP_METHOD(Phalcon_Encryption_Security, getTokenKey);
 PHP_METHOD(Phalcon_Encryption_Security, getWorkFactor);
 PHP_METHOD(Phalcon_Encryption_Security, hash);
 PHP_METHOD(Phalcon_Encryption_Security, isLegacyHash);
+PHP_METHOD(Phalcon_Encryption_Security, refreshToken);
+PHP_METHOD(Phalcon_Encryption_Security, setAutoRefresh);
 PHP_METHOD(Phalcon_Encryption_Security, setDefaultHash);
 PHP_METHOD(Phalcon_Encryption_Security, setRandomBytes);
 PHP_METHOD(Phalcon_Encryption_Security, setWorkFactor);
@@ -31,8 +33,8 @@ PHP_METHOD(Phalcon_Encryption_Security, processTokenKey);
 PHP_METHOD(Phalcon_Encryption_Security, processUserToken);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_encryption_security___construct, 0, 0, 0)
-	ZEND_ARG_OBJ_INFO(0, session, Phalcon\\Session\\ManagerInterface, 1)
-	ZEND_ARG_OBJ_INFO(0, request, Phalcon\\Http\\RequestInterface, 1)
+	ZEND_ARG_OBJ_TYPE_MASK(0, session, Phalcon\\Session\\ManagerInterface, MAY_BE_NULL, "null")
+	ZEND_ARG_OBJ_TYPE_MASK(0, request, Phalcon\\Http\\RequestInterface, MAY_BE_NULL, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_checkhash, 0, 2, _IS_BOOL, 0)
@@ -50,11 +52,11 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_computehmac, 0, 3, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, data, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, algo, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, algorithm, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, raw, _IS_BOOL, 0, "false")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_encryption_security_destroytoken, 0, 0, Phalcon\\Encryption\\Security, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_encryption_security_destroytoken, 0, 0, MAY_BE_STATIC)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_getdefaulthash, 0, 0, IS_LONG, 0)
@@ -98,15 +100,22 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_isle
 	ZEND_ARG_TYPE_INFO(0, passwordHash, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_encryption_security_setdefaulthash, 0, 1, Phalcon\\Encryption\\Security, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_encryption_security_refreshtoken, 0, 0, MAY_BE_STATIC)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_encryption_security_setautorefresh, 0, 1, MAY_BE_STATIC)
+	ZEND_ARG_TYPE_INFO(0, autoRefresh, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_encryption_security_setdefaulthash, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, defaultHash, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_encryption_security_setrandombytes, 0, 1, Phalcon\\Encryption\\Security, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_encryption_security_setrandombytes, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, randomBytes, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_encryption_security_setworkfactor, 0, 1, Phalcon\\Encryption\\Security, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_encryption_security_setworkfactor, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, workFactor, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
@@ -153,6 +162,8 @@ ZEPHIR_INIT_FUNCS(phalcon_encryption_security_method_entry) {
 	PHP_ME(Phalcon_Encryption_Security, getWorkFactor, arginfo_phalcon_encryption_security_getworkfactor, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Encryption_Security, hash, arginfo_phalcon_encryption_security_hash, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Encryption_Security, isLegacyHash, arginfo_phalcon_encryption_security_islegacyhash, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Encryption_Security, refreshToken, arginfo_phalcon_encryption_security_refreshtoken, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Encryption_Security, setAutoRefresh, arginfo_phalcon_encryption_security_setautorefresh, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Encryption_Security, setDefaultHash, arginfo_phalcon_encryption_security_setdefaulthash, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Encryption_Security, setRandomBytes, arginfo_phalcon_encryption_security_setrandombytes, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Encryption_Security, setWorkFactor, arginfo_phalcon_encryption_security_setworkfactor, ZEND_ACC_PUBLIC)

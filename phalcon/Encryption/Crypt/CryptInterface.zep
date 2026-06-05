@@ -56,11 +56,11 @@ interface CryptInterface
     public function encryptBase64(string input, string key = null) -> string;
 
     /**
-     * Returns a list of available cyphers
+     * Returns authentication data
      *
-     * @return array
+     * @return string
      */
-    public function getAvailableCiphers() -> array;
+    public function getAuthData() -> string;
 
     /**
      * Returns the authentication tag
@@ -70,18 +70,18 @@ interface CryptInterface
     public function getAuthTag() -> string;
 
     /**
-     * Returns authentication data
-     *
-     * @return string
-     */
-    public function getAuthData() -> string;
-
-    /**
      * Returns the authentication tag length
      *
      * @return int
      */
     public function getAuthTagLength() -> int;
+
+    /**
+     * Returns a list of available cyphers
+     *
+     * @phpstan-return array<array-key, string>
+     */
+    public function getAvailableCiphers() -> array;
 
     /**
      * Returns the current cipher
@@ -98,15 +98,6 @@ interface CryptInterface
     public function getKey() -> string;
 
     /**
-     * Sets the authentication tag
-     *
-     * @param string $tag
-     *
-     * @return CryptInterface
-     */
-    public function setAuthTag(string tag) -> <CryptInterface>;
-
-    /**
      * Sets authentication data
      *
      * @param string $data
@@ -114,6 +105,15 @@ interface CryptInterface
      * @return CryptInterface
      */
     public function setAuthData(string data) -> <CryptInterface>;
+
+    /**
+     * Sets the authentication tag
+     *
+     * @param string $tag
+     *
+     * @return CryptInterface
+     */
+    public function setAuthTag(string tag) -> <CryptInterface>;
 
     /**
      * Sets the authentication tag length

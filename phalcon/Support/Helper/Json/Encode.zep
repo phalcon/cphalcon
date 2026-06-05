@@ -10,7 +10,7 @@
 
 namespace Phalcon\Support\Helper\Json;
 
-use InvalidArgumentException;
+use Phalcon\Support\Helper\Json\Exceptions\JsonEncodeError;
 
 /**
  * Encodes a string using `json_encode` and throws an exception if the
@@ -23,7 +23,7 @@ use InvalidArgumentException;
  *
  * If JSON_THROW_ON_ERROR is defined in the options a JsonException will be
  * thrown in the case of an error. Otherwise, any error will throw
- * InvalidArgumentException
+ * JsonEncodeError
  *
  * @see  https://www.ietf.org/rfc/rfc4627.txt
  */
@@ -36,7 +36,7 @@ class Encode
      *
      * @return string
      *
-     * @throws InvalidArgumentException if the JSON cannot be encoded.
+     * @throws JsonEncodeError if the JSON cannot be encoded.
      * @link https://www.php.net/manual/en/function.json-encode.php
      */
     public function __invoke(
@@ -44,16 +44,19 @@ class Encode
         int options = 79,
         int depth = 512
     ) -> string {
-        var encoded, error, message;
+        var encoded, error, ex, message;
 
         /**
          * Need to clear the json_last_error() before the code below
          */
-        let encoded = json_encode(null),
-            encoded = json_encode(data, options, depth),
-            error   = json_last_error(),
-            message = json_last_error_msg();
-
+        try {
+            let encoded = json_encode(null),
+                encoded = json_encode(data, options, depth),
+                error   = json_last_error(),
+                message = json_last_error_msg();
+        } catch \JsonException, ex {
+            throw new JsonEncodeError(ex->getMessage(), ex->getCode(), ex);
+        }
         /**
          * The above will throw an exception when JSON_THROW_ON_ERROR is
          * specified. If not, the code below will handle the exception when
@@ -61,7 +64,7 @@ class Encode
          */
         if (JSON_ERROR_NONE !== error) {
             json_encode(null);
-            throw new InvalidArgumentException("json_encode error: " . message, error);
+            throw new JsonEncodeError(message, error);
         }
 
         return (string) encoded;

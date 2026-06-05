@@ -77,7 +77,7 @@ final class GetAddValidatorsTest extends AbstractUnitTestCase
 
         $object->addValidators([$one, $two]);
 
-        // Add $three with merge=false — should discard $one and $two
+        // Add $three with merge=false - should discard $one and $two
         $object->addValidators([$three], false);
 
         $expected = [$three];

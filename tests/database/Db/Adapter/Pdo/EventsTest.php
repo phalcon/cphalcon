@@ -8,6 +8,7 @@ use PDO;
 use Phalcon\Db\Adapter\Pdo\Sqlite;
 use Phalcon\Events\Manager;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class EventsTest extends AbstractUnitTestCase
 {
@@ -21,9 +22,7 @@ final class EventsTest extends AbstractUnitTestCase
         ];
     }
 
-    /**
-     * @dataProvider eventsProvider
-     */
+    #[DataProvider('eventsProvider')]
     public function testEvents($sql, $event, array $expectedEvents = []): void
     {
         $connection = new Sqlite([

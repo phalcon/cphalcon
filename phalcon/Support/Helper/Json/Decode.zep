@@ -10,7 +10,7 @@
 
 namespace Phalcon\Support\Helper\Json;
 
-use InvalidArgumentException;
+use Phalcon\Support\Helper\Json\Exceptions\JsonDecodeError;
 
 /**
  * Decodes a string using `json_decode` and throws an exception if the
@@ -23,7 +23,7 @@ use InvalidArgumentException;
  *
  * If JSON_THROW_ON_ERROR is defined in the options a JsonException will be
  * thrown in the case of an error. Otherwise, any error will throw
- * InvalidArgumentException
+ * JsonDecodeError
  */
 class Decode
 {
@@ -35,7 +35,7 @@ class Decode
      *
      * @return mixed
      *
-     * @throws InvalidArgumentException if the JSON cannot be decoded.
+     * @throws JsonDecodeError if the JSON cannot be decoded.
      * @link https://www.php.net/manual/en/function.json-decode.php
      */
     public function __invoke(
@@ -44,15 +44,19 @@ class Decode
         int depth = 512,
         int options = 79
     ) {
-        var decoded, error, message;
+        var decoded, error, ex, message;
 
         /**
          * Need to clear the json_last_error() before the code below
          */
-        let decoded = json_encode(null),
-            decoded = json_decode(data, associative, depth, options),
-            error   = json_last_error(),
-            message = json_last_error_msg();
+        try {
+            let decoded = json_encode(null),
+                decoded = json_decode(data, associative, depth, options),
+                error   = json_last_error(),
+                message = json_last_error_msg();
+        } catch \JsonException, ex {
+            throw new JsonDecodeError(ex->getMessage(), ex->getCode(), ex);
+        }
 
         /**
          * The above will throw an exception when JSON_THROW_ON_ERROR is
@@ -61,7 +65,7 @@ class Decode
          */
         if (JSON_ERROR_NONE !== error) {
             json_encode(null);
-            throw new InvalidArgumentException(message, error);
+            throw new JsonDecodeError(message, error);
         }
 
         return decoded;

@@ -13,7 +13,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Dispatcher;
 
+use Phalcon\Mvc\Dispatcher;
 use Phalcon\Tests\AbstractUnitTestCase;
+use ReflectionProperty;
 
 final class IsFinishedTest extends AbstractUnitTestCase
 {
@@ -23,6 +25,14 @@ final class IsFinishedTest extends AbstractUnitTestCase
      */
     public function testDispatcherIsFinished(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $dispatcher = new Dispatcher();
+
+        $this->assertFalse($dispatcher->isFinished());
+
+        $property = new ReflectionProperty($dispatcher, 'finished');
+        $property->setAccessible(true);
+        $property->setValue($dispatcher, true);
+
+        $this->assertTrue($dispatcher->isFinished());
     }
 }

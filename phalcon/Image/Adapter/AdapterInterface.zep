@@ -66,6 +66,16 @@ interface AdapterInterface
     public function flip(int direction) -> <AdapterInterface>;
 
     /**
+     * @return int
+     */
+    public function getHeight() -> int;
+
+    /**
+     * @return int
+     */
+    public function getWidth() -> int;
+
+    /**
      * Add a mask to an image
      *
      * @param AdapterInterface $mask

@@ -4,7 +4,7 @@ extern zend_class_entry *phalcon_mvc_moduledefinitioninterface_ce;
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_ModuleDefinitionInterface);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_moduledefinitioninterface_registerautoloaders, 0, 0, 0)
-	ZEND_ARG_OBJ_INFO(0, container, Phalcon\\Di\\DiInterface, 1)
+	ZEND_ARG_OBJ_TYPE_MASK(0, container, Phalcon\\Di\\DiInterface, MAY_BE_NULL, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_moduledefinitioninterface_registerservices, 0, 0, 1)

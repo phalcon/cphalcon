@@ -42,7 +42,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Link_Interfaces_EvolvableLinkProviderInterface)
  */
 ZEPHIR_DOC_METHOD(Phalcon_Html_Link_Interfaces_EvolvableLinkProviderInterface, withLink);
 /**
- * Returns an instance with the specifed link removed.
+ * Returns an instance with the specified link removed.
  *
  * If the specified link is not present, this method MUST return normally
  * without errors. The link is present if $link is === identical to a link

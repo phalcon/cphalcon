@@ -13,8 +13,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Image\Adapter\Gd;
 
+use Phalcon\Image\Adapter\Gd;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Image\Fake\GdTrait;
+use ReflectionProperty;
 
 final class DestructTest extends AbstractUnitTestCase
 {
@@ -26,6 +28,16 @@ final class DestructTest extends AbstractUnitTestCase
      */
     public function testImageAdapterGdDestruct(): void
     {
-        $this->markTestSkipped('Need implementation');
+        foreach ($this->getImages() as $image) {
+            $gd = new Gd($image);
+
+            $property = new ReflectionProperty($gd, 'image');
+            $property->setAccessible(true);
+            $this->assertNotNull($property->getValue($gd));
+
+            $gd->__destruct();
+
+            $this->assertNull($property->getValue($gd));
+        }
     }
 }

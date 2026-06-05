@@ -14,6 +14,8 @@ use ArrayAccess;
 use Countable;
 use Iterator;
 use JsonSerializable;
+use Phalcon\Messages\Exceptions\MessageNotObject;
+use Phalcon\Messages\Exceptions\MessagesNotIterable;
 
 /**
  * Represents a collection of messages
@@ -47,7 +49,7 @@ class Messages implements ArrayAccess, Countable, Iterator, JsonSerializable
      * );
      *```
      */
-    public function appendMessage(<MessageInterface> message)
+    public function appendMessage(<MessageInterface> message) -> void
     {
         let this->messages[] = message;
     }
@@ -66,7 +68,7 @@ class Messages implements ArrayAccess, Countable, Iterator, JsonSerializable
         var currentMessages, finalMessages, message;
 
         if typeof messages !== "array" && typeof messages !== "object" {
-            throw new Exception("The messages must be iterable");
+            throw new MessagesNotIterable();
         }
 
         let currentMessages = this->messages;
@@ -238,7 +240,7 @@ class Messages implements ArrayAccess, Countable, Iterator, JsonSerializable
     public function offsetSet(mixed offset, mixed value) -> void
     {
         if typeof value !== "object" {
-            throw new Exception("The message must be an object");
+            throw new MessageNotObject();
         }
 
         let this->messages[offset] = value;
@@ -269,7 +271,7 @@ class Messages implements ArrayAccess, Countable, Iterator, JsonSerializable
     /**
      * Check if the current message in the iterator is valid
      */
-    public function valid() -> boolean
+    public function valid() -> bool
     {
         return isset this->messages[this->position];
     }

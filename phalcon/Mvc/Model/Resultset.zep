@@ -19,6 +19,10 @@ use Phalcon\Cache\CacheInterface;
 use Phalcon\Db\Enum;
 use Phalcon\Messages\MessageInterface;
 use Phalcon\Mvc\Model;
+use Phalcon\Mvc\Model\Exceptions\CursorIsImmutable;
+use Phalcon\Mvc\Model\Exceptions\IndexNotInCursor;
+use Phalcon\Mvc\Model\Exceptions\InvalidResultsetCacheService;
+use Phalcon\Mvc\Model\Exceptions\InvalidReturnedRecord;
 use Phalcon\Mvc\ModelInterface;
 use Phalcon\Storage\Serializer\SerializerInterface;
 use Phalcon\Support\Settings;
@@ -179,10 +183,7 @@ abstract class Resultset
                 true !== is_a(cache,  "Phalcon\\Cache\\CacheInterface") &&
                 true !== is_a(cache,  "Psr\\SimpleCache\\CacheInterface")
             ) {
-                throw new Exception(
-                    "Cache service must be an object implementing " .
-                    "Phalcon\Cache\CacheInterface or Psr\SimpleCache\CacheInterface"
-                );
+                throw new InvalidResultsetCacheService();
             }
 
 
@@ -256,7 +257,7 @@ abstract class Resultset
                  * We only can delete resultsets if every element is a complete object
                  */
                 if unlikely !method_exists(record, "getWriteConnection") {
-                    throw new Exception("The returned record is not valid");
+                    throw new InvalidReturnedRecord();
                 }
 
                 let connection = record->getWriteConnection(),
@@ -512,12 +513,20 @@ abstract class Resultset
     }
 
     /**
+     * Checks whether offset exists in the resultset
+     */
+    public function offsetExists(var index) -> bool
+    {
+        return index < this->count;
+    }
+
+    /**
      * Gets row in a specific position of the resultset
      */
     public function offsetGet(mixed index) -> mixed
     {
         if unlikely index >= this->count {
-            throw new Exception("The index does not exist in the cursor");
+            throw new IndexNotInCursor();
         }
 
         /**
@@ -529,14 +538,6 @@ abstract class Resultset
     }
 
     /**
-     * Checks whether offset exists in the resultset
-     */
-    public function offsetExists(var index) -> bool
-    {
-        return index < this->count;
-    }
-
-    /**
      * Resultsets cannot be changed. It has only been implemented to meet the definition of the ArrayAccess interface
      *
      * @param int offset
@@ -544,7 +545,7 @@ abstract class Resultset
      */
     public function offsetSet(var offset, var value) -> void
     {
-        throw new Exception("Cursor is an immutable ArrayAccess object");
+        throw new CursorIsImmutable();
     }
 
     /**
@@ -552,7 +553,7 @@ abstract class Resultset
      */
     public function offsetUnset(var offset) -> void
     {
-        throw new Exception("Cursor is an immutable ArrayAccess object");
+        throw new CursorIsImmutable();
     }
 
     /**
@@ -669,7 +670,7 @@ abstract class Resultset
                  * We only can update resultsets if every element is a complete object
                  */
                 if unlikely !method_exists(record, "getWriteConnection") {
-                    throw new Exception("The returned record is not valid");
+                    throw new InvalidReturnedRecord();
                 }
 
                 let connection = record->getWriteConnection(),
@@ -742,7 +743,7 @@ abstract class Resultset
             let this->count = 0;
             let this->rows = [];
 
-            return;
+            return true;
         }
         let result = this->result;
         let success = result->execute();
@@ -767,7 +768,7 @@ abstract class Resultset
         /**
          * Small result-sets with less equals 32 rows are fetched at once
          */
-        let prefetchRecords = (int) globals_get("orm.resultset_prefetch_records");
+        let prefetchRecords = (int) Settings::get("orm.resultset_prefetch_records");
         if prefetchRecords > 0 && rowCount <= prefetchRecords {
             /**
              * Fetch ALL rows from database

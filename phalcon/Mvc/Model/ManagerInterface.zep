@@ -4,8 +4,8 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the
- * LICENSE.txt file that was distributed with this source code.
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
  */
 
 namespace Phalcon\Mvc\Model;
@@ -61,6 +61,26 @@ interface ManagerInterface
     ) -> <RelationInterface>;
 
     /**
+     * Setups a relation n-m between two models
+     *
+     * @param    string fields
+     * @param    string intermediateFields
+     * @param    string intermediateReferencedFields
+     * @param    string referencedFields
+     * @param   array options
+     */
+    public function addHasManyToMany(
+        <ModelInterface> model,
+        var fields,
+        string! intermediateModel,
+        var intermediateFields,
+        var intermediateReferencedFields,
+        string! referencedModel,
+        var referencedFields,
+        array options = []
+    ) -> <RelationInterface>;
+
+    /**
      * Setup a 1-1 relation between two models
      *
      * @param    mixed  fields
@@ -96,24 +116,9 @@ interface ManagerInterface
     ) -> <RelationInterface>;
 
     /**
-     * Setups a relation n-m between two models
-     *
-     * @param    string fields
-     * @param    string intermediateFields
-     * @param    string intermediateReferencedFields
-     * @param    string referencedFields
-     * @param   array options
+     * Clears the internal reusable list
      */
-    public function addHasManyToMany(
-        <ModelInterface> model,
-        var fields,
-        string! intermediateModel,
-        var intermediateFields,
-        var intermediateReferencedFields,
-        string! referencedModel,
-        var referencedFields,
-        array options = []
-    ) -> <RelationInterface>;
+    public function clearReusableObjects() -> void;
 
     /**
      * Creates a Phalcon\Mvc\Model\Query\Builder
@@ -126,11 +131,6 @@ interface ManagerInterface
      * Creates a Phalcon\Mvc\Model\Query without execute it
      */
     public function createQuery(string! phql) -> <QueryInterface>;
-
-    /**
-     * Clears the internal reusable list
-     */
-    public function clearReusableObjects() -> void;
 
     /**
      * Creates a Phalcon\Mvc\Model\Query and execute it
@@ -201,11 +201,6 @@ interface ManagerInterface
     public function getHasOne(<ModelInterface> model) -> <RelationInterface[]> | array;
 
     /**
-     * Gets hasOneThrough relations defined on a model
-     */
-    public function getHasOneThrough(<ModelInterface> model) -> <RelationInterface[]> | array;
-
-    /**
      * Gets hasOne relations defined on a model
      */
     public function getHasOneAndHasMany(<ModelInterface> model) -> <RelationInterface[]>;
@@ -228,9 +223,14 @@ interface ManagerInterface
     ) -> <ModelInterface> | bool;
 
     /**
+     * Gets hasOneThrough relations defined on a model
+     */
+    public function getHasOneThrough(<ModelInterface> model) -> <RelationInterface[]> | array;
+
+    /**
      * Get last initialized model
      */
-    public function getLastInitialized() -> <ModelInterface>;
+    public function getLastInitialized() -> <ModelInterface> | null;
 
     /**
      * Returns the last query created or executed in the models manager
@@ -320,6 +320,11 @@ interface ManagerInterface
     public function hasHasMany(string! modelName, string! modelRelation) -> bool;
 
     /**
+     * Checks whether a model has a hasManyToMany relation with another model
+     */
+    public function hasHasManyToMany(string! modelName, string! modelRelation) -> bool;
+
+    /**
      * Checks whether a model has a hasOne relation with another model
      */
     public function hasHasOne(string! modelName, string! modelRelation) -> bool;
@@ -328,16 +333,6 @@ interface ManagerInterface
      * Checks whether a model has a hasOneThrough relation with another model
      */
     public function hasHasOneThrough(string! modelName, string! modelRelation) -> bool;
-
-    /**
-     * Checks whether a model has a hasManyToMany relation with another model
-     */
-    public function hasHasManyToMany(string! modelName, string! modelRelation) -> bool;
-
-    /**
-     * Loads a model throwing an exception if it does not exist
-     */
-    public function load(string modelName) -> <ModelInterface>;
 
     /**
      * Initializes a model in the model manager
@@ -377,6 +372,11 @@ interface ManagerInterface
     public function keepSnapshots(<ModelInterface> model, bool keepSnapshots) -> void;
 
     /**
+     * Loads a model throwing an exception if it does not exist
+     */
+    public function load(string modelName) -> <ModelInterface>;
+
+    /**
      * Dispatch an event to the listeners and behaviors
      * This method expects that the endpoint listeners/behaviors returns true
      * meaning that a least one is implemented
@@ -393,9 +393,24 @@ interface ManagerInterface
     public function notifyEvent(string! eventName, <ModelInterface> model);
 
     /**
+     * Removes a behavior from a model
+     */
+    public function removeBehavior(<ModelInterface> model, string! behaviorClass) -> void;
+
+    /**
      * Sets both write and read connection service for a model
      */
     public function setConnectionService(<ModelInterface> model, string! connectionService) -> void;
+
+    /**
+     * Sets the mapped schema for a model
+     */
+    public function setModelSchema(<ModelInterface> model, string! schema) -> void;
+
+    /**
+     * Sets the mapped source for a model
+     */
+    public function setModelSource(<ModelInterface> model, string! source) -> void;
 
     /**
      * Sets read connection service for a model
@@ -412,16 +427,6 @@ interface ManagerInterface
      * @return void
      */
     public function setReusableRecords(string! modelName, string! key, var records) -> void;
-
-    /**
-     * Sets the mapped schema for a model
-     */
-    public function setModelSchema(<ModelInterface> model, string! schema) -> void;
-
-    /**
-     * Sets the mapped source for a model
-     */
-    public function setModelSource(<ModelInterface> model, string! source) -> void;
 
     /**
      * Sets write connection service for a model

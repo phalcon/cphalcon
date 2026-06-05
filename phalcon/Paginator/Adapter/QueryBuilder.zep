@@ -12,8 +12,12 @@ namespace Phalcon\Paginator\Adapter;
 
 use Phalcon\Db\Enum;
 use Phalcon\Mvc\Model\Query\Builder;
-use Phalcon\Paginator\RepositoryInterface;
 use Phalcon\Paginator\Exception;
+use Phalcon\Paginator\Exceptions\BuilderModelNotDefined;
+use Phalcon\Paginator\Exceptions\InvalidBuilderInstance;
+use Phalcon\Paginator\Exceptions\MissingColumnsForHaving;
+use Phalcon\Paginator\Exceptions\MissingRequiredParameter;
+use Phalcon\Paginator\RepositoryInterface;
 
 /**
  * Phalcon\Paginator\Adapter\QueryBuilder
@@ -67,17 +71,14 @@ class QueryBuilder extends AbstractAdapter
         var builder, columns;
 
         if unlikely !isset config["limit"] {
-            throw new Exception("Parameter 'limit' is required");
+            throw new MissingRequiredParameter("limit");
         }
 
         if unlikely !fetch builder, config["builder"] {
-            throw new Exception("Parameter 'builder' is required");
+            throw new MissingRequiredParameter("builder");
         }
         if unlikely !(builder instanceof Builder) {
-            throw new Exception(
-                "Parameter 'builder' must be an instance " .
-                "of Phalcon\\Mvc\\Model\\Query\\Builder"
-            );
+            throw new InvalidBuilderInstance();
         }
 
         if fetch columns, config["columns"] {
@@ -172,9 +173,7 @@ class QueryBuilder extends AbstractAdapter
 
         if hasHaving && !hasGroup {
             if unlikely empty columns {
-                throw new Exception(
-                    "When having is set there should be columns option provided for which calculate row count"
-                );
+                throw new MissingColumnsForHaving();
             }
 
             totalBuilder->columns(columns);
@@ -265,7 +264,7 @@ class QueryBuilder extends AbstractAdapter
                 modelClass = builder->getModels();
 
             if unlikely modelClass === null {
-                throw new Exception("Model not defined in builder");
+                throw new BuilderModelNotDefined();
             }
 
             if typeof modelClass == "array" {
@@ -314,7 +313,7 @@ class QueryBuilder extends AbstractAdapter
     /**
      * Set query builder object
      */
-    public function setQueryBuilder(<Builder> builder) -> <QueryBuilder>
+    public function setQueryBuilder(<Builder> builder) -> <static>
     {
         let this->builder = builder;
 

@@ -749,6 +749,168 @@ final class RelationsTest extends AbstractDatabaseTestCase
     }
 
     /**
+     * Tests Phalcon\Mvc\Model :: hasManyToMany() - set with sync option
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/17071
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-04
+     *
+     * @group  mysql
+     * @group  pgsql
+     * @group  sqlite
+     */
+    public function testMvcModelSetHasManyToManySyncOption(): void
+    {
+        /** @var PDO $connection */
+        $connection = self::getConnection();
+
+        $orderId     = 10;
+        $orderName   = uniqid('ord', true);
+        $orderStatus = 5;
+
+        $ordersMigration            = new OrdersMigration($connection);
+        $ordersProductsOneMigration = new OrdersProductsFieldsOneMigration($connection);
+        $productsMigrations         = new ProductsMigration($connection);
+
+        $ordersMigration->insert($orderId, $orderName, $orderStatus);
+
+        $orders                    = OrdersMultiple::findFirst(10);
+        $product1                  = new Products();
+        $product1->prd_name        = uniqid('prd1', true);
+        $product1->prd_status_flag = 5;
+
+        $product2                  = new Products();
+        $product2->prd_name        = uniqid('prd2', true);
+        $product2->prd_status_flag = 10;
+
+        // Assign two products -> two intermediate rows
+        $orders->productsFieldsOneSync = [$product1, $product2];
+        $this->assertTrue($orders->save());
+        $this->assertEquals(2, count(OrdersProductsFieldsOne::find()));
+
+        // Sync down to one product -> the other intermediate row is deleted
+        $orders->productsFieldsOneSync = [$product1];
+        $this->assertTrue($orders->save());
+        $this->assertEquals(1, count(OrdersProductsFieldsOne::find()));
+
+        // Both products still exist as records (only the link was removed)
+        $this->assertEquals(2, Products::find()->count());
+
+        // Assigning an empty array clears all links
+        $orders->productsFieldsOneSync = [];
+        $this->assertTrue($orders->save());
+        $this->assertEquals(0, count(OrdersProductsFieldsOne::find()));
+    }
+
+    /**
+     * Tests Phalcon\Mvc\Model :: setSync() chained override on a non-sync
+     * relation, plus the wildcard enable.
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/17071
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-04
+     *
+     * @group  mysql
+     * @group  pgsql
+     * @group  sqlite
+     */
+    public function testMvcModelSetHasManyToManySetSyncMethod(): void
+    {
+        /** @var PDO $connection */
+        $connection = self::getConnection();
+
+        $orderId     = 10;
+        $orderName   = uniqid('ord', true);
+        $orderStatus = 5;
+
+        $ordersMigration            = new OrdersMigration($connection);
+        $ordersProductsOneMigration = new OrdersProductsFieldsOneMigration($connection);
+        $productsMigrations         = new ProductsMigration($connection);
+
+        $ordersMigration->insert($orderId, $orderName, $orderStatus);
+
+        $orders                    = OrdersMultiple::findFirst(10);
+        $product1                  = new Products();
+        $product1->prd_name        = uniqid('prd1', true);
+        $product1->prd_status_flag = 5;
+
+        $product2                  = new Products();
+        $product2->prd_name        = uniqid('prd2', true);
+        $product2->prd_status_flag = 10;
+
+        // Default (no sync) on productsFieldsOne: assignment is additive
+        $orders->productsFieldsOne = [$product1, $product2];
+        $this->assertTrue($orders->save());
+        $this->assertEquals(2, count(OrdersProductsFieldsOne::find()));
+
+        $orders->productsFieldsOne = [$product1];
+        $this->assertTrue($orders->save());
+        // Additive: product2 link survives
+        $this->assertEquals(2, count(OrdersProductsFieldsOne::find()));
+
+        // Now enable sync just for this save via setSync()
+        $orders->productsFieldsOne = [$product1];
+        $this->assertTrue($orders->setSync('productsFieldsOne')->save());
+        // Synced: product2 link removed
+        $this->assertEquals(1, count(OrdersProductsFieldsOne::find()));
+
+        // Wildcard enable: assign only product2 then sync everything down to it
+        $orders->productsFieldsOne = [$product2];
+        $this->assertTrue($orders->setSync()->save());
+        $this->assertEquals(1, count(OrdersProductsFieldsOne::find()));
+    }
+
+    /**
+     * Tests Phalcon\Mvc\Model :: setSync("*", false) disables sync for a
+     * relation configured with the `sync` option.
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/17071
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-04
+     *
+     * @group  mysql
+     * @group  pgsql
+     * @group  sqlite
+     */
+    public function testMvcModelSetHasManyToManySetSyncDisable(): void
+    {
+        /** @var PDO $connection */
+        $connection = self::getConnection();
+
+        $orderId     = 10;
+        $orderName   = uniqid('ord', true);
+        $orderStatus = 5;
+
+        $ordersMigration            = new OrdersMigration($connection);
+        $ordersProductsOneMigration = new OrdersProductsFieldsOneMigration($connection);
+        $productsMigrations         = new ProductsMigration($connection);
+
+        $ordersMigration->insert($orderId, $orderName, $orderStatus);
+
+        $orders                    = OrdersMultiple::findFirst(10);
+        $product1                  = new Products();
+        $product1->prd_name        = uniqid('prd1', true);
+        $product1->prd_status_flag = 5;
+
+        $product2                  = new Products();
+        $product2->prd_name        = uniqid('prd2', true);
+        $product2->prd_status_flag = 10;
+
+        // productsFieldsOneSync has 'sync' => true; disable it for this save
+        $orders->productsFieldsOneSync = [$product1, $product2];
+        $this->assertTrue($orders->save());
+        $this->assertEquals(2, count(OrdersProductsFieldsOne::find()));
+
+        $orders->productsFieldsOneSync = [$product1];
+        $this->assertTrue($orders->setSync('*', false)->save());
+        // Sync disabled for this save -> additive, product2 link survives
+        $this->assertEquals(2, count(OrdersProductsFieldsOne::find()));
+    }
+
+    /**
      * Tests Phalcon\Mvc\Model :: hasManyToMany() - set
      * Compound Primary Key Intermediate Relations
      *

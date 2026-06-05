@@ -29,6 +29,9 @@
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+/**
+ * Factory to create adapters for image manipulation
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Image_ImageFactory)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Image, ImageFactory, phalcon, image_imagefactory, phalcon_factory_abstractfactory_ce, phalcon_image_imagefactory_method_entry, 0);
@@ -69,7 +72,7 @@ PHP_METHOD(Phalcon_Image_ImageFactory, __construct)
 /**
  * Factory to create an instance from a Config object
  *
- * @param array|\Phalcon\Config\Config config = [
+ * @param array|ConfigInterface config = [
  *     'adapter' => 'gd',
  *     'file' => 'image.jpg',
  *     'height' => null,
@@ -112,21 +115,21 @@ PHP_METHOD(Phalcon_Image_ImageFactory, load)
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(config, &_0);
 	zephir_memory_observe(&name);
-	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Image/ImageFactory.zep", 44);
+	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Image/ImageFactory.zep", 48);
 	zephir_array_unset_string(config, SL("adapter"), PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "file");
-	ZEPHIR_CALL_METHOD(&file, this_ptr, "getarrval", NULL, 433, config, &_1);
+	ZEPHIR_CALL_METHOD(&file, this_ptr, "getarrval", NULL, 0, config, &_1);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "height");
 	ZVAL_NULL(&_2);
-	ZEPHIR_CALL_METHOD(&height, this_ptr, "getarrval", NULL, 433, config, &_1, &_2);
+	ZEPHIR_CALL_METHOD(&height, this_ptr, "getarrval", NULL, 0, config, &_1, &_2);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "width");
 	ZVAL_NULL(&_2);
-	ZEPHIR_CALL_METHOD(&width, this_ptr, "getarrval", NULL, 433, config, &_1, &_2);
+	ZEPHIR_CALL_METHOD(&width, this_ptr, "getarrval", NULL, 0, config, &_1, &_2);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "newinstance", NULL, 0, &name, &file, &width, &height);
 	zephir_check_call_status();
@@ -166,7 +169,9 @@ PHP_METHOD(Phalcon_Image_ImageFactory, newInstance)
 	if (ZEND_NUM_ARGS() > 3) {
 		height_param = ZEND_CALL_ARG(execute_data, 4);
 	}
+	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
+	zephir_memory_observe(&file_zv);
 	ZVAL_STR_COPY(&file_zv, file);
 	if (!width_param) {
 		width = 0;

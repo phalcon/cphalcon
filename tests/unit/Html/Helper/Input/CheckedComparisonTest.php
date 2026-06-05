@@ -43,10 +43,10 @@ final class CheckedComparisonTest extends AbstractUnitTestCase
     {
         return [
             // value, checked, should render checked attr (strict)
-            'int 0 vs string "0" — strict' => [0, '0', false],
-            'string "0" vs int 0 — strict' => ['0', 0, false],
-            'matching strings — strict'    => ['yes', 'yes', true],
-            'matching ints — strict'       => [1, 1, true],
+            'int 0 vs string "0" - strict' => [0, '0', false],
+            'string "0" vs int 0 - strict' => ['0', 0, false],
+            'matching strings - strict'    => ['yes', 'yes', true],
+            'matching ints - strict'       => [1, 1, true],
         ];
     }
 
@@ -145,7 +145,7 @@ final class CheckedComparisonTest extends AbstractUnitTestCase
 
     /**
      * `["checked" => "checked"]` (any case) and `["checked" => true]` are
-     * unconditional opt-ins — they render `checked="checked"` regardless of
+     * unconditional opt-ins - they render `checked="checked"` regardless of
      * what `value` is set to and regardless of strict mode.
      *
      * @dataProvider getUnconditionalCheckedExamples

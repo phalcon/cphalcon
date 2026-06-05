@@ -26,9 +26,8 @@ final class GetScaleTest extends AbstractDatabaseTestCase
 
     public function setUp(): void
     {
-        $this->markTestSkipped('Temporary disabled');
         $this->setNewFactoryDefault();
-        $this->setDatabase($this);
+        $this->setDatabase();
     }
 
     /**
@@ -47,8 +46,11 @@ final class GetScaleTest extends AbstractDatabaseTestCase
         $expectedColumns = $this->getColumnsObjects();
 
         foreach ($expectedColumns as $index => $column) {
+            // Column::getScale() returns int 0 when no scale is set; the
+            // fixture array omits the 'scale' key for those rows, so
+            // coalesce to 0 (not null) to keep the assertSame contract.
             $this->assertSame(
-                $columns[$index]['scale'] ?? null,
+                $columns[$index]['scale'] ?? 0,
                 $column->getScale()
             );
         }
@@ -61,33 +63,26 @@ final class GetScaleTest extends AbstractDatabaseTestCase
      * @since  2019-12-23
      *
      * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
     public function testDbColumnGetScaleDateTimeTimeTimeStamp(): void
     {
-        $driver = self::getDriver();
+        // pgsql/sqlite are excluded above - the FractalDates schema and
+        // sub-second precision behavior tested here are mysql-specific.
+        $connection = self::getConnection();
+        $migration  = new FractalDatesMigration($connection);
+        $migration->clear();
+        $migration->insert(
+            1,
+            '14:15:16.444',
+            '2019-12-25 17:18:19.666',
+            '2019-12-25 20:21:22.888'
+        );
 
-        if ('mysql' === $driver) {
-            /**
-             * @todo this is for MySql
-             */
-            $connection = self::getConnection();
-            $migration  = new FractalDatesMigration($connection);
-            $migration->clear();
-            $migration->insert(
-                1,
-                '14:15:16.444',
-                '2019-12-25 17:18:19.666',
-                '2019-12-25 20:21:22.888'
-            );
+        $record = FractalDates::findFirst('id = 1');
 
-            $record = FractalDates::findFirst('id = 1');
-
-            $this->assertSame(1, $record->id);
-            $this->assertSame('14:15:16.44', $record->ftime);
-            $this->assertSame('2019-12-25 17:18:19.67', $record->fdatetime);
-            $this->assertSame('2019-12-25 20:21:22.89', $record->ftimestamp);
-        }
+        $this->assertSame(1, $record->id);
+        $this->assertSame('14:15:16.44', $record->ftime);
+        $this->assertSame('2019-12-25 17:18:19.67', $record->fdatetime);
+        $this->assertSame('2019-12-25 20:21:22.89', $record->ftimestamp);
     }
 }

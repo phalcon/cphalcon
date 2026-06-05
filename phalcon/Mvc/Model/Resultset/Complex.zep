@@ -10,11 +10,14 @@
 
 namespace Phalcon\Mvc\Model\Resultset;
 
+use Phalcon\Db\ResultInterface;
 use Phalcon\Di\Di;
 use Phalcon\Di\DiInterface;
-use Phalcon\Db\ResultInterface;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Exception;
+use Phalcon\Mvc\Model\Exceptions\CorruptColumnType;
+use Phalcon\Mvc\Model\Exceptions\InvalidContainer;
+use Phalcon\Mvc\Model\Exceptions\InvalidSerializationData;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
 use Phalcon\Mvc\Model\Row;
@@ -66,6 +69,41 @@ class Complex extends Resultset
         let this->columnTypes = columnTypes;
 
         parent::__construct(result, cache);
+    }
+
+    public function __serialize() -> array
+    {
+        var records, cache, columnTypes, hydrateMode;
+
+        /**
+         * Obtain the records as an array
+         */
+        let records = this->toArray();
+
+        let cache       = this->cache,
+            columnTypes = this->columnTypes,
+            hydrateMode = this->hydrateMode;
+
+        return [
+           "cache"       : cache,
+           "rows"        : records,
+           "columnTypes" : columnTypes,
+           "hydrateMode" : hydrateMode
+        ];
+    }
+
+    public function __unserialize(array data) -> void
+    {
+        /**
+         * Rows are already hydrated
+         */
+        let this->disableHydration = true;
+
+        let this->rows        = data["rows"],
+            this->count       = count(data["rows"]),
+            this->cache       = data["cache"],
+            this->columnTypes = data["columnTypes"],
+            this->hydrateMode = data["hydrateMode"];
     }
 
     /**
@@ -140,7 +178,7 @@ class Complex extends Resultset
          */
         for alias, column in this->columnTypes {
             if unlikely typeof column != "array" {
-                throw new Exception("Column type is corrupt");
+                throw new CorruptColumnType();
             }
 
             let type = column["type"];
@@ -167,7 +205,14 @@ class Complex extends Resultset
                 }
 
                 /**
-                 * If all values are null, the LEFT JOIN returned no matching row
+                 * If all values are null, the LEFT JOIN returned no matching
+                 * row. `orm.resultset_empty_left_join_model` defaults to
+                 * `true`, preserving the pre-5.12 behavior of hydrating an
+                 * empty Model instance (all properties null) so existing
+                 * applications keep working without changes. New code that
+                 * prefers the cleaner "explicit null on no match" semantics
+                 * introduced in 5.12 can opt in by setting the flag to
+                 * `false` (via php.ini, .htaccess, or `Settings::set()`).
                  */
                 let allNull = true;
                 for columnValue in rowModel {
@@ -177,7 +222,7 @@ class Complex extends Resultset
                     }
                 }
 
-                if allNull {
+                if allNull && !Settings::get("orm.resultset_empty_left_join_model") {
                     let value = null;
                 } else {
                     /**
@@ -282,6 +327,37 @@ class Complex extends Resultset
     }
 
     /**
+     * Serializing a resultset will dump all related rows into a big array,
+     * serialize it and return the resulting string
+     */
+    public function serialize() -> string
+    {
+        var container, serializer;
+        array data;
+
+        let container = Di::getDefault();
+        if container === null {
+            throw new InvalidContainer();
+        }
+
+        let data = [
+            "cache"       : this->cache,
+            "rows"        : this->toArray(),
+            "columnTypes" : this->columnTypes,
+            "hydrateMode" : this->hydrateMode
+        ];
+
+        if container->has("serializer") {
+            let serializer = <SerializerInterface> container->getShared("serializer");
+            serializer->setData(data);
+
+            return serializer->serialize();
+        }
+
+        return serialize(data);
+    }
+
+    /**
      * Returns a complete resultset as an array, if the resultset has a big
      * number of rows it could consume more memory than currently it does.
      */
@@ -305,39 +381,6 @@ class Complex extends Resultset
     }
 
     /**
-     * Serializing a resultset will dump all related rows into a big array,
-     * serialize it and return the resulting string
-     */
-    public function serialize() -> string
-    {
-        var container, serializer;
-        array data;
-
-        let container = Di::getDefault();
-        if container === null {
-            throw new Exception(
-                "The dependency injector container is not valid"
-            );
-        }
-
-        let data = [
-            "cache"       : this->cache,
-            "rows"        : this->toArray(),
-            "columnTypes" : this->columnTypes,
-            "hydrateMode" : this->hydrateMode
-        ];
-
-        if container->has("serializer") {
-            let serializer = <SerializerInterface> container->getShared("serializer");
-            serializer->setData(data);
-
-            return serializer->serialize();
-        }
-
-        return serialize(data);
-    }
-
-    /**
      * Unserializing a resultset will allow to only works on the rows present in the saved state
      */
     public function unserialize(var data) -> void
@@ -351,9 +394,7 @@ class Complex extends Resultset
 
         let container = Di::getDefault();
         if container === null {
-            throw new Exception(
-                "The dependency injector container is not valid"
-            );
+            throw new InvalidContainer();
         }
 
         if container->has("serializer") {
@@ -366,7 +407,7 @@ class Complex extends Resultset
         }
 
         if unlikely typeof resultset != "array" {
-            throw new Exception("Invalid serialization data");
+            throw new InvalidSerializationData();
         }
 
         let this->rows        = resultset["rows"],
@@ -374,40 +415,5 @@ class Complex extends Resultset
             this->cache       = resultset["cache"],
             this->columnTypes = resultset["columnTypes"],
             this->hydrateMode = resultset["hydrateMode"];
-    }
-
-    public function __serialize() -> array
-    {
-        var records, cache, columnTypes, hydrateMode;
-
-        /**
-         * Obtain the records as an array
-         */
-        let records = this->toArray();
-
-        let cache       = this->cache,
-            columnTypes = this->columnTypes,
-            hydrateMode = this->hydrateMode;
-
-        return [
-           "cache"       : cache,
-           "rows"        : records,
-           "columnTypes" : columnTypes,
-           "hydrateMode" : hydrateMode
-        ];
-    }
-
-    public function __unserialize(array data) -> void
-    {
-        /**
-         * Rows are already hydrated
-         */
-        let this->disableHydration = true;
-
-        let this->rows        = data["rows"],
-            this->count       = count(data["rows"]),
-            this->cache       = data["cache"],
-            this->columnTypes = data["columnTypes"],
-            this->hydrateMode = data["hydrateMode"];
     }
 }

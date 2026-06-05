@@ -57,11 +57,6 @@ use Phalcon\Events\ManagerInterface;
 abstract class Controller extends Injectable implements ControllerInterface, EventsAwareInterface
 {
     /**
-     * @var ManagerInterface|null
-     */
-    protected eventsManager = null;
-
-    /**
      * Phalcon\Mvc\Controller constructor
      */
     final public function __construct()
@@ -78,7 +73,7 @@ abstract class Controller extends Injectable implements ControllerInterface, Eve
      */
     public function getEventsManager() -> <ManagerInterface> | null
     {
-        return this->eventsManager;
+        return this->{"eventsManager"};
     }
 
     /**
@@ -88,7 +83,7 @@ abstract class Controller extends Injectable implements ControllerInterface, Eve
      */
     public function setEventsManager(<ManagerInterface> eventsManager) -> void
     {
-        let this->eventsManager = eventsManager;
+        let this->{"eventsManager"} = eventsManager;
     }
 
     /**
@@ -105,11 +100,12 @@ abstract class Controller extends Injectable implements ControllerInterface, Eve
         data = null,
         bool cancellable = true
     ) -> var | bool {
-        if (null !== this->eventsManager) {
-            return this
-                ->eventsManager
-                ->fire(eventName, this, data, cancellable)
-            ;
+        var eventsManager;
+
+        let eventsManager = this->{"eventsManager"};
+
+        if (null !== eventsManager) {
+            return eventsManager->fire(eventName, this, data, cancellable);
         }
 
         return true;

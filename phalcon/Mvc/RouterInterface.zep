@@ -10,8 +10,8 @@
 
 namespace Phalcon\Mvc;
 
-use Phalcon\Mvc\Router\RouteInterface;
 use Phalcon\Mvc\Router\GroupInterface;
+use Phalcon\Mvc\Router\RouteInterface;
 
 /**
  * Interface for Phalcon\Mvc\Router
@@ -50,16 +50,6 @@ interface RouterInterface
     public function addDelete(string! pattern, var paths = null, int position = Router::POSITION_LAST) -> <RouteInterface>;
 
     /**
-     * Adds a route to the router that only match if the HTTP method is HEAD
-     *
-     * @param string pattern
-     * @param array|string|null paths
-     *
-     * @return RouteInterface
-     */
-    public function addHead(string! pattern, var paths = null, int position = Router::POSITION_LAST) -> <RouteInterface>;
-
-    /**
      * Adds a route to the router that only match if the HTTP method is GET
      *
      * @param string pattern
@@ -68,6 +58,16 @@ interface RouterInterface
      * @return RouteInterface
      */
     public function addGet(string! pattern, var paths = null, int position = Router::POSITION_LAST) -> <RouteInterface>;
+
+    /**
+     * Adds a route to the router that only match if the HTTP method is HEAD
+     *
+     * @param string pattern
+     * @param array|string|null paths
+     *
+     * @return RouteInterface
+     */
+    public function addHead(string! pattern, var paths = null, int position = Router::POSITION_LAST) -> <RouteInterface>;
 
     /**
      * Add a route to the router that only match if the HTTP method is OPTIONS
@@ -181,16 +181,11 @@ interface RouterInterface
     public function getParams() -> array;
 
     /**
-     * Return all the routes defined in the router
-     */
-    public function getRoutes() -> <RouteInterface[]>;
-
-    /**
      * Returns a route object by its id
      *
      * @return RouteInterface|bool
      */
-    public function getRouteById(var id) -> <RouteInterface> | bool;
+    public function getRouteById(var routeId) -> <RouteInterface> | bool;
 
     /**
      * Returns a route object by its name
@@ -200,9 +195,23 @@ interface RouterInterface
     public function getRouteByName(string! name) -> <RouteInterface> | bool;
 
     /**
+     * Return all the routes defined in the router
+     */
+    public function getRoutes() -> <RouteInterface[]>;
+
+    /**
      * Handles routing information received from the rewrite engine
      */
     public function handle(string! uri) -> void;
+
+    /**
+     * Loads routes from an array or Phalcon\Config\Config instance.
+     *
+     * @param array|\Phalcon\Config\ConfigInterface config
+     *
+     * @return RouterInterface
+     */
+    public function loadFromConfig(var config) -> <RouterInterface>;
 
     /**
      * Mounts a group of routes in the router

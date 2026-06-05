@@ -13,11 +13,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Forms\Element\Select;
 
+use Phalcon\Forms\Element\Select;
 use Phalcon\Tests\AbstractUnitTestCase;
 
-/**
- * Class GetValueTest extends AbstractUnitTestCase
- */
 final class GetValueTest extends AbstractUnitTestCase
 {
     /**
@@ -26,6 +24,11 @@ final class GetValueTest extends AbstractUnitTestCase
      */
     public function testFormsElementSelectGetValue(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $element = new Select('country', ['A' => 'Argentina', 'B' => 'Brazil']);
+
+        $this->assertNull($element->getValue());
+
+        $element->setDefault('B');
+        $this->assertSame('B', $element->getValue());
     }
 }

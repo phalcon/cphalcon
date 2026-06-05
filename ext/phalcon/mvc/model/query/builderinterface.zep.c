@@ -21,8 +21,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Mvc\Model\Query\BuilderInterface
- *
  * Interface for Phalcon\Mvc\Model\Query\Builder
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Query_BuilderInterface)
@@ -170,6 +168,10 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, getJoins);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, getLimit);
 /**
+ * Returns the models involved in the query
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, getModels);
+/**
  * Returns the current OFFSET clause
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, getOffset);
@@ -231,10 +233,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, leftJoin);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, limit);
 /**
- * Returns the models involved in the query
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, getModels);
-/**
  * Appends a NOT BETWEEN condition to the current conditions
  *
  * @param mixed minimum
@@ -250,15 +248,15 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, notInWhere);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, offset);
 /**
+ * Appends a condition to the current conditions using an OR operator
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, orWhere);
+/**
  * Sets an ORDER BY condition clause
  *
  * @param array|string orderBy
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, orderBy);
-/**
- * Appends a condition to the current conditions using an OR operator
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, orWhere);
 /**
  * Adds a RIGHT join to the query
  */

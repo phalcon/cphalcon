@@ -46,11 +46,6 @@ interface MetaDataInterface
     public function getColumnMap(<ModelInterface> model) -> array | null;
 
     /**
-     * Returns attributes (which have default values) and their default values
-     */
-    public function getDefaultValues(<ModelInterface> model) -> array;
-
-    /**
      * Returns attributes and their data types
      */
     public function getDataTypes(<ModelInterface> model) -> array;
@@ -61,6 +56,11 @@ interface MetaDataInterface
     public function getDataTypesNumeric(<ModelInterface> model) -> array;
 
     /**
+     * Returns attributes (which have default values) and their default values
+     */
+    public function getDefaultValues(<ModelInterface> model) -> array;
+
+    /**
      * Returns attributes allow empty strings
      */
     public function getEmptyStringAttributes(<ModelInterface> model) -> array;
@@ -68,7 +68,7 @@ interface MetaDataInterface
     /**
      * Returns the name of identity field (if one is present)
      */
-    public function getIdentityField(<ModelInterface> model) -> string | null;
+    public function getIdentityField(<ModelInterface> model) -> bool | string | null;
 
     /**
      * Returns an array of fields which are not part of the primary key
@@ -151,11 +151,6 @@ interface MetaDataInterface
     public function setEmptyStringAttributes(<ModelInterface> model, array attributes) -> void;
 
     /**
-     * Writes meta-data for certain model using a MODEL_* constant
-     */
-    public function writeMetaDataIndex(<ModelInterface> model, int index, var data);
-
-    /**
      * Set the meta-data extraction strategy
      */
     public function setStrategy(<StrategyInterface> strategy);
@@ -164,4 +159,9 @@ interface MetaDataInterface
      * Writes meta-data to the adapter
      */
     public function write(string! key, array data) -> void;
+
+    /**
+     * Writes meta-data for certain model using a MODEL_* constant
+     */
+    public function writeMetaDataIndex(<ModelInterface> model, int index, var data);
 }

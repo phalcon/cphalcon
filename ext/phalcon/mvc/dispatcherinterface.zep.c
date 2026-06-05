@@ -46,13 +46,13 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_DispatcherInterface, getControllerName);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_DispatcherInterface, getLastController);
 /**
- * Sets the default controller suffix
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_DispatcherInterface, setControllerSuffix);
-/**
  * Sets the controller name to be dispatched
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_DispatcherInterface, setControllerName);
+/**
+ * Sets the default controller suffix
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_DispatcherInterface, setControllerSuffix);
 /**
  * Sets the default controller name
  */

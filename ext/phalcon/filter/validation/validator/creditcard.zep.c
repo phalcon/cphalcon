@@ -138,7 +138,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_CreditCard, validate)
 		RETURN_MM_BOOL(1);
 	}
 	zephir_cast_to_string(&_1, &value);
-	ZEPHIR_CALL_METHOD(&valid, this_ptr, "verifybyluhnalgorithm", NULL, 320, &_1);
+	ZEPHIR_CALL_METHOD(&valid, this_ptr, "verifybyluhnalgorithm", NULL, 0, &_1);
 	zephir_check_call_status();
 	if (!(zephir_is_true(&valid))) {
 		ZEPHIR_CALL_METHOD(&_2$$4, this_ptr, "messagefactory", NULL, 0, validation, field);
@@ -156,11 +156,12 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_CreditCard, validate)
  */
 PHP_METHOD(Phalcon_Filter_Validation_Validator_CreditCard, verifyByLuhnAlgorithm)
 {
-	zend_ulong _4;
+	zend_bool _7;
+	zend_ulong _3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval number_zv, digit, digits, position, hash, result, _0, _1, *_2, _3, _8, _6$$4, _7$$5;
-	zend_string *number = NULL, *_5;
+	zval number_zv, digit, digits, position, hash, result, _0, _1, *_2, _6, _9, _5$$4, _8$$5;
+	zend_string *number = NULL, *_4;
 
 	ZVAL_UNDEF(&number_zv);
 	ZVAL_UNDEF(&digit);
@@ -170,78 +171,84 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_CreditCard, verifyByLuhnAlgorithm
 	ZVAL_UNDEF(&result);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_3);
-	ZVAL_UNDEF(&_8);
-	ZVAL_UNDEF(&_6$$4);
-	ZVAL_UNDEF(&_7$$5);
+	ZVAL_UNDEF(&_6);
+	ZVAL_UNDEF(&_9);
+	ZVAL_UNDEF(&_5$$4);
+	ZVAL_UNDEF(&_8$$5);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(number)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&number_zv);
 	ZVAL_STR_COPY(&number_zv, number);
 	ZEPHIR_INIT_VAR(&hash);
 	ZVAL_STRING(&hash, "");
-	ZEPHIR_CALL_FUNCTION(&_0, "ctype_digit", NULL, 309, &number_zv);
+	ZEPHIR_CALL_FUNCTION(&_0, "ctype_digit", NULL, 0, &number_zv);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&_0)) {
 		RETURN_MM_BOOL(0);
 	}
-	ZEPHIR_CALL_FUNCTION(&_1, "str_split", NULL, 102, &number_zv);
+	ZEPHIR_CALL_FUNCTION(&_1, "str_split", NULL, 166, &number_zv);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&digits, "array_reverse", NULL, 321, &_1);
+	ZEPHIR_CALL_FUNCTION(&digits, "array_reverse", NULL, 197, &_1);
 	zephir_check_call_status();
 	zephir_is_iterable(&digits, 0, "phalcon/Filter/Validation/Validator/CreditCard.zep", 112);
 	if (Z_TYPE_P(&digits) == IS_ARRAY) {
-		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&digits), _4, _5, _2)
+		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&digits), _3, _4, _2)
 		{
 			ZEPHIR_INIT_NVAR(&position);
-			if (_5 != NULL) { 
-				ZVAL_STR_COPY(&position, _5);
+			if (_4 != NULL) { 
+				ZVAL_STR_COPY(&position, _4);
 			} else {
-				ZVAL_LONG(&position, _4);
+				ZVAL_LONG(&position, _3);
 			}
 			ZEPHIR_INIT_NVAR(&digit);
 			ZVAL_COPY(&digit, _2);
-			ZEPHIR_INIT_NVAR(&_6$$4);
+			ZEPHIR_INIT_NVAR(&_5$$4);
 			if (zephir_safe_mod_zval_long(&position, 2)) {
-				ZEPHIR_INIT_NVAR(&_6$$4);
-				ZVAL_LONG(&_6$$4, (zephir_get_numberval(&digit) * 2));
+				ZEPHIR_INIT_NVAR(&_5$$4);
+				ZVAL_LONG(&_5$$4, (zephir_get_numberval(&digit) * 2));
 			} else {
-				ZEPHIR_CPY_WRT(&_6$$4, &digit);
+				ZEPHIR_CPY_WRT(&_5$$4, &digit);
 			}
-			zephir_concat_self(&hash, &_6$$4);
+			zephir_concat_self(&hash, &_5$$4);
 		} ZEND_HASH_FOREACH_END();
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, &digits, "rewind", NULL, 0);
 		zephir_check_call_status();
+		_7 = 1;
 		while (1) {
-			ZEPHIR_CALL_METHOD(&_3, &digits, "valid", NULL, 0);
+			if (_7) {
+				_7 = 0;
+			} else {
+				ZEPHIR_CALL_METHOD(NULL, &digits, "next", NULL, 0);
+				zephir_check_call_status();
+			}
+			ZEPHIR_CALL_METHOD(&_6, &digits, "valid", NULL, 0);
 			zephir_check_call_status();
-			if (!zend_is_true(&_3)) {
+			if (!zend_is_true(&_6)) {
 				break;
 			}
 			ZEPHIR_CALL_METHOD(&position, &digits, "key", NULL, 0);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(&digit, &digits, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_INIT_NVAR(&_7$$5);
+				ZEPHIR_INIT_NVAR(&_8$$5);
 				if (zephir_safe_mod_zval_long(&position, 2)) {
-					ZEPHIR_INIT_NVAR(&_7$$5);
-					ZVAL_LONG(&_7$$5, (zephir_get_numberval(&digit) * 2));
+					ZEPHIR_INIT_NVAR(&_8$$5);
+					ZVAL_LONG(&_8$$5, (zephir_get_numberval(&digit) * 2));
 				} else {
-					ZEPHIR_CPY_WRT(&_7$$5, &digit);
+					ZEPHIR_CPY_WRT(&_8$$5, &digit);
 				}
-				zephir_concat_self(&hash, &_7$$5);
-			ZEPHIR_CALL_METHOD(NULL, &digits, "next", NULL, 0);
-			zephir_check_call_status();
+				zephir_concat_self(&hash, &_8$$5);
 		}
 	}
 	ZEPHIR_INIT_NVAR(&digit);
 	ZEPHIR_INIT_NVAR(&position);
-	ZEPHIR_CALL_FUNCTION(&_8, "str_split", NULL, 102, &hash);
+	ZEPHIR_CALL_FUNCTION(&_9, "str_split", NULL, 166, &hash);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&result, "array_sum", NULL, 322, &_8);
+	ZEPHIR_CALL_FUNCTION(&result, "array_sum", NULL, 0, &_9);
 	zephir_check_call_status();
 	RETURN_MM_BOOL((zephir_safe_mod_zval_long(&result, 10) == 0));
 }

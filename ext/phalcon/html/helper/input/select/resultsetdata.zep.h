@@ -4,15 +4,30 @@ extern zend_class_entry *phalcon_html_helper_input_select_resultsetdata_ce;
 ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Input_Select_ResultsetData);
 
 PHP_METHOD(Phalcon_Html_Helper_Input_Select_ResultsetData, __construct);
+PHP_METHOD(Phalcon_Html_Helper_Input_Select_ResultsetData, getAttributes);
 PHP_METHOD(Phalcon_Html_Helper_Input_Select_ResultsetData, getOptions);
+PHP_METHOD(Phalcon_Html_Helper_Input_Select_ResultsetData, readField);
+PHP_METHOD(Phalcon_Html_Helper_Input_Select_ResultsetData, resolve);
 zend_object *zephir_init_properties_Phalcon_Html_Helper_Input_Select_ResultsetData(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_html_helper_input_select_resultsetdata___construct, 0, 0, 2)
 	ZEND_ARG_OBJ_INFO(0, resultset, Phalcon\\Mvc\\Model\\ResultsetInterface, 0)
 	ZEND_ARG_ARRAY_INFO(0, using, 0)
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, attributesMap, IS_ARRAY, 0, "[]")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_helper_input_select_resultsetdata_getattributes, 0, 0, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_helper_input_select_resultsetdata_getoptions, 0, 0, IS_ARRAY, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_html_helper_input_select_resultsetdata_readfield, 0, 0, 2)
+	ZEND_ARG_INFO(0, option)
+	ZEND_ARG_TYPE_INFO(0, field, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_helper_input_select_resultsetdata_resolve, 0, 0, IS_VOID, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_html_helper_input_select_resultsetdata_zephir_init_properties_phalcon_html_helper_input_select_resultsetdata, 0, 0, 0)
@@ -20,6 +35,9 @@ ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_html_helper_input_select_resultsetdata_method_entry) {
 	PHP_ME(Phalcon_Html_Helper_Input_Select_ResultsetData, __construct, arginfo_phalcon_html_helper_input_select_resultsetdata___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Html_Helper_Input_Select_ResultsetData, getAttributes, arginfo_phalcon_html_helper_input_select_resultsetdata_getattributes, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Html_Helper_Input_Select_ResultsetData, getOptions, arginfo_phalcon_html_helper_input_select_resultsetdata_getoptions, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Html_Helper_Input_Select_ResultsetData, readField, arginfo_phalcon_html_helper_input_select_resultsetdata_readfield, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Html_Helper_Input_Select_ResultsetData, resolve, arginfo_phalcon_html_helper_input_select_resultsetdata_resolve, ZEND_ACC_PROTECTED)
 	PHP_FE_END
 };

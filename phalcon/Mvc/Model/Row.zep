@@ -13,6 +13,8 @@ namespace Phalcon\Mvc\Model;
 use ArrayAccess;
 use JsonSerializable;
 use Phalcon\Mvc\EntityInterface;
+use Phalcon\Mvc\Model\Exceptions\IndexNotInRow;
+use Phalcon\Mvc\Model\Exceptions\RowIsImmutable;
 use Phalcon\Mvc\ModelInterface;
 
 /**
@@ -30,6 +32,18 @@ class Row extends \stdClass implements EntityInterface, ResultInterface, ArrayAc
     }
 
     /**
+     * Checks whether offset exists in the row. Returns true when the property
+     * is present on the row, regardless of whether its value is null - column
+     * presence is the contract, not value truthiness.
+     *
+     * @param string|int $index
+     */
+    public function offsetExists(mixed index) -> bool
+    {
+        return property_exists(this, index);
+    }
+
+    /**
      * Gets a record in a specific position of the row
      *
      * @param string|int index
@@ -38,21 +52,11 @@ class Row extends \stdClass implements EntityInterface, ResultInterface, ArrayAc
      */
     public function offsetGet(mixed index) -> mixed
     {
-        if !this->offsetExists(index) {
-            throw new Exception("The index does not exist in the row");
+        if !property_exists(this, index) {
+            throw new IndexNotInRow();
         }
 
         return this->{index};
-    }
-
-    /**
-     * Checks whether offset exists in the row
-     *
-     * @param string|int $index
-     */
-    public function offsetExists(mixed index) -> bool
-    {
-        return isset this->{index};
     }
 
     /**
@@ -63,7 +67,7 @@ class Row extends \stdClass implements EntityInterface, ResultInterface, ArrayAc
      */
     public function offsetSet(mixed offset, mixed value) -> void
     {
-        throw new Exception("Row is an immutable ArrayAccess object");
+        throw new RowIsImmutable();
     }
 
     /**
@@ -73,7 +77,7 @@ class Row extends \stdClass implements EntityInterface, ResultInterface, ArrayAc
      */
     public function offsetUnset(mixed offset) -> void
     {
-        throw new Exception("Row is an immutable ArrayAccess object");
+        throw new RowIsImmutable();
     }
 
     /**

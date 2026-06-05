@@ -67,7 +67,7 @@ final class ReadWriteAttributeTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * @issue  14021
+     * @issue  https://github.com/phalcon/cphalcon/issues/14021
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2019-04-30
      *

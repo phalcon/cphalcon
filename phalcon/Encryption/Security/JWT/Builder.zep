@@ -10,7 +10,12 @@
 
 namespace Phalcon\Encryption\Security\JWT;
 
+use Phalcon\Encryption\Security\JWT\Exceptions\EmptyPassphrase;
+use Phalcon\Encryption\Security\JWT\Exceptions\InvalidAudience;
+use Phalcon\Encryption\Security\JWT\Exceptions\InvalidExpirationTime;
+use Phalcon\Encryption\Security\JWT\Exceptions\InvalidNotBefore;
 use Phalcon\Encryption\Security\JWT\Exceptions\ValidatorException;
+use Phalcon\Encryption\Security\JWT\Exceptions\WeakPassphrase;
 use Phalcon\Encryption\Security\JWT\Signer\SignerInterface;
 use Phalcon\Encryption\Security\JWT\Token\Enum;
 use Phalcon\Encryption\Security\JWT\Token\Item;
@@ -21,14 +26,7 @@ use Phalcon\Support\Collection\CollectionInterface;
 use Phalcon\Support\Helper\Json\Encode;
 
 /**
- * Builder
- *
- * The builder offers
- *
- * @property CollectionInterface $claims
- * @property CollectionInterface $jose
- * @property string              $passphrase
- * @property SignerInterface     $signer
+ * JWT Builder
  *
  * @link https://tools.ietf.org/html/rfc7519
  */
@@ -79,31 +77,14 @@ class Builder
     }
 
     /**
-     * @return Builder
-     */
-    public function init() -> <Builder>
-    {
-        let this->passphrase = "",
-            this->claims     = new Collection(),
-            this->jose       = new Collection(
-                [
-                    Enum::TYPE : "JWT",
-                    Enum::ALGO : "none"
-                ]
-            );
-
-        return this;
-    }
-
-    /**
      * Adds a custom claim
      *
      * @param string $name
      * @param mixed  $value
      *
-     * @return Builder
+     * @return static
      */
-    public function addClaim(string! name, var value) -> <Builder>
+    public function addClaim(string! name, var value) -> <static>
     {
         this->claims->set(name, value);
 
@@ -116,9 +97,9 @@ class Builder
      * @param string $name
      * @param mixed  $value
      *
-     * @return Builder
+     * @return static
      */
-    public function addHeader(string! name, var value) -> <Builder>
+    public function addHeader(string! name, var value) -> <static>
     {
         this->jose->set(name, value);
 
@@ -198,6 +179,14 @@ class Builder
     }
 
     /**
+     * @return string
+     */
+    public function getPassphrase() -> string
+    {
+        return this->passphrase;
+    }
+
+    /**
      * @return string|null
      */
     public function getSubject() -> string | null
@@ -215,9 +204,7 @@ class Builder
             headers, signature, signatureHash;
 
         if empty this->passphrase {
-            throw new ValidatorException(
-                "Invalid passphrase (empty)"
-            );
+            throw new EmptyPassphrase();
         }
 
         let encodedClaims    = this->encodeUrl(this->encode->__invoke(this->getClaims())),
@@ -235,11 +222,20 @@ class Builder
     }
 
     /**
-     * @return string
+     * @return static
      */
-    public function getPassphrase() -> string
+    public function init() -> <static>
     {
-        return this->passphrase;
+        let this->passphrase = "",
+            this->claims     = new Collection(),
+            this->jose       = new Collection(
+                [
+                    Enum::TYPE : "JWT",
+                    Enum::ALGO : "none"
+                ]
+            );
+
+        return this;
     }
 
     /**
@@ -257,17 +253,15 @@ class Builder
      *
      * @param mixed $audience
      *
-     * @return Builder
+     * @return static
      * @throws ValidatorException
      */
-    public function setAudience(var audience) -> <Builder>
+    public function setAudience(var audience) -> <static>
     {
         var aud;
 
         if typeof audience !== "string" && typeof audience !== "array" {
-            throw new ValidatorException(
-                "Invalid Audience"
-            );
+            throw new InvalidAudience();
         }
 
         if typeof audience === "string" {
@@ -284,9 +278,9 @@ class Builder
      *
      * @param string $contentType
      *
-     * @return Builder
+     * @return static
      */
-    public function setContentType(string contentType) -> <Builder>
+    public function setContentType(string contentType) -> <static>
     {
         this->jose->set(Enum::CONTENT_TYPE, contentType);
 
@@ -304,15 +298,13 @@ class Builder
      *
      * @param int $timestamp
      *
-     * @return Builder
+     * @return static
      * @throws ValidatorException
      */
-    public function setExpirationTime(int timestamp) -> <Builder>
+    public function setExpirationTime(int timestamp) -> <static>
     {
         if timestamp < time() {
-            throw new ValidatorException(
-                "Invalid Expiration Time"
-            );
+            throw new InvalidExpirationTime();
         }
 
         return this->setClaim(Enum::EXPIRATION_TIME, timestamp);
@@ -328,13 +320,13 @@ class Builder
      * to prevent the JWT from being replayed.  The "jti" value is a case-
      * sensitive string.  Use of this claim is OPTIONAL.
      *
-     * @param string $id
+     * @param string $jwtId
      *
-     * @return Builder
+     * @return static
      */
-    public function setId(string! id) -> <Builder>
+    public function setId(string! jwtId) -> <static>
     {
-        return this->setClaim(Enum::ID, id);
+        return this->setClaim(Enum::ID, jwtId);
     }
 
     /**
@@ -345,9 +337,9 @@ class Builder
      *
      * @param int $timestamp
      *
-     * @return Builder
+     * @return static
      */
-    public function setIssuedAt(int! timestamp) -> <Builder>
+    public function setIssuedAt(int! timestamp) -> <static>
     {
         return this->setClaim(Enum::ISSUED_AT, timestamp);
     }
@@ -360,9 +352,9 @@ class Builder
      *
      * @param string $issuer
      *
-     * @return Builder
+     * @return static
      */
-    public function setIssuer(string! issuer) -> <Builder>
+    public function setIssuer(string! issuer) -> <static>
     {
         return this->setClaim(Enum::ISSUER, issuer);
     }
@@ -378,18 +370,36 @@ class Builder
      *
      * @param int $timestamp
      *
-     * @return Builder
+     * @return static
      * @throws ValidatorException
      */
-    public function setNotBefore(int! timestamp) -> <Builder>
+    public function setNotBefore(int! timestamp) -> <static>
     {
         if timestamp > time() {
-            throw new ValidatorException(
-                "Invalid Not Before"
-            );
+            throw new InvalidNotBefore();
         }
 
         return this->setClaim(Enum::NOT_BEFORE, timestamp);
+    }
+
+    /**
+     * @param string $passphrase
+     *
+     * @return static
+     * @throws ValidatorException
+     */
+    public function setPassphrase(string! passphrase) -> <static>
+    {
+        if !preg_match(
+            "/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[\W_]).{16,}$/",
+            passphrase
+        ) {
+            throw new WeakPassphrase();
+        }
+
+        let this->passphrase = passphrase;
+
+        return this;
     }
 
     /**
@@ -403,33 +413,11 @@ class Builder
      *
      * @param string $subject
      *
-     * @return Builder
+     * @return static
      */
-    public function setSubject(string! subject) -> <Builder>
+    public function setSubject(string! subject) -> <static>
     {
         return this->setClaim(Enum::SUBJECT, subject);
-    }
-
-    /**
-     * @param string $passphrase
-     *
-     * @return Builder
-     * @throws ValidatorException
-     */
-    public function setPassphrase(string! passphrase) -> <Builder>
-    {
-        if !preg_match(
-            "/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[\W_]).{16,}$/",
-            passphrase
-        ) {
-            throw new ValidatorException(
-                "Invalid passphrase (too weak)"
-            );
-        }
-
-        let this->passphrase = passphrase;
-
-        return this;
     }
 
     /**

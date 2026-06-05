@@ -4,16 +4,17 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the
- * LICENSE.txt file that was distributed with this source code.
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
  */
 
 namespace Phalcon\Mvc\Model;
 
-use Phalcon\Di\Di;
 use Phalcon\Db\Column;
+use Phalcon\Di\Di;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\InjectionAwareInterface;
+use Phalcon\Mvc\Model\Exceptions\InvalidModelName;
 use Phalcon\Mvc\Model\Query\BuilderInterface;
 
 /**
@@ -276,7 +277,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
         let model = this->getModelName();
 
         if unlikely typeof model != "string" {
-            throw new Exception("Model name must be string");
+            throw new InvalidModelName();
         }
 
         return {model}::find(
@@ -524,33 +525,6 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     }
 
     /**
-     * Adds an INNER join to the query
-     *
-     *```php
-     * <?php
-     *
-     * $criteria->innerJoin(
-     *     Invoices::class
-     * );
-     *
-     * $criteria->innerJoin(
-     *     Invoices::class,
-     *     "inv_cst_id = Customers.cst_id"
-     * );
-     *
-     * $criteria->innerJoin(
-     *     Invoices::class,
-     *     "i.inv_cst_id = Customers.cst_id",
-     *     "i"
-     * );
-     *```
-     */
-    public function innerJoin(string! model, var conditions = null, var alias = null) -> <CriteriaInterface>
-    {
-        return this->join(model, conditions, alias, "INNER");
-    }
-
-    /**
      * Appends an IN condition to the current conditions
      *
      * ```php
@@ -608,6 +582,33 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      *```php
      * <?php
      *
+     * $criteria->innerJoin(
+     *     Invoices::class
+     * );
+     *
+     * $criteria->innerJoin(
+     *     Invoices::class,
+     *     "inv_cst_id = Customers.cst_id"
+     * );
+     *
+     * $criteria->innerJoin(
+     *     Invoices::class,
+     *     "i.inv_cst_id = Customers.cst_id",
+     *     "i"
+     * );
+     *```
+     */
+    public function innerJoin(string! model, var conditions = null, var alias = null) -> <CriteriaInterface>
+    {
+        return this->addJoinClause(model, conditions, alias, "INNER");
+    }
+
+    /**
+     * Adds an INNER join to the query
+     *
+     *```php
+     * <?php
+     *
      * $criteria->join(
      *     Invoices::class
      * );
@@ -633,24 +634,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      */
     public function join(string! model, var conditions = null, var alias = null, var type = null) -> <CriteriaInterface>
     {
-        var mergedJoins, currentJoins;
-        array join;
-
-        let join = [model, conditions, alias, type];
-
-        if fetch currentJoins, this->params["joins"] {
-            if typeof currentJoins == "array" {
-                let mergedJoins = array_merge(currentJoins, [join]);
-            } else {
-                let mergedJoins = [join];
-            }
-        } else {
-            let mergedJoins = [join];
-        }
-
-        let this->params["joins"] = mergedJoins;
-
-        return this;
+        return this->addJoinClause(model, conditions, alias, type);
     }
 
     /**
@@ -668,7 +652,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      */
     public function leftJoin(string! model, var conditions = null, var alias = null) -> <CriteriaInterface>
     {
-        return this->join(model, conditions, alias, "LEFT");
+        return this->addJoinClause(model, conditions, alias, "LEFT");
     }
 
     /**
@@ -790,16 +774,6 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     }
 
     /**
-     * Adds the order-by clause to the criteria
-     */
-    public function orderBy(string! orderColumns) -> <CriteriaInterface>
-    {
-        let this->params["order"] = orderColumns;
-
-        return this;
-    }
-
-    /**
      * Appends a condition to the current conditions using an OR operator
      */
     public function orWhere(string! conditions, var bindParams = null, var bindTypes = null) -> <CriteriaInterface>
@@ -811,6 +785,16 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
         }
 
         return this->where(conditions, bindParams, bindTypes);
+    }
+
+    /**
+     * Adds the order-by clause to the criteria
+     */
+    public function orderBy(string! orderColumns) -> <CriteriaInterface>
+    {
+        let this->params["order"] = orderColumns;
+
+        return this;
     }
 
     /**
@@ -828,7 +812,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      */
     public function rightJoin(string! model, conditions = null, alias = null) -> <CriteriaInterface>
     {
-        return this->join(model, conditions, alias, "RIGHT");
+        return this->addJoinClause(model, conditions, alias, "RIGHT");
     }
 
     /**
@@ -895,6 +879,35 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
                 let this->params["bindTypes"] = bindTypes;
             }
         }
+
+        return this;
+    }
+
+    /**
+     * Appends a JOIN clause to the criteria params under a non-conflicting
+     * name. Internal wrappers (innerJoin/leftJoin/rightJoin/join) all
+     * delegate here so that the call site is not subject to Zephir's
+     * name collision between the public `join()` method and PHP's
+     * built-in `join()` function.
+     */
+    private function addJoinClause(string! model, var conditions = null, var alias = null, var type = null) -> <CriteriaInterface>
+    {
+        var mergedJoins, currentJoins;
+        array join;
+
+        let join = [model, conditions, alias, type];
+
+        if fetch currentJoins, this->params["joins"] {
+            if typeof currentJoins == "array" {
+                let mergedJoins = array_merge(currentJoins, [join]);
+            } else {
+                let mergedJoins = [join];
+            }
+        } else {
+            let mergedJoins = [join];
+        }
+
+        let this->params["joins"] = mergedJoins;
 
         return this;
     }

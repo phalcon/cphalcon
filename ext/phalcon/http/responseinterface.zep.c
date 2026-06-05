@@ -41,13 +41,13 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, appendContent);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, getContent);
 /**
- * Returns the status code
- */
-ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, getStatusCode);
-/**
  * Returns headers set by the user
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, getHeaders);
+/**
+ * Returns the status code
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, getStatusCode);
 /**
  * Checks if a header exists
  */
@@ -65,6 +65,18 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, redirect);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, resetHeaders);
 /**
+ * Prints out HTTP response to the client
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, send);
+/**
+ * Sends cookies to the client
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, sendCookies);
+/**
+ * Sends headers to the client
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, sendHeaders);
+/**
  * Sets HTTP response body
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, setContent);
@@ -74,8 +86,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, setContent);
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, setContentLength);
 /**
  * Sets the response content-type mime, optionally the charset
- *
- * @param string charset
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, setContentType);
 /**
@@ -114,15 +124,3 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, setRawHeader);
  * Sets the HTTP response code
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, setStatusCode);
-/**
- * Prints out HTTP response to the client
- */
-ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, send);
-/**
- * Sends cookies to the client
- */
-ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, sendCookies);
-/**
- * Sends headers to the client
- */
-ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, sendHeaders);

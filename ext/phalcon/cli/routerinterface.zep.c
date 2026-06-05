@@ -32,6 +32,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Cli_RouterInterface)
 
 /**
  * Adds a route to the router on any HTTP method
+ *
+ * @phpstan-param array|string|null $paths
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cli_RouterInterface, add);
 /**
@@ -61,6 +63,9 @@ ZEPHIR_DOC_METHOD(Phalcon_Cli_RouterInterface, getParams);
 ZEPHIR_DOC_METHOD(Phalcon_Cli_RouterInterface, getParameters);
 /**
  * Returns a route object by its id
+ *
+ * @todo change param type to string
+ * @phpstan-param string $id
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cli_RouterInterface, getRouteById);
 /**

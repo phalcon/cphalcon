@@ -50,25 +50,25 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Link_AbstractLinkProvider)
  */
 PHP_METHOD(Phalcon_Html_Link_AbstractLinkProvider, __construct)
 {
-	zend_bool _5$$3, _11$$5;
+	zend_bool _9, _4$$3, _12$$5;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_4 = NULL, *_8 = NULL;
+	zephir_fcall_cache_entry *_3 = NULL, *_7 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *links_param = NULL, link, *_0, _1, _2$$3, _3$$3, _6$$3, _7$$4, _9$$5, _10$$5, _12$$5, _13$$6;
+	zval *links_param = NULL, link, *_0, _8, _1$$3, _2$$3, _5$$3, _6$$4, _10$$5, _11$$5, _13$$5, _14$$6;
 	zval links;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&links);
 	ZVAL_UNDEF(&link);
-	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_8);
+	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$3);
-	ZVAL_UNDEF(&_3$$3);
-	ZVAL_UNDEF(&_6$$3);
-	ZVAL_UNDEF(&_7$$4);
-	ZVAL_UNDEF(&_9$$5);
+	ZVAL_UNDEF(&_5$$3);
+	ZVAL_UNDEF(&_6$$4);
 	ZVAL_UNDEF(&_10$$5);
-	ZVAL_UNDEF(&_12$$5);
-	ZVAL_UNDEF(&_13$$6);
+	ZVAL_UNDEF(&_11$$5);
+	ZVAL_UNDEF(&_13$$5);
+	ZVAL_UNDEF(&_14$$6);
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
 		ZEPHIR_Z_PARAM_ARRAY(links, links_param)
@@ -88,54 +88,59 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLinkProvider, __construct)
 		{
 			ZEPHIR_INIT_NVAR(&link);
 			ZVAL_COPY(&link, _0);
-			ZEPHIR_INIT_NVAR(&_2$$3);
-			ZVAL_STRING(&_2$$3, "Phalcon\\Html\\Link\\Interfaces\\LinkInterface");
-			ZEPHIR_CALL_FUNCTION(&_3$$3, "is_a", &_4, 101, &link, &_2$$3);
+			ZEPHIR_INIT_NVAR(&_1$$3);
+			ZVAL_STRING(&_1$$3, "Phalcon\\Html\\Link\\Interfaces\\LinkInterface");
+			ZEPHIR_CALL_FUNCTION(&_2$$3, "is_a", &_3, 165, &link, &_1$$3);
 			zephir_check_call_status();
-			_5$$3 = ZEPHIR_IS_TRUE_IDENTICAL(&_3$$3);
-			if (!(_5$$3)) {
-				ZEPHIR_INIT_NVAR(&_2$$3);
-				ZVAL_STRING(&_2$$3, "Psr\\Link\\LinkInterface");
-				ZEPHIR_CALL_FUNCTION(&_6$$3, "is_a", &_4, 101, &link, &_2$$3);
+			_4$$3 = ZEPHIR_IS_TRUE_IDENTICAL(&_2$$3);
+			if (!(_4$$3)) {
+				ZEPHIR_INIT_NVAR(&_1$$3);
+				ZVAL_STRING(&_1$$3, "Psr\\Link\\LinkInterface");
+				ZEPHIR_CALL_FUNCTION(&_5$$3, "is_a", &_3, 165, &link, &_1$$3);
 				zephir_check_call_status();
-				_5$$3 = ZEPHIR_IS_TRUE_IDENTICAL(&_6$$3);
+				_4$$3 = ZEPHIR_IS_TRUE_IDENTICAL(&_5$$3);
 			}
-			if (_5$$3) {
-				ZEPHIR_CALL_METHOD(&_7$$4, this_ptr, "getkey", &_8, 0, &link);
+			if (_4$$3) {
+				ZEPHIR_CALL_METHOD(&_6$$4, this_ptr, "getkey", &_7, 0, &link);
 				zephir_check_call_status();
-				zephir_update_property_array(this_ptr, SL("links"), &_7$$4, &link);
+				zephir_update_property_array(this_ptr, SL("links"), &_6$$4, &link);
 			}
 		} ZEND_HASH_FOREACH_END();
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, &links, "rewind", NULL, 0);
 		zephir_check_call_status();
+		_9 = 1;
 		while (1) {
-			ZEPHIR_CALL_METHOD(&_1, &links, "valid", NULL, 0);
+			if (_9) {
+				_9 = 0;
+			} else {
+				ZEPHIR_CALL_METHOD(NULL, &links, "next", NULL, 0);
+				zephir_check_call_status();
+			}
+			ZEPHIR_CALL_METHOD(&_8, &links, "valid", NULL, 0);
 			zephir_check_call_status();
-			if (!zend_is_true(&_1)) {
+			if (!zend_is_true(&_8)) {
 				break;
 			}
 			ZEPHIR_CALL_METHOD(&link, &links, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_INIT_NVAR(&_9$$5);
-				ZVAL_STRING(&_9$$5, "Phalcon\\Html\\Link\\Interfaces\\LinkInterface");
-				ZEPHIR_CALL_FUNCTION(&_10$$5, "is_a", &_4, 101, &link, &_9$$5);
+				ZEPHIR_INIT_NVAR(&_10$$5);
+				ZVAL_STRING(&_10$$5, "Phalcon\\Html\\Link\\Interfaces\\LinkInterface");
+				ZEPHIR_CALL_FUNCTION(&_11$$5, "is_a", &_3, 165, &link, &_10$$5);
 				zephir_check_call_status();
-				_11$$5 = ZEPHIR_IS_TRUE_IDENTICAL(&_10$$5);
-				if (!(_11$$5)) {
-					ZEPHIR_INIT_NVAR(&_9$$5);
-					ZVAL_STRING(&_9$$5, "Psr\\Link\\LinkInterface");
-					ZEPHIR_CALL_FUNCTION(&_12$$5, "is_a", &_4, 101, &link, &_9$$5);
+				_12$$5 = ZEPHIR_IS_TRUE_IDENTICAL(&_11$$5);
+				if (!(_12$$5)) {
+					ZEPHIR_INIT_NVAR(&_10$$5);
+					ZVAL_STRING(&_10$$5, "Psr\\Link\\LinkInterface");
+					ZEPHIR_CALL_FUNCTION(&_13$$5, "is_a", &_3, 165, &link, &_10$$5);
 					zephir_check_call_status();
-					_11$$5 = ZEPHIR_IS_TRUE_IDENTICAL(&_12$$5);
+					_12$$5 = ZEPHIR_IS_TRUE_IDENTICAL(&_13$$5);
 				}
-				if (_11$$5) {
-					ZEPHIR_CALL_METHOD(&_13$$6, this_ptr, "getkey", &_8, 0, &link);
+				if (_12$$5) {
+					ZEPHIR_CALL_METHOD(&_14$$6, this_ptr, "getkey", &_7, 0, &link);
 					zephir_check_call_status();
-					zephir_update_property_array(this_ptr, SL("links"), &_13$$6, &link);
+					zephir_update_property_array(this_ptr, SL("links"), &_14$$6, &link);
 				}
-			ZEPHIR_CALL_METHOD(NULL, &links, "next", NULL, 0);
-			zephir_check_call_status();
 		}
 	}
 	ZEPHIR_INIT_NVAR(&link);
@@ -153,7 +158,7 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLinkProvider, __construct)
 PHP_METHOD(Phalcon_Html_Link_AbstractLinkProvider, doGetLinks)
 {
 
-	RETURN_MEMBER(getThis(), "links");
+	RETURN_MEMBER_TYPED(getThis(), "links", IS_ARRAY);
 }
 
 /**
@@ -168,6 +173,7 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLinkProvider, doGetLinks)
  */
 PHP_METHOD(Phalcon_Html_Link_AbstractLinkProvider, doGetLinksByRel)
 {
+	zend_bool _3;
 	zval filtered;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -186,6 +192,7 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLinkProvider, doGetLinksByRel)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&rel_zv);
 	ZVAL_STR_COPY(&rel_zv, rel);
 	ZEPHIR_INIT_VAR(&filtered);
 	array_init(&filtered);
@@ -205,7 +212,14 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLinkProvider, doGetLinksByRel)
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, &_0, "rewind", NULL, 0);
 		zephir_check_call_status();
+		_3 = 1;
 		while (1) {
+			if (_3) {
+				_3 = 0;
+			} else {
+				ZEPHIR_CALL_METHOD(NULL, &_0, "next", NULL, 0);
+				zephir_check_call_status();
+			}
 			ZEPHIR_CALL_METHOD(&_2, &_0, "valid", NULL, 0);
 			zephir_check_call_status();
 			if (!zend_is_true(&_2)) {
@@ -218,8 +232,6 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLinkProvider, doGetLinksByRel)
 				if (1 == zephir_fast_in_array(&rel_zv, &rels)) {
 					zephir_array_append(&filtered, &link, PH_SEPARATE, "phalcon/Html/Link/AbstractLinkProvider.zep", 76);
 				}
-			ZEPHIR_CALL_METHOD(NULL, &_0, "next", NULL, 0);
-			zephir_check_call_status();
 		}
 	}
 	ZEPHIR_INIT_NVAR(&link);
@@ -236,7 +248,7 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLinkProvider, doGetLinksByRel)
  * @param mixed $link A link object that should be included in this
  *                    collection.
  *
- * @return $this
+ * @return static
  */
 PHP_METHOD(Phalcon_Html_Link_AbstractLinkProvider, doWithLink)
 {
@@ -273,7 +285,7 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLinkProvider, doWithLink)
  *
  * @param mixed $link The link to remove.
  *
- * @return $this
+ * @return static
  */
 PHP_METHOD(Phalcon_Html_Link_AbstractLinkProvider, doWithoutLink)
 {
@@ -324,7 +336,7 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLinkProvider, getKey)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &link);
-	ZEPHIR_RETURN_CALL_FUNCTION("spl_object_hash", NULL, 94, link);
+	ZEPHIR_RETURN_CALL_FUNCTION("spl_object_hash", NULL, 154, link);
 	zephir_check_call_status();
 	RETURN_MM();
 }

@@ -26,10 +26,10 @@ class Script extends AbstractSeries
      * @param string $url
      * @param array  $attributes
      *
-     * @return $this
+     * @return static
      * @throws Exception
      */
-    public function add(string url, array attributes = [], int pos = -1)
+    public function add(string url, array attributes = [], int position = -1) -> <static>
     {
         this->pushOrPlace(
             [
@@ -41,7 +41,7 @@ class Script extends AbstractSeries
                 ],
                 this->indent()
             ],
-            pos
+            position
         );
 
         return this;
@@ -64,11 +64,11 @@ class Script extends AbstractSeries
      * is treated as raw HTML (it is JavaScript, not user-supplied text).
      *
      * @param array $attributes
-     * @param int   $pos
+     * @param int   $position
      *
-     * @return Script
+     * @return static
      */
-    public function endInternal(array attributes = [], int pos = -1) -> <Script>
+    public function endInternal(array attributes = [], int position = -1) -> <static>
     {
         var content;
 
@@ -85,7 +85,7 @@ class Script extends AbstractSeries
                 ],
                 this->indent()
             ],
-            pos
+            position
         );
 
         return this;

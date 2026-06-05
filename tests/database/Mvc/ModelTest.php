@@ -13,8 +13,12 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Mvc;
 
+use PDO;
 use Phalcon\Storage\Exception;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use Phalcon\Tests\Support\Migrations\AlbumsMigration;
+use Phalcon\Tests\Support\Migrations\ArtistsMigration;
+use Phalcon\Tests\Support\Models\AlbumORama\Albums;
 use Phalcon\Tests\Support\Traits\DiTrait;
 
 final class ModelTest extends AbstractDatabaseTestCase
@@ -73,15 +77,19 @@ final class ModelTest extends AbstractDatabaseTestCase
      */
     public function testExecuteCamelCaseRelation(): void
     {
-        $this->markTestSkipped('TODO - Check me');
+        /** @var PDO $connection */
+        $connection = self::getConnection();
+        (new ArtistsMigration($connection))->insert(1, 'Test Artist');
+        (new AlbumsMigration($connection))->insert(1, 1, 'Test Album');
 
-        // $album = Albums::findFirst();
-        //
-        // $album->artist->name = 'NotArtist';
-        //
-        // $expected = $album->Artist->name;
-        // $actual   = $album->artist->name;
-        // $this->assertEquals($expected, $actual);
+        $album = Albums::findFirst();
+
+        // Mutating through the lowercase alias must be visible through
+        // the CamelCase form - relation accessors are case-insensitive
+        // and resolve to the same lazy-loaded related model.
+        $album->artist->name = 'NotArtist';
+
+        $this->assertSame($album->Artist->name, $album->artist->name);
     }
 
 

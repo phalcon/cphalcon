@@ -85,7 +85,7 @@ The PHP extensions enabled are:
 To generate the necessary database schemas, you need to run the relevant script:
 
 ```shell script
-$ php tests/_config/generate-db-schemas.php
+$ php bin/generate-db-schemas.php
 ```
 
 ### Run tests
@@ -103,9 +103,7 @@ You will also need to provide Codeception configuration and run Docker container
 $ cp tests/_config/.env.default .env
 
 # Run Docker containers
-$ cd tests
-$ docker-compose up -d
-$ cd ..
+$ docker compose up -d
 ```
 
 Then, run the tests on a terminal:
@@ -231,7 +229,7 @@ First, we need to have a `.env` file in the project root.
 To generate the necessary database schemas, you need to run the relevant script:
 
 ```shell script
-/app $ php tests/support/_config/generate-db-schemas.php
+/app $ php bin/generate-db-schemas.php
 ```
 
 The script looks for classes located under `tests/support/Migrations`.

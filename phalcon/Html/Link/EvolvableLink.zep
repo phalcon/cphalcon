@@ -13,12 +13,7 @@ namespace Phalcon\Html\Link;
 use Phalcon\Html\Link\Interfaces\EvolvableLinkInterface;
 
 /**
- * Class Phalcon\Http\Link\EvolvableLink
- *
- * @property array  attributes
- * @property string href
- * @property array  rels
- * @property bool   templated
+ * Class Phalcon\Html\Link\EvolvableLink
  */
 class EvolvableLink extends Link implements EvolvableLinkInterface
 {
@@ -31,7 +26,7 @@ class EvolvableLink extends Link implements EvolvableLinkInterface
      * @param string       $attribute The attribute to include.
      * @param string|array $value     The value of the attribute to set.
      */
-    public function withAttribute(var attribute, var value) -> <EvolvableLinkInterface>
+    public function withAttribute(var attribute, var value) -> <static>
     {
         return this->doWithAttribute(attribute, value);
     }
@@ -53,7 +48,7 @@ class EvolvableLink extends Link implements EvolvableLinkInterface
      *
      * @param string $rel The relationship value to add.
      */
-    public function withHref(string href) -> <EvolvableLinkInterface>
+    public function withHref(string href) -> <static>
     {
         return this->doWithHref(href);
     }
@@ -66,7 +61,7 @@ class EvolvableLink extends Link implements EvolvableLinkInterface
      *
      * @param string $rel The relationship value to add.
      */
-    public function withRel(string rel) -> <EvolvableLinkInterface>
+    public function withRel(string rel) -> <static>
     {
         return this->doWithRel(rel);
     }
@@ -79,7 +74,7 @@ class EvolvableLink extends Link implements EvolvableLinkInterface
      *
      * @param string $attribute The attribute to remove.
      */
-    public function withoutAttribute(string attribute) -> <EvolvableLinkInterface>
+    public function withoutAttribute(string attribute) -> <static>
     {
         return this->doWithoutAttribute(attribute);
     }
@@ -92,7 +87,7 @@ class EvolvableLink extends Link implements EvolvableLinkInterface
      *
      * @param string $rel The relationship value to exclude.
      */
-    public function withoutRel(string rel) -> <EvolvableLinkInterface>
+    public function withoutRel(string rel) -> <static>
     {
         return this->doWithoutRel(rel);
     }

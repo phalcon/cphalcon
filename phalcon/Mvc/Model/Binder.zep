@@ -4,16 +4,20 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the
- * LICENSE.txt file that was distributed with this source code.
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
  */
 
 namespace Phalcon\Mvc\Model;
 
 use Closure;
+use Phalcon\Cache\Adapter\AdapterInterface;
 use Phalcon\Mvc\Controller\BindModelInterface;
 use Phalcon\Mvc\Model\Binder\BindableInterface;
-use Phalcon\Cache\Adapter\AdapterInterface;
+use Phalcon\Mvc\Model\Exceptions\HandlerMustImplementBindable;
+use Phalcon\Mvc\Model\Exceptions\InvalidGetModelNameReturn;
+use Phalcon\Mvc\Model\Exceptions\MissingMethodName;
+use Phalcon\Mvc\Model\Exceptions\MissingModelClassName;
 use ReflectionFunction;
 use ReflectionMethod;
 use ReflectionNamedType;
@@ -71,9 +75,7 @@ class Binder implements BinderInterface
         let this->originalValues = [];
 
         if unlikely (!(handler instanceof Closure) && methodName === null) {
-            throw new Exception(
-                "You must specify methodName for handler or pass Closure as handler"
-            );
+            throw new MissingMethodName();
         }
 
         let this->boundModels = [];
@@ -100,16 +102,6 @@ class Binder implements BinderInterface
     }
 
     /**
-     * Find the model by param value.
-     *
-     * @return mixed
-     */
-    protected function findBoundModel(var paramValue, string className) -> var | bool
-    {
-        return {className}::findFirst(paramValue);
-    }
-
-    /**
      * Return the active bound models
      *
      * @return array
@@ -117,6 +109,14 @@ class Binder implements BinderInterface
     public function getBoundModels() -> array
     {
         return this->boundModels;
+    }
+
+    /**
+     * Sets cache instance
+     */
+    public function getCache() -> <AdapterInterface>
+    {
+        return this->cache;
     }
 
     /**
@@ -130,11 +130,23 @@ class Binder implements BinderInterface
     }
 
     /**
-     * Sets cache instance
+     * Gets cache instance
      */
-    public function getCache() -> <AdapterInterface>
+    public function setCache(<AdapterInterface> cache) -> <BinderInterface>
     {
-        return this->cache;
+        let this->cache = cache;
+
+        return this;
+    }
+
+    /**
+     * Find the model by param value.
+     *
+     * @return mixed
+     */
+    protected function findBoundModel(var paramValue, string className) -> var | bool
+    {
+        return {className}::findFirst(paramValue);
     }
 
     /**
@@ -207,17 +219,13 @@ class Binder implements BinderInterface
                     } elseif handler instanceof BindableInterface {
                         let realClasses = handler->getModelName();
                     } else {
-                        throw new Exception(
-                            "Handler must implement Phalcon\\Mvc\\Model\\Binder\\BindableInterface in order to use Phalcon\\Mvc\\Model as parameter"
-                        );
+                        throw new HandlerMustImplementBindable();
                     }
                 }
 
                 if typeof realClasses == "array" {
                     if unlikely !fetch className, realClasses[paramKey] {
-                        throw new Exception(
-                            "You should provide model class name for " . paramKey . " parameter"
-                        );
+                        throw new MissingModelClassName(paramKey);
                     }
 
                     let boundModel = this->findBoundModel(paramValue, className);
@@ -225,9 +233,7 @@ class Binder implements BinderInterface
                     let className = realClasses;
                     let boundModel = this->findBoundModel(paramValue, className);
                 } else {
-                    throw new Exception(
-                        "getModelName should return array or string"
-                    );
+                    throw new InvalidGetModelNameReturn();
                 }
             } elseif is_subclass_of(className, "Phalcon\\Mvc\\Model") {
                 let boundModel = this->findBoundModel(paramValue, className);
@@ -248,15 +254,5 @@ class Binder implements BinderInterface
         let this->internalCache[cacheKey] = paramsCache;
 
         return params;
-    }
-
-    /**
-     * Gets cache instance
-     */
-    public function setCache(<AdapterInterface> cache) -> <BinderInterface>
-    {
-        let this->cache = cache;
-
-        return this;
     }
 }

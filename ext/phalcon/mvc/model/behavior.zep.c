@@ -72,46 +72,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, __construct)
 }
 
 /**
- * Returns the behavior options related to an event
- *
- * @return array
- */
-PHP_METHOD(Phalcon_Mvc_Model_Behavior, getOptions)
-{
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval eventName_zv, options, eventOptions, _0;
-	zend_string *eventName = NULL;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&eventName_zv);
-	ZVAL_UNDEF(&options);
-	ZVAL_UNDEF(&eventOptions);
-	ZVAL_UNDEF(&_0);
-	bool is_null_true = 1;
-	ZEND_PARSE_PARAMETERS_START(0, 1)
-		Z_PARAM_OPTIONAL
-		Z_PARAM_STR_OR_NULL(eventName)
-	ZEND_PARSE_PARAMETERS_END();
-	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	if (!eventName) {
-		ZEPHIR_INIT_VAR(&eventName_zv);
-	} else {
-	ZVAL_STR_COPY(&eventName_zv, eventName);
-	}
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("options"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CPY_WRT(&options, &_0);
-	if (!ZEPHIR_IS_NULL(&eventName_zv)) {
-		zephir_memory_observe(&eventOptions);
-		if (!(zephir_array_isset_fetch(&eventOptions, &options, &eventName_zv, 0))) {
-			RETURN_MM_NULL();
-		}
-		RETURN_CCTOR(&eventOptions);
-	}
-	RETURN_CCTOR(&options);
-}
-
-/**
  * Acts as fallbacks when a missing method is called on the model
  */
 PHP_METHOD(Phalcon_Mvc_Model_Behavior, missingMethod)
@@ -147,25 +107,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, missingMethod)
 }
 
 /**
- * Checks whether the behavior must take action on certain event
- */
-PHP_METHOD(Phalcon_Mvc_Model_Behavior, mustTakeAction)
-{
-	zval eventName_zv, _0;
-	zend_string *eventName = NULL;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&eventName_zv);
-	ZVAL_UNDEF(&_0);
-	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_STR(eventName)
-	ZEND_PARSE_PARAMETERS_END();
-	ZVAL_STR(&eventName_zv, eventName);
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("options"), PH_NOISY_CC | PH_READONLY);
-	RETURN_BOOL(zephir_array_isset(&_0, &eventName_zv));
-}
-
-/**
  * This method receives the notifications from the EventsManager
  */
 PHP_METHOD(Phalcon_Mvc_Model_Behavior, notify)
@@ -182,5 +123,65 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, notify)
 	model = ZEND_CALL_ARG(execute_data, 2);
 	ZVAL_STR(&type_zv, type);
 	RETURN_NULL();
+}
+
+/**
+ * Returns the behavior options related to an event
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Behavior, getOptions)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zval eventName_zv, options, eventOptions, _0;
+	zend_string *eventName = NULL;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&eventName_zv);
+	ZVAL_UNDEF(&options);
+	ZVAL_UNDEF(&eventOptions);
+	ZVAL_UNDEF(&_0);
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_STR_OR_NULL(eventName)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	if (!eventName) {
+		ZEPHIR_INIT_VAR(&eventName_zv);
+	} else {
+	zephir_memory_observe(&eventName_zv);
+	ZVAL_STR_COPY(&eventName_zv, eventName);
+	}
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("options"), PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_CPY_WRT(&options, &_0);
+	if (!ZEPHIR_IS_NULL(&eventName_zv)) {
+		zephir_memory_observe(&eventOptions);
+		if (!(zephir_array_isset_fetch(&eventOptions, &options, &eventName_zv, 0))) {
+			RETURN_MM_NULL();
+		}
+		RETURN_CCTOR(&eventOptions);
+	}
+	RETURN_CCTOR(&options);
+}
+
+/**
+ * Checks whether the behavior must take action on certain event
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Behavior, mustTakeAction)
+{
+	zval eventName_zv, _0;
+	zend_string *eventName = NULL;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&eventName_zv);
+	ZVAL_UNDEF(&_0);
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(eventName)
+	ZEND_PARSE_PARAMETERS_END();
+	ZVAL_STR(&eventName_zv, eventName);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("options"), PH_NOISY_CC | PH_READONLY);
+	RETURN_BOOL(zephir_array_isset_value(&_0, &eventName_zv));
 }
 

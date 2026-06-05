@@ -17,8 +17,8 @@ on:
 
 env:
   # All versions should be declared here
-  PHALCON_VERSION: 5.12.1
-  ZEPHIR_PARSER_VERSION: 1.8.0
+  PHALCON_VERSION: 5.14.0
+  ZEPHIR_PARSER_VERSION: 2.0.4
   # For tests
   LANG: en_US.UTF-8
   LANGUAGE: en_US.UTF-8
@@ -49,6 +49,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+          token: ${{ github.token }}
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -71,6 +75,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+          token: ${{ github.token }}
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -88,12 +96,12 @@ jobs:
       - name: Generate and validate stubs
         run: |
           vendor/bin/zephir stubs
-          vendor/bin/psalm ide/
+          composer analyze
 
       - name: Fix code style on generated stubs
         # phpcbf exits 1 when it fixes files; passing the path on the CLI overrides
         # the <file> entries in phpcs.xml so the PSR12 ruleset is applied to the stubs.
-        run: vendor/bin/phpcbf --standard=phpcs.xml ide/${{ env.PHALCON_VERSION }}/ || true
+        run: vendor/bin/phpcbf --standard=resources/phpcs.xml ide/${{ env.PHALCON_VERSION }}/ || true
 
       - name: Upload IDE stubs artifact
         uses: actions/upload-artifact@v7
@@ -101,6 +109,78 @@ jobs:
           name: phalcon-ide-stubs
           path: ide/${{ env.PHALCON_VERSION }}/Phalcon/
           retention-days: 5
+
+  # Build Phalcon PECL package (kept available alongside PIE for a few
+  # releases to give downstream users time to migrate to PIE).
+  generate_pecl:
+    name: Build Phalcon PECL package
+    needs: [phpcs, stubs]
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+          token: ${{ github.token }}
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          extensions: zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}
+          tools: pecl
+        env:
+          COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup APT Repositories
+        run: |
+          # Remove Microsoft repos - our builds often fail due to
+          # unstable/offline Microsoft servers.
+          sudo rm -f /etc/apt/sources.list.d/dotnetdev.list
+          sudo rm -f /etc/apt/sources.list.d/azure*.list
+
+      - name: Install System Dependencies
+        run: |
+          sudo apt-get update --quiet --yes 1>/dev/null
+          sudo apt-get install --no-install-recommends -q -y re2c
+
+      - run: composer install --ignore-platform-reqs
+
+      - name: Generate C Code
+        run: |
+          vendor/bin/zephir fullclean
+          vendor/bin/zephir generate
+          (cd build && php gen-build.php)
+
+      - name: Upload compile-errors.log
+        uses: actions/upload-artifact@v7
+        if: failure()
+        with:
+          name: compile-errors
+          path: compile-errors.log
+
+      - name: Create Pecl Package
+        id: pecl_create
+        run: |
+          cp build/phalcon/config.w32 config.w32
+          cp build/phalcon/phalcon.zep.c phalcon.zep.c
+          cp build/phalcon/config.m4 config.m4
+          cp build/phalcon/php_phalcon.h php_phalcon.h
+          cp build/phalcon/phalcon.zep.h phalcon.zep.h
+          pecl package
+          phalcon_package="`ls | grep phalcon-*tgz`"
+          mv $phalcon_package phalcon-pecl.tgz
+
+      - name: Validate Pecl Package
+        run: pecl package-validate phalcon-pecl.tgz
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: 'phalcon-pecl'
+          path: phalcon-pecl.tgz
 
   # Generate fresh C source from Zephir, build the extension, and cache
   # the source tree and compiled .so for all downstream jobs.
@@ -123,6 +203,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+          token: ${{ github.token }}
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -134,7 +218,7 @@ jobs:
 
       - name: Setup APT Repositories
         run: |
-          # Remove Microsoft repos — our builds often fail due to
+          # Remove Microsoft repos - our builds often fail due to
           # unstable/offline Microsoft servers.
           sudo rm -f /etc/apt/sources.list.d/dotnetdev.list
           sudo rm -f /etc/apt/sources.list.d/azure*.list
@@ -166,19 +250,12 @@ jobs:
           path: build/phalcon/
           retention-days: 1
 
-      - name: Build extension
+      - name: Build extension (smoke test)
         run: |
           cd build/phalcon
           phpize
           ./configure --enable-phalcon
           make -j"$(nproc)"
-
-      - name: Upload extension artifact
-        uses: actions/upload-artifact@v7
-        with:
-          name: phalcon-so-php${{ matrix.php }}-nts-linux-x64
-          path: build/phalcon/modules/phalcon.so
-          retention-days: 1
 
   # Validate PIE metadata and confirm the extension builds from the
   # generated source tree that PIE would use.
@@ -200,6 +277,10 @@ jobs:
           - '8.5'
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+          token: ${{ github.token }}
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -251,6 +332,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+          token: ${{ github.token }}
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -297,15 +382,26 @@ jobs:
           - 'ts'
         arch:
           - 'x64'
+          - 'arm64'
 
         name:
           - ubuntu-gcc
+          - macos-clang
+
+        exclude:
+          - { name: macos-clang, arch: x64 }
 
         include:
-          - { name: ubuntu-gcc, os: ubuntu-22.04, compiler: gcc }
+          - { name: ubuntu-gcc, arch: x64, os: ubuntu-22.04, compiler: gcc }
+          - { name: ubuntu-gcc, arch: arm64, os: ubuntu-22.04-arm, compiler: gcc }
+          - { name: macos-clang, arch: arm64, os: macos-14, compiler: clang }
 
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+          token: ${{ github.token }}
 
       - name: Setup platform specific environment
         shell: pwsh
@@ -343,7 +439,7 @@ jobs:
         if: runner.os == 'Linux'
         uses: actions/upload-artifact@v7
         with:
-          name: phalcon-so-php${{ matrix.php }}-${{ matrix.ts }}-linux-x64
+          name: phalcon-so-php${{ matrix.php }}-${{ matrix.ts }}-linux-${{ matrix.arch }}
           path: ${{ steps.linux-build.outputs.extension-dir }}/phalcon.so
           retention-days: 1
 
@@ -444,6 +540,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+          token: ${{ github.token }}
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -494,15 +594,15 @@ jobs:
         shell: bash
         run: |
           if [ "${{ runner.os }}" = "Linux" ]; then
-            ./.ci/linux-setup-locales.sh
+            ./resources/linux-setup-locales.sh
           fi
 
           cp tests/support/_config/.env.default .env
-          php tests/support/_config/generate-db-schemas.php
+          php bin/generate-db-schemas.php
 
       - name: Run Unit Tests
         if: always()
-        run: vendor/bin/phpunit -c phpunit.xml.dist
+        run: vendor/bin/phpunit -c resources/phpunit.xml.dist
 
       - name: Upload Unit Test Coverage
         uses: actions/upload-artifact@v7
@@ -516,7 +616,7 @@ jobs:
         shell: bash
         run: |
           echo "-- Creating Release Notes"
-          ./.ci/release-notes.sh ./CHANGELOG-5.0.md
+          ./resources/release-notes.sh ./CHANGELOG-5.0.md
 
   database_mysql_test:
     permissions:
@@ -563,6 +663,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+          token: ${{ github.token }}
 
       - name: "Setup platform specific environment"
         shell: pwsh
@@ -595,7 +699,7 @@ jobs:
       - name: Prepare test Environment
         run: |
           echo "::group::Set up locales"
-          ./.ci/linux-setup-locales.sh
+          ./resources/linux-setup-locales.sh
           echo "::endgroup::"
 
       - name: Validate composer
@@ -609,7 +713,7 @@ jobs:
       - name: Setup Tests
         run: |
           cp tests/support/_config/.env.default .env
-          php tests/support/_config/generate-db-schemas.php
+          php bin/generate-db-schemas.php
 
       - name: Run Database Tests (MySQL)
         env:
@@ -617,7 +721,7 @@ jobs:
           DATA_MYSQL_USER: root
           DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
-        run: vendor/bin/phpunit -c phpunit.mysql.xml
+        run: vendor/bin/phpunit -c resources/phpunit.mysql.xml
       - name: Upload Database (MySQL) Coverage
         uses: actions/upload-artifact@v7
         if: always()
@@ -657,6 +761,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+          token: ${{ github.token }}
 
       - name: "Setup platform specific environment"
         shell: pwsh
@@ -689,7 +797,7 @@ jobs:
       - name: Prepare test Environment
         run: |
           echo "::group::Set up locales"
-          ./.ci/linux-setup-locales.sh
+          ./resources/linux-setup-locales.sh
           echo "::endgroup::"
 
       - name: Validate composer
@@ -703,14 +811,14 @@ jobs:
       - name: Setup Tests
         run: |
           cp tests/support/_config/.env.default .env
-          php tests/support/_config/generate-db-schemas.php
+          php bin/generate-db-schemas.php
 
       - name: Run Database Tests (SQLite)
         env:
           DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
         if: always()
-        run: vendor/bin/phpunit -c phpunit.sqlite.xml
+        run: vendor/bin/phpunit -c resources/phpunit.sqlite.xml
       - name: Upload Database (SQLite) Coverage
         uses: actions/upload-artifact@v7
         if: always()
@@ -763,6 +871,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+          token: ${{ github.token }}
 
       - name: "Setup platform specific environment"
         shell: pwsh
@@ -795,7 +907,7 @@ jobs:
       - name: Prepare test Environment
         run: |
           echo "::group::Set up locales"
-          ./.ci/linux-setup-locales.sh
+          ./resources/linux-setup-locales.sh
           echo "::endgroup::"
 
       - name: Validate composer
@@ -809,13 +921,13 @@ jobs:
       - name: Setup Tests
         run: |
           cp tests/support/_config/.env.default .env
-          php tests/support/_config/generate-db-schemas.php
+          php bin/generate-db-schemas.php
 
       - name: Run Database Tests (Postgres)
         env:
           DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
-        run: vendor/bin/phpunit -c phpunit.pgsql.xml
+        run: vendor/bin/phpunit -c resources/phpunit.pgsql.xml
       - name: Upload Database (Postgres) Coverage
         uses: actions/upload-artifact@v7
         if: always()
@@ -865,12 +977,17 @@ jobs:
     permissions:
       contents: read
     name: "Generate Windows Extension Matrix"
+    needs: [phpcs, stubs]
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.extension-matrix.outputs.matrix }}
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+          token: ${{ github.token }}
       - name: Get the extension matrix
         id: extension-matrix
         uses: php/php-windows-builder/extension-matrix@v1
@@ -893,6 +1010,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+          token: ${{ github.token }}
 
       - name: Generate build folder
         run: |
@@ -903,11 +1024,16 @@ jobs:
 
       - name: Build the extension
         uses: php/php-windows-builder/extension@v1
+        env:
+          # Drop the PDB debug-symbols file (~21 MB) from the artifact;
+          # it is not needed for runtime use of the extension.
+          no-debug-symbols-phalcon: 'true'
         with:
           args: --enable-phalcon
           php-version: ${{ matrix.php-version }}
           arch: ${{ matrix.arch }}
           ts: ${{ matrix.ts }}
+          extension-ref: ${{ env.PHALCON_VERSION }}
 
   release:
     permissions:
@@ -917,6 +1043,7 @@ jobs:
 
     needs:
       - generate_source
+      - generate_pecl
       - build_extension
       - build_extension_windows
       - unit_test
@@ -928,6 +1055,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+          token: ${{ github.token }}
 
       - name: Download Phalcon build artifacts
         id: download
@@ -938,9 +1069,14 @@ jobs:
       - name: Prepare Release assets
         run: |
           mkdir -p ./build-artifacts/release
-          find ./build-artifacts -type f \( -name 'phalcon*.zip' -o -name 'php_phalcon*.zip' \) -exec cp {} ./build-artifacts/release/ ";"
+          # The Windows builder action stages two zips with the same basename:
+          # artifacts/<name>.zip (the DLL bundle) and artifacts/logs/<name>.zip
+          # (build log). Skipping any path containing /logs/ prevents the log
+          # zip from overwriting the DLL zip during this flatten step.
+          find ./build-artifacts -type f \( -name 'phalcon*.zip' -o -name 'php_phalcon*.zip' \) -not -path '*/logs/*' -exec cp {} ./build-artifacts/release/ ";"
+          find ./build-artifacts -type f -name 'phalcon*.tgz' -exec cp {} ./build-artifacts/release/ ";"
           echo "-- Creating Release Notes"
-          ./.ci/release-notes.sh ./CHANGELOG-5.0.md > ./build-artifacts/release/release-notes.md
+          ./resources/release-notes.sh ./CHANGELOG-5.0.md > ./build-artifacts/release/release-notes.md
 
       - name: Create Release
         uses: ncipollo/release-action@v1
@@ -950,7 +1086,7 @@ jobs:
           tag: ${{ github.ref_name }}
           bodyFile: "./build-artifacts/release/release-notes.md"
           allowUpdates: true
-          artifacts: "./build-artifacts/release/*.zip"
+          artifacts: "./build-artifacts/release/*.zip,./build-artifacts/release/*.tgz"
           artifactContentType: application/octet-stream
 
   publish_stubs:
@@ -965,6 +1101,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+          token: ${{ github.token }}
 
       - name: Download IDE stubs artifact
         uses: actions/download-artifact@v8

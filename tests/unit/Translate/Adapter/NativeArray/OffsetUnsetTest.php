@@ -16,7 +16,7 @@ namespace Phalcon\Tests\Unit\Translate\Adapter\NativeArray;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Translate\Fake\TranslateNativeArrayTrait;
 use Phalcon\Translate\Adapter\NativeArray;
-use Phalcon\Translate\Exception;
+use Phalcon\Translate\Exceptions\ImmutableObject;
 use Phalcon\Translate\InterpolatorFactory;
 
 final class OffsetUnsetTest extends AbstractUnitTestCase
@@ -30,7 +30,7 @@ final class OffsetUnsetTest extends AbstractUnitTestCase
     public function testTranslateAdapterNativeArrayOffsetUnset(): void
     {
 
-        $this->expectException(Exception::class);
+        $this->expectException(ImmutableObject::class);
         $this->expectExceptionMessage('Translate is an immutable ArrayAccess object');
 
         $language = $this->getArrayConfig()['en'];

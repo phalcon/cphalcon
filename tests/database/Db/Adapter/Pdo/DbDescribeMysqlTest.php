@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Db\Adapter\Pdo;
 
+use Phalcon\Db\Column;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
 
@@ -56,15 +57,15 @@ final class DbDescribeMysqlTest extends AbstractDatabaseTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
     public function testDbMySqlDescribeColumns(): void
     {
-        /**
-         * @TODO - Check this after refactoring
-         */
-        $this->markTestSkipped('Need implementation - expected columns data not yet defined');
+        $db = $this->container->get('db');
+
+        $expected = $this->getExpectedColumnsMysql();
+
+        $this->assertEquals($expected, $db->describeColumns('personas'));
+        $this->assertEquals($expected, $db->describeColumns('personas', env('DATA_MYSQL_NAME')));
     }
 
     /**
@@ -73,12 +74,16 @@ final class DbDescribeMysqlTest extends AbstractDatabaseTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
     public function testDbMySqlTableOptions(): void
     {
-        $this->markTestSkipped('Need implementation - personas table not in current schema');
+        $db = $this->container->get('db');
+
+        $options = $db->tableOptions('personas');
+
+        $this->assertSame('BASE TABLE', $options['table_type']);
+        $this->assertSame('InnoDB', $options['engine']);
+        $this->assertNotEmpty($options['table_collation']);
     }
 
     /**
@@ -87,12 +92,16 @@ final class DbDescribeMysqlTest extends AbstractDatabaseTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
     public function testDbMySqlDescribeIndexes(): void
     {
-        $this->markTestSkipped('Need implementation - robots_parts and issue_11036 tables not in current schema');
+        $db = $this->container->get('db');
+
+        $indexes = $db->describeIndexes('co_invoices');
+
+        $this->assertArrayHasKey('PRIMARY', $indexes);
+        $this->assertSame(['inv_id'], $indexes['PRIMARY']->getColumns());
+        $this->assertSame('PRIMARY', $indexes['PRIMARY']->getType());
     }
 
     /**
@@ -101,11 +110,116 @@ final class DbDescribeMysqlTest extends AbstractDatabaseTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
     public function testDbMySqlDescribeReferences(): void
     {
-        $this->markTestSkipped('Need implementation - robots_parts table not in current schema');
+        // mysql test schema does not currently define any FK constraints
+        // we can exercise; assert the call returns an array shape on a
+        // table that has no references.
+        $db = $this->container->get('db');
+
+        $this->assertSame([], $db->describeReferences('personas'));
+    }
+
+    /**
+     * @return array<int, Column>
+     */
+    private function getExpectedColumnsMysql(): array
+    {
+        return [
+            0 => new Column(
+                'cedula',
+                [
+                    'type'          => Column::TYPE_CHAR,
+                    'isNumeric'     => false,
+                    'size'          => 15,
+                    'default'       => null,
+                    'unsigned'      => false,
+                    'notNull'       => true,
+                    'autoIncrement' => false,
+                    'primary'       => true,
+                    'first'         => true,
+                    'after'         => null,
+                    'bindType'      => Column::BIND_PARAM_STR,
+                ]
+            ),
+            1 => new Column(
+                'tipo_documento_id',
+                [
+                    'type'          => Column::TYPE_INTEGER,
+                    'isNumeric'     => true,
+                    'size'          => 0,
+                    'scale'         => 0,
+                    'default'       => null,
+                    'unsigned'      => true,
+                    'notNull'       => true,
+                    'autoIncrement' => false,
+                    'first'         => false,
+                    'after'         => 'cedula',
+                    'bindType'      => Column::BIND_PARAM_INT,
+                ]
+            ),
+            2 => new Column(
+                'nombres',
+                [
+                    'type'          => Column::TYPE_VARCHAR,
+                    'isNumeric'     => false,
+                    'size'          => 100,
+                    'default'       => '',
+                    'unsigned'      => false,
+                    'notNull'       => true,
+                    'autoIncrement' => false,
+                    'first'         => false,
+                    'after'         => 'tipo_documento_id',
+                    'bindType'      => Column::BIND_PARAM_STR,
+                ]
+            ),
+            3 => new Column(
+                'telefono',
+                [
+                    'type'          => Column::TYPE_VARCHAR,
+                    'isNumeric'     => false,
+                    'size'          => 20,
+                    'default'       => null,
+                    'unsigned'      => false,
+                    'notNull'       => false,
+                    'autoIncrement' => false,
+                    'first'         => false,
+                    'after'         => 'nombres',
+                    'bindType'      => Column::BIND_PARAM_STR,
+                ]
+            ),
+            4 => new Column(
+                'cupo',
+                [
+                    'type'          => Column::TYPE_DECIMAL,
+                    'isNumeric'     => true,
+                    'size'          => 16,
+                    'scale'         => 2,
+                    'default'       => null,
+                    'unsigned'      => false,
+                    'notNull'       => true,
+                    'autoIncrement' => false,
+                    'first'         => false,
+                    'after'         => 'telefono',
+                    'bindType'      => Column::BIND_PARAM_STR,
+                ]
+            ),
+            5 => new Column(
+                'estado',
+                [
+                    'type'          => Column::TYPE_ENUM,
+                    'isNumeric'     => false,
+                    'size'          => "'A','I','X'",
+                    'default'       => null,
+                    'unsigned'      => false,
+                    'notNull'       => true,
+                    'autoIncrement' => false,
+                    'first'         => false,
+                    'after'         => 'cupo',
+                    'bindType'      => Column::BIND_PARAM_STR,
+                ]
+            ),
+        ];
     }
 }

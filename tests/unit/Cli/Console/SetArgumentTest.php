@@ -356,7 +356,7 @@ final class SetArgumentTest extends AbstractUnitTestCase
     {
         $console = new CliConsole(new DiFactoryDefault());
 
-        // Integer argument — not a string, covers the else branch
+        // Integer argument - not a string, covers the else branch
         $actual = $console->setArgument([42], false, false);
 
         // setArgument() returns $this

@@ -11,10 +11,12 @@
 namespace Phalcon\Forms\Element;
 
 use InvalidArgumentException;
-use Phalcon\Di\DiInterface;
 use Phalcon\Di\Di;
+use Phalcon\Di\DiInterface;
 use Phalcon\Filter\Validation\ValidatorInterface;
 use Phalcon\Forms\Exception;
+use Phalcon\Forms\Exceptions\FormElementNameRequired;
+use Phalcon\Forms\Exceptions\InvalidFilterType;
 use Phalcon\Forms\Form;
 use Phalcon\Html\TagFactory;
 use Phalcon\Messages\MessageInterface;
@@ -91,9 +93,7 @@ abstract class AbstractElement implements ElementInterface
         let name = trim(name);
 
         if unlikely empty name {
-            throw new InvalidArgumentException(
-                "Form element name is required"
-            );
+            throw new FormElementNameRequired();
         }
 
         let this->name       = name,
@@ -156,7 +156,9 @@ abstract class AbstractElement implements ElementInterface
         }
 
         for validator in validators {
-            this->addValidator(validator);
+            if validator instanceof ValidatorInterface {
+                this->addValidator(validator);
+            }
         }
 
         return this;
@@ -244,7 +246,7 @@ abstract class AbstractElement implements ElementInterface
     /**
      * Returns the element label
      */
-    public function getLabel() -> string
+    public function getLabel() -> string | null
     {
         return this->label;
     }
@@ -436,7 +438,7 @@ abstract class AbstractElement implements ElementInterface
     public function setFilters(var filters) -> <ElementInterface>
     {
         if unlikely (typeof filters != "string" && typeof filters != "array") {
-            throw new Exception("The filter needs to be an array or string");
+            throw new InvalidFilterType();
         }
 
         if typeof filters == "string" {
@@ -491,7 +493,7 @@ abstract class AbstractElement implements ElementInterface
     /**
      * Sets the TagFactory
      */
-    public function setTagFactory(<TagFactory> tagFactory) -> <AbstractElement>
+    public function setTagFactory(<TagFactory> tagFactory) -> <static>
     {
         let this->tagFactory = tagFactory;
 

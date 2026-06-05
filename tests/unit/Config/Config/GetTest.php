@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Config\Config;
 
+use Phalcon\Config\Config;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Traits\ConfigTrait;
 
@@ -33,6 +34,28 @@ final class GetTest extends AbstractUnitTestCase
                            ->get('adapter')
         ;
         $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-13
+     * @issue  https://github.com/phalcon/cphalcon/issues/17005
+     */
+    public function testConfigGetCastArrayUnwrapsNestedConfig(): void
+    {
+        $config = new Config(
+            [
+                'outKey' => [
+                    'inKey' => 'inValue',
+                ],
+            ]
+        );
+
+        $extractedArray = $config->get('outKey', [], 'array');
+
+        $this->assertIsArray($extractedArray);
+        $this->assertArrayHasKey('inKey', $extractedArray);
+        $this->assertSame('inValue', $extractedArray['inKey']);
     }
 
     /**

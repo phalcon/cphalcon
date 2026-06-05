@@ -16,6 +16,7 @@ namespace Phalcon\Tests\Database\Mvc\Model;
 use Phalcon\Events\Event;
 use Phalcon\Events\Manager;
 use Phalcon\Support\Collection;
+use Phalcon\Support\Settings;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Migrations\CustomersMigration;
 use Phalcon\Tests\Support\Models\Customers;
@@ -47,7 +48,6 @@ final class DynamicUpdateTest extends AbstractDatabaseTestCase
      */
     public function testMvcModelDisableDynamicUpdate(): void
     {
-        $this->markTestSkipped('TODO: Phalcon\\Support\\Settings (settings.zep) not yet ported to cphalcon');
 
         $connection         = self::getConnection();
         $customersMigration = new CustomersMigration($connection);
@@ -71,7 +71,7 @@ final class DynamicUpdateTest extends AbstractDatabaseTestCase
         /**
          * Disable system wide dynamic update
          */
-        MvcModel::setup(['dynamicUpdate' => false]);
+        Settings::set('orm.dynamic_update', false);
 
         /**
          * New model
@@ -106,7 +106,6 @@ final class DynamicUpdateTest extends AbstractDatabaseTestCase
      */
     public function testMvcModelDisabledCherryPickDynamicUpdate(): void
     {
-        $this->markTestSkipped('TODO: Phalcon\\Support\\Settings (settings.zep) not yet ported to cphalcon');
 
         $connection         = self::getConnection();
         $customersMigration = new CustomersMigration($connection);
@@ -129,7 +128,7 @@ final class DynamicUpdateTest extends AbstractDatabaseTestCase
         /**
          * Disable system wide dynamic update
          */
-        MvcModel::setup(['dynamicUpdate' => false]);
+        Settings::set('orm.dynamic_update', false);
 
         /**
          * New model
@@ -163,7 +162,6 @@ final class DynamicUpdateTest extends AbstractDatabaseTestCase
      */
     public function testMvcModelEnableDynamicUpdate(): void
     {
-        $this->markTestSkipped('TODO: Phalcon\\Support\\Settings (settings.zep) not yet ported to cphalcon');
 
         $connection         = self::getConnection();
         $customersMigration = new CustomersMigration($connection);
@@ -172,7 +170,7 @@ final class DynamicUpdateTest extends AbstractDatabaseTestCase
         /**
          * Enable system wide dynamic update
          */
-        MvcModel::setup(['dynamicUpdate' => true]);
+        Settings::set('orm.dynamic_update', true);
 
         $collection    = new Collection();
         $connection    = $this->container->get('db');

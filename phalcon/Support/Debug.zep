@@ -10,8 +10,8 @@
 
 namespace Phalcon\Support;
 
-use ErrorException;
-use Phalcon\Support\Debug\Exception;
+use Phalcon\Support\Debug\Exceptions\RequestHalted;
+use Phalcon\Support\Debug\Exceptions\RuntimeWarning;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionFunction;
@@ -65,7 +65,7 @@ class Debug
     /**
      * Clears are variables added previously
      */
-    public function clearVars() -> <Debug>
+    public function clearVars() -> <static>
     {
         let this->data = [];
 
@@ -77,7 +77,7 @@ class Debug
      *
      * @param mixed $variable
      */
-    public function debugVar(var varz) -> <Debug>
+    public function debugVar(var varz) -> <static>
     {
         let this->data[] = [
             varz,
@@ -145,11 +145,11 @@ class Debug
     /**
      * Halts the request showing a backtrace
      *
-     * @throws Exception
+     * @throws RequestHalted
      */
     public function halt() -> void
     {
-        throw new Exception("Halted request");
+        throw new RequestHalted();
     }
 
     /**
@@ -158,7 +158,7 @@ class Debug
      * @param bool $exceptions
      * @param bool $lowSeverity
      */
-    public function listen(bool exceptions = true, bool lowSeverity = false) -> <Debug>
+    public function listen(bool exceptions = true, bool lowSeverity = false) -> <static>
     {
         if exceptions {
             this->listenExceptions();
@@ -174,7 +174,7 @@ class Debug
     /**
      * Listen for uncaught exceptions
      */
-    public function listenExceptions() -> <Debug>
+    public function listenExceptions() -> <static>
     {
         set_exception_handler(
             [this, "onUncaughtException"]
@@ -186,7 +186,7 @@ class Debug
     /**
      * Listen for non silent notices or warnings
      */
-    public function listenLowSeverity() -> <Debug>
+    public function listenLowSeverity() -> <static>
     {
         set_error_handler(
             [this, "onUncaughtLowSeverity"]
@@ -248,7 +248,7 @@ class Debug
     public function onUncaughtLowSeverity(severity, message, file, line) -> void
     {
         if unlikely error_reporting() & severity {
-            throw new ErrorException(message, 0, severity, file, line);
+            throw new RuntimeWarning(message, 0, severity, file, line);
         }
     }
 
@@ -371,7 +371,7 @@ class Debug
      *
      * @param array $blacklist
      */
-    public function setBlacklist(array blacklist) -> <Debug>
+    public function setBlacklist(array blacklist) -> <static>
     {
         var area, result, subArray, value;
 
@@ -404,7 +404,7 @@ class Debug
      *
      * @param bool $showBackTrace
      */
-    public function setShowBackTrace(bool showBackTrace) -> <Debug>
+    public function setShowBackTrace(bool showBackTrace) -> <static>
     {
         let this->showBackTrace = showBackTrace;
 
@@ -417,7 +417,7 @@ class Debug
      *
      * @param bool $showFileFragment
      */
-    public function setShowFileFragment(bool showFileFragment) -> <Debug>
+    public function setShowFileFragment(bool showFileFragment) -> <static>
     {
         let this->showFileFragment = showFileFragment;
 
@@ -429,7 +429,7 @@ class Debug
      *
      * @param bool $showFiles
      */
-    public function setShowFiles(bool showFiles) -> <Debug>
+    public function setShowFiles(bool showFiles) -> <static>
     {
         let this->showFiles = showFiles;
 
@@ -441,7 +441,7 @@ class Debug
      *
      * @param string $uri
      */
-    public function setUri(string! uri) -> <Debug>
+    public function setUri(string! uri) -> <static>
     {
         let this->uri = uri;
 

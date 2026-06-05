@@ -14,8 +14,6 @@ use Phalcon\Messages\MessageInterface;
 use Phalcon\Mvc\ModelInterface;
 
 /**
- * Phalcon\Mvc\Model\Query\Status
- *
  * This class represents the status returned by a PHQL
  * statement like INSERT, UPDATE or DELETE. It offers context
  * information and the related messages produced by the
@@ -80,7 +78,7 @@ class Status implements StatusInterface
     /**
      * Returns the model that executed the action
      */
-    public function getModel() -> <ModelInterface>
+    public function getModel() -> <ModelInterface> | null
     {
         return this->model;
     }

@@ -10,6 +10,8 @@
 
 namespace Phalcon\Encryption\Security;
 
+use Phalcon\Encryption\Security\Exceptions\InvalidRandomInput;
+
 /**
  * Phalcon\Encryption\Security\Random
  *
@@ -52,7 +54,7 @@ namespace Phalcon\Encryption\Security;
  * echo $random->base64Safe(8);          // mGyy0evy3ok
  * echo $random->base64Safe(null, true); // DRrAgOFkS4rvRiVHFefcQ==
  *
- * // Random UUID (version 4) — returns a string
+ * // Random UUID (version 4) - returns a string
  * echo $random->uuid(); // db082997-2572-4e2c-a046-5eefe97b1235
  * echo $random->uuid(); // da2aa0e2-b4d0-4e3c-99f5-f5ef62c57fe2
  *
@@ -269,7 +271,7 @@ class Random
     public function number(int len) -> int
     {
         if unlikely len <= 0 {
-            throw new Exception("Input number must be a positive integer");
+            throw new InvalidRandomInput();
         }
 
         return random_int(0, len);
@@ -305,14 +307,14 @@ class Random
      *
      * @throws Exception If secure random number generator is not available or unexpected partial read
      */
-    protected function base(string alphabet, int base, n = 16) -> string
+    protected function base(string alphabet, int base, number = 16) -> string
     {
         var bytes, idx;
         string byteString = "";
 
         let bytes = unpack(
             "C*",
-            this->bytes(n)
+            this->bytes(number)
         );
 
         for idx in bytes {

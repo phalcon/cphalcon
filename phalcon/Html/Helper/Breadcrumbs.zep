@@ -23,8 +23,17 @@ use Phalcon\Support\Helper\Str\Interpolate;
  * The resulting HTML when calling `render()` will have each breadcrumb enclosed
  * in `<li>` tags, while the whole string is enclosed in `<nav>` and `<ol>` tags.
  *
- * @phpstan-type TTemplate array{main: string, line: string, last: string}
- * @phpstan-type TElement array{attributes: array<string, string>, icon: string, link: string, text: string}
+ * @phpstan-type TTemplate array{
+ *      main: string,
+ *      line: string,
+ *      last: string
+ *  }
+ * @phpstan-type TElement array{
+ *      attributes: array<string, string>,
+ *      icon: string,
+ *      link: string,
+ *      text: string
+ *  }
  */
 class Breadcrumbs extends AbstractHelper
 {
@@ -101,7 +110,7 @@ class Breadcrumbs extends AbstractHelper
     public function __invoke(
         string indent = "    ",
         string delimiter = null
-    ) -> <Breadcrumbs> {
+    ) -> <static> {
         let this->delimiter = delimiter === null ? PHP_EOL : delimiter,
             this->indent    = indent;
 
@@ -127,7 +136,7 @@ class Breadcrumbs extends AbstractHelper
         string link = "",
         string icon = "",
         array attributes = []
-    ) -> <Breadcrumbs> {
+    ) -> <static> {
         var count;
 
         let count = count(this->data) + 1;
@@ -156,7 +165,7 @@ class Breadcrumbs extends AbstractHelper
     /**
      * Clear the attributes of the parent element.
      */
-    public function clearAttributes() -> <Breadcrumbs>
+    public function clearAttributes() -> <static>
     {
         let this->attributes = [];
 
@@ -225,7 +234,7 @@ class Breadcrumbs extends AbstractHelper
      */
     public function render() -> string
     {
-        var lastUrl, lastElement, element;
+        var data, lastUrl, lastElement, element;
         array output;
         /*
          * Early exit for empty data
@@ -234,13 +243,14 @@ class Breadcrumbs extends AbstractHelper
             return "";
         }
 
-        let output = [];
-        let lastUrl = array_key_last(this->data);
-        let lastElement = this->data[lastUrl];
+        let data        = this->data,
+            output      = [],
+            lastUrl     = array_key_last(data),
+            lastElement = data[lastUrl];
 
-        unset this->data[lastUrl];
+        unset data[lastUrl];
 
-        for element in this->data {
+        for element in data {
             let output[] = this->getLink(this->template["line"], element);
         }
 
@@ -266,7 +276,7 @@ class Breadcrumbs extends AbstractHelper
     /**
      * Set the attributes for the parent element.
      */
-    public function setAttributes(array attributes) -> <Breadcrumbs>
+    public function setAttributes(array attributes) -> <static>
     {
         let this->attributes = attributes;
 
@@ -277,7 +287,7 @@ class Breadcrumbs extends AbstractHelper
      * Set the link prefix prepended to every non-empty link during rendering.
      * When a Url service was injected, calling this method replaces it.
      */
-    public function setPrefix(string prefix) -> <Breadcrumbs>
+    public function setPrefix(string prefix) -> <static>
     {
         let this->prefix = prefix,
             this->url    = null;
@@ -288,7 +298,7 @@ class Breadcrumbs extends AbstractHelper
     /**
      * Set the separator.
      */
-    public function setSeparator(string separator) -> <Breadcrumbs>
+    public function setSeparator(string separator) -> <static>
     {
         let this->separator = separator;
 
@@ -302,7 +312,7 @@ class Breadcrumbs extends AbstractHelper
         string main,
         string line,
         string last
-    ) -> <Breadcrumbs> {
+    ) -> <static> {
         let this->template = [
             "main": main,
             "line": line,

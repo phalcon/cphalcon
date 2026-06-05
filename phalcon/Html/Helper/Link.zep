@@ -23,7 +23,7 @@ class Link extends Style
      * @param string $url
      * @param array  $attributes
      */
-    public function add(string url, array attributes = [], int pos = -1)
+    public function add(string url, array attributes = [], int position = -1) -> <static>
     {
         this->pushOrPlace(
             [
@@ -35,18 +35,10 @@ class Link extends Style
                 ],
                 this->indent()
             ],
-            pos
+            position
         );
 
         return this;
-    }
-
-    /**
-     * @return string
-     */
-    protected function getTag() -> string
-    {
-        return "link";
     }
 
     /**
@@ -68,5 +60,13 @@ class Link extends Style
         unset(attributes["href"]);
 
         return array_merge(required, attributes);
+    }
+
+    /**
+     * @return string
+     */
+    protected function getTag() -> string
+    {
+        return "link";
     }
 }

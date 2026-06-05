@@ -27,7 +27,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Support_Collection_Exception)
 {
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Support\\Collection, Exception, phalcon, support_collection_exception, zend_ce_exception, NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Support\\Collection, Exception, phalcon, support_collection_exception, phalcon_support_exception_ce, NULL, 0);
 
 	return SUCCESS;
 }

@@ -14,12 +14,21 @@ use Phalcon\Di\Di;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\Injectable;
 use Phalcon\Filter\FilterInterface;
+use Phalcon\Filter\Validation\AbstractCombinedFieldsValidator;
+use Phalcon\Filter\Validation\Exception;
+use Phalcon\Filter\Validation\Exceptions\FilterServiceUnavailable;
+use Phalcon\Filter\Validation\Exceptions\InvalidFieldType;
+use Phalcon\Filter\Validation\Exceptions\InvalidFilterService;
+use Phalcon\Filter\Validation\Exceptions\InvalidValidationData;
+use Phalcon\Filter\Validation\Exceptions\InvalidValidator;
+use Phalcon\Filter\Validation\Exceptions\InvalidValidatorScope;
+use Phalcon\Filter\Validation\Exceptions\NoDataToValidate;
+use Phalcon\Filter\Validation\Exceptions\NoValidators;
+use Phalcon\Filter\Validation\Exceptions\ValidationEntityNotObject;
+use Phalcon\Filter\Validation\ValidationInterface;
+use Phalcon\Filter\Validation\ValidatorInterface;
 use Phalcon\Messages\MessageInterface;
 use Phalcon\Messages\Messages;
-use Phalcon\Filter\Validation\ValidationInterface;
-use Phalcon\Filter\Validation\Exception;
-use Phalcon\Filter\Validation\ValidatorInterface;
-use Phalcon\Filter\Validation\AbstractCombinedFieldsValidator;
 
 /**
  * Allows to validate data using custom or built-in validators
@@ -57,9 +66,9 @@ class Validation extends Injectable implements ValidationInterface
     protected labels = [];
 
     /**
-     * @var Messages|null
+     * @var Messages
      */
-    protected messages = null;
+    protected messages;
 
     /**
      * List of validators
@@ -80,6 +89,8 @@ class Validation extends Injectable implements ValidationInterface
      */
     public function __construct(array validators = [])
     {
+        let this->messages = new Messages();
+
         let this->validators = array_filter(
             validators,
             function(var element) {
@@ -108,9 +119,9 @@ class Validation extends Injectable implements ValidationInterface
      * @param string|array       $field
      * @param ValidatorInterface $validator
      *
-     * @return ValidationInterface
+     * @return static
      */
-    public function add(var field, <ValidatorInterface> validator) -> <ValidationInterface>
+    public function add(var field, <ValidatorInterface> validator) -> <static>
     {
         var singleField;
 
@@ -126,9 +137,7 @@ class Validation extends Injectable implements ValidationInterface
         } elseif typeof field == "string" {
             let this->validators[field][] = validator;
         } else {
-            throw new Exception(
-                "Field must be passed as array of fields or string"
-            );
+            throw new InvalidFieldType();
         }
 
         return this;
@@ -139,19 +148,9 @@ class Validation extends Injectable implements ValidationInterface
      *
      * @param MessageInterface $message
      */
-    public function appendMessage(<MessageInterface> message) -> <ValidationInterface>
+    public function appendMessage(<MessageInterface> message) -> <static>
     {
-        var messages;
-
-        let messages = this->messages;
-
-        if typeof messages != "object" {
-            let messages = new Messages();
-        }
-
-        messages->appendMessage(message);
-
-        let this->messages = messages;
+        this->messages->appendMessage(message);
 
         return this;
     }
@@ -172,7 +171,7 @@ class Validation extends Injectable implements ValidationInterface
      * @param array|object $data the data that needs to be validated
      * @param array $whitelist only allow these fields to be mutated when entity is used
      */
-    public function bind(var entity, var data, array whitelist = []) -> <ValidationInterface>
+    public function bind(var entity, var data, array whitelist = []) -> <static>
     {
         var container, field, value, fieldFilters, filterService, filters, method;
 
@@ -189,14 +188,12 @@ class Validation extends Injectable implements ValidationInterface
             let container = Di::getDefault();
 
             if container === null {
-                throw new Exception(
-                    "A dependency injection container is required to access the 'filter' service"
-                );
+                throw new FilterServiceUnavailable();
             }
         }
         let filterService = <FilterInterface> container->getShared("filter");
         if unlikely typeof filterService != "object" {
-            throw new Exception("Returned 'filter' service is invalid");
+            throw new InvalidFilterService();
         }
 
         if empty whitelist {
@@ -392,7 +389,7 @@ class Validation extends Injectable implements ValidationInterface
             }
         } else {
             if unlikely (typeof data != "array" && typeof data != "object") {
-                throw new Exception("There is no data to validate");
+                throw new NoDataToValidate();
             }
             let value = this->getValueByData(data, field);
         }
@@ -411,16 +408,14 @@ class Validation extends Injectable implements ValidationInterface
                     let container = Di::getDefault();
 
                     if container === null {
-                        throw new Exception(
-                            "A dependency injection container is required to access the 'filter' service"
-                        );
+                        throw new FilterServiceUnavailable();
                     }
                 }
 
                 let filterService = <FilterInterface> container->getShared("filter");
 
                 if unlikely typeof filterService != "object" {
-                    throw new Exception("Returned 'filter' service is invalid");
+                    throw new InvalidFilterService();
                 }
 
                 let value = filterService->sanitize(value, fieldFilters);
@@ -458,9 +453,9 @@ class Validation extends Injectable implements ValidationInterface
      * @param string|array       $field
      * @param ValidatorInterface $validator
      *
-     * @return ValidationInterface
+     * @return static
      */
-    public function rule(var field, <ValidatorInterface> validator) -> <ValidationInterface>
+    public function rule(var field, <ValidatorInterface> validator) -> <static>
     {
         return this->add(field, validator);
     }
@@ -468,7 +463,7 @@ class Validation extends Injectable implements ValidationInterface
     /**
      * Adds the validators to a field
      */
-    public function rules(var field, array! validators) -> <ValidationInterface>
+    public function rules(var field, array! validators) -> <static>
     {
         var validator;
 
@@ -489,7 +484,7 @@ class Validation extends Injectable implements ValidationInterface
     public function setEntity(entity) -> void
     {
         if unlikely typeof entity != "object" {
-            throw new Exception("Entity must be an object");
+            throw new ValidationEntityNotObject();
         }
 
         let this->entity = entity;
@@ -501,7 +496,7 @@ class Validation extends Injectable implements ValidationInterface
      * @param string field
      * @param array|string filters
      */
-    public function setFilters(var field, filters) -> <ValidationInterface>
+    public function setFilters(var field, filters) -> <static>
     {
         var singleField;
 
@@ -512,9 +507,7 @@ class Validation extends Injectable implements ValidationInterface
         } elseif typeof field == "string" {
             let this->filters[field] = filters;
         } else {
-            throw new Exception(
-                "Field must be passed as array of fields or string."
-            );
+            throw new InvalidFieldType();
         }
 
         return this;
@@ -528,7 +521,7 @@ class Validation extends Injectable implements ValidationInterface
         let this->labels = labels;
     }
 
-    public function setValidators(array validators) -> <Validation>
+    public function setValidators(array validators) -> <static>
     {
         let this->validators = validators;
 
@@ -569,7 +562,7 @@ class Validation extends Injectable implements ValidationInterface
             combinedFieldsValidators = this->combinedFieldsValidators;
 
         if unlikely typeof validatorData != "array" {
-            throw new Exception("There are no validators to validate");
+            throw new NoValidators();
         }
 
         /**
@@ -584,7 +577,7 @@ class Validation extends Injectable implements ValidationInterface
         if (data !== null) {
             // if data is provided
             if unlikely typeof data != "array" && typeof data != "object" {
-                throw new Exception("Invalid data to validate");
+                throw new InvalidValidationData();
             }
             let this->data = data;
             let inputData = data;
@@ -612,7 +605,7 @@ class Validation extends Injectable implements ValidationInterface
         for field, validators in validatorData {
             for validator in validators {
                 if unlikely typeof validator != "object" {
-                    throw new Exception("One of the validators is not valid");
+                    throw new InvalidValidator();
                 }
 
                 /**
@@ -636,14 +629,14 @@ class Validation extends Injectable implements ValidationInterface
 
         for scope in combinedFieldsValidators {
             if unlikely typeof scope != "array" {
-                throw new Exception("The validator scope is not valid");
+                throw new InvalidValidatorScope();
             }
 
             let field     = scope[0],
                 validator = scope[1];
 
             if unlikely typeof validator != "object" {
-                throw new Exception("One of the validators is not valid");
+                throw new InvalidValidator();
             }
 
             /**
@@ -679,7 +672,7 @@ class Validation extends Injectable implements ValidationInterface
      */
     public function fails() -> bool
     {
-        if unlikely !is_null(this->messages) && this->messages->count() > 0 {
+        if this->messages->count() > 0 {
             return true;
         }
 

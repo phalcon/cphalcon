@@ -92,12 +92,12 @@ PHP_METHOD(Phalcon_Db_RawValue, __construct)
 PHP_METHOD(Phalcon_Db_RawValue, __toString)
 {
 
-	RETURN_MEMBER(getThis(), "value");
+	RETURN_MEMBER_TYPED(getThis(), "value", IS_STRING);
 }
 
 PHP_METHOD(Phalcon_Db_RawValue, getValue)
 {
 
-	RETURN_MEMBER(getThis(), "value");
+	RETURN_MEMBER_TYPED(getThis(), "value", IS_STRING);
 }
 

@@ -13,8 +13,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Support\Models;
 
-use Phalcon\Mvc\Model;
-
 /**
  * Class Customers
  *

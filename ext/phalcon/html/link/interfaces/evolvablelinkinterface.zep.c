@@ -32,6 +32,16 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Link_Interfaces_EvolvableLinkInterface)
 }
 
 /**
+ * Returns an instance with the specified attribute added.
+ *
+ * If the specified attribute is already present, it will be overwritten
+ * with the new value.
+ *
+ * @param string $attribute The attribute to include.
+ * @param string $value     The value of the attribute to set.
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Html_Link_Interfaces_EvolvableLinkInterface, withAttribute);
+/**
  * Returns an instance with the specified href.
  *
  * @param string $href
@@ -57,25 +67,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Html_Link_Interfaces_EvolvableLinkInterface, withHref)
  */
 ZEPHIR_DOC_METHOD(Phalcon_Html_Link_Interfaces_EvolvableLinkInterface, withRel);
 /**
- * Returns an instance with the specified relationship excluded.
- *
- * If the specified rel is already not present, this method MUST return
- * normally without errors.
- *
- * @param string $rel The relationship value to exclude.
- */
-ZEPHIR_DOC_METHOD(Phalcon_Html_Link_Interfaces_EvolvableLinkInterface, withoutRel);
-/**
- * Returns an instance with the specified attribute added.
- *
- * If the specified attribute is already present, it will be overwritten
- * with the new value.
- *
- * @param string $attribute The attribute to include.
- * @param string $value     The value of the attribute to set.
- */
-ZEPHIR_DOC_METHOD(Phalcon_Html_Link_Interfaces_EvolvableLinkInterface, withAttribute);
-/**
  * Returns an instance with the specified attribute excluded.
  *
  * If the specified attribute is not present, this method MUST return
@@ -84,3 +75,12 @@ ZEPHIR_DOC_METHOD(Phalcon_Html_Link_Interfaces_EvolvableLinkInterface, withAttri
  * @param string $attribute The attribute to remove.
  */
 ZEPHIR_DOC_METHOD(Phalcon_Html_Link_Interfaces_EvolvableLinkInterface, withoutAttribute);
+/**
+ * Returns an instance with the specified relationship excluded.
+ *
+ * If the specified rel is already not present, this method MUST return
+ * normally without errors.
+ *
+ * @param string $rel The relationship value to exclude.
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Html_Link_Interfaces_EvolvableLinkInterface, withoutRel);

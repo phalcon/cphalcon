@@ -26,11 +26,6 @@
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
-/**
- * Class IndexedArray
- *
- * @package Phalcon\Translate\Interpolator
- */
 ZEPHIR_INIT_CLASS(Phalcon_Translate_Interpolator_IndexedArray)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Translate\\Interpolator, IndexedArray, phalcon, translate_interpolator_indexedarray, phalcon_translate_interpolator_indexedarray_method_entry, 0);
@@ -42,8 +37,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Translate_Interpolator_IndexedArray)
 /**
  * Replaces placeholders by the values passed
  *
- * @param string $translation
- * @param array  $placeholders
+ * @phpstan-param array<string, string> $placeholders
  *
  * @return string
  */
@@ -52,11 +46,10 @@ PHP_METHOD(Phalcon_Translate_Interpolator_IndexedArray, replacePlaceholders)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval placeholders;
-	zval translation_zv, *placeholders_param = NULL, _0$$3;
+	zval translation_zv, *placeholders_param = NULL;
 	zend_string *translation = NULL;
 
 	ZVAL_UNDEF(&translation_zv);
-	ZVAL_UNDEF(&_0$$3);
 	ZVAL_UNDEF(&placeholders);
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(translation)
@@ -68,6 +61,7 @@ PHP_METHOD(Phalcon_Translate_Interpolator_IndexedArray, replacePlaceholders)
 	if (ZEND_NUM_ARGS() > 1) {
 		placeholders_param = ZEND_CALL_ARG(execute_data, 2);
 	}
+	zephir_memory_observe(&translation_zv);
 	ZVAL_STR_COPY(&translation_zv, translation);
 	if (!placeholders_param) {
 		ZEPHIR_INIT_VAR(&placeholders);
@@ -76,13 +70,7 @@ PHP_METHOD(Phalcon_Translate_Interpolator_IndexedArray, replacePlaceholders)
 		zephir_get_arrval(&placeholders, placeholders_param);
 	}
 	if (1 != ZEPHIR_IS_EMPTY(&placeholders)) {
-		ZEPHIR_MAKE_REF(&placeholders);
-		ZEPHIR_CALL_FUNCTION(NULL, "array_unshift", NULL, 293, &placeholders, &translation_zv);
-		ZEPHIR_UNREF(&placeholders);
-		zephir_check_call_status();
-		ZEPHIR_INIT_VAR(&_0$$3);
-		ZVAL_STRING(&_0$$3, "sprintf");
-		ZEPHIR_CALL_USER_FUNC_ARRAY(return_value, &_0$$3, &placeholders);
+		ZEPHIR_RETURN_CALL_FUNCTION("vsprintf", NULL, 0, &translation_zv, &placeholders);
 		zephir_check_call_status();
 		RETURN_MM();
 	}

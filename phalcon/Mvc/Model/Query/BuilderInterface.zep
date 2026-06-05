@@ -13,8 +13,6 @@ namespace Phalcon\Mvc\Model\Query;
 use Phalcon\Mvc\Model\QueryInterface;
 
 /**
- * Phalcon\Mvc\Model\Query\BuilderInterface
- *
  * Interface for Phalcon\Mvc\Model\Query\Builder
  */
 interface BuilderInterface
@@ -157,7 +155,7 @@ interface BuilderInterface
     /**
      * Returns the HAVING condition clause
      */
-    public function getHaving() -> string;
+    public function getHaving() -> string | null;
 
     /**
      * Return join parts of the query
@@ -170,6 +168,11 @@ interface BuilderInterface
      * @return string|array
      */
     public function getLimit();
+
+    /**
+     * Returns the models involved in the query
+     */
+    public function getModels() -> string | array | null;
 
     /**
      * Returns the current OFFSET clause
@@ -245,11 +248,6 @@ interface BuilderInterface
     public function limit(int limit, offset = null) -> <BuilderInterface>;
 
     /**
-     * Returns the models involved in the query
-     */
-    public function getModels() -> string | array | null;
-
-    /**
      * Appends a NOT BETWEEN condition to the current conditions
      *
      * @param mixed minimum
@@ -268,16 +266,16 @@ interface BuilderInterface
     public function offset(int offset) -> <BuilderInterface>;
 
     /**
+     * Appends a condition to the current conditions using an OR operator
+     */
+    public function orWhere(string conditions, array bindParams = [], array bindTypes = []) -> <BuilderInterface>;
+
+    /**
      * Sets an ORDER BY condition clause
      *
      * @param array|string orderBy
      */
     public function orderBy(var orderBy) -> <BuilderInterface>;
-
-    /**
-     * Appends a condition to the current conditions using an OR operator
-     */
-    public function orWhere(string conditions, array bindParams = [], array bindTypes = []) -> <BuilderInterface>;
 
     /**
      * Adds a RIGHT join to the query

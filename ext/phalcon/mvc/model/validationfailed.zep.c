@@ -40,13 +40,13 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_ValidationFailed)
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model, ValidationFailed, phalcon, mvc_model_validationfailed, phalcon_mvc_model_exception_ce, phalcon_mvc_model_validationfailed_method_entry, 0);
 
 	/**
-	 * @var array
-	 */
-	zend_declare_property_null(phalcon_mvc_model_validationfailed_ce, SL("messages"), ZEND_ACC_PROTECTED);
-	/**
 	 * @var ModelInterface
 	 */
 	zend_declare_property_null(phalcon_mvc_model_validationfailed_ce, SL("model"), ZEND_ACC_PROTECTED);
+	/**
+	 * @var array
+	 */
+	zend_declare_property_null(phalcon_mvc_model_validationfailed_ce, SL("validationMessages"), ZEND_ACC_PROTECTED);
 	phalcon_mvc_model_validationfailed_ce->create_object = zephir_init_properties_Phalcon_Mvc_Model_ValidationFailed;
 
 	return SUCCESS;
@@ -88,7 +88,7 @@ PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, __construct)
 		ZVAL_STRING(&messageStr, "Validation failed");
 	}
 	zephir_update_property_zval(this_ptr, ZEND_STRL("model"), model);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("messages"), &validationMessages);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("validationMessages"), &validationMessages);
 	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_model_validationfailed_ce, getThis(), "__construct", NULL, 0, &messageStr);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
@@ -100,7 +100,7 @@ PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, __construct)
 PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, getMessages)
 {
 
-	RETURN_MEMBER(getThis(), "messages");
+	RETURN_MEMBER_TYPED(getThis(), "validationMessages", IS_ARRAY);
 }
 
 /**
@@ -126,11 +126,11 @@ zend_object *zephir_init_properties_Phalcon_Mvc_Model_ValidationFailed(zend_clas
 	{
 		zval local_this_ptr, *this_ptr = &local_this_ptr;
 		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		zephir_read_property_ex(&_0, this_ptr, ZEND_STRL("messages"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_ex(&_0, this_ptr, ZEND_STRL("validationMessages"), PH_NOISY_CC | PH_READONLY);
 		if (Z_TYPE_P(&_0) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_1$$3);
 			array_init(&_1$$3);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("messages"), &_1$$3);
+			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("validationMessages"), &_1$$3);
 		}
 		ZEPHIR_MM_RESTORE();
 		return Z_OBJ_P(this_ptr);

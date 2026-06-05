@@ -31,6 +31,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_ComponentInterface)
 }
 
 /**
+ * Magic method __toString
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Acl_ComponentInterface, __toString);
+/**
  * Returns component description
  */
 ZEPHIR_DOC_METHOD(Phalcon_Acl_ComponentInterface, getDescription);
@@ -38,7 +42,3 @@ ZEPHIR_DOC_METHOD(Phalcon_Acl_ComponentInterface, getDescription);
  * Returns the component name
  */
 ZEPHIR_DOC_METHOD(Phalcon_Acl_ComponentInterface, getName);
-/**
- * Magic method __toString
- */
-ZEPHIR_DOC_METHOD(Phalcon_Acl_ComponentInterface, __toString);

@@ -10,6 +10,7 @@
 
 namespace Phalcon\Flash;
 
+use Phalcon\Flash\Exceptions\SessionServiceUnavailable;
 use Phalcon\Session\ManagerInterface;
 
 /**
@@ -203,8 +204,6 @@ class Session extends AbstractFlash
             return this->sessionService;
         }
 
-        throw new Exception(
-            "A dependency injection container is required to access the 'session' service"
-        );
+        throw new SessionServiceUnavailable();
     }
 }

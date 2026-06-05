@@ -12,7 +12,6 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/memory.h"
 #include "kernel/object.h"
 
 
@@ -20,23 +19,18 @@ ZEPHIR_INIT_CLASS(phalcon_9__closure)
 {
 	ZEPHIR_REGISTER_CLASS(phalcon, 9__closure, phalcon, 9__closure, phalcon_9__closure_method_entry, ZEND_ACC_FINAL_CLASS);
 
+	zend_declare_property_null(phalcon_9__closure_ce, SL("definition"), ZEND_ACC_PUBLIC|ZEND_ACC_STATIC);
 	return SUCCESS;
 }
 
 PHP_METHOD(phalcon_9__closure, __invoke)
 {
-	zend_bool _0;
-	zval *element, element_sub;
+	zval definition;
 
-	ZVAL_UNDEF(&element_sub);
-	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_ZVAL(element)
-	ZEND_PARSE_PARAMETERS_END();
-	zephir_fetch_params_without_memory_grow(1, 0, &element);
-	_0 = Z_TYPE_P(element) == IS_LONG;
-	if (!(_0)) {
-		_0 = Z_TYPE_P(element) == IS_STRING;
-	}
-	RETURN_BOOL(_0);
+	ZVAL_UNDEF(&definition);
+	zephir_read_static_property_ce(&definition, phalcon_9__closure_ce, SL("definition"), PH_NOISY_CC);
+
+	RETVAL_ZVAL(&definition, 1, 0);
+	return;
 }
 

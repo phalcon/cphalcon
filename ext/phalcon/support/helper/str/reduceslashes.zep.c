@@ -57,12 +57,13 @@ PHP_METHOD(Phalcon_Support_Helper_Str_ReduceSlashes, __invoke)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&text_zv);
 	ZVAL_STR_COPY(&text_zv, text);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "#(?<!:)//+#");
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "/");
-	ZEPHIR_CALL_FUNCTION(&result, "preg_replace", NULL, 47, &_0, &_1, &text_zv);
+	ZEPHIR_CALL_FUNCTION(&result, "preg_replace", NULL, 76, &_0, &_1, &text_zv);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_0);
 	if (Z_TYPE_P(&result) == IS_NULL) {

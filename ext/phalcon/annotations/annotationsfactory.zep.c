@@ -123,7 +123,7 @@ PHP_METHOD(Phalcon_Annotations_AnnotationsFactory, load)
 	array_init(&_2);
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, "options");
-	ZEPHIR_CALL_METHOD(&options, &_1, "__invoke", NULL, 164, config, &_3, &_2);
+	ZEPHIR_CALL_METHOD(&options, &_1, "__invoke", NULL, 265, config, &_3, &_2);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "newinstance", NULL, 0, &name, &options);
 	zephir_check_call_status();
@@ -162,6 +162,7 @@ PHP_METHOD(Phalcon_Annotations_AnnotationsFactory, newInstance)
 	if (ZEND_NUM_ARGS() > 1) {
 		options_param = ZEND_CALL_ARG(execute_data, 2);
 	}
+	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
 	if (!options_param) {
 		ZEPHIR_INIT_VAR(&options);

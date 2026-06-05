@@ -11,8 +11,6 @@
 namespace Phalcon\Mvc\Router;
 
 /**
- * Phalcon\Mvc\Router\Group
- *
  * Helper class to create a group of routes with common attributes
  *
  *```php
@@ -108,14 +106,14 @@ class Group implements GroupInterface
      * $router->add("/about", "About::index");
      *```
      *
-     * @param string pattenr
+     * @param string pattern
      * @param string|array paths = [
      *     'module => '',
      *     'controller' => '',
      *     'action' => '',
      *     'namespace' => ''
      * ]
-     * @param httpMethods array|string|null
+     * @param array|string|null httpMethods
      *
      * @return RouteInterface
      */
@@ -309,11 +307,11 @@ class Group implements GroupInterface
      * The developer can implement any arbitrary conditions here
      * If the callback returns false the route is treated as not matched
      *
-     * @paramm callable beforeMatch
+     * @param callable beforeMatch
      *
      * @return GroupInterface
      */
-     public function beforeMatch(callable beforeMatch) -> <GroupInterface>
+    public function beforeMatch(callable beforeMatch) -> <GroupInterface>
     {
         let this->beforeMatch = beforeMatch;
 
@@ -331,7 +329,7 @@ class Group implements GroupInterface
     /**
      * Returns the 'before match' callback if any
      */
-    public function getBeforeMatch() -> callable
+    public function getBeforeMatch() -> callable | null
     {
         return this->beforeMatch;
     }
@@ -347,7 +345,7 @@ class Group implements GroupInterface
     /**
      * Returns the common paths defined for this group
      */
-    public function getPaths() -> array | string
+    public function getPaths() -> array | string | null
     {
         return this->paths;
     }
@@ -355,7 +353,7 @@ class Group implements GroupInterface
     /**
      * Returns the common prefix for all the routes
      */
-    public function getPrefix() -> string
+    public function getPrefix() -> string | null
     {
         return this->prefix;
     }

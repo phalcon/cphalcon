@@ -45,10 +45,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Arr_Group)
  */
 PHP_METHOD(Phalcon_Support_Helper_Arr_Group, __invoke)
 {
+	zend_bool _6;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_3 = NULL, *_4 = NULL, *_5 = NULL;
+	zephir_fcall_cache_entry *_2 = NULL, *_3 = NULL, *_4 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *collection_param = NULL, *method, method_sub, element, filtered, *_0, _1, _2$$3, _6$$4;
+	zval *collection_param = NULL, *method, method_sub, element, filtered, *_0, _5, _1$$3, _7$$4;
 	zval collection;
 	zval *this_ptr = getThis();
 
@@ -56,9 +57,9 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Group, __invoke)
 	ZVAL_UNDEF(&method_sub);
 	ZVAL_UNDEF(&element);
 	ZVAL_UNDEF(&filtered);
-	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_2$$3);
-	ZVAL_UNDEF(&_6$$4);
+	ZVAL_UNDEF(&_5);
+	ZVAL_UNDEF(&_1$$3);
+	ZVAL_UNDEF(&_7$$4);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		ZEPHIR_Z_PARAM_ARRAY(collection, collection_param)
 		Z_PARAM_ZVAL(method)
@@ -75,38 +76,43 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Group, __invoke)
 		{
 			ZEPHIR_INIT_NVAR(&element);
 			ZVAL_COPY(&element, _0);
-			ZEPHIR_CALL_METHOD(&_2$$3, this_ptr, "processcallable", &_3, 0, &filtered, method, &element);
+			ZEPHIR_CALL_METHOD(&_1$$3, this_ptr, "processcallable", &_2, 0, &filtered, method, &element);
 			zephir_check_call_status();
-			ZEPHIR_CPY_WRT(&filtered, &_2$$3);
-			ZEPHIR_CALL_METHOD(&_2$$3, this_ptr, "processobject", &_4, 0, &filtered, method, &element);
+			ZEPHIR_CPY_WRT(&filtered, &_1$$3);
+			ZEPHIR_CALL_METHOD(&_1$$3, this_ptr, "processobject", &_3, 0, &filtered, method, &element);
 			zephir_check_call_status();
-			ZEPHIR_CPY_WRT(&filtered, &_2$$3);
-			ZEPHIR_CALL_METHOD(&_2$$3, this_ptr, "processother", &_5, 0, &filtered, method, &element);
+			ZEPHIR_CPY_WRT(&filtered, &_1$$3);
+			ZEPHIR_CALL_METHOD(&_1$$3, this_ptr, "processother", &_4, 0, &filtered, method, &element);
 			zephir_check_call_status();
-			ZEPHIR_CPY_WRT(&filtered, &_2$$3);
+			ZEPHIR_CPY_WRT(&filtered, &_1$$3);
 		} ZEND_HASH_FOREACH_END();
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, &collection, "rewind", NULL, 0);
 		zephir_check_call_status();
+		_6 = 1;
 		while (1) {
-			ZEPHIR_CALL_METHOD(&_1, &collection, "valid", NULL, 0);
+			if (_6) {
+				_6 = 0;
+			} else {
+				ZEPHIR_CALL_METHOD(NULL, &collection, "next", NULL, 0);
+				zephir_check_call_status();
+			}
+			ZEPHIR_CALL_METHOD(&_5, &collection, "valid", NULL, 0);
 			zephir_check_call_status();
-			if (!zend_is_true(&_1)) {
+			if (!zend_is_true(&_5)) {
 				break;
 			}
 			ZEPHIR_CALL_METHOD(&element, &collection, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_6$$4, this_ptr, "processcallable", &_3, 0, &filtered, method, &element);
+				ZEPHIR_CALL_METHOD(&_7$$4, this_ptr, "processcallable", &_2, 0, &filtered, method, &element);
 				zephir_check_call_status();
-				ZEPHIR_CPY_WRT(&filtered, &_6$$4);
-				ZEPHIR_CALL_METHOD(&_6$$4, this_ptr, "processobject", &_4, 0, &filtered, method, &element);
+				ZEPHIR_CPY_WRT(&filtered, &_7$$4);
+				ZEPHIR_CALL_METHOD(&_7$$4, this_ptr, "processobject", &_3, 0, &filtered, method, &element);
 				zephir_check_call_status();
-				ZEPHIR_CPY_WRT(&filtered, &_6$$4);
-				ZEPHIR_CALL_METHOD(&_6$$4, this_ptr, "processother", &_5, 0, &filtered, method, &element);
+				ZEPHIR_CPY_WRT(&filtered, &_7$$4);
+				ZEPHIR_CALL_METHOD(&_7$$4, this_ptr, "processother", &_4, 0, &filtered, method, &element);
 				zephir_check_call_status();
-				ZEPHIR_CPY_WRT(&filtered, &_6$$4);
-			ZEPHIR_CALL_METHOD(NULL, &collection, "next", NULL, 0);
-			zephir_check_call_status();
+				ZEPHIR_CPY_WRT(&filtered, &_7$$4);
 		}
 	}
 	ZEPHIR_INIT_NVAR(&element);
@@ -173,7 +179,7 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Group, processCallable)
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "iscallable", NULL, 0, method);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_TRUE_IDENTICAL(&_0)) {
-		ZEPHIR_CALL_FUNCTION(&key, "call_user_func", NULL, 193, method, element);
+		ZEPHIR_CALL_FUNCTION(&key, "call_user_func", NULL, 334, method, element);
 		zephir_check_call_status();
 		zephir_array_update_multi(&output, element, SL("za"), 2, &key);
 	}
@@ -267,7 +273,7 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Group, processOther)
 	}
 	_2 = _1;
 	if (_2) {
-		_2 = 1 == zephir_array_isset(element, method);
+		_2 = 1 == zephir_array_isset_value(element, method);
 	}
 	if (_2) {
 		zephir_memory_observe(&key$$3);

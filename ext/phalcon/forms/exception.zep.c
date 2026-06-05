@@ -48,7 +48,7 @@ PHP_METHOD(Phalcon_Forms_Exception, tagFactoryNotFound)
 	object_init_ex(return_value, phalcon_forms_exception_ce);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "A TagFactory must be provided via setTagFactory() or through a parent Form");
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 38, &_0);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 8, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -66,7 +66,7 @@ PHP_METHOD(Phalcon_Forms_Exception, usingParameterRequired)
 	object_init_ex(return_value, phalcon_forms_exception_ce);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "The 'using' parameter is required for resultset options");
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 38, &_0);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 8, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }

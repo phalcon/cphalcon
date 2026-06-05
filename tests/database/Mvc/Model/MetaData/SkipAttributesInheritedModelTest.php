@@ -82,7 +82,7 @@ final class SkipAttributesInheritedModelTest extends AbstractDatabaseTestCase
 
         /**
          * skipAttributes() registered in the parent's initialize() must still
-         * be honoured on the child after the fix.
+         * be honored on the child after the fix.
          */
         $expected = ['inv_created_at' => null];
         $actual   = $adapter->getAutomaticCreateAttributes($child);

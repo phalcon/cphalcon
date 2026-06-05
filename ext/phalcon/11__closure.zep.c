@@ -12,6 +12,7 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/fcall.h"
 #include "kernel/memory.h"
 #include "kernel/object.h"
 
@@ -25,20 +26,20 @@ ZEPHIR_INIT_CLASS(phalcon_11__closure)
 
 PHP_METHOD(phalcon_11__closure, __invoke)
 {
-	zval *number, number_sub, *message, message_sub, *file, file_sub, *line, line_sub, __$true;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *container, container_sub;
 
-	ZVAL_UNDEF(&number_sub);
-	ZVAL_UNDEF(&message_sub);
-	ZVAL_UNDEF(&file_sub);
-	ZVAL_UNDEF(&line_sub);
-	ZVAL_BOOL(&__$true, 1);
-	ZEND_PARSE_PARAMETERS_START(4, 4)
-		Z_PARAM_ZVAL(number)
-		Z_PARAM_ZVAL(message)
-		Z_PARAM_ZVAL(file)
-		Z_PARAM_ZVAL(line)
+	ZVAL_UNDEF(&container_sub);
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(container)
 	ZEND_PARSE_PARAMETERS_END();
-	zephir_fetch_params_without_memory_grow(4, 0, &number, &message, &file, &line);
-	ZEPHIR_GLOBAL(warning).enable = zend_is_true(&__$true);
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_fetch_params(1, 1, 0, &container);
+	object_init_ex(return_value, phalcon_auth_access_accesslocator_ce);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 320, container);
+	zephir_check_call_status();
+	RETURN_MM();
 }
 

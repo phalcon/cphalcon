@@ -10,6 +10,8 @@
 
 namespace Phalcon\Acl;
 
+use Phalcon\Acl\Exceptions\ForbiddenWildcard;
+
 /**
  * This class defines role entity and its description
  */
@@ -18,7 +20,7 @@ class Role implements RoleInterface
     /**
      * Role description
      *
-     * @var string
+     * @var string | null
      */
     private description;
 
@@ -35,7 +37,7 @@ class Role implements RoleInterface
     public function __construct(string! name, string description = null)
     {
         if unlikely name === "*" {
-            throw new Exception("Role name cannot be '*'");
+            throw new ForbiddenWildcard("role");
         }
 
         let this->name = name,
@@ -47,7 +49,7 @@ class Role implements RoleInterface
         return this->name;
     }
 
-    public function getDescription() -> string
+    public function getDescription() -> string | null
     {
         return this->description;
     }

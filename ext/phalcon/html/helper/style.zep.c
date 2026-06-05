@@ -51,15 +51,15 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Style)
  * @param string $url
  * @param array  $attributes
  *
- * @return $this
+ * @return static
  * @throws Exception
  */
 PHP_METHOD(Phalcon_Html_Helper_Style, add)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long pos, ZEPHIR_LAST_CALL_STATUS;
+	zend_long position, ZEPHIR_LAST_CALL_STATUS;
 	zval attributes, _0, _2;
-	zval url_zv, *attributes_param = NULL, *pos_param = NULL, _1, _3, _4;
+	zval url_zv, *attributes_param = NULL, *position_param = NULL, _1, _3, _4;
 	zend_string *url = NULL;
 	zval *this_ptr = getThis();
 
@@ -74,7 +74,7 @@ PHP_METHOD(Phalcon_Html_Helper_Style, add)
 		Z_PARAM_STR(url)
 		Z_PARAM_OPTIONAL
 		ZEPHIR_Z_PARAM_ARRAY(attributes, attributes_param)
-		Z_PARAM_LONG(pos)
+		Z_PARAM_LONG(position)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
@@ -82,8 +82,9 @@ PHP_METHOD(Phalcon_Html_Helper_Style, add)
 		attributes_param = ZEND_CALL_ARG(execute_data, 2);
 	}
 	if (ZEND_NUM_ARGS() > 2) {
-		pos_param = ZEND_CALL_ARG(execute_data, 3);
+		position_param = ZEND_CALL_ARG(execute_data, 3);
 	}
+	zephir_memory_observe(&url_zv);
 	ZVAL_STR_COPY(&url_zv, url);
 	if (!attributes_param) {
 		ZEPHIR_INIT_VAR(&attributes);
@@ -91,8 +92,8 @@ PHP_METHOD(Phalcon_Html_Helper_Style, add)
 	} else {
 		zephir_get_arrval(&attributes, attributes_param);
 	}
-	if (!pos_param) {
-		pos = -1;
+	if (!position_param) {
+		position = -1;
 	} else {
 		}
 	ZEPHIR_INIT_VAR(&_0);
@@ -115,7 +116,7 @@ PHP_METHOD(Phalcon_Html_Helper_Style, add)
 	ZEPHIR_CALL_METHOD(&_3, this_ptr, "indent", NULL, 0);
 	zephir_check_call_status();
 	zephir_array_fast_append(&_0, &_3);
-	ZVAL_LONG(&_4, pos);
+	ZVAL_LONG(&_4, position);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "pushorplace", NULL, 0, &_0, &_4);
 	zephir_check_call_status();
 	RETURN_THIS();
@@ -173,6 +174,7 @@ PHP_METHOD(Phalcon_Html_Helper_Style, getAttributes)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	attributes_param = ZEND_CALL_ARG(execute_data, 2);
+	zephir_memory_observe(&url_zv);
 	ZVAL_STR_COPY(&url_zv, url);
 	zephir_get_arrval(&attributes, attributes_param);
 	ZEPHIR_INIT_VAR(&required);

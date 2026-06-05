@@ -13,19 +13,20 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Support\Collection;
 
+use Phalcon\Support\Collection;
+use Phalcon\Support\Collection\Exception;
+use Phalcon\Support\Collection\ReadOnlyCollection;
+
 final class ClearTest extends AbstractCollectionTestCase
 {
     /**
-     * @dataProvider getClasses
-     *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2020-09-09
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
      */
-    public function testSupportCollectionClear(
-        string $class,
-    ): void {
+    public function testSupportCollectionClear(): void
+    {
         $data = $this->getData();
-        $collection = new $class($data);
+        $collection = new Collection($data);
 
         $expected = $data;
         $actual = $collection->toArray();
@@ -36,5 +37,16 @@ final class ClearTest extends AbstractCollectionTestCase
         $expected = 0;
         $actual = $collection->count();
         $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-11
+     */
+    public function testSupportCollectionReadOnlyClearThrows(): void
+    {
+        $this->expectException(Exception::class);
+
+        (new ReadOnlyCollection(['a' => 1]))->clear();
     }
 }

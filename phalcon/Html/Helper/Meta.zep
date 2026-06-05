@@ -26,9 +26,9 @@ class Meta extends AbstractSeries
      *
      * @param array $attributes
      *
-     * @return Meta
+     * @return static
      */
-    public function add(array attributes = [], int pos = -1) -> <Meta>
+    public function add(array attributes = [], int position = -1) -> <static>
     {
         this->pushOrPlace(
             [
@@ -39,7 +39,7 @@ class Meta extends AbstractSeries
                 ],
                 this->indent()
             ],
-            pos
+            position
         );
 
         return this;
@@ -48,27 +48,27 @@ class Meta extends AbstractSeries
     /**
      * @param string $httpEquiv
      * @param string $content
-     * @param int    $pos
+     * @param int    $position
      *
-     * @return Meta
+     * @return static
      * @throws Exception
      */
-    public function addHttp(string httpEquiv, string content, int pos = -1) -> <Meta>
+    public function addHttp(string httpEquiv, string content, int position = -1) -> <static>
     {
-        return this->addElement("http-equiv", httpEquiv, content, pos);
+        return this->addElement("http-equiv", httpEquiv, content, position);
     }
 
     /**
      * @param string $name
      * @param string $content
-     * @param int    $pos
+     * @param int    $position
      *
-     * @return Meta
+     * @return static
      * @throws Exception
      */
-    public function addName(string name, string content, int pos = -1) -> <Meta>
+    public function addName(string name, string content, int position = -1) -> <static>
     {
-        this->addElement("name", name, content, pos);
+        this->addElement("name", name, content, position);
 
         return this;
     }
@@ -76,14 +76,14 @@ class Meta extends AbstractSeries
     /**
      * @param string $name
      * @param string $content
-     * @param int    $pos
+     * @param int    $position
      *
-     * @return Meta
+     * @return static
      * @throws Exception
      */
-    public function addProperty(string name, string content, int pos = -1) -> <Meta>
+    public function addProperty(string name, string content, int position = -1) -> <static>
     {
-        this->addElement("property", name, content, pos);
+        this->addElement("property", name, content, position);
 
         return this;
     }
@@ -100,17 +100,17 @@ class Meta extends AbstractSeries
      * @param string $element
      * @param string $value
      * @param string $content
-     * @param int    $pos
+     * @param int    $position
      *
-     * @return Meta
+     * @return static
      * @throws Exception
      */
     private function addElement(
         string element,
         string value,
         string content,
-        int pos = -1
-    ) -> <Meta> {
+        int position = -1
+    ) -> <static> {
         array attributes;
 
         let attributes = [
@@ -118,6 +118,6 @@ class Meta extends AbstractSeries
             "content" : content
         ];
 
-        return this->add(attributes, pos);
+        return this->add(attributes, position);
     }
 }

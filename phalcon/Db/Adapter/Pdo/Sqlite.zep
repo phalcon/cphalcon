@@ -15,6 +15,7 @@ use Phalcon\Db\Column;
 use Phalcon\Db\ColumnInterface;
 use Phalcon\Db\Enum;
 use Phalcon\Db\Exception;
+use Phalcon\Db\Exceptions\MissingSqliteDatabase;
 use Phalcon\Db\Index;
 use Phalcon\Db\IndexInterface;
 use Phalcon\Db\RawValue;
@@ -77,9 +78,7 @@ class Sqlite extends PdoAdapter
 
             unset descriptor["dbname"];
         } elseif unlikely !isset descriptor["dsn"] {
-            throw new Exception(
-                "The database must be specified with either 'dbname' or 'dsn'."
-            );
+            throw new MissingSqliteDatabase();
         }
 
         parent::connect(descriptor);
@@ -97,7 +96,7 @@ class Sqlite extends PdoAdapter
     public function describeColumns(string! table, string! schema = null) -> <ColumnInterface[]>
     {
         var columns, columnType, fields, field, definition, oldColumn,
-            sizePattern, matches, matchOne, matchTwo, columnName;
+            sizePattern, matches, matchOne, matchTwo, columnName, hiddenFlag;
 
         let oldColumn = null,
             sizePattern = "#\\(([0-9]+)(?:,\\s*([0-9]+))*\\)#";
@@ -297,15 +296,32 @@ class Sqlite extends PdoAdapter
             }
 
             /**
-             * Check if the column is default values
-             * When field is empty default value is null
+             * Detect a generated/computed column from the `table_xinfo`
+             * `hidden` flag (field index 6). 2 = VIRTUAL, 3 = STORED.
+             * SQLite does not expose the expression through any pragma, so
+             * `getGenerationExpression()` round-trips as an empty string
+             * (documented limitation - cphalcon issue [#14719] umbrella).
              */
-            if !empty(field[4]) && strcasecmp(field[4], "null") !== 0 {
-                let definition["default"] = preg_replace(
-                    "/^'|'$/",
-                    "",
-                    field[4]
-                );
+            let hiddenFlag = 0;
+            if isset field[6] {
+                let hiddenFlag = (int) field[6];
+            }
+
+            if hiddenFlag === 2 || hiddenFlag === 3 {
+                let definition["generated"] = "";
+                let definition["generationStored"] = (hiddenFlag === 3);
+            } else {
+                /**
+                 * Check if the column is default values
+                 * When field is empty default value is null
+                 */
+                if !empty(field[4]) && strcasecmp(field[4], "null") !== 0 {
+                    let definition["default"] = preg_replace(
+                        "/^'|'$/",
+                        "",
+                        field[4]
+                    );
+                }
             }
 
             /**

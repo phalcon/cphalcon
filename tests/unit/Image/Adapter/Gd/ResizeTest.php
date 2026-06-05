@@ -59,61 +59,61 @@ final class ResizeTest extends AbstractUnitTestCase
                 Enum::TENSILE,
                 null,
                 199,
-                'width and height must be specified',
+                'Width and height must be specified',
             ],
             [
                 Enum::TENSILE,
                 199,
                 null,
-                'width and height must be specified',
+                'Width and height must be specified',
             ],
             [
                 Enum::AUTO,
                 null,
                 199,
-                'width and height must be specified',
+                'Width and height must be specified',
             ],
             [
                 Enum::AUTO,
                 199,
                 null,
-                'width and height must be specified',
+                'Width and height must be specified',
             ],
             [
                 Enum::INVERSE,
                 null,
                 199,
-                'width and height must be specified',
+                'Width and height must be specified',
             ],
             [
                 Enum::INVERSE,
                 199,
                 null,
-                'width and height must be specified',
+                'Width and height must be specified',
             ],
             [
                 Enum::PRECISE,
                 null,
                 199,
-                'width and height must be specified',
+                'Width and height must be specified',
             ],
             [
                 Enum::PRECISE,
                 199,
                 null,
-                'width and height must be specified',
+                'Width and height must be specified',
             ],
             [
                 Enum::WIDTH,
                 199,
                 null,
-                'width must be specified',
+                'Width must be specified',
             ],
             [
                 Enum::HEIGHT,
                 null,
                 199,
-                'height must be specified',
+                'Height must be specified',
             ],
         ];
     }
@@ -160,7 +160,7 @@ final class ResizeTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-28
      *
-     * @issue  16316
+     * @issue  https://github.com/phalcon/cphalcon/issues/16316
      */
     public function testImageAdapterGdResizePreservesTransparency(): void
     {

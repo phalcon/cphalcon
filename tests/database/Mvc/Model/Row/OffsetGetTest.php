@@ -37,4 +37,25 @@ final class OffsetGetTest extends AbstractDatabaseTestCase
             $row['inv_title']
         );
     }
+
+    /**
+     * Regression coverage for [#17041]: reading a property that exists on
+     * the row but holds a null value must return null - not throw - so
+     * Resultset\Complex rows with NULL columns can be accessed via the
+     * ArrayAccess contract without `property_exists` guards.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-21
+     *
+     * @group mysql
+     * @group pgsql
+     * @group sqlite
+     */
+    public function testMvcModelRowOffsetGetReturnsNullForNullValuedColumn(): void
+    {
+        $row = new Row();
+        $row->writeAttribute('inv_discount', null);
+
+        $this->assertNull($row['inv_discount']);
+    }
 }

@@ -24,23 +24,21 @@ interface AdapterInterface
      *
      * @return bool
      */
-    public function has(string! index) -> bool;
+    public function has(string index) -> bool;
 
     /**
      * Returns the translation related to the given key
      *
-     * @param string $translateKey
-     * @param array  $placeholders
+     * @phpstan-param array<string, string> $placeholders
      *
      * @return string
      */
-    public function query(string! translateKey, array placeholders = []) -> string;
+    public function query(string translateKey, array placeholders = []) -> string;
 
     /**
      * Returns the translation string of the given key
      *
-     * @param string $translateKey
-     * @param array  $placeholders
+     * @phpstan-param array<string, string> $placeholders
      *
      * @return string
      */

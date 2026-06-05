@@ -674,7 +674,7 @@ final class BuildTest extends AbstractUnitTestCase
     {
         $this->expectException(Exception::class);
         $this->expectExceptionMessage(
-            'Service "value" is required in parameter on position 0'
+            "Service 'value' is required in parameter on position 0"
         );
 
         $container  = new Di();

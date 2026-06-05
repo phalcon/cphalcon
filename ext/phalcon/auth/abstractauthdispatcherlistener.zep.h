@@ -1,0 +1,27 @@
+
+extern zend_class_entry *phalcon_auth_abstractauthdispatcherlistener_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Auth_AbstractAuthDispatcherListener);
+
+PHP_METHOD(Phalcon_Auth_AbstractAuthDispatcherListener, __construct);
+PHP_METHOD(Phalcon_Auth_AbstractAuthDispatcherListener, getActionType);
+PHP_METHOD(Phalcon_Auth_AbstractAuthDispatcherListener, enforce);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_auth_abstractauthdispatcherlistener___construct, 0, 0, 1)
+	ZEND_ARG_OBJ_INFO(0, manager, Phalcon\\Contracts\\Auth\\Manager, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_auth_abstractauthdispatcherlistener_getactiontype, 0, 0, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_auth_abstractauthdispatcherlistener_enforce, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, actionName, IS_STRING, 0)
+	ZEND_ARG_INFO(0, forwardHandler)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_auth_abstractauthdispatcherlistener_method_entry) {
+	PHP_ME(Phalcon_Auth_AbstractAuthDispatcherListener, __construct, arginfo_phalcon_auth_abstractauthdispatcherlistener___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Auth_AbstractAuthDispatcherListener, getActionType, arginfo_phalcon_auth_abstractauthdispatcherlistener_getactiontype, ZEND_ACC_ABSTRACT|ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Auth_AbstractAuthDispatcherListener, enforce, arginfo_phalcon_auth_abstractauthdispatcherlistener_enforce, ZEND_ACC_PROTECTED)
+	PHP_FE_END
+};

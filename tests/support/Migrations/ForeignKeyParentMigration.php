@@ -24,12 +24,60 @@ class ForeignKeyParentMigration extends AbstractMigration
 
     protected function getSqlMysql(): array
     {
-        return [];
+        return [
+            "
+DROP TABLE IF EXISTS `foreign_key_child`;
+            ",
+            "
+DROP TABLE IF EXISTS `foreign_key_parent`;
+            ",
+            "
+CREATE TABLE `foreign_key_parent` (
+    `id`        int(10) NOT NULL AUTO_INCREMENT,
+    `name`      varchar(70) NOT NULL,
+    `refer_int` int NOT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `foreign_key_parent_refer_int` (`refer_int`)
+) ENGINE=InnoDB;
+            ",
+            "
+CREATE TABLE `foreign_key_child` (
+    `id`        int(10) NOT NULL AUTO_INCREMENT,
+    `name`      varchar(70) NOT NULL,
+    `child_int` int NOT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `foreign_key_child_child_int` (`child_int`)
+) ENGINE=InnoDB;
+            ",
+        ];
     }
 
     protected function getSqlSqlite(): array
     {
-        return [];
+        return [
+            "
+DROP TABLE IF EXISTS foreign_key_child;
+            ",
+            "
+DROP TABLE IF EXISTS foreign_key_parent;
+            ",
+            "
+CREATE TABLE foreign_key_parent (
+    id        INTEGER PRIMARY KEY AUTOINCREMENT,
+    name      varchar(70) NOT NULL,
+    refer_int INTEGER     NOT NULL,
+    UNIQUE (refer_int)
+);
+            ",
+            "
+CREATE TABLE foreign_key_child (
+    id        INTEGER PRIMARY KEY AUTOINCREMENT,
+    name      varchar(70) NOT NULL,
+    child_int INTEGER     NOT NULL,
+    UNIQUE (child_int)
+);
+            ",
+        ];
     }
 
     protected function getSqlPgsql(): array

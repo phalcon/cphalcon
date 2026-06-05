@@ -64,7 +64,8 @@ PHP_METHOD(Phalcon_Html_Escaper_HtmlEscaper, __invoke)
 	if (!input) {
 		ZEPHIR_INIT_VAR(&input_zv);
 	} else {
-		ZVAL_STR_COPY(&input_zv, input);
+		zephir_memory_observe(&input_zv);
+	ZVAL_STR_COPY(&input_zv, input);
 	}
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "escape", NULL, 0, &input_zv);
 	zephir_check_call_status();
@@ -98,7 +99,8 @@ PHP_METHOD(Phalcon_Html_Escaper_HtmlEscaper, escape)
 	if (!input) {
 		ZEPHIR_INIT_VAR(&input_zv);
 	} else {
-		ZVAL_STR_COPY(&input_zv, input);
+		zephir_memory_observe(&input_zv);
+	ZVAL_STR_COPY(&input_zv, input);
 	}
 	if (Z_TYPE_P(&input_zv) == IS_NULL) {
 		RETURN_MM_STRING("");
@@ -106,7 +108,7 @@ PHP_METHOD(Phalcon_Html_Escaper_HtmlEscaper, escape)
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("flags"), PH_NOISY_CC | PH_READONLY);
 	zephir_read_property(&_1, this_ptr, ZEND_STRL("encoding"), PH_NOISY_CC | PH_READONLY);
 	zephir_read_property(&_2, this_ptr, ZEND_STRL("doubleEncode"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_RETURN_CALL_FUNCTION("htmlspecialchars", NULL, 311, &input_zv, &_0, &_1, &_2);
+	ZEPHIR_RETURN_CALL_FUNCTION("htmlspecialchars", NULL, 0, &input_zv, &_0, &_1, &_2);
 	zephir_check_call_status();
 	RETURN_MM();
 }

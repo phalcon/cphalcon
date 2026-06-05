@@ -13,8 +13,9 @@ namespace Phalcon\Logger;
 use DateTimeImmutable;
 use DateTimeZone;
 use Exception;
-use Phalcon\Logger\Exception as LoggerException;
 use Phalcon\Logger\Adapter\AdapterInterface;
+use Phalcon\Logger\Exceptions\AdapterNotFound;
+use Phalcon\Logger\Exceptions\NoAdaptersConfigured;
 
 /**
  * Abstract Logger Class
@@ -65,6 +66,10 @@ abstract class AbstractLogger
      * @var int
      */
     const NOTICE    = 5;
+    /**
+     * @var int
+     */
+    const TRACE     = 9;
     /**
      * @var int
      */
@@ -139,9 +144,9 @@ abstract class AbstractLogger
      * @param string           $name    The name of the adapter
      * @param AdapterInterface $adapter The adapter to add to the stack
      *
-     * @return AbstractLogger
+     * @return static
      */
-    public function addAdapter(string name, <AdapterInterface> adapter) -> <AbstractLogger>
+    public function addAdapter(string name, <AdapterInterface> adapter) -> <static>
     {
         let this->adapters[name] = adapter;
 
@@ -153,9 +158,9 @@ abstract class AbstractLogger
      *
      * @param array $adapters
      *
-     * @return AbstractLogger
+     * @return static
      */
-    public function excludeAdapters(array adapters = []) -> <AbstractLogger>
+    public function excludeAdapters(array adapters = []) -> <static>
     {
         var adapter, registered;
 
@@ -186,14 +191,12 @@ abstract class AbstractLogger
      * @param string $name The name of the adapter
      *
      * @return AdapterInterface
-     * @throws LoggerException
+     * @throws AdapterNotFound
      */
     public function getAdapter(string name) -> <AdapterInterface>
     {
         if (true !== isset(this->adapters[name])) {
-            throw new LoggerException(
-                "Adapter does not exist for this logger"
-            );
+            throw new AdapterNotFound(name);
         }
 
         return this->adapters[name];
@@ -230,15 +233,13 @@ abstract class AbstractLogger
      *
      * @param string $name The name of the adapter
      *
-     * @return AbstractLogger
-     * @throws LoggerException
+     * @return static
+     * @throws AdapterNotFound
      */
-    public function removeAdapter(string name) -> <AbstractLogger>
+    public function removeAdapter(string name) -> <static>
     {
         if (true !== isset(this->adapters[name])) {
-            throw new LoggerException(
-                "Adapter does not exist for this logger"
-            );
+            throw new AdapterNotFound(name);
         }
 
         unset(this->adapters[name]);
@@ -251,9 +252,9 @@ abstract class AbstractLogger
      *
      * @param array $adapters An array of adapters
      *
-     * @return AbstractLogger
+     * @return static
      */
-    public function setAdapters(array adapters) -> <AbstractLogger>
+    public function setAdapters(array adapters) -> <static>
     {
         let this->adapters = adapters;
 
@@ -265,9 +266,9 @@ abstract class AbstractLogger
      *
      * @param int $level
      *
-     * @return AbstractLogger
+     * @return static
      */
-    public function setLogLevel(int level) -> <AbstractLogger>
+    public function setLogLevel(int level) -> <static>
     {
         var levels;
 
@@ -287,7 +288,7 @@ abstract class AbstractLogger
      *
      * @return bool
      * @throws Exception
-     * @throws LoggerException
+     * @throws NoAdaptersConfigured
      */
     protected function addMessage(
         int level,
@@ -297,7 +298,7 @@ abstract class AbstractLogger
         var adapter, collection, item, levelName, levels, method;
         if (this->logLevel >= level) {
             if (count(this->adapters) === 0) {
-                throw new LoggerException("No adapters specified");
+                throw new NoAdaptersConfigured();
             }
 
             let levels    = this->getLevels(),
@@ -381,7 +382,8 @@ abstract class AbstractLogger
             self::INFO      : "info",
             self::NOTICE    : "notice",
             self::WARNING   : "warning",
-            self::CUSTOM    : "custom"
+            self::CUSTOM    : "custom",
+            self::TRACE     : "trace"
         ];
     }
 }

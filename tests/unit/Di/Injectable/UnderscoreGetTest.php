@@ -16,6 +16,7 @@ namespace Phalcon\Tests\Unit\Di\Injectable;
 use Phalcon\Di\Di;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Di\InjectableComponent;
+use Phalcon\Tests\Support\Di\InjectableComponentProtected;
 use stdClass;
 
 use function spl_object_hash;
@@ -82,6 +83,81 @@ final class UnderscoreGetTest extends AbstractUnitTestCase
 
         $class = stdClass::class;
         $this->assertInstanceOf($class, $persistent);
+    }
+
+    /**
+     * @issue  https://github.com/phalcon/cphalcon/issues/17052
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-04
+     */
+    public function testDiInjectableUnderscoreGetPopulatesDeclaredProperty(): void
+    {
+        Di::reset();
+        $container = new Di();
+
+        $container->setShared(
+            'widget',
+            function (): stdClass {
+                return new stdClass();
+            }
+        );
+
+        $container->set('component', InjectableComponentProtected::class);
+
+        /** @var InjectableComponentProtected $component */
+        $component = $container->get('component');
+
+        // The declared protected property starts unpopulated
+        $this->assertNull($component->getWidgetRaw());
+
+        // Magic access resolves the service and, because the property is
+        // declared on the class, caches it on the object
+        $widget = $component->widget;
+        $this->assertInstanceOf(stdClass::class, $widget);
+
+        // The declared property now holds the resolved instance
+        $this->assertSame($widget, $component->getWidgetRaw());
+    }
+
+    /**
+     * @issue  https://github.com/phalcon/cphalcon/issues/17052
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-04
+     */
+    public function testDiInjectableUnderscoreGetReflectsReplacedService(): void
+    {
+        Di::reset();
+        $container = new Di();
+
+        $container->setShared(
+            'someService',
+            function (): stdClass {
+                return new stdClass();
+            }
+        );
+
+        $container->set('component', InjectableComponent::class);
+
+        /** @var InjectableComponent $component */
+        $component = $container->get('component');
+
+        // First magic access resolves through the container
+        $first = $component->someService;
+        $this->assertSame($container->getShared('someService'), $first);
+
+        // Replace the service in the container after the first access
+        $container->remove('someService');
+        $container->setShared(
+            'someService',
+            function (): stdClass {
+                return new stdClass();
+            }
+        );
+
+        // The magic property must reflect the replacement, not a stale instance
+        $second = $component->someService;
+        $this->assertNotSame($first, $second);
+        $this->assertSame($container->getShared('someService'), $second);
     }
 
     /**

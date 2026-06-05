@@ -9,7 +9,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_Decorated, disconnect);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_datamapper_pdo_connection_decorated___construct, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, pdo, PDO, 0)
-	ZEND_ARG_OBJ_INFO(0, profiler, Phalcon\\DataMapper\\Pdo\\Profiler\\ProfilerInterface, 1)
+	ZEND_ARG_OBJ_TYPE_MASK(0, profiler, Phalcon\\DataMapper\\Pdo\\Profiler\\ProfilerInterface, MAY_BE_NULL, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_pdo_connection_decorated_connect, 0, 0, IS_VOID, 0)

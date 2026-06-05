@@ -16,9 +16,9 @@
 #include "kernel/array.h"
 #include "kernel/memory.h"
 #include "kernel/exception.h"
+#include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "ext/spl/spl_exceptions.h"
-#include "kernel/fcall.h"
 
 
 /**
@@ -60,9 +60,17 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Column)
 	/**
 	 * Column Position
 	 *
-	 * @var string
+	 * @var string|null
 	 */
-	zend_declare_property_string(phalcon_db_column_ce, SL("after"), "", ZEND_ACC_PROTECTED);
+	zend_declare_property_null(phalcon_db_column_ce, SL("after"), ZEND_ACC_PROTECTED);
+	/**
+	 * Whether the column is an array of its base type. Recognized by the
+	 * PostgreSQL dialect (e.g. `INTEGER[]`, `TEXT[]`). MySQL and SQLite
+	 * ignore the flag.
+	 *
+	 * @var bool
+	 */
+	zend_declare_property_bool(phalcon_db_column_ce, SL("isArray"), 0, ZEND_ACC_PROTECTED);
 	/**
 	 * Column is autoIncrement?
 	 *
@@ -94,11 +102,34 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Column)
 	 */
 	zend_declare_property_bool(phalcon_db_column_ce, SL("first"), 0, ZEND_ACC_PROTECTED);
 	/**
+	 * Generation expression for `GENERATED ALWAYS AS (...)`. Null when the
+	 * column is not a generated/computed column.
+	 *
+	 * @var string|null
+	 */
+	zend_declare_property_null(phalcon_db_column_ce, SL("generated"), ZEND_ACC_PROTECTED);
+	/**
+	 * Whether a generated column is `STORED` (true) or `VIRTUAL` (false).
+	 * Ignored when the column is not generated. PostgreSQL only supports
+	 * `STORED` and emits it regardless of this flag.
+	 *
+	 * @var bool
+	 */
+	zend_declare_property_bool(phalcon_db_column_ce, SL("generationStored"), 0, ZEND_ACC_PROTECTED);
+	/**
 	 * The column have some numeric type?
 	 *
 	 * @var bool
 	 */
 	zend_declare_property_bool(phalcon_db_column_ce, SL("isNumeric"), 0, ZEND_ACC_PROTECTED);
+	/**
+	 * Whether the column is `INVISIBLE` (MySQL 8.0.23+). Invisible columns
+	 * are excluded from `SELECT *` expansion but can still be referenced
+	 * explicitly.
+	 *
+	 * @var bool
+	 */
+	zend_declare_property_bool(phalcon_db_column_ce, SL("invisible"), 0, ZEND_ACC_PROTECTED);
 	/**
 	 * Column's name
 	 *
@@ -415,6 +446,132 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Column)
 	 */
 	zephir_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_VARCHAR"), 2);
 
+	/**
+	 * PostgreSQL `BYTEA` binary type
+	 *
+	 * @var int
+	 */
+	zephir_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_BYTEA"), 30);
+
+	/**
+	 * PostgreSQL `INET` IPv4/IPv6 address type
+	 *
+	 * @var int
+	 */
+	zephir_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_INET"), 31);
+
+	/**
+	 * PostgreSQL `CIDR` network-address type
+	 *
+	 * @var int
+	 */
+	zephir_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_CIDR"), 32);
+
+	/**
+	 * PostgreSQL `MACADDR` MAC-address type
+	 *
+	 * @var int
+	 */
+	zephir_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_MACADDR"), 33);
+
+	/**
+	 * PostgreSQL `INT4RANGE` range-of-integer type
+	 *
+	 * @var int
+	 */
+	zephir_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_INT4RANGE"), 34);
+
+	/**
+	 * PostgreSQL `INT8RANGE` range-of-bigint type
+	 *
+	 * @var int
+	 */
+	zephir_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_INT8RANGE"), 35);
+
+	/**
+	 * PostgreSQL `NUMRANGE` range-of-numeric type
+	 *
+	 * @var int
+	 */
+	zephir_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_NUMRANGE"), 36);
+
+	/**
+	 * PostgreSQL `TSRANGE` range-of-timestamp (without time zone) type
+	 *
+	 * @var int
+	 */
+	zephir_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_TSRANGE"), 37);
+
+	/**
+	 * PostgreSQL `TSTZRANGE` range-of-timestamp (with time zone) type
+	 *
+	 * @var int
+	 */
+	zephir_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_TSTZRANGE"), 38);
+
+	/**
+	 * PostgreSQL `DATERANGE` range-of-date type
+	 *
+	 * @var int
+	 */
+	zephir_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_DATERANGE"), 39);
+
+	/**
+	 * Spatial `GEOMETRY` base type (MySQL 5.7+; PostgreSQL + PostGIS)
+	 *
+	 * @var int
+	 */
+	zephir_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_GEOMETRY"), 40);
+
+	/**
+	 * Spatial `POINT` type (MySQL; PostgreSQL + PostGIS)
+	 *
+	 * @var int
+	 */
+	zephir_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_POINT"), 41);
+
+	/**
+	 * Spatial `LINESTRING` type (MySQL; PostgreSQL + PostGIS)
+	 *
+	 * @var int
+	 */
+	zephir_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_LINESTRING"), 42);
+
+	/**
+	 * Spatial `POLYGON` type (MySQL; PostgreSQL + PostGIS)
+	 *
+	 * @var int
+	 */
+	zephir_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_POLYGON"), 43);
+
+	/**
+	 * Spatial `MULTIPOINT` type (MySQL; PostgreSQL + PostGIS)
+	 *
+	 * @var int
+	 */
+	zephir_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_MULTIPOINT"), 44);
+
+	/**
+	 * Spatial `MULTILINESTRING` type (MySQL; PostgreSQL + PostGIS)
+	 *
+	 * @var int
+	 */
+	zephir_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_MULTILINESTRING"), 45);
+
+	/**
+	 * Spatial `MULTIPOLYGON` type (MySQL; PostgreSQL + PostGIS)
+	 *
+	 * @var int
+	 */
+	zephir_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_MULTIPOLYGON"), 46);
+
+	/**
+	 * Spatial `GEOMETRYCOLLECTION` type (MySQL; PostgreSQL + PostGIS)
+	 *
+	 * @var int
+	 */
+	zephir_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_GEOMETRYCOLLECTION"), 47);
+
 	zend_class_implements(phalcon_db_column_ce, 1, phalcon_db_columninterface_ce);
 	return SUCCESS;
 }
@@ -425,8 +582,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Column)
 PHP_METHOD(Phalcon_Db_Column, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval definition;
-	zval name_zv, *definition_param = NULL, __$true, __$false, type, notNull, primary, size, scale, dunsigned, first, after, bindType, isNumeric, autoIncrement, defaultValue, typeReference, typeValues, comment;
+	zval name_zv, *definition_param = NULL, __$true, __$false, type, notNull, primary, size, scale, dunsigned, first, after, bindType, isNumeric, autoIncrement, defaultValue, typeReference, typeValues, comment, generated, generationStored, invisible, isArray, _0$$3, _1$$11, _2$$19, _3$$26, _4$$25, _6$$25, _5$$27, _7$$28;
 	zend_string *name = NULL;
 	zval *this_ptr = getThis();
 
@@ -448,6 +606,18 @@ PHP_METHOD(Phalcon_Db_Column, __construct)
 	ZVAL_UNDEF(&typeReference);
 	ZVAL_UNDEF(&typeValues);
 	ZVAL_UNDEF(&comment);
+	ZVAL_UNDEF(&generated);
+	ZVAL_UNDEF(&generationStored);
+	ZVAL_UNDEF(&invisible);
+	ZVAL_UNDEF(&isArray);
+	ZVAL_UNDEF(&_0$$3);
+	ZVAL_UNDEF(&_1$$11);
+	ZVAL_UNDEF(&_2$$19);
+	ZVAL_UNDEF(&_3$$26);
+	ZVAL_UNDEF(&_4$$25);
+	ZVAL_UNDEF(&_6$$25);
+	ZVAL_UNDEF(&_5$$27);
+	ZVAL_UNDEF(&_7$$28);
 	ZVAL_UNDEF(&definition);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_STR(name)
@@ -456,12 +626,18 @@ PHP_METHOD(Phalcon_Db_Column, __construct)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	definition_param = ZEND_CALL_ARG(execute_data, 2);
+	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
 	ZEPHIR_OBS_COPY_OR_DUP(&definition, definition_param);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("name"), &name_zv);
 	zephir_memory_observe(&type);
 	if (UNEXPECTED(!(zephir_array_isset_string_fetch(&type, &definition, SL("type"), 0)))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column type is required", "phalcon/Db/Column.zep", 426);
+		ZEPHIR_INIT_VAR(&_0$$3);
+		object_init_ex(&_0$$3, phalcon_db_exceptions_columntyperequired_ce);
+		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 418);
+		zephir_check_call_status();
+		zephir_throw_exception_debug(&_0$$3, "phalcon/Db/Column.zep", 595);
+		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	zephir_update_property_zval(this_ptr, ZEND_STRL("type"), &type);
@@ -492,7 +668,12 @@ PHP_METHOD(Phalcon_Db_Column, __construct)
 				zephir_update_property_zval(this_ptr, ZEND_STRL("scale"), &scale);
 				break;
 			}
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column type does not support scale parameter", "phalcon/Db/Column.zep", 476);
+			ZEPHIR_INIT_VAR(&_1$$11);
+			object_init_ex(&_1$$11, phalcon_db_exceptions_columntyperejectsscale_ce);
+			ZEPHIR_CALL_METHOD(NULL, &_1$$11, "__construct", NULL, 419);
+			zephir_check_call_status();
+			zephir_throw_exception_debug(&_1$$11, "phalcon/Db/Column.zep", 643);
+			ZEPHIR_MM_RESTORE();
 			return;
 		} while(0);
 
@@ -527,23 +708,88 @@ PHP_METHOD(Phalcon_Db_Column, __construct)
 					}
 					break;
 				}
-				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column type cannot be auto-increment", "phalcon/Db/Column.zep", 520);
+				ZEPHIR_INIT_VAR(&_2$$19);
+				object_init_ex(&_2$$19, phalcon_db_exceptions_columntyperejectsautoincrement_ce);
+				ZEPHIR_CALL_METHOD(NULL, &_2$$19, "__construct", NULL, 420);
+				zephir_check_call_status();
+				zephir_throw_exception_debug(&_2$$19, "phalcon/Db/Column.zep", 685);
+				ZEPHIR_MM_RESTORE();
 				return;
 			} while(0);
 
 		}
 	}
-	if (zephir_array_isset_string_fetch(&first, &definition, SL("first"), 1)) {
+	zephir_memory_observe(&first);
+	if (zephir_array_isset_string_fetch(&first, &definition, SL("first"), 0)) {
 		zephir_update_property_zval(this_ptr, ZEND_STRL("first"), &first);
 	}
-	if (zephir_array_isset_string_fetch(&after, &definition, SL("after"), 1)) {
+	zephir_memory_observe(&after);
+	if (zephir_array_isset_string_fetch(&after, &definition, SL("after"), 0)) {
 		zephir_update_property_zval(this_ptr, ZEND_STRL("after"), &after);
 	}
-	if (zephir_array_isset_string_fetch(&bindType, &definition, SL("bindType"), 1)) {
+	zephir_memory_observe(&bindType);
+	if (zephir_array_isset_string_fetch(&bindType, &definition, SL("bindType"), 0)) {
 		zephir_update_property_zval(this_ptr, ZEND_STRL("bindType"), &bindType);
 	}
-	if (zephir_array_isset_string_fetch(&comment, &definition, SL("comment"), 1)) {
+	zephir_memory_observe(&comment);
+	if (zephir_array_isset_string_fetch(&comment, &definition, SL("comment"), 0)) {
 		zephir_update_property_zval(this_ptr, ZEND_STRL("comment"), &comment);
+	}
+	zephir_memory_observe(&generated);
+	if (zephir_array_isset_string_fetch(&generated, &definition, SL("generated"), 0)) {
+		if (Z_TYPE_P(&generated) != IS_NULL) {
+			if (UNEXPECTED(Z_TYPE_P(&generated) != IS_STRING)) {
+				ZEPHIR_INIT_VAR(&_3$$26);
+				object_init_ex(&_3$$26, phalcon_db_exceptions_invalidgenerationexpression_ce);
+				ZEPHIR_CALL_METHOD(NULL, &_3$$26, "__construct", NULL, 421);
+				zephir_check_call_status();
+				zephir_throw_exception_debug(&_3$$26, "phalcon/Db/Column.zep", 726);
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
+			zephir_read_property(&_4$$25, this_ptr, ZEND_STRL("autoIncrement"), PH_NOISY_CC | PH_READONLY);
+			if (UNEXPECTED(zephir_is_true(&_4$$25))) {
+				ZEPHIR_INIT_VAR(&_5$$27);
+				object_init_ex(&_5$$27, phalcon_db_exceptions_generatedautoincrementconflict_ce);
+				ZEPHIR_CALL_METHOD(NULL, &_5$$27, "__construct", NULL, 422);
+				zephir_check_call_status();
+				zephir_throw_exception_debug(&_5$$27, "phalcon/Db/Column.zep", 730);
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
+			zephir_read_property(&_6$$25, this_ptr, ZEND_STRL("defaultValue"), PH_NOISY_CC | PH_READONLY);
+			if (UNEXPECTED(Z_TYPE_P(&_6$$25) != IS_NULL)) {
+				ZEPHIR_INIT_VAR(&_7$$28);
+				object_init_ex(&_7$$28, phalcon_db_exceptions_generateddefaultconflict_ce);
+				ZEPHIR_CALL_METHOD(NULL, &_7$$28, "__construct", NULL, 423);
+				zephir_check_call_status();
+				zephir_throw_exception_debug(&_7$$28, "phalcon/Db/Column.zep", 734);
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
+			zephir_update_property_zval(this_ptr, ZEND_STRL("generated"), &generated);
+		}
+	}
+	if (zephir_array_isset_string_fetch(&generationStored, &definition, SL("generationStored"), 1)) {
+		if (zephir_get_boolval(&generationStored)) {
+			zephir_update_property_zval(this_ptr, ZEND_STRL("generationStored"), &__$true);
+		} else {
+			zephir_update_property_zval(this_ptr, ZEND_STRL("generationStored"), &__$false);
+		}
+	}
+	if (zephir_array_isset_string_fetch(&invisible, &definition, SL("invisible"), 1)) {
+		if (zephir_get_boolval(&invisible)) {
+			zephir_update_property_zval(this_ptr, ZEND_STRL("invisible"), &__$true);
+		} else {
+			zephir_update_property_zval(this_ptr, ZEND_STRL("invisible"), &__$false);
+		}
+	}
+	if (zephir_array_isset_string_fetch(&isArray, &definition, SL("array"), 1)) {
+		if (zephir_get_boolval(&isArray)) {
+			zephir_update_property_zval(this_ptr, ZEND_STRL("isArray"), &__$true);
+		} else {
+			zephir_update_property_zval(this_ptr, ZEND_STRL("isArray"), &__$false);
+		}
 	}
 	ZEPHIR_MM_RESTORE();
 }
@@ -563,7 +809,7 @@ PHP_METHOD(Phalcon_Db_Column, getAfterPosition)
 PHP_METHOD(Phalcon_Db_Column, getBindType)
 {
 
-	RETURN_MEMBER(getThis(), "bindType");
+	RETURN_MEMBER_TYPED(getThis(), "bindType", IS_LONG);
 }
 
 /**
@@ -585,12 +831,22 @@ PHP_METHOD(Phalcon_Db_Column, getDefault)
 }
 
 /**
+ * Returns the generation expression for a generated/computed column.
+ * Returns `null` when the column is not generated.
+ */
+PHP_METHOD(Phalcon_Db_Column, getGenerationExpression)
+{
+
+	RETURN_MEMBER(getThis(), "generated");
+}
+
+/**
  * Column's name
  */
 PHP_METHOD(Phalcon_Db_Column, getName)
 {
 
-	RETURN_MEMBER(getThis(), "name");
+	RETURN_MEMBER_TYPED(getThis(), "name", IS_STRING);
 }
 
 /**
@@ -599,7 +855,7 @@ PHP_METHOD(Phalcon_Db_Column, getName)
 PHP_METHOD(Phalcon_Db_Column, getScale)
 {
 
-	RETURN_MEMBER(getThis(), "scale");
+	RETURN_MEMBER_TYPED(getThis(), "scale", IS_LONG);
 }
 
 /**
@@ -626,7 +882,7 @@ PHP_METHOD(Phalcon_Db_Column, getType)
 PHP_METHOD(Phalcon_Db_Column, getTypeReference)
 {
 
-	RETURN_MEMBER(getThis(), "typeReference");
+	RETURN_MEMBER_TYPED(getThis(), "typeReference", IS_LONG);
 }
 
 /**
@@ -663,6 +919,17 @@ PHP_METHOD(Phalcon_Db_Column, hasDefault)
 }
 
 /**
+ * Whether the column is an array of its base type. Recognized by the
+ * PostgreSQL dialect (e.g. `INTEGER[]`, `TEXT[]`); MySQL and SQLite
+ * ignore the flag.
+ */
+PHP_METHOD(Phalcon_Db_Column, isArray)
+{
+
+	RETURN_MEMBER(getThis(), "isArray");
+}
+
+/**
  * Auto-Increment
  */
 PHP_METHOD(Phalcon_Db_Column, isAutoIncrement)
@@ -678,6 +945,41 @@ PHP_METHOD(Phalcon_Db_Column, isFirst)
 {
 
 	RETURN_MEMBER(getThis(), "first");
+}
+
+/**
+ * Whether the column is a generated/computed column.
+ */
+PHP_METHOD(Phalcon_Db_Column, isGenerated)
+{
+	zval _0;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&_0);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("generated"), PH_NOISY_CC | PH_READONLY);
+	RETURN_BOOL(Z_TYPE_P(&_0) != IS_NULL);
+}
+
+/**
+ * Whether a generated column is `STORED`. `false` means `VIRTUAL`.
+ * Always meaningful only when `isGenerated()` is `true`.
+ */
+PHP_METHOD(Phalcon_Db_Column, isGenerationStored)
+{
+
+	RETURN_MEMBER(getThis(), "generationStored");
+}
+
+/**
+ * Whether the column is declared `INVISIBLE` (MySQL 8.0.23+). Invisible
+ * columns are excluded from `SELECT *` expansion but can still be
+ * referenced explicitly. PostgreSQL and SQLite have no equivalent and
+ * dialects targeting them ignore the flag.
+ */
+PHP_METHOD(Phalcon_Db_Column, isInvisible)
+{
+
+	RETURN_MEMBER(getThis(), "invisible");
 }
 
 /**

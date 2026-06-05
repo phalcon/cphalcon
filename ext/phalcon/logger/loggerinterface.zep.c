@@ -137,7 +137,10 @@ ZEPHIR_DOC_METHOD(Phalcon_Logger_LoggerInterface, log);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Logger_LoggerInterface, notice);
 /**
- * Normal but significant events.
+ * Exceptional occurrences that are not errors.
+ *
+ * Example: Use of deprecated APIs, poor use of an API, undesirable things
+ * that are not necessarily wrong.
  *
  * @param string $message
  * @param array  $context

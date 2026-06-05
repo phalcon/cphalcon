@@ -16,6 +16,7 @@ namespace Phalcon\Html\Helper;
 
 use Phalcon\Html\Escaper\EscaperInterface;
 use Phalcon\Html\Exception;
+use Phalcon\Html\Exceptions\FriendlyTitleConversionFailed;
 use Phalcon\Support\Helper\Str\Friendly;
 
 /**
@@ -58,7 +59,7 @@ class FriendlyTitle extends AbstractHelper
         try {
             return this->friendly->__invoke(text, separator, lowercase, replace);
         } catch \Exception, ex {
-            throw new Exception(ex->getMessage());
+            throw new FriendlyTitleConversionFailed(ex->getMessage());
         }
     }
 }

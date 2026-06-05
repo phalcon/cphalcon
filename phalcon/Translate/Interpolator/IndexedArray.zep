@@ -10,18 +10,12 @@
 
 namespace Phalcon\Translate\Interpolator;
 
-/**
- * Class IndexedArray
- *
- * @package Phalcon\Translate\Interpolator
- */
 class IndexedArray implements InterpolatorInterface
 {
     /**
      * Replaces placeholders by the values passed
      *
-     * @param string $translation
-     * @param array  $placeholders
+     * @phpstan-param array<string, string> $placeholders
      *
      * @return string
      */
@@ -30,9 +24,7 @@ class IndexedArray implements InterpolatorInterface
         array placeholders = []
     ) -> string {
         if true !== empty(placeholders) {
-            array_unshift(placeholders, translation);
-
-            return call_user_func_array("sprintf", placeholders);
+            return vsprintf(translation, placeholders);
         }
 
         return translation;

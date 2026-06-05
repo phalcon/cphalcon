@@ -27,7 +27,7 @@ interface EvolvableLinkProviderInterface extends LinkProviderInterface
     public function withLink(<LinkInterface> link) -> <EvolvableLinkProviderInterface>;
 
     /**
-     * Returns an instance with the specifed link removed.
+     * Returns an instance with the specified link removed.
      *
      * If the specified link is not present, this method MUST return normally
      * without errors. The link is present if $link is === identical to a link

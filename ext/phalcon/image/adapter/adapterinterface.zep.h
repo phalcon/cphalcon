@@ -23,6 +23,12 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_image_adapter_adapterinte
 	ZEND_ARG_TYPE_INFO(0, direction, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_image_adapter_adapterinterface_getheight, 0, 0, IS_LONG, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_image_adapter_adapterinterface_getwidth, 0, 0, IS_LONG, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_image_adapter_adapterinterface_mask, 0, 1, Phalcon\\Image\\Adapter\\AdapterInterface, 0)
 	ZEND_ARG_OBJ_INFO(0, mask, Phalcon\\Image\\Adapter\\AdapterInterface, 0)
 ZEND_END_ARG_INFO()
@@ -45,7 +51,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_image_adapter_adapterinterface_resize, 0, 0, Phalcon\\Image\\Adapter\\AdapterInterface, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, width, IS_LONG, 1, "null")
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, height, IS_LONG, 1, "null")
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, master, IS_LONG, 0, "null")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, master, IS_LONG, 0, "4")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_image_adapter_adapterinterface_rotate, 0, 1, Phalcon\\Image\\Adapter\\AdapterInterface, 0)
@@ -83,6 +89,8 @@ ZEPHIR_INIT_FUNCS(phalcon_image_adapter_adapterinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Image_Adapter_AdapterInterface, blur, arginfo_phalcon_image_adapter_adapterinterface_blur)
 	PHP_ABSTRACT_ME(Phalcon_Image_Adapter_AdapterInterface, crop, arginfo_phalcon_image_adapter_adapterinterface_crop)
 	PHP_ABSTRACT_ME(Phalcon_Image_Adapter_AdapterInterface, flip, arginfo_phalcon_image_adapter_adapterinterface_flip)
+	PHP_ABSTRACT_ME(Phalcon_Image_Adapter_AdapterInterface, getHeight, arginfo_phalcon_image_adapter_adapterinterface_getheight)
+	PHP_ABSTRACT_ME(Phalcon_Image_Adapter_AdapterInterface, getWidth, arginfo_phalcon_image_adapter_adapterinterface_getwidth)
 	PHP_ABSTRACT_ME(Phalcon_Image_Adapter_AdapterInterface, mask, arginfo_phalcon_image_adapter_adapterinterface_mask)
 	PHP_ABSTRACT_ME(Phalcon_Image_Adapter_AdapterInterface, pixelate, arginfo_phalcon_image_adapter_adapterinterface_pixelate)
 	PHP_ABSTRACT_ME(Phalcon_Image_Adapter_AdapterInterface, reflection, arginfo_phalcon_image_adapter_adapterinterface_reflection)

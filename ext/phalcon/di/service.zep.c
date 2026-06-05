@@ -16,8 +16,8 @@
 #include "kernel/operators.h"
 #include "kernel/memory.h"
 #include "kernel/exception.h"
-#include "kernel/array.h"
 #include "kernel/fcall.h"
+#include "kernel/array.h"
 #include "Zend/zend_closures.h"
 #include "ext/spl/spl_exceptions.h"
 
@@ -113,14 +113,15 @@ PHP_METHOD(Phalcon_Di_Service, getDefinition)
 PHP_METHOD(Phalcon_Di_Service, getParameter)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval *position_param = NULL, arguments, parameter, _0, _1;
-	zend_long position;
+	zval *position_param = NULL, arguments, parameter, _0, _2, _1$$3;
+	zend_long position, ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&arguments);
 	ZVAL_UNDEF(&parameter);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_1$$3);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_LONG(position)
 	ZEND_PARSE_PARAMETERS_END();
@@ -130,11 +131,16 @@ PHP_METHOD(Phalcon_Di_Service, getParameter)
 	zephir_memory_observe(&_0);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("definition"), PH_NOISY_CC);
 	if (UNEXPECTED(Z_TYPE_P(&_0) != IS_ARRAY)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_di_exception_ce, "Definition must be an array to obtain its parameters", "phalcon/Di/Service.zep", 80);
+		ZEPHIR_INIT_VAR(&_1$$3);
+		object_init_ex(&_1$$3, phalcon_di_exceptions_definitionmustbearrayforread_ce);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 448);
+		zephir_check_call_status();
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Di/Service.zep", 80);
+		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	zephir_read_property(&_1, this_ptr, ZEND_STRL("definition"), PH_NOISY_CC | PH_READONLY);
-	if (zephir_array_isset_string_fetch(&arguments, &_1, SL("arguments"), 1)) {
+	zephir_read_property(&_2, this_ptr, ZEND_STRL("definition"), PH_NOISY_CC | PH_READONLY);
+	if (zephir_array_isset_string_fetch(&arguments, &_2, SL("arguments"), 1)) {
 		if (zephir_array_isset_long_fetch(&parameter, &arguments, position, 1)) {
 			RETURN_CTOR(&parameter);
 		}
@@ -266,7 +272,7 @@ PHP_METHOD(Phalcon_Di_Service, resolve)
 					zephir_check_call_status();
 				}
 
-				ZEPHIR_CALL_METHOD(&instance, &builder, "build", NULL, 227, container, &definition, parameters);
+				ZEPHIR_CALL_METHOD(&instance, &builder, "build", NULL, 449, container, &definition, parameters);
 				zephir_check_call_status();
 			} else {
 				found = 0;
@@ -276,7 +282,7 @@ PHP_METHOD(Phalcon_Di_Service, resolve)
 	if (UNEXPECTED(found == 0)) {
 		ZEPHIR_INIT_VAR(&_7$$19);
 		object_init_ex(&_7$$19, phalcon_di_exception_serviceresolutionexception_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_7$$19, "__construct", NULL, 38);
+		ZEPHIR_CALL_METHOD(NULL, &_7$$19, "__construct", NULL, 8);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_7$$19, "phalcon/Di/Service.zep", 195);
 		ZEPHIR_MM_RESTORE();
@@ -317,15 +323,16 @@ PHP_METHOD(Phalcon_Di_Service, setParameter)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval parameter;
-	zval *position_param = NULL, *parameter_param = NULL, arguments, _0, _1, _3, _2$$5;
-	zend_long position;
+	zval *position_param = NULL, *parameter_param = NULL, arguments, _0, _2, _4, _1$$3, _3$$5;
+	zend_long position, ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&arguments);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_3);
-	ZVAL_UNDEF(&_2$$5);
+	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_4);
+	ZVAL_UNDEF(&_1$$3);
+	ZVAL_UNDEF(&_3$$5);
 	ZVAL_UNDEF(&parameter);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_LONG(position)
@@ -338,22 +345,27 @@ PHP_METHOD(Phalcon_Di_Service, setParameter)
 	zephir_memory_observe(&_0);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("definition"), PH_NOISY_CC);
 	if (UNEXPECTED(Z_TYPE_P(&_0) != IS_ARRAY)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_di_exception_ce, "Definition must be an array to update its parameters", "phalcon/Di/Service.zep", 228);
+		ZEPHIR_INIT_VAR(&_1$$3);
+		object_init_ex(&_1$$3, phalcon_di_exceptions_definitionmustbearrayforupdate_ce);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 450);
+		zephir_check_call_status();
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Di/Service.zep", 226);
+		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	zephir_memory_observe(&arguments);
-	zephir_read_property(&_1, this_ptr, ZEND_STRL("definition"), PH_NOISY_CC | PH_READONLY);
-	if (zephir_array_isset_string_fetch(&arguments, &_1, SL("arguments"), 0)) {
+	zephir_read_property(&_2, this_ptr, ZEND_STRL("definition"), PH_NOISY_CC | PH_READONLY);
+	if (zephir_array_isset_string_fetch(&arguments, &_2, SL("arguments"), 0)) {
 		zephir_array_update_long(&arguments, position, &parameter, PH_COPY | PH_SEPARATE ZEPHIR_DEBUG_PARAMS_DUMMY);
 	} else {
-		ZEPHIR_INIT_VAR(&_2$$5);
-		zephir_create_array(&_2$$5, 1, 0);
-		zephir_array_update_long(&_2$$5, position, &parameter, PH_COPY ZEPHIR_DEBUG_PARAMS_DUMMY);
-		ZEPHIR_CPY_WRT(&arguments, &_2$$5);
+		ZEPHIR_INIT_VAR(&_3$$5);
+		zephir_create_array(&_3$$5, 1, 0);
+		zephir_array_update_long(&_3$$5, position, &parameter, PH_COPY ZEPHIR_DEBUG_PARAMS_DUMMY);
+		ZEPHIR_CPY_WRT(&arguments, &_3$$5);
 	}
-	ZEPHIR_INIT_VAR(&_3);
-	ZVAL_STRING(&_3, "arguments");
-	zephir_update_property_array(this_ptr, SL("definition"), &_3, &arguments);
+	ZEPHIR_INIT_VAR(&_4);
+	ZVAL_STRING(&_4, "arguments");
+	zephir_update_property_array(this_ptr, SL("definition"), &_4, &arguments);
 	RETURN_THIS();
 }
 

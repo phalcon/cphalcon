@@ -138,7 +138,7 @@ PHP_METHOD(Phalcon_Assets_Inline, getAssetKey)
 	ZEPHIR_CONCAT_VSV(&key, &_0, ":", &_1);
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "sha256");
-	ZEPHIR_RETURN_CALL_FUNCTION("hash", NULL, 84, &_2, &key);
+	ZEPHIR_RETURN_CALL_FUNCTION("hash", NULL, 134, &_2, &key);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -149,7 +149,7 @@ PHP_METHOD(Phalcon_Assets_Inline, getAssetKey)
 PHP_METHOD(Phalcon_Assets_Inline, getAttributes)
 {
 
-	RETURN_MEMBER(getThis(), "attributes");
+	RETURN_MEMBER_TYPED(getThis(), "attributes", IS_ARRAY);
 }
 
 /**
@@ -158,7 +158,7 @@ PHP_METHOD(Phalcon_Assets_Inline, getAttributes)
 PHP_METHOD(Phalcon_Assets_Inline, getContent)
 {
 
-	RETURN_MEMBER(getThis(), "content");
+	RETURN_MEMBER_TYPED(getThis(), "content", IS_STRING);
 }
 
 /**
@@ -176,7 +176,7 @@ PHP_METHOD(Phalcon_Assets_Inline, getFilter)
 PHP_METHOD(Phalcon_Assets_Inline, getType)
 {
 
-	RETURN_MEMBER(getThis(), "type");
+	RETURN_MEMBER_TYPED(getThis(), "type", IS_STRING);
 }
 
 /**

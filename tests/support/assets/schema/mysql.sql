@@ -197,6 +197,34 @@ create table co_dialect
             
 
 
+DROP TABLE IF EXISTS `foreign_key_child`;
+            
+
+
+DROP TABLE IF EXISTS `foreign_key_parent`;
+            
+
+
+CREATE TABLE `foreign_key_parent` (
+    `id`        int(10) NOT NULL AUTO_INCREMENT,
+    `name`      varchar(70) NOT NULL,
+    `refer_int` int NOT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `foreign_key_parent_refer_int` (`refer_int`)
+) ENGINE=InnoDB;
+            
+
+
+CREATE TABLE `foreign_key_child` (
+    `id`        int(10) NOT NULL AUTO_INCREMENT,
+    `name`      varchar(70) NOT NULL,
+    `child_int` int NOT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `foreign_key_child_child_int` (`child_int`)
+) ENGINE=InnoDB;
+            
+
+
 drop table if exists `fractal_dates`;
             
 
@@ -208,6 +236,32 @@ create table fractal_dates
     `fdatetime`    datetime(2)  null,
     `ftimestamp`   timestamp(2) null
 );
+            
+
+DROP TABLE IF EXISTS `co_invoices_fk`;
+
+DROP TABLE IF EXISTS `co_customers_fk`;
+
+
+CREATE TABLE `co_customers_fk` (
+    `cst_id`   int(10) NOT NULL AUTO_INCREMENT,
+    `cst_name` varchar(100) NULL,
+    PRIMARY KEY (`cst_id`)
+) ENGINE=InnoDB;
+            
+
+
+CREATE TABLE `co_invoices_fk` (
+    `inv_id`     int(10) NOT NULL AUTO_INCREMENT,
+    `inv_cst_id` int(10) NOT NULL,
+    `inv_title`  varchar(100) NULL,
+    PRIMARY KEY (`inv_id`),
+    KEY `co_invoices_fk_inv_cst_id_index` (`inv_cst_id`),
+    CONSTRAINT `co_invoices_fk_cst_fk`
+        FOREIGN KEY (`inv_cst_id`)
+        REFERENCES `co_customers_fk` (`cst_id`)
+        ON UPDATE CASCADE ON DELETE RESTRICT
+) ENGINE=InnoDB;
             
 
 

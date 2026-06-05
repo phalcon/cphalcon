@@ -21,99 +21,15 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Paginator\RepositoryInterface
- *
- * Interface for the repository of current state
- * Phalcon\Paginator\AdapterInterface::paginate()
+ * @psalm-suppress DeprecatedInterface
+ * @deprecated Will be removed in a future major release.
+ *             Use {@see \Phalcon\Contracts\Paginator\Repository} instead.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Paginator_RepositoryInterface)
 {
-	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Paginator, RepositoryInterface, phalcon, paginator_repositoryinterface, phalcon_paginator_repositoryinterface_method_entry);
+	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Paginator, RepositoryInterface, phalcon, paginator_repositoryinterface, NULL);
 
-	/**
-	 * @var string
-	 */
-	zephir_declare_class_constant_string(phalcon_paginator_repositoryinterface_ce, SL("PROPERTY_CURRENT_PAGE"), "current");
-
-	/**
-	 * @var string
-	 */
-	zephir_declare_class_constant_string(phalcon_paginator_repositoryinterface_ce, SL("PROPERTY_FIRST_PAGE"), "first");
-
-	/**
-	 * @var string
-	 */
-	zephir_declare_class_constant_string(phalcon_paginator_repositoryinterface_ce, SL("PROPERTY_ITEMS"), "items");
-
-	/**
-	 * @var string
-	 */
-	zephir_declare_class_constant_string(phalcon_paginator_repositoryinterface_ce, SL("PROPERTY_LAST_PAGE"), "last");
-
-	/**
-	 * @var string
-	 */
-	zephir_declare_class_constant_string(phalcon_paginator_repositoryinterface_ce, SL("PROPERTY_LIMIT"), "limit");
-
-	/**
-	 * @var string
-	 */
-	zephir_declare_class_constant_string(phalcon_paginator_repositoryinterface_ce, SL("PROPERTY_NEXT_PAGE"), "next");
-
-	/**
-	 * @var string
-	 */
-	zephir_declare_class_constant_string(phalcon_paginator_repositoryinterface_ce, SL("PROPERTY_PREVIOUS_PAGE"), "previous");
-
-	/**
-	 * @var string
-	 */
-	zephir_declare_class_constant_string(phalcon_paginator_repositoryinterface_ce, SL("PROPERTY_TOTAL_ITEMS"), "total_items");
-
+	zend_class_implements(phalcon_paginator_repositoryinterface_ce, 1, phalcon_contracts_paginator_repository_ce);
 	return SUCCESS;
 }
 
-/**
- * Gets the aliases for properties repository
- */
-ZEPHIR_DOC_METHOD(Phalcon_Paginator_RepositoryInterface, getAliases);
-/**
- * Gets number of the current page
- */
-ZEPHIR_DOC_METHOD(Phalcon_Paginator_RepositoryInterface, getCurrent);
-/**
- * Gets number of the first page
- */
-ZEPHIR_DOC_METHOD(Phalcon_Paginator_RepositoryInterface, getFirst);
-/**
- * Gets the items on the current page
- */
-ZEPHIR_DOC_METHOD(Phalcon_Paginator_RepositoryInterface, getItems);
-/**
- * Gets number of the last page
- */
-ZEPHIR_DOC_METHOD(Phalcon_Paginator_RepositoryInterface, getLast);
-/**
- * Gets current rows limit
- */
-ZEPHIR_DOC_METHOD(Phalcon_Paginator_RepositoryInterface, getLimit);
-/**
- * Gets number of the next page
- */
-ZEPHIR_DOC_METHOD(Phalcon_Paginator_RepositoryInterface, getNext);
-/**
- * Gets number of the previous page
- */
-ZEPHIR_DOC_METHOD(Phalcon_Paginator_RepositoryInterface, getPrevious);
-/**
- * Gets the total number of items
- */
-ZEPHIR_DOC_METHOD(Phalcon_Paginator_RepositoryInterface, getTotalItems);
-/**
- * Sets the aliases for properties repository
- */
-ZEPHIR_DOC_METHOD(Phalcon_Paginator_RepositoryInterface, setAliases);
-/**
- * Sets values for properties of the repository
- */
-ZEPHIR_DOC_METHOD(Phalcon_Paginator_RepositoryInterface, setProperties);

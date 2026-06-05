@@ -29,11 +29,21 @@
  * file that was distributed with this source code.
  */
 /**
- * Class TranslateFactory
- *
- * @package Phalcon\Translate
- *
  * @property InterpolatorFactory $interpolator
+ *
+ * @psalm-type TConfig array{
+ *      adapter: string,
+ *      options?: array{
+ *          content: string,
+ *          delimiter: string,
+ *          enclosure: string,
+ *          locale: string,
+ *          defaultDomain: string,
+ *          directory: string,
+ *          category: string,
+ *          triggerError: bool,
+ *      }
+ *  }
  */
 ZEPHIR_INIT_CLASS(Phalcon_Translate_TranslateFactory)
 {
@@ -47,10 +57,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Translate_TranslateFactory)
 }
 
 /**
- * AdapterFactory constructor.
- *
- * @param InterpolatorFactory $interpolator
- * @param array               $services
+ * @phpstan-param array<string, string> $services
  */
 PHP_METHOD(Phalcon_Translate_TranslateFactory, __construct)
 {
@@ -85,19 +92,7 @@ PHP_METHOD(Phalcon_Translate_TranslateFactory, __construct)
 /**
  * Factory to create an instance from a Config object
  *
- * @param array|ConfigInterface $config = [
- *     'adapter' => 'ini,
- *     'options' => [
- *         'content'       => '',
- *         'delimiter'     => ';',
- *         'enclosure'     => '"',
- *         'locale'        => '',
- *         'defaultDomain' => '',
- *         'directory'     => '',
- *         'category'      => ''
- *         'triggerError'  => false
- *     ]
- * ]
+ * @param ConfigInterface|TConfig $config
  *
  * @return AdapterInterface
  * @throws Exception
@@ -130,7 +125,7 @@ PHP_METHOD(Phalcon_Translate_TranslateFactory, load)
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(config, &_0);
 	zephir_memory_observe(&name);
-	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Translate/TranslateFactory.zep", 72);
+	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Translate/TranslateFactory.zep", 67);
 	zephir_memory_observe(&options);
 	if (!(zephir_array_isset_string_fetch(&options, config, SL("options"), 0))) {
 		ZEPHIR_INIT_NVAR(&options);
@@ -144,11 +139,9 @@ PHP_METHOD(Phalcon_Translate_TranslateFactory, load)
 /**
  * Create a new instance of the adapter
  *
- * @param string $name
- * @param array  $options
+ * @phpstan-param array<string, mixed> $options
  *
  * @return AdapterInterface
- * @throws Exception
  */
 PHP_METHOD(Phalcon_Translate_TranslateFactory, newInstance)
 {
@@ -174,6 +167,7 @@ PHP_METHOD(Phalcon_Translate_TranslateFactory, newInstance)
 	if (ZEND_NUM_ARGS() > 1) {
 		options_param = ZEND_CALL_ARG(execute_data, 2);
 	}
+	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
 	if (!options_param) {
 		ZEPHIR_INIT_VAR(&options);
@@ -200,7 +194,7 @@ PHP_METHOD(Phalcon_Translate_TranslateFactory, newInstance)
 PHP_METHOD(Phalcon_Translate_TranslateFactory, getExceptionClass)
 {
 
-	RETURN_STRING("Phalcon\\Translate\\Exception");
+	RETURN_STRING("Phalcon\\Translate\\Exceptions\\TranslatorNotRegistered");
 }
 
 /**

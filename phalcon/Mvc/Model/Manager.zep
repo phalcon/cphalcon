@@ -4,21 +4,28 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the
- * LICENSE.txt file that was distributed with this source code.
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
  */
 
 namespace Phalcon\Mvc\Model;
 
+use Phalcon\Contracts\Mvc\Model\Relation\CacheKeyProvider;
 use Phalcon\Db\Adapter\AdapterInterface;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Events\EventsAwareInterface;
 use Phalcon\Events\ManagerInterface as EventsManagerInterface;
-use Phalcon\Mvc\ModelInterface;
+use Phalcon\Mvc\Model\Exceptions\InvalidConnectionService;
+use Phalcon\Mvc\Model\Exceptions\ManagerOrmServicesUnavailable;
+use Phalcon\Mvc\Model\Exceptions\ModelCouldNotLoad;
+use Phalcon\Mvc\Model\Exceptions\ReferencedFieldsMismatch;
+use Phalcon\Mvc\Model\Exceptions\RelationAliasMustBeString;
+use Phalcon\Mvc\Model\Exceptions\UnknownRelationType;
 use Phalcon\Mvc\Model\Query\Builder;
 use Phalcon\Mvc\Model\Query\BuilderInterface;
 use Phalcon\Mvc\Model\Query\StatusInterface;
+use Phalcon\Mvc\ModelInterface;
 use Phalcon\Support\Settings;
 use ReflectionClass;
 use ReflectionProperty;
@@ -292,9 +299,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          */
         if unlikely typeof referencedFields == "array" {
             if unlikely count(fields) != count(referencedFields) {
-                throw new Exception(
-                    "Number of referenced fields are not the same in the BelongsTo relation of model '" . entityName . "' with Reference Model'" . referencedEntity . "'"
-                );
+                throw new ReferencedFieldsMismatch("BelongsTo", entityName, referencedEntity);
             }
         }
 
@@ -314,7 +319,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          */
         if fetch alias, options["alias"] {
             if unlikely typeof alias != "string" {
-                throw new Exception("Relation alias must be a string in the BelongsTo relation of model '" . entityName . "' with Reference Model'" . referencedEntity . "'");
+                throw new RelationAliasMustBeString("BelongsTo", entityName, referencedEntity);
             }
 
             let lowerAlias = strtolower(alias);
@@ -388,9 +393,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          */
         if typeof referencedFields == "array" {
             if unlikely count(fields) != count(referencedFields) {
-                throw new Exception(
-                    "Number of referenced fields are not the same in the HasMany relation of model '" . entityName . "' with Reference Model'" . referencedEntity . "'"
-                );
+                throw new ReferencedFieldsMismatch("HasMany", entityName, referencedEntity);
             }
         }
 
@@ -410,7 +413,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          */
         if fetch alias, options["alias"] {
             if unlikely typeof alias != "string" {
-                throw new Exception("Relation alias must be a string  in the HasMany relation of model '" . entityName . "' with Reference Model'" . referencedEntity . "'");
+                throw new RelationAliasMustBeString("HasMany", entityName, referencedEntity);
             }
 
             let lowerAlias = strtolower(alias);
@@ -492,9 +495,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          */
         if typeof intermediateFields == "array" {
             if unlikely count(fields) != count(intermediateFields) {
-                throw new Exception(
-                    "Number of referenced fields are not the same in the HasManytoMany relation of model '" . entityName . "' with Reference Model'" . referencedEntity . "'"
-                );
+                throw new ReferencedFieldsMismatch("HasManytoMany", entityName, referencedEntity);
             }
         }
 
@@ -504,9 +505,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          */
         if typeof intermediateReferencedFields == "array" {
             if unlikely count(fields) != count(intermediateFields) {
-                throw new Exception(
-                    "Number of referenced fields are not the same in the HasManytoMany relation of model '" . entityName . "' with Reference Model'" . referencedEntity . "'"
-                );
+                throw new ReferencedFieldsMismatch("HasManytoMany", entityName, referencedEntity);
             }
         }
 
@@ -535,7 +534,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          */
         if fetch alias, options["alias"] {
             if typeof alias != "string" {
-                throw new Exception("Relation alias must be a string in the HasManytoMany relation of model '" . entityName . "' with Reference Model'" . referencedEntity . "'");
+                throw new RelationAliasMustBeString("HasManytoMany", entityName, referencedEntity);
             }
 
             let lowerAlias = strtolower(alias);
@@ -614,9 +613,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          */
         if typeof referencedFields == "array" {
             if unlikely count(fields) != count(referencedFields) {
-                throw new Exception(
-                    "Number of referenced fields are not the same in the HasOne relation of model '" . entityName . "' with Reference Model'" . referencedEntity . "'"
-                );
+                throw new ReferencedFieldsMismatch("HasOne", entityName, referencedEntity);
             }
         }
 
@@ -636,7 +633,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          */
         if fetch alias, options["alias"] {
             if unlikely typeof alias != "string" {
-                throw new Exception("Relation alias must be a string in the HasOne relation of model '" . entityName . "' with Reference Model'" . referencedEntity . "'");
+                throw new RelationAliasMustBeString("HasOne", entityName, referencedEntity);
             }
 
             let lowerAlias = strtolower(alias);
@@ -718,9 +715,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          */
         if typeof intermediateFields == "array" {
             if unlikely count(fields) != count(intermediateFields) {
-                throw new Exception(
-                    "Number of referenced fields are not the same in the HasOneThrough relation of model '" . entityName . "' with Reference Model'" . referencedEntity . "'"
-                );
+                throw new ReferencedFieldsMismatch("HasOneThrough", entityName, referencedEntity);
             }
         }
 
@@ -730,9 +725,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          */
         if typeof intermediateReferencedFields == "array" {
             if unlikely count(fields) != count(intermediateFields) {
-                throw new Exception(
-                    "Number of referenced fields are not the same in the HasOneThrough relation of model '" . entityName . "' with Reference Model'" . referencedEntity . "'"
-                );
+                throw new ReferencedFieldsMismatch("HasOneThrough", entityName, referencedEntity);
             }
         }
 
@@ -761,7 +754,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          */
         if fetch alias, options["alias"] {
             if typeof alias != "string" {
-                throw new Exception("Relation alias must be a string in the HasOneThrough relation of model '" . entityName . "' with Reference Model'" . referencedEntity . "'");
+                throw new RelationAliasMustBeString("HasOneThrough", entityName, referencedEntity);
             }
 
             let lowerAlias = strtolower(alias);
@@ -824,9 +817,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         let container = <DiInterface> this->container;
 
         if unlikely typeof container != "object" {
-            throw new Exception(
-                "A dependency injection container is required to access the services related to the ORM"
-            );
+            throw new ManagerOrmServicesUnavailable();
         }
 
         /**
@@ -857,9 +848,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         let container = this->container;
 
         if unlikely typeof container != "object" {
-            throw new Exception(
-                "A dependency injection container is required to access the services related to the ORM"
-            );
+            throw new ManagerOrmServicesUnavailable();
         }
 
         /**
@@ -1232,7 +1221,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     /**
      * Get last initialized model
      */
-    public function getLastInitialized() -> <ModelInterface>
+    public function getLastInitialized() -> <ModelInterface> | null
     {
         return this->lastInitialized;
     }
@@ -1446,8 +1435,16 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
             let reusable = (bool) relation->isReusable();
 
             if reusable {
-                let uniqueKey = unique_key(referencedModel, [intermediateModel, parameters, record->readAttribute(fields)]),
-                    records = this->getReusableRecords(referencedModel, uniqueKey);
+                if record instanceof CacheKeyProvider {
+                    let uniqueKey = record->getUniqueKey();
+                } else {
+                    let uniqueKey = unique_key(
+                        referencedModel,
+                        [intermediateModel, parameters, record->readAttribute(fields)]
+                    );
+                }
+
+                let records = this->getReusableRecords(referencedModel, uniqueKey);
 
                 if typeof records == "array" || typeof records == "object" {
                     return records;
@@ -1464,7 +1461,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
                     break;
 
                 default:
-                    throw new Exception("Unknown relation type");
+                    throw new UnknownRelationType();
             }
 
             if reusable {
@@ -1532,7 +1529,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
                     break;
 
                 default:
-                    throw new Exception("Unknown relation type");
+                    throw new UnknownRelationType();
             }
         } else {
             let retrieveMethod = method;
@@ -1544,8 +1541,13 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         let reusable = (bool) relation->isReusable();
 
         if reusable {
-            let uniqueKey = unique_key(referencedModel, [findParams, retrieveMethod]),
-                records = this->getReusableRecords(referencedModel, uniqueKey);
+            if record instanceof CacheKeyProvider {
+                let uniqueKey = record->getUniqueKey();
+            } else {
+                let uniqueKey = unique_key(referencedModel, [findParams, retrieveMethod]);
+            }
+
+            let records = this->getReusableRecords(referencedModel, uniqueKey);
 
             if typeof records == "array" || typeof records == "object" {
                 return records;
@@ -1982,9 +1984,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          * The model does not exist throw an exception
          */
         if unlikely !class_exists(modelName) {
-            throw new Exception(
-                "Model '" . modelName . "' could not be loaded"
-            );
+            throw new ModelCouldNotLoad(modelName);
         }
 
         /**
@@ -2000,6 +2000,51 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         );
 
         return model;
+    }
+
+    /**
+     * Dispatch an event to the listeners and behaviors
+     * This method expects that the endpoint listeners/behaviors returns true
+     * meaning that a least one was implemented
+     *
+     * @param ModelInterface $model
+     * @param string         $eventName
+     * @param mixed          $data
+     */
+    public function missingMethod(<ModelInterface> model, string! eventName, var data)
+    {
+        var modelsBehaviors, result, eventsManager, behavior;
+
+        /**
+         * Dispatch events to the global events manager
+         */
+        if fetch modelsBehaviors, this->behaviors[get_class_lower(model)] {
+            /**
+             * Notify all the events on the behavior
+             */
+            for behavior in modelsBehaviors {
+                let result = behavior->missingMethod(model, eventName, data);
+
+                if result !== null {
+                    return result;
+                }
+            }
+        }
+
+        /**
+         * Dispatch events to the global events manager
+         */
+        let eventsManager = this->eventsManager;
+
+        if typeof eventsManager == "object" {
+            return eventsManager->fire(
+                "model:" . eventName,
+                model,
+                data
+            );
+        }
+
+        return null;
     }
 
     /**
@@ -2067,48 +2112,28 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     }
 
     /**
-     * Dispatch an event to the listeners and behaviors
-     * This method expects that the endpoint listeners/behaviors returns true
-     * meaning that a least one was implemented
+     * Removes a behavior from a model
      *
      * @param ModelInterface $model
-     * @param string         $eventName
-     * @param mixed          $data
+     * @param string         $behaviorClass
+     *
+     * @return void
      */
-    public function missingMethod(<ModelInterface> model, string! eventName, var data)
+    public function removeBehavior(<ModelInterface> model, string! behaviorClass) -> void
     {
-        var modelsBehaviors, result, eventsManager, behavior;
+        var entityName, key, behavior;
 
-        /**
-         * Dispatch events to the global events manager
-         */
-        if fetch modelsBehaviors, this->behaviors[get_class_lower(model)] {
-            /**
-             * Notify all the events on the behavior
-             */
-            for behavior in modelsBehaviors {
-                let result = behavior->missingMethod(model, eventName, data);
+        let entityName = get_class_lower(model);
 
-                if result !== null {
-                    return result;
+        if isset this->behaviors[entityName] {
+            for key, behavior in this->behaviors[entityName] {
+                if get_class(behavior) === behaviorClass {
+                    unset this->behaviors[entityName][key];
                 }
             }
+
+            let this->behaviors[entityName] = array_values(this->behaviors[entityName]);
         }
-
-        /**
-         * Dispatch events to the global events manager
-         */
-        let eventsManager = this->eventsManager;
-
-        if typeof eventsManager == "object" {
-            return eventsManager->fire(
-                "model:" . eventName,
-                model,
-                data
-            );
-        }
-
-        return null;
     }
 
     /**
@@ -2296,9 +2321,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         let container = <DiInterface> this->container;
 
         if unlikely typeof container != "object" {
-            throw new Exception(
-                "A dependency injection container is required to access the services related to the ORM"
-            );
+            throw new ManagerOrmServicesUnavailable();
         }
 
         /**
@@ -2307,7 +2330,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         let connection = <AdapterInterface> container->getShared(service);
 
         if unlikely typeof connection != "object" {
-            throw new Exception("Invalid injected connection service");
+            throw new InvalidConnectionService();
         }
 
         return connection;

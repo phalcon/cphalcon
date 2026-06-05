@@ -81,7 +81,7 @@ final class ExceptionsTest extends AbstractUnitTestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
-            'Data for the serializer must of type string'
+            'Data for the serializer must be of type string'
         );
 
         $serializer = new Base64(1234);
@@ -96,7 +96,7 @@ final class ExceptionsTest extends AbstractUnitTestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
-            'Data for the unserializer must of type string'
+            'Data for the unserializer must be of type string'
         );
 
         $serializer = new Base64();
@@ -228,7 +228,7 @@ final class ExceptionsTest extends AbstractUnitTestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
-            'Data for the unserializer must of type string'
+            'Data for the unserializer must be of type string'
         );
 
         $serializer = new Php();

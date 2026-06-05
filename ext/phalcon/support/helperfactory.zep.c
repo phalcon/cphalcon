@@ -43,7 +43,7 @@
  * @method string decrement(string $text, string $separator = '_')
  * @method string dirFromFile(string $file)
  * @method string dirSeparator(string $directory)
- * @method string dynamic(string $text, string $leftDelimiter = "{", string $rightDelimiter = "}", string $separator = "|")
+ * @method string dynamic(string $text, string $leftDel = "{", string $rightDel = "}", string $separator = "|")
  * @method string encode($data, int $options = 0, int $depth = 512)
  * @method bool   endsWith(string $haystack, string $needle, bool $ignoreCase = true)
  * @method mixed  filter(array $collection, callable|null $method)
@@ -73,7 +73,7 @@
  * @method array  order(array $collection, $attribute, string $order = 'asc')
  * @method string pascalCase(string $text, string $delimiters = null)
  * @method array  pluck(array $collection, string $element)
- * @method string prefix($text, string $prefix)
+ * @method string prefix(string $text, string $prefix)
  * @method string random(int $type = 0, int $length = 8)
  * @method string reduceSlashes(string $text)
  * @method array  set(array $collection, $value, $index = null)
@@ -159,6 +159,7 @@ PHP_METHOD(Phalcon_Support_HelperFactory, __call)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	arguments_param = ZEND_CALL_ARG(execute_data, 2);
+	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
 	zephir_get_arrval(&arguments, arguments_param);
 	ZEPHIR_CALL_METHOD(&helper, this_ptr, "newinstance", NULL, 0, &name_zv);
@@ -199,9 +200,10 @@ PHP_METHOD(Phalcon_Support_HelperFactory, newInstance)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("services"), PH_NOISY_CC | PH_READONLY);
-	if (1 != zephir_array_isset(&_0, &name_zv)) {
+	if (1 != zephir_array_isset_value(&_0, &name_zv)) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		ZEPHIR_CALL_METHOD(&_2$$3, this_ptr, "getservice", NULL, 0, &name_zv);
 		zephir_check_call_status();

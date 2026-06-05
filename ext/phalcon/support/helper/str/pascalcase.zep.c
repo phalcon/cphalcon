@@ -47,10 +47,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Str_PascalCase)
  */
 PHP_METHOD(Phalcon_Support_Helper_Str_PascalCase, __invoke)
 {
+	zend_bool _6;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_4 = NULL;
+	zephir_fcall_cache_entry *_3 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval text_zv, delimiters_zv, exploded, output, element, *_0, _1, _2$$3, _3$$3, _5$$3, _6$$4, _7$$4, _8$$4;
+	zval text_zv, delimiters_zv, exploded, output, element, *_0, _5, _1$$3, _2$$3, _4$$3, _7$$4, _8$$4, _9$$4;
 	zend_string *text = NULL, *delimiters = NULL;
 	zval *this_ptr = getThis();
 
@@ -59,13 +60,13 @@ PHP_METHOD(Phalcon_Support_Helper_Str_PascalCase, __invoke)
 	ZVAL_UNDEF(&exploded);
 	ZVAL_UNDEF(&output);
 	ZVAL_UNDEF(&element);
-	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_5);
+	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$3);
-	ZVAL_UNDEF(&_3$$3);
-	ZVAL_UNDEF(&_5$$3);
-	ZVAL_UNDEF(&_6$$4);
+	ZVAL_UNDEF(&_4$$3);
 	ZVAL_UNDEF(&_7$$4);
 	ZVAL_UNDEF(&_8$$4);
+	ZVAL_UNDEF(&_9$$4);
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(text)
@@ -74,11 +75,13 @@ PHP_METHOD(Phalcon_Support_Helper_Str_PascalCase, __invoke)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&text_zv);
 	ZVAL_STR_COPY(&text_zv, text);
 	if (!delimiters) {
 		ZEPHIR_INIT_VAR(&delimiters_zv);
 	} else {
-		ZVAL_STR_COPY(&delimiters_zv, delimiters);
+		zephir_memory_observe(&delimiters_zv);
+	ZVAL_STR_COPY(&delimiters_zv, delimiters);
 	}
 	ZEPHIR_CALL_METHOD(&exploded, this_ptr, "processarray", NULL, 0, &text_zv, &delimiters_zv);
 	zephir_check_call_status();
@@ -90,34 +93,39 @@ PHP_METHOD(Phalcon_Support_Helper_Str_PascalCase, __invoke)
 		{
 			ZEPHIR_INIT_NVAR(&element);
 			ZVAL_COPY(&element, _0);
-			ZEPHIR_INIT_NVAR(&_2$$3);
-			ZEPHIR_CALL_FUNCTION(&_3$$3, "mb_strtolower", &_4, 7, &element);
+			ZEPHIR_INIT_NVAR(&_1$$3);
+			ZEPHIR_CALL_FUNCTION(&_2$$3, "mb_strtolower", &_3, 12, &element);
 			zephir_check_call_status();
-			zephir_ucfirst(&_2$$3, &_3$$3);
-			ZEPHIR_INIT_NVAR(&_5$$3);
-			ZEPHIR_CONCAT_VV(&_5$$3, &output, &_2$$3);
-			ZEPHIR_CPY_WRT(&output, &_5$$3);
+			zephir_ucfirst(&_1$$3, &_2$$3);
+			ZEPHIR_INIT_NVAR(&_4$$3);
+			ZEPHIR_CONCAT_VV(&_4$$3, &output, &_1$$3);
+			ZEPHIR_CPY_WRT(&output, &_4$$3);
 		} ZEND_HASH_FOREACH_END();
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, &exploded, "rewind", NULL, 0);
 		zephir_check_call_status();
+		_6 = 1;
 		while (1) {
-			ZEPHIR_CALL_METHOD(&_1, &exploded, "valid", NULL, 0);
+			if (_6) {
+				_6 = 0;
+			} else {
+				ZEPHIR_CALL_METHOD(NULL, &exploded, "next", NULL, 0);
+				zephir_check_call_status();
+			}
+			ZEPHIR_CALL_METHOD(&_5, &exploded, "valid", NULL, 0);
 			zephir_check_call_status();
-			if (!zend_is_true(&_1)) {
+			if (!zend_is_true(&_5)) {
 				break;
 			}
 			ZEPHIR_CALL_METHOD(&element, &exploded, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_INIT_NVAR(&_6$$4);
-				ZEPHIR_CALL_FUNCTION(&_7$$4, "mb_strtolower", &_4, 7, &element);
+				ZEPHIR_INIT_NVAR(&_7$$4);
+				ZEPHIR_CALL_FUNCTION(&_8$$4, "mb_strtolower", &_3, 12, &element);
 				zephir_check_call_status();
-				zephir_ucfirst(&_6$$4, &_7$$4);
-				ZEPHIR_INIT_NVAR(&_8$$4);
-				ZEPHIR_CONCAT_VV(&_8$$4, &output, &_6$$4);
-				ZEPHIR_CPY_WRT(&output, &_8$$4);
-			ZEPHIR_CALL_METHOD(NULL, &exploded, "next", NULL, 0);
-			zephir_check_call_status();
+				zephir_ucfirst(&_7$$4, &_8$$4);
+				ZEPHIR_INIT_NVAR(&_9$$4);
+				ZEPHIR_CONCAT_VV(&_9$$4, &output, &_7$$4);
+				ZEPHIR_CPY_WRT(&output, &_9$$4);
 		}
 	}
 	ZEPHIR_INIT_NVAR(&element);
@@ -167,6 +175,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_PascalCase, processArray)
 	if (ZEND_NUM_ARGS() > 1) {
 		delimiters_param = ZEND_CALL_ARG(execute_data, 2);
 	}
+	zephir_memory_observe(&text_zv);
 	ZVAL_STR_COPY(&text_zv, text);
 	if (!delimiters_param) {
 		ZEPHIR_INIT_VAR(&delimiters);
@@ -217,7 +226,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_PascalCase, processArray)
 	ZEPHIR_CONCAT_SVS(&_10, "/[", &delimiters, "]+/");
 	ZVAL_LONG(&_11, -1);
 	ZVAL_LONG(&_12, (2 | 1));
-	ZEPHIR_CALL_FUNCTION(&result, "preg_split", NULL, 83, &_10, &text_zv, &_11, &_12);
+	ZEPHIR_CALL_FUNCTION(&result, "preg_split", NULL, 131, &_10, &text_zv, &_11, &_12);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_13);
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&result)) {

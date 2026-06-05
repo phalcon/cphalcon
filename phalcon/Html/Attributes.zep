@@ -6,12 +6,17 @@
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
+ *
+ * Implementation of this file has been influenced by AuraPHP
+ * @link    https://github.com/auraphp/Aura.Html
+ * @license https://github.com/auraphp/Aura.Html/blob/2.x/LICENSE
  */
 
 namespace Phalcon\Html;
 
-use Phalcon\Support\Collection;
 use Phalcon\Html\Attributes\RenderInterface;
+use Phalcon\Html\Exceptions\AttributeNotRenderable;
+use Phalcon\Support\Collection;
 
 /**
  * This class helps to work with HTML Attributes
@@ -68,10 +73,7 @@ class Attributes extends Collection implements RenderInterface
         for key, value in results {
             if typeof key === "string" && null !== value {
                 if (typeof value === "array" || is_resource(value)) {
-                    throw new Exception(
-                        "Value at index: \"" . key . "\" type: \"" .
-                        gettype(value) . "\" cannot be rendered"
-                    );
+                    throw new AttributeNotRenderable(key, gettype(value));
                 }
 
                 let result .= key . "=\""

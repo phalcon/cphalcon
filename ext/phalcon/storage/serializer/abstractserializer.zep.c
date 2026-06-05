@@ -93,7 +93,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, __serialize)
 	zephir_memory_observe(&_0);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("data"), PH_NOISY_CC);
 	if (Z_TYPE_P(&_0) == IS_ARRAY) {
-		RETURN_MM_MEMBER(getThis(), "data");
+		RETURN_MM_MEMBER_TYPED(getThis(), "data", IS_ARRAY);
 	}
 	array_init(return_value);
 	RETURN_MM();

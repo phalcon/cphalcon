@@ -29,8 +29,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Mvc\Router\Group
- *
  * Helper class to create a group of routes with common attributes
  *
  *```php
@@ -154,14 +152,14 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, __construct)
  * $router->add("/about", "About::index");
  *```
  *
- * @param string pattenr
+ * @param string pattern
  * @param string|array paths = [
  *     'module => '',
  *     'controller' => '',
  *     'action' => '',
  *     'namespace' => ''
  * ]
- * @param httpMethods array|string|null
+ * @param array|string|null httpMethods
  *
  * @return RouteInterface
  */
@@ -192,6 +190,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, add)
 	if (ZEND_NUM_ARGS() > 2) {
 		httpMethods = ZEND_CALL_ARG(execute_data, 3);
 	}
+	zephir_memory_observe(&pattern_zv);
 	ZVAL_STR_COPY(&pattern_zv, pattern);
 	if (!paths) {
 		paths = &paths_sub;
@@ -242,6 +241,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addConnect)
 	if (ZEND_NUM_ARGS() > 1) {
 		paths = ZEND_CALL_ARG(execute_data, 2);
 	}
+	zephir_memory_observe(&pattern_zv);
 	ZVAL_STR_COPY(&pattern_zv, pattern);
 	if (!paths) {
 		paths = &paths_sub;
@@ -290,6 +290,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addDelete)
 	if (ZEND_NUM_ARGS() > 1) {
 		paths = ZEND_CALL_ARG(execute_data, 2);
 	}
+	zephir_memory_observe(&pattern_zv);
 	ZVAL_STR_COPY(&pattern_zv, pattern);
 	if (!paths) {
 		paths = &paths_sub;
@@ -338,6 +339,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addGet)
 	if (ZEND_NUM_ARGS() > 1) {
 		paths = ZEND_CALL_ARG(execute_data, 2);
 	}
+	zephir_memory_observe(&pattern_zv);
 	ZVAL_STR_COPY(&pattern_zv, pattern);
 	if (!paths) {
 		paths = &paths_sub;
@@ -386,6 +388,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addHead)
 	if (ZEND_NUM_ARGS() > 1) {
 		paths = ZEND_CALL_ARG(execute_data, 2);
 	}
+	zephir_memory_observe(&pattern_zv);
 	ZVAL_STR_COPY(&pattern_zv, pattern);
 	if (!paths) {
 		paths = &paths_sub;
@@ -434,6 +437,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addOptions)
 	if (ZEND_NUM_ARGS() > 1) {
 		paths = ZEND_CALL_ARG(execute_data, 2);
 	}
+	zephir_memory_observe(&pattern_zv);
 	ZVAL_STR_COPY(&pattern_zv, pattern);
 	if (!paths) {
 		paths = &paths_sub;
@@ -482,6 +486,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addPatch)
 	if (ZEND_NUM_ARGS() > 1) {
 		paths = ZEND_CALL_ARG(execute_data, 2);
 	}
+	zephir_memory_observe(&pattern_zv);
 	ZVAL_STR_COPY(&pattern_zv, pattern);
 	if (!paths) {
 		paths = &paths_sub;
@@ -530,6 +535,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addPost)
 	if (ZEND_NUM_ARGS() > 1) {
 		paths = ZEND_CALL_ARG(execute_data, 2);
 	}
+	zephir_memory_observe(&pattern_zv);
 	ZVAL_STR_COPY(&pattern_zv, pattern);
 	if (!paths) {
 		paths = &paths_sub;
@@ -578,6 +584,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addPurge)
 	if (ZEND_NUM_ARGS() > 1) {
 		paths = ZEND_CALL_ARG(execute_data, 2);
 	}
+	zephir_memory_observe(&pattern_zv);
 	ZVAL_STR_COPY(&pattern_zv, pattern);
 	if (!paths) {
 		paths = &paths_sub;
@@ -626,6 +633,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addPut)
 	if (ZEND_NUM_ARGS() > 1) {
 		paths = ZEND_CALL_ARG(execute_data, 2);
 	}
+	zephir_memory_observe(&pattern_zv);
 	ZVAL_STR_COPY(&pattern_zv, pattern);
 	if (!paths) {
 		paths = &paths_sub;
@@ -674,6 +682,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addTrace)
 	if (ZEND_NUM_ARGS() > 1) {
 		paths = ZEND_CALL_ARG(execute_data, 2);
 	}
+	zephir_memory_observe(&pattern_zv);
 	ZVAL_STR_COPY(&pattern_zv, pattern);
 	if (!paths) {
 		paths = &paths_sub;
@@ -691,7 +700,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addTrace)
  * The developer can implement any arbitrary conditions here
  * If the callback returns false the route is treated as not matched
  *
- * @paramm callable beforeMatch
+ * @param callable beforeMatch
  *
  * @return GroupInterface
  */
@@ -770,7 +779,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, getPrefix)
 PHP_METHOD(Phalcon_Mvc_Router_Group, getRoutes)
 {
 
-	RETURN_MEMBER(getThis(), "routes");
+	RETURN_MEMBER_TYPED(getThis(), "routes", IS_ARRAY);
 }
 
 /**
@@ -885,6 +894,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addRoute)
 	if (ZEND_NUM_ARGS() > 2) {
 		httpMethods = ZEND_CALL_ARG(execute_data, 3);
 	}
+	zephir_memory_observe(&pattern_zv);
 	ZVAL_STR_COPY(&pattern_zv, pattern);
 	if (!paths) {
 		paths = &paths_sub;
@@ -917,7 +927,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addRoute)
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("prefix"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_1);
 	ZEPHIR_CONCAT_VV(&_1, &_0, &pattern_zv);
-	ZEPHIR_CALL_METHOD(NULL, &route, "__construct", NULL, 114, &_1, &mergedPaths, httpMethods);
+	ZEPHIR_CALL_METHOD(NULL, &route, "__construct", NULL, 189, &_1, &mergedPaths, httpMethods);
 	zephir_check_call_status();
 	zephir_update_property_array_append(this_ptr, SL("routes"), &route);
 	ZEPHIR_CALL_METHOD(NULL, &route, "setgroup", NULL, 0, this_ptr);

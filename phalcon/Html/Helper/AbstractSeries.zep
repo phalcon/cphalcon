@@ -34,12 +34,12 @@ abstract class AbstractSeries extends AbstractHelper
      * @param string $indent
      * @param string $delimiter
      *
-     * @return AbstractSeries
+     * @return static
      */
     public function __invoke(
         string indent = "    ",
         string delimiter = null
-    ) -> <AbstractSeries> {
+    ) -> <static> {
         let this->delimiter = null === delimiter ? PHP_EOL : delimiter,
             this->indent    = indent;
 
@@ -70,7 +70,7 @@ abstract class AbstractSeries extends AbstractHelper
     /**
      * Resets the internal store.
      */
-    public function reset() -> <AbstractSeries>
+    public function reset() -> <static>
     {
         let this->store = [];
 
@@ -79,26 +79,26 @@ abstract class AbstractSeries extends AbstractHelper
 
     /**
      * Appends an entry to the store, optionally at a specific integer
-     * position. When `pos` is negative the entry is pushed onto the next
-     * available auto-increment slot. When `pos` is non-negative the entry
+     * position. When `position` is negative the entry is pushed onto the next
+     * available auto-increment slot. When `position` is non-negative the entry
      * is placed at that key, advancing past any already-occupied slots so
      * existing entries are not overwritten. The store is ksort()ed in
      * `__toString`, so positions act as a sort key, not a strict address.
      *
      * @param array $entry
-     * @param int   $pos
+     * @param int   $position
      */
-    protected function pushOrPlace(array entry, int pos = -1) -> void
+    protected function pushOrPlace(array entry, int position = -1) -> void
     {
         var key;
 
-        if pos < 0 {
+        if position < 0 {
             let this->store[] = entry;
 
             return;
         }
 
-        let key = pos;
+        let key = position;
         while isset this->store[key] {
             let key += 1;
         }

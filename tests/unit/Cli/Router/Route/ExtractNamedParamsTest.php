@@ -63,7 +63,7 @@ final class ExtractNamedParamsTest extends AbstractUnitTestCase
         Route::reset();
         $route = new Route('test');
 
-        // {1abc} — first char '1' is not alpha → notValid branch
+        // {1abc} - first char '1' is not alpha → notValid branch
         $result = $route->extractNamedParams('{1abc}');
         $this->assertIsArray($result);
         // Route accumulated as-is when notValid: "{1abc}"
@@ -80,7 +80,7 @@ final class ExtractNamedParamsTest extends AbstractUnitTestCase
         Route::reset();
         $route = new Route('test');
 
-        // {a@b} — '@' is an invalid character → notValid branch
+        // {a@b} - '@' is an invalid character → notValid branch
         $result = $route->extractNamedParams('{a@b}');
         $this->assertIsArray($result);
         $this->assertSame('{a@b}', $result[0]);

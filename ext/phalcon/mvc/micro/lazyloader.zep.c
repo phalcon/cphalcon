@@ -16,8 +16,8 @@
 #include "kernel/exception.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
-#include "kernel/concat.h"
 #include "kernel/operators.h"
+#include "kernel/concat.h"
 #include "kernel/array.h"
 
 
@@ -74,10 +74,10 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __construct)
  */
 PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, callMethod)
 {
-	zval _4;
+	zval _3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval method_zv, *arguments = NULL, arguments_sub, *modelBinder = NULL, modelBinder_sub, __$null, handler, definition, bindCacheKey, _0, _5, _1$$4, _2$$4, _3$$5;
+	zval method_zv, *arguments = NULL, arguments_sub, *modelBinder = NULL, modelBinder_sub, __$null, handler, definition, bindCacheKey, _0, _4, _1$$4, _2$$5;
 	zend_string *method = NULL;
 	zval *this_ptr = getThis();
 
@@ -89,11 +89,10 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, callMethod)
 	ZVAL_UNDEF(&definition);
 	ZVAL_UNDEF(&bindCacheKey);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_5);
-	ZVAL_UNDEF(&_1$$4);
-	ZVAL_UNDEF(&_2$$4);
-	ZVAL_UNDEF(&_3$$5);
 	ZVAL_UNDEF(&_4);
+	ZVAL_UNDEF(&_1$$4);
+	ZVAL_UNDEF(&_2$$5);
+	ZVAL_UNDEF(&_3);
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 3)
 		Z_PARAM_STR(method)
@@ -107,6 +106,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, callMethod)
 	if (ZEND_NUM_ARGS() > 2) {
 		modelBinder = ZEND_CALL_ARG(execute_data, 3);
 	}
+	zephir_memory_observe(&method_zv);
 	ZVAL_STR_COPY(&method_zv, method);
 	ZEPHIR_SEPARATE_PARAM(arguments);
 	if (!modelBinder) {
@@ -120,12 +120,10 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, callMethod)
 	if (Z_TYPE_P(&handler) != IS_OBJECT) {
 		if (!(zephir_class_exists(&definition, 1))) {
 			ZEPHIR_INIT_VAR(&_1$$4);
-			object_init_ex(&_1$$4, phalcon_mvc_micro_exception_ce);
-			ZEPHIR_INIT_VAR(&_2$$4);
-			ZEPHIR_CONCAT_SVS(&_2$$4, "Handler '", &definition, "' does not exist");
-			ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 38, &_2$$4);
+			object_init_ex(&_1$$4, phalcon_mvc_micro_exceptions_lazyhandlernotfound_ce);
+			ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 0, &definition);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_1$$4, "phalcon/Mvc/Micro/LazyLoader.zep", 55);
+			zephir_throw_exception_debug(&_1$$4, "phalcon/Mvc/Micro/LazyLoader.zep", 56);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -137,17 +135,17 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, callMethod)
 	if (Z_TYPE_P(modelBinder) != IS_NULL) {
 		ZEPHIR_INIT_VAR(&bindCacheKey);
 		ZEPHIR_CONCAT_SVSV(&bindCacheKey, "_PHMB_", &definition, "_", &method_zv);
-		ZEPHIR_CALL_METHOD(&_3$$5, modelBinder, "bindtohandler", NULL, 0, &handler, arguments, &bindCacheKey, &method_zv);
+		ZEPHIR_CALL_METHOD(&_2$$5, modelBinder, "bindtohandler", NULL, 0, &handler, arguments, &bindCacheKey, &method_zv);
 		zephir_check_call_status();
-		ZEPHIR_CPY_WRT(arguments, &_3$$5);
+		ZEPHIR_CPY_WRT(arguments, &_2$$5);
 	}
-	ZEPHIR_INIT_VAR(&_4);
-	zephir_create_array(&_4, 2, 0);
-	zephir_array_fast_append(&_4, &handler);
-	zephir_array_fast_append(&_4, &method_zv);
-	ZEPHIR_CALL_FUNCTION(&_5, "array_values", NULL, 13, arguments);
+	ZEPHIR_INIT_VAR(&_3);
+	zephir_create_array(&_3, 2, 0);
+	zephir_array_fast_append(&_3, &handler);
+	zephir_array_fast_append(&_3, &method_zv);
+	ZEPHIR_CALL_FUNCTION(&_4, "array_values", NULL, 27, arguments);
 	zephir_check_call_status();
-	ZEPHIR_CALL_USER_FUNC_ARRAY(return_value, &_4, &_5);
+	ZEPHIR_CALL_USER_FUNC_ARRAY(return_value, &_3, &_4);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -158,7 +156,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, callMethod)
 PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, getDefinition)
 {
 
-	RETURN_MEMBER(getThis(), "definition");
+	RETURN_MEMBER_TYPED(getThis(), "definition", IS_STRING);
 }
 
 /**

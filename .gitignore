@@ -50,7 +50,7 @@ ext/run-tests.php
 *.phc
 *.dSYM
 *.deps
-.ci/lemon
+bin/lemon
 
 # local tests
 .local/
@@ -78,6 +78,7 @@ zephir
 tests/_output/*
 tests/support/assets/phalcon_test*
 .claude/
+nikos/
 
 # Docker
 docker-compose.override.yml

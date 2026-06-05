@@ -13,7 +13,9 @@ namespace Phalcon\Cache;
 use DateInterval;
 use Phalcon\Cache\Adapter\AdapterInterface;
 use Phalcon\Cache\Adapter\Redis;
+use Phalcon\Cache\Exception\CacheKeysNotIterable;
 use Phalcon\Cache\Exception\InvalidArgumentException;
+use Phalcon\Cache\Exception\InvalidCacheKey;
 use Phalcon\Events\EventsAwareInterface;
 use Phalcon\Events\ManagerInterface;
 use Traversable;
@@ -82,13 +84,8 @@ abstract class AbstractCache implements CacheInterface, EventsAwareInterface
      */
     protected function checkKey(string key) -> void
     {
-        var exception;
-
         if (preg_match("/[^A-Za-z0-9-_.]/", key)) {
-            let exception = this->getExceptionClass();
-            throw new {exception}(
-                "The key contains invalid characters"
-            );
+            throw new InvalidCacheKey();
         }
     }
 
@@ -101,13 +98,8 @@ abstract class AbstractCache implements CacheInterface, EventsAwareInterface
      */
     protected function checkKeys(var keys) -> void
     {
-        var exception;
-
         if (!(typeof keys === "array" || keys instanceof Traversable)) {
-            let exception = this->getExceptionClass();
-            throw new {exception}(
-                "The keys need to be an array or instance of Traversable"
-            );
+            throw new CacheKeysNotIterable();
         }
     }
 

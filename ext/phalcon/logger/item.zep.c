@@ -35,7 +35,7 @@
  * @property string            $message
  * @property int               $level
  * @property string            $levelName
- * @property DateTimeImmutable $datetime
+ * @property DateTimeImmutable $dateTime
  */
 ZEPHIR_INIT_CLASS(Phalcon_Logger_Item)
 {
@@ -50,10 +50,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Item)
 	 */
 	zend_declare_property_null(phalcon_logger_item_ce, SL("dateTime"), ZEND_ACC_PROTECTED);
 	/**
-	 * @var string
-	 */
-	zend_declare_property_null(phalcon_logger_item_ce, SL("message"), ZEND_ACC_PROTECTED);
-	/**
 	 * @var int
 	 */
 	zend_declare_property_null(phalcon_logger_item_ce, SL("level"), ZEND_ACC_PROTECTED);
@@ -61,6 +57,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Item)
 	 * @var string
 	 */
 	zend_declare_property_null(phalcon_logger_item_ce, SL("levelName"), ZEND_ACC_PROTECTED);
+	/**
+	 * @var string
+	 */
+	zend_declare_property_null(phalcon_logger_item_ce, SL("message"), ZEND_ACC_PROTECTED);
 	phalcon_logger_item_ce->create_object = zephir_init_properties_Phalcon_Logger_Item;
 
 	return SUCCESS;
@@ -72,7 +72,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Item)
  * @param string            $message
  * @param string            $levelName
  * @param int               $level
- * @param DateTimeImmutable $datetime
+ * @param DateTimeImmutable $dateTime
  * @param array             $context
  */
 PHP_METHOD(Phalcon_Logger_Item, __construct)
@@ -128,7 +128,7 @@ PHP_METHOD(Phalcon_Logger_Item, __construct)
 PHP_METHOD(Phalcon_Logger_Item, getContext)
 {
 
-	RETURN_MEMBER(getThis(), "context");
+	RETURN_MEMBER_TYPED(getThis(), "context", IS_ARRAY);
 }
 
 /**
@@ -141,21 +141,12 @@ PHP_METHOD(Phalcon_Logger_Item, getDateTime)
 }
 
 /**
- * @return string
- */
-PHP_METHOD(Phalcon_Logger_Item, getMessage)
-{
-
-	RETURN_MEMBER(getThis(), "message");
-}
-
-/**
  * @return int
  */
 PHP_METHOD(Phalcon_Logger_Item, getLevel)
 {
 
-	RETURN_MEMBER(getThis(), "level");
+	RETURN_MEMBER_TYPED(getThis(), "level", IS_LONG);
 }
 
 /**
@@ -164,7 +155,16 @@ PHP_METHOD(Phalcon_Logger_Item, getLevel)
 PHP_METHOD(Phalcon_Logger_Item, getLevelName)
 {
 
-	RETURN_MEMBER(getThis(), "levelName");
+	RETURN_MEMBER_TYPED(getThis(), "levelName", IS_STRING);
+}
+
+/**
+ * @return string
+ */
+PHP_METHOD(Phalcon_Logger_Item, getMessage)
+{
+
+	RETURN_MEMBER_TYPED(getThis(), "message", IS_STRING);
 }
 
 zend_object *zephir_init_properties_Phalcon_Logger_Item(zend_class_entry *class_type)

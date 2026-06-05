@@ -20,6 +20,14 @@
 
 
 /**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+/**
  * Phalcon\Mvc\Model\Query\Lang
  *
  * PHQL is implemented as a parser (written in C) that translates syntax in
@@ -63,6 +71,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Lang, parsePHQL)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&phql_zv);
 	ZVAL_STR_COPY(&phql_zv, phql);
 	ZEPHIR_LAST_CALL_STATUS = phql_parse_phql(return_value, &phql_zv);
 	zephir_check_call_status();

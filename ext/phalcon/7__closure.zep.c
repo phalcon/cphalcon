@@ -12,34 +12,33 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/string.h"
-#include "kernel/memory.h"
+#include "kernel/fcall.h"
 #include "kernel/object.h"
+#include "kernel/memory.h"
 
 
 ZEPHIR_INIT_CLASS(phalcon_7__closure)
 {
 	ZEPHIR_REGISTER_CLASS(phalcon, 7__closure, phalcon, 7__closure, phalcon_7__closure_method_entry, ZEND_ACC_FINAL_CLASS);
 
+	zend_declare_property_null(phalcon_7__closure_ce, SL("name"), ZEND_ACC_PUBLIC|ZEND_ACC_STATIC);
 	return SUCCESS;
 }
 
 PHP_METHOD(phalcon_7__closure, __invoke)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval *action, action_sub, _0;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval name;
+	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&action_sub);
-	ZVAL_UNDEF(&_0);
-	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_ZVAL(action)
-	ZEND_PARSE_PARAMETERS_END();
+	ZVAL_UNDEF(&name);
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_fetch_params(1, 1, 0, &action);
-	ZEPHIR_INIT_VAR(&_0);
-	ZVAL_STRING(&_0, "-");
-	zephir_uncamelize(return_value, action, &_0);
+	zephir_read_static_property_ce(&name, phalcon_7__closure_ce, SL("name"), PH_NOISY_CC);
+
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "get", NULL, 0, &name);
+	zephir_check_call_status();
 	RETURN_MM();
 }
 

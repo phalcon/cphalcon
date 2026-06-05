@@ -16,8 +16,7 @@ namespace Phalcon\Html\Escaper;
 
 /**
  * Escapes a string for use inside a CSS value by replacing non-alphanumeric
- * characters with their hexadecimal escape sequence. Wraps the C-level
- * `phalcon_escape_css` after normalising the input to UTF-32.
+ * characters with their hexadecimal escape sequence.
  */
 class CssEscaper extends AbstractEscaper
 {

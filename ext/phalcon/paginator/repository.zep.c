@@ -76,6 +76,7 @@ PHP_METHOD(Phalcon_Paginator_Repository, __get)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&property_zv);
 	ZVAL_STR_COPY(&property_zv, property);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getrealnameproperty", NULL, 0, &property_zv);
@@ -92,7 +93,7 @@ PHP_METHOD(Phalcon_Paginator_Repository, __get)
 	zephir_get_class(&_2, this_ptr, 0);
 	ZEPHIR_INIT_VAR(&_3);
 	ZEPHIR_CONCAT_SVSV(&_3, "Access to undefined property ", &_2, "::", &property_zv);
-	ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", NULL, 9, &_3);
+	ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", NULL, 14, &_3);
 	zephir_check_call_status();
 	RETURN_MM_NULL();
 }
@@ -103,7 +104,7 @@ PHP_METHOD(Phalcon_Paginator_Repository, __get)
 PHP_METHOD(Phalcon_Paginator_Repository, getAliases)
 {
 
-	RETURN_MEMBER(getThis(), "aliases");
+	RETURN_MEMBER_TYPED(getThis(), "aliases", IS_ARRAY);
 }
 
 /**
@@ -296,7 +297,7 @@ PHP_METHOD(Phalcon_Paginator_Repository, getTotalItems)
 PHP_METHOD(Phalcon_Paginator_Repository, jsonSerialize)
 {
 
-	RETURN_MEMBER(getThis(), "properties");
+	RETURN_MEMBER_TYPED(getThis(), "properties", IS_ARRAY);
 }
 
 /**
@@ -369,6 +370,7 @@ PHP_METHOD(Phalcon_Paginator_Repository, getProperty)
 	if (ZEND_NUM_ARGS() > 1) {
 		defaultValue = ZEND_CALL_ARG(execute_data, 2);
 	}
+	zephir_memory_observe(&property_zv);
 	ZVAL_STR_COPY(&property_zv, property);
 	if (!defaultValue) {
 		defaultValue = &defaultValue_sub;
@@ -388,27 +390,26 @@ PHP_METHOD(Phalcon_Paginator_Repository, getProperty)
 PHP_METHOD(Phalcon_Paginator_Repository, getRealNameProperty)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval property_zv, aliases, _0$$3;
+	zval property_zv, name, _0;
 	zend_string *property = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&property_zv);
-	ZVAL_UNDEF(&aliases);
-	ZVAL_UNDEF(&_0$$3);
+	ZVAL_UNDEF(&name);
+	ZVAL_UNDEF(&_0);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(property)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&property_zv);
 	ZVAL_STR_COPY(&property_zv, property);
-	ZEPHIR_CALL_METHOD(&aliases, this_ptr, "getaliases", NULL, 0);
-	zephir_check_call_status();
-	if (zephir_array_isset(&aliases, &property_zv)) {
-		zephir_array_fetch(&_0$$3, &aliases, &property_zv, PH_NOISY | PH_READONLY, "phalcon/Paginator/Repository.zep", 181);
-		RETURN_CTOR(&_0$$3);
+	zephir_memory_observe(&name);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("aliases"), PH_NOISY_CC | PH_READONLY);
+	if (!(zephir_array_isset_fetch(&name, &_0, &property_zv, 0))) {
+		RETURN_MM_STR(zend_string_copy(property));
 	}
-	RETURN_MM_STR(zend_string_copy(property));
+	RETURN_CCTOR(&name);
 }
 
 zend_object *zephir_init_properties_Phalcon_Paginator_Repository(zend_class_entry *class_type)

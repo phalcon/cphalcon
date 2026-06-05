@@ -36,9 +36,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Translate_InterpolatorFactory)
 }
 
 /**
- * InterpolatorFactor constructor.
- *
- * @param array $services
+ * @phpstan-param array<string, string> $services
  */
 PHP_METHOD(Phalcon_Translate_InterpolatorFactory, __construct)
 {
@@ -90,6 +88,7 @@ PHP_METHOD(Phalcon_Translate_InterpolatorFactory, newInstance)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
 	ZEPHIR_CALL_METHOD(&definition, this_ptr, "getservice", NULL, 0, &name_zv);
 	zephir_check_call_status();
@@ -104,7 +103,7 @@ PHP_METHOD(Phalcon_Translate_InterpolatorFactory, newInstance)
 PHP_METHOD(Phalcon_Translate_InterpolatorFactory, getExceptionClass)
 {
 
-	RETURN_STRING("Phalcon\\Translate\\Exception");
+	RETURN_STRING("Phalcon\\Translate\\Exceptions\\InterpolatorNotRegistered");
 }
 
 /**

@@ -10,43 +10,15 @@
 
 namespace Phalcon\Events;
 
+use Phalcon\Contracts\Events\Event as EventContract;
+
 /**
- * Interface for Phalcon\Events\Event class
+ * Phalcon\Events\EventInterface
+ *
+ * @psalm-suppress DeprecatedInterface
+ * @deprecated Will be removed in a future major release.
+ *             Use {@see \Phalcon\Contracts\Events\Event} instead.
  */
-interface EventInterface
+interface EventInterface extends EventContract
 {
-    /**
-     * Gets event data
-     */
-    public function getData() -> var;
-
-    /**
-     * Gets event type
-     */
-    public function getType() -> var;
-
-    /**
-     * Check whether the event is cancelable
-     */
-    public function isCancelable() -> bool;
-
-    /**
-     * Check whether the event is currently stopped
-     */
-    public function isStopped() -> bool;
-
-    /**
-     * Sets event data
-     */
-    public function setData(var data = null) -> <EventInterface>;
-
-    /**
-     * Sets event type
-     */
-    public function setType(string! type) -> <EventInterface>;
-
-    /**
-     * Stops the event preventing propagation
-     */
-    public function stop() -> <EventInterface>;
 }

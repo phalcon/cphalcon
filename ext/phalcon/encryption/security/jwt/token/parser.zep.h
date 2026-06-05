@@ -12,7 +12,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Parser, parseToken);
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Parser, decodeUrl);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_encryption_security_jwt_token_parser___construct, 0, 0, 0)
-	ZEND_ARG_OBJ_INFO(0, decode, Phalcon\\Support\\Helper\\Json\\Decode, 1)
+	ZEND_ARG_OBJ_TYPE_MASK(0, decode, Phalcon\\Support\\Helper\\Json\\Decode, MAY_BE_NULL, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_encryption_security_jwt_token_parser_parse, 0, 1, Phalcon\\Encryption\\Security\\JWT\\Token\\Token, 0)

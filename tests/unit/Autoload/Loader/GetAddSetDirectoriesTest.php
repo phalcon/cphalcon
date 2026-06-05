@@ -42,7 +42,7 @@ final class GetAddSetDirectoriesTest extends AbstractUnitTestCase
                 '/phalcon/public/css',
             ]
         );
-        $expected = [hash("sha256", '/phalcon/public/css') => '/phalcon/public/css'];
+        $expected = ['/phalcon/public/css' => '/phalcon/public/css'];
         $actual   = $loader->getDirectories();
         $this->assertSame($expected, $actual);
 
@@ -62,8 +62,8 @@ final class GetAddSetDirectoriesTest extends AbstractUnitTestCase
         ;
 
         $expected = [
-            hash("sha256", '/phalcon/public/css') => '/phalcon/public/css',
-            hash("sha256", '/phalcon/public/js')  => '/phalcon/public/js',
+            '/phalcon/public/css' => '/phalcon/public/css',
+            '/phalcon/public/js'  => '/phalcon/public/js',
         ];
         $actual   = $loader->getDirectories();
         $this->assertSame($expected, $actual);

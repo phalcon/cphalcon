@@ -64,12 +64,12 @@ class Order
      *
      * @return array
      */
-    private function checkObject(array sorted, var attribute, var item) -> array
+    private function checkNonObject(array sorted, var attribute, var item) -> array
     {
         var key;
 
-        if typeof item === "object" {
-            let key         = item->{attribute},
+        if typeof item !== "object" {
+            let key         = item[attribute],
                 sorted[key] = item;
         }
 
@@ -83,12 +83,12 @@ class Order
      *
      * @return array
      */
-    private function checkNonObject(array sorted, var attribute, var item) -> array
+    private function checkObject(array sorted, var attribute, var item) -> array
     {
         var key;
 
-        if typeof item !== "object" {
-            let key         = item[attribute],
+        if typeof item === "object" {
+            let key         = item->{attribute},
                 sorted[key] = item;
         }
 

@@ -13,11 +13,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Forms\Element\Select;
 
+use Phalcon\Forms\Element\Select;
 use Phalcon\Tests\AbstractUnitTestCase;
 
-/**
- * Class ConstructTest extends AbstractUnitTestCase
- */
 final class ConstructTest extends AbstractUnitTestCase
 {
     /**
@@ -26,6 +24,12 @@ final class ConstructTest extends AbstractUnitTestCase
      */
     public function testFormsElementSelectConstruct(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $element = new Select('country', ['A' => 'Argentina', 'B' => 'Brazil']);
+
+        $this->assertSame('country', $element->getName());
+        $this->assertSame(
+            ['A' => 'Argentina', 'B' => 'Brazil'],
+            $element->getOptions()
+        );
     }
 }

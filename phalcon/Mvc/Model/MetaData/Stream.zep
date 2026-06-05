@@ -11,7 +11,7 @@
 namespace Phalcon\Mvc\Model\MetaData;
 
 use Phalcon\Mvc\Model\MetaData;
-use Phalcon\Mvc\Model\Exception;
+use Phalcon\Mvc\Model\MetaData\Exceptions\MetaDataDirectoryNotWritable;
 use Phalcon\Support\Settings;
 
 /**
@@ -51,9 +51,13 @@ class Stream extends MetaData
     /**
      * Reads meta-data from files
      */
-    public function read(string! key) -> array | null
+    public function read(var key) -> array | null
     {
         var path;
+
+        if null === key {
+            return null;
+        }
 
         let path = this->metaDataDir . prepare_virtual_path(key, "_") . ".php";
 
@@ -67,13 +71,14 @@ class Stream extends MetaData
     /**
      * Writes the meta-data to files
      */
-    public function write(string! key, array data) -> void
+    public function write(var key, array data) -> void
     {
         var option, path;
 
+        let option = Settings::get("orm.exception_on_failed_metadata_save");
+
         try {
-            let path   = this->metaDataDir . prepare_virtual_path(key, "_") . ".php",
-                option = Settings::get("orm.exception_on_failed_metadata_save");
+            let path = this->metaDataDir . prepare_virtual_path(key, "_") . ".php";
 
             if false === file_put_contents(path, "<?php return " . var_export(data, true) . "; ") {
                 this->throwWriteException(option);
@@ -89,9 +94,7 @@ class Stream extends MetaData
     private function throwWriteException(var option) -> void
     {
         if option {
-            throw new Exception(
-                "Meta-Data directory cannot be written"
-            );
+            throw new MetaDataDirectoryNotWritable();
         } else {
             trigger_error(
                 "Meta-Data directory cannot be written"

@@ -10,7 +10,7 @@
 
 namespace Phalcon\Support\Helper\Str;
 
-use Phalcon\Support\Helper\Exception;
+use Phalcon\Support\Helper\Str\Exceptions\InsufficientArguments;
 
 /**
  * Concatenates strings using the separator only once without duplication in
@@ -34,7 +34,7 @@ class Concat extends AbstractStr
         let arguments = func_get_args();
 
         if unlikely count(arguments) < 3 {
-            throw new Exception("concat needs at least three parameters");
+            throw new InsufficientArguments();
         }
 
         let delimiter = reset(arguments),

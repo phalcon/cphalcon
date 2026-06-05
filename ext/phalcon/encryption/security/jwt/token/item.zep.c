@@ -65,6 +65,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Item, __construct)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	payload_param = ZEND_CALL_ARG(execute_data, 1);
 	ZEPHIR_OBS_COPY_OR_DUP(&payload, payload_param);
+	zephir_memory_observe(&encoded_zv);
 	ZVAL_STR_COPY(&encoded_zv, encoded);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "encoded");
@@ -107,6 +108,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Item, get)
 	if (ZEND_NUM_ARGS() > 1) {
 		defaultValue = ZEND_CALL_ARG(execute_data, 2);
 	}
+	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
 	if (!defaultValue) {
 		defaultValue = &defaultValue_sub;
@@ -159,6 +161,6 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Item, has)
 	ZVAL_STR(&name_zv, name);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("data"), PH_NOISY_CC | PH_READONLY);
 	zephir_array_fetch_string(&_1, &_0, SL("payload"), PH_READONLY, "phalcon/Encryption/Security/JWT/Token/Item.zep", 60);
-	RETURN_BOOL(zephir_array_isset(&_1, &name_zv));
+	RETURN_BOOL(zephir_array_isset_value(&_1, &name_zv));
 }
 
