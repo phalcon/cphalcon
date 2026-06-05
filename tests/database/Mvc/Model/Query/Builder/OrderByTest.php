@@ -79,6 +79,83 @@ final class OrderByTest extends AbstractDatabaseTestCase
     }
 
     /**
+     * @issue  https://github.com/phalcon/cphalcon/issues/17077
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-05
+     *
+     * @group mysql
+     * @group pgsql
+     * @group sqlite
+     */
+    public function testMvcModelQueryBuilderOrderByArrayComplexWithoutDirection(): void
+    {
+        $builder = new Builder();
+        $phql    = $builder
+            ->columns('inv_id, inv_title')
+            ->addFrom(Invoices::class)
+            ->orderBy(['COALESCE(inv_a, inv_b)'])
+            ->getPhql()
+        ;
+
+        $expected = 'SELECT inv_id, inv_title '
+            . 'FROM [Phalcon\Tests\Support\Models\Invoices] '
+            . 'ORDER BY COALESCE(inv_a, inv_b)';
+        $this->assertEquals($expected, $phql);
+    }
+
+    /**
+     * @issue  https://github.com/phalcon/cphalcon/issues/17077
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-05
+     *
+     * @group mysql
+     * @group pgsql
+     * @group sqlite
+     */
+    public function testMvcModelQueryBuilderOrderByArraySimpleColumns(): void
+    {
+        $builder = new Builder();
+        $builder
+            ->columns('inv_id, inv_title')
+            ->addFrom(Invoices::class)
+        ;
+
+        $prefix = 'SELECT inv_id, inv_title '
+            . 'FROM [Phalcon\Tests\Support\Models\Invoices] '
+            . 'ORDER BY ';
+
+        // Bare column - autoescaped
+        $this->assertEquals(
+            $prefix . '[inv_title]',
+            $builder->orderBy(['inv_title'])->getPhql()
+        );
+
+        // Column with direction - autoescaped, direction preserved
+        $this->assertEquals(
+            $prefix . '[inv_title] DESC',
+            $builder->orderBy(['inv_title DESC'])->getPhql()
+        );
+
+        // Extra whitespace between column and direction is normalized
+        $this->assertEquals(
+            $prefix . '[inv_title] DESC',
+            $builder->orderBy(['inv_title    DESC'])->getPhql()
+        );
+
+        // Lowercase direction is preserved as written
+        $this->assertEquals(
+            $prefix . '[inv_title] desc',
+            $builder->orderBy(['inv_title desc'])->getPhql()
+        );
+
+        // Dotted identifier is left untouched by autoescape
+        $this->assertEquals(
+            $prefix . 'i.inv_title ASC',
+            $builder->orderBy(['i.inv_title ASC'])->getPhql()
+        );
+    }
+
+    /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-05
      *
