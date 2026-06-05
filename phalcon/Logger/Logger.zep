@@ -158,6 +158,25 @@ class Logger extends AbstractLogger implements LoggerInterface
     }
 
     /**
+     * Extra-verbose diagnostic output.
+     *
+     * Use for high-frequency, fine-grained events such as raw socket frames,
+     * HTTP response bodies, or internal state transitions that are too noisy
+     * for DEBUG.
+     *
+     * @param string $message
+     * @param array  $context
+     *
+     * @return void
+     * @throws Exception
+     * @throws LoggerException
+     */
+    public function trace(string message, array context = []) -> void
+    {
+        this->addMessage(self::TRACE, message, context);
+    }
+
+    /**
      * Exceptional occurrences that are not errors.
      *
      * Example: Use of deprecated APIs, poor use of an API, undesirable things

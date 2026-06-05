@@ -143,6 +143,7 @@ class Syslog extends AbstractAdapter
             Enum::ERROR     : LOG_ERR,
             Enum::INFO      : LOG_INFO,
             Enum::NOTICE    : LOG_NOTICE,
+            Enum::TRACE     : LOG_DEBUG,
             Enum::WARNING   : LOG_WARNING
         ];
 
