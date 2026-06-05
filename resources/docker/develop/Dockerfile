@@ -17,57 +17,54 @@ COPY --from=ghcr.io/mlocati/php-extension-installer /usr/bin/install-php-extensi
 SHELL [ "/bin/bash", "-o", "pipefail", "-c" ]
 
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
-    --mount=type=cache,target=/var/lib/apt/lists,sharing=locked \
-    set -eux \
-# Add user and group \
-    && groupadd -g "${GID}" "${GROUP}" \
-    && useradd -l -u "${UID}" -g "${GID}" -d /app "${USER}" \
-    && usermod -s /bin/bash "${USER}" \
-    && mkdir -p /app \
-    && chown "${USER}:${GROUP}" /app \
-    && chmod 0770 /app \
-    && apt-get update \
-    && apt-get install -yq --no-install-recommends libfcgi-bin=2.* \
-# Install runtime extensions \
-    && install-php-extensions \
-        apcu \
-        gettext \
-        gd \
-        igbinary \
-        imagick \
-        intl \
-        mysqli \
-        opcache \
-        pdo_mysql \
-        pdo_pgsql \
-        pgsql \
-        redis \
-        xsl \
-        yaml \
-        zip \
-# Production php.ini \
-    && mv /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini \
-    && sed -i -e "s/;error_log = syslog/error_log = \/proc\/self\/fd\/2/" /usr/local/etc/php/php.ini \
-# FPM logging + pid \
-    && sed -i -e "/error_log = .*/c\error_log = \/proc\/self\/fd\/2" /usr/local/etc/php-fpm.conf \
-    && sed -i -e "/;pid = .*/c\pid = /run/php/php-fpm.pid" /usr/local/etc/php-fpm.conf \
-# FPM pool \
-    && sed -i -e "s/^;clear_env = no$/clear_env = no/" /usr/local/etc/php-fpm.d/www.conf \
-    && sed -i -e "s/;owner = www-data/owner = ${USER}/g" /usr/local/etc/php-fpm.d/www.conf \
-    && sed -i -e "s/;user = www-data/user = ${USER}/g" /usr/local/etc/php-fpm.d/www.conf \
-    && sed -i -e "s/;group = www-data/group = ${GROUP}/g" /usr/local/etc/php-fpm.d/www.conf \
-# Healthcheck script \
-    && curl -fsSL -o /usr/local/bin/php-fpm-healthcheck \
-        https://raw.githubusercontent.com/renatomefi/php-fpm-healthcheck/master/php-fpm-healthcheck \
-    && chown "${USER}:${GROUP}" /usr/local/bin/php-fpm-healthcheck \
-    && chmod 0770 /usr/local/bin/php-fpm-healthcheck \
-    && echo "pm.status_path = /status" >> /usr/local/etc/php-fpm.d/zz-docker.conf \
-# Pid dir \
-    && mkdir -p /run/php \
-    && chown "${USER}:${GROUP}" /run/php \
-    && chmod 0770 /run/php \
-# Cleanup \
-    && rm -rf /tmp/* /var/tmp/*
+    --mount=type=cache,target=/var/lib/apt/lists,sharing=locked <<EOT
+set -eux
+# Add user and group
+groupadd -g "${GID}" "${GROUP}"
+useradd -l -u "${UID}" -g "${GID}" -d /app "${USER}"
+usermod -s /bin/bash "${USER}"
+install -d -m 0770 -o "${USER}" -g "${GROUP}" /app
+apt-get update
+apt-get install -yq --no-install-recommends libfcgi-bin=2.*
+# Install runtime extensions
+install-php-extensions \
+    apcu \
+    gettext \
+    gd \
+    igbinary \
+    imagick \
+    intl \
+    mysqli \
+    opcache \
+    pdo_mysql \
+    pdo_pgsql \
+    pgsql \
+    redis \
+    xsl \
+    yaml \
+    zip
+# Production php.ini
+cp -p /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini
+sed -i -e "s/;error_log = syslog/error_log = \/proc\/self\/fd\/2/" /usr/local/etc/php/php.ini
+# FPM logging + pid
+sed -i -e "/error_log = .*/c\error_log = \/proc\/self\/fd\/2" /usr/local/etc/php-fpm.conf
+sed -i -e "/;pid = .*/c\pid = /run/php/php-fpm.pid" /usr/local/etc/php-fpm.conf
+# FPM pool
+sed -i -e "s/^;clear_env = no$/clear_env = no/" /usr/local/etc/php-fpm.d/www.conf
+sed -i -e "s/;owner = www-data/owner = ${USER}/g" /usr/local/etc/php-fpm.d/www.conf
+sed -i -e "s/;user = www-data/user = ${USER}/g" /usr/local/etc/php-fpm.d/www.conf
+sed -i -e "s/;group = www-data/group = ${GROUP}/g" /usr/local/etc/php-fpm.d/www.conf
+# Healthcheck script
+curl -fsSL -o /usr/local/bin/php-fpm-healthcheck \
+    https://raw.githubusercontent.com/renatomefi/php-fpm-healthcheck/master/php-fpm-healthcheck
+chown "${USER}:${GROUP}" /usr/local/bin/php-fpm-healthcheck
+chmod 0770 /usr/local/bin/php-fpm-healthcheck
+echo "pm.status_path = /status" >> /usr/local/etc/php-fpm.d/zz-docker.conf
+# Pid dir
+install -d -m 0770 -o "${USER}" -g "${GROUP}" /run/php
+# Cleanup
+rm -rf /tmp/* /var/tmp/*
+EOT
 
 HEALTHCHECK --interval=5s --timeout=1s \
     CMD php-fpm-healthcheck || exit 1
@@ -95,57 +92,58 @@ SHELL [ "/bin/bash", "-o", "pipefail", "-c" ]
 
 # hadolint ignore=DL3008
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
-    --mount=type=cache,target=/var/lib/apt/lists,sharing=locked \
-    set -eux \
-# Toolchain (zephir build) + dev utilities \
-    && apt-get update \
-    && apt-get install -yq --no-install-recommends \
-        autoconf \
-        dpkg-dev \
-        file \
-        g++ \
-        gcc \
-        git \
-        libc-dev \
-        locales \
-        make \
-        nano \
-        pkg-config \
-        re2c \
-        sudo \
-        unzip \
-        wget \
-        zip \
-# Dev/test extensions \
-    && install-php-extensions \
-        gmp \
-        memcached \
-        msgpack \
-        xdebug \
-        zephir_parser \
-# Locales for gettext/Translate tests \
-    && sed -i -e 's/# de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/' /etc/locale.gen \
-    && sed -i -e 's/# el_GR.UTF-8 UTF-8/el_GR.UTF-8 UTF-8/' /etc/locale.gen \
-    && sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen \
-    && sed -i -e 's/# es_ES.UTF-8 UTF-8/es_ES.UTF-8 UTF-8/' /etc/locale.gen \
-    && sed -i -e 's/# ru_RU.UTF-8 UTF-8/ru_RU.UTF-8 UTF-8/' /etc/locale.gen \
-    && dpkg-reconfigure --frontend=noninteractive locales \
-    && update-locale LANG=en_US.UTF-8 \
-# Unlimited memory for builds/tests \
-    && echo 'memory_limit = -1' > /usr/local/etc/php/conf.d/zz-memory.ini \
-# Passwordless sudo for the phalcon group \
-    && echo "%${GROUP} ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/phalcon \
-    && chmod 0440 /etc/sudoers.d/phalcon \
-# Composer home owned by the user \
-    && mkdir -p "${COMPOSER_HOME}" \
-    && chown -R "${USER}:${GROUP}" "${COMPOSER_HOME}" \
-# Make the dirs `make install` writes to (extension dir + headers) writable so `cpl` installs as the user \
-    && chown -R "${USER}:${GROUP}" "$(php-config --extension-dir)" "$(php-config --include-dir)" /usr/local/etc/php/conf.d \
-# Own the WORKDIR so the user can create `.zephir`/`ext` dirs during `zephir build` \
-    && mkdir -p /srv \
-    && chown "${USER}:${GROUP}" /srv \
-# Cleanup \
-    && rm -rf /tmp/* /var/tmp/*
+    --mount=type=cache,target=/var/lib/apt/lists,sharing=locked <<EOT
+set -eux
+# Toolchain (zephir build) + dev utilities
+apt-get update
+apt-get install -yq --no-install-recommends \
+    autoconf \
+    dpkg-dev \
+    file \
+    g++ \
+    gcc \
+    git \
+    libc-dev \
+    locales \
+    make \
+    nano \
+    pkg-config \
+    re2c \
+    sudo \
+    unzip \
+    wget \
+    zip
+# Dev/test extensions
+install-php-extensions \
+    gmp \
+    memcached \
+    msgpack \
+    xdebug \
+    zephir_parser
+# Locales for gettext/Translate tests
+sed -i -e 's/# de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/' /etc/locale.gen
+sed -i -e 's/# el_GR.UTF-8 UTF-8/el_GR.UTF-8 UTF-8/' /etc/locale.gen
+sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
+sed -i -e 's/# es_ES.UTF-8 UTF-8/es_ES.UTF-8 UTF-8/' /etc/locale.gen
+sed -i -e 's/# ru_RU.UTF-8 UTF-8/ru_RU.UTF-8 UTF-8/' /etc/locale.gen
+dpkg-reconfigure --frontend=noninteractive locales
+update-locale LANG=en_US.UTF-8
+# Unlimited memory for builds/tests
+echo 'memory_limit = -1' > /usr/local/etc/php/conf.d/zz-memory.ini
+# Passwordless sudo for the phalcon group
+echo "%${GROUP} ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/phalcon
+chmod 0440 /etc/sudoers.d/phalcon
+# Composer home owned by the user
+mkdir -p "${COMPOSER_HOME}"
+chown -R "${USER}:${GROUP}" "${COMPOSER_HOME}"
+# Make the dirs `make install` writes to (extension dir + headers) writable so `cpl` installs as the user
+chown -R "${USER}:${GROUP}" "$(php-config --extension-dir)" "$(php-config --include-dir)" /usr/local/etc/php/conf.d
+# Own the WORKDIR so the user can create `.zephir`/`ext` dirs during `zephir build`
+mkdir -p /srv
+chown "${USER}:${GROUP}" /srv
+# Cleanup
+rm -rf /tmp/* /var/tmp/*
+EOT
 
 WORKDIR /srv
 USER ${USER}
@@ -160,15 +158,18 @@ ARG GROUP=phalcon
 
 COPY --chown=${USER}:${GROUP} ./ /srv
 
-RUN --mount=type=cache,target=/app/.composer/cache,uid=1000,gid=1000 \
-    set -eux \
-    && rm -rf /srv/vendor \
-# Cleanup from any previous (host) build \
-    && find /srv -type f -iname '*.dep' -exec rm -f {} \; \
-    && composer global require phalcon/zephir:dev-development \
-    && "${COMPOSER_HOME}/vendor/bin/zephir" fullclean \
-    && "${COMPOSER_HOME}/vendor/bin/zephir" build \
-    && cat compile-errors.log
+RUN --mount=type=cache,target=/app/.composer/cache,uid=1000,gid=1000 <<EOT
+set -eux
+rm -rf /srv/vendor
+# Cleanup from any previous (host) build
+find /srv -type f -iname '*.dep' -exec rm -f {} \;
+composer global require phalcon/zephir:dev-development
+"${COMPOSER_HOME}/vendor/bin/zephir" fullclean
+"${COMPOSER_HOME}/vendor/bin/zephir" build
+cat compile-errors.log
+# Stage the compiled extension at its final path for the prod image
+install -D -p /srv/ext/modules/phalcon.so "/app/.dist$(php-config --extension-dir)/phalcon.so"
+EOT
 
 ############################################################
 # prod - minimal runtime image shipping the compiled .so
@@ -192,19 +193,19 @@ LABEL org.opencontainers.image.version="${PHALCON_VERSION}-php${PHP_VERSION}"
 LABEL org.opencontainers.image.url="https://github.com/phalcon/cphalcon/tree/${PHALCON_VERSION}/resources/docker/develop/Dockerfile"
 LABEL org.opencontainers.image.source="https://github.com/phalcon/cphalcon/"
 
-COPY --from=phalcon /srv/ext/modules/phalcon.so /tmp/phalcon.so
+COPY --from=phalcon /app/.dist/ /
 
 SHELL [ "/bin/bash", "-o", "pipefail", "-c" ]
 
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
-    --mount=type=cache,target=/var/lib/apt/lists,sharing=locked \
-    set -eux \
-# Install the extension \
-    && mv /tmp/phalcon.so "$(php-config --extension-dir)/phalcon.so" \
-    && echo "extension=phalcon.so" > /usr/local/etc/php/conf.d/70-phalcon.ini \
-# Cleanup \
-    && apt-get autoremove --purge -y curl \
-    && rm -rf /tmp/* /var/tmp/* /srv
+    --mount=type=cache,target=/var/lib/apt/lists,sharing=locked <<EOT
+set -eux
+# Enable the extension
+echo "extension=phalcon.so" > /usr/local/etc/php/conf.d/70-phalcon.ini
+# Cleanup
+apt-get autoremove --purge -y curl
+rm -rf /tmp/* /var/tmp/* /srv
+EOT
 
 WORKDIR /app
 USER ${USER}
