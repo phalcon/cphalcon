@@ -95,4 +95,40 @@ EOF;
             $parsed[3]
         );
     }
+
+    /**
+     * An annotation argument that is a string containing a parenthesis must be
+     * parsed correctly - the parenthesis inside the string is not a structural
+     * one and must not break the docblock scanning.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-05
+     * @issue  https://github.com/phalcon/cphalcon/issues/16084
+     */
+    public function testAnnotationsReaderParseDocBlockParenthesesInString(): void
+    {
+        $docBlock = <<<EOF
+/**
+ * @SingleQuoteOpenParen(key='value(')
+ * @SingleQuoteCloseParen(key='value)')
+ * @DoubleQuoteParens(key="value()")
+ */
+EOF;
+
+        $reader = new Reader();
+        $parsed = $reader->parseDocBlock($docBlock);
+
+        $this->assertIsArray($parsed);
+        $this->assertCount(3, $parsed);
+
+        $this->assertSame('SingleQuoteOpenParen', $parsed[0]['name']);
+        $this->assertSame('key', $parsed[0]['arguments'][0]['name']);
+        $this->assertSame('value(', $parsed[0]['arguments'][0]['expr']['value']);
+
+        $this->assertSame('SingleQuoteCloseParen', $parsed[1]['name']);
+        $this->assertSame('value)', $parsed[1]['arguments'][0]['expr']['value']);
+
+        $this->assertSame('DoubleQuoteParens', $parsed[2]['name']);
+        $this->assertSame('value()', $parsed[2]['arguments'][0]['expr']['value']);
+    }
 }
