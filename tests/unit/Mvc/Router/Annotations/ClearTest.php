@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\Router\Annotations;
 
+use Phalcon\Mvc\Router\Annotations;
 use Phalcon\Tests\AbstractUnitTestCase;
 
 final class ClearTest extends AbstractUnitTestCase
@@ -23,6 +24,20 @@ final class ClearTest extends AbstractUnitTestCase
      */
     public function testMvcRouterAnnotationsClear(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $router = new Annotations(false);
+
+        $router->addGet(
+            '/docs/index',
+            [
+                'controller' => 'documentation',
+                'action'     => 'index',
+            ]
+        );
+
+        $this->assertCount(1, $router->getRoutes());
+
+        $router->clear();
+
+        $this->assertCount(0, $router->getRoutes());
     }
 }

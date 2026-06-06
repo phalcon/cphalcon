@@ -13,16 +13,45 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\Router\Annotations;
 
+use Phalcon\Mvc\Router\Annotations;
 use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Tests\Support\Traits\DiTrait;
 
 final class AddHeadTest extends AbstractUnitTestCase
 {
+    use DiTrait;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->newDi();
+        $this->setDiService('request');
+        $this->setDiService('annotations');
+    }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function testMvcRouterAnnotationsAddHead(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $router = new Annotations(false);
+        $router->setDI($this->container);
+
+        $router->addHead(
+            '/docs/index',
+            [
+                'controller' => 'documentation',
+                'action'     => 'index',
+            ]
+        );
+
+        $_SERVER['REQUEST_METHOD'] = 'HEAD';
+        $router->handle('/docs/index');
+
+        $this->assertSame('documentation', $router->getControllerName());
+        $this->assertSame('index', $router->getActionName());
+        $this->assertSame([], $router->getParams());
     }
 }

@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\Router\Annotations;
 
+use Phalcon\Mvc\Router\Annotations;
 use Phalcon\Tests\AbstractUnitTestCase;
 
 final class SetKeyRouteNamesTest extends AbstractUnitTestCase
@@ -23,6 +24,37 @@ final class SetKeyRouteNamesTest extends AbstractUnitTestCase
      */
     public function testMvcRouterAnnotationsSetKeyRouteNames(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $router = new Annotations(false);
+
+        $usersFind = $router
+            ->add('/api/users/find')
+            ->setHttpMethods('GET')
+            ->setName('usersFind')
+        ;
+        $usersAdd = $router
+            ->add('/api/users/add')
+            ->setHttpMethods('POST')
+            ->setName('usersAdd')
+        ;
+
+        // Looking up a route by name lazily builds the name => position map
+        $this->assertSame($usersAdd, $router->getRouteByName('usersAdd'));
+
+        $this->assertSame(
+            [
+                'usersFind' => 0,
+                'usersAdd'  => 1,
+            ],
+            $router->getKeyRouteNames()
+        );
+
+        $names = [
+            'usersAdd'  => 0,
+            'usersFind' => 1,
+        ];
+
+        $router->setKeyRouteNames($names);
+
+        $this->assertSame($names, $router->getKeyRouteNames());
     }
 }

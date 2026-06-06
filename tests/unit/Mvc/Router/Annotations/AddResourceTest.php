@@ -13,16 +13,47 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\Router\Annotations;
 
+use Phalcon\Mvc\Router\Annotations;
 use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Tests\Support\Traits\DiTrait;
 
 final class AddResourceTest extends AbstractUnitTestCase
 {
+    use DiTrait;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->newDi();
+        $this->setDiService('request');
+        $this->setDiService('annotations');
+    }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function testMvcRouterAnnotationsAddResource(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $router = new Annotations(false);
+        $router->setDI($this->container);
+        $router->setDefaultNamespace('Phalcon\Tests\Support\Controllers');
+
+        $router->addResource('Robots', '/robots');
+
+        // The resource is registered as [prefix, handler]
+        $this->assertSame(
+            [
+                ['/robots', 'Robots'],
+            ],
+            $router->getResources()
+        );
+
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+        $router->handle('/robots');
+
+        // RobotsController exposes three annotated routes
+        $this->assertCount(3, $router->getRoutes());
     }
 }

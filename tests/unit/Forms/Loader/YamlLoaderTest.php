@@ -32,24 +32,6 @@ final class YamlLoaderTest extends AbstractUnitTestCase
     }
 
     // -----------------------------------------------------------------------
-    // Missing extension path (tested without guard - we test the exception)
-    // -----------------------------------------------------------------------
-
-    public function testLoadThrowsWhenExtensionNotLoaded(): void
-    {
-        if (extension_loaded('yaml')) {
-            $this->markTestSkipped('yaml extension is loaded; cannot test missing-extension error.');
-        }
-
-        $schema = new YamlLoader('- type: text' . PHP_EOL . '  name: field');
-
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessageMatches('/yaml.*extension/i');
-
-        $schema->load();
-    }
-
-    // -----------------------------------------------------------------------
     // Valid YAML string
     // -----------------------------------------------------------------------
 

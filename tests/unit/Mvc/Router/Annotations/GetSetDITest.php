@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\Router\Annotations;
 
+use Phalcon\Di\FactoryDefault;
+use Phalcon\Mvc\Router\Annotations;
 use Phalcon\Tests\AbstractUnitTestCase;
 
 final class GetSetDITest extends AbstractUnitTestCase
@@ -23,6 +25,11 @@ final class GetSetDITest extends AbstractUnitTestCase
      */
     public function testMvcRouterAnnotationsGetSetDI(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $router = new Annotations(false);
+        $di     = new FactoryDefault();
+
+        $router->setDI($di);
+
+        $this->assertSame($di, $router->getDI());
     }
 }

@@ -30,8 +30,6 @@ final class LiquidRescaleTest extends AbstractUnitTestCase
      */
     public function testImageAdapterImagickLiquidRescale(): void
     {
-        $this->markTestSkipped('Check library support');
-
         $image = new Imagick(
             supportDir('assets/images/example-jpg.jpg')
         );

@@ -70,39 +70,6 @@ final class GetSetStatusCodeTest extends AbstractHttpBase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-08
      */
-    public function testHttpResponseSetStatusCodeSend(): void
-    {
-        $this->markTestSkipped('Skipping until I figure it out without xdebug');
-        $response = $this->getResponseObject();
-
-        $body = ['test' => 123];
-        $response
-            ->resetHeaders()
-            ->setStatusCode(Http::CODE_404)
-            ->setContentType(Http::CONTENT_TYPE_JSON, Http::UTF8)
-            ->setJsonContent($body, JSON_NUMERIC_CHECK)
-        ;
-
-        ob_start();
-        $response->send();
-        $contents = ob_get_clean();
-
-        $expected = [
-            'Status: ' . Http::MESSAGE_404_NOT_FOUND,
-            'Content-Type: ' . Http::CONTENT_TYPE_JSON,
-        ];
-        $actual   = xdebug_get_headers();
-        $this->assertSame($expected, $actual);
-
-        $expected = '{"test":123}';
-        $actual   = $contents;
-        $this->assertSame($expected, $actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2014-10-08
-     */
     public function testHttpResponseSetStatusCodeSendMicro(): void
     {
         $this->checkExtensionIsLoaded('xdebug');
