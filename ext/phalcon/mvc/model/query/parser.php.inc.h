@@ -183,10 +183,15 @@ static void phql_ret_update_statement(zval *ret, zval *U, zval *W, zval *L)
 	}
 }
 
-static void phql_ret_update_clause(zval *ret, zval *tables, zval *values)
+static void phql_ret_update_clause(zval *ret, zval *tables, zval *joins, zval *values)
 {
 	array_init(ret);
 	add_assoc_zval(ret, "tables", tables);
+
+	if (joins && Z_TYPE_P(joins) != IS_UNDEF) {
+		add_assoc_zval(ret, "joins", joins);
+	}
+
 	add_assoc_zval(ret, "values", values);
 }
 

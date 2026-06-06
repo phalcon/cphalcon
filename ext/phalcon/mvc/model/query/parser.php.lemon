@@ -379,8 +379,8 @@ update_statement(R) ::= update_clause(U) where_clause(W) limit_clause(L) . {
 	zval_ptr_dtor(&$$);
 }
 
-update_clause(R) ::= UPDATE associated_name(A) SET update_item_list(U) . {
-	phql_ret_update_clause(&R, &A, &U);
+update_clause(R) ::= UPDATE associated_name(A) join_list_or_null(J) SET update_item_list(U) . {
+	phql_ret_update_clause(&R, &A, &J, &U);
 }
 
 %destructor update_item_list {
