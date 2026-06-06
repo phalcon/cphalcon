@@ -16,7 +16,7 @@ namespace Phalcon\Tests\Unit\Mvc\Model\Query\Phql\Update;
 use Phalcon\Mvc\Model\Query\Lang;
 use Phalcon\Tests\AbstractUnitTestCase;
 
-final class Combination extends AbstractUnitTestCase
+final class CombinationTest extends AbstractUnitTestCase
 {
     /**
      * @author Phalcon Team <team@phalcon.io>
@@ -87,6 +87,7 @@ final class Combination extends AbstractUnitTestCase
             ],
         ];
         $actual   = Lang::parsePhql($source);
+        unset($actual['id']);
         $this->assertSame($expected, $actual);
     }
 
@@ -119,6 +120,7 @@ final class Combination extends AbstractUnitTestCase
             ],
         ];
         $actual   = Lang::parsePhql($source);
+        unset($actual['id']);
         $this->assertSame($expected, $actual);
     }
 
@@ -165,6 +167,7 @@ final class Combination extends AbstractUnitTestCase
             ],
         ];
         $actual   = Lang::parsePhql($source);
+        unset($actual['id']);
         $this->assertSame($expected, $actual);
     }
 
@@ -215,6 +218,7 @@ final class Combination extends AbstractUnitTestCase
             ],
         ];
         $actual   = Lang::parsePhql($source);
+        unset($actual['id']);
         $this->assertSame($expected, $actual);
     }
 
@@ -257,6 +261,7 @@ final class Combination extends AbstractUnitTestCase
             ],
         ];
         $actual   = Lang::parsePhql($source);
+        unset($actual['id']);
         $this->assertSame($expected, $actual);
     }
 
@@ -299,6 +304,7 @@ final class Combination extends AbstractUnitTestCase
             ],
         ];
         $actual   = Lang::parsePhql($source);
+        unset($actual['id']);
         $this->assertSame($expected, $actual);
     }
 
@@ -337,6 +343,7 @@ final class Combination extends AbstractUnitTestCase
             ],
         ];
         $actual   = Lang::parsePhql($source);
+        unset($actual['id']);
         $this->assertSame($expected, $actual);
     }
 
@@ -392,6 +399,7 @@ final class Combination extends AbstractUnitTestCase
             ],
         ];
         $actual   = Lang::parsePhql($source);
+        unset($actual['id']);
         $this->assertSame($expected, $actual);
     }
 
@@ -447,6 +455,7 @@ final class Combination extends AbstractUnitTestCase
             ],
         ];
         $actual   = Lang::parsePhql($source);
+        unset($actual['id']);
         $this->assertSame($expected, $actual);
     }
 
@@ -490,6 +499,7 @@ final class Combination extends AbstractUnitTestCase
             ],
         ];
         $actual   = Lang::parsePhql($source);
+        unset($actual['id']);
         $this->assertSame($expected, $actual);
     }
 
@@ -543,6 +553,7 @@ final class Combination extends AbstractUnitTestCase
             ],
         ];
         $actual   = Lang::parsePhql($source);
+        unset($actual['id']);
         $this->assertSame($expected, $actual);
     }
 
@@ -586,6 +597,7 @@ final class Combination extends AbstractUnitTestCase
             ],
         ];
         $actual   = Lang::parsePhql($source);
+        unset($actual['id']);
         $this->assertSame($expected, $actual);
     }
 
@@ -635,6 +647,78 @@ final class Combination extends AbstractUnitTestCase
             ],
         ];
         $actual   = Lang::parsePhql($source);
+        unset($actual['id']);
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Mvc\Model\Query\Lang :: parsePHQL() - UPDATE with a JOIN
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/16984
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-06
+     */
+    public function testMvcModelQueryPhqlUpdateInnerJoinWhereNum(): void
+    {
+        $source   = "UPDATE Invoices "
+            . "INNER JOIN Customers ON Customers.cst_id = Invoices.inv_cst_id "
+            . "SET inv_total = 999 "
+            . "WHERE Customers.cst_id = 1";
+        $expected = [
+            'type'   => 300,
+            'update' => [
+                'tables' => [
+                    'qualifiedName' => [
+                        'type' => 355,
+                        'name' => 'Invoices',
+                    ],
+                ],
+                'joins'  => [
+                    'type'       => 360,
+                    'qualified'  => [
+                        'type' => 355,
+                        'name' => 'Customers',
+                    ],
+                    'conditions' => [
+                        'type'  => 61,
+                        'left'  => [
+                            'type'   => 355,
+                            'domain' => 'Customers',
+                            'name'   => 'cst_id',
+                        ],
+                        'right' => [
+                            'type'   => 355,
+                            'domain' => 'Invoices',
+                            'name'   => 'inv_cst_id',
+                        ],
+                    ],
+                ],
+                'values' => [
+                    'column' => [
+                        'type' => 355,
+                        'name' => 'inv_total',
+                    ],
+                    'expr'   => [
+                        'type'  => 258,
+                        'value' => '999',
+                    ],
+                ],
+            ],
+            'where'  => [
+                'type'  => 61,
+                'left'  => [
+                    'type'   => 355,
+                    'domain' => 'Customers',
+                    'name'   => 'cst_id',
+                ],
+                'right' => [
+                    'type'  => 258,
+                    'value' => '1',
+                ],
+            ],
+        ];
+        $actual   = Lang::parsePhql($source);
+        unset($actual['id']);
         $this->assertSame($expected, $actual);
     }
 }
