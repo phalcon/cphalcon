@@ -276,7 +276,7 @@ PHP_METHOD(Phalcon_Image_Adapter_AbstractAdapter, crop)
 		if (ZEPHIR_LT_LONG(offsetX, 0)) {
 			zephir_read_property(&_4$$6, this_ptr, ZEND_STRL("width"), PH_NOISY_CC | PH_READONLY);
 			ZEPHIR_INIT_NVAR(&_3$$6);
-			ZVAL_LONG(&_3$$6, ((zephir_get_numberval(&_4$$6) - width) + zephir_get_numberval(offsetX)));
+			ZVAL_LONG(&_3$$6, ((zephir_get_numberval(&_4$$6) - width) + (zend_long) zephir_get_numberval(offsetX)));
 		} else {
 			ZEPHIR_CPY_WRT(&_3$$6, offsetX);
 		}
@@ -300,7 +300,7 @@ PHP_METHOD(Phalcon_Image_Adapter_AbstractAdapter, crop)
 		if (ZEPHIR_LT_LONG(offsetY, 0)) {
 			zephir_read_property(&_8$$8, this_ptr, ZEND_STRL("height"), PH_NOISY_CC | PH_READONLY);
 			ZEPHIR_INIT_NVAR(&_7$$8);
-			ZVAL_LONG(&_7$$8, ((zephir_get_numberval(&_8$$8) - height) + zephir_get_numberval(offsetY)));
+			ZVAL_LONG(&_7$$8, ((zephir_get_numberval(&_8$$8) - height) + (zend_long) zephir_get_numberval(offsetY)));
 		} else {
 			ZEPHIR_CPY_WRT(&_7$$8, offsetY);
 		}
