@@ -203,6 +203,15 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
             throw new NoFormElements();
         }
 
+        /**
+         * Check if there is a method 'beforeBind'
+         */
+        if method_exists(this, "beforeBind") {
+            if this->{"beforeBind"}(data, entity) === false {
+                return this;
+            }
+        }
+
         if empty whitelist {
             let whitelist = this->whitelist;
         }
@@ -305,6 +314,13 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
 
         let this->data = assignData;
         let this->filteredData = filteredData;
+
+        /**
+         * Check if there is a method 'afterBind'
+         */
+        if method_exists(this, "afterBind") {
+            this->{"afterBind"}(entity);
+        }
 
         return this;
     }
