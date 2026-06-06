@@ -131,7 +131,7 @@ int phannot_parse_annotations(zval *result, zval *comment, zval *file_path, zval
  */
 static void phannot_remove_comment_separators(char **ret, int *ret_len, const char *comment, int length, int *start_lines)
 {
-	char ch;
+	char ch, quote;
 	int start_mode = 1, j, i, open_parentheses;
 	smart_str processed_str = {0};
 
@@ -181,6 +181,37 @@ static void phannot_remove_comment_separators(char **ret, int *ret_len, const ch
 				} else {
 
 					smart_str_appendc(&processed_str, ch);
+
+					if (ch == '"' || ch == '\'') {
+						quote = ch;
+
+						/**
+						 * Consume the whole string literal so that any
+						 * parentheses inside it are not counted as structural
+						 */
+						for (j++; j < length; j++) {
+							ch = comment[j];
+							smart_str_appendc(&processed_str, ch);
+
+							if (ch == '\\') {
+								j++;
+								if (j < length) {
+									smart_str_appendc(&processed_str, comment[j]);
+								}
+								continue;
+							}
+
+							if (ch == quote) {
+								break;
+							}
+
+							if (ch == '\n') {
+								(*start_lines)++;
+							}
+						}
+
+						continue;
+					}
 
 					if (ch == '(') {
 						open_parentheses++;
