@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\Router\Annotations;
 
+use Phalcon\Mvc\Router\Annotations;
+use Phalcon\Mvc\RouterInterface;
 use Phalcon\Tests\AbstractUnitTestCase;
 
 final class ConstructTest extends AbstractUnitTestCase
@@ -23,6 +25,9 @@ final class ConstructTest extends AbstractUnitTestCase
      */
     public function testMvcRouterAnnotationsConstruct(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $router = new Annotations(false);
+
+        $this->assertInstanceOf(RouterInterface::class, $router);
+        $this->assertCount(0, $router->getRoutes());
     }
 }

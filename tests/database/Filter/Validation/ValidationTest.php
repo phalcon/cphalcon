@@ -23,7 +23,7 @@ use Phalcon\Filter\Validation\Validator\Url;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
 use Phalcon\Tests\AbstractDatabaseTestCase;
-use Phalcon\Tests\Support\Models\Users;
+use Phalcon\Tests\Support\Models\Objects;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use stdClass;
 
@@ -41,7 +41,7 @@ final class ValidationTest extends AbstractDatabaseTestCase
         $this->validation = new Validation();
 
         $this->validation->add(
-            'name',
+            'obj_name',
             new PresenceOf(
                 [
                     'message' => 'Name cant be empty.',
@@ -49,7 +49,7 @@ final class ValidationTest extends AbstractDatabaseTestCase
             )
         );
 
-        $this->validation->setFilters('name', 'trim');
+        $this->validation->setFilters('obj_name', 'trim');
     }
 
     /**
@@ -106,15 +106,13 @@ final class ValidationTest extends AbstractDatabaseTestCase
      */
     public function testWithEntityAndFilter(): void
     {
-        $this->markTestSkipped('The `users` table is not in the current test schema');
-
-        $users = new Users(
+        $object = new Objects(
             [
-                'name' => ' ',
+                'obj_name' => ' ',
             ]
         );
 
-        $messages = $this->validation->validate(null, $users);
+        $messages = $this->validation->validate(null, $object);
 
         $this->assertEquals(
             1,
@@ -130,7 +128,7 @@ final class ValidationTest extends AbstractDatabaseTestCase
             [
                 new Message(
                     'Name cant be empty.',
-                    'name',
+                    'obj_name',
                     PresenceOf::class,
                     0
                 ),
@@ -151,21 +149,19 @@ final class ValidationTest extends AbstractDatabaseTestCase
      */
     public function testFilteringEntity(): void
     {
-        $this->markTestSkipped('The `users` table is not in the current test schema');
+        $object = new Objects();
 
-        $users = new Users();
-
-        $users->assign(
+        $object->assign(
             [
-                'name' => 'SomeName      ',
+                'obj_name' => 'SomeName      ',
             ]
         );
 
-        $this->validation->validate(null, $users);
+        $this->validation->validate(null, $object);
 
         $this->assertEquals(
             'SomeName',
-            $users->name
+            $object->obj_name
         );
     }
 

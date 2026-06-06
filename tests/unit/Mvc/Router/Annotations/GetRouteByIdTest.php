@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\Router\Annotations;
 
+use Phalcon\Mvc\Router\Annotations;
 use Phalcon\Tests\AbstractUnitTestCase;
 
 final class GetRouteByIdTest extends AbstractUnitTestCase
@@ -23,6 +24,17 @@ final class GetRouteByIdTest extends AbstractUnitTestCase
      */
     public function testMvcRouterAnnotationsGetRouteById(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $router = new Annotations(false);
+
+        $router->add('/test', ['controller' => 'test', 'action' => 'test']);
+        $router->add('/test2', ['controller' => 'test', 'action' => 'test']);
+        $router->add('/test3', ['controller' => 'test', 'action' => 'test']);
+
+        foreach (array_reverse($router->getRoutes()) as $route) {
+            $this->assertSame(
+                $route,
+                $router->getRouteById($route->getRouteId())
+            );
+        }
     }
 }

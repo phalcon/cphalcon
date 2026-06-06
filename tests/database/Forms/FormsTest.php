@@ -31,7 +31,6 @@ final class FormsTest extends AbstractDatabaseTestCase
 
     public function setUp(): void
     {
-        $this->markTestSkipped('Needs to be refactored because of Tag');
         $this->setNewFactoryDefault();
         $this->setDatabase();
         Tag::resetInput();
@@ -335,7 +334,12 @@ final class FormsTest extends AbstractDatabaseTestCase
         $element = new Select('test-select');
 
         $element->appendMessage(
-            new Message('')
+            new Message('sample message')
         );
+
+        $messages = $element->getMessages();
+
+        $this->assertCount(1, $messages);
+        $this->assertSame('sample message', $messages[0]->getMessage());
     }
 }

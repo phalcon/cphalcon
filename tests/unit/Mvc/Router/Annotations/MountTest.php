@@ -13,6 +13,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\Router\Annotations;
 
+use Phalcon\Mvc\Router\Annotations;
+use Phalcon\Mvc\Router\Group;
+use Phalcon\Mvc\RouterInterface;
 use Phalcon\Tests\AbstractUnitTestCase;
 
 final class MountTest extends AbstractUnitTestCase
@@ -23,6 +26,15 @@ final class MountTest extends AbstractUnitTestCase
      */
     public function testMvcRouterAnnotationsMount(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $router = new Annotations(false);
+
+        $group = new Group();
+        $group->setPrefix('/api');
+        $group->add('/users', ['controller' => 'users', 'action' => 'index']);
+
+        $result = $router->mount($group);
+
+        $this->assertInstanceOf(RouterInterface::class, $result);
+        $this->assertNotEmpty($router->getRoutes());
     }
 }

@@ -39,7 +39,6 @@ final class ClearTest extends AbstractDatabaseTestCase
 
     public function setUp(): void
     {
-        $this->markTestSkipped('Needs to be refactored because of Tag');
         $this->postStore = $_POST ?? [];
 
         $this->setNewFactoryDefault();
