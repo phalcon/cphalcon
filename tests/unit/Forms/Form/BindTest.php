@@ -19,6 +19,8 @@ use Phalcon\Forms\Element\Text;
 use Phalcon\Forms\Exception;
 use Phalcon\Forms\Form;
 use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Tests\Unit\Forms\Fake\FakeFormAfterBind;
+use Phalcon\Tests\Unit\Forms\Fake\FakeFormBeforeBind;
 use stdClass;
 
 /**
@@ -63,6 +65,43 @@ final class BindTest extends AbstractUnitTestCase
         $form->bind($data, new stdClass());
 
         $this->assertEquals("test1", $form->getValue("test1"));
+    }
+
+    /**
+     * Tests that the afterBind() hook is invoked after bind() assigns data.
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/14598
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-05
+     */
+    public function testFormsFormBindAfterBindCalled(): void
+    {
+        $form = new FakeFormAfterBind();
+        $form->add(new Text('name'));
+
+        $form->bind(['name' => 'test'], new stdClass());
+
+        $this->assertTrue($form->afterBindCalled);
+    }
+
+    /**
+     * Tests that returning false from beforeBind() cancels the bind so the
+     * entity is left untouched.
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/14598
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-05
+     */
+    public function testFormsFormBindBeforeBindReturnsFalseAbortsBind(): void
+    {
+        $form = new FakeFormBeforeBind();
+        $form->add(new Text('name'));
+
+        $entity       = new stdClass();
+        $entity->name = 'original';
+        $form->bind(['name' => 'changed'], $entity);
+
+        $this->assertSame('original', $entity->name);
     }
 
     /**
