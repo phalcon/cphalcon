@@ -11,6 +11,7 @@ PHP_METHOD(Phalcon_Logger_Logger, error);
 PHP_METHOD(Phalcon_Logger_Logger, info);
 PHP_METHOD(Phalcon_Logger_Logger, log);
 PHP_METHOD(Phalcon_Logger_Logger, notice);
+PHP_METHOD(Phalcon_Logger_Logger, trace);
 PHP_METHOD(Phalcon_Logger_Logger, warning);
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_logger_alert, 0, 1, IS_VOID, 0)
@@ -62,6 +63,12 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_logger_notice, 0,
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, context, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_logger_trace, 0, 1, IS_VOID, 0)
+
+	ZEND_ARG_TYPE_INFO(0, message, IS_STRING, 0)
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, context, IS_ARRAY, 0, "[]")
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_logger_warning, 0, 1, IS_VOID, 0)
 
 	ZEND_ARG_TYPE_INFO(0, message, IS_STRING, 0)
@@ -77,6 +84,7 @@ ZEPHIR_INIT_FUNCS(phalcon_logger_logger_method_entry) {
 	PHP_ME(Phalcon_Logger_Logger, info, arginfo_phalcon_logger_logger_info, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_Logger, log, arginfo_phalcon_logger_logger_log, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_Logger, notice, arginfo_phalcon_logger_logger_notice, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_Logger, trace, arginfo_phalcon_logger_logger_trace, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_Logger, warning, arginfo_phalcon_logger_logger_warning, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };

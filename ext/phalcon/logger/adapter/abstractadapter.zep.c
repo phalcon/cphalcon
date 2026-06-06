@@ -198,7 +198,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, add)
 	}
 	if (_1) {
 		zephir_read_property(&_4$$3, this_ptr, ZEND_STRL("queue"), PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_CALL_FUNCTION(&firstKey, "array_key_first", NULL, 17, &_4$$3);
+		ZEPHIR_CALL_FUNCTION(&firstKey, "array_key_first", NULL, 18, &_4$$3);
 		zephir_check_call_status();
 		if (Z_TYPE_P(&firstKey) != IS_NULL) {
 			zephir_unset_property_array(this_ptr, ZEND_STRL("queue"), &firstKey);

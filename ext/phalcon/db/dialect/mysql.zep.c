@@ -2236,7 +2236,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, modifyColumn)
 
 /**
  * MySQL does not support the SQL-standard `ON CONFLICT DO UPDATE`
- * upsert syntax — it has its own `INSERT ... ON DUPLICATE KEY UPDATE`
+ * upsert syntax - it has its own `INSERT ... ON DUPLICATE KEY UPDATE`
  * which requires PHQL grammar work (deferred). The base helper is
  * overridden here to throw, preventing accidental emission of invalid
  * SQL on MySQL connections.
@@ -2278,7 +2278,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, onConflictUpdate)
 /**
  * Returns a SQL modified with a LOCK IN SHARE MODE clause. The `modifier`
  * argument is accepted for signature parity with the contract but is
- * silently ignored on MySQL — its legacy `LOCK IN SHARE MODE` syntax has
+ * silently ignored on MySQL - its legacy `LOCK IN SHARE MODE` syntax has
  * no `NOWAIT` / `SKIP LOCKED` variant. Callers needing those modifiers
  * should target PostgreSQL or stay on `forUpdate()`.
  *

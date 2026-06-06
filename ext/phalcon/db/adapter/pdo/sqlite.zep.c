@@ -81,7 +81,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, __construct)
 	if (zephir_array_isset_value_string(&descriptor, SL("charset"))) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		ZVAL_STRING(&_0$$3, "SQLite does not allow the charset to be changed in the DSN.");
-		ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", NULL, 14, &_0$$3);
+		ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", NULL, 15, &_0$$3);
 		zephir_check_call_status();
 	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_db_adapter_pdo_sqlite_ce, getThis(), "__construct", NULL, 0, &descriptor);

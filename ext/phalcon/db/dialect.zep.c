@@ -865,7 +865,7 @@ PHP_METHOD(Phalcon_Db_Dialect, registerCustomFunction)
 /**
  * Generates SQL to create a materialized view. Supported by PostgreSQL
  * (`CREATE MATERIALIZED VIEW name AS <sql>`). Other dialects inherit
- * this throw — MySQL and SQLite have no materialized-view concept.
+ * this throw - MySQL and SQLite have no materialized-view concept.
  */
 PHP_METHOD(Phalcon_Db_Dialect, createMaterializedView)
 {
@@ -1134,7 +1134,7 @@ PHP_METHOD(Phalcon_Db_Dialect, onConflictUpdate)
  * Returns a SQL statement extended with a `RETURNING` clause so the
  * INSERT/UPDATE/DELETE returns rows. Supported by PostgreSQL and
  * SQLite 3.35+. Pass `["*"]` for `RETURNING *`, or a list of column
- * names. The base implementation throws — MySQL inherits it because
+ * names. The base implementation throws - MySQL inherits it because
  * MySQL has no RETURNING construct.
  */
 PHP_METHOD(Phalcon_Db_Dialect, returning)
@@ -1492,7 +1492,7 @@ PHP_METHOD(Phalcon_Db_Dialect, checkColumnTypeSql)
 /**
  * Builds a CHECK constraint clause from a `CheckInterface`, using the
  * provided escape character for the constraint name (so each dialect
- * gets its native quoting). Returns the clause body — the dialect's
+ * gets its native quoting). Returns the clause body - the dialect's
  * `createTable()` / `addCheck()` is expected to prefix `ADD` or place
  * the result on its own line as appropriate.
  */
@@ -1755,7 +1755,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getIndexColumnList)
  * Builds the `GENERATED ALWAYS AS (<expr>) VIRTUAL|STORED` clause for a
  * generated/computed column. Returns an empty string when the column is
  * not generated. When `forceStored` is `true` the clause is always emitted
- * as `STORED` regardless of the column's `isGenerationStored()` flag —
+ * as `STORED` regardless of the column's `isGenerationStored()` flag -
  * PostgreSQL uses this since it only supports stored generated columns.
  */
 PHP_METHOD(Phalcon_Db_Dialect, getGeneratedClause)

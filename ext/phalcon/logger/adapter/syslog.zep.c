@@ -262,7 +262,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, logLevelToSyslog)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &level_param);
 	ZEPHIR_INIT_VAR(&levels);
-	zephir_create_array(&levels, 9, 0);
+	zephir_create_array(&levels, 10, 0);
 	add_index_long(&levels, 2, 1);
 	add_index_long(&levels, 1, 2);
 	add_index_long(&levels, 8, 3);
@@ -271,6 +271,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, logLevelToSyslog)
 	add_index_long(&levels, 3, 3);
 	add_index_long(&levels, 6, 6);
 	add_index_long(&levels, 5, 5);
+	add_index_long(&levels, 9, 7);
 	add_index_long(&levels, 4, 4);
 	zephir_memory_observe(&result);
 	if (!(zephir_array_isset_long_fetch(&result, &levels, level, 0))) {

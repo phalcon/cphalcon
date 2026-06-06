@@ -36,7 +36,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Contracts_Db_Check)
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Check, getExpression);
 /**
  * Gets the constraint name. An empty string indicates an unnamed CHECK
- * constraint — the dialect will emit the clause without a `CONSTRAINT`
+ * constraint - the dialect will emit the clause without a `CONSTRAINT`
  * prefix in that case.
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Check, getName);

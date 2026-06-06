@@ -67,9 +67,9 @@
  * );
  *
  * $page = $paginator->paginate();
- * // $page->getItems()   — array of rows for this page
- * // $page->getNext()    — cursor value to pass for the next page (0 means no more pages)
- * // $page->getCurrent() — cursor value used for this page (0 on first page)
+ * // $page->getItems()   - array of rows for this page
+ * // $page->getNext()    - cursor value to pass for the next page (0 means no more pages)
+ * // $page->getCurrent() - cursor value used for this page (0 on first page)
  * ```
  */
 ZEPHIR_INIT_CLASS(Phalcon_Paginator_Adapter_QueryBuilderCursor)

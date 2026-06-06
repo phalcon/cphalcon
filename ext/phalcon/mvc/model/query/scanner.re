@@ -19,11 +19,12 @@
 #define YYCTYPE unsigned char
 #define YYCURSOR (s->start)
 #define YYLIMIT (s->end)
-#define YYMARKER q
+#define YYMARKER marker
 
 int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 
 	char *q = YYCURSOR;
+	char *marker = YYCURSOR;
 	int status = PHQL_SCANNER_RETCODE_IMPOSSIBLE;
 
 	/*!re2c
@@ -98,8 +99,8 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 		SPLACEHOLDER = ":"[a-zA-Z0-9_\-]+":";
 		SPLACEHOLDER {
 			token->opcode = PHQL_T_SPLACEHOLDER;
-			token->value = estrndup(q, YYCURSOR - q - 1);
-			token->len = YYCURSOR - q - 1;
+			token->value = estrndup(q + 1, YYCURSOR - q - 2);
+			token->len = YYCURSOR - q - 2;
 			q = YYCURSOR;
 			return 0;
 		}
@@ -107,8 +108,8 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 		BPLACEHOLDER = "{"[a-zA-Z0-9_:\-]+"}";
 		BPLACEHOLDER {
 			token->opcode = PHQL_T_BPLACEHOLDER;
-			token->value = estrndup(q, YYCURSOR - q - 1);
-			token->len = YYCURSOR - q - 1;
+			token->value = estrndup(q + 1, YYCURSOR - q - 2);
+			token->len = YYCURSOR - q - 2;
 			q = YYCURSOR;
 			return 0;
 		}
@@ -375,8 +376,8 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 
 		STRING {
 			token->opcode = PHQL_T_STRING;
-			token->value = estrndup(q, YYCURSOR - q - 1);
-			token->len = YYCURSOR - q - 1;
+			token->value = estrndup(q + 1, YYCURSOR - q - 2);
+			token->len = YYCURSOR - q - 2;
 			q = YYCURSOR;
 			return 0;
 		}
@@ -403,8 +404,8 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 		EIDENTIFIER = '[' ([\\][\[]|[\\][\]]|PRINTABLE\[\[\]])* ']';
 		EIDENTIFIER {
 			token->opcode = PHQL_T_IDENTIFIER;
-			token->value = estrndup(q, YYCURSOR - q - 1);
-			token->len = YYCURSOR - q - 1;
+			token->value = estrndup(q + 1, YYCURSOR - q - 2);
+			token->len = YYCURSOR - q - 2;
 			q = YYCURSOR;
 			return 0;
 		}

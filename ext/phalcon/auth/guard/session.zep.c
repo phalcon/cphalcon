@@ -956,7 +956,7 @@ PHP_METHOD(Phalcon_Auth_Guard_Session, rememberUser)
 	zephir_array_update_string(&_4, SL("token"), &_5, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&_4, SL("user_agent"), &agent, PH_COPY | PH_SEPARATE);
 	ZVAL_LONG(&_6, 4194304);
-	ZEPHIR_CALL_METHOD(&payload, &_3, "__invoke", NULL, 25, &_4, &_6);
+	ZEPHIR_CALL_METHOD(&payload, &_3, "__invoke", NULL, 26, &_4, &_6);
 	zephir_check_call_status();
 	zephir_read_property(&_6, this_ptr, ZEND_STRL("cookies"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&_5, this_ptr, "getremembername", NULL, 0);

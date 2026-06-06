@@ -44,7 +44,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Router_Route)
 	zend_declare_property_null(phalcon_mvc_router_route_ce, SL("beforeMatch"), ZEND_ACC_PROTECTED);
 	/**
 	 * Cached compiled hostname regex. `false` means "not yet computed";
-	 * `null` means "hostname is literal — use string equality"; any string
+	 * `null` means "hostname is literal - use string equality"; any string
 	 * means "use this as the PCRE pattern."
 	 *
 	 * @var string|null|false
@@ -1054,7 +1054,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, setName)
 }
 
 /**
- * Sets the route's id. Intended for restoring cached routes — most
+ * Sets the route's id. Intended for restoring cached routes - most
  * applications should rely on the auto-incrementing id assigned by
  * the constructor.
  */

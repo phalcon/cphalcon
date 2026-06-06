@@ -71,7 +71,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Check)
 	zend_declare_property_null(phalcon_db_check_ce, SL("expression"), ZEND_ACC_PROTECTED);
 	/**
 	 * The CHECK constraint name. An empty string indicates an unnamed
-	 * constraint — the dialect will emit the clause without a `CONSTRAINT`
+	 * constraint - the dialect will emit the clause without a `CONSTRAINT`
 	 * prefix in that case.
 	 *
 	 * @var string

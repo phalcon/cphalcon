@@ -33,14 +33,14 @@ final class BracketsWithEscapedNameTest extends AbstractUnitTestCase
                         'type'   => 354,
                         'column' => [
                             'type' => 355,
-                            'name' => '',
+                            'name' => 'col\[0\]',
                         ],
                     ],
                     1 => [
                         'type'   => 354,
                         'column' => [
                             'type' => 355,
-                            'name' => '',
+                            'name' => 'col\[1\]',
                         ],
                     ],
                 ],
