@@ -677,7 +677,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, getTimestamp)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &timestamp_param);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("timeShift"), PH_NOISY_CC | PH_READONLY);
-	RETURN_LONG((timestamp + zephir_get_numberval(&_0)));
+	RETURN_LONG((timestamp + (zend_long) zephir_get_numberval(&_0)));
 }
 
 zend_object *zephir_init_properties_Phalcon_Encryption_Security_JWT_Validator(zend_class_entry *class_type)

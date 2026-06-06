@@ -18,6 +18,7 @@
 
 #include <Zend/zend_closures.h>
 #include <Zend/zend_string.h>
+#include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
@@ -740,6 +741,17 @@ int zephir_update_property_array(zval *object, const char *property, uint32_t pr
 
 	zephir_read_property(&tmp, object, property, property_length, PH_NOISY | PH_READONLY);
 
+	/**
+	 * If the property holds an object implementing ArrayAccess, delegate the
+	 * offset assignment to its offsetSet() method instead of converting the
+	 * object into a plain array. See #2465.
+	 */
+	if (UNEXPECTED(Z_TYPE(tmp) == IS_OBJECT && zephir_instance_of_ev(&tmp, (const zend_class_entry *)zend_ce_arrayaccess))) {
+		zend_long ZEPHIR_LAST_CALL_STATUS;
+		ZEPHIR_CALL_METHOD_WITHOUT_OBSERVE(NULL, &tmp, "offsetset", NULL, 0, (zval *)index, value);
+		return ZEPHIR_LAST_CALL_STATUS != FAILURE ? SUCCESS : FAILURE;
+	}
+
 	/** Separation only when refcount > 1 */
 	if (Z_REFCOUNTED(tmp)) {
 		if (Z_REFCOUNT(tmp) > 1) {
@@ -899,6 +911,52 @@ int zephir_update_property_array_multi(zval *object, const char *property, uint3
 
 	if (Z_TYPE_P(object) == IS_OBJECT) {
 		zephir_read_property(&tmp_arr, object, property, property_length, PH_NOISY | PH_READONLY);
+
+		/**
+		 * If the property holds an object implementing ArrayAccess, a chained
+		 * write (this->prop[a][b] = value) cannot persist. This mirrors native
+		 * PHP exactly: the first offset is fetched once via offsetGet(), the
+		 * indirect modification of the returned by-value element has no effect,
+		 * and an "Indirect modification of overloaded element" notice is raised.
+		 * The object is left intact rather than converted into an array. #2465
+		 */
+		if (UNEXPECTED(Z_TYPE(tmp_arr) == IS_OBJECT && zephir_instance_of_ev(&tmp_arr, (const zend_class_entry *)zend_ce_arrayaccess))) {
+			zend_long ZEPHIR_LAST_CALL_STATUS;
+			zval offset, fetched;
+			/* Class entries are persistent, so this stays valid even if the
+			 * offsetGet() call below were to drop the last instance reference. */
+			zend_class_entry *ce = Z_OBJCE(tmp_arr);
+			ZVAL_UNDEF(&fetched);
+			ZVAL_UNDEF(&offset);
+
+			va_start(ap, types_count);
+			switch (types[0]) {
+				case 's': {
+					char *str = va_arg(ap, char*);
+					int len   = va_arg(ap, int);
+					ZVAL_STRINGL(&offset, str, len);
+					break;
+				}
+				case 'l':
+					ZVAL_LONG(&offset, va_arg(ap, long));
+					break;
+				case 'z':
+					ZVAL_COPY(&offset, va_arg(ap, zval*));
+					break;
+				default: /* 'a' (append): the fetched offset is null */
+					ZVAL_NULL(&offset);
+					break;
+			}
+			va_end(ap);
+
+			ZEPHIR_CALL_METHOD_WITHOUT_OBSERVE(&fetched, &tmp_arr, "offsetget", NULL, 0, &offset);
+			zval_ptr_dtor(&fetched);
+			zval_ptr_dtor(&offset);
+
+			zend_error(E_NOTICE, "Indirect modification of overloaded element of %s has no effect", ZSTR_VAL(ce->name));
+
+			return SUCCESS;
+		}
 
 		/** Separation only when refcount > 1 */
 		if (Z_REFCOUNTED(tmp_arr)) {
