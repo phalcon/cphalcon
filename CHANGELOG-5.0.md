@@ -14,6 +14,7 @@
 - Added `beforeBind` and `afterBind` hook methods to `Phalcon\Forms\Form`. When defined on a form subclass, `beforeBind(array $data, ?object $entity)` runs at the start of `bind()` (returning `false` cancels the bind) and `afterBind(?object $entity)` runs after the data has been assigned. Both also fire when `bind()` is reached through `isValid()`. [#14598](https://github.com/phalcon/cphalcon/issues/14598) [[doc]](https://docs.phalcon.io/5.14/forms/)
 - Added a `sync` option to many-to-many (`hasManyToMany`) relations and a chainable `Phalcon\Mvc\Model::setSync()` method to synchronize related records on save. When enabled, saving deletes the intermediate rows for records no longer present in the assigned array (add/update/delete), instead of only appending. [#17071](https://github.com/phalcon/cphalcon/issues/17071) [[doc]](https://docs.phalcon.io/5.14/db-models-relationships/)
 - Added a `trace()` method to `Phalcon\Logger\Logger` together with a new `TRACE` log level (value `9`, label `trace`). [#17047](https://github.com/phalcon/cphalcon/issues/17047) [[doc]](https://docs.phalcon.io/5.14/logger/)
+- Added a `{% verbatim %}`/`{% endverbatim %}` tag to Volt. Its body is emitted exactly as written, without being parsed by Volt, so `{{ ... }}`, `{% ... %}`, `{# ... #}` and constructs such as `<?xml ... ?>` or client-side templates (Handlebars, Mustache, Angular) pass through untouched. [#17085](https://github.com/phalcon/cphalcon/issues/17085) [[doc]](https://docs.phalcon.io/5.14/volt/)
 - Added support for `JOIN` clauses in PHQL `UPDATE` statements (e.g. `UPDATE Invoices INNER JOIN Customers ON ... SET ... WHERE Customers.cst_id = :id:`). The join is used to filter the records to update; the statement still targets a single model. [#16984](https://github.com/phalcon/cphalcon/issues/16984) [[doc]](https://docs.phalcon.io/5.14/db-phql/)
 
 ### Fixed
@@ -27,6 +28,7 @@
 
 ### Removed
 
+- Removed the unfinished `{% raw %}`/`{% endraw %}` Volt tag. It never produced output (compilation threw `UnknownVoltStatement`) and its body was parsed rather than emitted literally. Use `{% verbatim %}` instead. [#17085](https://github.com/phalcon/cphalcon/issues/17085)
 
 ## [5.14.0](https://github.com/phalcon/cphalcon/releases/tag/v5.14.0) (2026-06-04)
 

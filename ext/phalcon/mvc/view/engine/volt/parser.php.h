@@ -65,8 +65,8 @@
 #define PHVOLT_ENDBLOCK                       65
 #define PHVOLT_CACHE                          66
 #define PHVOLT_ENDCACHE                       67
-#define PHVOLT_RAW                            68
-#define PHVOLT_ENDRAW                         69
+#define PHVOLT_VERBATIM                       68
+#define PHVOLT_ENDVERBATIM                    69
 #define PHVOLT_EXTENDS                        70
 #define PHVOLT_INCLUDE                        71
 #define PHVOLT_WITH                           72

@@ -615,7 +615,7 @@ class Compiler implements InjectionAwareInterface
     }
 
     /**
-     * Compiles a {% raw %}`{{` `}}`{% endraw %} statement returning PHP code
+     * Compiles a `{{` `}}` statement returning PHP code
      *
      * @param array statement
      *
@@ -1281,7 +1281,7 @@ class Compiler implements InjectionAwareInterface
      * Compiles a template into a string
      *
      *```php
-     * echo $compiler->compileString({% raw %}'{{ "hello world" }}'{% endraw %});
+     * echo $compiler->compileString('{{ "hello world" }}');
      *```
      *
      * @param string viewCode
@@ -2142,7 +2142,7 @@ class Compiler implements InjectionAwareInterface
      *
      *```php
      * print_r(
-     *     $compiler->parse("{% raw %}{{ 3 + 2 }}{% endraw %}")
+     *     $compiler->parse("{{ 3 + 2 }}")
      * );
      *```
      *
@@ -2669,7 +2669,10 @@ class Compiler implements InjectionAwareInterface
             switch type {
 
                 case PHVOLT_T_RAW_FRAGMENT:
-                    let compilation .= statement["value"];
+                    if isset statement["value"] {
+                        let compilation .= statement["value"];
+                    }
+
                     break;
 
                 case PHVOLT_T_IF:
