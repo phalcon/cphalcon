@@ -9,8 +9,11 @@
 
 ### Changed
 
+- Renamed the private `Phalcon\Events\Manager` dispatch hot-loop helper to `runQueue()`. [#17006](https://github.com/phalcon/cphalcon/issues/17006) [[doc]](https://docs.phalcon.io/5.14/events/)
+
 ### Added
 
+- Added `Phalcon\Events\Manager::dispatch(object $event, string|array|null $name = null, ?object $source = null)` for object/class-based event dispatch built on Phalcon's own `Phalcon\Contracts\Events\Stoppable`. Listeners are routed by an explicit name (a string, or a `[class, method]` array) or by the event's class name and receive the event object. [#17006](https://github.com/phalcon/cphalcon/issues/17006) [[doc]](https://docs.phalcon.io/5.14/events/)
 - Added `beforeBind` and `afterBind` hook methods to `Phalcon\Forms\Form`. When defined on a form subclass, `beforeBind(array $data, ?object $entity)` runs at the start of `bind()` (returning `false` cancels the bind) and `afterBind(?object $entity)` runs after the data has been assigned. Both also fire when `bind()` is reached through `isValid()`. [#14598](https://github.com/phalcon/cphalcon/issues/14598) [[doc]](https://docs.phalcon.io/5.14/forms/)
 - Added a `sync` option to many-to-many (`hasManyToMany`) relations and a chainable `Phalcon\Mvc\Model::setSync()` method to synchronize related records on save. When enabled, saving deletes the intermediate rows for records no longer present in the assigned array (add/update/delete), instead of only appending. [#17071](https://github.com/phalcon/cphalcon/issues/17071) [[doc]](https://docs.phalcon.io/5.14/db-models-relationships/)
 - Added a `trace()` method to `Phalcon\Logger\Logger` together with a new `TRACE` log level (value `9`, label `trace`). [#17047](https://github.com/phalcon/cphalcon/issues/17047) [[doc]](https://docs.phalcon.io/5.14/logger/)
