@@ -721,4 +721,459 @@ final class CombinationTest extends AbstractUnitTestCase
         unset($actual['id']);
         $this->assertSame($expected, $actual);
     }
+
+    /**
+     * Tests Phalcon\Mvc\Model\Query\Lang :: parsePHQL() - UPDATE with a JOIN
+     * and no WHERE clause
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/16984
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-06
+     */
+    public function testMvcModelQueryPhqlUpdateInnerJoin(): void
+    {
+        $source   = "UPDATE Invoices "
+            . "INNER JOIN Customers ON Customers.cst_id = Invoices.inv_cst_id "
+            . "SET inv_total = 999";
+        $expected = [
+            'type'   => 300,
+            'update' => [
+                'tables' => [
+                    'qualifiedName' => [
+                        'type' => 355,
+                        'name' => 'Invoices',
+                    ],
+                ],
+                'joins'  => [
+                    'type'       => 360,
+                    'qualified'  => [
+                        'type' => 355,
+                        'name' => 'Customers',
+                    ],
+                    'conditions' => [
+                        'type'  => 61,
+                        'left'  => [
+                            'type'   => 355,
+                            'domain' => 'Customers',
+                            'name'   => 'cst_id',
+                        ],
+                        'right' => [
+                            'type'   => 355,
+                            'domain' => 'Invoices',
+                            'name'   => 'inv_cst_id',
+                        ],
+                    ],
+                ],
+                'values' => [
+                    'column' => [
+                        'type' => 355,
+                        'name' => 'inv_total',
+                    ],
+                    'expr'   => [
+                        'type'  => 258,
+                        'value' => '999',
+                    ],
+                ],
+            ],
+        ];
+        $actual   = Lang::parsePhql($source);
+        unset($actual['id']);
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Mvc\Model\Query\Lang :: parsePHQL() - UPDATE with a JOIN
+     * using aliased tables
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/16984
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-06
+     */
+    public function testMvcModelQueryPhqlUpdateInnerJoinAliasesWhereNum(): void
+    {
+        $source   = "UPDATE Invoices AS i "
+            . "INNER JOIN Customers AS c ON c.cst_id = i.inv_cst_id "
+            . "SET i.inv_total = 999 "
+            . "WHERE c.cst_id = 1";
+        $expected = [
+            'type'   => 300,
+            'update' => [
+                'tables' => [
+                    'qualifiedName' => [
+                        'type' => 355,
+                        'name' => 'Invoices',
+                    ],
+                    'alias'         => 'i',
+                ],
+                'joins'  => [
+                    'type'       => 360,
+                    'qualified'  => [
+                        'type' => 355,
+                        'name' => 'Customers',
+                    ],
+                    'alias'      => [
+                        'type' => 355,
+                        'name' => 'c',
+                    ],
+                    'conditions' => [
+                        'type'  => 61,
+                        'left'  => [
+                            'type'   => 355,
+                            'domain' => 'c',
+                            'name'   => 'cst_id',
+                        ],
+                        'right' => [
+                            'type'   => 355,
+                            'domain' => 'i',
+                            'name'   => 'inv_cst_id',
+                        ],
+                    ],
+                ],
+                'values' => [
+                    'column' => [
+                        'type'   => 355,
+                        'domain' => 'i',
+                        'name'   => 'inv_total',
+                    ],
+                    'expr'   => [
+                        'type'  => 258,
+                        'value' => '999',
+                    ],
+                ],
+            ],
+            'where'  => [
+                'type'  => 61,
+                'left'  => [
+                    'type'   => 355,
+                    'domain' => 'c',
+                    'name'   => 'cst_id',
+                ],
+                'right' => [
+                    'type'  => 258,
+                    'value' => '1',
+                ],
+            ],
+        ];
+        $actual   = Lang::parsePhql($source);
+        unset($actual['id']);
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Mvc\Model\Query\Lang :: parsePHQL() - UPDATE with a JOIN,
+     * a WHERE clause and a LIMIT clause
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/16984
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-06
+     */
+    public function testMvcModelQueryPhqlUpdateInnerJoinWhereNumLimit(): void
+    {
+        $source   = "UPDATE Invoices "
+            . "INNER JOIN Customers ON Customers.cst_id = Invoices.inv_cst_id "
+            . "SET inv_total = 999 "
+            . "WHERE Customers.cst_id = 1 "
+            . "LIMIT 10";
+        $expected = [
+            'type'   => 300,
+            'update' => [
+                'tables' => [
+                    'qualifiedName' => [
+                        'type' => 355,
+                        'name' => 'Invoices',
+                    ],
+                ],
+                'joins'  => [
+                    'type'       => 360,
+                    'qualified'  => [
+                        'type' => 355,
+                        'name' => 'Customers',
+                    ],
+                    'conditions' => [
+                        'type'  => 61,
+                        'left'  => [
+                            'type'   => 355,
+                            'domain' => 'Customers',
+                            'name'   => 'cst_id',
+                        ],
+                        'right' => [
+                            'type'   => 355,
+                            'domain' => 'Invoices',
+                            'name'   => 'inv_cst_id',
+                        ],
+                    ],
+                ],
+                'values' => [
+                    'column' => [
+                        'type' => 355,
+                        'name' => 'inv_total',
+                    ],
+                    'expr'   => [
+                        'type'  => 258,
+                        'value' => '999',
+                    ],
+                ],
+            ],
+            'where'  => [
+                'type'  => 61,
+                'left'  => [
+                    'type'   => 355,
+                    'domain' => 'Customers',
+                    'name'   => 'cst_id',
+                ],
+                'right' => [
+                    'type'  => 258,
+                    'value' => '1',
+                ],
+            ],
+            'limit'  => [
+                'number' => [
+                    'type'  => 258,
+                    'value' => '10',
+                ],
+            ],
+        ];
+        $actual   = Lang::parsePhql($source);
+        unset($actual['id']);
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Mvc\Model\Query\Lang :: parsePHQL() - UPDATE with a JOIN
+     * and named placeholders
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/16984
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-06
+     */
+    public function testMvcModelQueryPhqlUpdateInnerJoinWherePlaceholder(): void
+    {
+        $source   = "UPDATE Invoices "
+            . "INNER JOIN Customers ON Customers.cst_id = Invoices.inv_cst_id "
+            . "SET inv_total = :total: "
+            . "WHERE Customers.cst_id = :custId:";
+        $expected = [
+            'type'   => 300,
+            'update' => [
+                'tables' => [
+                    'qualifiedName' => [
+                        'type' => 355,
+                        'name' => 'Invoices',
+                    ],
+                ],
+                'joins'  => [
+                    'type'       => 360,
+                    'qualified'  => [
+                        'type' => 355,
+                        'name' => 'Customers',
+                    ],
+                    'conditions' => [
+                        'type'  => 61,
+                        'left'  => [
+                            'type'   => 355,
+                            'domain' => 'Customers',
+                            'name'   => 'cst_id',
+                        ],
+                        'right' => [
+                            'type'   => 355,
+                            'domain' => 'Invoices',
+                            'name'   => 'inv_cst_id',
+                        ],
+                    ],
+                ],
+                'values' => [
+                    'column' => [
+                        'type' => 355,
+                        'name' => 'inv_total',
+                    ],
+                    'expr'   => [
+                        'type'  => 274,
+                        'value' => 'total',
+                    ],
+                ],
+            ],
+            'where'  => [
+                'type'  => 61,
+                'left'  => [
+                    'type'   => 355,
+                    'domain' => 'Customers',
+                    'name'   => 'cst_id',
+                ],
+                'right' => [
+                    'type'  => 274,
+                    'value' => 'custId',
+                ],
+            ],
+        ];
+        $actual   = Lang::parsePhql($source);
+        unset($actual['id']);
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Mvc\Model\Query\Lang :: parsePHQL() - UPDATE with a
+     * LEFT JOIN
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/16984
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-06
+     */
+    public function testMvcModelQueryPhqlUpdateLeftJoinWhereNum(): void
+    {
+        $source   = "UPDATE Invoices "
+            . "LEFT JOIN Customers ON Customers.cst_id = Invoices.inv_cst_id "
+            . "SET inv_total = 999 "
+            . "WHERE Customers.cst_id = 1";
+        $expected = [
+            'type'   => 300,
+            'update' => [
+                'tables' => [
+                    'qualifiedName' => [
+                        'type' => 355,
+                        'name' => 'Invoices',
+                    ],
+                ],
+                'joins'  => [
+                    'type'       => 361,
+                    'qualified'  => [
+                        'type' => 355,
+                        'name' => 'Customers',
+                    ],
+                    'conditions' => [
+                        'type'  => 61,
+                        'left'  => [
+                            'type'   => 355,
+                            'domain' => 'Customers',
+                            'name'   => 'cst_id',
+                        ],
+                        'right' => [
+                            'type'   => 355,
+                            'domain' => 'Invoices',
+                            'name'   => 'inv_cst_id',
+                        ],
+                    ],
+                ],
+                'values' => [
+                    'column' => [
+                        'type' => 355,
+                        'name' => 'inv_total',
+                    ],
+                    'expr'   => [
+                        'type'  => 258,
+                        'value' => '999',
+                    ],
+                ],
+            ],
+            'where'  => [
+                'type'  => 61,
+                'left'  => [
+                    'type'   => 355,
+                    'domain' => 'Customers',
+                    'name'   => 'cst_id',
+                ],
+                'right' => [
+                    'type'  => 258,
+                    'value' => '1',
+                ],
+            ],
+        ];
+        $actual   = Lang::parsePhql($source);
+        unset($actual['id']);
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Mvc\Model\Query\Lang :: parsePHQL() - UPDATE with
+     * multiple JOINs
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/16984
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-06
+     */
+    public function testMvcModelQueryPhqlUpdateMultipleJoinsWhereNum(): void
+    {
+        $source   = "UPDATE Invoices "
+            . "INNER JOIN Customers ON Customers.cst_id = Invoices.inv_cst_id "
+            . "INNER JOIN Orders ON Orders.ord_cst_id = Customers.cst_id "
+            . "SET inv_total = 999 "
+            . "WHERE Orders.ord_id = 1";
+        $expected = [
+            'type'   => 300,
+            'update' => [
+                'tables' => [
+                    'qualifiedName' => [
+                        'type' => 355,
+                        'name' => 'Invoices',
+                    ],
+                ],
+                'joins'  => [
+                    0 => [
+                        'type'       => 360,
+                        'qualified'  => [
+                            'type' => 355,
+                            'name' => 'Customers',
+                        ],
+                        'conditions' => [
+                            'type'  => 61,
+                            'left'  => [
+                                'type'   => 355,
+                                'domain' => 'Customers',
+                                'name'   => 'cst_id',
+                            ],
+                            'right' => [
+                                'type'   => 355,
+                                'domain' => 'Invoices',
+                                'name'   => 'inv_cst_id',
+                            ],
+                        ],
+                    ],
+                    1 => [
+                        'type'       => 360,
+                        'qualified'  => [
+                            'type' => 355,
+                            'name' => 'Orders',
+                        ],
+                        'conditions' => [
+                            'type'  => 61,
+                            'left'  => [
+                                'type'   => 355,
+                                'domain' => 'Orders',
+                                'name'   => 'ord_cst_id',
+                            ],
+                            'right' => [
+                                'type'   => 355,
+                                'domain' => 'Customers',
+                                'name'   => 'cst_id',
+                            ],
+                        ],
+                    ],
+                ],
+                'values' => [
+                    'column' => [
+                        'type' => 355,
+                        'name' => 'inv_total',
+                    ],
+                    'expr'   => [
+                        'type'  => 258,
+                        'value' => '999',
+                    ],
+                ],
+            ],
+            'where'  => [
+                'type'  => 61,
+                'left'  => [
+                    'type'   => 355,
+                    'domain' => 'Orders',
+                    'name'   => 'ord_id',
+                ],
+                'right' => [
+                    'type'  => 258,
+                    'value' => '1',
+                ],
+            ],
+        ];
+        $actual   = Lang::parsePhql($source);
+        unset($actual['id']);
+        $this->assertSame($expected, $actual);
+    }
 }
