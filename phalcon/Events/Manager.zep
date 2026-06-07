@@ -11,6 +11,7 @@
 namespace Phalcon\Events;
 
 use Closure;
+use Phalcon\Contracts\Events\Stoppable;
 use Phalcon\Contracts\Events\Subscriber;
 use Phalcon\Events\Exceptions\InvalidEventHandler;
 use Phalcon\Events\Exceptions\InvalidEventType;
@@ -326,6 +327,58 @@ class Manager implements ManagerInterface
     }
 
     /**
+     * Dispatches an object event to its listeners, routed by an explicit name
+     * (a string, or a [class, method] array) or, failing that, by the event's
+     * class name. Listeners receive the event object. Propagation stops when
+     * the event implements Phalcon\Contracts\Events\Stoppable and reports it
+     * is stopped.
+     *
+     * @param object       event
+     * @param string|array name
+     * @param object|null  source
+     *
+     * @return mixed
+     */
+    public function dispatch(object event, var name = null, var source = null)
+    {
+        var colonPos, eventClassName, methodName, queue;
+
+        if empty this->events {
+            return null;
+        }
+
+        let methodName = null;
+
+        if typeof name == "array" {
+            if isset name[1] {
+                let methodName = name[1];
+            }
+
+            let name = implode(":", name);
+        } elseif typeof name == "string" {
+            let colonPos = strpos(name, ":");
+
+            if colonPos !== false {
+                let methodName = substr(name, colonPos + 1);
+            }
+        } else {
+            let name = null;
+        }
+
+        if name !== null && fetch queue, this->events[name] {
+            return this->runObjectQueue(queue, event, methodName);
+        }
+
+        let eventClassName = get_class(event);
+
+        if fetch queue, this->events[eventClassName] {
+            return this->runObjectQueue(queue, event, methodName);
+        }
+
+        return null;
+    }
+
+    /**
      * Set if priorities are enabled in the EventsManager.
      *
      * A priority queue of events is a data structure similar
@@ -443,7 +496,7 @@ class Manager implements ManagerInterface
 
             if hasTypeQueue {
                 let fireEvents = this->events[type];
-                let status     = this->dispatch(
+                let status     = this->runQueue(
                     fireEvents,
                     event,
                     eventName,
@@ -462,7 +515,7 @@ class Manager implements ManagerInterface
                 && (!cancelable || !event->isStopped())
             {
                 let fireEvents = this->events[eventType];
-                let status     = this->dispatch(
+                let status     = this->runQueue(
                     fireEvents,
                     event,
                     eventName,
@@ -565,7 +618,7 @@ class Manager implements ManagerInterface
 
             if hasTypeQueue {
                 let fireEvents = this->events[type];
-                let dispatchStatus = this->dispatch(
+                let dispatchStatus = this->runQueue(
                     fireEvents,
                     event,
                     eventName,
@@ -582,7 +635,7 @@ class Manager implements ManagerInterface
                 && (!cancelable || !event->isStopped())
             {
                 let fireEvents = this->events[eventType];
-                this->dispatch(
+                this->runQueue(
                     fireEvents,
                     event,
                     eventName,
@@ -621,7 +674,7 @@ class Manager implements ManagerInterface
             return null;
         }
 
-        return this->dispatch(
+        return this->runQueue(
             queue,
             event,
             event->getType(),
@@ -860,6 +913,59 @@ class Manager implements ManagerInterface
     }
 
     /**
+     * Object-event dispatch loop used by dispatch(). Closure/callable handlers
+     * receive the event object; plain-object handlers call the method named by
+     * the dispatch name (when provided) or fall back to __invoke. Propagation
+     * stops when the event implements Phalcon\Contracts\Events\Stoppable and
+     * reports it is stopped.
+     *
+     * @return mixed
+     */
+    private function runObjectQueue(array queue, object event, var methodName)
+    {
+        var handler, handlerCallable, handlerObject, ret, status, tuple, type;
+        bool collect;
+
+        let status  = null;
+        let collect = this->collect;
+
+        for tuple in queue {
+            let handler = tuple[0];
+            let type    = tuple[1];
+
+            if type == 0 {
+                let ret = {handler}(event);
+            } elseif type == 1 {
+                let handlerObject   = handler[0];
+                let handlerCallable = handler[1];
+                let ret = handlerObject->{handlerCallable}(event);
+            } elseif type == 3 {
+                let ret = call_user_func(handler, event);
+            } else {
+                if methodName !== null && method_exists(handler, methodName) {
+                    let ret = handler->{methodName}(event);
+                } elseif method_exists(handler, "__invoke") {
+                    let ret = handler->__invoke(event);
+                } else {
+                    continue;
+                }
+            }
+
+            if collect {
+                let this->responses[] = ret;
+            }
+
+            let status = ret;
+
+            if event instanceof Stoppable && event->isPropagationStopped() {
+                break;
+            }
+        }
+
+        return status;
+    }
+
+    /**
      * Hot dispatch loop. Called by fire()/fireAll() with hoisted args,
      * and by fireQueue() as a BC wrapper. Owns the documented
      * aggregation contract:
@@ -883,7 +989,7 @@ class Manager implements ManagerInterface
      *
      * @return mixed
      */
-    private function dispatch(
+    private function runQueue(
         array queue,
         <EventInterface> event,
         string eventName,
