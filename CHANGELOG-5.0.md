@@ -4,7 +4,7 @@
 
 ### Tools
 
-- Zephir Parser v2.0.2
+- Zephir Parser v2.0.4
 - Zephir 0.23.0 (development - bae82f7bd)
 
 ### Changed
@@ -37,7 +37,7 @@
 
 ### Tools
 
-- Zephir Parser v2.0.2
+- Zephir Parser v2.0.3
 - Zephir 0.22.0 (development - 9d2def774)
 
 ### Changed
