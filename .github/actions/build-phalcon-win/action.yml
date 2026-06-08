@@ -34,7 +34,7 @@ runs:
   using: 'composite'
   steps:
     - name: Setup Downloads Cache
-      uses: actions/cache@v5
+      uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
       with:
         path: ${{ inputs.cache-dir }}
         key: Windows-downloads-${{ hashFiles('**/.github/actions/build-phalcon-win/action.yml') }}
@@ -69,7 +69,7 @@ runs:
         Write-Output "SOURCE_DIR=$SourceDir" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
     - name: Setup PHP SDK tool kit
-      uses: zephir-lang/setup-php-sdk@v1
+      uses: zephir-lang/setup-php-sdk@19bfb985d9dfb9eb59d74039169948c878190678 # v1
       with:
         php_version: ${{ inputs.php-version }}
         ts: ${{ inputs.ts }}
@@ -79,13 +79,13 @@ runs:
         cache_dir: ${{ inputs.cache-dir }}
 
     - name: Configure Developer Command Prompt for MSVC
-      uses: ilammy/msvc-dev-cmd@v1
+      uses: ilammy/msvc-dev-cmd@0b201ec74fa43914dc39ae48a89fd1d8cb592756 # v1
       with:
         arch: ${{ inputs.arch }}
 
     - name: Configure Developer Command Prompt for MSVC toolset 14.16 (PHP 7.4)
       if: inputs.php-version == '7.4'
-      uses: ilammy/msvc-dev-cmd@v1
+      uses: ilammy/msvc-dev-cmd@0b201ec74fa43914dc39ae48a89fd1d8cb592756 # v1
       with:
         arch: ${{ inputs.arch }}
         toolset: 14.16
