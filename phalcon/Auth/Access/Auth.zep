@@ -13,10 +13,12 @@
 
 namespace Phalcon\Auth\Access;
 
+use Phalcon\Contracts\Auth\Guard\Guard;
+
 class Auth extends AbstractAccess
 {
-    public function allowedIf() -> bool
+    protected function allowedIf(<Guard> guard) -> bool
     {
-        return this->manager->guard()->check();
+        return guard->check();
     }
 }
