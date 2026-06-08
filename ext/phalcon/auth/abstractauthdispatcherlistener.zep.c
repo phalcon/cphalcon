@@ -31,11 +31,12 @@
  * @link    https://github.com/sinbadxiii/cphalcon-auth
  */
 /**
- * Shared enforcement algorithm for the Cli and Mvc auth dispatcher
- * listeners. The dispatcher-specific subclass provides only the action
- * name from its typed dispatcher, the action-kind label used in the
- * access-denied exception, and (Mvc only) a forward handler for
- * Access::redirectTo().
+ * Shared enforcement algorithm for the Cli, Mvc and Micro auth listeners.
+ * The subclass provides the action name and context from its event source,
+ * the action-kind label used in the access-denied exception, and (Mvc only)
+ * a forward handler for Access::redirectTo().
+ *
+ * @phpstan-import-type AccessContext from Access
  */
 ZEPHIR_INIT_CLASS(Phalcon_Auth_AbstractAuthDispatcherListener)
 {
@@ -62,8 +63,8 @@ PHP_METHOD(Phalcon_Auth_AbstractAuthDispatcherListener, __construct)
 }
 
 /**
- * Returns the kind label used by AccessDenied (e.g. 'task',
- * 'action').
+ * Returns the kind label used by AccessDenied (e.g. 'task', 'action',
+ * 'route').
  */
 PHP_METHOD(Phalcon_Auth_AbstractAuthDispatcherListener, getActionType)
 {
@@ -74,6 +75,10 @@ PHP_METHOD(Phalcon_Auth_AbstractAuthDispatcherListener, getActionType)
  * the dispatch should proceed, false when a forward was issued, and
  * throws when access is denied without a redirect target.
  *
+ * The guard is fetched only when an access is active, so the no-op
+ * path works without a default guard.
+ *
+ * @phpstan-param AccessContext $context
  * @phpstan-param callable|null $forwardHandler
  *
  * @throws Exception
@@ -82,7 +87,8 @@ PHP_METHOD(Phalcon_Auth_AbstractAuthDispatcherListener, enforce)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval actionName_zv, *forwardHandler = NULL, forwardHandler_sub, __$null, access, target, _0, _1, _2, _3;
+	zval context;
+	zval actionName_zv, *context_param = NULL, *forwardHandler = NULL, forwardHandler_sub, __$null, access, target, _0, _1, _2, _3, _4, _5;
 	zend_string *actionName = NULL;
 	zval *this_ptr = getThis();
 
@@ -95,19 +101,32 @@ PHP_METHOD(Phalcon_Auth_AbstractAuthDispatcherListener, enforce)
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_4);
+	ZVAL_UNDEF(&_5);
+	ZVAL_UNDEF(&context);
 	bool is_null_true = 1;
-	ZEND_PARSE_PARAMETERS_START(1, 2)
+	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_STR(actionName)
 		Z_PARAM_OPTIONAL
+		ZEPHIR_Z_PARAM_ARRAY(context, context_param)
 		Z_PARAM_ZVAL_OR_NULL(forwardHandler)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	if (ZEND_NUM_ARGS() > 1) {
-		forwardHandler = ZEND_CALL_ARG(execute_data, 2);
+		context_param = ZEND_CALL_ARG(execute_data, 2);
+	}
+	if (ZEND_NUM_ARGS() > 2) {
+		forwardHandler = ZEND_CALL_ARG(execute_data, 3);
 	}
 	zephir_memory_observe(&actionName_zv);
 	ZVAL_STR_COPY(&actionName_zv, actionName);
+	if (!context_param) {
+		ZEPHIR_INIT_VAR(&context);
+		array_init(&context);
+	} else {
+		zephir_get_arrval(&context, context_param);
+	}
 	if (!forwardHandler) {
 		forwardHandler = &forwardHandler_sub;
 		forwardHandler = &__$null;
@@ -118,7 +137,10 @@ PHP_METHOD(Phalcon_Auth_AbstractAuthDispatcherListener, enforce)
 	if (Z_TYPE_P(&access) == IS_NULL) {
 		RETURN_MM_BOOL(1);
 	}
-	ZEPHIR_CALL_METHOD(&_1, &access, "isallowed", NULL, 0, &actionName_zv);
+	zephir_read_property(&_2, this_ptr, ZEND_STRL("manager"), PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_CALL_METHOD(&_3, &_2, "guard", NULL, 0);
+	zephir_check_call_status();
+	ZEPHIR_CALL_METHOD(&_1, &access, "isallowed", NULL, 0, &_3, &actionName_zv, &context);
 	zephir_check_call_status();
 	if (zephir_is_true(&_1)) {
 		RETURN_MM_BOOL(1);
@@ -132,13 +154,13 @@ PHP_METHOD(Phalcon_Auth_AbstractAuthDispatcherListener, enforce)
 			RETURN_MM_BOOL(0);
 		}
 	}
-	ZEPHIR_INIT_VAR(&_2);
-	object_init_ex(&_2, phalcon_auth_exceptions_accessdenied_ce);
-	ZEPHIR_CALL_METHOD(&_3, this_ptr, "getactiontype", NULL, 0);
+	ZEPHIR_INIT_VAR(&_4);
+	object_init_ex(&_4, phalcon_auth_exceptions_accessdenied_ce);
+	ZEPHIR_CALL_METHOD(&_5, this_ptr, "getactiontype", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, &_2, "__construct", NULL, 139, &_3, &actionName_zv);
+	ZEPHIR_CALL_METHOD(NULL, &_4, "__construct", NULL, 74, &_5, &actionName_zv);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(&_2, "phalcon/Auth/AbstractAuthDispatcherListener.zep", 75);
+	zephir_throw_exception_debug(&_4, "phalcon/Auth/AbstractAuthDispatcherListener.zep", 84);
 	ZEPHIR_MM_RESTORE();
 	return;
 }

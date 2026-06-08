@@ -1920,7 +1920,7 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMap)
 				do {
 					if (ZEPHIR_IS_LONG(&_27$$25, 0) || ZEPHIR_IS_LONG(&_27$$25, 21) || ZEPHIR_IS_LONG(&_27$$25, 22) || ZEPHIR_IS_LONG(&_27$$25, 26)) {
 						ZVAL_LONG(&_28$$26, 10);
-						ZEPHIR_CALL_FUNCTION(&castValue, "intval", &_29, 78, &value, &_28$$26);
+						ZEPHIR_CALL_FUNCTION(&castValue, "intval", &_29, 80, &value, &_28$$26);
 						zephir_check_call_status();
 						break;
 					}
@@ -2150,7 +2150,7 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMap)
 					do {
 						if (ZEPHIR_IS_LONG(&_56$$57, 0) || ZEPHIR_IS_LONG(&_56$$57, 21) || ZEPHIR_IS_LONG(&_56$$57, 22) || ZEPHIR_IS_LONG(&_56$$57, 26)) {
 							ZVAL_LONG(&_57$$58, 10);
-							ZEPHIR_CALL_FUNCTION(&castValue, "intval", &_29, 78, &value, &_57$$58);
+							ZEPHIR_CALL_FUNCTION(&castValue, "intval", &_29, 80, &value, &_57$$58);
 							zephir_check_call_status();
 							break;
 						}
@@ -7921,7 +7921,7 @@ PHP_METHOD(Phalcon_Mvc_Model, doLowInsert)
 		zephir_check_call_status();
 		if (UNEXPECTED(zephir_is_true(&_56$$55))) {
 			ZVAL_LONG(&_58$$63, 10);
-			ZEPHIR_CALL_FUNCTION(&_59$$63, "intval", NULL, 78, &lastInsertedId, &_58$$63);
+			ZEPHIR_CALL_FUNCTION(&_59$$63, "intval", NULL, 80, &lastInsertedId, &_58$$63);
 			zephir_check_call_status();
 			ZEPHIR_CPY_WRT(&lastInsertedId, &_59$$63);
 		}

@@ -1716,7 +1716,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql)
 					ZEPHIR_CPY_WRT(&itemTrimmed$$70, &itemTrimmed$$70);
 					ZEPHIR_INIT_NVAR(&_74$$70);
 					ZVAL_STRING(&_74$$70, " ");
-					ZEPHIR_CALL_FUNCTION(&lastSpacePosition$$70, "strrpos", &_75, 491, &itemTrimmed$$70, &_74$$70);
+					ZEPHIR_CALL_FUNCTION(&lastSpacePosition$$70, "strrpos", &_75, 492, &itemTrimmed$$70, &_74$$70);
 					zephir_check_call_status();
 					ZEPHIR_CPY_WRT(&lastSpacePosition$$70, &lastSpacePosition$$70);
 					if (!ZEPHIR_IS_FALSE_IDENTICAL(&lastSpacePosition$$70)) {
@@ -1789,7 +1789,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql)
 						ZEPHIR_CPY_WRT(&itemTrimmed$$76, &itemTrimmed$$76);
 						ZEPHIR_INIT_NVAR(&_90$$76);
 						ZVAL_STRING(&_90$$76, " ");
-						ZEPHIR_CALL_FUNCTION(&lastSpacePosition$$76, "strrpos", &_75, 491, &itemTrimmed$$76, &_90$$76);
+						ZEPHIR_CALL_FUNCTION(&lastSpacePosition$$76, "strrpos", &_75, 492, &itemTrimmed$$76, &_90$$76);
 						zephir_check_call_status();
 						ZEPHIR_CPY_WRT(&lastSpacePosition$$76, &lastSpacePosition$$76);
 						if (!ZEPHIR_IS_FALSE_IDENTICAL(&lastSpacePosition$$76)) {
@@ -1879,7 +1879,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql)
 		if (zephir_is_numeric(&number)) {
 			zephir_concat_self_str(&phql, SL(" LIMIT :APL0:"));
 			ZVAL_LONG(&_106$$91, 10);
-			ZEPHIR_CALL_FUNCTION(&_107$$91, "intval", NULL, 78, &number, &_106$$91);
+			ZEPHIR_CALL_FUNCTION(&_107$$91, "intval", NULL, 80, &number, &_106$$91);
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(&_108$$91);
 			ZVAL_STRING(&_108$$91, "APL0");
@@ -1896,7 +1896,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql)
 			if (_111$$91) {
 				zephir_concat_self_str(&phql, SL(" OFFSET :APL1:"));
 				ZVAL_LONG(&_112$$92, 10);
-				ZEPHIR_CALL_FUNCTION(&_113$$92, "intval", NULL, 78, &offset, &_112$$92);
+				ZEPHIR_CALL_FUNCTION(&_113$$92, "intval", NULL, 80, &offset, &_112$$92);
 				zephir_check_call_status();
 				ZEPHIR_INIT_VAR(&_114$$92);
 				ZVAL_STRING(&_114$$92, "APL1");

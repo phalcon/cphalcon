@@ -74,10 +74,10 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_RandomNodeProvider, getNode)
 	ZVAL_LONG(&_1, 1);
 	ZEPHIR_INIT_VAR(&_2);
 	zephir_substr(&_2, &nodeBytes, 0 , 1 , 0);
-	ZEPHIR_CALL_FUNCTION(&_3, "ord", NULL, 494, &_2);
+	ZEPHIR_CALL_FUNCTION(&_3, "ord", NULL, 495, &_2);
 	zephir_check_call_status();
 	ZVAL_LONG(&_4, ((int) (zephir_get_numberval(&_3)) | 0x01));
-	ZEPHIR_CALL_FUNCTION(&_5, "chr", NULL, 493, &_4);
+	ZEPHIR_CALL_FUNCTION(&_5, "chr", NULL, 494, &_4);
 	zephir_check_call_status();
 	ZVAL_LONG(&_4, 1);
 	ZEPHIR_INIT_VAR(&_6);
