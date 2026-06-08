@@ -18,9 +18,10 @@ namespace Phalcon\Tests\Unit\Auth\Guard;
 
 use Phalcon\Auth\Adapter\Config\MemoryAdapterConfig;
 use Phalcon\Auth\Adapter\Memory;
-use Phalcon\Auth\Exception;
 use Phalcon\Auth\Guard\Session;
 use Phalcon\Container\Container;
+use Phalcon\Container\Exceptions\Exception as ContainerException;
+use Phalcon\Di\Di;
 use Phalcon\Encryption\Security;
 use Phalcon\Http\RequestInterface;
 use Phalcon\Http\Response\CookiesInterface;
@@ -75,6 +76,18 @@ final class SessionFromOptionsTest extends AbstractUnitTestCase
         $this->assertSame('remember_web', $guard->getRememberName());
     }
 
+    public function testFromOptionsFallsBackToShortNamesOnDi(): void
+    {
+        $di = new Di();
+        $di->set('request', fn () => new FakeRequest());
+        $di->set('cookies', fn () => new FakeCookies());
+        $di->set('session', fn () => new FakeSessionManager());
+
+        $guard = Session::fromOptions($this->adapter, $di, []);
+
+        $this->assertInstanceOf(Session::class, $guard);
+    }
+
     public function testFromOptionsResolvesServicesFromContainer(): void
     {
         $guard = Session::fromOptions($this->adapter, $this->container, []);
@@ -84,7 +97,7 @@ final class SessionFromOptionsTest extends AbstractUnitTestCase
 
     public function testFromOptionsThrowsWhenCookiesMissing(): void
     {
-        $this->expectException(Exception::class);
+        $this->expectException(ContainerException::class);
         $this->expectExceptionMessageMatches('/Session guard requires service.*CookiesInterface/');
 
         $emptyContainer = new Container();
@@ -95,7 +108,7 @@ final class SessionFromOptionsTest extends AbstractUnitTestCase
 
     public function testFromOptionsThrowsWhenRequestMissing(): void
     {
-        $this->expectException(Exception::class);
+        $this->expectException(ContainerException::class);
         $this->expectExceptionMessageMatches('/Session guard requires service.*RequestInterface/');
 
         Session::fromOptions($this->adapter, new Container(), []);

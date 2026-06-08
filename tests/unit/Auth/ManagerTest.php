@@ -16,7 +16,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Auth;
 
-use Phalcon\Auth\Access\AbstractAccess;
+use Phalcon\Acl\Adapter\AdapterInterface as AclAdapterInterface;
+use Phalcon\Acl\Adapter\Memory as AclMemory;
+use Phalcon\Auth\Access\Acl as AclAccess;
 use Phalcon\Auth\Access\AccessLocator;
 use Phalcon\Auth\Access\Auth;
 use Phalcon\Auth\Adapter\Config\MemoryAdapterConfig;
@@ -25,6 +27,7 @@ use Phalcon\Auth\Exception;
 use Phalcon\Auth\Guard\Session;
 use Phalcon\Auth\Manager;
 use Phalcon\Container\Container;
+use Phalcon\Di\Di;
 use Phalcon\Encryption\Security;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Auth\Fake\FakeAccess;
@@ -65,24 +68,7 @@ final class ManagerTest extends AbstractUnitTestCase
 
     private function buildManager(): Manager
     {
-        $container = new Container();
-        $manager   = new Manager(new AccessLocator($container));
-
-        $container->set(Auth::class, fn () => new Auth($manager));
-        $container->set(FakeAccess::class, fn () => new FakeAccess($manager));
-
-        return $manager;
-    }
-
-    public function testAccessGateReceivesTheCallingManagerInstance(): void
-    {
-        $manager = $this->buildManager();
-        $manager->addAccessList(['auth' => Auth::class]);
-        $manager->access('auth');
-
-        $reflection = new \ReflectionProperty(AbstractAccess::class, 'manager');
-
-        $this->assertSame($manager, $reflection->getValue($manager->getAccess()));
+        return new Manager(new AccessLocator(new Container()));
     }
 
     public function testAccessInstantiatesAuthGate(): void
@@ -105,9 +91,42 @@ final class ManagerTest extends AbstractUnitTestCase
         $this->assertInstanceOf(FakeAccess::class, $manager->getAccess());
     }
 
+    public function testAccessResolvesAclGateOnLegacyDi(): void
+    {
+        $di = new Di();
+        $di->set(
+            AclAccess::class,
+            fn () => new AclAccess(new AclMemory())
+        );
+
+        $manager = new Manager(new AccessLocator($di));
+        $manager->access('acl');
+
+        $this->assertInstanceOf(AclAccess::class, $manager->getAccess());
+    }
+
+    public function testAccessResolvesAclGateWithAutowiring(): void
+    {
+        $container = new Container();
+        $container->bind(AclAdapterInterface::class, AclMemory::class);
+
+        $manager = new Manager(new AccessLocator($container));
+        $manager->access('acl');
+
+        $this->assertInstanceOf(AclAccess::class, $manager->getAccess());
+    }
+
     public function testAccessResolvesDefaultWithoutExplicitRegistration(): void
     {
         $manager = $this->buildManager();
+        $manager->access('auth');
+
+        $this->assertInstanceOf(Auth::class, $manager->getAccess());
+    }
+
+    public function testAccessResolvesUnregisteredBinaryGateOnLegacyDi(): void
+    {
+        $manager = new Manager(new AccessLocator(new Di()));
         $manager->access('auth');
 
         $this->assertInstanceOf(Auth::class, $manager->getAccess());
@@ -128,6 +147,17 @@ final class ManagerTest extends AbstractUnitTestCase
         $manager = $this->buildManager();
         $manager->addAccessList(['x' => 'NoSuchClass\\DoesNotExist']);
         $manager->access('x');
+    }
+
+    public function testAccessYieldsFreshInstancePerCall(): void
+    {
+        $manager = $this->buildManager();
+        $manager->access('auth');
+        $manager->only('admin');
+
+        $manager->access('auth');
+
+        $this->assertSame([], $manager->getAccess()->getOnlyActions());
     }
 
     public function testAddAccessListMerges(): void
@@ -348,7 +378,7 @@ final class ManagerTest extends AbstractUnitTestCase
     public function testSetAccessAssigns(): void
     {
         $manager = $this->buildManager();
-        $access  = new FakeAccess($manager);
+        $access  = new FakeAccess();
         $manager->setAccess($access);
 
         $this->assertSame($access, $manager->getAccess());
