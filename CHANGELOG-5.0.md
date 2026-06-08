@@ -10,6 +10,9 @@
 ### Changed
 
 - Renamed the private `Phalcon\Events\Manager` dispatch hot-loop helper to `runQueue()`. [#17006](https://github.com/phalcon/cphalcon/issues/17006) [[doc]](https://docs.phalcon.io/5.14/events/)
+- Reworked the `Phalcon\Auth` access gates into Specification-style policies. `Phalcon\Contracts\Auth\Access\Access::isAllowed()` now receives the current identity and the request context: `isAllowed(Guard $guard, string $actionName, array $context = [])`, where context carries `handler` (controller / task / Micro component name), `module` (MVC module, when present), and `params` (dispatcher or route parameters). [#17088](https://github.com/phalcon/cphalcon/issues/17088) [[doc]](https://docs.phalcon.io/5.14/auth/)
+- `Phalcon\Auth\Manager::access()` now resolves gates through `Phalcon\Auth\Access\AccessLocator` from the container instead of constructing them directly. [#17088](https://github.com/phalcon/cphalcon/issues/17088) [[doc]](https://docs.phalcon.io/5.14/auth/)
+- Consolidated the `Phalcon\Auth` dual-container handling (new `Phalcon\Container\Container` vs legacy `Phalcon\Di\Di`) behind a single internal `Phalcon\Auth\Internal\ContainerResolver`. [#17088](https://github.com/phalcon/cphalcon/issues/17088) [[doc]](https://docs.phalcon.io/5.14/auth/)
 
 ### Added
 
@@ -19,6 +22,8 @@
 - Added a `trace()` method to `Phalcon\Logger\Logger` together with a new `TRACE` log level (value `9`, label `trace`). [#17047](https://github.com/phalcon/cphalcon/issues/17047) [[doc]](https://docs.phalcon.io/5.14/logger/)
 - Added a `{% verbatim %}`/`{% endverbatim %}` tag to Volt. Its body is emitted exactly as written, without being parsed by Volt, so `{{ ... }}`, `{% ... %}`, `{# ... #}` and constructs such as `<?xml ... ?>` or client-side templates (Handlebars, Mustache, Angular) pass through untouched. [#17085](https://github.com/phalcon/cphalcon/issues/17085) [[doc]](https://docs.phalcon.io/5.14/volt/)
 - Added support for `JOIN` clauses in PHQL `UPDATE` statements (e.g. `UPDATE Invoices INNER JOIN Customers ON ... SET ... WHERE Customers.cst_id = :id:`). The join is used to filter the records to update; the statement still targets a single model. [#16984](https://github.com/phalcon/cphalcon/issues/16984) [[doc]](https://docs.phalcon.io/5.14/db-phql/)
+- Added `Phalcon\Auth\Access\Acl` - an ACL-backed access gate that incorporates the role-based authorization of the old Firewall component ([#14630](https://github.com/phalcon/cphalcon/issues/14630)) into the Auth layer. The gate checks the authenticated user's role against a `Phalcon\Acl\Adapter\AdapterInterface`: the ACL component is the `handler` context key (prefixed with `module` and a configurable separator when present), the ACL access is the action name, and `params` are passed through to callable ACL rules. Unauthenticated requests resolve to a configurable guest role (default `guest`); authenticated users supply their role via `Phalcon\Acl\RoleAwareInterface`. [#17088](https://github.com/phalcon/cphalcon/issues/17088) [[doc]](https://docs.phalcon.io/5.14/auth/)
+- Added `Phalcon\Auth\Micro\AuthMicroListener` to enforce the active Auth access gate on `Phalcon\Mvc\Micro` route execution (attach to the `micro` event space).[#17088](https://github.com/phalcon/cphalcon/issues/17088) [[doc]](https://docs.phalcon.io/5.14/auth/)
 
 ### Fixed
 
