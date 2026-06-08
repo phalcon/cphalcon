@@ -367,6 +367,13 @@ jobs:
     name: Build / PHP-${{ matrix.php }}-${{ matrix.ts }}-${{ matrix.name }}-${{ matrix.arch }}
     needs: [generate_source]
     runs-on: ${{ matrix.os }}
+    # TODO: Remove this continue-on-error once shivammathur/homebrew-php
+    # republishes the php@8.5 bottle for macOS arm64. As of 2026-06-08 the
+    # Setup PHP step (brew install php@8.5) fails on macOS arm64 because
+    # Homebrew core moved ahead of the tap's php@8.5 bottle. This is an
+    # upstream environment issue, not a cphalcon problem, and affects all
+    # branches. Drop this line when the macOS 8.5 builds go green again.
+    continue-on-error: ${{ matrix.name == 'macos-clang' && matrix.php == '8.5' }}
     timeout-minutes: 30
     strategy:
       fail-fast: false
