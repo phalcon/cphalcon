@@ -596,7 +596,7 @@ PHP_METHOD(Phalcon_Assets_Collection, getRealTargetPath)
 	ZEPHIR_INIT_VAR(&completePath);
 	ZEPHIR_CONCAT_VV(&completePath, &basePath_zv, &_0);
 	if (1 == (zephir_file_exists(&completePath) == SUCCESS)) {
-		ZEPHIR_RETURN_CALL_FUNCTION("realpath", NULL, 137, &completePath);
+		ZEPHIR_RETURN_CALL_FUNCTION("realpath", NULL, 139, &completePath);
 		zephir_check_call_status();
 		RETURN_MM();
 	}

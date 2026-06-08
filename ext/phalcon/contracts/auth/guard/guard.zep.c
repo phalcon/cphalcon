@@ -39,7 +39,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Contracts_Auth_Guard_Guard)
  * application config; each implementation resolves the framework
  * services it needs from the container.
  *
- * @param array<string, mixed> $options
+ * The container is Container-first: pass a Phalcon\Container\Container.
+ * The legacy Phalcon\Di\Di is also supported with provisions - its
+ * service definitions must be pre-registered (no autowiring).
+ *
+ * @param Collection|DiInterface $container
+ * @param array<string, mixed>   $options
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Auth_Guard_Guard, fromOptions);
 /**

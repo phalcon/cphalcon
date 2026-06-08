@@ -14,14 +14,16 @@
 namespace Phalcon\Auth;
 
 use Phalcon\Auth\Exceptions\AccessDenied;
+use Phalcon\Contracts\Auth\Access\Access;
 use Phalcon\Contracts\Auth\Manager;
 
 /**
- * Shared enforcement algorithm for the Cli and Mvc auth dispatcher
- * listeners. The dispatcher-specific subclass provides only the action
- * name from its typed dispatcher, the action-kind label used in the
- * access-denied exception, and (Mvc only) a forward handler for
- * Access::redirectTo().
+ * Shared enforcement algorithm for the Cli, Mvc and Micro auth listeners.
+ * The subclass provides the action name and context from its event source,
+ * the action-kind label used in the access-denied exception, and (Mvc only)
+ * a forward handler for Access::redirectTo().
+ *
+ * @phpstan-import-type AccessContext from Access
  */
 abstract class AbstractAuthDispatcherListener
 {
@@ -36,8 +38,8 @@ abstract class AbstractAuthDispatcherListener
     }
 
     /**
-     * Returns the kind label used by AccessDenied (e.g. 'task',
-     * 'action').
+     * Returns the kind label used by AccessDenied (e.g. 'task', 'action',
+     * 'route').
      */
     abstract protected function getActionType() -> string;
 
@@ -46,12 +48,19 @@ abstract class AbstractAuthDispatcherListener
      * the dispatch should proceed, false when a forward was issued, and
      * throws when access is denied without a redirect target.
      *
+     * The guard is fetched only when an access is active, so the no-op
+     * path works without a default guard.
+     *
+     * @phpstan-param AccessContext $context
      * @phpstan-param callable|null $forwardHandler
      *
      * @throws Exception
      */
-    protected function enforce(string actionName, var forwardHandler = null) -> bool
-    {
+    protected function enforce(
+        string actionName,
+        array context = [],
+        var forwardHandler = null
+    ) -> bool {
         var access, target;
 
         let access = this->manager->getAccess();
@@ -59,7 +68,7 @@ abstract class AbstractAuthDispatcherListener
             return true;
         }
 
-        if (access->isAllowed(actionName)) {
+        if (access->isAllowed(this->manager->guard(), actionName, context)) {
             return true;
         }
 

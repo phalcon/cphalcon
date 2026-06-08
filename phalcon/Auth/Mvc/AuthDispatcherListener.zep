@@ -35,6 +35,11 @@ class AuthDispatcherListener extends AbstractAuthDispatcherListener
     {
         return this->enforce(
             (string) dispatcher->getActionName(),
+            [
+                "handler": dispatcher->getControllerName(),
+                "module":  dispatcher->getModuleName(),
+                "params":  dispatcher->getParams()
+            ],
             function (target) use (dispatcher) {
                 dispatcher->forward(target);
             }

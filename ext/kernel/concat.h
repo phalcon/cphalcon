@@ -49,6 +49,11 @@
 #define ZEPHIR_SCONCAT_SVS(result, op1, op2, op3) \
 	 zephir_concat_svs(result, op1, sizeof(op1)-1, op2, op3, sizeof(op3)-1, 1);
 
+#define ZEPHIR_CONCAT_SVSSV(result, op1, op2, op3, op4, op5) \
+	 zephir_concat_svssv(result, op1, sizeof(op1)-1, op2, op3, sizeof(op3)-1, op4, sizeof(op4)-1, op5, 0);
+#define ZEPHIR_SCONCAT_SVSSV(result, op1, op2, op3, op4, op5) \
+	 zephir_concat_svssv(result, op1, sizeof(op1)-1, op2, op3, sizeof(op3)-1, op4, sizeof(op4)-1, op5, 1);
+
 #define ZEPHIR_CONCAT_SVSSVS(result, op1, op2, op3, op4, op5, op6) \
 	 zephir_concat_svssvs(result, op1, sizeof(op1)-1, op2, op3, sizeof(op3)-1, op4, sizeof(op4)-1, op5, op6, sizeof(op6)-1, 0);
 #define ZEPHIR_SCONCAT_SVSSVS(result, op1, op2, op3, op4, op5, op6) \
@@ -224,6 +229,7 @@ void zephir_concat_ssvsvsv(zval *result, const char *op1, uint32_t op1_len, cons
 void zephir_concat_ssvsvsvs(zval *result, const char *op1, uint32_t op1_len, const char *op2, uint32_t op2_len, zval *op3, const char *op4, uint32_t op4_len, zval *op5, const char *op6, uint32_t op6_len, zval *op7, const char *op8, uint32_t op8_len, int self_var);
 void zephir_concat_sv(zval *result, const char *op1, uint32_t op1_len, zval *op2, int self_var);
 void zephir_concat_svs(zval *result, const char *op1, uint32_t op1_len, zval *op2, const char *op3, uint32_t op3_len, int self_var);
+void zephir_concat_svssv(zval *result, const char *op1, uint32_t op1_len, zval *op2, const char *op3, uint32_t op3_len, const char *op4, uint32_t op4_len, zval *op5, int self_var);
 void zephir_concat_svssvs(zval *result, const char *op1, uint32_t op1_len, zval *op2, const char *op3, uint32_t op3_len, const char *op4, uint32_t op4_len, zval *op5, const char *op6, uint32_t op6_len, int self_var);
 void zephir_concat_svssvsvs(zval *result, const char *op1, uint32_t op1_len, zval *op2, const char *op3, uint32_t op3_len, const char *op4, uint32_t op4_len, zval *op5, const char *op6, uint32_t op6_len, zval *op7, const char *op8, uint32_t op8_len, int self_var);
 void zephir_concat_svsv(zval *result, const char *op1, uint32_t op1_len, zval *op2, const char *op3, uint32_t op3_len, zval *op4, int self_var);

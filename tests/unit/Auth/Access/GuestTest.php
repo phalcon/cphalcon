@@ -16,84 +16,23 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Auth\Access;
 
-use Phalcon\Auth\Access\AccessLocator;
 use Phalcon\Auth\Access\Guest;
-use Phalcon\Auth\Adapter\Config\MemoryAdapterConfig;
-use Phalcon\Auth\Adapter\Memory;
-use Phalcon\Auth\Guard\Session;
-use Phalcon\Auth\Manager;
-use Phalcon\Container\Container;
-use Phalcon\Encryption\Security;
 use Phalcon\Tests\AbstractUnitTestCase;
-use Phalcon\Tests\Unit\Auth\Fake\FakeCookies;
-use Phalcon\Tests\Unit\Auth\Fake\FakeRequest;
-use Phalcon\Tests\Unit\Auth\Fake\FakeSessionManager;
+use Phalcon\Tests\Unit\Auth\Fake\FakeGuard;
+use Phalcon\Tests\Unit\Auth\Fake\FakeRoleUser;
 
 final class GuestTest extends AbstractUnitTestCase
 {
-    private Memory $adapter;
-    private Security $security;
-
-    protected function setUp(): void
+    public function testIsAllowedWhenAuthenticated(): void
     {
-        $this->security = new Security();
+        $guard = new FakeGuard();
+        $guard->setUser(new FakeRoleUser());
 
-        $this->adapter = new Memory(
-            $this->security,
-            new MemoryAdapterConfig([
-                [
-                    'id'       => 1,
-                    'email'    => 'alice@example.com',
-                    'password' => $this->security->hash('secret'),
-                ],
-            ])
-        );
+        $this->assertFalse((new Guest())->isAllowed($guard, 'index'));
     }
 
-    private function buildGuard(): Session
+    public function testIsAllowedWhenGuest(): void
     {
-        return new Session(
-            $this->adapter,
-            new FakeRequest(),
-            new FakeCookies(),
-            new FakeSessionManager()
-        );
-    }
-
-    private function buildManager(): Manager
-    {
-        $container = new Container();
-        $manager   = new Manager(new AccessLocator($container));
-
-        $container->set(Guest::class, fn () => new Guest($manager));
-
-        return $manager;
-    }
-
-    public function testAllowedIfWhenNotAuthenticated(): void
-    {
-        $guard   = $this->buildGuard();
-        $manager = $this->buildManager();
-        $manager->addGuard('web', $guard, true);
-
-        $access = new Guest($manager);
-
-        $this->assertTrue($access->allowedIf());
-    }
-
-    public function testAllowedIfWhenAuthenticated(): void
-    {
-        $guard   = $this->buildGuard();
-        $manager = $this->buildManager();
-        $manager->addGuard('web', $guard, true);
-
-        $user = $this->adapter->retrieveById(1);
-        $this->assertNotNull($user);
-
-        $guard->login($user);
-
-        $access = new Guest($manager);
-
-        $this->assertFalse($access->allowedIf());
+        $this->assertTrue((new Guest())->isAllowed(new FakeGuard(), 'index'));
     }
 }

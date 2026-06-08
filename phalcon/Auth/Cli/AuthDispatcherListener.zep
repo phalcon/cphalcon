@@ -25,7 +25,13 @@ class AuthDispatcherListener extends AbstractAuthDispatcherListener
      */
     public function beforeExecuteRoute(<Event> event, <Dispatcher> dispatcher) -> bool
     {
-        return this->enforce((string) dispatcher->getActionName());
+        return this->enforce(
+            (string) dispatcher->getActionName(),
+            [
+                "handler": dispatcher->getTaskName(),
+                "params":  dispatcher->getParams()
+            ]
+        );
     }
 
     protected function getActionType() -> string
