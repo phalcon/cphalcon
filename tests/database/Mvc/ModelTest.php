@@ -85,7 +85,7 @@ final class ModelTest extends AbstractDatabaseTestCase
         $album = Albums::findFirst();
 
         // Mutating through the lowercase alias must be visible through
-        // the CamelCase form — relation accessors are case-insensitive
+        // the CamelCase form - relation accessors are case-insensitive
         // and resolve to the same lazy-loaded related model.
         $album->artist->name = 'NotArtist';
 

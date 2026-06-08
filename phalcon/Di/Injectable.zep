@@ -85,11 +85,18 @@ abstract class Injectable extends stdClass implements InjectionAwareInterface
         }
 
         /**
-         * Fallback to the PHP userland if the cache is not available
+         * Resolve the service through the container. Only cache it on the
+         * object when the property is already declared on the class. This way
+         * dynamic services (e.g. request, response) are re-resolved on each
+         * access and reflect updates to the service definition, while declared
+         * component properties keep being populated as before.
          */
         if container->has(propertyName) {
             let service = container->getShared(propertyName);
-            let this->{propertyName} = service;
+
+            if property_exists(this, propertyName) {
+                let this->{propertyName} = service;
+            }
 
             return service;
         }

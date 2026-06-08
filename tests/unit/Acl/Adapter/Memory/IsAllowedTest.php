@@ -93,7 +93,7 @@ final class IsAllowedTest extends AbstractUnitTestCase
         $acl->addInherit('C', 'D');
         $acl->addInherit('A', 'X');
 
-        // Traversal: A→X→B,C→D (from B), D (from C — second occurrence hits continue L971)
+        // Traversal: A→X→B,C→D (from B), D (from C - second occurrence hits continue L971)
         $actual = $acl->isAllowed('A', 'Post', 'update');
         $this->assertFalse($actual);
     }

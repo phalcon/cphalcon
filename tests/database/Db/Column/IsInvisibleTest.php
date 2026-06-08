@@ -19,7 +19,7 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class IsInvisibleTest extends AbstractDatabaseTestCase
 {
     /**
-     * Tests Phalcon\Db\Column :: isInvisible() — defaults to false when
+     * Tests Phalcon\Db\Column :: isInvisible() - defaults to false when
      * the `invisible` key is not provided.
      *
      * @author Phalcon Team <team@phalcon.io>
@@ -43,7 +43,7 @@ final class IsInvisibleTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Db\Column :: isInvisible() — explicit `true` is honored.
+     * Tests Phalcon\Db\Column :: isInvisible() - explicit `true` is honored.
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
@@ -67,7 +67,7 @@ final class IsInvisibleTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Db\Column :: isInvisible() — explicit `false` is honored.
+     * Tests Phalcon\Db\Column :: isInvisible() - explicit `false` is honored.
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15

@@ -20,7 +20,7 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class ConstructTest extends AbstractDatabaseTestCase
 {
     /**
-     * Tests Phalcon\Db\Check :: __construct() — named CHECK with expression.
+     * Tests Phalcon\Db\Check :: __construct() - named CHECK with expression.
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
@@ -43,7 +43,7 @@ final class ConstructTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Db\Check :: __construct() — unnamed (empty string name)
+     * Tests Phalcon\Db\Check :: __construct() - unnamed (empty string name)
      * is allowed; the dialect emits the clause without a `CONSTRAINT` prefix.
      *
      * @author Phalcon Team <team@phalcon.io>
@@ -67,7 +67,7 @@ final class ConstructTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Db\Check :: __construct() — throws when `expression` is
+     * Tests Phalcon\Db\Check :: __construct() - throws when `expression` is
      * missing from the definition array.
      *
      * @author Phalcon Team <team@phalcon.io>
@@ -86,7 +86,7 @@ final class ConstructTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Db\Check :: __construct() — throws when `expression` is
+     * Tests Phalcon\Db\Check :: __construct() - throws when `expression` is
      * an empty string.
      *
      * @author Phalcon Team <team@phalcon.io>

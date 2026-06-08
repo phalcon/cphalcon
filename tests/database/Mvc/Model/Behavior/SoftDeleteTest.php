@@ -155,7 +155,6 @@ final class SoftDeleteTest extends AbstractDatabaseTestCase
      */
     public function testMvcModelBehaviorRemoveBehavior(): void
     {
-        $this->markTestSkipped('TODO: Phalcon\Mvc\Model\Manager::removeBehavior() not yet ported to cphalcon');
         /** Add row to SoftDelete then */
         $title = uniqid('inv-');
         $date  = date('Y-m-d H:i:s');

@@ -819,7 +819,7 @@ PHP_METHOD(Phalcon_Filter_Filter, sanitizer)
 			ZEPHIR_INIT_VAR(&_1$$4);
 			ZEPHIR_CONCAT_SVS(&_1$$4, "Sanitizer '", &sanitizerName_zv, "' is not registered");
 			ZVAL_LONG(&_2$$4, 1024);
-			ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", NULL, 14, &_1$$4, &_2$$4);
+			ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", NULL, 15, &_1$$4, &_2$$4);
 			zephir_check_call_status();
 		}
 		RETVAL_ZVAL(value, 1, 0);

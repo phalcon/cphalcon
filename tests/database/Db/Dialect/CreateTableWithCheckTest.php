@@ -23,7 +23,7 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class CreateTableWithCheckTest extends AbstractDatabaseTestCase
 {
     /**
-     * MySQL — `definition["checks"]` produces an inline `CONSTRAINT ... CHECK`
+     * MySQL - `definition["checks"]` produces an inline `CONSTRAINT ... CHECK`
      * line at the end of the column list.
      *
      * @author Phalcon Team <team@phalcon.io>
@@ -68,7 +68,7 @@ final class CreateTableWithCheckTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * PostgreSQL — `definition["checks"]` produces an inline constraint line.
+     * PostgreSQL - `definition["checks"]` produces an inline constraint line.
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
@@ -110,7 +110,7 @@ final class CreateTableWithCheckTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * SQLite — CHECK is supported inline in CREATE TABLE (the only place
+     * SQLite - CHECK is supported inline in CREATE TABLE (the only place
      * SQLite allows it).
      *
      * @author Phalcon Team <team@phalcon.io>

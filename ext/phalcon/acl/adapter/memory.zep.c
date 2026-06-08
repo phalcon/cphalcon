@@ -1623,14 +1623,14 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed)
 			ZEPHIR_INIT_VAR(&_57$$29);
 			ZEPHIR_CONCAT_SSVSVSVS(&_57$$29, "Number of parameters in array is higher than ", "the number of parameters in defined function when checking if '", roleName, "' can '", &access_zv, "' '", componentName, "'. Extra parameters will be ignored.");
 			ZVAL_LONG(&_58$$29, 512);
-			ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", NULL, 14, &_57$$29, &_58$$29);
+			ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", NULL, 15, &_57$$29, &_58$$29);
 			zephir_check_call_status();
 		}
 		if (zephir_fast_count_int(&parametersForFunction) == 0) {
 			if (UNEXPECTED(ZEPHIR_GT_LONG(&numberOfRequiredParameters, 0))) {
 				ZEPHIR_INIT_VAR(&_59$$31);
 				ZEPHIR_CONCAT_SVSVSVS(&_59$$31, "You did not provide any parameters when '", roleName, "' can '", &access_zv, "' '", componentName, "'. We will use default action when no arguments.");
-				ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", NULL, 14, &_59$$31);
+				ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", NULL, 15, &_59$$31);
 				zephir_check_call_status();
 				_60$$31 = ZEPHIR_IS_LONG(&haveAccess, 1);
 				if (_60$$31) {

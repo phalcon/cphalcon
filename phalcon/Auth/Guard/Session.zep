@@ -16,6 +16,7 @@ namespace Phalcon\Auth\Guard;
 use Phalcon\Auth\Exception;
 use Phalcon\Auth\Exceptions\DoesNotImplement;
 use Phalcon\Auth\Guard\Config\SessionGuardConfig;
+use Phalcon\Auth\Internal\ContainerResolver;
 use Phalcon\Auth\Internal\Options;
 use Phalcon\Contracts\Auth\Adapter\Adapter;
 use Phalcon\Contracts\Auth\Adapter\RememberAdapter;
@@ -24,8 +25,6 @@ use Phalcon\Contracts\Auth\AuthUser;
 use Phalcon\Contracts\Auth\Guard\BasicAuth;
 use Phalcon\Contracts\Auth\Guard\GuardStateful;
 use Phalcon\Contracts\Auth\RememberToken;
-use Phalcon\Contracts\Container\Service\Collection;
-use Phalcon\Di\DiInterface;
 use Phalcon\Http\RequestInterface;
 use Phalcon\Http\Response\CookiesInterface;
 use Phalcon\Session\ManagerInterface as SessionManagerInterface;
@@ -78,10 +77,6 @@ class Session extends AbstractGuard implements GuardStateful, BasicAuth
         var container,
         array options
     ) -> <static> {
-        if (!(container instanceof Collection) && !(container instanceof DiInterface)) {
-            throw new \TypeError("The parameter must be an instance of Collection or DiInterface");
-        }
-
         var config;
 
         let config = new SessionGuardConfig(
@@ -92,9 +87,36 @@ class Session extends AbstractGuard implements GuardStateful, BasicAuth
 
         return new static(
             adapter,
-            Options::resolveService(container, "Phalcon\\Http\\RequestInterface", "Session guard"),
-            Options::resolveService(container, "Phalcon\\Http\\Response\\CookiesInterface", "Session guard"),
-            Options::resolveService(container, "Phalcon\\Session\\ManagerInterface", "Session guard"),
+            ContainerResolver::requireService(
+                container,
+                ContainerResolver::serviceCandidates(
+                    options,
+                    "request",
+                    "Phalcon\\Http\\RequestInterface",
+                    "request"
+                ),
+                "Session guard"
+            ),
+            ContainerResolver::requireService(
+                container,
+                ContainerResolver::serviceCandidates(
+                    options,
+                    "cookies",
+                    "Phalcon\\Http\\Response\\CookiesInterface",
+                    "cookies"
+                ),
+                "Session guard"
+            ),
+            ContainerResolver::requireService(
+                container,
+                ContainerResolver::serviceCandidates(
+                    options,
+                    "session",
+                    "Phalcon\\Session\\ManagerInterface",
+                    "session"
+                ),
+                "Session guard"
+            ),
             config
         );
     }

@@ -21,7 +21,7 @@ ZEPHIR_INIT_CLASS(phalcon_7__closure)
 {
 	ZEPHIR_REGISTER_CLASS(phalcon, 7__closure, phalcon, 7__closure, phalcon_7__closure_method_entry, ZEND_ACC_FINAL_CLASS);
 
-	zend_declare_property_null(phalcon_7__closure_ce, SL("name"), ZEND_ACC_PUBLIC|ZEND_ACC_STATIC);
+	zend_declare_property_null(phalcon_7__closure_ce, SL("serviceName"), ZEND_ACC_PUBLIC|ZEND_ACC_STATIC);
 	return SUCCESS;
 }
 
@@ -29,15 +29,15 @@ PHP_METHOD(phalcon_7__closure, __invoke)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval name;
+	zval serviceName;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&name);
+	ZVAL_UNDEF(&serviceName);
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_read_static_property_ce(&name, phalcon_7__closure_ce, SL("name"), PH_NOISY_CC);
+	zephir_read_static_property_ce(&serviceName, phalcon_7__closure_ce, SL("serviceName"), PH_NOISY_CC);
 
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "get", NULL, 0, &name);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "get", NULL, 0, &serviceName);
 	zephir_check_call_status();
 	RETURN_MM();
 }

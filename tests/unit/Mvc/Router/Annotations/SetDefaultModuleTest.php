@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\Router\Annotations;
 
+use Phalcon\Mvc\Router\Annotations;
 use Phalcon\Tests\AbstractUnitTestCase;
 
 final class SetDefaultModuleTest extends AbstractUnitTestCase
@@ -23,6 +24,10 @@ final class SetDefaultModuleTest extends AbstractUnitTestCase
      */
     public function testMvcRouterAnnotationsSetDefaultModule(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $router = new Annotations(false);
+
+        $router->setDefaultModule('front');
+
+        $this->assertSame('front', $router->getDefaults()['module']);
     }
 }

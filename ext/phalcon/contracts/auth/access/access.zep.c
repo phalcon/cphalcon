@@ -24,6 +24,11 @@
  * @link    https://github.com/sinbadxiii/cphalcon-auth
  */
 /**
+ * Access gates are Specifications: policies that decide whether the current
+ * identity may run the given action. The enforcement point passes the
+ * identity (the guard) and the request context on every call; gates hold no
+ * reference to the auth manager.
+ *
  * @phpstan-type ForwardTarget array{
  *     controller?: string,
  *     action?: string,
@@ -31,6 +36,11 @@
  *     namespace?: string,
  *     task?: string,
  * }&array<string, mixed>
+ * @phpstan-type AccessContext array{
+ *     handler?: string,
+ *     module?: string,
+ *     params?: array<int|string, mixed>,
+ * }
  */
 ZEPHIR_INIT_CLASS(Phalcon_Contracts_Auth_Access_Access)
 {
@@ -39,7 +49,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Contracts_Auth_Access_Access)
 	return SUCCESS;
 }
 
-ZEPHIR_DOC_METHOD(Phalcon_Contracts_Auth_Access_Access, allowedIf);
 /**
  * @return list<string>
  */
@@ -48,6 +57,11 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Auth_Access_Access, getExceptActions);
  * @return list<string>
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Auth_Access_Access, getOnlyActions);
+/**
+ * Whether the identity behind the guard may run the action.
+ *
+ * @phpstan-param AccessContext $context
+ */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Auth_Access_Access, isAllowed);
 /**
  * @phpstan-return ForwardTarget|null

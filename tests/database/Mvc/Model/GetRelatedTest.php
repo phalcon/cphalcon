@@ -211,7 +211,7 @@ final class GetRelatedTest extends AbstractDatabaseTestCase
 
     /**
      * Consecutive calls to getRelated() without arguments must return the same
-     * cached object — no second database round-trip.
+     * cached object - no second database round-trip.
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/16409
      * @author Phalcon Team <team@phalcon.io>
@@ -243,7 +243,7 @@ final class GetRelatedTest extends AbstractDatabaseTestCase
         $first  = $customer->getRelated('camelCaseInvoices');
         $second = $customer->getRelated('camelCaseInvoices');
 
-        // Both calls must return the exact same object — second is served from related cache
+        // Both calls must return the exact same object - second is served from related cache
         $this->assertSame($first, $second);
         $this->assertCount(2, $first);
     }
@@ -278,7 +278,7 @@ final class GetRelatedTest extends AbstractDatabaseTestCase
         /** @var Invoices $invoice */
         $invoice = Invoices::findFirst(40);
 
-        // Create a replacement customer and assign it via __set — goes into dirtyRelated
+        // Create a replacement customer and assign it via __set - goes into dirtyRelated
         $newCustomer          = new Customers();
         $newCustomer->cst_id  = 99;
         $invoice->customer    = $newCustomer;

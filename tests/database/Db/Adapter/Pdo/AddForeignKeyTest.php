@@ -87,7 +87,7 @@ final class AddForeignKeyTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Db\Adapter\Pdo\Sqlite :: addForeignKey() — throws
+     * Tests Phalcon\Db\Adapter\Pdo\Sqlite :: addForeignKey() - throws
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-19

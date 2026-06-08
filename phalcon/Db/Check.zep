@@ -54,7 +54,7 @@ class Check implements CheckInterface
 
     /**
      * The CHECK constraint name. An empty string indicates an unnamed
-     * constraint — the dialect will emit the clause without a `CONSTRAINT`
+     * constraint - the dialect will emit the clause without a `CONSTRAINT`
      * prefix in that case.
      *
      * @var string

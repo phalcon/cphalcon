@@ -38,7 +38,7 @@ final class SpatialTypesTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * MySQL — emits each spatial keyword.
+     * MySQL - emits each spatial keyword.
      *
      * @dataProvider provideSpatialTypes
      *
@@ -63,7 +63,7 @@ final class SpatialTypesTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * PostgreSQL — emits each spatial keyword (PostGIS interprets them).
+     * PostgreSQL - emits each spatial keyword (PostGIS interprets them).
      *
      * @dataProvider provideSpatialTypes
      *
@@ -88,7 +88,7 @@ final class SpatialTypesTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * MySQL — POINT column inside an ADD COLUMN statement.
+     * MySQL - POINT column inside an ADD COLUMN statement.
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15

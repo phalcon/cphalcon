@@ -22,7 +22,7 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class ReturningTest extends AbstractDatabaseTestCase
 {
     /**
-     * PostgreSQL — RETURNING list.
+     * PostgreSQL - RETURNING list.
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
@@ -43,7 +43,7 @@ final class ReturningTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * PostgreSQL — RETURNING *.
+     * PostgreSQL - RETURNING *.
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
@@ -64,7 +64,7 @@ final class ReturningTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * SQLite — RETURNING list (3.35+).
+     * SQLite - RETURNING list (3.35+).
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
@@ -85,7 +85,7 @@ final class ReturningTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * MySQL — throws (no RETURNING construct).
+     * MySQL - throws (no RETURNING construct).
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
@@ -106,7 +106,7 @@ final class ReturningTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * PostgreSQL — empty columns array throws.
+     * PostgreSQL - empty columns array throws.
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15

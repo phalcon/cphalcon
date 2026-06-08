@@ -1864,7 +1864,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, throwWriteException)
 		ZEPHIR_MM_RESTORE();
 		return;
 	} else {
-		ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", NULL, 14, &message);
+		ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", NULL, 15, &message);
 		zephir_check_call_status();
 	}
 	ZEPHIR_MM_RESTORE();

@@ -84,7 +84,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Index)
 	zend_declare_property_null(phalcon_db_index_ce, SL("columns"), ZEND_ACC_PROTECTED);
 	/**
 	 * Whether to build the index without taking a strong lock that blocks
-	 * writes — emits `CONCURRENTLY` between `INDEX` and the index name on
+	 * writes - emits `CONCURRENTLY` between `INDEX` and the index name on
 	 * PostgreSQL (`CREATE INDEX CONCURRENTLY name ON ...`). MySQL and
 	 * SQLite have no equivalent and ignore the flag.
 	 *
@@ -93,7 +93,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Index)
 	zend_declare_property_bool(phalcon_db_index_ce, SL("concurrent"), 0, ZEND_ACC_PROTECTED);
 	/**
 	 * Per-column sort directions (`ASC` / `DESC`). Empty array means
-	 * "emit no per-column direction" — preserves the legacy plain
+	 * "emit no per-column direction" - preserves the legacy plain
 	 * `(col1, col2)` rendering. When populated, entries shorter than
 	 * the columns list default to `ASC` for the missing positions.
 	 *
@@ -102,7 +102,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Index)
 	zend_declare_property_null(phalcon_db_index_ce, SL("directions"), ZEND_ACC_PROTECTED);
 	/**
 	 * Whether the index is declared `INVISIBLE` (MySQL 8.0+). Invisible
-	 * indexes are ignored by the optimizer — useful for testing what
+	 * indexes are ignored by the optimizer - useful for testing what
 	 * happens when an index is removed before actually dropping it.
 	 * PostgreSQL and SQLite have no equivalent and ignore the flag.
 	 *
@@ -198,7 +198,7 @@ PHP_METHOD(Phalcon_Db_Index, __construct)
 		if (UNEXPECTED(Z_TYPE_P(&_0$$3) != IS_ARRAY)) {
 			ZEPHIR_INIT_VAR(&_1$$4);
 			object_init_ex(&_1$$4, phalcon_db_exceptions_invalidindexcolumns_ce);
-			ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 437);
+			ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 438);
 			zephir_check_call_status();
 			zephir_throw_exception_debug(&_1$$4, "phalcon/Db/Index.zep", 140);
 			ZEPHIR_MM_RESTORE();
@@ -224,7 +224,7 @@ PHP_METHOD(Phalcon_Db_Index, __construct)
 			if (UNEXPECTED(Z_TYPE_P(&directions) != IS_ARRAY)) {
 				ZEPHIR_INIT_VAR(&_4$$8);
 				object_init_ex(&_4$$8, phalcon_db_exceptions_invalidindexdirections_ce);
-				ZEPHIR_CALL_METHOD(NULL, &_4$$8, "__construct", NULL, 438);
+				ZEPHIR_CALL_METHOD(NULL, &_4$$8, "__construct", NULL, 439);
 				zephir_check_call_status();
 				zephir_throw_exception_debug(&_4$$8, "phalcon/Db/Index.zep", 155);
 				ZEPHIR_MM_RESTORE();
@@ -237,7 +237,7 @@ PHP_METHOD(Phalcon_Db_Index, __construct)
 			if (UNEXPECTED(Z_TYPE_P(&where) != IS_STRING)) {
 				ZEPHIR_INIT_VAR(&_5$$10);
 				object_init_ex(&_5$$10, phalcon_db_exceptions_invalidindexwhere_ce);
-				ZEPHIR_CALL_METHOD(NULL, &_5$$10, "__construct", NULL, 439);
+				ZEPHIR_CALL_METHOD(NULL, &_5$$10, "__construct", NULL, 440);
 				zephir_check_call_status();
 				zephir_throw_exception_debug(&_5$$10, "phalcon/Db/Index.zep", 163);
 				ZEPHIR_MM_RESTORE();

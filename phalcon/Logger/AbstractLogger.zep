@@ -69,6 +69,10 @@ abstract class AbstractLogger
     /**
      * @var int
      */
+    const TRACE     = 9;
+    /**
+     * @var int
+     */
     const WARNING   = 4;
 
     /**
@@ -378,7 +382,8 @@ abstract class AbstractLogger
             self::INFO      : "info",
             self::NOTICE    : "notice",
             self::WARNING   : "warning",
-            self::CUSTOM    : "custom"
+            self::CUSTOM    : "custom",
+            self::TRACE     : "trace"
         ];
     }
 }

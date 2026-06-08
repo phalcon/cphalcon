@@ -59,16 +59,13 @@ class Manager implements ManagerContract
      */
     public function access(string accessName) -> <self>
     {
-        var className;
-
         if (!this->accessFactory->has(accessName)) {
             throw new Exception(
                 sprintf("Access '%s' is not registered", accessName)
             );
         }
 
-        let className          = this->accessFactory->getClass(accessName);
-        let this->activeAccess = new {className}(this);
+        let this->activeAccess = <Access> this->accessFactory->newInstance(accessName);
 
         return this;
     }
@@ -130,7 +127,7 @@ class Manager implements ManagerContract
     public function except(string ...actions) -> <self>
     {
         if (this->activeAccess === null) {
-            throw new Exception("No active access — call access() first");
+            throw new Exception("No active access - call access() first");
         }
 
         this->activeAccess->setExceptActions(array_values(actions));
@@ -210,7 +207,7 @@ class Manager implements ManagerContract
     public function only(string ...actions) -> <self>
     {
         if (this->activeAccess === null) {
-            throw new Exception("No active access — call access() first");
+            throw new Exception("No active access - call access() first");
         }
 
         this->activeAccess->setOnlyActions(array_values(actions));

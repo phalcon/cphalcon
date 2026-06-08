@@ -23,7 +23,7 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class AddCheckTest extends AbstractDatabaseTestCase
 {
     /**
-     * MySQL — named CHECK on existing table.
+     * MySQL - named CHECK on existing table.
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
@@ -48,7 +48,7 @@ final class AddCheckTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * MySQL — unnamed CHECK omits the `CONSTRAINT <name>` prefix.
+     * MySQL - unnamed CHECK omits the `CONSTRAINT <name>` prefix.
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
@@ -72,7 +72,7 @@ final class AddCheckTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * PostgreSQL — named CHECK on existing table.
+     * PostgreSQL - named CHECK on existing table.
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
@@ -97,7 +97,7 @@ final class AddCheckTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * SQLite — addCheck() throws (CHECK can only be declared at CREATE TABLE).
+     * SQLite - addCheck() throws (CHECK can only be declared at CREATE TABLE).
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
@@ -123,7 +123,7 @@ final class AddCheckTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * MySQL — dropCheck() emits the proper `DROP CHECK` syntax.
+     * MySQL - dropCheck() emits the proper `DROP CHECK` syntax.
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
@@ -146,7 +146,7 @@ final class AddCheckTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * PostgreSQL — dropCheck() emits `DROP CONSTRAINT` (PG does not distinguish
+     * PostgreSQL - dropCheck() emits `DROP CONSTRAINT` (PG does not distinguish
      * CHECK from other constraint kinds in the DROP syntax).
      *
      * @author Phalcon Team <team@phalcon.io>
@@ -170,7 +170,7 @@ final class AddCheckTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * SQLite — dropCheck() throws.
+     * SQLite - dropCheck() throws.
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15

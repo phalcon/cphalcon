@@ -62,7 +62,7 @@ interface Manager
     public function detach(string eventType, handler) -> void;
 
     /**
-     * Removes all listeners — globally or for a single event type.
+     * Removes all listeners - globally or for a single event type.
      */
     public function detachAll(string type = null) -> void;
 

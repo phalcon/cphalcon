@@ -84,7 +84,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
 
     /**
      * Number of alternatives per combined-regex chunk. Empirically derived
-     * (FastRoute uses ~10) — keeps each chunk below PCRE's optimizer cliff.
+     * (FastRoute uses ~10) - keeps each chunk below PCRE's optimizer cliff.
      *
      * @var int
      */
@@ -108,7 +108,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      * Pre-merged per-method candidate buckets in attach order. For each HTTP
      * method seen on any registered route, the bucket contains the
      * method-specific routes followed by the "*" (no-constraint) routes.
-     * The "*" key itself holds only the no-constraint routes — used when the
+     * The "*" key itself holds only the no-constraint routes - used when the
      * request method has no specific bucket.
      *
      * Built in rebuildMethodIndex(); consumed by handle() in reverse.
@@ -306,7 +306,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
     /**
      * Shadow-detection map. If staticShadowedByMethod[method][uri] is set,
      * the static URI in that bucket is shadowed by a later-attached regex
-     * route — the fast path MUST NOT be used; fall through to the dynamic
+     * route - the fast path MUST NOT be used; fall through to the dynamic
      * loop so the regex wins (reverse-iteration semantics).
      *
      * @var array
@@ -699,7 +699,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      * (no objects, no closures). Used by dumpDispatcher() and by
      * Phalcon\Cache integration via useCache().
      *
-     * Throws when a route has a Closure beforeMatch or converter — those
+     * Throws when a route has a Closure beforeMatch or converter - those
      * cannot be cached.
      *
      * @throws \Phalcon\Mvc\Router\Exception
@@ -2242,7 +2242,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
 
         /**
          * Build the single-source per-route metadata cache, keyed by the
-         * route's intrinsic id. One entry per route — replaces the previous
+         * route's intrinsic id. One entry per route - replaces the previous
          * per-method-bucket replication.
          */
         let this->routeMeta = [];
@@ -2373,7 +2373,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
              * gives reverse-attach-wins. Then chunk into groups of
              * REGEX_CHUNK_SIZE so each chunk stays below the PCRE
              * optimizer cliff. chunks[0] holds the LATEST-attached batch
-             * — handle() tries chunks 0..N in order.
+             * - handle() tries chunks 0..N in order.
              */
             var chunkedPatterns, chunkedMarkMaps, chunkOffset, chunkSlice,
                 chunkSliceMap, chunkMarkSubset, reversedMarkIds, chunkMarkId;

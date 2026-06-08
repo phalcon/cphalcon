@@ -39,7 +39,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Encryption_Security_Uuid_AbstractUuid)
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Encryption\\Security\\Uuid, AbstractUuid, phalcon, encryption_security_uuid_abstractuuid, phalcon_encryption_security_uuid_abstractuuid_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
 	/**
-	 * Cached SysNodeProvider instance — shared within the request via static.
+	 * Cached SysNodeProvider instance - shared within the request via static.
 	 *
 	 * @var NodeProviderInterface|null
 	 */

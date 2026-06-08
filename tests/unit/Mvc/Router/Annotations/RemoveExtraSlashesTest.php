@@ -13,16 +13,37 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\Router\Annotations;
 
+use Phalcon\Mvc\Router\Annotations;
 use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Tests\Support\Traits\DiTrait;
 
 final class RemoveExtraSlashesTest extends AbstractUnitTestCase
 {
+    use DiTrait;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->newDi();
+        $this->setDiService('request');
+        $this->setDiService('annotations');
+    }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function testMvcRouterAnnotationsRemoveExtraSlashes(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $router = new Annotations(true);
+        $router->setDI($this->container);
+        $router->removeExtraSlashes(true);
+
+        $router->handle('/session/start/');
+
+        $this->assertTrue($router->wasMatched());
+        $this->assertSame('session', $router->getControllerName());
+        $this->assertSame('start', $router->getActionName());
     }
 }

@@ -154,7 +154,7 @@ final class ModelTest extends AbstractUnitTestCase
         $token = $this->adapter->createRememberToken($user);
 
         // Re-seed fixture so subsequent retrieveById hydrates a fresh instance
-        // that still answers getRememberToken() — store the token entry in the
+        // that still answers getRememberToken() - store the token entry in the
         // re-hydrated instance via the fixture row.
         FakeAuthUserModel::$rows[0]['rememberTokens'] = [
             $token->getToken() => $token,

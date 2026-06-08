@@ -136,6 +136,16 @@ interface LoggerInterface
     public function notice(string message, array context = []) -> void;
 
     /**
+     * Extra-verbose diagnostic output.
+     *
+     * @param string $message
+     * @param array  $context
+     *
+     * @return void
+     */
+    public function trace(string message, array context = []) -> void;
+
+    /**
      * Exceptional occurrences that are not errors.
      *
      * Example: Use of deprecated APIs, poor use of an API, undesirable things

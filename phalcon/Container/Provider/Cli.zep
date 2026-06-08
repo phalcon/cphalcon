@@ -78,7 +78,7 @@ class Cli implements Provider
         services->bind("Phalcon\\Mvc\\Model\\Transaction\\ManagerInterface", "Phalcon\\Mvc\\Model\\Transaction\\Manager");
         services->setAlias("Phalcon\\Mvc\\Model\\Transaction\\ManagerInterface", "transactionManager");
 
-        // --- FQCN bindings (set + alias) — no unique interface available ---
+        // --- FQCN bindings (set + alias) - no unique interface available ---
 
         services->set(
             "Phalcon\\Auth\\Access\\AccessLocator",

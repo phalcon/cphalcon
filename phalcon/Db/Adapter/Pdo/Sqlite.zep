@@ -300,7 +300,7 @@ class Sqlite extends PdoAdapter
              * `hidden` flag (field index 6). 2 = VIRTUAL, 3 = STORED.
              * SQLite does not expose the expression through any pragma, so
              * `getGenerationExpression()` round-trips as an empty string
-             * (documented limitation — cphalcon issue [#14719] umbrella).
+             * (documented limitation - cphalcon issue [#14719] umbrella).
              */
             let hiddenFlag = 0;
             if isset field[6] {

@@ -24,7 +24,7 @@ final class CheckGroupTest extends AbstractUnitTestCase
     }
 
     // -----------------------------------------------------------------------
-    // Constructor — name normalisation
+    // Constructor - name normalisation
     // -----------------------------------------------------------------------
 
     public function testConstructorAppendsArrayBracketsWhenMissing(): void

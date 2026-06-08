@@ -2787,7 +2787,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, sharedLock)
 }
 
 /**
- * Creates a materialized view (PostgreSQL only — MySQL and SQLite
+ * Creates a materialized view (PostgreSQL only - MySQL and SQLite
  * throw via the dialect).
  */
 PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, createMaterializedView)

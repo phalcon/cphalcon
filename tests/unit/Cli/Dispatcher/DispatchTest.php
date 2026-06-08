@@ -191,7 +191,7 @@ final class DispatchTest extends AbstractUnitTestCase
 
         $dispatcher->setEventsManager($eventsManager);
 
-        // No DI container set — throwDispatchException returns false, dispatch returns false
+        // No DI container set - throwDispatchException returns false, dispatch returns false
         $result = $dispatcher->dispatch();
         $this->assertFalse($result);
     }

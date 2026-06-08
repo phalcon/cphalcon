@@ -13,6 +13,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\Router\Annotations;
 
+use Phalcon\Mvc\Router\Annotations;
+use Phalcon\Mvc\Router\Route;
+use Phalcon\Mvc\RouterInterface;
 use Phalcon\Tests\AbstractUnitTestCase;
 
 final class AttachTest extends AbstractUnitTestCase
@@ -23,6 +26,13 @@ final class AttachTest extends AbstractUnitTestCase
      */
     public function testMvcRouterAnnotationsAttach(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $router = new Annotations(false);
+        $route  = new Route('/test');
+
+        $result = $router->attach($route);
+
+        $this->assertInstanceOf(RouterInterface::class, $result);
+        $this->assertCount(1, $router->getRoutes());
+        $this->assertSame($route, $router->getRoutes()[0]);
     }
 }

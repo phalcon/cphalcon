@@ -39,7 +39,6 @@ final class ClearTest extends AbstractDatabaseTestCase
 
     public function setUp(): void
     {
-        $this->markTestSkipped('Needs to be refactored because of Tag');
         $this->postStore = $_POST ?? [];
 
         $this->setNewFactoryDefault();
@@ -215,11 +214,11 @@ final class ClearTest extends AbstractDatabaseTestCase
      * @group  mysql
      * @group sqlite
      *
-     * @todo   Check implementation — uses Tag::setDefault() which needs review
+     * @todo   Check implementation - uses Tag::setDefault() which needs review
      */
     public function testClearFormElements(): void
     {
-        $this->markTestSkipped('Check implementation — uses Tag::setDefault()');
+        $this->markTestSkipped('Check implementation - uses Tag::setDefault()');
 
         $pass = new Password('passwd');
         $eml  = new Email('email');
@@ -456,11 +455,11 @@ final class ClearTest extends AbstractDatabaseTestCase
      * @group  mysql
      * @group sqlite
      *
-     * @todo   Check implementation — uses Tag::getValue() / Tag::setDefault() which need review
+     * @todo   Check implementation - uses Tag::getValue() / Tag::setDefault() which need review
      */
     public function testClearFormElementsByUsingFormBind(): void
     {
-        $this->markTestSkipped('Check implementation — uses Tag::getValue() and Tag::setDefault()');
+        $this->markTestSkipped('Check implementation - uses Tag::getValue() and Tag::setDefault()');
 
         $name = new Text('sel_name');
         $text = new Text('sel_text');

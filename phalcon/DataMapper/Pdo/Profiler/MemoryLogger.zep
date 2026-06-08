@@ -141,6 +141,14 @@ class MemoryLogger implements LoggerInterface
         this->log(Enum::NOTICE, message, context);
     }
 
+    /**
+     * @param string message
+     * @param mixed[] context
+     */
+    public function trace(string message, array context = []) -> void
+    {
+        this->log(Enum::TRACE, message, context);
+    }
 
     /**
      * @param string message

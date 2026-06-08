@@ -18,7 +18,7 @@ namespace Phalcon\Contracts\Auth\Guard;
  *
  * Per-guard config shape is intentionally guard-specific (e.g. Token exposes
  * getInputKey()/getStorageKey(); Session has no required config today).
- * The contract carries no methods of its own — it only marks the type so
+ * The contract carries no methods of its own - it only marks the type so
  * AbstractGuard can accept any guard config uniformly.
  */
 interface GuardConfig

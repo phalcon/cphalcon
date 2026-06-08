@@ -67,7 +67,7 @@ final class FormsLocatorTest extends AbstractUnitTestCase
     }
 
     // -----------------------------------------------------------------------
-    // get() — no entity (cached)
+    // get() - no entity (cached)
     // -----------------------------------------------------------------------
 
     public function testGetReturnsFormInstance(): void
@@ -100,7 +100,7 @@ final class FormsLocatorTest extends AbstractUnitTestCase
     }
 
     // -----------------------------------------------------------------------
-    // get() — with entity (never cached)
+    // get() - with entity (never cached)
     // -----------------------------------------------------------------------
 
     public function testGetWithEntityReturnsFreshFormEachTime(): void

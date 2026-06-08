@@ -3,17 +3,16 @@ extern zend_class_entry *phalcon_contracts_auth_access_access_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Contracts_Auth_Access_Access);
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_auth_access_access_allowedif, 0, 0, _IS_BOOL, 0)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_auth_access_access_getexceptactions, 0, 0, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_auth_access_access_getonlyactions, 0, 0, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_auth_access_access_isallowed, 0, 1, _IS_BOOL, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_auth_access_access_isallowed, 0, 2, _IS_BOOL, 0)
+	ZEND_ARG_OBJ_INFO(0, guard, Phalcon\\Contracts\\Auth\\Guard\\Guard, 0)
 	ZEND_ARG_TYPE_INFO(0, actionName, IS_STRING, 0)
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, context, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_auth_access_access_redirectto, 0, 0, IS_ARRAY, 1)
@@ -30,7 +29,6 @@ ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, onlyActions, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_contracts_auth_access_access_method_entry) {
-	PHP_ABSTRACT_ME(Phalcon_Contracts_Auth_Access_Access, allowedIf, arginfo_phalcon_contracts_auth_access_access_allowedif)
 	PHP_ABSTRACT_ME(Phalcon_Contracts_Auth_Access_Access, getExceptActions, arginfo_phalcon_contracts_auth_access_access_getexceptactions)
 	PHP_ABSTRACT_ME(Phalcon_Contracts_Auth_Access_Access, getOnlyActions, arginfo_phalcon_contracts_auth_access_access_getonlyactions)
 	PHP_ABSTRACT_ME(Phalcon_Contracts_Auth_Access_Access, isAllowed, arginfo_phalcon_contracts_auth_access_access_isallowed)

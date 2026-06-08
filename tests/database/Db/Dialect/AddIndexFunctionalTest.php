@@ -23,7 +23,7 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class AddIndexFunctionalTest extends AbstractDatabaseTestCase
 {
     /**
-     * MySQL — a single expression entry is wrapped in `(expr)`.
+     * MySQL - a single expression entry is wrapped in `(expr)`.
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
@@ -48,7 +48,7 @@ final class AddIndexFunctionalTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * MySQL — mixed columns and expressions.
+     * MySQL - mixed columns and expressions.
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
@@ -77,7 +77,7 @@ final class AddIndexFunctionalTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * PostgreSQL — expression wrapped in `(expr)`.
+     * PostgreSQL - expression wrapped in `(expr)`.
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
@@ -100,7 +100,7 @@ final class AddIndexFunctionalTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * SQLite — expression emitted as-is, no extra parens (its grammar
+     * SQLite - expression emitted as-is, no extra parens (its grammar
      * accepts `expr` directly as `indexed-column`).
      *
      * @author Phalcon Team <team@phalcon.io>
@@ -125,7 +125,7 @@ final class AddIndexFunctionalTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * MySQL — expression + direction compose.
+     * MySQL - expression + direction compose.
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15

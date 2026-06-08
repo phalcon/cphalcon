@@ -97,7 +97,7 @@ final class EnvDefaultTest extends AbstractUnitTestCase
         $container = new FakeNameContainer();
         $lazy      = new EnvDefault('PHALCON_TEST_VAR', 99, 'string');
 
-        // Default is returned as-is — type casting only applies to the env value
+        // Default is returned as-is - type casting only applies to the env value
         $this->assertSame(99, $lazy->resolve($container));
     }
 

@@ -39,7 +39,7 @@ final class PostgresqlNewTypesTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * PostgreSQL — getColumnDefinition emits the new type keywords.
+     * PostgreSQL - getColumnDefinition emits the new type keywords.
      *
      * @dataProvider provideScalarTypes
      *

@@ -161,7 +161,7 @@ trait DiTrait
     }
 
     /**
-     * Default tearDown — closes the DB connection so MySQL does not accumulate
+     * Default tearDown - closes the DB connection so MySQL does not accumulate
      * idle connections that hold metadata locks between test classes.
      * Tests that define their own tearDown() must call $this->tearDownDatabase().
      */

@@ -30,7 +30,7 @@ final class AddPrimaryKeyTest extends AbstractDatabaseTestCase
         $this->setDatabase();
         $db = $this->container->get('db');
         $db->execute('DROP TABLE IF EXISTS ' . self::TABLE);
-        // No PRIMARY KEY on the scratch table — addPrimaryKey will add one.
+        // No PRIMARY KEY on the scratch table - addPrimaryKey will add one.
         $db->execute(
             'CREATE TABLE ' . self::TABLE . ' (id integer NOT NULL, name varchar(50))'
         );
@@ -69,7 +69,7 @@ final class AddPrimaryKeyTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Db\Adapter\Pdo\Sqlite :: addPrimaryKey() — throws
+     * Tests Phalcon\Db\Adapter\Pdo\Sqlite :: addPrimaryKey() - throws
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-19

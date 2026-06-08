@@ -24,7 +24,7 @@ final class RadioGroupTest extends AbstractUnitTestCase
     }
 
     // -----------------------------------------------------------------------
-    // Constructor — no bracket appending for radio
+    // Constructor - no bracket appending for radio
     // -----------------------------------------------------------------------
 
     public function testConstructorDoesNotAppendBrackets(): void

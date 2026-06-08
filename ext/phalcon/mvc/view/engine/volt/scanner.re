@@ -154,6 +154,110 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 				++YYCURSOR;
 			}
 
+		} else if (s->mode == PHVOLT_MODE_VERBATIM) {
+
+			if (*YYCURSOR == '\n') {
+				s->active_line++;
+			}
+
+			/*
+			 * End of input while still inside a verbatim block. Flush
+			 * whatever has been captured so far; the parser then reports
+			 * the missing {% endverbatim %}.
+			 */
+			if (*YYCURSOR == '\0') {
+				s->mode = PHVOLT_MODE_CODE;
+
+				if (s->raw_buffer_cursor > 0) {
+					token->opcode = PHVOLT_T_RAW_FRAGMENT;
+					token->value = emalloc(sizeof(char) * s->raw_buffer_cursor + 1);
+					memcpy(token->value, s->raw_buffer, s->raw_buffer_cursor);
+					token->value[s->raw_buffer_cursor] = 0;
+					token->len = s->raw_buffer_cursor;
+
+					s->raw_buffer_cursor = 0;
+
+					return 0;
+				}
+
+				return PHVOLT_SCANNER_RETCODE_EOF;
+			}
+
+			/*
+			 * Detect the closing "{% endverbatim %}" tag, allowing the
+			 * optional "-" whitespace-control marker and surrounding
+			 * spaces. Everything else - including other "{{", "{%" and
+			 * "{#" sequences - is captured as literal content.
+			 */
+			if (*YYCURSOR == '{' && *(YYCURSOR + 1) == '%') {
+				char *peek = YYCURSOR + 2;
+				const char *needle = "endverbatim";
+				int matched = 1;
+				int i;
+
+				if (*peek == '-') {
+					peek++;
+				}
+
+				while (*peek == ' ' || *peek == '\t' || *peek == '\r' || *peek == '\n') {
+					peek++;
+				}
+
+				for (i = 0; i < 11; i++) {
+					if ((peek[i] | 0x20) != needle[i]) {
+						matched = 0;
+						break;
+					}
+				}
+
+				/* "endverbatim" must be a whole word */
+				if (matched) {
+					char after = peek[11];
+
+					if (
+						(after >= 'a' && after <= 'z') ||
+						(after >= 'A' && after <= 'Z') ||
+						(after >= '0' && after <= '9') ||
+						after == '_'
+					) {
+						matched = 0;
+					}
+				}
+
+				if (matched) {
+					s->mode = PHVOLT_MODE_CODE;
+
+					if (s->raw_buffer_cursor > 0) {
+						token->opcode = PHVOLT_T_RAW_FRAGMENT;
+						token->value = emalloc(sizeof(char) * s->raw_buffer_cursor + 1);
+						memcpy(token->value, s->raw_buffer, s->raw_buffer_cursor);
+						token->value[s->raw_buffer_cursor] = 0;
+						token->len = s->raw_buffer_cursor;
+
+						s->raw_buffer_cursor = 0;
+					} else {
+						token->opcode = PHVOLT_T_IGNORE;
+					}
+
+					/*
+					 * Leave YYCURSOR on "{%" so the {% endverbatim %}
+					 * tag is tokenized on the next scan.
+					 */
+					return 0;
+				}
+			}
+
+			/* Literal content: buffer the current character and advance */
+			if (s->raw_buffer_cursor == s->raw_buffer_size) {
+				s->raw_buffer_size += PHVOLT_RAW_BUFFER_SIZE;
+				s->raw_buffer = erealloc(s->raw_buffer, s->raw_buffer_size);
+			}
+
+			memcpy(s->raw_buffer + s->raw_buffer_cursor, YYCURSOR, 1);
+			s->raw_buffer_cursor++;
+
+			++YYCURSOR;
+
 		} else {
 		/*!re2c
 		re2c:indent:top = 2;
@@ -446,15 +550,16 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 			return 0;
 		}
 
-		'raw' {
+		'verbatim' {
 			s->statement_position++;
-			token->opcode = PHVOLT_T_RAW;
+			s->verbatim = 1;
+			token->opcode = PHVOLT_T_VERBATIM;
 			return 0;
 		}
 
-		'endraw' {
+		'endverbatim' {
 			s->statement_position++;
-			token->opcode = PHVOLT_T_ENDRAW;
+			token->opcode = PHVOLT_T_ENDVERBATIM;
 			return 0;
 		}
 
@@ -465,7 +570,12 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 		}
 
 		"%}" {
-			s->mode = PHVOLT_MODE_RAW;
+			if (s->verbatim) {
+				s->mode = PHVOLT_MODE_VERBATIM;
+				s->verbatim = 0;
+			} else {
+				s->mode = PHVOLT_MODE_RAW;
+			}
 			token->opcode = PHVOLT_T_CLOSE_DELIMITER;
 			return 0;
 		}
@@ -477,7 +587,12 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 		}
 
 		"-%}" {
-			s->mode = PHVOLT_MODE_RAW;
+			if (s->verbatim) {
+				s->mode = PHVOLT_MODE_VERBATIM;
+				s->verbatim = 0;
+			} else {
+				s->mode = PHVOLT_MODE_RAW;
+			}
 			s->whitespace_control = 1;
 			token->opcode = PHVOLT_T_CLOSE_DELIMITER;
 			return 0;
@@ -492,6 +607,7 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 
 		"}}" {
 			s->mode = PHVOLT_MODE_RAW;
+			s->verbatim = 0;
 			token->opcode = PHVOLT_T_CLOSE_EDELIMITER;
 			return 0;
 		}
@@ -506,6 +622,7 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 		"-}}" {
 			s->mode = PHVOLT_MODE_RAW;
 			s->whitespace_control = 1;
+			s->verbatim = 0;
 			token->opcode = PHVOLT_T_CLOSE_EDELIMITER;
 			return 0;
 		}

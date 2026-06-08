@@ -181,7 +181,7 @@ final class CloneResultMapTest extends AbstractDatabaseTestCase
             null
         );
 
-        // setInvTitle() expects ?array — the raw string causes a TypeError.
+        // setInvTitle() expects ?array - the raw string causes a TypeError.
         // The ORM must NOT throw; it must fall back to direct property assignment.
         $this->assertSame('raw-string-from-db', $invoice->inv_title);
     }

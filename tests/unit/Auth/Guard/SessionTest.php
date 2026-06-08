@@ -481,7 +481,7 @@ final class SessionTest extends AbstractUnitTestCase
         $rawValue = $this->cookies->get($guard->getRememberName())->getValue();
         $this->assertNotEmpty($rawValue);
 
-        // Fresh guard, empty session — should recall via cookie.
+        // Fresh guard, empty session - should recall via cookie.
         $emptySession = new FakeSessionManager();
         $fresh        = new Session(
             $rememberAdapter,
@@ -545,7 +545,7 @@ final class SessionTest extends AbstractUnitTestCase
     {
         $guard = $this->buildGuard();
 
-        // Cookie value that's neither string nor array — UserRemember cannot
+        // Cookie value that's neither string nor array - UserRemember cannot
         // parse it; recaller() bails.
         $this->cookies->set($guard->getRememberName(), 12345);
 

@@ -63,7 +63,7 @@ final class FakeRequest implements RequestInterface
     }
 
     // -------------------------------------------------------------------------
-    // RequestInterface — methods with real behaviour
+    // RequestInterface - methods with real behaviour
     // -------------------------------------------------------------------------
 
     public function get(
@@ -96,7 +96,7 @@ final class FakeRequest implements RequestInterface
     }
 
     // -------------------------------------------------------------------------
-    // RequestInterface — stub methods (not needed by tests)
+    // RequestInterface - stub methods (not needed by tests)
     // -------------------------------------------------------------------------
 
     public function getAcceptableContent(): array

@@ -20,7 +20,7 @@ use Phalcon\Db\ResultInterface;
 /**
  * Canonical contract for Phalcon\Db adapters.
  *
- * @todo v7 — these will become required interface members. They are
+ * @todo v7 - these will become required interface members. They are
  *            omitted from the v5 line to avoid breaking third-party
  *            implementors:
  *              - addCheck()                : bool
@@ -205,7 +205,7 @@ interface Adapter
 
     /**
      * Returns a SQL modified with a FOR UPDATE clause. The optional `modifier`
-     * appends a row-lock disposition keyword — pass `Dialect::LOCK_NOWAIT`
+     * appends a row-lock disposition keyword - pass `Dialect::LOCK_NOWAIT`
      * or `Dialect::LOCK_SKIP_LOCKED` (or leave as `Dialect::LOCK_NONE`).
      */
     public function forUpdate(string! sqlQuery, string modifier = "") -> string;

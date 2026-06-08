@@ -22,7 +22,7 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class MaterializedViewTest extends AbstractDatabaseTestCase
 {
     /**
-     * PostgreSQL — createMaterializedView.
+     * PostgreSQL - createMaterializedView.
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
@@ -46,7 +46,7 @@ final class MaterializedViewTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * PostgreSQL — refreshMaterializedView (non-concurrent).
+     * PostgreSQL - refreshMaterializedView (non-concurrent).
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
@@ -64,7 +64,7 @@ final class MaterializedViewTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * PostgreSQL — refreshMaterializedView CONCURRENTLY.
+     * PostgreSQL - refreshMaterializedView CONCURRENTLY.
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
@@ -82,7 +82,7 @@ final class MaterializedViewTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * PostgreSQL — dropMaterializedView IF EXISTS by default.
+     * PostgreSQL - dropMaterializedView IF EXISTS by default.
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
@@ -105,7 +105,7 @@ final class MaterializedViewTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * MySQL — throws on each materialized-view method.
+     * MySQL - throws on each materialized-view method.
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
@@ -123,7 +123,7 @@ final class MaterializedViewTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * SQLite — throws on each materialized-view method.
+     * SQLite - throws on each materialized-view method.
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15

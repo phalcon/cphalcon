@@ -80,7 +80,7 @@ final class DropPrimaryKeyTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Db\Adapter\Pdo\Sqlite :: dropPrimaryKey() — throws
+     * Tests Phalcon\Db\Adapter\Pdo\Sqlite :: dropPrimaryKey() - throws
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-19

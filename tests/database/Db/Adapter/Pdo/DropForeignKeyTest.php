@@ -85,7 +85,7 @@ final class DropForeignKeyTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Db\Adapter\Pdo\Sqlite :: dropForeignKey() — throws
+     * Tests Phalcon\Db\Adapter\Pdo\Sqlite :: dropForeignKey() - throws
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-19

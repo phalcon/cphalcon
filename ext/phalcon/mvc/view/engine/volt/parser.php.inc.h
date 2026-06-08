@@ -182,20 +182,6 @@ static void phvolt_ret_cache_statement(zval *ret, zval *expr, zval *lifetime, zv
 }
 /* }}} */
 
-/* {{{ phvolt_ret_raw_statement */
-static void phvolt_ret_raw_statement(zval *ret, zval *statement, phvolt_scanner_state *state)
-{
-	array_init(ret);
-
-	add_assoc_long(ret, "type", PHVOLT_T_RAW);
-	add_assoc_zval(ret, "content", statement);
-
-	Z_TRY_ADDREF_P(state->active_file);
-	add_assoc_zval(ret, "file", state->active_file);
-	add_assoc_long(ret, "line", state->active_line);
-}
-/* }}} */
-
 /* {{{ phvolt_ret_set_statement */
 static void phvolt_ret_set_statement(zval *ret, zval *assignments)
 {

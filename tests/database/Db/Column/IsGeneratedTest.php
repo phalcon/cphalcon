@@ -20,7 +20,7 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class IsGeneratedTest extends AbstractDatabaseTestCase
 {
     /**
-     * Tests Phalcon\Db\Column :: isGenerated() — defaults to false when the
+     * Tests Phalcon\Db\Column :: isGenerated() - defaults to false when the
      * `generated` key is not provided in the definition array.
      *
      * @author Phalcon Team <team@phalcon.io>
@@ -46,7 +46,7 @@ final class IsGeneratedTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Db\Column :: isGenerated() — `generated` set as VIRTUAL.
+     * Tests Phalcon\Db\Column :: isGenerated() - `generated` set as VIRTUAL.
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
@@ -72,7 +72,7 @@ final class IsGeneratedTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Db\Column :: isGenerated() — `generated` set as STORED.
+     * Tests Phalcon\Db\Column :: isGenerated() - `generated` set as STORED.
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15

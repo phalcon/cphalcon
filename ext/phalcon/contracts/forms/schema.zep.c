@@ -26,16 +26,16 @@
  * a JSON document, a YAML file, or any other format.
  *
  * Each returned definition must be an associative array containing at least:
- *   - 'type' (string)  — element type key (e.g. 'text', 'select', 'checkgroup')
- *   - 'name' (string)  — the HTML name attribute value
+ *   - 'type' (string)  - element type key (e.g. 'text', 'select', 'checkgroup')
+ *   - 'name' (string)  - the HTML name attribute value
  *
  * Optional keys per definition:
- *   - 'label'      (string)          — visible label text
- *   - 'default'    (mixed)           — pre-populated default value
- *   - 'attributes' (array)           — additional HTML attributes
- *   - 'filters'    (array|string)    — filter names applied on bind()
- *   - 'validators' (array)           — ValidatorInterface instances
- *   - 'options'    (array)           — choices for select / checkgroup / radiogroup
+ *   - 'label'      (string)          - visible label text
+ *   - 'default'    (mixed)           - pre-populated default value
+ *   - 'attributes' (array)           - additional HTML attributes
+ *   - 'filters'    (array|string)    - filter names applied on bind()
+ *   - 'validators' (array)           - ValidatorInterface instances
+ *   - 'options'    (array)           - choices for select / checkgroup / radiogroup
  */
 ZEPHIR_INIT_CLASS(Phalcon_Contracts_Forms_Schema)
 {

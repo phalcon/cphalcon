@@ -16,13 +16,16 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Auth\Access;
 
+use Phalcon\Acl\Adapter\AdapterInterface as AclAdapterInterface;
+use Phalcon\Acl\Adapter\Memory as AclMemory;
+use Phalcon\Auth\Access\Acl as AclAccess;
 use Phalcon\Auth\Access\AccessLocator;
 use Phalcon\Auth\Access\Auth;
 use Phalcon\Auth\Access\Guest;
 use Phalcon\Auth\Exception;
-use Phalcon\Auth\Manager;
 use Phalcon\Container\Container;
 use Phalcon\Contracts\Auth\Access\Access;
+use Phalcon\Di\Di;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Auth\Fake\FakeAccess;
 use stdClass;
@@ -30,16 +33,10 @@ use stdClass;
 final class AccessLocatorTest extends AbstractUnitTestCase
 {
     private Container $container;
-    private Manager $manager;
 
     protected function setUp(): void
     {
         $this->container = new Container();
-        $this->manager   = new Manager(new AccessLocator($this->container));
-
-        $this->container->set(Auth::class, fn () => new Auth($this->manager));
-        $this->container->set(Guest::class, fn () => new Guest($this->manager));
-        $this->container->set(FakeAccess::class, fn () => new FakeAccess($this->manager));
     }
 
     public function testCustomMappingHonored(): void
@@ -48,6 +45,13 @@ final class AccessLocatorTest extends AbstractUnitTestCase
         $access  = $factory->newInstance('admin');
 
         $this->assertInstanceOf(FakeAccess::class, $access);
+    }
+
+    public function testNewInstanceBuildsUnregisteredClassOnDi(): void
+    {
+        $factory = new AccessLocator(new Di());
+
+        $this->assertInstanceOf(Auth::class, $factory->newInstance('auth'));
     }
 
     public function testNewInstanceReturnsAccess(): void
@@ -61,12 +65,40 @@ final class AccessLocatorTest extends AbstractUnitTestCase
         $this->assertInstanceOf(Access::class, $guest);
     }
 
+    public function testNewInstanceReturnsAcl(): void
+    {
+        $this->container->bind(AclAdapterInterface::class, AclMemory::class);
+        $factory = new AccessLocator($this->container);
+
+        $this->assertInstanceOf(AclAccess::class, $factory->newInstance('acl'));
+    }
+
     public function testNewInstanceReturnsAuth(): void
     {
         $factory = new AccessLocator($this->container);
         $access  = $factory->newInstance('auth');
 
         $this->assertInstanceOf(Auth::class, $access);
+    }
+
+    public function testNewInstanceReturnsFreshInstancePerCall(): void
+    {
+        $factory = new AccessLocator($this->container);
+
+        $this->assertNotSame(
+            $factory->newInstance('auth'),
+            $factory->newInstance('auth')
+        );
+    }
+
+    public function testNewInstanceReturnsFreshInstancePerCallOnDi(): void
+    {
+        $factory = new AccessLocator(new Di());
+
+        $this->assertNotSame(
+            $factory->newInstance('auth'),
+            $factory->newInstance('auth')
+        );
     }
 
     public function testNewInstanceReturnsGuest(): void

@@ -20,7 +20,7 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class IsInvisibleTest extends AbstractDatabaseTestCase
 {
     /**
-     * Legacy positional constructor — `isInvisible()` defaults to false.
+     * Legacy positional constructor - `isInvisible()` defaults to false.
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15

@@ -25,6 +25,7 @@ use Phalcon\Container\Container;
 use Phalcon\Events\Event;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Auth\Fake\FakeAccess;
+use Phalcon\Tests\Unit\Auth\Fake\FakeGuard;
 
 final class AuthDispatcherListenerTest extends AbstractUnitTestCase
 {
@@ -35,12 +36,47 @@ final class AuthDispatcherListenerTest extends AbstractUnitTestCase
     {
         $this->dispatcher = new Dispatcher();
         $this->dispatcher->setActionName('list');
+        $this->dispatcher->setTaskName('main');
+        $this->dispatcher->setParams(['limit' => 10]);
 
         $this->event = new Event(
             'beforeExecuteRoute',
             $this->dispatcher,
             null,
             true
+        );
+    }
+
+    public function testPassesGuardAndContextToTheGate(): void
+    {
+        $manager = $this->buildManager();
+        $access  = new FakeAccess();
+        $access->setAllowed(true);
+        $manager->setAccess($access);
+
+        $listener = new AuthDispatcherListener($manager);
+        $listener->beforeExecuteRoute($this->event, $this->dispatcher);
+
+        $context = $access->getLastContext();
+
+        $this->assertSame($manager->guard(), $access->getLastGuard());
+        $this->assertSame('list', $access->getLastAction());
+        $this->assertSame('main', $context['handler']);
+        $this->assertSame(['limit' => 10], $context['params']);
+        $this->assertArrayNotHasKey('module', $context);
+    }
+
+    public function testReturnsTrueWhenAllowed(): void
+    {
+        $manager = $this->buildManager();
+        $access  = new FakeAccess();
+        $access->setAllowed(true);
+        $manager->setAccess($access);
+
+        $listener = new AuthDispatcherListener($manager);
+
+        $this->assertTrue(
+            $listener->beforeExecuteRoute($this->event, $this->dispatcher)
         );
     }
 
@@ -54,31 +90,25 @@ final class AuthDispatcherListenerTest extends AbstractUnitTestCase
         );
     }
 
-    public function testReturnsTrueWhenAllowed(): void
-    {
-        $manager = new Manager(new AccessLocator(new Container()));
-        $access  = new FakeAccess($manager);
-        $access->setAllowed(true);
-        $manager->setAccess($access);
-
-        $listener = new AuthDispatcherListener($manager);
-
-        $this->assertTrue(
-            $listener->beforeExecuteRoute($this->event, $this->dispatcher)
-        );
-    }
-
     public function testThrowsWhenDenied(): void
     {
         $this->expectException(Exception::class);
         $this->expectExceptionMessageMatches("/'list'/");
 
-        $manager = new Manager(new AccessLocator(new Container()));
-        $access  = new FakeAccess($manager);
+        $manager = $this->buildManager();
+        $access  = new FakeAccess();
         $access->setAllowed(false);
         $manager->setAccess($access);
 
         $listener = new AuthDispatcherListener($manager);
         $listener->beforeExecuteRoute($this->event, $this->dispatcher);
+    }
+
+    private function buildManager(): Manager
+    {
+        $manager = new Manager(new AccessLocator(new Container()));
+        $manager->addGuard('cli', new FakeGuard(), true);
+
+        return $manager;
     }
 }

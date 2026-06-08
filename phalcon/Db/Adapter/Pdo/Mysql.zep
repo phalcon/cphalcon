@@ -370,7 +370,7 @@ class Mysql extends PdoAdapter
                     break;
 
                 /**
-                 * Spatial types — order matters: detect the multi-* and
+                 * Spatial types - order matters: detect the multi-* and
                  * geometrycollection variants before the bare names.
                  */
                 case starts_with(columnType, "multipoint", true):
@@ -585,7 +585,7 @@ class Mysql extends PdoAdapter
              * `SHOW INDEXES.Collation` is `A` for ASC, `D` for DESC (the
              * latter only meaningful from MySQL 8.0, where DESC indexes are
              * actually honored). Older versions and unsorted indexes report
-             * NULL — treat those as ASC.
+             * NULL - treat those as ASC.
              */
             if !isset indexes[keyName]["directions"] {
                 let directions = [];
@@ -617,7 +617,7 @@ class Mysql extends PdoAdapter
             }
 
             /**
-             * `Visible` is a MySQL 8.0+ column from `SHOW INDEXES` — `NO`
+             * `Visible` is a MySQL 8.0+ column from `SHOW INDEXES` - `NO`
              * marks an INVISIBLE index. On older MySQL versions the field
              * is absent and the index defaults to visible.
              */

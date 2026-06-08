@@ -74,7 +74,7 @@ final class ModifyColumnTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Db\Adapter\Pdo\Sqlite :: modifyColumn() — throws
+     * Tests Phalcon\Db\Adapter\Pdo\Sqlite :: modifyColumn() - throws
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-19

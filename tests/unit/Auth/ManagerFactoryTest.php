@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Auth;
 
+use Phalcon\Auth\Access\Acl;
 use Phalcon\Auth\Access\Auth;
 use Phalcon\Auth\Access\Guest;
 use Phalcon\Auth\Adapter\AdapterLocator;
@@ -27,6 +28,7 @@ use Phalcon\Auth\Guard\Token;
 use Phalcon\Auth\ManagerFactory;
 use Phalcon\Config\Config;
 use Phalcon\Container\Container;
+use Phalcon\Container\Exceptions\Exception as ContainerException;
 use Phalcon\Encryption\Security;
 use Phalcon\Http\RequestInterface;
 use Phalcon\Http\Response\CookiesInterface;
@@ -96,6 +98,7 @@ final class ManagerFactoryTest extends AbstractUnitTestCase
 
         $this->assertSame(
             [
+                'acl'   => Acl::class,
                 'auth'  => Auth::class,
                 'guest' => Guest::class,
             ],
@@ -296,7 +299,7 @@ final class ManagerFactoryTest extends AbstractUnitTestCase
 
     public function testLoadThrowsWhenSessionDepsMissingFromContainer(): void
     {
-        $this->expectException(Exception::class);
+        $this->expectException(ContainerException::class);
         $this->expectExceptionMessageMatches('/RequestInterface/');
 
         $emptyContainer = new Container();
@@ -307,7 +310,7 @@ final class ManagerFactoryTest extends AbstractUnitTestCase
 
     public function testLoadThrowsWhenTokenGuardDepsMissingFromContainer(): void
     {
-        $this->expectException(Exception::class);
+        $this->expectException(ContainerException::class);
 
         $emptyContainer = new Container();
 

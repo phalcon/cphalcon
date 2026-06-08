@@ -112,7 +112,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Stream, fromOptions)
 }
 
 /**
- * Loads and decodes the JSON users file. Re-read on every call — if you
+ * Loads and decodes the JSON users file. Re-read on every call - if you
  * need caching, wrap it.
  *
  * @phpstan-return list<AuthUserRow>
@@ -209,7 +209,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Stream, loadUsers)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_CALL_FUNCTION(&rows, "array_values", NULL, 27, &data);
+	ZEPHIR_CALL_FUNCTION(&rows, "array_values", NULL, 28, &data);
 	zephir_check_call_status();
 	RETURN_CCTOR(&rows);
 }

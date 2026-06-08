@@ -17,7 +17,7 @@ use Phalcon\Db\ReferenceInterface;
 /**
  * Canonical contract for Phalcon\Db dialects.
  *
- * @todo v7 — these will become required interface members. They are
+ * @todo v7 - these will become required interface members. They are
  *            omitted from the v5 line to avoid breaking third-party
  *            implementors:
  *              - addCheck()                : string
@@ -31,14 +31,14 @@ use Phalcon\Db\ReferenceInterface;
 interface Dialect
 {
     /**
-     * No row-lock modifier — the default behavior for `forUpdate()`.
+     * No row-lock modifier - the default behavior for `forUpdate()`.
      *
      * @var string
      */
     const LOCK_NONE = "";
 
     /**
-     * Append `NOWAIT` to the `FOR UPDATE` clause — the query fails immediately
+     * Append `NOWAIT` to the `FOR UPDATE` clause - the query fails immediately
      * if a row it needs is locked instead of blocking. MySQL 8.0+ and
      * PostgreSQL 9.5+ recognize this. SQLite has no row-level locking and
      * silently ignores the modifier.
@@ -48,7 +48,7 @@ interface Dialect
     const LOCK_NOWAIT = "NOWAIT";
 
     /**
-     * Append `SKIP LOCKED` to the `FOR UPDATE` clause — the query returns
+     * Append `SKIP LOCKED` to the `FOR UPDATE` clause - the query returns
      * rows that are not currently locked and silently skips ones that are.
      * MySQL 8.0+ and PostgreSQL 9.5+ recognize this. SQLite ignores it.
      *
@@ -138,7 +138,7 @@ interface Dialect
 
     /**
      * Returns a SQL modified with a FOR UPDATE clause. The optional `modifier`
-     * appends a row-lock disposition keyword — pass `Dialect::LOCK_NOWAIT`
+     * appends a row-lock disposition keyword - pass `Dialect::LOCK_NOWAIT`
      * or `Dialect::LOCK_SKIP_LOCKED` (or leave as `Dialect::LOCK_NONE`).
      */
     public function forUpdate(string! sqlQuery, string modifier = "") -> string;
@@ -209,7 +209,7 @@ interface Dialect
      * `LOCK IN SHARE MODE`; PostgreSQL emits `FOR SHARE`; SQLite returns the
      * original query unchanged. The optional `modifier` appends a row-lock
      * disposition keyword (`Dialect::LOCK_NOWAIT` / `Dialect::LOCK_SKIP_LOCKED`)
-     * for PostgreSQL — MySQL's legacy `LOCK IN SHARE MODE` does not support
+     * for PostgreSQL - MySQL's legacy `LOCK IN SHARE MODE` does not support
      * modifiers, so non-empty values are silently ignored on MySQL.
      */
     public function sharedLock(string! sqlQuery, string modifier = "") -> string;

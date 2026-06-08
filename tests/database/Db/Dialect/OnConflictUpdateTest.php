@@ -22,7 +22,7 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 final class OnConflictUpdateTest extends AbstractDatabaseTestCase
 {
     /**
-     * PostgreSQL — emits `ON CONFLICT (col) DO UPDATE SET ...`.
+     * PostgreSQL - emits `ON CONFLICT (col) DO UPDATE SET ...`.
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
@@ -46,7 +46,7 @@ final class OnConflictUpdateTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * SQLite — same standard syntax (3.24+).
+     * SQLite - same standard syntax (3.24+).
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
@@ -92,7 +92,7 @@ final class OnConflictUpdateTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * MySQL — throws (its `ON DUPLICATE KEY UPDATE` is different).
+     * MySQL - throws (its `ON DUPLICATE KEY UPDATE` is different).
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15

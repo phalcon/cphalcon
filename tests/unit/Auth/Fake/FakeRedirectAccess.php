@@ -17,23 +17,13 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Auth\Fake;
 
 use Phalcon\Auth\Access\AbstractAccess;
+use Phalcon\Contracts\Auth\Guard\Guard;
 
 final class FakeRedirectAccess extends AbstractAccess
 {
-    /**
-     * @var bool
-     */
     private bool $allowed = false;
 
-    /**
-     * @var array|null
-     */
     private ?array $target = null;
-
-    public function allowedIf(): bool
-    {
-        return $this->allowed;
-    }
 
     public function redirectTo(): ?array
     {
@@ -48,5 +38,10 @@ final class FakeRedirectAccess extends AbstractAccess
     public function setTarget(?array $target): void
     {
         $this->target = $target;
+    }
+
+    protected function allowedIf(Guard $guard): bool
+    {
+        return $this->allowed;
     }
 }

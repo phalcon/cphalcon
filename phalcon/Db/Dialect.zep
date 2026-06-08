@@ -490,7 +490,7 @@ abstract class Dialect implements DialectInterface
     /**
      * Generates SQL to create a materialized view. Supported by PostgreSQL
      * (`CREATE MATERIALIZED VIEW name AS <sql>`). Other dialects inherit
-     * this throw — MySQL and SQLite have no materialized-view concept.
+     * this throw - MySQL and SQLite have no materialized-view concept.
      */
     public function createMaterializedView(string! viewName, array! definition, string schemaName = null) -> string
     {
@@ -551,7 +551,7 @@ abstract class Dialect implements DialectInterface
      * Returns a SQL statement extended with a `RETURNING` clause so the
      * INSERT/UPDATE/DELETE returns rows. Supported by PostgreSQL and
      * SQLite 3.35+. Pass `["*"]` for `RETURNING *`, or a list of column
-     * names. The base implementation throws — MySQL inherits it because
+     * names. The base implementation throws - MySQL inherits it because
      * MySQL has no RETURNING construct.
      */
     public function returning(string! sqlQuery, array! columns) -> string
@@ -726,7 +726,7 @@ abstract class Dialect implements DialectInterface
     /**
      * Builds a CHECK constraint clause from a `CheckInterface`, using the
      * provided escape character for the constraint name (so each dialect
-     * gets its native quoting). Returns the clause body — the dialect's
+     * gets its native quoting). Returns the clause body - the dialect's
      * `createTable()` / `addCheck()` is expected to prefix `ADD` or place
      * the result on its own line as appropriate.
      */
@@ -772,7 +772,7 @@ abstract class Dialect implements DialectInterface
         }
 
         /**
-         * Fast path: no expressions and no directions — return the legacy
+         * Fast path: no expressions and no directions - return the legacy
          * `getColumnList()` rendering verbatim so existing tests and call
          * sites see no diff.
          */
@@ -819,7 +819,7 @@ abstract class Dialect implements DialectInterface
      * Builds the `GENERATED ALWAYS AS (<expr>) VIRTUAL|STORED` clause for a
      * generated/computed column. Returns an empty string when the column is
      * not generated. When `forceStored` is `true` the clause is always emitted
-     * as `STORED` regardless of the column's `isGenerationStored()` flag —
+     * as `STORED` regardless of the column's `isGenerationStored()` flag -
      * PostgreSQL uses this since it only supports stored generated columns.
      */
     protected function getGeneratedClause(<ColumnInterface> column, bool forceStored = false) -> string

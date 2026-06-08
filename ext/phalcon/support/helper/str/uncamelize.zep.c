@@ -79,7 +79,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Uncamelize, __invoke)
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "/[A-Z]/");
-	ZEPHIR_CALL_FUNCTION(&_3, "preg_replace", NULL, 76, &_2, &_0, &_1);
+	ZEPHIR_CALL_FUNCTION(&_3, "preg_replace", NULL, 78, &_2, &_0, &_1);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_FUNCTION("mb_strtolower", NULL, 12, &_3);
 	zephir_check_call_status();
