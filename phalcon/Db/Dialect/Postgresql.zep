@@ -34,6 +34,11 @@ class Postgresql extends Dialect
     protected escapeChar = "\"";
 
     /**
+     * @var array
+     */
+    protected supportedOperators = ["@@", "@>", "<@", "&&", "||", "->", "->>", "#>", "#>>"];
+
+    /**
      * Generates SQL to add a column to a table
      */
     public function addColumn(string! tableName, string! schemaName, <ColumnInterface> column) -> string
