@@ -979,7 +979,7 @@ class Mysql extends Dialect
     {
         string sql;
 
-        let sql = "SELECT TABLES.TABLE_TYPE AS table_type,TABLES.AUTO_INCREMENT AS auto_increment,TABLES.ENGINE AS engine,TABLES.TABLE_COLLATION AS table_collation FROM INFORMATION_SCHEMA.TABLES WHERE ";
+        let sql = "SELECT TABLES.TABLE_TYPE AS table_type,TABLES.AUTO_INCREMENT AS auto_increment,TABLES.ENGINE AS engine,TABLES.TABLE_COLLATION AS table_collation,TABLES.TABLE_COMMENT AS table_comment FROM INFORMATION_SCHEMA.TABLES WHERE ";
 
         if schema {
             return sql . "TABLES.TABLE_SCHEMA = '" . schema . "' AND TABLES.TABLE_NAME = '" . table . "'";
@@ -1021,7 +1021,7 @@ class Mysql extends Dialect
      */
     protected function getTableOptions(array! definition) -> string
     {
-        var options, engine, autoIncrement, tableCollation, collationParts;
+        var options, engine, autoIncrement, tableCollation, collationParts, tableComment;
         array tableOptions;
 
         if !fetch options, definition["options"] {
@@ -1056,6 +1056,15 @@ class Mysql extends Dialect
                 let collationParts = explode("_", tableCollation),
                     tableOptions[] = "DEFAULT CHARSET=" . collationParts[0],
                     tableOptions[] = "COLLATE=" . tableCollation;
+            }
+        }
+
+        /**
+         * Check if there is a TABLE_COMMENT option
+         */
+        if fetch tableComment, options["TABLE_COMMENT"] {
+            if tableComment {
+                let tableOptions[] = "COMMENT='" . str_replace("'", "''", tableComment) . "'";
             }
         }
 
