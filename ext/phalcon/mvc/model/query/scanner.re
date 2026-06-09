@@ -495,28 +495,48 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 			return 0;
 		}
 
-		'@@' {
-			token->opcode = PHQL_T_TS_MATCHES;
+		"->>" {
+			token->opcode = PHQL_T_OP_JSON_GET_TEXT;
 			return 0;
 		}
 
-		"||" {
-			token->opcode = PHQL_T_TS_OR;
+		"->" {
+			token->opcode = PHQL_T_OP_JSON_GET;
 			return 0;
 		}
 
-		"&&" {
-			token->opcode = PHQL_T_TS_AND;
+		"#>>" {
+			token->opcode = PHQL_T_OP_JSON_PATH_TEXT;
 			return 0;
 		}
 
-		"!!" {
-			token->opcode = PHQL_T_TS_NEGATE;
+		"#>" {
+			token->opcode = PHQL_T_OP_JSON_PATH;
+			return 0;
+		}
+
+		"@@" {
+			token->opcode = PHQL_T_OP_MATCHES;
 			return 0;
 		}
 
 		"@>" {
-			token->opcode = PHQL_T_TS_CONTAINS_ANOTHER;
+			token->opcode = PHQL_T_OP_CONTAINS;
+			return 0;
+		}
+
+		"<@" {
+			token->opcode = PHQL_T_OP_CONTAINED;
+			return 0;
+		}
+
+		"&&" {
+			token->opcode = PHQL_T_OP_OVERLAPS;
+			return 0;
+		}
+
+		"||" {
+			token->opcode = PHQL_T_OP_CONCAT;
 			return 0;
 		}
 
