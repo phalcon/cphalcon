@@ -376,7 +376,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_SysNodeProvider, isValidNode)
 	if (zephir_fast_strlen_ev(&node_zv) != 12) {
 		RETURN_MM_BOOL(0);
 	}
-	ZEPHIR_CALL_FUNCTION(&_0, "ctype_xdigit", NULL, 0, &node_zv);
+	ZEPHIR_CALL_FUNCTION(&_0, "ctype_xdigit", NULL, 439, &node_zv);
 	zephir_check_call_status();
 	if (!(zephir_is_true(&_0))) {
 		RETURN_MM_BOOL(0);

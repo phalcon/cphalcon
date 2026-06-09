@@ -315,7 +315,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, length)
 		RETURN_MM_LONG(zephir_fast_count_int(item));
 	}
 	if ((zephir_function_exists_ex(ZEND_STRL("mb_strlen")) == SUCCESS)) {
-		ZEPHIR_RETURN_CALL_FUNCTION("mb_strlen", NULL, 498, item);
+		ZEPHIR_RETURN_CALL_FUNCTION("mb_strlen", NULL, 509, item);
 		zephir_check_call_status();
 		RETURN_MM();
 	}

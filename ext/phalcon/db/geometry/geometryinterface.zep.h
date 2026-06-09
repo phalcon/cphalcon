@@ -1,0 +1,20 @@
+
+extern zend_class_entry *phalcon_db_geometry_geometryinterface_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Db_Geometry_GeometryInterface);
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_geometry_geometryinterface_getsrid, 0, 0, IS_LONG, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_geometry_geometryinterface_gettype, 0, 0, IS_LONG, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_geometry_geometryinterface_towkt, 0, 0, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_db_geometry_geometryinterface_method_entry) {
+	PHP_ABSTRACT_ME(Phalcon_Db_Geometry_GeometryInterface, getSrid, arginfo_phalcon_db_geometry_geometryinterface_getsrid)
+	PHP_ABSTRACT_ME(Phalcon_Db_Geometry_GeometryInterface, getType, arginfo_phalcon_db_geometry_geometryinterface_gettype)
+	PHP_ABSTRACT_ME(Phalcon_Db_Geometry_GeometryInterface, toWkt, arginfo_phalcon_db_geometry_geometryinterface_towkt)
+	PHP_FE_END
+};
