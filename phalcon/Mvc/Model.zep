@@ -14,6 +14,7 @@ use JsonSerializable;
 use Phalcon\Db\Adapter\AdapterInterface;
 use Phalcon\Db\Column;
 use Phalcon\Db\Enum;
+use Phalcon\Db\Geometry\WkbParser;
 use Phalcon\Db\RawValue;
 use Phalcon\Di\AbstractInjectionAware;
 use Phalcon\Di\Di;
@@ -1157,6 +1158,22 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
                     case Column::TYPE_BOOLEAN:
                         let castValue = (bool) value;
+                        break;
+
+                    case Column::TYPE_GEOMETRY:
+                    case Column::TYPE_POINT:
+                    case Column::TYPE_LINESTRING:
+                    case Column::TYPE_POLYGON:
+                    case Column::TYPE_MULTIPOINT:
+                    case Column::TYPE_MULTILINESTRING:
+                    case Column::TYPE_MULTIPOLYGON:
+                    case Column::TYPE_GEOMETRYCOLLECTION:
+                        try {
+                            let castValue = (new WkbParser())->parse(value);
+                        } catch \Phalcon\Db\Exceptions\InvalidWkb {
+                            let castValue = value;
+                        }
+
                         break;
 
                     default:
