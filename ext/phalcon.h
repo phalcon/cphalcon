@@ -522,6 +522,7 @@
 #include "phalcon/db/exceptions/sqlitedropprimarykeynotsupported.zep.h"
 #include "phalcon/db/exceptions/tablemusthavecolumn.zep.h"
 #include "phalcon/db/exceptions/unrecognizeddatatype.zep.h"
+#include "phalcon/db/exceptions/unsupportedoperator.zep.h"
 #include "phalcon/db/exceptions/updatefieldcountmismatch.zep.h"
 #include "phalcon/db/index.zep.h"
 #include "phalcon/db/profiler.zep.h"

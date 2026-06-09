@@ -1,5 +1,22 @@
 # Changelog
 
+## [5.14.2](https://github.com/phalcon/cphalcon/releases/tag/v5.14.2) (2026-xx-xx)
+
+### Tools
+
+- Zephir Parser v2.0.3
+- Zephir 0.22.0 (development - 9d2def774)
+
+### Changed
+
+### Added
+
+- Added dialect-specific operators to PHQL: `@@`, `@>`, `<@`, `&&`, `||`, `->`, `->>`, `#>`, `#>>`. Each is parsed into a binary expression and emitted only by the dialects that support it (PostgreSQL: all nine; MySQL: `->`, `->>`; SQLite: `||`, `->`, `->>`); using an operator on a dialect that does not support it throws `Phalcon\Db\Exceptions\UnsupportedOperator`. The jsonb existence operators (`?`, `?|`, `?&`, `@?`) and the `~` regex family are intentionally unsupported - use their function equivalents (e.g. `jsonb_exists()`, `regexp_like()`). [#14954](https://github.com/phalcon/cphalcon/issues/14954) [#14579](https://github.com/phalcon/cphalcon/issues/14579)
+
+### Fixed
+
+### Removed
+
 ## [5.14.1](https://github.com/phalcon/cphalcon/releases/tag/v5.14.1) (2026-06-08)
 
 ### Tools

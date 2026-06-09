@@ -640,6 +640,7 @@ zend_class_entry *phalcon_db_exceptions_sqlitedropforeignkeynotsupported_ce;
 zend_class_entry *phalcon_db_exceptions_sqlitedropprimarykeynotsupported_ce;
 zend_class_entry *phalcon_db_exceptions_tablemusthavecolumn_ce;
 zend_class_entry *phalcon_db_exceptions_unrecognizeddatatype_ce;
+zend_class_entry *phalcon_db_exceptions_unsupportedoperator_ce;
 zend_class_entry *phalcon_db_exceptions_updatefieldcountmismatch_ce;
 zend_class_entry *phalcon_db_index_ce;
 zend_class_entry *phalcon_db_profiler_ce;
@@ -1876,6 +1877,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Db_Exceptions_SqliteDropPrimaryKeyNotSupported);
 	ZEPHIR_INIT(Phalcon_Db_Exceptions_TableMustHaveColumn);
 	ZEPHIR_INIT(Phalcon_Db_Exceptions_UnrecognizedDataType);
+	ZEPHIR_INIT(Phalcon_Db_Exceptions_UnsupportedOperator);
 	ZEPHIR_INIT(Phalcon_Db_Exceptions_UpdateFieldCountMismatch);
 	ZEPHIR_INIT(Phalcon_Db_Index);
 	ZEPHIR_INIT(Phalcon_Db_Profiler);

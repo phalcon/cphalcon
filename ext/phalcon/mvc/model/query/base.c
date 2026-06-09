@@ -21,6 +21,15 @@ const phql_token_names phql_tokens[] =
   { SL("/"),				   PHQL_T_DIV },
   { SL("&"),				   PHQL_T_BITWISE_AND },
   { SL("|"),				   PHQL_T_BITWISE_OR },
+  { SL("@@"),				   PHQL_T_OP_MATCHES },
+  { SL("@>"),				   PHQL_T_OP_CONTAINS },
+  { SL("<@"),				   PHQL_T_OP_CONTAINED },
+  { SL("&&"),				   PHQL_T_OP_OVERLAPS },
+  { SL("||"),				   PHQL_T_OP_CONCAT },
+  { SL("->"),				   PHQL_T_OP_JSON_GET },
+  { SL("->>"),				   PHQL_T_OP_JSON_GET_TEXT },
+  { SL("#>"),				   PHQL_T_OP_JSON_PATH },
+  { SL("#>>"),				   PHQL_T_OP_JSON_PATH_TEXT },
   { SL("%%"),				   PHQL_T_MOD },
   { SL("AND"),				   PHQL_T_AND },
   { SL("OR"),				   PHQL_T_OR },
@@ -307,6 +316,33 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 				break;
 			case PHQL_T_BITWISE_XOR:
 				phql_(phql_parser, PHQL_BITWISE_XOR, NULL, parser_status);
+				break;
+			case PHQL_T_OP_MATCHES:
+				phql_(phql_parser, PHQL_OP_MATCHES, NULL, parser_status);
+				break;
+			case PHQL_T_OP_CONTAINS:
+				phql_(phql_parser, PHQL_OP_CONTAINS, NULL, parser_status);
+				break;
+			case PHQL_T_OP_CONTAINED:
+				phql_(phql_parser, PHQL_OP_CONTAINED, NULL, parser_status);
+				break;
+			case PHQL_T_OP_OVERLAPS:
+				phql_(phql_parser, PHQL_OP_OVERLAPS, NULL, parser_status);
+				break;
+			case PHQL_T_OP_CONCAT:
+				phql_(phql_parser, PHQL_OP_CONCAT, NULL, parser_status);
+				break;
+			case PHQL_T_OP_JSON_GET:
+				phql_(phql_parser, PHQL_OP_JSON_GET, NULL, parser_status);
+				break;
+			case PHQL_T_OP_JSON_GET_TEXT:
+				phql_(phql_parser, PHQL_OP_JSON_GET_TEXT, NULL, parser_status);
+				break;
+			case PHQL_T_OP_JSON_PATH:
+				phql_(phql_parser, PHQL_OP_JSON_PATH, NULL, parser_status);
+				break;
+			case PHQL_T_OP_JSON_PATH_TEXT:
+				phql_(phql_parser, PHQL_OP_JSON_PATH_TEXT, NULL, parser_status);
 				break;
 			case PHQL_T_AGAINST:
 				phql_(phql_parser, PHQL_AGAINST, NULL, parser_status);

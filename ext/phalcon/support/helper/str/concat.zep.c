@@ -90,7 +90,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Concat, __invoke)
 	ZEPHIR_UNREF(&arguments);
 	zephir_check_call_status();
 	ZVAL_LONG(&_1, 1);
-	ZEPHIR_CALL_FUNCTION(&_2, "array_slice", NULL, 206, &arguments, &_1);
+	ZEPHIR_CALL_FUNCTION(&_2, "array_slice", NULL, 207, &arguments, &_1);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(&arguments, &_2);
 	ZEPHIR_MAKE_REF(&arguments);

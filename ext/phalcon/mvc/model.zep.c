@@ -9334,7 +9334,7 @@ PHP_METHOD(Phalcon_Mvc_Model, invokeFinder)
 	if (zephir_array_isset_value(&attributes, &extraMethod)) {
 		ZEPHIR_CPY_WRT(&field, &extraMethod);
 	} else {
-		ZEPHIR_CALL_FUNCTION(&extraMethodFirst, "lcfirst", NULL, 145, &extraMethod);
+		ZEPHIR_CALL_FUNCTION(&extraMethodFirst, "lcfirst", NULL, 146, &extraMethod);
 		zephir_check_call_status();
 		if (zephir_array_isset_value(&attributes, &extraMethodFirst)) {
 			ZEPHIR_CPY_WRT(&field, &extraMethodFirst);
