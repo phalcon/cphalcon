@@ -73,7 +73,7 @@ PHP_METHOD(Phalcon_Time_Clock_SystemClock, fromSystemTimezone)
 	object_init_ex(return_value, phalcon_time_clock_systemclock_ce);
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, php_date_get_timezone_ce());
-	ZEPHIR_CALL_FUNCTION(&_1, "date_default_timezone_get", NULL, 183);
+	ZEPHIR_CALL_FUNCTION(&_1, "date_default_timezone_get", NULL, 184);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 0, &_1);
 	zephir_check_call_status();

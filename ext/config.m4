@@ -527,6 +527,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/db/exceptions/sqlitedropprimarykeynotsupported.zep.c
 	phalcon/db/exceptions/tablemusthavecolumn.zep.c
 	phalcon/db/exceptions/unrecognizeddatatype.zep.c
+	phalcon/db/exceptions/unsupportedoperator.zep.c
 	phalcon/db/exceptions/updatefieldcountmismatch.zep.c
 	phalcon/db/index.zep.c
 	phalcon/db/profiler.zep.c
