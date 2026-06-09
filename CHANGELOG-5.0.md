@@ -13,6 +13,7 @@
 
 - Added dialect-specific operators to PHQL: `@@`, `@>`, `<@`, `&&`, `||`, `->`, `->>`, `#>`, `#>>`. Each is parsed into a binary expression and emitted only by the dialects that support it (PostgreSQL: all nine; MySQL: `->`, `->>`; SQLite: `||`, `->`, `->>`); using an operator on a dialect that does not support it throws `Phalcon\Db\Exceptions\UnsupportedOperator`. The jsonb existence operators (`?`, `?|`, `?&`, `@?`) and the `~` regex family are intentionally unsupported - use their function equivalents (e.g. `jsonb_exists()`, `regexp_like()`). [#14954](https://github.com/phalcon/cphalcon/issues/14954) [#14579](https://github.com/phalcon/cphalcon/issues/14579)
 - Added geometry value objects under `Phalcon\Db\Geometry` (`Point`, `LineString`, `Polygon`, `MultiPoint`, `MultiLineString`, `MultiPolygon`, `GeometryCollection`) and read-side hydration of spatial columns. When `orm.cast_on_hydrate` is enabled, spatial column values (MySQL WKB / PostGIS EWKB) are decoded into these objects on model read; otherwise the raw value is returned unchanged. [#17110](https://github.com/phalcon/cphalcon/issues/17110) [#14769](https://github.com/phalcon/cphalcon/issues/14769) [#13670](https://github.com/phalcon/cphalcon/issues/13670)
+- Added table comment support to the MySQL and PostgreSQL dialects. Comment values are single-quote escaped (the existing PostgreSQL column-comment emission is now escaped as well). SQLite has no native table comment and ignores the option. [#15258](https://github.com/phalcon/cphalcon/issues/15258)
 
 ### Fixed
 
