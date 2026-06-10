@@ -9163,7 +9163,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getRelatedRecords)
  * @param string alias
  * @param array|string|null parameters
  *
- * @return ResultsetInterface
+ * @return int|float|string|null|ResultsetInterface
  */
 PHP_METHOD(Phalcon_Mvc_Model, groupResult)
 {

@@ -4838,9 +4838,9 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * @param string alias
      * @param array|string|null parameters
      *
-     * @return ResultsetInterface
+     * @return int|float|string|null|ResultsetInterface
      */
-    protected static function groupResult(string! functionName, string! alias, var parameters = null) -> <ResultsetInterface>
+    protected static function groupResult(string! functionName, string! alias, var parameters = null) -> var
     {
         var params, distinctColumn, groupColumn, columns,
             resultset, cache, firstRow, groupColumns, builder, query, container,

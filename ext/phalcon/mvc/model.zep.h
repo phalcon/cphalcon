@@ -432,7 +432,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_getrelatedrecords, 0, 0, 3)
 	ZEND_ARG_ARRAY_INFO(0, arguments, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_groupresult, 0, 2, Phalcon\\Mvc\\Model\\ResultsetInterface, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_groupresult, 0, 0, 2)
 	ZEND_ARG_TYPE_INFO(0, functionName, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, alias, IS_STRING, 0)
 	ZEND_ARG_INFO(0, parameters)
