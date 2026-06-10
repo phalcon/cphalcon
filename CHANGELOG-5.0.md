@@ -9,6 +9,8 @@
 
 ### Changed
 
+- Changed `Phalcon\Cli\Console::handle()` to process module definitions the same way as `Phalcon\Mvc\Application::handle()`. The module is now resolved through the inherited `getModule()`, so an unregistered module throws `Phalcon\Application\Exceptions\ModuleNotRegistered` (as `Console::getModule()` already did) instead of `Phalcon\Cli\Console\Exceptions\ConsoleModuleNotRegistered`. `Closure` module definitions are now supported and are invoked with the container, matching MVC. A definition that is neither an array nor a `Closure` throws the new `Phalcon\Cli\Console\Exceptions\InvalidModuleDefinition` instead of `InvalidModuleDefinitionPath`. [#17107](https://github.com/phalcon/cphalcon/issues/17107)
+
 ### Added
 
 - Added dialect-specific operators to PHQL: `@@`, `@>`, `<@`, `&&`, `||`, `->`, `->>`, `#>`, `#>>`. Each is parsed into a binary expression and emitted only by the dialects that support it (PostgreSQL: all nine; MySQL: `->`, `->>`; SQLite: `||`, `->`, `->>`); using an operator on a dialect that does not support it throws `Phalcon\Db\Exceptions\UnsupportedOperator`. The jsonb existence operators (`?`, `?|`, `?&`, `@?`) and the `~` regex family are intentionally unsupported - use their function equivalents (e.g. `jsonb_exists()`, `regexp_like()`). [#14954](https://github.com/phalcon/cphalcon/issues/14954) [#14579](https://github.com/phalcon/cphalcon/issues/14579)
@@ -23,6 +25,8 @@
 - Fixed the alternative installation script (`build/install`) to set the installed `phalcon.so` to mode `0644` after `make install`. The PHP build system installs shared extensions with the `install` default mode `0755`; shared objects only need read permission. [#17113](https://github.com/phalcon/cphalcon/issues/17113)~~
 
 ### Removed
+
+- Removed `Phalcon\Cli\Console\Exceptions\ConsoleModuleNotRegistered` and `Phalcon\Cli\Console\Exceptions\InvalidModuleDefinitionPath`, superseded by `Phalcon\Application\Exceptions\ModuleNotRegistered` and `Phalcon\Cli\Console\Exceptions\InvalidModuleDefinition`. [#17107](https://github.com/phalcon/cphalcon/issues/17107)
 
 ## [5.14.1](https://github.com/phalcon/cphalcon/releases/tag/v5.14.1) (2026-06-08)
 
