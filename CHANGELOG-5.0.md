@@ -17,8 +17,9 @@
 
 ### Fixed
 
-- Fixed the alternative installation script (`build/install`) to set the installed `phalcon.so` to mode `0644` after `make install`. The PHP build system installs shared extensions with the `install` default mode `0755`; shared objects only need read permission. [#17113](https://github.com/phalcon/cphalcon/issues/17113)
 - Fixed `Phalcon\Mvc\Model::groupResult()` declaring a `Phalcon\Mvc\Model\ResultsetInterface` return type while returning a scalar (`int`, `float`, `string`, or `null`) for non-grouped aggregate queries (`count()`, `sum()`, `average()`, `maximum()`, `minimum()`). The return type declaration has been removed (`@return int|float|string|null|ResultsetInterface`), so model subclasses can override `groupResult()` without risking a `TypeError`. [#17114](https://github.com/phalcon/cphalcon/issues/17114)
+- Fixed the Volt parser raising `Syntax error, unexpected token DEFAULT` when the `default` filter (e.g. `{{ value|default('text') }}`) is used inside a `{% switch %}` block. The word `default` is now treated as the `{% default %}` clause only when it directly follows the opening `{%` delimiter inside a switch; everywhere else it is parsed as a plain identifier, so the filter, `{{ default }}` and `{% set default = ... %}` all work inside switch-case blocks. [#16003](https://github.com/phalcon/cphalcon/issues/16003)
+- Fixed the alternative installation script (`build/install`) to set the installed `phalcon.so` to mode `0644` after `make install`. The PHP build system installs shared extensions with the `install` default mode `0755`; shared objects only need read permission. [#17113](https://github.com/phalcon/cphalcon/issues/17113)
 
 ### Removed
 
