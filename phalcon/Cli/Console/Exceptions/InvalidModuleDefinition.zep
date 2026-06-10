@@ -12,10 +12,10 @@ namespace Phalcon\Cli\Console\Exceptions;
 
 use Phalcon\Cli\Console\Exception;
 
-class InvalidModuleDefinitionPath extends Exception
+class InvalidModuleDefinition extends Exception
 {
     public function __construct()
     {
-        parent::__construct("Invalid module definition path");
+        parent::__construct("Invalid module definition");
     }
 }

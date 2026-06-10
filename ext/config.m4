@@ -46,9 +46,9 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/acl/exception.zep.c
 	phalcon/encryption/crypt/exception/exception.zep.c
 	phalcon/image/exception.zep.c
-	phalcon/application/exception.zep.c
 	phalcon/mvc/micro/exception.zep.c
 	phalcon/support/collection.zep.c
+	phalcon/application/exception.zep.c
 	phalcon/logger/exception.zep.c
 	phalcon/support/helper/arr/abstractarr.zep.c
 	phalcon/translate/exception.zep.c
@@ -87,7 +87,6 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/paginator/adapter/adapterinterface.zep.c
 	phalcon/annotations/adapter/adapterinterface.zep.c
 	phalcon/auth/adapter/abstractadapter.zep.c
-	phalcon/cli/console/exception.zep.c
 	phalcon/container/definition/processor/processor.zep.c
 	phalcon/contracts/auth/access/access.zep.c
 	phalcon/contracts/auth/adapter/adapterconfig.zep.c
@@ -110,6 +109,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/auth/abstractauthdispatcherlistener.zep.c
 	phalcon/auth/access/abstractaccess.zep.c
 	phalcon/auth/adapter/config/abstractadapterconfig.zep.c
+	phalcon/cli/console/exception.zep.c
 	phalcon/cli/router/exception.zep.c
 	phalcon/contracts/auth/guard/guard.zep.c
 	phalcon/contracts/auth/guard/guardconfig.zep.c
@@ -385,9 +385,8 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/cache/exception/exception.zep.c
 	phalcon/cache/exception/invalidcachekey.zep.c
 	phalcon/cli/console.zep.c
-	phalcon/cli/console/exceptions/consolemodulenotregistered.zep.c
 	phalcon/cli/console/exceptions/containerrequired.zep.c
-	phalcon/cli/console/exceptions/invalidmoduledefinitionpath.zep.c
+	phalcon/cli/console/exceptions/invalidmoduledefinition.zep.c
 	phalcon/cli/console/exceptions/moduledefinitionpathnotfound.zep.c
 	phalcon/cli/dispatcher.zep.c
 	phalcon/cli/dispatcher/exception.zep.c

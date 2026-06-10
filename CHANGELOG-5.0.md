@@ -5,9 +5,11 @@
 ### Tools
 
 - Zephir Parser v2.0.4
-- Zephir 0.22.0 (development - bae82f7bd)
+- Zephir 0.22.0 (development - 27535f802)
 
 ### Changed
+
+- Changed `Phalcon\Cli\Console::handle()` to process module definitions the same way as `Phalcon\Mvc\Application::handle()`. The module is now resolved through the inherited `getModule()`, so an unregistered module throws `Phalcon\Application\Exceptions\ModuleNotRegistered` (as `Console::getModule()` already did) instead of `Phalcon\Cli\Console\Exceptions\ConsoleModuleNotRegistered`. `Closure` module definitions are now supported and are invoked with the container, matching MVC. A definition that is neither an array nor a `Closure` throws the new `Phalcon\Cli\Console\Exceptions\InvalidModuleDefinition` instead of `InvalidModuleDefinitionPath`. [#17107](https://github.com/phalcon/cphalcon/issues/17107)
 
 ### Added
 
@@ -20,9 +22,11 @@
 - Fixed `Phalcon\Mvc\Model::groupResult()` declaring a `Phalcon\Mvc\Model\ResultsetInterface` return type while returning a scalar (`int`, `float`, `string`, or `null`) for non-grouped aggregate queries (`count()`, `sum()`, `average()`, `maximum()`, `minimum()`). The return type declaration has been removed (`@return int|float|string|null|ResultsetInterface`), so model subclasses can override `groupResult()` without risking a `TypeError`. [#17114](https://github.com/phalcon/cphalcon/issues/17114)
 - Fixed the Volt parser raising `Syntax error, unexpected token DEFAULT` when the `default` filter (e.g. `{{ value|default('text') }}`) is used inside a `{% switch %}` block. The word `default` is now treated as the `{% default %}` clause only when it directly follows the opening `{%` delimiter inside a switch; everywhere else it is parsed as a plain identifier, so the filter, `{{ default }}` and `{% set default = ... %}` all work inside switch-case blocks. [#16003](https://github.com/phalcon/cphalcon/issues/16003)
 - Fixed the `Phalcon\Storage` / `Phalcon\Cache` adapters to accept keys already carrying the adapter prefix, so keys returned by `getKeys()` can be passed straight back to `get()`, `has()`, `delete()`, `deleteMultiple()`, `set()`, `setForever()`, `increment()` and `decrement()`. `Phalcon\Storage\Adapter\AbstractAdapter` now strips a leading prefix from incoming keys. [#17089](https://github.com/phalcon/cphalcon/issues/17089)
-- Fixed the alternative installation script (`build/install`) to set the installed `phalcon.so` to mode `0644` after `make install`. The PHP build system installs shared extensions with the `install` default mode `0755`; shared objects only need read permission. [#17113](https://github.com/phalcon/cphalcon/issues/17113)~~
+- Fixed the alternative installation script (`build/install`) to set the installed `phalcon.so` to mode `0644` after `make install`. The PHP build system installs shared extensions with the `install` default mode `0755`; shared objects only need read permission. [#17113](https://github.com/phalcon/cphalcon/issues/17113)
 
 ### Removed
+
+- Removed `Phalcon\Cli\Console\Exceptions\ConsoleModuleNotRegistered` and `Phalcon\Cli\Console\Exceptions\InvalidModuleDefinitionPath`, superseded by `Phalcon\Application\Exceptions\ModuleNotRegistered` and `Phalcon\Cli\Console\Exceptions\InvalidModuleDefinition`. [#17107](https://github.com/phalcon/cphalcon/issues/17107)
 
 ## [5.14.1](https://github.com/phalcon/cphalcon/releases/tag/v5.14.1) (2026-06-08)
 
@@ -58,6 +62,7 @@
 - Fixed `Phalcon\Mvc\Model\Query\Builder::orderBy()` when the array syntax is used with complex PHQL expressions. Previously any array item containing a space was split as a simple `column direction` pair, corrupting expressions such as `CASE WHEN inv_status_flag = 1 THEN 0 ELSE 1 END ASC`. The builder now only treats a trailing `ASC`/`DESC` as the direction (autoescaping a simple column) and preserves complex expressions verbatim. [#17077](https://github.com/phalcon/cphalcon/issues/17077)
 - Fixed `Phalcon\Mvc\Model\Query` (PHQL) parsing of identifiers whose name begins with the `NOT` keyword. Columns, tables, and aliases such as `notice_id` were truncated to `ice_id` (the leading `not` was dropped), causing the database to report the column as unknown - most visibly in `Phalcon\Mvc\Model\Query\Builder` join conditions built via `createBuilder()`. The scanner's re2c backtracking marker shared the token-start pointer, so the `NOT BETWEEN` rule advanced it past `not`; escaped identifiers containing internal escapes (e.g. `[col\[0\]]`) were corrupted by the same root cause. [#16831](https://github.com/phalcon/cphalcon/issues/16831) [#17087](https://github.com/phalcon/cphalcon/issues/17087)
 - Fixed the compilation failure (`'name_zv' undeclared`) in `Phalcon\Container\Container::callableGet()` and `callableNew()`. Both closures captured the typed `string name` parameter directly via `use (name)`. [#17078](https://github.com/phalcon/cphalcon/issues/17078)
+- Fixed the build from emitting a warning for `RedisCluster` not being present at compile time. [#2589](https://github.com/zephir-lang/zephir/pull/2589) [#16977](https://github.com/phalcon/cphalcon/issues/16977)
 
 ### Removed
 
