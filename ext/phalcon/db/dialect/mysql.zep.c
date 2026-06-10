@@ -2394,7 +2394,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, tableOptions)
 	ZVAL_STR_COPY(&schema_zv, schema);
 	}
 	ZEPHIR_INIT_VAR(&sql);
-	ZVAL_STRING(&sql, "SELECT TABLES.TABLE_TYPE AS table_type,TABLES.AUTO_INCREMENT AS auto_increment,TABLES.ENGINE AS engine,TABLES.TABLE_COLLATION AS table_collation FROM INFORMATION_SCHEMA.TABLES WHERE ");
+	ZEPHIR_CONCAT_SSS(&sql, "SELECT TABLES.TABLE_TYPE AS table_type,TABLES.AUTO_INCREMENT AS auto_increment,", "TABLES.ENGINE AS engine,TABLES.TABLE_COLLATION AS table_collation,", "TABLES.TABLE_COMMENT AS table_comment FROM INFORMATION_SCHEMA.TABLES WHERE ");
 	if (!(ZEPHIR_IS_EMPTY(&schema_zv))) {
 		ZEPHIR_CONCAT_VSVSVS(return_value, &sql, "TABLES.TABLE_SCHEMA = '", &schema_zv, "' AND TABLES.TABLE_NAME = '", &table_zv, "'");
 		RETURN_MM();
@@ -2478,7 +2478,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, viewExists)
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, getTableOptions)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval *definition_param = NULL, options, engine, autoIncrement, tableCollation, collationParts, _0$$5, _1$$7, _2$$9, _3$$9, _4$$9;
+	zval *definition_param = NULL, options, engine, autoIncrement, tableCollation, collationParts, tableComment, _0$$5, _1$$7, _2$$9, _3$$9, _4$$9, _5$$11, _6$$11, _7$$11, _8$$11;
 	zval definition, tableOptions;
 
 	ZVAL_UNDEF(&definition);
@@ -2488,11 +2488,16 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, getTableOptions)
 	ZVAL_UNDEF(&autoIncrement);
 	ZVAL_UNDEF(&tableCollation);
 	ZVAL_UNDEF(&collationParts);
+	ZVAL_UNDEF(&tableComment);
 	ZVAL_UNDEF(&_0$$5);
 	ZVAL_UNDEF(&_1$$7);
 	ZVAL_UNDEF(&_2$$9);
 	ZVAL_UNDEF(&_3$$9);
 	ZVAL_UNDEF(&_4$$9);
+	ZVAL_UNDEF(&_5$$11);
+	ZVAL_UNDEF(&_6$$11);
+	ZVAL_UNDEF(&_7$$11);
+	ZVAL_UNDEF(&_8$$11);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		ZEPHIR_Z_PARAM_ARRAY(definition, definition_param)
 	ZEND_PARSE_PARAMETERS_END();
@@ -2511,7 +2516,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, getTableOptions)
 		if (zephir_is_true(&engine)) {
 			ZEPHIR_INIT_VAR(&_0$$5);
 			ZEPHIR_CONCAT_SV(&_0$$5, "ENGINE=", &engine);
-			zephir_array_append(&tableOptions, &_0$$5, PH_SEPARATE, "phalcon/Db/Dialect/Mysql.zep", 1038);
+			zephir_array_append(&tableOptions, &_0$$5, PH_SEPARATE, "phalcon/Db/Dialect/Mysql.zep", 1044);
 		}
 	}
 	zephir_memory_observe(&autoIncrement);
@@ -2519,7 +2524,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, getTableOptions)
 		if (zephir_is_true(&autoIncrement)) {
 			ZEPHIR_INIT_VAR(&_1$$7);
 			ZEPHIR_CONCAT_SV(&_1$$7, "AUTO_INCREMENT=", &autoIncrement);
-			zephir_array_append(&tableOptions, &_1$$7, PH_SEPARATE, "phalcon/Db/Dialect/Mysql.zep", 1047);
+			zephir_array_append(&tableOptions, &_1$$7, PH_SEPARATE, "phalcon/Db/Dialect/Mysql.zep", 1053);
 		}
 	}
 	zephir_memory_observe(&tableCollation);
@@ -2527,13 +2532,27 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, getTableOptions)
 		if (zephir_is_true(&tableCollation)) {
 			ZEPHIR_INIT_VAR(&collationParts);
 			zephir_fast_explode_str(&collationParts, SL("_"), &tableCollation, LONG_MAX);
-			zephir_array_fetch_long(&_2$$9, &collationParts, 0, PH_NOISY | PH_READONLY, "phalcon/Db/Dialect/Mysql.zep", 1057);
+			zephir_array_fetch_long(&_2$$9, &collationParts, 0, PH_NOISY | PH_READONLY, "phalcon/Db/Dialect/Mysql.zep", 1063);
 			ZEPHIR_INIT_VAR(&_3$$9);
 			ZEPHIR_CONCAT_SV(&_3$$9, "DEFAULT CHARSET=", &_2$$9);
-			zephir_array_append(&tableOptions, &_3$$9, PH_SEPARATE, "phalcon/Db/Dialect/Mysql.zep", 1057);
+			zephir_array_append(&tableOptions, &_3$$9, PH_SEPARATE, "phalcon/Db/Dialect/Mysql.zep", 1063);
 			ZEPHIR_INIT_VAR(&_4$$9);
 			ZEPHIR_CONCAT_SV(&_4$$9, "COLLATE=", &tableCollation);
-			zephir_array_append(&tableOptions, &_4$$9, PH_SEPARATE, "phalcon/Db/Dialect/Mysql.zep", 1058);
+			zephir_array_append(&tableOptions, &_4$$9, PH_SEPARATE, "phalcon/Db/Dialect/Mysql.zep", 1064);
+		}
+	}
+	zephir_memory_observe(&tableComment);
+	if (zephir_array_isset_string_fetch(&tableComment, &options, SL("TABLE_COMMENT"), 0)) {
+		if (zephir_is_true(&tableComment)) {
+			ZEPHIR_INIT_VAR(&_5$$11);
+			ZEPHIR_INIT_VAR(&_6$$11);
+			ZVAL_STRING(&_6$$11, "'");
+			ZEPHIR_INIT_VAR(&_7$$11);
+			ZVAL_STRING(&_7$$11, "''");
+			zephir_fast_str_replace(&_5$$11, &_6$$11, &_7$$11, &tableComment);
+			ZEPHIR_INIT_VAR(&_8$$11);
+			ZEPHIR_CONCAT_SVS(&_8$$11, "COMMENT='", &_5$$11, "'");
+			zephir_array_append(&tableOptions, &_8$$11, PH_SEPARATE, "phalcon/Db/Dialect/Mysql.zep", 1073);
 		}
 	}
 	zephir_fast_join_str(return_value, SL(" "), &tableOptions);
