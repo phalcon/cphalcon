@@ -13,7 +13,6 @@
 
 #include "kernel/main.h"
 #include "kernel/fcall.h"
-#include "kernel/concat.h"
 #include "kernel/memory.h"
 #include "kernel/object.h"
 
@@ -26,33 +25,26 @@
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
-ZEPHIR_INIT_CLASS(Phalcon_Cli_Console_Exceptions_ConsoleModuleNotRegistered)
+ZEPHIR_INIT_CLASS(Phalcon_Cli_Console_Exceptions_InvalidModuleDefinition)
 {
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Cli\\Console\\Exceptions, ConsoleModuleNotRegistered, phalcon, cli_console_exceptions_consolemodulenotregistered, phalcon_cli_console_exception_ce, phalcon_cli_console_exceptions_consolemodulenotregistered_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Cli\\Console\\Exceptions, InvalidModuleDefinition, phalcon, cli_console_exceptions_invalidmoduledefinition, phalcon_cli_console_exception_ce, phalcon_cli_console_exceptions_invalidmoduledefinition_method_entry, 0);
 
 	return SUCCESS;
 }
 
-PHP_METHOD(Phalcon_Cli_Console_Exceptions_ConsoleModuleNotRegistered, __construct)
+PHP_METHOD(Phalcon_Cli_Console_Exceptions_InvalidModuleDefinition, __construct)
 {
 	zval _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval moduleName_zv;
-	zend_string *moduleName = NULL;
 
-	ZVAL_UNDEF(&moduleName_zv);
 	ZVAL_UNDEF(&_0);
-	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_STR(moduleName)
-	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_memory_observe(&moduleName_zv);
-	ZVAL_STR_COPY(&moduleName_zv, moduleName);
+
 	ZEPHIR_INIT_VAR(&_0);
-	ZEPHIR_CONCAT_SVS(&_0, "Module '", &moduleName_zv, "' isn't registered in the console container");
-	ZEPHIR_CALL_PARENT(NULL, phalcon_cli_console_exceptions_consolemodulenotregistered_ce, getThis(), "__construct", NULL, 0, &_0);
+	ZVAL_STRING(&_0, "Invalid module definition");
+	ZEPHIR_CALL_PARENT(NULL, phalcon_cli_console_exceptions_invalidmoduledefinition_ce, getThis(), "__construct", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
