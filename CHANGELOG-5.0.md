@@ -4,8 +4,8 @@
 
 ### Tools
 
-- Zephir Parser v2.0.3
-- Zephir 0.22.0 (development - 9d2def774)
+- Zephir Parser v2.0.4
+- Zephir 0.22.0 (development - bae82f7bd)
 
 ### Changed
 
@@ -18,6 +18,7 @@
 ### Fixed
 
 - Fixed the alternative installation script (`build/install`) to set the installed `phalcon.so` to mode `0644` after `make install`. The PHP build system installs shared extensions with the `install` default mode `0755`; shared objects only need read permission. [#17113](https://github.com/phalcon/cphalcon/issues/17113)
+- Fixed `Phalcon\Mvc\Model::groupResult()` declaring a `Phalcon\Mvc\Model\ResultsetInterface` return type while returning a scalar (`int`, `float`, `string`, or `null`) for non-grouped aggregate queries (`count()`, `sum()`, `average()`, `maximum()`, `minimum()`). The return type declaration has been removed (`@return int|float|string|null|ResultsetInterface`), so model subclasses can override `groupResult()` without risking a `TypeError`. [#17114](https://github.com/phalcon/cphalcon/issues/17114)
 
 ### Removed
 
