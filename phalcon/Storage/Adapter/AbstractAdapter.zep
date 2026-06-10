@@ -141,6 +141,8 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     {
         var result;
 
+        let key = this->getKeyWithoutPrefix(key);
+
         this->fire(this->eventType . ":beforeDecrement", key);
 
         let result = this->doDecrement(key, value);
@@ -161,6 +163,8 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     {
         var result;
 
+        let key = this->getKeyWithoutPrefix(key);
+
         this->fire(this->eventType . ":beforeDelete", key);
 
         let result = this->doDelete(key);
@@ -179,7 +183,15 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      */
     public function deleteMultiple(array keys) -> bool
     {
-        var result;
+        var key, result;
+        array filteredKeys;
+
+        let filteredKeys = [];
+        for key in keys {
+            let filteredKeys[] = this->getKeyWithoutPrefix(key);
+        }
+
+        let keys = filteredKeys;
 
         this->fire(this->eventType . ":beforeDeleteMultiple", keys);
 
@@ -218,6 +230,8 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     public function get(string key, defaultValue = null) -> var
     {
         var result;
+
+        let key = this->getKeyWithoutPrefix(key);
 
         this->fire(this->eventType . ":beforeGet", key);
 
@@ -298,6 +312,8 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     {
         var result;
 
+        let key = this->getKeyWithoutPrefix(key);
+
         this->fire(this->eventType . ":beforeHas", key);
 
         let result = this->doHas(key);
@@ -318,6 +334,8 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     public function increment(string! key, int value = 1) -> int | bool
     {
         var result;
+
+        let key = this->getKeyWithoutPrefix(key);
 
         this->fire(this->eventType . ":beforeIncrement", key);
 
@@ -344,6 +362,8 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     public function set(string! key, var value, var ttl = null) -> bool
     {
         var result;
+
+        let key = this->getKeyWithoutPrefix(key);
 
         this->fire(this->eventType . ":beforeSet", key);
 
@@ -470,6 +490,23 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     }
 
     /**
+     * Check if the key has the prefix and remove it, otherwise just return the
+     * key unaltered
+     *
+     * @param string $key
+     *
+     * @return string
+     */
+    protected function getKeyWithoutPrefix(string key) -> string
+    {
+        if (starts_with(key, this->prefix)) {
+            return substr(key, strlen(this->prefix));
+        }
+
+        return key;
+    }
+
+    /**
      * Returns the key requested, prefixed
      *
      * @param string $key
@@ -480,7 +517,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     {
         let key = (string) key;
 
-        return this->prefix . key;
+        return this->prefix . this->getKeyWithoutPrefix(key);
     }
 
     /**
