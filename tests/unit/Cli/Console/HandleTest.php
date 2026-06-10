@@ -14,8 +14,10 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Cli\Console;
 
 use Exception;
+use Phalcon\Application\Exceptions\ModuleNotRegistered;
 use Phalcon\Cli\Console as CliConsole;
 use Phalcon\Cli\Console\Exception as ConsoleException;
+use Phalcon\Cli\Console\Exceptions\InvalidModuleDefinition;
 use Phalcon\Cli\Dispatcher\Exception as DispatcherException;
 use Phalcon\Cli\Router\Exception as RouterException;
 use Phalcon\Di\FactoryDefault\Cli as DiFactoryDefault;
@@ -435,9 +437,9 @@ final class HandleTest extends AbstractUnitTestCase
     {
         $console = new CliConsole(new DiFactoryDefault());
 
-        $this->expectException(ConsoleException::class);
+        $this->expectException(ModuleNotRegistered::class);
         $this->expectExceptionMessage(
-            "Module 'devtools' isn't registered in the console container"
+            "Module 'devtools' is not registered in the application container"
         );
 
         // testing module
@@ -564,8 +566,8 @@ final class HandleTest extends AbstractUnitTestCase
      */
     public function testCliConsoleHandleInvalidModuleDefinition(): void
     {
-        $this->expectException(ConsoleException::class);
-        $this->expectExceptionMessage('Invalid module definition path');
+        $this->expectException(InvalidModuleDefinition::class);
+        $this->expectExceptionMessage('Invalid module definition');
 
         $console = new CliConsole(new DiFactoryDefault());
 
