@@ -11,6 +11,7 @@
 namespace Phalcon\Session\Adapter;
 
 use SessionHandlerInterface;
+use SessionUpdateTimestampHandlerInterface;
 
 /**
  * Phalcon\Session\Adapter\Noop
@@ -28,7 +29,7 @@ use SessionHandlerInterface;
  * $session->setAdapter(new Noop());
  * ```
  */
-class Noop implements SessionHandlerInterface
+class Noop implements SessionHandlerInterface, SessionUpdateTimestampHandlerInterface
 {
     /**
      * Close
@@ -71,6 +72,22 @@ class Noop implements SessionHandlerInterface
     public function read(var id) -> string
     {
         return "";
+    }
+
+    /**
+     * Refresh the session lifetime without changing the session data
+     */
+    public function updateTimestamp(var id, var data) -> bool
+    {
+        return true;
+    }
+
+    /**
+     * Validate the session id (used when strict mode is enabled)
+     */
+    public function validateId(var id) -> bool
+    {
+        return true;
     }
 
     /**
