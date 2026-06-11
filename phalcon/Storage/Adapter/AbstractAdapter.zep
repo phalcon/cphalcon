@@ -77,6 +77,16 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     protected serializerFactory;
 
     /**
+     * Whether a leading prefix is stripped from incoming keys before the
+     * adapter prefix is applied. Disable when keys are externally
+     * generated identifiers that may legitimately start with the prefix
+     * text (e.g. session ids).
+     *
+     * @var bool
+     */
+    protected stripPrefix = true;
+
+    /**
      * Event Manager
      *
      * @var ManagerInterface|null
@@ -107,8 +117,9 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
             this->defaultSerializer = mb_strtolower(
                 this->getArrVal(options, "defaultSerializer", "php")
             ),
-            this->lifetime   = this->getArrVal(options, "lifetime", 3600),
-            this->serializer = this->getArrVal(options, "serializer", null);
+            this->lifetime    = this->getArrVal(options, "lifetime", 3600),
+            this->serializer  = this->getArrVal(options, "serializer", null),
+            this->stripPrefix = (bool) this->getArrVal(options, "stripPrefix", true);
 
         if isset options["prefix"] {
             let this->prefix = options["prefix"];
@@ -118,6 +129,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
         unset options["lifetime"];
         unset options["serializer"];
         unset options["prefix"];
+        unset options["stripPrefix"];
 
         let this->options = options;
     }
@@ -491,7 +503,8 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
 
     /**
      * Check if the key has the prefix and remove it, otherwise just return the
-     * key unaltered
+     * key unaltered. When the `stripPrefix` option is `false` the key is
+     * always returned unaltered.
      *
      * @param string $key
      *
@@ -499,7 +512,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      */
     protected function getKeyWithoutPrefix(string key) -> string
     {
-        if (starts_with(key, this->prefix)) {
+        if (this->stripPrefix && starts_with(key, this->prefix)) {
             return substr(key, strlen(this->prefix));
         }
 
