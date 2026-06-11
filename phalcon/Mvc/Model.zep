@@ -2794,7 +2794,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      */
     public function doSave(<CollectionInterface> visited) -> bool
     {
-        var metaData, schema, writeConnection, readConnection, source, table,
+        var metaData, schema, writeConnection, source, table,
             identityField, exists, success, relatedToSave, objId,
             manager, savedSnapshot, savedOldSnapshot;
         bool hasRelatedToSave;
@@ -2849,14 +2849,10 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         }
 
         /**
-         * Create/Get the current database connection
+         * We need to check if the record exists. Use the write connection
+         * to prevent replica lag
          */
-        let readConnection = this->getReadConnection();
-
-        /**
-         * We need to check if the record exists
-         */
-        let exists = this->has(metaData, readConnection);
+        let exists = this->has(metaData, writeConnection);
 
         if exists {
             let this->operationMade = self::OP_UPDATE;
@@ -3656,7 +3652,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         if this->dirtyState {
             let metaData = this->getModelsMetaData();
 
-            if !this->has(metaData, this->getReadConnection()) {
+            if !this->has(metaData, this->getWriteConnection()) {
                 let this->errorMessages = [
                     new Message(
                         "Record cannot be updated because it does not exist",
