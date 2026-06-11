@@ -10,12 +10,14 @@
 
 namespace Phalcon\Filter\Sanitize;
 
+use Phalcon\Contracts\Filter\Sanitizer;
+
 /**
  * Phalcon\Filter\Sanitize\Upper
  *
  * Sanitizes a value to uppercase
  */
-class Upper
+class Upper implements Sanitizer
 {
     /**
      * @param string $input The text to sanitize

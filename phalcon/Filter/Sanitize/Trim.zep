@@ -10,12 +10,14 @@
 
 namespace Phalcon\Filter\Sanitize;
 
+use Phalcon\Contracts\Filter\Sanitizer;
+
 /**
  * Phalcon\Filter\Sanitize\Trim
  *
  * Sanitizes a value removing leading and trailing spaces
  */
-class Trim
+class Trim implements Sanitizer
 {
     /**
      * @param string $input The text to sanitize
