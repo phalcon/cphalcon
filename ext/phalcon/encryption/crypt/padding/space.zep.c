@@ -63,7 +63,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt_Padding_Space, pad)
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, " ");
 	ZVAL_LONG(&_1, paddingSize);
-	ZEPHIR_RETURN_CALL_FUNCTION("str_repeat", NULL, 1, &_0, &_1);
+	ZEPHIR_RETURN_CALL_FUNCTION("str_repeat", NULL, 6, &_0, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 }

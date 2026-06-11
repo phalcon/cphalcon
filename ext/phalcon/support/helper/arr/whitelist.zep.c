@@ -72,7 +72,7 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Whitelist, __invoke)
 	zephir_check_call_status();
 	ZEPHIR_CALL_FUNCTION(&_1, "array_flip", NULL, 189, &filtered);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_FUNCTION("array_intersect_key", NULL, 2, &collection, &_1);
+	ZEPHIR_RETURN_CALL_FUNCTION("array_intersect_key", NULL, 7, &collection, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 }

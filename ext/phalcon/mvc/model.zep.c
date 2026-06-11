@@ -2704,7 +2704,7 @@ PHP_METHOD(Phalcon_Mvc_Model, create)
 		ZEPHIR_INIT_VAR(&_7$$3);
 		ZVAL_STRING(&_7$$3, "InvalidCreateAttempt");
 		ZVAL_LONG(&_8$$3, 0);
-		ZEPHIR_CALL_METHOD(NULL, &_3$$3, "__construct", NULL, 7, &_5$$3, &_6$$3, &_7$$3, &_8$$3, &_4$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_3$$3, "__construct", NULL, 5, &_5$$3, &_6$$3, &_7$$3, &_8$$3, &_4$$3);
 		zephir_check_call_status();
 		zephir_array_fast_append(&_2$$3, &_3$$3);
 		zephir_update_property_zval(this_ptr, ZEND_STRL("errorMessages"), &_2$$3);
@@ -6720,7 +6720,7 @@ PHP_METHOD(Phalcon_Mvc_Model, update)
 			ZEPHIR_INIT_VAR(&_8$$4);
 			ZVAL_STRING(&_8$$4, "InvalidUpdateAttempt");
 			ZVAL_LONG(&_9$$4, 0);
-			ZEPHIR_CALL_METHOD(NULL, &_4$$4, "__construct", NULL, 7, &_6$$4, &_7$$4, &_8$$4, &_9$$4, &_5$$4);
+			ZEPHIR_CALL_METHOD(NULL, &_4$$4, "__construct", NULL, 5, &_6$$4, &_7$$4, &_8$$4, &_9$$4, &_5$$4);
 			zephir_check_call_status();
 			zephir_array_fast_append(&_3$$4, &_4$$4);
 			zephir_update_property_zval(this_ptr, ZEND_STRL("errorMessages"), &_3$$4);
@@ -6988,7 +6988,7 @@ PHP_METHOD(Phalcon_Mvc_Model, checkForeignKeysRestrict)
 				ZEPHIR_INIT_NVAR(&_22$$18);
 				ZVAL_STRING(&_22$$18, "ConstraintViolation");
 				ZVAL_LONG(&_24$$18, 0);
-				ZEPHIR_CALL_METHOD(NULL, &_20$$18, "__construct", &_25, 7, &message, &fields, &_22$$18, &_24$$18, &_21$$18);
+				ZEPHIR_CALL_METHOD(NULL, &_20$$18, "__construct", &_25, 5, &message, &fields, &_22$$18, &_24$$18, &_21$$18);
 				zephir_check_call_status();
 				ZEPHIR_CALL_METHOD(NULL, this_ptr, "appendmessage", &_26, 0, &_20$$18);
 				zephir_check_call_status();
@@ -7161,7 +7161,7 @@ PHP_METHOD(Phalcon_Mvc_Model, checkForeignKeysRestrict)
 					ZEPHIR_INIT_NVAR(&_49$$37);
 					ZVAL_STRING(&_49$$37, "ConstraintViolation");
 					ZVAL_LONG(&_51$$37, 0);
-					ZEPHIR_CALL_METHOD(NULL, &_47$$37, "__construct", &_25, 7, &message, &fields, &_49$$37, &_51$$37, &_48$$37);
+					ZEPHIR_CALL_METHOD(NULL, &_47$$37, "__construct", &_25, 5, &message, &fields, &_49$$37, &_51$$37, &_48$$37);
 					zephir_check_call_status();
 					ZEPHIR_CALL_METHOD(NULL, this_ptr, "appendmessage", &_26, 0, &_47$$37);
 					zephir_check_call_status();
@@ -7405,7 +7405,7 @@ PHP_METHOD(Phalcon_Mvc_Model, checkForeignKeysReverseRestrict)
 				ZEPHIR_INIT_NVAR(&_10$$7);
 				ZVAL_STRING(&_10$$7, "ConstraintViolation");
 				ZVAL_LONG(&_11$$7, 0);
-				ZEPHIR_CALL_METHOD(NULL, &_8$$7, "__construct", &_12, 7, &message, &fields, &_10$$7, &_11$$7, &_9$$7);
+				ZEPHIR_CALL_METHOD(NULL, &_8$$7, "__construct", &_12, 5, &message, &fields, &_10$$7, &_11$$7, &_9$$7);
 				zephir_check_call_status();
 				ZEPHIR_CALL_METHOD(NULL, this_ptr, "appendmessage", &_13, 0, &_8$$7);
 				zephir_check_call_status();
@@ -7475,7 +7475,7 @@ PHP_METHOD(Phalcon_Mvc_Model, checkForeignKeysReverseRestrict)
 					ZEPHIR_INIT_NVAR(&_24$$13);
 					ZVAL_STRING(&_24$$13, "ConstraintViolation");
 					ZVAL_LONG(&_25$$13, 0);
-					ZEPHIR_CALL_METHOD(NULL, &_22$$13, "__construct", &_12, 7, &message, &fields, &_24$$13, &_25$$13, &_23$$13);
+					ZEPHIR_CALL_METHOD(NULL, &_22$$13, "__construct", &_12, 5, &message, &fields, &_24$$13, &_25$$13, &_23$$13);
 					zephir_check_call_status();
 					ZEPHIR_CALL_METHOD(NULL, this_ptr, "appendmessage", &_13, 0, &_22$$13);
 					zephir_check_call_status();
@@ -9762,7 +9762,7 @@ PHP_METHOD(Phalcon_Mvc_Model, preSave)
 							ZEPHIR_INIT_NVAR(&_24$$32);
 							ZVAL_STRING(&_24$$32, "PresenceOf");
 							ZVAL_LONG(&_25$$32, 0);
-							ZEPHIR_CALL_METHOD(NULL, &_21$$32, "__construct", &_26, 7, &_22$$32, &attributeField, &_24$$32, &_25$$32, &_23$$32);
+							ZEPHIR_CALL_METHOD(NULL, &_21$$32, "__construct", &_26, 5, &_22$$32, &attributeField, &_24$$32, &_25$$32, &_23$$32);
 							zephir_check_call_status();
 							zephir_update_property_array_append(this_ptr, SL("errorMessages"), &_21$$32);
 							error = 1;
@@ -9867,7 +9867,7 @@ PHP_METHOD(Phalcon_Mvc_Model, preSave)
 								ZEPHIR_INIT_NVAR(&_40$$52);
 								ZVAL_STRING(&_40$$52, "PresenceOf");
 								ZVAL_LONG(&_41$$52, 0);
-								ZEPHIR_CALL_METHOD(NULL, &_37$$52, "__construct", &_26, 7, &_38$$52, &attributeField, &_40$$52, &_41$$52, &_39$$52);
+								ZEPHIR_CALL_METHOD(NULL, &_37$$52, "__construct", &_26, 5, &_38$$52, &attributeField, &_40$$52, &_41$$52, &_39$$52);
 								zephir_check_call_status();
 								zephir_update_property_array_append(this_ptr, SL("errorMessages"), &_37$$52);
 								error = 1;
@@ -13528,7 +13528,7 @@ PHP_METHOD(Phalcon_Mvc_Model, validate)
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(&_7$$4, &message, "getmetadata", NULL, 0);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, &_2$$4, "__construct", &_8, 7, &_3$$4, &_4$$4, &_5$$4, &_6$$4, &_7$$4);
+		ZEPHIR_CALL_METHOD(NULL, &_2$$4, "__construct", &_8, 5, &_3$$4, &_4$$4, &_5$$4, &_6$$4, &_7$$4);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "appendmessage", &_9, 0, &_2$$4);
 		zephir_check_call_status();

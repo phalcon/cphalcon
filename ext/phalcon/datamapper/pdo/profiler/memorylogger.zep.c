@@ -575,7 +575,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_MemoryLogger, log)
 	}
 	ZEPHIR_INIT_NVAR(&value);
 	ZEPHIR_INIT_NVAR(&key);
-	ZEPHIR_CALL_FUNCTION(&_7, "strtr", NULL, 6, &message_zv, &replace);
+	ZEPHIR_CALL_FUNCTION(&_7, "strtr", NULL, 4, &message_zv, &replace);
 	zephir_check_call_status();
 	zephir_update_property_array_append(this_ptr, SL("messages"), &_7);
 	ZEPHIR_MM_RESTORE();

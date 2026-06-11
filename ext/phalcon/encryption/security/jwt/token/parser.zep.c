@@ -403,7 +403,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Parser, decodeUrl)
 		ZEPHIR_INIT_VAR(&_0$$3);
 		ZVAL_STRING(&_0$$3, "=");
 		ZVAL_LONG(&_1$$3, (4 - remainder));
-		ZEPHIR_CALL_FUNCTION(&_2$$3, "str_repeat", NULL, 1, &_0$$3, &_1$$3);
+		ZEPHIR_CALL_FUNCTION(&_2$$3, "str_repeat", NULL, 6, &_0$$3, &_1$$3);
 		zephir_check_call_status();
 		zephir_concat_self(&input, &_2$$3);
 	}
@@ -411,7 +411,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Parser, decodeUrl)
 	ZVAL_STRING(&_3, "-_");
 	ZEPHIR_INIT_VAR(&_4);
 	ZVAL_STRING(&_4, "+/");
-	ZEPHIR_CALL_FUNCTION(&_5, "strtr", NULL, 6, &input, &_3, &_4);
+	ZEPHIR_CALL_FUNCTION(&_5, "strtr", NULL, 4, &input, &_3, &_4);
 	zephir_check_call_status();
 	ZEPHIR_CALL_FUNCTION(&data, "base64_decode", NULL, 482, &_5);
 	zephir_check_call_status();

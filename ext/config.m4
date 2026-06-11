@@ -15,8 +15,8 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/contracts/events/eventsaware.zep.c
 	phalcon/events/eventsawareinterface.zep.c
 	phalcon/filter/validation/validatorinterface.zep.c
-	phalcon/html/helper/abstracthelper.zep.c
 	phalcon/filter/validation/abstractvalidator.zep.c
+	phalcon/html/helper/abstracthelper.zep.c
 	phalcon/mvc/view/exception.zep.c
 	phalcon/mvc/view/engine/volt/exception.zep.c
 	phalcon/contracts/filter/sanitizer.zep.c
@@ -56,6 +56,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/assets/exception.zep.c
 	phalcon/auth/exception.zep.c
 	phalcon/db/geometry/geometryinterface.zep.c
+	phalcon/filter/validation/validator/file/abstractfile.zep.c
 	phalcon/storage/serializer/none.zep.c
 	phalcon/cache/adapter/adapterinterface.zep.c
 	phalcon/config/exception.zep.c
@@ -64,7 +65,6 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/dispatcher/dispatcherinterface.zep.c
 	phalcon/encryption/crypt/padding/padinterface.zep.c
 	phalcon/encryption/security/uuid/uuidinterface.zep.c
-	phalcon/filter/validation/validator/file/abstractfile.zep.c
 	phalcon/paginator/exception.zep.c
 	phalcon/session/exception.zep.c
 	phalcon/support/exception.zep.c
@@ -697,6 +697,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/filter/validation/validator/exclusionin.zep.c
 	phalcon/filter/validation/validator/file.zep.c
 	phalcon/filter/validation/validator/file/mimetype.zep.c
+	phalcon/filter/validation/validator/file/resolution/aspectratio.zep.c
 	phalcon/filter/validation/validator/file/resolution/equal.zep.c
 	phalcon/filter/validation/validator/file/resolution/max.zep.c
 	phalcon/filter/validation/validator/file/resolution/min.zep.c
