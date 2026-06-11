@@ -99,7 +99,7 @@ PHP_METHOD(Phalcon_Forms_Loader_JsonLoader, load)
 
 	zephir_memory_observe(&json);
 	zephir_read_property(&json, this_ptr, ZEND_STRL("source"), PH_NOISY_CC);
-	ZEPHIR_CALL_FUNCTION(&_0, "is_file", NULL, 0, &json);
+	ZEPHIR_CALL_FUNCTION(&_0, "is_file", NULL, 353, &json);
 	zephir_check_call_status();
 	_1 = zephir_is_true(&_0);
 	if (_1) {
