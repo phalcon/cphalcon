@@ -22,18 +22,25 @@ use Phalcon\Storage\AdapterFactory;
      *
      * @param AdapterFactory $factory
      * @param array          $options = [
-     *                                'prefix'     => 'sess-reds-',
-     *                                'host'       => '127.0.0.1',
-     *                                'port'       => 6379,
-     *                                'index'      => 0,
-     *                                'persistent' => false,
-     *                                'auth'       => '',
-     *                                'socket'     => '',
+     *                                'prefix'      => 'sess-reds-',
+     *                                'stripPrefix' => false,
+     *                                'host'        => '127.0.0.1',
+     *                                'port'        => 6379,
+     *                                'index'       => 0,
+     *                                'persistent'  => false,
+     *                                'auth'        => '',
+     *                                'socket'      => '',
      * ]
      */
     public function __construct(<AdapterFactory> factory, array! options = [])
     {
-        let options["prefix"] = this->getArrVal(options, "prefix", "sess-reds-"),
-            this->adapter     = factory->newInstance("redis", options);
+        /**
+         * Session ids are externally generated and never carry the storage
+         * prefix; disable prefix stripping so an id that happens to start
+         * with the prefix text cannot collide with another session
+         */
+        let options["prefix"]      = this->getArrVal(options, "prefix", "sess-reds-"),
+            options["stripPrefix"] = this->getArrVal(options, "stripPrefix", false),
+            this->adapter          = factory->newInstance("redis", options);
     }
 }
