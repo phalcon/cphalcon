@@ -1589,27 +1589,26 @@ PHP_METHOD(Phalcon_Filter_Validation, fails)
  */
 PHP_METHOD(Phalcon_Filter_Validation, preChecking)
 {
-	zend_bool _4$$3, _10$$11;
+	zend_bool _4$$3;
 	zval results;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_2 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *field, field_sub, *validator, validator_sub, __$false, singleField, allowEmpty, emptyValue, value, *_0$$3, _3$$3, _1$$4, _5$$6, _6$$8, _7$$8, *_8$$11, _9$$11;
+	zval *field, field_sub, *validator, validator_sub, __$false, __$true, singleField, allowEmpty, value, *_0$$3, _3$$3, _1$$4, _5$$6, _6$$8, _7$$8;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&field_sub);
 	ZVAL_UNDEF(&validator_sub);
 	ZVAL_BOOL(&__$false, 0);
+	ZVAL_BOOL(&__$true, 1);
 	ZVAL_UNDEF(&singleField);
 	ZVAL_UNDEF(&allowEmpty);
-	ZVAL_UNDEF(&emptyValue);
 	ZVAL_UNDEF(&value);
 	ZVAL_UNDEF(&_3$$3);
 	ZVAL_UNDEF(&_1$$4);
 	ZVAL_UNDEF(&_5$$6);
 	ZVAL_UNDEF(&_6$$8);
 	ZVAL_UNDEF(&_7$$8);
-	ZVAL_UNDEF(&_9$$11);
 	ZVAL_UNDEF(&results);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_ZVAL(field)
@@ -1678,41 +1677,9 @@ PHP_METHOD(Phalcon_Filter_Validation, preChecking)
 			ZEPHIR_CALL_METHOD(&value, this_ptr, "getvalue", NULL, 0, field);
 			zephir_check_call_status();
 			if (Z_TYPE_P(&allowEmpty) == IS_ARRAY) {
-				zephir_is_iterable(&allowEmpty, 0, "phalcon/Filter/Validation.zep", 720);
-				if (Z_TYPE_P(&allowEmpty) == IS_ARRAY) {
-					ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&allowEmpty), _8$$11)
-					{
-						ZEPHIR_INIT_NVAR(&emptyValue);
-						ZVAL_COPY(&emptyValue, _8$$11);
-						if (ZEPHIR_IS_IDENTICAL(&emptyValue, &value)) {
-							RETURN_MM_BOOL(1);
-						}
-					} ZEND_HASH_FOREACH_END();
-				} else {
-					ZEPHIR_CALL_METHOD(NULL, &allowEmpty, "rewind", NULL, 0);
-					zephir_check_call_status();
-					_10$$11 = 1;
-					while (1) {
-						if (_10$$11) {
-							_10$$11 = 0;
-						} else {
-							ZEPHIR_CALL_METHOD(NULL, &allowEmpty, "next", NULL, 0);
-							zephir_check_call_status();
-						}
-						ZEPHIR_CALL_METHOD(&_9$$11, &allowEmpty, "valid", NULL, 0);
-						zephir_check_call_status();
-						if (!zend_is_true(&_9$$11)) {
-							break;
-						}
-						ZEPHIR_CALL_METHOD(&emptyValue, &allowEmpty, "current", NULL, 0);
-						zephir_check_call_status();
-							if (ZEPHIR_IS_IDENTICAL(&emptyValue, &value)) {
-								RETURN_MM_BOOL(1);
-							}
-					}
-				}
-				ZEPHIR_INIT_NVAR(&emptyValue);
-				RETURN_MM_BOOL(0);
+				ZEPHIR_RETURN_CALL_FUNCTION("in_array", NULL, 75, &value, &allowEmpty, &__$true);
+				zephir_check_call_status();
+				RETURN_MM();
 			}
 			RETURN_MM_BOOL(ZEPHIR_IS_EMPTY(&value));
 		}

@@ -419,7 +419,9 @@ PHP_METHOD(Phalcon_Session_Manager, has)
 }
 
 /**
- * Regenerates the session id using the adapter.
+ * Regenerates the session id via `session_regenerate_id()` (when the
+ * session is active). The registered save handler persists the data
+ * under the new id.
  */
 PHP_METHOD(Phalcon_Session_Manager, regenerateId)
 {
@@ -566,7 +568,7 @@ PHP_METHOD(Phalcon_Session_Manager, setId)
 		object_init_ex(&_1$$3, phalcon_session_exceptions_sessionalreadystarted_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Session/Manager.zep", 270);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Session/Manager.zep", 272);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -615,7 +617,7 @@ PHP_METHOD(Phalcon_Session_Manager, setName)
 		object_init_ex(&_1$$3, phalcon_session_exceptions_sessionmodificationdenied_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Session/Manager.zep", 291);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Session/Manager.zep", 293);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -631,7 +633,7 @@ PHP_METHOD(Phalcon_Session_Manager, setName)
 		object_init_ex(&_6$$4, phalcon_session_exceptions_invalidsessionname_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_6$$4, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_6$$4, "phalcon/Session/Manager.zep", 295);
+		zephir_throw_exception_debug(&_6$$4, "phalcon/Session/Manager.zep", 297);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -717,10 +719,10 @@ PHP_METHOD(Phalcon_Session_Manager, start)
 	if (zephir_array_isset_fetch(&value, &_COOKIE, &name, 0)) {
 		ZEPHIR_INIT_VAR(&_2$$5);
 		ZEPHIR_INIT_VAR(&_3$$5);
-		ZVAL_STRING(&_3$$5, "/^[a-z0-9]+$/iD");
+		ZVAL_STRING(&_3$$5, "/^[a-zA-Z0-9,-]+$/D");
 		ZEPHIR_INIT_VAR(&_4$$5);
 		ZEPHIR_INIT_VAR(&_5$$5);
-		ZVAL_STRING(&_5$$5, "/^[a-z0-9]+$/iD");
+		ZVAL_STRING(&_5$$5, "/^[a-zA-Z0-9,-]+$/D");
 		zephir_preg_match(&_4$$5, &_5$$5, &value, &_2$$5, 0, 0 , 0 );
 		if (!(zephir_is_true(&_4$$5))) {
 			zephir_array_unset(&_COOKIE, &name, PH_SEPARATE);
@@ -733,7 +735,7 @@ PHP_METHOD(Phalcon_Session_Manager, start)
 		object_init_ex(&_7$$7, phalcon_session_exceptions_invalidsessionadapter_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_7$$7, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_7$$7, "phalcon/Session/Manager.zep", 349);
+		zephir_throw_exception_debug(&_7$$7, "phalcon/Session/Manager.zep", 353);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

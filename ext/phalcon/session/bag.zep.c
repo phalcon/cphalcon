@@ -77,14 +77,14 @@ PHP_METHOD(Phalcon_Session_Bag, __construct)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_string *name = NULL;
-	zval *session, session_sub, name_zv, data, _0, _1;
+	zval *session, session_sub, name_zv, data, _1, _0$$3;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&session_sub);
 	ZVAL_UNDEF(&name_zv);
 	ZVAL_UNDEF(&data);
-	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_0$$3);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_OBJECT_OF_CLASS(session, phalcon_session_managerinterface_ce)
 		Z_PARAM_STR(name)
@@ -96,9 +96,11 @@ PHP_METHOD(Phalcon_Session_Bag, __construct)
 	ZVAL_STR_COPY(&name_zv, name);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("session"), session);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("name"), &name_zv);
-	ZEPHIR_CALL_METHOD(&_0, session, "getdi", NULL, 0);
-	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, ZEND_STRL("container"), &_0);
+	if ((zephir_method_exists_ex(session, ZEND_STRL("getdi")) == SUCCESS)) {
+		ZEPHIR_CALL_METHOD(&_0$$3, session, "getdi", NULL, 0);
+		zephir_check_call_status();
+		zephir_update_property_zval(this_ptr, ZEND_STRL("container"), &_0$$3);
+	}
 	zephir_read_property(&_1, this_ptr, ZEND_STRL("name"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&data, session, "get", NULL, 0, &_1);
 	zephir_check_call_status();
