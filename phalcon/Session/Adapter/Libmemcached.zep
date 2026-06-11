@@ -33,12 +33,19 @@ class Libmemcached extends AbstractAdapter
      *     'defaultSerializer' => 'Php',
      *     'lifetime' => 3600,
      *     'serializer' => null,
-     *     'prefix' => 'sess-memc-'
+     *     'prefix' => 'sess-memc-',
+     *     'stripPrefix' => false
      * ]
      */
     public function __construct(<AdapterFactory> factory, array! options = [])
     {
-        let options["prefix"] = this->getArrVal(options, "prefix", "sess-memc-"),
-            this->adapter     = factory->newInstance("libmemcached", options);
+        /**
+         * Session ids are externally generated and never carry the storage
+         * prefix; disable prefix stripping so an id that happens to start
+         * with the prefix text cannot collide with another session
+         */
+        let options["prefix"]      = this->getArrVal(options, "prefix", "sess-memc-"),
+            options["stripPrefix"] = this->getArrVal(options, "stripPrefix", false),
+            this->adapter          = factory->newInstance("libmemcached", options);
     }
 }

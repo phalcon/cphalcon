@@ -134,7 +134,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
      */
     public function delete()
     {
-        var container, domain, httpOnly, name, options, path, secure, session;
+        var domain, httpOnly, name, options, path, secure, session;
 
         let name     = this->name,
             domain   = this->domain,
@@ -142,14 +142,10 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
             secure   = this->secure,
             httpOnly = this->httpOnly;
 
-        let container = <DiInterface> this->container;
+        let session = this->getStartedSession();
 
-        if typeof container == "object" && container->has("session") {
-            let session = <SessionManagerInterface> container->getShared("session");
-
-            if session->exists() {
-                session->remove("_PHCOOKIE_" . name);
-            }
+        if session !== null {
+            session->remove(this->getSessionKey());
         }
 
         let this->value         = null,
@@ -345,43 +341,37 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
      */
     public function restore() -> <CookieInterface>
     {
-        var container, definition, domain, expire, httpOnly, options, path,
+        var definition, domain, expire, httpOnly, options, path,
             secure, session;
 
         if !this->isRestored {
-            let container = this->container;
+            let session = this->getStartedSession();
 
-            if typeof container == "object" && container->has("session") {
-                let session = container->getShared("session");
+            if session !== null {
+                let definition = session->get(this->getSessionKey());
 
-                if session->exists() {
-                    let definition = session->get(
-                        "_PHCOOKIE_" . this->name
-                    );
+                if fetch expire, definition["expire"] {
+                    let this->expire = expire;
+                }
 
-                    if fetch expire, definition["expire"] {
-                        let this->expire = expire;
-                    }
+                if fetch domain, definition["domain"] {
+                    let this->domain = domain;
+                }
 
-                    if fetch domain, definition["domain"] {
-                        let this->domain = domain;
-                    }
+                if fetch path, definition["path"] {
+                    let this->path = path;
+                }
 
-                    if fetch path, definition["path"] {
-                        let this->path = path;
-                    }
+                if fetch secure, definition["secure"] {
+                    let this->secure = secure;
+                }
 
-                    if fetch secure, definition["secure"] {
-                        let this->secure = secure;
-                    }
+                if fetch httpOnly, definition["httpOnly"] {
+                    let this->httpOnly = httpOnly;
+                }
 
-                    if fetch httpOnly, definition["httpOnly"] {
-                        let this->httpOnly = httpOnly;
-                    }
-
-                    if fetch options, definition["options"] {
-                        let this->options = options;
-                    }
+                if fetch options, definition["options"] {
+                    let this->options = options;
                 }
             }
 
@@ -428,14 +418,11 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
         /**
          * The definition is stored in session
          */
-        if !empty(definition) && container->has("session") {
-            let session = <SessionManagerInterface> container->getShared("session");
+        if !empty(definition) {
+            let session = this->getStartedSession();
 
-            if session->exists() {
-                session->set(
-                    "_PHCOOKIE_" . name,
-                    definition
-                );
+            if session !== null {
+                session->set(this->getSessionKey(), definition);
             }
         }
 
@@ -640,5 +627,36 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
         }
 
         return value;
+    }
+
+    /**
+     * The session key under which this cookie's definition is stored
+     */
+    private function getSessionKey() -> string
+    {
+        return "_PHCOOKIE_" . this->name;
+    }
+
+    /**
+     * Returns the session manager from the container when the service is
+     * available and the session has been started; `null` otherwise
+     */
+    private function getStartedSession() -> <SessionManagerInterface> | null
+    {
+        var container, session;
+
+        let container = this->container;
+
+        if typeof container != "object" || !container->has("session") {
+            return null;
+        }
+
+        let session = <SessionManagerInterface> container->getShared("session");
+
+        if !session->exists() {
+            return null;
+        }
+
+        return session;
     }
 }

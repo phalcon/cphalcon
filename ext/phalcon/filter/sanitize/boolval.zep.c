@@ -37,6 +37,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_BoolVal)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Filter\\Sanitize, BoolVal, phalcon, filter_sanitize_boolval, phalcon_filter_sanitize_boolval_method_entry, 0);
 
+	zend_class_implements(phalcon_filter_sanitize_boolval_ce, 1, phalcon_contracts_filter_sanitizer_ce);
 	return SUCCESS;
 }
 

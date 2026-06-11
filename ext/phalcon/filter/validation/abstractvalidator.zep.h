@@ -8,6 +8,7 @@ PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, getOption);
 PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, getTemplate);
 PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, getTemplates);
 PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, hasOption);
+PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, isAllowEmpty);
 PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, messageFactory);
 PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, setOption);
 PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, setTemplate);
@@ -37,6 +38,11 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_abstractvalidator_hasoption, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_abstractvalidator_isallowempty, 0, 2, _IS_BOOL, 0)
+	ZEND_ARG_OBJ_INFO(0, validation, Phalcon\\Filter\\Validation, 0)
+	ZEND_ARG_TYPE_INFO(0, field, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_filter_validation_abstractvalidator_messagefactory, 0, 2, Phalcon\\Messages\\Message, 0)
@@ -92,6 +98,7 @@ ZEPHIR_INIT_FUNCS(phalcon_filter_validation_abstractvalidator_method_entry) {
 	PHP_ME(Phalcon_Filter_Validation_AbstractValidator, getTemplate, arginfo_phalcon_filter_validation_abstractvalidator_gettemplate, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Filter_Validation_AbstractValidator, getTemplates, arginfo_phalcon_filter_validation_abstractvalidator_gettemplates, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Filter_Validation_AbstractValidator, hasOption, arginfo_phalcon_filter_validation_abstractvalidator_hasoption, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Filter_Validation_AbstractValidator, isAllowEmpty, arginfo_phalcon_filter_validation_abstractvalidator_isallowempty, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Filter_Validation_AbstractValidator, messageFactory, arginfo_phalcon_filter_validation_abstractvalidator_messagefactory, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Filter_Validation_AbstractValidator, setOption, arginfo_phalcon_filter_validation_abstractvalidator_setoption, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Filter_Validation_AbstractValidator, setTemplate, arginfo_phalcon_filter_validation_abstractvalidator_settemplate, ZEND_ACC_PUBLIC)

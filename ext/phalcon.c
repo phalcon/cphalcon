@@ -28,6 +28,7 @@ zend_class_entry *phalcon_di_injectionawareinterface_ce;
 zend_class_entry *phalcon_contracts_events_eventsaware_ce;
 zend_class_entry *phalcon_events_eventsawareinterface_ce;
 zend_class_entry *phalcon_filter_validation_validatorinterface_ce;
+zend_class_entry *phalcon_contracts_filter_sanitizer_ce;
 zend_class_entry *phalcon_storage_adapter_adapterinterface_ce;
 zend_class_entry *phalcon_contracts_support_collection_ce;
 zend_class_entry *phalcon_support_collection_collectioninterface_ce;
@@ -1367,6 +1368,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Contracts_Events_EventsAware);
 	ZEPHIR_INIT(Phalcon_Events_EventsAwareInterface);
 	ZEPHIR_INIT(Phalcon_Filter_Validation_ValidatorInterface);
+	ZEPHIR_INIT(Phalcon_Contracts_Filter_Sanitizer);
 	ZEPHIR_INIT(Phalcon_Storage_Adapter_AdapterInterface);
 	ZEPHIR_INIT(Phalcon_Contracts_Support_Collection);
 	ZEPHIR_INIT(Phalcon_Support_Collection_CollectionInterface);

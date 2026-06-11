@@ -14,6 +14,7 @@
 #include "phalcon/filter/validation/abstractvalidator.zep.h"
 #include "phalcon/mvc/view/exception.zep.h"
 #include "phalcon/mvc/view/engine/volt/exception.zep.h"
+#include "phalcon/contracts/filter/sanitizer.zep.h"
 #include "phalcon/storage/adapter/adapterinterface.zep.h"
 #include "phalcon/di/exception.zep.h"
 #include "phalcon/contracts/support/collection.zep.h"

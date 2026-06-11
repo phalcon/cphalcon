@@ -36,6 +36,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_FloatVal)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Filter\\Sanitize, FloatVal, phalcon, filter_sanitize_floatval, phalcon_filter_sanitize_floatval_method_entry, 0);
 
+	zend_class_implements(phalcon_filter_sanitize_floatval_ce, 1, phalcon_contracts_filter_sanitizer_ce);
 	return SUCCESS;
 }
 

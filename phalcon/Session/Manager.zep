@@ -210,7 +210,9 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
     }
 
     /**
-     * Regenerates the session id using the adapter.
+     * Regenerates the session id via `session_regenerate_id()` (when the
+     * session is active). The registered save handler persists the data
+     * under the new id.
      */
     public function regenerateId(bool deleteOldSession = true) -> <ManagerInterface>
     {
@@ -334,13 +336,15 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
         }
 
         /**
-         * Verify that the session value is alphanumeric, otherwise we
-         * unset the cookie to allow it to be created by session_start().
+         * Verify that the session cookie value uses the PHP session ID
+         * alphabet ([a-zA-Z0-9,-], depending on session.sid_bits_per_character),
+         * otherwise we unset the cookie to allow it to be created by
+         * session_start().
          */
         let name = this->getName();
 
         if fetch value, _COOKIE[name] {
-            if !preg_match("/^[a-z0-9]+$/iD", value) {
+            if !preg_match("/^[a-zA-Z0-9,-]+$/D", value) {
                 unset _COOKIE[name];
             }
         }
