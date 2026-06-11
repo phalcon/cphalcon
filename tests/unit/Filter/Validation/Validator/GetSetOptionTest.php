@@ -102,10 +102,16 @@ final class GetSetOptionTest extends AbstractUnitTestCase
      */
     public function testFilterValidationValidatorGetOptionAttributeNestedArray(): void
     {
-        $validator = new Alnum(['attribute' => ['attribute' => 'fieldName', 'other' => 'value']]);
+        $validator = new Uniqueness(['attribute' => ['attribute' => 'fieldName', 'other' => 'value']]);
 
         $actual = $validator->getOption('attribute');
 
         $this->assertSame('fieldName', $actual);
+
+        $validator = new Alnum(['attribute' => ['attribute' => 'fieldName', 'other' => 'value']]);
+
+        $actual = $validator->getOption('attribute');
+
+        $this->assertSame(['attribute' => 'fieldName', 'other' => 'value'], $actual);
     }
 }
