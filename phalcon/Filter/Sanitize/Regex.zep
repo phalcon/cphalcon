@@ -10,12 +10,14 @@
 
 namespace Phalcon\Filter\Sanitize;
 
+use Phalcon\Contracts\Filter\Sanitizer;
+
 /**
  * Phalcon\Filter\Sanitize\Regex
  *
  * Sanitizes a value performing preg_replace
  */
-class Regex
+class Regex implements Sanitizer
 {
     /**
      * @param mixed $input

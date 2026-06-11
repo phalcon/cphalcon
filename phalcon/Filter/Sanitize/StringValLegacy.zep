@@ -10,13 +10,15 @@
 
 namespace Phalcon\Filter\Sanitize;
 
+use Phalcon\Contracts\Filter\Sanitizer;
+
 /**
  * Sanitizes a value to string using `filter_var()`. The filter provides
  * backwards compatibility with versions prior to v5. For PHP higher or equal to
  * 8.1, the filter will remain the string unchanged. If anything other than a
  * string is passed, the method will return false
  */
-class StringValLegacy
+class StringValLegacy implements Sanitizer
 {
     /**
      * @param string $input The text to sanitize

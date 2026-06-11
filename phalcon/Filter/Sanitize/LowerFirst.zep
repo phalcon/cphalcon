@@ -10,12 +10,14 @@
 
 namespace Phalcon\Filter\Sanitize;
 
+use Phalcon\Contracts\Filter\Sanitizer;
+
 /**
  * Phalcon\Filter\Sanitize\LowerFirst
  *
  * Sanitizes a value to lcfirst
  */
-class LowerFirst
+class LowerFirst implements Sanitizer
 {
     /**
      * @param string $input The text to sanitize

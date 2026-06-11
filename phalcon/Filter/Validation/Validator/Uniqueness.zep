@@ -120,6 +120,37 @@ class Uniqueness extends AbstractCombinedFieldsValidator
     }
 
     /**
+     * Returns an option in the validator's options
+     * Returns null if the option hasn't set
+     *
+     * The `attribute` option can be defined as an array when validating a
+     * combination of fields; in that case resolve it to the mapped value.
+     *
+     * @param string     $key
+     * @param mixed|null $defaultValue
+     *
+     * @return mixed
+     */
+    public function getOption(string key, var defaultValue = null) -> var
+    {
+        var fieldValue, value;
+
+        if !this->hasOption(key) {
+            return defaultValue;
+        }
+
+        let value = parent::getOption(key, defaultValue);
+
+        if key === "attribute" && typeof value === "array" {
+            if fetch fieldValue, value[key] {
+                return fieldValue;
+            }
+        }
+
+        return value;
+    }
+
+    /**
      * Executes the validation
      */
     public function validate(<Validation> validation, var field) -> bool
