@@ -60,9 +60,16 @@ class Bag extends Collection implements BagInterface, InjectionAwareInterface
     {
         var data;
 
-        let this->session   = session,
-            this->name      = name,
-            this->container = session->getDI();
+        let this->session = session,
+            this->name    = name;
+
+        /**
+         * `getDI()` is not part of ManagerInterface; capture the container
+         * only when the manager provides one
+         */
+        if method_exists(session, "getDI") {
+            let this->container = session->getDI();
+        }
 
         let data = session->get(this->name);
 
