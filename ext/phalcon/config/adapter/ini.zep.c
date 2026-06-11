@@ -330,6 +330,12 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct)
  * We have to cast values manually because parse_ini_file() has a poor
  * implementation.
  *
+ * Note: this casting is an ini-format compensation and is deliberately
+ * specific to this adapter. Ini files carry untyped strings, so
+ * `on/yes/true`, `off/no/false`, `null` and numeric strings are decoded
+ * here. The json, yaml and php adapters receive natively typed values
+ * from their parsers and perform no casting.
+ *
  * @param mixed $ini
  *
  * @return mixed
@@ -385,7 +391,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, cast)
 	zephir_array_update_string(&castMap, SL("no"), &__$false, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&castMap, SL("false"), &__$false, PH_COPY | PH_SEPARATE);
 	if (1 == zephir_array_isset_value(&castMap, &lowerIni)) {
-		zephir_array_fetch(&_2$$5, &castMap, &lowerIni, PH_NOISY | PH_READONLY, "phalcon/Config/Adapter/Ini.zep", 145);
+		zephir_array_fetch(&_2$$5, &castMap, &lowerIni, PH_NOISY | PH_READONLY, "phalcon/Config/Adapter/Ini.zep", 151);
 		RETURN_CTOR(&_2$$5);
 	}
 	if (zephir_is_numeric(ini)) {
@@ -435,7 +441,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, castArray)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &ini_param);
 	zephir_get_arrval(&ini, ini_param);
-	zephir_is_iterable(&ini, 1, "phalcon/Config/Adapter/Ini.zep", 173);
+	zephir_is_iterable(&ini, 1, "phalcon/Config/Adapter/Ini.zep", 179);
 	if (Z_TYPE_P(&ini) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&ini), _1, _2, _0)
 		{

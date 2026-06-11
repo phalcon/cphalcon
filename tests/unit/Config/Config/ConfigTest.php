@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Config\Config;
 
 use Phalcon\Config\Config;
+use Phalcon\Support\Collection\Exceptions\InvalidValueType;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Traits\ConfigTrait;
 
@@ -74,6 +75,74 @@ final class ConfigTest extends AbstractUnitTestCase
 
         $actual = $database->has('ADAPTER');
         $this->assertFalse($actual);
+    }
+
+    /**
+     * @issue https://github.com/phalcon/cphalcon/issues/17134
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-11
+     */
+    public function testConfigNestedConfigPropagatesStrictNull(): void
+    {
+        $config = new Config(
+            [
+                'database' => [
+                    'host' => null,
+                ],
+            ],
+            true,
+            true
+        );
+
+        $actual = $config->get('database')->get('host', 'default');
+        $this->assertNull($actual);
+    }
+
+    /**
+     * @issue https://github.com/phalcon/cphalcon/issues/17134
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-11
+     */
+    public function testConfigNestedConfigPropagatesType(): void
+    {
+        $config = new Config(
+            [
+                'database' => [
+                    'port' => 3306,
+                ],
+            ],
+            true,
+            false,
+            'int'
+        );
+
+        $expected = 'int';
+        $actual   = $config->get('database')->getType();
+        $this->assertSame($expected, $actual);
+
+        $this->expectException(InvalidValueType::class);
+
+        $config->set('other', ['host' => 'localhost']);
+    }
+
+    /**
+     * @issue https://github.com/phalcon/cphalcon/issues/17134
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-11
+     */
+    public function testConfigTypeGuardValidatesLeafValues(): void
+    {
+        $config = new Config([], true, false, 'int');
+
+        $config->set('port', 3306);
+
+        $expected = 3306;
+        $actual   = $config->get('port');
+        $this->assertSame($expected, $actual);
+
+        $this->expectException(InvalidValueType::class);
+
+        $config->set('host', 'localhost');
     }
 
     /**

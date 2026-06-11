@@ -108,7 +108,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_Version6, __construct)
 	ZVAL_LONG(&_4, 1);
 	ZEPHIR_INIT_VAR(&_5);
 	zephir_substr(&_5, &clockSeqBytes, 0 , 1 , 0);
-	ZEPHIR_CALL_FUNCTION(&_6, "ord", NULL, 505, &_5);
+	ZEPHIR_CALL_FUNCTION(&_6, "ord", NULL, 506, &_5);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&clockSeqHiRes);
 	ZVAL_LONG(&clockSeqHiRes, (((int) (zephir_get_numberval(&_6)) & 0x3f) | 0x80));
@@ -116,7 +116,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_Version6, __construct)
 	ZVAL_LONG(&_8, 1);
 	ZEPHIR_INIT_VAR(&_9);
 	zephir_substr(&_9, &clockSeqBytes, 1 , 1 , 0);
-	ZEPHIR_CALL_FUNCTION(&clockSeqLow, "ord", NULL, 505, &_9);
+	ZEPHIR_CALL_FUNCTION(&clockSeqLow, "ord", NULL, 506, &_9);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_10, this_ptr, "getnodeprovider", NULL, 0);
 	zephir_check_call_status();
