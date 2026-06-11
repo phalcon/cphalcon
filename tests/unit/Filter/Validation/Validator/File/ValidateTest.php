@@ -74,6 +74,7 @@ final class ValidateTest extends AbstractUnitTestCase
             'minSize'          => '0.1M',
             'maxResolution'    => '800x600',
             'minResolution'    => '200x200',
+            'aspectRatio'      => '4x3',
             'messageFileEmpty' => 'File is empty',
             'messageIniSize'   => 'Ini size is not valid',
             'messageValid'     => 'File is not valid',
@@ -81,7 +82,7 @@ final class ValidateTest extends AbstractUnitTestCase
         $file       = new File($options);
         $validators = $file->getValidators();
 
-        $this->assertCount(5, $validators);
+        $this->assertCount(6, $validators);
 
         $expected  = File\MimeType::class;
         $actual    = $validators[0];
@@ -101,6 +102,10 @@ final class ValidateTest extends AbstractUnitTestCase
 
         $expected  = File\Resolution\Min::class;
         $actual    = $validators[4];
+        $this->assertInstanceOf($expected, $actual);
+
+        $expected  = File\Resolution\AspectRatio::class;
+        $actual    = $validators[5];
         $this->assertInstanceOf($expected, $actual);
     }
 }

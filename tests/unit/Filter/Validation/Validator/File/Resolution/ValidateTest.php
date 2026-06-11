@@ -15,6 +15,7 @@ namespace Phalcon\Tests\Unit\Filter\Validation\Validator\File\Resolution;
 
 use Phalcon\Filter\Validation;
 use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Tests\Unit\Filter\Validation\Validator\File\Resolution\Fake\FakeAspectRatio;
 use Phalcon\Tests\Unit\Filter\Validation\Validator\File\Resolution\Fake\FakeEqual;
 use Phalcon\Tests\Unit\Filter\Validation\Validator\File\Resolution\Fake\FakeMax;
 use Phalcon\Tests\Unit\Filter\Validation\Validator\File\Resolution\Fake\FakeMin;
@@ -41,6 +42,10 @@ final class ValidateTest extends AbstractUnitTestCase
             [FakeMax::class, ['resolution' => '100x100']],
             // Min: image is larger than the minimum
             [FakeMin::class, ['resolution' => '50x50']],
+            // AspectRatio: 82x82 is 1:1
+            [FakeAspectRatio::class, ['ratio' => '1x1']],
+            // AspectRatio: per-field array form
+            [FakeAspectRatio::class, ['ratio' => ['thumbnail' => '1x1']]],
         ];
     }
 
@@ -75,6 +80,11 @@ final class ValidateTest extends AbstractUnitTestCase
                 FakeMin::class,
                 ['resolution' => '82x82', 'included' => true],
                 'File thumbnail can not have the minimum resolution of 82x82',
+            ],
+            [
+                FakeAspectRatio::class,
+                ['ratio' => '16x9'],
+                'File thumbnail does not have the exact aspect ratio of 16x9',
             ],
         ];
     }
