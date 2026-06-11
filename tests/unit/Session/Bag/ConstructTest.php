@@ -16,6 +16,7 @@ namespace Phalcon\Tests\Unit\Session\Bag;
 use Phalcon\Session\Bag;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use Phalcon\Tests\Unit\Session\Fake\PlainManager;
 
 final class ConstructTest extends AbstractUnitTestCase
 {
@@ -33,5 +34,32 @@ final class ConstructTest extends AbstractUnitTestCase
 
         $class = Bag::class;
         $this->assertInstanceOf($class, $collection);
+    }
+
+    /**
+     * @issue  17127
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-11
+     */
+    public function testSessionBagConstructWithManagerInterfaceOnlyImplementation(): void
+    {
+        $manager = new PlainManager();
+        $manager->start();
+        $manager->set('PlainBagTest', ['initial' => 'value']);
+
+        $collection = new Bag($manager, 'PlainBagTest');
+
+        $class = Bag::class;
+        $this->assertInstanceOf($class, $collection);
+
+        $expected = 'value';
+        $actual   = $collection->get('initial');
+        $this->assertSame($expected, $actual);
+
+        $collection->set('other', 'data');
+
+        $expected = ['initial' => 'value', 'other' => 'data'];
+        $actual   = $manager->get('PlainBagTest');
+        $this->assertSame($expected, $actual);
     }
 }
