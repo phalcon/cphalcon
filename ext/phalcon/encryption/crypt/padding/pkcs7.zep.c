@@ -63,7 +63,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt_Padding_Pkcs7, pad)
 	ZEPHIR_CALL_FUNCTION(&_1, "chr", NULL, 504, &_0);
 	zephir_check_call_status();
 	ZVAL_LONG(&_0, paddingSize);
-	ZEPHIR_RETURN_CALL_FUNCTION("str_repeat", NULL, 1, &_1, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("str_repeat", NULL, 6, &_1, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -113,7 +113,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt_Padding_Pkcs7, unpad)
 		ZEPHIR_CPY_WRT(&paddingSize, &ord);
 		ZEPHIR_CALL_FUNCTION(&_2$$3, "chr", NULL, 504, &paddingSize);
 		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(&padding, "str_repeat", NULL, 1, &_2$$3, &paddingSize);
+		ZEPHIR_CALL_FUNCTION(&padding, "str_repeat", NULL, 6, &_2$$3, &paddingSize);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_3$$3);
 		zephir_sub_function(&_3$$3, &length, &paddingSize);

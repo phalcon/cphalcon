@@ -456,7 +456,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, fetchAssoc)
 		if (!(zephir_is_true(&row))) {
 			break;
 		}
-		ZEPHIR_CALL_FUNCTION(&_1$$3, "current", &_2, 4, &row);
+		ZEPHIR_CALL_FUNCTION(&_1$$3, "current", &_2, 2, &row);
 		zephir_check_call_status();
 		zephir_array_update_zval(&data, &_1$$3, &row, PH_COPY | PH_SEPARATE);
 		ZVAL_LONG(&_3$$3, 2);

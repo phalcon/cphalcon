@@ -211,7 +211,7 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, indent)
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("indent"), PH_NOISY_CC | PH_READONLY);
 	zephir_read_property(&_1, this_ptr, ZEND_STRL("indentLevel"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_RETURN_CALL_FUNCTION("str_repeat", NULL, 1, &_0, &_1);
+	ZEPHIR_RETURN_CALL_FUNCTION("str_repeat", NULL, 6, &_0, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -259,7 +259,7 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, orderAttributes)
 	zephir_array_update_string(&order, SL("name"), &__$null, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&order, SL("value"), &__$null, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&order, SL("class"), &__$null, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CALL_FUNCTION(&intersect, "array_intersect_key", NULL, 2, &order, &attributes);
+	ZEPHIR_CALL_FUNCTION(&intersect, "array_intersect_key", NULL, 7, &order, &attributes);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&results);
 	zephir_fast_array_merge(&results, &intersect, &attributes);
