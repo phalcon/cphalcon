@@ -560,7 +560,7 @@ class Di implements DiInterface
      */
     public function remove(string! name) -> void
     {
-        var aliases, services, sharedInstances;
+        var alias, aliases, services, sharedInstances, target;
 
         let aliases         = this->aliases;
         let services        = this->services;
@@ -571,11 +571,20 @@ class Di implements DiInterface
          */
         let name = this->resolveAlias(name);
 
-        unset aliases[name];
         unset services[name];
         unset sharedInstances[name];
 
-        let aliases               = aliases;
+        /**
+         * Remove any alias that resolves, directly or through a chain, to
+         * the removed service
+         */
+        for alias, target in this->aliases {
+            if (name === this->resolveAlias(target)) {
+                unset aliases[alias];
+            }
+        }
+
+        let this->aliases         = aliases;
         let this->services        = services;
         let this->sharedInstances = sharedInstances;
     }
