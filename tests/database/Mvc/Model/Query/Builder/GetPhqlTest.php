@@ -67,4 +67,76 @@ final class GetPhqlTest extends AbstractDatabaseTestCase
         $actual   = $builder->getPhql();
         $this->assertEquals($expected, $actual);
     }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-10
+     *
+     * @group mysql
+     * @group pgsql
+     * @group sqlite
+     */
+    public function testMvcModelQueryBuilderGetPhqlWithCommonTableExpressionAddWith(): void
+    {
+        $subBuilder = new Builder(
+            [
+                'models'  => ['i' => Invoices::class],
+                'columns' => ['i.inv_id'],
+            ],
+            $this->container
+        );
+
+        $builder = new Builder(null, $this->container);
+        $builder
+            ->addWith('recent', $subBuilder, ['id'])
+            ->columns('recent.id')
+            ->from('recent');
+
+        $expected = 'WITH [recent] ([id]) AS (SELECT i.inv_id FROM [' . Invoices::class . '] AS [i]) '
+            . 'SELECT recent.id FROM [recent]';
+        $actual   = $builder->getPhql();
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-10
+     *
+     * @group mysql
+     * @group pgsql
+     * @group sqlite
+     */
+    public function testMvcModelQueryBuilderGetPhqlWithCommonTableExpressionConstructor(): void
+    {
+        $subBuilder = new Builder(
+            [
+                'models'  => ['i' => Invoices::class],
+                'columns' => ['i.inv_id'],
+            ],
+            $this->container
+        );
+
+        $builder = new Builder(
+            [
+                'with'    => [
+                    'recent' => [
+                        'query'   => $subBuilder,
+                        'columns' => ['id'],
+                    ],
+                ],
+                'models'  => 'recent',
+                'columns' => 'recent.id',
+            ],
+            $this->container
+        );
+
+        $with = $builder->getWith();
+        $this->assertSame('recent', $with[0][0]);
+        $this->assertSame(['id'], $with[0][2]);
+
+        $expected = 'WITH [recent] ([id]) AS (SELECT i.inv_id FROM [' . Invoices::class . '] AS [i]) '
+            . 'SELECT recent.id FROM [recent]';
+        $actual   = $builder->getPhql();
+        $this->assertEquals($expected, $actual);
+    }
 }

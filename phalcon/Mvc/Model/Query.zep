@@ -182,6 +182,11 @@ class Query implements QueryInterface, InjectionAwareInterface
     /**
      * @var array
      */
+    protected cteSources = [];
+
+    /**
+     * @var array
+     */
     protected intermediate;
 
     /**
@@ -228,6 +233,11 @@ class Query implements QueryInterface, InjectionAwareInterface
      * @var array
      */
     protected sqlAliases = [];
+
+    /**
+     * @var array
+     */
+    protected sqlAliasesVirtual = [];
 
     /**
      * @var array
@@ -2420,11 +2430,22 @@ class Query implements QueryInterface, InjectionAwareInterface
      */
     final protected function getJoin(<ManagerInterface> manager, array join) -> array
     {
-        var qualified, modelName, source, model, schema;
+        var qualified, modelName, source, model, schema, cteSources;
 
         if fetch qualified, join["qualified"] {
             if qualified["type"] == PHQL_T_QUALIFIED {
                 let modelName = qualified["name"];
+
+                let cteSources = this->cteSources;
+                if isset cteSources[modelName] {
+                    return [
+                        "schema"   : null,
+                        "source"   : modelName,
+                        "modelName": modelName,
+                        "model"    : null,
+                        "virtual"  : true
+                    ];
+                }
 
                 let model = manager->load(modelName),
                     source = model->getSource(),
@@ -2479,18 +2500,20 @@ class Query implements QueryInterface, InjectionAwareInterface
      */
     final protected function getJoins(array select) -> array
     {
-        var models, sqlAliases, sqlAliasesModels, sqlModelsAliases,
+        var models, sqlAliases, sqlAliasesVirtual, sqlAliasesModels, sqlModelsAliases,
             sqlAliasesModelsInstances, modelsInstances, fromModels,
             manager, selectJoins, joinItem, joins, joinData, schema, source,
             model, realModelName, completeSource, joinType, aliasExpr, alias,
             joinAliasName, joinExpr, fromModelName, joinAlias, joinModel,
             joinSource, preCondition, modelNameAlias, relation, relations,
-            modelAlias, sqlJoin, sqlJoinItem, selectTables, tables, tableItem;
+            modelAlias, sqlJoin, sqlJoinItem, selectTables, tables, tableItem,
+            isVirtual;
         array sqlJoins, joinModels, joinSources, joinTypes, joinPreCondition,
             joinPrepared;
 
         let models = this->models,
             sqlAliases = this->sqlAliases,
+            sqlAliasesVirtual = this->sqlAliasesVirtual,
             sqlAliasesModels = this->sqlAliasesModels,
             sqlModelsAliases = this->sqlModelsAliases,
             sqlAliasesModelsInstances = this->sqlAliasesModelsInstances,
@@ -2533,6 +2556,9 @@ class Query implements QueryInterface, InjectionAwareInterface
                 model = joinData["model"],
                 realModelName = joinData["modelName"],
                 completeSource = [source, schema];
+            if !fetch isVirtual, joinData["virtual"] {
+                let isVirtual = false;
+            }
 
             /**
              * Check join alias
@@ -2567,6 +2593,10 @@ class Query implements QueryInterface, InjectionAwareInterface
                  */
                 let sqlAliases[alias] = alias;
 
+                if isVirtual {
+                    let sqlAliasesVirtual[alias] = true;
+                }
+
                 /**
                  * Update model: alias
                  */
@@ -2585,12 +2615,16 @@ class Query implements QueryInterface, InjectionAwareInterface
                 /**
                  * Update alias: model
                  */
-                let sqlAliasesModelsInstances[alias] = model;
+                if !isVirtual {
+                    let sqlAliasesModelsInstances[alias] = model;
+                }
 
                 /**
                  * Update model: alias
                  */
-                let models[realModelName] = alias;
+                if !isVirtual {
+                    let models[realModelName] = alias;
+                }
 
                 /**
                  * Complete source related to a model
@@ -2619,6 +2653,10 @@ class Query implements QueryInterface, InjectionAwareInterface
                  */
                 let sqlAliases[realModelName] = source;
 
+                if isVirtual {
+                    let sqlAliasesVirtual[realModelName] = true;
+                }
+
                 /**
                  * Update model: source
                  */
@@ -2637,12 +2675,16 @@ class Query implements QueryInterface, InjectionAwareInterface
                 /**
                  * Update model: model instance
                  */
-                let sqlAliasesModelsInstances[realModelName] = model;
+                if !isVirtual {
+                    let sqlAliasesModelsInstances[realModelName] = model;
+                }
 
                 /**
                  * Update model: source
                  */
-                let models[realModelName] = source;
+                if !isVirtual {
+                    let models[realModelName] = source;
+                }
 
                 /**
                  * Complete source related to a model
@@ -2655,7 +2697,9 @@ class Query implements QueryInterface, InjectionAwareInterface
                 let joinPrepared[realModelName] = joinItem;
             }
 
-            let modelsInstances[realModelName] = model;
+            if !isVirtual {
+                let modelsInstances[realModelName] = model;
+            }
         }
 
         /**
@@ -2663,6 +2707,7 @@ class Query implements QueryInterface, InjectionAwareInterface
          */
         let this->models = models,
             this->sqlAliases = sqlAliases,
+            this->sqlAliasesVirtual = sqlAliasesVirtual,
             this->sqlAliasesModels = sqlAliasesModels,
             this->sqlModelsAliases = sqlModelsAliases,
             this->sqlAliasesModelsInstances = sqlAliasesModelsInstances,
@@ -3080,7 +3125,7 @@ class Query implements QueryInterface, InjectionAwareInterface
     {
         var columnName, nestingLevel, sqlColumnAliases, metaData, sqlAliases,
             source, sqlAliasesModelsInstances, realColumnName, columnDomain,
-            model, models, columnMap, hasModel, className;
+            model, models, columnMap, hasModel, className, sqlAliasesVirtual;
         int number;
 
         let columnName = expr["name"];
@@ -3116,6 +3161,16 @@ class Query implements QueryInterface, InjectionAwareInterface
              */
             if unlikely !fetch source, sqlAliases[columnDomain] {
                 throw new UnknownModelOrAlias(columnDomain, "11", this->phql);
+            }
+
+            let sqlAliasesVirtual = this->sqlAliasesVirtual;
+            if isset sqlAliasesVirtual[columnDomain] {
+                return [
+                    "type"  : "qualified",
+                    "domain": source,
+                    "name"  : columnName,
+                    "balias": columnName
+                ];
             }
 
             /**
@@ -3175,6 +3230,15 @@ class Query implements QueryInterface, InjectionAwareInterface
              * the selected models
              */
             if unlikely hasModel === false {
+                let sqlAliasesVirtual = this->sqlAliasesVirtual;
+                if count(sqlAliasesVirtual) {
+                    return [
+                        "type"  : "qualified",
+                        "name"  : columnName,
+                        "balias": columnName
+                    ];
+                }
+
                 throw new ColumnNotInSelectedModels(columnName, "1", this->phql);
             }
 
@@ -3328,7 +3392,7 @@ class Query implements QueryInterface, InjectionAwareInterface
     {
         var columnType, sqlAliases, modelName, source, columnDomain,
             sqlColumnAlias, preparedAlias, sqlExprColumn, sqlAliasesModels,
-            columnData, balias, eager;
+            columnData, balias, eager, sqlAliasesVirtual;
         array sqlColumns, sqlColumn;
 
         if unlikely !fetch columnType, column["type"] {
@@ -3346,6 +3410,18 @@ class Query implements QueryInterface, InjectionAwareInterface
          * Check for select * (all)
          */
         if columnType == PHQL_T_STARALL {
+            let sqlAliasesVirtual = this->sqlAliasesVirtual;
+            if count(this->models) == 0 && count(sqlAliasesVirtual) {
+                let sqlColumns[] = [
+                    "type"  : "scalar",
+                    "column": [
+                        "type": "all"
+                    ]
+                ];
+
+                return sqlColumns;
+            }
+
             for modelName, source in this->models {
                 let sqlColumn = [
                     "type"  : "object",
@@ -3382,6 +3458,19 @@ class Query implements QueryInterface, InjectionAwareInterface
 
             if unlikely !fetch source, sqlAliases[columnDomain] {
                 throw new UnknownModelOrAlias(columnDomain, "2", this->phql);
+            }
+
+            let sqlAliasesVirtual = this->sqlAliasesVirtual;
+            if isset sqlAliasesVirtual[columnDomain] {
+                let sqlColumns[] = [
+                    "type"  : "scalar",
+                    "column": [
+                        "type"  : "all",
+                        "domain": source
+                    ]
+                ];
+
+                return sqlColumns;
             }
 
             /**
@@ -3799,13 +3888,18 @@ class Query implements QueryInterface, InjectionAwareInterface
             completeSource, alias, joins, sqlJoins, selectColumns,
             sqlColumnAliases, column, sqlColumn, sqlSelect, distinct, having,
             where, groupBy, order, limit, tempModels, tempModelsInstances,
-            tempSqlAliases, tempSqlModelsAliases,
-            tempSqlAliasesModelsInstances, tempSqlAliasesModels, with, withs,
+            tempSqlAliases, tempSqlAliasesVirtual, tempSqlModelsAliases,
+            tempSqlAliasesModelsInstances, tempSqlAliasesModels, tempCteSources,
+            with, withs,
             withItem, automaticJoins, number, relation, joinAlias,
-            relationModel, bestAlias, eagerType, mergeKey, mergeValue;
-        array sqlModels, sqlTables, sqlAliases, sqlColumns, sqlAliasesModels,
-            sqlModelsAliases, sqlAliasesModelsInstances, models,
-            modelsInstances;
+            relationModel, bestAlias, eagerType, ctes, cte, cteName,
+            cteSelect, cteColumns, cteModels, cteModel, sqlWithItem, isCte,
+            originalCteSources, withRecursive, unions, unionItem, unionAll,
+            unionSelect, unionModels, unionModel, sqlUnionItem, mergeKey,
+            mergeValue;
+        array sqlModels, sqlTables, sqlAliases, sqlAliasesVirtual, sqlColumns,
+            sqlAliasesModels, sqlModelsAliases, sqlAliasesModelsInstances,
+            models, modelsInstances, sqlWith, sqlUnions, cteSources;
 
         if empty ast {
             let ast = this->ast;
@@ -3847,6 +3941,11 @@ class Query implements QueryInterface, InjectionAwareInterface
         let sqlAliases = [];
 
         /**
+         * sqlAliasesVirtual is a map from aliases to virtual CTE sources
+         */
+        let sqlAliasesVirtual = [];
+
+        /**
          * sqlAliasesModels is a map from aliases to model names
          */
         let sqlAliasesModels = [];
@@ -3866,6 +3965,11 @@ class Query implements QueryInterface, InjectionAwareInterface
          */
         let models = [],
             modelsInstances = [];
+
+        let sqlWith = [],
+            sqlUnions = [],
+            cteSources = this->cteSources,
+            originalCteSources = cteSources;
 
         // Convert selected models in an array
         if !isset tables[0] {
@@ -3892,26 +3996,83 @@ class Query implements QueryInterface, InjectionAwareInterface
             throw new MissingMetaData();
         }
 
+        let withRecursive = false;
+        fetch withRecursive, ast["withRecursive"];
+
+        // Process common table expressions before the main FROM clause.
+        if fetch ctes, ast["with"] {
+            if !isset ctes[0] {
+                let ctes = [ctes];
+            }
+
+            for cte in ctes {
+                let cteName = cte["name"];
+
+                if unlikely isset cteSources[cteName] {
+                    throw new Exception(
+                        "Common table expression '" . cteName . "' is defined more than once, when preparing: " . this->phql
+                    );
+                }
+
+                if withRecursive {
+                    let cteSources[cteName] = true;
+                }
+
+                let this->cteSources = cteSources,
+                    cteSelect = this->prepareSelect(cte["select"], true),
+                    sqlWithItem = [
+                        "name"  : cteName,
+                        "select": cteSelect
+                    ];
+
+                if !withRecursive {
+                    let cteSources[cteName] = true;
+                }
+
+                if fetch cteColumns, cte["columns"] {
+                    let sqlWithItem["columns"] = cteColumns;
+                }
+
+                if fetch cteModels, cteSelect["models"] {
+                    for cteModel in cteModels {
+                        let sqlModels[] = cteModel;
+                    }
+                }
+
+                let sqlWith[] = sqlWithItem;
+            }
+        }
+
+        let this->cteSources = cteSources;
+
         // Process selected models
         let number = 0,
             automaticJoins = [];
 
         for selectedModel in selectedModels {
             let qualifiedName = selectedModel["qualifiedName"],
-                modelName = qualifiedName["name"];
+                modelName = qualifiedName["name"],
+                isCte = isset cteSources[modelName];
 
-            // Load a model instance from the models manager
-            let model = manager->load(modelName);
-
-            // Define a complete schema/source
-            let schema = model->getSchema(),
-                source = model->getSource();
-
-            // Obtain the real source including the schema
-            if schema {
-                let completeSource = [source, schema];
+            if isCte {
+                let model = null,
+                    schema = null,
+                    source = modelName,
+                    completeSource = source;
             } else {
-                let completeSource = source;
+                // Load a model instance from the models manager
+                let model = manager->load(modelName);
+
+                // Define a complete schema/source
+                let schema = model->getSchema(),
+                    source = model->getSource();
+
+                // Obtain the real source including the schema
+                if schema {
+                    let completeSource = [source, schema];
+                } else {
+                    let completeSource = source;
+                }
             }
 
             /**
@@ -3926,8 +4087,13 @@ class Query implements QueryInterface, InjectionAwareInterface
 
                 let sqlAliases[alias] = alias,
                     sqlAliasesModels[alias] = modelName,
-                    sqlModelsAliases[modelName] = alias,
-                    sqlAliasesModelsInstances[alias] = model;
+                    sqlModelsAliases[modelName] = alias;
+
+                if isCte {
+                    let sqlAliasesVirtual[alias] = true;
+                } else {
+                    let sqlAliasesModelsInstances[alias] = model;
+                }
 
                 /**
                  * Append or convert complete source to an array
@@ -3938,18 +4104,31 @@ class Query implements QueryInterface, InjectionAwareInterface
                     let completeSource = [source, null, alias];
                 }
 
-                let models[modelName] = alias;
+                if !isCte {
+                    let models[modelName] = alias;
+                }
             } else {
                 let alias = source,
                     sqlAliases[modelName] = source,
                     sqlAliasesModels[modelName] = modelName,
-                    sqlModelsAliases[modelName] = modelName,
-                    sqlAliasesModelsInstances[modelName] = model,
-                    models[modelName] = source;
+                    sqlModelsAliases[modelName] = modelName;
+
+                if isCte {
+                    let sqlAliasesVirtual[modelName] = true;
+                } else {
+                    let sqlAliasesModelsInstances[modelName] = model,
+                        models[modelName] = source;
+                }
             }
 
             // Eager load any specified relationship(s)
             if fetch with, selectedModel["with"] {
+                if isCte {
+                    throw new Exception(
+                        "Common table expression '" . modelName . "' cannot eager load relationships, when preparing: " . this->phql
+                    );
+                }
+
                 if !isset with[0] {
                     let withs = [with];
                 } else {
@@ -4009,9 +4188,12 @@ class Query implements QueryInterface, InjectionAwareInterface
                 }
             }
 
-            let sqlModels[] = modelName,
-                sqlTables[] = completeSource,
-                modelsInstances[modelName] = model;
+            if !isCte {
+                let sqlModels[] = modelName,
+                    modelsInstances[modelName] = model;
+            }
+
+            let sqlTables[] = completeSource;
         }
 
         // Assign Models/Tables information
@@ -4019,6 +4201,7 @@ class Query implements QueryInterface, InjectionAwareInterface
             let this->models = models,
                 this->modelsInstances = modelsInstances,
                 this->sqlAliases = sqlAliases,
+                this->sqlAliasesVirtual = sqlAliasesVirtual,
                 this->sqlAliasesModels = sqlAliasesModels,
                 this->sqlModelsAliases = sqlModelsAliases,
                 this->sqlAliasesModelsInstances = sqlAliasesModelsInstances;
@@ -4026,9 +4209,11 @@ class Query implements QueryInterface, InjectionAwareInterface
             let tempModels = this->models,
                 tempModelsInstances = this->modelsInstances,
                 tempSqlAliases = this->sqlAliases,
+                tempSqlAliasesVirtual = this->sqlAliasesVirtual,
                 tempSqlAliasesModels = this->sqlAliasesModels,
                 tempSqlModelsAliases = this->sqlModelsAliases,
-                tempSqlAliasesModelsInstances = this->sqlAliasesModelsInstances;
+                tempSqlAliasesModelsInstances = this->sqlAliasesModelsInstances,
+                tempCteSources = originalCteSources;
 
             /**
              * In-place updates instead of array_merge: preserves the
@@ -4045,6 +4230,10 @@ class Query implements QueryInterface, InjectionAwareInterface
 
             for mergeKey, mergeValue in sqlAliases {
                 let this->sqlAliases[mergeKey] = mergeValue;
+            }
+
+            for mergeKey, mergeValue in sqlAliasesVirtual {
+                let this->sqlAliasesVirtual[mergeKey] = mergeValue;
             }
 
             for mergeKey, mergeValue in sqlAliasesModels {
@@ -4128,6 +4317,14 @@ class Query implements QueryInterface, InjectionAwareInterface
             "columns": sqlColumns
         ];
 
+        if count(sqlWith) {
+            let sqlSelect["with"] = sqlWith;
+
+            if withRecursive {
+                let sqlSelect["withRecursive"] = true;
+            }
+        }
+
         if fetch distinct, select["distinct"] {
             let sqlSelect["distinct"] = distinct;
         }
@@ -4166,13 +4363,48 @@ class Query implements QueryInterface, InjectionAwareInterface
             let sqlSelect["forUpdate"] = true;
         }
 
+        // Process UNION clauses if set
+        if fetch unions, ast["union"] {
+            if !isset unions[0] {
+                let unions = [unions];
+            }
+
+            for unionItem in unions {
+                let unionSelect = this->prepareSelect(unionItem["select"], true),
+                    sqlUnionItem = [
+                        "select": unionSelect
+                    ];
+
+                if fetch unionAll, unionItem["all"] {
+                    let sqlUnionItem["all"] = unionAll;
+                }
+
+                if fetch unionModels, unionSelect["models"] {
+                    for unionModel in unionModels {
+                        let sqlModels[] = unionModel;
+                    }
+                }
+
+                let sqlUnions[] = sqlUnionItem;
+            }
+
+            if count(sqlUnions) {
+                let sqlSelect["union"] = sqlUnions,
+                    sqlSelect["models"] = sqlModels;
+            }
+        }
+
         if merge {
             let this->models = tempModels,
                 this->modelsInstances = tempModelsInstances,
                 this->sqlAliases = tempSqlAliases,
+                this->sqlAliasesVirtual = tempSqlAliasesVirtual,
                 this->sqlAliasesModels = tempSqlAliasesModels,
                 this->sqlModelsAliases = tempSqlModelsAliases,
-                this->sqlAliasesModelsInstances = tempSqlAliasesModelsInstances;
+                this->sqlAliasesModelsInstances = tempSqlAliasesModelsInstances,
+                this->cteSources = tempCteSources;
+        } else {
+            let this->cteSources = originalCteSources;
         }
 
         let this->nestingLevel--;

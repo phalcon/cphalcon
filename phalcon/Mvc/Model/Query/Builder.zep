@@ -116,6 +116,11 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     protected joins = [];
 
     /**
+     * @var array
+     */
+    protected commonTables = [];
+
+    /**
      * @var array|string
      */
     protected limit;
@@ -151,7 +156,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
         var conditions, columns, groupClause, havingClause, limitClause,
             forUpdate, sharedLock, orderClause, offsetClause, joinsClause,
             singleConditionArray, limit, offset, fromClause, singleCondition,
-            singleParams, singleTypes, distinct, bind, bindTypes;
+            singleParams, singleTypes, distinct, bind, bindTypes, withClause;
         array mergedConditions, mergedParams, mergedTypes;
 
         if typeof params == "array" {
@@ -234,6 +239,13 @@ class Builder implements BuilderInterface, InjectionAwareInterface
              */
             if fetch joinsClause, params["joins"] {
                 let this->joins = joinsClause;
+            }
+
+            /**
+             * Assign WITH clause
+             */
+            if fetch withClause, params["with"] {
+                this->with(withClause);
             }
 
             /**
@@ -350,6 +362,20 @@ class Builder implements BuilderInterface, InjectionAwareInterface
         }
 
         let this->models = models;
+
+        return this;
+    }
+
+    /**
+     * Add a common table expression to the query.
+     *
+     *```php
+     * $builder->addWith("recent", $subBuilder, ["id"]);
+     *```
+     */
+    public function addWith(string! name, var query, array columns = []) -> <BuilderInterface>
+    {
+        let this->commonTables[] = this->normalizeWithItem(name, query, columns);
 
         return this;
     }
@@ -683,6 +709,14 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     }
 
     /**
+     * Return the common table expressions.
+     */
+    public function getWith() -> array
+    {
+        return this->commonTables;
+    }
+
+    /**
      * Returns a PHQL statement built based on the builder parameters
      */
     final public function getPhql() -> string
@@ -693,7 +727,8 @@ class Builder implements BuilderInterface, InjectionAwareInterface
             selectedColumn, selectedModel, selectedModels, columnAlias,
             modelColumnAlias, joins, join, joinModel, joinConditions,
             joinAlias, joinType, group, groupItems, groupItem, having, order,
-            orderItems, orderItem, limit, number, offset, forUpdate, distinct;
+            orderItems, orderItem, limit, number, offset, forUpdate, distinct,
+            commonTables;
         bool noPrimary;
 
         let container = this->container;
@@ -785,16 +820,23 @@ class Builder implements BuilderInterface, InjectionAwareInterface
             }
         }
 
+        let phql = "",
+            commonTables = this->commonTables;
+
+        if typeof commonTables == "array" && count(commonTables) {
+            let phql .= this->getWithPhql(commonTables) . " ";
+        }
+
         let distinct = this->distinct;
 
         if typeof distinct == "boolean" {
             if distinct {
-                let phql = "SELECT DISTINCT ";
+                let phql .= "SELECT DISTINCT ";
             } else {
-                let phql = "SELECT ALL ";
+                let phql .= "SELECT ALL ";
             }
         } else {
-            let phql = "SELECT ";
+            let phql .= "SELECT ";
         }
 
         let columns = this->columns;
@@ -1541,6 +1583,72 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     }
 
     /**
+     * Sets common table expressions.
+     *
+     *```php
+     * $builder->with(
+     *     [
+     *         "recent" => [
+     *             "query"   => $subBuilder,
+     *             "columns" => ["id"],
+     *         ],
+     *     ]
+     * );
+     *```
+     */
+    public function with(var withClause) -> <BuilderInterface>
+    {
+        var key, item, name, query, columns;
+        array commonTables;
+
+        if unlikely typeof withClause != "array" {
+            throw new Exception(
+                "The WITH clause must be an array"
+            );
+        }
+
+        let commonTables = [];
+
+        for key, item in withClause {
+            let columns = [];
+
+            if typeof key == "string" {
+                let name = key;
+
+                if typeof item == "array" && fetch query, item["query"] {
+                    fetch columns, item["columns"];
+                } else {
+                    let query = item;
+                }
+            } else {
+                if unlikely typeof item != "array" {
+                    throw new Exception(
+                        "A common table expression must be an array"
+                    );
+                }
+
+                if !fetch name, item["name"] {
+                    fetch name, item[0];
+                }
+
+                if !fetch query, item["query"] {
+                    fetch query, item[1];
+                }
+
+                if !fetch columns, item["columns"] {
+                    fetch columns, item[2];
+                }
+            }
+
+            let commonTables[] = this->normalizeWithItem(name, query, columns);
+        }
+
+        let this->commonTables = commonTables;
+
+        return this;
+    }
+
+    /**
      * Sets the query WHERE conditions
      *
      *```php
@@ -1590,6 +1698,117 @@ class Builder implements BuilderInterface, InjectionAwareInterface
         }
 
         return this;
+    }
+
+    /**
+     * Resolve a WITH clause from common table expressions.
+     */
+    final protected function getWithPhql(array! commonTables) -> string
+    {
+        var item, name, query, columns, column, phql;
+        array items, columnItems;
+
+        let items = [];
+
+        for item in commonTables {
+            let name = this->autoescape(item[0]),
+                query = item[1],
+                columns = item[2];
+
+            if count(columns) {
+                let columnItems = [];
+
+                for column in columns {
+                    let columnItems[] = this->autoescape(column);
+                }
+
+                let name .= " (" . join(", ", columnItems) . ")";
+            }
+
+            let phql = this->getWithQueryPhql(query);
+
+            let items[] = name . " AS (" . phql . ")";
+        }
+
+        return "WITH " . join(", ", items);
+    }
+
+    /**
+     * Resolve the PHQL statement used by a common table expression.
+     */
+    final protected function getWithQueryPhql(var query) -> string
+    {
+        var phql, bindParams, bindTypes;
+
+        if typeof query == "string" {
+            return query;
+        }
+
+        if typeof query == "object" {
+            if unlikely !method_exists(query, "getPhql") {
+                throw new Exception(
+                    "A common table expression query must be a PHQL string or a builder"
+                );
+            }
+
+            let phql = query->getPhql();
+
+            if method_exists(query, "getBindParams") {
+                let bindParams = query->getBindParams();
+                if typeof bindParams == "array" && count(bindParams) {
+                    let this->bindParams = this->bindParams + bindParams;
+                }
+            }
+
+            if method_exists(query, "getBindTypes") {
+                let bindTypes = query->getBindTypes();
+                if typeof bindTypes == "array" && count(bindTypes) {
+                    let this->bindTypes = this->bindTypes + bindTypes;
+                }
+            }
+
+            return phql;
+        }
+
+        throw new Exception(
+            "A common table expression query must be a PHQL string or a builder"
+        );
+    }
+
+    /**
+     * Normalize a common table expression into the internal numeric format.
+     */
+    final protected function normalizeWithItem(var name, var query, var columns = null) -> array
+    {
+        if unlikely typeof name != "string" || name === "" {
+            throw new Exception(
+                "A common table expression requires a name"
+            );
+        }
+
+        if unlikely typeof query != "string" && typeof query != "object" {
+            throw new Exception(
+                "A common table expression query must be a PHQL string or a builder"
+            );
+        }
+
+        if unlikely typeof query == "string" && query === "" {
+            throw new Exception(
+                "A common table expression query cannot be empty"
+            );
+        }
+
+        if unlikely typeof query == "object" && !method_exists(query, "getPhql") {
+            throw new Exception(
+                "A common table expression query must be a PHQL string or a builder"
+            );
+        }
+
+        if typeof columns != "array" {
+            let columns = [];
+        }
+
+        return [name, query, columns];
     }
 
     /**
