@@ -284,7 +284,7 @@ class Di implements DiInterface
      */
     public function getAlias(string name) -> string
     {
-        return isset(this->aliases[name]) ? this->aliases[$name] : "";
+        return isset(this->aliases[name]) ? this->aliases[name] : "";
     }
 
     /**
@@ -349,7 +349,7 @@ class Di implements DiInterface
          */
         let name = this->resolveAlias(name);
 
-        if (!isset($this->sharedInstances[name])) {
+        if (!isset(this->sharedInstances[name])) {
             // Store the instance in the shared instances cache.
             let this->sharedInstances[name] = this->get(name, parameters);
         }

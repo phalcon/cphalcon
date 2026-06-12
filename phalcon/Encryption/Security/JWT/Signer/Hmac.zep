@@ -79,7 +79,7 @@ class Hmac extends AbstractSigner
         string payload,
         string passphrase
     ) -> bool {
-        return hash_equals($source, $this->getHash($payload, $passphrase));
+        return hash_equals(source, this->getHash(payload, passphrase));
     }
 
     /**
