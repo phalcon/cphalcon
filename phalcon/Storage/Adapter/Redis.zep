@@ -160,6 +160,8 @@ class Redis extends AbstractAdapter
     {
         var result;
 
+        let key = this->getKeyWithoutPrefix(key);
+
         let result = this->getAdapter()
                          ->set(key, this->getSerializedData(value));
 

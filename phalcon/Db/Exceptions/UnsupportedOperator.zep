@@ -8,16 +8,16 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Cli\Console\Exceptions;
+namespace Phalcon\Db\Exceptions;
 
-use Phalcon\Cli\Console\Exception;
+use Phalcon\Db\Exception;
 
-class ConsoleModuleNotRegistered extends Exception
+class UnsupportedOperator extends Exception
 {
-    public function __construct(string moduleName)
+    public function __construct(string operator)
     {
         parent::__construct(
-            "Module '" . moduleName . "' isn't registered in the console container"
+            "Operator '" . operator . "' is not supported by this SQL dialect"
         );
     }
 }

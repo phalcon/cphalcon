@@ -10,12 +10,14 @@
 
 namespace Phalcon\Filter\Sanitize;
 
+use Phalcon\Contracts\Filter\Sanitizer;
+
 /**
  * Phalcon\Filter\Sanitize\AbsInt
  *
  * Sanitizes a value to absolute integer
  */
-class AbsInt
+class AbsInt implements Sanitizer
 {
     /**
      * @param mixed $input The text to sanitize

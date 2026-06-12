@@ -10,15 +10,16 @@
 
 namespace Phalcon\Cli;
 
+use Closure;
 use Phalcon\Application\AbstractApplication;
 use Phalcon\Cli\Console\Exception;
-use Phalcon\Cli\Console\Exceptions\ConsoleModuleNotRegistered;
 use Phalcon\Cli\Console\Exceptions\ContainerRequired;
-use Phalcon\Cli\Console\Exceptions\InvalidModuleDefinitionPath;
+use Phalcon\Cli\Console\Exceptions\InvalidModuleDefinition;
 use Phalcon\Cli\Console\Exceptions\ModuleDefinitionPathNotFound;
 use Phalcon\Cli\Router\Route;
 use Phalcon\Di\DiInterface;
 use Phalcon\Events\ManagerInterface;
+use Phalcon\Mvc\ModuleDefinitionInterface;
 
 /**
  * This component allows to create CLI applications using Phalcon
@@ -41,7 +42,7 @@ class Console extends AbstractApplication
     public function handle(array arguments = null)
     {
         var className, dispatcher, module, moduleName,
-            moduleObject, modules, path, router, task;
+            moduleObject, path, router, task;
 
         if this->container === null {
             throw new ContainerRequired();
@@ -81,36 +82,66 @@ class Console extends AbstractApplication
                 }
             }
 
-            let modules = this->modules;
+            /**
+             * Gets the module definition
+             */
+            let module = this->getModule(moduleName);
 
-            if unlikely !isset modules[moduleName] {
-                throw new ConsoleModuleNotRegistered(moduleName);
+            /**
+             * A module definition must be an array or an object
+             */
+            if unlikely (typeof module !== "array" && typeof module !== "object") {
+                throw new InvalidModuleDefinition();
             }
 
-            let module = modules[moduleName];
-
-            if unlikely typeof module !== "array" {
-                throw new InvalidModuleDefinitionPath();
-            }
-
-            if !fetch className, module["className"] {
-                let className = "Module";
-            }
-
-            if fetch path, module["path"] {
-                if unlikely !file_exists(path) {
-                    throw new ModuleDefinitionPathNotFound(path);
+            /**
+             * An array module definition contains a path to a module
+             * definition class
+             */
+            if typeof module === "array" {
+                /**
+                 * Class name used to load the module definition
+                 */
+                if !fetch className, module["className"] {
+                    let className = "Module";
                 }
 
-                if !class_exists(className, false) {
-                    require_once path;
+                /**
+                 * If developer specify a path try to include the file
+                 */
+                if fetch path, module["path"] {
+                    if unlikely !file_exists(path) {
+                        throw new ModuleDefinitionPathNotFound(path);
+                    }
+
+                    if !class_exists(className, false) {
+                        require_once path;
+                    }
                 }
+
+                let moduleObject = <ModuleDefinitionInterface> this->container->get(className);
+
+                /**
+                 * 'registerAutoloaders' and 'registerServices' are
+                 * automatically called
+                 */
+                moduleObject->registerAutoloaders(this->container);
+                moduleObject->registerServices(this->container);
+            } else {
+                /**
+                 * A module definition object, can be a Closure instance
+                 */
+                if unlikely !(module instanceof Closure) {
+                    throw new InvalidModuleDefinition();
+                }
+
+                let moduleObject = call_user_func_array(
+                    module,
+                    [
+                        this->container
+                    ]
+                );
             }
-
-            let moduleObject = this->container->get(className);
-
-            moduleObject->registerAutoloaders(this->container);
-            moduleObject->registerServices(this->container);
 
             if this->eventsManager !== null {
                 if this->eventsManager->fire("console:afterStartModule", this, moduleObject) === false {

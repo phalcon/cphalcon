@@ -415,7 +415,7 @@ PHP_METHOD(Phalcon_Auth_ManagerFactory, buildAdapter)
 		object_init_ex(&_1$$3, phalcon_auth_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZVAL_STRING(&_2$$3, "Unknown auth adapter '%s'");
-		ZEPHIR_CALL_FUNCTION(&_3$$3, "sprintf", NULL, 128, &_2$$3, &name);
+		ZEPHIR_CALL_FUNCTION(&_3$$3, "sprintf", NULL, 129, &_2$$3, &name);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 8, &_3$$3);
 		zephir_check_call_status();
@@ -486,7 +486,7 @@ PHP_METHOD(Phalcon_Auth_ManagerFactory, buildGuard)
 		object_init_ex(&_1$$3, phalcon_auth_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZVAL_STRING(&_2$$3, "Unknown auth guard '%s'");
-		ZEPHIR_CALL_FUNCTION(&_3$$3, "sprintf", NULL, 128, &_2$$3, &type_zv);
+		ZEPHIR_CALL_FUNCTION(&_3$$3, "sprintf", NULL, 129, &_2$$3, &type_zv);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 8, &_3$$3);
 		zephir_check_call_status();

@@ -8,6 +8,7 @@ PHP_METHOD(Phalcon_Config_Config, merge);
 PHP_METHOD(Phalcon_Config_Config, path);
 PHP_METHOD(Phalcon_Config_Config, setPathDelimiter);
 PHP_METHOD(Phalcon_Config_Config, toArray);
+PHP_METHOD(Phalcon_Config_Config, cloneEmpty);
 PHP_METHOD(Phalcon_Config_Config, internalMerge);
 PHP_METHOD(Phalcon_Config_Config, setData);
 
@@ -31,6 +32,10 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_config_config_toarray, 0, 0, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_config_config_cloneempty, 0, 0, MAY_BE_STATIC)
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, data, IS_ARRAY, 0, "[]")
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_config_config_internalmerge, 0, 2, IS_ARRAY, 0)
 	ZEND_ARG_ARRAY_INFO(0, source, 0)
 	ZEND_ARG_ARRAY_INFO(0, target, 0)
@@ -48,6 +53,7 @@ ZEPHIR_INIT_FUNCS(phalcon_config_config_method_entry) {
 	PHP_ME(Phalcon_Config_Config, path, arginfo_phalcon_config_config_path, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Config_Config, setPathDelimiter, arginfo_phalcon_config_config_setpathdelimiter, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Config_Config, toArray, arginfo_phalcon_config_config_toarray, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Config_Config, cloneEmpty, arginfo_phalcon_config_config_cloneempty, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Config_Config, internalMerge, arginfo_phalcon_config_config_internalmerge, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Config_Config, setData, arginfo_phalcon_config_config_setdata, ZEND_ACC_PROTECTED)
 	PHP_FE_END

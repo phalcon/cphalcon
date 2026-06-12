@@ -1761,6 +1761,96 @@ class Query implements QueryInterface, InjectionAwareInterface
 
                     break;
 
+                case PHQL_T_OP_MATCHES:
+                    let exprReturn = [
+                        "type":  "binary-op",
+                        "op":    "@@",
+                        "left":  left,
+                        "right": right
+                    ];
+
+                    break;
+
+                case PHQL_T_OP_CONTAINS:
+                    let exprReturn = [
+                        "type":  "binary-op",
+                        "op":    "@>",
+                        "left":  left,
+                        "right": right
+                    ];
+
+                    break;
+
+                case PHQL_T_OP_CONTAINED:
+                    let exprReturn = [
+                        "type":  "binary-op",
+                        "op":    "<@",
+                        "left":  left,
+                        "right": right
+                    ];
+
+                    break;
+
+                case PHQL_T_OP_OVERLAPS:
+                    let exprReturn = [
+                        "type":  "binary-op",
+                        "op":    "&&",
+                        "left":  left,
+                        "right": right
+                    ];
+
+                    break;
+
+                case PHQL_T_OP_CONCAT:
+                    let exprReturn = [
+                        "type":  "binary-op",
+                        "op":    "||",
+                        "left":  left,
+                        "right": right
+                    ];
+
+                    break;
+
+                case PHQL_T_OP_JSON_GET:
+                    let exprReturn = [
+                        "type":  "binary-op",
+                        "op":    "->",
+                        "left":  left,
+                        "right": right
+                    ];
+
+                    break;
+
+                case PHQL_T_OP_JSON_GET_TEXT:
+                    let exprReturn = [
+                        "type":  "binary-op",
+                        "op":    "->>",
+                        "left":  left,
+                        "right": right
+                    ];
+
+                    break;
+
+                case PHQL_T_OP_JSON_PATH:
+                    let exprReturn = [
+                        "type":  "binary-op",
+                        "op":    "#>",
+                        "left":  left,
+                        "right": right
+                    ];
+
+                    break;
+
+                case PHQL_T_OP_JSON_PATH_TEXT:
+                    let exprReturn = [
+                        "type":  "binary-op",
+                        "op":    "#>>",
+                        "left":  left,
+                        "right": right
+                    ];
+
+                    break;
+
                 case PHQL_T_QUALIFIED:
                     let exprReturn = this->getQualified(expr);
                     break;

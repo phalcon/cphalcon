@@ -11,6 +11,7 @@
 namespace Phalcon\Config\Adapter;
 
 use Phalcon\Config\Config;
+use Phalcon\Config\Exceptions\CannotLoadConfigFile;
 
 /**
  * Reads php files and converts them to Phalcon\Config\Config objects.
@@ -51,9 +52,15 @@ class Php extends Config
 {
     /**
      * Phalcon\Config\Adapter\Php constructor
+     *
+     * @throws CannotLoadConfigFile
      */
     public function __construct(string! filePath)
     {
+        if unlikely true !== is_file(filePath) {
+            throw new CannotLoadConfigFile(basename(filePath));
+        }
+
         parent::__construct(
             require filePath
         );

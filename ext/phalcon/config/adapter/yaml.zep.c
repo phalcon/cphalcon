@@ -145,7 +145,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Yaml, __construct)
 		object_init_ex(&_5$$7, phalcon_config_exceptions_cannotloadconfigfile_ce);
 		ZEPHIR_INIT_VAR(&_6$$7);
 		zephir_basename(&_6$$7, &filePath_zv);
-		ZEPHIR_CALL_METHOD(NULL, &_5$$7, "__construct", NULL, 351, &_6$$7);
+		ZEPHIR_CALL_METHOD(NULL, &_5$$7, "__construct", NULL, 350, &_6$$7);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_5$$7, "phalcon/Config/Adapter/Yaml.zep", 80);
 		ZEPHIR_MM_RESTORE();

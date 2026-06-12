@@ -188,7 +188,7 @@ class Validator
 
         if (
             this->token->getClaims()->has(Enum::EXPIRATION_TIME) &&
-            this->getTimestamp(timestamp) > $tokenExpirationTime
+            this->getTimestamp(timestamp) > tokenExpirationTime
         ) {
             let this->errors[] = "Validation: the token has expired";
         }
@@ -210,7 +210,7 @@ class Validator
 
         let tokenId = (string) this->token->getClaims()->get(Enum::ID);
 
-        if ($id !== tokenId) {
+        if (id !== tokenId) {
             let this->errors[] = "Validation: incorrect Id";
         }
 
@@ -231,7 +231,7 @@ class Validator
 
         let tokenIssuedAt = (int) this->token->getClaims()->get(Enum::ISSUED_AT);
 
-        if (this->getTimestamp($timestamp) <= tokenIssuedAt) {
+        if (this->getTimestamp(timestamp) <= tokenIssuedAt) {
             let this->errors[] = "Validation: the token cannot be used yet (future)";
         }
 
@@ -273,7 +273,7 @@ class Validator
 
         let tokenNotBefore = (int) this->token->getClaims()->get(Enum::NOT_BEFORE);
 
-        if (this->getTimestamp($timestamp) <= tokenNotBefore) {
+        if (this->getTimestamp(timestamp) <= tokenNotBefore) {
             let this->errors[] = "Validation: the token cannot be used yet (not before)";
         }
 

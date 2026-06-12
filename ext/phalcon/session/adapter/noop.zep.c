@@ -47,6 +47,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Session_Adapter_Noop)
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Session\\Adapter, Noop, phalcon, session_adapter_noop, phalcon_session_adapter_noop_method_entry, 0);
 
 	zend_class_implements(phalcon_session_adapter_noop_ce, 1, php_session_iface_entry);
+	zend_class_implements(phalcon_session_adapter_noop_ce, 1, php_session_update_timestamp_iface_entry);
 	return SUCCESS;
 }
 
@@ -122,6 +123,38 @@ PHP_METHOD(Phalcon_Session_Adapter_Noop, read)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &id);
 	RETURN_STRING("");
+}
+
+/**
+ * Refresh the session lifetime without changing the session data
+ */
+PHP_METHOD(Phalcon_Session_Adapter_Noop, updateTimestamp)
+{
+	zval *id, id_sub, *data, data_sub;
+
+	ZVAL_UNDEF(&id_sub);
+	ZVAL_UNDEF(&data_sub);
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_ZVAL(id)
+		Z_PARAM_ZVAL(data)
+	ZEND_PARSE_PARAMETERS_END();
+	zephir_fetch_params_without_memory_grow(2, 0, &id, &data);
+	RETURN_BOOL(1);
+}
+
+/**
+ * Validate the session id (used when strict mode is enabled)
+ */
+PHP_METHOD(Phalcon_Session_Adapter_Noop, validateId)
+{
+	zval *id, id_sub;
+
+	ZVAL_UNDEF(&id_sub);
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(id)
+	ZEND_PARSE_PARAMETERS_END();
+	zephir_fetch_params_without_memory_grow(1, 0, &id);
+	RETURN_BOOL(1);
 }
 
 /**

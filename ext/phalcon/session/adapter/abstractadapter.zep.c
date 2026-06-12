@@ -39,6 +39,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Session_Adapter_AbstractAdapter)
 	 */
 	zend_declare_property_null(phalcon_session_adapter_abstractadapter_ce, SL("adapter"), ZEND_ACC_PROTECTED);
 	zend_class_implements(phalcon_session_adapter_abstractadapter_ce, 1, php_session_iface_entry);
+	zend_class_implements(phalcon_session_adapter_abstractadapter_ce, 1, php_session_update_timestamp_iface_entry);
 	return SUCCESS;
 }
 
@@ -154,6 +155,54 @@ PHP_METHOD(Phalcon_Session_Adapter_AbstractAdapter, read)
 		ZEPHIR_CPY_WRT(&_1, &data);
 	}
 	RETURN_CCTOR(&_1);
+}
+
+/**
+ * Refresh the session lifetime without changing the session data
+ */
+PHP_METHOD(Phalcon_Session_Adapter_AbstractAdapter, updateTimestamp)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *id, id_sub, *data, data_sub;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&id_sub);
+	ZVAL_UNDEF(&data_sub);
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_ZVAL(id)
+		Z_PARAM_ZVAL(data)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_fetch_params(1, 2, 0, &id, &data);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "write", NULL, 0, id, data);
+	zephir_check_call_status();
+	RETURN_MM();
+}
+
+/**
+ * Validate the session id (used when strict mode is enabled)
+ */
+PHP_METHOD(Phalcon_Session_Adapter_AbstractAdapter, validateId)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *id, id_sub, _0;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&id_sub);
+	ZVAL_UNDEF(&_0);
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(id)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_fetch_params(1, 1, 0, &id);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("adapter"), PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_RETURN_CALL_METHOD(&_0, "has", NULL, 0, id);
+	zephir_check_call_status();
+	RETURN_MM();
 }
 
 /**

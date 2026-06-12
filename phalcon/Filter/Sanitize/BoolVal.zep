@@ -10,12 +10,14 @@
 
 namespace Phalcon\Filter\Sanitize;
 
+use Phalcon\Contracts\Filter\Sanitizer;
+
 /**
  * Phalcon\Filter\Sanitize\BoolVal
  *
  * Sanitizes a value to boolean
  */
-class BoolVal
+class BoolVal implements Sanitizer
 {
     /**
      * @param mixed $input The text to sanitize

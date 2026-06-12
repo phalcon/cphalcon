@@ -34,6 +34,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_Remove)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Filter\\Sanitize, Remove, phalcon, filter_sanitize_remove, phalcon_filter_sanitize_remove_method_entry, 0);
 
+	zend_class_implements(phalcon_filter_sanitize_remove_ce, 1, phalcon_contracts_filter_sanitizer_ce);
 	return SUCCESS;
 }
 

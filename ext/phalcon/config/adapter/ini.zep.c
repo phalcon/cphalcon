@@ -154,7 +154,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct)
 		object_init_ex(&_2$$3, phalcon_config_exceptions_cannotloadconfigfile_ce);
 		ZEPHIR_INIT_VAR(&_3$$3);
 		zephir_basename(&_3$$3, &filePath_zv);
-		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 351, &_3$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 350, &_3$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_2$$3, "phalcon/Config/Adapter/Ini.zep", 77);
 		ZEPHIR_MM_RESTORE();
@@ -330,6 +330,12 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct)
  * We have to cast values manually because parse_ini_file() has a poor
  * implementation.
  *
+ * Note: this casting is an ini-format compensation and is deliberately
+ * specific to this adapter. Ini files carry untyped strings, so
+ * `on/yes/true`, `off/no/false`, `null` and numeric strings are decoded
+ * here. The json, yaml and php adapters receive natively typed values
+ * from their parsers and perform no casting.
+ *
  * @param mixed $ini
  *
  * @return mixed
@@ -385,7 +391,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, cast)
 	zephir_array_update_string(&castMap, SL("no"), &__$false, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&castMap, SL("false"), &__$false, PH_COPY | PH_SEPARATE);
 	if (1 == zephir_array_isset_value(&castMap, &lowerIni)) {
-		zephir_array_fetch(&_2$$5, &castMap, &lowerIni, PH_NOISY | PH_READONLY, "phalcon/Config/Adapter/Ini.zep", 145);
+		zephir_array_fetch(&_2$$5, &castMap, &lowerIni, PH_NOISY | PH_READONLY, "phalcon/Config/Adapter/Ini.zep", 151);
 		RETURN_CTOR(&_2$$5);
 	}
 	if (zephir_is_numeric(ini)) {
@@ -435,7 +441,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, castArray)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &ini_param);
 	zephir_get_arrval(&ini, ini_param);
-	zephir_is_iterable(&ini, 1, "phalcon/Config/Adapter/Ini.zep", 173);
+	zephir_is_iterable(&ini, 1, "phalcon/Config/Adapter/Ini.zep", 179);
 	if (Z_TYPE_P(&ini) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&ini), _1, _2, _0)
 		{
@@ -533,7 +539,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, parseIniString)
 	ZEPHIR_INIT_VAR(&_3);
 	zephir_substr(&_3, &path, zephir_get_intval(&_2), 0, ZEPHIR_SUBSTR_NO_LENGTH);
 	zephir_get_strval(&path, &_3);
-	ZEPHIR_CALL_METHOD(&result, this_ptr, "parseinistring", NULL, 352, &path, &castValue);
+	ZEPHIR_CALL_METHOD(&result, this_ptr, "parseinistring", NULL, 351, &path, &castValue);
 	zephir_check_call_status();
 	zephir_create_array(return_value, 1, 0);
 	zephir_array_update_zval(return_value, &key, &result, PH_COPY);
@@ -580,7 +586,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, phpParseIniFile)
 		}
 	ZVAL_BOOL(&_0, (processSections ? 1 : 0));
 	ZVAL_LONG(&_1, scannerMode);
-	ZEPHIR_RETURN_CALL_FUNCTION("parse_ini_file", NULL, 353, &filename_zv, &_0, &_1);
+	ZEPHIR_RETURN_CALL_FUNCTION("parse_ini_file", NULL, 352, &filename_zv, &_0, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 }

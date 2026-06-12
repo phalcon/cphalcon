@@ -52,6 +52,8 @@ final class TableOptionsTest extends AbstractDatabaseTestCase
         if (env('driver') === 'mysql') {
             $this->assertNotEmpty($options);
             $this->assertArrayHasKey('engine', $options);
+        } elseif (env('driver') === 'pgsql') {
+            $this->assertSame(['table_comment' => null], $options);
         } else {
             $this->assertSame([], $options);
         }

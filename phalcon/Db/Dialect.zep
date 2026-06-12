@@ -21,6 +21,7 @@ use Phalcon\Db\Exceptions\InvalidUnaryExpression;
 use Phalcon\Db\Exceptions\MaterializedViewsNotSupported;
 use Phalcon\Db\Exceptions\MissingDefinitionKey;
 use Phalcon\Db\Exceptions\ReturningNotSupported;
+use Phalcon\Db\Exceptions\UnsupportedOperator;
 use Phalcon\Support\Settings;
 
 /**
@@ -38,6 +39,22 @@ abstract class Dialect implements DialectInterface
      * @var array
      */
     protected customFunctions = [];
+
+    /**
+     * Dialect-specific operators that a concrete dialect must opt into
+     * via supportedOperators; using one elsewhere throws.
+     *
+     * @var array
+     */
+    protected guardedOperators = ["@@", "@>", "<@", "&&", "||", "->", "->>", "#>", "#>>"];
+
+    /**
+     * Subset of guardedOperators that this dialect emits. Overridden per
+     * dialect.
+     *
+     * @var array
+     */
+    protected supportedOperators = [];
 
     /**
      * Generate SQL to create a new savepoint
@@ -865,7 +882,13 @@ abstract class Dialect implements DialectInterface
      */
     final protected function getSqlExpressionBinaryOperations(array! expression, string escapeChar = null, array! bindCounts = []) -> string
     {
-        var left, right;
+        var left, right, operator;
+
+        let operator = expression["op"];
+
+        if in_array(operator, this->guardedOperators) && !in_array(operator, this->supportedOperators) {
+            throw new UnsupportedOperator(operator);
+        }
 
         let left  = this->getSqlExpression(
             expression["left"],
@@ -879,7 +902,7 @@ abstract class Dialect implements DialectInterface
             bindCounts
         );
 
-        return left . " " . expression["op"] . " " . right;
+        return left . " " . operator . " " . right;
     }
 
     /**

@@ -33,6 +33,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_StringVal)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Filter\\Sanitize, StringVal, phalcon, filter_sanitize_stringval, phalcon_filter_sanitize_stringval_method_entry, 0);
 
+	zend_class_implements(phalcon_filter_sanitize_stringval_ce, 1, phalcon_contracts_filter_sanitizer_ce);
 	return SUCCESS;
 }
 

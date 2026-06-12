@@ -97,6 +97,37 @@ final class ReadWriteTest extends AbstractServicesTestCase
     }
 
     /**
+     * A session id that happens to start with the storage prefix text must
+     * not collide with another session
+     *
+     * @issue  17127
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-11
+     */
+    public function testSessionAdapterRedisReadWritePrefixedIdNoCollision(): void
+    {
+        /** @var Redis $adapter */
+        $adapter = $this->newService('sessionRedis');
+
+        $valueOne = uniqid('one-');
+        $valueTwo = uniqid('two-');
+
+        $adapter->write('sess-reds-17127', $valueOne);
+        $adapter->write('17127', $valueTwo);
+
+        $expected = $valueOne;
+        $actual   = $adapter->read('sess-reds-17127');
+        $this->assertEquals($expected, $actual);
+
+        $expected = $valueTwo;
+        $actual   = $adapter->read('17127');
+        $this->assertEquals($expected, $actual);
+
+        $adapter->destroy('sess-reds-17127');
+        $adapter->destroy('17127');
+    }
+
+    /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

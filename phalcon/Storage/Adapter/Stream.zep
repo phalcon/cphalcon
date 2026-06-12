@@ -317,7 +317,7 @@ class Stream extends AbstractAdapter
         var dirFromFile, dirPrefix;
 
         let dirPrefix   = this->getDirSeparator(this->storageDir . this->prefix),
-            dirFromFile = $this->getDirFromFile($this->getKeyWithoutPrefix($key));
+            dirFromFile = this->getDirFromFile(this->getKeyWithoutPrefix(key));
 
         return this->getDirSeparator(dirPrefix . dirFromFile);
     }
@@ -332,23 +332,6 @@ class Stream extends AbstractAdapter
     private function getFilepath(string key) -> string
     {
         return this->getDir(key) . this->getKeyWithoutPrefix(key);
-    }
-
-    /**
-     * Check if the key has the prefix and remove it, otherwise just return the
-     * key unaltered
-     *
-     * @param string $key
-     *
-     * @return string
-     */
-    private function getKeyWithoutPrefix(string key) -> string
-    {
-        if (starts_with(key, this->prefix)) {
-            return substr(key, strlen(this->prefix));
-        }
-
-        return key;
     }
 
     /**

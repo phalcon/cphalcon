@@ -1,3 +1,4 @@
+<?php
 
 /**
  * This file is part of the Phalcon Framework.
@@ -8,14 +9,19 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Cli\Console\Exceptions;
+declare(strict_types=1);
 
-use Phalcon\Cli\Console\Exception;
+namespace Phalcon\Tests\Support\Models;
 
-class InvalidModuleDefinitionPath extends Exception
+use Phalcon\Mvc\Model;
+
+class Spatial extends Model
 {
-    public function __construct()
+    public $id;
+    public $location;
+
+    public function initialize(): void
     {
-        parent::__construct("Invalid module definition path");
+        $this->setSource("co_spatial");
     }
 }

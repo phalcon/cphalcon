@@ -104,7 +104,7 @@ PHP_METHOD(Phalcon_Forms_Loader_YamlLoader, load)
 	}
 	zephir_read_property(&_3, this_ptr, ZEND_STRL("source"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&source, &_3);
-	ZEPHIR_CALL_FUNCTION(&_4, "is_file", NULL, 0, &source);
+	ZEPHIR_CALL_FUNCTION(&_4, "is_file", NULL, 353, &source);
 	zephir_check_call_status();
 	_5 = zephir_is_true(&_4);
 	if (_5) {

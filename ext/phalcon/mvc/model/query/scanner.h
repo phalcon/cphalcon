@@ -122,13 +122,16 @@
 #define PHQL_T_ISNOTNULL 366
 #define PHQL_T_MINUS 367
 
-/** Postgresql Text Search Operators */
-#define PHQL_T_TS_MATCHES 401
-#define PHQL_T_TS_OR 402
-#define PHQL_T_TS_AND 403
-#define PHQL_T_TS_NEGATE 404
-#define PHQL_T_TS_CONTAINS_ANOTHER 405
-#define PHQL_T_TS_CONTAINS_IN 406
+/** Dialect-specific operators (binary, infix) */
+#define PHQL_T_OP_MATCHES 401
+#define PHQL_T_OP_CONTAINS 402
+#define PHQL_T_OP_CONTAINED 403
+#define PHQL_T_OP_OVERLAPS 404
+#define PHQL_T_OP_CONCAT 405
+#define PHQL_T_OP_JSON_GET 406
+#define PHQL_T_OP_JSON_GET_TEXT 416
+#define PHQL_T_OP_JSON_PATH 417
+#define PHQL_T_OP_JSON_PATH_TEXT 418
 
 #define PHQL_T_SUBQUERY 407
 #define PHQL_T_EXISTS 408

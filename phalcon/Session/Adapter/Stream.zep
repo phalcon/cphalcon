@@ -178,6 +178,26 @@ class Stream extends Noop
         return data;
     }
 
+    /**
+     * Refresh the session file modification time without changing its data
+     */
+    public function updateTimestamp(var id, var data) -> bool
+    {
+        var name;
+
+        let name = this->path . this->getPrefixedName(id);
+
+        return touch(name);
+    }
+
+    /**
+     * Validate the session id (used when strict mode is enabled)
+     */
+    public function validateId(var id) -> bool
+    {
+        return this->phpFileExists(this->path . this->getPrefixedName(id));
+    }
+
     public function write(var id, var data) -> bool
     {
         var name;

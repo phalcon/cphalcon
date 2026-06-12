@@ -72,12 +72,28 @@ class Grouped extends Config
 {
     /**
      * Phalcon\Config\Adapter\Grouped constructor
+     *
+     * @param array              $arrayConfig
+     * @param string             $defaultAdapter
+     * @param ConfigFactory|null $factory        Factory used to load file
+     *                                           based fragments; a default
+     *                                           one is created when not
+     *                                           provided
      */
-    public function __construct(array! arrayConfig, string! defaultAdapter = "php")
-    {
-        var configArray, configInstance, configName;
+    public function __construct(
+        array! arrayConfig,
+        string! defaultAdapter = "php",
+        <ConfigFactory> factory = null
+    ) {
+        var configArray, configFactory, configInstance, configName;
 
         parent::__construct([]);
+
+        let configFactory = factory;
+
+        if null === configFactory {
+            let configFactory = new ConfigFactory();
+        }
 
         for configName in arrayConfig {
             let configInstance = configName;
@@ -89,7 +105,7 @@ class Grouped extends Config
             } elseif typeof configName === "string" {
                 if "" === defaultAdapter {
                     this->merge(
-                        (new ConfigFactory())->load(configName)
+                        configFactory->load(configName)
                     );
 
                     continue;
@@ -111,7 +127,7 @@ class Grouped extends Config
                 let configArray    = configInstance["config"],
                     configInstance = new Config(configArray, this->insensitive);
             } else {
-                let configInstance = (new ConfigFactory())->load(configInstance);
+                let configInstance = configFactory->load(configInstance);
             }
 
             this->merge(configInstance);

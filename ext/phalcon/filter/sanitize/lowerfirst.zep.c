@@ -34,6 +34,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_LowerFirst)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Filter\\Sanitize, LowerFirst, phalcon, filter_sanitize_lowerfirst, phalcon_filter_sanitize_lowerfirst_method_entry, 0);
 
+	zend_class_implements(phalcon_filter_sanitize_lowerfirst_ce, 1, phalcon_contracts_filter_sanitizer_ce);
 	return SUCCESS;
 }
 
@@ -57,7 +58,7 @@ PHP_METHOD(Phalcon_Filter_Sanitize_LowerFirst, __invoke)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&input_zv);
 	ZVAL_STR_COPY(&input_zv, input);
-	ZEPHIR_RETURN_CALL_FUNCTION("lcfirst", NULL, 145, &input_zv);
+	ZEPHIR_RETURN_CALL_FUNCTION("lcfirst", NULL, 146, &input_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }

@@ -8,6 +8,8 @@ PHP_METHOD(Phalcon_Session_Adapter_Noop, destroy);
 PHP_METHOD(Phalcon_Session_Adapter_Noop, gc);
 PHP_METHOD(Phalcon_Session_Adapter_Noop, open);
 PHP_METHOD(Phalcon_Session_Adapter_Noop, read);
+PHP_METHOD(Phalcon_Session_Adapter_Noop, updateTimestamp);
+PHP_METHOD(Phalcon_Session_Adapter_Noop, validateId);
 PHP_METHOD(Phalcon_Session_Adapter_Noop, write);
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_session_adapter_noop_close, 0, 0, _IS_BOOL, 0)
@@ -30,6 +32,15 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_session_adapter_noop_rea
 	ZEND_ARG_INFO(0, id)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_session_adapter_noop_updatetimestamp, 0, 2, _IS_BOOL, 0)
+	ZEND_ARG_INFO(0, id)
+	ZEND_ARG_INFO(0, data)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_session_adapter_noop_validateid, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_INFO(0, id)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_session_adapter_noop_write, 0, 2, _IS_BOOL, 0)
 	ZEND_ARG_INFO(0, id)
 	ZEND_ARG_INFO(0, data)
@@ -41,6 +52,8 @@ ZEPHIR_INIT_FUNCS(phalcon_session_adapter_noop_method_entry) {
 	PHP_ME(Phalcon_Session_Adapter_Noop, gc, arginfo_phalcon_session_adapter_noop_gc, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Session_Adapter_Noop, open, arginfo_phalcon_session_adapter_noop_open, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Session_Adapter_Noop, read, arginfo_phalcon_session_adapter_noop_read, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Session_Adapter_Noop, updateTimestamp, arginfo_phalcon_session_adapter_noop_updatetimestamp, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Session_Adapter_Noop, validateId, arginfo_phalcon_session_adapter_noop_validateid, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Session_Adapter_Noop, write, arginfo_phalcon_session_adapter_noop_write, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };

@@ -10,12 +10,14 @@
 
 namespace Phalcon\Filter\Sanitize;
 
+use Phalcon\Contracts\Filter\Sanitizer;
+
 /**
  * Phalcon\Filter\Sanitize\Lower
  *
  * Sanitizes a value to lowercase
  */
-class Lower
+class Lower implements Sanitizer
 {
     /**
      * @param string $input The text to sanitize

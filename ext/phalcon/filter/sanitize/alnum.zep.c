@@ -34,6 +34,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_Alnum)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Filter\\Sanitize, Alnum, phalcon, filter_sanitize_alnum, phalcon_filter_sanitize_alnum_method_entry, 0);
 
+	zend_class_implements(phalcon_filter_sanitize_alnum_ce, 1, phalcon_contracts_filter_sanitizer_ce);
 	return SUCCESS;
 }
 
