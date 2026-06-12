@@ -1966,7 +1966,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
      * @param string $ip
      * @return bool
      */
-    private function isProxyTrusted(string $ip) -> bool
+    private function isProxyTrusted(string ip) -> bool
     {
         var trusted;
 

@@ -150,7 +150,7 @@ class Csv extends AbstractAdapter
         let fileHandler = this->phpFopen(file, "rb");
 
         if unlikely typeof fileHandler !== "resource" {
-            throw new FileOpenError($file);
+            throw new FileOpenError(file);
         }
 
         loop {

@@ -317,7 +317,7 @@ class Stream extends AbstractAdapter
         var dirFromFile, dirPrefix;
 
         let dirPrefix   = this->getDirSeparator(this->storageDir . this->prefix),
-            dirFromFile = $this->getDirFromFile($this->getKeyWithoutPrefix($key));
+            dirFromFile = this->getDirFromFile(this->getKeyWithoutPrefix(key));
 
         return this->getDirSeparator(dirPrefix . dirFromFile);
     }
