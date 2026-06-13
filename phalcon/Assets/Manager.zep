@@ -865,7 +865,7 @@ class Manager extends AbstractInjectionAware
     ) -> string {
         var filter;
 
-        if (true !== mustFilter) {
+        if (mustFilter !== true) {
             return content;
         }
 
