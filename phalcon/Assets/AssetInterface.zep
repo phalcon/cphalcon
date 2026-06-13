@@ -11,7 +11,15 @@
 namespace Phalcon\Assets;
 
 /**
- * Interface for custom Phalcon\Assets resources
+ * Contract for collection membership in Phalcon\Assets. It covers an asset's
+ * key, type, HTML attributes, and filter flag - the data the manager uses to
+ * group assets into collections.
+ *
+ * It does NOT cover the file-output pipeline. Building, filtering, and
+ * rendering assets (`Phalcon\Assets\Manager::output()`) require the concrete
+ * `Phalcon\Assets\Asset` class, which `Manager::addAsset()` already
+ * type-hints. Implementing this interface alone is not enough to render an
+ * asset.
  */
 interface AssetInterface
 {

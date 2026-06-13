@@ -369,16 +369,11 @@ class Collection implements Countable, IteratorAggregate
      */
     public function has(<AssetInterface> asset) -> bool
     {
-        var key, storedAsset;
+        var key;
 
         let key = asset->getAssetKey();
-        for storedAsset in this->assets {
-            if (key === storedAsset->getAssetKey()) {
-                return true;
-            }
-        }
 
-        return false;
+        return isset this->assets[key];
     }
 
     /**
