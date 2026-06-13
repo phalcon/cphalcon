@@ -11,9 +11,16 @@
 
 - Changed `Phalcon\Acl\Adapter\Memory` to fire the `acl:beforeCheckAccess` and `acl:afterCheckAccess` events with an immutable array payload (`role`, `component`, `access`, plus `granted` on the `after` event) as the event data, instead of passing the adapter instance. [#17143](https://github.com/phalcon/cphalcon/issues/17143) [[doc]](https://docs.phalcon.io/5.15/acl/)
 - Changed `Phalcon\Mvc\Application\Exceptions\InvalidModuleDefinition` and `Phalcon\Cli\Console\Exceptions\InvalidModuleDefinition` to accept an optional module name and reason in the constructor. The exception message now identifies the offending module and why its definition is invalid. [#17146](https://github.com/phalcon/cphalcon/issues/17146) [[doc]](https://docs.phalcon.io/5.15/application/) [[doc]](https://docs.phalcon.io/5.15/application-cli/)
-- Changed the `Phalcon\Application\Exceptions\ModuleNotRegistered` message from "Module '...' is not registered in the application container" to "Module '...' is not registered in the application", since the module registry is distinct from the DI container. [#17146](https://github.com/phalcon/cphalcon/issues/17146) [[doc]](https://docs.phalcon.io/5.15/application/) [[doc]](https://docs.phalcon.io/5.15/application-cli/)m
+- Changed the `Phalcon\Application\Exceptions\ModuleNotRegistered` message to be more descriptive. [#17146](https://github.com/phalcon/cphalcon/issues/17146) [[doc]](https://docs.phalcon.io/5.15/application/) [[doc]](https://docs.phalcon.io/5.15/application-cli/)
+- Changed `Phalcon\Assets\Manager` to reject any collection filter that is not a `Phalcon\Assets\FilterInterface` instance with `Phalcon\Assets\Exceptions\InvalidFilter`, instead of a fatal error when a non-conforming object reached `filter()`. [#17147](https://github.com/phalcon/cphalcon/issues/17147) [[doc]](https://docs.phalcon.io/5.15/assets/)
+- Changed several `Phalcon\Assets` exceptions to provide better descriptions. [#17147](https://github.com/phalcon/cphalcon/issues/17147) [[doc]](https://docs.phalcon.io/5.15/assets/)
+- Changed `Phalcon\Assets\Collection::has()` to an O(1) keyed lookup (`isset`) over the asset store instead of a linear scan. [#17147](https://github.com/phalcon/cphalcon/issues/17147) [[doc]](https://docs.phalcon.io/5.15/assets/)
+- Changed `Phalcon\Assets\AssetInterface` and `Phalcon\Assets\FilterInterface` to extend the new `Phalcon\Contracts\Assets\Asset` and `Phalcon\Contracts\Assets\Filter` contracts. [#17147](https://github.com/phalcon/cphalcon/issues/17147) [[doc]](https://docs.phalcon.io/5.15/assets/)
+- Deprecated `Phalcon\Assets\Filters\Cssmin` and `Phalcon\Assets\Filters\Jsmin`; both return the content unchanged (the minification has never been implemented). [#17147](https://github.com/phalcon/cphalcon/issues/17147) [[doc]](https://docs.phalcon.io/5.15/assets/)
 
 ### Added
+
+- Added `Phalcon\Contracts\Assets\Asset` and `Phalcon\Contracts\Assets\Filter`, the canonical contracts for `Phalcon\Assets\Asset` and the Assets filters. They are the long-term replacements for the deprecated `Phalcon\Assets\AssetInterface` and `Phalcon\Assets\FilterInterface`. [#17147](https://github.com/phalcon/cphalcon/issues/17147) [[doc]](https://docs.phalcon.io/5.15/assets/)
 
 ### Fixed
 

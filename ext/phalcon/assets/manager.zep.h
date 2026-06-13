@@ -30,6 +30,7 @@ PHP_METHOD(Phalcon_Assets_Manager, outputJs);
 PHP_METHOD(Phalcon_Assets_Manager, set);
 PHP_METHOD(Phalcon_Assets_Manager, setOptions);
 PHP_METHOD(Phalcon_Assets_Manager, useImplicitOutput);
+PHP_METHOD(Phalcon_Assets_Manager, applyFilters);
 PHP_METHOD(Phalcon_Assets_Manager, calculatePrefixedPath);
 PHP_METHOD(Phalcon_Assets_Manager, checkAndCreateCollection);
 PHP_METHOD(Phalcon_Assets_Manager, cssLink);
@@ -163,6 +164,12 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_assets_manager_useimplic
 	ZEND_ARG_TYPE_INFO(0, implicitOutput, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_manager_applyfilters, 0, 2, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, content, IS_STRING, 0)
+	ZEND_ARG_ARRAY_INFO(0, filters, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, mustFilter, _IS_BOOL, 0, "true")
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_manager_calculateprefixedpath, 0, 3, IS_STRING, 0)
 	ZEND_ARG_OBJ_INFO(0, collection, Phalcon\\Assets\\Collection, 0)
 	ZEND_ARG_TYPE_INFO(0, path, IS_STRING, 0)
@@ -229,6 +236,7 @@ ZEPHIR_INIT_FUNCS(phalcon_assets_manager_method_entry) {
 	PHP_ME(Phalcon_Assets_Manager, set, arginfo_phalcon_assets_manager_set, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Assets_Manager, setOptions, arginfo_phalcon_assets_manager_setoptions, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Assets_Manager, useImplicitOutput, arginfo_phalcon_assets_manager_useimplicitoutput, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Assets_Manager, applyFilters, arginfo_phalcon_assets_manager_applyfilters, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Assets_Manager, calculatePrefixedPath, arginfo_phalcon_assets_manager_calculateprefixedpath, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Assets_Manager, checkAndCreateCollection, arginfo_phalcon_assets_manager_checkandcreatecollection, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Assets_Manager, cssLink, arginfo_phalcon_assets_manager_csslink, ZEND_ACC_PRIVATE)

@@ -359,7 +359,7 @@ PHP_METHOD(Phalcon_Config_ConfigFactory, parseConfig)
 		if (1 == ZEPHIR_IS_EMPTY(&extension)) {
 			ZEPHIR_INIT_VAR(&_1$$4);
 			object_init_ex(&_1$$4, phalcon_config_exceptions_missingfileextension_ce);
-			ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 361);
+			ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 362);
 			zephir_check_call_status();
 			zephir_throw_exception_debug(&_1$$4, "phalcon/Config/ConfigFactory.zep", 188);
 			ZEPHIR_MM_RESTORE();
@@ -383,13 +383,13 @@ PHP_METHOD(Phalcon_Config_ConfigFactory, parseConfig)
 	if (Z_TYPE_P(config) != IS_ARRAY) {
 		ZEPHIR_INIT_VAR(&_5$$6);
 		object_init_ex(&_5$$6, phalcon_config_exceptions_confignotarrayorobject_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_5$$6, "__construct", NULL, 362);
+		ZEPHIR_CALL_METHOD(NULL, &_5$$6, "__construct", NULL, 363);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_5$$6, "phalcon/Config/ConfigFactory.zep", 202);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkconfigarray", NULL, 363, config);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkconfigarray", NULL, 364, config);
 	zephir_check_call_status();
 	RETVAL_ZVAL(config, 1, 0);
 	RETURN_MM();

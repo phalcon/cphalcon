@@ -91,7 +91,7 @@ PHP_METHOD(Phalcon_Forms_Loader_YamlLoader, load)
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "yaml");
-	ZEPHIR_CALL_FUNCTION(&_1, "extension_loaded", NULL, 360, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "extension_loaded", NULL, 361, &_0);
 	zephir_check_call_status();
 	if (!(zephir_is_true(&_1))) {
 		ZEPHIR_INIT_VAR(&_2$$3);
@@ -104,7 +104,7 @@ PHP_METHOD(Phalcon_Forms_Loader_YamlLoader, load)
 	}
 	zephir_read_property(&_3, this_ptr, ZEND_STRL("source"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&source, &_3);
-	ZEPHIR_CALL_FUNCTION(&_4, "is_file", NULL, 357, &source);
+	ZEPHIR_CALL_FUNCTION(&_4, "is_file", NULL, 358, &source);
 	zephir_check_call_status();
 	_5 = zephir_is_true(&_4);
 	if (_5) {
@@ -113,7 +113,7 @@ PHP_METHOD(Phalcon_Forms_Loader_YamlLoader, load)
 		_5 = zephir_is_true(&_6);
 	}
 	if (_5) {
-		ZEPHIR_CALL_FUNCTION(&definitions, "yaml_parse_file", NULL, 359, &source);
+		ZEPHIR_CALL_FUNCTION(&definitions, "yaml_parse_file", NULL, 360, &source);
 		zephir_check_call_status();
 	} else {
 		ZEPHIR_CALL_FUNCTION(&definitions, "yaml_parse", NULL, 0, &source);
