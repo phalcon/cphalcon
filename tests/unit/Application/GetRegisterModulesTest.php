@@ -96,7 +96,7 @@ final class GetRegisterModulesTest extends AbstractUnitTestCase
     {
         $this->expectException(Exception::class);
         $this->expectExceptionMessage(
-            "Module 'no-module' is not registered in the application container"
+            "Module 'no-module' is not registered in the application"
         );
 
         $application = new FakeApplication();

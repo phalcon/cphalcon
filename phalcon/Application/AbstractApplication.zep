@@ -22,11 +22,6 @@ use Phalcon\Events\ManagerInterface;
 abstract class AbstractApplication extends Injectable implements EventsAwareInterface
 {
     /**
-     * @var DiInterface|null
-     */
-    protected container = null;
-
-    /**
      * @var string
      */
     protected defaultModule = "";
@@ -72,7 +67,7 @@ abstract class AbstractApplication extends Injectable implements EventsAwareInte
      *
      * @param string name
      *
-     * @return array|mixed
+     * @return array|object
      */
     public function getModule(string! name) -> array | object
     {
