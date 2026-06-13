@@ -10,6 +10,8 @@
 ### Changed
 
 - Changed `Phalcon\Acl\Adapter\Memory` to fire the `acl:beforeCheckAccess` and `acl:afterCheckAccess` events with an immutable array payload (`role`, `component`, `access`, plus `granted` on the `after` event) as the event data, instead of passing the adapter instance. [#17143](https://github.com/phalcon/cphalcon/issues/17143) [[doc]](https://docs.phalcon.io/5.15/acl/)
+- Changed `Phalcon\Mvc\Application\Exceptions\InvalidModuleDefinition` and `Phalcon\Cli\Console\Exceptions\InvalidModuleDefinition` to accept an optional module name and reason in the constructor. The exception message now identifies the offending module and why its definition is invalid. [#17146](https://github.com/phalcon/cphalcon/issues/17146) [[doc]](https://docs.phalcon.io/5.15/application/) [[doc]](https://docs.phalcon.io/5.15/application-cli/)
+- Changed the `Phalcon\Application\Exceptions\ModuleNotRegistered` message from "Module '...' is not registered in the application container" to "Module '...' is not registered in the application", since the module registry is distinct from the DI container. [#17146](https://github.com/phalcon/cphalcon/issues/17146) [[doc]](https://docs.phalcon.io/5.15/application/) [[doc]](https://docs.phalcon.io/5.15/application-cli/)m
 
 ### Added
 

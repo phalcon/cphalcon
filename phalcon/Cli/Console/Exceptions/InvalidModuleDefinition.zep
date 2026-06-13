@@ -14,8 +14,20 @@ use Phalcon\Cli\Console\Exception;
 
 class InvalidModuleDefinition extends Exception
 {
-    public function __construct()
+    public function __construct(string name = null, string reason = null)
     {
-        parent::__construct("Invalid module definition");
+        var message;
+
+        let message = "Invalid module definition";
+
+        if name !== null {
+            let message .= " for module '" . name . "'";
+        }
+
+        if reason !== null {
+            let message .= ": " . reason;
+        }
+
+        parent::__construct(message);
     }
 }

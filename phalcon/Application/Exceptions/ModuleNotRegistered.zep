@@ -17,7 +17,7 @@ class ModuleNotRegistered extends Exception
     public function __construct(string name)
     {
         parent::__construct(
-            "Module '" . name . "' is not registered in the application container"
+            "Module '" . name . "' is not registered in the application"
         );
     }
 }

@@ -439,7 +439,7 @@ final class HandleTest extends AbstractUnitTestCase
 
         $this->expectException(ModuleNotRegistered::class);
         $this->expectExceptionMessage(
-            "Module 'devtools' is not registered in the application container"
+            "Module 'devtools' is not registered in the application"
         );
 
         // testing module
