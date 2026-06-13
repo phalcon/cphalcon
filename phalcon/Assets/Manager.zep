@@ -873,7 +873,7 @@ class Manager extends AbstractInjectionAware
             /**
              * Filters must be valid FilterInterface instances
              */
-            if unlikely !(filter instanceof FilterInterface) {
+            if unlikely (typeof filter !== "object" || !(filter instanceof FilterInterface)) {
                 throw new InvalidFilter();
             }
 
