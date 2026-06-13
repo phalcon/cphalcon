@@ -1908,7 +1908,7 @@ PHP_METHOD(Phalcon_Events_Manager, runObjectQueue)
 				ZEPHIR_CALL_METHOD_ZVAL(&ret, &handlerObject, &handlerCallable, NULL, 0, event);
 				zephir_check_call_status();
 			} else if (ZEPHIR_IS_LONG(&type, 3)) {
-				ZEPHIR_CALL_FUNCTION(&ret, "call_user_func", &_2, 339, &handler, event);
+				ZEPHIR_CALL_FUNCTION(&ret, "call_user_func", &_2, 340, &handler, event);
 				zephir_check_call_status();
 			} else {
 				_3$$7 = Z_TYPE_P(methodName) != IS_NULL;
@@ -1972,7 +1972,7 @@ PHP_METHOD(Phalcon_Events_Manager, runObjectQueue)
 					ZEPHIR_CALL_METHOD_ZVAL(&ret, &handlerObject, &handlerCallable, NULL, 0, event);
 					zephir_check_call_status();
 				} else if (ZEPHIR_IS_LONG(&type, 3)) {
-					ZEPHIR_CALL_FUNCTION(&ret, "call_user_func", &_2, 339, &handler, event);
+					ZEPHIR_CALL_FUNCTION(&ret, "call_user_func", &_2, 340, &handler, event);
 					zephir_check_call_status();
 				} else {
 					_8$$17 = Z_TYPE_P(methodName) != IS_NULL;
