@@ -36,10 +36,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Application_AbstractApplication)
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Application, AbstractApplication, phalcon, application_abstractapplication, phalcon_di_injectable_ce, phalcon_application_abstractapplication_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
 	/**
-	 * @var DiInterface|null
-	 */
-	zend_declare_property_null(phalcon_application_abstractapplication_ce, SL("container"), ZEND_ACC_PROTECTED);
-	/**
 	 * @var string
 	 */
 	zend_declare_property_string(phalcon_application_abstractapplication_ce, SL("defaultModule"), "", ZEND_ACC_PROTECTED);
@@ -105,7 +101,7 @@ PHP_METHOD(Phalcon_Application_AbstractApplication, getEventsManager)
  *
  * @param string name
  *
- * @return array|mixed
+ * @return array|object
  */
 PHP_METHOD(Phalcon_Application_AbstractApplication, getModule)
 {
@@ -133,7 +129,7 @@ PHP_METHOD(Phalcon_Application_AbstractApplication, getModule)
 		object_init_ex(&_1$$3, phalcon_application_exceptions_modulenotregistered_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 136, &name_zv);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Application/AbstractApplication.zep", 82);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Application/AbstractApplication.zep", 77);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
