@@ -112,7 +112,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Acl_Adapter_AdapterInterface, isComponent);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Acl_Adapter_AdapterInterface, isRole);
 /**
- * Sets the default access level (Phalcon\Ac\Enuml::ALLOW or Phalcon\Acl\Enum::DENY)
+ * Sets the default access level (Phalcon\Acl\Enum::ALLOW or Phalcon\Acl\Enum::DENY)
  */
 ZEPHIR_DOC_METHOD(Phalcon_Acl_Adapter_AdapterInterface, setDefaultAction);
 /**

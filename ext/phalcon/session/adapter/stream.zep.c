@@ -189,7 +189,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, destroy)
 	ZEPHIR_CONCAT_VV(&file, &_0, &_1);
 	_2 = (zephir_file_exists(&file) == SUCCESS);
 	if (_2) {
-		ZEPHIR_CALL_FUNCTION(&_3, "is_file", NULL, 353, &file);
+		ZEPHIR_CALL_FUNCTION(&_3, "is_file", NULL, 357, &file);
 		zephir_check_call_status();
 		_2 = zephir_is_true(&_3);
 	}
@@ -273,7 +273,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, gc)
 				ZVAL_COPY(&file, _5$$6);
 				_6$$7 = 1 == (zephir_file_exists(&file) == SUCCESS);
 				if (_6$$7) {
-					ZEPHIR_CALL_FUNCTION(&_7$$7, "is_file", &_8, 353, &file);
+					ZEPHIR_CALL_FUNCTION(&_7$$7, "is_file", &_8, 357, &file);
 					zephir_check_call_status();
 					_6$$7 = ZEPHIR_IS_TRUE_IDENTICAL(&_7$$7);
 				}
@@ -308,7 +308,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, gc)
 				zephir_check_call_status();
 					_14$$9 = 1 == (zephir_file_exists(&file) == SUCCESS);
 					if (_14$$9) {
-						ZEPHIR_CALL_FUNCTION(&_15$$9, "is_file", &_8, 353, &file);
+						ZEPHIR_CALL_FUNCTION(&_15$$9, "is_file", &_8, 357, &file);
 						zephir_check_call_status();
 						_14$$9 = ZEPHIR_IS_TRUE_IDENTICAL(&_15$$9);
 					}
