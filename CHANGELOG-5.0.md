@@ -1,5 +1,25 @@
 # Changelog
 
+## [5.15.0](https://github.com/phalcon/cphalcon/releases/tag/v5.15.0) (2026-xx-xx)
+
+### Tools
+
+- Zephir Parser v2.0.4
+- Zephir 0.23.0 (development - 27535f802)
+
+### Changed
+
+- Changed `Phalcon\Acl\Adapter\Memory` to fire the `acl:beforeCheckAccess` and `acl:afterCheckAccess` events with an immutable array payload (`role`, `component`, `access`, plus `granted` on the `after` event) as the event data, instead of passing the adapter instance. [#17143](https://github.com/phalcon/cphalcon/issues/17143) [[doc]](https://docs.phalcon.io/5.15/acl/)
+
+### Added
+
+### Fixed
+
+- Fixed the `Phalcon\Acl\Adapter\Memory` documentation and metadata. [#17143](https://github.com/phalcon/cphalcon/issues/17143) [[doc]](https://docs.phalcon.io/5.15/acl/)
+
+### Removed
+
+
 ## [5.14.2](https://github.com/phalcon/cphalcon/releases/tag/v5.14.2) (2026-06-12)
 
 ### Tools

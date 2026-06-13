@@ -152,7 +152,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Stream, read)
 	if (UNEXPECTED(ZEPHIR_GLOBAL(warning).enable)) {
 		ZEPHIR_INIT_VAR(&_7$$5);
 		object_init_ex(&_7$$5, phalcon_annotations_exceptions_cannotreadannotationdata_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_7$$5, "__construct", NULL, 260);
+		ZEPHIR_CALL_METHOD(NULL, &_7$$5, "__construct", NULL, 264);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_7$$5, "phalcon/Annotations/Adapter/Stream.zep", 91);
 		ZEPHIR_MM_RESTORE();
@@ -207,7 +207,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Stream, write)
 	if (UNEXPECTED(ZEPHIR_IS_FALSE_IDENTICAL(&_4))) {
 		ZEPHIR_INIT_VAR(&_5$$3);
 		object_init_ex(&_5$$3, phalcon_annotations_exceptions_annotationsdirectorynotwritable_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_5$$3, "__construct", NULL, 261);
+		ZEPHIR_CALL_METHOD(NULL, &_5$$3, "__construct", NULL, 265);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_5$$3, "phalcon/Annotations/Adapter/Stream.zep", 112);
 		ZEPHIR_MM_RESTORE();

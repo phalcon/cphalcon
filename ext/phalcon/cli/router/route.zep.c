@@ -781,7 +781,7 @@ PHP_METHOD(Phalcon_Cli_Router_Route, reConfigure)
 				if (UNEXPECTED(_1$$10)) {
 					ZEPHIR_INIT_VAR(&_2$$11);
 					object_init_ex(&_2$$11, phalcon_cli_router_exceptions_invalidroutepaths_ce);
-					ZEPHIR_CALL_METHOD(NULL, &_2$$11, "__construct", NULL, 346);
+					ZEPHIR_CALL_METHOD(NULL, &_2$$11, "__construct", NULL, 350);
 					zephir_check_call_status();
 					zephir_throw_exception_debug(&_2$$11, "phalcon/Cli/Router/Route.zep", 455);
 					ZEPHIR_MM_RESTORE();
@@ -806,7 +806,7 @@ PHP_METHOD(Phalcon_Cli_Router_Route, reConfigure)
 	if (UNEXPECTED(Z_TYPE_P(&routePaths) != IS_ARRAY)) {
 		ZEPHIR_INIT_VAR(&_4$$16);
 		object_init_ex(&_4$$16, phalcon_cli_router_exceptions_invalidroutepaths_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_4$$16, "__construct", NULL, 346);
+		ZEPHIR_CALL_METHOD(NULL, &_4$$16, "__construct", NULL, 350);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_4$$16, "phalcon/Cli/Router/Route.zep", 479);
 		ZEPHIR_MM_RESTORE();

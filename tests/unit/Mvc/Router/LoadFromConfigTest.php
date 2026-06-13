@@ -189,20 +189,18 @@ final class LoadFromConfigTest extends AbstractUnitTestCase
                         [
                             'method'  => 'get',
                             'pattern' => '/users',
-                            'paths'   =>
-                                [
-                                    'controller' => 'users',
-                                    'action'     => 'index',
-                                ]
+                            'paths'   => [
+                                'controller' => 'users',
+                                'action'     => 'index'
+                            ]
                         ],
                         [
                             'method'  => 'post',
                             'pattern' => '/users',
-                            'paths'   =>
-                                [
-                                    'controller' => 'users',
-                                    'action'     => 'create',
-                                ]
+                            'paths'   => [
+                                'controller' => 'users',
+                                'action'     => 'create'
+                            ]
                         ],
                     ],
                 ],

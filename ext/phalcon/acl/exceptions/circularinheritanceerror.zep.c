@@ -18,6 +18,14 @@
 #include "kernel/object.h"
 
 
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Acl_Exceptions_CircularInheritanceError)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Acl\\Exceptions, CircularInheritanceError, phalcon, acl_exceptions_circularinheritanceerror, phalcon_acl_exception_ce, phalcon_acl_exceptions_circularinheritanceerror_method_entry, 0);

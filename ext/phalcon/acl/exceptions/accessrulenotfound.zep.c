@@ -18,6 +18,14 @@
 #include "kernel/object.h"
 
 
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Acl_Exceptions_AccessRuleNotFound)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Acl\\Exceptions, AccessRuleNotFound, phalcon, acl_exceptions_accessrulenotfound, phalcon_acl_exception_ce, phalcon_acl_exceptions_accessrulenotfound_method_entry, 0);
