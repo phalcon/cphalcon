@@ -115,7 +115,7 @@ final class ManagerOutputTest extends AbstractUnitTestCase
     public function testAssetsManagerGetJoinDirectoryTargetPathException(): void
     {
         $this->expectException(Exception::class);
-        $this->expectExceptionMessage('is not a valid target path (2)');
+        $this->expectExceptionMessage('is not a valid target path, it is a directory');
 
         $manager = new Manager(new TagFactory(new Escaper()));
         $manager->useImplicitOutput(false);
@@ -136,7 +136,7 @@ final class ManagerOutputTest extends AbstractUnitTestCase
     public function testAssetsManagerGetJoinEmptyTargetPathException(): void
     {
         $this->expectException(Exception::class);
-        $this->expectExceptionMessage('is not a valid target path (1)');
+        $this->expectExceptionMessage('is not a valid target path');
 
         $manager = new Manager(new TagFactory(new Escaper()));
         $manager->useImplicitOutput(false);
@@ -485,7 +485,7 @@ final class ManagerOutputTest extends AbstractUnitTestCase
     public function testAssetsManagerOutputSameSourceTargetPathException(): void
     {
         $this->expectException(Exception::class);
-        $this->expectExceptionMessage("have the same source and target paths");
+        $this->expectExceptionMessage("has the same source and target paths");
 
         $cssFile = supportDir('assets/assets/1198.css');
 

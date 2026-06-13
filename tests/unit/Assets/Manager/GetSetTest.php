@@ -49,7 +49,7 @@ final class GetSetTest extends AbstractUnitTestCase
     {
         $this->expectException(Exception::class);
         $this->expectExceptionMessage(
-            'The collection does not exist in the manager'
+            "The collection 'some-non-existent-collection' does not exist in the manager"
         );
 
         $manager = new Manager(new TagFactory(new Escaper()));
