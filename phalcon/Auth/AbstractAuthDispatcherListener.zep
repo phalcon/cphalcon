@@ -23,6 +23,11 @@ use Phalcon\Contracts\Auth\Manager;
  * the action-kind label used in the access-denied exception, and (Mvc only)
  * a forward handler for Access::redirectTo().
  *
+ * Enforcement is fail-open: when the manager has no active access
+ * (Manager::getAccess() === null) every dispatch is allowed. A policy
+ * activated via Manager::access() persists across forwards and nested
+ * dispatches in the same request until it is replaced.
+ *
  * @phpstan-import-type AccessContext from Access
  */
 abstract class AbstractAuthDispatcherListener

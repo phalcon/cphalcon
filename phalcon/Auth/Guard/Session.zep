@@ -82,7 +82,8 @@ class Session extends AbstractGuard implements GuardStateful, BasicAuth
         let config = new SessionGuardConfig(
             Options::stringOrNull(options, "suffix"),
             Options::stringOrNull(options, "name"),
-            Options::stringOrNull(options, "rememberName")
+            Options::stringOrNull(options, "rememberName"),
+            isset(options["rememberTtl"]) ? options["rememberTtl"] : null
         );
 
         return new static(
@@ -171,7 +172,7 @@ class Session extends AbstractGuard implements GuardStateful, BasicAuth
      */
     public function login(<AuthUser> user, bool remember = false) -> void
     {
-        this->fireManagerEvent("auth:beforeLogin");
+        this->fireManagerEvent("auth:beforeLogin", null, false);
 
         this->session->set(this->getName(), user->getAuthIdentifier());
 
@@ -184,7 +185,7 @@ class Session extends AbstractGuard implements GuardStateful, BasicAuth
 
         this->setUser(user);
 
-        this->fireManagerEvent("auth:afterLogin");
+        this->fireManagerEvent("auth:afterLogin", null, false);
     }
 
     /**
@@ -214,7 +215,7 @@ class Session extends AbstractGuard implements GuardStateful, BasicAuth
 
         let current = this->user();
 
-        this->fireManagerEvent("auth:beforeLogout", ["user" : current]);
+        this->fireManagerEvent("auth:beforeLogout", ["user" : current], false);
 
         let recaller = this->recaller();
         if (recaller !== null && current instanceof AuthRemember) {
@@ -231,7 +232,7 @@ class Session extends AbstractGuard implements GuardStateful, BasicAuth
 
         this->session->remove(this->getName());
 
-        this->fireManagerEvent("auth:afterLogout", ["user" : current]);
+        this->fireManagerEvent("auth:afterLogout", ["user" : current], false);
 
         let this->user = null;
     }
@@ -241,11 +242,11 @@ class Session extends AbstractGuard implements GuardStateful, BasicAuth
      */
     public function once(array credentials = []) -> bool
     {
-        this->fireManagerEvent("auth:beforeLogin");
+        this->fireManagerEvent("auth:beforeLogin", null, false);
 
         if (this->validate(credentials)) {
             this->setUser(this->lastUserAttempted);
-            this->fireManagerEvent("auth:afterLogin");
+            this->fireManagerEvent("auth:afterLogin", null, false);
 
             return true;
         }
@@ -410,7 +411,7 @@ class Session extends AbstractGuard implements GuardStateful, BasicAuth
         this->cookies->set(
             this->getRememberName(),
             payload,
-            time() + 360 * 24 * 60 * 60
+            time() + this->config->getRememberTtl()
         );
     }
 

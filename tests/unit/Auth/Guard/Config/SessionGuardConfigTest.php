@@ -30,6 +30,24 @@ final class SessionGuardConfigTest extends AbstractUnitTestCase
         new SessionGuardConfig(name: 'x', rememberName: 'x');
     }
 
+    public function testCustomRememberTtl(): void
+    {
+        $config = new SessionGuardConfig(rememberTtl: 3600);
+
+        $this->assertSame(3600, $config->getRememberTtl());
+    }
+
+    public function testDefaultRememberTtl(): void
+    {
+        $config = new SessionGuardConfig();
+
+        $this->assertSame(
+            SessionGuardConfig::DEFAULT_REMEMBER_TTL,
+            $config->getRememberTtl()
+        );
+        $this->assertSame(31536000, $config->getRememberTtl());
+    }
+
     public function testDefaultsBuildAuthAndRemember(): void
     {
         $config = new SessionGuardConfig();

@@ -265,6 +265,52 @@ final class ManagerFactoryTest extends AbstractUnitTestCase
         $this->assertInstanceOf(Session::class, $manager->getDefaultGuard());
     }
 
+    public function testLoadThrowsForMissingAdapter(): void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessageMatches("/requires 'adapter'/");
+
+        $factory = new ManagerFactory($this->security, $this->container);
+        $factory->load([
+            'guards' => [
+                'web' => [
+                    'type' => 'session',
+                ],
+            ],
+        ]);
+    }
+
+    public function testLoadThrowsForMissingAdapterName(): void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessageMatches("/requires 'name'/");
+
+        $factory = new ManagerFactory($this->security, $this->container);
+        $factory->load([
+            'guards' => [
+                'web' => [
+                    'type'    => 'session',
+                    'adapter' => ['options' => []],
+                ],
+            ],
+        ]);
+    }
+
+    public function testLoadThrowsForMissingGuardType(): void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessageMatches("/requires 'type'/");
+
+        $factory = new ManagerFactory($this->security, $this->container);
+        $factory->load([
+            'guards' => [
+                'web' => [
+                    'adapter' => ['name' => 'memory', 'options' => []],
+                ],
+            ],
+        ]);
+    }
+
     public function testLoadThrowsForUnknownAdapter(): void
     {
         $this->expectException(Exception::class);

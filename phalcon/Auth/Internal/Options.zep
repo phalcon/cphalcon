@@ -44,6 +44,27 @@ final class Options
     /**
      * @phpstan-param array<string, mixed> $options
      *
+     * @phpstan-return array<string, mixed>
+     * @throws Exception
+     */
+    public static function requireArray(array options, string key, string context) -> array
+    {
+        var value;
+
+        fetch value, options[key];
+
+        if (typeof value !== "array" || empty(value)) {
+            throw new Exception(
+                sprintf("Auth %s requires '%s' to be a non-empty array", context, key)
+            );
+        }
+
+        return value;
+    }
+
+    /**
+     * @phpstan-param array<string, mixed> $options
+     *
      * @throws Exception
      */
     public static function requireString(array options, string key, string context) -> string

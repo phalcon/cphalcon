@@ -14,6 +14,7 @@
 namespace Phalcon\Auth;
 
 use Phalcon\Auth\Access\AccessLocator;
+use Phalcon\Auth\Exceptions\DoesNotImplement;
 use Phalcon\Contracts\Auth\Access\Access;
 use Phalcon\Contracts\Auth\Adapter\Adapter;
 use Phalcon\Contracts\Auth\AuthUser;
@@ -110,7 +111,7 @@ class Manager implements ManagerContract
         let guard = this->guard();
 
         if (!guard instanceof GuardStateful) {
-            throw new Exception("Default guard does not implement GuardStateful");
+            throw new DoesNotImplement("Default guard", "GuardStateful");
         }
 
         return guard->attempt(credentials, remember);
@@ -195,7 +196,7 @@ class Manager implements ManagerContract
         let guard = this->guard();
 
         if (!guard instanceof GuardStateful) {
-            throw new Exception("Default guard does not implement GuardStateful");
+            throw new DoesNotImplement("Default guard", "GuardStateful");
         }
 
         guard->logout();

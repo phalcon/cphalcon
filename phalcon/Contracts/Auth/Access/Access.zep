@@ -59,11 +59,27 @@ interface Access
     public function redirectTo() -> array | null;
 
     /**
+     * Exempts the listed action names from the gate; every other action is
+     * checked. See setOnlyActions() for the gate-family divergence note.
+     *
      * @param list<string> $exceptActions
      */
     public function setExceptActions(array exceptActions = []) -> void;
 
     /**
+     * Restricts the gate to the listed action names.
+     *
+     * Authoritative semantics: the gate applies only to the listed actions; an
+     * action that is not listed passes without a check (and except() is the
+     * inverse - the gate applies to every action except those listed).
+     *
+     * NOTE: the implementations currently diverge. The Acl gate follows the
+     * authoritative semantics above, while the binary gates (Auth, Guest)
+     * treat `only` as a whitelist - an unlisted action is denied even when the
+     * base condition holds. The two gate families will be aligned in the next
+     * major version; until then, choose the gate family deliberately, because
+     * for an unlisted action they return opposite answers to the same call.
+     *
      * @param list<string> $onlyActions
      */
     public function setOnlyActions(array onlyActions = []) -> void;
