@@ -28,6 +28,8 @@ class SessionGuardConfig extends AbstractGuardConfig
     /**
      * Default remember-me cookie lifetime,
      * in seconds (365 days).
+     *
+     * @var int
      */
     const DEFAULT_REMEMBER_TTL = 31536000;
 
