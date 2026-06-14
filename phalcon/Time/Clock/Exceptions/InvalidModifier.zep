@@ -20,8 +20,8 @@ use Throwable;
 
 class InvalidModifier extends Exception
 {
-    public function __construct(string message, <Throwable> ex = null)
+    public function __construct(string modifier, <Throwable> ex = null)
     {
-        parent::__construct("Invalid modifier: \"" . message . "\"", 0, ex);
+        parent::__construct("Invalid modifier: \"" . modifier . "\"", 0, ex);
     }
 }
