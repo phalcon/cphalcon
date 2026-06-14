@@ -11,8 +11,11 @@
 namespace Phalcon\Translate\Adapter;
 
 use ArrayAccess;
+use Phalcon\Translate\Exception;
 use Phalcon\Translate\Exceptions\ImmutableObject;
+use Phalcon\Translate\Exceptions\KeyNotFound;
 use Phalcon\Translate\InterpolatorFactory;
+use Phalcon\Translate\Interpolator\InterpolatorInterface;
 
 /**
  * @psalm-type TOptions array{
@@ -31,9 +34,19 @@ abstract class AbstractAdapter implements AdapterInterface, ArrayAccess
     protected defaultInterpolator = "";
 
     /**
+     * @var InterpolatorInterface | null
+     */
+    protected interpolator = null;
+
+    /**
     * @var InterpolatorFactory
     */
     protected interpolatorFactory;
+
+    /**
+     * @var bool
+     */
+    protected triggerError = false;
 
     /**
      * AbstractAdapter constructor.
@@ -44,13 +57,18 @@ abstract class AbstractAdapter implements AdapterInterface, ArrayAccess
         <InterpolatorFactory> interpolator,
         array options = []
     ) {
-        var value;
+        var error, value;
 
         if !fetch value, options["defaultInterpolator"] {
             let value = "associativeArray";
         }
+
         let this->defaultInterpolator = value,
             this->interpolatorFactory = interpolator;
+
+        if fetch error, options["triggerError"] {
+            let this->triggerError = (bool) error;
+        }
     }
 
     /**
@@ -63,6 +81,23 @@ abstract class AbstractAdapter implements AdapterInterface, ArrayAccess
     public function _(string! translateKey, array placeholders = []) -> string
     {
         return this->query(translateKey, placeholders);
+    }
+
+    /**
+     * Whenever a key is not found this method will be called
+     *
+     * @param string $index
+     *
+     * @return string
+     * @throws Exception
+     */
+    public function notFound(string! index) -> string
+    {
+        if unlikely (true === this->triggerError) {
+            throw new KeyNotFound(index);
+        }
+
+        return index;
     }
 
     /**
@@ -82,7 +117,7 @@ abstract class AbstractAdapter implements AdapterInterface, ArrayAccess
      *
      * @param TKey $translateKey
      *
-     * @return TValue|null
+     * @return TValue
      */
     public function offsetGet(mixed translateKey) -> string | null
     {
@@ -139,11 +174,13 @@ abstract class AbstractAdapter implements AdapterInterface, ArrayAccess
         string! translation,
         array placeholders = []
     ) -> string {
-        var interpolator;
+        if null === this->interpolator {
+            let this->interpolator = this->interpolatorFactory->newInstance(
+                this->defaultInterpolator
+            );
+        }
 
-        let interpolator = this->interpolatorFactory->newInstance(this->defaultInterpolator);
-
-        return interpolator->replacePlaceholders(
+        return this->interpolator->replacePlaceholders(
             translation,
             placeholders
         );
