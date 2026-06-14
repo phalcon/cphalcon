@@ -19,10 +19,12 @@ namespace Phalcon\Tests\Unit\Auth\Adapter;
 use Phalcon\Auth\Adapter\Config\ModelAdapterConfig;
 use Phalcon\Auth\Adapter\Model;
 use Phalcon\Auth\Exception;
+use Phalcon\Auth\Exceptions\DoesNotImplement;
 use Phalcon\Encryption\Security;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Auth\Fake\FakeAuthUserModel;
 use Phalcon\Tests\Unit\Auth\Fake\FakeAuthUserNoRemember;
+use Phalcon\Tests\Unit\Auth\Fake\FakeNotAuthUserModel;
 
 final class ModelTest extends AbstractUnitTestCase
 {
@@ -54,7 +56,8 @@ final class ModelTest extends AbstractUnitTestCase
 
     protected function tearDown(): void
     {
-        FakeAuthUserModel::$rows = [];
+        FakeAuthUserModel::$rows    = [];
+        FakeNotAuthUserModel::$rows = [];
     }
 
     public function testRetrieveByIdReturnsUser(): void
@@ -63,6 +66,23 @@ final class ModelTest extends AbstractUnitTestCase
 
         $this->assertInstanceOf(FakeAuthUserModel::class, $user);
         $this->assertSame(1, $user->getAuthIdentifier());
+    }
+
+    public function testRetrieveByIdThrowsWhenModelDoesNotImplementAuthUser(): void
+    {
+        $this->expectException(DoesNotImplement::class);
+        $this->expectExceptionMessageMatches('/AuthUser/');
+
+        FakeNotAuthUserModel::$rows = [
+            ['id' => 1, 'email' => 'alice@example.com'],
+        ];
+
+        $adapter = new Model(
+            $this->security,
+            new ModelAdapterConfig(FakeNotAuthUserModel::class)
+        );
+
+        $adapter->retrieveById(1);
     }
 
     public function testRetrieveByIdReturnsNullOnMiss(): void

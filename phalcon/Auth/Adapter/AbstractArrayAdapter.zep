@@ -14,6 +14,7 @@
 namespace Phalcon\Auth\Adapter;
 
 use Phalcon\Auth\AuthUser;
+use Phalcon\Auth\Exceptions\DoesNotImplement;
 use Phalcon\Contracts\Auth\Adapter\AdapterConfig;
 use Phalcon\Contracts\Auth\AuthUser as AuthUserContract;
 
@@ -102,6 +103,8 @@ abstract class AbstractArrayAdapter extends AbstractAdapter
      * Phalcon\Auth\AuthUser value object.
      *
      * @phpstan-param AuthUserRow $row
+     *
+     * @throws DoesNotImplement
      */
     protected function hydrate(array row) -> <AuthUserContract>
     {
@@ -112,11 +115,14 @@ abstract class AbstractArrayAdapter extends AbstractAdapter
         if (modelClass !== null) {
             let instance = new {modelClass}();
 
+            if (!(instance instanceof AuthUserContract)) {
+                throw new DoesNotImplement("User model", "AuthUser");
+            }
+
             if (method_exists(instance, "assign")) {
                 instance->assign(row);
             }
 
-            /** @var AuthUserContract $instance */
             return instance;
         }
 

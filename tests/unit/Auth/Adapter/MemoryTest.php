@@ -18,10 +18,12 @@ namespace Phalcon\Tests\Unit\Auth\Adapter;
 
 use Phalcon\Auth\Adapter\Config\MemoryAdapterConfig;
 use Phalcon\Auth\Adapter\Memory;
+use Phalcon\Auth\Exceptions\DoesNotImplement;
 use Phalcon\Contracts\Auth\AuthUser;
 use Phalcon\Encryption\Security;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Auth\Fake\FakeAuthUserModel;
+use Phalcon\Tests\Unit\Auth\Fake\FakeNotAuthUserModel;
 
 final class MemoryTest extends AbstractUnitTestCase
 {
@@ -32,6 +34,28 @@ final class MemoryTest extends AbstractUnitTestCase
     {
         $this->security       = new Security();
         $this->hashedPassword = $this->security->hash('secret123');
+    }
+
+    public function testHydrateThrowsWhenModelDoesNotImplementAuthUser(): void
+    {
+        $this->expectException(DoesNotImplement::class);
+        $this->expectExceptionMessageMatches('/AuthUser/');
+
+        $adapter = new Memory(
+            $this->security,
+            new MemoryAdapterConfig(
+                [
+                    [
+                        'id'       => 1,
+                        'email'    => 'alice@example.com',
+                        'password' => $this->hashedPassword,
+                    ],
+                ],
+                FakeNotAuthUserModel::class
+            )
+        );
+
+        $adapter->retrieveById(1);
     }
 
     public function testRetrieveByCredentialsMatchesUser(): void
