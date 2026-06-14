@@ -16,6 +16,8 @@ use Exception;
 use Phalcon\Logger\Adapter\AdapterInterface;
 use Phalcon\Logger\Exceptions\AdapterNotFound;
 use Phalcon\Logger\Exceptions\NoAdaptersConfigured;
+use Phalcon\Time\Clock\ClockInterface;
+use Phalcon\Time\Clock\SystemClock;
 
 /**
  * Abstract Logger Class
@@ -83,6 +85,13 @@ abstract class AbstractLogger
     protected adapters = [];
 
     /**
+     * Clock used to timestamp log items
+     *
+     * @var ClockInterface
+     */
+    protected clock;
+
+    /**
      * The excluded adapters for this log process
      *
      * @var array
@@ -112,13 +121,17 @@ abstract class AbstractLogger
      * @param string            $name     The name of the logger
      * @param array             $adapters The collection of adapters to be used
      *                                    for logging (default [])
-     * @param DateTimeZone|null $timezone Timezone. If omitted,
-     *                                    date_Default_timezone_get() is used
+     * @param DateTimeZone|null   $timezone Timezone. If omitted,
+     *                                      date_Default_timezone_get() is used
+     * @param ClockInterface|null $clock    Clock used to timestamp log items.
+     *                                      Defaults to a SystemClock on the
+     *                                      resolved timezone.
      */
     public function __construct(
         string name,
         array adapters = [],
-        <DateTimeZone> timezone = null
+        <DateTimeZone> timezone = null,
+        <ClockInterface> clock = null
     ) {
         var defaultTimezone;
 
@@ -134,6 +147,12 @@ abstract class AbstractLogger
 
         let this->name     = name,
             this->timezone = timezone;
+
+        if (null === clock) {
+            let clock = new SystemClock(timezone);
+        }
+
+        let this->clock = clock;
 
         this->setAdapters(adapters);
     }
@@ -308,7 +327,7 @@ abstract class AbstractLogger
                 message,
                 levelName,
                 level,
-                new DateTimeImmutable("now", this->timezone),
+                this->clock->now(),
                 context
             );
 

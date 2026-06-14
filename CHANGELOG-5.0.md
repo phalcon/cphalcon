@@ -22,6 +22,9 @@
 - Changed the `Phalcon\Auth\Guard\Session` remember-me cookie lifetime to a configurable `Phalcon\Auth\Guard\Config\SessionGuardConfig` value (`rememberTtl`, default `DEFAULT_REMEMBER_TTL`); the default is now 365 days (previously a hardcoded 360). [#17148](https://github.com/phalcon/cphalcon/issues/17148) [[doc]](https://docs.phalcon.io/5.15/auth/)
 - Changed `Phalcon\Auth\Manager::attempt()` and `Phalcon\Auth\Manager::logout()` to throw `Phalcon\Auth\Exceptions\DoesNotImplement` (a subclass of `Phalcon\Auth\Exception`) when the default guard does not implement `GuardStateful`. [#17148](https://github.com/phalcon/cphalcon/issues/17148) [[doc]](https://docs.phalcon.io/5.15/auth/)
 - Changed the `Phalcon\Auth\Guard\Session` `auth:*` events to fire as non-cancellable, matching that their return value was already ignored. [#17148](https://github.com/phalcon/cphalcon/issues/17148) [[doc]](https://docs.phalcon.io/5.15/auth/)
+- Changed `Phalcon\Logger\AbstractLogger` to accept an optional `Phalcon\Time\Clock\ClockInterface` constructor parameter; log item timestamps now come from the clock, defaulting to a `Phalcon\Time\Clock\SystemClock` on the logger timezone (current behavior preserved). [#17151](https://github.com/phalcon/cphalcon/issues/17151) [[doc]](https://docs.phalcon.io/5.15/logger/) [[doc]](https://docs.phalcon.io/5.15/time-clock/)
+- Changed `Phalcon\Encryption\Security\JWT\Validator` to accept an optional `Phalcon\Time\Clock\ClockInterface` constructor parameter for reading the current time; `timeShift` is retained as the legacy clock-skew mechanism. [#17151](https://github.com/phalcon/cphalcon/issues/17151) [[doc]](https://docs.phalcon.io/5.15/encryption-security/) [[doc]](https://docs.phalcon.io/5.15/time-clock/)
+- Changed `Phalcon\Auth\Guard\Session` to accept an optional `Phalcon\Time\Clock\ClockInterface`; the remember-me cookie expiry now reads "now" through the clock, defaulting to `Phalcon\Time\Clock\SystemClock::fromUTC()` (current behavior preserved). [#17151](https://github.com/phalcon/cphalcon/issues/17151) [[doc]](https://docs.phalcon.io/5.15/auth/) [[doc]](https://docs.phalcon.io/5.15/time-clock/)
 
 ### Added
 
@@ -30,6 +33,7 @@
 ### Fixed
 
 - Fixed the `Phalcon\Acl\Adapter\Memory` documentation and metadata. [#17143](https://github.com/phalcon/cphalcon/issues/17143) [[doc]](https://docs.phalcon.io/5.15/acl/)
+- Fixed `Phalcon\Time\Clock\FrozenClock::adjust()` leaving the process-global `warning.enable` flag clobbered on the pre-PHP-8.3 fallback path; the prior value is now restored on both exits. [#17151](https://github.com/phalcon/cphalcon/issues/17151) [[doc]](https://docs.phalcon.io/5.15/time-clock/)
 
 ### Removed
 

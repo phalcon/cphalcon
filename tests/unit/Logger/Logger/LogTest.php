@@ -13,11 +13,14 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Logger\Logger;
 
+use DateTimeImmutable;
+use DateTimeZone;
 use Phalcon\Logger\Adapter\Stream;
 use Phalcon\Logger\Enum;
 use Phalcon\Logger\Formatter\Line;
 use Phalcon\Logger\Logger;
 use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Time\Clock\FrozenClock;
 use Psr\Log\LogLevel;
 
 use function file_get_contents;
@@ -195,6 +198,42 @@ final class LogTest extends AbstractUnitTestCase
             );
             $this->assertStringNotContainsString($expected, $contents);
         }
+
+        $adapter->close();
+        $this->safeDeleteFile($outputPath);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-14
+     */
+    public function testLoggerUsesInjectedClockForTimestamp(): void
+    {
+        $fileName   = $this->getNewFileName('log', 'log');
+        $outputPath = logsDir($fileName);
+        $adapter    = new Stream($outputPath);
+        $adapter->setFormatter(new Line('[%date%] %message%', 'Y-m-d H:i:s'));
+
+        $clock = new FrozenClock(
+            new DateTimeImmutable('2026-01-02 03:04:05', new DateTimeZone('UTC'))
+        );
+
+        $logger = new Logger(
+            'my-logger',
+            [
+                'one' => $adapter,
+            ],
+            new DateTimeZone('UTC'),
+            $clock
+        );
+
+        $logger->info('clock test');
+
+        $contents = file_get_contents($outputPath);
+        $this->assertStringContainsString(
+            '[2026-01-02 03:04:05] clock test',
+            $contents
+        );
 
         $adapter->close();
         $this->safeDeleteFile($outputPath);

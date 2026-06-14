@@ -39,7 +39,7 @@ final class FrozenClock implements ClockInterface
      */
     public function adjust(string modifier) -> <static>
     {
-        var ex, modified;
+        var ex, modified, priorWarning;
         bool failed;
 
         let failed = false;
@@ -51,6 +51,14 @@ final class FrozenClock implements ClockInterface
                 throw new InvalidModifier(modifier, ex);
             }
         } else {
+            /**
+             * Pre-8.3 fallback: DateTimeImmutable::modify() emits a warning
+             * instead of throwing on an invalid modifier, so the warning is
+             * captured through a temporary error handler. Remove this branch
+             * once the minimum supported PHP version reaches 8.3.
+             */
+            let priorWarning = globals_get("warning.enable");
+
             globals_set("warning.enable", false);
             set_error_handler(
                 function (number, message, file, line) {
@@ -64,6 +72,8 @@ final class FrozenClock implements ClockInterface
             restore_error_handler();
 
             let failed = (bool) globals_get("warning.enable");
+
+            globals_set("warning.enable", priorWarning);
         }
 
         if unlikely failed || false === modified {

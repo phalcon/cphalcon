@@ -20,6 +20,7 @@ use Phalcon\Http\Cookie\CookieInterface;
 
 final class FakeCookie implements CookieInterface
 {
+    private int $expiration = 0;
     private string $name;
     private mixed $value;
 
@@ -40,7 +41,7 @@ final class FakeCookie implements CookieInterface
 
     public function getExpiration(): int
     {
-        return 0;
+        return $this->expiration;
     }
 
     public function getHttpOnly(): bool
@@ -90,6 +91,8 @@ final class FakeCookie implements CookieInterface
 
     public function setExpiration(int $expire): CookieInterface
     {
+        $this->expiration = $expire;
+
         return $this;
     }
 
