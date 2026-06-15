@@ -192,6 +192,52 @@ final class IsValidTest extends AbstractUnitTestCase
     }
 
     /**
+     * Tests that isValid() with an entity and submitted data containing a
+     * numeric (integer) key does not emit a camelize() warning, validates
+     * normally and ignores the numeric key when binding to the entity.
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/17173
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-15
+     */
+    public function testFormsFormIsValidWithEntityAndNumericDataKey(): void
+    {
+        $form = new Form();
+        $name = new Text('name');
+        $name->addValidator(
+            new PresenceOf(['message' => 'The name is required'])
+        );
+        $form->add($name);
+
+        $input = [
+            0      => 'hacked',
+            'name' => 'John',
+        ];
+        $entity = new stdClass();
+
+        $warnings = [];
+        set_error_handler(
+            static function (int $number, string $message) use (&$warnings): bool {
+                $warnings[] = $message;
+
+                return true;
+            },
+            E_WARNING | E_USER_WARNING
+        );
+
+        try {
+            $result = $form->isValid($input, $entity);
+        } finally {
+            restore_error_handler();
+        }
+
+        $this->assertSame([], $warnings);
+        $this->assertTrue($result);
+        $this->assertObjectNotHasProperty('0', $entity);
+        $this->assertEquals('John', $entity->name);
+    }
+
+    /**
      * @issue  https://github.com/phalcon/cphalcon/issues/13149
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
