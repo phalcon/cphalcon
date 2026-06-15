@@ -55,8 +55,7 @@ class Settings
      */
     public static function get(string key) -> mixed
     {
-        var cast, knownKeys, localOverrides;
-        string value;
+        var localOverrides;
 
         let localOverrides = self::overrides;
 
@@ -69,19 +68,8 @@ class Settings
             return localOverrides[key];
         }
 
-        // Fall back to the C-level global for each known key
-        let knownKeys = self::getKnownKeys();
-
-        if isset knownKeys[key] {
-            let value = globals_get(key);
-            let cast  = knownKeys[key];
-
-            settype(value, cast);
-
-            return value;
-        }
-
-        return null;
+        // Fall back to the C-level global (null for unknown keys)
+        return self::readGlobal(key);
     }
 
     /**
@@ -97,12 +85,14 @@ class Settings
      */
     public static function set(string key, var value) -> void
     {
-        var knownKeys, localOverrides;
+        var localOverrides;
 
-        let knownKeys = self::getKnownKeys();
-
-        // Silently ignore unknown keys
-        if !isset(knownKeys[key]) {
+        /**
+         * Silently ignore unknown keys. A known key always resolves to a
+         * bool/int through readGlobal(), so a null result means the key is
+         * not part of the whitelist.
+         */
+        if null === self::readGlobal(key) {
             return;
         }
 
@@ -126,37 +116,85 @@ class Settings
     }
 
     /**
-     * The authoritative list of known settings mapped to the cast applied
-     * when reading their C-level global fallback. Consulted by both get()
-     * and set() so the whitelist lives in a single place.
+     * The single authoritative whitelist. Reads a known setting from its
+     * C-level global, applying the per-key cast, and returns null for any
+     * unknown key. Both get() and set() consult this method so the list of
+     * valid settings lives in one place.
      *
-     * @return array<string, string>
+     * globals_get() requires a string literal, so each key is read
+     * explicitly rather than by a variable lookup.
+     *
+     * @param string $key
+     * @return mixed
      */
-    private static function getKnownKeys() -> array
+    private static function readGlobal(string key) -> mixed
     {
-        return [
-            "db.escape_identifiers"                 : "bool",
-            "db.force_casting"                      : "bool",
-            "form.strict_entity_property_check"     : "bool",
-            "orm.case_insensitive_column_map"       : "bool",
-            "orm.cast_last_insert_id_to_int"        : "bool",
-            "orm.cast_on_hydrate"                   : "bool",
-            "orm.column_renaming"                   : "bool",
-            "orm.disable_assign_setters"            : "bool",
-            "orm.dynamic_update"                    : "bool",
-            "orm.enable_implicit_joins"             : "bool",
-            "orm.enable_literals"                   : "bool",
-            "orm.events"                            : "bool",
-            "orm.exception_on_failed_metadata_save" : "bool",
-            "orm.exception_on_failed_save"          : "bool",
-            "orm.ignore_unknown_columns"            : "bool",
-            "orm.late_state_binding"                : "bool",
-            "orm.not_null_validations"              : "bool",
-            "orm.resultset_empty_left_join_model"   : "bool",
-            "orm.resultset_prefetch_records"        : "int",
-            "orm.update_snapshot_on_save"           : "bool",
-            "orm.virtual_foreign_keys"              : "bool"
-        ];
+        switch key {
+            case "db.escape_identifiers":
+                return (bool) globals_get("db.escape_identifiers");
+
+            case "db.force_casting":
+                return (bool) globals_get("db.force_casting");
+
+            case "form.strict_entity_property_check":
+                return (bool) globals_get("form.strict_entity_property_check");
+
+            case "orm.case_insensitive_column_map":
+                return (bool) globals_get("orm.case_insensitive_column_map");
+
+            case "orm.cast_last_insert_id_to_int":
+                return (bool) globals_get("orm.cast_last_insert_id_to_int");
+
+            case "orm.cast_on_hydrate":
+                return (bool) globals_get("orm.cast_on_hydrate");
+
+            case "orm.column_renaming":
+                return (bool) globals_get("orm.column_renaming");
+
+            case "orm.disable_assign_setters":
+                return (bool) globals_get("orm.disable_assign_setters");
+
+            case "orm.dynamic_update":
+                return (bool) globals_get("orm.dynamic_update");
+
+            case "orm.enable_implicit_joins":
+                return (bool) globals_get("orm.enable_implicit_joins");
+
+            case "orm.enable_literals":
+                return (bool) globals_get("orm.enable_literals");
+
+            case "orm.events":
+                return (bool) globals_get("orm.events");
+
+            case "orm.exception_on_failed_metadata_save":
+                return (bool) globals_get("orm.exception_on_failed_metadata_save");
+
+            case "orm.exception_on_failed_save":
+                return (bool) globals_get("orm.exception_on_failed_save");
+
+            case "orm.ignore_unknown_columns":
+                return (bool) globals_get("orm.ignore_unknown_columns");
+
+            case "orm.late_state_binding":
+                return (bool) globals_get("orm.late_state_binding");
+
+            case "orm.not_null_validations":
+                return (bool) globals_get("orm.not_null_validations");
+
+            case "orm.resultset_empty_left_join_model":
+                return (bool) globals_get("orm.resultset_empty_left_join_model");
+
+            case "orm.resultset_prefetch_records":
+                return (int) globals_get("orm.resultset_prefetch_records");
+
+            case "orm.update_snapshot_on_save":
+                return (bool) globals_get("orm.update_snapshot_on_save");
+
+            case "orm.virtual_foreign_keys":
+                return (bool) globals_get("orm.virtual_foreign_keys");
+        }
+
+        return null;
     }
 }
 
