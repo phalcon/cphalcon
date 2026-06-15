@@ -48,9 +48,6 @@ class NativeArray extends AbstractAdapter
         int show, pageNumber, totalPages, number, previous, next;
         double roundedTotal;
 
-        /**
-         * TODO: Rewrite the whole method!
-         */
         let config = this->config,
             items  = config["data"];
 
