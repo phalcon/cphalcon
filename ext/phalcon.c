@@ -125,6 +125,7 @@ zend_class_entry *phalcon_contracts_container_resolver_resolverservice_ce;
 zend_class_entry *phalcon_contracts_container_service_collection_ce;
 zend_class_entry *phalcon_contracts_encryption_security_security_ce;
 zend_class_entry *phalcon_contracts_events_stoppable_ce;
+zend_class_entry *phalcon_contracts_messages_messages_ce;
 zend_class_entry *phalcon_datamapper_pdo_connectionlocatorinterface_ce;
 zend_class_entry *phalcon_datamapper_pdo_profiler_profilerinterface_ce;
 zend_class_entry *phalcon_db_checkinterface_ce;
@@ -1468,6 +1469,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Contracts_Container_Service_Collection);
 	ZEPHIR_INIT(Phalcon_Contracts_Encryption_Security_Security);
 	ZEPHIR_INIT(Phalcon_Contracts_Events_Stoppable);
+	ZEPHIR_INIT(Phalcon_Contracts_Messages_Messages);
 	ZEPHIR_INIT(Phalcon_DataMapper_Pdo_ConnectionLocatorInterface);
 	ZEPHIR_INIT(Phalcon_DataMapper_Pdo_Profiler_ProfilerInterface);
 	ZEPHIR_INIT(Phalcon_Db_CheckInterface);

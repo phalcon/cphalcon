@@ -209,7 +209,13 @@ PHP_METHOD(Phalcon_Support_AbstractLocator, has)
 }
 
 /**
- * Retrieve a shared service instance from the container.
+ * Retrieve a service instance from the container.
+ *
+ * On the `DiInterface` path this returns the container's **shared**
+ * instance (`getShared()`) — despite the name, it is not a fresh build.
+ * Locators whose services carry per-activation state should override this
+ * method to resolve a fresh instance; see `Auth\Access\AccessLocator`, which uses
+ * `ContainerResolver::resolveFresh` for exactly that reason.
  *
  * @return T
  */
@@ -265,7 +271,7 @@ PHP_METHOD(Phalcon_Support_AbstractLocator, newInstance)
 			zephir_check_call_status();
 		}
 
-		zephir_throw_exception_debug(&_2$$3, "phalcon/Support/AbstractLocator.zep", 108);
+		zephir_throw_exception_debug(&_2$$3, "phalcon/Support/AbstractLocator.zep", 114);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -340,7 +346,7 @@ PHP_METHOD(Phalcon_Support_AbstractLocator, register)
 			zephir_check_call_status();
 		}
 
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Support/AbstractLocator.zep", 138);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Support/AbstractLocator.zep", 144);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -419,12 +425,12 @@ PHP_METHOD(Phalcon_Support_AbstractLocator, getService)
 			zephir_check_call_status();
 		}
 
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Support/AbstractLocator.zep", 176);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Support/AbstractLocator.zep", 182);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	zephir_read_property(&_5, this_ptr, ZEND_STRL("services"), PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch(&_6, &_5, &name_zv, PH_NOISY | PH_READONLY, "phalcon/Support/AbstractLocator.zep", 179);
+	zephir_array_fetch(&_6, &_5, &name_zv, PH_NOISY | PH_READONLY, "phalcon/Support/AbstractLocator.zep", 185);
 	RETURN_CTOR(&_6);
 }
 

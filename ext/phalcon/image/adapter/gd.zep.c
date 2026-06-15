@@ -123,7 +123,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, __construct)
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("file"), PH_NOISY_CC | PH_READONLY);
 	if (1 == (zephir_file_exists(&_0) == SUCCESS)) {
 		zephir_read_property(&_1$$3, this_ptr, ZEND_STRL("file"), PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_CALL_FUNCTION(&_2$$3, "realpath", NULL, 140, &_1$$3);
+		ZEPHIR_CALL_FUNCTION(&_2$$3, "realpath", NULL, 141, &_1$$3);
 		zephir_check_call_status();
 		zephir_update_property_zval(this_ptr, ZEND_STRL("realpath"), &_2$$3);
 		zephir_read_property(&_3$$3, this_ptr, ZEND_STRL("file"), PH_NOISY_CC | PH_READONLY);
@@ -1219,7 +1219,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, processSave)
 	zephir_memory_observe(&file_zv);
 	ZVAL_STR_COPY(&file_zv, file);
 	ZVAL_LONG(&_0, 4);
-	ZEPHIR_CALL_FUNCTION(&extension, "pathinfo", NULL, 168, &file_zv, &_0);
+	ZEPHIR_CALL_FUNCTION(&extension, "pathinfo", NULL, 170, &file_zv, &_0);
 	zephir_check_call_status();
 	if (1 == ZEPHIR_IS_EMPTY(&extension)) {
 		zephir_read_property(&_1$$3, this_ptr, ZEND_STRL("type"), PH_NOISY_CC | PH_READONLY);

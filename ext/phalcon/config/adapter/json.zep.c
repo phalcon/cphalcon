@@ -88,7 +88,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Json, __construct)
 		object_init_ex(&_0$$3, phalcon_config_exceptions_cannotloadconfigfile_ce);
 		ZEPHIR_INIT_VAR(&_1$$3);
 		zephir_basename(&_1$$3, &filePath_zv);
-		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 355, &_1$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 357, &_1$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_0$$3, "phalcon/Config/Adapter/Json.zep", 51);
 		ZEPHIR_MM_RESTORE();
@@ -102,7 +102,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Json, __construct)
 	}
 
 	ZVAL_BOOL(&_4, 1);
-	ZEPHIR_CALL_METHOD(&_3, &_2, "__invoke", NULL, 310, &content, &_4);
+	ZEPHIR_CALL_METHOD(&_3, &_2, "__invoke", NULL, 312, &content, &_4);
 	zephir_check_call_status();
 	ZEPHIR_CALL_PARENT(NULL, phalcon_config_adapter_json_ce, getThis(), "__construct", NULL, 0, &_3);
 	zephir_check_call_status();
