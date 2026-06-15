@@ -45,6 +45,11 @@ abstract class AbstractLogger
      */
     const CRITICAL  = 1;
     /**
+     * Default threshold and fallback sink. It sits between DEBUG (7) and
+     * TRACE (9) in the ordering, so the default log level excludes TRACE.
+     * It is also the fallback for unknown message levels and invalid
+     * setLogLevel() values.
+     *
      * @var int
      */
     const CUSTOM    = 8;
@@ -173,6 +178,40 @@ abstract class AbstractLogger
     }
 
     /**
+     * Starts a transaction on every (non-excluded) adapter in the stack.
+     *
+     * @return static
+     */
+    public function begin() -> <static>
+    {
+        var adapter, collection;
+
+        let collection = array_diff_key(this->adapters, this->excluded);
+        for adapter in collection {
+            adapter->begin();
+        }
+
+        return this;
+    }
+
+    /**
+     * Commits the transaction on every (non-excluded) adapter in the stack.
+     *
+     * @return static
+     */
+    public function commit() -> <static>
+    {
+        var adapter, collection;
+
+        let collection = array_diff_key(this->adapters, this->excluded);
+        for adapter in collection {
+            adapter->commit();
+        }
+
+        return this;
+    }
+
+    /**
      * Exclude certain adapters.
      *
      * @param array $adapters
@@ -267,6 +306,23 @@ abstract class AbstractLogger
     }
 
     /**
+     * Rolls back the transaction on every (non-excluded) adapter in the stack.
+     *
+     * @return static
+     */
+    public function rollback() -> <static>
+    {
+        var adapter, collection;
+
+        let collection = array_diff_key(this->adapters, this->excluded);
+        for adapter in collection {
+            adapter->rollback();
+        }
+
+        return this;
+    }
+
+    /**
      * Sets the adapters stack overriding what is already there
      *
      * @param array $adapters An array of adapters
@@ -281,7 +337,11 @@ abstract class AbstractLogger
     }
 
     /**
-     * Sets the adapters stack overriding what is already there
+     * Sets the minimum log level for the logger.
+     *
+     * An unknown level is not rejected: it is stored as CUSTOM, which sits
+     * between DEBUG and TRACE in the ordering, so the threshold becomes
+     * "everything except TRACE".
      *
      * @param int $level
      *
@@ -314,7 +374,7 @@ abstract class AbstractLogger
         string message,
         array context = []
     ) -> bool {
-        var adapter, collection, item, levelName, levels, method;
+        var adapter, collection, item, levelName, levels;
         if (this->logLevel >= level) {
             if (count(this->adapters) === 0) {
                 throw new NoAdaptersConfigured();
@@ -336,19 +396,20 @@ abstract class AbstractLogger
              */
             let collection = array_diff_key(this->adapters, this->excluded);
             for adapter in collection {
-                let method = "process";
                 if (true === adapter->inTransaction()) {
-                    let method = "add";
+                    adapter->add(item);
+                } else {
+                    adapter->process(item);
                 }
-
-                adapter->{method}(item);
             }
-
-            /**
-             * Clear the excluded array since we made the call now
-             */
-            let this->excluded = [];
         }
+
+        /**
+         * Clear the excluded array since we made the call now. This runs
+         * regardless of the level filter so a filtered-out message cannot
+         * leave the exclusion armed for the next call.
+         */
+        let this->excluded = [];
 
         return true;
     }
