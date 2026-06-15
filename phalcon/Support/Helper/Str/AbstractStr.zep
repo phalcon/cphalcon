@@ -14,6 +14,12 @@ namespace Phalcon\Support\Helper\Str;
  * Abstract class offering methods to help with the Str namespace. This can
  * be moved to a trait once Zephir supports it.
  *
+ * This base exists only for the `Str` helper hierarchy; it is not a general
+ * base class. New code that needs these routines should compose the relevant
+ * invokable helper (for example `Str\Interpolate`) rather than extending it.
+ *
+ * @internal
+ *
  * @todo move to trait when there is support for it
  */
 abstract class AbstractStr
