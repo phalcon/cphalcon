@@ -10,6 +10,7 @@
 
 namespace Phalcon\Messages;
 
+use JsonSerializable;
 use Phalcon\Contracts\Messages\Messages as MessagesContract;
 use Phalcon\Messages\Exceptions\MessageNotObject;
 use Phalcon\Messages\Exceptions\MessagesNotIterable;
@@ -25,7 +26,7 @@ use Traversable;
  * Use the append methods (`appendMessage()` / `appendMessages()`) when entries
  * must take part in iteration.
  */
-class Messages implements MessagesContract
+class Messages implements MessagesContract, JsonSerializable
 {
     /**
      * @var int

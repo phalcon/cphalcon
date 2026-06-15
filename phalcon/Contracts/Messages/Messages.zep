@@ -13,7 +13,6 @@ namespace Phalcon\Contracts\Messages;
 use ArrayAccess;
 use Countable;
 use Iterator;
-use JsonSerializable;
 use Phalcon\Messages\MessageInterface;
 
 /**
@@ -24,7 +23,7 @@ use Phalcon\Messages\MessageInterface;
  * ArrayAccess interface stays reachable by that offset but is not visited
  * during iteration (`foreach`), which walks the integer sequence only.
  */
-interface Messages extends ArrayAccess, Countable, Iterator, JsonSerializable
+interface Messages extends ArrayAccess, Countable, Iterator
 {
     /**
      * Appends a message to the collection
