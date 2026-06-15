@@ -77,6 +77,11 @@ class Loader extends AbstractEventsAware
     protected namespaces = [];
 
     /**
+     * @var int
+     */
+    protected nestingLevel = 0;
+
+    /**
      * Loader constructor.
      */
     public function __construct(bool isDebug = false)
@@ -161,7 +166,7 @@ class Loader extends AbstractEventsAware
             nsSeparator  = "\\",
             dirSeparator = DIRECTORY_SEPARATOR,
             nsName       = trim(nsName, nsSeparator) . nsSeparator,
-            directories  = this->checkDirectories(directories, dirSeparator);
+            directories  = this->checkDirectories(directories, dirSeparator, name);
 
         // initialize the namespace prefix array if needed
         if (!isset(this->namespaces[nsName])) {
@@ -187,41 +192,51 @@ class Loader extends AbstractEventsAware
      */
     public function autoload(string className) -> bool
     {
-        let this->debug = [];
+        bool result;
+
+        /**
+         * Reset the debug trail only on the outermost call. A "require_once"
+         * routinely triggers a nested autoload (a class extending a not yet
+         * loaded parent); resetting on a nested call would clobber the trail
+         * of the outer call mid-flight.
+         */
+        if (0 === this->nestingLevel) {
+            let this->debug = [];
+        }
+
+        let result             = true,
+            this->nestingLevel = this->nestingLevel + 1;
 
         this->addDebug("Loading: " . className);
         this->fireManagerEvent("loader:beforeCheckClass", className);
 
-        if (true === this->autoloadCheckClasses(className)) {
-            return true;
+        if (true !== this->autoloadCheckClasses(className)) {
+            this->addDebug("Class: 404: " . className);
+
+            if (true !== this->autoloadCheckNamespaces(className)) {
+                this->addDebug("Namespace: 404: " . className);
+
+                if (
+                    true !== this->autoloadCheckDirectories(
+                        this->directories,
+                        className,
+                        true
+                    )
+                ) {
+                    this->addDebug("Directories: 404: " . className);
+                    this->fireManagerEvent("loader:afterCheckClass", className);
+
+                    /**
+                     * Cannot find the class
+                     */
+                    let result = false;
+                }
+            }
         }
 
-        this->addDebug("Class: 404: " . className);
+        let this->nestingLevel = this->nestingLevel - 1;
 
-        if (true === this->autoloadCheckNamespaces(className)) {
-            return true;
-        }
-
-        this->addDebug("Namespace: 404: " . className);
-
-        if (
-            true === this->autoloadCheckDirectories(
-                this->directories,
-                className,
-                true
-            )
-        ) {
-            return true;
-        }
-
-        this->addDebug("Directories: 404: " . className);
-
-        this->fireManagerEvent("loader:afterCheckClass", className);
-
-        /**
-         * Cannot find the class, return false
-         */
-        return false;
+        return result;
     }
 
     /**
@@ -316,10 +331,7 @@ class Loader extends AbstractEventsAware
         for file in files {
             this->fireManagerEvent("loader:beforeCheckPath", file);
 
-            if (true === this->requireFile(file)) {
-                let this->foundPath = file;
-                this->fireManagerEvent("loader:pathFound", file);
-            }
+            this->requireFile(file);
         }
     }
 
@@ -473,16 +485,13 @@ class Loader extends AbstractEventsAware
      */
     public function setNamespaces(array namespaces, bool merge = false) -> <static>
     {
-        var dirSeparator, directories, name;
-
-        let dirSeparator = DIRECTORY_SEPARATOR;
+        var directories, name;
 
         if (!merge) {
             let this->namespaces = [];
         }
 
         for name, directories in namespaces {
-            let directories = this->checkDirectories(directories, dirSeparator);
             this->addNamespace(name, directories);
         }
 
@@ -533,6 +542,8 @@ class Loader extends AbstractEventsAware
          * Check if the file specified even exists
          */
         if (false !== call_user_func(this->fileCheckingCallback, file)) {
+            let this->foundPath = file;
+
             /**
              * Call 'pathFound' event
              */
@@ -608,12 +619,14 @@ class Loader extends AbstractEventsAware
 
         if (true === isset(this->classes[className])) {
             let filePath = this->classes[className];
-            this->fireManagerEvent("loader:pathFound", filePath);
 
-            this->requireFile(filePath);
-            this->addDebug("Class: load: " . filePath);
+            this->fireManagerEvent("loader:beforeCheckPath", filePath);
 
-            return true;
+            if (true === this->requireFile(filePath)) {
+                this->addDebug("Class: load: " . filePath);
+
+                return true;
+            }
         }
 
         return false;
@@ -679,21 +692,16 @@ class Loader extends AbstractEventsAware
      */
     private function autoloadCheckNamespaces(string className) -> bool
     {
-        var directories, fileName, namespaces, nsSeparator, prefix;
+        var directories, fileName, namespaces, prefix;
 
-        let nsSeparator = "\\",
-            namespaces  = this->namespaces;
+        let namespaces = this->namespaces;
 
         for prefix, directories in namespaces {
             if (true !== starts_with(className, prefix)) {
                 continue;
             }
 
-            /**
-             * Append the namespace separator to the prefix
-             */
-            let prefix   = rtrim(prefix, nsSeparator) . nsSeparator,
-                fileName = substr(className, strlen(prefix));
+            let fileName = substr(className, strlen(prefix));
 
             if (true === this->autoloadCheckDirectories(directories, fileName)) {
                 this->addDebug("Namespace: " . prefix . " - " . this->checkedPath);
@@ -712,17 +720,21 @@ class Loader extends AbstractEventsAware
      *
      * @param mixed  $directories
      * @param string $dirSeparator
+     * @param string $name
      *
      * @return array<string, string>
      * @throws Exception
      */
-    private function checkDirectories(directories, string dirSeparator) -> array
-    {
+    private function checkDirectories(
+        directories,
+        string dirSeparator,
+        string name = ""
+    ) -> array {
         var directory;
         array results;
 
         if (!is_string(directories) && !is_array(directories)) {
-            throw new LoaderDirectoriesNotArray();
+            throw new LoaderDirectoriesNotArray(name);
         }
 
         if (is_string(directories)) {
