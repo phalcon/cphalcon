@@ -55,7 +55,8 @@ class Settings
      */
     public static function get(string key) -> mixed
     {
-        var cast, knownKeys, localOverrides, value;
+        var cast, knownKeys, localOverrides;
+        string value;
 
         let localOverrides = self::overrides;
 
