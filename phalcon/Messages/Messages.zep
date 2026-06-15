@@ -10,17 +10,22 @@
 
 namespace Phalcon\Messages;
 
-use ArrayAccess;
-use Countable;
-use Iterator;
-use JsonSerializable;
+use Phalcon\Contracts\Messages\Messages as MessagesContract;
 use Phalcon\Messages\Exceptions\MessageNotObject;
 use Phalcon\Messages\Exceptions\MessagesNotIterable;
+use Traversable;
 
 /**
  * Represents a collection of messages
+ *
+ * Messages are stored and iterated by integer position. An entry added under a
+ * string key through the ArrayAccess interface (for example
+ * `$messages["database"] = $message`) stays reachable by that offset but is not
+ * visited during iteration (`foreach`), which walks the integer sequence only.
+ * Use the append methods (`appendMessage()` / `appendMessages()`) when entries
+ * must take part in iteration.
  */
-class Messages implements ArrayAccess, Countable, Iterator, JsonSerializable
+class Messages implements MessagesContract
 {
     /**
      * @var int
@@ -67,7 +72,7 @@ class Messages implements ArrayAccess, Countable, Iterator, JsonSerializable
     {
         var currentMessages, finalMessages, message;
 
-        if typeof messages !== "array" && typeof messages !== "object" {
+        if typeof messages !== "array" && !(messages instanceof Traversable) {
             throw new MessagesNotIterable();
         }
 
@@ -89,10 +94,6 @@ class Messages implements ArrayAccess, Countable, Iterator, JsonSerializable
              * A collection of messages is iterated and appended one-by-one to
              * the current list
              */
-            //for message in iterator(messages) {
-            //    this->appendMessage(message);
-            //}
-
             messages->rewind();
 
             while messages->valid() {
@@ -237,9 +238,9 @@ class Messages implements ArrayAccess, Countable, Iterator, JsonSerializable
      *
      * @param \Phalcon\Messages\Message message
      */
-    public function offsetSet(mixed offset, mixed value) -> void
+    public function offsetSet(mixed offset, var value) -> void
     {
-        if typeof value !== "object" {
+        if !(value instanceof MessageInterface) {
             throw new MessageNotObject();
         }
 
