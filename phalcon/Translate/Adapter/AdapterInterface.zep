@@ -29,6 +29,17 @@ interface AdapterInterface
     /**
      * Returns the translation related to the given key
      *
+     * Missing-key semantics differ per adapter:
+     *
+     * | Adapter     | Missing key returns       | Strict mode (triggerError) |
+     * | ----------- | ------------------------- | -------------------------- |
+     * | NativeArray | the key, not interpolated | yes                        |
+     * | Csv         | the key, interpolated     | yes                        |
+     * | Gettext     | the msgid (gettext)       | yes                        |
+     *
+     * With strict mode enabled (the `triggerError` option) a missing key
+     * throws `KeyNotFound` instead of falling back.
+     *
      * @phpstan-param array<string, string> $placeholders
      *
      * @return string
