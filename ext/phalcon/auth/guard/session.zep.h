@@ -30,6 +30,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_auth_guard_session___construct, 0, 0, 4)
 	ZEND_ARG_OBJ_INFO(0, cookies, Phalcon\\Http\\Response\\CookiesInterface, 0)
 	ZEND_ARG_OBJ_INFO(0, session, Phalcon\\Session\\ManagerInterface, 0)
 	ZEND_ARG_OBJ_TYPE_MASK(0, config, Phalcon\\Auth\\Guard\\Config\\SessionGuardConfig, MAY_BE_NULL, "null")
+	ZEND_ARG_OBJ_TYPE_MASK(0, clock, Phalcon\\Time\\Clock\\ClockInterface, MAY_BE_NULL, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_auth_guard_session_fromoptions, 0, 3, MAY_BE_STATIC)

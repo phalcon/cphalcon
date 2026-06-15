@@ -43,17 +43,17 @@ PHP_METHOD(Phalcon_Time_Clock_Exceptions_InvalidModifier, __construct)
 	zval _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval message_zv, *ex = NULL, ex_sub, __$null, _1;
-	zend_string *message = NULL;
+	zval modifier_zv, *ex = NULL, ex_sub, __$null, _1;
+	zend_string *modifier = NULL;
 
-	ZVAL_UNDEF(&message_zv);
+	ZVAL_UNDEF(&modifier_zv);
 	ZVAL_UNDEF(&ex_sub);
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_0);
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
-		Z_PARAM_STR(message)
+		Z_PARAM_STR(modifier)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(ex, zend_ce_throwable)
 	ZEND_PARSE_PARAMETERS_END();
@@ -62,14 +62,14 @@ PHP_METHOD(Phalcon_Time_Clock_Exceptions_InvalidModifier, __construct)
 	if (ZEND_NUM_ARGS() > 1) {
 		ex = ZEND_CALL_ARG(execute_data, 2);
 	}
-	zephir_memory_observe(&message_zv);
-	ZVAL_STR_COPY(&message_zv, message);
+	zephir_memory_observe(&modifier_zv);
+	ZVAL_STR_COPY(&modifier_zv, modifier);
 	if (!ex) {
 		ex = &ex_sub;
 		ex = &__$null;
 	}
 	ZEPHIR_INIT_VAR(&_0);
-	ZEPHIR_CONCAT_SVS(&_0, "Invalid modifier: \"", &message_zv, "\"");
+	ZEPHIR_CONCAT_SVS(&_0, "Invalid modifier: \"", &modifier_zv, "\"");
 	ZVAL_LONG(&_1, 0);
 	ZEPHIR_CALL_PARENT(NULL, phalcon_time_clock_exceptions_invalidmodifier_ce, getThis(), "__construct", NULL, 0, &_0, &_1, ex);
 	zephir_check_call_status();

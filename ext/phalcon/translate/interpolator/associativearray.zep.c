@@ -12,10 +12,10 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/object.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
-#include "kernel/operators.h"
-#include "kernel/object.h"
 
 
 /**
@@ -33,6 +33,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Translate_Interpolator_AssociativeArray)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Translate\\Interpolator, AssociativeArray, phalcon, translate_interpolator_associativearray, phalcon_translate_interpolator_associativearray_method_entry, 0);
 
+	/**
+	 * @var Interpolate | null
+	 */
+	zend_declare_property_null(phalcon_translate_interpolator_associativearray_ce, SL("interpolate"), ZEND_ACC_PROTECTED);
 	zend_class_implements(phalcon_translate_interpolator_associativearray_ce, 1, phalcon_translate_interpolator_interpolatorinterface_ce);
 	return SUCCESS;
 }
@@ -49,11 +53,14 @@ PHP_METHOD(Phalcon_Translate_Interpolator_AssociativeArray, replacePlaceholders)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval placeholders;
-	zval translation_zv, *placeholders_param = NULL, interpolate;
+	zval translation_zv, *placeholders_param = NULL, _0, _2, _1$$3;
 	zend_string *translation = NULL;
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&translation_zv);
-	ZVAL_UNDEF(&interpolate);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&placeholders);
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(translation)
@@ -73,14 +80,19 @@ PHP_METHOD(Phalcon_Translate_Interpolator_AssociativeArray, replacePlaceholders)
 	} else {
 		zephir_get_arrval(&placeholders, placeholders_param);
 	}
-	ZEPHIR_INIT_VAR(&interpolate);
-	object_init_ex(&interpolate, phalcon_support_helper_str_interpolate_ce);
-	if (zephir_has_constructor(&interpolate)) {
-		ZEPHIR_CALL_METHOD(NULL, &interpolate, "__construct", NULL, 0);
-		zephir_check_call_status();
-	}
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("interpolate"), PH_NOISY_CC | PH_READONLY);
+	if (Z_TYPE_P(&_0) == IS_NULL) {
+		ZEPHIR_INIT_VAR(&_1$$3);
+		object_init_ex(&_1$$3, phalcon_support_helper_str_interpolate_ce);
+		if (zephir_has_constructor(&_1$$3)) {
+			ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 0);
+			zephir_check_call_status();
+		}
 
-	ZEPHIR_RETURN_CALL_METHOD(&interpolate, "__invoke", NULL, 0, &translation_zv, &placeholders);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("interpolate"), &_1$$3);
+	}
+	zephir_read_property(&_2, this_ptr, ZEND_STRL("interpolate"), PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_RETURN_CALL_METHOD(&_2, "__invoke", NULL, 0, &translation_zv, &placeholders);
 	zephir_check_call_status();
 	RETURN_MM();
 }

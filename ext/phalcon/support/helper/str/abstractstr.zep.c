@@ -33,6 +33,12 @@
  * Abstract class offering methods to help with the Str namespace. This can
  * be moved to a trait once Zephir supports it.
  *
+ * This base exists only for the `Str` helper hierarchy; it is not a general
+ * base class. New code that needs these routines should compose the relevant
+ * invokable helper (for example `Str\Interpolate`) rather than extending it.
+ *
+ * @internal
+ *
  * @todo move to trait when there is support for it
  */
 ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Str_AbstractStr)
@@ -173,7 +179,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_AbstractStr, toInterpolate)
 	}
 	ZEPHIR_INIT_VAR(&replace);
 	array_init(&replace);
-	zephir_is_iterable(&context, 0, "phalcon/Support/Helper/Str/AbstractStr.zep", 82);
+	zephir_is_iterable(&context, 0, "phalcon/Support/Helper/Str/AbstractStr.zep", 88);
 	if (Z_TYPE_P(&context) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&context), _1, _2, _0)
 		{

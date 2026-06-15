@@ -43,7 +43,7 @@ PHP_METHOD(Phalcon_Messages_Exceptions_MessageNotObject, __construct)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	ZEPHIR_INIT_VAR(&_0);
-	ZVAL_STRING(&_0, "The message must be an object");
+	ZVAL_STRING(&_0, "The message must be an instance of MessageInterface");
 	ZEPHIR_CALL_PARENT(NULL, phalcon_messages_exceptions_messagenotobject_ce, getThis(), "__construct", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

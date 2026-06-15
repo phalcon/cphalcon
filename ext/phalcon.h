@@ -213,6 +213,7 @@
 #include "phalcon/contracts/container/service/collection.zep.h"
 #include "phalcon/contracts/encryption/security/security.zep.h"
 #include "phalcon/contracts/events/stoppable.zep.h"
+#include "phalcon/contracts/messages/messages.zep.h"
 #include "phalcon/datamapper/pdo/connectionlocatorinterface.zep.h"
 #include "phalcon/datamapper/pdo/profiler/profilerinterface.zep.h"
 #include "phalcon/db/checkinterface.zep.h"

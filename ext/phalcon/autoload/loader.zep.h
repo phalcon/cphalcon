@@ -167,6 +167,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_autoload_loader_checkdirectories, 0, 2, IS_ARRAY, 0)
 	ZEND_ARG_INFO(0, directories)
 	ZEND_ARG_TYPE_INFO(0, dirSeparator, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, name, IS_STRING, 0, "''")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_autoload_loader_zephir_init_properties_phalcon_autoload_loader, 0, 0, 0)
