@@ -81,7 +81,7 @@ final class OffsetGetSetTest extends AbstractUnitTestCase
     public function testMessagesMessagesOffsetSetException(): void
     {
         $this->expectException(Exception::class);
-        $this->expectExceptionMessage('The message must be an object');
+        $this->expectExceptionMessage('The message must be an instance of MessageInterface');
 
         $messages = new Messages();
         $messages->offsetSet(2, 'message');

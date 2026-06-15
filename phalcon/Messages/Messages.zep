@@ -73,7 +73,7 @@ class Messages implements MessagesContract, JsonSerializable
     {
         var currentMessages, finalMessages, message;
 
-        if typeof messages !== "array" && !(messages instanceof Traversable) {
+        if typeof messages !== "array" && !(typeof messages === "object" && messages instanceof Traversable) {
             throw new MessagesNotIterable();
         }
 
@@ -241,7 +241,7 @@ class Messages implements MessagesContract, JsonSerializable
      */
     public function offsetSet(mixed offset, var value) -> void
     {
-        if !(value instanceof MessageInterface) {
+        if typeof value !== "object" || !(value instanceof MessageInterface) {
             throw new MessageNotObject();
         }
 
