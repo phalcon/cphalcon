@@ -204,6 +204,15 @@ class Validation extends Injectable implements ValidationInterface
 
         for field, value in data {
             /**
+             * Skip numeric (integer) keys; entity setters and properties are
+             * always string-named, so camelize() would fail on them. See
+             * cphalcon issue #17173.
+             */
+            if typeof field != "string" {
+                continue;
+            }
+
+            /**
              * Check if the field is in the whitelist
              */
             if !empty whitelist && !in_array(field, whitelist) {
