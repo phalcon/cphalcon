@@ -514,9 +514,17 @@ class Mysql extends PdoAdapter
                 }
 
                 /**
-                 * Check if the column has default value
+                 * Check if the column has default value.
+                 *
+                 * `INFORMATION_SCHEMA.COLUMNS.COLUMN_DEFAULT` reports a column
+                 * declared `DEFAULT NULL` as the literal string "NULL" (the
+                 * legacy `SHOW FULL COLUMNS` returned a real SQL NULL). Treat
+                 * that sentinel as "no default" so a nullable column is not
+                 * given the string "NULL" as its default, which would later be
+                 * written back onto the model attribute on save. See cphalcon
+                 * issue #17176.
                  */
-                if field[5] !== null {
+                if field[5] !== null && field[5] !== "NULL" {
                     if memstr(extraValue, "on update") {
                         let definition["default"] = field[5] . " " . extraValue;
                     } else {
