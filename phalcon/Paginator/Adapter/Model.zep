@@ -13,6 +13,7 @@ namespace Phalcon\Paginator\Adapter;
 use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\Model\ResultsetInterface;
 use Phalcon\Paginator\Exception;
+use Phalcon\Paginator\Exceptions\MissingRequiredParameter;
 use Phalcon\Paginator\RepositoryInterface;
 
 /**
@@ -84,6 +85,24 @@ use Phalcon\Paginator\RepositoryInterface;
  */
 class Model extends AbstractAdapter
 {
+    /**
+     * Phalcon\Paginator\Adapter\Model constructor
+     *
+     * @param array config = [
+     *     'model'  => null,
+     *     'limit'  => 10,
+     *     'page'   => 1
+     * ]
+     */
+    public function __construct(array! config)
+    {
+        if unlikely !isset config["model"] {
+            throw new MissingRequiredParameter("model");
+        }
+
+        parent::__construct(config);
+    }
+
     /**
      * Returns a slice of the resultset to show in the pagination
      */

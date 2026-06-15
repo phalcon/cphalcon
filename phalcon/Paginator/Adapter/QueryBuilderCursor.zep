@@ -217,8 +217,17 @@ class QueryBuilderCursor extends AbstractAdapter
         if count(items) > limit {
             array_pop(items);
 
-            let lastItem   = items[count(items) - 1],
-                nextCursor = (int) lastItem[this->cursorColumn];
+            let lastItem = items[count(items) - 1];
+
+            /**
+             * A non-numeric cursor value (e.g. a UUID column) would cast to 0
+             * and silently terminate pagination, so reject it explicitly.
+             */
+            if unlikely !is_numeric(lastItem[this->cursorColumn]) {
+                throw new InvalidCursorColumn();
+            }
+
+            let nextCursor = (int) lastItem[this->cursorColumn];
         } else {
             let nextCursor = 0;
         }
