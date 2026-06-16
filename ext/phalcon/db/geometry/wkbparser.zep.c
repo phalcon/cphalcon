@@ -95,7 +95,7 @@ PHP_METHOD(Phalcon_Db_Geometry_WkbParser, parse)
 		_0 = zephir_is_true(&_1);
 	}
 	if (_0) {
-		ZEPHIR_CALL_FUNCTION(&body, "hex2bin", NULL, 37, &raw_zv);
+		ZEPHIR_CALL_FUNCTION(&body, "hex2bin", NULL, 38, &raw_zv);
 		zephir_check_call_status();
 	} else {
 		if (zephir_fast_strlen_ev(&raw_zv) < 5) {

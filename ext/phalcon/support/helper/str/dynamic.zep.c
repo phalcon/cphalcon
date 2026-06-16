@@ -171,7 +171,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Dynamic, __invoke)
 			ZEPHIR_INIT_NVAR(&_11$$6);
 			ZEPHIR_CONCAT_SVS(&_11$$6, "/", &sub, "/");
 			ZVAL_LONG(&_12$$6, 1);
-			ZEPHIR_CALL_FUNCTION(&_13$$6, "preg_replace", &_14, 78, &_11$$6, &word, &text, &_12$$6);
+			ZEPHIR_CALL_FUNCTION(&_13$$6, "preg_replace", &_14, 79, &_11$$6, &word, &text, &_12$$6);
 			zephir_check_call_status();
 			zephir_get_strval(&text, &_13$$6);
 		} ZEND_HASH_FOREACH_END();

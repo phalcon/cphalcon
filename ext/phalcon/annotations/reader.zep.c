@@ -101,7 +101,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse)
 	array_init(&annotations);
 	ZEPHIR_INIT_VAR(&reflection);
 	object_init_ex(&reflection, zephir_get_internal_ce(SL("reflectionclass")));
-	ZEPHIR_CALL_METHOD(NULL, &reflection, "__construct", NULL, 261, &className_zv);
+	ZEPHIR_CALL_METHOD(NULL, &reflection, "__construct", NULL, 262, &className_zv);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&comment, &reflection, "getdoccomment", NULL, 274);
 	zephir_check_call_status();

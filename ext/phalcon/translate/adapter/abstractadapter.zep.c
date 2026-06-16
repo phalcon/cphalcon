@@ -183,7 +183,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, notFound)
 	if (UNEXPECTED(ZEPHIR_IS_TRUE_IDENTICAL(&_0))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_translate_exceptions_keynotfound_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 135, &index_zv);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 136, &index_zv);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Translate/Adapter/AbstractAdapter.zep", 97);
 		ZEPHIR_MM_RESTORE();
@@ -272,7 +272,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, offsetSet)
 	zephir_fetch_params(1, 2, 0, &offset, &value);
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, phalcon_translate_exceptions_immutableobject_ce);
-	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 136);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 137);
 	zephir_check_call_status();
 	zephir_throw_exception_debug(&_0, "phalcon/Translate/Adapter/AbstractAdapter.zep", 138);
 	ZEPHIR_MM_RESTORE();
@@ -303,7 +303,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, offsetUnset)
 	zephir_fetch_params(1, 1, 0, &offset);
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, phalcon_translate_exceptions_immutableobject_ce);
-	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 136);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 137);
 	zephir_check_call_status();
 	zephir_throw_exception_debug(&_0, "phalcon/Translate/Adapter/AbstractAdapter.zep", 151);
 	ZEPHIR_MM_RESTORE();

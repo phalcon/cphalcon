@@ -154,7 +154,7 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_Env, cast)
 	if (Z_TYPE_P(&_0) != IS_NULL) {
 		zephir_read_property(&_1$$3, this_ptr, ZEND_STRL("vartype"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_MAKE_REF(value);
-		ZEPHIR_CALL_FUNCTION(NULL, "settype", NULL, 13, value, &_1$$3);
+		ZEPHIR_CALL_FUNCTION(NULL, "settype", NULL, 19, value, &_1$$3);
 		ZEPHIR_UNREF(value);
 		zephir_check_call_status();
 	}
@@ -187,7 +187,7 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_Env, getEnv)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_get_global(&_ENV, SL("_ENV"));
 
-	ZEPHIR_CALL_FUNCTION(&_0, "getenv", NULL, 145);
+	ZEPHIR_CALL_FUNCTION(&_0, "getenv", NULL, 146);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&envs);
 	zephir_fast_array_merge(&envs, &_ENV, &_0);
@@ -196,7 +196,7 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_Env, getEnv)
 		ZEPHIR_INIT_VAR(&_2$$3);
 		object_init_ex(&_2$$3, phalcon_container_exceptions_envnotdefined_ce);
 		zephir_read_property(&_3$$3, this_ptr, ZEND_STRL("varname"), PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 146, &_3$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 147, &_3$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_2$$3, "phalcon/Container/Resolver/Lazy/Env.zep", 98);
 		ZEPHIR_MM_RESTORE();

@@ -356,7 +356,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, serialize)
 		zephir_check_call_status();
 		RETURN_MM();
 	}
-	ZEPHIR_RETURN_CALL_FUNCTION("serialize", NULL, 22, &data);
+	ZEPHIR_RETURN_CALL_FUNCTION("serialize", NULL, 23, &data);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -719,7 +719,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, unserialize)
 		ZEPHIR_CALL_METHOD(&resultset, &serializer, "getdata", NULL, 0);
 		zephir_check_call_status();
 	} else {
-		ZEPHIR_CALL_FUNCTION(&resultset, "unserialize", NULL, 27, data);
+		ZEPHIR_CALL_FUNCTION(&resultset, "unserialize", NULL, 28, data);
 		zephir_check_call_status();
 	}
 	if (UNEXPECTED(Z_TYPE_P(&resultset) != IS_ARRAY)) {
