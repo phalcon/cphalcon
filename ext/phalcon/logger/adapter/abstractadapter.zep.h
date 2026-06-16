@@ -8,6 +8,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, __serialize);
 PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, __unserialize);
 PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, add);
 PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, begin);
+PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, close);
 PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, commit);
 PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, getFormatter);
 PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, getQueueLimit);
@@ -37,6 +38,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_logger_adapter_abstractad
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_logger_adapter_abstractadapter_begin, 0, 0, Phalcon\\Logger\\Adapter\\AdapterInterface, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_adapter_abstractadapter_close, 0, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_logger_adapter_abstractadapter_commit, 0, 0, Phalcon\\Logger\\Adapter\\AdapterInterface, 0)
@@ -86,6 +90,7 @@ PHP_ME(Phalcon_Logger_Adapter_AbstractAdapter, __destruct, arginfo_phalcon_logge
 	PHP_ME(Phalcon_Logger_Adapter_AbstractAdapter, __unserialize, arginfo_phalcon_logger_adapter_abstractadapter___unserialize, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_Adapter_AbstractAdapter, add, arginfo_phalcon_logger_adapter_abstractadapter_add, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_Adapter_AbstractAdapter, begin, arginfo_phalcon_logger_adapter_abstractadapter_begin, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_Adapter_AbstractAdapter, close, arginfo_phalcon_logger_adapter_abstractadapter_close, ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_Adapter_AbstractAdapter, commit, arginfo_phalcon_logger_adapter_abstractadapter_commit, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_Adapter_AbstractAdapter, getFormatter, arginfo_phalcon_logger_adapter_abstractadapter_getformatter, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_Adapter_AbstractAdapter, getQueueLimit, arginfo_phalcon_logger_adapter_abstractadapter_getqueuelimit, ZEND_ACC_PUBLIC)

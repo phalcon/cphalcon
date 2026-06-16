@@ -125,6 +125,9 @@ class Logger extends AbstractLogger implements LoggerInterface
     /**
      * Logs with an arbitrary level.
      *
+     * An unknown level (a typo or an unmapped value) is not rejected; it maps
+     * to the CUSTOM level and is logged, rather than raising an exception.
+     *
      * @param mixed  $level
      * @param string $message
      * @param array  $context

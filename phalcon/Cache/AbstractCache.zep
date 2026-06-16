@@ -13,9 +13,7 @@ namespace Phalcon\Cache;
 use DateInterval;
 use Phalcon\Cache\Adapter\AdapterInterface;
 use Phalcon\Cache\Adapter\Redis;
-use Phalcon\Cache\Exception\CacheKeysNotIterable;
 use Phalcon\Cache\Exception\InvalidArgumentException;
-use Phalcon\Cache\Exception\InvalidCacheKey;
 use Phalcon\Events\EventsAwareInterface;
 use Phalcon\Events\ManagerInterface;
 use Traversable;
@@ -60,6 +58,28 @@ abstract class AbstractCache implements CacheInterface, EventsAwareInterface
     }
 
     /**
+     * Fetches a value from the cache.
+     *
+     * @param string $key
+     * @param mixed  $defaultValue
+     *
+     * @return mixed
+     */
+    abstract public function get(string key, var defaultValue = null);
+
+    /**
+     * Persists data in the cache, uniquely referenced by a key with an
+     * optional expiration TTL time.
+     *
+     * @param string                $key
+     * @param mixed                 $value
+     * @param null|int|DateInterval $ttl
+     *
+     * @return bool
+     */
+    abstract public function set(string key, var value, var ttl = null) -> bool;
+
+    /**
      * Sets the event manager
      */
     public function setEventsManager(<ManagerInterface> eventsManager) -> void
@@ -84,8 +104,12 @@ abstract class AbstractCache implements CacheInterface, EventsAwareInterface
      */
     protected function checkKey(string key) -> void
     {
+        var exceptionClass;
+
         if (preg_match("/[^A-Za-z0-9-_.]/", key)) {
-            throw new InvalidCacheKey();
+            let exceptionClass = this->getExceptionClass();
+
+            throw new {exceptionClass}("The key contains invalid characters");
         }
     }
 
@@ -98,8 +122,14 @@ abstract class AbstractCache implements CacheInterface, EventsAwareInterface
      */
     protected function checkKeys(var keys) -> void
     {
+        var exceptionClass;
+
         if (!(typeof keys === "array" || keys instanceof Traversable)) {
-            throw new CacheKeysNotIterable();
+            let exceptionClass = this->getExceptionClass();
+
+            throw new {exceptionClass}(
+                "The keys need to be an array or instance of Traversable"
+            );
         }
     }
 

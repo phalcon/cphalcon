@@ -33,7 +33,7 @@ abstract class AbstractAdapter implements AdapterInterface
      *
      * @var string
      */
-    protected defaultFormatter = "Phalcon\\Logger\Formatter\\Line";
+    protected defaultFormatter = "Phalcon\\Logger\\Formatter\\Line";
 
     /**
      * Formatter
@@ -69,12 +69,14 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
      * Destructor cleanup
      *
-     * @throws TransactionAlreadyActive
+     * Throwing from a destructor is fatal during script shutdown, so an open
+     * transaction is auto-committed here (flushing the queued items) rather
+     * than throwing.
      */
     public function __destruct()
     {
         if this->inTransaction {
-            throw new TransactionAlreadyActive();
+            this->commit();
         }
 
         this->close();
@@ -121,13 +123,27 @@ abstract class AbstractAdapter implements AdapterInterface
 
     /**
      * Starts a transaction
+     *
+     * @return AdapterInterface
+     * @throws TransactionAlreadyActive
      */
     public function begin() -> <AdapterInterface>
     {
+        if this->inTransaction {
+            throw new TransactionAlreadyActive();
+        }
+
         let this->inTransaction = true;
 
         return this;
     }
+
+    /**
+     * Closes the logger
+     *
+     * @return bool
+     */
+    abstract public function close() -> bool;
 
     /**
      * Commits the internal transaction

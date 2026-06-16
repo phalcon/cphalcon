@@ -5,12 +5,15 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_AbstractLogger);
 
 PHP_METHOD(Phalcon_Logger_AbstractLogger, __construct);
 PHP_METHOD(Phalcon_Logger_AbstractLogger, addAdapter);
+PHP_METHOD(Phalcon_Logger_AbstractLogger, begin);
+PHP_METHOD(Phalcon_Logger_AbstractLogger, commit);
 PHP_METHOD(Phalcon_Logger_AbstractLogger, excludeAdapters);
 PHP_METHOD(Phalcon_Logger_AbstractLogger, getAdapter);
 PHP_METHOD(Phalcon_Logger_AbstractLogger, getAdapters);
 PHP_METHOD(Phalcon_Logger_AbstractLogger, getLogLevel);
 PHP_METHOD(Phalcon_Logger_AbstractLogger, getName);
 PHP_METHOD(Phalcon_Logger_AbstractLogger, removeAdapter);
+PHP_METHOD(Phalcon_Logger_AbstractLogger, rollback);
 PHP_METHOD(Phalcon_Logger_AbstractLogger, setAdapters);
 PHP_METHOD(Phalcon_Logger_AbstractLogger, setLogLevel);
 PHP_METHOD(Phalcon_Logger_AbstractLogger, addMessage);
@@ -28,6 +31,12 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_logger_abstractlogger_addadapter, 0, 2, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 	ZEND_ARG_OBJ_INFO(0, adapter, Phalcon\\Logger\\Adapter\\AdapterInterface, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_logger_abstractlogger_begin, 0, 0, MAY_BE_STATIC)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_logger_abstractlogger_commit, 0, 0, MAY_BE_STATIC)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_logger_abstractlogger_excludeadapters, 0, 0, MAY_BE_STATIC)
@@ -49,6 +58,9 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_logger_abstractlogger_removeadapter, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_logger_abstractlogger_rollback, 0, 0, MAY_BE_STATIC)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_logger_abstractlogger_setadapters, 0, 1, MAY_BE_STATIC)
@@ -78,12 +90,15 @@ ZEND_END_ARG_INFO()
 ZEPHIR_INIT_FUNCS(phalcon_logger_abstractlogger_method_entry) {
 	PHP_ME(Phalcon_Logger_AbstractLogger, __construct, arginfo_phalcon_logger_abstractlogger___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Logger_AbstractLogger, addAdapter, arginfo_phalcon_logger_abstractlogger_addadapter, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_AbstractLogger, begin, arginfo_phalcon_logger_abstractlogger_begin, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_AbstractLogger, commit, arginfo_phalcon_logger_abstractlogger_commit, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_AbstractLogger, excludeAdapters, arginfo_phalcon_logger_abstractlogger_excludeadapters, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_AbstractLogger, getAdapter, arginfo_phalcon_logger_abstractlogger_getadapter, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_AbstractLogger, getAdapters, arginfo_phalcon_logger_abstractlogger_getadapters, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_AbstractLogger, getLogLevel, arginfo_phalcon_logger_abstractlogger_getloglevel, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_AbstractLogger, getName, arginfo_phalcon_logger_abstractlogger_getname, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_AbstractLogger, removeAdapter, arginfo_phalcon_logger_abstractlogger_removeadapter, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_AbstractLogger, rollback, arginfo_phalcon_logger_abstractlogger_rollback, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_AbstractLogger, setAdapters, arginfo_phalcon_logger_abstractlogger_setadapters, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_AbstractLogger, setLogLevel, arginfo_phalcon_logger_abstractlogger_setloglevel, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_AbstractLogger, addMessage, arginfo_phalcon_logger_abstractlogger_addmessage, ZEND_ACC_PROTECTED)
