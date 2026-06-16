@@ -403,20 +403,20 @@ class Imagick extends AbstractAdapter
      * @throws Exception
      * @throws ImagickException
      */
-    protected function processMask(<AdapterInterface> image) -> void
+    protected function processMask(<AdapterInterface> mask) -> void
     {
-        var mask, result;
+        var image, result;
 
-        let mask = new ImagickNative();
+        let image = new ImagickNative();
 
-        mask->readImageBlob(image->render());
+        image->readImageBlob(mask->render());
         this->image->setIteratorIndex(0);
 
         while (true) {
             this->image->setImageMatte(true);
 
             let result = this->image->compositeImage(
-                mask,
+                image,
                 constant("Imagick::COMPOSITE_DSTIN"),
                 0,
                 0
@@ -431,8 +431,8 @@ class Imagick extends AbstractAdapter
             }
         }
 
-        mask->clear();
-        mask->destroy();
+        image->clear();
+        image->destroy();
     }
 
     /**
@@ -900,18 +900,18 @@ class Imagick extends AbstractAdapter
      * @throws ImagickException
      */
     protected function processWatermark(
-        <AdapterInterface> image,
+        <AdapterInterface> watermark,
         int offsetX,
         int offsetY,
         int opacity
     ) -> void {
-        var result, watermark;
+        var image, result;
 
-        let opacity   = opacity / 100;
-        let watermark = new ImagickNative();
+        let opacity = opacity / 100;
+        let image   = new ImagickNative();
 
-        watermark->readImageBlob(image->render());
-        watermark->evaluateImage(
+        image->readImageBlob(watermark->render());
+        image->evaluateImage(
             constant("Imagick::EVALUATE_MULTIPLY"),
             opacity,
             constant("Imagick::CHANNEL_ALPHA")
@@ -921,7 +921,7 @@ class Imagick extends AbstractAdapter
 
         while (true) {
             let result = this->image->compositeImage(
-                watermark,
+                image,
                 constant("Imagick::COMPOSITE_OVER"),
                 offsetX,
                 offsetY
@@ -936,8 +936,8 @@ class Imagick extends AbstractAdapter
             }
         }
 
-        watermark->clear();
-        watermark->destroy();
+        image->clear();
+        image->destroy();
     }
 
     /**
