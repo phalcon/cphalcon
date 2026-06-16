@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Logger\Adapter\Stream;
 
 use Phalcon\Logger\Adapter\Stream;
+use Phalcon\Logger\Exceptions\TransactionAlreadyActive;
 use Phalcon\Tests\AbstractUnitTestCase;
 
 final class BeginTest extends AbstractUnitTestCase
@@ -36,5 +37,22 @@ final class BeginTest extends AbstractUnitTestCase
         $adapter->rollback();
         $adapter->close();
         $this->safeDeleteFile($outputPath . $fileName);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-15
+     */
+    public function testLoggerAdapterStreamBeginTransactionAlreadyActive(): void
+    {
+        $this->expectException(TransactionAlreadyActive::class);
+        $this->expectExceptionMessage('There is an active transaction');
+
+        $fileName   = $this->getNewFileName('log', 'log');
+        $outputPath = logsDir();
+        $adapter    = new Stream($outputPath . $fileName);
+
+        $adapter->begin();
+        $adapter->begin();
     }
 }
