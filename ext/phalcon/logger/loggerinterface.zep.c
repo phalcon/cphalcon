@@ -22,141 +22,16 @@
  */
 /**
  * Interface for Phalcon based logger objects.
+ *
+ * @psalm-suppress DeprecatedInterface
+ * @deprecated Will be removed in a future major release.
+ *             Use {@see \Phalcon\Contracts\Logger\Logger} instead.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Logger_LoggerInterface)
 {
-	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Logger, LoggerInterface, phalcon, logger_loggerinterface, phalcon_logger_loggerinterface_method_entry);
+	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Logger, LoggerInterface, phalcon, logger_loggerinterface, NULL);
 
+	zend_class_implements(phalcon_logger_loggerinterface_ce, 1, phalcon_contracts_logger_logger_ce);
 	return SUCCESS;
 }
 
-/**
- * Action must be taken immediately.
- *
- * Example: Entire website down, database unavailable, etc. This should
- * trigger the SMS alerts and wake you up.
- *
- * @param string $message
- * @param array  $context
- *
- * @return void
- */
-ZEPHIR_DOC_METHOD(Phalcon_Logger_LoggerInterface, alert);
-/**
- * Critical conditions.
- *
- * Example: Application component unavailable, unexpected exception.
- *
- * @param string $message
- * @param array  $context
- *
- * @return void
- */
-ZEPHIR_DOC_METHOD(Phalcon_Logger_LoggerInterface, critical);
-/**
- * Detailed debug information.
- *
- * @param string $message
- * @param array  $context
- *
- * @return void
- */
-ZEPHIR_DOC_METHOD(Phalcon_Logger_LoggerInterface, debug);
-/**
- * System is unusable.
- *
- * @param string $message
- * @param array  $context
- *
- * @return void
- */
-ZEPHIR_DOC_METHOD(Phalcon_Logger_LoggerInterface, emergency);
-/**
- * Runtime errors that do not require immediate action but should typically
- * be logged and monitored.
- *
- * @param string $message
- * @param array  $context
- *
- * @return void
- */
-ZEPHIR_DOC_METHOD(Phalcon_Logger_LoggerInterface, error);
-/**
- * Returns an adapter from the stack
- *
- * @param string $name The name of the adapter
- *
- * @return AdapterInterface
- * @throws Exception
- */
-ZEPHIR_DOC_METHOD(Phalcon_Logger_LoggerInterface, getAdapter);
-/**
- * Returns the adapter stack array
- *
- * @return AdapterInterface[]
- */
-ZEPHIR_DOC_METHOD(Phalcon_Logger_LoggerInterface, getAdapters);
-/**
- * Returns the log level
- */
-ZEPHIR_DOC_METHOD(Phalcon_Logger_LoggerInterface, getLogLevel);
-/**
- * Returns the name of the logger
- */
-ZEPHIR_DOC_METHOD(Phalcon_Logger_LoggerInterface, getName);
-/**
- * Interesting events.
- *
- * Example: User logs in, SQL logs.
- *
- * @param string $message
- * @param array  $context
- *
- * @return void
- */
-ZEPHIR_DOC_METHOD(Phalcon_Logger_LoggerInterface, info);
-/**
- * Logs with an arbitrary level.
- *
- * An unknown level (a typo or an unmapped value) is not rejected; it maps
- * to the CUSTOM level and is logged, rather than raising an exception.
- *
- * @param mixed  $level
- * @param string $message
- * @param array  $context
- *
- * @return void
- *
- * @throws Exception
- */
-ZEPHIR_DOC_METHOD(Phalcon_Logger_LoggerInterface, log);
-/**
- * Normal but significant events.
- *
- * @param string $message
- * @param array  $context
- *
- * @return void
- */
-ZEPHIR_DOC_METHOD(Phalcon_Logger_LoggerInterface, notice);
-/**
- * Extra-verbose diagnostic output.
- *
- * @param string $message
- * @param array  $context
- *
- * @return void
- */
-ZEPHIR_DOC_METHOD(Phalcon_Logger_LoggerInterface, trace);
-/**
- * Exceptional occurrences that are not errors.
- *
- * Example: Use of deprecated APIs, poor use of an API, undesirable things
- * that are not necessarily wrong.
- *
- * @param string $message
- * @param array  $context
- *
- * @return void
- */
-ZEPHIR_DOC_METHOD(Phalcon_Logger_LoggerInterface, warning);

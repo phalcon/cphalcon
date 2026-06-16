@@ -24,19 +24,16 @@
  * Phalcon\Logger\FormatterInterface
  *
  * This interface must be implemented by formatters in Phalcon\Logger
+ *
+ * @psalm-suppress DeprecatedInterface
+ * @deprecated Will be removed in a future major release.
+ *             Use {@see \Phalcon\Contracts\Logger\Formatter\Formatter} instead.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Logger_Formatter_FormatterInterface)
 {
-	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Logger\\Formatter, FormatterInterface, phalcon, logger_formatter_formatterinterface, phalcon_logger_formatter_formatterinterface_method_entry);
+	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Logger\\Formatter, FormatterInterface, phalcon, logger_formatter_formatterinterface, NULL);
 
+	zend_class_implements(phalcon_logger_formatter_formatterinterface_ce, 1, phalcon_contracts_logger_formatter_formatter_ce);
 	return SUCCESS;
 }
 
-/**
- * Applies a format to an item
- *
- * @param Item $item
- *
- * @return string
- */
-ZEPHIR_DOC_METHOD(Phalcon_Logger_Formatter_FormatterInterface, format);
