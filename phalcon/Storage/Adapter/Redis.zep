@@ -21,6 +21,13 @@ use Phalcon\Support\Exception as SupportException;
 /**
  * Redis adapter
  *
+ * Capabilities:
+ * - Counters: native atomic (incrBy()/decrBy()).
+ * - getKeys(): non-blocking SCAN iteration.
+ * - Serializers: Phalcon-side, or backend-native via OPT_SERIALIZER. Native
+ *   serializers change the bytes at rest and are not interchangeable with
+ *   Phalcon-side serializers.
+ *
  * @property array $options
  */
 class Redis extends AbstractAdapter
@@ -141,10 +148,31 @@ class Redis extends AbstractAdapter
      */
     public function getKeys(string! prefix = "") -> array
     {
-        return this->getFilteredKeys(
-            this->getAdapter()->keys("*"),
-            prefix
-        );
+        var adapter, iterator, keys, scanKeys;
+
+        let adapter  = this->getAdapter(),
+            keys     = [],
+            iterator = null;
+
+        /**
+         * SCAN replaces the blocking KEYS command. SCAN_NOPREFIX keeps the
+         * prefix handling explicit: the full physical prefix is matched and
+         * returned unchanged, so getFilteredKeys() sees exactly what KEYS
+         * produced.
+         */
+        adapter->setOption(\Redis::OPT_SCAN, \Redis::SCAN_NOPREFIX);
+
+        loop {
+            let scanKeys = adapter->scan(iterator, this->prefix . "*");
+
+            if (false === scanKeys) {
+                break;
+            }
+
+            let keys = array_merge(keys, scanKeys);
+        }
+
+        return this->getFilteredKeys(keys, prefix);
     }
 
     /**
