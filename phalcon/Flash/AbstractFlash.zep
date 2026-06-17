@@ -127,7 +127,7 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
      */
     public function error(string message) -> string | null
     {
-        return this->{"message"}("error", message);
+        return this->message("error", message);
     }
 
     /**
@@ -195,6 +195,18 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
     }
 
     /**
+     * Outputs a message. Delivery semantics differ per implementation:
+     * `Direct` renders and emits immediately, `Session` stores the raw
+     * message for output on a later request.
+     *
+     * @param string $type
+     * @param mixed  $message
+     *
+     * @return string|null
+     */
+    abstract public function message(string type, var message) -> string | null;
+
+    /**
      * Shows a HTML notice/information message
      *
      *```php
@@ -207,7 +219,7 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
      */
     public function notice(string message) -> string | null
     {
-        return this->{"message"}("notice", message);
+        return this->message("notice", message);
     }
 
     /**
@@ -286,6 +298,10 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
      * Set whether the output must be implicitly flushed to the output or
      * returned as string
      *
+     * Note: `output()` is an echo API and requires implicit flush to remain
+     * enabled (the default). With implicit flush disabled, `message()` returns
+     * the rendered string while `output()` does not emit it.
+     *
      * @param bool $implicitFlush
      */
     public function setImplicitFlush(bool implicitFlush) -> <static>
@@ -308,7 +324,7 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
      */
     public function success(string message) -> string | null
     {
-        return this->{"message"}("success", message);
+        return this->message("success", message);
     }
 
     /**
@@ -373,7 +389,7 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
      */
     public function warning(string message) -> string | null
     {
-        return this->{"message"}("warning", message);
+        return this->message("warning", message);
     }
 
     /**
@@ -385,7 +401,7 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
      *
      * @return string
      */
-    private function getTemplate(string cssClassses, string cssIconClasses) -> string
+    private function getTemplate(string cssClasses, string cssIconClasses) -> string
     {
         string divString, iconString, template;
 
@@ -397,7 +413,7 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
             return this->customTemplate;
         }
 
-        if !empty cssClassses {
+        if !empty cssClasses {
             let divString = " class=\"%cssClass%\"";
             if !empty cssIconClasses {
                 let iconString = "<i class=\"%cssIconClass%\"></i> ";

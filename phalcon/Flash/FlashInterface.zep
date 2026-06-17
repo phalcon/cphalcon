@@ -13,6 +13,10 @@ namespace Phalcon\Flash;
 /**
  * Interface FlashInterface
  *
+ * Note: `output()` and `clear()` are part of the concrete `Direct` / `Session`
+ * API and are not declared on this contract; they are scheduled to be added in
+ * the next major version.
+ *
  * @package Phalcon\Flash
  */
 interface FlashInterface
@@ -28,6 +32,13 @@ interface FlashInterface
 
     /**
      * Outputs a message
+     *
+     * Note: the shipped implementations (`Direct`, `Session`) accept
+     * `string|array` for `$message`; this contract declares `string` and is
+     * scheduled to be widened to `mixed` in the next major version. Delivery
+     * semantics differ per implementation: `Direct::message()` renders and
+     * emits the message immediately, while `Session::message()` stores the raw
+     * message for output on a later request.
      *
      * @param string $type
      * @param mixed  $message
