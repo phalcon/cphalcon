@@ -508,9 +508,9 @@ class Crypt implements CryptInterface
     /**
      * @param string $data
      *
-     * @return static
+     * @return CryptInterface
      */
-    public function setAuthData(string data) -> <static>
+    public function setAuthData(string data) -> <CryptInterface>
     {
         let this->authData = data;
 
@@ -520,9 +520,9 @@ class Crypt implements CryptInterface
     /**
      * @param string $tag
      *
-     * @return static
+     * @return CryptInterface
      */
-    public function setAuthTag(string tag) -> <static>
+    public function setAuthTag(string tag) -> <CryptInterface>
     {
         let this->authTag = tag;
 
@@ -532,10 +532,10 @@ class Crypt implements CryptInterface
     /**
      * @param int $length
      *
-     * @return static
+     * @return CryptInterface
      * @throws InvalidAuthTagLength
      */
-    public function setAuthTagLength(int length) -> <static>
+    public function setAuthTagLength(int length) -> <CryptInterface>
     {
         if length < 4 || length > 16 {
             throw new InvalidAuthTagLength();
@@ -551,10 +551,10 @@ class Crypt implements CryptInterface
      *
      * @param string $cipher
      *
-     * @return static
+     * @return CryptInterface
      * @throws Exception
      */
-    public function setCipher(string cipher) -> <static>
+    public function setCipher(string cipher) -> <CryptInterface>
     {
         this->checkCipherHashIsAvailable(cipher, "cipher");
 
@@ -581,9 +581,9 @@ class Crypt implements CryptInterface
      *
      * @param string $key
      *
-     * @return static
+     * @return CryptInterface
      */
-    public function setKey(string key) -> <static>
+    public function setKey(string key) -> <CryptInterface>
     {
         let this->key = key;
 
@@ -612,9 +612,9 @@ class Crypt implements CryptInterface
      *
      * @param int $scheme
      *
-     * @return static
+     * @return CryptInterface
      */
-    public function setPadding(int scheme) -> <static>
+    public function setPadding(int scheme) -> <CryptInterface>
     {
         let this->padding = scheme;
 
@@ -626,9 +626,9 @@ class Crypt implements CryptInterface
      *
      * @param bool $useSigning
      *
-     * @return static
+     * @return CryptInterface
      */
-    public function useSigning(bool useSigning) -> <static>
+    public function useSigning(bool useSigning) -> <CryptInterface>
     {
         let this->useSigning = useSigning;
 

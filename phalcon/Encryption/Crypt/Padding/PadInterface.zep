@@ -10,30 +10,15 @@
 
 namespace Phalcon\Encryption\Crypt\Padding;
 
+use Phalcon\Contracts\Encryption\Crypt\Padding\Pad as PadContract;
+
 /**
  * Interface for Phalcon\Encryption\Crypt\Padding
  *
- * The pad/unpad protocol operates on binary (8-bit) data. Implementations
- * must measure and slice the input with byte-true functions (`strlen`,
- * `substr`, or the `mb_*` family with the explicit `"8bit"` encoding); using
- * encoding-sensitive functions such as `mb_strlen()` on the padded plaintext
- * yields the wrong padding size whenever the bytes form valid multibyte
- * sequences.
+ * @psalm-suppress DeprecatedInterface
+ * @deprecated Will be removed in a future major release.
+ *             Use {@see \Phalcon\Contracts\Encryption\Crypt\Padding\Pad} instead.
  */
-interface PadInterface
+interface PadInterface extends PadContract
 {
-    /**
-     * @param int $paddingSize
-     *
-     * @return string
-     */
-    public function pad(int paddingSize) -> string;
-
-    /**
-     * @param string $input
-     * @param int    $blockSize
-     *
-     * @return int
-     */
-    public function unpad(string input, int blockSize) -> int;
 }

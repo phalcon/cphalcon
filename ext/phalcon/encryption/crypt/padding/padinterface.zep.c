@@ -23,30 +23,15 @@
 /**
  * Interface for Phalcon\Encryption\Crypt\Padding
  *
- * The pad/unpad protocol operates on binary (8-bit) data. Implementations
- * must measure and slice the input with byte-true functions (`strlen`,
- * `substr`, or the `mb_*` family with the explicit `"8bit"` encoding); using
- * encoding-sensitive functions such as `mb_strlen()` on the padded plaintext
- * yields the wrong padding size whenever the bytes form valid multibyte
- * sequences.
+ * @psalm-suppress DeprecatedInterface
+ * @deprecated Will be removed in a future major release.
+ *             Use {@see \Phalcon\Contracts\Encryption\Crypt\Padding\Pad} instead.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Encryption_Crypt_Padding_PadInterface)
 {
-	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Encryption\\Crypt\\Padding, PadInterface, phalcon, encryption_crypt_padding_padinterface, phalcon_encryption_crypt_padding_padinterface_method_entry);
+	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Encryption\\Crypt\\Padding, PadInterface, phalcon, encryption_crypt_padding_padinterface, NULL);
 
+	zend_class_implements(phalcon_encryption_crypt_padding_padinterface_ce, 1, phalcon_contracts_encryption_crypt_padding_pad_ce);
 	return SUCCESS;
 }
 
-/**
- * @param int $paddingSize
- *
- * @return string
- */
-ZEPHIR_DOC_METHOD(Phalcon_Encryption_Crypt_Padding_PadInterface, pad);
-/**
- * @param string $input
- * @param int    $blockSize
- *
- * @return int
- */
-ZEPHIR_DOC_METHOD(Phalcon_Encryption_Crypt_Padding_PadInterface, unpad);

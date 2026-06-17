@@ -110,7 +110,11 @@ class Payload implements PayloadInterface
     /**
      * Status
      *
+     * Status values are drawn from the `Status` vocabulary.
+     *
      * @return mixed
+     *
+     * @see Status
      */
     public function getStatus() -> var
     {
@@ -183,6 +187,10 @@ class Payload implements PayloadInterface
 
     /**
      * Sets the payload status.
+     *
+     * Status values are drawn from the `Status` vocabulary.
+     *
+     * @see Status
      */
     public function setStatus(var status) -> <PayloadInterface>
     {

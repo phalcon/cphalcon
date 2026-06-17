@@ -3,10 +3,3 @@ extern zend_class_entry *phalcon_encryption_security_uuid_nodeproviderinterface_
 
 ZEPHIR_INIT_CLASS(Phalcon_Encryption_Security_Uuid_NodeProviderInterface);
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_uuid_nodeproviderinterface_getnode, 0, 0, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
-ZEPHIR_INIT_FUNCS(phalcon_encryption_security_uuid_nodeproviderinterface_method_entry) {
-	PHP_ABSTRACT_ME(Phalcon_Encryption_Security_Uuid_NodeProviderInterface, getNode, arginfo_phalcon_encryption_security_uuid_nodeproviderinterface_getnode)
-	PHP_FE_END
-};

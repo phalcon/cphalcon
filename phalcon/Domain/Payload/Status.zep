@@ -19,7 +19,18 @@
 namespace Phalcon\Domain\Payload;
 
 /**
- * Holds the status codes for the payload
+ * Holds the status codes for the payload.
+ *
+ * The two failure-related statuses are distinct, following the Aura.Payload
+ * lineage:
+ *
+ * - `ERROR` means an exception was raised while the domain layer was running.
+ *   By convention, `Payload::setException()` pairs with the `ERROR` status.
+ * - `FAILURE` means the domain layer ran to completion but declined the
+ *   request (for example, a business rule was not satisfied); no exception
+ *   was raised.
+ *
+ * @see Payload
  */
 class Status
 {
