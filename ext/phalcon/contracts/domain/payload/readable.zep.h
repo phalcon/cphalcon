@@ -1,0 +1,32 @@
+
+extern zend_class_entry *phalcon_contracts_domain_payload_readable_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Contracts_Domain_Payload_Readable);
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_contracts_domain_payload_readable_getexception, 0, 0, Throwable, 1)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_contracts_domain_payload_readable_getextras, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_contracts_domain_payload_readable_getinput, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_contracts_domain_payload_readable_getmessages, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_contracts_domain_payload_readable_getoutput, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_contracts_domain_payload_readable_getstatus, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_contracts_domain_payload_readable_method_entry) {
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Domain_Payload_Readable, getException, arginfo_phalcon_contracts_domain_payload_readable_getexception)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Domain_Payload_Readable, getExtras, arginfo_phalcon_contracts_domain_payload_readable_getextras)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Domain_Payload_Readable, getInput, arginfo_phalcon_contracts_domain_payload_readable_getinput)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Domain_Payload_Readable, getMessages, arginfo_phalcon_contracts_domain_payload_readable_getmessages)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Domain_Payload_Readable, getOutput, arginfo_phalcon_contracts_domain_payload_readable_getoutput)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Domain_Payload_Readable, getStatus, arginfo_phalcon_contracts_domain_payload_readable_getstatus)
+	PHP_FE_END
+};
