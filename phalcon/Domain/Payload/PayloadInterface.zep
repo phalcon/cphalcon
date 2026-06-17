@@ -18,21 +18,15 @@
 
 namespace Phalcon\Domain\Payload;
 
+use Phalcon\Contracts\Domain\Payload\Payload as PayloadContract;
+
 /**
  * This interface is used for consumers
  *
- * `PayloadInterface` extends both `WriteableInterface` and `ReadableInterface`,
- * exposing the full capability set. The intended convention narrows that
- * surface by which side of the Action-Domain-Responder boundary holds the
- * payload: the domain layer builds the payload through `WriteableInterface`
- * (the setters), while the responder consumes the finished payload through
- * `ReadableInterface` (the getters). Type-hinting against the narrower
- * interface at each boundary keeps each side to the capability it needs, even
- * though `Payload` implements both.
- *
- * @see ReadableInterface
- * @see WriteableInterface
+ * @psalm-suppress DeprecatedInterface
+ * @deprecated Will be removed in a future major release.
+ *             Use {@see \Phalcon\Contracts\Domain\Payload\Payload} instead.
  */
-interface PayloadInterface extends ReadableInterface, WriteableInterface
+interface PayloadInterface extends ReadableInterface, WriteableInterface, PayloadContract
 {
 }
