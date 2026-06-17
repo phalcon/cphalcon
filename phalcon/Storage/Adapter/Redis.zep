@@ -148,28 +148,48 @@ class Redis extends AbstractAdapter
      */
     public function getKeys(string! prefix = "") -> array
     {
-        var adapter, iterator, keys, scanKeys;
+        var adapter, cursor, keys, pattern, result, scanKeys;
 
-        let adapter  = this->getAdapter(),
-            keys     = [],
-            iterator = null;
+        let adapter = this->getAdapter(),
+            keys    = [],
+            cursor  = "0",
+            pattern = this->prefix . "*";
 
         /**
-         * SCAN replaces the blocking KEYS command. SCAN_NOPREFIX keeps the
-         * prefix handling explicit: the full physical prefix is matched and
-         * returned unchanged, so getFilteredKeys() sees exactly what KEYS
-         * produced.
+         * SCAN replaces the blocking KEYS command. It is issued through
+         * rawCommand() so the cursor travels in the reply ([cursor, [keys]])
+         * instead of through a by-reference argument, which Zephir cannot pass
+         * to a method. rawCommand() does not apply OPT_PREFIX, so the physical
+         * prefix is matched and returned unchanged and getFilteredKeys() sees
+         * exactly what KEYS produced.
          */
-        adapter->setOption(\Redis::OPT_SCAN, \Redis::SCAN_NOPREFIX);
-
         loop {
-            let scanKeys = adapter->scan(iterator, this->prefix . "*");
+            let result = adapter->rawCommand(
+                "scan",
+                cursor,
+                "MATCH",
+                pattern,
+                "COUNT",
+                100
+            );
 
-            if (false === scanKeys) {
+            if (typeof result !== "array") {
                 break;
             }
 
-            let keys = array_merge(keys, scanKeys);
+            if (!fetch cursor, result[0]) {
+                break;
+            }
+
+            if (fetch scanKeys, result[1]) {
+                if (typeof scanKeys === "array") {
+                    let keys = array_merge(keys, scanKeys);
+                }
+            }
+
+            if (cursor === "0" || cursor === 0) {
+                break;
+            }
         }
 
         return this->getFilteredKeys(keys, prefix);
