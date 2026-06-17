@@ -76,6 +76,7 @@
 - Changed `Phalcon\Encryption\Crypt\PadFactory::padNumberToService()` to throw on an unknown padding constant instead of silently mapping it to the no-op padding (fail closed). [#17160](https://github.com/phalcon/cphalcon/issues/17160) [[doc]](https://docs.phalcon.io/5.15/encryption-crypt/)
 - Changed `Phalcon\Encryption\Crypt` and `Phalcon\Encryption\Crypt\CryptInterface` to drop the unreachable ECB padding branches (ECB ciphers are filtered out at construction) and to document the encrypted payload wire format (`iv ‖ hmac ‖ ciphertext ‖ tag`) and the AEAD parameter statefulness. [#17160](https://github.com/phalcon/cphalcon/issues/17160) [[doc]](https://docs.phalcon.io/5.15/encryption-crypt/)
 - Deprecated the `Phalcon\Encryption\Security` constants `CRYPT_STD_DES`, `CRYPT_EXT_DES`, `CRYPT_BLOWFISH`, and `CRYPT_BLOWFISH_Y` (never implemented; they resolve to bcrypt) and `CRYPT_MD5` (weak legacy algorithm); any unhandled `defaultHash` value resolves to bcrypt. [#17160](https://github.com/phalcon/cphalcon/issues/17160) [[doc]](https://docs.phalcon.io/5.15/encryption-security/)
+- Changed `Phalcon\Domain\Payload\PayloadInterface`, `Phalcon\Domain\Payload\ReadableInterface`, and `Phalcon\Domain\Payload\WriteableInterface` to extend the new `Phalcon\Contracts\Domain\Payload\Payload`, `Phalcon\Contracts\Domain\Payload\Readable`, and `Phalcon\Contracts\Domain\Payload\Writeable` contracts. [#17162](https://github.com/phalcon/cphalcon/issues/17162) [[doc]](https://docs.phalcon.io/5.15/domain/)
 
 ### Added
 
