@@ -63,7 +63,11 @@ interface ReadableInterface
     /**
      * Gets the status of this payload.
      *
+     * Status values are drawn from the `Status` vocabulary.
+     *
      * @return mixed
+     *
+     * @see Status
      */
     public function getStatus() -> var;
 }

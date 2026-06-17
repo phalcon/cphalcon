@@ -73,9 +73,13 @@ interface WriteableInterface
     /**
      * Sets the status of this payload.
      *
+     * Status values are drawn from the `Status` vocabulary.
+     *
      * @param mixed $status The status for this payload.
      *
      * @return PayloadInterface
+     *
+     * @see Status
      */
     public function setStatus(var status) -> <PayloadInterface>;
 }

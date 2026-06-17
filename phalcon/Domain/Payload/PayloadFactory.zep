@@ -19,7 +19,11 @@
 namespace Phalcon\Domain\Payload;
 
 /**
- * Factory to create payload objects
+ * Factory to create payload objects.
+ *
+ * It exists so that payload creation can be registered as a service in the DI
+ * container and substituted in tests, rather than constructing `Payload`
+ * instances directly.
  */
 class PayloadFactory
 {
