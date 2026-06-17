@@ -46,7 +46,8 @@ interface RouterInterface
 
     /**
      * Returns processed extra params
-     * @todo deprecate this in the future
+     *
+     * @deprecated Use {@see getParameters()} instead.
      */
     public function getParams() -> array;
 
@@ -79,9 +80,15 @@ interface RouterInterface
     public function getTaskName() -> string;
 
     /**
-     * Handles routing information received from the rewrite engine
+     * Handles routing information received from the rewrite engine.
      *
-     * @param array arguments
+     * When `arguments` is a string (or null), it is matched against the
+     * registered routes. When it is an array, matching is bypassed entirely:
+     * the array is treated as the already-resolved module/task/action/params,
+     * so `wasMatched()` stays false and `getMatchedRoute()` returns null even
+     * though routing succeeded.
+     *
+     * @param array|string|null arguments
      */
     public function handle(arguments = null);
 

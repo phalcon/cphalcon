@@ -10,6 +10,7 @@
 
 namespace Phalcon\Cli\Router;
 
+use Phalcon\Cli\Router\Exceptions\BeforeMatchNotCallable;
 use Phalcon\Cli\Router\Exceptions\InvalidRoutePaths;
 
 /**
@@ -108,6 +109,10 @@ class Route implements RouteInterface
      */
     public function beforeMatch(var callback) -> <RouteInterface>
     {
+        if unlikely !is_callable(callback) {
+            throw new BeforeMatchNotCallable(this->pattern);
+        }
+
         let this->beforeMatch = callback;
 
         return this;
@@ -169,7 +174,13 @@ class Route implements RouteInterface
     }
 
     /**
-     * Set the routing delimiter
+     * Set the routing delimiter.
+     *
+     * This sets a process-global delimiter that each route captures at
+     * construction time. Configure it once during bootstrap, before any routes
+     * are created: routes built before and after a change keep their own
+     * delimiter, and `Console::setArgument()` reads the current value when it
+     * parses arguments.
      */
     public static function delimiter(string! delimiter = null) -> void
     {
@@ -452,7 +463,7 @@ class Route implements RouteInterface
                     let namespaceName = get_ns_class(taskName);
 
                     if unlikely (namespaceName === null || realClassName === null) {
-                        throw new InvalidRoutePaths();
+                        throw new InvalidRoutePaths(pattern);
                     }
 
                     // Update the namespace
@@ -476,7 +487,7 @@ class Route implements RouteInterface
         }
 
         if unlikely typeof routePaths !== "array" {
-            throw new InvalidRoutePaths();
+            throw new InvalidRoutePaths(pattern);
         }
 
         /**
@@ -529,7 +540,11 @@ class Route implements RouteInterface
     }
 
     /**
-     * Resets the internal route id generator
+     * Resets the internal route id generator.
+     *
+     * Intended for test isolation only. The router keys its route map by the
+     * route id, so resetting the sequence while a router still holds routes
+     * makes newly created routes overwrite existing entries.
      */
     public static function reset() -> void
     {
