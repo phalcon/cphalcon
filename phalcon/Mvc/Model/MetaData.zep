@@ -41,6 +41,40 @@ use Phalcon\Support\Settings;
  *
  * print_r($attributes);
  * ```
+ *
+ * Each model's metadata is stored as two positional arrays addressed by two
+ * constant families. Both families count from 0 and therefore share numeric
+ * values, so a metadata array is only meaningful together with the family that
+ * indexes it. The metadata cache adapters persist these arrays verbatim, so the
+ * slot layout is a stored format: reordering a slot invalidates existing
+ * caches.
+ *
+ * Attribute metadata array (`MODELS_*` family):
+ *
+ * | Slot | Constant                          | Contents                                        |
+ * |------|-----------------------------------|-------------------------------------------------|
+ * | 0    | `MODELS_ATTRIBUTES`               | All mapped attribute (column) names             |
+ * | 1    | `MODELS_PRIMARY_KEY`              | Primary-key attributes                          |
+ * | 2    | `MODELS_NON_PRIMARY_KEY`          | Non-primary-key attributes                      |
+ * | 3    | `MODELS_NOT_NULL`                 | Attributes declared `NOT NULL`                  |
+ * | 4    | `MODELS_DATA_TYPES`               | attribute => column data type                   |
+ * | 5    | `MODELS_DATA_TYPES_NUMERIC`       | Attributes with a numeric type                  |
+ * | 6    | `MODELS_DATE_AT`                  | Reserved (declared, currently unused)           |
+ * | 7    | `MODELS_DATE_IN`                  | Reserved (declared, currently unused)           |
+ * | 8    | `MODELS_IDENTITY_COLUMN`          | The auto-increment identity attribute           |
+ * | 9    | `MODELS_DATA_TYPES_BIND`          | attribute => PDO bind type                      |
+ * | 10   | `MODELS_AUTOMATIC_DEFAULT_INSERT` | Attributes omitted from `INSERT` (DB-defaulted) |
+ * | 11   | `MODELS_AUTOMATIC_DEFAULT_UPDATE` | Attributes omitted from `UPDATE` (DB-defaulted) |
+ * | 12   | `MODELS_DEFAULT_VALUES`           | attribute => default value                      |
+ * | 13   | `MODELS_EMPTY_STRING_VALUES`      | Attributes that keep `''` instead of `NULL`     |
+ *
+ * Column-map array (`MODELS_COLUMN_MAP` family), present only when a column map
+ * is defined:
+ *
+ * | Slot | Constant                    | Contents            |
+ * |------|-----------------------------|---------------------|
+ * | 0    | `MODELS_COLUMN_MAP`         | column => attribute |
+ * | 1    | `MODELS_REVERSE_COLUMN_MAP` | attribute => column |
  */
 abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 {
