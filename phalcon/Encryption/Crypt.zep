@@ -807,7 +807,7 @@ class Crypt implements CryptInterface
             let authData      = this->authData,
                 authTagLength = this->authTagLength,
                 authTag       = substr(cipherText, -authTagLength),
-                encrypted     = substr(cipherText, 0, -authTagLength);
+                encrypted     = substr(cipherText, 0, strlen(cipherText) - authTagLength);
 
             let decrypted = openssl_decrypt(
                 encrypted,
