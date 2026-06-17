@@ -15,6 +15,7 @@ use SessionHandlerInterface;
 use Phalcon\Di\AbstractInjectionAware;
 use Phalcon\Di\DiInterface;
 use Phalcon\Session\Exceptions\InvalidSessionAdapter;
+use Phalcon\Session\Exceptions\InvalidSessionId;
 use Phalcon\Session\Exceptions\InvalidSessionName;
 use Phalcon\Session\Exceptions\SessionAlreadyStarted;
 use Phalcon\Session\Exceptions\SessionModificationDenied;
@@ -272,6 +273,10 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
             throw new SessionAlreadyStarted();
         }
 
+        if unlikely !preg_match("/^[a-zA-Z0-9,-]+$/D", sessionId) {
+            throw new InvalidSessionId();
+        }
+
         session_id(sessionId);
 
         return this;
@@ -293,7 +298,10 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
             throw new SessionModificationDenied();
         }
 
-        if unlikely !preg_match("/^[\p{L}\p{N}_-]+$/u", name) {
+        if unlikely (
+            !preg_match("/^[\p{L}\p{N}_-]+$/u", name) ||
+            preg_match("/^[0-9]+$/", name)
+        ) {
             throw new InvalidSessionName();
         }
 
