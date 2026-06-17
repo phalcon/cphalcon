@@ -16,6 +16,7 @@
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/object.h"
+#include "kernel/string.h"
 #include "kernel/array.h"
 
 
@@ -98,9 +99,9 @@ PHP_METHOD(Phalcon_Encryption_Crypt_Padding_Zero, unpad)
 	blockSize_param = ZEND_CALL_ARG(execute_data, 2);
 	zephir_memory_observe(&input_zv);
 	ZVAL_STR_COPY(&input_zv, input);
-	ZEPHIR_CALL_FUNCTION(&length, "mb_strlen", NULL, 0, &input_zv);
-	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&inputArray, "str_split", NULL, 178, &input_zv);
+	ZEPHIR_INIT_VAR(&length);
+	ZVAL_LONG(&length, zephir_fast_strlen_ev(&input_zv));
+	ZEPHIR_CALL_FUNCTION(&inputArray, "str_split", NULL, 179, &input_zv);
 	zephir_check_call_status();
 	counter = (zephir_get_numberval(&length) - 1);
 	paddingSize = 0;

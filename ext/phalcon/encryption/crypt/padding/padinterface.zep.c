@@ -22,6 +22,13 @@
  */
 /**
  * Interface for Phalcon\Encryption\Crypt\Padding
+ *
+ * The pad/unpad protocol operates on binary (8-bit) data. Implementations
+ * must measure and slice the input with byte-true functions (`strlen`,
+ * `substr`, or the `mb_*` family with the explicit `"8bit"` encoding); using
+ * encoding-sensitive functions such as `mb_strlen()` on the padded plaintext
+ * yields the wrong padding size whenever the bytes form valid multibyte
+ * sequences.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Encryption_Crypt_Padding_PadInterface)
 {

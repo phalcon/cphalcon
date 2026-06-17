@@ -1,0 +1,118 @@
+
+extern zend_class_entry *phalcon_contracts_dispatcher_dispatcher_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Contracts_Dispatcher_Dispatcher);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_contracts_dispatcher_dispatcher_dispatch, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_dispatcher_dispatcher_forward, 0, 1, IS_VOID, 0)
+
+	ZEND_ARG_ARRAY_INFO(0, forward, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_dispatcher_dispatcher_getactionname, 0, 0, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_dispatcher_dispatcher_getactionsuffix, 0, 0, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_dispatcher_dispatcher_gethandlersuffix, 0, 0, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_contracts_dispatcher_dispatcher_getparam, 0, 0, 1)
+	ZEND_ARG_INFO(0, param)
+	ZEND_ARG_INFO(0, filters)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_contracts_dispatcher_dispatcher_getparameter, 0, 0, 1)
+	ZEND_ARG_INFO(0, param)
+	ZEND_ARG_INFO(0, filters)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_dispatcher_dispatcher_getparams, 0, 0, IS_ARRAY, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_dispatcher_dispatcher_getparameters, 0, 0, IS_ARRAY, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_contracts_dispatcher_dispatcher_getreturnedvalue, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_dispatcher_dispatcher_hasparam, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_INFO(0, param)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_dispatcher_dispatcher_isfinished, 0, 0, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_dispatcher_dispatcher_setactionname, 0, 1, IS_VOID, 0)
+
+	ZEND_ARG_TYPE_INFO(0, actionName, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_dispatcher_dispatcher_setactionsuffix, 0, 1, IS_VOID, 0)
+
+	ZEND_ARG_TYPE_INFO(0, actionSuffix, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_dispatcher_dispatcher_setdefaultaction, 0, 1, IS_VOID, 0)
+
+	ZEND_ARG_TYPE_INFO(0, actionName, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_dispatcher_dispatcher_setdefaultnamespace, 0, 1, IS_VOID, 0)
+
+	ZEND_ARG_TYPE_INFO(0, defaultNamespace, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_dispatcher_dispatcher_sethandlersuffix, 0, 1, IS_VOID, 0)
+
+	ZEND_ARG_TYPE_INFO(0, handlerSuffix, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_dispatcher_dispatcher_setmodulename, 0, 0, IS_VOID, 0)
+
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, moduleName, IS_STRING, 1, "null")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_dispatcher_dispatcher_setnamespacename, 0, 1, IS_VOID, 0)
+
+	ZEND_ARG_TYPE_INFO(0, namespaceName, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_dispatcher_dispatcher_setparam, 0, 2, IS_VOID, 0)
+
+	ZEND_ARG_INFO(0, param)
+	ZEND_ARG_INFO(0, value)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_dispatcher_dispatcher_setparams, 0, 1, IS_VOID, 0)
+
+	ZEND_ARG_ARRAY_INFO(0, params, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_contracts_dispatcher_dispatcher_method_entry) {
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Dispatcher_Dispatcher, dispatch, arginfo_phalcon_contracts_dispatcher_dispatcher_dispatch)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Dispatcher_Dispatcher, forward, arginfo_phalcon_contracts_dispatcher_dispatcher_forward)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Dispatcher_Dispatcher, getActionName, arginfo_phalcon_contracts_dispatcher_dispatcher_getactionname)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Dispatcher_Dispatcher, getActionSuffix, arginfo_phalcon_contracts_dispatcher_dispatcher_getactionsuffix)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Dispatcher_Dispatcher, getHandlerSuffix, arginfo_phalcon_contracts_dispatcher_dispatcher_gethandlersuffix)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Dispatcher_Dispatcher, getParam, arginfo_phalcon_contracts_dispatcher_dispatcher_getparam)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Dispatcher_Dispatcher, getParameter, arginfo_phalcon_contracts_dispatcher_dispatcher_getparameter)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Dispatcher_Dispatcher, getParams, arginfo_phalcon_contracts_dispatcher_dispatcher_getparams)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Dispatcher_Dispatcher, getParameters, arginfo_phalcon_contracts_dispatcher_dispatcher_getparameters)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Dispatcher_Dispatcher, getReturnedValue, arginfo_phalcon_contracts_dispatcher_dispatcher_getreturnedvalue)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Dispatcher_Dispatcher, hasParam, arginfo_phalcon_contracts_dispatcher_dispatcher_hasparam)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Dispatcher_Dispatcher, isFinished, arginfo_phalcon_contracts_dispatcher_dispatcher_isfinished)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Dispatcher_Dispatcher, setActionName, arginfo_phalcon_contracts_dispatcher_dispatcher_setactionname)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Dispatcher_Dispatcher, setActionSuffix, arginfo_phalcon_contracts_dispatcher_dispatcher_setactionsuffix)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Dispatcher_Dispatcher, setDefaultAction, arginfo_phalcon_contracts_dispatcher_dispatcher_setdefaultaction)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Dispatcher_Dispatcher, setDefaultNamespace, arginfo_phalcon_contracts_dispatcher_dispatcher_setdefaultnamespace)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Dispatcher_Dispatcher, setHandlerSuffix, arginfo_phalcon_contracts_dispatcher_dispatcher_sethandlersuffix)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Dispatcher_Dispatcher, setModuleName, arginfo_phalcon_contracts_dispatcher_dispatcher_setmodulename)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Dispatcher_Dispatcher, setNamespaceName, arginfo_phalcon_contracts_dispatcher_dispatcher_setnamespacename)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Dispatcher_Dispatcher, setParam, arginfo_phalcon_contracts_dispatcher_dispatcher_setparam)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Dispatcher_Dispatcher, setParams, arginfo_phalcon_contracts_dispatcher_dispatcher_setparams)
+	PHP_FE_END
+};

@@ -121,6 +121,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Encryption_Security)
 	zephir_declare_class_constant_long(phalcon_encryption_security_ce, SL("CRYPT_DEFAULT"), 0);
 
 	/**
+	 * @deprecated Not implemented; resolves to bcrypt. To be removed.
+	 *
 	 * @var int
 	 */
 	zephir_declare_class_constant_long(phalcon_encryption_security_ce, SL("CRYPT_BLOWFISH"), 4);
@@ -136,16 +138,22 @@ ZEPHIR_INIT_CLASS(Phalcon_Encryption_Security)
 	zephir_declare_class_constant_long(phalcon_encryption_security_ce, SL("CRYPT_BLOWFISH_X"), 6);
 
 	/**
+	 * @deprecated Not implemented; resolves to bcrypt. To be removed.
+	 *
 	 * @var int
 	 */
 	zephir_declare_class_constant_long(phalcon_encryption_security_ce, SL("CRYPT_BLOWFISH_Y"), 7);
 
 	/**
+	 * @deprecated Not implemented; resolves to bcrypt. To be removed.
+	 *
 	 * @var int
 	 */
 	zephir_declare_class_constant_long(phalcon_encryption_security_ce, SL("CRYPT_EXT_DES"), 2);
 
 	/**
+	 * @deprecated Weak legacy algorithm. To be removed.
+	 *
 	 * @var int
 	 */
 	zephir_declare_class_constant_long(phalcon_encryption_security_ce, SL("CRYPT_MD5"), 3);
@@ -161,6 +169,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Encryption_Security)
 	zephir_declare_class_constant_long(phalcon_encryption_security_ce, SL("CRYPT_SHA512"), 9);
 
 	/**
+	 * @deprecated Not implemented; resolves to bcrypt. To be removed.
+	 *
 	 * @var int
 	 */
 	zephir_declare_class_constant_long(phalcon_encryption_security_ce, SL("CRYPT_STD_DES"), 1);
@@ -400,7 +410,7 @@ PHP_METHOD(Phalcon_Encryption_Security, computeHmac)
 	/* try_start_1: */
 
 		ZVAL_BOOL(&_0$$3, (raw ? 1 : 0));
-		ZEPHIR_CALL_FUNCTION(&hmac, "hash_hmac", NULL, 489, &algorithm_zv, &data_zv, &key_zv, &_0$$3);
+		ZEPHIR_CALL_FUNCTION(&hmac, "hash_hmac", NULL, 491, &algorithm_zv, &data_zv, &key_zv, &_0$$3);
 		zephir_check_call_status_or_jump(try_end_1);
 
 	try_end_1:
@@ -417,7 +427,7 @@ PHP_METHOD(Phalcon_Encryption_Security, computeHmac)
 			object_init_ex(&_3$$4, phalcon_encryption_security_exceptions_unknownhashalgorithm_ce);
 			ZEPHIR_CALL_METHOD(NULL, &_3$$4, "__construct", NULL, 0, &algorithm_zv);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_3$$4, "phalcon/Encryption/Security.zep", 260);
+			zephir_throw_exception_debug(&_3$$4, "phalcon/Encryption/Security.zep", 270);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -427,7 +437,7 @@ PHP_METHOD(Phalcon_Encryption_Security, computeHmac)
 		object_init_ex(&_4$$5, phalcon_encryption_security_exceptions_unknownhashalgorithm_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_4$$5, "__construct", NULL, 0, &algorithm_zv);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_4$$5, "phalcon/Encryption/Security.zep", 264);
+		zephir_throw_exception_debug(&_4$$5, "phalcon/Encryption/Security.zep", 274);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -785,6 +795,9 @@ PHP_METHOD(Phalcon_Encryption_Security, getWorkFactor)
 /**
  * Creates a password hash using bcrypt with a pseudo random salt
  *
+ * Any `defaultHash` value that is not explicitly handled (including the
+ * deprecated, unimplemented constants) resolves to bcrypt.
+ *
  * @param string $password
  * @param array  $options
  *
@@ -796,7 +809,7 @@ PHP_METHOD(Phalcon_Encryption_Security, hash)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS, bytes = 0;
 	zval options;
-	zval password_zv, *options_param = NULL, algorithm, arguments, cost, formatted, prefix, salt, _0, _1, _6, _2$$6, _3$$7, _4$$9, _5$$9;
+	zval password_zv, *options_param = NULL, algorithm, arguments, cost, formatted, prefix, salt, _0, _1, _2$$6, _3$$7, _4$$9, _5$$9;
 	zend_string *password = NULL;
 	zval *this_ptr = getThis();
 
@@ -809,7 +822,6 @@ PHP_METHOD(Phalcon_Encryption_Security, hash)
 	ZVAL_UNDEF(&salt);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_6);
 	ZVAL_UNDEF(&_2$$6);
 	ZVAL_UNDEF(&_3$$7);
 	ZVAL_UNDEF(&_4$$9);
@@ -892,10 +904,7 @@ PHP_METHOD(Phalcon_Encryption_Security, hash)
 		zephir_check_call_status();
 		RETURN_MM();
 	}
-	ZEPHIR_INIT_VAR(&_6);
-	zephir_create_array(&_6, 1, 0);
-	zephir_array_update_string(&_6, SL("cost"), &cost, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CPY_WRT(&options, &_6);
+	zephir_array_update_string(&options, SL("cost"), &cost, PH_COPY | PH_SEPARATE);
 	ZEPHIR_CALL_METHOD(&algorithm, this_ptr, "processalgorithm", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&arguments, this_ptr, "processargonoptions", NULL, 0, &options);

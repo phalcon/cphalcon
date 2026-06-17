@@ -43,7 +43,7 @@ PHP_METHOD(Phalcon_Flash_Exceptions_SessionServiceUnavailable, __construct)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	ZEPHIR_INIT_VAR(&_0);
-	ZVAL_STRING(&_0, "A dependency injection container is required to access the 'session' service");
+	ZVAL_STRING(&_0, "The 'session' service is not available (no container, or service not registered)");
 	ZEPHIR_CALL_PARENT(NULL, phalcon_flash_exceptions_sessionserviceunavailable_ce, getThis(), "__construct", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
