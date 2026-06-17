@@ -395,7 +395,7 @@ PHP_METHOD(Phalcon_Cli_Router, getTaskName)
 /**
  * Handles routing information received from command-line arguments
  *
- * @param array arguments
+ * @param array|string|null arguments
  */
 PHP_METHOD(Phalcon_Cli_Router, handle)
 {

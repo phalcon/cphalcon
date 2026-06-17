@@ -249,7 +249,7 @@ class Router extends AbstractInjectionAware implements RouterInterface
     /**
      * Handles routing information received from command-line arguments
      *
-     * @param array arguments
+     * @param array|string|null arguments
      */
     public function handle(arguments = null)
     {
