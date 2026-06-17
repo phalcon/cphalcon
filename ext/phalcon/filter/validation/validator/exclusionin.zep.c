@@ -205,7 +205,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_ExclusionIn, validate)
 			return;
 		}
 	}
-	ZEPHIR_CALL_FUNCTION(&_7, "in_array", NULL, 76, &value, &domain, &strict);
+	ZEPHIR_CALL_FUNCTION(&_7, "in_array", NULL, 78, &value, &domain, &strict);
 	zephir_check_call_status();
 	if (zephir_is_true(&_7)) {
 		ZEPHIR_INIT_VAR(&replacePairs);

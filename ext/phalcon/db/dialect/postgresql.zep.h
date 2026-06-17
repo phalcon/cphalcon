@@ -28,6 +28,8 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, listTables);
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, listViews);
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, modifyColumn);
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, returning);
+PHP_METHOD(Phalcon_Db_Dialect_Postgresql, supportsMaterializedViews);
+PHP_METHOD(Phalcon_Db_Dialect_Postgresql, supportsReturning);
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, sharedLock);
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, tableExists);
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, tableOptions);
@@ -177,6 +179,12 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_postgresql_re
 	ZEND_ARG_ARRAY_INFO(0, columns, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_postgresql_supportsmaterializedviews, 0, 0, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_postgresql_supportsreturning, 0, 0, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_postgresql_sharedlock, 0, 1, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, sqlQuery, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, modifier, IS_STRING, 0, "''")
@@ -239,6 +247,8 @@ ZEPHIR_INIT_FUNCS(phalcon_db_dialect_postgresql_method_entry) {
 	PHP_ME(Phalcon_Db_Dialect_Postgresql, listViews, arginfo_phalcon_db_dialect_postgresql_listviews, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Dialect_Postgresql, modifyColumn, arginfo_phalcon_db_dialect_postgresql_modifycolumn, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Dialect_Postgresql, returning, arginfo_phalcon_db_dialect_postgresql_returning, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Postgresql, supportsMaterializedViews, arginfo_phalcon_db_dialect_postgresql_supportsmaterializedviews, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Postgresql, supportsReturning, arginfo_phalcon_db_dialect_postgresql_supportsreturning, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Dialect_Postgresql, sharedLock, arginfo_phalcon_db_dialect_postgresql_sharedlock, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Dialect_Postgresql, tableExists, arginfo_phalcon_db_dialect_postgresql_tableexists, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Dialect_Postgresql, tableOptions, arginfo_phalcon_db_dialect_postgresql_tableoptions, ZEND_ACC_PUBLIC)

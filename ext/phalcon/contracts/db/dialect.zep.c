@@ -100,11 +100,20 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Dialect, createView);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Dialect, describeColumns);
 /**
- * Generates SQL to query indexes on a table
+ * Generates SQL to query indexes on a table.
+ *
+ * The base adapter consumes the result as `FETCH_NUM` rows by position:
+ * column index 2 must be the index key name and column index 4 the indexed
+ * column name.
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Dialect, describeIndexes);
 /**
- * Generates SQL to query foreign keys on a table
+ * Generates SQL to query foreign keys on a table.
+ *
+ * The base adapter consumes the result as `FETCH_NUM` rows by position:
+ * index 1 the local column, index 2 the constraint name, index 3 the
+ * referenced schema, index 4 the referenced table, and index 5 the
+ * referenced column.
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Dialect, describeReferences);
 /**
