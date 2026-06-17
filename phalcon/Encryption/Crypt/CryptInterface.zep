@@ -12,6 +12,19 @@ namespace Phalcon\Encryption\Crypt;
 
 /**
  * Interface for Phalcon\Crypt
+ *
+ * The encrypted payload produced by `encrypt()` uses the wire format:
+ *
+ *     iv ‖ hmac ‖ ciphertext ‖ tag
+ *
+ * where `hmac` is present only when signing is enabled (`useSigning(true)`,
+ * the default) and `tag` is present only for AEAD ciphers (`gcm`/`ccm`).
+ *
+ * The AEAD parameters (`authData`, `authTag`, `authTagLength`) are instance
+ * state set through the relevant setters and shared across every
+ * `encrypt()`/`decrypt()` call on the instance. A `Crypt` service shared
+ * through the DI container is therefore not safe for interleaved AEAD
+ * operations.
  */
 interface CryptInterface
 {

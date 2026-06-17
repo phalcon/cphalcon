@@ -37,7 +37,7 @@ class Pkcs7 implements PadInterface
     {
         var last, length, ord, padding, paddingSize;
 
-        let length = mb_strlen(input),
+        let length = strlen(input),
             last   = substr(input, length - 1, 1),
             ord    = ord(last);
 
