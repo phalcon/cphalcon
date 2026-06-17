@@ -922,6 +922,22 @@ class Postgresql extends Dialect
     }
 
     /**
+     * PostgreSQL supports materialized views (`CREATE MATERIALIZED VIEW`).
+     */
+    public function supportsMaterializedViews() -> bool
+    {
+        return true;
+    }
+
+    /**
+     * PostgreSQL supports the `RETURNING` clause.
+     */
+    public function supportsReturning() -> bool
+    {
+        return true;
+    }
+
+    /**
      * Returns a SQL modified with a `FOR SHARE` clause - PostgreSQL's
      * equivalent of MySQL's `LOCK IN SHARE MODE`. The optional `modifier`
      * appends a row-lock disposition keyword (pass `Dialect::LOCK_NOWAIT`

@@ -17,6 +17,7 @@ use Phalcon\Db\Enum;
 use Phalcon\Db\Exception;
 use Phalcon\Db\Exceptions\CannotInsertWithoutData;
 use Phalcon\Db\Exceptions\IncompleteBindTypes;
+use Phalcon\Db\Exceptions\InvalidDialectClass;
 use Phalcon\Db\Exceptions\InvalidWhereConditions;
 use Phalcon\Db\Exceptions\NestedTransactionChangeBlocked;
 use Phalcon\Db\Exceptions\SavepointsNotSupported;
@@ -102,7 +103,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     /**
      * Dialect instance
      *
-     * @var object
+     * @var DialectInterface
      */
     protected dialect;
 
@@ -183,6 +184,10 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      *     'dsn' => null,
      *     'charset' => 'utf8mb4'
      * ]
+     *
+     * Note: the `options` key is forwarded to the static `setup()` method,
+     * which writes process-global settings affecting every connection in the
+     * process. See `setup()`.
      */
     public function __construct(array! descriptor)
     {
@@ -205,6 +210,10 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
         if typeof dialectClass === "string" {
             let this->dialect = create_instance(dialectClass);
         } elseif typeof dialectClass === "object" {
+            if unlikely !(dialectClass instanceof DialectInterface) {
+                throw new InvalidDialectClass(get_class(dialectClass));
+            }
+
             let this->dialect = dialectClass;
         }
 
@@ -360,6 +369,8 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      * DELETE FROM `robots` WHERE `id` = 101
      * ```
      *
+     * Warning! If $whereCondition is string it not escaped.
+     *
      * @param array|string table
      * @param string|null whereCondition
      * @param array placeholders
@@ -393,6 +404,13 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      *     $connection->describeIndexes("robots_parts")
      * );
      *```
+     *
+     * This base implementation consumes the dialect's `describeIndexes()` SQL
+     * as `FETCH_NUM` rows by position: column index 2 is the index key name and
+     * column index 4 is the indexed column name. A custom dialect's
+     * `describeIndexes()` SQL must emit columns in that order, or a custom
+     * adapter must override this method. All bundled adapters except PostgreSQL
+     * override it.
      */
     public function describeIndexes(string! table, string schema = null) -> <IndexInterface[]>
     {
@@ -433,6 +451,15 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      *     $connection->describeReferences("robots_parts")
      * );
      *```
+     *
+     * This base implementation consumes the dialect's `describeReferences()`
+     * SQL as `FETCH_NUM` rows by position: index 1 is the local column, index 2
+     * the constraint name, index 3 the referenced schema, index 4 the
+     * referenced table, and index 5 the referenced column. A custom dialect's
+     * `describeReferences()` SQL must emit columns in that order, or a custom
+     * adapter must override this method. Every bundled adapter (MySQL,
+     * PostgreSQL, SQLite) overrides it, so this base implementation has no
+     * in-tree caller and effectively assumes the PostgreSQL row shape.
      */
     public function describeReferences(string! table, string! schema = null) -> <ReferenceInterface[]>
     {
@@ -897,9 +924,9 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      */
     public function insert(string table, array! values, var fields = null, var dataTypes = null) -> bool
     {
-        var bindDataTypes, bindType, escapedTable, escapedFields, field,
-            insertSql, insertValues, joinedValues, placeholders, position,
-            tableName, value;
+        var bindDataTypes, escapedTable, escapedFields, field,
+            insertSql, insertValues, joinedValues, placeholder, placeholders,
+            position, tableName, value;
 
         /**
          * A valid array with more than one element is required
@@ -917,26 +944,15 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
          * string "null", everything else is passed as "?"
          */
         for position, value in values {
-            if typeof value == "object" && value instanceof RawValue {
-                let placeholders[] = (string) value;
-            } else {
-                if typeof value == "object" {
-                    let value = (string) value;
-                }
+            let placeholder = this->buildValuePlaceholder(value, position, dataTypes);
 
-                if value === null {
-                    let placeholders[] = "null";
-                } else {
-                    let placeholders[] = "?";
-                    let insertValues[] = value;
+            let placeholders[] = placeholder["placeholder"];
 
-                    if typeof dataTypes == "array" {
-                        if unlikely !fetch bindType, dataTypes[position] {
-                            throw new IncompleteBindTypes();
-                        }
+            if placeholder["bind"] {
+                let insertValues[] = placeholder["value"];
 
-                        let bindDataTypes[] = bindType;
-                    }
+                if placeholder["hasBindType"] {
+                    let bindDataTypes[] = placeholder["bindType"];
                 }
             }
         }
@@ -1174,7 +1190,15 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     }
 
     /**
-     * Enables/disables options in the Database component
+     * Enables/disables options in the Database component.
+     *
+     * The flags are stored as process-global `Phalcon\Support\Settings`
+     * (`db.escape_identifiers`, `db.force_casting`) and therefore affect every
+     * connection in the process at once, last-writer-wins. Call this once at
+     * bootstrap; it is not per-connection configuration. Because the
+     * constructor calls `setup()` whenever a descriptor carries an `options`
+     * key, constructing one adapter with `options` can change the SQL another,
+     * already-configured connection generates.
      */
     public static function setup(array! options) -> void
     {
@@ -1293,7 +1317,18 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      */
     public function tableExists(string! tableName, string! schemaName = null) -> bool
     {
-        return this->fetchOne(this->dialect->tableExists(tableName, schemaName), Enum::FETCH_NUM)[0] > 0;
+        var result;
+
+        let result = this->fetchOne(
+            this->dialect->tableExists(tableName, schemaName),
+            Enum::FETCH_NUM
+        );
+
+        if typeof result != "array" || !isset result[0] {
+            return false;
+        }
+
+        return result[0] > 0;
     }
 
     /**
@@ -1307,7 +1342,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      */
     public function tableOptions(string! tableName, string schemaName = null) -> array
     {
-        var sql;
+        var sql, options;
 
         let sql = this->dialect->tableOptions(tableName, schemaName);
 
@@ -1315,7 +1350,13 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
             return [];
         }
 
-        return this->fetchAll(sql, Enum::FETCH_ASSOC)[0];
+        let options = this->fetchAll(sql, Enum::FETCH_ASSOC);
+
+        if !isset options[0] {
+            return [];
+        }
+
+        return options[0];
     }
 
     /**
@@ -1354,9 +1395,9 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      */
     public function update(string table, var fields, var values, var whereCondition = null, var dataTypes = null) -> bool
     {
-        var bindDataTypes, bindType, conditions, escapedField, escapedTable,
-            field, placeholders, position, setClause, tableName, updateSql,
-            updateValues, value, whereBind, whereTypes;
+        var bindDataTypes, conditions, escapedField, escapedTable,
+            field, placeholder, placeholders, position, setClause, tableName,
+            updateSql, updateValues, value, whereBind, whereTypes;
 
         let placeholders  = [],
             updateValues  = [],
@@ -1372,28 +1413,15 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
             }
 
             let escapedField = this->escapeIdentifier(field);
+            let placeholder  = this->buildValuePlaceholder(value, position, dataTypes);
 
-            if typeof value == "object" && value instanceof RawValue {
-                let placeholders[] = escapedField . " = " . (string) value;
-            } else {
-                if typeof value == "object" {
-                    let value = (string) value;
-                }
+            let placeholders[] = escapedField . " = " . placeholder["placeholder"];
 
-                if value === null {
-                    let placeholders[] = escapedField . " = null";
-                } else {
-                    let updateValues[] = value;
+            if placeholder["bind"] {
+                let updateValues[] = placeholder["value"];
 
-                    if typeof dataTypes == "array" {
-                        if unlikely !fetch bindType, dataTypes[position] {
-                            throw new IncompleteBindTypes();
-                        }
-
-                        let bindDataTypes[] = bindType;
-                    }
-
-                    let placeholders[] = escapedField . " = ?";
+                if placeholder["hasBindType"] {
+                    let bindDataTypes[] = placeholder["bindType"];
                 }
             }
         }
@@ -1513,7 +1541,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      * Check whether the database system support the DEFAULT
      * keyword (SQLite does not support it)
      *
-     * @deprecated Will re removed in the next version
+     * @deprecated Will be removed in a future major release.
      */
     public function supportsDefaultValue() -> bool {
         return true;
@@ -1531,5 +1559,73 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     public function viewExists(string! viewName, string! schemaName = null) -> bool
     {
         return this->fetchOne(this->dialect->viewExists(viewName, schemaName), Enum::FETCH_NUM)[0] > 0;
+    }
+
+    /**
+     * Builds the SQL value fragment for a single INSERT/UPDATE value, shared by
+     * insert() and update(). RawValue instances are inlined as raw SQL, objects
+     * are cast via __toString, null becomes the literal "null", and every other
+     * value becomes a "?" placeholder.
+     *
+     * Zephir cannot mutate caller arrays by reference, so the bound value and
+     * bind type are returned for the caller to collect. The returned array has:
+     *
+     *  - "placeholder": string  - the SQL fragment ("null", "?", or raw SQL)
+     *  - "bind":        bool    - whether "value" must be bound
+     *  - "value":       mixed   - the value to bind (when "bind" is true)
+     *  - "hasBindType": bool    - whether "bindType" must be collected
+     *  - "bindType":    mixed   - the bind type to collect (when applicable)
+     *
+     * @param mixed $value
+     * @param mixed $position
+     * @param mixed $dataTypes
+     *
+     * @return array
+     */
+    private function buildValuePlaceholder(var value, var position, var dataTypes) -> array
+    {
+        var bindType;
+        bool hasBindType;
+
+        if typeof value == "object" && value instanceof RawValue {
+            return [
+                "placeholder" : (string) value,
+                "bind"        : false,
+                "value"       : null,
+                "hasBindType" : false,
+                "bindType"    : null
+            ];
+        }
+
+        if typeof value == "object" {
+            let value = (string) value;
+        }
+
+        if value === null {
+            return [
+                "placeholder" : "null",
+                "bind"        : false,
+                "value"       : null,
+                "hasBindType" : false,
+                "bindType"    : null
+            ];
+        }
+
+        let bindType    = null,
+            hasBindType = (typeof dataTypes == "array");
+
+        if hasBindType {
+            if unlikely !fetch bindType, dataTypes[position] {
+                throw new IncompleteBindTypes();
+            }
+        }
+
+        return [
+            "placeholder" : "?",
+            "bind"        : true,
+            "value"       : value,
+            "hasBindType" : hasBindType,
+            "bindType"    : bindType
+        ];
     }
 }
