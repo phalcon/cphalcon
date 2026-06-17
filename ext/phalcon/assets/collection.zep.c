@@ -544,7 +544,7 @@ PHP_METHOD(Phalcon_Assets_Collection, getIterator)
 
 	object_init_ex(return_value, spl_ce_ArrayIterator);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("assets"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 19, &_0);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 20, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -597,7 +597,7 @@ PHP_METHOD(Phalcon_Assets_Collection, getRealTargetPath)
 	ZEPHIR_INIT_VAR(&completePath);
 	ZEPHIR_CONCAT_VV(&completePath, &basePath_zv, &_0);
 	if (1 == (zephir_file_exists(&completePath) == SUCCESS)) {
-		ZEPHIR_RETURN_CALL_FUNCTION("realpath", NULL, 141, &completePath);
+		ZEPHIR_RETURN_CALL_FUNCTION("realpath", NULL, 142, &completePath);
 		zephir_check_call_status();
 		RETURN_MM();
 	}

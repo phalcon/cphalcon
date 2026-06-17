@@ -17,6 +17,7 @@ use Phalcon\Events\ManagerInterface;
 use Phalcon\Storage\Serializer\SerializerInterface;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Support\Exception as SupportException;
+use Phalcon\Support\Helper\Arr\Get;
 
 /**
  * Class AbstractAdapter
@@ -403,7 +404,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     {
         var content;
 
-        if true !== this->has(key) {
+        if true !== this->doHas(key) {
             return defaultValue;
         }
 
@@ -587,7 +588,10 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
         if (null !== this->serializer) {
             this->serializer->unserialize(content);
 
-            if unlikely true !== this->serializer->isSuccess() {
+            if (
+                true === method_exists(this->serializer, "isSuccess") &&
+                true !== this->serializer->isSuccess()
+            ) {
                 return defaultValue;
             }
 
@@ -616,7 +620,10 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     }
 
     /**
-     * @todo Remove this when we get traits
+     * Reads an element from an array, optionally casting it. Delegates to the
+     * canonical Support\Helper\Arr\Get helper.
+     *
+     * @todo Remove this wrapper when we get traits
      */
     protected function getArrVal(
         array! collection,
@@ -624,17 +631,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
         var defaultValue = null,
         string! cast = null
     ) -> var {
-        var value;
-
-        if unlikely !fetch value, collection[index] {
-            return defaultValue;
-        }
-
-        if unlikely cast {
-            settype(value, cast);
-        }
-
-        return value;
+        return (new Get())->__invoke(collection, index, defaultValue, cast);
     }
 
     /**

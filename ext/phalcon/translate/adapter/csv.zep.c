@@ -250,7 +250,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, phpFopen)
 	ZVAL_STR_COPY(&filename_zv, filename);
 	zephir_memory_observe(&mode_zv);
 	ZVAL_STR_COPY(&mode_zv, mode);
-	ZEPHIR_RETURN_CALL_FUNCTION("fopen", NULL, 239, &filename_zv, &mode_zv);
+	ZEPHIR_RETURN_CALL_FUNCTION("fopen", NULL, 240, &filename_zv, &mode_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }

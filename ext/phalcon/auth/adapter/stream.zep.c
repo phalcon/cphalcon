@@ -209,7 +209,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Stream, loadUsers)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_CALL_FUNCTION(&rows, "array_values", NULL, 28, &data);
+	ZEPHIR_CALL_FUNCTION(&rows, "array_values", NULL, 29, &data);
 	zephir_check_call_status();
 	RETURN_CCTOR(&rows);
 }

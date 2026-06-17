@@ -122,13 +122,13 @@ PHP_METHOD(Phalcon_Filter_Validation, __construct)
 	ZEPHIR_INIT_VAR(&_1);
 	ZEPHIR_INIT_NVAR(&_1);
 	zephir_create_closure_ex(&_1, NULL, phalcon_16__closure_ce, SL("__invoke"));
-	ZEPHIR_CALL_FUNCTION(&_2, "array_filter", NULL, 31, &validators, &_1);
+	ZEPHIR_CALL_FUNCTION(&_2, "array_filter", NULL, 32, &validators, &_1);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("validators"), &_2);
 	ZEPHIR_INIT_VAR(&_3);
 	ZEPHIR_INIT_NVAR(&_3);
 	zephir_create_closure_ex(&_3, NULL, phalcon_17__closure_ce, SL("__invoke"));
-	ZEPHIR_CALL_FUNCTION(&_4, "array_filter", NULL, 31, &validators, &_3);
+	ZEPHIR_CALL_FUNCTION(&_4, "array_filter", NULL, 32, &validators, &_3);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("combinedFieldsValidators"), &_4);
 	if ((zephir_method_exists_ex(this_ptr, ZEND_STRL("initialize")) == SUCCESS)) {
@@ -1683,7 +1683,7 @@ PHP_METHOD(Phalcon_Filter_Validation, preChecking)
 			ZEPHIR_CALL_METHOD(&value, this_ptr, "getvalue", NULL, 0, field);
 			zephir_check_call_status();
 			if (Z_TYPE_P(&allowEmpty) == IS_ARRAY) {
-				ZEPHIR_RETURN_CALL_FUNCTION("in_array", NULL, 75, &value, &allowEmpty, &__$true);
+				ZEPHIR_RETURN_CALL_FUNCTION("in_array", NULL, 76, &value, &allowEmpty, &__$true);
 				zephir_check_call_status();
 				RETURN_MM();
 			}

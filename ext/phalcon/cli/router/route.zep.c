@@ -261,7 +261,7 @@ PHP_METHOD(Phalcon_Cli_Router_Route, compilePattern)
 		ZEPHIR_INIT_VAR(&_17$$3);
 		ZEPHIR_INIT_VAR(&_18$$3);
 		zephir_array_keys(&_18$$3, &map);
-		ZEPHIR_CALL_FUNCTION(&_19$$3, "array_values", NULL, 28, &map);
+		ZEPHIR_CALL_FUNCTION(&_19$$3, "array_values", NULL, 29, &map);
 		zephir_check_call_status();
 		zephir_fast_str_replace(&_17$$3, &_18$$3, &_19$$3, &pattern);
 		zephir_get_strval(&pattern, &_17$$3);
@@ -649,7 +649,7 @@ PHP_METHOD(Phalcon_Cli_Router_Route, getReversedPaths)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("paths"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_RETURN_CALL_FUNCTION("array_flip", NULL, 192, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("array_flip", NULL, 193, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }

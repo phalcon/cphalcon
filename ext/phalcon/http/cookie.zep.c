@@ -738,7 +738,7 @@ PHP_METHOD(Phalcon_Http_Cookie, send)
 	zephir_array_update_string(&definition, SL("secure"), &secure, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&definition, SL("httpOnly"), &httpOnly, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&definition, SL("options"), &options, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CALL_FUNCTION(&_1, "array_filter", NULL, 31, &definition);
+	ZEPHIR_CALL_FUNCTION(&_1, "array_filter", NULL, 32, &definition);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(&definition, &_1);
 	if (!(ZEPHIR_IS_EMPTY(&definition))) {

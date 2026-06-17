@@ -956,7 +956,7 @@ PHP_METHOD(Phalcon_Support_Debug_Dump, output)
 			} else {
 				ZEPHIR_INIT_VAR(&reflect$$15);
 				object_init_ex(&reflect$$15, zephir_get_internal_ce(SL("reflectionclass")));
-				ZEPHIR_CALL_METHOD(NULL, &reflect$$15, "__construct", NULL, 261, variable);
+				ZEPHIR_CALL_METHOD(NULL, &reflect$$15, "__construct", NULL, 262, variable);
 				zephir_check_call_status();
 				ZEPHIR_CPY_WRT(&reflect$$15, &reflect$$15);
 				ZVAL_LONG(&_69$$15, ((1 | 2) | 4));
@@ -1250,7 +1250,7 @@ PHP_METHOD(Phalcon_Support_Debug_Dump, output)
 		ZEPHIR_CONCAT_VV(return_value, &output, &_149$$26);
 		RETURN_MM();
 	}
-	ZEPHIR_CALL_FUNCTION(&_151, "is_float", NULL, 29, variable);
+	ZEPHIR_CALL_FUNCTION(&_151, "is_float", NULL, 30, variable);
 	zephir_check_call_status();
 	if (zephir_is_true(&_151)) {
 		ZEPHIR_INIT_VAR(&_152$$27);

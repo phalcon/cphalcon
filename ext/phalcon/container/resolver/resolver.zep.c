@@ -85,7 +85,7 @@ PHP_METHOD(Phalcon_Container_Resolver_Resolver, isResolvableClass)
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, zephir_get_internal_ce(SL("reflectionclass")));
-	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 261, &className_zv);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 262, &className_zv);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(&_0, "isinstantiable", NULL, 404);
 	zephir_check_call_status();
@@ -136,9 +136,9 @@ PHP_METHOD(Phalcon_Container_Resolver_Resolver, resolveCall)
 	}
 	ZEPHIR_INIT_VAR(&reflection);
 	object_init_ex(&reflection, zephir_get_internal_ce(SL("reflectionfunction")));
-	ZEPHIR_CALL_METHOD(NULL, &reflection, "__construct", NULL, 258, &closure);
+	ZEPHIR_CALL_METHOD(NULL, &reflection, "__construct", NULL, 259, &closure);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&params, &reflection, "getparameters", NULL, 259);
+	ZEPHIR_CALL_METHOD(&params, &reflection, "getparameters", NULL, 260);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&resolved, this_ptr, "resolveparameters", NULL, 0, ioc, &params, &arguments);
 	zephir_check_call_status();
@@ -188,7 +188,7 @@ PHP_METHOD(Phalcon_Container_Resolver_Resolver, resolveClass)
 	zephir_get_arrval(&arguments, arguments_param);
 	ZEPHIR_INIT_VAR(&reflection);
 	object_init_ex(&reflection, zephir_get_internal_ce(SL("reflectionclass")));
-	ZEPHIR_CALL_METHOD(NULL, &reflection, "__construct", NULL, 261, &className_zv);
+	ZEPHIR_CALL_METHOD(NULL, &reflection, "__construct", NULL, 262, &className_zv);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&constructor, &reflection, "getconstructor", NULL, 386);
 	zephir_check_call_status();

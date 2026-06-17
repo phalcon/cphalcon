@@ -18,6 +18,11 @@ use Phalcon\Support\Exception as SupportException;
 /**
  * Apcu adapter
  *
+ * Capabilities:
+ * - Counters: native atomic (apcu_inc()/apcu_dec()).
+ * - getKeys(): APCUIterator regex scan over the shared APCu store.
+ * - Serializers: Phalcon-side only; no backend-native serializer.
+ *
  * @property array $options
  */
 class Apcu extends AbstractAdapter

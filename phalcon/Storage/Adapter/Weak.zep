@@ -18,6 +18,13 @@ use Phalcon\Storage\Serializer\SerializerInterface;
 
 /**
 * Weak Adapter
+*
+* Capabilities:
+* - Stores objects only, as WeakReferences; entries vanish when the referenced
+*   object is garbage-collected.
+* - TTL is ignored; no serializer is used (none/no-op).
+* - Counters unsupported: increment()/decrement() return false.
+* - setForever() is equivalent to set(); getKeys() reads the in-memory list.
 */
 class Weak extends AbstractAdapter
 {

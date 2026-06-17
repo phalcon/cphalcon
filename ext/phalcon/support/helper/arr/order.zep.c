@@ -140,7 +140,7 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Order, __invoke)
 	if (1 == order) {
 		ZVAL_LONG(&_7$$5, flags);
 		ZEPHIR_MAKE_REF(&sorted);
-		ZEPHIR_CALL_FUNCTION(NULL, "ksort", NULL, 69, &sorted, &_7$$5);
+		ZEPHIR_CALL_FUNCTION(NULL, "ksort", NULL, 70, &sorted, &_7$$5);
 		ZEPHIR_UNREF(&sorted);
 		zephir_check_call_status();
 	} else {
@@ -150,7 +150,7 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Order, __invoke)
 		ZEPHIR_UNREF(&sorted);
 		zephir_check_call_status();
 	}
-	ZEPHIR_RETURN_CALL_FUNCTION("array_values", NULL, 28, &sorted);
+	ZEPHIR_RETURN_CALL_FUNCTION("array_values", NULL, 29, &sorted);
 	zephir_check_call_status();
 	RETURN_MM();
 }
