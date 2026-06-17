@@ -57,6 +57,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/auth/exception.zep.c
 	phalcon/db/geometry/geometryinterface.zep.c
 	phalcon/filter/validation/validator/file/abstractfile.zep.c
+	phalcon/session/exception.zep.c
 	phalcon/storage/serializer/none.zep.c
 	phalcon/cache/adapter/adapterinterface.zep.c
 	phalcon/config/exception.zep.c
@@ -67,7 +68,6 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/encryption/crypt/padding/padinterface.zep.c
 	phalcon/encryption/security/uuid/uuidinterface.zep.c
 	phalcon/paginator/exception.zep.c
-	phalcon/session/exception.zep.c
 	phalcon/support/exception.zep.c
 	phalcon/assets/assetinterface.zep.c
 	phalcon/config/configinterface.zep.c
@@ -1106,6 +1106,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/session/adapter/stream.zep.c
 	phalcon/session/bag.zep.c
 	phalcon/session/exceptions/invalidsessionadapter.zep.c
+	phalcon/session/exceptions/invalidsessionid.zep.c
 	phalcon/session/exceptions/invalidsessionname.zep.c
 	phalcon/session/exceptions/sessionalreadystarted.zep.c
 	phalcon/session/exceptions/sessionmodificationdenied.zep.c
