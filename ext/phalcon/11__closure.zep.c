@@ -38,7 +38,7 @@ PHP_METHOD(phalcon_11__closure, __invoke)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &container);
 	object_init_ex(return_value, phalcon_auth_access_accesslocator_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 329, container);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 331, container);
 	zephir_check_call_status();
 	RETURN_MM();
 }

@@ -113,7 +113,7 @@ PHP_METHOD(Phalcon_Auth_Manager, access)
 		object_init_ex(&_2$$3, phalcon_auth_exception_ce);
 		ZEPHIR_INIT_VAR(&_3$$3);
 		ZVAL_STRING(&_3$$3, "Access '%s' is not registered");
-		ZEPHIR_CALL_FUNCTION(&_4$$3, "sprintf", NULL, 130, &_3$$3, &accessName_zv);
+		ZEPHIR_CALL_FUNCTION(&_4$$3, "sprintf", NULL, 132, &_3$$3, &accessName_zv);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 8, &_4$$3);
 		zephir_check_call_status();
@@ -279,7 +279,7 @@ PHP_METHOD(Phalcon_Auth_Manager, attempt)
 		ZVAL_STRING(&_1$$3, "Default guard");
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZVAL_STRING(&_2$$3, "GuardStateful");
-		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 144, &_1$$3, &_2$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 146, &_1$$3, &_2$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_0$$3, "phalcon/Auth/Manager.zep", 114);
 		ZEPHIR_MM_RESTORE();
@@ -433,7 +433,7 @@ PHP_METHOD(Phalcon_Auth_Manager, guard)
 		object_init_ex(&_2$$5, phalcon_auth_exception_ce);
 		ZEPHIR_INIT_VAR(&_3$$5);
 		ZVAL_STRING(&_3$$5, "Auth guard '%s' is not defined");
-		ZEPHIR_CALL_FUNCTION(&_4$$5, "sprintf", NULL, 130, &_3$$5, &name_zv);
+		ZEPHIR_CALL_FUNCTION(&_4$$5, "sprintf", NULL, 132, &_3$$5, &name_zv);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, &_2$$5, "__construct", NULL, 8, &_4$$5);
 		zephir_check_call_status();
@@ -487,7 +487,7 @@ PHP_METHOD(Phalcon_Auth_Manager, logout)
 		ZVAL_STRING(&_1$$3, "Default guard");
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZVAL_STRING(&_2$$3, "GuardStateful");
-		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 144, &_1$$3, &_2$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 146, &_1$$3, &_2$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_0$$3, "phalcon/Auth/Manager.zep", 199);
 		ZEPHIR_MM_RESTORE();

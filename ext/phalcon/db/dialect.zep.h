@@ -24,6 +24,10 @@ PHP_METHOD(Phalcon_Db_Dialect, rollbackSavepoint);
 PHP_METHOD(Phalcon_Db_Dialect, select);
 PHP_METHOD(Phalcon_Db_Dialect, supportsSavepoints);
 PHP_METHOD(Phalcon_Db_Dialect, supportsReleaseSavepoints);
+PHP_METHOD(Phalcon_Db_Dialect, supportsAlterTable);
+PHP_METHOD(Phalcon_Db_Dialect, supportsMaterializedViews);
+PHP_METHOD(Phalcon_Db_Dialect, supportsOnConflictUpdate);
+PHP_METHOD(Phalcon_Db_Dialect, supportsReturning);
 PHP_METHOD(Phalcon_Db_Dialect, getColumnSize);
 PHP_METHOD(Phalcon_Db_Dialect, getColumnSizeAndScale);
 PHP_METHOD(Phalcon_Db_Dialect, checkColumnType);
@@ -154,6 +158,18 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_supportssavep
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_supportsreleasesavepoints, 0, 0, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_supportsaltertable, 0, 0, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_supportsmaterializedviews, 0, 0, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_supportsonconflictupdate, 0, 0, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_supportsreturning, 0, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_getcolumnsize, 0, 1, IS_STRING, 0)
@@ -336,6 +352,10 @@ ZEPHIR_INIT_FUNCS(phalcon_db_dialect_method_entry) {
 	PHP_ME(Phalcon_Db_Dialect, select, arginfo_phalcon_db_dialect_select, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Dialect, supportsSavepoints, arginfo_phalcon_db_dialect_supportssavepoints, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Dialect, supportsReleaseSavepoints, arginfo_phalcon_db_dialect_supportsreleasesavepoints, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect, supportsAlterTable, arginfo_phalcon_db_dialect_supportsaltertable, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect, supportsMaterializedViews, arginfo_phalcon_db_dialect_supportsmaterializedviews, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect, supportsOnConflictUpdate, arginfo_phalcon_db_dialect_supportsonconflictupdate, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect, supportsReturning, arginfo_phalcon_db_dialect_supportsreturning, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Dialect, getColumnSize, arginfo_phalcon_db_dialect_getcolumnsize, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Db_Dialect, getColumnSizeAndScale, arginfo_phalcon_db_dialect_getcolumnsizeandscale, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Db_Dialect, checkColumnType, arginfo_phalcon_db_dialect_checkcolumntype, ZEND_ACC_PROTECTED)

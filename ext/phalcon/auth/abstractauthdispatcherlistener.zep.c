@@ -163,7 +163,7 @@ PHP_METHOD(Phalcon_Auth_AbstractAuthDispatcherListener, enforce)
 	object_init_ex(&_4, phalcon_auth_exceptions_accessdenied_ce);
 	ZEPHIR_CALL_METHOD(&_5, this_ptr, "getactiontype", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, &_4, "__construct", NULL, 75, &_5, &actionName_zv);
+	ZEPHIR_CALL_METHOD(NULL, &_4, "__construct", NULL, 77, &_5, &actionName_zv);
 	zephir_check_call_status();
 	zephir_throw_exception_debug(&_4, "phalcon/Auth/AbstractAuthDispatcherListener.zep", 89);
 	ZEPHIR_MM_RESTORE();
