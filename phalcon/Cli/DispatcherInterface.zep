@@ -10,55 +10,15 @@
 
 namespace Phalcon\Cli;
 
-use Phalcon\Dispatcher\DispatcherInterface as DispatcherInterfaceBase;
+use Phalcon\Contracts\Cli\Dispatcher as DispatcherContract;
 
 /**
  * Interface for Phalcon\Cli\Dispatcher
+ *
+ * @psalm-suppress DeprecatedInterface
+ * @deprecated Will be removed in a future major release.
+ *             Use {@see \Phalcon\Contracts\Cli\Dispatcher} instead.
  */
-interface DispatcherInterface extends DispatcherInterfaceBase
+interface DispatcherInterface extends DispatcherContract
 {
-    /**
-     * Returns the active task in the dispatcher
-     */
-    public function getActiveTask() -> <TaskInterface>;
-
-    /**
-     * Returns the latest dispatched controller
-     */
-    public function getLastTask() -> <TaskInterface>;
-
-    /**
-     * Get dispatched options
-     */
-    public function getOptions() -> array;
-
-    /**
-     * Gets last dispatched task name
-     */
-    public function getTaskName() -> string;
-
-    /**
-     * Gets default task suffix
-     */
-    public function getTaskSuffix() -> string;
-
-    /**
-     * Sets the default task name
-     */
-    public function setDefaultTask(string taskName) -> void;
-
-    /**
-     * Set the options to be dispatched
-     */
-    public function setOptions(array options) -> void;
-
-    /**
-     * Sets the task name to be dispatched
-     */
-    public function setTaskName(string taskName) -> void;
-
-    /**
-     * Sets the default task suffix
-     */
-    public function setTaskSuffix(string taskSuffix) -> void;
 }
