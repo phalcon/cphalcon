@@ -10,47 +10,15 @@
 
 namespace Phalcon\Encryption\Security\JWT\Signer;
 
+use Phalcon\Contracts\Encryption\Security\JWT\Signer\Signer as SignerContract;
+
 /**
  * Interface for JWT Signer classes
+ *
+ * @psalm-suppress DeprecatedInterface
+ * @deprecated Will be removed in a future major release.
+ *             Use {@see \Phalcon\Contracts\Encryption\Security\JWT\Signer\Signer} instead.
  */
-interface SignerInterface
+interface SignerInterface extends SignerContract
 {
-    /**
-     * Return the value that is used for the "alg" header
-     *
-     * @return string
-     */
-    public function getAlgHeader() -> string;
-
-    /**
-     * Return the algorithm used
-     *
-     * @return string
-     */
-    public function getAlgorithm() -> string;
-
-    /**
-     * Sign a payload using the passphrase
-     *
-     * @param string $payload
-     * @param string $passphrase
-     *
-     * @return string
-     */
-    public function sign(string! payload, string! passphrase) -> string;
-
-    /**
-     * Verify a passed source with a payload and passphrase
-     *
-     * @param string $source
-     * @param string $payload
-     * @param string $passphrase
-     *
-     * @return bool
-     */
-    public function verify(
-        string source,
-        string payload,
-        string passphrase
-    ) -> bool;
 }
