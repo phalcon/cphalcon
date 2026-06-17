@@ -44,6 +44,20 @@ final class RenderTest extends AbstractUnitTestCase
 
     /**
      * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-16
+     */
+    public function testHtmlBreadcrumbsRenderEmpty(): void
+    {
+        $breadcrumbs = new Breadcrumbs();
+
+        $this->assertSame(
+            '',
+            $breadcrumbs->render()
+        );
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
     public function testHtmlBreadcrumbsRenderHome(): void
