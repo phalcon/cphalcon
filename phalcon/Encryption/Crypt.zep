@@ -799,15 +799,17 @@ class Crypt implements CryptInterface
         string decryptKey,
         string iv
     ) -> string {
-        var authData, authTag, authTagLength, cipher, encrypted, decrypted;
+        var authData, authTag, authTagLength, cipher, cipherLength, encrypted,
+            decrypted;
 
         let cipher = this->cipher;
 
         if true === this->checkIsMode(["ccm", "gcm"], mode) {
             let authData      = this->authData,
                 authTagLength = this->authTagLength,
-                authTag       = substr(cipherText, -authTagLength),
-                encrypted     = substr(cipherText, 0, strlen(cipherText) - authTagLength);
+                cipherLength  = strlen(cipherText),
+                authTag       = substr(cipherText, cipherLength - authTagLength),
+                encrypted     = substr(cipherText, 0, cipherLength - authTagLength);
 
             let decrypted = openssl_decrypt(
                 encrypted,
