@@ -438,7 +438,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute)
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_4$$3);
 		ZVAL_STRING(&_4$$3, "Phalcon\\Cache\\CacheInterface");
-		ZEPHIR_CALL_FUNCTION(&_5$$3, "is_a", NULL, 169, &cache, &_4$$3);
+		ZEPHIR_CALL_FUNCTION(&_5$$3, "is_a", NULL, 170, &cache, &_4$$3);
 		zephir_check_call_status();
 		if (UNEXPECTED(!ZEPHIR_IS_TRUE_IDENTICAL(&_5$$3))) {
 			ZEPHIR_INIT_VAR(&_6$$7);

@@ -83,7 +83,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Config_StreamAdapterConfig, __construct)
 		ZVAL_STRING(&_2$$3, "file");
 		ZEPHIR_INIT_VAR(&_3$$3);
 		ZVAL_STRING(&_3$$3, " path");
-		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 301, &_1$$3, &_2$$3, &_3$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 302, &_1$$3, &_2$$3, &_3$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_0$$3, "phalcon/Auth/Adapter/Config/StreamAdapterConfig.zep", 36);
 		ZEPHIR_MM_RESTORE();

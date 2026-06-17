@@ -36,11 +36,12 @@ if (PHP_PHALCON != "no") {
 	ADD_SOURCES(configure_module_dirname + "/phalcon/storage/serializer", "serializerinterface.zep.c abstractserializer.zep.c none.zep.c igbinary.zep.c base64.zep.c json.zep.c memcachedigbinary.zep.c memcachedjson.zep.c memcachedphp.zep.c msgpack.zep.c php.zep.c redisigbinary.zep.c redisjson.zep.c redismsgpack.zep.c redisnone.zep.c redisphp.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/container/exceptions", "containerthrowable.zep.c exception.zep.c cannotextendresolved.zep.c cannotresolveparameter.zep.c circularaliasfound.zep.c envnotdefined.zep.c frozendefinition.zep.c instancenotfound.zep.c invalidextender.zep.c noclassset.zep.c nofactoryset.zep.c noprocessorfound.zep.c parameternotfound.zep.c servicenotfound.zep.c servicenotregistered.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/container/resolver/lazy", "lazy.zep.c env.zep.c arrayvalues.zep.c call.zep.c callableget.zep.c callablenew.zep.c csenv.zep.c envdefault.zep.c functioncall.zep.c get.zep.c getcall.zep.c lazyfactory.zep.c newcall.zep.c newinstance.zep.c staticcall.zep.c", "phalcon");
+	ADD_SOURCES(configure_module_dirname + "/phalcon/encryption/crypt/exception", "exception.zep.c decryptionfailed.zep.c emptydecryptionkey.zep.c emptyencryptionkey.zep.c encryptionfailed.zep.c invalidauthtaglength.zep.c invaliddecryptlength.zep.c invalidpaddingsize.zep.c ivlengthcalculationfailed.zep.c mismatch.zep.c missingauthdata.zep.c missingopensslextension.zep.c randombytesgenerationfailed.zep.c unsupportedalgorithm.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/forms", "exception.zep.c form.zep.c formslocator.zep.c manager.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/image", "exception.zep.c enum.zep.c imagefactory.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/support/helper/str", "abstractstr.zep.c pascalcase.zep.c camelize.zep.c concat.zep.c countvowels.zep.c decapitalize.zep.c decrement.zep.c dirfromfile.zep.c dirseparator.zep.c dynamic.zep.c endswith.zep.c firstbetween.zep.c friendly.zep.c humanize.zep.c includes.zep.c increment.zep.c interpolate.zep.c isanagram.zep.c islower.zep.c ispalindrome.zep.c isupper.zep.c kebabcase.zep.c len.zep.c lower.zep.c prefix.zep.c random.zep.c reduceslashes.zep.c snakecase.zep.c startswith.zep.c suffix.zep.c ucwords.zep.c uncamelize.zep.c underscore.zep.c upper.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/acl", "exception.zep.c componentinterface.zep.c roleinterface.zep.c component.zep.c componentawareinterface.zep.c enum.zep.c role.zep.c roleawareinterface.zep.c", "phalcon");
-	ADD_SOURCES(configure_module_dirname + "/phalcon/encryption/crypt/exception", "exception.zep.c decryptionfailed.zep.c emptydecryptionkey.zep.c emptyencryptionkey.zep.c encryptionfailed.zep.c invalidpaddingsize.zep.c ivlengthcalculationfailed.zep.c mismatch.zep.c missingauthdata.zep.c missingopensslextension.zep.c randombytesgenerationfailed.zep.c unsupportedalgorithm.zep.c", "phalcon");
+	ADD_SOURCES(configure_module_dirname + "/phalcon/contracts/dispatcher", "dispatcher.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/mvc/micro", "exception.zep.c collectioninterface.zep.c collection.zep.c lazyloader.zep.c middlewareinterface.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/support", "collection.zep.c exception.zep.c abstractlocator.zep.c debug.zep.c helperfactory.zep.c registry.zep.c settings.zep.c version.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/application", "exception.zep.c abstractapplication.zep.c", "phalcon");
@@ -56,7 +57,6 @@ if (PHP_PHALCON != "no") {
 	ADD_SOURCES(configure_module_dirname + "/phalcon/config", "exception.zep.c configinterface.zep.c config.zep.c configfactory.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/contracts/assets", "asset.zep.c filter.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/contracts/auth/adapter", "adapter.zep.c adapterconfig.zep.c rememberadapter.zep.c", "phalcon");
-	ADD_SOURCES(configure_module_dirname + "/phalcon/dispatcher", "dispatcherinterface.zep.c exception.zep.c abstractdispatcher.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/encryption/crypt/padding", "padinterface.zep.c ansi.zep.c iso10126.zep.c isoiek.zep.c noop.zep.c pkcs7.zep.c space.zep.c zero.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/encryption/security/uuid", "uuidinterface.zep.c abstractuuid.zep.c nodeproviderinterface.zep.c timebaseduuidinterface.zep.c randomnodeprovider.zep.c sysnodeprovider.zep.c version1.zep.c version3.zep.c version4.zep.c version5.zep.c version6.zep.c version7.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/paginator", "exception.zep.c repositoryinterface.zep.c paginatorfactory.zep.c repository.zep.c", "phalcon");
@@ -75,8 +75,10 @@ if (PHP_PHALCON != "no") {
 	ADD_SOURCES(configure_module_dirname + "/phalcon/auth/adapter", "abstractadapter.zep.c abstractarrayadapter.zep.c adapterlocator.zep.c memory.zep.c model.zep.c stream.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/container/definition/processor", "processor.zep.c closureprocessor.zep.c objectprocessor.zep.c parameterprocessor.zep.c stringprocessor.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/contracts/auth/access", "access.zep.c", "phalcon");
+	ADD_SOURCES(configure_module_dirname + "/phalcon/contracts/flash", "flash.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/contracts/logger/formatter", "formatter.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/datamapper/pdo/connection", "pdointerface.zep.c connectioninterface.zep.c abstractconnection.zep.c decorated.zep.c", "phalcon");
+	ADD_SOURCES(configure_module_dirname + "/phalcon/dispatcher", "exception.zep.c dispatcherinterface.zep.c abstractdispatcher.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/html/link/interfaces", "linkinterface.zep.c linkproviderinterface.zep.c evolvablelinkinterface.zep.c evolvablelinkproviderinterface.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/http/cookie", "exception.zep.c cookieinterface.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/http/request", "exception.zep.c fileinterface.zep.c file.zep.c", "phalcon");
@@ -107,8 +109,10 @@ if (PHP_PHALCON != "no") {
 	ADD_SOURCES(configure_module_dirname + "/phalcon/auth/guard/config", "abstractguardconfig.zep.c sessionguardconfig.zep.c tokenguardconfig.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/autoload", "exception.zep.c loader.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/cache", "cacheinterface.zep.c abstractcache.zep.c adapterfactory.zep.c cache.zep.c cachefactory.zep.c", "phalcon");
+	ADD_SOURCES(configure_module_dirname + "/phalcon/contracts/cli", "dispatcher.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/contracts/encryption/security", "cryptoutils.zep.c csrfprotection.zep.c passwordsecurity.zep.c security.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/contracts/html/helper/input", "selectdata.zep.c", "phalcon");
+	ADD_SOURCES(configure_module_dirname + "/phalcon/contracts/mvc", "dispatcher.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/datamapper/pdo/exception", "exception.zep.c cannotdisconnect.zep.c connectionnotfound.zep.c drivernotsupported.zep.c unknowndrivermethod.zep.c unknownquerymethod.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/domain/payload", "readableinterface.zep.c writeableinterface.zep.c payloadinterface.zep.c payload.zep.c payloadfactory.zep.c status.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/encryption/security", "exception.zep.c random.zep.c uuid.zep.c", "phalcon");

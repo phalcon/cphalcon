@@ -55,6 +55,8 @@ class Security extends AbstractInjectionAware implements SecurityContract
      */
     const CRYPT_DEFAULT    = 0;
     /**
+     * @deprecated Not implemented; resolves to bcrypt. To be removed.
+     *
      * @var int
      */
     const CRYPT_BLOWFISH   = 4;
@@ -67,14 +69,20 @@ class Security extends AbstractInjectionAware implements SecurityContract
      */
     const CRYPT_BLOWFISH_X = 6;
     /**
+     * @deprecated Not implemented; resolves to bcrypt. To be removed.
+     *
      * @var int
      */
     const CRYPT_BLOWFISH_Y = 7;
     /**
+     * @deprecated Not implemented; resolves to bcrypt. To be removed.
+     *
      * @var int
      */
     const CRYPT_EXT_DES    = 2;
     /**
+     * @deprecated Weak legacy algorithm. To be removed.
+     *
      * @var int
      */
     const CRYPT_MD5        = 3;
@@ -87,6 +95,8 @@ class Security extends AbstractInjectionAware implements SecurityContract
      */
     const CRYPT_SHA512     = 9;
     /**
+     * @deprecated Not implemented; resolves to bcrypt. To be removed.
+     *
      * @var int
      */
     const CRYPT_STD_DES    = 1;
@@ -480,6 +490,9 @@ class Security extends AbstractInjectionAware implements SecurityContract
     /**
      * Creates a password hash using bcrypt with a pseudo random salt
      *
+     * Any `defaultHash` value that is not explicitly handled (including the
+     * deprecated, unimplemented constants) resolves to bcrypt.
+     *
      * @param string $password
      * @param array  $options
      *
@@ -548,11 +561,11 @@ class Security extends AbstractInjectionAware implements SecurityContract
         /**
          * This is using password_hash
          *
-         * We will not provide a "salt" but let PHP calculate it.
+         * We will not provide a "salt" but let PHP calculate it. The caller's
+         * options are preserved (e.g. Argon2 `memory_cost`, `time_cost`,
+         * `threads`); only the validated `cost` is merged in.
          */
-        let options = [
-            "cost" : cost
-        ];
+        let options["cost"] = cost;
 
         let algorithm = this->processAlgorithm(),
             arguments = this->processArgonOptions(options);

@@ -20,6 +20,9 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, getParam);
 PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, getParameter);
 PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, getParams);
 PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, getParameters);
+PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, getPreviousActionName);
+PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, getPreviousHandlerName);
+PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, getPreviousNamespaceName);
 PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, hasParam);
 PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, hasParameter);
 PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, isFinished);
@@ -40,7 +43,9 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, setModuleName);
 PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, setNamespaceName);
 PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, getReturnedValue);
 PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, wasForwarded);
+PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, handleException);
 PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, resolveEmptyProperties);
+PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, throwDispatchException);
 PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, toCamelCase);
 zend_object *zephir_init_properties_Phalcon_Dispatcher_AbstractDispatcher(zend_class_entry *class_type);
 
@@ -104,6 +109,15 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_dispatcher_abstractdispa
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_dispatcher_abstractdispatcher_getparameters, 0, 0, IS_ARRAY, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_dispatcher_abstractdispatcher_getpreviousactionname, 0, 0, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_dispatcher_abstractdispatcher_getprevioushandlername, 0, 0, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_dispatcher_abstractdispatcher_getpreviousnamespacename, 0, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_dispatcher_abstractdispatcher_hasparam, 0, 1, _IS_BOOL, 0)
@@ -198,7 +212,16 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_dispatcher_abstractdispatcher_wasforwarded, 0, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_dispatcher_abstractdispatcher_handleexception, 0, 0, 1)
+	ZEND_ARG_OBJ_INFO(0, exception, Exception, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_dispatcher_abstractdispatcher_resolveemptyproperties, 0, 0, IS_VOID, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_dispatcher_abstractdispatcher_throwdispatchexception, 0, 0, 1)
+	ZEND_ARG_TYPE_INFO(0, message, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, exceptionCode, IS_LONG, 0, "0")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_dispatcher_abstractdispatcher_tocamelcase, 0, 1, IS_STRING, 0)
@@ -226,6 +249,9 @@ PHP_ME(Phalcon_Dispatcher_AbstractDispatcher, dispatch, arginfo_phalcon_dispatch
 	PHP_ME(Phalcon_Dispatcher_AbstractDispatcher, getParameter, arginfo_phalcon_dispatcher_abstractdispatcher_getparameter, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Dispatcher_AbstractDispatcher, getParams, arginfo_phalcon_dispatcher_abstractdispatcher_getparams, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Dispatcher_AbstractDispatcher, getParameters, arginfo_phalcon_dispatcher_abstractdispatcher_getparameters, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Dispatcher_AbstractDispatcher, getPreviousActionName, arginfo_phalcon_dispatcher_abstractdispatcher_getpreviousactionname, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Dispatcher_AbstractDispatcher, getPreviousHandlerName, arginfo_phalcon_dispatcher_abstractdispatcher_getprevioushandlername, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Dispatcher_AbstractDispatcher, getPreviousNamespaceName, arginfo_phalcon_dispatcher_abstractdispatcher_getpreviousnamespacename, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Dispatcher_AbstractDispatcher, hasParam, arginfo_phalcon_dispatcher_abstractdispatcher_hasparam, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Dispatcher_AbstractDispatcher, hasParameter, arginfo_phalcon_dispatcher_abstractdispatcher_hasparameter, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Dispatcher_AbstractDispatcher, isFinished, arginfo_phalcon_dispatcher_abstractdispatcher_isfinished, ZEND_ACC_PUBLIC)
@@ -246,7 +272,9 @@ PHP_ME(Phalcon_Dispatcher_AbstractDispatcher, dispatch, arginfo_phalcon_dispatch
 	PHP_ME(Phalcon_Dispatcher_AbstractDispatcher, setNamespaceName, arginfo_phalcon_dispatcher_abstractdispatcher_setnamespacename, ZEND_ACC_PUBLIC)
 PHP_ME(Phalcon_Dispatcher_AbstractDispatcher, getReturnedValue, arginfo_phalcon_dispatcher_abstractdispatcher_getreturnedvalue, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Dispatcher_AbstractDispatcher, wasForwarded, arginfo_phalcon_dispatcher_abstractdispatcher_wasforwarded, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Dispatcher_AbstractDispatcher, handleException, arginfo_phalcon_dispatcher_abstractdispatcher_handleexception, ZEND_ACC_ABSTRACT|ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Dispatcher_AbstractDispatcher, resolveEmptyProperties, arginfo_phalcon_dispatcher_abstractdispatcher_resolveemptyproperties, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Dispatcher_AbstractDispatcher, throwDispatchException, arginfo_phalcon_dispatcher_abstractdispatcher_throwdispatchexception, ZEND_ACC_ABSTRACT|ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Dispatcher_AbstractDispatcher, toCamelCase, arginfo_phalcon_dispatcher_abstractdispatcher_tocamelcase, ZEND_ACC_PROTECTED)
 	PHP_FE_END
 };

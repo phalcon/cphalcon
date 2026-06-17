@@ -103,10 +103,6 @@ final class NewInstanceTest extends AbstractUnitTestCase
                 Crypt::PADDING_DEFAULT,
                 "noop",
             ],
-            [
-                100,
-                "noop",
-            ],
         ];
     }
 
