@@ -22,42 +22,16 @@
  */
 /**
  * Interface for JWT Signer classes
+ *
+ * @psalm-suppress DeprecatedInterface
+ * @deprecated Will be removed in a future major release.
+ *             Use {@see \Phalcon\Contracts\Encryption\Security\JWT\Signer\Signer} instead.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Encryption_Security_JWT_Signer_SignerInterface)
 {
-	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Encryption\\Security\\JWT\\Signer, SignerInterface, phalcon, encryption_security_jwt_signer_signerinterface, phalcon_encryption_security_jwt_signer_signerinterface_method_entry);
+	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Encryption\\Security\\JWT\\Signer, SignerInterface, phalcon, encryption_security_jwt_signer_signerinterface, NULL);
 
+	zend_class_implements(phalcon_encryption_security_jwt_signer_signerinterface_ce, 1, phalcon_contracts_encryption_security_jwt_signer_signer_ce);
 	return SUCCESS;
 }
 
-/**
- * Return the value that is used for the "alg" header
- *
- * @return string
- */
-ZEPHIR_DOC_METHOD(Phalcon_Encryption_Security_JWT_Signer_SignerInterface, getAlgHeader);
-/**
- * Return the algorithm used
- *
- * @return string
- */
-ZEPHIR_DOC_METHOD(Phalcon_Encryption_Security_JWT_Signer_SignerInterface, getAlgorithm);
-/**
- * Sign a payload using the passphrase
- *
- * @param string $payload
- * @param string $passphrase
- *
- * @return string
- */
-ZEPHIR_DOC_METHOD(Phalcon_Encryption_Security_JWT_Signer_SignerInterface, sign);
-/**
- * Verify a passed source with a payload and passphrase
- *
- * @param string $source
- * @param string $payload
- * @param string $passphrase
- *
- * @return bool
- */
-ZEPHIR_DOC_METHOD(Phalcon_Encryption_Security_JWT_Signer_SignerInterface, verify);

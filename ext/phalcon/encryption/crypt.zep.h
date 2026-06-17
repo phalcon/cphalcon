@@ -98,23 +98,23 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_crypt_isvalid
 	ZEND_ARG_TYPE_INFO(0, input, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_encryption_crypt_setauthdata, 0, 1, MAY_BE_STATIC)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_encryption_crypt_setauthdata, 0, 1, Phalcon\\Encryption\\Crypt\\CryptInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, data, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_encryption_crypt_setauthtag, 0, 1, MAY_BE_STATIC)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_encryption_crypt_setauthtag, 0, 1, Phalcon\\Encryption\\Crypt\\CryptInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, tag, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_encryption_crypt_setauthtaglength, 0, 1, MAY_BE_STATIC)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_encryption_crypt_setauthtaglength, 0, 1, Phalcon\\Encryption\\Crypt\\CryptInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, length, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_encryption_crypt_setcipher, 0, 1, MAY_BE_STATIC)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_encryption_crypt_setcipher, 0, 1, Phalcon\\Encryption\\Crypt\\CryptInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, cipher, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_encryption_crypt_setkey, 0, 1, MAY_BE_STATIC)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_encryption_crypt_setkey, 0, 1, Phalcon\\Encryption\\Crypt\\CryptInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
@@ -122,11 +122,11 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_encryption_crypt_sethash
 	ZEND_ARG_TYPE_INFO(0, hashAlgorithm, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_encryption_crypt_setpadding, 0, 1, MAY_BE_STATIC)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_encryption_crypt_setpadding, 0, 1, Phalcon\\Encryption\\Crypt\\CryptInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, scheme, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_encryption_crypt_usesigning, 0, 1, MAY_BE_STATIC)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_encryption_crypt_usesigning, 0, 1, Phalcon\\Encryption\\Crypt\\CryptInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, useSigning, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 

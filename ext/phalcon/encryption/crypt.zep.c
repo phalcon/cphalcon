@@ -837,7 +837,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt, isValidDecryptLength)
 /**
  * @param string $data
  *
- * @return static
+ * @return CryptInterface
  */
 PHP_METHOD(Phalcon_Encryption_Crypt, setAuthData)
 {
@@ -857,7 +857,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt, setAuthData)
 /**
  * @param string $tag
  *
- * @return static
+ * @return CryptInterface
  */
 PHP_METHOD(Phalcon_Encryption_Crypt, setAuthTag)
 {
@@ -877,7 +877,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt, setAuthTag)
 /**
  * @param int $length
  *
- * @return static
+ * @return CryptInterface
  * @throws InvalidAuthTagLength
  */
 PHP_METHOD(Phalcon_Encryption_Crypt, setAuthTagLength)
@@ -920,7 +920,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt, setAuthTagLength)
  *
  * @param string $cipher
  *
- * @return static
+ * @return CryptInterface
  * @throws Exception
  */
 PHP_METHOD(Phalcon_Encryption_Crypt, setCipher)
@@ -969,7 +969,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt, setCipher)
  *
  * @param string $key
  *
- * @return static
+ * @return CryptInterface
  */
 PHP_METHOD(Phalcon_Encryption_Crypt, setKey)
 {
@@ -1024,7 +1024,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt, setHashAlgorithm)
  *
  * @param int $scheme
  *
- * @return static
+ * @return CryptInterface
  */
 PHP_METHOD(Phalcon_Encryption_Crypt, setPadding)
 {
@@ -1048,7 +1048,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt, setPadding)
  *
  * @param bool $useSigning
  *
- * @return static
+ * @return CryptInterface
  */
 PHP_METHOD(Phalcon_Encryption_Crypt, useSigning)
 {
