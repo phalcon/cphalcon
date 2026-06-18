@@ -144,4 +144,24 @@ final class AverageTest extends AbstractDatabaseTestCase
         $this->assertEquals(1, (int)$results[2]->inv_cst_id);
         $this->assertEquals(21, (int)$results[2]->average);
     }
+
+    /**
+     * @issue  https://github.com/phalcon/cphalcon/issues/17184
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-18
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelAverageEmptyResultReturnsZero(): void
+    {
+        $total = Invoices::average(
+            [
+                'column' => 'inv_total',
+            ]
+        );
+
+        $this->assertSame(0.0, $total);
+    }
 }
