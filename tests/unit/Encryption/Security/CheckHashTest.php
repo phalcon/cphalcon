@@ -15,6 +15,7 @@ namespace Phalcon\Tests\Unit\Encryption\Security;
 
 use Phalcon\Encryption\Security;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class CheckHashTest extends AbstractUnitTestCase
 {
@@ -39,11 +40,10 @@ final class CheckHashTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
+    #[DataProvider('getExamples')]
     public function testEncryptionSecurityCheckHash(int $hash): void
     {
         $security = new Security();

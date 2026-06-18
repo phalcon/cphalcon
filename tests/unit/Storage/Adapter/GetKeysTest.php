@@ -27,6 +27,7 @@ use Phalcon\Support\Exception;
 use Phalcon\Support\Exception as HelperException;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Storage\Fake\FakeApcuIterator;
+use PHPUnit\Framework\Attributes\DataProvider;
 use stdClass;
 
 use function getOptionsLibmemcached;
@@ -87,11 +88,10 @@ final class GetKeysTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getAdapters
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
+    #[DataProvider('getAdapters')]
     public function testStorageAdapterGetKeys(
         string $extension,
         string $adapterClass,

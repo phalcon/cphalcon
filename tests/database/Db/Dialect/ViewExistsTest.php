@@ -17,6 +17,7 @@ use Phalcon\Db\Dialect\Mysql;
 use Phalcon\Db\Dialect\Postgresql;
 use Phalcon\Db\Dialect\Sqlite;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class ViewExistsTest extends AbstractDatabaseTestCase
 {
@@ -83,8 +84,6 @@ final class ViewExistsTest extends AbstractDatabaseTestCase
     /**
      * Tests Phalcon\Db\Dialect :: viewExists
      *
-     * @dataProvider getDialects
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-01-20
      *
@@ -92,6 +91,7 @@ final class ViewExistsTest extends AbstractDatabaseTestCase
      * @group pgsql
      * @group sqlite
      */
+    #[DataProvider('getDialects')]
     public function testDbDialectViewExists(
         string $dialectClass,
         string $expected
@@ -106,8 +106,6 @@ final class ViewExistsTest extends AbstractDatabaseTestCase
     /**
      * Tests Phalcon\Db\Dialect :: viewExists - no schema
      *
-     * @dataProvider getDialectsNoSchema
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-01-20
      *
@@ -115,6 +113,7 @@ final class ViewExistsTest extends AbstractDatabaseTestCase
      * @group pgsql
      * @group sqlite
      */
+    #[DataProvider('getDialectsNoSchema')]
     public function testDbDialectViewExistsNoSchema(
         string $dialectClass,
         string $expected

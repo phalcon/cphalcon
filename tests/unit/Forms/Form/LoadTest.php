@@ -31,6 +31,7 @@ use Phalcon\Forms\Form;
 use Phalcon\Forms\FormsLocator;
 use Phalcon\Forms\Loader\ArrayLoader;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class LoadTest extends AbstractUnitTestCase
 {
@@ -85,10 +86,9 @@ final class LoadTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getElementTypeMap
-     *
      * @param class-string $expectedClass
      */
+    #[DataProvider('getElementTypeMap')]
     public function testLoadCreatesCorrectElementType(
         string $type,
         string $expectedClass

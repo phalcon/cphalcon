@@ -55,11 +55,10 @@ final class CamelizeTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getSources
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
+    #[DataProvider('getSources')]
     public function testSupportHelperStrCamelize(
         string $value,
         string $expected,

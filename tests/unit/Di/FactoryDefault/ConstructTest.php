@@ -36,6 +36,7 @@ use Phalcon\Mvc\Url;
 use Phalcon\Support\HelperFactory;
 use Phalcon\Support\Settings;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class ConstructTest extends AbstractUnitTestCase
 {
@@ -146,11 +147,10 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getServices
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
+    #[DataProvider('getServices')]
     public function testDiFactoryDefaultConstructServices(
         string $service,
         string $class

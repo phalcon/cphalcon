@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Http\Request;
 
 use Phalcon\Tests\Unit\Http\Helper\AbstractHttpBase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 use function ucfirst;
 
@@ -84,11 +85,10 @@ final class GetFilteredPostTest extends AbstractHttpBase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2019-02-01
      */
+    #[DataProvider('getExamples')]
     public function testHttpRequestGetFilteredPost(
         string $method,
         string $name,

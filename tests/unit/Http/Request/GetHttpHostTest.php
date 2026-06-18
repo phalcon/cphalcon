@@ -125,11 +125,10 @@ final class GetHttpHostTest extends AbstractHttpBase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-04
      */
+    #[DataProvider('getExamples')]
     public function testHttpRequestHttpHost(array $server, array $data): void
     {
         $_SERVER = array_merge($_SERVER, $server);
@@ -143,11 +142,10 @@ final class GetHttpHostTest extends AbstractHttpBase
     }
 
     /**
-     * @dataProvider getExamplesInvalid
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2016-06-26
      */
+    #[DataProvider('getExamplesInvalid')]
     public function testInvalidHttpRequestHttpHost(string $host): void
     {
         $_SERVER['HTTP_HOST'] = $host;

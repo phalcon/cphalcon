@@ -16,7 +16,11 @@ namespace Phalcon\Tests\Database\DataMapper\Query\QueryFactory;
 use Phalcon\DataMapper\Query\Delete;
 use Phalcon\DataMapper\Query\QueryFactory;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
+#[Group('mysql')]
+#[Group('pgsql')]
+#[Group('sqlite')]
 final class NewDeleteTest extends AbstractDatabaseTestCase
 {
     /**

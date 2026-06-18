@@ -18,6 +18,7 @@ use Phalcon\Storage\Exception;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use Phalcon\Tests\Support\Traits\SessionTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class ExistsDestroyTest extends AbstractUnitTestCase
 {
@@ -25,13 +26,12 @@ final class ExistsDestroyTest extends AbstractUnitTestCase
     use SessionTrait;
 
     /**
-     * @dataProvider getClassNames
-     *
      * @issue  https://github.com/phalcon/cphalcon/issues/12326
      * @issue  https://github.com/phalcon/cphalcon/issues/12835
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2018-11-13
      */
+    #[DataProvider('getClassNames')]
     public function testSessionManagerDestroySuperGlobal(
         string $name
     ): void {
@@ -62,11 +62,10 @@ final class ExistsDestroyTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getClassNames
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
+    #[DataProvider('getClassNames')]
     public function testSessionManagerDestroySuperGlobalUniquid(
         string $name
     ): void {
@@ -103,11 +102,10 @@ final class ExistsDestroyTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getClassNames
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2018-11-13
      */
+    #[DataProvider('getClassNames')]
     public function testSessionManagerExistsDestroy(
         string $name
     ): void {

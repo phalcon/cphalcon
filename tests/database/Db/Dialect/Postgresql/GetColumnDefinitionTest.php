@@ -16,6 +16,7 @@ namespace Phalcon\Tests\Database\Db\Dialect\Postgresql;
 use Phalcon\Db\Column;
 use Phalcon\Db\Dialect\Postgresql;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class GetColumnDefinitionTest extends AbstractDatabaseTestCase
 {
@@ -40,13 +41,12 @@ final class GetColumnDefinitionTest extends AbstractDatabaseTestCase
     /**
      * Tests Phalcon\Db\Dialect\Postgresql :: getColumnDefinition - uuid
      *
-     * @dataProvider getPostgresqlData
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2025-04-29
      *
      * @group pgsql
      */
+    #[DataProvider('getPostgresqlData')]
     public function testDbDialectPostgresqlGetColumnDefinition(
         array $definition,
         string $expected

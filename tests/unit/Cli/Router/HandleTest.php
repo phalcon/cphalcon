@@ -17,13 +17,11 @@ use Phalcon\Cli\Router;
 use Phalcon\Cli\Router\Exception;
 use Phalcon\Cli\Router\Route;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class HandleTest extends AbstractUnitTestCase
 {
-    /**
-     * @dataProvider getExamplesDelimiter
-     *
-     */
+    #[DataProvider('getExamplesDelimiter')]
     public function testCliRouterHandleRouterDelimiter(
         string $uri,
         string $module,
@@ -65,10 +63,7 @@ final class HandleTest extends AbstractUnitTestCase
         $route = $router->add('route3', 'MyApp\\Tasks\\::show');
     }
 
-    /**
-     * @dataProvider getExamplesRouterParams
-     *
-     */
+    #[DataProvider('getExamplesRouterParams')]
     public function testCliRouterHandleRouterParams(
         string $uri,
         string $module,
@@ -599,11 +594,10 @@ final class HandleTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamplesRouterHandle
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
+    #[DataProvider('getExamplesRouterHandle')]
     public function testCliRouterHandle(
         array $uri,
         string $module,
@@ -623,10 +617,7 @@ final class HandleTest extends AbstractUnitTestCase
         );
     }
 
-    /**
-     * @dataProvider getExamplesRouter
-     *
-     */
+    #[DataProvider('getExamplesRouter')]
     public function testCliRouterHandleRouter(
         string $uri,
         string $module,

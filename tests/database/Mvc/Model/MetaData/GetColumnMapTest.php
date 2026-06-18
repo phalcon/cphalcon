@@ -18,6 +18,7 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Models\InvoicesMap;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class GetColumnMapTest extends AbstractDatabaseTestCase
 {
@@ -56,8 +57,6 @@ final class GetColumnMapTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-02-01
      *
@@ -65,6 +64,7 @@ final class GetColumnMapTest extends AbstractDatabaseTestCase
      * @group pgsql
      * @group sqlite
      */
+    #[DataProvider('getExamples')]
     public function testMvcModelMetadataGetColumnMap(
         string $service
     ): void {

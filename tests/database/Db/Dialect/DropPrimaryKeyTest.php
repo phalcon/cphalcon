@@ -18,6 +18,7 @@ use Phalcon\Db\Dialect\Postgresql;
 use Phalcon\Db\Dialect\Sqlite;
 use Phalcon\Db\Exception;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class DropPrimaryKeyTest extends AbstractDatabaseTestCase
 {
@@ -64,8 +65,6 @@ final class DropPrimaryKeyTest extends AbstractDatabaseTestCase
     /**
      * Tests Phalcon\Db\Dialect :: dropPrimaryKey
      *
-     * @dataProvider getDialects
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-01-20
      *
@@ -73,6 +72,7 @@ final class DropPrimaryKeyTest extends AbstractDatabaseTestCase
      * @group pgsql
      * @group sqlite
      */
+    #[DataProvider('getDialects')]
     public function testDbDialectDropPrimaryKey(
         string $dialectClass,
         string $expected

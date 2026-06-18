@@ -19,6 +19,7 @@ use Phalcon\Db\Dialect\Sqlite;
 use Phalcon\Db\Exception;
 use Phalcon\Db\Index;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class AddPrimaryKeyTest extends AbstractDatabaseTestCase
 {
@@ -68,8 +69,6 @@ final class AddPrimaryKeyTest extends AbstractDatabaseTestCase
     /**
      * Tests Phalcon\Db\Dialect :: addPrimaryKey
      *
-     * @dataProvider getDialects
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-01-20
      *
@@ -77,6 +76,7 @@ final class AddPrimaryKeyTest extends AbstractDatabaseTestCase
      * @group pgsql
      * @group sqlite
      */
+    #[DataProvider('getDialects')]
     public function testDbDialectAddPrimaryKey(
         string $dialectClass,
         string $expected

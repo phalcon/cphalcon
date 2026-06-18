@@ -17,6 +17,7 @@ use Phalcon\Db\Dialect\Mysql;
 use Phalcon\Db\Dialect\Postgresql;
 use Phalcon\Db\Dialect\Sqlite;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class SharedLockTest extends AbstractDatabaseTestCase
 {
@@ -44,8 +45,6 @@ final class SharedLockTest extends AbstractDatabaseTestCase
     /**
      * Tests Phalcon\Db\Dialect :: sharedLock
      *
-     * @dataProvider getDialects
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-01-20
      *
@@ -53,6 +52,7 @@ final class SharedLockTest extends AbstractDatabaseTestCase
      * @group pgsql
      * @group sqlite
      */
+    #[DataProvider('getDialects')]
     public function testDbDialectSharedLock(
         string $dialectClass,
         string $expected

@@ -17,6 +17,7 @@ use Phalcon\Db\Dialect\Mysql;
 use Phalcon\Db\Dialect\Postgresql;
 use Phalcon\Db\Dialect\Sqlite;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class ListViewsTest extends AbstractDatabaseTestCase
 {
@@ -79,8 +80,6 @@ final class ListViewsTest extends AbstractDatabaseTestCase
     /**
      * Tests Phalcon\Db\Dialect :: listViews
      *
-     * @dataProvider getDialects
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-01-20
      *
@@ -88,6 +87,7 @@ final class ListViewsTest extends AbstractDatabaseTestCase
      * @group pgsql
      * @group sqlite
      */
+    #[DataProvider('getDialects')]
     public function testDbDialectListViews(
         string $dialectClass,
         string $expected
@@ -102,8 +102,6 @@ final class ListViewsTest extends AbstractDatabaseTestCase
     /**
      * Tests Phalcon\Db\Dialect :: listViews - no schema
      *
-     * @dataProvider getDialectsNoSchema
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-01-20
      *
@@ -111,6 +109,7 @@ final class ListViewsTest extends AbstractDatabaseTestCase
      * @group pgsql
      * @group sqlite
      */
+    #[DataProvider('getDialectsNoSchema')]
     public function testDbDialectListViewsNoSchema(
         string $dialectClass,
         string $expected

@@ -15,6 +15,7 @@ namespace Phalcon\Tests\Unit\Mvc\View\Engine\Volt\Compiler;
 
 use Phalcon\Mvc\View\Engine\Volt\Compiler;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class SetOptionTest extends AbstractUnitTestCase
 {
@@ -37,11 +38,10 @@ class SetOptionTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getVoltSetOptionAutoescape
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2017-01-17
      */
+    #[DataProvider('getVoltSetOptionAutoescape')]
     public function testMvcViewEngineVoltCompilerSetOptionAutoescape(
         string $param,
         string $expected

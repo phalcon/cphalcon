@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Http\Request;
 
 use Phalcon\Tests\Unit\Http\Helper\AbstractHttpBase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class GetPreferredIsoLocaleVariantTest extends AbstractHttpBase
 {
@@ -55,11 +56,10 @@ final class GetPreferredIsoLocaleVariantTest extends AbstractHttpBase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2018-11-13
      */
+    #[DataProvider('getExamples')]
     public function testHttpRequestGetBestLanguageIso(
         string $header,
         string $expected

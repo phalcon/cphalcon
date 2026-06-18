@@ -17,6 +17,7 @@ use Phalcon\Mvc\Router\Annotations;
 use Phalcon\Mvc\Router\Route;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 use function is_object;
 
@@ -129,11 +130,10 @@ final class AnnotationsTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getRoutesProvider
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
+    #[DataProvider('getRoutesProvider')]
     public function testMvcRouterAnnotationsRouterFullResources2(
         string $uri,
         string $method,

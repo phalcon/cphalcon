@@ -17,6 +17,7 @@ use Phalcon\Cli\Router;
 use Phalcon\Cli\Router\Route;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class ConvertTest extends AbstractUnitTestCase
 {
@@ -44,10 +45,7 @@ final class ConvertTest extends AbstractUnitTestCase
         ];
     }
 
-    /**
-     * @dataProvider getExamplesConverters
-     *
-     */
+    #[DataProvider('getExamplesConverters')]
     public function testCliRouterRouteConverters(
         string $route,
         array $paths

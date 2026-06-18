@@ -24,6 +24,7 @@ use Phalcon\Storage\Adapter\Stream;
 use Phalcon\Storage\Adapter\Weak;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use SplObjectStorage;
 use SplQueue;
 use stdClass;
@@ -346,11 +347,10 @@ final class GetSetTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
+    #[DataProvider('getExamples')]
     public function testStorageAdapterGetSet(
         string $extension,
         string $class,
@@ -455,11 +455,10 @@ final class GetSetTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getAdapters
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
+    #[DataProvider('getAdapters')]
     public function testStorageAdapterGetSetWithZeroTtl(
         string $class,
         array $options,

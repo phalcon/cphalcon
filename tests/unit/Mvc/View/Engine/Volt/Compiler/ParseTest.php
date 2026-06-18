@@ -16,6 +16,7 @@ namespace Phalcon\Tests\Unit\Mvc\View\Engine\Volt\Compiler;
 use Phalcon\Mvc\View\Engine\Volt\Compiler;
 use Phalcon\Mvc\View\Exception;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 use function is_array;
 
@@ -264,11 +265,10 @@ class ParseTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getVoltParse
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2017-01-15
      */
+    #[DataProvider('getVoltParse')]
     public function testMvcViewEngineVoltCompilerParse(
         string $param,
         int $count
@@ -281,11 +281,10 @@ class ParseTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getVoltExtendsError
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2017-01-15
      */
+    #[DataProvider('getVoltExtendsError')]
     public function testMvcViewEngineVoltCompilerParseExtendsWithError(
         string $code,
         string $message
@@ -299,11 +298,10 @@ class ParseTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getVoltSyntaxErrors
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2017-01-15
      */
+    #[DataProvider('getVoltSyntaxErrors')]
     public function testMvcViewEngineVoltCompilerParseSyntaxError(
         string $code,
         string $message

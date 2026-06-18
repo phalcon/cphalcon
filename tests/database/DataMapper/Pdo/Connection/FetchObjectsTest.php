@@ -16,9 +16,13 @@ namespace Phalcon\Tests\Database\DataMapper\Pdo\Connection;
 use Phalcon\DataMapper\Pdo\Connection;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Migrations\InvoicesMigration;
-use Phalcon\Tests\Fixtures\Resultset;
+use Phalcon\Tests\Support\Resultset;
+use PHPUnit\Framework\Attributes\Group;
 use stdClass;
 
+#[Group('mysql')]
+#[Group('pgsql')]
+#[Group('sqlite')]
 final class FetchObjectsTest extends AbstractDatabaseTestCase
 {
     /**

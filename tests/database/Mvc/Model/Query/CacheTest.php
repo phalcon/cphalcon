@@ -20,6 +20,7 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 use function cacheDir;
 
@@ -59,8 +60,6 @@ final class CacheTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * @dataProvider getValidSerializers
-     *
      * @issue
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2021-05-06
@@ -69,6 +68,7 @@ final class CacheTest extends AbstractDatabaseTestCase
      * @group pgsql
      * @group sqlite
      */
+    #[DataProvider('getValidSerializers')]
     public function testMvcModelQueryCache(
         string $serializer
     ): void {

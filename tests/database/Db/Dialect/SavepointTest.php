@@ -17,6 +17,7 @@ use Phalcon\Db\Dialect\Mysql;
 use Phalcon\Db\Dialect\Postgresql;
 use Phalcon\Db\Dialect\Sqlite;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class SavepointTest extends AbstractDatabaseTestCase
 {
@@ -35,8 +36,6 @@ final class SavepointTest extends AbstractDatabaseTestCase
     /**
      * Tests Phalcon\Db\Dialect :: createSavepoint
      *
-     * @dataProvider getDialectClasses
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2017-02-26
      *
@@ -44,6 +43,7 @@ final class SavepointTest extends AbstractDatabaseTestCase
      * @group pgsql
      * @group sqlite
      */
+    #[DataProvider('getDialectClasses')]
     public function testDbDialectCreateSavepoint(string $dialectClass): void
     {
         $dialect = new $dialectClass();
@@ -56,8 +56,6 @@ final class SavepointTest extends AbstractDatabaseTestCase
     /**
      * Tests Phalcon\Db\Dialect :: releaseSavepoint
      *
-     * @dataProvider getDialectClasses
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2017-02-26
      *
@@ -65,6 +63,7 @@ final class SavepointTest extends AbstractDatabaseTestCase
      * @group pgsql
      * @group sqlite
      */
+    #[DataProvider('getDialectClasses')]
     public function testDbDialectReleaseSavepoint(string $dialectClass): void
     {
         $dialect = new $dialectClass();
@@ -77,8 +76,6 @@ final class SavepointTest extends AbstractDatabaseTestCase
     /**
      * Tests Phalcon\Db\Dialect :: rollbackSavepoint
      *
-     * @dataProvider getDialectClasses
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2017-02-26
      *
@@ -86,6 +83,7 @@ final class SavepointTest extends AbstractDatabaseTestCase
      * @group pgsql
      * @group sqlite
      */
+    #[DataProvider('getDialectClasses')]
     public function testDbDialectRollbackSavepoint(string $dialectClass): void
     {
         $dialect = new $dialectClass();
@@ -98,8 +96,6 @@ final class SavepointTest extends AbstractDatabaseTestCase
     /**
      * Tests Phalcon\Db\Dialect :: supportsSavepoints
      *
-     * @dataProvider getDialectClasses
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2017-02-26
      *
@@ -107,6 +103,7 @@ final class SavepointTest extends AbstractDatabaseTestCase
      * @group pgsql
      * @group sqlite
      */
+    #[DataProvider('getDialectClasses')]
     public function testDbDialectSupportsSavepoints(string $dialectClass): void
     {
         $dialect = new $dialectClass();
@@ -117,8 +114,6 @@ final class SavepointTest extends AbstractDatabaseTestCase
     /**
      * Tests Phalcon\Db\Dialect :: supportsReleaseSavepoints
      *
-     * @dataProvider getDialectClasses
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2017-02-26
      *
@@ -126,6 +121,7 @@ final class SavepointTest extends AbstractDatabaseTestCase
      * @group pgsql
      * @group sqlite
      */
+    #[DataProvider('getDialectClasses')]
     public function testDbDialectSupportsReleaseSavepoints(string $dialectClass): void
     {
         $dialect = new $dialectClass();

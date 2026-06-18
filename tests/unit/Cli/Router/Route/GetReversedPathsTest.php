@@ -18,6 +18,7 @@ use Phalcon\Cli\Router\Route;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use Phalcon\Tests\Unit\Di\Fake\CliTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 use function array_flip;
 
@@ -26,10 +27,7 @@ final class GetReversedPathsTest extends AbstractUnitTestCase
     use CliTrait;
     use DiTrait;
 
-    /**
-     * @dataProvider getExamplesShortPaths
-     *
-     */
+    #[DataProvider('getExamplesShortPaths')]
     public function testCliRouterRouteGetReversedPathsShortPaths(
         string $path,
         array $expected

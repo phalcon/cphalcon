@@ -16,6 +16,7 @@ namespace Phalcon\Tests\Unit\Encryption\Security;
 use Phalcon\Encryption\Security;
 use Phalcon\Encryption\Security\Exception;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class ComputeHmacTest extends AbstractUnitTestCase
 {
@@ -50,11 +51,10 @@ final class ComputeHmacTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider hmacProvider
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
+    #[DataProvider('hmacProvider')]
     public function testEncryptionSecurityComputeHmac(string $text): void
     {
         $security = new Security();

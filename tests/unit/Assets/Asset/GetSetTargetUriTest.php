@@ -16,17 +16,17 @@ namespace Phalcon\Tests\Unit\Assets\Asset;
 use Phalcon\Assets\Asset;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Assets\Fake\AssetsTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class GetSetTargetUriTest extends AbstractUnitTestCase
 {
     use AssetsTrait;
 
     /**
-     * @dataProvider providerCssJsLocal
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
+    #[DataProvider('providerCssJsLocal')]
     public function testAssetsAssetSetTargetUriJsLocal(
         string $type,
         string $path,

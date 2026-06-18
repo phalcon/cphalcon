@@ -15,6 +15,7 @@ namespace Phalcon\Tests\Unit\Html\Escaper;
 
 use Phalcon\Html\Escaper;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class DetectEncodingTest extends AbstractUnitTestCase
 {
@@ -42,11 +43,10 @@ final class DetectEncodingTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider escaperDetectEncodingProvider
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
+    #[DataProvider('escaperDetectEncodingProvider')]
     public function testEscaperDetectEncoding(
         string $source,
         string $expected

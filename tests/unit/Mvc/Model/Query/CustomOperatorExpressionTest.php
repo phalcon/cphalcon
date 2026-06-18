@@ -15,6 +15,7 @@ namespace Phalcon\Tests\Unit\Mvc\Model\Query;
 
 use Phalcon\Mvc\Model\Query;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use ReflectionClass;
 
 final class CustomOperatorExpressionTest extends AbstractUnitTestCase
@@ -35,9 +36,7 @@ final class CustomOperatorExpressionTest extends AbstractUnitTestCase
         ];
     }
 
-    /**
-     * @dataProvider operatorProvider
-     */
+    #[DataProvider('operatorProvider')]
     public function testGetExpressionCustomOperator(int $code, string $op): void
     {
         $expected = [

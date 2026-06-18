@@ -17,6 +17,7 @@ use Phalcon\Mvc\Router\Group;
 use Phalcon\Mvc\Router\Route;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Mvc\Fake\RouterTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class GetSetHostnameTest extends AbstractUnitTestCase
 {
@@ -86,9 +87,7 @@ final class GetSetHostnameTest extends AbstractUnitTestCase
         $this->assertSame($expected, $actual);
     }
 
-    /**
-     * @dataProvider getHostnameRoutesRegex
-     */
+    #[DataProvider('getHostnameRoutesRegex')]
     public function testMvcRouterGroupGetHostnameRegexRouteGroup(
         ?string $actualHost,
         ?string $expectedHost,
@@ -135,9 +134,7 @@ final class GetSetHostnameTest extends AbstractUnitTestCase
         );
     }
 
-    /**
-     * @dataProvider getHostnameRoutes
-     */
+    #[DataProvider('getHostnameRoutes')]
     public function testMvcRouterGroupGetHostnameRouteGroup(
         ?string $actualHost,
         ?string $expectedHost,

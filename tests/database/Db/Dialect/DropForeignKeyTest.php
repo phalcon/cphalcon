@@ -18,6 +18,7 @@ use Phalcon\Db\Dialect\Postgresql;
 use Phalcon\Db\Dialect\Sqlite;
 use Phalcon\Db\Exception;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class DropForeignKeyTest extends AbstractDatabaseTestCase
 {
@@ -63,8 +64,6 @@ final class DropForeignKeyTest extends AbstractDatabaseTestCase
     /**
      * Tests Phalcon\Db\Dialect :: dropForeignKey
      *
-     * @dataProvider getDialects
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-01-20
      *
@@ -72,6 +71,7 @@ final class DropForeignKeyTest extends AbstractDatabaseTestCase
      * @group pgsql
      * @group sqlite
      */
+    #[DataProvider('getDialects')]
     public function testDbDialectDropForeignKey(
         string $dialectClass,
         string $expected

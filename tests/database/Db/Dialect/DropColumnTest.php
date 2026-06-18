@@ -17,6 +17,7 @@ use Phalcon\Db\Dialect\Mysql;
 use Phalcon\Db\Dialect\Postgresql;
 use Phalcon\Db\Dialect\Sqlite;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class DropColumnTest extends AbstractDatabaseTestCase
 {
@@ -45,8 +46,6 @@ final class DropColumnTest extends AbstractDatabaseTestCase
     /**
      * Tests Phalcon\Db\Dialect :: dropColumn
      *
-     * @dataProvider getDialects
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-01-20
      *
@@ -54,6 +53,7 @@ final class DropColumnTest extends AbstractDatabaseTestCase
      * @group pgsql
      * @group sqlite
      */
+    #[DataProvider('getDialects')]
     public function testDbDialectDropColumn(
         string $dialectClass,
         string $expected

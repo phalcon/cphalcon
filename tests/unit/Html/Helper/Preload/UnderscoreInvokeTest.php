@@ -16,6 +16,7 @@ use Phalcon\Html\Helper\Preload;
 use Phalcon\Html\TagFactory;
 use Phalcon\Http\ResponseInterface;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class UnderscoreInvokeTest extends AbstractUnitTestCase
 {
@@ -59,11 +60,10 @@ final class UnderscoreInvokeTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2026-04-17
      */
+    #[DataProvider('getExamples')]
     public function testHtmlHelperPreloadUnderscoreInvoke(
         string $expected,
         string $href,

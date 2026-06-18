@@ -15,6 +15,7 @@ namespace Phalcon\Tests\Unit\Mvc\Router;
 
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Mvc\Fake\RouterTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class RemoveExtraSlashesTest extends AbstractUnitTestCase
 {
@@ -53,11 +54,10 @@ final class RemoveExtraSlashesTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getMatchingWithExtraSlashes
-     *
      * @author       Andy Gutierrez <andres.gutierrez@phalcon.io>
      * @since        2012-12-16
      */
+    #[DataProvider('getMatchingWithExtraSlashes')]
     public function testRemovingExtraSlashes(
         string $route,
         array $params

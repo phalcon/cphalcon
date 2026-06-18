@@ -23,6 +23,7 @@ use Phalcon\Tests\Unit\Forms\Fake\FakeRegisterFormFactory;
 use Phalcon\Tests\Unit\Forms\Fake\FakeSentinelElementFactory;
 use Phalcon\Tests\Unit\Forms\Fake\FakeTextElementFactory;
 use Phalcon\Tests\Unit\Forms\Fake\FakeUsernameFormFactory;
+use PHPUnit\Framework\Attributes\DataProvider;
 use stdClass;
 
 final class FormsLocatorTest extends AbstractUnitTestCase
@@ -228,9 +229,7 @@ final class FormsLocatorTest extends AbstractUnitTestCase
         ];
     }
 
-    /**
-     * @dataProvider getBuiltInTypes
-     */
+    #[DataProvider('getBuiltInTypes')]
     public function testHasElementReturnsTrueForBuiltInType(string $type): void
     {
         $locator = new FormsLocator();

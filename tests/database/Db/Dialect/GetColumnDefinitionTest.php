@@ -16,6 +16,7 @@ namespace Phalcon\Tests\Database\Db\Dialect;
 use Phalcon\Db\Column;
 use Phalcon\Db\Dialect\Mysql;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class GetColumnDefinitionTest extends AbstractDatabaseTestCase
 {
@@ -353,8 +354,6 @@ final class GetColumnDefinitionTest extends AbstractDatabaseTestCase
     /**
      * Tests Phalcon\Db\Dialect :: getColumnDefinition
      *
-     * @dataProvider getMysqlData
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-01-20
      *
@@ -362,6 +361,7 @@ final class GetColumnDefinitionTest extends AbstractDatabaseTestCase
      * @group pgsql
      * @group sqlite
      */
+    #[DataProvider('getMysqlData')]
     public function testDbDialectGetColumnDefinition(
         array $definition,
         string $expected

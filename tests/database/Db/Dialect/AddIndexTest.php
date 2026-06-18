@@ -18,6 +18,7 @@ use Phalcon\Db\Dialect\Postgresql;
 use Phalcon\Db\Dialect\Sqlite;
 use Phalcon\Db\Index;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class AddIndexTest extends AbstractDatabaseTestCase
 {
@@ -74,8 +75,6 @@ final class AddIndexTest extends AbstractDatabaseTestCase
     /**
      * Tests Phalcon\Db\Dialect :: addIndex
      *
-     * @dataProvider getDialects
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-01-20
      *
@@ -83,6 +82,7 @@ final class AddIndexTest extends AbstractDatabaseTestCase
      * @group pgsql
      * @group sqlite
      */
+    #[DataProvider('getDialects')]
     public function testDbDialectAddIndex(
         string $dialectClass,
         string $expected
@@ -98,8 +98,6 @@ final class AddIndexTest extends AbstractDatabaseTestCase
     /**
      * Tests Phalcon\Db\Dialect :: addIndex - with type
      *
-     * @dataProvider getDialectsType
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-01-20
      *
@@ -107,6 +105,7 @@ final class AddIndexTest extends AbstractDatabaseTestCase
      * @group pgsql
      * @group sqlite
      */
+    #[DataProvider('getDialectsType')]
     public function testDbDialectAddIndexType(
         string $dialectClass,
         string $expected

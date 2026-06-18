@@ -16,6 +16,7 @@ namespace Phalcon\Tests\Unit\Mvc\Url;
 use Phalcon\Mvc\Router;
 use Phalcon\Mvc\Url;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class GetTest extends AbstractUnitTestCase
 {
@@ -45,11 +46,10 @@ final class GetTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2018-11-13
      */
+    #[DataProvider('getExamples')]
     public function testMvcUrlGet(
         string $expected,
         ?string $name

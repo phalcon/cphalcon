@@ -17,6 +17,7 @@ use Phalcon\Db\Dialect\Mysql;
 use Phalcon\Db\Dialect\Postgresql;
 use Phalcon\Db\Dialect\Sqlite;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class DescribeColumnsTest extends AbstractDatabaseTestCase
 {
@@ -142,8 +143,6 @@ final class DescribeColumnsTest extends AbstractDatabaseTestCase
     /**
      * Tests Phalcon\Db\Dialect\Mysql :: describeColumns
      *
-     * @dataProvider getMysqlData
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-01-20
      *
@@ -151,6 +150,7 @@ final class DescribeColumnsTest extends AbstractDatabaseTestCase
      * @group pgsql
      * @group sqlite
      */
+    #[DataProvider('getMysqlData')]
     public function testDbDialectMysqlDescribeColumns(
         ?string $schema,
         string $expected
@@ -163,13 +163,12 @@ final class DescribeColumnsTest extends AbstractDatabaseTestCase
     /**
      * Tests Phalcon\Db\Dialect\Postgresql :: describeColumns
      *
-     * @dataProvider getPostgresqlData
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-01-20
      *
      * @group pgsql
      */
+    #[DataProvider('getPostgresqlData')]
     public function testDbDialectPostgresqlDescribeColumns(
         ?string $schema,
         string $expected
@@ -182,13 +181,12 @@ final class DescribeColumnsTest extends AbstractDatabaseTestCase
     /**
      * Tests Phalcon\Db\Dialect\Sqlite :: describeColumns
      *
-     * @dataProvider getSqliteData
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-01-20
      *
      * @group sqlite
      */
+    #[DataProvider('getSqliteData')]
     public function testDbDialectSqliteDescribeColumns(
         string $schema,
         string $expected

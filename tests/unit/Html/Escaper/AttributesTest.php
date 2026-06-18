@@ -15,6 +15,7 @@ namespace Phalcon\Tests\Unit\Html\Escaper;
 
 use Phalcon\Html\Escaper;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 use const ENT_HTML401;
 use const ENT_HTML5;
@@ -96,11 +97,10 @@ final class AttributesTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider escaperEscapeHtmlAttrProvider
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
+    #[DataProvider('escaperEscapeHtmlAttrProvider')]
     public function testEscaperAttributes(
         int $flags,
         string $expected,

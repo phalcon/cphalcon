@@ -47,11 +47,10 @@ final class UncamelizeTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getSources
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
+    #[DataProvider('getSources')]
     #[DataProvider('getSources')]
     public function testSupportHelperStrUncamelize(
         string $value,

@@ -18,6 +18,7 @@ use Phalcon\Mvc\View\Engine\Volt\Compiler;
 use Phalcon\Mvc\View\Exception;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 use function ob_get_clean;
 use function ob_start;
@@ -537,11 +538,10 @@ class CompileStringTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getVoltCompileString
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2017-01-17
      */
+    #[DataProvider('getVoltCompileString')]
     public function testMvcViewEngineVoltCompilerCompileString(
         string $param,
         string $expected
@@ -697,11 +697,10 @@ class CompileStringTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getVoltCompileStringErrors
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2017-01-17
      */
+    #[DataProvider('getVoltCompileStringErrors')]
     public function testMvcViewEngineVoltCompilerCompileStringSyntaxError(
         string $code,
         string $message

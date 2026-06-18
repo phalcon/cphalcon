@@ -15,6 +15,7 @@ namespace Phalcon\Tests\Unit\Filter;
 
 use Phalcon\Filter\FilterFactory;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 use function call_user_func_array;
 use function is_array;
@@ -913,11 +914,10 @@ final class SanitizeTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2021-11-07
      */
+    #[DataProvider('getExamples')]
     public function testFilterFilterSanitize(
         string $class,
         string $method,

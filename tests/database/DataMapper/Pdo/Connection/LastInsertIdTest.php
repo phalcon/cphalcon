@@ -16,11 +16,15 @@ namespace Phalcon\Tests\Database\DataMapper\Pdo\Connection;
 use Phalcon\DataMapper\Pdo\Connection;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Migrations\InvoicesMigration;
+use PHPUnit\Framework\Attributes\Group;
 
 use function date;
 use function str_replace;
 use function uniqid;
 
+#[Group('mysql')]
+#[Group('pgsql')]
+#[Group('sqlite')]
 final class LastInsertIdTest extends AbstractDatabaseTestCase
 {
     /**
@@ -34,20 +38,19 @@ final class LastInsertIdTest extends AbstractDatabaseTestCase
         $migration  = new InvoicesMigration(self::getConnection());
         $migration->clear();
 
-        $template = 'insert into co_invoices (inv_id, inv_cst_id, inv_status_flag, '
+        $title    = uniqid('inv-');
+        $template = 'insert into co_invoices (inv_cst_id, inv_status_flag, '
             . 'inv_title, inv_total, inv_created_at) values ('
-            . '%id%, 1, 1, "%title%", %total%, "%now%")';
+            . '1, 1, \'%title%\', %total%, \'%now%\')';
 
         $sql = str_replace(
             [
-                '%id%',
                 '%title%',
                 '%total%',
                 '%now%',
             ],
             [
-                2,
-                uniqid(),
+                $title,
                 102,
                 date('Y-m-d H:i:s'),
             ],
@@ -56,6 +59,11 @@ final class LastInsertIdTest extends AbstractDatabaseTestCase
 
         $result = $connection->exec($sql);
         $this->assertEquals(1, $result);
-        $this->assertEquals(2, $connection->lastInsertId());
+
+        $actual   = $connection->lastInsertId();
+        $expected = $connection->fetchValue(
+            'select inv_id from co_invoices where inv_title = \'' . $title . '\''
+        );
+        $this->assertEquals($expected, $actual);
     }
 }

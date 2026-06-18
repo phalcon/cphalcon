@@ -21,6 +21,7 @@ use Phalcon\Tests\Support\Models\InvoicesMap;
 use Phalcon\Tests\Support\Models\InvoicesWithSetters;
 use Phalcon\Tests\Support\Models\InvoicesWithTypedSetters;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class CloneResultMapTest extends AbstractDatabaseTestCase
 {
@@ -62,8 +63,6 @@ final class CloneResultMapTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * @dataProvider modelDataProvider
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-10-05
      *
@@ -71,6 +70,7 @@ final class CloneResultMapTest extends AbstractDatabaseTestCase
      * @group pgsql
      * @group sqlite
      */
+    #[DataProvider('modelDataProvider')]
     public function testMvcModelCloneResultMap(
         int | string $invId,
         int | string $invCstId,
@@ -187,8 +187,6 @@ final class CloneResultMapTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * @dataProvider modelDataProvider
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-10-05
      *
@@ -197,6 +195,7 @@ final class CloneResultMapTest extends AbstractDatabaseTestCase
      * @group sqlite
      * @group pgsql
      */
+    #[DataProvider('modelDataProvider')]
     public function testMvcModelCloneResultMapWithCasting(
         int | string $invId,
         int | string $invCstId,

@@ -16,6 +16,7 @@ namespace Phalcon\Tests\Database\Db\Dialect;
 use Phalcon\Db\Column;
 use Phalcon\Db\Dialect\Postgresql;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class PostgresqlNewTypesTest extends AbstractDatabaseTestCase
 {
@@ -41,13 +42,12 @@ final class PostgresqlNewTypesTest extends AbstractDatabaseTestCase
     /**
      * PostgreSQL - getColumnDefinition emits the new type keywords.
      *
-     * @dataProvider provideScalarTypes
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
      *
      * @group pgsql
      */
+    #[DataProvider('provideScalarTypes')]
     public function testDbDialectPostgresqlGetColumnDefinitionNewTypes(
         int $type,
         string $expected

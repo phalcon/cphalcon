@@ -17,7 +17,11 @@ use PDO;
 use Phalcon\DataMapper\Query\Bind;
 use Phalcon\DataMapper\Query\QueryFactory;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
+#[Group('mysql')]
+#[Group('pgsql')]
+#[Group('sqlite')]
 final class BindInlineTest extends AbstractDatabaseTestCase
 {
     /**

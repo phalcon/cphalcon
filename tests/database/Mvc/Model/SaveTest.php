@@ -37,6 +37,7 @@ use Phalcon\Tests\Support\Models\InvoicesValidationFails;
 use Phalcon\Tests\Support\Models\OnlyIdentity;
 use Phalcon\Tests\Support\Models\Sources;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 use function uniqid;
 
@@ -779,8 +780,6 @@ final class SaveTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * @dataProvider tinyintProvider
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2019-08-02
      *
@@ -788,6 +787,7 @@ final class SaveTest extends AbstractDatabaseTestCase
      * @group pgsql
      * @group sqlite
      */
+    #[DataProvider('tinyintProvider')]
     public function testMvcModelSaveWithTinyInt(string $value): void
     {
 

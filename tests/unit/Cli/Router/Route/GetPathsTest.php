@@ -18,16 +18,14 @@ use Phalcon\Cli\Router\Route;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use Phalcon\Tests\Unit\Di\Fake\CliTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class GetPathsTest extends AbstractUnitTestCase
 {
     use CliTrait;
     use DiTrait;
 
-    /**
-     * @dataProvider getExamplesShortPaths
-     *
-     */
+    #[DataProvider('getExamplesShortPaths')]
     public function testCliRouterRouteGetPathsShortPaths(
         string $path,
         array $expected

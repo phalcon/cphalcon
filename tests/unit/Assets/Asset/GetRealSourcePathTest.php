@@ -16,6 +16,7 @@ namespace Phalcon\Tests\Unit\Assets\Asset;
 use Phalcon\Assets\Asset;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Assets\Fake\AssetsTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class GetRealSourcePathTest extends AbstractUnitTestCase
 {
@@ -56,11 +57,10 @@ final class GetRealSourcePathTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider localProvider
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
+    #[DataProvider('localProvider')]
     public function testAssetsAssetGetRealSourcePathLocal(
         string $type,
         string $path
@@ -85,11 +85,10 @@ final class GetRealSourcePathTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider remoteProvider
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
+    #[DataProvider('remoteProvider')]
     public function testAssetsAssetGetRealSourcePathRemote(
         string $type,
         string $path

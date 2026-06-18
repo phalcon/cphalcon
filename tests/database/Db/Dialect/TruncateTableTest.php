@@ -17,6 +17,7 @@ use Phalcon\Db\Dialect\Mysql;
 use Phalcon\Db\Dialect\Postgresql;
 use Phalcon\Db\Dialect\Sqlite;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class TruncateTableTest extends AbstractDatabaseTestCase
 {
@@ -65,8 +66,6 @@ final class TruncateTableTest extends AbstractDatabaseTestCase
     /**
      * Tests Phalcon\Db\Dialect :: truncateTable
      *
-     * @dataProvider getDialects
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-01-20
      *
@@ -74,6 +73,7 @@ final class TruncateTableTest extends AbstractDatabaseTestCase
      * @group pgsql
      * @group sqlite
      */
+    #[DataProvider('getDialects')]
     public function testDbDialectTruncateTable(
         string $dialectClass,
         string $expected
@@ -88,8 +88,6 @@ final class TruncateTableTest extends AbstractDatabaseTestCase
     /**
      * Tests Phalcon\Db\Dialect :: truncateTable - no schema
      *
-     * @dataProvider getDialectsNoSchema
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-01-20
      *
@@ -97,6 +95,7 @@ final class TruncateTableTest extends AbstractDatabaseTestCase
      * @group pgsql
      * @group sqlite
      */
+    #[DataProvider('getDialectsNoSchema')]
     public function testDbDialectTruncateTableNoSchema(
         string $dialectClass,
         string $expected

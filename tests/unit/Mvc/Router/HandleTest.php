@@ -21,6 +21,7 @@ use Phalcon\Mvc\Router\Route;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use Phalcon\Tests\Unit\Mvc\Fake\RouterTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class HandleTest extends AbstractUnitTestCase
 {
@@ -98,10 +99,7 @@ final class HandleTest extends AbstractUnitTestCase
         $this->assertSame($expected, $actual);
     }
 
-    /**
-     * @dataProvider groupsProvider
-     *
-     */
+    #[DataProvider('groupsProvider')]
     public function testMvcRouterHandleGroups(
         string $route,
         string $module,
@@ -278,12 +276,11 @@ final class HandleTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getUrlsWithColons
-     *
      * @issue        https://github.com/phalcon/cphalcon/issues/16741
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2025-04-04
      */
+    #[DataProvider('getUrlsWithColons')]
     public function testMvcRouterHandleWithColons(string $url): void
     {
         $this->setNewFactoryDefault();

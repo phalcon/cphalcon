@@ -17,6 +17,7 @@ use Phalcon\Mvc\Router;
 use Phalcon\Mvc\RouterInterface;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Mvc\Fake\RouterTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class LoadFromConfigTest extends AbstractUnitTestCase
 {
@@ -43,9 +44,7 @@ final class LoadFromConfigTest extends AbstractUnitTestCase
         $this->assertNull($routes[0]->getHttpMethods());
     }
 
-    /**
-     * @dataProvider providerHttpMethods
-     */
+    #[DataProvider('providerHttpMethods')]
     public function testLoadFromConfigDispatchesHttpMethod(string $method, string $expected): void
     {
         $router = new Router(false);

@@ -28,6 +28,7 @@ use Phalcon\Tests\Support\Models\InvoicesExtended;
 use Phalcon\Tests\Support\Models\InvoicesMap;
 use Phalcon\Tests\Support\Models\ModelWithStringPrimary;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 use function uniqid;
 
@@ -400,8 +401,6 @@ final class FindFirstTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * @dataProvider findFirstProvider
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-01-27
      *
@@ -409,6 +408,7 @@ final class FindFirstTest extends AbstractDatabaseTestCase
      * @group pgsql
      * @group sqlite
      */
+    #[DataProvider('findFirstProvider')]
     public function testMvcModelFindFirstStringPrimaryKey(
         array | string $params,
         bool $found

@@ -17,6 +17,7 @@ use Phalcon\Mvc\Model\Exception as ExpectedException;
 use Phalcon\Mvc\Model\MetaData\Memory;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class GetSetDITest extends AbstractDatabaseTestCase
 {
@@ -62,8 +63,6 @@ final class GetSetDITest extends AbstractDatabaseTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-02-01
      *
@@ -71,6 +70,7 @@ final class GetSetDITest extends AbstractDatabaseTestCase
      * @group pgsql
      * @group sqlite
      */
+    #[DataProvider('getExamples')]
     public function testMvcModelMetadataGetSetDI(
         string $service
     ): void {

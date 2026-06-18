@@ -17,6 +17,7 @@ use Phalcon\Filter\Validation;
 use Phalcon\Filter\Validation\Exception;
 use Phalcon\Filter\Validation\Validator\Digit;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use stdClass;
 
 use const PHP_INT_MAX;
@@ -41,10 +42,7 @@ final class ValidateTest extends AbstractUnitTestCase
         ];
     }
 
-    /**
-     * @dataProvider getExamplesIntOrStringOfDigits
-     *
-     */
+    #[DataProvider('getExamplesIntOrStringOfDigits')]
     public function testFilterValidationValidatorDigitIntOrStringOfDigits(
         mixed $digit
     ): void {

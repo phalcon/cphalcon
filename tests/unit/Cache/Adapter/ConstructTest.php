@@ -27,6 +27,7 @@ use Phalcon\Storage\SerializerFactory;
 use Phalcon\Support\Exception as SupportException;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Cache\Fake\Adapter\Libmemcached as LibmemcachedFixture;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 use function getOptionsLibmemcached;
 use function getOptionsRedis;
@@ -82,11 +83,10 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
+    #[DataProvider('getExamples')]
     public function testCacheAdapterConstruct(
         string $class,
         array $options,

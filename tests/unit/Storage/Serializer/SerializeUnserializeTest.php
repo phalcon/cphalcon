@@ -28,6 +28,7 @@ use Phalcon\Storage\Serializer\RedisMsgpack;
 use Phalcon\Storage\Serializer\RedisNone;
 use Phalcon\Storage\Serializer\RedisPhp;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use stdClass;
 
 use function igbinary_serialize;
@@ -295,11 +296,10 @@ final class SerializeUnserializeTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2022-02-24
      */
+    #[DataProvider('getExamples')]
     public function testStorageSerializerSerializeUnserialize(
         string $class,
         mixed $data,

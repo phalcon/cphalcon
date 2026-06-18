@@ -60,10 +60,9 @@ final class ManagerTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider providerSessionValues
-     *
      * @since   2021-02-02
      */
+    #[DataProvider('providerSessionValues')]
     #[DataProvider('providerSessionValues')]
     public function testValidateSessionValue(
         string $session,
