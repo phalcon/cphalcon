@@ -890,28 +890,29 @@
         },
         {
             "name": "composer/pcre",
-            "version": "3.3.2",
+            "version": "3.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/pcre.git",
-                "reference": "b2bed4734f0cc156ee1fe9c0da2550420d99a21e"
+                "reference": "d5a341b3fb61f3001970940afb1d332968a183ed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/pcre/zipball/b2bed4734f0cc156ee1fe9c0da2550420d99a21e",
-                "reference": "b2bed4734f0cc156ee1fe9c0da2550420d99a21e",
+                "url": "https://api.github.com/repos/composer/pcre/zipball/d5a341b3fb61f3001970940afb1d332968a183ed",
+                "reference": "d5a341b3fb61f3001970940afb1d332968a183ed",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.4 || ^8.0"
             },
             "conflict": {
-                "phpstan/phpstan": "<1.11.10"
+                "phpstan/phpstan": "<2.2.2"
             },
             "require-dev": {
-                "phpstan/phpstan": "^1.12 || ^2",
-                "phpstan/phpstan-strict-rules": "^1 || ^2",
-                "phpunit/phpunit": "^8 || ^9"
+                "phpstan/phpstan": "^2",
+                "phpstan/phpstan-deprecation-rules": "^2",
+                "phpstan/phpstan-strict-rules": "^2",
+                "phpunit/phpunit": "^9"
             },
             "type": "library",
             "extra": {
@@ -949,7 +950,7 @@
             ],
             "support": {
                 "issues": "https://github.com/composer/pcre/issues",
-                "source": "https://github.com/composer/pcre/tree/3.3.2"
+                "source": "https://github.com/composer/pcre/tree/3.4.0"
             },
             "funding": [
                 {
@@ -959,13 +960,9 @@
                 {
                     "url": "https://github.com/composer",
                     "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/composer/composer",
-                    "type": "tidelift"
                 }
             ],
-            "time": "2024-11-12T16:29:46+00:00"
+            "time": "2026-06-07T11:47:49+00:00"
         },
         {
             "name": "composer/semver",
@@ -1526,16 +1523,16 @@
         },
         {
             "name": "friendsofphp/php-cs-fixer",
-            "version": "v3.95.5",
+            "version": "v3.95.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer.git",
-                "reference": "7f86d8763063f5d2e2e2d0e1e45bb2f15895361d"
+                "reference": "4140023f552ff02346df9b1329742532166f677f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/7f86d8763063f5d2e2e2d0e1e45bb2f15895361d",
-                "reference": "7f86d8763063f5d2e2e2d0e1e45bb2f15895361d",
+                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/4140023f552ff02346df9b1329742532166f677f",
+                "reference": "4140023f552ff02346df9b1329742532166f677f",
                 "shasum": ""
             },
             "require": {
@@ -1569,16 +1566,16 @@
             "require-dev": {
                 "facile-it/paraunit": "^1.3.1 || ^2.11.0",
                 "infection/infection": "^0.32.7",
-                "justinrainbow/json-schema": "^6.8.0",
+                "justinrainbow/json-schema": "^6.9.0",
                 "keradus/cli-executor": "^2.3",
                 "mikey179/vfsstream": "^1.6.12",
                 "php-coveralls/php-coveralls": "^2.9.1",
                 "php-cs-fixer/phpunit-constraint-isidenticalstring": "^1.8",
                 "php-cs-fixer/phpunit-constraint-xmlmatchesxsd": "^1.8",
                 "phpunit/phpunit": "^9.6.34 || ^10.5.63 || ^11.5.55",
-                "symfony/polyfill-php85": "^1.37",
-                "symfony/var-dumper": "^5.4.48 || ^6.4.32 || ^7.4.4 || ^8.0.8",
-                "symfony/yaml": "^5.4.45 || ^6.4.30 || ^7.4.1 || ^8.0.11"
+                "symfony/polyfill-php85": "^1.38",
+                "symfony/var-dumper": "^5.4.48 || ^6.4.36 || ^7.4.8 || ^8.1.0",
+                "symfony/yaml": "^5.4.53 || ^6.4.41 || ^7.4.13 || ^8.1.0"
             },
             "suggest": {
                 "ext-dom": "For handling output formats in XML",
@@ -1619,7 +1616,7 @@
             ],
             "support": {
                 "issues": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues",
-                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.95.5"
+                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.95.8"
             },
             "funding": [
                 {
@@ -1627,7 +1624,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-06-09T14:55:16+00:00"
+            "time": "2026-06-16T09:52:26+00:00"
         },
         {
             "name": "graham-campbell/result-type",
@@ -2337,16 +2334,16 @@
         },
         {
             "name": "phalcon/ide-stubs",
-            "version": "v5.14.1",
+            "version": "v5.14.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phalcon/ide-stubs.git",
-                "reference": "2386f169423bdf6794e0b3ecd1af069268f3bec8"
+                "reference": "533f09c81bf38826f26a82cab6465034945b01b2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phalcon/ide-stubs/zipball/2386f169423bdf6794e0b3ecd1af069268f3bec8",
-                "reference": "2386f169423bdf6794e0b3ecd1af069268f3bec8",
+                "url": "https://api.github.com/repos/phalcon/ide-stubs/zipball/533f09c81bf38826f26a82cab6465034945b01b2",
+                "reference": "533f09c81bf38826f26a82cab6465034945b01b2",
                 "shasum": ""
             },
             "require": {
@@ -2402,7 +2399,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2026-06-08T21:05:02+00:00"
+            "time": "2026-06-14T04:49:18+00:00"
         },
         {
             "name": "phalcon/zephir",
@@ -2410,12 +2407,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/zephir-lang/zephir.git",
-                "reference": "426b55d1f8f708ad2924602fb36e222f22495a68"
+                "reference": "27535f8027775def47c130db40e073a24633977b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zephir-lang/zephir/zipball/426b55d1f8f708ad2924602fb36e222f22495a68",
-                "reference": "426b55d1f8f708ad2924602fb36e222f22495a68",
+                "url": "https://api.github.com/repos/zephir-lang/zephir/zipball/27535f8027775def47c130db40e073a24633977b",
+                "reference": "27535f8027775def47c130db40e073a24633977b",
                 "shasum": ""
             },
             "require": {
@@ -2489,7 +2486,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-06-10T16:39:09+00:00"
+            "time": "2026-06-10T20:31:52+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -3403,16 +3400,16 @@
         },
         {
             "name": "predis/predis",
-            "version": "v3.5.0",
+            "version": "v3.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/predis/predis.git",
-                "reference": "8cc4319c06924c8ff0c5c7eec4243a19e3be32f1"
+                "reference": "5c996db191ee2d9bafe651f454b1fca16754271b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/predis/predis/zipball/8cc4319c06924c8ff0c5c7eec4243a19e3be32f1",
-                "reference": "8cc4319c06924c8ff0c5c7eec4243a19e3be32f1",
+                "url": "https://api.github.com/repos/predis/predis/zipball/5c996db191ee2d9bafe651f454b1fca16754271b",
+                "reference": "5c996db191ee2d9bafe651f454b1fca16754271b",
                 "shasum": ""
             },
             "require": {
@@ -3454,7 +3451,7 @@
             ],
             "support": {
                 "issues": "https://github.com/predis/predis/issues",
-                "source": "https://github.com/predis/predis/tree/v3.5.0"
+                "source": "https://github.com/predis/predis/tree/v3.5.1"
             },
             "funding": [
                 {
@@ -3462,7 +3459,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-06-02T19:25:56+00:00"
+            "time": "2026-06-11T16:56:53+00:00"
         },
         {
             "name": "psr/container",
