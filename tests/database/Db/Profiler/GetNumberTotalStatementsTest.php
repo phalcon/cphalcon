@@ -15,6 +15,7 @@ namespace Phalcon\Tests\Database\Db\Profiler;
 
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 final class GetNumberTotalStatementsTest extends AbstractDatabaseTestCase
 {
@@ -36,10 +37,10 @@ final class GetNumberTotalStatementsTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testDbProfilerGetNumberTotalStatements(): void
     {
         $eventsManager = $this->newService('eventsManager');

@@ -22,6 +22,7 @@ use Phalcon\Storage\Adapter\Stream;
 use Phalcon\Storage\Adapter\Weak;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use stdClass;
 
 use function getOptionsLibmemcached;
@@ -74,11 +75,10 @@ final class GetSetForeverTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
+    #[DataProvider('getExamples')]
     public function testStorageAdapterGetSetForever(
         string $class,
         array $options,

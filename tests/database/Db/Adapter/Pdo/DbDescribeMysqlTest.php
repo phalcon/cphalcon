@@ -16,6 +16,7 @@ namespace Phalcon\Tests\Database\Db\Adapter\Pdo;
 use Phalcon\Db\Column;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 use function env;
 
@@ -39,8 +40,8 @@ final class DbDescribeMysqlTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
-     * @group  mysql
      */
+    #[Group('mysql')]
     public function testDbMySqlTableExists(): void
     {
         $db = $this->container->get('db');
@@ -56,8 +57,8 @@ final class DbDescribeMysqlTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
-     * @group mysql
      */
+    #[Group('mysql')]
     public function testDbMySqlDescribeColumns(): void
     {
         $db = $this->container->get('db');
@@ -73,8 +74,8 @@ final class DbDescribeMysqlTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
-     * @group mysql
      */
+    #[Group('mysql')]
     public function testDbMySqlTableOptions(): void
     {
         $db = $this->container->get('db');
@@ -91,8 +92,8 @@ final class DbDescribeMysqlTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
-     * @group mysql
      */
+    #[Group('mysql')]
     public function testDbMySqlDescribeIndexes(): void
     {
         $db = $this->container->get('db');
@@ -109,8 +110,8 @@ final class DbDescribeMysqlTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
-     * @group mysql
      */
+    #[Group('mysql')]
     public function testDbMySqlDescribeReferences(): void
     {
         // mysql test schema does not currently define any FK constraints

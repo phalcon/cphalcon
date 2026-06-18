@@ -17,6 +17,7 @@ use DateTime;
 use Phalcon\Logger\Adapter\Stream;
 use Phalcon\Logger\Logger;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Psr\Log\LogLevel;
 
 use function date;
@@ -46,11 +47,10 @@ final class LevelsTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
+    #[DataProvider('getExamples')]
     public function testLoggerAlert(
         string $level
     ): void {

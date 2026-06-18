@@ -17,6 +17,7 @@ use Phalcon\Filter\Validation;
 use Phalcon\Filter\Validation\Exception;
 use Phalcon\Filter\Validation\Validator\Numericality;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use stdClass;
 
 final class ValidateTest extends AbstractUnitTestCase
@@ -167,12 +168,11 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author       Wojciech Ślawski <jurigag@gmail.com>
      * @author       Andrey Izman <izmanw@gmail.com>
      * @since        2016-06-05
      */
+    #[DataProvider('getExamples')]
     public function testFilterValidationValidatorNumericalitySingleField(
         mixed $amount,
         int $expected
@@ -191,11 +191,10 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getMixedExamples
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2018-11-13
      */
+    #[DataProvider('getMixedExamples')]
     public function testFilterValidationValidatorNumericalityValidate(
         mixed $price,
         bool $expected

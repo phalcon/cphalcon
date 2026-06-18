@@ -16,17 +16,17 @@ namespace Phalcon\Tests\Unit\Config\Adapter;
 use Phalcon\Config\Exception;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Traits\ConfigTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class MergeTest extends AbstractUnitTestCase
 {
     use ConfigTrait;
 
     /**
-     * @dataProvider providerConfigAdapters
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-06-19
      */
+    #[DataProvider('providerConfigAdapters')]
     public function testConfigAdapterMergeException(string $adapter): void
     {
         $config = $this->getConfig($adapter);

@@ -44,10 +44,6 @@ final class ManagerOutputTest extends AbstractUnitTestCase
      */
     public function testAssetsManagerCalculatePrefixedPathAutoVersion(): void
     {
-        if (PHP_OS_FAMILY === 'Windows') {
-            $this->markTestSkipped('Need to fix Windows new lines...');
-        }
-
         $cssFile = supportDir('assets/assets/1198.css');
 
         $manager = new Manager(new TagFactory(new Escaper()));
@@ -156,10 +152,6 @@ final class ManagerOutputTest extends AbstractUnitTestCase
      */
     public function testAssetsManagerOutputCollectionSourcePath(): void
     {
-        if (PHP_OS_FAMILY === 'Windows') {
-            $this->markTestSkipped('Need to fix Windows new lines...');
-        }
-
         $targetFile = outputDir('tests/assets/cov_srcpath_' . $this->getNewFileName() . '.css');
 
         $manager = new Manager(new TagFactory(new Escaper()), [
@@ -187,10 +179,6 @@ final class ManagerOutputTest extends AbstractUnitTestCase
      */
     public function testAssetsManagerOutputEchoImplicit(): void
     {
-        if (PHP_OS_FAMILY === 'Windows') {
-            $this->markTestSkipped('Need to fix Windows new lines...');
-        }
-
         $prefix  = outputDir('tests/assets/') . 'cov_echo_nojoin_';
         $cssFile = supportDir('assets/assets/1198.css');
 
@@ -222,10 +210,6 @@ final class ManagerOutputTest extends AbstractUnitTestCase
      */
     public function testAssetsManagerOutputEchoImplicitJoin(): void
     {
-        if (PHP_OS_FAMILY === 'Windows') {
-            $this->markTestSkipped('Need to fix Windows new lines...');
-        }
-
         $targetFile = outputDir('tests/assets/cov_echo_join_' . $this->getNewFileName() . '.css');
         $cssFile    = supportDir('assets/assets/1198.css');
 
@@ -422,10 +406,6 @@ final class ManagerOutputTest extends AbstractUnitTestCase
      */
     public function testAssetsManagerOutputNoFilterJoin(): void
     {
-        if (PHP_OS_FAMILY === 'Windows') {
-            $this->markTestSkipped('Need to fix Windows new lines...');
-        }
-
         $cssFile    = supportDir('assets/assets/1198.css');
         $targetFile = outputDir('tests/assets/cov_nofilter_join_' . $this->getNewFileName() . '.css');
 
@@ -452,10 +432,6 @@ final class ManagerOutputTest extends AbstractUnitTestCase
      */
     public function testAssetsManagerOutputNoFilterNoJoin(): void
     {
-        if (PHP_OS_FAMILY === 'Windows') {
-            $this->markTestSkipped('Need to fix Windows new lines...');
-        }
-
         $cssFile = supportDir('assets/assets/1198.css');
         $prefix  = outputDir('tests/assets/') . 'cov_noflt_nojoin_';
 
@@ -511,10 +487,6 @@ final class ManagerOutputTest extends AbstractUnitTestCase
      */
     public function testAssetsManagerOutputTargetExistsFiletimeDiffers(): void
     {
-        if (PHP_OS_FAMILY === 'Windows') {
-            $this->markTestSkipped('Need to fix Windows new lines...');
-        }
-
         $cssFile    = supportDir('assets/assets/1198.css');
         $prefix     = outputDir('tests/assets/') . 'cov_fmtime_';
         $targetFile = $prefix . 'differs.css';

@@ -17,11 +17,13 @@ use Phalcon\Annotations\Adapter\Apcu;
 use Phalcon\Annotations\Collection;
 use Phalcon\Annotations\Reflection;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use TestClass;
 use User\TestClassNs;
 
 use function dataDir;
 
+#[RequiresPhpExtension('apcu')]
 final class ApcuTest extends AbstractUnitTestCase
 {
     /**
@@ -30,8 +32,6 @@ final class ApcuTest extends AbstractUnitTestCase
     protected function setUp(): void
     {
         parent::setUp();
-
-        $this->checkExtensionIsLoaded('apcu');
 
         require_once supportDir('assets/Annotations/TestClass.php');
         require_once supportDir('assets/Annotations/TestClassNs.php');

@@ -18,6 +18,7 @@ use Phalcon\Di\Exception;
 use Phalcon\Html\Escaper;
 use Phalcon\Support\Collection;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class SetTest extends AbstractUnitTestCase
 {
@@ -50,11 +51,10 @@ final class SetTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-09-09
      */
+    #[DataProvider('getExamples')]
     public function testDiSet(
         string $name,
         mixed $service,

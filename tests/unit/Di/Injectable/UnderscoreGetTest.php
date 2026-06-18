@@ -29,10 +29,6 @@ final class UnderscoreGetTest extends AbstractUnitTestCase
      */
     public function testDiInjectableUnderscoreGetException(): void
     {
-        if (PHP_OS_FAMILY === 'Windows') {
-            $this->markTestSkipped('Need to fix Windows new lines...');
-        }
-
         Di::reset();
         $container = new Di();
 

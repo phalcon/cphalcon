@@ -15,6 +15,7 @@ namespace Phalcon\Tests\Unit\Forms\Element;
 
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Forms\Fake\FormsTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 use function array_flip;
 use function uniqid;
@@ -24,11 +25,10 @@ final class GetSetUserOptionsTest extends AbstractUnitTestCase
     use FormsTrait;
 
     /**
-     * @dataProvider getExamples
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2021-12-05
      */
+    #[DataProvider('getExamples')]
     public function testFormsElementGetSetUserOptions(
         string $class
     ): void {

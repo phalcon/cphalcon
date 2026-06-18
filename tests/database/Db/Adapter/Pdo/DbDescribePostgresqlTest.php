@@ -16,6 +16,7 @@ namespace Phalcon\Tests\Database\Db\Adapter\Pdo;
 use Phalcon\Db\Column;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 final class DbDescribePostgresqlTest extends AbstractDatabaseTestCase
 {
@@ -37,8 +38,8 @@ final class DbDescribePostgresqlTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
-     * @group  pgsql
      */
+    #[Group('pgsql')]
     public function testDbPostgresqlDescribeColumns(): void
     {
         $db = $this->container->get('db');
@@ -54,8 +55,8 @@ final class DbDescribePostgresqlTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
-     * @group  pgsql
      */
+    #[Group('pgsql')]
     public function testDbPostgresqlDescribeIndexes(): void
     {
         $db = $this->container->get('db');
@@ -71,8 +72,8 @@ final class DbDescribePostgresqlTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
-     * @group  pgsql
      */
+    #[Group('pgsql')]
     public function testDbPostgresqlDescribeReferences(): void
     {
         $db = $this->container->get('db');

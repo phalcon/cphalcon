@@ -41,7 +41,7 @@ class Profiler implements ProfilerInterface
     protected logFormat = "";
 
     /**
-     * @var int
+     * @var int|string
      */
     protected logLevel = 0;
 
@@ -126,7 +126,7 @@ class Profiler implements ProfilerInterface
      */
     public function getLogLevel() -> string
     {
-        return this->logLevel;
+        return (string) this->logLevel;
     }
 
     /**

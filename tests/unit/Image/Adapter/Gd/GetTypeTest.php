@@ -16,6 +16,7 @@ namespace Phalcon\Tests\Unit\Image\Adapter\Gd;
 use Phalcon\Image\Adapter\Gd;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Image\Fake\GdTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 use const IMAGETYPE_GIF;
 use const IMAGETYPE_JPEG;
@@ -62,11 +63,10 @@ final class GetTypeTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2022-07-19
      */
+    #[DataProvider('getExamples')]
     public function testImageAdapterGdGetType(
         string $source,
         int $expected

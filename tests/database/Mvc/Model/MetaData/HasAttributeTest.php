@@ -17,6 +17,8 @@ use Phalcon\Mvc\Model\MetaData;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 
 final class HasAttributeTest extends AbstractDatabaseTestCase
 {
@@ -50,15 +52,13 @@ final class HasAttributeTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2018-11-13
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    #[DataProvider('getExamples')]
     public function testMvcModelMetadataHasAttribute(
         string $service
     ): void {

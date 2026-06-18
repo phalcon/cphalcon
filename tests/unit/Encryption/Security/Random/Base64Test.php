@@ -15,6 +15,7 @@ namespace Phalcon\Tests\Unit\Encryption\Security\Random;
 
 use Phalcon\Encryption\Security\Random;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 use function is_string;
 
@@ -36,11 +37,10 @@ final class Base64Test extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider base64Provider
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
+    #[DataProvider('base64Provider')]
     public function testEncryptionSecurityRandomBase64(int $len): void
     {
         $random = new Random();

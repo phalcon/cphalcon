@@ -21,10 +21,9 @@ use Phalcon\Tests\Support\Migrations\ObjectsMigration;
 use Phalcon\Tests\Support\Models\Objects;
 use Phalcon\Tests\Support\Models\ObjectsWithColumnMap;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
-/**
- * @group phql
- */
+#[Group('phql')]
 final class UniquenessTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -46,11 +45,10 @@ final class UniquenessTest extends AbstractDatabaseTestCase
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @author Ruud Boon <https://github.com/ruudboon>
      * @since  2016-06-05
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testFilterValidationValidatorUniquenessSingleField(): void
     {
         /** @var PDO $connection */
@@ -86,11 +84,10 @@ final class UniquenessTest extends AbstractDatabaseTestCase
      * @author Bas Stottelaar <basstottelaar@gmail.com>
      * @author Ruud Boon <https://github.com/ruudboon>
      * @since  2016-07-25
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testFilterValidationValidatorUniquenessSingleFieldConvert(): void
     {
         /** @var PDO $connection */
@@ -127,11 +124,10 @@ final class UniquenessTest extends AbstractDatabaseTestCase
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @author Ruud Boon <https://github.com/ruudboon>
      * @since  2016-06-05
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testFilterValidationValidatorUniquenessMultipleFields(): void
     {
         /** @var PDO $connection */
@@ -189,11 +185,10 @@ final class UniquenessTest extends AbstractDatabaseTestCase
      * @author Bas Stottelaar <basstottelaar@gmail.com>
      * @author Ruud Boon <https://github.com/ruudboon>
      * @since  2016-07-25
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testFilterValidationValidatorUniquenessMultipleFieldsConvert(): void
     {
         /** @var PDO $connection */
@@ -232,11 +227,10 @@ final class UniquenessTest extends AbstractDatabaseTestCase
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @author Ruud Boon <https://github.com/ruudboon>
      * @since  2016-06-05
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testFilterValidationValidatorUniquenessExceptSingleFieldSingleExcept(): void
     {
         /** @var PDO $connection */
@@ -282,11 +276,10 @@ final class UniquenessTest extends AbstractDatabaseTestCase
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @author Ruud Boon <https://github.com/ruudboon>
      * @since  2016-06-05
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testFilterValidationValidatorUniquenessExceptSingleFieldMultipleExcept(): void
     {
         /** @var PDO $connection */
@@ -341,11 +334,10 @@ final class UniquenessTest extends AbstractDatabaseTestCase
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @author Ruud Boon <https://github.com/ruudboon>
      * @since  2016-06-05
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testFilterValidationValidatorUniquenessExceptMultipleFieldSingleExcept(): void
     {
         /** @var PDO $connection */
@@ -403,11 +395,10 @@ final class UniquenessTest extends AbstractDatabaseTestCase
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @author Ruud Boon <https://github.com/ruudboon>
      * @since  2016-06-05
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testFilterValidationValidatorUniquenessExceptMultipleFieldMultipleExcept(): void
     {
         /** @var PDO $connection */
@@ -456,11 +447,10 @@ final class UniquenessTest extends AbstractDatabaseTestCase
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @author Ruud Boon <https://github.com/ruudboon>
      * @since  2018-06-13
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testFilterValidationValidatorUniquenessIssue13398(): void
     {
         /** @var PDO $connection */

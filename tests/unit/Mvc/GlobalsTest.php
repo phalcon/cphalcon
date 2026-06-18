@@ -14,18 +14,18 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Mvc;
 
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 use function ini_get;
 
 final class GlobalsTest extends AbstractUnitTestCase
 {
     /**
-     * @dataProvider getExamples
-     *
      * @issue  https://github.com/phalcon/cphalcon/issues/15269
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2021-10-24
      */
+    #[DataProvider('getExamples')]
     public function testMvcModelGlobals(string $setting, string $value): void
     {
         $actual = ini_get($setting);

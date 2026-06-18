@@ -17,7 +17,10 @@ use Phalcon\Mvc\Router;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use Phalcon\Tests\Unit\Mvc\Fake\RouterTrait;
+use PHPUnit\Framework\Attributes\BackupGlobals;
+use PHPUnit\Framework\Attributes\DataProvider;
 
+#[BackupGlobals(true)]
 final class SetBaseUriTest extends AbstractUnitTestCase
 {
     use DiTrait;
@@ -230,11 +233,10 @@ final class SetBaseUriTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getUrlToSetServer
-     *
      * @author       Nikolaos Dimopoulos <nikos@phalcon.io>
      * @since        2014-09-04
      */
+    #[DataProvider('getUrlToSetServer')]
     public function shouldGetCorrectUrlWithServer(
         string $phpSelf,
         string $name,
@@ -251,12 +253,11 @@ final class SetBaseUriTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getUrlToSetWithoutDi
-     *
      * @issue  https://github.com/phalcon/cphalcon/issues/3315
      * @author       Olivier Monaco <olivier.monaco@nospam.free.fr>
      * @since        2015-02-03
      */
+    #[DataProvider('getUrlToSetWithoutDi')]
     public function testMvcUrlGetCorrectUrl(
         string $baseUrl,
         string $name,
@@ -271,12 +272,11 @@ final class SetBaseUriTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getUrlToSetWithoutDiTwoParam
-     *
      * @issue        https://github.com/phalcon/cphalcon/issues/3315
      * @author       Olivier Monaco <olivier.monaco@nospam.free.fr>
      * @since        2015-02-03
      */
+    #[DataProvider('getUrlToSetWithoutDiTwoParam')]
     public function testMvcUrlGetCorrectUrlWithGetParam(
         string $baseUrl,
         string $name,
@@ -293,11 +293,10 @@ final class SetBaseUriTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getUrlToSetBaseUri
-     *
      * @author       Nikolaos Dimopoulos <nikos@phalcon.io>
      * @since        2014-09-04
      */
+    #[DataProvider('getUrlToSetBaseUri')]
     public function testMvcUrlSetBaseUri(
         string $baseUri,
         array $param,

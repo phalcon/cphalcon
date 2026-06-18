@@ -18,10 +18,9 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Models\InvoicesReadWrite;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
-/**
- * @group phql
- */
+#[Group('phql')]
 final class ForUpdateConnectionTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -43,9 +42,8 @@ final class ForUpdateConnectionTest extends AbstractDatabaseTestCase
      * @issue  https://github.com/phalcon/cphalcon/issues/16032
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-23
-     *
-     * @group mysql
      */
+    #[Group('mysql')]
     public function testMvcModelQueryForUpdateUsesWriteConnection(): void
     {
         InvoicesReadWrite::find(['for_update' => true]);

@@ -72,11 +72,10 @@ final class UcwordsTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getData
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
+    #[DataProvider('getData')]
     #[DataProvider('getData')]
     public function testSupportHelperStrUcwords(
         string $text,

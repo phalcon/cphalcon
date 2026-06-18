@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Http\Request;
 
 use Phalcon\Tests\Unit\Http\Helper\AbstractHttpBase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class IsTest extends AbstractHttpBase
 {
@@ -178,11 +179,10 @@ final class IsTest extends AbstractHttpBase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-03-17
      */
+    #[DataProvider('getExamples')]
     public function testHttpRequestIs(
         array $server,
         bool $expected,

@@ -18,6 +18,7 @@ use Phalcon\Db\Dialect\Mysql;
 use Phalcon\Db\Dialect\Postgresql;
 use Phalcon\Db\Dialect\Sqlite;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
 final class SharedLockModifierTest extends AbstractDatabaseTestCase
 {
@@ -26,9 +27,8 @@ final class SharedLockModifierTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group pgsql
      */
+    #[Group('pgsql')]
     public function testDbDialectPostgresqlSharedLockDefault(): void
     {
         $this->assertSame(
@@ -42,9 +42,8 @@ final class SharedLockModifierTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group pgsql
      */
+    #[Group('pgsql')]
     public function testDbDialectPostgresqlSharedLockNoWait(): void
     {
         $this->assertSame(
@@ -61,9 +60,8 @@ final class SharedLockModifierTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group pgsql
      */
+    #[Group('pgsql')]
     public function testDbDialectPostgresqlSharedLockSkipLocked(): void
     {
         $this->assertSame(
@@ -81,9 +79,8 @@ final class SharedLockModifierTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group mysql
      */
+    #[Group('mysql')]
     public function testDbDialectMysqlSharedLockIgnoresModifier(): void
     {
         $dialect = new Mysql();
@@ -108,9 +105,8 @@ final class SharedLockModifierTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group sqlite
      */
+    #[Group('sqlite')]
     public function testDbDialectSqliteSharedLockIgnoresModifier(): void
     {
         $dialect = new Sqlite();

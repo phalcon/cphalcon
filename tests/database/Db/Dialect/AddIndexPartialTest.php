@@ -18,6 +18,7 @@ use Phalcon\Db\Dialect\Postgresql;
 use Phalcon\Db\Dialect\Sqlite;
 use Phalcon\Db\Index;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
 final class AddIndexPartialTest extends AbstractDatabaseTestCase
 {
@@ -26,9 +27,8 @@ final class AddIndexPartialTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group pgsql
      */
+    #[Group('pgsql')]
     public function testDbDialectPostgresqlAddIndexPartial(): void
     {
         $dialect = new Postgresql();
@@ -50,9 +50,8 @@ final class AddIndexPartialTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group sqlite
      */
+    #[Group('sqlite')]
     public function testDbDialectSqliteAddIndexPartial(): void
     {
         $dialect = new Sqlite();
@@ -74,9 +73,8 @@ final class AddIndexPartialTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group mysql
      */
+    #[Group('mysql')]
     public function testDbDialectMysqlAddIndexIgnoresWhere(): void
     {
         $dialect = new Mysql();

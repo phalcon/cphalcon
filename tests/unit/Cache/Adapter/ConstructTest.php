@@ -27,6 +27,8 @@ use Phalcon\Storage\SerializerFactory;
 use Phalcon\Support\Exception as SupportException;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Cache\Fake\Adapter\Libmemcached as LibmemcachedFixture;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 
 use function getOptionsLibmemcached;
 use function getOptionsRedis;
@@ -82,11 +84,10 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
+    #[DataProvider('getExamples')]
     public function testCacheAdapterConstruct(
         string $class,
         array $options,
@@ -107,9 +108,9 @@ final class ConstructTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
+    #[RequiresPhpExtension('memcached')]
     public function testCacheAdapterLibmemcachedConstructEmptyOptions(): void
     {
-        $this->checkExtensionIsLoaded('memcached');
         $serializer = new SerializerFactory();
         $adapter    = new LibmemcachedFixture($serializer);
 
@@ -130,9 +131,9 @@ final class ConstructTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
+    #[RequiresPhpExtension('memcached')]
     public function testCacheAdapterLibmemcachedConstructGetTtl(): void
     {
-        $this->checkExtensionIsLoaded('memcached');
         $serializer = new SerializerFactory();
         $adapter    = new LibmemcachedFixture(
             $serializer,

@@ -15,6 +15,7 @@ namespace Phalcon\Tests\Unit\Http\Request;
 
 use Phalcon\Http\Request;
 use Phalcon\Tests\Unit\Http\Helper\AbstractHttpBase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use UnexpectedValueException;
 
 final class GetAbstractHttpHostTest extends AbstractHttpBase
@@ -141,11 +142,10 @@ final class GetAbstractHttpHostTest extends AbstractHttpBase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2014-10-04
      */
+    #[DataProvider('getExamples')]
     public function testHttpRequestHttpHost(
         array $server,
         array $data
@@ -161,11 +161,10 @@ final class GetAbstractHttpHostTest extends AbstractHttpBase
     }
 
     /**
-     * @dataProvider getExamplesInvalid
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2016-06-26
      */
+    #[DataProvider('getExamplesInvalid')]
     public function testInvalidHttpRequestHttpHost(
         string $host
     ): void {

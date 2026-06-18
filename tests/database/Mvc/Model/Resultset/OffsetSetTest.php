@@ -14,7 +14,11 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Database\Mvc\Model\Resultset;
 
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
+#[Group('mysql')]
+#[Group('pgsql')]
+#[Group('sqlite')]
 final class OffsetSetTest extends AbstractDatabaseTestCase
 {
     /**

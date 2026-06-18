@@ -14,21 +14,19 @@ namespace Phalcon\Tests\Unit\Forms\Loader;
 use Phalcon\Forms\Exception;
 use Phalcon\Forms\Loader\YamlLoader;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 
 /**
  * Tests for YamlLoader.
  *
  * All tests are guarded with a check for the ext-yaml extension.
  */
+#[RequiresPhpExtension('yaml')]
 final class YamlLoaderTest extends AbstractUnitTestCase
 {
     protected function setUp(): void
     {
         parent::setUp();
-
-        if (!extension_loaded('yaml')) {
-            $this->markTestSkipped('The "yaml" PHP extension is not loaded.');
-        }
     }
 
     // -----------------------------------------------------------------------

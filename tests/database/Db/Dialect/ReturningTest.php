@@ -18,6 +18,7 @@ use Phalcon\Db\Dialect\Postgresql;
 use Phalcon\Db\Dialect\Sqlite;
 use Phalcon\Db\Exception;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
 final class ReturningTest extends AbstractDatabaseTestCase
 {
@@ -26,9 +27,8 @@ final class ReturningTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group pgsql
      */
+    #[Group('pgsql')]
     public function testDbDialectPostgresqlReturningList(): void
     {
         $dialect = new Postgresql();
@@ -47,9 +47,8 @@ final class ReturningTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group pgsql
      */
+    #[Group('pgsql')]
     public function testDbDialectPostgresqlReturningStar(): void
     {
         $dialect = new Postgresql();
@@ -68,9 +67,8 @@ final class ReturningTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group sqlite
      */
+    #[Group('sqlite')]
     public function testDbDialectSqliteReturningList(): void
     {
         $dialect = new Sqlite();
@@ -89,9 +87,8 @@ final class ReturningTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group mysql
      */
+    #[Group('mysql')]
     public function testDbDialectMysqlReturningThrows(): void
     {
         $this->expectException(Exception::class);
@@ -110,9 +107,8 @@ final class ReturningTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group pgsql
      */
+    #[Group('pgsql')]
     public function testDbDialectPostgresqlReturningEmptyThrows(): void
     {
         $this->expectException(Exception::class);

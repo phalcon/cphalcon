@@ -18,6 +18,7 @@ use Phalcon\Db\Dialect\Mysql;
 use Phalcon\Db\Dialect\Postgresql;
 use Phalcon\Db\Dialect\Sqlite;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
 final class TableCommentTest extends AbstractDatabaseTestCase
 {
@@ -31,9 +32,7 @@ final class TableCommentTest extends AbstractDatabaseTestCase
         ];
     }
 
-    /**
-     * @group mysql
-     */
+    #[Group('mysql')]
     public function testMysqlCreateTableComment(): void
     {
         $sql = (new Mysql())->createTable(
@@ -45,9 +44,7 @@ final class TableCommentTest extends AbstractDatabaseTestCase
         $this->assertStringContainsString("COMMENT='it''s a robot'", $sql);
     }
 
-    /**
-     * @group mysql
-     */
+    #[Group('mysql')]
     public function testMysqlTableOptionsSelectsComment(): void
     {
         $sql = (new Mysql())->tableOptions('robots', 'phalcon');
@@ -55,9 +52,7 @@ final class TableCommentTest extends AbstractDatabaseTestCase
         $this->assertStringContainsString('TABLES.TABLE_COMMENT AS table_comment', $sql);
     }
 
-    /**
-     * @group pgsql
-     */
+    #[Group('pgsql')]
     public function testPostgresqlCreateTableComment(): void
     {
         $sql = (new Postgresql())->createTable(
@@ -72,9 +67,7 @@ final class TableCommentTest extends AbstractDatabaseTestCase
         );
     }
 
-    /**
-     * @group pgsql
-     */
+    #[Group('pgsql')]
     public function testPostgresqlTableOptionsObjDescription(): void
     {
         $sql = (new Postgresql())->tableOptions('robots', 'reporting');
@@ -83,9 +76,7 @@ final class TableCommentTest extends AbstractDatabaseTestCase
         $this->assertStringContainsString("n.nspname = 'reporting'", $sql);
     }
 
-    /**
-     * @group pgsql
-     */
+    #[Group('pgsql')]
     public function testPostgresqlColumnCommentEscaped(): void
     {
         $definition = [
@@ -102,9 +93,7 @@ final class TableCommentTest extends AbstractDatabaseTestCase
         $this->assertStringContainsString("IS 'it''s';", $sql);
     }
 
-    /**
-     * @group sqlite
-     */
+    #[Group('sqlite')]
     public function testSqliteIgnoresComment(): void
     {
         $sql = (new Sqlite())->createTable(

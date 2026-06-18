@@ -22,6 +22,7 @@ use Phalcon\Tests\Support\Migrations\CustomersMigration;
 use Phalcon\Tests\Support\Models\Customers;
 use Phalcon\Tests\Support\Models\CustomersDymanicUpdate;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 final class DynamicUpdateTest extends AbstractDatabaseTestCase
 {
@@ -41,11 +42,10 @@ final class DynamicUpdateTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2023-08-11
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelDisableDynamicUpdate(): void
     {
 
@@ -99,11 +99,10 @@ final class DynamicUpdateTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2023-08-11
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelDisabledCherryPickDynamicUpdate(): void
     {
 
@@ -155,11 +154,10 @@ final class DynamicUpdateTest extends AbstractDatabaseTestCase
      * @issue https://github.com/phalcon/cphalcon/issues/16343
      * @author Phalcon Team <team@phalcon.io>
      * @since  2023-08-11
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelEnableDynamicUpdate(): void
     {
 

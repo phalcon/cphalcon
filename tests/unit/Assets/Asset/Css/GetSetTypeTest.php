@@ -16,17 +16,17 @@ namespace Phalcon\Tests\Unit\Assets\Asset\Css;
 use Phalcon\Assets\Asset\Css;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Assets\Fake\AssetsTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class GetSetTypeTest extends AbstractUnitTestCase
 {
     use AssetsTrait;
 
     /**
-     * @dataProvider providerCss
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
+    #[DataProvider('providerCss')]
     public function testAssetsAssetCssGetSetType(
         string $path,
         bool $local

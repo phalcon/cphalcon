@@ -15,6 +15,7 @@ namespace Phalcon\Tests\Unit\Html\Escaper;
 
 use Phalcon\Html\Escaper;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 
 final class NormalizeEncodingTest extends AbstractUnitTestCase
 {
@@ -22,10 +23,9 @@ final class NormalizeEncodingTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
+    #[RequiresPhpExtension('mbstring')]
     public function testEscaperNormalizeEncoding(): void
     {
-        $this->checkExtensionIsLoaded('mbstring');
-
         $escaper = new Escaper();
 
         $expected = mb_convert_encoding('Hello', 'UTF-32', 'UTF-8');

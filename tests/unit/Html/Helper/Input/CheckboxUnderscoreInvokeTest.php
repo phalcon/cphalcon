@@ -16,6 +16,7 @@ use Phalcon\Html\Helper\Doctype;
 use Phalcon\Html\Helper\Input\Checkbox;
 use Phalcon\Html\Helper\Input\Radio;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class CheckboxUnderscoreInvokeTest extends AbstractUnitTestCase
 {
@@ -175,11 +176,10 @@ final class CheckboxUnderscoreInvokeTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamplesCheckbox
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
+    #[DataProvider('getExamplesCheckbox')]
     public function testHtmlHelperInputCheckboxUnderscoreInvoke(
         string $name,
         mixed $value,
@@ -215,11 +215,10 @@ final class CheckboxUnderscoreInvokeTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamplesRadio
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
+    #[DataProvider('getExamplesRadio')]
     public function testHtmlHelperInputRadioUnderscoreInvoke(
         string $name,
         mixed $value,

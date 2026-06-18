@@ -19,6 +19,7 @@ use Phalcon\Db\Dialect\Postgresql;
 use Phalcon\Db\Dialect\Sqlite;
 use Phalcon\Db\RawValue;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
 final class AddColumnDefaultExpressionTest extends AbstractDatabaseTestCase
 {
@@ -28,9 +29,8 @@ final class AddColumnDefaultExpressionTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group mysql
      */
+    #[Group('mysql')]
     public function testDbDialectMysqlAddColumnDefaultRawExpression(): void
     {
         $dialect = new Mysql();
@@ -55,9 +55,8 @@ final class AddColumnDefaultExpressionTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group pgsql
      */
+    #[Group('pgsql')]
     public function testDbDialectPostgresqlAddColumnDefaultRawExpression(): void
     {
         $dialect = new Postgresql();
@@ -88,9 +87,8 @@ final class AddColumnDefaultExpressionTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group sqlite
      */
+    #[Group('sqlite')]
     public function testDbDialectSqliteAddColumnDefaultRawExpression(): void
     {
         $dialect = new Sqlite();
@@ -121,9 +119,8 @@ final class AddColumnDefaultExpressionTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group mysql
      */
+    #[Group('mysql')]
     public function testDbDialectMysqlAddColumnDefaultStringStillQuoted(): void
     {
         $dialect = new Mysql();
@@ -146,9 +143,8 @@ final class AddColumnDefaultExpressionTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group mysql
      */
+    #[Group('mysql')]
     public function testDbDialectMysqlAddColumnDefaultCurrentTimestampUnchanged(): void
     {
         $dialect = new Mysql();

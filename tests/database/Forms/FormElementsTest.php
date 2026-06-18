@@ -21,6 +21,7 @@ use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 final class FormElementsTest extends AbstractDatabaseTestCase
 {
@@ -38,10 +39,9 @@ final class FormElementsTest extends AbstractDatabaseTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @issue  https://github.com/phalcon/cphalcon/issues/13149
      * @since  2017-11-19
-     *
-     * @group  mysql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('sqlite')]
     public function testShouldCancelValidationOnFirstFail(): void
     {
         $form = new Form();

@@ -20,13 +20,11 @@ use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Models\Customers;
 use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 use function uniqid;
 
-/**
- *
- * @group phql
- */
+#[Group('phql')]
 final class GetRelatedTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -40,11 +38,10 @@ final class GetRelatedTest extends AbstractDatabaseTestCase
     /**
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2020-08-02
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelGetRelated(): void
     {
         /** @var PDO $connection */
@@ -122,11 +119,10 @@ final class GetRelatedTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-01
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelGetRelatedChangeForeignKey(): void
     {
         /** @var PDO $connection */
@@ -216,11 +212,10 @@ final class GetRelatedTest extends AbstractDatabaseTestCase
      * @issue  https://github.com/phalcon/cphalcon/issues/16409
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-23
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelGetRelatedReturnsCachedResult(): void
     {
         /** @var PDO $connection */
@@ -255,11 +250,10 @@ final class GetRelatedTest extends AbstractDatabaseTestCase
      * @issue  https://github.com/phalcon/cphalcon/issues/16409
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-23
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelGetRelatedPrioritisesDirtyRelated(): void
     {
         /** @var PDO $connection */

@@ -52,7 +52,7 @@ ZEPHIR_INIT_CLASS(Phalcon_DataMapper_Pdo_Profiler_Profiler)
 	 */
 	zend_declare_property_string(phalcon_datamapper_pdo_profiler_profiler_ce, SL("logFormat"), "", ZEND_ACC_PROTECTED);
 	/**
-	 * @var int
+	 * @var int|string
 	 */
 	zend_declare_property_long(phalcon_datamapper_pdo_profiler_profiler_ce, SL("logLevel"), 0, ZEND_ACC_PROTECTED);
 	/**
@@ -266,8 +266,20 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_Profiler, getLogger)
  */
 PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_Profiler, getLogLevel)
 {
+	zval _1;
+	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zval *this_ptr = getThis();
 
-	RETURN_MEMBER_TYPED(getThis(), "logLevel", IS_STRING);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+
+	zephir_memory_observe(&_0);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("logLevel"), PH_NOISY_CC);
+	zephir_cast_to_string(&_1, &_0);
+	RETURN_CTOR(&_1);
 }
 
 /**

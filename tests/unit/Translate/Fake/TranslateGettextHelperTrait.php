@@ -15,6 +15,7 @@ namespace Phalcon\Tests\Unit\Translate\Fake;
 
 use Phalcon\Translate\Adapter\Gettext;
 use Phalcon\Translate\InterpolatorFactory;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 trait TranslateGettextHelperTrait
 {
@@ -83,11 +84,10 @@ trait TranslateGettextHelperTrait
     abstract protected function func(): string;
 
     /**
-     * @dataProvider getQueryProvider
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
+    #[DataProvider('getQueryProvider')]
     public function testTranslateAdapterGettextQuery(array $tests): void
     {
 
@@ -101,11 +101,10 @@ trait TranslateGettextHelperTrait
     }
 
     /**
-     * @dataProvider getQueryProvider
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
+    #[DataProvider('getQueryProvider')]
     public function testTranslateAdapterGettextVariableSubstitutionNoVariables(array $tests): void
     {
 
@@ -119,11 +118,10 @@ trait TranslateGettextHelperTrait
     }
 
     /**
-     * @dataProvider getQueryOneVariable
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
+    #[DataProvider('getQueryOneVariable')]
     public function testTranslateAdapterGettextVariableSubstitutionOneVariable(array $tests): void
     {
 
@@ -137,11 +135,10 @@ trait TranslateGettextHelperTrait
     }
 
     /**
-     * @dataProvider getQueryTwoVariables
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
+    #[DataProvider('getQueryTwoVariables')]
     public function testTranslateAdapterGettextVariableSubstitutionTwoVariable(array $tests): void
     {
 

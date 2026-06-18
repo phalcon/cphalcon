@@ -18,11 +18,10 @@ use PHPUnit\Framework\Attributes\DataProvider;
 final class GetKeysTest extends AbstractCollectionTestCase
 {
     /**
-     * @dataProvider getClasses
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
+    #[DataProvider('getClasses')]
     #[DataProvider('getClasses')]
     public function testSupportCollectionGetKeys(string $class): void
     {

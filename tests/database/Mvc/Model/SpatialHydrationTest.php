@@ -18,13 +18,13 @@ use Phalcon\Support\Settings;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Models\Spatial;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * PostgreSQL is not covered here because the dev container has no PostGIS
  * extension; PostGIS EWKB parsing is verified in the unit WkbParserTest.
- *
- * @group mysql
  */
+#[Group('mysql')]
 final class SpatialHydrationTest extends AbstractDatabaseTestCase
 {
     use DiTrait;

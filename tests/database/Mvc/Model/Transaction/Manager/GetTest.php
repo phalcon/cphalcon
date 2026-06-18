@@ -16,6 +16,7 @@ namespace Phalcon\Tests\Database\Mvc\Model\Transaction\Manager;
 use Phalcon\Mvc\Model\Transaction;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 final class GetTest extends AbstractDatabaseTestCase
 {
@@ -35,12 +36,11 @@ final class GetTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2012-08-07
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
-     * @group pgsql
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    #[Group('pgsql')]
     public function testMvcModelTransactionManagerGet(): void
     {
         $tm = $this->container->getShared('transactionManager');

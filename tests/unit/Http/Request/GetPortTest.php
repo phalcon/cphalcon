@@ -15,6 +15,7 @@ namespace Phalcon\Tests\Unit\Http\Request;
 
 use Phalcon\Tests\Support\Page\Http;
 use Phalcon\Tests\Unit\Http\Helper\AbstractHttpBase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class GetPortTest extends AbstractHttpBase
 {
@@ -53,11 +54,10 @@ final class GetPortTest extends AbstractHttpBase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2016-06-26
      */
+    #[DataProvider('getExamples')]
     public function testHttpRequestPort(
         string $https,
         string $host,

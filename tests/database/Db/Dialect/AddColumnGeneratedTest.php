@@ -18,6 +18,7 @@ use Phalcon\Db\Dialect\Mysql;
 use Phalcon\Db\Dialect\Postgresql;
 use Phalcon\Db\Dialect\Sqlite;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
 final class AddColumnGeneratedTest extends AbstractDatabaseTestCase
 {
@@ -26,9 +27,8 @@ final class AddColumnGeneratedTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group mysql
      */
+    #[Group('mysql')]
     public function testDbDialectMysqlAddColumnGeneratedVirtual(): void
     {
         $dialect = new Mysql();
@@ -54,9 +54,8 @@ final class AddColumnGeneratedTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group mysql
      */
+    #[Group('mysql')]
     public function testDbDialectMysqlAddColumnGeneratedStored(): void
     {
         $dialect = new Mysql();
@@ -85,9 +84,8 @@ final class AddColumnGeneratedTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group mysql
      */
+    #[Group('mysql')]
     public function testDbDialectMysqlAddColumnGeneratedSuppressesDefault(): void
     {
         $dialect = new Mysql();
@@ -112,9 +110,8 @@ final class AddColumnGeneratedTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group pgsql
      */
+    #[Group('pgsql')]
     public function testDbDialectPostgresqlAddColumnGeneratedAlwaysStored(): void
     {
         $dialect = new Postgresql();
@@ -141,9 +138,8 @@ final class AddColumnGeneratedTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group sqlite
      */
+    #[Group('sqlite')]
     public function testDbDialectSqliteAddColumnGeneratedVirtual(): void
     {
         $dialect = new Sqlite();
@@ -169,9 +165,8 @@ final class AddColumnGeneratedTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group sqlite
      */
+    #[Group('sqlite')]
     public function testDbDialectSqliteAddColumnGeneratedStored(): void
     {
         $dialect = new Sqlite();

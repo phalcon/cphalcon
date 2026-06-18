@@ -16,11 +16,9 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Migrations\CustomersMigration;
 use Phalcon\Tests\Support\Models;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
-/**
- *
- * @group phql
- */
+#[Group('phql')]
 final class UnderscoreIssetTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -39,11 +37,10 @@ final class UnderscoreIssetTest extends AbstractDatabaseTestCase
     /**
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-05-22
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelUnderscoreIsset(): void
     {
         /** @var PDO $connection */

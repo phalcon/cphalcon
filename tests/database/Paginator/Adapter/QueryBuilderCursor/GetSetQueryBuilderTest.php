@@ -20,6 +20,7 @@ use Phalcon\Tests\Database\Mvc\RecordsTrait;
 use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 final class GetSetQueryBuilderTest extends AbstractDatabaseTestCase
 {
@@ -42,11 +43,10 @@ final class GetSetQueryBuilderTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-14
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testPaginatorAdapterQuerybuilderCursorGetSetQueryBuilder(): void
     {
         $manager  = $this->getService('modelsManager');
@@ -85,11 +85,10 @@ final class GetSetQueryBuilderTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-14
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testPaginatorAdapterQuerybuilderCursorGetSetCursor(): void
     {
         $manager = $this->getService('modelsManager');

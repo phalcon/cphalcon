@@ -21,6 +21,7 @@ use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Models\InvoicesBehavior;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 use function uniqid;
 
@@ -40,11 +41,10 @@ final class TimestampableTest extends AbstractDatabaseTestCase
     /**
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2020-10-03
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelBehaviorTimestampable(): void
     {
         /** Add row to Timestampable then */
@@ -72,11 +72,10 @@ final class TimestampableTest extends AbstractDatabaseTestCase
     /**
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2020-10-03
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelBehaviorTimestampableWithBeforeCreateEvent(): void
     {
         $this->markTestSkipped('See: https://github.com/phalcon/cphalcon/issues/14904');

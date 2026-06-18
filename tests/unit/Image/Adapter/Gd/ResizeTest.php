@@ -18,6 +18,7 @@ use Phalcon\Image\Enum;
 use Phalcon\Image\Exception;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Image\Fake\GdTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 use function outputDir;
 use function supportDir;
@@ -119,11 +120,10 @@ final class ResizeTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2018-11-13
      */
+    #[DataProvider('getExamples')]
     public function testImageAdapterGdResize(
         string $source,
         string $file,
@@ -183,11 +183,10 @@ final class ResizeTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamplesExceptions
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2018-11-13
      */
+    #[DataProvider('getExamplesExceptions')]
     public function testImageAdapterGdResizeExceptions(
         int $master,
         ?int $height,

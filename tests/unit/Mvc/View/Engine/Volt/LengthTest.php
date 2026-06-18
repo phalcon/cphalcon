@@ -16,6 +16,7 @@ namespace Phalcon\Tests\Unit\Mvc\View\Engine\Volt;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Volt;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class LengthTest extends AbstractUnitTestCase
 {
@@ -32,11 +33,10 @@ class LengthTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider provideLength
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
+    #[DataProvider('provideLength')]
     public function testMvcViewEngineVoltLength(mixed $item, int $expected): void
     {
         $volt = new Volt(new View());

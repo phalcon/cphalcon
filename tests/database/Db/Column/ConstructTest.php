@@ -16,6 +16,7 @@ namespace Phalcon\Tests\Database\Db\Column;
 use Phalcon\Db\Column;
 use Phalcon\Db\ColumnInterface;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
 final class ConstructTest extends AbstractDatabaseTestCase
 {
@@ -24,11 +25,10 @@ final class ConstructTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testDbColumnConstruct(): void
     {
         $options = [

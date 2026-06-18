@@ -35,6 +35,7 @@ use Phalcon\Filter\Validation\Validator\Uniqueness;
 use Phalcon\Filter\Validation\Validator\Url;
 use Phalcon\Filter\Validation\ValidatorInterface;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 use function uniqid;
 
@@ -131,11 +132,10 @@ final class GetSetHasOptionTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2023-09-20
      */
+    #[DataProvider('getExamples')]
     public function testFilterValidationValidatorGetSetHasOption(
         string $class
     ): void {

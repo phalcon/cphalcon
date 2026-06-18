@@ -17,6 +17,8 @@ use Phalcon\Db\Dialect\Mysql;
 use Phalcon\Db\Dialect\Postgresql;
 use Phalcon\Db\Dialect\Sqlite;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 
 final class CreateViewTest extends AbstractDatabaseTestCase
 {
@@ -62,15 +64,13 @@ final class CreateViewTest extends AbstractDatabaseTestCase
     /**
      * Tests Phalcon\Db\Dialect :: createView
      *
-     * @dataProvider getDialects
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-01-20
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    #[DataProvider('getDialects')]
     public function testDbDialectCreateView(
         string $dialectClass,
         string $expected
@@ -86,15 +86,13 @@ final class CreateViewTest extends AbstractDatabaseTestCase
     /**
      * Tests Phalcon\Db\Dialect :: createView - exception on missing sql definition
      *
-     * @dataProvider getDialectsException
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-01-20
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    #[DataProvider('getDialectsException')]
     public function testDbDialectCreateViewException(
         string $dialectClass
     ): void {

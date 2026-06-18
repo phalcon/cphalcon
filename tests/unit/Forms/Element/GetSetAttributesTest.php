@@ -25,6 +25,7 @@ use Phalcon\Forms\Element\Submit;
 use Phalcon\Forms\Element\Text;
 use Phalcon\Forms\Element\TextArea;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 use function array_flip;
 use function uniqid;
@@ -52,11 +53,10 @@ final class GetSetAttributesTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2021-12-05
      */
+    #[DataProvider('getExamples')]
     public function testFormsElementGetSetAttributes(
         string $class
     ): void {

@@ -17,6 +17,8 @@ use Phalcon\Mvc\Model\MetaData;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 
 final class GetDataTypesTest extends AbstractDatabaseTestCase
 {
@@ -50,13 +52,11 @@ final class GetDataTypesTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-02-01
-     *
-     * @group mysql
      */
+    #[Group('mysql')]
+    #[DataProvider('getExamples')]
     public function testMvcModelMetadataGetDataTypes(
         string $service
     ): void {

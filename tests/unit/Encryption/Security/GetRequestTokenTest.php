@@ -17,7 +17,11 @@ use Phalcon\Encryption\Security;
 use Phalcon\Session\Manager;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\BackupGlobals;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 
+#[BackupGlobals(true)]
+#[RequiresPhpExtension('openssl')]
 final class GetRequestTokenTest extends AbstractUnitTestCase
 {
     use DiTrait;
@@ -32,8 +36,6 @@ final class GetRequestTokenTest extends AbstractUnitTestCase
      */
     public function setUp(): void
     {
-        $this->checkExtensionIsLoaded('openssl');
-
         $this->store = $_SESSION ?? [];
 
         $this->setNewFactoryDefault();

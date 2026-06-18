@@ -110,11 +110,10 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2023-09-28
      */
+    #[DataProvider('getExamples')]
     public function testFilterValidationValidatorFileSize(
         string $class,
         array $options
@@ -145,11 +144,10 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamplesErrors
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2023-09-28
      */
+    #[DataProvider('getExamplesErrors')]
     public function testFilterValidationValidatorFileSizeErrors(
         string $class,
         string $message,

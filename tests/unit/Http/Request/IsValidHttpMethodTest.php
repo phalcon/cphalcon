@@ -16,6 +16,7 @@ namespace Phalcon\Tests\Unit\Http\Request;
 use Phalcon\Http\Request;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Page\Http;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 use function uniqid;
 
@@ -115,11 +116,10 @@ final class IsValidHttpMethodTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-03-17
      */
+    #[DataProvider('getExamples')]
     public function testHttpRequestIsValidHttpMethod(
         string $method,
         bool $expected

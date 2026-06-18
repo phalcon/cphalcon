@@ -16,6 +16,7 @@ namespace Phalcon\Tests\Database\Mvc\Model\Manager;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Models\CustomersVisible;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class IsVisibleModelPropertyTest extends AbstractDatabaseTestCase
 {
@@ -44,11 +45,10 @@ final class IsVisibleModelPropertyTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * @dataProvider getPublicProperties
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2016-08-12
      */
+    #[DataProvider('getPublicProperties')]
     public function testMvcModelManagerIsVisibleModelProperty(
         string $property,
         bool $expected

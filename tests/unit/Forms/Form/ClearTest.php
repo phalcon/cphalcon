@@ -25,10 +25,12 @@ use Phalcon\Html\TagFactory;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\BackupGlobals;
 use stdClass;
 
 use function uniqid;
 
+#[BackupGlobals(true)]
 final class ClearTest extends AbstractUnitTestCase
 {
     private array $postStore = [];

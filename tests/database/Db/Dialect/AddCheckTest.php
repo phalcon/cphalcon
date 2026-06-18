@@ -19,6 +19,7 @@ use Phalcon\Db\Dialect\Postgresql;
 use Phalcon\Db\Dialect\Sqlite;
 use Phalcon\Db\Exception;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
 final class AddCheckTest extends AbstractDatabaseTestCase
 {
@@ -27,9 +28,8 @@ final class AddCheckTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group mysql
      */
+    #[Group('mysql')]
     public function testDbDialectMysqlAddCheckNamed(): void
     {
         $dialect = new Mysql();
@@ -52,9 +52,8 @@ final class AddCheckTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group mysql
      */
+    #[Group('mysql')]
     public function testDbDialectMysqlAddCheckUnnamed(): void
     {
         $dialect = new Mysql();
@@ -76,9 +75,8 @@ final class AddCheckTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group pgsql
      */
+    #[Group('pgsql')]
     public function testDbDialectPostgresqlAddCheckNamed(): void
     {
         $dialect = new Postgresql();
@@ -101,9 +99,8 @@ final class AddCheckTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group sqlite
      */
+    #[Group('sqlite')]
     public function testDbDialectSqliteAddCheckThrows(): void
     {
         $this->expectException(Exception::class);
@@ -127,9 +124,8 @@ final class AddCheckTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group mysql
      */
+    #[Group('mysql')]
     public function testDbDialectMysqlDropCheck(): void
     {
         $dialect = new Mysql();
@@ -151,9 +147,8 @@ final class AddCheckTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group pgsql
      */
+    #[Group('pgsql')]
     public function testDbDialectPostgresqlDropCheck(): void
     {
         $dialect = new Postgresql();
@@ -174,9 +169,8 @@ final class AddCheckTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group sqlite
      */
+    #[Group('sqlite')]
     public function testDbDialectSqliteDropCheckThrows(): void
     {
         $this->expectException(Exception::class);

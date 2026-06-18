@@ -16,6 +16,7 @@ namespace Phalcon\Tests\Database\Db\Index;
 use Phalcon\Db\Exception;
 use Phalcon\Db\Index;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
 final class GetDirectionsTest extends AbstractDatabaseTestCase
 {
@@ -24,11 +25,10 @@ final class GetDirectionsTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testDbIndexLegacyHasNoDirections(): void
     {
         $index = new Index('idx_email', ['email']);
@@ -41,11 +41,10 @@ final class GetDirectionsTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testDbIndexDefinitionDirectionsStored(): void
     {
         $index = new Index(
@@ -64,11 +63,10 @@ final class GetDirectionsTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testDbIndexDirectionsMustBeArray(): void
     {
         $this->expectException(Exception::class);

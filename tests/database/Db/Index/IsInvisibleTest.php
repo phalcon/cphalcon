@@ -16,6 +16,7 @@ namespace Phalcon\Tests\Database\Db\Index;
 use Phalcon\Db\Exception;
 use Phalcon\Db\Index;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
 final class IsInvisibleTest extends AbstractDatabaseTestCase
 {
@@ -24,11 +25,10 @@ final class IsInvisibleTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testDbIndexLegacyPositionalIsVisible(): void
     {
         $index = new Index('idx_email', ['email'], 'UNIQUE');
@@ -44,11 +44,10 @@ final class IsInvisibleTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testDbIndexDefinitionInvisibleTrue(): void
     {
         $index = new Index(
@@ -71,11 +70,10 @@ final class IsInvisibleTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testDbIndexDefinitionIgnoresPositionalType(): void
     {
         $index = new Index(
@@ -95,11 +93,10 @@ final class IsInvisibleTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testDbIndexDefinitionColumnsMustBeArray(): void
     {
         $this->expectException(Exception::class);

@@ -45,11 +45,10 @@ final class UnderscoreTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
+    #[DataProvider('getExamples')]
     #[DataProvider('getExamples')]
     public function testSupportHelperStrUnderscore(
         string $text,

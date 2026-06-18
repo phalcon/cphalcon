@@ -36,6 +36,7 @@ use Phalcon\Filter\Validation\Validator\Url;
 use Phalcon\Filter\Validation\ValidatorCompositeInterface;
 use Phalcon\Filter\Validation\ValidatorInterface;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class ConstructTest extends AbstractUnitTestCase
 {
@@ -74,11 +75,10 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2018-11-13
      */
+    #[DataProvider('getExamples')]
     public function testFilterValidationValidatorAlnumConstruct(
         string $class
     ): void {

@@ -15,8 +15,12 @@ namespace Phalcon\Tests\Database\DataMapper\Pdo\Profiler\MemoryLogger;
 
 use Phalcon\DataMapper\Pdo\Profiler\MemoryLogger;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\DataProvider;
 
+#[Group('mysql')]
+#[Group('pgsql')]
+#[Group('sqlite')]
 final class LevelsTest extends AbstractDatabaseTestCase
 {
     /**

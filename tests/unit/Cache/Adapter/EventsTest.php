@@ -24,6 +24,7 @@ use Phalcon\Cache\Adapter\Stream;
 use Phalcon\Cache\Adapter\Weak;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use RuntimeException;
 
 use function getOptionsLibmemcached;
@@ -121,11 +122,10 @@ final class EventsTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getAdapters
-     *
      * @author n[oO]ne <lominum@protonmail.com>
      * @since  2024-06-07
      */
+    #[DataProvider('getAdapters')]
     public function testCacheAdapterMemoryGetEventsManagerNotSet(
         string $adapterClass,
         array $options,
@@ -142,11 +142,10 @@ final class EventsTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getAdapters
-     *
      * @author n[oO]ne <lominum@protonmail.com>
      * @since  2024-06-07
      */
+    #[DataProvider('getAdapters')]
     public function testCacheAdapterMemoryGetEventsManagerSet(
         string $adapterClass,
         array $options,
@@ -165,11 +164,10 @@ final class EventsTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author n[oO]ne <lominum@protonmail.com>
      * @since  2024-06-07
      */
+    #[DataProvider('getExamples')]
     public function testCacheAdapterEventsAfterDecrement(
         string $extension,
         string $class,
@@ -203,11 +201,10 @@ final class EventsTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author n[oO]ne <lominum@protonmail.com>
      * @since  2024-06-07
      */
+    #[DataProvider('getExamples')]
     public function testCacheAdapterEventsAfterDelete(
         string $extension,
         string $class,
@@ -241,11 +238,10 @@ final class EventsTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author n[oO]ne <lominum@protonmail.com>
      * @since  2024-06-07
      */
+    #[DataProvider('getExamples')]
     public function testCacheAdapterEventsAfterGet(
         string $extension,
         string $class,
@@ -280,11 +276,10 @@ final class EventsTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author n[oO]ne <lominum@protonmail.com>
      * @since  2024-06-07
      */
+    #[DataProvider('getExamples')]
     public function testCacheAdapterEventsAfterHas(
         string $extension,
         string $class,
@@ -318,11 +313,10 @@ final class EventsTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author n[oO]ne <lominum@protonmail.com>
      * @since  2024-06-07
      */
+    #[DataProvider('getExamples')]
     public function testCacheAdapterEventsAfterIncrement(
         string $extension,
         string $class,
@@ -356,11 +350,10 @@ final class EventsTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author n[oO]ne <lominum@protonmail.com>
      * @since  2024-06-07
      */
+    #[DataProvider('getExamples')]
     public function testCacheAdapterEventsAfterSet(
         string $extension,
         string $class,
@@ -394,11 +387,10 @@ final class EventsTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author n[oO]ne <lominum@protonmail.com>
      * @since  2024-06-07
      */
+    #[DataProvider('getExamples')]
     public function testCacheAdapterEventsBeforeDecrement(
         string $extension,
         string $class,
@@ -432,11 +424,10 @@ final class EventsTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author n[oO]ne <lominum@protonmail.com>
      * @since  2024-06-07
      */
+    #[DataProvider('getExamples')]
     public function testCacheAdapterEventsBeforeDelete(
         string $extension,
         string $class,
@@ -470,11 +461,10 @@ final class EventsTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author n[oO]ne <lominum@protonmail.com>
      * @since  2024-06-07
      */
+    #[DataProvider('getExamples')]
     public function testCacheAdapterEventsBeforeGet(
         string $extension,
         string $class,
@@ -509,11 +499,10 @@ final class EventsTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author n[oO]ne <lominum@protonmail.com>
      * @since  2024-06-07
      */
+    #[DataProvider('getExamples')]
     public function testCacheAdapterEventsBeforeHas(
         string $extension,
         string $class,
@@ -547,11 +536,10 @@ final class EventsTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author n[oO]ne <lominum@protonmail.com>
      * @since  2024-06-07
      */
+    #[DataProvider('getExamples')]
     public function testCacheAdapterEventsBeforeIncrement(
         string $extension,
         string $class,
@@ -585,11 +573,10 @@ final class EventsTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author n[oO]ne <lominum@protonmail.com>
      * @since  2024-06-07
      */
+    #[DataProvider('getExamples')]
     public function testCacheAdapterEventsBeforeSet(
         string $extension,
         string $class,

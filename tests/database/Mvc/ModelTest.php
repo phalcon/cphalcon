@@ -20,6 +20,7 @@ use Phalcon\Tests\Support\Migrations\AlbumsMigration;
 use Phalcon\Tests\Support\Migrations\ArtistsMigration;
 use Phalcon\Tests\Support\Models\AlbumORama\Albums;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 final class ModelTest extends AbstractDatabaseTestCase
 {
@@ -70,11 +71,10 @@ final class ModelTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-02
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testExecuteCamelCaseRelation(): void
     {
         /** @var PDO $connection */

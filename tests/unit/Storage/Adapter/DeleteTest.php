@@ -23,6 +23,7 @@ use Phalcon\Storage\Adapter\Weak;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Storage\Fake\FakeWeakFetching;
+use PHPUnit\Framework\Attributes\DataProvider;
 use stdClass;
 
 use function getOptionsLibmemcached;
@@ -75,11 +76,10 @@ final class DeleteTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
+    #[DataProvider('getExamples')]
     public function testStorageAdapterDelete(
         string $class,
         array $options,

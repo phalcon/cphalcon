@@ -15,6 +15,7 @@ namespace Phalcon\Tests\Unit\Mvc\View\Engine\Volt;
 
 use Phalcon\Mvc\View\Engine\Volt\Compiler;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class VerbatimTest extends AbstractUnitTestCase
 {
@@ -66,12 +67,11 @@ final class VerbatimTest extends AbstractUnitTestCase
      * Tests Phalcon\Mvc\View\Engine\Volt\Compiler :: compileString() with the
      * {% verbatim %} tag - its body is emitted literally, without being parsed.
      *
-     * @dataProvider getVerbatimSources
-     *
      * @issue        https://github.com/phalcon/cphalcon/issues/17085
      * @author       Phalcon Team <team@phalcon.io>
      * @since         2026-06-06
      */
+    #[DataProvider('getVerbatimSources')]
     public function testMvcViewEngineVoltCompilerVerbatim(
         string $source,
         string $expected

@@ -43,11 +43,10 @@ final class GetTypeTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2016-02-19
      */
+    #[DataProvider('getExamples')]
     #[DataProvider('getExamples')]
     public function testImageAdapterImagickGetType(string $source): void
     {

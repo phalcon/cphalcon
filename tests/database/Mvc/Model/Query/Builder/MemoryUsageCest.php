@@ -17,6 +17,7 @@ use DatabaseTester;
 use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use Phalcon\Tests\Models\Invoices;
+use PHPUnit\Framework\Attributes\Group;
 
 class MemoryUsageCest
 {
@@ -37,10 +38,7 @@ class MemoryUsageCest
         $this->invoiceMigration->clear();
     }
 
-    /**
-     *
-     * @group sqlite
-     */
+    #[Group('sqlite')]
     public function mvcModelQueryBuilderExecuteMemoryUsage(DatabaseTester $I): void
     {
         $I->wantToTest('Mvc\Model\Query\Builder - unbound execute loop keeps memory stable');

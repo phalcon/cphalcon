@@ -17,13 +17,11 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Database\Mvc\RecordsTrait;
 use Phalcon\Tests\Support\Migrations\RollbackTestMigration;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 use RuntimeException;
 use Throwable;
 
-/**
- *
- * @group phql
- */
+#[Group('phql')]
 final class RollbackOnExceptionTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -51,10 +49,9 @@ final class RollbackOnExceptionTest extends AbstractDatabaseTestCase
      * @issue  https://github.com/phalcon/cphalcon/issues/16604
      * @author noone-silent <lominum@protonmail.com>
      * @since  2024-06-10
-     *
-     * @group mysql
-     * @group pgsql
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
     public function testMvcModelQueryRollbackOnException(): void
     {
         $this->migration->create();

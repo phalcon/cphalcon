@@ -15,7 +15,9 @@ namespace Phalcon\Tests\Unit\Mvc\Url;
 
 use Phalcon\Mvc\Url;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\BackupGlobals;
 
+#[BackupGlobals(true)]
 final class UrlTest extends AbstractUnitTestCase
 {
     /**

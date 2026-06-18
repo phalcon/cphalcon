@@ -15,6 +15,7 @@ namespace Phalcon\Tests\Unit\Http\Request;
 
 use Phalcon\Tests\Support\Page\Http;
 use Phalcon\Tests\Unit\Http\Helper\AbstractHttpBase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class NumFilesTest extends AbstractHttpBase
 {
@@ -112,11 +113,10 @@ final class NumFilesTest extends AbstractHttpBase
     }
 
     /**
-     * @dataProvider filesProvider
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2019-11-07
      */
+    #[DataProvider('filesProvider')]
     public function testRequestNumFiles(
         array $files,
         int $all,

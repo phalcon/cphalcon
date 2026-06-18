@@ -17,6 +17,7 @@ use Phalcon\Mvc\Model\Criteria;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 final class FromInputTest extends AbstractDatabaseTestCase
 {
@@ -36,11 +37,10 @@ final class FromInputTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-03-05
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelCriteriaFromInput(): void
     {
         $criteria = Criteria::fromInput(

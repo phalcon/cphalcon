@@ -19,10 +19,9 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
-/**
- * @group phql
- */
+#[Group('phql')]
 final class CustomOperatorSqlTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -41,9 +40,7 @@ final class CustomOperatorSqlTest extends AbstractDatabaseTestCase
         $this->invoiceMigration = new InvoicesMigration(self::getConnection());
     }
 
-    /**
-     * @group pgsql
-     */
+    #[Group('pgsql')]
     public function testPostgresEmitsContains(): void
     {
         $phql = sprintf(
@@ -56,11 +53,9 @@ final class CustomOperatorSqlTest extends AbstractDatabaseTestCase
         $this->assertStringContainsString('"i"."inv_title" @> \'x\'', $result['sql']);
     }
 
-    /**
-     * @group pgsql
-     * @group mysql
-     * @group sqlite
-     */
+    #[Group('pgsql')]
+    #[Group('mysql')]
+    #[Group('sqlite')]
     public function testJsonGetEmitted(): void
     {
         $phql = sprintf(
@@ -75,9 +70,8 @@ final class CustomOperatorSqlTest extends AbstractDatabaseTestCase
 
     /**
      * Accessor must bind tighter than '=': ("i"."inv_title" ->> 'a') = 'b'.
-     *
-     * @group pgsql
      */
+    #[Group('pgsql')]
     public function testAccessorBindsTighterThanEquals(): void
     {
         $phql = sprintf(
@@ -90,10 +84,8 @@ final class CustomOperatorSqlTest extends AbstractDatabaseTestCase
         $this->assertMatchesRegularExpression('/->>\s*\'a\'\s*=\s*\'b\'/', $sql);
     }
 
-    /**
-     * @group mysql
-     * @group sqlite
-     */
+    #[Group('mysql')]
+    #[Group('sqlite')]
     public function testUnsupportedOperatorThrows(): void
     {
         $phql = sprintf(

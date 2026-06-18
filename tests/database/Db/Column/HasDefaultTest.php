@@ -15,6 +15,8 @@ namespace Phalcon\Tests\Database\Db\Column;
 
 use Phalcon\Db\Column;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 
 final class HasDefaultTest extends AbstractDatabaseTestCase
 {
@@ -110,14 +112,13 @@ final class HasDefaultTest extends AbstractDatabaseTestCase
     /**
      * Tests Phalcon\Db\Column :: hasDefault()
      *
-     * @dataProvider columnHasDefaultProvider
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    #[DataProvider('columnHasDefaultProvider')]
     public function testDbColumnHasDefault(Column $column, bool $expected): void
     {
         $this->assertSame($expected, $column->hasDefault());

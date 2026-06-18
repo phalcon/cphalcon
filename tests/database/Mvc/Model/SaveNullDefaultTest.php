@@ -17,6 +17,7 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Migrations\PersonasMigration;
 use Phalcon\Tests\Support\Models\Personas;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 final class SaveNullDefaultTest extends AbstractDatabaseTestCase
 {
@@ -46,11 +47,10 @@ final class SaveNullDefaultTest extends AbstractDatabaseTestCase
      * @issue  https://github.com/phalcon/cphalcon/issues/17176
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-06-15
-     *
-     * @group  mysql
-     * @group  pgsql
-     * @group  sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelSaveKeepsNullForDefaultNullColumn(): void
     {
         $persona                    = new Personas();

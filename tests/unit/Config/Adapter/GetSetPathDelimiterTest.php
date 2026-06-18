@@ -15,17 +15,17 @@ namespace Phalcon\Tests\Unit\Config\Adapter;
 
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Traits\ConfigTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class GetSetPathDelimiterTest extends AbstractUnitTestCase
 {
     use ConfigTrait;
 
     /**
-     * @dataProvider providerConfigAdapters
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
+    #[DataProvider('providerConfigAdapters')]
     public function testConfigAdapterGetSetPathDelimiter(string $adapter): void
     {
         $config   = $this->getConfig($adapter);

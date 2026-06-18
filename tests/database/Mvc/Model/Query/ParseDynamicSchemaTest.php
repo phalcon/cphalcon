@@ -17,13 +17,12 @@ use Phalcon\Mvc\Model\Query;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Models\InvoicesSchemaSwitchable;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 use function env;
 use function sprintf;
 
-/**
- * @group phql
- */
+#[Group('phql')]
 final class ParseDynamicSchemaTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -45,9 +44,8 @@ final class ParseDynamicSchemaTest extends AbstractDatabaseTestCase
      * @issue  https://github.com/phalcon/cphalcon/issues/17020
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-14
-     *
-     * @group  mysql
      */
+    #[Group('mysql')]
     public function testMvcModelQueryParseRefreshesSchemaAfterCacheHit(): void
     {
         $manager      = $this->container->get('modelsManager');

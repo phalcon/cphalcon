@@ -16,6 +16,7 @@ namespace Phalcon\Tests\Unit\Image\Adapter\Gd;
 use Phalcon\Image\Adapter\Gd;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Image\Fake\GdTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 use function supportDir;
 
@@ -57,11 +58,10 @@ final class GetWidthTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2018-11-13
      */
+    #[DataProvider('getExamples')]
     public function testImageAdapterGdGetWidth(
         string $source,
         int $expected

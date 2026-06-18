@@ -18,6 +18,7 @@ use Phalcon\Db\Adapter\Pdo\Postgresql;
 use Phalcon\Db\Adapter\Pdo\Sqlite;
 use Phalcon\Db\Adapter\PdoFactory;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
 use function getOptionsMysql;
 use function getOptionsPostgresql;
@@ -28,9 +29,8 @@ final class NewInstanceTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-05-19
-     *
-     * @group mysql
      */
+    #[Group('mysql')]
     public function testDbAdapterPdoFactoryNewInstanceMysql(): void
     {
         $factory = new PdoFactory();
@@ -42,9 +42,8 @@ final class NewInstanceTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-05-19
-     *
-     * @group pgsql
      */
+    #[Group('pgsql')]
     public function testDbAdapterPdoFactoryNewInstancePgsql(): void
     {
         $factory = new PdoFactory();
@@ -56,9 +55,8 @@ final class NewInstanceTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-05-19
-     *
-     * @group sqlite
      */
+    #[Group('sqlite')]
     public function testDbAdapterPdoFactoryNewInstanceSqlite(): void
     {
         $factory = new PdoFactory();

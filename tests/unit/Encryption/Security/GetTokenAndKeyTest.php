@@ -17,7 +17,9 @@ use Phalcon\Encryption\Security;
 use Phalcon\Session\Manager;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 
+#[RequiresPhpExtension('openssl')]
 final class GetTokenAndKeyTest extends AbstractUnitTestCase
 {
     use DiTrait;
@@ -27,8 +29,6 @@ final class GetTokenAndKeyTest extends AbstractUnitTestCase
      */
     public function setUp(): void
     {
-        $this->checkExtensionIsLoaded('openssl');
-
         $this->setNewFactoryDefault();
         $this->setDiService('sessionStream');
     }

@@ -26,6 +26,7 @@ use Phalcon\Tag;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Database\Forms\Form\Fake\FakeSelect;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 use stdClass;
 
 final class ClearTest extends AbstractDatabaseTestCase
@@ -59,10 +60,9 @@ final class ClearTest extends AbstractDatabaseTestCase
      *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-06-28
-     *
-     * @group  mysql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('sqlite')]
     public function testFormsFormClearAll(): void
     {
         $name     = new Text('name');
@@ -106,10 +106,9 @@ final class ClearTest extends AbstractDatabaseTestCase
      *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-06-28
-     *
-     * @group  mysql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('sqlite')]
     public function testFormsFormClearFieldsArray(): void
     {
         $name     = new Text('name');
@@ -159,10 +158,9 @@ final class ClearTest extends AbstractDatabaseTestCase
      *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-06-28
-     *
-     * @group  mysql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('sqlite')]
     public function testFormsFormClearFieldString(): void
     {
         $name     = new Text('name');
@@ -211,11 +209,10 @@ final class ClearTest extends AbstractDatabaseTestCase
      * @issue  https://github.com/phalcon/cphalcon/issues/12099
      * @since  2016-10-01
      *
-     * @group  mysql
-     * @group sqlite
-     *
      * @todo   Check implementation - uses Tag::setDefault() which needs review
      */
+    #[Group('mysql')]
+    #[Group('sqlite')]
     public function testClearFormElements(): void
     {
         $this->markTestSkipped('Check implementation - uses Tag::setDefault()');
@@ -351,10 +348,9 @@ final class ClearTest extends AbstractDatabaseTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @issue  https://github.com/phalcon/cphalcon/issues/11978
      * @since  2016-10-01
-     *
-     * @group  mysql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('sqlite')]
     public function testClearFormElementsAndUsingValidation(): void
     {
         $password = new Password(
@@ -452,11 +448,10 @@ final class ClearTest extends AbstractDatabaseTestCase
      * @issue  https://github.com/phalcon/cphalcon/issues/11978
      * @since  2016-10-01
      *
-     * @group  mysql
-     * @group sqlite
-     *
      * @todo   Check implementation - uses Tag::getValue() / Tag::setDefault() which need review
      */
+    #[Group('mysql')]
+    #[Group('sqlite')]
     public function testClearFormElementsByUsingFormBind(): void
     {
         $this->markTestSkipped('Check implementation - uses Tag::getValue() and Tag::setDefault()');
