@@ -38,7 +38,7 @@ final class CompilePatternTest extends AbstractUnitTestCase
         $route            = '/:module/:namespace/:controller/:action/:params/:int';
         $placeholderRoute = new Route($route);
 
-        $expected = '#^/([\\w0-9\\_\\-]+)/([\\w0-9\\_\\-]+)/([\\w0-9\\_\\-]+)/([\\w0-9\\_\\-]+)(/.*)*/([0-9]+)$#u';
+        $expected = '#^/([\\w0-9\\_\\-]+)/([\\w0-9\\_\\-]+)/([\\w0-9\\_\\-]+)/([\\w0-9\\_\\-]+)(/.*)?/([0-9]+)$#u';
         $actual   = $placeholderRoute->getCompiledPattern();
         $this->assertSame($expected, $actual);
 

@@ -172,7 +172,7 @@ class Route implements RouteInterface
 
             // Replace the params placeholder
             if memstr(pattern, "/:params") {
-                let pattern = str_replace("/:params", "(/.*)*", pattern);
+                let pattern = str_replace("/:params", "(/.*)?", pattern);
             }
 
             // Replace the int placeholder

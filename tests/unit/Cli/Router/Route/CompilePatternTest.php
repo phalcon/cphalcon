@@ -42,7 +42,7 @@ final class CompilePatternTest extends AbstractUnitTestCase
             ],
             [
                 '/:params',
-                '#^(/.*)*$#',
+                '#^(/.*)?$#',
             ],
             [
                 ':delimiter',
@@ -50,7 +50,7 @@ final class CompilePatternTest extends AbstractUnitTestCase
             ],
             [
                 '/:module/:namespace/:task/:action/:params/:delimiter',
-                '#^/([a-zA-Z0-9\_\-]+)/([a-zA-Z0-9\_\-]+)/([a-zA-Z0-9\_\-]+)/([a-zA-Z0-9\_\-]+)(/.*)*//$#',
+                '#^/([a-zA-Z0-9\_\-]+)/([a-zA-Z0-9\_\-]+)/([a-zA-Z0-9\_\-]+)/([a-zA-Z0-9\_\-]+)(/.*)?//$#',
             ],
         ];
     }

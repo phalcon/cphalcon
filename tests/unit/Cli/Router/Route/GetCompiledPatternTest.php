@@ -31,7 +31,7 @@ final class GetCompiledPatternTest extends AbstractUnitTestCase
         );
 
         $expected = '#^/([a-zA-Z0-9\_\-]+)/([a-zA-Z0-9\_\-]+)/'
-            . '([a-zA-Z0-9\_\-]+)/([a-zA-Z0-9\_\-]+)(/.*)*//$#';
+            . '([a-zA-Z0-9\_\-]+)/([a-zA-Z0-9\_\-]+)(/.*)?//$#';
 
         $actual = $route->getCompiledPattern();
         $this->assertSame($expected, $actual);
