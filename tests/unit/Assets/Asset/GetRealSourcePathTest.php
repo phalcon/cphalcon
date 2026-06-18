@@ -93,10 +93,6 @@ final class GetRealSourcePathTest extends AbstractUnitTestCase
         string $type,
         string $path
     ): void {
-        if (PHP_OS_FAMILY === 'Windows') {
-            $this->markTestSkipped('Need to fix Windows new lines...');
-        }
-
         $asset = new Asset($type, $path, false);
 
         $expected = $path;

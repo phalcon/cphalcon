@@ -28,10 +28,6 @@ final class VariablesTest extends AbstractUnitTestCase
      */
     public function testSupportDebugDumpVariables(): void
     {
-        if (PHP_OS_FAMILY === 'Windows') {
-            $this->markTestSkipped('Need to fix Windows new lines...');
-        }
-
         $test1 = 'string';
         $test2 = ['key' => 'value'];
         $test3 = new stdClass();

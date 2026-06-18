@@ -32,10 +32,6 @@ final class RegisterUnregisterTest extends AbstractUnitTestCase
      */
     public function testAutoloaderLoaderEvents(): void
     {
-        if (PHP_OS_FAMILY === 'Windows') {
-            $this->markTestSkipped('Need to fix Windows new lines...');
-        }
-
         $trace   = [];
         $loader  = new Loader();
         $manager = new Manager();

@@ -44,10 +44,6 @@ final class GetRealTargetPathTest extends AbstractUnitTestCase
      */
     public function testAssetsCollectionGetRealTargetPathFileDoesNotExist(): void
     {
-        if (PHP_OS_FAMILY === 'Windows') {
-            $this->markTestSkipped('Need to fix Windows new lines...');
-        }
-
         $collection        = new FakeCollectionFileExists();
         $targetPath        = '/assets';
         $basePath          = supportDir('assets');

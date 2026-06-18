@@ -66,10 +66,6 @@ final class AddJsTest extends AbstractUnitTestCase
      */
     public function testAssetsManagerAddJsVersioning(): void
     {
-        if (PHP_OS_FAMILY === 'Windows') {
-            $this->markTestSkipped('Need to fix Windows new lines...');
-        }
-
         $container = $this->getDI();
 
         $manager = new Manager(new TagFactory(new Escaper()));

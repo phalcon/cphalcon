@@ -30,10 +30,6 @@ final class GetAddSetNamespacesTest extends AbstractUnitTestCase
      */
     public function testAutoloaderLoaderGetAddSetNamespaces(): void
     {
-        if (PHP_OS_FAMILY === 'Windows') {
-            $this->markTestSkipped('Need to fix Windows new lines...');
-        }
-
         $loader = new Loader();
 
         $expected = [];

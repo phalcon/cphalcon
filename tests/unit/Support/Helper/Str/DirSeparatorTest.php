@@ -26,10 +26,6 @@ final class DirSeparatorTest extends AbstractUnitTestCase
      */
     public function testSupportHelperStrFolderSeparator(): void
     {
-        if (PHP_OS_FAMILY === 'Windows') {
-            $this->markTestSkipped('Need to fix Windows new lines...');
-        }
-
         $object = new DirSeparator();
 
         $expected = '/home/phalcon/';
@@ -47,10 +43,6 @@ final class DirSeparatorTest extends AbstractUnitTestCase
      */
     public function testSupportHelperStrFolderSeparatorEmptyString(): void
     {
-        if (PHP_OS_FAMILY === 'Windows') {
-            $this->markTestSkipped('Need to fix Windows new lines...');
-        }
-
         $fileName = '';
         $object = new DirSeparator();
 

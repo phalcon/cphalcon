@@ -76,10 +76,6 @@ final class GetRealTargetPathTest extends AbstractUnitTestCase
      */
     public function testAssetsAssetGetRealTargetPath404(): void
     {
-        if (PHP_OS_FAMILY === 'Windows') {
-            $this->markTestSkipped('Need to fix Windows new lines...');
-        }
-
         $file  = 'assets/assets/1198.css';
         $asset = new FakeAssetFileExistsPositive('css', $file);
 

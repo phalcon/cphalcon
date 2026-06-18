@@ -28,10 +28,6 @@ final class GetContentTest extends AbstractUnitTestCase
      */
     public function testAssetsAssetJsGetContent(): void
     {
-        if (PHP_OS_FAMILY === 'Windows') {
-            $this->markTestSkipped('Need to fix Windows new lines...');
-        }
-
         $asset = new Js('assets/assets/signup.js');
 
         $expected = file_get_contents(supportDir('assets/assets/signup.js'));

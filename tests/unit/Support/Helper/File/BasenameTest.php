@@ -97,10 +97,6 @@ final class BasenameTest extends AbstractUnitTestCase
         string $path,
         string $expected,
     ): void {
-        if (PHP_OS_FAMILY === 'Windows') {
-            $this->markTestSkipped('Need to fix Windows new lines...');
-        }
-
         $object = new Basename();
         $actual = $object($path);
         $this->assertSame($expected, $actual);
@@ -116,10 +112,6 @@ final class BasenameTest extends AbstractUnitTestCase
         string $path,
         string $suffix,
     ): void {
-        if (PHP_OS_FAMILY === 'Windows') {
-            $this->markTestSkipped('Need to fix Windows new lines...');
-        }
-
         $object = new Basename();
 
         $expected = basename($path, $suffix);
