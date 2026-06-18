@@ -160,6 +160,26 @@ final class SumTest extends AbstractDatabaseTestCase
     }
 
     /**
+     * @issue  https://github.com/phalcon/cphalcon/issues/17184
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-18
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelSumEmptyResultReturnsZero(): void
+    {
+        $total = Invoices::sum(
+            [
+                'column' => 'inv_total',
+            ]
+        );
+
+        $this->assertSame(0.0, $total);
+    }
+
+    /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-01-30
      */

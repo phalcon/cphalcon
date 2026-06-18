@@ -977,6 +977,10 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             return (float) result;
         }
 
+        if result === null {
+            return 0.0;
+        }
+
         return result;
     }
 
@@ -3556,6 +3560,10 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
         if typeof result === "string" {
             return (float) result;
+        }
+
+        if result === null {
+            return 0.0;
         }
 
         return result;
