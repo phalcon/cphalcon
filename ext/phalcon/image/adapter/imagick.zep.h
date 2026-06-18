@@ -5,6 +5,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Image_Adapter_Imagick);
 
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, __construct);
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, __destruct);
+PHP_METHOD(Phalcon_Image_Adapter_Imagick, create);
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, liquidRescale);
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, setResourceLimit);
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, processBackground);
@@ -30,6 +31,11 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_imagick___construct, 0, 0, 
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_imagick___destruct, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_image_adapter_imagick_create, 0, 2, Phalcon\\Image\\Adapter\\AbstractAdapter, 0)
+	ZEND_ARG_TYPE_INFO(0, width, IS_LONG, 0)
+	ZEND_ARG_TYPE_INFO(0, height, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_image_adapter_imagick_liquidrescale, 0, 2, Phalcon\\Image\\Adapter\\AbstractAdapter, 0)
@@ -73,7 +79,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_image_adapter_imagick_processmask, 0, 1, IS_VOID, 0)
 
-	ZEND_ARG_OBJ_INFO(0, image, Phalcon\\Image\\Adapter\\AdapterInterface, 0)
+	ZEND_ARG_OBJ_INFO(0, mask, Phalcon\\Image\\Adapter\\AdapterInterface, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_image_adapter_imagick_processpixelate, 0, 1, IS_VOID, 0)
@@ -130,7 +136,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_image_adapter_imagick_processwatermark, 0, 4, IS_VOID, 0)
 
-	ZEND_ARG_OBJ_INFO(0, image, Phalcon\\Image\\Adapter\\AdapterInterface, 0)
+	ZEND_ARG_OBJ_INFO(0, watermark, Phalcon\\Image\\Adapter\\AdapterInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, offsetX, IS_LONG, 0)
 	ZEND_ARG_TYPE_INFO(0, offsetY, IS_LONG, 0)
 	ZEND_ARG_TYPE_INFO(0, opacity, IS_LONG, 0)
@@ -142,6 +148,7 @@ ZEND_END_ARG_INFO()
 ZEPHIR_INIT_FUNCS(phalcon_image_adapter_imagick_method_entry) {
 	PHP_ME(Phalcon_Image_Adapter_Imagick, __construct, arginfo_phalcon_image_adapter_imagick___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 PHP_ME(Phalcon_Image_Adapter_Imagick, __destruct, arginfo_phalcon_image_adapter_imagick___destruct, ZEND_ACC_PUBLIC|ZEND_ACC_DTOR)
+	PHP_ME(Phalcon_Image_Adapter_Imagick, create, arginfo_phalcon_image_adapter_imagick_create, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Image_Adapter_Imagick, liquidRescale, arginfo_phalcon_image_adapter_imagick_liquidrescale, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Image_Adapter_Imagick, setResourceLimit, arginfo_phalcon_image_adapter_imagick_setresourcelimit, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Image_Adapter_Imagick, processBackground, arginfo_phalcon_image_adapter_imagick_processbackground, ZEND_ACC_PROTECTED)

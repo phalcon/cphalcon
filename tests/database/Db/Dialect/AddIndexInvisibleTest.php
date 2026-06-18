@@ -18,6 +18,7 @@ use Phalcon\Db\Dialect\Postgresql;
 use Phalcon\Db\Dialect\Sqlite;
 use Phalcon\Db\Index;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
 final class AddIndexInvisibleTest extends AbstractDatabaseTestCase
 {
@@ -26,9 +27,8 @@ final class AddIndexInvisibleTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group mysql
      */
+    #[Group('mysql')]
     public function testDbDialectMysqlAddIndexInvisible(): void
     {
         $dialect = new Mysql();
@@ -52,9 +52,8 @@ final class AddIndexInvisibleTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group mysql
      */
+    #[Group('mysql')]
     public function testDbDialectMysqlAddIndexVisibleByDefault(): void
     {
         $dialect = new Mysql();
@@ -70,9 +69,8 @@ final class AddIndexInvisibleTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group pgsql
      */
+    #[Group('pgsql')]
     public function testDbDialectPostgresqlAddIndexIgnoresInvisible(): void
     {
         $dialect = new Postgresql();
@@ -94,9 +92,8 @@ final class AddIndexInvisibleTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group sqlite
      */
+    #[Group('sqlite')]
     public function testDbDialectSqliteAddIndexIgnoresInvisible(): void
     {
         $dialect = new Sqlite();

@@ -15,6 +15,7 @@ namespace Phalcon\Tests\Unit\Mvc\Micro\Collection;
 
 use Phalcon\Mvc\Micro\Collection;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class SetLazyTest extends AbstractUnitTestCase
 {
@@ -31,11 +32,10 @@ class SetLazyTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider booleanProvider
-     *
      * @author       Sid Roberts <https://github.com/SidRoberts>
      * @since        2019-06-08
      */
+    #[DataProvider('booleanProvider')]
     public function testMvcMicroCollectionSetLazy(
         bool $lazy
     ): void {

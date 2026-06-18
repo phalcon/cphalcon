@@ -17,6 +17,7 @@ use Phalcon\Assets\Asset;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Assets\Fake\AssetsTrait;
 use Phalcon\Tests\Unit\Assets\Fake\FakeAssetFileExistsPositive;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 use function supportDir;
 
@@ -25,11 +26,10 @@ final class GetRealTargetPathTest extends AbstractUnitTestCase
     use AssetsTrait;
 
     /**
-     * @dataProvider providerCssJsLocal
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
+    #[DataProvider('providerCssJsLocal')]
     public function testAssetsAssetGetRealTargetPath(
         string $type,
         string $path,
@@ -76,10 +76,6 @@ final class GetRealTargetPathTest extends AbstractUnitTestCase
      */
     public function testAssetsAssetGetRealTargetPath404(): void
     {
-        if (PHP_OS_FAMILY === 'Windows') {
-            $this->markTestSkipped('Need to fix Windows new lines...');
-        }
-
         $file  = 'assets/assets/1198.css';
         $asset = new FakeAssetFileExistsPositive('css', $file);
 

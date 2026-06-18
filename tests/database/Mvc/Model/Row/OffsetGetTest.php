@@ -15,17 +15,17 @@ namespace Phalcon\Tests\Database\Mvc\Model\Row;
 
 use Phalcon\Mvc\Model\Row;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
 final class OffsetGetTest extends AbstractDatabaseTestCase
 {
     /**
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-06-01
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelRowOffsetGet(): void
     {
         $row = new Row();
@@ -46,11 +46,10 @@ final class OffsetGetTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-21
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelRowOffsetGetReturnsNullForNullValuedColumn(): void
     {
         $row = new Row();

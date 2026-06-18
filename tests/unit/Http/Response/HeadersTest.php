@@ -16,6 +16,7 @@ use Phalcon\Http\Response\Headers;
 use Phalcon\Http\Response\HeadersInterface;
 use Phalcon\Tests\Support\Page\Http;
 use Phalcon\Tests\Unit\Http\Helper\AbstractHttpBase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 use function uniqid;
 
@@ -109,12 +110,11 @@ final class HeadersTest extends AbstractHttpBase
     }
 
     /**
-     * @dataProvider statusHeaderProvider
-     *
      * @issue  https://github.com/phalcon/cphalcon/issues/12895
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2017-06-17
      */
+    #[DataProvider('statusHeaderProvider')]
     public function testHttpResponseHeadersGetResponseStatusHeader(
         string $code
     ) {
@@ -240,12 +240,11 @@ final class HeadersTest extends AbstractHttpBase
     }
 
     /**
-     * @dataProvider statusHeaderProvider
-     *
      * @issue  https://github.com/phalcon/cphalcon/issues/12895
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2017-06-17
      */
+    #[DataProvider('statusHeaderProvider')]
     public function testHttpResponseHeadersSetResponseStatusHeader(
         string $code
     ) {

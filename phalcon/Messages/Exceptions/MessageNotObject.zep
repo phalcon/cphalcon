@@ -16,6 +16,6 @@ class MessageNotObject extends Exception
 {
     public function __construct()
     {
-        parent::__construct("The message must be an object");
+        parent::__construct("The message must be an instance of MessageInterface");
     }
 }

@@ -22,10 +22,9 @@ use Phalcon\Tests\Database\Mvc\RecordsTrait;
 use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
-/**
- * @group phql
- */
+#[Group('phql')]
 final class PaginateTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -41,11 +40,9 @@ final class PaginateTest extends AbstractDatabaseTestCase
         (new InvoicesMigration($connection));
     }
 
-    /**
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
-     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testPaginatorAdapterModelPaginate(): void
     {
         /** @var PDO $connection */
@@ -101,11 +98,9 @@ final class PaginateTest extends AbstractDatabaseTestCase
         $this->assertEquals(5, $page->getCurrent());
     }
 
-    /**
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
-     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testPaginatorAdapterModelPaginateBind(): void
     {
         /** @var PDO $connection */
@@ -151,11 +146,9 @@ final class PaginateTest extends AbstractDatabaseTestCase
         $this->assertEquals(1, $page->getCurrent());
     }
 
-    /**
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
-     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testPaginatorAdapterModelPaginateEmpty(): void
     {
         $paginator = new Model(
@@ -183,11 +176,9 @@ final class PaginateTest extends AbstractDatabaseTestCase
         $this->assertEquals(1, $page->getCurrent());
     }
 
-    /**
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
-     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testPaginatorAdapterModelPaginateParametersArrayString(): void
     {
         /** @var PDO $connection */
@@ -224,11 +215,9 @@ final class PaginateTest extends AbstractDatabaseTestCase
         $this->assertEquals(1, $page->getCurrent());
     }
 
-    /**
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
-     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testPaginatorAdapterModelPaginateParametersString(): void
     {
         /** @var PDO $connection */
@@ -268,14 +257,13 @@ final class PaginateTest extends AbstractDatabaseTestCase
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/14639
      *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
-     *
      * @throws Exception
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-03-15
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testPaginatorAdapterModelPaginateView(): void
     {
         $this->setDiService('view');
@@ -319,11 +307,10 @@ final class PaginateTest extends AbstractDatabaseTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2023-12-26
      * @issue  https://github.com/phalcon/cphalcon/issues/16471
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testPaginatorAdapterModelPaginateWithOrder(): void
     {
         /** @var PDO $connection */

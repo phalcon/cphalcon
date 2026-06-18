@@ -438,7 +438,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute)
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_4$$3);
 		ZVAL_STRING(&_4$$3, "Phalcon\\Cache\\CacheInterface");
-		ZEPHIR_CALL_FUNCTION(&_5$$3, "is_a", NULL, 166, &cache, &_4$$3);
+		ZEPHIR_CALL_FUNCTION(&_5$$3, "is_a", NULL, 172, &cache, &_4$$3);
 		zephir_check_call_status();
 		if (UNEXPECTED(!ZEPHIR_IS_TRUE_IDENTICAL(&_5$$3))) {
 			ZEPHIR_INIT_VAR(&_6$$7);
@@ -1389,7 +1389,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, executeInsert)
 				object_init_ex(&insertValue, phalcon_db_rawvalue_ce);
 				ZEPHIR_CALL_METHOD(&_16$$13, &dialect, "getsqlexpression", &_17, 0, &exprValue);
 				zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(NULL, &insertValue, "__construct", &_18, 63, &_16$$13);
+				ZEPHIR_CALL_METHOD(NULL, &insertValue, "__construct", &_18, 65, &_16$$13);
 				zephir_check_call_status();
 				break;
 			} while(0);
@@ -1475,7 +1475,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, executeInsert)
 					object_init_ex(&insertValue, phalcon_db_rawvalue_ce);
 					ZEPHIR_CALL_METHOD(&_31$$22, &dialect, "getsqlexpression", &_32, 0, &exprValue);
 					zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(NULL, &insertValue, "__construct", &_18, 63, &_31$$22);
+					ZEPHIR_CALL_METHOD(NULL, &insertValue, "__construct", &_18, 65, &_31$$22);
 					zephir_check_call_status();
 					break;
 				} while(0);
@@ -2552,7 +2552,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, executeSelect)
 				}
 				ZEPHIR_INIT_VAR(&_133$$105);
 				ZVAL_STRING(&_133$$105, "Phalcon\\Mvc\\Model\\ResultsetInterface");
-				ZEPHIR_CALL_FUNCTION(&_134$$105, "is_subclass_of", NULL, 133, &resultsetClassName, &_133$$105);
+				ZEPHIR_CALL_FUNCTION(&_134$$105, "is_subclass_of", NULL, 136, &resultsetClassName, &_133$$105);
 				zephir_check_call_status();
 				if (UNEXPECTED(!zephir_is_true(&_134$$105))) {
 					ZEPHIR_INIT_VAR(&_135$$107);
@@ -2759,7 +2759,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, executeUpdate)
 				object_init_ex(&updateValue, phalcon_db_rawvalue_ce);
 				ZEPHIR_CALL_METHOD(&_14$$12, &dialect, "getsqlexpression", &_15, 0, &exprValue);
 				zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(NULL, &updateValue, "__construct", &_16, 63, &_14$$12);
+				ZEPHIR_CALL_METHOD(NULL, &updateValue, "__construct", &_16, 65, &_14$$12);
 				zephir_check_call_status();
 				break;
 			} while(0);
@@ -2836,7 +2836,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, executeUpdate)
 					object_init_ex(&updateValue, phalcon_db_rawvalue_ce);
 					ZEPHIR_CALL_METHOD(&_26$$20, &dialect, "getsqlexpression", &_27, 0, &exprValue);
 					zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(NULL, &updateValue, "__construct", &_16, 63, &_26$$20);
+					ZEPHIR_CALL_METHOD(NULL, &updateValue, "__construct", &_16, 65, &_26$$20);
 					zephir_check_call_status();
 					break;
 				} while(0);
@@ -5970,7 +5970,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getSelectColumn)
 				if (!ZEPHIR_IS_FALSE_IDENTICAL(&_7$$5)) {
 					ZEPHIR_CPY_WRT(&_5$$5, &modelName);
 				} else {
-					ZEPHIR_CALL_FUNCTION(&_5$$5, "lcfirst", &_8, 146, &modelName);
+					ZEPHIR_CALL_FUNCTION(&_5$$5, "lcfirst", &_8, 151, &modelName);
 					zephir_check_call_status();
 				}
 				zephir_array_update_string(&sqlColumn, SL("balias"), &_5$$5, PH_COPY | PH_SEPARATE);
@@ -6014,7 +6014,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getSelectColumn)
 					if (!ZEPHIR_IS_FALSE_IDENTICAL(&_15$$7)) {
 						ZEPHIR_CPY_WRT(&_13$$7, &modelName);
 					} else {
-						ZEPHIR_CALL_FUNCTION(&_13$$7, "lcfirst", &_8, 146, &modelName);
+						ZEPHIR_CALL_FUNCTION(&_13$$7, "lcfirst", &_8, 151, &modelName);
 						zephir_check_call_status();
 					}
 					zephir_array_update_string(&_12$$7, SL("balias"), &_13$$7, PH_COPY | PH_SEPARATE);
@@ -6074,7 +6074,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getSelectColumn)
 				if (!ZEPHIR_IS_FALSE_IDENTICAL(&_23$$13)) {
 					ZEPHIR_CPY_WRT(&preparedAlias, &modelName);
 				} else {
-					ZEPHIR_CALL_FUNCTION(&preparedAlias, "lcfirst", &_8, 146, &modelName);
+					ZEPHIR_CALL_FUNCTION(&preparedAlias, "lcfirst", &_8, 151, &modelName);
 					zephir_check_call_status();
 				}
 			} else {

@@ -17,13 +17,12 @@ use Phalcon\Mvc\Model\Query;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 use function sprintf;
 use function substr_count;
 
-/**
- * @group phql
- */
+#[Group('phql')]
 final class SubSelectArrayPlaceholderTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -49,9 +48,8 @@ final class SubSelectArrayPlaceholderTest extends AbstractDatabaseTestCase
      * @issue  https://github.com/phalcon/cphalcon/issues/17004
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group  mysql
      */
+    #[Group('mysql')]
     public function testMvcModelQuerySubSelectArrayPlaceholderRefreshesPlaceholderCount(): void
     {
         $phql = sprintf(

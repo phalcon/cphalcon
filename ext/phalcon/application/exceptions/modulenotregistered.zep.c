@@ -51,7 +51,7 @@ PHP_METHOD(Phalcon_Application_Exceptions_ModuleNotRegistered, __construct)
 	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
 	ZEPHIR_INIT_VAR(&_0);
-	ZEPHIR_CONCAT_SVS(&_0, "Module '", &name_zv, "' is not registered in the application container");
+	ZEPHIR_CONCAT_SVS(&_0, "Module '", &name_zv, "' is not registered in the application");
 	ZEPHIR_CALL_PARENT(NULL, phalcon_application_exceptions_modulenotregistered_ce, getThis(), "__construct", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

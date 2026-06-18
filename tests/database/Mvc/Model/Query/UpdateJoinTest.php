@@ -22,11 +22,9 @@ use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Models\Customers;
 use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
-/**
- *
- * @group phql
- */
+#[Group('phql')]
 final class UpdateJoinTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -64,11 +62,10 @@ final class UpdateJoinTest extends AbstractDatabaseTestCase
      * @issue  https://github.com/phalcon/cphalcon/issues/16984
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-06-06
-     *
-     * @group  mysql
-     * @group  pgsql
-     * @group  sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelQueryUpdateWithJoin(): void
     {
         /** @var ManagerInterface $manager */

@@ -16,6 +16,7 @@ namespace Phalcon\Tests\Database\Mvc\Model\Transaction;
 use Phalcon\Mvc\Model\Transaction;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 final class IsManagedTest extends AbstractDatabaseTestCase
 {
@@ -35,12 +36,11 @@ final class IsManagedTest extends AbstractDatabaseTestCase
     /**
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-06-01
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
-     * @group pgsql
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    #[Group('pgsql')]
     public function testMvcModelTransactionIsManaged(): void
     {
         $transaction = new Transaction(

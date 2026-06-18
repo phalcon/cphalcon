@@ -16,6 +16,7 @@ namespace Phalcon\Tests\Unit\Events\Manager;
 use Phalcon\Events\Exception;
 use Phalcon\Events\Manager;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use stdClass;
 
 final class DetachTest extends AbstractUnitTestCase
@@ -32,12 +33,11 @@ final class DetachTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider booleanProvider
-     *
      * @issue https://github.com/phalcon/cphalcon/issues/12882
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
+    #[DataProvider('booleanProvider')]
     public function testEventsManagerDetach(
         bool $enablePriorities
     ): void {

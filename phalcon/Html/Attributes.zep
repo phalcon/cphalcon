@@ -15,6 +15,7 @@
 namespace Phalcon\Html;
 
 use Phalcon\Html\Attributes\RenderInterface;
+use Phalcon\Html\Escaper\AttributeEscaper;
 use Phalcon\Html\Exceptions\AttributeNotRenderable;
 use Phalcon\Support\Collection;
 
@@ -44,7 +45,7 @@ class Attributes extends Collection implements RenderInterface
      */
     protected function renderAttributes(array attributes) -> string
     {
-        var intersect, key, result, results, value;
+        var escaper, intersect, key, result, results, value;
         array order;
 
         let order = [
@@ -68,6 +69,14 @@ class Attributes extends Collection implements RenderInterface
          */
         unset results["escape"];
 
+        /**
+         * Escape values through the configurable AttributeEscaper so a single
+         * implementation owns attribute escaping. ENT_QUOTES reproduces the
+         * previous hardcoded htmlspecialchars() call byte for byte - the
+         * "utf-8" encoding and double-encode defaults already match.
+         */
+        let escaper = new AttributeEscaper();
+        escaper->setFlags(ENT_QUOTES);
 
         let result = "";
         for key, value in results {
@@ -77,7 +86,7 @@ class Attributes extends Collection implements RenderInterface
                 }
 
                 let result .= key . "=\""
-                . htmlspecialchars(value, ENT_QUOTES, "utf-8", true)
+                . escaper->escape(value)
                 . "\" ";
             }
         }

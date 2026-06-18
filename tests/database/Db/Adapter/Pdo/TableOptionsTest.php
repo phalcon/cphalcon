@@ -16,6 +16,7 @@ namespace Phalcon\Tests\Database\Db\Adapter\Pdo;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 use function env;
 
@@ -34,11 +35,10 @@ final class TableOptionsTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-18
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testDbAdapterPdoTableOptions(): void
     {
         $connection = self::getConnection();

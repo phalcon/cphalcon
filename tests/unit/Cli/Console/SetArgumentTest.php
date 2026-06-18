@@ -21,6 +21,7 @@ use Phalcon\Cli\Router\Exception as RouterException;
 use Phalcon\Di\Exception as DiException;
 use Phalcon\Di\FactoryDefault\Cli as DiFactoryDefault;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class SetArgumentTest extends AbstractUnitTestCase
 {
@@ -258,10 +259,7 @@ final class SetArgumentTest extends AbstractUnitTestCase
         $this->assertSame($expected, $actual);
     }
 
-    /**
-     * @dataProvider getExamplesRouter
-     *
-     */
+    #[DataProvider('getExamplesRouter')]
     public function testCliConsoleSetArgumentRouter(
         array $argument,
         string $taskName,
@@ -306,10 +304,7 @@ final class SetArgumentTest extends AbstractUnitTestCase
         $this->assertSame($expected, $actual);
     }
 
-    /**
-     * @dataProvider getExamplesStrShift
-     *
-     */
+    #[DataProvider('getExamplesStrShift')]
     public function testCliConsoleSetArgumentStrShift(
         bool $str,
         bool $shift,

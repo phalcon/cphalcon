@@ -17,6 +17,7 @@ use Phalcon\Config\Config;
 use Phalcon\Config\Exception;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Traits\ConfigTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class MergeTest extends AbstractUnitTestCase
 {
@@ -171,11 +172,10 @@ final class MergeTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-21
      */
+    #[DataProvider('getExamples')]
     public function testConfigMergeConfigCases(
         array $source,
         array $target,

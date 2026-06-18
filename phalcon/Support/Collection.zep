@@ -13,6 +13,7 @@ namespace Phalcon\Support;
 use ArrayAccess;
 use ArrayIterator;
 use Countable;
+use InvalidArgumentException;
 use IteratorAggregate;
 use JsonSerializable;
 use Phalcon\Support\Collection\CollectionInterface;
@@ -634,22 +635,27 @@ class Collection implements
      * @phpstan-return static<T>
      *
      * @param callable|null $callback
-     * @param int           $order
+     * @param int           $order    `SORT_ASC` (4, default) or `SORT_DESC` (3)
      *
      * @return static
+     *
+     * @throws InvalidArgumentException When a non-callable callback is given.
      */
     public function sort(var callback = null, int order = 4) -> <static>
     {
         var result;
 
-        /**
-         * @todo check the type for callable
-         */
         let result = this->data;
 
         if (null !== callback) {
+            if unlikely true !== is_callable(callback) {
+                throw new InvalidArgumentException(
+                    "The sort callback must be callable or null"
+                );
+            }
+
             uasort(result, callback);
-        } elseif (order === 3) {
+        } elseif (order === SORT_DESC) {
             arsort(result);
         } else {
             asort(result);
@@ -810,11 +816,25 @@ class Collection implements
      */
     protected function setData(string element, mixed value) -> void
     {
-        var key;
+        var key, original;
 
         this->validateType(value);
 
-        let key                  = this->processKey(element);
+        let key = this->processKey(element);
+
+        /**
+         * If the key already exists under a different original casing, evict
+         * the stale entry first so the `data` and `lowerKeys` stores stay
+         * consistent (otherwise the old-cased entry is orphaned).
+         */
+        if isset(this->lowerKeys[key]) {
+            let original = this->lowerKeys[key];
+
+            if original !== element {
+                unset(this->data[original]);
+            }
+        }
+
         let this->data[element]  = value;
         let this->lowerKeys[key] = element;
     }

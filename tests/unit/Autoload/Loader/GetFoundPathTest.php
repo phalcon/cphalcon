@@ -30,10 +30,6 @@ final class GetFoundPathTest extends AbstractUnitTestCase
      */
     public function testAutoloaderLoaderGetFoundPath(): void
     {
-        if (PHP_OS_FAMILY === 'Windows') {
-            $this->markTestSkipped('Need to fix Windows new lines...');
-        }
-
         $loader = new Loader();
         $file   = supportDir('assets/Loader/Example/Functions/FunctionsNoClass.php');
         $loader->addFile($file);

@@ -68,7 +68,7 @@ PHP_METHOD(Phalcon_Time_Clock_FrozenClock, adjust)
 	zend_bool failed = 0, _9;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval modifier_zv, __$false, ex, modified, _0, _1, _2, _3, _4$$4, _5$$3, _6$$5, _7$$6, _8$$6, _10$$7;
+	zval modifier_zv, __$false, ex, modified, priorWarning, _0, _1, _2, _3, _4$$4, _5$$3, _6$$5, _7$$6, _8$$6, _10$$7;
 	zend_string *modifier = NULL;
 	zval *this_ptr = getThis();
 
@@ -76,6 +76,7 @@ PHP_METHOD(Phalcon_Time_Clock_FrozenClock, adjust)
 	ZVAL_BOOL(&__$false, 0);
 	ZVAL_UNDEF(&ex);
 	ZVAL_UNDEF(&modified);
+	ZVAL_UNDEF(&priorWarning);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
@@ -129,19 +130,22 @@ PHP_METHOD(Phalcon_Time_Clock_FrozenClock, adjust)
 			}
 		}
 	} else {
+		ZEPHIR_INIT_VAR(&priorWarning);
+		ZVAL_BOOL(&priorWarning, ZEPHIR_GLOBAL(warning).enable);
 		ZEPHIR_GLOBAL(warning).enable = zend_is_true(&__$false);
 		ZEPHIR_INIT_VAR(&_7$$6);
 		ZEPHIR_INIT_NVAR(&_7$$6);
 		zephir_create_closure_ex(&_7$$6, NULL, phalcon_91__closure_ce, SL("__invoke"));
 		ZVAL_LONG(&_8$$6, 2);
-		ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 231, &_7$$6, &_8$$6);
+		ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 238, &_7$$6, &_8$$6);
 		zephir_check_call_status();
 		zephir_read_property(&_8$$6, this_ptr, ZEND_STRL("now"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_METHOD(&modified, &_8$$6, "modify", NULL, 0, &modifier_zv);
 		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(NULL, "restore_error_handler", NULL, 232);
+		ZEPHIR_CALL_FUNCTION(NULL, "restore_error_handler", NULL, 239);
 		zephir_check_call_status();
 		failed = ZEPHIR_GLOBAL(warning).enable;
+		ZEPHIR_GLOBAL(warning).enable = zend_is_true(&priorWarning);
 	}
 	_9 = failed;
 	if (!(_9)) {
@@ -152,7 +156,7 @@ PHP_METHOD(Phalcon_Time_Clock_FrozenClock, adjust)
 		object_init_ex(&_10$$7, phalcon_time_clock_exceptions_invalidmodifier_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_10$$7, "__construct", NULL, 0, &modifier_zv);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_10$$7, "phalcon/Time/Clock/FrozenClock.zep", 70);
+		zephir_throw_exception_debug(&_10$$7, "phalcon/Time/Clock/FrozenClock.zep", 80);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -181,7 +185,7 @@ PHP_METHOD(Phalcon_Time_Clock_FrozenClock, fromSystemTimezone)
 	object_init_ex(&_0, php_date_get_immutable_ce());
 	ZEPHIR_INIT_VAR(&_1);
 	object_init_ex(&_1, php_date_get_timezone_ce());
-	ZEPHIR_CALL_FUNCTION(&_2, "date_default_timezone_get", NULL, 184);
+	ZEPHIR_CALL_FUNCTION(&_2, "date_default_timezone_get", NULL, 190);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, &_1, "__construct", NULL, 0, &_2);
 	zephir_check_call_status();

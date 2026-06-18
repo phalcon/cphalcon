@@ -18,6 +18,7 @@ use Phalcon\Mvc\ModelInterface;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 final class ConstructTest extends AbstractDatabaseTestCase
 {
@@ -32,11 +33,10 @@ final class ConstructTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelConstruct(): void
     {
         $invoice = new Invoices();

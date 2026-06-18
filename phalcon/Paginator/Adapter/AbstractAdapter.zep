@@ -12,6 +12,7 @@ namespace Phalcon\Paginator\Adapter;
 
 use Phalcon\Paginator\Exception;
 use Phalcon\Paginator\Exceptions\InvalidLimit;
+use Phalcon\Paginator\Exceptions\MissingRequiredParameter;
 use Phalcon\Paginator\Repository;
 use Phalcon\Paginator\RepositoryInterface;
 
@@ -57,11 +58,13 @@ abstract class AbstractAdapter implements AdapterInterface
     {
         let this->config = config;
 
-        if isset config["limit"] {
-            this->setLimit(
-                config["limit"]
-            );
+        if unlikely !isset config["limit"] {
+            throw new MissingRequiredParameter("limit");
         }
+
+        this->setLimit(
+            config["limit"]
+        );
 
         if isset config["page"] {
             this->setCurrentPage(

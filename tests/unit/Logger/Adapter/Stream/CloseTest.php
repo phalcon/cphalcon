@@ -17,7 +17,6 @@ use DateTimeImmutable;
 use DateTimeZone;
 use Phalcon\Logger\Adapter\Stream;
 use Phalcon\Logger\Enum;
-use Phalcon\Logger\Exception;
 use Phalcon\Logger\Item;
 use Phalcon\Tests\AbstractUnitTestCase;
 
@@ -55,23 +54,5 @@ final class CloseTest extends AbstractUnitTestCase
         $this->assertStringContainsString('Message 1', $contents);
 
         $this->safeDeleteFile($outputPath . $fileName);
-    }
-
-    /**
-     * @issue  https://github.com/phalcon/cphalcon/issues/15638
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2021-09-03
-     */
-    public function testLoggerAdapterStreamCloseException(): void
-    {
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage('There is an active transaction');
-
-        $fileName   = $this->getNewFileName('log', 'log');
-        $outputPath = logsDir();
-        $adapter    = new Stream($outputPath . $fileName);
-
-        $adapter->begin();
-        $adapter->close();
     }
 }

@@ -16,6 +16,7 @@ namespace Phalcon\Tests\Unit\Session;
 use Phalcon\Session\Adapter\Noop;
 use Phalcon\Session\Manager;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\BackupGlobals;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 use function session_abort;
@@ -25,6 +26,7 @@ use function session_status;
 
 use const PHP_SESSION_ACTIVE;
 
+#[BackupGlobals(true)]
 final class ManagerTest extends AbstractUnitTestCase
 {
     /**
@@ -60,10 +62,9 @@ final class ManagerTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider providerSessionValues
-     *
      * @since   2021-02-02
      */
+    #[DataProvider('providerSessionValues')]
     #[DataProvider('providerSessionValues')]
     public function testValidateSessionValue(
         string $session,

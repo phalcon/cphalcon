@@ -12,8 +12,10 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/fcall.h"
 #include "kernel/memory.h"
+#include "kernel/operators.h"
+#include "kernel/concat.h"
+#include "kernel/fcall.h"
 #include "kernel/object.h"
 
 
@@ -34,17 +36,37 @@ ZEPHIR_INIT_CLASS(Phalcon_Cli_Router_Exceptions_RouterArgumentsInvalidType)
 
 PHP_METHOD(Phalcon_Cli_Router_Exceptions_RouterArgumentsInvalidType, __construct)
 {
-	zval _0;
+	zval _0$$3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval type_zv, message;
+	zend_string *type = NULL;
 
-	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&type_zv);
+	ZVAL_UNDEF(&message);
+	ZVAL_UNDEF(&_0$$3);
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_STR(type)
+	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-
-	ZEPHIR_INIT_VAR(&_0);
-	ZVAL_STRING(&_0, "Arguments must be an array or string");
-	ZEPHIR_CALL_PARENT(NULL, phalcon_cli_router_exceptions_routerargumentsinvalidtype_ce, getThis(), "__construct", NULL, 0, &_0);
+	if (!type) {
+		type = zend_string_init(ZEND_STRL(""), 0);
+		zephir_memory_observe(&type_zv);
+		ZVAL_STR(&type_zv, type);
+	} else {
+		zephir_memory_observe(&type_zv);
+	ZVAL_STR_COPY(&type_zv, type);
+	}
+	ZEPHIR_INIT_VAR(&message);
+	ZVAL_STRING(&message, "Arguments must be an array or string");
+	if (!ZEPHIR_IS_STRING_IDENTICAL(&type_zv, "")) {
+		ZEPHIR_INIT_VAR(&_0$$3);
+		ZEPHIR_CONCAT_SVS(&_0$$3, ", ", &type_zv, " given");
+		zephir_concat_self(&message, &_0$$3);
+	}
+	ZEPHIR_CALL_PARENT(NULL, phalcon_cli_router_exceptions_routerargumentsinvalidtype_ce, getThis(), "__construct", NULL, 0, &message);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }

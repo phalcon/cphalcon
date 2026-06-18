@@ -937,6 +937,15 @@ class Mysql extends Dialect
     }
 
     /**
+     * MySQL does not support the SQL-standard `ON CONFLICT (...) DO UPDATE`
+     * upsert clause; `onConflictUpdate()` throws.
+     */
+    public function supportsOnConflictUpdate() -> bool
+    {
+        return false;
+    }
+
+    /**
      * Returns a SQL modified with a LOCK IN SHARE MODE clause. The `modifier`
      * argument is accepted for signature parity with the contract but is
      * silently ignored on MySQL - its legacy `LOCK IN SHARE MODE` syntax has

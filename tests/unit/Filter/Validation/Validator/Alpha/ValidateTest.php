@@ -19,6 +19,7 @@ use Phalcon\Filter\Validation\Validator\Alpha;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use stdClass;
 
 final class ValidateTest extends AbstractUnitTestCase
@@ -62,11 +63,10 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider alphaProvider
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2016-06-10
      */
+    #[DataProvider('alphaProvider')]
     public function testFilterValidationValidatorAlphaValidateAlphabeticCharacters(
         ?string $input
     ): void {
@@ -188,11 +188,10 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider nonAlphaProvider
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2016-06-10
      */
+    #[DataProvider('nonAlphaProvider')]
     public function testFilterValidationValidatorAlphaValidateNonAlphabeticCharacters(
         int | string $input
     ): void {
@@ -228,11 +227,10 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider nonLatinCharactersProvider
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2016-06-10
      */
+    #[DataProvider('nonLatinCharactersProvider')]
     public function testFilterValidationValidatorAlphaValidateNonLatinCharacters(
         string $input
     ): void {

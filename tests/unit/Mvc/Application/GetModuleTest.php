@@ -66,7 +66,7 @@ class GetModuleTest extends AbstractUnitTestCase
 
         $this->expectException(Exception::class);
         $this->expectExceptionMessage(
-            "Module 'foo' is not registered in the application container"
+            "Module 'foo' is not registered in the application"
         );
 
         $application->getModule('foo');

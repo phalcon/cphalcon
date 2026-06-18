@@ -37,13 +37,12 @@ use Phalcon\Tests\Support\Models\InvoicesValidationFails;
 use Phalcon\Tests\Support\Models\OnlyIdentity;
 use Phalcon\Tests\Support\Models\Sources;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 
 use function uniqid;
 
-/**
- *
- * @group phql
- */
+#[Group('phql')]
 final class SaveTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -66,11 +65,10 @@ final class SaveTest extends AbstractDatabaseTestCase
      * @issue  https://github.com/phalcon/cphalcon/issues/16395
      * @author Phalcon Team <team@phalcon.io>
      * @since  2023-08-09
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function infiniteSaveLoop(): void
     {
 
@@ -93,11 +91,10 @@ final class SaveTest extends AbstractDatabaseTestCase
      * @issue  https://github.com/phalcon/phalcon/issues/156
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-04
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelSaveOnlyIdentityColumn(): void
     {
         /** @var PDO $connection */
@@ -123,11 +120,10 @@ final class SaveTest extends AbstractDatabaseTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-04-30
      * @since  2019-05-10
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelSave(): void
     {
 
@@ -194,11 +190,10 @@ final class SaveTest extends AbstractDatabaseTestCase
     /**
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2019-04-26
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelSaveAfterFetchingRelated(): void
     {
 
@@ -238,11 +233,10 @@ final class SaveTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-10-09
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelSaveAfterSettingEmptyRelated(): void
     {
 
@@ -272,11 +266,10 @@ final class SaveTest extends AbstractDatabaseTestCase
     /**
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2019-04-26
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelSaveAfterUsingRelatedGetters(): void
     {
 
@@ -316,11 +309,10 @@ final class SaveTest extends AbstractDatabaseTestCase
     /**
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2019-05-17
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelSaveAfterWithoutDefaultValues(): void
     {
 
@@ -360,11 +352,10 @@ final class SaveTest extends AbstractDatabaseTestCase
 
     /**
      * @since  2019-04-28
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelSaveCircularRelation(): void
     {
 
@@ -406,10 +397,10 @@ final class SaveTest extends AbstractDatabaseTestCase
      * @since  2026-04-21
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/15554
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelSaveMultipleChangedRelationValues(): void
     {
         /** @var PDO $connection */
@@ -439,10 +430,10 @@ final class SaveTest extends AbstractDatabaseTestCase
      * @since  2026-05-02
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/16222
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelSaveBelongsToUpdatesExistingParent(): void
     {
         /** @var PDO $connection */
@@ -476,10 +467,10 @@ final class SaveTest extends AbstractDatabaseTestCase
      * @since  2026-04-30
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/16611
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelSaveNullRelatedAfterCallingGetter(): void
     {
         /** @var PDO $connection */
@@ -513,10 +504,10 @@ final class SaveTest extends AbstractDatabaseTestCase
      * @since  2026-04-28
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/16000
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelSaveDoesNotSaveUnmodifiedHasOneRelation(): void
     {
         /** @var PDO $connection */
@@ -553,11 +544,10 @@ final class SaveTest extends AbstractDatabaseTestCase
      * @issue  https://github.com/phalcon/cphalcon/issues/11922
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-11-16
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelSaveWithPropertySource(): void
     {
 
@@ -607,11 +597,10 @@ final class SaveTest extends AbstractDatabaseTestCase
     /**
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2020-11-04
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelSaveWithRelatedManyAndBelongsRecordsProperty(): void
     {
 
@@ -656,11 +645,10 @@ final class SaveTest extends AbstractDatabaseTestCase
     /**
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2019-04-30
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelSaveWithRelatedRecords(): void
     {
 
@@ -700,11 +688,10 @@ final class SaveTest extends AbstractDatabaseTestCase
     /**
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2020-10-31
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelSaveWithRelatedRecordsProperty(): void
     {
 
@@ -749,9 +736,8 @@ final class SaveTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-11-16
-     *
-     * @group mysql
      */
+    #[Group('mysql')]
     public function testMvcModelSaveWithSchema(): void
     {
 
@@ -779,15 +765,13 @@ final class SaveTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * @dataProvider tinyintProvider
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2019-08-02
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    #[DataProvider('tinyintProvider')]
     public function testMvcModelSaveWithTinyInt(string $value): void
     {
 
@@ -815,11 +799,10 @@ final class SaveTest extends AbstractDatabaseTestCase
      * @issue  https://github.com/phalcon/cphalcon/issues/16566
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-30
-     *
-     * @group  mysql
-     * @group  pgsql
-     * @group  sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelSaveClearsReusableObjects(): void
     {
         $connection        = self::getConnection();

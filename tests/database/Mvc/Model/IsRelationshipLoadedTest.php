@@ -23,11 +23,9 @@ use Phalcon\Tests\Support\Models\AlbumORama\Albums;
 use Phalcon\Tests\Support\Models\AlbumORama\Artists;
 use Phalcon\Tests\Support\Models\AlbumORama\Songs;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
-/**
- *
- * @group phql
- */
+#[Group('phql')]
 final class IsRelationshipLoadedTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -62,11 +60,10 @@ final class IsRelationshipLoadedTest extends AbstractDatabaseTestCase
     /**
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2019-04-26
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelIsRelationshipLoadedViaUnderscoreGet(): void
     {
         /** @var Albums $album */
@@ -98,11 +95,10 @@ final class IsRelationshipLoadedTest extends AbstractDatabaseTestCase
     /**
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2019-04-26
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelIsRelationshipLoadedViaUnderscoreSet(): void
     {
         /** @var Albums $album */
@@ -135,11 +131,10 @@ final class IsRelationshipLoadedTest extends AbstractDatabaseTestCase
     /**
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2019-04-26
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelIsRelationshipLoadedViaCallGetters(): void
     {
         /** @var Albums $album */
@@ -171,11 +166,10 @@ final class IsRelationshipLoadedTest extends AbstractDatabaseTestCase
     /**
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2019-04-26
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelIsRelationshipLoadedViaGetRelated(): void
     {
         /** @var Albums $album */

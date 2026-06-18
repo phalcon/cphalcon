@@ -68,7 +68,67 @@ class Settings
             return localOverrides[key];
         }
 
-        // Fall back to the C-level global for each known key
+        // Fall back to the C-level global (null for unknown keys)
+        return self::readGlobal(key);
+    }
+
+    /**
+     * Overrides a setting at the PHP level.
+     *
+     * Does NOT call globals_set(), so the C-level struct is not modified and
+     * no other project sharing this PHP process is affected.
+     *
+     * Unknown keys are silently ignored.
+     *
+     * @param string $key
+     * @param mixed  $value
+     */
+    public static function set(string key, var value) -> void
+    {
+        var localOverrides;
+
+        /**
+         * Silently ignore unknown keys. A known key always resolves to a
+         * bool/int through readGlobal(), so a null result means the key is
+         * not part of the whitelist.
+         */
+        if null === self::readGlobal(key) {
+            return;
+        }
+
+        let localOverrides = self::overrides;
+
+        if empty localOverrides {
+            let localOverrides = [];
+        }
+
+        let localOverrides[key] = value;
+        let self::overrides     = localOverrides;
+    }
+
+    /**
+     * Clears all PHP-level overrides, restoring get() to return globals_get()
+     * fallback values (as configured in php.ini or .htaccess).
+     */
+    public static function reset() -> void
+    {
+        let self::overrides = [];
+    }
+
+    /**
+     * The single authoritative whitelist. Reads a known setting from its
+     * C-level global, applying the per-key cast, and returns null for any
+     * unknown key. Both get() and set() consult this method so the list of
+     * valid settings lives in one place.
+     *
+     * globals_get() requires a string literal, so each key is read
+     * explicitly rather than by a variable lookup.
+     *
+     * @param string $key
+     * @return mixed
+     */
+    private static function readGlobal(string key) -> mixed
+    {
         switch key {
             case "db.escape_identifiers":
                 return (bool) globals_get("db.escape_identifiers");
@@ -94,6 +154,9 @@ class Settings
             case "orm.disable_assign_setters":
                 return (bool) globals_get("orm.disable_assign_setters");
 
+            case "orm.dynamic_update":
+                return (bool) globals_get("orm.dynamic_update");
+
             case "orm.enable_implicit_joins":
                 return (bool) globals_get("orm.enable_implicit_joins");
 
@@ -103,11 +166,11 @@ class Settings
             case "orm.events":
                 return (bool) globals_get("orm.events");
 
-            case "orm.exception_on_failed_save":
-                return (bool) globals_get("orm.exception_on_failed_save");
-
             case "orm.exception_on_failed_metadata_save":
                 return (bool) globals_get("orm.exception_on_failed_metadata_save");
+
+            case "orm.exception_on_failed_save":
+                return (bool) globals_get("orm.exception_on_failed_save");
 
             case "orm.ignore_unknown_columns":
                 return (bool) globals_get("orm.ignore_unknown_columns");
@@ -129,73 +192,9 @@ class Settings
 
             case "orm.virtual_foreign_keys":
                 return (bool) globals_get("orm.virtual_foreign_keys");
-
-            case "orm.dynamic_update":
-                return (bool) globals_get("orm.dynamic_update");
         }
 
         return null;
-    }
-
-    /**
-     * Overrides a setting at the PHP level.
-     *
-     * Does NOT call globals_set(), so the C-level struct is not modified and
-     * no other project sharing this PHP process is affected.
-     *
-     * Unknown keys are silently ignored.
-     *
-     * @param string $key
-     * @param mixed  $value
-     */
-    public static function set(string key, var value) -> void
-    {
-        var localOverrides;
-
-        let localOverrides = self::overrides;
-
-        if empty localOverrides {
-            let localOverrides = [];
-        }
-
-        switch key {
-            case "db.escape_identifiers":
-            case "db.force_casting":
-            case "form.strict_entity_property_check":
-            case "orm.case_insensitive_column_map":
-            case "orm.cast_last_insert_id_to_int":
-            case "orm.cast_on_hydrate":
-            case "orm.column_renaming":
-            case "orm.disable_assign_setters":
-            case "orm.enable_implicit_joins":
-            case "orm.enable_literals":
-            case "orm.events":
-            case "orm.exception_on_failed_save":
-            case "orm.exception_on_failed_metadata_save":
-            case "orm.ignore_unknown_columns":
-            case "orm.late_state_binding":
-            case "orm.not_null_validations":
-            case "orm.resultset_empty_left_join_model":
-            case "orm.resultset_prefetch_records":
-            case "orm.update_snapshot_on_save":
-            case "orm.virtual_foreign_keys":
-            case "orm.dynamic_update":
-                let localOverrides[key] = value;
-                let self::overrides = localOverrides;
-                break;
-
-            default:
-                break;
-        }
-    }
-
-    /**
-     * Clears all PHP-level overrides, restoring get() to return globals_get()
-     * fallback values (as configured in php.ini or .htaccess).
-     */
-    public static function reset() -> void
-    {
-        let self::overrides = [];
     }
 }
 

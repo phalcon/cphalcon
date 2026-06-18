@@ -19,6 +19,7 @@ use Phalcon\Db\Dialect\Sqlite;
 use Phalcon\Db\Index;
 use Phalcon\Db\RawValue;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
 final class AddIndexFunctionalTest extends AbstractDatabaseTestCase
 {
@@ -27,9 +28,8 @@ final class AddIndexFunctionalTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group mysql
      */
+    #[Group('mysql')]
     public function testDbDialectMysqlAddIndexFunctional(): void
     {
         $dialect = new Mysql();
@@ -52,9 +52,8 @@ final class AddIndexFunctionalTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group mysql
      */
+    #[Group('mysql')]
     public function testDbDialectMysqlAddIndexMixedColumnsAndExpression(): void
     {
         $dialect = new Mysql();
@@ -81,9 +80,8 @@ final class AddIndexFunctionalTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group pgsql
      */
+    #[Group('pgsql')]
     public function testDbDialectPostgresqlAddIndexFunctional(): void
     {
         $dialect = new Postgresql();
@@ -105,9 +103,8 @@ final class AddIndexFunctionalTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group sqlite
      */
+    #[Group('sqlite')]
     public function testDbDialectSqliteAddIndexFunctional(): void
     {
         $dialect = new Sqlite();
@@ -129,9 +126,8 @@ final class AddIndexFunctionalTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group mysql
      */
+    #[Group('mysql')]
     public function testDbDialectMysqlAddIndexFunctionalWithDirection(): void
     {
         $dialect = new Mysql();

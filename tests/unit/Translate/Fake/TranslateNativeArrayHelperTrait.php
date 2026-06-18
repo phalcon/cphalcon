@@ -15,6 +15,7 @@ namespace Phalcon\Tests\Unit\Translate\Fake;
 
 use Phalcon\Translate\Adapter\NativeArray;
 use Phalcon\Translate\InterpolatorFactory;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 trait TranslateNativeArrayHelperTrait
 {
@@ -70,11 +71,10 @@ trait TranslateNativeArrayHelperTrait
     }
 
     /**
-     * @dataProvider getQueryProvider
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
+    #[DataProvider('getQueryProvider')]
     public function testTranslateAdapterNativearrayQuery(string $code, array $tests): void
     {
 
@@ -99,11 +99,10 @@ trait TranslateNativeArrayHelperTrait
     abstract protected function func(): string;
 
     /**
-     * @dataProvider getQueryProvider
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
+    #[DataProvider('getQueryProvider')]
     public function testTranslateAdapterNativearrayVariableSubstitutionNoVariables(string $code, array $tests): void
     {
 
@@ -117,10 +116,7 @@ trait TranslateNativeArrayHelperTrait
         }
     }
 
-    /**
-     * @dataProvider getQueryOneVariable
-     *
-     */
+    #[DataProvider('getQueryOneVariable')]
     public function testTranslateAdapterNativearrayVariableSubstitutionOneVariable(string $code, array $tests): void
     {
 
@@ -134,11 +130,10 @@ trait TranslateNativeArrayHelperTrait
     }
 
     /**
-     * @dataProvider getQueryTwoVariables
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
+    #[DataProvider('getQueryTwoVariables')]
     public function testTranslateAdapterNativearrayVariableSubstitutionTwoVariable(string $code, array $tests): void
     {
 

@@ -12,12 +12,10 @@ namespace Phalcon\Cli;
 
 use Closure;
 use Phalcon\Application\AbstractApplication;
-use Phalcon\Cli\Console\Exception;
 use Phalcon\Cli\Console\Exceptions\ContainerRequired;
 use Phalcon\Cli\Console\Exceptions\InvalidModuleDefinition;
 use Phalcon\Cli\Console\Exceptions\ModuleDefinitionPathNotFound;
 use Phalcon\Cli\Router\Route;
-use Phalcon\Di\DiInterface;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Mvc\ModuleDefinitionInterface;
 
@@ -27,7 +25,7 @@ use Phalcon\Mvc\ModuleDefinitionInterface;
 class Console extends AbstractApplication
 {
     /**
-     * @var array
+     * @var array|string
      */
     protected arguments = [];
 
@@ -91,7 +89,10 @@ class Console extends AbstractApplication
              * A module definition must be an array or an object
              */
             if unlikely (typeof module !== "array" && typeof module !== "object") {
-                throw new InvalidModuleDefinition();
+                throw new InvalidModuleDefinition(
+                    moduleName,
+                    "The module definition must be an array or an object"
+                );
             }
 
             /**
@@ -132,7 +133,10 @@ class Console extends AbstractApplication
                  * A module definition object, can be a Closure instance
                  */
                 if unlikely !(module instanceof Closure) {
-                    throw new InvalidModuleDefinition();
+                    throw new InvalidModuleDefinition(
+                        moduleName,
+                        "The module definition object must be a Closure"
+                    );
                 }
 
                 let moduleObject = call_user_func_array(
@@ -143,6 +147,13 @@ class Console extends AbstractApplication
                 );
             }
 
+            /**
+             * The "afterStartModule" event is fired once the module has
+             * started. Unlike Phalcon\Mvc\Application - where the return value
+             * is a notification only - Console honors a `false` return and
+             * aborts handling. This divergence is retained for backward
+             * compatibility and is unified in the next major version.
+             */
             if this->eventsManager !== null {
                 if this->eventsManager->fire("console:afterStartModule", this, moduleObject) === false {
                     return false;

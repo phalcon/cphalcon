@@ -17,6 +17,7 @@ use Phalcon\Image\Adapter\Imagick;
 use Phalcon\Image\Exception;
 use Phalcon\Image\ImageFactory;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 
 use function supportDir;
 use function uniqid;
@@ -27,10 +28,9 @@ final class NewInstanceTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-05-18
      */
+    #[RequiresPhpExtension('imagick')]
     public function testImageImageFactoryNewInstance(): void
     {
-        $this->checkExtensionIsLoaded('imagick');
-
         $factory = new ImageFactory();
         $file    = supportDir('assets/images/example-jpg.jpg');
         $file    = str_replace("/", DIRECTORY_SEPARATOR, $file);
@@ -50,10 +50,9 @@ final class NewInstanceTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2022-08-02
      */
+    #[RequiresPhpExtension('imagick')]
     public function testImageImageFactoryNewInstanceException(): void
     {
-        $this->checkExtensionIsLoaded('imagick');
-
         $name = uniqid('service-');
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('Service ' . $name . ' is not registered');

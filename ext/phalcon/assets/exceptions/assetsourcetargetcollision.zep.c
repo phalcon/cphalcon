@@ -51,7 +51,7 @@ PHP_METHOD(Phalcon_Assets_Exceptions_AssetSourceTargetCollision, __construct)
 	zephir_memory_observe(&path_zv);
 	ZVAL_STR_COPY(&path_zv, path);
 	ZEPHIR_INIT_VAR(&_0);
-	ZEPHIR_CONCAT_SVS(&_0, "Asset '", &path_zv, "' have the same source and target paths");
+	ZEPHIR_CONCAT_SVS(&_0, "Asset '", &path_zv, "' has the same source and target paths");
 	ZEPHIR_CALL_PARENT(NULL, phalcon_assets_exceptions_assetsourcetargetcollision_ce, getThis(), "__construct", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

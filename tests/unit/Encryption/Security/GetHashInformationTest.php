@@ -15,6 +15,7 @@ namespace Phalcon\Tests\Unit\Encryption\Security;
 
 use Phalcon\Encryption\Security;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 use const PASSWORD_ARGON2_DEFAULT_MEMORY_COST;
 use const PASSWORD_ARGON2_DEFAULT_THREADS;
@@ -149,11 +150,10 @@ final class GetHashInformationTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
+    #[DataProvider('getExamples')]
     public function testEncryptionSecurityGetHashInformation(
         int $hash,
         array $expected

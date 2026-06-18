@@ -362,7 +362,7 @@ PHP_METHOD(Phalcon_Mvc_Url, get)
 		ZVAL_STRING(&_26$$18, "#(?<!:)//+#");
 		ZEPHIR_INIT_VAR(&_27$$18);
 		ZVAL_STRING(&_27$$18, "/");
-		ZEPHIR_CALL_FUNCTION(uri, "preg_replace", NULL, 78, &_26$$18, &_27$$18, &_25$$18);
+		ZEPHIR_CALL_FUNCTION(uri, "preg_replace", NULL, 81, &_26$$18, &_27$$18, &_25$$18);
 		zephir_check_call_status();
 	}
 	if (zephir_is_true(arguments)) {

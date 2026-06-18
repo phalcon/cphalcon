@@ -15,6 +15,7 @@ namespace Phalcon\Tests\Database\Db\Reference;
 
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Database\Db\Fake\DialectTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 final class GetNameTest extends AbstractDatabaseTestCase
 {
@@ -25,10 +26,10 @@ final class GetNameTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testDbReferenceGetName(): void
     {
         $references = $this->getReferences();

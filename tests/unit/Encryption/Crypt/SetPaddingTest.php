@@ -17,6 +17,7 @@ use Phalcon\Encryption\Crypt;
 use Phalcon\Encryption\Crypt\Exception\Exception;
 use Phalcon\Encryption\Crypt\Exception\Mismatch;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class SetPaddingTest extends AbstractUnitTestCase
 {
@@ -59,11 +60,10 @@ final class SetPaddingTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-18
      */
+    #[DataProvider('getExamples')]
     public function testEncryptionCryptSetPadding(
         string $cipher,
         int $padding,

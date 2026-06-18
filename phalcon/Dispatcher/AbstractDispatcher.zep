@@ -26,6 +26,31 @@ use Phalcon\Support\Collection;
  * This is the base class for Phalcon\Mvc\Dispatcher and Phalcon\Cli\Dispatcher.
  * This class can't be instantiated directly, you can use it to create your own
  * dispatchers.
+ *
+ * ## Error protocol
+ *
+ * Subclasses (including third-party ones) MUST implement the two abstract
+ * error hooks {@see throwDispatchException()} and {@see handleException()}.
+ * The dispatch loop calls them on every error/exception path; a subclass that
+ * omits them cannot be loaded.
+ *
+ * ## Hook channels
+ *
+ * A single lifecycle point can be intercepted through three independent
+ * channels. For any given point they run in this order:
+ *
+ * 1. **Events-manager listener** — e.g. `dispatch:beforeExecuteRoute`. A
+ *    listener returning `false` cancels; calling `forward()` re-enters the
+ *    loop; throwing routes through {@see handleException()}.
+ * 2. **Duck-typed handler method** — e.g. a `beforeExecuteRoute()` method on
+ *    the controller/task itself (presence is cached per class). Same
+ *    `false` / `forward()` cancellation semantics as the event.
+ * 3. **`dispatch:beforeCallAction` observer** — fired by
+ *    {@see callActionMethod()} with a `Phalcon\Support\Collection` carrying
+ *    the mutable keys `handler`, `action` and `params`. Listeners may rewrite
+ *    those keys to change *what* gets invoked; the substituted callable is
+ *    re-validated before the call. `dispatch:afterCallAction` receives the
+ *    same Collection plus a `result` key.
  */
 abstract class AbstractDispatcher extends AbstractInjectionAware implements DispatcherInterface, EventsAwareInterface
 {
@@ -168,14 +193,11 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
         let altParams = params;
 
         if this->eventsManager !== null && this->eventsManager instanceof ManagerInterface {
-            let observer = <Collection> this->getDi()->get(
-                "Phalcon\Support\Collection",
-                [[
-                    "handler": handler,
-                    "action": actionMethod,
-                    "params": params
-                ]]
-            );
+            let observer = new Collection([
+                "handler": handler,
+                "action": actionMethod,
+                "params": params
+            ]);
 
             this->eventsManager->fire(
                 "dispatch:beforeCallAction",
@@ -186,6 +208,24 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
             let altHandler = observer->get("handler");
             let altAction = observer->get("action");
             let altParams = observer->get("params", [], "array");
+
+            /**
+             * The `dispatch:beforeCallAction` observer may replace the handler
+             * and/or the action (see the hook-channel notes on this class). The
+             * loop's own `is_callable()` check ran against the *original* pair,
+             * so re-validate the (possibly mutated) callable here. A substituted,
+             * non-existent target then fails through the dispatcher's own
+             * EXCEPTION_ACTION_NOT_FOUND channel instead of producing a raw
+             * call_user_func_array() fatal.
+             */
+            if unlikely !is_callable([altHandler, altAction]) {
+                this->throwDispatchException(
+                    "Action '" . this->actionName . "' was not found on handler '" . this->handlerName . "'",
+                    PhalconException::EXCEPTION_ACTION_NOT_FOUND
+                );
+
+                return false;
+            }
         }
 
         let result = call_user_func_array(
@@ -230,7 +270,7 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
         let container = <DiInterface> this->container;
 
         if container === null {
-            this->{"throwDispatchException"}(
+            this->throwDispatchException(
                 "A dependency injection container is required to access related dispatching services",
                 PhalconException::EXCEPTION_NO_DI
             );
@@ -266,7 +306,7 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
                  * handled inside the dispatch loop.
                  */
 
-                let status = this->{"handleException"}(e);
+                let status = this->handleException(e);
 
                 if this->finished !== false {
                     // No forwarding
@@ -292,7 +332,7 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
 
             // Throw an exception after 256 consecutive forwards
             if unlikely numberDispatches == 256 {
-                this->{"throwDispatchException"}(
+                this->throwDispatchException(
                     "Dispatcher has detected a cyclic routing causing stability problems",
                     PhalconException::EXCEPTION_CYCLIC_ROUTING
                 );
@@ -311,7 +351,7 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
                         continue;
                     }
                 } catch Exception, e {
-                    if this->{"handleException"}(e) === false || this->finished === false {
+                    if this->handleException(e) === false || this->finished === false {
                         continue;
                     }
 
@@ -336,7 +376,7 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
 
             // If the service can be loaded we throw an exception
             if !hasService {
-                let status = this->{"throwDispatchException"}(
+                let status = this->throwDispatchException(
                     handlerClass . " handler class cannot be loaded",
                     PhalconException::EXCEPTION_HANDLER_NOT_FOUND
                 );
@@ -352,7 +392,7 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
 
             // Handlers must be only objects
             if unlikely typeof handler !== "object" {
-                let status = this->{"throwDispatchException"}(
+                let status = this->throwDispatchException(
                     "Invalid handler returned from the services container",
                     PhalconException::EXCEPTION_INVALID_HANDLER
                 );
@@ -397,7 +437,7 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
                 /**
                  * An invalid parameter variable was passed throw an exception
                  */
-                let status = this->{"throwDispatchException"}(
+                let status = this->throwDispatchException(
                     "Action parameters must be an Array",
                     PhalconException::EXCEPTION_INVALID_PARAMS
                 );
@@ -427,7 +467,7 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
                  * Try to throw an exception when an action isn't defined on the
                  * object
                  */
-                let status = this->{"throwDispatchException"}(
+                let status = this->throwDispatchException(
                     "Action '" . actionName . "' was not found on handler '" . handlerName . "'",
                     PhalconException::EXCEPTION_ACTION_NOT_FOUND
                 );
@@ -459,7 +499,7 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
                         continue;
                     }
                 } catch Exception, e {
-                    if this->{"handleException"}(e) === false || this->finished === false {
+                    if this->handleException(e) === false || this->finished === false {
                         container->remove(handlerClass);
 
                         continue;
@@ -478,7 +518,7 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
                         continue;
                     }
                 } catch Exception, e {
-                    if this->{"handleException"}(e) === false || this->finished === false {
+                    if this->handleException(e) === false || this->finished === false {
                         container->remove(handlerClass);
 
                         continue;
@@ -496,12 +536,14 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
              *       poor; however, the intent is for a more global "constructor
              *       is ready to go" or similarly "__onConstruct()" methodology.
              *
-             * Note: In Phalcon 4.0, the `initialize()` and
-             * `dispatch:afterInitialize` event will be handled prior to the
+             * Note (historical): the `initialize()` call and the
+             * `dispatch:afterInitialize` event ideally would run *before* the
              * `beforeExecuteRoute` event/method blocks. This was a bug in the
-             * original design that was not able to change due to widespread
-             * implementation. With proper documentation change and blog posts
-             * for 4.0, this change will happen.
+             * original design that could not be changed due to widespread
+             * implementation. The reordering was once slated for 4.0 but never
+             * shipped; it remains deferred to a future major version, where the
+             * BC break is acceptable and the container-eviction workaround below
+             * can be removed along with it.
              *
              * @see https://github.com/phalcon/cphalcon/pull/13112
              */
@@ -522,7 +564,7 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
                          * should not call "throwDispatchException" but instead
                          * throw a normal Exception.
                          */
-                        if this->{"handleException"}(e) === false || this->finished === false {
+                        if this->handleException(e) === false || this->finished === false {
                             continue;
                         }
 
@@ -550,7 +592,7 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
                             continue;
                         }
                     } catch Exception, e {
-                        if this->{"handleException"}(e) === false || this->finished === false {
+                        if this->handleException(e) === false || this->finished === false {
                             continue;
                         }
 
@@ -573,6 +615,16 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
 
             /**
              * Calling afterBinding
+             *
+             * Note: Unlike every other lifecycle hook, the `afterBinding` event
+             * and method blocks deliberately have no try/catch. Exceptions
+             * raised here are intended to bypass `handleException()` (and the
+             * `dispatch:beforeException` channel) and bubble straight up: at
+             * this point binding has already mutated the parameters and the
+             * action is about to run, so swallowing/forwarding from a binding
+             * listener is intentionally not supported. The only honored signals
+             * are returning `false` (cancel) and `forward()` (`finished` flips
+             * to `false`). This asymmetry is by design, not an oversight.
              */
             if hasEventsManager {
                 if eventsManager->fire("dispatch:afterBinding", this) === false {
@@ -622,7 +674,7 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
                     continue;
                 }
             } catch Exception, e {
-                if this->{"handleException"}(e) === false || this->finished === false {
+                if this->handleException(e) === false || this->finished === false {
                     continue;
                 }
 
@@ -638,7 +690,7 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
                         continue;
                     }
                 } catch Exception, e {
-                    if this->{"handleException"}(e) === false || this->finished === false {
+                    if this->handleException(e) === false || this->finished === false {
                         continue;
                     }
 
@@ -655,7 +707,7 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
                         continue;
                     }
                 } catch Exception, e {
-                    if this->{"handleException"}(e) === false || this->finished === false {
+                    if this->handleException(e) === false || this->finished === false {
                         continue;
                     }
 
@@ -672,7 +724,7 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
                      * Still check for finished here as we want to prioritize
                      * `forwarding()` calls
                      */
-                    if this->{"handleException"}(e) === false || this->finished === false {
+                    if this->handleException(e) === false || this->finished === false {
                         continue;
                     }
 
@@ -688,7 +740,7 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
                 eventsManager->fire("dispatch:afterDispatchLoop", this);
             } catch Exception, e {
                 // Exception occurred in afterDispatchLoop.
-                if this->{"handleException"}(e) === false {
+                if this->handleException(e) === false {
                     return false;
                 }
 
@@ -877,7 +929,13 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
      * @param  mixed defaultValue
      * @return mixed
      *
-     * @todo remove this in future versions
+     * @deprecated Use getParameter() instead
+     *
+     * Note: The interface declares `getParam(param, filters = null)` without the
+     * `defaultValue` argument, so code typed against `DispatcherInterface`
+     * cannot use the default-value feature. This signature drift is intentional
+     * for now; the interface and implementation will be aligned in the next
+     * major version.
      */
     public function getParam(var param, filters = null, defaultValue = null) -> var
     {
@@ -907,7 +965,7 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
         }
 
         if this->container === null {
-            this->{"throwDispatchException"}(
+            this->throwDispatchException(
                 "A dependency injection container is required to access the 'filter' service",
                 PhalconException::EXCEPTION_NO_DI
             );
@@ -921,7 +979,7 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
     /**
      * Gets action params
      *
-     * @todo remove this in future versions
+     * @deprecated Use getParameters() instead
      */
     public function getParams() -> array
     {
@@ -937,8 +995,33 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
     }
 
     /**
+     * Gets previous dispatched action name
+     */
+    public function getPreviousActionName() -> string
+    {
+        return this->previousActionName;
+    }
+
+    /**
+     * Gets previous dispatched handler name
+     */
+    public function getPreviousHandlerName() -> string
+    {
+        return this->previousHandlerName;
+    }
+
+    /**
+     * Gets previous dispatched namespace name
+     */
+    public function getPreviousNamespaceName() -> string
+    {
+        return this->previousNamespaceName;
+    }
+
+    /**
      * Check if a param exists
-     * @todo deprecate this in the future
+     *
+     * @deprecated Use hasParameter() instead
      */
     public function hasParam(var param) -> bool
     {
@@ -1024,7 +1107,8 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
 
     /**
      * Set a param by its name or numeric index
-     * @todo deprecate this in the future
+     *
+     * @deprecated Use setParameter() instead
      */
     public function setParam(var param, var value) -> void
     {
@@ -1041,7 +1125,8 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
 
     /**
      * Sets action params to be dispatched
-     * @todo deprecate this in the future
+     *
+     * @deprecated Use setParameters() instead
      */
     public function setParams(array params) -> void
     {
@@ -1160,6 +1245,23 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
     }
 
     /**
+     * Handles a user exception triggered inside the dispatch loop.
+     *
+     * Subclasses implement the namespace-specific behavior (typically firing
+     * the `dispatch:beforeException` event so listeners may forward or swallow
+     * the exception).
+     *
+     * @param \Exception exception
+     *
+     * @return mixed Return `false` to signal that the exception was handled
+     *               (swallowed) and the current loop iteration should stop.
+     *               Any other return value (including null) lets the caller
+     *               bubble the exception, unless a forward was requested
+     *               (`finished === false`).
+     */
+    abstract protected function handleException(<\Exception> exception);
+
+    /**
      * Set empty properties to their defaults (where defaults are available)
      */
     protected function resolveEmptyProperties() -> void
@@ -1179,6 +1281,20 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
             let this->actionName = this->defaultAction;
         }
     }
+
+    /**
+     * Throws an internal dispatch exception.
+     *
+     * Subclasses build the namespace-specific exception and route it through
+     * {@see handleException()} before throwing it when it was not handled.
+     *
+     * @param string message
+     * @param int    exceptionCode
+     *
+     * @return mixed Returns `false` when {@see handleException()} swallowed the
+     *               exception; otherwise the method throws and does not return.
+     */
+    abstract protected function throwDispatchException(string message, int exceptionCode = 0);
 
     protected function toCamelCase(string input) -> string
     {

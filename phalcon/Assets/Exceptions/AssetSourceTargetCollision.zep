@@ -17,7 +17,7 @@ class AssetSourceTargetCollision extends Exception
     public function __construct(string path)
     {
         parent::__construct(
-            "Asset '" . path . "' have the same source and target paths"
+            "Asset '" . path . "' has the same source and target paths"
         );
     }
 }

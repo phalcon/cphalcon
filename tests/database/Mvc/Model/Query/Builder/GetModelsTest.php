@@ -18,6 +18,7 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Models\Customers;
 use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 final class GetModelsTest extends AbstractDatabaseTestCase
 {
@@ -40,11 +41,10 @@ final class GetModelsTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-04-08
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelQueryBuilderGetModelsNull(): void
     {
         $manager = $this->getService('modelsManager');
@@ -56,11 +56,10 @@ final class GetModelsTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-04-08
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelQueryBuilderGetModelsString(): void
     {
         $manager = $this->getService('modelsManager');
@@ -77,11 +76,10 @@ final class GetModelsTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-04-08
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelQueryBuilderGetModelsArray(): void
     {
         $manager = $this->getService('modelsManager');

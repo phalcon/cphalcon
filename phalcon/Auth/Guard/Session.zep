@@ -13,6 +13,7 @@
 
 namespace Phalcon\Auth\Guard;
 
+use DateTimeImmutable;
 use Phalcon\Auth\Exception;
 use Phalcon\Auth\Exceptions\DoesNotImplement;
 use Phalcon\Auth\Guard\Config\SessionGuardConfig;
@@ -29,6 +30,8 @@ use Phalcon\Http\RequestInterface;
 use Phalcon\Http\Response\CookiesInterface;
 use Phalcon\Session\ManagerInterface as SessionManagerInterface;
 use Phalcon\Support\Helper\Json\Encode;
+use Phalcon\Time\Clock\ClockInterface;
+use Phalcon\Time\Clock\SystemClock;
 
 /**
  * @phpstan-import-type AuthCredentials from Adapter
@@ -37,6 +40,10 @@ use Phalcon\Support\Helper\Json\Encode;
  */
 class Session extends AbstractGuard implements GuardStateful, BasicAuth
 {
+    /**
+     * @var ClockInterface
+     */
+    protected clock;
     /**
      * @var CookiesInterface
      */
@@ -59,7 +66,8 @@ class Session extends AbstractGuard implements GuardStateful, BasicAuth
         <RequestInterface> request,
         <CookiesInterface> cookies,
         <SessionManagerInterface> session,
-        <SessionGuardConfig> config = null
+        <SessionGuardConfig> config = null,
+        <ClockInterface> clock = null
     ) {
         let this->request = request;
         let this->cookies = cookies;
@@ -68,6 +76,12 @@ class Session extends AbstractGuard implements GuardStateful, BasicAuth
         if (config === null) {
             let config = new SessionGuardConfig();
         }
+
+        if (clock === null) {
+            let clock = SystemClock::fromUTC();
+        }
+
+        let this->clock = clock;
 
         parent::__construct(adapter, config);
     }
@@ -82,7 +96,8 @@ class Session extends AbstractGuard implements GuardStateful, BasicAuth
         let config = new SessionGuardConfig(
             Options::stringOrNull(options, "suffix"),
             Options::stringOrNull(options, "name"),
-            Options::stringOrNull(options, "rememberName")
+            Options::stringOrNull(options, "rememberName"),
+            isset(options["rememberTtl"]) ? options["rememberTtl"] : null
         );
 
         return new static(
@@ -171,7 +186,7 @@ class Session extends AbstractGuard implements GuardStateful, BasicAuth
      */
     public function login(<AuthUser> user, bool remember = false) -> void
     {
-        this->fireManagerEvent("auth:beforeLogin");
+        this->fireManagerEvent("auth:beforeLogin", null, false);
 
         this->session->set(this->getName(), user->getAuthIdentifier());
 
@@ -184,7 +199,7 @@ class Session extends AbstractGuard implements GuardStateful, BasicAuth
 
         this->setUser(user);
 
-        this->fireManagerEvent("auth:afterLogin");
+        this->fireManagerEvent("auth:afterLogin", null, false);
     }
 
     /**
@@ -214,7 +229,7 @@ class Session extends AbstractGuard implements GuardStateful, BasicAuth
 
         let current = this->user();
 
-        this->fireManagerEvent("auth:beforeLogout", ["user" : current]);
+        this->fireManagerEvent("auth:beforeLogout", ["user" : current], false);
 
         let recaller = this->recaller();
         if (recaller !== null && current instanceof AuthRemember) {
@@ -231,7 +246,7 @@ class Session extends AbstractGuard implements GuardStateful, BasicAuth
 
         this->session->remove(this->getName());
 
-        this->fireManagerEvent("auth:afterLogout", ["user" : current]);
+        this->fireManagerEvent("auth:afterLogout", ["user" : current], false);
 
         let this->user = null;
     }
@@ -241,11 +256,11 @@ class Session extends AbstractGuard implements GuardStateful, BasicAuth
      */
     public function once(array credentials = []) -> bool
     {
-        this->fireManagerEvent("auth:beforeLogin");
+        this->fireManagerEvent("auth:beforeLogin", null, false);
 
         if (this->validate(credentials)) {
             this->setUser(this->lastUserAttempted);
-            this->fireManagerEvent("auth:afterLogin");
+            this->fireManagerEvent("auth:afterLogin", null, false);
 
             return true;
         }
@@ -410,7 +425,7 @@ class Session extends AbstractGuard implements GuardStateful, BasicAuth
         this->cookies->set(
             this->getRememberName(),
             payload,
-            time() + 360 * 24 * 60 * 60
+            this->clock->now()->getTimestamp() + this->config->getRememberTtl()
         );
     }
 

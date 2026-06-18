@@ -16,10 +16,12 @@ namespace Phalcon\Tests\Unit\Mvc\Micro;
 use Phalcon\Mvc\Micro;
 use Phalcon\Tests\Support\Micro\RestHandler;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\BackupGlobals;
 
 /**
  * Class NotFoundTest extends AbstractUnitTestCase
  */
+#[BackupGlobals(true)]
 class NotFoundTest extends AbstractUnitTestCase
 {
     /**

@@ -17,11 +17,9 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
-/**
- *
- * @group phql
- */
+#[Group('phql')]
 final class UpdateTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -45,12 +43,11 @@ final class UpdateTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
-     * @group pgsql
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    #[Group('pgsql')]
     public function testMvcModelResultsetUpdate(): void
     {
         $invoices = Invoices::find(
@@ -67,10 +64,9 @@ final class UpdateTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-02
-     *
-     * @group mysql
-     * @group pgsql
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
     public function testMvcModelResultsetUpdateThrowsOnInvalidData(): void
     {
         $invoices = Invoices::find(

@@ -17,6 +17,7 @@ use InvalidArgumentException;
 use Phalcon\Forms\Element\Text;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Forms\Fake\FormsTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 use function uniqid;
 
@@ -25,11 +26,10 @@ final class ConstructTest extends AbstractUnitTestCase
     use FormsTrait;
 
     /**
-     * @dataProvider getExamplesWithoutSelect
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2021-12-05
      */
+    #[DataProvider('getExamplesWithoutSelect')]
     public function testFormsElementTextareaConstruct(
         string $class
     ): void {

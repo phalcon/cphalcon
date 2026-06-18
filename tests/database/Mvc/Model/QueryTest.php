@@ -25,13 +25,11 @@ use Phalcon\Tests\Support\Models\Customers;
 use Phalcon\Tests\Support\Models\CustomersKeepSnapshots;
 use Phalcon\Tests\Support\Models\InvoicesKeepSnapshots;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 use function uniqid;
 
-/**
- *
- * @group phql
- */
+#[Group('phql')]
 final class QueryTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -74,11 +72,10 @@ final class QueryTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelQuery(): void
     {
         $this->addTestData();
@@ -97,11 +94,10 @@ final class QueryTest extends AbstractDatabaseTestCase
      * @issue  https://github.com/phalcon/cphalcon/issues/14535
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-05-01
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelQueryIssue14535(): void
     {
         $this->addTestData();
@@ -124,11 +120,10 @@ final class QueryTest extends AbstractDatabaseTestCase
      * @issue  https://github.com/phalcon/cphalcon/issues/14783
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelQueryIssue14783(): void
     {
         $this->addTestData();

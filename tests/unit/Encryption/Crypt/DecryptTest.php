@@ -15,6 +15,7 @@ namespace Phalcon\Tests\Unit\Encryption\Crypt;
 
 use Phalcon\Encryption\Crypt;
 use Phalcon\Encryption\Crypt\Exception\Exception;
+use Phalcon\Encryption\Crypt\Exception\InvalidDecryptLength;
 use Phalcon\Encryption\Crypt\Exception\Mismatch;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Encryption\Fake\Crypt\FakeCrypt;
@@ -51,6 +52,21 @@ final class DecryptTest extends AbstractUnitTestCase
 
         $crypt = new Crypt();
         $crypt->decrypt('sample text', '');
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-17
+     */
+    public function testEncryptionCryptDecryptExceptionInputTooShort(): void
+    {
+        $this->expectException(InvalidDecryptLength::class);
+        $this->expectExceptionMessage(
+            'The provided input is too short for the selected cipher.'
+        );
+
+        $crypt = new Crypt();
+        $crypt->decrypt('x', 'secret');
     }
 
     /**

@@ -57,6 +57,10 @@ class Breadcrumbs
      * // Adding a crumb without a link (normally the last one)
      * $breadcrumbs->add("Users");
      * ```
+     *
+     * Crumbs are stored keyed by their link, so adding two crumbs that share
+     * the same link - including two link-less crumbs, which share the empty
+     * string key - keeps only the last one.
      */
     public function add(string label, string link = "") -> <static>
     {
@@ -119,8 +123,17 @@ class Breadcrumbs
     {
         var element, elements, lastLabel, lastUrl, output, template, url, urls;
 
+        let elements = this->elements;
+
+        /**
+         * Nothing to render - guard against end([]) returning false and
+         * indexing elements[false]
+         */
+        if empty elements {
+            return "";
+        }
+
         let output    = [],
-            elements  = this->elements,
             template  = this->template,
             urls      = array_keys(elements),
             lastUrl   = end(urls),

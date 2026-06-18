@@ -18,6 +18,7 @@ use Phalcon\Autoload\Loader;
 use Phalcon\Events\Exception as EventsException;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Autoload\Fake\LoaderTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 use function class_exists;
 use function function_exists;
@@ -94,13 +95,12 @@ final class SetFileCheckingCallbackTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @issue https://github.com/phalcon/cphalcon/issues/13360
      * @issue https://github.com/phalcon/cphalcon/issues/10472
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
+    #[DataProvider('getExamples')]
     public function testAutoloaderLoaderSetFileCheckingCallbackValid(
         ?string $callback
     ): void {

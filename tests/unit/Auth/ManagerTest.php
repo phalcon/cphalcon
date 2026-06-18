@@ -24,6 +24,7 @@ use Phalcon\Auth\Access\Auth;
 use Phalcon\Auth\Adapter\Config\MemoryAdapterConfig;
 use Phalcon\Auth\Adapter\Memory;
 use Phalcon\Auth\Exception;
+use Phalcon\Auth\Exceptions\DoesNotImplement;
 use Phalcon\Auth\Guard\Session;
 use Phalcon\Auth\Manager;
 use Phalcon\Container\Container;
@@ -32,6 +33,7 @@ use Phalcon\Encryption\Security;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Auth\Fake\FakeAccess;
 use Phalcon\Tests\Unit\Auth\Fake\FakeCookies;
+use Phalcon\Tests\Unit\Auth\Fake\FakeGuard;
 use Phalcon\Tests\Unit\Auth\Fake\FakeRequest;
 use Phalcon\Tests\Unit\Auth\Fake\FakeSessionManager;
 
@@ -382,6 +384,28 @@ final class ManagerTest extends AbstractUnitTestCase
         $manager->setAccess($access);
 
         $this->assertSame($access, $manager->getAccess());
+    }
+
+    public function testAttemptThrowsWhenDefaultGuardNotStateful(): void
+    {
+        $this->expectException(DoesNotImplement::class);
+        $this->expectExceptionMessageMatches('/GuardStateful/');
+
+        $manager = $this->buildManager();
+        $manager->addGuard('web', new FakeGuard(), true);
+
+        $manager->attempt(['email' => 'alice@example.com']);
+    }
+
+    public function testLogoutThrowsWhenDefaultGuardNotStateful(): void
+    {
+        $this->expectException(DoesNotImplement::class);
+        $this->expectExceptionMessageMatches('/GuardStateful/');
+
+        $manager = $this->buildManager();
+        $manager->addGuard('web', new FakeGuard(), true);
+
+        $manager->logout();
     }
 
     public function testSetDefaultGuardAssigns(): void

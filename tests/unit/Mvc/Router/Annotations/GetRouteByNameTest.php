@@ -17,7 +17,9 @@ use Phalcon\Mvc\Router\Annotations;
 use Phalcon\Mvc\Router\Route;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\BackupGlobals;
 
+#[BackupGlobals(true)]
 final class GetRouteByNameTest extends AbstractUnitTestCase
 {
     use DiTrait;

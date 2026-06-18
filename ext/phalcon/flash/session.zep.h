@@ -3,6 +3,7 @@ extern zend_class_entry *phalcon_flash_session_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Flash_Session);
 
+PHP_METHOD(Phalcon_Flash_Session, __construct);
 PHP_METHOD(Phalcon_Flash_Session, clear);
 PHP_METHOD(Phalcon_Flash_Session, getMessages);
 PHP_METHOD(Phalcon_Flash_Session, has);
@@ -11,6 +12,12 @@ PHP_METHOD(Phalcon_Flash_Session, output);
 PHP_METHOD(Phalcon_Flash_Session, getSessionMessages);
 PHP_METHOD(Phalcon_Flash_Session, setSessionMessages);
 PHP_METHOD(Phalcon_Flash_Session, getSessionService);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_flash_session___construct, 0, 0, 0)
+	ZEND_ARG_OBJ_TYPE_MASK(0, escaper, Phalcon\\Html\\Escaper\\EscaperInterface, MAY_BE_NULL, "null")
+	ZEND_ARG_OBJ_TYPE_MASK(0, session, Phalcon\\Session\\ManagerInterface, MAY_BE_NULL, "null")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, sessionKey, IS_STRING, 1, "null")
+ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_flash_session_clear, 0, 0, IS_VOID, 0)
 ZEND_END_ARG_INFO()
@@ -47,6 +54,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_flash_session_getsessions
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_flash_session_method_entry) {
+	PHP_ME(Phalcon_Flash_Session, __construct, arginfo_phalcon_flash_session___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Flash_Session, clear, arginfo_phalcon_flash_session_clear, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Flash_Session, getMessages, arginfo_phalcon_flash_session_getmessages, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Flash_Session, has, arginfo_phalcon_flash_session_has, ZEND_ACC_PUBLIC)

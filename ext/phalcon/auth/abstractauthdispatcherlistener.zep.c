@@ -36,6 +36,11 @@
  * the action-kind label used in the access-denied exception, and (Mvc only)
  * a forward handler for Access::redirectTo().
  *
+ * Enforcement is fail-open: when the manager has no active access
+ * (Manager::getAccess() === null) every dispatch is allowed. A policy
+ * activated via Manager::access() persists across forwards and nested
+ * dispatches in the same request until it is replaced.
+ *
  * @phpstan-import-type AccessContext from Access
  */
 ZEPHIR_INIT_CLASS(Phalcon_Auth_AbstractAuthDispatcherListener)
@@ -158,9 +163,9 @@ PHP_METHOD(Phalcon_Auth_AbstractAuthDispatcherListener, enforce)
 	object_init_ex(&_4, phalcon_auth_exceptions_accessdenied_ce);
 	ZEPHIR_CALL_METHOD(&_5, this_ptr, "getactiontype", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, &_4, "__construct", NULL, 74, &_5, &actionName_zv);
+	ZEPHIR_CALL_METHOD(NULL, &_4, "__construct", NULL, 77, &_5, &actionName_zv);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(&_4, "phalcon/Auth/AbstractAuthDispatcherListener.zep", 84);
+	zephir_throw_exception_debug(&_4, "phalcon/Auth/AbstractAuthDispatcherListener.zep", 89);
 	ZEPHIR_MM_RESTORE();
 	return;
 }

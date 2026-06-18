@@ -21,6 +21,7 @@ use Phalcon\Tests\Database\Mvc\RecordsTrait;
 use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 final class GetSetLimitTest extends AbstractDatabaseTestCase
 {
@@ -39,11 +40,10 @@ final class GetSetLimitTest extends AbstractDatabaseTestCase
 
     /**
      * Tests Phalcon\Paginator\Adapter\QueryBuilder :: getLimit() / setLimit()
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testPaginatorAdapterQuerybuilderGetSetLimit(): void
     {
         /** @var PDO $connection */

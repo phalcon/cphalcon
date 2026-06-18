@@ -30,6 +30,12 @@
  * Abstract class offering methods to help with the Arr namespace. This can
  * be moved to a trait once Zephir supports it.
  *
+ * This base exists only for the `Arr` helper hierarchy; it is not a general
+ * base class. New code that needs these routines should compose the relevant
+ * invokable helper (for example `Arr\Get`) rather than extending it.
+ *
+ * @internal
+ *
  * @todo move to trait when there is support for it
  */
 ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Arr_AbstractArr)
@@ -79,7 +85,7 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_AbstractArr, toFilter)
 	if (_0) {
 		RETURN_CTOR(&collection);
 	}
-	ZEPHIR_RETURN_CALL_FUNCTION("array_filter", NULL, 31, &collection, method);
+	ZEPHIR_RETURN_CALL_FUNCTION("array_filter", NULL, 32, &collection, method);
 	zephir_check_call_status();
 	RETURN_MM();
 }

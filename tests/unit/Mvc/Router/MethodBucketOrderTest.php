@@ -15,7 +15,9 @@ namespace Phalcon\Tests\Unit\Mvc\Router;
 
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Mvc\Fake\RouterTrait;
+use PHPUnit\Framework\Attributes\BackupGlobals;
 
+#[BackupGlobals(true)]
 final class MethodBucketOrderTest extends AbstractUnitTestCase
 {
     use RouterTrait;

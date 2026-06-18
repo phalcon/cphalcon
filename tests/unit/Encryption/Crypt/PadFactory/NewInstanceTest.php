@@ -25,6 +25,7 @@ use Phalcon\Encryption\Crypt\Padding\Space;
 use Phalcon\Encryption\Crypt\Padding\Zero;
 use Phalcon\Encryption\Crypt\PadFactory;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class NewInstanceTest extends AbstractUnitTestCase
 {
@@ -103,19 +104,14 @@ final class NewInstanceTest extends AbstractUnitTestCase
                 Crypt::PADDING_DEFAULT,
                 "noop",
             ],
-            [
-                100,
-                "noop",
-            ],
         ];
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-18
      */
+    #[DataProvider('getExamples')]
     public function testEncryptionCryptPadFactoryNewInstance(
         string $name,
         string $class
@@ -141,11 +137,10 @@ final class NewInstanceTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getPadNumberExamples
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-18
      */
+    #[DataProvider('getPadNumberExamples')]
     public function testEncryptionCryptPadNumberToService(
         int $padding,
         string $expected

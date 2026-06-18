@@ -20,11 +20,9 @@ use Phalcon\Tests\Database\Mvc\RecordsTrait;
 use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
-/**
- *
- * @group phql
- */
+#[Group('phql')]
 final class AverageTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -56,11 +54,10 @@ final class AverageTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-01-30
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelAverage(): void
     {
         /**
@@ -146,5 +143,25 @@ final class AverageTest extends AbstractDatabaseTestCase
         $this->assertEquals(4, (int)$results[1]->average);
         $this->assertEquals(1, (int)$results[2]->inv_cst_id);
         $this->assertEquals(21, (int)$results[2]->average);
+    }
+
+    /**
+     * @issue  https://github.com/phalcon/cphalcon/issues/17184
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-18
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelAverageEmptyResultReturnsZero(): void
+    {
+        $total = Invoices::average(
+            [
+                'column' => 'inv_total',
+            ]
+        );
+
+        $this->assertSame(0.0, $total);
     }
 }

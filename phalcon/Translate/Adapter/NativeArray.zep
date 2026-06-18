@@ -13,7 +13,6 @@ namespace Phalcon\Translate\Adapter;
 use Phalcon\Translate\Exception;
 use Phalcon\Translate\Exceptions\InvalidDataType;
 use Phalcon\Translate\Exceptions\MissingContent;
-use Phalcon\Translate\Exceptions\KeyNotFound;
 use Phalcon\Translate\InterpolatorFactory;
 
 /**
@@ -32,11 +31,6 @@ class NativeArray extends AbstractAdapter
     private translate = [];
 
     /**
-     * @var bool
-     */
-    private triggerError = false;
-
-    /**
      * NativeArray constructor.
      *
      * @param InterpolatorFactory $interpolator
@@ -46,16 +40,12 @@ class NativeArray extends AbstractAdapter
      */
     public function __construct(<InterpolatorFactory> interpolator, array! options)
     {
-        var data, error;
+        var data;
 
         parent::__construct(interpolator, options);
 
         if unlikely !fetch data, options["content"] {
             throw new MissingContent();
-        }
-
-        if fetch error, options["triggerError"] {
-            let this->triggerError = (bool) error;
         }
 
         if unlikely typeof data !== "array" {
@@ -88,23 +78,6 @@ class NativeArray extends AbstractAdapter
     public function has(string! index) -> bool
     {
         return isset this->translate[index];
-    }
-
-    /**
-     * Whenever a key is not found this method will be called
-     *
-     * @param string $index
-     *
-     * @return string
-     * @throws Exception
-     */
-    public function notFound(string! index) -> string
-    {
-        if unlikely (true === this->triggerError) {
-            throw new KeyNotFound(index);
-        }
-
-        return index;
     }
 
     /**

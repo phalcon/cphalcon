@@ -23,6 +23,7 @@ use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Models\InvoicesBehavior;
 use Phalcon\Tests\Support\Models\InvoicesBehaviorBelongsToCustomers;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 use function uniqid;
 
@@ -42,11 +43,10 @@ final class SoftDeleteTest extends AbstractDatabaseTestCase
     /**
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2020-10-03
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelBehaviorSoftDelete(): void
     {
         /** Add row to SoftDelete then */
@@ -72,11 +72,10 @@ final class SoftDeleteTest extends AbstractDatabaseTestCase
     /**
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2020-10-03
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelBehaviorSoftDeleteWithBeforeDeleteEvent(): void
     {
         $this->markTestSkipped('See: https://github.com/phalcon/cphalcon/issues/14904');
@@ -117,11 +116,10 @@ final class SoftDeleteTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2025-04-23
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelBehaviorSoftDeleteDoesNotCreateRelatedBelongsToRecord(): void
     {
         $connection = self::getConnection();
@@ -147,12 +145,9 @@ final class SoftDeleteTest extends AbstractDatabaseTestCase
         $this->assertEquals($customerCountBefore, Customers::count());
     }
 
-    /**
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
-     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelBehaviorRemoveBehavior(): void
     {
         /** Add row to SoftDelete then */

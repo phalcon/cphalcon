@@ -21,16 +21,17 @@
  * file that was distributed with this source code.
  */
 /**
- * Interface for custom Phalcon\Assets filters
+ * Phalcon\Assets\FilterInterface
+ *
+ * @psalm-suppress DeprecatedInterface
+ * @deprecated Will be removed in a future major release.
+ *             Use {@see \Phalcon\Contracts\Assets\Filter} instead.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Assets_FilterInterface)
 {
-	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Assets, FilterInterface, phalcon, assets_filterinterface, phalcon_assets_filterinterface_method_entry);
+	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Assets, FilterInterface, phalcon, assets_filterinterface, NULL);
 
+	zend_class_implements(phalcon_assets_filterinterface_ce, 1, phalcon_contracts_assets_filter_ce);
 	return SUCCESS;
 }
 
-/**
- * Filters the content returning a string with the filtered content
- */
-ZEPHIR_DOC_METHOD(Phalcon_Assets_FilterInterface, filter);

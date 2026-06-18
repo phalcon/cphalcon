@@ -17,7 +17,11 @@ use BadMethodCallException;
 use Phalcon\DataMapper\Pdo\Connection;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Database\DataMapper\Fake\FakeConnection;
+use PHPUnit\Framework\Attributes\Group;
 
+#[Group('mysql')]
+#[Group('pgsql')]
+#[Group('sqlite')]
 final class UnderscoreCallTest extends AbstractDatabaseTestCase
 {
     /**

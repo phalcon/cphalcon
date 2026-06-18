@@ -20,6 +20,7 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Models\InvoicesRawValue;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Tests Phalcon\Mvc\Model\Query :: executeInsert() - RawValue bind params
@@ -48,11 +49,10 @@ final class ExecuteInsertRawValueTest extends AbstractDatabaseTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-28
      * @issue  https://github.com/phalcon/cphalcon/issues/15064
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelQueryExecuteInsertRawValue(): void
     {
         $manager = $this->getService('modelsManager');

@@ -26,6 +26,7 @@ use Phalcon\Support\Exception as HelperException;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Storage\Fake\FakeStreamFileGetContents;
 use Phalcon\Tests\Unit\Storage\Fake\FakeStreamFopen;
+use PHPUnit\Framework\Attributes\DataProvider;
 use stdClass;
 
 use function getOptionsLibmemcached;
@@ -78,11 +79,10 @@ final class HasTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
+    #[DataProvider('getExamples')]
     public function testStorageAdapterHas(
         string $class,
         array $options,

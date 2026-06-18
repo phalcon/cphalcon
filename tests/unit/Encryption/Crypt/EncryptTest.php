@@ -18,6 +18,7 @@ use Phalcon\Encryption\Crypt\Exception\Exception;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Encryption\Fake\Crypt\FakeCrypt;
 use Phalcon\Tests\Unit\Encryption\Fake\Crypt\FakeCryptOpensslRandomPseudoBytes;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 use function str_repeat;
 use function substr;
@@ -192,11 +193,10 @@ final class EncryptTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExceptionCiphers
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-18
      */
+    #[DataProvider('getExceptionCiphers')]
     public function testEncryptionCryptEncryptGcmCcmExceptionWithoutData(
         string $cipher
     ): void {

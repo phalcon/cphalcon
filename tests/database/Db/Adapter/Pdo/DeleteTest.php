@@ -17,10 +17,9 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
-/**
- * @group phql
- */
+#[Group('phql')]
 final class DeleteTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -36,11 +35,10 @@ final class DeleteTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-05-10
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testDbAdapterPdoQuery(): void
     {
         $connection = self::getConnection();

@@ -13,15 +13,22 @@ namespace Phalcon\Cache;
 use DateInterval;
 use Phalcon\Cache\Adapter\AdapterInterface;
 use Phalcon\Cache\Adapter\Redis;
-use Phalcon\Cache\Exception\CacheKeysNotIterable;
 use Phalcon\Cache\Exception\InvalidArgumentException;
-use Phalcon\Cache\Exception\InvalidCacheKey;
 use Phalcon\Events\EventsAwareInterface;
 use Phalcon\Events\ManagerInterface;
 use Traversable;
 
 /**
  * This component offers caching capabilities for your application.
+ *
+ * Event layering: cache operations can emit `cache:*` events from two layers.
+ * This facade fires `cache:before*`/`cache:after*` around each operation, and
+ * the underlying `Storage` adapter (whose `eventType` is `"cache"`) also fires
+ * `cache:before*`/`cache:after*` for the same operation. If an events manager
+ * is wired into both the facade and the adapter, a single call emits the event
+ * twice (once from each object). Wire the manager into one layer only; the
+ * facade is the supported source for cache-level events (it also emits the
+ * multi-key `cache:*Multiple` events).
  */
 abstract class AbstractCache implements CacheInterface, EventsAwareInterface
 {
@@ -60,6 +67,28 @@ abstract class AbstractCache implements CacheInterface, EventsAwareInterface
     }
 
     /**
+     * Fetches a value from the cache.
+     *
+     * @param string $key
+     * @param mixed  $defaultValue
+     *
+     * @return mixed
+     */
+    abstract public function get(string key, var defaultValue = null);
+
+    /**
+     * Persists data in the cache, uniquely referenced by a key with an
+     * optional expiration TTL time.
+     *
+     * @param string                $key
+     * @param mixed                 $value
+     * @param null|int|DateInterval $ttl
+     *
+     * @return bool
+     */
+    abstract public function set(string key, var value, var ttl = null) -> bool;
+
+    /**
      * Sets the event manager
      */
     public function setEventsManager(<ManagerInterface> eventsManager) -> void
@@ -84,8 +113,12 @@ abstract class AbstractCache implements CacheInterface, EventsAwareInterface
      */
     protected function checkKey(string key) -> void
     {
-        if (preg_match("/[^A-Za-z0-9-_.]/", key)) {
-            throw new InvalidCacheKey();
+        var exceptionClass;
+
+        if (key === "" || preg_match("/[^A-Za-z0-9-_.]/", key)) {
+            let exceptionClass = this->getExceptionClass();
+
+            throw new {exceptionClass}("The key contains invalid characters");
         }
     }
 
@@ -98,8 +131,14 @@ abstract class AbstractCache implements CacheInterface, EventsAwareInterface
      */
     protected function checkKeys(var keys) -> void
     {
+        var exceptionClass;
+
         if (!(typeof keys === "array" || keys instanceof Traversable)) {
-            throw new CacheKeysNotIterable();
+            let exceptionClass = this->getExceptionClass();
+
+            throw new {exceptionClass}(
+                "The keys need to be an array or instance of Traversable"
+            );
         }
     }
 
@@ -128,9 +167,9 @@ abstract class AbstractCache implements CacheInterface, EventsAwareInterface
     {
         var result;
 
-        this->fire("cache:beforeDelete", key);
-
         this->checkKey(key);
+
+        this->fire("cache:beforeDelete", key);
 
         let result = this->adapter->delete(key);
 
@@ -195,7 +234,7 @@ abstract class AbstractCache implements CacheInterface, EventsAwareInterface
      */
     protected function doGetMultiple(var keys, var defaultValue = null) -> array
     {
-        var adapterClass, element, results, serializer;
+        var adapterClass, element, keysArray, results, serializer;
 
         this->checkKeys(keys);
 
@@ -204,25 +243,51 @@ abstract class AbstractCache implements CacheInterface, EventsAwareInterface
         let results = [];
         let adapterClass = this->adapter;
         if (adapterClass instanceof Redis) {
-             let results    = this->adapter->getAdapter()->mget(keys);
-             let serializer = this->adapter->getSerializer();
-             let results    = array_map(
-                 function (element) use (serializer, defaultValue) {
-                     serializer->unserialize(element);
-                     return false === element
-                         ? defaultValue
-                         : serializer->getData()
-                     ;
-                 },
-                 results
-             );
+            /**
+             * Validate every key and collect them into an array (this also
+             * handles Traversable inputs), so `mget()` and `array_combine()`
+             * below receive arrays instead of throwing a TypeError.
+             *
+             * NOTE: incoming keys are not routed through the adapter's key
+             * policy here - `getKeyWithoutPrefix()` is protected on the
+             * Storage adapter, so an already-prefixed key is prefixed again by
+             * the phpredis `OPT_PREFIX` and misses. Resolving that needs the
+             * batch-capability redesign noted in the modularity review.
+             */
+            let keysArray = [];
+            for element in keys {
+                this->checkKey(element);
+                let keysArray[] = element;
+            }
 
-             let results = array_combine(keys, results);
-         } else {
-             for element in keys {
-                 let results[element] = this->get(element, defaultValue);
-             }
-         }
+            let serializer = this->adapter->getSerializer();
+            let results    = this->adapter->getAdapter()->mget(keysArray);
+            let results    = array_map(
+                function (element) use (serializer, defaultValue) {
+                    if (false === element) {
+                        return defaultValue;
+                    }
+
+                    serializer->unserialize(element);
+
+                    if (
+                        true === method_exists(serializer, "isSuccess") &&
+                        true !== serializer->isSuccess()
+                    ) {
+                        return defaultValue;
+                    }
+
+                    return serializer->getData();
+                },
+                results
+            );
+
+            let results = array_combine(keysArray, results);
+        } else {
+            for element in keys {
+                let results[element] = this->get(element, defaultValue);
+            }
+        }
 
         this->fire("cache:afterGetMultiple", keys);
 
@@ -292,11 +357,16 @@ abstract class AbstractCache implements CacheInterface, EventsAwareInterface
      */
     protected function doSetMultiple(values, var ttl = null) -> bool
     {
-        var key, result, value;
+        var key, keys, result, value;
 
         this->checkKeys(values);
 
-        this->fire("cache:beforeSetMultiple", array_keys(values));
+        let keys = array_keys(values);
+        for key in keys {
+            this->checkKey(key);
+        }
+
+        this->fire("cache:beforeSetMultiple", keys);
 
         let result = true;
         for key, value in values {
@@ -305,7 +375,7 @@ abstract class AbstractCache implements CacheInterface, EventsAwareInterface
             }
         }
 
-        this->fire("cache:afterSetMultiple", array_keys(values));
+        this->fire("cache:afterSetMultiple", keys);
 
         return result;
     }

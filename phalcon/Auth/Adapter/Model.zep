@@ -101,6 +101,10 @@ class Model extends AbstractAdapter implements RememberAdapter
             ]
         );
 
+        if (found !== null && !(found instanceof AuthUser)) {
+            throw new DoesNotImplement("User model", "AuthUser");
+        }
+
         /** @var AuthUser|null $found */
         return found;
     }
@@ -122,6 +126,10 @@ class Model extends AbstractAdapter implements RememberAdapter
                 "bind"       : ["id" : id]
             ]
         );
+
+        if (found !== null && !(found instanceof AuthUser)) {
+            throw new DoesNotImplement("User model", "AuthUser");
+        }
 
         /** @var AuthUser|null $found */
         return found;

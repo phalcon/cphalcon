@@ -293,7 +293,7 @@ class Manager extends AbstractInjectionAware
     public function get(string! name) -> <Collection>
     {
         if unlikely true !== isset(this->collections[name]) {
-            throw new CollectionNotFound();
+            throw new CollectionNotFound(name);
         }
 
         return this->collections[name];
@@ -370,7 +370,7 @@ class Manager extends AbstractInjectionAware
         array outputParts;
         var asset, assets, callback, callbackMethod, collectionSourcePath,
             collectionTargetPath, completeSourcePath, completeTargetPath,
-            content, filter, filters, filteredContent, filteredJoinedContent,
+            content, filters, filteredContent, filteredJoinedContent,
             html, join, mustFilter, options, prefixedPath, sourceBasePath,
             sourcePath, targetBasePath, targetPath, typeCss;
 
@@ -507,7 +507,7 @@ class Manager extends AbstractInjectionAware
                  * We need a valid final target path
                  */
                 if (true === empty(targetPath)) {
-                    throw new InvalidAssetTargetPath(sourcePath);
+                    throw new InvalidAssetTargetPath(asset->getPath());
                 }
 
                 if (true === asset->isLocal()) {
@@ -565,46 +565,19 @@ class Manager extends AbstractInjectionAware
                 let content = asset->getContent(completeSourcePath);
 
                 /**
-                 * Check if the asset must be filtered
+                 * Apply the collection filters; the asset opts in via its own
+                 * filter flag
                  */
-                let mustFilter = asset->getFilter();
+                let mustFilter      = asset->getFilter(),
+                    filteredContent = this->applyFilters(content, filters, mustFilter);
+
                 /**
-                 * Only filter the asset if it's marked as 'filterable'
+                 * Update the joined filtered content
                  */
-                if (mustFilter) {
-                    for filter in filters {
-                        /**
-                         * Filters must be valid objects
-                         */
-                        if (typeof filter !== "object") {
-                            throw new InvalidFilter();
-                        }
-
-                        /**
-                         * Calls the method 'filter' which must return a
-                         * filtered version of the content
-                         */
-                        let filteredContent = filter->filter(content),
-                            content         = filteredContent;
-                    }
-
-                    /**
-                     * Update the joined filtered content
-                     */
-                    if (join) {
-                        let filteredJoinedContent .= filteredContent;
-                        if (asset->getType() !== typeCss) {
-                            let filteredJoinedContent .= ";";
-                        }
-                    }
-                } else {
-                    /**
-                     * Update the joined filtered content
-                     */
-                    if (join) {
-                        let filteredJoinedContent .= content;
-                    } else {
-                        let filteredContent = content;
+                if (join) {
+                    let filteredJoinedContent .= filteredContent;
+                    if (mustFilter && asset->getType() !== typeCss) {
+                        let filteredJoinedContent .= ";";
                     }
                 }
 
@@ -719,7 +692,7 @@ class Manager extends AbstractInjectionAware
     public function outputInline(<Collection> collection, type) -> string
     {
         string html, joinedContent, output;
-        var attributes, code, codes, content, filter, filters, join;
+        var attributes, code, codes, content, filters, join;
 
         let output        = "",
             html          = "",
@@ -734,21 +707,11 @@ class Manager extends AbstractInjectionAware
                 let attributes = code->getAttributes(),
                     content    = code->getContent();
 
-                /** @var FilterInterface $filter */
-                for filter in filters {
-                    /**
-                     * Filters must be valid objects
-                     */
-                    if (typeof filter !== "object") {
-                        throw new InvalidFilter();
-                    }
-
-                    /**
-                     * Calls the method 'filter' which must return a filtered
-                     * version of the content
-                     */
-                    let content = filter->filter(content);
-                }
+                /**
+                 * Apply the collection filters. The per-code filter flag is
+                 * intentionally not honored here to preserve current behavior.
+                 */
+                let content = this->applyFilters(content, filters, true);
 
                 if (true === join) {
                     let joinedContent .= content;
@@ -881,6 +844,47 @@ class Manager extends AbstractInjectionAware
         let this->implicitOutput = implicitOutput;
 
         return this;
+    }
+
+    /**
+     * Applies the collection filters to the content. Filtering only happens
+     * when `mustFilter` is true; every filter must be a `FilterInterface`
+     * instance.
+     *
+     * @param string content
+     * @param array  filters
+     * @param bool   mustFilter
+     *
+     * @return string
+     * @throws InvalidFilter
+     */
+    private function applyFilters(
+        string content,
+        array filters,
+        bool mustFilter = true
+    ) -> string {
+        var filter;
+
+        if (mustFilter !== true) {
+            return content;
+        }
+
+        for filter in filters {
+            /**
+             * Filters must be valid FilterInterface instances
+             */
+            if unlikely (typeof filter !== "object" || !(filter instanceof FilterInterface)) {
+                throw new InvalidFilter();
+            }
+
+            /**
+             * Calls the method 'filter' which must return a filtered version
+             * of the content
+             */
+            let content = filter->filter(content);
+        }
+
+        return content;
     }
 
     /**

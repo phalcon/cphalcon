@@ -23,53 +23,15 @@
 /**
  * Interface FlashInterface
  *
- * @package Phalcon\Flash
+ * @psalm-suppress DeprecatedInterface
+ * @deprecated Will be removed in a future major release.
+ *             Use {@see \Phalcon\Contracts\Flash\Flash} instead.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Flash_FlashInterface)
 {
-	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Flash, FlashInterface, phalcon, flash_flashinterface, phalcon_flash_flashinterface_method_entry);
+	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Flash, FlashInterface, phalcon, flash_flashinterface, NULL);
 
+	zend_class_implements(phalcon_flash_flashinterface_ce, 1, phalcon_contracts_flash_flash_ce);
 	return SUCCESS;
 }
 
-/**
- * Shows a HTML error message
- *
- * @param string $message
- *
- * @return string|null
- */
-ZEPHIR_DOC_METHOD(Phalcon_Flash_FlashInterface, error);
-/**
- * Outputs a message
- *
- * @param string $type
- * @param mixed  $message
- *
- * @return string|null
- */
-ZEPHIR_DOC_METHOD(Phalcon_Flash_FlashInterface, message);
-/**
- * Shows a HTML notice/information message
- *
- * @param string $message
- *
- * @return string|null
- */
-ZEPHIR_DOC_METHOD(Phalcon_Flash_FlashInterface, notice);
-/**
- * Shows a HTML success message
- *
- * @param string $message
- *
- * @return string|null
- */
-ZEPHIR_DOC_METHOD(Phalcon_Flash_FlashInterface, success);
-/**
- * Shows a HTML warning message
- *
- * @param string $message
- *
- * @return string|null
- */
-ZEPHIR_DOC_METHOD(Phalcon_Flash_FlashInterface, warning);

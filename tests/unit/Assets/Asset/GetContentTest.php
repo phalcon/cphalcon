@@ -19,6 +19,7 @@ use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Assets\Fake\AssetsTrait;
 use Phalcon\Tests\Unit\Assets\Fake\FakeAssetFileExists;
 use Phalcon\Tests\Unit\Assets\Fake\FakeAssetFileGetContents;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 use function file_get_contents;
 use function supportDir;
@@ -30,11 +31,10 @@ final class GetContentTest extends AbstractUnitTestCase
     use AssetsTrait;
 
     /**
-     * @dataProvider providerAssets
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
+    #[DataProvider('providerAssets')]
     public function testAssetsAssetGetContent(
         string $type,
         string $path

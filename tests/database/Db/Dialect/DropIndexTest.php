@@ -17,6 +17,8 @@ use Phalcon\Db\Dialect\Mysql;
 use Phalcon\Db\Dialect\Postgresql;
 use Phalcon\Db\Dialect\Sqlite;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 
 final class DropIndexTest extends AbstractDatabaseTestCase
 {
@@ -46,15 +48,13 @@ final class DropIndexTest extends AbstractDatabaseTestCase
     /**
      * Tests Phalcon\Db\Dialect :: dropIndex
      *
-     * @dataProvider getDialects
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-01-20
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    #[DataProvider('getDialects')]
     public function testDbDialectDropIndex(
         string $dialectClass,
         string $expected

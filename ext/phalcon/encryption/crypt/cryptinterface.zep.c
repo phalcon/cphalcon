@@ -22,139 +22,16 @@
  */
 /**
  * Interface for Phalcon\Crypt
+ *
+ * @psalm-suppress DeprecatedInterface
+ * @deprecated Will be removed in a future major release.
+ *             Use {@see \Phalcon\Contracts\Encryption\Crypt\Crypt} instead.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Encryption_Crypt_CryptInterface)
 {
-	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Encryption\\Crypt, CryptInterface, phalcon, encryption_crypt_cryptinterface, phalcon_encryption_crypt_cryptinterface_method_entry);
+	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Encryption\\Crypt, CryptInterface, phalcon, encryption_crypt_cryptinterface, NULL);
 
+	zend_class_implements(phalcon_encryption_crypt_cryptinterface_ce, 1, phalcon_contracts_encryption_crypt_crypt_ce);
 	return SUCCESS;
 }
 
-/**
- * Decrypts a text
- *
- * @param string      $input
- * @param string|null $key
- *
- * @return string
- */
-ZEPHIR_DOC_METHOD(Phalcon_Encryption_Crypt_CryptInterface, decrypt);
-/**
- * Decrypt a text that is coded as a base64 string
- *
- * @param string      $input
- * @param string|null $key
- *
- * @return string
- */
-ZEPHIR_DOC_METHOD(Phalcon_Encryption_Crypt_CryptInterface, decryptBase64);
-/**
- * Encrypts a text
- *
- * @param string      $input
- * @param string|null $key
- *
- * @return string
- */
-ZEPHIR_DOC_METHOD(Phalcon_Encryption_Crypt_CryptInterface, encrypt);
-/**
- * Encrypts a text returning the result as a base64 string
- *
- * @param string      $input
- * @param string|null $key
- *
- * @return string
- */
-ZEPHIR_DOC_METHOD(Phalcon_Encryption_Crypt_CryptInterface, encryptBase64);
-/**
- * Returns authentication data
- *
- * @return string
- */
-ZEPHIR_DOC_METHOD(Phalcon_Encryption_Crypt_CryptInterface, getAuthData);
-/**
- * Returns the authentication tag
- *
- * @return string
- */
-ZEPHIR_DOC_METHOD(Phalcon_Encryption_Crypt_CryptInterface, getAuthTag);
-/**
- * Returns the authentication tag length
- *
- * @return int
- */
-ZEPHIR_DOC_METHOD(Phalcon_Encryption_Crypt_CryptInterface, getAuthTagLength);
-/**
- * Returns a list of available cyphers
- *
- * @phpstan-return array<array-key, string>
- */
-ZEPHIR_DOC_METHOD(Phalcon_Encryption_Crypt_CryptInterface, getAvailableCiphers);
-/**
- * Returns the current cipher
- *
- * @return string
- */
-ZEPHIR_DOC_METHOD(Phalcon_Encryption_Crypt_CryptInterface, getCipher);
-/**
- * Returns the encryption key
- *
- * @return string
- */
-ZEPHIR_DOC_METHOD(Phalcon_Encryption_Crypt_CryptInterface, getKey);
-/**
- * Sets authentication data
- *
- * @param string $data
- *
- * @return CryptInterface
- */
-ZEPHIR_DOC_METHOD(Phalcon_Encryption_Crypt_CryptInterface, setAuthData);
-/**
- * Sets the authentication tag
- *
- * @param string $tag
- *
- * @return CryptInterface
- */
-ZEPHIR_DOC_METHOD(Phalcon_Encryption_Crypt_CryptInterface, setAuthTag);
-/**
- * Sets the authentication tag length
- *
- * @param int $length
- *
- * @return CryptInterface
- */
-ZEPHIR_DOC_METHOD(Phalcon_Encryption_Crypt_CryptInterface, setAuthTagLength);
-/**
- * Sets the cipher algorithm
- *
- * @param string $cipher
- *
- * @return CryptInterface
- */
-ZEPHIR_DOC_METHOD(Phalcon_Encryption_Crypt_CryptInterface, setCipher);
-/**
- * Sets the encryption key
- *
- * @param string $key
- *
- * @return CryptInterface
- */
-ZEPHIR_DOC_METHOD(Phalcon_Encryption_Crypt_CryptInterface, setKey);
-/**
- * Changes the padding scheme used.
- *
- * @param int $scheme
- *
- * @return CryptInterface
- */
-ZEPHIR_DOC_METHOD(Phalcon_Encryption_Crypt_CryptInterface, setPadding);
-/**
- * Sets if the calculating message digest must be used.
- *
- * @param bool $useSigning
- *
- * @return CryptInterface
- */
-ZEPHIR_DOC_METHOD(Phalcon_Encryption_Crypt_CryptInterface, useSigning);

@@ -6,9 +6,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Application_Exceptions_InvalidModuleDefinition);
 PHP_METHOD(Phalcon_Mvc_Application_Exceptions_InvalidModuleDefinition, __construct);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_application_exceptions_invalidmoduledefinition___construct, 0, 0, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, name, IS_STRING, 1, "null")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, reason, IS_STRING, 1, "null")
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_mvc_application_exceptions_invalidmoduledefinition_method_entry) {
-PHP_ME(Phalcon_Mvc_Application_Exceptions_InvalidModuleDefinition, __construct, arginfo_phalcon_mvc_application_exceptions_invalidmoduledefinition___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Mvc_Application_Exceptions_InvalidModuleDefinition, __construct, arginfo_phalcon_mvc_application_exceptions_invalidmoduledefinition___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_FE_END
 };

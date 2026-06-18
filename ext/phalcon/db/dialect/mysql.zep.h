@@ -26,6 +26,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, listTables);
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, listViews);
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, modifyColumn);
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, onConflictUpdate);
+PHP_METHOD(Phalcon_Db_Dialect_Mysql, supportsOnConflictUpdate);
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, sharedLock);
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, tableExists);
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, tableOptions);
@@ -162,6 +163,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_mysql_onconfl
 	ZEND_ARG_ARRAY_INFO(0, updateColumns, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_mysql_supportsonconflictupdate, 0, 0, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_mysql_sharedlock, 0, 1, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, sqlQuery, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, modifier, IS_STRING, 0, "''")
@@ -226,6 +230,7 @@ ZEPHIR_INIT_FUNCS(phalcon_db_dialect_mysql_method_entry) {
 	PHP_ME(Phalcon_Db_Dialect_Mysql, listViews, arginfo_phalcon_db_dialect_mysql_listviews, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Dialect_Mysql, modifyColumn, arginfo_phalcon_db_dialect_mysql_modifycolumn, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Dialect_Mysql, onConflictUpdate, arginfo_phalcon_db_dialect_mysql_onconflictupdate, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Mysql, supportsOnConflictUpdate, arginfo_phalcon_db_dialect_mysql_supportsonconflictupdate, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Dialect_Mysql, sharedLock, arginfo_phalcon_db_dialect_mysql_sharedlock, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Dialect_Mysql, tableExists, arginfo_phalcon_db_dialect_mysql_tableexists, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Dialect_Mysql, tableOptions, arginfo_phalcon_db_dialect_mysql_tableoptions, ZEND_ACC_PUBLIC)

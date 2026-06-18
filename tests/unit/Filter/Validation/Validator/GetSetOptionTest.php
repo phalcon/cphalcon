@@ -34,6 +34,7 @@ use Phalcon\Filter\Validation\Validator\StringLength;
 use Phalcon\Filter\Validation\Validator\Uniqueness;
 use Phalcon\Filter\Validation\Validator\Url;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 use function uniqid;
 
@@ -74,11 +75,10 @@ final class GetSetOptionTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2018-11-13
      */
+    #[DataProvider('getExamples')]
     public function testFilterValidationValidatorUrlGetSetOption(
         string $class
     ): void {

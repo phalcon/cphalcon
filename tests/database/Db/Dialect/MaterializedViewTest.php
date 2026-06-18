@@ -18,6 +18,7 @@ use Phalcon\Db\Dialect\Postgresql;
 use Phalcon\Db\Dialect\Sqlite;
 use Phalcon\Db\Exception;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
 final class MaterializedViewTest extends AbstractDatabaseTestCase
 {
@@ -26,9 +27,8 @@ final class MaterializedViewTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group pgsql
      */
+    #[Group('pgsql')]
     public function testDbDialectPostgresqlCreateMaterializedView(): void
     {
         $dialect = new Postgresql();
@@ -50,9 +50,8 @@ final class MaterializedViewTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group pgsql
      */
+    #[Group('pgsql')]
     public function testDbDialectPostgresqlRefreshMaterializedView(): void
     {
         $dialect = new Postgresql();
@@ -68,9 +67,8 @@ final class MaterializedViewTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group pgsql
      */
+    #[Group('pgsql')]
     public function testDbDialectPostgresqlRefreshMaterializedViewConcurrent(): void
     {
         $dialect = new Postgresql();
@@ -86,9 +84,8 @@ final class MaterializedViewTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group pgsql
      */
+    #[Group('pgsql')]
     public function testDbDialectPostgresqlDropMaterializedView(): void
     {
         $dialect = new Postgresql();
@@ -109,9 +106,8 @@ final class MaterializedViewTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group mysql
      */
+    #[Group('mysql')]
     public function testDbDialectMysqlMaterializedViewThrows(): void
     {
         $this->expectException(Exception::class);
@@ -127,9 +123,8 @@ final class MaterializedViewTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group sqlite
      */
+    #[Group('sqlite')]
     public function testDbDialectSqliteMaterializedViewThrows(): void
     {
         $this->expectException(Exception::class);

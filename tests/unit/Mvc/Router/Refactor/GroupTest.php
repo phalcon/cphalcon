@@ -19,17 +19,19 @@ use Phalcon\Mvc\Router\Group;
 use Phalcon\Mvc\Router\Route;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\BackupGlobals;
+use PHPUnit\Framework\Attributes\DataProvider;
 
+#[BackupGlobals(true)]
 final class GroupTest extends AbstractUnitTestCase
 {
     use DiTrait;
 
     /**
-     * @dataProvider groupsProvider
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
+    #[DataProvider('groupsProvider')]
     public function testMvcRouterGroupGroups(
         string $route,
         string $module,
@@ -94,11 +96,10 @@ final class GroupTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider hostnameRoutesProvider
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
+    #[DataProvider('hostnameRoutesProvider')]
     public function testMvcRouterGroupHostnameRouteGroup(
         ?string $actualHost,
         ?string $expectedHost,
@@ -148,11 +149,10 @@ final class GroupTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider hostnameRoutesRegexProvider
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
+    #[DataProvider('hostnameRoutesRegexProvider')]
     public function testMvcRouterGroupHostnameRegexRouteGroup(
         ?string $actualHost,
         ?string $expectedHost,

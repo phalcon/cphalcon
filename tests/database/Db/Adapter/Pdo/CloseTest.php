@@ -16,6 +16,7 @@ namespace Phalcon\Tests\Database\Db\Adapter\Pdo;
 use PDO;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 final class CloseTest extends AbstractDatabaseTestCase
 {
@@ -32,11 +33,10 @@ final class CloseTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-18
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testDbAdapterPdoClose(): void
     {
         $db = $this->container->get('db');

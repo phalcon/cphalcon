@@ -18,7 +18,9 @@ use Phalcon\Mvc\Router\Exception;
 use Phalcon\Mvc\Router\Route;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Mvc\Fake\RouterTrait;
+use PHPUnit\Framework\Attributes\BackupGlobals;
 
+#[BackupGlobals(true)]
 final class CoverageGapsTest extends AbstractUnitTestCase
 {
     use RouterTrait;

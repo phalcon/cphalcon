@@ -13,7 +13,6 @@ namespace Phalcon\Encryption\Crypt;
 use Phalcon\Encryption\Crypt;
 use Phalcon\Encryption\Crypt\Padding\PadInterface;
 use Phalcon\Factory\AbstractFactory;
-use Phalcon\Support\Helper\Arr\Get;
 
 /**
  * Factory for creating pad classes
@@ -58,6 +57,7 @@ class PadFactory extends AbstractFactory
         array map;
 
         let map = [
+            Crypt::PADDING_DEFAULT        : "noop",
             Crypt::PADDING_ANSI_X_923     : "ansi",
             Crypt::PADDING_ISO_10126      : "iso10126",
             Crypt::PADDING_ISO_IEC_7816_4 : "isoiek",
@@ -66,7 +66,13 @@ class PadFactory extends AbstractFactory
             Crypt::PADDING_ZERO           : "zero"
         ];
 
-        return (new Get())->__invoke(map, number, "noop");
+        if unlikely !isset map[number] {
+            throw this->getException(
+                "Unknown padding constant " . number
+            );
+        }
+
+        return map[number];
     }
 
     /**
@@ -80,6 +86,7 @@ class PadFactory extends AbstractFactory
             "isoiek"   : "Phalcon\\Encryption\\Crypt\\Padding\\IsoIek",
             "noop"     : "Phalcon\\Encryption\\Crypt\\Padding\\Noop",
             "pjcs7"    : "Phalcon\\Encryption\\Crypt\\Padding\\Pkcs7",
+            "pkcs7"    : "Phalcon\\Encryption\\Crypt\\Padding\\Pkcs7",
             "space"    : "Phalcon\\Encryption\\Crypt\\Padding\\Space",
             "zero"     : "Phalcon\\Encryption\\Crypt\\Padding\\Zero"
         ];

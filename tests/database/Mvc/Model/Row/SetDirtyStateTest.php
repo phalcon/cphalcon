@@ -15,17 +15,17 @@ namespace Phalcon\Tests\Database\Mvc\Model\Row;
 
 use Phalcon\Mvc\Model\Row;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
 final class SetDirtyStateTest extends AbstractDatabaseTestCase
 {
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelRowSetDirtyState(): void
     {
         $row = new Row();

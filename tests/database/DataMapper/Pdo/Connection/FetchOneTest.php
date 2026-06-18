@@ -18,7 +18,13 @@ use Phalcon\DataMapper\Pdo\Connection;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 
+use function env;
+
+#[Group('mysql')]
+#[Group('pgsql')]
+#[Group('sqlite')]
 final class FetchOneTest extends AbstractDatabaseTestCase
 {
     /**
@@ -106,7 +112,7 @@ final class FetchOneTest extends AbstractDatabaseTestCase
 
     public static function providerFetchOneBindTypes(): array
     {
-        return [
+        $data = [
             [
                 'numeric',
                 'inv_id = ?',
@@ -132,22 +138,6 @@ final class FetchOneTest extends AbstractDatabaseTestCase
                 ],
             ],
             [
-                'named null',
-                'inv_id = :id AND inv_status_flag IS NOT :status',
-                [
-                    'id'     => 1,
-                    'status' => null,
-                ],
-            ],
-            [
-                'named null with type',
-                'inv_id = :id AND inv_status_flag IS NOT :status',
-                [
-                    'id'     => [1, PDO::PARAM_INT],
-                    'status' => [null, PDO::PARAM_NULL],
-                ],
-            ],
-            [
                 'named string',
                 'inv_title = :title',
                 [
@@ -155,5 +145,30 @@ final class FetchOneTest extends AbstractDatabaseTestCase
                 ],
             ],
         ];
+
+        /**
+         * `IS NOT :param` is valid on MySQL/SQLite but not on PostgreSQL,
+         * where a parameter cannot be bound inside an `IS NOT` predicate.
+         */
+        if ('pgsql' !== env('driver')) {
+            $data[] = [
+                'named null',
+                'inv_id = :id AND inv_status_flag IS NOT :status',
+                [
+                    'id'     => 1,
+                    'status' => null,
+                ],
+            ];
+            $data[] = [
+                'named null with type',
+                'inv_id = :id AND inv_status_flag IS NOT :status',
+                [
+                    'id'     => [1, PDO::PARAM_INT],
+                    'status' => [null, PDO::PARAM_NULL],
+                ],
+            ];
+        }
+
+        return $data;
     }
 }

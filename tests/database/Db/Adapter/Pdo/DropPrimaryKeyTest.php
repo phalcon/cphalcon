@@ -16,6 +16,7 @@ namespace Phalcon\Tests\Database\Db\Adapter\Pdo;
 use Phalcon\Db\Exception;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 use function env;
 
@@ -60,10 +61,9 @@ final class DropPrimaryKeyTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-19
-     *
-     * @group mysql
-     * @group pgsql
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
     public function testDbAdapterPdoDropPrimaryKey(): void
     {
         $db = $this->container->get('db');
@@ -84,9 +84,8 @@ final class DropPrimaryKeyTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-19
-     *
-     * @group sqlite
      */
+    #[Group('sqlite')]
     public function testDbAdapterPdoDropPrimaryKeySqlite(): void
     {
         $db = $this->container->get('db');

@@ -16,17 +16,17 @@ namespace Phalcon\Tests\Unit\Assets\Asset;
 use Phalcon\Assets\Asset;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Assets\Fake\AssetsTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class ConstructTest extends AbstractUnitTestCase
 {
     use AssetsTrait;
 
     /**
-     * @dataProvider providerAssets
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
+    #[DataProvider('providerAssets')]
     public function testAssetsAssetConstructAttributes(
         string $type,
         string $path
@@ -39,11 +39,10 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider providerAssets
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
+    #[DataProvider('providerAssets')]
     public function testAssetsAssetConstructAttributesSet(
         string $type,
         string $path
@@ -65,11 +64,10 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider providerAssets
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
+    #[DataProvider('providerAssets')]
     public function testAssetsAssetConstructFilter(
         string $type,
         string $path
@@ -81,11 +79,10 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider providerAssets
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
+    #[DataProvider('providerAssets')]
     public function testAssetsAssetConstructFilterSet(
         string $type,
         string $path
@@ -102,11 +99,10 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider providerAssets
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
+    #[DataProvider('providerAssets')]
     public function testAssetsAssetConstructLocal(
         string $type,
         string $path
@@ -117,11 +113,10 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider providerAssets
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
+    #[DataProvider('providerAssets')]
     public function testAssetsAssetConstructRemote(
         string $type,
         string $path

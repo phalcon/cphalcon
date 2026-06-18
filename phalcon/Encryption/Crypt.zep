@@ -16,6 +16,8 @@ use Phalcon\Encryption\Crypt\Exception\EmptyDecryptionKey;
 use Phalcon\Encryption\Crypt\Exception\EmptyEncryptionKey;
 use Phalcon\Encryption\Crypt\Exception\EncryptionFailed;
 use Phalcon\Encryption\Crypt\Exception\Exception;
+use Phalcon\Encryption\Crypt\Exception\InvalidAuthTagLength;
+use Phalcon\Encryption\Crypt\Exception\InvalidDecryptLength;
 use Phalcon\Encryption\Crypt\Exception\InvalidPaddingSize;
 use Phalcon\Encryption\Crypt\Exception\IvLengthCalculationFailed;
 use Phalcon\Encryption\Crypt\Exception\Mismatch;
@@ -202,6 +204,7 @@ class Crypt implements CryptInterface
      *
      * @return string
      * @throws Exception
+     * @throws InvalidDecryptLength
      * @throws Mismatch
      */
     public function decrypt(string input, string key = null) -> string
@@ -222,6 +225,10 @@ class Crypt implements CryptInterface
             ivLength = this->ivLength;
 
         this->checkCipherHashIsAvailable(cipher, "cipher");
+
+        if true !== this->isValidDecryptLength(input) {
+            throw new InvalidDecryptLength();
+        }
 
         let mode      = this->getMode(),
             blockSize = this->getBlockSize(mode),
@@ -501,9 +508,9 @@ class Crypt implements CryptInterface
     /**
      * @param string $data
      *
-     * @return static
+     * @return CryptInterface
      */
-    public function setAuthData(string data) -> <static>
+    public function setAuthData(string data) -> <CryptInterface>
     {
         let this->authData = data;
 
@@ -513,9 +520,9 @@ class Crypt implements CryptInterface
     /**
      * @param string $tag
      *
-     * @return static
+     * @return CryptInterface
      */
-    public function setAuthTag(string tag) -> <static>
+    public function setAuthTag(string tag) -> <CryptInterface>
     {
         let this->authTag = tag;
 
@@ -525,10 +532,15 @@ class Crypt implements CryptInterface
     /**
      * @param int $length
      *
-     * @return static
+     * @return CryptInterface
+     * @throws InvalidAuthTagLength
      */
-    public function setAuthTagLength(int length) -> <static>
+    public function setAuthTagLength(int length) -> <CryptInterface>
     {
+        if length < 4 || length > 16 {
+            throw new InvalidAuthTagLength();
+        }
+
         let this->authTagLength = length;
 
         return this;
@@ -539,10 +551,10 @@ class Crypt implements CryptInterface
      *
      * @param string $cipher
      *
-     * @return static
+     * @return CryptInterface
      * @throws Exception
      */
-    public function setCipher(string cipher) -> <static>
+    public function setCipher(string cipher) -> <CryptInterface>
     {
         this->checkCipherHashIsAvailable(cipher, "cipher");
 
@@ -569,9 +581,9 @@ class Crypt implements CryptInterface
      *
      * @param string $key
      *
-     * @return static
+     * @return CryptInterface
      */
-    public function setKey(string key) -> <static>
+    public function setKey(string key) -> <CryptInterface>
     {
         let this->key = key;
 
@@ -600,9 +612,9 @@ class Crypt implements CryptInterface
      *
      * @param int $scheme
      *
-     * @return static
+     * @return CryptInterface
      */
-    public function setPadding(int scheme) -> <static>
+    public function setPadding(int scheme) -> <CryptInterface>
     {
         let this->padding = scheme;
 
@@ -614,9 +626,9 @@ class Crypt implements CryptInterface
      *
      * @param bool $useSigning
      *
-     * @return static
+     * @return CryptInterface
      */
-    public function useSigning(bool useSigning) -> <static>
+    public function useSigning(bool useSigning) -> <CryptInterface>
     {
         let this->useSigning = useSigning;
 
@@ -671,7 +683,7 @@ class Crypt implements CryptInterface
         let padding     = "",
             paddingSize = 0;
 
-        if true === this->checkIsMode(["cbc", "ecb"], mode) {
+        if true === this->checkIsMode(["cbc"], mode) {
             let paddingSize = blockSize - (strlen(input) % blockSize);
 
             if paddingSize >= 256 || paddingSize < 0 {
@@ -718,7 +730,7 @@ class Crypt implements CryptInterface
         if (
             length > 0 &&
             (length % blockSize === 0) &&
-            true === this->checkIsMode(["cbc", "ecb"], mode)
+            true === this->checkIsMode(["cbc"], mode)
         ) {
             let service     = this->padFactory->padNumberToService(paddingType),
                 paddingSize = this->padFactory->newInstance(service)
@@ -759,7 +771,7 @@ class Crypt implements CryptInterface
         var localDecrypted, padding;
 
         let localDecrypted = decrypted;
-        if true === this->checkIsMode(["cbc", "ecb"], mode) {
+        if true === this->checkIsMode(["cbc"], mode) {
             let padding   = this->padding,
                 localDecrypted = this->cryptUnpadText(
                     decrypted,
@@ -787,15 +799,17 @@ class Crypt implements CryptInterface
         string decryptKey,
         string iv
     ) -> string {
-        var authData, authTag, authTagLength, cipher, encrypted, decrypted;
+        var authData, authTag, authTagLength, cipher, cipherLength, encrypted,
+            decrypted;
 
         let cipher = this->cipher;
 
         if true === this->checkIsMode(["ccm", "gcm"], mode) {
             let authData      = this->authData,
                 authTagLength = this->authTagLength,
-                authTag       = substr(cipherText, -authTagLength),
-                encrypted     = str_replace(authTag, "", cipherText);
+                cipherLength  = strlen(cipherText),
+                authTag       = substr(cipherText, cipherLength - authTagLength),
+                encrypted     = substr(cipherText, 0, cipherLength - authTagLength);
 
             let decrypted = openssl_decrypt(
                 encrypted,
@@ -838,7 +852,7 @@ class Crypt implements CryptInterface
     ) -> string {
         if (
             0 !== this->padding &&
-            true === this->checkIsMode(["cbc", "ecb"], mode)
+            true === this->checkIsMode(["cbc"], mode)
         ) {
             return this->cryptPadText(input, mode, blockSize, this->padding);
         }

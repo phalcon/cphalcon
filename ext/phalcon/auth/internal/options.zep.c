@@ -82,9 +82,66 @@ PHP_METHOD(Phalcon_Auth_Internal_Options, arrayOption)
 	if (!(Z_TYPE_P(&value) == IS_ARRAY)) {
 		RETURN_CTOR(&defaultValue);
 	}
-	ZEPHIR_RETURN_CALL_FUNCTION("array_values", NULL, 28, &value);
+	ZEPHIR_RETURN_CALL_FUNCTION("array_values", NULL, 29, &value);
 	zephir_check_call_status();
 	RETURN_MM();
+}
+
+/**
+ * @phpstan-param array<string, mixed> $options
+ *
+ * @phpstan-return array<string, mixed>
+ * @throws Exception
+ */
+PHP_METHOD(Phalcon_Auth_Internal_Options, requireArray)
+{
+	zend_bool _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zend_string *key = NULL, *context = NULL;
+	zval *options_param = NULL, key_zv, context_zv, value, _1$$3, _2$$3, _3$$3;
+	zval options;
+
+	ZVAL_UNDEF(&options);
+	ZVAL_UNDEF(&key_zv);
+	ZVAL_UNDEF(&context_zv);
+	ZVAL_UNDEF(&value);
+	ZVAL_UNDEF(&_1$$3);
+	ZVAL_UNDEF(&_2$$3);
+	ZVAL_UNDEF(&_3$$3);
+	ZEND_PARSE_PARAMETERS_START(3, 3)
+		ZEPHIR_Z_PARAM_ARRAY(options, options_param)
+		Z_PARAM_STR(key)
+		Z_PARAM_STR(context)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	options_param = ZEND_CALL_ARG(execute_data, 1);
+	zephir_get_arrval(&options, options_param);
+	zephir_memory_observe(&key_zv);
+	ZVAL_STR_COPY(&key_zv, key);
+	zephir_memory_observe(&context_zv);
+	ZVAL_STR_COPY(&context_zv, context);
+	zephir_memory_observe(&value);
+	zephir_array_isset_fetch(&value, &options, &key_zv, 0);
+	_0 = Z_TYPE_P(&value) != IS_ARRAY;
+	if (!(_0)) {
+		_0 = ZEPHIR_IS_EMPTY(&value);
+	}
+	if (_0) {
+		ZEPHIR_INIT_VAR(&_1$$3);
+		object_init_ex(&_1$$3, phalcon_auth_exception_ce);
+		ZEPHIR_INIT_VAR(&_2$$3);
+		ZVAL_STRING(&_2$$3, "Auth %s requires '%s' to be a non-empty array");
+		ZEPHIR_CALL_FUNCTION(&_3$$3, "sprintf", NULL, 132, &_2$$3, &context_zv, &key_zv);
+		zephir_check_call_status();
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 8, &_3$$3);
+		zephir_check_call_status();
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Auth/Internal/Options.zep", 59);
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	RETURN_CCTOR(&value);
 }
 
 /**
@@ -132,11 +189,11 @@ PHP_METHOD(Phalcon_Auth_Internal_Options, requireString)
 		object_init_ex(&_1$$3, phalcon_auth_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZVAL_STRING(&_2$$3, "Auth %s requires '%s' to be a non-empty string");
-		ZEPHIR_CALL_FUNCTION(&_3$$3, "sprintf", NULL, 129, &_2$$3, &context_zv, &key_zv);
+		ZEPHIR_CALL_FUNCTION(&_3$$3, "sprintf", NULL, 132, &_2$$3, &context_zv, &key_zv);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 8, &_3$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Auth/Internal/Options.zep", 58);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Auth/Internal/Options.zep", 79);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

@@ -28,6 +28,7 @@ use Phalcon\Storage\Serializer\RedisMsgpack;
 use Phalcon\Storage\Serializer\RedisNone;
 use Phalcon\Storage\Serializer\RedisPhp;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class GetSetDataTest extends AbstractUnitTestCase
 {
@@ -83,11 +84,10 @@ final class GetSetDataTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2022-02-24
      */
+    #[DataProvider('getExamples')]
     public function testStorageSerializerGetSetData(
         string $class
     ) {

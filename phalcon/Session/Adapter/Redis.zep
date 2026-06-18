@@ -24,6 +24,12 @@ use Phalcon\Storage\AdapterFactory;
     protected lockAcquired = false;
 
     /**
+     * Lock time-to-live in seconds. The lock is not refreshed during the
+     * request: a request that runs longer than this expiry loses its lock
+     * silently and a concurrent request may then acquire it (the token-guarded
+     * release still avoids deleting the newer lock). Raise this above the
+     * longest expected request to retain the lock for the whole request.
+     *
      * @var int
      */
     protected lockExpiry = 30;
@@ -138,10 +144,21 @@ use Phalcon\Storage\AdapterFactory;
      */
     protected function acquireLock(var id) -> bool
     {
-        var client, result, token;
+        var client, lockKey, result, token;
         int attempt;
 
-        let this->lockKey = this->prefix . id . "-lock",
+        let lockKey = this->prefix . id . "-lock";
+
+        /**
+         * Re-entrant read (e.g. the session_reset() path) while this instance
+         * already holds the lock for this id: return the held lock instead of
+         * spinning against our own lock for the full retry budget
+         */
+        if (true === this->lockAcquired && lockKey === this->lockKey) {
+            return true;
+        }
+
+        let this->lockKey = lockKey,
             client        = this->adapter->getAdapter(),
             token         = bin2hex(random_bytes(16)),
             attempt       = 0;

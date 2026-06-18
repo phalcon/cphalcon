@@ -18,6 +18,7 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Migrations\FractalDatesMigration;
 use Phalcon\Tests\Support\Models\FractalDates;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 final class UpdateFunctionDefaultTest extends AbstractDatabaseTestCase
 {
@@ -40,9 +41,8 @@ final class UpdateFunctionDefaultTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-29
-     *
-     * @group pgsql
      */
+    #[Group('pgsql')]
     public function testMvcModelUpdateWithFunctionCallDefault(): void
     {
         /**

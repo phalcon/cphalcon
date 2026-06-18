@@ -21,6 +21,7 @@ use Phalcon\Cache\Adapter\RedisCluster;
 use Phalcon\Cache\Adapter\Stream;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 use function getOptionsLibmemcached;
 use function getOptionsRedis;
@@ -84,11 +85,10 @@ final class IncrementTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
+    #[DataProvider('getExamples')]
     public function testCacheAdapterIncrement(
         string $className,
         string $class,

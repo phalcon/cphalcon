@@ -17,7 +17,7 @@ class SessionServiceUnavailable extends Exception
     public function __construct()
     {
         parent::__construct(
-            "A dependency injection container is required to access the 'session' service"
+            "The 'session' service is not available (no container, or service not registered)"
         );
     }
 }

@@ -15,12 +15,24 @@
 namespace Phalcon\Html\Escaper;
 
 /**
- * Interface for Phalcon\Html\Escaper
+ * Interface for Phalcon\Html\Escaper.
+ *
+ * This declares the stable context-escaping surface. The concrete
+ * {@see \Phalcon\Html\Escaper} facade also exposes members that are not part
+ * of this contract - `setDoubleEncode()`, `getFlags()`, and the per-context
+ * sub-escaper getters/setters (`getHtmlEscaper()`, `setAttributeEscaper()`,
+ * and the rest). Type against the concrete class to reach those.
  */
 interface EscaperInterface
 {
     /**
-     * Escapes a HTML attribute string
+     * Escapes a HTML attribute string.
+     *
+     * The concrete {@see \Phalcon\Html\Escaper} also accepts an array of
+     * attribute pairs and tolerates `null`: an array is rendered as escaped
+     * `key="value"` pairs, `null` and `false` values are skipped, and `true`
+     * renders as a bare key. Callers typed against this interface pass a
+     * string. The widened signature lands in the next major.
      *
      * @param string $input
      *
@@ -46,7 +58,10 @@ interface EscaperInterface
     public function getEncoding() -> string;
 
     /**
-     * Escapes a HTML string
+     * Escapes a HTML string.
+     *
+     * The concrete {@see \Phalcon\Html\Escaper} tolerates `null`, returning an
+     * empty string for it. The nullable signature lands in the next major.
      *
      * @param string $input
      *

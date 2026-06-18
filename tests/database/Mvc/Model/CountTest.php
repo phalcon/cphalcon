@@ -21,11 +21,9 @@ use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Models\InvoicesMap;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
-/**
- *
- * @group phql
- */
+#[Group('phql')]
 final class CountTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -57,11 +55,10 @@ final class CountTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-01-29
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelCount(): void
     {
         /**
@@ -163,12 +160,11 @@ final class CountTest extends AbstractDatabaseTestCase
      * @issue  https://github.com/phalcon/cphalcon/issues/16471
      * @author Phalcon Team <team@phalcon.io>
      * @since  2023-12-26
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
-     * @group pgsql
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    #[Group('pgsql')]
     public function testMvcModelCountColumnMap(): void
     {
         /**

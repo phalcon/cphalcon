@@ -26,6 +26,7 @@ use Phalcon\Support\Exception as HelperException;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Cache\Fake\Adapter\FakeStreamFileGetContents;
 use Phalcon\Tests\Unit\Cache\Fake\Adapter\FakeStreamFopen;
+use PHPUnit\Framework\Attributes\DataProvider;
 use stdClass;
 
 use function getOptionsLibmemcached;
@@ -78,11 +79,10 @@ final class HasTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
+    #[DataProvider('getExamples')]
     public function testCacheAdapterHas(
         string $class,
         array $options,

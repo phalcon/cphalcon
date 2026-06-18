@@ -137,11 +137,7 @@ class Gettext extends AbstractAdapter
      */
     public function has(string! index) -> bool
     {
-        var result;
-
-        let result = this->query(index);
-
-        return result !== index;
+        return gettext(index) !== index;
     }
 
     /**
@@ -181,10 +177,19 @@ class Gettext extends AbstractAdapter
      * @phpstan-param array<string, string> $placeholders
      *
      * @return string
+     * @throws Exception
      */
     public function query(string! translateKey, array placeholders = []) -> string
     {
-        return this->replacePlaceholders(gettext(translateKey), placeholders);
+        var translation;
+
+        let translation = gettext(translateKey);
+
+        if translation === translateKey {
+            let translation = this->notFound(translateKey);
+        }
+
+        return this->replacePlaceholders(translation, placeholders);
     }
 
     /**
@@ -261,6 +266,13 @@ class Gettext extends AbstractAdapter
 
     /**
      * Sets locale information
+     *
+     * Note: this method has process-global side effects. Besides calling
+     * `setlocale()`, it exports the `LC_ALL`, `LANG` and `LANGUAGE`
+     * environment variables via `putenv()`. `LC_ALL` affects every
+     * locale-sensitive operation in the process - `(string)` casts of floats,
+     * `strtoupper()`/`strtolower()` tables, date formatting and more - not
+     * just translations.
      *
      * ```php
      * // Set locale to Dutch

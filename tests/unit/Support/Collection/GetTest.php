@@ -21,12 +21,11 @@ use function uniqid;
 final class GetTest extends AbstractCollectionTestCase
 {
     /**
-     * @dataProvider getClasses
-     *
      * @issue  https://github.com/phalcon/cphalcon/issues/15370
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2021-12-01
      */
+    #[DataProvider('getClasses')]
     #[DataProvider('getClasses')]
     public function testSupportCollectionGet(
         string $class,
@@ -67,11 +66,10 @@ final class GetTest extends AbstractCollectionTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
+    #[DataProvider('getExamples')]
     #[DataProvider('getExamples')]
     public function testSupportCollectionGetCast(
         string $class,

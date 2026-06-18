@@ -10,13 +10,15 @@
 
 namespace Phalcon\Assets;
 
+use Phalcon\Contracts\Assets\Filter as FilterContract;
+
 /**
- * Interface for custom Phalcon\Assets filters
+ * Phalcon\Assets\FilterInterface
+ *
+ * @psalm-suppress DeprecatedInterface
+ * @deprecated Will be removed in a future major release.
+ *             Use {@see \Phalcon\Contracts\Assets\Filter} instead.
  */
-interface FilterInterface
+interface FilterInterface extends FilterContract
 {
-    /**
-     * Filters the content returning a string with the filtered content
-     */
-    public function filter(string! content) -> string;
 }

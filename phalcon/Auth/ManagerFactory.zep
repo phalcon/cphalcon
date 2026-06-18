@@ -17,11 +17,13 @@ use Phalcon\Auth\Access\AccessLocator;
 use Phalcon\Auth\Adapter\AdapterLocator;
 use Phalcon\Auth\Guard\GuardLocator;
 use Phalcon\Auth\Internal\ContainerResolver;
+use Phalcon\Auth\Internal\Options;
 use Phalcon\Config\ConfigInterface;
 use Phalcon\Contracts\Auth\Access\Access;
 use Phalcon\Contracts\Auth\Adapter\Adapter;
 use Phalcon\Contracts\Auth\Guard\Guard;
 use Phalcon\Contracts\Container\Service\Collection;
+use Phalcon\Di\DiInterface;
 use Phalcon\Encryption\Security;
 
 /**
@@ -87,7 +89,7 @@ class ManagerFactory
      */
     protected adapterLocator;
     /**
-     * @var Collection
+     * @var Collection|DiInterface
      */
     protected container;
     /**
@@ -139,10 +141,13 @@ class ManagerFactory
         let guards = isset(config["guards"]) ? config["guards"] : [];
 
         for name, gconf in guards {
-            let adapter = this->buildAdapter(this->adapterLocator, gconf["adapter"]);
+            let adapter = this->buildAdapter(
+                this->adapterLocator,
+                Options::requireArray(gconf, "adapter", "guard '" . name . "'")
+            );
             let guard   = this->buildGuard(
                 this->guardLocator,
-                gconf["type"],
+                Options::requireString(gconf, "type", "guard '" . name . "'"),
                 adapter,
                 isset(gconf["options"]) ? gconf["options"] : []
             );
@@ -171,7 +176,7 @@ class ManagerFactory
     {
         var className, name;
 
-        let name = cfg["name"];
+        let name = Options::requireString(cfg, "name", "adapter");
 
         if (!locator->has(name)) {
             throw new Exception(sprintf("Unknown auth adapter '%s'", name));

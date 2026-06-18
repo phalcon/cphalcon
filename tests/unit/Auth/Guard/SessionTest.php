@@ -16,17 +16,21 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Auth\Guard;
 
+use DateTimeImmutable;
 use Phalcon\Auth\Adapter\Config\MemoryAdapterConfig;
 use Phalcon\Auth\Adapter\Memory;
 use Phalcon\Auth\Exception;
+use Phalcon\Auth\Guard\Config\SessionGuardConfig;
 use Phalcon\Contracts\Auth\Guard\Guard;
 use Phalcon\Auth\Guard\Session;
 use Phalcon\Encryption\Security;
 use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Auth\Fake\FakeCookies;
+use Phalcon\Tests\Unit\Auth\Fake\FakeRememberAdapter;
 use Phalcon\Tests\Unit\Auth\Fake\FakeRequest;
 use Phalcon\Tests\Unit\Auth\Fake\FakeSessionManager;
+use Phalcon\Time\Clock\FrozenClock;
 
 final class SessionTest extends AbstractUnitTestCase
 {
@@ -446,6 +450,43 @@ final class SessionTest extends AbstractUnitTestCase
         ]);
 
         $this->assertFalse($guard->onceBasic());
+    }
+
+    public function testRememberCookieExpiryUsesInjectedClock(): void
+    {
+        $rememberAdapter = new FakeRememberAdapter(
+            $this->security,
+            new MemoryAdapterConfig(
+                [
+                    [
+                        'id'       => 1,
+                        'email'    => 'alice@example.com',
+                        'password' => $this->security->hash('secret'),
+                    ],
+                ],
+                \Phalcon\Tests\Unit\Auth\Fake\FakeAuthUserModel::class
+            )
+        );
+
+        $clock  = new FrozenClock(new DateTimeImmutable('@1700000000'));
+        $config = new SessionGuardConfig(rememberTtl: 3600);
+
+        $guard = new Session(
+            $rememberAdapter,
+            $this->request,
+            $this->cookies,
+            $this->session,
+            $config,
+            $clock
+        );
+
+        $user = $rememberAdapter->retrieveById(1);
+        $this->assertNotNull($user);
+
+        $guard->login($user, true);
+
+        $cookie = $this->cookies->get($guard->getRememberName());
+        $this->assertSame(1700000000 + 3600, $cookie->getExpiration());
     }
 
     public function testRememberLoginPersistsCookieAndRecallsUser(): void

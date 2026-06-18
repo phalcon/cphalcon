@@ -22,15 +22,13 @@ use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Models\InvoicesGetters;
 use Phalcon\Tests\Support\Models\InvoicesMap;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 use function date;
 use function getOptionsMysql;
 use function uniqid;
 
-/**
- *
- * @group phql
- */
+#[Group('phql')]
 final class ToArrayTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -48,11 +46,10 @@ final class ToArrayTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-11-03
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelToArray(): void
     {
         $title = uniqid('inv-');
@@ -95,11 +92,10 @@ final class ToArrayTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-11-03
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelToArrayColumnMap(): void
     {
         $title = uniqid('inv-');
@@ -143,11 +139,10 @@ final class ToArrayTest extends AbstractDatabaseTestCase
      * @issue https://github.com/phalcon/cphalcon/issues/16467
      * @author Phalcon Team <team@phalcon.io>
      * @since  2022-11-21
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelToArrayExecuteColumnNotInColumnMap(): void
     {
         /** @var PDO $connection */
@@ -203,9 +198,8 @@ final class ToArrayTest extends AbstractDatabaseTestCase
      * @issue https://github.com/phalcon/cphalcon/issues/15361
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-11-03
-     *
-     * @group mysql
      */
+    #[Group('mysql')]
     public function testMvcModelToArrayFindCastOnHydrateForceCasting(): void
     {
         /** @var PDO $connection */
@@ -276,11 +270,10 @@ final class ToArrayTest extends AbstractDatabaseTestCase
      * @issue https://github.com/phalcon/cphalcon/issues/1701
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-11-03
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelToArrayFindFirstColumns(): void
     {
         $title = uniqid('inv-');
@@ -320,11 +313,10 @@ final class ToArrayTest extends AbstractDatabaseTestCase
      * @issue  https://github.com/phalcon/cphalcon/issues/11922
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-11-16
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelToArrayModelWithGetters(): void
     {
         /** @var PDO $connection */
@@ -376,11 +368,10 @@ final class ToArrayTest extends AbstractDatabaseTestCase
      * @issue  https://github.com/phalcon/cphalcon/issues/11922
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-11-16
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelToArrayModelWithGettersSerialize(): void
     {
         /** @var PDO $connection */

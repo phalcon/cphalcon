@@ -18,6 +18,7 @@ use Phalcon\Filter\Validation\Validator\Digit;
 use Phalcon\Filter\Validation\Validator\StringLength;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Forms\Fake\FormsTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 use function uniqid;
 
@@ -26,11 +27,10 @@ final class GetAddValidatorsTest extends AbstractUnitTestCase
     use FormsTrait;
 
     /**
-     * @dataProvider getExamples
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2021-12-05
      */
+    #[DataProvider('getExamples')]
     public function testFormsElementGetAddValidators(
         string $class
     ): void {
@@ -61,11 +61,10 @@ final class GetAddValidatorsTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2024-01-01
      */
+    #[DataProvider('getExamples')]
     public function testFormsElementAddValidatorsMergeFalseClearsExisting(
         string $class
     ): void {

@@ -18,6 +18,7 @@
 #include "kernel/exception.h"
 #include "kernel/object.h"
 #include "kernel/array.h"
+#include "kernel/concat.h"
 #include "kernel/operators.h"
 
 
@@ -110,15 +111,18 @@ PHP_METHOD(Phalcon_Encryption_Crypt_PadFactory, newInstance)
  */
 PHP_METHOD(Phalcon_Encryption_Crypt_PadFactory, padNumberToService)
 {
+	zval _2$$3;
 	zval map;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval *number_param = NULL, _0, _1, _2;
+	zval *number_param = NULL, _3, _0$$3, _1$$3;
 	zend_long number, ZEPHIR_LAST_CALL_STATUS;
+	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_0$$3);
+	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&map);
+	ZVAL_UNDEF(&_2$$3);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_LONG(number)
 	ZEND_PARSE_PARAMETERS_END();
@@ -126,26 +130,27 @@ PHP_METHOD(Phalcon_Encryption_Crypt_PadFactory, padNumberToService)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &number_param);
 	ZEPHIR_INIT_VAR(&map);
-	zephir_create_array(&map, 6, 0);
+	zephir_create_array(&map, 7, 0);
+	add_index_stringl(&map, 0, SL("noop"));
 	add_index_stringl(&map, 1, SL("ansi"));
 	add_index_stringl(&map, 3, SL("iso10126"));
 	add_index_stringl(&map, 4, SL("isoiek"));
 	add_index_stringl(&map, 2, SL("pjcs7"));
 	add_index_stringl(&map, 6, SL("space"));
 	add_index_stringl(&map, 5, SL("zero"));
-	ZEPHIR_INIT_VAR(&_0);
-	object_init_ex(&_0, phalcon_support_helper_arr_get_ce);
-	if (zephir_has_constructor(&_0)) {
-		ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 0);
+	if (UNEXPECTED(!(zephir_array_isset_value_long(&map, number)))) {
+		ZEPHIR_INIT_VAR(&_1$$3);
+		ZVAL_LONG(&_1$$3, number);
+		ZEPHIR_INIT_VAR(&_2$$3);
+		ZEPHIR_CONCAT_SV(&_2$$3, "Unknown padding constant ", &_1$$3);
+		ZEPHIR_CALL_METHOD(&_0$$3, this_ptr, "getexception", NULL, 0, &_2$$3);
 		zephir_check_call_status();
+		zephir_throw_exception_debug(&_0$$3, "phalcon/Encryption/Crypt/PadFactory.zep", 72);
+		ZEPHIR_MM_RESTORE();
+		return;
 	}
-
-	ZVAL_LONG(&_1, number);
-	ZEPHIR_INIT_VAR(&_2);
-	ZVAL_STRING(&_2, "noop");
-	ZEPHIR_RETURN_CALL_METHOD(&_0, "__invoke", NULL, 265, &map, &_1, &_2);
-	zephir_check_call_status();
-	RETURN_MM();
+	zephir_array_fetch_long(&_3, &map, number, PH_NOISY | PH_READONLY, "phalcon/Encryption/Crypt/PadFactory.zep", 75);
+	RETURN_CTOR(&_3);
 }
 
 /**
@@ -154,12 +159,13 @@ PHP_METHOD(Phalcon_Encryption_Crypt_PadFactory, padNumberToService)
 PHP_METHOD(Phalcon_Encryption_Crypt_PadFactory, getServices)
 {
 
-	zephir_create_array(return_value, 7, 0);
+	zephir_create_array(return_value, 8, 0);
 	add_assoc_stringl_ex(return_value, SL("ansi"), SL("Phalcon\\Encryption\\Crypt\\Padding\\Ansi"));
 	add_assoc_stringl_ex(return_value, SL("iso10126"), SL("Phalcon\\Encryption\\Crypt\\Padding\\Iso10126"));
 	add_assoc_stringl_ex(return_value, SL("isoiek"), SL("Phalcon\\Encryption\\Crypt\\Padding\\IsoIek"));
 	add_assoc_stringl_ex(return_value, SL("noop"), SL("Phalcon\\Encryption\\Crypt\\Padding\\Noop"));
 	add_assoc_stringl_ex(return_value, SL("pjcs7"), SL("Phalcon\\Encryption\\Crypt\\Padding\\Pkcs7"));
+	add_assoc_stringl_ex(return_value, SL("pkcs7"), SL("Phalcon\\Encryption\\Crypt\\Padding\\Pkcs7"));
 	add_assoc_stringl_ex(return_value, SL("space"), SL("Phalcon\\Encryption\\Crypt\\Padding\\Space"));
 	add_assoc_stringl_ex(return_value, SL("zero"), SL("Phalcon\\Encryption\\Crypt\\Padding\\Zero"));
 	return;

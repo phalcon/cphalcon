@@ -18,6 +18,11 @@ use Phalcon\Support\Helper\Str\Interpolate;
 class AssociativeArray implements InterpolatorInterface
 {
     /**
+     * @var Interpolate | null
+     */
+    protected interpolate = null;
+
+    /**
      * Replaces placeholders by the values passed
      *
      * @phpstan-param array<string, string> $placeholders
@@ -28,10 +33,10 @@ class AssociativeArray implements InterpolatorInterface
         string! translation,
         array placeholders = []
     ) -> string {
-        var interpolate;
+        if null === this->interpolate {
+            let this->interpolate = new Interpolate();
+        }
 
-        let interpolate = new Interpolate();
-
-        return interpolate->__invoke(translation, placeholders);
+        return this->interpolate->__invoke(translation, placeholders);
     }
 }

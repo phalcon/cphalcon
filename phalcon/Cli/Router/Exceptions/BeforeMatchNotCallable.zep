@@ -14,10 +14,16 @@ use Phalcon\Cli\Router\Exception;
 
 class BeforeMatchNotCallable extends Exception
 {
-    public function __construct()
+    public function __construct(string route = "")
     {
-        parent::__construct(
-            "Before-Match callback is not callable in matched route"
-        );
+        var message;
+
+        let message = "Before-Match callback is not callable in matched route";
+
+        if route !== "" {
+            let message .= " '" . route . "'";
+        }
+
+        parent::__construct(message);
     }
 }

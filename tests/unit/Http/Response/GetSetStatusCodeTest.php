@@ -17,6 +17,7 @@ use Phalcon\Mvc\Micro;
 use Phalcon\Tests\Support\Page\Http;
 use Phalcon\Tests\Unit\Http\Helper\AbstractHttpBase;
 use Phalcon\Tests\Unit\Http\Response\Fake\FakeHttpResponseContentMiddleware;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 
 use function ob_get_clean;
 use function ob_start;
@@ -70,10 +71,9 @@ final class GetSetStatusCodeTest extends AbstractHttpBase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-08
      */
+    #[RequiresPhpExtension('xdebug')]
     public function testHttpResponseSetStatusCodeSendMicro(): void
     {
-        $this->checkExtensionIsLoaded('xdebug');
-
         $application = new Micro($this->container);
 
         $application->before(new FakeHttpResponseContentMiddleware());

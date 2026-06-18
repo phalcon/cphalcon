@@ -20,13 +20,18 @@
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+/**
+ * Phalcon\Db\Geometry\GeometryInterface
+ *
+ * @psalm-suppress DeprecatedInterface
+ * @deprecated Will be removed in a future major release.
+ *             Use {@see \Phalcon\Contracts\Db\Geometry\Geometry} instead.
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Db_Geometry_GeometryInterface)
 {
-	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Db\\Geometry, GeometryInterface, phalcon, db_geometry_geometryinterface, phalcon_db_geometry_geometryinterface_method_entry);
+	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Db\\Geometry, GeometryInterface, phalcon, db_geometry_geometryinterface, NULL);
 
+	zend_class_implements(phalcon_db_geometry_geometryinterface_ce, 1, phalcon_contracts_db_geometry_geometry_ce);
 	return SUCCESS;
 }
 
-ZEPHIR_DOC_METHOD(Phalcon_Db_Geometry_GeometryInterface, getSrid);
-ZEPHIR_DOC_METHOD(Phalcon_Db_Geometry_GeometryInterface, getType);
-ZEPHIR_DOC_METHOD(Phalcon_Db_Geometry_GeometryInterface, toWkt);

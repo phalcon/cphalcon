@@ -23,6 +23,7 @@ use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 final class FormTest extends AbstractDatabaseTestCase
 {
@@ -37,10 +38,9 @@ final class FormTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-01
-     *
-     * @group  mysql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('sqlite')]
     public function testLabels(): void
     {
         $form = new Form();
@@ -93,10 +93,9 @@ final class FormTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-01
-     *
-     * @group  mysql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('sqlite')]
     public function testFormValidator(): void
     {
         $telephone = new Text('telephone');
@@ -229,10 +228,9 @@ final class FormTest extends AbstractDatabaseTestCase
      * @issue  https://github.com/phalcon/cphalcon/issues/11135
      * @issue  https://github.com/phalcon/cphalcon/issues/3167
      * @since  2026-04-01
-     *
-     * @group  mysql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('sqlite')]
     public function testElementMessages(): void
     {
         $telephone = new Text('telephone');

@@ -16,6 +16,7 @@ namespace Phalcon\Tests\Database\Db;
 use Phalcon\Db\Column;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Database\Db\Fake\DialectTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 final class ColumnTest extends AbstractDatabaseTestCase
 {
@@ -26,10 +27,10 @@ final class ColumnTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testDbColumnWorksAsObject(): void
     {
         $columns = $this->getColumns();

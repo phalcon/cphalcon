@@ -738,7 +738,7 @@ PHP_METHOD(Phalcon_Http_Cookie, send)
 	zephir_array_update_string(&definition, SL("secure"), &secure, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&definition, SL("httpOnly"), &httpOnly, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&definition, SL("options"), &options, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CALL_FUNCTION(&_1, "array_filter", NULL, 31, &definition);
+	ZEPHIR_CALL_FUNCTION(&_1, "array_filter", NULL, 32, &definition);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(&definition, &_1);
 	if (!(ZEPHIR_IS_EMPTY(&definition))) {
@@ -1111,7 +1111,7 @@ PHP_METHOD(Phalcon_Http_Cookie, assertSignKeyIsLongEnough)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&signKey_zv);
 	ZVAL_STR_COPY(&signKey_zv, signKey);
-	ZEPHIR_CALL_FUNCTION(&length, "mb_strlen", NULL, 508, &signKey_zv);
+	ZEPHIR_CALL_FUNCTION(&length, "mb_strlen", NULL, 0, &signKey_zv);
 	zephir_check_call_status();
 	if (UNEXPECTED(ZEPHIR_LT_LONG(&length, 32))) {
 		ZEPHIR_INIT_VAR(&_0$$3);

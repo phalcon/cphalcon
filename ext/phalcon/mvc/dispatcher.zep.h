@@ -8,9 +8,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, getActiveController);
 PHP_METHOD(Phalcon_Mvc_Dispatcher, getControllerClass);
 PHP_METHOD(Phalcon_Mvc_Dispatcher, getControllerName);
 PHP_METHOD(Phalcon_Mvc_Dispatcher, getLastController);
-PHP_METHOD(Phalcon_Mvc_Dispatcher, getPreviousActionName);
 PHP_METHOD(Phalcon_Mvc_Dispatcher, getPreviousControllerName);
-PHP_METHOD(Phalcon_Mvc_Dispatcher, getPreviousNamespaceName);
 PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerName);
 PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerSuffix);
 PHP_METHOD(Phalcon_Mvc_Dispatcher, setDefaultController);
@@ -34,13 +32,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_dispatcher_getlastcontroller, 0, 0, Phalcon\\Mvc\\ControllerInterface, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_dispatcher_getpreviousactionname, 0, 0, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_dispatcher_getpreviouscontrollername, 0, 0, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_dispatcher_getpreviousnamespacename, 0, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_dispatcher_setcontrollername, 0, 1, Phalcon\\Mvc\\DispatcherInterface, 0)
@@ -70,9 +62,7 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_dispatcher_method_entry) {
 	PHP_ME(Phalcon_Mvc_Dispatcher, getControllerClass, arginfo_phalcon_mvc_dispatcher_getcontrollerclass, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Dispatcher, getControllerName, arginfo_phalcon_mvc_dispatcher_getcontrollername, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Dispatcher, getLastController, arginfo_phalcon_mvc_dispatcher_getlastcontroller, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Dispatcher, getPreviousActionName, arginfo_phalcon_mvc_dispatcher_getpreviousactionname, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Dispatcher, getPreviousControllerName, arginfo_phalcon_mvc_dispatcher_getpreviouscontrollername, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Dispatcher, getPreviousNamespaceName, arginfo_phalcon_mvc_dispatcher_getpreviousnamespacename, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Dispatcher, setControllerName, arginfo_phalcon_mvc_dispatcher_setcontrollername, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Dispatcher, setControllerSuffix, arginfo_phalcon_mvc_dispatcher_setcontrollersuffix, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Dispatcher, setDefaultController, arginfo_phalcon_mvc_dispatcher_setdefaultcontroller, ZEND_ACC_PUBLIC)

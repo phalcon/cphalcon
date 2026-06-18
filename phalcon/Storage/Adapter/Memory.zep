@@ -19,6 +19,13 @@ use Phalcon\Support\Exception as SupportException;
  *
  * @property array $data
  * @property array $options
+ *
+ * Capabilities:
+ * - Scope: per-request, in-process; nothing is shared across requests or
+ *   processes and the store is discarded when the request ends.
+ * - Counters: read-modify-write on the in-memory array.
+ * - getKeys(): in-memory array scan (cheap).
+ * - Optional maxItems FIFO cap drops the oldest entry before a new key is set.
  */
 class Memory extends AbstractAdapter
 {

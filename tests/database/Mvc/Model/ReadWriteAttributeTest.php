@@ -18,6 +18,7 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 use function uniqid;
 
@@ -38,11 +39,10 @@ final class ReadWriteAttributeTest extends AbstractDatabaseTestCase
     /**
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-04-18
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelWriteAttribute(): void
     {
         $title   = uniqid('inv-');
@@ -70,11 +70,10 @@ final class ReadWriteAttributeTest extends AbstractDatabaseTestCase
      * @issue  https://github.com/phalcon/cphalcon/issues/14021
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2019-04-30
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelWriteAttributeUndefinedPropertyWithAssociativeArray(): void
     {
         $array = [
@@ -101,11 +100,10 @@ final class ReadWriteAttributeTest extends AbstractDatabaseTestCase
     /**
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2019-04-30
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelWriteAttributeWithAssociativeArray(): void
     {
         $array = [

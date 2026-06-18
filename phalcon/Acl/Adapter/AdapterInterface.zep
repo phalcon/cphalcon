@@ -119,7 +119,7 @@ interface AdapterInterface
     public function isRole(string roleName) -> bool;
 
     /**
-     * Sets the default access level (Phalcon\Ac\Enuml::ALLOW or Phalcon\Acl\Enum::DENY)
+     * Sets the default access level (Phalcon\Acl\Enum::ALLOW or Phalcon\Acl\Enum::DENY)
      */
     public function setDefaultAction(int defaultAccess) -> void;
 

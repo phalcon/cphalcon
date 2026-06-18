@@ -16,9 +16,9 @@
 #include "kernel/array.h"
 #include "kernel/memory.h"
 #include "kernel/exception.h"
-#include "kernel/operators.h"
 #include "kernel/object.h"
 #include "ext/spl/spl_exceptions.h"
+#include "kernel/operators.h"
 
 
 /**
@@ -45,10 +45,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Translate_Adapter_NativeArray)
 	 * @var array
 	 */
 	zend_declare_property_null(phalcon_translate_adapter_nativearray_ce, SL("translate"), ZEND_ACC_PRIVATE);
-	/**
-	 * @var bool
-	 */
-	zend_declare_property_bool(phalcon_translate_adapter_nativearray_ce, SL("triggerError"), 0, ZEND_ACC_PRIVATE);
 	phalcon_translate_adapter_nativearray_ce->create_object = zephir_init_properties_Phalcon_Translate_Adapter_NativeArray;
 
 	return SUCCESS;
@@ -67,16 +63,13 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, __construct)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval options;
-	zval *interpolator, interpolator_sub, *options_param = NULL, __$true, __$false, data, error, _0$$3, _1$$5;
+	zval *interpolator, interpolator_sub, *options_param = NULL, data, _0$$3, _1$$4;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&interpolator_sub);
-	ZVAL_BOOL(&__$true, 1);
-	ZVAL_BOOL(&__$false, 0);
 	ZVAL_UNDEF(&data);
-	ZVAL_UNDEF(&error);
 	ZVAL_UNDEF(&_0$$3);
-	ZVAL_UNDEF(&_1$$5);
+	ZVAL_UNDEF(&_1$$4);
 	ZVAL_UNDEF(&options);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_OBJECT_OF_CLASS(interpolator, phalcon_translate_interpolatorfactory_ce)
@@ -94,24 +87,16 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, __construct)
 		object_init_ex(&_0$$3, phalcon_translate_exceptions_missingcontent_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_0$$3, "phalcon/Translate/Adapter/NativeArray.zep", 54);
+		zephir_throw_exception_debug(&_0$$3, "phalcon/Translate/Adapter/NativeArray.zep", 48);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	zephir_memory_observe(&error);
-	if (zephir_array_isset_string_fetch(&error, &options, SL("triggerError"), 0)) {
-		if (zephir_get_boolval(&error)) {
-			zephir_update_property_zval(this_ptr, ZEND_STRL("triggerError"), &__$true);
-		} else {
-			zephir_update_property_zval(this_ptr, ZEND_STRL("triggerError"), &__$false);
-		}
-	}
 	if (UNEXPECTED(Z_TYPE_P(&data) != IS_ARRAY)) {
-		ZEPHIR_INIT_VAR(&_1$$5);
-		object_init_ex(&_1$$5, phalcon_translate_exceptions_invaliddatatype_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$5, "__construct", NULL, 0);
+		ZEPHIR_INIT_VAR(&_1$$4);
+		object_init_ex(&_1$$4, phalcon_translate_exceptions_invaliddatatype_ce);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$5, "phalcon/Translate/Adapter/NativeArray.zep", 62);
+		zephir_throw_exception_debug(&_1$$4, "phalcon/Translate/Adapter/NativeArray.zep", 52);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -169,45 +154,6 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, has)
 	ZVAL_STR(&index_zv, index);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("translate"), PH_NOISY_CC | PH_READONLY);
 	RETURN_BOOL(zephir_array_isset_value(&_0, &index_zv));
-}
-
-/**
- * Whenever a key is not found this method will be called
- *
- * @param string $index
- *
- * @return string
- * @throws Exception
- */
-PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, notFound)
-{
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval index_zv, _0, _1$$3;
-	zend_string *index = NULL;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&index_zv);
-	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1$$3);
-	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_STR(index)
-	ZEND_PARSE_PARAMETERS_END();
-	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_memory_observe(&index_zv);
-	ZVAL_STR_COPY(&index_zv, index);
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("triggerError"), PH_NOISY_CC | PH_READONLY);
-	if (UNEXPECTED(ZEPHIR_IS_TRUE_IDENTICAL(&_0))) {
-		ZEPHIR_INIT_VAR(&_1$$3);
-		object_init_ex(&_1$$3, phalcon_translate_exceptions_keynotfound_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 0, &index_zv);
-		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Translate/Adapter/NativeArray.zep", 104);
-		ZEPHIR_MM_RESTORE();
-		return;
-	}
-	RETURN_MM_STR(zend_string_copy(index));
 }
 
 /**

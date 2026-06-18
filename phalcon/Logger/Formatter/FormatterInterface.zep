@@ -10,21 +10,17 @@
 
 namespace Phalcon\Logger\Formatter;
 
-use Phalcon\Logger\Item;
+use Phalcon\Contracts\Logger\Formatter\Formatter as FormatterContract;
 
 /**
  * Phalcon\Logger\FormatterInterface
  *
  * This interface must be implemented by formatters in Phalcon\Logger
+ *
+ * @psalm-suppress DeprecatedInterface
+ * @deprecated Will be removed in a future major release.
+ *             Use {@see \Phalcon\Contracts\Logger\Formatter\Formatter} instead.
  */
-interface FormatterInterface
+interface FormatterInterface extends FormatterContract
 {
-    /**
-     * Applies a format to an item
-     *
-     * @param Item $item
-     *
-     * @return string
-     */
-    public function format(<Item> item) -> string;
 }

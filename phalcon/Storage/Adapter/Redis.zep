@@ -21,6 +21,13 @@ use Phalcon\Support\Exception as SupportException;
 /**
  * Redis adapter
  *
+ * Capabilities:
+ * - Counters: native atomic (incrBy()/decrBy()).
+ * - getKeys(): non-blocking SCAN iteration.
+ * - Serializers: Phalcon-side, or backend-native via OPT_SERIALIZER. Native
+ *   serializers change the bytes at rest and are not interchangeable with
+ *   Phalcon-side serializers.
+ *
  * @property array $options
  */
 class Redis extends AbstractAdapter
@@ -141,10 +148,51 @@ class Redis extends AbstractAdapter
      */
     public function getKeys(string! prefix = "") -> array
     {
-        return this->getFilteredKeys(
-            this->getAdapter()->keys("*"),
-            prefix
-        );
+        var adapter, cursor, keys, pattern, result, scanKeys;
+
+        let adapter = this->getAdapter(),
+            keys    = [],
+            cursor  = "0",
+            pattern = this->prefix . "*";
+
+        /**
+         * SCAN replaces the blocking KEYS command. It is issued through
+         * rawCommand() so the cursor travels in the reply ([cursor, [keys]])
+         * instead of through a by-reference argument, which Zephir cannot pass
+         * to a method. rawCommand() does not apply OPT_PREFIX, so the physical
+         * prefix is matched and returned unchanged and getFilteredKeys() sees
+         * exactly what KEYS produced.
+         */
+        loop {
+            let result = adapter->rawCommand(
+                "scan",
+                cursor,
+                "MATCH",
+                pattern,
+                "COUNT",
+                100
+            );
+
+            if (typeof result !== "array") {
+                break;
+            }
+
+            if (!fetch cursor, result[0]) {
+                break;
+            }
+
+            if (fetch scanKeys, result[1]) {
+                if (typeof scanKeys === "array") {
+                    let keys = array_merge(keys, scanKeys);
+                }
+            }
+
+            if (cursor === "0" || cursor === 0) {
+                break;
+            }
+        }
+
+        return this->getFilteredKeys(keys, prefix);
     }
 
     /**

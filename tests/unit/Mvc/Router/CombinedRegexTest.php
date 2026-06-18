@@ -16,7 +16,9 @@ namespace Phalcon\Tests\Unit\Mvc\Router;
 use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Mvc\Fake\RouterTrait;
+use PHPUnit\Framework\Attributes\BackupGlobals;
 
+#[BackupGlobals(true)]
 final class CombinedRegexTest extends AbstractUnitTestCase
 {
     use RouterTrait;

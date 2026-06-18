@@ -11,7 +11,7 @@
 #include "kernel/globals.h"
 
 #define PHP_PHALCON_NAME        "phalcon"
-#define PHP_PHALCON_VERSION     "5.14.2"
+#define PHP_PHALCON_VERSION     "5.15.0"
 #define PHP_PHALCON_EXTNAME     "phalcon"
 #define PHP_PHALCON_AUTHOR      "Phalcon Team and contributors"
 #define PHP_PHALCON_ZEPVERSION  "0.23.0-$Id$"

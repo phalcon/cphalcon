@@ -17,6 +17,8 @@ use Phalcon\Db\Column;
 use Phalcon\Db\Dialect\Mysql;
 use Phalcon\Db\Dialect\Postgresql;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 
 final class SpatialTypesTest extends AbstractDatabaseTestCase
 {
@@ -40,13 +42,11 @@ final class SpatialTypesTest extends AbstractDatabaseTestCase
     /**
      * MySQL - emits each spatial keyword.
      *
-     * @dataProvider provideSpatialTypes
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group mysql
      */
+    #[Group('mysql')]
+    #[DataProvider('provideSpatialTypes')]
     public function testDbDialectMysqlGetColumnDefinitionSpatial(
         int $type,
         string $expected
@@ -65,13 +65,11 @@ final class SpatialTypesTest extends AbstractDatabaseTestCase
     /**
      * PostgreSQL - emits each spatial keyword (PostGIS interprets them).
      *
-     * @dataProvider provideSpatialTypes
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group pgsql
      */
+    #[Group('pgsql')]
+    #[DataProvider('provideSpatialTypes')]
     public function testDbDialectPostgresqlGetColumnDefinitionSpatial(
         int $type,
         string $expected
@@ -92,9 +90,8 @@ final class SpatialTypesTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group mysql
      */
+    #[Group('mysql')]
     public function testDbDialectMysqlAddColumnPoint(): void
     {
         $dialect = new Mysql();

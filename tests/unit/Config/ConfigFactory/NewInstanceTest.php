@@ -20,6 +20,7 @@ use Phalcon\Config\Adapter\Yaml;
 use Phalcon\Config\ConfigFactory;
 use Phalcon\Config\Exception;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 use function supportDir;
 
@@ -55,11 +56,10 @@ final class NewInstanceTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-18
      */
+    #[DataProvider('getExamples')]
     public function testConfigFactoryNewInstance(
         string $service,
         string $options,

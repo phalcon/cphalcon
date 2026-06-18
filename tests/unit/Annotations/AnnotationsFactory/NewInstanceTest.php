@@ -18,6 +18,7 @@ use Phalcon\Annotations\Adapter\Memory;
 use Phalcon\Annotations\Adapter\Stream;
 use Phalcon\Annotations\AnnotationsFactory;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class NewInstanceTest extends AbstractUnitTestCase
 {
@@ -34,11 +35,10 @@ final class NewInstanceTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-05-19
      */
+    #[DataProvider('getExamples')]
     public function testAnnotationsFactoryNewInstance(string $name, string $class): void
     {
         $factory  = new AnnotationsFactory();

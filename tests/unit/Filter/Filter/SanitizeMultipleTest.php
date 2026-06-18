@@ -15,6 +15,7 @@ namespace Phalcon\Tests\Unit\Filter\Filter;
 
 use Phalcon\Filter\FilterFactory;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 use function restore_error_handler;
 use function set_error_handler;
@@ -100,11 +101,10 @@ final class SanitizeMultipleTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getFilterSanitizeExamples
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2021-10-23
      */
+    #[DataProvider('getFilterSanitizeExamples')]
     public function testFilterFilterSanitize(
         mixed $source,
         array | string $filters,
@@ -119,10 +119,7 @@ final class SanitizeMultipleTest extends AbstractUnitTestCase
         $this->assertSame($expected, $actual);
     }
 
-    /**
-     * @dataProvider getFilterSanitizeCustomFiltersExamples
-     *
-     */
+    #[DataProvider('getFilterSanitizeCustomFiltersExamples')]
     public function testFilterFilterSanitizeCustomFilters(
         array $source,
         array | string $filters,

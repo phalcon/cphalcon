@@ -23,13 +23,12 @@ use Phalcon\Tests\Database\Mvc\RecordsTrait;
 use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 use function date;
 use function is_int;
 
-/**
- * @group phql
- */
+#[Group('phql')]
 final class PaginateTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -50,11 +49,10 @@ final class PaginateTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testPaginatorAdapterQuerybuilderPaginate(): void
     {
         /**
@@ -100,12 +98,11 @@ final class PaginateTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-01-29
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
-     * @group pgsql
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    #[Group('pgsql')]
     public function testPaginatorAdapterQuerybuilderPaginateGroupBy(): void
     {
         /**
@@ -177,10 +174,10 @@ final class PaginateTest extends AbstractDatabaseTestCase
      * @since  2026-04-21
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/15266
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testPaginatorAdapterQuerybuilderPaginateGroupByNullColumnsOption(): void
     {
         /** @var PDO $connection */
@@ -239,10 +236,10 @@ final class PaginateTest extends AbstractDatabaseTestCase
      * @since  2026-04-28
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/15912
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testPaginatorAdapterQuerybuilderPaginateGroupByMultipleColumns(): void
     {
         /** @var PDO $connection */
@@ -291,10 +288,10 @@ final class PaginateTest extends AbstractDatabaseTestCase
      * @since  2025-04-29
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/16581
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testPaginatorAdapterQuerybuilderPaginateDistinct(): void
     {
         /** @var PDO $connection */
@@ -334,14 +331,13 @@ final class PaginateTest extends AbstractDatabaseTestCase
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/14639
      *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
-     *
      * @throws Exception
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-03-15
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testPaginatorAdapterQuerybuilderPaginateView(): void
     {
         $this->setDiService('view');

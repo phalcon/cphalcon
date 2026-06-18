@@ -16,7 +16,11 @@ namespace Phalcon\Tests\Database\DataMapper\Pdo\Connection;
 use InvalidArgumentException;
 use Phalcon\DataMapper\Pdo\Connection;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
+#[Group('mysql')]
+#[Group('pgsql')]
+#[Group('sqlite')]
 final class ConstructTest extends AbstractDatabaseTestCase
 {
     /**

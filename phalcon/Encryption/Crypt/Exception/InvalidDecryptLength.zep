@@ -8,12 +8,14 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Cache\Exception;
+namespace Phalcon\Encryption\Crypt\Exception;
 
-class InvalidCacheKey extends InvalidArgumentException
+class InvalidDecryptLength extends Exception
 {
     public function __construct()
     {
-        parent::__construct("The key contains invalid characters");
+        parent::__construct(
+            "The provided input is too short for the selected cipher."
+        );
     }
 }

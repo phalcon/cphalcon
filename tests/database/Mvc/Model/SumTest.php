@@ -21,11 +21,9 @@ use Phalcon\Tests\Database\Mvc\RecordsTrait;
 use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
-/**
- *
- * @group phql
- */
+#[Group('phql')]
 final class SumTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -70,12 +68,11 @@ final class SumTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-01-30
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
-     * @group pgsql
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    #[Group('pgsql')]
     public function testMvcModelSum(): void
     {
         /**
@@ -163,14 +160,33 @@ final class SumTest extends AbstractDatabaseTestCase
     }
 
     /**
+     * @issue  https://github.com/phalcon/cphalcon/issues/17184
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-18
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelSumEmptyResultReturnsZero(): void
+    {
+        $total = Invoices::sum(
+            [
+                'column' => 'inv_total',
+            ]
+        );
+
+        $this->assertSame(0.0, $total);
+    }
+
+    /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-01-30
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
-     * @group pgsql
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    #[Group('pgsql')]
     public function testMvcModelSumTransaction(): void
     {
         $invId = ('sqlite' === self::getDriver()) ? 'null' : 'default';

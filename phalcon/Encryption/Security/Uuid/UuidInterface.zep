@@ -10,27 +10,17 @@
 
 namespace Phalcon\Encryption\Security\Uuid;
 
+use Phalcon\Contracts\Encryption\Security\Uuid\Uuid as UuidContract;
+
 /**
  * Marker interface for UUID version adapters.
  *
  * Also carries the standard RFC 4122 namespace UUIDs as constants.
+ *
+ * @psalm-suppress DeprecatedInterface
+ * @deprecated Will be removed in a future major release.
+ *             Use {@see \Phalcon\Contracts\Encryption\Security\Uuid\Uuid} instead.
  */
-interface UuidInterface
+interface UuidInterface extends UuidContract
 {
-    /**
-     * @var string
-     */
-    const NAMESPACE_DNS  = "6ba7b810-9dad-11d1-80b4-00c04fd430c8";
-    /**
-     * @var string
-     */
-    const NAMESPACE_OID  = "6ba7b812-9dad-11d1-80b4-00c04fd430c8";
-    /**
-     * @var string
-     */
-    const NAMESPACE_URL  = "6ba7b811-9dad-11d1-80b4-00c04fd430c8";
-    /**
-     * @var string
-     */
-    const NAMESPACE_X500 = "6ba7b814-9dad-11d1-80b4-00c04fd430c8";
 }

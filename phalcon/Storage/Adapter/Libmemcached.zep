@@ -19,6 +19,12 @@ use Phalcon\Support\Exception as SupportException;
 
 /**
  * Libmemcached adapter
+ *
+ * Capabilities:
+ * - Counters: native atomic (Memcached::increment()/decrement()).
+ * - getKeys(): Memcached::getAllKeys(), which is server-dependent and may be
+ *   incomplete or unavailable on modern memcached builds.
+ * - Serializers: Phalcon-side plus libmemcached's own options.
  */
 class Libmemcached extends AbstractAdapter
 {

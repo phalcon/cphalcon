@@ -22,6 +22,7 @@ use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Models\InvoicesKeepSnapshots;
 use Phalcon\Tests\Support\Models\InvoicesValidationFails;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 final class GetUpdatedFieldsTest extends AbstractDatabaseTestCase
 {
@@ -43,12 +44,11 @@ final class GetUpdatedFieldsTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
-     * @group pgsql
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    #[Group('pgsql')]
     public function testMvcModelGetUpdatedFieldsNotPersisted(): void
     {
         $this->expectException(Exception::class);
@@ -68,11 +68,10 @@ final class GetUpdatedFieldsTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2025-04-23
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelSnapshotRestoredAfterRelatedRecordRollback(): void
     {
         $connection = self::getConnection();
@@ -118,11 +117,10 @@ final class GetUpdatedFieldsTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-21
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelGetUpdatedFieldsIgnoresUnchangedNullColumns(): void
     {
         $connection = self::getConnection();

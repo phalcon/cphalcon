@@ -26,6 +26,7 @@ use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Modules\Backend\Module as BackendModule;
 use Phalcon\Tests\Support\Modules\Frontend\Module as FrontendModule;
 use Phalcon\Tests\Support\Tasks\Issue787Task;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 use function ob_end_clean;
 use function ob_start;
@@ -85,11 +86,10 @@ final class HandleTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamplesHandle
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
+    #[DataProvider('getExamplesHandle')]
     public function testCliConsoleHandle(
         array $arguments,
         string $taskName,
@@ -439,7 +439,7 @@ final class HandleTest extends AbstractUnitTestCase
 
         $this->expectException(ModuleNotRegistered::class);
         $this->expectExceptionMessage(
-            "Module 'devtools' is not registered in the application container"
+            "Module 'devtools' is not registered in the application"
         );
 
         // testing module

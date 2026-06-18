@@ -15,6 +15,7 @@ use Exception;
 use Phalcon\Http\Cookie;
 use Phalcon\Tests\Unit\Http\Fake\CookieTrait;
 use Phalcon\Tests\Unit\Http\Helper\AbstractHttpBase;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 
 use function explode;
 use function uniqid;
@@ -37,10 +38,9 @@ final class CookieTest extends AbstractHttpBase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-05-06
      */
+    #[RequiresPhpExtension('xdebug')]
     public function testHttpCookieDecryptValueByUsingMessageAuthenticationCode(): void
     {
-        $this->checkExtensionIsLoaded('xdebug');
-
         $this->setDiService('crypt');
 
         $name  = uniqid('nam-');
@@ -71,10 +71,9 @@ final class CookieTest extends AbstractHttpBase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-05-06
      */
+    #[RequiresPhpExtension('xdebug')]
     public function testHttpCookieThrowExceptionIfMessageAuthenticationCodeIsMismatch(): void
     {
-        $this->checkExtensionIsLoaded('xdebug');
-
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('Hash does not match.');
 

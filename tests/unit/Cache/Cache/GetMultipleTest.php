@@ -18,6 +18,7 @@ use Phalcon\Cache\Cache;
 use Phalcon\Cache\Exception\InvalidArgumentException;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 
 use function getOptionsRedis;
 use function uniqid;
@@ -65,10 +66,9 @@ final class GetMultipleTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
+    #[RequiresPhpExtension('redis')]
     public function testCacheCacheGetMultipleRedisMget(): void
     {
-        $this->checkExtensionIsLoaded('redis');
-
         $serializer = new SerializerFactory();
         $factory    = new AdapterFactory($serializer);
         $instance   = $factory->newInstance(
@@ -126,10 +126,9 @@ final class GetMultipleTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-14
      */
+    #[RequiresPhpExtension('apcu')]
     public function testCacheCacheGetMultipleInvalidKey(): void
     {
-        $this->checkExtensionIsLoaded('apcu');
-
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The key contains invalid characters');
 

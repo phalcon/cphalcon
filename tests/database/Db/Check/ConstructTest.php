@@ -16,6 +16,7 @@ namespace Phalcon\Tests\Database\Db\Check;
 use Phalcon\Db\Check;
 use Phalcon\Db\Exception;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
 final class ConstructTest extends AbstractDatabaseTestCase
 {
@@ -24,11 +25,10 @@ final class ConstructTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testDbCheckConstructNamed(): void
     {
         $check = new Check(
@@ -48,11 +48,10 @@ final class ConstructTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testDbCheckConstructUnnamed(): void
     {
         $check = new Check(
@@ -72,11 +71,10 @@ final class ConstructTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testDbCheckExpressionRequired(): void
     {
         $this->expectException(Exception::class);
@@ -91,11 +89,10 @@ final class ConstructTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testDbCheckExpressionEmptyRejected(): void
     {
         $this->expectException(Exception::class);

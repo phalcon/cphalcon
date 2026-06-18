@@ -17,6 +17,8 @@ use Phalcon\Db\Dialect\Mysql;
 use Phalcon\Db\Dialect\Postgresql;
 use Phalcon\Db\Dialect\Sqlite;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 
 final class DropTableTest extends AbstractDatabaseTestCase
 {
@@ -67,15 +69,13 @@ final class DropTableTest extends AbstractDatabaseTestCase
     /**
      * Tests Phalcon\Db\Dialect :: dropTable
      *
-     * @dataProvider getDialects
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-01-20
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    #[DataProvider('getDialects')]
     public function testDbDialectDropTable(
         string $dialectClass,
         string $expected
@@ -90,15 +90,13 @@ final class DropTableTest extends AbstractDatabaseTestCase
     /**
      * Tests Phalcon\Db\Dialect :: dropTable - ifExists false
      *
-     * @dataProvider getDialectsNotExists
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-01-20
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    #[DataProvider('getDialectsNotExists')]
     public function testDbDialectDropTableNotExists(
         string $dialectClass,
         string $expected

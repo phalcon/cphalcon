@@ -107,6 +107,22 @@ use Serializable;
  *     echo "Great, a new robot was saved successfully!";
  * }
  * ```
+ *
+ * Magic property and method resolution:
+ *
+ * `__get($property)` resolves in order: a relation alias (returning unsaved
+ * `dirtyRelated` records first, then a non-reusable single related model held
+ * in the `related` cache - resultsets and reusable relations are never served
+ * from that cache - otherwise the freshly fetched related records); then a
+ * `get<Property>()` getter when one exists; otherwise it raises an
+ * "undefined property" notice and returns null.
+ *
+ * `__call()` / `__callStatic($method, $arguments)` resolve the `findBy<Field>`,
+ * `findFirstBy<Field>`, and `countBy<Field>` magic finders through
+ * `invokeFinder()`. The instance `__call()` additionally tries relation getters
+ * and a behavior/listener `missingMethod()` hook. An unresolved method throws
+ * `Phalcon\Mvc\Model\Exceptions\MethodNotFound`.
+ *
  * @template T of static
  */
 abstract class Model extends AbstractInjectionAware implements EntityInterface, ModelInterface, ResultInterface, Serializable, JsonSerializable
@@ -959,6 +975,10 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
         if typeof result === "string" {
             return (float) result;
+        }
+
+        if result === null {
+            return 0.0;
         }
 
         return result;
@@ -3373,7 +3393,13 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     }
 
     /**
-     * Enables/disables options in the ORM
+     * Enables/disables options in the ORM.
+     *
+     * The options are written to process-global `Phalcon\Support\Settings`
+     * (`orm.*` flags) and therefore affect every model in the process at once.
+     * Call this once during bootstrap; it is not per-model or per-container
+     * configuration, and one application's `setup()` reconfigures the ORM for
+     * every other user in the same process.
      */
     public static function setup(array! options) -> void
     {
@@ -3534,6 +3560,10 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
         if typeof result === "string" {
             return (float) result;
+        }
+
+        if result === null {
+            return 0.0;
         }
 
         return result;

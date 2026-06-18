@@ -1,0 +1,16 @@
+
+extern zend_class_entry *phalcon_contracts_encryption_security_uuid_timebaseduuid_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Contracts_Encryption_Security_Uuid_TimeBasedUuid);
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_contracts_encryption_security_uuid_timebaseduuid_getdatetime, 0, 0, DateTimeImmutable, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_encryption_security_uuid_timebaseduuid_getnode, 0, 0, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_contracts_encryption_security_uuid_timebaseduuid_method_entry) {
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Encryption_Security_Uuid_TimeBasedUuid, getDateTime, arginfo_phalcon_contracts_encryption_security_uuid_timebaseduuid_getdatetime)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Encryption_Security_Uuid_TimeBasedUuid, getNode, arginfo_phalcon_contracts_encryption_security_uuid_timebaseduuid_getnode)
+	PHP_FE_END
+};

@@ -16,6 +16,7 @@ namespace Phalcon\Tests\Unit\Forms\Element;
 use Phalcon\Forms\Exception;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Forms\Fake\FormsTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 use function array_flip;
 use function uniqid;
@@ -25,11 +26,10 @@ final class GetSetFiltersTest extends AbstractUnitTestCase
     use FormsTrait;
 
     /**
-     * @dataProvider getExamples
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2021-12-05
      */
+    #[DataProvider('getExamples')]
     public function testFormsElementGetSetAddFilters(
         string $class
     ): void {
@@ -65,11 +65,10 @@ final class GetSetFiltersTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2021-12-05
      */
+    #[DataProvider('getExamples')]
     public function testFormsElementSetFiltersException(
         string $class
     ): void {

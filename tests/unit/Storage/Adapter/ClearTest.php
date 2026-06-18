@@ -27,6 +27,8 @@ use Phalcon\Support\Exception as HelperException;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Storage\Fake\FakeApcuApcuDelete;
 use Phalcon\Tests\Unit\Storage\Fake\FakeStreamUnlink;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use stdClass;
 
 use function array_merge;
@@ -83,10 +85,9 @@ final class ClearTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
+    #[RequiresPhpExtension('apcu')]
     public function testStorageAdapterApcuClearDeleteError(): void
     {
-        $this->checkExtensionIsLoaded('apcu');
-
         $serializer = new SerializerFactory();
         $adapter    = new FakeApcuApcuDelete($serializer);
 
@@ -108,10 +109,9 @@ final class ClearTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
+    #[RequiresPhpExtension('apcu')]
     public function testStorageAdapterApcuClearIteratorError(): void
     {
-        $this->checkExtensionIsLoaded('apcu');
-
         $serializer = new SerializerFactory();
         $adapter    = new FakeApcuApcuDelete($serializer);
 
@@ -130,11 +130,10 @@ final class ClearTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
+    #[DataProvider('getExamples')]
     public function testStorageAdapterClear(
         string $class,
         array $options,
@@ -273,11 +272,10 @@ final class ClearTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamplesClearWithPrefix
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2024-10-31
      */
+    #[DataProvider('getExamplesClearWithPrefix')]
     public function testStorageAdapterClearWithPrefix(
         string $class,
         array $options,

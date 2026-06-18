@@ -8,14 +8,16 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Cache\Exception;
+namespace Phalcon\Image\Exceptions;
 
-class CacheKeysNotIterable extends InvalidArgumentException
+use Phalcon\Image\Exception;
+
+class InvalidColor extends Exception
 {
-    public function __construct()
+    public function __construct(string color)
     {
         parent::__construct(
-            "The keys need to be an array or instance of Traversable"
+            "The color '" . color . "' is not a valid hex color"
         );
     }
 }

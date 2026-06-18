@@ -681,6 +681,24 @@ class Sqlite extends Dialect
     }
 
     /**
+     * SQLite cannot modify existing columns or add/drop foreign keys, primary
+     * keys, or check constraints through `ALTER TABLE`; those operations throw
+     * a dedicated `Sqlite*NotSupported` exception.
+     */
+    public function supportsAlterTable() -> bool
+    {
+        return false;
+    }
+
+    /**
+     * SQLite (3.35+) supports the `RETURNING` clause.
+     */
+    public function supportsReturning() -> bool
+    {
+        return true;
+    }
+
+    /**
      * SQLite has no row-level shared-lock construct, so the original query
      * is returned unchanged regardless of the `modifier` argument.
      */

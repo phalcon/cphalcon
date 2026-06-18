@@ -12,6 +12,7 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, getCssClasses);
 PHP_METHOD(Phalcon_Flash_AbstractFlash, getCssIconClasses);
 PHP_METHOD(Phalcon_Flash_AbstractFlash, getCustomTemplate);
 PHP_METHOD(Phalcon_Flash_AbstractFlash, getEscaperService);
+PHP_METHOD(Phalcon_Flash_AbstractFlash, message);
 PHP_METHOD(Phalcon_Flash_AbstractFlash, notice);
 PHP_METHOD(Phalcon_Flash_AbstractFlash, setAutoescape);
 PHP_METHOD(Phalcon_Flash_AbstractFlash, setAutomaticHtml);
@@ -57,6 +58,11 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_flash_abstractflash_getc
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_flash_abstractflash_getescaperservice, 0, 0, Phalcon\\Html\\Escaper\\EscaperInterface, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_flash_abstractflash_message, 0, 2, IS_STRING, 1)
+	ZEND_ARG_TYPE_INFO(0, type, IS_STRING, 0)
+	ZEND_ARG_INFO(0, message)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_flash_abstractflash_notice, 0, 1, IS_STRING, 1)
@@ -105,7 +111,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_flash_abstractflash_warn
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_flash_abstractflash_gettemplate, 0, 2, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, cssClassses, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, cssClasses, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, cssIconClasses, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
@@ -136,6 +142,7 @@ ZEPHIR_INIT_FUNCS(phalcon_flash_abstractflash_method_entry) {
 	PHP_ME(Phalcon_Flash_AbstractFlash, getCssIconClasses, arginfo_phalcon_flash_abstractflash_getcssiconclasses, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Flash_AbstractFlash, getCustomTemplate, arginfo_phalcon_flash_abstractflash_getcustomtemplate, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Flash_AbstractFlash, getEscaperService, arginfo_phalcon_flash_abstractflash_getescaperservice, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Flash_AbstractFlash, message, arginfo_phalcon_flash_abstractflash_message, ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Flash_AbstractFlash, notice, arginfo_phalcon_flash_abstractflash_notice, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Flash_AbstractFlash, setAutoescape, arginfo_phalcon_flash_abstractflash_setautoescape, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Flash_AbstractFlash, setAutomaticHtml, arginfo_phalcon_flash_abstractflash_setautomatichtml, ZEND_ACC_PUBLIC)

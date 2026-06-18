@@ -296,7 +296,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select_ResultsetData, resolve)
 						ZEPHIR_INIT_NVAR(&attrSpec);
 						ZVAL_COPY(&attrSpec, _10$$5);
 						if (zephir_is_callable(&attrSpec)) {
-							ZEPHIR_CALL_FUNCTION(&attrValue, "call_user_func", &_13, 335, &attrSpec, &option);
+							ZEPHIR_CALL_FUNCTION(&attrValue, "call_user_func", &_13, 345, &attrSpec, &option);
 							zephir_check_call_status();
 						} else {
 							ZEPHIR_CPY_WRT(&attrValue, &attrSpec);
@@ -331,7 +331,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select_ResultsetData, resolve)
 						ZEPHIR_CALL_METHOD(&attrSpec, &_9$$5, "current", NULL, 0);
 						zephir_check_call_status();
 							if (zephir_is_callable(&attrSpec)) {
-								ZEPHIR_CALL_FUNCTION(&attrValue, "call_user_func", &_13, 335, &attrSpec, &option);
+								ZEPHIR_CALL_FUNCTION(&attrValue, "call_user_func", &_13, 345, &attrSpec, &option);
 								zephir_check_call_status();
 							} else {
 								ZEPHIR_CPY_WRT(&attrValue, &attrSpec);
@@ -408,7 +408,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select_ResultsetData, resolve)
 							ZEPHIR_INIT_NVAR(&attrSpec);
 							ZVAL_COPY(&attrSpec, _26$$17);
 							if (zephir_is_callable(&attrSpec)) {
-								ZEPHIR_CALL_FUNCTION(&attrValue, "call_user_func", &_13, 335, &attrSpec, &option);
+								ZEPHIR_CALL_FUNCTION(&attrValue, "call_user_func", &_13, 345, &attrSpec, &option);
 								zephir_check_call_status();
 							} else {
 								ZEPHIR_CPY_WRT(&attrValue, &attrSpec);
@@ -443,7 +443,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select_ResultsetData, resolve)
 							ZEPHIR_CALL_METHOD(&attrSpec, &_25$$17, "current", NULL, 0);
 							zephir_check_call_status();
 								if (zephir_is_callable(&attrSpec)) {
-									ZEPHIR_CALL_FUNCTION(&attrValue, "call_user_func", &_13, 335, &attrSpec, &option);
+									ZEPHIR_CALL_FUNCTION(&attrValue, "call_user_func", &_13, 345, &attrSpec, &option);
 									zephir_check_call_status();
 								} else {
 									ZEPHIR_CPY_WRT(&attrValue, &attrSpec);

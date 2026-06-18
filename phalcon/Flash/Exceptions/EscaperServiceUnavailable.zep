@@ -17,7 +17,7 @@ class EscaperServiceUnavailable extends Exception
     public function __construct()
     {
         parent::__construct(
-            "A dependency injection container is required to access the 'escaper' service"
+            "The 'escaper' service is not available (no container, or service not registered)"
         );
     }
 }
