@@ -186,7 +186,7 @@ function collectZepFiles(string $sourceDir): array
 
 /**
  * Removes the tag block from a cleaned docblock, keeping prose,
- * examples and informational tags such as @todo / @deprecated.
+ * examples and informational tags such as @todo.
  */
 function descriptionOf(string $cleanDocblock): string
 {
@@ -207,7 +207,7 @@ function descriptionOf(string $cleanDocblock): string
             continue;
         }
 
-        if (preg_match('/^@(param|return|throws|var|phpstan-\S+)\b/', $trimmed)) {
+        if (preg_match('/^@(param|return|throws|var|deprecated|phpstan-\S+|psalm-\S+)\b/', $trimmed)) {
             $skipping = true;
             continue;
         }
@@ -467,9 +467,11 @@ function extractClass(array $ast, string $relPath): ?array
 
         if ('namespace' === $type) {
             $namespace = $item['name'];
+            $comment   = '';
         } elseif ('comment' === $type) {
             $comment = $item['value'] ?? '';
         } elseif ('use' === $type) {
+            $comment = '';
             foreach ($item['aliases'] ?? [] as $alias) {
                 $uses[] = $alias['name'];
 
