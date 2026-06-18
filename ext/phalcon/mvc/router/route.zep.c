@@ -274,7 +274,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, compilePattern)
 			ZEPHIR_INIT_VAR(&_9$$8);
 			ZVAL_STRING(&_9$$8, "/:params");
 			ZEPHIR_INIT_VAR(&_10$$8);
-			ZVAL_STRING(&_10$$8, "(/.*)*");
+			ZVAL_STRING(&_10$$8, "(/.*)?");
 			zephir_fast_str_replace(&_8$$8, &_9$$8, &_10$$8, &pattern);
 			zephir_get_strval(&pattern, &_8$$8);
 		}

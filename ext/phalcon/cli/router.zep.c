@@ -158,7 +158,7 @@ PHP_METHOD(Phalcon_Cli_Router, __construct)
 		add_assoc_long_ex(&_3$$3, SL("action"), 2);
 		add_assoc_long_ex(&_3$$3, SL("params"), 3);
 		ZEPHIR_INIT_NVAR(&_1$$3);
-		ZVAL_STRING(&_1$$3, "#^(?::delimiter)?([a-zA-Z0-9\\_\\-]+):delimiter([a-zA-Z0-9\\.\\_]+)(:delimiter.*)*$#");
+		ZVAL_STRING(&_1$$3, "#^(?::delimiter)?([a-zA-Z0-9\\_\\-]+):delimiter([a-zA-Z0-9\\.\\_]+)(:delimiter.*)?$#");
 		ZEPHIR_CALL_METHOD(NULL, &route, "__construct", NULL, 352, &_1$$3, &_3$$3);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(&_4$$3, &route, "getrouteid", NULL, 353);

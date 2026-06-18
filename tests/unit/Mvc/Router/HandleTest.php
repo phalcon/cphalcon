@@ -188,8 +188,8 @@ final class HandleTest extends AbstractUnitTestCase
     }
 
     /**
-     * @issue  https://github.com/phalcon/cphalcon/issues/NNNN
-     * @author Phalcon Team <team@phalcon.io>
+     * @issue  https://github.com/phalcon/cphalcon/security/advisories/GHSA-x7rj-f32v-7jjg
+     * @author https://github.com/nikkoenggaliano
      * @since  2026-06-18
      */
     public function testMvcRouterHandleParamsNoCatastrophicBacktracking(): void
@@ -225,7 +225,6 @@ final class HandleTest extends AbstractUnitTestCase
 
         $this->assertNotSame('', $pattern);
 
-        preg_match('//', '');
         preg_match($pattern, '/a/a' . str_repeat('/', 50) . "\n\n");
 
         $this->assertSame(PREG_NO_ERROR, preg_last_error());
