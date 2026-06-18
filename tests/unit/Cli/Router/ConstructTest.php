@@ -51,7 +51,7 @@ final class ConstructTest extends AbstractUnitTestCase
         $actual   = $routes[0]->getPattern();
         $this->assertSame($expected, $actual);
 
-        $expected = "#^(?: )?([a-zA-Z0-9\\_\\-]+) ([a-zA-Z0-9\\.\\_]+)( .*)*$#";
+        $expected = "#^(?: )?([a-zA-Z0-9\\_\\-]+) ([a-zA-Z0-9\\.\\_]+)( .*)?$#";
         $actual   = $routes[1]->getPattern();
         $this->assertSame($expected, $actual);
     }
