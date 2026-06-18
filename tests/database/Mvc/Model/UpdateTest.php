@@ -23,13 +23,11 @@ use Phalcon\Tests\Support\Models\CustomersDefaults;
 use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Models\Setters;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 use function uniqid;
 
-/**
- *
- * @group phql
- */
+#[Group('phql')]
 final class UpdateTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -46,11 +44,10 @@ final class UpdateTest extends AbstractDatabaseTestCase
     /**
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2020-10-18
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelSaveAfterWithoutDefaultValues(): void
     {
         /** @var PDO $connection */
@@ -111,11 +108,10 @@ final class UpdateTest extends AbstractDatabaseTestCase
     /**
      * @author Anton Vasiliev <https://github.com/Jeckerson>
      * @since  2021-08-20
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelSaveViaSettersAndLocalMethod(): void
     {
         /** @var PDO $connection */
@@ -164,11 +160,10 @@ final class UpdateTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-01-31
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelUpdate(): void
     {
         $title   = uniqid('inv-');

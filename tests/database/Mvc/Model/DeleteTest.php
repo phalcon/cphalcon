@@ -21,14 +21,12 @@ use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Models\Customers;
 use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 use function date;
 use function uniqid;
 
-/**
- *
- * @group phql
- */
+#[Group('phql')]
 final class DeleteTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -42,11 +40,10 @@ final class DeleteTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelDelete(): void
     {
         /**
@@ -72,11 +69,10 @@ final class DeleteTest extends AbstractDatabaseTestCase
     /**
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2020-08-02
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelDeleteCascadeRelated(): void
     {
         /** @var PDO $connection */
@@ -143,11 +139,10 @@ final class DeleteTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2022-11-18
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelDeleteGetRelated(): void
     {
         /** @var PDO $connection */
@@ -266,11 +261,10 @@ final class DeleteTest extends AbstractDatabaseTestCase
     /**
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2020-10-17
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelDeleteRestrictRelated(): void
     {
         /** @var PDO $connection */
@@ -318,11 +312,10 @@ final class DeleteTest extends AbstractDatabaseTestCase
     /**
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2020-10-17
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelDeleteRestrictRelatedInTransaction(): void
     {
         /** @var PDO $connection */

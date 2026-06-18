@@ -19,6 +19,7 @@ use Phalcon\Db\Dialect\Postgresql;
 use Phalcon\Db\Dialect\Sqlite;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 
 final class ModifyColumnTest extends AbstractDatabaseTestCase
 {
@@ -87,9 +88,8 @@ final class ModifyColumnTest extends AbstractDatabaseTestCase
      * @since        2026-04-28
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/15829
-     *
-     * @group pgsql
      */
+    #[Group('pgsql')]
     #[DataProvider('getPostgresqlBooleanDefaults')]
     public function testDbDialectPostgresqlModifyColumnBooleanDefault(
         bool $oldDefault,
@@ -128,11 +128,10 @@ final class ModifyColumnTest extends AbstractDatabaseTestCase
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-01-20
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     #[DataProvider('getDialects')]
     public function testDbDialectModifyColumn(
         string $dialectClass,
@@ -192,11 +191,10 @@ final class ModifyColumnTest extends AbstractDatabaseTestCase
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-01-20
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     #[DataProvider('getDialectsSame')]
     public function testDbDialectModifyColumnSame(
         string $dialectClass,

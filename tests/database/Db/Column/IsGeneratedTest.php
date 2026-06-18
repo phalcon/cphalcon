@@ -16,6 +16,7 @@ namespace Phalcon\Tests\Database\Db\Column;
 use Exception;
 use Phalcon\Db\Column;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
 final class IsGeneratedTest extends AbstractDatabaseTestCase
 {
@@ -25,11 +26,10 @@ final class IsGeneratedTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testDbColumnIsGeneratedFalseByDefault(): void
     {
         $column = new Column(
@@ -50,11 +50,10 @@ final class IsGeneratedTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testDbColumnIsGeneratedVirtual(): void
     {
         $column = new Column(
@@ -76,11 +75,10 @@ final class IsGeneratedTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testDbColumnIsGeneratedStored(): void
     {
         $column = new Column(
@@ -104,11 +102,10 @@ final class IsGeneratedTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testDbColumnIsGeneratedNullKeepsColumnPlain(): void
     {
         $column = new Column(
@@ -129,11 +126,10 @@ final class IsGeneratedTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testDbColumnGeneratedMustBeString(): void
     {
         $this->expectException(Exception::class);
@@ -157,11 +153,10 @@ final class IsGeneratedTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testDbColumnGeneratedCannotHaveDefault(): void
     {
         $this->expectException(Exception::class);
@@ -186,11 +181,10 @@ final class IsGeneratedTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testDbColumnGeneratedCannotBeAutoIncrement(): void
     {
         $this->expectException(Exception::class);

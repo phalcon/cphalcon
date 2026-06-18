@@ -23,6 +23,7 @@ use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Models\Orders;
 use Phalcon\Tests\Support\Models\Products;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 final class JoinTest extends AbstractDatabaseTestCase
 {
@@ -39,11 +40,10 @@ final class JoinTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelCriteriaJoin(): void
     {
         $criteria = new Criteria();
@@ -69,10 +69,9 @@ final class JoinTest extends AbstractDatabaseTestCase
      * @issue  https://github.com/phalcon/cphalcon/issues/14716
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2020-02-06
-     *
-     * @group mysql
-     * @group pgsql
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
     public function testMvcModelCriteriaJoinManyToManyMultipleSchema(): void
     {
         // sqlite is excluded above - it doesn't model multiple schemas

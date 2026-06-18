@@ -16,6 +16,7 @@ namespace Phalcon\Tests\Database\Db\RawValue;
 use Phalcon\Db\RawValue;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 
 final class ConstructTest extends AbstractDatabaseTestCase
 {
@@ -24,11 +25,10 @@ final class ConstructTest extends AbstractDatabaseTestCase
      *
      * @author       Sid Roberts <https://github.com/SidRoberts>
      * @since        2019-04-17
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     #[DataProvider('valueProvider')]
     public function testDbRawvalueConstruct(
         mixed $value,

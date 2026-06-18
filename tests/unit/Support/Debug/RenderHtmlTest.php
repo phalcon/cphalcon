@@ -17,7 +17,9 @@ use Phalcon\Support\Debug;
 use Phalcon\Support\Exception;
 use Phalcon\Support\Version;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\BackupGlobals;
 
+#[BackupGlobals(true)]
 final class RenderHtmlTest extends AbstractUnitTestCase
 {
     private const ERROR_DIV = "<div class='error-info'>";
@@ -60,7 +62,7 @@ final class RenderHtmlTest extends AbstractUnitTestCase
 <div align='center'>
     <div class='error-main'>
         <h1>Phalcon\Support\Exception: exception message</h1>
-        <span class='error-file'>" . __FILE__ . " (31)</span>
+        <span class='error-file'>" . __FILE__ . " (33)</span>
     </div>
     <script type='application/javascript'
             src='https://assets.phalcon.io/debug/5.0.x/assets/jquery/dist/jquery.min.js'></script>

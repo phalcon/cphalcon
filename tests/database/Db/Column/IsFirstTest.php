@@ -15,6 +15,7 @@ namespace Phalcon\Tests\Database\Db\Column;
 
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Database\Db\Fake\DbTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 final class IsFirstTest extends AbstractDatabaseTestCase
 {
@@ -25,11 +26,10 @@ final class IsFirstTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testDbColumnIsFirst(): void
     {
         $columns         = $this->getColumnsArray();

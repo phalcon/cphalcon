@@ -28,6 +28,7 @@ use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Storage\Fake\FakeApcuApcuDelete;
 use Phalcon\Tests\Unit\Storage\Fake\FakeStreamUnlink;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use stdClass;
 
 use function array_merge;
@@ -84,10 +85,9 @@ final class ClearTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
+    #[RequiresPhpExtension('apcu')]
     public function testStorageAdapterApcuClearDeleteError(): void
     {
-        $this->checkExtensionIsLoaded('apcu');
-
         $serializer = new SerializerFactory();
         $adapter    = new FakeApcuApcuDelete($serializer);
 
@@ -109,10 +109,9 @@ final class ClearTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
+    #[RequiresPhpExtension('apcu')]
     public function testStorageAdapterApcuClearIteratorError(): void
     {
-        $this->checkExtensionIsLoaded('apcu');
-
         $serializer = new SerializerFactory();
         $adapter    = new FakeApcuApcuDelete($serializer);
 

@@ -16,6 +16,7 @@ namespace Phalcon\Tests\Database\Db\Column;
 use Phalcon\Db\Column;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 
 final class IsAutoIncrementTest extends AbstractDatabaseTestCase
 {
@@ -113,10 +114,10 @@ final class IsAutoIncrementTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     #[DataProvider('columnIsAutoIncrementProvider')]
     public function testDbColumnIsAutoIncrement(Column $column, bool $expected): void
     {

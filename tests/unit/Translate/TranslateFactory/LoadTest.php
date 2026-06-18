@@ -18,18 +18,19 @@ use Phalcon\Tests\Support\Traits\FactoryTrait;
 use Phalcon\Translate\Adapter\Gettext;
 use Phalcon\Translate\InterpolatorFactory;
 use Phalcon\Translate\TranslateFactory;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 
 use function strtolower;
 
 use const PHP_OS;
 
+#[RequiresPhpExtension('gettext')]
 final class LoadTest extends AbstractUnitTestCase
 {
     use FactoryTrait;
 
     public function setUp(): void
     {
-        $this->checkExtensionIsLoaded('gettext');
         $this->init();
     }
 

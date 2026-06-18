@@ -16,6 +16,7 @@ namespace Phalcon\Tests\Database\Mvc\Model\Criteria;
 use Phalcon\Mvc\Model\Criteria;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 final class BindTest extends AbstractDatabaseTestCase
 {
@@ -29,11 +30,10 @@ final class BindTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelCriteriaBind(): void
     {
         $criteria = new Criteria();

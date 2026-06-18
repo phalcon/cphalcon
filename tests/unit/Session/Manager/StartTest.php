@@ -17,7 +17,9 @@ use Phalcon\Session\Manager;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use Phalcon\Tests\Unit\Session\Fake\FakeManagerHeadersSent;
+use PHPUnit\Framework\Attributes\BackupGlobals;
 
+#[BackupGlobals(true)]
 final class StartTest extends AbstractUnitTestCase
 {
     use DiTrait;

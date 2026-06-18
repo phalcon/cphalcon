@@ -19,13 +19,11 @@ use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Models\InvoicesWithColumnMap;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 use function date;
 
-/**
- *
- * @group phql
- */
+#[Group('phql')]
 final class ToArrayTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -50,12 +48,11 @@ final class ToArrayTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-01-01
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
-     * @group pgsql
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    #[Group('pgsql')]
     public function testMvcModelResultsetSimpleToArray(): void
     {
         $rows1 = (new Builder())

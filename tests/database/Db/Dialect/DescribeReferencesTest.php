@@ -18,6 +18,7 @@ use Phalcon\Db\Dialect\Postgresql;
 use Phalcon\Db\Dialect\Sqlite;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 
 final class DescribeReferencesTest extends AbstractDatabaseTestCase
 {
@@ -130,11 +131,10 @@ final class DescribeReferencesTest extends AbstractDatabaseTestCase
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-01-20
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     #[DataProvider('getDialects')]
     public function testDbDialectDescribeReferences(
         string $dialectClass,
@@ -152,11 +152,10 @@ final class DescribeReferencesTest extends AbstractDatabaseTestCase
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-01-20
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     #[DataProvider('getDialectsNoSchema')]
     public function testDbDialectDescribeReferencesNoSchema(
         string $dialectClass,

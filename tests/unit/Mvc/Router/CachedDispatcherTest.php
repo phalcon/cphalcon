@@ -16,6 +16,7 @@ namespace Phalcon\Tests\Unit\Mvc\Router;
 use Phalcon\Mvc\Router\Exception;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Mvc\Fake\RouterTrait;
+use PHPUnit\Framework\Attributes\BackupGlobals;
 
 use function cacheDir;
 use function file_put_contents;
@@ -23,6 +24,7 @@ use function glob;
 use function uniqid;
 use function unlink;
 
+#[BackupGlobals(true)]
 final class CachedDispatcherTest extends AbstractUnitTestCase
 {
     use RouterTrait;

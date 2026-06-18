@@ -20,6 +20,7 @@ use Phalcon\Tests\Database\Mvc\RecordsTrait;
 use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 final class GetSetQueryBuilderTest extends AbstractDatabaseTestCase
 {
@@ -39,11 +40,10 @@ final class GetSetQueryBuilderTest extends AbstractDatabaseTestCase
     /**
      * Tests Phalcon\Paginator\Adapter\QueryBuilder :: getQueryBuilder() /
      * setQueryBuilder()
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testPaginatorAdapterQuerybuilderGetSetQueryBuilder(): void
     {
         /** @var PDO $connection */

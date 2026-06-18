@@ -17,6 +17,7 @@ use Phalcon\Db\Column;
 use Phalcon\Db\Dialect\Postgresql;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 
 final class PostgresqlNewTypesTest extends AbstractDatabaseTestCase
 {
@@ -44,9 +45,8 @@ final class PostgresqlNewTypesTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group pgsql
      */
+    #[Group('pgsql')]
     #[DataProvider('provideScalarTypes')]
     public function testDbDialectPostgresqlGetColumnDefinitionNewTypes(
         int $type,
@@ -68,9 +68,8 @@ final class PostgresqlNewTypesTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group pgsql
      */
+    #[Group('pgsql')]
     public function testDbDialectPostgresqlGetColumnDefinitionArrayOfInt(): void
     {
         $dialect = new Postgresql();
@@ -90,9 +89,8 @@ final class PostgresqlNewTypesTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group pgsql
      */
+    #[Group('pgsql')]
     public function testDbDialectPostgresqlGetColumnDefinitionArrayOfInet(): void
     {
         $dialect = new Postgresql();
@@ -112,11 +110,10 @@ final class PostgresqlNewTypesTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testDbColumnIsArrayFalseByDefault(): void
     {
         $column = new Column(
@@ -134,11 +131,10 @@ final class PostgresqlNewTypesTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testDbColumnIsArrayTrue(): void
     {
         $column = new Column(

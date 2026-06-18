@@ -18,6 +18,7 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 use function date;
 use function uniqid;
@@ -39,12 +40,11 @@ final class CreateTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
-     * @group pgsql
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    #[Group('pgsql')]
     public function testMvcModelCreate(): void
     {
         $title                    = uniqid('inv-');
@@ -67,9 +67,8 @@ final class CreateTest extends AbstractDatabaseTestCase
      * @issue  https://github.com/phalcon/cphalcon/issues/16436
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-26
-     *
-     * @group pgsql
      */
+    #[Group('pgsql')]
     public function testMvcModelCreateWithExplicitIdPgsql(): void
     {
         $date                     = date('Y-m-d H:i:s');
@@ -94,9 +93,8 @@ final class CreateTest extends AbstractDatabaseTestCase
      * @issue  https://github.com/phalcon/cphalcon/issues/16436
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-26
-     *
-     * @group pgsql
      */
+    #[Group('pgsql')]
     public function testMvcModelCreateAutoIncrementAfterExplicitIdPgsql(): void
     {
         $date = date('Y-m-d H:i:s');

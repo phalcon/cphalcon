@@ -17,10 +17,12 @@ use Phalcon\Mvc\Router\Annotations;
 use Phalcon\Mvc\Router\Route;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\BackupGlobals;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 use function is_object;
 
+#[BackupGlobals(true)]
 final class AnnotationsTest extends AbstractUnitTestCase
 {
     use DiTrait;

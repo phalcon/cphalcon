@@ -16,6 +16,7 @@ namespace Phalcon\Tests\Database\Mvc\Model;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 final class GetSetReadConnectionServiceTest extends AbstractDatabaseTestCase
 {
@@ -30,11 +31,10 @@ final class GetSetReadConnectionServiceTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-01-31
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelGetSetReadConnectionService(): void
     {
         $invoice = new Invoices();

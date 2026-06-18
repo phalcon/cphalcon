@@ -23,6 +23,7 @@ use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Models\Customers;
 use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 final class CurrentTest extends AbstractDatabaseTestCase
 {
@@ -69,11 +70,10 @@ final class CurrentTest extends AbstractDatabaseTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-13
      * @issue  https://github.com/phalcon/cphalcon/issues/16960
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelResultsetComplexCurrentLeftJoinEmptyModelByDefault(): void
     {
         $this->customerMigration->insert(1, 1, 'cst-first-1', 'cst-last-1');
@@ -140,11 +140,10 @@ final class CurrentTest extends AbstractDatabaseTestCase
      * @since  2026-04-23
      * @issue  https://github.com/phalcon/cphalcon/issues/16239
      * @issue  https://github.com/phalcon/cphalcon/issues/16960
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelResultsetComplexCurrentLeftJoinNullResult(): void
     {
         Settings::set('orm.resultset_empty_left_join_model', false);

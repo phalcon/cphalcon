@@ -19,6 +19,7 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Database\Mvc\RecordsTrait;
 use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 final class OrderByTest extends AbstractDatabaseTestCase
 {
@@ -45,11 +46,10 @@ final class OrderByTest extends AbstractDatabaseTestCase
      * @issue  https://github.com/phalcon/cphalcon/issues/15411
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-04-20
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelQueryBuilderOrderBy(): void
     {
         $builder = new Builder();
@@ -82,11 +82,10 @@ final class OrderByTest extends AbstractDatabaseTestCase
      * @issue  https://github.com/phalcon/cphalcon/issues/17077
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-06-05
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelQueryBuilderOrderByArrayComplexWithoutDirection(): void
     {
         $builder = new Builder();
@@ -107,11 +106,10 @@ final class OrderByTest extends AbstractDatabaseTestCase
      * @issue  https://github.com/phalcon/cphalcon/issues/17077
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-06-05
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelQueryBuilderOrderByArraySimpleColumns(): void
     {
         $builder = new Builder();
@@ -158,11 +156,10 @@ final class OrderByTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-05
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelQueryBuilderOrderByWithComplexExpression(): void
     {
         $builder = new Builder();

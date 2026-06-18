@@ -25,6 +25,7 @@ use Phalcon\Messages\Messages;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Models\Objects;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 use stdClass;
 
 final class ValidationTest extends AbstractDatabaseTestCase
@@ -58,10 +59,9 @@ final class ValidationTest extends AbstractDatabaseTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @issue  https://github.com/phalcon/cphalcon/issues/10405
      * @since  2016-06-27
-     *
-     * @group  mysql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('sqlite')]
     public function testAppendValidationMessageToTheNonObject(): void
     {
         $myValidator = new PresenceOf();
@@ -100,10 +100,9 @@ final class ValidationTest extends AbstractDatabaseTestCase
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-09-26
-     *
-     * @group  mysql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('sqlite')]
     public function testWithEntityAndFilter(): void
     {
         $object = new Objects(
@@ -143,10 +142,9 @@ final class ValidationTest extends AbstractDatabaseTestCase
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-09-26
-     *
-     * @group  mysql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('sqlite')]
     public function testFilteringEntity(): void
     {
         $object = new Objects();
@@ -168,10 +166,9 @@ final class ValidationTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-01
-     *
-     * @group  mysql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('sqlite')]
     public function testValidationFiltering(): void
     {
         $validation = new Validation();
@@ -228,10 +225,9 @@ final class ValidationTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-01
-     *
-     * @group  mysql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('sqlite')]
     public function testValidationSetLabels(): void
     {
         $validation = new Validation();
@@ -324,10 +320,9 @@ final class ValidationTest extends AbstractDatabaseTestCase
      *
      * @author Gorka Guridi <gorka.guridi@gmail.com>
      * @since  2016-12-30
-     *
-     * @group  mysql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('sqlite')]
     public function testEmptyValues(): void
     {
         $validation = new Validation();

@@ -16,6 +16,7 @@ namespace Phalcon\Tests\Database\Db\Adapter\Pdo;
 use Phalcon\Db\Index;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 final class AddIndexTest extends AbstractDatabaseTestCase
 {
@@ -45,11 +46,10 @@ final class AddIndexTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-19
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testDbAdapterPdoAddIndex(): void
     {
         $db = $this->container->get('db');

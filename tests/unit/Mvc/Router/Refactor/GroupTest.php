@@ -19,8 +19,10 @@ use Phalcon\Mvc\Router\Group;
 use Phalcon\Mvc\Router\Route;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\BackupGlobals;
 use PHPUnit\Framework\Attributes\DataProvider;
 
+#[BackupGlobals(true)]
 final class GroupTest extends AbstractUnitTestCase
 {
     use DiTrait;

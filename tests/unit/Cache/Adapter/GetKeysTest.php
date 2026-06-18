@@ -28,6 +28,7 @@ use Phalcon\Support\Exception as HelperException;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Cache\Fake\Adapter\FakeApcuIterator;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use stdClass;
 
 use function getOptionsLibmemcached;
@@ -118,10 +119,9 @@ final class GetKeysTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
+    #[RequiresPhpExtension('memcached')]
     public function testCacheAdapterLibmemcachedGetKeys(): void
     {
-        $this->checkExtensionIsLoaded('memcached');
-
         $serializer = new SerializerFactory();
         $adapter    = new Libmemcached(
             $serializer,
@@ -162,10 +162,9 @@ final class GetKeysTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
+    #[RequiresPhpExtension('apcu')]
     public function testCacheAdapterApcuGetKeysIteratorError(): void
     {
-        $this->checkExtensionIsLoaded('apcu');
-
         $serializer = new SerializerFactory();
         $adapter    = new FakeApcuIterator($serializer);
 

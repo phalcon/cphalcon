@@ -32,6 +32,7 @@ use Phalcon\Tests\Support\Models\OrdersProductsFieldsOne;
 use Phalcon\Tests\Support\Models\OrdersProductsFieldsOneComp;
 use Phalcon\Tests\Support\Models\Products;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 use function uniqid;
 
@@ -58,11 +59,10 @@ final class RelationsTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2023-08-16
-     *
-     * @group  mysql
-     * @group  pgsql
-     * @group  sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelGetBelongsTo(): void
     {
         /** @var PDO $connection */
@@ -113,11 +113,10 @@ final class RelationsTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2023-08-16
-     *
-     * @group  mysql
-     * @group  pgsql
-     * @group  sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelGetHasMany(): void
     {
         /** @var PDO $connection */
@@ -181,11 +180,10 @@ final class RelationsTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2023-08-16
-     *
-     * @group  mysql
-     * @group  pgsql
-     * @group  sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelGetHasOneThrough(): void
     {
         /** @var PDO $connection */
@@ -233,11 +231,10 @@ final class RelationsTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2023-08-16
-     *
-     * @group  mysql
-     * @group  pgsql
-     * @group  sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelGetHasOneThroughComp(): void
     {
         /** @var PDO $connection */
@@ -284,11 +281,10 @@ final class RelationsTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2023-08-16
-     *
-     * @group  mysql
-     * @group  pgsql
-     * @group  sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelGetHasManyToMany(): void
     {
         /** @var PDO $connection */
@@ -341,11 +337,10 @@ final class RelationsTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2023-08-16
-     *
-     * @group  mysql
-     * @group  pgsql
-     * @group  sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelGetHasManyToManyComp(): void
     {
         /** @var PDO $connection */
@@ -397,11 +392,10 @@ final class RelationsTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2023-08-16
-     *
-     * @group  mysql
-     * @group  pgsql
-     * @group  sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelSetBelongsTo(): void
     {
         /** @var PDO $connection */
@@ -453,11 +447,10 @@ final class RelationsTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2023-08-16
-     *
-     * @group  mysql
-     * @group  pgsql
-     * @group  sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelSetHasMany(): void
     {
         /** @var PDO $connection */
@@ -508,11 +501,10 @@ final class RelationsTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2023-08-16
-     *
-     * @group  mysql
-     * @group  pgsql
-     * @group  sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelSetHasOneThrough(): void
     {
         /** @var PDO $connection */
@@ -580,11 +572,10 @@ final class RelationsTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2023-08-16
-     *
-     * @group  mysql
-     * @group  pgsql
-     * @group  sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelSetHasOneThroughComp(): void
     {
         /** @var PDO $connection */
@@ -651,11 +642,10 @@ final class RelationsTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2023-08-16
-     *
-     * @group  mysql
-     * @group  pgsql
-     * @group  sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelSetHasManyToMany(): void
     {
         /** @var PDO $connection */
@@ -755,11 +745,10 @@ final class RelationsTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-06-04
-     *
-     * @group  mysql
-     * @group  pgsql
-     * @group  sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelSetHasManyToManySyncOption(): void
     {
         /** @var PDO $connection */
@@ -811,11 +800,10 @@ final class RelationsTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-06-04
-     *
-     * @group  mysql
-     * @group  pgsql
-     * @group  sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelSetHasManyToManySetSyncMethod(): void
     {
         /** @var PDO $connection */
@@ -870,11 +858,10 @@ final class RelationsTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-06-04
-     *
-     * @group  mysql
-     * @group  pgsql
-     * @group  sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelSetHasManyToManySetSyncDisable(): void
     {
         /** @var PDO $connection */
@@ -916,11 +903,10 @@ final class RelationsTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2023-08-16
-     *
-     * @group  mysql
-     * @group  pgsql
-     * @group  sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelSetHasManyToManyComp(): void
     {
         /** @var PDO $connection */

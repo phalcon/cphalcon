@@ -18,6 +18,7 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 
 final class GetIdentityFieldTest extends AbstractDatabaseTestCase
 {
@@ -53,11 +54,10 @@ final class GetIdentityFieldTest extends AbstractDatabaseTestCase
     /**
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-02-01
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     #[DataProvider('getExamples')]
     public function testMvcModelMetadataGetIdentityField(
         string $service

@@ -18,6 +18,7 @@ use Phalcon\Mvc\Model\MetaData\Memory;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 
 final class GetSetDITest extends AbstractDatabaseTestCase
 {
@@ -47,11 +48,10 @@ final class GetSetDITest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-05-05
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelMetadataGetDIThrowsException(): void
     {
         $this->expectException(ExpectedException::class);
@@ -65,11 +65,10 @@ final class GetSetDITest extends AbstractDatabaseTestCase
     /**
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-02-01
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     #[DataProvider('getExamples')]
     public function testMvcModelMetadataGetSetDI(
         string $service

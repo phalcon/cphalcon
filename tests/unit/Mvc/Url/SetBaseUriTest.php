@@ -17,8 +17,10 @@ use Phalcon\Mvc\Router;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use Phalcon\Tests\Unit\Mvc\Fake\RouterTrait;
+use PHPUnit\Framework\Attributes\BackupGlobals;
 use PHPUnit\Framework\Attributes\DataProvider;
 
+#[BackupGlobals(true)]
 final class SetBaseUriTest extends AbstractUnitTestCase
 {
     use DiTrait;

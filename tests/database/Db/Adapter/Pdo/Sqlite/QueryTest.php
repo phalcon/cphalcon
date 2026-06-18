@@ -18,6 +18,7 @@ use Phalcon\Db\Result\PdoResult;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 use function is_array;
 use function is_object;
@@ -42,8 +43,8 @@ final class QueryTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
-     * @group  sqlite
      */
+    #[Group('sqlite')]
     public function testDbAdapterPdoSqliteQuery(): void
     {
         $connection = self::getConnection();

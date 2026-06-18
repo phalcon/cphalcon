@@ -18,6 +18,7 @@ use Phalcon\Db\Reference;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 
 use function env;
 
@@ -41,8 +42,8 @@ final class PostgresqlTest extends AbstractDatabaseTestCase
      *
      * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
      * @since  2017-08-18
-     * @group  pgsql
      */
+    #[Group('pgsql')]
     public function testDbAdapterPdoPostgresqlShouldCreateReferenceObject(): void
     {
         $db = $this->container->get('db');
@@ -72,8 +73,8 @@ final class PostgresqlTest extends AbstractDatabaseTestCase
      *
      * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
      * @since  2017-07-05
-     * @group  pgsql
      */
+    #[Group('pgsql')]
     #[DataProvider('getShouldAddForeignKeyProvider')]
     public function testDbAdapterPdoPostgresqlShouldAddForeignKey(
         string $reference,
@@ -97,8 +98,8 @@ final class PostgresqlTest extends AbstractDatabaseTestCase
      *
      * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
      * @since  2017-07-05
-     * @group  pgsql
      */
+    #[Group('pgsql')]
     #[DataProvider('getShouldCheckAddedForeignKeyProvider')]
     public function testDbAdapterPdoPostgresqlShouldCheckAddedForeignKey(
         string $sql,
@@ -112,8 +113,8 @@ final class PostgresqlTest extends AbstractDatabaseTestCase
     /**
      * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
      * @since  2017-07-05
-     * @group  pgsql
      */
+    #[Group('pgsql')]
     #[DataProvider('getShouldDropForeignKeyProvider')]
     public function testDbAdapterPdoPostgresqlShouldDropForeignKey(
         string $reference,

@@ -15,6 +15,7 @@ namespace Phalcon\Tests\Database\Db\Adapter\Pdo\Mysql;
 
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 use function env;
 
@@ -38,9 +39,9 @@ final class TableExistsTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
-     * @group mysql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('sqlite')]
     public function testDbAdapterPdoMysqlTableExists(): void
     {
         $db    = $this->container->get('db');

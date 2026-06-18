@@ -19,6 +19,7 @@ use Phalcon\Db\Dialect\Sqlite;
 use Phalcon\Db\Index;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 
 final class AddIndexTest extends AbstractDatabaseTestCase
 {
@@ -77,11 +78,10 @@ final class AddIndexTest extends AbstractDatabaseTestCase
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-01-20
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     #[DataProvider('getDialects')]
     public function testDbDialectAddIndex(
         string $dialectClass,
@@ -100,11 +100,10 @@ final class AddIndexTest extends AbstractDatabaseTestCase
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-01-20
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     #[DataProvider('getDialectsType')]
     public function testDbDialectAddIndexType(
         string $dialectClass,

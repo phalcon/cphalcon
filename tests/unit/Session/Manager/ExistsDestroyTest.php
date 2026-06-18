@@ -18,8 +18,10 @@ use Phalcon\Storage\Exception;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use Phalcon\Tests\Support\Traits\SessionTrait;
+use PHPUnit\Framework\Attributes\BackupGlobals;
 use PHPUnit\Framework\Attributes\DataProvider;
 
+#[BackupGlobals(true)]
 final class ExistsDestroyTest extends AbstractUnitTestCase
 {
     use DiTrait;

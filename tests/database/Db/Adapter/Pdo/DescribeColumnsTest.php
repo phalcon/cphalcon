@@ -20,6 +20,7 @@ use Phalcon\Tests\Support\Migrations\ComplexDefaultMigration;
 use Phalcon\Tests\Support\Migrations\DialectMigration;
 use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 use function env;
 
@@ -45,9 +46,8 @@ final class DescribeColumnsTest extends AbstractDatabaseTestCase
      *
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2020-03-09
-     *
-     * @group pgsql
      */
+    #[Group('pgsql')]
     public function testDbAdapterPdoDescribeColumnsDefaultPostgres(): void
     {
         $db        = $this->container->get('db');
@@ -68,9 +68,8 @@ final class DescribeColumnsTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-03-02
-     *
-     * @group mysql
      */
+    #[Group('mysql')]
     public function testDbAdapterPdoDescribeColumnsOnUpdate(): void
     {
         $db        = $this->container->get('db');
@@ -91,9 +90,8 @@ final class DescribeColumnsTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-04-20
-     *
-     * @group mysql
      */
+    #[Group('mysql')]
     public function testDbAdapterPdoDescribeColumnsSupported(): void
     {
         /** @var Mysql $db */
@@ -121,11 +119,10 @@ final class DescribeColumnsTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-18
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testDbAdapterPdoDescribeColumns(): void
     {
         $connection = self::getConnection();

@@ -22,6 +22,7 @@ use Phalcon\Db\Index;
 use Phalcon\Db\Reference;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 
 final class CreateTableTest extends AbstractDatabaseTestCase
 {
@@ -127,11 +128,10 @@ final class CreateTableTest extends AbstractDatabaseTestCase
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-01-20
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     #[DataProvider('getDialects')]
     public function testDbDialectCreateTable(
         string $dialectClass,
@@ -155,11 +155,10 @@ final class CreateTableTest extends AbstractDatabaseTestCase
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-01-20
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     #[DataProvider('getDialectsException')]
     public function testDbDialectCreateTableException(
         string $dialectClass
@@ -180,11 +179,10 @@ final class CreateTableTest extends AbstractDatabaseTestCase
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-01-20
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     #[DataProvider('getDialectsTemporary')]
     public function testDbDialectCreateTableTemporary(
         string $dialectClass,

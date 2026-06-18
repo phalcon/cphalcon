@@ -21,10 +21,9 @@ use Phalcon\Tests\Database\Mvc\RecordsTrait;
 use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
-/**
- * @group phql
- */
+#[Group('phql')]
 final class PaginateTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -48,10 +47,10 @@ final class PaginateTest extends AbstractDatabaseTestCase
      * @since  2026-05-14
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/14754
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testPaginatorAdapterQuerybuilderCursorPaginateFirstPage(): void
     {
         /** @var PDO $connection */
@@ -96,10 +95,10 @@ final class PaginateTest extends AbstractDatabaseTestCase
      * @since  2026-05-14
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/14754
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testPaginatorAdapterQuerybuilderCursorPaginateForwardTraversal(): void
     {
         /** @var PDO $connection */
@@ -170,10 +169,10 @@ final class PaginateTest extends AbstractDatabaseTestCase
      * @since  2026-05-14
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/14754
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testPaginatorAdapterQuerybuilderCursorPaginateExactMultiple(): void
     {
         /** @var PDO $connection */
@@ -217,10 +216,10 @@ final class PaginateTest extends AbstractDatabaseTestCase
      * @since  2026-05-14
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/14754
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testPaginatorAdapterQuerybuilderCursorPaginateEmpty(): void
     {
         $manager = $this->getService('modelsManager');
@@ -255,10 +254,10 @@ final class PaginateTest extends AbstractDatabaseTestCase
      * @since  2026-05-14
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/14754
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testPaginatorAdapterQuerybuilderCursorPaginateResetCursor(): void
     {
         /** @var PDO $connection */

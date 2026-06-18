@@ -28,6 +28,7 @@ use Phalcon\Support\Exception as SupportException;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Storage\Fake\FakeLibmemcached;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 
 use function getOptionsLibmemcached;
 use function getOptionsRedis;
@@ -107,9 +108,9 @@ final class ConstructTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
+    #[RequiresPhpExtension('memcached')]
     public function testStorageAdapterLibmemcachedConstructEmptyOptions(): void
     {
-        $this->checkExtensionIsLoaded('memcached');
         $serializer = new SerializerFactory();
         $adapter    = new FakeLibmemcached($serializer);
 
@@ -130,9 +131,9 @@ final class ConstructTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
+    #[RequiresPhpExtension('memcached')]
     public function testStorageAdapterLibmemcachedConstructGetTtl(): void
     {
-        $this->checkExtensionIsLoaded('memcached');
         $serializer = new SerializerFactory();
         $adapter    = new FakeLibmemcached(
             $serializer,

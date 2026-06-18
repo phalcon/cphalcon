@@ -18,6 +18,7 @@ use Phalcon\Db\Dialect\Postgresql;
 use Phalcon\Db\Dialect\Sqlite;
 use Phalcon\Db\Index;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
 final class AddIndexDirectionsTest extends AbstractDatabaseTestCase
 {
@@ -26,9 +27,8 @@ final class AddIndexDirectionsTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group mysql
      */
+    #[Group('mysql')]
     public function testDbDialectMysqlAddIndexWithDirections(): void
     {
         $dialect = new Mysql();
@@ -52,9 +52,8 @@ final class AddIndexDirectionsTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group mysql
      */
+    #[Group('mysql')]
     public function testDbDialectMysqlAddIndexShortDirectionsDefaultAsc(): void
     {
         $dialect = new Mysql();
@@ -79,9 +78,8 @@ final class AddIndexDirectionsTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group mysql
      */
+    #[Group('mysql')]
     public function testDbDialectMysqlAddIndexEmptyDirectionsIsLegacy(): void
     {
         $dialect = new Mysql();
@@ -98,9 +96,8 @@ final class AddIndexDirectionsTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group pgsql
      */
+    #[Group('pgsql')]
     public function testDbDialectPostgresqlAddIndexWithDirections(): void
     {
         $dialect = new Postgresql();
@@ -125,9 +122,8 @@ final class AddIndexDirectionsTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group sqlite
      */
+    #[Group('sqlite')]
     public function testDbDialectSqliteAddIndexWithDirections(): void
     {
         $dialect = new Sqlite();

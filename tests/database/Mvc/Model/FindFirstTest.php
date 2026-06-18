@@ -29,13 +29,11 @@ use Phalcon\Tests\Support\Models\InvoicesMap;
 use Phalcon\Tests\Support\Models\ModelWithStringPrimary;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 
 use function uniqid;
 
-/**
- *
- * @group phql
- */
+#[Group('phql')]
 final class FindFirstTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -82,11 +80,10 @@ final class FindFirstTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelFindFirst(): void
     {
         $title = uniqid('inv-');
@@ -119,11 +116,10 @@ final class FindFirstTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelFindFirstByNotFound(): void
     {
         $actual = Invoices::findFirstByInvTitle('unknown');
@@ -134,11 +130,10 @@ final class FindFirstTest extends AbstractDatabaseTestCase
      * @issue  https://github.com/phalcon/cphalcon/issues/15356
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-11-22
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelFindFirstColumn(): void
     {
         /** @var PDO $connection */
@@ -168,11 +163,10 @@ final class FindFirstTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelFindFirstColumnMap(): void
     {
         $title = uniqid('inv-');
@@ -213,11 +207,10 @@ final class FindFirstTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelFindFirstException(): void
     {
         $this->expectException(Exception::class);
@@ -232,11 +225,10 @@ final class FindFirstTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelFindFirstExtended(): void
     {
         $title = uniqid('inv-');
@@ -262,11 +254,10 @@ final class FindFirstTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2022-02-05
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelFindFirstExtendedColumn(): void
     {
         $title = uniqid('inv-');
@@ -293,11 +284,10 @@ final class FindFirstTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2022-06-14
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelFindFirstFoundNotFoundGetRelated(): void
     {
         /** @var PDO $connection */
@@ -384,11 +374,10 @@ final class FindFirstTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelFindFirstNotFound(): void
     {
         $invoice = Invoices::findFirst(
@@ -403,11 +392,10 @@ final class FindFirstTest extends AbstractDatabaseTestCase
     /**
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-01-27
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     #[DataProvider('findFirstProvider')]
     public function testMvcModelFindFirstStringPrimaryKey(
         array | string $params,
@@ -433,9 +421,8 @@ final class FindFirstTest extends AbstractDatabaseTestCase
      * @issue  https://github.com/phalcon/cphalcon/issues/16350
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-23
-     *
-     * @group mysql
      */
+    #[Group('mysql')]
     public function testMvcModelFindFirstWithRawValueBind(): void
     {
         $connection = self::getConnection();

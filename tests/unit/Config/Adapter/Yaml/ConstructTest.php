@@ -20,11 +20,13 @@ use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Traits\ConfigTrait;
 use Phalcon\Tests\Unit\Config\Fake\Adapter\FakeYamlExtensionLoaded;
 use Phalcon\Tests\Unit\Config\Fake\Adapter\FakeYamlParseFile;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 
 use function basename;
 use function hash;
 use function supportDir;
 
+#[RequiresPhpExtension('yaml')]
 final class ConstructTest extends AbstractUnitTestCase
 {
     use ConfigTrait;
@@ -34,7 +36,6 @@ final class ConstructTest extends AbstractUnitTestCase
      */
     public function setUp(): void
     {
-        $this->checkExtensionIsLoaded('yaml');
     }
 
     /**

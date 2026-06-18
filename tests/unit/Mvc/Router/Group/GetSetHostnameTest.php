@@ -17,8 +17,10 @@ use Phalcon\Mvc\Router\Group;
 use Phalcon\Mvc\Router\Route;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Mvc\Fake\RouterTrait;
+use PHPUnit\Framework\Attributes\BackupGlobals;
 use PHPUnit\Framework\Attributes\DataProvider;
 
+#[BackupGlobals(true)]
 final class GetSetHostnameTest extends AbstractUnitTestCase
 {
     use RouterTrait;

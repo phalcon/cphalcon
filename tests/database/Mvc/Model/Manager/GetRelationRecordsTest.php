@@ -24,11 +24,9 @@ use Phalcon\Tests\Support\Models\AlbumORama\Albums;
 use Phalcon\Tests\Support\Models\AlbumORama\Artists;
 use Phalcon\Tests\Support\Models\AlbumORama\Songs;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
-/**
- *
- * @group phql
- */
+#[Group('phql')]
 final class GetRelationRecordsTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -42,11 +40,10 @@ final class GetRelationRecordsTest extends AbstractDatabaseTestCase
     /**
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2019-05-22
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelManagerGetRelationRecords(): void
     {
         /** @var PDO $connection */

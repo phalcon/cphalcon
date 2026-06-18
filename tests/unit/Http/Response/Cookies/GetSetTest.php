@@ -16,6 +16,7 @@ namespace Phalcon\Tests\Unit\Http\Response\Cookies;
 use Phalcon\Http\Response\Cookies;
 use Phalcon\Tests\Unit\Http\Fake\CookieTrait;
 use Phalcon\Tests\Unit\Http\Helper\AbstractHttpBase;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 
 use function time;
 use function uniqid;
@@ -38,10 +39,9 @@ final class GetSetTest extends AbstractHttpBase
      * @author Cameron Hall <me@chall.id.au>
      * @since  2019-01-20
      */
+    #[RequiresPhpExtension('xdebug')]
     public function testHttpCookieSetHttpOnly(): void
     {
-        $this->checkExtensionIsLoaded('xdebug');
-
         $this->setDiService('crypt');
 
         $cookie = new Cookies();
@@ -80,10 +80,9 @@ final class GetSetTest extends AbstractHttpBase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-10
      */
+    #[RequiresPhpExtension('xdebug')]
     public function testHttpCookieSetOptions(): void
     {
-        $this->checkExtensionIsLoaded('xdebug');
-
         $this->setDiService('crypt');
 
         $cookies = new Cookies();

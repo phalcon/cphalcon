@@ -15,6 +15,7 @@ namespace Phalcon\Tests\Database\Db\Adapter\Pdo;
 
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 use function env;
 
@@ -33,11 +34,10 @@ final class EscapeIdentifierTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-19
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testDbAdapterPdoEscapeIdentifier(): void
     {
         $db = $this->container->get('db');

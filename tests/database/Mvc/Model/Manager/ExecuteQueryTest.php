@@ -21,11 +21,9 @@ use Phalcon\Storage\Exception;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
-/**
- *
- * @group phql
- */
+#[Group('phql')]
 final class ExecuteQueryTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -48,12 +46,11 @@ final class ExecuteQueryTest extends AbstractDatabaseTestCase
      * @issue  https://github.com/phalcon/cphalcon/issues/15024
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-05-06
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
-     * @group pgsql
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    #[Group('pgsql')]
     public function testMvcModelManagerExecuteQuery(): void
     {
         /** @var ManagerInterface $manager */
@@ -79,11 +76,10 @@ final class ExecuteQueryTest extends AbstractDatabaseTestCase
      * @issue  https://github.com/phalcon/cphalcon/issues/2373
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-04
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelManagerExecuteQueryIssue16976(): void
     {
         $this->markTestSkipped(

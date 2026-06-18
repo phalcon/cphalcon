@@ -20,11 +20,9 @@ use Phalcon\Tests\Database\Mvc\RecordsTrait;
 use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
-/**
- *
- * @group phql
- */
+#[Group('phql')]
 final class GetSqlTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -57,11 +55,10 @@ final class GetSqlTest extends AbstractDatabaseTestCase
      * @issue  https://github.com/phalcon/cphalcon/issues/14657
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-05-06
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelQueryGetSql(): void
     {
         $phql = sprintf('SELECT i.inv_id, i.inv_cst_id FROM [%s] AS i', Invoices::class);

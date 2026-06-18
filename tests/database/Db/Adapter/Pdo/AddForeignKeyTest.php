@@ -17,6 +17,7 @@ use Phalcon\Db\Exception;
 use Phalcon\Db\Reference;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 use function env;
 
@@ -59,10 +60,9 @@ final class AddForeignKeyTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-19
-     *
-     * @group mysql
-     * @group pgsql
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
     public function testDbAdapterPdoAddForeignKey(): void
     {
         $db = $this->container->get('db');
@@ -91,9 +91,8 @@ final class AddForeignKeyTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-19
-     *
-     * @group sqlite
      */
+    #[Group('sqlite')]
     public function testDbAdapterPdoAddForeignKeySqlite(): void
     {
         $db = $this->container->get('db');

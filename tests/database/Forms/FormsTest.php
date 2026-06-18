@@ -24,6 +24,7 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Forms\ContactFormPublicProperties;
 use Phalcon\Tests\Support\Forms\ContactFormSettersGetters;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 final class FormsTest extends AbstractDatabaseTestCase
 {
@@ -40,10 +41,9 @@ final class FormsTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-01
-     *
-     * @group  mysql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('sqlite')]
     public function testFormElementRender(): void
     {
         $element1 = new Text('name');
@@ -79,10 +79,9 @@ final class FormsTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-01
-     *
-     * @group  mysql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('sqlite')]
     public function testFormRenderEntity(): void
     {
         $address = new Text('address');
@@ -124,10 +123,9 @@ final class FormsTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-01
-     *
-     * @group  mysql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('sqlite')]
     public function testFormRenderEntityGetters(): void
     {
         $address = new Text('address');
@@ -169,10 +167,9 @@ final class FormsTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-01
-     *
-     * @group  mysql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('sqlite')]
     public function testFormValidatorEntity(): void
     {
         $address = new Text('address');
@@ -213,10 +210,9 @@ final class FormsTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-01
-     *
-     * @group  mysql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('sqlite')]
     public function testFormValidatorEntityBind(): void
     {
         $address = new Text('address');
@@ -269,10 +265,9 @@ final class FormsTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-01
-     *
-     * @group  mysql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('sqlite')]
     public function testFormValidatorEntityBindSetters(): void
     {
         $address = new Text('address');
@@ -325,10 +320,9 @@ final class FormsTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-01
-     *
-     * @group  mysql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('sqlite')]
     public function testElementAppendMessage(): void
     {
         $element = new Select('test-select');
