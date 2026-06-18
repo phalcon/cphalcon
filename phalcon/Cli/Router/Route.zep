@@ -138,7 +138,7 @@ class Route implements RouteInterface
                 this->delimiter . ":task"      : idPattern,
                 this->delimiter . ":namespace" : idPattern,
                 this->delimiter . ":action"    : idPattern,
-                this->delimiter . ":params"    : "(" . this->delimiter . ".*)*",
+                this->delimiter . ":params"    : "(" . this->delimiter . ".*)?",
                 this->delimiter . ":int"       : this->delimiter . "([0-9]+)"
             ];
 
