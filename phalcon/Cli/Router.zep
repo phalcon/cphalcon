@@ -120,7 +120,7 @@ class Router extends AbstractInjectionAware implements RouterInterface
             let this->routes[route->getRouteId()] = route;
 
             let route = new Route(
-                "#^(?::delimiter)?([a-zA-Z0-9\\_\\-]+):delimiter([a-zA-Z0-9\\.\\_]+)(:delimiter.*)*$#",
+                "#^(?::delimiter)?([a-zA-Z0-9\\_\\-]+):delimiter([a-zA-Z0-9\\.\\_]+)(:delimiter.*)?$#",
                 [
                     "task":   1,
                     "action": 2,

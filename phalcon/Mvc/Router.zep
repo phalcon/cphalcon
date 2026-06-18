@@ -346,7 +346,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
 
             this->attach(
                 new Route(
-                    "#^/([\\w0-9\\_\\-]+)/([\\w0-9\\.\\_]+)(/.*)*$#u",
+                    "#^/([\\w0-9\\_\\-]+)/([\\w0-9\\.\\_]+)(/.*)?$#u",
                     [
                         "controller": 1,
                         "action":     2,
