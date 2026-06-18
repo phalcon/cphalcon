@@ -265,7 +265,7 @@ PHP_METHOD(Phalcon_Cli_Router_Route, compilePattern)
 		ZEPHIR_CONCAT_VS(&_11$$3, &_10$$3, ":params");
 		zephir_read_property(&_12$$3, this_ptr, ZEND_STRL("delimiter"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_INIT_VAR(&_13$$3);
-		ZEPHIR_CONCAT_SVS(&_13$$3, "(", &_12$$3, ".*)*");
+		ZEPHIR_CONCAT_SVS(&_13$$3, "(", &_12$$3, ".*)?");
 		zephir_array_update_zval(&map, &_11$$3, &_13$$3, PH_COPY);
 		zephir_read_property(&_14$$3, this_ptr, ZEND_STRL("delimiter"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_INIT_NVAR(&_13$$3);
