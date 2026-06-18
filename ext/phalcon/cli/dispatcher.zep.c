@@ -79,6 +79,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Cli_Dispatcher)
 
 /**
  * Calls the action method.
+ *
+ * The CLI options collected by the dispatcher are appended to the
+ * positional `params` before the call, so a task action receives any
+ * options as trailing arguments after its declared parameters.
  */
 PHP_METHOD(Phalcon_Cli_Dispatcher, callActionMethod)
 {
@@ -417,7 +421,7 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, throwDispatchException)
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&_1)) {
 		RETURN_MM_BOOL(0);
 	}
-	zephir_throw_exception_debug(&exception, "phalcon/Cli/Dispatcher.zep", 224);
+	zephir_throw_exception_debug(&exception, "phalcon/Cli/Dispatcher.zep", 228);
 	ZEPHIR_MM_RESTORE();
 	return;
 }

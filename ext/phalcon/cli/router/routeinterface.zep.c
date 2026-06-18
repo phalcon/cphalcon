@@ -22,6 +22,13 @@
  */
 /**
  * Interface for Phalcon\Cli\Router\Route
+ *
+ * Note: `Phalcon\Cli\Router` always constructs and returns the concrete
+ * `Phalcon\Cli\Router\Route`, and there is no injection point for an externally
+ * built route, so this interface is a marker for type hints rather than an
+ * implementable contract. The fluent route API used in practice -
+ * `beforeMatch()`, `getBeforeMatch()`, `convert()`, and `getConverters()` - is
+ * declared on the concrete `Route` class, not here.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Cli_Router_RouteInterface)
 {

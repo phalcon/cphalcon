@@ -14,8 +14,16 @@ use Phalcon\Cli\Router\Exception;
 
 class RouterArgumentsInvalidType extends Exception
 {
-    public function __construct()
+    public function __construct(string type = "")
     {
-        parent::__construct("Arguments must be an array or string");
+        var message;
+
+        let message = "Arguments must be an array or string";
+
+        if type !== "" {
+            let message .= ", " . type . " given";
+        }
+
+        parent::__construct(message);
     }
 }
