@@ -16,7 +16,7 @@ namespace Phalcon\Tests\Unit\Mvc\Model\Query\Phql\Insert;
 use Phalcon\Mvc\Model\Query\Lang;
 use Phalcon\Tests\AbstractUnitTestCase;
 
-final class Combination extends AbstractUnitTestCase
+final class CombinationTest extends AbstractUnitTestCase
 {
     /**
      * @author Phalcon Team <team@phalcon.io>
@@ -59,6 +59,7 @@ final class Combination extends AbstractUnitTestCase
             ],
         ];
         $actual   = Lang::parsePhql($source);
+        unset($actual['id']);
         $this->assertSame($expected, $actual);
     }
 
@@ -122,6 +123,7 @@ final class Combination extends AbstractUnitTestCase
             ],
         ];
         $actual   = Lang::parsePhql($source);
+        unset($actual['id']);
         $this->assertSame($expected, $actual);
     }
 
@@ -159,6 +161,7 @@ final class Combination extends AbstractUnitTestCase
             ],
         ];
         $actual   = Lang::parsePhql($source);
+        unset($actual['id']);
         $this->assertSame($expected, $actual);
     }
 
@@ -197,6 +200,7 @@ final class Combination extends AbstractUnitTestCase
             ],
         ];
         $actual   = Lang::parsePhql($source);
+        unset($actual['id']);
         $this->assertSame($expected, $actual);
     }
 
@@ -252,6 +256,7 @@ final class Combination extends AbstractUnitTestCase
             ],
         ];
         $actual   = Lang::parsePhql($source);
+        unset($actual['id']);
         $this->assertSame($expected, $actual);
     }
 
@@ -298,6 +303,7 @@ final class Combination extends AbstractUnitTestCase
             ],
         ];
         $actual   = Lang::parsePhql($source);
+        unset($actual['id']);
         $this->assertSame($expected, $actual);
     }
 
@@ -361,6 +367,7 @@ final class Combination extends AbstractUnitTestCase
             ],
         ];
         $actual   = Lang::parsePhql($source);
+        unset($actual['id']);
         $this->assertSame($expected, $actual);
     }
 
@@ -398,6 +405,7 @@ final class Combination extends AbstractUnitTestCase
             ],
         ];
         $actual   = Lang::parsePhql($source);
+        unset($actual['id']);
         $this->assertSame($expected, $actual);
     }
 
@@ -443,6 +451,7 @@ final class Combination extends AbstractUnitTestCase
             ],
         ];
         $actual   = Lang::parsePhql($source);
+        unset($actual['id']);
         $this->assertSame($expected, $actual);
     }
 
@@ -480,6 +489,7 @@ final class Combination extends AbstractUnitTestCase
             ],
         ];
         $actual   = Lang::parsePhql($source);
+        unset($actual['id']);
         $this->assertSame($expected, $actual);
     }
 }

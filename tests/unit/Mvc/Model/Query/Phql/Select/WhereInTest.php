@@ -16,7 +16,7 @@ namespace Phalcon\Tests\Unit\Mvc\Model\Query\Phql\Select;
 use Phalcon\Mvc\Model\Query\Lang;
 use Phalcon\Tests\AbstractUnitTestCase;
 
-final class WhereIn extends AbstractUnitTestCase
+final class WhereInTest extends AbstractUnitTestCase
 {
     /**
      * @author Phalcon Team <team@phalcon.io>
