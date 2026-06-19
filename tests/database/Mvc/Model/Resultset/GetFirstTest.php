@@ -60,7 +60,6 @@ final class GetFirstTest extends AbstractDatabaseTestCase
     #[Group('mysql')]
     #[Group('pgsql')]
     #[Group('sqlite')]
-    #[Group('pgsql')]
     public function testMvcModelResultsetGetFirst(): void
     {
         /**

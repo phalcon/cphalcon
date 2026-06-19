@@ -13,36 +13,35 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Mvc\Model\Query\Builder;
 
-use DatabaseTester;
+use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Migrations\InvoicesMigration;
+use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Traits\DiTrait;
-use Phalcon\Tests\Models\Invoices;
 use PHPUnit\Framework\Attributes\Group;
 
-class MemoryUsageCest
+final class MemoryUsageTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
 
-    /**
-     * @var InvoicesMigration
-     */
-    private $invoiceMigration;
+    private InvoicesMigration $invoiceMigration;
 
-    public function _before(DatabaseTester $I): void
+    public function setUp(): void
     {
         $this->setNewFactoryDefault();
-        $this->setDatabase($I);
+        $this->setDatabase();
 
-        $this->invoiceMigration = new InvoicesMigration($I->getConnection());
-        $this->invoiceMigration->create();
+        $this->invoiceMigration = new InvoicesMigration(self::getConnection());
         $this->invoiceMigration->clear();
     }
 
-    #[Group('sqlite')]
-    public function mvcModelQueryBuilderExecuteMemoryUsage(DatabaseTester $I): void
+    public function tearDown(): void
     {
-        $I->wantToTest('Mvc\Model\Query\Builder - unbound execute loop keeps memory stable');
+        $this->tearDownDatabase();
+    }
 
+    #[Group('sqlite')]
+    public function testMvcModelQueryBuilderExecuteMemoryUsage(): void
+    {
         gc_enable();
 
         $di = $this->container;
@@ -75,7 +74,7 @@ class MemoryUsageCest
         $after         = memory_get_usage(true);
         $allowedGrowth = 1024 * 1024;
 
-        $I->assertLessThanOrEqual(
+        $this->assertLessThanOrEqual(
             $before + $allowedGrowth,
             $after,
             sprintf(

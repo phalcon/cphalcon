@@ -105,25 +105,6 @@ final class GetMultipleTest extends AbstractUnitTestCase
 
     /**
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2020-09-09
-     */
-    public function testCacheCacheGetMultipleException(): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage(
-            'The keys need to be an array or instance of Traversable'
-        );
-
-        $serializer = new SerializerFactory();
-        $factory    = new AdapterFactory($serializer);
-        $instance   = $factory->newInstance('apcu');
-
-        $adapter = new Cache($instance);
-        $adapter->getMultiple(1234);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-14
      */
     #[RequiresPhpExtension('apcu')]

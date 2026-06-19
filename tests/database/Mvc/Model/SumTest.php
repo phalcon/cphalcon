@@ -72,7 +72,6 @@ final class SumTest extends AbstractDatabaseTestCase
     #[Group('mysql')]
     #[Group('pgsql')]
     #[Group('sqlite')]
-    #[Group('pgsql')]
     public function testMvcModelSum(): void
     {
         /**
@@ -186,7 +185,6 @@ final class SumTest extends AbstractDatabaseTestCase
     #[Group('mysql')]
     #[Group('pgsql')]
     #[Group('sqlite')]
-    #[Group('pgsql')]
     public function testMvcModelSumTransaction(): void
     {
         $invId = ('sqlite' === self::getDriver()) ? 'null' : 'default';

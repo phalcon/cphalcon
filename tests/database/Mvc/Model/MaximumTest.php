@@ -36,7 +36,6 @@ final class MaximumTest extends AbstractDatabaseTestCase
     #[Group('mysql')]
     #[Group('pgsql')]
     #[Group('sqlite')]
-    #[Group('pgsql')]
     public function testMvcModelMaximum(): void
     {
         /** @var PDO $connection */

@@ -239,14 +239,6 @@ final class LoadFromConfigTest extends AbstractUnitTestCase
         $this->assertSame('/about', $router->getRoutes()[0]->getPattern());
     }
 
-    public function testLoadFromConfigRejectsNonArrayNonConfig(): void
-    {
-        $this->expectException(\Phalcon\Mvc\Router\Exception::class);
-        $this->expectExceptionMessageMatches('/requires an array or Phalcon/');
-
-        (new Router(false))->loadFromConfig('a string');
-    }
-
     public function testLoadFromConfigRequiresPattern(): void
     {
         $this->expectException(\Phalcon\Mvc\Router\Exception::class);

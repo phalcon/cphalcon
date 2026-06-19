@@ -191,7 +191,6 @@ final class CloneResultMapTest extends AbstractDatabaseTestCase
     #[Group('mysql')]
     #[Group('pgsql')]
     #[Group('sqlite')]
-    #[Group('pgsql')]
     #[DataProvider('modelDataProvider')]
     public function testMvcModelCloneResultMapWithCasting(
         int | string $invId,

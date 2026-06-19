@@ -1,5 +1,20 @@
 # Changelog
 
+## [5.15.1](https://github.com/phalcon/cphalcon/releases/tag/v5.15.1) (2026-xx-xx)
+
+### Tools
+
+- Zephir Parser v2.0.4
+- Zephir 0.23.0 (development - 27535f802)
+
+### Changed
+
+### Added
+
+### Fixed
+
+### Removed
+
 ## [5.15.0](https://github.com/phalcon/cphalcon/releases/tag/v5.15.0) (2026-06-18)
 
 ### Tools

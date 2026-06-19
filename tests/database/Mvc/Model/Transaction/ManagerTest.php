@@ -49,7 +49,6 @@ final class ManagerTest extends AbstractDatabaseTestCase
     #[Group('mysql')]
     #[Group('pgsql')]
     #[Group('sqlite')]
-    #[Group('pgsql')]
     public function testMvcModelTransactionManagerCommitNewInserts(): void
     {
         $tm  = $this->container->getShared('transactionManager');
@@ -94,7 +93,6 @@ final class ManagerTest extends AbstractDatabaseTestCase
     #[Group('mysql')]
     #[Group('pgsql')]
     #[Group('sqlite')]
-    #[Group('pgsql')]
     public function testMvcModelTransactionManagerTransactionRemovedOnCommit(): void
     {
         $tm = $this->container->getShared('transactionManager');
@@ -143,7 +141,6 @@ final class ManagerTest extends AbstractDatabaseTestCase
     #[Group('mysql')]
     #[Group('pgsql')]
     #[Group('sqlite')]
-    #[Group('pgsql')]
     public function testMvcModelTransactionManagerCommitViaManagerClearsTransaction(): void
     {
         $tm = $this->container->getShared('transactionManager');
@@ -176,7 +173,6 @@ final class ManagerTest extends AbstractDatabaseTestCase
     #[Group('mysql')]
     #[Group('pgsql')]
     #[Group('sqlite')]
-    #[Group('pgsql')]
     public function testMvcModelTransactionManagerCommitRollbackCycle(): void
     {
         $tm          = $this->container->getShared('transactionManager');
@@ -215,7 +211,6 @@ final class ManagerTest extends AbstractDatabaseTestCase
     #[Group('mysql')]
     #[Group('pgsql')]
     #[Group('sqlite')]
-    #[Group('pgsql')]
     public function testMvcModelTransactionManagerTransactionRemovedOnRollback(): void
     {
         $tm = $this->container->getShared('transactionManager');

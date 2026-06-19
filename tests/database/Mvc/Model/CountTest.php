@@ -164,7 +164,6 @@ final class CountTest extends AbstractDatabaseTestCase
     #[Group('mysql')]
     #[Group('pgsql')]
     #[Group('sqlite')]
-    #[Group('pgsql')]
     public function testMvcModelCountColumnMap(): void
     {
         /**

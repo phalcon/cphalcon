@@ -46,7 +46,6 @@ final class InvokeFinderTest extends AbstractDatabaseTestCase
     #[Group('mysql')]
     #[Group('pgsql')]
     #[Group('sqlite')]
-    #[Group('pgsql')]
     public function testMvcModelInvokeFinder(): void
     {
         $record = Objects::findFirstByObjId(1);
