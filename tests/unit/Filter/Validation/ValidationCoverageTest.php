@@ -15,7 +15,6 @@ namespace Phalcon\Tests\Unit\Filter\Validation;
 
 use Phalcon\Di\Di;
 use Phalcon\Filter\Validation;
-use Phalcon\Filter\Validation\AbstractCombinedFieldsValidator;
 use Phalcon\Filter\Validation\Exception as ValidationException;
 use Phalcon\Filter\Validation\Validator\PresenceOf;
 use Phalcon\Tests\AbstractUnitTestCase;
@@ -23,6 +22,7 @@ use Phalcon\Tests\Support\Traits\DiTrait;
 use Phalcon\Tests\Unit\Filter\Validation\Fake\FakeCombinedValidator;
 use Phalcon\Tests\Unit\Filter\Validation\Fake\FakeEntityWithSetter;
 use Phalcon\Tests\Unit\Filter\Validation\Fake\FakeEntityWithWriteAttribute;
+use Phalcon\Tests\Unit\Filter\Validation\Fake\FakeFailingCombinedValidator;
 
 final class ValidationCoverageTest extends AbstractUnitTestCase
 {
@@ -256,18 +256,17 @@ final class ValidationCoverageTest extends AbstractUnitTestCase
      */
     public function testFilterValidationValidateCombinedCancelOnFailBreaks(): void
     {
-        $validator = new class extends AbstractCombinedFieldsValidator {
-            public function validate(Validation $validation, array | string $field): bool
-            {
-                return false;
-            }
-        };
+        $validator = new FakeFailingCombinedValidator();
         $validator->setOption('cancelOnFail', true);
 
         $validation = new Validation();
         $validation->add(['field1', 'field2'], $validator);
 
         $messages = $validation->validate(['field1' => 'val', 'field2' => 'val']);
-        $this->assertCount(0, $messages, 'cancelOnFail breaks loop; combined validator adds no messages');
+        $this->assertCount(
+            0,
+            $messages,
+            'cancelOnFail breaks loop; combined validator adds no messages'
+        );
     }
 }
