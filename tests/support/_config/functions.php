@@ -317,6 +317,16 @@ if (!function_exists('getOptionsPostgresql')) {
     }
 }
 
+if (!function_exists('getOptionsBeanstalk')) {
+    function getOptionsBeanstalk(): array
+    {
+        return [
+            'host' => env('DATA_BEANSTALKD_HOST'),
+            'port' => env('DATA_BEANSTALKD_PORT'),
+        ];
+    }
+}
+
 if (!function_exists('getOptionsRedis')) {
     function getOptionsRedis(): array
     {

@@ -1,0 +1,21 @@
+
+extern zend_class_entry *phalcon_queue_adapter_beanstalk_beanstalkmessage_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_Beanstalk_BeanstalkMessage);
+
+PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkMessage, getJobId);
+PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkMessage, setJobId);
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_queue_adapter_beanstalk_beanstalkmessage_getjobid, 0, 0, IS_STRING, 1)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_queue_adapter_beanstalk_beanstalkmessage_setjobid, 0, 1, IS_VOID, 0)
+
+	ZEND_ARG_TYPE_INFO(0, jobId, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_queue_adapter_beanstalk_beanstalkmessage_method_entry) {
+	PHP_ME(Phalcon_Queue_Adapter_Beanstalk_BeanstalkMessage, getJobId, arginfo_phalcon_queue_adapter_beanstalk_beanstalkmessage_getjobid, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Queue_Adapter_Beanstalk_BeanstalkMessage, setJobId, arginfo_phalcon_queue_adapter_beanstalk_beanstalkmessage_setjobid, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};

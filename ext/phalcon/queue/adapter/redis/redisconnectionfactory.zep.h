@@ -1,0 +1,24 @@
+
+extern zend_class_entry *phalcon_queue_adapter_redis_redisconnectionfactory_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_Redis_RedisConnectionFactory);
+
+PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisConnectionFactory, __construct);
+PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisConnectionFactory, createContext);
+zend_object *zephir_init_properties_Phalcon_Queue_Adapter_Redis_RedisConnectionFactory(zend_class_entry *class_type);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_queue_adapter_redis_redisconnectionfactory___construct, 0, 0, 0)
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, options, IS_ARRAY, 0, "[]")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_queue_adapter_redis_redisconnectionfactory_createcontext, 0, 0, Phalcon\\Contracts\\Queue\\Context, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_queue_adapter_redis_redisconnectionfactory_zephir_init_properties_phalcon_queue_adapter_redis_redisconnectionfactory, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_queue_adapter_redis_redisconnectionfactory_method_entry) {
+	PHP_ME(Phalcon_Queue_Adapter_Redis_RedisConnectionFactory, __construct, arginfo_phalcon_queue_adapter_redis_redisconnectionfactory___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Queue_Adapter_Redis_RedisConnectionFactory, createContext, arginfo_phalcon_queue_adapter_redis_redisconnectionfactory_createcontext, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};

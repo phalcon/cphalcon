@@ -140,7 +140,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Friendly, __invoke)
 	ZVAL_STRING(&_4, "/[^a-zA-Z0-9\\/_|+ -]/");
 	ZEPHIR_INIT_VAR(&_5);
 	ZVAL_STRING(&_5, "");
-	ZEPHIR_CALL_FUNCTION(&friendly, "preg_replace", NULL, 81, &_4, &_5, &text);
+	ZEPHIR_CALL_FUNCTION(&friendly, "preg_replace", NULL, 82, &_4, &_5, &text);
 	zephir_check_call_status();
 	if (lowercase) {
 		ZEPHIR_INIT_VAR(&_6$$5);
@@ -149,7 +149,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Friendly, __invoke)
 	}
 	ZEPHIR_INIT_NVAR(&_4);
 	ZVAL_STRING(&_4, "/[\\/_|+ -]+/");
-	ZEPHIR_CALL_FUNCTION(&_7, "preg_replace", NULL, 81, &_4, &separator_zv, &friendly);
+	ZEPHIR_CALL_FUNCTION(&_7, "preg_replace", NULL, 82, &_4, &separator_zv, &friendly);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(&friendly, &_7);
 	zephir_fast_trim(return_value, &friendly, &separator_zv, ZEPHIR_TRIM_BOTH);

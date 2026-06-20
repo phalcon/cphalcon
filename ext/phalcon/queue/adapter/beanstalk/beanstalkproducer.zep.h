@@ -1,0 +1,56 @@
+
+extern zend_class_entry *phalcon_queue_adapter_beanstalk_beanstalkproducer_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_Beanstalk_BeanstalkProducer);
+
+PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkProducer, __construct);
+PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkProducer, getDeliveryDelay);
+PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkProducer, getPriority);
+PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkProducer, getTimeToLive);
+PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkProducer, send);
+PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkProducer, setDeliveryDelay);
+PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkProducer, setPriority);
+PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkProducer, setTimeToLive);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_queue_adapter_beanstalk_beanstalkproducer___construct, 0, 0, 1)
+	ZEND_ARG_OBJ_INFO(0, context, Phalcon\\Queue\\Adapter\\Beanstalk\\BeanstalkContext, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_queue_adapter_beanstalk_beanstalkproducer_getdeliverydelay, 0, 0, IS_LONG, 1)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_queue_adapter_beanstalk_beanstalkproducer_getpriority, 0, 0, IS_LONG, 1)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_queue_adapter_beanstalk_beanstalkproducer_gettimetolive, 0, 0, IS_LONG, 1)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_queue_adapter_beanstalk_beanstalkproducer_send, 0, 2, IS_VOID, 0)
+
+	ZEND_ARG_OBJ_INFO(0, destination, Phalcon\\Contracts\\Queue\\Destination, 0)
+	ZEND_ARG_OBJ_INFO(0, message, Phalcon\\Contracts\\Queue\\Message, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_queue_adapter_beanstalk_beanstalkproducer_setdeliverydelay, 0, 0, Phalcon\\Contracts\\Queue\\Producer, 0)
+	ZEND_ARG_INFO(0, deliveryDelay)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_queue_adapter_beanstalk_beanstalkproducer_setpriority, 0, 0, Phalcon\\Contracts\\Queue\\Producer, 0)
+	ZEND_ARG_INFO(0, priority)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_queue_adapter_beanstalk_beanstalkproducer_settimetolive, 0, 0, Phalcon\\Contracts\\Queue\\Producer, 0)
+	ZEND_ARG_INFO(0, timeToLive)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_queue_adapter_beanstalk_beanstalkproducer_method_entry) {
+	PHP_ME(Phalcon_Queue_Adapter_Beanstalk_BeanstalkProducer, __construct, arginfo_phalcon_queue_adapter_beanstalk_beanstalkproducer___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Queue_Adapter_Beanstalk_BeanstalkProducer, getDeliveryDelay, arginfo_phalcon_queue_adapter_beanstalk_beanstalkproducer_getdeliverydelay, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Queue_Adapter_Beanstalk_BeanstalkProducer, getPriority, arginfo_phalcon_queue_adapter_beanstalk_beanstalkproducer_getpriority, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Queue_Adapter_Beanstalk_BeanstalkProducer, getTimeToLive, arginfo_phalcon_queue_adapter_beanstalk_beanstalkproducer_gettimetolive, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Queue_Adapter_Beanstalk_BeanstalkProducer, send, arginfo_phalcon_queue_adapter_beanstalk_beanstalkproducer_send, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Queue_Adapter_Beanstalk_BeanstalkProducer, setDeliveryDelay, arginfo_phalcon_queue_adapter_beanstalk_beanstalkproducer_setdeliverydelay, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Queue_Adapter_Beanstalk_BeanstalkProducer, setPriority, arginfo_phalcon_queue_adapter_beanstalk_beanstalkproducer_setpriority, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Queue_Adapter_Beanstalk_BeanstalkProducer, setTimeToLive, arginfo_phalcon_queue_adapter_beanstalk_beanstalkproducer_settimetolive, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};

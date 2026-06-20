@@ -161,7 +161,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, __construct)
 	ZVAL_STRING(&_2, "php");
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getarrval", NULL, 0, &options, &_1, &_2);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_3, "mb_strtolower", NULL, 12, &_0);
+	ZEPHIR_CALL_FUNCTION(&_3, "mb_strtolower", NULL, 15, &_0);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("defaultSerializer"), &_3);
 	ZEPHIR_INIT_NVAR(&_1);
@@ -816,7 +816,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, setDefaultSerializer)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&serializer_zv);
 	ZVAL_STR_COPY(&serializer_zv, serializer);
-	ZEPHIR_CALL_FUNCTION(&_0, "mb_strtolower", NULL, 12, &serializer_zv);
+	ZEPHIR_CALL_FUNCTION(&_0, "mb_strtolower", NULL, 15, &serializer_zv);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("defaultSerializer"), &_0);
 	ZEPHIR_MM_RESTORE();
@@ -1366,7 +1366,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, getArrVal)
 		zephir_check_call_status();
 	}
 
-	ZEPHIR_RETURN_CALL_METHOD(&_0, "__invoke", NULL, 13, &collection, index, defaultValue, &cast_zv);
+	ZEPHIR_RETURN_CALL_METHOD(&_0, "__invoke", NULL, 16, &collection, index, defaultValue, &cast_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }

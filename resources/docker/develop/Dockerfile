@@ -36,6 +36,7 @@ install-php-extensions \
     intl \
     mysqli \
     opcache \
+    pcntl \
     pdo_mysql \
     pdo_pgsql \
     pgsql \
