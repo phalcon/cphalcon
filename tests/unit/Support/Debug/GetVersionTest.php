@@ -28,15 +28,12 @@ final class GetVersionTest extends AbstractUnitTestCase
         $debug = new Debug();
         $version = new Version();
 
-        $target = "'_new'";
-        $uri = "'https://docs.phalcon.io/"
+        $link = "https://docs.phalcon.io/"
                . $version->getPart(Version::VERSION_MAJOR) . '.'
-               . $version->getPart(Version::VERSION_MEDIUM) . "/'";
-        $version = $version->get();
+               . $version->getPart(Version::VERSION_MEDIUM) . "/";
+        $versionString = $version->get();
 
-        $expected = "<div class='version'>
-    Phalcon Framework <a href={$uri} target={$target}>{$version}</a>
-</div>";
+        $expected = "<a class='version-badge' href='{$link}' target='_new'><b>v{$versionString}</b></a>";
 
         $actual = $debug->getVersion();
         $this->assertSame($expected, $actual);

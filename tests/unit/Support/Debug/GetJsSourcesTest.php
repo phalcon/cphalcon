@@ -28,16 +28,7 @@ final class GetJsSourcesTest extends AbstractUnitTestCase
         $uri = 'https://assets.phalcon.io/debug/5.0.x/';
 
         $expected = "
-    <script type='application/javascript'
-            src='{$uri}assets/jquery/dist/jquery.min.js'></script>
-    <script type='application/javascript'
-            src='{$uri}assets/jquery-ui/jquery-ui.min.js'></script>
-    <script type='application/javascript'
-            src='{$uri}assets/jquery.scrollTo/jquery.scrollTo.min.js'></script>
-    <script type='application/javascript'
-            src='{$uri}prettify/prettify.js'></script>
-    <script type='application/javascript'
-            src='{$uri}pretty.js'></script>";
+    <script src='{$uri}debug.js'></script>";
 
         $actual = $debug->getJsSources();
         $this->assertSame($expected, $actual);
