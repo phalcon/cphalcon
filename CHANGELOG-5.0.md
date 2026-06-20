@@ -5,7 +5,7 @@
 ### Tools
 
 - Zephir Parser v2.0.4
-- Zephir 0.23.0 (development - 27535f802)
+- Zephir 0.23.0 (development - f87b27ba9)
 
 ### Changed
 
