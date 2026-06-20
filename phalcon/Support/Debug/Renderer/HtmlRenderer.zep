@@ -315,7 +315,7 @@ class HtmlRenderer implements Renderer
         let dump = [];
 
         for key, value in argument {
-            if value == "" {
+            if value === "" {
                 let varDump = "(empty string)";
             } elseif is_scalar(value) {
                 let varDump = this->escapeString(value);
