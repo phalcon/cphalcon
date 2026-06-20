@@ -48,16 +48,17 @@ class AdapterFactory extends AbstractFactory
     }
 
     /**
-     * Returns the available adapters. Beanstalk is added in its phase.
+     * Returns the available adapters.
      *
      * @return string[]
      */
     protected function getServices() -> array
     {
         return [
-            "memory" : "Phalcon\\Queue\\Adapter\\Memory\\MemoryConnectionFactory",
-            "redis"  : "Phalcon\\Queue\\Adapter\\Redis\\RedisConnectionFactory",
-            "stream" : "Phalcon\\Queue\\Adapter\\Stream\\StreamConnectionFactory"
+            "beanstalk" : "Phalcon\\Queue\\Adapter\\Beanstalk\\BeanstalkConnectionFactory",
+            "memory"    : "Phalcon\\Queue\\Adapter\\Memory\\MemoryConnectionFactory",
+            "redis"     : "Phalcon\\Queue\\Adapter\\Redis\\RedisConnectionFactory",
+            "stream"    : "Phalcon\\Queue\\Adapter\\Stream\\StreamConnectionFactory"
         ];
     }
 }
