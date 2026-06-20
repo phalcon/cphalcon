@@ -19,10 +19,16 @@ use Phalcon\Contracts\Queue\Context as ContextInterface;
 class MemoryConnectionFactory implements ConnectionFactoryInterface
 {
     /**
+     * @var array
+     */
+    protected options = [];
+
+    /**
      * MemoryConnectionFactory constructor.
      */
     public function __construct(array options = [])
     {
+        let this->options = options;
     }
 
     /**

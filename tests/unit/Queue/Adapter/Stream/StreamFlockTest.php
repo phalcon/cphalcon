@@ -92,7 +92,8 @@ final class StreamFlockTest extends AbstractUnitTestCase
         file_put_contents(
             $script,
             '<?php '
-            . '$c = (new \Phalcon\Queue\Adapter\Stream\StreamConnectionFactory(["storageDir" => $argv[1]]))->createContext();'
+            . '$f = new \Phalcon\Queue\Adapter\Stream\StreamConnectionFactory(["storageDir" => $argv[1]]);'
+            . '$c = $f->createContext();'
             . '$k = $c->createConsumer($c->createQueue("flock"));'
             . 'while (($m = $k->receiveNoWait()) !== null) { echo $m->getBody() . "\n"; }'
         );
