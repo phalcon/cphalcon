@@ -1,0 +1,78 @@
+
+extern zend_class_entry *phalcon_support_debug_report_backtraceitem_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Support_Debug_Report_BacktraceItem);
+
+PHP_METHOD(Phalcon_Support_Debug_Report_BacktraceItem, __construct);
+PHP_METHOD(Phalcon_Support_Debug_Report_BacktraceItem, getArgs);
+PHP_METHOD(Phalcon_Support_Debug_Report_BacktraceItem, getClassLink);
+PHP_METHOD(Phalcon_Support_Debug_Report_BacktraceItem, getClassName);
+PHP_METHOD(Phalcon_Support_Debug_Report_BacktraceItem, getFile);
+PHP_METHOD(Phalcon_Support_Debug_Report_BacktraceItem, getFragment);
+PHP_METHOD(Phalcon_Support_Debug_Report_BacktraceItem, getFunctionLink);
+PHP_METHOD(Phalcon_Support_Debug_Report_BacktraceItem, getFunctionName);
+PHP_METHOD(Phalcon_Support_Debug_Report_BacktraceItem, getLine);
+PHP_METHOD(Phalcon_Support_Debug_Report_BacktraceItem, getType);
+PHP_METHOD(Phalcon_Support_Debug_Report_BacktraceItem, hasArgs);
+zend_object *zephir_init_properties_Phalcon_Support_Debug_Report_BacktraceItem(zend_class_entry *class_type);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_support_debug_report_backtraceitem___construct, 0, 0, 1)
+	ZEND_ARG_TYPE_INFO(0, functionName, IS_STRING, 0)
+	ZEND_ARG_INFO(0, type)
+	ZEND_ARG_INFO(0, className)
+	ZEND_ARG_INFO(0, classLink)
+	ZEND_ARG_INFO(0, functionLink)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, hasArgs, _IS_BOOL, 0, "false")
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, args, IS_ARRAY, 0, "[]")
+	ZEND_ARG_INFO(0, file)
+	ZEND_ARG_INFO(0, line)
+	ZEND_ARG_INFO(0, fragment)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_debug_report_backtraceitem_getargs, 0, 0, IS_ARRAY, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_debug_report_backtraceitem_getclasslink, 0, 0, IS_STRING, 1)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_debug_report_backtraceitem_getclassname, 0, 0, IS_STRING, 1)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_debug_report_backtraceitem_getfile, 0, 0, IS_STRING, 1)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_debug_report_backtraceitem_getfragment, 0, 0, IS_ARRAY, 1)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_debug_report_backtraceitem_getfunctionlink, 0, 0, IS_STRING, 1)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_debug_report_backtraceitem_getfunctionname, 0, 0, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_debug_report_backtraceitem_getline, 0, 0, IS_LONG, 1)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_debug_report_backtraceitem_gettype, 0, 0, IS_STRING, 1)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_debug_report_backtraceitem_hasargs, 0, 0, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_support_debug_report_backtraceitem_zephir_init_properties_phalcon_support_debug_report_backtraceitem, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_support_debug_report_backtraceitem_method_entry) {
+	PHP_ME(Phalcon_Support_Debug_Report_BacktraceItem, __construct, arginfo_phalcon_support_debug_report_backtraceitem___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Support_Debug_Report_BacktraceItem, getArgs, arginfo_phalcon_support_debug_report_backtraceitem_getargs, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Support_Debug_Report_BacktraceItem, getClassLink, arginfo_phalcon_support_debug_report_backtraceitem_getclasslink, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Support_Debug_Report_BacktraceItem, getClassName, arginfo_phalcon_support_debug_report_backtraceitem_getclassname, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Support_Debug_Report_BacktraceItem, getFile, arginfo_phalcon_support_debug_report_backtraceitem_getfile, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Support_Debug_Report_BacktraceItem, getFragment, arginfo_phalcon_support_debug_report_backtraceitem_getfragment, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Support_Debug_Report_BacktraceItem, getFunctionLink, arginfo_phalcon_support_debug_report_backtraceitem_getfunctionlink, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Support_Debug_Report_BacktraceItem, getFunctionName, arginfo_phalcon_support_debug_report_backtraceitem_getfunctionname, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Support_Debug_Report_BacktraceItem, getLine, arginfo_phalcon_support_debug_report_backtraceitem_getline, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Support_Debug_Report_BacktraceItem, getType, arginfo_phalcon_support_debug_report_backtraceitem_gettype, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Support_Debug_Report_BacktraceItem, hasArgs, arginfo_phalcon_support_debug_report_backtraceitem_hasargs, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};

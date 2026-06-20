@@ -99,6 +99,7 @@ if (PHP_PHALCON != "no") {
 	ADD_SOURCES(configure_module_dirname + "/phalcon/contracts/cache", "cache.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/contracts/forms", "schema.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/contracts/logger", "logger.zep.c", "phalcon");
+	ADD_SOURCES(configure_module_dirname + "/phalcon/contracts/support/debug", "templateaware.zep.c renderer.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/db/adapter/pdo", "abstractpdo.zep.c mysql.zep.c postgresql.zep.c sqlite.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/encryption/security/jwt/signer", "signerinterface.zep.c abstractsigner.zep.c hmac.zep.c none.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/flash", "exception.zep.c flashinterface.zep.c abstractflash.zep.c direct.zep.c session.zep.c", "phalcon");
@@ -145,7 +146,7 @@ if (PHP_PHALCON != "no") {
 	ADD_SOURCES(configure_module_dirname + "/phalcon/mvc/dispatcher", "exception.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/mvc/model/query", "builderinterface.zep.c statusinterface.zep.c builder.zep.c lang.zep.c status.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/mvc/model/transaction", "exception.zep.c managerinterface.zep.c failed.zep.c manager.zep.c", "phalcon");
-	ADD_SOURCES(configure_module_dirname + "/phalcon/support/debug", "exception.zep.c dump.zep.c", "phalcon");
+	ADD_SOURCES(configure_module_dirname + "/phalcon/support/debug", "exception.zep.c dump.zep.c reportbuilder.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/acl/exceptions", "accessrulenotfound.zep.c circularinheritanceerror.zep.c elementnotfound.zep.c forbiddenwildcard.zep.c invalidaccesslist.zep.c invalidcomponentimplementation.zep.c invalidroleimplementation.zep.c invalidroletype.zep.c missingfunctionparameters.zep.c parametertypemismatch.zep.c rolenotfoundexception.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/annotations/exceptions", "annotationnotfound.zep.c annotationsdirectorynotwritable.zep.c cannotreadannotationdata.zep.c unknownannotationexpression.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/application/exceptions", "modulenotregistered.zep.c", "phalcon");
@@ -225,6 +226,8 @@ if (PHP_PHALCON != "no") {
 	ADD_SOURCES(configure_module_dirname + "/phalcon/storage/serializer/exceptions", "invalidserializationinput.zep.c invalidunserializationinput.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/support/collection/exceptions", "invalidvaluetype.zep.c readonlyviolation.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/support/debug/exceptions", "requesthalted.zep.c runtimewarning.zep.c", "phalcon");
+	ADD_SOURCES(configure_module_dirname + "/phalcon/support/debug/renderer", "htmlrenderer.zep.c", "phalcon");
+	ADD_SOURCES(configure_module_dirname + "/phalcon/support/debug/report", "backtraceitem.zep.c exceptionreport.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/support/helper/file", "basename.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/support/helper/json", "decode.zep.c encode.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/support/helper/json/exceptions", "jsondecodeerror.zep.c jsonencodeerror.zep.c", "phalcon");
