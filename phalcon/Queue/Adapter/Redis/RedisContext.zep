@@ -197,8 +197,7 @@ class RedisContext implements ContextInterface
      */
     private function promote(string queueName) -> void
     {
-        var delayedKey, listKey, due, member, payload;
-        int position;
+        var delayedKey, listKey, due, member, payload, position;
 
         let delayedKey = this->delayedKey(queueName),
             listKey    = this->listKey(queueName),

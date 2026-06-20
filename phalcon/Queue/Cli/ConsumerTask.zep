@@ -10,6 +10,7 @@
 
 namespace Phalcon\Queue\Cli;
 
+use Phalcon\Di\DiInterface;
 use Phalcon\Cli\Task;
 use Phalcon\Queue\Consumer\QueueConsumer;
 use Phalcon\Queue\Consumer\Worker;
