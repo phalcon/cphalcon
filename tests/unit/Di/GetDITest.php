@@ -48,7 +48,6 @@ final class GetDITest extends AbstractUnitTestCase
         $className  = get_class($ic);
         $reflection = new ReflectionClass($className);
         $prop       = $reflection->getProperty('container');
-        $prop->setAccessible(true);
 
         $this->assertSame($di, $prop->getValue($ic));
     }
@@ -82,7 +81,6 @@ final class GetDITest extends AbstractUnitTestCase
         $reflection = new ReflectionClass($className);
 
         $prop = $reflection->getProperty('container');
-        $prop->setAccessible(true);
 
         $this->assertSame($other, $prop->getValue($ic));
         $this->assertNotEquals($di, $prop->getValue($ic));

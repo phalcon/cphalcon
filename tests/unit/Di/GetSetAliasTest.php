@@ -87,7 +87,6 @@ final class GetSetAliasTest extends AbstractUnitTestCase
 
         // Manually inject a circular alias chain: a → b → a
         $prop = new ReflectionProperty(Di::class, 'aliases');
-        $prop->setAccessible(true);
         $prop->setValue($container, ['a' => 'b', 'b' => 'a']);
 
         // Resolving 'a' walks a→b→a→b… and detects the cycle

@@ -32,7 +32,6 @@ abstract class AbstractStatementTestCase extends AbstractDatabaseTestCase
 
         $bind = new ReflectionClass(Bind::class);
         $property = $bind->getProperty('instanceCount');
-        $property->setAccessible(true);
         $property->setValue(0);
     }
 }

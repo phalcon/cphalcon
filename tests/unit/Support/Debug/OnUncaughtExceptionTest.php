@@ -56,7 +56,6 @@ final class OnUncaughtExceptionTest extends AbstractUnitTestCase
         $exception = new Exception($message, 1234);
 
         $isActive = new ReflectionProperty(Debug::class, 'isActive');
-        $isActive->setAccessible(true);
         $isActive->setValue(null, true);
 
         ob_start();

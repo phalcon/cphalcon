@@ -80,7 +80,6 @@ abstract class AbstractUnitTestCase extends TestCase
     ): mixed {
         $reflectionClass  = new ReflectionClass($obj);
         $reflectionMethod = $reflectionClass->getMethod($method);
-        $reflectionMethod->setAccessible(true);
 
         if (!is_object($obj)) {
             $obj = $reflectionClass->newInstanceWithoutConstructor();
@@ -157,7 +156,6 @@ abstract class AbstractUnitTestCase extends TestCase
         $reflection = new ReflectionClass($obj);
 
         $property = $reflection->getProperty($property);
-        $property->setAccessible(true);
 
         return $property->getValue($obj);
     }
@@ -223,7 +221,6 @@ abstract class AbstractUnitTestCase extends TestCase
 
         $property = $reflection->getProperty($property);
 
-        $property->setAccessible(true);
         $property->setValue($obj, $value);
     }
 }

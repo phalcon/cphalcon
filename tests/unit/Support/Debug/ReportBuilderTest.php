@@ -103,7 +103,6 @@ final class ReportBuilderTest extends AbstractUnitTestCase
         $builder = new ReportBuilder();
 
         $classLink = new \ReflectionMethod(ReportBuilder::class, 'resolveClassLink');
-        $classLink->setAccessible(true);
 
         $this->assertStringContainsString(
             'docs.phalcon.io',
@@ -116,7 +115,6 @@ final class ReportBuilderTest extends AbstractUnitTestCase
         $this->assertNull($classLink->invoke($builder, 'PHPUnit\\Framework\\TestCase'));
 
         $functionLink = new \ReflectionMethod(ReportBuilder::class, 'resolveFunctionLink');
-        $functionLink->setAccessible(true);
 
         $this->assertStringContainsString(
             'secure.php.net/manual/en/function.',
@@ -131,7 +129,6 @@ final class ReportBuilderTest extends AbstractUnitTestCase
         $builder = new ReportBuilder();
 
         $method = new \ReflectionMethod(ReportBuilder::class, 'buildFragment');
-        $method->setAccessible(true);
 
         $fragment = @$method->invoke($builder, '/phalcon/no/such/file.php', 5, false);
 
