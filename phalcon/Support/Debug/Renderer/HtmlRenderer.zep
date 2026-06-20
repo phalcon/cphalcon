@@ -17,7 +17,9 @@ use Phalcon\Support\Version;
 
 /**
  * Renders an ExceptionReport as the HTML debug page using embedded, overridable
- * template strings filled by strtr.
+ * template strings filled by strtr. All styling and interactivity (theme, tabs,
+ * syntax highlighting, copy/editor links) are provided by the external
+ * debug.css / debug.js assets.
  */
 class HtmlRenderer implements Renderer
 {
@@ -39,22 +41,10 @@ class HtmlRenderer implements Renderer
      */
     public function getCssSources(string uri) -> string
     {
-        var template, paths, path, output;
-
-        let template = this->getTemplate("cssLink");
-        let paths    = [
-            "assets/jquery-ui/themes/ui-lightness/jquery-ui.min.css",
-            "assets/jquery-ui/themes/ui-lightness/theme.css",
-            "themes/default/style.css"
-        ];
-
-        let output = "";
-
-        for path in paths {
-            let output .= strtr(template, ["%uri%": uri, "%path%": path]);
-        }
-
-        return output;
+        return strtr(
+            this->getTemplate("cssLink"),
+            ["%uri%": uri, "%path%": "debug.css"]
+        );
     }
 
     /**
@@ -64,24 +54,10 @@ class HtmlRenderer implements Renderer
      */
     public function getJsSources(string uri) -> string
     {
-        var template, paths, path, output;
-
-        let template = this->getTemplate("jsLink");
-        let paths    = [
-            "assets/jquery/dist/jquery.min.js",
-            "assets/jquery-ui/jquery-ui.min.js",
-            "assets/jquery.scrollTo/jquery.scrollTo.min.js",
-            "prettify/prettify.js",
-            "pretty.js"
-        ];
-
-        let output = "";
-
-        for path in paths {
-            let output .= strtr(template, ["%uri%": uri, "%path%": path]);
-        }
-
-        return output;
+        return strtr(
+            this->getTemplate("jsLink"),
+            ["%uri%": uri, "%path%": "debug.js"]
+        );
     }
 
     /**
@@ -130,7 +106,7 @@ class HtmlRenderer implements Renderer
      */
     public function render(<ExceptionReport> report) -> string
     {
-        var className, escapedMessage, html, variablesTab;
+        var className, escapedMessage, html;
 
         let className      = report->getClassName();
         let escapedMessage = this->escapeString(report->getMessage());
@@ -144,7 +120,10 @@ class HtmlRenderer implements Renderer
             ]
         );
 
-        let html .= this->getVersion();
+        let html .= strtr(
+            this->getTemplate("masthead"),
+            ["%version%": this->getVersion()]
+        );
 
         let html .= strtr(
             this->getTemplate("errorMain"),
@@ -152,32 +131,23 @@ class HtmlRenderer implements Renderer
                 "%className%":      className,
                 "%escapedMessage%": escapedMessage,
                 "%file%":           report->getFile(),
-                "%line%":           (string) report->getLine()
+                "%line%":           (string) report->getLine(),
+                "%phpVersion%":     PHP_VERSION
             ]
         );
 
         if true === report->isShowBackTrace() {
-            if report->hasVariables() {
-                let variablesTab = this->getTemplate("variablesTab");
-            } else {
-                let variablesTab = "";
-            }
-
-            let html .= strtr(
-                this->getTemplate("tabs"),
-                ["%variablesTab%": variablesTab]
-            );
-
+            let html .= this->renderTabs(report);
             let html .= this->renderBacktrace(report->getBacktrace());
             let html .= this->renderSuperglobal("request", report->getRequest());
             let html .= this->renderSuperglobal("server", report->getServer());
             let html .= this->renderIncludedFiles(report->getIncludedFiles());
-            let html .= this->renderMemory(report->getMemoryUsage());
+            let html .= this->renderMemory(report);
             let html .= this->renderVariables(report->getVariables());
-            let html .= this->getTemplate("errorInfoClose");
         }
 
         return html
+            . this->getTemplate("wrapClose")
             . this->getJsSources(report->getUri())
             . this->getTemplate("documentClose");
     }
@@ -214,124 +184,87 @@ class HtmlRenderer implements Renderer
           rel='stylesheet'
           type='text/css' />",
             "jsLink": "
-    <script type='application/javascript'
-            src='%uri%%path%'></script>",
-            "version": "<div class='version'>
-    Phalcon Framework <a href='%link%' target='_new'>%version%</a>
-</div>",
+    <script src='%uri%%path%'></script>",
+            "version": "<a class='version-badge' href='%link%' target='_new'><b>v%version%</b></a>",
             "document": "<!DOCTYPE html>
-<html lang='en'>
+<html lang='en' data-theme='light'>
 <head>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
     <title>%className%:%escapedMessage%</title>%cssSources%
 </head>
 <body>
-",
-            "errorMain": "
-<div align='center'>
-    <div class='error-main'>
-        <h1>%className%: %escapedMessage%</h1>
-        <span class='error-file'>%file% (%line%)</span>
-    </div>",
-            "documentClose": "
+<div class='wrap'>",
+            "masthead": "
+    <div class='masthead'>
+        <div class='brand'><img class='logo' src='https://assets.phalcon.io/phalcon/images/svg/logo--tablet.svg' alt='Phalcon' /><span>Phalcon Debug</span></div>
+        <div class='actions-top'>
+            <button class='btn' data-action='copy-trace'>Copy trace</button>
+            <button class='btn' data-action='toggle-theme' title='Toggle theme'>Theme</button>
+            %version%
         </div>
-    </body>
-</html>",
-            "errorInfoClose": "
-            </div>",
+    </div>",
+            "errorMain": "
+    <div class='error-card'>
+        <span class='error-type'>%className%</span>
+        <h1 class='error-message'>%escapedMessage%</h1>
+        <div class='meta'>
+            <span class='item'><code>%file%</code> : <code>%line%</code></span>
+            <span class='sep'>|</span><span class='item'>PHP <code>%phpVersion%</code></span>
+        </div>
+    </div>",
             "tabs": "
-
-    <div class='error-info'>
-        <div id='tabs'>
-            <ul>
-                <li><a href='#backtrace'>Backtrace</a></li>
-                <li><a href='#request'>Request</a></li>
-                <li><a href='#server'>Server</a></li>
-                <li><a href='#files'>Included Files</a></li>
-                <li><a href='#memory'>Memory</a></li>%variablesTab%
-            </ul>",
+    <div class='tabs' role='tablist'>
+        <button class='tab is-active' data-tab='backtrace'>Backtrace <span class='count'>%backtraceCount%</span></button>
+        <button class='tab' data-tab='request'>Request <span class='count'>%requestCount%</span></button>
+        <button class='tab' data-tab='server'>Server <span class='count'>%serverCount%</span></button>
+        <button class='tab' data-tab='files'>Included Files <span class='count'>%filesCount%</span></button>
+        <button class='tab' data-tab='memory'>Memory</button>%variablesTab%
+    </div>",
             "variablesTab": "
-                <li><a href='#variables'>Variables</a></li>",
-            "backtraceOpen": "
-
-        <div id='backtrace'>
-            <table style='border-collapse: collapse; border-spacing: 0; text-align=center; width:100%'>
-                <tbody>",
-            "closeTable": "
-                </tbody>
-            </table>
+        <button class='tab' data-tab='variables'>Variables <span class='count'>%variablesCount%</span></button>",
+            "backtracePanel": "
+    <div class='panel is-active' id='backtrace'>
+        <div class='bt-tools'>
+            <button class='btn' data-action='expand-all'>Expand all</button>
+            <button class='btn' data-action='collapse-all'>Collapse all</button>
         </div>",
-            "traceRow": "
-                    <tr>
-                        <td style='text-align: right; vertical-align: top'
-                            class='error-number'>
-                            #
-                        </td>
-                        <td>",
-            "traceClass": "
-                        <span class='error-class'>
-                            %classNameWithLink%
-                        </span>",
-            "traceFunction": "
-                        <span class='error-function'>
-                            %functionNameWithLink%
-                        </span>",
-            "traceParameter": "
-                        <span class='error-parameter'>
-                            %dump%
-                        </span>",
-            "traceFile": "
-                        <br/>
-                        <div class='error-file'>
-                            %file% (%line%)
-                        </div>",
-            "traceFragmentOpen": "
-                        <pre class='prettyprint highlight:%firstLine%:%line% linenums:%firstLine%'>",
-            "traceFragmentScrollOpen": "
-                        <pre class='prettyprint highlight:%firstLine%:%line% linenums error-scroll'>",
-            "traceFragmentClose": "
-                            </pre>",
-            "traceRowClose": "
-                    </td>
-                </tr>",
-            "link": "<a target='_new' href='%url%'>%name%</a>",
-            "tableHeader": "
-        <div id='%divId%'>
-            <table style='border-collapse: collapse; border-spacing: 0; text-align: center'
-                   class='superglobal-detail'>
-                <thead>
-                <tr>
-                    <th>%headerOne%</th>
-                </tr>
-                <tr>
-                    <th>%headerTwo%</th>
-                </tr>
-                </thead>
-                <tbody>",
-            "superglobalRow": "
-                    <tr>
-                        <td class='key'>%key%</td>
-                        <td>%dump%</td>
-                    </tr>",
-            "superglobalClose": "
-                    </tbody>
-                </table>
+            "panelOpen": "
+    <div class='panel' id='%id%'>",
+            "panelClose": "
+    </div>",
+            "wrapClose": "
+</div>",
+            "documentClose": "
+</body>
+</html>",
+            "frameOpen": "
+        <details class='frame %appClass%'%open%>
+            <summary><div class='frame-head'>
+                <span class='frame-num'>#%num%</span>
+                <span class='frame-call'>%signature%</span>%appTag%
+                <span class='chev'>&#9656;</span>
+            </div></summary>",
+            "appTag": "<span class='tag-app'>app</span>",
+            "frameFile": "
+            <div class='frame-file' data-file='%file%' data-line='%line%'>
+                <span class='path'><b>%file%</b> : %line%</span>
             </div>",
-            "includedFileRow": "
-                        <tr>
-                            <td>%key%</td>
-                            <td>%value%</td>
-                        </tr>",
+            "frameClose": "
+        </details>",
+            "codeOpen": "
+            <div class='code'><table>",
+            "codeRow": "<tr%hlClass%><td class='ln'>%num%</td><td class='src'>%src%</td></tr>",
+            "codeClose": "</table></div>",
+            "link": "<a href='%url%' target='_new'>%name%</a>",
+            "tableOpen": "<table class='grid'><thead><tr><th>%headerOne%</th><th>%headerTwo%</th></tr></thead><tbody>",
+            "gridRow": "<tr><td class='k'>%key%</td><td class='v'>%value%</td></tr>",
+            "tableClose": "</tbody></table>",
             "memory": "
-                    <tr>
-                        <td>
-                            Usage
-                        </td>
-                        <td>%usage%</td>
-                    </tr>
-                </tbody>
-                </table>
-            </div>",
-            "variableRow": "<tr><td class=\"key\">%key%</td><td>%dump%</td></tr>"
+        <div class='stats'>
+            <div class='stat'><div class='label'>Memory usage (real)</div><div class='value'>%memory% <small>MB</small></div></div>
+            <div class='stat'><div class='label'>Peak usage</div><div class='value'>%peak% <small>MB</small></div></div>
+        </div>"
         ];
 
         if fetch template, defaults[name] {
@@ -365,13 +298,13 @@ class HtmlRenderer implements Renderer
      *
      * @return string|null
      */
-    protected function getArrayDump(array argument, int n = 0) -> string | null
+    protected function getArrayDump(array argument, int number = 0) -> string | null
     {
-        var numberArguments, dump, varDump, k, v;
+        var numberArguments, dump, varDump, key, value;
 
         let numberArguments = count(argument);
 
-        if n >= 3 || numberArguments == 0 {
+        if number >= 3 || numberArguments == 0 {
             return null;
         }
 
@@ -381,22 +314,22 @@ class HtmlRenderer implements Renderer
 
         let dump = [];
 
-        for k, v in argument {
-            if v == "" {
+        for key, value in argument {
+            if value == "" {
                 let varDump = "(empty string)";
-            } elseif is_scalar(v) {
-                let varDump = this->escapeString(v);
-            } elseif typeof v == "array" {
-                let varDump = "Array(" . this->getArrayDump(v, n + 1) . ")";
-            } elseif typeof v == "object" {
-                let varDump = "Object(" . get_class(v) . ")";
-            } elseif v === null {
+            } elseif is_scalar(value) {
+                let varDump = this->escapeString(value);
+            } elseif typeof value == "array" {
+                let varDump = "Array(" . this->getArrayDump(value, number + 1) . ")";
+            } elseif typeof value == "object" {
+                let varDump = "Object(" . get_class(value) . ")";
+            } elseif value === null {
                 let varDump = "null";
             } else {
-                let varDump = v;
+                let varDump = value;
             }
 
-            let dump[] = "[" . k . "] =&gt; " . varDump;
+            let dump[] = "[" . key . "] =&gt; " . varDump;
         }
 
         return join(", ", dump);
@@ -453,51 +386,51 @@ class HtmlRenderer implements Renderer
     }
 
     /**
+     * @param int $bytes
+     *
+     * @return string
+     */
+    private function formatBytes(int bytes) -> string
+    {
+        var amount;
+
+        let amount = bytes / 1048576;
+
+        return number_format(amount, 1);
+    }
+
+    /**
+     * Frames whose file lives outside a vendor directory are application code.
+     *
+     * @param string|null $file
+     *
+     * @return bool
+     */
+    private function isApp(var file) -> bool
+    {
+        if null === file {
+            return false;
+        }
+
+        return false === strpos(file, "/vendor/");
+    }
+
+    /**
      * @param BacktraceItem[] $backtrace
      *
      * @return string
      */
     private function renderBacktrace(array backtrace) -> string
     {
-        var html, item;
+        var html, index, item;
 
-        let html = this->getTemplate("backtraceOpen");
+        let html = this->getTemplate("backtracePanel");
 
-        for item in backtrace {
-            let html .= this->renderTraceItem(item);
+        for index, item in backtrace {
+            let html .= this->renderTraceItem(index, item);
         }
 
-        return html . this->getTemplate("closeTable");
-    }
-
-    /**
-     * @param BacktraceItem $item
-     *
-     * @return string
-     */
-    private function renderFile(<BacktraceItem> item) -> string
-    {
-        var html, fragment;
-
-        if null === item->getFile() {
-            return "";
-        }
-
-        let html = strtr(
-            this->getTemplate("traceFile"),
-            [
-                "%file%": item->getFile(),
-                "%line%": (string) item->getLine()
-            ]
-        );
-
-        let fragment = item->getFragment();
-
-        if null === fragment {
-            return html;
-        }
-
-        return html . this->renderFragment(fragment);
+        return html . this->getTemplate("panelClose");
     }
 
     /**
@@ -507,52 +440,44 @@ class HtmlRenderer implements Renderer
      */
     private function renderFragment(array fragment) -> string
     {
-        var isFragment, firstLine, lastLine, lines, html, template, i, currentLine;
+        var firstLine, lastLine, line, lines, html, counter, currentLine, hlClass, source, index;
 
-        let isFragment = ("fragment" === fragment["mode"]);
-        let firstLine  = fragment["firstLine"];
-        let lastLine   = fragment["lastLine"];
-        let lines      = fragment["lines"];
+        let firstLine = fragment["firstLine"];
+        let lastLine  = fragment["lastLine"];
+        let line      = fragment["line"];
+        let lines     = fragment["lines"];
 
-        if isFragment {
-            let template = "traceFragmentOpen";
-        } else {
-            let template = "traceFragmentScrollOpen";
-        }
+        let html    = this->getTemplate("codeOpen");
+        let counter = firstLine;
 
-        let html = strtr(
-            this->getTemplate(template),
-            [
-                "%firstLine%": (string) firstLine,
-                "%line%":      (string) fragment["line"]
-            ]
-        );
+        while counter <= lastLine {
+            let index = counter - 1;
 
-        let i = firstLine;
-
-        while i <= lastLine {
-            let currentLine = lines[i - 1];
-
-            if isFragment && i == firstLine {
-                if preg_match("#\\*\\/#", rtrim(currentLine)) {
-                    let currentLine = str_replace("* /", " ", currentLine);
-                }
+            if !fetch currentLine, lines[index] {
+                let currentLine = "";
             }
 
-            if currentLine == "\n" || currentLine == "\r\n" {
-                let html .= "&nbsp;\n";
-            } else {
-                let html .= htmlentities(
-                    str_replace("\t", "  ", currentLine),
-                    ENT_COMPAT,
-                    "UTF-8"
-                );
-            }
+            let currentLine = rtrim(currentLine, "\r\n");
+            let hlClass     = (counter === line) ? " class='hl'" : "";
+            let source      = htmlentities(
+                str_replace("\t", "  ", currentLine),
+                ENT_COMPAT,
+                "UTF-8"
+            );
 
-            let i++;
+            let html .= strtr(
+                this->getTemplate("codeRow"),
+                [
+                    "%hlClass%": hlClass,
+                    "%num%":     (string) counter,
+                    "%src%":     source
+                ]
+            );
+
+            let counter++;
         }
 
-        return html . this->getTemplate("traceFragmentClose");
+        return html . this->getTemplate("codeClose");
     }
 
     /**
@@ -564,50 +489,96 @@ class HtmlRenderer implements Renderer
     {
         var html, key, value;
 
-        let html = this->renderTableHeader("files", "#", "Path");
+        let html = strtr(this->getTemplate("panelOpen"), ["%id%": "files"])
+            . strtr(
+                this->getTemplate("tableOpen"),
+                ["%headerOne%": "#", "%headerTwo%": "Path"]
+            );
 
         for key, value in files {
             let html .= strtr(
-                this->getTemplate("includedFileRow"),
-                ["%key%": (string) key, "%value%": value]
+                this->getTemplate("gridRow"),
+                [
+                    "%key%":   (string) key,
+                    "%value%": this->escapeString(value)
+                ]
             );
         }
 
-        return html . this->getTemplate("closeTable");
+        return html . this->getTemplate("tableClose") . this->getTemplate("panelClose");
     }
 
     /**
-     * @param string|null $link
-     * @param string      $name
+     * @param ExceptionReport $report
      *
      * @return string
      */
-    private function renderLink(var link, string name) -> string
+    private function renderMemory(<ExceptionReport> report) -> string
     {
-        if null === link {
-            return name;
-        }
-
-        return strtr(
-            this->getTemplate("link"),
-            ["%url%": link, "%name%": name]
-        );
-    }
-
-    /**
-     * @param int $usage
-     *
-     * @return string
-     */
-    private function renderMemory(int usage) -> string
-    {
-        var localUsage = usage;
-
-        return this->renderTableHeader("memory", "Memory", "")
+        return strtr(this->getTemplate("panelOpen"), ["%id%": "memory"])
             . strtr(
                 this->getTemplate("memory"),
-                ["%usage%": (string) localUsage]
+                [
+                    "%memory%": this->formatBytes(report->getMemoryUsage()),
+                    "%peak%":   this->formatBytes(report->getPeakMemoryUsage())
+                ]
+            )
+            . this->getTemplate("panelClose");
+    }
+
+    /**
+     * @param BacktraceItem $item
+     *
+     * @return string
+     */
+    private function renderSignature(<BacktraceItem> item) -> string
+    {
+        var html, name, link, classHtml, fnName, fnLink, functionHtml, arguments, argument;
+
+        let html = "";
+
+        if null !== item->getClassName() {
+            let name = this->escapeString(item->getClassName());
+            let link = item->getClassLink();
+
+            if null !== link {
+                let classHtml = strtr(
+                    this->getTemplate("link"),
+                    ["%url%": link, "%name%": name]
+                );
+            } else {
+                let classHtml = name;
+            }
+
+            let html .= "<span class='cls'>" . classHtml . "</span>";
+            let html .= "<span class='op'>" . (string) item->getType() . "</span>";
+        }
+
+        let fnName = this->escapeString(item->getFunctionName());
+        let fnLink = item->getFunctionLink();
+
+        if null !== fnLink {
+            let functionHtml = strtr(
+                this->getTemplate("link"),
+                ["%url%": fnLink, "%name%": fnName]
             );
+        } else {
+            let functionHtml = fnName;
+        }
+
+        let html .= "<span class='fn'>" . functionHtml . "</span>";
+
+        if true === item->hasArgs() {
+            let arguments = [];
+
+            for argument in item->getArgs() {
+                let arguments[] = this->getVarDump(argument);
+            }
+
+            let html .= "<span class='op'>(</span>" . join(", ", arguments) . "<span class='op'>)</span>";
+        }
+
+        return html;
     }
 
     /**
@@ -620,91 +591,105 @@ class HtmlRenderer implements Renderer
     {
         var html, key, value;
 
-        let html = this->renderTableHeader(div, "Key", "Value");
+        let html = strtr(this->getTemplate("panelOpen"), ["%id%": div])
+            . strtr(
+                this->getTemplate("tableOpen"),
+                ["%headerOne%": "Key", "%headerTwo%": "Value"]
+            );
 
         for key, value in source {
             let html .= strtr(
-                this->getTemplate("superglobalRow"),
+                this->getTemplate("gridRow"),
                 [
-                    "%key%":  (string) key,
-                    "%dump%": this->getVarDump(value)
+                    "%key%":   this->escapeString((string) key),
+                    "%value%": this->getVarDump(value)
                 ]
             );
         }
 
-        return html . this->getTemplate("superglobalClose");
+        return html . this->getTemplate("tableClose") . this->getTemplate("panelClose");
     }
 
     /**
-     * @param string $divId
-     * @param string $headerOne
-     * @param string $headerTwo
+     * @param ExceptionReport $report
      *
      * @return string
      */
-    private function renderTableHeader(string divId, string headerOne, string headerTwo) -> string
+    private function renderTabs(<ExceptionReport> report) -> string
     {
+        var variablesTab, variablesCount, backtraceCount, requestCount, serverCount, filesCount;
+
+        let variablesTab = "";
+
+        if report->hasVariables() {
+            let variablesCount = count(report->getVariables());
+            let variablesTab   = strtr(
+                this->getTemplate("variablesTab"),
+                ["%variablesCount%": (string) variablesCount]
+            );
+        }
+
+        let backtraceCount = count(report->getBacktrace());
+        let requestCount   = count(report->getRequest());
+        let serverCount    = count(report->getServer());
+        let filesCount     = count(report->getIncludedFiles());
+
         return strtr(
-            this->getTemplate("tableHeader"),
+            this->getTemplate("tabs"),
             [
-                "%divId%":     divId,
-                "%headerOne%": headerOne,
-                "%headerTwo%": headerTwo
+                "%backtraceCount%": (string) backtraceCount,
+                "%requestCount%":   (string) requestCount,
+                "%serverCount%":    (string) serverCount,
+                "%filesCount%":     (string) filesCount,
+                "%variablesTab%":   variablesTab
             ]
         );
     }
 
     /**
+     * @param int           $index
      * @param BacktraceItem $item
      *
      * @return string
      */
-    private function renderTraceItem(<BacktraceItem> item) -> string
+    private function renderTraceItem(int index, <BacktraceItem> item) -> string
     {
-        var html, classNameWithLink, functionNameWithLink, arguments, argument;
+        var html, isApp, appClass, openAttr, appTag, fragment, frameNumber;
 
-        let html = this->getTemplate("traceRow");
+        let frameNumber = index;
+        let isApp       = this->isApp(item->getFile());
+        let appClass    = isApp ? "app" : "vendor";
+        let openAttr    = (frameNumber == 0) ? " open" : "";
+        let appTag      = isApp ? this->getTemplate("appTag") : "";
 
-        if null !== item->getClassName() {
-            let classNameWithLink = this->renderLink(
-                item->getClassLink(),
-                item->getClassName()
-            );
+        let html = strtr(
+            this->getTemplate("frameOpen"),
+            [
+                "%appClass%":  appClass,
+                "%open%":      openAttr,
+                "%num%":       (string) frameNumber,
+                "%signature%": this->renderSignature(item),
+                "%appTag%":    appTag
+            ]
+        );
 
+        if null !== item->getFile() {
             let html .= strtr(
-                this->getTemplate("traceClass"),
-                ["%classNameWithLink%": classNameWithLink]
+                this->getTemplate("frameFile"),
+                [
+                    "%file%": item->getFile(),
+                    "%line%": (string) item->getLine()
+                ]
             );
 
-            let html .= (string) item->getType();
-        }
+            let fragment = item->getFragment();
 
-        let functionNameWithLink = this->renderLink(
-            item->getFunctionLink(),
-            item->getFunctionName()
-        );
-
-        let html .= strtr(
-            this->getTemplate("traceFunction"),
-            ["%functionNameWithLink%": functionNameWithLink]
-        );
-
-        if true === item->hasArgs() {
-            let arguments = [];
-
-            for argument in item->getArgs() {
-                let arguments[] = strtr(
-                    this->getTemplate("traceParameter"),
-                    ["%dump%": this->getVarDump(argument)]
-                );
+            if null !== fragment {
+                let html .= this->renderFragment(fragment);
             }
-
-            let html .= "(" . join(", ", arguments) . ")";
         }
 
-        let html .= this->renderFile(item);
-
-        return html . this->getTemplate("traceRowClose");
+        return html . this->getTemplate("frameClose");
     }
 
     /**
@@ -720,18 +705,22 @@ class HtmlRenderer implements Renderer
             return "";
         }
 
-        let html = this->renderTableHeader("variables", "Key", "Value");
+        let html = strtr(this->getTemplate("panelOpen"), ["%id%": "variables"])
+            . strtr(
+                this->getTemplate("tableOpen"),
+                ["%headerOne%": "Key", "%headerTwo%": "Value"]
+            );
 
         for key, value in variables {
             let html .= strtr(
-                this->getTemplate("variableRow"),
+                this->getTemplate("gridRow"),
                 [
-                    "%key%":  (string) key,
-                    "%dump%": this->getVarDump(value[0])
+                    "%key%":   this->escapeString((string) key),
+                    "%value%": this->getVarDump(value[0])
                 ]
             );
         }
 
-        return html . this->getTemplate("closeTable");
+        return html . this->getTemplate("tableClose") . this->getTemplate("panelClose");
     }
 }

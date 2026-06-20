@@ -79,6 +79,7 @@ class ReportBuilder
         );
         report->setIncludedFiles(get_included_files());
         report->setMemoryUsage(memory_get_usage(true));
+        report->setPeakMemoryUsage(memory_get_peak_usage(true));
         report->setVariables(data);
 
         return report;

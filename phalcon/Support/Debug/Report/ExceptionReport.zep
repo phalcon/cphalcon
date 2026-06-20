@@ -52,6 +52,11 @@ final class ExceptionReport
     protected message;
 
     /**
+     * @var int
+     */
+    protected peakMemoryUsage = 0;
+
+    /**
      * @var array
      */
     protected request = [];
@@ -157,6 +162,14 @@ final class ExceptionReport
     }
 
     /**
+     * @return int
+     */
+    public function getPeakMemoryUsage() -> int
+    {
+        return this->peakMemoryUsage;
+    }
+
+    /**
      * @return array
      */
     public function getRequest() -> array
@@ -236,6 +249,18 @@ final class ExceptionReport
     public function setMemoryUsage(int memoryUsage) -> <static>
     {
         let this->memoryUsage = memoryUsage;
+
+        return this;
+    }
+
+    /**
+     * @param int $peakMemoryUsage
+     *
+     * @return static
+     */
+    public function setPeakMemoryUsage(int peakMemoryUsage) -> <static>
+    {
+        let this->peakMemoryUsage = peakMemoryUsage;
 
         return this;
     }
