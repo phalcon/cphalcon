@@ -26,6 +26,15 @@
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
+ *
+ * Implementation of this component has been inspired by the queue-interop and
+ * enqueue projects.
+ *
+ * @link    https://github.com/queue-interop/queue-interop
+ * @license https://github.com/queue-interop/queue-interop/blob/master/LICENSE
+ *
+ * @link    https://github.com/php-enqueue/enqueue-dev
+ * @license https://github.com/php-enqueue/enqueue-dev/blob/master/LICENSE
  */
 /**
  * Optional CLI runner for a queue worker - the only class coupled to
@@ -92,14 +101,14 @@ PHP_METHOD(Phalcon_Queue_Cli_ConsumerTask, mainAction)
 	zephir_check_call_status();
 	if (zephir_array_isset_value_long(&params, 0)) {
 		zephir_memory_observe(&queueName);
-		zephir_array_fetch_long(&queueName, &params, 0, PH_NOISY, "phalcon/Queue/Cli/ConsumerTask.zep", 45);
+		zephir_array_fetch_long(&queueName, &params, 0, PH_NOISY, "phalcon/Queue/Cli/ConsumerTask.zep", 54);
 	} else {
 		ZEPHIR_INIT_NVAR(&queueName);
 		ZVAL_STRING(&queueName, "");
 	}
 	if (zephir_array_isset_value_long(&params, 1)) {
 		zephir_memory_observe(&processor);
-		zephir_array_fetch_long(&processor, &params, 1, PH_NOISY, "phalcon/Queue/Cli/ConsumerTask.zep", 46);
+		zephir_array_fetch_long(&processor, &params, 1, PH_NOISY, "phalcon/Queue/Cli/ConsumerTask.zep", 55);
 	} else {
 		ZEPHIR_INIT_NVAR(&processor);
 		ZVAL_STRING(&processor, "");

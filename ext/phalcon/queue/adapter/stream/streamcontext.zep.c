@@ -30,6 +30,15 @@
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
+ *
+ * Implementation of this component has been inspired by the queue-interop and
+ * enqueue projects.
+ *
+ * @link    https://github.com/queue-interop/queue-interop
+ * @license https://github.com/queue-interop/queue-interop/blob/master/LICENSE
+ *
+ * @link    https://github.com/php-enqueue/enqueue-dev
+ * @license https://github.com/php-enqueue/enqueue-dev/blob/master/LICENSE
  */
 /**
  * Filesystem transport session. Each queue is one append-only file under the
@@ -120,7 +129,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamContext, createConsumer)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &destination);
 	if (UNEXPECTED(!((zephir_instance_of_ev(destination, phalcon_contracts_queue_queue_ce))))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_queue_exceptions_invaliddestinationexception_ce, "The Stream transport can only consume from a Queue destination", "phalcon/Queue/Adapter/Stream/StreamContext.zep", 60);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_queue_exceptions_invaliddestinationexception_ce, "The Stream transport can only consume from a Queue destination", "phalcon/Queue/Adapter/Stream/StreamContext.zep", 69);
 		return;
 	}
 	object_init_ex(return_value, phalcon_queue_adapter_stream_streamconsumer_ce);
@@ -380,9 +389,9 @@ PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamContext, popMessage)
 		RETURN_MM_NULL();
 	}
 	object_init_ex(return_value, phalcon_queue_adapter_stream_streammessage_ce);
-	zephir_array_fetch_string(&_9, &data, SL("body"), PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/Stream/StreamContext.zep", 152);
-	zephir_array_fetch_string(&_10, &data, SL("properties"), PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/Stream/StreamContext.zep", 152);
-	zephir_array_fetch_string(&_11, &data, SL("headers"), PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/Stream/StreamContext.zep", 152);
+	zephir_array_fetch_string(&_9, &data, SL("body"), PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/Stream/StreamContext.zep", 161);
+	zephir_array_fetch_string(&_10, &data, SL("properties"), PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/Stream/StreamContext.zep", 161);
+	zephir_array_fetch_string(&_11, &data, SL("headers"), PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/Stream/StreamContext.zep", 161);
 	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &_9, &_10, &_11);
 	zephir_check_call_status();
 	RETURN_MM();

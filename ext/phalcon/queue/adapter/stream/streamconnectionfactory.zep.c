@@ -26,6 +26,15 @@
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
+ *
+ * Implementation of this component has been inspired by the queue-interop and
+ * enqueue projects.
+ *
+ * @link    https://github.com/queue-interop/queue-interop
+ * @license https://github.com/queue-interop/queue-interop/blob/master/LICENSE
+ *
+ * @link    https://github.com/php-enqueue/enqueue-dev
+ * @license https://github.com/php-enqueue/enqueue-dev/blob/master/LICENSE
  */
 /**
  * Builds a StreamContext.
@@ -96,14 +105,14 @@ PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamConnectionFactory, createContext)
 	if (zephir_array_isset_value_string(&_0, SL("storageDir"))) {
 		zephir_read_property(&_1$$3, this_ptr, ZEND_STRL("options"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_OBS_NVAR(&storageDir);
-		zephir_array_fetch_string(&storageDir, &_1$$3, SL("storageDir"), PH_NOISY, "phalcon/Queue/Adapter/Stream/StreamConnectionFactory.zep", 42);
+		zephir_array_fetch_string(&storageDir, &_1$$3, SL("storageDir"), PH_NOISY, "phalcon/Queue/Adapter/Stream/StreamConnectionFactory.zep", 51);
 	}
 	pollInterval = 200;
 	zephir_read_property(&_2, this_ptr, ZEND_STRL("options"), PH_NOISY_CC | PH_READONLY);
 	if (zephir_array_isset_value_string(&_2, SL("pollInterval"))) {
 		zephir_read_property(&_3$$4, this_ptr, ZEND_STRL("options"), PH_NOISY_CC | PH_READONLY);
 		zephir_memory_observe(&_4$$4);
-		zephir_array_fetch_string(&_4$$4, &_3$$4, SL("pollInterval"), PH_NOISY, "phalcon/Queue/Adapter/Stream/StreamConnectionFactory.zep", 48);
+		zephir_array_fetch_string(&_4$$4, &_3$$4, SL("pollInterval"), PH_NOISY, "phalcon/Queue/Adapter/Stream/StreamConnectionFactory.zep", 57);
 		pollInterval = zephir_get_intval(&_4$$4);
 	}
 	object_init_ex(return_value, phalcon_queue_adapter_stream_streamcontext_ce);

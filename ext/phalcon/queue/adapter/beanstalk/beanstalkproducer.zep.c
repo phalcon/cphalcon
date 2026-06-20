@@ -27,6 +27,15 @@
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
+ *
+ * Implementation of this component has been inspired by the queue-interop and
+ * enqueue projects.
+ *
+ * @link    https://github.com/queue-interop/queue-interop
+ * @license https://github.com/queue-interop/queue-interop/blob/master/LICENSE
+ *
+ * @link    https://github.com/php-enqueue/enqueue-dev
+ * @license https://github.com/php-enqueue/enqueue-dev/blob/master/LICENSE
  */
 /**
  * Sends messages to a Beanstalkd tube. Delivery delay (rounded down to whole
@@ -127,7 +136,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkProducer, send)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &destination, &message);
 	if (UNEXPECTED(!((zephir_instance_of_ev(destination, phalcon_contracts_queue_queue_ce))))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_queue_exceptions_invaliddestinationexception_ce, "The Beanstalk transport can only send to a Queue destination", "phalcon/Queue/Adapter/Beanstalk/BeanstalkProducer.zep", 81);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_queue_exceptions_invaliddestinationexception_ce, "The Beanstalk transport can only send to a Queue destination", "phalcon/Queue/Adapter/Beanstalk/BeanstalkProducer.zep", 90);
 		return;
 	}
 	ZEPHIR_INIT_VAR(&_0);
@@ -263,7 +272,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkProducer, setTimeToLive)
 		timeToLive = &__$null;
 	}
 	if (UNEXPECTED(Z_TYPE_P(timeToLive) != IS_NULL)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_queue_exceptions_timetolivenotsupportedexception_ce, "The Beanstalk transport does not support a time to live", "phalcon/Queue/Adapter/Beanstalk/BeanstalkProducer.zep", 123);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_queue_exceptions_timetolivenotsupportedexception_ce, "The Beanstalk transport does not support a time to live", "phalcon/Queue/Adapter/Beanstalk/BeanstalkProducer.zep", 132);
 		return;
 	}
 	RETURN_THISW();

@@ -26,6 +26,15 @@
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
+ *
+ * Implementation of this component has been inspired by the queue-interop and
+ * enqueue projects.
+ *
+ * @link    https://github.com/queue-interop/queue-interop
+ * @license https://github.com/queue-interop/queue-interop/blob/master/LICENSE
+ *
+ * @link    https://github.com/php-enqueue/enqueue-dev
+ * @license https://github.com/php-enqueue/enqueue-dev/blob/master/LICENSE
  */
 /**
  * Shared implementation of every Message getter/setter, plus the
@@ -177,7 +186,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractMessage, getHeader)
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("headers"), PH_NOISY_CC | PH_READONLY);
 	if (zephir_array_key_exists(&_0, &name_zv)) {
 		zephir_read_property(&_1$$3, this_ptr, ZEND_STRL("headers"), PH_NOISY_CC | PH_READONLY);
-		zephir_array_fetch(&_2$$3, &_1$$3, &name_zv, PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/AbstractMessage.zep", 77);
+		zephir_array_fetch(&_2$$3, &_1$$3, &name_zv, PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/AbstractMessage.zep", 86);
 		RETURN_CTORW(&_2$$3);
 	}
 	RETVAL_ZVAL(defaultValue, 1, 0);
@@ -255,7 +264,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractMessage, getProperty)
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("properties"), PH_NOISY_CC | PH_READONLY);
 	if (zephir_array_key_exists(&_0, &name_zv)) {
 		zephir_read_property(&_1$$3, this_ptr, ZEND_STRL("properties"), PH_NOISY_CC | PH_READONLY);
-		zephir_array_fetch(&_2$$3, &_1$$3, &name_zv, PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/AbstractMessage.zep", 113);
+		zephir_array_fetch(&_2$$3, &_1$$3, &name_zv, PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/AbstractMessage.zep", 122);
 		RETURN_CTORW(&_2$$3);
 	}
 	RETVAL_ZVAL(defaultValue, 1, 0);

@@ -27,6 +27,15 @@
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
+ *
+ * Implementation of this component has been inspired by the queue-interop and
+ * enqueue projects.
+ *
+ * @link    https://github.com/queue-interop/queue-interop
+ * @license https://github.com/queue-interop/queue-interop/blob/master/LICENSE
+ *
+ * @link    https://github.com/php-enqueue/enqueue-dev
+ * @license https://github.com/php-enqueue/enqueue-dev/blob/master/LICENSE
  */
 /**
  * Beanstalkd transport session. A queue maps to a Beanstalkd tube. Producers
@@ -171,7 +180,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkContext, createConsumer)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &destination);
 	if (UNEXPECTED(!((zephir_instance_of_ev(destination, phalcon_contracts_queue_queue_ce))))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_queue_exceptions_invaliddestinationexception_ce, "The Beanstalk transport can only consume from a Queue destination", "phalcon/Queue/Adapter/Beanstalk/BeanstalkContext.zep", 95);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_queue_exceptions_invaliddestinationexception_ce, "The Beanstalk transport can only consume from a Queue destination", "phalcon/Queue/Adapter/Beanstalk/BeanstalkContext.zep", 104);
 		return;
 	}
 	object_init_ex(return_value, phalcon_queue_adapter_beanstalk_beanstalkconsumer_ce);
@@ -378,7 +387,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkContext, purgeQueue)
 		if (Z_TYPE_P(&job) == IS_NULL) {
 			break;
 		}
-		zephir_array_fetch_long(&_3$$4, &job, 0, PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkContext.zep", 159);
+		zephir_array_fetch_long(&_3$$4, &job, 0, PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkContext.zep", 168);
 		ZEPHIR_CALL_METHOD(NULL, &connection, "deletejob", &_4, 0, &_3$$4);
 		zephir_check_call_status();
 	}

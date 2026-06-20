@@ -28,6 +28,15 @@
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
+ *
+ * Implementation of this component has been inspired by the queue-interop and
+ * enqueue projects.
+ *
+ * @link    https://github.com/queue-interop/queue-interop
+ * @license https://github.com/queue-interop/queue-interop/blob/master/LICENSE
+ *
+ * @link    https://github.com/php-enqueue/enqueue-dev
+ * @license https://github.com/php-enqueue/enqueue-dev/blob/master/LICENSE
  */
 /**
  * Connects to a Redis server (ext-redis) and builds a RedisContext.
@@ -120,14 +129,14 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisConnectionFactory, createContext)
 	ZEPHIR_CPY_WRT(&options, &_0);
 	if (zephir_array_isset_value_string(&options, SL("host"))) {
 		zephir_memory_observe(&host);
-		zephir_array_fetch_string(&host, &options, SL("host"), PH_NOISY, "phalcon/Queue/Adapter/Redis/RedisConnectionFactory.zep", 49);
+		zephir_array_fetch_string(&host, &options, SL("host"), PH_NOISY, "phalcon/Queue/Adapter/Redis/RedisConnectionFactory.zep", 58);
 	} else {
 		ZEPHIR_INIT_NVAR(&host);
 		ZVAL_STRING(&host, "127.0.0.1");
 	}
 	if (zephir_array_isset_value_string(&options, SL("port"))) {
 		zephir_memory_observe(&_1);
-		zephir_array_fetch_string(&_1, &options, SL("port"), PH_NOISY, "phalcon/Queue/Adapter/Redis/RedisConnectionFactory.zep", 50);
+		zephir_array_fetch_string(&_1, &options, SL("port"), PH_NOISY, "phalcon/Queue/Adapter/Redis/RedisConnectionFactory.zep", 59);
 		ZEPHIR_INIT_VAR(&port);
 		ZVAL_LONG(&port, zephir_get_intval(&_1));
 	} else {
@@ -136,7 +145,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisConnectionFactory, createContext)
 	}
 	if (zephir_array_isset_value_string(&options, SL("timeout"))) {
 		zephir_memory_observe(&_2);
-		zephir_array_fetch_string(&_2, &options, SL("timeout"), PH_NOISY, "phalcon/Queue/Adapter/Redis/RedisConnectionFactory.zep", 51);
+		zephir_array_fetch_string(&_2, &options, SL("timeout"), PH_NOISY, "phalcon/Queue/Adapter/Redis/RedisConnectionFactory.zep", 60);
 		ZEPHIR_INIT_VAR(&timeout);
 		ZVAL_DOUBLE(&timeout, zephir_get_doubleval(&_2));
 	} else {
@@ -145,7 +154,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisConnectionFactory, createContext)
 	}
 	if (zephir_array_isset_value_string(&options, SL("persistent"))) {
 		zephir_memory_observe(&_3);
-		zephir_array_fetch_string(&_3, &options, SL("persistent"), PH_NOISY, "phalcon/Queue/Adapter/Redis/RedisConnectionFactory.zep", 52);
+		zephir_array_fetch_string(&_3, &options, SL("persistent"), PH_NOISY, "phalcon/Queue/Adapter/Redis/RedisConnectionFactory.zep", 61);
 		ZEPHIR_INIT_VAR(&persistent);
 		ZVAL_BOOL(&persistent, zephir_get_boolval(&_3));
 	} else {
@@ -154,21 +163,21 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisConnectionFactory, createContext)
 	}
 	if (zephir_array_isset_value_string(&options, SL("persistentId"))) {
 		zephir_memory_observe(&persistentId);
-		zephir_array_fetch_string(&persistentId, &options, SL("persistentId"), PH_NOISY, "phalcon/Queue/Adapter/Redis/RedisConnectionFactory.zep", 53);
+		zephir_array_fetch_string(&persistentId, &options, SL("persistentId"), PH_NOISY, "phalcon/Queue/Adapter/Redis/RedisConnectionFactory.zep", 62);
 	} else {
 		ZEPHIR_INIT_NVAR(&persistentId);
 		ZVAL_STRING(&persistentId, "");
 	}
 	if (zephir_array_isset_value_string(&options, SL("auth"))) {
 		zephir_memory_observe(&auth);
-		zephir_array_fetch_string(&auth, &options, SL("auth"), PH_NOISY, "phalcon/Queue/Adapter/Redis/RedisConnectionFactory.zep", 54);
+		zephir_array_fetch_string(&auth, &options, SL("auth"), PH_NOISY, "phalcon/Queue/Adapter/Redis/RedisConnectionFactory.zep", 63);
 	} else {
 		ZEPHIR_INIT_NVAR(&auth);
 		ZVAL_STRING(&auth, "");
 	}
 	if (zephir_array_isset_value_string(&options, SL("index"))) {
 		ZEPHIR_OBS_NVAR(&_3);
-		zephir_array_fetch_string(&_3, &options, SL("index"), PH_NOISY, "phalcon/Queue/Adapter/Redis/RedisConnectionFactory.zep", 55);
+		zephir_array_fetch_string(&_3, &options, SL("index"), PH_NOISY, "phalcon/Queue/Adapter/Redis/RedisConnectionFactory.zep", 64);
 		ZEPHIR_INIT_VAR(&index);
 		ZVAL_LONG(&index, zephir_get_intval(&_3));
 	} else {
@@ -177,14 +186,14 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisConnectionFactory, createContext)
 	}
 	if (zephir_array_isset_value_string(&options, SL("prefix"))) {
 		zephir_memory_observe(&prefix);
-		zephir_array_fetch_string(&prefix, &options, SL("prefix"), PH_NOISY, "phalcon/Queue/Adapter/Redis/RedisConnectionFactory.zep", 56);
+		zephir_array_fetch_string(&prefix, &options, SL("prefix"), PH_NOISY, "phalcon/Queue/Adapter/Redis/RedisConnectionFactory.zep", 65);
 	} else {
 		ZEPHIR_INIT_NVAR(&prefix);
 		ZVAL_STRING(&prefix, "phalcon_queue:");
 	}
 	if (zephir_array_isset_value_string(&options, SL("pollInterval"))) {
 		zephir_memory_observe(&_4);
-		zephir_array_fetch_string(&_4, &options, SL("pollInterval"), PH_NOISY, "phalcon/Queue/Adapter/Redis/RedisConnectionFactory.zep", 57);
+		zephir_array_fetch_string(&_4, &options, SL("pollInterval"), PH_NOISY, "phalcon/Queue/Adapter/Redis/RedisConnectionFactory.zep", 66);
 		ZEPHIR_INIT_VAR(&pollInterval);
 		ZVAL_LONG(&pollInterval, zephir_get_intval(&_4));
 	} else {
@@ -217,7 +226,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisConnectionFactory, createContext)
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, &_5$$5, "__construct", NULL, 8, &_7$$5);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_5$$5, "phalcon/Queue/Adapter/Redis/RedisConnectionFactory.zep", 71);
+		zephir_throw_exception_debug(&_5$$5, "phalcon/Queue/Adapter/Redis/RedisConnectionFactory.zep", 80);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -228,7 +237,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisConnectionFactory, createContext)
 		_8 = !ZEPHIR_IS_TRUE_IDENTICAL(&_9);
 	}
 	if (_8) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_queue_exceptions_exception_ce, "Failed to authenticate with the Redis server", "phalcon/Queue/Adapter/Redis/RedisConnectionFactory.zep", 75);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_queue_exceptions_exception_ce, "Failed to authenticate with the Redis server", "phalcon/Queue/Adapter/Redis/RedisConnectionFactory.zep", 84);
 		return;
 	}
 	_10 = ZEPHIR_GT_LONG(&index, 0);
@@ -238,7 +247,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisConnectionFactory, createContext)
 		_10 = !ZEPHIR_IS_TRUE_IDENTICAL(&_11);
 	}
 	if (_10) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_queue_exceptions_exception_ce, "Failed to select the Redis database index", "phalcon/Queue/Adapter/Redis/RedisConnectionFactory.zep", 79);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_queue_exceptions_exception_ce, "Failed to select the Redis database index", "phalcon/Queue/Adapter/Redis/RedisConnectionFactory.zep", 88);
 		return;
 	}
 	object_init_ex(return_value, phalcon_queue_adapter_redis_rediscontext_ce);

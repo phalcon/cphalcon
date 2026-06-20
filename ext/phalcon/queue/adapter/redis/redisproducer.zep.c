@@ -26,6 +26,15 @@
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
+ *
+ * Implementation of this component has been inspired by the queue-interop and
+ * enqueue projects.
+ *
+ * @link    https://github.com/queue-interop/queue-interop
+ * @license https://github.com/queue-interop/queue-interop/blob/master/LICENSE
+ *
+ * @link    https://github.com/php-enqueue/enqueue-dev
+ * @license https://github.com/php-enqueue/enqueue-dev/blob/master/LICENSE
  */
 /**
  * Sends messages to a Redis queue. Delivery delay is supported (via the
@@ -103,7 +112,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisProducer, send)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &destination, &message);
 	if (UNEXPECTED(!((zephir_instance_of_ev(destination, phalcon_contracts_queue_queue_ce))))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_queue_exceptions_invaliddestinationexception_ce, "The Redis transport can only send to a Queue destination", "phalcon/Queue/Adapter/Redis/RedisProducer.zep", 66);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_queue_exceptions_invaliddestinationexception_ce, "The Redis transport can only send to a Queue destination", "phalcon/Queue/Adapter/Redis/RedisProducer.zep", 75);
 		return;
 	}
 	ZEPHIR_INIT_VAR(&_0);
@@ -178,7 +187,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisProducer, setPriority)
 		priority = &__$null;
 	}
 	if (UNEXPECTED(Z_TYPE_P(priority) != IS_NULL)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_queue_exceptions_prioritynotsupportedexception_ce, "The Redis transport does not support message priority", "phalcon/Queue/Adapter/Redis/RedisProducer.zep", 86);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_queue_exceptions_prioritynotsupportedexception_ce, "The Redis transport does not support message priority", "phalcon/Queue/Adapter/Redis/RedisProducer.zep", 95);
 		return;
 	}
 	RETURN_THISW();
@@ -202,7 +211,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisProducer, setTimeToLive)
 		timeToLive = &__$null;
 	}
 	if (UNEXPECTED(Z_TYPE_P(timeToLive) != IS_NULL)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_queue_exceptions_timetolivenotsupportedexception_ce, "The Redis transport does not support a time to live", "phalcon/Queue/Adapter/Redis/RedisProducer.zep", 97);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_queue_exceptions_timetolivenotsupportedexception_ce, "The Redis transport does not support a time to live", "phalcon/Queue/Adapter/Redis/RedisProducer.zep", 106);
 		return;
 	}
 	RETURN_THISW();

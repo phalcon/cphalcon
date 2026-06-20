@@ -30,6 +30,15 @@
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
+ *
+ * Implementation of this component has been inspired by the queue-interop and
+ * enqueue projects.
+ *
+ * @link    https://github.com/queue-interop/queue-interop
+ * @license https://github.com/queue-interop/queue-interop/blob/master/LICENSE
+ *
+ * @link    https://github.com/php-enqueue/enqueue-dev
+ * @license https://github.com/php-enqueue/enqueue-dev/blob/master/LICENSE
  */
 /**
  * Redis transport session (ext-redis). Each queue is a Redis list; messages
@@ -153,7 +162,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisContext, blockingPop)
 		_4 = zephir_fast_count_int(&result) >= 2;
 	}
 	if (_4) {
-		zephir_array_fetch_long(&_5$$3, &result, 1, PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/Redis/RedisContext.zep", 73);
+		zephir_array_fetch_long(&_5$$3, &result, 1, PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/Redis/RedisContext.zep", 82);
 		ZEPHIR_RETURN_CALL_METHOD(this_ptr, "unserializemessage", NULL, 0, &_5$$3);
 		zephir_check_call_status();
 		RETURN_MM();
@@ -181,7 +190,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisContext, createConsumer)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &destination);
 	if (UNEXPECTED(!((zephir_instance_of_ev(destination, phalcon_contracts_queue_queue_ce))))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_queue_exceptions_invaliddestinationexception_ce, "The Redis transport can only consume from a Queue destination", "phalcon/Queue/Adapter/Redis/RedisContext.zep", 88);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_queue_exceptions_invaliddestinationexception_ce, "The Redis transport can only consume from a Queue destination", "phalcon/Queue/Adapter/Redis/RedisContext.zep", 97);
 		return;
 	}
 	object_init_ex(return_value, phalcon_queue_adapter_redis_redisconsumer_ce);
@@ -591,7 +600,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisContext, promote)
 	if (Z_TYPE_P(&due) != IS_ARRAY) {
 		RETURN_MM_NULL();
 	}
-	zephir_is_iterable(&due, 0, "phalcon/Queue/Adapter/Redis/RedisContext.zep", 218);
+	zephir_is_iterable(&due, 0, "phalcon/Queue/Adapter/Redis/RedisContext.zep", 227);
 	if (Z_TYPE_P(&due) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&due), _3)
 		{
@@ -709,9 +718,9 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisContext, unserializeMessage)
 		RETURN_MM_NULL();
 	}
 	object_init_ex(return_value, phalcon_queue_adapter_redis_redismessage_ce);
-	zephir_array_fetch_string(&_0, &data, SL("body"), PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/Redis/RedisContext.zep", 241);
-	zephir_array_fetch_string(&_1, &data, SL("properties"), PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/Redis/RedisContext.zep", 241);
-	zephir_array_fetch_string(&_2, &data, SL("headers"), PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/Redis/RedisContext.zep", 241);
+	zephir_array_fetch_string(&_0, &data, SL("body"), PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/Redis/RedisContext.zep", 250);
+	zephir_array_fetch_string(&_1, &data, SL("properties"), PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/Redis/RedisContext.zep", 250);
+	zephir_array_fetch_string(&_2, &data, SL("headers"), PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/Redis/RedisContext.zep", 250);
 	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &_0, &_1, &_2);
 	zephir_check_call_status();
 	RETURN_MM();

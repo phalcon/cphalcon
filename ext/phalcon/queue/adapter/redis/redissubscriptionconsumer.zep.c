@@ -27,6 +27,15 @@
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
+ *
+ * Implementation of this component has been inspired by the queue-interop and
+ * enqueue projects.
+ *
+ * @link    https://github.com/queue-interop/queue-interop
+ * @license https://github.com/queue-interop/queue-interop/blob/master/LICENSE
+ *
+ * @link    https://github.com/php-enqueue/enqueue-dev
+ * @license https://github.com/php-enqueue/enqueue-dev/blob/master/LICENSE
  */
 /**
  * Consumes from several Redis queues at once, round-robin polling each
@@ -127,16 +136,16 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisSubscriptionConsumer, consume)
 	startTime = (zephir_get_numberval(&_2) * 1000);
 	while (1) {
 		zephir_read_property(&_3$$4, this_ptr, ZEND_STRL("subscriptions"), PH_NOISY_CC | PH_READONLY);
-		zephir_is_iterable(&_3$$4, 0, "phalcon/Queue/Adapter/Redis/RedisSubscriptionConsumer.zep", 75);
+		zephir_is_iterable(&_3$$4, 0, "phalcon/Queue/Adapter/Redis/RedisSubscriptionConsumer.zep", 84);
 		if (Z_TYPE_P(&_3$$4) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_3$$4), _4$$4)
 			{
 				ZEPHIR_INIT_NVAR(&subscription);
 				ZVAL_COPY(&subscription, _4$$4);
 				ZEPHIR_OBS_NVAR(&consumer);
-				zephir_array_fetch_long(&consumer, &subscription, 0, PH_NOISY, "phalcon/Queue/Adapter/Redis/RedisSubscriptionConsumer.zep", 62);
+				zephir_array_fetch_long(&consumer, &subscription, 0, PH_NOISY, "phalcon/Queue/Adapter/Redis/RedisSubscriptionConsumer.zep", 71);
 				ZEPHIR_OBS_NVAR(&callback);
-				zephir_array_fetch_long(&callback, &subscription, 1, PH_NOISY, "phalcon/Queue/Adapter/Redis/RedisSubscriptionConsumer.zep", 63);
+				zephir_array_fetch_long(&callback, &subscription, 1, PH_NOISY, "phalcon/Queue/Adapter/Redis/RedisSubscriptionConsumer.zep", 72);
 				ZEPHIR_CALL_METHOD(&message, &consumer, "receivenowait", NULL, 0);
 				zephir_check_call_status();
 				if (Z_TYPE_P(&message) != IS_NULL) {
@@ -166,9 +175,9 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisSubscriptionConsumer, consume)
 				ZEPHIR_CALL_METHOD(&subscription, &_3$$4, "current", NULL, 0);
 				zephir_check_call_status();
 					ZEPHIR_OBS_NVAR(&consumer);
-					zephir_array_fetch_long(&consumer, &subscription, 0, PH_NOISY, "phalcon/Queue/Adapter/Redis/RedisSubscriptionConsumer.zep", 62);
+					zephir_array_fetch_long(&consumer, &subscription, 0, PH_NOISY, "phalcon/Queue/Adapter/Redis/RedisSubscriptionConsumer.zep", 71);
 					ZEPHIR_OBS_NVAR(&callback);
-					zephir_array_fetch_long(&callback, &subscription, 1, PH_NOISY, "phalcon/Queue/Adapter/Redis/RedisSubscriptionConsumer.zep", 63);
+					zephir_array_fetch_long(&callback, &subscription, 1, PH_NOISY, "phalcon/Queue/Adapter/Redis/RedisSubscriptionConsumer.zep", 72);
 					ZEPHIR_CALL_METHOD(&message, &consumer, "receivenowait", NULL, 0);
 					zephir_check_call_status();
 					if (Z_TYPE_P(&message) != IS_NULL) {

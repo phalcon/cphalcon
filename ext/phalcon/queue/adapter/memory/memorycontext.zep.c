@@ -27,6 +27,15 @@
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
+ *
+ * Implementation of this component has been inspired by the queue-interop and
+ * enqueue projects.
+ *
+ * @link    https://github.com/queue-interop/queue-interop
+ * @license https://github.com/queue-interop/queue-interop/blob/master/LICENSE
+ *
+ * @link    https://github.com/php-enqueue/enqueue-dev
+ * @license https://github.com/php-enqueue/enqueue-dev/blob/master/LICENSE
  */
 /**
  * In-process transport session. Owns the named FIFO queues that this
@@ -85,7 +94,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryContext, createConsumer)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &destination);
 	if (UNEXPECTED(!((zephir_instance_of_ev(destination, phalcon_contracts_queue_queue_ce))))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_queue_exceptions_invaliddestinationexception_ce, "The Memory transport can only consume from a Queue destination", "phalcon/Queue/Adapter/Memory/MemoryContext.zep", 52);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_queue_exceptions_invaliddestinationexception_ce, "The Memory transport can only consume from a Queue destination", "phalcon/Queue/Adapter/Memory/MemoryContext.zep", 61);
 		return;
 	}
 	object_init_ex(return_value, phalcon_queue_adapter_memory_memoryconsumer_ce);
@@ -351,7 +360,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryContext, pushMessage)
 		ZEPHIR_INIT_NVAR(&messages);
 		array_init(&messages);
 	}
-	zephir_array_append(&messages, message, PH_SEPARATE, "phalcon/Queue/Adapter/Memory/MemoryContext.zep", 148);
+	zephir_array_append(&messages, message, PH_SEPARATE, "phalcon/Queue/Adapter/Memory/MemoryContext.zep", 157);
 	zephir_update_property_array(this_ptr, SL("queues"), &queueName_zv, &messages);
 	ZEPHIR_MM_RESTORE();
 }

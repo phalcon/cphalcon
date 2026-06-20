@@ -26,6 +26,15 @@
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
+ *
+ * Implementation of this component has been inspired by the queue-interop and
+ * enqueue projects.
+ *
+ * @link    https://github.com/queue-interop/queue-interop
+ * @license https://github.com/queue-interop/queue-interop/blob/master/LICENSE
+ *
+ * @link    https://github.com/php-enqueue/enqueue-dev
+ * @license https://github.com/php-enqueue/enqueue-dev/blob/master/LICENSE
  */
 /**
  * Appends messages to a filesystem queue. The Stream transport delivers in
@@ -94,7 +103,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamProducer, send)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &destination, &message);
 	if (UNEXPECTED(!((zephir_instance_of_ev(destination, phalcon_contracts_queue_queue_ce))))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_queue_exceptions_invaliddestinationexception_ce, "The Stream transport can only send to a Queue destination", "phalcon/Queue/Adapter/Stream/StreamProducer.zep", 59);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_queue_exceptions_invaliddestinationexception_ce, "The Stream transport can only send to a Queue destination", "phalcon/Queue/Adapter/Stream/StreamProducer.zep", 68);
 		return;
 	}
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("context"), PH_NOISY_CC | PH_READONLY);
@@ -123,7 +132,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamProducer, setDeliveryDelay)
 		deliveryDelay = &__$null;
 	}
 	if (UNEXPECTED(Z_TYPE_P(deliveryDelay) != IS_NULL)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_queue_exceptions_deliverydelaynotsupportedexception_ce, "The Stream transport does not support a delivery delay", "phalcon/Queue/Adapter/Stream/StreamProducer.zep", 70);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_queue_exceptions_deliverydelaynotsupportedexception_ce, "The Stream transport does not support a delivery delay", "phalcon/Queue/Adapter/Stream/StreamProducer.zep", 79);
 		return;
 	}
 	RETURN_THISW();
@@ -147,7 +156,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamProducer, setPriority)
 		priority = &__$null;
 	}
 	if (UNEXPECTED(Z_TYPE_P(priority) != IS_NULL)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_queue_exceptions_prioritynotsupportedexception_ce, "The Stream transport does not support message priority", "phalcon/Queue/Adapter/Stream/StreamProducer.zep", 81);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_queue_exceptions_prioritynotsupportedexception_ce, "The Stream transport does not support message priority", "phalcon/Queue/Adapter/Stream/StreamProducer.zep", 90);
 		return;
 	}
 	RETURN_THISW();
@@ -171,7 +180,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamProducer, setTimeToLive)
 		timeToLive = &__$null;
 	}
 	if (UNEXPECTED(Z_TYPE_P(timeToLive) != IS_NULL)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_queue_exceptions_timetolivenotsupportedexception_ce, "The Stream transport does not support a time to live", "phalcon/Queue/Adapter/Stream/StreamProducer.zep", 92);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_queue_exceptions_timetolivenotsupportedexception_ce, "The Stream transport does not support a time to live", "phalcon/Queue/Adapter/Stream/StreamProducer.zep", 101);
 		return;
 	}
 	RETURN_THISW();
