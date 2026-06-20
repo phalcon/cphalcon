@@ -1,0 +1,52 @@
+
+extern zend_class_entry *phalcon_queue_adapter_memory_memorysubscriptionconsumer_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_Memory_MemorySubscriptionConsumer);
+
+PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemorySubscriptionConsumer, __construct);
+PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemorySubscriptionConsumer, consume);
+PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemorySubscriptionConsumer, subscribe);
+PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemorySubscriptionConsumer, unsubscribe);
+PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemorySubscriptionConsumer, unsubscribeAll);
+PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemorySubscriptionConsumer, resolveQueueName);
+zend_object *zephir_init_properties_Phalcon_Queue_Adapter_Memory_MemorySubscriptionConsumer(zend_class_entry *class_type);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_queue_adapter_memory_memorysubscriptionconsumer___construct, 0, 0, 1)
+	ZEND_ARG_OBJ_INFO(0, context, Phalcon\\Queue\\Adapter\\Memory\\MemoryContext, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_queue_adapter_memory_memorysubscriptionconsumer_consume, 0, 0, IS_VOID, 0)
+
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, timeout, IS_LONG, 0, "0")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_queue_adapter_memory_memorysubscriptionconsumer_subscribe, 0, 2, IS_VOID, 0)
+
+	ZEND_ARG_OBJ_INFO(0, consumer, Phalcon\\Contracts\\Queue\\Consumer, 0)
+	ZEND_ARG_INFO(0, callback)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_queue_adapter_memory_memorysubscriptionconsumer_unsubscribe, 0, 1, IS_VOID, 0)
+
+	ZEND_ARG_OBJ_INFO(0, consumer, Phalcon\\Contracts\\Queue\\Consumer, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_queue_adapter_memory_memorysubscriptionconsumer_unsubscribeall, 0, 0, IS_VOID, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_queue_adapter_memory_memorysubscriptionconsumer_resolvequeuename, 0, 1, IS_STRING, 0)
+	ZEND_ARG_INFO(0, consumer)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_queue_adapter_memory_memorysubscriptionconsumer_zephir_init_properties_phalcon_queue_adapter_memory_memorysubscriptionconsumer, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_queue_adapter_memory_memorysubscriptionconsumer_method_entry) {
+	PHP_ME(Phalcon_Queue_Adapter_Memory_MemorySubscriptionConsumer, __construct, arginfo_phalcon_queue_adapter_memory_memorysubscriptionconsumer___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Queue_Adapter_Memory_MemorySubscriptionConsumer, consume, arginfo_phalcon_queue_adapter_memory_memorysubscriptionconsumer_consume, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Queue_Adapter_Memory_MemorySubscriptionConsumer, subscribe, arginfo_phalcon_queue_adapter_memory_memorysubscriptionconsumer_subscribe, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Queue_Adapter_Memory_MemorySubscriptionConsumer, unsubscribe, arginfo_phalcon_queue_adapter_memory_memorysubscriptionconsumer_unsubscribe, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Queue_Adapter_Memory_MemorySubscriptionConsumer, unsubscribeAll, arginfo_phalcon_queue_adapter_memory_memorysubscriptionconsumer_unsubscribeall, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Queue_Adapter_Memory_MemorySubscriptionConsumer, resolveQueueName, arginfo_phalcon_queue_adapter_memory_memorysubscriptionconsumer_resolvequeuename, ZEND_ACC_PRIVATE)
+	PHP_FE_END
+};

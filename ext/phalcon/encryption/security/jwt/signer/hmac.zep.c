@@ -223,7 +223,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Signer_Hmac, getHash)
 	ZVAL_STR_COPY(&passphrase_zv, passphrase);
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getalgorithm", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_FUNCTION("hash_hmac", NULL, 493, &_0, &payload_zv, &passphrase_zv, &__$true);
+	ZEPHIR_RETURN_CALL_FUNCTION("hash_hmac", NULL, 494, &_0, &payload_zv, &passphrase_zv, &__$true);
 	zephir_check_call_status();
 	RETURN_MM();
 }

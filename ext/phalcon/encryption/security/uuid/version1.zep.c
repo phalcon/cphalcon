@@ -138,7 +138,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_Version1, __construct)
 	ZEPHIR_INIT_VAR(&timeHi);
 	ZVAL_LONG(&timeHi, (((((timestamp >> 48)) & 0x0fff)) | 0x1000));
 	ZVAL_LONG(&_5, 2);
-	ZEPHIR_CALL_FUNCTION(&clockSeqBytes, "random_bytes", NULL, 309, &_5);
+	ZEPHIR_CALL_FUNCTION(&clockSeqBytes, "random_bytes", NULL, 310, &_5);
 	zephir_check_call_status();
 	ZVAL_LONG(&_5, 0);
 	ZVAL_LONG(&_6, 1);

@@ -410,7 +410,7 @@ PHP_METHOD(Phalcon_Encryption_Security, computeHmac)
 	/* try_start_1: */
 
 		ZVAL_BOOL(&_0$$3, (raw ? 1 : 0));
-		ZEPHIR_CALL_FUNCTION(&hmac, "hash_hmac", NULL, 493, &algorithm_zv, &data_zv, &key_zv, &_0$$3);
+		ZEPHIR_CALL_FUNCTION(&hmac, "hash_hmac", NULL, 494, &algorithm_zv, &data_zv, &key_zv, &_0$$3);
 		zephir_check_call_status_or_jump(try_end_1);
 
 	try_end_1:

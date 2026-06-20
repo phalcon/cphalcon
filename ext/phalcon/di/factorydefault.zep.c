@@ -73,7 +73,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct)
 	}
 
 	ZEPHIR_INIT_VAR(&_0);
-	zephir_create_array(&_0, 21, 0);
+	zephir_create_array(&_0, 22, 0);
 	ZEPHIR_INIT_VAR(&_1);
 	object_init_ex(&_1, phalcon_di_service_ce);
 	ZEPHIR_INIT_VAR(&_2);
@@ -157,7 +157,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct)
 	zephir_array_update_string(&_0, SL("flashSession"), &_1, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_1);
 	object_init_ex(&_1, phalcon_di_service_ce);
-	ZEPHIR_CALL_METHOD(&_7, &filter, "newinstance", NULL, 189);
+	ZEPHIR_CALL_METHOD(&_7, &filter, "newinstance", NULL, 190);
 	zephir_check_call_status();
 	ZVAL_BOOL(&_3, 1);
 	ZEPHIR_CALL_METHOD(NULL, &_1, "__construct", NULL, 152, &_7, &_3);
@@ -195,6 +195,14 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct)
 	ZEPHIR_CALL_METHOD(NULL, &_1, "__construct", NULL, 152, &_2, &_3);
 	zephir_check_call_status();
 	zephir_array_update_string(&_0, SL("modelsMetadata"), &_1, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(&_1);
+	object_init_ex(&_1, phalcon_di_service_ce);
+	ZEPHIR_INIT_NVAR(&_2);
+	ZVAL_STRING(&_2, "Phalcon\\Queue\\QueueFactory");
+	ZVAL_BOOL(&_3, 1);
+	ZEPHIR_CALL_METHOD(NULL, &_1, "__construct", NULL, 152, &_2, &_3);
+	zephir_check_call_status();
+	zephir_array_update_string(&_0, SL("queueFactory"), &_1, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_1);
 	object_init_ex(&_1, phalcon_di_service_ce);
 	ZEPHIR_INIT_NVAR(&_2);

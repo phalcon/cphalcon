@@ -1,0 +1,203 @@
+
+#ifdef HAVE_CONFIG_H
+#include "../../../../ext_config.h"
+#endif
+
+#include <php.h>
+#include "../../../../php_ext.h"
+#include "../../../../ext.h"
+
+#include <Zend/zend_operators.h>
+#include <Zend/zend_exceptions.h>
+#include <Zend/zend_interfaces.h>
+
+#include "kernel/main.h"
+#include "kernel/object.h"
+#include "kernel/memory.h"
+#include "kernel/exception.h"
+#include "kernel/fcall.h"
+#include "kernel/operators.h"
+
+
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+/**
+ * Sends messages into an in-process queue. The Memory transport delivers
+ * immediately and in-process, so delivery delay, priority and time to live
+ * are not supported.
+ */
+ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_Memory_MemoryProducer)
+{
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Queue\\Adapter\\Memory, MemoryProducer, phalcon, queue_adapter_memory_memoryproducer, phalcon_queue_adapter_memory_memoryproducer_method_entry, 0);
+
+	/**
+	 * @var MemoryContext
+	 */
+	zend_declare_property_null(phalcon_queue_adapter_memory_memoryproducer_ce, SL("context"), ZEND_ACC_PROTECTED);
+	zend_class_implements(phalcon_queue_adapter_memory_memoryproducer_ce, 1, phalcon_contracts_queue_producer_ce);
+	return SUCCESS;
+}
+
+/**
+ * MemoryProducer constructor.
+ */
+PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryProducer, __construct)
+{
+	zval *context, context_sub;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&context_sub);
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(context, phalcon_queue_adapter_memory_memorycontext_ce)
+	ZEND_PARSE_PARAMETERS_END();
+	zephir_fetch_params_without_memory_grow(1, 0, &context);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("context"), context);
+}
+
+/**
+ * The Memory transport does not support a delivery delay.
+ */
+PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryProducer, getDeliveryDelay)
+{
+
+	RETURN_NULL();
+}
+
+/**
+ * The Memory transport does not support message priority.
+ */
+PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryProducer, getPriority)
+{
+
+	RETURN_NULL();
+}
+
+/**
+ * The Memory transport does not support a time to live.
+ */
+PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryProducer, getTimeToLive)
+{
+
+	RETURN_NULL();
+}
+
+/**
+ * Sends a message to the given queue destination.
+ */
+PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryProducer, send)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *destination, destination_sub, *message, message_sub, _0, _1;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&destination_sub);
+	ZVAL_UNDEF(&message_sub);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_OBJECT_OF_CLASS(destination, phalcon_contracts_queue_destination_ce)
+		Z_PARAM_OBJECT_OF_CLASS(message, phalcon_contracts_queue_message_ce)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_fetch_params(1, 2, 0, &destination, &message);
+	if (UNEXPECTED(!((zephir_instance_of_ev(destination, phalcon_contracts_queue_queue_ce))))) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_queue_exceptions_invaliddestinationexception_ce, "The Memory transport can only send to a Queue destination", "phalcon/Queue/Adapter/Memory/MemoryProducer.zep", 74);
+		return;
+	}
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("context"), PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_CALL_METHOD(&_1, destination, "getqueuename", NULL, 0);
+	zephir_check_call_status();
+	ZEPHIR_CALL_METHOD(NULL, &_0, "pushmessage", NULL, 0, &_1, message);
+	zephir_check_call_status();
+	ZEPHIR_MM_RESTORE();
+}
+
+/**
+ * @throws DeliveryDelayNotSupportedException when a non-null delay is set.
+ */
+PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryProducer, setDeliveryDelay)
+{
+	zval *deliveryDelay = NULL, deliveryDelay_sub, __$null;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&deliveryDelay_sub);
+	ZVAL_NULL(&__$null);
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL_OR_NULL(deliveryDelay)
+	ZEND_PARSE_PARAMETERS_END();
+	zephir_fetch_params_without_memory_grow(0, 1, &deliveryDelay);
+	if (!deliveryDelay) {
+		deliveryDelay = &deliveryDelay_sub;
+		deliveryDelay = &__$null;
+	}
+	if (UNEXPECTED(Z_TYPE_P(deliveryDelay) != IS_NULL)) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_queue_exceptions_deliverydelaynotsupportedexception_ce, "The Memory transport does not support a delivery delay", "phalcon/Queue/Adapter/Memory/MemoryProducer.zep", 88);
+		return;
+	}
+	RETURN_THISW();
+}
+
+/**
+ * @throws PriorityNotSupportedException when a non-null priority is set.
+ */
+PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryProducer, setPriority)
+{
+	zval *priority = NULL, priority_sub, __$null;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&priority_sub);
+	ZVAL_NULL(&__$null);
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL_OR_NULL(priority)
+	ZEND_PARSE_PARAMETERS_END();
+	zephir_fetch_params_without_memory_grow(0, 1, &priority);
+	if (!priority) {
+		priority = &priority_sub;
+		priority = &__$null;
+	}
+	if (UNEXPECTED(Z_TYPE_P(priority) != IS_NULL)) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_queue_exceptions_prioritynotsupportedexception_ce, "The Memory transport does not support message priority", "phalcon/Queue/Adapter/Memory/MemoryProducer.zep", 102);
+		return;
+	}
+	RETURN_THISW();
+}
+
+/**
+ * @throws TimeToLiveNotSupportedException when a non-null TTL is set.
+ */
+PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryProducer, setTimeToLive)
+{
+	zval *timeToLive = NULL, timeToLive_sub, __$null;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&timeToLive_sub);
+	ZVAL_NULL(&__$null);
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL_OR_NULL(timeToLive)
+	ZEND_PARSE_PARAMETERS_END();
+	zephir_fetch_params_without_memory_grow(0, 1, &timeToLive);
+	if (!timeToLive) {
+		timeToLive = &timeToLive_sub;
+		timeToLive = &__$null;
+	}
+	if (UNEXPECTED(Z_TYPE_P(timeToLive) != IS_NULL)) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_queue_exceptions_timetolivenotsupportedexception_ce, "The Memory transport does not support a time to live", "phalcon/Queue/Adapter/Memory/MemoryProducer.zep", 116);
+		return;
+	}
+	RETURN_THISW();
+}
+

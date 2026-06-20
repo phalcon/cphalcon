@@ -1,0 +1,5 @@
+
+extern zend_class_entry *phalcon_queue_exceptions_invalidmessageexception_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Queue_Exceptions_InvalidMessageException);
+

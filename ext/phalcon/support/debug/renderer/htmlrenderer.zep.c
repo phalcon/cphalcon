@@ -585,7 +585,7 @@ PHP_METHOD(Phalcon_Support_Debug_Renderer_HtmlRenderer, getArrayDump)
 			}
 			ZEPHIR_INIT_NVAR(&value);
 			ZVAL_COPY(&value, _2);
-			if (ZEPHIR_IS_STRING(&value, "")) {
+			if (ZEPHIR_IS_STRING_IDENTICAL(&value, "")) {
 				ZEPHIR_INIT_NVAR(&varDump);
 				ZVAL_STRING(&varDump, "(empty string)");
 			} else if (zephir_is_scalar(&value)) {
@@ -632,7 +632,7 @@ PHP_METHOD(Phalcon_Support_Debug_Renderer_HtmlRenderer, getArrayDump)
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(&value, &argument, "current", NULL, 0);
 			zephir_check_call_status();
-				if (ZEPHIR_IS_STRING(&value, "")) {
+				if (ZEPHIR_IS_STRING_IDENTICAL(&value, "")) {
 					ZEPHIR_INIT_NVAR(&varDump);
 					ZVAL_STRING(&varDump, "(empty string)");
 				} else if (zephir_is_scalar(&value)) {

@@ -1592,7 +1592,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, processSave)
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(&_9$$3);
 			ZVAL_STRING(&_9$$3, "w");
-			ZEPHIR_CALL_FUNCTION(&fp, "fopen", NULL, 243, &file_zv, &_9$$3);
+			ZEPHIR_CALL_FUNCTION(&fp, "fopen", NULL, 244, &file_zv, &_9$$3);
 			zephir_check_call_status();
 			zephir_read_property(&_10$$3, this_ptr, ZEND_STRL("image"), PH_NOISY_CC | PH_READONLY);
 			ZEPHIR_CALL_METHOD(NULL, &_10$$3, "writeimagesfile", NULL, 0, &fp);
