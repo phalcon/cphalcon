@@ -56,7 +56,8 @@ class AdapterFactory extends AbstractFactory
     protected function getServices() -> array
     {
         return [
-            "memory" : "Phalcon\\Queue\\Adapter\\Memory\\MemoryConnectionFactory"
+            "memory" : "Phalcon\\Queue\\Adapter\\Memory\\MemoryConnectionFactory",
+            "stream" : "Phalcon\\Queue\\Adapter\\Stream\\StreamConnectionFactory"
         ];
     }
 }
