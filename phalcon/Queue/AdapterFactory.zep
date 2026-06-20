@@ -48,8 +48,7 @@ class AdapterFactory extends AbstractFactory
     }
 
     /**
-     * Returns the available adapters. Stream, Redis and Beanstalk are added
-     * in their respective phases.
+     * Returns the available adapters. Beanstalk is added in its phase.
      *
      * @return string[]
      */
@@ -57,6 +56,7 @@ class AdapterFactory extends AbstractFactory
     {
         return [
             "memory" : "Phalcon\\Queue\\Adapter\\Memory\\MemoryConnectionFactory",
+            "redis"  : "Phalcon\\Queue\\Adapter\\Redis\\RedisConnectionFactory",
             "stream" : "Phalcon\\Queue\\Adapter\\Stream\\StreamConnectionFactory"
         ];
     }
