@@ -309,7 +309,7 @@ class HtmlRenderer implements Renderer
         }
 
         if numberArguments >= 10 {
-            return numberArguments;
+            return (string) numberArguments;
         }
 
         let dump = [];
@@ -359,7 +359,7 @@ class HtmlRenderer implements Renderer
         }
 
         if is_scalar(variable) {
-            return variable;
+            return (string) variable;
         }
 
         if typeof variable == "object" {

@@ -518,13 +518,14 @@ PHP_METHOD(Phalcon_Support_Debug_Renderer_HtmlRenderer, escapeString)
  */
 PHP_METHOD(Phalcon_Support_Debug_Renderer_HtmlRenderer, getArrayDump)
 {
-	zend_string *_3;
-	zend_ulong _2;
-	zend_bool _0, _11;
+	zval _1$$4;
+	zend_string *_4;
+	zend_ulong _3;
+	zend_bool _0, _12;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_4 = NULL, *_7 = NULL;
+	zephir_fcall_cache_entry *_5 = NULL, *_8 = NULL;
 	zend_long number, ZEPHIR_LAST_CALL_STATUS;
-	zval *argument_param = NULL, *number_param = NULL, numberArguments, dump, varDump, key, value, *_1, _10, _5$$8, _6$$8, _8$$9, _9$$5, _12$$15, _13$$15, _14$$16, _15$$12;
+	zval *argument_param = NULL, *number_param = NULL, numberArguments, dump, varDump, key, value, *_2, _11, _6$$8, _7$$8, _9$$9, _10$$5, _13$$15, _14$$15, _15$$16, _16$$12;
 	zval argument;
 	zval *this_ptr = getThis();
 
@@ -534,15 +535,16 @@ PHP_METHOD(Phalcon_Support_Debug_Renderer_HtmlRenderer, getArrayDump)
 	ZVAL_UNDEF(&varDump);
 	ZVAL_UNDEF(&key);
 	ZVAL_UNDEF(&value);
-	ZVAL_UNDEF(&_10);
-	ZVAL_UNDEF(&_5$$8);
+	ZVAL_UNDEF(&_11);
 	ZVAL_UNDEF(&_6$$8);
-	ZVAL_UNDEF(&_8$$9);
-	ZVAL_UNDEF(&_9$$5);
-	ZVAL_UNDEF(&_12$$15);
+	ZVAL_UNDEF(&_7$$8);
+	ZVAL_UNDEF(&_9$$9);
+	ZVAL_UNDEF(&_10$$5);
 	ZVAL_UNDEF(&_13$$15);
-	ZVAL_UNDEF(&_14$$16);
-	ZVAL_UNDEF(&_15$$12);
+	ZVAL_UNDEF(&_14$$15);
+	ZVAL_UNDEF(&_15$$16);
+	ZVAL_UNDEF(&_16$$12);
+	ZVAL_UNDEF(&_1$$4);
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		ZEPHIR_Z_PARAM_ARRAY(argument, argument_param)
 		Z_PARAM_OPTIONAL
@@ -566,63 +568,64 @@ PHP_METHOD(Phalcon_Support_Debug_Renderer_HtmlRenderer, getArrayDump)
 		RETURN_MM_NULL();
 	}
 	if (ZEPHIR_GE_LONG(&numberArguments, 10)) {
-		RETURN_CCTOR(&numberArguments);
+		zephir_cast_to_string(&_1$$4, &numberArguments);
+		RETURN_CTOR(&_1$$4);
 	}
 	ZEPHIR_INIT_VAR(&dump);
 	array_init(&dump);
 	zephir_is_iterable(&argument, 0, "phalcon/Support/Debug/Renderer/HtmlRenderer.zep", 274);
 	if (Z_TYPE_P(&argument) == IS_ARRAY) {
-		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&argument), _2, _3, _1)
+		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&argument), _3, _4, _2)
 		{
 			ZEPHIR_INIT_NVAR(&key);
-			if (_3 != NULL) { 
-				ZVAL_STR_COPY(&key, _3);
+			if (_4 != NULL) { 
+				ZVAL_STR_COPY(&key, _4);
 			} else {
-				ZVAL_LONG(&key, _2);
+				ZVAL_LONG(&key, _3);
 			}
 			ZEPHIR_INIT_NVAR(&value);
-			ZVAL_COPY(&value, _1);
+			ZVAL_COPY(&value, _2);
 			if (ZEPHIR_IS_STRING(&value, "")) {
 				ZEPHIR_INIT_NVAR(&varDump);
 				ZVAL_STRING(&varDump, "(empty string)");
 			} else if (zephir_is_scalar(&value)) {
-				ZEPHIR_CALL_METHOD(&varDump, this_ptr, "escapestring", &_4, 0, &value);
+				ZEPHIR_CALL_METHOD(&varDump, this_ptr, "escapestring", &_5, 0, &value);
 				zephir_check_call_status();
 			} else if (Z_TYPE_P(&value) == IS_ARRAY) {
-				ZVAL_LONG(&_6$$8, (number + 1));
-				ZEPHIR_CALL_METHOD(&_5$$8, this_ptr, "getarraydump", &_7, 0, &value, &_6$$8);
+				ZVAL_LONG(&_7$$8, (number + 1));
+				ZEPHIR_CALL_METHOD(&_6$$8, this_ptr, "getarraydump", &_8, 0, &value, &_7$$8);
 				zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(&varDump);
-				ZEPHIR_CONCAT_SVS(&varDump, "Array(", &_5$$8, ")");
+				ZEPHIR_CONCAT_SVS(&varDump, "Array(", &_6$$8, ")");
 			} else if (Z_TYPE_P(&value) == IS_OBJECT) {
-				ZEPHIR_INIT_NVAR(&_8$$9);
-				zephir_get_class(&_8$$9, &value, 0);
+				ZEPHIR_INIT_NVAR(&_9$$9);
+				zephir_get_class(&_9$$9, &value, 0);
 				ZEPHIR_INIT_NVAR(&varDump);
-				ZEPHIR_CONCAT_SVS(&varDump, "Object(", &_8$$9, ")");
+				ZEPHIR_CONCAT_SVS(&varDump, "Object(", &_9$$9, ")");
 			} else if (Z_TYPE_P(&value) == IS_NULL) {
 				ZEPHIR_INIT_NVAR(&varDump);
 				ZVAL_STRING(&varDump, "null");
 			} else {
 				ZEPHIR_CPY_WRT(&varDump, &value);
 			}
-			ZEPHIR_INIT_NVAR(&_9$$5);
-			ZEPHIR_CONCAT_SVSV(&_9$$5, "[", &key, "] =&gt; ", &varDump);
-			zephir_array_append(&dump, &_9$$5, PH_SEPARATE, "phalcon/Support/Debug/Renderer/HtmlRenderer.zep", 271);
+			ZEPHIR_INIT_NVAR(&_10$$5);
+			ZEPHIR_CONCAT_SVSV(&_10$$5, "[", &key, "] =&gt; ", &varDump);
+			zephir_array_append(&dump, &_10$$5, PH_SEPARATE, "phalcon/Support/Debug/Renderer/HtmlRenderer.zep", 271);
 		} ZEND_HASH_FOREACH_END();
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, &argument, "rewind", NULL, 0);
 		zephir_check_call_status();
-		_11 = 1;
+		_12 = 1;
 		while (1) {
-			if (_11) {
-				_11 = 0;
+			if (_12) {
+				_12 = 0;
 			} else {
 				ZEPHIR_CALL_METHOD(NULL, &argument, "next", NULL, 0);
 				zephir_check_call_status();
 			}
-			ZEPHIR_CALL_METHOD(&_10, &argument, "valid", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_11, &argument, "valid", NULL, 0);
 			zephir_check_call_status();
-			if (!zend_is_true(&_10)) {
+			if (!zend_is_true(&_11)) {
 				break;
 			}
 			ZEPHIR_CALL_METHOD(&key, &argument, "key", NULL, 0);
@@ -633,28 +636,28 @@ PHP_METHOD(Phalcon_Support_Debug_Renderer_HtmlRenderer, getArrayDump)
 					ZEPHIR_INIT_NVAR(&varDump);
 					ZVAL_STRING(&varDump, "(empty string)");
 				} else if (zephir_is_scalar(&value)) {
-					ZEPHIR_CALL_METHOD(&varDump, this_ptr, "escapestring", &_4, 0, &value);
+					ZEPHIR_CALL_METHOD(&varDump, this_ptr, "escapestring", &_5, 0, &value);
 					zephir_check_call_status();
 				} else if (Z_TYPE_P(&value) == IS_ARRAY) {
-					ZVAL_LONG(&_13$$15, (number + 1));
-					ZEPHIR_CALL_METHOD(&_12$$15, this_ptr, "getarraydump", &_7, 0, &value, &_13$$15);
+					ZVAL_LONG(&_14$$15, (number + 1));
+					ZEPHIR_CALL_METHOD(&_13$$15, this_ptr, "getarraydump", &_8, 0, &value, &_14$$15);
 					zephir_check_call_status();
 					ZEPHIR_INIT_NVAR(&varDump);
-					ZEPHIR_CONCAT_SVS(&varDump, "Array(", &_12$$15, ")");
+					ZEPHIR_CONCAT_SVS(&varDump, "Array(", &_13$$15, ")");
 				} else if (Z_TYPE_P(&value) == IS_OBJECT) {
-					ZEPHIR_INIT_NVAR(&_14$$16);
-					zephir_get_class(&_14$$16, &value, 0);
+					ZEPHIR_INIT_NVAR(&_15$$16);
+					zephir_get_class(&_15$$16, &value, 0);
 					ZEPHIR_INIT_NVAR(&varDump);
-					ZEPHIR_CONCAT_SVS(&varDump, "Object(", &_14$$16, ")");
+					ZEPHIR_CONCAT_SVS(&varDump, "Object(", &_15$$16, ")");
 				} else if (Z_TYPE_P(&value) == IS_NULL) {
 					ZEPHIR_INIT_NVAR(&varDump);
 					ZVAL_STRING(&varDump, "null");
 				} else {
 					ZEPHIR_CPY_WRT(&varDump, &value);
 				}
-				ZEPHIR_INIT_NVAR(&_15$$12);
-				ZEPHIR_CONCAT_SVSV(&_15$$12, "[", &key, "] =&gt; ", &varDump);
-				zephir_array_append(&dump, &_15$$12, PH_SEPARATE, "phalcon/Support/Debug/Renderer/HtmlRenderer.zep", 271);
+				ZEPHIR_INIT_NVAR(&_16$$12);
+				ZEPHIR_CONCAT_SVSV(&_16$$12, "[", &key, "] =&gt; ", &varDump);
+				zephir_array_append(&dump, &_16$$12, PH_SEPARATE, "phalcon/Support/Debug/Renderer/HtmlRenderer.zep", 271);
 		}
 	}
 	ZEPHIR_INIT_NVAR(&value);
@@ -672,16 +675,18 @@ PHP_METHOD(Phalcon_Support_Debug_Renderer_HtmlRenderer, getArrayDump)
  */
 PHP_METHOD(Phalcon_Support_Debug_Renderer_HtmlRenderer, getVarDump)
 {
+	zval _0$$6;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *variable, variable_sub, className, dumpedObject, _0$$8, _1$$9;
+	zval *variable, variable_sub, className, dumpedObject, _1$$8, _2$$9;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&variable_sub);
 	ZVAL_UNDEF(&className);
 	ZVAL_UNDEF(&dumpedObject);
-	ZVAL_UNDEF(&_0$$8);
-	ZVAL_UNDEF(&_1$$9);
+	ZVAL_UNDEF(&_1$$8);
+	ZVAL_UNDEF(&_2$$9);
+	ZVAL_UNDEF(&_0$$6);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(variable)
 	ZEND_PARSE_PARAMETERS_END();
@@ -700,8 +705,8 @@ PHP_METHOD(Phalcon_Support_Debug_Renderer_HtmlRenderer, getVarDump)
 		RETURN_MM();
 	}
 	if (zephir_is_scalar(variable)) {
-		RETVAL_ZVAL(variable, 1, 0);
-		RETURN_MM();
+		zephir_cast_to_string(&_0$$6, variable);
+		RETURN_CTOR(&_0$$6);
 	}
 	if (Z_TYPE_P(variable) == IS_OBJECT) {
 		ZEPHIR_INIT_VAR(&className);
@@ -709,18 +714,18 @@ PHP_METHOD(Phalcon_Support_Debug_Renderer_HtmlRenderer, getVarDump)
 		if ((zephir_method_exists_ex(variable, ZEND_STRL("dump")) == SUCCESS)) {
 			ZEPHIR_CALL_METHOD(&dumpedObject, variable, "dump", NULL, 0);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&_0$$8, this_ptr, "getarraydump", NULL, 0, &dumpedObject);
+			ZEPHIR_CALL_METHOD(&_1$$8, this_ptr, "getarraydump", NULL, 0, &dumpedObject);
 			zephir_check_call_status();
-			ZEPHIR_CONCAT_SVSVS(return_value, "Object(", &className, ": ", &_0$$8, ")");
+			ZEPHIR_CONCAT_SVSVS(return_value, "Object(", &className, ": ", &_1$$8, ")");
 			RETURN_MM();
 		}
 		ZEPHIR_CONCAT_SVS(return_value, "Object(", &className, ")");
 		RETURN_MM();
 	}
 	if (Z_TYPE_P(variable) == IS_ARRAY) {
-		ZEPHIR_CALL_METHOD(&_1$$9, this_ptr, "getarraydump", NULL, 0, variable);
+		ZEPHIR_CALL_METHOD(&_2$$9, this_ptr, "getarraydump", NULL, 0, variable);
 		zephir_check_call_status();
-		ZEPHIR_CONCAT_SVS(return_value, "Array(", &_1$$9, ")");
+		ZEPHIR_CONCAT_SVS(return_value, "Array(", &_2$$9, ")");
 		RETURN_MM();
 	}
 	if (Z_TYPE_P(variable) == IS_NULL) {
