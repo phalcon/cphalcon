@@ -180,7 +180,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamSubscriptionConsumer, consume)
 			RETURN_MM_NULL();
 		}
 		ZVAL_LONG(&_10$$4, sleep);
-		ZEPHIR_CALL_FUNCTION(NULL, "usleep", &_11, 188, &_10$$4);
+		ZEPHIR_CALL_FUNCTION(NULL, "usleep", &_11, 127, &_10$$4);
 		zephir_check_call_status();
 	}
 	ZEPHIR_MM_RESTORE();

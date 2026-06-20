@@ -556,7 +556,7 @@ PHP_METHOD(Phalcon_Support_Debug, setBlacklist)
 	array_init(&_0);
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "request");
-	ZEPHIR_CALL_METHOD(&area, &getter, "__invoke", NULL, 13, &blacklist, &_1, &_0);
+	ZEPHIR_CALL_METHOD(&area, &getter, "__invoke", NULL, 16, &blacklist, &_1, &_0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&subArray);
 	array_init(&subArray);
@@ -568,7 +568,7 @@ PHP_METHOD(Phalcon_Support_Debug, setBlacklist)
 		{
 			ZEPHIR_INIT_NVAR(&value);
 			ZVAL_COPY(&value, _2);
-			ZEPHIR_CALL_FUNCTION(&_3$$3, "mb_strtolower", &_4, 12, &value);
+			ZEPHIR_CALL_FUNCTION(&_3$$3, "mb_strtolower", &_4, 15, &value);
 			zephir_check_call_status();
 			ZEPHIR_CPY_WRT(&value, &_3$$3);
 			ZEPHIR_INIT_NVAR(&_5$$3);
@@ -593,7 +593,7 @@ PHP_METHOD(Phalcon_Support_Debug, setBlacklist)
 			}
 			ZEPHIR_CALL_METHOD(&value, &area, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_CALL_FUNCTION(&_8$$4, "mb_strtolower", &_4, 12, &value);
+				ZEPHIR_CALL_FUNCTION(&_8$$4, "mb_strtolower", &_4, 15, &value);
 				zephir_check_call_status();
 				ZEPHIR_CPY_WRT(&value, &_8$$4);
 				ZEPHIR_INIT_NVAR(&_9$$4);
@@ -607,7 +607,7 @@ PHP_METHOD(Phalcon_Support_Debug, setBlacklist)
 	array_init(&_1);
 	ZEPHIR_INIT_VAR(&_10);
 	ZVAL_STRING(&_10, "server");
-	ZEPHIR_CALL_METHOD(&area, &getter, "__invoke", NULL, 13, &blacklist, &_10, &_1);
+	ZEPHIR_CALL_METHOD(&area, &getter, "__invoke", NULL, 16, &blacklist, &_10, &_1);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&subArray);
 	array_init(&subArray);
@@ -617,7 +617,7 @@ PHP_METHOD(Phalcon_Support_Debug, setBlacklist)
 		{
 			ZEPHIR_INIT_NVAR(&value);
 			ZVAL_COPY(&value, _11);
-			ZEPHIR_CALL_FUNCTION(&_12$$5, "mb_strtolower", &_4, 12, &value);
+			ZEPHIR_CALL_FUNCTION(&_12$$5, "mb_strtolower", &_4, 15, &value);
 			zephir_check_call_status();
 			ZEPHIR_CPY_WRT(&value, &_12$$5);
 			ZEPHIR_INIT_NVAR(&_13$$5);
@@ -642,7 +642,7 @@ PHP_METHOD(Phalcon_Support_Debug, setBlacklist)
 			}
 			ZEPHIR_CALL_METHOD(&value, &area, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_CALL_FUNCTION(&_16$$6, "mb_strtolower", &_4, 12, &value);
+				ZEPHIR_CALL_FUNCTION(&_16$$6, "mb_strtolower", &_4, 15, &value);
 				zephir_check_call_status();
 				ZEPHIR_CPY_WRT(&value, &_16$$6);
 				ZEPHIR_INIT_NVAR(&_17$$6);

@@ -294,7 +294,7 @@ PHP_METHOD(Phalcon_Queue_Consumer_QueueConsumer, consumeOnce)
 	if (!(handled)) {
 		zephir_read_property(&_12$$11, this_ptr, ZEND_STRL("pollInterval"), PH_NOISY_CC | PH_READONLY);
 		ZVAL_LONG(&_13$$11, (zephir_get_numberval(&_12$$11) * 1000));
-		ZEPHIR_CALL_FUNCTION(NULL, "usleep", NULL, 188, &_13$$11);
+		ZEPHIR_CALL_FUNCTION(NULL, "usleep", NULL, 127, &_13$$11);
 		zephir_check_call_status();
 	}
 	RETURN_MM_BOOL(handled);

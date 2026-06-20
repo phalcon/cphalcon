@@ -420,7 +420,7 @@ PHP_METHOD(Phalcon_Auth_Guard_Session, login)
 			ZVAL_STRING(&_7$$4, "Adapter");
 			ZEPHIR_INIT_VAR(&_8$$4);
 			ZVAL_STRING(&_8$$4, "RememberAdapter");
-			ZEPHIR_CALL_METHOD(NULL, &_6$$4, "__construct", NULL, 146, &_7$$4, &_8$$4);
+			ZEPHIR_CALL_METHOD(NULL, &_6$$4, "__construct", NULL, 147, &_7$$4, &_8$$4);
 			zephir_check_call_status();
 			zephir_throw_exception_debug(&_6$$4, "phalcon/Auth/Guard/Session.zep", 195);
 			ZEPHIR_MM_RESTORE();

@@ -116,7 +116,7 @@ PHP_METHOD(Phalcon_Filter_Validation, __construct)
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, phalcon_messages_messages_ce);
-	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 10);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 13);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("messages"), &_0);
 	ZEPHIR_INIT_VAR(&_1);
@@ -415,7 +415,7 @@ PHP_METHOD(Phalcon_Filter_Validation, bind)
 					zephir_check_call_status();
 				} else {
 					zephir_read_property(&_18$$8, this_ptr, ZEND_STRL("entity"), PH_NOISY_CC | PH_READONLY);
-					ZEPHIR_CALL_FUNCTION(&_19$$8, "property_exists", &_20, 14, &_18$$8, &field);
+					ZEPHIR_CALL_FUNCTION(&_19$$8, "property_exists", &_20, 9, &_18$$8, &field);
 					zephir_check_call_status();
 					if (zephir_is_true(&_19$$8)) {
 						zephir_update_property_zval_zval(entity, &field, &value);
@@ -474,7 +474,7 @@ PHP_METHOD(Phalcon_Filter_Validation, bind)
 						zephir_check_call_status();
 					} else {
 						zephir_read_property(&_29$$15, this_ptr, ZEND_STRL("entity"), PH_NOISY_CC | PH_READONLY);
-						ZEPHIR_CALL_FUNCTION(&_30$$15, "property_exists", &_20, 14, &_29$$15, &field);
+						ZEPHIR_CALL_FUNCTION(&_30$$15, "property_exists", &_20, 9, &_29$$15, &field);
 						zephir_check_call_status();
 						if (zephir_is_true(&_30$$15)) {
 							zephir_update_property_zval_zval(entity, &field, &value);
@@ -826,7 +826,7 @@ PHP_METHOD(Phalcon_Filter_Validation, getValue)
 					ZEPHIR_CALL_METHOD(NULL, &entity, "writeattribute", NULL, 0, &field_zv, &value);
 					zephir_check_call_status();
 				} else {
-					ZEPHIR_CALL_FUNCTION(&_9$$13, "property_exists", NULL, 14, &entity, &field_zv);
+					ZEPHIR_CALL_FUNCTION(&_9$$13, "property_exists", NULL, 9, &entity, &field_zv);
 					zephir_check_call_status();
 					if (zephir_is_true(&_9$$13)) {
 						zephir_update_property_zval_zval(&entity, &field_zv, &value);
@@ -1218,7 +1218,7 @@ PHP_METHOD(Phalcon_Filter_Validation, validate)
 	zephir_update_property_zval(this_ptr, ZEND_STRL("values"), &_2);
 	ZEPHIR_INIT_VAR(&_3);
 	object_init_ex(&_3, phalcon_messages_messages_ce);
-	ZEPHIR_CALL_METHOD(NULL, &_3, "__construct", NULL, 10);
+	ZEPHIR_CALL_METHOD(NULL, &_3, "__construct", NULL, 13);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("messages"), &_3);
 	if (Z_TYPE_P(data) != IS_NULL) {

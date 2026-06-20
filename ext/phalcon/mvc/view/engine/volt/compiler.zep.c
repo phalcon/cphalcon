@@ -490,7 +490,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile)
 			ZEPHIR_INIT_VAR(&_1$$4);
 			ZVAL_STRING(&_1$$4, "The 'compileAlways' option is deprecated. Use 'always' instead.");
 			ZVAL_LONG(&_2$$4, 16384);
-			ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", NULL, 15, &_1$$4, &_2$$4);
+			ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", NULL, 10, &_1$$4, &_2$$4);
 			zephir_check_call_status();
 		} else {
 			ZEPHIR_INIT_NVAR(&compileAlways);
@@ -535,7 +535,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile)
 			ZEPHIR_INIT_VAR(&_9$$10);
 			ZVAL_STRING(&_9$$10, "The 'compiledPath' option is deprecated. Use 'path' instead.");
 			ZVAL_LONG(&_10$$10, 16384);
-			ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", NULL, 15, &_9$$10, &_10$$10);
+			ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", NULL, 10, &_9$$10, &_10$$10);
 			zephir_check_call_status();
 		} else {
 			ZEPHIR_INIT_NVAR(&compiledPath);
@@ -549,7 +549,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile)
 			ZEPHIR_INIT_VAR(&_11$$13);
 			ZVAL_STRING(&_11$$13, "The 'compiledSeparator' option is deprecated. Use 'separator' instead.");
 			ZVAL_LONG(&_12$$13, 16384);
-			ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", NULL, 15, &_11$$13, &_12$$13);
+			ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", NULL, 10, &_11$$13, &_12$$13);
 			zephir_check_call_status();
 		} else {
 			ZEPHIR_INIT_NVAR(&compiledSeparator);
@@ -576,7 +576,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile)
 			ZEPHIR_INIT_VAR(&_16$$17);
 			ZVAL_STRING(&_16$$17, "The 'compiledExtension' option is deprecated. Use 'extension' instead.");
 			ZVAL_LONG(&_17$$17, 16384);
-			ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", NULL, 15, &_16$$17, &_17$$17);
+			ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", NULL, 10, &_16$$17, &_17$$17);
 			zephir_check_call_status();
 		} else {
 			ZEPHIR_INIT_NVAR(&compiledExtension);
@@ -603,7 +603,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile)
 	}
 	if (Z_TYPE_P(&compiledPath) == IS_STRING) {
 		if (!(ZEPHIR_IS_EMPTY(&compiledPath))) {
-			ZEPHIR_CALL_FUNCTION(&_22$$22, "realpath", NULL, 144, &templatePath_zv);
+			ZEPHIR_CALL_FUNCTION(&_22$$22, "realpath", NULL, 145, &templatePath_zv);
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(&templateSepPath);
 			zephir_prepare_virtual_path(&templateSepPath, &_22$$22, &compiledSeparator);
@@ -3056,7 +3056,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, functionCall)
 		}
 		ZEPHIR_INIT_VAR(&_15$$5);
 		zephir_camelize(&_15$$5, &name, NULL );
-		ZEPHIR_CALL_FUNCTION(&method, "lcfirst", NULL, 151, &_15$$5);
+		ZEPHIR_CALL_FUNCTION(&method, "lcfirst", NULL, 152, &_15$$5);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&arrayHelpers);
 		zephir_create_array(&arrayHelpers, 16, 0);

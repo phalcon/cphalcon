@@ -1950,7 +1950,7 @@ PHP_METHOD(Phalcon_Support_Collection, extractValue)
 			zephir_check_call_status();
 			RETURN_MM();
 		}
-		ZEPHIR_CALL_FUNCTION(&_1$$4, "property_exists", NULL, 14, item, &propertyOrMethod_zv);
+		ZEPHIR_CALL_FUNCTION(&_1$$4, "property_exists", NULL, 9, item, &propertyOrMethod_zv);
 		zephir_check_call_status();
 		if (zephir_is_true(&_1$$4)) {
 			zephir_memory_observe(&_2$$6);
@@ -1984,7 +1984,7 @@ PHP_METHOD(Phalcon_Support_Collection, processKey)
 	ZVAL_STR_COPY(&element_zv, element);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("insensitive"), PH_NOISY_CC | PH_READONLY);
 	if (ZEPHIR_IS_TRUE_IDENTICAL(&_0)) {
-		ZEPHIR_RETURN_CALL_FUNCTION("mb_strtolower", NULL, 12, &element_zv);
+		ZEPHIR_RETURN_CALL_FUNCTION("mb_strtolower", NULL, 15, &element_zv);
 		zephir_check_call_status();
 		RETURN_MM();
 	}

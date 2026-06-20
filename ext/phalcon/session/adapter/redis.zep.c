@@ -367,7 +367,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Redis, acquireLock)
 			RETURN_MM_BOOL(1);
 		}
 		zephir_read_property(&_13$$4, this_ptr, ZEND_STRL("lockWaitTime"), PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_CALL_FUNCTION(NULL, "usleep", &_14, 188, &_13$$4);
+		ZEPHIR_CALL_FUNCTION(NULL, "usleep", &_14, 127, &_13$$4);
 		zephir_check_call_status();
 		attempt++;
 	}

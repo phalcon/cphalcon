@@ -3861,7 +3861,7 @@ PHP_METHOD(Phalcon_Http_Request, getQualityHeader)
 	ZVAL_STRING(&_1, "/,\\s*/");
 	ZVAL_LONG(&_2, -1);
 	ZVAL_LONG(&_3, 1);
-	ZEPHIR_CALL_FUNCTION(&parts, "preg_split", NULL, 137, &_1, &serverValue, &_2, &_3);
+	ZEPHIR_CALL_FUNCTION(&parts, "preg_split", NULL, 138, &_1, &serverValue, &_2, &_3);
 	zephir_check_call_status();
 	zephir_is_iterable(&parts, 0, "phalcon/Http/Request.zep", 1605);
 	if (Z_TYPE_P(&parts) == IS_ARRAY) {
@@ -3877,7 +3877,7 @@ PHP_METHOD(Phalcon_Http_Request, getQualityHeader)
 			ZVAL_STRING(&_6$$3, "/\\s*;\\s*/");
 			ZVAL_LONG(&_7$$3, -1);
 			ZVAL_LONG(&_8$$3, 1);
-			ZEPHIR_CALL_FUNCTION(&headerSplit, "preg_split", NULL, 137, &_6$$3, &_5$$3, &_7$$3, &_8$$3);
+			ZEPHIR_CALL_FUNCTION(&headerSplit, "preg_split", NULL, 138, &_6$$3, &_5$$3, &_7$$3, &_8$$3);
 			zephir_check_call_status();
 			zephir_is_iterable(&headerSplit, 0, "phalcon/Http/Request.zep", 1602);
 			if (Z_TYPE_P(&headerSplit) == IS_ARRAY) {
@@ -3987,7 +3987,7 @@ PHP_METHOD(Phalcon_Http_Request, getQualityHeader)
 				ZVAL_STRING(&_31$$14, "/\\s*;\\s*/");
 				ZVAL_LONG(&_32$$14, -1);
 				ZVAL_LONG(&_33$$14, 1);
-				ZEPHIR_CALL_FUNCTION(&headerSplit, "preg_split", NULL, 137, &_31$$14, &_30$$14, &_32$$14, &_33$$14);
+				ZEPHIR_CALL_FUNCTION(&headerSplit, "preg_split", NULL, 138, &_31$$14, &_30$$14, &_32$$14, &_33$$14);
 				zephir_check_call_status();
 				zephir_is_iterable(&headerSplit, 0, "phalcon/Http/Request.zep", 1602);
 				if (Z_TYPE_P(&headerSplit) == IS_ARRAY) {
@@ -4966,7 +4966,7 @@ PHP_METHOD(Phalcon_Http_Request, getFormData)
 	ZEPHIR_CONCAT_SVS(&_6, "/\\R?-+", &_5, "/s");
 	ZEPHIR_CALL_METHOD(&_7, this_ptr, "getrawbody", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&bodyParts, "preg_split", NULL, 137, &_6, &_7);
+	ZEPHIR_CALL_FUNCTION(&bodyParts, "preg_split", NULL, 138, &_6, &_7);
 	zephir_check_call_status();
 	ZEPHIR_MAKE_REF(&bodyParts);
 	ZEPHIR_CALL_FUNCTION(NULL, "array_pop", NULL, 0, &bodyParts);
@@ -4986,7 +4986,7 @@ PHP_METHOD(Phalcon_Http_Request, getFormData)
 			ZEPHIR_INIT_NVAR(&_9$$3);
 			ZVAL_STRING(&_9$$3, "/\\R\\R/");
 			ZVAL_LONG(&_10$$3, 2);
-			ZEPHIR_CALL_FUNCTION(&splited$$3, "preg_split", NULL, 137, &_9$$3, &bodyPart, &_10$$3);
+			ZEPHIR_CALL_FUNCTION(&splited$$3, "preg_split", NULL, 138, &_9$$3, &bodyPart, &_10$$3);
 			zephir_check_call_status();
 			ZEPHIR_CPY_WRT(&splited$$3, &splited$$3);
 			ZEPHIR_INIT_NVAR(&headers$$3);
@@ -4996,7 +4996,7 @@ PHP_METHOD(Phalcon_Http_Request, getFormData)
 			ZVAL_STRING(&_9$$3, "/\\R/s");
 			ZVAL_LONG(&_10$$3, -1);
 			ZVAL_LONG(&_12$$3, 1);
-			ZEPHIR_CALL_FUNCTION(&headerParts$$3, "preg_split", NULL, 137, &_9$$3, &_11$$3, &_10$$3, &_12$$3);
+			ZEPHIR_CALL_FUNCTION(&headerParts$$3, "preg_split", NULL, 138, &_9$$3, &_11$$3, &_10$$3, &_12$$3);
 			zephir_check_call_status();
 			ZEPHIR_CPY_WRT(&headerParts$$3, &headerParts$$3);
 			zephir_is_iterable(&headerParts$$3, 0, "phalcon/Http/Request.zep", 1915);
@@ -5203,7 +5203,7 @@ PHP_METHOD(Phalcon_Http_Request, getFormData)
 				ZEPHIR_INIT_NVAR(&_54$$19);
 				ZVAL_STRING(&_54$$19, "/\\R\\R/");
 				ZVAL_LONG(&_55$$19, 2);
-				ZEPHIR_CALL_FUNCTION(&splited$$19, "preg_split", NULL, 137, &_54$$19, &bodyPart, &_55$$19);
+				ZEPHIR_CALL_FUNCTION(&splited$$19, "preg_split", NULL, 138, &_54$$19, &bodyPart, &_55$$19);
 				zephir_check_call_status();
 				ZEPHIR_CPY_WRT(&splited$$19, &splited$$19);
 				ZEPHIR_INIT_NVAR(&headers$$19);
@@ -5213,7 +5213,7 @@ PHP_METHOD(Phalcon_Http_Request, getFormData)
 				ZVAL_STRING(&_54$$19, "/\\R/s");
 				ZVAL_LONG(&_55$$19, -1);
 				ZVAL_LONG(&_57$$19, 1);
-				ZEPHIR_CALL_FUNCTION(&headerParts$$19, "preg_split", NULL, 137, &_54$$19, &_56$$19, &_55$$19, &_57$$19);
+				ZEPHIR_CALL_FUNCTION(&headerParts$$19, "preg_split", NULL, 138, &_54$$19, &_56$$19, &_55$$19, &_57$$19);
 				zephir_check_call_status();
 				ZEPHIR_CPY_WRT(&headerParts$$19, &headerParts$$19);
 				zephir_is_iterable(&headerParts$$19, 0, "phalcon/Http/Request.zep", 1915);

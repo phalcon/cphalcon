@@ -123,16 +123,16 @@ PHP_METHOD(Phalcon_Queue_AdapterFactory, getExceptionClass)
 }
 
 /**
- * Returns the available adapters. Stream, Redis and Beanstalk are added
- * in their respective phases.
+ * Returns the available adapters. Beanstalk is added in its phase.
  *
  * @return string[]
  */
 PHP_METHOD(Phalcon_Queue_AdapterFactory, getServices)
 {
 
-	zephir_create_array(return_value, 2, 0);
+	zephir_create_array(return_value, 3, 0);
 	add_assoc_stringl_ex(return_value, SL("memory"), SL("Phalcon\\Queue\\Adapter\\Memory\\MemoryConnectionFactory"));
+	add_assoc_stringl_ex(return_value, SL("redis"), SL("Phalcon\\Queue\\Adapter\\Redis\\RedisConnectionFactory"));
 	add_assoc_stringl_ex(return_value, SL("stream"), SL("Phalcon\\Queue\\Adapter\\Stream\\StreamConnectionFactory"));
 	return;
 }

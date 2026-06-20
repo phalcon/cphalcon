@@ -234,7 +234,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, throwWriteException)
 	} else {
 		ZEPHIR_INIT_VAR(&_1$$4);
 		ZVAL_STRING(&_1$$4, "Meta-Data directory cannot be written");
-		ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", NULL, 15, &_1$$4);
+		ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", NULL, 10, &_1$$4);
 		zephir_check_call_status();
 	}
 	ZEPHIR_MM_RESTORE();

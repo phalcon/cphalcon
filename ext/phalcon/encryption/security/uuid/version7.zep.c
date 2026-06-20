@@ -122,7 +122,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_Version7, __construct)
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_16);
 	ZVAL_STRING(&_16, "%08x-%04x-%04x-%04x-%s");
-	ZEPHIR_CALL_FUNCTION(&_17, "sprintf", NULL, 132, &_16, &timeHigh32, &timeLow16, &verRandA, &varRandB, &_15);
+	ZEPHIR_CALL_FUNCTION(&_17, "sprintf", NULL, 133, &_16, &timeHigh32, &timeLow16, &verRandA, &varRandB, &_15);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("uid"), &_17);
 	ZEPHIR_MM_RESTORE();

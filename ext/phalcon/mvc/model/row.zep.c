@@ -82,7 +82,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetExists)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &index);
-	ZEPHIR_RETURN_CALL_FUNCTION("property_exists", NULL, 14, this_ptr, index);
+	ZEPHIR_RETURN_CALL_FUNCTION("property_exists", NULL, 9, this_ptr, index);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -112,7 +112,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetGet)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &index);
-	ZEPHIR_CALL_FUNCTION(&_0, "property_exists", NULL, 14, this_ptr, index);
+	ZEPHIR_CALL_FUNCTION(&_0, "property_exists", NULL, 9, this_ptr, index);
 	zephir_check_call_status();
 	if (!(zephir_is_true(&_0))) {
 		ZEPHIR_INIT_VAR(&_1$$3);

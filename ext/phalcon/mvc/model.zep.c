@@ -507,7 +507,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __get)
 	}
 	ZEPHIR_INIT_VAR(&_16);
 	ZEPHIR_CONCAT_SVSV(&_16, "Access to undefined property ", &modelName, "::", &property_zv);
-	ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", NULL, 15, &_16);
+	ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", NULL, 10, &_16);
 	zephir_check_call_status();
 	RETURN_MM_NULL();
 }
@@ -829,7 +829,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __set)
 		RETVAL_ZVAL(value, 1, 0);
 		RETURN_MM();
 	}
-	ZEPHIR_CALL_FUNCTION(&_21, "property_exists", NULL, 14, this_ptr, &property_zv);
+	ZEPHIR_CALL_FUNCTION(&_21, "property_exists", NULL, 9, this_ptr, &property_zv);
 	zephir_check_call_status();
 	if (zephir_is_true(&_21)) {
 		ZEPHIR_CALL_METHOD(&manager, this_ptr, "getmodelsmanager", NULL, 0);
@@ -9423,7 +9423,7 @@ PHP_METHOD(Phalcon_Mvc_Model, invokeFinder)
 	if (zephir_array_isset_value(&attributes, &extraMethod)) {
 		ZEPHIR_CPY_WRT(&field, &extraMethod);
 	} else {
-		ZEPHIR_CALL_FUNCTION(&extraMethodFirst, "lcfirst", NULL, 151, &extraMethod);
+		ZEPHIR_CALL_FUNCTION(&extraMethodFirst, "lcfirst", NULL, 152, &extraMethod);
 		zephir_check_call_status();
 		if (zephir_array_isset_value(&attributes, &extraMethodFirst)) {
 			ZEPHIR_CPY_WRT(&field, &extraMethodFirst);

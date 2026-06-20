@@ -149,7 +149,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Model, createRememberToken)
 		ZVAL_STRING(&_1$$3, "User model");
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZVAL_STRING(&_2$$3, "AuthRemember");
-		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 146, &_1$$3, &_2$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 147, &_1$$3, &_2$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_0$$3, "phalcon/Auth/Adapter/Model.zep", 63);
 		ZEPHIR_MM_RESTORE();
@@ -286,7 +286,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Model, retrieveByCredentials)
 		ZVAL_STRING(&_13$$8, "User model");
 		ZEPHIR_INIT_VAR(&_14$$8);
 		ZVAL_STRING(&_14$$8, "AuthUser");
-		ZEPHIR_CALL_METHOD(NULL, &_12$$8, "__construct", NULL, 146, &_13$$8, &_14$$8);
+		ZEPHIR_CALL_METHOD(NULL, &_12$$8, "__construct", NULL, 147, &_13$$8, &_14$$8);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_12$$8, "phalcon/Auth/Adapter/Model.zep", 105);
 		ZEPHIR_MM_RESTORE();
@@ -360,7 +360,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Model, retrieveById)
 		ZVAL_STRING(&_9$$4, "User model");
 		ZEPHIR_INIT_VAR(&_10$$4);
 		ZVAL_STRING(&_10$$4, "AuthUser");
-		ZEPHIR_CALL_METHOD(NULL, &_8$$4, "__construct", NULL, 146, &_9$$4, &_10$$4);
+		ZEPHIR_CALL_METHOD(NULL, &_8$$4, "__construct", NULL, 147, &_9$$4, &_10$$4);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_8$$4, "phalcon/Auth/Adapter/Model.zep", 131);
 		ZEPHIR_MM_RESTORE();
