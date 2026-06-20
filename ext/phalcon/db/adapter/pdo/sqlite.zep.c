@@ -444,7 +444,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns)
 					zephir_array_fetch_long(&_37$$30, &field, 4, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 318);
 					ZEPHIR_INIT_NVAR(&_38$$30);
 					ZVAL_STRING(&_38$$30, "null");
-					ZEPHIR_CALL_FUNCTION(&_39$$30, "strcasecmp", &_40, 76, &_37$$30, &_38$$30);
+					ZEPHIR_CALL_FUNCTION(&_39$$30, "strcasecmp", &_40, 77, &_37$$30, &_38$$30);
 					zephir_check_call_status();
 					_36$$30 = !ZEPHIR_IS_LONG_IDENTICAL(&_39$$30, 0);
 				}
@@ -454,7 +454,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns)
 					ZVAL_STRING(&_42$$31, "/^'|'$/");
 					ZEPHIR_INIT_NVAR(&_43$$31);
 					ZVAL_STRING(&_43$$31, "");
-					ZEPHIR_CALL_FUNCTION(&_44$$31, "preg_replace", &_45, 81, &_42$$31, &_43$$31, &_41$$31);
+					ZEPHIR_CALL_FUNCTION(&_44$$31, "preg_replace", &_45, 82, &_42$$31, &_43$$31, &_41$$31);
 					zephir_check_call_status();
 					zephir_array_update_string(&definition, SL("default"), &_44$$31, PH_COPY | PH_SEPARATE);
 				}
@@ -641,7 +641,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns)
 						zephir_array_fetch_long(&_83$$59, &field, 4, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 318);
 						ZEPHIR_INIT_NVAR(&_84$$59);
 						ZVAL_STRING(&_84$$59, "null");
-						ZEPHIR_CALL_FUNCTION(&_85$$59, "strcasecmp", &_40, 76, &_83$$59, &_84$$59);
+						ZEPHIR_CALL_FUNCTION(&_85$$59, "strcasecmp", &_40, 77, &_83$$59, &_84$$59);
 						zephir_check_call_status();
 						_82$$59 = !ZEPHIR_IS_LONG_IDENTICAL(&_85$$59, 0);
 					}
@@ -651,7 +651,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns)
 						ZVAL_STRING(&_87$$60, "/^'|'$/");
 						ZEPHIR_INIT_NVAR(&_88$$60);
 						ZVAL_STRING(&_88$$60, "");
-						ZEPHIR_CALL_FUNCTION(&_89$$60, "preg_replace", &_45, 81, &_87$$60, &_88$$60, &_86$$60);
+						ZEPHIR_CALL_FUNCTION(&_89$$60, "preg_replace", &_45, 82, &_87$$60, &_88$$60, &_86$$60);
 						zephir_check_call_status();
 						zephir_array_update_string(&definition, SL("default"), &_89$$60, PH_COPY | PH_SEPARATE);
 					}

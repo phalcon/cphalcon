@@ -29,37 +29,37 @@
  * file that was distributed with this source code.
  */
 /**
- * Consumes from several Redis queues at once, round-robin polling each
+ * Consumes from several Beanstalkd tubes at once, round-robin polling each
  * subscribed consumer and dispatching messages to its callback. A callback
  * returning false stops consumption.
  */
-ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_Redis_RedisSubscriptionConsumer)
+ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_Beanstalk_BeanstalkSubscriptionConsumer)
 {
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Queue\\Adapter\\Redis, RedisSubscriptionConsumer, phalcon, queue_adapter_redis_redissubscriptionconsumer, phalcon_queue_adapter_redis_redissubscriptionconsumer_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Queue\\Adapter\\Beanstalk, BeanstalkSubscriptionConsumer, phalcon, queue_adapter_beanstalk_beanstalksubscriptionconsumer, phalcon_queue_adapter_beanstalk_beanstalksubscriptionconsumer_method_entry, 0);
 
 	/**
-	 * @var RedisContext
+	 * @var BeanstalkContext
 	 */
-	zend_declare_property_null(phalcon_queue_adapter_redis_redissubscriptionconsumer_ce, SL("context"), ZEND_ACC_PROTECTED);
+	zend_declare_property_null(phalcon_queue_adapter_beanstalk_beanstalksubscriptionconsumer_ce, SL("context"), ZEND_ACC_PROTECTED);
 	/**
 	 * Milliseconds slept between poll passes.
 	 *
 	 * @var int
 	 */
-	zend_declare_property_long(phalcon_queue_adapter_redis_redissubscriptionconsumer_ce, SL("pollInterval"), 200, ZEND_ACC_PROTECTED);
+	zend_declare_property_long(phalcon_queue_adapter_beanstalk_beanstalksubscriptionconsumer_ce, SL("pollInterval"), 200, ZEND_ACC_PROTECTED);
 	/**
 	 * Subscriptions keyed by queue name: [consumer, callback].
 	 *
 	 * @var array
 	 */
-	zend_declare_property_null(phalcon_queue_adapter_redis_redissubscriptionconsumer_ce, SL("subscriptions"), ZEND_ACC_PROTECTED);
-	phalcon_queue_adapter_redis_redissubscriptionconsumer_ce->create_object = zephir_init_properties_Phalcon_Queue_Adapter_Redis_RedisSubscriptionConsumer;
+	zend_declare_property_null(phalcon_queue_adapter_beanstalk_beanstalksubscriptionconsumer_ce, SL("subscriptions"), ZEND_ACC_PROTECTED);
+	phalcon_queue_adapter_beanstalk_beanstalksubscriptionconsumer_ce->create_object = zephir_init_properties_Phalcon_Queue_Adapter_Beanstalk_BeanstalkSubscriptionConsumer;
 
-	zend_class_implements(phalcon_queue_adapter_redis_redissubscriptionconsumer_ce, 1, phalcon_contracts_queue_subscriptionconsumer_ce);
+	zend_class_implements(phalcon_queue_adapter_beanstalk_beanstalksubscriptionconsumer_ce, 1, phalcon_contracts_queue_subscriptionconsumer_ce);
 	return SUCCESS;
 }
 
-PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisSubscriptionConsumer, __construct)
+PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkSubscriptionConsumer, __construct)
 {
 	zend_long pollInterval;
 	zval *context, context_sub, *pollInterval_param = NULL, _0;
@@ -68,7 +68,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisSubscriptionConsumer, __construct)
 	ZVAL_UNDEF(&context_sub);
 	ZVAL_UNDEF(&_0);
 	ZEND_PARSE_PARAMETERS_START(1, 2)
-		Z_PARAM_OBJECT_OF_CLASS(context, phalcon_queue_adapter_redis_rediscontext_ce)
+		Z_PARAM_OBJECT_OF_CLASS(context, phalcon_queue_adapter_beanstalk_beanstalkcontext_ce)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_LONG(pollInterval)
 	ZEND_PARSE_PARAMETERS_END();
@@ -83,7 +83,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisSubscriptionConsumer, __construct)
 	zephir_update_property_zval(this_ptr, ZEND_STRL("pollInterval"), &_0);
 }
 
-PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisSubscriptionConsumer, consume)
+PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkSubscriptionConsumer, consume)
 {
 	zend_bool _7$$4, _8$$4;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -127,16 +127,16 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisSubscriptionConsumer, consume)
 	startTime = (zephir_get_numberval(&_2) * 1000);
 	while (1) {
 		zephir_read_property(&_3$$4, this_ptr, ZEND_STRL("subscriptions"), PH_NOISY_CC | PH_READONLY);
-		zephir_is_iterable(&_3$$4, 0, "phalcon/Queue/Adapter/Redis/RedisSubscriptionConsumer.zep", 75);
+		zephir_is_iterable(&_3$$4, 0, "phalcon/Queue/Adapter/Beanstalk/BeanstalkSubscriptionConsumer.zep", 75);
 		if (Z_TYPE_P(&_3$$4) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_3$$4), _4$$4)
 			{
 				ZEPHIR_INIT_NVAR(&subscription);
 				ZVAL_COPY(&subscription, _4$$4);
 				ZEPHIR_OBS_NVAR(&consumer);
-				zephir_array_fetch_long(&consumer, &subscription, 0, PH_NOISY, "phalcon/Queue/Adapter/Redis/RedisSubscriptionConsumer.zep", 62);
+				zephir_array_fetch_long(&consumer, &subscription, 0, PH_NOISY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkSubscriptionConsumer.zep", 62);
 				ZEPHIR_OBS_NVAR(&callback);
-				zephir_array_fetch_long(&callback, &subscription, 1, PH_NOISY, "phalcon/Queue/Adapter/Redis/RedisSubscriptionConsumer.zep", 63);
+				zephir_array_fetch_long(&callback, &subscription, 1, PH_NOISY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkSubscriptionConsumer.zep", 63);
 				ZEPHIR_CALL_METHOD(&message, &consumer, "receivenowait", NULL, 0);
 				zephir_check_call_status();
 				if (Z_TYPE_P(&message) != IS_NULL) {
@@ -166,9 +166,9 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisSubscriptionConsumer, consume)
 				ZEPHIR_CALL_METHOD(&subscription, &_3$$4, "current", NULL, 0);
 				zephir_check_call_status();
 					ZEPHIR_OBS_NVAR(&consumer);
-					zephir_array_fetch_long(&consumer, &subscription, 0, PH_NOISY, "phalcon/Queue/Adapter/Redis/RedisSubscriptionConsumer.zep", 62);
+					zephir_array_fetch_long(&consumer, &subscription, 0, PH_NOISY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkSubscriptionConsumer.zep", 62);
 					ZEPHIR_OBS_NVAR(&callback);
-					zephir_array_fetch_long(&callback, &subscription, 1, PH_NOISY, "phalcon/Queue/Adapter/Redis/RedisSubscriptionConsumer.zep", 63);
+					zephir_array_fetch_long(&callback, &subscription, 1, PH_NOISY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkSubscriptionConsumer.zep", 63);
 					ZEPHIR_CALL_METHOD(&message, &consumer, "receivenowait", NULL, 0);
 					zephir_check_call_status();
 					if (Z_TYPE_P(&message) != IS_NULL) {
@@ -197,7 +197,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisSubscriptionConsumer, consume)
 	ZEPHIR_MM_RESTORE();
 }
 
-PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisSubscriptionConsumer, subscribe)
+PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkSubscriptionConsumer, subscribe)
 {
 	zval _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -226,7 +226,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisSubscriptionConsumer, subscribe)
 	ZEPHIR_MM_RESTORE();
 }
 
-PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisSubscriptionConsumer, unsubscribe)
+PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkSubscriptionConsumer, unsubscribe)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -253,7 +253,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisSubscriptionConsumer, unsubscribe)
 	ZEPHIR_MM_RESTORE();
 }
 
-PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisSubscriptionConsumer, unsubscribeAll)
+PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkSubscriptionConsumer, unsubscribeAll)
 {
 	zval _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -274,7 +274,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisSubscriptionConsumer, unsubscribeAll
  * `var` so the call is dynamic; this avoids Zephir resolving the
  * Consumer::getQueue() return type's short name in the wrong namespace.
  */
-PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisSubscriptionConsumer, resolveQueueName)
+PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkSubscriptionConsumer, resolveQueueName)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -295,7 +295,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisSubscriptionConsumer, resolveQueueNa
 	RETURN_MM();
 }
 
-zend_object *zephir_init_properties_Phalcon_Queue_Adapter_Redis_RedisSubscriptionConsumer(zend_class_entry *class_type)
+zend_object *zephir_init_properties_Phalcon_Queue_Adapter_Beanstalk_BeanstalkSubscriptionConsumer(zend_class_entry *class_type)
 {
 		zval _0, _1$$3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;

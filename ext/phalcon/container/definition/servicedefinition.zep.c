@@ -205,7 +205,7 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, addTag)
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkfrozen", NULL, 0);
 	zephir_check_call_status();
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("tags"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_FUNCTION(&_1, "in_array", NULL, 78, &tag_zv, &_0, &__$true);
+	ZEPHIR_CALL_FUNCTION(&_1, "in_array", NULL, 79, &tag_zv, &_0, &__$true);
 	zephir_check_call_status();
 	if (!zephir_is_true(&_1)) {
 		zephir_update_property_array_append(this_ptr, SL("tags"), &tag_zv);

@@ -526,7 +526,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamContext, getFilepath)
 	ZVAL_STRING(&_1, "/[^a-zA-Z0-9_-]/");
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "_");
-	ZEPHIR_CALL_FUNCTION(&_3, "preg_replace", NULL, 81, &_1, &_2, &queueName_zv);
+	ZEPHIR_CALL_FUNCTION(&_3, "preg_replace", NULL, 82, &_1, &_2, &queueName_zv);
 	zephir_check_call_status();
 	ZEPHIR_CONCAT_VVS(return_value, &_0, &_3, ".queue");
 	RETURN_MM();

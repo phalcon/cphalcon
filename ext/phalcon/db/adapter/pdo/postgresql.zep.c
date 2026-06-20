@@ -824,13 +824,13 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns)
 					ZVAL_STRING(&_64$$54, "/^'|'?::[[:alnum:][:space:]]+$/");
 					ZEPHIR_INIT_NVAR(&_65$$54);
 					ZVAL_STRING(&_65$$54, "");
-					ZEPHIR_CALL_FUNCTION(&_66$$54, "preg_replace", &_67, 81, &_64$$54, &_65$$54, &_63$$54);
+					ZEPHIR_CALL_FUNCTION(&_66$$54, "preg_replace", &_67, 82, &_64$$54, &_65$$54, &_63$$54);
 					zephir_check_call_status();
 					zephir_array_update_string(&definition, SL("default"), &_66$$54, PH_COPY | PH_SEPARATE);
 					zephir_array_fetch_string(&_68$$54, &definition, SL("default"), PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 608);
 					ZEPHIR_INIT_NVAR(&_64$$54);
 					ZVAL_STRING(&_64$$54, "null");
-					ZEPHIR_CALL_FUNCTION(&_69$$54, "strcasecmp", &_70, 76, &_68$$54, &_64$$54);
+					ZEPHIR_CALL_FUNCTION(&_69$$54, "strcasecmp", &_70, 77, &_68$$54, &_64$$54);
 					zephir_check_call_status();
 					if (ZEPHIR_IS_LONG(&_69$$54, 0)) {
 						zephir_array_update_string(&definition, SL("default"), &__$null, PH_COPY | PH_SEPARATE);
@@ -1215,13 +1215,13 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns)
 						ZVAL_STRING(&_138$$108, "/^'|'?::[[:alnum:][:space:]]+$/");
 						ZEPHIR_INIT_NVAR(&_139$$108);
 						ZVAL_STRING(&_139$$108, "");
-						ZEPHIR_CALL_FUNCTION(&_140$$108, "preg_replace", &_67, 81, &_138$$108, &_139$$108, &_137$$108);
+						ZEPHIR_CALL_FUNCTION(&_140$$108, "preg_replace", &_67, 82, &_138$$108, &_139$$108, &_137$$108);
 						zephir_check_call_status();
 						zephir_array_update_string(&definition, SL("default"), &_140$$108, PH_COPY | PH_SEPARATE);
 						zephir_array_fetch_string(&_141$$108, &definition, SL("default"), PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 608);
 						ZEPHIR_INIT_NVAR(&_138$$108);
 						ZVAL_STRING(&_138$$108, "null");
-						ZEPHIR_CALL_FUNCTION(&_142$$108, "strcasecmp", &_70, 76, &_141$$108, &_138$$108);
+						ZEPHIR_CALL_FUNCTION(&_142$$108, "strcasecmp", &_70, 77, &_141$$108, &_138$$108);
 						zephir_check_call_status();
 						if (ZEPHIR_IS_LONG(&_142$$108, 0)) {
 							zephir_array_update_string(&definition, SL("default"), &__$null, PH_COPY | PH_SEPARATE);

@@ -1321,7 +1321,7 @@ PHP_METHOD(Phalcon_Image_Adapter_AbstractAdapter, parseColor)
 		ZVAL_STRING(&_6$$4, "/./");
 		ZEPHIR_INIT_VAR(&_7$$4);
 		ZVAL_STRING(&_7$$4, "$0$0");
-		ZEPHIR_CALL_FUNCTION(&_8$$4, "preg_replace", NULL, 81, &_6$$4, &_7$$4, &color);
+		ZEPHIR_CALL_FUNCTION(&_8$$4, "preg_replace", NULL, 82, &_6$$4, &_7$$4, &color);
 		zephir_check_call_status();
 		zephir_get_strval(&color, &_8$$4);
 	}

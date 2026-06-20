@@ -1349,7 +1349,7 @@ PHP_METHOD(Phalcon_Http_Request, getHttpHost)
 			ZVAL_STRING(&_5$$6, "/:[[:digit:]]+$/");
 			ZEPHIR_INIT_VAR(&_6$$6);
 			ZVAL_STRING(&_6$$6, "");
-			ZEPHIR_CALL_FUNCTION(&_7$$6, "preg_replace", NULL, 81, &_5$$6, &_6$$6, &cleanHost);
+			ZEPHIR_CALL_FUNCTION(&_7$$6, "preg_replace", NULL, 82, &_5$$6, &_6$$6, &cleanHost);
 			zephir_check_call_status();
 			ZEPHIR_CPY_WRT(&cleanHost, &_7$$6);
 		}
@@ -1357,7 +1357,7 @@ PHP_METHOD(Phalcon_Http_Request, getHttpHost)
 		ZVAL_STRING(&_8$$5, "/[a-z0-9-]+\\.?/");
 		ZEPHIR_INIT_VAR(&_9$$5);
 		ZVAL_STRING(&_9$$5, "");
-		ZEPHIR_CALL_FUNCTION(&_10$$5, "preg_replace", NULL, 81, &_8$$5, &_9$$5, &cleanHost);
+		ZEPHIR_CALL_FUNCTION(&_10$$5, "preg_replace", NULL, 82, &_8$$5, &_9$$5, &cleanHost);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_11$$5);
 		ZVAL_STRING(&_11$$5, "");
@@ -5044,7 +5044,7 @@ PHP_METHOD(Phalcon_Http_Request, getFormData)
 							ZVAL_STRING(&_23$$8, "/\"/");
 							ZEPHIR_INIT_NVAR(&_24$$8);
 							ZVAL_STRING(&_24$$8, "");
-							ZEPHIR_CALL_FUNCTION(&part$$7, "preg_replace", &_25, 81, &_23$$8, &_24$$8, &_22$$8);
+							ZEPHIR_CALL_FUNCTION(&part$$7, "preg_replace", &_25, 82, &_23$$8, &_24$$8, &_22$$8);
 							zephir_check_call_status();
 							ZEPHIR_CPY_WRT(&part$$7, &part$$7);
 							ZEPHIR_INIT_NVAR(&_23$$8);
@@ -5136,7 +5136,7 @@ PHP_METHOD(Phalcon_Http_Request, getFormData)
 								ZVAL_STRING(&_42$$15, "/\"/");
 								ZEPHIR_INIT_NVAR(&_43$$15);
 								ZVAL_STRING(&_43$$15, "");
-								ZEPHIR_CALL_FUNCTION(&part$$14, "preg_replace", &_25, 81, &_42$$15, &_43$$15, &_41$$15);
+								ZEPHIR_CALL_FUNCTION(&part$$14, "preg_replace", &_25, 82, &_42$$15, &_43$$15, &_41$$15);
 								zephir_check_call_status();
 								ZEPHIR_CPY_WRT(&part$$14, &part$$14);
 								ZEPHIR_INIT_NVAR(&_42$$15);
@@ -5261,7 +5261,7 @@ PHP_METHOD(Phalcon_Http_Request, getFormData)
 								ZVAL_STRING(&_68$$24, "/\"/");
 								ZEPHIR_INIT_NVAR(&_69$$24);
 								ZVAL_STRING(&_69$$24, "");
-								ZEPHIR_CALL_FUNCTION(&part$$23, "preg_replace", &_25, 81, &_68$$24, &_69$$24, &_67$$24);
+								ZEPHIR_CALL_FUNCTION(&part$$23, "preg_replace", &_25, 82, &_68$$24, &_69$$24, &_67$$24);
 								zephir_check_call_status();
 								ZEPHIR_CPY_WRT(&part$$23, &part$$23);
 								ZEPHIR_INIT_NVAR(&_68$$24);
@@ -5353,7 +5353,7 @@ PHP_METHOD(Phalcon_Http_Request, getFormData)
 									ZVAL_STRING(&_86$$31, "/\"/");
 									ZEPHIR_INIT_NVAR(&_87$$31);
 									ZVAL_STRING(&_87$$31, "");
-									ZEPHIR_CALL_FUNCTION(&part$$30, "preg_replace", &_25, 81, &_86$$31, &_87$$31, &_85$$31);
+									ZEPHIR_CALL_FUNCTION(&part$$30, "preg_replace", &_25, 82, &_86$$31, &_87$$31, &_85$$31);
 									zephir_check_call_status();
 									ZEPHIR_CPY_WRT(&part$$30, &part$$30);
 									ZEPHIR_INIT_NVAR(&_86$$31);
