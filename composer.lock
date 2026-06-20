@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "89543714c7dd6646cc5f63bff263545f",
+    "content-hash": "1480f184ae3bd6be0bb43207c6acfe0c",
     "packages": [],
     "packages-dev": [
         {
@@ -1523,16 +1523,16 @@
         },
         {
             "name": "friendsofphp/php-cs-fixer",
-            "version": "v3.95.8",
+            "version": "v3.95.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer.git",
-                "reference": "4140023f552ff02346df9b1329742532166f677f"
+                "reference": "93e1ab3e1f153024bd3ab23c8a349556063c6f17"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/4140023f552ff02346df9b1329742532166f677f",
-                "reference": "4140023f552ff02346df9b1329742532166f677f",
+                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/93e1ab3e1f153024bd3ab23c8a349556063c6f17",
+                "reference": "93e1ab3e1f153024bd3ab23c8a349556063c6f17",
                 "shasum": ""
             },
             "require": {
@@ -1616,7 +1616,7 @@
             ],
             "support": {
                 "issues": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues",
-                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.95.8"
+                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.95.10"
             },
             "funding": [
                 {
@@ -1624,7 +1624,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-06-16T09:52:26+00:00"
+            "time": "2026-06-19T14:45:22+00:00"
         },
         {
             "name": "graham-campbell/result-type",
@@ -2334,16 +2334,16 @@
         },
         {
             "name": "phalcon/ide-stubs",
-            "version": "v5.14.2",
+            "version": "v5.15.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phalcon/ide-stubs.git",
-                "reference": "533f09c81bf38826f26a82cab6465034945b01b2"
+                "reference": "38bec58efdfa235683172d9d1cc55a9cf7f99617"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phalcon/ide-stubs/zipball/533f09c81bf38826f26a82cab6465034945b01b2",
-                "reference": "533f09c81bf38826f26a82cab6465034945b01b2",
+                "url": "https://api.github.com/repos/phalcon/ide-stubs/zipball/38bec58efdfa235683172d9d1cc55a9cf7f99617",
+                "reference": "38bec58efdfa235683172d9d1cc55a9cf7f99617",
                 "shasum": ""
             },
             "require": {
@@ -2399,7 +2399,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2026-06-14T04:49:18+00:00"
+            "time": "2026-06-18T16:40:56+00:00"
         },
         {
             "name": "phalcon/zephir",
@@ -2407,12 +2407,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/zephir-lang/zephir.git",
-                "reference": "27535f8027775def47c130db40e073a24633977b"
+                "reference": "f87b27ba94eebb4126ce8fb0617526be6acd3f87"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zephir-lang/zephir/zipball/27535f8027775def47c130db40e073a24633977b",
-                "reference": "27535f8027775def47c130db40e073a24633977b",
+                "url": "https://api.github.com/repos/zephir-lang/zephir/zipball/f87b27ba94eebb4126ce8fb0617526be6acd3f87",
+                "reference": "f87b27ba94eebb4126ce8fb0617526be6acd3f87",
                 "shasum": ""
             },
             "require": {
@@ -2486,7 +2486,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-06-10T20:31:52+00:00"
+            "time": "2026-06-18T23:56:18+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -7261,6 +7261,7 @@
         "ext-libxml": "*",
         "ext-mbstring": "*",
         "ext-msgpack": "*",
+        "ext-pcntl": "*",
         "ext-pdo": "*",
         "ext-redis": "*",
         "ext-sqlite3": "*",
