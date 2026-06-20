@@ -1,0 +1,136 @@
+
+extern zend_class_entry *phalcon_support_debug_report_exceptionreport_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Support_Debug_Report_ExceptionReport);
+
+PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, __construct);
+PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, getBacktrace);
+PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, getClassName);
+PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, getFile);
+PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, getIncludedFiles);
+PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, getLine);
+PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, getMemoryUsage);
+PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, getMessage);
+PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, getPeakMemoryUsage);
+PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, getRequest);
+PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, getServer);
+PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, getUri);
+PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, getVariables);
+PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, hasVariables);
+PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, isShowBackTrace);
+PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, setBacktrace);
+PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, setIncludedFiles);
+PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, setMemoryUsage);
+PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, setPeakMemoryUsage);
+PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, setRequest);
+PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, setServer);
+PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, setVariables);
+zend_object *zephir_init_properties_Phalcon_Support_Debug_Report_ExceptionReport(zend_class_entry *class_type);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_support_debug_report_exceptionreport___construct, 0, 0, 6)
+	ZEND_ARG_TYPE_INFO(0, className, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, message, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, file, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, line, IS_LONG, 0)
+	ZEND_ARG_TYPE_INFO(0, showBackTrace, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, uri, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_debug_report_exceptionreport_getbacktrace, 0, 0, IS_ARRAY, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_debug_report_exceptionreport_getclassname, 0, 0, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_debug_report_exceptionreport_getfile, 0, 0, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_debug_report_exceptionreport_getincludedfiles, 0, 0, IS_ARRAY, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_debug_report_exceptionreport_getline, 0, 0, IS_LONG, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_debug_report_exceptionreport_getmemoryusage, 0, 0, IS_LONG, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_debug_report_exceptionreport_getmessage, 0, 0, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_debug_report_exceptionreport_getpeakmemoryusage, 0, 0, IS_LONG, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_debug_report_exceptionreport_getrequest, 0, 0, IS_ARRAY, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_debug_report_exceptionreport_getserver, 0, 0, IS_ARRAY, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_debug_report_exceptionreport_geturi, 0, 0, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_debug_report_exceptionreport_getvariables, 0, 0, IS_ARRAY, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_debug_report_exceptionreport_hasvariables, 0, 0, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_debug_report_exceptionreport_isshowbacktrace, 0, 0, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_support_debug_report_exceptionreport_setbacktrace, 0, 1, MAY_BE_STATIC)
+	ZEND_ARG_ARRAY_INFO(0, backtrace, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_support_debug_report_exceptionreport_setincludedfiles, 0, 1, MAY_BE_STATIC)
+	ZEND_ARG_ARRAY_INFO(0, includedFiles, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_support_debug_report_exceptionreport_setmemoryusage, 0, 1, MAY_BE_STATIC)
+	ZEND_ARG_TYPE_INFO(0, memoryUsage, IS_LONG, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_support_debug_report_exceptionreport_setpeakmemoryusage, 0, 1, MAY_BE_STATIC)
+	ZEND_ARG_TYPE_INFO(0, peakMemoryUsage, IS_LONG, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_support_debug_report_exceptionreport_setrequest, 0, 1, MAY_BE_STATIC)
+	ZEND_ARG_ARRAY_INFO(0, request, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_support_debug_report_exceptionreport_setserver, 0, 1, MAY_BE_STATIC)
+	ZEND_ARG_ARRAY_INFO(0, server, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_support_debug_report_exceptionreport_setvariables, 0, 1, MAY_BE_STATIC)
+	ZEND_ARG_ARRAY_INFO(0, variables, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_support_debug_report_exceptionreport_zephir_init_properties_phalcon_support_debug_report_exceptionreport, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_support_debug_report_exceptionreport_method_entry) {
+	PHP_ME(Phalcon_Support_Debug_Report_ExceptionReport, __construct, arginfo_phalcon_support_debug_report_exceptionreport___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Support_Debug_Report_ExceptionReport, getBacktrace, arginfo_phalcon_support_debug_report_exceptionreport_getbacktrace, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Support_Debug_Report_ExceptionReport, getClassName, arginfo_phalcon_support_debug_report_exceptionreport_getclassname, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Support_Debug_Report_ExceptionReport, getFile, arginfo_phalcon_support_debug_report_exceptionreport_getfile, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Support_Debug_Report_ExceptionReport, getIncludedFiles, arginfo_phalcon_support_debug_report_exceptionreport_getincludedfiles, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Support_Debug_Report_ExceptionReport, getLine, arginfo_phalcon_support_debug_report_exceptionreport_getline, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Support_Debug_Report_ExceptionReport, getMemoryUsage, arginfo_phalcon_support_debug_report_exceptionreport_getmemoryusage, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Support_Debug_Report_ExceptionReport, getMessage, arginfo_phalcon_support_debug_report_exceptionreport_getmessage, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Support_Debug_Report_ExceptionReport, getPeakMemoryUsage, arginfo_phalcon_support_debug_report_exceptionreport_getpeakmemoryusage, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Support_Debug_Report_ExceptionReport, getRequest, arginfo_phalcon_support_debug_report_exceptionreport_getrequest, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Support_Debug_Report_ExceptionReport, getServer, arginfo_phalcon_support_debug_report_exceptionreport_getserver, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Support_Debug_Report_ExceptionReport, getUri, arginfo_phalcon_support_debug_report_exceptionreport_geturi, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Support_Debug_Report_ExceptionReport, getVariables, arginfo_phalcon_support_debug_report_exceptionreport_getvariables, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Support_Debug_Report_ExceptionReport, hasVariables, arginfo_phalcon_support_debug_report_exceptionreport_hasvariables, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Support_Debug_Report_ExceptionReport, isShowBackTrace, arginfo_phalcon_support_debug_report_exceptionreport_isshowbacktrace, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Support_Debug_Report_ExceptionReport, setBacktrace, arginfo_phalcon_support_debug_report_exceptionreport_setbacktrace, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Support_Debug_Report_ExceptionReport, setIncludedFiles, arginfo_phalcon_support_debug_report_exceptionreport_setincludedfiles, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Support_Debug_Report_ExceptionReport, setMemoryUsage, arginfo_phalcon_support_debug_report_exceptionreport_setmemoryusage, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Support_Debug_Report_ExceptionReport, setPeakMemoryUsage, arginfo_phalcon_support_debug_report_exceptionreport_setpeakmemoryusage, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Support_Debug_Report_ExceptionReport, setRequest, arginfo_phalcon_support_debug_report_exceptionreport_setrequest, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Support_Debug_Report_ExceptionReport, setServer, arginfo_phalcon_support_debug_report_exceptionreport_setserver, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Support_Debug_Report_ExceptionReport, setVariables, arginfo_phalcon_support_debug_report_exceptionreport_setvariables, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};

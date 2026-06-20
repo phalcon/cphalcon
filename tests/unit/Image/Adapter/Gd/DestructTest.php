@@ -32,7 +32,6 @@ final class DestructTest extends AbstractUnitTestCase
             $gd = new Gd($image);
 
             $property = new ReflectionProperty($gd, 'image');
-            $property->setAccessible(true);
             $this->assertNotNull($property->getValue($gd));
 
             $gd->__destruct();

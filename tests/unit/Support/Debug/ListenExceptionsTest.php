@@ -27,6 +27,8 @@ final class ListenExceptionsTest extends AbstractUnitTestCase
         $debug  = new Debug();
         $result = $debug->listenExceptions();
 
+        restore_exception_handler();
+
         $this->assertInstanceOf(Debug::class, $result);
     }
 }

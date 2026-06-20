@@ -30,7 +30,6 @@ final class IsFinishedTest extends AbstractUnitTestCase
         $this->assertFalse($dispatcher->isFinished());
 
         $property = new ReflectionProperty($dispatcher, 'finished');
-        $property->setAccessible(true);
         $property->setValue($dispatcher, true);
 
         $this->assertTrue($dispatcher->isFinished());
