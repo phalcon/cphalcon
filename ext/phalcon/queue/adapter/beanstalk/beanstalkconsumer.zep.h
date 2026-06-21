@@ -5,7 +5,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConsumer);
 
 PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConsumer, __construct);
 PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConsumer, acknowledge);
-PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConsumer, getQueue);
 PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConsumer, receive);
 PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConsumer, receiveNoWait);
 PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConsumer, reject);
@@ -21,9 +20,6 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_queue_adapter_beanstalk_beanstalkconsumer_acknowledge, 0, 1, IS_VOID, 0)
 
 	ZEND_ARG_OBJ_INFO(0, message, Phalcon\\Contracts\\Queue\\Message, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_queue_adapter_beanstalk_beanstalkconsumer_getqueue, 0, 0, Phalcon\\Contracts\\Queue\\Queue, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_queue_adapter_beanstalk_beanstalkconsumer_receive, 0, 0, Phalcon\\Contracts\\Queue\\Message, 1)
@@ -54,7 +50,6 @@ ZEND_END_ARG_INFO()
 ZEPHIR_INIT_FUNCS(phalcon_queue_adapter_beanstalk_beanstalkconsumer_method_entry) {
 	PHP_ME(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConsumer, __construct, arginfo_phalcon_queue_adapter_beanstalk_beanstalkconsumer___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConsumer, acknowledge, arginfo_phalcon_queue_adapter_beanstalk_beanstalkconsumer_acknowledge, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConsumer, getQueue, arginfo_phalcon_queue_adapter_beanstalk_beanstalkconsumer_getqueue, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConsumer, receive, arginfo_phalcon_queue_adapter_beanstalk_beanstalkconsumer_receive, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConsumer, receiveNoWait, arginfo_phalcon_queue_adapter_beanstalk_beanstalkconsumer_receivenowait, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConsumer, reject, arginfo_phalcon_queue_adapter_beanstalk_beanstalkconsumer_reject, ZEND_ACC_PUBLIC)

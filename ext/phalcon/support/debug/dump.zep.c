@@ -1119,10 +1119,10 @@ PHP_METHOD(Phalcon_Support_Debug_Dump, output)
 			} else {
 				ZEPHIR_INIT_VAR(&reflect);
 				object_init_ex(&reflect, zephir_get_internal_ce(SL("reflectionclass")));
-				ZEPHIR_CALL_METHOD(NULL, &reflect, "__construct", NULL, 273, variable);
+				ZEPHIR_CALL_METHOD(NULL, &reflect, "__construct", NULL, 275, variable);
 				zephir_check_call_status();
 				ZVAL_LONG(&_76$$15, ((1 | 2) | 4));
-				ZEPHIR_CALL_METHOD(&props, &reflect, "getproperties", NULL, 290, &_76$$15);
+				ZEPHIR_CALL_METHOD(&props, &reflect, "getproperties", NULL, 292, &_76$$15);
 				zephir_check_call_status();
 				zephir_is_iterable(&props, 0, "phalcon/Support/Debug/Dump.zep", 395);
 				if (Z_TYPE_P(&props) == IS_ARRAY) {

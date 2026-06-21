@@ -124,7 +124,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, __construct)
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "r");
-	ZEPHIR_CALL_FUNCTION(&_1, "mb_strpos", NULL, 179, &mode, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "mb_strpos", NULL, 181, &mode, &_0);
 	zephir_check_call_status();
 	if (!ZEPHIR_IS_FALSE_IDENTICAL(&_1)) {
 		ZEPHIR_INIT_VAR(&_2$$3);
@@ -280,7 +280,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, phpFopen)
 	ZVAL_STR_COPY(&filename_zv, filename);
 	zephir_memory_observe(&mode_zv);
 	ZVAL_STR_COPY(&mode_zv, mode);
-	ZEPHIR_RETURN_CALL_FUNCTION("fopen", NULL, 251, &filename_zv, &mode_zv);
+	ZEPHIR_RETURN_CALL_FUNCTION("fopen", NULL, 253, &filename_zv, &mode_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }

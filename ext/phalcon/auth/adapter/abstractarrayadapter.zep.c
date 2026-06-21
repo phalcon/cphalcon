@@ -351,7 +351,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_AbstractArrayAdapter, hydrate)
 			ZVAL_STRING(&_4$$4, "User model");
 			ZEPHIR_INIT_VAR(&_5$$4);
 			ZVAL_STRING(&_5$$4, "AuthUser");
-			ZEPHIR_CALL_METHOD(NULL, &_3$$4, "__construct", NULL, 151, &_4$$4, &_5$$4);
+			ZEPHIR_CALL_METHOD(NULL, &_3$$4, "__construct", NULL, 153, &_4$$4, &_5$$4);
 			zephir_check_call_status();
 			zephir_throw_exception_debug(&_3$$4, "phalcon/Auth/Adapter/AbstractArrayAdapter.zep", 119);
 			ZEPHIR_MM_RESTORE();
@@ -364,7 +364,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_AbstractArrayAdapter, hydrate)
 		RETURN_CCTOR(&instance);
 	}
 	object_init_ex(return_value, phalcon_auth_authuser_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 152, &row);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 154, &row);
 	zephir_check_call_status();
 	RETURN_MM();
 }

@@ -5,7 +5,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_Redis_RedisConsumer);
 
 PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisConsumer, __construct);
 PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisConsumer, acknowledge);
-PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisConsumer, getQueue);
 PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisConsumer, receive);
 PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisConsumer, receiveNoWait);
 PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisConsumer, reject);
@@ -18,9 +17,6 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_queue_adapter_redis_redisconsumer_acknowledge, 0, 1, IS_VOID, 0)
 
 	ZEND_ARG_OBJ_INFO(0, message, Phalcon\\Contracts\\Queue\\Message, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_queue_adapter_redis_redisconsumer_getqueue, 0, 0, Phalcon\\Contracts\\Queue\\Queue, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_queue_adapter_redis_redisconsumer_receive, 0, 0, Phalcon\\Contracts\\Queue\\Message, 1)
@@ -39,7 +35,6 @@ ZEND_END_ARG_INFO()
 ZEPHIR_INIT_FUNCS(phalcon_queue_adapter_redis_redisconsumer_method_entry) {
 	PHP_ME(Phalcon_Queue_Adapter_Redis_RedisConsumer, __construct, arginfo_phalcon_queue_adapter_redis_redisconsumer___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Queue_Adapter_Redis_RedisConsumer, acknowledge, arginfo_phalcon_queue_adapter_redis_redisconsumer_acknowledge, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Queue_Adapter_Redis_RedisConsumer, getQueue, arginfo_phalcon_queue_adapter_redis_redisconsumer_getqueue, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Queue_Adapter_Redis_RedisConsumer, receive, arginfo_phalcon_queue_adapter_redis_redisconsumer_receive, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Queue_Adapter_Redis_RedisConsumer, receiveNoWait, arginfo_phalcon_queue_adapter_redis_redisconsumer_receivenowait, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Queue_Adapter_Redis_RedisConsumer, reject, arginfo_phalcon_queue_adapter_redis_redisconsumer_reject, ZEND_ACC_PUBLIC)

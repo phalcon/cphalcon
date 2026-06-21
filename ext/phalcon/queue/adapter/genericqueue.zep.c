@@ -1,11 +1,11 @@
 
 #ifdef HAVE_CONFIG_H
-#include "../../../../ext_config.h"
+#include "../../../ext_config.h"
 #endif
 
 #include <php.h>
-#include "../../../../php_ext.h"
-#include "../../../../ext.h"
+#include "../../../php_ext.h"
+#include "../../../ext.h"
 
 #include <Zend/zend_operators.h>
 #include <Zend/zend_exceptions.h>
@@ -33,21 +33,26 @@
  * @license https://github.com/php-enqueue/enqueue-dev/blob/master/LICENSE
  */
 /**
- * A named filesystem queue destination.
+ * A named queue destination shared by every transport. A queue name is the
+ * only knowledge a destination carries, so the adapters need no transport
+ * specific subclass.
  */
-ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_Stream_StreamQueue)
+ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_GenericQueue)
 {
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Queue\\Adapter\\Stream, StreamQueue, phalcon, queue_adapter_stream_streamqueue, phalcon_queue_adapter_stream_streamqueue_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Queue\\Adapter, GenericQueue, phalcon, queue_adapter_genericqueue, phalcon_queue_adapter_genericqueue_method_entry, 0);
 
 	/**
 	 * @var string
 	 */
-	zend_declare_property_string(phalcon_queue_adapter_stream_streamqueue_ce, SL("queueName"), "", ZEND_ACC_PROTECTED);
-	zend_class_implements(phalcon_queue_adapter_stream_streamqueue_ce, 1, phalcon_contracts_queue_queue_ce);
+	zend_declare_property_string(phalcon_queue_adapter_genericqueue_ce, SL("queueName"), "", ZEND_ACC_PROTECTED);
+	zend_class_implements(phalcon_queue_adapter_genericqueue_ce, 1, phalcon_contracts_queue_queue_ce);
 	return SUCCESS;
 }
 
-PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamQueue, __construct)
+/**
+ * GenericQueue constructor.
+ */
+PHP_METHOD(Phalcon_Queue_Adapter_GenericQueue, __construct)
 {
 	zval queueName_zv;
 	zend_string *queueName = NULL;
@@ -61,7 +66,10 @@ PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamQueue, __construct)
 	zephir_update_property_zval(this_ptr, ZEND_STRL("queueName"), &queueName_zv);
 }
 
-PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamQueue, getQueueName)
+/**
+ * Returns the queue name.
+ */
+PHP_METHOD(Phalcon_Queue_Adapter_GenericQueue, getQueueName)
 {
 
 	RETURN_MEMBER_TYPED(getThis(), "queueName", IS_STRING);

@@ -1,11 +1,11 @@
 
 #ifdef HAVE_CONFIG_H
-#include "../../../../ext_config.h"
+#include "../../../ext_config.h"
 #endif
 
 #include <php.h>
-#include "../../../../php_ext.h"
-#include "../../../../ext.h"
+#include "../../../php_ext.h"
+#include "../../../ext.h"
 
 #include <Zend/zend_operators.h>
 #include <Zend/zend_exceptions.h>
@@ -33,21 +33,26 @@
  * @license https://github.com/php-enqueue/enqueue-dev/blob/master/LICENSE
  */
 /**
- * A named Beanstalkd topic destination.
+ * A named topic destination shared by every transport. A topic name is the
+ * only knowledge a destination carries, so the adapters need no transport
+ * specific subclass.
  */
-ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_Beanstalk_BeanstalkTopic)
+ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_GenericTopic)
 {
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Queue\\Adapter\\Beanstalk, BeanstalkTopic, phalcon, queue_adapter_beanstalk_beanstalktopic, phalcon_queue_adapter_beanstalk_beanstalktopic_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Queue\\Adapter, GenericTopic, phalcon, queue_adapter_generictopic, phalcon_queue_adapter_generictopic_method_entry, 0);
 
 	/**
 	 * @var string
 	 */
-	zend_declare_property_string(phalcon_queue_adapter_beanstalk_beanstalktopic_ce, SL("topicName"), "", ZEND_ACC_PROTECTED);
-	zend_class_implements(phalcon_queue_adapter_beanstalk_beanstalktopic_ce, 1, phalcon_contracts_queue_topic_ce);
+	zend_declare_property_string(phalcon_queue_adapter_generictopic_ce, SL("topicName"), "", ZEND_ACC_PROTECTED);
+	zend_class_implements(phalcon_queue_adapter_generictopic_ce, 1, phalcon_contracts_queue_topic_ce);
 	return SUCCESS;
 }
 
-PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkTopic, __construct)
+/**
+ * GenericTopic constructor.
+ */
+PHP_METHOD(Phalcon_Queue_Adapter_GenericTopic, __construct)
 {
 	zval topicName_zv;
 	zend_string *topicName = NULL;
@@ -61,7 +66,10 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkTopic, __construct)
 	zephir_update_property_zval(this_ptr, ZEND_STRL("topicName"), &topicName_zv);
 }
 
-PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkTopic, getTopicName)
+/**
+ * Returns the topic name.
+ */
+PHP_METHOD(Phalcon_Queue_Adapter_GenericTopic, getTopicName)
 {
 
 	RETURN_MEMBER_TYPED(getThis(), "topicName", IS_STRING);

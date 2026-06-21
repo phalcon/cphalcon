@@ -116,7 +116,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, __call)
 		ZEPHIR_CONCAT_SVSVS(&message, "Class '", &className, "' does not have a method '", name, "'");
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_datamapper_pdo_exception_unknowndrivermethod_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 155, &message);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 157, &message);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$3, "phalcon/DataMapper/Pdo/Connection/AbstractConnection.zep", 76);
 		ZEPHIR_MM_RESTORE();
@@ -357,14 +357,14 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, exec)
 		if (zephir_is_instance_of(&_1, SL("PDOException"))) {
 			zend_clear_exception();
 			ZEPHIR_CPY_WRT(&e, &_1);
-			ZEPHIR_CALL_METHOD(&_3$$4, this_ptr, "canreconnect", NULL, 156, &e);
+			ZEPHIR_CALL_METHOD(&_3$$4, this_ptr, "canreconnect", NULL, 158, &e);
 			zephir_check_call_status();
 			if (!(zephir_is_true(&_3$$4))) {
 				zephir_throw_exception_debug(&e, "phalcon/DataMapper/Pdo/Connection/AbstractConnection.zep", 200);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
-			ZEPHIR_CALL_METHOD(NULL, this_ptr, "reconnect", NULL, 157);
+			ZEPHIR_CALL_METHOD(NULL, this_ptr, "reconnect", NULL, 159);
 			zephir_check_call_status();
 			zephir_read_property(&_4$$4, this_ptr, ZEND_STRL("pdo"), PH_NOISY_CC | PH_READONLY);
 			ZEPHIR_CALL_METHOD(&affectedRows, &_4$$4, "exec", NULL, 0, &statement_zv);
@@ -1328,7 +1328,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, perform)
 
 	/* try_start_1: */
 
-		ZEPHIR_CALL_METHOD(&sth, this_ptr, "performstatement", NULL, 158, &statement_zv, &values);
+		ZEPHIR_CALL_METHOD(&sth, this_ptr, "performstatement", NULL, 160, &statement_zv, &values);
 		zephir_check_call_status_or_jump(try_end_1);
 
 	try_end_1:
@@ -1340,16 +1340,16 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, perform)
 		if (zephir_is_instance_of(&_1, SL("PDOException"))) {
 			zend_clear_exception();
 			ZEPHIR_CPY_WRT(&e, &_1);
-			ZEPHIR_CALL_METHOD(&_2$$4, this_ptr, "canreconnect", NULL, 156, &e);
+			ZEPHIR_CALL_METHOD(&_2$$4, this_ptr, "canreconnect", NULL, 158, &e);
 			zephir_check_call_status();
 			if (!(zephir_is_true(&_2$$4))) {
 				zephir_throw_exception_debug(&e, "phalcon/DataMapper/Pdo/Connection/AbstractConnection.zep", 634);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
-			ZEPHIR_CALL_METHOD(NULL, this_ptr, "reconnect", NULL, 157);
+			ZEPHIR_CALL_METHOD(NULL, this_ptr, "reconnect", NULL, 159);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&sth, this_ptr, "performstatement", NULL, 158, &statement_zv, &values);
+			ZEPHIR_CALL_METHOD(&sth, this_ptr, "performstatement", NULL, 160, &statement_zv, &values);
 			zephir_check_call_status();
 		}
 	}
@@ -1476,14 +1476,14 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, prepare)
 		if (zephir_is_instance_of(&_1, SL("PDOException"))) {
 			zend_clear_exception();
 			ZEPHIR_CPY_WRT(&e, &_1);
-			ZEPHIR_CALL_METHOD(&_3$$4, this_ptr, "canreconnect", NULL, 156, &e);
+			ZEPHIR_CALL_METHOD(&_3$$4, this_ptr, "canreconnect", NULL, 158, &e);
 			zephir_check_call_status();
 			if (!(zephir_is_true(&_3$$4))) {
 				zephir_throw_exception_debug(&e, "phalcon/DataMapper/Pdo/Connection/AbstractConnection.zep", 688);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
-			ZEPHIR_CALL_METHOD(NULL, this_ptr, "reconnect", NULL, 157);
+			ZEPHIR_CALL_METHOD(NULL, this_ptr, "reconnect", NULL, 159);
 			zephir_check_call_status();
 			zephir_read_property(&_4$$4, this_ptr, ZEND_STRL("pdo"), PH_NOISY_CC | PH_READONLY);
 			ZEPHIR_CALL_METHOD(&sth, &_4$$4, "prepare", NULL, 0, &statement_zv, &options);
@@ -1570,14 +1570,14 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, query)
 		if (zephir_is_instance_of(&_1, SL("PDOException"))) {
 			zend_clear_exception();
 			ZEPHIR_CPY_WRT(&e, &_1);
-			ZEPHIR_CALL_METHOD(&_5$$4, this_ptr, "canreconnect", NULL, 156, &e);
+			ZEPHIR_CALL_METHOD(&_5$$4, this_ptr, "canreconnect", NULL, 158, &e);
 			zephir_check_call_status();
 			if (!(zephir_is_true(&_5$$4))) {
 				zephir_throw_exception_debug(&e, "phalcon/DataMapper/Pdo/Connection/AbstractConnection.zep", 724);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
-			ZEPHIR_CALL_METHOD(NULL, this_ptr, "reconnect", NULL, 157);
+			ZEPHIR_CALL_METHOD(NULL, this_ptr, "reconnect", NULL, 159);
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(&_6$$4);
 			zephir_create_array(&_6$$4, 2, 0);

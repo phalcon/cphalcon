@@ -4,50 +4,13 @@ extern zend_class_entry *phalcon_queue_adapter_beanstalk_beanstalksubscriptionco
 ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_Beanstalk_BeanstalkSubscriptionConsumer);
 
 PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkSubscriptionConsumer, __construct);
-PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkSubscriptionConsumer, consume);
-PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkSubscriptionConsumer, subscribe);
-PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkSubscriptionConsumer, unsubscribe);
-PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkSubscriptionConsumer, unsubscribeAll);
-PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkSubscriptionConsumer, resolveQueueName);
-zend_object *zephir_init_properties_Phalcon_Queue_Adapter_Beanstalk_BeanstalkSubscriptionConsumer(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_queue_adapter_beanstalk_beanstalksubscriptionconsumer___construct, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, context, Phalcon\\Queue\\Adapter\\Beanstalk\\BeanstalkContext, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, pollInterval, IS_LONG, 0, "200")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_queue_adapter_beanstalk_beanstalksubscriptionconsumer_consume, 0, 0, IS_VOID, 0)
-
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, timeout, IS_LONG, 0, "0")
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_queue_adapter_beanstalk_beanstalksubscriptionconsumer_subscribe, 0, 2, IS_VOID, 0)
-
-	ZEND_ARG_OBJ_INFO(0, consumer, Phalcon\\Contracts\\Queue\\Consumer, 0)
-	ZEND_ARG_INFO(0, callback)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_queue_adapter_beanstalk_beanstalksubscriptionconsumer_unsubscribe, 0, 1, IS_VOID, 0)
-
-	ZEND_ARG_OBJ_INFO(0, consumer, Phalcon\\Contracts\\Queue\\Consumer, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_queue_adapter_beanstalk_beanstalksubscriptionconsumer_unsubscribeall, 0, 0, IS_VOID, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_queue_adapter_beanstalk_beanstalksubscriptionconsumer_resolvequeuename, 0, 1, IS_STRING, 0)
-	ZEND_ARG_INFO(0, consumer)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_queue_adapter_beanstalk_beanstalksubscriptionconsumer_zephir_init_properties_phalcon_queue_adapter_beanstalk_beanstalksubscriptionconsumer, 0, 0, 0)
-ZEND_END_ARG_INFO()
-
 ZEPHIR_INIT_FUNCS(phalcon_queue_adapter_beanstalk_beanstalksubscriptionconsumer_method_entry) {
 	PHP_ME(Phalcon_Queue_Adapter_Beanstalk_BeanstalkSubscriptionConsumer, __construct, arginfo_phalcon_queue_adapter_beanstalk_beanstalksubscriptionconsumer___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
-	PHP_ME(Phalcon_Queue_Adapter_Beanstalk_BeanstalkSubscriptionConsumer, consume, arginfo_phalcon_queue_adapter_beanstalk_beanstalksubscriptionconsumer_consume, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Queue_Adapter_Beanstalk_BeanstalkSubscriptionConsumer, subscribe, arginfo_phalcon_queue_adapter_beanstalk_beanstalksubscriptionconsumer_subscribe, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Queue_Adapter_Beanstalk_BeanstalkSubscriptionConsumer, unsubscribe, arginfo_phalcon_queue_adapter_beanstalk_beanstalksubscriptionconsumer_unsubscribe, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Queue_Adapter_Beanstalk_BeanstalkSubscriptionConsumer, unsubscribeAll, arginfo_phalcon_queue_adapter_beanstalk_beanstalksubscriptionconsumer_unsubscribeall, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Queue_Adapter_Beanstalk_BeanstalkSubscriptionConsumer, resolveQueueName, arginfo_phalcon_queue_adapter_beanstalk_beanstalksubscriptionconsumer_resolvequeuename, ZEND_ACC_PRIVATE)
 	PHP_FE_END
 };

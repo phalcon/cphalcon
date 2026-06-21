@@ -145,9 +145,9 @@ PHP_METHOD(Phalcon_Cli_Router, __construct)
 		add_assoc_long_ex(&_0$$3, SL("task"), 1);
 		ZEPHIR_INIT_VAR(&_1$$3);
 		ZVAL_STRING(&_1$$3, "#^(?::delimiter)?([a-zA-Z0-9\\_\\-]+)[:delimiter]{0,1}$#");
-		ZEPHIR_CALL_METHOD(NULL, &route, "__construct", NULL, 360, &_1$$3, &_0$$3);
+		ZEPHIR_CALL_METHOD(NULL, &route, "__construct", NULL, 361, &_1$$3, &_0$$3);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(&_2$$3, &route, "getrouteid", NULL, 361);
+		ZEPHIR_CALL_METHOD(&_2$$3, &route, "getrouteid", NULL, 362);
 		zephir_check_call_status();
 		zephir_update_property_array(this_ptr, SL("routes"), &_2$$3, &route);
 		ZEPHIR_INIT_NVAR(&route);
@@ -159,9 +159,9 @@ PHP_METHOD(Phalcon_Cli_Router, __construct)
 		add_assoc_long_ex(&_3$$3, SL("params"), 3);
 		ZEPHIR_INIT_NVAR(&_1$$3);
 		ZVAL_STRING(&_1$$3, "#^(?::delimiter)?([a-zA-Z0-9\\_\\-]+):delimiter([a-zA-Z0-9\\.\\_]+)(:delimiter.*)?$#");
-		ZEPHIR_CALL_METHOD(NULL, &route, "__construct", NULL, 360, &_1$$3, &_3$$3);
+		ZEPHIR_CALL_METHOD(NULL, &route, "__construct", NULL, 361, &_1$$3, &_3$$3);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(&_4$$3, &route, "getrouteid", NULL, 361);
+		ZEPHIR_CALL_METHOD(&_4$$3, &route, "getrouteid", NULL, 362);
 		zephir_check_call_status();
 		zephir_update_property_array(this_ptr, SL("routes"), &_4$$3, &route);
 	}
@@ -209,9 +209,9 @@ PHP_METHOD(Phalcon_Cli_Router, add)
 	}
 	ZEPHIR_INIT_VAR(&route);
 	object_init_ex(&route, phalcon_cli_router_route_ce);
-	ZEPHIR_CALL_METHOD(NULL, &route, "__construct", NULL, 360, &pattern_zv, paths);
+	ZEPHIR_CALL_METHOD(NULL, &route, "__construct", NULL, 361, &pattern_zv, paths);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_0, &route, "getrouteid", NULL, 361);
+	ZEPHIR_CALL_METHOD(&_0, &route, "getrouteid", NULL, 362);
 	zephir_check_call_status();
 	zephir_update_property_array(this_ptr, SL("routes"), &_0, &route);
 	RETURN_CCTOR(&route);
@@ -503,7 +503,7 @@ PHP_METHOD(Phalcon_Cli_Router, handle)
 			object_init_ex(&_1$$4, phalcon_cli_router_exceptions_routerargumentsinvalidtype_ce);
 			ZEPHIR_INIT_VAR(&_2$$4);
 			zephir_gettype(&_2$$4, arguments);
-			ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 362, &_2$$4);
+			ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 363, &_2$$4);
 			zephir_check_call_status();
 			zephir_throw_exception_debug(&_1$$4, "phalcon/Cli/Router.zep", 269);
 			ZEPHIR_MM_RESTORE();
@@ -534,7 +534,7 @@ PHP_METHOD(Phalcon_Cli_Router, handle)
 							object_init_ex(&_5$$10, phalcon_cli_router_exceptions_beforematchnotcallable_ce);
 							ZEPHIR_CALL_METHOD(&_6$$10, &route, "getpattern", NULL, 0);
 							zephir_check_call_status();
-							ZEPHIR_CALL_METHOD(NULL, &_5$$10, "__construct", &_7, 363, &_6$$10);
+							ZEPHIR_CALL_METHOD(NULL, &_5$$10, "__construct", &_7, 364, &_6$$10);
 							zephir_check_call_status();
 							zephir_throw_exception_debug(&_5$$10, "phalcon/Cli/Router.zep", 295);
 							ZEPHIR_MM_RESTORE();
@@ -688,7 +688,7 @@ PHP_METHOD(Phalcon_Cli_Router, handle)
 								object_init_ex(&_24$$30, phalcon_cli_router_exceptions_beforematchnotcallable_ce);
 								ZEPHIR_CALL_METHOD(&_25$$30, &route, "getpattern", NULL, 0);
 								zephir_check_call_status();
-								ZEPHIR_CALL_METHOD(NULL, &_24$$30, "__construct", &_7, 363, &_25$$30);
+								ZEPHIR_CALL_METHOD(NULL, &_24$$30, "__construct", &_7, 364, &_25$$30);
 								zephir_check_call_status();
 								zephir_throw_exception_debug(&_24$$30, "phalcon/Cli/Router.zep", 295);
 								ZEPHIR_MM_RESTORE();

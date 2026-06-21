@@ -48,7 +48,6 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/support/helper/str/abstractstr.zep.c
 	phalcon/acl/exception.zep.c
 	phalcon/contracts/dispatcher/dispatcher.zep.c
-	phalcon/contracts/queue/destination.zep.c
 	phalcon/mvc/micro/exception.zep.c
 	phalcon/support/collection.zep.c
 	phalcon/application/exception.zep.c
@@ -92,6 +91,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/contracts/logger/adapter/adapter.zep.c
 	phalcon/contracts/queue/consumer.zep.c
 	phalcon/contracts/queue/message.zep.c
+	phalcon/contracts/queue/subscriptionconsumer.zep.c
 	phalcon/datamapper/query/abstractquery.zep.c
 	phalcon/db/adapter/adapterinterface.zep.c
 	phalcon/html/escaper/abstractescaper.zep.c
@@ -109,10 +109,8 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/contracts/logger/formatter/formatter.zep.c
 	phalcon/contracts/queue/connectionfactory.zep.c
 	phalcon/contracts/queue/context.zep.c
+	phalcon/contracts/queue/destination.zep.c
 	phalcon/contracts/queue/producer.zep.c
-	phalcon/contracts/queue/queue.zep.c
-	phalcon/contracts/queue/subscriptionconsumer.zep.c
-	phalcon/contracts/queue/topic.zep.c
 	phalcon/datamapper/pdo/connection/pdointerface.zep.c
 	phalcon/db/adapter/abstractadapter.zep.c
 	phalcon/db/dialectinterface.zep.c
@@ -127,6 +125,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/paginator/adapter/abstractadapter.zep.c
 	phalcon/queue/adapter/abstractconsumer.zep.c
 	phalcon/queue/adapter/abstractmessage.zep.c
+	phalcon/queue/adapter/abstractsubscriptionconsumer.zep.c
 	phalcon/translate/adapter/adapterinterface.zep.c
 	phalcon/annotations/adapter/abstractadapter.zep.c
 	phalcon/annotations/exception.zep.c
@@ -251,6 +250,8 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/contracts/encryption/security/security.zep.c
 	phalcon/contracts/events/stoppable.zep.c
 	phalcon/contracts/messages/messages.zep.c
+	phalcon/contracts/queue/queue.zep.c
+	phalcon/contracts/queue/topic.zep.c
 	phalcon/contracts/queue/visibilityaware.zep.c
 	phalcon/contracts/support/debug/renderer.zep.c
 	phalcon/datamapper/pdo/connectionlocatorinterface.zep.c
@@ -1138,33 +1139,27 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/queue/adapter/beanstalk/beanstalkcontext.zep.c
 	phalcon/queue/adapter/beanstalk/beanstalkmessage.zep.c
 	phalcon/queue/adapter/beanstalk/beanstalkproducer.zep.c
-	phalcon/queue/adapter/beanstalk/beanstalkqueue.zep.c
 	phalcon/queue/adapter/beanstalk/beanstalksubscriptionconsumer.zep.c
-	phalcon/queue/adapter/beanstalk/beanstalktopic.zep.c
+	phalcon/queue/adapter/genericqueue.zep.c
+	phalcon/queue/adapter/generictopic.zep.c
 	phalcon/queue/adapter/memory/memoryconnectionfactory.zep.c
 	phalcon/queue/adapter/memory/memoryconsumer.zep.c
 	phalcon/queue/adapter/memory/memorycontext.zep.c
 	phalcon/queue/adapter/memory/memorymessage.zep.c
 	phalcon/queue/adapter/memory/memoryproducer.zep.c
-	phalcon/queue/adapter/memory/memoryqueue.zep.c
 	phalcon/queue/adapter/memory/memorysubscriptionconsumer.zep.c
-	phalcon/queue/adapter/memory/memorytopic.zep.c
 	phalcon/queue/adapter/redis/redisconnectionfactory.zep.c
 	phalcon/queue/adapter/redis/redisconsumer.zep.c
 	phalcon/queue/adapter/redis/rediscontext.zep.c
 	phalcon/queue/adapter/redis/redismessage.zep.c
 	phalcon/queue/adapter/redis/redisproducer.zep.c
-	phalcon/queue/adapter/redis/redisqueue.zep.c
 	phalcon/queue/adapter/redis/redissubscriptionconsumer.zep.c
-	phalcon/queue/adapter/redis/redistopic.zep.c
 	phalcon/queue/adapter/stream/streamconnectionfactory.zep.c
 	phalcon/queue/adapter/stream/streamconsumer.zep.c
 	phalcon/queue/adapter/stream/streamcontext.zep.c
 	phalcon/queue/adapter/stream/streammessage.zep.c
 	phalcon/queue/adapter/stream/streamproducer.zep.c
-	phalcon/queue/adapter/stream/streamqueue.zep.c
 	phalcon/queue/adapter/stream/streamsubscriptionconsumer.zep.c
-	phalcon/queue/adapter/stream/streamtopic.zep.c
 	phalcon/queue/adapterfactory.zep.c
 	phalcon/queue/cli/consumertask.zep.c
 	phalcon/queue/consumer/boundprocessor.zep.c
