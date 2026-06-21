@@ -845,7 +845,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns)
 			zephir_array_fetch_long(&columnName, &field, 0, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 624);
 			ZEPHIR_INIT_NVAR(&_73$$3);
 			object_init_ex(&_73$$3, phalcon_db_column_ce);
-			ZEPHIR_CALL_METHOD(NULL, &_73$$3, "__construct", &_74, 426, &columnName, &definition);
+			ZEPHIR_CALL_METHOD(NULL, &_73$$3, "__construct", &_74, 433, &columnName, &definition);
 			zephir_check_call_status();
 			zephir_array_append(&columns, &_73$$3, PH_SEPARATE, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 625);
 			ZEPHIR_CPY_WRT(&oldColumn, &columnName);
@@ -1237,7 +1237,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns)
 				zephir_array_fetch_long(&columnName, &field, 0, PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 624);
 				ZEPHIR_INIT_NVAR(&_145$$57);
 				object_init_ex(&_145$$57, phalcon_db_column_ce);
-				ZEPHIR_CALL_METHOD(NULL, &_145$$57, "__construct", &_74, 426, &columnName, &definition);
+				ZEPHIR_CALL_METHOD(NULL, &_145$$57, "__construct", &_74, 433, &columnName, &definition);
 				zephir_check_call_status();
 				zephir_array_append(&columns, &_145$$57, PH_SEPARATE, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 625);
 				ZEPHIR_CPY_WRT(&oldColumn, &columnName);
@@ -1676,5 +1676,61 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, getDsnDefaults)
 
 	array_init(return_value);
 	return;
+}
+
+/**
+ * Recognizes a PostgreSQL connection-loss failure by SQLSTATE
+ * (connection exception class 08, or admin/crash shutdown 57P0x) with a
+ * message fallback.
+ */
+PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, isConnectionError)
+{
+	zend_bool _2, _3, _4, _5, _6;
+	zval _1;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *exception, exception_sub, sqlState, message, _0;
+
+	ZVAL_UNDEF(&exception_sub);
+	ZVAL_UNDEF(&sqlState);
+	ZVAL_UNDEF(&message);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(exception, zend_ce_throwable)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_fetch_params(1, 1, 0, &exception);
+	ZEPHIR_CALL_METHOD(&_0, exception, "getcode", NULL, 0);
+	zephir_check_call_status();
+	zephir_cast_to_string(&_1, &_0);
+	ZEPHIR_CPY_WRT(&sqlState, &_1);
+	_2 = ZEPHIR_IS_STRING_IDENTICAL(&sqlState, "08003");
+	if (!(_2)) {
+		_2 = ZEPHIR_IS_STRING_IDENTICAL(&sqlState, "08006");
+	}
+	_3 = _2;
+	if (!(_3)) {
+		_3 = ZEPHIR_IS_STRING_IDENTICAL(&sqlState, "57P01");
+	}
+	_4 = _3;
+	if (!(_4)) {
+		_4 = ZEPHIR_IS_STRING_IDENTICAL(&sqlState, "57P02");
+	}
+	_5 = _4;
+	if (!(_5)) {
+		_5 = ZEPHIR_IS_STRING_IDENTICAL(&sqlState, "57P03");
+	}
+	if (_5) {
+		RETURN_MM_BOOL(1);
+	}
+	ZEPHIR_CALL_METHOD(&message, exception, "getmessage", NULL, 0);
+	zephir_check_call_status();
+	_6 = zephir_memnstr_str(&message, SL("server closed the connection unexpectedly"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 810);
+	if (!(_6)) {
+		_6 = zephir_memnstr_str(&message, SL("no connection to the server"), "phalcon/Db/Adapter/Pdo/Postgresql.zep", 811);
+	}
+	RETURN_MM_BOOL(_6);
 }
 

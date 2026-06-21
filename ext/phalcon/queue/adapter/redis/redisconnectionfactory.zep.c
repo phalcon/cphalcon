@@ -222,7 +222,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisConnectionFactory, createContext)
 		object_init_ex(&_5$$5, phalcon_queue_exceptions_exception_ce);
 		ZEPHIR_INIT_VAR(&_6$$5);
 		ZVAL_STRING(&_6$$5, "Could not connect to the Redis server [%s:%s]");
-		ZEPHIR_CALL_FUNCTION(&_7$$5, "sprintf", NULL, 133, &_6$$5, &host, &port);
+		ZEPHIR_CALL_FUNCTION(&_7$$5, "sprintf", NULL, 137, &_6$$5, &host, &port);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, &_5$$5, "__construct", NULL, 8, &_7$$5);
 		zephir_check_call_status();
