@@ -45,11 +45,6 @@ class BeanstalkConsumer extends AbstractConsumer implements VisibilityAware
      */
     protected connection;
 
-    /**
-     * @var QueueInterface
-     */
-    protected queue;
-
     public function __construct(<BeanstalkConnection> connection, <QueueInterface> queue)
     {
         var tube;
@@ -68,11 +63,6 @@ class BeanstalkConsumer extends AbstractConsumer implements VisibilityAware
     public function acknowledge(<MessageInterface> message) -> void
     {
         this->connection->deleteJob(this->resolveJobId(message));
-    }
-
-    public function getQueue() -> <QueueInterface>
-    {
-        return this->queue;
     }
 
     public function receive(int timeout = 0) -> <MessageInterface> | null
@@ -125,7 +115,7 @@ class BeanstalkConsumer extends AbstractConsumer implements VisibilityAware
             return null;
         }
 
-        let data = unserialize(job[1]);
+        let data = unserialize(job[1], ["allowed_classes" : false]);
 
         if typeof data != "array" {
             return null;

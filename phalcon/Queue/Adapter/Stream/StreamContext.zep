@@ -27,6 +27,8 @@ use Phalcon\Contracts\Queue\Producer as ProducerInterface;
 use Phalcon\Contracts\Queue\Queue as QueueInterface;
 use Phalcon\Contracts\Queue\SubscriptionConsumer as SubscriptionConsumerInterface;
 use Phalcon\Contracts\Queue\Topic as TopicInterface;
+use Phalcon\Queue\Adapter\GenericQueue;
+use Phalcon\Queue\Adapter\GenericTopic;
 use Phalcon\Queue\Exceptions\InvalidDestinationException;
 
 /**
@@ -84,22 +86,22 @@ class StreamContext implements ContextInterface
 
     public function createQueue(string queueName) -> <QueueInterface>
     {
-        return new StreamQueue(queueName);
+        return new GenericQueue(queueName);
     }
 
     public function createSubscriptionConsumer() -> <SubscriptionConsumerInterface>
     {
-        return new StreamSubscriptionConsumer(this);
+        return new StreamSubscriptionConsumer(this, this->pollInterval);
     }
 
     public function createTemporaryQueue() -> <QueueInterface>
     {
-        return new StreamQueue(uniqid("phalcon_queue_", true));
+        return new GenericQueue(uniqid("phalcon_queue_", true));
     }
 
     public function createTopic(string topicName) -> <TopicInterface>
     {
-        return new StreamTopic(topicName);
+        return new GenericTopic(topicName);
     }
 
     /**
@@ -152,7 +154,7 @@ class StreamContext implements ContextInterface
         flock(pointer, LOCK_UN);
         fclose(pointer);
 
-        let data = unserialize(base64_decode(line));
+        let data = unserialize(base64_decode(line), ["allowed_classes" : false]);
 
         if typeof data !== "array" {
             return null;

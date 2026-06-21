@@ -1683,7 +1683,7 @@ PHP_METHOD(Phalcon_Filter_Validation, preChecking)
 			ZEPHIR_CALL_METHOD(&value, this_ptr, "getvalue", NULL, 0, field);
 			zephir_check_call_status();
 			if (Z_TYPE_P(&allowEmpty) == IS_ARRAY) {
-				ZEPHIR_RETURN_CALL_FUNCTION("in_array", NULL, 79, &value, &allowEmpty, &__$true);
+				ZEPHIR_RETURN_CALL_FUNCTION("in_array", NULL, 81, &value, &allowEmpty, &__$true);
 				zephir_check_call_status();
 				RETURN_MM();
 			}

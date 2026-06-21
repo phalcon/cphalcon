@@ -35,11 +35,6 @@ class RedisConsumer extends AbstractConsumer
      */
     protected context;
 
-    /**
-     * @var QueueInterface
-     */
-    protected queue;
-
     public function __construct(<RedisContext> context, <QueueInterface> queue)
     {
         let this->context = context,
@@ -51,11 +46,6 @@ class RedisConsumer extends AbstractConsumer
      */
     public function acknowledge(<MessageInterface> message) -> void
     {
-    }
-
-    public function getQueue() -> <QueueInterface>
-    {
-        return this->queue;
     }
 
     public function receive(int timeout = 0) -> <MessageInterface> | null

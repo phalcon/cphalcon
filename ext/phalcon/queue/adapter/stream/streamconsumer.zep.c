@@ -25,6 +25,15 @@
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
+ *
+ * Implementation of this component has been inspired by the queue-interop and
+ * enqueue projects.
+ *
+ * @link    https://github.com/queue-interop/queue-interop
+ * @license https://github.com/queue-interop/queue-interop/blob/master/LICENSE
+ *
+ * @link    https://github.com/php-enqueue/enqueue-dev
+ * @license https://github.com/php-enqueue/enqueue-dev/blob/master/LICENSE
  */
 /**
  * Receives messages from a single filesystem queue. `receive()` is the
@@ -38,10 +47,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_Stream_StreamConsumer)
 	 * @var StreamContext
 	 */
 	zend_declare_property_null(phalcon_queue_adapter_stream_streamconsumer_ce, SL("context"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var QueueInterface
-	 */
-	zend_declare_property_null(phalcon_queue_adapter_stream_streamconsumer_ce, SL("queue"), ZEND_ACC_PROTECTED);
 	return SUCCESS;
 }
 
@@ -84,12 +89,6 @@ PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamConsumer, acknowledge)
 		Z_PARAM_OBJECT_OF_CLASS(message, phalcon_contracts_queue_message_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &message);
-}
-
-PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamConsumer, getQueue)
-{
-
-	RETURN_MEMBER(getThis(), "queue");
 }
 
 PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamConsumer, receiveNoWait)

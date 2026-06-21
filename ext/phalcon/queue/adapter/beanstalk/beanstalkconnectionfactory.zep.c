@@ -26,6 +26,15 @@
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
+ *
+ * Implementation of this component has been inspired by the queue-interop and
+ * enqueue projects.
+ *
+ * @link    https://github.com/queue-interop/queue-interop
+ * @license https://github.com/queue-interop/queue-interop/blob/master/LICENSE
+ *
+ * @link    https://github.com/php-enqueue/enqueue-dev
+ * @license https://github.com/php-enqueue/enqueue-dev/blob/master/LICENSE
  */
 /**
  * Builds a BeanstalkContext.
@@ -100,14 +109,14 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnectionFactory, createCon
 	ZEPHIR_CPY_WRT(&options, &_0);
 	if (zephir_array_isset_value_string(&options, SL("host"))) {
 		zephir_memory_observe(&host);
-		zephir_array_fetch_string(&host, &options, SL("host"), PH_NOISY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkConnectionFactory.zep", 43);
+		zephir_array_fetch_string(&host, &options, SL("host"), PH_NOISY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkConnectionFactory.zep", 52);
 	} else {
 		ZEPHIR_INIT_NVAR(&host);
 		ZVAL_STRING(&host, "127.0.0.1");
 	}
 	if (zephir_array_isset_value_string(&options, SL("port"))) {
 		zephir_memory_observe(&_1);
-		zephir_array_fetch_string(&_1, &options, SL("port"), PH_NOISY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkConnectionFactory.zep", 44);
+		zephir_array_fetch_string(&_1, &options, SL("port"), PH_NOISY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkConnectionFactory.zep", 53);
 		ZEPHIR_INIT_VAR(&port);
 		ZVAL_LONG(&port, zephir_get_intval(&_1));
 	} else {
@@ -116,7 +125,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnectionFactory, createCon
 	}
 	if (zephir_array_isset_value_string(&options, SL("persistent"))) {
 		zephir_memory_observe(&_2);
-		zephir_array_fetch_string(&_2, &options, SL("persistent"), PH_NOISY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkConnectionFactory.zep", 45);
+		zephir_array_fetch_string(&_2, &options, SL("persistent"), PH_NOISY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkConnectionFactory.zep", 54);
 		ZEPHIR_INIT_VAR(&persistent);
 		ZVAL_BOOL(&persistent, zephir_get_boolval(&_2));
 	} else {
@@ -125,7 +134,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnectionFactory, createCon
 	}
 	if (zephir_array_isset_value_string(&options, SL("ttr"))) {
 		ZEPHIR_OBS_NVAR(&_2);
-		zephir_array_fetch_string(&_2, &options, SL("ttr"), PH_NOISY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkConnectionFactory.zep", 46);
+		zephir_array_fetch_string(&_2, &options, SL("ttr"), PH_NOISY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkConnectionFactory.zep", 55);
 		ZEPHIR_INIT_VAR(&ttr);
 		ZVAL_LONG(&ttr, zephir_get_intval(&_2));
 	} else {
@@ -134,7 +143,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnectionFactory, createCon
 	}
 	if (zephir_array_isset_value_string(&options, SL("pollInterval"))) {
 		zephir_memory_observe(&_3);
-		zephir_array_fetch_string(&_3, &options, SL("pollInterval"), PH_NOISY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkConnectionFactory.zep", 47);
+		zephir_array_fetch_string(&_3, &options, SL("pollInterval"), PH_NOISY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkConnectionFactory.zep", 56);
 		ZEPHIR_INIT_VAR(&pollInterval);
 		ZVAL_LONG(&pollInterval, zephir_get_intval(&_3));
 	} else {

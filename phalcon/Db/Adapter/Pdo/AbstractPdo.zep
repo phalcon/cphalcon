@@ -55,6 +55,14 @@ abstract class AbstractPdo extends AbstractAdapter
     protected affectedRows = 0;
 
     /**
+     * Whether to transparently reconnect and retry once when a query fails
+     * because the connection was lost. Opt-in; off by default.
+     *
+     * @var bool
+     */
+    protected autoReconnect = false;
+
+    /**
      * PDO Handler
      *
      * @var \PDO
@@ -246,7 +254,7 @@ abstract class AbstractPdo extends AbstractAdapter
     public function connect(array! descriptor = []) -> void
     {
         var username, password, dsnAttributes, dsnAttributesCustomRaw,
-            dsnAttributesMap, key, options, persistent, value;
+            dsnAttributesMap, key, options, persistent, value, autoReconnect;
         array dsnParts = [];
 
         if empty descriptor {
@@ -281,6 +289,13 @@ abstract class AbstractPdo extends AbstractAdapter
 
         if fetch persistent, descriptor["persistent"] {
             let options[\PDO::ATTR_PERSISTENT] = (bool) persistent;
+        }
+
+        // Opt-in transparent auto-reconnect flag; strip it so it never leaks
+        // into the DSN string built below.
+        if fetch autoReconnect, descriptor["autoReconnect"] {
+            let this->autoReconnect = (bool) autoReconnect;
+            unset descriptor["autoReconnect"];
         }
 
         // Set PDO to throw exceptions when an error is encountered.
@@ -384,6 +399,16 @@ abstract class AbstractPdo extends AbstractAdapter
     }
 
     /**
+     * Ensures the connection is alive, reconnecting in place if it is not.
+     */
+    public function ensureConnection() -> void
+    {
+        if !this->ping() {
+            this->connect();
+        }
+    }
+
+    /**
      * Sends SQL statements to the database server returning the success state.
      * Use this method only when the SQL statement sent to the server does not
      * return any rows
@@ -405,7 +430,7 @@ abstract class AbstractPdo extends AbstractAdapter
      */
     public function execute(string! sqlStatement, array! bindParams = [], array! bindTypes = []) -> bool
     {
-        var eventsManager, affectedRows, newStatement, statement;
+        var eventsManager, affectedRows, e;
 
         /**
          * Execute the beforeQuery event if an EventsManager is available
@@ -428,20 +453,16 @@ abstract class AbstractPdo extends AbstractAdapter
 
         this->prepareRealSql(sqlStatement, bindParams);
 
-        if !empty bindParams {
-            let statement = this->pdo->prepare(sqlStatement);
-
-            if typeof statement == "object" {
-                let newStatement = this->executePrepared(
-                    statement,
-                    bindParams,
-                    bindTypes
-                );
-
-                let affectedRows = newStatement->rowCount();
+        try {
+            let affectedRows = this->executeStatement(sqlStatement, bindParams, bindTypes);
+        } catch \PDOException, e {
+            if !this->canReconnect(e) {
+                throw e;
             }
-        } else {
-            let affectedRows = this->pdo->exec(sqlStatement);
+
+            this->handleConnectionLost();
+
+            let affectedRows = this->executeStatement(sqlStatement, bindParams, bindTypes);
         }
 
         /**
@@ -576,6 +597,14 @@ abstract class AbstractPdo extends AbstractAdapter
     }
 
     /**
+     * Returns whether transparent auto-reconnect is enabled.
+     */
+    public function getAutoReconnect() -> bool
+    {
+        return this->autoReconnect;
+    }
+
+    /**
      * Return the error info, if any
      */
     public function getErrorInfo() -> array
@@ -647,6 +676,25 @@ abstract class AbstractPdo extends AbstractAdapter
     }
 
     /**
+     * Checks whether the underlying connection is still alive by issuing a
+     * trivial query. Returns false if there is no handle or the probe fails.
+     */
+    public function ping() -> bool
+    {
+        if !this->pdo {
+            return false;
+        }
+
+        try {
+            this->pdo->query("SELECT 1");
+        } catch \Throwable {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Returns a PDO prepared statement to be executed with 'executePrepared'
      *
      *```php
@@ -693,7 +741,7 @@ abstract class AbstractPdo extends AbstractAdapter
      */
     public function query(string! sqlStatement, array! bindParams = [], array! bindTypes = []) -> <ResultInterface> | bool
     {
-        var eventsManager, statement, params, types;
+        var eventsManager, statement, params, types, e;
 
         let eventsManager = <ManagerInterface> this->eventsManager;
 
@@ -718,14 +766,19 @@ abstract class AbstractPdo extends AbstractAdapter
             let types = [];
         }
 
-        let statement = this->pdo->prepare(sqlStatement);
-        if unlikely typeof statement != "object" {
-            throw new CannotPrepareStatement();
-        }
-
         this->prepareRealSql(sqlStatement, bindParams);
 
-        let statement = this->executePrepared(statement, params, types);
+        try {
+            let statement = this->queryStatement(sqlStatement, params, types);
+        } catch \PDOException, e {
+            if !this->canReconnect(e) {
+                throw e;
+            }
+
+            this->handleConnectionLost();
+
+            let statement = this->queryStatement(sqlStatement, params, types);
+        }
 
         /**
          * Execute the afterQuery event if an EventsManager is available
@@ -811,9 +864,29 @@ abstract class AbstractPdo extends AbstractAdapter
     }
 
     /**
+     * Enables or disables transparent auto-reconnect on a lost connection.
+     */
+    public function setAutoReconnect(bool autoReconnect) -> <static>
+    {
+        let this->autoReconnect = autoReconnect;
+
+        return this;
+    }
+
+    /**
      * Returns PDO adapter DSN defaults as a key-value map.
      */
     abstract protected function getDsnDefaults() -> array;
+
+    /**
+     * Recognizes whether an exception represents a lost ("gone away")
+     * connection. The base adapter cannot know driver specifics, so it
+     * returns false; concrete adapters override this.
+     */
+    protected function isConnectionError(<\Throwable> exception) -> bool
+    {
+        return false;
+    }
 
     /**
      * Constructs the SQL statement (with parameters)
@@ -851,5 +924,82 @@ abstract class AbstractPdo extends AbstractAdapter
         }
 
         let this->realSqlStatement = result;
+    }
+
+    /**
+     * Whether a failed query may be transparently retried after reconnecting.
+     * Only when auto-reconnect is on, we are not in a transaction, and the
+     * failure is a recognized connection loss.
+     */
+    private function canReconnect(<\Throwable> exception) -> bool
+    {
+        if !this->autoReconnect {
+            return false;
+        }
+
+        if this->transactionLevel !== 0 {
+            return false;
+        }
+
+        return this->isConnectionError(exception);
+    }
+
+    /**
+     * Runs the actual write against PDO and returns the affected-rows count
+     * (or the raw exec() return for unprepared statements).
+     */
+    private function executeStatement(string sqlStatement, array bindParams, array bindTypes) -> var
+    {
+        var statement, newStatement, affectedRows;
+
+        let affectedRows = 0;
+
+        if !empty bindParams {
+            let statement = this->pdo->prepare(sqlStatement);
+
+            if typeof statement == "object" {
+                let newStatement = this->executePrepared(
+                    statement,
+                    bindParams,
+                    bindTypes
+                );
+
+                let affectedRows = newStatement->rowCount();
+            }
+        } else {
+            let affectedRows = this->pdo->exec(sqlStatement);
+        }
+
+        return affectedRows;
+    }
+
+    /**
+     * Notifies listeners that the connection was lost and re-establishes it.
+     */
+    private function handleConnectionLost() -> void
+    {
+        var eventsManager;
+
+        let eventsManager = <ManagerInterface> this->eventsManager;
+        if typeof eventsManager == "object" {
+            eventsManager->fire("db:connectionLost", this);
+        }
+
+        this->connect();
+    }
+
+    /**
+     * Prepares and executes a read statement, returning the live PDOStatement.
+     */
+    private function queryStatement(string sqlStatement, array params, array types) -> <\PDOStatement>
+    {
+        var statement;
+
+        let statement = this->pdo->prepare(sqlStatement);
+        if unlikely typeof statement != "object" {
+            throw new CannotPrepareStatement();
+        }
+
+        return this->executePrepared(statement, params, types);
     }
 }

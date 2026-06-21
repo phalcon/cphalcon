@@ -105,7 +105,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, addForeignKey)
 	if (UNEXPECTED(!zephir_is_true(&_2))) {
 		ZEPHIR_INIT_VAR(&_3$$3);
 		object_init_ex(&_3$$3, phalcon_db_exceptions_missingforeignkeychecks_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_3$$3, "__construct", NULL, 425);
+		ZEPHIR_CALL_METHOD(NULL, &_3$$3, "__construct", NULL, 433);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_3$$3, "phalcon/Db/Adapter/Pdo/Mysql.zep", 65);
 		ZEPHIR_MM_RESTORE();
@@ -686,7 +686,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns)
 			zephir_array_fetch_long(&columnName, &field, 0, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Mysql.zep", 550);
 			ZEPHIR_INIT_NVAR(&_71$$3);
 			object_init_ex(&_71$$3, phalcon_db_column_ce);
-			ZEPHIR_CALL_METHOD(NULL, &_71$$3, "__construct", &_72, 426, &columnName, &definition);
+			ZEPHIR_CALL_METHOD(NULL, &_71$$3, "__construct", &_72, 434, &columnName, &definition);
 			zephir_check_call_status();
 			zephir_array_append(&columns, &_71$$3, PH_SEPARATE, "phalcon/Db/Adapter/Pdo/Mysql.zep", 551);
 			ZEPHIR_CPY_WRT(&oldColumn, &columnName);
@@ -1076,7 +1076,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns)
 				zephir_array_fetch_long(&columnName, &field, 0, PH_NOISY, "phalcon/Db/Adapter/Pdo/Mysql.zep", 550);
 				ZEPHIR_INIT_NVAR(&_143$$62);
 				object_init_ex(&_143$$62, phalcon_db_column_ce);
-				ZEPHIR_CALL_METHOD(NULL, &_143$$62, "__construct", &_72, 426, &columnName, &definition);
+				ZEPHIR_CALL_METHOD(NULL, &_143$$62, "__construct", &_72, 434, &columnName, &definition);
 				zephir_check_call_status();
 				zephir_array_append(&columns, &_143$$62, PH_SEPARATE, "phalcon/Db/Adapter/Pdo/Mysql.zep", 551);
 				ZEPHIR_CPY_WRT(&oldColumn, &columnName);
@@ -1723,5 +1723,54 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, getDsnDefaults)
 	zephir_create_array(return_value, 1, 0);
 	add_assoc_stringl_ex(return_value, SL("charset"), SL("utf8mb4"));
 	return;
+}
+
+/**
+ * Recognizes a MySQL "server has gone away" / "Lost connection" failure
+ * by the driver error code (2006 / 2013) with a message fallback.
+ */
+PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, isConnectionError)
+{
+	zend_bool _1, _4, _3$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS, driverCode = 0;
+	zval *exception, exception_sub, errorInfo, message, _0, _2$$3;
+
+	ZVAL_UNDEF(&exception_sub);
+	ZVAL_UNDEF(&errorInfo);
+	ZVAL_UNDEF(&message);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_2$$3);
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(exception, zend_ce_throwable)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_fetch_params(1, 1, 0, &exception);
+	zephir_read_property(&_0, exception, ZEND_STRL("errorInfo"), PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_CPY_WRT(&errorInfo, &_0);
+	_1 = Z_TYPE_P(&errorInfo) == IS_ARRAY;
+	if (_1) {
+		_1 = zephir_array_isset_value_long(&errorInfo, 1);
+	}
+	if (_1) {
+		zephir_memory_observe(&_2$$3);
+		zephir_array_fetch_long(&_2$$3, &errorInfo, 1, PH_NOISY, "phalcon/Db/Adapter/Pdo/Mysql.zep", 766);
+		driverCode = zephir_get_intval(&_2$$3);
+		_3$$3 = driverCode == 2006;
+		if (!(_3$$3)) {
+			_3$$3 = driverCode == 2013;
+		}
+		if (_3$$3) {
+			RETURN_MM_BOOL(1);
+		}
+	}
+	ZEPHIR_CALL_METHOD(&message, exception, "getmessage", NULL, 0);
+	zephir_check_call_status();
+	_4 = zephir_memnstr_str(&message, SL("server has gone away"), "phalcon/Db/Adapter/Pdo/Mysql.zep", 775);
+	if (!(_4)) {
+		_4 = zephir_memnstr_str(&message, SL("Lost connection"), "phalcon/Db/Adapter/Pdo/Mysql.zep", 776);
+	}
+	RETURN_MM_BOOL(_4);
 }
 

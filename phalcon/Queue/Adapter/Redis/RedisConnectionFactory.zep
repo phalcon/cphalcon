@@ -22,9 +22,15 @@ namespace Phalcon\Queue\Adapter\Redis;
 use Phalcon\Contracts\Queue\ConnectionFactory as ConnectionFactoryInterface;
 use Phalcon\Contracts\Queue\Context as ContextInterface;
 use Phalcon\Queue\Exceptions\Exception;
+use Phalcon\Storage\Adapter\Redis as StorageRedis;
+use Phalcon\Storage\Exception as StorageException;
+use Phalcon\Storage\SerializerFactory;
 
 /**
- * Connects to a Redis server (ext-redis) and builds a RedisContext.
+ * Connects to a Redis server (ext-redis) and builds a RedisContext. The
+ * connection (connect/pconnect, auth, database select) is delegated to
+ * Phalcon\Storage\Adapter\Redis so the queue reuses the framework's hardened
+ * connection handling instead of re-implementing it.
  *
  * Options:
  *   - host:         server host (default 127.0.0.1).
@@ -51,41 +57,38 @@ class RedisConnectionFactory implements ConnectionFactoryInterface
 
     public function createContext() -> <ContextInterface>
     {
-        var options, redis, host, port, timeout, persistent, persistentId,
-            auth, index, prefix, pollInterval, parameter, result;
+        var options, adapter, redis, prefix, pollInterval, e;
 
         let options      = this->options,
-            host         = isset options["host"] ? options["host"] : "127.0.0.1",
-            port         = isset options["port"] ? (int) options["port"] : 6379,
-            timeout      = isset options["timeout"] ? (double) options["timeout"] : 0.0,
-            persistent   = isset options["persistent"] ? (bool) options["persistent"] : false,
-            persistentId = isset options["persistentId"] ? options["persistentId"] : "",
-            auth         = isset options["auth"] ? options["auth"] : "",
-            index        = isset options["index"] ? (int) options["index"] : 0,
             prefix       = isset options["prefix"] ? options["prefix"] : "phalcon_queue:",
             pollInterval = isset options["pollInterval"] ? (int) options["pollInterval"] : 200;
 
-        let redis = new \Redis();
+        /**
+         * Disable the cache adapter's own key prefix and serializer so the
+         * queue keeps full control of its keys and message payloads; otherwise
+         * keys would be double-prefixed and payloads double-encoded. The
+         * adapter also performs authentication and database selection, so none
+         * of that is repeated here.
+         */
+        let adapter = new StorageRedis(
+            new SerializerFactory(),
+            array_merge(
+                options,
+                [
+                    "prefix"            : "",
+                    "defaultSerializer" : "none"
+                ]
+            )
+        );
 
-        if persistent {
-            let parameter = !empty persistentId ? persistentId : "persistentId" . index,
-                result    = redis->pconnect(host, port, timeout, parameter);
-        } else {
-            let result = redis->connect(host, port, timeout);
-        }
-
-        if !result {
-            throw new Exception(
-                sprintf("Could not connect to the Redis server [%s:%s]", host, port)
-            );
-        }
-
-        if !empty auth && true !== redis->auth(auth) {
-            throw new Exception("Failed to authenticate with the Redis server");
-        }
-
-        if index > 0 && true !== redis->select(index) {
-            throw new Exception("Failed to select the Redis database index");
+        /**
+         * Surface connect/auth/select failures as a queue exception so every
+         * adapter honours the QueueThrowable contract.
+         */
+        try {
+            let redis = adapter->getAdapter();
+        } catch StorageException, e {
+            throw new Exception(e->getMessage(), (int) e->getCode(), e);
         }
 
         return new RedisContext(redis, prefix, pollInterval);

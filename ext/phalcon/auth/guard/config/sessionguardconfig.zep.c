@@ -124,15 +124,15 @@ PHP_METHOD(Phalcon_Auth_Guard_Config_SessionGuardConfig, __construct)
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "suffix");
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "validatenonempty", NULL, 320, &_0, &suffix_zv);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "validatenonempty", NULL, 329, &_0, &suffix_zv);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "name");
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "validatenonempty", NULL, 320, &_0, &name_zv);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "validatenonempty", NULL, 329, &_0, &name_zv);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "rememberName");
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "validatenonempty", NULL, 320, &_0, &rememberName_zv);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "validatenonempty", NULL, 329, &_0, &rememberName_zv);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_1);
 	if (Z_TYPE_P(&name_zv) != IS_NULL) {
@@ -140,7 +140,7 @@ PHP_METHOD(Phalcon_Auth_Guard_Config_SessionGuardConfig, __construct)
 	} else {
 		ZEPHIR_INIT_NVAR(&_0);
 		ZVAL_STRING(&_0, "auth");
-		ZEPHIR_CALL_METHOD(&_1, this_ptr, "derive", NULL, 321, &_0, &suffix_zv);
+		ZEPHIR_CALL_METHOD(&_1, this_ptr, "derive", NULL, 330, &_0, &suffix_zv);
 		zephir_check_call_status();
 	}
 	zephir_update_property_zval(this_ptr, ZEND_STRL("name"), &_1);
@@ -150,7 +150,7 @@ PHP_METHOD(Phalcon_Auth_Guard_Config_SessionGuardConfig, __construct)
 	} else {
 		ZEPHIR_INIT_NVAR(&_0);
 		ZVAL_STRING(&_0, "remember");
-		ZEPHIR_CALL_METHOD(&_2, this_ptr, "derive", NULL, 321, &_0, &suffix_zv);
+		ZEPHIR_CALL_METHOD(&_2, this_ptr, "derive", NULL, 330, &_0, &suffix_zv);
 		zephir_check_call_status();
 	}
 	zephir_update_property_zval(this_ptr, ZEND_STRL("rememberName"), &_2);
@@ -266,7 +266,7 @@ PHP_METHOD(Phalcon_Auth_Guard_Config_SessionGuardConfig, validateNonEmpty)
 		object_init_ex(&_0$$4, phalcon_auth_exceptions_configrequiresnonemptyvalue_ce);
 		ZEPHIR_INIT_VAR(&_1$$4);
 		ZVAL_STRING(&_1$$4, "Session guard");
-		ZEPHIR_CALL_METHOD(NULL, &_0$$4, "__construct", NULL, 305, &_1$$4, &param_zv);
+		ZEPHIR_CALL_METHOD(NULL, &_0$$4, "__construct", NULL, 314, &_1$$4, &param_zv);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_0$$4, "phalcon/Auth/Guard/Config/SessionGuardConfig.zep", 103);
 		ZEPHIR_MM_RESTORE();

@@ -603,7 +603,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile)
 	}
 	if (Z_TYPE_P(&compiledPath) == IS_STRING) {
 		if (!(ZEPHIR_IS_EMPTY(&compiledPath))) {
-			ZEPHIR_CALL_FUNCTION(&_22$$22, "realpath", NULL, 145, &templatePath_zv);
+			ZEPHIR_CALL_FUNCTION(&_22$$22, "realpath", NULL, 151, &templatePath_zv);
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(&templateSepPath);
 			zephir_prepare_virtual_path(&templateSepPath, &_22$$22, &compiledSeparator);
@@ -2173,7 +2173,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileSwitch)
 			ZVAL_STRING(&_3$$5, "/(*ANYCRLF)^\\h+|\\h+$|(\\h){2,}/mu");
 			ZEPHIR_INIT_VAR(&_4$$5);
 			ZVAL_STRING(&_4$$5, "");
-			ZEPHIR_CALL_FUNCTION(&_5$$5, "preg_replace", NULL, 82, &_3$$5, &_4$$5, &lines);
+			ZEPHIR_CALL_FUNCTION(&_5$$5, "preg_replace", NULL, 84, &_3$$5, &_4$$5, &lines);
 			zephir_check_call_status();
 			ZEPHIR_CPY_WRT(&lines, &_5$$5);
 		}
@@ -2471,7 +2471,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, expression)
 					ZVAL_STRING(&_22$$35, "/(?<!\\\\)'/");
 					ZEPHIR_INIT_NVAR(&_23$$35);
 					ZVAL_STRING(&_23$$35, "\\\\'");
-					ZEPHIR_CALL_FUNCTION(&_24$$35, "preg_replace", &_25, 82, &_22$$35, &_23$$35, &_21$$35);
+					ZEPHIR_CALL_FUNCTION(&_24$$35, "preg_replace", &_25, 84, &_22$$35, &_23$$35, &_21$$35);
 					zephir_check_call_status();
 					ZEPHIR_CONCAT_SVS(&exprCode, "'", &_24$$35, "'");
 				} else {
@@ -3056,7 +3056,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, functionCall)
 		}
 		ZEPHIR_INIT_VAR(&_15$$5);
 		zephir_camelize(&_15$$5, &name, NULL );
-		ZEPHIR_CALL_FUNCTION(&method, "lcfirst", NULL, 152, &_15$$5);
+		ZEPHIR_CALL_FUNCTION(&method, "lcfirst", NULL, 161, &_15$$5);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&arrayHelpers);
 		zephir_create_array(&arrayHelpers, 16, 0);

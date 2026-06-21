@@ -26,7 +26,7 @@ use Phalcon\Contracts\Queue\Queue as QueueInterface;
 /**
  * Shared consumer base. Implements the blocking `receive()` as a polling loop
  * on top of the abstract `receiveNoWait()`; concrete consumers provide the
- * transport-specific `receiveNoWait`, `acknowledge`, `reject` and `getQueue`.
+ * transport-specific `receiveNoWait`, `acknowledge` and `reject`.
  *
  * Transports with a native blocking receive (Redis BRPOP, Beanstalk reserve)
  * override `receive()` instead of polling.
@@ -41,6 +41,13 @@ abstract class AbstractConsumer implements ConsumerInterface
     protected pollInterval = 200;
 
     /**
+     * The queue this consumer reads from.
+     *
+     * @var QueueInterface
+     */
+    protected queue;
+
+    /**
      * Acknowledges the message; the transport may then discard it.
      */
     abstract public function acknowledge(<MessageInterface> message) -> void;
@@ -48,7 +55,10 @@ abstract class AbstractConsumer implements ConsumerInterface
     /**
      * Returns the queue this consumer reads from.
      */
-    abstract public function getQueue() -> <QueueInterface>;
+    public function getQueue() -> <QueueInterface>
+    {
+        return this->queue;
+    }
 
     /**
      * Receives a message, blocking up to timeout milliseconds (0 = block

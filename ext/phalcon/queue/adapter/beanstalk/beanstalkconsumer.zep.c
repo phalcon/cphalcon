@@ -26,6 +26,15 @@
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
+ *
+ * Implementation of this component has been inspired by the queue-interop and
+ * enqueue projects.
+ *
+ * @link    https://github.com/queue-interop/queue-interop
+ * @license https://github.com/queue-interop/queue-interop/blob/master/LICENSE
+ *
+ * @link    https://github.com/php-enqueue/enqueue-dev
+ * @license https://github.com/php-enqueue/enqueue-dev/blob/master/LICENSE
  */
 /**
  * Receives messages from a single Beanstalkd tube over its own connection.
@@ -42,10 +51,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConsumer)
 	 * @var BeanstalkConnection
 	 */
 	zend_declare_property_null(phalcon_queue_adapter_beanstalk_beanstalkconsumer_ce, SL("connection"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var QueueInterface
-	 */
-	zend_declare_property_null(phalcon_queue_adapter_beanstalk_beanstalkconsumer_ce, SL("queue"), ZEND_ACC_PROTECTED);
 	/**
 	 * Default Beanstalkd priority used when releasing or burying.
 	 *
@@ -112,12 +117,6 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConsumer, acknowledge)
 	ZEPHIR_CALL_METHOD(NULL, &_0, "deletejob", NULL, 0, &_1);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
-}
-
-PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConsumer, getQueue)
-{
-
-	RETURN_MEMBER(getThis(), "queue");
 }
 
 PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConsumer, receive)
@@ -253,18 +252,21 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConsumer, touch)
  */
 PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConsumer, buildMessage)
 {
+	zval _1;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *job, job_sub, data, message, _0, _1, _2, _3, _4;
+	zval *job, job_sub, __$false, data, message, _0, _2, _3, _4, _5;
 
 	ZVAL_UNDEF(&job_sub);
+	ZVAL_BOOL(&__$false, 0);
 	ZVAL_UNDEF(&data);
 	ZVAL_UNDEF(&message);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_4);
+	ZVAL_UNDEF(&_5);
+	ZVAL_UNDEF(&_1);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(job)
 	ZEND_PARSE_PARAMETERS_END();
@@ -274,21 +276,24 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConsumer, buildMessage)
 	if (Z_TYPE_P(job) != IS_ARRAY) {
 		RETURN_MM_NULL();
 	}
-	zephir_array_fetch_long(&_0, job, 1, PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkConsumer.zep", 119);
-	ZEPHIR_CALL_FUNCTION(&data, "unserialize", NULL, 28, &_0);
+	zephir_array_fetch_long(&_0, job, 1, PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkConsumer.zep", 118);
+	ZEPHIR_INIT_VAR(&_1);
+	zephir_create_array(&_1, 1, 0);
+	zephir_array_update_string(&_1, SL("allowed_classes"), &__$false, PH_COPY | PH_SEPARATE);
+	ZEPHIR_CALL_FUNCTION(&data, "unserialize", NULL, 28, &_0, &_1);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&data) != IS_ARRAY) {
 		RETURN_MM_NULL();
 	}
 	ZEPHIR_INIT_VAR(&message);
 	object_init_ex(&message, phalcon_queue_adapter_beanstalk_beanstalkmessage_ce);
-	zephir_array_fetch_string(&_1, &data, SL("body"), PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkConsumer.zep", 125);
-	zephir_array_fetch_string(&_2, &data, SL("properties"), PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkConsumer.zep", 125);
-	zephir_array_fetch_string(&_3, &data, SL("headers"), PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkConsumer.zep", 125);
-	ZEPHIR_CALL_METHOD(NULL, &message, "__construct", NULL, 0, &_1, &_2, &_3);
+	zephir_array_fetch_string(&_2, &data, SL("body"), PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkConsumer.zep", 124);
+	zephir_array_fetch_string(&_3, &data, SL("properties"), PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkConsumer.zep", 124);
+	zephir_array_fetch_string(&_4, &data, SL("headers"), PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkConsumer.zep", 124);
+	ZEPHIR_CALL_METHOD(NULL, &message, "__construct", NULL, 0, &_2, &_3, &_4);
 	zephir_check_call_status();
-	zephir_array_fetch_long(&_4, job, 0, PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkConsumer.zep", 127);
-	ZEPHIR_CALL_METHOD(NULL, &message, "setjobid", NULL, 0, &_4);
+	zephir_array_fetch_long(&_5, job, 0, PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkConsumer.zep", 126);
+	ZEPHIR_CALL_METHOD(NULL, &message, "setjobid", NULL, 0, &_5);
 	zephir_check_call_status();
 	RETURN_CCTOR(&message);
 }

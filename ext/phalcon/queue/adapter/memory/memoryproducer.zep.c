@@ -26,6 +26,15 @@
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
+ *
+ * Implementation of this component has been inspired by the queue-interop and
+ * enqueue projects.
+ *
+ * @link    https://github.com/queue-interop/queue-interop
+ * @license https://github.com/queue-interop/queue-interop/blob/master/LICENSE
+ *
+ * @link    https://github.com/php-enqueue/enqueue-dev
+ * @license https://github.com/php-enqueue/enqueue-dev/blob/master/LICENSE
  */
 /**
  * Sends messages into an in-process queue. The Memory transport delivers
@@ -109,7 +118,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryProducer, send)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &destination, &message);
 	if (UNEXPECTED(!((zephir_instance_of_ev(destination, phalcon_contracts_queue_queue_ce))))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_queue_exceptions_invaliddestinationexception_ce, "The Memory transport can only send to a Queue destination", "phalcon/Queue/Adapter/Memory/MemoryProducer.zep", 74);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_queue_exceptions_invaliddestinationexception_ce, "The Memory transport can only send to a Queue destination", "phalcon/Queue/Adapter/Memory/MemoryProducer.zep", 83);
 		return;
 	}
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("context"), PH_NOISY_CC | PH_READONLY);
@@ -141,7 +150,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryProducer, setDeliveryDelay)
 		deliveryDelay = &__$null;
 	}
 	if (UNEXPECTED(Z_TYPE_P(deliveryDelay) != IS_NULL)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_queue_exceptions_deliverydelaynotsupportedexception_ce, "The Memory transport does not support a delivery delay", "phalcon/Queue/Adapter/Memory/MemoryProducer.zep", 88);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_queue_exceptions_deliverydelaynotsupportedexception_ce, "The Memory transport does not support a delivery delay", "phalcon/Queue/Adapter/Memory/MemoryProducer.zep", 97);
 		return;
 	}
 	RETURN_THISW();
@@ -168,7 +177,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryProducer, setPriority)
 		priority = &__$null;
 	}
 	if (UNEXPECTED(Z_TYPE_P(priority) != IS_NULL)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_queue_exceptions_prioritynotsupportedexception_ce, "The Memory transport does not support message priority", "phalcon/Queue/Adapter/Memory/MemoryProducer.zep", 102);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_queue_exceptions_prioritynotsupportedexception_ce, "The Memory transport does not support message priority", "phalcon/Queue/Adapter/Memory/MemoryProducer.zep", 111);
 		return;
 	}
 	RETURN_THISW();
@@ -195,7 +204,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryProducer, setTimeToLive)
 		timeToLive = &__$null;
 	}
 	if (UNEXPECTED(Z_TYPE_P(timeToLive) != IS_NULL)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_queue_exceptions_timetolivenotsupportedexception_ce, "The Memory transport does not support a time to live", "phalcon/Queue/Adapter/Memory/MemoryProducer.zep", 116);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_queue_exceptions_timetolivenotsupportedexception_ce, "The Memory transport does not support a time to live", "phalcon/Queue/Adapter/Memory/MemoryProducer.zep", 125);
 		return;
 	}
 	RETURN_THISW();

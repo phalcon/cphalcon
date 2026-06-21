@@ -35,11 +35,6 @@ class MemoryConsumer extends AbstractConsumer
     protected context;
 
     /**
-     * @var QueueInterface
-     */
-    protected queue;
-
-    /**
      * MemoryConsumer constructor.
      */
     public function __construct(<MemoryContext> context, <QueueInterface> queue)
@@ -53,14 +48,6 @@ class MemoryConsumer extends AbstractConsumer
      */
     public function acknowledge(<MessageInterface> message) -> void
     {
-    }
-
-    /**
-     * Returns the queue this consumer reads from.
-     */
-    public function getQueue() -> <QueueInterface>
-    {
-        return this->queue;
     }
 
     /**

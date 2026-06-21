@@ -27,6 +27,15 @@
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
+ *
+ * Implementation of this component has been inspired by the queue-interop and
+ * enqueue projects.
+ *
+ * @link    https://github.com/queue-interop/queue-interop
+ * @license https://github.com/queue-interop/queue-interop/blob/master/LICENSE
+ *
+ * @link    https://github.com/php-enqueue/enqueue-dev
+ * @license https://github.com/php-enqueue/enqueue-dev/blob/master/LICENSE
  */
 /**
  * Beanstalkd transport session. A queue maps to a Beanstalkd tube. Producers
@@ -171,7 +180,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkContext, createConsumer)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &destination);
 	if (UNEXPECTED(!((zephir_instance_of_ev(destination, phalcon_contracts_queue_queue_ce))))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_queue_exceptions_invaliddestinationexception_ce, "The Beanstalk transport can only consume from a Queue destination", "phalcon/Queue/Adapter/Beanstalk/BeanstalkContext.zep", 95);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_queue_exceptions_invaliddestinationexception_ce, "The Beanstalk transport can only consume from a Queue destination", "phalcon/Queue/Adapter/Beanstalk/BeanstalkContext.zep", 106);
 		return;
 	}
 	object_init_ex(return_value, phalcon_queue_adapter_beanstalk_beanstalkconsumer_ce);
@@ -262,7 +271,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkContext, createQueue)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&queueName_zv);
 	ZVAL_STR_COPY(&queueName_zv, queueName);
-	object_init_ex(return_value, phalcon_queue_adapter_beanstalk_beanstalkqueue_ce);
+	object_init_ex(return_value, phalcon_queue_adapter_genericqueue_ce);
 	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &queueName_zv);
 	zephir_check_call_status();
 	RETURN_MM();
@@ -298,7 +307,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkContext, createTemporaryQueu
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	object_init_ex(return_value, phalcon_queue_adapter_beanstalk_beanstalkqueue_ce);
+	object_init_ex(return_value, phalcon_queue_adapter_genericqueue_ce);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "phalcon_queue_");
 	ZEPHIR_CALL_FUNCTION(&_1, "uniqid", NULL, 0, &_0, &__$true);
@@ -323,7 +332,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkContext, createTopic)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&topicName_zv);
 	ZVAL_STR_COPY(&topicName_zv, topicName);
-	object_init_ex(return_value, phalcon_queue_adapter_beanstalk_beanstalktopic_ce);
+	object_init_ex(return_value, phalcon_queue_adapter_generictopic_ce);
 	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &topicName_zv);
 	zephir_check_call_status();
 	RETURN_MM();
@@ -378,7 +387,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkContext, purgeQueue)
 		if (Z_TYPE_P(&job) == IS_NULL) {
 			break;
 		}
-		zephir_array_fetch_long(&_3$$4, &job, 0, PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkContext.zep", 159);
+		zephir_array_fetch_long(&_3$$4, &job, 0, PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkContext.zep", 170);
 		ZEPHIR_CALL_METHOD(NULL, &connection, "deletejob", &_4, 0, &_3$$4);
 		zephir_check_call_status();
 	}

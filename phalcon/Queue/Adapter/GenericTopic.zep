@@ -17,25 +17,33 @@
  * @license https://github.com/php-enqueue/enqueue-dev/blob/master/LICENSE
  */
 
-namespace Phalcon\Queue\Adapter\Redis;
+namespace Phalcon\Queue\Adapter;
 
 use Phalcon\Contracts\Queue\Topic as TopicInterface;
 
 /**
- * A named Redis topic destination.
+ * A named topic destination shared by every transport. A topic name is the
+ * only knowledge a destination carries, so the adapters need no transport
+ * specific subclass.
  */
-class RedisTopic implements TopicInterface
+class GenericTopic implements TopicInterface
 {
     /**
      * @var string
      */
     protected topicName = "";
 
+    /**
+     * GenericTopic constructor.
+     */
     public function __construct(string topicName)
     {
         let this->topicName = topicName;
     }
 
+    /**
+     * Returns the topic name.
+     */
     public function getTopicName() -> string
     {
         return this->topicName;
