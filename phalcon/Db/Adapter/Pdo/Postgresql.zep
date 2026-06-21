@@ -788,4 +788,26 @@ class Postgresql extends PdoAdapter
     {
         return [];
     }
+
+    /**
+     * Recognizes a PostgreSQL connection-loss failure by SQLSTATE
+     * (connection exception class 08, or admin/crash shutdown 57P0x) with a
+     * message fallback.
+     */
+    protected function isConnectionError(<\Throwable> exception) -> bool
+    {
+        var sqlState, message;
+
+        let sqlState = (string) exception->getCode();
+
+        if sqlState === "08003" || sqlState === "08006" ||
+            sqlState === "57P01" || sqlState === "57P02" || sqlState === "57P03" {
+            return true;
+        }
+
+        let message = exception->getMessage();
+
+        return memstr(message, "server closed the connection unexpectedly") ||
+            memstr(message, "no connection to the server");
+    }
 }
