@@ -73,7 +73,7 @@ class BeanstalkConnection
      */
     public function connect() -> resource
     {
-        var connection;
+        var connection, errorLevel;
 
         let connection = this->connection;
 
@@ -81,11 +81,20 @@ class BeanstalkConnection
             this->disconnect();
         }
 
+        /**
+         * Suppress the connection warning; the failure is handled by the
+         * typeof check below. Zephir has no `@` operator, so error reporting
+         * is toggled around the call instead.
+         */
+        let errorLevel = error_reporting(0);
+
         if this->persistent {
             let connection = pfsockopen(this->host, this->port, null, null);
         } else {
             let connection = fsockopen(this->host, this->port, null, null);
         }
+
+        error_reporting(errorLevel);
 
         if typeof connection != "resource" {
             throw new Exception("Can't connect to the Beanstalk server");
