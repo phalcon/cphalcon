@@ -27,6 +27,8 @@ use Phalcon\Contracts\Queue\Producer as ProducerInterface;
 use Phalcon\Contracts\Queue\Queue as QueueInterface;
 use Phalcon\Contracts\Queue\SubscriptionConsumer as SubscriptionConsumerInterface;
 use Phalcon\Contracts\Queue\Topic as TopicInterface;
+use Phalcon\Queue\Adapter\GenericQueue;
+use Phalcon\Queue\Adapter\GenericTopic;
 use Phalcon\Queue\Exceptions\InvalidDestinationException;
 
 /**
@@ -112,7 +114,7 @@ class RedisContext implements ContextInterface
 
     public function createQueue(string queueName) -> <QueueInterface>
     {
-        return new RedisQueue(queueName);
+        return new GenericQueue(queueName);
     }
 
     public function createSubscriptionConsumer() -> <SubscriptionConsumerInterface>
@@ -122,12 +124,12 @@ class RedisContext implements ContextInterface
 
     public function createTemporaryQueue() -> <QueueInterface>
     {
-        return new RedisQueue(uniqid("phalcon_queue_", true));
+        return new GenericQueue(uniqid("phalcon_queue_", true));
     }
 
     public function createTopic(string topicName) -> <TopicInterface>
     {
-        return new RedisTopic(topicName);
+        return new GenericTopic(topicName);
     }
 
     /**
@@ -241,7 +243,7 @@ class RedisContext implements ContextInterface
     {
         var data;
 
-        let data = unserialize(payload);
+        let data = unserialize(payload, ["allowed_classes" : false]);
 
         if typeof data != "array" {
             return null;

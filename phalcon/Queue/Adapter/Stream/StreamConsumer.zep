@@ -34,11 +34,6 @@ class StreamConsumer extends AbstractConsumer
      */
     protected context;
 
-    /**
-     * @var QueueInterface
-     */
-    protected queue;
-
     public function __construct(<StreamContext> context, <QueueInterface> queue, int pollInterval = 200)
     {
         let this->context      = context,
@@ -51,11 +46,6 @@ class StreamConsumer extends AbstractConsumer
      */
     public function acknowledge(<MessageInterface> message) -> void
     {
-    }
-
-    public function getQueue() -> <QueueInterface>
-    {
-        return this->queue;
     }
 
     public function receiveNoWait() -> <MessageInterface> | null

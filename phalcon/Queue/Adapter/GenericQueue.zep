@@ -17,33 +17,35 @@
  * @license https://github.com/php-enqueue/enqueue-dev/blob/master/LICENSE
  */
 
-namespace Phalcon\Queue\Adapter\Memory;
+namespace Phalcon\Queue\Adapter;
 
-use Phalcon\Contracts\Queue\Topic as TopicInterface;
+use Phalcon\Contracts\Queue\Queue as QueueInterface;
 
 /**
- * A named in-process topic destination.
+ * A named queue destination shared by every transport. A queue name is the
+ * only knowledge a destination carries, so the adapters need no transport
+ * specific subclass.
  */
-class MemoryTopic implements TopicInterface
+class GenericQueue implements QueueInterface
 {
     /**
      * @var string
      */
-    protected topicName = "";
+    protected queueName = "";
 
     /**
-     * MemoryTopic constructor.
+     * GenericQueue constructor.
      */
-    public function __construct(string topicName)
+    public function __construct(string queueName)
     {
-        let this->topicName = topicName;
+        let this->queueName = queueName;
     }
 
     /**
-     * Returns the topic name.
+     * Returns the queue name.
      */
-    public function getTopicName() -> string
+    public function getQueueName() -> string
     {
-        return this->topicName;
+        return this->queueName;
     }
 }

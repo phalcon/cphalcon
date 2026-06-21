@@ -51,11 +51,27 @@ class BeanstalkConnection
      */
     protected port = 11300;
 
+    /**
+     * Tube currently selected with `use`. A fresh connection uses "default".
+     *
+     * @var string
+     */
+    protected usedTube = "default";
+
+    /**
+     * Tubes currently on the watch list, keyed by tube name. A fresh
+     * connection watches "default".
+     *
+     * @var array
+     */
+    protected watchedTubes = [];
+
     public function __construct(string host = "127.0.0.1", int port = 11300, bool persistent = false)
     {
-        let this->host       = host,
-            this->port       = port,
-            this->persistent = persistent;
+        let this->host         = host,
+            this->port         = port,
+            this->persistent   = persistent,
+            this->watchedTubes = ["default" : true];
     }
 
     /**
@@ -104,6 +120,8 @@ class BeanstalkConnection
 
         let this->connection = connection;
 
+        this->restoreSession();
+
         return connection;
     }
 
@@ -142,9 +160,17 @@ class BeanstalkConnection
      */
     public function ignoreTube(string tube) -> bool
     {
+        var result;
+
         this->write("ignore " . tube);
 
-        return this->readStatus()[0] == "WATCHING";
+        let result = this->readStatus()[0] == "WATCHING";
+
+        if result {
+            unset(this->watchedTubes[tube]);
+        }
+
+        return result;
     }
 
     /**
@@ -290,9 +316,17 @@ class BeanstalkConnection
      */
     public function useTube(string tube) -> bool
     {
+        var result;
+
         this->write("use " . tube);
 
-        return this->readStatus()[0] == "USING";
+        let result = this->readStatus()[0] == "USING";
+
+        if result {
+            let this->usedTube = tube;
+        }
+
+        return result;
     }
 
     /**
@@ -300,9 +334,17 @@ class BeanstalkConnection
      */
     public function watchTube(string tube) -> bool
     {
+        var result;
+
         this->write("watch " . tube);
 
-        return this->readStatus()[0] == "WATCHING";
+        let result = this->readStatus()[0] == "WATCHING";
+
+        if result {
+            let this->watchedTubes[tube] = true;
+        }
+
+        return result;
     }
 
     /**
@@ -321,5 +363,32 @@ class BeanstalkConnection
         let packet = data . "\r\n";
 
         return fwrite(connection, packet, strlen(packet));
+    }
+
+    /**
+     * Re-issues the use/watch/ignore commands after a reconnect so a new
+     * socket resumes the tube selection the caller established. A fresh
+     * connection only uses and watches "default".
+     */
+    private function restoreSession() -> void
+    {
+        var tube;
+
+        if this->usedTube != "default" {
+            this->write("use " . this->usedTube);
+            this->readStatus();
+        }
+
+        for tube in array_keys(this->watchedTubes) {
+            if tube != "default" {
+                this->write("watch " . tube);
+                this->readStatus();
+            }
+        }
+
+        if !isset this->watchedTubes["default"] {
+            this->write("ignore default");
+            this->readStatus();
+        }
     }
 }
