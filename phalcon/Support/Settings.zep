@@ -139,6 +139,9 @@ class Settings
             case "form.strict_entity_property_check":
                 return (bool) globals_get("form.strict_entity_property_check");
 
+            case "orm.call_setters_on_hydration":
+                return (bool) globals_get("orm.call_setters_on_hydration");
+
             case "orm.case_insensitive_column_map":
                 return (bool) globals_get("orm.case_insensitive_column_map");
 
