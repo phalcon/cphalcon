@@ -24,4 +24,8 @@ namespace Phalcon\Queue\Exceptions;
  */
 class InvalidMessageException extends Exception
 {
+    public function __construct()
+    {
+        parent::__construct("The message is not valid for the operation");
+    }
 }

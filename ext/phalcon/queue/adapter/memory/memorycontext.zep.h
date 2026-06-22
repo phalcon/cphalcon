@@ -7,10 +7,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryContext, close);
 PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryContext, createConsumer);
 PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryContext, createMessage);
 PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryContext, createProducer);
-PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryContext, createQueue);
 PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryContext, createSubscriptionConsumer);
-PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryContext, createTemporaryQueue);
-PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryContext, createTopic);
 PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryContext, popMessage);
 PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryContext, purgeQueue);
 PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryContext, pushMessage);
@@ -32,18 +29,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_queue_adapter_memory_memorycontext_createproducer, 0, 0, Phalcon\\Contracts\\Queue\\Producer, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_queue_adapter_memory_memorycontext_createqueue, 0, 1, Phalcon\\Contracts\\Queue\\Queue, 0)
-	ZEND_ARG_TYPE_INFO(0, queueName, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_queue_adapter_memory_memorycontext_createsubscriptionconsumer, 0, 0, Phalcon\\Contracts\\Queue\\SubscriptionConsumer, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_queue_adapter_memory_memorycontext_createtemporaryqueue, 0, 0, Phalcon\\Contracts\\Queue\\Queue, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_queue_adapter_memory_memorycontext_createtopic, 0, 1, Phalcon\\Contracts\\Queue\\Topic, 0)
-	ZEND_ARG_TYPE_INFO(0, topicName, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_queue_adapter_memory_memorycontext_popmessage, 0, 1, Phalcon\\Contracts\\Queue\\Message, 1)
@@ -69,10 +55,7 @@ ZEPHIR_INIT_FUNCS(phalcon_queue_adapter_memory_memorycontext_method_entry) {
 	PHP_ME(Phalcon_Queue_Adapter_Memory_MemoryContext, createConsumer, arginfo_phalcon_queue_adapter_memory_memorycontext_createconsumer, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Queue_Adapter_Memory_MemoryContext, createMessage, arginfo_phalcon_queue_adapter_memory_memorycontext_createmessage, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Queue_Adapter_Memory_MemoryContext, createProducer, arginfo_phalcon_queue_adapter_memory_memorycontext_createproducer, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Queue_Adapter_Memory_MemoryContext, createQueue, arginfo_phalcon_queue_adapter_memory_memorycontext_createqueue, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Queue_Adapter_Memory_MemoryContext, createSubscriptionConsumer, arginfo_phalcon_queue_adapter_memory_memorycontext_createsubscriptionconsumer, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Queue_Adapter_Memory_MemoryContext, createTemporaryQueue, arginfo_phalcon_queue_adapter_memory_memorycontext_createtemporaryqueue, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Queue_Adapter_Memory_MemoryContext, createTopic, arginfo_phalcon_queue_adapter_memory_memorycontext_createtopic, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Queue_Adapter_Memory_MemoryContext, popMessage, arginfo_phalcon_queue_adapter_memory_memorycontext_popmessage, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Queue_Adapter_Memory_MemoryContext, purgeQueue, arginfo_phalcon_queue_adapter_memory_memorycontext_purgequeue, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Queue_Adapter_Memory_MemoryContext, pushMessage, arginfo_phalcon_queue_adapter_memory_memorycontext_pushmessage, ZEND_ACC_PUBLIC)
