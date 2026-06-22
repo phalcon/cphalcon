@@ -42,6 +42,9 @@ final class HasAttributeTest extends AbstractDatabaseTestCase
             [
                 'metadataLibmemcached',
             ],
+            [
+                'metadataStream',
+            ],
         ];
     }
 

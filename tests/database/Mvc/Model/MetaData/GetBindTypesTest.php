@@ -13,20 +13,68 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Mvc\Model\MetaData;
 
+use Phalcon\Mvc\Model\MetaData;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use Phalcon\Tests\Support\Models\Invoices;
+use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 
-#[Group('mysql')]
-#[Group('pgsql')]
-#[Group('sqlite')]
 final class GetBindTypesTest extends AbstractDatabaseTestCase
 {
+    use DiTrait;
+
     /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @return array[]
      */
-    public function testMvcModelMetadataGetBindTypes(): void
+    public static function getExamples(): array
     {
-        $this->markTestSkipped('Need implementation');
+        return [
+            ['metadataMemory'],
+            ['metadataApcu'],
+            ['metadataRedis'],
+            ['metadataLibmemcached'],
+            ['metadataStream'],
+        ];
+    }
+
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+    }
+
+    /**
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2020-02-01
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    #[DataProvider('getExamples')]
+    public function testMvcModelMetadataGetBindTypes(
+        string $service
+    ): void {
+        $adapter = $this->newService($service);
+        $adapter->setDi($this->container);
+
+        $adapter->reset();
+
+        $this->container->setShared('modelsMetadata', $adapter);
+
+        /** @var MetaData $metadata */
+        $metadata = $this->container->get('modelsMetadata');
+
+        $model    = new Invoices();
+        $expected = [
+            'inv_id'          => 1,
+            'inv_cst_id'      => 1,
+            'inv_status_flag' => 1,
+            'inv_title'       => 2,
+            'inv_total'       => 32,
+            'inv_created_at'  => 2,
+        ];
+
+        $this->assertEquals($expected, $metadata->getBindTypes($model));
     }
 }
