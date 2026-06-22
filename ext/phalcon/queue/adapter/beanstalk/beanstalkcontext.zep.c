@@ -16,7 +16,6 @@
 #include "kernel/operators.h"
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
-#include "kernel/exception.h"
 #include "kernel/array.h"
 
 
@@ -41,11 +40,12 @@
  * Beanstalkd transport session. A queue maps to a Beanstalkd tube. Producers
  * share the context connection (`use` + `put`); each consumer owns its own
  * connection, because Beanstalkd only lets the reserving connection delete,
- * release, bury or touch a job.
+ * release, bury or touch a job. The destination factories come from
+ * AbstractContext.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_Beanstalk_BeanstalkContext)
 {
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Queue\\Adapter\\Beanstalk, BeanstalkContext, phalcon, queue_adapter_beanstalk_beanstalkcontext, phalcon_queue_adapter_beanstalk_beanstalkcontext_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Queue\\Adapter\\Beanstalk, BeanstalkContext, phalcon, queue_adapter_beanstalk_beanstalkcontext, phalcon_queue_adapter_abstractcontext_ce, phalcon_queue_adapter_beanstalk_beanstalkcontext_method_entry, 0);
 
 	/**
 	 * Shared connection used by producers and purges.
@@ -77,7 +77,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_Beanstalk_BeanstalkContext)
 	 * @var int
 	 */
 	zend_declare_property_long(phalcon_queue_adapter_beanstalk_beanstalkcontext_ce, SL("ttr"), 86400, ZEND_ACC_PROTECTED);
-	zend_class_implements(phalcon_queue_adapter_beanstalk_beanstalkcontext_ce, 1, phalcon_contracts_queue_context_ce);
 	return SUCCESS;
 }
 
@@ -168,25 +167,26 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkContext, createConsumer)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *destination, destination_sub, _0;
+	zval *destination, destination_sub, _0, _1;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&destination_sub);
 	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT_OF_CLASS(destination, phalcon_contracts_queue_destination_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &destination);
-	if (UNEXPECTED(!((zephir_instance_of_ev(destination, phalcon_contracts_queue_queue_ce))))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_queue_exceptions_invaliddestinationexception_ce, "The Beanstalk transport can only consume from a Queue destination", "phalcon/Queue/Adapter/Beanstalk/BeanstalkContext.zep", 106);
-		return;
-	}
-	object_init_ex(return_value, phalcon_queue_adapter_beanstalk_beanstalkconsumer_ce);
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "newconnection", NULL, 0);
+	ZEPHIR_INIT_VAR(&_0);
+	ZVAL_STRING(&_0, "consume from");
+	ZEPHIR_CALL_CE_STATIC(NULL, phalcon_queue_adapter_queuedestinationguard_ce, "assertqueue", NULL, 0, destination, &_0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &_0, destination);
+	object_init_ex(return_value, phalcon_queue_adapter_beanstalk_beanstalkconsumer_ce);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "newconnection", NULL, 0);
+	zephir_check_call_status();
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &_1, destination);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -256,27 +256,6 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkContext, createProducer)
 	RETURN_MM();
 }
 
-PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkContext, createQueue)
-{
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval queueName_zv;
-	zend_string *queueName = NULL;
-
-	ZVAL_UNDEF(&queueName_zv);
-	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_STR(queueName)
-	ZEND_PARSE_PARAMETERS_END();
-	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_memory_observe(&queueName_zv);
-	ZVAL_STR_COPY(&queueName_zv, queueName);
-	object_init_ex(return_value, phalcon_queue_adapter_genericqueue_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &queueName_zv);
-	zephir_check_call_status();
-	RETURN_MM();
-}
-
 PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkContext, createSubscriptionConsumer)
 {
 	zval _0;
@@ -291,49 +270,6 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkContext, createSubscriptionC
 	object_init_ex(return_value, phalcon_queue_adapter_beanstalk_beanstalksubscriptionconsumer_ce);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("pollInterval"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, this_ptr, &_0);
-	zephir_check_call_status();
-	RETURN_MM();
-}
-
-PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkContext, createTemporaryQueue)
-{
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval __$true, _0, _1;
-
-	ZVAL_BOOL(&__$true, 1);
-	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1);
-	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-
-	object_init_ex(return_value, phalcon_queue_adapter_genericqueue_ce);
-	ZEPHIR_INIT_VAR(&_0);
-	ZVAL_STRING(&_0, "phalcon_queue_");
-	ZEPHIR_CALL_FUNCTION(&_1, "uniqid", NULL, 0, &_0, &__$true);
-	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &_1);
-	zephir_check_call_status();
-	RETURN_MM();
-}
-
-PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkContext, createTopic)
-{
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval topicName_zv;
-	zend_string *topicName = NULL;
-
-	ZVAL_UNDEF(&topicName_zv);
-	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_STR(topicName)
-	ZEND_PARSE_PARAMETERS_END();
-	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_memory_observe(&topicName_zv);
-	ZVAL_STR_COPY(&topicName_zv, topicName);
-	object_init_ex(return_value, phalcon_queue_adapter_generictopic_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &topicName_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -387,7 +323,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkContext, purgeQueue)
 		if (Z_TYPE_P(&job) == IS_NULL) {
 			break;
 		}
-		zephir_array_fetch_long(&_3$$4, &job, 0, PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkContext.zep", 170);
+		zephir_array_fetch_long(&_3$$4, &job, 0, PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkContext.zep", 149);
 		ZEPHIR_CALL_METHOD(NULL, &connection, "deletejob", &_4, 0, &_3$$4);
 		zephir_check_call_status();
 	}

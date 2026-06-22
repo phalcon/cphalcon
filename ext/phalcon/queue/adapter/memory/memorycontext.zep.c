@@ -14,7 +14,6 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 #include "kernel/object.h"
-#include "kernel/exception.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/array.h"
@@ -38,12 +37,13 @@
  * @license https://github.com/php-enqueue/enqueue-dev/blob/master/LICENSE
  */
 /**
- * In-process transport session. Owns the named FIFO queues that this
- * context's producers and consumers share.
+ * In-process transport session. Owns the named FIFO queues that this context's
+ * producers and consumers share. The destination factories (createQueue /
+ * createTopic / createTemporaryQueue) come from AbstractContext.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_Memory_MemoryContext)
 {
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Queue\\Adapter\\Memory, MemoryContext, phalcon, queue_adapter_memory_memorycontext, phalcon_queue_adapter_memory_memorycontext_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Queue\\Adapter\\Memory, MemoryContext, phalcon, queue_adapter_memory_memorycontext, phalcon_queue_adapter_abstractcontext_ce, phalcon_queue_adapter_memory_memorycontext_method_entry, 0);
 
 	/**
 	 * Named queues: queue name => list of messages (FIFO).
@@ -53,7 +53,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_Memory_MemoryContext)
 	zend_declare_property_null(phalcon_queue_adapter_memory_memorycontext_ce, SL("queues"), ZEND_ACC_PROTECTED);
 	phalcon_queue_adapter_memory_memorycontext_ce->create_object = zephir_init_properties_Phalcon_Queue_Adapter_Memory_MemoryContext;
 
-	zend_class_implements(phalcon_queue_adapter_memory_memorycontext_ce, 1, phalcon_contracts_queue_context_ce);
 	return SUCCESS;
 }
 
@@ -83,20 +82,21 @@ PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryContext, createConsumer)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *destination, destination_sub;
+	zval *destination, destination_sub, _0;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&destination_sub);
+	ZVAL_UNDEF(&_0);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT_OF_CLASS(destination, phalcon_contracts_queue_destination_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &destination);
-	if (UNEXPECTED(!((zephir_instance_of_ev(destination, phalcon_contracts_queue_queue_ce))))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_queue_exceptions_invaliddestinationexception_ce, "The Memory transport can only consume from a Queue destination", "phalcon/Queue/Adapter/Memory/MemoryContext.zep", 63);
-		return;
-	}
+	ZEPHIR_INIT_VAR(&_0);
+	ZVAL_STRING(&_0, "consume from");
+	ZEPHIR_CALL_CE_STATIC(NULL, phalcon_queue_adapter_queuedestinationguard_ce, "assertqueue", NULL, 0, destination, &_0);
+	zephir_check_call_status();
 	object_init_ex(return_value, phalcon_queue_adapter_memory_memoryconsumer_ce);
 	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, this_ptr, destination);
 	zephir_check_call_status();
@@ -175,30 +175,6 @@ PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryContext, createProducer)
 }
 
 /**
- * Creates a queue destination by name.
- */
-PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryContext, createQueue)
-{
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval queueName_zv;
-	zend_string *queueName = NULL;
-
-	ZVAL_UNDEF(&queueName_zv);
-	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_STR(queueName)
-	ZEND_PARSE_PARAMETERS_END();
-	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_memory_observe(&queueName_zv);
-	ZVAL_STR_COPY(&queueName_zv, queueName);
-	object_init_ex(return_value, phalcon_queue_adapter_genericqueue_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &queueName_zv);
-	zephir_check_call_status();
-	RETURN_MM();
-}
-
-/**
  * Creates a subscription consumer.
  */
 PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryContext, createSubscriptionConsumer)
@@ -211,55 +187,6 @@ PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryContext, createSubscriptionConsume
 
 	object_init_ex(return_value, phalcon_queue_adapter_memory_memorysubscriptionconsumer_ce);
 	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, this_ptr);
-	zephir_check_call_status();
-	RETURN_MM();
-}
-
-/**
- * Creates a uniquely named temporary queue.
- */
-PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryContext, createTemporaryQueue)
-{
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval __$true, _0, _1;
-
-	ZVAL_BOOL(&__$true, 1);
-	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1);
-	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-
-	object_init_ex(return_value, phalcon_queue_adapter_genericqueue_ce);
-	ZEPHIR_INIT_VAR(&_0);
-	ZVAL_STRING(&_0, "phalcon_queue_");
-	ZEPHIR_CALL_FUNCTION(&_1, "uniqid", NULL, 0, &_0, &__$true);
-	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &_1);
-	zephir_check_call_status();
-	RETURN_MM();
-}
-
-/**
- * Creates a topic destination by name.
- */
-PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryContext, createTopic)
-{
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval topicName_zv;
-	zend_string *topicName = NULL;
-
-	ZVAL_UNDEF(&topicName_zv);
-	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_STR(topicName)
-	ZEND_PARSE_PARAMETERS_END();
-	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_memory_observe(&topicName_zv);
-	ZVAL_STR_COPY(&topicName_zv, topicName);
-	object_init_ex(return_value, phalcon_queue_adapter_generictopic_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &topicName_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -360,7 +287,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryContext, pushMessage)
 		ZEPHIR_INIT_NVAR(&messages);
 		array_init(&messages);
 	}
-	zephir_array_append(&messages, message, PH_SEPARATE, "phalcon/Queue/Adapter/Memory/MemoryContext.zep", 159);
+	zephir_array_append(&messages, message, PH_SEPARATE, "phalcon/Queue/Adapter/Memory/MemoryContext.zep", 129);
 	zephir_update_property_array(this_ptr, SL("queues"), &queueName_zv, &messages);
 	ZEPHIR_MM_RESTORE();
 }

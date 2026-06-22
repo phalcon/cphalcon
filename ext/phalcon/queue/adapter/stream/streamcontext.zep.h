@@ -8,10 +8,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamContext, close);
 PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamContext, createConsumer);
 PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamContext, createMessage);
 PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamContext, createProducer);
-PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamContext, createQueue);
 PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamContext, createSubscriptionConsumer);
-PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamContext, createTemporaryQueue);
-PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamContext, createTopic);
 PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamContext, popMessage);
 PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamContext, purgeQueue);
 PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamContext, pushMessage);
@@ -39,18 +36,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_queue_adapter_stream_streamcontext_createproducer, 0, 0, Phalcon\\Contracts\\Queue\\Producer, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_queue_adapter_stream_streamcontext_createqueue, 0, 1, Phalcon\\Contracts\\Queue\\Queue, 0)
-	ZEND_ARG_TYPE_INFO(0, queueName, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_queue_adapter_stream_streamcontext_createsubscriptionconsumer, 0, 0, Phalcon\\Contracts\\Queue\\SubscriptionConsumer, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_queue_adapter_stream_streamcontext_createtemporaryqueue, 0, 0, Phalcon\\Contracts\\Queue\\Queue, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_queue_adapter_stream_streamcontext_createtopic, 0, 1, Phalcon\\Contracts\\Queue\\Topic, 0)
-	ZEND_ARG_TYPE_INFO(0, topicName, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_queue_adapter_stream_streamcontext_popmessage, 0, 1, Phalcon\\Contracts\\Queue\\Message, 1)
@@ -81,10 +67,7 @@ ZEPHIR_INIT_FUNCS(phalcon_queue_adapter_stream_streamcontext_method_entry) {
 	PHP_ME(Phalcon_Queue_Adapter_Stream_StreamContext, createConsumer, arginfo_phalcon_queue_adapter_stream_streamcontext_createconsumer, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Queue_Adapter_Stream_StreamContext, createMessage, arginfo_phalcon_queue_adapter_stream_streamcontext_createmessage, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Queue_Adapter_Stream_StreamContext, createProducer, arginfo_phalcon_queue_adapter_stream_streamcontext_createproducer, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Queue_Adapter_Stream_StreamContext, createQueue, arginfo_phalcon_queue_adapter_stream_streamcontext_createqueue, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Queue_Adapter_Stream_StreamContext, createSubscriptionConsumer, arginfo_phalcon_queue_adapter_stream_streamcontext_createsubscriptionconsumer, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Queue_Adapter_Stream_StreamContext, createTemporaryQueue, arginfo_phalcon_queue_adapter_stream_streamcontext_createtemporaryqueue, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Queue_Adapter_Stream_StreamContext, createTopic, arginfo_phalcon_queue_adapter_stream_streamcontext_createtopic, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Queue_Adapter_Stream_StreamContext, popMessage, arginfo_phalcon_queue_adapter_stream_streamcontext_popmessage, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Queue_Adapter_Stream_StreamContext, purgeQueue, arginfo_phalcon_queue_adapter_stream_streamcontext_purgequeue, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Queue_Adapter_Stream_StreamContext, pushMessage, arginfo_phalcon_queue_adapter_stream_streamcontext_pushmessage, ZEND_ACC_PUBLIC)

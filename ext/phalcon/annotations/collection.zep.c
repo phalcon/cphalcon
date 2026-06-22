@@ -104,7 +104,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, __construct)
 			ZVAL_COPY(&annotationData, _0);
 			ZEPHIR_INIT_NVAR(&_1$$3);
 			object_init_ex(&_1$$3, phalcon_annotations_annotation_ce);
-			ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", &_2, 284, &annotationData);
+			ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", &_2, 290, &annotationData);
 			zephir_check_call_status();
 			zephir_array_append(&annotations, &_1$$3, PH_SEPARATE, "phalcon/Annotations/Collection.zep", 56);
 		} ZEND_HASH_FOREACH_END();
@@ -128,7 +128,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, __construct)
 			zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(&_5$$4);
 				object_init_ex(&_5$$4, phalcon_annotations_annotation_ce);
-				ZEPHIR_CALL_METHOD(NULL, &_5$$4, "__construct", &_2, 284, &annotationData);
+				ZEPHIR_CALL_METHOD(NULL, &_5$$4, "__construct", &_2, 290, &annotationData);
 				zephir_check_call_status();
 				zephir_array_append(&annotations, &_5$$4, PH_SEPARATE, "phalcon/Annotations/Collection.zep", 56);
 		}
@@ -244,7 +244,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, get)
 	ZEPHIR_INIT_NVAR(&annotation);
 	ZEPHIR_INIT_VAR(&_6);
 	object_init_ex(&_6, phalcon_annotations_exceptions_annotationnotfound_ce);
-	ZEPHIR_CALL_METHOD(NULL, &_6, "__construct", NULL, 286, &name_zv);
+	ZEPHIR_CALL_METHOD(NULL, &_6, "__construct", NULL, 292, &name_zv);
 	zephir_check_call_status();
 	zephir_throw_exception_debug(&_6, "phalcon/Annotations/Collection.zep", 99);
 	ZEPHIR_MM_RESTORE();

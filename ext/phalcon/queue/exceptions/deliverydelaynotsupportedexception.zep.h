@@ -3,3 +3,12 @@ extern zend_class_entry *phalcon_queue_exceptions_deliverydelaynotsupportedexcep
 
 ZEPHIR_INIT_CLASS(Phalcon_Queue_Exceptions_DeliveryDelayNotSupportedException);
 
+PHP_METHOD(Phalcon_Queue_Exceptions_DeliveryDelayNotSupportedException, __construct);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_queue_exceptions_deliverydelaynotsupportedexception___construct, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_queue_exceptions_deliverydelaynotsupportedexception_method_entry) {
+PHP_ME(Phalcon_Queue_Exceptions_DeliveryDelayNotSupportedException, __construct, arginfo_phalcon_queue_exceptions_deliverydelaynotsupportedexception___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_FE_END
+};

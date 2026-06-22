@@ -410,7 +410,7 @@ PHP_METHOD(Phalcon_Encryption_Security, computeHmac)
 	/* try_start_1: */
 
 		ZVAL_BOOL(&_0$$3, (raw ? 1 : 0));
-		ZEPHIR_CALL_FUNCTION(&hmac, "hash_hmac", NULL, 502, &algorithm_zv, &data_zv, &key_zv, &_0$$3);
+		ZEPHIR_CALL_FUNCTION(&hmac, "hash_hmac", NULL, 508, &algorithm_zv, &data_zv, &key_zv, &_0$$3);
 		zephir_check_call_status_or_jump(try_end_1);
 
 	try_end_1:
@@ -849,7 +849,7 @@ PHP_METHOD(Phalcon_Encryption_Security, hash)
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "%02s");
-	ZEPHIR_CALL_FUNCTION(&formatted, "sprintf", NULL, 139, &_0, &cost);
+	ZEPHIR_CALL_FUNCTION(&formatted, "sprintf", NULL, 145, &_0, &cost);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&prefix);
 	ZVAL_STRING(&prefix, "");
@@ -879,14 +879,14 @@ PHP_METHOD(Phalcon_Encryption_Security, hash)
 		if (ZEPHIR_IS_LONG(&_1, 5)) {
 			ZEPHIR_INIT_VAR(&_2$$6);
 			ZVAL_STRING(&_2$$6, "$2a$%s$");
-			ZEPHIR_CALL_FUNCTION(&prefix, "sprintf", NULL, 139, &_2$$6, &formatted);
+			ZEPHIR_CALL_FUNCTION(&prefix, "sprintf", NULL, 145, &_2$$6, &formatted);
 			zephir_check_call_status();
 			break;
 		}
 		if (ZEPHIR_IS_LONG(&_1, 6)) {
 			ZEPHIR_INIT_VAR(&_3$$7);
 			ZVAL_STRING(&_3$$7, "$2x$%s$");
-			ZEPHIR_CALL_FUNCTION(&prefix, "sprintf", NULL, 139, &_3$$7, &formatted);
+			ZEPHIR_CALL_FUNCTION(&prefix, "sprintf", NULL, 145, &_3$$7, &formatted);
 			zephir_check_call_status();
 			break;
 		}
