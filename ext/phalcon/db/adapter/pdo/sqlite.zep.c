@@ -451,7 +451,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns)
 				if (_36$$30) {
 					zephir_array_fetch_long(&_41$$31, &field, 4, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 323);
 					ZEPHIR_INIT_NVAR(&_42$$31);
-					ZVAL_STRING(&_42$$31, "/^'|'$/");
+					ZVAL_STRING(&_42$$31, "/(?:^')|(?:'$)/");
 					ZEPHIR_INIT_NVAR(&_43$$31);
 					ZVAL_STRING(&_43$$31, "");
 					ZEPHIR_CALL_FUNCTION(&_44$$31, "preg_replace", &_45, 90, &_42$$31, &_43$$31, &_41$$31);
@@ -648,7 +648,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns)
 					if (_82$$59) {
 						zephir_array_fetch_long(&_86$$60, &field, 4, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 323);
 						ZEPHIR_INIT_NVAR(&_87$$60);
-						ZVAL_STRING(&_87$$60, "/^'|'$/");
+						ZVAL_STRING(&_87$$60, "/(?:^')|(?:'$)/");
 						ZEPHIR_INIT_NVAR(&_88$$60);
 						ZVAL_STRING(&_88$$60, "");
 						ZEPHIR_CALL_FUNCTION(&_89$$60, "preg_replace", &_45, 90, &_87$$60, &_88$$60, &_86$$60);

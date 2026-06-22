@@ -14,19 +14,47 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Database\Mvc\Model\Resultset;
 
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 
-#[Group('mysql')]
-#[Group('pgsql')]
-#[Group('sqlite')]
+#[Group('phql')]
 final class GetMessagesTest extends AbstractDatabaseTestCase
 {
+    use ResultsetFixtureTrait;
+
     /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @return array<string, array{0: string}>
      */
-    public function testMvcModelResultsetGetMessages(): void
+    public static function getExamples(): array
     {
-        $this->markTestSkipped('Need implementation');
+        return [
+            'simple'  => ['simple'],
+            'complex' => ['complex'],
+            'empty'   => ['empty'],
+        ];
+    }
+
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+        $this->seedResultsetFixture();
+    }
+
+    /**
+     * A fresh resultset has produced no batch-operation errors yet.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-22
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    #[DataProvider('getExamples')]
+    public function testMvcModelResultsetGetMessages(string $type): void
+    {
+        $resultset = $this->getResultset($type);
+
+        $this->assertSame([], $resultset->getMessages());
     }
 }

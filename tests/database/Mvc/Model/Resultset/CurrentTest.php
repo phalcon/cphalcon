@@ -13,20 +13,61 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Mvc\Model\Resultset;
 
+use Phalcon\Mvc\Model\Row;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use Phalcon\Tests\Support\Models\Invoices;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 
-#[Group('mysql')]
-#[Group('pgsql')]
-#[Group('sqlite')]
+#[Group('phql')]
 final class CurrentTest extends AbstractDatabaseTestCase
 {
+    use ResultsetFixtureTrait;
+
+    /**
+     * A simple resultset hydrates models, a complex one rows, an empty one
+     * has no current record.
+     *
+     * @return array<string, array{0: string, 1: string|null}>
+     */
+    public static function getExamples(): array
+    {
+        return [
+            'simple'  => ['simple', Invoices::class],
+            'complex' => ['complex', Row::class],
+            'empty'   => ['empty', null],
+        ];
+    }
+
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+        $this->seedResultsetFixture();
+    }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2026-06-22
      */
-    public function testMvcModelResultsetCurrent(): void
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    #[DataProvider('getExamples')]
+    public function testMvcModelResultsetCurrent(string $type, ?string $expected): void
     {
-        $this->markTestSkipped('Need implementation');
+        $resultset = $this->getResultset($type);
+
+        $resultset->rewind();
+
+        $current = $resultset->current();
+
+        if (null === $expected) {
+            $this->assertNull($current);
+
+            return;
+        }
+
+        $this->assertInstanceOf($expected, $current);
     }
 }
