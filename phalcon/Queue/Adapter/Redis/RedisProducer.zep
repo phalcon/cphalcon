@@ -22,16 +22,15 @@ namespace Phalcon\Queue\Adapter\Redis;
 use Phalcon\Contracts\Queue\Destination as DestinationInterface;
 use Phalcon\Contracts\Queue\Message as MessageInterface;
 use Phalcon\Contracts\Queue\Producer as ProducerInterface;
-use Phalcon\Contracts\Queue\Queue as QueueInterface;
-use Phalcon\Queue\Exceptions\InvalidDestinationException;
-use Phalcon\Queue\Exceptions\PriorityNotSupportedException;
-use Phalcon\Queue\Exceptions\TimeToLiveNotSupportedException;
+use Phalcon\Queue\Adapter\AbstractProducer;
+use Phalcon\Queue\Adapter\QueueDestinationGuard;
 
 /**
  * Sends messages to a Redis queue. Delivery delay is supported (via the
- * delayed sorted set); priority and time to live are not.
+ * delayed sorted set); priority and time to live are not (the defaults from
+ * AbstractProducer reject them).
  */
-class RedisProducer implements ProducerInterface
+class RedisProducer extends AbstractProducer
 {
     /**
      * @var RedisContext
@@ -55,25 +54,11 @@ class RedisProducer implements ProducerInterface
         return this->deliveryDelay;
     }
 
-    public function getPriority() -> int | null
-    {
-        return null;
-    }
-
-    public function getTimeToLive() -> int | null
-    {
-        return null;
-    }
-
     public function send(<DestinationInterface> destination, <MessageInterface> message) -> void
     {
         int delay;
 
-        if unlikely !(destination instanceof QueueInterface) {
-            throw new InvalidDestinationException(
-                "The Redis transport can only send to a Queue destination"
-            );
-        }
+        QueueDestinationGuard::assertQueue(destination, "send to");
 
         let delay = this->deliveryDelay === null ? 0 : (int) this->deliveryDelay;
 
@@ -83,28 +68,6 @@ class RedisProducer implements ProducerInterface
     public function setDeliveryDelay(var deliveryDelay = null) -> <ProducerInterface>
     {
         let this->deliveryDelay = deliveryDelay === null ? null : (int) deliveryDelay;
-
-        return this;
-    }
-
-    public function setPriority(var priority = null) -> <ProducerInterface>
-    {
-        if unlikely priority !== null {
-            throw new PriorityNotSupportedException(
-                "The Redis transport does not support message priority"
-            );
-        }
-
-        return this;
-    }
-
-    public function setTimeToLive(var timeToLive = null) -> <ProducerInterface>
-    {
-        if unlikely timeToLive !== null {
-            throw new TimeToLiveNotSupportedException(
-                "The Redis transport does not support a time to live"
-            );
-        }
 
         return this;
     }

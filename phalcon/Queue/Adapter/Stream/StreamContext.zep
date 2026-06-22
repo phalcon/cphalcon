@@ -20,24 +20,22 @@
 namespace Phalcon\Queue\Adapter\Stream;
 
 use Phalcon\Contracts\Queue\Consumer as ConsumerInterface;
-use Phalcon\Contracts\Queue\Context as ContextInterface;
 use Phalcon\Contracts\Queue\Destination as DestinationInterface;
 use Phalcon\Contracts\Queue\Message as MessageInterface;
 use Phalcon\Contracts\Queue\Producer as ProducerInterface;
 use Phalcon\Contracts\Queue\Queue as QueueInterface;
 use Phalcon\Contracts\Queue\SubscriptionConsumer as SubscriptionConsumerInterface;
-use Phalcon\Contracts\Queue\Topic as TopicInterface;
-use Phalcon\Queue\Adapter\GenericQueue;
-use Phalcon\Queue\Adapter\GenericTopic;
-use Phalcon\Queue\Exceptions\InvalidDestinationException;
+use Phalcon\Queue\Adapter\AbstractContext;
+use Phalcon\Queue\Adapter\MessageEnvelope;
+use Phalcon\Queue\Adapter\QueueDestinationGuard;
 
 /**
  * Filesystem transport session. Each queue is one append-only file under the
  * configured directory; cross-process safety comes from flock. One message
  * per line, stored as base64(serialize([...])) so bodies with newlines are
- * safe.
+ * safe. The destination factories come from AbstractContext.
  */
-class StreamContext implements ContextInterface
+class StreamContext extends AbstractContext
 {
     /**
      * Milliseconds slept between poll attempts by consumers.
@@ -65,11 +63,7 @@ class StreamContext implements ContextInterface
 
     public function createConsumer(<DestinationInterface> destination) -> <ConsumerInterface>
     {
-        if unlikely !(destination instanceof QueueInterface) {
-            throw new InvalidDestinationException(
-                "The Stream transport can only consume from a Queue destination"
-            );
-        }
+        QueueDestinationGuard::assertQueue(destination, "consume from");
 
         return new StreamConsumer(this, destination, this->pollInterval);
     }
@@ -84,24 +78,9 @@ class StreamContext implements ContextInterface
         return new StreamProducer(this);
     }
 
-    public function createQueue(string queueName) -> <QueueInterface>
-    {
-        return new GenericQueue(queueName);
-    }
-
     public function createSubscriptionConsumer() -> <SubscriptionConsumerInterface>
     {
         return new StreamSubscriptionConsumer(this, this->pollInterval);
-    }
-
-    public function createTemporaryQueue() -> <QueueInterface>
-    {
-        return new GenericQueue(uniqid("phalcon_queue_", true));
-    }
-
-    public function createTopic(string topicName) -> <TopicInterface>
-    {
-        return new GenericTopic(topicName);
     }
 
     /**
@@ -154,9 +133,9 @@ class StreamContext implements ContextInterface
         flock(pointer, LOCK_UN);
         fclose(pointer);
 
-        let data = unserialize(base64_decode(line), ["allowed_classes" : false]);
+        let data = MessageEnvelope::decode(base64_decode(line));
 
-        if typeof data !== "array" {
+        if data === null {
             return null;
         }
 
@@ -180,19 +159,13 @@ class StreamContext implements ContextInterface
      */
     public function pushMessage(string queueName, <MessageInterface> message) -> void
     {
-        var filepath, data, line;
+        var filepath, line;
 
         let filepath = this->getFilepath(queueName);
 
         this->ensureDir();
 
-        let data = [
-            "body"       : message->getBody(),
-            "properties" : message->getProperties(),
-            "headers"    : message->getHeaders()
-        ];
-
-        let line = base64_encode(serialize(data)) . PHP_EOL;
+        let line = base64_encode(MessageEnvelope::encode(message)) . PHP_EOL;
 
         file_put_contents(filepath, line, FILE_APPEND | LOCK_EX);
     }

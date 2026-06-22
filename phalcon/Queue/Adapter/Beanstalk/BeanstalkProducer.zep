@@ -22,16 +22,17 @@ namespace Phalcon\Queue\Adapter\Beanstalk;
 use Phalcon\Contracts\Queue\Destination as DestinationInterface;
 use Phalcon\Contracts\Queue\Message as MessageInterface;
 use Phalcon\Contracts\Queue\Producer as ProducerInterface;
-use Phalcon\Contracts\Queue\Queue as QueueInterface;
-use Phalcon\Queue\Exceptions\InvalidDestinationException;
-use Phalcon\Queue\Exceptions\TimeToLiveNotSupportedException;
+use Phalcon\Queue\Adapter\AbstractProducer;
+use Phalcon\Queue\Adapter\MessageEnvelope;
+use Phalcon\Queue\Adapter\QueueDestinationGuard;
 
 /**
  * Sends messages to a Beanstalkd tube. Delivery delay (rounded down to whole
  * seconds) and message priority are supported natively; Beanstalkd has no
- * message expiry, so time to live is not.
+ * message expiry, so time to live is not (the default from AbstractProducer
+ * rejects it).
  */
-class BeanstalkProducer implements ProducerInterface
+class BeanstalkProducer extends AbstractProducer
 {
     /**
      * Default Beanstalkd priority (0 = most urgent).
@@ -74,31 +75,15 @@ class BeanstalkProducer implements ProducerInterface
         return this->priority;
     }
 
-    public function getTimeToLive() -> int | null
-    {
-        return null;
-    }
-
     public function send(<DestinationInterface> destination, <MessageInterface> message) -> void
     {
         var payload;
         int priority, delay;
 
-        if unlikely !(destination instanceof QueueInterface) {
-            throw new InvalidDestinationException(
-                "The Beanstalk transport can only send to a Queue destination"
-            );
-        }
+        QueueDestinationGuard::assertQueue(destination, "send to");
 
-        let payload = serialize(
-            [
-                "body"       : message->getBody(),
-                "properties" : message->getProperties(),
-                "headers"    : message->getHeaders()
-            ]
-        );
-
-        let priority = this->priority === null ? self::DEFAULT_PRIORITY : (int) this->priority,
+        let payload  = MessageEnvelope::encode(message),
+            priority = this->priority === null ? self::DEFAULT_PRIORITY : (int) this->priority,
             delay    = this->deliveryDelay === null ? 0 : (int) (this->deliveryDelay / 1000);
 
         this->context->putMessage(
@@ -120,17 +105,6 @@ class BeanstalkProducer implements ProducerInterface
     public function setPriority(var priority = null) -> <ProducerInterface>
     {
         let this->priority = priority === null ? null : (int) priority;
-
-        return this;
-    }
-
-    public function setTimeToLive(var timeToLive = null) -> <ProducerInterface>
-    {
-        if unlikely timeToLive !== null {
-            throw new TimeToLiveNotSupportedException(
-                "The Beanstalk transport does not support a time to live"
-            );
-        }
 
         return this;
     }
