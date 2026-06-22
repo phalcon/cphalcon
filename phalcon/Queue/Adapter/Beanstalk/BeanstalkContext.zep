@@ -20,24 +20,22 @@
 namespace Phalcon\Queue\Adapter\Beanstalk;
 
 use Phalcon\Contracts\Queue\Consumer as ConsumerInterface;
-use Phalcon\Contracts\Queue\Context as ContextInterface;
 use Phalcon\Contracts\Queue\Destination as DestinationInterface;
 use Phalcon\Contracts\Queue\Message as MessageInterface;
 use Phalcon\Contracts\Queue\Producer as ProducerInterface;
 use Phalcon\Contracts\Queue\Queue as QueueInterface;
 use Phalcon\Contracts\Queue\SubscriptionConsumer as SubscriptionConsumerInterface;
-use Phalcon\Contracts\Queue\Topic as TopicInterface;
-use Phalcon\Queue\Adapter\GenericQueue;
-use Phalcon\Queue\Adapter\GenericTopic;
-use Phalcon\Queue\Exceptions\InvalidDestinationException;
+use Phalcon\Queue\Adapter\AbstractContext;
+use Phalcon\Queue\Adapter\QueueDestinationGuard;
 
 /**
  * Beanstalkd transport session. A queue maps to a Beanstalkd tube. Producers
  * share the context connection (`use` + `put`); each consumer owns its own
  * connection, because Beanstalkd only lets the reserving connection delete,
- * release, bury or touch a job.
+ * release, bury or touch a job. The destination factories come from
+ * AbstractContext.
  */
-class BeanstalkContext implements ContextInterface
+class BeanstalkContext extends AbstractContext
 {
     /**
      * Shared connection used by producers and purges.
@@ -100,11 +98,7 @@ class BeanstalkContext implements ContextInterface
 
     public function createConsumer(<DestinationInterface> destination) -> <ConsumerInterface>
     {
-        if unlikely !(destination instanceof QueueInterface) {
-            throw new InvalidDestinationException(
-                "The Beanstalk transport can only consume from a Queue destination"
-            );
-        }
+        QueueDestinationGuard::assertQueue(destination, "consume from");
 
         return new BeanstalkConsumer(this->newConnection(), destination);
     }
@@ -119,24 +113,9 @@ class BeanstalkContext implements ContextInterface
         return new BeanstalkProducer(this);
     }
 
-    public function createQueue(string queueName) -> <QueueInterface>
-    {
-        return new GenericQueue(queueName);
-    }
-
     public function createSubscriptionConsumer() -> <SubscriptionConsumerInterface>
     {
         return new BeanstalkSubscriptionConsumer(this, this->pollInterval);
-    }
-
-    public function createTemporaryQueue() -> <QueueInterface>
-    {
-        return new GenericQueue(uniqid("phalcon_queue_", true));
-    }
-
-    public function createTopic(string topicName) -> <TopicInterface>
-    {
-        return new GenericTopic(topicName);
     }
 
     /**

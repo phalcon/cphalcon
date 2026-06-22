@@ -21,8 +21,15 @@ namespace Phalcon\Queue\Exceptions;
 
 /**
  * Thrown when a destination is not valid for the operation, for example a
- * Topic passed where a Queue is required.
+ * Topic passed where a Queue is required. The action verb ("send to",
+ * "consume from") tailors the message to the failing operation.
  */
 class InvalidDestinationException extends Exception
 {
+    public function __construct(string action)
+    {
+        parent::__construct(
+            "This transport can only " . action . " a Queue destination"
+        );
+    }
 }

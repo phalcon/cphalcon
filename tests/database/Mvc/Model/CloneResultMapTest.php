@@ -15,9 +15,11 @@ namespace Phalcon\Tests\Database\Mvc\Model;
 
 use PDO;
 use Phalcon\Mvc\Model;
+use Phalcon\Support\Settings;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Models\InvoicesMap;
+use Phalcon\Tests\Support\Models\InvoicesWithQuerySetter;
 use Phalcon\Tests\Support\Models\InvoicesWithSetters;
 use Phalcon\Tests\Support\Models\InvoicesWithTypedSetters;
 use Phalcon\Tests\Support\Traits\DiTrait;
@@ -61,6 +63,13 @@ final class CloneResultMapTest extends AbstractDatabaseTestCase
         /** @var PDO $connection */
         $connection = self::getConnection();
         (new InvoicesMigration($connection));
+    }
+
+    public function tearDown(): void
+    {
+        Settings::reset();
+
+        parent::tearDown();
     }
 
     /**
@@ -119,7 +128,7 @@ final class CloneResultMapTest extends AbstractDatabaseTestCase
 
     /**
      * Tests that cloneResultMap() calls model setters during hydration when
-     * orm.disable_assign_setters is false (the default).
+     * orm.call_setters_on_hydration is enabled.
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/14810
      * @author Phalcon Team <team@phalcon.io>
@@ -130,6 +139,8 @@ final class CloneResultMapTest extends AbstractDatabaseTestCase
     #[Group('sqlite')]
     public function testMvcModelCloneResultMapCallsSetters(): void
     {
+        Settings::set('orm.call_setters_on_hydration', true);
+
         /** @var InvoicesWithSetters $invoice */
         $invoice = Model::cloneResultMap(
             new InvoicesWithSetters(),
@@ -152,6 +163,68 @@ final class CloneResultMapTest extends AbstractDatabaseTestCase
     }
 
     /**
+     * Tests that cloneResultMap() does NOT call model setters during hydration
+     * at default settings (orm.call_setters_on_hydration is false), restoring
+     * the pre-5.12 behaviour and preventing setter side effects on hydration.
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/17214
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-22
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelCloneResultMapDoesNotCallSettersByDefault(): void
+    {
+        /** @var InvoicesWithSetters $invoice */
+        $invoice = Model::cloneResultMap(
+            new InvoicesWithSetters(),
+            [
+                'inv_id'          => 1,
+                'inv_cst_id'      => 2,
+                'inv_status_flag' => 0,
+                'inv_title'       => 'original-title',
+                'inv_total'       => 10.0,
+                'inv_created_at'  => '2026-01-01 00:00:00',
+            ],
+            null
+        );
+
+        // Default settings: setters are skipped, so the raw values remain.
+        $this->assertSame('original-title', $invoice->inv_title);
+        $this->assertSame(10.0, (float) $invoice->inv_total);
+    }
+
+    /**
+     * Regression test for #17214: a model setter that performs an ORM query
+     * must not cause infinite recursion during hydration. At default settings
+     * the hydration setter is not invoked, so findFirst() completes instead of
+     * looping findFirst() -> cloneResultMap() -> setInvTitle() -> findFirst().
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/17214
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-22
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelCloneResultMapQuerySetterNoRecursion(): void
+    {
+        /** @var PDO $connection */
+        $connection = self::getConnection();
+        $migration  = new InvoicesMigration($connection);
+        $migration->insert(1, 2, 0, 'original-title', 10.0, '2026-01-01 00:00:00');
+
+        /** @var InvoicesWithQuerySetter $invoice */
+        $invoice = InvoicesWithQuerySetter::findFirst();
+
+        $this->assertNotNull($invoice);
+
+        // The query-in-setter was not invoked during hydration -> raw value.
+        $this->assertSame('original-title', $invoice->inv_title);
+    }
+
+    /**
      * Tests that cloneResultMap() does not throw when a setter has a strict
      * type hint that is incompatible with the raw DB value. The ORM must catch
      * the TypeError and fall back to direct property assignment.
@@ -165,6 +238,8 @@ final class CloneResultMapTest extends AbstractDatabaseTestCase
     #[Group('sqlite')]
     public function testMvcModelCloneResultMapSetterTypeErrorFallback(): void
     {
+        Settings::set('orm.call_setters_on_hydration', true);
+
         /** @var InvoicesWithTypedSetters $invoice */
         $invoice = Model::cloneResultMap(
             new InvoicesWithTypedSetters(),

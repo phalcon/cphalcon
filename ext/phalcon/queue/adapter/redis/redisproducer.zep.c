@@ -14,9 +14,8 @@
 #include "kernel/main.h"
 #include "kernel/object.h"
 #include "kernel/memory.h"
-#include "kernel/exception.h"
-#include "kernel/operators.h"
 #include "kernel/fcall.h"
+#include "kernel/operators.h"
 
 
 /**
@@ -38,11 +37,12 @@
  */
 /**
  * Sends messages to a Redis queue. Delivery delay is supported (via the
- * delayed sorted set); priority and time to live are not.
+ * delayed sorted set); priority and time to live are not (the defaults from
+ * AbstractProducer reject them).
  */
 ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_Redis_RedisProducer)
 {
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Queue\\Adapter\\Redis, RedisProducer, phalcon, queue_adapter_redis_redisproducer, phalcon_queue_adapter_redis_redisproducer_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Queue\\Adapter\\Redis, RedisProducer, phalcon, queue_adapter_redis_redisproducer, phalcon_queue_adapter_abstractproducer_ce, phalcon_queue_adapter_redis_redisproducer_method_entry, 0);
 
 	/**
 	 * @var RedisContext
@@ -54,7 +54,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_Redis_RedisProducer)
 	 * @var int | null
 	 */
 	zend_declare_property_null(phalcon_queue_adapter_redis_redisproducer_ce, SL("deliveryDelay"), ZEND_ACC_PROTECTED);
-	zend_class_implements(phalcon_queue_adapter_redis_redisproducer_ce, 1, phalcon_contracts_queue_producer_ce);
 	return SUCCESS;
 }
 
@@ -77,23 +76,11 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisProducer, getDeliveryDelay)
 	RETURN_MEMBER(getThis(), "deliveryDelay");
 }
 
-PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisProducer, getPriority)
-{
-
-	RETURN_NULL();
-}
-
-PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisProducer, getTimeToLive)
-{
-
-	RETURN_NULL();
-}
-
 PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisProducer, send)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS, delay = 0;
-	zval *destination, destination_sub, *message, message_sub, _0, _1, _2, _3, _4, _5;
+	zval *destination, destination_sub, *message, message_sub, _0, _1, _2, _3, _4, _5, _6;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&destination_sub);
@@ -104,6 +91,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisProducer, send)
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_5);
+	ZVAL_UNDEF(&_6);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_OBJECT_OF_CLASS(destination, phalcon_contracts_queue_destination_ce)
 		Z_PARAM_OBJECT_OF_CLASS(message, phalcon_contracts_queue_message_ce)
@@ -111,27 +99,27 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisProducer, send)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &destination, &message);
-	if (UNEXPECTED(!((zephir_instance_of_ev(destination, phalcon_contracts_queue_queue_ce))))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_queue_exceptions_invaliddestinationexception_ce, "The Redis transport can only send to a Queue destination", "phalcon/Queue/Adapter/Redis/RedisProducer.zep", 75);
-		return;
-	}
 	ZEPHIR_INIT_VAR(&_0);
-	zephir_read_property(&_1, this_ptr, ZEND_STRL("deliveryDelay"), PH_NOISY_CC | PH_READONLY);
-	if (Z_TYPE_P(&_1) == IS_NULL) {
-		ZEPHIR_INIT_NVAR(&_0);
-		ZVAL_LONG(&_0, 0);
-	} else {
-		zephir_memory_observe(&_2);
-		zephir_read_property(&_2, this_ptr, ZEND_STRL("deliveryDelay"), PH_NOISY_CC);
-		ZEPHIR_INIT_NVAR(&_0);
-		ZVAL_LONG(&_0, zephir_get_intval(&_2));
-	}
-	delay = zephir_get_numberval(&_0);
-	zephir_read_property(&_3, this_ptr, ZEND_STRL("context"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&_4, destination, "getqueuename", NULL, 0);
+	ZVAL_STRING(&_0, "send to");
+	ZEPHIR_CALL_CE_STATIC(NULL, phalcon_queue_adapter_queuedestinationguard_ce, "assertqueue", NULL, 0, destination, &_0);
 	zephir_check_call_status();
-	ZVAL_LONG(&_5, delay);
-	ZEPHIR_CALL_METHOD(NULL, &_3, "pushmessage", NULL, 0, &_4, message, &_5);
+	ZEPHIR_INIT_VAR(&_1);
+	zephir_read_property(&_2, this_ptr, ZEND_STRL("deliveryDelay"), PH_NOISY_CC | PH_READONLY);
+	if (Z_TYPE_P(&_2) == IS_NULL) {
+		ZEPHIR_INIT_NVAR(&_1);
+		ZVAL_LONG(&_1, 0);
+	} else {
+		zephir_memory_observe(&_3);
+		zephir_read_property(&_3, this_ptr, ZEND_STRL("deliveryDelay"), PH_NOISY_CC);
+		ZEPHIR_INIT_NVAR(&_1);
+		ZVAL_LONG(&_1, zephir_get_intval(&_3));
+	}
+	delay = zephir_get_numberval(&_1);
+	zephir_read_property(&_4, this_ptr, ZEND_STRL("context"), PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_CALL_METHOD(&_5, destination, "getqueuename", NULL, 0);
+	zephir_check_call_status();
+	ZVAL_LONG(&_6, delay);
+	ZEPHIR_CALL_METHOD(NULL, &_4, "pushmessage", NULL, 0, &_5, message, &_6);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
@@ -167,53 +155,5 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisProducer, setDeliveryDelay)
 	}
 	zephir_update_property_zval(this_ptr, ZEND_STRL("deliveryDelay"), &_0);
 	RETURN_THIS();
-}
-
-PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisProducer, setPriority)
-{
-	zval *priority = NULL, priority_sub, __$null;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&priority_sub);
-	ZVAL_NULL(&__$null);
-	bool is_null_true = 1;
-	ZEND_PARSE_PARAMETERS_START(0, 1)
-		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(priority)
-	ZEND_PARSE_PARAMETERS_END();
-	zephir_fetch_params_without_memory_grow(0, 1, &priority);
-	if (!priority) {
-		priority = &priority_sub;
-		priority = &__$null;
-	}
-	if (UNEXPECTED(Z_TYPE_P(priority) != IS_NULL)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_queue_exceptions_prioritynotsupportedexception_ce, "The Redis transport does not support message priority", "phalcon/Queue/Adapter/Redis/RedisProducer.zep", 95);
-		return;
-	}
-	RETURN_THISW();
-}
-
-PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisProducer, setTimeToLive)
-{
-	zval *timeToLive = NULL, timeToLive_sub, __$null;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&timeToLive_sub);
-	ZVAL_NULL(&__$null);
-	bool is_null_true = 1;
-	ZEND_PARSE_PARAMETERS_START(0, 1)
-		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(timeToLive)
-	ZEND_PARSE_PARAMETERS_END();
-	zephir_fetch_params_without_memory_grow(0, 1, &timeToLive);
-	if (!timeToLive) {
-		timeToLive = &timeToLive_sub;
-		timeToLive = &__$null;
-	}
-	if (UNEXPECTED(Z_TYPE_P(timeToLive) != IS_NULL)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_queue_exceptions_timetolivenotsupportedexception_ce, "The Redis transport does not support a time to live", "phalcon/Queue/Adapter/Redis/RedisProducer.zep", 106);
-		return;
-	}
-	RETURN_THISW();
 }
 

@@ -20,22 +20,20 @@
 namespace Phalcon\Queue\Adapter\Memory;
 
 use Phalcon\Contracts\Queue\Consumer as ConsumerInterface;
-use Phalcon\Contracts\Queue\Context as ContextInterface;
 use Phalcon\Contracts\Queue\Destination as DestinationInterface;
 use Phalcon\Contracts\Queue\Message as MessageInterface;
 use Phalcon\Contracts\Queue\Producer as ProducerInterface;
 use Phalcon\Contracts\Queue\Queue as QueueInterface;
 use Phalcon\Contracts\Queue\SubscriptionConsumer as SubscriptionConsumerInterface;
-use Phalcon\Contracts\Queue\Topic as TopicInterface;
-use Phalcon\Queue\Adapter\GenericQueue;
-use Phalcon\Queue\Adapter\GenericTopic;
-use Phalcon\Queue\Exceptions\InvalidDestinationException;
+use Phalcon\Queue\Adapter\AbstractContext;
+use Phalcon\Queue\Adapter\QueueDestinationGuard;
 
 /**
- * In-process transport session. Owns the named FIFO queues that this
- * context's producers and consumers share.
+ * In-process transport session. Owns the named FIFO queues that this context's
+ * producers and consumers share. The destination factories (createQueue /
+ * createTopic / createTemporaryQueue) come from AbstractContext.
  */
-class MemoryContext implements ContextInterface
+class MemoryContext extends AbstractContext
 {
     /**
      * Named queues: queue name => list of messages (FIFO).
@@ -57,11 +55,7 @@ class MemoryContext implements ContextInterface
      */
     public function createConsumer(<DestinationInterface> destination) -> <ConsumerInterface>
     {
-        if unlikely !(destination instanceof QueueInterface) {
-            throw new InvalidDestinationException(
-                "The Memory transport can only consume from a Queue destination"
-            );
-        }
+        QueueDestinationGuard::assertQueue(destination, "consume from");
 
         return new MemoryConsumer(this, destination);
     }
@@ -83,35 +77,11 @@ class MemoryContext implements ContextInterface
     }
 
     /**
-     * Creates a queue destination by name.
-     */
-    public function createQueue(string queueName) -> <QueueInterface>
-    {
-        return new GenericQueue(queueName);
-    }
-
-    /**
      * Creates a subscription consumer.
      */
     public function createSubscriptionConsumer() -> <SubscriptionConsumerInterface>
     {
         return new MemorySubscriptionConsumer(this);
-    }
-
-    /**
-     * Creates a uniquely named temporary queue.
-     */
-    public function createTemporaryQueue() -> <QueueInterface>
-    {
-        return new GenericQueue(uniqid("phalcon_queue_", true));
-    }
-
-    /**
-     * Creates a topic destination by name.
-     */
-    public function createTopic(string topicName) -> <TopicInterface>
-    {
-        return new GenericTopic(topicName);
     }
 
     /**

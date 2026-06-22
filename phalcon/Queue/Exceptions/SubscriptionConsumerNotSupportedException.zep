@@ -24,4 +24,8 @@ namespace Phalcon\Queue\Exceptions;
  */
 class SubscriptionConsumerNotSupportedException extends Exception
 {
+    public function __construct()
+    {
+        parent::__construct("The transport does not support subscription consumers");
+    }
 }

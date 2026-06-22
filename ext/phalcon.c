@@ -60,7 +60,9 @@ zend_class_entry *phalcon_mvc_model_metadatainterface_ce;
 zend_class_entry *phalcon_contracts_db_dialect_ce;
 zend_class_entry *phalcon_contracts_logger_adapter_adapter_ce;
 zend_class_entry *phalcon_contracts_queue_consumer_ce;
+zend_class_entry *phalcon_contracts_queue_context_ce;
 zend_class_entry *phalcon_contracts_queue_message_ce;
+zend_class_entry *phalcon_contracts_queue_producer_ce;
 zend_class_entry *phalcon_contracts_queue_subscriptionconsumer_ce;
 zend_class_entry *phalcon_db_adapter_adapterinterface_ce;
 zend_class_entry *phalcon_paginator_adapter_adapterinterface_ce;
@@ -73,9 +75,7 @@ zend_class_entry *phalcon_contracts_encryption_security_jwt_signer_signer_ce;
 zend_class_entry *phalcon_contracts_flash_flash_ce;
 zend_class_entry *phalcon_contracts_logger_formatter_formatter_ce;
 zend_class_entry *phalcon_contracts_queue_connectionfactory_ce;
-zend_class_entry *phalcon_contracts_queue_context_ce;
 zend_class_entry *phalcon_contracts_queue_destination_ce;
-zend_class_entry *phalcon_contracts_queue_producer_ce;
 zend_class_entry *phalcon_datamapper_pdo_connection_pdointerface_ce;
 zend_class_entry *phalcon_db_dialectinterface_ce;
 zend_class_entry *phalcon_html_link_interfaces_linkinterface_ce;
@@ -280,7 +280,9 @@ zend_class_entry *phalcon_http_request_exception_ce;
 zend_class_entry *phalcon_http_response_exception_ce;
 zend_class_entry *phalcon_paginator_adapter_abstractadapter_ce;
 zend_class_entry *phalcon_queue_adapter_abstractconsumer_ce;
+zend_class_entry *phalcon_queue_adapter_abstractcontext_ce;
 zend_class_entry *phalcon_queue_adapter_abstractmessage_ce;
+zend_class_entry *phalcon_queue_adapter_abstractproducer_ce;
 zend_class_entry *phalcon_queue_adapter_abstractsubscriptionconsumer_ce;
 zend_class_entry *phalcon_annotations_adapter_abstractadapter_ce;
 zend_class_entry *phalcon_annotations_exception_ce;
@@ -1255,6 +1257,8 @@ zend_class_entry *phalcon_queue_adapter_memory_memorycontext_ce;
 zend_class_entry *phalcon_queue_adapter_memory_memorymessage_ce;
 zend_class_entry *phalcon_queue_adapter_memory_memoryproducer_ce;
 zend_class_entry *phalcon_queue_adapter_memory_memorysubscriptionconsumer_ce;
+zend_class_entry *phalcon_queue_adapter_messageenvelope_ce;
+zend_class_entry *phalcon_queue_adapter_queuedestinationguard_ce;
 zend_class_entry *phalcon_queue_adapter_redis_redisconnectionfactory_ce;
 zend_class_entry *phalcon_queue_adapter_redis_redisconsumer_ce;
 zend_class_entry *phalcon_queue_adapter_redis_rediscontext_ce;
@@ -1427,6 +1431,7 @@ PHP_INI_BEGIN()
 	STD_PHP_INI_BOOLEAN("phalcon.form.strict_entity_property_check", "0", PHP_INI_ALL, OnUpdateBool, form.strict_entity_property_check, zend_phalcon_globals, phalcon_globals)
 	
 	
+	STD_PHP_INI_BOOLEAN("phalcon.orm.call_setters_on_hydration", "0", PHP_INI_ALL, OnUpdateBool, orm.call_setters_on_hydration, zend_phalcon_globals, phalcon_globals)
 	STD_PHP_INI_BOOLEAN("phalcon.orm.case_insensitive_column_map", "0", PHP_INI_ALL, OnUpdateBool, orm.case_insensitive_column_map, zend_phalcon_globals, phalcon_globals)
 	STD_PHP_INI_BOOLEAN("phalcon.orm.cast_last_insert_id_to_int", "0", PHP_INI_ALL, OnUpdateBool, orm.cast_last_insert_id_to_int, zend_phalcon_globals, phalcon_globals)
 	STD_PHP_INI_BOOLEAN("phalcon.orm.cast_on_hydrate", "0", PHP_INI_ALL, OnUpdateBool, orm.cast_on_hydrate, zend_phalcon_globals, phalcon_globals)
@@ -1490,7 +1495,9 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Contracts_Db_Dialect);
 	ZEPHIR_INIT(Phalcon_Contracts_Logger_Adapter_Adapter);
 	ZEPHIR_INIT(Phalcon_Contracts_Queue_Consumer);
+	ZEPHIR_INIT(Phalcon_Contracts_Queue_Context);
 	ZEPHIR_INIT(Phalcon_Contracts_Queue_Message);
+	ZEPHIR_INIT(Phalcon_Contracts_Queue_Producer);
 	ZEPHIR_INIT(Phalcon_Contracts_Queue_SubscriptionConsumer);
 	ZEPHIR_INIT(Phalcon_Db_Adapter_AdapterInterface);
 	ZEPHIR_INIT(Phalcon_Paginator_Adapter_AdapterInterface);
@@ -1503,9 +1510,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Contracts_Flash_Flash);
 	ZEPHIR_INIT(Phalcon_Contracts_Logger_Formatter_Formatter);
 	ZEPHIR_INIT(Phalcon_Contracts_Queue_ConnectionFactory);
-	ZEPHIR_INIT(Phalcon_Contracts_Queue_Context);
 	ZEPHIR_INIT(Phalcon_Contracts_Queue_Destination);
-	ZEPHIR_INIT(Phalcon_Contracts_Queue_Producer);
 	ZEPHIR_INIT(Phalcon_DataMapper_Pdo_Connection_PdoInterface);
 	ZEPHIR_INIT(Phalcon_Db_DialectInterface);
 	ZEPHIR_INIT(Phalcon_Html_Link_Interfaces_LinkInterface);
@@ -1710,7 +1715,9 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Http_Response_Exception);
 	ZEPHIR_INIT(Phalcon_Paginator_Adapter_AbstractAdapter);
 	ZEPHIR_INIT(Phalcon_Queue_Adapter_AbstractConsumer);
+	ZEPHIR_INIT(Phalcon_Queue_Adapter_AbstractContext);
 	ZEPHIR_INIT(Phalcon_Queue_Adapter_AbstractMessage);
+	ZEPHIR_INIT(Phalcon_Queue_Adapter_AbstractProducer);
 	ZEPHIR_INIT(Phalcon_Queue_Adapter_AbstractSubscriptionConsumer);
 	ZEPHIR_INIT(Phalcon_Annotations_Adapter_AbstractAdapter);
 	ZEPHIR_INIT(Phalcon_Annotations_Exception);
@@ -2594,6 +2601,8 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Queue_Adapter_Memory_MemoryMessage);
 	ZEPHIR_INIT(Phalcon_Queue_Adapter_Memory_MemoryProducer);
 	ZEPHIR_INIT(Phalcon_Queue_Adapter_Memory_MemorySubscriptionConsumer);
+	ZEPHIR_INIT(Phalcon_Queue_Adapter_MessageEnvelope);
+	ZEPHIR_INIT(Phalcon_Queue_Adapter_QueueDestinationGuard);
 	ZEPHIR_INIT(Phalcon_Queue_Adapter_Redis_RedisConnectionFactory);
 	ZEPHIR_INIT(Phalcon_Queue_Adapter_Redis_RedisConsumer);
 	ZEPHIR_INIT(Phalcon_Queue_Adapter_Redis_RedisContext);
@@ -2883,6 +2892,7 @@ static void php_zephir_init_globals(zend_phalcon_globals *phalcon_globals)
 
 	phalcon_globals->orm.ast_cache = NULL;
 	phalcon_globals->orm.cache_level = 3;
+
 
 
 

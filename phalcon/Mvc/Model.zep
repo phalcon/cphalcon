@@ -1058,7 +1058,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         bool keepSnapshots = null
     ) -> <ModelInterface> {
         var instance, attribute, key, value, castValue, attributeName, metaData, reverseMap, notNullAttributes,
-            disableSetters, setter;
+            callSetters, setter;
         array localMethods;
 
         let instance = clone base;
@@ -1073,7 +1073,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         // Change the dirty state to persistent
         instance->setDirtyState(dirtyState);
 
-        let disableSetters = (bool) Settings::get("orm.disable_assign_setters");
+        let callSetters = (bool) Settings::get("orm.call_setters_on_hydration");
 
         let localMethods = [
             "setConnectionService"      : 1,
@@ -1102,7 +1102,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             }
 
             if typeof columnMap !== "array" {
-                if !disableSetters {
+                if callSetters {
                     let setter = "set" . camelize(key);
                     if method_exists(instance, setter) && !isset localMethods[setter] {
                         try {
@@ -1144,7 +1144,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             }
 
             if typeof attribute !== "array" {
-                if !disableSetters {
+                if callSetters {
                     let setter = "set" . camelize(attribute);
                     if method_exists(instance, setter) && !isset localMethods[setter] {
                         try {
@@ -1223,7 +1223,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             let attributeName = attribute[0],
                 data[key] = castValue;
 
-            if !disableSetters {
+            if callSetters {
                 let setter = "set" . camelize(attributeName);
                 if method_exists(instance, setter) && !isset localMethods[setter] {
                     try {

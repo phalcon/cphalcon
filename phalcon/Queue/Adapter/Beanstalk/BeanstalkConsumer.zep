@@ -23,6 +23,7 @@ use Phalcon\Contracts\Queue\Message as MessageInterface;
 use Phalcon\Contracts\Queue\Queue as QueueInterface;
 use Phalcon\Contracts\Queue\VisibilityAware;
 use Phalcon\Queue\Adapter\AbstractConsumer;
+use Phalcon\Queue\Adapter\MessageEnvelope;
 
 /**
  * Receives messages from a single Beanstalkd tube over its own connection.
@@ -115,9 +116,9 @@ class BeanstalkConsumer extends AbstractConsumer implements VisibilityAware
             return null;
         }
 
-        let data = unserialize(job[1], ["allowed_classes" : false]);
+        let data = MessageEnvelope::decode(job[1]);
 
-        if typeof data != "array" {
+        if data === null {
             return null;
         }
 

@@ -1,6 +1,6 @@
 # Changelog
 
-## [5.15.1](https://github.com/phalcon/cphalcon/releases/tag/v5.15.1) (2026-xx-xx)
+## [5.16.0](https://github.com/phalcon/cphalcon/releases/tag/v5.15.1) (2026-06-22)
 
 ### Tools
 
@@ -9,28 +9,31 @@
 
 ### Changed
 
-- Changed `Phalcon\Support\Debug` into a thin coordinator that delegates exception-data collection to the new `Phalcon\Support\Debug\ReportBuilder` and HTML rendering to a `Phalcon\Contracts\Support\Debug\Renderer` (default `Phalcon\Support\Debug\Renderer\HtmlRenderer`), and exposes `getRenderer()`/`setRenderer()` to swap the renderer. [#17202](https://github.com/phalcon/cphalcon/issues/17202) [[doc]](https://docs.phalcon.io/5.15/support-debug/)
-- Changed `Phalcon\Support\Debug` and `Phalcon\Support\Debug\Dump` to render from named, overridable template strings (the new `Phalcon\Contracts\Support\Debug\TemplateAware` contract with `getTemplate()`/`setTemplate()`) filled by `strtr`, instead of inline string concatenation. [#17202](https://github.com/phalcon/cphalcon/issues/17202) [[doc]](https://docs.phalcon.io/5.15/support-debug/)
-- Changed the `Phalcon\Support\Debug` exception page to a redesigned, asset-driven layout (masthead with the Phalcon logo, error card, tabbed Request/Server/Included Files/Memory/Variables context, and collapsible backtrace frames); `getCssSources()` and `getJsSources()` now reference a single `debug.css` and `debug.js` instead of the bundled jQuery, jQuery-UI and prettify assets. [#17202](https://github.com/phalcon/cphalcon/issues/17202) [[doc]](https://docs.phalcon.io/5.15/support-debug/)
 - Changed `Phalcon\Support\Debug::getVersion()` to return a compact version badge anchor (`v<version>`) instead of the previous "Phalcon Framework" version block. [#17202](https://github.com/phalcon/cphalcon/issues/17202) [[doc]](https://docs.phalcon.io/5.15/support-debug/)
+- Changed `Phalcon\Support\Debug` and `Phalcon\Support\Debug\Dump` to render from named, overridable template strings (the new `Phalcon\Contracts\Support\Debug\TemplateAware` contract with `getTemplate()`/`setTemplate()`) filled by `strtr`, instead of inline string concatenation. [#17202](https://github.com/phalcon/cphalcon/issues/17202) [[doc]](https://docs.phalcon.io/5.15/support-debug/)
+- Changed `Phalcon\Support\Debug` into a thin coordinator that delegates exception-data collection to the new `Phalcon\Support\Debug\ReportBuilder` and HTML rendering to a `Phalcon\Contracts\Support\Debug\Renderer` (default `Phalcon\Support\Debug\Renderer\HtmlRenderer`), and exposes `getRenderer()`/`setRenderer()` to swap the renderer. [#17202](https://github.com/phalcon/cphalcon/issues/17202) [[doc]](https://docs.phalcon.io/5.15/support-debug/)
 - Changed the `Phalcon\Support\Debug` Memory panel to report both real and peak memory usage. [#17202](https://github.com/phalcon/cphalcon/issues/17202) [[doc]](https://docs.phalcon.io/5.15/support-debug/)
+- Changed the `Phalcon\Support\Debug` exception page to a redesigned, asset-driven layout (masthead with the Phalcon logo, error card, tabbed Request/Server/Included Files/Memory/Variables context, and collapsible backtrace frames); `getCssSources()` and `getJsSources()` now reference a single `debug.css` and `debug.js` instead of the bundled jQuery, jQuery-UI and prettify assets. [#17202](https://github.com/phalcon/cphalcon/issues/17202) [[doc]](https://docs.phalcon.io/5.15/support-debug/)
 
 ### Added
 
-- Added the `Phalcon\Contracts\Support\Debug\TemplateAware` and `Phalcon\Contracts\Support\Debug\Renderer` contracts, the `Phalcon\Support\Debug\ReportBuilder` and `Phalcon\Support\Debug\Renderer\HtmlRenderer` classes, and the value objects `Phalcon\Support\Debug\Report\ExceptionReport` and `Phalcon\Support\Debug\Report\BacktraceItem`. [#17202](https://github.com/phalcon/cphalcon/issues/17202) [[doc]](https://docs.phalcon.io/5.15/support-debug/)
 - Added `Phalcon\Support\Debug::getRenderer()` and `Phalcon\Support\Debug::setRenderer()`. [#17202](https://github.com/phalcon/cphalcon/issues/17202) [[doc]](https://docs.phalcon.io/5.15/support-debug/)
-- Added the `Phalcon\Queue` component, a first-class queue/messaging layer modeled on the queue-interop contracts, with the `Phalcon\Contracts\Queue\*` interfaces (`ConnectionFactory`, `Context`, `Destination`, `Queue`, `Topic`, `Producer`, `Consumer`, `SubscriptionConsumer`, `Message`, `Processor`, `VisibilityAware`) and the `Phalcon\Queue\Exceptions\*` hierarchy (`QueueThrowable`, `Exception` and the typed `Invalid*` / `*NotSupportedException` exceptions). [#17051](https://github.com/phalcon/cphalcon/issues/17051) [[doc]](https://docs.phalcon.io/5.15/queue/)
+- Added connection-liveness and opt-in auto-reconnect support to `Phalcon\Db\Adapter\Pdo\AbstractPdo`: `ping()` (a `SELECT 1` probe), `ensureConnection()` (reconnect in place when the probe fails), and `setAutoReconnect()`/`getAutoReconnect()` (also settable via the `autoReconnect` descriptor key). When auto-reconnect is enabled and a query fails on a lost ("gone away") connection outside a transaction, `execute()` and `query()` fire the new `db:connectionLost` event, reconnect, and retry the statement once; a loss inside a transaction is re-thrown without retry. "Gone away" detection is provided per driver by `Phalcon\Db\Adapter\Pdo\Mysql` (error codes 2006/2013) and `Phalcon\Db\Adapter\Pdo\Postgresql` (SQLSTATE 08003/08006/57P01-03), with a message fallback. [#17204](https://github.com/phalcon/cphalcon/issues/17204) [[doc]](https://docs.phalcon.io/5.15/db-layer/)
+- Added the Beanstalk queue adapter (`Phalcon\Queue\Adapter\Beanstalk\*`) over a dependency-free socket client, with native delivery delay and priority and a `VisibilityAware` consumer (`touch()`). [#17051](https://github.com/phalcon/cphalcon/issues/17051) [[doc]](https://docs.phalcon.io/5.15/queue/)
 - Added the Memory and Stream queue adapters (`Phalcon\Queue\Adapter\Memory\*`, in-process FIFO; `Phalcon\Queue\Adapter\Stream\*`, file-per-queue with `flock`). [#17051](https://github.com/phalcon/cphalcon/issues/17051) [[doc]](https://docs.phalcon.io/5.15/queue/)
 - Added the Redis queue adapter (`Phalcon\Queue\Adapter\Redis\*`) with list-backed FIFO delivery (`LPUSH`/`BRPOP`), sorted-set delivery delay and native blocking receive. [#17051](https://github.com/phalcon/cphalcon/issues/17051) [[doc]](https://docs.phalcon.io/5.15/queue/)
-- Added the Beanstalk queue adapter (`Phalcon\Queue\Adapter\Beanstalk\*`) over a dependency-free socket client, with native delivery delay and priority and a `VisibilityAware` consumer (`touch()`). [#17051](https://github.com/phalcon/cphalcon/issues/17051) [[doc]](https://docs.phalcon.io/5.15/queue/)
+- Added the `Phalcon\Contracts\Support\Debug\TemplateAware` and `Phalcon\Contracts\Support\Debug\Renderer` contracts, the `Phalcon\Support\Debug\ReportBuilder` and `Phalcon\Support\Debug\Renderer\HtmlRenderer` classes, and the value objects `Phalcon\Support\Debug\Report\ExceptionReport` and `Phalcon\Support\Debug\Report\BacktraceItem`. [#17202](https://github.com/phalcon/cphalcon/issues/17202) [[doc]](https://docs.phalcon.io/5.15/support-debug/)
 - Added the `Phalcon\Queue\AdapterFactory` and `Phalcon\Queue\QueueFactory` factories, and registered the `queueFactory` service in `Phalcon\Di\FactoryDefault` and `Phalcon\Di\FactoryDefault\Cli`. [#17051](https://github.com/phalcon/cphalcon/issues/17051) [[doc]](https://docs.phalcon.io/5.15/queue/)
+- Added the `Phalcon\Queue` component, a first-class queue/messaging layer modeled on the queue-interop contracts, with the `Phalcon\Contracts\Queue\*` interfaces (`ConnectionFactory`, `Context`, `Destination`, `Queue`, `Topic`, `Producer`, `Consumer`, `SubscriptionConsumer`, `Message`, `Processor`, `VisibilityAware`) and the `Phalcon\Queue\Exceptions\*` hierarchy (`QueueThrowable`, `Exception` and the typed `Invalid*` / `*NotSupportedException` exceptions). [#17051](https://github.com/phalcon/cphalcon/issues/17051) [[doc]](https://docs.phalcon.io/5.15/queue/)
 - Added the queue consumer runner (`Phalcon\Queue\Consumer\QueueConsumer`, `Worker`, `WorkerOptions`, `BoundProcessor`, `Events`) and the CLI consumer task `Phalcon\Queue\Cli\ConsumerTask`. [#17051](https://github.com/phalcon/cphalcon/issues/17051) [[doc]](https://docs.phalcon.io/5.15/queue/)
-- Added connection-liveness and opt-in auto-reconnect support to `Phalcon\Db\Adapter\Pdo\AbstractPdo`: `ping()` (a `SELECT 1` probe), `ensureConnection()` (reconnect in place when the probe fails), and `setAutoReconnect()`/`getAutoReconnect()` (also settable via the `autoReconnect` descriptor key). When auto-reconnect is enabled and a query fails on a lost ("gone away") connection outside a transaction, `execute()` and `query()` fire the new `db:connectionLost` event, reconnect, and retry the statement once; a loss inside a transaction is re-thrown without retry. "Gone away" detection is provided per driver by `Phalcon\Db\Adapter\Pdo\Mysql` (error codes 2006/2013) and `Phalcon\Db\Adapter\Pdo\Postgresql` (SQLSTATE 08003/08006/57P01-03), with a message fallback. [#17204](https://github.com/phalcon/cphalcon/issues/17204) [[doc]](https://docs.phalcon.io/5.15/db-layer/)
 - Added the same liveness and opt-in auto-reconnect support to `Phalcon\DataMapper\Pdo\Connection` (`ping()`, `ensureConnection()`, `setAutoReconnect()`/`getAutoReconnect()`), wrapping `exec()`, `perform()`, `prepare()`, and `query()` with the single-retry behavior. This connection has no events manager, so no `db:connectionLost` event is fired; "gone away" detection is driver-agnostic and the in-transaction guard uses a locally tracked transaction level. [#17204](https://github.com/phalcon/cphalcon/issues/17204) [[doc]](https://docs.phalcon.io/5.15/db-layer/)
 
 ### Fixed
 
+- Fixed `Phalcon\Mvc\Model::cloneResultMap()` calling model setters during ORM hydration unconditionally (introduced in 5.12.0 via [#14810](https://github.com/phalcon/cphalcon/issues/14810)), which ran user setters on every record hydrated by `find()`/`findFirst()`; a setter that issued an ORM query (e.g. `self::findFirstByEmail()`) recursed infinitely, as `findFirst()` re-entered `cloneResultMap()`, which re-invoked the setter, which called `findFirst()` again. Hydration setters are now gated by a dedicated `orm.call_setters_on_hydration` setting (default `false`), decoupled from `orm.disable_assign_setters` (which still governs `assign()`); this restores the pre-5.12.0 hydration behaviour by default and makes setter execution during hydration opt-in. [#17214](https://github.com/phalcon/cphalcon/issues/17214) [[doc]](https://docs.phalcon.io/5.15/db-models/)
+- Fixed `Phalcon\Mvc\Router\Route::compilePattern()` and `Phalcon\Cli\Router\Route::compilePattern()` expanding the `:params` placeholder - and the built-in `/:controller/:action/:params` and `/:task/:action/:params` default routes - to the nested quantifier `(/.*)*`. The group body overlaps itself, so an unmatchable trailing byte made the compiled pattern backtrack catastrophically: a short crafted URI (a run of `/` followed by a byte `.` cannot match) drove the `preg_match()` in `Phalcon\Mvc\Router::handle()` / `Phalcon\Cli\Router::handle()` into exponential time on every request. The trailing group is now compiled to the equivalent `(/.*)?`, which captures the same `params` value in linear time. [[doc]](https://docs.phalcon.io/5.15/routing/)
 - Fixed `Phalcon\Support\Debug` ignoring the `request` entry of `setBlacklist()`: `$_REQUEST` is now filtered against the `request` blacklist, where previously both superglobals were filtered against the `server` blacklist only. [#17202](https://github.com/phalcon/cphalcon/issues/17202) [[doc]](https://docs.phalcon.io/5.15/support-debug/)
+- Fixed `Phalcon\Tag\Select::selectField()` to invoke the resultset `using` render callback only when it is a `Closure` (previously any object), keeping the dynamically invoked callable out of reach of user-controlled data. [#17210](https://github.com/phalcon/cphalcon/issues/17210)
 
 ### Removed
 
@@ -158,7 +161,7 @@
 - Fixed `Phalcon\Filter\Validation::bind()` emitting an `Invalid arguments supplied for camelize()` warning when the data being validated against an entity contained a numeric (integer) key, as happened with `Phalcon\Forms\Form::isValid($data, $entity)`; integer keys are now skipped during entity binding. [#17173](https://github.com/phalcon/cphalcon/issues/17173) [[doc]](https://docs.phalcon.io/5.15/filter-validation/)
 - Fixed `Phalcon\Logger\AbstractLogger::excludeAdapters()` leaving the exclusion list armed across calls when the level filter discarded the message; the list is now cleared on every `Phalcon\Logger\AbstractLogger::addMessage()` call, so an exclusion is consumed by the call that set it instead of skipping adapters on the next, unrelated log call. [#17155](https://github.com/phalcon/cphalcon/issues/17155) [[doc]](https://docs.phalcon.io/5.15/logger/)
 - Fixed `Phalcon\Mvc\Model::sum()` and `Phalcon\Mvc\Model::average()` returning `null` on an empty result set, which violated their declared `float | ResultsetInterface` return type and raised a `TypeError` in any subclass that overrode them with the same type and delegated through `parent`. Both now coerce the empty aggregate to `0.0`. [#17184](https://github.com/phalcon/cphalcon/issues/17184) [[doc]](https://docs.phalcon.io/5.15/db-models/)
-- Fixed `Phalcon\Mvc\Router\Route::compilePattern()` and `Phalcon\Cli\Router\Route::compilePattern()` expanding the `:params` placeholder - and the built-in `/:controller/:action/:params` and `/:task/:action/:params` default routes - to the nested quantifier `(/.*)*`. The group body overlaps itself, so an unmatchable trailing byte made the compiled pattern backtrack catastrophically: a short crafted URI (a run of `/` followed by a byte `.` cannot match) drove the `preg_match()` in `Phalcon\Mvc\Router::handle()` / `Phalcon\Cli\Router::handle()` into exponential time on every request. The trailing group is now compiled to the equivalent `(/.*)?`, which captures the same `params` value in linear time. [[doc]](https://docs.phalcon.io/5.15/routing/)
+- Fixed `Phalcon\Mvc\View\Engine\Volt\Compiler::resolveFilter()` building the `join` filter by splicing the raw separator and array argument token values into the generated PHP - the separator dropped between two literal single quotes and the array emitted unquoted - instead of compiling them through `expression()` as every other Volt literal is. A `join` separator literal containing a single quote closed the generated `join('...')` call and injected arbitrary statements into the compiled template, which the Volt engine then ran when the view was rendered. Both arguments are now emitted through `expression()`, which quotes and escapes the separator. [[doc]](https://docs.phalcon.io/5.15/volt/)
 - Fixed `Phalcon\Support\Collection` (and every descendant, including `Phalcon\Config\Config` and `Phalcon\Html\Attributes`) orphaning the previously stored entry when a key was overwritten with a different letter casing on a case-insensitive collection. `set("Key", 1)` followed by `set("KEY", 2)` left both entries in the backing store, so `count()`, `toArray()`, and iteration disagreed with `get()`, `has()`, and `remove()`. The stale entry is now evicted before the new value is written. [#17152](https://github.com/phalcon/cphalcon/issues/17152) [[doc]](https://docs.phalcon.io/5.15/support-collection/)
 - Fixed `Phalcon\Time\Clock\FrozenClock::adjust()` leaving the process-global `warning.enable` flag clobbered on the pre-PHP-8.3 fallback path; the prior value is now restored on both exits. [#17151](https://github.com/phalcon/cphalcon/issues/17151) [[doc]](https://docs.phalcon.io/5.15/time-clock/)
 - Fixed the `Phalcon\Acl\Adapter\Memory` documentation and metadata. [#17143](https://github.com/phalcon/cphalcon/issues/17143) [[doc]](https://docs.phalcon.io/5.15/acl/)
@@ -816,6 +819,11 @@
 
 ## [5.13.0](https://github.com/phalcon/cphalcon/releases/tag/v5.13.0) (2026-05-18)
 
+### Tools
+
+- Zephir Parser v1.8.0
+- Zephir 0.20.1 (development - 6c2a72925)
+
 ### Changed
 
 - Changed `Phalcon\Contracts\Support\Collection` to declare the expanded method surface (`column`, `each`, `filter`, `first`, `getType`, `isEmpty`, `keys`, `last`, `map`, `reduce`, `replace`, `sort`, `values`, `where`) so the contract matches the implementation [#17000](https://github.com/phalcon/cphalcon/issues/17000) [[doc]](https://docs.phalcon.io/5.13/support-collection/)
@@ -941,6 +949,11 @@
 
 ## [5.12.1](https://github.com/phalcon/cphalcon/releases/tag/v5.12.1) (2026-04-30)
 
+### Tools
+
+- Zephir Parser v1.8.0
+- Zephir 0.19.0 (development - 319eede41)
+
 ### Changed
 
 ### Added
@@ -963,6 +976,11 @@
 - Fixed `Phalcon\Mvc\Model` - saving a model with multiple fields relations threw `"Not implemented"` [#16029](https://github.com/phalcon/cphalcon/issues/16029) [[doc]](https://docs.phalcon.io/5.12/db-models/)
 
 ## [5.12.0](https://github.com/phalcon/cphalcon/releases/tag/v5.12.0) (2026-04-29)
+
+### Tools
+
+- Zephir Parser v1.8.0
+- Zephir 0.19.0 (development - 319eede41)
 
 ### Changed
 
@@ -1042,6 +1060,11 @@
 
 ## [5.11.1](https://github.com/phalcon/cphalcon/releases/tag/v5.11.1) (2026-04-04)
 
+### Tools
+
+- Zephir Parser v1.8.0
+- Zephir 0.19.0 (development - 1f9b9b0b2)
+
 ### Changed
 
 ### Added
@@ -1057,6 +1080,11 @@
 ### Removed
 
 ## [5.11.0](https://github.com/phalcon/cphalcon/releases/tag/v5.11.0) (2026-04-03)
+
+### Tools
+
+- Zephir Parser v1.8.0
+- Zephir 0.19.0 (development - c5b10f3d4)
 
 ### Changed
 
@@ -1088,6 +1116,11 @@
 
 ## [5.10.0](https://github.com/phalcon/cphalcon/releases/tag/v5.10.0) (2025-12-25)
 
+### Tools
+
+- Zephir Parser v1.8.0
+- Zephir 0.19.0 (development - 337c6f9f8)
+
 ### Changed
 
 - Changed `bind()` and `validate()` method in `Phalcon\Filter\Validation` and `Phalcon\Filter\Validation\ValidationInterface` to accept `$whitelist` array of only allowed fields to be mutated when using entity [#16800](https://github.com/phalcon/cphalcon/issues/16800)
@@ -1114,6 +1147,11 @@
 
 ## [5.9.3](https://github.com/phalcon/cphalcon/releases/tag/v5.9.3) (2025-04-19)
 
+### Tools
+
+- Zephir Parser v1.6.1
+- Zephir 0.18.0 (development - fdf88639b)
+
 ### Changed
 - Added Multi-Stage Dockerfile and Github action for release Docker images to ghcr.io and Docker Hub. [#16752](https://github.com/phalcon/cphalcon/issues/16752)
 
@@ -1133,6 +1171,11 @@
 
 ## [5.9.2](https://github.com/phalcon/cphalcon/releases/tag/v5.9.2) (2025-04-03)
 
+### Tools
+
+- Zephir Parser v1.6.1
+- Zephir 0.18.0 (development - fdf88639b)
+
 ### Changed
 
 ### Added
@@ -1145,6 +1188,11 @@
 ### Removed
 
 ## [5.9.1](https://github.com/phalcon/cphalcon/releases/tag/v5.9.1) (2025-03-31)
+
+### Tools
+
+- Zephir Parser v1.6.1
+- Zephir 0.18.0 (development - fdf88639b)
 
 ### Changed
 
@@ -1161,6 +1209,11 @@
 ### Removed
 
 ## [5.9.0](https://github.com/phalcon/cphalcon/releases/tag/v5.9.0) (2025-03-08)
+
+### Tools
+
+- Zephir Parser v1.6.1
+- Zephir 0.18.0 (development - fdf88639b)
 
 ### Changed
 
@@ -1191,17 +1244,10 @@
 
 ## [5.8.0](https://github.com/phalcon/cphalcon/releases/tag/v5.8.0) (2024-07-09)
 
-### Changed
+### Tools
 
-### Added
-
-### Fixed
-
-- Fixed `Phalcon\Di\Injectable` to reference the correct instance of `Phalcon\Di\Di` in the docblock property [#16634](https://github.com/phalcon/cphalcon/issues/16634)
-
-### Removed
-
-## [5.8.0](https://github.com/phalcon/cphalcon/releases/tag/v5.8.0) (2024-07-09)
+- Zephir Parser v1.6.1
+- Zephir 0.18.0 (development - b0dd977ec)
 
 ### Changed
 
@@ -1227,12 +1273,18 @@
 
 ### Fixed
 
-- Fixed `Phalcon\Support\Helper\PascalCase` causing memory leak by anonymous function [#16593](https://github.com/phalcon/cphalcon/issues/16593)
+- Fixed `Phalcon\Di\Injectable` to reference the correct instance of `Phalcon\Di\Di` in the docblock property [#16634](https://github.com/phalcon/cphalcon/issues/16634)
 - Fixed `Phalcon\Mvc\Model\Query` to rollback failed transactions and re-throw exception for data consistency [#16604](https://github.com/phalcon/cphalcon/issues/16604)
+- Fixed `Phalcon\Support\Helper\PascalCase` causing memory leak by anonymous function [#16593](https://github.com/phalcon/cphalcon/issues/16593)
 
 ### Removed
 
 ## [5.7.0](https://github.com/phalcon/cphalcon/releases/tag/v5.7.0) (2024-05-17)
+
+### Tools
+
+- Zephir Parser v1.6.0
+- Zephir 0.18.0 (development - d1bb90a8b)
 
 ### Changed
 
@@ -1254,6 +1306,11 @@
 
 ## [5.6.2](https://github.com/phalcon/cphalcon/releases/tag/v5.6.1) (2024-03-14)
 
+### Tools
+
+- Zephir Parser v1.6.0
+- Zephir 0.18.0 (development - d1bb90a8b)
+
 ### Changed
 
 - Changed `Phalcon\Mvc\View\Engine\Volt\Compiler::filter` to use the helper with `upper` and `lower` for UTF-8 characters [#16543](https://github.com/phalcon/cphalcon/issues/16543)
@@ -1266,6 +1323,11 @@
 ### Removed
 
 ## [5.6.1](https://github.com/phalcon/cphalcon/releases/tag/v5.6.1) (2024-02-08)
+
+### Tools
+
+- Zephir Parser v1.6.0
+- Zephir 0.18.0 (development - d1bb90a8b)
 
 ### Changed
 
@@ -1284,6 +1346,11 @@
 ### Removed
 
 ## [5.6.0](https://github.com/phalcon/cphalcon/releases/tag/v5.6.0) (2024-01-09)
+
+### Tools
+
+- Zephir Parser v1.6.0
+- Zephir 0.18.0 (development - 254df48dd)
 
 ### Changed
 
@@ -1304,6 +1371,11 @@
 
 ## [5.5.0](https://github.com/phalcon/cphalcon/releases/tag/v5.5.0) (2023-12-25)
 
+### Tools
+
+- Zephir Parser v1.6.0
+- Zephir 0.18.0 (development - 254df48dd)
+
 ### Changed
 
 - Shifted minimal support from PHP 7.4 to PHP 8.0 [#16477](https://github.com/phalcon/cphalcon/issues/16477)
@@ -1323,6 +1395,11 @@
 ### Removed
 
 ## [5.4.0](https://github.com/phalcon/cphalcon/releases/tag/v5.4.0) (2023-10-25)
+
+### Tools
+
+- Zephir Parser v1.5.3
+- Zephir 0.17.0 (development - 9f99da6da)
 
 ### Changed
 
@@ -1345,6 +1422,11 @@
 
 ## [5.3.1](https://github.com/phalcon/cphalcon/releases/tag/v5.3.1) (2023-09-12)
 
+### Tools
+
+- Zephir Parser v1.5.3
+- Zephir 0.17.0 (development - 9f99da6da)
+
 ### Fixed
 
 - Fixed infinite save loop in `Phalcon\Mvc\Model::save()` [#16395](https://github.com/phalcon/cphalcon/issues/16395)
@@ -1352,6 +1434,11 @@
 - Fixed memory leak in `Phalcon\Mvc\Router::handle()` [#16431](https://github.com/phalcon/cphalcon/pull/16431)
 
 ## [5.3.0](https://github.com/phalcon/cphalcon/releases/tag/v5.3.0) (2023-08-15)
+
+### Tools
+
+- Zephir Parser v1.5.3
+- Zephir 0.17.0 (development - 9f99da6da)
 
 ### Changed
 
@@ -1383,6 +1470,11 @@
 
 ## [5.2.3](https://github.com/phalcon/cphalcon/releases/tag/v5.2.3) (2023-07-26)
 
+### Tools
+
+- Zephir Parser v1.5.3
+- Zephir 0.17.0 (development - 9f99da6da)
+
 ### Added
 
 - Added `getAdapter()` in `Phalcon\Mvc\Model\Metadata` to retrieve the internal cache adapter if necessary. [#16244](https://github.com/phalcon/cphalcon/issues/16244)
@@ -1399,6 +1491,11 @@
 
 ## [5.2.2](https://github.com/phalcon/cphalcon/releases/tag/v5.2.2) (2023-06-18)
 
+### Tools
+
+- Zephir Parser v1.5.3
+- Zephir 0.17.0 (development - 9f99da6da)
+
 ### Fixed
 
 - Fixed `Encryption\Crypt::checkCipherHashIsAvailable` to allow proper setting of the hash [#16314](https://github.com/phalcon/cphalcon/issues/16314)
@@ -1408,11 +1505,21 @@
 
 ## [5.2.1](https://github.com/phalcon/cphalcon/releases/tag/v5.2.1) (2023-02-28)
 
+### Tools
+
+- Zephir Parser v1.5.3
+- Zephir 0.17.0 (development - 9f99da6da)
+
 ### Fixed
 
 - Fixed compilation under PHP 8.2 [#16293](https://github.com/phalcon/cphalcon/issues/16293), [#16295](https://github.com/phalcon/cphalcon/issues/16295)
 
 ## [5.2.0](https://github.com/phalcon/cphalcon/releases/tag/v5.2.0) (2023-02-26)
+
+### Tools
+
+- Zephir Parser v1.5.3
+- Zephir 0.17.0 (development - 9f99da6da)
 
 ### Added
 
@@ -1424,11 +1531,21 @@
 
 ## [5.1.4](https://github.com/phalcon/cphalcon/releases/tag/v5.1.4) (2023-01-10)
 
+### Tools
+
+- Zephir Parser v1.5.1
+- Zephir 0.16.3 (development - 5099f3453)
+
 ### Fixed
 
 - Fixed `Phalcon\Acl\Adapter\Memory::isAllowed` to not use the deprecated `ReflectionType::getClass` [#16255](https://github.com/phalcon/cphalcon/issues/16255)
 
 ## [5.1.3](https://github.com/phalcon/cphalcon/releases/tag/v5.1.3) (2022-12-25)
+
+### Tools
+
+- Zephir Parser v1.5.1
+- Zephir 0.16.3 (development - 5099f3453)
 
 ### Fixed
 
@@ -1436,6 +1553,11 @@
 - Fixed `Phalcon\DI\Service::resolve` to not call the `get()` from the container and cause an infinite loop [#15032](https://github.com/phalcon/cphalcon/issues/15032)
 
 ## [5.1.2](https://github.com/phalcon/cphalcon/releases/tag/v5.1.2) (2022-10-30)
+
+### Tools
+
+- Zephir Parser v1.5.1
+- Zephir 0.16.3 (development - 5099f3453)
 
 ### Fixed
 
@@ -1446,12 +1568,22 @@
 
 ## [5.1.1](https://github.com/phalcon/cphalcon/releases/tag/v5.1.1) (2022-11-12)
 
+### Tools
+
+- Zephir Parser v1.5.1
+- Zephir 0.16.3 (development - 5099f3453)
+
 ### Fixed
 
 - Fixed `Phalcon\Filter::sanitize` to return correct data when `noRecursive` is `true` [#16199](https://github.com/phalcon/cphalcon/issues/16199)
 - Fixed `Phalcon\Html\Escaper::html` to not return `null` when a zero string is passed [#16202](https://github.com/phalcon/cphalcon/issues/16202)
 
 ## [5.1.0](https://github.com/phalcon/cphalcon/releases/tag/v5.1.0) (2022-11-01)
+
+### Tools
+
+- Zephir Parser v1.5.1
+- Zephir 0.16.3 (development - 5099f3453)
 
 ### Added
 
@@ -1467,6 +1599,11 @@
 
 ## [5.0.5](https://github.com/phalcon/cphalcon/releases/tag/v5.0.5) (2022-10-24)
 
+### Tools
+
+- Zephir Parser v1.5.1
+- Zephir 0.16.3 (development - 5099f3453)
+
 ### Fixed
 
 - Fixed `Phalcon\Config\Config::setData` to pass the `insensitive` flag to child objects [#16171](https://github.com/phalcon/cphalcon/issues/16171)
@@ -1476,6 +1613,11 @@
 - Fixed `Forms\Form::label` to accept an array as a default variable [#16180](https://github.com/phalcon/cphalcon/issues/16180)
 
 ## [5.0.4](https://github.com/phalcon/cphalcon/releases/tag/v5.0.4) (2022-10-17)
+
+### Tools
+
+- Zephir Parser v1.5.1
+- Zephir 0.16.3 (development - 5099f3453)
 
 ### Fixed
 
@@ -1488,6 +1630,11 @@
 
 ## [5.0.3](https://github.com/phalcon/cphalcon/releases/tag/v5.0.3) (2022-10-06)
 
+### Tools
+
+- Zephir Parser v1.5.1
+- Zephir 0.16.3 (development - 5099f3453)
+
 ### Changed
 
 - Fixed `Phalcon\Filter\Sanitize\StringVal` to accept flags for `htmlspecialchars()` [#16135](https://github.com/phalcon/cphalcon/issues/16135)
@@ -1497,6 +1644,11 @@
 - Fixed `Phalcon\Html\Escaper::attributes()` to honor the `$flags` set for `htmlspecialchars()` [#16134](https://github.com/phalcon/cphalcon/issues/16134)
 
 ## [5.0.2](https://github.com/phalcon/cphalcon/releases/tag/v5.0.2) (2022-09-27)
+
+### Tools
+
+- Zephir Parser v1.5.1
+- Zephir 0.16.3 (development - 5099f3453)
 
 ### Fixed
 
@@ -1514,6 +1666,11 @@
 - Fixed `Phalcon\Encryption\Security\JWT\Token\Token::validate()` to correctly call validator methods [#16115](https://github.com/phalcon/cphalcon/issues/16115)
 
 ## [5.0.0](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0) (2022-09-22)
+
+### Tools
+
+- Zephir Parser v1.5.1
+- Zephir 0.16.3 (development - 5099f3453)
 
 ### Changed
 
@@ -1539,6 +1696,11 @@
 
 ## [5.0.0rc4](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0RC4) (2022-08-08)
 
+### Tools
+
+- Zephir Parser v1.5.0
+- Zephir 0.16.0 (development - 4fac47bac)
+
 ### Fixed
 
 - Reverted to single quotes when volt code generates PHP code.
@@ -1563,6 +1725,11 @@
     - Added better support for webm images [#15977](https://github.com/phalcon/cphalcon/issues/15977)
 
 ## [5.0.0rc3](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0RC3) (2022-07-12)
+
+### Tools
+
+- Zephir Parser v1.5.0
+- Zephir 0.16.0 (development - 4fac47bac)
 
 ### Added
 
@@ -1591,6 +1758,11 @@
 
 ## [5.0.0rc2](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0RC2) (2022-06-09)
 
+### Tools
+
+- Zephir Parser v1.5.0
+- Zephir 0.16.0 (development - 4fac47bac)
+
 ### Changed
 
 - Changed the `StringVal` filter to now use `htmlspecialchars()` [#15978](https://github.com/phalcon/cphalcon/issues/15978)
@@ -1604,6 +1776,11 @@
 - Fixed `Phalcon\Http\Response::getQualityHeader()` to check if the server variable is `null` before performing `preg_split` [#15984](https://github.com/phalcon/cphalcon/issues/15984)
 
 ## [5.0.0rc1](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0RC1) (2022-05-31)
+
+### Tools
+
+- Zephir Parser v1.5.0
+- Zephir 0.16.0 (development - 4fac47bac)
 
 ### Changed
 

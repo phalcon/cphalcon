@@ -1664,7 +1664,7 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMap)
 	zend_ulong _4;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_13 = NULL, *_17 = NULL, *_29 = NULL, *_31 = NULL;
-	zend_bool keepSnapshots, disableSetters = 0, _40, _6$$5, _26$$5, _8$$9, _11$$13, _23$$21, _36$$36, _41$$40, _59$$40, _43$$44, _46$$48, _56$$56, _67$$71;
+	zend_bool keepSnapshots, callSetters = 0, _40, _6$$5, _26$$5, _8$$9, _11$$13, _23$$21, _36$$36, _41$$40, _59$$40, _43$$44, _46$$48, _56$$56, _67$$71;
 	zend_long dirtyState, ZEPHIR_LAST_CALL_STATUS;
 	zval data, localMethods;
 	zval *base, base_sub, *data_param = NULL, *columnMap, columnMap_sub, *dirtyState_param = NULL, *keepSnapshots_param = NULL, instance, attribute, key, value, castValue, attributeName, metaData, reverseMap, notNullAttributes, setter, _0, _1, _2, *_3, _39, _7$$9, _9$$10, _10$$10, _12$$16, _14$$16, _15$$17, _16$$17, _18$$18, _19$$18, _20$$19, _21$$19, _22$$21, _24$$22, _25$$22, _27$$25, _28$$26, _30$$30, _32$$29, _33$$29, _34$$33, _35$$36, _37$$37, _38$$37, _42$$44, _44$$45, _45$$45, _47$$51, _48$$51, _49$$52, _50$$52, _51$$53, _52$$53, _53$$54, _54$$54, _55$$56, _57$$57, _58$$57, _60$$60, _61$$61, _62$$65, _63$$64, _64$$64, _65$$68, _66$$71, _68$$72, _69$$72, _70$$75, _71$$76;
@@ -1775,10 +1775,10 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMap)
 	ZEPHIR_CALL_METHOD(NULL, &instance, "setdirtystate", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_2);
-	ZVAL_STRING(&_2, "orm.disable_assign_setters");
+	ZVAL_STRING(&_2, "orm.call_setters_on_hydration");
 	ZEPHIR_CALL_CE_STATIC(&_1, phalcon_support_settings_ce, "get", NULL, 0, &_2);
 	zephir_check_call_status();
-	disableSetters = zephir_get_boolval(&_1);
+	callSetters = zephir_get_boolval(&_1);
 	ZEPHIR_INIT_VAR(&localMethods);
 	zephir_create_array(&localMethods, 10, 0);
 	add_assoc_long_ex(&localMethods, SL("setConnectionService"), 1);
@@ -1814,7 +1814,7 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMap)
 				continue;
 			}
 			if (Z_TYPE_P(columnMap) != IS_ARRAY) {
-				if (!(disableSetters)) {
+				if (callSetters) {
 					ZEPHIR_INIT_NVAR(&_7$$9);
 					zephir_camelize(&_7$$9, &key, NULL );
 					ZEPHIR_INIT_NVAR(&setter);
@@ -1901,7 +1901,7 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMap)
 				}
 			}
 			if (Z_TYPE_P(&attribute) != IS_ARRAY) {
-				if (!(disableSetters)) {
+				if (callSetters) {
 					ZEPHIR_INIT_NVAR(&_22$$21);
 					zephir_camelize(&_22$$21, &attribute, NULL );
 					ZEPHIR_INIT_NVAR(&setter);
@@ -1945,7 +1945,7 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMap)
 				do {
 					if (ZEPHIR_IS_LONG(&_27$$25, 0) || ZEPHIR_IS_LONG(&_27$$25, 21) || ZEPHIR_IS_LONG(&_27$$25, 22) || ZEPHIR_IS_LONG(&_27$$25, 26)) {
 						ZVAL_LONG(&_28$$26, 10);
-						ZEPHIR_CALL_FUNCTION(&castValue, "intval", &_29, 89, &value, &_28$$26);
+						ZEPHIR_CALL_FUNCTION(&castValue, "intval", &_29, 95, &value, &_28$$26);
 						zephir_check_call_status();
 						break;
 					}
@@ -2008,7 +2008,7 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMap)
 			ZEPHIR_OBS_NVAR(&attributeName);
 			zephir_array_fetch_long(&attributeName, &attribute, 0, PH_NOISY, "phalcon/Mvc/Model.zep", 1223);
 			zephir_array_update_zval(&data, &key, &castValue, PH_COPY | PH_SEPARATE);
-			if (!(disableSetters)) {
+			if (callSetters) {
 				ZEPHIR_INIT_NVAR(&_35$$36);
 				zephir_camelize(&_35$$36, &attributeName, NULL );
 				ZEPHIR_INIT_NVAR(&setter);
@@ -2073,7 +2073,7 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMap)
 					continue;
 				}
 				if (Z_TYPE_P(columnMap) != IS_ARRAY) {
-					if (!(disableSetters)) {
+					if (callSetters) {
 						ZEPHIR_INIT_NVAR(&_42$$44);
 						zephir_camelize(&_42$$44, &key, NULL );
 						ZEPHIR_INIT_NVAR(&setter);
@@ -2160,7 +2160,7 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMap)
 					}
 				}
 				if (Z_TYPE_P(&attribute) != IS_ARRAY) {
-					if (!(disableSetters)) {
+					if (callSetters) {
 						ZEPHIR_INIT_NVAR(&_55$$56);
 						zephir_camelize(&_55$$56, &attribute, NULL );
 						ZEPHIR_INIT_NVAR(&setter);
@@ -2204,7 +2204,7 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMap)
 					do {
 						if (ZEPHIR_IS_LONG(&_60$$60, 0) || ZEPHIR_IS_LONG(&_60$$60, 21) || ZEPHIR_IS_LONG(&_60$$60, 22) || ZEPHIR_IS_LONG(&_60$$60, 26)) {
 							ZVAL_LONG(&_61$$61, 10);
-							ZEPHIR_CALL_FUNCTION(&castValue, "intval", &_29, 89, &value, &_61$$61);
+							ZEPHIR_CALL_FUNCTION(&castValue, "intval", &_29, 95, &value, &_61$$61);
 							zephir_check_call_status();
 							break;
 						}
@@ -2267,7 +2267,7 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMap)
 				ZEPHIR_OBS_NVAR(&attributeName);
 				zephir_array_fetch_long(&attributeName, &attribute, 0, PH_NOISY, "phalcon/Mvc/Model.zep", 1223);
 				zephir_array_update_zval(&data, &key, &castValue, PH_COPY | PH_SEPARATE);
-				if (!(disableSetters)) {
+				if (callSetters) {
 					ZEPHIR_INIT_NVAR(&_66$$71);
 					zephir_camelize(&_66$$71, &attributeName, NULL );
 					ZEPHIR_INIT_NVAR(&setter);
@@ -8010,7 +8010,7 @@ PHP_METHOD(Phalcon_Mvc_Model, doLowInsert)
 		zephir_check_call_status();
 		if (UNEXPECTED(zephir_is_true(&_56$$55))) {
 			ZVAL_LONG(&_58$$63, 10);
-			ZEPHIR_CALL_FUNCTION(&_59$$63, "intval", NULL, 89, &lastInsertedId, &_58$$63);
+			ZEPHIR_CALL_FUNCTION(&_59$$63, "intval", NULL, 95, &lastInsertedId, &_58$$63);
 			zephir_check_call_status();
 			ZEPHIR_CPY_WRT(&lastInsertedId, &_59$$63);
 		}
@@ -9423,7 +9423,7 @@ PHP_METHOD(Phalcon_Mvc_Model, invokeFinder)
 	if (zephir_array_isset_value(&attributes, &extraMethod)) {
 		ZEPHIR_CPY_WRT(&field, &extraMethod);
 	} else {
-		ZEPHIR_CALL_FUNCTION(&extraMethodFirst, "lcfirst", NULL, 161, &extraMethod);
+		ZEPHIR_CALL_FUNCTION(&extraMethodFirst, "lcfirst", NULL, 167, &extraMethod);
 		zephir_check_call_status();
 		if (zephir_array_isset_value(&attributes, &extraMethodFirst)) {
 			ZEPHIR_CPY_WRT(&field, &extraMethodFirst);

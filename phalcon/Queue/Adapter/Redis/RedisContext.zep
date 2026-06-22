@@ -20,24 +20,23 @@
 namespace Phalcon\Queue\Adapter\Redis;
 
 use Phalcon\Contracts\Queue\Consumer as ConsumerInterface;
-use Phalcon\Contracts\Queue\Context as ContextInterface;
 use Phalcon\Contracts\Queue\Destination as DestinationInterface;
 use Phalcon\Contracts\Queue\Message as MessageInterface;
 use Phalcon\Contracts\Queue\Producer as ProducerInterface;
 use Phalcon\Contracts\Queue\Queue as QueueInterface;
 use Phalcon\Contracts\Queue\SubscriptionConsumer as SubscriptionConsumerInterface;
-use Phalcon\Contracts\Queue\Topic as TopicInterface;
-use Phalcon\Queue\Adapter\GenericQueue;
-use Phalcon\Queue\Adapter\GenericTopic;
-use Phalcon\Queue\Exceptions\InvalidDestinationException;
+use Phalcon\Queue\Adapter\AbstractContext;
+use Phalcon\Queue\Adapter\MessageEnvelope;
+use Phalcon\Queue\Adapter\QueueDestinationGuard;
 
 /**
  * Redis transport session (ext-redis). Each queue is a Redis list; messages
  * are LPUSHed on send and RPOP/BRPOPed on receive, giving FIFO delivery.
  * Delayed messages live in a companion sorted set (`<key>:delayed`) scored by
- * their due time in milliseconds, and are promoted into the list once due.
+ * their due time in milliseconds, and are promoted into the list once due. The
+ * destination factories come from AbstractContext.
  */
-class RedisContext implements ContextInterface
+class RedisContext extends AbstractContext
 {
     /**
      * Milliseconds slept between poll passes by a subscription consumer.
@@ -81,7 +80,7 @@ class RedisContext implements ContextInterface
         let result = this->redis->brPop([this->listKey(queueName)], timeout);
 
         if typeof result == "array" && count(result) >= 2 {
-            return this->unserializeMessage(result[1]);
+            return this->buildMessage(result[1]);
         }
 
         return null;
@@ -93,11 +92,7 @@ class RedisContext implements ContextInterface
 
     public function createConsumer(<DestinationInterface> destination) -> <ConsumerInterface>
     {
-        if unlikely !(destination instanceof QueueInterface) {
-            throw new InvalidDestinationException(
-                "The Redis transport can only consume from a Queue destination"
-            );
-        }
+        QueueDestinationGuard::assertQueue(destination, "consume from");
 
         return new RedisConsumer(this, destination);
     }
@@ -112,24 +107,9 @@ class RedisContext implements ContextInterface
         return new RedisProducer(this);
     }
 
-    public function createQueue(string queueName) -> <QueueInterface>
-    {
-        return new GenericQueue(queueName);
-    }
-
     public function createSubscriptionConsumer() -> <SubscriptionConsumerInterface>
     {
         return new RedisSubscriptionConsumer(this, this->pollInterval);
-    }
-
-    public function createTemporaryQueue() -> <QueueInterface>
-    {
-        return new GenericQueue(uniqid("phalcon_queue_", true));
-    }
-
-    public function createTopic(string topicName) -> <TopicInterface>
-    {
-        return new GenericTopic(topicName);
     }
 
     /**
@@ -149,7 +129,7 @@ class RedisContext implements ContextInterface
             return null;
         }
 
-        return this->unserializeMessage(payload);
+        return this->buildMessage(payload);
     }
 
     public function purgeQueue(<QueueInterface> queue) -> void
@@ -172,7 +152,7 @@ class RedisContext implements ContextInterface
         var payload, member;
         int score;
 
-        let payload = this->serializeMessage(message);
+        let payload = MessageEnvelope::encode(message);
 
         if delay > 0 {
             let score  = this->now() + delay,
@@ -184,6 +164,19 @@ class RedisContext implements ContextInterface
         }
 
         this->redis->lPush(this->listKey(queueName), payload);
+    }
+
+    private function buildMessage(string payload) -> <MessageInterface> | null
+    {
+        var data;
+
+        let data = MessageEnvelope::decode(payload);
+
+        if data === null {
+            return null;
+        }
+
+        return new RedisMessage(data["body"], data["properties"], data["headers"]);
     }
 
     private function delayedKey(string queueName) -> string
@@ -226,29 +219,5 @@ class RedisContext implements ContextInterface
                 this->redis->lPush(listKey, payload);
             }
         }
-    }
-
-    private function serializeMessage(<MessageInterface> message) -> string
-    {
-        return serialize(
-            [
-                "body"       : message->getBody(),
-                "properties" : message->getProperties(),
-                "headers"    : message->getHeaders()
-            ]
-        );
-    }
-
-    private function unserializeMessage(string payload) -> <MessageInterface> | null
-    {
-        var data;
-
-        let data = unserialize(payload, ["allowed_classes" : false]);
-
-        if typeof data != "array" {
-            return null;
-        }
-
-        return new RedisMessage(data["body"], data["properties"], data["headers"]);
     }
 }

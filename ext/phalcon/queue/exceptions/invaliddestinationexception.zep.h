@@ -3,3 +3,13 @@ extern zend_class_entry *phalcon_queue_exceptions_invaliddestinationexception_ce
 
 ZEPHIR_INIT_CLASS(Phalcon_Queue_Exceptions_InvalidDestinationException);
 
+PHP_METHOD(Phalcon_Queue_Exceptions_InvalidDestinationException, __construct);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_queue_exceptions_invaliddestinationexception___construct, 0, 0, 1)
+	ZEND_ARG_TYPE_INFO(0, action, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_queue_exceptions_invaliddestinationexception_method_entry) {
+	PHP_ME(Phalcon_Queue_Exceptions_InvalidDestinationException, __construct, arginfo_phalcon_queue_exceptions_invaliddestinationexception___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_FE_END
+};

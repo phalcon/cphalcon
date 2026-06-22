@@ -114,12 +114,12 @@ PHP_METHOD(Phalcon_Container_Definition_Processor_StringProcessor, process)
 	object_init_ex(&def, phalcon_container_definition_servicedefinition_ce);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "string");
-	ZEPHIR_CALL_METHOD(NULL, &def, "__construct", NULL, 387, &name_zv, &_0, definition);
+	ZEPHIR_CALL_METHOD(NULL, &def, "__construct", NULL, 393, &name_zv, &_0, definition);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, &def, "setclass", NULL, 395, definition);
+	ZEPHIR_CALL_METHOD(NULL, &def, "setclass", NULL, 401, definition);
 	zephir_check_call_status();
 	ZVAL_BOOL(&_1, 1);
-	ZEPHIR_CALL_METHOD(NULL, &def, "setiscacheable", NULL, 394, &_1);
+	ZEPHIR_CALL_METHOD(NULL, &def, "setiscacheable", NULL, 400, &_1);
 	zephir_check_call_status();
 	RETURN_CCTOR(&def);
 }

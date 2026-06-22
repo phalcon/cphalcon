@@ -2542,8 +2542,8 @@ class Compiler implements InjectionAwareInterface
             case "format":
                 return "sprintf(" . arguments . ")";
             case "join":
-                return "join('" . funcArguments[1]["expr"]["value"]
-                    . "', " . funcArguments[0]["expr"]["value"] . ")";
+                return "join(" . this->expression(funcArguments[1]["expr"])
+                    . ", " . this->expression(funcArguments[0]["expr"]) . ")";
             case "json_encode":
                 return "json_encode(" . arguments . ")";
             case "json_decode":
