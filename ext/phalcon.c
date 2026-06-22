@@ -1431,6 +1431,7 @@ PHP_INI_BEGIN()
 	STD_PHP_INI_BOOLEAN("phalcon.form.strict_entity_property_check", "0", PHP_INI_ALL, OnUpdateBool, form.strict_entity_property_check, zend_phalcon_globals, phalcon_globals)
 	
 	
+	STD_PHP_INI_BOOLEAN("phalcon.orm.call_setters_on_hydration", "0", PHP_INI_ALL, OnUpdateBool, orm.call_setters_on_hydration, zend_phalcon_globals, phalcon_globals)
 	STD_PHP_INI_BOOLEAN("phalcon.orm.case_insensitive_column_map", "0", PHP_INI_ALL, OnUpdateBool, orm.case_insensitive_column_map, zend_phalcon_globals, phalcon_globals)
 	STD_PHP_INI_BOOLEAN("phalcon.orm.cast_last_insert_id_to_int", "0", PHP_INI_ALL, OnUpdateBool, orm.cast_last_insert_id_to_int, zend_phalcon_globals, phalcon_globals)
 	STD_PHP_INI_BOOLEAN("phalcon.orm.cast_on_hydrate", "0", PHP_INI_ALL, OnUpdateBool, orm.cast_on_hydrate, zend_phalcon_globals, phalcon_globals)
@@ -2891,6 +2892,7 @@ static void php_zephir_init_globals(zend_phalcon_globals *phalcon_globals)
 
 	phalcon_globals->orm.ast_cache = NULL;
 	phalcon_globals->orm.cache_level = 3;
+
 
 
 

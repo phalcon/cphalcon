@@ -189,7 +189,7 @@ final class HandleTest extends AbstractUnitTestCase
 
     /**
      * @issue  https://github.com/phalcon/cphalcon/security/advisories/GHSA-x7rj-f32v-7jjg
-     * @author https://github.com/nikkoenggaliano
+     * @author Nikko Enggaliano Pratama <nikkoenggaliano@gmail.com>
      * @since  2026-06-18
      */
     public function testMvcRouterHandleParamsNoCatastrophicBacktracking(): void

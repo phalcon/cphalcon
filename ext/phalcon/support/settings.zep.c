@@ -188,13 +188,13 @@ PHP_METHOD(Phalcon_Support_Settings, reset)
  */
 PHP_METHOD(Phalcon_Support_Settings, readGlobal)
 {
-	zval _0$$21;
+	zval _0$$22;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval key_zv;
 	zend_string *key = NULL;
 
 	ZVAL_UNDEF(&key_zv);
-	ZVAL_UNDEF(&_0$$21);
+	ZVAL_UNDEF(&_0$$22);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(key)
 	ZEND_PARSE_PARAMETERS_END();
@@ -211,6 +211,9 @@ PHP_METHOD(Phalcon_Support_Settings, readGlobal)
 		}
 		if (ZEPHIR_IS_STRING(&key_zv, "form.strict_entity_property_check")) {
 			RETURN_MM_BOOL(ZEPHIR_GLOBAL(form).strict_entity_property_check);
+		}
+		if (ZEPHIR_IS_STRING(&key_zv, "orm.call_setters_on_hydration")) {
+			RETURN_MM_BOOL(ZEPHIR_GLOBAL(orm).call_setters_on_hydration);
 		}
 		if (ZEPHIR_IS_STRING(&key_zv, "orm.case_insensitive_column_map")) {
 			RETURN_MM_BOOL(ZEPHIR_GLOBAL(orm).case_insensitive_column_map);
@@ -258,10 +261,10 @@ PHP_METHOD(Phalcon_Support_Settings, readGlobal)
 			RETURN_MM_BOOL(ZEPHIR_GLOBAL(orm).resultset_empty_left_join_model);
 		}
 		if (ZEPHIR_IS_STRING(&key_zv, "orm.resultset_prefetch_records")) {
-			ZEPHIR_INIT_VAR(&_0$$21);
-			ZEPHIR_INIT_NVAR(&_0$$21);
-			ZVAL_STRING(&_0$$21, "ZEPHIR_GLOBAL(orm).resultset_prefetch_records");
-			RETURN_MM_LONG(zephir_get_intval_ex(&_0$$21));
+			ZEPHIR_INIT_VAR(&_0$$22);
+			ZEPHIR_INIT_NVAR(&_0$$22);
+			ZVAL_STRING(&_0$$22, "ZEPHIR_GLOBAL(orm).resultset_prefetch_records");
+			RETURN_MM_LONG(zephir_get_intval_ex(&_0$$22));
 		}
 		if (ZEPHIR_IS_STRING(&key_zv, "orm.update_snapshot_on_save")) {
 			RETURN_MM_BOOL(ZEPHIR_GLOBAL(orm).update_snapshot_on_save);
