@@ -47,7 +47,6 @@ final class UpdateTest extends AbstractDatabaseTestCase
     #[Group('mysql')]
     #[Group('pgsql')]
     #[Group('sqlite')]
-    #[Group('pgsql')]
     public function testMvcModelResultsetUpdate(): void
     {
         $invoices = Invoices::find(

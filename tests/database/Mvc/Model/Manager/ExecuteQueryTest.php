@@ -50,7 +50,6 @@ final class ExecuteQueryTest extends AbstractDatabaseTestCase
     #[Group('mysql')]
     #[Group('pgsql')]
     #[Group('sqlite')]
-    #[Group('pgsql')]
     public function testMvcModelManagerExecuteQuery(): void
     {
         /** @var ManagerInterface $manager */

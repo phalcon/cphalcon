@@ -81,7 +81,7 @@ PHP_METHOD(Phalcon_Auth_Guard_Config_TokenGuardConfig, __construct)
 		ZVAL_STRING(&_1$$3, "Token guard");
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZVAL_STRING(&_2$$3, "inputKey");
-		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 304, &_1$$3, &_2$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 320, &_1$$3, &_2$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_0$$3, "phalcon/Auth/Guard/Config/TokenGuardConfig.zep", 38);
 		ZEPHIR_MM_RESTORE();
@@ -94,7 +94,7 @@ PHP_METHOD(Phalcon_Auth_Guard_Config_TokenGuardConfig, __construct)
 		ZVAL_STRING(&_4$$4, "Token guard");
 		ZEPHIR_INIT_VAR(&_5$$4);
 		ZVAL_STRING(&_5$$4, "storageKey");
-		ZEPHIR_CALL_METHOD(NULL, &_3$$4, "__construct", NULL, 304, &_4$$4, &_5$$4);
+		ZEPHIR_CALL_METHOD(NULL, &_3$$4, "__construct", NULL, 320, &_4$$4, &_5$$4);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_3$$4, "phalcon/Auth/Guard/Config/TokenGuardConfig.zep", 45);
 		ZEPHIR_MM_RESTORE();

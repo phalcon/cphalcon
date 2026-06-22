@@ -31,7 +31,6 @@ final class CreateBuilderTest extends AbstractDatabaseTestCase
     #[Group('mysql')]
     #[Group('pgsql')]
     #[Group('sqlite')]
-    #[Group('pgsql')]
     public function testMvcModelManagerCreateBuilder(): void
     {
         $this->setNewFactoryDefault();

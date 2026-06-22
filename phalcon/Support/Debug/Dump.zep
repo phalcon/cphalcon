@@ -10,6 +10,7 @@
 
 namespace Phalcon\Support\Debug;
 
+use Phalcon\Contracts\Support\Debug\TemplateAware;
 use Phalcon\Di\DiInterface;
 use Phalcon\Support\Helper\Json\Encode;
 use Reflection;
@@ -34,7 +35,7 @@ use stdClass;
  * echo (new \Phalcon\Debug\Dump())->variables($foo, $bar, $baz);
  * ```
  */
-class Dump
+class Dump implements TemplateAware
 {
     /**
      * @var bool
@@ -50,6 +51,17 @@ class Dump
      * @var array
      */
     protected styles = [];
+
+    /**
+     * Template overrides keyed by name.
+     *
+     * @todo Move getTemplate()/setTemplate()/templates into a shared trait once
+     *       Zephir supports traits (mirrors
+     *       Phalcon\Support\Debug\Traits\TemplateAwareTrait in the PHP source).
+     *
+     * @var array
+     */
+    protected templates = [];
 
     /**
      * @var Encode
@@ -68,7 +80,6 @@ class Dump
         let this->detailed = detailed;
     }
 
-
     /**
      * Alias of variables() method
      */
@@ -86,6 +97,25 @@ class Dump
     public function getDetailed() -> bool
     {
         return this->detailed;
+    }
+
+    /**
+     * Returns the template for the given name (override if set, default
+     * otherwise).
+     *
+     * @param string $name
+     *
+     * @return string
+     */
+    public function getTemplate(string name) -> string
+    {
+        var template;
+
+        if fetch template, this->templates[name] {
+            return template;
+        }
+
+        return this->defaultTemplate(name);
     }
 
     /**
@@ -128,6 +158,21 @@ class Dump
     }
 
     /**
+     * Overrides the template for the given name.
+     *
+     * @param string $name
+     * @param string $template
+     *
+     * @return static
+     */
+    public function setTemplate(string name, string template) -> <static>
+    {
+        let this->templates[name] = template;
+
+        return this;
+    }
+
+    /**
      * Returns an JSON string of information about a single variable.
      *
      * ```php
@@ -161,10 +206,10 @@ class Dump
     public function variable(var variable, string name = null) -> string
     {
         return strtr(
-            "<pre style=\":style\">:output</pre>",
+            this->getTemplate("pre"),
             [
-                ":style":  this->getStyle("pre"),
-                ":output": this->output(variable, name)
+                "%style%":  this->getStyle("pre"),
+                "%output%": this->output(variable, name)
             ]
         );
     }
@@ -199,6 +244,39 @@ class Dump
     }
 
     /**
+     * Returns the embedded default template for the given name.
+     *
+     * @param string $name
+     *
+     * @return string
+     */
+    protected function defaultTemplate(string name) -> string
+    {
+        var defaults, template;
+
+        let defaults = [
+            "pre"                     : "<pre style=\"%style%\">%output%</pre>",
+            "bold"                    : "<b style=\"%style%\">%text%</b>",
+            "varParens"               : "(<span style=\"%style%\">%var%</span>)",
+            "lengthValue"             : "(<span style=\"%style%\">%length%</span>) \"<span style=\"%style%\">%var%</span>\"",
+            "arrayHeader"             : "<b style=\"%style%\">Array</b> (<span style=\"%style%\">%count%</span>) (\n",
+            "arrayKey"                : "[<span style=\"%style%\">%key%</span>] => ",
+            "objectHeader"            : "<b style=\"%style%\">Object</b> %class%",
+            "objectExtends"           : " <b style=\"%style%\">extends</b> %parent%",
+            "objectProperty"          : "-><span style=\"%style%\">%key%</span> (<span style=\"%style%\">%type%</span>) = ",
+            "objectMethods"           : "%class% <b style=\"%style%\">methods</b>: (<span style=\"%style%\">%count%</span>) (\n",
+            "objectMethod"            : "-><span style=\"%style%\">%method%</span>();\n",
+            "objectMethodConstructor" : "-><span style=\"%style%\">%method%</span>(); [<b style=\"%style%\">constructor</b>]\n"
+        ];
+
+        if fetch template, defaults[name] {
+            return template;
+        }
+
+        return "";
+    }
+
+    /**
      * Get style for type
      */
     protected function getStyle(string! type) -> string
@@ -217,7 +295,7 @@ class Dump
      */
     protected function output(var variable, string name = null, int tab = 1) -> string
     {
-        var key, value, output, space, type, attr;
+        var key, value, output, space, type, attr, reflect, props, property;
 
         let space = "  ",
             output = "";
@@ -228,16 +306,19 @@ class Dump
 
         if typeof variable == "array" {
             let output .= strtr(
-                "<b style=\":style\">Array</b> (<span style=\":style\">:count</span>) (\n",
+                this->getTemplate("arrayHeader"),
                 [
-                    ":style": this->getStyle("arr"),
-                    ":count": count(variable)
+                    "%style%": this->getStyle("arr"),
+                    "%count%": count(variable)
                 ]
             );
 
             for key, value in variable {
                 let output .= str_repeat(space, tab)
-                    . strtr("[<span style=\":style\">:key</span>] => ", [":style": this->getStyle("arr"), ":key": key]);
+                    . strtr(
+                        this->getTemplate("arrayKey"),
+                        ["%style%": this->getStyle("arr"), "%key%": key]
+                    );
 
                 if tab == 1 && name != "" && !is_int(key) && name == key {
                     continue;
@@ -251,22 +332,23 @@ class Dump
 
         if typeof variable == "object" {
             let output .= strtr(
-                "<b style=\":style\">Object</b> :class",
+                this->getTemplate("objectHeader"),
                 [
-                    ":style": this->getStyle("obj"),
-                    ":class": get_class(variable)
+                    "%style%": this->getStyle("obj"),
+                    "%class%": get_class(variable)
                 ]
             );
 
             if get_parent_class(variable) {
                 let output .= strtr(
-                    " <b style=\":style\">extends</b> :parent",
+                    this->getTemplate("objectExtends"),
                     [
-                        ":style": this->getStyle("obj"),
-                        ":parent": get_parent_class(variable)
+                        "%style%":  this->getStyle("obj"),
+                        "%parent%": get_parent_class(variable)
                     ]
                 );
             }
+
             let output .= " (\n";
 
             if variable instanceof DiInterface {
@@ -277,15 +359,13 @@ class Dump
                 for key, value in get_object_vars(variable) {
                     let output .= str_repeat(space, tab)
                         . strtr(
-                                "-><span style=\":style\">:key</span> (<span style=\":style\">:type</span>) = ",
-                                [":style": this->getStyle("obj"), ":key": key, ":type": "public"]
-                            );
+                            this->getTemplate("objectProperty"),
+                            ["%style%": this->getStyle("obj"), "%key%": key, "%type%": "public"]
+                        );
                     let output .= this->output(value, "", tab + 1) . "\n";
                 }
             } else {
                 // Debug all properties
-                var reflect, props, property;
-
                 let reflect = new ReflectionClass(variable);
                 let props = reflect->getProperties(
                     ReflectionProperty::IS_PUBLIC |
@@ -307,8 +387,8 @@ class Dump
 
                     let output .= str_repeat(space, tab)
                         . strtr(
-                            "-><span style=\":style\">:key</span> (<span style=\":style\">:type</span>) = ",
-                            [":style": this->getStyle("obj"), ":key": key, ":type": type]
+                            this->getTemplate("objectProperty"),
+                            ["%style%": this->getStyle("obj"), "%key%": key, "%type%": type]
                         );
                     let output .= this->output(property->getValue(variable), "", tab + 1) . "\n";
                 }
@@ -317,9 +397,9 @@ class Dump
             let attr = get_class_methods(variable);
             let output .= str_repeat(space, tab)
                 . strtr(
-                        ":class <b style=\":style\">methods</b>: (<span style=\":style\">:count</span>) (\n",
-                        [":style": this->getStyle("obj"), ":class": get_class(variable), ":count": count(attr)]
-                    );
+                    this->getTemplate("objectMethods"),
+                    ["%style%": this->getStyle("obj"), "%class%": get_class(variable), "%count%": count(attr)]
+                );
 
             if in_array(get_class(variable), this->methods) {
                 let output .= str_repeat(space, tab) . "[already listed]\n";
@@ -330,14 +410,14 @@ class Dump
                     if value == "__construct" {
                         let output .= str_repeat(space, tab + 1)
                             . strtr(
-                                "-><span style=\":style\">:method</span>(); [<b style=\":style\">constructor</b>]\n",
-                                [":style": this->getStyle("obj"), ":method": value]
+                                this->getTemplate("objectMethodConstructor"),
+                                ["%style%": this->getStyle("obj"), "%method%": value]
                             );
                     } else {
                         let output .= str_repeat(space, tab + 1)
                             . strtr(
-                                "-><span style=\":style\">:method</span>();\n",
-                                [":style": this->getStyle("obj"), ":method": value]
+                                this->getTemplate("objectMethod"),
+                                ["%style%": this->getStyle("obj"), "%method%": value]
                             );
                     }
                 }
@@ -350,50 +430,66 @@ class Dump
 
         if is_int(variable) {
             return output . strtr(
-            "<b style=\":style\">Integer</b> (<span style=\":style\">:var</span>)",
-            [":style": this->getStyle("int"), ":var": variable]
+                this->getOutputBold("Integer") . " " . this->getTemplate("varParens"),
+                ["%style%": this->getStyle("int"), "%var%": variable]
             );
         }
 
         if is_float(variable) {
             return output . strtr(
-                "<b style=\":style\">Float</b> (<span style=\":style\">:var</span>)",
-                [":style": this->getStyle("float"), ":var": variable]
+                this->getOutputBold("Float") . " " . this->getTemplate("varParens"),
+                ["%style%": this->getStyle("float"), "%var%": variable]
             );
         }
 
         if is_numeric(variable) {
             return output . strtr(
-                "<b style=\":style\">Numeric String</b> "
-                . "(<span style=\":style\">:length</span>) \"<span style=\":style\">:var</span>\"",
-                [":style": this->getStyle("num"), ":length": mb_strlen(variable), ":var": variable]
+                this->getOutputBold("Numeric String") . " " . this->getTemplate("lengthValue"),
+                ["%style%": this->getStyle("num"), "%length%": mb_strlen(variable), "%var%": variable]
             );
         }
 
         if is_string(variable) {
             return output . strtr(
-                "<b style=\":style\">String</b> "
-                . "(<span style=\":style\">:length</span>) \"<span style=\":style\">:var</span>\"",
+                this->getOutputBold("String") . " " . this->getTemplate("lengthValue"),
                 [
-                    ":style": this->getStyle("str"),
-                    ":length": mb_strlen(variable),
-                    ":var": nl2br(htmlentities(variable, ENT_IGNORE, "utf-8"))
+                    "%style%":  this->getStyle("str"),
+                    "%length%": mb_strlen(variable),
+                    "%var%":    nl2br(htmlentities(variable, ENT_IGNORE, "utf-8"))
                 ]
             );
         }
 
         if is_bool(variable) {
             return output . strtr(
-            "<b style=\":style\">Boolean</b> (<span style=\":style\">:var</span>)",
-            [":style": this->getStyle("bool"), ":var": (variable ? "TRUE" : "FALSE")]
+                this->getOutputBold("Boolean") . " " . this->getTemplate("varParens"),
+                ["%style%": this->getStyle("bool"), "%var%": (variable ? "TRUE" : "FALSE")]
             );
         }
 
         if is_null(variable) {
-            return output . strtr("<b style=\":style\">NULL</b>", [":style": this->getStyle("null")]);
+            return output . strtr(
+                this->getOutputBold("NULL"),
+                ["%style%": this->getStyle("null")]
+            );
         }
 
-        return output
-            . strtr("(<span style=\":style\">:var</span>)", [":style": this->getStyle("other"), ":var": variable]);
+        return output . strtr(
+            this->getTemplate("varParens"),
+            ["%style%": this->getStyle("other"), "%var%": variable]
+        );
+    }
+
+    /**
+     * @param string $text
+     *
+     * @return string
+     */
+    private function getOutputBold(string text) -> string
+    {
+        return strtr(
+            this->getTemplate("bold"),
+            ["%text%": text]
+        );
     }
 }

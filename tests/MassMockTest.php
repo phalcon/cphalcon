@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Tests;
+namespace Phalcon\Tests\Unit;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -39,9 +39,6 @@ class MassMockTest extends TestCase
             if ($reflector->isFinal()) {
                 continue;
             }
-
-            printf($class . PHP_EOL);
-            ob_flush();
 
             $mockBuilder = $this->createMock($class);
             $this->assertInstanceOf(MockObject::class, $mockBuilder);

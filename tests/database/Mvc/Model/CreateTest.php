@@ -44,7 +44,6 @@ final class CreateTest extends AbstractDatabaseTestCase
     #[Group('mysql')]
     #[Group('pgsql')]
     #[Group('sqlite')]
-    #[Group('pgsql')]
     public function testMvcModelCreate(): void
     {
         $title                    = uniqid('inv-');

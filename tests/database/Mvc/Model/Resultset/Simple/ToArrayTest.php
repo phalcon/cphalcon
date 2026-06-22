@@ -52,7 +52,6 @@ final class ToArrayTest extends AbstractDatabaseTestCase
     #[Group('mysql')]
     #[Group('pgsql')]
     #[Group('sqlite')]
-    #[Group('pgsql')]
     public function testMvcModelResultsetSimpleToArray(): void
     {
         $rows1 = (new Builder())

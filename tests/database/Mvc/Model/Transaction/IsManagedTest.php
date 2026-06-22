@@ -40,7 +40,6 @@ final class IsManagedTest extends AbstractDatabaseTestCase
     #[Group('mysql')]
     #[Group('pgsql')]
     #[Group('sqlite')]
-    #[Group('pgsql')]
     public function testMvcModelTransactionIsManaged(): void
     {
         $transaction = new Transaction(

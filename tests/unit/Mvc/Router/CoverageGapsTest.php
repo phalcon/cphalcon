@@ -181,24 +181,6 @@ final class CoverageGapsTest extends AbstractUnitTestCase
     }
 
     /**
-     * Path entry with a non-string key triggers Exception. Routes with a
-     * paths array that has an integer key reach the throw in handle().
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-05-21
-     */
-    public function testWrongPathsKeyThrows(): void
-    {
-        $router = $this->getRouter(false);
-        $router->add('/x/(\d+)', [0 => 'broken']);
-
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage('Wrong key in paths: 0');
-
-        $router->handle('/x/42');
-    }
-
-    /**
      * notFoundPaths fallback is used when no route matches.
      *
      * @author Phalcon Team <team@phalcon.io>

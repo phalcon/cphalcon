@@ -27,6 +27,8 @@ final class ListenTest extends AbstractUnitTestCase
         $debug  = new Debug();
         $result = $debug->listen();
 
+        restore_exception_handler();
+
         $this->assertInstanceOf(Debug::class, $result);
     }
 
@@ -38,6 +40,9 @@ final class ListenTest extends AbstractUnitTestCase
     {
         $debug  = new Debug();
         $result = $debug->listen(false, true);
+
+        restore_error_handler();
+        restore_exception_handler();
 
         $this->assertInstanceOf(Debug::class, $result);
     }

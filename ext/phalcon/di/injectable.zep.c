@@ -131,7 +131,7 @@ PHP_METHOD(Phalcon_Di_Injectable, __get)
 	if (zephir_is_true(&_0)) {
 		ZEPHIR_CALL_METHOD(&service, &container, "getshared", NULL, 0, &propertyName_zv);
 		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(&_5$$5, "property_exists", NULL, 14, this_ptr, &propertyName_zv);
+		ZEPHIR_CALL_FUNCTION(&_5$$5, "property_exists", NULL, 9, this_ptr, &propertyName_zv);
 		zephir_check_call_status();
 		if (zephir_is_true(&_5$$5)) {
 			zephir_update_property_zval_zval(this_ptr, &propertyName_zv, &service);
@@ -140,7 +140,7 @@ PHP_METHOD(Phalcon_Di_Injectable, __get)
 	}
 	ZEPHIR_INIT_VAR(&_6);
 	ZEPHIR_CONCAT_SV(&_6, "Access to undefined property ", &propertyName_zv);
-	ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", NULL, 15, &_6);
+	ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", NULL, 10, &_6);
 	zephir_check_call_status();
 	RETURN_MM_NULL();
 }
@@ -196,7 +196,7 @@ PHP_METHOD(Phalcon_Di_Injectable, getDI)
 		if (UNEXPECTED(Z_TYPE_P(&container) != IS_OBJECT)) {
 			ZEPHIR_INIT_VAR(&_1$$4);
 			object_init_ex(&_1$$4, phalcon_di_exceptions_containerrequired_ce);
-			ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 16);
+			ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 11);
 			zephir_check_call_status();
 			zephir_throw_exception_debug(&_1$$4, "phalcon/Di/Injectable.zep", 133);
 			ZEPHIR_MM_RESTORE();

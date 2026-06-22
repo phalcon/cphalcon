@@ -48,7 +48,6 @@ final class GetUpdatedFieldsTest extends AbstractDatabaseTestCase
     #[Group('mysql')]
     #[Group('pgsql')]
     #[Group('sqlite')]
-    #[Group('pgsql')]
     public function testMvcModelGetUpdatedFieldsNotPersisted(): void
     {
         $this->expectException(Exception::class);

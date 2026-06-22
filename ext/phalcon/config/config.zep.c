@@ -591,7 +591,7 @@ PHP_METHOD(Phalcon_Config_Config, setData)
 	ZEPHIR_CPY_WRT(element, &_1);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("insensitive"), PH_NOISY_CC | PH_READONLY);
 	if (zephir_is_true(&_0)) {
-		ZEPHIR_CALL_FUNCTION(&key, "mb_strtolower", NULL, 12, element);
+		ZEPHIR_CALL_FUNCTION(&key, "mb_strtolower", NULL, 15, element);
 		zephir_check_call_status();
 	} else {
 		ZEPHIR_CPY_WRT(&key, element);

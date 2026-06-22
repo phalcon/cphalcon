@@ -31,7 +31,6 @@ final class ConstructTest extends AbstractUnitTestCase
         $console   = new CliConsole();
         $reflect   = new ReflectionClass($console);
         $container = $reflect->getProperty('container');
-        $container->setAccessible(true);
         $this->assertNull($container->getValue($console));
 
         $di      = new DiFactoryDefault();

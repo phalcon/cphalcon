@@ -114,7 +114,7 @@ PHP_METHOD(Phalcon_Filter_Sanitize_BoolVal, __invoke)
 	if (Z_TYPE_P(input) == IS_STRING) {
 		ZEPHIR_INIT_NVAR(&_0);
 		zephir_fast_trim(&_0, input, NULL , ZEPHIR_TRIM_BOTH);
-		ZEPHIR_CALL_FUNCTION(&_3, "mb_strtolower", NULL, 12, &_0);
+		ZEPHIR_CALL_FUNCTION(&_3, "mb_strtolower", NULL, 15, &_0);
 		zephir_check_call_status();
 	} else {
 		ZEPHIR_CPY_WRT(&_3, input);

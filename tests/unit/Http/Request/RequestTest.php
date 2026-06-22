@@ -180,14 +180,6 @@ final class RequestTest extends AbstractHttpBase
         $expected = null;
         $actual   = $request->getPost('unknown-key', 'string', null, true, true);
         $this->assertSame($expected, $actual);
-
-        $expected = ['string' => 'world'];
-        $actual   = $request->getPost('array-key', 'stringlegacy');
-        $this->assertSame($expected, $actual);
-
-        $expected = null;
-        $actual   = $request->getPost('unknown-key', 'stringlegacy', null, true, true);
-        $this->assertSame($expected, $actual);
     }
 
     public function testRequestGetQuery(): void

@@ -46,7 +46,6 @@ final class RollbackTest extends AbstractDatabaseTestCase
     #[Group('mysql')]
     #[Group('pgsql')]
     #[Group('sqlite')]
-    #[Group('pgsql')]
     public function testMvcModelTransactionRollback(): void
     {
         $tm          = $this->container->getShared('transactionManager');
@@ -82,7 +81,6 @@ final class RollbackTest extends AbstractDatabaseTestCase
     #[Group('mysql')]
     #[Group('pgsql')]
     #[Group('sqlite')]
-    #[Group('pgsql')]
     public function testMvcModelTransactionRollbackException(): void
     {
         $tm    = $this->container->getShared('transactionManager');

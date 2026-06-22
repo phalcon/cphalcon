@@ -100,7 +100,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt_Padding_Space, unpad)
 	ZVAL_STR_COPY(&input_zv, input);
 	ZEPHIR_INIT_VAR(&length);
 	ZVAL_LONG(&length, zephir_fast_strlen_ev(&input_zv));
-	ZEPHIR_CALL_FUNCTION(&inputArray, "str_split", NULL, 181, &input_zv);
+	ZEPHIR_CALL_FUNCTION(&inputArray, "str_split", NULL, 197, &input_zv);
 	zephir_check_call_status();
 	counter = (zephir_get_numberval(&length) - 1);
 	paddingSize = 0;

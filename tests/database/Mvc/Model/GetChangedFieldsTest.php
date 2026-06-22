@@ -46,7 +46,6 @@ final class GetChangedFieldsTest extends AbstractDatabaseTestCase
     #[Group('mysql')]
     #[Group('pgsql')]
     #[Group('sqlite')]
-    #[Group('pgsql')]
     public function testMvcModelGetChangedFieldsNewModel(): void
     {
         $invoice = new Invoices();
@@ -69,7 +68,6 @@ final class GetChangedFieldsTest extends AbstractDatabaseTestCase
     #[Group('mysql')]
     #[Group('pgsql')]
     #[Group('sqlite')]
-    #[Group('pgsql')]
     public function testMvcModelGetChangedFieldsWithSnapshot(): void
     {
         $invoice = Invoices::findFirst();

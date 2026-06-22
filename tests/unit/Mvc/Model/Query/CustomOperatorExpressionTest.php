@@ -49,7 +49,6 @@ final class CustomOperatorExpressionTest extends AbstractUnitTestCase
         $query         = new Query();
         $reflection    = new ReflectionClass(Query::class);
         $getExpression = $reflection->getMethod('getExpression');
-        $getExpression->setAccessible(true);
 
         $this->assertSame(
             $expected,

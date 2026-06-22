@@ -1,0 +1,14 @@
+
+extern zend_class_entry *phalcon_queue_exceptions_prioritynotsupportedexception_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Queue_Exceptions_PriorityNotSupportedException);
+
+PHP_METHOD(Phalcon_Queue_Exceptions_PriorityNotSupportedException, __construct);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_queue_exceptions_prioritynotsupportedexception___construct, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_queue_exceptions_prioritynotsupportedexception_method_entry) {
+PHP_ME(Phalcon_Queue_Exceptions_PriorityNotSupportedException, __construct, arginfo_phalcon_queue_exceptions_prioritynotsupportedexception___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_FE_END
+};

@@ -55,7 +55,6 @@ final class GetExpressionTest extends AbstractDatabaseTestCase
         $query         = new Query();
         $reflection    = new ReflectionClass(Query::class);
         $getExpression = $reflection->getMethod('getExpression');
-        $getExpression->setAccessible(true);
 
         $this->assertSame($valueOne, $getExpression->invokeArgs($query, [$oneExpr, false]));
         $this->assertSame($valueTwo, $getExpression->invokeArgs($query, [$twoExpr, false]));

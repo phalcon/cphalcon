@@ -40,7 +40,6 @@ final class GetConnectionTest extends AbstractDatabaseTestCase
     #[Group('mysql')]
     #[Group('pgsql')]
     #[Group('sqlite')]
-    #[Group('pgsql')]
     public function testMvcModelTransactionGetConnection(): void
     {
         $tm = $this->container->getShared('transactionManager');

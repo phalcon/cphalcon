@@ -752,4 +752,27 @@ class Mysql extends PdoAdapter
             "charset" : "utf8mb4"
         ];
     }
+
+    /**
+     * Recognizes a MySQL "server has gone away" / "Lost connection" failure
+     * by the driver error code (2006 / 2013) with a message fallback.
+     */
+    protected function isConnectionError(<\Throwable> exception) -> bool
+    {
+        var errorInfo, driverCode, message;
+
+        let errorInfo = exception->errorInfo;
+        if typeof errorInfo == "array" && isset errorInfo[1] {
+            let driverCode = (int) errorInfo[1];
+
+            if driverCode === 2006 || driverCode === 2013 {
+                return true;
+            }
+        }
+
+        let message = exception->getMessage();
+
+        return memstr(message, "server has gone away") ||
+            memstr(message, "Lost connection");
+    }
 }

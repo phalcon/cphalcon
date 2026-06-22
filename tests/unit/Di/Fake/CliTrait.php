@@ -24,6 +24,7 @@ use Phalcon\Html\TagFactory;
 use Phalcon\Mvc\Model\Manager;
 use Phalcon\Mvc\Model\MetaData\Memory as MetadataMemory;
 use Phalcon\Mvc\Model\Transaction\Manager as TransactionManager;
+use Phalcon\Queue\QueueFactory;
 use Phalcon\Support\HelperFactory;
 use Phalcon\Support\Settings;
 
@@ -121,6 +122,10 @@ trait CliTrait
             [
                 'service' => 'modelsMetadata',
                 'class'   => MetadataMemory::class,
+            ],
+            [
+                'service' => 'queueFactory',
+                'class'   => QueueFactory::class,
             ],
             [
                 'service' => 'router',

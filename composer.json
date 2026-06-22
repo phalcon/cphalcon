@@ -40,6 +40,7 @@
     "ext-libxml": "*",
     "ext-mbstring": "*",
     "ext-msgpack": "*",
+    "ext-pcntl": "*",
     "ext-pdo": "*",
     "ext-redis": "*",
     "ext-sqlite3": "*",

@@ -102,7 +102,6 @@ final class PaginateTest extends AbstractDatabaseTestCase
     #[Group('mysql')]
     #[Group('pgsql')]
     #[Group('sqlite')]
-    #[Group('pgsql')]
     public function testPaginatorAdapterQuerybuilderPaginateGroupBy(): void
     {
         /**

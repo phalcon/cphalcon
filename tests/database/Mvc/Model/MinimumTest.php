@@ -36,7 +36,6 @@ final class MinimumTest extends AbstractDatabaseTestCase
     #[Group('mysql')]
     #[Group('pgsql')]
     #[Group('sqlite')]
-    #[Group('pgsql')]
     public function testMvcModelMinimum(): void
     {
         /** @var PDO $connection */

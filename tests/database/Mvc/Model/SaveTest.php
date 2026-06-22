@@ -69,7 +69,7 @@ final class SaveTest extends AbstractDatabaseTestCase
     #[Group('mysql')]
     #[Group('pgsql')]
     #[Group('sqlite')]
-    public function infiniteSaveLoop(): void
+    public function testMvcModelSaveInfiniteLoop(): void
     {
 
         /** @var PDO $connection */
@@ -84,7 +84,7 @@ final class SaveTest extends AbstractDatabaseTestCase
         $invoice            = Invoices::findFirst(77);
         $invoice->customer  = $customer;
         $customer->invoices = [$invoice];
-        $customer->save();
+        $this->assertTrue($customer->save());
     }
 
     /**

@@ -523,6 +523,10 @@ jobs:
         image: memcached:1.6-alpine
         ports:
           - "11211:11211"
+      beanstalkd:
+        image: schickling/beanstalkd:latest
+        ports:
+          - "11300:11300"
 
     strategy:
       fail-fast: false

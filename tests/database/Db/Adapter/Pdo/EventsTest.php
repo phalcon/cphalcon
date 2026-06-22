@@ -120,11 +120,9 @@ final class EventsTest extends AbstractUnitTestCase
         $ref = new \ReflectionObject($connection);
 
         $property = $ref->getProperty('pdo');
-        $property->setAccessible(true);
         $property->setValue($connection, $mockPDO);
 
         $property = $ref->getProperty('transactionLevel');
-        $property->setAccessible(true);
         $property->setValue($connection, 1);
 
         $manager = new Manager();

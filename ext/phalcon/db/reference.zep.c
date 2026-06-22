@@ -145,7 +145,7 @@ PHP_METHOD(Phalcon_Db_Reference, __construct)
 	if (UNEXPECTED(!(zephir_array_isset_string_fetch(&referencedTable, &definition, SL("referencedTable"), 0)))) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		object_init_ex(&_0$$3, phalcon_db_exceptions_referencedtablerequired_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 466);
+		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 481);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_0$$3, "phalcon/Db/Reference.zep", 108);
 		ZEPHIR_MM_RESTORE();
@@ -156,7 +156,7 @@ PHP_METHOD(Phalcon_Db_Reference, __construct)
 	if (UNEXPECTED(!(zephir_array_isset_string_fetch(&columns, &definition, SL("columns"), 0)))) {
 		ZEPHIR_INIT_VAR(&_1$$4);
 		object_init_ex(&_1$$4, phalcon_db_exceptions_foreignkeycolumnsrequired_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 467);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 482);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$4, "phalcon/Db/Reference.zep", 114);
 		ZEPHIR_MM_RESTORE();
@@ -167,7 +167,7 @@ PHP_METHOD(Phalcon_Db_Reference, __construct)
 	if (UNEXPECTED(!(zephir_array_isset_string_fetch(&referencedColumns, &definition, SL("referencedColumns"), 0)))) {
 		ZEPHIR_INIT_VAR(&_2$$5);
 		object_init_ex(&_2$$5, phalcon_db_exceptions_referencedcolumnsrequired_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_2$$5, "__construct", NULL, 468);
+		ZEPHIR_CALL_METHOD(NULL, &_2$$5, "__construct", NULL, 483);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_2$$5, "phalcon/Db/Reference.zep", 120);
 		ZEPHIR_MM_RESTORE();
@@ -193,7 +193,7 @@ PHP_METHOD(Phalcon_Db_Reference, __construct)
 	if (UNEXPECTED(zephir_fast_count_int(&columns) != zephir_fast_count_int(&referencedColumns))) {
 		ZEPHIR_INIT_VAR(&_3$$10);
 		object_init_ex(&_3$$10, phalcon_db_exceptions_referencedcolumncountmismatch_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_3$$10, "__construct", NULL, 469);
+		ZEPHIR_CALL_METHOD(NULL, &_3$$10, "__construct", NULL, 484);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_3$$10, "phalcon/Db/Reference.zep", 142);
 		ZEPHIR_MM_RESTORE();
