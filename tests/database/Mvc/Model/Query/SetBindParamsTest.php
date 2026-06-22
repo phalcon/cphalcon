@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Mvc\Model\Query;
 
+use Phalcon\Mvc\Model\Query;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use PHPUnit\Framework\Attributes\Group;
 
@@ -22,11 +23,25 @@ use PHPUnit\Framework\Attributes\Group;
 final class SetBindParamsTest extends AbstractDatabaseTestCase
 {
     /**
+     * setBindParams() replaces the current params, or merges them when the
+     * second argument is true.
+     *
+     * Tests Phalcon\Mvc\Model\Query :: setBindParams()
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2026-06-22
      */
     public function testMvcModelQuerySetBindParams(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $query = new Query();
+
+        $params = ['id' => 5];
+        $query->setBindParams($params);
+
+        $this->assertSame($params, $query->getBindParams());
+
+        $query->setBindParams(['status' => 1], true);
+
+        $this->assertSame(['id' => 5, 'status' => 1], $query->getBindParams());
     }
 }
