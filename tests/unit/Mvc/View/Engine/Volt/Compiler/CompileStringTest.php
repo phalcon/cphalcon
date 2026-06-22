@@ -486,6 +486,19 @@ class CompileStringTest extends AbstractUnitTestCase
                 "{{ [1, 2]|join(',') }}",
                 "<?= join(',', [1, 2]) ?>",
             ],
+            // join filter - a separator containing a single quote must be
+            // escaped through expression(), not spliced raw into join('...').
+            [
+                "{{ [1, 2]|join(\"'\") }}",
+                "<?= join('\\'', [1, 2]) ?>",
+            ],
+            // join filter - a separator crafted to break out of the generated
+            // call is emitted as a single escaped string literal, so the
+            // injected payload is never executed.
+            [
+                "{{ [\"x\", \"y\"]|join(\"' . phpinfo() . '\") }}",
+                "<?= join('\\' . phpinfo() . \\'', ['x', 'y']) ?>",
+            ],
             // Issue: 16019
             [
                 "{{ readonly|default(false) ? 'readonly=\"readonly\"' : '' }}",
