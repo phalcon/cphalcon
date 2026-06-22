@@ -21,6 +21,7 @@
 #include "kernel/concat.h"
 #include "kernel/object.h"
 #include "kernel/iterator.h"
+#include "Zend/zend_closures.h"
 
 
 /**
@@ -528,7 +529,7 @@ PHP_METHOD(Phalcon_Tag_Select, optionsFromResultset)
 				}
 			}
 		} else {
-			if (Z_TYPE_P(using) == IS_OBJECT) {
+			if (zephir_is_instance_of(using, SL("Closure"))) {
 				if (Z_TYPE_P(&params) == IS_NULL) {
 					ZEPHIR_INIT_NVAR(&params);
 					array_init(&params);

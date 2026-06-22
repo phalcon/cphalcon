@@ -29,6 +29,7 @@ typedef struct _zephir_struct_form {
 typedef struct _zephir_struct_orm { 
 	HashTable*  ast_cache;
 	int cache_level;
+	zend_bool call_setters_on_hydration;
 	zend_bool case_insensitive_column_map;
 	zend_bool cast_last_insert_id_to_int;
 	zend_bool cast_on_hydrate;
