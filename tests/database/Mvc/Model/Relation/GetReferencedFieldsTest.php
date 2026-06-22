@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Mvc\Model\Relation;
 
+use Phalcon\Mvc\Model\Relation;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use PHPUnit\Framework\Attributes\Group;
 
@@ -22,11 +23,21 @@ use PHPUnit\Framework\Attributes\Group;
 final class GetReferencedFieldsTest extends AbstractDatabaseTestCase
 {
     /**
+     * Tests Phalcon\Mvc\Model\Relation :: getReferencedFields()
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2026-06-22
      */
     public function testMvcModelRelationGetReferencedFields(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $relation = new Relation(
+            Relation::HAS_MANY,
+            'RefModel',
+            'id',
+            ['ref_a', 'ref_b'],
+            []
+        );
+
+        $this->assertSame(['ref_a', 'ref_b'], $relation->getReferencedFields());
     }
 }

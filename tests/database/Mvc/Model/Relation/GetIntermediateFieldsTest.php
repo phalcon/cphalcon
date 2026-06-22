@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Mvc\Model\Relation;
 
+use Phalcon\Mvc\Model\Relation;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use PHPUnit\Framework\Attributes\Group;
 
@@ -22,11 +23,17 @@ use PHPUnit\Framework\Attributes\Group;
 final class GetIntermediateFieldsTest extends AbstractDatabaseTestCase
 {
     /**
+     * Tests Phalcon\Mvc\Model\Relation :: getIntermediateFields()
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2026-06-22
      */
     public function testMvcModelRelationGetIntermediateFields(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $relation = new Relation(Relation::HAS_MANY_THROUGH, 'RefModel', 'id', 'ref', []);
+
+        $relation->setIntermediateRelation(['int_a', 'int_b'], 'IntermediateModel', 'int_ref');
+
+        $this->assertSame(['int_a', 'int_b'], $relation->getIntermediateFields());
     }
 }

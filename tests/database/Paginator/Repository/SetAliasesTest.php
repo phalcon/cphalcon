@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Paginator\Repository;
 
+use Phalcon\Paginator\Repository;
+use Phalcon\Paginator\RepositoryInterface;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use PHPUnit\Framework\Attributes\Group;
 
@@ -25,10 +27,19 @@ final class SetAliasesTest extends AbstractDatabaseTestCase
      * Tests Phalcon\Paginator\Repository :: setAliases()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2026-06-22
      */
     public function testPaginatorRepositorySetAliases(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $repository = new Repository();
+
+        $aliases = ['perPage' => 'limit'];
+
+        $this->assertInstanceOf(
+            RepositoryInterface::class,
+            $repository->setAliases($aliases)
+        );
+
+        $this->assertSame($aliases, $repository->getAliases());
     }
 }

@@ -13,7 +13,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Mvc\Model\Relation;
 
+use Phalcon\Mvc\Model\Relation;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 
 #[Group('mysql')]
@@ -22,11 +24,31 @@ use PHPUnit\Framework\Attributes\Group;
 final class GetForeignKeyTest extends AbstractDatabaseTestCase
 {
     /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * getForeignKey() returns a truthy foreignKey option, otherwise false.
+     *
+     * @return array<string, array{0: array, 1: mixed}>
      */
-    public function testMvcModelRelationGetForeignKey(): void
+    public static function getExamples(): array
     {
-        $this->markTestSkipped('Need implementation');
+        return [
+            'array'  => [['foreignKey' => ['action' => Relation::ACTION_CASCADE]], ['action' => Relation::ACTION_CASCADE]],
+            'true'   => [['foreignKey' => true], true],
+            'false'  => [['foreignKey' => false], false],
+            'absent' => [[], false],
+        ];
+    }
+
+    /**
+     * Tests Phalcon\Mvc\Model\Relation :: getForeignKey()
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-22
+     */
+    #[DataProvider('getExamples')]
+    public function testMvcModelRelationGetForeignKey(array $options, mixed $expected): void
+    {
+        $relation = new Relation(Relation::BELONGS_TO, 'RefModel', 'field', 'refField', $options);
+
+        $this->assertSame($expected, $relation->getForeignKey());
     }
 }
