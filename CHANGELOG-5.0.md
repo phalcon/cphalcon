@@ -819,6 +819,11 @@
 
 ## [5.13.0](https://github.com/phalcon/cphalcon/releases/tag/v5.13.0) (2026-05-18)
 
+### Tools
+
+- Zephir Parser v1.8.0
+- Zephir 0.20.1 (development - 6c2a72925)
+
 ### Changed
 
 - Changed `Phalcon\Contracts\Support\Collection` to declare the expanded method surface (`column`, `each`, `filter`, `first`, `getType`, `isEmpty`, `keys`, `last`, `map`, `reduce`, `replace`, `sort`, `values`, `where`) so the contract matches the implementation [#17000](https://github.com/phalcon/cphalcon/issues/17000) [[doc]](https://docs.phalcon.io/5.13/support-collection/)
@@ -944,6 +949,11 @@
 
 ## [5.12.1](https://github.com/phalcon/cphalcon/releases/tag/v5.12.1) (2026-04-30)
 
+### Tools
+
+- Zephir Parser v1.8.0
+- Zephir 0.19.0 (development - 319eede41)
+
 ### Changed
 
 ### Added
@@ -966,6 +976,11 @@
 - Fixed `Phalcon\Mvc\Model` - saving a model with multiple fields relations threw `"Not implemented"` [#16029](https://github.com/phalcon/cphalcon/issues/16029) [[doc]](https://docs.phalcon.io/5.12/db-models/)
 
 ## [5.12.0](https://github.com/phalcon/cphalcon/releases/tag/v5.12.0) (2026-04-29)
+
+### Tools
+
+- Zephir Parser v1.8.0
+- Zephir 0.19.0 (development - 319eede41)
 
 ### Changed
 
@@ -1045,6 +1060,11 @@
 
 ## [5.11.1](https://github.com/phalcon/cphalcon/releases/tag/v5.11.1) (2026-04-04)
 
+### Tools
+
+- Zephir Parser v1.8.0
+- Zephir 0.19.0 (development - 1f9b9b0b2)
+
 ### Changed
 
 ### Added
@@ -1060,6 +1080,11 @@
 ### Removed
 
 ## [5.11.0](https://github.com/phalcon/cphalcon/releases/tag/v5.11.0) (2026-04-03)
+
+### Tools
+
+- Zephir Parser v1.8.0
+- Zephir 0.19.0 (development - c5b10f3d4)
 
 ### Changed
 
@@ -1091,6 +1116,11 @@
 
 ## [5.10.0](https://github.com/phalcon/cphalcon/releases/tag/v5.10.0) (2025-12-25)
 
+### Tools
+
+- Zephir Parser v1.8.0
+- Zephir 0.19.0 (development - 337c6f9f8)
+
 ### Changed
 
 - Changed `bind()` and `validate()` method in `Phalcon\Filter\Validation` and `Phalcon\Filter\Validation\ValidationInterface` to accept `$whitelist` array of only allowed fields to be mutated when using entity [#16800](https://github.com/phalcon/cphalcon/issues/16800)
@@ -1117,6 +1147,11 @@
 
 ## [5.9.3](https://github.com/phalcon/cphalcon/releases/tag/v5.9.3) (2025-04-19)
 
+### Tools
+
+- Zephir Parser v1.6.1
+- Zephir 0.18.0 (development - fdf88639b)
+
 ### Changed
 - Added Multi-Stage Dockerfile and Github action for release Docker images to ghcr.io and Docker Hub. [#16752](https://github.com/phalcon/cphalcon/issues/16752)
 
@@ -1136,6 +1171,11 @@
 
 ## [5.9.2](https://github.com/phalcon/cphalcon/releases/tag/v5.9.2) (2025-04-03)
 
+### Tools
+
+- Zephir Parser v1.6.1
+- Zephir 0.18.0 (development - fdf88639b)
+
 ### Changed
 
 ### Added
@@ -1148,6 +1188,11 @@
 ### Removed
 
 ## [5.9.1](https://github.com/phalcon/cphalcon/releases/tag/v5.9.1) (2025-03-31)
+
+### Tools
+
+- Zephir Parser v1.6.1
+- Zephir 0.18.0 (development - fdf88639b)
 
 ### Changed
 
@@ -1164,6 +1209,11 @@
 ### Removed
 
 ## [5.9.0](https://github.com/phalcon/cphalcon/releases/tag/v5.9.0) (2025-03-08)
+
+### Tools
+
+- Zephir Parser v1.6.1
+- Zephir 0.18.0 (development - fdf88639b)
 
 ### Changed
 
@@ -1194,17 +1244,10 @@
 
 ## [5.8.0](https://github.com/phalcon/cphalcon/releases/tag/v5.8.0) (2024-07-09)
 
-### Changed
+### Tools
 
-### Added
-
-### Fixed
-
-- Fixed `Phalcon\Di\Injectable` to reference the correct instance of `Phalcon\Di\Di` in the docblock property [#16634](https://github.com/phalcon/cphalcon/issues/16634)
-
-### Removed
-
-## [5.8.0](https://github.com/phalcon/cphalcon/releases/tag/v5.8.0) (2024-07-09)
+- Zephir Parser v1.6.1
+- Zephir 0.18.0 (development - b0dd977ec)
 
 ### Changed
 
@@ -1230,12 +1273,18 @@
 
 ### Fixed
 
-- Fixed `Phalcon\Support\Helper\PascalCase` causing memory leak by anonymous function [#16593](https://github.com/phalcon/cphalcon/issues/16593)
+- Fixed `Phalcon\Di\Injectable` to reference the correct instance of `Phalcon\Di\Di` in the docblock property [#16634](https://github.com/phalcon/cphalcon/issues/16634)
 - Fixed `Phalcon\Mvc\Model\Query` to rollback failed transactions and re-throw exception for data consistency [#16604](https://github.com/phalcon/cphalcon/issues/16604)
+- Fixed `Phalcon\Support\Helper\PascalCase` causing memory leak by anonymous function [#16593](https://github.com/phalcon/cphalcon/issues/16593)
 
 ### Removed
 
 ## [5.7.0](https://github.com/phalcon/cphalcon/releases/tag/v5.7.0) (2024-05-17)
+
+### Tools
+
+- Zephir Parser v1.6.0
+- Zephir 0.18.0 (development - d1bb90a8b)
 
 ### Changed
 
@@ -1257,6 +1306,11 @@
 
 ## [5.6.2](https://github.com/phalcon/cphalcon/releases/tag/v5.6.1) (2024-03-14)
 
+### Tools
+
+- Zephir Parser v1.6.0
+- Zephir 0.18.0 (development - d1bb90a8b)
+
 ### Changed
 
 - Changed `Phalcon\Mvc\View\Engine\Volt\Compiler::filter` to use the helper with `upper` and `lower` for UTF-8 characters [#16543](https://github.com/phalcon/cphalcon/issues/16543)
@@ -1269,6 +1323,11 @@
 ### Removed
 
 ## [5.6.1](https://github.com/phalcon/cphalcon/releases/tag/v5.6.1) (2024-02-08)
+
+### Tools
+
+- Zephir Parser v1.6.0
+- Zephir 0.18.0 (development - d1bb90a8b)
 
 ### Changed
 
@@ -1287,6 +1346,11 @@
 ### Removed
 
 ## [5.6.0](https://github.com/phalcon/cphalcon/releases/tag/v5.6.0) (2024-01-09)
+
+### Tools
+
+- Zephir Parser v1.6.0
+- Zephir 0.18.0 (development - 254df48dd)
 
 ### Changed
 
@@ -1307,6 +1371,11 @@
 
 ## [5.5.0](https://github.com/phalcon/cphalcon/releases/tag/v5.5.0) (2023-12-25)
 
+### Tools
+
+- Zephir Parser v1.6.0
+- Zephir 0.18.0 (development - 254df48dd)
+
 ### Changed
 
 - Shifted minimal support from PHP 7.4 to PHP 8.0 [#16477](https://github.com/phalcon/cphalcon/issues/16477)
@@ -1326,6 +1395,11 @@
 ### Removed
 
 ## [5.4.0](https://github.com/phalcon/cphalcon/releases/tag/v5.4.0) (2023-10-25)
+
+### Tools
+
+- Zephir Parser v1.5.3
+- Zephir 0.17.0 (development - 9f99da6da)
 
 ### Changed
 
@@ -1348,6 +1422,11 @@
 
 ## [5.3.1](https://github.com/phalcon/cphalcon/releases/tag/v5.3.1) (2023-09-12)
 
+### Tools
+
+- Zephir Parser v1.5.3
+- Zephir 0.17.0 (development - 9f99da6da)
+
 ### Fixed
 
 - Fixed infinite save loop in `Phalcon\Mvc\Model::save()` [#16395](https://github.com/phalcon/cphalcon/issues/16395)
@@ -1355,6 +1434,11 @@
 - Fixed memory leak in `Phalcon\Mvc\Router::handle()` [#16431](https://github.com/phalcon/cphalcon/pull/16431)
 
 ## [5.3.0](https://github.com/phalcon/cphalcon/releases/tag/v5.3.0) (2023-08-15)
+
+### Tools
+
+- Zephir Parser v1.5.3
+- Zephir 0.17.0 (development - 9f99da6da)
 
 ### Changed
 
@@ -1386,6 +1470,11 @@
 
 ## [5.2.3](https://github.com/phalcon/cphalcon/releases/tag/v5.2.3) (2023-07-26)
 
+### Tools
+
+- Zephir Parser v1.5.3
+- Zephir 0.17.0 (development - 9f99da6da)
+
 ### Added
 
 - Added `getAdapter()` in `Phalcon\Mvc\Model\Metadata` to retrieve the internal cache adapter if necessary. [#16244](https://github.com/phalcon/cphalcon/issues/16244)
@@ -1402,6 +1491,11 @@
 
 ## [5.2.2](https://github.com/phalcon/cphalcon/releases/tag/v5.2.2) (2023-06-18)
 
+### Tools
+
+- Zephir Parser v1.5.3
+- Zephir 0.17.0 (development - 9f99da6da)
+
 ### Fixed
 
 - Fixed `Encryption\Crypt::checkCipherHashIsAvailable` to allow proper setting of the hash [#16314](https://github.com/phalcon/cphalcon/issues/16314)
@@ -1411,11 +1505,21 @@
 
 ## [5.2.1](https://github.com/phalcon/cphalcon/releases/tag/v5.2.1) (2023-02-28)
 
+### Tools
+
+- Zephir Parser v1.5.3
+- Zephir 0.17.0 (development - 9f99da6da)
+
 ### Fixed
 
 - Fixed compilation under PHP 8.2 [#16293](https://github.com/phalcon/cphalcon/issues/16293), [#16295](https://github.com/phalcon/cphalcon/issues/16295)
 
 ## [5.2.0](https://github.com/phalcon/cphalcon/releases/tag/v5.2.0) (2023-02-26)
+
+### Tools
+
+- Zephir Parser v1.5.3
+- Zephir 0.17.0 (development - 9f99da6da)
 
 ### Added
 
@@ -1427,11 +1531,21 @@
 
 ## [5.1.4](https://github.com/phalcon/cphalcon/releases/tag/v5.1.4) (2023-01-10)
 
+### Tools
+
+- Zephir Parser v1.5.1
+- Zephir 0.16.3 (development - 5099f3453)
+
 ### Fixed
 
 - Fixed `Phalcon\Acl\Adapter\Memory::isAllowed` to not use the deprecated `ReflectionType::getClass` [#16255](https://github.com/phalcon/cphalcon/issues/16255)
 
 ## [5.1.3](https://github.com/phalcon/cphalcon/releases/tag/v5.1.3) (2022-12-25)
+
+### Tools
+
+- Zephir Parser v1.5.1
+- Zephir 0.16.3 (development - 5099f3453)
 
 ### Fixed
 
@@ -1439,6 +1553,11 @@
 - Fixed `Phalcon\DI\Service::resolve` to not call the `get()` from the container and cause an infinite loop [#15032](https://github.com/phalcon/cphalcon/issues/15032)
 
 ## [5.1.2](https://github.com/phalcon/cphalcon/releases/tag/v5.1.2) (2022-10-30)
+
+### Tools
+
+- Zephir Parser v1.5.1
+- Zephir 0.16.3 (development - 5099f3453)
 
 ### Fixed
 
@@ -1449,12 +1568,22 @@
 
 ## [5.1.1](https://github.com/phalcon/cphalcon/releases/tag/v5.1.1) (2022-11-12)
 
+### Tools
+
+- Zephir Parser v1.5.1
+- Zephir 0.16.3 (development - 5099f3453)
+
 ### Fixed
 
 - Fixed `Phalcon\Filter::sanitize` to return correct data when `noRecursive` is `true` [#16199](https://github.com/phalcon/cphalcon/issues/16199)
 - Fixed `Phalcon\Html\Escaper::html` to not return `null` when a zero string is passed [#16202](https://github.com/phalcon/cphalcon/issues/16202)
 
 ## [5.1.0](https://github.com/phalcon/cphalcon/releases/tag/v5.1.0) (2022-11-01)
+
+### Tools
+
+- Zephir Parser v1.5.1
+- Zephir 0.16.3 (development - 5099f3453)
 
 ### Added
 
@@ -1470,6 +1599,11 @@
 
 ## [5.0.5](https://github.com/phalcon/cphalcon/releases/tag/v5.0.5) (2022-10-24)
 
+### Tools
+
+- Zephir Parser v1.5.1
+- Zephir 0.16.3 (development - 5099f3453)
+
 ### Fixed
 
 - Fixed `Phalcon\Config\Config::setData` to pass the `insensitive` flag to child objects [#16171](https://github.com/phalcon/cphalcon/issues/16171)
@@ -1479,6 +1613,11 @@
 - Fixed `Forms\Form::label` to accept an array as a default variable [#16180](https://github.com/phalcon/cphalcon/issues/16180)
 
 ## [5.0.4](https://github.com/phalcon/cphalcon/releases/tag/v5.0.4) (2022-10-17)
+
+### Tools
+
+- Zephir Parser v1.5.1
+- Zephir 0.16.3 (development - 5099f3453)
 
 ### Fixed
 
@@ -1491,6 +1630,11 @@
 
 ## [5.0.3](https://github.com/phalcon/cphalcon/releases/tag/v5.0.3) (2022-10-06)
 
+### Tools
+
+- Zephir Parser v1.5.1
+- Zephir 0.16.3 (development - 5099f3453)
+
 ### Changed
 
 - Fixed `Phalcon\Filter\Sanitize\StringVal` to accept flags for `htmlspecialchars()` [#16135](https://github.com/phalcon/cphalcon/issues/16135)
@@ -1500,6 +1644,11 @@
 - Fixed `Phalcon\Html\Escaper::attributes()` to honor the `$flags` set for `htmlspecialchars()` [#16134](https://github.com/phalcon/cphalcon/issues/16134)
 
 ## [5.0.2](https://github.com/phalcon/cphalcon/releases/tag/v5.0.2) (2022-09-27)
+
+### Tools
+
+- Zephir Parser v1.5.1
+- Zephir 0.16.3 (development - 5099f3453)
 
 ### Fixed
 
@@ -1517,6 +1666,11 @@
 - Fixed `Phalcon\Encryption\Security\JWT\Token\Token::validate()` to correctly call validator methods [#16115](https://github.com/phalcon/cphalcon/issues/16115)
 
 ## [5.0.0](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0) (2022-09-22)
+
+### Tools
+
+- Zephir Parser v1.5.1
+- Zephir 0.16.3 (development - 5099f3453)
 
 ### Changed
 
@@ -1542,6 +1696,11 @@
 
 ## [5.0.0rc4](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0RC4) (2022-08-08)
 
+### Tools
+
+- Zephir Parser v1.5.0
+- Zephir 0.16.0 (development - 4fac47bac)
+
 ### Fixed
 
 - Reverted to single quotes when volt code generates PHP code.
@@ -1566,6 +1725,11 @@
     - Added better support for webm images [#15977](https://github.com/phalcon/cphalcon/issues/15977)
 
 ## [5.0.0rc3](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0RC3) (2022-07-12)
+
+### Tools
+
+- Zephir Parser v1.5.0
+- Zephir 0.16.0 (development - 4fac47bac)
 
 ### Added
 
@@ -1594,6 +1758,11 @@
 
 ## [5.0.0rc2](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0RC2) (2022-06-09)
 
+### Tools
+
+- Zephir Parser v1.5.0
+- Zephir 0.16.0 (development - 4fac47bac)
+
 ### Changed
 
 - Changed the `StringVal` filter to now use `htmlspecialchars()` [#15978](https://github.com/phalcon/cphalcon/issues/15978)
@@ -1607,6 +1776,11 @@
 - Fixed `Phalcon\Http\Response::getQualityHeader()` to check if the server variable is `null` before performing `preg_split` [#15984](https://github.com/phalcon/cphalcon/issues/15984)
 
 ## [5.0.0rc1](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0RC1) (2022-05-31)
+
+### Tools
+
+- Zephir Parser v1.5.0
+- Zephir 0.16.0 (development - 4fac47bac)
 
 ### Changed
 
