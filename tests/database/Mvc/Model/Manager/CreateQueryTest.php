@@ -13,7 +13,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Mvc\Model\Manager;
 
+use Phalcon\Mvc\Model\QueryInterface;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use Phalcon\Tests\Support\Models\Invoices;
+use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\Group;
 
 #[Group('mysql')]
@@ -21,12 +24,26 @@ use PHPUnit\Framework\Attributes\Group;
 #[Group('sqlite')]
 final class CreateQueryTest extends AbstractDatabaseTestCase
 {
+    use DiTrait;
+
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+    }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function testMvcModelManagerCreateQuery(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $manager = $this->container->get('modelsManager');
+
+        $query = $manager->createQuery(
+            'SELECT * FROM ' . Invoices::class
+        );
+
+        $this->assertInstanceOf(QueryInterface::class, $query);
     }
 }

@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Db;
 
+use Phalcon\Db\Adapter\Pdo\Mysql as MysqlAdapter;
+use Phalcon\Db\Dialect\Mysql;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use PHPUnit\Framework\Attributes\Group;
 
@@ -29,7 +31,17 @@ final class SetupTest extends AbstractDatabaseTestCase
      */
     public function testDbSetup(): void
     {
+        $dialect = new Mysql();
 
-        $this->markTestSkipped('Need implementation');
+        // By default SQL identifiers are escaped
+        $this->assertSame('`robots`', $dialect->escape('robots'));
+
+        // Disable identifier escaping globally
+        MysqlAdapter::setup(['escapeSqlIdentifiers' => false]);
+        $this->assertSame('robots', $dialect->escape('robots'));
+
+        // Restore the default behavior
+        MysqlAdapter::setup(['escapeSqlIdentifiers' => true]);
+        $this->assertSame('`robots`', $dialect->escape('robots'));
     }
 }

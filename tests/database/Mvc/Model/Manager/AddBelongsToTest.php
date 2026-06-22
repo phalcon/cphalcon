@@ -13,7 +13,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Mvc\Model\Manager;
 
+use Phalcon\Mvc\Model\RelationInterface;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use Phalcon\Tests\Support\Models\Invoices;
+use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\Group;
 
 #[Group('mysql')]
@@ -21,12 +24,37 @@ use PHPUnit\Framework\Attributes\Group;
 #[Group('sqlite')]
 final class AddBelongsToTest extends AbstractDatabaseTestCase
 {
+    use DiTrait;
+
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+    }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function testMvcModelManagerAddBelongsTo(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $manager = $this->container->get('modelsManager');
+        $invoice = new Invoices();
+
+        $relation = $manager->addBelongsTo(
+            $invoice,
+            'inv_cst_id',
+            'Phalcon\Tests\Support\Models\Customers',
+            'cst_id',
+            ['alias' => 'customer']
+        );
+
+        $this->assertInstanceOf(RelationInterface::class, $relation);
+        $this->assertSame('inv_cst_id', $relation->getFields());
+        $this->assertSame('cst_id', $relation->getReferencedFields());
+
+        $found = $manager->getRelationByAlias(Invoices::class, 'customer');
+
+        $this->assertInstanceOf(RelationInterface::class, $found);
     }
 }

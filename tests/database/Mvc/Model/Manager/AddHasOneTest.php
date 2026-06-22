@@ -13,7 +13,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Mvc\Model\Manager;
 
+use Phalcon\Mvc\Model\RelationInterface;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use Phalcon\Tests\Support\Models\Invoices;
+use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\Group;
 
 #[Group('mysql')]
@@ -21,12 +24,37 @@ use PHPUnit\Framework\Attributes\Group;
 #[Group('sqlite')]
 final class AddHasOneTest extends AbstractDatabaseTestCase
 {
+    use DiTrait;
+
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+    }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function testMvcModelManagerAddHasOne(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $manager = $this->container->get('modelsManager');
+        $invoice = new Invoices();
+
+        $relation = $manager->addHasOne(
+            $invoice,
+            'inv_id',
+            'Phalcon\Tests\Support\Models\InvoicesDetail',
+            'inv_id',
+            ['alias' => 'detail']
+        );
+
+        $this->assertInstanceOf(RelationInterface::class, $relation);
+        $this->assertSame('inv_id', $relation->getFields());
+        $this->assertSame('inv_id', $relation->getReferencedFields());
+
+        $found = $manager->getRelationByAlias(Invoices::class, 'detail');
+
+        $this->assertInstanceOf(RelationInterface::class, $found);
     }
 }
