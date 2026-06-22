@@ -81,6 +81,10 @@
       "type": "int",
       "default": 3
     },
+    "orm.call_setters_on_hydration": {
+      "type": "bool",
+      "default": false
+    },
     "orm.case_insensitive_column_map": {
       "type": "bool",
       "default": false
