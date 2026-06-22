@@ -274,9 +274,13 @@ abstract class Select
             } else {
 
                 /**
-                 * Check if using is a closure
+                 * Render through the developer-supplied closure. Restricting
+                 * this to Closure (rather than any object) keeps the invoked
+                 * callable out of reach of user-controlled data: a closure is
+                 * defined in application code and can never be a name built
+                 * from request input.
                  */
-                if typeof using == "object" {
+                if using instanceof \Closure {
                     if params === null {
                         let params = [];
                     }
