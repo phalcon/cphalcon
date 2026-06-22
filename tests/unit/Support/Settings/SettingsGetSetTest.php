@@ -46,6 +46,10 @@ final class SettingsGetSetTest extends AbstractUnitTestCase
         $this->assertSame($expected, $actual);
 
         $expected = false;
+        $actual = Settings::get('orm.call_setters_on_hydration');
+        $this->assertSame($expected, $actual);
+
+        $expected = false;
         $actual = Settings::get('orm.case_insensitive_column_map');
         $this->assertSame($expected, $actual);
 
@@ -150,6 +154,7 @@ final class SettingsGetSetTest extends AbstractUnitTestCase
     {
         $keys = [
             'form.strict_entity_property_check',
+            'orm.call_setters_on_hydration',
             'orm.case_insensitive_column_map',
             'orm.cast_last_insert_id_to_int',
             'orm.cast_on_hydrate',
