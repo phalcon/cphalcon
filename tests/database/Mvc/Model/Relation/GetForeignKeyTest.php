@@ -31,7 +31,10 @@ final class GetForeignKeyTest extends AbstractDatabaseTestCase
     public static function getExamples(): array
     {
         return [
-            'array'  => [['foreignKey' => ['action' => Relation::ACTION_CASCADE]], ['action' => Relation::ACTION_CASCADE]],
+            'array'  => [
+                ['foreignKey' => ['action' => Relation::ACTION_CASCADE]],
+                ['action' => Relation::ACTION_CASCADE]
+            ],
             'true'   => [['foreignKey' => true], true],
             'false'  => [['foreignKey' => false], false],
             'absent' => [[], false],
@@ -47,7 +50,13 @@ final class GetForeignKeyTest extends AbstractDatabaseTestCase
     #[DataProvider('getExamples')]
     public function testMvcModelRelationGetForeignKey(array $options, mixed $expected): void
     {
-        $relation = new Relation(Relation::BELONGS_TO, 'RefModel', 'field', 'refField', $options);
+        $relation = new Relation(
+            Relation::BELONGS_TO,
+            'RefModel',
+            'field',
+            'refField',
+            $options
+        );
 
         $this->assertSame($expected, $relation->getForeignKey());
     }
