@@ -115,9 +115,12 @@ abstract class AbstractArrayAdapter extends AbstractAdapter
         if (modelClass !== null) {
             let instance = new {modelClass}();
 
-            if (!(instance instanceof AuthUserContract)) {
-                throw new DoesNotImplement("User model", "AuthUser");
-            }
+            DoesNotImplement::assert(
+                instance,
+                "Phalcon\\Contracts\\Auth\\AuthUser",
+                "User model",
+                "AuthUser"
+            );
 
             if (method_exists(instance, "assign")) {
                 instance->assign(row);

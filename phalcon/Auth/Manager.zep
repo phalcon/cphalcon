@@ -106,15 +106,7 @@ class Manager implements ManagerContract
      */
     public function attempt(array credentials = [], bool remember = false) -> bool
     {
-        var guard;
-
-        let guard = this->guard();
-
-        if (!guard instanceof GuardStateful) {
-            throw new DoesNotImplement("Default guard", "GuardStateful");
-        }
-
-        return guard->attempt(credentials, remember);
+        return this->requireStatefulGuard()->attempt(credentials, remember);
     }
 
     public function check() -> bool
@@ -127,11 +119,7 @@ class Manager implements ManagerContract
      */
     public function except(string ...actions) -> <self>
     {
-        if (this->activeAccess === null) {
-            throw new Exception("No active access - call access() first");
-        }
-
-        this->activeAccess->setExceptActions(array_values(actions));
+        this->requireActiveAccess()->setExceptActions(array_values(actions));
 
         return this;
     }
@@ -191,15 +179,7 @@ class Manager implements ManagerContract
 
     public function logout() -> void
     {
-        var guard;
-
-        let guard = this->guard();
-
-        if (!guard instanceof GuardStateful) {
-            throw new DoesNotImplement("Default guard", "GuardStateful");
-        }
-
-        guard->logout();
+        this->requireStatefulGuard()->logout();
     }
 
     /**
@@ -207,11 +187,7 @@ class Manager implements ManagerContract
      */
     public function only(string ...actions) -> <self>
     {
-        if (this->activeAccess === null) {
-            throw new Exception("No active access - call access() first");
-        }
-
-        this->activeAccess->setOnlyActions(array_values(actions));
+        this->requireActiveAccess()->setOnlyActions(array_values(actions));
 
         return this;
     }
@@ -241,5 +217,36 @@ class Manager implements ManagerContract
     public function validate(array credentials = []) -> bool
     {
         return this->guard()->validate(credentials);
+    }
+
+    /**
+     * @throws Exception
+     */
+    private function requireActiveAccess() -> <Access>
+    {
+        if (this->activeAccess === null) {
+            throw new Exception("No active access - call access() first");
+        }
+
+        return this->activeAccess;
+    }
+
+    /**
+     * @throws Exception
+     */
+    private function requireStatefulGuard() -> <GuardStateful>
+    {
+        var guard;
+
+        let guard = this->guard();
+
+        DoesNotImplement::assert(
+            guard,
+            "Phalcon\\Contracts\\Auth\\Guard\\GuardStateful",
+            "Default guard",
+            "GuardStateful"
+        );
+
+        return guard;
     }
 }
