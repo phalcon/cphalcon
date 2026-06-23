@@ -10,13 +10,15 @@
 
 namespace Phalcon\Acl;
 
+use Phalcon\Contracts\Acl\RoleAware as RoleAwareContract;
+
 /**
  * Interface for classes which could be used in allow method as ROLE
+ *
+ * @psalm-suppress DeprecatedInterface
+ * @deprecated Will be removed in a future major release.
+ *             Use {@see \Phalcon\Contracts\Acl\RoleAware} instead.
  */
-interface RoleAwareInterface
+interface RoleAwareInterface extends RoleAwareContract
 {
-    /**
-     * Returns role name
-     */
-    public function getRoleName() -> string;
 }
