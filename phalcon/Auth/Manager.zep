@@ -14,7 +14,11 @@
 namespace Phalcon\Auth;
 
 use Phalcon\Auth\Access\AccessLocator;
+use Phalcon\Auth\Exceptions\AccessNotRegistered;
+use Phalcon\Auth\Exceptions\ActiveAccessRequired;
+use Phalcon\Auth\Exceptions\DefaultGuardNotRegistered;
 use Phalcon\Auth\Exceptions\DoesNotImplement;
+use Phalcon\Auth\Exceptions\GuardNotDefined;
 use Phalcon\Contracts\Auth\Access\Access;
 use Phalcon\Contracts\Auth\Adapter\Adapter;
 use Phalcon\Contracts\Auth\AuthUser;
@@ -61,9 +65,7 @@ class Manager implements ManagerContract
     public function access(string accessName) -> <self>
     {
         if (!this->accessFactory->has(accessName)) {
-            throw new Exception(
-                sprintf("Access '%s' is not registered", accessName)
-            );
+            throw new AccessNotRegistered(accessName);
         }
 
         let this->activeAccess = <Access> this->accessFactory->newInstance(accessName);
@@ -157,16 +159,14 @@ class Manager implements ManagerContract
     {
         if (name === null) {
             if (this->defaultGuard === null) {
-                throw new Exception("No default guard registered");
+                throw new DefaultGuardNotRegistered();
             }
 
             return this->defaultGuard;
         }
 
         if (!isset(this->guards[name])) {
-            throw new Exception(
-                sprintf("Auth guard '%s' is not defined", name)
-            );
+            throw new GuardNotDefined(name);
         }
 
         return this->guards[name];
@@ -225,7 +225,7 @@ class Manager implements ManagerContract
     private function requireActiveAccess() -> <Access>
     {
         if (this->activeAccess === null) {
-            throw new Exception("No active access - call access() first");
+            throw new ActiveAccessRequired();
         }
 
         return this->activeAccess;

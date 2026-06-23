@@ -15,6 +15,7 @@ namespace Phalcon\Auth\Guard\Config;
 
 use Phalcon\Auth\Exception;
 use Phalcon\Auth\Exceptions\ConfigRequiresNonEmptyValue;
+use Phalcon\Auth\Exceptions\SessionNamesMustDiffer;
 
 /**
  * Configuration for the Session guard. Holds the names under which the
@@ -64,9 +65,7 @@ class SessionGuardConfig extends AbstractGuardConfig
         let this->rememberTtl  = null !== rememberTtl ? (int) rememberTtl : self::DEFAULT_REMEMBER_TTL;
 
         if (this->name === this->rememberName) {
-            throw new Exception(
-                "Session guard 'name' and 'rememberName' must differ"
-            );
+            throw new SessionNamesMustDiffer();
         }
     }
 
