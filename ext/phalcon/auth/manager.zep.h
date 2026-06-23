@@ -22,6 +22,8 @@ PHP_METHOD(Phalcon_Auth_Manager, setAccess);
 PHP_METHOD(Phalcon_Auth_Manager, setDefaultGuard);
 PHP_METHOD(Phalcon_Auth_Manager, user);
 PHP_METHOD(Phalcon_Auth_Manager, validate);
+PHP_METHOD(Phalcon_Auth_Manager, requireActiveAccess);
+PHP_METHOD(Phalcon_Auth_Manager, requireStatefulGuard);
 zend_object *zephir_init_properties_Phalcon_Auth_Manager(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_auth_manager___construct, 0, 0, 1)
@@ -95,6 +97,12 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_auth_manager_validate, 0
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, credentials, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_auth_manager_requireactiveaccess, 0, 0, Phalcon\\Contracts\\Auth\\Access\\Access, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_auth_manager_requirestatefulguard, 0, 0, Phalcon\\Contracts\\Auth\\Guard\\GuardStateful, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_auth_manager_zephir_init_properties_phalcon_auth_manager, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
@@ -118,5 +126,7 @@ ZEPHIR_INIT_FUNCS(phalcon_auth_manager_method_entry) {
 	PHP_ME(Phalcon_Auth_Manager, setDefaultGuard, arginfo_phalcon_auth_manager_setdefaultguard, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Auth_Manager, user, arginfo_phalcon_auth_manager_user, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Auth_Manager, validate, arginfo_phalcon_auth_manager_validate, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Auth_Manager, requireActiveAccess, arginfo_phalcon_auth_manager_requireactiveaccess, ZEND_ACC_PRIVATE)
+	PHP_ME(Phalcon_Auth_Manager, requireStatefulGuard, arginfo_phalcon_auth_manager_requirestatefulguard, ZEND_ACC_PRIVATE)
 	PHP_FE_END
 };

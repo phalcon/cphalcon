@@ -9,6 +9,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Model, createRememberToken);
 PHP_METHOD(Phalcon_Auth_Adapter_Model, retrieveByCredentials);
 PHP_METHOD(Phalcon_Auth_Adapter_Model, retrieveById);
 PHP_METHOD(Phalcon_Auth_Adapter_Model, retrieveByToken);
+PHP_METHOD(Phalcon_Auth_Adapter_Model, findFirstAsAuthUser);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_auth_adapter_model___construct, 0, 0, 2)
 	ZEND_ARG_OBJ_INFO(0, hasher, Phalcon\\Contracts\\Encryption\\Security\\Security, 0)
@@ -38,6 +39,10 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_auth_adapter_model_retrie
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, userAgent, IS_STRING, 1, "null")
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_auth_adapter_model_findfirstasauthuser, 0, 1, Phalcon\\Contracts\\Auth\\AuthUser, 1)
+	ZEND_ARG_ARRAY_INFO(0, parameters, 0)
+ZEND_END_ARG_INFO()
+
 ZEPHIR_INIT_FUNCS(phalcon_auth_adapter_model_method_entry) {
 	PHP_ME(Phalcon_Auth_Adapter_Model, __construct, arginfo_phalcon_auth_adapter_model___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Auth_Adapter_Model, fromOptions, arginfo_phalcon_auth_adapter_model_fromoptions, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
@@ -45,5 +50,6 @@ ZEPHIR_INIT_FUNCS(phalcon_auth_adapter_model_method_entry) {
 	PHP_ME(Phalcon_Auth_Adapter_Model, retrieveByCredentials, arginfo_phalcon_auth_adapter_model_retrievebycredentials, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Auth_Adapter_Model, retrieveById, arginfo_phalcon_auth_adapter_model_retrievebyid, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Auth_Adapter_Model, retrieveByToken, arginfo_phalcon_auth_adapter_model_retrievebytoken, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Auth_Adapter_Model, findFirstAsAuthUser, arginfo_phalcon_auth_adapter_model_findfirstasauthuser, ZEND_ACC_PRIVATE)
 	PHP_FE_END
 };

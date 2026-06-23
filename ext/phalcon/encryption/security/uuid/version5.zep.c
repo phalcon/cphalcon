@@ -126,7 +126,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_Version5, __construct)
 	ZEPHIR_CALL_FUNCTION(&_17, "substr_replace", NULL, 0, &hash, &_15, &_14, &_16);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(&hash, &_17);
-	ZEPHIR_CALL_FUNCTION(&_18, "bin2hex", NULL, 326, &hash);
+	ZEPHIR_CALL_FUNCTION(&_18, "bin2hex", NULL, 327, &hash);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_17, this_ptr, "format", NULL, 0, &_18);
 	zephir_check_call_status();

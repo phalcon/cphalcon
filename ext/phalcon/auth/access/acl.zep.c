@@ -116,12 +116,12 @@ PHP_METHOD(Phalcon_Auth_Access_Acl, __construct)
  */
 PHP_METHOD(Phalcon_Auth_Access_Acl, isAllowed)
 {
-	zend_bool _3, _6, _7;
+	zend_bool _3, _6, _8;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval context;
 	zend_string *actionName = NULL;
-	zval *guard, guard_sub, actionName_zv, *context_param = NULL, __$true, component, handler, module, params, _0, _1, _2, _4, _5, _9, _10, _8$$6;
+	zval *guard, guard_sub, actionName_zv, *context_param = NULL, __$true, component, handler, module, params, _0, _1, _2, _4, _5, _10, _11, _7$$5, _9$$6;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&guard_sub);
@@ -136,9 +136,10 @@ PHP_METHOD(Phalcon_Auth_Access_Acl, isAllowed)
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_5);
-	ZVAL_UNDEF(&_9);
 	ZVAL_UNDEF(&_10);
-	ZVAL_UNDEF(&_8$$6);
+	ZVAL_UNDEF(&_11);
+	ZVAL_UNDEF(&_7$$5);
+	ZVAL_UNDEF(&_9$$6);
 	ZVAL_UNDEF(&context);
 	ZEND_PARSE_PARAMETERS_START(2, 3)
 		Z_PARAM_OBJECT_OF_CLASS(guard, phalcon_contracts_auth_guard_guard_ce)
@@ -185,20 +186,25 @@ PHP_METHOD(Phalcon_Auth_Access_Acl, isAllowed)
 		_6 = ZEPHIR_IS_STRING_IDENTICAL(&handler, "");
 	}
 	if (_6) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_auth_exception_ce, "The Acl access gate requires the 'handler' context key to determine the ACL component", "phalcon/Auth/Access/Acl.zep", 93);
+		ZEPHIR_INIT_VAR(&_7$$5);
+		object_init_ex(&_7$$5, phalcon_auth_exceptions_missinghandlercontext_ce);
+		ZEPHIR_CALL_METHOD(NULL, &_7$$5, "__construct", NULL, 319);
+		zephir_check_call_status();
+		zephir_throw_exception_debug(&_7$$5, "phalcon/Auth/Access/Acl.zep", 93);
+		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	ZEPHIR_CPY_WRT(&component, &handler);
 	zephir_memory_observe(&module);
 	zephir_array_isset_string_fetch(&module, &context, SL("module"), 0);
-	_7 = Z_TYPE_P(&module) == IS_STRING;
-	if (_7) {
-		_7 = !ZEPHIR_IS_STRING_IDENTICAL(&module, "");
+	_8 = Z_TYPE_P(&module) == IS_STRING;
+	if (_8) {
+		_8 = !ZEPHIR_IS_STRING_IDENTICAL(&module, "");
 	}
-	if (_7) {
-		zephir_read_property(&_8$$6, this_ptr, ZEND_STRL("moduleSeparator"), PH_NOISY_CC | PH_READONLY);
+	if (_8) {
+		zephir_read_property(&_9$$6, this_ptr, ZEND_STRL("moduleSeparator"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_INIT_NVAR(&component);
-		ZEPHIR_CONCAT_VVV(&component, &module, &_8$$6, &handler);
+		ZEPHIR_CONCAT_VVV(&component, &module, &_9$$6, &handler);
 	}
 	ZEPHIR_INIT_VAR(&params);
 	ZVAL_NULL(&params);
@@ -208,10 +214,10 @@ PHP_METHOD(Phalcon_Auth_Access_Acl, isAllowed)
 		ZEPHIR_INIT_NVAR(&params);
 		ZVAL_NULL(&params);
 	}
-	zephir_read_property(&_9, this_ptr, ZEND_STRL("acl"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&_10, this_ptr, "resolverole", NULL, 0, guard);
+	zephir_read_property(&_10, this_ptr, ZEND_STRL("acl"), PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_CALL_METHOD(&_11, this_ptr, "resolverole", NULL, 0, guard);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_METHOD(&_9, "isallowed", NULL, 0, &_10, &component, &actionName_zv, &params);
+	ZEPHIR_RETURN_CALL_METHOD(&_10, "isallowed", NULL, 0, &_11, &component, &actionName_zv, &params);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -239,10 +245,13 @@ PHP_METHOD(Phalcon_Auth_Access_Acl, resolveRole)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *guard, guard_sub, user;
+	zval *guard, guard_sub, user, _0, _1, _2;
 
 	ZVAL_UNDEF(&guard_sub);
 	ZVAL_UNDEF(&user);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT_OF_CLASS(guard, phalcon_contracts_auth_guard_guard_ce)
 	ZEND_PARSE_PARAMETERS_END();
@@ -259,7 +268,16 @@ PHP_METHOD(Phalcon_Auth_Access_Acl, resolveRole)
 		zephir_check_call_status();
 		RETURN_MM();
 	}
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_auth_exception_ce, "The authenticated user must implement Phalcon\\Acl\\RoleAwareInterface to be used with the Acl access gate", "phalcon/Auth/Access/Acl.zep", 146);
+	ZEPHIR_INIT_VAR(&_0);
+	object_init_ex(&_0, phalcon_auth_exceptions_doesnotimplement_ce);
+	ZEPHIR_INIT_VAR(&_1);
+	ZVAL_STRING(&_1, "Authenticated user");
+	ZEPHIR_INIT_VAR(&_2);
+	ZVAL_STRING(&_2, "Phalcon\\Acl\\RoleAwareInterface");
+	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 320, &_1, &_2);
+	zephir_check_call_status();
+	zephir_throw_exception_debug(&_0, "phalcon/Auth/Access/Acl.zep", 147);
+	ZEPHIR_MM_RESTORE();
 	return;
 }
 
