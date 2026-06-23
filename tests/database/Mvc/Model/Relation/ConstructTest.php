@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Mvc\Model\Relation;
 
+use Phalcon\Mvc\Model\Relation;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use PHPUnit\Framework\Attributes\Group;
 
@@ -22,11 +23,25 @@ use PHPUnit\Framework\Attributes\Group;
 final class ConstructTest extends AbstractDatabaseTestCase
 {
     /**
+     * Tests Phalcon\Mvc\Model\Relation :: __construct()
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2026-06-22
      */
     public function testMvcModelRelationConstruct(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $relation = new Relation(
+            Relation::BELONGS_TO,
+            'RefModel',
+            'inv_cst_id',
+            'cst_id',
+            ['alias' => 'customer']
+        );
+
+        $this->assertSame(Relation::BELONGS_TO, $relation->getType());
+        $this->assertSame('RefModel', $relation->getReferencedModel());
+        $this->assertSame('inv_cst_id', $relation->getFields());
+        $this->assertSame('cst_id', $relation->getReferencedFields());
+        $this->assertSame(['alias' => 'customer'], $relation->getOptions());
     }
 }

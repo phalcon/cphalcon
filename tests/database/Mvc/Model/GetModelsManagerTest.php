@@ -13,7 +13,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Mvc\Model;
 
+use Phalcon\Mvc\Model\ManagerInterface;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use Phalcon\Tests\Support\Models\Invoices;
+use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\Group;
 
 #[Group('mysql')]
@@ -21,12 +24,28 @@ use PHPUnit\Framework\Attributes\Group;
 #[Group('sqlite')]
 final class GetModelsManagerTest extends AbstractDatabaseTestCase
 {
+    use DiTrait;
+
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+    }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function testMvcModelGetModelsManager(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $invoice = new Invoices();
+
+        $manager = $invoice->getModelsManager();
+
+        $this->assertInstanceOf(ManagerInterface::class, $manager);
+        $this->assertSame(
+            $this->container->get('modelsManager'),
+            $manager
+        );
     }
 }

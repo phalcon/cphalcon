@@ -13,20 +13,77 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Mvc\Model\MetaData;
 
+use Phalcon\Mvc\Model\MetaData;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use Phalcon\Tests\Support\Models\Invoices;
+use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 
-#[Group('mysql')]
-#[Group('pgsql')]
-#[Group('sqlite')]
 final class GetPrimaryKeyAttributesTest extends AbstractDatabaseTestCase
 {
+    use DiTrait;
+
     /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @return array[]
      */
-    public function testMvcModelMetadataGetPrimaryKeyAttributes(): void
+    public static function getExamples(): array
     {
-        $this->markTestSkipped('Need implementation');
+        return [
+            ['metadataMemory'],
+            ['metadataApcu'],
+            ['metadataRedis'],
+            ['metadataLibmemcached'],
+            ['metadataStream'],
+        ];
+    }
+
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+    }
+
+    /**
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2020-02-01
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    #[DataProvider('getExamples')]
+    public function testMvcModelMetadataGetPrimaryKeyAttributes(
+        string $service
+    ): void {
+        $adapter = $this->newService($service);
+        $adapter->setDi($this->container);
+
+        $adapter->reset();
+
+        $this->container->setShared('modelsMetadata', $adapter);
+
+        /** @var MetaData $metadata */
+        $metadata = $this->container->get('modelsMetadata');
+
+        $model    = new Invoices();
+        $expected = ['inv_id'];
+        $actual   = $metadata->getPrimaryKeyAttributes($model);
+
+        $this->assertEquals($expected, $actual);
+
+        $this->assertFalse($adapter->isEmpty());
+
+        /**
+         * Double check it can get from cache systems and not memory
+         */
+        $adapter = $this->newService($service);
+        $this->container->setShared('modelsMetadata', $adapter);
+        $adapter->setDi($this->container);
+
+        $this->assertNotEquals($adapter, $metadata);
+
+        $this->assertTrue($adapter->isEmpty());
+        $actual = $adapter->getPrimaryKeyAttributes($model);
+        $this->assertEquals($expected, $actual);
     }
 }

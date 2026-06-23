@@ -13,20 +13,51 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Mvc\Model\Resultset;
 
+use Phalcon\Mvc\Model\Exceptions\CursorIsImmutable;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 
-#[Group('mysql')]
-#[Group('pgsql')]
-#[Group('sqlite')]
+#[Group('phql')]
 final class OffsetSetTest extends AbstractDatabaseTestCase
 {
+    use ResultsetFixtureTrait;
+
+    /**
+     * A resultset is immutable: offsetSet() always throws, whatever its shape.
+     *
+     * @return array<string, array{0: string}>
+     */
+    public static function getExamples(): array
+    {
+        return [
+            'simple'  => ['simple'],
+            'complex' => ['complex'],
+            'empty'   => ['empty'],
+        ];
+    }
+
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+        $this->seedResultsetFixture();
+    }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2026-06-22
      */
-    public function testMvcModelResultsetOffsetSet(): void
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    #[DataProvider('getExamples')]
+    public function testMvcModelResultsetOffsetSet(string $type): void
     {
-        $this->markTestSkipped('Need implementation');
+        $resultset = $this->getResultset($type);
+
+        $this->expectException(CursorIsImmutable::class);
+
+        $resultset->offsetSet(0, null);
     }
 }

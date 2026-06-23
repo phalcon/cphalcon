@@ -14,19 +14,51 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Database\Mvc\Model\Resultset;
 
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 
-#[Group('mysql')]
-#[Group('pgsql')]
-#[Group('sqlite')]
+#[Group('phql')]
 final class SerializeTest extends AbstractDatabaseTestCase
 {
+    use ResultsetFixtureTrait;
+
+    /**
+     * Every resultset shape serialises to a non-empty string.
+     *
+     * @return array<string, array{0: string}>
+     */
+    public static function getExamples(): array
+    {
+        return [
+            'simple'  => ['simple'],
+            'complex' => ['complex'],
+            'empty'   => ['empty'],
+        ];
+    }
+
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+        $this->setDiService('phpSerializer');
+        $this->seedResultsetFixture();
+    }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2026-06-22
      */
-    public function testMvcModelResultsetSerialize(): void
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    #[DataProvider('getExamples')]
+    public function testMvcModelResultsetSerialize(string $type): void
     {
-        $this->markTestSkipped('Need implementation');
+        $resultset = $this->getResultset($type);
+
+        $serialized = $resultset->serialize();
+
+        $this->assertIsString($serialized);
+        $this->assertNotEmpty($serialized);
     }
 }

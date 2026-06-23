@@ -14,19 +14,50 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Database\Mvc\Model\Resultset;
 
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 
-#[Group('mysql')]
-#[Group('pgsql')]
-#[Group('sqlite')]
+#[Group('phql')]
 final class KeyTest extends AbstractDatabaseTestCase
 {
+    use ResultsetFixtureTrait;
+
+    /**
+     * After rewind a populated resultset points at row 0; an empty one is
+     * invalid, so key() is null.
+     *
+     * @return array<string, array{0: string, 1: int|null}>
+     */
+    public static function getExamples(): array
+    {
+        return [
+            'simple'  => ['simple', 0],
+            'complex' => ['complex', 0],
+            'empty'   => ['empty', null],
+        ];
+    }
+
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+        $this->seedResultsetFixture();
+    }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2026-06-22
      */
-    public function testMvcModelResultsetKey(): void
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    #[DataProvider('getExamples')]
+    public function testMvcModelResultsetKey(string $type, ?int $expected): void
     {
-        $this->markTestSkipped('Need implementation');
+        $resultset = $this->getResultset($type);
+
+        $resultset->rewind();
+
+        $this->assertSame($expected, $resultset->key());
     }
 }

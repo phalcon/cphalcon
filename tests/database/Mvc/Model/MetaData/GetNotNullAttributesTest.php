@@ -42,6 +42,9 @@ final class GetNotNullAttributesTest extends AbstractDatabaseTestCase
             [
                 'metadataLibmemcached',
             ],
+            [
+                'metadataStream',
+            ],
         ];
     }
 

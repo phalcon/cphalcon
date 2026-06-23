@@ -13,20 +13,40 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Mvc\Model\Resultset\Simple;
 
+use Phalcon\Mvc\Model\Resultset\Simple;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use Phalcon\Tests\Database\Mvc\Model\Resultset\ResultsetFixtureTrait;
 use PHPUnit\Framework\Attributes\Group;
 
-#[Group('mysql')]
-#[Group('pgsql')]
-#[Group('sqlite')]
+#[Group('phql')]
 final class SerializeTest extends AbstractDatabaseTestCase
 {
+    use ResultsetFixtureTrait;
+
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+        $this->setDiService('phpSerializer');
+        $this->seedResultsetFixture();
+    }
+
     /**
+     * Serialising a simple resultset and restoring it preserves its records.
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2026-06-22
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelResultsetSimpleSerialize(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $original = $this->getResultset('simple');
+
+        $restored = new Simple(null, null, null);
+        $restored->unserialize($original->serialize());
+
+        $this->assertEquals($original->toArray(), $restored->toArray());
     }
 }

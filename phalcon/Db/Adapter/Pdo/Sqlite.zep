@@ -317,7 +317,7 @@ class Sqlite extends PdoAdapter
                  */
                 if !empty(field[4]) && strcasecmp(field[4], "null") !== 0 {
                     let definition["default"] = preg_replace(
-                        "/^'|'$/",
+                        "/(?:^')|(?:'$)/",
                         "",
                         field[4]
                     );

@@ -43,6 +43,9 @@ final class GetColumnMapTest extends AbstractDatabaseTestCase
             [
                 'metadataLibmemcached',
             ],
+            [
+                'metadataStream',
+            ],
         ];
     }
 

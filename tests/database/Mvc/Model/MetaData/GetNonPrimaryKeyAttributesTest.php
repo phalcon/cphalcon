@@ -42,6 +42,9 @@ final class GetNonPrimaryKeyAttributesTest extends AbstractDatabaseTestCase
             [
                 'metadataLibmemcached',
             ],
+            [
+                'metadataStream',
+            ],
         ];
     }
 

@@ -13,7 +13,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Mvc\Model\Transaction\Manager;
 
+use Phalcon\Mvc\Model\Transaction\Manager;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\Group;
 
 #[Group('mysql')]
@@ -21,12 +23,39 @@ use PHPUnit\Framework\Attributes\Group;
 #[Group('sqlite')]
 final class NotifyCommitTest extends AbstractDatabaseTestCase
 {
+    use DiTrait;
+
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+    }
+
+    public function tearDown(): void
+    {
+        $this->tearDownDatabase();
+    }
+
     /**
+     * notifyCommit() detaches the committed transaction from the manager.
+     *
+     * Tests Phalcon\Mvc\Model\Transaction\Manager :: notifyCommit()
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2026-06-22
      */
     public function testMvcModelTransactionManagerNotifyCommit(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $manager = new Manager($this->container);
+        $manager->setRollbackPendent(false);
+
+        $transaction = $manager->get();
+        $this->assertTrue($manager->has());
+
+        $manager->notifyCommit($transaction);
+        $this->assertFalse($manager->has());
+
+        // Close the still-open connection-level transaction.
+        $transaction->commit();
     }
 }

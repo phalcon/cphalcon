@@ -13,7 +13,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Mvc\Model;
 
+use Phalcon\Mvc\Model\Transaction\Manager as TransactionManager;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use Phalcon\Tests\Support\Models\Invoices;
+use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\Group;
 
 #[Group('mysql')]
@@ -21,12 +24,34 @@ use PHPUnit\Framework\Attributes\Group;
 #[Group('sqlite')]
 final class SetTransactionTest extends AbstractDatabaseTestCase
 {
+    use DiTrait;
+
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+    }
+
     /**
+     * Tests Phalcon\Mvc\Model :: setTransaction()
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2026-06-22
      */
     public function testMvcModelSetTransaction(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $manager = new TransactionManager();
+        $manager->setDI($this->container);
+
+        $transaction = $manager->get();
+
+        $invoice = new Invoices();
+
+        $this->assertSame($invoice, $invoice->setTransaction($transaction));
+        $this->assertSame($transaction, $invoice->getTransaction());
+
+        // Close the transaction so the shutdown handler does not roll back a
+        // dead connection.
+        $transaction->commit();
     }
 }

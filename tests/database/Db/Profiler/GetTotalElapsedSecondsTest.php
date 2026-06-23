@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Db\Profiler;
 
+use Phalcon\Db\Profiler;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use PHPUnit\Framework\Attributes\Group;
 
@@ -29,6 +30,14 @@ final class GetTotalElapsedSecondsTest extends AbstractDatabaseTestCase
      */
     public function testDbProfilerGetTotalElapsedSeconds(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $profiler = new Profiler();
+
+        $profiler->startProfile('SELECT * FROM robots');
+        $profiler->stopProfile();
+
+        $elapsed = $profiler->getTotalElapsedSeconds();
+
+        $this->assertIsFloat($elapsed);
+        $this->assertGreaterThan(0, $elapsed);
     }
 }

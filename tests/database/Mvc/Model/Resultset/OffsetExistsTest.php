@@ -14,19 +14,55 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Database\Mvc\Model\Resultset;
 
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 
-#[Group('mysql')]
-#[Group('pgsql')]
-#[Group('sqlite')]
+#[Group('phql')]
 final class OffsetExistsTest extends AbstractDatabaseTestCase
 {
+    use ResultsetFixtureTrait;
+
+    /**
+     * An offset exists while it is below the row count: simple has 3 rows,
+     * complex has 4, empty has none.
+     *
+     * @return array<string, array{0: string, 1: int, 2: bool}>
+     */
+    public static function getExamples(): array
+    {
+        return [
+            'simple-first'   => ['simple', 0, true],
+            'simple-last'    => ['simple', 2, true],
+            'simple-missing' => ['simple', 3, false],
+            'complex-first'  => ['complex', 0, true],
+            'complex-last'   => ['complex', 3, true],
+            'complex-missing' => ['complex', 4, false],
+            'empty-missing'  => ['empty', 0, false],
+        ];
+    }
+
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+        $this->seedResultsetFixture();
+    }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2026-06-22
      */
-    public function testMvcModelResultsetOffsetExists(): void
-    {
-        $this->markTestSkipped('Need implementation');
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    #[DataProvider('getExamples')]
+    public function testMvcModelResultsetOffsetExists(
+        string $type,
+        int $index,
+        bool $expected
+    ): void {
+        $resultset = $this->getResultset($type);
+
+        $this->assertSame($expected, $resultset->offsetExists($index));
     }
 }

@@ -13,7 +13,11 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Mvc\Model\Binder;
 
+use Phalcon\Mvc\Model\Binder;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use Phalcon\Tests\Support\Migrations\InvoicesMigration;
+use Phalcon\Tests\Support\Models\Invoices;
+use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\Group;
 
 #[Group('mysql')]
@@ -21,12 +25,36 @@ use PHPUnit\Framework\Attributes\Group;
 #[Group('sqlite')]
 final class GetOriginalValuesTest extends AbstractDatabaseTestCase
 {
+    use DiTrait;
+
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+
+        $connection = self::getConnection();
+        $migration  = new InvoicesMigration($connection);
+        $migration->insert(1, 1, 1, 'title 1', 101);
+    }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function testMvcModelBinderGetOriginalValues(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $handler = new class {
+            public function action(Invoices $invoice): void
+            {
+            }
+        };
+
+        $binder = new Binder();
+        $binder->bindToHandler($handler, [1], 'bindCacheKey', 'action');
+
+        $original = $binder->getOriginalValues();
+
+        $this->assertArrayHasKey(0, $original);
+        $this->assertEquals(1, $original[0]);
     }
 }

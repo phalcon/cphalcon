@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Db\Dialect\Mysql;
 
+use Phalcon\Db\Dialect\Mysql;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use PHPUnit\Framework\Attributes\Group;
 
@@ -29,6 +30,16 @@ final class SelectTest extends AbstractDatabaseTestCase
      */
     public function testDbDialectMysqlSelect(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $dialect = new Mysql();
+
+        $definition = [
+            'tables'  => ['robots'],
+            'columns' => ['*'],
+        ];
+
+        $this->assertSame(
+            'SELECT * FROM `robots`',
+            $dialect->select($definition)
+        );
     }
 }

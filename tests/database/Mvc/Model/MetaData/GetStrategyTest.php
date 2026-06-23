@@ -13,20 +13,57 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Mvc\Model\MetaData;
 
+use Phalcon\Mvc\Model\MetaData;
+use Phalcon\Mvc\Model\MetaData\Strategy\Introspection;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 
-#[Group('mysql')]
-#[Group('pgsql')]
-#[Group('sqlite')]
 final class GetStrategyTest extends AbstractDatabaseTestCase
 {
+    use DiTrait;
+
     /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @return array[]
      */
-    public function testMvcModelMetadataGetStrategy(): void
+    public static function getExamples(): array
     {
-        $this->markTestSkipped('Need implementation');
+        return [
+            ['metadataMemory'],
+            ['metadataApcu'],
+            ['metadataRedis'],
+            ['metadataLibmemcached'],
+            ['metadataStream'],
+        ];
+    }
+
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+    }
+
+    /**
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2020-02-01
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    #[DataProvider('getExamples')]
+    public function testMvcModelMetadataGetStrategy(
+        string $service
+    ): void {
+        $adapter = $this->newService($service);
+        $adapter->setDi($this->container);
+
+        $this->container->setShared('modelsMetadata', $adapter);
+
+        /** @var MetaData $metadata */
+        $metadata = $this->container->get('modelsMetadata');
+
+        // Introspection is the default metadata strategy
+        $this->assertInstanceOf(Introspection::class, $metadata->getStrategy());
     }
 }
