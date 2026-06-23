@@ -147,6 +147,43 @@ final class ManagerOutputTest extends AbstractUnitTestCase
     }
 
     /**
+     * Characterization test: in a *filtered* collection the non-join branch
+     * renders the COLLECTION's attributes, discarding the per-asset attributes
+     * — unlike the unfiltered branch, which uses the asset's own attributes.
+     * Pins the current attribute divergence ahead of the v7 fix.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-23
+     */
+    public function testAssetsManagerOutputCharacterizationFilteredBranchUsesCollectionAttributes(): void
+    {
+        $cssFile = supportDir('assets/assets/1198.css');
+        $prefix  = outputDir('tests/assets/') . 'cov_char_attrs_';
+
+        $asset = new Asset('css', $cssFile, true, false); // filter=false on asset
+        $asset->setTargetPath('char_attrs.css');
+        $asset->setAttributes(['data-asset' => 'A']);
+
+        $collection = new Collection();
+        $collection->add($asset);
+        $collection->setAttributes(['data-collection' => 'C']);
+        $collection->addFilter(new UppercaseFilter()); // collection has a filter
+        $collection->setTargetPath($prefix);           // non-empty, non-directory prefix
+        $collection->join(false);
+
+        $manager = new Manager(new TagFactory(new Escaper()));
+        $manager->useImplicitOutput(false);
+
+        $actual = $manager->output($collection, 'css');
+
+        // Filtered branch renders the collection attributes, not the asset's
+        $this->assertStringContainsString('data-collection="C"', $actual);
+        $this->assertStringNotContainsString('data-asset', $actual);
+
+        $this->safeDeleteFile($prefix . 'char_attrs.css');
+    }
+
+    /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
