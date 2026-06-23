@@ -621,6 +621,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 unset this->dirtyRelated[lowerProperty];
 
                 let this->{property} = null;
+
+                return null;
             }
         }
 
