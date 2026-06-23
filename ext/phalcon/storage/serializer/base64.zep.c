@@ -165,7 +165,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_Base64, phpBase64Decode)
 	} else {
 		}
 	ZVAL_BOOL(&_0, (strict ? 1 : 0));
-	ZEPHIR_RETURN_CALL_FUNCTION("base64_decode", NULL, 509, &input_zv, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("base64_decode", NULL, 0, &input_zv, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }

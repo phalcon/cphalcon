@@ -13,6 +13,8 @@ namespace Phalcon\Auth\Access;
 use Phalcon\Acl\Adapter\AdapterInterface;
 use Phalcon\Acl\RoleAwareInterface;
 use Phalcon\Auth\Exception;
+use Phalcon\Auth\Exceptions\DoesNotImplement;
+use Phalcon\Auth\Exceptions\MissingHandlerContext;
 use Phalcon\Contracts\Auth\Access\Access;
 use Phalcon\Contracts\Auth\AuthUser;
 use Phalcon\Contracts\Auth\Guard\Guard;
@@ -88,9 +90,7 @@ class Acl extends AbstractAccess
 
         fetch handler, context["handler"];
         if (typeof handler !== "string" || handler === "") {
-            throw new Exception(
-                "The Acl access gate requires the 'handler' context key to determine the ACL component"
-            );
+            throw new MissingHandlerContext();
         }
 
         let component = handler;
@@ -141,8 +141,9 @@ class Acl extends AbstractAccess
             return user->getRoleName();
         }
 
-        throw new Exception(
-            "The authenticated user must implement Phalcon\\Acl\\RoleAwareInterface to be used with the Acl access gate"
+        throw new DoesNotImplement(
+            "Authenticated user",
+            "Phalcon\\Acl\\RoleAwareInterface"
         );
     }
 }

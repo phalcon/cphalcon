@@ -144,6 +144,31 @@ final class ContainerResolver
     }
 
     /**
+     * Convenience composition of serviceCandidates() + requireService():
+     * resolves the first bound candidate for a framework service whose
+     * container key may vary, using the options override or the
+     * [interface FQN, conventional short name] fallback.
+     *
+     * @param array<string, mixed> $options
+     *
+     * @throws ContainerException
+     */
+    public static function resolveCandidate(
+        var container,
+        array options,
+        string key,
+        string fqn,
+        string shortName,
+        string context
+    ) -> object {
+        return self::requireService(
+            container,
+            self::serviceCandidates(options, key, fqn, shortName),
+            context
+        );
+    }
+
+    /**
      * Resolves a shared instance: get() on the Container; getShared() on the
      * legacy Di. Legacy-Di failures are normalized to a Container exception
      * with the original chained as the cause.

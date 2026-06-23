@@ -22,23 +22,16 @@
  */
 /**
  * Interface for Phalcon\Acl\Role
+ *
+ * @psalm-suppress DeprecatedInterface
+ * @deprecated Will be removed in a future major release.
+ *             Use {@see \Phalcon\Contracts\Acl\Role} instead.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Acl_RoleInterface)
 {
-	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Acl, RoleInterface, phalcon, acl_roleinterface, phalcon_acl_roleinterface_method_entry);
+	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Acl, RoleInterface, phalcon, acl_roleinterface, NULL);
 
+	zend_class_implements(phalcon_acl_roleinterface_ce, 1, phalcon_contracts_acl_role_ce);
 	return SUCCESS;
 }
 
-/**
- * Magic method __toString
- */
-ZEPHIR_DOC_METHOD(Phalcon_Acl_RoleInterface, __toString);
-/**
- * Returns role description
- */
-ZEPHIR_DOC_METHOD(Phalcon_Acl_RoleInterface, getDescription);
-/**
- * Returns the role name
- */
-ZEPHIR_DOC_METHOD(Phalcon_Acl_RoleInterface, getName);

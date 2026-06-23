@@ -88,7 +88,7 @@ PHP_METHOD(Phalcon_Filter_Validation_AbstractValidatorComposite, validate)
 		object_init_ex(&_1$$3, phalcon_filter_validation_exceptions_novalidatorsincomposite_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		zephir_get_class(&_2$$3, this_ptr, 0);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 179, &_2$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 178, &_2$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Filter/Validation/AbstractValidatorComposite.zep", 42);
 		ZEPHIR_MM_RESTORE();

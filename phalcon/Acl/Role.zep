@@ -15,22 +15,8 @@ use Phalcon\Acl\Exceptions\ForbiddenWildcard;
 /**
  * This class defines role entity and its description
  */
-class Role implements RoleInterface
+class Role extends AbstractElement implements RoleInterface
 {
-    /**
-     * Role description
-     *
-     * @var string | null
-     */
-    private description;
-
-    /**
-     * Role name
-     *
-     * @var string
-     */
-    private name;
-
     /**
      * Phalcon\Acl\Role constructor
      */
@@ -42,20 +28,5 @@ class Role implements RoleInterface
 
         let this->name = name,
             this->description = description;
-    }
-
-    public function __toString() -> string
-    {
-        return this->name;
-    }
-
-    public function getDescription() -> string | null
-    {
-        return this->description;
-    }
-
-    public function getName() -> string
-    {
-        return this->name;
     }
 }

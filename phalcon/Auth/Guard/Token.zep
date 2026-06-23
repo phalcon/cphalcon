@@ -49,14 +49,12 @@ class Token extends AbstractGuard
     ) -> <static> {
         return new static(
             adapter,
-            ContainerResolver::requireService(
+            ContainerResolver::resolveCandidate(
                 container,
-                ContainerResolver::serviceCandidates(
-                    options,
-                    "request",
-                    "Phalcon\\Http\\RequestInterface",
-                    "request"
-                ),
+                options,
+                "request",
+                "Phalcon\\Http\\RequestInterface",
+                "request",
                 "Token guard"
             ),
             new TokenGuardConfig(

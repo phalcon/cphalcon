@@ -189,12 +189,12 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, destroy)
 	ZEPHIR_CONCAT_VV(&file, &_0, &_1);
 	_2 = (zephir_file_exists(&file) == SUCCESS);
 	if (_2) {
-		ZEPHIR_CALL_FUNCTION(&_3, "is_file", NULL, 378, &file);
+		ZEPHIR_CALL_FUNCTION(&_3, "is_file", NULL, 391, &file);
 		zephir_check_call_status();
 		_2 = zephir_is_true(&_3);
 	}
 	if (_2) {
-		ZEPHIR_CALL_FUNCTION(NULL, "unlink", NULL, 217, &file);
+		ZEPHIR_CALL_FUNCTION(NULL, "unlink", NULL, 241, &file);
 		zephir_check_call_status();
 	}
 	RETURN_MM_BOOL(1);
@@ -273,7 +273,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, gc)
 				ZVAL_COPY(&file, _5$$6);
 				_6$$7 = 1 == (zephir_file_exists(&file) == SUCCESS);
 				if (_6$$7) {
-					ZEPHIR_CALL_FUNCTION(&_7$$7, "is_file", &_8, 378, &file);
+					ZEPHIR_CALL_FUNCTION(&_7$$7, "is_file", &_8, 391, &file);
 					zephir_check_call_status();
 					_6$$7 = ZEPHIR_IS_TRUE_IDENTICAL(&_7$$7);
 				}
@@ -284,7 +284,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, gc)
 					_9$$7 = ZEPHIR_LT(&_10$$7, &time);
 				}
 				if (_9$$7) {
-					ZEPHIR_CALL_FUNCTION(NULL, "unlink", &_11, 217, &file);
+					ZEPHIR_CALL_FUNCTION(NULL, "unlink", &_11, 241, &file);
 					zephir_check_call_status();
 				}
 			} ZEND_HASH_FOREACH_END();
@@ -308,7 +308,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, gc)
 				zephir_check_call_status();
 					_14$$9 = 1 == (zephir_file_exists(&file) == SUCCESS);
 					if (_14$$9) {
-						ZEPHIR_CALL_FUNCTION(&_15$$9, "is_file", &_8, 378, &file);
+						ZEPHIR_CALL_FUNCTION(&_15$$9, "is_file", &_8, 391, &file);
 						zephir_check_call_status();
 						_14$$9 = ZEPHIR_IS_TRUE_IDENTICAL(&_15$$9);
 					}
@@ -319,7 +319,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, gc)
 						_16$$9 = ZEPHIR_LT(&_17$$9, &time);
 					}
 					if (_16$$9) {
-						ZEPHIR_CALL_FUNCTION(NULL, "unlink", &_11, 217, &file);
+						ZEPHIR_CALL_FUNCTION(NULL, "unlink", &_11, 241, &file);
 						zephir_check_call_status();
 					}
 			}
@@ -389,7 +389,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, read)
 		ZEPHIR_CALL_METHOD(&pointer, this_ptr, "phpfopen", NULL, 0, &name, &_3$$3);
 		zephir_check_call_status();
 		ZVAL_LONG(&_4$$3, 1);
-		ZEPHIR_CALL_FUNCTION(&_5$$3, "flock", NULL, 253, &pointer, &_4$$3);
+		ZEPHIR_CALL_FUNCTION(&_5$$3, "flock", NULL, 277, &pointer, &_4$$3);
 		zephir_check_call_status();
 		if (zephir_is_true(&_5$$3)) {
 			ZEPHIR_CALL_METHOD(&data, this_ptr, "phpfilegetcontents", NULL, 0, &name);
@@ -733,7 +733,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, phpFilePutContents)
 		context = &__$null;
 	}
 	ZVAL_LONG(&_0, flags);
-	ZEPHIR_RETURN_CALL_FUNCTION("file_put_contents", NULL, 258, &filename_zv, data, &_0, context);
+	ZEPHIR_RETURN_CALL_FUNCTION("file_put_contents", NULL, 282, &filename_zv, data, &_0, context);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -765,7 +765,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, phpFopen)
 	ZVAL_STR_COPY(&filename_zv, filename);
 	zephir_memory_observe(&mode_zv);
 	ZVAL_STR_COPY(&mode_zv, mode);
-	ZEPHIR_RETURN_CALL_FUNCTION("fopen", NULL, 259, &filename_zv, &mode_zv);
+	ZEPHIR_RETURN_CALL_FUNCTION("fopen", NULL, 283, &filename_zv, &mode_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }

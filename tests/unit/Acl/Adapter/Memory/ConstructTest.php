@@ -13,10 +13,12 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Acl\Adapter\Memory;
 
+use Phalcon\Acl\Adapter\AdapterInterface;
 use Phalcon\Acl\Adapter\Memory;
 use Phalcon\Acl\Component;
 use Phalcon\Acl\Enum;
 use Phalcon\Acl\Role;
+use Phalcon\Contracts\Acl\Adapter\Adapter;
 use Phalcon\Tests\AbstractUnitTestCase;
 
 use function cacheDir;
@@ -36,6 +38,14 @@ final class ConstructTest extends AbstractUnitTestCase
         $acl = new Memory();
 
         $this->assertInstanceOf(Memory::class, $acl);
+    }
+
+    public function testAclAdapterMemoryImplementsAdapterContract(): void
+    {
+        $acl = new Memory();
+
+        $this->assertInstanceOf(Adapter::class, $acl);
+        $this->assertInstanceOf(AdapterInterface::class, $acl);
     }
 
     /**
