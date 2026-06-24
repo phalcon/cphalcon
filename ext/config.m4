@@ -45,9 +45,9 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/container/resolver/lazy/lazy.zep.c
 	phalcon/encryption/crypt/exception/exception.zep.c
 	phalcon/forms/exception.zep.c
+	phalcon/acl/exception.zep.c
 	phalcon/image/exception.zep.c
 	phalcon/support/helper/str/abstractstr.zep.c
-	phalcon/acl/exception.zep.c
 	phalcon/contracts/dispatcher/dispatcher.zep.c
 	phalcon/mvc/micro/exception.zep.c
 	phalcon/support/collection.zep.c
@@ -349,6 +349,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/acl/exceptions/invalidcomponentimplementation.zep.c
 	phalcon/acl/exceptions/invalidroleimplementation.zep.c
 	phalcon/acl/exceptions/invalidroletype.zep.c
+	phalcon/acl/exceptions/invalidsnapshot.zep.c
 	phalcon/acl/exceptions/missingfunctionparameters.zep.c
 	phalcon/acl/exceptions/parametertypemismatch.zep.c
 	phalcon/acl/exceptions/rolenotfoundexception.zep.c

@@ -353,7 +353,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt, decrypt)
 	ZVAL_LONG(&_1, 0);
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "8bit");
-	ZEPHIR_CALL_FUNCTION(&iv, "mb_substr", NULL, 348, &input_zv, &_1, &ivLength, &_2);
+	ZEPHIR_CALL_FUNCTION(&iv, "mb_substr", NULL, 350, &input_zv, &_1, &ivLength, &_2);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&digest);
 	ZVAL_STRING(&digest, "");
@@ -374,18 +374,18 @@ PHP_METHOD(Phalcon_Encryption_Crypt, decrypt)
 		}
 		ZEPHIR_INIT_VAR(&_8$$6);
 		ZVAL_STRING(&_8$$6, "8bit");
-		ZEPHIR_CALL_FUNCTION(&digest, "mb_substr", NULL, 348, &input_zv, &ivLength, &hashLength, &_8$$6);
+		ZEPHIR_CALL_FUNCTION(&digest, "mb_substr", NULL, 350, &input_zv, &ivLength, &hashLength, &_8$$6);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_9$$6);
 		zephir_add_function(&_9$$6, &ivLength, &hashLength);
 		ZEPHIR_INIT_NVAR(&_8$$6);
 		ZVAL_STRING(&_8$$6, "8bit");
-		ZEPHIR_CALL_FUNCTION(&cipherText, "mb_substr", NULL, 348, &input_zv, &_9$$6, &__$null, &_8$$6);
+		ZEPHIR_CALL_FUNCTION(&cipherText, "mb_substr", NULL, 350, &input_zv, &_9$$6, &__$null, &_8$$6);
 		zephir_check_call_status();
 	} else {
 		ZEPHIR_INIT_VAR(&_10$$8);
 		ZVAL_STRING(&_10$$8, "8bit");
-		ZEPHIR_CALL_FUNCTION(&cipherText, "mb_substr", NULL, 348, &input_zv, &ivLength, &__$null, &_10$$8);
+		ZEPHIR_CALL_FUNCTION(&cipherText, "mb_substr", NULL, 350, &input_zv, &ivLength, &__$null, &_10$$8);
 		zephir_check_call_status();
 	}
 	ZEPHIR_CALL_METHOD(&decrypted, this_ptr, "decryptgcmccmauth", NULL, 0, &mode, &cipherText, &decryptKey, &iv);

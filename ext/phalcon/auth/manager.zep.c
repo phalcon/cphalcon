@@ -109,7 +109,7 @@ PHP_METHOD(Phalcon_Auth_Manager, access)
 	if (!zephir_is_true(&_1)) {
 		ZEPHIR_INIT_VAR(&_2$$3);
 		object_init_ex(&_2$$3, phalcon_auth_exceptions_accessnotregistered_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 352, &accessName_zv);
+		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 354, &accessName_zv);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_2$$3, "phalcon/Auth/Manager.zep", 68);
 		ZEPHIR_MM_RESTORE();
@@ -261,7 +261,7 @@ PHP_METHOD(Phalcon_Auth_Manager, attempt)
 		remember = 0;
 	} else {
 		}
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "requirestatefulguard", NULL, 353);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "requirestatefulguard", NULL, 355);
 	zephir_check_call_status();
 	if (remember) {
 		ZVAL_BOOL(&_1, 1);
@@ -310,7 +310,7 @@ PHP_METHOD(Phalcon_Auth_Manager, except)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	ZEPHIR_INIT_VAR(&actions);
 	zephir_get_args_from(&actions, 0);
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "requireactiveaccess", NULL, 354);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "requireactiveaccess", NULL, 356);
 	zephir_check_call_status();
 	ZEPHIR_CALL_FUNCTION(&_1, "array_values", NULL, 29, &actions);
 	zephir_check_call_status();
@@ -396,7 +396,7 @@ PHP_METHOD(Phalcon_Auth_Manager, guard)
 		if (Z_TYPE_P(&_0$$3) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_1$$4);
 			object_init_ex(&_1$$4, phalcon_auth_exceptions_defaultguardnotregistered_ce);
-			ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 355);
+			ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 357);
 			zephir_check_call_status();
 			zephir_throw_exception_debug(&_1$$4, "phalcon/Auth/Manager.zep", 162);
 			ZEPHIR_MM_RESTORE();
@@ -408,7 +408,7 @@ PHP_METHOD(Phalcon_Auth_Manager, guard)
 	if (!(zephir_array_isset_value(&_2, &name_zv))) {
 		ZEPHIR_INIT_VAR(&_3$$5);
 		object_init_ex(&_3$$5, phalcon_auth_exceptions_guardnotdefined_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_3$$5, "__construct", NULL, 356, &name_zv);
+		ZEPHIR_CALL_METHOD(NULL, &_3$$5, "__construct", NULL, 358, &name_zv);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_3$$5, "phalcon/Auth/Manager.zep", 169);
 		ZEPHIR_MM_RESTORE();
@@ -448,7 +448,7 @@ PHP_METHOD(Phalcon_Auth_Manager, logout)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "requirestatefulguard", NULL, 353);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "requirestatefulguard", NULL, 355);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, &_0, "logout", NULL, 0);
 	zephir_check_call_status();
@@ -474,7 +474,7 @@ PHP_METHOD(Phalcon_Auth_Manager, only)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	ZEPHIR_INIT_VAR(&actions);
 	zephir_get_args_from(&actions, 0);
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "requireactiveaccess", NULL, 354);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "requireactiveaccess", NULL, 356);
 	zephir_check_call_status();
 	ZEPHIR_CALL_FUNCTION(&_1, "array_values", NULL, 29, &actions);
 	zephir_check_call_status();
@@ -581,7 +581,7 @@ PHP_METHOD(Phalcon_Auth_Manager, requireActiveAccess)
 	if (Z_TYPE_P(&_0) == IS_NULL) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_auth_exceptions_activeaccessrequired_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 357);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 359);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Auth/Manager.zep", 228);
 		ZEPHIR_MM_RESTORE();

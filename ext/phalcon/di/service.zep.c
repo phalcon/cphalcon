@@ -133,7 +133,7 @@ PHP_METHOD(Phalcon_Di_Service, getParameter)
 	if (UNEXPECTED(Z_TYPE_P(&_0) != IS_ARRAY)) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_di_exceptions_definitionmustbearrayforread_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 498);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 500);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Di/Service.zep", 80);
 		ZEPHIR_MM_RESTORE();
@@ -272,7 +272,7 @@ PHP_METHOD(Phalcon_Di_Service, resolve)
 					zephir_check_call_status();
 				}
 
-				ZEPHIR_CALL_METHOD(&instance, &builder, "build", NULL, 499, container, &definition, parameters);
+				ZEPHIR_CALL_METHOD(&instance, &builder, "build", NULL, 501, container, &definition, parameters);
 				zephir_check_call_status();
 			} else {
 				found = 0;
@@ -347,7 +347,7 @@ PHP_METHOD(Phalcon_Di_Service, setParameter)
 	if (UNEXPECTED(Z_TYPE_P(&_0) != IS_ARRAY)) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_di_exceptions_definitionmustbearrayforupdate_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 500);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 502);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Di/Service.zep", 226);
 		ZEPHIR_MM_RESTORE();

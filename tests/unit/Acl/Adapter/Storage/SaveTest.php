@@ -21,10 +21,10 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class SaveTest extends AbstractUnitTestCase
 {
     /**
-     * Callable rules are not part of the persisted snapshot (closures are not
-     * serializable), so after a reload the rule behaves as a plain allow.
+     * Closures are not serializable, so on reload a closure-backed rule fails
+     * closed (DENY) until the closure is re-registered.
      */
-    public function testCallableRulesAreNotPersisted(): void
+    public function testCallableRulesPersistAsDeny(): void
     {
         $backend = new StorageMemory(new SerializerFactory());
 
@@ -33,13 +33,16 @@ final class SaveTest extends AbstractUnitTestCase
         $writer->addComponent('products', ['browse']);
         $writer->allow('admin', 'products', 'browse', fn () => false);
 
-        // The closure denies before persistence.
         $this->assertFalse($writer->isAllowed('admin', 'products', 'browse'));
 
         $writer->save();
 
-        // The closure is dropped on reload; the static allow remains.
+        // Closure dropped on reload => rule denies (fail closed), not allows.
         $reader = new Storage($backend, 'acl-func');
+        $this->assertFalse($reader->isAllowed('admin', 'products', 'browse'));
+
+        // Re-registering the closure restores conditional behavior.
+        $reader->allow('admin', 'products', 'browse', fn () => true);
         $this->assertTrue($reader->isAllowed('admin', 'products', 'browse'));
     }
 }
