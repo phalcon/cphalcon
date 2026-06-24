@@ -12,6 +12,8 @@
 - Changed `Phalcon\Acl\Adapter\Memory` so a freshly constructed adapter returns an empty array instead of `null` from `getRoles()`, `getComponents()` and `getInheritedRoles()`. [#17220](https://github.com/phalcon/cphalcon/issues/17220) [[doc]](https://docs.phalcon.io/5.16/acl/)
 - Deprecated `Phalcon\Acl\Adapter\Memory::getActiveKey()` (use `getActiveRole()`, `getActiveComponent()` and `getActiveAccess()`) and the legacy ACL interfaces `Phalcon\Acl\Adapter\AdapterInterface`, `Phalcon\Acl\RoleInterface`, `Phalcon\Acl\ComponentInterface`, `Phalcon\Acl\RoleAwareInterface` and `Phalcon\Acl\ComponentAwareInterface` in favour of their `Phalcon\Contracts\Acl\...` equivalents. [#17220](https://github.com/phalcon/cphalcon/issues/17220) [[doc]](https://docs.phalcon.io/5.16/acl/)
 - Changed the `Phalcon\Auth` layer to throw granular `Phalcon\Auth\Exceptions\*` subclasses instead of the base `Phalcon\Auth\Exception`: `AccessNotRegistered`, `ActiveAccessRequired`, `DefaultGuardNotRegistered` and `GuardNotDefined` (`Phalcon\Auth\Manager`), `UnknownAdapter` and `UnknownGuard` (`Phalcon\Auth\ManagerFactory`), `OptionRequiresArray` and `OptionRequiresString` (`fromOptions()` option parsing), `SessionNamesMustDiffer` (`Phalcon\Auth\Guard\Config\SessionGuardConfig`), and `MissingHandlerContext` (`Phalcon\Auth\Access\Acl`). Each extends `Phalcon\Auth\Exception`, so existing `catch` blocks keep working. [#17220](https://github.com/phalcon/cphalcon/issues/17220) [[doc]](https://docs.phalcon.io/5.16/auth/)
+- Changed the `Phalcon\Auth` array adapters (`Memory`, `Stream`) to compare non-password credential fields against configured row values as strings, so string input from a request (e.g. `'1'`) matches a typed row value (e.g. `1` or `true`) instead of failing a strict type comparison. [#17220](https://github.com/phalcon/cphalcon/issues/17220) [[doc]](https://docs.phalcon.io/5.16/auth/)
+- Note: `Phalcon\Auth\ManagerFactory` validates the required guard configuration up front and throws a `Phalcon\Auth\Exception` subclass on a missing key, where earlier versions emitted a PHP notice followed by a `TypeError`; handlers that caught `TypeError` there should catch `Phalcon\Auth\Exception` instead. [#17220](https://github.com/phalcon/cphalcon/issues/17220) [[doc]](https://docs.phalcon.io/5.16/auth/)
 
 ### Added
 
@@ -21,6 +23,8 @@
 - Added the granular `Phalcon\Auth\Exceptions\*` exceptions `AccessNotRegistered`, `ActiveAccessRequired`, `DefaultGuardNotRegistered`, `GuardNotDefined`, `MissingHandlerContext`, `OptionRequiresArray`, `OptionRequiresString`, `SessionNamesMustDiffer`, `UnknownAdapter` and `UnknownGuard`. [#17220](https://github.com/phalcon/cphalcon/issues/17220) [[doc]](https://docs.phalcon.io/5.16/auth/)
 
 ### Fixed
+
+- Fixed `Phalcon\Auth` login timing leaking account existence: the credential adapters now perform a throwaway password hash on the user-not-found path, so an attempt for an unknown identifier costs the same as one for a real account with a wrong password (mitigates login-timing user enumeration). [#17220](https://github.com/phalcon/cphalcon/issues/17220) [[doc]](https://docs.phalcon.io/5.16/auth/)
 
 ### Removed
 

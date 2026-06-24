@@ -172,7 +172,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Model, retrieveByCredentials)
 	zend_ulong _1;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *credentials_param = NULL, key, value, *_0, _4, _8, _3$$3, _6$$5;
+	zval *credentials_param = NULL, key, value, found, *_0, _4, _8, _3$$3, _6$$5;
 	zval credentials, bind, conditions, _7;
 	zval *this_ptr = getThis();
 
@@ -182,6 +182,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Model, retrieveByCredentials)
 	ZVAL_UNDEF(&_7);
 	ZVAL_UNDEF(&key);
 	ZVAL_UNDEF(&value);
+	ZVAL_UNDEF(&found);
 	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_8);
 	ZVAL_UNDEF(&_3$$3);
@@ -257,9 +258,13 @@ PHP_METHOD(Phalcon_Auth_Adapter_Model, retrieveByCredentials)
 	zephir_fast_join_str(&_8, SL(" AND "), &conditions);
 	zephir_array_update_string(&_7, SL("conditions"), &_8, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&_7, SL("bind"), &bind, PH_COPY | PH_SEPARATE);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "findfirstasauthuser", NULL, 330, &_7);
+	ZEPHIR_CALL_METHOD(&found, this_ptr, "findfirstasauthuser", NULL, 330, &_7);
 	zephir_check_call_status();
-	RETURN_MM();
+	if (Z_TYPE_P(&found) == IS_NULL) {
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "burnhash", NULL, 0);
+		zephir_check_call_status();
+	}
+	RETURN_CCTOR(&found);
 }
 
 PHP_METHOD(Phalcon_Auth_Adapter_Model, retrieveById)
@@ -288,7 +293,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Model, retrieveById)
 		_0 = Z_TYPE_P(id) != IS_STRING;
 	}
 	if (_0) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(zend_ce_type_error, "The parameter must be 'int' or 'string'", "phalcon/Auth/Adapter/Model.zep", 109);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(zend_ce_type_error, "The parameter must be 'int' or 'string'", "phalcon/Auth/Adapter/Model.zep", 115);
 		return;
 	}
 	ZEPHIR_INIT_VAR(&_1);

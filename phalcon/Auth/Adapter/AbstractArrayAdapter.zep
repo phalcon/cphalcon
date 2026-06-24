@@ -54,6 +54,8 @@ abstract class AbstractArrayAdapter extends AbstractAdapter
             }
         }
 
+        this->burnHash();
+
         return null;
     }
 
@@ -155,7 +157,7 @@ abstract class AbstractArrayAdapter extends AbstractAdapter
                 continue;
             }
 
-            if (!isset(row[key]) || row[key] !== value) {
+            if (!isset(row[key]) || (string) row[key] !== (string) value) {
                 return false;
             }
         }

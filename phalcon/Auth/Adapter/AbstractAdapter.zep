@@ -26,6 +26,15 @@ use Phalcon\Contracts\Encryption\Security\Security;
 abstract class AbstractAdapter implements Adapter
 {
     /**
+     * Dummy bcrypt hash used to equalize timing on the user-not-found path so
+     * a failed lookup costs the same as a real password check (prevents
+     * login-timing user enumeration).
+     *
+     * @var string
+     */
+    const DUMMY_HASH = "$2y$10$YMmGMSXz.5U3bjjJ2qx45uElzUrlaBiS8L70VaVnmsKYFJVcam8gW";
+
+    /**
      * @var AdapterConfig
      */
     protected config;
@@ -78,5 +87,15 @@ abstract class AbstractAdapter implements Adapter
         }
 
         return this->hasher->checkHash(password, user->getAuthPassword());
+    }
+
+    /**
+     * Runs a throwaway password verification against a fixed dummy hash so the
+     * user-not-found path performs the same hash work as a found path. Call it
+     * when a credential lookup misses to keep response time constant.
+     */
+    protected function burnHash() -> void
+    {
+        this->hasher->checkHash("phalcon-auth-timing", self::DUMMY_HASH);
     }
 }

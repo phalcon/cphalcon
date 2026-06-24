@@ -76,7 +76,7 @@ class Model extends AbstractAdapter implements RememberAdapter
      */
     public function retrieveByCredentials(array credentials) -> <AuthUser> | null
     {
-        var key, value;
+        var key, value, found;
         array bind, conditions;
 
         let conditions = [];
@@ -95,12 +95,18 @@ class Model extends AbstractAdapter implements RememberAdapter
             return null;
         }
 
-        return this->findFirstAsAuthUser(
+        let found = this->findFirstAsAuthUser(
             [
                 "conditions" : join(" AND ", conditions),
                 "bind"       : bind
             ]
         );
+
+        if (found === null) {
+            this->burnHash();
+        }
+
+        return found;
     }
 
     public function retrieveById(var id) -> <AuthUser> | null
