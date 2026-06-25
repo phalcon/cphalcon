@@ -60,6 +60,56 @@ final class CreateTest extends AbstractDatabaseTestCase
     }
 
     /**
+     * Calling create() on a record that already exists must return false with
+     * an `InvalidCreateAttempt` message and must not raise a deprecation
+     * warning when constructing the message.
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/17224
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-25
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelCreateAlreadyExists(): void
+    {
+        $date                     = date('Y-m-d H:i:s');
+        $invoice                  = new Invoices();
+        $invoice->inv_cst_id      = 2;
+        $invoice->inv_status_flag = 3;
+        $invoice->inv_title       = uniqid('inv-');
+        $invoice->inv_total       = 100.12;
+        $invoice->inv_created_at  = $date;
+
+        $this->assertNotFalse($invoice->create());
+
+        $deprecations = [];
+        set_error_handler(
+            static function (int $errno, string $errstr) use (&$deprecations): bool {
+                $deprecations[] = $errstr;
+
+                return true;
+            },
+            E_DEPRECATED
+        );
+
+        $result = $invoice->create();
+
+        restore_error_handler();
+
+        $this->assertFalse($result);
+        $this->assertEmpty($deprecations);
+
+        $messages = $invoice->getMessages();
+        $this->assertCount(1, $messages);
+
+        $expected = 'Record cannot be created because it already exists';
+        $this->assertSame($expected, $messages[0]->getMessage());
+        $this->assertSame('', $messages[0]->getField());
+        $this->assertSame('InvalidCreateAttempt', $messages[0]->getType());
+    }
+
+    /**
      * Inserting with an explicit primary key on PostgreSQL must not throw a
      * "currval of sequence not yet defined in this session" error.
      *
