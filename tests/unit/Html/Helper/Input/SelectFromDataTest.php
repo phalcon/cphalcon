@@ -22,7 +22,6 @@ use const PHP_EOL;
 
 final class SelectFromDataTest extends AbstractUnitTestCase
 {
-
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-04

@@ -29,15 +29,15 @@ final class OutputBranchesTest extends AbstractUnitTestCase
         $this->assertStringContainsString('[already listed]', $actual);
     }
 
-    public function testResolvesParentClassAndMethodNames(): void
+    public function testArraySelfReferenceKeyIsSkipped(): void
     {
-        $actual = (new Dump())->variable(new SampleMethods());
+        $key    = uniqid('var-');
+        $value  = uniqid('val-');
+        $dump   = new Dump();
+        $actual = $dump->variable([$key => $value], $key);
 
-        $this->assertStringContainsString('extends', $actual);
-        $this->assertStringContainsString('ClassProperties', $actual);
-        $this->assertStringContainsString('sample', $actual);
-        $this->assertStringNotContainsString('{parent}', $actual);
-        $this->assertStringNotContainsString(':method', $actual);
+        $this->assertStringContainsString($key, $actual);
+        $this->assertStringNotContainsString($value, $actual);
     }
 
     public function testBoolean(): void
@@ -72,11 +72,15 @@ final class OutputBranchesTest extends AbstractUnitTestCase
         $this->assertStringContainsString('Numeric String', (new Dump())->variable('12345'));
     }
 
-    public function testSkipsDiInterface(): void
+    public function testResolvesParentClassAndMethodNames(): void
     {
-        $actual = (new Dump())->variable(new Di());
+        $actual = (new Dump())->variable(new SampleMethods());
 
-        $this->assertStringContainsString('[skipped]', $actual);
+        $this->assertStringContainsString('extends', $actual);
+        $this->assertStringContainsString('ClassProperties', $actual);
+        $this->assertStringContainsString('sample', $actual);
+        $this->assertStringNotContainsString('{parent}', $actual);
+        $this->assertStringNotContainsString(':method', $actual);
     }
 
     public function testResourceFallback(): void
@@ -88,14 +92,10 @@ final class OutputBranchesTest extends AbstractUnitTestCase
         $this->assertStringContainsString('Resource', $actual);
     }
 
-    public function testArraySelfReferenceKeyIsSkipped(): void
+    public function testSkipsDiInterface(): void
     {
-        $key    = uniqid('var-');
-        $value  = uniqid('val-');
-        $dump   = new Dump();
-        $actual = $dump->variable([$key => $value], $key);
+        $actual = (new Dump())->variable(new Di());
 
-        $this->assertStringContainsString($key, $actual);
-        $this->assertStringNotContainsString($value, $actual);
+        $this->assertStringContainsString('[skipped]', $actual);
     }
 }

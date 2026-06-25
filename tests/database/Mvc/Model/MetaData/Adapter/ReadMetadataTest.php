@@ -32,6 +32,12 @@ final class ReadMetadataTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
 
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+    }
+
     /**
      * @return array[]
      */
@@ -54,113 +60,6 @@ final class ReadMetadataTest extends AbstractDatabaseTestCase
                 'metadataStream',
             ],
         ];
-    }
-
-    public function setUp(): void
-    {
-        $this->setNewFactoryDefault();
-        $this->setDatabase();
-    }
-
-    /**
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2023-07-01
-     */
-    #[Group('mysql')]
-    #[Group('pgsql')]
-    #[Group('sqlite')]
-    #[DataProvider('getExamples')]
-    public function testMvcModelMetadataGetAttributes(
-        string $service
-    ): void {
-        $connection = self::getConnection();
-        $adapter    = $this->newService($service);
-
-        /**
-         * Cleanup Redis
-         */
-        $adapter->reset();
-
-        $this->container->setShared('modelsMetadata', $adapter);
-
-        (new PhotoMigration($connection));
-        (new AlbumMigration($connection));
-        (new AlbumPhotoMigration($connection));
-
-        /** @var MetaData $metadata */
-        $metadata = $this->container->get('modelsMetadata');
-
-        $model     = new Album();
-        $expected  = [
-            'id',
-            'name',
-            'album_id',
-            'photo_id',
-        ];
-        $actual    = $metadata->getAttributes($model);
-        $columnMap = $metadata->getColumnMap($model);
-        $this->assertEquals($expected, $actual);
-
-        $model     = new AlbumPhoto();
-        $expected  = [
-            'id',
-            'photo_id',
-            'album_id',
-            'position',
-        ];
-        $actual    = $metadata->getAttributes($model);
-        $columnMap = $metadata->getColumnMap($model);
-        $this->assertEquals($expected, $actual);
-
-        $model     = new Photo();
-        $expected  = [
-            'id',
-            'date_uploaded',
-            'original_filename',
-            'path',
-            'width',
-            'height',
-            'thumb_path',
-            'thumb_width',
-            'thumb_height',
-            'display_path',
-            'display_width',
-            'display_height',
-            'mime_type',
-            'filesize',
-            'phash',
-            'battles',
-            'wins',
-        ];
-        $actual    = $metadata->getAttributes($model);
-        $columnMap = $metadata->getColumnMap($model);
-        $this->assertEquals($expected, $actual);
-
-        if (
-            'metadataStream' !== $service &&
-            'metadataMemory' !== $service &&
-            'sqlite' !== self::getDriver()
-        ) {
-            $service = $adapter->getAdapter();
-
-            /**
-             * Check if keys exist
-             */
-            $keys    = self::getKeyData();
-            $keyKeys = array_keys($keys);
-            foreach ($keyKeys as $key) {
-                $actual = $service->has($key);
-                $this->assertTrue($actual);
-            }
-
-            /**
-             * Check contents of the keys
-             */
-            foreach ($keys as $key => $expected) {
-                $actual = $service->get($key);
-                $this->assertSame($expected, $actual);
-            }
-        }
     }
 
     /**
@@ -397,5 +296,106 @@ final class ReadMetadataTest extends AbstractDatabaseTestCase
             13 => [],
         ],
         ];
+    }
+
+    /**
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2023-07-01
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    #[DataProvider('getExamples')]
+    public function testMvcModelMetadataGetAttributes(
+        string $service
+    ): void {
+        $connection = self::getConnection();
+        $adapter    = $this->newService($service);
+
+        /**
+         * Cleanup Redis
+         */
+        $adapter->reset();
+
+        $this->container->setShared('modelsMetadata', $adapter);
+
+        (new PhotoMigration($connection));
+        (new AlbumMigration($connection));
+        (new AlbumPhotoMigration($connection));
+
+        /** @var MetaData $metadata */
+        $metadata = $this->container->get('modelsMetadata');
+
+        $model     = new Album();
+        $expected  = [
+            'id',
+            'name',
+            'album_id',
+            'photo_id',
+        ];
+        $actual    = $metadata->getAttributes($model);
+        $columnMap = $metadata->getColumnMap($model);
+        $this->assertEquals($expected, $actual);
+
+        $model     = new AlbumPhoto();
+        $expected  = [
+            'id',
+            'photo_id',
+            'album_id',
+            'position',
+        ];
+        $actual    = $metadata->getAttributes($model);
+        $columnMap = $metadata->getColumnMap($model);
+        $this->assertEquals($expected, $actual);
+
+        $model     = new Photo();
+        $expected  = [
+            'id',
+            'date_uploaded',
+            'original_filename',
+            'path',
+            'width',
+            'height',
+            'thumb_path',
+            'thumb_width',
+            'thumb_height',
+            'display_path',
+            'display_width',
+            'display_height',
+            'mime_type',
+            'filesize',
+            'phash',
+            'battles',
+            'wins',
+        ];
+        $actual    = $metadata->getAttributes($model);
+        $columnMap = $metadata->getColumnMap($model);
+        $this->assertEquals($expected, $actual);
+
+        if (
+            'metadataStream' !== $service &&
+            'metadataMemory' !== $service &&
+            'sqlite' !== self::getDriver()
+        ) {
+            $service = $adapter->getAdapter();
+
+            /**
+             * Check if keys exist
+             */
+            $keys    = self::getKeyData();
+            $keyKeys = array_keys($keys);
+            foreach ($keyKeys as $key) {
+                $actual = $service->has($key);
+                $this->assertTrue($actual);
+            }
+
+            /**
+             * Check contents of the keys
+             */
+            foreach ($keys as $key => $expected) {
+                $actual = $service->get($key);
+                $this->assertSame($expected, $actual);
+            }
+        }
     }
 }

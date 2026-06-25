@@ -25,6 +25,13 @@ final class OffsetGetTest extends AbstractDatabaseTestCase
 {
     use ResultsetFixtureTrait;
 
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+        $this->seedResultsetFixture();
+    }
+
     /**
      * offsetGet() returns the record at a valid position; an offset at or
      * beyond the row count throws IndexNotInCursor (so it always throws on an
@@ -39,13 +46,6 @@ final class OffsetGetTest extends AbstractDatabaseTestCase
             'complex' => ['complex', 0, Row::class, false],
             'empty'   => ['empty', 0, null, true],
         ];
-    }
-
-    public function setUp(): void
-    {
-        $this->setNewFactoryDefault();
-        $this->setDatabase();
-        $this->seedResultsetFixture();
     }
 
     /**

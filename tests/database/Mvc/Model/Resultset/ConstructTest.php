@@ -24,6 +24,13 @@ final class ConstructTest extends AbstractDatabaseTestCase
 {
     use ResultsetFixtureTrait;
 
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+        $this->seedResultsetFixture();
+    }
+
     /**
      * Building a resultset yields the concrete type that matches the query:
      * single-model queries hydrate a Simple (even when empty), joined queries
@@ -38,13 +45,6 @@ final class ConstructTest extends AbstractDatabaseTestCase
             'complex' => ['complex', Complex::class, 4],
             'empty'   => ['empty', Simple::class, 0],
         ];
-    }
-
-    public function setUp(): void
-    {
-        $this->setNewFactoryDefault();
-        $this->setDatabase();
-        $this->seedResultsetFixture();
     }
 
     /**

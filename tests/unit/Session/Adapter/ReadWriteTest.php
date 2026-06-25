@@ -51,18 +51,6 @@ final class ReadWriteTest extends AbstractServicesTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function testSessionAdapterNoopWrite(): void
-    {
-        $adapter = $this->newService('sessionNoop');
-
-        $actual = $adapter->write('test1', uniqid());
-        $this->assertTrue($actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2020-09-09
-     */
     public function testSessionAdapterNoopReadWrite(): void
     {
         $adapter = $this->newService('sessionNoop');
@@ -73,6 +61,18 @@ final class ReadWriteTest extends AbstractServicesTestCase
         $expected = '';
         $actual   = $adapter->read('test1');
         $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    public function testSessionAdapterNoopWrite(): void
+    {
+        $adapter = $this->newService('sessionNoop');
+
+        $actual = $adapter->write('test1', uniqid());
+        $this->assertTrue($actual);
     }
 
     /**

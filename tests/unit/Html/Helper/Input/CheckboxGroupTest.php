@@ -20,7 +20,6 @@ use const PHP_EOL;
 
 final class CheckboxGroupTest extends AbstractUnitTestCase
 {
-
     public function testAutoGeneratesIdForArrayName(): void
     {
         $helper = $this->helper();

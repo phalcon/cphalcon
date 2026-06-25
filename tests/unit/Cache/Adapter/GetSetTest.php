@@ -40,7 +40,6 @@ use function uniqid;
 
 final class GetSetTest extends AbstractUnitTestCase
 {
-
     /**
      * @return array[]
      */

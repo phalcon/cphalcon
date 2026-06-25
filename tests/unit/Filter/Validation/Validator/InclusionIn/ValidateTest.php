@@ -18,6 +18,7 @@ use Phalcon\Filter\Validation\Validator\InclusionIn;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
 use Phalcon\Tests\AbstractUnitTestCase;
+use stdClass;
 
 final class ValidateTest extends AbstractUnitTestCase
 {
@@ -300,5 +301,34 @@ final class ValidateTest extends AbstractUnitTestCase
             0,
             $messages->count()
         );
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    public function testFilterValidationValidatorInclusionInValidateReturnValue(): void
+    {
+        $validation = new Validation();
+        $validator  = new InclusionIn(['domain' => ['A', 'I']]);
+        $validation->add('status', $validator);
+
+        $entity = new stdClass();
+
+        // a value within the domain passes
+        $entity->status = 'A';
+        $validation->bind($entity, []);
+        $this->assertTrue($validator->validate($validation, 'status'));
+
+        // a value outside the domain fails
+        $entity->status = 'X';
+        $validation->bind($entity, []);
+        $this->assertFalse($validator->validate($validation, 'status'));
+
+        // an empty value passes when allowEmpty is set
+        $allowEmpty     = new InclusionIn(['domain' => ['A', 'I'], 'allowEmpty' => true]);
+        $entity->status = '';
+        $validation->bind($entity, []);
+        $this->assertTrue($allowEmpty->validate($validation, 'status'));
     }
 }

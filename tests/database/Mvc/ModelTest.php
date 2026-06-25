@@ -44,6 +44,30 @@ final class ModelTest extends AbstractDatabaseTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-02
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testExecuteCamelCaseRelation(): void
+    {
+        /** @var PDO $connection */
+        $connection = self::getConnection();
+        (new ArtistsMigration($connection))->insert(1, 'Test Artist');
+        (new AlbumsMigration($connection))->insert(1, 1, 'Test Album');
+
+        $album = Albums::findFirst();
+
+        // Mutating through the lowercase alias must be visible through
+        // the CamelCase form - relation accessors are case-insensitive
+        // and resolve to the same lazy-loaded related model.
+        $album->artist->name = 'NotArtist';
+
+        $this->assertSame($album->Artist->name, $album->artist->name);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-02
+     */
     public function testModelsCacheSnapshot(): void
     {
         $this->markTestSkipped('Needs review - tocheck after migration');
@@ -66,30 +90,6 @@ final class ModelTest extends AbstractDatabaseTestCase
         //     $this->assertEquals($robot->toArray(), $robot->getSnapshotData());
         //     $this->assertFileExists(outputDir('tests/cache/robots-cache'));
         // }
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-02
-     */
-    #[Group('mysql')]
-    #[Group('pgsql')]
-    #[Group('sqlite')]
-    public function testExecuteCamelCaseRelation(): void
-    {
-        /** @var PDO $connection */
-        $connection = self::getConnection();
-        (new ArtistsMigration($connection))->insert(1, 'Test Artist');
-        (new AlbumsMigration($connection))->insert(1, 1, 'Test Album');
-
-        $album = Albums::findFirst();
-
-        // Mutating through the lowercase alias must be visible through
-        // the CamelCase form - relation accessors are case-insensitive
-        // and resolve to the same lazy-loaded related model.
-        $album->artist->name = 'NotArtist';
-
-        $this->assertSame($album->Artist->name, $album->artist->name);
     }
 
 

@@ -26,6 +26,17 @@ final class GetColumnMapsTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
 
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+    }
+
+    public function tearDown(): void
+    {
+        $this->tearDownDatabase();
+    }
+
     /**
      * Neither model declares a custom column map, so both strategies return
      * the empty [ordered, reversed] pair.
@@ -38,17 +49,6 @@ final class GetColumnMapsTest extends AbstractDatabaseTestCase
             'introspection' => [Introspection::class, Invoices::class],
             'annotations'   => [Annotations::class, Robots::class],
         ];
-    }
-
-    public function setUp(): void
-    {
-        $this->setNewFactoryDefault();
-        $this->setDatabase();
-    }
-
-    public function tearDown(): void
-    {
-        $this->tearDownDatabase();
     }
 
     /**

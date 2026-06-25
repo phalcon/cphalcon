@@ -11,7 +11,6 @@ use Throwable;
 
 final class InvalidExtenderTest extends AbstractUnitTestCase
 {
-
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-18

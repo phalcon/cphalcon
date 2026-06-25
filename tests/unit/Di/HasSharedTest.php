@@ -22,11 +22,15 @@ final class HasSharedTest extends AbstractUnitTestCase
     /**
      * @issue https://github.com/phalcon/cphalcon/issues/13440
      */
-    public function testDiHasSharedReturnsFalseWhenServiceUnknown(): void
+    public function testDiHasSharedResolvesAlias(): void
     {
         $container = new Di();
+        $container->setShared('escaper', Escaper::class);
+        $container->setAlias('escaper', 'safe');
 
-        $this->assertFalse($container->hasShared('unknown'));
+        $container->getShared('escaper');
+
+        $this->assertTrue($container->hasShared('safe'));
     }
 
     /**
@@ -46,18 +50,13 @@ final class HasSharedTest extends AbstractUnitTestCase
 
         $this->assertTrue($container->hasShared('escaper'));
     }
-
     /**
      * @issue https://github.com/phalcon/cphalcon/issues/13440
      */
-    public function testDiHasSharedResolvesAlias(): void
+    public function testDiHasSharedReturnsFalseWhenServiceUnknown(): void
     {
         $container = new Di();
-        $container->setShared('escaper', Escaper::class);
-        $container->setAlias('escaper', 'safe');
 
-        $container->getShared('escaper');
-
-        $this->assertTrue($container->hasShared('safe'));
+        $this->assertFalse($container->hasShared('unknown'));
     }
 }

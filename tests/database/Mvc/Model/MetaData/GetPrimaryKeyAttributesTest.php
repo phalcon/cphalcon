@@ -24,6 +24,12 @@ final class GetPrimaryKeyAttributesTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
 
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+    }
+
     /**
      * @return array[]
      */
@@ -36,12 +42,6 @@ final class GetPrimaryKeyAttributesTest extends AbstractDatabaseTestCase
             ['metadataLibmemcached'],
             ['metadataStream'],
         ];
-    }
-
-    public function setUp(): void
-    {
-        $this->setNewFactoryDefault();
-        $this->setDatabase();
     }
 
     /**

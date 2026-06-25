@@ -79,54 +79,6 @@ final class SerializeTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests that toArray() with a getter does not throw when a typed
-     * non-nullable property is uninitialized (e.g. because cloneResultMap
-     * skipped its assignment when the DB returned NULL for a NOT NULL column).
-     *
-     * @issue  https://github.com/phalcon/cphalcon/issues/15711
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-22
-     */
-    #[Group('mysql')]
-    #[Group('pgsql')]
-    #[Group('sqlite')]
-    public function testMvcModelToArrayWithUninitializedTypedPropertyAndGetter(): void
-    {
-        $base     = new InvoicesTypedProperties();
-        $metadata = $base->getModelsMetaData();
-        $colMap   = $metadata->getColumnMap($base);
-
-        /**
-         * Simulate a LEFT JOIN result where the primary key (NOT NULL in DB)
-         * comes back as NULL. cloneResultMap() will skip the assignment for
-         * inv_id, leaving the typed public int $inv_id uninitialized.
-         */
-        /** @var InvoicesTypedProperties $instance */
-        $instance = Model::cloneResultMap(
-            $base,
-            [
-                'inv_id'          => null,
-                'inv_cst_id'      => 1,
-                'inv_status_flag' => 0,
-                'inv_title'       => 'test-title',
-                'inv_total'       => 9.99,
-                'inv_created_at'  => '2026-01-01 00:00:00',
-            ],
-            $colMap
-        );
-
-        /**
-         * toArray() with useGetter=true (the default) will call getInvId().
-         * getInvId() accesses the uninitialized typed $inv_id property.
-         * After the fix this must return null instead of throwing.
-         */
-        $arr = $instance->toArray();
-
-        $this->assertNull($arr['inv_id']);
-        $this->assertSame('test-title', $arr['inv_title']);
-    }
-
-    /**
      * Tests that serialize()/unserialize() round-trips a model with typed
      * properties correctly when a NOT NULL DB column returned NULL (leaving
      * the typed property uninitialized). The unserialized instance must not
@@ -217,6 +169,54 @@ final class SerializeTest extends AbstractDatabaseTestCase
         /** @var Invoices $newObject */
         $newObject = unserialize($serialized);
         $this->assertEquals(0, $newObject->getDirtyState());
+    }
+
+    /**
+     * Tests that toArray() with a getter does not throw when a typed
+     * non-nullable property is uninitialized (e.g. because cloneResultMap
+     * skipped its assignment when the DB returned NULL for a NOT NULL column).
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/15711
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-22
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelToArrayWithUninitializedTypedPropertyAndGetter(): void
+    {
+        $base     = new InvoicesTypedProperties();
+        $metadata = $base->getModelsMetaData();
+        $colMap   = $metadata->getColumnMap($base);
+
+        /**
+         * Simulate a LEFT JOIN result where the primary key (NOT NULL in DB)
+         * comes back as NULL. cloneResultMap() will skip the assignment for
+         * inv_id, leaving the typed public int $inv_id uninitialized.
+         */
+        /** @var InvoicesTypedProperties $instance */
+        $instance = Model::cloneResultMap(
+            $base,
+            [
+                'inv_id'          => null,
+                'inv_cst_id'      => 1,
+                'inv_status_flag' => 0,
+                'inv_title'       => 'test-title',
+                'inv_total'       => 9.99,
+                'inv_created_at'  => '2026-01-01 00:00:00',
+            ],
+            $colMap
+        );
+
+        /**
+         * toArray() with useGetter=true (the default) will call getInvId().
+         * getInvId() accesses the uninitialized typed $inv_id property.
+         * After the fix this must return null instead of throwing.
+         */
+        $arr = $instance->toArray();
+
+        $this->assertNull($arr['inv_id']);
+        $this->assertSame('test-title', $arr['inv_title']);
     }
 
     /**

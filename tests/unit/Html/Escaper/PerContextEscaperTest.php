@@ -28,7 +28,6 @@ use Phalcon\Tests\Unit\Html\Escaper\Fake\FakeHtmlEscaper;
  */
 final class PerContextEscaperTest extends AbstractUnitTestCase
 {
-
     public function testAttributeEscaperHandlesArrays(): void
     {
         $attr = new AttributeEscaper();

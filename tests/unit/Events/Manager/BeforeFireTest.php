@@ -21,25 +21,6 @@ use stdClass;
 
 final class BeforeFireTest extends AbstractUnitTestCase
 {
-    public function testBeforeFireReceivesArguments(): void
-    {
-        $manager = new DeferredManager();
-        $source  = new stdClass();
-        $data    = ['key' => 'value'];
-
-        $manager->attach(
-            'test:event',
-            function () {
-                return 'handled';
-            }
-        );
-
-        $manager->fire('test:event', $source, $data);
-
-        $expected = [['test:event', $source, $data, true]];
-        $this->assertSame($expected, $manager->beforeCalls);
-    }
-
     public function testBeforeFireFalseAbortsDispatch(): void
     {
         $manager        = new DeferredManager();
@@ -60,6 +41,24 @@ final class BeforeFireTest extends AbstractUnitTestCase
         $this->assertFalse($invoked);
         $this->assertNull($result);
         $this->assertCount(1, $manager->beforeCalls);
+    }
+    public function testBeforeFireReceivesArguments(): void
+    {
+        $manager = new DeferredManager();
+        $source  = new stdClass();
+        $data    = ['key' => 'value'];
+
+        $manager->attach(
+            'test:event',
+            function () {
+                return 'handled';
+            }
+        );
+
+        $manager->fire('test:event', $source, $data);
+
+        $expected = [['test:event', $source, $data, true]];
+        $this->assertSame($expected, $manager->beforeCalls);
     }
 
     public function testBeforeFireRunsWithoutListeners(): void

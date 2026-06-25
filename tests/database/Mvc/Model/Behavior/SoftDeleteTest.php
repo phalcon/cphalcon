@@ -40,6 +40,36 @@ final class SoftDeleteTest extends AbstractDatabaseTestCase
         (new InvoicesMigration($connection));
     }
 
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelBehaviorRemoveBehavior(): void
+    {
+        /** Add row to SoftDelete then */
+        $title = uniqid('inv-');
+        $date  = date('Y-m-d H:i:s');
+        $data  = [
+            'inv_cst_id'      => 2,
+            'inv_status_flag' => Invoices::STATUS_PAID,
+            'inv_title'       => $title,
+            'inv_total'       => 100.12,
+            'inv_created_at'  => $date,
+        ];
+
+        $invoice = new InvoicesBehavior();
+        $invoice->assign($data);
+
+        // Remove the SoftDelete behavior
+        $modelsManager = $invoice->getModelsManager();
+        $modelsManager->removeBehavior($invoice, \Phalcon\Mvc\Model\Behavior\SoftDelete::class);
+
+        /* delete invoice */
+        $invoice->delete();
+
+        // Check that the SoftDelete behavior was removed and the invoice was actually deleted
+        $this->assertFalse($invoice->hasSnapshotData());
+    }
+
     /**
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2020-10-03
@@ -67,45 +97,6 @@ final class SoftDeleteTest extends AbstractDatabaseTestCase
         $invoice->delete();
 
         $this->assertEquals(Invoices::STATUS_INACTIVE, $invoice->inv_status_flag);
-    }
-
-    /**
-     * @author Jeremy PASTOURET <https://github.com/jenovateurs>
-     * @since  2020-10-03
-     */
-    #[Group('mysql')]
-    #[Group('pgsql')]
-    #[Group('sqlite')]
-    public function testMvcModelBehaviorSoftDeleteWithBeforeDeleteEvent(): void
-    {
-        $this->markTestSkipped('See: https://github.com/phalcon/cphalcon/issues/14904');
-
-        /** ADD BeforeDelete event */
-        $eventsManager = new EventManager();
-        $eventsManager->attach('model:beforeDelete', function (Event $event, $model) {
-            return false;
-        });
-
-        /** Add row to SoftDelete then */
-        $title = uniqid('inv-');
-        $date  = date('Y-m-d H:i:s');
-        $data  = [
-            'inv_cst_id'      => 2,
-            'inv_status_flag' => Invoices::STATUS_PAID,
-            'inv_title'       => $title,
-            'inv_total'       => 100.12,
-            'inv_created_at'  => $date,
-        ];
-
-        $invoice = new InvoicesBehavior();
-        $invoice->assign($data);
-
-        /** delete invoice */
-        $invoice->setEventsManager($eventsManager);
-        $invoice->delete();
-
-        /** Check that SoftDelete wasn't working because beforeDelete event return false */
-        $this->assertEquals(Invoices::STATUS_PAID, $invoice->inv_status_flag);
     }
 
     /**
@@ -145,11 +136,23 @@ final class SoftDeleteTest extends AbstractDatabaseTestCase
         $this->assertEquals($customerCountBefore, Customers::count());
     }
 
+    /**
+     * @author Jeremy PASTOURET <https://github.com/jenovateurs>
+     * @since  2020-10-03
+     */
     #[Group('mysql')]
     #[Group('pgsql')]
     #[Group('sqlite')]
-    public function testMvcModelBehaviorRemoveBehavior(): void
+    public function testMvcModelBehaviorSoftDeleteWithBeforeDeleteEvent(): void
     {
+        $this->markTestSkipped('See: https://github.com/phalcon/cphalcon/issues/14904');
+
+        /** ADD BeforeDelete event */
+        $eventsManager = new EventManager();
+        $eventsManager->attach('model:beforeDelete', function (Event $event, $model) {
+            return false;
+        });
+
         /** Add row to SoftDelete then */
         $title = uniqid('inv-');
         $date  = date('Y-m-d H:i:s');
@@ -164,14 +167,11 @@ final class SoftDeleteTest extends AbstractDatabaseTestCase
         $invoice = new InvoicesBehavior();
         $invoice->assign($data);
 
-        // Remove the SoftDelete behavior
-        $modelsManager = $invoice->getModelsManager();
-        $modelsManager->removeBehavior($invoice, \Phalcon\Mvc\Model\Behavior\SoftDelete::class);
-
-        /* delete invoice */
+        /** delete invoice */
+        $invoice->setEventsManager($eventsManager);
         $invoice->delete();
 
-        // Check that the SoftDelete behavior was removed and the invoice was actually deleted
-        $this->assertFalse($invoice->hasSnapshotData());
+        /** Check that SoftDelete wasn't working because beforeDelete event return false */
+        $this->assertEquals(Invoices::STATUS_PAID, $invoice->inv_status_flag);
     }
 }

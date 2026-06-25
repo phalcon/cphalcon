@@ -22,6 +22,13 @@ final class FilterTest extends AbstractDatabaseTestCase
 {
     use ResultsetFixtureTrait;
 
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+        $this->seedResultsetFixture();
+    }
+
     /**
      * An identity filter keeps every record, so the returned array holds one
      * entry per row of the resultset.
@@ -35,13 +42,6 @@ final class FilterTest extends AbstractDatabaseTestCase
             'complex' => ['complex', 4],
             'empty'   => ['empty', 0],
         ];
-    }
-
-    public function setUp(): void
-    {
-        $this->setNewFactoryDefault();
-        $this->setDatabase();
-        $this->seedResultsetFixture();
     }
 
     /**

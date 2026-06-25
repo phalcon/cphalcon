@@ -22,6 +22,13 @@ final class KeyTest extends AbstractDatabaseTestCase
 {
     use ResultsetFixtureTrait;
 
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+        $this->seedResultsetFixture();
+    }
+
     /**
      * After rewind a populated resultset points at row 0; an empty one is
      * invalid, so key() is null.
@@ -35,13 +42,6 @@ final class KeyTest extends AbstractDatabaseTestCase
             'complex' => ['complex', 0],
             'empty'   => ['empty', null],
         ];
-    }
-
-    public function setUp(): void
-    {
-        $this->setNewFactoryDefault();
-        $this->setDatabase();
-        $this->seedResultsetFixture();
     }
 
     /**

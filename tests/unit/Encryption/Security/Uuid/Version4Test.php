@@ -22,6 +22,27 @@ final class Version4Test extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-29
      */
+    public function testEncryptionSecurityUuidAbstractUuidConstants(): void
+    {
+        $this->assertSame(
+            '00000000-0000-0000-0000-000000000000',
+            Version4::NIL
+        );
+
+        $this->assertSame(
+            'ffffffff-ffff-ffff-ffff-ffffffffffff',
+            Version4::MAX
+        );
+
+        $this->assertSame(
+            0x01B21DD213814000,
+            Version4::TIME_OFFSET_INT
+        );
+    }
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-29
+     */
     public function testEncryptionSecurityUuidVersion4Format(): void
     {
         $uuid = new Version4();
@@ -36,12 +57,11 @@ final class Version4Test extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-29
      */
-    public function testEncryptionSecurityUuidVersion4Unique(): void
+    public function testEncryptionSecurityUuidVersion4JsonSerialize(): void
     {
-        $uuid1 = new Version4();
-        $uuid2 = new Version4();
+        $uuid = new Version4();
 
-        $this->assertNotSame((string) $uuid1, (string) $uuid2);
+        $this->assertSame((string) $uuid, $uuid->jsonSerialize());
     }
 
     /**
@@ -60,32 +80,11 @@ final class Version4Test extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-29
      */
-    public function testEncryptionSecurityUuidVersion4JsonSerialize(): void
+    public function testEncryptionSecurityUuidVersion4Unique(): void
     {
-        $uuid = new Version4();
+        $uuid1 = new Version4();
+        $uuid2 = new Version4();
 
-        $this->assertSame((string) $uuid, $uuid->jsonSerialize());
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-29
-     */
-    public function testEncryptionSecurityUuidAbstractUuidConstants(): void
-    {
-        $this->assertSame(
-            '00000000-0000-0000-0000-000000000000',
-            Version4::NIL
-        );
-
-        $this->assertSame(
-            'ffffffff-ffff-ffff-ffff-ffffffffffff',
-            Version4::MAX
-        );
-
-        $this->assertSame(
-            0x01B21DD213814000,
-            Version4::TIME_OFFSET_INT
-        );
+        $this->assertNotSame((string) $uuid1, (string) $uuid2);
     }
 }

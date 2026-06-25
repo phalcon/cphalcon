@@ -25,6 +25,12 @@ final class InHavingTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
 
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+    }
+
     /**
      * inHaving()/notInHaving() append a (NOT) IN condition to the HAVING
      * clause with one auto bind-param per value.
@@ -37,12 +43,6 @@ final class InHavingTest extends AbstractDatabaseTestCase
             'inHaving'    => ['inHaving', 'IN'],
             'notInHaving' => ['notInHaving', 'NOT IN'],
         ];
-    }
-
-    public function setUp(): void
-    {
-        $this->setNewFactoryDefault();
-        $this->setDatabase();
     }
 
     /**

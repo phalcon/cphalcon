@@ -41,6 +41,91 @@ final class PaginateTest extends AbstractDatabaseTestCase
 
     /**
      * Tests Phalcon\Paginator\Adapter\QueryBuilderCursor :: paginate() -
+     * empty table returns empty items and zero cursor
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-14
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/14754
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testPaginatorAdapterQuerybuilderCursorPaginateEmpty(): void
+    {
+        $manager = $this->getService('modelsManager');
+        $builder = $manager
+            ->createBuilder()
+            ->from(Invoices::class)
+            ->orderBy('inv_id')
+        ;
+
+        $paginator = new QueryBuilderCursor(
+            [
+                'builder'      => $builder,
+                'limit'        => 5,
+                'cursorColumn' => 'inv_id',
+            ]
+        );
+
+        $page = $paginator->paginate();
+
+        $this->assertInstanceOf(Repository::class, $page);
+        $this->assertIsArray($page->getItems());
+        $this->assertCount(0, $page->getItems());
+        $this->assertSame(0, $page->getNext());
+        $this->assertSame(0, $page->getCurrent());
+    }
+
+    /**
+     * Tests Phalcon\Paginator\Adapter\QueryBuilderCursor :: paginate() -
+     * exact multiple of limit has no next page on the last page
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-14
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/14754
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testPaginatorAdapterQuerybuilderCursorPaginateExactMultiple(): void
+    {
+        /** @var PDO $connection */
+        $connection = self::getConnection();
+        $migration  = new InvoicesMigration($connection);
+        $invId      = ('sqlite' === self::getDriver()) ? 'null' : 'default';
+
+        $this->insertDataInvoices($migration, 10, $invId, 1, 'bbb');
+
+        $manager = $this->getService('modelsManager');
+        $builder = $manager
+            ->createBuilder()
+            ->from(Invoices::class)
+            ->orderBy('inv_id')
+        ;
+
+        $paginator = new QueryBuilderCursor(
+            [
+                'builder'      => $builder,
+                'limit'        => 5,
+                'cursorColumn' => 'inv_id',
+            ]
+        );
+
+        $page1 = $paginator->paginate();
+        $page1Next = $page1->getNext();
+        $this->assertCount(5, $page1->getItems());
+        $this->assertGreaterThan(0, $page1Next);
+
+        $paginator->setCursor($page1Next);
+        $page2 = $paginator->paginate();
+        $this->assertCount(5, $page2->getItems());
+        $this->assertSame(0, $page2->getNext());
+    }
+
+    /**
+     * Tests Phalcon\Paginator\Adapter\QueryBuilderCursor :: paginate() -
      * first page returns correct slice and a valid next cursor
      *
      * @author Phalcon Team <team@phalcon.io>
@@ -159,91 +244,6 @@ final class PaginateTest extends AbstractDatabaseTestCase
         );
         $this->assertCount(11, $allIds);
         $this->assertCount(11, array_unique($allIds));
-    }
-
-    /**
-     * Tests Phalcon\Paginator\Adapter\QueryBuilderCursor :: paginate() -
-     * exact multiple of limit has no next page on the last page
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-05-14
-     *
-     * @issue  https://github.com/phalcon/cphalcon/issues/14754
-     */
-    #[Group('mysql')]
-    #[Group('pgsql')]
-    #[Group('sqlite')]
-    public function testPaginatorAdapterQuerybuilderCursorPaginateExactMultiple(): void
-    {
-        /** @var PDO $connection */
-        $connection = self::getConnection();
-        $migration  = new InvoicesMigration($connection);
-        $invId      = ('sqlite' === self::getDriver()) ? 'null' : 'default';
-
-        $this->insertDataInvoices($migration, 10, $invId, 1, 'bbb');
-
-        $manager = $this->getService('modelsManager');
-        $builder = $manager
-            ->createBuilder()
-            ->from(Invoices::class)
-            ->orderBy('inv_id')
-        ;
-
-        $paginator = new QueryBuilderCursor(
-            [
-                'builder'      => $builder,
-                'limit'        => 5,
-                'cursorColumn' => 'inv_id',
-            ]
-        );
-
-        $page1 = $paginator->paginate();
-        $page1Next = $page1->getNext();
-        $this->assertCount(5, $page1->getItems());
-        $this->assertGreaterThan(0, $page1Next);
-
-        $paginator->setCursor($page1Next);
-        $page2 = $paginator->paginate();
-        $this->assertCount(5, $page2->getItems());
-        $this->assertSame(0, $page2->getNext());
-    }
-
-    /**
-     * Tests Phalcon\Paginator\Adapter\QueryBuilderCursor :: paginate() -
-     * empty table returns empty items and zero cursor
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-05-14
-     *
-     * @issue  https://github.com/phalcon/cphalcon/issues/14754
-     */
-    #[Group('mysql')]
-    #[Group('pgsql')]
-    #[Group('sqlite')]
-    public function testPaginatorAdapterQuerybuilderCursorPaginateEmpty(): void
-    {
-        $manager = $this->getService('modelsManager');
-        $builder = $manager
-            ->createBuilder()
-            ->from(Invoices::class)
-            ->orderBy('inv_id')
-        ;
-
-        $paginator = new QueryBuilderCursor(
-            [
-                'builder'      => $builder,
-                'limit'        => 5,
-                'cursorColumn' => 'inv_id',
-            ]
-        );
-
-        $page = $paginator->paginate();
-
-        $this->assertInstanceOf(Repository::class, $page);
-        $this->assertIsArray($page->getItems());
-        $this->assertCount(0, $page->getItems());
-        $this->assertSame(0, $page->getNext());
-        $this->assertSame(0, $page->getCurrent());
     }
 
     /**

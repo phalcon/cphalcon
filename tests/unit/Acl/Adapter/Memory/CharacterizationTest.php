@@ -19,7 +19,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 
 final class CharacterizationTest extends AbstractUnitTestCase
 {
-
     public function testClosureDenyOverridesNoArgumentsDefaultAllow(): void
     {
         $acl = new Memory();

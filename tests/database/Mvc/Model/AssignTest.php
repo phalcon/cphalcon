@@ -147,6 +147,35 @@ final class AssignTest extends AbstractDatabaseTestCase
     }
 
     /**
+     * @issue  https://github.com/phalcon/cphalcon/issues/16617
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-02
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelAssignReservedSetterColumn(): void
+    {
+        $connection = self::getConnection();
+        (new SourcesMigration($connection));
+
+        $value  = uniqid('src-');
+        $record = new Sources();
+        $record->assign(
+            [
+                'id'       => 1,
+                'username' => 'darth',
+                'source'   => $value,
+            ]
+        );
+
+        $this->assertSame(1, $record->readAttribute('id'));
+        $this->assertSame('darth', $record->readAttribute('username'));
+        $this->assertSame($value, $record->readAttribute('source'));
+        $this->assertSame('co_sources', $record->getSource());
+    }
+
+    /**
      * @issue  https://github.com/phalcon/cphalcon/issues/15739
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-01-29
@@ -176,34 +205,5 @@ final class AssignTest extends AbstractDatabaseTestCase
 
         $result = $invoice->delete();
         $this->assertTrue($result);
-    }
-
-    /**
-     * @issue  https://github.com/phalcon/cphalcon/issues/16617
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-05-02
-     */
-    #[Group('mysql')]
-    #[Group('pgsql')]
-    #[Group('sqlite')]
-    public function testMvcModelAssignReservedSetterColumn(): void
-    {
-        $connection = self::getConnection();
-        (new SourcesMigration($connection));
-
-        $value  = uniqid('src-');
-        $record = new Sources();
-        $record->assign(
-            [
-                'id'       => 1,
-                'username' => 'darth',
-                'source'   => $value,
-            ]
-        );
-
-        $this->assertSame(1, $record->readAttribute('id'));
-        $this->assertSame('darth', $record->readAttribute('username'));
-        $this->assertSame($value, $record->readAttribute('source'));
-        $this->assertSame('co_sources', $record->getSource());
     }
 }

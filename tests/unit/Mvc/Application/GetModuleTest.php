@@ -15,8 +15,8 @@ namespace Phalcon\Tests\Unit\Mvc\Application;
 
 use Phalcon\Application\Exception;
 use Phalcon\Mvc\Application;
-use Phalcon\Tests\Support\Modules\Frontend\Module;
 use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Tests\Support\Modules\Frontend\Module;
 
 class GetModuleTest extends AbstractUnitTestCase
 {

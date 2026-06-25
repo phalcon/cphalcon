@@ -38,6 +38,16 @@ final class FindFirstTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
 
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+
+        /** @var PDO $connection */
+        $connection = self::getConnection();
+        (new InvoicesMigration($connection));
+    }
+
     /**
      * @return array
      */
@@ -65,16 +75,6 @@ final class FindFirstTest extends AbstractDatabaseTestCase
                 false,
             ],
         ];
-    }
-
-    public function setUp(): void
-    {
-        $this->setNewFactoryDefault();
-        $this->setDatabase();
-
-        /** @var PDO $connection */
-        $connection = self::getConnection();
-        (new InvoicesMigration($connection));
     }
 
     /**

@@ -27,6 +27,16 @@ use Phalcon\Tests\Support\Forms\ContactFormSettersGetters;
 
 final class FormsTest extends AbstractUnitTestCase
 {
+    public function testElementAppendMessage(): void
+    {
+        $element = new Select('test-select');
+
+        $element->appendMessage(
+            new Message('')
+        );
+
+        $this->assertCount(1, $element->getMessages());
+    }
     public function testFormElementRender(): void
     {
         $factory = new TagFactory(new Escaper());
@@ -280,16 +290,5 @@ final class FormsTest extends AbstractUnitTestCase
             'hello',
             $entity->getAddress()
         );
-    }
-
-    public function testElementAppendMessage(): void
-    {
-        $element = new Select('test-select');
-
-        $element->appendMessage(
-            new Message('')
-        );
-
-        $this->assertCount(1, $element->getMessages());
     }
 }

@@ -21,7 +21,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 
 final class UserRememberTest extends AbstractUnitTestCase
 {
-
     public function testJsonStringDecodingToNonArrayDegradesGracefully(): void
     {
         $remember = new UserRemember('"just a string"');

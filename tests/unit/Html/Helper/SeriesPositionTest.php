@@ -24,7 +24,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
  */
 final class SeriesPositionTest extends AbstractUnitTestCase
 {
-
     public function testCollidingPositionsAdvancePastOccupiedSlots(): void
     {
         $style = new Style(new Escaper());

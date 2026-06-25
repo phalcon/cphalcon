@@ -34,7 +34,6 @@ use function uniqid;
 
 final class ExceptionsTest extends AbstractUnitTestCase
 {
-
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-01

@@ -39,6 +39,24 @@ final class ColumnTest extends AbstractCollectionTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-12
      */
+    public function testSupportCollectionColumnExtractsFromObjectMethod(): void
+    {
+        $obj = new class {
+            public function name(): string
+            {
+                return 'X';
+            }
+        };
+
+        $collection = new Collection(['a' => $obj]);
+
+        $this->assertSame(['a' => 'X'], $collection->column('name'));
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-12
+     */
     public function testSupportCollectionColumnExtractsFromObjectProperty(): void
     {
         $row1       = new stdClass();
@@ -52,24 +70,6 @@ final class ColumnTest extends AbstractCollectionTestCase
             ['a' => 'Alice', 'b' => 'Bob'],
             $collection->column('name')
         );
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-05-12
-     */
-    public function testSupportCollectionColumnExtractsFromObjectMethod(): void
-    {
-        $obj = new class {
-            public function name(): string
-            {
-                return 'X';
-            }
-        };
-
-        $collection = new Collection(['a' => $obj]);
-
-        $this->assertSame(['a' => 'X'], $collection->column('name'));
     }
 
     /**

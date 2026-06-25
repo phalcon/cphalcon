@@ -21,7 +21,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 
 final class VersionTest extends AbstractUnitTestCase
 {
-
     public function testIncompatibleVersionThrows(): void
     {
         $backend = new StorageMemory(new SerializerFactory());

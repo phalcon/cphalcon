@@ -157,6 +157,27 @@ final class ResizeTest extends AbstractUnitTestCase
     }
 
     /**
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2018-11-13
+     */
+    #[DataProvider('getExamplesExceptions')]
+    public function testImageAdapterGdResizeExceptions(
+        int $master,
+        ?int $height,
+        ?int $width,
+        string $message
+    ): void {
+        $this->checkJpegSupport();
+
+        $source = supportDir('assets/images/example-jpg.jpg');
+        $image  = new Gd($source);
+
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage($message);
+        $image->resize($width, $height, $master);
+    }
+
+    /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-28
      *
@@ -180,26 +201,5 @@ final class ResizeTest extends AbstractUnitTestCase
         $this->assertSame(127, $color['alpha'], 'Transparent pixel must remain transparent after resize');
 
         $this->safeDeleteFile($output);
-    }
-
-    /**
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2018-11-13
-     */
-    #[DataProvider('getExamplesExceptions')]
-    public function testImageAdapterGdResizeExceptions(
-        int $master,
-        ?int $height,
-        ?int $width,
-        string $message
-    ): void {
-        $this->checkJpegSupport();
-
-        $source = supportDir('assets/images/example-jpg.jpg');
-        $image  = new Gd($source);
-
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage($message);
-        $image->resize($width, $height, $master);
     }
 }

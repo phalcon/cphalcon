@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1480f184ae3bd6be0bb43207c6acfe0c",
+    "content-hash": "77051575802da289d7744f3d8b2f8c54",
     "packages": [],
     "packages-dev": [
         {
@@ -1523,16 +1523,16 @@
         },
         {
             "name": "friendsofphp/php-cs-fixer",
-            "version": "v3.95.10",
+            "version": "v3.95.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer.git",
-                "reference": "93e1ab3e1f153024bd3ab23c8a349556063c6f17"
+                "reference": "35f98e1293283397824d7f349ce5afb8747c3cd5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/93e1ab3e1f153024bd3ab23c8a349556063c6f17",
-                "reference": "93e1ab3e1f153024bd3ab23c8a349556063c6f17",
+                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/35f98e1293283397824d7f349ce5afb8747c3cd5",
+                "reference": "35f98e1293283397824d7f349ce5afb8747c3cd5",
                 "shasum": ""
             },
             "require": {
@@ -1566,7 +1566,7 @@
             "require-dev": {
                 "facile-it/paraunit": "^1.3.1 || ^2.11.0",
                 "infection/infection": "^0.32.7",
-                "justinrainbow/json-schema": "^6.9.0",
+                "justinrainbow/json-schema": "^6.10.0",
                 "keradus/cli-executor": "^2.3",
                 "mikey179/vfsstream": "^1.6.12",
                 "php-coveralls/php-coveralls": "^2.9.1",
@@ -1616,7 +1616,7 @@
             ],
             "support": {
                 "issues": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues",
-                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.95.10"
+                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.95.11"
             },
             "funding": [
                 {
@@ -1624,7 +1624,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-06-19T14:45:22+00:00"
+            "time": "2026-06-25T14:17:04+00:00"
         },
         {
             "name": "graham-campbell/result-type",
@@ -2403,16 +2403,16 @@
         },
         {
             "name": "phalcon/zephir",
-            "version": "dev-development",
+            "version": "1.0.0.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zephir-lang/zephir.git",
-                "reference": "062ed64e2193be07d6830b9095d0b4bacb737908"
+                "reference": "1c9f6026220c9c46836209128ec815f55a7a7e62"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zephir-lang/zephir/zipball/062ed64e2193be07d6830b9095d0b4bacb737908",
-                "reference": "062ed64e2193be07d6830b9095d0b4bacb737908",
+                "url": "https://api.github.com/repos/zephir-lang/zephir/zipball/1c9f6026220c9c46836209128ec815f55a7a7e62",
+                "reference": "1c9f6026220c9c46836209128ec815f55a7a7e62",
                 "shasum": ""
             },
             "require": {
@@ -2437,7 +2437,9 @@
                 "psr/log": "1.1.*",
                 "squizlabs/php_codesniffer": "^4.0"
             },
-            "default-branch": true,
+            "suggest": {
+                "ext-zephir_parser": "Optional native parser used as a fast path; the built-in pure-PHP parser is used when it is absent"
+            },
             "bin": [
                 "zephir"
             ],
@@ -2486,7 +2488,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-06-23T23:29:49+00:00"
+            "time": "2026-06-24T22:34:53+00:00"
         },
         {
             "name": "phar-io/manifest",

@@ -24,6 +24,13 @@ final class CurrentTest extends AbstractDatabaseTestCase
 {
     use ResultsetFixtureTrait;
 
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+        $this->seedResultsetFixture();
+    }
+
     /**
      * A simple resultset hydrates models, a complex one rows, an empty one
      * has no current record.
@@ -37,13 +44,6 @@ final class CurrentTest extends AbstractDatabaseTestCase
             'complex' => ['complex', Row::class],
             'empty'   => ['empty', null],
         ];
-    }
-
-    public function setUp(): void
-    {
-        $this->setNewFactoryDefault();
-        $this->setDatabase();
-        $this->seedResultsetFixture();
     }
 
     /**

@@ -21,7 +21,7 @@ use PHPUnit\Framework\Attributes\Group;
 final class IsInvisibleTest extends AbstractDatabaseTestCase
 {
     /**
-     * Legacy positional constructor - `isInvisible()` defaults to false.
+     * Definition-array with `columns` not an array throws.
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
@@ -29,14 +29,42 @@ final class IsInvisibleTest extends AbstractDatabaseTestCase
     #[Group('mysql')]
     #[Group('pgsql')]
     #[Group('sqlite')]
-    public function testDbIndexLegacyPositionalIsVisible(): void
+    public function testDbIndexDefinitionColumnsMustBeArray(): void
     {
-        $index = new Index('idx_email', ['email'], 'UNIQUE');
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage(
+            "Index definition 'columns' key must be an array"
+        );
 
-        $this->assertSame('idx_email', $index->getName());
-        $this->assertSame(['email'], $index->getColumns());
+        new Index(
+            'idx_bad',
+            [
+                'columns' => 'not_an_array',
+            ]
+        );
+    }
+
+    /**
+     * Definition-array form ignores the third positional `type` argument.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-15
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testDbIndexDefinitionIgnoresPositionalType(): void
+    {
+        $index = new Index(
+            'idx_combo',
+            [
+                'columns' => ['col1'],
+                'type'    => 'UNIQUE',
+            ],
+            'FULLTEXT'
+        );
+
         $this->assertSame('UNIQUE', $index->getType());
-        $this->assertFalse($index->isInvisible());
     }
 
     /**
@@ -64,9 +92,8 @@ final class IsInvisibleTest extends AbstractDatabaseTestCase
         $this->assertSame('UNIQUE', $index->getType());
         $this->assertTrue($index->isInvisible());
     }
-
     /**
-     * Definition-array form ignores the third positional `type` argument.
+     * Legacy positional constructor - `isInvisible()` defaults to false.
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
@@ -74,41 +101,13 @@ final class IsInvisibleTest extends AbstractDatabaseTestCase
     #[Group('mysql')]
     #[Group('pgsql')]
     #[Group('sqlite')]
-    public function testDbIndexDefinitionIgnoresPositionalType(): void
+    public function testDbIndexLegacyPositionalIsVisible(): void
     {
-        $index = new Index(
-            'idx_combo',
-            [
-                'columns' => ['col1'],
-                'type'    => 'UNIQUE',
-            ],
-            'FULLTEXT'
-        );
+        $index = new Index('idx_email', ['email'], 'UNIQUE');
 
+        $this->assertSame('idx_email', $index->getName());
+        $this->assertSame(['email'], $index->getColumns());
         $this->assertSame('UNIQUE', $index->getType());
-    }
-
-    /**
-     * Definition-array with `columns` not an array throws.
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-05-15
-     */
-    #[Group('mysql')]
-    #[Group('pgsql')]
-    #[Group('sqlite')]
-    public function testDbIndexDefinitionColumnsMustBeArray(): void
-    {
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage(
-            "Index definition 'columns' key must be an array"
-        );
-
-        new Index(
-            'idx_bad',
-            [
-                'columns' => 'not_an_array',
-            ]
-        );
+        $this->assertFalse($index->isInvisible());
     }
 }

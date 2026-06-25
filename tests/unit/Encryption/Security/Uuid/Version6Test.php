@@ -38,42 +38,6 @@ final class Version6Test extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-29
      */
-    public function testEncryptionSecurityUuidVersion6Unique(): void
-    {
-        $uuid1 = new Version6();
-        $uuid2 = new Version6();
-
-        $this->assertNotSame((string) $uuid1, (string) $uuid2);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-29
-     */
-    public function testEncryptionSecurityUuidVersion6Sortable(): void
-    {
-        $uuid1 = new Version6();
-        usleep(1000);
-        $uuid2 = new Version6();
-
-        $this->assertLessThan((string) $uuid2, (string) $uuid1);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-29
-     */
-    public function testEncryptionSecurityUuidVersion6ImplementsTimeBasedInterface(): void
-    {
-        $uuid = new Version6();
-
-        $this->assertInstanceOf(TimeBasedUuidInterface::class, $uuid);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-29
-     */
     public function testEncryptionSecurityUuidVersion6GetDateTime(): void
     {
         $before = new DateTimeImmutable();
@@ -96,5 +60,41 @@ final class Version6Test extends AbstractUnitTestCase
         $uuid = new Version6();
 
         $this->assertMatchesRegularExpression('/^[a-f0-9]{12}$/', $uuid->getNode());
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-29
+     */
+    public function testEncryptionSecurityUuidVersion6ImplementsTimeBasedInterface(): void
+    {
+        $uuid = new Version6();
+
+        $this->assertInstanceOf(TimeBasedUuidInterface::class, $uuid);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-29
+     */
+    public function testEncryptionSecurityUuidVersion6Sortable(): void
+    {
+        $uuid1 = new Version6();
+        usleep(1000);
+        $uuid2 = new Version6();
+
+        $this->assertLessThan((string) $uuid2, (string) $uuid1);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-29
+     */
+    public function testEncryptionSecurityUuidVersion6Unique(): void
+    {
+        $uuid1 = new Version6();
+        $uuid2 = new Version6();
+
+        $this->assertNotSame((string) $uuid1, (string) $uuid2);
     }
 }

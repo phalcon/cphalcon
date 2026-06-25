@@ -105,20 +105,18 @@ final class BindTest extends AbstractUnitTestCase
     }
 
     /**
-     * Issue #15957 - Radio elements registered under distinct form-element
-     * identifiers but sharing the same HTML "name" attribute must bind to
-     * the entity using the HTML name as the property key.
+     * Issue #16982 - When the checkbox IS submitted, the explicit POST value
+     * must win over the registered unchecked value.
      */
-    public function testFormsFormBindRadioWithSharedHtmlName(): void
+    public function testFormsFormBindCheckboxExplicitValueWinsOverUncheckedDefault(): void
     {
         $form = new Form();
-        $form->add(new Radio('r0', ['name' => 'banned', 'value' => 'no']));
-        $form->add(new Radio('r1', ['name' => 'banned', 'value' => 'yes']));
+        $form->add((new Check('ours'))->setUncheckedValue(0));
 
         $entity = new stdClass();
-        $form->bind(['banned' => 'yes'], $entity);
+        $form->bind(['ours' => 'on'], $entity);
 
-        $this->assertEquals('yes', $entity->banned);
+        $this->assertSame('on', $entity->ours);
     }
 
     /**
@@ -155,21 +153,6 @@ final class BindTest extends AbstractUnitTestCase
     }
 
     /**
-     * Issue #16982 - When the checkbox IS submitted, the explicit POST value
-     * must win over the registered unchecked value.
-     */
-    public function testFormsFormBindCheckboxExplicitValueWinsOverUncheckedDefault(): void
-    {
-        $form = new Form();
-        $form->add((new Check('ours'))->setUncheckedValue(0));
-
-        $entity = new stdClass();
-        $form->bind(['ours' => 'on'], $entity);
-
-        $this->assertSame('on', $entity->ours);
-    }
-
-    /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2024-01-01
      */
@@ -180,5 +163,22 @@ final class BindTest extends AbstractUnitTestCase
 
         $form = new Form();
         $form->bind(['key' => 'value']);
+    }
+
+    /**
+     * Issue #15957 - Radio elements registered under distinct form-element
+     * identifiers but sharing the same HTML "name" attribute must bind to
+     * the entity using the HTML name as the property key.
+     */
+    public function testFormsFormBindRadioWithSharedHtmlName(): void
+    {
+        $form = new Form();
+        $form->add(new Radio('r0', ['name' => 'banned', 'value' => 'no']));
+        $form->add(new Radio('r1', ['name' => 'banned', 'value' => 'yes']));
+
+        $entity = new stdClass();
+        $form->bind(['banned' => 'yes'], $entity);
+
+        $this->assertEquals('yes', $entity->banned);
     }
 }

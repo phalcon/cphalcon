@@ -57,4 +57,18 @@ final class ConstructTest extends AbstractUnitTestCase
         $actual = $container->get($service, $params);
         $this->assertInstanceOf($class, $actual);
     }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    #[DataProvider('getServices')]
+    public function testDiFactoryDefaultCliConstructServicesShared(
+        string $service,
+        string $class
+    ): void {
+        $container = new Cli();
+
+        $this->assertTrue($container->getService($service)->isShared());
+    }
 }

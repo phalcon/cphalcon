@@ -21,7 +21,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 
 final class GetSetPrefixTest extends AbstractUnitTestCase
 {
-
     /**
      * Tests that the Url service injected in the constructor resolves links
      * through url->get(), which handles base URI prepending and double-slash

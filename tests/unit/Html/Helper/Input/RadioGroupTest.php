@@ -20,7 +20,6 @@ use const PHP_EOL;
 
 final class RadioGroupTest extends AbstractUnitTestCase
 {
-
     public function testAutoGeneratesIdFromNameAndValue(): void
     {
         $helper = $this->helper();

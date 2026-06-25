@@ -18,7 +18,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 
 final class SelectStrictAndPlaceholderTest extends AbstractUnitTestCase
 {
-
     public function testPlaceholderRendersDisabledSelectedFirstOption(): void
     {
         $select = new Select(new Escaper(), new Doctype());

@@ -22,6 +22,13 @@ final class SeekTest extends AbstractDatabaseTestCase
 {
     use ResultsetFixtureTrait;
 
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+        $this->seedResultsetFixture();
+    }
+
     /**
      * seek() moves the cursor to a given position; seeking inside an empty
      * resultset leaves it invalid, so key() is null.
@@ -35,13 +42,6 @@ final class SeekTest extends AbstractDatabaseTestCase
             'complex' => ['complex', 2, 2],
             'empty'   => ['empty', 0, null],
         ];
-    }
-
-    public function setUp(): void
-    {
-        $this->setNewFactoryDefault();
-        $this->setDatabase();
-        $this->seedResultsetFixture();
     }
 
     /**

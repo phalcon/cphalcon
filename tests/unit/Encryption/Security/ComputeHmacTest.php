@@ -21,20 +21,6 @@ use PHPUnit\Framework\Attributes\DataProvider;
 final class ComputeHmacTest extends AbstractUnitTestCase
 {
     /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2022-08-25
-     */
-    public function testEncryptionSecurityComputeHmacUnknownAlgorithmException(): void
-    {
-        $security = new Security();
-
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage('Unknown hashing algorithm: unknown-algo');
-
-        $security->computeHmac('data', 'key', 'unknown-algo');
-    }
-
-    /**
      * @return array
      */
     public static function hmacProvider(): array
@@ -79,5 +65,18 @@ final class ComputeHmacTest extends AbstractUnitTestCase
             hash_hmac('md5', $text, $keys[2]),
             $security->computeHmac($text, $keys[2], 'md5')
         );
+    }
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2022-08-25
+     */
+    public function testEncryptionSecurityComputeHmacUnknownAlgorithmException(): void
+    {
+        $security = new Security();
+
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Unknown hashing algorithm: unknown-algo');
+
+        $security->computeHmac('data', 'key', 'unknown-algo');
     }
 }

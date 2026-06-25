@@ -21,7 +21,6 @@ use Phalcon\Http\RequestInterface;
 
 final class FakeRequest implements RequestInterface
 {
-
     /**
      * @var array<string, string>|null
      */

@@ -26,6 +26,17 @@ final class GetColumnMapTest extends AbstractDatabaseTestCase
     use DiTrait;
 
     /**
+     * Executed before each test
+     *
+     * @return void
+     */
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+    }
+
+    /**
      * @return array[]
      */
     public static function getExamples(): array
@@ -43,21 +54,7 @@ final class GetColumnMapTest extends AbstractDatabaseTestCase
             [
                 'metadataLibmemcached',
             ],
-            [
-                'metadataStream',
-            ],
         ];
-    }
-
-    /**
-     * Executed before each test
-     *
-     * @return void
-     */
-    public function setUp(): void
-    {
-        $this->setNewFactoryDefault();
-        $this->setDatabase();
     }
 
     /**

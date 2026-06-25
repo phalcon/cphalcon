@@ -39,23 +39,6 @@ final class IsForeignKeyTest extends AbstractDatabaseTestCase
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-04-18
      */
-    public function testMvcModelRelationIsForeignKeyFalseWhenExplicitlyFalse(): void
-    {
-        $relation = new Relation(
-            Relation::HAS_MANY,
-            'RobotsParts',
-            'id',
-            'robots_id',
-            ['foreignKey' => false]
-        );
-
-        $this->assertFalse($relation->isForeignKey());
-    }
-
-    /**
-     * @author Sid Roberts <https://github.com/SidRoberts>
-     * @since  2019-04-18
-     */
     public function testMvcModelRelationIsForeignKeyFalseWhenEmptyArray(): void
     {
         $relation = new Relation(
@@ -73,17 +56,17 @@ final class IsForeignKeyTest extends AbstractDatabaseTestCase
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-04-18
      */
-    public function testMvcModelRelationIsForeignKeyTrueWhenTrue(): void
+    public function testMvcModelRelationIsForeignKeyFalseWhenExplicitlyFalse(): void
     {
         $relation = new Relation(
             Relation::HAS_MANY,
             'RobotsParts',
             'id',
             'robots_id',
-            ['foreignKey' => true]
+            ['foreignKey' => false]
         );
 
-        $this->assertTrue($relation->isForeignKey());
+        $this->assertFalse($relation->isForeignKey());
     }
 
     /**
@@ -102,6 +85,23 @@ final class IsForeignKeyTest extends AbstractDatabaseTestCase
                     'message' => 'The part_id does not exist on the Parts model',
                 ],
             ]
+        );
+
+        $this->assertTrue($relation->isForeignKey());
+    }
+
+    /**
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-04-18
+     */
+    public function testMvcModelRelationIsForeignKeyTrueWhenTrue(): void
+    {
+        $relation = new Relation(
+            Relation::HAS_MANY,
+            'RobotsParts',
+            'id',
+            'robots_id',
+            ['foreignKey' => true]
         );
 
         $this->assertTrue($relation->isForeignKey());

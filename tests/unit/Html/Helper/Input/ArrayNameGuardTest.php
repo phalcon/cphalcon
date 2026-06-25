@@ -25,7 +25,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
  */
 final class ArrayNameGuardTest extends AbstractUnitTestCase
 {
-
     public function testArrayNameExplicitIdOverridesGuard(): void
     {
         $helper = new Checkbox(new Escaper(), new Doctype());

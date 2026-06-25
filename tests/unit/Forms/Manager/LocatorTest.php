@@ -20,24 +20,31 @@ use stdClass;
 
 final class LocatorTest extends AbstractUnitTestCase
 {
-    private function schema(): ArrayLoader
-    {
-        return new ArrayLoader([
-            ['type' => 'email',    'name' => 'email'],
-            ['type' => 'password', 'name' => 'password'],
-        ]);
-    }
-
-    // -----------------------------------------------------------------------
-    // Constructor / getLocator
-    // -----------------------------------------------------------------------
-
-    public function testManagerReturnsLocator(): void
+    public function testLoadFormLocatorCachesFormWithoutEntity(): void
     {
         $locator = new FormsLocator();
         $manager = new Manager($locator);
 
-        $this->assertSame($locator, $manager->getLocator());
+        $manager->loadForm('login', $this->schema());
+
+        $form1 = $locator->get('login');
+        $form2 = $locator->get('login');
+
+        $this->assertSame($form1, $form2);
+    }
+
+    public function testLoadFormLocatorCanProduceFreshFormWithEntity(): void
+    {
+        $locator = new FormsLocator();
+        $manager = new Manager($locator);
+        $entity  = new stdClass();
+
+        $manager->loadForm('login', $this->schema());
+
+        $form = $locator->get('login', $entity);
+
+        $this->assertInstanceOf(Form::class, $form);
+        $this->assertSame($entity, $form->getEntity());
     }
 
     // -----------------------------------------------------------------------
@@ -55,31 +62,16 @@ final class LocatorTest extends AbstractUnitTestCase
         $this->assertTrue($locator->has('login'));
     }
 
-    public function testLoadFormLocatorCanProduceFreshFormWithEntity(): void
-    {
-        $locator = new FormsLocator();
-        $manager = new Manager($locator);
-        $entity  = new stdClass();
+    // -----------------------------------------------------------------------
+    // Constructor / getLocator
+    // -----------------------------------------------------------------------
 
-        $manager->loadForm('login', $this->schema());
-
-        $form = $locator->get('login', $entity);
-
-        $this->assertInstanceOf(Form::class, $form);
-        $this->assertSame($entity, $form->getEntity());
-    }
-
-    public function testLoadFormLocatorCachesFormWithoutEntity(): void
+    public function testManagerReturnsLocator(): void
     {
         $locator = new FormsLocator();
         $manager = new Manager($locator);
 
-        $manager->loadForm('login', $this->schema());
-
-        $form1 = $locator->get('login');
-        $form2 = $locator->get('login');
-
-        $this->assertSame($form1, $form2);
+        $this->assertSame($locator, $manager->getLocator());
     }
 
     // -----------------------------------------------------------------------
@@ -95,5 +87,12 @@ final class LocatorTest extends AbstractUnitTestCase
 
         $this->assertTrue($locator->has('login'));
         $this->assertInstanceOf(Form::class, $locator->get('login'));
+    }
+    private function schema(): ArrayLoader
+    {
+        return new ArrayLoader([
+            ['type' => 'email',    'name' => 'email'],
+            ['type' => 'password', 'name' => 'password'],
+        ]);
     }
 }

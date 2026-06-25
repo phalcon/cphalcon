@@ -48,7 +48,7 @@
     "friendsofphp/php-cs-fixer": "^3.95",
     "mustache/mustache": "^3.2",
     "phalcon/ide-stubs": "^5.13.0",
-    "phalcon/zephir": "dev-development",
+    "phalcon/zephir": "1.0.0.x-dev",
     "phpstan/phpstan": "^2.2",
     "phpunit/phpunit": "^10.5",
     "predis/predis": "^3.4",

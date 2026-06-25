@@ -50,14 +50,6 @@ final class RedisDelayedTest extends AbstractUnitTestCase
         }
     }
 
-    public function testDeliveryDelayIsAcceptedAndReported(): void
-    {
-        $producer = $this->createContext()->createProducer();
-
-        $this->assertSame($producer, $producer->setDeliveryDelay(500));
-        $this->assertSame(500, $producer->getDeliveryDelay());
-    }
-
     public function testDelayedMessageIsReleasedOnlyWhenDue(): void
     {
         $context  = $this->createContext();
@@ -78,6 +70,14 @@ final class RedisDelayedTest extends AbstractUnitTestCase
 
         $this->assertNotNull($message);
         $this->assertSame('later', $message->getBody());
+    }
+
+    public function testDeliveryDelayIsAcceptedAndReported(): void
+    {
+        $producer = $this->createContext()->createProducer();
+
+        $this->assertSame($producer, $producer->setDeliveryDelay(500));
+        $this->assertSame(500, $producer->getDeliveryDelay());
     }
 
     public function testSetPriorityThrows(): void

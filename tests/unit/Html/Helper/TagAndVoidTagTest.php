@@ -20,7 +20,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 
 final class TagAndVoidTagTest extends AbstractUnitTestCase
 {
-
     public function testFactoryRegistersTagAndVoidTag(): void
     {
         $factory = new TagFactory(new Escaper());

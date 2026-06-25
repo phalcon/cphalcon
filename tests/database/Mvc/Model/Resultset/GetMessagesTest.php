@@ -22,6 +22,13 @@ final class GetMessagesTest extends AbstractDatabaseTestCase
 {
     use ResultsetFixtureTrait;
 
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+        $this->seedResultsetFixture();
+    }
+
     /**
      * @return array<string, array{0: string}>
      */
@@ -32,13 +39,6 @@ final class GetMessagesTest extends AbstractDatabaseTestCase
             'complex' => ['complex'],
             'empty'   => ['empty'],
         ];
-    }
-
-    public function setUp(): void
-    {
-        $this->setNewFactoryDefault();
-        $this->setDatabase();
-        $this->seedResultsetFixture();
     }
 
     /**

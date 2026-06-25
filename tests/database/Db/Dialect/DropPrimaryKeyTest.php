@@ -43,26 +43,6 @@ final class DropPrimaryKeyTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Db\Dialect :: dropPrimaryKey - sqlite throws exception
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2020-01-20
-     */
-    #[Group('sqlite')]
-    public function testDbDialectDropPrimaryKeySqlite(): void
-    {
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage(
-            'Removing a primary key after table has been created '
-            . 'is not supported by SQLite'
-        );
-
-        $dialect = new Sqlite();
-
-        $dialect->dropPrimaryKey('table', 'schema');
-    }
-
-    /**
      * Tests Phalcon\Db\Dialect :: dropPrimaryKey
      *
      * @author       Phalcon Team <team@phalcon.io>
@@ -81,5 +61,25 @@ final class DropPrimaryKeyTest extends AbstractDatabaseTestCase
 
         $actual = $dialect->dropPrimaryKey('table', 'schema');
         $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Db\Dialect :: dropPrimaryKey - sqlite throws exception
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-01-20
+     */
+    #[Group('sqlite')]
+    public function testDbDialectDropPrimaryKeySqlite(): void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage(
+            'Removing a primary key after table has been created '
+            . 'is not supported by SQLite'
+        );
+
+        $dialect = new Sqlite();
+
+        $dialect->dropPrimaryKey('table', 'schema');
     }
 }

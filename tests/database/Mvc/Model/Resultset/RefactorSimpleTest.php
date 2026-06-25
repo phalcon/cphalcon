@@ -30,7 +30,7 @@ final class RefactorSimpleTest extends AbstractDatabaseTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-02
      */
-    public function testShouldLoadResultsetWithBindingFromCache(): void
+    public function testShouldLoadResultsetFromLibmemcached(): void
     {
         $this->markTestSkipped('Needs review - tocheck after migration');
     }
@@ -39,7 +39,7 @@ final class RefactorSimpleTest extends AbstractDatabaseTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-02
      */
-    public function testShouldLoadResultsetFromLibmemcached(): void
+    public function testShouldLoadResultsetWithBindingFromCache(): void
     {
         $this->markTestSkipped('Needs review - tocheck after migration');
     }

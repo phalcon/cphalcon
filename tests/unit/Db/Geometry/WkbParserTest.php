@@ -28,28 +28,24 @@ final class WkbParserTest extends AbstractUnitTestCase
     private const D1 = "000000000000F03F"; // 1.0
     private const D2 = "0000000000000040"; // 2.0
 
-    public function testMysqlPoint(): void
+    public function testInvalidThrows(): void
     {
-        // SRID(0) + bo(LE) + type(1) + X(1) + Y(2)
-        $raw  = hex2bin("00000000" . "01" . "01000000" . self::D1 . self::D2);
-        $geom = (new WkbParser())->parse($raw);
+        $this->expectException(InvalidWkb::class);
 
-        $this->assertInstanceOf(Point::class, $geom);
-        $this->assertSame(0, $geom->getSrid());
-        $this->assertSame(1.0, $geom->getX());
-        $this->assertSame(2.0, $geom->getY());
+        (new WkbParser())->parse("zz"); // not hex, too short for MySQL prefix
     }
 
-    public function testPostgisEwkbPointWithSrid(): void
+    public function testMysqlGeometryCollection(): void
     {
-        // EWKB hex (as PostGIS returns it): bo + (type|SRID flag) + srid(4326) + X(1) + Y(2)
-        $raw  = "0101000020E6100000" . self::D1 . self::D2;
+        $point = "01" . "01000000" . self::D1 . self::D2; // POINT(1 2)
+        $raw   = hex2bin("00000000" . "01" . "07000000" . "01000000" . $point);
+
         $geom = (new WkbParser())->parse($raw);
 
-        $this->assertInstanceOf(Point::class, $geom);
-        $this->assertSame(4326, $geom->getSrid());
-        $this->assertSame(1.0, $geom->getX());
-        $this->assertSame(2.0, $geom->getY());
+        $this->assertInstanceOf(GeometryCollection::class, $geom);
+        $this->assertCount(1, $geom->getGeometries());
+        $this->assertInstanceOf(Point::class, $geom->getGeometries()[0]);
+        $this->assertSame(2.0, $geom->getGeometries()[0]->getY());
     }
 
     public function testMysqlLineString(): void
@@ -82,23 +78,27 @@ final class WkbParserTest extends AbstractUnitTestCase
         $this->assertSame(1.0, $geom->getPoints()[1]->getX());
     }
 
-    public function testMysqlGeometryCollection(): void
+    public function testMysqlPoint(): void
     {
-        $point = "01" . "01000000" . self::D1 . self::D2; // POINT(1 2)
-        $raw   = hex2bin("00000000" . "01" . "07000000" . "01000000" . $point);
-
+        // SRID(0) + bo(LE) + type(1) + X(1) + Y(2)
+        $raw  = hex2bin("00000000" . "01" . "01000000" . self::D1 . self::D2);
         $geom = (new WkbParser())->parse($raw);
 
-        $this->assertInstanceOf(GeometryCollection::class, $geom);
-        $this->assertCount(1, $geom->getGeometries());
-        $this->assertInstanceOf(Point::class, $geom->getGeometries()[0]);
-        $this->assertSame(2.0, $geom->getGeometries()[0]->getY());
+        $this->assertInstanceOf(Point::class, $geom);
+        $this->assertSame(0, $geom->getSrid());
+        $this->assertSame(1.0, $geom->getX());
+        $this->assertSame(2.0, $geom->getY());
     }
 
-    public function testInvalidThrows(): void
+    public function testPostgisEwkbPointWithSrid(): void
     {
-        $this->expectException(InvalidWkb::class);
+        // EWKB hex (as PostGIS returns it): bo + (type|SRID flag) + srid(4326) + X(1) + Y(2)
+        $raw  = "0101000020E6100000" . self::D1 . self::D2;
+        $geom = (new WkbParser())->parse($raw);
 
-        (new WkbParser())->parse("zz"); // not hex, too short for MySQL prefix
+        $this->assertInstanceOf(Point::class, $geom);
+        $this->assertSame(4326, $geom->getSrid());
+        $this->assertSame(1.0, $geom->getX());
+        $this->assertSame(2.0, $geom->getY());
     }
 }

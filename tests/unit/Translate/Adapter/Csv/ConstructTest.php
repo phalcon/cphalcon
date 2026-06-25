@@ -19,8 +19,8 @@ use Phalcon\Tests\Unit\Translate\Fake\FakeCsvFopen;
 use Phalcon\Tests\Unit\Translate\Fake\TranslateCsvTrait;
 use Phalcon\Translate\Adapter\AdapterInterface;
 use Phalcon\Translate\Adapter\Csv;
-use Phalcon\Translate\Exceptions\MissingRequiredParameter;
 use Phalcon\Translate\Exceptions\FileOpenError;
+use Phalcon\Translate\Exceptions\MissingRequiredParameter;
 use Phalcon\Translate\InterpolatorFactory;
 
 use function supportDir;

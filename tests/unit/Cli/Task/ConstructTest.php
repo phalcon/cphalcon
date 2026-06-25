@@ -23,6 +23,22 @@ use Phalcon\Tests\Support\Tasks\OnConstructTask;
 
 final class ConstructTest extends AbstractUnitTestCase
 {
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2018-11-13
+     */
+    public function testCliTaskConstruct(): void
+    {
+        $task = new Task();
+
+        $class = Task::class;
+        $this->assertInstanceOf($class, $task);
+
+        $task = new OnConstructTask();
+
+        $actual = $task->onConstructExecuted;
+        $this->assertTrue($actual);
+    }
     public function testEchoTask(): void
     {
         $task = new EchoTask();
@@ -60,22 +76,5 @@ final class ConstructTest extends AbstractUnitTestCase
         $expected = 'Hello World!';
         $actual   = $task->helloAction('World');
         $this->assertSame($expected, $actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
-     */
-    public function testCliTaskConstruct(): void
-    {
-        $task = new Task();
-
-        $class = Task::class;
-        $this->assertInstanceOf($class, $task);
-
-        $task = new OnConstructTask();
-
-        $actual = $task->onConstructExecuted;
-        $this->assertTrue($actual);
     }
 }

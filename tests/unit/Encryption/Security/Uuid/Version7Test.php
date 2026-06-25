@@ -36,18 +36,6 @@ final class Version7Test extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-29
      */
-    public function testEncryptionSecurityUuidVersion7Unique(): void
-    {
-        $uuid1 = new Version7();
-        $uuid2 = new Version7();
-
-        $this->assertNotSame((string) $uuid1, (string) $uuid2);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-29
-     */
     public function testEncryptionSecurityUuidVersion7Sortable(): void
     {
         $uuid1 = new Version7();
@@ -55,5 +43,17 @@ final class Version7Test extends AbstractUnitTestCase
         $uuid2 = new Version7();
 
         $this->assertLessThan((string) $uuid2, (string) $uuid1);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-29
+     */
+    public function testEncryptionSecurityUuidVersion7Unique(): void
+    {
+        $uuid1 = new Version7();
+        $uuid2 = new Version7();
+
+        $this->assertNotSame((string) $uuid1, (string) $uuid2);
     }
 }

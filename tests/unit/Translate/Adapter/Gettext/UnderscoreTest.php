@@ -19,8 +19,8 @@ use Phalcon\Tests\Unit\Translate\Fake\TranslateGettextTrait;
 
 final class UnderscoreTest extends AbstractUnitTestCase
 {
-    use TranslateGettextTrait;
     use TranslateGettextHelperTrait;
+    use TranslateGettextTrait;
 
     /**
      * @return string

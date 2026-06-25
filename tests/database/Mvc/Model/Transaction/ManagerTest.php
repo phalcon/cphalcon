@@ -88,6 +88,76 @@ final class ManagerTest extends AbstractDatabaseTestCase
 
     /**
      * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-21
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelTransactionManagerCommitRollbackCycle(): void
+    {
+        $tm          = $this->container->getShared('transactionManager');
+        $countBefore = Select::count();
+
+        $transaction = $tm->get();
+
+        $select = new Select();
+        $select->setTransaction($transaction);
+        $select->assign(['sel_name' => 'Cycle One']);
+        $select->create();
+
+        $tm->commit();
+
+        $countAfterCommit = Select::count();
+        $this->assertSame($countBefore + 1, $countAfterCommit);
+
+        $transaction = $tm->get();
+
+        $select = new Select();
+        $select->setTransaction($transaction);
+        $select->assign(['sel_name' => 'Cycle Two']);
+        $select->create();
+
+        $tm->rollback();
+
+        $stmt             = self::getConnection()->query('SELECT COUNT(*) FROM ph_select');
+        $countAfterRollback = (int) $stmt->fetchColumn();
+        $this->assertSame($countAfterCommit, $countAfterRollback);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-21
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelTransactionManagerCommitViaManagerClearsTransaction(): void
+    {
+        $tm = $this->container->getShared('transactionManager');
+
+        $transaction = $tm->get();
+
+        $select = new Select();
+        $select->setTransaction($transaction);
+        $select->assign(['sel_name' => 'Test One']);
+        $select->create();
+
+        $this->assertSame(1, $this->getProtectedProperty($tm, 'number'));
+        $this->assertCount(1, $this->getProtectedProperty($tm, 'transactions'));
+
+        $tm->commit();
+
+        $this->assertSame(0, $this->getProtectedProperty($tm, 'number'));
+        $this->assertCount(0, $this->getProtectedProperty($tm, 'transactions'));
+
+        $newTransaction = $tm->get();
+
+        $this->assertTrue($newTransaction->isValid());
+        $this->assertNotSame($transaction, $newTransaction);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2012-08-07
      */
     #[Group('mysql')]
@@ -132,76 +202,6 @@ final class ManagerTest extends AbstractDatabaseTestCase
             0,
             $this->getProtectedProperty($tm, 'transactions')
         );
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-21
-     */
-    #[Group('mysql')]
-    #[Group('pgsql')]
-    #[Group('sqlite')]
-    public function testMvcModelTransactionManagerCommitViaManagerClearsTransaction(): void
-    {
-        $tm = $this->container->getShared('transactionManager');
-
-        $transaction = $tm->get();
-
-        $select = new Select();
-        $select->setTransaction($transaction);
-        $select->assign(['sel_name' => 'Test One']);
-        $select->create();
-
-        $this->assertSame(1, $this->getProtectedProperty($tm, 'number'));
-        $this->assertCount(1, $this->getProtectedProperty($tm, 'transactions'));
-
-        $tm->commit();
-
-        $this->assertSame(0, $this->getProtectedProperty($tm, 'number'));
-        $this->assertCount(0, $this->getProtectedProperty($tm, 'transactions'));
-
-        $newTransaction = $tm->get();
-
-        $this->assertTrue($newTransaction->isValid());
-        $this->assertNotSame($transaction, $newTransaction);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-21
-     */
-    #[Group('mysql')]
-    #[Group('pgsql')]
-    #[Group('sqlite')]
-    public function testMvcModelTransactionManagerCommitRollbackCycle(): void
-    {
-        $tm          = $this->container->getShared('transactionManager');
-        $countBefore = Select::count();
-
-        $transaction = $tm->get();
-
-        $select = new Select();
-        $select->setTransaction($transaction);
-        $select->assign(['sel_name' => 'Cycle One']);
-        $select->create();
-
-        $tm->commit();
-
-        $countAfterCommit = Select::count();
-        $this->assertSame($countBefore + 1, $countAfterCommit);
-
-        $transaction = $tm->get();
-
-        $select = new Select();
-        $select->setTransaction($transaction);
-        $select->assign(['sel_name' => 'Cycle Two']);
-        $select->create();
-
-        $tm->rollback();
-
-        $stmt             = self::getConnection()->query('SELECT COUNT(*) FROM ph_select');
-        $countAfterRollback = (int) $stmt->fetchColumn();
-        $this->assertSame($countAfterCommit, $countAfterRollback);
     }
 
     /**

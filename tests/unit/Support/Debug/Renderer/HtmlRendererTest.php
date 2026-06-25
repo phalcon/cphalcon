@@ -45,14 +45,6 @@ final class HtmlRendererTest extends AbstractUnitTestCase
         $this->assertSame($expected, (new HtmlRenderer())->getJsSources($uri));
     }
 
-    public function testSetTemplateOverridesDefault(): void
-    {
-        $renderer = new HtmlRenderer();
-        $renderer->setTemplate('version', 'OVERRIDDEN');
-
-        $this->assertSame('OVERRIDDEN', $renderer->getTemplate('version'));
-    }
-
     public function testRenderNoBacktraceDocument(): void
     {
         $exception = new Exception('exception message', 1234);
@@ -93,6 +85,49 @@ final class HtmlRendererTest extends AbstractUnitTestCase
         $this->assertStringEndsWith('</html>', $actual);
     }
 
+    public function testRenderSignatureLinksAndArgs(): void
+    {
+        $arg    = uniqid('var-');
+        $report = new ExceptionReport('My\\Ex', 'boom', '/app/x.php', 5, true, self::URI);
+        $report->setBacktrace(
+            [
+                new BacktraceItem(
+                    'methodA',
+                    '->',
+                    'My\\Service',
+                    'https://docs.example/My_Service',
+                    null,
+                    true,
+                    [$arg],
+                    '/app/x.php',
+                    5,
+                    null
+                ),
+                new BacktraceItem(
+                    'array_map',
+                    null,
+                    null,
+                    null,
+                    'https://secure.php.net/manual/en/function.array-map.php',
+                    false,
+                    [],
+                    null,
+                    null,
+                    null
+                ),
+            ]
+        );
+
+        $actual = (new HtmlRenderer())->render($report);
+
+        $this->assertStringContainsString("href='https://docs.example/My_Service'", $actual);
+        $this->assertStringContainsString(
+            "href='https://secure.php.net/manual/en/function.array-map.php'",
+            $actual
+        );
+        $this->assertStringContainsString($arg, $actual);
+    }
+
     public function testRenderWithBacktraceContainsTabs(): void
     {
         $exception = new Exception('exception message', 1234);
@@ -113,6 +148,14 @@ final class HtmlRendererTest extends AbstractUnitTestCase
         $this->assertStringContainsString("data-tab='memory'", $actual);
         $this->assertStringContainsString("id='backtrace'", $actual);
         $this->assertStringContainsString("<details class='frame", $actual);
+    }
+
+    public function testSetTemplateOverridesDefault(): void
+    {
+        $renderer = new HtmlRenderer();
+        $renderer->setTemplate('version', 'OVERRIDDEN');
+
+        $this->assertSame('OVERRIDDEN', $renderer->getTemplate('version'));
     }
 
     public function testVarDumpAndArrayDumpBranches(): void
@@ -161,48 +204,5 @@ final class HtmlRendererTest extends AbstractUnitTestCase
         $this->assertStringContainsString('Array(', (string)$renderer->dumpVar([[[['deep']]]]));
 
         fclose($resource);
-    }
-
-    public function testRenderSignatureLinksAndArgs(): void
-    {
-        $arg    = uniqid('var-');
-        $report = new ExceptionReport('My\\Ex', 'boom', '/app/x.php', 5, true, self::URI);
-        $report->setBacktrace(
-            [
-                new BacktraceItem(
-                    'methodA',
-                    '->',
-                    'My\\Service',
-                    'https://docs.example/My_Service',
-                    null,
-                    true,
-                    [$arg],
-                    '/app/x.php',
-                    5,
-                    null
-                ),
-                new BacktraceItem(
-                    'array_map',
-                    null,
-                    null,
-                    null,
-                    'https://secure.php.net/manual/en/function.array-map.php',
-                    false,
-                    [],
-                    null,
-                    null,
-                    null
-                ),
-            ]
-        );
-
-        $actual = (new HtmlRenderer())->render($report);
-
-        $this->assertStringContainsString("href='https://docs.example/My_Service'", $actual);
-        $this->assertStringContainsString(
-            "href='https://secure.php.net/manual/en/function.array-map.php'",
-            $actual
-        );
-        $this->assertStringContainsString($arg, $actual);
     }
 }

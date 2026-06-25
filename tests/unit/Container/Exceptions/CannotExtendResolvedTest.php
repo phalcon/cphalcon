@@ -11,7 +11,6 @@ use Throwable;
 
 final class CannotExtendResolvedTest extends AbstractUnitTestCase
 {
-
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-18

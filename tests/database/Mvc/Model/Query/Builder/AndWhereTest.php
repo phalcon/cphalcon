@@ -25,6 +25,12 @@ final class AndWhereTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
 
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+    }
+
     /**
      * andWhere()/orWhere() nest the new condition onto the current one with
      * the matching glue.
@@ -37,12 +43,6 @@ final class AndWhereTest extends AbstractDatabaseTestCase
             'andWhere' => ['andWhere', 'AND'],
             'orWhere'  => ['orWhere', 'OR'],
         ];
-    }
-
-    public function setUp(): void
-    {
-        $this->setNewFactoryDefault();
-        $this->setDatabase();
     }
 
     /**

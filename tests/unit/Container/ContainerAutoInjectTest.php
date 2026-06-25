@@ -40,7 +40,6 @@ use stdClass;
 
 final class ContainerAutoInjectTest extends AbstractUnitTestCase
 {
-
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-19

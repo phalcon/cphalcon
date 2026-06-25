@@ -13,8 +13,8 @@ namespace Phalcon\Tests\Unit\Mvc\Micro\Refactor;
 
 use Phalcon\Mvc\Micro;
 use Phalcon\Mvc\Micro\Collection;
-use Phalcon\Tests\Support\Controllers\Micro\Collections\PersonasController;
 use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Tests\Support\Controllers\Micro\Collections\PersonasController;
 
 class MicroMvcCollectionsTest extends AbstractUnitTestCase
 {

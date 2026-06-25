@@ -23,6 +23,30 @@ final class UseCacheTest extends AbstractUnitTestCase
     use RouterTrait;
 
     /**
+     * Cache hit: useCache restores from cache without needing routes added.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-21
+     */
+    public function testCacheHitRestoresWithoutAddingRoutes(): void
+    {
+        $cache = $this->newMemoryCache();
+        $key   = 'phalcon.router.dispatcher';
+
+        $primer = $this->getRouter(false);
+        $primer->add('/about', ['controller' => 'about']);
+        $cache->set($key, $primer->buildDispatcherDump());
+
+        $router = $this->getRouter(false);
+        $router->useCache($cache, $key);
+
+        $router->handle('/about');
+
+        $this->assertTrue($router->wasMatched());
+        $this->assertSame('about', $router->getControllerName());
+    }
+
+    /**
      * Cache miss: after handle(), the dispatcher is written to the cache.
      *
      * @author Phalcon Team <team@phalcon.io>
@@ -45,30 +69,6 @@ final class UseCacheTest extends AbstractUnitTestCase
         $stored = $cache->get($key);
         $this->assertIsArray($stored);
         $this->assertSame(1, $stored['version']);
-    }
-
-    /**
-     * Cache hit: useCache restores from cache without needing routes added.
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-05-21
-     */
-    public function testCacheHitRestoresWithoutAddingRoutes(): void
-    {
-        $cache = $this->newMemoryCache();
-        $key   = 'phalcon.router.dispatcher';
-
-        $primer = $this->getRouter(false);
-        $primer->add('/about', ['controller' => 'about']);
-        $cache->set($key, $primer->buildDispatcherDump());
-
-        $router = $this->getRouter(false);
-        $router->useCache($cache, $key);
-
-        $router->handle('/about');
-
-        $this->assertTrue($router->wasMatched());
-        $this->assertSame('about', $router->getControllerName());
     }
 
     /**

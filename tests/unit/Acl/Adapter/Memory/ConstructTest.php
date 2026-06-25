@@ -29,7 +29,6 @@ use function unserialize;
 
 final class ConstructTest extends AbstractUnitTestCase
 {
-
     /**
      * @issue   https://github.com/phalcon/cphalcon/issues/12004
      * @author  Wojciech Slawski <jurigag@gmail.com>

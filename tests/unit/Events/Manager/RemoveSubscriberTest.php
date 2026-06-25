@@ -20,6 +20,18 @@ use Phalcon\Tests\Unit\Events\Manager\Fake\SimpleSubscriber;
 
 final class RemoveSubscriberTest extends AbstractUnitTestCase
 {
+    public function testRemoveSubscriberDetachesMultiListenerForm(): void
+    {
+        $manager         = new Manager();
+        $multiSubscriber = new MultiListenerSubscriber();
+
+        $manager->addSubscriber($multiSubscriber);
+        $this->assertCount(3, $manager->getListeners('test:multi'));
+
+        $manager->removeSubscriber($multiSubscriber);
+
+        $this->assertCount(0, $manager->getListeners('test:multi'));
+    }
     public function testRemoveSubscriberDetachesSimpleForm(): void
     {
         $manager          = new Manager();
@@ -34,19 +46,6 @@ final class RemoveSubscriberTest extends AbstractUnitTestCase
 
         $manager->fire('test:hello', $this);
         $this->assertSame([], $simpleSubscriber->calls);
-    }
-
-    public function testRemoveSubscriberDetachesMultiListenerForm(): void
-    {
-        $manager         = new Manager();
-        $multiSubscriber = new MultiListenerSubscriber();
-
-        $manager->addSubscriber($multiSubscriber);
-        $this->assertCount(3, $manager->getListeners('test:multi'));
-
-        $manager->removeSubscriber($multiSubscriber);
-
-        $this->assertCount(0, $manager->getListeners('test:multi'));
     }
 
     public function testRemoveSubscriberIsIdempotent(): void

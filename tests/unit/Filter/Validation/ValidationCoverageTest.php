@@ -39,26 +39,6 @@ final class ValidationCoverageTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Filter\Validation :: __construct() - initialize() is called
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-01-01
-     */
-    public function testFilterValidationConstructCallsInitialize(): void
-    {
-        $validation = new class extends Validation {
-            public bool $initialized = false;
-
-            public function initialize(): void
-            {
-                $this->initialized = true;
-            }
-        };
-
-        $this->assertTrue($validation->initialized, 'initialize() should be called during __construct');
-    }
-
-    /**
      * Tests Phalcon\Filter\Validation :: add() - AbstractCombinedFieldsValidator with array field
      *
      * @author Phalcon Team <team@phalcon.io>
@@ -114,40 +94,23 @@ final class ValidationCoverageTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Filter\Validation :: validate() - combinedFieldsValidators loop
+     * Tests Phalcon\Filter\Validation :: __construct() - initialize() is called
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-01-01
      */
-    public function testFilterValidationValidateCombinedFieldsValidators(): void
-    {
-        $validator  = new FakeCombinedValidator();
-        $validation = new Validation();
-        $validation->add(['field1', 'field2'], $validator);
-
-        $messages = $validation->validate(['field1' => 'value1', 'field2' => 'value2']);
-        $this->assertCount(0, $messages, 'Combined validator returns true → no messages');
-    }
-
-    /**
-     * Tests Phalcon\Filter\Validation :: validate() - beforeValidation returns false
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-01-01
-     */
-    public function testFilterValidationValidateBeforeValidationReturnsFalse(): void
+    public function testFilterValidationConstructCallsInitialize(): void
     {
         $validation = new class extends Validation {
-            public function beforeValidation(mixed $data, mixed $entity): bool
+            public bool $initialized = false;
+
+            public function initialize(): void
             {
-                return false;
+                $this->initialized = true;
             }
         };
 
-        $validation->add('name', new PresenceOf());
-        $result = $validation->validate(['name' => '']);
-
-        $this->assertFalse($result, 'beforeValidation returning false causes validate() to return false');
+        $this->assertTrue($validation->initialized, 'initialize() should be called during __construct');
     }
 
     /**
@@ -174,19 +137,75 @@ final class ValidationCoverageTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Filter\Validation :: validate() - non-object validator throws exception
+     * Tests Phalcon\Filter\Validation :: validate() - beforeValidation returns false
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-01-01
      */
-    public function testFilterValidationValidateNonObjectValidatorThrows(): void
+    public function testFilterValidationValidateBeforeValidationReturnsFalse(): void
     {
-        $validation = new Validation();
-        $validation->setValidators(['name' => ['not-a-validator-object']]);
+        $validation = new class extends Validation {
+            public function beforeValidation(mixed $data, mixed $entity): bool
+            {
+                return false;
+            }
+        };
 
-        $this->expectException(ValidationException::class);
-        $this->expectExceptionMessage('One of the validators is not valid');
-        $validation->validate(['name' => 'value']);
+        $validation->add('name', new PresenceOf());
+        $result = $validation->validate(['name' => '']);
+
+        $this->assertFalse($result, 'beforeValidation returning false causes validate() to return false');
+    }
+
+    /**
+     * Tests Phalcon\Filter\Validation :: validate() - combined validator with allowEmpty skips via continue
+     * Covers preChecking() array-field return true (L694) and continue (L635)
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-01-01
+     */
+    public function testFilterValidationValidateCombinedAllowEmptySkips(): void
+    {
+        $validator = new FakeCombinedValidator(['allowEmpty' => true]);
+        $validation = new Validation();
+        $validation->add(['field1', 'field2'], $validator);
+
+        $messages = $validation->validate(['field1' => '', 'field2' => '']);
+        $this->assertCount(0, $messages, 'allowEmpty=true with empty fields skips combined validator');
+    }
+
+    /**
+     * Tests Phalcon\Filter\Validation :: validate() - combined validator cancelOnFail breaks loop
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-01-01
+     */
+    public function testFilterValidationValidateCombinedCancelOnFailBreaks(): void
+    {
+        $validator = new FakeFailingCombinedValidator();
+        $validator->setOption('cancelOnFail', true);
+
+        $validation = new Validation();
+        $validation->add(['field1', 'field2'], $validator);
+
+        $messages = $validation->validate(['field1' => 'val', 'field2' => 'val']);
+        $this->assertCount(0, $messages, 'cancelOnFail breaks loop; combined validator adds no messages');
+    }
+
+    /**
+     * Tests Phalcon\Filter\Validation :: validate() - combinedFieldsValidators loop
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-01-01
+     */
+    public function testFilterValidationValidateCombinedFieldsValidators(): void
+    {
+        $validator  = new FakeCombinedValidator();
+        $validation = new Validation();
+        $validation->add(['field1', 'field2'], $validator);
+
+        $messages = $validation->validate(['field1' => 'value1', 'field2' => 'value2']);
+        $this->assertCount(0, $messages, 'Combined validator returns true → no messages');
     }
 
     /**
@@ -232,41 +251,18 @@ final class ValidationCoverageTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests Phalcon\Filter\Validation :: validate() - combined validator with allowEmpty skips via continue
-     * Covers preChecking() array-field return true (L694) and continue (L635)
+     * Tests Phalcon\Filter\Validation :: validate() - non-object validator throws exception
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-01-01
      */
-    public function testFilterValidationValidateCombinedAllowEmptySkips(): void
+    public function testFilterValidationValidateNonObjectValidatorThrows(): void
     {
-        $validator = new FakeCombinedValidator(['allowEmpty' => true]);
         $validation = new Validation();
-        $validation->add(['field1', 'field2'], $validator);
+        $validation->setValidators(['name' => ['not-a-validator-object']]);
 
-        $messages = $validation->validate(['field1' => '', 'field2' => '']);
-        $this->assertCount(0, $messages, 'allowEmpty=true with empty fields skips combined validator');
-    }
-
-    /**
-     * Tests Phalcon\Filter\Validation :: validate() - combined validator cancelOnFail breaks loop
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-01-01
-     */
-    public function testFilterValidationValidateCombinedCancelOnFailBreaks(): void
-    {
-        $validator = new FakeFailingCombinedValidator();
-        $validator->setOption('cancelOnFail', true);
-
-        $validation = new Validation();
-        $validation->add(['field1', 'field2'], $validator);
-
-        $messages = $validation->validate(['field1' => 'val', 'field2' => 'val']);
-        $this->assertCount(
-            0,
-            $messages,
-            'cancelOnFail breaks loop; combined validator adds no messages'
-        );
+        $this->expectException(ValidationException::class);
+        $this->expectExceptionMessage('One of the validators is not valid');
+        $validation->validate(['name' => 'value']);
     }
 }

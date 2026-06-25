@@ -36,6 +36,28 @@ final class ConnectTest extends AbstractDatabaseTestCase
     }
 
     /**
+     * Tests Phalcon\Db\Adapter\Pdo :: connect() (close + reconnect cycle)
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-18
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testDbAdapterPdoConnect(): void
+    {
+        $this->setDatabase();
+
+        $db = $this->container->get('db');
+
+        $db->close();
+        $db->connect();
+
+        $row = $db->fetchOne('SELECT 1 AS one');
+        $this->assertSame(1, (int) $row['one']);
+    }
+
+    /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-04-20
      */
@@ -109,27 +131,5 @@ final class ConnectTest extends AbstractDatabaseTestCase
         $this->assertEquals($expected, $actual);
 
         $connection->close();
-    }
-
-    /**
-     * Tests Phalcon\Db\Adapter\Pdo :: connect() (close + reconnect cycle)
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-05-18
-     */
-    #[Group('mysql')]
-    #[Group('pgsql')]
-    #[Group('sqlite')]
-    public function testDbAdapterPdoConnect(): void
-    {
-        $this->setDatabase();
-
-        $db = $this->container->get('db');
-
-        $db->close();
-        $db->connect();
-
-        $row = $db->fetchOne('SELECT 1 AS one');
-        $this->assertSame(1, (int) $row['one']);
     }
 }
