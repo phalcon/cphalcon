@@ -619,8 +619,9 @@ abstract class Dialect implements DialectInterface
             sql = "";
 
         if fetch with, definition["with"] && with {
-            let recursive = false;
-            fetch recursive, definition["withRecursive"];
+            if !fetch recursive, definition["withRecursive"] {
+                let recursive = false;
+            }
 
             let sql = this->getSqlExpressionWith(with, escapeChar, bindCounts, recursive) . " ";
         }
@@ -663,11 +664,22 @@ abstract class Dialect implements DialectInterface
             let parts[] = this->getSqlExpressionHaving(having, escapeChar, bindCounts);
         }
 
-        if fetch orderBy, definition["order"] && orderBy {
-            let parts[] = this->getSqlExpressionOrderBy(orderBy, escapeChar, bindCounts);
+        let sql = implode(" ", parts);
+
+        /**
+         * Resolve UNION clauses before ORDER BY and LIMIT so those clauses
+         * apply to the complete compound SELECT.
+         */
+        if fetch unions, definition["union"] && unions {
+            let sql .= " " . this->getSqlExpressionUnion(unions, escapeChar, bindCounts);
         }
 
-        let sql = implode(" ", parts);
+        /**
+         * Resolve ORDER BY
+         */
+        if fetch orderBy, definition["order"] && orderBy {
+            let sql .= " " . this->getSqlExpressionOrderBy(orderBy, escapeChar, bindCounts);
+        }
 
         /**
          * Resolve LIMIT
@@ -681,13 +693,6 @@ abstract class Dialect implements DialectInterface
                 escapeChar,
                 bindCounts
             );
-        }
-
-        /**
-         * Resolve UNION clauses
-         */
-        if fetch unions, definition["union"] && unions {
-            let sql .= " " . this->getSqlExpressionUnion(unions, escapeChar, bindCounts);
         }
 
         /**

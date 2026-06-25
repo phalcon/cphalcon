@@ -18,6 +18,7 @@ use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\Exceptions\ManagerOrmServicesUnavailable;
 use Phalcon\Mvc\Model\Query\Exceptions\Builder\BuilderColumnNotInMap;
 use Phalcon\Mvc\Model\Query\Exceptions\Builder\BuilderConditionInvalid;
+use Phalcon\Mvc\Model\Query\Exceptions\Builder\InvalidCommonTableExpression;
 use Phalcon\Mvc\Model\Query\Exceptions\Builder\ModelRequired;
 use Phalcon\Mvc\Model\Query\Exceptions\Builder\NoPrimaryKey;
 use Phalcon\Mvc\Model\Query\Exceptions\Builder\OperatorNotAvailable;
@@ -119,6 +120,16 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      * @var array
      */
     protected commonTables = [];
+
+    /**
+     * @var array
+     */
+    protected commonTableBindParams = [];
+
+    /**
+     * @var array
+     */
+    protected commonTableBindTypes = [];
 
     /**
      * @var array|string
@@ -595,7 +606,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      */
     public function getBindParams() -> array
     {
-        return this->bindParams;
+        return this->bindParams + this->commonTableBindParams;
     }
 
     /**
@@ -603,7 +614,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      */
     public function getBindTypes() -> array
     {
-        return this->bindTypes;
+        return this->bindTypes + this->commonTableBindTypes;
     }
 
     /**
@@ -821,7 +832,9 @@ class Builder implements BuilderInterface, InjectionAwareInterface
         }
 
         let phql = "",
-            commonTables = this->commonTables;
+            commonTables = this->commonTables,
+            this->commonTableBindParams = [],
+            this->commonTableBindTypes = [];
 
         if typeof commonTables == "array" && count(commonTables) {
             let phql .= this->getWithPhql(commonTables) . " ";
@@ -1120,13 +1133,13 @@ class Builder implements BuilderInterface, InjectionAwareInterface
         );
 
         // Set default bind params
-        let bindParams = this->bindParams;
+        let bindParams = this->getBindParams();
         if typeof bindParams == "array" {
             query->setBindParams(bindParams);
         }
 
         // Set default bind types
-        let bindTypes = this->bindTypes;
+        let bindTypes = this->getBindTypes();
         if typeof bindTypes == "array" {
             query->setBindTypes(bindTypes);
         }
@@ -1602,7 +1615,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
         array commonTables;
 
         if unlikely typeof withClause != "array" {
-            throw new Exception(
+            throw new InvalidCommonTableExpression(
                 "The WITH clause must be an array"
             );
         }
@@ -1622,7 +1635,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
                 }
             } else {
                 if unlikely typeof item != "array" {
-                    throw new Exception(
+                    throw new InvalidCommonTableExpression(
                         "A common table expression must be an array"
                     );
                 }
@@ -1705,12 +1718,12 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      */
     final protected function getWithPhql(array! commonTables) -> string
     {
-        var item, name, query, columns, column, phql;
+        var position, item, name, query, columns, column, phql;
         array items, columnItems;
 
         let items = [];
 
-        for item in commonTables {
+        for position, item in commonTables {
             let name = this->autoescape(item[0]),
                 query = item[1],
                 columns = item[2];
@@ -1725,7 +1738,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
                 let name .= " (" . join(", ", columnItems) . ")";
             }
 
-            let phql = this->getWithQueryPhql(query);
+            let phql = this->getWithQueryPhql(query, position);
 
             let items[] = name . " AS (" . phql . ")";
         }
@@ -1736,9 +1749,10 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     /**
      * Resolve the PHQL statement used by a common table expression.
      */
-    final protected function getWithQueryPhql(var query) -> string
+    final protected function getWithQueryPhql(var query, int position) -> string
     {
-        var phql, bindParams, bindTypes;
+        var phql, bindParams, bindTypes, key, value, bindType, bindKey,
+            newKey, suffix;
 
         if typeof query == "string" {
             return query;
@@ -1746,7 +1760,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 
         if typeof query == "object" {
             if unlikely !method_exists(query, "getPhql") {
-                throw new Exception(
+                throw new InvalidCommonTableExpression(
                     "A common table expression query must be a PHQL string or a builder"
                 );
             }
@@ -1756,21 +1770,59 @@ class Builder implements BuilderInterface, InjectionAwareInterface
             if method_exists(query, "getBindParams") {
                 let bindParams = query->getBindParams();
                 if typeof bindParams == "array" && count(bindParams) {
-                    let this->bindParams = this->bindParams + bindParams;
-                }
-            }
+                    if method_exists(query, "getBindTypes") {
+                        let bindTypes = query->getBindTypes();
+                    } else {
+                        let bindTypes = [];
+                    }
 
-            if method_exists(query, "getBindTypes") {
-                let bindTypes = query->getBindTypes();
-                if typeof bindTypes == "array" && count(bindTypes) {
-                    let this->bindTypes = this->bindTypes + bindTypes;
+                    for key, value in bindParams {
+                        let bindKey = (string) key,
+                            newKey = "__cte" . position . "_" . bindKey,
+                            suffix = 0;
+
+                        while isset this->bindParams[newKey] || isset this->commonTableBindParams[newKey] {
+                            let newKey = "__cte" . position . "_" . bindKey . "_" . suffix,
+                                suffix++;
+                        }
+
+                        if typeof key == "integer" {
+                            let phql = preg_replace(
+                                "/\\?" . bindKey . "(?![0-9])/",
+                                ":" . newKey . ":",
+                                phql
+                            );
+                        } else {
+                            let phql = str_replace(
+                                ":" . bindKey . ":",
+                                ":" . newKey . ":",
+                                phql
+                            );
+                            let phql = str_replace(
+                                "{" . bindKey . "}",
+                                "{" . newKey . "}",
+                                phql
+                            );
+                            let phql = str_replace(
+                                "{" . bindKey . ":",
+                                "{" . newKey . ":",
+                                phql
+                            );
+                        }
+
+                        let this->commonTableBindParams[newKey] = value;
+
+                        if typeof bindTypes == "array" && fetch bindType, bindTypes[key] {
+                            let this->commonTableBindTypes[newKey] = bindType;
+                        }
+                    }
                 }
             }
 
             return phql;
         }
 
-        throw new Exception(
+        throw new InvalidCommonTableExpression(
             "A common table expression query must be a PHQL string or a builder"
         );
     }
@@ -1781,25 +1833,25 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     final protected function normalizeWithItem(var name, var query, var columns = null) -> array
     {
         if unlikely typeof name != "string" || name === "" {
-            throw new Exception(
+            throw new InvalidCommonTableExpression(
                 "A common table expression requires a name"
             );
         }
 
         if unlikely typeof query != "string" && typeof query != "object" {
-            throw new Exception(
+            throw new InvalidCommonTableExpression(
                 "A common table expression query must be a PHQL string or a builder"
             );
         }
 
         if unlikely typeof query == "string" && query === "" {
-            throw new Exception(
+            throw new InvalidCommonTableExpression(
                 "A common table expression query cannot be empty"
             );
         }
 
         if unlikely typeof query == "object" && !method_exists(query, "getPhql") {
-            throw new Exception(
+            throw new InvalidCommonTableExpression(
                 "A common table expression query must be a PHQL string or a builder"
             );
         }

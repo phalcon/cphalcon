@@ -19,7 +19,7 @@ use Phalcon\Tests\AbstractUnitTestCase;
 final class WithTest extends AbstractUnitTestCase
 {
     /**
-     * @author Phalcon Team <team@phalcon.io>
+     * @author QUAD69 <https://github.com/QUAD69>
      * @since  2026-06-10
      */
     public function testMvcModelQueryPhqlSelectWithCommonTableExpression(): void
@@ -78,7 +78,7 @@ final class WithTest extends AbstractUnitTestCase
     }
 
     /**
-     * @author Phalcon Team <team@phalcon.io>
+     * @author QUAD69 <https://github.com/QUAD69>
      * @since  2026-06-10
      */
     public function testMvcModelQueryPhqlSelectWithCommonTableExpressionColumns(): void
@@ -143,7 +143,7 @@ final class WithTest extends AbstractUnitTestCase
     }
 
     /**
-     * @author Phalcon Team <team@phalcon.io>
+     * @author QUAD69 <https://github.com/QUAD69>
      * @since  2026-06-12
      */
     public function testMvcModelQueryPhqlSelectWithCommonTableExpressionUnion(): void
@@ -228,7 +228,7 @@ final class WithTest extends AbstractUnitTestCase
     }
 
     /**
-     * @author Phalcon Team <team@phalcon.io>
+     * @author QUAD69 <https://github.com/QUAD69>
      * @since  2026-06-12
      */
     public function testMvcModelQueryPhqlSelectWithEscapedKeywordCommonTableExpressionName(): void
@@ -247,7 +247,7 @@ final class WithTest extends AbstractUnitTestCase
     }
 
     /**
-     * @author Phalcon Team <team@phalcon.io>
+     * @author QUAD69 <https://github.com/QUAD69>
      * @since  2026-06-12
      */
     public function testMvcModelQueryPhqlSelectWithRecursiveCommonTableExpression(): void

@@ -28,8 +28,10 @@ use Phalcon\Mvc\Model\Query\Exceptions\CorruptedDeleteAst;
 use Phalcon\Mvc\Model\Query\Exceptions\CorruptedInsertAst;
 use Phalcon\Mvc\Model\Query\Exceptions\CorruptedSelectAst;
 use Phalcon\Mvc\Model\Query\Exceptions\CorruptedUpdateAst;
+use Phalcon\Mvc\Model\Query\Exceptions\CommonTableExpressionRelationNotSupported;
 use Phalcon\Mvc\Model\Query\Exceptions\DeleteMultipleNotSupported;
 use Phalcon\Mvc\Model\Query\Exceptions\DuplicateAlias;
+use Phalcon\Mvc\Model\Query\Exceptions\DuplicateCommonTableExpression;
 use Phalcon\Mvc\Model\Query\Exceptions\EmptyArrayPlaceholderValue;
 use Phalcon\Mvc\Model\Query\Exceptions\InsertColumnCountMismatch;
 use Phalcon\Mvc\Model\Query\Exceptions\InvalidCachedResultset;
@@ -2443,7 +2445,8 @@ class Query implements QueryInterface, InjectionAwareInterface
                         "source"   : modelName,
                         "modelName": modelName,
                         "model"    : null,
-                        "virtual"  : true
+                        "virtual"  : true,
+                        "columns"  : cteSources[modelName]
                     ];
                 }
 
@@ -2507,7 +2510,7 @@ class Query implements QueryInterface, InjectionAwareInterface
             joinAliasName, joinExpr, fromModelName, joinAlias, joinModel,
             joinSource, preCondition, modelNameAlias, relation, relations,
             modelAlias, sqlJoin, sqlJoinItem, selectTables, tables, tableItem,
-            isVirtual;
+            isVirtual, virtualColumns;
         array sqlJoins, joinModels, joinSources, joinTypes, joinPreCondition,
             joinPrepared;
 
@@ -2559,6 +2562,9 @@ class Query implements QueryInterface, InjectionAwareInterface
             if !fetch isVirtual, joinData["virtual"] {
                 let isVirtual = false;
             }
+            if !fetch virtualColumns, joinData["columns"] {
+                let virtualColumns = [];
+            }
 
             /**
              * Check join alias
@@ -2594,7 +2600,7 @@ class Query implements QueryInterface, InjectionAwareInterface
                 let sqlAliases[alias] = alias;
 
                 if isVirtual {
-                    let sqlAliasesVirtual[alias] = true;
+                    let sqlAliasesVirtual[alias] = virtualColumns;
                 }
 
                 /**
@@ -2654,7 +2660,7 @@ class Query implements QueryInterface, InjectionAwareInterface
                 let sqlAliases[realModelName] = source;
 
                 if isVirtual {
-                    let sqlAliasesVirtual[realModelName] = true;
+                    let sqlAliasesVirtual[realModelName] = virtualColumns;
                 }
 
                 /**
@@ -3118,6 +3124,143 @@ class Query implements QueryInterface, InjectionAwareInterface
     }
 
     /**
+     * Returns the output column names of a common table expression.
+     */
+    final protected function getCommonTableExpressionColumnNames(
+        array columns,
+        bool generateMissing = false
+    ) -> array
+    {
+        var alias, column, columnDefinition, name, model, attribute, attributes;
+        int position;
+        array names;
+
+        let names = [],
+            position = 0;
+
+        for alias, column in columns {
+            if column["type"] == "object" {
+                let model = this->manager->load(column["model"]),
+                    attributes = this->metaData->getAttributes(model);
+
+                for attribute in attributes {
+                    let names[] = attribute;
+                    let position++;
+                }
+
+                continue;
+            }
+
+            if fetch name, column["name"] {
+                let names[] = name;
+                let position++;
+                continue;
+            }
+
+            if fetch name, column["sqlAlias"] {
+                let names[] = name;
+                let position++;
+                continue;
+            }
+
+            if fetch name, column["balias"] {
+                let names[] = name;
+                let position++;
+                continue;
+            }
+
+            if fetch columnDefinition, column["column"] {
+                if fetch name, columnDefinition["balias"] {
+                    let names[] = name;
+                    let position++;
+                    continue;
+                }
+
+                if !generateMissing {
+                    if fetch name, columnDefinition["name"] {
+                        let names[] = name;
+                        let position++;
+                        continue;
+                    }
+                }
+            }
+
+            if typeof alias == "string" && substr(alias, 0, 1) != "_" {
+                let names[] = alias;
+                let position++;
+                continue;
+            }
+
+            if generateMissing {
+                let names[] = "column_" . position;
+                let position++;
+            }
+        }
+
+        return names;
+    }
+
+    /**
+     * Returns whether a common table expression has scalar columns whose
+     * output names are determined by the database.
+     */
+    final protected function hasUnnamedCommonTableExpressionColumns(
+        array columns
+    ) -> bool
+    {
+        var alias, column;
+
+        for alias, column in columns {
+            if column["type"] == "object" {
+                continue;
+            }
+
+            if isset column["name"]
+                || isset column["sqlAlias"]
+                || isset column["balias"]
+                || (typeof alias == "string" && substr(alias, 0, 1) != "_")
+            {
+                continue;
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Expands a common table expression wildcard into scalar columns.
+     */
+    final protected function getCommonTableExpressionSelectColumns(
+        string source,
+        array columns
+    ) -> array
+    {
+        var name;
+        array sqlColumns;
+
+        let sqlColumns = [];
+
+        for name in columns {
+            let sqlColumns[] = [
+                "type"    : "scalar",
+                "column"  : [
+                    "type"  : "qualified",
+                    "domain": source,
+                    "name"  : name,
+                    "balias": name
+                ],
+                "balias"  : name,
+                "sqlAlias": name,
+                "cte"     : true
+            ];
+        }
+
+        return sqlColumns;
+    }
+
+    /**
      * Replaces the model's name to its source name in a qualified-name
      * expression
      */
@@ -3125,7 +3268,8 @@ class Query implements QueryInterface, InjectionAwareInterface
     {
         var columnName, nestingLevel, sqlColumnAliases, metaData, sqlAliases,
             source, sqlAliasesModelsInstances, realColumnName, columnDomain,
-            model, models, columnMap, hasModel, className, sqlAliasesVirtual;
+            model, models, columnMap, hasModel, className, sqlAliasesVirtual,
+            virtualSource, virtualColumns;
         int number;
 
         let columnName = expr["name"];
@@ -3148,14 +3292,13 @@ class Query implements QueryInterface, InjectionAwareInterface
             ];
         }
 
-        let metaData = this->metaData;
+        let metaData = this->metaData,
+            sqlAliases = this->sqlAliases;
 
         /**
          * Check if the qualified name has a domain
          */
         if fetch columnDomain, expr["domain"] {
-            let sqlAliases = this->sqlAliases;
-
             /**
              * The column has a domain, we need to check if it's an alias
              */
@@ -3165,6 +3308,11 @@ class Query implements QueryInterface, InjectionAwareInterface
 
             let sqlAliasesVirtual = this->sqlAliasesVirtual;
             if isset sqlAliasesVirtual[columnDomain] {
+                let virtualColumns = sqlAliasesVirtual[columnDomain];
+                if count(virtualColumns) && !in_array(columnName, virtualColumns, true) {
+                    throw new ColumnNotInDomain(columnName, columnDomain, this->phql);
+                }
+
                 return [
                     "type"  : "qualified",
                     "domain": source,
@@ -3225,15 +3373,28 @@ class Query implements QueryInterface, InjectionAwareInterface
                 }
             }
 
+            let sqlAliasesVirtual = this->sqlAliasesVirtual;
+            for virtualSource, virtualColumns in sqlAliasesVirtual {
+                if !count(virtualColumns) || in_array(columnName, virtualColumns, true) {
+                    let number++;
+
+                    if unlikely number > 1 {
+                        throw new AmbiguousColumn(columnName, this->phql);
+                    }
+
+                    let source = sqlAliases[virtualSource];
+                }
+            }
+
             /**
              * After check in every model, the column does not belong to any of
              * the selected models
              */
             if unlikely hasModel === false {
-                let sqlAliasesVirtual = this->sqlAliasesVirtual;
-                if count(sqlAliasesVirtual) {
+                if number == 1 {
                     return [
                         "type"  : "qualified",
+                        "domain": source,
                         "name"  : columnName,
                         "balias": columnName
                     ];
@@ -3392,7 +3553,8 @@ class Query implements QueryInterface, InjectionAwareInterface
     {
         var columnType, sqlAliases, modelName, source, columnDomain,
             sqlColumnAlias, preparedAlias, sqlExprColumn, sqlAliasesModels,
-            columnData, balias, eager, sqlAliasesVirtual;
+            columnData, balias, eager, sqlAliasesVirtual, virtualColumns,
+            virtualColumn, virtualSqlColumns;
         array sqlColumns, sqlColumn;
 
         if unlikely !fetch columnType, column["type"] {
@@ -3410,18 +3572,6 @@ class Query implements QueryInterface, InjectionAwareInterface
          * Check for select * (all)
          */
         if columnType == PHQL_T_STARALL {
-            let sqlAliasesVirtual = this->sqlAliasesVirtual;
-            if count(this->models) == 0 && count(sqlAliasesVirtual) {
-                let sqlColumns[] = [
-                    "type"  : "scalar",
-                    "column": [
-                        "type": "all"
-                    ]
-                ];
-
-                return sqlColumns;
-            }
-
             for modelName, source in this->models {
                 let sqlColumn = [
                     "type"  : "object",
@@ -3436,6 +3586,18 @@ class Query implements QueryInterface, InjectionAwareInterface
                 }
 
                 let sqlColumns[] = sqlColumn;
+            }
+
+            let sqlAliasesVirtual = this->sqlAliasesVirtual;
+            for source, virtualColumns in sqlAliasesVirtual {
+                let virtualSqlColumns = this->getCommonTableExpressionSelectColumns(
+                    source,
+                    virtualColumns
+                );
+
+                for virtualColumn in virtualSqlColumns {
+                    let sqlColumns[] = virtualColumn;
+                }
             }
 
             return sqlColumns;
@@ -3462,15 +3624,10 @@ class Query implements QueryInterface, InjectionAwareInterface
 
             let sqlAliasesVirtual = this->sqlAliasesVirtual;
             if isset sqlAliasesVirtual[columnDomain] {
-                let sqlColumns[] = [
-                    "type"  : "scalar",
-                    "column": [
-                        "type"  : "all",
-                        "domain": source
-                    ]
-                ];
-
-                return sqlColumns;
+                return this->getCommonTableExpressionSelectColumns(
+                    source,
+                    sqlAliasesVirtual[columnDomain]
+                );
             }
 
             /**
@@ -3893,7 +4050,9 @@ class Query implements QueryInterface, InjectionAwareInterface
             with, withs,
             withItem, automaticJoins, number, relation, joinAlias,
             relationModel, bestAlias, eagerType, ctes, cte, cteName,
-            cteSelect, cteColumns, cteModels, cteModel, sqlWithItem, isCte,
+            cteSelect, cteColumnDefinitions, cteColumnNames, cteModels,
+            cteModel, sqlWithItem, isCte, columnDefinition, columnDomain,
+            existingColumn, uniqueAlias,
             originalCteSources, withRecursive, unions, unionItem, unionAll,
             unionSelect, unionModels, unionModel, sqlUnionItem, mergeKey,
             mergeValue;
@@ -4009,13 +4168,20 @@ class Query implements QueryInterface, InjectionAwareInterface
                 let cteName = cte["name"];
 
                 if unlikely isset cteSources[cteName] {
-                    throw new Exception(
-                        "Common table expression '" . cteName . "' is defined more than once, when preparing: " . this->phql
+                    throw new DuplicateCommonTableExpression(cteName, this->phql);
+                }
+
+                let cteColumnDefinitions = [],
+                    cteColumnNames = [];
+
+                if fetch cteColumnDefinitions, cte["columns"] {
+                    let cteColumnNames = this->getCommonTableExpressionColumnNames(
+                        cteColumnDefinitions
                     );
                 }
 
                 if withRecursive {
-                    let cteSources[cteName] = true;
+                    let cteSources[cteName] = cteColumnNames;
                 }
 
                 let this->cteSources = cteSources,
@@ -4025,12 +4191,21 @@ class Query implements QueryInterface, InjectionAwareInterface
                         "select": cteSelect
                     ];
 
-                if !withRecursive {
-                    let cteSources[cteName] = true;
+                if !count(cteColumnNames) {
+                    let cteColumnNames = this->getCommonTableExpressionColumnNames(
+                        cteSelect["columns"],
+                        true
+                    );
                 }
 
-                if fetch cteColumns, cte["columns"] {
-                    let sqlWithItem["columns"] = cteColumns;
+                let cteSources[cteName] = cteColumnNames;
+
+                if count(cteColumnDefinitions) {
+                    let sqlWithItem["columns"] = cteColumnDefinitions;
+                } elseif this->hasUnnamedCommonTableExpressionColumns(
+                    cteSelect["columns"]
+                ) {
+                    let sqlWithItem["columns"] = cteColumnNames;
                 }
 
                 if fetch cteModels, cteSelect["models"] {
@@ -4090,7 +4265,7 @@ class Query implements QueryInterface, InjectionAwareInterface
                     sqlModelsAliases[modelName] = alias;
 
                 if isCte {
-                    let sqlAliasesVirtual[alias] = true;
+                    let sqlAliasesVirtual[alias] = cteSources[modelName];
                 } else {
                     let sqlAliasesModelsInstances[alias] = model;
                 }
@@ -4114,7 +4289,7 @@ class Query implements QueryInterface, InjectionAwareInterface
                     sqlModelsAliases[modelName] = modelName;
 
                 if isCte {
-                    let sqlAliasesVirtual[modelName] = true;
+                    let sqlAliasesVirtual[modelName] = cteSources[modelName];
                 } else {
                     let sqlAliasesModelsInstances[modelName] = model,
                         models[modelName] = source;
@@ -4124,8 +4299,9 @@ class Query implements QueryInterface, InjectionAwareInterface
             // Eager load any specified relationship(s)
             if fetch with, selectedModel["with"] {
                 if isCte {
-                    throw new Exception(
-                        "Common table expression '" . modelName . "' cannot eager load relationships, when preparing: " . this->phql
+                    throw new CommonTableExpressionRelationNotSupported(
+                        modelName,
+                        this->phql
                     );
                 }
 
@@ -4294,7 +4470,53 @@ class Query implements QueryInterface, InjectionAwareInterface
                      * "balias" is the best alias chosen for the column
                      */
                     if fetch alias, sqlColumn["balias"] {
-                        let sqlColumns[alias] = sqlColumn;
+                        if isset sqlColumns[alias] {
+                            if isset sqlColumn["cte"] {
+                                let uniqueAlias = alias . "_" . position;
+
+                                if fetch columnDefinition, sqlColumn["column"] {
+                                    if fetch columnDomain, columnDefinition["domain"] {
+                                        let uniqueAlias = columnDomain . "_" . alias;
+                                    }
+                                }
+
+                                while isset sqlColumns[uniqueAlias] {
+                                    let uniqueAlias .= "_" . position;
+                                }
+
+                                let sqlColumn["balias"] = uniqueAlias,
+                                    sqlColumn["sqlAlias"] = uniqueAlias,
+                                    sqlColumns[uniqueAlias] = sqlColumn;
+                            } else {
+                                let existingColumn = sqlColumns[alias];
+
+                                if isset existingColumn["cte"] {
+                                    let uniqueAlias = alias . "_" . position;
+
+                                    if fetch columnDefinition, existingColumn["column"] {
+                                        if fetch columnDomain, columnDefinition["domain"] {
+                                            let uniqueAlias = columnDomain . "_" . alias;
+                                        }
+                                    }
+
+                                    while isset sqlColumns[uniqueAlias] {
+                                        let uniqueAlias .= "_" . position;
+                                    }
+
+                                    let existingColumn["balias"] = uniqueAlias,
+                                        existingColumn["sqlAlias"] = uniqueAlias;
+
+                                    unset sqlColumns[alias];
+
+                                    let sqlColumns[uniqueAlias] = existingColumn,
+                                        sqlColumns[alias] = sqlColumn;
+                                } else {
+                                    let sqlColumns[alias] = sqlColumn;
+                                }
+                            }
+                        } else {
+                            let sqlColumns[alias] = sqlColumn;
+                        }
                     } else {
                         if sqlColumn["type"] == "scalar" {
                             let sqlColumns["_" . position] = sqlColumn;
@@ -4580,7 +4802,10 @@ class Query implements QueryInterface, InjectionAwareInterface
     final protected function refreshSchemasInIntermediate(array irPhql) -> array
     {
         var manager, models, tables, modelName, model, schema, source,
-            currentTable, alias, index;
+            currentTable, alias, index, with, withItem, cteSelect, cteModels,
+            tableSource, unions, unionItem;
+        int modelPosition;
+        array cteNames, refreshedWith, refreshedUnions;
 
         let manager = this->manager;
 
@@ -4596,15 +4821,54 @@ class Query implements QueryInterface, InjectionAwareInterface
             return irPhql;
         }
 
-        for index, modelName in models {
-            if !isset tables[index] {
+        let modelPosition = 0,
+            cteNames = [];
+
+        /**
+         * CTE models are prepended to the parent SELECT model list so the
+         * query can obtain a database connection. Refresh their nested
+         * intermediate representations first, and skip those entries when
+         * matching the parent tables to their real models.
+         */
+        if fetch with, irPhql["with"] {
+            let refreshedWith = [];
+
+            for withItem in with {
+                let cteSelect = this->refreshSchemasInIntermediate(
+                    withItem["select"]
+                );
+                let withItem["select"] = cteSelect,
+                    refreshedWith[] = withItem,
+                    cteNames[withItem["name"]] = true;
+
+                if fetch cteModels, cteSelect["models"] {
+                    let modelPosition += count(cteModels);
+                }
+            }
+
+            let irPhql["with"] = refreshedWith;
+        }
+
+        for index, currentTable in tables {
+            if typeof currentTable == "array" {
+                let tableSource = currentTable[0];
+            } else {
+                let tableSource = currentTable;
+            }
+
+            if isset cteNames[tableSource] {
                 continue;
             }
+
+            if !fetch modelName, models[modelPosition] {
+                break;
+            }
+
+            let modelPosition++;
 
             let model = manager->load(modelName),
                 schema = model->getSchema(),
                 source = model->getSource(),
-                currentTable = tables[index],
                 alias = null;
 
             /**
@@ -4633,6 +4897,19 @@ class Query implements QueryInterface, InjectionAwareInterface
         }
 
         let irPhql["tables"] = tables;
+
+        if fetch unions, irPhql["union"] {
+            let refreshedUnions = [];
+
+            for unionItem in unions {
+                let unionItem["select"] = this->refreshSchemasInIntermediate(
+                    unionItem["select"]
+                );
+                let refreshedUnions[] = unionItem;
+            }
+
+            let irPhql["union"] = refreshedUnions;
+        }
 
         return irPhql;
     }
