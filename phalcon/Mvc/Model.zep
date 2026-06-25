@@ -1460,7 +1460,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             let this->errorMessages = [
                 new Message(
                     "Record cannot be created because it already exists",
-                    null,
+                    "",
                     "InvalidCreateAttempt",
                     0,
                     [
@@ -3686,7 +3686,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 let this->errorMessages = [
                     new Message(
                         "Record cannot be updated because it does not exist",
-                        null,
+                        "",
                         "InvalidUpdateAttempt",
                         0,
                         [

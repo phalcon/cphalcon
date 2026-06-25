@@ -5,7 +5,7 @@
 ### Tools
 
 - Zephir Parser v2.0.4
-- Zephir 0.23.0 (development - f87b27ba9)
+- Zephir 0.23.0 (development - 062ed64e2)
  
 ### Changed
 
@@ -25,6 +25,7 @@
 ### Fixed
 
 - Fixed `Phalcon\Auth` login timing leaking account existence: the credential adapters now perform a throwaway password hash on the user-not-found path, so an attempt for an unknown identifier costs the same as one for a real account with a wrong password (mitigates login-timing user enumeration). [#17220](https://github.com/phalcon/cphalcon/issues/17220) [[doc]](https://docs.phalcon.io/5.16/auth/)
+- Fixed `Phalcon\Mvc\Model::create()` and `Phalcon\Mvc\Model::update()` passing `null` to the `field` argument of `Phalcon\Messages\Message` (typed `string` since v5.14), which raised a `Passing null to parameter #2 ($field) of type string is deprecated` warning when calling `create()` on an existing record or `update()` on a non-existent one; they now pass an empty string. [#17224](https://github.com/phalcon/cphalcon/issues/17224) [[doc]](https://docs.phalcon.io/5.16/db-models/)
 
 ### Removed
 

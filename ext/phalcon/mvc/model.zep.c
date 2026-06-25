@@ -2719,7 +2719,8 @@ PHP_METHOD(Phalcon_Mvc_Model, create)
 		zephir_array_update_string(&_4$$3, SL("model"), &_5$$3, PH_COPY | PH_SEPARATE);
 		ZEPHIR_INIT_NVAR(&_5$$3);
 		ZVAL_STRING(&_5$$3, "Record cannot be created because it already exists");
-		ZVAL_NULL(&_6$$3);
+		ZEPHIR_INIT_VAR(&_6$$3);
+		ZVAL_STRING(&_6$$3, "");
 		ZEPHIR_INIT_VAR(&_7$$3);
 		ZVAL_STRING(&_7$$3, "InvalidCreateAttempt");
 		ZVAL_LONG(&_8$$3, 0);
@@ -6741,7 +6742,8 @@ PHP_METHOD(Phalcon_Mvc_Model, update)
 			zephir_array_update_string(&_5$$4, SL("model"), &_6$$4, PH_COPY | PH_SEPARATE);
 			ZEPHIR_INIT_NVAR(&_6$$4);
 			ZVAL_STRING(&_6$$4, "Record cannot be updated because it does not exist");
-			ZVAL_NULL(&_7$$4);
+			ZEPHIR_INIT_VAR(&_7$$4);
+			ZVAL_STRING(&_7$$4, "");
 			ZEPHIR_INIT_VAR(&_8$$4);
 			ZVAL_STRING(&_8$$4, "InvalidUpdateAttempt");
 			ZVAL_LONG(&_9$$4, 0);
