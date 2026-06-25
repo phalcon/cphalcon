@@ -18,6 +18,98 @@ use Phalcon\Tests\AbstractUnitTestCase;
 
 final class WherePlaceholdersTest extends AbstractUnitTestCase
 {
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-09
+     */
+    public function testMvcModelQueryPhqlSelectWherePlaceholderBrackets(): void
+    {
+        $source   = "SELECT * FROM Invoices WHERE inv_id = {id}";
+        $expected = [
+            'type'   => 309,
+            'select' => [
+                'columns' => [
+                    0 => [
+                        'type' => 352,
+                    ],
+                ],
+                'tables'  => [
+                    'qualifiedName' => [
+                        'type' => 355,
+                        'name' => 'Invoices',
+                    ],
+                ],
+            ],
+            'where'  => [
+                'type'  => 61,
+                'left'  => [
+                    'type' => 355,
+                    'name' => 'inv_id',
+                ],
+                'right' => [
+                    'type'  => 277,
+                    'value' => 'id',
+                ],
+            ],
+        ];
+        $actual   = Lang::parsePhql($source);
+        unset($actual['id']);
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-09
+     */
+    public function testMvcModelQueryPhqlSelectWherePlaceholderBracketsAnd(): void
+    {
+        $source   = "SELECT * FROM Invoices WHERE inv_cst_id = {custId} AND inv_total > {minTotal}";
+        $expected = [
+            'type'   => 309,
+            'select' => [
+                'columns' => [
+                    0 => [
+                        'type' => 352,
+                    ],
+                ],
+                'tables'  => [
+                    'qualifiedName' => [
+                        'type' => 355,
+                        'name' => 'Invoices',
+                    ],
+                ],
+            ],
+            'where'  => [
+                'type'  => 62,
+                'left'  => [
+                    'type'  => 61,
+                    'left'  => [
+                        'type' => 355,
+                        'name' => 'inv_cst_id',
+                    ],
+                    'right' => [
+                        'type'  => 266,
+                        'left'  => [
+                            'type'  => 277,
+                            'value' => 'custId',
+                        ],
+                        'right' => [
+                            'type' => 355,
+                            'name' => 'inv_total',
+                        ],
+                    ],
+                ],
+                'right' => [
+                    'type'  => 277,
+                    'value' => 'minTotal',
+                ],
+            ],
+        ];
+        $actual   = Lang::parsePhql($source);
+        unset($actual['id']);
+        $this->assertSame($expected, $actual);
+    }
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-09
@@ -194,98 +286,6 @@ final class WherePlaceholdersTest extends AbstractUnitTestCase
                 'right' => [
                     'type'  => 274,
                     'value' => 'status',
-                ],
-            ],
-        ];
-        $actual   = Lang::parsePhql($source);
-        unset($actual['id']);
-        $this->assertSame($expected, $actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-09
-     */
-    public function testMvcModelQueryPhqlSelectWherePlaceholderBrackets(): void
-    {
-        $source   = "SELECT * FROM Invoices WHERE inv_id = {id}";
-        $expected = [
-            'type'   => 309,
-            'select' => [
-                'columns' => [
-                    0 => [
-                        'type' => 352,
-                    ],
-                ],
-                'tables'  => [
-                    'qualifiedName' => [
-                        'type' => 355,
-                        'name' => 'Invoices',
-                    ],
-                ],
-            ],
-            'where'  => [
-                'type'  => 61,
-                'left'  => [
-                    'type' => 355,
-                    'name' => 'inv_id',
-                ],
-                'right' => [
-                    'type'  => 277,
-                    'value' => 'id',
-                ],
-            ],
-        ];
-        $actual   = Lang::parsePhql($source);
-        unset($actual['id']);
-        $this->assertSame($expected, $actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-09
-     */
-    public function testMvcModelQueryPhqlSelectWherePlaceholderBracketsAnd(): void
-    {
-        $source   = "SELECT * FROM Invoices WHERE inv_cst_id = {custId} AND inv_total > {minTotal}";
-        $expected = [
-            'type'   => 309,
-            'select' => [
-                'columns' => [
-                    0 => [
-                        'type' => 352,
-                    ],
-                ],
-                'tables'  => [
-                    'qualifiedName' => [
-                        'type' => 355,
-                        'name' => 'Invoices',
-                    ],
-                ],
-            ],
-            'where'  => [
-                'type'  => 62,
-                'left'  => [
-                    'type'  => 61,
-                    'left'  => [
-                        'type' => 355,
-                        'name' => 'inv_cst_id',
-                    ],
-                    'right' => [
-                        'type'  => 266,
-                        'left'  => [
-                            'type'  => 277,
-                            'value' => 'custId',
-                        ],
-                        'right' => [
-                            'type' => 355,
-                            'name' => 'inv_total',
-                        ],
-                    ],
-                ],
-                'right' => [
-                    'type'  => 277,
-                    'value' => 'minTotal',
                 ],
             ],
         ];

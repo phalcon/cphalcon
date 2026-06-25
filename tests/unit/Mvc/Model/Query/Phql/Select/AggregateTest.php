@@ -263,9 +263,9 @@ final class AggregateTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-09
      */
-    public function testMvcModelQueryPhqlSelectSumField(): void
+    public function testMvcModelQueryPhqlSelectMaxDate(): void
     {
-        $source   = "SELECT SUM(inv_total) FROM Invoices";
+        $source   = "SELECT MAX(inv_created_at) FROM Invoices";
         $expected = [
             'type'   => 309,
             'select' => [
@@ -274,11 +274,11 @@ final class AggregateTest extends AbstractUnitTestCase
                         'type'   => 354,
                         'column' => [
                             'type'      => 350,
-                            'name'      => 'SUM',
+                            'name'      => 'MAX',
                             'arguments' => [
                                 0 => [
                                     'type' => 355,
-                                    'name' => 'inv_total',
+                                    'name' => 'inv_created_at',
                                 ],
                             ],
                         ],
@@ -301,9 +301,9 @@ final class AggregateTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-09
      */
-    public function testMvcModelQueryPhqlSelectMinField(): void
+    public function testMvcModelQueryPhqlSelectMaxField(): void
     {
-        $source   = "SELECT MIN(inv_total) FROM Invoices";
+        $source   = "SELECT MAX(inv_total) FROM Invoices";
         $expected = [
             'type'   => 309,
             'select' => [
@@ -312,7 +312,7 @@ final class AggregateTest extends AbstractUnitTestCase
                         'type'   => 354,
                         'column' => [
                             'type'      => 350,
-                            'name'      => 'MIN',
+                            'name'      => 'MAX',
                             'arguments' => [
                                 0 => [
                                     'type' => 355,
@@ -377,9 +377,9 @@ final class AggregateTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-09
      */
-    public function testMvcModelQueryPhqlSelectMaxDate(): void
+    public function testMvcModelQueryPhqlSelectMinField(): void
     {
-        $source   = "SELECT MAX(inv_created_at) FROM Invoices";
+        $source   = "SELECT MIN(inv_total) FROM Invoices";
         $expected = [
             'type'   => 309,
             'select' => [
@@ -388,11 +388,11 @@ final class AggregateTest extends AbstractUnitTestCase
                         'type'   => 354,
                         'column' => [
                             'type'      => 350,
-                            'name'      => 'MAX',
+                            'name'      => 'MIN',
                             'arguments' => [
                                 0 => [
                                     'type' => 355,
-                                    'name' => 'inv_created_at',
+                                    'name' => 'inv_total',
                                 ],
                             ],
                         ],
@@ -415,9 +415,9 @@ final class AggregateTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-09
      */
-    public function testMvcModelQueryPhqlSelectMaxField(): void
+    public function testMvcModelQueryPhqlSelectSumField(): void
     {
-        $source   = "SELECT MAX(inv_total) FROM Invoices";
+        $source   = "SELECT SUM(inv_total) FROM Invoices";
         $expected = [
             'type'   => 309,
             'select' => [
@@ -426,7 +426,7 @@ final class AggregateTest extends AbstractUnitTestCase
                         'type'   => 354,
                         'column' => [
                             'type'      => 350,
-                            'name'      => 'MAX',
+                            'name'      => 'SUM',
                             'arguments' => [
                                 0 => [
                                     'type' => 355,

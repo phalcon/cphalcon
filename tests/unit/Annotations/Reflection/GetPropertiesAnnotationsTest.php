@@ -34,18 +34,6 @@ final class GetPropertiesAnnotationsTest extends AbstractUnitTestCase
 
     /**
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2016-01-26
-     */
-    public function testAnnotationsReflectionGetPropertiesAnnotationsEmpty(): void
-    {
-        $reflection = new Reflection();
-
-        $this->assertIsArray($reflection->getPropertiesAnnotations());
-        $this->assertEmpty($reflection->getPropertiesAnnotations());
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-21
      */
     public function testAnnotationsReflectionGetPropertiesAnnotations(): void
@@ -66,5 +54,17 @@ final class GetPropertiesAnnotationsTest extends AbstractUnitTestCase
 
         $this->assertEquals(3, $number);
         $this->assertCount(3, $propertiesAnnotations);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2016-01-26
+     */
+    public function testAnnotationsReflectionGetPropertiesAnnotationsEmpty(): void
+    {
+        $reflection = new Reflection();
+
+        $this->assertIsArray($reflection->getPropertiesAnnotations());
+        $this->assertEmpty($reflection->getPropertiesAnnotations());
     }
 }

@@ -18,77 +18,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 
 final class LimitTest extends AbstractUnitTestCase
 {
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-10
-     */
-    public function testMvcModelQueryPhqlSelectLimitBracePlaceholder(): void
-    {
-        $source   = "SELECT * FROM Invoices LIMIT {limit}";
-        $expected = [
-            'type'   => 309,
-            'select' => [
-                'columns' => [
-                    0 => [
-                        'type' => 352,
-                    ],
-                ],
-                'tables'  => [
-                    'qualifiedName' => [
-                        'type' => 355,
-                        'name' => 'Invoices',
-                    ],
-                ],
-            ],
-            'limit'  => [
-                'number' => [
-                    'type'  => 277,
-                    'value' => 'limit',
-                ],
-            ],
-        ];
-        $actual   = Lang::parsePhql($source);
-        unset($actual['id']);
-        $this->assertSame($expected, $actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-10
-     */
-    public function testMvcModelQueryPhqlSelectLimitBracePlaceholderOffset(): void
-    {
-        $source   = "SELECT * FROM Invoices LIMIT {limit} OFFSET {offset}";
-        $expected = [
-            'type'   => 309,
-            'select' => [
-                'columns' => [
-                    0 => [
-                        'type' => 352,
-                    ],
-                ],
-                'tables'  => [
-                    'qualifiedName' => [
-                        'type' => 355,
-                        'name' => 'Invoices',
-                    ],
-                ],
-            ],
-            'limit'  => [
-                'number' => [
-                    'type'  => 277,
-                    'value' => 'limit',
-                ],
-                'offset' => [
-                    'type'  => 277,
-                    'value' => 'offset',
-                ],
-            ],
-        ];
-        $actual   = Lang::parsePhql($source);
-        unset($actual['id']);
-        $this->assertSame($expected, $actual);
-    }
 
     /**
      * @author Phalcon Team <team@phalcon.io>
@@ -154,6 +83,77 @@ final class LimitTest extends AbstractUnitTestCase
                 'offset' => [
                     'type'  => 258,
                     'value' => '20',
+                ],
+            ],
+        ];
+        $actual   = Lang::parsePhql($source);
+        unset($actual['id']);
+        $this->assertSame($expected, $actual);
+    }
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-10
+     */
+    public function testMvcModelQueryPhqlSelectLimitBracePlaceholder(): void
+    {
+        $source   = "SELECT * FROM Invoices LIMIT {limit}";
+        $expected = [
+            'type'   => 309,
+            'select' => [
+                'columns' => [
+                    0 => [
+                        'type' => 352,
+                    ],
+                ],
+                'tables'  => [
+                    'qualifiedName' => [
+                        'type' => 355,
+                        'name' => 'Invoices',
+                    ],
+                ],
+            ],
+            'limit'  => [
+                'number' => [
+                    'type'  => 277,
+                    'value' => 'limit',
+                ],
+            ],
+        ];
+        $actual   = Lang::parsePhql($source);
+        unset($actual['id']);
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-10
+     */
+    public function testMvcModelQueryPhqlSelectLimitBracePlaceholderOffset(): void
+    {
+        $source   = "SELECT * FROM Invoices LIMIT {limit} OFFSET {offset}";
+        $expected = [
+            'type'   => 309,
+            'select' => [
+                'columns' => [
+                    0 => [
+                        'type' => 352,
+                    ],
+                ],
+                'tables'  => [
+                    'qualifiedName' => [
+                        'type' => 355,
+                        'name' => 'Invoices',
+                    ],
+                ],
+            ],
+            'limit'  => [
+                'number' => [
+                    'type'  => 277,
+                    'value' => 'limit',
+                ],
+                'offset' => [
+                    'type'  => 277,
+                    'value' => 'offset',
                 ],
             ],
         ];

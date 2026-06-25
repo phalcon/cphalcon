@@ -83,6 +83,102 @@ final class OrderByTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-09
      */
+    public function testMvcModelQueryPhqlSelectOrderByDateDescIntAsc(): void
+    {
+        $source   = "SELECT * FROM Invoices ORDER BY inv_created_at DESC, inv_id ASC";
+        $expected = [
+            'type'    => 309,
+            'select'  => [
+                'columns' => [
+                    0 => [
+                        'type' => 352,
+                    ],
+                ],
+                'tables'  => [
+                    'qualifiedName' => [
+                        'type' => 355,
+                        'name' => 'Invoices',
+                    ],
+                ],
+            ],
+            'orderBy' => [
+                0 => [
+                    'column' => [
+                        'type' => 355,
+                        'name' => 'inv_created_at',
+                    ],
+                    'sort'   => 328,
+                ],
+                1 => [
+                    'column' => [
+                        'type' => 355,
+                        'name' => 'inv_id',
+                    ],
+                    'sort'   => 327,
+                ],
+            ],
+        ];
+        $actual   = Lang::parsePhql($source);
+        unset($actual['id']);
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-09
+     */
+    public function testMvcModelQueryPhqlSelectOrderByFloatDescStringAscIntAsc(): void
+    {
+        $source   = "SELECT * FROM Invoices "
+            . "ORDER BY inv_total DESC, inv_title ASC, inv_id ASC";
+        $expected = [
+            'type'    => 309,
+            'select'  => [
+                'columns' => [
+                    0 => [
+                        'type' => 352,
+                    ],
+                ],
+                'tables'  => [
+                    'qualifiedName' => [
+                        'type' => 355,
+                        'name' => 'Invoices',
+                    ],
+                ],
+            ],
+            'orderBy' => [
+                0 => [
+                    'column' => [
+                        'type' => 355,
+                        'name' => 'inv_total',
+                    ],
+                    'sort'   => 328,
+                ],
+                1 => [
+                    'column' => [
+                        'type' => 355,
+                        'name' => 'inv_title',
+                    ],
+                    'sort'   => 327,
+                ],
+                2 => [
+                    'column' => [
+                        'type' => 355,
+                        'name' => 'inv_id',
+                    ],
+                    'sort'   => 327,
+                ],
+            ],
+        ];
+        $actual   = Lang::parsePhql($source);
+        unset($actual['id']);
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-09
+     */
     public function testMvcModelQueryPhqlSelectOrderByInt(): void
     {
         $source   = "SELECT * FROM Invoices ORDER BY inv_id";
@@ -176,102 +272,6 @@ final class OrderByTest extends AbstractUnitTestCase
                     'name' => 'inv_id',
                 ],
                 'sort'   => 328,
-            ],
-        ];
-        $actual   = Lang::parsePhql($source);
-        unset($actual['id']);
-        $this->assertSame($expected, $actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-09
-     */
-    public function testMvcModelQueryPhqlSelectOrderByDateDescIntAsc(): void
-    {
-        $source   = "SELECT * FROM Invoices ORDER BY inv_created_at DESC, inv_id ASC";
-        $expected = [
-            'type'    => 309,
-            'select'  => [
-                'columns' => [
-                    0 => [
-                        'type' => 352,
-                    ],
-                ],
-                'tables'  => [
-                    'qualifiedName' => [
-                        'type' => 355,
-                        'name' => 'Invoices',
-                    ],
-                ],
-            ],
-            'orderBy' => [
-                0 => [
-                    'column' => [
-                        'type' => 355,
-                        'name' => 'inv_created_at',
-                    ],
-                    'sort'   => 328,
-                ],
-                1 => [
-                    'column' => [
-                        'type' => 355,
-                        'name' => 'inv_id',
-                    ],
-                    'sort'   => 327,
-                ],
-            ],
-        ];
-        $actual   = Lang::parsePhql($source);
-        unset($actual['id']);
-        $this->assertSame($expected, $actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-09
-     */
-    public function testMvcModelQueryPhqlSelectOrderByFloatDescStringAscIntAsc(): void
-    {
-        $source   = "SELECT * FROM Invoices "
-            . "ORDER BY inv_total DESC, inv_title ASC, inv_id ASC";
-        $expected = [
-            'type'    => 309,
-            'select'  => [
-                'columns' => [
-                    0 => [
-                        'type' => 352,
-                    ],
-                ],
-                'tables'  => [
-                    'qualifiedName' => [
-                        'type' => 355,
-                        'name' => 'Invoices',
-                    ],
-                ],
-            ],
-            'orderBy' => [
-                0 => [
-                    'column' => [
-                        'type' => 355,
-                        'name' => 'inv_total',
-                    ],
-                    'sort'   => 328,
-                ],
-                1 => [
-                    'column' => [
-                        'type' => 355,
-                        'name' => 'inv_title',
-                    ],
-                    'sort'   => 327,
-                ],
-                2 => [
-                    'column' => [
-                        'type' => 355,
-                        'name' => 'inv_id',
-                    ],
-                    'sort'   => 327,
-                ],
             ],
         ];
         $actual   = Lang::parsePhql($source);

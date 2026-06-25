@@ -26,41 +26,6 @@ use const PHP_VERSION;
 
 final class ParseTest extends AbstractUnitTestCase
 {
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2016-01-25
-     */
-    public function testAnnotationsReaderParseNonExistentClass(): void
-    {
-        $message = 'Class "TestClass1" does not exist';
-
-        $this->expectException(ReflectionException::class);
-        $this->expectExceptionMessage($message);
-
-        $reader = new Reader();
-        $reader->parse('TestClass1');
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2016-01-25
-     */
-    public function testAnnotationsReaderParseInvalidAnnotation(): void
-    {
-        $includeFile = supportDir('assets/Annotations/TestInvalid.php');
-
-        $this->assertFileExists($includeFile);
-
-        require_once $includeFile;
-
-        $file = $includeFile;
-
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage('Syntax error, unexpected EOF in ' . $file);
-
-        $reader = new Reader();
-        $reader->parse('TestInvalid');
-    }
 
     /**
      * @author Phalcon Team <team@phalcon.io>
@@ -226,5 +191,40 @@ final class ParseTest extends AbstractUnitTestCase
         $this->assertEquals('Simple', $parsing['methods']['testMethod5'][0]['name']);
         $this->assertEquals('SingleParam', $parsing['methods']['testMethod5'][1]['name']);
         $this->assertEquals('MultipleParams', $parsing['methods']['testMethod5'][2]['name']);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2016-01-25
+     */
+    public function testAnnotationsReaderParseInvalidAnnotation(): void
+    {
+        $includeFile = supportDir('assets/Annotations/TestInvalid.php');
+
+        $this->assertFileExists($includeFile);
+
+        require_once $includeFile;
+
+        $file = $includeFile;
+
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Syntax error, unexpected EOF in ' . $file);
+
+        $reader = new Reader();
+        $reader->parse('TestInvalid');
+    }
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2016-01-25
+     */
+    public function testAnnotationsReaderParseNonExistentClass(): void
+    {
+        $message = 'Class "TestClass1" does not exist';
+
+        $this->expectException(ReflectionException::class);
+        $this->expectExceptionMessage($message);
+
+        $reader = new Reader();
+        $reader->parse('TestClass1');
     }
 }

@@ -21,30 +21,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 
 final class LoadTest extends AbstractUnitTestCase
 {
-    public function testLoadFromArrayWithoutDefaultRoutes(): void
-    {
-        $router = (new RouterFactory())->load([
-            'defaultRoutes' => false,
-            'routes'        => [
-                ['method' => 'get', 'pattern' => '/about', 'paths' => 'About::index'],
-            ],
-        ]);
-
-        $this->assertInstanceOf(Router::class, $router);
-        $this->assertCount(1, $router->getRoutes());
-        $this->assertSame('/about', $router->getRoutes()[0]->getPattern());
-    }
-
-    public function testLoadFromArrayDefaultsToDefaultRoutesTrue(): void
-    {
-        $router = (new RouterFactory())->load([
-            'routes' => [
-                ['method' => 'get', 'pattern' => '/x', 'paths' => 'X::y'],
-            ],
-        ]);
-
-        $this->assertCount(3, $router->getRoutes());
-    }
 
     public function testLoadAcceptsConfigObject(): void
     {
@@ -57,6 +33,30 @@ final class LoadTest extends AbstractUnitTestCase
 
         $router = (new RouterFactory())->load($config);
         $this->assertCount(1, $router->getRoutes());
+    }
+
+    public function testLoadFromArrayDefaultsToDefaultRoutesTrue(): void
+    {
+        $router = (new RouterFactory())->load([
+            'routes' => [
+                ['method' => 'get', 'pattern' => '/x', 'paths' => 'X::y'],
+            ],
+        ]);
+
+        $this->assertCount(3, $router->getRoutes());
+    }
+    public function testLoadFromArrayWithoutDefaultRoutes(): void
+    {
+        $router = (new RouterFactory())->load([
+            'defaultRoutes' => false,
+            'routes'        => [
+                ['method' => 'get', 'pattern' => '/about', 'paths' => 'About::index'],
+            ],
+        ]);
+
+        $this->assertInstanceOf(Router::class, $router);
+        $this->assertCount(1, $router->getRoutes());
+        $this->assertSame('/about', $router->getRoutes()[0]->getPattern());
     }
 
     public function testLoadRejectsNonArrayNonConfig(): void

@@ -37,69 +37,22 @@ final class AnnotationsTest extends AbstractUnitTestCase
     }
 
     /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @return array<array{string, string, string, string, array}>
      */
-    public function testMvcRouterAnnotationsRouterFullResources1(): void
+    public static function getRoutesProvider(): array
     {
-        $container = $this->getDi();
-        $router    = new Annotations(false);
-
-        $router->setDI($container);
-
-        $router->addResource("Phalcon\Tests\Support\Controllers\Robots", '/');
-        $router->addResource("Phalcon\Tests\Support\Controllers\Products", '/products');
-        $router->addResource("Phalcon\Tests\Support\Controllers\About", '/about');
-
-        $router->handle('/products');
-
-        $this->assertCount(6, $router->getRoutes());
-
-        $router = new Annotations(false);
-
-        $router->setDI($container);
-
-        $router->addResource("Phalcon\Tests\Support\Controllers\Robots", '/');
-        $router->addResource("Phalcon\Tests\Support\Controllers\Products", '/products');
-        $router->addResource("Phalcon\Tests\Support\Controllers\About", '/about');
-
-        $router->handle('/about');
-
-        $this->assertCount(5, $router->getRoutes());
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
-     */
-    public function testMvcRouterAnnotationsRouterFullResourcesNamespaced(): void
-    {
-        require_once supportDir('Controllers/NamespacedAnnotationController.php');
-
-        $container = $this->getDi();
-
-        $router = new Annotations(false);
-
-        $router->setDI($container);
-
-        $router->setDefaultNamespace('MyNamespace\\Controllers');
-
-        $router->addResource('NamespacedAnnotation', '/namespaced');
-
-        $router->handle('/namespaced');
-
-        $this->assertCount(1, $router->getRoutes());
-
-        $router = new Annotations(false);
-
-        $router->setDI($container);
-
-        $router->addResource(
-            'MyNamespace\\Controllers\\NamespacedAnnotation',
-            '/namespaced'
-        );
-
-        $router->handle('/namespaced/');
+        return [
+            ['/products/save', 'PUT', 'products', 'save', []],
+            ['/products/save', 'POST', 'products', 'save', []],
+            ['/products/edit/100', 'GET', 'products', 'edit', ['id' => '100']],
+            ['/products', 'GET', 'products', 'index', []],
+            ['/robots/edit/100', 'GET', 'robots', 'edit', ['id' => '100']],
+            ['/robots', 'GET', 'robots', 'index', []],
+            ['/robots/save', 'PUT', 'robots', 'save', []],
+            ['/about/team', 'GET', 'about', 'team', []],
+            ['/about/team', 'POST', 'about', 'teampost', []],
+            ['/', 'GET', 'main', 'index', []],
+        ];
     }
 
     /**
@@ -129,6 +82,38 @@ final class AnnotationsTest extends AbstractUnitTestCase
         $router->handle('/robots');
 
         $this->assertSame('robots', $router->getControllerName());
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2018-11-13
+     */
+    public function testMvcRouterAnnotationsRouterFullResources1(): void
+    {
+        $container = $this->getDi();
+        $router    = new Annotations(false);
+
+        $router->setDI($container);
+
+        $router->addResource("Phalcon\Tests\Support\Controllers\Robots", '/');
+        $router->addResource("Phalcon\Tests\Support\Controllers\Products", '/products');
+        $router->addResource("Phalcon\Tests\Support\Controllers\About", '/about');
+
+        $router->handle('/products');
+
+        $this->assertCount(6, $router->getRoutes());
+
+        $router = new Annotations(false);
+
+        $router->setDI($container);
+
+        $router->addResource("Phalcon\Tests\Support\Controllers\Robots", '/');
+        $router->addResource("Phalcon\Tests\Support\Controllers\Products", '/products');
+        $router->addResource("Phalcon\Tests\Support\Controllers\About", '/about');
+
+        $router->handle('/about');
+
+        $this->assertCount(5, $router->getRoutes());
     }
 
     /**
@@ -183,21 +168,36 @@ final class AnnotationsTest extends AbstractUnitTestCase
     }
 
     /**
-     * @return array<array{string, string, string, string, array}>
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2018-11-13
      */
-    public static function getRoutesProvider(): array
+    public function testMvcRouterAnnotationsRouterFullResourcesNamespaced(): void
     {
-        return [
-            ['/products/save', 'PUT', 'products', 'save', []],
-            ['/products/save', 'POST', 'products', 'save', []],
-            ['/products/edit/100', 'GET', 'products', 'edit', ['id' => '100']],
-            ['/products', 'GET', 'products', 'index', []],
-            ['/robots/edit/100', 'GET', 'robots', 'edit', ['id' => '100']],
-            ['/robots', 'GET', 'robots', 'index', []],
-            ['/robots/save', 'PUT', 'robots', 'save', []],
-            ['/about/team', 'GET', 'about', 'team', []],
-            ['/about/team', 'POST', 'about', 'teampost', []],
-            ['/', 'GET', 'main', 'index', []],
-        ];
+        require_once supportDir('Controllers/NamespacedAnnotationController.php');
+
+        $container = $this->getDi();
+
+        $router = new Annotations(false);
+
+        $router->setDI($container);
+
+        $router->setDefaultNamespace('MyNamespace\\Controllers');
+
+        $router->addResource('NamespacedAnnotation', '/namespaced');
+
+        $router->handle('/namespaced');
+
+        $this->assertCount(1, $router->getRoutes());
+
+        $router = new Annotations(false);
+
+        $router->setDI($container);
+
+        $router->addResource(
+            'MyNamespace\\Controllers\\NamespacedAnnotation',
+            '/namespaced'
+        );
+
+        $router->handle('/namespaced/');
     }
 }

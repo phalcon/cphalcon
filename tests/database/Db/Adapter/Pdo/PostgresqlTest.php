@@ -38,34 +38,52 @@ final class PostgresqlTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Postgresql::describeReferences
-     *
-     * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
-     * @since  2017-08-18
+     * @return array<array{0: string, 1: bool}>
      */
-    #[Group('pgsql')]
-    public function testDbAdapterPdoPostgresqlShouldCreateReferenceObject(): void
+    public static function getShouldAddForeignKeyProvider(): array
     {
-        $db = $this->container->get('db');
-
-        $expected = [
-            'test_describereferences' => new Reference(
-                'test_describereferences',
-                [
-                    'referencedTable'   => 'foreign_key_parent',
-                    'referencedSchema'  => env('DATA_POSTGRES_NAME'),
-                    'columns'           => ['child_int'],
-                    'referencedColumns' => ['refer_int'],
-                    'onUpdate'          => 'CASCADE',
-                    'onDelete'          => 'RESTRICT',
-                ]
-            ),
+        return [
+            ['fk1', true],
+            ['fk2', true],
         ];
+    }
 
-        $this->assertEquals(
-            $expected,
-            $db->describeReferences('foreign_key_child', 'public')
+    /**
+     * @return array<array{0: string, 1: int}>
+     */
+    public static function getShouldCheckAddedForeignKeyProvider(): array
+    {
+        return [
+            [self::getForeignKeySql('fk1'), 1],
+            [self::getForeignKeySql('foreign_key_child_child_int_fkey'), 1],
+        ];
+    }
+
+    /**
+     * @return array<array{0: string, 1: bool}>
+     */
+    public static function getShouldDropForeignKeyProvider(): array
+    {
+        return [
+            ['fk1', true],
+            ['foreign_key_child_child_int_fkey', true],
+        ];
+    }
+
+    /**
+     * @param string $foreignKeyName
+     *
+     * @return string
+     */
+    private static function getForeignKeySql(string $foreignKeyName): string
+    {
+        $sql = rtrim(
+            (string) file_get_contents(
+                supportDir('assets/Db/postgresql/example9.sql')
+            )
         );
+
+        return str_replace('%_FK_%', $foreignKeyName, $sql);
     }
 
     /**
@@ -111,6 +129,37 @@ final class PostgresqlTest extends AbstractDatabaseTestCase
     }
 
     /**
+     * Tests Postgresql::describeReferences
+     *
+     * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
+     * @since  2017-08-18
+     */
+    #[Group('pgsql')]
+    public function testDbAdapterPdoPostgresqlShouldCreateReferenceObject(): void
+    {
+        $db = $this->container->get('db');
+
+        $expected = [
+            'test_describereferences' => new Reference(
+                'test_describereferences',
+                [
+                    'referencedTable'   => 'foreign_key_parent',
+                    'referencedSchema'  => env('DATA_POSTGRES_NAME'),
+                    'columns'           => ['child_int'],
+                    'referencedColumns' => ['refer_int'],
+                    'onUpdate'          => 'CASCADE',
+                    'onDelete'          => 'RESTRICT',
+                ]
+            ),
+        ];
+
+        $this->assertEquals(
+            $expected,
+            $db->describeReferences('foreign_key_child', 'public')
+        );
+    }
+
+    /**
      * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
      * @since  2017-07-05
      */
@@ -126,39 +175,6 @@ final class PostgresqlTest extends AbstractDatabaseTestCase
         $sql = $dialect->dropForeignKey('foreign_key_child', 'public', $reference);
 
         $this->assertEquals($expected, $db->execute($sql));
-    }
-
-    /**
-     * @return array<array{0: string, 1: bool}>
-     */
-    public static function getShouldAddForeignKeyProvider(): array
-    {
-        return [
-            ['fk1', true],
-            ['fk2', true],
-        ];
-    }
-
-    /**
-     * @return array<array{0: string, 1: int}>
-     */
-    public static function getShouldCheckAddedForeignKeyProvider(): array
-    {
-        return [
-            [self::getForeignKeySql('fk1'), 1],
-            [self::getForeignKeySql('foreign_key_child_child_int_fkey'), 1],
-        ];
-    }
-
-    /**
-     * @return array<array{0: string, 1: bool}>
-     */
-    public static function getShouldDropForeignKeyProvider(): array
-    {
-        return [
-            ['fk1', true],
-            ['foreign_key_child_child_int_fkey', true],
-        ];
     }
 
     /**
@@ -186,21 +202,5 @@ final class PostgresqlTest extends AbstractDatabaseTestCase
                 ]
             ),
         ];
-    }
-
-    /**
-     * @param string $foreignKeyName
-     *
-     * @return string
-     */
-    private static function getForeignKeySql(string $foreignKeyName): string
-    {
-        $sql = rtrim(
-            (string) file_get_contents(
-                supportDir('assets/Db/postgresql/example9.sql')
-            )
-        );
-
-        return str_replace('%_FK_%', $foreignKeyName, $sql);
     }
 }

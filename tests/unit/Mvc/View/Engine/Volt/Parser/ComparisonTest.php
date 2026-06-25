@@ -64,6 +64,181 @@ final class ComparisonTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-10
      */
+    public function testMvcViewEngineVoltParserExprGt(): void
+    {
+        $source   = '{{ a > b }}';
+        $expected = [
+            [
+                'type' => 359,
+                'expr' => [
+                    'type' => 62,
+                    'left' => [
+                        'type' => 265,
+                        'value' => 'a',
+                        'file' => 'eval code',
+                        'line' => 1,
+                    ],
+                    'right' => [
+                        'type' => 265,
+                        'value' => 'b',
+                        'file' => 'eval code',
+                        'line' => 1,
+                    ],
+                    'file' => 'eval code',
+                    'line' => 1,
+                ],
+                'file' => 'eval code',
+                'line' => 1,
+            ],
+        ];
+        $actual   = $this->compiler->parse($source);
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-10
+     */
+    public function testMvcViewEngineVoltParserExprGte(): void
+    {
+        $source   = '{{ a >= b }}';
+        $expected = [
+            [
+                'type' => 359,
+                'expr' => [
+                    'type' => 271,
+                    'left' => [
+                        'type' => 265,
+                        'value' => 'a',
+                        'file' => 'eval code',
+                        'line' => 1,
+                    ],
+                    'right' => [
+                        'type' => 265,
+                        'value' => 'b',
+                        'file' => 'eval code',
+                        'line' => 1,
+                    ],
+                    'file' => 'eval code',
+                    'line' => 1,
+                ],
+                'file' => 'eval code',
+                'line' => 1,
+            ],
+        ];
+        $actual   = $this->compiler->parse($source);
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-10
+     */
+    public function testMvcViewEngineVoltParserExprIdentical(): void
+    {
+        $source   = '{{ a === b }}';
+        $expected = [
+            [
+                'type' => 359,
+                'expr' => [
+                    'type' => 274,
+                    'left' => [
+                        'type' => 265,
+                        'value' => 'a',
+                        'file' => 'eval code',
+                        'line' => 1,
+                    ],
+                    'right' => [
+                        'type' => 265,
+                        'value' => 'b',
+                        'file' => 'eval code',
+                        'line' => 1,
+                    ],
+                    'file' => 'eval code',
+                    'line' => 1,
+                ],
+                'file' => 'eval code',
+                'line' => 1,
+            ],
+        ];
+        $actual   = $this->compiler->parse($source);
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-10
+     */
+    public function testMvcViewEngineVoltParserExprLt(): void
+    {
+        $source   = '{{ a < b }}';
+        $expected = [
+            [
+                'type' => 359,
+                'expr' => [
+                    'type' => 60,
+                    'left' => [
+                        'type' => 265,
+                        'value' => 'a',
+                        'file' => 'eval code',
+                        'line' => 1,
+                    ],
+                    'right' => [
+                        'type' => 265,
+                        'value' => 'b',
+                        'file' => 'eval code',
+                        'line' => 1,
+                    ],
+                    'file' => 'eval code',
+                    'line' => 1,
+                ],
+                'file' => 'eval code',
+                'line' => 1,
+            ],
+        ];
+        $actual   = $this->compiler->parse($source);
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-10
+     */
+    public function testMvcViewEngineVoltParserExprLte(): void
+    {
+        $source   = '{{ a <= b }}';
+        $expected = [
+            [
+                'type' => 359,
+                'expr' => [
+                    'type' => 270,
+                    'left' => [
+                        'type' => 265,
+                        'value' => 'a',
+                        'file' => 'eval code',
+                        'line' => 1,
+                    ],
+                    'right' => [
+                        'type' => 265,
+                        'value' => 'b',
+                        'file' => 'eval code',
+                        'line' => 1,
+                    ],
+                    'file' => 'eval code',
+                    'line' => 1,
+                ],
+                'file' => 'eval code',
+                'line' => 1,
+            ],
+        ];
+        $actual   = $this->compiler->parse($source);
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-10
+     */
     public function testMvcViewEngineVoltParserExprNeq(): void
     {
         $source   = '{{ a != b }}';
@@ -134,41 +309,6 @@ final class ComparisonTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-10
      */
-    public function testMvcViewEngineVoltParserExprIdentical(): void
-    {
-        $source   = '{{ a === b }}';
-        $expected = [
-            [
-                'type' => 359,
-                'expr' => [
-                    'type' => 274,
-                    'left' => [
-                        'type' => 265,
-                        'value' => 'a',
-                        'file' => 'eval code',
-                        'line' => 1,
-                    ],
-                    'right' => [
-                        'type' => 265,
-                        'value' => 'b',
-                        'file' => 'eval code',
-                        'line' => 1,
-                    ],
-                    'file' => 'eval code',
-                    'line' => 1,
-                ],
-                'file' => 'eval code',
-                'line' => 1,
-            ],
-        ];
-        $actual   = $this->compiler->parse($source);
-        $this->assertSame($expected, $actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-10
-     */
     public function testMvcViewEngineVoltParserExprNotidentical(): void
     {
         $source   = '{{ a !== b }}';
@@ -177,146 +317,6 @@ final class ComparisonTest extends AbstractUnitTestCase
                 'type' => 359,
                 'expr' => [
                     'type' => 275,
-                    'left' => [
-                        'type' => 265,
-                        'value' => 'a',
-                        'file' => 'eval code',
-                        'line' => 1,
-                    ],
-                    'right' => [
-                        'type' => 265,
-                        'value' => 'b',
-                        'file' => 'eval code',
-                        'line' => 1,
-                    ],
-                    'file' => 'eval code',
-                    'line' => 1,
-                ],
-                'file' => 'eval code',
-                'line' => 1,
-            ],
-        ];
-        $actual   = $this->compiler->parse($source);
-        $this->assertSame($expected, $actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-10
-     */
-    public function testMvcViewEngineVoltParserExprLt(): void
-    {
-        $source   = '{{ a < b }}';
-        $expected = [
-            [
-                'type' => 359,
-                'expr' => [
-                    'type' => 60,
-                    'left' => [
-                        'type' => 265,
-                        'value' => 'a',
-                        'file' => 'eval code',
-                        'line' => 1,
-                    ],
-                    'right' => [
-                        'type' => 265,
-                        'value' => 'b',
-                        'file' => 'eval code',
-                        'line' => 1,
-                    ],
-                    'file' => 'eval code',
-                    'line' => 1,
-                ],
-                'file' => 'eval code',
-                'line' => 1,
-            ],
-        ];
-        $actual   = $this->compiler->parse($source);
-        $this->assertSame($expected, $actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-10
-     */
-    public function testMvcViewEngineVoltParserExprGt(): void
-    {
-        $source   = '{{ a > b }}';
-        $expected = [
-            [
-                'type' => 359,
-                'expr' => [
-                    'type' => 62,
-                    'left' => [
-                        'type' => 265,
-                        'value' => 'a',
-                        'file' => 'eval code',
-                        'line' => 1,
-                    ],
-                    'right' => [
-                        'type' => 265,
-                        'value' => 'b',
-                        'file' => 'eval code',
-                        'line' => 1,
-                    ],
-                    'file' => 'eval code',
-                    'line' => 1,
-                ],
-                'file' => 'eval code',
-                'line' => 1,
-            ],
-        ];
-        $actual   = $this->compiler->parse($source);
-        $this->assertSame($expected, $actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-10
-     */
-    public function testMvcViewEngineVoltParserExprLte(): void
-    {
-        $source   = '{{ a <= b }}';
-        $expected = [
-            [
-                'type' => 359,
-                'expr' => [
-                    'type' => 270,
-                    'left' => [
-                        'type' => 265,
-                        'value' => 'a',
-                        'file' => 'eval code',
-                        'line' => 1,
-                    ],
-                    'right' => [
-                        'type' => 265,
-                        'value' => 'b',
-                        'file' => 'eval code',
-                        'line' => 1,
-                    ],
-                    'file' => 'eval code',
-                    'line' => 1,
-                ],
-                'file' => 'eval code',
-                'line' => 1,
-            ],
-        ];
-        $actual   = $this->compiler->parse($source);
-        $this->assertSame($expected, $actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-10
-     */
-    public function testMvcViewEngineVoltParserExprGte(): void
-    {
-        $source   = '{{ a >= b }}';
-        $expected = [
-            [
-                'type' => 359,
-                'expr' => [
-                    'type' => 271,
                     'left' => [
                         'type' => 265,
                         'value' => 'a',

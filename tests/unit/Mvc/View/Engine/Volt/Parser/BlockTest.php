@@ -29,6 +29,25 @@ final class BlockTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-10
      */
+    public function testMvcViewEngineVoltParserBlockEmpty(): void
+    {
+        $source   = '{% block sidebar %}{% endblock %}';
+        $expected = [
+            [
+                'type' => 307,
+                'name' => 'sidebar',
+                'file' => 'eval code',
+                'line' => 1,
+            ],
+        ];
+        $actual   = $this->compiler->parse($source);
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-10
+     */
     public function testMvcViewEngineVoltParserBlockWithContent(): void
     {
         $source   = '{% block content %}Default content{% endblock %}';
@@ -44,25 +63,6 @@ final class BlockTest extends AbstractUnitTestCase
                         'line' => 1,
                     ],
                 ],
-                'file' => 'eval code',
-                'line' => 1,
-            ],
-        ];
-        $actual   = $this->compiler->parse($source);
-        $this->assertSame($expected, $actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-10
-     */
-    public function testMvcViewEngineVoltParserBlockEmpty(): void
-    {
-        $source   = '{% block sidebar %}{% endblock %}';
-        $expected = [
-            [
-                'type' => 307,
-                'name' => 'sidebar',
                 'file' => 'eval code',
                 'line' => 1,
             ],
