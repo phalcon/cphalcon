@@ -11,6 +11,18 @@ use Throwable;
 
 final class NoFactorySetTest extends AbstractUnitTestCase
 {
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-18
+     */
+    public function testContainerExceptionsNoFactorySetIsContainerThrowable(): void
+    {
+        $exception = new NoFactorySet('myService');
+
+        $this->assertInstanceOf(ContainerThrowable::class, $exception);
+        $this->assertInstanceOf(Throwable::class, $exception);
+    }
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-18
@@ -23,17 +35,5 @@ final class NoFactorySetTest extends AbstractUnitTestCase
             "No factory set for service 'myService'",
             $exception->getMessage()
         );
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-18
-     */
-    public function testContainerExceptionsNoFactorySetIsContainerThrowable(): void
-    {
-        $exception = new NoFactorySet('myService');
-
-        $this->assertInstanceOf(ContainerThrowable::class, $exception);
-        $this->assertInstanceOf(Throwable::class, $exception);
     }
 }

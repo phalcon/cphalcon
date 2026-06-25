@@ -156,4 +156,19 @@ final class AddInheritTest extends AbstractUnitTestCase
         $acl->addRole(new Role('administrator'));
         $acl->addInherit('administrator', 'unknown');
     }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-25
+     */
+    public function testAclAdapterMemoryAddInheritUnknownRoleName(): void
+    {
+        $this->expectException(Exception::class);
+
+        $acl = new Memory();
+        $acl->addRole(new Role('administrator'));
+
+        // The role *receiving* the inheritance must exist.
+        $acl->addInherit('unknown', 'administrator');
+    }
 }

@@ -29,13 +29,6 @@ final class FakeNotAuthUserModel
     public static array $rows = [];
 
     /**
-     * @param array<string, mixed> $row
-     */
-    public function assign(array $row): void
-    {
-    }
-
-    /**
      * Mimics Phalcon\Mvc\Model::findFirst with the array form used by the
      * Model adapter: ['conditions' => '...', 'bind' => [...]].
      *
@@ -69,5 +62,12 @@ final class FakeNotAuthUserModel
         }
 
         return null;
+    }
+
+    /**
+     * @param array<string, mixed> $row
+     */
+    public function assign(array $row): void
+    {
     }
 }

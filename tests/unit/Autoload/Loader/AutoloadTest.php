@@ -42,7 +42,7 @@ final class AutoloadTest extends AbstractUnitTestCase
             )
         ;
 
-        $loader->autoload('One');
+        $this->assertTrue($loader->autoload('One'));
 
         $expected = [
             'Loading: One',
@@ -52,7 +52,7 @@ final class AutoloadTest extends AbstractUnitTestCase
         $actual   = $loader->getDebug();
         $this->assertSame($expected, $actual);
 
-        $loader->autoload('Two');
+        $this->assertTrue($loader->autoload('Two'));
 
         $expected = [
             'Loading: Two',
@@ -62,7 +62,7 @@ final class AutoloadTest extends AbstractUnitTestCase
         $actual   = $loader->getDebug();
         $this->assertSame($expected, $actual);
 
-        $loader->autoload('Three');
+        $this->assertFalse($loader->autoload('Three'));
 
         $expected = [
             'Loading: Three',

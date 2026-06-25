@@ -21,46 +21,22 @@ use Phalcon\Http\RequestInterface;
 
 final class FakeRequest implements RequestInterface
 {
-    /**
-     * @var array<string, mixed>
-     */
-    private array $query = [];
-
-    /**
-     * @var array<string, string>
-     */
-    private array $headers = [];
 
     /**
      * @var array<string, string>|null
      */
     private ?array $basicAuth = null;
 
+    /**
+     * @var array<string, string>
+     */
+    private array $headers = [];
+    /**
+     * @var array<string, mixed>
+     */
+    private array $query = [];
+
     private string $userAgent = '';
-
-    // -------------------------------------------------------------------------
-    // Test helper setters
-    // -------------------------------------------------------------------------
-
-    public function setBasicAuthFake(?array $value): void
-    {
-        $this->basicAuth = $value;
-    }
-
-    public function setHeaderFake(string $key, string $value): void
-    {
-        $this->headers[$key] = $value;
-    }
-
-    public function setQueryFake(string $key, mixed $value): void
-    {
-        $this->query[$key] = $value;
-    }
-
-    public function setUserAgentFake(string $value): void
-    {
-        $this->userAgent = $value;
-    }
 
     // -------------------------------------------------------------------------
     // RequestInterface - methods with real behaviour
@@ -80,21 +56,6 @@ final class FakeRequest implements RequestInterface
         return $this->query[$name] ?? $defaultValue;
     }
 
-    public function getBasicAuth(): ?array
-    {
-        return $this->basicAuth;
-    }
-
-    public function getHeader(string $header): string
-    {
-        return $this->headers[$header] ?? '';
-    }
-
-    public function getUserAgent(): string
-    {
-        return $this->userAgent;
-    }
-
     // -------------------------------------------------------------------------
     // RequestInterface - stub methods (not needed by tests)
     // -------------------------------------------------------------------------
@@ -102,6 +63,11 @@ final class FakeRequest implements RequestInterface
     public function getAcceptableContent(): array
     {
         throw new \LogicException('not implemented in test fake');
+    }
+
+    public function getBasicAuth(): ?array
+    {
+        return $this->basicAuth;
     }
 
     public function getBestAccept(): string
@@ -137,6 +103,11 @@ final class FakeRequest implements RequestInterface
     public function getDigestAuth(): array
     {
         throw new \LogicException('not implemented in test fake');
+    }
+
+    public function getHeader(string $header): string
+    {
+        return $this->headers[$header] ?? '';
     }
 
     public function getHeaders(): array
@@ -242,6 +213,11 @@ final class FakeRequest implements RequestInterface
         throw new \LogicException('not implemented in test fake');
     }
 
+    public function getUserAgent(): string
+    {
+        return $this->userAgent;
+    }
+
     public function has(string $name): bool
     {
         throw new \LogicException('not implemented in test fake');
@@ -345,5 +321,29 @@ final class FakeRequest implements RequestInterface
     public function numFiles(bool $onlySuccessful = false): int
     {
         throw new \LogicException('not implemented in test fake');
+    }
+
+    // -------------------------------------------------------------------------
+    // Test helper setters
+    // -------------------------------------------------------------------------
+
+    public function setBasicAuthFake(?array $value): void
+    {
+        $this->basicAuth = $value;
+    }
+
+    public function setHeaderFake(string $key, string $value): void
+    {
+        $this->headers[$key] = $value;
+    }
+
+    public function setQueryFake(string $key, mixed $value): void
+    {
+        $this->query[$key] = $value;
+    }
+
+    public function setUserAgentFake(string $value): void
+    {
+        $this->userAgent = $value;
     }
 }

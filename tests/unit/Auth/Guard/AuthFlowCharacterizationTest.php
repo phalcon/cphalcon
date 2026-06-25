@@ -27,8 +27,8 @@ use Phalcon\Tests\Unit\Auth\Fake\FakeSessionManager;
 final class AuthFlowCharacterizationTest extends AbstractUnitTestCase
 {
     private FakeRememberAdapter $adapter;
-    private FakeCookies $cookies;
     private SessionGuardConfig $config;
+    private FakeCookies $cookies;
     private FakeRequest $request;
     private FakeSessionManager $session;
 
@@ -53,35 +53,6 @@ final class AuthFlowCharacterizationTest extends AbstractUnitTestCase
         $this->session = new FakeSessionManager();
     }
 
-    private function buildGuard(): Session
-    {
-        return new Session(
-            $this->adapter,
-            $this->request,
-            $this->cookies,
-            $this->session,
-            $this->config
-        );
-    }
-
-    public function testStaleRecallerNeitherAuthenticatesNorWritesSession(): void
-    {
-        $guard = $this->buildGuard();
-
-        // A remember cookie whose token was never issued (stale/forged).
-        $this->cookies->set(
-            $this->config->getRememberName(),
-            (string) json_encode([
-                'id'         => 1,
-                'token'      => 'not-in-store',
-                'user_agent' => '',
-            ])
-        );
-
-        $this->assertNull($guard->user());
-        $this->assertFalse($this->session->has($this->config->getName()));
-    }
-
     public function testAttemptFiresAfterLoginAndPersistsSession(): void
     {
         $count  = 0;
@@ -98,6 +69,21 @@ final class AuthFlowCharacterizationTest extends AbstractUnitTestCase
         );
         $this->assertSame(1, $count);
         $this->assertSame(1, $this->session->get($this->config->getName()));
+    }
+
+    public function testLogoutClearsSessionAndUser(): void
+    {
+        $guard = $this->buildGuard();
+
+        $this->assertTrue(
+            $guard->attempt(['email' => 'alice@example.com', 'password' => 'secret'])
+        );
+        $this->assertTrue($guard->check());
+
+        $guard->logout();
+
+        $this->assertFalse($guard->check());
+        $this->assertFalse($this->session->has($this->config->getName()));
     }
 
     public function testOnceFiresAfterLoginButDoesNotPersistSession(): void
@@ -119,18 +105,32 @@ final class AuthFlowCharacterizationTest extends AbstractUnitTestCase
         $this->assertFalse($this->session->has($this->config->getName()));
     }
 
-    public function testLogoutClearsSessionAndUser(): void
+    public function testStaleRecallerNeitherAuthenticatesNorWritesSession(): void
     {
         $guard = $this->buildGuard();
 
-        $this->assertTrue(
-            $guard->attempt(['email' => 'alice@example.com', 'password' => 'secret'])
+        // A remember cookie whose token was never issued (stale/forged).
+        $this->cookies->set(
+            $this->config->getRememberName(),
+            (string) json_encode([
+                'id'         => 1,
+                'token'      => 'not-in-store',
+                'user_agent' => '',
+            ])
         );
-        $this->assertTrue($guard->check());
 
-        $guard->logout();
-
-        $this->assertFalse($guard->check());
+        $this->assertNull($guard->user());
         $this->assertFalse($this->session->has($this->config->getName()));
+    }
+
+    private function buildGuard(): Session
+    {
+        return new Session(
+            $this->adapter,
+            $this->request,
+            $this->cookies,
+            $this->session,
+            $this->config
+        );
     }
 }

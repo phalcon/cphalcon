@@ -43,6 +43,18 @@ final class AdapterLocatorTest extends AbstractUnitTestCase
         $this->container->set(StreamAdapterConfig::class, fn () => new StreamAdapterConfig('unused.json'));
     }
 
+    public function testCustomMappingHonored(): void
+    {
+        $this->markTestSkipped('Enable after setDI is addressed');
+
+        $factory = new AdapterLocator(
+            $this->container,
+            ['custom' => Memory::class]
+        );
+
+        $this->assertInstanceOf(Memory::class, $factory->newInstance('custom'));
+    }
+
     public function testNewInstanceReturnsMemory(): void
     {
         $this->markTestSkipped('Enable after setDI is addressed');
@@ -62,18 +74,6 @@ final class AdapterLocatorTest extends AbstractUnitTestCase
         $adapter = $factory->newInstance('stream');
 
         $this->assertInstanceOf(Stream::class, $adapter);
-    }
-
-    public function testCustomMappingHonored(): void
-    {
-        $this->markTestSkipped('Enable after setDI is addressed');
-
-        $factory = new AdapterLocator(
-            $this->container,
-            ['custom' => Memory::class]
-        );
-
-        $this->assertInstanceOf(Memory::class, $factory->newInstance('custom'));
     }
 
     public function testRegisterAddsMapping(): void

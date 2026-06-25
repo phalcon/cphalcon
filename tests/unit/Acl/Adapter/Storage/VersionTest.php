@@ -21,16 +21,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 
 final class VersionTest extends AbstractUnitTestCase
 {
-    public function testMissingVersionLoadsAsEmpty(): void
-    {
-        $backend = new StorageMemory(new SerializerFactory());
-        $backend->set('acl-ver', ['roles' => [], 'components' => []]);
-
-        $adapter = new Storage($backend, 'acl-ver');
-
-        $this->assertSame([], $adapter->getRoles());
-        $this->assertSame([], $adapter->getComponents());
-    }
 
     public function testIncompatibleVersionThrows(): void
     {
@@ -51,5 +41,15 @@ final class VersionTest extends AbstractUnitTestCase
         $this->expectException(InvalidSnapshot::class);
 
         new Storage($backend, 'acl-ver');
+    }
+    public function testMissingVersionLoadsAsEmpty(): void
+    {
+        $backend = new StorageMemory(new SerializerFactory());
+        $backend->set('acl-ver', ['roles' => [], 'components' => []]);
+
+        $adapter = new Storage($backend, 'acl-ver');
+
+        $this->assertSame([], $adapter->getRoles());
+        $this->assertSame([], $adapter->getComponents());
     }
 }

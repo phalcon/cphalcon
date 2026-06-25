@@ -126,5 +126,14 @@ final class RegisterUnregisterTest extends AbstractUnitTestCase
         $this->assertSame($expected, $actual);
 
         $loader->unregister();
+
+        /**
+         * After unregister() the loader's autoload must no longer be on the
+         * SPL autoload stack.
+         */
+        $functions = spl_autoload_functions();
+        foreach ($functions as $function) {
+            $this->assertNotSame($loader, $function[0]);
+        }
     }
 }

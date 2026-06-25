@@ -87,31 +87,6 @@ final class CheckedComparisonTest extends AbstractUnitTestCase
         }
     }
 
-    #[DataProvider('getLooseMatchExamples')]
-    public function testRadioLooseMatch(
-        mixed $value,
-        mixed $checked,
-        bool $shouldBeChecked
-    ): void {
-        $helper = new Radio(new Escaper(), new Doctype());
-        $result = $helper(
-            'x',
-            null,
-            [
-                'value'   => $value,
-                'checked' => $checked,
-            ]
-        );
-
-        $rendered = (string) $result;
-
-        if ($shouldBeChecked) {
-            $this->assertStringContainsString('checked="checked"', $rendered);
-        } else {
-            $this->assertStringNotContainsString('checked="checked"', $rendered);
-        }
-    }
-
     #[DataProvider('getStrictMatchExamples')]
     public function testCheckboxStrictMatch(
         mixed $value,
@@ -166,12 +141,17 @@ final class CheckedComparisonTest extends AbstractUnitTestCase
         }
     }
 
+    /**
+     * Same opt-ins must hold under `strict(true)`: the unconditional path
+     * does not consult `value`.
+     */
     #[DataProvider('getUnconditionalCheckedExamples')]
-    public function testRadioUnconditionalCheckedAttribute(
+    public function testCheckboxUnconditionalCheckedAttributeUnderStrict(
         mixed $checked,
         bool $shouldBeChecked
     ): void {
-        $helper = new Radio(new Escaper(), new Doctype());
+        $helper = new Checkbox(new Escaper(), new Doctype());
+        $helper->strict();
         $result = $helper(
             'x',
             '1',
@@ -189,17 +169,37 @@ final class CheckedComparisonTest extends AbstractUnitTestCase
         }
     }
 
-    /**
-     * Same opt-ins must hold under `strict(true)`: the unconditional path
-     * does not consult `value`.
-     */
-    #[DataProvider('getUnconditionalCheckedExamples')]
-    public function testCheckboxUnconditionalCheckedAttributeUnderStrict(
+    #[DataProvider('getLooseMatchExamples')]
+    public function testRadioLooseMatch(
+        mixed $value,
         mixed $checked,
         bool $shouldBeChecked
     ): void {
-        $helper = new Checkbox(new Escaper(), new Doctype());
-        $helper->strict();
+        $helper = new Radio(new Escaper(), new Doctype());
+        $result = $helper(
+            'x',
+            null,
+            [
+                'value'   => $value,
+                'checked' => $checked,
+            ]
+        );
+
+        $rendered = (string) $result;
+
+        if ($shouldBeChecked) {
+            $this->assertStringContainsString('checked="checked"', $rendered);
+        } else {
+            $this->assertStringNotContainsString('checked="checked"', $rendered);
+        }
+    }
+
+    #[DataProvider('getUnconditionalCheckedExamples')]
+    public function testRadioUnconditionalCheckedAttribute(
+        mixed $checked,
+        bool $shouldBeChecked
+    ): void {
+        $helper = new Radio(new Escaper(), new Doctype());
         $result = $helper(
             'x',
             '1',

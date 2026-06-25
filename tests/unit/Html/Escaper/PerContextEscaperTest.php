@@ -28,6 +28,35 @@ use Phalcon\Tests\Unit\Html\Escaper\Fake\FakeHtmlEscaper;
  */
 final class PerContextEscaperTest extends AbstractUnitTestCase
 {
+
+    public function testAttributeEscaperHandlesArrays(): void
+    {
+        $attr = new AttributeEscaper();
+
+        $rendered = $attr->escape([
+            'id'       => 'x',
+            'class'    => 'foo bar',
+            'disabled' => true,
+            'hidden'   => false,    // dropped
+            'noValue'  => null,     // dropped
+        ]);
+
+        $this->assertStringContainsString('id="x"', $rendered);
+        $this->assertStringContainsString('class="foo bar"', $rendered);
+        $this->assertStringContainsString('disabled', $rendered);
+        $this->assertStringNotContainsString('hidden', $rendered);
+        $this->assertStringNotContainsString('noValue', $rendered);
+    }
+
+    public function testFacadeDelegatesToSubObjects(): void
+    {
+        $facade = new Escaper();
+
+        $this->assertSame('&lt;b&gt;', $facade->html('<b>'));
+        $this->assertSame('a%2Fb', $facade->url('a/b'));
+        $this->assertNotSame('', $facade->css('hi'));
+        $this->assertNotSame('', $facade->js('hi'));
+    }
     public function testFacadeProvidesAllFiveContexts(): void
     {
         $facade = new Escaper();
@@ -74,16 +103,6 @@ final class PerContextEscaperTest extends AbstractUnitTestCase
         $this->assertSame('us-ascii', $facade->getJsEscaper()->getEncoding());
     }
 
-    public function testFacadeDelegatesToSubObjects(): void
-    {
-        $facade = new Escaper();
-
-        $this->assertSame('&lt;b&gt;', $facade->html('<b>'));
-        $this->assertSame('a%2Fb', $facade->url('a/b'));
-        $this->assertNotSame('', $facade->css('hi'));
-        $this->assertNotSame('', $facade->js('hi'));
-    }
-
     public function testSubObjectIsCallableViaInvoke(): void
     {
         $html = new HtmlEscaper();
@@ -104,24 +123,5 @@ final class PerContextEscaperTest extends AbstractUnitTestCase
         $this->assertSame('<b>', $custom->last);
         // attribute escaper is unaffected
         $this->assertSame('&lt;b&gt;', $facade->attributes('<b>'));
-    }
-
-    public function testAttributeEscaperHandlesArrays(): void
-    {
-        $attr = new AttributeEscaper();
-
-        $rendered = $attr->escape([
-            'id'       => 'x',
-            'class'    => 'foo bar',
-            'disabled' => true,
-            'hidden'   => false,    // dropped
-            'noValue'  => null,     // dropped
-        ]);
-
-        $this->assertStringContainsString('id="x"', $rendered);
-        $this->assertStringContainsString('class="foo bar"', $rendered);
-        $this->assertStringContainsString('disabled', $rendered);
-        $this->assertStringNotContainsString('hidden', $rendered);
-        $this->assertStringNotContainsString('noValue', $rendered);
     }
 }

@@ -40,6 +40,20 @@ use stdClass;
 
 final class ContainerAutoInjectTest extends AbstractUnitTestCase
 {
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-19
+     */
+    public function testNonInjectionAwareInstancesAreUnaffected(): void
+    {
+        $container = new Container();
+        $container->set('stdClass', stdClass::class);
+
+        // Must not throw - stdClass does not implement InjectionAwareInterface
+        $obj = $container->get('stdClass');
+        $this->assertInstanceOf(stdClass::class, $obj);
+    }
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-19
@@ -55,19 +69,5 @@ final class ContainerAutoInjectTest extends AbstractUnitTestCase
 
         // Container must have injected itself - no Di involved
         $this->assertSame($container, $component->getDI());
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-19
-     */
-    public function testNonInjectionAwareInstancesAreUnaffected(): void
-    {
-        $container = new Container();
-        $container->set('stdClass', stdClass::class);
-
-        // Must not throw - stdClass does not implement InjectionAwareInterface
-        $obj = $container->get('stdClass');
-        $this->assertInstanceOf(stdClass::class, $obj);
     }
 }

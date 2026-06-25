@@ -11,6 +11,18 @@ use Throwable;
 
 final class InstanceNotFoundTest extends AbstractUnitTestCase
 {
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-18
+     */
+    public function testContainerExceptionsInstanceNotFoundIsContainerThrowable(): void
+    {
+        $exception = new InstanceNotFound('myInstance');
+
+        $this->assertInstanceOf(ContainerThrowable::class, $exception);
+        $this->assertInstanceOf(Throwable::class, $exception);
+    }
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-18
@@ -23,17 +35,5 @@ final class InstanceNotFoundTest extends AbstractUnitTestCase
             "Instance 'myInstance' not found",
             $exception->getMessage()
         );
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-18
-     */
-    public function testContainerExceptionsInstanceNotFoundIsContainerThrowable(): void
-    {
-        $exception = new InstanceNotFound('myInstance');
-
-        $this->assertInstanceOf(ContainerThrowable::class, $exception);
-        $this->assertInstanceOf(Throwable::class, $exception);
     }
 }

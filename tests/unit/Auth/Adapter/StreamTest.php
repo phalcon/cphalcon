@@ -79,6 +79,22 @@ final class StreamTest extends AbstractUnitTestCase
         $this->assertNull($user);
     }
 
+    public function testRetrieveByIdReturnsNullOnMiss(): void
+    {
+        $adapter = new FakeStreamAdapter($this->security);
+        $adapter->setUsers(
+            [
+                [
+                    'id'       => 1,
+                    'email'    => 'carol@example.com',
+                    'password' => $this->hashedPassword,
+                ],
+            ]
+        );
+
+        $this->assertNull($adapter->retrieveById(999));
+    }
+
     public function testRetrieveByIdReturnsUserFromInjectedArray(): void
     {
         $adapter = new FakeStreamAdapter($this->security);
@@ -98,20 +114,48 @@ final class StreamTest extends AbstractUnitTestCase
         $this->assertSame(7, $user->getAuthIdentifier());
     }
 
-    public function testRetrieveByIdReturnsNullOnMiss(): void
+    public function testThrowsWhenFileCannotBeRead(): void
     {
-        $adapter = new FakeStreamAdapter($this->security);
-        $adapter->setUsers(
-            [
-                [
-                    'id'       => 1,
-                    'email'    => 'carol@example.com',
-                    'password' => $this->hashedPassword,
-                ],
-            ]
-        );
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessageMatches('/cannot read/');
 
-        $this->assertNull($adapter->retrieveById(999));
+        $adapter = new FakeStreamAdapter($this->security);
+        $adapter->setRawContents(false);
+
+        $adapter->retrieveById(1);
+    }
+
+    public function testThrowsWhenFileDoesNotContainJsonArray(): void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessageMatches('/does not contain a JSON array/');
+
+        $adapter = new FakeStreamAdapter($this->security);
+        $adapter->setRawContents('"a string, not an array"');
+
+        $adapter->retrieveById(1);
+    }
+
+    public function testThrowsWhenFileDoesNotExist(): void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessageMatches('/does not exist/');
+
+        $adapter = new FakeStreamAdapter($this->security);
+        $adapter->setFileExists(false);
+
+        $adapter->retrieveById(1);
+    }
+
+    public function testThrowsWhenFileNotValidJson(): void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessageMatches('/not valid JSON/');
+
+        $adapter = new FakeStreamAdapter($this->security);
+        $adapter->setRawContents('{not really json');
+
+        $adapter->retrieveById(1);
     }
 
     public function testValidateCredentialsAcceptsCorrectPassword(): void
@@ -156,49 +200,5 @@ final class StreamTest extends AbstractUnitTestCase
         $result = $adapter->validateCredentials($user, ['password' => 'wrongpassword']);
 
         $this->assertFalse($result);
-    }
-
-    public function testThrowsWhenFileDoesNotExist(): void
-    {
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessageMatches('/does not exist/');
-
-        $adapter = new FakeStreamAdapter($this->security);
-        $adapter->setFileExists(false);
-
-        $adapter->retrieveById(1);
-    }
-
-    public function testThrowsWhenFileCannotBeRead(): void
-    {
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessageMatches('/cannot read/');
-
-        $adapter = new FakeStreamAdapter($this->security);
-        $adapter->setRawContents(false);
-
-        $adapter->retrieveById(1);
-    }
-
-    public function testThrowsWhenFileNotValidJson(): void
-    {
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessageMatches('/not valid JSON/');
-
-        $adapter = new FakeStreamAdapter($this->security);
-        $adapter->setRawContents('{not really json');
-
-        $adapter->retrieveById(1);
-    }
-
-    public function testThrowsWhenFileDoesNotContainJsonArray(): void
-    {
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessageMatches('/does not contain a JSON array/');
-
-        $adapter = new FakeStreamAdapter($this->security);
-        $adapter->setRawContents('"a string, not an array"');
-
-        $adapter->retrieveById(1);
     }
 }

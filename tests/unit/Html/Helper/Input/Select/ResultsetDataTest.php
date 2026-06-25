@@ -34,74 +34,6 @@ final class ResultsetDataTest extends AbstractUnitTestCase
 
     /**
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-17
-     */
-    public function testGetOptionsReturnsEmptyArrayForEmptyResultset(): void
-    {
-        $data = new ResultsetData(new FakeResultset([]), ['id', 'name']);
-
-        $this->assertSame([], $data->getOptions());
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-17
-     */
-    public function testGetOptionsReturnsValueLabelPairsFromArrayRows(): void
-    {
-        $rows = [
-            ['id' => '1', 'name' => 'Ferrari'],
-            ['id' => '2', 'name' => 'Ford'],
-        ];
-
-        $data     = new ResultsetData(new FakeResultset($rows), ['id', 'name']);
-        $expected = ['1' => 'Ferrari', '2' => 'Ford'];
-
-        $this->assertSame($expected, $data->getOptions());
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-17
-     */
-    public function testGetOptionsReturnsValueLabelPairsFromObjects(): void
-    {
-        $row1 = $this->getMockBuilder(\stdClass::class)
-                     ->addMethods(['readAttribute'])
-                     ->getMock();
-        $row1->method('readAttribute')
-             ->willReturnMap([['id', '1'], ['name', 'Ferrari']]);
-
-        $row2 = $this->getMockBuilder(\stdClass::class)
-                     ->addMethods(['readAttribute'])
-                     ->getMock();
-        $row2->method('readAttribute')
-             ->willReturnMap([['id', '2'], ['name', 'Ford']]);
-
-        $data   = new ResultsetData(new FakeResultset([$row1, $row2]), ['id', 'name']);
-        $actual = $data->getOptions();
-
-        $this->assertSame(['1' => 'Ferrari', '2' => 'Ford'], $actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-05-04
-     */
-    public function testGetAttributesEmptyWhenNoMapProvided(): void
-    {
-        $rows = [
-            ['id' => '1', 'name' => 'Ferrari'],
-            ['id' => '2', 'name' => 'Ford'],
-        ];
-
-        $data = new ResultsetData(new FakeResultset($rows), ['id', 'name']);
-
-        $this->assertSame([], $data->getAttributes());
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-04
      */
     public function testGetAttributesAppliesStaticStringToEveryRow(): void
@@ -123,6 +55,22 @@ final class ResultsetDataTest extends AbstractUnitTestCase
         ];
 
         $this->assertSame($expected, $data->getAttributes());
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-04
+     */
+    public function testGetAttributesEmptyWhenNoMapProvided(): void
+    {
+        $rows = [
+            ['id' => '1', 'name' => 'Ferrari'],
+            ['id' => '2', 'name' => 'Ford'],
+        ];
+
+        $data = new ResultsetData(new FakeResultset($rows), ['id', 'name']);
+
+        $this->assertSame([], $data->getAttributes());
     }
 
     /**
@@ -183,5 +131,57 @@ final class ResultsetDataTest extends AbstractUnitTestCase
         $data->getAttributes();
 
         $this->assertSame(1, $calls);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-17
+     */
+    public function testGetOptionsReturnsEmptyArrayForEmptyResultset(): void
+    {
+        $data = new ResultsetData(new FakeResultset([]), ['id', 'name']);
+
+        $this->assertSame([], $data->getOptions());
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-17
+     */
+    public function testGetOptionsReturnsValueLabelPairsFromArrayRows(): void
+    {
+        $rows = [
+            ['id' => '1', 'name' => 'Ferrari'],
+            ['id' => '2', 'name' => 'Ford'],
+        ];
+
+        $data     = new ResultsetData(new FakeResultset($rows), ['id', 'name']);
+        $expected = ['1' => 'Ferrari', '2' => 'Ford'];
+
+        $this->assertSame($expected, $data->getOptions());
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-17
+     */
+    public function testGetOptionsReturnsValueLabelPairsFromObjects(): void
+    {
+        $row1 = $this->getMockBuilder(\stdClass::class)
+                     ->addMethods(['readAttribute'])
+                     ->getMock();
+        $row1->method('readAttribute')
+             ->willReturnMap([['id', '1'], ['name', 'Ferrari']]);
+
+        $row2 = $this->getMockBuilder(\stdClass::class)
+                     ->addMethods(['readAttribute'])
+                     ->getMock();
+        $row2->method('readAttribute')
+             ->willReturnMap([['id', '2'], ['name', 'Ford']]);
+
+        $data   = new ResultsetData(new FakeResultset([$row1, $row2]), ['id', 'name']);
+        $actual = $data->getOptions();
+
+        $this->assertSame(['1' => 'Ferrari', '2' => 'Ford'], $actual);
     }
 }

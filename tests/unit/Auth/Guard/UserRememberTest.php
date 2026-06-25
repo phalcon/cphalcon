@@ -21,6 +21,30 @@ use Phalcon\Tests\AbstractUnitTestCase;
 
 final class UserRememberTest extends AbstractUnitTestCase
 {
+
+    public function testJsonStringDecodingToNonArrayDegradesGracefully(): void
+    {
+        $remember = new UserRemember('"just a string"');
+
+        $this->assertNull($remember->getId());
+        $this->assertSame('', $remember->getToken());
+    }
+
+    public function testMalformedJsonStringDegradesToEmptyPayload(): void
+    {
+        $remember = new UserRemember('not json');
+
+        $this->assertNull($remember->getId());
+        $this->assertSame('', $remember->getToken());
+        $this->assertSame('', $remember->getUserAgent());
+    }
+
+    public function testNonScalarIdBecomesNull(): void
+    {
+        $remember = new UserRemember(['id' => ['nested']]);
+
+        $this->assertNull($remember->getId());
+    }
     public function testParsesArrayPayload(): void
     {
         $remember = new UserRemember([
@@ -46,29 +70,5 @@ final class UserRememberTest extends AbstractUnitTestCase
         $this->assertSame('user-7', $remember->getId());
         $this->assertSame('xyz', $remember->getToken());
         $this->assertSame('agent', $remember->getUserAgent());
-    }
-
-    public function testMalformedJsonStringDegradesToEmptyPayload(): void
-    {
-        $remember = new UserRemember('not json');
-
-        $this->assertNull($remember->getId());
-        $this->assertSame('', $remember->getToken());
-        $this->assertSame('', $remember->getUserAgent());
-    }
-
-    public function testNonScalarIdBecomesNull(): void
-    {
-        $remember = new UserRemember(['id' => ['nested']]);
-
-        $this->assertNull($remember->getId());
-    }
-
-    public function testJsonStringDecodingToNonArrayDegradesGracefully(): void
-    {
-        $remember = new UserRemember('"just a string"');
-
-        $this->assertNull($remember->getId());
-        $this->assertSame('', $remember->getToken());
     }
 }
