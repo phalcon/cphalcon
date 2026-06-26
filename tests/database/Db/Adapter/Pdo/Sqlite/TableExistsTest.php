@@ -15,6 +15,7 @@ namespace Phalcon\Tests\Database\Db\Adapter\Pdo\Sqlite;
 
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 final class TableExistsTest extends AbstractDatabaseTestCase
 {
@@ -36,8 +37,8 @@ final class TableExistsTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
-     * @group  sqlite
      */
+    #[Group('sqlite')]
     public function testDbAdapterPdoSqliteTableExists(): void
     {
         $db = $this->container->get('db');

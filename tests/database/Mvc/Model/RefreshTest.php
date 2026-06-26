@@ -18,13 +18,11 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 use function uniqid;
 
-/**
- *
- * @group phql
- */
+#[Group('phql')]
 final class RefreshTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -39,12 +37,9 @@ final class RefreshTest extends AbstractDatabaseTestCase
         (new InvoicesMigration($connection));
     }
 
-    /**
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
-     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelRefresh(): void
     {
         $title = uniqid('inv-');

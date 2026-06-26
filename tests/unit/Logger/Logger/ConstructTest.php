@@ -19,24 +19,11 @@ use Phalcon\Logger\Enum;
 use Phalcon\Logger\Exception;
 use Phalcon\Logger\Formatter\Json;
 use Phalcon\Logger\Logger;
-use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Logger\LoggerInterface;
+use Phalcon\Tests\AbstractUnitTestCase;
 
 final class ConstructTest extends AbstractUnitTestCase
 {
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2020-09-09
-     */
-    public function testLoggerConstructWithTimezone(): void
-    {
-        $timezone = new DateTimeZone('America/New_York');
-        $logger   = new Logger('my-logger', [], $timezone);
-
-        $this->assertInstanceOf(LoggerInterface::class, $logger);
-        $this->assertSame('my-logger', $logger->getName());
-    }
-
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
@@ -139,5 +126,17 @@ final class ConstructTest extends AbstractUnitTestCase
 
         $adapter->close();
         $this->safeDeleteFile($outputPath);
+    }
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    public function testLoggerConstructWithTimezone(): void
+    {
+        $timezone = new DateTimeZone('America/New_York');
+        $logger   = new Logger('my-logger', [], $timezone);
+
+        $this->assertInstanceOf(LoggerInterface::class, $logger);
+        $this->assertSame('my-logger', $logger->getName());
     }
 }

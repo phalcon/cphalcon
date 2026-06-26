@@ -16,15 +16,16 @@
 
 %right AGAINST .
 %left BETWEEN BETWEEN_NOT .
-%left EQUALS NOTEQUALS LESS GREATER GREATEREQUAL LESSEQUAL .
+%left EQUALS NOTEQUALS LESS GREATER GREATEREQUAL LESSEQUAL OP_MATCHES OP_CONTAINS OP_CONTAINED OP_OVERLAPS .
 %left AND OR .
 %left LIKE ILIKE .
 %left BITWISE_AND BITWISE_OR BITWISE_XOR .
 %left DIVIDE TIMES MOD .
-%left PLUS MINUS .
+%left PLUS MINUS OP_CONCAT .
 %left IS .
 %right IN .
 %right NOT BITWISE_NOT .
+%left OP_JSON_GET OP_JSON_GET_TEXT OP_JSON_PATH OP_JSON_PATH_TEXT .
 %left COMMA .
 
 %include {
@@ -379,8 +380,8 @@ update_statement(R) ::= update_clause(U) where_clause(W) limit_clause(L) . {
 	zval_ptr_dtor(&$$);
 }
 
-update_clause(R) ::= UPDATE associated_name(A) SET update_item_list(U) . {
-	phql_ret_update_clause(&R, &A, &U);
+update_clause(R) ::= UPDATE associated_name(A) join_list_or_null(J) SET update_item_list(U) . {
+	phql_ret_update_clause(&R, &A, &J, &U);
 }
 
 %destructor update_item_list {
@@ -699,6 +700,42 @@ expr(R) ::= expr(O1) BITWISE_OR expr(O2) . {
 
 expr(R) ::= expr(O1) BITWISE_XOR expr(O2) . {
 	phql_ret_expr(&R, PHQL_T_BITWISE_XOR, &O1, &O2);
+}
+
+expr(R) ::= expr(O1) OP_MATCHES expr(O2) . {
+	phql_ret_expr(&R, PHQL_T_OP_MATCHES, &O1, &O2);
+}
+
+expr(R) ::= expr(O1) OP_CONTAINS expr(O2) . {
+	phql_ret_expr(&R, PHQL_T_OP_CONTAINS, &O1, &O2);
+}
+
+expr(R) ::= expr(O1) OP_CONTAINED expr(O2) . {
+	phql_ret_expr(&R, PHQL_T_OP_CONTAINED, &O1, &O2);
+}
+
+expr(R) ::= expr(O1) OP_OVERLAPS expr(O2) . {
+	phql_ret_expr(&R, PHQL_T_OP_OVERLAPS, &O1, &O2);
+}
+
+expr(R) ::= expr(O1) OP_CONCAT expr(O2) . {
+	phql_ret_expr(&R, PHQL_T_OP_CONCAT, &O1, &O2);
+}
+
+expr(R) ::= expr(O1) OP_JSON_GET expr(O2) . {
+	phql_ret_expr(&R, PHQL_T_OP_JSON_GET, &O1, &O2);
+}
+
+expr(R) ::= expr(O1) OP_JSON_GET_TEXT expr(O2) . {
+	phql_ret_expr(&R, PHQL_T_OP_JSON_GET_TEXT, &O1, &O2);
+}
+
+expr(R) ::= expr(O1) OP_JSON_PATH expr(O2) . {
+	phql_ret_expr(&R, PHQL_T_OP_JSON_PATH, &O1, &O2);
+}
+
+expr(R) ::= expr(O1) OP_JSON_PATH_TEXT expr(O2) . {
+	phql_ret_expr(&R, PHQL_T_OP_JSON_PATH_TEXT, &O1, &O2);
 }
 
 expr(R) ::= expr(O1) EQUALS expr(O2) . {

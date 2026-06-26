@@ -59,9 +59,12 @@ class Model extends AbstractAdapter implements RememberAdapter
      */
     public function createRememberToken(<AuthUser> user) -> <RememberToken>
     {
-        if (!(user instanceof AuthRemember)) {
-            throw new DoesNotImplement("User model", "AuthRemember");
-        }
+        DoesNotImplement::assert(
+            user,
+            "Phalcon\\Contracts\\Auth\\AuthRemember",
+            "User model",
+            "AuthRemember"
+        );
 
         return user->createRememberToken(bin2hex(random_bytes(30)));
     }
@@ -73,11 +76,9 @@ class Model extends AbstractAdapter implements RememberAdapter
      */
     public function retrieveByCredentials(array credentials) -> <AuthUser> | null
     {
-        var found, key, modelClass, value;
+        var key, value, found;
         array bind, conditions;
 
-        /** @var class-string<ModelInterface> $modelClass */
-        let modelClass = this->config->getModel();
         let conditions = [];
         let bind       = [];
 
@@ -94,14 +95,17 @@ class Model extends AbstractAdapter implements RememberAdapter
             return null;
         }
 
-        let found = {modelClass}::findFirst(
+        let found = this->findFirstAsAuthUser(
             [
                 "conditions" : join(" AND ", conditions),
                 "bind"       : bind
             ]
         );
 
-        /** @var AuthUser|null $found */
+        if (found === null) {
+            this->burnHash();
+        }
+
         return found;
     }
 
@@ -111,20 +115,12 @@ class Model extends AbstractAdapter implements RememberAdapter
             throw new \TypeError("The parameter must be 'int' or 'string'");
         }
 
-        var found, idColumn, modelClass;
-
-        /** @var class-string<ModelInterface> $modelClass */
-        let modelClass = this->config->getModel();
-        let idColumn   = this->config->getIdColumn();
-        let found      = {modelClass}::findFirst(
+        return this->findFirstAsAuthUser(
             [
-                "conditions" : "[" . idColumn . "] = :id:",
+                "conditions" : "[" . this->config->getIdColumn() . "] = :id:",
                 "bind"       : ["id" : id]
             ]
         );
-
-        /** @var AuthUser|null $found */
-        return found;
     }
 
     /**
@@ -159,5 +155,37 @@ class Model extends AbstractAdapter implements RememberAdapter
         }
 
         return user;
+    }
+
+    /**
+     * Runs findFirst() with the given parameters and normalizes the result to
+     * an ?AuthUser: a missing record yields null, a record that is not an
+     * AuthUser throws.
+     *
+     * @param array{conditions: string, bind: array<string, mixed>} $parameters
+     *
+     * @throws DoesNotImplement
+     */
+    private function findFirstAsAuthUser(array parameters) -> <AuthUser> | null
+    {
+        var found, modelClass;
+
+        /** @var class-string<ModelInterface> $modelClass */
+        let modelClass = this->config->getModel();
+
+        let found = {modelClass}::findFirst(parameters);
+
+        if (found === null) {
+            return null;
+        }
+
+        DoesNotImplement::assert(
+            found,
+            "Phalcon\\Contracts\\Auth\\AuthUser",
+            "User model",
+            "AuthUser"
+        );
+
+        return found;
     }
 }

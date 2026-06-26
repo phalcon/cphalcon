@@ -23,8 +23,9 @@ use Phalcon\Filter\Validation\Validator\Url;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
 use Phalcon\Tests\AbstractDatabaseTestCase;
-use Phalcon\Tests\Support\Models\Users;
+use Phalcon\Tests\Support\Models\Objects;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 use stdClass;
 
 final class ValidationTest extends AbstractDatabaseTestCase
@@ -41,7 +42,7 @@ final class ValidationTest extends AbstractDatabaseTestCase
         $this->validation = new Validation();
 
         $this->validation->add(
-            'name',
+            'obj_name',
             new PresenceOf(
                 [
                     'message' => 'Name cant be empty.',
@@ -49,7 +50,7 @@ final class ValidationTest extends AbstractDatabaseTestCase
             )
         );
 
-        $this->validation->setFilters('name', 'trim');
+        $this->validation->setFilters('obj_name', 'trim');
     }
 
     /**
@@ -58,10 +59,9 @@ final class ValidationTest extends AbstractDatabaseTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @issue  https://github.com/phalcon/cphalcon/issues/10405
      * @since  2016-06-27
-     *
-     * @group  mysql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('sqlite')]
     public function testAppendValidationMessageToTheNonObject(): void
     {
         $myValidator = new PresenceOf();
@@ -96,48 +96,97 @@ final class ValidationTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests validate method with entity and filters
+     * Tests that empty values behavior.
      *
-     * @author Wojciech Ślawski <jurigag@gmail.com>
-     * @since  2016-09-26
-     *
-     * @group  mysql
-     * @group sqlite
+     * @author Gorka Guridi <gorka.guridi@gmail.com>
+     * @since  2016-12-30
      */
-    public function testWithEntityAndFilter(): void
+    #[Group('mysql')]
+    #[Group('sqlite')]
+    public function testEmptyValues(): void
     {
-        $this->markTestSkipped('The `users` table is not in the current test schema');
+        $validation = new Validation();
 
-        $users = new Users(
+        $validation->setDI(
+            $this->container
+        );
+
+        $validation
+            ->add(
+                'name',
+                new Alpha(
+                    [
+                        'message' => 'The name is not valid',
+                    ]
+                )
+            )
+            ->add(
+                'name',
+                new PresenceOf(
+                    [
+                        'message' => 'The name is required',
+                    ]
+                )
+            )
+            ->add(
+                'url',
+                new Url(
+                    [
+                        'message'    => 'The url is not valid.',
+                        'allowEmpty' => true,
+                    ]
+                )
+            )
+            ->add(
+                'email',
+                new Email(
+                    [
+                        'message'    => 'The email is not valid.',
+                        'allowEmpty' => [null, false],
+                    ]
+                )
+            )
+        ;
+
+        $messages = $validation->validate(
             [
-                'name' => ' ',
+                'name'  => '',
+                'url'   => null,
+                'email' => '',
             ]
         );
 
-        $messages = $this->validation->validate(null, $users);
+        $this->assertCount(2, $messages);
 
-        $this->assertEquals(
-            1,
-            $messages->count()
-        );
-
-        $this->assertEquals(
-            'Name cant be empty.',
-            $messages->offsetGet(0)->getMessage()
-        );
-
-        $expectedMessages = new Messages(
+        $messages = $validation->validate(
             [
-                new Message(
-                    'Name cant be empty.',
-                    'name',
-                    PresenceOf::class,
-                    0
-                ),
+                'name'  => 'MyName',
+                'url'   => '',
+                'email' => '',
             ]
         );
 
-        $this->assertEquals($messages, $expectedMessages);
+        $this->assertCount(1, $messages);
+
+        $messages = $validation->validate(
+            [
+                'name'  => 'MyName',
+                'url'   => false,
+                'email' => null,
+            ]
+        );
+
+        $this->assertCount(0, $messages);
+
+        $messages = $validation->validate(
+            [
+                'name'  => 'MyName',
+                'url'   => 0,
+                'email' => 0,
+            ]
+        );
+
+        $this->assertCount(1, $messages);
     }
 
     /**
@@ -145,37 +194,33 @@ final class ValidationTest extends AbstractDatabaseTestCase
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-09-26
-     *
-     * @group  mysql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('sqlite')]
     public function testFilteringEntity(): void
     {
-        $this->markTestSkipped('The `users` table is not in the current test schema');
+        $object = new Objects();
 
-        $users = new Users();
-
-        $users->assign(
+        $object->assign(
             [
-                'name' => 'SomeName      ',
+                'obj_name' => 'SomeName      ',
             ]
         );
 
-        $this->validation->validate(null, $users);
+        $this->validation->validate(null, $object);
 
         $this->assertEquals(
             'SomeName',
-            $users->name
+            $object->obj_name
         );
     }
 
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-01
-     *
-     * @group  mysql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('sqlite')]
     public function testValidationFiltering(): void
     {
         $validation = new Validation();
@@ -232,10 +277,9 @@ final class ValidationTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-01
-     *
-     * @group  mysql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('sqlite')]
     public function testValidationSetLabels(): void
     {
         $validation = new Validation();
@@ -324,97 +368,44 @@ final class ValidationTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests that empty values behavior.
+     * Tests validate method with entity and filters
      *
-     * @author Gorka Guridi <gorka.guridi@gmail.com>
-     * @since  2016-12-30
-     *
-     * @group  mysql
-     * @group sqlite
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2016-09-26
      */
-    public function testEmptyValues(): void
+    #[Group('mysql')]
+    #[Group('sqlite')]
+    public function testWithEntityAndFilter(): void
     {
-        $validation = new Validation();
-
-        $validation->setDI(
-            $this->container
-        );
-
-        $validation
-            ->add(
-                'name',
-                new Alpha(
-                    [
-                        'message' => 'The name is not valid',
-                    ]
-                )
-            )
-            ->add(
-                'name',
-                new PresenceOf(
-                    [
-                        'message' => 'The name is required',
-                    ]
-                )
-            )
-            ->add(
-                'url',
-                new Url(
-                    [
-                        'message'    => 'The url is not valid.',
-                        'allowEmpty' => true,
-                    ]
-                )
-            )
-            ->add(
-                'email',
-                new Email(
-                    [
-                        'message'    => 'The email is not valid.',
-                        'allowEmpty' => [null, false],
-                    ]
-                )
-            )
-        ;
-
-        $messages = $validation->validate(
+        $object = new Objects(
             [
-                'name'  => '',
-                'url'   => null,
-                'email' => '',
+                'obj_name' => ' ',
             ]
         );
 
-        $this->assertCount(2, $messages);
+        $messages = $this->validation->validate(null, $object);
 
-        $messages = $validation->validate(
+        $this->assertEquals(
+            1,
+            $messages->count()
+        );
+
+        $this->assertEquals(
+            'Name cant be empty.',
+            $messages->offsetGet(0)->getMessage()
+        );
+
+        $expectedMessages = new Messages(
             [
-                'name'  => 'MyName',
-                'url'   => '',
-                'email' => '',
+                new Message(
+                    'Name cant be empty.',
+                    'obj_name',
+                    PresenceOf::class,
+                    0
+                ),
             ]
         );
 
-        $this->assertCount(1, $messages);
-
-        $messages = $validation->validate(
-            [
-                'name'  => 'MyName',
-                'url'   => false,
-                'email' => null,
-            ]
-        );
-
-        $this->assertCount(0, $messages);
-
-        $messages = $validation->validate(
-            [
-                'name'  => 'MyName',
-                'url'   => 0,
-                'email' => 0,
-            ]
-        );
-
-        $this->assertCount(1, $messages);
+        $this->assertEquals($messages, $expectedMessages);
     }
 }

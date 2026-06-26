@@ -13,16 +13,35 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Mvc\Model\Query;
 
+use Phalcon\Mvc\Model\Query;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
+#[Group('mysql')]
+#[Group('pgsql')]
+#[Group('sqlite')]
 final class GetSetDITest extends AbstractDatabaseTestCase
 {
+    use DiTrait;
+
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+    }
+
     /**
+     * Tests Phalcon\Mvc\Model\Query :: getDI()/setDI()
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2026-06-22
      */
     public function testMvcModelQueryGetSetDI(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $query = new Query();
+        $query->setDI($this->container);
+
+        $this->assertSame($this->container, $query->getDI());
     }
 }

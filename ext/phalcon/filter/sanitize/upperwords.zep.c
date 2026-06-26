@@ -34,6 +34,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_UpperWords)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Filter\\Sanitize, UpperWords, phalcon, filter_sanitize_upperwords, phalcon_filter_sanitize_upperwords_method_entry, 0);
 
+	zend_class_implements(phalcon_filter_sanitize_upperwords_ce, 1, phalcon_contracts_filter_sanitizer_ce);
 	return SUCCESS;
 }
 
@@ -64,7 +65,7 @@ PHP_METHOD(Phalcon_Filter_Sanitize_UpperWords, __invoke)
 		ZVAL_LONG(&_0$$3, 2);
 		ZEPHIR_INIT_VAR(&_1$$3);
 		ZVAL_STRING(&_1$$3, "UTF-8");
-		ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_case", NULL, 16, &input_zv, &_0$$3, &_1$$3);
+		ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_case", NULL, 17, &input_zv, &_0$$3, &_1$$3);
 		zephir_check_call_status();
 		RETURN_MM();
 	}

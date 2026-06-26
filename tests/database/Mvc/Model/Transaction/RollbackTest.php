@@ -18,11 +18,9 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Migrations\PersonasMigration;
 use Phalcon\Tests\Support\Models\Personas;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
-/**
- *
- * @group phql
- */
+#[Group('phql')]
 final class RollbackTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -44,12 +42,10 @@ final class RollbackTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
-     * @group pgsql
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelTransactionRollback(): void
     {
         $tm          = $this->container->getShared('transactionManager');
@@ -81,12 +77,10 @@ final class RollbackTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
-     * @group pgsql
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelTransactionRollbackException(): void
     {
         $tm    = $this->container->getShared('transactionManager');

@@ -20,13 +20,11 @@ use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Models\Customers;
 use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 use function uniqid;
 
-/**
- *
- * @group phql
- */
+#[Group('phql')]
 final class GetRelatedTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -40,11 +38,10 @@ final class GetRelatedTest extends AbstractDatabaseTestCase
     /**
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2020-08-02
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelGetRelated(): void
     {
         /** @var PDO $connection */
@@ -122,11 +119,10 @@ final class GetRelatedTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-01
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelGetRelatedChangeForeignKey(): void
     {
         /** @var PDO $connection */
@@ -210,56 +206,16 @@ final class GetRelatedTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Consecutive calls to getRelated() without arguments must return the same
-     * cached object - no second database round-trip.
-     *
-     * @issue  https://github.com/phalcon/cphalcon/issues/16409
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-23
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
-     */
-    public function testMvcModelGetRelatedReturnsCachedResult(): void
-    {
-        /** @var PDO $connection */
-        $connection = self::getConnection();
-
-        $custId    = 3;
-        $firstName = uniqid('cust-', true);
-        $lastName  = uniqid('cust-', true);
-
-        $customersMigration = new CustomersMigration($connection);
-        $customersMigration->insert($custId, 0, $firstName, $lastName);
-
-        $invoicesMigration = new InvoicesMigration($connection);
-        $invoicesMigration->insert(30, $custId, Invoices::STATUS_PAID, uniqid('inv-'));
-        $invoicesMigration->insert(31, $custId, Invoices::STATUS_PAID, uniqid('inv-'));
-
-        $customer = Customers::findFirst($custId);
-
-        // camelCaseInvoices has reusable: false, so only this->related provides caching
-        $first  = $customer->getRelated('camelCaseInvoices');
-        $second = $customer->getRelated('camelCaseInvoices');
-
-        // Both calls must return the exact same object - second is served from related cache
-        $this->assertSame($first, $second);
-        $this->assertCount(2, $first);
-    }
-
-    /**
      * getRelated() must return a relation set via __set (dirty related) rather
      * than fetching from the database.
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/16409
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-23
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelGetRelatedPrioritisesDirtyRelated(): void
     {
         /** @var PDO $connection */
@@ -286,5 +242,43 @@ final class GetRelatedTest extends AbstractDatabaseTestCase
         // getRelated() must return the dirty relation, not the DB one
         $actual = $invoice->getRelated('customer');
         $this->assertSame($newCustomer, $actual);
+    }
+
+    /**
+     * Consecutive calls to getRelated() without arguments must return the same
+     * cached object - no second database round-trip.
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/16409
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-23
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelGetRelatedReturnsCachedResult(): void
+    {
+        /** @var PDO $connection */
+        $connection = self::getConnection();
+
+        $custId    = 3;
+        $firstName = uniqid('cust-', true);
+        $lastName  = uniqid('cust-', true);
+
+        $customersMigration = new CustomersMigration($connection);
+        $customersMigration->insert($custId, 0, $firstName, $lastName);
+
+        $invoicesMigration = new InvoicesMigration($connection);
+        $invoicesMigration->insert(30, $custId, Invoices::STATUS_PAID, uniqid('inv-'));
+        $invoicesMigration->insert(31, $custId, Invoices::STATUS_PAID, uniqid('inv-'));
+
+        $customer = Customers::findFirst($custId);
+
+        // camelCaseInvoices has reusable: false, so only this->related provides caching
+        $first  = $customer->getRelated('camelCaseInvoices');
+        $second = $customer->getRelated('camelCaseInvoices');
+
+        // Both calls must return the exact same object - second is served from related cache
+        $this->assertSame($first, $second);
+        $this->assertCount(2, $first);
     }
 }

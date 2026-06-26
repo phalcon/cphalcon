@@ -33,6 +33,16 @@ ZEPHIR_INIT_CLASS(Phalcon_Contracts_Auth_Manager)
 	return SUCCESS;
 }
 
+/**
+ * Activates the named access gate for the current request and returns the
+ * manager for fluent only()/except() configuration.
+ *
+ * Enforcement is opt-in and fail-open: when no access has been activated
+ * (getAccess() returns null) every dispatch is allowed. An activated gate
+ * stays active for subsequent dispatches in the same request (forwards,
+ * nested handlers) until it is replaced. Under classic FPM this is scoped
+ * to a single request; long-running runtimes must reset it per request.
+ */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Auth_Manager, access);
 /**
  * @phpstan-param array<string, class-string<Access>> $accessList
@@ -53,6 +63,10 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Auth_Manager, check);
  * Restricts the active access gate to skip the listed action names.
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Auth_Manager, except);
+/**
+ * Returns the active access gate, or null when none has been activated -
+ * in which case listener enforcement is a no-op (see access()).
+ */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Auth_Manager, getAccess);
 /**
  * @phpstan-return array<string, class-string<Access>>

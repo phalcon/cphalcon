@@ -11,9 +11,12 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Encryption\Security\JWT\Validator;
 
+use DateTimeImmutable;
+use Phalcon\Encryption\Security\JWT\Token\Enum;
 use Phalcon\Encryption\Security\JWT\Validator;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Encryption\Fake\JWTTrait;
+use Phalcon\Time\Clock\FrozenClock;
 
 final class ConstructTest extends AbstractUnitTestCase
 {
@@ -53,5 +56,20 @@ final class ConstructTest extends AbstractUnitTestCase
             Validator::class,
             $validator->validateIssuer("Phalcon JWT")
         );
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-14
+     */
+    public function testEncryptionSecurityJWTValidatorConstructWithClock(): void
+    {
+        $token     = $this->newToken();
+        $clock     = new FrozenClock(new DateTimeImmutable('@1700000000'));
+        $validator = new Validator($token, 0, $clock);
+
+        $this->assertSame(1700000000, $validator->get(Enum::EXPIRATION_TIME));
+        $this->assertSame(1700000000, $validator->get(Enum::ISSUED_AT));
+        $this->assertSame(1700000000, $validator->get(Enum::NOT_BEFORE));
     }
 }

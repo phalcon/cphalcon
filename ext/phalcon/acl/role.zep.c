@@ -31,20 +31,8 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Acl_Role)
 {
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Acl, Role, phalcon, acl_role, phalcon_acl_role_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Acl, Role, phalcon, acl_role, phalcon_acl_abstractelement_ce, phalcon_acl_role_method_entry, 0);
 
-	/**
-	 * Role description
-	 *
-	 * @var string | null
-	 */
-	zend_declare_property_null(phalcon_acl_role_ce, SL("description"), ZEND_ACC_PRIVATE);
-	/**
-	 * Role name
-	 *
-	 * @var string
-	 */
-	zend_declare_property_null(phalcon_acl_role_ce, SL("name"), ZEND_ACC_PRIVATE);
 	zend_class_implements(phalcon_acl_role_ce, 1, phalcon_acl_roleinterface_ce);
 	return SUCCESS;
 }
@@ -78,29 +66,11 @@ PHP_METHOD(Phalcon_Acl_Role, __construct)
 	ZVAL_STR_COPY(&description_zv, description);
 	}
 	if (UNEXPECTED(ZEPHIR_IS_STRING_IDENTICAL(&name_zv, "*"))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_acl_exceptions_forbiddenwildcard_ce, "role", "phalcon/Acl/Role.zep", 40);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_acl_exceptions_forbiddenwildcard_ce, "role", "phalcon/Acl/Role.zep", 26);
 		return;
 	}
 	zephir_update_property_zval(this_ptr, ZEND_STRL("name"), &name_zv);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("description"), &description_zv);
 	ZEPHIR_MM_RESTORE();
-}
-
-PHP_METHOD(Phalcon_Acl_Role, __toString)
-{
-
-	RETURN_MEMBER_TYPED(getThis(), "name", IS_STRING);
-}
-
-PHP_METHOD(Phalcon_Acl_Role, getDescription)
-{
-
-	RETURN_MEMBER(getThis(), "description");
-}
-
-PHP_METHOD(Phalcon_Acl_Role, getName)
-{
-
-	RETURN_MEMBER_TYPED(getThis(), "name", IS_STRING);
 }
 

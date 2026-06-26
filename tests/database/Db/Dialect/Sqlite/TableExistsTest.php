@@ -13,8 +13,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Db\Dialect\Sqlite;
 
+use Phalcon\Db\Dialect\Sqlite;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
+#[Group('mysql')]
+#[Group('pgsql')]
+#[Group('sqlite')]
 final class TableExistsTest extends AbstractDatabaseTestCase
 {
     /**
@@ -25,6 +30,12 @@ final class TableExistsTest extends AbstractDatabaseTestCase
      */
     public function testDbDialectSqliteTableExists(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $dialect = new Sqlite();
+
+        $expected = "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END "
+            . "FROM sqlite_master WHERE type='table' AND tbl_name='robots'";
+
+        $this->assertSame($expected, $dialect->tableExists('robots'));
+        $this->assertSame($expected, $dialect->tableExists('robots', 'schema'));
     }
 }

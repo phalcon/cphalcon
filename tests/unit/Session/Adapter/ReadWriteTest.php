@@ -51,18 +51,6 @@ final class ReadWriteTest extends AbstractServicesTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function testSessionAdapterNoopWrite(): void
-    {
-        $adapter = $this->newService('sessionNoop');
-
-        $actual = $adapter->write('test1', uniqid());
-        $this->assertTrue($actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2020-09-09
-     */
     public function testSessionAdapterNoopReadWrite(): void
     {
         $adapter = $this->newService('sessionNoop');
@@ -73,6 +61,18 @@ final class ReadWriteTest extends AbstractServicesTestCase
         $expected = '';
         $actual   = $adapter->read('test1');
         $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    public function testSessionAdapterNoopWrite(): void
+    {
+        $adapter = $this->newService('sessionNoop');
+
+        $actual = $adapter->write('test1', uniqid());
+        $this->assertTrue($actual);
     }
 
     /**
@@ -94,6 +94,37 @@ final class ReadWriteTest extends AbstractServicesTestCase
 
         $actual = $adapter->read('test1');
         $this->assertNotNull($actual);
+    }
+
+    /**
+     * A session id that happens to start with the storage prefix text must
+     * not collide with another session
+     *
+     * @issue  17127
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-11
+     */
+    public function testSessionAdapterRedisReadWritePrefixedIdNoCollision(): void
+    {
+        /** @var Redis $adapter */
+        $adapter = $this->newService('sessionRedis');
+
+        $valueOne = uniqid('one-');
+        $valueTwo = uniqid('two-');
+
+        $adapter->write('sess-reds-17127', $valueOne);
+        $adapter->write('17127', $valueTwo);
+
+        $expected = $valueOne;
+        $actual   = $adapter->read('sess-reds-17127');
+        $this->assertEquals($expected, $actual);
+
+        $expected = $valueTwo;
+        $actual   = $adapter->read('17127');
+        $this->assertEquals($expected, $actual);
+
+        $adapter->destroy('sess-reds-17127');
+        $adapter->destroy('17127');
     }
 
     /**

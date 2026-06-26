@@ -59,6 +59,16 @@ final class GuardLocatorTest extends AbstractUnitTestCase
         );
     }
 
+    public function testCustomMappingHonored(): void
+    {
+        $factory = new GuardLocator(
+            $this->container,
+            ['custom' => Session::class]
+        );
+
+        $this->assertInstanceOf(Session::class, $factory->newInstance('custom'));
+    }
+
     public function testNewInstanceReturnsSession(): void
     {
         $factory = new GuardLocator($this->container);
@@ -74,16 +84,6 @@ final class GuardLocatorTest extends AbstractUnitTestCase
         $guard   = $factory->newInstance('token');
 
         $this->assertInstanceOf(Token::class, $guard);
-    }
-
-    public function testCustomMappingHonored(): void
-    {
-        $factory = new GuardLocator(
-            $this->container,
-            ['custom' => Session::class]
-        );
-
-        $this->assertInstanceOf(Session::class, $factory->newInstance('custom'));
     }
 
     public function testRegisterRejectsNonGuardClass(): void

@@ -15,6 +15,7 @@ namespace Phalcon\Tests\Unit\Dispatcher;
 
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class GetActiveMethodTest extends AbstractUnitTestCase
 {
@@ -47,11 +48,10 @@ final class GetActiveMethodTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
+    #[DataProvider('getExamples')]
     public function testDispatcherGetActiveMethod(
         string $actionName,
         string $expected

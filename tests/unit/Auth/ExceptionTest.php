@@ -40,6 +40,28 @@ final class ExceptionTest extends AbstractUnitTestCase
         );
     }
 
+    public function testAssertAcceptsNonEmptyValue(): void
+    {
+        $this->expectNotToPerformAssertions();
+
+        ConfigRequiresNonEmptyValue::assert('value', 'Stream adapter', 'file');
+    }
+
+    public function testAssertSkipsNull(): void
+    {
+        $this->expectNotToPerformAssertions();
+
+        ConfigRequiresNonEmptyValue::assert(null, 'Stream adapter', 'file');
+    }
+
+    public function testAssertThrowsOnEmptyValue(): void
+    {
+        $this->expectException(ConfigRequiresNonEmptyValue::class);
+        $this->expectExceptionMessage("Model adapter requires a non-empty 'model' class name");
+
+        ConfigRequiresNonEmptyValue::assert('', 'Model adapter', 'model', ' class name');
+    }
+
     public function testConfigRequiresNonEmptyValue(): void
     {
         $exception = new ConfigRequiresNonEmptyValue(

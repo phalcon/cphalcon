@@ -23,6 +23,7 @@ use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Models\InvoicesBehavior;
 use Phalcon\Tests\Support\Models\InvoicesBehaviorBelongsToCustomers;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 use function uniqid;
 
@@ -39,14 +40,43 @@ final class SoftDeleteTest extends AbstractDatabaseTestCase
         (new InvoicesMigration($connection));
     }
 
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelBehaviorRemoveBehavior(): void
+    {
+        /** Add row to SoftDelete then */
+        $title = uniqid('inv-');
+        $date  = date('Y-m-d H:i:s');
+        $data  = [
+            'inv_cst_id'      => 2,
+            'inv_status_flag' => Invoices::STATUS_PAID,
+            'inv_title'       => $title,
+            'inv_total'       => 100.12,
+            'inv_created_at'  => $date,
+        ];
+
+        $invoice = new InvoicesBehavior();
+        $invoice->assign($data);
+
+        // Remove the SoftDelete behavior
+        $modelsManager = $invoice->getModelsManager();
+        $modelsManager->removeBehavior($invoice, \Phalcon\Mvc\Model\Behavior\SoftDelete::class);
+
+        /* delete invoice */
+        $invoice->delete();
+
+        // Check that the SoftDelete behavior was removed and the invoice was actually deleted
+        $this->assertFalse($invoice->hasSnapshotData());
+    }
+
     /**
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2020-10-03
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelBehaviorSoftDelete(): void
     {
         /** Add row to SoftDelete then */
@@ -70,13 +100,49 @@ final class SoftDeleteTest extends AbstractDatabaseTestCase
     }
 
     /**
+     * Tests that SoftDelete does not attempt to create a new record for a
+     * belongsTo related model when the parent model is soft-deleted.
+     *
+     * @see    https://github.com/phalcon/cphalcon/issues/16453
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2025-04-23
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelBehaviorSoftDeleteDoesNotCreateRelatedBelongsToRecord(): void
+    {
+        $connection = self::getConnection();
+        (new CustomersMigration($connection));
+
+        $customer                  = new Customers();
+        $customer->cst_status_flag = 1;
+        $customer->cst_name_last   = 'SoftDeleteBelongsTo';
+        $customer->cst_name_first  = 'Test';
+        $this->assertTrue($customer->save());
+
+        $invoice                  = new InvoicesBehaviorBelongsToCustomers();
+        $invoice->inv_status_flag = Invoices::STATUS_PAID;
+        $invoice->inv_title       = uniqid('inv-');
+        $invoice->inv_total       = 100.00;
+        $invoice->customer        = $customer;
+        $this->assertTrue($invoice->save());
+
+        $customerCountBefore = Customers::count();
+
+        $this->assertTrue($invoice->delete());
+        $this->assertEquals(Invoices::STATUS_INACTIVE, $invoice->inv_status_flag);
+        $this->assertEquals($customerCountBefore, Customers::count());
+    }
+
+    /**
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2020-10-03
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelBehaviorSoftDeleteWithBeforeDeleteEvent(): void
     {
         $this->markTestSkipped('See: https://github.com/phalcon/cphalcon/issues/14904');
@@ -107,77 +173,5 @@ final class SoftDeleteTest extends AbstractDatabaseTestCase
 
         /** Check that SoftDelete wasn't working because beforeDelete event return false */
         $this->assertEquals(Invoices::STATUS_PAID, $invoice->inv_status_flag);
-    }
-
-    /**
-     * Tests that SoftDelete does not attempt to create a new record for a
-     * belongsTo related model when the parent model is soft-deleted.
-     *
-     * @see    https://github.com/phalcon/cphalcon/issues/16453
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2025-04-23
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
-     */
-    public function testMvcModelBehaviorSoftDeleteDoesNotCreateRelatedBelongsToRecord(): void
-    {
-        $connection = self::getConnection();
-        (new CustomersMigration($connection));
-
-        $customer                  = new Customers();
-        $customer->cst_status_flag = 1;
-        $customer->cst_name_last   = 'SoftDeleteBelongsTo';
-        $customer->cst_name_first  = 'Test';
-        $this->assertTrue($customer->save());
-
-        $invoice                  = new InvoicesBehaviorBelongsToCustomers();
-        $invoice->inv_status_flag = Invoices::STATUS_PAID;
-        $invoice->inv_title       = uniqid('inv-');
-        $invoice->inv_total       = 100.00;
-        $invoice->customer        = $customer;
-        $this->assertTrue($invoice->save());
-
-        $customerCountBefore = Customers::count();
-
-        $this->assertTrue($invoice->delete());
-        $this->assertEquals(Invoices::STATUS_INACTIVE, $invoice->inv_status_flag);
-        $this->assertEquals($customerCountBefore, Customers::count());
-    }
-
-    /**
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
-     */
-    public function testMvcModelBehaviorRemoveBehavior(): void
-    {
-        $this->markTestSkipped('TODO: Phalcon\Mvc\Model\Manager::removeBehavior() not yet ported to cphalcon');
-        /** Add row to SoftDelete then */
-        $title = uniqid('inv-');
-        $date  = date('Y-m-d H:i:s');
-        $data  = [
-            'inv_cst_id'      => 2,
-            'inv_status_flag' => Invoices::STATUS_PAID,
-            'inv_title'       => $title,
-            'inv_total'       => 100.12,
-            'inv_created_at'  => $date,
-        ];
-
-        $invoice = new InvoicesBehavior();
-        $invoice->assign($data);
-
-        // Remove the SoftDelete behavior
-        $modelsManager = $invoice->getModelsManager();
-        $modelsManager->removeBehavior($invoice, \Phalcon\Mvc\Model\Behavior\SoftDelete::class);
-
-        /* delete invoice */
-        $invoice->delete();
-
-        // Check that the SoftDelete behavior was removed and the invoice was actually deleted
-        $this->assertFalse($invoice->hasSnapshotData());
     }
 }

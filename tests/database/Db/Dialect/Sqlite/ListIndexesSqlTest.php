@@ -13,8 +13,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Db\Dialect\Sqlite;
 
+use Phalcon\Db\Dialect\Sqlite;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
+#[Group('mysql')]
+#[Group('pgsql')]
+#[Group('sqlite')]
 final class ListIndexesSqlTest extends AbstractDatabaseTestCase
 {
     /**
@@ -25,6 +30,19 @@ final class ListIndexesSqlTest extends AbstractDatabaseTestCase
      */
     public function testDbDialectSqliteListIndexesSql(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $dialect = new Sqlite();
+
+        $this->assertSame(
+            'SELECT sql FROM sqlite_master '
+            . 'WHERE type = \'index\' AND tbl_name = "robots" COLLATE NOCASE',
+            $dialect->listIndexesSql('robots')
+        );
+
+        $this->assertSame(
+            'SELECT sql FROM sqlite_master '
+            . 'WHERE type = \'index\' AND tbl_name = "robots" COLLATE NOCASE'
+            . ' AND name = "idx_robots_name" COLLATE NOCASE',
+            $dialect->listIndexesSql('robots', null, 'idx_robots_name')
+        );
     }
 }

@@ -61,84 +61,6 @@ final class OperatorsTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-09
      */
-    public function testMvcModelQueryPhqlSelectSubtraction(): void
-    {
-        $source   = "SELECT inv_total - 5 FROM Invoices";
-        $expected = [
-            'type'   => 309,
-            'select' => [
-                'columns' => [
-                    0 => [
-                        'type'   => 354,
-                        'column' => [
-                            'type'  => 45,
-                            'left'  => [
-                                'type' => 355,
-                                'name' => 'inv_total',
-                            ],
-                            'right' => [
-                                'type'  => 258,
-                                'value' => '5',
-                            ],
-                        ],
-                    ],
-                ],
-                'tables'  => [
-                    'qualifiedName' => [
-                        'type' => 355,
-                        'name' => 'Invoices',
-                    ],
-                ],
-            ],
-        ];
-        $actual   = Lang::parsePhql($source);
-        unset($actual['id']);
-        $this->assertSame($expected, $actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-09
-     */
-    public function testMvcModelQueryPhqlSelectMultiplication(): void
-    {
-        $source   = "SELECT inv_total * 1.1 FROM Invoices";
-        $expected = [
-            'type'   => 309,
-            'select' => [
-                'columns' => [
-                    0 => [
-                        'type'   => 354,
-                        'column' => [
-                            'type'  => 42,
-                            'left'  => [
-                                'type' => 355,
-                                'name' => 'inv_total',
-                            ],
-                            'right' => [
-                                'type'  => 259,
-                                'value' => '1.1',
-                            ],
-                        ],
-                    ],
-                ],
-                'tables'  => [
-                    'qualifiedName' => [
-                        'type' => 355,
-                        'name' => 'Invoices',
-                    ],
-                ],
-            ],
-        ];
-        $actual   = Lang::parsePhql($source);
-        unset($actual['id']);
-        $this->assertSame($expected, $actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-09
-     */
     public function testMvcModelQueryPhqlSelectDivision(): void
     {
         $source   = "SELECT inv_total / 2 FROM Invoices";
@@ -196,6 +118,45 @@ final class OperatorsTest extends AbstractUnitTestCase
                             'right' => [
                                 'type'  => 258,
                                 'value' => '3',
+                            ],
+                        ],
+                    ],
+                ],
+                'tables'  => [
+                    'qualifiedName' => [
+                        'type' => 355,
+                        'name' => 'Invoices',
+                    ],
+                ],
+            ],
+        ];
+        $actual   = Lang::parsePhql($source);
+        unset($actual['id']);
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-09
+     */
+    public function testMvcModelQueryPhqlSelectMultiplication(): void
+    {
+        $source   = "SELECT inv_total * 1.1 FROM Invoices";
+        $expected = [
+            'type'   => 309,
+            'select' => [
+                'columns' => [
+                    0 => [
+                        'type'   => 354,
+                        'column' => [
+                            'type'  => 42,
+                            'left'  => [
+                                'type' => 355,
+                                'name' => 'inv_total',
+                            ],
+                            'right' => [
+                                'type'  => 259,
+                                'value' => '1.1',
                             ],
                         ],
                     ],
@@ -302,6 +263,45 @@ final class OperatorsTest extends AbstractUnitTestCase
                             ],
                         ],
                         'alias'  => 'adjusted',
+                    ],
+                ],
+                'tables'  => [
+                    'qualifiedName' => [
+                        'type' => 355,
+                        'name' => 'Invoices',
+                    ],
+                ],
+            ],
+        ];
+        $actual   = Lang::parsePhql($source);
+        unset($actual['id']);
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-09
+     */
+    public function testMvcModelQueryPhqlSelectSubtraction(): void
+    {
+        $source   = "SELECT inv_total - 5 FROM Invoices";
+        $expected = [
+            'type'   => 309,
+            'select' => [
+                'columns' => [
+                    0 => [
+                        'type'   => 354,
+                        'column' => [
+                            'type'  => 45,
+                            'left'  => [
+                                'type' => 355,
+                                'name' => 'inv_total',
+                            ],
+                            'right' => [
+                                'type'  => 258,
+                                'value' => '5',
+                            ],
+                        ],
                     ],
                 ],
                 'tables'  => [

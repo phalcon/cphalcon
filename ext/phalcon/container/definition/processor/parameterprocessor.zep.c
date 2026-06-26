@@ -111,7 +111,7 @@ PHP_METHOD(Phalcon_Container_Definition_Processor_ParameterProcessor, process)
 	object_init_ex(&def, phalcon_container_definition_servicedefinition_ce);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "parameter");
-	ZEPHIR_CALL_METHOD(NULL, &def, "__construct", NULL, 367, &name_zv, &_0, definition);
+	ZEPHIR_CALL_METHOD(NULL, &def, "__construct", NULL, 408, &name_zv, &_0, definition);
 	zephir_check_call_status();
 	_1 = !((zephir_is_instance_of(definition, SL("Closure"))));
 	if (_1) {
@@ -123,7 +123,7 @@ PHP_METHOD(Phalcon_Container_Definition_Processor_ParameterProcessor, process)
 	} else {
 		ZVAL_BOOL(&_2, 0);
 	}
-	ZEPHIR_CALL_METHOD(NULL, &def, "setiscacheable", NULL, 374, &_2);
+	ZEPHIR_CALL_METHOD(NULL, &def, "setiscacheable", NULL, 415, &_2);
 	zephir_check_call_status();
 	RETURN_CCTOR(&def);
 }

@@ -16,17 +16,17 @@ namespace Phalcon\Tests\Database\Mvc\Model\Row;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\Row;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
 final class OffsetSetTest extends AbstractDatabaseTestCase
 {
     /**
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-06-01
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelRowOffsetSet(): void
     {
         $row = new Row();

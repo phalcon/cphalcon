@@ -16,36 +16,19 @@ namespace Phalcon\Tests\Database\Db\Index;
 use Phalcon\Db\Exception;
 use Phalcon\Db\Index;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
 final class GetDirectionsTest extends AbstractDatabaseTestCase
 {
-    /**
-     * Legacy positional constructor leaves `getDirections()` empty.
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-05-15
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
-     */
-    public function testDbIndexLegacyHasNoDirections(): void
-    {
-        $index = new Index('idx_email', ['email']);
-
-        $this->assertSame([], $index->getDirections());
-    }
-
     /**
      * Definition-array `directions` is stored verbatim.
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testDbIndexDefinitionDirectionsStored(): void
     {
         $index = new Index(
@@ -64,11 +47,10 @@ final class GetDirectionsTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testDbIndexDirectionsMustBeArray(): void
     {
         $this->expectException(Exception::class);
@@ -83,5 +65,20 @@ final class GetDirectionsTest extends AbstractDatabaseTestCase
                 'directions' => 'DESC',
             ]
         );
+    }
+    /**
+     * Legacy positional constructor leaves `getDirections()` empty.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-15
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testDbIndexLegacyHasNoDirections(): void
+    {
+        $index = new Index('idx_email', ['email']);
+
+        $this->assertSame([], $index->getDirections());
     }
 }

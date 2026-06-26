@@ -15,6 +15,7 @@ namespace Phalcon\Tests\Unit\Mvc\View\Engine\Volt\Compiler;
 
 use Phalcon\Mvc\View\Engine\Volt\Compiler;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class CompileFileTest extends AbstractUnitTestCase
 {
@@ -55,12 +56,11 @@ Clearly, the song is: <?= $this->getContent() ?>.
     }
 
     /**
-     * @dataProvider defaultFilterProvider
-     *
      * @issue https://github.com/phalcon/cphalcon/issues/13242
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2018-11-13
      */
+    #[DataProvider('defaultFilterProvider')]
     public function testMvcViewEngineVoltCompilerCompileFileDefaultFilter(
         string $view,
         string $expected

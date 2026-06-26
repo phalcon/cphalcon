@@ -1772,6 +1772,96 @@ class Query implements QueryInterface, InjectionAwareInterface
 
                     break;
 
+                case PHQL_T_OP_MATCHES:
+                    let exprReturn = [
+                        "type":  "binary-op",
+                        "op":    "@@",
+                        "left":  left,
+                        "right": right
+                    ];
+
+                    break;
+
+                case PHQL_T_OP_CONTAINS:
+                    let exprReturn = [
+                        "type":  "binary-op",
+                        "op":    "@>",
+                        "left":  left,
+                        "right": right
+                    ];
+
+                    break;
+
+                case PHQL_T_OP_CONTAINED:
+                    let exprReturn = [
+                        "type":  "binary-op",
+                        "op":    "<@",
+                        "left":  left,
+                        "right": right
+                    ];
+
+                    break;
+
+                case PHQL_T_OP_OVERLAPS:
+                    let exprReturn = [
+                        "type":  "binary-op",
+                        "op":    "&&",
+                        "left":  left,
+                        "right": right
+                    ];
+
+                    break;
+
+                case PHQL_T_OP_CONCAT:
+                    let exprReturn = [
+                        "type":  "binary-op",
+                        "op":    "||",
+                        "left":  left,
+                        "right": right
+                    ];
+
+                    break;
+
+                case PHQL_T_OP_JSON_GET:
+                    let exprReturn = [
+                        "type":  "binary-op",
+                        "op":    "->",
+                        "left":  left,
+                        "right": right
+                    ];
+
+                    break;
+
+                case PHQL_T_OP_JSON_GET_TEXT:
+                    let exprReturn = [
+                        "type":  "binary-op",
+                        "op":    "->>",
+                        "left":  left,
+                        "right": right
+                    ];
+
+                    break;
+
+                case PHQL_T_OP_JSON_PATH:
+                    let exprReturn = [
+                        "type":  "binary-op",
+                        "op":    "#>",
+                        "left":  left,
+                        "right": right
+                    ];
+
+                    break;
+
+                case PHQL_T_OP_JSON_PATH_TEXT:
+                    let exprReturn = [
+                        "type":  "binary-op",
+                        "op":    "#>>",
+                        "left":  left,
+                        "right": right
+                    ];
+
+                    break;
+
                 case PHQL_T_QUALIFIED:
                     let exprReturn = this->getQualified(expr);
                     break;
@@ -3189,7 +3279,7 @@ class Query implements QueryInterface, InjectionAwareInterface
      */
     final protected function getRelatedRecords(<ModelInterface> model, array intermediate, array bindParams, array bindTypes) -> <ResultsetInterface>
     {
-        var selectIr, whereConditions, limitConditions, query;
+        var selectIr, joinConditions, whereConditions, limitConditions, query;
 
         /**
          * Instead of create a PHQL string statement we manually create the IR
@@ -3206,6 +3296,14 @@ class Query implements QueryInterface, InjectionAwareInterface
             "models"  : intermediate["models"],
             "tables"  : intermediate["tables"]
         ];
+
+        /**
+         * Forward the JOINs (if any) so the related records are filtered by
+         * the joined models too (UPDATE/DELETE ... JOIN support)
+         */
+        if fetch joinConditions, intermediate["joins"] {
+            let selectIr["joins"] = joinConditions;
+        }
 
         /**
          * Check if a WHERE clause was specified
@@ -4100,10 +4198,11 @@ class Query implements QueryInterface, InjectionAwareInterface
     final protected function prepareUpdate() -> array
     {
         var ast, update, tables, values, modelsInstances, models, sqlTables,
-            sqlAliases, sqlAliasesModelsInstances, updateTables, completeSource,
+            sqlAliases, sqlAliasesModels, sqlModelsAliases,
+            sqlAliasesModelsInstances, updateTables, completeSource,
             sqlModels, manager, table, qualifiedName, modelName, model, source,
-            schema, alias, sqlFields, sqlValues, updateValues, updateValue,
-            exprColumn, sqlUpdate, where, limit;
+            schema, alias, joins, sqlJoins, sqlFields, sqlValues, updateValues,
+            updateValue, exprColumn, sqlUpdate, where, limit;
         bool notQuoting;
 
         let ast = this->ast;
@@ -4130,6 +4229,8 @@ class Query implements QueryInterface, InjectionAwareInterface
         let sqlTables = [],
             sqlModels = [],
             sqlAliases = [],
+            sqlAliasesModels = [],
+            sqlModelsAliases = [],
             sqlAliasesModelsInstances = [];
 
         if !isset tables[0] {
@@ -4165,12 +4266,16 @@ class Query implements QueryInterface, InjectionAwareInterface
              */
             if fetch alias, table["alias"] {
                 let sqlAliases[alias] = alias,
+                    sqlAliasesModels[alias] = modelName,
+                    sqlModelsAliases[modelName] = alias,
                     completeSource[] = alias,
                     sqlTables[] = completeSource,
                     sqlAliasesModelsInstances[alias] = model,
                     models[alias] = modelName;
             } else {
                 let sqlAliases[modelName] = source,
+                    sqlAliasesModels[modelName] = modelName,
+                    sqlModelsAliases[modelName] = modelName,
                     sqlAliasesModelsInstances[modelName] = model,
                     sqlTables[] = source,
                     models[modelName] = source;
@@ -4186,7 +4291,22 @@ class Query implements QueryInterface, InjectionAwareInterface
         let this->models = models,
             this->modelsInstances = modelsInstances,
             this->sqlAliases = sqlAliases,
+            this->sqlAliasesModels = sqlAliasesModels,
+            this->sqlModelsAliases = sqlModelsAliases,
             this->sqlAliasesModelsInstances = sqlAliasesModelsInstances;
+
+        /**
+         * Process the JOINs (if any) before resolving the SET and WHERE
+         * expressions so that columns belonging to the joined models can be
+         * resolved. The joined models are registered as aliases/sources but
+         * are never added to "models", so the update still targets a single
+         * model.
+         */
+        let sqlJoins = [];
+
+        if fetch joins, update["joins"] {
+            let sqlJoins = this->getJoins(update);
+        }
 
         let sqlFields = [], sqlValues = [];
 
@@ -4213,6 +4333,10 @@ class Query implements QueryInterface, InjectionAwareInterface
             "fields": sqlFields,
             "values": sqlValues
         ];
+
+        if count(sqlJoins) {
+            let sqlUpdate["joins"] = sqlJoins;
+        }
 
         if fetch where, ast["where"] {
             let sqlUpdate["where"] = this->getExpression(where, true);

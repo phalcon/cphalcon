@@ -10,12 +10,14 @@
 
 namespace Phalcon\Filter\Sanitize;
 
+use Phalcon\Contracts\Filter\Sanitizer;
+
 /**
  * Phalcon\Filter\Sanitize\Url
  *
  * Sanitizes a value url
  */
-class Url
+class Url implements Sanitizer
 {
     /**
      * @param mixed $input The text to sanitize

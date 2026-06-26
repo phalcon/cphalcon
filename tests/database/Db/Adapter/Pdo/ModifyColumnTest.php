@@ -17,6 +17,7 @@ use Phalcon\Db\Column;
 use Phalcon\Db\Exception;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 final class ModifyColumnTest extends AbstractDatabaseTestCase
 {
@@ -46,10 +47,9 @@ final class ModifyColumnTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-19
-     *
-     * @group mysql
-     * @group pgsql
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
     public function testDbAdapterPdoModifyColumn(): void
     {
         $db = $this->container->get('db');
@@ -78,9 +78,8 @@ final class ModifyColumnTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-19
-     *
-     * @group sqlite
      */
+    #[Group('sqlite')]
     public function testDbAdapterPdoModifyColumnSqlite(): void
     {
         $db = $this->container->get('db');

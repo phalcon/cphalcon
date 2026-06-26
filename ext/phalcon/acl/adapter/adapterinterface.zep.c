@@ -22,102 +22,16 @@
  */
 /**
  * Interface for Phalcon\Acl adapters
+ *
+ * @psalm-suppress DeprecatedInterface
+ * @deprecated Will be removed in a future major release.
+ *             Use {@see \Phalcon\Contracts\Acl\Adapter\Adapter} instead.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Acl_Adapter_AdapterInterface)
 {
-	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Acl\\Adapter, AdapterInterface, phalcon, acl_adapter_adapterinterface, phalcon_acl_adapter_adapterinterface_method_entry);
+	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Acl\\Adapter, AdapterInterface, phalcon, acl_adapter_adapterinterface, NULL);
 
+	zend_class_implements(phalcon_acl_adapter_adapterinterface_ce, 1, phalcon_contracts_acl_adapter_adapter_ce);
 	return SUCCESS;
 }
 
-/**
- * Do a role inherit from another existing role
- */
-ZEPHIR_DOC_METHOD(Phalcon_Acl_Adapter_AdapterInterface, addInherit);
-/**
- * Adds a role to the ACL list. Second parameter lets to inherit access data
- * from other existing role
- */
-ZEPHIR_DOC_METHOD(Phalcon_Acl_Adapter_AdapterInterface, addRole);
-/**
- * Adds a component to the ACL list
- *
- * Access names can be a particular action, by example
- * search, update, delete, etc. or a list of them
- */
-ZEPHIR_DOC_METHOD(Phalcon_Acl_Adapter_AdapterInterface, addComponent);
-/**
- * Adds access to components
- */
-ZEPHIR_DOC_METHOD(Phalcon_Acl_Adapter_AdapterInterface, addComponentAccess);
-/**
- * Allow access to a role on a component
- */
-ZEPHIR_DOC_METHOD(Phalcon_Acl_Adapter_AdapterInterface, allow);
-/**
- * Deny access to a role on a component
- */
-ZEPHIR_DOC_METHOD(Phalcon_Acl_Adapter_AdapterInterface, deny);
-/**
- * Removes access from a component
- */
-ZEPHIR_DOC_METHOD(Phalcon_Acl_Adapter_AdapterInterface, dropComponentAccess);
-/**
- * Returns the access which the list is checking if some role can access it
- */
-ZEPHIR_DOC_METHOD(Phalcon_Acl_Adapter_AdapterInterface, getActiveAccess);
-/**
- * Returns the role which the list is checking if it's allowed to certain
- * component/access
- */
-ZEPHIR_DOC_METHOD(Phalcon_Acl_Adapter_AdapterInterface, getActiveRole);
-/**
- * Returns the component which the list is checking if some role can access
- * it
- */
-ZEPHIR_DOC_METHOD(Phalcon_Acl_Adapter_AdapterInterface, getActiveComponent);
-/**
- * Return an array with every component registered in the list
- */
-ZEPHIR_DOC_METHOD(Phalcon_Acl_Adapter_AdapterInterface, getComponents);
-/**
- * Returns the default ACL access level
- */
-ZEPHIR_DOC_METHOD(Phalcon_Acl_Adapter_AdapterInterface, getDefaultAction);
-/**
- * Returns the inherited roles for a passed role name. If no role name
- * has been specified it will return the whole array. If the role has not
- * been found it returns an empty array
- */
-ZEPHIR_DOC_METHOD(Phalcon_Acl_Adapter_AdapterInterface, getInheritedRoles);
-/**
- * Returns the default ACL access level for no arguments provided in
- * isAllowed action if there exists func for accessKey
- */
-ZEPHIR_DOC_METHOD(Phalcon_Acl_Adapter_AdapterInterface, getNoArgumentsDefaultAction);
-/**
- * Return an array with every role registered in the list
- */
-ZEPHIR_DOC_METHOD(Phalcon_Acl_Adapter_AdapterInterface, getRoles);
-/**
- * Check whether a role is allowed to access an action from a component
- */
-ZEPHIR_DOC_METHOD(Phalcon_Acl_Adapter_AdapterInterface, isAllowed);
-/**
- * Check whether component exist in the components list
- */
-ZEPHIR_DOC_METHOD(Phalcon_Acl_Adapter_AdapterInterface, isComponent);
-/**
- * Check whether role exist in the roles list
- */
-ZEPHIR_DOC_METHOD(Phalcon_Acl_Adapter_AdapterInterface, isRole);
-/**
- * Sets the default access level (Phalcon\Ac\Enuml::ALLOW or Phalcon\Acl\Enum::DENY)
- */
-ZEPHIR_DOC_METHOD(Phalcon_Acl_Adapter_AdapterInterface, setDefaultAction);
-/**
- * Sets the default access level (Phalcon\Acl\Enum::ALLOW or Phalcon\Acl\Enum::DENY)
- * for no arguments provided in isAllowed action if there exists func for
- * accessKey
- */
-ZEPHIR_DOC_METHOD(Phalcon_Acl_Adapter_AdapterInterface, setNoArgumentsDefaultAction);

@@ -19,8 +19,8 @@ use Phalcon\Tests\Unit\Translate\Fake\TranslateCsvTrait;
 
 final class TTest extends AbstractUnitTestCase
 {
-    use TranslateCsvTrait;
     use TranslateCsvHelperTrait;
+    use TranslateCsvTrait;
 
     /**
      * @return string

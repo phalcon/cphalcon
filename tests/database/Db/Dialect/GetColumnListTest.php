@@ -15,6 +15,8 @@ namespace Phalcon\Tests\Database\Db\Dialect;
 
 use Phalcon\Db\Dialect\Mysql;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 
 final class GetColumnListTest extends AbstractDatabaseTestCase
 {
@@ -38,15 +40,13 @@ final class GetColumnListTest extends AbstractDatabaseTestCase
     /**
      * Tests Phalcon\Db\Dialect\Mysql :: getColumnList
      *
-     * @dataProvider getMysqlData
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2017-02-26
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    #[DataProvider('getMysqlData')]
     public function testDbDialectMysqlGetColumnList(
         array $columns,
         string $expected

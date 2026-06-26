@@ -15,8 +15,8 @@ namespace Phalcon\Tests\Unit\Mvc\Application;
 
 use Phalcon\Application\Exception;
 use Phalcon\Mvc\Application;
-use Phalcon\Tests\Support\Modules\Frontend\Module;
 use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Tests\Support\Modules\Frontend\Module;
 
 class GetModuleTest extends AbstractUnitTestCase
 {
@@ -66,7 +66,7 @@ class GetModuleTest extends AbstractUnitTestCase
 
         $this->expectException(Exception::class);
         $this->expectExceptionMessage(
-            "Module 'foo' is not registered in the application container"
+            "Module 'foo' is not registered in the application"
         );
 
         $application->getModule('foo');

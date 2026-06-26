@@ -60,11 +60,10 @@ final class RandomTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider oneToTenProvider
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
+    #[DataProvider('oneToTenProvider')]
     #[DataProvider('oneToTenProvider')]
     public function testSupportHelperStrRandomAlnum(
         int $i,
@@ -82,11 +81,10 @@ final class RandomTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider oneToTenProvider
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
+    #[DataProvider('oneToTenProvider')]
     #[DataProvider('oneToTenProvider')]
     public function testSupportHelperStrRandomAlpha(
         int $i,
@@ -118,11 +116,10 @@ final class RandomTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider randomDistinctProvider
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
+    #[DataProvider('randomDistinctProvider')]
     #[DataProvider('randomDistinctProvider')]
     public function testSupportHelperStrRandomDistinct(
         int $i,
@@ -139,11 +136,10 @@ final class RandomTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider oneToTenProvider
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
+    #[DataProvider('oneToTenProvider')]
     #[DataProvider('oneToTenProvider')]
     public function testSupportHelperStrRandomHexDec(
         int $i,
@@ -161,11 +157,10 @@ final class RandomTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider oneToTenProvider
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
+    #[DataProvider('oneToTenProvider')]
     #[DataProvider('oneToTenProvider')]
     public function testSupportHelperStrRandomNonZero(
         int $i,
@@ -183,11 +178,10 @@ final class RandomTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider oneToTenProvider
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
+    #[DataProvider('oneToTenProvider')]
     #[DataProvider('oneToTenProvider')]
     public function testSupportHelperStrRandomNumeric(
         int $i,

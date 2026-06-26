@@ -19,6 +19,8 @@ use Phalcon\Db\Dialect\Sqlite;
 use Phalcon\Db\Exception;
 use Phalcon\Db\Index;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 
 final class AddPrimaryKeyTest extends AbstractDatabaseTestCase
 {
@@ -44,13 +46,34 @@ final class AddPrimaryKeyTest extends AbstractDatabaseTestCase
     }
 
     /**
+     * Tests Phalcon\Db\Dialect :: addPrimaryKey
+     *
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2020-01-20
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    #[DataProvider('getDialects')]
+    public function testDbDialectAddPrimaryKey(
+        string $dialectClass,
+        string $expected
+    ): void {
+        /** @var Mysql $dialect */
+        $dialect = new $dialectClass();
+
+        $index  = new Index('index1', ['field1', 'field2']);
+        $actual = $dialect->addPrimaryKey('table', 'schema', $index);
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
      * Tests Phalcon\Db\Dialect :: addPrimaryKey - sqlite throws exception
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-01-20
-     *
-     * @group sqlite
      */
+    #[Group('sqlite')]
     public function testDbDialectAddPrimaryKeySqlite(): void
     {
         $this->expectException(Exception::class);
@@ -63,29 +86,5 @@ final class AddPrimaryKeyTest extends AbstractDatabaseTestCase
 
         $index = new Index('index1', ['field1', 'field2']);
         $dialect->addPrimaryKey('table', 'schema', $index);
-    }
-
-    /**
-     * Tests Phalcon\Db\Dialect :: addPrimaryKey
-     *
-     * @dataProvider getDialects
-     *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2020-01-20
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
-     */
-    public function testDbDialectAddPrimaryKey(
-        string $dialectClass,
-        string $expected
-    ): void {
-        /** @var Mysql $dialect */
-        $dialect = new $dialectClass();
-
-        $index  = new Index('index1', ['field1', 'field2']);
-        $actual = $dialect->addPrimaryKey('table', 'schema', $index);
-        $this->assertSame($expected, $actual);
     }
 }

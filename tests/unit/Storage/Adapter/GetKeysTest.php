@@ -27,6 +27,8 @@ use Phalcon\Support\Exception;
 use Phalcon\Support\Exception as HelperException;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Storage\Fake\FakeApcuIterator;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use stdClass;
 
 use function getOptionsLibmemcached;
@@ -87,11 +89,27 @@ final class GetKeysTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getAdapters
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
+    #[RequiresPhpExtension('apcu')]
+    public function testStorageAdapterApcuGetKeysIteratorError(): void
+    {
+        $serializer = new SerializerFactory();
+        $adapter    = new FakeApcuIterator($serializer);
+
+        $this->setupTest($adapter);
+
+        $actual = $adapter->getKeys();
+        $this->assertIsArray($actual);
+        $this->assertEmpty($actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    #[DataProvider('getAdapters')]
     public function testStorageAdapterGetKeys(
         string $extension,
         string $adapterClass,
@@ -118,28 +136,9 @@ final class GetKeysTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function testStorageAdapterApcuGetKeysIteratorError(): void
-    {
-        $this->checkExtensionIsLoaded('apcu');
-
-        $serializer = new SerializerFactory();
-        $adapter    = new FakeApcuIterator($serializer);
-
-        $this->setupTest($adapter);
-
-        $actual = $adapter->getKeys();
-        $this->assertIsArray($actual);
-        $this->assertEmpty($actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2020-09-09
-     */
+    #[RequiresPhpExtension('memcached')]
     public function testStorageAdapterLibmemcachedGetKeys(): void
     {
-        $this->checkExtensionIsLoaded('memcached');
-
         $serializer = new SerializerFactory();
         $adapter    = new Libmemcached(
             $serializer,

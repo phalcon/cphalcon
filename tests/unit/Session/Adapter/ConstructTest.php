@@ -23,6 +23,7 @@ use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use Phalcon\Tests\Support\Traits\SessionTrait;
 use Phalcon\Tests\Unit\Session\Fake\Adapter\FakeStreamIsWritable;
+use PHPUnit\Framework\Attributes\DataProvider;
 use SessionHandlerInterface;
 
 use function getOptionsRedis;
@@ -34,11 +35,10 @@ final class ConstructTest extends AbstractUnitTestCase
     use SessionTrait;
 
     /**
-     * @dataProvider getClassNames
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
+    #[DataProvider('getClassNames')]
     public function testSessionAdapterConstruct(
         string $name
     ): void {

@@ -35,6 +35,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_IntVal)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Filter\\Sanitize, IntVal, phalcon, filter_sanitize_intval, phalcon_filter_sanitize_intval_method_entry, 0);
 
+	zend_class_implements(phalcon_filter_sanitize_intval_ce, 1, phalcon_contracts_filter_sanitizer_ce);
 	return SUCCESS;
 }
 

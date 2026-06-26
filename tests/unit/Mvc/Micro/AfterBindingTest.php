@@ -17,10 +17,12 @@ use Phalcon\Di\FactoryDefault;
 use Phalcon\Events\Event;
 use Phalcon\Events\Manager;
 use Phalcon\Mvc\Micro;
+use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Micro\MyMiddleware;
 use Phalcon\Tests\Support\Micro\MyMiddlewareStop;
-use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\BackupGlobals;
 
+#[BackupGlobals(true)]
 class AfterBindingTest extends AbstractUnitTestCase
 {
     /**

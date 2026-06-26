@@ -120,7 +120,7 @@ class Router extends AbstractInjectionAware implements RouterInterface
             let this->routes[route->getRouteId()] = route;
 
             let route = new Route(
-                "#^(?::delimiter)?([a-zA-Z0-9\\_\\-]+):delimiter([a-zA-Z0-9\\.\\_]+)(:delimiter.*)*$#",
+                "#^(?::delimiter)?([a-zA-Z0-9\\_\\-]+):delimiter([a-zA-Z0-9\\.\\_]+)(:delimiter.*)?$#",
                 [
                     "task":   1,
                     "action": 2,
@@ -193,7 +193,7 @@ class Router extends AbstractInjectionAware implements RouterInterface
     /**
      * Returns processed extra params
      *
-     * @todo deprecate this in future versions
+     * @deprecated Use {@see getParameters()} instead.
      */
     public function getParams() -> array
     {
@@ -249,7 +249,7 @@ class Router extends AbstractInjectionAware implements RouterInterface
     /**
      * Handles routing information received from command-line arguments
      *
-     * @param array arguments
+     * @param array|string|null arguments
      */
     public function handle(arguments = null)
     {
@@ -266,7 +266,7 @@ class Router extends AbstractInjectionAware implements RouterInterface
 
         if typeof arguments !== "array" {
             if unlikely (typeof arguments != "string" && arguments !== null) {
-                throw new RouterArgumentsInvalidType();
+                throw new RouterArgumentsInvalidType(gettype(arguments));
             }
 
             for route in reverse this->routes {
@@ -292,7 +292,7 @@ class Router extends AbstractInjectionAware implements RouterInterface
                          * Check first if the callback is callable
                          */
                         if unlikely !is_callable(beforeMatch) {
-                            throw new BeforeMatchNotCallable();
+                            throw new BeforeMatchNotCallable(route->getPattern());
                         }
 
                         /**
@@ -450,6 +450,8 @@ class Router extends AbstractInjectionAware implements RouterInterface
             this->task = taskName,
             this->action = actionName,
             this->params = params;
+
+        return this;
     }
 
     /**

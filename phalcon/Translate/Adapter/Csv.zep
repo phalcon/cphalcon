@@ -101,13 +101,14 @@ class Csv extends AbstractAdapter
      * @phpstan-param array<string, string> $placeholders
      *
      * @return string
+     * @throws Exception
      */
     public function query(string! translateKey, array placeholders = []) -> string
     {
         var translation;
 
         if !fetch translation, this->translate[translateKey] {
-            let translation = translateKey;
+            let translation = this->notFound(translateKey);
         }
 
         return this->replacePlaceholders(translation, placeholders);
@@ -134,6 +135,9 @@ class Csv extends AbstractAdapter
     /**
      * Load translations from file
      *
+     * Lines whose first column begins with a `#` are treated as comments
+     * and skipped.
+     *
      * @param string $file
      * @param int    $length
      * @param string $separator
@@ -150,7 +154,7 @@ class Csv extends AbstractAdapter
         let fileHandler = this->phpFopen(file, "rb");
 
         if unlikely typeof fileHandler !== "resource" {
-            throw new FileOpenError($file);
+            throw new FileOpenError(file);
         }
 
         loop {

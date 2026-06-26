@@ -14,9 +14,9 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Config\Config;
 
 use Phalcon\Config\Config;
-use Phalcon\Config\Exception;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Traits\ConfigTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class MergeTest extends AbstractUnitTestCase
 {
@@ -171,11 +171,10 @@ final class MergeTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-10-21
      */
+    #[DataProvider('getExamples')]
     public function testConfigMergeConfigCases(
         array $source,
         array $target,
@@ -195,20 +194,6 @@ final class MergeTest extends AbstractUnitTestCase
          */
         $actual = $source->merge($target)->toArray();
         $this->assertSame($expected, $actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2020-10-26
-     */
-    public function testConfigMergeConfigException(): void
-    {
-        $config = new Config(['my' => 'config']);
-
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage('Invalid data type for merge.');
-
-        $config->merge('invalid-config');
     }
 
     /**

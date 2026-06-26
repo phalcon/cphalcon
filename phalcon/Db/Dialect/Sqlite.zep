@@ -41,6 +41,11 @@ class Sqlite extends Dialect
     protected escapeChar = "\"";
 
     /**
+     * @var array
+     */
+    protected supportedOperators = ["||", "->", "->>"];
+
+    /**
      * Generates SQL to add a column to a table
      */
     public function addColumn(string! tableName, string! schemaName, <ColumnInterface> column) -> string
@@ -673,6 +678,24 @@ class Sqlite extends Dialect
         }
 
         return sqlQuery . " RETURNING " . this->getColumnList(columns);
+    }
+
+    /**
+     * SQLite cannot modify existing columns or add/drop foreign keys, primary
+     * keys, or check constraints through `ALTER TABLE`; those operations throw
+     * a dedicated `Sqlite*NotSupported` exception.
+     */
+    public function supportsAlterTable() -> bool
+    {
+        return false;
+    }
+
+    /**
+     * SQLite (3.35+) supports the `RETURNING` clause.
+     */
+    public function supportsReturning() -> bool
+    {
+        return true;
     }
 
     /**

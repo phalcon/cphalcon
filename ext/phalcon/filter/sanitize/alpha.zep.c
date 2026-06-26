@@ -34,6 +34,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_Alpha)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Filter\\Sanitize, Alpha, phalcon, filter_sanitize_alpha, phalcon_filter_sanitize_alpha_method_entry, 0);
 
+	zend_class_implements(phalcon_filter_sanitize_alpha_ce, 1, phalcon_contracts_filter_sanitizer_ce);
 	return SUCCESS;
 }
 
@@ -61,7 +62,7 @@ PHP_METHOD(Phalcon_Filter_Sanitize_Alpha, __invoke)
 	ZVAL_STRING(&_0, "/[^A-Za-z]/");
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "");
-	ZEPHIR_RETURN_CALL_FUNCTION("preg_replace", NULL, 76, &_0, &_1, input);
+	ZEPHIR_RETURN_CALL_FUNCTION("preg_replace", NULL, 90, &_0, &_1, input);
 	zephir_check_call_status();
 	RETURN_MM();
 }

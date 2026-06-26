@@ -19,8 +19,8 @@ use Phalcon\Tests\Unit\Translate\Fake\TranslateGettextTrait;
 
 final class TTest extends AbstractUnitTestCase
 {
-    use TranslateGettextTrait;
     use TranslateGettextHelperTrait;
+    use TranslateGettextTrait;
 
     /**
      * @return string

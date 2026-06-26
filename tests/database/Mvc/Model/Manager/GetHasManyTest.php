@@ -13,16 +13,47 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Mvc\Model\Manager;
 
+use Phalcon\Mvc\Model\Manager;
+use Phalcon\Mvc\Model\RelationInterface;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use Phalcon\Tests\Support\Models\Invoices;
+use Phalcon\Tests\Support\Models\InvoicesDetail;
+use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
+#[Group('mysql')]
+#[Group('pgsql')]
+#[Group('sqlite')]
 final class GetHasManyTest extends AbstractDatabaseTestCase
 {
+    use DiTrait;
+
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+    }
+
     /**
+     * Tests Phalcon\Mvc\Model\Manager :: getHasMany()
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2026-06-22
      */
     public function testMvcModelManagerGetHasMany(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $manager = new Manager();
+        $manager->setDI($this->container);
+
+        $invoice = new Invoices();
+
+        $this->assertSame([], $manager->getHasMany($invoice));
+
+        $manager->addHasMany($invoice, 'inv_id', InvoicesDetail::class, 'inv_id', ['alias' => 'details']);
+
+        $relations = $manager->getHasMany($invoice);
+
+        $this->assertCount(1, $relations);
+        $this->assertInstanceOf(RelationInterface::class, $relations[0]);
     }
 }

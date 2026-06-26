@@ -15,6 +15,7 @@ namespace Phalcon\Tests\Database\Db\Adapter\Pdo;
 
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 final class EscapeStringTest extends AbstractDatabaseTestCase
 {
@@ -31,9 +32,8 @@ final class EscapeStringTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-18
-     *
-     * @group mysql
      */
+    #[Group('mysql')]
     public function testDbAdapterPdoEscapeStringMysql(): void
     {
         $this->assertEscapesAndRoundTrips("O'Brien");
@@ -45,9 +45,8 @@ final class EscapeStringTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-18
-     *
-     * @group pgsql
      */
+    #[Group('pgsql')]
     public function testDbAdapterPdoEscapeStringPostgresql(): void
     {
         $this->assertEscapesAndRoundTrips("O'Brien");
@@ -59,9 +58,8 @@ final class EscapeStringTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-18
-     *
-     * @group sqlite
      */
+    #[Group('sqlite')]
     public function testDbAdapterPdoEscapeStringSqlite(): void
     {
         $this->assertEscapesAndRoundTrips("O'Brien");

@@ -13,16 +13,41 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Mvc\Model\Relation;
 
+use Phalcon\Mvc\Model\Relation;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 
+#[Group('mysql')]
+#[Group('pgsql')]
+#[Group('sqlite')]
 final class IsReusableTest extends AbstractDatabaseTestCase
 {
     /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * isReusable() reflects the reusable option, defaulting to false.
+     *
+     * @return array<string, array{0: array, 1: bool}>
      */
-    public function testMvcModelRelationIsReusable(): void
+    public static function getExamples(): array
     {
-        $this->markTestSkipped('Need implementation');
+        return [
+            'true'   => [['reusable' => true], true],
+            'false'  => [['reusable' => false], false],
+            'absent' => [[], false],
+        ];
+    }
+
+    /**
+     * Tests Phalcon\Mvc\Model\Relation :: isReusable()
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-22
+     */
+    #[DataProvider('getExamples')]
+    public function testMvcModelRelationIsReusable(array $options, bool $expected): void
+    {
+        $relation = new Relation(Relation::HAS_MANY, 'RefModel', 'id', 'ref', $options);
+
+        $this->assertSame($expected, $relation->isReusable());
     }
 }

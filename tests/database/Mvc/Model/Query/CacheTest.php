@@ -20,16 +20,21 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 
 use function cacheDir;
 
-/**
- *
- * @group phql
- */
+#[Group('phql')]
 final class CacheTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
+
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+    }
 
     /**
      * @return string[][]
@@ -52,23 +57,15 @@ final class CacheTest extends AbstractDatabaseTestCase
         ];
     }
 
-    public function setUp(): void
-    {
-        $this->setNewFactoryDefault();
-        $this->setDatabase();
-    }
-
     /**
-     * @dataProvider getValidSerializers
-     *
      * @issue
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2021-05-06
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    #[DataProvider('getValidSerializers')]
     public function testMvcModelQueryCache(
         string $serializer
     ): void {

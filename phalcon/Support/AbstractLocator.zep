@@ -91,7 +91,13 @@ abstract class AbstractLocator
     }
 
     /**
-     * Retrieve a shared service instance from the container.
+     * Retrieve a service instance from the container.
+     *
+     * On the `DiInterface` path this returns the container's **shared**
+     * instance (`getShared()`) — despite the name, it is not a fresh build.
+     * Locators whose services carry per-activation state should override this
+     * method to resolve a fresh instance; see `Auth\Access\AccessLocator`, which uses
+     * `ContainerResolver::resolveFresh` for exactly that reason.
      *
      * @return T
      */

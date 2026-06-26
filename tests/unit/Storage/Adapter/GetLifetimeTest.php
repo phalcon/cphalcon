@@ -22,6 +22,7 @@ use Phalcon\Storage\Adapter\Stream;
 use Phalcon\Storage\Adapter\Weak;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 use function array_merge;
 use function getOptionsLibmemcached;
@@ -78,11 +79,10 @@ final class GetLifetimeTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2026-04-14
      */
+    #[DataProvider('getExamples')]
     public function testStorageAdapterGetLifetime(
         string $class,
         array $options,
@@ -101,11 +101,10 @@ final class GetLifetimeTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2026-04-14
      */
+    #[DataProvider('getExamples')]
     public function testStorageAdapterGetLifetimeCustom(
         string $class,
         array $options,

@@ -12,6 +12,7 @@ namespace Phalcon\Image\Adapter;
 
 use Phalcon\Image\Enum;
 use Phalcon\Image\Exception;
+use Phalcon\Image\Exceptions\InvalidColor;
 use Phalcon\Image\Exceptions\MissingDimensions;
 use Phalcon\Image\Exceptions\MissingHeight;
 use Phalcon\Image\Exceptions\MissingWidth;
@@ -80,23 +81,9 @@ abstract class AbstractAdapter implements AdapterInterface
     ) -> <AdapterInterface> {
         var colors;
 
-        if (
-            strlen(color) > 1 &&
-            substr(color, 0, 1) === "#"
-        ) {
-            let color = substr(color, 1);
-        }
+        let colors = this->parseColor(color);
 
-        if (strlen(color) === 3) {
-            let color = preg_replace("/./", "$0$0", color);
-        }
-
-        let colors = array_map(
-            "hexdec",
-            str_split(color, 2)
-        );
-
-        this->{"processBackground"}(colors[0], colors[1], colors[2], opacity);
+        this->processBackground(colors[0], colors[1], colors[2], opacity);
 
         return this;
     }
@@ -112,7 +99,7 @@ abstract class AbstractAdapter implements AdapterInterface
     {
         let radius = this->checkHighLow(radius, 1);
 
-        this->{"processBlur"}(radius);
+        this->processBlur(radius);
 
         return this;
     }
@@ -163,7 +150,7 @@ abstract class AbstractAdapter implements AdapterInterface
             let height = this->height - offsetY;
         }
 
-        this->{"processCrop"}(width, height, offsetX, offsetY);
+        this->processCrop(width, height, offsetX, offsetY);
 
         return this;
     }
@@ -181,7 +168,7 @@ abstract class AbstractAdapter implements AdapterInterface
             let direction = Enum::HORIZONTAL;
         }
 
-        this->{"processFlip"}(direction);
+        this->processFlip(direction);
 
         return this;
     }
@@ -237,13 +224,18 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
      * Composite one image onto another
      *
+     * The mask is read through its public render() output rather than its
+     * internal handle, so a mask created with a different backend composites
+     * correctly. The cost is one encode/decode round trip per call, which is
+     * worth knowing inside loops.
+     *
      * @param AdapterInterface $mask
      *
      * @return AdapterInterface
      */
     public function mask(<AdapterInterface> mask) -> <AdapterInterface>
     {
-        this->{"processMask"}(mask);
+        this->processMask(mask);
 
         return this;
     }
@@ -261,7 +253,7 @@ abstract class AbstractAdapter implements AdapterInterface
             let amount = 2;
         }
 
-        this->{"processPixelate"}(amount);
+        this->processPixelate(amount);
 
         return this;
     }
@@ -286,7 +278,7 @@ abstract class AbstractAdapter implements AdapterInterface
 
         let opacity = this->checkHighLow(opacity);
 
-        this->{"processReflection"}(height, opacity, fadeIn);
+        this->processReflection(height, opacity, fadeIn);
 
         return this;
     }
@@ -311,7 +303,7 @@ abstract class AbstractAdapter implements AdapterInterface
 
         let quality = this->checkHighLow(quality, 1);
 
-        return this->{"processRender"}(extension, quality);
+        return this->processRender(extension, quality);
     }
 
     /**
@@ -363,20 +355,20 @@ abstract class AbstractAdapter implements AdapterInterface
 
             switch (master) {
                 case Enum::WIDTH:
-                    let height = this->height * width / this->width;
+                    let height = (int) round(this->height * width / this->width);
                     break;
 
                 case Enum::HEIGHT:
-                    let width = this->width * height / this->height;
+                    let width = (int) round(this->width * height / this->height);
                     break;
 
                 case Enum::PRECISE:
                     let ratio = this->width / this->height;
 
                     if ((width / height) > ratio) {
-                        let height = this->height * width / this->width;
+                        let height = (int) round(this->height * width / this->width);
                     } else {
-                        let width = this->width * height / this->height;
+                        let width = (int) round(this->width * height / this->height);
                     }
                     break;
 
@@ -390,7 +382,7 @@ abstract class AbstractAdapter implements AdapterInterface
         let width  = (int) max(round(width), 1);
         let height = (int) max(round(height), 1);
 
-        this->{"processResize"}(width, height);
+        this->processResize(width, height);
 
         return this;
     }
@@ -416,7 +408,7 @@ abstract class AbstractAdapter implements AdapterInterface
             }
         }
 
-        this->{"processRotate"}(degrees);
+        this->processRotate(degrees);
 
         return this;
     }
@@ -435,7 +427,7 @@ abstract class AbstractAdapter implements AdapterInterface
             let file = (string) this->realpath;
         }
 
-        this->{"processSave"}(file, quality);
+        this->processSave(file, quality);
 
         return this;
     }
@@ -451,7 +443,7 @@ abstract class AbstractAdapter implements AdapterInterface
     {
         let amount = this->checkHighLow(amount, 1);
 
-        this->{"processSharpen"}(amount);
+        this->processSharpen(amount);
 
         return this;
     }
@@ -482,23 +474,9 @@ abstract class AbstractAdapter implements AdapterInterface
 
         let opacity = this->checkHighLow(opacity);
 
-        if (
-            strlen(color) > 1 &&
-            substr(color, 0, 1) === "#"
-        ) {
-            let color = substr(color, 1);
-        }
+        let colors = this->parseColor(color);
 
-        if (strlen(color) === 3) {
-            let color = preg_replace("/./", "$0$0", color);
-        }
-
-        let colors = array_map(
-            "hexdec",
-            str_split(color, 2)
-        );
-
-        this->{"processText"}(
+        this->processText(
             text,
             offsetX,
             offsetY,
@@ -515,6 +493,11 @@ abstract class AbstractAdapter implements AdapterInterface
 
     /**
      * Add a watermark to an image with the specified opacity
+     *
+     * The watermark is read through its public render() output rather than its
+     * internal handle, so a watermark created with a different backend
+     * composites correctly. The cost is one encode/decode round trip per call,
+     * which is worth knowing inside loops.
      *
      * @param AdapterInterface $watermark
      * @param int              $offsetX
@@ -545,7 +528,7 @@ abstract class AbstractAdapter implements AdapterInterface
 
         let op = this->checkHighLow(opacity);
 
-        this->{"processWatermark"}(watermark, x, y, op);
+        this->processWatermark(watermark, x, y, op);
 
         return this;
     }
@@ -560,5 +543,146 @@ abstract class AbstractAdapter implements AdapterInterface
     protected function checkHighLow(int value, int min = 0, int max = 100) -> int
     {
         return min(max, max(value, min));
+    }
+
+    /**
+     * Renders the supplied colour onto the image as the background. Channels
+     * are 0-255; the opacity is the validated 0-100 value.
+     */
+    abstract protected function processBackground(
+        int red,
+        int green,
+        int blue,
+        int opacity
+    ) -> void;
+
+    /**
+     * Applies a blur. The radius is already clamped to 1-100.
+     */
+    abstract protected function processBlur(int radius) -> void;
+
+    /**
+     * Crops the image. Width, height and both offsets are already normalized
+     * to fit within the current canvas.
+     */
+    abstract protected function processCrop(
+        int width,
+        int height,
+        int offsetX,
+        int offsetY
+    ) -> void;
+
+    /**
+     * Flips the image. The direction is already normalized to
+     * Enum::HORIZONTAL or Enum::VERTICAL.
+     */
+    abstract protected function processFlip(int direction) -> void;
+
+    /**
+     * Composites the supplied image as a mask onto this one. The mask is read
+     * through its public render() output, so it may be any adapter backend.
+     */
+    abstract protected function processMask(<AdapterInterface> mask);
+
+    /**
+     * Pixelates the image. The amount is already at least 2.
+     */
+    abstract protected function processPixelate(int amount) -> void;
+
+    /**
+     * Adds a reflection. The height is clamped to the image height and the
+     * opacity to 0-100.
+     */
+    abstract protected function processReflection(
+        int height,
+        int opacity,
+        bool fadeIn
+    ) -> void;
+
+    /**
+     * Renders the image to a binary string. The extension is non-empty and the
+     * quality is already clamped to 1-100. Returns the encoded bytes.
+     */
+    abstract protected function processRender(string extension, int quality);
+
+    /**
+     * Resizes the image. Width and height are already resolved to positive
+     * integers per the requested resize mode.
+     */
+    abstract protected function processResize(int width, int height) -> void;
+
+    /**
+     * Rotates the image. The degrees value is already normalized to -180..180.
+     */
+    abstract protected function processRotate(int degrees) -> void;
+
+    /**
+     * Saves the image to the supplied file path.
+     */
+    abstract protected function processSave(string file, int quality);
+
+    /**
+     * Sharpens the image. The amount is already clamped to 1-100.
+     */
+    abstract protected function processSharpen(int amount) -> void;
+
+    /**
+     * Renders text onto the image. The opacity is clamped to 0-100 and the
+     * colour is supplied as separate 0-255 channels.
+     */
+    abstract protected function processText(
+        string text,
+        offsetX,
+        offsetY,
+        int opacity,
+        int red,
+        int green,
+        int blue,
+        int size,
+        string fontFile = null
+    ) -> void;
+
+    /**
+     * Composites the supplied watermark onto this image. Offsets and opacity
+     * are already clamped to the valid range; the watermark is read through
+     * its public render() output, so it may be any adapter backend.
+     */
+    abstract protected function processWatermark(
+        <AdapterInterface> watermark,
+        int offsetX,
+        int offsetY,
+        int opacity
+    ) -> void;
+
+    /**
+     * Parses a hex color ("#rgb", "rgb", "#rrggbb" or "rrggbb") into an array
+     * of three integer channels [red, green, blue].
+     *
+     * @param string $color
+     *
+     * @return array
+     * @throws InvalidColor
+     */
+    private function parseColor(string color) -> array
+    {
+        if (
+            strlen(color) > 1 &&
+            substr(color, 0, 1) === "#"
+        ) {
+            let color = substr(color, 1);
+        }
+
+        if (strlen(color) === 3) {
+            let color = preg_replace("/./", "$0$0", color);
+        }
+
+        if (1 !== preg_match("/^[0-9a-fA-F]{6}$/", color)) {
+            throw new InvalidColor(color);
+        }
+
+        return array_map(
+            "hexdec",
+            str_split(color, 2)
+        );
     }
 }

@@ -19,6 +19,7 @@ use Phalcon\Tests\Unit\Support\Version\Fake\FakeVersionAlpha;
 use Phalcon\Tests\Unit\Support\Version\Fake\FakeVersionBeta;
 use Phalcon\Tests\Unit\Support\Version\Fake\FakeVersionRc;
 use Phalcon\Tests\Unit\Support\Version\Fake\FakeVersionStable;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 use function is_string;
 
@@ -52,11 +53,10 @@ final class GetIdTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
+    #[DataProvider('getExamples')]
     public function testSupportVersionGetId(
         string $class,
         string $expected,

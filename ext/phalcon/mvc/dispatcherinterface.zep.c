@@ -24,36 +24,16 @@
  * Phalcon\Mvc\DispatcherInterface
  *
  * Interface for Phalcon\Mvc\Dispatcher
+ *
+ * @psalm-suppress DeprecatedInterface
+ * @deprecated Will be removed in a future major release.
+ *             Use {@see \Phalcon\Contracts\Mvc\Dispatcher} instead.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_DispatcherInterface)
 {
-	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Mvc, DispatcherInterface, phalcon, mvc_dispatcherinterface, phalcon_mvc_dispatcherinterface_method_entry);
+	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Mvc, DispatcherInterface, phalcon, mvc_dispatcherinterface, NULL);
 
-	zend_class_implements(phalcon_mvc_dispatcherinterface_ce, 1, phalcon_dispatcher_dispatcherinterface_ce);
+	zend_class_implements(phalcon_mvc_dispatcherinterface_ce, 1, phalcon_contracts_mvc_dispatcher_ce);
 	return SUCCESS;
 }
 
-/**
- * Returns the active controller in the dispatcher
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_DispatcherInterface, getActiveController);
-/**
- * Gets last dispatched controller name
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_DispatcherInterface, getControllerName);
-/**
- * Returns the latest dispatched controller
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_DispatcherInterface, getLastController);
-/**
- * Sets the controller name to be dispatched
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_DispatcherInterface, setControllerName);
-/**
- * Sets the default controller suffix
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_DispatcherInterface, setControllerSuffix);
-/**
- * Sets the default controller name
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_DispatcherInterface, setDefaultController);

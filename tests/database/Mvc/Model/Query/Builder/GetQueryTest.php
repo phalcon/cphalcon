@@ -13,16 +13,42 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Mvc\Model\Query\Builder;
 
+use Phalcon\Mvc\Model\Query\Builder;
+use Phalcon\Mvc\Model\QueryInterface;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use Phalcon\Tests\Support\Models\Invoices;
+use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
+#[Group('mysql')]
+#[Group('pgsql')]
+#[Group('sqlite')]
 final class GetQueryTest extends AbstractDatabaseTestCase
 {
+    use DiTrait;
+
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+    }
+
     /**
+     * Tests Phalcon\Mvc\Model\Query\Builder :: getQuery()
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2026-06-22
      */
     public function testMvcModelQueryBuilderGetQuery(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $builder = new Builder();
+        $builder->setDI($this->container);
+
+        $query = $builder
+            ->columns('*')
+            ->addFrom(Invoices::class)
+            ->getQuery();
+
+        $this->assertInstanceOf(QueryInterface::class, $query);
     }
 }

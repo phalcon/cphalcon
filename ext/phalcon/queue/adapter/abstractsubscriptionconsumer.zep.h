@@ -1,0 +1,46 @@
+
+extern zend_class_entry *phalcon_queue_adapter_abstractsubscriptionconsumer_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_AbstractSubscriptionConsumer);
+
+PHP_METHOD(Phalcon_Queue_Adapter_AbstractSubscriptionConsumer, consume);
+PHP_METHOD(Phalcon_Queue_Adapter_AbstractSubscriptionConsumer, subscribe);
+PHP_METHOD(Phalcon_Queue_Adapter_AbstractSubscriptionConsumer, unsubscribe);
+PHP_METHOD(Phalcon_Queue_Adapter_AbstractSubscriptionConsumer, unsubscribeAll);
+PHP_METHOD(Phalcon_Queue_Adapter_AbstractSubscriptionConsumer, resolveQueueName);
+zend_object *zephir_init_properties_Phalcon_Queue_Adapter_AbstractSubscriptionConsumer(zend_class_entry *class_type);
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_queue_adapter_abstractsubscriptionconsumer_consume, 0, 0, IS_VOID, 0)
+
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, timeout, IS_LONG, 0, "0")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_queue_adapter_abstractsubscriptionconsumer_subscribe, 0, 2, IS_VOID, 0)
+
+	ZEND_ARG_OBJ_INFO(0, consumer, Phalcon\\Contracts\\Queue\\Consumer, 0)
+	ZEND_ARG_INFO(0, callback)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_queue_adapter_abstractsubscriptionconsumer_unsubscribe, 0, 1, IS_VOID, 0)
+
+	ZEND_ARG_OBJ_INFO(0, consumer, Phalcon\\Contracts\\Queue\\Consumer, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_queue_adapter_abstractsubscriptionconsumer_unsubscribeall, 0, 0, IS_VOID, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_queue_adapter_abstractsubscriptionconsumer_resolvequeuename, 0, 1, IS_STRING, 0)
+	ZEND_ARG_INFO(0, consumer)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_queue_adapter_abstractsubscriptionconsumer_zephir_init_properties_phalcon_queue_adapter_abstractsubscriptionconsumer, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_queue_adapter_abstractsubscriptionconsumer_method_entry) {
+	PHP_ME(Phalcon_Queue_Adapter_AbstractSubscriptionConsumer, consume, arginfo_phalcon_queue_adapter_abstractsubscriptionconsumer_consume, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Queue_Adapter_AbstractSubscriptionConsumer, subscribe, arginfo_phalcon_queue_adapter_abstractsubscriptionconsumer_subscribe, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Queue_Adapter_AbstractSubscriptionConsumer, unsubscribe, arginfo_phalcon_queue_adapter_abstractsubscriptionconsumer_unsubscribe, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Queue_Adapter_AbstractSubscriptionConsumer, unsubscribeAll, arginfo_phalcon_queue_adapter_abstractsubscriptionconsumer_unsubscribeall, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Queue_Adapter_AbstractSubscriptionConsumer, resolveQueueName, arginfo_phalcon_queue_adapter_abstractsubscriptionconsumer_resolvequeuename, ZEND_ACC_PRIVATE)
+	PHP_FE_END
+};

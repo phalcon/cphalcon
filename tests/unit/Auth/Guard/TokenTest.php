@@ -66,9 +66,9 @@ final class TokenTest extends AbstractUnitTestCase
         new TokenGuardConfig('api_token', '');
     }
 
-    public function testGetTokenForRequestUsesQueryParam(): void
+    public function testGetTokenForRequestReturnsNullForEmptyBearerHeader(): void
     {
-        $this->request->setQueryFake('api_token', 'abcdef123');
+        $this->request->setHeaderFake('Authorization', 'Bearer ');
 
         $guard = new Token(
             $this->adapter,
@@ -76,7 +76,18 @@ final class TokenTest extends AbstractUnitTestCase
             new TokenGuardConfig('api_token', 'api_token')
         );
 
-        $this->assertSame('abcdef123', $guard->getTokenForRequest());
+        $this->assertNull($guard->getTokenForRequest());
+    }
+
+    public function testGetTokenForRequestReturnsNullWhenAbsent(): void
+    {
+        $guard = new Token(
+            $this->adapter,
+            $this->request,
+            new TokenGuardConfig('api_token', 'api_token')
+        );
+
+        $this->assertNull($guard->getTokenForRequest());
     }
 
     public function testGetTokenForRequestUsesBearerHeader(): void
@@ -92,7 +103,20 @@ final class TokenTest extends AbstractUnitTestCase
         $this->assertSame('abcdef123', $guard->getTokenForRequest());
     }
 
-    public function testGetTokenForRequestReturnsNullWhenAbsent(): void
+    public function testGetTokenForRequestUsesQueryParam(): void
+    {
+        $this->request->setQueryFake('api_token', 'abcdef123');
+
+        $guard = new Token(
+            $this->adapter,
+            $this->request,
+            new TokenGuardConfig('api_token', 'api_token')
+        );
+
+        $this->assertSame('abcdef123', $guard->getTokenForRequest());
+    }
+
+    public function testSetRequestReplacesRequest(): void
     {
         $guard = new Token(
             $this->adapter,
@@ -100,7 +124,29 @@ final class TokenTest extends AbstractUnitTestCase
             new TokenGuardConfig('api_token', 'api_token')
         );
 
-        $this->assertNull($guard->getTokenForRequest());
+        $other = new FakeRequest();
+        $other->setQueryFake('api_token', 'abcdef123');
+
+        $guard->setRequest($other);
+
+        $this->assertSame('abcdef123', $guard->getTokenForRequest());
+    }
+
+    public function testUserCachesAfterFirstResolution(): void
+    {
+        $this->request->setQueryFake('api_token', 'abcdef123');
+
+        $guard = new Token(
+            $this->adapter,
+            $this->request,
+            new TokenGuardConfig('api_token', 'api_token')
+        );
+
+        $first  = $guard->user();
+        $second = $guard->user();
+
+        $this->assertNotNull($first);
+        $this->assertSame($first, $second);
     }
 
     public function testUserResolvesViaAdapter(): void
@@ -161,51 +207,5 @@ final class TokenTest extends AbstractUnitTestCase
         );
 
         $this->assertFalse($guard->validate(['other' => 'something']));
-    }
-
-    public function testSetRequestReplacesRequest(): void
-    {
-        $guard = new Token(
-            $this->adapter,
-            $this->request,
-            new TokenGuardConfig('api_token', 'api_token')
-        );
-
-        $other = new FakeRequest();
-        $other->setQueryFake('api_token', 'abcdef123');
-
-        $guard->setRequest($other);
-
-        $this->assertSame('abcdef123', $guard->getTokenForRequest());
-    }
-
-    public function testGetTokenForRequestReturnsNullForEmptyBearerHeader(): void
-    {
-        $this->request->setHeaderFake('Authorization', 'Bearer ');
-
-        $guard = new Token(
-            $this->adapter,
-            $this->request,
-            new TokenGuardConfig('api_token', 'api_token')
-        );
-
-        $this->assertNull($guard->getTokenForRequest());
-    }
-
-    public function testUserCachesAfterFirstResolution(): void
-    {
-        $this->request->setQueryFake('api_token', 'abcdef123');
-
-        $guard = new Token(
-            $this->adapter,
-            $this->request,
-            new TokenGuardConfig('api_token', 'api_token')
-        );
-
-        $first  = $guard->user();
-        $second = $guard->user();
-
-        $this->assertNotNull($first);
-        $this->assertSame($first, $second);
     }
 }

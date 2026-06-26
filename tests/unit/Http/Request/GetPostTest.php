@@ -49,42 +49,6 @@ final class GetPostTest extends AbstractHttpBase
 
     /**
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2025-07-22
-     */
-    public function testHttpRequestGetPostJson(): void
-    {
-        $this->registerStream();
-
-        file_put_contents(
-            Http::STREAM,
-            '{"fruit": "orange", "quantity": "4"}'
-        );
-
-        $_SERVER['REQUEST_METHOD'] = Http::METHOD_POST;
-        $_SERVER['CONTENT_TYPE']   = Http::CONTENT_TYPE_JSON;
-
-        $request = $this->getRequestObject();
-
-        $expected = [
-            'fruit'    => 'orange',
-            'quantity' => '4',
-        ];
-
-        $actual = json_decode(
-            file_get_contents(Http::STREAM),
-            true
-        );
-
-        $this->assertSame($expected, $actual);
-
-        $actual = $request->getPost();
-        $this->assertSame($expected, $actual);
-
-        $this->unregisterStream();
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
      * @since  2019-12-01
      */
     public function testHttpRequestGetPostAllowNoEmpty(): void
@@ -142,5 +106,41 @@ final class GetPostTest extends AbstractHttpBase
         $expected = strtolower($value);
         $actual   = $request->getPost($key, ['trim', 'lower']);
         $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2025-07-22
+     */
+    public function testHttpRequestGetPostJson(): void
+    {
+        $this->registerStream();
+
+        file_put_contents(
+            Http::STREAM,
+            '{"fruit": "orange", "quantity": "4"}'
+        );
+
+        $_SERVER['REQUEST_METHOD'] = Http::METHOD_POST;
+        $_SERVER['CONTENT_TYPE']   = Http::CONTENT_TYPE_JSON;
+
+        $request = $this->getRequestObject();
+
+        $expected = [
+            'fruit'    => 'orange',
+            'quantity' => '4',
+        ];
+
+        $actual = json_decode(
+            file_get_contents(Http::STREAM),
+            true
+        );
+
+        $this->assertSame($expected, $actual);
+
+        $actual = $request->getPost();
+        $this->assertSame($expected, $actual);
+
+        $this->unregisterStream();
     }
 }

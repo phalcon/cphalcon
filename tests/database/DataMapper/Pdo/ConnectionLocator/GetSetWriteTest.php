@@ -16,10 +16,14 @@ namespace Phalcon\Tests\Database\DataMapper\Pdo\ConnectionLocator;
 use Phalcon\DataMapper\Pdo\ConnectionLocator;
 use Phalcon\DataMapper\Pdo\Exception\ConnectionNotFound;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
 use function in_array;
 use function spl_object_hash;
 
+#[Group('mysql')]
+#[Group('pgsql')]
+#[Group('sqlite')]
 final class GetSetWriteTest extends AbstractDatabaseTestCase
 {
     /**
@@ -49,37 +53,6 @@ final class GetSetWriteTest extends AbstractDatabaseTestCase
 
         $actual = $locator->getWrite("write2");
         $this->assertEquals(spl_object_hash($write2), spl_object_hash($actual));
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2020-01-25
-     */
-    public function testDMPdoConnectionLocatorGetWriteRandom(): void
-    {
-        $master  = self::getDataMapperConnection();
-        $write1  = self::getDataMapperConnection();
-        $write2  = self::getDataMapperConnection();
-        $locator = new ConnectionLocator(
-            $master,
-            [],
-            [
-                "write1" => function () use ($write1) {
-                    return $write1;
-                },
-                "write2" => function () use ($write2) {
-                    return $write2;
-                },
-            ]
-        );
-
-        $hashes = [
-            spl_object_hash($write1),
-            spl_object_hash($write2),
-        ];
-
-        $actual = $locator->getWrite();
-        $this->assertTrue(in_array(spl_object_hash($actual), $hashes));
     }
 
     /**
@@ -117,5 +90,36 @@ final class GetSetWriteTest extends AbstractDatabaseTestCase
         );
 
         $locator->getWrite("unknown");
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-01-25
+     */
+    public function testDMPdoConnectionLocatorGetWriteRandom(): void
+    {
+        $master  = self::getDataMapperConnection();
+        $write1  = self::getDataMapperConnection();
+        $write2  = self::getDataMapperConnection();
+        $locator = new ConnectionLocator(
+            $master,
+            [],
+            [
+                "write1" => function () use ($write1) {
+                    return $write1;
+                },
+                "write2" => function () use ($write2) {
+                    return $write2;
+                },
+            ]
+        );
+
+        $hashes = [
+            spl_object_hash($write1),
+            spl_object_hash($write2),
+        ];
+
+        $actual = $locator->getWrite();
+        $this->assertTrue(in_array(spl_object_hash($actual), $hashes));
     }
 }

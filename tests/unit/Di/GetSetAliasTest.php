@@ -50,6 +50,27 @@ final class GetSetAliasTest extends AbstractUnitTestCase
 
     /**
      * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    public function testDiResolveAliasCircular(): void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage(
+            "Circular alias reference detected while resolving 'a'"
+        );
+
+        $container = new Di();
+
+        // Manually inject a circular alias chain: a → b → a
+        $prop = new ReflectionProperty(Di::class, 'aliases');
+        $prop->setValue($container, ['a' => 'b', 'b' => 'a']);
+
+        // Resolving 'a' walks a→b→a→b… and detects the cycle
+        $container->get('a');
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2026-02-17
      */
     public function testDiSetAliases(): void
@@ -74,39 +95,24 @@ final class GetSetAliasTest extends AbstractUnitTestCase
 
     /**
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2024-01-01
+     * @since  2026-02-17
      */
-    public function testDiResolveAliasCircular(): void
+    public function testDiSetAliasesExceptionNameExists(): void
     {
         $this->expectException(Exception::class);
         $this->expectExceptionMessage(
-            "Circular alias reference detected while resolving 'a'"
+            "Alias 'escaper' is already in use by an existing service"
         );
 
         $container = new Di();
 
-        // Manually inject a circular alias chain: a → b → a
-        $prop = new ReflectionProperty(Di::class, 'aliases');
-        $prop->setAccessible(true);
-        $prop->setValue($container, ['a' => 'b', 'b' => 'a']);
+        $aliases = [
+            EscaperInterface::class,
+            'escaper'
+        ];
 
-        // Resolving 'a' walks a→b→a→b… and detects the cycle
-        $container->get('a');
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2024-01-01
-     */
-    public function testDiSetAliasNotRegistered(): void
-    {
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage(
-            "Service 'nonexistent' is not registered in the container"
-        );
-
-        $container = new Di();
-        $container->setAlias('nonexistent', 'myAlias');
+        $container->set('escaper', Escaper::class, true);
+        $container->setAlias('escaper', $aliases);
     }
 
     /**
@@ -130,23 +136,16 @@ final class GetSetAliasTest extends AbstractUnitTestCase
 
     /**
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-02-17
+     * @since  2024-01-01
      */
-    public function testDiSetAliasesExceptionNameExists(): void
+    public function testDiSetAliasNotRegistered(): void
     {
         $this->expectException(Exception::class);
         $this->expectExceptionMessage(
-            "Alias 'escaper' is already in use by an existing service"
+            "Service 'nonexistent' is not registered in the container"
         );
 
         $container = new Di();
-
-        $aliases = [
-            EscaperInterface::class,
-            'escaper'
-        ];
-
-        $container->set('escaper', Escaper::class, true);
-        $container->setAlias('escaper', $aliases);
+        $container->setAlias('nonexistent', 'myAlias');
     }
 }

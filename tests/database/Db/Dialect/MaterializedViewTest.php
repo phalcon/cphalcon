@@ -18,17 +18,33 @@ use Phalcon\Db\Dialect\Postgresql;
 use Phalcon\Db\Dialect\Sqlite;
 use Phalcon\Db\Exception;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
 final class MaterializedViewTest extends AbstractDatabaseTestCase
 {
+    /**
+     * MySQL - throws on each materialized-view method.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-15
+     */
+    #[Group('mysql')]
+    public function testDbDialectMysqlMaterializedViewThrows(): void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage(
+            'Materialized views are not supported by this dialect'
+        );
+
+        (new Mysql())->createMaterializedView('v', ['sql' => 'SELECT 1']);
+    }
     /**
      * PostgreSQL - createMaterializedView.
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group pgsql
      */
+    #[Group('pgsql')]
     public function testDbDialectPostgresqlCreateMaterializedView(): void
     {
         $dialect = new Postgresql();
@@ -46,49 +62,12 @@ final class MaterializedViewTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * PostgreSQL - refreshMaterializedView (non-concurrent).
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-05-15
-     *
-     * @group pgsql
-     */
-    public function testDbDialectPostgresqlRefreshMaterializedView(): void
-    {
-        $dialect = new Postgresql();
-
-        $this->assertSame(
-            'REFRESH MATERIALIZED VIEW "public"."top_robots"',
-            $dialect->refreshMaterializedView('top_robots', 'public')
-        );
-    }
-
-    /**
-     * PostgreSQL - refreshMaterializedView CONCURRENTLY.
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-05-15
-     *
-     * @group pgsql
-     */
-    public function testDbDialectPostgresqlRefreshMaterializedViewConcurrent(): void
-    {
-        $dialect = new Postgresql();
-
-        $this->assertSame(
-            'REFRESH MATERIALIZED VIEW CONCURRENTLY "public"."top_robots"',
-            $dialect->refreshMaterializedView('top_robots', 'public', true)
-        );
-    }
-
-    /**
      * PostgreSQL - dropMaterializedView IF EXISTS by default.
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group pgsql
      */
+    #[Group('pgsql')]
     public function testDbDialectPostgresqlDropMaterializedView(): void
     {
         $dialect = new Postgresql();
@@ -105,21 +84,37 @@ final class MaterializedViewTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * MySQL - throws on each materialized-view method.
+     * PostgreSQL - refreshMaterializedView (non-concurrent).
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group mysql
      */
-    public function testDbDialectMysqlMaterializedViewThrows(): void
+    #[Group('pgsql')]
+    public function testDbDialectPostgresqlRefreshMaterializedView(): void
     {
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage(
-            'Materialized views are not supported by this dialect'
-        );
+        $dialect = new Postgresql();
 
-        (new Mysql())->createMaterializedView('v', ['sql' => 'SELECT 1']);
+        $this->assertSame(
+            'REFRESH MATERIALIZED VIEW "public"."top_robots"',
+            $dialect->refreshMaterializedView('top_robots', 'public')
+        );
+    }
+
+    /**
+     * PostgreSQL - refreshMaterializedView CONCURRENTLY.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-15
+     */
+    #[Group('pgsql')]
+    public function testDbDialectPostgresqlRefreshMaterializedViewConcurrent(): void
+    {
+        $dialect = new Postgresql();
+
+        $this->assertSame(
+            'REFRESH MATERIALIZED VIEW CONCURRENTLY "public"."top_robots"',
+            $dialect->refreshMaterializedView('top_robots', 'public', true)
+        );
     }
 
     /**
@@ -127,9 +122,8 @@ final class MaterializedViewTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group sqlite
      */
+    #[Group('sqlite')]
     public function testDbDialectSqliteMaterializedViewThrows(): void
     {
         $this->expectException(Exception::class);

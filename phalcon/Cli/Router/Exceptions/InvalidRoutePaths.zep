@@ -14,8 +14,16 @@ use Phalcon\Cli\Router\Exception;
 
 class InvalidRoutePaths extends Exception
 {
-    public function __construct()
+    public function __construct(string route = "")
     {
-        parent::__construct("The route contains invalid paths");
+        var message;
+
+        let message = "The route contains invalid paths";
+
+        if route !== "" {
+            let message .= " ('" . route . "')";
+        }
+
+        parent::__construct(message);
     }
 }

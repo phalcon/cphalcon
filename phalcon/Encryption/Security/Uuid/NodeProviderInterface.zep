@@ -13,7 +13,13 @@
 
 namespace Phalcon\Encryption\Security\Uuid;
 
-interface NodeProviderInterface
+use Phalcon\Contracts\Encryption\Security\Uuid\NodeProvider as NodeProviderContract;
+
+/**
+ * @psalm-suppress DeprecatedInterface
+ * @deprecated Will be removed in a future major release.
+ *             Use {@see \Phalcon\Contracts\Encryption\Security\Uuid\NodeProvider} instead.
+ */
+interface NodeProviderInterface extends NodeProviderContract
 {
-    public function getNode() -> string;
 }

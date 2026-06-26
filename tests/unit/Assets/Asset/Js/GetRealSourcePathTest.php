@@ -27,10 +27,6 @@ final class GetRealSourcePathTest extends AbstractUnitTestCase
      */
     public function testAssetsAssetJsGetRealSourcePathLocal(): void
     {
-        if (PHP_OS_FAMILY === 'Windows') {
-            $this->markTestSkipped('Need to fix Windows new lines...');
-        }
-
         $file  = supportDir('assets/assets/jquery.js');
         $asset = new Js($file);
 

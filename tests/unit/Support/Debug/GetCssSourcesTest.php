@@ -33,13 +33,7 @@ final class GetCssSourcesTest extends AbstractUnitTestCase
         $uri = 'https://assets.phalcon.io/debug/5.0.x/';
 
         $expected = "
-    <link href='{$uri}assets/jquery-ui/themes/ui-lightness/jquery-ui.min.css'
-          rel='stylesheet'
-          type='text/css' />
-    <link href='{$uri}assets/jquery-ui/themes/ui-lightness/theme.css'
-          rel='stylesheet'
-          type='text/css' />
-    <link href='{$uri}themes/default/style.css'
+    <link href='{$uri}debug.css'
           rel='stylesheet'
           type='text/css' />";
 

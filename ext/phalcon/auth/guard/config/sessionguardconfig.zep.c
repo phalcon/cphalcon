@@ -50,6 +50,18 @@ ZEPHIR_INIT_CLASS(Phalcon_Auth_Guard_Config_SessionGuardConfig)
 	 * @var string
 	 */
 	zend_declare_property_null(phalcon_auth_guard_config_sessionguardconfig_ce, SL("rememberName"), ZEND_ACC_PRIVATE);
+	/**
+	 * @var int
+	 */
+	zend_declare_property_null(phalcon_auth_guard_config_sessionguardconfig_ce, SL("rememberTtl"), ZEND_ACC_PRIVATE);
+	/**
+	 * Default remember-me cookie lifetime,
+	 * in seconds (365 days).
+	 *
+	 * @var int
+	 */
+	zephir_declare_class_constant_long(phalcon_auth_guard_config_sessionguardconfig_ce, SL("DEFAULT_REMEMBER_TTL"), 31536000);
+
 	return SUCCESS;
 }
 
@@ -60,27 +72,35 @@ PHP_METHOD(Phalcon_Auth_Guard_Config_SessionGuardConfig, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval suffix_zv, name_zv, rememberName_zv, _0, _1, _2, _3, _4;
+	zval suffix_zv, name_zv, rememberName_zv, *rememberTtl = NULL, rememberTtl_sub, __$null, _0, _1, _2, _3, _4, _5, _6$$3;
 	zend_string *suffix = NULL, *name = NULL, *rememberName = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&suffix_zv);
 	ZVAL_UNDEF(&name_zv);
 	ZVAL_UNDEF(&rememberName_zv);
+	ZVAL_UNDEF(&rememberTtl_sub);
+	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_4);
+	ZVAL_UNDEF(&_5);
+	ZVAL_UNDEF(&_6$$3);
 	bool is_null_true = 1;
-	ZEND_PARSE_PARAMETERS_START(0, 3)
+	ZEND_PARSE_PARAMETERS_START(0, 4)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_STR_OR_NULL(suffix)
 		Z_PARAM_STR_OR_NULL(name)
 		Z_PARAM_STR_OR_NULL(rememberName)
+		Z_PARAM_ZVAL_OR_NULL(rememberTtl)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	if (ZEND_NUM_ARGS() > 3) {
+		rememberTtl = ZEND_CALL_ARG(execute_data, 4);
+	}
 	if (!suffix) {
 		ZEPHIR_INIT_VAR(&suffix_zv);
 	} else {
@@ -99,17 +119,21 @@ PHP_METHOD(Phalcon_Auth_Guard_Config_SessionGuardConfig, __construct)
 		zephir_memory_observe(&rememberName_zv);
 	ZVAL_STR_COPY(&rememberName_zv, rememberName);
 	}
+	if (!rememberTtl) {
+		rememberTtl = &rememberTtl_sub;
+		rememberTtl = &__$null;
+	}
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "suffix");
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "validatenonempty", NULL, 309, &_0, &suffix_zv);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "validatenonempty", NULL, 339, &_0, &suffix_zv);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "name");
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "validatenonempty", NULL, 309, &_0, &name_zv);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "validatenonempty", NULL, 339, &_0, &name_zv);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "rememberName");
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "validatenonempty", NULL, 309, &_0, &rememberName_zv);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "validatenonempty", NULL, 339, &_0, &rememberName_zv);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_1);
 	if (Z_TYPE_P(&name_zv) != IS_NULL) {
@@ -117,7 +141,7 @@ PHP_METHOD(Phalcon_Auth_Guard_Config_SessionGuardConfig, __construct)
 	} else {
 		ZEPHIR_INIT_NVAR(&_0);
 		ZVAL_STRING(&_0, "auth");
-		ZEPHIR_CALL_METHOD(&_1, this_ptr, "derive", NULL, 310, &_0, &suffix_zv);
+		ZEPHIR_CALL_METHOD(&_1, this_ptr, "derive", NULL, 340, &_0, &suffix_zv);
 		zephir_check_call_status();
 	}
 	zephir_update_property_zval(this_ptr, ZEND_STRL("name"), &_1);
@@ -127,14 +151,28 @@ PHP_METHOD(Phalcon_Auth_Guard_Config_SessionGuardConfig, __construct)
 	} else {
 		ZEPHIR_INIT_NVAR(&_0);
 		ZVAL_STRING(&_0, "remember");
-		ZEPHIR_CALL_METHOD(&_2, this_ptr, "derive", NULL, 310, &_0, &suffix_zv);
+		ZEPHIR_CALL_METHOD(&_2, this_ptr, "derive", NULL, 340, &_0, &suffix_zv);
 		zephir_check_call_status();
 	}
 	zephir_update_property_zval(this_ptr, ZEND_STRL("rememberName"), &_2);
-	zephir_read_property(&_3, this_ptr, ZEND_STRL("name"), PH_NOISY_CC | PH_READONLY);
-	zephir_read_property(&_4, this_ptr, ZEND_STRL("rememberName"), PH_NOISY_CC | PH_READONLY);
-	if (ZEPHIR_IS_IDENTICAL(&_3, &_4)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_auth_exception_ce, "Session guard 'name' and 'rememberName' must differ", "phalcon/Auth/Guard/Config/SessionGuardConfig.zep", 55);
+	ZEPHIR_INIT_VAR(&_3);
+	if (Z_TYPE_P(rememberTtl) != IS_NULL) {
+		ZEPHIR_INIT_NVAR(&_3);
+		ZVAL_LONG(&_3, zephir_get_intval(rememberTtl));
+	} else {
+		ZEPHIR_INIT_NVAR(&_3);
+		ZVAL_LONG(&_3, 31536000);
+	}
+	zephir_update_property_zval(this_ptr, ZEND_STRL("rememberTtl"), &_3);
+	zephir_read_property(&_4, this_ptr, ZEND_STRL("name"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_5, this_ptr, ZEND_STRL("rememberName"), PH_NOISY_CC | PH_READONLY);
+	if (ZEPHIR_IS_IDENTICAL(&_4, &_5)) {
+		ZEPHIR_INIT_VAR(&_6$$3);
+		object_init_ex(&_6$$3, phalcon_auth_exceptions_sessionnamesmustdiffer_ce);
+		ZEPHIR_CALL_METHOD(NULL, &_6$$3, "__construct", NULL, 341);
+		zephir_check_call_status();
+		zephir_throw_exception_debug(&_6$$3, "phalcon/Auth/Guard/Config/SessionGuardConfig.zep", 68);
+		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	ZEPHIR_MM_RESTORE();
@@ -150,6 +188,12 @@ PHP_METHOD(Phalcon_Auth_Guard_Config_SessionGuardConfig, getRememberName)
 {
 
 	RETURN_MEMBER_TYPED(getThis(), "rememberName", IS_STRING);
+}
+
+PHP_METHOD(Phalcon_Auth_Guard_Config_SessionGuardConfig, getRememberTtl)
+{
+
+	RETURN_MEMBER_TYPED(getThis(), "rememberTtl", IS_LONG);
 }
 
 PHP_METHOD(Phalcon_Auth_Guard_Config_SessionGuardConfig, derive)
@@ -228,9 +272,9 @@ PHP_METHOD(Phalcon_Auth_Guard_Config_SessionGuardConfig, validateNonEmpty)
 		object_init_ex(&_0$$4, phalcon_auth_exceptions_configrequiresnonemptyvalue_ce);
 		ZEPHIR_INIT_VAR(&_1$$4);
 		ZVAL_STRING(&_1$$4, "Session guard");
-		ZEPHIR_CALL_METHOD(NULL, &_0$$4, "__construct", NULL, 293, &_1$$4, &param_zv);
+		ZEPHIR_CALL_METHOD(NULL, &_0$$4, "__construct", NULL, 323, &_1$$4, &param_zv);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_0$$4, "phalcon/Auth/Guard/Config/SessionGuardConfig.zep", 84);
+		zephir_throw_exception_debug(&_0$$4, "phalcon/Auth/Guard/Config/SessionGuardConfig.zep", 102);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

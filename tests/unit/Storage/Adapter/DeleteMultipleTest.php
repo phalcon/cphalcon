@@ -22,6 +22,7 @@ use Phalcon\Storage\Adapter\Stream;
 use Phalcon\Storage\Adapter\Weak;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use stdClass;
 
 use function getOptionsLibmemcached;
@@ -74,11 +75,10 @@ final class DeleteMultipleTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2025-01-01
      */
+    #[DataProvider('getExamples')]
     public function testStorageAdapterDeleteMultiple(
         string $class,
         array $options,

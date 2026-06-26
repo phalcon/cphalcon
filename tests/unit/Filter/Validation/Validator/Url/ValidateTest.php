@@ -19,6 +19,7 @@ use Phalcon\Filter\Validation\Validator\Url;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use stdClass;
 
 use const FILTER_FLAG_PATH_REQUIRED;
@@ -122,11 +123,10 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2019-05-10
      */
+    #[DataProvider('getExamples')]
     public function testFilterValidationValidatorUrlFlags(
         array | int $options,
         string $url

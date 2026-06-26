@@ -12,8 +12,11 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/fcall.h"
 #include "kernel/memory.h"
+#include "kernel/fcall.h"
+#include "kernel/operators.h"
+#include "kernel/exception.h"
+#include "kernel/file.h"
 #include "kernel/require.h"
 #include "kernel/object.h"
 
@@ -70,16 +73,21 @@ ZEPHIR_INIT_CLASS(Phalcon_Config_Adapter_Php)
 
 /**
  * Phalcon\Config\Adapter\Php constructor
+ *
+ * @throws CannotLoadConfigFile
  */
 PHP_METHOD(Phalcon_Config_Adapter_Php, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval filePath_zv, _0;
+	zval filePath_zv, _0, _3, _1$$3, _2$$3;
 	zend_string *filePath = NULL;
 
 	ZVAL_UNDEF(&filePath_zv);
 	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_1$$3);
+	ZVAL_UNDEF(&_2$$3);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(filePath)
 	ZEND_PARSE_PARAMETERS_END();
@@ -87,11 +95,24 @@ PHP_METHOD(Phalcon_Config_Adapter_Php, __construct)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&filePath_zv);
 	ZVAL_STR_COPY(&filePath_zv, filePath);
-	ZEPHIR_OBSERVE_OR_NULLIFY_PPZV(&_0);
-	if (zephir_require_zval_ret(&_0, &filePath_zv) == FAILURE) {
+	ZEPHIR_CALL_FUNCTION(&_0, "is_file", NULL, 393, &filePath_zv);
+	zephir_check_call_status();
+	if (UNEXPECTED(!ZEPHIR_IS_TRUE_IDENTICAL(&_0))) {
+		ZEPHIR_INIT_VAR(&_1$$3);
+		object_init_ex(&_1$$3, phalcon_config_exceptions_cannotloadconfigfile_ce);
+		ZEPHIR_INIT_VAR(&_2$$3);
+		zephir_basename(&_2$$3, &filePath_zv);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 390, &_2$$3);
+		zephir_check_call_status();
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Config/Adapter/Php.zep", 61);
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZEPHIR_OBSERVE_OR_NULLIFY_PPZV(&_3);
+	if (zephir_require_zval_ret(&_3, &filePath_zv) == FAILURE) {
 		RETURN_MM_NULL();
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_config_adapter_php_ce, getThis(), "__construct", NULL, 0, &_0);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_config_adapter_php_ce, getThis(), "__construct", NULL, 0, &_3);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }

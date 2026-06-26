@@ -15,6 +15,7 @@ use Phalcon\Support\Helper\Arr\Get;
 use Phalcon\Filter\Validation;
 use Phalcon\Filter\Validation\AbstractValidatorComposite;
 use Phalcon\Filter\Validation\Validator\File\MimeType;
+use Phalcon\Filter\Validation\Validator\File\Resolution\AspectRatio;
 use Phalcon\Filter\Validation\Validator\File\Resolution\Equal as EqualResolution;
 use Phalcon\Filter\Validation\Validator\File\Resolution\Max as MaxResolution;
 use Phalcon\Filter\Validation\Validator\File\Resolution\Min as MinResolution;
@@ -116,6 +117,8 @@ class File extends AbstractValidatorComposite
      *     'messageMinResolution' => '',
      *     'equalResolution' => '1000x1000',
      *     'messageEqualResolution' => '',
+     *     'aspectRatio' => '16x9',
+     *     'messageAspectRatio' => '',
      *     'allowEmpty' => false,
      *     'messageFileEmpty' => '',
      *     'messageIniSize' => '',
@@ -261,6 +264,21 @@ class File extends AbstractValidatorComposite
 
                 unset options["equalResolution"];
                 unset options["messageEqualResolution"];
+            }
+
+            // aspect ratio
+            elseif strcasecmp(key, "aspectRatio") === 0 {
+                let message = helper->__invoke(options, "messageAspectRatio");
+
+                let validator = new AspectRatio(
+                    [
+                        "ratio"   : value,
+                        "message" : message
+                    ]
+                );
+
+                unset options["aspectRatio"];
+                unset options["messageAspectRatio"];
             } else {
                 continue;
             }

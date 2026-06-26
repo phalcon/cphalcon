@@ -42,10 +42,6 @@ final class SetAutoVersionTest extends AbstractUnitTestCase
      */
     public function testAssetsManagerAddJsAutomaticVersioning(): void
     {
-        if (PHP_OS_FAMILY === 'Windows') {
-            $this->markTestSkipped('Need to fix Windows new lines...');
-        }
-
         $manager = new Manager(new TagFactory(new Escaper()));
         $manager->useImplicitOutput(false);
         $manager->addJs(

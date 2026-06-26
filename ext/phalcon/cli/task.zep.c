@@ -48,6 +48,10 @@
  *     }
  * }
  *```
+ *
+ * Action methods receive the routed parameters as positional arguments,
+ * followed by any CLI options the dispatcher collected (appended as trailing
+ * arguments). Declare optional trailing parameters to read those options.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Cli_Task)
 {

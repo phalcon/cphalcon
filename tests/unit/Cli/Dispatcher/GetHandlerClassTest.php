@@ -15,6 +15,7 @@ namespace Phalcon\Tests\Unit\Cli\Dispatcher;
 
 use Phalcon\Cli\Dispatcher;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Class GetHandlerClassTest extends AbstractUnitTestCase
@@ -49,11 +50,10 @@ final class GetHandlerClassTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getTestCases
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
+    #[DataProvider('getTestCases')]
     public function testCliDispatcherGetHandlerClass(
         string $namespace,
         string $task,

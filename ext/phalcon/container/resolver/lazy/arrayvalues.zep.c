@@ -115,7 +115,7 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_ArrayValues, getIterator)
 
 	object_init_ex(return_value, spl_ce_ArrayIterator);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("values"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 18, &_0);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 20, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }

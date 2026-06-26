@@ -16,6 +16,7 @@ namespace Phalcon\Tests\Database\Db\Profiler;
 use Phalcon\Db\Profiler\Item;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 final class GetLastProfileTest extends AbstractDatabaseTestCase
 {
@@ -37,10 +38,10 @@ final class GetLastProfileTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testDbProfilerGetLastProfile(): void
     {
         $eventsManager = $this->newService('eventsManager');

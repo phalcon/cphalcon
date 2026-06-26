@@ -13,10 +13,25 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Db\Result\Pdo;
 
+use Phalcon\Db\Enum;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use Phalcon\Tests\Support\Migrations\InvoicesMigration;
+use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
+#[Group('mysql')]
+#[Group('pgsql')]
+#[Group('sqlite')]
 final class FetchTest extends AbstractDatabaseTestCase
 {
+    use DiTrait;
+
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+    }
+
     /**
      * Tests Phalcon\Db\Result\Pdo :: fetch()
      *
@@ -25,6 +40,22 @@ final class FetchTest extends AbstractDatabaseTestCase
      */
     public function testDbResultPdoFetch(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $connection = self::getConnection();
+        $migration  = new InvoicesMigration($connection);
+        $migration->insert(1, 1, 1, 'title 1', 101);
+        $migration->insert(2, 1, 1, 'title 2', 102);
+
+        $db     = $this->container->get('db');
+        $result = $db->query('SELECT * FROM co_invoices ORDER BY inv_id');
+        $result->setFetchMode(Enum::FETCH_ASSOC);
+
+        $row = $result->fetch();
+        $this->assertEquals(1, $row['inv_id']);
+
+        $row = $result->fetch();
+        $this->assertEquals(2, $row['inv_id']);
+
+        $row = $result->fetch();
+        $this->assertFalse($row);
     }
 }

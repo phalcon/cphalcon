@@ -21,6 +21,7 @@ use Phalcon\Db\Exceptions\InvalidUnaryExpression;
 use Phalcon\Db\Exceptions\MaterializedViewsNotSupported;
 use Phalcon\Db\Exceptions\MissingDefinitionKey;
 use Phalcon\Db\Exceptions\ReturningNotSupported;
+use Phalcon\Db\Exceptions\UnsupportedOperator;
 use Phalcon\Support\Settings;
 
 /**
@@ -38,6 +39,22 @@ abstract class Dialect implements DialectInterface
      * @var array
      */
     protected customFunctions = [];
+
+    /**
+     * Dialect-specific operators that a concrete dialect must opt into
+     * via supportedOperators; using one elsewhere throws.
+     *
+     * @var array
+     */
+    protected guardedOperators = ["@@", "@>", "<@", "&&", "||", "->", "->>", "#>", "#>>"];
+
+    /**
+     * Subset of guardedOperators that this dialect emits. Overridden per
+     * dialect.
+     *
+     * @var array
+     */
+    protected supportedOperators = [];
 
     /**
      * Generate SQL to create a new savepoint
@@ -684,6 +701,45 @@ abstract class Dialect implements DialectInterface
     }
 
     /**
+     * Checks whether the platform supports the full `ALTER TABLE` matrix:
+     * modifying existing columns and adding or dropping foreign keys, primary
+     * keys, and check constraints. SQLite returns false - those operations
+     * throw a dedicated `Sqlite*NotSupported` exception there (basic
+     * `ADD COLUMN` remains available).
+     */
+    public function supportsAlterTable() -> bool
+    {
+        return true;
+    }
+
+    /**
+     * Checks whether the platform supports materialized views. Only PostgreSQL
+     * returns true; `createMaterializedView()` throws on the other dialects.
+     */
+    public function supportsMaterializedViews() -> bool
+    {
+        return false;
+    }
+
+    /**
+     * Checks whether the platform supports the `ON CONFLICT (...) DO UPDATE`
+     * upsert clause. MySQL returns false; `onConflictUpdate()` throws there.
+     */
+    public function supportsOnConflictUpdate() -> bool
+    {
+        return true;
+    }
+
+    /**
+     * Checks whether the platform supports the `RETURNING` clause. MySQL
+     * returns false; `returning()` throws there.
+     */
+    public function supportsReturning() -> bool
+    {
+        return false;
+    }
+
+    /**
      * Returns the size of the column enclosed in parentheses
      */
     protected function getColumnSize(<ColumnInterface> column) -> string
@@ -865,7 +921,13 @@ abstract class Dialect implements DialectInterface
      */
     final protected function getSqlExpressionBinaryOperations(array! expression, string escapeChar = null, array! bindCounts = []) -> string
     {
-        var left, right;
+        var left, right, operator;
+
+        let operator = expression["op"];
+
+        if in_array(operator, this->guardedOperators) && !in_array(operator, this->supportedOperators) {
+            throw new UnsupportedOperator(operator);
+        }
 
         let left  = this->getSqlExpression(
             expression["left"],
@@ -879,7 +941,7 @@ abstract class Dialect implements DialectInterface
             bindCounts
         );
 
-        return left . " " . expression["op"] . " " . right;
+        return left . " " . operator . " " . right;
     }
 
     /**
@@ -893,12 +955,14 @@ abstract class Dialect implements DialectInterface
      */
     final protected function getSqlExpressionCase(array! expression, string escapeChar = null, array! bindCounts = []) -> string
     {
-        var whenClause;
+        var whenClause, whenClauses;
         string sql;
 
         let sql = "CASE " . this->getSqlExpression(expression["expr"], escapeChar, bindCounts);
 
-        for whenClause in expression["when-clauses"] {
+        let whenClauses = array_values(expression["when-clauses"]);
+
+        for whenClause in whenClauses {
             if whenClause["type"] == "when" {
                 let sql .= " WHEN " .
                         this->getSqlExpression(whenClause["expr"], escapeChar, bindCounts) .

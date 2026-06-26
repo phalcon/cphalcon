@@ -34,6 +34,11 @@ class Postgresql extends Dialect
     protected escapeChar = "\"";
 
     /**
+     * @var array
+     */
+    protected supportedOperators = ["@@", "@>", "<@", "&&", "||", "->", "->>", "#>", "#>>"];
+
+    /**
      * Generates SQL to add a column to a table
      */
     public function addColumn(string! tableName, string! schemaName, <ColumnInterface> column) -> string
@@ -149,7 +154,7 @@ class Postgresql extends Dialect
     {
         var temporary, options, table, columns, column, indexes, index,
             reference, references, indexName, indexType, onDelete, onUpdate,
-            columnDefinition, checks, check;
+            columnDefinition, checks, check, tableComment;
         array createLines, primaryColumns;
         string indexSql, indexSqlAfterCreate, columnLine, referenceSql, sql;
 
@@ -162,6 +167,7 @@ class Postgresql extends Dialect
         let temporary = false;
         if fetch options, definition["options"] {
             fetch temporary, options["temporary"];
+            fetch tableComment, options["TABLE_COMMENT"];
         }
 
         /**
@@ -215,7 +221,7 @@ class Postgresql extends Dialect
             * Add a COMMENT clause
             */
             if column->getComment() {
-                let indexSqlAfterCreate .= " COMMENT ON COLUMN " . table . ".\"" . column->getName()."\" IS '".column->getComment()."';";
+                let indexSqlAfterCreate .= " COMMENT ON COLUMN " . table . ".\"" . column->getName()."\" IS '" . str_replace("'", "''", column->getComment()) . "';";
             }
         }
 
@@ -293,6 +299,10 @@ class Postgresql extends Dialect
         if isset definition["options"] {
             let sql .= " " . this->getTableOptions(definition);
         }
+        if tableComment {
+            let indexSqlAfterCreate .= " COMMENT ON TABLE " . table . " IS '" . str_replace("'", "''", tableComment) . "';";
+        }
+
         let sql .= ";" . indexSqlAfterCreate;
 
         return sql;
@@ -870,7 +880,7 @@ class Postgresql extends Dialect
          * Add a COMMENT clause
          */
          if column->getComment() {
-            let sql .= "COMMENT ON COLUMN " . this->prepareTable(tableName, schemaName) . ".\"" .column->getName()."\" IS '" . column->getComment() . "';";
+            let sql .= "COMMENT ON COLUMN " . this->prepareTable(tableName, schemaName) . ".\"" .column->getName()."\" IS '" . str_replace("'", "''", column->getComment()) . "';";
         }
 
         // DEFAULT
@@ -909,6 +919,22 @@ class Postgresql extends Dialect
         }
 
         return sqlQuery . " RETURNING " . this->getColumnList(columns);
+    }
+
+    /**
+     * PostgreSQL supports materialized views (`CREATE MATERIALIZED VIEW`).
+     */
+    public function supportsMaterializedViews() -> bool
+    {
+        return true;
+    }
+
+    /**
+     * PostgreSQL supports the `RETURNING` clause.
+     */
+    public function supportsReturning() -> bool
+    {
+        return true;
     }
 
     /**
@@ -960,7 +986,15 @@ class Postgresql extends Dialect
      */
     public function tableOptions(string! table, string schema = null) -> string
     {
-        return "";
+        string sql;
+
+        let sql = "SELECT obj_description(c.oid, 'pg_class') AS table_comment FROM pg_class c JOIN pg_namespace n ON n.oid = c.relnamespace WHERE c.relname = '" . table . "' AND ";
+
+        if schema {
+            return sql . "n.nspname = '" . schema . "'";
+        }
+
+        return sql . "n.nspname = current_schema()";
     }
 
     /**

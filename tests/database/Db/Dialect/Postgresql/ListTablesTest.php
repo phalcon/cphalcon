@@ -13,8 +13,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Db\Dialect\Postgresql;
 
+use Phalcon\Db\Dialect\Postgresql;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
+#[Group('mysql')]
+#[Group('pgsql')]
+#[Group('sqlite')]
 final class ListTablesTest extends AbstractDatabaseTestCase
 {
     /**
@@ -25,6 +30,18 @@ final class ListTablesTest extends AbstractDatabaseTestCase
      */
     public function testDbDialectPostgresqlListTables(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $dialect = new Postgresql();
+
+        $this->assertSame(
+            "SELECT table_name FROM information_schema.tables "
+            . "WHERE table_schema = 'public' ORDER BY table_name",
+            $dialect->listTables()
+        );
+
+        $this->assertSame(
+            "SELECT table_name FROM information_schema.tables "
+            . "WHERE table_schema = 'myschema' ORDER BY table_name",
+            $dialect->listTables('myschema')
+        );
     }
 }

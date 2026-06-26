@@ -16,6 +16,7 @@ namespace Phalcon\Tests\Unit\Http\Request;
 use Phalcon\Tests\Support\Listener\CustomAuthorizationListener;
 use Phalcon\Tests\Support\Listener\NegotiateAuthorizationListener;
 use Phalcon\Tests\Unit\Http\Helper\AbstractHttpBase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class AuthHeaderTest extends AbstractHttpBase
 {
@@ -228,12 +229,11 @@ final class AuthHeaderTest extends AbstractHttpBase
     }
 
     /**
-     * @dataProvider basicAuthProvider
-     *
      * @issue  https://github.com/phalcon/cphalcon/issues/12480
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2016-12-18
      */
+    #[DataProvider('basicAuthProvider')]
     public function testHttpRequestCorrectHandleAuth(
         array $server,
         array $expected
@@ -301,10 +301,7 @@ final class AuthHeaderTest extends AbstractHttpBase
         $this->assertSame($expected, $actual);
     }
 
-    /**
-     * @dataProvider authProvider
-     *
-     */
+    #[DataProvider('authProvider')]
     public function testHttpRequestGetAuthFromHeaders(
         array $server,
         string $function,

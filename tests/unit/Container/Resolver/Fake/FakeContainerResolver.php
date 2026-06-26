@@ -42,13 +42,13 @@ class FakeContainerResolver
     ) {
     }
 
-    public function has(string $id): bool
-    {
-        return $this->hasService;
-    }
-
     public function get(string $id): mixed
     {
         return new FakeServiceNoConstructor();
+    }
+
+    public function has(string $id): bool
+    {
+        return $this->hasService;
     }
 }

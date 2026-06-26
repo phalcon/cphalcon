@@ -6,9 +6,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Cli_Router_Exceptions_InvalidRoutePaths);
 PHP_METHOD(Phalcon_Cli_Router_Exceptions_InvalidRoutePaths, __construct);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_router_exceptions_invalidroutepaths___construct, 0, 0, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, route, IS_STRING, 0, "''")
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_cli_router_exceptions_invalidroutepaths_method_entry) {
-PHP_ME(Phalcon_Cli_Router_Exceptions_InvalidRoutePaths, __construct, arginfo_phalcon_cli_router_exceptions_invalidroutepaths___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Cli_Router_Exceptions_InvalidRoutePaths, __construct, arginfo_phalcon_cli_router_exceptions_invalidroutepaths___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_FE_END
 };

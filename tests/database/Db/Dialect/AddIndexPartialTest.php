@@ -18,17 +18,39 @@ use Phalcon\Db\Dialect\Postgresql;
 use Phalcon\Db\Dialect\Sqlite;
 use Phalcon\Db\Index;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
 final class AddIndexPartialTest extends AbstractDatabaseTestCase
 {
+    /**
+     * MySQL - has no partial-index feature; the WHERE predicate is ignored.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-15
+     */
+    #[Group('mysql')]
+    public function testDbDialectMysqlAddIndexIgnoresWhere(): void
+    {
+        $dialect = new Mysql();
+        $index   = new Index(
+            'idx_active',
+            [
+                'columns' => ['email'],
+                'where'   => 'active = true',
+            ]
+        );
+
+        $actual = $dialect->addIndex('table', 'schema', $index);
+
+        $this->assertStringNotContainsString('WHERE', $actual);
+    }
     /**
      * PostgreSQL - emits `WHERE <expr>` for partial indexes.
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group pgsql
      */
+    #[Group('pgsql')]
     public function testDbDialectPostgresqlAddIndexPartial(): void
     {
         $dialect = new Postgresql();
@@ -50,9 +72,8 @@ final class AddIndexPartialTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group sqlite
      */
+    #[Group('sqlite')]
     public function testDbDialectSqliteAddIndexPartial(): void
     {
         $dialect = new Sqlite();
@@ -67,29 +88,5 @@ final class AddIndexPartialTest extends AbstractDatabaseTestCase
         $actual = $dialect->addIndex('table', 'schema', $index);
 
         $this->assertStringContainsString(' WHERE active = 1', $actual);
-    }
-
-    /**
-     * MySQL - has no partial-index feature; the WHERE predicate is ignored.
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-05-15
-     *
-     * @group mysql
-     */
-    public function testDbDialectMysqlAddIndexIgnoresWhere(): void
-    {
-        $dialect = new Mysql();
-        $index   = new Index(
-            'idx_active',
-            [
-                'columns' => ['email'],
-                'where'   => 'active = true',
-            ]
-        );
-
-        $actual = $dialect->addIndex('table', 'schema', $index);
-
-        $this->assertStringNotContainsString('WHERE', $actual);
     }
 }

@@ -16,6 +16,7 @@ namespace Phalcon\Tests\Database\Db\Index;
 use Phalcon\Db\Exception;
 use Phalcon\Db\Index;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
 final class GetWhereTest extends AbstractDatabaseTestCase
 {
@@ -24,11 +25,10 @@ final class GetWhereTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testDbIndexGetWhereEmptyByDefault(): void
     {
         $index = new Index('idx_email', ['email']);
@@ -41,11 +41,10 @@ final class GetWhereTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testDbIndexGetWhereStored(): void
     {
         $index = new Index(
@@ -64,11 +63,10 @@ final class GetWhereTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testDbIndexWhereMustBeString(): void
     {
         $this->expectException(Exception::class);

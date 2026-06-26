@@ -16,6 +16,7 @@ namespace Phalcon\Tests\Database\Mvc\Model;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Models\CustomersDefaults;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 final class HasChangedTest extends AbstractDatabaseTestCase
 {
@@ -35,11 +36,10 @@ final class HasChangedTest extends AbstractDatabaseTestCase
     /**
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2019-05-17
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelHasChanged(): void
     {
         /**

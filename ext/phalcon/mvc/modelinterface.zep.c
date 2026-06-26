@@ -98,7 +98,15 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, create);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, delete);
 /**
- * Allows to query a set of records that match the specified conditions
+ * Allows to query a set of records that match the specified conditions.
+ *
+ * This is one of four ways to express a query against a model, each with an
+ * intended lane:
+ *
+ * - find-parameter arrays (this method) for simple lookups;
+ * - `Phalcon\Mvc\Model\Query\Builder` as the canonical programmatic API;
+ * - `Phalcon\Mvc\Model\Criteria` as request-bound convenience;
+ * - raw PHQL via `Phalcon\Mvc\Model\Query` for everything else.
  *
  * @param array|string|int|null parameters
  *
@@ -226,6 +234,13 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, setReadConnectionService);
  * @param array columnMap
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, setSnapshotData);
+/**
+ * Marks one or more many-to-many relationships to be synchronized (or not)
+ * on the next save() call.
+ *
+ * @param string|array|null elements
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, setSync);
 /**
  * Sets a transaction related to the Model instance
  */

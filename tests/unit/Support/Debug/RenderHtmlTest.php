@@ -17,10 +17,12 @@ use Phalcon\Support\Debug;
 use Phalcon\Support\Exception;
 use Phalcon\Support\Version;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\BackupGlobals;
 
+#[BackupGlobals(true)]
 final class RenderHtmlTest extends AbstractUnitTestCase
 {
-    private const ERROR_DIV = "<div class='error-info'>";
+    private const TABS = "<div class='tabs' role='tablist'>";
 
     /**
      * @author Phalcon Team <team@phalcon.io>
@@ -29,51 +31,52 @@ final class RenderHtmlTest extends AbstractUnitTestCase
     public function testSupportDebugRenderHtml(): void
     {
         $exception = new Exception('exception message', 1234);
+        $file      = $exception->getFile();
+        $line      = (string)$exception->getLine();
+
         $debug = new Debug();
         $debug->setShowBackTrace(false);
 
-        $version = new Version();
+        $version       = new Version();
         $versionString = $version->get();
-        $link = $version->getPart(Version::VERSION_MAJOR)
-                . "."
-                . $version->getPart(Version::VERSION_MEDIUM);
-
+        $link          = "https://docs.phalcon.io/"
+            . $version->getPart(Version::VERSION_MAJOR) . "."
+            . $version->getPart(Version::VERSION_MEDIUM) . "/";
+        $uri           = "https://assets.phalcon.io/debug/5.0.x/";
+        $php           = PHP_VERSION;
+        $logo          = "https://assets.phalcon.io/phalcon/images/svg/logo--tablet.svg";
 
         $expected = "<!DOCTYPE html>
-<html lang='en'>
+<html lang='en' data-theme='light'>
 <head>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
     <title>Phalcon\Support\Exception:exception message</title>
-    <link href='https://assets.phalcon.io/debug/5.0.x/assets/jquery-ui/themes/ui-lightness/jquery-ui.min.css'
-          rel='stylesheet'
-          type='text/css' />
-    <link href='https://assets.phalcon.io/debug/5.0.x/assets/jquery-ui/themes/ui-lightness/theme.css'
-          rel='stylesheet'
-          type='text/css' />
-    <link href='https://assets.phalcon.io/debug/5.0.x/themes/default/style.css'
+    <link href='{$uri}debug.css'
           rel='stylesheet'
           type='text/css' />
 </head>
 <body>
-<div class='version'>
-    Phalcon Framework <a href='https://docs.phalcon.io/$link/' target='_new'>$versionString</a>
-</div>
-<div align='center'>
-    <div class='error-main'>
-        <h1>Phalcon\Support\Exception: exception message</h1>
-        <span class='error-file'>" . __FILE__ . " (31)</span>
-    </div>
-    <script type='application/javascript'
-            src='https://assets.phalcon.io/debug/5.0.x/assets/jquery/dist/jquery.min.js'></script>
-    <script type='application/javascript'
-            src='https://assets.phalcon.io/debug/5.0.x/assets/jquery-ui/jquery-ui.min.js'></script>
-    <script type='application/javascript'
-            src='https://assets.phalcon.io/debug/5.0.x/assets/jquery.scrollTo/jquery.scrollTo.min.js'></script>
-    <script type='application/javascript'
-            src='https://assets.phalcon.io/debug/5.0.x/prettify/prettify.js'></script>
-    <script type='application/javascript'
-            src='https://assets.phalcon.io/debug/5.0.x/pretty.js'></script>
+<div class='wrap'>
+    <div class='masthead'>
+        <div class='brand'><img class='logo' src='{$logo}' alt='Phalcon' /><span>Phalcon Debug</span></div>
+        <div class='actions-top'>
+            <button class='btn' data-action='copy-trace'>Copy trace</button>
+            <button class='btn' data-action='toggle-theme' title='Toggle theme'>Theme</button>
+            <a class='version-badge' href='{$link}' target='_new'><b>v{$versionString}</b></a>
         </div>
-    </body>
+    </div>
+    <div class='error-card'>
+        <span class='error-type'>Phalcon\Support\Exception</span>
+        <h1 class='error-message'>exception message</h1>
+        <div class='meta'>
+            <span class='item'><code>{$file}</code> : <code>{$line}</code></span>
+            <span class='sep'>|</span><span class='item'>PHP <code>{$php}</code></span>
+        </div>
+    </div>
+</div>
+    <script src='{$uri}debug.js'></script>
+</body>
 </html>";
 
         $actual = $debug->renderHtml($exception);
@@ -93,12 +96,8 @@ final class RenderHtmlTest extends AbstractUnitTestCase
 
         $actual = $debug->renderHtml($exception);
 
-        $this->assertStringNotContainsString(
-            'linenums error-scroll',
-            $actual,
-        );
-
-        $this->assertStringContainsString('linenums:', $actual);
+        $this->assertStringContainsString("<div class='code'>", $actual);
+        $this->assertStringContainsString("<tr class='hl'>", $actual);
     }
 
     /**
@@ -114,12 +113,7 @@ final class RenderHtmlTest extends AbstractUnitTestCase
 
         $actual = $debug->renderHtml($exception);
 
-        $this->assertStringNotContainsString(
-            'linenums error-scroll',
-            $actual,
-        );
-
-        $this->assertStringNotContainsString('linenums:', $actual);
+        $this->assertStringNotContainsString("<div class='code'>", $actual);
     }
 
     /**
@@ -128,39 +122,25 @@ final class RenderHtmlTest extends AbstractUnitTestCase
      */
     public function testSupportDebugRenderHtmlWithBacktrace(): void
     {
+        $key = uniqid('var-');
         $exception = new Exception('exception message', 1234);
         $debug = new Debug();
         $debug->setShowBackTrace(true);
         $server = $_SERVER;
-        $_SERVER['DATA_DEBUG_TEST'] = 'test';
+        $_SERVER[$key] = uniqid('val-');
 
         $actual = $debug->renderHtml($exception);
 
         $_SERVER = $server;
 
-        $this->assertStringContainsString(self::ERROR_DIV, $actual);
-        $this->assertStringContainsString(
-            "<li><a href='#backtrace'>Backtrace</a></li>",
-            $actual,
-        );
-        $this->assertStringContainsString(
-            "<li><a href='#request'>Request</a></li>",
-            $actual,
-        );
-        $this->assertStringContainsString(
-            "<li><a href='#server'>Server</a></li>",
-            $actual,
-        );
-        $this->assertStringContainsString(
-            "<li><a href='#files'>Included Files</a></li>",
-            $actual,
-        );
-        $this->assertStringContainsString(
-            "<li><a href='#memory'>Memory</a></li>",
-            $actual,
-        );
+        $this->assertStringContainsString(self::TABS, $actual);
+        $this->assertStringContainsString("data-tab='backtrace'", $actual);
+        $this->assertStringContainsString("data-tab='request'", $actual);
+        $this->assertStringContainsString("data-tab='server'", $actual);
+        $this->assertStringContainsString("data-tab='files'", $actual);
+        $this->assertStringContainsString("data-tab='memory'", $actual);
 
-        $this->assertStringContainsString('DATA_DEBUG_TEST', $actual);
+        $this->assertStringContainsString($key, $actual);
     }
 
     /**
@@ -169,68 +149,25 @@ final class RenderHtmlTest extends AbstractUnitTestCase
      */
     public function testSupportDebugRenderHtmlWithBacktraceAndBlacklist(): void
     {
+        $key = uniqid('var-');
         $exception = new Exception('exception message', 1234);
         $debug = new Debug();
         $server = $_SERVER;
-        $_SERVER['DATA_DEBUG_TEST'] = 'test';
+        $_SERVER[$key] = uniqid('val-');
 
         $debug->setShowBackTrace(true);
         $debug->setBlacklist(
             [
-                'server' => ['DATA_DEBUG_TEST'],
+                'server' => [$key],
             ],
         );
 
         $actual = $debug->renderHtml($exception);
         $_SERVER = $server;
 
-        $this->assertStringContainsString(self::ERROR_DIV, $actual);
-        $this->assertStringContainsString(
-            "<li><a href='#backtrace'>Backtrace</a></li>",
-            $actual,
-        );
-        $this->assertStringContainsString(
-            "<li><a href='#request'>Request</a></li>",
-            $actual,
-        );
-        $this->assertStringContainsString(
-            "<li><a href='#server'>Server</a></li>",
-            $actual,
-        );
-        $this->assertStringContainsString(
-            "<li><a href='#files'>Included Files</a></li>",
-            $actual,
-        );
-        $this->assertStringContainsString(
-            "<li><a href='#memory'>Memory</a></li>",
-            $actual,
-        );
-
-        $this->assertStringNotContainsString('DATA_DEBUG_TEST', $actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-11
-     */
-    public function testSupportDebugRenderHtmlWithRequestBlacklist(): void
-    {
-        $exception = new Exception('exception message', 1234);
-        $debug = new Debug();
-        $request = $_REQUEST;
-        $_REQUEST['DATA_REQUEST_TEST'] = 'test';
-
-        $debug->setShowBackTrace(true);
-        $debug->setBlacklist(
-            [
-                'request' => ['DATA_REQUEST_TEST'],
-            ],
-        );
-
-        $actual = $debug->renderHtml($exception);
-        $_REQUEST = $request;
-
-        $this->assertStringContainsString(self::ERROR_DIV, $actual);
+        $this->assertStringContainsString(self::TABS, $actual);
+        $this->assertStringContainsString("data-tab='server'", $actual);
+        $this->assertStringNotContainsString($key, $actual);
     }
 
     /**
@@ -239,13 +176,41 @@ final class RenderHtmlTest extends AbstractUnitTestCase
      */
     public function testSupportDebugRenderHtmlWithDebugVar(): void
     {
+        $value = uniqid('var-');
         $exception = new Exception('exception message', 1234);
         $debug = new Debug();
         $debug->setShowBackTrace(true);
-        $debug->debugVar('my debug variable');
+        $debug->debugVar($value);
 
         $actual = $debug->renderHtml($exception);
 
         $this->assertStringContainsString("id='variables'", $actual);
+        $this->assertStringContainsString($value, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-11
+     */
+    public function testSupportDebugRenderHtmlWithRequestBlacklist(): void
+    {
+        $key = uniqid('var-');
+        $exception = new Exception('exception message', 1234);
+        $debug = new Debug();
+        $request = $_REQUEST;
+        $_REQUEST[$key] = uniqid('val-');
+
+        $debug->setShowBackTrace(true);
+        $debug->setBlacklist(
+            [
+                'request' => [$key],
+            ],
+        );
+
+        $actual = $debug->renderHtml($exception);
+        $_REQUEST = $request;
+
+        $this->assertStringContainsString(self::TABS, $actual);
+        $this->assertStringNotContainsString($key, $actual);
     }
 }

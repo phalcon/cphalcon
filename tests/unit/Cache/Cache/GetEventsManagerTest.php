@@ -16,6 +16,7 @@ use Phalcon\Cache\Cache;
 use Phalcon\Events\Manager;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class GetEventsManagerTest extends AbstractUnitTestCase
 {
@@ -44,11 +45,10 @@ final class GetEventsManagerTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getEvents
-     *
      * @author n[oO]ne <lominum@protonmail.com>
      * @since  2024-06-07
      */
+    #[DataProvider('getEvents')]
     public function testCacheCacheEventTriggers(
         string $event,
         string $method,

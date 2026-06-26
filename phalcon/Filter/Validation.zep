@@ -204,6 +204,15 @@ class Validation extends Injectable implements ValidationInterface
 
         for field, value in data {
             /**
+             * Skip numeric (integer) keys; entity setters and properties are
+             * always string-named, so camelize() would fail on them. See
+             * cphalcon issue #17173.
+             */
+            if typeof field != "string" {
+                continue;
+            }
+
+            /**
              * Check if the field is in the whitelist
              */
             if !empty whitelist && !in_array(field, whitelist) {
@@ -687,7 +696,7 @@ class Validation extends Injectable implements ValidationInterface
      */
     protected function preChecking(var field, <ValidatorInterface> validator) -> bool
     {
-        var singleField, allowEmpty, emptyValue, value;
+        var singleField, allowEmpty, value;
         array results = [];
 
         if typeof field == "array" {
@@ -704,20 +713,22 @@ class Validation extends Injectable implements ValidationInterface
             let allowEmpty = validator->getOption("allowEmpty", false);
 
             if allowEmpty {
+                /**
+                 * The `allowEmpty` rule is owned by the validator
+                 * (AbstractValidator::isAllowEmpty() or an override)
+                 */
                 if method_exists(validator, "isAllowEmpty") {
                     return validator->isAllowEmpty(this, field);
                 }
 
+                /**
+                 * Compatibility path for validators implementing
+                 * ValidatorInterface without extending AbstractValidator
+                 */
                 let value = this->getValue(field);
 
                 if typeof allowEmpty == "array" {
-                    for emptyValue in allowEmpty {
-                        if emptyValue === value {
-                            return true;
-                        }
-                    }
-
-                    return false;
+                    return in_array(value, allowEmpty, true);
                 }
 
                 return empty value;

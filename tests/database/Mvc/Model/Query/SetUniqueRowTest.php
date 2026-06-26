@@ -13,16 +13,26 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Mvc\Model\Query;
 
+use Phalcon\Mvc\Model\Query;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
+#[Group('mysql')]
+#[Group('pgsql')]
+#[Group('sqlite')]
 final class SetUniqueRowTest extends AbstractDatabaseTestCase
 {
     /**
+     * Tests Phalcon\Mvc\Model\Query :: setUniqueRow()
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2026-06-22
      */
     public function testMvcModelQuerySetUniqueRow(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $query = new Query();
+        $query->setUniqueRow(true);
+
+        $this->assertTrue($query->getUniqueRow());
     }
 }

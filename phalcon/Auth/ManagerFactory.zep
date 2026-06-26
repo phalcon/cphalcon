@@ -15,7 +15,11 @@ namespace Phalcon\Auth;
 
 use Phalcon\Auth\Access\AccessLocator;
 use Phalcon\Auth\Adapter\AdapterLocator;
+use Phalcon\Auth\Exceptions\UnknownAdapter;
+use Phalcon\Auth\Exceptions\UnknownGuard;
 use Phalcon\Auth\Guard\GuardLocator;
+use Phalcon\Auth\Internal\ContainerResolver;
+use Phalcon\Auth\Internal\Options;
 use Phalcon\Config\ConfigInterface;
 use Phalcon\Contracts\Auth\Access\Access;
 use Phalcon\Contracts\Auth\Adapter\Adapter;
@@ -87,7 +91,7 @@ class ManagerFactory
      */
     protected adapterLocator;
     /**
-     * @var Collection
+     * @var Collection|DiInterface
      */
     protected container;
     /**
@@ -106,9 +110,7 @@ class ManagerFactory
         <GuardLocator> guardLocator = null,
         <AccessLocator> accessLocator = null
     ) {
-        if (!(container instanceof Collection) && !(container instanceof DiInterface)) {
-            throw new \TypeError("The parameter must be an instance of Collection or DiInterface");
-        }
+        ContainerResolver::ensureContainer(container);
 
         let this->container      = container;
         let this->hasher         = hasher;
@@ -141,10 +143,13 @@ class ManagerFactory
         let guards = isset(config["guards"]) ? config["guards"] : [];
 
         for name, gconf in guards {
-            let adapter = this->buildAdapter(this->adapterLocator, gconf["adapter"]);
+            let adapter = this->buildAdapter(
+                this->adapterLocator,
+                Options::requireArray(gconf, "adapter", "guard '" . name . "'")
+            );
             let guard   = this->buildGuard(
                 this->guardLocator,
-                gconf["type"],
+                Options::requireString(gconf, "type", "guard '" . name . "'"),
                 adapter,
                 isset(gconf["options"]) ? gconf["options"] : []
             );
@@ -173,10 +178,10 @@ class ManagerFactory
     {
         var className, name;
 
-        let name = cfg["name"];
+        let name = Options::requireString(cfg, "name", "adapter");
 
         if (!locator->has(name)) {
-            throw new Exception(sprintf("Unknown auth adapter '%s'", name));
+            throw new UnknownAdapter(name);
         }
 
         let className = locator->getClass(name);
@@ -201,7 +206,7 @@ class ManagerFactory
         var className;
 
         if (!locator->has(type)) {
-            throw new Exception(sprintf("Unknown auth guard '%s'", type));
+            throw new UnknownGuard(type);
         }
 
         let className = locator->getClass(type);

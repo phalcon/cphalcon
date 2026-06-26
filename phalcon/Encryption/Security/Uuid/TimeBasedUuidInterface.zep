@@ -13,8 +13,13 @@
 
 namespace Phalcon\Encryption\Security\Uuid;
 
-interface TimeBasedUuidInterface
+use Phalcon\Contracts\Encryption\Security\Uuid\TimeBasedUuid as TimeBasedUuidContract;
+
+/**
+ * @psalm-suppress DeprecatedInterface
+ * @deprecated Will be removed in a future major release.
+ *             Use {@see \Phalcon\Contracts\Encryption\Security\Uuid\TimeBasedUuid} instead.
+ */
+interface TimeBasedUuidInterface extends TimeBasedUuidContract
 {
-    public function getDateTime() -> <\DateTimeImmutable>;
-    public function getNode() -> string;
 }

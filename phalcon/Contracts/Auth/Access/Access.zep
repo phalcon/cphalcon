@@ -13,7 +13,14 @@
 
 namespace Phalcon\Contracts\Auth\Access;
 
+use Phalcon\Contracts\Auth\Guard\Guard;
+
 /**
+ * Access gates are Specifications: policies that decide whether the current
+ * identity may run the given action. The enforcement point passes the
+ * identity (the guard) and the request context on every call; gates hold no
+ * reference to the auth manager.
+ *
  * @phpstan-type ForwardTarget array{
  *     controller?: string,
  *     action?: string,
@@ -21,11 +28,14 @@ namespace Phalcon\Contracts\Auth\Access;
  *     namespace?: string,
  *     task?: string,
  * }&array<string, mixed>
+ * @phpstan-type AccessContext array{
+ *     handler?: string,
+ *     module?: string,
+ *     params?: array<int|string, mixed>,
+ * }
  */
 interface Access
 {
-    public function allowedIf() -> bool;
-
     /**
      * @return list<string>
      */
@@ -36,7 +46,12 @@ interface Access
      */
     public function getOnlyActions() -> array;
 
-    public function isAllowed(string actionName) -> bool;
+    /**
+     * Whether the identity behind the guard may run the action.
+     *
+     * @phpstan-param AccessContext $context
+     */
+    public function isAllowed(<Guard> guard, string actionName, array context = []) -> bool;
 
     /**
      * @phpstan-return ForwardTarget|null
@@ -44,11 +59,27 @@ interface Access
     public function redirectTo() -> array | null;
 
     /**
+     * Exempts the listed action names from the gate; every other action is
+     * checked. See setOnlyActions() for the gate-family divergence note.
+     *
      * @param list<string> $exceptActions
      */
     public function setExceptActions(array exceptActions = []) -> void;
 
     /**
+     * Restricts the gate to the listed action names.
+     *
+     * Authoritative semantics: the gate applies only to the listed actions; an
+     * action that is not listed passes without a check (and except() is the
+     * inverse - the gate applies to every action except those listed).
+     *
+     * NOTE: the implementations currently diverge. The Acl gate follows the
+     * authoritative semantics above, while the binary gates (Auth, Guest)
+     * treat `only` as a whitelist - an unlisted action is denied even when the
+     * base condition holds. The two gate families will be aligned in the next
+     * major version; until then, choose the gate family deliberately, because
+     * for an unlisted action they return opposite answers to the same call.
+     *
      * @param list<string> $onlyActions
      */
     public function setOnlyActions(array onlyActions = []) -> void;

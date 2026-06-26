@@ -16,6 +16,7 @@
 #include "kernel/concat.h"
 #include "kernel/memory.h"
 #include "kernel/object.h"
+#include "kernel/exception.h"
 
 
 /**
@@ -64,6 +65,56 @@ PHP_METHOD(Phalcon_Auth_Exceptions_DoesNotImplement, __construct)
 	ZEPHIR_CONCAT_VSVS(&_0, &type_zv, " does not implement '", &name_zv, "'");
 	ZEPHIR_CALL_PARENT(NULL, phalcon_auth_exceptions_doesnotimplement_ce, getThis(), "__construct", NULL, 0, &_0);
 	zephir_check_call_status();
+	ZEPHIR_MM_RESTORE();
+}
+
+/**
+ * Throws when value is not an instance of the given interface. Keeps the
+ * "must implement" guard shared across adapters, guards and the manager
+ * in one place.
+ *
+ * @throws self
+ */
+PHP_METHOD(Phalcon_Auth_Exceptions_DoesNotImplement, assert)
+{
+	zend_bool _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zend_string *type = NULL, *name = NULL;
+	zval *value, value_sub, *interfaceName, interfaceName_sub, type_zv, name_zv, _1$$3;
+
+	ZVAL_UNDEF(&value_sub);
+	ZVAL_UNDEF(&interfaceName_sub);
+	ZVAL_UNDEF(&type_zv);
+	ZVAL_UNDEF(&name_zv);
+	ZVAL_UNDEF(&_1$$3);
+	ZEND_PARSE_PARAMETERS_START(4, 4)
+		Z_PARAM_ZVAL(value)
+		Z_PARAM_ZVAL(interfaceName)
+		Z_PARAM_STR(type)
+		Z_PARAM_STR(name)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	value = ZEND_CALL_ARG(execute_data, 1);
+	interfaceName = ZEND_CALL_ARG(execute_data, 2);
+	zephir_memory_observe(&type_zv);
+	ZVAL_STR_COPY(&type_zv, type);
+	zephir_memory_observe(&name_zv);
+	ZVAL_STR_COPY(&name_zv, name);
+	_0 = !(Z_TYPE_P(value) == IS_OBJECT);
+	if (!(_0)) {
+		_0 = !((zephir_is_instance_of(value, Z_STRVAL_P(interfaceName), Z_STRLEN_P(interfaceName))));
+	}
+	if (_0) {
+		ZEPHIR_INIT_VAR(&_1$$3);
+		object_init_ex(&_1$$3, phalcon_auth_exceptions_doesnotimplement_ce);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 322, &type_zv, &name_zv);
+		zephir_check_call_status();
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Auth/Exceptions/DoesNotImplement.zep", 40);
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 

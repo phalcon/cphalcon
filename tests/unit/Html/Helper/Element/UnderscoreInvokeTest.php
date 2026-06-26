@@ -16,6 +16,7 @@ use Phalcon\Html\Exception;
 use Phalcon\Html\Helper\Element;
 use Phalcon\Html\TagFactory;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class UnderscoreInvokeTest extends AbstractUnitTestCase
 {
@@ -113,11 +114,10 @@ final class UnderscoreInvokeTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
+    #[DataProvider('getExamples')]
     public function testHtmlHelperElementUnderscoreInvoke(
         string $expected,
         string $tag,

@@ -17,15 +17,15 @@ use Phalcon\Encryption\Security;
 use Phalcon\Session\Manager;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 
+#[RequiresPhpExtension('openssl')]
 final class RefreshTokenTest extends AbstractUnitTestCase
 {
     use DiTrait;
 
     public function setUp(): void
     {
-        $this->checkExtensionIsLoaded('openssl');
-
         $this->setNewFactoryDefault();
         $this->setDiService('sessionStream');
     }
@@ -59,6 +59,32 @@ final class RefreshTokenTest extends AbstractUnitTestCase
     }
 
     /**
+     * When autoRefresh is disabled and no session value exists yet, the
+     * first call still mints a new token and persists it.
+     *
+     * @issue https://github.com/phalcon/cphalcon/issues/14413
+     */
+    public function testAutoRefreshDisabledMintsFirstTokenWhenSessionEmpty(): void
+    {
+        /** @var Manager $session */
+        $session = $this->container->getShared('session');
+        $session->start();
+
+        $security = new Security();
+        $security->setDI($this->container);
+        $security->setAutoRefresh(false);
+
+        $token = $security->getToken();
+        $key   = $security->getTokenKey();
+
+        $this->assertNotNull($token);
+        $this->assertNotNull($key);
+        $this->assertSame($token, $security->getSessionToken());
+
+        $session->destroy();
+    }
+
+    /**
      * @issue https://github.com/phalcon/cphalcon/issues/14413
      */
     public function testAutoRefreshDisabledReusesSessionToken(): void
@@ -85,32 +111,6 @@ final class RefreshTokenTest extends AbstractUnitTestCase
         // Repeated calls are stable too.
         $this->assertSame($tokenSeed, $second->getToken());
         $this->assertSame($keySeed, $second->getTokenKey());
-
-        $session->destroy();
-    }
-
-    /**
-     * When autoRefresh is disabled and no session value exists yet, the
-     * first call still mints a new token and persists it.
-     *
-     * @issue https://github.com/phalcon/cphalcon/issues/14413
-     */
-    public function testAutoRefreshDisabledMintsFirstTokenWhenSessionEmpty(): void
-    {
-        /** @var Manager $session */
-        $session = $this->container->getShared('session');
-        $session->start();
-
-        $security = new Security();
-        $security->setDI($this->container);
-        $security->setAutoRefresh(false);
-
-        $token = $security->getToken();
-        $key   = $security->getTokenKey();
-
-        $this->assertNotNull($token);
-        $this->assertNotNull($key);
-        $this->assertSame($token, $security->getSessionToken());
 
         $session->destroy();
     }
@@ -149,16 +149,6 @@ final class RefreshTokenTest extends AbstractUnitTestCase
     }
 
     /**
-     * `setAutoRefresh()` is fluent.
-     */
-    public function testSetAutoRefreshIsFluent(): void
-    {
-        $security = new Security();
-        $this->assertSame($security, $security->setAutoRefresh(false));
-        $this->assertSame($security, $security->setAutoRefresh(true));
-    }
-
-    /**
      * `refreshToken()` is fluent.
      */
     public function testRefreshTokenIsFluent(): void
@@ -173,5 +163,15 @@ final class RefreshTokenTest extends AbstractUnitTestCase
         $this->assertSame($security, $security->refreshToken());
 
         $session->destroy();
+    }
+
+    /**
+     * `setAutoRefresh()` is fluent.
+     */
+    public function testSetAutoRefreshIsFluent(): void
+    {
+        $security = new Security();
+        $this->assertSame($security, $security->setAutoRefresh(false));
+        $this->assertSame($security, $security->setAutoRefresh(true));
     }
 }

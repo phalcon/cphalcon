@@ -29,10 +29,6 @@ final class UnderscoreGetTest extends AbstractUnitTestCase
      */
     public function testDiInjectableUnderscoreGetException(): void
     {
-        if (PHP_OS_FAMILY === 'Windows') {
-            $this->markTestSkipped('Need to fix Windows new lines...');
-        }
-
         Di::reset();
         $container = new Di();
 
@@ -53,6 +49,44 @@ final class UnderscoreGetTest extends AbstractUnitTestCase
         $result = $component->unknown;
         restore_error_handler();
         $this->assertStringContainsString($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-09-09
+     */
+    public function testDiInjectableUnderscoreGetIsset(): void
+    {
+        Di::reset();
+        $container = new Di();
+
+        $stdClass = function () {
+            return new stdClass();
+        };
+
+        $container->set('std', $stdClass);
+        $container->set('component', InjectableComponent::class);
+
+        $component = $container->get('component');
+        $actual    = $component->getDI();
+        $this->assertSame($container, $actual);
+
+        $class  = stdClass::class;
+        $actual = $component->std;
+        $this->assertInstanceOf($class, $actual);
+
+        $expected = spl_object_hash($container);
+        $actual   = spl_object_hash($component->di);
+        $this->assertSame($expected, $actual);
+
+        $actual = isset($component->di);
+        $this->assertTrue($actual);
+
+        $actual = isset($component->component);
+        $this->assertTrue($actual);
+
+        $actual = isset($component->std);
+        $this->assertTrue($actual);
     }
 
     /**
@@ -158,43 +192,5 @@ final class UnderscoreGetTest extends AbstractUnitTestCase
         $second = $component->someService;
         $this->assertNotSame($first, $second);
         $this->assertSame($container->getShared('someService'), $second);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-09-09
-     */
-    public function testDiInjectableUnderscoreGetIsset(): void
-    {
-        Di::reset();
-        $container = new Di();
-
-        $stdClass = function () {
-            return new stdClass();
-        };
-
-        $container->set('std', $stdClass);
-        $container->set('component', InjectableComponent::class);
-
-        $component = $container->get('component');
-        $actual    = $component->getDI();
-        $this->assertSame($container, $actual);
-
-        $class  = stdClass::class;
-        $actual = $component->std;
-        $this->assertInstanceOf($class, $actual);
-
-        $expected = spl_object_hash($container);
-        $actual   = spl_object_hash($component->di);
-        $this->assertSame($expected, $actual);
-
-        $actual = isset($component->di);
-        $this->assertTrue($actual);
-
-        $actual = isset($component->component);
-        $this->assertTrue($actual);
-
-        $actual = isset($component->std);
-        $this->assertTrue($actual);
     }
 }

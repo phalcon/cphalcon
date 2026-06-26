@@ -16,6 +16,7 @@ namespace Phalcon\Tests\Unit\Di\Service;
 use Phalcon\Di\Service;
 use Phalcon\Html\Escaper;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class SetSharedTest extends AbstractUnitTestCase
 {
@@ -38,11 +39,10 @@ final class SetSharedTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-09-09
      */
+    #[DataProvider('getExamples')]
     public function testDiServiceSetShared(
         mixed $service
     ): void {

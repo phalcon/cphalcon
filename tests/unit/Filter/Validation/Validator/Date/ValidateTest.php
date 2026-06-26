@@ -19,6 +19,7 @@ use Phalcon\Filter\Validation\Validator\Date;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use stdClass;
 
 final class ValidateTest extends AbstractUnitTestCase
@@ -48,11 +49,10 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getInvalidDates
-     *
      * @author       Gustavo Verzola <verzola@gmail.com>
      * @since        2015-03-09
      */
+    #[DataProvider('getInvalidDates')]
     public function testFilterValidationValidatorDateDetectInvalidDates(
         mixed $date,
         string $format
@@ -89,11 +89,10 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getValidDates
-     *
      * @author       Gustavo Verzola <verzola@gmail.com>
      * @since        2015-03-09
      */
+    #[DataProvider('getValidDates')]
     public function testFilterValidationValidatorDateDetectValidDates(
         string $date,
         string $format

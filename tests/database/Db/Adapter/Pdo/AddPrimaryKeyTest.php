@@ -17,6 +17,7 @@ use Phalcon\Db\Exception;
 use Phalcon\Db\Index;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 final class AddPrimaryKeyTest extends AbstractDatabaseTestCase
 {
@@ -47,10 +48,9 @@ final class AddPrimaryKeyTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-19
-     *
-     * @group mysql
-     * @group pgsql
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
     public function testDbAdapterPdoAddPrimaryKey(): void
     {
         $db = $this->container->get('db');
@@ -73,9 +73,8 @@ final class AddPrimaryKeyTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-19
-     *
-     * @group sqlite
      */
+    #[Group('sqlite')]
     public function testDbAdapterPdoAddPrimaryKeySqlite(): void
     {
         $db = $this->container->get('db');

@@ -17,6 +17,7 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Models\InvoicesSkipCreate;
 use Phalcon\Tests\Support\Models\InvoicesSkipCreateExtended;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 final class SkipAttributesInheritedModelTest extends AbstractDatabaseTestCase
 {
@@ -37,11 +38,10 @@ final class SkipAttributesInheritedModelTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-30
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelMetadataSkipAttributesDoesNotCorruptInheritedModelMetadata(): void
     {
         $adapter = $this->newService('metadataMemory');

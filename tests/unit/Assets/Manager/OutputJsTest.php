@@ -150,10 +150,6 @@ final class OutputJsTest extends AbstractUnitTestCase
      */
     public function testAssetsManagerOutputJsJoinAndFilter(): void
     {
-        if (PHP_OS_FAMILY === 'Windows') {
-            $this->markTestSkipped('Need to fix Windows new lines...');
-        }
-
         $manager = new Manager(new TagFactory(new Escaper()));
         $jsFile  = supportDir('assets/assets/jquery.js');
 

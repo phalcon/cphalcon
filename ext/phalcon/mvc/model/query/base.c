@@ -21,6 +21,15 @@ const phql_token_names phql_tokens[] =
   { SL("/"),				   PHQL_T_DIV },
   { SL("&"),				   PHQL_T_BITWISE_AND },
   { SL("|"),				   PHQL_T_BITWISE_OR },
+  { SL("@@"),				   PHQL_T_OP_MATCHES },
+  { SL("@>"),				   PHQL_T_OP_CONTAINS },
+  { SL("<@"),				   PHQL_T_OP_CONTAINED },
+  { SL("&&"),				   PHQL_T_OP_OVERLAPS },
+  { SL("||"),				   PHQL_T_OP_CONCAT },
+  { SL("->"),				   PHQL_T_OP_JSON_GET },
+  { SL("->>"),				   PHQL_T_OP_JSON_GET_TEXT },
+  { SL("#>"),				   PHQL_T_OP_JSON_PATH },
+  { SL("#>>"),				   PHQL_T_OP_JSON_PATH_TEXT },
   { SL("%%"),				   PHQL_T_MOD },
   { SL("AND"),				   PHQL_T_AND },
   { SL("OR"),				   PHQL_T_OR },
@@ -176,7 +185,6 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 	phql_scanner_token token;
 	void* phql_parser;
 	char *error;
-	unsigned long phql_key = 0;
 	zval *temp_ast;
 
 	if (!phql) {
@@ -186,9 +194,8 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 
 	cache_level = phalcon_globals_ptr->orm.cache_level;
 	if (cache_level >= 0) {
-		phql_key = zend_inline_hash_func(phql, phql_length + 1);
 		if (phalcon_globals_ptr->orm.parser_cache != NULL) {
-			if ((temp_ast = zend_hash_index_find(phalcon_globals_ptr->orm.parser_cache, phql_key)) != NULL) {
+			if ((temp_ast = zend_hash_str_find(phalcon_globals_ptr->orm.parser_cache, phql, phql_length)) != NULL) {
 				ZVAL_ZVAL(*result, temp_ast, 1, 0);
 				return SUCCESS;
 			}
@@ -309,6 +316,33 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 				break;
 			case PHQL_T_BITWISE_XOR:
 				phql_(phql_parser, PHQL_BITWISE_XOR, NULL, parser_status);
+				break;
+			case PHQL_T_OP_MATCHES:
+				phql_(phql_parser, PHQL_OP_MATCHES, NULL, parser_status);
+				break;
+			case PHQL_T_OP_CONTAINS:
+				phql_(phql_parser, PHQL_OP_CONTAINS, NULL, parser_status);
+				break;
+			case PHQL_T_OP_CONTAINED:
+				phql_(phql_parser, PHQL_OP_CONTAINED, NULL, parser_status);
+				break;
+			case PHQL_T_OP_OVERLAPS:
+				phql_(phql_parser, PHQL_OP_OVERLAPS, NULL, parser_status);
+				break;
+			case PHQL_T_OP_CONCAT:
+				phql_(phql_parser, PHQL_OP_CONCAT, NULL, parser_status);
+				break;
+			case PHQL_T_OP_JSON_GET:
+				phql_(phql_parser, PHQL_OP_JSON_GET, NULL, parser_status);
+				break;
+			case PHQL_T_OP_JSON_GET_TEXT:
+				phql_(phql_parser, PHQL_OP_JSON_GET_TEXT, NULL, parser_status);
+				break;
+			case PHQL_T_OP_JSON_PATH:
+				phql_(phql_parser, PHQL_OP_JSON_PATH, NULL, parser_status);
+				break;
+			case PHQL_T_OP_JSON_PATH_TEXT:
+				phql_(phql_parser, PHQL_OP_JSON_PATH_TEXT, NULL, parser_status);
 				break;
 			case PHQL_T_AGAINST:
 				phql_(phql_parser, PHQL_AGAINST, NULL, parser_status);
@@ -585,9 +619,10 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 
 					Z_TRY_ADDREF_P(*result);
 
-					zend_hash_index_update(
+					zend_hash_str_update(
 						phalcon_globals_ptr->orm.parser_cache,
-						phql_key,
+						phql,
+						phql_length,
 						*result
 					);
 				}

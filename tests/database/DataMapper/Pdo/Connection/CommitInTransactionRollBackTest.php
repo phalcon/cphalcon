@@ -16,18 +16,19 @@ namespace Phalcon\Tests\Database\DataMapper\Pdo\Connection;
 use Phalcon\DataMapper\Pdo\Connection;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Migrations\InvoicesMigration;
+use PHPUnit\Framework\Attributes\Group;
 
 use function date;
 use function uniqid;
 
+#[Group('mysql')]
+#[Group('pgsql')]
+#[Group('sqlite')]
 final class CommitInTransactionRollBackTest extends AbstractDatabaseTestCase
 {
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-01-25
-     *
-     * @group mysql
-     * @group sqlite
      */
     public function testDMPdoConnectionCommitInTransaction(): void
     {
@@ -43,7 +44,7 @@ final class CommitInTransactionRollBackTest extends AbstractDatabaseTestCase
         $date  = date('Y-m-d H:i:s');
         $sql   = "insert into co_invoices (inv_id, inv_cst_id, inv_status_flag, "
             . "inv_title, inv_total, inv_created_at) values ("
-            . "{$invId}, 1, 1, \"{$title}\", 102, \"{$date}\")";
+            . "{$invId}, 1, 1, '{$title}', 102, '{$date}')";
 
         $result = $connection->exec($sql);
         $this->assertSame(1, $result);
@@ -69,9 +70,6 @@ final class CommitInTransactionRollBackTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-01-25
-     *
-     * @group mysql
-     * @group sqlite
      */
     public function testDMPdoConnectionRollBack(): void
     {
@@ -87,7 +85,7 @@ final class CommitInTransactionRollBackTest extends AbstractDatabaseTestCase
         $date  = date('Y-m-d H:i:s');
         $sql   = "insert into co_invoices (inv_id, inv_cst_id, inv_status_flag, "
             . "inv_title, inv_total, inv_created_at) values ("
-            . "{$invId}, 1, 1, \"{$title}\", 102, \"{$date}\")";
+            . "{$invId}, 1, 1, '{$title}', 102, '{$date}')";
 
         $result = $connection->exec($sql);
         $this->assertSame(1, $result);

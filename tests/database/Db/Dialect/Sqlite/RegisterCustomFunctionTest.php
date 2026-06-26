@@ -13,8 +13,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Db\Dialect\Sqlite;
 
+use Phalcon\Db\Dialect\Sqlite;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
+#[Group('mysql')]
+#[Group('pgsql')]
+#[Group('sqlite')]
 final class RegisterCustomFunctionTest extends AbstractDatabaseTestCase
 {
     /**
@@ -25,6 +30,20 @@ final class RegisterCustomFunctionTest extends AbstractDatabaseTestCase
      */
     public function testDbDialectSqliteRegisterCustomFunction(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $dialect = new Sqlite();
+
+        $returned = $dialect->registerCustomFunction(
+            'MYFUNC',
+            function ($dialect, $expression) {
+                return 'MYFUNC()';
+            }
+        );
+
+        $this->assertSame($dialect, $returned);
+
+        $functions = $dialect->getCustomFunctions();
+
+        $this->assertArrayHasKey('MYFUNC', $functions);
+        $this->assertIsCallable($functions['MYFUNC']);
     }
 }

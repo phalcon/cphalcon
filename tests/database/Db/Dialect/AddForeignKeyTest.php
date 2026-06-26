@@ -20,6 +20,7 @@ use Phalcon\Db\Exception;
 use Phalcon\Db\Reference;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 
 final class AddForeignKeyTest extends AbstractDatabaseTestCase
 {
@@ -97,40 +98,12 @@ final class AddForeignKeyTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Db\Dialect :: addForeignKey - sqlite throws exception
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2020-01-20
-     *
-     * @group sqlite
-     */
-    public function testDbDialectAddForeignKeySqlite(): void
-    {
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage(
-            'Adding a foreign key constraint to an existing table '
-            . 'is not supported by SQLite'
-        );
-
-        $dialect = new Sqlite();
-
-        $reference = new Reference('fk1', [
-            'referencedSchema'  => 'ref_schema',
-            'referencedTable'   => 'ref_table',
-            'columns'           => ['field_primary'],
-            'referencedColumns' => ['field_referenced'],
-        ]);
-        $dialect->addForeignKey('table', 'schema', $reference);
-    }
-
-    /**
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-01-20
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     #[DataProvider('getDialects')]
     public function testDbDialectAddForeignKey(
         string $dialectClass,
@@ -152,11 +125,10 @@ final class AddForeignKeyTest extends AbstractDatabaseTestCase
     /**
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-01-20
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     #[DataProvider('getDialectsOnDelete')]
     public function testDbDialectAddForeignKeyOnDelete(
         string $dialectClass,
@@ -179,11 +151,10 @@ final class AddForeignKeyTest extends AbstractDatabaseTestCase
     /**
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-01-20
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     #[DataProvider('getDialectsOnUpdate')]
     public function testDbDialectAddForeignKeyOnUpdate(
         string $dialectClass,
@@ -201,5 +172,31 @@ final class AddForeignKeyTest extends AbstractDatabaseTestCase
         ]);
         $actual    = $dialect->addForeignKey('table', 'schema', $reference);
         $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Db\Dialect :: addForeignKey - sqlite throws exception
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-01-20
+     */
+    #[Group('sqlite')]
+    public function testDbDialectAddForeignKeySqlite(): void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage(
+            'Adding a foreign key constraint to an existing table '
+            . 'is not supported by SQLite'
+        );
+
+        $dialect = new Sqlite();
+
+        $reference = new Reference('fk1', [
+            'referencedSchema'  => 'ref_schema',
+            'referencedTable'   => 'ref_table',
+            'columns'           => ['field_primary'],
+            'referencedColumns' => ['field_referenced'],
+        ]);
+        $dialect->addForeignKey('table', 'schema', $reference);
     }
 }

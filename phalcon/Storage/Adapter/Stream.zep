@@ -21,6 +21,12 @@ use RecursiveIteratorIterator;
 /**
  * Stream adapter
  *
+ * Capabilities:
+ * - Counters: read-modify-write (doHas()/doGet()/doSet()); not atomic and racy
+ *   across concurrent processes.
+ * - getKeys(): recursive directory traversal; cost grows with the entry count.
+ * - Serializers: Phalcon-side only.
+ *
  * @property string $storageDir
  * @property array  $options
  */
@@ -158,14 +164,14 @@ class Stream extends AbstractAdapter
     {
         var data, result;
 
-        if unlikely true !== this->has(key) {
+        if unlikely true !== this->doHas(key) {
             return false;
         }
 
-        let data = this->get(key),
+        let data = this->doGet(key),
             data = (int) data - value;
 
-        let result = this->set(key, data);
+        let result = this->doSet(key, data);
         if likely result !== false {
             let result = data;
         }
@@ -184,7 +190,7 @@ class Stream extends AbstractAdapter
     {
         var filepath;
 
-        if true !== this->has(key) {
+        if true !== this->doHas(key) {
             return false;
         }
 
@@ -260,14 +266,14 @@ class Stream extends AbstractAdapter
     {
         var data, result;
 
-        if unlikely true !== this->has(key) {
+        if unlikely true !== this->doHas(key) {
             return false;
         }
 
-        let data = this->get(key),
+        let data = this->doGet(key),
             data = (int) data + value;
 
-        let result = this->set(key, data);
+        let result = this->doSet(key, data);
         if likely result !== false {
             let result = data;
         }
@@ -317,7 +323,7 @@ class Stream extends AbstractAdapter
         var dirFromFile, dirPrefix;
 
         let dirPrefix   = this->getDirSeparator(this->storageDir . this->prefix),
-            dirFromFile = $this->getDirFromFile($this->getKeyWithoutPrefix($key));
+            dirFromFile = this->getDirFromFile(this->getKeyWithoutPrefix(key));
 
         return this->getDirSeparator(dirPrefix . dirFromFile);
     }
@@ -332,23 +338,6 @@ class Stream extends AbstractAdapter
     private function getFilepath(string key) -> string
     {
         return this->getDir(key) . this->getKeyWithoutPrefix(key);
-    }
-
-    /**
-     * Check if the key has the prefix and remove it, otherwise just return the
-     * key unaltered
-     *
-     * @param string $key
-     *
-     * @return string
-     */
-    private function getKeyWithoutPrefix(string key) -> string
-    {
-        if (starts_with(key, this->prefix)) {
-            return substr(key, strlen(this->prefix));
-        }
-
-        return key;
     }
 
     /**

@@ -21,12 +21,11 @@ use function uniqid;
 final class GetTest extends AbstractCollectionTestCase
 {
     /**
-     * @dataProvider getClasses
-     *
      * @issue  https://github.com/phalcon/cphalcon/issues/15370
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2021-12-01
      */
+    #[DataProvider('getClasses')]
     #[DataProvider('getClasses')]
     public function testSupportCollectionGet(
         string $class,
@@ -67,11 +66,10 @@ final class GetTest extends AbstractCollectionTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
+    #[DataProvider('getExamples')]
     #[DataProvider('getExamples')]
     public function testSupportCollectionGetCast(
         string $class,
@@ -87,6 +85,34 @@ final class GetTest extends AbstractCollectionTestCase
 
         $actual = $collection->get('value', null, $cast);
         $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-13
+     * @issue  https://github.com/phalcon/cphalcon/issues/17005
+     */
+    public function testSupportCollectionGetCastArrayUnwrapsToArrayObjects(): void
+    {
+        $nested = new Collection(['inKey' => 'inValue']);
+        $collection = new Collection(['outKey' => $nested]);
+
+        $extractedArray = $collection->get('outKey', [], 'array');
+
+        $this->assertIsArray($extractedArray);
+        $this->assertArrayHasKey('inKey', $extractedArray);
+        $this->assertSame('inValue', $extractedArray['inKey']);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-11
+     */
+    public function testSupportCollectionGetReturnsDefaultForMissingKeyEvenWhenStrict(): void
+    {
+        $collection = new Collection([], true, true);
+
+        $this->assertSame('fallback', $collection->get('missing', 'fallback'));
     }
 
     /**
@@ -109,33 +135,5 @@ final class GetTest extends AbstractCollectionTestCase
         $collection = new Collection(['key' => null], true, true);
 
         $this->assertNull($collection->get('key', 'fallback'));
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-05-11
-     */
-    public function testSupportCollectionGetReturnsDefaultForMissingKeyEvenWhenStrict(): void
-    {
-        $collection = new Collection([], true, true);
-
-        $this->assertSame('fallback', $collection->get('missing', 'fallback'));
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-05-13
-     * @issue  https://github.com/phalcon/cphalcon/issues/17005
-     */
-    public function testSupportCollectionGetCastArrayUnwrapsToArrayObjects(): void
-    {
-        $nested = new Collection(['inKey' => 'inValue']);
-        $collection = new Collection(['outKey' => $nested]);
-
-        $extractedArray = $collection->get('outKey', [], 'array');
-
-        $this->assertIsArray($extractedArray);
-        $this->assertArrayHasKey('inKey', $extractedArray);
-        $this->assertSame('inValue', $extractedArray['inKey']);
     }
 }

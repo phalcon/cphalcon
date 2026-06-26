@@ -44,7 +44,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Router_Route)
 	zend_declare_property_null(phalcon_mvc_router_route_ce, SL("beforeMatch"), ZEND_ACC_PROTECTED);
 	/**
 	 * Cached compiled hostname regex. `false` means "not yet computed";
-	 * `null` means "hostname is literal — use string equality"; any string
+	 * `null` means "hostname is literal - use string equality"; any string
 	 * means "use this as the PCRE pattern."
 	 *
 	 * @var string|null|false
@@ -274,7 +274,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, compilePattern)
 			ZEPHIR_INIT_VAR(&_9$$8);
 			ZVAL_STRING(&_9$$8, "/:params");
 			ZEPHIR_INIT_VAR(&_10$$8);
-			ZVAL_STRING(&_10$$8, "(/.*)*");
+			ZVAL_STRING(&_10$$8, "(/.*)?");
 			zephir_fast_str_replace(&_8$$8, &_9$$8, &_10$$8, &pattern);
 			zephir_get_strval(&pattern, &_8$$8);
 		}
@@ -721,7 +721,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, getReversedPaths)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("paths"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_RETURN_CALL_FUNCTION("array_flip", NULL, 188, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("array_flip", NULL, 236, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -1054,7 +1054,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, setName)
 }
 
 /**
- * Sets the route's id. Intended for restoring cached routes — most
+ * Sets the route's id. Intended for restoring cached routes - most
  * applications should rely on the auto-incrementing id assigned by
  * the constructor.
  */

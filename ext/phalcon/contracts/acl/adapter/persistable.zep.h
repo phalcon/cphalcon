@@ -1,0 +1,16 @@
+
+extern zend_class_entry *phalcon_contracts_acl_adapter_persistable_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Contracts_Acl_Adapter_Persistable);
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_acl_adapter_persistable_load, 0, 0, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_acl_adapter_persistable_save, 0, 0, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_contracts_acl_adapter_persistable_method_entry) {
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Acl_Adapter_Persistable, load, arginfo_phalcon_contracts_acl_adapter_persistable_load)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Acl_Adapter_Persistable, save, arginfo_phalcon_contracts_acl_adapter_persistable_save)
+	PHP_FE_END
+};

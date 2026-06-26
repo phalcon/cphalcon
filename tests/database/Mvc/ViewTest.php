@@ -19,20 +19,35 @@ final class ViewTest extends AbstractDatabaseTestCase
 {
     /**
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2013-01-07
+     * @since  2026-04-02
      */
-    public function testOverrideLayout(): void
+    public function testDisableLevels(): void
     {
         $this->markTestSkipped('Needs review - tocheck after migration');
 
-        // $view = new View;
-        // $view->setDI(Di::getDefault());
+        // $view = $this->getViewDisabled();
+        // $this->assertEquals(
+        //     '<html><div class="after-layout">...</div></html>' . PHP_EOL,
+        //     $view->getContent()
+        // );
+    }
+
+    /**
+     * @issue  https://github.com/phalcon/cphalcon/issues/12648
+     * @issue  https://github.com/phalcon/cphalcon/pull/13288
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2017-03-17
+     */
+    public function testIssue12648(): void
+    {
+        $this->markTestSkipped('Needs review - tocheck after migration');
+
+        // $view = new View();
+        // $view->setDI($di);
         // $view->setViewsDir(PATH_DATA . 'views' . DIRECTORY_SEPARATOR);
-        // $view->start();
-        // $view->setLayout('test6');
-        // $view->render('test3', 'other');
-        // $view->finish();
-        // $this->assertEquals("<html>Well, this is the view content: here.</html>\n", $view->getContent());
+        // $view->setParamToView('a_cool_var', 'test');
+        // $content = $view->setRenderLevel(View::LEVEL_ACTION_VIEW)->getRender('test3', 'another');
+        // $this->assertEquals("<html>lol<p>test</p></html>\n", $content);
     }
 
     /**
@@ -50,22 +65,22 @@ final class ViewTest extends AbstractDatabaseTestCase
         // $view->render('test5', 'missing');
         // $view->finish();
     }
-
     /**
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2012-03-05
+     * @since  2013-01-07
      */
-    public function testStandardRender(): void
+    public function testOverrideLayout(): void
     {
         $this->markTestSkipped('Needs review - tocheck after migration');
 
         // $view = new View;
+        // $view->setDI(Di::getDefault());
         // $view->setViewsDir(PATH_DATA . 'views' . DIRECTORY_SEPARATOR);
         // $view->start();
-        // $view->render('test2', 'index');
+        // $view->setLayout('test6');
+        // $view->render('test3', 'other');
         // $view->finish();
-        // $this->assertEquals("<html>We are here</html>\n", $view->getContent());
-        // ... (additional render assertions omitted)
+        // $this->assertEquals("<html>Well, this is the view content: here.</html>\n", $view->getContent());
     }
 
     /**
@@ -100,17 +115,19 @@ final class ViewTest extends AbstractDatabaseTestCase
 
     /**
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-02
+     * @since  2012-03-05
      */
-    public function testDisableLevels(): void
+    public function testStandardRender(): void
     {
         $this->markTestSkipped('Needs review - tocheck after migration');
 
-        // $view = $this->getViewDisabled();
-        // $this->assertEquals(
-        //     '<html><div class="after-layout">...</div></html>' . PHP_EOL,
-        //     $view->getContent()
-        // );
+        // $view = new View;
+        // $view->setViewsDir(PATH_DATA . 'views' . DIRECTORY_SEPARATOR);
+        // $view->start();
+        // $view->render('test2', 'index');
+        // $view->finish();
+        // $this->assertEquals("<html>We are here</html>\n", $view->getContent());
+        // ... (additional render assertions omitted)
     }
 
     /**
@@ -124,23 +141,5 @@ final class ViewTest extends AbstractDatabaseTestCase
         // $config = ['cache' => ['service' => 'otherCache']];
         // $view = new View($config);
         // ... (cache assertions omitted)
-    }
-
-    /**
-     * @issue  https://github.com/phalcon/cphalcon/issues/12648
-     * @issue  https://github.com/phalcon/cphalcon/pull/13288
-     * @author Wojciech Ślawski <jurigag@gmail.com>
-     * @since  2017-03-17
-     */
-    public function testIssue12648(): void
-    {
-        $this->markTestSkipped('Needs review - tocheck after migration');
-
-        // $view = new View();
-        // $view->setDI($di);
-        // $view->setViewsDir(PATH_DATA . 'views' . DIRECTORY_SEPARATOR);
-        // $view->setParamToView('a_cool_var', 'test');
-        // $content = $view->setRenderLevel(View::LEVEL_ACTION_VIEW)->getRender('test3', 'another');
-        // $this->assertEquals("<html>lol<p>test</p></html>\n", $content);
     }
 }

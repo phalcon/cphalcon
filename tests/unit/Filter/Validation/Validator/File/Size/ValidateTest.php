@@ -17,10 +17,10 @@ use Phalcon\Filter\Validation;
 use Phalcon\Filter\Validation\Validator\File\Size\Equal;
 use Phalcon\Filter\Validation\Validator\File\Size\Max;
 use Phalcon\Filter\Validation\Validator\File\Size\Min;
+use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Filter\Validation\Validator\File\Size\Fake\FakeEqual;
 use Phalcon\Tests\Unit\Filter\Validation\Validator\File\Size\Fake\FakeMax;
 use Phalcon\Tests\Unit\Filter\Validation\Validator\File\Size\Fake\FakeMin;
-use Phalcon\Tests\AbstractUnitTestCase;
 use PHPUnit\Framework\Attributes\BackupGlobals;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
@@ -110,11 +110,10 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2023-09-28
      */
+    #[DataProvider('getExamples')]
     public function testFilterValidationValidatorFileSize(
         string $class,
         array $options
@@ -145,11 +144,10 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamplesErrors
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2023-09-28
      */
+    #[DataProvider('getExamplesErrors')]
     public function testFilterValidationValidatorFileSizeErrors(
         string $class,
         string $message,

@@ -80,26 +80,6 @@ class DispatchTest extends BaseDispatcher
     }
 
     /**
-     * @author Mark Johnson <https://github.com/virgofx>
-     * @since  2017-10-07
-     */
-    public function testHandlerActionNotFound(): void
-    {
-        $dispatcher = $this->getDispatcher();
-
-        $dispatcher->setActionName('Invalid-Dispatcher-Action-Name');
-
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage(
-            "Action 'Invalid-Dispatcher-Action-Name' was not found "
-            . "on handler 'dispatcher-test-default'"
-        );
-        $this->expectExceptionCode(Exception::EXCEPTION_ACTION_NOT_FOUND);
-
-        $dispatcher->dispatch();
-    }
-
-    /**
      * Tests that events fired after initialize() are received when the
      * controller attaches an events manager to the dispatcher inside
      * initialize() and no events manager was set before dispatch started.
@@ -136,6 +116,26 @@ class DispatchTest extends BaseDispatcher
             $expected,
             $this->getDispatcherListener()->getTrace()
         );
+    }
+
+    /**
+     * @author Mark Johnson <https://github.com/virgofx>
+     * @since  2017-10-07
+     */
+    public function testHandlerActionNotFound(): void
+    {
+        $dispatcher = $this->getDispatcher();
+
+        $dispatcher->setActionName('Invalid-Dispatcher-Action-Name');
+
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage(
+            "Action 'Invalid-Dispatcher-Action-Name' was not found "
+            . "on handler 'dispatcher-test-default'"
+        );
+        $this->expectExceptionCode(Exception::EXCEPTION_ACTION_NOT_FOUND);
+
+        $dispatcher->dispatch();
     }
 
     /**

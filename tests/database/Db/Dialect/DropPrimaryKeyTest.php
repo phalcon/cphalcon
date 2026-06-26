@@ -18,6 +18,8 @@ use Phalcon\Db\Dialect\Postgresql;
 use Phalcon\Db\Dialect\Sqlite;
 use Phalcon\Db\Exception;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 
 final class DropPrimaryKeyTest extends AbstractDatabaseTestCase
 {
@@ -41,13 +43,33 @@ final class DropPrimaryKeyTest extends AbstractDatabaseTestCase
     }
 
     /**
+     * Tests Phalcon\Db\Dialect :: dropPrimaryKey
+     *
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2020-01-20
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    #[DataProvider('getDialects')]
+    public function testDbDialectDropPrimaryKey(
+        string $dialectClass,
+        string $expected
+    ): void {
+        /** @var Mysql $dialect */
+        $dialect = new $dialectClass();
+
+        $actual = $dialect->dropPrimaryKey('table', 'schema');
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
      * Tests Phalcon\Db\Dialect :: dropPrimaryKey - sqlite throws exception
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-01-20
-     *
-     * @group sqlite
      */
+    #[Group('sqlite')]
     public function testDbDialectDropPrimaryKeySqlite(): void
     {
         $this->expectException(Exception::class);
@@ -59,28 +81,5 @@ final class DropPrimaryKeyTest extends AbstractDatabaseTestCase
         $dialect = new Sqlite();
 
         $dialect->dropPrimaryKey('table', 'schema');
-    }
-
-    /**
-     * Tests Phalcon\Db\Dialect :: dropPrimaryKey
-     *
-     * @dataProvider getDialects
-     *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2020-01-20
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
-     */
-    public function testDbDialectDropPrimaryKey(
-        string $dialectClass,
-        string $expected
-    ): void {
-        /** @var Mysql $dialect */
-        $dialect = new $dialectClass();
-
-        $actual = $dialect->dropPrimaryKey('table', 'schema');
-        $this->assertSame($expected, $actual);
     }
 }

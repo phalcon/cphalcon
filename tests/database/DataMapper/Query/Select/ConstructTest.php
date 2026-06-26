@@ -16,7 +16,11 @@ namespace Phalcon\Tests\Database\DataMapper\Query\Select;
 use Phalcon\DataMapper\Query\Bind;
 use Phalcon\DataMapper\Query\Select;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
+#[Group('mysql')]
+#[Group('pgsql')]
+#[Group('sqlite')]
 final class ConstructTest extends AbstractDatabaseTestCase
 {
     /**

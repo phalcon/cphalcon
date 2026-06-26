@@ -23,13 +23,12 @@ use Phalcon\Tests\Database\Mvc\RecordsTrait;
 use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 use function date;
 use function is_int;
 
-/**
- * @group phql
- */
+#[Group('phql')]
 final class PaginateTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -50,11 +49,10 @@ final class PaginateTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testPaginatorAdapterQuerybuilderPaginate(): void
     {
         /**
@@ -96,16 +94,59 @@ final class PaginateTest extends AbstractDatabaseTestCase
     }
 
     /**
+     * Tests Phalcon\Paginator\Adapter\QueryBuilder :: paginate() - distinct
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2025-04-29
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/16581
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testPaginatorAdapterQuerybuilderPaginateDistinct(): void
+    {
+        /** @var PDO $connection */
+        $connection = self::getConnection();
+        $migration  = new InvoicesMigration($connection);
+        $invId      = ('sqlite' === self::getDriver()) ? 'null' : 'default';
+
+        // Insert 5 invoices for customer 1 and 5 for customer 2 (10 total rows,
+        // but only 2 distinct inv_cst_id values)
+        $this->insertDataInvoices($migration, 5, $invId, 1, 'aaa');
+        $this->insertDataInvoices($migration, 5, $invId, 2, 'bbb');
+
+        $manager = $this->getService('modelsManager');
+        $builder = $manager
+            ->createBuilder()
+            ->columns('DISTINCT inv_cst_id')
+            ->from(Invoices::class)
+        ;
+
+        $paginator = new QueryBuilder(
+            [
+                'builder' => $builder,
+                'limit'   => 5,
+                'page'    => 1,
+            ]
+        );
+
+        $page = $paginator->paginate();
+
+        $this->assertInstanceOf(Repository::class, $page);
+        $this->assertSame(2, $page->getTotalItems());
+        $this->assertSame(1, $page->getLast());
+    }
+
+    /**
      * Tests Phalcon\Paginator\Adapter\QueryBuilder :: paginate() - groupBy
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-01-29
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
-     * @group pgsql
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testPaginatorAdapterQuerybuilderPaginateGroupBy(): void
     {
         /**
@@ -171,16 +212,69 @@ final class PaginateTest extends AbstractDatabaseTestCase
 
     /**
      * Tests Phalcon\Paginator\Adapter\QueryBuilder :: paginate() - groupBy with
+     * multiple columns (array) generates valid SQL for all databases
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-28
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/15912
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testPaginatorAdapterQuerybuilderPaginateGroupByMultipleColumns(): void
+    {
+        /** @var PDO $connection */
+        $connection = self::getConnection();
+        $migration  = new InvoicesMigration($connection);
+        $invId      = ('sqlite' === self::getDriver()) ? 'null' : 'default';
+
+        // 3 distinct (inv_cst_id, inv_status_flag) groups: (1,0), (1,1), (2,0)
+        $migration->insert($invId, 1, 0, 'inv-a1');
+        $migration->insert($invId, 1, 0, 'inv-a2');
+        $migration->insert($invId, 1, 0, 'inv-a3');
+        $migration->insert($invId, 1, 1, 'inv-b1');
+        $migration->insert($invId, 1, 1, 'inv-b2');
+        $migration->insert($invId, 2, 0, 'inv-c1');
+        $migration->insert($invId, 2, 0, 'inv-c2');
+        $migration->insert($invId, 2, 0, 'inv-c3');
+        $migration->insert($invId, 2, 0, 'inv-c4');
+
+        $manager = $this->getService('modelsManager');
+        $builder = $manager
+            ->createBuilder()
+            ->columns(['inv_cst_id', 'inv_status_flag'])
+            ->from(Invoices::class)
+            ->groupBy(['inv_cst_id', 'inv_status_flag'])
+        ;
+
+        $paginator = new QueryBuilder(
+            [
+                'builder' => $builder,
+                'limit'   => 5,
+                'page'    => 1,
+            ]
+        );
+
+        $page = $paginator->paginate();
+
+        $this->assertInstanceOf(Repository::class, $page);
+        $this->assertSame(3, $page->getTotalItems());
+        $this->assertSame(1, $page->getLast());
+    }
+
+    /**
+     * Tests Phalcon\Paginator\Adapter\QueryBuilder :: paginate() - groupBy with
      * NULL column values and the columns option to handle them
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-21
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/15266
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testPaginatorAdapterQuerybuilderPaginateGroupByNullColumnsOption(): void
     {
         /** @var PDO $connection */
@@ -232,116 +326,17 @@ final class PaginateTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Paginator\Adapter\QueryBuilder :: paginate() - groupBy with
-     * multiple columns (array) generates valid SQL for all databases
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-28
-     *
-     * @issue  https://github.com/phalcon/cphalcon/issues/15912
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
-     */
-    public function testPaginatorAdapterQuerybuilderPaginateGroupByMultipleColumns(): void
-    {
-        /** @var PDO $connection */
-        $connection = self::getConnection();
-        $migration  = new InvoicesMigration($connection);
-        $invId      = ('sqlite' === self::getDriver()) ? 'null' : 'default';
-
-        // 3 distinct (inv_cst_id, inv_status_flag) groups: (1,0), (1,1), (2,0)
-        $migration->insert($invId, 1, 0, 'inv-a1');
-        $migration->insert($invId, 1, 0, 'inv-a2');
-        $migration->insert($invId, 1, 0, 'inv-a3');
-        $migration->insert($invId, 1, 1, 'inv-b1');
-        $migration->insert($invId, 1, 1, 'inv-b2');
-        $migration->insert($invId, 2, 0, 'inv-c1');
-        $migration->insert($invId, 2, 0, 'inv-c2');
-        $migration->insert($invId, 2, 0, 'inv-c3');
-        $migration->insert($invId, 2, 0, 'inv-c4');
-
-        $manager = $this->getService('modelsManager');
-        $builder = $manager
-            ->createBuilder()
-            ->columns(['inv_cst_id', 'inv_status_flag'])
-            ->from(Invoices::class)
-            ->groupBy(['inv_cst_id', 'inv_status_flag'])
-        ;
-
-        $paginator = new QueryBuilder(
-            [
-                'builder' => $builder,
-                'limit'   => 5,
-                'page'    => 1,
-            ]
-        );
-
-        $page = $paginator->paginate();
-
-        $this->assertInstanceOf(Repository::class, $page);
-        $this->assertSame(3, $page->getTotalItems());
-        $this->assertSame(1, $page->getLast());
-    }
-
-    /**
-     * Tests Phalcon\Paginator\Adapter\QueryBuilder :: paginate() - distinct
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2025-04-29
-     *
-     * @issue  https://github.com/phalcon/cphalcon/issues/16581
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
-     */
-    public function testPaginatorAdapterQuerybuilderPaginateDistinct(): void
-    {
-        /** @var PDO $connection */
-        $connection = self::getConnection();
-        $migration  = new InvoicesMigration($connection);
-        $invId      = ('sqlite' === self::getDriver()) ? 'null' : 'default';
-
-        // Insert 5 invoices for customer 1 and 5 for customer 2 (10 total rows,
-        // but only 2 distinct inv_cst_id values)
-        $this->insertDataInvoices($migration, 5, $invId, 1, 'aaa');
-        $this->insertDataInvoices($migration, 5, $invId, 2, 'bbb');
-
-        $manager = $this->getService('modelsManager');
-        $builder = $manager
-            ->createBuilder()
-            ->columns('DISTINCT inv_cst_id')
-            ->from(Invoices::class)
-        ;
-
-        $paginator = new QueryBuilder(
-            [
-                'builder' => $builder,
-                'limit'   => 5,
-                'page'    => 1,
-            ]
-        );
-
-        $page = $paginator->paginate();
-
-        $this->assertInstanceOf(Repository::class, $page);
-        $this->assertSame(2, $page->getTotalItems());
-        $this->assertSame(1, $page->getLast());
-    }
-
-    /**
      * Tests Phalcon\Paginator\Adapter\QueryBuilder :: paginate()
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/14639
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      *
      * @throws Exception
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-03-15
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testPaginatorAdapterQuerybuilderPaginateView(): void
     {
         $this->setDiService('view');

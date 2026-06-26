@@ -121,8 +121,12 @@ class Container implements Collection
      */
     public function callableGet(string name) -> <Closure>
     {
-        return function () use (name) {
-            return this->get(name);
+        var serviceName;
+
+        let serviceName = name;
+
+        return function () use (serviceName) {
+            return this->get(serviceName);
         };
     }
 
@@ -134,8 +138,12 @@ class Container implements Collection
      */
     public function callableNew(string name) -> <Closure>
     {
-        return function () use (name) {
-            return this->$new(name);
+        var serviceName;
+
+        let serviceName = name;
+
+        return function () use (serviceName) {
+            return this->$new(serviceName);
         };
     }
 

@@ -27,6 +27,8 @@ use Phalcon\Support\Exception as HelperException;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Storage\Fake\FakeApcuApcuDelete;
 use Phalcon\Tests\Unit\Storage\Fake\FakeStreamUnlink;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use stdClass;
 
 use function array_merge;
@@ -80,13 +82,43 @@ final class ClearTest extends AbstractUnitTestCase
     }
 
     /**
+     * @return array[]
+     */
+    public static function getExamplesClearWithPrefix(): array
+    {
+        return [
+            [
+                Apcu::class,
+                [],
+                'apcu',
+            ],
+            [
+                Memory::class,
+                [],
+                '',
+            ],
+            [
+                Redis::class,
+                getOptionsRedis(),
+                'redis',
+            ],
+            [
+                Stream::class,
+                [
+                    'storageDir' => outputDir(),
+                ],
+                '',
+            ],
+        ];
+    }
+
+    /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
+    #[RequiresPhpExtension('apcu')]
     public function testStorageAdapterApcuClearDeleteError(): void
     {
-        $this->checkExtensionIsLoaded('apcu');
-
         $serializer = new SerializerFactory();
         $adapter    = new FakeApcuApcuDelete($serializer);
 
@@ -108,10 +140,9 @@ final class ClearTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
+    #[RequiresPhpExtension('apcu')]
     public function testStorageAdapterApcuClearIteratorError(): void
     {
-        $this->checkExtensionIsLoaded('apcu');
-
         $serializer = new SerializerFactory();
         $adapter    = new FakeApcuApcuDelete($serializer);
 
@@ -130,11 +161,10 @@ final class ClearTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
+    #[DataProvider('getExamples')]
     public function testStorageAdapterClear(
         string $class,
         array $options,
@@ -171,6 +201,53 @@ final class ClearTest extends AbstractUnitTestCase
          */
         $actual = $adapter->clear();
         $this->assertTrue($actual);
+    }
+
+    /**
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2024-10-31
+     */
+    #[DataProvider('getExamplesClearWithPrefix')]
+    public function testStorageAdapterClearWithPrefix(
+        string $class,
+        array $options,
+        string $extension
+    ): void {
+        if (!empty($extension)) {
+            $this->checkExtensionIsLoaded($extension);
+        }
+
+        $serializer = new SerializerFactory();
+        $adapter1   = new $class($serializer, array_merge($options, ['prefix' => 'test-one-']));
+        $adapter2   = new $class($serializer, array_merge($options, ['prefix' => 'test-two-']));
+
+        $key1 = uniqid();
+        $key2 = uniqid();
+
+        $adapter1->set($key1, 'test-one');
+        $adapter2->set($key2, 'test-two');
+
+        $this->assertTrue($adapter1->has($key1));
+        $this->assertTrue($adapter2->has($key2));
+
+        /**
+         * Clearing adapter1 must not remove adapter2's key
+         */
+        $actual = $adapter1->clear();
+        $this->assertTrue($actual);
+
+        $this->assertFalse($adapter1->has($key1));
+        $this->assertTrue($adapter2->has($key2));
+
+        /**
+         * Clean up adapter2
+         */
+        $adapter2->clear();
+
+        if ($class === Stream::class) {
+            $this->safeDeleteDirectory(outputDir('test-one-'));
+            $this->safeDeleteDirectory(outputDir('test-two-'));
+        }
     }
 
     /**
@@ -239,84 +316,5 @@ final class ClearTest extends AbstractUnitTestCase
 
         $actual = $adapter->clear();
         $this->assertTrue($actual);
-    }
-
-    /**
-     * @return array[]
-     */
-    public static function getExamplesClearWithPrefix(): array
-    {
-        return [
-            [
-                Apcu::class,
-                [],
-                'apcu',
-            ],
-            [
-                Memory::class,
-                [],
-                '',
-            ],
-            [
-                Redis::class,
-                getOptionsRedis(),
-                'redis',
-            ],
-            [
-                Stream::class,
-                [
-                    'storageDir' => outputDir(),
-                ],
-                '',
-            ],
-        ];
-    }
-
-    /**
-     * @dataProvider getExamplesClearWithPrefix
-     *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2024-10-31
-     */
-    public function testStorageAdapterClearWithPrefix(
-        string $class,
-        array $options,
-        string $extension
-    ): void {
-        if (!empty($extension)) {
-            $this->checkExtensionIsLoaded($extension);
-        }
-
-        $serializer = new SerializerFactory();
-        $adapter1   = new $class($serializer, array_merge($options, ['prefix' => 'test-one-']));
-        $adapter2   = new $class($serializer, array_merge($options, ['prefix' => 'test-two-']));
-
-        $key1 = uniqid();
-        $key2 = uniqid();
-
-        $adapter1->set($key1, 'test-one');
-        $adapter2->set($key2, 'test-two');
-
-        $this->assertTrue($adapter1->has($key1));
-        $this->assertTrue($adapter2->has($key2));
-
-        /**
-         * Clearing adapter1 must not remove adapter2's key
-         */
-        $actual = $adapter1->clear();
-        $this->assertTrue($actual);
-
-        $this->assertFalse($adapter1->has($key1));
-        $this->assertTrue($adapter2->has($key2));
-
-        /**
-         * Clean up adapter2
-         */
-        $adapter2->clear();
-
-        if ($class === Stream::class) {
-            $this->safeDeleteDirectory(outputDir('test-one-'));
-            $this->safeDeleteDirectory(outputDir('test-two-'));
-        }
     }
 }

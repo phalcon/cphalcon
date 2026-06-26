@@ -34,18 +34,6 @@ final class RandomNodeProviderTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-29
      */
-    public function testRandomNodeProviderReturnsHex(): void
-    {
-        $provider = new RandomNodeProvider();
-        $node     = $provider->getNode();
-
-        $this->assertMatchesRegularExpression('/^[a-f0-9]{12}$/', $node);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-29
-     */
     public function testRandomNodeProviderMulticastBitSet(): void
     {
         $provider  = new RandomNodeProvider();
@@ -64,5 +52,17 @@ final class RandomNodeProviderTest extends AbstractUnitTestCase
         $provider = new RandomNodeProvider();
 
         $this->assertNotSame($provider->getNode(), $provider->getNode());
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-29
+     */
+    public function testRandomNodeProviderReturnsHex(): void
+    {
+        $provider = new RandomNodeProvider();
+        $node     = $provider->getNode();
+
+        $this->assertMatchesRegularExpression('/^[a-f0-9]{12}$/', $node);
     }
 }

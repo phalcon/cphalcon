@@ -17,7 +17,7 @@ on:
 
 env:
   # All versions should be declared here
-  PHALCON_VERSION: 5.14.0
+  PHALCON_VERSION: 5.16.0
   ZEPHIR_PARSER_VERSION: 2.0.4
   # For tests
   LANG: en_US.UTF-8
@@ -48,14 +48,14 @@ jobs:
     name: Check code style
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           fetch-depth: 1
           token: ${{ github.token }}
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # v2
         with:
           php-version: '8.5'
 
@@ -74,14 +74,14 @@ jobs:
     timeout-minutes: 15
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           fetch-depth: 1
           token: ${{ github.token }}
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # v2
         with:
           php-version: '8.5'
           extensions: zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}
@@ -104,7 +104,7 @@ jobs:
         run: vendor/bin/phpcbf --standard=resources/phpcs.xml ide/${{ env.PHALCON_VERSION }}/ || true
 
       - name: Upload IDE stubs artifact
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: phalcon-ide-stubs
           path: ide/${{ env.PHALCON_VERSION }}/Phalcon/
@@ -119,14 +119,14 @@ jobs:
     timeout-minutes: 30
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           fetch-depth: 1
           token: ${{ github.token }}
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # v2
         with:
           php-version: '8.5'
           extensions: zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}
@@ -155,7 +155,7 @@ jobs:
           (cd build && php gen-build.php)
 
       - name: Upload compile-errors.log
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         if: failure()
         with:
           name: compile-errors
@@ -177,7 +177,7 @@ jobs:
         run: pecl package-validate phalcon-pecl.tgz
 
       - name: Upload Artifact
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: 'phalcon-pecl'
           path: phalcon-pecl.tgz
@@ -202,14 +202,14 @@ jobs:
           - '8.5'
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           fetch-depth: 1
           token: ${{ github.token }}
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # v2
         with:
           php-version: ${{ matrix.php }}
           extensions: zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}
@@ -237,14 +237,14 @@ jobs:
           (cd build && php gen-build.php)
 
       - name: Upload compile-errors.log
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         if: failure()
         with:
           name: compile-errors
           path: compile-errors.log
 
       - name: Upload source artifact
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: phalcon-source-php${{ matrix.php }}
           path: build/phalcon/
@@ -276,14 +276,14 @@ jobs:
           - '8.4'
           - '8.5'
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           fetch-depth: 1
           token: ${{ github.token }}
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # v2
         with:
           php-version: ${{ matrix.php }}
           tools: phpize, php-config
@@ -299,7 +299,7 @@ jobs:
           echo "PIE metadata OK: type=$TYPE, extension-name=$EXT_NAME, build-path=$BUILD_PATH"
 
       - name: Download source artifact
-        uses: actions/download-artifact@v8
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
           name: phalcon-source-php${{ matrix.php }}
           path: ./phalcon-source
@@ -331,20 +331,20 @@ jobs:
           - '8.5'
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           fetch-depth: 1
           token: ${{ github.token }}
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # v2
         with:
           php-version: ${{ matrix.php }}
           tools: phpize, php-config
 
       - name: Download source artifact
-        uses: actions/download-artifact@v8
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
           name: phalcon-source-php${{ matrix.php }}
           path: ./build/phalcon
@@ -367,6 +367,13 @@ jobs:
     name: Build / PHP-${{ matrix.php }}-${{ matrix.ts }}-${{ matrix.name }}-${{ matrix.arch }}
     needs: [generate_source]
     runs-on: ${{ matrix.os }}
+    # TODO: Remove this continue-on-error once shivammathur/homebrew-php
+    # republishes the php@8.5 bottle for macOS arm64. As of 2026-06-08 the
+    # Setup PHP step (brew install php@8.5) fails on macOS arm64 because
+    # Homebrew core moved ahead of the tap's php@8.5 bottle. This is an
+    # upstream environment issue, not a cphalcon problem, and affects all
+    # branches. Drop this line when the macOS 8.5 builds go green again.
+    continue-on-error: ${{ matrix.name == 'macos-clang' && matrix.php == '8.5' }}
     timeout-minutes: 30
     strategy:
       fail-fast: false
@@ -397,7 +404,7 @@ jobs:
           - { name: macos-clang, arch: arm64, os: macos-14, compiler: clang }
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           fetch-depth: 1
@@ -411,7 +418,7 @@ jobs:
           Write-Output "SESSION_SAVE_PATH=$SessionSavePath" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # v2
         with:
           php-version: ${{ matrix.php }}
           extensions: ${{ env.EXTENSIONS }}
@@ -422,7 +429,7 @@ jobs:
           COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Download source artifact
-        uses: actions/download-artifact@v8
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
           name: phalcon-source-php${{ matrix.php }}
           path: ./phalcon-source
@@ -437,7 +444,7 @@ jobs:
 
       - name: Upload compiled Phalcon extension (Linux)
         if: runner.os == 'Linux'
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: phalcon-so-php${{ matrix.php }}-${{ matrix.ts }}-linux-${{ matrix.arch }}
           path: ${{ steps.linux-build.outputs.extension-dir }}/phalcon.so
@@ -492,7 +499,7 @@ jobs:
           & 7z a "$TargetName.zip" *
 
       - name: Upload Phalcon Extension Artifact
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: phalcon-php${{ matrix.php }}-${{ matrix.ts }}-${{ matrix.name }}-${{ matrix.arch }}.zip
           path: ./build-artifacts/phalcon*.zip
@@ -516,6 +523,10 @@ jobs:
         image: memcached:1.6-alpine
         ports:
           - "11211:11211"
+      beanstalkd:
+        image: schickling/beanstalkd:latest
+        ports:
+          - "11300:11300"
 
     strategy:
       fail-fast: false
@@ -539,14 +550,14 @@ jobs:
           - { name: ubuntu-gcc, os: ubuntu-22.04, compiler: gcc }
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           fetch-depth: 1
           token: ${{ github.token }}
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # v2
         with:
           php-version: ${{ matrix.php }}
           extensions: ${{ env.EXTENSIONS }}
@@ -558,7 +569,7 @@ jobs:
           COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Redis Cluster
-        uses: vishnudxb/redis-cluster@1.10.0
+        uses: vishnudxb/redis-cluster@e29c352fa58527003afc982e96db437c0c49e6aa # 1.10.0
         with:
           master1-port: 5000
           master2-port: 5001
@@ -569,7 +580,7 @@ jobs:
           sleep-duration: 5
 
       - name: Download compiled Phalcon extension
-        uses: actions/download-artifact@v8
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
           name: phalcon-so-php${{ matrix.php }}-${{ matrix.ts }}-linux-x64
           path: ./phalcon-so
@@ -586,7 +597,7 @@ jobs:
         run: composer validate --no-check-all --no-check-publish
 
       - name: Install development dependencies with Composer
-        uses: ramsey/composer-install@v3
+        uses: ramsey/composer-install@65e4f84970763564f46a70b8a54b90d033b3bdda # v3
         with:
           composer-options: "--prefer-dist --ignore-platform-reqs"
 
@@ -605,7 +616,7 @@ jobs:
         run: vendor/bin/phpunit -c resources/phpunit.xml.dist
 
       - name: Upload Unit Test Coverage
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         if: always()
         with:
           name: "unit-${{ matrix.php }}.coverage"
@@ -662,7 +673,7 @@ jobs:
           - '8.5'
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           fetch-depth: 1
@@ -673,7 +684,7 @@ jobs:
         run: git config --global core.autocrlf false
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # v2
         with:
           php-version: ${{ matrix.php }}
           extensions: ${{ env.EXTENSIONS }}
@@ -683,7 +694,7 @@ jobs:
           COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Download compiled Phalcon extension
-        uses: actions/download-artifact@v8
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
           name: phalcon-so-php${{ matrix.php }}-nts-linux-x64
           path: ./phalcon-so
@@ -706,7 +717,7 @@ jobs:
         run: composer validate --no-check-all --no-check-publish
 
       - name: Install development dependencies with Composer
-        uses: ramsey/composer-install@v3
+        uses: ramsey/composer-install@65e4f84970763564f46a70b8a54b90d033b3bdda # v3
         with:
           composer-options: "--prefer-dist --ignore-platform-reqs"
 
@@ -723,7 +734,7 @@ jobs:
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
         run: vendor/bin/phpunit -c resources/phpunit.mysql.xml
       - name: Upload Database (MySQL) Coverage
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         if: always()
         with:
           name: "db-mysql-${{ matrix.php }}.coverage"
@@ -760,7 +771,7 @@ jobs:
           - '8.5'
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           fetch-depth: 1
@@ -771,7 +782,7 @@ jobs:
         run: git config --global core.autocrlf false
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # v2
         with:
           php-version: ${{ matrix.php }}
           extensions: ${{ env.EXTENSIONS }}
@@ -781,7 +792,7 @@ jobs:
           COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Download compiled Phalcon extension
-        uses: actions/download-artifact@v8
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
           name: phalcon-so-php${{ matrix.php }}-nts-linux-x64
           path: ./phalcon-so
@@ -804,7 +815,7 @@ jobs:
         run: composer validate --no-check-all --no-check-publish
 
       - name: Install development dependencies with Composer
-        uses: ramsey/composer-install@v3
+        uses: ramsey/composer-install@65e4f84970763564f46a70b8a54b90d033b3bdda # v3
         with:
           composer-options: "--prefer-dist --ignore-platform-reqs"
 
@@ -820,7 +831,7 @@ jobs:
         if: always()
         run: vendor/bin/phpunit -c resources/phpunit.sqlite.xml
       - name: Upload Database (SQLite) Coverage
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         if: always()
         with:
           name: "db-sqlite-${{ matrix.php }}.coverage"
@@ -870,7 +881,7 @@ jobs:
           - '8.5'
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           fetch-depth: 1
@@ -881,7 +892,7 @@ jobs:
         run: git config --global core.autocrlf false
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # v2
         with:
           php-version: ${{ matrix.php }}
           extensions: ${{ env.EXTENSIONS }}
@@ -891,7 +902,7 @@ jobs:
           COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Download compiled Phalcon extension
-        uses: actions/download-artifact@v8
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
           name: phalcon-so-php${{ matrix.php }}-nts-linux-x64
           path: ./phalcon-so
@@ -914,7 +925,7 @@ jobs:
         run: composer validate --no-check-all --no-check-publish
 
       - name: Install development dependencies with Composer
-        uses: ramsey/composer-install@v3
+        uses: ramsey/composer-install@65e4f84970763564f46a70b8a54b90d033b3bdda # v3
         with:
           composer-options: "--prefer-dist --ignore-platform-reqs"
 
@@ -929,7 +940,7 @@ jobs:
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
         run: vendor/bin/phpunit -c resources/phpunit.pgsql.xml
       - name: Upload Database (Postgres) Coverage
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         if: always()
         with:
           name: "db-pgsql-${{ matrix.php }}.coverage"
@@ -946,7 +957,7 @@ jobs:
 #    needs: [unit_test]
 #
 #    steps:
-#      - uses: actions/checkout@v6
+#      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
 #        with:
 #          fetch-depth: 2
 #
@@ -955,7 +966,7 @@ jobs:
 #          mkdir -p reports
 #
 #      - name: "Download coverage files"
-#        uses: actions/download-artifact@v8
+#        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
 #        with:
 #          path: reports
 #          pattern: coverage-*
@@ -965,7 +976,7 @@ jobs:
 #        working-directory: reports
 #
 #      - name: "Upload to Codecov"
-#        uses: codecov/codecov-action@v6
+#        uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f # v6
 #        with:
 #          token: ${{ secrets.CODECOV_TOKEN }}
 #          directory: reports
@@ -983,14 +994,14 @@ jobs:
       matrix: ${{ steps.extension-matrix.outputs.matrix }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           fetch-depth: 1
           token: ${{ github.token }}
       - name: Get the extension matrix
         id: extension-matrix
-        uses: php/php-windows-builder/extension-matrix@v1
+        uses: php/php-windows-builder/extension-matrix@e03e5d39879adaeb61ed2225f0f4eae7db8c1df8 # v1
         with:
           extension-url: https://github.com/phalcon/cphalcon
           extension-ref: ${{ env.PHALCON_VERSION }}
@@ -1009,7 +1020,7 @@ jobs:
       matrix: ${{ fromJson(needs.get_extension_matrix.outputs.matrix) }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           fetch-depth: 1
@@ -1023,7 +1034,7 @@ jobs:
           cp -v build/phalcon/*.* .
 
       - name: Build the extension
-        uses: php/php-windows-builder/extension@v1
+        uses: php/php-windows-builder/extension@e03e5d39879adaeb61ed2225f0f4eae7db8c1df8 # v1
         env:
           # Drop the PDB debug-symbols file (~21 MB) from the artifact;
           # it is not needed for runtime use of the extension.
@@ -1054,7 +1065,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           fetch-depth: 1
@@ -1062,7 +1073,7 @@ jobs:
 
       - name: Download Phalcon build artifacts
         id: download
-        uses: actions/download-artifact@v8
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
           path: ./build-artifacts
 
@@ -1079,7 +1090,7 @@ jobs:
           ./resources/release-notes.sh ./CHANGELOG-5.0.md > ./build-artifacts/release/release-notes.md
 
       - name: Create Release
-        uses: ncipollo/release-action@v1
+        uses: ncipollo/release-action@339a81892b84b4eeb0f6e744e4574d79d0d9b8dd # v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           name: ${{ github.ref_name }}
@@ -1100,20 +1111,20 @@ jobs:
     needs: [release, stubs]
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           fetch-depth: 1
           token: ${{ github.token }}
 
       - name: Download IDE stubs artifact
-        uses: actions/download-artifact@v8
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
           name: phalcon-ide-stubs
           path: ./ide-stubs
 
       - name: Checkout phalcon-ide-stubs
-        uses: actions/checkout@v6
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           repository: phalcon/ide-stubs
           token: ${{ secrets.STUBS_REPO_TOKEN }}
@@ -1147,7 +1158,7 @@ jobs:
             --body "v${{ env.PHALCON_VERSION }} Stubs"
 
       - name: Create draft release in phalcon-ide-stubs
-        uses: ncipollo/release-action@v1
+        uses: ncipollo/release-action@339a81892b84b4eeb0f6e744e4574d79d0d9b8dd # v1
         with:
           token: ${{ secrets.STUBS_REPO_TOKEN }}
           owner: phalcon

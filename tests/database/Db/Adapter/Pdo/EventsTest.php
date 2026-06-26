@@ -22,6 +22,49 @@ final class EventsTest extends AbstractUnitTestCase
         ];
     }
 
+    public function testBadCommit(): void
+    {
+        $mockPDO = $this->getMockBuilder(PDO::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['commit'])
+            ->getMock();
+
+        $mockPDO->expects($this->once())->method('commit')->willReturn(false);
+
+        $connection = new Sqlite([
+            'dbname' => ':memory:',
+        ]);
+        $ref = new \ReflectionObject($connection);
+
+        $property = $ref->getProperty('pdo');
+        $property->setValue($connection, $mockPDO);
+
+        $property = $ref->getProperty('transactionLevel');
+        $property->setValue($connection, 1);
+
+        $manager = new Manager();
+        $connection->setEventsManager($manager);
+
+        $listener = new class {
+            public array $events = [];
+
+            public function commitTransaction($event, $adapter, mixed $data = null)
+            {
+                $this->events[] = __FUNCTION__;
+            }
+            public function transactionCommitted($event, $adapter, mixed $data = null)
+            {
+                $this->events[] = __FUNCTION__;
+            }
+        };
+
+        $manager->attach('db', $listener);
+
+        $connection->commit();
+        $this->assertContains('commitTransaction', $listener->events);
+        $this->assertNotContains('transactionCommitted', $listener->events);
+    }
+
     #[DataProvider('eventsProvider')]
     public function testEvents($sql, $event, array $expectedEvents = []): void
     {
@@ -103,50 +146,5 @@ final class EventsTest extends AbstractUnitTestCase
         foreach ($expectedEvents as $expectedEvent) {
             $this->assertContains($expectedEvent, $listener->events);
         }
-    }
-
-    public function testBadCommit(): void
-    {
-        $mockPDO = $this->getMockBuilder(PDO::class)
-            ->disableOriginalConstructor()
-            ->onlyMethods(['commit'])
-            ->getMock();
-
-        $mockPDO->expects($this->once())->method('commit')->willReturn(false);
-
-        $connection = new Sqlite([
-            'dbname' => ':memory:',
-        ]);
-        $ref = new \ReflectionObject($connection);
-
-        $property = $ref->getProperty('pdo');
-        $property->setAccessible(true);
-        $property->setValue($connection, $mockPDO);
-
-        $property = $ref->getProperty('transactionLevel');
-        $property->setAccessible(true);
-        $property->setValue($connection, 1);
-
-        $manager = new Manager();
-        $connection->setEventsManager($manager);
-
-        $listener = new class {
-            public array $events = [];
-
-            public function commitTransaction($event, $adapter, mixed $data = null)
-            {
-                $this->events[] = __FUNCTION__;
-            }
-            public function transactionCommitted($event, $adapter, mixed $data = null)
-            {
-                $this->events[] = __FUNCTION__;
-            }
-        };
-
-        $manager->attach('db', $listener);
-
-        $connection->commit();
-        $this->assertContains('commitTransaction', $listener->events);
-        $this->assertNotContains('transactionCommitted', $listener->events);
     }
 }

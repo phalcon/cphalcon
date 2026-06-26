@@ -70,7 +70,10 @@ final class FakeCookies implements CookiesInterface
         bool $httpOnly = false,
         array $options = []
     ): CookiesInterface {
-        $this->store[$name] = new FakeCookie($name, $value);
+        $cookie = new FakeCookie($name, $value);
+        $cookie->setExpiration($expire);
+
+        $this->store[$name] = $cookie;
 
         return $this;
     }

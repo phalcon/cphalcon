@@ -18,80 +18,17 @@ use Phalcon\Db\Dialect\Postgresql;
 use Phalcon\Db\Dialect\Sqlite;
 use Phalcon\Db\Exception;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
 final class ReturningTest extends AbstractDatabaseTestCase
 {
-    /**
-     * PostgreSQL - RETURNING list.
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-05-15
-     *
-     * @group pgsql
-     */
-    public function testDbDialectPostgresqlReturningList(): void
-    {
-        $dialect = new Postgresql();
-
-        $this->assertSame(
-            "INSERT INTO robots (name) VALUES ('R2D2') RETURNING \"id\", \"name\"",
-            $dialect->returning(
-                "INSERT INTO robots (name) VALUES ('R2D2')",
-                ['id', 'name']
-            )
-        );
-    }
-
-    /**
-     * PostgreSQL - RETURNING *.
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-05-15
-     *
-     * @group pgsql
-     */
-    public function testDbDialectPostgresqlReturningStar(): void
-    {
-        $dialect = new Postgresql();
-
-        $this->assertSame(
-            "DELETE FROM robots WHERE id = 1 RETURNING *",
-            $dialect->returning(
-                'DELETE FROM robots WHERE id = 1',
-                ['*']
-            )
-        );
-    }
-
-    /**
-     * SQLite - RETURNING list (3.35+).
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-05-15
-     *
-     * @group sqlite
-     */
-    public function testDbDialectSqliteReturningList(): void
-    {
-        $dialect = new Sqlite();
-
-        $this->assertSame(
-            "INSERT INTO robots (name) VALUES ('R2D2') RETURNING \"id\"",
-            $dialect->returning(
-                "INSERT INTO robots (name) VALUES ('R2D2')",
-                ['id']
-            )
-        );
-    }
-
     /**
      * MySQL - throws (no RETURNING construct).
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group mysql
      */
+    #[Group('mysql')]
     public function testDbDialectMysqlReturningThrows(): void
     {
         $this->expectException(Exception::class);
@@ -110,9 +47,8 @@ final class ReturningTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group pgsql
      */
+    #[Group('pgsql')]
     public function testDbDialectPostgresqlReturningEmptyThrows(): void
     {
         $this->expectException(Exception::class);
@@ -123,6 +59,65 @@ final class ReturningTest extends AbstractDatabaseTestCase
         (new Postgresql())->returning(
             "INSERT INTO robots (name) VALUES ('R2D2')",
             []
+        );
+    }
+    /**
+     * PostgreSQL - RETURNING list.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-15
+     */
+    #[Group('pgsql')]
+    public function testDbDialectPostgresqlReturningList(): void
+    {
+        $dialect = new Postgresql();
+
+        $this->assertSame(
+            "INSERT INTO robots (name) VALUES ('R2D2') RETURNING \"id\", \"name\"",
+            $dialect->returning(
+                "INSERT INTO robots (name) VALUES ('R2D2')",
+                ['id', 'name']
+            )
+        );
+    }
+
+    /**
+     * PostgreSQL - RETURNING *.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-15
+     */
+    #[Group('pgsql')]
+    public function testDbDialectPostgresqlReturningStar(): void
+    {
+        $dialect = new Postgresql();
+
+        $this->assertSame(
+            "DELETE FROM robots WHERE id = 1 RETURNING *",
+            $dialect->returning(
+                'DELETE FROM robots WHERE id = 1',
+                ['*']
+            )
+        );
+    }
+
+    /**
+     * SQLite - RETURNING list (3.35+).
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-15
+     */
+    #[Group('sqlite')]
+    public function testDbDialectSqliteReturningList(): void
+    {
+        $dialect = new Sqlite();
+
+        $this->assertSame(
+            "INSERT INTO robots (name) VALUES ('R2D2') RETURNING \"id\"",
+            $dialect->returning(
+                "INSERT INTO robots (name) VALUES ('R2D2')",
+                ['id']
+            )
         );
     }
 }

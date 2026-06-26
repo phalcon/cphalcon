@@ -39,6 +39,7 @@ use Phalcon\Filter\Sanitize\UpperFirst;
 use Phalcon\Filter\Sanitize\UpperWords;
 use Phalcon\Filter\Sanitize\Url;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class NewInstanceTest extends AbstractUnitTestCase
 {
@@ -85,11 +86,10 @@ final class NewInstanceTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getData
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
+    #[DataProvider('getData')]
     public function testFilterFilterFactoryNewInstanceServices(
         string $name,
         string $class

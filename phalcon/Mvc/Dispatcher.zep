@@ -150,27 +150,14 @@ class Dispatcher extends BaseDispatcher implements DispatcherInterface
     }
 
     /**
-     * Gets previous dispatched action name
-     */
-    public function getPreviousActionName() -> string
-    {
-        return this->previousActionName;
-    }
-
-    /**
      * Gets previous dispatched controller name
+     *
+     * Note: This is an Mvc-specific alias for the base
+     * getPreviousHandlerName().
      */
     public function getPreviousControllerName() -> string
     {
         return this->previousHandlerName;
-    }
-
-    /**
-     * Gets previous dispatched namespace name
-     */
-    public function getPreviousNamespaceName() -> string
-    {
-        return this->previousNamespaceName;
     }
 
     /**

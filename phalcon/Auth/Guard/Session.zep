@@ -13,9 +13,11 @@
 
 namespace Phalcon\Auth\Guard;
 
+use DateTimeImmutable;
 use Phalcon\Auth\Exception;
 use Phalcon\Auth\Exceptions\DoesNotImplement;
 use Phalcon\Auth\Guard\Config\SessionGuardConfig;
+use Phalcon\Auth\Internal\ContainerResolver;
 use Phalcon\Auth\Internal\Options;
 use Phalcon\Contracts\Auth\Adapter\Adapter;
 use Phalcon\Contracts\Auth\Adapter\RememberAdapter;
@@ -24,12 +26,12 @@ use Phalcon\Contracts\Auth\AuthUser;
 use Phalcon\Contracts\Auth\Guard\BasicAuth;
 use Phalcon\Contracts\Auth\Guard\GuardStateful;
 use Phalcon\Contracts\Auth\RememberToken;
-use Phalcon\Contracts\Container\Service\Collection;
-use Phalcon\Di\DiInterface;
 use Phalcon\Http\RequestInterface;
 use Phalcon\Http\Response\CookiesInterface;
 use Phalcon\Session\ManagerInterface as SessionManagerInterface;
 use Phalcon\Support\Helper\Json\Encode;
+use Phalcon\Time\Clock\ClockInterface;
+use Phalcon\Time\Clock\SystemClock;
 
 /**
  * @phpstan-import-type AuthCredentials from Adapter
@@ -38,6 +40,10 @@ use Phalcon\Support\Helper\Json\Encode;
  */
 class Session extends AbstractGuard implements GuardStateful, BasicAuth
 {
+    /**
+     * @var ClockInterface
+     */
+    protected clock;
     /**
      * @var CookiesInterface
      */
@@ -60,7 +66,8 @@ class Session extends AbstractGuard implements GuardStateful, BasicAuth
         <RequestInterface> request,
         <CookiesInterface> cookies,
         <SessionManagerInterface> session,
-        <SessionGuardConfig> config = null
+        <SessionGuardConfig> config = null,
+        <ClockInterface> clock = null
     ) {
         let this->request = request;
         let this->cookies = cookies;
@@ -70,6 +77,12 @@ class Session extends AbstractGuard implements GuardStateful, BasicAuth
             let config = new SessionGuardConfig();
         }
 
+        if (clock === null) {
+            let clock = SystemClock::fromUTC();
+        }
+
+        let this->clock = clock;
+
         parent::__construct(adapter, config);
     }
 
@@ -78,23 +91,41 @@ class Session extends AbstractGuard implements GuardStateful, BasicAuth
         var container,
         array options
     ) -> <static> {
-        if (!(container instanceof Collection) && !(container instanceof DiInterface)) {
-            throw new \TypeError("The parameter must be an instance of Collection or DiInterface");
-        }
-
         var config;
 
         let config = new SessionGuardConfig(
             Options::stringOrNull(options, "suffix"),
             Options::stringOrNull(options, "name"),
-            Options::stringOrNull(options, "rememberName")
+            Options::stringOrNull(options, "rememberName"),
+            isset(options["rememberTtl"]) ? options["rememberTtl"] : null
         );
 
         return new static(
             adapter,
-            Options::resolveService(container, "Phalcon\\Http\\RequestInterface", "Session guard"),
-            Options::resolveService(container, "Phalcon\\Http\\Response\\CookiesInterface", "Session guard"),
-            Options::resolveService(container, "Phalcon\\Session\\ManagerInterface", "Session guard"),
+            ContainerResolver::resolveCandidate(
+                container,
+                options,
+                "request",
+                "Phalcon\\Http\\RequestInterface",
+                "request",
+                "Session guard"
+            ),
+            ContainerResolver::resolveCandidate(
+                container,
+                options,
+                "cookies",
+                "Phalcon\\Http\\Response\\CookiesInterface",
+                "cookies",
+                "Session guard"
+            ),
+            ContainerResolver::resolveCandidate(
+                container,
+                options,
+                "session",
+                "Phalcon\\Session\\ManagerInterface",
+                "session",
+                "Session guard"
+            ),
             config
         );
     }
@@ -106,18 +137,13 @@ class Session extends AbstractGuard implements GuardStateful, BasicAuth
      */
     public function attempt(array credentials = [], bool remember = false) -> bool
     {
-        var resolved;
-
-        let resolved                = this->adapter->retrieveByCredentials(credentials);
-        let this->lastUserAttempted = resolved;
-
-        if (this->hasValidCredentials(resolved, credentials)) {
-            this->login(resolved, remember);
-
-            return true;
+        if (!this->validate(credentials)) {
+            return false;
         }
 
-        return false;
+        this->login(this->lastUserAttempted, remember);
+
+        return true;
     }
 
     /**
@@ -149,20 +175,23 @@ class Session extends AbstractGuard implements GuardStateful, BasicAuth
      */
     public function login(<AuthUser> user, bool remember = false) -> void
     {
-        this->fireManagerEvent("auth:beforeLogin");
+        this->fireManagerEvent("auth:beforeLogin", null, false);
 
         this->session->set(this->getName(), user->getAuthIdentifier());
 
         if (remember) {
-            if (!(this->adapter instanceof RememberAdapter)) {
-                throw new DoesNotImplement("Adapter", "RememberAdapter");
-            }
+            DoesNotImplement::assert(
+                this->adapter,
+                "Phalcon\\Contracts\\Auth\\Adapter\\RememberAdapter",
+                "Adapter",
+                "RememberAdapter"
+            );
             this->rememberUser(user);
         }
 
         this->setUser(user);
 
-        this->fireManagerEvent("auth:afterLogin");
+        this->fireManagerEvent("auth:afterLogin", null, false);
     }
 
     /**
@@ -192,7 +221,7 @@ class Session extends AbstractGuard implements GuardStateful, BasicAuth
 
         let current = this->user();
 
-        this->fireManagerEvent("auth:beforeLogout", ["user" : current]);
+        this->fireManagerEvent("auth:beforeLogout", ["user" : current], false);
 
         let recaller = this->recaller();
         if (recaller !== null && current instanceof AuthRemember) {
@@ -209,7 +238,7 @@ class Session extends AbstractGuard implements GuardStateful, BasicAuth
 
         this->session->remove(this->getName());
 
-        this->fireManagerEvent("auth:afterLogout", ["user" : current]);
+        this->fireManagerEvent("auth:afterLogout", ["user" : current], false);
 
         let this->user = null;
     }
@@ -219,11 +248,11 @@ class Session extends AbstractGuard implements GuardStateful, BasicAuth
      */
     public function once(array credentials = []) -> bool
     {
-        this->fireManagerEvent("auth:beforeLogin");
+        this->fireManagerEvent("auth:beforeLogin", null, false);
 
         if (this->validate(credentials)) {
             this->setUser(this->lastUserAttempted);
-            this->fireManagerEvent("auth:afterLogin");
+            this->fireManagerEvent("auth:afterLogin", null, false);
 
             return true;
         }
@@ -388,7 +417,7 @@ class Session extends AbstractGuard implements GuardStateful, BasicAuth
         this->cookies->set(
             this->getRememberName(),
             payload,
-            time() + 360 * 24 * 60 * 60
+            this->clock->now()->getTimestamp() + this->config->getRememberTtl()
         );
     }
 

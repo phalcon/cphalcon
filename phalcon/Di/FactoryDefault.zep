@@ -57,6 +57,7 @@ class FactoryDefault extends \Phalcon\Di\Di
             "settings"           : new Service("Phalcon\\Support\\Settings", true),
             "modelsManager"      : new Service("Phalcon\\Mvc\\Model\\Manager", true),
             "modelsMetadata"     : new Service("Phalcon\\Mvc\\Model\\MetaData\\Memory", true),
+            "queueFactory"       : new Service("Phalcon\\Queue\\QueueFactory", true),
             "request"            : new Service("Phalcon\\Http\\Request", true),
             "response"           : new Service("Phalcon\\Http\\Response", true),
             "router"             : new Service("Phalcon\\Mvc\\Router", true),

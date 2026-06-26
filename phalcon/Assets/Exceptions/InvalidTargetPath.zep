@@ -17,7 +17,7 @@ class InvalidTargetPath extends Exception
     public function __construct(string path)
     {
         parent::__construct(
-            "Path '" . path . "' is not a valid target path (1)"
+            "Path '" . path . "' is not a valid target path"
         );
     }
 }

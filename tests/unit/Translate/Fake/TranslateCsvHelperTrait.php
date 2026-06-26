@@ -15,6 +15,7 @@ namespace Phalcon\Tests\Unit\Translate\Fake;
 
 use Phalcon\Translate\Adapter\Csv;
 use Phalcon\Translate\InterpolatorFactory;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 trait TranslateCsvHelperTrait
 {
@@ -80,11 +81,10 @@ trait TranslateCsvHelperTrait
     }
 
     /**
-     * @dataProvider getQueryProvider
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
+    #[DataProvider('getQueryProvider')]
     public function testTranslateAdapterCsvQuery(string $code, array $tests): void
     {
 
@@ -99,16 +99,10 @@ trait TranslateCsvHelperTrait
     }
 
     /**
-     * @return array
-     */
-    abstract protected function getCsvConfig(): array;
-
-    /**
-     * @dataProvider getQueryProvider
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
+    #[DataProvider('getQueryProvider')]
     public function testTranslateAdapterCsvVariableSubstitutionNoVariables(string $code, array $tests): void
     {
 
@@ -123,11 +117,10 @@ trait TranslateCsvHelperTrait
     }
 
     /**
-     * @dataProvider getQueryOneVariable
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
+    #[DataProvider('getQueryOneVariable')]
     public function testTranslateAdapterCsvVariableSubstitutionOneVariable(string $code, array $tests): void
     {
 
@@ -141,11 +134,10 @@ trait TranslateCsvHelperTrait
     }
 
     /**
-     * @dataProvider getQueryTwoVariables
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
+    #[DataProvider('getQueryTwoVariables')]
     public function testTranslateAdapterCsvVariableSubstitutionTwoVariable(string $code, array $tests): void
     {
 
@@ -183,4 +175,9 @@ trait TranslateCsvHelperTrait
      * @return string
      */
     abstract protected function func(): string;
+
+    /**
+     * @return array
+     */
+    abstract protected function getCsvConfig(): array;
 }

@@ -34,6 +34,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_Regex)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Filter\\Sanitize, Regex, phalcon, filter_sanitize_regex, phalcon_filter_sanitize_regex_method_entry, 0);
 
+	zend_class_implements(phalcon_filter_sanitize_regex_ce, 1, phalcon_contracts_filter_sanitizer_ce);
 	return SUCCESS;
 }
 
@@ -61,7 +62,7 @@ PHP_METHOD(Phalcon_Filter_Sanitize_Regex, __invoke)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 3, 0, &input, &pattern, &replace);
-	ZEPHIR_RETURN_CALL_FUNCTION("preg_replace", NULL, 76, pattern, replace, input);
+	ZEPHIR_RETURN_CALL_FUNCTION("preg_replace", NULL, 90, pattern, replace, input);
 	zephir_check_call_status();
 	RETURN_MM();
 }

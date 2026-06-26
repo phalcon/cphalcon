@@ -23,6 +23,7 @@
 #define PHVOLT_MODE_RAW 0
 #define PHVOLT_MODE_CODE 1
 #define PHVOLT_MODE_COMMENT 2
+#define PHVOLT_MODE_VERBATIM 3
 
 #define PHVOLT_T_IGNORE 257
 
@@ -154,8 +155,8 @@
 #define PHVOLT_T_NOT_ISSCALAR 396
 #define PHVOLT_T_NOT_ISITERABLE 397
 
-#define PHVOLT_T_RAW 400
-#define PHVOLT_T_ENDRAW 401
+#define PHVOLT_T_VERBATIM 402
+#define PHVOLT_T_ENDVERBATIM 403
 
 /* switch-case statement */
 #define PHVOLT_T_SWITCH 411
@@ -211,7 +212,7 @@ typedef struct _phvolt_scanner_state { /* {{{ */
 	unsigned int for_level;
 	unsigned int switch_level;
 	int whitespace_control;
-	int forced_raw_state;
+	int verbatim;
 } phvolt_scanner_state;
 /* }}} */
 

@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\Router\Annotations;
 
+use Phalcon\Mvc\Router\Annotations;
+use Phalcon\Mvc\Router\Route;
 use Phalcon\Tests\AbstractUnitTestCase;
 
 final class GetKeyRouteIdsTest extends AbstractUnitTestCase
@@ -23,6 +25,22 @@ final class GetKeyRouteIdsTest extends AbstractUnitTestCase
      */
     public function testMvcRouterAnnotationsGetKeyRouteIds(): void
     {
-        $this->markTestSkipped('Need implementation');
+        Route::reset();
+
+        $router = new Annotations(false);
+
+        $usersFind = $router
+            ->add('/api/users/find')
+            ->setHttpMethods('GET')
+            ->setName('usersFind')
+        ;
+        $usersAdd = $router
+            ->add('/api/users/add')
+            ->setHttpMethods('POST')
+            ->setName('usersAdd')
+        ;
+
+        $this->assertSame($usersFind, $router->getRouteById(0));
+        $this->assertSame([0 => 0], $router->getKeyRouteIds());
     }
 }

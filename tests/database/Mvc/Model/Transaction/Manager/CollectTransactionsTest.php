@@ -13,16 +13,49 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Mvc\Model\Transaction\Manager;
 
+use Phalcon\Mvc\Model\Transaction\Manager;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
+#[Group('mysql')]
+#[Group('pgsql')]
+#[Group('sqlite')]
 final class CollectTransactionsTest extends AbstractDatabaseTestCase
 {
+    use DiTrait;
+
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+    }
+
+    public function tearDown(): void
+    {
+        $this->tearDownDatabase();
+    }
+
     /**
+     * collectTransactions() removes the tracked transactions from the manager.
+     *
+     * Tests Phalcon\Mvc\Model\Transaction\Manager :: collectTransactions()
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2026-06-22
      */
     public function testMvcModelTransactionManagerCollectTransactions(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $manager = new Manager($this->container);
+        $manager->setRollbackPendent(false);
+
+        $transaction = $manager->get();
+        $this->assertTrue($manager->has());
+
+        $manager->collectTransactions();
+        $this->assertFalse($manager->has());
+
+        // The manager forgot the transaction but left it open; close it.
+        $transaction->commit();
     }
 }

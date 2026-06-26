@@ -18,6 +18,7 @@ use Phalcon\Db\RawValue;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 final class DbBindTest extends AbstractDatabaseTestCase
 {
@@ -35,118 +36,14 @@ final class DbBindTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Db :: convertBoundParams()
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
-     */
-    public function testDbBindConvertParams(): void
-    {
-        $db = $this->getService('db');
-
-        $params = $db->convertBoundParams(
-            'a=?0',
-            [
-                0 => 100,
-            ]
-        );
-
-        $expected = [
-            'sql'    => 'a=?',
-            'params' => [
-                0 => 100,
-            ],
-        ];
-        $this->assertEquals($expected, $params);
-
-
-        $params = $db->convertBoundParams(
-            'a=?0',
-            [
-                0 => 100,
-                1 => 50,
-            ]
-        );
-
-        $expected = [
-            'sql'    => 'a=?',
-            'params' => [
-                0 => 100,
-            ],
-        ];
-        $this->assertEquals($expected, $params);
-
-
-        $params = $db->convertBoundParams(
-            'a=?1 AND b = ?0',
-            [
-                1 => 50,
-                0 => 25,
-            ]
-        );
-
-        $expected = [
-            'sql'    => 'a=? AND b = ?',
-            'params' => [
-                0 => 50,
-                1 => 25,
-            ],
-        ];
-        $this->assertEquals($expected, $params);
-
-
-        $params = $db->convertBoundParams(
-            'a=?1 AND b = ?0',
-            [
-                1 => 25.10,
-                0 => '25.10',
-            ]
-        );
-
-        $expected = [
-            'sql'    => 'a=? AND b = ?',
-            'params' => [
-                0 => '25.10',
-                1 => 25.10,
-            ],
-        ];
-        $this->assertEquals($expected, $params);
-
-
-        $params = $db->convertBoundParams(
-            'a=?1 AND b = ?0 AND c > :c: AND d = ?3',
-            [
-                'c' => 1000,
-                1   => 'some-name',
-                0   => 15,
-                3   => 400,
-            ]
-        );
-
-        $expected = [
-            'sql'    => 'a=? AND b = ? AND c > ? AND d = ?',
-            'params' => [
-                0 => 'some-name',
-                1 => 15,
-                2 => 1000,
-                3 => 400,
-            ],
-        ];
-        $this->assertEquals($expected, $params);
-    }
-
-    /**
      * Tests Phalcon\Db :: execute() / insert() / update() with bind types
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testDbBindByType(): void
     {
         $connection = self::getConnection();
@@ -292,5 +189,109 @@ final class DbBindTest extends AbstractDatabaseTestCase
             ]
         );
         $this->assertTrue($success);
+    }
+
+    /**
+     * Tests Phalcon\Db :: convertBoundParams()
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2018-11-13
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testDbBindConvertParams(): void
+    {
+        $db = $this->getService('db');
+
+        $params = $db->convertBoundParams(
+            'a=?0',
+            [
+                0 => 100,
+            ]
+        );
+
+        $expected = [
+            'sql'    => 'a=?',
+            'params' => [
+                0 => 100,
+            ],
+        ];
+        $this->assertEquals($expected, $params);
+
+
+        $params = $db->convertBoundParams(
+            'a=?0',
+            [
+                0 => 100,
+                1 => 50,
+            ]
+        );
+
+        $expected = [
+            'sql'    => 'a=?',
+            'params' => [
+                0 => 100,
+            ],
+        ];
+        $this->assertEquals($expected, $params);
+
+
+        $params = $db->convertBoundParams(
+            'a=?1 AND b = ?0',
+            [
+                1 => 50,
+                0 => 25,
+            ]
+        );
+
+        $expected = [
+            'sql'    => 'a=? AND b = ?',
+            'params' => [
+                0 => 50,
+                1 => 25,
+            ],
+        ];
+        $this->assertEquals($expected, $params);
+
+
+        $params = $db->convertBoundParams(
+            'a=?1 AND b = ?0',
+            [
+                1 => 25.10,
+                0 => '25.10',
+            ]
+        );
+
+        $expected = [
+            'sql'    => 'a=? AND b = ?',
+            'params' => [
+                0 => '25.10',
+                1 => 25.10,
+            ],
+        ];
+        $this->assertEquals($expected, $params);
+
+
+        $params = $db->convertBoundParams(
+            'a=?1 AND b = ?0 AND c > :c: AND d = ?3',
+            [
+                'c' => 1000,
+                1   => 'some-name',
+                0   => 15,
+                3   => 400,
+            ]
+        );
+
+        $expected = [
+            'sql'    => 'a=? AND b = ? AND c > ? AND d = ?',
+            'params' => [
+                0 => 'some-name',
+                1 => 15,
+                2 => 1000,
+                3 => 400,
+            ],
+        ];
+        $this->assertEquals($expected, $params);
     }
 }

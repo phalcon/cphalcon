@@ -16,6 +16,7 @@ namespace Phalcon\Tests\Unit\Filter\Validation\Validator\Ip;
 use Phalcon\Filter\Validation;
 use Phalcon\Filter\Validation\Validator\Ip;
 use Phalcon\Tests\AbstractUnitTestCase;
+use stdClass;
 
 final class ValidateTest extends AbstractUnitTestCase
 {
@@ -205,5 +206,34 @@ final class ValidateTest extends AbstractUnitTestCase
                 ]
             )
         );
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    public function testFilterValidationValidatorIpValidateReturnValue(): void
+    {
+        $validation = new Validation();
+        $validator  = new Ip(['version' => Ip::VERSION_4]);
+        $validation->add('ip', $validator);
+
+        $entity = new stdClass();
+
+        // a valid public IPv4 address passes
+        $entity->ip = '8.8.8.8';
+        $validation->bind($entity, []);
+        $this->assertTrue($validator->validate($validation, 'ip'));
+
+        // an invalid address fails
+        $entity->ip = 'not-an-ip';
+        $validation->bind($entity, []);
+        $this->assertFalse($validator->validate($validation, 'ip'));
+
+        // an empty value passes when allowEmpty is set
+        $allowEmpty = new Ip(['allowEmpty' => true]);
+        $entity->ip = '';
+        $validation->bind($entity, []);
+        $this->assertTrue($allowEmpty->validate($validation, 'ip'));
     }
 }

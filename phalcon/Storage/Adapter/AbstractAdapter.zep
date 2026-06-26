@@ -17,6 +17,7 @@ use Phalcon\Events\ManagerInterface;
 use Phalcon\Storage\Serializer\SerializerInterface;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Support\Exception as SupportException;
+use Phalcon\Support\Helper\Arr\Get;
 
 /**
  * Class AbstractAdapter
@@ -77,6 +78,16 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     protected serializerFactory;
 
     /**
+     * Whether a leading prefix is stripped from incoming keys before the
+     * adapter prefix is applied. Disable when keys are externally
+     * generated identifiers that may legitimately start with the prefix
+     * text (e.g. session ids).
+     *
+     * @var bool
+     */
+    protected stripPrefix = true;
+
+    /**
      * Event Manager
      *
      * @var ManagerInterface|null
@@ -107,8 +118,9 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
             this->defaultSerializer = mb_strtolower(
                 this->getArrVal(options, "defaultSerializer", "php")
             ),
-            this->lifetime   = this->getArrVal(options, "lifetime", 3600),
-            this->serializer = this->getArrVal(options, "serializer", null);
+            this->lifetime    = this->getArrVal(options, "lifetime", 3600),
+            this->serializer  = this->getArrVal(options, "serializer", null),
+            this->stripPrefix = (bool) this->getArrVal(options, "stripPrefix", true);
 
         if isset options["prefix"] {
             let this->prefix = options["prefix"];
@@ -118,6 +130,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
         unset options["lifetime"];
         unset options["serializer"];
         unset options["prefix"];
+        unset options["stripPrefix"];
 
         let this->options = options;
     }
@@ -141,6 +154,8 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     {
         var result;
 
+        let key = this->getKeyWithoutPrefix(key);
+
         this->fire(this->eventType . ":beforeDecrement", key);
 
         let result = this->doDecrement(key, value);
@@ -161,6 +176,8 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     {
         var result;
 
+        let key = this->getKeyWithoutPrefix(key);
+
         this->fire(this->eventType . ":beforeDelete", key);
 
         let result = this->doDelete(key);
@@ -179,7 +196,15 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      */
     public function deleteMultiple(array keys) -> bool
     {
-        var result;
+        var key, result;
+        array filteredKeys;
+
+        let filteredKeys = [];
+        for key in keys {
+            let filteredKeys[] = this->getKeyWithoutPrefix(key);
+        }
+
+        let keys = filteredKeys;
 
         this->fire(this->eventType . ":beforeDeleteMultiple", keys);
 
@@ -218,6 +243,8 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     public function get(string key, defaultValue = null) -> var
     {
         var result;
+
+        let key = this->getKeyWithoutPrefix(key);
 
         this->fire(this->eventType . ":beforeGet", key);
 
@@ -298,6 +325,8 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     {
         var result;
 
+        let key = this->getKeyWithoutPrefix(key);
+
         this->fire(this->eventType . ":beforeHas", key);
 
         let result = this->doHas(key);
@@ -318,6 +347,8 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     public function increment(string! key, int value = 1) -> int | bool
     {
         var result;
+
+        let key = this->getKeyWithoutPrefix(key);
 
         this->fire(this->eventType . ":beforeIncrement", key);
 
@@ -345,6 +376,8 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     {
         var result;
 
+        let key = this->getKeyWithoutPrefix(key);
+
         this->fire(this->eventType . ":beforeSet", key);
 
         let result = this->doSet(key, value, ttl);
@@ -371,7 +404,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     {
         var content;
 
-        if true !== this->has(key) {
+        if true !== this->doHas(key) {
             return defaultValue;
         }
 
@@ -470,6 +503,24 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     }
 
     /**
+     * Check if the key has the prefix and remove it, otherwise just return the
+     * key unaltered. When the `stripPrefix` option is `false` the key is
+     * always returned unaltered.
+     *
+     * @param string $key
+     *
+     * @return string
+     */
+    protected function getKeyWithoutPrefix(string key) -> string
+    {
+        if (this->stripPrefix && starts_with(key, this->prefix)) {
+            return substr(key, strlen(this->prefix));
+        }
+
+        return key;
+    }
+
+    /**
      * Returns the key requested, prefixed
      *
      * @param string $key
@@ -480,7 +531,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     {
         let key = (string) key;
 
-        return this->prefix . key;
+        return this->prefix . this->getKeyWithoutPrefix(key);
     }
 
     /**
@@ -537,7 +588,10 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
         if (null !== this->serializer) {
             this->serializer->unserialize(content);
 
-            if unlikely true !== this->serializer->isSuccess() {
+            if (
+                true === method_exists(this->serializer, "isSuccess") &&
+                true !== this->serializer->isSuccess()
+            ) {
                 return defaultValue;
             }
 
@@ -566,7 +620,10 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     }
 
     /**
-     * @todo Remove this when we get traits
+     * Reads an element from an array, optionally casting it. Delegates to the
+     * canonical Support\Helper\Arr\Get helper.
+     *
+     * @todo Remove this wrapper when we get traits
      */
     protected function getArrVal(
         array! collection,
@@ -574,17 +631,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
         var defaultValue = null,
         string! cast = null
     ) -> var {
-        var value;
-
-        if unlikely !fetch value, collection[index] {
-            return defaultValue;
-        }
-
-        if unlikely cast {
-            settype(value, cast);
-        }
-
-        return value;
+        return (new Get())->__invoke(collection, index, defaultValue, cast);
     }
 
     /**

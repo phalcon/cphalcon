@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Auth;
 
+use Phalcon\Auth\Access\Acl;
 use Phalcon\Auth\Access\Auth;
 use Phalcon\Auth\Access\Guest;
 use Phalcon\Auth\Adapter\AdapterLocator;
@@ -27,6 +28,7 @@ use Phalcon\Auth\Guard\Token;
 use Phalcon\Auth\ManagerFactory;
 use Phalcon\Config\Config;
 use Phalcon\Container\Container;
+use Phalcon\Container\Exceptions\Exception as ContainerException;
 use Phalcon\Encryption\Security;
 use Phalcon\Http\RequestInterface;
 use Phalcon\Http\Response\CookiesInterface;
@@ -55,36 +57,31 @@ final class ManagerFactoryTest extends AbstractUnitTestCase
         $this->container->set(SessionManagerInterface::class, fn () => $session);
     }
 
-    private function singleSessionConfig(): array
+    public function testLoadAcceptsConfigInterface(): void
     {
-        return [
+        $config  = new Config($this->singleSessionConfig());
+        $factory = new ManagerFactory($this->security, $this->container);
+        $manager = $factory->load($config);
+
+        $this->assertInstanceOf(Session::class, $manager->getDefaultGuard());
+    }
+
+    public function testLoadFallsBackToEmptyUsersWhenNonArrayProvided(): void
+    {
+        $factory = new ManagerFactory($this->security, $this->container);
+        $manager = $factory->load([
             'guards' => [
                 'web' => [
                     'type'    => 'session',
                     'default' => true,
                     'adapter' => [
                         'name'    => 'memory',
-                        'options' => [
-                            'users' => [
-                                [
-                                    'id'       => 1,
-                                    'email'    => 'alice@example.com',
-                                    'password' => $this->security->hash('secret'),
-                                ],
-                            ],
-                        ],
+                        'options' => ['users' => 'not-an-array'],
                     ],
                     'options' => [],
                 ],
             ],
-        ];
-    }
-
-    public function testLoadAcceptsConfigInterface(): void
-    {
-        $config  = new Config($this->singleSessionConfig());
-        $factory = new ManagerFactory($this->security, $this->container);
-        $manager = $factory->load($config);
+        ]);
 
         $this->assertInstanceOf(Session::class, $manager->getDefaultGuard());
     }
@@ -96,6 +93,7 @@ final class ManagerFactoryTest extends AbstractUnitTestCase
 
         $this->assertSame(
             [
+                'acl'   => Acl::class,
                 'auth'  => Auth::class,
                 'guest' => Guest::class,
             ],
@@ -115,6 +113,222 @@ final class ManagerFactoryTest extends AbstractUnitTestCase
 
         $this->assertArrayHasKey('auth', $manager->getAccessList());
         $this->assertSame(Auth::class, $manager->getAccessList()['auth']);
+    }
+
+    public function testLoadThrowsForMissingAdapter(): void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessageMatches("/requires 'adapter'/");
+
+        $factory = new ManagerFactory($this->security, $this->container);
+        $factory->load([
+            'guards' => [
+                'web' => [
+                    'type' => 'session',
+                ],
+            ],
+        ]);
+    }
+
+    public function testLoadThrowsForMissingAdapterName(): void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessageMatches("/requires 'name'/");
+
+        $factory = new ManagerFactory($this->security, $this->container);
+        $factory->load([
+            'guards' => [
+                'web' => [
+                    'type'    => 'session',
+                    'adapter' => ['options' => []],
+                ],
+            ],
+        ]);
+    }
+
+    public function testLoadThrowsForMissingGuardType(): void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessageMatches("/requires 'type'/");
+
+        $factory = new ManagerFactory($this->security, $this->container);
+        $factory->load([
+            'guards' => [
+                'web' => [
+                    'adapter' => ['name' => 'memory', 'options' => []],
+                ],
+            ],
+        ]);
+    }
+
+    public function testLoadThrowsForUnknownAdapter(): void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessageMatches('/Unknown auth adapter/');
+
+        $factory = new ManagerFactory($this->security, $this->container);
+        $factory->load([
+            'guards' => [
+                'web' => [
+                    'type'    => 'session',
+                    'adapter' => ['name' => 'no-such-adapter', 'options' => []],
+                ],
+            ],
+        ]);
+    }
+
+    public function testLoadThrowsForUnknownGuard(): void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessageMatches('/Unknown auth guard/');
+
+        $factory = new ManagerFactory($this->security, $this->container);
+        $factory->load([
+            'guards' => [
+                'web' => [
+                    'type'    => 'no-such-guard',
+                    'adapter' => ['name' => 'memory', 'options' => []],
+                ],
+            ],
+        ]);
+    }
+
+    public function testLoadThrowsWhenModelMissingModelClass(): void
+    {
+        $this->expectException(Exception::class);
+
+        $factory = new ManagerFactory($this->security, $this->container);
+        $factory->load([
+            'guards' => [
+                'web' => [
+                    'type'    => 'session',
+                    'adapter' => ['name' => 'model', 'options' => []],
+                ],
+            ],
+        ]);
+    }
+
+    public function testLoadThrowsWhenSessionDepsMissingFromContainer(): void
+    {
+        $this->expectException(ContainerException::class);
+        $this->expectExceptionMessageMatches('/RequestInterface/');
+
+        $emptyContainer = new Container();
+
+        $factory = new ManagerFactory($this->security, $emptyContainer);
+        $factory->load($this->singleSessionConfig());
+    }
+
+    public function testLoadThrowsWhenStreamMissingFile(): void
+    {
+        $this->expectException(Exception::class);
+
+        $factory = new ManagerFactory($this->security, $this->container);
+        $factory->load([
+            'guards' => [
+                'web' => [
+                    'type'    => 'session',
+                    'adapter' => ['name' => 'stream', 'options' => []],
+                ],
+            ],
+        ]);
+    }
+
+    public function testLoadThrowsWhenTokenGuardDepsMissingFromContainer(): void
+    {
+        $this->expectException(ContainerException::class);
+
+        $emptyContainer = new Container();
+
+        $factory = new ManagerFactory($this->security, $emptyContainer);
+        $factory->load([
+            'guards' => [
+                'api' => [
+                    'type'    => 'token',
+                    'adapter' => ['name' => 'memory', 'options' => []],
+                    'options' => [
+                        'inputKey'   => 'api_token',
+                        'storageKey' => 'api_token',
+                    ],
+                ],
+            ],
+        ]);
+    }
+
+    public function testLoadThrowsWhenTokenGuardMissingKeys(): void
+    {
+        $this->expectException(Exception::class);
+
+        $factory = new ManagerFactory($this->security, $this->container);
+        $factory->load([
+            'guards' => [
+                'api' => [
+                    'type'    => 'token',
+                    'adapter' => ['name' => 'memory', 'options' => []],
+                    'options' => [],
+                ],
+            ],
+        ]);
+    }
+
+    public function testLoadUsesCallerProvidedAdapterLocator(): void
+    {
+        $adapterLocator = new AdapterLocator($this->container);
+        $adapterLocator->register('aliased_memory', Memory::class);
+
+        $factory = new ManagerFactory(
+            $this->security,
+            $this->container,
+            adapterLocator: $adapterLocator,
+        );
+
+        $config = $this->singleSessionConfig();
+        $config['guards']['web']['adapter']['name'] = 'aliased_memory';
+
+        $manager = $factory->load($config);
+
+        $guard = $manager->getDefaultGuard();
+        $this->assertInstanceOf(Session::class, $guard);
+        $this->assertInstanceOf(Memory::class, $guard->getAdapter());
+    }
+
+    public function testLoadUsesCallerProvidedGuardLocator(): void
+    {
+        $guardLocator = new GuardLocator($this->container);
+        $guardLocator->register('aliased_session', Session::class);
+
+        $factory = new ManagerFactory(
+            $this->security,
+            $this->container,
+            guardLocator: $guardLocator,
+        );
+
+        $config = $this->singleSessionConfig();
+        $config['guards']['web']['type'] = 'aliased_session';
+
+        $manager = $factory->load($config);
+
+        $this->assertInstanceOf(Session::class, $manager->getDefaultGuard());
+    }
+
+    public function testLoadWithModelAdapter(): void
+    {
+        $factory = new ManagerFactory($this->security, $this->container);
+        $manager = $factory->load([
+            'guards' => [
+                'web' => [
+                    'type'    => 'session',
+                    'default' => true,
+                    'adapter' => [
+                        'name'    => 'model',
+                        'options' => ['model' => 'App\\Models\\User'],
+                    ],
+                    'options' => [],
+                ],
+            ],
+        ]);
+
+        $this->assertInstanceOf(Session::class, $manager->getDefaultGuard());
     }
 
     public function testLoadWithMultipleGuards(): void
@@ -199,26 +413,6 @@ final class ManagerFactoryTest extends AbstractUnitTestCase
         $this->assertInstanceOf(Session::class, $manager->getDefaultGuard());
     }
 
-    public function testLoadWithModelAdapter(): void
-    {
-        $factory = new ManagerFactory($this->security, $this->container);
-        $manager = $factory->load([
-            'guards' => [
-                'web' => [
-                    'type'    => 'session',
-                    'default' => true,
-                    'adapter' => [
-                        'name'    => 'model',
-                        'options' => ['model' => 'App\\Models\\User'],
-                    ],
-                    'options' => [],
-                ],
-            ],
-        ]);
-
-        $this->assertInstanceOf(Session::class, $manager->getDefaultGuard());
-    }
-
     public function testLoadWithTokenGuard(): void
     {
         $factory = new ManagerFactory($this->security, $this->container);
@@ -242,173 +436,28 @@ final class ManagerFactoryTest extends AbstractUnitTestCase
         $this->assertInstanceOf(Token::class, $manager->getDefaultGuard());
     }
 
-    public function testLoadFallsBackToEmptyUsersWhenNonArrayProvided(): void
+    private function singleSessionConfig(): array
     {
-        $factory = new ManagerFactory($this->security, $this->container);
-        $manager = $factory->load([
+        return [
             'guards' => [
                 'web' => [
                     'type'    => 'session',
                     'default' => true,
                     'adapter' => [
                         'name'    => 'memory',
-                        'options' => ['users' => 'not-an-array'],
+                        'options' => [
+                            'users' => [
+                                [
+                                    'id'       => 1,
+                                    'email'    => 'alice@example.com',
+                                    'password' => $this->security->hash('secret'),
+                                ],
+                            ],
+                        ],
                     ],
                     'options' => [],
                 ],
             ],
-        ]);
-
-        $this->assertInstanceOf(Session::class, $manager->getDefaultGuard());
-    }
-
-    public function testLoadThrowsForUnknownAdapter(): void
-    {
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessageMatches('/Unknown auth adapter/');
-
-        $factory = new ManagerFactory($this->security, $this->container);
-        $factory->load([
-            'guards' => [
-                'web' => [
-                    'type'    => 'session',
-                    'adapter' => ['name' => 'no-such-adapter', 'options' => []],
-                ],
-            ],
-        ]);
-    }
-
-    public function testLoadThrowsForUnknownGuard(): void
-    {
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessageMatches('/Unknown auth guard/');
-
-        $factory = new ManagerFactory($this->security, $this->container);
-        $factory->load([
-            'guards' => [
-                'web' => [
-                    'type'    => 'no-such-guard',
-                    'adapter' => ['name' => 'memory', 'options' => []],
-                ],
-            ],
-        ]);
-    }
-
-    public function testLoadThrowsWhenSessionDepsMissingFromContainer(): void
-    {
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessageMatches('/RequestInterface/');
-
-        $emptyContainer = new Container();
-
-        $factory = new ManagerFactory($this->security, $emptyContainer);
-        $factory->load($this->singleSessionConfig());
-    }
-
-    public function testLoadThrowsWhenTokenGuardDepsMissingFromContainer(): void
-    {
-        $this->expectException(Exception::class);
-
-        $emptyContainer = new Container();
-
-        $factory = new ManagerFactory($this->security, $emptyContainer);
-        $factory->load([
-            'guards' => [
-                'api' => [
-                    'type'    => 'token',
-                    'adapter' => ['name' => 'memory', 'options' => []],
-                    'options' => [
-                        'inputKey'   => 'api_token',
-                        'storageKey' => 'api_token',
-                    ],
-                ],
-            ],
-        ]);
-    }
-
-    public function testLoadThrowsWhenStreamMissingFile(): void
-    {
-        $this->expectException(Exception::class);
-
-        $factory = new ManagerFactory($this->security, $this->container);
-        $factory->load([
-            'guards' => [
-                'web' => [
-                    'type'    => 'session',
-                    'adapter' => ['name' => 'stream', 'options' => []],
-                ],
-            ],
-        ]);
-    }
-
-    public function testLoadThrowsWhenModelMissingModelClass(): void
-    {
-        $this->expectException(Exception::class);
-
-        $factory = new ManagerFactory($this->security, $this->container);
-        $factory->load([
-            'guards' => [
-                'web' => [
-                    'type'    => 'session',
-                    'adapter' => ['name' => 'model', 'options' => []],
-                ],
-            ],
-        ]);
-    }
-
-    public function testLoadThrowsWhenTokenGuardMissingKeys(): void
-    {
-        $this->expectException(Exception::class);
-
-        $factory = new ManagerFactory($this->security, $this->container);
-        $factory->load([
-            'guards' => [
-                'api' => [
-                    'type'    => 'token',
-                    'adapter' => ['name' => 'memory', 'options' => []],
-                    'options' => [],
-                ],
-            ],
-        ]);
-    }
-
-    public function testLoadUsesCallerProvidedAdapterLocator(): void
-    {
-        $adapterLocator = new AdapterLocator($this->container);
-        $adapterLocator->register('aliased_memory', Memory::class);
-
-        $factory = new ManagerFactory(
-            $this->security,
-            $this->container,
-            adapterLocator: $adapterLocator,
-        );
-
-        $config = $this->singleSessionConfig();
-        $config['guards']['web']['adapter']['name'] = 'aliased_memory';
-
-        $manager = $factory->load($config);
-
-        $guard = $manager->getDefaultGuard();
-        $this->assertInstanceOf(Session::class, $guard);
-        $this->assertInstanceOf(Memory::class, $guard->getAdapter());
-    }
-
-    public function testLoadUsesCallerProvidedGuardLocator(): void
-    {
-        $guardLocator = new GuardLocator($this->container);
-        $guardLocator->register('aliased_session', Session::class);
-
-        $factory = new ManagerFactory(
-            $this->security,
-            $this->container,
-            guardLocator: $guardLocator,
-        );
-
-        $config = $this->singleSessionConfig();
-        $config['guards']['web']['type'] = 'aliased_session';
-
-        $manager = $factory->load($config);
-
-        $this->assertInstanceOf(Session::class, $manager->getDefaultGuard());
+        ];
     }
 }

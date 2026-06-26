@@ -24,6 +24,7 @@ use Phalcon\Cache\Adapter\Stream;
 use Phalcon\Cache\Adapter\Weak;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use SplObjectStorage;
 use SplQueue;
 use stdClass;
@@ -39,6 +40,41 @@ use function uniqid;
 
 final class GetSetTest extends AbstractUnitTestCase
 {
+    /**
+     * @return array[]
+     */
+    public static function getAdapters(): array
+    {
+        return [
+            [
+                Apcu::class,
+                [],
+                'apcu',
+            ],
+            [
+                Libmemcached::class,
+                getOptionsLibmemcached(),
+                'memcached',
+            ],
+            [
+                Memory::class,
+                [],
+                '',
+            ],
+            [
+                Redis::class,
+                getOptionsRedis(),
+                'redis',
+            ],
+            [
+                Stream::class,
+                [
+                    'storageDir' => outputDir(),
+                ],
+                '',
+            ],
+        ];
+    }
     /**
      * @return array[]
      */
@@ -348,138 +384,28 @@ final class GetSetTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2020-09-09
+     * @since  2026-04-14
      */
-    public function testStorageAdapterGetSet(
-        string $extension,
-        string $class,
-        array $options,
-        mixed $value
-    ): void {
-        if (!empty($extension)) {
-            $this->checkExtensionIsLoaded($extension);
-        }
-
-        $serializer = new SerializerFactory();
-        $adapter    = new $class($serializer, $options);
-
-        $key = uniqid('k-');
-
-        $result = $adapter->set($key, $value);
-        $this->assertTrue($result);
-
-        $result = $adapter->has($key);
-        $this->assertTrue($result);
-
-        /**
-         * This will issue delete
-         */
-        $result = $adapter->set($key, $value, 0);
-        $this->assertTrue($result);
-
-        $result = $adapter->has($key);
-        $this->assertFalse($result);
-    }
-
-    /**
-     * @return array[]
-     */
-    public static function getAdapters(): array
-    {
-        return [
-            [
-                Apcu::class,
-                [],
-                'apcu',
-            ],
-            [
-                Libmemcached::class,
-                getOptionsLibmemcached(),
-                'memcached',
-            ],
-            [
-                Memory::class,
-                [],
-                '',
-            ],
-            [
-                Redis::class,
-                getOptionsRedis(),
-                'redis',
-            ],
-            [
-                Stream::class,
-                [
-                    'storageDir' => outputDir(),
-                ],
-                '',
-            ],
-        ];
-    }
-
-    /**
-     * @dataProvider getAdapters
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2020-09-09
-     */
-    public function testStorageAdapterGetSetWithZeroTtl(
-        string $class,
-        array $options,
-        string $extension
-    ): void {
-        if (!empty($extension)) {
-            $this->checkExtensionIsLoaded($extension);
-        }
-
-        $serializer = new SerializerFactory();
-        $adapter    = new $class($serializer, $options);
-
-        $key = uniqid();
-
-        $result = $adapter->set($key, "test");
-        $this->assertTrue($result);
-
-        $result = $adapter->has($key);
-        $this->assertTrue($result);
-
-        /**
-         * This will issue delete
-         */
-        $result = $adapter->set($key, "test", 0);
-        $this->assertTrue($result);
-
-        $result = $adapter->has($key);
-        $this->assertFalse($result);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2020-09-09
-     */
-    public function testCacheAdapterStreamSet(): void
+    public function testCacheAdapterStreamGetSetWithDateInterval(): void
     {
         $serializer = new SerializerFactory();
         $adapter    = new Stream(
             $serializer,
-            [
-                'storageDir' => outputDir(),
-            ]
+            ['storageDir' => outputDir()]
         );
 
-        $data   = 'Phalcon Framework';
-        $actual = $adapter->set('test-key', $data);
-        $this->assertTrue($actual);
+        $key = uniqid();
+        $ttl = new DateInterval('PT2H');
 
-        $target   = outputDir() . 'ph-strm/te/st/-k/';
-        $expected = 's:3:"ttl";i:3600;s:7:"content";s:25:"s:17:"Phalcon Framework";";}';
-        $actual   = file_get_contents($target . 'test-key');
-        $this->assertStringContainsString($expected, $actual);
+        $result = $adapter->set($key, 'test-value', $ttl);
+        $this->assertTrue($result);
 
-        $this->safeDeleteFile($target . 'test-key');
+        $expected = 'test-value';
+        $actual   = $adapter->get($key);
+        $this->assertSame($expected, $actual);
+
+        $adapter->delete($key);
     }
 
     /**
@@ -524,6 +450,32 @@ final class GetSetTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
+    public function testCacheAdapterStreamSet(): void
+    {
+        $serializer = new SerializerFactory();
+        $adapter    = new Stream(
+            $serializer,
+            [
+                'storageDir' => outputDir(),
+            ]
+        );
+
+        $data   = 'Phalcon Framework';
+        $actual = $adapter->set('test-key', $data);
+        $this->assertTrue($actual);
+
+        $target   = outputDir() . 'ph-strm/te/st/-k/';
+        $expected = 's:3:"ttl";i:3600;s:7:"content";s:25:"s:17:"Phalcon Framework";";}';
+        $actual   = file_get_contents($target . 'test-key');
+        $this->assertStringContainsString($expected, $actual);
+
+        $this->safeDeleteFile($target . 'test-key');
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
     public function testCacheAdapterWeakGetSet(): void
     {
         $serializer = new SerializerFactory();
@@ -551,25 +503,27 @@ final class GetSetTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-14
      */
-    public function testCacheAdapterStreamGetSetWithDateInterval(): void
+    public function testCacheAdapterWeakGetSetGcObject(): void
     {
         $serializer = new SerializerFactory();
-        $adapter    = new Stream(
-            $serializer,
-            ['storageDir' => outputDir()]
-        );
+        $adapter    = new Weak($serializer);
 
         $key = uniqid();
-        $ttl = new DateInterval('PT2H');
+        $obj = new stdClass();
 
-        $result = $adapter->set($key, 'test-value', $ttl);
-        $this->assertTrue($result);
+        $adapter->set($key, $obj);
+        $this->assertTrue($adapter->has($key));
 
-        $expected = 'test-value';
-        $actual   = $adapter->get($key);
-        $this->assertSame($expected, $actual);
+        // Release the only strong reference so the GC can collect the object
+        unset($obj);
+        gc_collect_cycles();
 
-        $adapter->delete($key);
+        // get() finds a dead WeakRef, deletes the key, and returns null
+        $actual = $adapter->get($key);
+        $this->assertNull($actual);
+
+        // Key must have been cleaned up during the get() call
+        $this->assertFalse($adapter->has($key));
     }
 
     /**
@@ -599,28 +553,72 @@ final class GetSetTest extends AbstractUnitTestCase
 
     /**
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-14
+     * @since  2020-09-09
      */
-    public function testCacheAdapterWeakGetSetGcObject(): void
-    {
+    #[DataProvider('getExamples')]
+    public function testStorageAdapterGetSet(
+        string $extension,
+        string $class,
+        array $options,
+        mixed $value
+    ): void {
+        if (!empty($extension)) {
+            $this->checkExtensionIsLoaded($extension);
+        }
+
         $serializer = new SerializerFactory();
-        $adapter    = new Weak($serializer);
+        $adapter    = new $class($serializer, $options);
+
+        $key = uniqid('k-');
+
+        $result = $adapter->set($key, $value);
+        $this->assertTrue($result);
+
+        $result = $adapter->has($key);
+        $this->assertTrue($result);
+
+        /**
+         * This will issue delete
+         */
+        $result = $adapter->set($key, $value, 0);
+        $this->assertTrue($result);
+
+        $result = $adapter->has($key);
+        $this->assertFalse($result);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    #[DataProvider('getAdapters')]
+    public function testStorageAdapterGetSetWithZeroTtl(
+        string $class,
+        array $options,
+        string $extension
+    ): void {
+        if (!empty($extension)) {
+            $this->checkExtensionIsLoaded($extension);
+        }
+
+        $serializer = new SerializerFactory();
+        $adapter    = new $class($serializer, $options);
 
         $key = uniqid();
-        $obj = new stdClass();
 
-        $adapter->set($key, $obj);
-        $this->assertTrue($adapter->has($key));
+        $result = $adapter->set($key, "test");
+        $this->assertTrue($result);
 
-        // Release the only strong reference so the GC can collect the object
-        unset($obj);
-        gc_collect_cycles();
+        $result = $adapter->has($key);
+        $this->assertTrue($result);
 
-        // get() finds a dead WeakRef, deletes the key, and returns null
-        $actual = $adapter->get($key);
-        $this->assertNull($actual);
+        /**
+         * This will issue delete
+         */
+        $result = $adapter->set($key, "test", 0);
+        $this->assertTrue($result);
 
-        // Key must have been cleaned up during the get() call
-        $this->assertFalse($adapter->has($key));
+        $result = $adapter->has($key);
+        $this->assertFalse($result);
     }
 }

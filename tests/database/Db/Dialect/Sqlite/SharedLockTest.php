@@ -13,8 +13,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Db\Dialect\Sqlite;
 
+use Phalcon\Db\Dialect\Sqlite;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
+#[Group('mysql')]
+#[Group('pgsql')]
+#[Group('sqlite')]
 final class SharedLockTest extends AbstractDatabaseTestCase
 {
     /**
@@ -25,6 +30,11 @@ final class SharedLockTest extends AbstractDatabaseTestCase
      */
     public function testDbDialectSqliteSharedLock(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $dialect = new Sqlite();
+
+        $this->assertSame(
+            'SELECT * FROM robots',
+            $dialect->sharedLock('SELECT * FROM robots')
+        );
     }
 }

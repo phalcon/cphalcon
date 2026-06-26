@@ -15,6 +15,7 @@ namespace Phalcon\Tests\Unit\Mvc\View\Engine\Volt\Compiler;
 
 use Phalcon\Mvc\View\Engine\Volt\Compiler;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class AddFunctionTest extends AbstractUnitTestCase
 {
@@ -50,11 +51,10 @@ class AddFunctionTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getVoltAddFunction
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2017-01-17
      */
+    #[DataProvider('getVoltAddFunction')]
     public function testMvcViewEngineVoltCompilerAddFunction(
         string $name,
         string $funcName,
@@ -72,11 +72,10 @@ class AddFunctionTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getVoltAddFunctionClosure
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2017-01-17
      */
+    #[DataProvider('getVoltAddFunctionClosure')]
     public function testMvcViewEngineVoltCompilerAddFunctionClosure(
         string $name,
         string $funcName,

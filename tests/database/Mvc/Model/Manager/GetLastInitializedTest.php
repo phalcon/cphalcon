@@ -17,6 +17,7 @@ use Phalcon\Mvc\Model\Manager;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 final class GetLastInitializedTest extends AbstractDatabaseTestCase
 {
@@ -42,11 +43,10 @@ final class GetLastInitializedTest extends AbstractDatabaseTestCase
      * @issue  https://github.com/phalcon/cphalcon/issues/16566
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-30
-     *
-     * @group  mysql
-     * @group  pgsql
-     * @group  sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelManagerGetLastInitializedIsNullAfterInitialization(): void
     {
         /** @var Manager $manager */

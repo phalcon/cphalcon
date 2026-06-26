@@ -16,6 +16,8 @@ use Exception;
 use Phalcon\Logger\Adapter\AdapterInterface;
 use Phalcon\Logger\Exceptions\AdapterNotFound;
 use Phalcon\Logger\Exceptions\NoAdaptersConfigured;
+use Phalcon\Time\Clock\ClockInterface;
+use Phalcon\Time\Clock\SystemClock;
 
 /**
  * Abstract Logger Class
@@ -43,6 +45,11 @@ abstract class AbstractLogger
      */
     const CRITICAL  = 1;
     /**
+     * Default threshold and fallback sink. It sits between DEBUG (7) and
+     * TRACE (9) in the ordering, so the default log level excludes TRACE.
+     * It is also the fallback for unknown message levels and invalid
+     * setLogLevel() values.
+     *
      * @var int
      */
     const CUSTOM    = 8;
@@ -83,6 +90,13 @@ abstract class AbstractLogger
     protected adapters = [];
 
     /**
+     * Clock used to timestamp log items
+     *
+     * @var ClockInterface
+     */
+    protected clock;
+
+    /**
      * The excluded adapters for this log process
      *
      * @var array
@@ -112,13 +126,17 @@ abstract class AbstractLogger
      * @param string            $name     The name of the logger
      * @param array             $adapters The collection of adapters to be used
      *                                    for logging (default [])
-     * @param DateTimeZone|null $timezone Timezone. If omitted,
-     *                                    date_Default_timezone_get() is used
+     * @param DateTimeZone|null   $timezone Timezone. If omitted,
+     *                                      date_Default_timezone_get() is used
+     * @param ClockInterface|null $clock    Clock used to timestamp log items.
+     *                                      Defaults to a SystemClock on the
+     *                                      resolved timezone.
      */
     public function __construct(
         string name,
         array adapters = [],
-        <DateTimeZone> timezone = null
+        <DateTimeZone> timezone = null,
+        <ClockInterface> clock = null
     ) {
         var defaultTimezone;
 
@@ -135,6 +153,12 @@ abstract class AbstractLogger
         let this->name     = name,
             this->timezone = timezone;
 
+        if (null === clock) {
+            let clock = new SystemClock(timezone);
+        }
+
+        let this->clock = clock;
+
         this->setAdapters(adapters);
     }
 
@@ -149,6 +173,40 @@ abstract class AbstractLogger
     public function addAdapter(string name, <AdapterInterface> adapter) -> <static>
     {
         let this->adapters[name] = adapter;
+
+        return this;
+    }
+
+    /**
+     * Starts a transaction on every (non-excluded) adapter in the stack.
+     *
+     * @return static
+     */
+    public function begin() -> <static>
+    {
+        var adapter, collection;
+
+        let collection = array_diff_key(this->adapters, this->excluded);
+        for adapter in collection {
+            adapter->begin();
+        }
+
+        return this;
+    }
+
+    /**
+     * Commits the transaction on every (non-excluded) adapter in the stack.
+     *
+     * @return static
+     */
+    public function commit() -> <static>
+    {
+        var adapter, collection;
+
+        let collection = array_diff_key(this->adapters, this->excluded);
+        for adapter in collection {
+            adapter->commit();
+        }
 
         return this;
     }
@@ -248,6 +306,23 @@ abstract class AbstractLogger
     }
 
     /**
+     * Rolls back the transaction on every (non-excluded) adapter in the stack.
+     *
+     * @return static
+     */
+    public function rollback() -> <static>
+    {
+        var adapter, collection;
+
+        let collection = array_diff_key(this->adapters, this->excluded);
+        for adapter in collection {
+            adapter->rollback();
+        }
+
+        return this;
+    }
+
+    /**
      * Sets the adapters stack overriding what is already there
      *
      * @param array $adapters An array of adapters
@@ -262,7 +337,11 @@ abstract class AbstractLogger
     }
 
     /**
-     * Sets the adapters stack overriding what is already there
+     * Sets the minimum log level for the logger.
+     *
+     * An unknown level is not rejected: it is stored as CUSTOM, which sits
+     * between DEBUG and TRACE in the ordering, so the threshold becomes
+     * "everything except TRACE".
      *
      * @param int $level
      *
@@ -295,7 +374,7 @@ abstract class AbstractLogger
         string message,
         array context = []
     ) -> bool {
-        var adapter, collection, item, levelName, levels, method;
+        var adapter, collection, item, levelName, levels;
         if (this->logLevel >= level) {
             if (count(this->adapters) === 0) {
                 throw new NoAdaptersConfigured();
@@ -308,7 +387,7 @@ abstract class AbstractLogger
                 message,
                 levelName,
                 level,
-                new DateTimeImmutable("now", this->timezone),
+                this->clock->now(),
                 context
             );
 
@@ -317,19 +396,20 @@ abstract class AbstractLogger
              */
             let collection = array_diff_key(this->adapters, this->excluded);
             for adapter in collection {
-                let method = "process";
                 if (true === adapter->inTransaction()) {
-                    let method = "add";
+                    adapter->add(item);
+                } else {
+                    adapter->process(item);
                 }
-
-                adapter->{method}(item);
             }
-
-            /**
-             * Clear the excluded array since we made the call now
-             */
-            let this->excluded = [];
         }
+
+        /**
+         * Clear the excluded array since we made the call now. This runs
+         * regardless of the level filter so a filtered-out message cannot
+         * leave the exclusion armed for the next call.
+         */
+        let this->excluded = [];
 
         return true;
     }

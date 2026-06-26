@@ -45,6 +45,7 @@ class Cli extends FactoryDefault
             "settings":           new Service("Phalcon\\Support\\Settings", true),
             "modelsManager":      new Service("Phalcon\\Mvc\\Model\\Manager", true),
             "modelsMetadata":     new Service("Phalcon\\Mvc\\Model\\MetaData\\Memory", true),
+            "queueFactory":       new Service("Phalcon\\Queue\\QueueFactory", true),
             "router":             new Service("Phalcon\\Cli\\Router", true),
             "security":           new Service("Phalcon\\Encryption\\Security", true),
             "tag"                : new Service(

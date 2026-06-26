@@ -16,6 +16,7 @@ namespace Phalcon\Tests\Database\Db\Adapter\Pdo;
 use Phalcon\Db\Exception;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 use function env;
 
@@ -23,9 +24,10 @@ final class DropForeignKeyTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
 
-    private const PARENT = 'co_scratch_dropfk_parent';
     private const CHILD  = 'co_scratch_dropfk_child';
     private const FK     = 'co_scratch_dropfk_fk';
+
+    private const PARENT = 'co_scratch_dropfk_parent';
 
     public function setUp(): void
     {
@@ -65,10 +67,9 @@ final class DropForeignKeyTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-19
-     *
-     * @group mysql
-     * @group pgsql
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
     public function testDbAdapterPdoDropForeignKey(): void
     {
         $db = $this->container->get('db');
@@ -89,9 +90,8 @@ final class DropForeignKeyTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-19
-     *
-     * @group sqlite
      */
+    #[Group('sqlite')]
     public function testDbAdapterPdoDropForeignKeySqlite(): void
     {
         $db = $this->container->get('db');

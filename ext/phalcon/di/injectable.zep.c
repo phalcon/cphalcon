@@ -79,10 +79,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Di_Injectable)
 PHP_METHOD(Phalcon_Di_Injectable, __get)
 {
 	zval _2$$4;
-	zval _5;
+	zval _6;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval propertyName_zv, container, service, _0, _1$$4, _3$$4, _4$$4;
+	zval propertyName_zv, container, service, _0, _1$$4, _3$$4, _4$$4, _5$$5;
 	zend_string *propertyName = NULL;
 	zval *this_ptr = getThis();
 
@@ -93,7 +93,8 @@ PHP_METHOD(Phalcon_Di_Injectable, __get)
 	ZVAL_UNDEF(&_1$$4);
 	ZVAL_UNDEF(&_3$$4);
 	ZVAL_UNDEF(&_4$$4);
-	ZVAL_UNDEF(&_5);
+	ZVAL_UNDEF(&_5$$5);
+	ZVAL_UNDEF(&_6);
 	ZVAL_UNDEF(&_2$$4);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(propertyName)
@@ -130,12 +131,16 @@ PHP_METHOD(Phalcon_Di_Injectable, __get)
 	if (zephir_is_true(&_0)) {
 		ZEPHIR_CALL_METHOD(&service, &container, "getshared", NULL, 0, &propertyName_zv);
 		zephir_check_call_status();
-		zephir_update_property_zval_zval(this_ptr, &propertyName_zv, &service);
+		ZEPHIR_CALL_FUNCTION(&_5$$5, "property_exists", NULL, 9, this_ptr, &propertyName_zv);
+		zephir_check_call_status();
+		if (zephir_is_true(&_5$$5)) {
+			zephir_update_property_zval_zval(this_ptr, &propertyName_zv, &service);
+		}
 		RETURN_CCTOR(&service);
 	}
-	ZEPHIR_INIT_VAR(&_5);
-	ZEPHIR_CONCAT_SV(&_5, "Access to undefined property ", &propertyName_zv);
-	ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", NULL, 14, &_5);
+	ZEPHIR_INIT_VAR(&_6);
+	ZEPHIR_CONCAT_SV(&_6, "Access to undefined property ", &propertyName_zv);
+	ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", NULL, 10, &_6);
 	zephir_check_call_status();
 	RETURN_MM_NULL();
 }
@@ -191,9 +196,9 @@ PHP_METHOD(Phalcon_Di_Injectable, getDI)
 		if (UNEXPECTED(Z_TYPE_P(&container) != IS_OBJECT)) {
 			ZEPHIR_INIT_VAR(&_1$$4);
 			object_init_ex(&_1$$4, phalcon_di_exceptions_containerrequired_ce);
-			ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 15);
+			ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 11);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_1$$4, "phalcon/Di/Injectable.zep", 126);
+			zephir_throw_exception_debug(&_1$$4, "phalcon/Di/Injectable.zep", 133);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}

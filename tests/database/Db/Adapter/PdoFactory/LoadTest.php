@@ -20,6 +20,7 @@ use Phalcon\Db\Adapter\Pdo\Sqlite;
 use Phalcon\Db\Adapter\PdoFactory;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Traits\FactoryTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 use function array_intersect_assoc;
 
@@ -35,9 +36,8 @@ final class LoadTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-05-19
-     *
-     * @group mysql
      */
+    #[Group('mysql')]
     public function testDbAdapterPdoFactoryLoadMysql(): void
     {
         $options = $this->config->database;
@@ -49,9 +49,8 @@ final class LoadTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-05-19
-     *
-     * @group mysql
      */
+    #[Group('mysql')]
     public function testDbAdapterPdoFactoryLoadMysqlArray(): void
     {
         $options = $this->arrayConfig['database'];
@@ -63,9 +62,8 @@ final class LoadTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-05-19
-     *
-     * @group pgsql
      */
+    #[Group('pgsql')]
     public function testDbAdapterPdoFactoryLoadPgsql(): void
     {
         $data    = $this->getPostgresqlData();
@@ -77,9 +75,8 @@ final class LoadTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-05-19
-     *
-     * @group pgsql
      */
+    #[Group('pgsql')]
     public function testDbAdapterPdoFactoryLoadPgsqlArray(): void
     {
         $data = $this->getPostgresqlData();
@@ -90,9 +87,8 @@ final class LoadTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-05-19
-     *
-     * @group sqlite
      */
+    #[Group('sqlite')]
     public function testDbAdapterPdoFactoryLoadSqlite(): void
     {
         $data    = $this->getSqliteData();
@@ -104,9 +100,8 @@ final class LoadTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-05-19
-     *
-     * @group sqlite
      */
+    #[Group('sqlite')]
     public function testDbAdapterPdoFactoryLoadSqliteArray(): void
     {
         $data = $this->getSqliteData();

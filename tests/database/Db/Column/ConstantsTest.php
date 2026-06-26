@@ -15,6 +15,7 @@ namespace Phalcon\Tests\Database\Db\Column;
 
 use Phalcon\Db\Column;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
 final class ConstantsTest extends AbstractDatabaseTestCase
 {
@@ -23,11 +24,10 @@ final class ConstantsTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-10-26
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testDbColumnConstants(): void
     {
         $bind = [

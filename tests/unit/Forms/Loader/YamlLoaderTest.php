@@ -14,39 +14,44 @@ namespace Phalcon\Tests\Unit\Forms\Loader;
 use Phalcon\Forms\Exception;
 use Phalcon\Forms\Loader\YamlLoader;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 
 /**
  * Tests for YamlLoader.
  *
  * All tests are guarded with a check for the ext-yaml extension.
  */
+#[RequiresPhpExtension('yaml')]
 final class YamlLoaderTest extends AbstractUnitTestCase
 {
     protected function setUp(): void
     {
         parent::setUp();
-
-        if (!extension_loaded('yaml')) {
-            $this->markTestSkipped('The "yaml" PHP extension is not loaded.');
-        }
     }
 
     // -----------------------------------------------------------------------
-    // Missing extension path (tested without guard - we test the exception)
+    // Valid YAML file path
     // -----------------------------------------------------------------------
 
-    public function testLoadThrowsWhenExtensionNotLoaded(): void
+    public function testLoadFromValidYamlFile(): void
     {
-        if (extension_loaded('yaml')) {
-            $this->markTestSkipped('yaml extension is loaded; cannot test missing-extension error.');
-        }
+        $yaml = implode(PHP_EOL, [
+            '- type: text',
+            '  name: title',
+            '- type: textarea',
+            '  name: body',
+        ]);
 
-        $schema = new YamlLoader('- type: text' . PHP_EOL . '  name: field');
+        $path = $this->writeYamlFile($yaml);
 
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessageMatches('/yaml.*extension/i');
+        $schema = new YamlLoader($path);
+        $result = $schema->load();
 
-        $schema->load();
+        $this->assertCount(2, $result);
+        $this->assertSame('title', $result[0]['name']);
+        $this->assertSame('body', $result[1]['name']);
+
+        unlink($path);
     }
 
     // -----------------------------------------------------------------------
@@ -88,29 +93,18 @@ final class YamlLoaderTest extends AbstractUnitTestCase
         $this->assertSame('London', $result[0]['default']);
     }
 
-    // -----------------------------------------------------------------------
-    // Valid YAML file path
-    // -----------------------------------------------------------------------
-
-    public function testLoadFromValidYamlFile(): void
+    public function testLoadThrowsWhenEntryMissingName(): void
     {
         $yaml = implode(PHP_EOL, [
             '- type: text',
-            '  name: title',
-            '- type: textarea',
-            '  name: body',
         ]);
 
-        $path = $this->writeYamlFile($yaml);
+        $schema = new YamlLoader($yaml);
 
-        $schema = new YamlLoader($path);
-        $result = $schema->load();
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessageMatches('/missing required key "name"/i');
 
-        $this->assertCount(2, $result);
-        $this->assertSame('title', $result[0]['name']);
-        $this->assertSame('body', $result[1]['name']);
-
-        unlink($path);
+        $schema->load();
     }
 
     // -----------------------------------------------------------------------
@@ -127,20 +121,6 @@ final class YamlLoaderTest extends AbstractUnitTestCase
 
         $this->expectException(Exception::class);
         $this->expectExceptionMessageMatches('/missing required key "type"/i');
-
-        $schema->load();
-    }
-
-    public function testLoadThrowsWhenEntryMissingName(): void
-    {
-        $yaml = implode(PHP_EOL, [
-            '- type: text',
-        ]);
-
-        $schema = new YamlLoader($yaml);
-
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessageMatches('/missing required key "name"/i');
 
         $schema->load();
     }

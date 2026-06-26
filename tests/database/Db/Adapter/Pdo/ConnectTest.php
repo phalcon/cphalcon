@@ -17,6 +17,7 @@ use PDO;
 use Phalcon\Db\Adapter\PdoFactory;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 use function getOptionsMysql;
 
@@ -35,11 +36,32 @@ final class ConnectTest extends AbstractDatabaseTestCase
     }
 
     /**
+     * Tests Phalcon\Db\Adapter\Pdo :: connect() (close + reconnect cycle)
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-18
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testDbAdapterPdoConnect(): void
+    {
+        $this->setDatabase();
+
+        $db = $this->container->get('db');
+
+        $db->close();
+        $db->connect();
+
+        $row = $db->fetchOne('SELECT 1 AS one');
+        $this->assertSame(1, (int) $row['one']);
+    }
+
+    /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-04-20
-     *
-     * @group mysql
      */
+    #[Group('mysql')]
     public function testDbAdapterPdoConnectPersistentMysql(): void
     {
         $options               = getOptionsMysql();
@@ -62,9 +84,8 @@ final class ConnectTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-04-20
-     *
-     * @group pgsql
      */
+    #[Group('pgsql')]
     public function testDbAdapterPdoConnectPersistentPgsql(): void
     {
         // The high-level `persistent` descriptor key is read but not
@@ -91,9 +112,8 @@ final class ConnectTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-04-20
-     *
-     * @group sqlite
      */
+    #[Group('sqlite')]
     public function testDbAdapterPdoConnectPersistentSqlite(): void
     {
         $options               = getOptionsSqlite();
@@ -111,28 +131,5 @@ final class ConnectTest extends AbstractDatabaseTestCase
         $this->assertEquals($expected, $actual);
 
         $connection->close();
-    }
-
-    /**
-     * Tests Phalcon\Db\Adapter\Pdo :: connect() (close + reconnect cycle)
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-05-18
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
-     */
-    public function testDbAdapterPdoConnect(): void
-    {
-        $this->setDatabase();
-
-        $db = $this->container->get('db');
-
-        $db->close();
-        $db->connect();
-
-        $row = $db->fetchOne('SELECT 1 AS one');
-        $this->assertSame(1, (int) $row['one']);
     }
 }

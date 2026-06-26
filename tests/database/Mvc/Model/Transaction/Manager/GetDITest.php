@@ -13,16 +13,39 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Mvc\Model\Transaction\Manager;
 
+use Phalcon\Mvc\Model\Transaction\Manager;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
+#[Group('mysql')]
+#[Group('pgsql')]
+#[Group('sqlite')]
 final class GetDITest extends AbstractDatabaseTestCase
 {
+    use DiTrait;
+
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+    }
+
+    public function tearDown(): void
+    {
+        $this->tearDownDatabase();
+    }
+
     /**
+     * Tests Phalcon\Mvc\Model\Transaction\Manager :: getDI()
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2026-06-22
      */
     public function testMvcModelTransactionManagerGetDI(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $manager = new Manager($this->container);
+
+        $this->assertSame($this->container, $manager->getDI());
     }
 }

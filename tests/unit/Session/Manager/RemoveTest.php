@@ -16,7 +16,9 @@ namespace Phalcon\Tests\Unit\Session\Manager;
 use Phalcon\Session\Manager;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\BackupGlobals;
 
+#[BackupGlobals(true)]
 final class RemoveTest extends AbstractUnitTestCase
 {
     use DiTrait;

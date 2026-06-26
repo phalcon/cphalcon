@@ -30,7 +30,6 @@ final class SetDefaultActionTest extends AbstractUnitTestCase
         $dispatcher->setDefaultAction('list');
 
         $property = new ReflectionProperty($dispatcher, 'defaultAction');
-        $property->setAccessible(true);
         $this->assertSame('list', $property->getValue($dispatcher));
     }
 }

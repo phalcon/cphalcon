@@ -143,7 +143,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, callMethod)
 	zephir_create_array(&_3, 2, 0);
 	zephir_array_fast_append(&_3, &handler);
 	zephir_array_fast_append(&_3, &method_zv);
-	ZEPHIR_CALL_FUNCTION(&_4, "array_values", NULL, 27, arguments);
+	ZEPHIR_CALL_FUNCTION(&_4, "array_values", NULL, 29, arguments);
 	zephir_check_call_status();
 	ZEPHIR_CALL_USER_FUNC_ARRAY(return_value, &_3, &_4);
 	zephir_check_call_status();

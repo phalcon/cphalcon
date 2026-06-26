@@ -108,7 +108,15 @@ interface ModelInterface
     public function delete() -> bool;
 
     /**
-     * Allows to query a set of records that match the specified conditions
+     * Allows to query a set of records that match the specified conditions.
+     *
+     * This is one of four ways to express a query against a model, each with an
+     * intended lane:
+     *
+     * - find-parameter arrays (this method) for simple lookups;
+     * - `Phalcon\Mvc\Model\Query\Builder` as the canonical programmatic API;
+     * - `Phalcon\Mvc\Model\Criteria` as request-bound convenience;
+     * - raw PHQL via `Phalcon\Mvc\Model\Query` for everything else.
      *
      * @param array|string|int|null parameters
      *

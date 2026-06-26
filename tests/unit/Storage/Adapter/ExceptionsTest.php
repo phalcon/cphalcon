@@ -20,6 +20,7 @@ use Phalcon\Storage\Exception as StorageException;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Support\Exception as HelperException;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 
 use function array_merge;
 use function file_put_contents;
@@ -35,12 +36,33 @@ final class ExceptionsTest extends AbstractUnitTestCase
 {
     /**
      * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-01
+     */
+    #[RequiresPhpExtension('redis')]
+    public function testStorageAdapterRedisClusterGetAdapterFailedConnection(): void
+    {
+        $this->expectException(StorageException::class);
+        $this->expectExceptionMessage(
+            'Could not connect to the Redis Cluster server due to: '
+        );
+
+        $serializer = new SerializerFactory();
+        $adapter    = new RedisCluster(
+            $serializer,
+            [
+                'hosts' => ['127.0.0.1:19999'],
+            ]
+        );
+
+        $adapter->get('test');
+    }
+    /**
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
+    #[RequiresPhpExtension('redis')]
     public function testStorageAdapterRedisGetSetFailedAuth(): void
     {
-        $this->checkExtensionIsLoaded('redis');
-
         $this->expectException(StorageException::class);
         $this->expectExceptionMessage(
             'Failed to authenticate with the Redis server'
@@ -64,10 +86,9 @@ final class ExceptionsTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
+    #[RequiresPhpExtension('redis')]
     public function testStorageAdapterRedisGetSetFailedSslLocalhost(): void
     {
-        $this->checkExtensionIsLoaded('redis');
-
         $this->expectException(StorageException::class);
 //        $this->expectExceptionMessage(
 //            'Connection refused'
@@ -90,10 +111,9 @@ final class ExceptionsTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
+    #[RequiresPhpExtension('redis')]
     public function testStorageAdapterRedisGetSetWrongIndex(): void
     {
-        $this->checkExtensionIsLoaded('redis');
-
         $this->expectException(StorageException::class);
         $this->expectExceptionMessage('Redis server selected database failed');
 
@@ -159,29 +179,5 @@ final class ExceptionsTest extends AbstractUnitTestCase
         $this->assertSame($expected, $actual);
 
         $this->safeDeleteFile($target . 'test-key');
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-01
-     */
-    public function testStorageAdapterRedisClusterGetAdapterFailedConnection(): void
-    {
-        $this->checkExtensionIsLoaded('redis');
-
-        $this->expectException(StorageException::class);
-        $this->expectExceptionMessage(
-            'Could not connect to the Redis Cluster server due to: '
-        );
-
-        $serializer = new SerializerFactory();
-        $adapter    = new RedisCluster(
-            $serializer,
-            [
-                'hosts' => ['127.0.0.1:19999'],
-            ]
-        );
-
-        $adapter->get('test');
     }
 }

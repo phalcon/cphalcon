@@ -15,6 +15,7 @@ namespace Phalcon\Tests\Unit\Assets\Asset;
 
 use Phalcon\Assets\Asset;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
 final class GetSetTypeTest extends AbstractUnitTestCase
@@ -39,11 +40,10 @@ final class GetSetTypeTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider providerAssets
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
+    #[DataProvider('providerAssets')]
     public function testAssetsAssetSetType(
         string $type,
         string $path,

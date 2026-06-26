@@ -18,6 +18,7 @@ use Phalcon\Db\Dialect\Mysql;
 use Phalcon\Db\Dialect\Postgresql;
 use Phalcon\Db\Dialect\Sqlite;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
 final class ForUpdateModifierTest extends AbstractDatabaseTestCase
 {
@@ -27,10 +28,9 @@ final class ForUpdateModifierTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group mysql
-     * @group pgsql
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
     public function testDbDialectForUpdateDefaultUnchanged(): void
     {
         $sql = 'SELECT * FROM robots';
@@ -46,14 +46,31 @@ final class ForUpdateModifierTest extends AbstractDatabaseTestCase
     }
 
     /**
+     * Passing the explicit `Dialect::LOCK_NONE` constant matches the default.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-15
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    public function testDbDialectForUpdateLockNoneMatchesDefault(): void
+    {
+        $sql = 'SELECT * FROM robots';
+
+        $this->assertSame(
+            $sql . ' FOR UPDATE',
+            (new Mysql())->forUpdate($sql, DialectContract::LOCK_NONE)
+        );
+    }
+
+    /**
      * Passing `Dialect::LOCK_NOWAIT` appends `NOWAIT`.
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group mysql
-     * @group pgsql
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
     public function testDbDialectForUpdateNoWait(): void
     {
         $sql = 'SELECT * FROM robots';
@@ -73,10 +90,9 @@ final class ForUpdateModifierTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group mysql
-     * @group pgsql
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
     public function testDbDialectForUpdateSkipLocked(): void
     {
         $sql = 'SELECT * FROM robots';
@@ -95,32 +111,12 @@ final class ForUpdateModifierTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Passing the explicit `Dialect::LOCK_NONE` constant matches the default.
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-05-15
-     *
-     * @group mysql
-     * @group pgsql
-     */
-    public function testDbDialectForUpdateLockNoneMatchesDefault(): void
-    {
-        $sql = 'SELECT * FROM robots';
-
-        $this->assertSame(
-            $sql . ' FOR UPDATE',
-            (new Mysql())->forUpdate($sql, DialectContract::LOCK_NONE)
-        );
-    }
-
-    /**
      * SQLite ignores the modifier - it has no row-level locking.
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group sqlite
      */
+    #[Group('sqlite')]
     public function testDbDialectSqliteForUpdateIgnoresModifier(): void
     {
         $sql     = 'SELECT * FROM robots';

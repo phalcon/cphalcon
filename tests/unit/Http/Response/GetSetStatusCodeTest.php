@@ -17,6 +17,7 @@ use Phalcon\Mvc\Micro;
 use Phalcon\Tests\Support\Page\Http;
 use Phalcon\Tests\Unit\Http\Helper\AbstractHttpBase;
 use Phalcon\Tests\Unit\Http\Response\Fake\FakeHttpResponseContentMiddleware;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 
 use function ob_get_clean;
 use function ob_start;
@@ -70,43 +71,9 @@ final class GetSetStatusCodeTest extends AbstractHttpBase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-08
      */
-    public function testHttpResponseSetStatusCodeSend(): void
-    {
-        $this->markTestSkipped('Skipping until I figure it out without xdebug');
-        $response = $this->getResponseObject();
-
-        $body = ['test' => 123];
-        $response
-            ->resetHeaders()
-            ->setStatusCode(Http::CODE_404)
-            ->setContentType(Http::CONTENT_TYPE_JSON, Http::UTF8)
-            ->setJsonContent($body, JSON_NUMERIC_CHECK)
-        ;
-
-        ob_start();
-        $response->send();
-        $contents = ob_get_clean();
-
-        $expected = [
-            'Status: ' . Http::MESSAGE_404_NOT_FOUND,
-            'Content-Type: ' . Http::CONTENT_TYPE_JSON,
-        ];
-        $actual   = xdebug_get_headers();
-        $this->assertSame($expected, $actual);
-
-        $expected = '{"test":123}';
-        $actual   = $contents;
-        $this->assertSame($expected, $actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2014-10-08
-     */
+    #[RequiresPhpExtension('xdebug')]
     public function testHttpResponseSetStatusCodeSendMicro(): void
     {
-        $this->checkExtensionIsLoaded('xdebug');
-
         $application = new Micro($this->container);
 
         $application->before(new FakeHttpResponseContentMiddleware());
@@ -139,6 +106,19 @@ final class GetSetStatusCodeTest extends AbstractHttpBase
     }
 
     /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    public function testHttpResponseSetStatusCodeUnknownCodeThrows(): void
+    {
+        $response = $this->getResponseObject();
+
+        $this->expectException(\Phalcon\Http\Response\Exception::class);
+        $this->expectExceptionMessage('Non-standard status-code given without a message');
+        $response->setStatusCode(999);
+    }
+
+    /**
      * @issue  https://github.com/phalcon/cphalcon/issues/1892
      * @author Kamil Skowron <git@hedonsoftware.com>
      * @since  2014-05-28
@@ -160,19 +140,6 @@ final class GetSetStatusCodeTest extends AbstractHttpBase
         $expected = Http::MESSAGE_409_CONFLICT;
         $actual   = $headers->get(Http::STATUS);
         $this->assertSame($expected, $actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2024-01-01
-     */
-    public function testHttpResponseSetStatusCodeUnknownCodeThrows(): void
-    {
-        $response = $this->getResponseObject();
-
-        $this->expectException(\Phalcon\Http\Response\Exception::class);
-        $this->expectExceptionMessage('Non-standard status-code given without a message');
-        $response->setStatusCode(999);
     }
 
     public function testSetStatusCodeDefaultMessage(): void

@@ -18,6 +18,7 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 use function date;
 use function uniqid;
@@ -39,12 +40,10 @@ final class CreateTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
-     * @group pgsql
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelCreate(): void
     {
         $title                    = uniqid('inv-');
@@ -61,30 +60,53 @@ final class CreateTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Inserting with an explicit primary key on PostgreSQL must not throw a
-     * "currval of sequence not yet defined in this session" error.
+     * Calling create() on a record that already exists must return false with
+     * an `InvalidCreateAttempt` message and must not raise a deprecation
+     * warning when constructing the message.
      *
-     * @issue  https://github.com/phalcon/cphalcon/issues/16436
+     * @issue  https://github.com/phalcon/cphalcon/issues/17224
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-26
-     *
-     * @group pgsql
+     * @since  2026-06-25
      */
-    public function testMvcModelCreateWithExplicitIdPgsql(): void
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelCreateAlreadyExists(): void
     {
         $date                     = date('Y-m-d H:i:s');
         $invoice                  = new Invoices();
-        $invoice->inv_id          = 77;
         $invoice->inv_cst_id      = 2;
-        $invoice->inv_status_flag = 1;
+        $invoice->inv_status_flag = 3;
         $invoice->inv_title       = uniqid('inv-');
-        $invoice->inv_total       = 50.00;
+        $invoice->inv_total       = 100.12;
         $invoice->inv_created_at  = $date;
+
+        $this->assertNotFalse($invoice->create());
+
+        $deprecations = [];
+        set_error_handler(
+            static function (int $errno, string $errstr) use (&$deprecations): bool {
+                $deprecations[] = $errstr;
+
+                return true;
+            },
+            E_DEPRECATED
+        );
 
         $result = $invoice->create();
 
-        $this->assertNotFalse($result);
-        $this->assertSame(77, (int) $invoice->inv_id);
+        restore_error_handler();
+
+        $this->assertFalse($result);
+        $this->assertEmpty($deprecations);
+
+        $messages = $invoice->getMessages();
+        $this->assertCount(1, $messages);
+
+        $expected = 'Record cannot be created because it already exists';
+        $this->assertSame($expected, $messages[0]->getMessage());
+        $this->assertSame('', $messages[0]->getField());
+        $this->assertSame('InvalidCreateAttempt', $messages[0]->getType());
     }
 
     /**
@@ -94,9 +116,8 @@ final class CreateTest extends AbstractDatabaseTestCase
      * @issue  https://github.com/phalcon/cphalcon/issues/16436
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-26
-     *
-     * @group pgsql
      */
+    #[Group('pgsql')]
     public function testMvcModelCreateAutoIncrementAfterExplicitIdPgsql(): void
     {
         $date = date('Y-m-d H:i:s');
@@ -127,5 +148,31 @@ final class CreateTest extends AbstractDatabaseTestCase
 
         $this->assertNotFalse($second->create());
         $this->assertGreaterThan(77, (int) $second->inv_id);
+    }
+
+    /**
+     * Inserting with an explicit primary key on PostgreSQL must not throw a
+     * "currval of sequence not yet defined in this session" error.
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/16436
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-26
+     */
+    #[Group('pgsql')]
+    public function testMvcModelCreateWithExplicitIdPgsql(): void
+    {
+        $date                     = date('Y-m-d H:i:s');
+        $invoice                  = new Invoices();
+        $invoice->inv_id          = 77;
+        $invoice->inv_cst_id      = 2;
+        $invoice->inv_status_flag = 1;
+        $invoice->inv_title       = uniqid('inv-');
+        $invoice->inv_total       = 50.00;
+        $invoice->inv_created_at  = $date;
+
+        $result = $invoice->create();
+
+        $this->assertNotFalse($result);
+        $this->assertSame(77, (int) $invoice->inv_id);
     }
 }

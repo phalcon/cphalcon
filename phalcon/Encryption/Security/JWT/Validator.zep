@@ -10,11 +10,13 @@
 
 namespace Phalcon\Encryption\Security\JWT;
 
+use DateTimeImmutable;
 use Phalcon\Encryption\Security\JWT\Exceptions\InvalidAudienceType;
 use Phalcon\Encryption\Security\JWT\Exceptions\ValidatorException;
 use Phalcon\Encryption\Security\JWT\Signer\SignerInterface;
 use Phalcon\Encryption\Security\JWT\Token\Enum;
 use Phalcon\Encryption\Security\JWT\Token\Token;
+use Phalcon\Time\Clock\ClockInterface;
 
 /**
  * Class Validator
@@ -44,15 +46,28 @@ class Validator
     /**
      * Validator constructor.
      *
-     * @param Token $token
-     * @param int   $timeShift
+     * @param Token               $token
+     * @param int                 $timeShift Legacy clock-skew offset in seconds
+     *                                       added to validated timestamps.
+     *                                       Prefer injecting a ClockInterface
+     *                                       for testable time; retained for BC.
+     * @param ClockInterface|null $clock     Clock used to read "now" at
+     *                                       construction. Defaults to the
+     *                                       system wall clock (time()).
      */
-    public function __construct(<Token> token, int timeShift = 0)
-    {
+    public function __construct(
+        <Token> token,
+        int timeShift = 0,
+        <ClockInterface> clock = null
+    ) {
         var now;
 
-        let now             = time(),
-            this->token     = token,
+        let now = time();
+        if (null !== clock) {
+            let now = clock->now()->getTimestamp();
+        }
+
+        let this->token     = token,
             this->timeShift = timeShift,
             this->claims    = [
                 Enum::AUDIENCE        : null,
@@ -188,7 +203,7 @@ class Validator
 
         if (
             this->token->getClaims()->has(Enum::EXPIRATION_TIME) &&
-            this->getTimestamp(timestamp) > $tokenExpirationTime
+            this->getTimestamp(timestamp) > tokenExpirationTime
         ) {
             let this->errors[] = "Validation: the token has expired";
         }
@@ -210,7 +225,7 @@ class Validator
 
         let tokenId = (string) this->token->getClaims()->get(Enum::ID);
 
-        if ($id !== tokenId) {
+        if (id !== tokenId) {
             let this->errors[] = "Validation: incorrect Id";
         }
 
@@ -231,7 +246,7 @@ class Validator
 
         let tokenIssuedAt = (int) this->token->getClaims()->get(Enum::ISSUED_AT);
 
-        if (this->getTimestamp($timestamp) <= tokenIssuedAt) {
+        if (this->getTimestamp(timestamp) <= tokenIssuedAt) {
             let this->errors[] = "Validation: the token cannot be used yet (future)";
         }
 
@@ -273,7 +288,7 @@ class Validator
 
         let tokenNotBefore = (int) this->token->getClaims()->get(Enum::NOT_BEFORE);
 
-        if (this->getTimestamp($timestamp) <= tokenNotBefore) {
+        if (this->getTimestamp(timestamp) <= tokenNotBefore) {
             let this->errors[] = "Validation: the token cannot be used yet (not before)";
         }
 

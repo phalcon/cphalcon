@@ -46,6 +46,10 @@ final class SettingsGetSetTest extends AbstractUnitTestCase
         $this->assertSame($expected, $actual);
 
         $expected = false;
+        $actual = Settings::get('orm.call_setters_on_hydration');
+        $this->assertSame($expected, $actual);
+
+        $expected = false;
         $actual = Settings::get('orm.case_insensitive_column_map');
         $this->assertSame($expected, $actual);
 
@@ -144,12 +148,34 @@ final class SettingsGetSetTest extends AbstractUnitTestCase
 
     /**
      * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-04
+     */
+    public function testSupportSettingsReset(): void
+    {
+        Settings::set('db.escape_identifiers', false);
+        Settings::set('db.force_casting', true);
+        Settings::set('orm.events', false);
+
+        $this->assertSame(false, Settings::get('db.escape_identifiers'));
+        $this->assertSame(true, Settings::get('db.force_casting'));
+        $this->assertSame(false, Settings::get('orm.events'));
+
+        Settings::reset();
+
+        $this->assertSame(true, Settings::get('db.escape_identifiers'));
+        $this->assertSame(false, Settings::get('db.force_casting'));
+        $this->assertSame(true, Settings::get('orm.events'));
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-11
      */
     public function testSupportSettingsSetAllKnownKeys(): void
     {
         $keys = [
             'form.strict_entity_property_check',
+            'orm.call_setters_on_hydration',
             'orm.case_insensitive_column_map',
             'orm.cast_last_insert_id_to_int',
             'orm.cast_on_hydrate',
@@ -187,26 +213,5 @@ final class SettingsGetSetTest extends AbstractUnitTestCase
         Settings::set('unknown.key', true);
         $actual = Settings::get('unknown.key');
         $this->assertNull($actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-04
-     */
-    public function testSupportSettingsReset(): void
-    {
-        Settings::set('db.escape_identifiers', false);
-        Settings::set('db.force_casting', true);
-        Settings::set('orm.events', false);
-
-        $this->assertSame(false, Settings::get('db.escape_identifiers'));
-        $this->assertSame(true, Settings::get('db.force_casting'));
-        $this->assertSame(false, Settings::get('orm.events'));
-
-        Settings::reset();
-
-        $this->assertSame(true, Settings::get('db.escape_identifiers'));
-        $this->assertSame(false, Settings::get('db.force_casting'));
-        $this->assertSame(true, Settings::get('orm.events'));
     }
 }

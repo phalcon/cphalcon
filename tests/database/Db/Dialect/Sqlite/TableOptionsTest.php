@@ -13,8 +13,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Db\Dialect\Sqlite;
 
+use Phalcon\Db\Dialect\Sqlite;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
+#[Group('mysql')]
+#[Group('pgsql')]
+#[Group('sqlite')]
 final class TableOptionsTest extends AbstractDatabaseTestCase
 {
     /**
@@ -25,6 +30,9 @@ final class TableOptionsTest extends AbstractDatabaseTestCase
      */
     public function testDbDialectSqliteTableOptions(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $dialect = new Sqlite();
+
+        $this->assertSame('', $dialect->tableOptions('robots'));
+        $this->assertSame('', $dialect->tableOptions('robots', 'schema'));
     }
 }

@@ -24,66 +24,22 @@ final class GetMethodRoutesTest extends AbstractUnitTestCase
     use RouterTrait;
 
     /**
-     * Tests that a route with a single HTTP method is indexed under that method.
+     * Tests that clear() empties the method index.
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-13
      */
-    public function testGetMethodRoutesIndexesSingleMethod(): void
+    public function testGetMethodRoutesClearedOnClear(): void
     {
         Route::reset();
 
         $router = $this->getRouter(false);
         $router->addGet('/users', ['controller' => 'users', 'action' => 'index']);
+        $router->clear();
 
         $index = $router->getMethodRoutes();
 
-        $this->assertArrayHasKey('GET', $index);
-        $this->assertCount(1, $index['GET']);
-        $this->assertArrayNotHasKey('*', $index);
-    }
-
-    /**
-     * Tests that a route with multiple HTTP methods is indexed under each method,
-     * and the same route object is shared across buckets.
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-05-13
-     */
-    public function testGetMethodRoutesIndexesMultipleMethods(): void
-    {
-        Route::reset();
-
-        $router = $this->getRouter(false);
-        $router->add('/products', ['controller' => 'products', 'action' => 'list'], ['GET', 'POST']);
-
-        $index = $router->getMethodRoutes();
-
-        $this->assertArrayHasKey('GET', $index);
-        $this->assertArrayHasKey('POST', $index);
-        $this->assertCount(1, $index['GET']);
-        $this->assertCount(1, $index['POST']);
-        $this->assertSame($index['GET'][0], $index['POST'][0]);
-    }
-
-    /**
-     * Tests that a route with no HTTP constraint is indexed under "*".
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-05-13
-     */
-    public function testGetMethodRoutesIndexesUnconstrainedRouteUnderStar(): void
-    {
-        Route::reset();
-
-        $router = $this->getRouter(false);
-        $router->add('/about', ['controller' => 'about', 'action' => 'index']);
-
-        $index = $router->getMethodRoutes();
-
-        $this->assertArrayHasKey('*', $index);
-        $this->assertCount(1, $index['*']);
-        $this->assertArrayNotHasKey('GET', $index);
+        $this->assertEmpty($index);
     }
 
     /**
@@ -114,6 +70,29 @@ final class GetMethodRoutesTest extends AbstractUnitTestCase
     }
 
     /**
+     * Tests that a route with multiple HTTP methods is indexed under each method,
+     * and the same route object is shared across buckets.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-13
+     */
+    public function testGetMethodRoutesIndexesMultipleMethods(): void
+    {
+        Route::reset();
+
+        $router = $this->getRouter(false);
+        $router->add('/products', ['controller' => 'products', 'action' => 'list'], ['GET', 'POST']);
+
+        $index = $router->getMethodRoutes();
+
+        $this->assertArrayHasKey('GET', $index);
+        $this->assertArrayHasKey('POST', $index);
+        $this->assertCount(1, $index['GET']);
+        $this->assertCount(1, $index['POST']);
+        $this->assertSame($index['GET'][0], $index['POST'][0]);
+    }
+
+    /**
      * Tests that POSITION_FIRST routes appear in the method index.
      *
      * @author Phalcon Team <team@phalcon.io>
@@ -137,21 +116,42 @@ final class GetMethodRoutesTest extends AbstractUnitTestCase
     }
 
     /**
-     * Tests that clear() empties the method index.
+     * Tests that a route with a single HTTP method is indexed under that method.
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-13
      */
-    public function testGetMethodRoutesClearedOnClear(): void
+    public function testGetMethodRoutesIndexesSingleMethod(): void
     {
         Route::reset();
 
         $router = $this->getRouter(false);
         $router->addGet('/users', ['controller' => 'users', 'action' => 'index']);
-        $router->clear();
 
         $index = $router->getMethodRoutes();
 
-        $this->assertEmpty($index);
+        $this->assertArrayHasKey('GET', $index);
+        $this->assertCount(1, $index['GET']);
+        $this->assertArrayNotHasKey('*', $index);
+    }
+
+    /**
+     * Tests that a route with no HTTP constraint is indexed under "*".
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-13
+     */
+    public function testGetMethodRoutesIndexesUnconstrainedRouteUnderStar(): void
+    {
+        Route::reset();
+
+        $router = $this->getRouter(false);
+        $router->add('/about', ['controller' => 'about', 'action' => 'index']);
+
+        $index = $router->getMethodRoutes();
+
+        $this->assertArrayHasKey('*', $index);
+        $this->assertCount(1, $index['*']);
+        $this->assertArrayNotHasKey('GET', $index);
     }
 }

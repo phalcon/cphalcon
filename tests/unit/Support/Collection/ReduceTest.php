@@ -21,13 +21,16 @@ final class ReduceTest extends AbstractCollectionTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-12
      */
-    public function testSupportCollectionReduceSumsValues(): void
+    public function testSupportCollectionReducePassesKeyToCallback(): void
     {
-        $collection = new Collection(['a' => 1, 'b' => 2, 'c' => 3]);
+        $collection = new Collection(['a' => 1, 'b' => 2]);
 
-        $sum = $collection->reduce(static fn ($acc, $v) => $acc + $v, 0);
+        $result = $collection->reduce(
+            static fn ($acc, $v, $k) => $acc . $k . $v,
+            ''
+        );
 
-        $this->assertSame(6, $sum);
+        $this->assertSame('a1b2', $result);
     }
 
     /**
@@ -43,20 +46,16 @@ final class ReduceTest extends AbstractCollectionTestCase
             $collection->reduce(static fn ($a, $v) => $v, 'seed')
         );
     }
-
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-12
      */
-    public function testSupportCollectionReducePassesKeyToCallback(): void
+    public function testSupportCollectionReduceSumsValues(): void
     {
-        $collection = new Collection(['a' => 1, 'b' => 2]);
+        $collection = new Collection(['a' => 1, 'b' => 2, 'c' => 3]);
 
-        $result = $collection->reduce(
-            static fn ($acc, $v, $k) => $acc . $k . $v,
-            ''
-        );
+        $sum = $collection->reduce(static fn ($acc, $v) => $acc + $v, 0);
 
-        $this->assertSame('a1b2', $result);
+        $this->assertSame(6, $sum);
     }
 }

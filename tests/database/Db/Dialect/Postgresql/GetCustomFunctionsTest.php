@@ -13,8 +13,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Db\Dialect\Postgresql;
 
+use Phalcon\Db\Dialect\Postgresql;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
+#[Group('mysql')]
+#[Group('pgsql')]
+#[Group('sqlite')]
 final class GetCustomFunctionsTest extends AbstractDatabaseTestCase
 {
     /**
@@ -25,6 +30,20 @@ final class GetCustomFunctionsTest extends AbstractDatabaseTestCase
      */
     public function testDbDialectPostgresqlGetCustomFunctions(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $dialect = new Postgresql();
+
+        $this->assertSame([], $dialect->getCustomFunctions());
+
+        $dialect->registerCustomFunction(
+            'MD5',
+            function ($dialect, $expression) {
+                return 'MD5(' . $expression['arguments'][0] . ')';
+            }
+        );
+
+        $functions = $dialect->getCustomFunctions();
+
+        $this->assertArrayHasKey('MD5', $functions);
+        $this->assertIsCallable($functions['MD5']);
     }
 }

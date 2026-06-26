@@ -18,11 +18,10 @@ use PHPUnit\Framework\Attributes\DataProvider;
 final class UnserializeTest extends AbstractCollectionTestCase
 {
     /**
-     * @dataProvider getClasses
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
+    #[DataProvider('getClasses')]
     #[DataProvider('getClasses')]
     public function testSupportCollectionUnserialize(
         string $class,
@@ -35,6 +34,24 @@ final class UnserializeTest extends AbstractCollectionTestCase
 
         $expected = $data;
         $actual = $collection->toArray();
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    #[DataProvider('getClasses')]
+    public function testSupportCollectionUnserializeRoundTrip(
+        string $class,
+    ): void {
+        $data       = $this->getData();
+        $collection = new $class($data);
+
+        $restored = unserialize(serialize($collection));
+
+        $expected = $data;
+        $actual   = $restored->toArray();
         $this->assertSame($expected, $actual);
     }
 }

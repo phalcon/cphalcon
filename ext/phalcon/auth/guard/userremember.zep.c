@@ -112,7 +112,7 @@ PHP_METHOD(Phalcon_Auth_Guard_UserRemember, __construct)
 			}
 
 			ZVAL_BOOL(&_2$$4, 1);
-			ZEPHIR_CALL_METHOD(&data, &_1$$4, "__invoke", NULL, 305, payload, &_2$$4);
+			ZEPHIR_CALL_METHOD(&data, &_1$$4, "__invoke", NULL, 335, payload, &_2$$4);
 			zephir_check_call_status_or_jump(try_end_1);
 		} else {
 			ZEPHIR_CPY_WRT(&data, payload);

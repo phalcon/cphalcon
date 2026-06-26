@@ -15,6 +15,7 @@ namespace Phalcon\Tests\Unit\Cli\Router\Route;
 
 use Phalcon\Cli\Router\Route;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class CompilePatternTest extends AbstractUnitTestCase
 {
@@ -42,7 +43,7 @@ final class CompilePatternTest extends AbstractUnitTestCase
             ],
             [
                 '/:params',
-                '#^(/.*)*$#',
+                '#^(/.*)?$#',
             ],
             [
                 ':delimiter',
@@ -50,17 +51,16 @@ final class CompilePatternTest extends AbstractUnitTestCase
             ],
             [
                 '/:module/:namespace/:task/:action/:params/:delimiter',
-                '#^/([a-zA-Z0-9\_\-]+)/([a-zA-Z0-9\_\-]+)/([a-zA-Z0-9\_\-]+)/([a-zA-Z0-9\_\-]+)(/.*)*//$#',
+                '#^/([a-zA-Z0-9\_\-]+)/([a-zA-Z0-9\_\-]+)/([a-zA-Z0-9\_\-]+)/([a-zA-Z0-9\_\-]+)(/.*)?//$#',
             ],
         ];
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-01-05
      */
+    #[DataProvider('getExamples')]
     public function testCliRouterRouteCompilePattern(
         string $pattern,
         string $expected

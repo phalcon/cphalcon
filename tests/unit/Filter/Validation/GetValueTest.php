@@ -34,35 +34,6 @@ final class GetValueTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-04-16
      */
-    public function testFilterValidationGetValueEntity(): void
-    {
-        $this->setNewFactoryDefault();
-
-        $alpha = new Alpha();
-        $email = new Email();
-        $user  = new stdClass();
-        $data  = [
-            'name' => 'Leonidas',
-            'city' => 'Sparta',
-        ];
-
-        $validation = new Validation();
-
-        $validation->bind($user, $data);
-
-        $validation
-            ->add('name', $alpha)
-            ->add('email', $email);
-
-        $expected = 'Leonidas';
-        $value = $validation->getValue('name');
-        $this->assertSame($expected, $value);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-04-16
-     */
     public function testFilterValidationGetValueData(): void
     {
         $this->setNewFactoryDefault();
@@ -91,57 +62,21 @@ final class GetValueTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-04-16
      */
-    public function testFilterValidationGetValueDataNull(): void
+    public function testFilterValidationGetValueDataException(): void
     {
-        $this->setNewFactoryDefault();
-
         $alpha = new Alpha();
         $email = new Email();
-        $data  = [
-            'name' => null,
-            'city' => 'Sparta',
-        ];
 
         $validation = new Validation();
-
-        $validation->bind(new stdClass(), $data);
 
         $validation
             ->add('name', $alpha)
             ->add('email', $email);
 
-        $value = $validation->getValue('name');
-        $this->assertNull($value);
-    }
+        $this->expectException(ValidationException::class);
+        $this->expectExceptionMessage('There is no data to validate');
 
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-04-16
-     */
-    public function testFilterValidationGetValueDataFilters(): void
-    {
-        $this->setNewFactoryDefault();
-
-        $alpha = new Alpha();
-        $email = new Email();
-        $data  = [
-            'name' => ' Leonidas ',
-            'city' => 'Sparta',
-        ];
-
-        $validation = new Validation();
-
-        $validation
-            ->setFilters('name', 'trim')
-            ->setFilters('email', 'lower')
-            ->add('name', $alpha)
-            ->add('email', $email)
-            ->bind(new stdClass(), $data)
-        ;
-
-        $expected = 'Leonidas';
-        $actual   = $validation->getValue('name');
-        $this->assertSame($expected, $actual);
+        $validation->getValue('name');
     }
 
     /**
@@ -175,6 +110,36 @@ final class GetValueTest extends AbstractUnitTestCase
 
 
         $validation->getValue('name');
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-04-16
+     */
+    public function testFilterValidationGetValueDataFilters(): void
+    {
+        $this->setNewFactoryDefault();
+
+        $alpha = new Alpha();
+        $email = new Email();
+        $data  = [
+            'name' => ' Leonidas ',
+            'city' => 'Sparta',
+        ];
+
+        $validation = new Validation();
+
+        $validation
+            ->setFilters('name', 'trim')
+            ->setFilters('email', 'lower')
+            ->add('name', $alpha)
+            ->add('email', $email)
+            ->bind(new stdClass(), $data)
+        ;
+
+        $expected = 'Leonidas';
+        $actual   = $validation->getValue('name');
+        $this->assertSame($expected, $actual);
     }
 
     /**
@@ -274,20 +239,55 @@ final class GetValueTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-04-16
      */
-    public function testFilterValidationGetValueDataException(): void
+    public function testFilterValidationGetValueDataNull(): void
     {
+        $this->setNewFactoryDefault();
+
         $alpha = new Alpha();
         $email = new Email();
+        $data  = [
+            'name' => null,
+            'city' => 'Sparta',
+        ];
 
         $validation = new Validation();
+
+        $validation->bind(new stdClass(), $data);
 
         $validation
             ->add('name', $alpha)
             ->add('email', $email);
 
-        $this->expectException(ValidationException::class);
-        $this->expectExceptionMessage('There is no data to validate');
+        $value = $validation->getValue('name');
+        $this->assertNull($value);
+    }
 
-        $validation->getValue('name');
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-04-16
+     */
+    public function testFilterValidationGetValueEntity(): void
+    {
+        $this->setNewFactoryDefault();
+
+        $alpha = new Alpha();
+        $email = new Email();
+        $user  = new stdClass();
+        $data  = [
+            'name' => 'Leonidas',
+            'city' => 'Sparta',
+        ];
+
+        $validation = new Validation();
+
+        $validation->bind($user, $data);
+
+        $validation
+            ->add('name', $alpha)
+            ->add('email', $email);
+
+        $expected = 'Leonidas';
+        $value = $validation->getValue('name');
+        $this->assertSame($expected, $value);
     }
 }

@@ -16,7 +16,9 @@ namespace Phalcon\Tests\Unit\Mvc\Router\Group;
 use Phalcon\Mvc\Router\Group;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Mvc\Fake\RouterTrait;
+use PHPUnit\Framework\Attributes\BackupGlobals;
 
+#[BackupGlobals(true)]
 final class AddPostTest extends AbstractUnitTestCase
 {
     use RouterTrait;

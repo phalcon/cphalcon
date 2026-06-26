@@ -18,6 +18,7 @@ use Phalcon\Db\Reference;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 
 use function env;
 
@@ -34,97 +35,6 @@ final class PostgresqlTest extends AbstractDatabaseTestCase
     {
         $this->setNewFactoryDefault();
         $this->setDatabase();
-    }
-
-    /**
-     * Tests Postgresql::describeReferences
-     *
-     * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
-     * @since  2017-08-18
-     * @group  pgsql
-     */
-    public function testDbAdapterPdoPostgresqlShouldCreateReferenceObject(): void
-    {
-        $db = $this->container->get('db');
-
-        $expected = [
-            'test_describereferences' => new Reference(
-                'test_describereferences',
-                [
-                    'referencedTable'   => 'foreign_key_parent',
-                    'referencedSchema'  => env('DATA_POSTGRES_NAME'),
-                    'columns'           => ['child_int'],
-                    'referencedColumns' => ['refer_int'],
-                    'onUpdate'          => 'CASCADE',
-                    'onDelete'          => 'RESTRICT',
-                ]
-            ),
-        ];
-
-        $this->assertEquals(
-            $expected,
-            $db->describeReferences('foreign_key_child', 'public')
-        );
-    }
-
-    /**
-     * Tests Postgresql::addForeignKey
-     *
-     * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
-     * @since  2017-07-05
-     * @group  pgsql
-     */
-    #[DataProvider('getShouldAddForeignKeyProvider')]
-    public function testDbAdapterPdoPostgresqlShouldAddForeignKey(
-        string $reference,
-        bool $expected
-    ): void {
-        $db      = $this->container->get('db');
-        $dialect = new DialectPostgresql();
-
-        $references = $this->getReferenceAddForeignKey();
-        $sql        = $dialect->addForeignKey(
-            'foreign_key_child',
-            'public',
-            $references[$reference]
-        );
-
-        $this->assertEquals($expected, $db->execute($sql));
-    }
-
-    /**
-     * Tests Postgresql::is created
-     *
-     * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
-     * @since  2017-07-05
-     * @group  pgsql
-     */
-    #[DataProvider('getShouldCheckAddedForeignKeyProvider')]
-    public function testDbAdapterPdoPostgresqlShouldCheckAddedForeignKey(
-        string $sql,
-        int $expected
-    ): void {
-        $db = $this->container->get('db');
-
-        $this->assertEquals($expected, $db->execute($sql));
-    }
-
-    /**
-     * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
-     * @since  2017-07-05
-     * @group  pgsql
-     */
-    #[DataProvider('getShouldDropForeignKeyProvider')]
-    public function testDbAdapterPdoPostgresqlShouldDropForeignKey(
-        string $reference,
-        bool $expected
-    ): void {
-        $db      = $this->container->get('db');
-        $dialect = new DialectPostgresql();
-
-        $sql = $dialect->dropForeignKey('foreign_key_child', 'public', $reference);
-
-        $this->assertEquals($expected, $db->execute($sql));
     }
 
     /**
@@ -161,6 +71,117 @@ final class PostgresqlTest extends AbstractDatabaseTestCase
     }
 
     /**
+     * @param string $foreignKeyName
+     *
+     * @return string
+     */
+    private static function getForeignKeySql(string $foreignKeyName): string
+    {
+        $sql = rtrim(
+            (string) file_get_contents(
+                supportDir('assets/Db/postgresql/example9.sql')
+            )
+        );
+
+        return str_replace('%_FK_%', $foreignKeyName, $sql);
+    }
+
+    /**
+     * Tests Postgresql::addForeignKey
+     *
+     * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
+     * @since  2017-07-05
+     */
+    #[Group('pgsql')]
+    #[DataProvider('getShouldAddForeignKeyProvider')]
+    public function testDbAdapterPdoPostgresqlShouldAddForeignKey(
+        string $reference,
+        bool $expected
+    ): void {
+        $db      = $this->container->get('db');
+        $dialect = new DialectPostgresql();
+
+        $references = $this->getReferenceAddForeignKey();
+        $sql        = $dialect->addForeignKey(
+            'foreign_key_child',
+            'public',
+            $references[$reference]
+        );
+
+        $this->assertEquals($expected, $db->execute($sql));
+    }
+
+    /**
+     * Tests Postgresql::is created
+     *
+     * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
+     * @since  2017-07-05
+     */
+    #[Group('pgsql')]
+    #[DataProvider('getShouldCheckAddedForeignKeyProvider')]
+    public function testDbAdapterPdoPostgresqlShouldCheckAddedForeignKey(
+        string $sql,
+        int $expected
+    ): void {
+        $db = $this->container->get('db');
+
+        $this->assertEquals($expected, $db->execute($sql));
+    }
+
+    /**
+     * Tests Postgresql::describeReferences
+     *
+     * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
+     * @since  2017-08-18
+     */
+    #[Group('pgsql')]
+    public function testDbAdapterPdoPostgresqlShouldCreateReferenceObject(): void
+    {
+        $db = $this->container->get('db');
+
+        $expected = new Reference(
+            'test_describereferences',
+            [
+                'referencedTable'   => 'foreign_key_parent',
+                'referencedSchema'  => env('DATA_POSTGRES_NAME'),
+                'columns'           => ['child_int'],
+                'referencedColumns' => ['refer_int'],
+                'onUpdate'          => 'CASCADE',
+                'onDelete'          => 'RESTRICT',
+            ]
+        );
+
+        $references = $db->describeReferences('foreign_key_child', 'public');
+
+        /**
+         * The sibling add/drop foreign-key tests in this class mutate the
+         * shared foreign_key_child table, so assert the schema-defined
+         * reference is present and correctly described rather than that it is
+         * the only one on the table (mirrors DescribeReferencesTest).
+         */
+        $this->assertArrayHasKey('test_describereferences', $references);
+        $this->assertEquals($expected, $references['test_describereferences']);
+    }
+
+    /**
+     * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
+     * @since  2017-07-05
+     */
+    #[Group('pgsql')]
+    #[DataProvider('getShouldDropForeignKeyProvider')]
+    public function testDbAdapterPdoPostgresqlShouldDropForeignKey(
+        string $reference,
+        bool $expected
+    ): void {
+        $db      = $this->container->get('db');
+        $dialect = new DialectPostgresql();
+
+        $sql = $dialect->dropForeignKey('foreign_key_child', 'public', $reference);
+
+        $this->assertEquals($expected, $db->execute($sql));
+    }
+
+    /**
      * @return array<string, Reference>
      */
     private function getReferenceAddForeignKey(): array
@@ -185,21 +206,5 @@ final class PostgresqlTest extends AbstractDatabaseTestCase
                 ]
             ),
         ];
-    }
-
-    /**
-     * @param string $foreignKeyName
-     *
-     * @return string
-     */
-    private static function getForeignKeySql(string $foreignKeyName): string
-    {
-        $sql = rtrim(
-            (string) file_get_contents(
-                supportDir('assets/Db/postgresql/example9.sql')
-            )
-        );
-
-        return str_replace('%_FK_%', $foreignKeyName, $sql);
     }
 }

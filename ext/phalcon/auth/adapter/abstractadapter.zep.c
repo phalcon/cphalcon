@@ -47,6 +47,15 @@ ZEPHIR_INIT_CLASS(Phalcon_Auth_Adapter_AbstractAdapter)
 	 * @var Security
 	 */
 	zend_declare_property_null(phalcon_auth_adapter_abstractadapter_ce, SL("hasher"), ZEND_ACC_PROTECTED);
+	/**
+	 * Dummy bcrypt hash used to equalize timing on the user-not-found path so
+	 * a failed lookup costs the same as a real password check (prevents
+	 * login-timing user enumeration).
+	 *
+	 * @var string
+	 */
+	zephir_declare_class_constant_string(phalcon_auth_adapter_abstractadapter_ce, SL("DUMMY_HASH"), "$2y$10$YMmGMSXz.5U3bjjJ2qx45uElzUrlaBiS8L70VaVnmsKYFJVcam8gW");
+
 	zend_class_implements(phalcon_auth_adapter_abstractadapter_ce, 1, phalcon_contracts_auth_adapter_adapter_ce);
 	return SUCCESS;
 }
@@ -139,5 +148,33 @@ PHP_METHOD(Phalcon_Auth_Adapter_AbstractAdapter, validateCredentials)
 	ZEPHIR_RETURN_CALL_METHOD(&_0, "checkhash", NULL, 0, &password, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
+}
+
+/**
+ * Runs a throwaway password verification against a fixed dummy hash so the
+ * user-not-found path performs the same hash work as a found path. Call it
+ * when a credential lookup misses to keep response time constant.
+ */
+PHP_METHOD(Phalcon_Auth_Adapter_AbstractAdapter, burnHash)
+{
+	zval _0, _1, _2;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("hasher"), PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_INIT_VAR(&_1);
+	ZVAL_STRING(&_1, "phalcon-auth-timing");
+	ZEPHIR_INIT_VAR(&_2);
+	ZVAL_STRING(&_2, "$2y$10$YMmGMSXz.5U3bjjJ2qx45uElzUrlaBiS8L70VaVnmsKYFJVcam8gW");
+	ZEPHIR_CALL_METHOD(NULL, &_0, "checkhash", NULL, 0, &_1, &_2);
+	zephir_check_call_status();
+	ZEPHIR_MM_RESTORE();
 }
 

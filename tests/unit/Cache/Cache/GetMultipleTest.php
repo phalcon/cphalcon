@@ -13,11 +13,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Cache\Cache;
 
+use ArrayIterator;
 use Phalcon\Cache\AdapterFactory;
 use Phalcon\Cache\Cache;
 use Phalcon\Cache\Exception\InvalidArgumentException;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 
 use function getOptionsRedis;
 use function uniqid;
@@ -63,12 +65,29 @@ final class GetMultipleTest extends AbstractUnitTestCase
 
     /**
      * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-14
+     */
+    #[RequiresPhpExtension('apcu')]
+    public function testCacheCacheGetMultipleInvalidKey(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('The key contains invalid characters');
+
+        $serializer = new SerializerFactory();
+        $factory    = new AdapterFactory($serializer);
+        $instance   = $factory->newInstance('apcu');
+
+        $adapter = new Cache($instance);
+        $adapter->getMultiple(['valid-key', 'invalid key!']);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
+    #[RequiresPhpExtension('redis')]
     public function testCacheCacheGetMultipleRedisMget(): void
     {
-        $this->checkExtensionIsLoaded('redis');
-
         $serializer = new SerializerFactory();
         $factory    = new AdapterFactory($serializer);
         $instance   = $factory->newInstance(
@@ -105,39 +124,29 @@ final class GetMultipleTest extends AbstractUnitTestCase
 
     /**
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2020-09-09
+     * @since  2026-06-25
      */
-    public function testCacheCacheGetMultipleException(): void
+    #[RequiresPhpExtension('apcu')]
+    public function testCacheCacheGetMultipleTraversableKeys(): void
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage(
-            'The keys need to be an array or instance of Traversable'
-        );
-
         $serializer = new SerializerFactory();
         $factory    = new AdapterFactory($serializer);
         $instance   = $factory->newInstance('apcu');
 
         $adapter = new Cache($instance);
-        $adapter->getMultiple(1234);
-    }
 
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-14
-     */
-    public function testCacheCacheGetMultipleInvalidKey(): void
-    {
-        $this->checkExtensionIsLoaded('apcu');
+        $key1 = uniqid();
+        $key2 = uniqid();
 
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('The key contains invalid characters');
+        $adapter->set($key1, 'test1');
+        $adapter->set($key2, 'test2');
 
-        $serializer = new SerializerFactory();
-        $factory    = new AdapterFactory($serializer);
-        $instance   = $factory->newInstance('apcu');
-
-        $adapter = new Cache($instance);
-        $adapter->getMultiple(['valid-key', 'invalid key!']);
+        $keys     = new ArrayIterator([$key1, $key2]);
+        $expected = [
+            $key1 => 'test1',
+            $key2 => 'test2',
+        ];
+        $actual   = $adapter->getMultiple($keys);
+        $this->assertEquals($expected, $actual);
     }
 }

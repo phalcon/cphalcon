@@ -16,6 +16,7 @@ namespace Phalcon\Tests\Database\Mvc\Model\Manager;
 use Phalcon\Mvc\Model\Manager;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 final class SetReusableRecordsTest extends AbstractDatabaseTestCase
 {
@@ -29,11 +30,10 @@ final class SetReusableRecordsTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
-     *
-     * @group  sqlite
-     * @group  mysql
-     * @group  pgsql
      */
+    #[Group('sqlite')]
+    #[Group('mysql')]
+    #[Group('pgsql')]
     public function testMvcModelManagerSetReusableRecords(): void
     {
         /** @var Manager $manager */

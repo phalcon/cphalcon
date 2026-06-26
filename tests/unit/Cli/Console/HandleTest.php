@@ -14,8 +14,10 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Cli\Console;
 
 use Exception;
+use Phalcon\Application\Exceptions\ModuleNotRegistered;
 use Phalcon\Cli\Console as CliConsole;
 use Phalcon\Cli\Console\Exception as ConsoleException;
+use Phalcon\Cli\Console\Exceptions\InvalidModuleDefinition;
 use Phalcon\Cli\Dispatcher\Exception as DispatcherException;
 use Phalcon\Cli\Router\Exception as RouterException;
 use Phalcon\Di\FactoryDefault\Cli as DiFactoryDefault;
@@ -24,6 +26,7 @@ use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Modules\Backend\Module as BackendModule;
 use Phalcon\Tests\Support\Modules\Frontend\Module as FrontendModule;
 use Phalcon\Tests\Support\Tasks\Issue787Task;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 use function ob_end_clean;
 use function ob_start;
@@ -83,11 +86,10 @@ final class HandleTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamplesHandle
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
+    #[DataProvider('getExamplesHandle')]
     public function testCliConsoleHandle(
         array $arguments,
         string $taskName,
@@ -200,6 +202,104 @@ final class HandleTest extends AbstractUnitTestCase
             'beforeExecuteRoute' . PHP_EOL . 'initialize' . PHP_EOL,
             Issue787Task::$output
         );
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    public function testCliConsoleHandleAfterStartModuleReturnsFalse(): void
+    {
+        $console       = new CliConsole(new DiFactoryDefault());
+        $eventsManager = $console->eventsManager;
+
+        $console->registerModules(
+            [
+                'backend' => [
+                    'className' => BackendModule::class,
+                    'path'      => supportDir('Modules/Backend/Module.php'),
+                ],
+            ]
+        );
+
+        $eventsManager->attach(
+            'console:afterStartModule',
+            function () {
+                return false;
+            }
+        );
+
+        $actual = $console->handle(['module' => 'backend']);
+        $this->assertFalse($actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    public function testCliConsoleHandleBeforeHandleTaskReturnsFalse(): void
+    {
+        $console       = new CliConsole(new DiFactoryDefault());
+        $eventsManager = $console->eventsManager;
+
+        $eventsManager->attach(
+            'console:beforeHandleTask',
+            function () {
+                return false;
+            }
+        );
+
+        $actual = $console->handle([]);
+        $this->assertFalse($actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    public function testCliConsoleHandleBeforeStartModuleReturnsFalse(): void
+    {
+        $console       = new CliConsole(new DiFactoryDefault());
+        $eventsManager = $console->eventsManager;
+
+        $console->registerModules(
+            [
+                'backend' => [
+                    'className' => BackendModule::class,
+                    'path'      => supportDir('Modules/Backend/Module.php'),
+                ],
+            ]
+        );
+
+        $eventsManager->attach(
+            'console:beforeStartModule',
+            function () {
+                return false;
+            }
+        );
+
+        $actual = $console->handle(['module' => 'backend']);
+        $this->assertFalse($actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    public function testCliConsoleHandleBootEventReturnsFalse(): void
+    {
+        $console       = new CliConsole(new DiFactoryDefault());
+        $eventsManager = $console->eventsManager;
+
+        $eventsManager->attach(
+            'console:boot',
+            function () {
+                return false;
+            }
+        );
+
+        $actual = $console->handle();
+        $this->assertFalse($actual);
     }
 
     /**
@@ -383,6 +483,23 @@ final class HandleTest extends AbstractUnitTestCase
     }
 
     /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    public function testCliConsoleHandleInvalidModuleDefinition(): void
+    {
+        $this->expectException(InvalidModuleDefinition::class);
+        $this->expectExceptionMessage('Invalid module definition');
+
+        $console = new CliConsole(new DiFactoryDefault());
+
+        // Register a module as a non-array value
+        $console->registerModules(['backend' => 'not-an-array']);
+
+        $console->handle(['module' => 'backend']);
+    }
+
+    /**
      * @author Nathan Edwards <https://github.com/npfedwards>
      * @since  2018-12-26
      */
@@ -435,9 +552,9 @@ final class HandleTest extends AbstractUnitTestCase
     {
         $console = new CliConsole(new DiFactoryDefault());
 
-        $this->expectException(ConsoleException::class);
+        $this->expectException(ModuleNotRegistered::class);
         $this->expectExceptionMessage(
-            "Module 'devtools' isn't registered in the console container"
+            "Module 'devtools' is not registered in the application"
         );
 
         // testing module
@@ -471,29 +588,6 @@ final class HandleTest extends AbstractUnitTestCase
         $this->assertSame($expected, $actual);
     }
 
-    public function testCliConsoleHandleTaskDoesNotExists(): void
-    {
-        $console = new CliConsole(new DiFactoryDefault());
-
-        $console->dispatcher->setDefaultNamespace('Dummy\\');
-
-        $this->expectException(DispatcherException::class);
-        $this->expectExceptionMessage(
-            "Dummy\MainTask handler class cannot be loaded",
-        );
-        $this->expectExceptionCode(2);
-
-        // testing namespace
-        $console->handle(
-            [
-                'task'   => 'main',
-                'action' => 'hello',
-                'World',
-                '!',
-            ]
-        );
-    }
-
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2024-01-01
@@ -507,121 +601,6 @@ final class HandleTest extends AbstractUnitTestCase
 
         $console = new CliConsole();
         $console->handle();
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2024-01-01
-     */
-    public function testCliConsoleHandleBootEventReturnsFalse(): void
-    {
-        $console       = new CliConsole(new DiFactoryDefault());
-        $eventsManager = $console->eventsManager;
-
-        $eventsManager->attach(
-            'console:boot',
-            function () {
-                return false;
-            }
-        );
-
-        $actual = $console->handle();
-        $this->assertFalse($actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2024-01-01
-     */
-    public function testCliConsoleHandleBeforeStartModuleReturnsFalse(): void
-    {
-        $console       = new CliConsole(new DiFactoryDefault());
-        $eventsManager = $console->eventsManager;
-
-        $console->registerModules(
-            [
-                'backend' => [
-                    'className' => BackendModule::class,
-                    'path'      => supportDir('Modules/Backend/Module.php'),
-                ],
-            ]
-        );
-
-        $eventsManager->attach(
-            'console:beforeStartModule',
-            function () {
-                return false;
-            }
-        );
-
-        $actual = $console->handle(['module' => 'backend']);
-        $this->assertFalse($actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2024-01-01
-     */
-    public function testCliConsoleHandleInvalidModuleDefinition(): void
-    {
-        $this->expectException(ConsoleException::class);
-        $this->expectExceptionMessage('Invalid module definition path');
-
-        $console = new CliConsole(new DiFactoryDefault());
-
-        // Register a module as a non-array value
-        $console->registerModules(['backend' => 'not-an-array']);
-
-        $console->handle(['module' => 'backend']);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2024-01-01
-     */
-    public function testCliConsoleHandleAfterStartModuleReturnsFalse(): void
-    {
-        $console       = new CliConsole(new DiFactoryDefault());
-        $eventsManager = $console->eventsManager;
-
-        $console->registerModules(
-            [
-                'backend' => [
-                    'className' => BackendModule::class,
-                    'path'      => supportDir('Modules/Backend/Module.php'),
-                ],
-            ]
-        );
-
-        $eventsManager->attach(
-            'console:afterStartModule',
-            function () {
-                return false;
-            }
-        );
-
-        $actual = $console->handle(['module' => 'backend']);
-        $this->assertFalse($actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2024-01-01
-     */
-    public function testCliConsoleHandleBeforeHandleTaskReturnsFalse(): void
-    {
-        $console       = new CliConsole(new DiFactoryDefault());
-        $eventsManager = $console->eventsManager;
-
-        $eventsManager->attach(
-            'console:beforeHandleTask',
-            function () {
-                return false;
-            }
-        );
-
-        $actual = $console->handle([]);
-        $this->assertFalse($actual);
     }
 
     /**
@@ -652,5 +631,28 @@ final class HandleTest extends AbstractUnitTestCase
         );
 
         $this->assertSame('backend', $dispatcher->getModuleName());
+    }
+
+    public function testCliConsoleHandleTaskDoesNotExists(): void
+    {
+        $console = new CliConsole(new DiFactoryDefault());
+
+        $console->dispatcher->setDefaultNamespace('Dummy\\');
+
+        $this->expectException(DispatcherException::class);
+        $this->expectExceptionMessage(
+            "Dummy\MainTask handler class cannot be loaded",
+        );
+        $this->expectExceptionCode(2);
+
+        // testing namespace
+        $console->handle(
+            [
+                'task'   => 'main',
+                'action' => 'hello',
+                'World',
+                '!',
+            ]
+        );
     }
 }

@@ -16,11 +16,12 @@ namespace Phalcon\Tests\Database\Mvc\Model\Relation;
 use PDO;
 use Phalcon\Contracts\Mvc\Model\Relation\CacheKeyProvider;
 use Phalcon\Tests\AbstractDatabaseTestCase;
-use Phalcon\Tests\Support\Models\CustomersCacheKeyProvider;
-use Phalcon\Tests\Support\Models\InvoicesCacheKeyProvider;
 use Phalcon\Tests\Support\Migrations\CustomersMigration;
 use Phalcon\Tests\Support\Migrations\InvoicesMigration;
+use Phalcon\Tests\Support\Models\CustomersCacheKeyProvider;
+use Phalcon\Tests\Support\Models\InvoicesCacheKeyProvider;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 use function uniqid;
 
@@ -37,11 +38,10 @@ final class CacheKeyProviderTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2024-01-01
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelManagerCacheKeyProviderImplemented(): void
     {
         $model = new InvoicesCacheKeyProvider();
@@ -56,11 +56,10 @@ final class CacheKeyProviderTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2024-01-01
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelManagerCacheKeyProviderUniqueKey(): void
     {
         /** @var PDO $connection */

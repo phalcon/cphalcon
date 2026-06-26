@@ -16,6 +16,7 @@ use Phalcon\Html\Exception;
 use Phalcon\Html\Helper\Ul;
 use Phalcon\Html\TagFactory;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 use const PHP_EOL;
 
@@ -221,11 +222,10 @@ final class UnderscoreInvokeTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
+    #[DataProvider('getExamples')]
     public function testHtmlHelperUlUnderscoreInvoke(
         string $indent,
         string $delimiter,

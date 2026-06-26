@@ -17,15 +17,15 @@ use Phalcon\Image\Adapter\Imagick;
 use Phalcon\Image\ImageFactory;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Traits\FactoryTrait;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 
+#[RequiresPhpExtension('imagick')]
 final class LoadTest extends AbstractUnitTestCase
 {
     use FactoryTrait;
 
     public function setUp(): void
     {
-        $this->checkExtensionIsLoaded('imagick');
-
         $this->init();
     }
 

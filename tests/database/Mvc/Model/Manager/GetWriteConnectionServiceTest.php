@@ -14,15 +14,38 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Database\Mvc\Model\Manager;
 
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use Phalcon\Tests\Support\Models\Invoices;
+use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
+#[Group('mysql')]
+#[Group('pgsql')]
+#[Group('sqlite')]
 final class GetWriteConnectionServiceTest extends AbstractDatabaseTestCase
 {
+    use DiTrait;
+
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+    }
+
     /**
+     * Tests Phalcon\Mvc\Model\Manager :: getWriteConnectionService()
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2026-06-22
      */
     public function testMvcModelManagerGetWriteConnectionService(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $manager = $this->container->get('modelsManager');
+        $model   = new Invoices();
+
+        $this->assertSame('db', $manager->getWriteConnectionService($model));
+
+        $manager->setWriteConnectionService($model, 'dbWrite');
+
+        $this->assertSame('dbWrite', $manager->getWriteConnectionService($model));
     }
 }

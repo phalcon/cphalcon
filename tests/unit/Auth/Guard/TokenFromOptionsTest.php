@@ -21,6 +21,8 @@ use Phalcon\Auth\Adapter\Memory;
 use Phalcon\Auth\Exception;
 use Phalcon\Auth\Guard\Token;
 use Phalcon\Container\Container;
+use Phalcon\Container\Exceptions\Exception as ContainerException;
+use Phalcon\Di\Di;
 use Phalcon\Encryption\Security;
 use Phalcon\Http\RequestInterface;
 use Phalcon\Tests\AbstractUnitTestCase;
@@ -56,6 +58,23 @@ final class TokenFromOptionsTest extends AbstractUnitTestCase
         $this->assertInstanceOf(Token::class, $guard);
     }
 
+    public function testFromOptionsFallsBackToShortNameRequest(): void
+    {
+        $di = new Di();
+        $di->set('request', fn () => new FakeRequest());
+
+        $guard = Token::fromOptions(
+            $this->adapter,
+            $di,
+            [
+                'inputKey'   => 'api_token',
+                'storageKey' => 'api_token',
+            ]
+        );
+
+        $this->assertInstanceOf(Token::class, $guard);
+    }
+
     public function testFromOptionsThrowsWhenInputKeyMissing(): void
     {
         $this->expectException(Exception::class);
@@ -70,8 +89,8 @@ final class TokenFromOptionsTest extends AbstractUnitTestCase
 
     public function testFromOptionsThrowsWhenRequestMissing(): void
     {
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessageMatches('/Token guard requires service.*RequestInterface/');
+        $this->expectException(ContainerException::class);
+        $this->expectExceptionMessageMatches('/Token guard requires service/');
 
         Token::fromOptions(
             $this->adapter,

@@ -16,6 +16,7 @@ use Phalcon\Html\Helper\Doctype;
 use Phalcon\Html\Helper\Input\Checkbox;
 use Phalcon\Html\Helper\Input\Radio;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Covers loose vs strict matching between the `checked` and `value`
@@ -61,9 +62,7 @@ final class CheckedComparisonTest extends AbstractUnitTestCase
         ];
     }
 
-    /**
-     * @dataProvider getLooseMatchExamples
-     */
+    #[DataProvider('getLooseMatchExamples')]
     public function testCheckboxLooseMatch(
         mixed $value,
         mixed $checked,
@@ -88,36 +87,7 @@ final class CheckedComparisonTest extends AbstractUnitTestCase
         }
     }
 
-    /**
-     * @dataProvider getLooseMatchExamples
-     */
-    public function testRadioLooseMatch(
-        mixed $value,
-        mixed $checked,
-        bool $shouldBeChecked
-    ): void {
-        $helper = new Radio(new Escaper(), new Doctype());
-        $result = $helper(
-            'x',
-            null,
-            [
-                'value'   => $value,
-                'checked' => $checked,
-            ]
-        );
-
-        $rendered = (string) $result;
-
-        if ($shouldBeChecked) {
-            $this->assertStringContainsString('checked="checked"', $rendered);
-        } else {
-            $this->assertStringNotContainsString('checked="checked"', $rendered);
-        }
-    }
-
-    /**
-     * @dataProvider getStrictMatchExamples
-     */
+    #[DataProvider('getStrictMatchExamples')]
     public function testCheckboxStrictMatch(
         mixed $value,
         mixed $checked,
@@ -147,9 +117,8 @@ final class CheckedComparisonTest extends AbstractUnitTestCase
      * `["checked" => "checked"]` (any case) and `["checked" => true]` are
      * unconditional opt-ins - they render `checked="checked"` regardless of
      * what `value` is set to and regardless of strict mode.
-     *
-     * @dataProvider getUnconditionalCheckedExamples
      */
+    #[DataProvider('getUnconditionalCheckedExamples')]
     public function testCheckboxUnconditionalCheckedAttribute(
         mixed $checked,
         bool $shouldBeChecked
@@ -173,13 +142,16 @@ final class CheckedComparisonTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getUnconditionalCheckedExamples
+     * Same opt-ins must hold under `strict(true)`: the unconditional path
+     * does not consult `value`.
      */
-    public function testRadioUnconditionalCheckedAttribute(
+    #[DataProvider('getUnconditionalCheckedExamples')]
+    public function testCheckboxUnconditionalCheckedAttributeUnderStrict(
         mixed $checked,
         bool $shouldBeChecked
     ): void {
-        $helper = new Radio(new Escaper(), new Doctype());
+        $helper = new Checkbox(new Escaper(), new Doctype());
+        $helper->strict();
         $result = $helper(
             'x',
             '1',
@@ -197,18 +169,37 @@ final class CheckedComparisonTest extends AbstractUnitTestCase
         }
     }
 
-    /**
-     * Same opt-ins must hold under `strict(true)`: the unconditional path
-     * does not consult `value`.
-     *
-     * @dataProvider getUnconditionalCheckedExamples
-     */
-    public function testCheckboxUnconditionalCheckedAttributeUnderStrict(
+    #[DataProvider('getLooseMatchExamples')]
+    public function testRadioLooseMatch(
+        mixed $value,
         mixed $checked,
         bool $shouldBeChecked
     ): void {
-        $helper = new Checkbox(new Escaper(), new Doctype());
-        $helper->strict();
+        $helper = new Radio(new Escaper(), new Doctype());
+        $result = $helper(
+            'x',
+            null,
+            [
+                'value'   => $value,
+                'checked' => $checked,
+            ]
+        );
+
+        $rendered = (string) $result;
+
+        if ($shouldBeChecked) {
+            $this->assertStringContainsString('checked="checked"', $rendered);
+        } else {
+            $this->assertStringNotContainsString('checked="checked"', $rendered);
+        }
+    }
+
+    #[DataProvider('getUnconditionalCheckedExamples')]
+    public function testRadioUnconditionalCheckedAttribute(
+        mixed $checked,
+        bool $shouldBeChecked
+    ): void {
+        $helper = new Radio(new Escaper(), new Doctype());
         $result = $helper(
             'x',
             '1',

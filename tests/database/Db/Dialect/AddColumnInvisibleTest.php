@@ -18,6 +18,7 @@ use Phalcon\Db\Dialect\Mysql;
 use Phalcon\Db\Dialect\Postgresql;
 use Phalcon\Db\Dialect\Sqlite;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
 final class AddColumnInvisibleTest extends AbstractDatabaseTestCase
 {
@@ -27,9 +28,8 @@ final class AddColumnInvisibleTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group mysql
      */
+    #[Group('mysql')]
     public function testDbDialectMysqlAddColumnInvisible(): void
     {
         $dialect = new Mysql();
@@ -55,9 +55,8 @@ final class AddColumnInvisibleTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group mysql
      */
+    #[Group('mysql')]
     public function testDbDialectMysqlAddColumnVisibleByDefault(): void
     {
         $dialect = new Mysql();
@@ -80,9 +79,8 @@ final class AddColumnInvisibleTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group pgsql
      */
+    #[Group('pgsql')]
     public function testDbDialectPostgresqlAddColumnIgnoresInvisible(): void
     {
         $dialect = new Postgresql();
@@ -105,9 +103,8 @@ final class AddColumnInvisibleTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group sqlite
      */
+    #[Group('sqlite')]
     public function testDbDialectSqliteAddColumnIgnoresInvisible(): void
     {
         $dialect = new Sqlite();

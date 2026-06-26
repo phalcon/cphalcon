@@ -20,6 +20,7 @@ use Phalcon\Tests\Support\Migrations\SourcesMigration;
 use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Models\Sources;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 use function uniqid;
 
@@ -39,11 +40,10 @@ final class AssignTest extends AbstractDatabaseTestCase
     /**
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-04-18
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelAssign(): void
     {
         $title = uniqid('inv-');
@@ -94,11 +94,10 @@ final class AssignTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-13
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelAssignAutoPrimary(): void
     {
         $data = [
@@ -119,11 +118,10 @@ final class AssignTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-01-29
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelAssignIncomplete(): void
     {
         $title   = uniqid('inv-');
@@ -149,14 +147,42 @@ final class AssignTest extends AbstractDatabaseTestCase
     }
 
     /**
+     * @issue  https://github.com/phalcon/cphalcon/issues/16617
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-02
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelAssignReservedSetterColumn(): void
+    {
+        $connection = self::getConnection();
+        (new SourcesMigration($connection));
+
+        $value  = uniqid('src-');
+        $record = new Sources();
+        $record->assign(
+            [
+                'id'       => 1,
+                'username' => 'darth',
+                'source'   => $value,
+            ]
+        );
+
+        $this->assertSame(1, $record->readAttribute('id'));
+        $this->assertSame('darth', $record->readAttribute('username'));
+        $this->assertSame($value, $record->readAttribute('source'));
+        $this->assertSame('co_sources', $record->getSource());
+    }
+
+    /**
      * @issue  https://github.com/phalcon/cphalcon/issues/15739
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-01-29
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelAssignWithTransaction(): void
     {
         $title       = uniqid('inv-');
@@ -179,35 +205,5 @@ final class AssignTest extends AbstractDatabaseTestCase
 
         $result = $invoice->delete();
         $this->assertTrue($result);
-    }
-
-    /**
-     * @issue  https://github.com/phalcon/cphalcon/issues/16617
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-05-02
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
-     */
-    public function testMvcModelAssignReservedSetterColumn(): void
-    {
-        $connection = self::getConnection();
-        (new SourcesMigration($connection));
-
-        $value  = uniqid('src-');
-        $record = new Sources();
-        $record->assign(
-            [
-                'id'       => 1,
-                'username' => 'darth',
-                'source'   => $value,
-            ]
-        );
-
-        $this->assertSame(1, $record->readAttribute('id'));
-        $this->assertSame('darth', $record->readAttribute('username'));
-        $this->assertSame($value, $record->readAttribute('source'));
-        $this->assertSame('co_sources', $record->getSource());
     }
 }

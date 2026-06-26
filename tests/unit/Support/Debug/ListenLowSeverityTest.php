@@ -27,6 +27,9 @@ final class ListenLowSeverityTest extends AbstractUnitTestCase
         $debug  = new Debug();
         $result = $debug->listenLowSeverity();
 
+        restore_error_handler();
+        restore_exception_handler();
+
         $this->assertInstanceOf(Debug::class, $result);
     }
 }

@@ -17,11 +17,6 @@ use Phalcon\Mvc\Model;
 
 class FakeSelect extends Model
 {
-    public function initialize(): void
-    {
-        $this->setSource('ph_select');
-    }
-
     public function getId(): mixed
     {
         return $this->sel_id;
@@ -35,6 +30,10 @@ class FakeSelect extends Model
     public function getText(): mixed
     {
         return $this->sel_text;
+    }
+    public function initialize(): void
+    {
+        $this->setSource('ph_select');
     }
 
     public function setId(mixed $id): void

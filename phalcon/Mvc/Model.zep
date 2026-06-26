@@ -14,6 +14,7 @@ use JsonSerializable;
 use Phalcon\Db\Adapter\AdapterInterface;
 use Phalcon\Db\Column;
 use Phalcon\Db\Enum;
+use Phalcon\Db\Geometry\WkbParser;
 use Phalcon\Db\RawValue;
 use Phalcon\Di\AbstractInjectionAware;
 use Phalcon\Di\Di;
@@ -50,6 +51,7 @@ use Phalcon\Mvc\Model\Exceptions\RelationRequiresObjectOrArray;
 use Phalcon\Mvc\Model\Exceptions\SnapshotsDisabled;
 use Phalcon\Mvc\Model\Exceptions\StaticMethodRequiresOneArgument;
 use Phalcon\Mvc\Model\Exceptions\UpdateSnapshotDisabled;
+use Phalcon\Mvc\Model\Hydration\CloneResultMapHydrate;
 use Phalcon\Mvc\Model\ManagerInterface;
 use Phalcon\Mvc\Model\MetaDataInterface;
 use Phalcon\Mvc\Model\Query;
@@ -106,6 +108,22 @@ use Serializable;
  *     echo "Great, a new robot was saved successfully!";
  * }
  * ```
+ *
+ * Magic property and method resolution:
+ *
+ * `__get($property)` resolves in order: a relation alias (returning unsaved
+ * `dirtyRelated` records first, then a non-reusable single related model held
+ * in the `related` cache - resultsets and reusable relations are never served
+ * from that cache - otherwise the freshly fetched related records); then a
+ * `get<Property>()` getter when one exists; otherwise it raises an
+ * "undefined property" notice and returns null.
+ *
+ * `__call()` / `__callStatic($method, $arguments)` resolve the `findBy<Field>`,
+ * `findFirstBy<Field>`, and `countBy<Field>` magic finders through
+ * `invokeFinder()`. The instance `__call()` additionally tries relation getters
+ * and a behavior/listener `missingMethod()` hook. An unresolved method throws
+ * `Phalcon\Mvc\Model\Exceptions\MethodNotFound`.
+ *
  * @template T of static
  */
 abstract class Model extends AbstractInjectionAware implements EntityInterface, ModelInterface, ResultInterface, Serializable, JsonSerializable
@@ -960,6 +978,10 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             return (float) result;
         }
 
+        if result === null {
+            return 0.0;
+        }
+
         return result;
     }
 
@@ -1037,7 +1059,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         bool keepSnapshots = null
     ) -> <ModelInterface> {
         var instance, attribute, key, value, castValue, attributeName, metaData, reverseMap, notNullAttributes,
-            disableSetters, setter;
+            callSetters, setter;
         array localMethods;
 
         let instance = clone base;
@@ -1052,7 +1074,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         // Change the dirty state to persistent
         instance->setDirtyState(dirtyState);
 
-        let disableSetters = (bool) Settings::get("orm.disable_assign_setters");
+        let callSetters = (bool) Settings::get("orm.call_setters_on_hydration");
 
         let localMethods = [
             "setConnectionService"      : 1,
@@ -1081,7 +1103,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             }
 
             if typeof columnMap !== "array" {
-                if !disableSetters {
+                if callSetters {
                     let setter = "set" . camelize(key);
                     if method_exists(instance, setter) && !isset localMethods[setter] {
                         try {
@@ -1123,7 +1145,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             }
 
             if typeof attribute !== "array" {
-                if !disableSetters {
+                if callSetters {
                     let setter = "set" . camelize(attribute);
                     if method_exists(instance, setter) && !isset localMethods[setter] {
                         try {
@@ -1159,6 +1181,22 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                         let castValue = (bool) value;
                         break;
 
+                    case Column::TYPE_GEOMETRY:
+                    case Column::TYPE_POINT:
+                    case Column::TYPE_LINESTRING:
+                    case Column::TYPE_POLYGON:
+                    case Column::TYPE_MULTIPOINT:
+                    case Column::TYPE_MULTILINESTRING:
+                    case Column::TYPE_MULTIPOLYGON:
+                    case Column::TYPE_GEOMETRYCOLLECTION:
+                        try {
+                            let castValue = (new WkbParser())->parse(value);
+                        } catch \Phalcon\Db\Exceptions\InvalidWkb {
+                            let castValue = value;
+                        }
+
+                        break;
+
                     default:
                         let castValue = value;
                         break;
@@ -1186,7 +1224,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             let attributeName = attribute[0],
                 data[key] = castValue;
 
-            if !disableSetters {
+            if callSetters {
                 let setter = "set" . camelize(attributeName);
                 if method_exists(instance, setter) && !isset localMethods[setter] {
                     try {
@@ -1236,66 +1274,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      */
     public static function cloneResultMapHydrate(array! data, var columnMap, int hydrationMode)
     {
-        var key, value, attribute, attributeName;
-        array hydrateArray;
-
-        /**
-         * If there is no column map and the hydration mode is arrays return the
-         * data as it is
-         */
-        if typeof columnMap !== "array" {
-            if hydrationMode == Resultset::HYDRATE_ARRAYS {
-                return data;
-            }
-        }
-
-        /**
-         * Create the destination object
-         */
-        let hydrateArray = [];
-
-        for key, value in data {
-            if typeof key !== "string" {
-                continue;
-            }
-
-            if typeof columnMap === "array" {
-                // Try to find case-insensitive key variant
-                if !isset columnMap[key] && Settings::get("orm.case_insensitive_column_map") {
-                    let key = self::caseInsensitiveColumnMap(columnMap, key);
-                }
-
-                /**
-                 * Every field must be part of the column map
-                 */
-                if !fetch attribute, columnMap[key] {
-                    if unlikely !Settings::get("orm.ignore_unknown_columns") {
-                        throw new ColumnNotInMap(key, get_called_class());
-                    }
-
-                    continue;
-                }
-
-                /**
-                 * Attribute can store info about his type
-                 */
-                if typeof attribute === "array" {
-                    let attributeName = attribute[0];
-                } else {
-                    let attributeName = attribute;
-                }
-
-                let hydrateArray[attributeName] = value;
-            } else {
-                let hydrateArray[key] = value;
-            }
-        }
-
-        if hydrationMode != Resultset::HYDRATE_ARRAYS {
-            return (object) hydrateArray;
-        }
-
-        return hydrateArray;
+        return CloneResultMapHydrate::cloneResultMapHydrate(data, columnMap, hydrationMode, get_called_class());
     }
 
     /**
@@ -1423,7 +1402,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             let this->errorMessages = [
                 new Message(
                     "Record cannot be created because it already exists",
-                    null,
+                    "",
                     "InvalidCreateAttempt",
                     0,
                     [
@@ -2777,7 +2756,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      */
     public function doSave(<CollectionInterface> visited) -> bool
     {
-        var metaData, schema, writeConnection, readConnection, source, table,
+        var metaData, schema, writeConnection, source, table,
             identityField, exists, success, relatedToSave, objId,
             manager, savedSnapshot, savedOldSnapshot;
         bool hasRelatedToSave;
@@ -2832,14 +2811,10 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         }
 
         /**
-         * Create/Get the current database connection
+         * We need to check if the record exists. Use the write connection
+         * to prevent replica lag
          */
-        let readConnection = this->getReadConnection();
-
-        /**
-         * We need to check if the record exists
-         */
-        let exists = this->has(metaData, readConnection);
+        let exists = this->has(metaData, writeConnection);
 
         if exists {
             let this->operationMade = self::OP_UPDATE;
@@ -3360,7 +3335,13 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     }
 
     /**
-     * Enables/disables options in the ORM
+     * Enables/disables options in the ORM.
+     *
+     * The options are written to process-global `Phalcon\Support\Settings`
+     * (`orm.*` flags) and therefore affect every model in the process at once.
+     * Call this once during bootstrap; it is not per-model or per-container
+     * configuration, and one application's `setup()` reconfigures the ORM for
+     * every other user in the same process.
      */
     public static function setup(array! options) -> void
     {
@@ -3523,6 +3504,10 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             return (float) result;
         }
 
+        if result === null {
+            return 0.0;
+        }
+
         return result;
     }
 
@@ -3639,11 +3624,11 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         if this->dirtyState {
             let metaData = this->getModelsMetaData();
 
-            if !this->has(metaData, this->getReadConnection()) {
+            if !this->has(metaData, this->getWriteConnection()) {
                 let this->errorMessages = [
                     new Message(
                         "Record cannot be updated because it does not exist",
-                        null,
+                        "",
                         "InvalidUpdateAttempt",
                         0,
                         [
@@ -4821,9 +4806,9 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * @param string alias
      * @param array|string|null parameters
      *
-     * @return ResultsetInterface
+     * @return int|float|string|null|ResultsetInterface
      */
-    protected static function groupResult(string! functionName, string! alias, var parameters = null) -> <ResultsetInterface>
+    protected static function groupResult(string! functionName, string! alias, var parameters = null) -> var
     {
         var params, distinctColumn, groupColumn, columns,
             resultset, cache, firstRow, groupColumns, builder, query, container,

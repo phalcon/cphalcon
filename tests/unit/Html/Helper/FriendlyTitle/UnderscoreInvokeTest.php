@@ -15,6 +15,7 @@ use Phalcon\Html\Escaper;
 use Phalcon\Html\Helper\FriendlyTitle;
 use Phalcon\Html\TagFactory;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class UnderscoreInvokeTest extends AbstractUnitTestCase
 {
@@ -77,11 +78,10 @@ final class UnderscoreInvokeTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2026-04-17
      */
+    #[DataProvider('getExamples')]
     public function testHtmlHelperFriendlyTitleUnderscoreInvoke(
         string $expected,
         string $text,

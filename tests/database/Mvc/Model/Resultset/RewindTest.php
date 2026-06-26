@@ -14,15 +14,52 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Database\Mvc\Model\Resultset;
 
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 
+#[Group('phql')]
 final class RewindTest extends AbstractDatabaseTestCase
 {
+    use ResultsetFixtureTrait;
+
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+        $this->seedResultsetFixture();
+    }
+
+    /**
+     * After advancing the cursor, rewind() returns a populated resultset to
+     * row 0; an empty one is invalid, so key() is null.
+     *
+     * @return array<string, array{0: string, 1: int|null}>
+     */
+    public static function getExamples(): array
+    {
+        return [
+            'simple'  => ['simple', 0],
+            'complex' => ['complex', 0],
+            'empty'   => ['empty', null],
+        ];
+    }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2026-06-22
      */
-    public function testMvcModelResultsetRewind(): void
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    #[DataProvider('getExamples')]
+    public function testMvcModelResultsetRewind(string $type, ?int $expected): void
     {
-        $this->markTestSkipped('Need implementation');
+        $resultset = $this->getResultset($type);
+
+        $resultset->next();
+        $resultset->next();
+        $resultset->rewind();
+
+        $this->assertSame($expected, $resultset->key());
     }
 }

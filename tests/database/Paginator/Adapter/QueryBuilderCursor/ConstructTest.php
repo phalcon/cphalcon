@@ -21,6 +21,7 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 use stdClass;
 
 final class ConstructTest extends AbstractDatabaseTestCase
@@ -42,11 +43,10 @@ final class ConstructTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-14
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testPaginatorAdapterQuerybuilderCursorConstruct(): void
     {
         $manager = $this->getService('modelsManager');
@@ -73,26 +73,28 @@ final class ConstructTest extends AbstractDatabaseTestCase
 
     /**
      * Tests Phalcon\Paginator\Adapter\QueryBuilderCursor :: __construct() -
-     * exception missing limit
+     * exception empty cursorColumn
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-14
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
-    public function testPaginatorAdapterQuerybuilderCursorConstructExceptionMissingLimit(): void
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testPaginatorAdapterQuerybuilderCursorConstructExceptionEmptyCursorColumn(): void
     {
         $this->expectException(Exception::class);
-        $this->expectExceptionMessage("Parameter 'limit' is required");
+        $this->expectExceptionMessage(
+            "Parameter 'cursorColumn' must be a non-empty string"
+        );
 
         $manager = $this->getService('modelsManager');
 
         new QueryBuilderCursor(
             [
                 'builder'      => $manager->createBuilder()->from(Invoices::class),
-                'cursorColumn' => 'inv_id',
+                'limit'        => 10,
+                'cursorColumn' => '',
             ]
         );
     }
@@ -103,11 +105,10 @@ final class ConstructTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-14
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testPaginatorAdapterQuerybuilderCursorConstructExceptionInvalidBuilder(): void
     {
         $this->expectException(Exception::class);
@@ -130,11 +131,10 @@ final class ConstructTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-14
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testPaginatorAdapterQuerybuilderCursorConstructExceptionMissingCursorColumn(): void
     {
         $this->expectException(Exception::class);
@@ -152,29 +152,25 @@ final class ConstructTest extends AbstractDatabaseTestCase
 
     /**
      * Tests Phalcon\Paginator\Adapter\QueryBuilderCursor :: __construct() -
-     * exception empty cursorColumn
+     * exception missing limit
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-14
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
-    public function testPaginatorAdapterQuerybuilderCursorConstructExceptionEmptyCursorColumn(): void
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testPaginatorAdapterQuerybuilderCursorConstructExceptionMissingLimit(): void
     {
         $this->expectException(Exception::class);
-        $this->expectExceptionMessage(
-            "Parameter 'cursorColumn' must be a non-empty string"
-        );
+        $this->expectExceptionMessage("Parameter 'limit' is required");
 
         $manager = $this->getService('modelsManager');
 
         new QueryBuilderCursor(
             [
                 'builder'      => $manager->createBuilder()->from(Invoices::class),
-                'limit'        => 10,
-                'cursorColumn' => '',
+                'cursorColumn' => 'inv_id',
             ]
         );
     }

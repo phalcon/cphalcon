@@ -13,16 +13,37 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\Router\Annotations;
 
+use Phalcon\Mvc\Router\Annotations;
 use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Tests\Support\Traits\DiTrait;
 
 final class WasMatchedTest extends AbstractUnitTestCase
 {
+    use DiTrait;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->newDi();
+        $this->setDiService('request');
+        $this->setDiService('annotations');
+    }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function testMvcRouterAnnotationsWasMatched(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $router = new Annotations(false);
+        $router->setDI($this->container);
+
+        $this->assertFalse($router->wasMatched());
+
+        $router->add('/test', ['controller' => 'test', 'action' => 'index']);
+        $router->handle('/test');
+
+        $this->assertTrue($router->wasMatched());
     }
 }

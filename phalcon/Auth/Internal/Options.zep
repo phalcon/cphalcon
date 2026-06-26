@@ -14,8 +14,8 @@
 namespace Phalcon\Auth\Internal;
 
 use Phalcon\Auth\Exception;
-use Phalcon\Contracts\Container\Service\Collection;
-use Phalcon\Di\DiInterface;
+use Phalcon\Auth\Exceptions\OptionRequiresArray;
+use Phalcon\Auth\Exceptions\OptionRequiresString;
 
 /**
  * Internal option-parsing helpers shared by adapter / guard fromOptions()
@@ -46,6 +46,25 @@ final class Options
     /**
      * @phpstan-param array<string, mixed> $options
      *
+     * @phpstan-return array<string, mixed>
+     * @throws Exception
+     */
+    public static function requireArray(array options, string key, string context) -> array
+    {
+        var value;
+
+        fetch value, options[key];
+
+        if (typeof value !== "array" || empty(value)) {
+            throw new OptionRequiresArray(context, key);
+        }
+
+        return value;
+    }
+
+    /**
+     * @phpstan-param array<string, mixed> $options
+     *
      * @throws Exception
      */
     public static function requireString(array options, string key, string context) -> string
@@ -55,44 +74,10 @@ final class Options
         fetch value, options[key];
 
         if (typeof value !== "string" || value === "") {
-            throw new Exception(
-                sprintf("Auth %s requires '%s' to be a non-empty string", context, key)
-            );
+            throw new OptionRequiresString(context, key);
         }
 
         return value;
-    }
-
-    /**
-     * @template T of object
-     *
-     * @phpstan-param class-string<T> $serviceId
-     *
-     * @phpstan-return T
-     *
-     * @throws Exception
-     */
-    public static function resolveService(
-        var container,
-        string serviceId,
-        string context
-    ) -> object {
-        if (!(container instanceof Collection) && !(container instanceof DiInterface)) {
-            throw new \TypeError("The parameter must be an instance of Collection or DiInterface");
-        }
-
-        if (!container->has(serviceId)) {
-            throw new Exception(
-                sprintf(
-                    "Auth %s requires service '%s' to be bound in the container",
-                    context,
-                    serviceId
-                )
-            );
-        }
-
-        /** @var T */
-        return container->get(serviceId);
     }
 
     /**

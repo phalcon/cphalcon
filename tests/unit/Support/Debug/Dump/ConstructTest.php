@@ -30,10 +30,6 @@ final class ConstructTest extends AbstractUnitTestCase
      */
     public function testSupportDebugDumpConstructDump(): void
     {
-        if (PHP_OS_FAMILY === 'Windows') {
-            $this->markTestSkipped('Need to fix Windows new lines...');
-        }
-
         $patient = new ClassProperties();
         $dump = new Dump([], true);
 

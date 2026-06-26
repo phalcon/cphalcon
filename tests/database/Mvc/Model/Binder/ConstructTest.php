@@ -13,8 +13,15 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Mvc\Model\Binder;
 
+use Phalcon\Cache\Adapter\Memory;
+use Phalcon\Mvc\Model\Binder;
+use Phalcon\Storage\SerializerFactory;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
+#[Group('mysql')]
+#[Group('pgsql')]
+#[Group('sqlite')]
 final class ConstructTest extends AbstractDatabaseTestCase
 {
     /**
@@ -23,6 +30,13 @@ final class ConstructTest extends AbstractDatabaseTestCase
      */
     public function testMvcModelBinderConstruct(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $serializer = new SerializerFactory();
+        $cache      = new Memory($serializer);
+
+        $binder = new Binder($cache);
+
+        $this->assertInstanceOf(Binder::class, $binder);
+        $this->assertSame($cache, $binder->getCache());
+        $this->assertSame([], $binder->getBoundModels());
     }
 }

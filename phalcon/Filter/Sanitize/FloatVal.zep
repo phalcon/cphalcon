@@ -10,12 +10,14 @@
 
 namespace Phalcon\Filter\Sanitize;
 
+use Phalcon\Contracts\Filter\Sanitizer;
+
 /**
  * Phalcon\Filter\Sanitize\FloatVal
  *
  * Sanitizes a value to float
  */
-class FloatVal
+class FloatVal implements Sanitizer
 {
     /**
      * @param mixed $input The text to sanitize

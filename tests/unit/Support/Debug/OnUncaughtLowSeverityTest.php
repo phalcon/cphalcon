@@ -29,6 +29,18 @@ final class OnUncaughtLowSeverityTest extends AbstractUnitTestCase
         $this->expectExceptionMessage('Test warning message');
 
         $debug = new Debug();
-        $debug->onUncaughtLowSeverity(E_WARNING, 'Test warning message', __FILE__, __LINE__);
+
+        /**
+         * PHPUnit lowers error_reporting() to unhandleable levels while a test
+         * runs, which masks out E_WARNING. Add it back so the handler guard
+         * (error_reporting() & severity) is satisfied, then restore the level.
+         */
+        $previous = error_reporting(error_reporting() | E_WARNING);
+
+        try {
+            $debug->onUncaughtLowSeverity(E_WARNING, 'Test warning message', __FILE__, __LINE__);
+        } finally {
+            error_reporting($previous);
+        }
     }
 }

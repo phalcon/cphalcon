@@ -15,6 +15,7 @@ namespace Phalcon\Tests\Unit\Translate\Fake;
 
 use Phalcon\Translate\Adapter\NativeArray;
 use Phalcon\Translate\InterpolatorFactory;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 trait TranslateNativeArrayHelperTrait
 {
@@ -70,11 +71,10 @@ trait TranslateNativeArrayHelperTrait
     }
 
     /**
-     * @dataProvider getQueryProvider
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
+    #[DataProvider('getQueryProvider')]
     public function testTranslateAdapterNativearrayQuery(string $code, array $tests): void
     {
 
@@ -89,21 +89,10 @@ trait TranslateNativeArrayHelperTrait
     }
 
     /**
-     * @return array
-     */
-    abstract protected function getArrayConfig(): array;
-
-    /**
-     * @return string
-     */
-    abstract protected function func(): string;
-
-    /**
-     * @dataProvider getQueryProvider
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
+    #[DataProvider('getQueryProvider')]
     public function testTranslateAdapterNativearrayVariableSubstitutionNoVariables(string $code, array $tests): void
     {
 
@@ -117,10 +106,7 @@ trait TranslateNativeArrayHelperTrait
         }
     }
 
-    /**
-     * @dataProvider getQueryOneVariable
-     *
-     */
+    #[DataProvider('getQueryOneVariable')]
     public function testTranslateAdapterNativearrayVariableSubstitutionOneVariable(string $code, array $tests): void
     {
 
@@ -134,11 +120,10 @@ trait TranslateNativeArrayHelperTrait
     }
 
     /**
-     * @dataProvider getQueryTwoVariables
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
+    #[DataProvider('getQueryTwoVariables')]
     public function testTranslateAdapterNativearrayVariableSubstitutionTwoVariable(string $code, array $tests): void
     {
 
@@ -173,4 +158,14 @@ trait TranslateNativeArrayHelperTrait
         $actual = $translator->{$this->func()}('Hello %fname% %mname% %lname%!', $vars);
         $this->assertSame($expected, $actual);
     }
+
+    /**
+     * @return string
+     */
+    abstract protected function func(): string;
+
+    /**
+     * @return array
+     */
+    abstract protected function getArrayConfig(): array;
 }

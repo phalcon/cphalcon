@@ -20,6 +20,7 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Models\InvoicesMap;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 final class IntrospectionTest extends AbstractDatabaseTestCase
 {
@@ -28,9 +29,8 @@ final class IntrospectionTest extends AbstractDatabaseTestCase
     /**
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2023-07-01
-     *
-     * @group mysql
      */
+    #[Group('mysql')]
     public function testMvcModelMetadataIntrospection(): void
     {
         $this->setNewFactoryDefault();
@@ -109,11 +109,10 @@ final class IntrospectionTest extends AbstractDatabaseTestCase
     /**
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2023-07-01
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelMetadataIntrospectionException(): void
     {
         $this->setNewFactoryDefault();

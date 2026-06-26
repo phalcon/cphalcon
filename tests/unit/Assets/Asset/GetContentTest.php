@@ -19,6 +19,7 @@ use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Assets\Fake\AssetsTrait;
 use Phalcon\Tests\Unit\Assets\Fake\FakeAssetFileExists;
 use Phalcon\Tests\Unit\Assets\Fake\FakeAssetFileGetContents;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 use function file_get_contents;
 use function supportDir;
@@ -30,11 +31,10 @@ final class GetContentTest extends AbstractUnitTestCase
     use AssetsTrait;
 
     /**
-     * @dataProvider providerAssets
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
+    #[DataProvider('providerAssets')]
     public function testAssetsAssetGetContent(
         string $type,
         string $path
@@ -42,23 +42,6 @@ final class GetContentTest extends AbstractUnitTestCase
         $asset = new Asset($type, $path);
 
         $expected = file_get_contents(supportDir($path));
-        $expected = str_replace("\r\n", PHP_EOL, $expected);
-        $actual   = $asset->getContent(supportDir());
-        $this->assertSame($expected, $actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2020-09-09
-     */
-    public function testAssetsAssetGetContentWithSourcePath(): void
-    {
-        $path   = 'assets/assets/jquery.js';
-        $source = 'assets/assets/1198.css';
-        $asset  = new Asset('js', $path);
-        $asset->setSourcePath($source);
-
-        $expected = file_get_contents(supportDir($source));
         $expected = str_replace("\r\n", PHP_EOL, $expected);
         $actual   = $asset->getContent(supportDir());
         $this->assertSame($expected, $actual);
@@ -93,5 +76,22 @@ final class GetContentTest extends AbstractUnitTestCase
 
         $asset = new FakeAssetFileGetContents('css', $file);
         $asset->getContent(supportDir());
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    public function testAssetsAssetGetContentWithSourcePath(): void
+    {
+        $path   = 'assets/assets/jquery.js';
+        $source = 'assets/assets/1198.css';
+        $asset  = new Asset('js', $path);
+        $asset->setSourcePath($source);
+
+        $expected = file_get_contents(supportDir($source));
+        $expected = str_replace("\r\n", PHP_EOL, $expected);
+        $actual   = $asset->getContent(supportDir());
+        $this->assertSame($expected, $actual);
     }
 }

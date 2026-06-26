@@ -47,7 +47,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Paginator_Adapter, paginate);
  *
  * @param int $page
  *
- * @return AdapterInterface
+ * @return Adapter
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Paginator_Adapter, setCurrentPage);
 /**
@@ -55,6 +55,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Paginator_Adapter, setCurrentPage);
  *
  * @param int $limit
  *
- * @return AdapterInterface
+ * @return Adapter
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Paginator_Adapter, setLimit);

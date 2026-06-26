@@ -13,8 +13,14 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Db\Profiler;
 
+use Phalcon\Db\Profiler;
+use Phalcon\Db\Profiler\Item;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
+#[Group('mysql')]
+#[Group('pgsql')]
+#[Group('sqlite')]
 final class StopProfileTest extends AbstractDatabaseTestCase
 {
     /**
@@ -25,6 +31,17 @@ final class StopProfileTest extends AbstractDatabaseTestCase
      */
     public function testDbProfilerStopProfile(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $profiler = new Profiler();
+
+        $profiler->startProfile('SELECT * FROM robots');
+        $returned = $profiler->stopProfile();
+
+        $this->assertSame($profiler, $returned);
+        $this->assertSame(1, $profiler->getNumberTotalStatements());
+
+        $profile = $profiler->getLastProfile();
+
+        $this->assertInstanceOf(Item::class, $profile);
+        $this->assertGreaterThan(0, $profile->getFinalTime());
     }
 }

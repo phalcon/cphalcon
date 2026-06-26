@@ -15,6 +15,7 @@ namespace Phalcon\Tests\Unit\Translate\Fake;
 
 use Phalcon\Translate\Adapter\Gettext;
 use Phalcon\Translate\InterpolatorFactory;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 trait TranslateGettextHelperTrait
 {
@@ -53,6 +54,77 @@ trait TranslateGettextHelperTrait
     }
 
     /**
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2020-09-09
+     */
+    #[DataProvider('getQueryProvider')]
+    public function testTranslateAdapterGettextQuery(array $tests): void
+    {
+
+        $language = $this->getGettextConfig();
+        $translator = new Gettext(new InterpolatorFactory(), $language);
+
+        foreach ($tests as $key => $expected) {
+            $actual = $translator->{$this->func()}($key);
+            $this->assertSame($expected, $actual);
+        }
+    }
+
+    /**
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2020-09-09
+     */
+    #[DataProvider('getQueryProvider')]
+    public function testTranslateAdapterGettextVariableSubstitutionNoVariables(array $tests): void
+    {
+
+        $language = $this->getGettextConfig();
+        $translator = new Gettext(new InterpolatorFactory(), $language);
+
+        foreach ($tests as $key => $expected) {
+            $actual = $translator->{$this->func()}($key, ['name' => 'my friend',]);
+            $this->assertSame($expected, $actual);
+        }
+    }
+
+    /**
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2020-09-09
+     */
+    #[DataProvider('getQueryOneVariable')]
+    public function testTranslateAdapterGettextVariableSubstitutionOneVariable(array $tests): void
+    {
+
+        $language = $this->getGettextConfig();
+        $translator = new Gettext(new InterpolatorFactory(), $language);
+
+        foreach ($tests as $key => $expected) {
+            $actual = $translator->{$this->func()}($key, ['name' => 'my friend']);
+            $this->assertSame($expected, $actual);
+        }
+    }
+
+    /**
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2020-09-09
+     */
+    #[DataProvider('getQueryTwoVariables')]
+    public function testTranslateAdapterGettextVariableSubstitutionTwoVariable(array $tests): void
+    {
+
+        $language = $this->getGettextConfig();
+        $translator = new Gettext(new InterpolatorFactory(), $language);
+
+        $vars = ['song' => 'Dust in the wind',
+            'artist' => 'Kansas',];
+
+        foreach ($tests as $key => $expected) {
+            $actual = $translator->{$this->func()}($key, $vars);
+            $this->assertSame($expected, $actual);
+        }
+    }
+
+    /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -73,87 +145,12 @@ trait TranslateGettextHelperTrait
     }
 
     /**
-     * @return array
-     */
-    abstract protected function getGettextConfig(): array;
-
-    /**
      * @return string
      */
     abstract protected function func(): string;
 
     /**
-     * @dataProvider getQueryProvider
-     *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2020-09-09
+     * @return array
      */
-    public function testTranslateAdapterGettextQuery(array $tests): void
-    {
-
-        $language = $this->getGettextConfig();
-        $translator = new Gettext(new InterpolatorFactory(), $language);
-
-        foreach ($tests as $key => $expected) {
-            $actual = $translator->{$this->func()}($key);
-            $this->assertSame($expected, $actual);
-        }
-    }
-
-    /**
-     * @dataProvider getQueryProvider
-     *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2020-09-09
-     */
-    public function testTranslateAdapterGettextVariableSubstitutionNoVariables(array $tests): void
-    {
-
-        $language = $this->getGettextConfig();
-        $translator = new Gettext(new InterpolatorFactory(), $language);
-
-        foreach ($tests as $key => $expected) {
-            $actual = $translator->{$this->func()}($key, ['name' => 'my friend',]);
-            $this->assertSame($expected, $actual);
-        }
-    }
-
-    /**
-     * @dataProvider getQueryOneVariable
-     *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2020-09-09
-     */
-    public function testTranslateAdapterGettextVariableSubstitutionOneVariable(array $tests): void
-    {
-
-        $language = $this->getGettextConfig();
-        $translator = new Gettext(new InterpolatorFactory(), $language);
-
-        foreach ($tests as $key => $expected) {
-            $actual = $translator->{$this->func()}($key, ['name' => 'my friend']);
-            $this->assertSame($expected, $actual);
-        }
-    }
-
-    /**
-     * @dataProvider getQueryTwoVariables
-     *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2020-09-09
-     */
-    public function testTranslateAdapterGettextVariableSubstitutionTwoVariable(array $tests): void
-    {
-
-        $language = $this->getGettextConfig();
-        $translator = new Gettext(new InterpolatorFactory(), $language);
-
-        $vars = ['song' => 'Dust in the wind',
-            'artist' => 'Kansas',];
-
-        foreach ($tests as $key => $expected) {
-            $actual = $translator->{$this->func()}($key, $vars);
-            $this->assertSame($expected, $actual);
-        }
-    }
+    abstract protected function getGettextConfig(): array;
 }

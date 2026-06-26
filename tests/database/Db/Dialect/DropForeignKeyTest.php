@@ -18,6 +18,8 @@ use Phalcon\Db\Dialect\Postgresql;
 use Phalcon\Db\Dialect\Sqlite;
 use Phalcon\Db\Exception;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 
 final class DropForeignKeyTest extends AbstractDatabaseTestCase
 {
@@ -41,13 +43,33 @@ final class DropForeignKeyTest extends AbstractDatabaseTestCase
     }
 
     /**
+     * Tests Phalcon\Db\Dialect :: dropForeignKey
+     *
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2020-01-20
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    #[DataProvider('getDialects')]
+    public function testDbDialectDropForeignKey(
+        string $dialectClass,
+        string $expected
+    ): void {
+        /** @var Mysql $dialect */
+        $dialect = new $dialectClass();
+
+        $actual = $dialect->dropForeignKey('table', 'schema', 'fk_1');
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
      * Tests Phalcon\Db\Dialect :: dropForeignKey - sqlite throws exception
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-01-20
-     *
-     * @group sqlite
      */
+    #[Group('sqlite')]
     public function testDbDialectDropForeignKeySqlite(): void
     {
         $this->expectException(Exception::class);
@@ -58,28 +80,5 @@ final class DropForeignKeyTest extends AbstractDatabaseTestCase
         $dialect = new Sqlite();
 
         $dialect->dropForeignKey('table', 'schema', 'fk_1');
-    }
-
-    /**
-     * Tests Phalcon\Db\Dialect :: dropForeignKey
-     *
-     * @dataProvider getDialects
-     *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2020-01-20
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
-     */
-    public function testDbDialectDropForeignKey(
-        string $dialectClass,
-        string $expected
-    ): void {
-        /** @var Mysql $dialect */
-        $dialect = new $dialectClass();
-
-        $actual = $dialect->dropForeignKey('table', 'schema', 'fk_1');
-        $this->assertSame($expected, $actual);
     }
 }

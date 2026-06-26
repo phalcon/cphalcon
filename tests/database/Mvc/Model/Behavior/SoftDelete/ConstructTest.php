@@ -13,8 +13,14 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Mvc\Model\Behavior\SoftDelete;
 
+use Phalcon\Mvc\Model\Behavior;
+use Phalcon\Mvc\Model\Behavior\SoftDelete;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
+#[Group('mysql')]
+#[Group('pgsql')]
+#[Group('sqlite')]
 final class ConstructTest extends AbstractDatabaseTestCase
 {
     /**
@@ -23,6 +29,24 @@ final class ConstructTest extends AbstractDatabaseTestCase
      */
     public function testMvcModelBehaviorSoftdeleteConstruct(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $behavior = new SoftDelete(
+            [
+                'field' => 'inv_status_flag',
+                'value' => 0,
+            ]
+        );
+
+        $this->assertInstanceOf(SoftDelete::class, $behavior);
+        $this->assertInstanceOf(Behavior::class, $behavior);
+
+        $options = $this->invokeMethod($behavior, 'getOptions');
+
+        $this->assertSame(
+            [
+                'field' => 'inv_status_flag',
+                'value' => 0,
+            ],
+            $options
+        );
     }
 }

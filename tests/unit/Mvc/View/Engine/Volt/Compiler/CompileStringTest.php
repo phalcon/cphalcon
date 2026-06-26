@@ -18,6 +18,7 @@ use Phalcon\Mvc\View\Engine\Volt\Compiler;
 use Phalcon\Mvc\View\Exception;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 use function ob_get_clean;
 use function ob_start;
@@ -485,6 +486,19 @@ class CompileStringTest extends AbstractUnitTestCase
                 "{{ [1, 2]|join(',') }}",
                 "<?= join(',', [1, 2]) ?>",
             ],
+            // join filter - a separator containing a single quote must be
+            // escaped through expression(), not spliced raw into join('...').
+            [
+                "{{ [1, 2]|join(\"'\") }}",
+                "<?= join('\\'', [1, 2]) ?>",
+            ],
+            // join filter - a separator crafted to break out of the generated
+            // call is emitted as a single escaped string literal, so the
+            // injected payload is never executed.
+            [
+                "{{ [\"x\", \"y\"]|join(\"' . phpinfo() . '\") }}",
+                "<?= join('\\' . phpinfo() . \\'', ['x', 'y']) ?>",
+            ],
             // Issue: 16019
             [
                 "{{ readonly|default(false) ? 'readonly=\"readonly\"' : '' }}",
@@ -537,11 +551,10 @@ class CompileStringTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getVoltCompileString
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2017-01-17
      */
+    #[DataProvider('getVoltCompileString')]
     public function testMvcViewEngineVoltCompilerCompileString(
         string $param,
         string $expected
@@ -697,11 +710,10 @@ class CompileStringTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getVoltCompileStringErrors
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2017-01-17
      */
+    #[DataProvider('getVoltCompileStringErrors')]
     public function testMvcViewEngineVoltCompilerCompileStringSyntaxError(
         string $code,
         string $message

@@ -16,6 +16,7 @@ namespace Phalcon\Tests\Unit\Forms\Element;
 use Phalcon\Forms\Form;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Forms\Fake\FormsTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 use function uniqid;
 
@@ -24,11 +25,10 @@ final class GetSetFormTest extends AbstractUnitTestCase
     use FormsTrait;
 
     /**
-     * @dataProvider getExamples
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2021-12-05
      */
+    #[DataProvider('getExamples')]
     public function testFormsElementGetFormAdd(
         string $class
     ): void {
@@ -44,11 +44,10 @@ final class GetSetFormTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2021-12-05
      */
+    #[DataProvider('getExamples')]
     public function testFormsElementGetSetForm(
         string $class
     ): void {

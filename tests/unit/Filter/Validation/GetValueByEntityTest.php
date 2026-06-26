@@ -14,10 +14,10 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Filter\Validation;
 
 use Phalcon\Filter\Validation;
+use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Models\EntityWithGetter;
 use Phalcon\Tests\Support\Models\EntityWithHook;
 use Phalcon\Tests\Support\Models\EntityWithPublic;
-use Phalcon\Tests\AbstractUnitTestCase;
 
 final class GetValueByEntityTest extends AbstractUnitTestCase
 {

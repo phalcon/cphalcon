@@ -13,8 +13,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Db\Dialect\Postgresql;
 
+use Phalcon\Db\Dialect\Postgresql;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
+#[Group('mysql')]
+#[Group('pgsql')]
+#[Group('sqlite')]
 final class GetSqlTableTest extends AbstractDatabaseTestCase
 {
     /**
@@ -25,6 +30,21 @@ final class GetSqlTableTest extends AbstractDatabaseTestCase
      */
     public function testDbDialectPostgresqlGetSqlTable(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $dialect = new Postgresql();
+
+        $this->assertSame(
+            '"robots"',
+            $dialect->getSqlTable('robots')
+        );
+
+        $this->assertSame(
+            '"schema"."robots"',
+            $dialect->getSqlTable(['robots', 'schema'])
+        );
+
+        $this->assertSame(
+            '"schema"."robots" AS "r"',
+            $dialect->getSqlTable(['robots', 'schema', 'r'])
+        );
     }
 }

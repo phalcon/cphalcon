@@ -13,8 +13,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Db\Reference;
 
+use Phalcon\Db\Reference;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
+#[Group('mysql')]
+#[Group('pgsql')]
+#[Group('sqlite')]
 final class GetSchemaNameTest extends AbstractDatabaseTestCase
 {
     /**
@@ -25,6 +30,27 @@ final class GetSchemaNameTest extends AbstractDatabaseTestCase
      */
     public function testDbReferenceGetSchemaName(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $reference = new Reference(
+            'field_fk',
+            [
+                'referencedTable'   => 'products',
+                'columns'           => ['product_code'],
+                'referencedColumns' => ['code'],
+                'schema'            => 'public',
+            ]
+        );
+
+        $this->assertSame('public', $reference->getSchemaName());
+
+        $reference = new Reference(
+            'field_fk',
+            [
+                'referencedTable'   => 'products',
+                'columns'           => ['product_code'],
+                'referencedColumns' => ['code'],
+            ]
+        );
+
+        $this->assertNull($reference->getSchemaName());
     }
 }

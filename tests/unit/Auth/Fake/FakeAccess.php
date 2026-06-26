@@ -17,18 +17,49 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Auth\Fake;
 
 use Phalcon\Auth\Access\AbstractAccess;
+use Phalcon\Contracts\Auth\Guard\Guard;
 
 final class FakeAccess extends AbstractAccess
 {
     private bool $allowed = false;
 
-    public function allowedIf(): bool
+    private string $lastAction = '';
+
+    private array $lastContext = [];
+
+    private ?Guard $lastGuard = null;
+
+    public function getLastAction(): string
     {
-        return $this->allowed;
+        return $this->lastAction;
+    }
+
+    public function getLastContext(): array
+    {
+        return $this->lastContext;
+    }
+
+    public function getLastGuard(): ?Guard
+    {
+        return $this->lastGuard;
+    }
+
+    public function isAllowed(Guard $guard, string $actionName, array $context = []): bool
+    {
+        $this->lastGuard   = $guard;
+        $this->lastAction  = $actionName;
+        $this->lastContext = $context;
+
+        return parent::isAllowed($guard, $actionName, $context);
     }
 
     public function setAllowed(bool $value): void
     {
         $this->allowed = $value;
+    }
+
+    protected function allowedIf(Guard $guard): bool
+    {
+        return $this->allowed;
     }
 }

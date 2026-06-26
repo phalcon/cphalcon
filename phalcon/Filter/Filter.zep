@@ -201,6 +201,42 @@ class Filter implements FilterInterface
     }
 
     /**
+     * Returns the default sanitizer name to class map. This is the single
+     * source for the built-in sanitizer registry: when adding a sanitizer,
+     * add its `FILTER_*` constant and its entry here.
+     *
+     * @return string[]
+     */
+    public static function getDefaultMapper() -> array
+    {
+        return [
+            self::FILTER_ABSINT        : "Phalcon\\Filter\\Sanitize\\AbsInt",
+            self::FILTER_ALNUM         : "Phalcon\\Filter\\Sanitize\\Alnum",
+            self::FILTER_ALPHA         : "Phalcon\\Filter\\Sanitize\\Alpha",
+            self::FILTER_BOOL          : "Phalcon\\Filter\\Sanitize\\BoolVal",
+            self::FILTER_EMAIL         : "Phalcon\\Filter\\Sanitize\\Email",
+            self::FILTER_FLOAT         : "Phalcon\\Filter\\Sanitize\\FloatVal",
+            self::FILTER_INT           : "Phalcon\\Filter\\Sanitize\\IntVal",
+            self::FILTER_IP            : "Phalcon\\Filter\\Sanitize\\Ip",
+            self::FILTER_LOWER         : "Phalcon\\Filter\\Sanitize\\Lower",
+            self::FILTER_LOWERFIRST    : "Phalcon\\Filter\\Sanitize\\LowerFirst",
+            self::FILTER_REGEX         : "Phalcon\\Filter\\Sanitize\\Regex",
+            self::FILTER_REMOVE        : "Phalcon\\Filter\\Sanitize\\Remove",
+            self::FILTER_REPLACE       : "Phalcon\\Filter\\Sanitize\\Replace",
+            self::FILTER_SPECIAL       : "Phalcon\\Filter\\Sanitize\\Special",
+            self::FILTER_SPECIALFULL   : "Phalcon\\Filter\\Sanitize\\SpecialFull",
+            self::FILTER_STRING        : "Phalcon\\Filter\\Sanitize\\StringVal",
+            self::FILTER_STRING_LEGACY : "Phalcon\\Filter\\Sanitize\\StringValLegacy",
+            self::FILTER_STRIPTAGS     : "Phalcon\\Filter\\Sanitize\\Striptags",
+            self::FILTER_TRIM          : "Phalcon\\Filter\\Sanitize\\Trim",
+            self::FILTER_UPPER         : "Phalcon\\Filter\\Sanitize\\Upper",
+            self::FILTER_UPPERFIRST    : "Phalcon\\Filter\\Sanitize\\UpperFirst",
+            self::FILTER_UPPERWORDS    : "Phalcon\\Filter\\Sanitize\\UpperWords",
+            self::FILTER_URL           : "Phalcon\\Filter\\Sanitize\\Url"
+        ];
+    }
+
+    /**
      * Checks if a service exists in the map array
      *
      * @param string $name
@@ -214,6 +250,14 @@ class Filter implements FilterInterface
 
     /**
      * Sanitizes a value with a specified single or set of sanitizers
+     *
+     * Array policy: when `$value` is an array and `$noRecursive` is `false`
+     * (the default), each element is passed to the sanitizer individually
+     * and an array is returned - recursion is one level deep only. Elements
+     * that are themselves arrays are passed to the sanitizer as-is, which
+     * raises a `TypeError` for sanitizers that type their value parameter
+     * (e.g. `trim`). When `$noRecursive` is `true`, the whole array is
+     * passed to the sanitizer as a single value.
      *
      * @param mixed $value
      * @param mixed $sanitizers

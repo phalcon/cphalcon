@@ -18,9 +18,76 @@ use Phalcon\DataMapper\Pdo\Connection;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 
+use function env;
+
+#[Group('mysql')]
+#[Group('pgsql')]
+#[Group('sqlite')]
 final class FetchOneTest extends AbstractDatabaseTestCase
 {
+    public static function providerFetchOneBindTypes(): array
+    {
+        $data = [
+            [
+                'numeric',
+                'inv_id = ?',
+                [0 => 1],
+            ],
+            [
+                'named',
+                'inv_id = :id',
+                ['id' => 1],
+            ],
+            [
+                'named boolean',
+                'inv_status_flag = :status',
+                [
+                    'status' => true,
+                ],
+            ],
+            [
+                'named boolean with type',
+                'inv_status_flag = :status',
+                [
+                    'status' => [true, PDO::PARAM_BOOL],
+                ],
+            ],
+            [
+                'named string',
+                'inv_title = :title',
+                [
+                    'title' => 'test-1',
+                ],
+            ],
+        ];
+
+        /**
+         * `IS NOT :param` is valid on MySQL/SQLite but not on PostgreSQL,
+         * where a parameter cannot be bound inside an `IS NOT` predicate.
+         */
+        if ('pgsql' !== env('driver')) {
+            $data[] = [
+                'named null',
+                'inv_id = :id AND inv_status_flag IS NOT :status',
+                [
+                    'id'     => 1,
+                    'status' => null,
+                ],
+            ];
+            $data[] = [
+                'named null with type',
+                'inv_id = :id AND inv_status_flag IS NOT :status',
+                [
+                    'id'     => [1, PDO::PARAM_INT],
+                    'status' => [null, PDO::PARAM_NULL],
+                ],
+            ];
+        }
+
+        return $data;
+    }
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-01-25
@@ -56,31 +123,6 @@ final class FetchOneTest extends AbstractDatabaseTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-01-25
      */
-    public function testDMPdoConnectionFetchOneNoResult(): void
-    {
-        /** @var Connection $connection */
-        $connection = self::getDataMapperConnection();
-        $migration  = new InvoicesMigration(self::getConnection());
-        $migration->clear();
-
-        $result = $migration->insert(1);
-        $this->assertEquals(1, $result);
-
-        $all = $connection->fetchOne(
-            'select * from co_invoices WHERE inv_id = ?',
-            [
-                0 => 7,
-            ]
-        );
-
-        $this->assertIsArray($all);
-        $this->assertEmpty($all);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2020-01-25
-     */
     #[DataProvider('providerFetchOneBindTypes')]
     public function testDMPdoConnectionFetchOneBindTypes(
         string $label,
@@ -104,56 +146,28 @@ final class FetchOneTest extends AbstractDatabaseTestCase
         $this->assertEquals(1, $all['inv_id']);
     }
 
-    public static function providerFetchOneBindTypes(): array
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-01-25
+     */
+    public function testDMPdoConnectionFetchOneNoResult(): void
     {
-        return [
+        /** @var Connection $connection */
+        $connection = self::getDataMapperConnection();
+        $migration  = new InvoicesMigration(self::getConnection());
+        $migration->clear();
+
+        $result = $migration->insert(1);
+        $this->assertEquals(1, $result);
+
+        $all = $connection->fetchOne(
+            'select * from co_invoices WHERE inv_id = ?',
             [
-                'numeric',
-                'inv_id = ?',
-                [0 => 1],
-            ],
-            [
-                'named',
-                'inv_id = :id',
-                ['id' => 1],
-            ],
-            [
-                'named boolean',
-                'inv_status_flag = :status',
-                [
-                    'status' => true,
-                ],
-            ],
-            [
-                'named boolean with type',
-                'inv_status_flag = :status',
-                [
-                    'status' => [true, PDO::PARAM_BOOL],
-                ],
-            ],
-            [
-                'named null',
-                'inv_id = :id AND inv_status_flag IS NOT :status',
-                [
-                    'id'     => 1,
-                    'status' => null,
-                ],
-            ],
-            [
-                'named null with type',
-                'inv_id = :id AND inv_status_flag IS NOT :status',
-                [
-                    'id'     => [1, PDO::PARAM_INT],
-                    'status' => [null, PDO::PARAM_NULL],
-                ],
-            ],
-            [
-                'named string',
-                'inv_title = :title',
-                [
-                    'title' => 'test-1',
-                ],
-            ],
-        ];
+                0 => 7,
+            ]
+        );
+
+        $this->assertIsArray($all);
+        $this->assertEmpty($all);
     }
 }

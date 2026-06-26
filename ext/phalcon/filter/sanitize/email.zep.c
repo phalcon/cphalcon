@@ -34,6 +34,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_Email)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Filter\\Sanitize, Email, phalcon, filter_sanitize_email, phalcon_filter_sanitize_email_method_entry, 0);
 
+	zend_class_implements(phalcon_filter_sanitize_email_ce, 1, phalcon_contracts_filter_sanitizer_ce);
 	return SUCCESS;
 }
 

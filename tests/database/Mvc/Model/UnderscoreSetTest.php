@@ -18,11 +18,9 @@ use Phalcon\Tests\Support\Migrations\CustomersMigration;
 use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Models;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
-/**
- *
- * @group phql
- */
+#[Group('phql')]
 final class UnderscoreSetTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -41,11 +39,10 @@ final class UnderscoreSetTest extends AbstractDatabaseTestCase
     /**
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2019-05-02
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelUnderscoreSet(): void
     {
         $customer = new Models\Customers();
@@ -91,11 +88,10 @@ final class UnderscoreSetTest extends AbstractDatabaseTestCase
     /**
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2019-05-02
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelUnderscoreSetIsUsingSetters(): void
     {
         $customer = new Models\Customers();
@@ -141,11 +137,10 @@ final class UnderscoreSetTest extends AbstractDatabaseTestCase
     /**
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2019-05-02
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelUnderscoreSetUndefinedPropertyWithAssociativeArray(): void
     {
         $associativeArray = [
@@ -170,11 +165,10 @@ final class UnderscoreSetTest extends AbstractDatabaseTestCase
     /**
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2019-05-02
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelUnderscoreSetWithArrayOfBelongsToRelatedRecord(): void
     {
         $invoice           = new Models\Invoices();
@@ -209,11 +203,10 @@ final class UnderscoreSetTest extends AbstractDatabaseTestCase
     /**
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2019-05-02
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelUnderscoreSetWithArrayOfHasOneRelatedRecord(): void
     {
         $invoice           = new Models\Invoices();
@@ -248,11 +241,10 @@ final class UnderscoreSetTest extends AbstractDatabaseTestCase
     /**
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2019-05-02
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelUnderscoreSetWithBelongsToRelatedRecord(): void
     {
         $customerSnap           = new Models\CustomersKeepSnapshots();
@@ -274,11 +266,10 @@ final class UnderscoreSetTest extends AbstractDatabaseTestCase
     /**
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2019-05-02
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelUnderscoreSetWithHasManyRelatedRecords(): void
     {
         /** @var PDO $connection */
@@ -381,11 +372,10 @@ final class UnderscoreSetTest extends AbstractDatabaseTestCase
     /**
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2019-05-02
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelUnderscoreSetWithHasManyToManyRelatedRecords(): void
     {
         $order           = new Models\Orders();
@@ -424,11 +414,10 @@ final class UnderscoreSetTest extends AbstractDatabaseTestCase
     /**
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2019-05-02
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelUnderscoreSetWithHasOneRelatedRecord(): void
     {
         $invoice           = new Models\Invoices();
@@ -450,11 +439,10 @@ final class UnderscoreSetTest extends AbstractDatabaseTestCase
     /**
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2019-11-03
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelUnderscoreSetWithHasOneThroughRelatedRecord(): void
     {
         $product = new Models\Products();

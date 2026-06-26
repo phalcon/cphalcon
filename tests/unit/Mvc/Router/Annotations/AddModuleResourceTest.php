@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\Router\Annotations;
 
+use Phalcon\Mvc\Router\Annotations;
 use Phalcon\Tests\AbstractUnitTestCase;
 
 final class AddModuleResourceTest extends AbstractUnitTestCase
@@ -23,6 +24,16 @@ final class AddModuleResourceTest extends AbstractUnitTestCase
      */
     public function testMvcRouterAnnotationsAddModuleResource(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $router = new Annotations(false);
+
+        $router->addModuleResource('frontend', 'Robots', '/robots');
+
+        // The resource is stored as [prefix, handler, module]
+        $this->assertSame(
+            [
+                ['/robots', 'Robots', 'frontend'],
+            ],
+            $router->getResources()
+        );
     }
 }

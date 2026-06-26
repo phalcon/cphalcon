@@ -79,20 +79,10 @@ abstract class AbstractValidator implements ValidatorInterface
      */
     public function getOption(string key, var defaultValue = null) -> var
     {
-        var value, fieldValue;
+        var value;
 
         if !fetch value, this->options[key] {
             return defaultValue;
-        }
-
-        /*
-         * If we have `attribute` as a key, it means it is a Uniqueness
-         * validator, we can have here multiple fields, so we need to check it
-         */
-        if key === "attribute" && typeof value === "array" {
-            if fetch fieldValue, value[key] {
-                return fieldValue;
-            }
         }
 
         return value;
@@ -141,6 +131,25 @@ abstract class AbstractValidator implements ValidatorInterface
     public function hasOption(string key) -> bool
     {
         return isset this->options[key];
+    }
+
+    /**
+     * Checks whether the field can be considered empty and therefore
+     * skipped, honoring the `allowEmpty` option (boolean flag, list of
+     * empty values, or per-field map).
+     *
+     * @param Validation $validation
+     * @param string     $field
+     *
+     * @return bool
+     */
+    public function isAllowEmpty(<Validation> validation, string field) -> bool
+    {
+        var value;
+
+        let value = validation->getValue(field);
+
+        return this->allowEmpty(field, value);
     }
 
     /**

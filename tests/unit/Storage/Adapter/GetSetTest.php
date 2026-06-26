@@ -24,6 +24,7 @@ use Phalcon\Storage\Adapter\Stream;
 use Phalcon\Storage\Adapter\Weak;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use SplObjectStorage;
 use SplQueue;
 use stdClass;
@@ -37,6 +38,46 @@ use function uniqid;
 
 final class GetSetTest extends AbstractUnitTestCase
 {
+    /**
+     * @return array[]
+     */
+    public static function getAdapters(): array
+    {
+        return [
+            [
+                Apcu::class,
+                [],
+                'apcu',
+            ],
+            [
+                Libmemcached::class,
+                getOptionsLibmemcached(),
+                'memcached',
+            ],
+            [
+                Memory::class,
+                [],
+                '',
+            ],
+            [
+                Redis::class,
+                getOptionsRedis(),
+                'redis',
+            ],
+            [
+                RedisCluster::class,
+                getOptionsRedisCluster(),
+                'redis',
+            ],
+            [
+                Stream::class,
+                [
+                    'storageDir' => outputDir(),
+                ],
+                '',
+            ],
+        ];
+    }
     /**
      * @return array[]
      */
@@ -346,11 +387,10 @@ final class GetSetTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamples
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
+    #[DataProvider('getExamples')]
     public function testStorageAdapterGetSet(
         string $extension,
         string $class,
@@ -383,83 +423,10 @@ final class GetSetTest extends AbstractUnitTestCase
     }
 
     /**
-     * @return array[]
-     */
-    public static function getAdapters(): array
-    {
-        return [
-            [
-                Apcu::class,
-                [],
-                'apcu',
-            ],
-            [
-                Libmemcached::class,
-                getOptionsLibmemcached(),
-                'memcached',
-            ],
-            [
-                Memory::class,
-                [],
-                '',
-            ],
-            [
-                Redis::class,
-                getOptionsRedis(),
-                'redis',
-            ],
-            [
-                RedisCluster::class,
-                getOptionsRedisCluster(),
-                'redis',
-            ],
-            [
-                Stream::class,
-                [
-                    'storageDir' => outputDir(),
-                ],
-                '',
-            ],
-        ];
-    }
-
-    /**
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2023-07-17
-     */
-    public function testStorageAdapterWeakGetSet(): void
-    {
-        $serializer = new SerializerFactory();
-        $adapter    = new Weak($serializer);
-
-        $key = uniqid();
-        $obj = new stdClass();
-
-        $result = $adapter->set($key, 'test');
-        $this->assertFalse($result);
-
-        $result = $adapter->set($key, $obj);
-        $this->assertTrue($result);
-
-        $result = $adapter->has($key);
-        $this->assertTrue($result);
-
-        /**
-         * There is no TTL.
-         */
-        $result = $adapter->set($key, $obj, 0);
-        $this->assertTrue($result);
-
-        $result = $adapter->has($key);
-        $this->assertTrue($result);
-    }
-
-    /**
-     * @dataProvider getAdapters
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
+    #[DataProvider('getAdapters')]
     public function testStorageAdapterGetSetWithZeroTtl(
         string $class,
         array $options,
@@ -516,28 +483,34 @@ final class GetSetTest extends AbstractUnitTestCase
     }
 
     /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-14
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2023-07-17
      */
-    public function testStorageAdapterWeakSetDuplicateKey(): void
+    public function testStorageAdapterWeakGetSet(): void
     {
         $serializer = new SerializerFactory();
         $adapter    = new Weak($serializer);
 
-        $key  = uniqid();
-        $obj1 = new stdClass();
-        $obj2 = new stdClass();
+        $key = uniqid();
+        $obj = new stdClass();
 
-        $result = $adapter->set($key, $obj1);
+        $result = $adapter->set($key, 'test');
+        $this->assertFalse($result);
+
+        $result = $adapter->set($key, $obj);
         $this->assertTrue($result);
 
-        // Second set on existing key returns true but keeps the first reference
-        $result = $adapter->set($key, $obj2);
+        $result = $adapter->has($key);
         $this->assertTrue($result);
 
-        // Original object is still returned
-        $actual = $adapter->get($key);
-        $this->assertSame($obj1, $actual);
+        /**
+         * There is no TTL.
+         */
+        $result = $adapter->set($key, $obj, 0);
+        $this->assertTrue($result);
+
+        $result = $adapter->has($key);
+        $this->assertTrue($result);
     }
 
     /**
@@ -565,5 +538,30 @@ final class GetSetTest extends AbstractUnitTestCase
 
         // Key must have been cleaned up during the get() call
         $this->assertFalse($adapter->has($key));
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-14
+     */
+    public function testStorageAdapterWeakSetDuplicateKey(): void
+    {
+        $serializer = new SerializerFactory();
+        $adapter    = new Weak($serializer);
+
+        $key  = uniqid();
+        $obj1 = new stdClass();
+        $obj2 = new stdClass();
+
+        $result = $adapter->set($key, $obj1);
+        $this->assertTrue($result);
+
+        // Second set on existing key returns true but keeps the first reference
+        $result = $adapter->set($key, $obj2);
+        $this->assertTrue($result);
+
+        // Original object is still returned
+        $actual = $adapter->get($key);
+        $this->assertSame($obj1, $actual);
     }
 }

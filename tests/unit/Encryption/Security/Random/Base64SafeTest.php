@@ -15,6 +15,7 @@ namespace Phalcon\Tests\Unit\Encryption\Security\Random;
 
 use Phalcon\Encryption\Security\Random;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class Base64SafeTest extends AbstractUnitTestCase
 {
@@ -88,11 +89,10 @@ final class Base64SafeTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider base64SafeProvider
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
+    #[DataProvider('base64SafeProvider')]
     public function testEncryptionSecurityRandomBase64Safe(
         int $len,
         bool $padding,

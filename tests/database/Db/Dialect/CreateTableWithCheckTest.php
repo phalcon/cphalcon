@@ -19,6 +19,7 @@ use Phalcon\Db\Dialect\Mysql;
 use Phalcon\Db\Dialect\Postgresql;
 use Phalcon\Db\Dialect\Sqlite;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
 final class CreateTableWithCheckTest extends AbstractDatabaseTestCase
 {
@@ -28,9 +29,8 @@ final class CreateTableWithCheckTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group mysql
      */
+    #[Group('mysql')]
     public function testDbDialectMysqlCreateTableWithCheck(): void
     {
         $dialect = new Mysql();
@@ -72,9 +72,8 @@ final class CreateTableWithCheckTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group pgsql
      */
+    #[Group('pgsql')]
     public function testDbDialectPostgresqlCreateTableWithCheck(): void
     {
         $dialect = new Postgresql();
@@ -115,9 +114,8 @@ final class CreateTableWithCheckTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group sqlite
      */
+    #[Group('sqlite')]
     public function testDbDialectSqliteCreateTableWithCheck(): void
     {
         $dialect = new Sqlite();

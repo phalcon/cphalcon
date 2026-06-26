@@ -14,11 +14,13 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Autoload\Loader;
 
 use Phalcon\Autoload\Exception;
+use Phalcon\Autoload\Exceptions\LoaderDirectoriesNotArray;
 use Phalcon\Autoload\Loader;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Autoload\Fake\LoaderTrait;
 
 use function hash;
+use function uniqid;
 
 final class GetAddSetNamespacesTest extends AbstractUnitTestCase
 {
@@ -26,14 +28,48 @@ final class GetAddSetNamespacesTest extends AbstractUnitTestCase
 
     /**
      * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-25
+     */
+    public function testAutoloaderLoaderAddNamespaceTrimsSeparators(): void
+    {
+        $loader = new Loader();
+        $loader->addNamespace('\Phalcon\Loader\\', '/path/to/loader/');
+
+        $expected = [
+            'Phalcon\Loader\\' => [
+                '/path/to/loader/' => '/path/to/loader/',
+            ],
+        ];
+        $actual   = $loader->getNamespaces();
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-25
+     */
+    public function testAutoloaderLoaderDirectoriesNotArrayMessage(): void
+    {
+        $namespace = uniqid('ns-');
+
+        $exception = new LoaderDirectoriesNotArray($namespace);
+        $expected  = "The directories parameter is not a string or array"
+            . " for the '" . $namespace . "' namespace";
+        $actual    = $exception->getMessage();
+        $this->assertSame($expected, $actual);
+
+        $exception = new LoaderDirectoriesNotArray();
+        $expected  = "The directories parameter is not a string or array";
+        $actual    = $exception->getMessage();
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
     public function testAutoloaderLoaderGetAddSetNamespaces(): void
     {
-        if (PHP_OS_FAMILY === 'Windows') {
-            $this->markTestSkipped('Need to fix Windows new lines...');
-        }
-
         $loader = new Loader();
 
         $expected = [];

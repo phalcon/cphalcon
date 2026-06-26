@@ -514,9 +514,17 @@ class Mysql extends PdoAdapter
                 }
 
                 /**
-                 * Check if the column has default value
+                 * Check if the column has default value.
+                 *
+                 * `INFORMATION_SCHEMA.COLUMNS.COLUMN_DEFAULT` reports a column
+                 * declared `DEFAULT NULL` as the literal string "NULL" (the
+                 * legacy `SHOW FULL COLUMNS` returned a real SQL NULL). Treat
+                 * that sentinel as "no default" so a nullable column is not
+                 * given the string "NULL" as its default, which would later be
+                 * written back onto the model attribute on save. See cphalcon
+                 * issue #17176.
                  */
-                if field[5] !== null {
+                if field[5] !== null && field[5] !== "NULL" {
                     if memstr(extraValue, "on update") {
                         let definition["default"] = field[5] . " " . extraValue;
                     } else {
@@ -743,5 +751,28 @@ class Mysql extends PdoAdapter
         return [
             "charset" : "utf8mb4"
         ];
+    }
+
+    /**
+     * Recognizes a MySQL "server has gone away" / "Lost connection" failure
+     * by the driver error code (2006 / 2013) with a message fallback.
+     */
+    protected function isConnectionError(<\Throwable> exception) -> bool
+    {
+        var errorInfo, driverCode, message;
+
+        let errorInfo = exception->errorInfo;
+        if typeof errorInfo == "array" && isset errorInfo[1] {
+            let driverCode = (int) errorInfo[1];
+
+            if driverCode === 2006 || driverCode === 2013 {
+                return true;
+            }
+        }
+
+        let message = exception->getMessage();
+
+        return memstr(message, "server has gone away") ||
+            memstr(message, "Lost connection");
     }
 }

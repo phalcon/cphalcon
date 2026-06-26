@@ -33,9 +33,11 @@ use Phalcon\Mvc\Model\MetaData\Memory;
 use Phalcon\Mvc\Model\Transaction\Manager as TransactionManager;
 use Phalcon\Mvc\Router;
 use Phalcon\Mvc\Url;
+use Phalcon\Queue\QueueFactory;
 use Phalcon\Support\HelperFactory;
 use Phalcon\Support\Settings;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class ConstructTest extends AbstractUnitTestCase
 {
@@ -102,6 +104,10 @@ final class ConstructTest extends AbstractUnitTestCase
                 Memory::class,
             ],
             [
+                'queueFactory',
+                QueueFactory::class,
+            ],
+            [
                 'request',
                 Request::class,
             ],
@@ -140,17 +146,16 @@ final class ConstructTest extends AbstractUnitTestCase
     {
         $container = new FactoryDefault();
 
-        $expected = 21;
+        $expected = 22;
         $actual   = count($container->getServices());
         $this->assertSame($expected, $actual);
     }
 
     /**
-     * @dataProvider getServices
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
+    #[DataProvider('getServices')]
     public function testDiFactoryDefaultConstructServices(
         string $service,
         string $class

@@ -24,6 +24,7 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Forms\ContactFormPublicProperties;
 use Phalcon\Tests\Support\Forms\ContactFormSettersGetters;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 final class FormsTest extends AbstractDatabaseTestCase
 {
@@ -31,7 +32,6 @@ final class FormsTest extends AbstractDatabaseTestCase
 
     public function setUp(): void
     {
-        $this->markTestSkipped('Needs to be refactored because of Tag');
         $this->setNewFactoryDefault();
         $this->setDatabase();
         Tag::resetInput();
@@ -41,10 +41,29 @@ final class FormsTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-01
-     *
-     * @group  mysql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('sqlite')]
+    public function testElementAppendMessage(): void
+    {
+        $element = new Select('test-select');
+
+        $element->appendMessage(
+            new Message('sample message')
+        );
+
+        $messages = $element->getMessages();
+
+        $this->assertCount(1, $messages);
+        $this->assertSame('sample message', $messages[0]->getMessage());
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-01
+     */
+    #[Group('mysql')]
+    #[Group('sqlite')]
     public function testFormElementRender(): void
     {
         $element1 = new Text('name');
@@ -80,10 +99,9 @@ final class FormsTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-01
-     *
-     * @group  mysql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('sqlite')]
     public function testFormRenderEntity(): void
     {
         $address = new Text('address');
@@ -125,10 +143,9 @@ final class FormsTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-01
-     *
-     * @group  mysql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('sqlite')]
     public function testFormRenderEntityGetters(): void
     {
         $address = new Text('address');
@@ -170,10 +187,9 @@ final class FormsTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-01
-     *
-     * @group  mysql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('sqlite')]
     public function testFormValidatorEntity(): void
     {
         $address = new Text('address');
@@ -214,10 +230,9 @@ final class FormsTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-01
-     *
-     * @group  mysql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('sqlite')]
     public function testFormValidatorEntityBind(): void
     {
         $address = new Text('address');
@@ -270,10 +285,9 @@ final class FormsTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-01
-     *
-     * @group  mysql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('sqlite')]
     public function testFormValidatorEntityBindSetters(): void
     {
         $address = new Text('address');
@@ -320,22 +334,6 @@ final class FormsTest extends AbstractDatabaseTestCase
         $this->assertEquals(
             'hello',
             $entity->getAddress()
-        );
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-01
-     *
-     * @group  mysql
-     * @group sqlite
-     */
-    public function testElementAppendMessage(): void
-    {
-        $element = new Select('test-select');
-
-        $element->appendMessage(
-            new Message('')
         );
     }
 }

@@ -38,7 +38,7 @@ class Zero implements PadInterface
         var length, inputArray;
         int counter, paddingSize;
 
-        let length      = mb_strlen(input),
+        let length      = strlen(input),
             inputArray  = str_split(input),
             counter     = length - 1,
             paddingSize = 0;

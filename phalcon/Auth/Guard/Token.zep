@@ -14,11 +14,10 @@
 namespace Phalcon\Auth\Guard;
 
 use Phalcon\Auth\Guard\Config\TokenGuardConfig;
+use Phalcon\Auth\Internal\ContainerResolver;
 use Phalcon\Auth\Internal\Options;
 use Phalcon\Contracts\Auth\Adapter\Adapter;
 use Phalcon\Contracts\Auth\AuthUser;
-use Phalcon\Contracts\Container\Service\Collection;
-use Phalcon\Di\DiInterface;
 use Phalcon\Http\RequestInterface;
 
 /**
@@ -48,13 +47,16 @@ class Token extends AbstractGuard
         var container,
         array options
     ) -> <static> {
-        if (!(container instanceof Collection) && !(container instanceof DiInterface)) {
-            throw new \TypeError("The parameter must be an instance of Collection or DiInterface");
-        }
-
         return new static(
             adapter,
-            Options::resolveService(container, "Phalcon\\Http\\RequestInterface", "Token guard"),
+            ContainerResolver::resolveCandidate(
+                container,
+                options,
+                "request",
+                "Phalcon\\Http\\RequestInterface",
+                "request",
+                "Token guard"
+            ),
             new TokenGuardConfig(
                 Options::requireString(options, "inputKey", "token guard"),
                 Options::requireString(options, "storageKey", "token guard")

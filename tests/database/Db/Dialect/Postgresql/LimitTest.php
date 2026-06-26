@@ -13,8 +13,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Db\Dialect\Postgresql;
 
+use Phalcon\Db\Dialect\Postgresql;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
+#[Group('mysql')]
+#[Group('pgsql')]
+#[Group('sqlite')]
 final class LimitTest extends AbstractDatabaseTestCase
 {
     /**
@@ -25,6 +30,16 @@ final class LimitTest extends AbstractDatabaseTestCase
      */
     public function testDbDialectPostgresqlLimit(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $dialect = new Postgresql();
+
+        $this->assertSame(
+            'SELECT * FROM robots LIMIT 10',
+            $dialect->limit('SELECT * FROM robots', 10)
+        );
+
+        $this->assertSame(
+            'SELECT * FROM robots LIMIT 10 OFFSET 50',
+            $dialect->limit('SELECT * FROM robots', [10, 50])
+        );
     }
 }

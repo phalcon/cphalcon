@@ -126,7 +126,11 @@ PHP_METHOD(Phalcon_Domain_Payload_Payload, getMessages)
 /**
  * Status
  *
+ * Status values are drawn from the `Status` vocabulary.
+ *
  * @return mixed
+ *
+ * @see Status
  */
 PHP_METHOD(Phalcon_Domain_Payload_Payload, getStatus)
 {
@@ -236,6 +240,10 @@ PHP_METHOD(Phalcon_Domain_Payload_Payload, setOutput)
 
 /**
  * Sets the payload status.
+ *
+ * Status values are drawn from the `Status` vocabulary.
+ *
+ * @see Status
  */
 PHP_METHOD(Phalcon_Domain_Payload_Payload, setStatus)
 {

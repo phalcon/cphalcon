@@ -28,10 +28,6 @@ final class GetCheckedPathTest extends AbstractUnitTestCase
      */
     public function testAutoloaderLoaderGetCheckedPath(): void
     {
-        if (PHP_OS_FAMILY === 'Windows') {
-            $this->markTestSkipped('Need to fix Windows new lines...');
-        }
-
         $loader    = new Loader(true);
         $directory = supportDir('assets/Loader/Example/Folders/Types/');
         $loader->addDirectory($directory);

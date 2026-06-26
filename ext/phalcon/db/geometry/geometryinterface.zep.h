@@ -1,0 +1,5 @@
+
+extern zend_class_entry *phalcon_db_geometry_geometryinterface_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Db_Geometry_GeometryInterface);
+

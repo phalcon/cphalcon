@@ -13,8 +13,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Db\Dialect\Sqlite;
 
+use Phalcon\Db\Dialect\Sqlite;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
+#[Group('mysql')]
+#[Group('pgsql')]
+#[Group('sqlite')]
 final class GetSqlColumnTest extends AbstractDatabaseTestCase
 {
     /**
@@ -25,6 +30,16 @@ final class GetSqlColumnTest extends AbstractDatabaseTestCase
      */
     public function testDbDialectSqliteGetSqlColumn(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $dialect = new Sqlite();
+
+        $this->assertSame(
+            '"name"',
+            $dialect->getSqlColumn('name')
+        );
+
+        $this->assertSame(
+            '"r"."name" AS "nick"',
+            $dialect->getSqlColumn(['name', 'r', 'nick'])
+        );
     }
 }

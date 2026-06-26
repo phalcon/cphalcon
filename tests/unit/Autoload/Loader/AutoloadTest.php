@@ -42,7 +42,7 @@ final class AutoloadTest extends AbstractUnitTestCase
             )
         ;
 
-        $loader->autoload('One');
+        $this->assertTrue($loader->autoload('One'));
 
         $expected = [
             'Loading: One',
@@ -52,7 +52,7 @@ final class AutoloadTest extends AbstractUnitTestCase
         $actual   = $loader->getDebug();
         $this->assertSame($expected, $actual);
 
-        $loader->autoload('Two');
+        $this->assertTrue($loader->autoload('Two'));
 
         $expected = [
             'Loading: Two',
@@ -62,7 +62,7 @@ final class AutoloadTest extends AbstractUnitTestCase
         $actual   = $loader->getDebug();
         $this->assertSame($expected, $actual);
 
-        $loader->autoload('Three');
+        $this->assertFalse($loader->autoload('Three'));
 
         $expected = [
             'Loading: Three',
@@ -80,10 +80,6 @@ final class AutoloadTest extends AbstractUnitTestCase
      */
     public function testAutoloaderLoaderAutoloadExtension(): void
     {
-        if (PHP_OS_FAMILY === 'Windows') {
-            $this->markTestSkipped('Need to fix Windows new lines...');
-        }
-
         $loader = new Loader(true);
         $loader
             ->setExtensions(
@@ -122,10 +118,6 @@ final class AutoloadTest extends AbstractUnitTestCase
      */
     public function testAutoloaderLoaderAutoloadNamespaces(): void
     {
-        if (PHP_OS_FAMILY === 'Windows') {
-            $this->markTestSkipped('Need to fix Windows new lines...');
-        }
-
         $loader = new Loader(true);
         $loader
             ->addNamespace(
@@ -164,10 +156,6 @@ final class AutoloadTest extends AbstractUnitTestCase
      */
     public function testAutoloaderLoaderAutoloadNamespaces404(): void
     {
-        if (PHP_OS_FAMILY === 'Windows') {
-            $this->markTestSkipped('Need to fix Windows new lines...');
-        }
-
         $loader = new Loader(true);
         $loader
             ->addNamespace(
@@ -196,10 +184,6 @@ final class AutoloadTest extends AbstractUnitTestCase
      */
     public function testAutoloaderLoaderAutoloadNamespacesMultipleFolders(): void
     {
-        if (PHP_OS_FAMILY === 'Windows') {
-            $this->markTestSkipped('Need to fix Windows new lines...');
-        }
-
         $loader = new Loader(true);
         $loader
             ->addNamespace(
@@ -248,10 +232,6 @@ final class AutoloadTest extends AbstractUnitTestCase
      */
     public function testAutoloaderLoaderAutoloadNamespacesNoFolders(): void
     {
-        if (PHP_OS_FAMILY === 'Windows') {
-            $this->markTestSkipped('Need to fix Windows new lines...');
-        }
-
         $loader = new Loader(true);
         $loader->autoload(Mongo::class);
 

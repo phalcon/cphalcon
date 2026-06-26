@@ -13,8 +13,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Db\Dialect\Sqlite;
 
+use Phalcon\Db\Dialect\Sqlite;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
+#[Group('mysql')]
+#[Group('pgsql')]
+#[Group('sqlite')]
 final class EscapeTest extends AbstractDatabaseTestCase
 {
     /**
@@ -25,6 +30,26 @@ final class EscapeTest extends AbstractDatabaseTestCase
      */
     public function testDbDialectSqliteEscape(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $dialect = new Sqlite();
+
+        $this->assertSame(
+            '"robots"',
+            $dialect->escape('robots')
+        );
+
+        $this->assertSame(
+            '*',
+            $dialect->escape('*')
+        );
+
+        $this->assertSame(
+            '"schema"."robots"',
+            $dialect->escape('schema.robots')
+        );
+
+        $this->assertSame(
+            '"robots".*',
+            $dialect->escape('robots.*')
+        );
     }
 }

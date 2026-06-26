@@ -15,6 +15,17 @@ final class NoClassSetTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-18
      */
+    public function testContainerExceptionsNoClassSetIsContainerThrowable(): void
+    {
+        $exception = new NoClassSet('myService');
+
+        $this->assertInstanceOf(ContainerThrowable::class, $exception);
+        $this->assertInstanceOf(Throwable::class, $exception);
+    }
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-18
+     */
     public function testContainerExceptionsNoClassSetMessage(): void
     {
         $exception = new NoClassSet('myService');
@@ -23,17 +34,5 @@ final class NoClassSetTest extends AbstractUnitTestCase
             "No class set for service 'myService'",
             $exception->getMessage()
         );
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-18
-     */
-    public function testContainerExceptionsNoClassSetIsContainerThrowable(): void
-    {
-        $exception = new NoClassSet('myService');
-
-        $this->assertInstanceOf(ContainerThrowable::class, $exception);
-        $this->assertInstanceOf(Throwable::class, $exception);
     }
 }

@@ -150,27 +150,29 @@ final class DispatchTest extends AbstractUnitTestCase
         $this->assertFalse($actual);
     }
 
-    public function testFakeNamespace(): void
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    public function testCliDispatcherDispatchExceptionEventReturnsFalse(): void
     {
-        $dispatcher = new Dispatcher();
+        $dispatcher    = new Dispatcher();
+        $eventsManager = new Manager();
+
+        $eventsManager->attach(
+            'dispatch:beforeException',
+            function () {
+                return false;
+            }
+        );
 
         $dispatcher->setDI(new DiFactoryDefault());
+        $dispatcher->setEventsManager($eventsManager);
+        $dispatcher->setDefaultNamespace('NonExistentNamespace');
 
-        $dispatcher->setDefaultNamespace('Dummy\\');
-        $dispatcher->setTaskName('main');
-        $dispatcher->setActionName('hello');
-
-        $dispatcher->setParams(
-            ['World']
-        );
-
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage(
-            'Dummy\MainTask handler class cannot be loaded',
-        );
-        $this->expectExceptionCode(Exception::EXCEPTION_HANDLER_NOT_FOUND);
-
-        $dispatcher->dispatch();
+        // The event listener suppresses the exception; dispatch returns null
+        $result = $dispatcher->dispatch();
+        $this->assertNull($result);
     }
 
     /**
@@ -196,28 +198,26 @@ final class DispatchTest extends AbstractUnitTestCase
         $this->assertFalse($result);
     }
 
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2024-01-01
-     */
-    public function testCliDispatcherDispatchExceptionEventReturnsFalse(): void
+    public function testFakeNamespace(): void
     {
-        $dispatcher    = new Dispatcher();
-        $eventsManager = new Manager();
-
-        $eventsManager->attach(
-            'dispatch:beforeException',
-            function () {
-                return false;
-            }
-        );
+        $dispatcher = new Dispatcher();
 
         $dispatcher->setDI(new DiFactoryDefault());
-        $dispatcher->setEventsManager($eventsManager);
-        $dispatcher->setDefaultNamespace('NonExistentNamespace');
 
-        // The event listener suppresses the exception; dispatch returns null
-        $result = $dispatcher->dispatch();
-        $this->assertNull($result);
+        $dispatcher->setDefaultNamespace('Dummy\\');
+        $dispatcher->setTaskName('main');
+        $dispatcher->setActionName('hello');
+
+        $dispatcher->setParams(
+            ['World']
+        );
+
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage(
+            'Dummy\MainTask handler class cannot be loaded',
+        );
+        $this->expectExceptionCode(Exception::EXCEPTION_HANDLER_NOT_FOUND);
+
+        $dispatcher->dispatch();
     }
 }

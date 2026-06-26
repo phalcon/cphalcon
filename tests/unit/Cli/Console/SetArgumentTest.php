@@ -21,6 +21,7 @@ use Phalcon\Cli\Router\Exception as RouterException;
 use Phalcon\Di\Exception as DiException;
 use Phalcon\Di\FactoryDefault\Cli as DiFactoryDefault;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class SetArgumentTest extends AbstractUnitTestCase
 {
@@ -259,9 +260,67 @@ final class SetArgumentTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamplesRouter
-     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
      */
+    public function testCliConsoleSetArgumentNonString(): void
+    {
+        $console = new CliConsole(new DiFactoryDefault());
+
+        // Integer argument - not a string, covers the else branch
+        $actual = $console->setArgument([42], false, false);
+
+        // setArgument() returns $this
+        $this->assertSame($console, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    public function testCliConsoleSetArgumentParsesDoubleDashOptions(): void
+    {
+        $di      = new DiFactoryDefault();
+        $console = new CliConsole($di);
+
+        $di->setShared(
+            'router',
+            function () {
+                $router = new Router(true);
+
+                return $router;
+            }
+        );
+
+        /** @var Dispatcher $dispatcher */
+        $dispatcher = $di->getShared('dispatcher');
+        $dispatcher->setDefaultNamespace('Phalcon\Tests\Support\Tasks');
+
+        $console->setArgument(
+            [
+                'php',
+                // Trailing space asserts the flag name is trimmed
+                '--last ',
+                // Spaces around '=' assert the key and value are trimmed
+                '--country = usa',
+                'main',
+                'arguments',
+                'a',
+                'b',
+            ]
+        )
+                ->handle()
+        ;
+
+        $expected = [
+            'last'    => true,
+            'country' => 'usa',
+        ];
+        $actual   = $dispatcher->getOptions();
+        $this->assertSame($expected, $actual);
+    }
+
+    #[DataProvider('getExamplesRouter')]
     public function testCliConsoleSetArgumentRouter(
         array $argument,
         string $taskName,
@@ -306,10 +365,7 @@ final class SetArgumentTest extends AbstractUnitTestCase
         $this->assertSame($expected, $actual);
     }
 
-    /**
-     * @dataProvider getExamplesStrShift
-     *
-     */
+    #[DataProvider('getExamplesStrShift')]
     public function testCliConsoleSetArgumentStrShift(
         bool $str,
         bool $shift,
@@ -346,20 +402,5 @@ final class SetArgumentTest extends AbstractUnitTestCase
         $expected = $returnedValue;
         $actual   = $dispatcher->getReturnedValue();
         $this->assertSame($expected, $actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2024-01-01
-     */
-    public function testCliConsoleSetArgumentNonString(): void
-    {
-        $console = new CliConsole(new DiFactoryDefault());
-
-        // Integer argument - not a string, covers the else branch
-        $actual = $console->setArgument([42], false, false);
-
-        // setArgument() returns $this
-        $this->assertSame($console, $actual);
     }
 }

@@ -19,6 +19,7 @@ use Phalcon\Filter\Validation\Validator\PresenceOf;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use stdClass;
 
 final class ValidateTest extends AbstractUnitTestCase
@@ -240,11 +241,10 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getSingleFieldExamples
-     *
      * @author       Wojciech Ślawski <jurigag@gmail.com>
      * @since        2016-06-05
      */
+    #[DataProvider('getSingleFieldExamples')]
     public function testFilterValidationValidatorPresenceOfSingleField(
         string $name,
         int $expected

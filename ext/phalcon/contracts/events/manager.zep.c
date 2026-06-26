@@ -67,7 +67,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Events_Manager, collectResponses);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Events_Manager, detach);
 /**
- * Removes all listeners — globally or for a single event type.
+ * Removes all listeners - globally or for a single event type.
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Events_Manager, detachAll);
 /**

@@ -55,23 +55,6 @@ final class CustomMessagesTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function testFilterValidationValidatorFileEqualSize(): void
-    {
-        $options = [
-            'equalSize'       => '1M',
-            'messageEqualSize' => 'File does not have the expected size',
-        ];
-        $file       = new File($options);
-        $validators = $file->getValidators();
-
-        $this->assertCount(1, $validators);
-        $this->assertInstanceOf(EqualFileSize::class, $validators[0]);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
-     */
     public function testFilterValidationValidatorFileEqualResolution(): void
     {
         $options = [
@@ -83,5 +66,22 @@ final class CustomMessagesTest extends AbstractUnitTestCase
 
         $this->assertCount(1, $validators);
         $this->assertInstanceOf(EqualResolution::class, $validators[0]);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2018-11-13
+     */
+    public function testFilterValidationValidatorFileEqualSize(): void
+    {
+        $options = [
+            'equalSize'       => '1M',
+            'messageEqualSize' => 'File does not have the expected size',
+        ];
+        $file       = new File($options);
+        $validators = $file->getValidators();
+
+        $this->assertCount(1, $validators);
+        $this->assertInstanceOf(EqualFileSize::class, $validators[0]);
     }
 }

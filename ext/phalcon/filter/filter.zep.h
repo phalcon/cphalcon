@@ -6,6 +6,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Filter);
 PHP_METHOD(Phalcon_Filter_Filter, __construct);
 PHP_METHOD(Phalcon_Filter_Filter, __call);
 PHP_METHOD(Phalcon_Filter_Filter, get);
+PHP_METHOD(Phalcon_Filter_Filter, getDefaultMapper);
 PHP_METHOD(Phalcon_Filter_Filter, has);
 PHP_METHOD(Phalcon_Filter_Filter, sanitize);
 PHP_METHOD(Phalcon_Filter_Filter, set);
@@ -30,6 +31,9 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_filter_get, 0, 0, 1)
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_filter_getdefaultmapper, 0, 0, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_filter_has, 0, 1, _IS_BOOL, 0)
@@ -100,6 +104,7 @@ ZEPHIR_INIT_FUNCS(phalcon_filter_filter_method_entry) {
 	PHP_ME(Phalcon_Filter_Filter, __construct, arginfo_phalcon_filter_filter___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Filter_Filter, __call, arginfo_phalcon_filter_filter___call, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Filter_Filter, get, arginfo_phalcon_filter_filter_get, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Filter_Filter, getDefaultMapper, arginfo_phalcon_filter_filter_getdefaultmapper, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Filter_Filter, has, arginfo_phalcon_filter_filter_has, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Filter_Filter, sanitize, arginfo_phalcon_filter_filter_sanitize, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Filter_Filter, set, arginfo_phalcon_filter_filter_set, ZEND_ACC_PUBLIC)

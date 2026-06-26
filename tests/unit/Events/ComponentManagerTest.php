@@ -22,21 +22,14 @@ final class ComponentManagerTest extends AbstractUnitTestCase
 {
     /**
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2020-09-09
+     * @since  2024-01-01
      */
-    public function testEventsComponentManager(): void
+    public function testEventsAwareTraitFireManagerEventNoManagerReturnsTrue(): void
     {
-        $manager   = new Manager();
-        $component = new ComponentWithEvents();
+        $component = new ComponentFireManager();
 
-        $actual = method_exists($component, 'getEventsManager');
-        $this->assertTrue($actual);
-        $actual = method_exists($component, 'setEventsManager');
-        $this->assertTrue($actual);
-
-        $component->setEventsManager($manager);
-        $actual = $component->getEventsManager();
-        $this->assertSame($manager, $actual);
+        $result = $component->callFireManagerEvent('test:action');
+        $this->assertTrue($result);
     }
 
     /**
@@ -63,16 +56,22 @@ final class ComponentManagerTest extends AbstractUnitTestCase
         $this->assertTrue($called);
         $this->assertSame('fired', $result);
     }
-
     /**
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2024-01-01
+     * @since  2020-09-09
      */
-    public function testEventsAwareTraitFireManagerEventNoManagerReturnsTrue(): void
+    public function testEventsComponentManager(): void
     {
-        $component = new ComponentFireManager();
+        $manager   = new Manager();
+        $component = new ComponentWithEvents();
 
-        $result = $component->callFireManagerEvent('test:action');
-        $this->assertTrue($result);
+        $actual = method_exists($component, 'getEventsManager');
+        $this->assertTrue($actual);
+        $actual = method_exists($component, 'setEventsManager');
+        $this->assertTrue($actual);
+
+        $component->setEventsManager($manager);
+        $actual = $component->getEventsManager();
+        $this->assertSame($manager, $actual);
     }
 }

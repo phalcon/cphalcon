@@ -17,36 +17,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 
 final class ArrayLoaderTest extends AbstractUnitTestCase
 {
-    // -----------------------------------------------------------------------
-    // Happy path
-    // -----------------------------------------------------------------------
-
-    public function testLoadReturnsSingleDefinition(): void
-    {
-        $schema = new ArrayLoader([
-            ['type' => 'text', 'name' => 'username'],
-        ]);
-
-        $result = $schema->load();
-
-        $this->assertCount(1, $result);
-        $this->assertSame('text', $result[0]['type']);
-        $this->assertSame('username', $result[0]['name']);
-    }
-
-    public function testLoadReturnsMultipleDefinitions(): void
-    {
-        $schema = new ArrayLoader([
-            ['type' => 'text',     'name' => 'first_name'],
-            ['type' => 'email',    'name' => 'email'],
-            ['type' => 'password', 'name' => 'password'],
-        ]);
-
-        $result = $schema->load();
-
-        $this->assertCount(3, $result);
-    }
-
     public function testLoadPassesThroughExtraKeys(): void
     {
         $definition = [
@@ -64,6 +34,24 @@ final class ArrayLoaderTest extends AbstractUnitTestCase
         $this->assertSame($definition, $result[0]);
     }
 
+    // -----------------------------------------------------------------------
+    // Error index is reported correctly
+    // -----------------------------------------------------------------------
+
+    public function testLoadReportsCorrectIndexInError(): void
+    {
+        $schema = new ArrayLoader([
+            ['type' => 'text',  'name' => 'ok'],
+            ['type' => 'email', 'name' => 'ok2'],
+            ['name' => 'missing-type'],
+        ]);
+
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessageMatches('/index 2/i');
+
+        $schema->load();
+    }
+
     public function testLoadReturnsEmptyArrayForEmptyInput(): void
     {
         $schema = new ArrayLoader([]);
@@ -71,6 +59,35 @@ final class ArrayLoaderTest extends AbstractUnitTestCase
         $result = $schema->load();
 
         $this->assertSame([], $result);
+    }
+
+    public function testLoadReturnsMultipleDefinitions(): void
+    {
+        $schema = new ArrayLoader([
+            ['type' => 'text',     'name' => 'first_name'],
+            ['type' => 'email',    'name' => 'email'],
+            ['type' => 'password', 'name' => 'password'],
+        ]);
+
+        $result = $schema->load();
+
+        $this->assertCount(3, $result);
+    }
+    // -----------------------------------------------------------------------
+    // Happy path
+    // -----------------------------------------------------------------------
+
+    public function testLoadReturnsSingleDefinition(): void
+    {
+        $schema = new ArrayLoader([
+            ['type' => 'text', 'name' => 'username'],
+        ]);
+
+        $result = $schema->load();
+
+        $this->assertCount(1, $result);
+        $this->assertSame('text', $result[0]['type']);
+        $this->assertSame('username', $result[0]['name']);
     }
 
     // -----------------------------------------------------------------------
@@ -89,30 +106,14 @@ final class ArrayLoaderTest extends AbstractUnitTestCase
         $schema->load();
     }
 
-    // -----------------------------------------------------------------------
-    // Validation: missing type
-    // -----------------------------------------------------------------------
-
-    public function testLoadThrowsWhenTypeIsMissing(): void
+    public function testLoadThrowsWhenNameIsEmpty(): void
     {
         $schema = new ArrayLoader([
-            ['name' => 'username'],
+            ['type' => 'text', 'name' => ''],
         ]);
 
         $this->expectException(Exception::class);
-        $this->expectExceptionMessageMatches('/missing required key "type"/i');
-
-        $schema->load();
-    }
-
-    public function testLoadThrowsWhenTypeIsEmpty(): void
-    {
-        $schema = new ArrayLoader([
-            ['type' => '', 'name' => 'username'],
-        ]);
-
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessageMatches('/missing required key "type"/i');
+        $this->expectExceptionMessageMatches('/missing required key "name"/i');
 
         $schema->load();
     }
@@ -133,32 +134,30 @@ final class ArrayLoaderTest extends AbstractUnitTestCase
         $schema->load();
     }
 
-    public function testLoadThrowsWhenNameIsEmpty(): void
+    public function testLoadThrowsWhenTypeIsEmpty(): void
     {
         $schema = new ArrayLoader([
-            ['type' => 'text', 'name' => ''],
+            ['type' => '', 'name' => 'username'],
         ]);
 
         $this->expectException(Exception::class);
-        $this->expectExceptionMessageMatches('/missing required key "name"/i');
+        $this->expectExceptionMessageMatches('/missing required key "type"/i');
 
         $schema->load();
     }
 
     // -----------------------------------------------------------------------
-    // Error index is reported correctly
+    // Validation: missing type
     // -----------------------------------------------------------------------
 
-    public function testLoadReportsCorrectIndexInError(): void
+    public function testLoadThrowsWhenTypeIsMissing(): void
     {
         $schema = new ArrayLoader([
-            ['type' => 'text',  'name' => 'ok'],
-            ['type' => 'email', 'name' => 'ok2'],
-            ['name' => 'missing-type'],
+            ['name' => 'username'],
         ]);
 
         $this->expectException(Exception::class);
-        $this->expectExceptionMessageMatches('/index 2/i');
+        $this->expectExceptionMessageMatches('/missing required key "type"/i');
 
         $schema->load();
     }

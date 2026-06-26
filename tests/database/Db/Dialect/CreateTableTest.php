@@ -21,6 +21,8 @@ use Phalcon\Db\Exception;
 use Phalcon\Db\Index;
 use Phalcon\Db\Reference;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 
 final class CreateTableTest extends AbstractDatabaseTestCase
 {
@@ -124,15 +126,13 @@ final class CreateTableTest extends AbstractDatabaseTestCase
     /**
      * Tests Phalcon\Db\Dialect :: createTable
      *
-     * @dataProvider getDialects
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-01-20
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    #[DataProvider('getDialects')]
     public function testDbDialectCreateTable(
         string $dialectClass,
         string $expected
@@ -153,15 +153,13 @@ final class CreateTableTest extends AbstractDatabaseTestCase
     /**
      * Tests Phalcon\Db\Dialect :: createTable - exception
      *
-     * @dataProvider getDialectsException
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-01-20
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    #[DataProvider('getDialectsException')]
     public function testDbDialectCreateTableException(
         string $dialectClass
     ): void {
@@ -179,15 +177,13 @@ final class CreateTableTest extends AbstractDatabaseTestCase
     /**
      * Tests Phalcon\Db\Dialect :: createTable
      *
-     * @dataProvider getDialectsTemporary
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-01-20
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    #[DataProvider('getDialectsTemporary')]
     public function testDbDialectCreateTableTemporary(
         string $dialectClass,
         string $expected

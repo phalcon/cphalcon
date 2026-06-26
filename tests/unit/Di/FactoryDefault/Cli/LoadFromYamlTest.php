@@ -30,8 +30,8 @@ final class LoadFromYamlTest extends AbstractUnitTestCase
         // load php
         $di->loadFromYaml(supportDir('assets/Di/services.yml'));
 
-        // there are 3 new + 13 from Default
-        $this->assertCount(16, $di->getServices());
+        // there are 3 new + 14 from Default
+        $this->assertCount(17, $di->getServices());
 
         // check some services
         $actual = $di->get('config');

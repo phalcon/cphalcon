@@ -23,11 +23,9 @@ use Phalcon\Tests\Support\Models\AlbumORama\Albums;
 use Phalcon\Tests\Support\Models\AlbumORama\Artists;
 use Phalcon\Tests\Support\Models\AlbumORama\Songs;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
-/**
- *
- * @group phql
- */
+#[Group('phql')]
 final class IsRelationshipLoadedTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -62,84 +60,10 @@ final class IsRelationshipLoadedTest extends AbstractDatabaseTestCase
     /**
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2019-04-26
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
-    public function testMvcModelIsRelationshipLoadedViaUnderscoreGet(): void
-    {
-        /** @var Albums $album */
-        $album = Albums::findFirst();
-
-        $this->assertFalse(
-            $album->isRelationshipLoaded('artist')
-        );
-
-        $this->assertFalse(
-            $album->isRelationshipLoaded('songs')
-        );
-
-        /** @var Artists $artist */
-        $artist = $album->artist;
-
-        $this->assertTrue(
-            $album->isRelationshipLoaded('artist')
-        );
-
-        /** @var \Phalcon\Mvc\Model\Resultset\Simple $songs */
-        $songs = $album->songs;
-
-        $this->assertTrue(
-            $album->isRelationshipLoaded('songs')
-        );
-    }
-
-    /**
-     * @author Balázs Németh <https://github.com/zsilbi>
-     * @since  2019-04-26
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
-     */
-    public function testMvcModelIsRelationshipLoadedViaUnderscoreSet(): void
-    {
-        /** @var Albums $album */
-        $album = Albums::findFirst();
-
-        $this->assertFalse(
-            $album->isRelationshipLoaded('artist')
-        );
-
-        $this->assertFalse(
-            $album->isRelationshipLoaded('songs')
-        );
-
-        $album->artist = new Artists();
-
-        $this->assertFalse(
-            $album->isRelationshipLoaded('artist')
-        );
-
-        $album->songs = [
-            new Songs(),
-            new Songs(),
-        ];
-
-        $this->assertFalse(
-            $album->isRelationshipLoaded('songs')
-        );
-    }
-
-    /**
-     * @author Balázs Németh <https://github.com/zsilbi>
-     * @since  2019-04-26
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
-     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelIsRelationshipLoadedViaCallGetters(): void
     {
         /** @var Albums $album */
@@ -171,11 +95,10 @@ final class IsRelationshipLoadedTest extends AbstractDatabaseTestCase
     /**
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2019-04-26
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelIsRelationshipLoadedViaGetRelated(): void
     {
         /** @var Albums $album */
@@ -200,6 +123,77 @@ final class IsRelationshipLoadedTest extends AbstractDatabaseTestCase
         $songs = $album->getRelated('songs');
 
         $this->assertTrue(
+            $album->isRelationshipLoaded('songs')
+        );
+    }
+
+    /**
+     * @author Balázs Németh <https://github.com/zsilbi>
+     * @since  2019-04-26
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelIsRelationshipLoadedViaUnderscoreGet(): void
+    {
+        /** @var Albums $album */
+        $album = Albums::findFirst();
+
+        $this->assertFalse(
+            $album->isRelationshipLoaded('artist')
+        );
+
+        $this->assertFalse(
+            $album->isRelationshipLoaded('songs')
+        );
+
+        /** @var Artists $artist */
+        $artist = $album->artist;
+
+        $this->assertTrue(
+            $album->isRelationshipLoaded('artist')
+        );
+
+        /** @var \Phalcon\Mvc\Model\Resultset\Simple $songs */
+        $songs = $album->songs;
+
+        $this->assertTrue(
+            $album->isRelationshipLoaded('songs')
+        );
+    }
+
+    /**
+     * @author Balázs Németh <https://github.com/zsilbi>
+     * @since  2019-04-26
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelIsRelationshipLoadedViaUnderscoreSet(): void
+    {
+        /** @var Albums $album */
+        $album = Albums::findFirst();
+
+        $this->assertFalse(
+            $album->isRelationshipLoaded('artist')
+        );
+
+        $this->assertFalse(
+            $album->isRelationshipLoaded('songs')
+        );
+
+        $album->artist = new Artists();
+
+        $this->assertFalse(
+            $album->isRelationshipLoaded('artist')
+        );
+
+        $album->songs = [
+            new Songs(),
+            new Songs(),
+        ];
+
+        $this->assertFalse(
             $album->isRelationshipLoaded('songs')
         );
     }

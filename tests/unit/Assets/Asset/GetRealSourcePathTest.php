@@ -16,6 +16,7 @@ namespace Phalcon\Tests\Unit\Assets\Asset;
 use Phalcon\Assets\Asset;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Assets\Fake\AssetsTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class GetRealSourcePathTest extends AbstractUnitTestCase
 {
@@ -56,11 +57,10 @@ final class GetRealSourcePathTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider localProvider
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
+    #[DataProvider('localProvider')]
     public function testAssetsAssetGetRealSourcePathLocal(
         string $type,
         string $path
@@ -68,6 +68,22 @@ final class GetRealSourcePathTest extends AbstractUnitTestCase
         $asset  = new Asset($type, $path);
         $actual = $asset->getRealSourcePath();
         $this->assertEmpty($actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    #[DataProvider('remoteProvider')]
+    public function testAssetsAssetGetRealSourcePathRemote(
+        string $type,
+        string $path
+    ): void {
+        $asset = new Asset($type, $path, false);
+
+        $expected = $path;
+        $actual   = $asset->getRealSourcePath();
+        $this->assertSame($expected, $actual);
     }
 
     /**
@@ -82,26 +98,5 @@ final class GetRealSourcePathTest extends AbstractUnitTestCase
         $actual = $asset->getRealSourcePath(supportDir());
         $this->assertNotEmpty($actual);
         $this->assertStringContainsString('1198.css', $actual);
-    }
-
-    /**
-     * @dataProvider remoteProvider
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2020-09-09
-     */
-    public function testAssetsAssetGetRealSourcePathRemote(
-        string $type,
-        string $path
-    ): void {
-        if (PHP_OS_FAMILY === 'Windows') {
-            $this->markTestSkipped('Need to fix Windows new lines...');
-        }
-
-        $asset = new Asset($type, $path, false);
-
-        $expected = $path;
-        $actual   = $asset->getRealSourcePath();
-        $this->assertSame($expected, $actual);
     }
 }

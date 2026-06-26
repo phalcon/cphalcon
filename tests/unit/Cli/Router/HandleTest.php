@@ -17,81 +17,10 @@ use Phalcon\Cli\Router;
 use Phalcon\Cli\Router\Exception;
 use Phalcon\Cli\Router\Route;
 use Phalcon\Tests\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class HandleTest extends AbstractUnitTestCase
 {
-    /**
-     * @dataProvider getExamplesDelimiter
-     *
-     */
-    public function testCliRouterHandleRouterDelimiter(
-        string $uri,
-        string $module,
-        string $task,
-        string $action,
-        array $params
-    ): void {
-        Route::reset();
-        Route::delimiter('/');
-
-        $router = new Router();
-        $routes = $this->setupRoutes('delimiter');
-        foreach ($routes as $pattern => $parameters) {
-            $router->add($pattern, $parameters);
-        }
-
-        $this->assertParameters(
-            $router,
-            $uri,
-            $module,
-            $task,
-            $action,
-            $params
-        );
-    }
-
-    /**
-     * @return void
-     */
-    public function testCliRouterHandleRouterInvalidPathsException(): void
-    {
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage('The route contains invalid paths');
-
-        Route::reset();
-
-        $router = new Router(false);
-
-        $route = $router->add('route3', 'MyApp\\Tasks\\::show');
-    }
-
-    /**
-     * @dataProvider getExamplesRouterParams
-     *
-     */
-    public function testCliRouterHandleRouterParams(
-        string $uri,
-        string $module,
-        string $task,
-        string $action,
-        array $params
-    ): void {
-        $router = new Router();
-
-        $router->add('some {name}');
-        $router->add('some {name} {id:[0-9]+}');
-        $router->add('some {name} {id:[0-9]+} {date}');
-
-        $this->assertParameters(
-            $router,
-            $uri,
-            $module,
-            $task,
-            $action,
-            $params
-        );
-    }
-
     /**
      * @return array[]
      */
@@ -599,11 +528,10 @@ final class HandleTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider getExamplesRouterHandle
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
+    #[DataProvider('getExamplesRouterHandle')]
     public function testCliRouterHandle(
         array $uri,
         string $module,
@@ -622,11 +550,54 @@ final class HandleTest extends AbstractUnitTestCase
             $params
         );
     }
-
     /**
-     * @dataProvider getExamplesRouter
-     *
+     * @issue  https://github.com/phalcon/cphalcon/security/advisories/GHSA-x7rj-f32v-7jjg
+     * @author https://github.com/nikkoenggaliano
+     * @since  2026-06-18
      */
+    public function testCliRouterHandleParamsNoCatastrophicBacktracking(): void
+    {
+        Route::reset();
+        Route::delimiter('/');
+
+        $router = new Router();
+
+        /**
+         * The default :task/:action/:params route still splits a multi-segment
+         * trailing path into individual parameters.
+         */
+        $router->handle('/products/show/1/2/3');
+
+        $this->assertSame('products', $router->getTaskName());
+        $this->assertSame('show', $router->getActionName());
+        $this->assertSame(['1', '2', '3'], $router->getParams());
+
+        /**
+         * Take the compiled pattern of the default :params route and match a
+         * crafted argument string: a long run of delimiters followed by an
+         * unmatchable byte. The previous (:delimiter.*)* was a nested quantifier
+         * that exhausted pcre.backtrack_limit on such input, while
+         * (:delimiter.*)? matches in linear time, so preg_match() completes
+         * without a PCRE error.
+         */
+        $pattern = '';
+
+        foreach ($router->getRoutes() as $route) {
+            if (str_contains($route->getCompiledPattern(), '(/.*)')) {
+                $pattern = $route->getCompiledPattern();
+
+                break;
+            }
+        }
+
+        $this->assertNotSame('', $pattern);
+
+        preg_match($pattern, '/a/a' . str_repeat('/', 50) . "\n\n");
+
+        $this->assertSame(PREG_NO_ERROR, preg_last_error());
+    }
+
+    #[DataProvider('getExamplesRouter')]
     public function testCliRouterHandleRouter(
         string $uri,
         string $module,
@@ -642,6 +613,72 @@ final class HandleTest extends AbstractUnitTestCase
         foreach ($routes as $pattern => $parameters) {
             $router->add($pattern, $parameters);
         }
+
+        $this->assertParameters(
+            $router,
+            $uri,
+            $module,
+            $task,
+            $action,
+            $params
+        );
+    }
+
+    #[DataProvider('getExamplesDelimiter')]
+    public function testCliRouterHandleRouterDelimiter(
+        string $uri,
+        string $module,
+        string $task,
+        string $action,
+        array $params
+    ): void {
+        Route::reset();
+        Route::delimiter('/');
+
+        $router = new Router();
+        $routes = $this->setupRoutes('delimiter');
+        foreach ($routes as $pattern => $parameters) {
+            $router->add($pattern, $parameters);
+        }
+
+        $this->assertParameters(
+            $router,
+            $uri,
+            $module,
+            $task,
+            $action,
+            $params
+        );
+    }
+
+    /**
+     * @return void
+     */
+    public function testCliRouterHandleRouterInvalidPathsException(): void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('The route contains invalid paths');
+
+        Route::reset();
+
+        $router = new Router(false);
+
+        $route = $router->add('route3', 'MyApp\\Tasks\\::show');
+    }
+
+    #[DataProvider('getExamplesRouterParams')]
+    public function testCliRouterHandleRouterParams(
+        string $uri,
+        string $module,
+        string $task,
+        string $action,
+        array $params
+    ): void {
+        $router = new Router();
+
+        $router->add('some {name}');
+        $router->add('some {name} {id:[0-9]+}');
+        $router->add('some {name} {id:[0-9]+} {date}');
 
         $this->assertParameters(
             $router,

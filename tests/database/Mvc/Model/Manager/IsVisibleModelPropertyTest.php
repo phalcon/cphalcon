@@ -16,10 +16,16 @@ namespace Phalcon\Tests\Database\Mvc\Model\Manager;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Models\CustomersVisible;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class IsVisibleModelPropertyTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
+
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+    }
 
     /**
      * @return array<array{string, bool}>
@@ -38,17 +44,11 @@ final class IsVisibleModelPropertyTest extends AbstractDatabaseTestCase
         ];
     }
 
-    public function setUp(): void
-    {
-        $this->setNewFactoryDefault();
-    }
-
     /**
-     * @dataProvider getPublicProperties
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2016-08-12
      */
+    #[DataProvider('getPublicProperties')]
     public function testMvcModelManagerIsVisibleModelProperty(
         string $property,
         bool $expected

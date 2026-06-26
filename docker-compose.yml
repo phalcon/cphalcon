@@ -189,3 +189,9 @@ services:
     image: memcached:1.6-alpine
     extra_hosts:
       - "host.docker.internal:host-gateway"
+
+  beanstalkd:
+    container_name: ${PROJECT_PREFIX:-cphalcon}-dev-beanstalkd
+    image: schickling/beanstalkd:latest
+    extra_hosts:
+      - "host.docker.internal:host-gateway"

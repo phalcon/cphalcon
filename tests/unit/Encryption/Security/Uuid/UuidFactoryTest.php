@@ -29,6 +29,32 @@ final class UuidFactoryTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-29
      */
+    public function testEncryptionSecurityUuidFactoryNamespaceConstants(): void
+    {
+        $this->assertSame(
+            '6ba7b810-9dad-11d1-80b4-00c04fd430c8',
+            UuidInterface::NAMESPACE_DNS
+        );
+
+        $this->assertSame(
+            '6ba7b811-9dad-11d1-80b4-00c04fd430c8',
+            UuidInterface::NAMESPACE_URL
+        );
+
+        $this->assertSame(
+            '6ba7b812-9dad-11d1-80b4-00c04fd430c8',
+            UuidInterface::NAMESPACE_OID
+        );
+
+        $this->assertSame(
+            '6ba7b814-9dad-11d1-80b4-00c04fd430c8',
+            UuidInterface::NAMESPACE_X500
+        );
+    }
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-29
+     */
     public function testEncryptionSecurityUuidFactoryV1(): void
     {
         $uuid   = new Uuid();
@@ -128,33 +154,6 @@ final class UuidFactoryTest extends AbstractUnitTestCase
         $this->assertMatchesRegularExpression(
             '/^[a-f0-9]{8}-[a-f0-9]{4}-7[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/',
             (string) $result
-        );
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-29
-     */
-    public function testEncryptionSecurityUuidFactoryNamespaceConstants(): void
-    {
-        $this->assertSame(
-            '6ba7b810-9dad-11d1-80b4-00c04fd430c8',
-            UuidInterface::NAMESPACE_DNS
-        );
-
-        $this->assertSame(
-            '6ba7b811-9dad-11d1-80b4-00c04fd430c8',
-            UuidInterface::NAMESPACE_URL
-        );
-
-        $this->assertSame(
-            '6ba7b812-9dad-11d1-80b4-00c04fd430c8',
-            UuidInterface::NAMESPACE_OID
-        );
-
-        $this->assertSame(
-            '6ba7b814-9dad-11d1-80b4-00c04fd430c8',
-            UuidInterface::NAMESPACE_X500
         );
     }
 }

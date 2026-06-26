@@ -13,16 +13,49 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Mvc\Model\Manager;
 
+use Phalcon\Mvc\Model\Manager;
+use Phalcon\Mvc\Model\RelationInterface;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use Phalcon\Tests\Support\Models\Customers;
+use Phalcon\Tests\Support\Models\Invoices;
+use Phalcon\Tests\Support\Models\InvoicesDetail;
+use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
+#[Group('mysql')]
+#[Group('pgsql')]
+#[Group('sqlite')]
 final class GetRelationsTest extends AbstractDatabaseTestCase
 {
+    use DiTrait;
+
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+    }
+
     /**
+     * Tests Phalcon\Mvc\Model\Manager :: getRelations()
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2026-06-22
      */
     public function testMvcModelManagerGetRelations(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $manager = new Manager();
+        $manager->setDI($this->container);
+
+        $invoice = new Invoices();
+
+        $this->assertSame([], $manager->getRelations(Invoices::class));
+
+        $manager->addBelongsTo($invoice, 'inv_cst_id', Customers::class, 'cst_id', ['alias' => 'customer']);
+        $manager->addHasMany($invoice, 'inv_id', InvoicesDetail::class, 'inv_id', ['alias' => 'details']);
+
+        $relations = $manager->getRelations(Invoices::class);
+
+        $this->assertCount(2, $relations);
+        $this->assertContainsOnlyInstancesOf(RelationInterface::class, $relations);
     }
 }

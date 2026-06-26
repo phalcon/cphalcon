@@ -18,11 +18,9 @@ use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Models\InvoicesKeepSnapshots;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
-/**
- *
- * @group phql
- */
+#[Group('phql')]
 final class GetChangedFieldsTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -42,52 +40,6 @@ final class GetChangedFieldsTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
-     * @group pgsql
-     */
-    public function testMvcModelGetChangedFieldsNewModel(): void
-    {
-        $invoice = new Invoices();
-
-        $expected = [
-            'inv_id',
-            'inv_cst_id',
-            'inv_status_flag',
-            'inv_title',
-            'inv_total',
-            'inv_created_at',
-        ];
-        $this->assertSame($expected, $invoice->getChangedFields());
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
-     * @group pgsql
-     */
-    public function testMvcModelGetChangedFieldsWithSnapshot(): void
-    {
-        $invoice = Invoices::findFirst();
-
-        $this->assertNotFalse($invoice);
-        $this->assertSame([], $invoice->getChangedFields());
-
-        $invoice->inv_title = 'Updated Title';
-
-        $expected = ['inv_title'];
-        $this->assertSame($expected, $invoice->getChangedFields());
-    }
-
-    /**
      * Regression coverage for [#17042]: a freshly-loaded row whose nullable
      * columns hold `null` must report no changed fields, and modifying an
      * unrelated column must not list the null columns as changed. The
@@ -97,11 +49,10 @@ final class GetChangedFieldsTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-21
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelGetChangedFieldsIgnoresNullValuedColumns(): void
     {
         $stmt = self::getConnection()->prepare(
@@ -126,5 +77,47 @@ final class GetChangedFieldsTest extends AbstractDatabaseTestCase
         $this->assertSame(['inv_title'], $invoice->getChangedFields());
         $this->assertFalse($invoice->hasChanged('inv_cst_id'));
         $this->assertTrue($invoice->hasChanged('inv_title'));
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2018-11-13
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelGetChangedFieldsNewModel(): void
+    {
+        $invoice = new Invoices();
+
+        $expected = [
+            'inv_id',
+            'inv_cst_id',
+            'inv_status_flag',
+            'inv_title',
+            'inv_total',
+            'inv_created_at',
+        ];
+        $this->assertSame($expected, $invoice->getChangedFields());
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2018-11-13
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelGetChangedFieldsWithSnapshot(): void
+    {
+        $invoice = Invoices::findFirst();
+
+        $this->assertNotFalse($invoice);
+        $this->assertSame([], $invoice->getChangedFields());
+
+        $invoice->inv_title = 'Updated Title';
+
+        $expected = ['inv_title'];
+        $this->assertSame($expected, $invoice->getChangedFields());
     }
 }

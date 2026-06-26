@@ -16,17 +16,17 @@ namespace Phalcon\Tests\Unit\Assets\Inline;
 use Phalcon\Assets\Inline;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Assets\Fake\AssetsTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class GetSetFilterTest extends AbstractUnitTestCase
 {
     use AssetsTrait;
 
     /**
-     * @dataProvider providerInlineCssJs
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
+    #[DataProvider('providerInlineCssJs')]
     public function testAssetsInlineGetSetFilter(
         string $type,
         string $content

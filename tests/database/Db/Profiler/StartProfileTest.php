@@ -13,8 +13,14 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Db\Profiler;
 
+use Phalcon\Db\Profiler;
+use Phalcon\Db\Profiler\Item;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
+#[Group('mysql')]
+#[Group('pgsql')]
+#[Group('sqlite')]
 final class StartProfileTest extends AbstractDatabaseTestCase
 {
     /**
@@ -25,6 +31,24 @@ final class StartProfileTest extends AbstractDatabaseTestCase
      */
     public function testDbProfilerStartProfile(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $profiler = new Profiler();
+
+        $returned = $profiler->startProfile(
+            'SELECT * FROM robots WHERE id = ?',
+            [1],
+            [1]
+        );
+
+        $this->assertSame($profiler, $returned);
+
+        $profile = $profiler->getLastProfile();
+
+        $this->assertInstanceOf(Item::class, $profile);
+        $this->assertSame(
+            'SELECT * FROM robots WHERE id = ?',
+            $profile->getSqlStatement()
+        );
+        $this->assertSame([1], $profile->getSqlVariables());
+        $this->assertSame([1], $profile->getSqlBindTypes());
     }
 }

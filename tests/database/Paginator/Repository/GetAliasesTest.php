@@ -13,18 +13,29 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Paginator\Repository;
 
+use Phalcon\Paginator\Repository;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
+#[Group('mysql')]
+#[Group('pgsql')]
+#[Group('sqlite')]
 final class GetAliasesTest extends AbstractDatabaseTestCase
 {
     /**
      * Tests Phalcon\Paginator\Repository :: getAliases()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2026-06-22
      */
     public function testPaginatorRepositoryGetAliases(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $repository = new Repository();
+
+        $this->assertSame([], $repository->getAliases());
+
+        $repository->setAliases(['perPage' => 'limit']);
+
+        $this->assertSame(['perPage' => 'limit'], $repository->getAliases());
     }
 }

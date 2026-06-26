@@ -32,10 +32,6 @@ final class RegisterUnregisterTest extends AbstractUnitTestCase
      */
     public function testAutoloaderLoaderEvents(): void
     {
-        if (PHP_OS_FAMILY === 'Windows') {
-            $this->markTestSkipped('Need to fix Windows new lines...');
-        }
-
         $trace   = [];
         $loader  = new Loader();
         $manager = new Manager();
@@ -130,5 +126,14 @@ final class RegisterUnregisterTest extends AbstractUnitTestCase
         $this->assertSame($expected, $actual);
 
         $loader->unregister();
+
+        /**
+         * After unregister() the loader's autoload must no longer be on the
+         * SPL autoload stack.
+         */
+        $functions = spl_autoload_functions();
+        foreach ($functions as $function) {
+            $this->assertNotSame($loader, $function[0]);
+        }
     }
 }

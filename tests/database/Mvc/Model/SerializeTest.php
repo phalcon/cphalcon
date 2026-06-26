@@ -22,6 +22,7 @@ use Phalcon\Tests\Support\Models\InvoicesKeepSnapshots;
 use Phalcon\Tests\Support\Models\InvoicesOnConstruct;
 use Phalcon\Tests\Support\Models\InvoicesTypedProperties;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 use function date;
 use function serialize;
@@ -45,11 +46,10 @@ final class SerializeTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelSerialize(): void
     {
         $title = uniqid('inv-');
@@ -79,55 +79,6 @@ final class SerializeTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests that toArray() with a getter does not throw when a typed
-     * non-nullable property is uninitialized (e.g. because cloneResultMap
-     * skipped its assignment when the DB returned NULL for a NOT NULL column).
-     *
-     * @issue  https://github.com/phalcon/cphalcon/issues/15711
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-22
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
-     */
-    public function testMvcModelToArrayWithUninitializedTypedPropertyAndGetter(): void
-    {
-        $base     = new InvoicesTypedProperties();
-        $metadata = $base->getModelsMetaData();
-        $colMap   = $metadata->getColumnMap($base);
-
-        /**
-         * Simulate a LEFT JOIN result where the primary key (NOT NULL in DB)
-         * comes back as NULL. cloneResultMap() will skip the assignment for
-         * inv_id, leaving the typed public int $inv_id uninitialized.
-         */
-        /** @var InvoicesTypedProperties $instance */
-        $instance = Model::cloneResultMap(
-            $base,
-            [
-                'inv_id'          => null,
-                'inv_cst_id'      => 1,
-                'inv_status_flag' => 0,
-                'inv_title'       => 'test-title',
-                'inv_total'       => 9.99,
-                'inv_created_at'  => '2026-01-01 00:00:00',
-            ],
-            $colMap
-        );
-
-        /**
-         * toArray() with useGetter=true (the default) will call getInvId().
-         * getInvId() accesses the uninitialized typed $inv_id property.
-         * After the fix this must return null instead of throwing.
-         */
-        $arr = $instance->toArray();
-
-        $this->assertNull($arr['inv_id']);
-        $this->assertSame('test-title', $arr['inv_title']);
-    }
-
-    /**
      * Tests that serialize()/unserialize() round-trips a model with typed
      * properties correctly when a NOT NULL DB column returned NULL (leaving
      * the typed property uninitialized). The unserialized instance must not
@@ -136,11 +87,10 @@ final class SerializeTest extends AbstractDatabaseTestCase
      * @issue  https://github.com/phalcon/cphalcon/issues/15711
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-22
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelSerializeUnserializeWithTypedNullProperty(): void
     {
         $title  = uniqid('inv-');
@@ -191,11 +141,10 @@ final class SerializeTest extends AbstractDatabaseTestCase
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-11-09
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelSerializeWithDirtyState(): void
     {
         $title = uniqid('inv-');
@@ -223,14 +172,61 @@ final class SerializeTest extends AbstractDatabaseTestCase
     }
 
     /**
+     * Tests that toArray() with a getter does not throw when a typed
+     * non-nullable property is uninitialized (e.g. because cloneResultMap
+     * skipped its assignment when the DB returned NULL for a NOT NULL column).
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/15711
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-22
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelToArrayWithUninitializedTypedPropertyAndGetter(): void
+    {
+        $base     = new InvoicesTypedProperties();
+        $metadata = $base->getModelsMetaData();
+        $colMap   = $metadata->getColumnMap($base);
+
+        /**
+         * Simulate a LEFT JOIN result where the primary key (NOT NULL in DB)
+         * comes back as NULL. cloneResultMap() will skip the assignment for
+         * inv_id, leaving the typed public int $inv_id uninitialized.
+         */
+        /** @var InvoicesTypedProperties $instance */
+        $instance = Model::cloneResultMap(
+            $base,
+            [
+                'inv_id'          => null,
+                'inv_cst_id'      => 1,
+                'inv_status_flag' => 0,
+                'inv_title'       => 'test-title',
+                'inv_total'       => 9.99,
+                'inv_created_at'  => '2026-01-01 00:00:00',
+            ],
+            $colMap
+        );
+
+        /**
+         * toArray() with useGetter=true (the default) will call getInvId().
+         * getInvId() accesses the uninitialized typed $inv_id property.
+         * After the fix this must return null instead of throwing.
+         */
+        $arr = $instance->toArray();
+
+        $this->assertNull($arr['inv_id']);
+        $this->assertSame('test-title', $arr['inv_title']);
+    }
+
+    /**
      * @issue  https://github.com/phalcon/cphalcon/issues/15906
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-23
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelUnserializeCallsOnConstruct(): void
     {
         $title = uniqid('inv-');
@@ -263,11 +259,10 @@ final class SerializeTest extends AbstractDatabaseTestCase
      * @issue  https://github.com/phalcon/cphalcon/issues/15837
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-23
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelUnserializeRestoresNullSnapshot(): void
     {
         /** @var PDO $connection */

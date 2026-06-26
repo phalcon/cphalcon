@@ -17,6 +17,7 @@ use Phalcon\Assets\Asset;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Assets\Fake\AssetsTrait;
 use Phalcon\Tests\Unit\Assets\Fake\FakeAssetFileExistsPositive;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 use function supportDir;
 
@@ -25,11 +26,10 @@ final class GetRealTargetPathTest extends AbstractUnitTestCase
     use AssetsTrait;
 
     /**
-     * @dataProvider providerCssJsLocal
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
+    #[DataProvider('providerCssJsLocal')]
     public function testAssetsAssetGetRealTargetPath(
         string $type,
         string $path,
@@ -46,15 +46,14 @@ final class GetRealTargetPathTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function testAssetsAssetGetRealTargetPathWithTargetPath(): void
+    public function testAssetsAssetGetRealTargetPath404(): void
     {
-        $path   = 'css/docs.css';
-        $target = 'assets/assets/1198.css';
-        $asset  = new Asset('css', $path);
-        $asset->setTargetPath($target);
+        $file  = 'assets/assets/1198.css';
+        $asset = new FakeAssetFileExistsPositive('css', $file);
 
-        $actual = $asset->getRealTargetPath(supportDir());
-        $this->assertStringContainsString('1198.css', $actual);
+        $expected = supportDir($file);
+        $actual   = $asset->getRealTargetPath(supportDir());
+        $this->assertSame($expected, $actual);
     }
 
     /**
@@ -74,17 +73,14 @@ final class GetRealTargetPathTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function testAssetsAssetGetRealTargetPath404(): void
+    public function testAssetsAssetGetRealTargetPathWithTargetPath(): void
     {
-        if (PHP_OS_FAMILY === 'Windows') {
-            $this->markTestSkipped('Need to fix Windows new lines...');
-        }
+        $path   = 'css/docs.css';
+        $target = 'assets/assets/1198.css';
+        $asset  = new Asset('css', $path);
+        $asset->setTargetPath($target);
 
-        $file  = 'assets/assets/1198.css';
-        $asset = new FakeAssetFileExistsPositive('css', $file);
-
-        $expected = supportDir($file);
-        $actual   = $asset->getRealTargetPath(supportDir());
-        $this->assertSame($expected, $actual);
+        $actual = $asset->getRealTargetPath(supportDir());
+        $this->assertStringContainsString('1198.css', $actual);
     }
 }

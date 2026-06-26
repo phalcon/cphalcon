@@ -33,6 +33,12 @@
  * Abstract class offering methods to help with the Str namespace. This can
  * be moved to a trait once Zephir supports it.
  *
+ * This base exists only for the `Str` helper hierarchy; it is not a general
+ * base class. New code that needs these routines should compose the relevant
+ * invokable helper (for example `Str\Interpolate`) rather than extending it.
+ *
+ * @internal
+ *
  * @todo move to trait when there is support for it
  */
 ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Str_AbstractStr)
@@ -89,9 +95,9 @@ PHP_METHOD(Phalcon_Support_Helper_Str_AbstractStr, toEndsWith)
 		RETURN_MM_BOOL(0);
 	}
 	if (EXPECTED(ignoreCase)) {
-		ZEPHIR_CALL_FUNCTION(&child, "mb_strtolower", NULL, 12, &needle_zv);
+		ZEPHIR_CALL_FUNCTION(&child, "mb_strtolower", NULL, 15, &needle_zv);
 		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(&parent, "mb_strtolower", NULL, 12, &haystack_zv);
+		ZEPHIR_CALL_FUNCTION(&parent, "mb_strtolower", NULL, 15, &haystack_zv);
 		zephir_check_call_status();
 	} else {
 		ZEPHIR_CPY_WRT(&child, &needle_zv);
@@ -173,7 +179,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_AbstractStr, toInterpolate)
 	}
 	ZEPHIR_INIT_VAR(&replace);
 	array_init(&replace);
-	zephir_is_iterable(&context, 0, "phalcon/Support/Helper/Str/AbstractStr.zep", 82);
+	zephir_is_iterable(&context, 0, "phalcon/Support/Helper/Str/AbstractStr.zep", 88);
 	if (Z_TYPE_P(&context) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&context), _1, _2, _0)
 		{
@@ -216,7 +222,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_AbstractStr, toInterpolate)
 	}
 	ZEPHIR_INIT_NVAR(&value);
 	ZEPHIR_INIT_NVAR(&key);
-	ZEPHIR_RETURN_CALL_FUNCTION("strtr", NULL, 6, &input_zv, &replace);
+	ZEPHIR_RETURN_CALL_FUNCTION("strtr", NULL, 4, &input_zv, &replace);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -257,7 +263,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_AbstractStr, toLower)
 	ZVAL_STR_COPY(&encoding_zv, encoding);
 	}
 	ZVAL_LONG(&_0, 1);
-	ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_case", NULL, 16, &text_zv, &_0, &encoding_zv);
+	ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_case", NULL, 17, &text_zv, &_0, &encoding_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -309,9 +315,9 @@ PHP_METHOD(Phalcon_Support_Helper_Str_AbstractStr, toStartsWith)
 		RETURN_MM_BOOL(0);
 	}
 	if (EXPECTED(ignoreCase)) {
-		ZEPHIR_CALL_FUNCTION(&child, "mb_strtolower", NULL, 12, &needle_zv);
+		ZEPHIR_CALL_FUNCTION(&child, "mb_strtolower", NULL, 15, &needle_zv);
 		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(&parent, "mb_strtolower", NULL, 12, &haystack_zv);
+		ZEPHIR_CALL_FUNCTION(&parent, "mb_strtolower", NULL, 15, &haystack_zv);
 		zephir_check_call_status();
 	} else {
 		ZEPHIR_CPY_WRT(&child, &needle_zv);
@@ -356,7 +362,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_AbstractStr, toUpper)
 	ZVAL_STR_COPY(&encoding_zv, encoding);
 	}
 	ZVAL_LONG(&_0, 0);
-	ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_case", NULL, 16, &text_zv, &_0, &encoding_zv);
+	ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_case", NULL, 17, &text_zv, &_0, &encoding_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }

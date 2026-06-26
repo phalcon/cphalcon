@@ -13,16 +13,59 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Mvc\Model\MetaData;
 
+use Phalcon\Mvc\Model\MetaData;
+use Phalcon\Mvc\Model\MetaData\Strategy\Introspection;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 
 final class SetStrategyTest extends AbstractDatabaseTestCase
 {
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
-     */
-    public function testMvcModelMetadataSetStrategy(): void
+    use DiTrait;
+
+    public function setUp(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+    }
+
+    /**
+     * @return array[]
+     */
+    public static function getExamples(): array
+    {
+        return [
+            ['metadataMemory'],
+            ['metadataApcu'],
+            ['metadataRedis'],
+            ['metadataLibmemcached'],
+            ['metadataStream'],
+        ];
+    }
+
+    /**
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2020-02-01
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    #[DataProvider('getExamples')]
+    public function testMvcModelMetadataSetStrategy(
+        string $service
+    ): void {
+        $adapter = $this->newService($service);
+        $adapter->setDi($this->container);
+
+        $this->container->setShared('modelsMetadata', $adapter);
+
+        /** @var MetaData $metadata */
+        $metadata = $this->container->get('modelsMetadata');
+
+        $strategy = new Introspection();
+        $metadata->setStrategy($strategy);
+
+        $this->assertSame($strategy, $metadata->getStrategy());
     }
 }

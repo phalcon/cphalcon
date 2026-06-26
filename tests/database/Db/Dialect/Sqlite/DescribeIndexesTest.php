@@ -13,8 +13,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Db\Dialect\Sqlite;
 
+use Phalcon\Db\Dialect\Sqlite;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
+#[Group('mysql')]
+#[Group('pgsql')]
+#[Group('sqlite')]
 final class DescribeIndexesTest extends AbstractDatabaseTestCase
 {
     /**
@@ -25,6 +30,11 @@ final class DescribeIndexesTest extends AbstractDatabaseTestCase
      */
     public function testDbDialectSqliteDescribeIndexes(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $dialect = new Sqlite();
+
+        $this->assertSame(
+            "PRAGMA index_list('robots')",
+            $dialect->describeIndexes('robots')
+        );
     }
 }

@@ -236,6 +236,7 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 	phvolt_scanner_state *state;
 	phvolt_scanner_token token;
 	int scanner_status, status = SUCCESS;
+	int prev_token = 0;
 	phvolt_parser_status *parser_status = NULL;
 	void* phvolt_parser;
 
@@ -286,7 +287,7 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 	state->for_level = 0;
 	state->switch_level = 0;
 	state->whitespace_control = 0;
-	state->forced_raw_state = 0;
+	state->verbatim = 0;
 
 	state->end = state->start;
 
@@ -565,9 +566,13 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 				phvolt_(phvolt_parser, PHVOLT_CASE, NULL, parser_status);
 				break;
 
-			/* only for switch-case statements */
+			/*
+			 * "default" is the {% default %} clause only when it is inside
+			 * a switch and directly follows the opening delimiter; anywhere
+			 * else (e.g. the |default() filter) it is a plain identifier
+			 */
 			case PHVOLT_T_DEFAULT:
-				if (state->switch_level != 0) {
+				if (state->switch_level != 0 && prev_token == PHVOLT_T_OPEN_DELIMITER) {
 					phvolt_(phvolt_parser, PHVOLT_DEFAULT, NULL, parser_status);
 					efree(token.value);
 				} else {
@@ -691,13 +696,11 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 				phvolt_(phvolt_parser, PHVOLT_ENDCACHE, NULL, parser_status);
 				break;
 
-			case PHVOLT_T_RAW:
-				phvolt_(phvolt_parser, PHVOLT_RAW, NULL, parser_status);
-				state->forced_raw_state++;
+			case PHVOLT_T_VERBATIM:
+				phvolt_(phvolt_parser, PHVOLT_VERBATIM, NULL, parser_status);
 				break;
-			case PHVOLT_T_ENDRAW:
-				phvolt_(phvolt_parser, PHVOLT_ENDRAW, NULL, parser_status);
-				state->forced_raw_state--;
+			case PHVOLT_T_ENDVERBATIM:
+				phvolt_(phvolt_parser, PHVOLT_ENDVERBATIM, NULL, parser_status);
 				break;
 
 			case PHVOLT_T_INCLUDE:
@@ -788,6 +791,11 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 		if (parser_status->status != PHVOLT_PARSING_OK) {
 			status = FAILURE;
 			break;
+		}
+
+		/* whitespace inside delimiters arrives as IGNORE; skip it */
+		if (token.opcode != PHVOLT_T_IGNORE) {
+			prev_token = token.opcode;
 		}
 
 		state->end = state->start;

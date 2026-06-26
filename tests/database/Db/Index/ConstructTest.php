@@ -13,8 +13,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Db\Index;
 
+use Phalcon\Db\Index;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
+#[Group('mysql')]
+#[Group('pgsql')]
+#[Group('sqlite')]
 final class ConstructTest extends AbstractDatabaseTestCase
 {
     /**
@@ -25,6 +30,24 @@ final class ConstructTest extends AbstractDatabaseTestCase
      */
     public function testDbIndexConstruct(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $index = new Index('column_UNIQUE', ['column'], 'UNIQUE');
+
+        $this->assertSame('column_UNIQUE', $index->getName());
+        $this->assertSame(['column'], $index->getColumns());
+        $this->assertSame('UNIQUE', $index->getType());
+
+        $index = new Index(
+            'idx_hidden',
+            [
+                'columns'   => ['col1'],
+                'type'      => '',
+                'invisible' => true,
+            ]
+        );
+
+        $this->assertSame('idx_hidden', $index->getName());
+        $this->assertSame(['col1'], $index->getColumns());
+        $this->assertSame('', $index->getType());
+        $this->assertTrue($index->isInvisible());
     }
 }

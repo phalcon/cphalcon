@@ -13,16 +13,53 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Mvc\Model\Resultset;
 
+use Phalcon\Mvc\Model\Resultset;
+use Phalcon\Mvc\Model\ResultsetInterface;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 
+#[Group('phql')]
 final class SetHydrateModeTest extends AbstractDatabaseTestCase
 {
+    use ResultsetFixtureTrait;
+
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+        $this->seedResultsetFixture();
+    }
+
+    /**
+     * @return array<string, array{0: string}>
+     */
+    public static function getExamples(): array
+    {
+        return [
+            'simple'  => ['simple'],
+            'complex' => ['complex'],
+            'empty'   => ['empty'],
+        ];
+    }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2026-06-22
      */
-    public function testMvcModelResultsetSetHydrateMode(): void
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    #[DataProvider('getExamples')]
+    public function testMvcModelResultsetSetHydrateMode(string $type): void
     {
-        $this->markTestSkipped('Need implementation');
+        $resultset = $this->getResultset($type);
+
+        $this->assertInstanceOf(
+            ResultsetInterface::class,
+            $resultset->setHydrateMode(Resultset::HYDRATE_ARRAYS)
+        );
+
+        $this->assertSame(Resultset::HYDRATE_ARRAYS, $resultset->getHydrateMode());
     }
 }

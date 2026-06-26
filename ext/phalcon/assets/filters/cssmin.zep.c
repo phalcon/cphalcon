@@ -24,8 +24,15 @@
  * file that was distributed with this source code.
  */
 /**
- * Minify the CSS - removes comments removes newlines and line feeds keeping
- * removes last semicolon from last property
+ * Filter intended to minify CSS content (remove comments, newlines, and line
+ * feeds, and drop the last semicolon of the last property).
+ *
+ * > NOTE: This functionality is not currently available; `filter()` returns
+ * > the content unchanged.
+ * {: .alert .alert-info }
+ *
+ * @deprecated Use Phalcon\Assets\Filters\None, or a custom
+ *             Phalcon\Assets\FilterInterface wrapping a real CSS minifier.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Assets_Filters_Cssmin)
 {
@@ -37,9 +44,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Filters_Cssmin)
 
 /**
  * Filters the content using CSSMIN
- *
- * > NOTE: This functionality is not currently available
- * {: .alert .alert-info }
  */
 PHP_METHOD(Phalcon_Assets_Filters_Cssmin, filter)
 {

@@ -20,6 +20,7 @@ use Phalcon\Tests\Support\Migrations\AlbumsMigration;
 use Phalcon\Tests\Support\Migrations\ArtistsMigration;
 use Phalcon\Tests\Support\Models\AlbumORama\Albums;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 final class ModelTest extends AbstractDatabaseTestCase
 {
@@ -37,6 +38,30 @@ final class ModelTest extends AbstractDatabaseTestCase
         }
 
         $this->setDatabase();
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-02
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testExecuteCamelCaseRelation(): void
+    {
+        /** @var PDO $connection */
+        $connection = self::getConnection();
+        (new ArtistsMigration($connection))->insert(1, 'Test Artist');
+        (new AlbumsMigration($connection))->insert(1, 1, 'Test Album');
+
+        $album = Albums::findFirst();
+
+        // Mutating through the lowercase alias must be visible through
+        // the CamelCase form - relation accessors are case-insensitive
+        // and resolve to the same lazy-loaded related model.
+        $album->artist->name = 'NotArtist';
+
+        $this->assertSame($album->Artist->name, $album->artist->name);
     }
 
     /**
@@ -65,31 +90,6 @@ final class ModelTest extends AbstractDatabaseTestCase
         //     $this->assertEquals($robot->toArray(), $robot->getSnapshotData());
         //     $this->assertFileExists(outputDir('tests/cache/robots-cache'));
         // }
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-02
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
-     */
-    public function testExecuteCamelCaseRelation(): void
-    {
-        /** @var PDO $connection */
-        $connection = self::getConnection();
-        (new ArtistsMigration($connection))->insert(1, 'Test Artist');
-        (new AlbumsMigration($connection))->insert(1, 1, 'Test Album');
-
-        $album = Albums::findFirst();
-
-        // Mutating through the lowercase alias must be visible through
-        // the CamelCase form - relation accessors are case-insensitive
-        // and resolve to the same lazy-loaded related model.
-        $album->artist->name = 'NotArtist';
-
-        $this->assertSame($album->Artist->name, $album->artist->name);
     }
 
 

@@ -13,16 +13,29 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Mvc\Model\Query\Builder;
 
+use Phalcon\Mvc\Model\Query\Builder;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
+#[Group('mysql')]
+#[Group('pgsql')]
+#[Group('sqlite')]
 final class GetColumnsTest extends AbstractDatabaseTestCase
 {
     /**
+     * Tests Phalcon\Mvc\Model\Query\Builder :: getColumns()
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2026-06-22
      */
     public function testMvcModelQueryBuilderGetColumns(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $builder = new Builder();
+
+        $this->assertNull($builder->getColumns());
+
+        $builder->columns('inv_id');
+
+        $this->assertSame('inv_id', $builder->getColumns());
     }
 }

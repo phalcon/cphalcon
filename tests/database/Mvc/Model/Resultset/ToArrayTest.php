@@ -14,15 +14,50 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Database\Mvc\Model\Resultset;
 
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 
+#[Group('phql')]
 final class ToArrayTest extends AbstractDatabaseTestCase
 {
+    use ResultsetFixtureTrait;
+
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+        $this->seedResultsetFixture();
+    }
+
+    /**
+     * toArray() returns one entry per row of the resultset.
+     *
+     * @return array<string, array{0: string, 1: int}>
+     */
+    public static function getExamples(): array
+    {
+        return [
+            'simple'  => ['simple', 3],
+            'complex' => ['complex', 4],
+            'empty'   => ['empty', 0],
+        ];
+    }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2026-06-22
      */
-    public function testMvcModelResultsetToArray(): void
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    #[DataProvider('getExamples')]
+    public function testMvcModelResultsetToArray(string $type, int $expected): void
     {
-        $this->markTestSkipped('Need implementation');
+        $resultset = $this->getResultset($type);
+
+        $array = $resultset->toArray();
+
+        $this->assertIsArray($array);
+        $this->assertCount($expected, $array);
     }
 }

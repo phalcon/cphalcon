@@ -18,9 +18,27 @@ use Phalcon\Tests\AbstractUnitTestCase;
 
 final class CheckGroupTest extends AbstractUnitTestCase
 {
-    private function factory(): TagFactory
+    // -----------------------------------------------------------------------
+    // Attributes
+    // -----------------------------------------------------------------------
+
+    public function testConstructorAcceptsAttributes(): void
     {
-        return new TagFactory(new Escaper());
+        $element = new CheckGroup('colors', [], ['class' => 'check-field']);
+
+        $this->assertSame(['class' => 'check-field'], $element->getAttributes());
+    }
+
+    // -----------------------------------------------------------------------
+    // Options
+    // -----------------------------------------------------------------------
+
+    public function testConstructorAcceptsOptions(): void
+    {
+        $options = ['red' => 'Red', 'blue' => 'Blue'];
+        $element = new CheckGroup('colors', $options);
+
+        $this->assertSame($options, $element->getOptions());
     }
 
     // -----------------------------------------------------------------------
@@ -48,43 +66,18 @@ final class CheckGroupTest extends AbstractUnitTestCase
         $this->assertSame('choices[sub]', $element->getName());
     }
 
-    // -----------------------------------------------------------------------
-    // Options
-    // -----------------------------------------------------------------------
-
-    public function testConstructorAcceptsOptions(): void
+    public function testRenderChecksDefaultValue(): void
     {
-        $options = ['red' => 'Red', 'blue' => 'Blue'];
-        $element = new CheckGroup('colors', $options);
+        $element = new CheckGroup('colors', ['red' => 'Red', 'blue' => 'Blue']);
+        $element->setTagFactory($this->factory());
+        $element->setDefault(['red']);
 
-        $this->assertSame($options, $element->getOptions());
-    }
+        $rendered = $element->render();
 
-    public function testSetOptionsReplacesOptions(): void
-    {
-        $element = new CheckGroup('colors', ['red' => 'Red']);
-        $element->setOptions(['green' => 'Green', 'blue' => 'Blue']);
-
-        $this->assertSame(['green' => 'Green', 'blue' => 'Blue'], $element->getOptions());
-    }
-
-    public function testSetOptionsReturnsElementInterface(): void
-    {
-        $element = new CheckGroup('colors');
-        $result  = $element->setOptions(['a' => 'A']);
-
-        $this->assertSame($element, $result);
-    }
-
-    // -----------------------------------------------------------------------
-    // Attributes
-    // -----------------------------------------------------------------------
-
-    public function testConstructorAcceptsAttributes(): void
-    {
-        $element = new CheckGroup('colors', [], ['class' => 'check-field']);
-
-        $this->assertSame(['class' => 'check-field'], $element->getAttributes());
+        // 'red' line should have checked attribute
+        $lines = explode(PHP_EOL, $rendered);
+        $this->assertStringContainsString('checked="checked"', $lines[0]);
+        $this->assertStringNotContainsString('checked', $lines[1]);
     }
 
     // -----------------------------------------------------------------------
@@ -106,20 +99,6 @@ final class CheckGroupTest extends AbstractUnitTestCase
         $this->assertStringContainsString('>Blue</label>', $rendered);
     }
 
-    public function testRenderChecksDefaultValue(): void
-    {
-        $element = new CheckGroup('colors', ['red' => 'Red', 'blue' => 'Blue']);
-        $element->setTagFactory($this->factory());
-        $element->setDefault(['red']);
-
-        $rendered = $element->render();
-
-        // 'red' line should have checked attribute
-        $lines = explode(PHP_EOL, $rendered);
-        $this->assertStringContainsString('checked="checked"', $lines[0]);
-        $this->assertStringNotContainsString('checked', $lines[1]);
-    }
-
     public function testRenderWithExtraAttributesMergesCorrectly(): void
     {
         $element = new CheckGroup('colors', ['red' => 'Red']);
@@ -130,11 +109,31 @@ final class CheckGroupTest extends AbstractUnitTestCase
         $this->assertStringContainsString('class="my-check"', $rendered);
     }
 
+    public function testSetOptionsReplacesOptions(): void
+    {
+        $element = new CheckGroup('colors', ['red' => 'Red']);
+        $element->setOptions(['green' => 'Green', 'blue' => 'Blue']);
+
+        $this->assertSame(['green' => 'Green', 'blue' => 'Blue'], $element->getOptions());
+    }
+
+    public function testSetOptionsReturnsElementInterface(): void
+    {
+        $element = new CheckGroup('colors');
+        $result  = $element->setOptions(['a' => 'A']);
+
+        $this->assertSame($element, $result);
+    }
+
     public function testToStringEqualsRender(): void
     {
         $element = new CheckGroup('colors', ['red' => 'Red']);
         $element->setTagFactory($this->factory());
 
         $this->assertSame($element->render(), (string) $element);
+    }
+    private function factory(): TagFactory
+    {
+        return new TagFactory(new Escaper());
     }
 }

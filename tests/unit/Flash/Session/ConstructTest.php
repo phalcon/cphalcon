@@ -44,8 +44,8 @@ final class ConstructTest extends AbstractUnitTestCase
 
         $this->expectException(Exception::class);
         $this->expectExceptionMessage(
-            'A dependency injection container is required to ' .
-            "access the 'session' service"
+            "The 'session' service is not available " .
+            '(no container, or service not registered)'
         );
 
         $flash = new Session();

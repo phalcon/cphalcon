@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Forms\Form;
 
+use Phalcon\Forms\Exceptions\InvalidEntity;
 use Phalcon\Forms\Form;
 use Phalcon\Tests\AbstractUnitTestCase;
 use stdClass;
@@ -35,5 +36,16 @@ final class ConstructTest extends AbstractUnitTestCase
 
         $form = new Form($entity);
         $this->assertSame($entity, $form->getEntity());
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    public function testFormsFormConstructInvalidEntity(): void
+    {
+        $this->expectException(InvalidEntity::class);
+
+        new Form('not-an-object');
     }
 }

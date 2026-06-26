@@ -13,6 +13,15 @@ namespace Phalcon\Contracts\Paginator;
 /**
  * Interface for the repository of current state
  * Phalcon\Paginator\AdapterInterface::paginate()
+ *
+ * Two adapter dialects fill this repository:
+ *
+ * - Offset adapters (Model, NativeArray, QueryBuilder) populate every
+ *   property as a sequential page number / item count.
+ * - Cursor adapters (QueryBuilderCursor) reuse the same properties with a
+ *   different meaning: `getCurrent()`/`getNext()` carry keyset cursor values
+ *   rather than page numbers, and `getTotalItems()`, `getLast()` and
+ *   `getPrevious()` are not computed (they return 0).
  */
 interface Repository
 {
@@ -59,6 +68,9 @@ interface Repository
     /**
      * Gets number of the current page
      *
+     * Cursor adapters store the cursor value used for the current page here
+     * (0 on the first page), not a sequential page number.
+     *
      * @return int
      */
     public function getCurrent() -> int;
@@ -78,6 +90,8 @@ interface Repository
     /**
      * Gets number of the last page
      *
+     * Cursor adapters do not compute this and return 0.
+     *
      * @return int
      */
     public function getLast() -> int;
@@ -92,6 +106,9 @@ interface Repository
     /**
      * Gets number of the next page
      *
+     * Cursor adapters store the next cursor value here rather than a page
+     * number; 0 means there is no next page.
+     *
      * @return int
      */
     public function getNext() -> int;
@@ -99,12 +116,16 @@ interface Repository
     /**
      * Gets number of the previous page
      *
+     * Cursor adapters do not compute this and return 0.
+     *
      * @return int
      */
     public function getPrevious() -> int;
 
     /**
      * Gets the total number of items
+     *
+     * Cursor adapters do not compute this and return 0.
      *
      * @return int
      */

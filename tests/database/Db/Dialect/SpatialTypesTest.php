@@ -17,6 +17,8 @@ use Phalcon\Db\Column;
 use Phalcon\Db\Dialect\Mysql;
 use Phalcon\Db\Dialect\Postgresql;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 
 final class SpatialTypesTest extends AbstractDatabaseTestCase
 {
@@ -38,15 +40,37 @@ final class SpatialTypesTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * MySQL - emits each spatial keyword.
-     *
-     * @dataProvider provideSpatialTypes
+     * MySQL - POINT column inside an ADD COLUMN statement.
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group mysql
      */
+    #[Group('mysql')]
+    public function testDbDialectMysqlAddColumnPoint(): void
+    {
+        $dialect = new Mysql();
+        $column  = new Column(
+            'location',
+            [
+                'type' => Column::TYPE_POINT,
+            ]
+        );
+
+        $expected = 'ALTER TABLE `schema`.`table`'
+            . ' ADD `location` POINT NOT NULL';
+        $actual   = $dialect->addColumn('table', 'schema', $column);
+
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * MySQL - emits each spatial keyword.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-15
+     */
+    #[Group('mysql')]
+    #[DataProvider('provideSpatialTypes')]
     public function testDbDialectMysqlGetColumnDefinitionSpatial(
         int $type,
         string $expected
@@ -65,13 +89,11 @@ final class SpatialTypesTest extends AbstractDatabaseTestCase
     /**
      * PostgreSQL - emits each spatial keyword (PostGIS interprets them).
      *
-     * @dataProvider provideSpatialTypes
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
-     *
-     * @group pgsql
      */
+    #[Group('pgsql')]
+    #[DataProvider('provideSpatialTypes')]
     public function testDbDialectPostgresqlGetColumnDefinitionSpatial(
         int $type,
         string $expected
@@ -85,30 +107,5 @@ final class SpatialTypesTest extends AbstractDatabaseTestCase
         );
 
         $this->assertSame($expected, $dialect->getColumnDefinition($column));
-    }
-
-    /**
-     * MySQL - POINT column inside an ADD COLUMN statement.
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-05-15
-     *
-     * @group mysql
-     */
-    public function testDbDialectMysqlAddColumnPoint(): void
-    {
-        $dialect = new Mysql();
-        $column  = new Column(
-            'location',
-            [
-                'type' => Column::TYPE_POINT,
-            ]
-        );
-
-        $expected = 'ALTER TABLE `schema`.`table`'
-            . ' ADD `location` POINT NOT NULL';
-        $actual   = $dialect->addColumn('table', 'schema', $column);
-
-        $this->assertSame($expected, $actual);
     }
 }

@@ -81,11 +81,10 @@ final class UpperTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider basicProvider
-     *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
+    #[DataProvider('basicProvider')]
     #[DataProvider('basicProvider')]
     public function testSupportHelperStrUpper(
         string $text,
@@ -97,11 +96,10 @@ final class UpperTest extends AbstractUnitTestCase
     }
 
     /**
-     * @dataProvider multiBytesEncodingProvider
-     *
      * @author       Stanislav Kiryukhin <korsar.zn@gmail.com>
      * @since        2015-05-06
      */
+    #[DataProvider('multiBytesEncodingProvider')]
     #[DataProvider('multiBytesEncodingProvider')]
     public function testSupportHelperStrUpperMultiBytesEncoding(
         string $text,

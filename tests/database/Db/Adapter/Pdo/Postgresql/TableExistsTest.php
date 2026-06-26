@@ -15,6 +15,7 @@ namespace Phalcon\Tests\Database\Db\Adapter\Pdo\Postgresql;
 
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 use function env;
 
@@ -38,8 +39,8 @@ final class TableExistsTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
-     * @group  pgsql
      */
+    #[Group('pgsql')]
     public function testDbAdapterPdoPostgresqlTableExists(): void
     {
         $db    = $this->container->get('db');

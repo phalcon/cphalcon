@@ -15,6 +15,7 @@ namespace Phalcon\Tests\Database\Db\Dialect\Mysql;
 
 use Phalcon\Db\Dialect\Mysql;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
 final class GetForeignKeyChecksTest extends AbstractDatabaseTestCase
 {
@@ -23,11 +24,10 @@ final class GetForeignKeyChecksTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-01-20
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testDbDialectMysqlGetForeignKeyChecks(): void
     {
         /** @var Mysql $dialect */

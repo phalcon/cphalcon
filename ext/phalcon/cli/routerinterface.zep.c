@@ -54,7 +54,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Cli_RouterInterface, getMatches);
 ZEPHIR_DOC_METHOD(Phalcon_Cli_RouterInterface, getModuleName);
 /**
  * Returns processed extra params
- * @todo deprecate this in the future
+ *
+ * @deprecated Use {@see getParameters()} instead.
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cli_RouterInterface, getParams);
 /**
@@ -81,9 +82,15 @@ ZEPHIR_DOC_METHOD(Phalcon_Cli_RouterInterface, getRoutes);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cli_RouterInterface, getTaskName);
 /**
- * Handles routing information received from the rewrite engine
+ * Handles routing information received from the rewrite engine.
  *
- * @param array arguments
+ * When `arguments` is a string (or null), it is matched against the
+ * registered routes. When it is an array, matching is bypassed entirely:
+ * the array is treated as the already-resolved module/task/action/params,
+ * so `wasMatched()` stays false and `getMatchedRoute()` returns null even
+ * though routing succeeded.
+ *
+ * @param array|string|null arguments
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cli_RouterInterface, handle);
 /**

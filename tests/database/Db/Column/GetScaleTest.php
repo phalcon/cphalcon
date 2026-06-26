@@ -18,6 +18,7 @@ use Phalcon\Tests\Database\Db\Fake\DbTrait;
 use Phalcon\Tests\Support\Migrations\FractalDatesMigration;
 use Phalcon\Tests\Support\Models\FractalDates;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 final class GetScaleTest extends AbstractDatabaseTestCase
 {
@@ -35,11 +36,10 @@ final class GetScaleTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
-     *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
      */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testDbColumnGetScale(): void
     {
         $columns         = $this->getColumnsArray();
@@ -61,9 +61,8 @@ final class GetScaleTest extends AbstractDatabaseTestCase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-12-23
-     *
-     * @group mysql
      */
+    #[Group('mysql')]
     public function testDbColumnGetScaleDateTimeTimeTimeStamp(): void
     {
         // pgsql/sqlite are excluded above - the FractalDates schema and

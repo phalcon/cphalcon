@@ -12,9 +12,11 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/fcall.h"
-#include "kernel/memory.h"
 #include "kernel/file.h"
+#include "kernel/memory.h"
+#include "kernel/operators.h"
+#include "kernel/exception.h"
+#include "kernel/fcall.h"
 #include "kernel/object.h"
 
 
@@ -55,19 +57,23 @@ ZEPHIR_INIT_CLASS(Phalcon_Config_Adapter_Json)
 
 /**
  * Phalcon\Config\Adapter\Json constructor
+ *
+ * @throws CannotLoadConfigFile
  */
 PHP_METHOD(Phalcon_Config_Adapter_Json, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval filePath_zv, _0, _1, _2, _3;
+	zval filePath_zv, content, _2, _3, _4, _0$$3, _1$$3;
 	zend_string *filePath = NULL;
 
 	ZVAL_UNDEF(&filePath_zv);
-	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&content);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_4);
+	ZVAL_UNDEF(&_0$$3);
+	ZVAL_UNDEF(&_1$$3);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(filePath)
 	ZEND_PARSE_PARAMETERS_END();
@@ -75,19 +81,30 @@ PHP_METHOD(Phalcon_Config_Adapter_Json, __construct)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&filePath_zv);
 	ZVAL_STR_COPY(&filePath_zv, filePath);
-	ZEPHIR_INIT_VAR(&_0);
-	object_init_ex(&_0, phalcon_support_helper_json_decode_ce);
-	if (zephir_has_constructor(&_0)) {
-		ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 0);
+	ZEPHIR_INIT_VAR(&content);
+	zephir_file_get_contents(&content, &filePath_zv);
+	if (UNEXPECTED(ZEPHIR_IS_FALSE_IDENTICAL(&content))) {
+		ZEPHIR_INIT_VAR(&_0$$3);
+		object_init_ex(&_0$$3, phalcon_config_exceptions_cannotloadconfigfile_ce);
+		ZEPHIR_INIT_VAR(&_1$$3);
+		zephir_basename(&_1$$3, &filePath_zv);
+		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 390, &_1$$3);
+		zephir_check_call_status();
+		zephir_throw_exception_debug(&_0$$3, "phalcon/Config/Adapter/Json.zep", 51);
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZEPHIR_INIT_VAR(&_2);
+	object_init_ex(&_2, phalcon_support_helper_json_decode_ce);
+	if (zephir_has_constructor(&_2)) {
+		ZEPHIR_CALL_METHOD(NULL, &_2, "__construct", NULL, 0);
 		zephir_check_call_status();
 	}
 
-	ZEPHIR_INIT_VAR(&_2);
-	zephir_file_get_contents(&_2, &filePath_zv);
-	ZVAL_BOOL(&_3, 1);
-	ZEPHIR_CALL_METHOD(&_1, &_0, "__invoke", NULL, 305, &_2, &_3);
+	ZVAL_BOOL(&_4, 1);
+	ZEPHIR_CALL_METHOD(&_3, &_2, "__invoke", NULL, 335, &content, &_4);
 	zephir_check_call_status();
-	ZEPHIR_CALL_PARENT(NULL, phalcon_config_adapter_json_ce, getThis(), "__construct", NULL, 0, &_1);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_config_adapter_json_ce, getThis(), "__construct", NULL, 0, &_3);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }

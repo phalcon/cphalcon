@@ -22,104 +22,16 @@
  */
 /**
  * Interface for Phalcon\Dispatcher\AbstractDispatcher
+ *
+ * @psalm-suppress DeprecatedInterface
+ * @deprecated Will be removed in a future major release.
+ *             Use {@see \Phalcon\Contracts\Dispatcher\Dispatcher} instead.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Dispatcher_DispatcherInterface)
 {
-	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Dispatcher, DispatcherInterface, phalcon, dispatcher_dispatcherinterface, phalcon_dispatcher_dispatcherinterface_method_entry);
+	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Dispatcher, DispatcherInterface, phalcon, dispatcher_dispatcherinterface, NULL);
 
+	zend_class_implements(phalcon_dispatcher_dispatcherinterface_ce, 1, phalcon_contracts_dispatcher_dispatcher_ce);
 	return SUCCESS;
 }
 
-/**
- * Dispatches a handle action taking into account the routing parameters
- *
- * @return mixed
- */
-ZEPHIR_DOC_METHOD(Phalcon_Dispatcher_DispatcherInterface, dispatch);
-/**
- * Forwards the execution flow to another controller/action
- */
-ZEPHIR_DOC_METHOD(Phalcon_Dispatcher_DispatcherInterface, forward);
-/**
- * Gets last dispatched action name
- */
-ZEPHIR_DOC_METHOD(Phalcon_Dispatcher_DispatcherInterface, getActionName);
-/**
- * Gets the default action suffix
- */
-ZEPHIR_DOC_METHOD(Phalcon_Dispatcher_DispatcherInterface, getActionSuffix);
-/**
- * Gets the default handler suffix
- */
-ZEPHIR_DOC_METHOD(Phalcon_Dispatcher_DispatcherInterface, getHandlerSuffix);
-/**
- * Gets a param by its name or numeric index
- *
- * @param  string|array filters
- */
-ZEPHIR_DOC_METHOD(Phalcon_Dispatcher_DispatcherInterface, getParam);
-/**
- * Gets a param by its name or numeric index
- *
- * @param  string|array filters
- */
-ZEPHIR_DOC_METHOD(Phalcon_Dispatcher_DispatcherInterface, getParameter);
-/**
- * Gets action params
- */
-ZEPHIR_DOC_METHOD(Phalcon_Dispatcher_DispatcherInterface, getParams);
-/**
- * Gets action params
- */
-ZEPHIR_DOC_METHOD(Phalcon_Dispatcher_DispatcherInterface, getParameters);
-/**
- * Returns value returned by the latest dispatched action
- */
-ZEPHIR_DOC_METHOD(Phalcon_Dispatcher_DispatcherInterface, getReturnedValue);
-/**
- * Check if a param exists
- */
-ZEPHIR_DOC_METHOD(Phalcon_Dispatcher_DispatcherInterface, hasParam);
-/**
- * Checks if the dispatch loop is finished or has more pendent
- * controllers/tasks to dispatch
- */
-ZEPHIR_DOC_METHOD(Phalcon_Dispatcher_DispatcherInterface, isFinished);
-/**
- * Sets the action name to be dispatched
- */
-ZEPHIR_DOC_METHOD(Phalcon_Dispatcher_DispatcherInterface, setActionName);
-/**
- * Sets the default action suffix
- */
-ZEPHIR_DOC_METHOD(Phalcon_Dispatcher_DispatcherInterface, setActionSuffix);
-/**
- * Sets the default action name
- */
-ZEPHIR_DOC_METHOD(Phalcon_Dispatcher_DispatcherInterface, setDefaultAction);
-/**
- * Sets the default namespace
- */
-ZEPHIR_DOC_METHOD(Phalcon_Dispatcher_DispatcherInterface, setDefaultNamespace);
-/**
- * Sets the default suffix for the handler
- */
-ZEPHIR_DOC_METHOD(Phalcon_Dispatcher_DispatcherInterface, setHandlerSuffix);
-/**
- * Sets the module name which the application belongs to
- */
-ZEPHIR_DOC_METHOD(Phalcon_Dispatcher_DispatcherInterface, setModuleName);
-/**
- * Sets the namespace which the controller belongs to
- */
-ZEPHIR_DOC_METHOD(Phalcon_Dispatcher_DispatcherInterface, setNamespaceName);
-/**
- * Set a param by its name or numeric index
- *
- * @param  mixed value
- */
-ZEPHIR_DOC_METHOD(Phalcon_Dispatcher_DispatcherInterface, setParam);
-/**
- * Sets action params to be dispatched
- */
-ZEPHIR_DOC_METHOD(Phalcon_Dispatcher_DispatcherInterface, setParams);
