@@ -278,7 +278,7 @@ class PdoResult implements ResultInterface
     public function numRows() -> int
     {
         var sqlStatement, rowCount, connection, type, pdoStatement, matches,
-            result, row;
+            result, row, rows;
 
         let rowCount = this->rowCount;
 
@@ -321,6 +321,30 @@ class PdoResult implements ResultInterface
 
                         let row = result->$fetch(),
                             rowCount = row["numrows"];
+                    } elseif preg_match("/^WITH\\s+/i", sqlStatement) {
+                        /**
+                         * SQL Server does not allow a WITH statement inside a
+                         * derived table. Count its rows locally, then execute
+                         * the statement again so the result cursor remains
+                         * available to the caller.
+                         */
+                        if type === "sqlsrv" {
+                            let rows = this->pdoStatement->fetchAll(),
+                                rowCount = count(rows);
+
+                            this->dataSeek(0);
+                        } else {
+                            let result = connection->query(
+                                "SELECT COUNT(*) \"numrows\" FROM ("
+                                . sqlStatement
+                                . ") AS \"_phalcon_count\"",
+                                this->bindParams,
+                                this->bindTypes
+                            );
+
+                            let row = result->$fetch(),
+                                rowCount = row["numrows"];
+                        }
                     }
                 } else {
                     let rowCount = 1;

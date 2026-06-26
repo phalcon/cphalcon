@@ -598,7 +598,8 @@ abstract class Dialect implements DialectInterface
     public function select(array! definition) -> string
     {
         var tables, columns, sql, distinct, joins, where, escapeChar, groupBy,
-            having, orderBy, limit, forUpdate, bindCounts;
+            having, orderBy, limit, forUpdate, bindCounts, with, unions,
+            recursive;
         array parts;
 
         if unlikely !fetch tables, definition["tables"] {
@@ -609,22 +610,31 @@ abstract class Dialect implements DialectInterface
             throw new MissingDefinitionKey("columns");
         }
 
-        if fetch distinct, definition["distinct"] {
-            if distinct {
-                let sql = "SELECT DISTINCT";
-            } else {
-                let sql = "SELECT ALL";
-            }
-        } else {
-            let sql = "SELECT";
-        }
-
         fetch bindCounts, definition["bindCounts"];
         if typeof bindCounts !== "array" {
             let bindCounts = [];
         }
 
-        let escapeChar = this->escapeChar;
+        let escapeChar = this->escapeChar,
+            sql = "";
+
+        if fetch with, definition["with"] && with {
+            if !fetch recursive, definition["withRecursive"] {
+                let recursive = false;
+            }
+
+            let sql = this->getSqlExpressionWith(with, escapeChar, bindCounts, recursive) . " ";
+        }
+
+        if fetch distinct, definition["distinct"] {
+            if distinct {
+                let sql .= "SELECT DISTINCT";
+            } else {
+                let sql .= "SELECT ALL";
+            }
+        } else {
+            let sql .= "SELECT";
+        }
 
         /**
          * Accumulate the top-level clauses in an array and join once.
@@ -654,11 +664,22 @@ abstract class Dialect implements DialectInterface
             let parts[] = this->getSqlExpressionHaving(having, escapeChar, bindCounts);
         }
 
-        if fetch orderBy, definition["order"] && orderBy {
-            let parts[] = this->getSqlExpressionOrderBy(orderBy, escapeChar, bindCounts);
+        let sql = implode(" ", parts);
+
+        /**
+         * Resolve UNION clauses before ORDER BY and LIMIT so those clauses
+         * apply to the complete compound SELECT.
+         */
+        if fetch unions, definition["union"] && unions {
+            let sql .= " " . this->getSqlExpressionUnion(unions, escapeChar, bindCounts);
         }
 
-        let sql = implode(" ", parts);
+        /**
+         * Resolve ORDER BY
+         */
+        if fetch orderBy, definition["order"] && orderBy {
+            let sql .= " " . this->getSqlExpressionOrderBy(orderBy, escapeChar, bindCounts);
+        }
 
         /**
          * Resolve LIMIT
@@ -1142,6 +1163,89 @@ abstract class Dialect implements DialectInterface
     final protected function getSqlExpressionHaving(array! expression, string escapeChar = null, array! bindCounts = []) -> string
     {
         return "HAVING " . this->getSqlExpression(expression, escapeChar, bindCounts);
+    }
+
+    /**
+     * Resolve a WITH clause
+     *
+     * @param array expression
+     * @param string|null escapeChar
+     * @param array bindCounts
+     *
+     * @return string
+     */
+    final protected function getSqlExpressionWith(array! expression, string escapeChar = null, array! bindCounts = [], bool recursive = false) -> string
+    {
+        var item, name, columns, column, columnName, cteSelect;
+        array items, columnItems;
+
+        let items = [];
+
+        for item in expression {
+            let name = this->escape(item["name"], escapeChar);
+
+            if fetch columns, item["columns"] && columns {
+                let columnItems = [];
+
+                for column in columns {
+                    if typeof column == "array" {
+                        let columnName = column["name"];
+                    } else {
+                        let columnName = column;
+                    }
+
+                    let columnItems[] = this->escape(columnName, escapeChar);
+                }
+
+                let name .= " (" . join(", ", columnItems) . ")";
+            }
+
+            let cteSelect = item["select"];
+            if count(bindCounts) {
+                let cteSelect["bindCounts"] = bindCounts;
+            }
+
+            let items[] = name . " AS (" . this->select(cteSelect) . ")";
+        }
+
+        if recursive {
+            return "WITH RECURSIVE " . join(", ", items);
+        }
+
+        return "WITH " . join(", ", items);
+    }
+
+    /**
+     * Resolve UNION clauses
+     *
+     * @param array expression
+     * @param string|null escapeChar
+     * @param array bindCounts
+     *
+     * @return string
+     */
+    final protected function getSqlExpressionUnion(array! expression, string escapeChar = null, array! bindCounts = []) -> string
+    {
+        var item, cteSelect, all;
+        array items;
+
+        let items = [];
+
+        for item in expression {
+            let cteSelect = item["select"];
+
+            if count(bindCounts) {
+                let cteSelect["bindCounts"] = bindCounts;
+            }
+
+            if fetch all, item["all"] && all {
+                let items[] = "UNION ALL " . this->select(cteSelect);
+            } else {
+                let items[] = "UNION " . this->select(cteSelect);
+            }
+        }
+
+        return join(" ", items);
     }
 
     /**
