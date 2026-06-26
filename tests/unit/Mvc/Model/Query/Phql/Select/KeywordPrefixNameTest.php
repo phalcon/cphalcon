@@ -18,7 +18,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 
 final class KeywordPrefixNameTest extends AbstractUnitTestCase
 {
-
     /**
      * @issue  https://github.com/phalcon/cphalcon/issues/16831
      * @author Phalcon Team <team@phalcon.io>

@@ -20,7 +20,6 @@ use function ini_get;
 
 final class GlobalsTest extends AbstractUnitTestCase
 {
-
     /**
      * @return array<array-key, array<string, string>>
      */

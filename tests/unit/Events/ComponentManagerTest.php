@@ -20,7 +20,6 @@ use function method_exists;
 
 final class ComponentManagerTest extends AbstractUnitTestCase
 {
-
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2024-01-01
