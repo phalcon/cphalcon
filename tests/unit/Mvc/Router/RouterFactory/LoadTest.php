@@ -21,7 +21,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
 
 final class LoadTest extends AbstractUnitTestCase
 {
-
     public function testLoadAcceptsConfigObject(): void
     {
         $config = new Config([

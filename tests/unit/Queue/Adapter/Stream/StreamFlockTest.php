@@ -33,6 +33,7 @@ use function sys_get_temp_dir;
 use function trim;
 use function uniqid;
 use function unlink;
+use function var_export;
 
 use const PHP_BINARY;
 use const PHP_EOL;
@@ -85,13 +86,12 @@ final class StreamFlockTest extends AbstractUnitTestCase
             $producer->send($queue, $context->createMessage((string) $i));
         }
 
-        // The Queue classes live in the compiled extension, so the worker only
-        // needs the extension loaded - no Composer autoloader.
-        $script = $this->storageDir . '/worker.php';
+        $autoload = var_export(dirname(__DIR__, 5) . '/vendor/autoload.php', true);
+        $script   = $this->storageDir . '/worker.php';
 
         file_put_contents(
             $script,
-            '<?php '
+            '<?php require ' . $autoload . ';'
             . '$f = new \Phalcon\Queue\Adapter\Stream\StreamConnectionFactory(["storageDir" => $argv[1]]);'
             . '$c = $f->createContext();'
             . '$k = $c->createConsumer($c->createQueue("flock"));'
@@ -105,8 +105,7 @@ final class StreamFlockTest extends AbstractUnitTestCase
             $procs[$w] = proc_open(
                 [PHP_BINARY, '-d', 'extension=ext/modules/phalcon.so', $script, $this->storageDir],
                 [1 => ['pipe', 'w'], 2 => ['pipe', 'w']],
-                $pipes[$w],
-                dirname(__DIR__, 5)
+                $pipes[$w]
             );
         }
 

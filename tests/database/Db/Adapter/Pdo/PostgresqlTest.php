@@ -139,24 +139,28 @@ final class PostgresqlTest extends AbstractDatabaseTestCase
     {
         $db = $this->container->get('db');
 
-        $expected = [
-            'test_describereferences' => new Reference(
-                'test_describereferences',
-                [
-                    'referencedTable'   => 'foreign_key_parent',
-                    'referencedSchema'  => env('DATA_POSTGRES_NAME'),
-                    'columns'           => ['child_int'],
-                    'referencedColumns' => ['refer_int'],
-                    'onUpdate'          => 'CASCADE',
-                    'onDelete'          => 'RESTRICT',
-                ]
-            ),
-        ];
-
-        $this->assertEquals(
-            $expected,
-            $db->describeReferences('foreign_key_child', 'public')
+        $expected = new Reference(
+            'test_describereferences',
+            [
+                'referencedTable'   => 'foreign_key_parent',
+                'referencedSchema'  => env('DATA_POSTGRES_NAME'),
+                'columns'           => ['child_int'],
+                'referencedColumns' => ['refer_int'],
+                'onUpdate'          => 'CASCADE',
+                'onDelete'          => 'RESTRICT',
+            ]
         );
+
+        $references = $db->describeReferences('foreign_key_child', 'public');
+
+        /**
+         * The sibling add/drop foreign-key tests in this class mutate the
+         * shared foreign_key_child table, so assert the schema-defined
+         * reference is present and correctly described rather than that it is
+         * the only one on the table (mirrors DescribeReferencesTest).
+         */
+        $this->assertArrayHasKey('test_describereferences', $references);
+        $this->assertEquals($expected, $references['test_describereferences']);
     }
 
     /**

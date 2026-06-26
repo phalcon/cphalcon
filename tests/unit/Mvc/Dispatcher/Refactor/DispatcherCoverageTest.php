@@ -28,7 +28,6 @@ use Phalcon\Tests\Unit\Mvc\Dispatcher\Helper\DispatcherTestDefaultTwoController;
  */
 class DispatcherCoverageTest extends BaseDispatcher
 {
-
     /**
      * Tests action execution exception - exception bubbles (L609, L617).
      *

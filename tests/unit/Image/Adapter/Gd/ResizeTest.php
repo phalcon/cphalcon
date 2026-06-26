@@ -179,6 +179,66 @@ final class ResizeTest extends AbstractUnitTestCase
 
     /**
      * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    public function testImageAdapterGdResizeMasterModes(): void
+    {
+        $this->checkJpegSupport();
+
+        $source = supportDir('assets/images/example-jpg.jpg');
+
+        $original = new Gd($source);
+        $sourceWidth  = $original->getWidth();
+        $sourceHeight = $original->getHeight();
+
+        // WIDTH master: width is fixed, height scales to preserve the ratio
+        $image = new Gd($source);
+        $image->resize(100, null, Enum::WIDTH);
+        $this->assertSame(100, $image->getWidth());
+        $this->assertSame(
+            (int) max(round($sourceHeight * 100 / $sourceWidth), 1),
+            $image->getHeight()
+        );
+
+        // HEIGHT master: height is fixed, width scales to preserve the ratio
+        $image = new Gd($source);
+        $image->resize(null, 80, Enum::HEIGHT);
+        $this->assertSame(80, $image->getHeight());
+        $this->assertSame(
+            (int) max(round($sourceWidth * 80 / $sourceHeight), 1),
+            $image->getWidth()
+        );
+
+        // NONE master: both dimensions are used verbatim
+        $image = new Gd($source);
+        $image->resize(123, 45, Enum::NONE);
+        $this->assertSame(123, $image->getWidth());
+        $this->assertSame(45, $image->getHeight());
+
+        // TENSILE master: exact stretch to both dimensions
+        $image = new Gd($source);
+        $image->resize(111, 33, Enum::TENSILE);
+        $this->assertSame(111, $image->getWidth());
+        $this->assertSame(33, $image->getHeight());
+
+        // PRECISE master: scales to cover the box, preserving the ratio
+        $ratio = $sourceWidth / $sourceHeight;
+        if ((120 / 80) > $ratio) {
+            $expectedWidth  = 120;
+            $expectedHeight = (int) max(round($sourceHeight * 120 / $sourceWidth), 1);
+        } else {
+            $expectedWidth  = (int) max(round($sourceWidth * 80 / $sourceHeight), 1);
+            $expectedHeight = 80;
+        }
+
+        $image = new Gd($source);
+        $image->resize(120, 80, Enum::PRECISE);
+        $this->assertSame($expectedWidth, $image->getWidth());
+        $this->assertSame($expectedHeight, $image->getHeight());
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-28
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/16316

@@ -23,6 +23,37 @@ final class CropTest extends AbstractUnitTestCase
 
     /**
      * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    public function testImageAdapterGdCropClampsToBounds(): void
+    {
+        $this->checkJpegSupport();
+
+        $source       = supportDir('assets/images/example-jpg.jpg');
+        $original     = new Gd($source);
+        $sourceWidth  = $original->getWidth();
+        $sourceHeight = $original->getHeight();
+
+        // an oversized crop is clamped to the source dimensions
+        $image = new Gd($source);
+        $image->crop($sourceWidth * 2, $sourceHeight * 2, 0, 0);
+        $this->assertSame($sourceWidth, $image->getWidth());
+        $this->assertSame($sourceHeight, $image->getHeight());
+
+        // a positive offset reduces the available width/height
+        $image = new Gd($source);
+        $image->crop($sourceWidth, $sourceHeight, 50, 30);
+        $this->assertSame($sourceWidth - 50, $image->getWidth());
+        $this->assertSame($sourceHeight - 30, $image->getHeight());
+
+        // a negative offsetX is measured from the right edge
+        $image = new Gd($source);
+        $image->crop(100, 100, -40, 0);
+        $this->assertSame(100, $image->getWidth());
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function testImageAdapterGdCropJpg(): void
