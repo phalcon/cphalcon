@@ -21,8 +21,8 @@ use Phalcon\Auth\Adapter\Config\MemoryAdapterConfig;
 use Phalcon\Auth\Adapter\Memory;
 use Phalcon\Auth\Exception;
 use Phalcon\Auth\Guard\Config\SessionGuardConfig;
-use Phalcon\Contracts\Auth\Guard\Guard;
 use Phalcon\Auth\Guard\Session;
+use Phalcon\Contracts\Auth\Guard\Guard;
 use Phalcon\Encryption\Security;
 use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Tests\AbstractUnitTestCase;
@@ -37,8 +37,8 @@ final class SessionTest extends AbstractUnitTestCase
     private Memory $adapter;
     private FakeCookies $cookies;
     private FakeRequest $request;
-    private FakeSessionManager $session;
     private Security $security;
+    private FakeSessionManager $session;
 
     protected function setUp(): void
     {
@@ -58,38 +58,6 @@ final class SessionTest extends AbstractUnitTestCase
         $this->session = new FakeSessionManager();
         $this->cookies = new FakeCookies();
         $this->request = new FakeRequest();
-    }
-
-    private function buildGuard(): Session
-    {
-        return new Session(
-            $this->adapter,
-            $this->request,
-            $this->cookies,
-            $this->session
-        );
-    }
-
-    public function testCheckIsFalseWhenNotAuthenticated(): void
-    {
-        $guard = $this->buildGuard();
-
-        $this->assertFalse($guard->check());
-        $this->assertTrue($guard->guest());
-    }
-
-    public function testAttemptSucceedsWithValidCredentials(): void
-    {
-        $guard = $this->buildGuard();
-
-        $result = $guard->attempt([
-            'email'    => 'alice@example.com',
-            'password' => 'secret',
-        ]);
-
-        $this->assertTrue($result);
-        $this->assertTrue($guard->check());
-        $this->assertSame(1, $guard->id());
     }
 
     public function testAttemptFailsWithInvalidCredentials(): void
@@ -118,47 +86,58 @@ final class SessionTest extends AbstractUnitTestCase
         $this->assertFalse($guard->check());
     }
 
-    public function testLoginPersistsToSession(): void
-    {
-        $guard = $this->buildGuard();
-        $user  = $this->adapter->retrieveById(1);
-
-        $this->assertNotNull($user);
-
-        $guard->login($user);
-
-        $this->assertTrue($this->session->has($guard->getName()));
-        $this->assertSame(1, $this->session->get($guard->getName()));
-    }
-
-    public function testLogoutClearsSession(): void
-    {
-        $guard = $this->buildGuard();
-        $user  = $this->adapter->retrieveById(1);
-
-        $this->assertNotNull($user);
-
-        $guard->login($user);
-        $this->assertTrue($guard->check());
-
-        $guard->logout();
-
-        $this->assertFalse($guard->check());
-        $this->assertFalse($this->session->has($guard->getName()));
-    }
-
-    public function testOnceDoesNotPersist(): void
+    public function testAttemptSucceedsWithValidCredentials(): void
     {
         $guard = $this->buildGuard();
 
-        $result = $guard->once([
+        $result = $guard->attempt([
             'email'    => 'alice@example.com',
             'password' => 'secret',
         ]);
 
         $this->assertTrue($result);
         $this->assertTrue($guard->check());
-        $this->assertFalse($this->session->has($guard->getName()));
+        $this->assertSame(1, $guard->id());
+    }
+
+    public function testBasicAttemptsFromHttpHeader(): void
+    {
+        $guard = $this->buildGuard();
+        $this->request->setBasicAuthFake([
+            'username' => 'alice@example.com',
+            'password' => 'secret',
+        ]);
+
+        $this->assertTrue($guard->basic());
+        $this->assertTrue($guard->check());
+    }
+
+    public function testBasicReturnsFalseWhenNoCredentials(): void
+    {
+        $guard = $this->buildGuard();
+        $this->request->setBasicAuthFake(null);
+
+        $this->assertFalse($guard->basic());
+    }
+
+    public function testBasicReturnsTrueWhenAlreadyAuthenticated(): void
+    {
+        $guard = $this->buildGuard();
+        $user  = $this->adapter->retrieveById(1);
+
+        $this->assertNotNull($user);
+
+        $guard->login($user);
+
+        $this->assertTrue($guard->basic());
+    }
+
+    public function testCheckIsFalseWhenNotAuthenticated(): void
+    {
+        $guard = $this->buildGuard();
+
+        $this->assertFalse($guard->check());
+        $this->assertTrue($guard->guest());
     }
 
     public function testEventsFiredOnLogin(): void
@@ -224,45 +203,11 @@ final class SessionTest extends AbstractUnitTestCase
         $this->assertSame(['auth:beforeLogout', 'auth:afterLogout'], $captured);
     }
 
-    public function testValidateDoesNotPersist(): void
-    {
-        $guard = $this->buildGuard();
-
-        $result = $guard->validate([
-            'email'    => 'alice@example.com',
-            'password' => 'secret',
-        ]);
-
-        $this->assertTrue($result);
-        $this->assertFalse($guard->check());
-    }
-
-    public function testViaRememberDefaultsFalse(): void
-    {
-        $guard = $this->buildGuard();
-
-        $this->assertFalse($guard->viaRemember());
-    }
-
     public function testGetAdapterReturnsAdapter(): void
     {
         $guard = $this->buildGuard();
 
         $this->assertSame($this->adapter, $guard->getAdapter());
-    }
-
-    public function testSetAdapterReplaces(): void
-    {
-        $guard = $this->buildGuard();
-
-        $other = new Memory(
-            $this->security,
-            new MemoryAdapterConfig()
-        );
-
-        $guard->setAdapter($other);
-
-        $this->assertSame($other, $guard->getAdapter());
     }
 
     public function testGetConfigReturnsConfig(): void
@@ -293,6 +238,15 @@ final class SessionTest extends AbstractUnitTestCase
         $this->assertSame(1, $user->getAuthIdentifier());
     }
 
+    public function testGetNameAndRememberNameAreStable(): void
+    {
+        $guard = $this->buildGuard();
+
+        $this->assertNotEmpty($guard->getName());
+        $this->assertNotEmpty($guard->getRememberName());
+        $this->assertNotSame($guard->getName(), $guard->getRememberName());
+    }
+
     public function testHasUserReportsTrueAfterLogin(): void
     {
         $guard = $this->buildGuard();
@@ -313,26 +267,11 @@ final class SessionTest extends AbstractUnitTestCase
         $this->assertNull($guard->id());
     }
 
-    public function testSetUserAssignsCurrent(): void
-    {
-        $guard = $this->buildGuard();
-        $user  = $this->adapter->retrieveById(1);
-
-        $this->assertNotNull($user);
-
-        $guard->setUser($user);
-
-        $this->assertTrue($guard->hasUser());
-        $this->assertSame(1, $guard->id());
-    }
-
-    public function testGetNameAndRememberNameAreStable(): void
+    public function testLoginByIdReturnsFalseForUnknownUser(): void
     {
         $guard = $this->buildGuard();
 
-        $this->assertNotEmpty($guard->getName());
-        $this->assertNotEmpty($guard->getRememberName());
-        $this->assertNotSame($guard->getName(), $guard->getRememberName());
+        $this->assertFalse($guard->loginById(999));
     }
 
     public function testLoginByIdSucceeds(): void
@@ -345,11 +284,17 @@ final class SessionTest extends AbstractUnitTestCase
         $this->assertTrue($guard->check());
     }
 
-    public function testLoginByIdReturnsFalseForUnknownUser(): void
+    public function testLoginPersistsToSession(): void
     {
         $guard = $this->buildGuard();
+        $user  = $this->adapter->retrieveById(1);
 
-        $this->assertFalse($guard->loginById(999));
+        $this->assertNotNull($user);
+
+        $guard->login($user);
+
+        $this->assertTrue($this->session->has($guard->getName()));
+        $this->assertSame(1, $this->session->get($guard->getName()));
     }
 
     public function testLoginThrowsWhenAdapterDoesNotSupportRemember(): void
@@ -365,7 +310,43 @@ final class SessionTest extends AbstractUnitTestCase
         $guard->login($user, true);
     }
 
-    public function testUserResolvesFromSessionId(): void
+    public function testLogoutCleansRememberCookieWhenPresent(): void
+    {
+        $rememberAdapter = new \Phalcon\Tests\Unit\Auth\Fake\FakeRememberAdapter(
+            $this->security,
+            new MemoryAdapterConfig(
+                [
+                    [
+                        'id'       => 1,
+                        'email'    => 'alice@example.com',
+                        'password' => $this->security->hash('secret'),
+                    ],
+                ],
+                \Phalcon\Tests\Unit\Auth\Fake\FakeAuthUserModel::class
+            )
+        );
+
+        $guard = new Session(
+            $rememberAdapter,
+            $this->request,
+            $this->cookies,
+            $this->session
+        );
+
+        $user = $rememberAdapter->retrieveById(1);
+        $this->assertNotNull($user);
+
+        $guard->login($user, true);
+
+        $rememberName = $guard->getRememberName();
+        $this->assertTrue($this->cookies->has($rememberName));
+
+        $guard->logout();
+
+        $this->assertFalse($this->cookies->has($rememberName));
+    }
+
+    public function testLogoutClearsSession(): void
     {
         $guard = $this->buildGuard();
         $user  = $this->adapter->retrieveById(1);
@@ -373,50 +354,31 @@ final class SessionTest extends AbstractUnitTestCase
         $this->assertNotNull($user);
 
         $guard->login($user);
+        $this->assertTrue($guard->check());
 
-        $fresh = $this->buildGuard();
+        $guard->logout();
 
-        $this->assertNotNull($fresh->user());
-        $this->assertSame(1, $fresh->user()?->getAuthIdentifier());
+        $this->assertFalse($guard->check());
+        $this->assertFalse($this->session->has($guard->getName()));
     }
 
-    public function testUserReturnsNullWhenSessionEmpty(): void
-    {
-        $guard = $this->buildGuard();
-
-        $this->assertNull($guard->user());
-    }
-
-    public function testBasicReturnsTrueWhenAlreadyAuthenticated(): void
-    {
-        $guard = $this->buildGuard();
-        $user  = $this->adapter->retrieveById(1);
-
-        $this->assertNotNull($user);
-
-        $guard->login($user);
-
-        $this->assertTrue($guard->basic());
-    }
-
-    public function testBasicAttemptsFromHttpHeader(): void
+    public function testOnceBasicReturnsFalseOnInvalidCredentials(): void
     {
         $guard = $this->buildGuard();
         $this->request->setBasicAuthFake([
             'username' => 'alice@example.com',
-            'password' => 'secret',
+            'password' => 'wrong-password',
         ]);
 
-        $this->assertTrue($guard->basic());
-        $this->assertTrue($guard->check());
+        $this->assertFalse($guard->onceBasic());
     }
 
-    public function testBasicReturnsFalseWhenNoCredentials(): void
+    public function testOnceBasicReturnsFalseWithoutCredentials(): void
     {
         $guard = $this->buildGuard();
         $this->request->setBasicAuthFake(null);
 
-        $this->assertFalse($guard->basic());
+        $this->assertFalse($guard->onceBasic());
     }
 
     public function testOnceBasicSucceeds(): void
@@ -433,23 +395,76 @@ final class SessionTest extends AbstractUnitTestCase
         $this->assertSame(1, $result->getAuthIdentifier());
     }
 
-    public function testOnceBasicReturnsFalseWithoutCredentials(): void
+    public function testOnceDoesNotPersist(): void
     {
         $guard = $this->buildGuard();
-        $this->request->setBasicAuthFake(null);
 
-        $this->assertFalse($guard->onceBasic());
-    }
-
-    public function testOnceBasicReturnsFalseOnInvalidCredentials(): void
-    {
-        $guard = $this->buildGuard();
-        $this->request->setBasicAuthFake([
-            'username' => 'alice@example.com',
-            'password' => 'wrong-password',
+        $result = $guard->once([
+            'email'    => 'alice@example.com',
+            'password' => 'secret',
         ]);
 
-        $this->assertFalse($guard->onceBasic());
+        $this->assertTrue($result);
+        $this->assertTrue($guard->check());
+        $this->assertFalse($this->session->has($guard->getName()));
+    }
+
+    public function testRecallerHandlesArrayCookieValue(): void
+    {
+        $rememberAdapter = new \Phalcon\Tests\Unit\Auth\Fake\FakeRememberAdapter(
+            $this->security,
+            new MemoryAdapterConfig(
+                [['id' => 1, 'email' => 'a@b']],
+                \Phalcon\Tests\Unit\Auth\Fake\FakeAuthUserModel::class
+            )
+        );
+
+        $guard = new Session(
+            $rememberAdapter,
+            $this->request,
+            $this->cookies,
+            $this->session
+        );
+
+        $user = $rememberAdapter->retrieveById(1);
+        $this->assertNotNull($user);
+
+        $token = $rememberAdapter->createRememberToken($user);
+
+        // Cookie set as a raw array payload (rather than the JSON string the
+        // real flow uses). Recaller() handles the array branch and resolves
+        // the user via the remember adapter.
+        $this->cookies->set(
+            $guard->getRememberName(),
+            [
+                'id'         => 1,
+                'token'      => $token->getToken(),
+                'user_agent' => '',
+            ]
+        );
+
+        $this->assertNotNull($guard->user());
+    }
+
+    public function testRecallerReturnsNullForEmptyCookieValue(): void
+    {
+        $guard = $this->buildGuard();
+
+        // Cookie present but empty value.
+        $this->cookies->set($guard->getRememberName(), '');
+
+        $this->assertNull($guard->user());
+    }
+
+    public function testRecallerReturnsNullForNonStringNonArrayCookieValue(): void
+    {
+        $guard = $this->buildGuard();
+
+        // Cookie value that's neither string nor array - UserRemember cannot
+        // parse it; recaller() bails.
+        $this->cookies->set($guard->getRememberName(), 12345);
+
+        $this->assertNull($guard->user());
     }
 
     public function testRememberCookieExpiryUsesInjectedClock(): void
@@ -535,62 +550,31 @@ final class SessionTest extends AbstractUnitTestCase
         $this->assertTrue($fresh->viaRemember());
     }
 
-    public function testRecallerReturnsNullForEmptyCookieValue(): void
+    public function testSetAdapterReplaces(): void
     {
         $guard = $this->buildGuard();
 
-        // Cookie present but empty value.
-        $this->cookies->set($guard->getRememberName(), '');
+        $other = new Memory(
+            $this->security,
+            new MemoryAdapterConfig()
+        );
 
-        $this->assertNull($guard->user());
+        $guard->setAdapter($other);
+
+        $this->assertSame($other, $guard->getAdapter());
     }
 
-    public function testRecallerHandlesArrayCookieValue(): void
+    public function testSetUserAssignsCurrent(): void
     {
-        $rememberAdapter = new \Phalcon\Tests\Unit\Auth\Fake\FakeRememberAdapter(
-            $this->security,
-            new MemoryAdapterConfig(
-                [['id' => 1, 'email' => 'a@b']],
-                \Phalcon\Tests\Unit\Auth\Fake\FakeAuthUserModel::class
-            )
-        );
+        $guard = $this->buildGuard();
+        $user  = $this->adapter->retrieveById(1);
 
-        $guard = new Session(
-            $rememberAdapter,
-            $this->request,
-            $this->cookies,
-            $this->session
-        );
-
-        $user = $rememberAdapter->retrieveById(1);
         $this->assertNotNull($user);
 
-        $token = $rememberAdapter->createRememberToken($user);
+        $guard->setUser($user);
 
-        // Cookie set as a raw array payload (rather than the JSON string the
-        // real flow uses). Recaller() handles the array branch and resolves
-        // the user via the remember adapter.
-        $this->cookies->set(
-            $guard->getRememberName(),
-            [
-                'id'         => 1,
-                'token'      => $token->getToken(),
-                'user_agent' => '',
-            ]
-        );
-
-        $this->assertNotNull($guard->user());
-    }
-
-    public function testRecallerReturnsNullForNonStringNonArrayCookieValue(): void
-    {
-        $guard = $this->buildGuard();
-
-        // Cookie value that's neither string nor array - UserRemember cannot
-        // parse it; recaller() bails.
-        $this->cookies->set($guard->getRememberName(), 12345);
-
-        $this->assertNull($guard->user());
+        $this->assertTrue($guard->hasUser());
+        $this->assertSame(1, $guard->id());
     }
 
     public function testUserFromRecallerNullWhenAdapterNotRememberAdapter(): void
@@ -634,39 +618,55 @@ final class SessionTest extends AbstractUnitTestCase
         $this->assertNull($guard->user());
     }
 
-    public function testLogoutCleansRememberCookieWhenPresent(): void
+    public function testUserResolvesFromSessionId(): void
     {
-        $rememberAdapter = new \Phalcon\Tests\Unit\Auth\Fake\FakeRememberAdapter(
-            $this->security,
-            new MemoryAdapterConfig(
-                [
-                    [
-                        'id'       => 1,
-                        'email'    => 'alice@example.com',
-                        'password' => $this->security->hash('secret'),
-                    ],
-                ],
-                \Phalcon\Tests\Unit\Auth\Fake\FakeAuthUserModel::class
-            )
-        );
+        $guard = $this->buildGuard();
+        $user  = $this->adapter->retrieveById(1);
 
-        $guard = new Session(
-            $rememberAdapter,
+        $this->assertNotNull($user);
+
+        $guard->login($user);
+
+        $fresh = $this->buildGuard();
+
+        $this->assertNotNull($fresh->user());
+        $this->assertSame(1, $fresh->user()?->getAuthIdentifier());
+    }
+
+    public function testUserReturnsNullWhenSessionEmpty(): void
+    {
+        $guard = $this->buildGuard();
+
+        $this->assertNull($guard->user());
+    }
+
+    public function testValidateDoesNotPersist(): void
+    {
+        $guard = $this->buildGuard();
+
+        $result = $guard->validate([
+            'email'    => 'alice@example.com',
+            'password' => 'secret',
+        ]);
+
+        $this->assertTrue($result);
+        $this->assertFalse($guard->check());
+    }
+
+    public function testViaRememberDefaultsFalse(): void
+    {
+        $guard = $this->buildGuard();
+
+        $this->assertFalse($guard->viaRemember());
+    }
+
+    private function buildGuard(): Session
+    {
+        return new Session(
+            $this->adapter,
             $this->request,
             $this->cookies,
             $this->session
         );
-
-        $user = $rememberAdapter->retrieveById(1);
-        $this->assertNotNull($user);
-
-        $guard->login($user, true);
-
-        $rememberName = $guard->getRememberName();
-        $this->assertTrue($this->cookies->has($rememberName));
-
-        $guard->logout();
-
-        $this->assertFalse($this->cookies->has($rememberName));
     }
 }

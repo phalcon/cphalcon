@@ -23,19 +23,6 @@ final class StatusTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-06-06
      */
-    public function testSuccessWithNullModel(): void
-    {
-        $status = new Status(true);
-
-        $this->assertTrue($status->success());
-        $this->assertNull($status->getModel());
-        $this->assertSame([], $status->getMessages());
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-06-06
-     */
     public function testFailureWithModel(): void
     {
         $messages = ['validation failed'];
@@ -48,5 +35,17 @@ final class StatusTest extends AbstractUnitTestCase
         $this->assertFalse($status->success());
         $this->assertSame($model, $status->getModel());
         $this->assertSame($messages, $status->getMessages());
+    }
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-06
+     */
+    public function testSuccessWithNullModel(): void
+    {
+        $status = new Status(true);
+
+        $this->assertTrue($status->success());
+        $this->assertNull($status->getModel());
+        $this->assertSame([], $status->getMessages());
     }
 }

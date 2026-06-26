@@ -37,17 +37,6 @@ final class GetClassAnnotationsTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2016-01-26
      */
-    public function testAnnotationsReflectionGetClassAnnotationsEmpty(): void
-    {
-        $reflection = new Reflection();
-
-        $this->assertNull($reflection->getClassAnnotations());
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2016-01-26
-     */
     public function testAnnotationsReflectionGetClassAnnotations(): void
     {
         $reader = new Reader();
@@ -66,5 +55,16 @@ final class GetClassAnnotationsTest extends AbstractUnitTestCase
 
         $this->assertEquals(9, $number);
         $this->assertCount(9, $classAnnotations);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2016-01-26
+     */
+    public function testAnnotationsReflectionGetClassAnnotationsEmpty(): void
+    {
+        $reflection = new Reflection();
+
+        $this->assertNull($reflection->getClassAnnotations());
     }
 }

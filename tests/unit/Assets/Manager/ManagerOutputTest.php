@@ -23,8 +23,8 @@ use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Assets\Fake\FakeAssetFileExistsPositive;
 use Phalcon\Tests\Unit\Assets\Fake\UppercaseFilter;
 
-use function filemtime;
 use function file_put_contents;
+use function filemtime;
 use function ob_get_clean;
 use function ob_start;
 use function outputDir;

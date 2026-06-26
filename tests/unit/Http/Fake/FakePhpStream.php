@@ -29,6 +29,11 @@ class FakePhpStream
     public $context = null;
 
     /**
+     * @var string
+     */
+    protected $data = '';
+
+    /**
      * @var int
      */
     protected $index = 0;
@@ -37,11 +42,6 @@ class FakePhpStream
      * @var int
      */
     protected $length = 0;
-
-    /**
-     * @var string
-     */
-    protected $data = '';
 
     /**
      * Constructor

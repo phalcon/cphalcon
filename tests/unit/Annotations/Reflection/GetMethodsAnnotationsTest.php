@@ -34,18 +34,6 @@ final class GetMethodsAnnotationsTest extends AbstractUnitTestCase
 
     /**
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2016-01-26
-     */
-    public function testAnnotationsReflectionGetMethodsAnnotationsEmpty(): void
-    {
-        $reflection = new Reflection();
-
-        $this->assertIsArray($reflection->getMethodsAnnotations());
-        $this->assertEmpty($reflection->getMethodsAnnotations());
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-21
      */
     public function testAnnotationsReflectionGetMethodsAnnotations(): void
@@ -66,5 +54,17 @@ final class GetMethodsAnnotationsTest extends AbstractUnitTestCase
 
         $this->assertEquals(4, $number);
         $this->assertCount(4, $methodsAnnotations);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2016-01-26
+     */
+    public function testAnnotationsReflectionGetMethodsAnnotationsEmpty(): void
+    {
+        $reflection = new Reflection();
+
+        $this->assertIsArray($reflection->getMethodsAnnotations());
+        $this->assertEmpty($reflection->getMethodsAnnotations());
     }
 }

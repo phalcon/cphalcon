@@ -87,41 +87,19 @@ final class GetClientAddressTest extends AbstractHttpBase
 
     /**
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2025-07-11
+     * @since  2020-03-17
      */
-    public function testHttpRequestSetTrustedProxies(): void
+    public function testHttpRequestGetClientAddressTrustForwardedHeaderClientIp(): void
     {
         $container = new FactoryDefault();
-
-        $request = new FakeRequest();
-        $request->setDI($container);
-        $request->setTrustedProxies([
-            '25.25.25.0/24'
-        ]);
-
-        $expected = ['25.25.25.0/24'];
-        $actual   = $request->getTrustedProxies();
-        $this->assertSame($expected, $actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2025-07-11
-     */
-    public function testHttpRequestGetClientAddressTrustForwardedHeaderWithValidTrustedProxy(): void
-    {
-        $container = new FactoryDefault();
-
-        $_SERVER['REMOTE_ADDR']          = '25.25.25.1';
-        $_SERVER['HTTP_X_FORWARDED_FOR'] = '8.8.8.8,25.25.25.1';
+        $_SERVER['REMOTE_ADDR'] = Http::TEST_IP_THREE;
+        $_SERVER['HTTP_CLIENT_IP'] = Http::TEST_IP_TWO;
 
         $request = new Request();
         $request->setDI($container);
-        $request->setTrustedProxies([
-            '25.25.25.0/24'
-        ]);
+        $request->setTrustedProxyHeader('HTTP_CLIENT_IP');
 
-        $expected = '8.8.8.8';
+        $expected = Http::TEST_IP_TWO;
         $actual   = $request->getClientAddress(true);
         $this->assertSame($expected, $actual);
     }
@@ -172,20 +150,42 @@ final class GetClientAddressTest extends AbstractHttpBase
 
     /**
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2020-03-17
+     * @since  2025-07-11
      */
-    public function testHttpRequestGetClientAddressTrustForwardedHeaderClientIp(): void
+    public function testHttpRequestGetClientAddressTrustForwardedHeaderWithValidTrustedProxy(): void
     {
         $container = new FactoryDefault();
-        $_SERVER['REMOTE_ADDR'] = Http::TEST_IP_THREE;
-        $_SERVER['HTTP_CLIENT_IP'] = Http::TEST_IP_TWO;
+
+        $_SERVER['REMOTE_ADDR']          = '25.25.25.1';
+        $_SERVER['HTTP_X_FORWARDED_FOR'] = '8.8.8.8,25.25.25.1';
 
         $request = new Request();
         $request->setDI($container);
-        $request->setTrustedProxyHeader('HTTP_CLIENT_IP');
+        $request->setTrustedProxies([
+            '25.25.25.0/24'
+        ]);
 
-        $expected = Http::TEST_IP_TWO;
+        $expected = '8.8.8.8';
         $actual   = $request->getClientAddress(true);
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2025-07-11
+     */
+    public function testHttpRequestSetTrustedProxies(): void
+    {
+        $container = new FactoryDefault();
+
+        $request = new FakeRequest();
+        $request->setDI($container);
+        $request->setTrustedProxies([
+            '25.25.25.0/24'
+        ]);
+
+        $expected = ['25.25.25.0/24'];
+        $actual   = $request->getTrustedProxies();
         $this->assertSame($expected, $actual);
     }
 }

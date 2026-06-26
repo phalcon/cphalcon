@@ -22,6 +22,11 @@ final class IsVisibleModelPropertyTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
 
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+    }
+
     /**
      * @return array<array{string, bool}>
      */
@@ -37,11 +42,6 @@ final class IsVisibleModelPropertyTest extends AbstractDatabaseTestCase
             ['protected_field', false],
             ['private_field', false],
         ];
-    }
-
-    public function setUp(): void
-    {
-        $this->setNewFactoryDefault();
     }
 
     /**

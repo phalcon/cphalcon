@@ -20,23 +20,6 @@ use stdClass;
 
 final class GetSetWhitelistTest extends AbstractUnitTestCase
 {
-    public function testGetWhitelistReturnsEmptyArrayByDefault(): void
-    {
-        $form = new Form();
-
-        $this->assertSame([], $form->getWhitelist());
-    }
-
-    public function testSetWhitelistStoresAndReturnsValue(): void
-    {
-        $form = new Form();
-
-        $result = $form->setWhitelist(['first', 'last']);
-
-        $this->assertSame($form, $result);
-        $this->assertSame(['first', 'last'], $form->getWhitelist());
-    }
-
     public function testBindUsesFormWhitelistWhenNoWhitelistArgument(): void
     {
         $form = new Form();
@@ -59,5 +42,21 @@ final class GetSetWhitelistTest extends AbstractUnitTestCase
         $result = $form->getValue('whitelist');
 
         $this->assertSame(['first', 'last'], $result);
+    }
+    public function testGetWhitelistReturnsEmptyArrayByDefault(): void
+    {
+        $form = new Form();
+
+        $this->assertSame([], $form->getWhitelist());
+    }
+
+    public function testSetWhitelistStoresAndReturnsValue(): void
+    {
+        $form = new Form();
+
+        $result = $form->setWhitelist(['first', 'last']);
+
+        $this->assertSame($form, $result);
+        $this->assertSame(['first', 'last'], $form->getWhitelist());
     }
 }

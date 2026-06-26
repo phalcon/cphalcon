@@ -20,6 +20,28 @@ use PHPUnit\Framework\Attributes\Group;
 final class IsInvisibleTest extends AbstractDatabaseTestCase
 {
     /**
+     * Tests Phalcon\Db\Column :: isInvisible() - explicit `false` is honored.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-15
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testDbColumnIsInvisibleFalse(): void
+    {
+        $column = new Column(
+            'email',
+            [
+                'type'      => Column::TYPE_VARCHAR,
+                'size'      => 255,
+                'invisible' => false,
+            ]
+        );
+
+        $this->assertFalse($column->isInvisible());
+    }
+    /**
      * Tests Phalcon\Db\Column :: isInvisible() - defaults to false when
      * the `invisible` key is not provided.
      *
@@ -63,28 +85,5 @@ final class IsInvisibleTest extends AbstractDatabaseTestCase
         );
 
         $this->assertTrue($column->isInvisible());
-    }
-
-    /**
-     * Tests Phalcon\Db\Column :: isInvisible() - explicit `false` is honored.
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-05-15
-     */
-    #[Group('mysql')]
-    #[Group('pgsql')]
-    #[Group('sqlite')]
-    public function testDbColumnIsInvisibleFalse(): void
-    {
-        $column = new Column(
-            'email',
-            [
-                'type'      => Column::TYPE_VARCHAR,
-                'size'      => 255,
-                'invisible' => false,
-            ]
-        );
-
-        $this->assertFalse($column->isInvisible());
     }
 }

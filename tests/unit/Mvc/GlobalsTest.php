@@ -21,21 +21,6 @@ use function ini_get;
 final class GlobalsTest extends AbstractUnitTestCase
 {
     /**
-     * @issue  https://github.com/phalcon/cphalcon/issues/15269
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2021-10-24
-     */
-    #[DataProvider('getExamples')]
-    public function testMvcModelGlobals(string $setting, string $value): void
-    {
-        $actual = ini_get($setting);
-        $this->assertNotFalse($actual);
-
-        $expected = $value;
-        $this->assertSame($expected, $actual);
-    }
-
-    /**
      * @return array<array-key, array<string, string>>
      */
     public static function getExamples(): array
@@ -61,5 +46,19 @@ final class GlobalsTest extends AbstractUnitTestCase
             ['phalcon.orm.virtual_foreign_keys', '1'],
             ['phalcon.orm.dynamic_update', '1'],
         ];
+    }
+    /**
+     * @issue  https://github.com/phalcon/cphalcon/issues/15269
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2021-10-24
+     */
+    #[DataProvider('getExamples')]
+    public function testMvcModelGlobals(string $setting, string $value): void
+    {
+        $actual = ini_get($setting);
+        $this->assertNotFalse($actual);
+
+        $expected = $value;
+        $this->assertSame($expected, $actual);
     }
 }

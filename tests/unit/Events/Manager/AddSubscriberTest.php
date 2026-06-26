@@ -23,22 +23,6 @@ use Phalcon\Tests\Unit\Events\Manager\Fake\SimpleSubscriber;
 
 final class AddSubscriberTest extends AbstractUnitTestCase
 {
-    public function testAddSubscriberSimpleStringForm(): void
-    {
-        $manager    = new Manager();
-        $subscriber = new SimpleSubscriber();
-
-        $manager->addSubscriber($subscriber);
-
-        $listeners = $manager->getListeners('test:hello');
-        $this->assertCount(1, $listeners);
-        $this->assertSame([$subscriber, 'onHello'], $listeners[0]);
-
-        $manager->fire('test:hello', $this);
-
-        $this->assertSame(['hello'], $subscriber->calls);
-    }
-
     public function testAddSubscriberMethodPriorityForm(): void
     {
         $manager = new Manager();
@@ -97,5 +81,20 @@ final class AddSubscriberTest extends AbstractUnitTestCase
         );
 
         $manager->addSubscriber(new InvalidSubscriber());
+    }
+    public function testAddSubscriberSimpleStringForm(): void
+    {
+        $manager    = new Manager();
+        $subscriber = new SimpleSubscriber();
+
+        $manager->addSubscriber($subscriber);
+
+        $listeners = $manager->getListeners('test:hello');
+        $this->assertCount(1, $listeners);
+        $this->assertSame([$subscriber, 'onHello'], $listeners[0]);
+
+        $manager->fire('test:hello', $this);
+
+        $this->assertSame(['hello'], $subscriber->calls);
     }
 }

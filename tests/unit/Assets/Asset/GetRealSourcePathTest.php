@@ -74,20 +74,6 @@ final class GetRealSourcePathTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function testAssetsAssetGetRealSourcePathWithSourcePath(): void
-    {
-        $asset = new Asset('css', 'css/docs.css');
-        $asset->setSourcePath('assets/assets/1198.css');
-
-        $actual = $asset->getRealSourcePath(supportDir());
-        $this->assertNotEmpty($actual);
-        $this->assertStringContainsString('1198.css', $actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2020-09-09
-     */
     #[DataProvider('remoteProvider')]
     public function testAssetsAssetGetRealSourcePathRemote(
         string $type,
@@ -98,5 +84,19 @@ final class GetRealSourcePathTest extends AbstractUnitTestCase
         $expected = $path;
         $actual   = $asset->getRealSourcePath();
         $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    public function testAssetsAssetGetRealSourcePathWithSourcePath(): void
+    {
+        $asset = new Asset('css', 'css/docs.css');
+        $asset->setSourcePath('assets/assets/1198.css');
+
+        $actual = $asset->getRealSourcePath(supportDir());
+        $this->assertNotEmpty($actual);
+        $this->assertStringContainsString('1198.css', $actual);
     }
 }

@@ -23,6 +23,37 @@ final class CropTest extends AbstractUnitTestCase
 
     /**
      * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    public function testImageAdapterGdCropClampsToBounds(): void
+    {
+        $this->checkJpegSupport();
+
+        $source       = supportDir('assets/images/example-jpg.jpg');
+        $original     = new Gd($source);
+        $sourceWidth  = $original->getWidth();
+        $sourceHeight = $original->getHeight();
+
+        // an oversized crop is clamped to the source dimensions
+        $image = new Gd($source);
+        $image->crop($sourceWidth * 2, $sourceHeight * 2, 0, 0);
+        $this->assertSame($sourceWidth, $image->getWidth());
+        $this->assertSame($sourceHeight, $image->getHeight());
+
+        // a positive offset reduces the available width/height
+        $image = new Gd($source);
+        $image->crop($sourceWidth, $sourceHeight, 50, 30);
+        $this->assertSame($sourceWidth - 50, $image->getWidth());
+        $this->assertSame($sourceHeight - 30, $image->getHeight());
+
+        // a negative offsetX is measured from the right edge
+        $image = new Gd($source);
+        $image->crop(100, 100, -40, 0);
+        $this->assertSame(100, $image->getWidth());
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function testImageAdapterGdCropJpg(): void
@@ -41,6 +72,44 @@ final class CropTest extends AbstractUnitTestCase
         // Resize to 200 pixels on the shortest side
         $image->crop($width, $height)
               ->save(outputDir($outputDir . '/' . $cropImage))
+        ;
+
+        $this->assertFileExists(outputDir($outputDir) . $cropImage);
+
+        $actual = $image->getWidth();
+        $this->assertSame($width, $actual);
+
+        $actual = $image->getHeight();
+        $this->assertSame($height, $actual);
+
+        $actual = $this->checkImageHash($output, $hash);
+        $this->assertTrue($actual);
+
+        $this->safeDeleteFile($cropImage);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2018-11-13
+     */
+    public function testImageAdapterGdCropJpgWithOffset(): void
+    {
+        $this->checkJpegSupport();
+
+        $image = new Gd(supportDir('assets/images/example-jpg.jpg'));
+
+        $outputDir = 'tests/image/gd/';
+        $width     = 200;
+        $height    = 200;
+        $offsetX   = 200;
+        $offsetY   = 200;
+        $cropImage = 'cropwithoffset.jpg';
+        $output    = outputDir($outputDir . '/' . $cropImage);
+        $hash      = 'fffff00000000000';
+
+        // Resize to 200 pixels on the shortest side
+        $image->crop($width, $height, $offsetX, $offsetY)
+              ->save($output)
         ;
 
         $this->assertFileExists(outputDir($outputDir) . $cropImage);
@@ -88,43 +157,5 @@ final class CropTest extends AbstractUnitTestCase
         );
 
         $this->safeDeleteFile($output);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
-     */
-    public function testImageAdapterGdCropJpgWithOffset(): void
-    {
-        $this->checkJpegSupport();
-
-        $image = new Gd(supportDir('assets/images/example-jpg.jpg'));
-
-        $outputDir = 'tests/image/gd/';
-        $width     = 200;
-        $height    = 200;
-        $offsetX   = 200;
-        $offsetY   = 200;
-        $cropImage = 'cropwithoffset.jpg';
-        $output    = outputDir($outputDir . '/' . $cropImage);
-        $hash      = 'fffff00000000000';
-
-        // Resize to 200 pixels on the shortest side
-        $image->crop($width, $height, $offsetX, $offsetY)
-              ->save($output)
-        ;
-
-        $this->assertFileExists(outputDir($outputDir) . $cropImage);
-
-        $actual = $image->getWidth();
-        $this->assertSame($width, $actual);
-
-        $actual = $image->getHeight();
-        $this->assertSame($height, $actual);
-
-        $actual = $this->checkImageHash($output, $hash);
-        $this->assertTrue($actual);
-
-        $this->safeDeleteFile($cropImage);
     }
 }

@@ -33,6 +33,27 @@ final class OutputCssWithUrlTest extends AbstractUnitTestCase
     }
 
     /**
+     * Tests Phalcon\Assets\Manager :: outputCss() - falls back to "/" prefix when no URL service
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2025-04-29
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/16570
+     */
+    public function testAssetsManagerOutputCssFallsBackWithoutUrlService(): void
+    {
+        $manager = new Manager(new TagFactory(new Escaper()));
+
+        $manager->addCss('css/style.css');
+        $manager->useImplicitOutput(false);
+
+        $expected = '<link rel="stylesheet" type="text/css" href="/css/style.css" />' . PHP_EOL;
+        $actual   = $manager->outputCss();
+
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
      * Tests Phalcon\Assets\Manager :: outputCss() - uses URL service static base URI
      *
      * @author Phalcon Team <team@phalcon.io>
@@ -55,27 +76,6 @@ final class OutputCssWithUrlTest extends AbstractUnitTestCase
         $manager->useImplicitOutput(false);
 
         $expected = '<link rel="stylesheet" type="text/css" href="/my_app/css/style.css" />' . PHP_EOL;
-        $actual   = $manager->outputCss();
-
-        $this->assertSame($expected, $actual);
-    }
-
-    /**
-     * Tests Phalcon\Assets\Manager :: outputCss() - falls back to "/" prefix when no URL service
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2025-04-29
-     *
-     * @issue  https://github.com/phalcon/cphalcon/issues/16570
-     */
-    public function testAssetsManagerOutputCssFallsBackWithoutUrlService(): void
-    {
-        $manager = new Manager(new TagFactory(new Escaper()));
-
-        $manager->addCss('css/style.css');
-        $manager->useImplicitOutput(false);
-
-        $expected = '<link rel="stylesheet" type="text/css" href="/css/style.css" />' . PHP_EOL;
         $actual   = $manager->outputCss();
 
         $this->assertSame($expected, $actual);

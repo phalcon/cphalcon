@@ -43,32 +43,6 @@ final class GetEntityTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2025-08-12
      */
-    public function testFilterValidationGetEntityWithFilters(): void
-    {
-        $this->setNewFactoryDefault();
-
-        $user       = new stdClass();
-        $user->name = '';
-
-        $validation = new Validation();
-        $validation->setFilters('name', ['trim', 'striptags']);
-        $validation->validate(['name' => ' John <script>Chris</script>'], $user);
-
-        $this->assertSame(
-            'John Chris',
-            $validation->getEntity()->name
-        );
-
-        $this->assertSame(
-            'John Chris',
-            $validation->getValue('name')
-        );
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2025-08-12
-     */
     public function testFilterValidationGetEntityUsingBindWithWhitelistFields(): void
     {
         $this->setNewFactoryDefault();
@@ -159,5 +133,31 @@ final class GetEntityTest extends AbstractUnitTestCase
         $expected = 'new_password';
         $actual   = $validation->getValue('password');
         $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2025-08-12
+     */
+    public function testFilterValidationGetEntityWithFilters(): void
+    {
+        $this->setNewFactoryDefault();
+
+        $user       = new stdClass();
+        $user->name = '';
+
+        $validation = new Validation();
+        $validation->setFilters('name', ['trim', 'striptags']);
+        $validation->validate(['name' => ' John <script>Chris</script>'], $user);
+
+        $this->assertSame(
+            'John Chris',
+            $validation->getEntity()->name
+        );
+
+        $this->assertSame(
+            'John Chris',
+            $validation->getValue('name')
+        );
     }
 }

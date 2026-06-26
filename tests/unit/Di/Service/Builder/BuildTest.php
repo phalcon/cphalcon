@@ -519,6 +519,32 @@ final class BuildTest extends AbstractUnitTestCase
 
     /**
      * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    public function testDiServiceBuilderBuildMissingServiceParameterKey(): void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage(
+            "Service 'value' is required in parameter on position 0"
+        );
+
+        $container  = new Di();
+        $builder    = new Builder();
+        $definition = [
+            'className' => Escaper::class,
+            'arguments' => [
+                0 => [
+                    'type' => 'parameter',
+                    // 'value' key intentionally missing
+                ],
+            ],
+        ];
+
+        $builder->build($container, $definition);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2019-09-09
      */
     public function testDiServiceBuilderBuildPassedParameters(): void
@@ -664,32 +690,6 @@ final class BuildTest extends AbstractUnitTestCase
         $expected = 3;
         $actual   = $service->getType();
         $this->assertSame($expected, $actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2024-01-01
-     */
-    public function testDiServiceBuilderBuildMissingServiceParameterKey(): void
-    {
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage(
-            "Service 'value' is required in parameter on position 0"
-        );
-
-        $container  = new Di();
-        $builder    = new Builder();
-        $definition = [
-            'className' => Escaper::class,
-            'arguments' => [
-                0 => [
-                    'type' => 'parameter',
-                    // 'value' key intentionally missing
-                ],
-            ],
-        ];
-
-        $builder->build($container, $definition);
     }
 
     /**

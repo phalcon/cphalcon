@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Session\Manager;
 
 use Phalcon\Session\Exception;
+use Phalcon\Session\Exceptions\InvalidSessionId;
 use Phalcon\Session\Manager;
 use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
@@ -72,5 +73,23 @@ final class GetSetIdTest extends AbstractUnitTestCase
         }
 
         $this->assertTrue($valid);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    public function testSessionManagerSetIdInvalidId(): void
+    {
+        $manager = new Manager();
+        $files   = $this->newService('sessionStream');
+        $manager->setAdapter($files);
+
+        if ($manager->exists()) {
+            $manager->destroy();
+        }
+
+        $this->expectException(InvalidSessionId::class);
+        $manager->setId('invalid id with spaces');
     }
 }

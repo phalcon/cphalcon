@@ -31,6 +31,22 @@ final class GetSetTagFactoryTest extends AbstractUnitTestCase
 
     /**
      * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    public function testFormsElementGetLocalTagFactoryThrowsWhenNotResolvable(): void
+    {
+        Di::reset();
+
+        $name    = uniqid();
+        $element = new Text($name);
+
+        $this->expectException(Exception::class);
+
+        $element->render();
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2021-12-30
      */
     public function testFormsElementGetSetTagFactory(): void
@@ -118,21 +134,5 @@ final class GetSetTagFactoryTest extends AbstractUnitTestCase
         $expected = $tagFactoryOne;
         $actual   = $element->getTagFactory();
         $this->assertSame($expected, $actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2024-01-01
-     */
-    public function testFormsElementGetLocalTagFactoryThrowsWhenNotResolvable(): void
-    {
-        Di::reset();
-
-        $name    = uniqid();
-        $element = new Text($name);
-
-        $this->expectException(Exception::class);
-
-        $element->render();
     }
 }

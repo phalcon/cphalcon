@@ -46,177 +46,6 @@ final class ClearTest extends AbstractUnitTestCase
     }
 
     /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2022-11-01
-     */
-    public function testFormsFormGet(): void
-    {
-        $addressValue = uniqid('add-');
-        $address      = new Text('address');
-        $address->setDefault($addressValue);
-
-        $expected = $addressValue;
-        $actual   = $address->getValue();
-        $this->assertSame($expected, $actual);
-
-        $addressValueNew = uniqid('addn-');
-
-        $form = new Form();
-        $form->add($address);
-
-        $_POST = [
-            'address' => $addressValueNew,
-        ];
-
-        $actual = $form->isValid($_POST);
-        $this->assertTrue($actual);
-
-        $expected = $addressValueNew;
-        $actual   = $address->getValue();
-        $this->assertSame($expected, $actual);
-
-        $form->clear();
-
-        $expected = $addressValue;
-        $actual   = $address->getValue();
-        $this->assertSame($expected, $actual);
-    }
-
-    /**
-     * @author Sid Roberts <https://github.com/SidRoberts>
-     * @since  2019-06-28
-     */
-    public function testFormsFormClearAll(): void
-    {
-        $name     = new Text('name');
-        $email    = new Email('email');
-        $password = new Password('password');
-
-        $form = new Form();
-        $form
-            ->add($name)
-            ->add($email)
-            ->add($password)
-        ;
-
-        $entity = new stdClass();
-        $form->bind(
-            [
-                'name'     => 'Sid Roberts',
-                'email'    => 'team@phalcon.io',
-                'password' => 'hunter2',
-            ],
-            $entity
-        );
-
-        $form->clear();
-
-        $this->assertNull(
-            $form->get('name')->getValue()
-        );
-
-        $this->assertNull(
-            $form->get('email')->getValue()
-        );
-
-        $this->assertNull(
-            $form->get('password')->getValue()
-        );
-    }
-
-    /**
-     * @author Sid Roberts <https://github.com/SidRoberts>
-     * @since  2019-06-28
-     */
-    public function testFormsFormClearFieldsArray(): void
-    {
-        $name     = new Text('name');
-        $email    = new Email('email');
-        $password = new Password('password');
-
-        $form = new Form();
-        $form
-            ->add($name)
-            ->add($email)
-            ->add($password)
-        ;
-
-        $entity = new stdClass();
-        $form->bind(
-            [
-                'name'     => 'Sid Roberts',
-                'email'    => 'team@phalcon.io',
-                'password' => 'hunter2',
-            ],
-            $entity
-        );
-
-        $form->clear(
-            [
-                'email',
-                'password',
-            ]
-        );
-
-        $this->assertEquals(
-            'Sid Roberts',
-            $form->get('name')->getValue()
-        );
-
-        $this->assertNull(
-            $form->get('email')->getValue()
-        );
-
-        $this->assertNull(
-            $form->get('password')->getValue()
-        );
-    }
-
-    /**
-     * @author Sid Roberts <https://github.com/SidRoberts>
-     * @since  2019-06-28
-     */
-    public function testFormsFormClearFieldString(): void
-    {
-        $name     = new Text('name');
-        $email    = new Email('email');
-        $password = new Password('password');
-
-        $form = new Form();
-        $form
-            ->add($name)
-            ->add($email)
-            ->add($password)
-        ;
-
-        $entity = new stdClass();
-        $form->bind(
-            [
-                'name'     => 'Sid Roberts',
-                'email'    => 'team@phalcon.io',
-                'password' => 'hunter2',
-            ],
-            $entity
-        );
-
-        $form->clear('password');
-
-        $this->assertEquals(
-            'Sid Roberts',
-            $form->get('name')->getValue()
-        );
-
-        $this->assertEquals(
-            'team@phalcon.io',
-            $form->get('email')->getValue()
-        );
-
-        $this->assertNull(
-            $form->get('password')->getValue()
-        );
-    }
-
-    /**
      * @issue  https://github.com/phalcon/cphalcon/issues/12165
      * @issue  https://github.com/phalcon/cphalcon/issues/12099
      * @author Phalcon Team <team@phalcon.io>
@@ -436,5 +265,176 @@ final class ClearTest extends AbstractUnitTestCase
             ],
             $_POST
         );
+    }
+
+    /**
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-06-28
+     */
+    public function testFormsFormClearAll(): void
+    {
+        $name     = new Text('name');
+        $email    = new Email('email');
+        $password = new Password('password');
+
+        $form = new Form();
+        $form
+            ->add($name)
+            ->add($email)
+            ->add($password)
+        ;
+
+        $entity = new stdClass();
+        $form->bind(
+            [
+                'name'     => 'Sid Roberts',
+                'email'    => 'team@phalcon.io',
+                'password' => 'hunter2',
+            ],
+            $entity
+        );
+
+        $form->clear();
+
+        $this->assertNull(
+            $form->get('name')->getValue()
+        );
+
+        $this->assertNull(
+            $form->get('email')->getValue()
+        );
+
+        $this->assertNull(
+            $form->get('password')->getValue()
+        );
+    }
+
+    /**
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-06-28
+     */
+    public function testFormsFormClearFieldsArray(): void
+    {
+        $name     = new Text('name');
+        $email    = new Email('email');
+        $password = new Password('password');
+
+        $form = new Form();
+        $form
+            ->add($name)
+            ->add($email)
+            ->add($password)
+        ;
+
+        $entity = new stdClass();
+        $form->bind(
+            [
+                'name'     => 'Sid Roberts',
+                'email'    => 'team@phalcon.io',
+                'password' => 'hunter2',
+            ],
+            $entity
+        );
+
+        $form->clear(
+            [
+                'email',
+                'password',
+            ]
+        );
+
+        $this->assertEquals(
+            'Sid Roberts',
+            $form->get('name')->getValue()
+        );
+
+        $this->assertNull(
+            $form->get('email')->getValue()
+        );
+
+        $this->assertNull(
+            $form->get('password')->getValue()
+        );
+    }
+
+    /**
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-06-28
+     */
+    public function testFormsFormClearFieldString(): void
+    {
+        $name     = new Text('name');
+        $email    = new Email('email');
+        $password = new Password('password');
+
+        $form = new Form();
+        $form
+            ->add($name)
+            ->add($email)
+            ->add($password)
+        ;
+
+        $entity = new stdClass();
+        $form->bind(
+            [
+                'name'     => 'Sid Roberts',
+                'email'    => 'team@phalcon.io',
+                'password' => 'hunter2',
+            ],
+            $entity
+        );
+
+        $form->clear('password');
+
+        $this->assertEquals(
+            'Sid Roberts',
+            $form->get('name')->getValue()
+        );
+
+        $this->assertEquals(
+            'team@phalcon.io',
+            $form->get('email')->getValue()
+        );
+
+        $this->assertNull(
+            $form->get('password')->getValue()
+        );
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2022-11-01
+     */
+    public function testFormsFormGet(): void
+    {
+        $addressValue = uniqid('add-');
+        $address      = new Text('address');
+        $address->setDefault($addressValue);
+
+        $expected = $addressValue;
+        $actual   = $address->getValue();
+        $this->assertSame($expected, $actual);
+
+        $addressValueNew = uniqid('addn-');
+
+        $form = new Form();
+        $form->add($address);
+
+        $_POST = [
+            'address' => $addressValueNew,
+        ];
+
+        $actual = $form->isValid($_POST);
+        $this->assertTrue($actual);
+
+        $expected = $addressValueNew;
+        $actual   = $address->getValue();
+        $this->assertSame($expected, $actual);
+
+        $form->clear();
+
+        $expected = $addressValue;
+        $actual   = $address->getValue();
+        $this->assertSame($expected, $actual);
     }
 }

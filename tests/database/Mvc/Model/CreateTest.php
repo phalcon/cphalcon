@@ -110,32 +110,6 @@ final class CreateTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Inserting with an explicit primary key on PostgreSQL must not throw a
-     * "currval of sequence not yet defined in this session" error.
-     *
-     * @issue  https://github.com/phalcon/cphalcon/issues/16436
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-26
-     */
-    #[Group('pgsql')]
-    public function testMvcModelCreateWithExplicitIdPgsql(): void
-    {
-        $date                     = date('Y-m-d H:i:s');
-        $invoice                  = new Invoices();
-        $invoice->inv_id          = 77;
-        $invoice->inv_cst_id      = 2;
-        $invoice->inv_status_flag = 1;
-        $invoice->inv_title       = uniqid('inv-');
-        $invoice->inv_total       = 50.00;
-        $invoice->inv_created_at  = $date;
-
-        $result = $invoice->create();
-
-        $this->assertNotFalse($result);
-        $this->assertSame(77, (int) $invoice->inv_id);
-    }
-
-    /**
      * After an explicit-id insert (which bypasses the sequence), a subsequent
      * auto-increment insert must still obtain the generated id without error.
      *
@@ -174,5 +148,31 @@ final class CreateTest extends AbstractDatabaseTestCase
 
         $this->assertNotFalse($second->create());
         $this->assertGreaterThan(77, (int) $second->inv_id);
+    }
+
+    /**
+     * Inserting with an explicit primary key on PostgreSQL must not throw a
+     * "currval of sequence not yet defined in this session" error.
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/16436
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-26
+     */
+    #[Group('pgsql')]
+    public function testMvcModelCreateWithExplicitIdPgsql(): void
+    {
+        $date                     = date('Y-m-d H:i:s');
+        $invoice                  = new Invoices();
+        $invoice->inv_id          = 77;
+        $invoice->inv_cst_id      = 2;
+        $invoice->inv_status_flag = 1;
+        $invoice->inv_title       = uniqid('inv-');
+        $invoice->inv_total       = 50.00;
+        $invoice->inv_created_at  = $date;
+
+        $result = $invoice->create();
+
+        $this->assertNotFalse($result);
+        $this->assertSame(77, (int) $invoice->inv_id);
     }
 }

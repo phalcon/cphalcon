@@ -22,6 +22,14 @@ final class SerializeTest extends AbstractDatabaseTestCase
 {
     use ResultsetFixtureTrait;
 
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+        $this->setDiService('phpSerializer');
+        $this->seedResultsetFixture();
+    }
+
     /**
      * Every resultset shape serialises to a non-empty string.
      *
@@ -34,14 +42,6 @@ final class SerializeTest extends AbstractDatabaseTestCase
             'complex' => ['complex'],
             'empty'   => ['empty'],
         ];
-    }
-
-    public function setUp(): void
-    {
-        $this->setNewFactoryDefault();
-        $this->setDatabase();
-        $this->setDiService('phpSerializer');
-        $this->seedResultsetFixture();
     }
 
     /**

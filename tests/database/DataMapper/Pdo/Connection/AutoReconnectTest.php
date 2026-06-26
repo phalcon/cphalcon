@@ -59,15 +59,6 @@ final class AutoReconnectTest extends AbstractDatabaseTestCase
         $connection->exec('SELECT 1');
     }
 
-    private function newConnection(): Connection
-    {
-        return new Connection(
-            self::getDatabaseDsn(),
-            self::getDatabaseUsername(),
-            self::getDatabasePassword()
-        );
-    }
-
     private function killConnection(Connection $connection): void
     {
         $driver = $connection->getDriverName();
@@ -82,5 +73,14 @@ final class AutoReconnectTest extends AbstractDatabaseTestCase
         }
 
         $killer->disconnect();
+    }
+
+    private function newConnection(): Connection
+    {
+        return new Connection(
+            self::getDatabaseDsn(),
+            self::getDatabaseUsername(),
+            self::getDatabasePassword()
+        );
     }
 }

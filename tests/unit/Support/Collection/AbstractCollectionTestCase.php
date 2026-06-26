@@ -165,6 +165,18 @@ abstract class AbstractCollectionTestCase extends AbstractUnitTestCase
     /**
      * @return string[]
      */
+    protected function getData(): array
+    {
+        return [
+            'one'   => 'two',
+            'three' => 'four',
+            'five'  => 'six',
+        ];
+    }
+
+    /**
+     * @return string[]
+     */
     protected function getDataForGet(): array
     {
         return [
@@ -182,18 +194,6 @@ abstract class AbstractCollectionTestCase extends AbstractUnitTestCase
     protected function getDataKeys(): array
     {
         return array_keys($this->getData());
-    }
-
-    /**
-     * @return string[]
-     */
-    protected function getData(): array
-    {
-        return [
-            'one'   => 'two',
-            'three' => 'four',
-            'five'  => 'six',
-        ];
     }
 
     /**

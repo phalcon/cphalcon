@@ -23,6 +23,13 @@ final class DeleteTest extends AbstractDatabaseTestCase
 {
     use ResultsetFixtureTrait;
 
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+        $this->seedResultsetFixture();
+    }
+
     /**
      * A resultset can only delete complete model objects: a simple resultset
      * deletes its rows, an empty one has nothing to do, while a complex
@@ -37,13 +44,6 @@ final class DeleteTest extends AbstractDatabaseTestCase
             'complex' => ['complex', true],
             'empty'   => ['empty', false],
         ];
-    }
-
-    public function setUp(): void
-    {
-        $this->setNewFactoryDefault();
-        $this->setDatabase();
-        $this->seedResultsetFixture();
     }
 
     /**

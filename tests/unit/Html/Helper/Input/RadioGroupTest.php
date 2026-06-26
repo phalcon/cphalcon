@@ -20,46 +20,6 @@ use const PHP_EOL;
 
 final class RadioGroupTest extends AbstractUnitTestCase
 {
-    private function helper(): RadioGroup
-    {
-        return new RadioGroup(new Escaper(), new Doctype());
-    }
-
-    // -----------------------------------------------------------------------
-    // Basic rendering
-    // -----------------------------------------------------------------------
-
-    public function testRendersStringLabelOptions(): void
-    {
-        $helper = $this->helper();
-        $result = $helper(
-            'gender',
-            ['m' => 'Male', 'f' => 'Female'],
-        );
-
-        $rendered = (string) $result;
-
-        $this->assertStringContainsString('type="radio"', $rendered);
-        $this->assertStringContainsString('name="gender"', $rendered);
-        $this->assertStringContainsString('value="m"', $rendered);
-        $this->assertStringContainsString('value="f"', $rendered);
-        $this->assertStringContainsString('>Male</label>', $rendered);
-        $this->assertStringContainsString('>Female</label>', $rendered);
-    }
-
-    public function testRendersRichDefinitionOptions(): void
-    {
-        $helper = $this->helper();
-        $result = $helper(
-            'gender',
-            ['m' => ['label' => 'Male (M)']],
-        );
-
-        $rendered = (string) $result;
-
-        $this->assertStringContainsString('>Male (M)</label>', $rendered);
-    }
-
     public function testAutoGeneratesIdFromNameAndValue(): void
     {
         $helper = $this->helper();
@@ -69,6 +29,53 @@ final class RadioGroupTest extends AbstractUnitTestCase
 
         $this->assertStringContainsString('id="size_lg"', $rendered);
         $this->assertStringContainsString('for="size_lg"', $rendered);
+    }
+
+    public function testDisabledAttributeRendered(): void
+    {
+        $helper = $this->helper();
+        $result = $helper(
+            'size',
+            ['xs' => ['label' => 'Extra Small', 'disabled' => 'disabled']],
+        );
+
+        $this->assertStringContainsString('disabled="disabled"', (string) $result);
+    }
+
+    public function testEmptyOptionsRendersEmptyString(): void
+    {
+        $helper = $this->helper();
+        $result = $helper('x', []);
+
+        $this->assertSame('', (string) $result);
+    }
+
+    // -----------------------------------------------------------------------
+    // Output structure
+    // -----------------------------------------------------------------------
+
+    public function testItemsSeparatedByNewline(): void
+    {
+        $helper = $this->helper();
+        $result = $helper('x', ['a' => 'A', 'b' => 'B', 'c' => 'C']);
+
+        $lines = explode(PHP_EOL, (string) $result);
+        $this->assertCount(3, $lines);
+    }
+
+    // -----------------------------------------------------------------------
+    // HTML escaping
+    // -----------------------------------------------------------------------
+
+    public function testLabelTextIsEscaped(): void
+    {
+        $helper = $this->helper();
+        $result = $helper('x', ['val' => '<script>alert(1)</script>']);
+
+        $rendered = (string) $result;
+
+        $this->assertStringNotContainsString('<script>', $rendered);
+        $this->assertStringContainsString('&lt;script&gt;', $rendered);
     }
 
     // -----------------------------------------------------------------------
@@ -94,6 +101,14 @@ final class RadioGroupTest extends AbstractUnitTestCase
         $this->assertStringNotContainsString('checked', $lines[1]);
     }
 
+    public function testNonMatchingValueRendersNoCheckedAttr(): void
+    {
+        $helper = $this->helper();
+        $result = $helper('gender', ['m' => 'Male', 'f' => 'Female'], 'x');
+
+        $this->assertStringNotContainsString('checked', (string) $result);
+    }
+
     public function testNullCheckedRendersNoCheckedAttr(): void
     {
         $helper = $this->helper();
@@ -102,12 +117,57 @@ final class RadioGroupTest extends AbstractUnitTestCase
         $this->assertStringNotContainsString('checked', (string) $result);
     }
 
-    public function testNonMatchingValueRendersNoCheckedAttr(): void
+    // -----------------------------------------------------------------------
+    // Per-item attributes
+    // -----------------------------------------------------------------------
+
+    public function testPerItemExplicitIdIsRespected(): void
     {
         $helper = $this->helper();
-        $result = $helper('gender', ['m' => 'Male', 'f' => 'Female'], 'x');
+        $result = $helper(
+            'size',
+            ['lg' => ['label' => 'Large', 'id' => 'size-large']],
+        );
 
-        $this->assertStringNotContainsString('checked', (string) $result);
+        $rendered = (string) $result;
+
+        $this->assertStringContainsString('id="size-large"', $rendered);
+        $this->assertStringContainsString('for="size-large"', $rendered);
+    }
+
+    public function testRendersRichDefinitionOptions(): void
+    {
+        $helper = $this->helper();
+        $result = $helper(
+            'gender',
+            ['m' => ['label' => 'Male (M)']],
+        );
+
+        $rendered = (string) $result;
+
+        $this->assertStringContainsString('>Male (M)</label>', $rendered);
+    }
+
+    // -----------------------------------------------------------------------
+    // Basic rendering
+    // -----------------------------------------------------------------------
+
+    public function testRendersStringLabelOptions(): void
+    {
+        $helper = $this->helper();
+        $result = $helper(
+            'gender',
+            ['m' => 'Male', 'f' => 'Female'],
+        );
+
+        $rendered = (string) $result;
+
+        $this->assertStringContainsString('type="radio"', $rendered);
+        $this->assertStringContainsString('name="gender"', $rendered);
+        $this->assertStringContainsString('value="m"', $rendered);
+        $this->assertStringContainsString('value="f"', $rendered);
+        $this->assertStringContainsString('>Male</label>', $rendered);
+        $this->assertStringContainsString('>Female</label>', $rendered);
     }
 
     // -----------------------------------------------------------------------
@@ -135,35 +195,6 @@ final class RadioGroupTest extends AbstractUnitTestCase
     }
 
     // -----------------------------------------------------------------------
-    // Per-item attributes
-    // -----------------------------------------------------------------------
-
-    public function testPerItemExplicitIdIsRespected(): void
-    {
-        $helper = $this->helper();
-        $result = $helper(
-            'size',
-            ['lg' => ['label' => 'Large', 'id' => 'size-large']],
-        );
-
-        $rendered = (string) $result;
-
-        $this->assertStringContainsString('id="size-large"', $rendered);
-        $this->assertStringContainsString('for="size-large"', $rendered);
-    }
-
-    public function testDisabledAttributeRendered(): void
-    {
-        $helper = $this->helper();
-        $result = $helper(
-            'size',
-            ['xs' => ['label' => 'Extra Small', 'disabled' => 'disabled']],
-        );
-
-        $this->assertStringContainsString('disabled="disabled"', (string) $result);
-    }
-
-    // -----------------------------------------------------------------------
     // State reset between invocations
     // -----------------------------------------------------------------------
 
@@ -181,40 +212,8 @@ final class RadioGroupTest extends AbstractUnitTestCase
         $this->assertStringNotContainsString('name="gender"', $rendered);
         $this->assertStringNotContainsString('checked', $rendered);
     }
-
-    // -----------------------------------------------------------------------
-    // Output structure
-    // -----------------------------------------------------------------------
-
-    public function testItemsSeparatedByNewline(): void
+    private function helper(): RadioGroup
     {
-        $helper = $this->helper();
-        $result = $helper('x', ['a' => 'A', 'b' => 'B', 'c' => 'C']);
-
-        $lines = explode(PHP_EOL, (string) $result);
-        $this->assertCount(3, $lines);
-    }
-
-    public function testEmptyOptionsRendersEmptyString(): void
-    {
-        $helper = $this->helper();
-        $result = $helper('x', []);
-
-        $this->assertSame('', (string) $result);
-    }
-
-    // -----------------------------------------------------------------------
-    // HTML escaping
-    // -----------------------------------------------------------------------
-
-    public function testLabelTextIsEscaped(): void
-    {
-        $helper = $this->helper();
-        $result = $helper('x', ['val' => '<script>alert(1)</script>']);
-
-        $rendered = (string) $result;
-
-        $this->assertStringNotContainsString('<script>', $rendered);
-        $this->assertStringContainsString('&lt;script&gt;', $rendered);
+        return new RadioGroup(new Escaper(), new Doctype());
     }
 }

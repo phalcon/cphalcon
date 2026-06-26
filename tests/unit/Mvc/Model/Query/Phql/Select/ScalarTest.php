@@ -22,9 +22,9 @@ final class ScalarTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-09
      */
-    public function testMvcModelQueryPhqlSelectUpper(): void
+    public function testMvcModelQueryPhqlSelectAbs(): void
     {
-        $source   = "SELECT UPPER(inv_title) FROM Invoices";
+        $source   = "SELECT ABS(inv_total) FROM Invoices";
         $expected = [
             'type'   => 309,
             'select' => [
@@ -33,11 +33,11 @@ final class ScalarTest extends AbstractUnitTestCase
                         'type'   => 354,
                         'column' => [
                             'type'      => 350,
-                            'name'      => 'UPPER',
+                            'name'      => 'ABS',
                             'arguments' => [
                                 0 => [
                                     'type' => 355,
-                                    'name' => 'inv_title',
+                                    'name' => 'inv_total',
                                 ],
                             ],
                         ],
@@ -60,9 +60,9 @@ final class ScalarTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-09
      */
-    public function testMvcModelQueryPhqlSelectLower(): void
+    public function testMvcModelQueryPhqlSelectCoalesce(): void
     {
-        $source   = "SELECT LOWER(inv_title) FROM Invoices";
+        $source   = "SELECT COALESCE(inv_title, 'N/A') FROM Invoices";
         $expected = [
             'type'   => 309,
             'select' => [
@@ -71,87 +71,15 @@ final class ScalarTest extends AbstractUnitTestCase
                         'type'   => 354,
                         'column' => [
                             'type'      => 350,
-                            'name'      => 'LOWER',
+                            'name'      => 'COALESCE',
                             'arguments' => [
                                 0 => [
                                     'type' => 355,
                                     'name' => 'inv_title',
                                 ],
-                            ],
-                        ],
-                    ],
-                ],
-                'tables'  => [
-                    'qualifiedName' => [
-                        'type' => 355,
-                        'name' => 'Invoices',
-                    ],
-                ],
-            ],
-        ];
-        $actual   = Lang::parsePhql($source);
-        unset($actual['id']);
-        $this->assertSame($expected, $actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-09
-     */
-    public function testMvcModelQueryPhqlSelectTrim(): void
-    {
-        $source   = "SELECT TRIM(inv_title) FROM Invoices";
-        $expected = [
-            'type'   => 309,
-            'select' => [
-                'columns' => [
-                    0 => [
-                        'type'   => 354,
-                        'column' => [
-                            'type'      => 350,
-                            'name'      => 'TRIM',
-                            'arguments' => [
-                                0 => [
-                                    'type' => 355,
-                                    'name' => 'inv_title',
-                                ],
-                            ],
-                        ],
-                    ],
-                ],
-                'tables'  => [
-                    'qualifiedName' => [
-                        'type' => 355,
-                        'name' => 'Invoices',
-                    ],
-                ],
-            ],
-        ];
-        $actual   = Lang::parsePhql($source);
-        unset($actual['id']);
-        $this->assertSame($expected, $actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-09
-     */
-    public function testMvcModelQueryPhqlSelectLength(): void
-    {
-        $source   = "SELECT LENGTH(inv_title) FROM Invoices";
-        $expected = [
-            'type'   => 309,
-            'select' => [
-                'columns' => [
-                    0 => [
-                        'type'   => 354,
-                        'column' => [
-                            'type'      => 350,
-                            'name'      => 'LENGTH',
-                            'arguments' => [
-                                0 => [
-                                    'type' => 355,
-                                    'name' => 'inv_title',
+                                1 => [
+                                    'type'  => 260,
+                                    'value' => 'N/A',
                                 ],
                             ],
                         ],
@@ -216,9 +144,9 @@ final class ScalarTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-09
      */
-    public function testMvcModelQueryPhqlSelectAbs(): void
+    public function testMvcModelQueryPhqlSelectIfnull(): void
     {
-        $source   = "SELECT ABS(inv_total) FROM Invoices";
+        $source   = "SELECT IFNULL(inv_title, 'N/A') FROM Invoices";
         $expected = [
             'type'   => 309,
             'select' => [
@@ -227,53 +155,15 @@ final class ScalarTest extends AbstractUnitTestCase
                         'type'   => 354,
                         'column' => [
                             'type'      => 350,
-                            'name'      => 'ABS',
+                            'name'      => 'IFNULL',
                             'arguments' => [
                                 0 => [
                                     'type' => 355,
-                                    'name' => 'inv_total',
-                                ],
-                            ],
-                        ],
-                    ],
-                ],
-                'tables'  => [
-                    'qualifiedName' => [
-                        'type' => 355,
-                        'name' => 'Invoices',
-                    ],
-                ],
-            ],
-        ];
-        $actual   = Lang::parsePhql($source);
-        unset($actual['id']);
-        $this->assertSame($expected, $actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-09
-     */
-    public function testMvcModelQueryPhqlSelectRound(): void
-    {
-        $source   = "SELECT ROUND(inv_total, 2) FROM Invoices";
-        $expected = [
-            'type'   => 309,
-            'select' => [
-                'columns' => [
-                    0 => [
-                        'type'   => 354,
-                        'column' => [
-                            'type'      => 350,
-                            'name'      => 'ROUND',
-                            'arguments' => [
-                                0 => [
-                                    'type' => 355,
-                                    'name' => 'inv_total',
+                                    'name' => 'inv_title',
                                 ],
                                 1 => [
-                                    'type'  => 258,
-                                    'value' => '2',
+                                    'type'  => 260,
+                                    'value' => 'N/A',
                                 ],
                             ],
                         ],
@@ -296,9 +186,9 @@ final class ScalarTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-09
      */
-    public function testMvcModelQueryPhqlSelectYear(): void
+    public function testMvcModelQueryPhqlSelectLength(): void
     {
-        $source   = "SELECT YEAR(inv_created_at) FROM Invoices";
+        $source   = "SELECT LENGTH(inv_title) FROM Invoices";
         $expected = [
             'type'   => 309,
             'select' => [
@@ -307,11 +197,49 @@ final class ScalarTest extends AbstractUnitTestCase
                         'type'   => 354,
                         'column' => [
                             'type'      => 350,
-                            'name'      => 'YEAR',
+                            'name'      => 'LENGTH',
                             'arguments' => [
                                 0 => [
                                     'type' => 355,
-                                    'name' => 'inv_created_at',
+                                    'name' => 'inv_title',
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+                'tables'  => [
+                    'qualifiedName' => [
+                        'type' => 355,
+                        'name' => 'Invoices',
+                    ],
+                ],
+            ],
+        ];
+        $actual   = Lang::parsePhql($source);
+        unset($actual['id']);
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-09
+     */
+    public function testMvcModelQueryPhqlSelectLower(): void
+    {
+        $source   = "SELECT LOWER(inv_title) FROM Invoices";
+        $expected = [
+            'type'   => 309,
+            'select' => [
+                'columns' => [
+                    0 => [
+                        'type'   => 354,
+                        'column' => [
+                            'type'      => 350,
+                            'name'      => 'LOWER',
+                            'arguments' => [
+                                0 => [
+                                    'type' => 355,
+                                    'name' => 'inv_title',
                                 ],
                             ],
                         ],
@@ -394,90 +322,6 @@ final class ScalarTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-09
      */
-    public function testMvcModelQueryPhqlSelectCoalesce(): void
-    {
-        $source   = "SELECT COALESCE(inv_title, 'N/A') FROM Invoices";
-        $expected = [
-            'type'   => 309,
-            'select' => [
-                'columns' => [
-                    0 => [
-                        'type'   => 354,
-                        'column' => [
-                            'type'      => 350,
-                            'name'      => 'COALESCE',
-                            'arguments' => [
-                                0 => [
-                                    'type' => 355,
-                                    'name' => 'inv_title',
-                                ],
-                                1 => [
-                                    'type'  => 260,
-                                    'value' => 'N/A',
-                                ],
-                            ],
-                        ],
-                    ],
-                ],
-                'tables'  => [
-                    'qualifiedName' => [
-                        'type' => 355,
-                        'name' => 'Invoices',
-                    ],
-                ],
-            ],
-        ];
-        $actual   = Lang::parsePhql($source);
-        unset($actual['id']);
-        $this->assertSame($expected, $actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-09
-     */
-    public function testMvcModelQueryPhqlSelectIfnull(): void
-    {
-        $source   = "SELECT IFNULL(inv_title, 'N/A') FROM Invoices";
-        $expected = [
-            'type'   => 309,
-            'select' => [
-                'columns' => [
-                    0 => [
-                        'type'   => 354,
-                        'column' => [
-                            'type'      => 350,
-                            'name'      => 'IFNULL',
-                            'arguments' => [
-                                0 => [
-                                    'type' => 355,
-                                    'name' => 'inv_title',
-                                ],
-                                1 => [
-                                    'type'  => 260,
-                                    'value' => 'N/A',
-                                ],
-                            ],
-                        ],
-                    ],
-                ],
-                'tables'  => [
-                    'qualifiedName' => [
-                        'type' => 355,
-                        'name' => 'Invoices',
-                    ],
-                ],
-            ],
-        ];
-        $actual   = Lang::parsePhql($source);
-        unset($actual['id']);
-        $this->assertSame($expected, $actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-09
-     */
     public function testMvcModelQueryPhqlSelectNow(): void
     {
         $source   = "SELECT NOW() FROM Invoices";
@@ -490,6 +334,161 @@ final class ScalarTest extends AbstractUnitTestCase
                         'column' => [
                             'type' => 350,
                             'name' => 'NOW',
+                        ],
+                    ],
+                ],
+                'tables'  => [
+                    'qualifiedName' => [
+                        'type' => 355,
+                        'name' => 'Invoices',
+                    ],
+                ],
+            ],
+        ];
+        $actual   = Lang::parsePhql($source);
+        unset($actual['id']);
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-09
+     */
+    public function testMvcModelQueryPhqlSelectRound(): void
+    {
+        $source   = "SELECT ROUND(inv_total, 2) FROM Invoices";
+        $expected = [
+            'type'   => 309,
+            'select' => [
+                'columns' => [
+                    0 => [
+                        'type'   => 354,
+                        'column' => [
+                            'type'      => 350,
+                            'name'      => 'ROUND',
+                            'arguments' => [
+                                0 => [
+                                    'type' => 355,
+                                    'name' => 'inv_total',
+                                ],
+                                1 => [
+                                    'type'  => 258,
+                                    'value' => '2',
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+                'tables'  => [
+                    'qualifiedName' => [
+                        'type' => 355,
+                        'name' => 'Invoices',
+                    ],
+                ],
+            ],
+        ];
+        $actual   = Lang::parsePhql($source);
+        unset($actual['id']);
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-09
+     */
+    public function testMvcModelQueryPhqlSelectTrim(): void
+    {
+        $source   = "SELECT TRIM(inv_title) FROM Invoices";
+        $expected = [
+            'type'   => 309,
+            'select' => [
+                'columns' => [
+                    0 => [
+                        'type'   => 354,
+                        'column' => [
+                            'type'      => 350,
+                            'name'      => 'TRIM',
+                            'arguments' => [
+                                0 => [
+                                    'type' => 355,
+                                    'name' => 'inv_title',
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+                'tables'  => [
+                    'qualifiedName' => [
+                        'type' => 355,
+                        'name' => 'Invoices',
+                    ],
+                ],
+            ],
+        ];
+        $actual   = Lang::parsePhql($source);
+        unset($actual['id']);
+        $this->assertSame($expected, $actual);
+    }
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-09
+     */
+    public function testMvcModelQueryPhqlSelectUpper(): void
+    {
+        $source   = "SELECT UPPER(inv_title) FROM Invoices";
+        $expected = [
+            'type'   => 309,
+            'select' => [
+                'columns' => [
+                    0 => [
+                        'type'   => 354,
+                        'column' => [
+                            'type'      => 350,
+                            'name'      => 'UPPER',
+                            'arguments' => [
+                                0 => [
+                                    'type' => 355,
+                                    'name' => 'inv_title',
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+                'tables'  => [
+                    'qualifiedName' => [
+                        'type' => 355,
+                        'name' => 'Invoices',
+                    ],
+                ],
+            ],
+        ];
+        $actual   = Lang::parsePhql($source);
+        unset($actual['id']);
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-09
+     */
+    public function testMvcModelQueryPhqlSelectYear(): void
+    {
+        $source   = "SELECT YEAR(inv_created_at) FROM Invoices";
+        $expected = [
+            'type'   => 309,
+            'select' => [
+                'columns' => [
+                    0 => [
+                        'type'   => 354,
+                        'column' => [
+                            'type'      => 350,
+                            'name'      => 'YEAR',
+                            'arguments' => [
+                                0 => [
+                                    'type' => 355,
+                                    'name' => 'inv_created_at',
+                                ],
+                            ],
                         ],
                     ],
                 ],

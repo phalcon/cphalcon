@@ -21,22 +21,6 @@ use PHPUnit\Framework\Attributes\Group;
 final class GetDirectionsTest extends AbstractDatabaseTestCase
 {
     /**
-     * Legacy positional constructor leaves `getDirections()` empty.
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-05-15
-     */
-    #[Group('mysql')]
-    #[Group('pgsql')]
-    #[Group('sqlite')]
-    public function testDbIndexLegacyHasNoDirections(): void
-    {
-        $index = new Index('idx_email', ['email']);
-
-        $this->assertSame([], $index->getDirections());
-    }
-
-    /**
      * Definition-array `directions` is stored verbatim.
      *
      * @author Phalcon Team <team@phalcon.io>
@@ -81,5 +65,20 @@ final class GetDirectionsTest extends AbstractDatabaseTestCase
                 'directions' => 'DESC',
             ]
         );
+    }
+    /**
+     * Legacy positional constructor leaves `getDirections()` empty.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-15
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testDbIndexLegacyHasNoDirections(): void
+    {
+        $index = new Index('idx_email', ['email']);
+
+        $this->assertSame([], $index->getDirections());
     }
 }

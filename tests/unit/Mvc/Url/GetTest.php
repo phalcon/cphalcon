@@ -46,23 +46,6 @@ final class GetTest extends AbstractUnitTestCase
     }
 
     /**
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2018-11-13
-     */
-    #[DataProvider('getExamples')]
-    public function testMvcUrlGet(
-        string $expected,
-        ?string $name
-    ): void {
-        $url = new Url();
-
-        $url->setBaseUri('https://phalcon.io');
-
-        $actual = $url->get($name);
-        $this->assertEquals($expected, $actual);
-    }
-
-    /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-04
      */
@@ -99,20 +82,22 @@ final class GetTest extends AbstractUnitTestCase
 
     /**
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-05-04
+     * @since  2026-05-13
+     * @issue  https://github.com/phalcon/cphalcon/issues/17007
      */
-    public function testGetReplaceArgsOverridesExistingQueryKeys(): void
+    public function testGetIgnoresHostnameWhenRouteHasNone(): void
     {
-        $url = new Url();
+        $router = new Router(false);
+        $router->add('/about', [
+            'controller' => 'pages',
+            'action'     => 'about',
+        ])->setName('about');
 
-        $expected = 'http://example.com?page=5';
-        $actual   = $url->get(
-            'http://example.com?page=1',
-            ['page' => 5],
-            null,
-            null,
-            true
-        );
+        $url = new Url($router);
+        $url->setBaseUri('/');
+
+        $expected = '/about';
+        $actual   = $url->get(['for' => 'about']);
 
         $this->assertSame($expected, $actual);
     }
@@ -144,13 +129,13 @@ final class GetTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-04
      */
-    public function testGetReplaceArgsWithNoExistingQueryStillAppends(): void
+    public function testGetReplaceArgsOverridesExistingQueryKeys(): void
     {
         $url = new Url();
 
         $expected = 'http://example.com?page=5';
         $actual   = $url->get(
-            'http://example.com',
+            'http://example.com?page=1',
             ['page' => 5],
             null,
             null,
@@ -164,18 +149,17 @@ final class GetTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-04
      */
-    public function testGetUsesProvidedBaseUriOverInstanceBaseUri(): void
+    public function testGetReplaceArgsWithNoExistingQueryStillAppends(): void
     {
         $url = new Url();
 
-        $url->setBaseUri('https://phalcon.io/');
-
-        $expected = 'https://example.com/products/edit/1';
+        $expected = 'http://example.com?page=5';
         $actual   = $url->get(
-            'products/edit/1',
+            'http://example.com',
+            ['page' => 5],
             null,
             null,
-            'https://example.com/'
+            true
         );
 
         $this->assertSame($expected, $actual);
@@ -207,23 +191,39 @@ final class GetTest extends AbstractUnitTestCase
 
     /**
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-05-13
-     * @issue  https://github.com/phalcon/cphalcon/issues/17007
+     * @since  2026-05-04
      */
-    public function testGetIgnoresHostnameWhenRouteHasNone(): void
+    public function testGetUsesProvidedBaseUriOverInstanceBaseUri(): void
     {
-        $router = new Router(false);
-        $router->add('/about', [
-            'controller' => 'pages',
-            'action'     => 'about',
-        ])->setName('about');
+        $url = new Url();
 
-        $url = new Url($router);
-        $url->setBaseUri('/');
+        $url->setBaseUri('https://phalcon.io/');
 
-        $expected = '/about';
-        $actual   = $url->get(['for' => 'about']);
+        $expected = 'https://example.com/products/edit/1';
+        $actual   = $url->get(
+            'products/edit/1',
+            null,
+            null,
+            'https://example.com/'
+        );
 
         $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2018-11-13
+     */
+    #[DataProvider('getExamples')]
+    public function testMvcUrlGet(
+        string $expected,
+        ?string $name
+    ): void {
+        $url = new Url();
+
+        $url->setBaseUri('https://phalcon.io');
+
+        $actual = $url->get($name);
+        $this->assertEquals($expected, $actual);
     }
 }

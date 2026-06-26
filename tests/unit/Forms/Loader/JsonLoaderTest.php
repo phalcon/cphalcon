@@ -17,6 +17,36 @@ use Phalcon\Tests\AbstractUnitTestCase;
 
 final class JsonLoaderTest extends AbstractUnitTestCase
 {
+    public function testLoadEmptyArray(): void
+    {
+        $schema = new JsonLoader('[]');
+        $result = $schema->load();
+
+        $this->assertSame([], $result);
+    }
+
+    // -----------------------------------------------------------------------
+    // Valid JSON file path
+    // -----------------------------------------------------------------------
+
+    public function testLoadFromValidJsonFile(): void
+    {
+        $definitions = [
+            ['type' => 'text',     'name' => 'title'],
+            ['type' => 'textarea', 'name' => 'body'],
+        ];
+
+        $path = $this->writeJsonFile($definitions);
+
+        $schema = new JsonLoader($path);
+        $result = $schema->load();
+
+        $this->assertCount(2, $result);
+        $this->assertSame('title', $result[0]['name']);
+        $this->assertSame('body', $result[1]['name']);
+
+        unlink($path);
+    }
     // -----------------------------------------------------------------------
     // Valid JSON string
     // -----------------------------------------------------------------------
@@ -55,37 +85,6 @@ final class JsonLoaderTest extends AbstractUnitTestCase
         $this->assertSame('London', $result[0]['default']);
     }
 
-    public function testLoadEmptyArray(): void
-    {
-        $schema = new JsonLoader('[]');
-        $result = $schema->load();
-
-        $this->assertSame([], $result);
-    }
-
-    // -----------------------------------------------------------------------
-    // Valid JSON file path
-    // -----------------------------------------------------------------------
-
-    public function testLoadFromValidJsonFile(): void
-    {
-        $definitions = [
-            ['type' => 'text',     'name' => 'title'],
-            ['type' => 'textarea', 'name' => 'body'],
-        ];
-
-        $path = $this->writeJsonFile($definitions);
-
-        $schema = new JsonLoader($path);
-        $result = $schema->load();
-
-        $this->assertCount(2, $result);
-        $this->assertSame('title', $result[0]['name']);
-        $this->assertSame('body', $result[1]['name']);
-
-        unlink($path);
-    }
-
     // -----------------------------------------------------------------------
     // Error: invalid JSON
     // -----------------------------------------------------------------------
@@ -96,6 +95,34 @@ final class JsonLoaderTest extends AbstractUnitTestCase
 
         $this->expectException(Exception::class);
         $this->expectExceptionMessageMatches('/json form schema is invalid/i');
+
+        $schema->load();
+    }
+
+    public function testLoadThrowsWhenEntryMissingName(): void
+    {
+        $schema = new JsonLoader(json_encode([
+            ['type' => 'text'],
+        ]));
+
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessageMatches('/missing required key "name"/i');
+
+        $schema->load();
+    }
+
+    // -----------------------------------------------------------------------
+    // Validation delegated to ArrayLoader
+    // -----------------------------------------------------------------------
+
+    public function testLoadThrowsWhenEntryMissingType(): void
+    {
+        $schema = new JsonLoader(json_encode([
+            ['name' => 'username'],
+        ]));
+
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessageMatches('/missing required key "type"/i');
 
         $schema->load();
     }
@@ -120,34 +147,6 @@ final class JsonLoaderTest extends AbstractUnitTestCase
 
         $this->expectException(Exception::class);
         $this->expectExceptionMessageMatches('/must decode to an array/i');
-
-        $schema->load();
-    }
-
-    // -----------------------------------------------------------------------
-    // Validation delegated to ArrayLoader
-    // -----------------------------------------------------------------------
-
-    public function testLoadThrowsWhenEntryMissingType(): void
-    {
-        $schema = new JsonLoader(json_encode([
-            ['name' => 'username'],
-        ]));
-
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessageMatches('/missing required key "type"/i');
-
-        $schema->load();
-    }
-
-    public function testLoadThrowsWhenEntryMissingName(): void
-    {
-        $schema = new JsonLoader(json_encode([
-            ['type' => 'text'],
-        ]));
-
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessageMatches('/missing required key "name"/i');
 
         $schema->load();
     }

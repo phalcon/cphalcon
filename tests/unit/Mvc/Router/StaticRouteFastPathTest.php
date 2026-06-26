@@ -23,18 +23,23 @@ final class StaticRouteFastPathTest extends AbstractUnitTestCase
     use RouterTrait;
 
     /**
+     * A no-method ("*") regex attached after a method-specific static must
+     * be detected as a shadow during rebuild - otherwise the static fast
+     * path would incorrectly win for the GET request.
+     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-21
      */
-    public function testLiteralUriMatchesStaticRouteDirectly(): void
+    public function testCrossBucketShadowingByStarRegex(): void
     {
         $router = $this->getRouter(false);
-        $router->add('/about', ['controller' => 'about']);
+        $router->addGet('/about', ['controller' => 'about']);
+        $router->add('/{slug:[a-z]+}', ['controller' => 'catch_all']);
 
+        $_SERVER['REQUEST_METHOD'] = 'GET';
         $router->handle('/about');
 
-        $this->assertTrue($router->wasMatched());
-        $this->assertSame('about', $router->getControllerName());
+        $this->assertSame('catch_all', $router->getControllerName());
     }
 
     /**
@@ -53,6 +58,21 @@ final class StaticRouteFastPathTest extends AbstractUnitTestCase
         $router->handle('/about');
 
         $this->assertSame('catch_all', $router->getControllerName());
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-21
+     */
+    public function testLiteralUriMatchesStaticRouteDirectly(): void
+    {
+        $router = $this->getRouter(false);
+        $router->add('/about', ['controller' => 'about']);
+
+        $router->handle('/about');
+
+        $this->assertTrue($router->wasMatched());
+        $this->assertSame('about', $router->getControllerName());
     }
 
     /**
@@ -128,25 +148,5 @@ final class StaticRouteFastPathTest extends AbstractUnitTestCase
         $router->handle('/api');
 
         $this->assertFalse($router->wasMatched());
-    }
-
-    /**
-     * A no-method ("*") regex attached after a method-specific static must
-     * be detected as a shadow during rebuild - otherwise the static fast
-     * path would incorrectly win for the GET request.
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-05-21
-     */
-    public function testCrossBucketShadowingByStarRegex(): void
-    {
-        $router = $this->getRouter(false);
-        $router->addGet('/about', ['controller' => 'about']);
-        $router->add('/{slug:[a-z]+}', ['controller' => 'catch_all']);
-
-        $_SERVER['REQUEST_METHOD'] = 'GET';
-        $router->handle('/about');
-
-        $this->assertSame('catch_all', $router->getControllerName());
     }
 }

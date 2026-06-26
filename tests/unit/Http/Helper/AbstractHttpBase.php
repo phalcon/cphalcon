@@ -36,19 +36,6 @@ abstract class AbstractHttpBase extends AbstractUnitTestCase
     protected $store = [];
 
     /**
-     * executed after each test
-     */
-    public function tearDown(): void
-    {
-        $_SERVER  = $this->store['SERVER'];
-        $_REQUEST = $this->store['REQUEST'];
-        $_GET     = $this->store['GET'];
-        $_POST    = $this->store['POST'];
-        $_COOKIE  = $this->store['COOKIE'];
-        $_FILES   = $this->store['FILES'];
-    }
-
-    /**
      * executed before each test
      */
     public function setUp(): void
@@ -73,6 +60,19 @@ abstract class AbstractHttpBase extends AbstractUnitTestCase
         header_remove();
 
         $this->setNewFactoryDefault();
+    }
+
+    /**
+     * executed after each test
+     */
+    public function tearDown(): void
+    {
+        $_SERVER  = $this->store['SERVER'];
+        $_REQUEST = $this->store['REQUEST'];
+        $_GET     = $this->store['GET'];
+        $_POST    = $this->store['POST'];
+        $_COOKIE  = $this->store['COOKIE'];
+        $_FILES   = $this->store['FILES'];
     }
 
     protected function getCookieObject(): Cookie

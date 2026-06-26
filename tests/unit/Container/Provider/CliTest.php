@@ -33,13 +33,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Container\Provider;
 
-use Phalcon\Container\Container;
-use Phalcon\Container\ContainerFactory;
-use Phalcon\Container\Provider\Cli;
 use Phalcon\Cli\Dispatcher;
 use Phalcon\Cli\DispatcherInterface;
 use Phalcon\Cli\Router;
 use Phalcon\Cli\RouterInterface;
+use Phalcon\Container\Container;
+use Phalcon\Container\ContainerFactory;
+use Phalcon\Container\Provider\Cli;
 use Phalcon\Encryption\Security;
 use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Events\ManagerInterface as EventsManagerInterface;
@@ -134,6 +134,18 @@ final class CliTest extends AbstractUnitTestCase
         foreach ($interfaces as $interface) {
             $this->assertTrue($this->container->has($interface), "Interface '{$interface}' should be resolvable");
         }
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-18
+     */
+    public function testContainerProviderCliRegistersTransactionManager(): void
+    {
+        // Resolution requires a Di container internally (hardcoded dependency).
+        // Verify registration only until Container replaces Di as the framework container.
+        $this->assertTrue($this->container->has('transactionManager'));
+        $this->assertTrue($this->container->has(TransactionManagerInterface::class));
     }
 
     /**
@@ -259,18 +271,6 @@ final class CliTest extends AbstractUnitTestCase
     public function testContainerProviderCliResolvesTag(): void
     {
         $this->assertInstanceOf(TagFactory::class, $this->container->get('tag'));
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-18
-     */
-    public function testContainerProviderCliRegistersTransactionManager(): void
-    {
-        // Resolution requires a Di container internally (hardcoded dependency).
-        // Verify registration only until Container replaces Di as the framework container.
-        $this->assertTrue($this->container->has('transactionManager'));
-        $this->assertTrue($this->container->has(TransactionManagerInterface::class));
     }
 
     /**

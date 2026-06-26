@@ -26,6 +26,12 @@ final class JoinTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
 
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+    }
+
     /**
      * join() emits a plain JOIN; the typed helpers prefix the join keyword.
      *
@@ -39,12 +45,6 @@ final class JoinTest extends AbstractDatabaseTestCase
             'leftJoin'  => ['leftJoin', 'LEFT JOIN'],
             'rightJoin' => ['rightJoin', 'RIGHT JOIN'],
         ];
-    }
-
-    public function setUp(): void
-    {
-        $this->setNewFactoryDefault();
-        $this->setDatabase();
     }
 
     /**

@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Cache\Cache;
 
+use ArrayIterator;
 use Phalcon\Cache\AdapterFactory;
 use Phalcon\Cache\Cache;
 use Phalcon\Cache\Exception\InvalidArgumentException;
@@ -64,6 +65,24 @@ final class GetMultipleTest extends AbstractUnitTestCase
 
     /**
      * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-14
+     */
+    #[RequiresPhpExtension('apcu')]
+    public function testCacheCacheGetMultipleInvalidKey(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('The key contains invalid characters');
+
+        $serializer = new SerializerFactory();
+        $factory    = new AdapterFactory($serializer);
+        $instance   = $factory->newInstance('apcu');
+
+        $adapter = new Cache($instance);
+        $adapter->getMultiple(['valid-key', 'invalid key!']);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
     #[RequiresPhpExtension('redis')]
@@ -105,19 +124,29 @@ final class GetMultipleTest extends AbstractUnitTestCase
 
     /**
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-14
+     * @since  2026-06-25
      */
     #[RequiresPhpExtension('apcu')]
-    public function testCacheCacheGetMultipleInvalidKey(): void
+    public function testCacheCacheGetMultipleTraversableKeys(): void
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('The key contains invalid characters');
-
         $serializer = new SerializerFactory();
         $factory    = new AdapterFactory($serializer);
         $instance   = $factory->newInstance('apcu');
 
         $adapter = new Cache($instance);
-        $adapter->getMultiple(['valid-key', 'invalid key!']);
+
+        $key1 = uniqid();
+        $key2 = uniqid();
+
+        $adapter->set($key1, 'test1');
+        $adapter->set($key2, 'test2');
+
+        $keys     = new ArrayIterator([$key1, $key2]);
+        $expected = [
+            $key1 => 'test1',
+            $key2 => 'test2',
+        ];
+        $actual   = $adapter->getMultiple($keys);
+        $this->assertEquals($expected, $actual);
     }
 }

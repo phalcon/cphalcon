@@ -27,89 +27,6 @@ use function env;
 #[Group('sqlite')]
 final class FetchOneTest extends AbstractDatabaseTestCase
 {
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2020-01-25
-     */
-    public function testDMPdoConnectionFetchOne(): void
-    {
-        /** @var Connection $connection */
-        $connection = self::getDataMapperConnection();
-        $migration  = new InvoicesMigration(self::getConnection());
-        $migration->clear();
-
-        $result = $migration->insert(1);
-        $this->assertEquals(1, $result);
-
-        $all = $connection->fetchOne(
-            'select * from co_invoices WHERE inv_id = ?',
-            [
-                0 => 1,
-            ]
-        );
-
-        $this->assertIsArray($all);
-        $this->assertEquals(1, $all['inv_id']);
-        $this->assertArrayHasKey('inv_id', $all);
-        $this->assertArrayHasKey('inv_cst_id', $all);
-        $this->assertArrayHasKey('inv_status_flag', $all);
-        $this->assertArrayHasKey('inv_title', $all);
-        $this->assertArrayHasKey('inv_total', $all);
-        $this->assertArrayHasKey('inv_created_at', $all);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2020-01-25
-     */
-    public function testDMPdoConnectionFetchOneNoResult(): void
-    {
-        /** @var Connection $connection */
-        $connection = self::getDataMapperConnection();
-        $migration  = new InvoicesMigration(self::getConnection());
-        $migration->clear();
-
-        $result = $migration->insert(1);
-        $this->assertEquals(1, $result);
-
-        $all = $connection->fetchOne(
-            'select * from co_invoices WHERE inv_id = ?',
-            [
-                0 => 7,
-            ]
-        );
-
-        $this->assertIsArray($all);
-        $this->assertEmpty($all);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2020-01-25
-     */
-    #[DataProvider('providerFetchOneBindTypes')]
-    public function testDMPdoConnectionFetchOneBindTypes(
-        string $label,
-        string $condition,
-        array $values
-    ): void {
-        /** @var Connection $connection */
-        $connection = self::getDataMapperConnection();
-        $migration  = new InvoicesMigration(self::getConnection());
-        $migration->clear();
-
-        $result = $migration->insert(1, 1, 1, 'test-1');
-        $this->assertEquals(1, $result);
-
-        $all = $connection->fetchOne(
-            'select * from co_invoices WHERE ' . $condition,
-            $values
-        );
-
-        $this->assertIsArray($all);
-        $this->assertEquals(1, $all['inv_id']);
-    }
-
     public static function providerFetchOneBindTypes(): array
     {
         $data = [
@@ -170,5 +87,87 @@ final class FetchOneTest extends AbstractDatabaseTestCase
         }
 
         return $data;
+    }
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-01-25
+     */
+    public function testDMPdoConnectionFetchOne(): void
+    {
+        /** @var Connection $connection */
+        $connection = self::getDataMapperConnection();
+        $migration  = new InvoicesMigration(self::getConnection());
+        $migration->clear();
+
+        $result = $migration->insert(1);
+        $this->assertEquals(1, $result);
+
+        $all = $connection->fetchOne(
+            'select * from co_invoices WHERE inv_id = ?',
+            [
+                0 => 1,
+            ]
+        );
+
+        $this->assertIsArray($all);
+        $this->assertEquals(1, $all['inv_id']);
+        $this->assertArrayHasKey('inv_id', $all);
+        $this->assertArrayHasKey('inv_cst_id', $all);
+        $this->assertArrayHasKey('inv_status_flag', $all);
+        $this->assertArrayHasKey('inv_title', $all);
+        $this->assertArrayHasKey('inv_total', $all);
+        $this->assertArrayHasKey('inv_created_at', $all);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-01-25
+     */
+    #[DataProvider('providerFetchOneBindTypes')]
+    public function testDMPdoConnectionFetchOneBindTypes(
+        string $label,
+        string $condition,
+        array $values
+    ): void {
+        /** @var Connection $connection */
+        $connection = self::getDataMapperConnection();
+        $migration  = new InvoicesMigration(self::getConnection());
+        $migration->clear();
+
+        $result = $migration->insert(1, 1, 1, 'test-1');
+        $this->assertEquals(1, $result);
+
+        $all = $connection->fetchOne(
+            'select * from co_invoices WHERE ' . $condition,
+            $values
+        );
+
+        $this->assertIsArray($all);
+        $this->assertEquals(1, $all['inv_id']);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-01-25
+     */
+    public function testDMPdoConnectionFetchOneNoResult(): void
+    {
+        /** @var Connection $connection */
+        $connection = self::getDataMapperConnection();
+        $migration  = new InvoicesMigration(self::getConnection());
+        $migration->clear();
+
+        $result = $migration->insert(1);
+        $this->assertEquals(1, $result);
+
+        $all = $connection->fetchOne(
+            'select * from co_invoices WHERE inv_id = ?',
+            [
+                0 => 7,
+            ]
+        );
+
+        $this->assertIsArray($all);
+        $this->assertEmpty($all);
     }
 }

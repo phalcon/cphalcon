@@ -32,31 +32,6 @@ trait ResultsetFixtureTrait
     use DiTrait;
 
     /**
-     * Seeds the deterministic fixture shared by every resultset method test:
-     *  - 3 customers (customer 3 has no invoices)
-     *  - 3 invoices (inv 1 -> cst 1, inv 2 & 3 -> cst 2)
-     *
-     * Row counts that fall out of it:
-     *  - simple  Invoices::find()               -> 3
-     *  - complex Customers left join Invoices   -> 4 (1 + 2 + 1 empty match)
-     *  - empty   Invoices::find() with no match -> 0
-     */
-    protected function seedResultsetFixture(): void
-    {
-        $connection         = self::getConnection();
-        $customersMigration = new CustomersMigration($connection);
-        $invoicesMigration  = new InvoicesMigration($connection);
-
-        $customersMigration->insert(1, 0, 'cst-first-1', 'cst-last-1');
-        $customersMigration->insert(2, 0, 'cst-first-2', 'cst-last-2');
-        $customersMigration->insert(3, 0, 'cst-first-3', 'cst-last-3');
-
-        $invoicesMigration->insert(1, 1, 0, 'inv-title-1');
-        $invoicesMigration->insert(2, 2, 0, 'inv-title-2');
-        $invoicesMigration->insert(3, 2, 0, 'inv-title-3');
-    }
-
-    /**
      * Builds the requested resultset shape from the seeded fixture.
      */
     protected function getResultset(string $type): ResultsetInterface
@@ -82,5 +57,30 @@ trait ResultsetFixtureTrait
         }
 
         return Invoices::find();
+    }
+
+    /**
+     * Seeds the deterministic fixture shared by every resultset method test:
+     *  - 3 customers (customer 3 has no invoices)
+     *  - 3 invoices (inv 1 -> cst 1, inv 2 & 3 -> cst 2)
+     *
+     * Row counts that fall out of it:
+     *  - simple  Invoices::find()               -> 3
+     *  - complex Customers left join Invoices   -> 4 (1 + 2 + 1 empty match)
+     *  - empty   Invoices::find() with no match -> 0
+     */
+    protected function seedResultsetFixture(): void
+    {
+        $connection         = self::getConnection();
+        $customersMigration = new CustomersMigration($connection);
+        $invoicesMigration  = new InvoicesMigration($connection);
+
+        $customersMigration->insert(1, 0, 'cst-first-1', 'cst-last-1');
+        $customersMigration->insert(2, 0, 'cst-first-2', 'cst-last-2');
+        $customersMigration->insert(3, 0, 'cst-first-3', 'cst-last-3');
+
+        $invoicesMigration->insert(1, 1, 0, 'inv-title-1');
+        $invoicesMigration->insert(2, 2, 0, 'inv-title-2');
+        $invoicesMigration->insert(3, 2, 0, 'inv-title-3');
     }
 }

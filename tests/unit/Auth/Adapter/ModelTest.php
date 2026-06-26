@@ -26,6 +26,8 @@ use Phalcon\Tests\Unit\Auth\Fake\FakeAuthUserModel;
 use Phalcon\Tests\Unit\Auth\Fake\FakeAuthUserNoRemember;
 use Phalcon\Tests\Unit\Auth\Fake\FakeNotAuthUserModel;
 
+use function strlen;
+
 final class ModelTest extends AbstractUnitTestCase
 {
     private Model $adapter;
@@ -60,6 +62,68 @@ final class ModelTest extends AbstractUnitTestCase
         FakeNotAuthUserModel::$rows = [];
     }
 
+    public function testCreateRememberTokenIssuesToken(): void
+    {
+        $user = $this->adapter->retrieveById(1);
+        $this->assertInstanceOf(FakeAuthUserModel::class, $user);
+
+        $token = $this->adapter->createRememberToken($user);
+
+        $this->assertNotEmpty($token->getToken());
+        $this->assertSame(60, strlen($token->getToken()));
+        $this->assertArrayHasKey($token->getToken(), $user->rememberTokens);
+    }
+
+    public function testCreateRememberTokenThrowsWhenUserNotAuthRemember(): void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessageMatches('/AuthRemember/');
+
+        $user = new FakeAuthUserNoRemember(['id' => 1]);
+
+        $this->adapter->createRememberToken($user);
+    }
+
+    public function testRetrieveByCredentialsIgnoresPasswordField(): void
+    {
+        $user = $this->adapter->retrieveByCredentials([
+            'email'    => 'bob@example.com',
+            'password' => 'whatever',
+        ]);
+
+        $this->assertNotNull($user);
+        $this->assertSame(2, $user->getAuthIdentifier());
+    }
+
+    public function testRetrieveByCredentialsMatchesUser(): void
+    {
+        $user = $this->adapter->retrieveByCredentials([
+            'email' => 'alice@example.com',
+        ]);
+
+        $this->assertInstanceOf(FakeAuthUserModel::class, $user);
+        $this->assertSame(1, $user->getAuthIdentifier());
+    }
+
+    public function testRetrieveByCredentialsReturnsNullForOnlyPassword(): void
+    {
+        $this->assertNull(
+            $this->adapter->retrieveByCredentials(['password' => 'x'])
+        );
+    }
+
+    public function testRetrieveByCredentialsReturnsNullOnMiss(): void
+    {
+        $this->assertNull(
+            $this->adapter->retrieveByCredentials(['email' => 'nobody@example.com'])
+        );
+    }
+
+    public function testRetrieveByIdReturnsNullOnMiss(): void
+    {
+        $this->assertNull($this->adapter->retrieveById(999));
+    }
+
     public function testRetrieveByIdReturnsUser(): void
     {
         $user = $this->adapter->retrieveById(1);
@@ -85,127 +149,11 @@ final class ModelTest extends AbstractUnitTestCase
         $adapter->retrieveById(1);
     }
 
-    public function testRetrieveByIdReturnsNullOnMiss(): void
-    {
-        $this->assertNull($this->adapter->retrieveById(999));
-    }
-
-    public function testRetrieveByCredentialsMatchesUser(): void
-    {
-        $user = $this->adapter->retrieveByCredentials([
-            'email' => 'alice@example.com',
-        ]);
-
-        $this->assertInstanceOf(FakeAuthUserModel::class, $user);
-        $this->assertSame(1, $user->getAuthIdentifier());
-    }
-
-    public function testRetrieveByCredentialsIgnoresPasswordField(): void
-    {
-        $user = $this->adapter->retrieveByCredentials([
-            'email'    => 'bob@example.com',
-            'password' => 'whatever',
-        ]);
-
-        $this->assertNotNull($user);
-        $this->assertSame(2, $user->getAuthIdentifier());
-    }
-
-    public function testRetrieveByCredentialsReturnsNullForOnlyPassword(): void
-    {
-        $this->assertNull(
-            $this->adapter->retrieveByCredentials(['password' => 'x'])
-        );
-    }
-
-    public function testRetrieveByCredentialsReturnsNullOnMiss(): void
-    {
-        $this->assertNull(
-            $this->adapter->retrieveByCredentials(['email' => 'nobody@example.com'])
-        );
-    }
-
-    public function testValidateCredentialsAcceptsCorrectPassword(): void
-    {
-        $user = $this->adapter->retrieveById(1);
-        $this->assertNotNull($user);
-
-        $this->assertTrue(
-            $this->adapter->validateCredentials($user, ['password' => 'secret'])
-        );
-    }
-
-    public function testValidateCredentialsRejectsWrongPassword(): void
-    {
-        $user = $this->adapter->retrieveById(1);
-        $this->assertNotNull($user);
-
-        $this->assertFalse(
-            $this->adapter->validateCredentials($user, ['password' => 'nope'])
-        );
-    }
-
-    public function testCreateRememberTokenIssuesToken(): void
-    {
-        $user = $this->adapter->retrieveById(1);
-        $this->assertInstanceOf(FakeAuthUserModel::class, $user);
-
-        $token = $this->adapter->createRememberToken($user);
-
-        $this->assertNotEmpty($token->getToken());
-        $this->assertArrayHasKey($token->getToken(), $user->rememberTokens);
-    }
-
-    public function testCreateRememberTokenThrowsWhenUserNotAuthRemember(): void
-    {
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessageMatches('/AuthRemember/');
-
-        $user = new FakeAuthUserNoRemember(['id' => 1]);
-
-        $this->adapter->createRememberToken($user);
-    }
-
-    public function testRetrieveByTokenReturnsUser(): void
-    {
-        $user = $this->adapter->retrieveById(1);
-        $this->assertInstanceOf(FakeAuthUserModel::class, $user);
-
-        $token = $this->adapter->createRememberToken($user);
-
-        // Re-seed fixture so subsequent retrieveById hydrates a fresh instance
-        // that still answers getRememberToken() - store the token entry in the
-        // re-hydrated instance via the fixture row.
-        FakeAuthUserModel::$rows[0]['rememberTokens'] = [
-            $token->getToken() => $token,
-        ];
-
-        $resolved = $this->adapter->retrieveByToken(1, $token->getToken());
-
-        $this->assertNotNull($resolved);
-        $this->assertSame(1, $resolved->getAuthIdentifier());
-    }
-
     public function testRetrieveByTokenReturnsNullForUnknownUser(): void
     {
         $this->assertNull(
             $this->adapter->retrieveByToken(999, 'any-token')
         );
-    }
-
-    public function testRetrieveByTokenReturnsNullWhenUserLacksAuthRemember(): void
-    {
-        // Re-bind adapter to a model class that does NOT implement AuthRemember.
-        FakeAuthUserNoRemember::$rows = [
-            ['id' => 1, 'email' => 'alice@example.com'],
-        ];
-
-        $adapter = new Model(
-            $this->security,
-            new ModelAdapterConfig(FakeAuthUserNoRemember::class)
-        );
-
-        $this->assertNull($adapter->retrieveByToken(1, 'any-token'));
     }
 
     public function testRetrieveByTokenReturnsNullWhenTokenNotFound(): void
@@ -231,6 +179,61 @@ final class ModelTest extends AbstractUnitTestCase
 
         $this->assertNull(
             $this->adapter->retrieveByToken(1, $tokenValue, 'different-agent')
+        );
+    }
+
+    public function testRetrieveByTokenReturnsNullWhenUserLacksAuthRemember(): void
+    {
+        // Re-bind adapter to a model class that does NOT implement AuthRemember.
+        FakeAuthUserNoRemember::$rows = [
+            ['id' => 1, 'email' => 'alice@example.com'],
+        ];
+
+        $adapter = new Model(
+            $this->security,
+            new ModelAdapterConfig(FakeAuthUserNoRemember::class)
+        );
+
+        $this->assertNull($adapter->retrieveByToken(1, 'any-token'));
+    }
+
+    public function testRetrieveByTokenReturnsUser(): void
+    {
+        $user = $this->adapter->retrieveById(1);
+        $this->assertInstanceOf(FakeAuthUserModel::class, $user);
+
+        $token = $this->adapter->createRememberToken($user);
+
+        // Re-seed fixture so subsequent retrieveById hydrates a fresh instance
+        // that still answers getRememberToken() - store the token entry in the
+        // re-hydrated instance via the fixture row.
+        FakeAuthUserModel::$rows[0]['rememberTokens'] = [
+            $token->getToken() => $token,
+        ];
+
+        $resolved = $this->adapter->retrieveByToken(1, $token->getToken());
+
+        $this->assertNotNull($resolved);
+        $this->assertSame(1, $resolved->getAuthIdentifier());
+    }
+
+    public function testValidateCredentialsAcceptsCorrectPassword(): void
+    {
+        $user = $this->adapter->retrieveById(1);
+        $this->assertNotNull($user);
+
+        $this->assertTrue(
+            $this->adapter->validateCredentials($user, ['password' => 'secret'])
+        );
+    }
+
+    public function testValidateCredentialsRejectsWrongPassword(): void
+    {
+        $user = $this->adapter->retrieveById(1);
+        $this->assertNotNull($user);
+
+        $this->assertFalse(
+            $this->adapter->validateCredentials($user, ['password' => 'nope'])
         );
     }
 }

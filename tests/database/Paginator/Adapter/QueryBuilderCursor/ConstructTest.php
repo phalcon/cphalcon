@@ -73,7 +73,7 @@ final class ConstructTest extends AbstractDatabaseTestCase
 
     /**
      * Tests Phalcon\Paginator\Adapter\QueryBuilderCursor :: __construct() -
-     * exception missing limit
+     * exception empty cursorColumn
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-14
@@ -81,17 +81,20 @@ final class ConstructTest extends AbstractDatabaseTestCase
     #[Group('mysql')]
     #[Group('pgsql')]
     #[Group('sqlite')]
-    public function testPaginatorAdapterQuerybuilderCursorConstructExceptionMissingLimit(): void
+    public function testPaginatorAdapterQuerybuilderCursorConstructExceptionEmptyCursorColumn(): void
     {
         $this->expectException(Exception::class);
-        $this->expectExceptionMessage("Parameter 'limit' is required");
+        $this->expectExceptionMessage(
+            "Parameter 'cursorColumn' must be a non-empty string"
+        );
 
         $manager = $this->getService('modelsManager');
 
         new QueryBuilderCursor(
             [
                 'builder'      => $manager->createBuilder()->from(Invoices::class),
-                'cursorColumn' => 'inv_id',
+                'limit'        => 10,
+                'cursorColumn' => '',
             ]
         );
     }
@@ -149,7 +152,7 @@ final class ConstructTest extends AbstractDatabaseTestCase
 
     /**
      * Tests Phalcon\Paginator\Adapter\QueryBuilderCursor :: __construct() -
-     * exception empty cursorColumn
+     * exception missing limit
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-14
@@ -157,20 +160,17 @@ final class ConstructTest extends AbstractDatabaseTestCase
     #[Group('mysql')]
     #[Group('pgsql')]
     #[Group('sqlite')]
-    public function testPaginatorAdapterQuerybuilderCursorConstructExceptionEmptyCursorColumn(): void
+    public function testPaginatorAdapterQuerybuilderCursorConstructExceptionMissingLimit(): void
     {
         $this->expectException(Exception::class);
-        $this->expectExceptionMessage(
-            "Parameter 'cursorColumn' must be a non-empty string"
-        );
+        $this->expectExceptionMessage("Parameter 'limit' is required");
 
         $manager = $this->getService('modelsManager');
 
         new QueryBuilderCursor(
             [
                 'builder'      => $manager->createBuilder()->from(Invoices::class),
-                'limit'        => 10,
-                'cursorColumn' => '',
+                'cursorColumn' => 'inv_id',
             ]
         );
     }

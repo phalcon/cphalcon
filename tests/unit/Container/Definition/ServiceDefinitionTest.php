@@ -38,6 +38,7 @@ use Phalcon\Container\Definition\DefinitionType;
 use Phalcon\Container\Definition\ServiceDefinition;
 use Phalcon\Container\Definition\ServiceLifetime;
 use Phalcon\Container\Exceptions\FrozenDefinition;
+use Phalcon\Container\Exceptions\InvalidExtender;
 use Phalcon\Container\Exceptions\NoClassSet;
 use Phalcon\Container\Exceptions\NoFactorySet;
 use Phalcon\Tests\AbstractUnitTestCase;
@@ -146,6 +147,47 @@ final class ServiceDefinitionTest extends AbstractUnitTestCase
 
     /**
      * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-25
+     */
+    public function testContainerDefinitionServiceDefinitionFrozenSettersThrow(): void
+    {
+        $container = new FakeContainer();
+        $extender  = static fn (object $instance, object $c) => $instance;
+        $factory   = static fn () => new stdClass();
+
+        $calls = [
+            ['addExtender', [$extender]],
+            ['addTag', ['notifier']],
+            ['setArgument', [0, 'value']],
+            ['setClass', ['SomeClass']],
+            ['setExtenders', [[$extender]]],
+            ['setFactory', [$factory]],
+            ['setIsCacheable', [true]],
+            ['unsetClass', []],
+            ['unsetExtenders', []],
+            ['unsetFactory', []],
+        ];
+
+        foreach ($calls as [$method, $arguments]) {
+            $def = new ServiceDefinition('logger', DefinitionType::CLOSURE_TYPE);
+            $def->freeze($container);
+
+            $threw = false;
+            try {
+                $def->$method(...$arguments);
+            } catch (FrozenDefinition) {
+                $threw = true;
+            }
+
+            $this->assertTrue(
+                $threw,
+                $method . '() must throw FrozenDefinition when frozen'
+            );
+        }
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-18
      */
     public function testContainerDefinitionServiceDefinitionGetClassThrowsWhenNotSet(): void
@@ -166,6 +208,22 @@ final class ServiceDefinitionTest extends AbstractUnitTestCase
         $def->freeze($container);
 
         $this->assertSame([], $def->getConstructorArgs());
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-25
+     */
+    public function testContainerDefinitionServiceDefinitionGetConstructorArgsReturnsAll(): void
+    {
+        $container = new FakeContainer();
+        $def       = new ServiceDefinition('svc', DefinitionType::STRING_TYPE);
+        $def->setClass(stdClass::class);
+        $def->setArgument(0, 'first');
+        $def->setArgument(1, 'second');
+        $def->freeze($container);
+
+        $this->assertSame(['first', 'second'], $def->getConstructorArgs());
     }
 
     /**
@@ -245,6 +303,18 @@ final class ServiceDefinitionTest extends AbstractUnitTestCase
         $def = new ServiceDefinition('db', DefinitionType::STRING_TYPE);
         $def->setArgument('host', 'localhost');
         $this->assertSame(['host' => 'localhost'], $def->getArguments());
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-25
+     */
+    public function testContainerDefinitionServiceDefinitionSetExtendersRejectsNonCallable(): void
+    {
+        $def = new ServiceDefinition('logger', DefinitionType::STRING_TYPE);
+
+        $this->expectException(InvalidExtender::class);
+        $def->setExtenders(['not-callable']);
     }
 
     /**

@@ -15,11 +15,26 @@ namespace Phalcon\Tests\Unit\Filter\Filter;
 
 use Closure;
 use Phalcon\Filter\Filter;
-use Phalcon\Tests\Support\Service\HelloService;
 use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Tests\Support\Service\HelloService;
 
 final class GetSetHasTest extends AbstractUnitTestCase
 {
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    public function testFilterFilterCall(): void
+    {
+        $locator = new Filter(
+            [
+                'trim' => \Phalcon\Filter\Sanitize\Trim::class,
+            ]
+        );
+
+        $actual = $locator->trim('  hello world  ');
+        $this->assertSame('hello world', $actual);
+    }
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
@@ -123,21 +138,5 @@ final class GetSetHasTest extends AbstractUnitTestCase
         $class  = Closure::class;
         $actual = $locator->get('helloFilter');
         $this->assertInstanceOf($class, $actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2020-09-09
-     */
-    public function testFilterFilterCall(): void
-    {
-        $locator = new Filter(
-            [
-                'trim' => \Phalcon\Filter\Sanitize\Trim::class,
-            ]
-        );
-
-        $actual = $locator->trim('  hello world  ');
-        $this->assertSame('hello world', $actual);
     }
 }

@@ -14,8 +14,8 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Html\Escaper;
 
 use Phalcon\Html\Escaper;
-use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Html\Escaper\EscaperInterface;
+use Phalcon\Tests\AbstractUnitTestCase;
 
 use const ENT_HTML401;
 use const ENT_QUOTES;

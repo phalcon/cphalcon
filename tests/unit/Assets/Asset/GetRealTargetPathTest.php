@@ -46,15 +46,14 @@ final class GetRealTargetPathTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function testAssetsAssetGetRealTargetPathWithTargetPath(): void
+    public function testAssetsAssetGetRealTargetPath404(): void
     {
-        $path   = 'css/docs.css';
-        $target = 'assets/assets/1198.css';
-        $asset  = new Asset('css', $path);
-        $asset->setTargetPath($target);
+        $file  = 'assets/assets/1198.css';
+        $asset = new FakeAssetFileExistsPositive('css', $file);
 
-        $actual = $asset->getRealTargetPath(supportDir());
-        $this->assertStringContainsString('1198.css', $actual);
+        $expected = supportDir($file);
+        $actual   = $asset->getRealTargetPath(supportDir());
+        $this->assertSame($expected, $actual);
     }
 
     /**
@@ -74,13 +73,14 @@ final class GetRealTargetPathTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function testAssetsAssetGetRealTargetPath404(): void
+    public function testAssetsAssetGetRealTargetPathWithTargetPath(): void
     {
-        $file  = 'assets/assets/1198.css';
-        $asset = new FakeAssetFileExistsPositive('css', $file);
+        $path   = 'css/docs.css';
+        $target = 'assets/assets/1198.css';
+        $asset  = new Asset('css', $path);
+        $asset->setTargetPath($target);
 
-        $expected = supportDir($file);
-        $actual   = $asset->getRealTargetPath(supportDir());
-        $this->assertSame($expected, $actual);
+        $actual = $asset->getRealTargetPath(supportDir());
+        $this->assertStringContainsString('1198.css', $actual);
     }
 }

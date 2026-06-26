@@ -24,6 +24,19 @@ final class Version1Test extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-29
      */
+    public function testEncryptionSecurityUuidVersion1CustomDateTime(): void
+    {
+        $dt   = new DateTimeImmutable('2024-01-15 12:00:00');
+        $uuid = new Version1($dt);
+
+        $result = $uuid->getDateTime();
+
+        $this->assertSame($dt->getTimestamp(), $result->getTimestamp());
+    }
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-29
+     */
     public function testEncryptionSecurityUuidVersion1Format(): void
     {
         $uuid = new Version1();
@@ -32,29 +45,6 @@ final class Version1Test extends AbstractUnitTestCase
             '/^[a-f0-9]{8}-[a-f0-9]{4}-1[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/',
             (string) $uuid
         );
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-29
-     */
-    public function testEncryptionSecurityUuidVersion1Unique(): void
-    {
-        $uuid1 = new Version1();
-        $uuid2 = new Version1();
-
-        $this->assertNotSame((string) $uuid1, (string) $uuid2);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-29
-     */
-    public function testEncryptionSecurityUuidVersion1ImplementsTimeBasedInterface(): void
-    {
-        $uuid = new Version1();
-
-        $this->assertInstanceOf(TimeBasedUuidInterface::class, $uuid);
     }
 
     /**
@@ -89,13 +79,22 @@ final class Version1Test extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-29
      */
-    public function testEncryptionSecurityUuidVersion1CustomDateTime(): void
+    public function testEncryptionSecurityUuidVersion1ImplementsTimeBasedInterface(): void
     {
-        $dt   = new DateTimeImmutable('2024-01-15 12:00:00');
-        $uuid = new Version1($dt);
+        $uuid = new Version1();
 
-        $result = $uuid->getDateTime();
+        $this->assertInstanceOf(TimeBasedUuidInterface::class, $uuid);
+    }
 
-        $this->assertSame($dt->getTimestamp(), $result->getTimestamp());
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-29
+     */
+    public function testEncryptionSecurityUuidVersion1Unique(): void
+    {
+        $uuid1 = new Version1();
+        $uuid2 = new Version1();
+
+        $this->assertNotSame((string) $uuid1, (string) $uuid2);
     }
 }

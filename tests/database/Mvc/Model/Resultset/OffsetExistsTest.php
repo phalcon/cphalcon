@@ -22,6 +22,13 @@ final class OffsetExistsTest extends AbstractDatabaseTestCase
 {
     use ResultsetFixtureTrait;
 
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+        $this->seedResultsetFixture();
+    }
+
     /**
      * An offset exists while it is below the row count: simple has 3 rows,
      * complex has 4, empty has none.
@@ -39,13 +46,6 @@ final class OffsetExistsTest extends AbstractDatabaseTestCase
             'complex-missing' => ['complex', 4, false],
             'empty-missing'  => ['empty', 0, false],
         ];
-    }
-
-    public function setUp(): void
-    {
-        $this->setNewFactoryDefault();
-        $this->setDatabase();
-        $this->seedResultsetFixture();
     }
 
     /**

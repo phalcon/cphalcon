@@ -21,44 +21,15 @@ use PHPUnit\Framework\Attributes\BackupGlobals;
 #[BackupGlobals(true)]
 final class ReportBuilderTest extends AbstractUnitTestCase
 {
-    public function testMetaWithoutBacktrace(): void
+    public function testBuildFragmentForUnreadableFile(): void
     {
-        $exception = new Exception('boom', 7);
-        $report    = (new ReportBuilder())->build(
-            $exception,
-            ['request' => [], 'server' => []],
-            false,
-            true,
-            false,
-            'https://cdn/',
-            []
-        );
+        $builder = new ReportBuilder();
 
-        $this->assertSame(Exception::class, $report->getClassName());
-        $this->assertSame('boom', $report->getMessage());
-        $this->assertSame('https://cdn/', $report->getUri());
-        $this->assertSame([], $report->getBacktrace());
-    }
+        $method = new \ReflectionMethod(ReportBuilder::class, 'buildFragment');
 
-    public function testRequestBlacklistIsApplied(): void
-    {
-        $_REQUEST['DATA_REQUEST_TEST'] = 'secret';
-        $_SERVER['DATA_SERVER_TEST']   = 'keepme';
+        $fragment = @$method->invoke($builder, '/phalcon/no/such/file.php', 5, false);
 
-        $report = (new ReportBuilder())->build(
-            new Exception('boom', 7),
-            ['request' => ['data_request_test' => 1], 'server' => []],
-            true,
-            true,
-            false,
-            'https://cdn/',
-            []
-        );
-
-        $this->assertArrayNotHasKey('DATA_REQUEST_TEST', $report->getRequest());
-        $this->assertArrayHasKey('DATA_SERVER_TEST', $report->getServer());
-        $this->assertGreaterThan(0, $report->getMemoryUsage());
-        $this->assertGreaterThan(0, $report->getPeakMemoryUsage());
+        $this->assertSame([], $fragment['lines']);
     }
 
     public function testInternalFunctionLinkIsResolved(): void
@@ -123,15 +94,43 @@ final class ReportBuilderTest extends AbstractUnitTestCase
         $this->assertNull($functionLink->invoke($builder, 'phalcon_undefined_function_xyz'));
         $this->assertNull($functionLink->invoke($builder, 'supportDir'));
     }
-
-    public function testBuildFragmentForUnreadableFile(): void
+    public function testMetaWithoutBacktrace(): void
     {
-        $builder = new ReportBuilder();
+        $exception = new Exception('boom', 7);
+        $report    = (new ReportBuilder())->build(
+            $exception,
+            ['request' => [], 'server' => []],
+            false,
+            true,
+            false,
+            'https://cdn/',
+            []
+        );
 
-        $method = new \ReflectionMethod(ReportBuilder::class, 'buildFragment');
+        $this->assertSame(Exception::class, $report->getClassName());
+        $this->assertSame('boom', $report->getMessage());
+        $this->assertSame('https://cdn/', $report->getUri());
+        $this->assertSame([], $report->getBacktrace());
+    }
 
-        $fragment = @$method->invoke($builder, '/phalcon/no/such/file.php', 5, false);
+    public function testRequestBlacklistIsApplied(): void
+    {
+        $_REQUEST['DATA_REQUEST_TEST'] = 'secret';
+        $_SERVER['DATA_SERVER_TEST']   = 'keepme';
 
-        $this->assertSame([], $fragment['lines']);
+        $report = (new ReportBuilder())->build(
+            new Exception('boom', 7),
+            ['request' => ['data_request_test' => 1], 'server' => []],
+            true,
+            true,
+            false,
+            'https://cdn/',
+            []
+        );
+
+        $this->assertArrayNotHasKey('DATA_REQUEST_TEST', $report->getRequest());
+        $this->assertArrayHasKey('DATA_SERVER_TEST', $report->getServer());
+        $this->assertGreaterThan(0, $report->getMemoryUsage());
+        $this->assertGreaterThan(0, $report->getPeakMemoryUsage());
     }
 }

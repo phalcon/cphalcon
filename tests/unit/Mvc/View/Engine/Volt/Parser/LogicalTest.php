@@ -64,41 +64,6 @@ final class LogicalTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-10
      */
-    public function testMvcViewEngineVoltParserExprOr(): void
-    {
-        $source   = '{{ a or b }}';
-        $expected = [
-            [
-                'type' => 359,
-                'expr' => [
-                    'type' => 267,
-                    'left' => [
-                        'type' => 265,
-                        'value' => 'a',
-                        'file' => 'eval code',
-                        'line' => 1,
-                    ],
-                    'right' => [
-                        'type' => 265,
-                        'value' => 'b',
-                        'file' => 'eval code',
-                        'line' => 1,
-                    ],
-                    'file' => 'eval code',
-                    'line' => 1,
-                ],
-                'file' => 'eval code',
-                'line' => 1,
-            ],
-        ];
-        $actual   = $this->compiler->parse($source);
-        $this->assertSame($expected, $actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-10
-     */
     public function testMvcViewEngineVoltParserExprNot(): void
     {
         $source   = '{{ not a }}';
@@ -139,6 +104,41 @@ final class LogicalTest extends AbstractUnitTestCase
                     'right' => [
                         'type' => 265,
                         'value' => 'a',
+                        'file' => 'eval code',
+                        'line' => 1,
+                    ],
+                    'file' => 'eval code',
+                    'line' => 1,
+                ],
+                'file' => 'eval code',
+                'line' => 1,
+            ],
+        ];
+        $actual   = $this->compiler->parse($source);
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-10
+     */
+    public function testMvcViewEngineVoltParserExprOr(): void
+    {
+        $source   = '{{ a or b }}';
+        $expected = [
+            [
+                'type' => 359,
+                'expr' => [
+                    'type' => 267,
+                    'left' => [
+                        'type' => 265,
+                        'value' => 'a',
+                        'file' => 'eval code',
+                        'line' => 1,
+                    ],
+                    'right' => [
+                        'type' => 265,
+                        'value' => 'b',
                         'file' => 'eval code',
                         'line' => 1,
                     ],

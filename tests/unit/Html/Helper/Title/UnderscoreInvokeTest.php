@@ -145,6 +145,43 @@ final class UnderscoreInvokeTest extends AbstractUnitTestCase
     }
 
     /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-25
+     */
+    public function testHtmlHelperTitleEscapesByDefault(): void
+    {
+        $escaper = new Escaper();
+        $helper  = new Title($escaper);
+
+        /**
+         * set() escapes by default (the raw flag defaults to false).
+         */
+        $title  = uniqid('t-');
+        $result = $helper('', '');
+        $result->set('<' . $title . '>');
+        $this->assertSame('&lt;' . $title . '&gt;', $result->get());
+
+        /**
+         * setSeparator()/prepend()/append() also escape by default.
+         */
+        $separator = uniqid('s-');
+        $prepend   = uniqid('p-');
+        $append    = uniqid('a-');
+
+        $result = $helper('', '');
+        $result->setSeparator('<' . $separator . '>');
+        $result->prepend('<' . $prepend . '>');
+        $result->set('<' . $title . '>');
+        $result->append('<' . $append . '>');
+
+        $rendered = (string) $result;
+        $this->assertStringContainsString('&lt;' . $separator . '&gt;', $rendered);
+        $this->assertStringContainsString('&lt;' . $prepend . '&gt;', $rendered);
+        $this->assertStringContainsString('&lt;' . $title . '&gt;', $rendered);
+        $this->assertStringContainsString('&lt;' . $append . '&gt;', $rendered);
+    }
+
+    /**
      * @issue  https://github.com/phalcon/cphalcon/issues/16283
      * @author Phalcon Team <team@phalcon.io>
      * @since  2023-02-20

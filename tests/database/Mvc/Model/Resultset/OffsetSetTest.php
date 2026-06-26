@@ -23,6 +23,13 @@ final class OffsetSetTest extends AbstractDatabaseTestCase
 {
     use ResultsetFixtureTrait;
 
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+        $this->seedResultsetFixture();
+    }
+
     /**
      * A resultset is immutable: offsetSet() always throws, whatever its shape.
      *
@@ -35,13 +42,6 @@ final class OffsetSetTest extends AbstractDatabaseTestCase
             'complex' => ['complex'],
             'empty'   => ['empty'],
         ];
-    }
-
-    public function setUp(): void
-    {
-        $this->setNewFactoryDefault();
-        $this->setDatabase();
-        $this->seedResultsetFixture();
     }
 
     /**

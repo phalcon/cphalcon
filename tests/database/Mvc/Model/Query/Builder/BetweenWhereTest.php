@@ -25,6 +25,12 @@ final class BetweenWhereTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
 
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+    }
+
     /**
      * betweenWhere()/notBetweenWhere() append a (NOT) BETWEEN condition with
      * auto bind-params.
@@ -37,12 +43,6 @@ final class BetweenWhereTest extends AbstractDatabaseTestCase
             'betweenWhere'    => ['betweenWhere', 'BETWEEN'],
             'notBetweenWhere' => ['notBetweenWhere', 'NOT BETWEEN'],
         ];
-    }
-
-    public function setUp(): void
-    {
-        $this->setNewFactoryDefault();
-        $this->setDatabase();
     }
 
     /**

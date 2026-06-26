@@ -22,6 +22,22 @@ final class GetRouteByNameTest extends AbstractUnitTestCase
 {
     use DiTrait;
 
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    public function testCliRouterGetRouteByNameNotFound(): void
+    {
+        $this->setNewCliFactoryDefault();
+        Route::reset();
+
+        $router = new Router(false);
+        $router->add('api users find')->setName('usersFind');
+
+        $actual = $router->getRouteByName('doesNotExist');
+        $this->assertFalse($actual);
+    }
+
     public function testNamedRoutes(): void
     {
         $this->setNewCliFactoryDefault();
@@ -43,21 +59,5 @@ final class GetRouteByNameTest extends AbstractUnitTestCase
         $expected = $usersAdd;
         $actual   = $router->getRouteByName('usersAdd');
         $this->assertSame($expected, $actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2024-01-01
-     */
-    public function testCliRouterGetRouteByNameNotFound(): void
-    {
-        $this->setNewCliFactoryDefault();
-        Route::reset();
-
-        $router = new Router(false);
-        $router->add('api users find')->setName('usersFind');
-
-        $actual = $router->getRouteByName('doesNotExist');
-        $this->assertFalse($actual);
     }
 }

@@ -22,51 +22,6 @@ final class CombinationTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-09
      */
-    public function testMvcModelQueryPhqlInsert(): void
-    {
-        $source   = "INSERT INTO Invoices " . "VALUES (1, 1, 1, 'Test Invoice', 100.00, '2025-01-01 00:00:00')";
-        $expected = [
-            'type'          => 306,
-            'qualifiedName' => [
-                'type' => 355,
-                'name' => 'Invoices',
-            ],
-            'values'        => [
-                0 => [
-                    'type'  => 258,
-                    'value' => '1',
-                ],
-                1 => [
-                    'type'  => 258,
-                    'value' => '1',
-                ],
-                2 => [
-                    'type'  => 258,
-                    'value' => '1',
-                ],
-                3 => [
-                    'type'  => 260,
-                    'value' => 'Test Invoice',
-                ],
-                4 => [
-                    'type'  => 259,
-                    'value' => '100.00',
-                ],
-                5 => [
-                    'type'  => 260,
-                    'value' => '2025-01-01 00:00:00',
-                ],
-            ],
-        ];
-        $actual   = Lang::parsePhql($source);
-        unset($actual['id']);
-        $this->assertSame($expected, $actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-09
-     */
     public function testMvcModelQueryPhqInsertFields(): void
     {
         $source   = "INSERT INTO Invoices " . "(inv_cst_id, inv_status_flag, inv_title, inv_total, inv_created_at) " .
@@ -119,6 +74,88 @@ final class CombinationTest extends AbstractUnitTestCase
                 4 => [
                     'type'  => 260,
                     'value' => '2025-01-01 00:00:00',
+                ],
+            ],
+        ];
+        $actual   = Lang::parsePhql($source);
+        unset($actual['id']);
+        $this->assertSame($expected, $actual);
+    }
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-09
+     */
+    public function testMvcModelQueryPhqlInsert(): void
+    {
+        $source   = "INSERT INTO Invoices " . "VALUES (1, 1, 1, 'Test Invoice', 100.00, '2025-01-01 00:00:00')";
+        $expected = [
+            'type'          => 306,
+            'qualifiedName' => [
+                'type' => 355,
+                'name' => 'Invoices',
+            ],
+            'values'        => [
+                0 => [
+                    'type'  => 258,
+                    'value' => '1',
+                ],
+                1 => [
+                    'type'  => 258,
+                    'value' => '1',
+                ],
+                2 => [
+                    'type'  => 258,
+                    'value' => '1',
+                ],
+                3 => [
+                    'type'  => 260,
+                    'value' => 'Test Invoice',
+                ],
+                4 => [
+                    'type'  => 259,
+                    'value' => '100.00',
+                ],
+                5 => [
+                    'type'  => 260,
+                    'value' => '2025-01-01 00:00:00',
+                ],
+            ],
+        ];
+        $actual   = Lang::parsePhql($source);
+        unset($actual['id']);
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-10
+     */
+    public function testMvcModelQueryPhqlInsertArithmeticInValues(): void
+    {
+        $source   = "INSERT INTO Invoices (inv_total) VALUES (100 + 50)";
+        $expected = [
+            'type'          => 306,
+            'qualifiedName' => [
+                'type' => 355,
+                'name' => 'Invoices',
+            ],
+            'fields'        => [
+                0 => [
+                    'type' => 355,
+                    'name' => 'inv_total',
+                ],
+            ],
+            'values'        => [
+                0 => [
+                    'type'  => 43,
+                    'left'  => [
+                        'type'  => 258,
+                        'value' => '100',
+                    ],
+                    'right' => [
+                        'type'  => 258,
+                        'value' => '50',
+                    ],
                 ],
             ],
         ];
@@ -264,53 +301,6 @@ final class CombinationTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-09
      */
-    public function testMvcModelQueryPhqlInsertFieldsPlaceholdersNum(): void
-    {
-        $source   = "INSERT INTO Invoices " . "(inv_cst_id, inv_title, inv_total) " . "VALUES (?0, ?1, ?2)";
-        $expected = [
-            'type'          => 306,
-            'qualifiedName' => [
-                'type' => 355,
-                'name' => 'Invoices',
-            ],
-            'fields'        => [
-                0 => [
-                    'type' => 355,
-                    'name' => 'inv_cst_id',
-                ],
-                1 => [
-                    'type' => 355,
-                    'name' => 'inv_title',
-                ],
-                2 => [
-                    'type' => 355,
-                    'name' => 'inv_total',
-                ],
-            ],
-            'values'        => [
-                0 => [
-                    'type'  => 273,
-                    'value' => '?0',
-                ],
-                1 => [
-                    'type'  => 273,
-                    'value' => '?1',
-                ],
-                2 => [
-                    'type'  => 273,
-                    'value' => '?2',
-                ],
-            ],
-        ];
-        $actual   = Lang::parsePhql($source);
-        unset($actual['id']);
-        $this->assertSame($expected, $actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-09
-     */
     public function testMvcModelQueryPhqlInsertFieldsPlaceholdersBrackets(): void
     {
         $source   = "INSERT INTO Invoices " . "(inv_id, inv_cst_id, inv_status_flag, inv_title, inv_total) " .
@@ -373,11 +363,11 @@ final class CombinationTest extends AbstractUnitTestCase
 
     /**
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-10
+     * @since  2026-04-09
      */
-    public function testMvcModelQueryPhqlInsertArithmeticInValues(): void
+    public function testMvcModelQueryPhqlInsertFieldsPlaceholdersNum(): void
     {
-        $source   = "INSERT INTO Invoices (inv_total) VALUES (100 + 50)";
+        $source   = "INSERT INTO Invoices " . "(inv_cst_id, inv_title, inv_total) " . "VALUES (?0, ?1, ?2)";
         $expected = [
             'type'          => 306,
             'qualifiedName' => [
@@ -387,20 +377,67 @@ final class CombinationTest extends AbstractUnitTestCase
             'fields'        => [
                 0 => [
                     'type' => 355,
+                    'name' => 'inv_cst_id',
+                ],
+                1 => [
+                    'type' => 355,
+                    'name' => 'inv_title',
+                ],
+                2 => [
+                    'type' => 355,
                     'name' => 'inv_total',
                 ],
             ],
             'values'        => [
                 0 => [
-                    'type'  => 43,
-                    'left'  => [
-                        'type'  => 258,
-                        'value' => '100',
-                    ],
-                    'right' => [
-                        'type'  => 258,
-                        'value' => '50',
-                    ],
+                    'type'  => 273,
+                    'value' => '?0',
+                ],
+                1 => [
+                    'type'  => 273,
+                    'value' => '?1',
+                ],
+                2 => [
+                    'type'  => 273,
+                    'value' => '?2',
+                ],
+            ],
+        ];
+        $actual   = Lang::parsePhql($source);
+        unset($actual['id']);
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-09
+     */
+    public function testMvcModelQueryPhqlInsertFieldsTrue(): void
+    {
+        $source   = "INSERT INTO Invoices (inv_title, inv_status_flag) VALUES ('New Invoice', TRUE)";
+        $expected = [
+            'type'          => 306,
+            'qualifiedName' => [
+                'type' => 355,
+                'name' => 'Invoices',
+            ],
+            'fields'        => [
+                0 => [
+                    'type' => 355,
+                    'name' => 'inv_title',
+                ],
+                1 => [
+                    'type' => 355,
+                    'name' => 'inv_status_flag',
+                ],
+            ],
+            'values'        => [
+                0 => [
+                    'type'  => 260,
+                    'value' => 'New Invoice',
+                ],
+                1 => [
+                    'type' => 334,
                 ],
             ],
         ];
@@ -447,44 +484,6 @@ final class CombinationTest extends AbstractUnitTestCase
                 1 => [
                     'type'  => 259,
                     'value' => '100.00',
-                ],
-            ],
-        ];
-        $actual   = Lang::parsePhql($source);
-        unset($actual['id']);
-        $this->assertSame($expected, $actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-09
-     */
-    public function testMvcModelQueryPhqlInsertFieldsTrue(): void
-    {
-        $source   = "INSERT INTO Invoices (inv_title, inv_status_flag) VALUES ('New Invoice', TRUE)";
-        $expected = [
-            'type'          => 306,
-            'qualifiedName' => [
-                'type' => 355,
-                'name' => 'Invoices',
-            ],
-            'fields'        => [
-                0 => [
-                    'type' => 355,
-                    'name' => 'inv_title',
-                ],
-                1 => [
-                    'type' => 355,
-                    'name' => 'inv_status_flag',
-                ],
-            ],
-            'values'        => [
-                0 => [
-                    'type'  => 260,
-                    'value' => 'New Invoice',
-                ],
-                1 => [
-                    'type' => 334,
                 ],
             ],
         ];

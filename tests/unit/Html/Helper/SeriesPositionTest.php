@@ -24,52 +24,6 @@ use Phalcon\Tests\AbstractUnitTestCase;
  */
 final class SeriesPositionTest extends AbstractUnitTestCase
 {
-    public function testStyleEntriesSortByPosition(): void
-    {
-        $style = new Style(new Escaper());
-        $style('    ', "\n");
-        $style->add('/late.css', [], 200);
-        $style->add('/early.css', [], 50);
-        $style->add('/mid.css', [], 100);
-
-        $rendered = (string) $style;
-
-        $earlyPos = strpos($rendered, '/early.css');
-        $midPos   = strpos($rendered, '/mid.css');
-        $latePos  = strpos($rendered, '/late.css');
-
-        $this->assertNotFalse($earlyPos);
-        $this->assertNotFalse($midPos);
-        $this->assertNotFalse($latePos);
-        $this->assertLessThan($midPos, $earlyPos);
-        $this->assertLessThan($latePos, $midPos);
-    }
-
-    public function testScriptAppendsPreservedWhenNoPosition(): void
-    {
-        $script = new Script(new Escaper());
-        $script('    ', "\n");
-        $script->add('/a.js');
-        $script->add('/b.js');
-
-        $rendered = (string) $script;
-        $this->assertLessThan(strpos($rendered, '/b.js'), strpos($rendered, '/a.js'));
-    }
-
-    public function testMixedPositionedAndAppendedEntries(): void
-    {
-        $script = new Script(new Escaper());
-        $script('    ', "\n");
-        $script->add('/append1.js');           // pos -1, key 0
-        $script->add('/positioned.js', [], 5); // pos 5
-        $script->add('/append2.js');           // pos -1, follows max+1 → key 6
-
-        $rendered = (string) $script;
-        // ksort order: 0 (append1), 5 (positioned), 6 (append2)
-        $this->assertLessThan(strpos($rendered, '/positioned.js'), strpos($rendered, '/append1.js'));
-        $this->assertLessThan(strpos($rendered, '/append2.js'), strpos($rendered, '/positioned.js'));
-    }
-
     public function testCollidingPositionsAdvancePastOccupiedSlots(): void
     {
         $style = new Style(new Escaper());
@@ -100,20 +54,29 @@ final class SeriesPositionTest extends AbstractUnitTestCase
         );
     }
 
-    public function testScriptBeginEndInternalCapturesContent(): void
+    public function testMixedPositionedAndAppendedEntries(): void
     {
         $script = new Script(new Escaper());
         $script('    ', "\n");
-
-        $script->beginInternal();
-        echo 'console.log("hi");';
-        $script->endInternal();
+        $script->add('/append1.js');           // pos -1, key 0
+        $script->add('/positioned.js', [], 5); // pos 5
+        $script->add('/append2.js');           // pos -1, follows max+1 → key 6
 
         $rendered = (string) $script;
+        // ksort order: 0 (append1), 5 (positioned), 6 (append2)
+        $this->assertLessThan(strpos($rendered, '/positioned.js'), strpos($rendered, '/append1.js'));
+        $this->assertLessThan(strpos($rendered, '/append2.js'), strpos($rendered, '/positioned.js'));
+    }
 
-        $this->assertStringContainsString('<script', $rendered);
-        $this->assertStringContainsString('console.log("hi");', $rendered);
-        $this->assertStringContainsString('</script>', $rendered);
+    public function testScriptAppendsPreservedWhenNoPosition(): void
+    {
+        $script = new Script(new Escaper());
+        $script('    ', "\n");
+        $script->add('/a.js');
+        $script->add('/b.js');
+
+        $rendered = (string) $script;
+        $this->assertLessThan(strpos($rendered, '/b.js'), strpos($rendered, '/a.js'));
     }
 
     public function testScriptBeginEndInternalAcceptsAttributesAndPosition(): void
@@ -136,5 +99,41 @@ final class SeriesPositionTest extends AbstractUnitTestCase
             strpos($rendered, '/late.js'),
             strpos($rendered, 'var x = 1;')
         );
+    }
+
+    public function testScriptBeginEndInternalCapturesContent(): void
+    {
+        $script = new Script(new Escaper());
+        $script('    ', "\n");
+
+        $script->beginInternal();
+        echo 'console.log("hi");';
+        $script->endInternal();
+
+        $rendered = (string) $script;
+
+        $this->assertStringContainsString('<script', $rendered);
+        $this->assertStringContainsString('console.log("hi");', $rendered);
+        $this->assertStringContainsString('</script>', $rendered);
+    }
+    public function testStyleEntriesSortByPosition(): void
+    {
+        $style = new Style(new Escaper());
+        $style('    ', "\n");
+        $style->add('/late.css', [], 200);
+        $style->add('/early.css', [], 50);
+        $style->add('/mid.css', [], 100);
+
+        $rendered = (string) $style;
+
+        $earlyPos = strpos($rendered, '/early.css');
+        $midPos   = strpos($rendered, '/mid.css');
+        $latePos  = strpos($rendered, '/late.css');
+
+        $this->assertNotFalse($earlyPos);
+        $this->assertNotFalse($midPos);
+        $this->assertNotFalse($latePos);
+        $this->assertLessThan($midPos, $earlyPos);
+        $this->assertLessThan($latePos, $midPos);
     }
 }

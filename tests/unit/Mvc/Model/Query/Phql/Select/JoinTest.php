@@ -20,92 +20,6 @@ final class JoinTest extends AbstractUnitTestCase
 {
     /**
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-10
-     */
-    public function testMvcModelQueryPhqlSelectInnerJoinOnComplexCondition(): void
-    {
-        $source   = "SELECT i.inv_id, c.name FROM Invoices AS i "
-            . "INNER JOIN Customers AS c "
-            . "ON (i.inv_cst_id = c.id AND i.inv_status_flag = 1)";
-        $expected = [
-            'type'   => 309,
-            'select' => [
-                'columns' => [
-                    0 => [
-                        'type'   => 354,
-                        'column' => [
-                            'type'   => 355,
-                            'domain' => 'i',
-                            'name'   => 'inv_id',
-                        ],
-                    ],
-                    1 => [
-                        'type'   => 354,
-                        'column' => [
-                            'type'   => 355,
-                            'domain' => 'c',
-                            'name'   => 'name',
-                        ],
-                    ],
-                ],
-                'tables'  => [
-                    'qualifiedName' => [
-                        'type' => 355,
-                        'name' => 'Invoices',
-                    ],
-                    'alias'         => 'i',
-                ],
-                'joins'   => [
-                    'type'       => 360,
-                    'qualified'  => [
-                        'type' => 355,
-                        'name' => 'Customers',
-                    ],
-                    'alias'      => [
-                        'type' => 355,
-                        'name' => 'c',
-                    ],
-                    'conditions' => [
-                        'type' => 356,
-                        'left' => [
-                            'type'  => 61,
-                            'left'  => [
-                                'type'  => 61,
-                                'left'  => [
-                                    'type'   => 355,
-                                    'domain' => 'i',
-                                    'name'   => 'inv_cst_id',
-                                ],
-                                'right' => [
-                                    'type'  => 266,
-                                    'left'  => [
-                                        'type'   => 355,
-                                        'domain' => 'c',
-                                        'name'   => 'id',
-                                    ],
-                                    'right' => [
-                                        'type'   => 355,
-                                        'domain' => 'i',
-                                        'name'   => 'inv_status_flag',
-                                    ],
-                                ],
-                            ],
-                            'right' => [
-                                'type'  => 258,
-                                'value' => '1',
-                            ],
-                        ],
-                    ],
-                ],
-            ],
-        ];
-        $actual   = Lang::parsePhql($source);
-        unset($actual['id']);
-        $this->assertSame($expected, $actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-09
      */
     public function testMvcModelQueryPhqlSelectCrossJoin(): void
@@ -351,6 +265,91 @@ final class JoinTest extends AbstractUnitTestCase
                             'type'   => 355,
                             'domain' => 'c',
                             'name'   => 'id',
+                        ],
+                    ],
+                ],
+            ],
+        ];
+        $actual   = Lang::parsePhql($source);
+        unset($actual['id']);
+        $this->assertSame($expected, $actual);
+    }
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-10
+     */
+    public function testMvcModelQueryPhqlSelectInnerJoinOnComplexCondition(): void
+    {
+        $source   = "SELECT i.inv_id, c.name FROM Invoices AS i "
+            . "INNER JOIN Customers AS c "
+            . "ON (i.inv_cst_id = c.id AND i.inv_status_flag = 1)";
+        $expected = [
+            'type'   => 309,
+            'select' => [
+                'columns' => [
+                    0 => [
+                        'type'   => 354,
+                        'column' => [
+                            'type'   => 355,
+                            'domain' => 'i',
+                            'name'   => 'inv_id',
+                        ],
+                    ],
+                    1 => [
+                        'type'   => 354,
+                        'column' => [
+                            'type'   => 355,
+                            'domain' => 'c',
+                            'name'   => 'name',
+                        ],
+                    ],
+                ],
+                'tables'  => [
+                    'qualifiedName' => [
+                        'type' => 355,
+                        'name' => 'Invoices',
+                    ],
+                    'alias'         => 'i',
+                ],
+                'joins'   => [
+                    'type'       => 360,
+                    'qualified'  => [
+                        'type' => 355,
+                        'name' => 'Customers',
+                    ],
+                    'alias'      => [
+                        'type' => 355,
+                        'name' => 'c',
+                    ],
+                    'conditions' => [
+                        'type' => 356,
+                        'left' => [
+                            'type'  => 61,
+                            'left'  => [
+                                'type'  => 61,
+                                'left'  => [
+                                    'type'   => 355,
+                                    'domain' => 'i',
+                                    'name'   => 'inv_cst_id',
+                                ],
+                                'right' => [
+                                    'type'  => 266,
+                                    'left'  => [
+                                        'type'   => 355,
+                                        'domain' => 'c',
+                                        'name'   => 'id',
+                                    ],
+                                    'right' => [
+                                        'type'   => 355,
+                                        'domain' => 'i',
+                                        'name'   => 'inv_status_flag',
+                                    ],
+                                ],
+                            ],
+                            'right' => [
+                                'type'  => 258,
+                                'value' => '1',
+                            ],
                         ],
                     ],
                 ],
