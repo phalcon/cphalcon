@@ -955,12 +955,14 @@ abstract class Dialect implements DialectInterface
      */
     final protected function getSqlExpressionCase(array! expression, string escapeChar = null, array! bindCounts = []) -> string
     {
-        var whenClause;
+        var whenClause, whenClauses;
         string sql;
 
         let sql = "CASE " . this->getSqlExpression(expression["expr"], escapeChar, bindCounts);
 
-        for whenClause in expression["when-clauses"] {
+        let whenClauses = array_values(expression["when-clauses"]);
+
+        for whenClause in whenClauses {
             if whenClause["type"] == "when" {
                 let sql .= " WHEN " .
                         this->getSqlExpression(whenClause["expr"], escapeChar, bindCounts) .
