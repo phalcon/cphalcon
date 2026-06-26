@@ -991,6 +991,8 @@
 #include "phalcon/mvc/model/exceptions/staticmethodrequiresoneargument.zep.h"
 #include "phalcon/mvc/model/exceptions/unknownrelationtype.zep.h"
 #include "phalcon/mvc/model/exceptions/updatesnapshotdisabled.zep.h"
+#include "phalcon/mvc/model/hydration/caseinsensitivecolumnmap.zep.h"
+#include "phalcon/mvc/model/hydration/cloneresultmaphydrate.zep.h"
 #include "phalcon/mvc/model/manager.zep.h"
 #include "phalcon/mvc/model/metadata/apcu.zep.h"
 #include "phalcon/mvc/model/metadata/exceptions/cannotobtaintablecolumns.zep.h"
