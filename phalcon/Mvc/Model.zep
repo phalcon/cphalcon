@@ -51,6 +51,7 @@ use Phalcon\Mvc\Model\Exceptions\RelationRequiresObjectOrArray;
 use Phalcon\Mvc\Model\Exceptions\SnapshotsDisabled;
 use Phalcon\Mvc\Model\Exceptions\StaticMethodRequiresOneArgument;
 use Phalcon\Mvc\Model\Exceptions\UpdateSnapshotDisabled;
+use Phalcon\Mvc\Model\Hydration\CloneResultMapHydrate;
 use Phalcon\Mvc\Model\ManagerInterface;
 use Phalcon\Mvc\Model\MetaDataInterface;
 use Phalcon\Mvc\Model\Query;
@@ -1273,66 +1274,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      */
     public static function cloneResultMapHydrate(array! data, var columnMap, int hydrationMode)
     {
-        var key, value, attribute, attributeName;
-        array hydrateArray;
-
-        /**
-         * If there is no column map and the hydration mode is arrays return the
-         * data as it is
-         */
-        if typeof columnMap !== "array" {
-            if hydrationMode == Resultset::HYDRATE_ARRAYS {
-                return data;
-            }
-        }
-
-        /**
-         * Create the destination object
-         */
-        let hydrateArray = [];
-
-        for key, value in data {
-            if typeof key !== "string" {
-                continue;
-            }
-
-            if typeof columnMap === "array" {
-                // Try to find case-insensitive key variant
-                if !isset columnMap[key] && Settings::get("orm.case_insensitive_column_map") {
-                    let key = self::caseInsensitiveColumnMap(columnMap, key);
-                }
-
-                /**
-                 * Every field must be part of the column map
-                 */
-                if !fetch attribute, columnMap[key] {
-                    if unlikely !Settings::get("orm.ignore_unknown_columns") {
-                        throw new ColumnNotInMap(key, get_called_class());
-                    }
-
-                    continue;
-                }
-
-                /**
-                 * Attribute can store info about his type
-                 */
-                if typeof attribute === "array" {
-                    let attributeName = attribute[0];
-                } else {
-                    let attributeName = attribute;
-                }
-
-                let hydrateArray[attributeName] = value;
-            } else {
-                let hydrateArray[key] = value;
-            }
-        }
-
-        if hydrationMode != Resultset::HYDRATE_ARRAYS {
-            return (object) hydrateArray;
-        }
-
-        return hydrateArray;
+        return CloneResultMapHydrate::cloneResultMapHydrate(data, columnMap, hydrationMode, get_called_class());
     }
 
     /**
