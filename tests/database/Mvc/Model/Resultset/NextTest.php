@@ -22,6 +22,13 @@ final class NextTest extends AbstractDatabaseTestCase
 {
     use ResultsetFixtureTrait;
 
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+        $this->seedResultsetFixture();
+    }
+
     /**
      * From row 0, next() advances a populated resultset to row 1; an empty
      * one stays invalid, so key() is null.
@@ -35,13 +42,6 @@ final class NextTest extends AbstractDatabaseTestCase
             'complex' => ['complex', 1],
             'empty'   => ['empty', null],
         ];
-    }
-
-    public function setUp(): void
-    {
-        $this->setNewFactoryDefault();
-        $this->setDatabase();
-        $this->seedResultsetFixture();
     }
 
     /**

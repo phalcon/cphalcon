@@ -39,6 +39,43 @@ final class GetSetQueryBuilderTest extends AbstractDatabaseTestCase
 
     /**
      * Tests Phalcon\Paginator\Adapter\QueryBuilderCursor ::
+     * getCursor() / setCursor()
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-14
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testPaginatorAdapterQuerybuilderCursorGetSetCursor(): void
+    {
+        $manager = $this->getService('modelsManager');
+        $builder = $manager
+            ->createBuilder()
+            ->from(Invoices::class)
+            ->orderBy('inv_id')
+        ;
+
+        $paginator = new QueryBuilderCursor(
+            [
+                'builder'      => $builder,
+                'limit'        => 5,
+                'cursorColumn' => 'inv_id',
+            ]
+        );
+
+        $this->assertNull($paginator->getCursor());
+
+        $result = $paginator->setCursor(42);
+        $this->assertSame(42, $paginator->getCursor());
+        $this->assertSame($paginator, $result);
+
+        $paginator->setCursor(null);
+        $this->assertNull($paginator->getCursor());
+    }
+
+    /**
+     * Tests Phalcon\Paginator\Adapter\QueryBuilderCursor ::
      * getQueryBuilder() / setQueryBuilder()
      *
      * @author Phalcon Team <team@phalcon.io>
@@ -77,42 +114,5 @@ final class GetSetQueryBuilderTest extends AbstractDatabaseTestCase
 
         $this->assertSame($builder2, $paginator->getQueryBuilder());
         $this->assertSame($paginator, $result);
-    }
-
-    /**
-     * Tests Phalcon\Paginator\Adapter\QueryBuilderCursor ::
-     * getCursor() / setCursor()
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-05-14
-     */
-    #[Group('mysql')]
-    #[Group('pgsql')]
-    #[Group('sqlite')]
-    public function testPaginatorAdapterQuerybuilderCursorGetSetCursor(): void
-    {
-        $manager = $this->getService('modelsManager');
-        $builder = $manager
-            ->createBuilder()
-            ->from(Invoices::class)
-            ->orderBy('inv_id')
-        ;
-
-        $paginator = new QueryBuilderCursor(
-            [
-                'builder'      => $builder,
-                'limit'        => 5,
-                'cursorColumn' => 'inv_id',
-            ]
-        );
-
-        $this->assertNull($paginator->getCursor());
-
-        $result = $paginator->setCursor(42);
-        $this->assertSame(42, $paginator->getCursor());
-        $this->assertSame($paginator, $result);
-
-        $paginator->setCursor(null);
-        $this->assertNull($paginator->getCursor());
     }
 }

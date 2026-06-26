@@ -23,6 +23,12 @@ final class ReadTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
 
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+    }
+
     /**
      * @return array[]
      */
@@ -35,12 +41,6 @@ final class ReadTest extends AbstractDatabaseTestCase
             ['metadataLibmemcached'],
             ['metadataStream'],
         ];
-    }
-
-    public function setUp(): void
-    {
-        $this->setNewFactoryDefault();
-        $this->setDatabase();
     }
 
     /**

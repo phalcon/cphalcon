@@ -20,32 +20,9 @@ use ReflectionClass;
 final class GetExpressionTest extends AbstractUnitTestCase
 {
     private int $PHQL_T_AND         = 266;
-    private int $PHQL_T_OR          = 267;
     private int $PHQL_T_BETWEEN     = 331;
     private int $PHQL_T_BETWEEN_NOT = 332;
-
-    /**
-     * @issue  https://github.com/phalcon/cphalcon/issues/16812
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-28
-     */
-    public function testMvcModelQueryGetExpressionNotBetween(): void
-    {
-        $expected = [
-            'type'  => 'binary-op',
-            'op'    => 'NOT BETWEEN',
-            'left'  => null,
-            'right' => null,
-        ];
-
-        $expr = ['type' => $this->PHQL_T_BETWEEN_NOT];
-
-        $query         = new Query();
-        $reflection    = new ReflectionClass(Query::class);
-        $getExpression = $reflection->getMethod('getExpression');
-
-        $this->assertSame($expected, $getExpression->invokeArgs($query, [$expr, false]));
-    }
+    private int $PHQL_T_OR          = 267;
 
     /**
      * @issue  https://github.com/phalcon/cphalcon/issues/15553
@@ -81,5 +58,28 @@ final class GetExpressionTest extends AbstractUnitTestCase
 
         $this->assertSame($valueOne, $getExpression->invokeArgs($query, [$oneExpr, false]));
         $this->assertSame($valueTwo, $getExpression->invokeArgs($query, [$twoExpr, false]));
+    }
+
+    /**
+     * @issue  https://github.com/phalcon/cphalcon/issues/16812
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-28
+     */
+    public function testMvcModelQueryGetExpressionNotBetween(): void
+    {
+        $expected = [
+            'type'  => 'binary-op',
+            'op'    => 'NOT BETWEEN',
+            'left'  => null,
+            'right' => null,
+        ];
+
+        $expr = ['type' => $this->PHQL_T_BETWEEN_NOT];
+
+        $query         = new Query();
+        $reflection    = new ReflectionClass(Query::class);
+        $getExpression = $reflection->getMethod('getExpression');
+
+        $this->assertSame($expected, $getExpression->invokeArgs($query, [$expr, false]));
     }
 }

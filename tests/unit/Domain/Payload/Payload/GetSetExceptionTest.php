@@ -14,8 +14,8 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Domain\Payload\Payload;
 
 use Phalcon\Domain\Payload\Payload;
-use RuntimeException;
 use Phalcon\Tests\AbstractUnitTestCase;
+use RuntimeException;
 
 final class GetSetExceptionTest extends AbstractUnitTestCase
 {

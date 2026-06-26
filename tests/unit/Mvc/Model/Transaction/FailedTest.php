@@ -23,11 +23,17 @@ final class FailedTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-06-06
      */
-    public function testGetRecordReturnsNullWhenNoRecord(): void
+    public function testGetRecordAndMessagesWithRecord(): void
     {
-        $failed = new Failed('transaction failed');
+        $messages = ['first', 'second'];
 
-        $this->assertNull($failed->getRecord());
+        $record = $this->createMock(ModelInterface::class);
+        $record->method('getMessages')->willReturn($messages);
+
+        $failed = new Failed('failed', $record);
+
+        $this->assertSame($record, $failed->getRecord());
+        $this->assertSame($messages, $failed->getRecordMessages());
     }
 
     /**
@@ -40,21 +46,14 @@ final class FailedTest extends AbstractUnitTestCase
 
         $this->assertSame('the failure message', $failed->getRecordMessages());
     }
-
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-06-06
      */
-    public function testGetRecordAndMessagesWithRecord(): void
+    public function testGetRecordReturnsNullWhenNoRecord(): void
     {
-        $messages = ['first', 'second'];
+        $failed = new Failed('transaction failed');
 
-        $record = $this->createMock(ModelInterface::class);
-        $record->method('getMessages')->willReturn($messages);
-
-        $failed = new Failed('failed', $record);
-
-        $this->assertSame($record, $failed->getRecord());
-        $this->assertSame($messages, $failed->getRecordMessages());
+        $this->assertNull($failed->getRecord());
     }
 }

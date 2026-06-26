@@ -14,8 +14,8 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Mvc\Micro\Collection;
 
 use Phalcon\Mvc\Micro\Collection;
-use Phalcon\Tests\Support\Micro\HttpMethodHandler;
 use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Tests\Support\Micro\HttpMethodHandler;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 class IsLazyTest extends AbstractUnitTestCase

@@ -29,43 +29,6 @@ final class CacheTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-10
      */
-    public function testMvcViewEngineVoltParserCacheSimple(): void
-    {
-        $source   = '{% cache \'sidebar\' %}{{ content }}{% endcache %}';
-        $expected = [
-            [
-                'type' => 314,
-                'expr' => [
-                    'type' => 260,
-                    'value' => 'sidebar',
-                    'file' => 'eval code',
-                    'line' => 1,
-                ],
-                'block_statements' => [
-                    [
-                        'type' => 359,
-                        'expr' => [
-                            'type' => 265,
-                            'value' => 'content',
-                            'file' => 'eval code',
-                            'line' => 1,
-                        ],
-                        'file' => 'eval code',
-                        'line' => 1,
-                    ],
-                ],
-                'file' => 'eval code',
-                'line' => 1,
-            ],
-        ];
-        $actual   = $this->compiler->parse($source);
-        $this->assertSame($expected, $actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-10
-     */
     public function testMvcViewEngineVoltParserCacheLifetimeInt(): void
     {
         $source   = '{% cache \'sidebar\' 3600 %}{{ content }}{% endcache %}';
@@ -124,6 +87,43 @@ final class CacheTest extends AbstractUnitTestCase
                 'lifetime' => [
                     'type' => 265,
                     'value' => 'lifetime',
+                    'file' => 'eval code',
+                    'line' => 1,
+                ],
+                'block_statements' => [
+                    [
+                        'type' => 359,
+                        'expr' => [
+                            'type' => 265,
+                            'value' => 'content',
+                            'file' => 'eval code',
+                            'line' => 1,
+                        ],
+                        'file' => 'eval code',
+                        'line' => 1,
+                    ],
+                ],
+                'file' => 'eval code',
+                'line' => 1,
+            ],
+        ];
+        $actual   = $this->compiler->parse($source);
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-10
+     */
+    public function testMvcViewEngineVoltParserCacheSimple(): void
+    {
+        $source   = '{% cache \'sidebar\' %}{{ content }}{% endcache %}';
+        $expected = [
+            [
+                'type' => 314,
+                'expr' => [
+                    'type' => 260,
+                    'value' => 'sidebar',
                     'file' => 'eval code',
                     'line' => 1,
                 ],

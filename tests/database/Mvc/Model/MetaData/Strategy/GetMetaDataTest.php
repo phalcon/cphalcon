@@ -28,6 +28,20 @@ final class GetMetaDataTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
 
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+
+        // The Introspection strategy reads the live table schema.
+        new InvoicesMigration(self::getConnection());
+    }
+
+    public function tearDown(): void
+    {
+        $this->tearDownDatabase();
+    }
+
     /**
      * Both strategies expose the same metadata contract: the Introspection
      * strategy reads it from the live table schema, the Annotations strategy
@@ -55,20 +69,6 @@ final class GetMetaDataTest extends AbstractDatabaseTestCase
                 'id',
             ],
         ];
-    }
-
-    public function setUp(): void
-    {
-        $this->setNewFactoryDefault();
-        $this->setDatabase();
-
-        // The Introspection strategy reads the live table schema.
-        new InvoicesMigration(self::getConnection());
-    }
-
-    public function tearDown(): void
-    {
-        $this->tearDownDatabase();
     }
 
     /**

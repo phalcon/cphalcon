@@ -18,20 +18,15 @@ use Phalcon\Tests\AbstractUnitTestCase;
 
 final class RadioGroupTest extends AbstractUnitTestCase
 {
-    private function factory(): TagFactory
-    {
-        return new TagFactory(new Escaper());
-    }
-
     // -----------------------------------------------------------------------
-    // Constructor - no bracket appending for radio
+    // Attributes
     // -----------------------------------------------------------------------
 
-    public function testConstructorDoesNotAppendBrackets(): void
+    public function testConstructorAcceptsAttributes(): void
     {
-        $element = new RadioGroup('gender');
+        $element = new RadioGroup('gender', [], ['class' => 'radio-group']);
 
-        $this->assertSame('gender', $element->getName());
+        $this->assertSame(['class' => 'radio-group'], $element->getAttributes());
     }
 
     // -----------------------------------------------------------------------
@@ -46,31 +41,28 @@ final class RadioGroupTest extends AbstractUnitTestCase
         $this->assertSame($options, $element->getOptions());
     }
 
-    public function testSetOptionsReplacesOptions(): void
-    {
-        $element = new RadioGroup('gender', ['m' => 'Male']);
-        $element->setOptions(['m' => 'Male', 'f' => 'Female', 'o' => 'Other']);
+    // -----------------------------------------------------------------------
+    // Constructor - no bracket appending for radio
+    // -----------------------------------------------------------------------
 
-        $this->assertCount(3, $element->getOptions());
-    }
-
-    public function testSetOptionsReturnsElementInterface(): void
+    public function testConstructorDoesNotAppendBrackets(): void
     {
         $element = new RadioGroup('gender');
-        $result  = $element->setOptions(['m' => 'Male']);
 
-        $this->assertSame($element, $result);
+        $this->assertSame('gender', $element->getName());
     }
 
-    // -----------------------------------------------------------------------
-    // Attributes
-    // -----------------------------------------------------------------------
-
-    public function testConstructorAcceptsAttributes(): void
+    public function testRenderChecksDefaultValue(): void
     {
-        $element = new RadioGroup('gender', [], ['class' => 'radio-group']);
+        $element = new RadioGroup('gender', ['m' => 'Male', 'f' => 'Female']);
+        $element->setTagFactory($this->factory());
+        $element->setDefault('m');
 
-        $this->assertSame(['class' => 'radio-group'], $element->getAttributes());
+        $rendered = $element->render();
+        $lines    = explode(PHP_EOL, $rendered);
+
+        $this->assertStringContainsString('checked="checked"', $lines[0]);
+        $this->assertStringNotContainsString('checked', $lines[1]);
     }
 
     // -----------------------------------------------------------------------
@@ -92,27 +84,6 @@ final class RadioGroupTest extends AbstractUnitTestCase
         $this->assertStringContainsString('>Female</label>', $rendered);
     }
 
-    public function testRenderChecksDefaultValue(): void
-    {
-        $element = new RadioGroup('gender', ['m' => 'Male', 'f' => 'Female']);
-        $element->setTagFactory($this->factory());
-        $element->setDefault('m');
-
-        $rendered = $element->render();
-        $lines    = explode(PHP_EOL, $rendered);
-
-        $this->assertStringContainsString('checked="checked"', $lines[0]);
-        $this->assertStringNotContainsString('checked', $lines[1]);
-    }
-
-    public function testRenderWithNoDefaultHasNoChecked(): void
-    {
-        $element = new RadioGroup('gender', ['m' => 'Male', 'f' => 'Female']);
-        $element->setTagFactory($this->factory());
-
-        $this->assertStringNotContainsString('checked', $element->render());
-    }
-
     public function testRenderWithExtraAttributesMergesCorrectly(): void
     {
         $element = new RadioGroup('gender', ['m' => 'Male']);
@@ -123,11 +94,39 @@ final class RadioGroupTest extends AbstractUnitTestCase
         $this->assertStringContainsString('class="my-radio"', $rendered);
     }
 
+    public function testRenderWithNoDefaultHasNoChecked(): void
+    {
+        $element = new RadioGroup('gender', ['m' => 'Male', 'f' => 'Female']);
+        $element->setTagFactory($this->factory());
+
+        $this->assertStringNotContainsString('checked', $element->render());
+    }
+
+    public function testSetOptionsReplacesOptions(): void
+    {
+        $element = new RadioGroup('gender', ['m' => 'Male']);
+        $element->setOptions(['m' => 'Male', 'f' => 'Female', 'o' => 'Other']);
+
+        $this->assertCount(3, $element->getOptions());
+    }
+
+    public function testSetOptionsReturnsElementInterface(): void
+    {
+        $element = new RadioGroup('gender');
+        $result  = $element->setOptions(['m' => 'Male']);
+
+        $this->assertSame($element, $result);
+    }
+
     public function testToStringEqualsRender(): void
     {
         $element = new RadioGroup('gender', ['m' => 'Male']);
         $element->setTagFactory($this->factory());
 
         $this->assertSame($element->render(), (string) $element);
+    }
+    private function factory(): TagFactory
+    {
+        return new TagFactory(new Escaper());
     }
 }

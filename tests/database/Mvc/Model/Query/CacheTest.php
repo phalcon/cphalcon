@@ -30,6 +30,12 @@ final class CacheTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
 
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+    }
+
     /**
      * @return string[][]
      */
@@ -49,12 +55,6 @@ final class CacheTest extends AbstractDatabaseTestCase
                 'Php',
             ],
         ];
-    }
-
-    public function setUp(): void
-    {
-        $this->setNewFactoryDefault();
-        $this->setDatabase();
     }
 
     /**

@@ -29,19 +29,19 @@ final class AutoescapeTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-10
      */
-    public function testMvcViewEngineVoltParserAutoescapeTrue(): void
+    public function testMvcViewEngineVoltParserAutoescapeFalse(): void
     {
-        $source   = '{% autoescape true %}{{ name }}{% endautoescape %}';
+        $source   = '{% autoescape false %}{{ html }}{% endautoescape %}';
         $expected = [
             [
                 'type' => 317,
-                'enable' => 1,
+                'enable' => 0,
                 'block_statements' => [
                     [
                         'type' => 359,
                         'expr' => [
                             'type' => 265,
-                            'value' => 'name',
+                            'value' => 'html',
                             'file' => 'eval code',
                             'line' => 1,
                         ],
@@ -61,19 +61,19 @@ final class AutoescapeTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-10
      */
-    public function testMvcViewEngineVoltParserAutoescapeFalse(): void
+    public function testMvcViewEngineVoltParserAutoescapeTrue(): void
     {
-        $source   = '{% autoescape false %}{{ html }}{% endautoescape %}';
+        $source   = '{% autoescape true %}{{ name }}{% endautoescape %}';
         $expected = [
             [
                 'type' => 317,
-                'enable' => 0,
+                'enable' => 1,
                 'block_statements' => [
                     [
                         'type' => 359,
                         'expr' => [
                             'type' => 265,
-                            'value' => 'html',
+                            'value' => 'name',
                             'file' => 'eval code',
                             'line' => 1,
                         ],

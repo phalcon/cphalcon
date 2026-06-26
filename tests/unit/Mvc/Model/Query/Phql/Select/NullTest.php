@@ -22,41 +22,6 @@ final class NullTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-09
      */
-    public function testMvcModelQueryPhqlSelectWhereIsNull(): void
-    {
-        $source   = "SELECT * FROM Invoices WHERE inv_title IS NULL";
-        $expected = [
-            'type'   => 309,
-            'select' => [
-                'columns' => [
-                    0 => [
-                        'type' => 352,
-                    ],
-                ],
-                'tables'  => [
-                    'qualifiedName' => [
-                        'type' => 355,
-                        'name' => 'Invoices',
-                    ],
-                ],
-            ],
-            'where'  => [
-                'type' => 365,
-                'left' => [
-                    'type' => 355,
-                    'name' => 'inv_title',
-                ],
-            ],
-        ];
-        $actual   = Lang::parsePhql($source);
-        unset($actual['id']);
-        $this->assertSame($expected, $actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-09
-     */
     public function testMvcModelQueryPhqlSelectWhereIsNotNull(): void
     {
         $source   = "SELECT * FROM Invoices WHERE inv_title IS NOT NULL";
@@ -77,6 +42,40 @@ final class NullTest extends AbstractUnitTestCase
             ],
             'where'  => [
                 'type' => 366,
+                'left' => [
+                    'type' => 355,
+                    'name' => 'inv_title',
+                ],
+            ],
+        ];
+        $actual   = Lang::parsePhql($source);
+        unset($actual['id']);
+        $this->assertSame($expected, $actual);
+    }
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-09
+     */
+    public function testMvcModelQueryPhqlSelectWhereIsNull(): void
+    {
+        $source   = "SELECT * FROM Invoices WHERE inv_title IS NULL";
+        $expected = [
+            'type'   => 309,
+            'select' => [
+                'columns' => [
+                    0 => [
+                        'type' => 352,
+                    ],
+                ],
+                'tables'  => [
+                    'qualifiedName' => [
+                        'type' => 355,
+                        'name' => 'Invoices',
+                    ],
+                ],
+            ],
+            'where'  => [
+                'type' => 365,
                 'left' => [
                     'type' => 355,
                     'name' => 'inv_title',

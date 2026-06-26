@@ -30,6 +30,23 @@ final class CloneResultMapTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
 
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+
+        /** @var PDO $connection */
+        $connection = self::getConnection();
+        (new InvoicesMigration($connection));
+    }
+
+    public function tearDown(): void
+    {
+        Settings::reset();
+
+        parent::tearDown();
+    }
+
     /**
      * @return array
      */
@@ -53,23 +70,6 @@ final class CloneResultMapTest extends AbstractDatabaseTestCase
                 '2020-10-05 20:43',
             ],
         ];
-    }
-
-    public function setUp(): void
-    {
-        $this->setNewFactoryDefault();
-        $this->setDatabase();
-
-        /** @var PDO $connection */
-        $connection = self::getConnection();
-        (new InvoicesMigration($connection));
-    }
-
-    public function tearDown(): void
-    {
-        Settings::reset();
-
-        parent::tearDown();
     }
 
     /**

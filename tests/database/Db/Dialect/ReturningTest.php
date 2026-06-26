@@ -23,6 +23,45 @@ use PHPUnit\Framework\Attributes\Group;
 final class ReturningTest extends AbstractDatabaseTestCase
 {
     /**
+     * MySQL - throws (no RETURNING construct).
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-15
+     */
+    #[Group('mysql')]
+    public function testDbDialectMysqlReturningThrows(): void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage(
+            'RETURNING clauses are not supported by this dialect'
+        );
+
+        (new Mysql())->returning(
+            "INSERT INTO robots (name) VALUES ('R2D2')",
+            ['id']
+        );
+    }
+
+    /**
+     * PostgreSQL - empty columns array throws.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-15
+     */
+    #[Group('pgsql')]
+    public function testDbDialectPostgresqlReturningEmptyThrows(): void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage(
+            "RETURNING requires at least one column or '*'"
+        );
+
+        (new Postgresql())->returning(
+            "INSERT INTO robots (name) VALUES ('R2D2')",
+            []
+        );
+    }
+    /**
      * PostgreSQL - RETURNING list.
      *
      * @author Phalcon Team <team@phalcon.io>
@@ -79,46 +118,6 @@ final class ReturningTest extends AbstractDatabaseTestCase
                 "INSERT INTO robots (name) VALUES ('R2D2')",
                 ['id']
             )
-        );
-    }
-
-    /**
-     * MySQL - throws (no RETURNING construct).
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-05-15
-     */
-    #[Group('mysql')]
-    public function testDbDialectMysqlReturningThrows(): void
-    {
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage(
-            'RETURNING clauses are not supported by this dialect'
-        );
-
-        (new Mysql())->returning(
-            "INSERT INTO robots (name) VALUES ('R2D2')",
-            ['id']
-        );
-    }
-
-    /**
-     * PostgreSQL - empty columns array throws.
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-05-15
-     */
-    #[Group('pgsql')]
-    public function testDbDialectPostgresqlReturningEmptyThrows(): void
-    {
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage(
-            "RETURNING requires at least one column or '*'"
-        );
-
-        (new Postgresql())->returning(
-            "INSERT INTO robots (name) VALUES ('R2D2')",
-            []
         );
     }
 }

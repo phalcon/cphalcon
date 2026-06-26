@@ -60,33 +60,6 @@ final class UnderscoreInvokeTest extends AbstractUnitTestCase
     }
 
     /**
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2026-04-17
-     */
-    #[DataProvider('getExamples')]
-    public function testHtmlHelperPreloadUnderscoreInvoke(
-        string $expected,
-        string $href,
-        string $type,
-        array $attributes
-    ): void {
-        $escaper = new Escaper();
-        $helper  = new Preload($escaper);
-
-        $actual = $helper($href, $type, $attributes);
-        $this->assertSame($expected, $actual);
-
-        $factory = new TagFactory($escaper);
-        $locator = $factory->newInstance('preload');
-        $actual  = $locator($href, $type, $attributes);
-        $this->assertSame($expected, $actual);
-
-        $factory = new TagFactory($escaper);
-        $actual  = $factory->preload($href, $type, $attributes);
-        $this->assertSame($expected, $actual);
-    }
-
-    /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-17
      */
@@ -126,5 +99,32 @@ final class UnderscoreInvokeTest extends AbstractUnitTestCase
         $actual  = $factory->preload('/my-style.css', 'style');
 
         $this->assertSame('<link rel="preload" href="/my-style.css" as="style" />', $actual);
+    }
+
+    /**
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2026-04-17
+     */
+    #[DataProvider('getExamples')]
+    public function testHtmlHelperPreloadUnderscoreInvoke(
+        string $expected,
+        string $href,
+        string $type,
+        array $attributes
+    ): void {
+        $escaper = new Escaper();
+        $helper  = new Preload($escaper);
+
+        $actual = $helper($href, $type, $attributes);
+        $this->assertSame($expected, $actual);
+
+        $factory = new TagFactory($escaper);
+        $locator = $factory->newInstance('preload');
+        $actual  = $locator($href, $type, $attributes);
+        $this->assertSame($expected, $actual);
+
+        $factory = new TagFactory($escaper);
+        $actual  = $factory->preload($href, $type, $attributes);
+        $this->assertSame($expected, $actual);
     }
 }

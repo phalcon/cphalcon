@@ -27,6 +27,23 @@ final class IteratorTest extends AbstractUnitTestCase
         $this->setDiService('url');
     }
 
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    public function testFormsFormCurrentReturnsFalseWhenOutOfBounds(): void
+    {
+        $form = new Form();
+        $form->add(new Text('name'));
+        $form->rewind();
+
+        // Advance beyond end
+        $form->next();
+
+        $actual = $form->current();
+        $this->assertFalse($actual);
+    }
+
     public function testIterator(): void
     {
         $form = new Form();
@@ -60,22 +77,5 @@ final class IteratorTest extends AbstractUnitTestCase
         ];
 
         $this->assertEquals($expected, $data);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2024-01-01
-     */
-    public function testFormsFormCurrentReturnsFalseWhenOutOfBounds(): void
-    {
-        $form = new Form();
-        $form->add(new Text('name'));
-        $form->rewind();
-
-        // Advance beyond end
-        $form->next();
-
-        $actual = $form->current();
-        $this->assertFalse($actual);
     }
 }

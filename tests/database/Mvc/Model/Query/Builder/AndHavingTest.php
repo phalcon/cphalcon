@@ -25,6 +25,12 @@ final class AndHavingTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
 
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+    }
+
     /**
      * andHaving()/orHaving() nest the new condition onto the current HAVING
      * clause with the matching glue.
@@ -37,12 +43,6 @@ final class AndHavingTest extends AbstractDatabaseTestCase
             'andHaving' => ['andHaving', 'AND'],
             'orHaving'  => ['orHaving', 'OR'],
         ];
-    }
-
-    public function setUp(): void
-    {
-        $this->setNewFactoryDefault();
-        $this->setDatabase();
     }
 
     /**

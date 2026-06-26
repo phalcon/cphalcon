@@ -53,6 +53,27 @@ final class ParsePHQLTest extends AbstractUnitTestCase
     }
 
     /**
+     * A second, independent minimal collision pair, easier to verify than the
+     * 47-character id from the issue. 'B0' and 'AQ' collide under DJBX33A:
+     * 33 * 66 + 48 == 33 * 65 + 81.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-05
+     * @issue  https://github.com/phalcon/cphalcon/issues/14791
+     */
+    public function testMvcModelQueryLangParsePHQLCacheCollisionMinimal(): void
+    {
+        $phql1 = "SELECT * FROM Robots WHERE name = 'B0'";
+        $phql2 = "SELECT * FROM Robots WHERE name = 'AQ'";
+
+        $ast1 = Lang::parsePHQL($phql1);
+        $ast2 = Lang::parsePHQL($phql2);
+
+        $this->assertSame('B0', $ast1['where']['right']['value']);
+        $this->assertSame('AQ', $ast2['where']['right']['value']);
+    }
+
+    /**
      * The colliding query parsed second must keep its own value regardless of
      * parse order - the bug poisons whichever query populates the cache first.
      * 'qB' and 'pc' collide under DJBX33A: 33 * 113 + 66 == 33 * 112 + 99.
@@ -72,27 +93,6 @@ final class ParsePHQLTest extends AbstractUnitTestCase
 
         $this->assertSame('pc', $ast2['where']['right']['value']);
         $this->assertSame('qB', $ast1['where']['right']['value']);
-    }
-
-    /**
-     * A second, independent minimal collision pair, easier to verify than the
-     * 47-character id from the issue. 'B0' and 'AQ' collide under DJBX33A:
-     * 33 * 66 + 48 == 33 * 65 + 81.
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-06-05
-     * @issue  https://github.com/phalcon/cphalcon/issues/14791
-     */
-    public function testMvcModelQueryLangParsePHQLCacheCollisionMinimal(): void
-    {
-        $phql1 = "SELECT * FROM Robots WHERE name = 'B0'";
-        $phql2 = "SELECT * FROM Robots WHERE name = 'AQ'";
-
-        $ast1 = Lang::parsePHQL($phql1);
-        $ast2 = Lang::parsePHQL($phql2);
-
-        $this->assertSame('B0', $ast1['where']['right']['value']);
-        $this->assertSame('AQ', $ast2['where']['right']['value']);
     }
 
     /**

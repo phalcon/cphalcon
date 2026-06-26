@@ -20,44 +20,15 @@ use const PHP_EOL;
 
 final class CheckboxGroupTest extends AbstractUnitTestCase
 {
-    private function helper(): CheckboxGroup
-    {
-        return new CheckboxGroup(new Escaper(), new Doctype());
-    }
-
-    // -----------------------------------------------------------------------
-    // Basic rendering
-    // -----------------------------------------------------------------------
-
-    public function testRendersStringLabelOptions(): void
+    public function testAutoGeneratesIdForArrayName(): void
     {
         $helper = $this->helper();
-        $result = $helper(
-            'color',
-            ['red' => 'Red', 'blue' => 'Blue'],
-        );
+        $result = $helper('tags[]', ['php' => 'PHP']);
 
         $rendered = (string) $result;
 
-        $this->assertStringContainsString('type="checkbox"', $rendered);
-        $this->assertStringContainsString('name="color"', $rendered);
-        $this->assertStringContainsString('value="red"', $rendered);
-        $this->assertStringContainsString('value="blue"', $rendered);
-        $this->assertStringContainsString('>Red</label>', $rendered);
-        $this->assertStringContainsString('>Blue</label>', $rendered);
-    }
-
-    public function testRendersRichDefinitionOptions(): void
-    {
-        $helper = $this->helper();
-        $result = $helper(
-            'color',
-            ['red' => ['label' => 'Red Color']],
-        );
-
-        $rendered = (string) $result;
-
-        $this->assertStringContainsString('>Red Color</label>', $rendered);
+        $this->assertStringContainsString('id="tags_php"', $rendered);
+        $this->assertStringContainsString('for="tags_php"', $rendered);
     }
 
     public function testAutoGeneratesIdFromNameAndValue(): void
@@ -71,15 +42,56 @@ final class CheckboxGroupTest extends AbstractUnitTestCase
         $this->assertStringContainsString('for="my_field_opt1"', $rendered);
     }
 
-    public function testAutoGeneratesIdForArrayName(): void
+    public function testEmptyArrayCheckedRendersNoCheckedAttr(): void
     {
         $helper = $this->helper();
-        $result = $helper('tags[]', ['php' => 'PHP']);
+        $result = $helper('colors', ['red' => 'Red'], []);
 
         $rendered = (string) $result;
 
-        $this->assertStringContainsString('id="tags_php"', $rendered);
-        $this->assertStringContainsString('for="tags_php"', $rendered);
+        $this->assertStringNotContainsString('checked', $rendered);
+    }
+
+    // -----------------------------------------------------------------------
+    // Empty options
+    // -----------------------------------------------------------------------
+
+    public function testEmptyOptionsRendersEmptyString(): void
+    {
+        $helper = $this->helper();
+        $result = $helper('x', []);
+
+        $this->assertSame('', (string) $result);
+    }
+
+    // -----------------------------------------------------------------------
+    // Output structure: items separated by PHP_EOL
+    // -----------------------------------------------------------------------
+
+    public function testItemsSeparatedByNewline(): void
+    {
+        $helper = $this->helper();
+        $result = $helper('x', ['a' => 'A', 'b' => 'B', 'c' => 'C']);
+
+        $rendered = (string) $result;
+        $lines    = explode(PHP_EOL, $rendered);
+
+        $this->assertCount(3, $lines);
+    }
+
+    // -----------------------------------------------------------------------
+    // HTML escaping
+    // -----------------------------------------------------------------------
+
+    public function testLabelTextIsEscaped(): void
+    {
+        $helper = $this->helper();
+        $result = $helper('x', ['val' => '<b>Bold</b>']);
+
+        $rendered = (string) $result;
+
+        $this->assertStringNotContainsString('<b>', $rendered);
+        $this->assertStringContainsString('&lt;b&gt;', $rendered);
     }
 
     // -----------------------------------------------------------------------
@@ -110,22 +122,6 @@ final class CheckboxGroupTest extends AbstractUnitTestCase
         $this->assertStringContainsString('checked="checked"', $lines[2]);
     }
 
-    public function testSingleScalarCheckedTreatedAsOneElementArray(): void
-    {
-        $helper = $this->helper();
-        $result = $helper(
-            'colors',
-            ['red' => 'Red', 'blue' => 'Blue'],
-            'red',
-        );
-
-        $rendered = (string) $result;
-        $lines    = explode(PHP_EOL, $rendered);
-
-        $this->assertStringContainsString('checked="checked"', $lines[0]);
-        $this->assertStringNotContainsString('checked', $lines[1]);
-    }
-
     public function testNullCheckedRendersNoCheckedAttr(): void
     {
         $helper = $this->helper();
@@ -134,40 +130,6 @@ final class CheckboxGroupTest extends AbstractUnitTestCase
         $rendered = (string) $result;
 
         $this->assertStringNotContainsString('checked', $rendered);
-    }
-
-    public function testEmptyArrayCheckedRendersNoCheckedAttr(): void
-    {
-        $helper = $this->helper();
-        $result = $helper('colors', ['red' => 'Red'], []);
-
-        $rendered = (string) $result;
-
-        $this->assertStringNotContainsString('checked', $rendered);
-    }
-
-    // -----------------------------------------------------------------------
-    // Shared attributes
-    // -----------------------------------------------------------------------
-
-    public function testSharedAttributesAppliedToAllInputs(): void
-    {
-        $helper = $this->helper();
-        $result = $helper(
-            'colors',
-            ['red' => 'Red', 'blue' => 'Blue'],
-            null,
-            ['class' => 'chk'],
-        );
-
-        $rendered = (string) $result;
-        $lines    = explode(PHP_EOL, $rendered);
-
-        foreach ($lines as $line) {
-            if (str_contains($line, '<input')) {
-                $this->assertStringContainsString('class="chk"', $line);
-            }
-        }
     }
 
     // -----------------------------------------------------------------------
@@ -203,6 +165,81 @@ final class CheckboxGroupTest extends AbstractUnitTestCase
         $this->assertStringContainsString('for="my-red"', $rendered);
     }
 
+    public function testRendersRichDefinitionOptions(): void
+    {
+        $helper = $this->helper();
+        $result = $helper(
+            'color',
+            ['red' => ['label' => 'Red Color']],
+        );
+
+        $rendered = (string) $result;
+
+        $this->assertStringContainsString('>Red Color</label>', $rendered);
+    }
+
+    // -----------------------------------------------------------------------
+    // Basic rendering
+    // -----------------------------------------------------------------------
+
+    public function testRendersStringLabelOptions(): void
+    {
+        $helper = $this->helper();
+        $result = $helper(
+            'color',
+            ['red' => 'Red', 'blue' => 'Blue'],
+        );
+
+        $rendered = (string) $result;
+
+        $this->assertStringContainsString('type="checkbox"', $rendered);
+        $this->assertStringContainsString('name="color"', $rendered);
+        $this->assertStringContainsString('value="red"', $rendered);
+        $this->assertStringContainsString('value="blue"', $rendered);
+        $this->assertStringContainsString('>Red</label>', $rendered);
+        $this->assertStringContainsString('>Blue</label>', $rendered);
+    }
+
+    // -----------------------------------------------------------------------
+    // Shared attributes
+    // -----------------------------------------------------------------------
+
+    public function testSharedAttributesAppliedToAllInputs(): void
+    {
+        $helper = $this->helper();
+        $result = $helper(
+            'colors',
+            ['red' => 'Red', 'blue' => 'Blue'],
+            null,
+            ['class' => 'chk'],
+        );
+
+        $rendered = (string) $result;
+        $lines    = explode(PHP_EOL, $rendered);
+
+        foreach ($lines as $line) {
+            if (str_contains($line, '<input')) {
+                $this->assertStringContainsString('class="chk"', $line);
+            }
+        }
+    }
+
+    public function testSingleScalarCheckedTreatedAsOneElementArray(): void
+    {
+        $helper = $this->helper();
+        $result = $helper(
+            'colors',
+            ['red' => 'Red', 'blue' => 'Blue'],
+            'red',
+        );
+
+        $rendered = (string) $result;
+        $lines    = explode(PHP_EOL, $rendered);
+
+        $this->assertStringContainsString('checked="checked"', $lines[0]);
+        $this->assertStringNotContainsString('checked', $lines[1]);
+    }
+
     // -----------------------------------------------------------------------
     // State reset between invocations
     // -----------------------------------------------------------------------
@@ -222,46 +259,8 @@ final class CheckboxGroupTest extends AbstractUnitTestCase
         $this->assertStringNotContainsString('name="colors"', $rendered2);
         $this->assertStringNotContainsString('checked', $rendered2);
     }
-
-    // -----------------------------------------------------------------------
-    // Output structure: items separated by PHP_EOL
-    // -----------------------------------------------------------------------
-
-    public function testItemsSeparatedByNewline(): void
+    private function helper(): CheckboxGroup
     {
-        $helper = $this->helper();
-        $result = $helper('x', ['a' => 'A', 'b' => 'B', 'c' => 'C']);
-
-        $rendered = (string) $result;
-        $lines    = explode(PHP_EOL, $rendered);
-
-        $this->assertCount(3, $lines);
-    }
-
-    // -----------------------------------------------------------------------
-    // Empty options
-    // -----------------------------------------------------------------------
-
-    public function testEmptyOptionsRendersEmptyString(): void
-    {
-        $helper = $this->helper();
-        $result = $helper('x', []);
-
-        $this->assertSame('', (string) $result);
-    }
-
-    // -----------------------------------------------------------------------
-    // HTML escaping
-    // -----------------------------------------------------------------------
-
-    public function testLabelTextIsEscaped(): void
-    {
-        $helper = $this->helper();
-        $result = $helper('x', ['val' => '<b>Bold</b>']);
-
-        $rendered = (string) $result;
-
-        $this->assertStringNotContainsString('<b>', $rendered);
-        $this->assertStringContainsString('&lt;b&gt;', $rendered);
+        return new CheckboxGroup(new Escaper(), new Doctype());
     }
 }

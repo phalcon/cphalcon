@@ -23,6 +23,13 @@ final class GetTypeTest extends AbstractDatabaseTestCase
 {
     use ResultsetFixtureTrait;
 
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+        $this->seedResultsetFixture();
+    }
+
     /**
      * A populated resultset streams rows one-by-one (PARTIAL); an empty one
      * holds its rows in memory as an array (FULL).
@@ -36,13 +43,6 @@ final class GetTypeTest extends AbstractDatabaseTestCase
             'complex' => ['complex', Resultset::TYPE_RESULT_PARTIAL],
             'empty'   => ['empty', Resultset::TYPE_RESULT_FULL],
         ];
-    }
-
-    public function setUp(): void
-    {
-        $this->setNewFactoryDefault();
-        $this->setDatabase();
-        $this->seedResultsetFixture();
     }
 
     /**

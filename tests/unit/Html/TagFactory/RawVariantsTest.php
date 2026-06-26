@@ -61,6 +61,31 @@ final class RawVariantsTest extends AbstractUnitTestCase
         );
     }
 
+    public function testInjectAttributeStripsUserDuplicate(): void
+    {
+        $factory = new TagFactory(new Escaper());
+
+        // user supplies a duplicate href; the positional href must win
+        $rendered = $factory->a(
+            '/correct',
+            'go',
+            ['href' => '/wrong']
+        );
+
+        $this->assertStringContainsString('href="/correct"', $rendered);
+        $this->assertStringNotContainsString('/wrong', $rendered);
+    }
+
+    public function testInjectAttributeStripsUserDuplicateForImg(): void
+    {
+        $factory = new TagFactory(new Escaper());
+
+        $rendered = $factory->img('/correct.png', ['src' => '/wrong.png']);
+
+        $this->assertStringContainsString('src="/correct.png"', $rendered);
+        $this->assertStringNotContainsString('/wrong.png', $rendered);
+    }
+
     public function testLabelRawDoesNotEscape(): void
     {
         $factory = new TagFactory(new Escaper());
@@ -96,30 +121,5 @@ final class RawVariantsTest extends AbstractUnitTestCase
         $rendered = (string) $ulRaw;
         $this->assertStringContainsString('<b>x</b>', $rendered);
         $this->assertStringNotContainsString('&lt;b&gt;', $rendered);
-    }
-
-    public function testInjectAttributeStripsUserDuplicate(): void
-    {
-        $factory = new TagFactory(new Escaper());
-
-        // user supplies a duplicate href; the positional href must win
-        $rendered = $factory->a(
-            '/correct',
-            'go',
-            ['href' => '/wrong']
-        );
-
-        $this->assertStringContainsString('href="/correct"', $rendered);
-        $this->assertStringNotContainsString('/wrong', $rendered);
-    }
-
-    public function testInjectAttributeStripsUserDuplicateForImg(): void
-    {
-        $factory = new TagFactory(new Escaper());
-
-        $rendered = $factory->img('/correct.png', ['src' => '/wrong.png']);
-
-        $this->assertStringContainsString('src="/correct.png"', $rendered);
-        $this->assertStringNotContainsString('/wrong.png', $rendered);
     }
 }

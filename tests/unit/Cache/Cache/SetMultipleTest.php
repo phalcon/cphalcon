@@ -37,12 +37,13 @@ final class SetMultipleTest extends AbstractUnitTestCase
 
         $key1 = uniqid();
         $key2 = uniqid();
-        $adapter->setMultiple(
+        $actual = $adapter->setMultiple(
             [
                 $key1 => 'test1',
                 $key2 => 'test2',
             ]
         );
+        $this->assertTrue($actual);
 
         $this->assertTrue($adapter->has($key1));
         $this->assertTrue($adapter->has($key2));
@@ -92,6 +93,7 @@ final class SetMultipleTest extends AbstractUnitTestCase
         $mock = $this
             ->getMockBuilder(Cache::class)
             ->setConstructorArgs([$instance])
+            ->onlyMethods(['set'])
             ->getMock()
         ;
         $mock->method('set')->willReturn(false);

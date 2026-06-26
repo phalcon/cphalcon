@@ -22,6 +22,13 @@ final class CountTest extends AbstractDatabaseTestCase
 {
     use ResultsetFixtureTrait;
 
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+        $this->seedResultsetFixture();
+    }
+
     /**
      * @return array<string, array{0: string, 1: int}>
      */
@@ -32,13 +39,6 @@ final class CountTest extends AbstractDatabaseTestCase
             'complex' => ['complex', 4],
             'empty'   => ['empty', 0],
         ];
-    }
-
-    public function setUp(): void
-    {
-        $this->setNewFactoryDefault();
-        $this->setDatabase();
-        $this->seedResultsetFixture();
     }
 
     /**

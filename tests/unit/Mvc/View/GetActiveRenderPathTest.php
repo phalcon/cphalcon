@@ -17,8 +17,8 @@ use Phalcon\Di\Di;
 use Phalcon\Events\Manager;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Php;
-use Phalcon\Tests\Support\Mvc\View\AfterRenderListener;
 use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Tests\Support\Mvc\View\AfterRenderListener;
 
 use function dataDir;
 

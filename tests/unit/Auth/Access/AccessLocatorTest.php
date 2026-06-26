@@ -18,8 +18,8 @@ namespace Phalcon\Tests\Unit\Auth\Access;
 
 use Phalcon\Acl\Adapter\AdapterInterface as AclAdapterInterface;
 use Phalcon\Acl\Adapter\Memory as AclMemory;
-use Phalcon\Auth\Access\Acl as AclAccess;
 use Phalcon\Auth\Access\AccessLocator;
+use Phalcon\Auth\Access\Acl as AclAccess;
 use Phalcon\Auth\Access\Auth;
 use Phalcon\Auth\Access\Guest;
 use Phalcon\Auth\Exception;

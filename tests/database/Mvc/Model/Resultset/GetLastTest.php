@@ -24,6 +24,13 @@ final class GetLastTest extends AbstractDatabaseTestCase
 {
     use ResultsetFixtureTrait;
 
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+        $this->seedResultsetFixture();
+    }
+
     /**
      * @return array<string, array{0: string, 1: string|null}>
      */
@@ -34,13 +41,6 @@ final class GetLastTest extends AbstractDatabaseTestCase
             'complex' => ['complex', Row::class],
             'empty'   => ['empty', null],
         ];
-    }
-
-    public function setUp(): void
-    {
-        $this->setNewFactoryDefault();
-        $this->setDatabase();
-        $this->seedResultsetFixture();
     }
 
     /**

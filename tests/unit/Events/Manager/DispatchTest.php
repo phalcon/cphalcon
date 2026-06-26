@@ -22,6 +22,16 @@ use stdClass;
 
 final class DispatchTest extends AbstractUnitTestCase
 {
+    public function testDispatchByArrayNameResolvesPlainObjectMethod(): void
+    {
+        $listener = new NamedListener();
+        $manager  = new Manager();
+        $manager->attach('Sample:onSomething', $listener);
+
+        $manager->dispatch(new stdClass(), ['Sample', 'onSomething']);
+
+        $this->assertSame(['onSomething'], $listener->calls);
+    }
     public function testDispatchByClassName(): void
     {
         $called  = false;
@@ -48,17 +58,6 @@ final class DispatchTest extends AbstractUnitTestCase
         $this->assertTrue($called);
     }
 
-    public function testDispatchByArrayNameResolvesPlainObjectMethod(): void
-    {
-        $listener = new NamedListener();
-        $manager  = new Manager();
-        $manager->attach('Sample:onSomething', $listener);
-
-        $manager->dispatch(new stdClass(), ['Sample', 'onSomething']);
-
-        $this->assertSame(['onSomething'], $listener->calls);
-    }
-
     public function testDispatchInvokableObject(): void
     {
         $listener = new InvokableListener();
@@ -68,6 +67,16 @@ final class DispatchTest extends AbstractUnitTestCase
         $manager->dispatch(new stdClass(), 'Sample');
 
         $this->assertSame(['__invoke'], $listener->calls);
+    }
+
+    public function testDispatchReturnsNullWhenNoMatch(): void
+    {
+        $manager = new Manager();
+        $manager->attach('known', function () {
+            return 'called';
+        });
+
+        $this->assertNull($manager->dispatch(new stdClass(), 'unknown'));
     }
 
     public function testStoppableEventStopsPropagation(): void
@@ -85,15 +94,5 @@ final class DispatchTest extends AbstractUnitTestCase
         $manager->dispatch(new StoppableEvent());
 
         $this->assertSame(['first'], $order);
-    }
-
-    public function testDispatchReturnsNullWhenNoMatch(): void
-    {
-        $manager = new Manager();
-        $manager->attach('known', function () {
-            return 'called';
-        });
-
-        $this->assertNull($manager->dispatch(new stdClass(), 'unknown'));
     }
 }

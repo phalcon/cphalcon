@@ -17,8 +17,8 @@ use Phalcon\Assets\Asset\Css;
 use Phalcon\Tests\AbstractUnitTestCase;
 use PHPUnit\Framework\Attributes\Test;
 
-use function supportDir;
 use function file_get_contents;
+use function supportDir;
 
 final class GetContentTest extends AbstractUnitTestCase
 {

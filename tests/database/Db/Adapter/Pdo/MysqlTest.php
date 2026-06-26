@@ -66,67 +66,6 @@ final class MysqlTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Mysql::addForeignKey
-     *
-     * @issue  https://github.com/phalcon/cphalcon/issues/556
-     * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
-     * @since  2017-07-03
-     */
-    #[Group('mysql')]
-    #[DataProvider('getShouldAddForeignKeyProvider')]
-    public function testDbAdapterPdoMysqlShouldAddForeignKey(
-        string $sql,
-        bool $expected
-    ): void {
-        $this->assertEquals(
-            $expected,
-            $this->connection->execute($sql)
-        );
-    }
-
-    /**
-     * Tests Mysql::getForeignKey via information_schema lookup
-     *
-     * @issue  https://github.com/phalcon/cphalcon/issues/556
-     * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
-     * @since  2017-07-03
-     */
-    #[Group('mysql')]
-    #[DataProvider('getShouldCheckAddedForeignKeyProvider')]
-    public function testDbAdapterPdoMysqlShouldCheckAddedForeignKey(
-        string $addSql,
-        string $checkSql
-    ): void {
-        // Each row is self-contained: add the FK, then verify it shows up
-        // in information_schema.REFERENTIAL_CONSTRAINTS with the expected
-        // UPDATE/DELETE rules and name.
-        $this->connection->execute($addSql);
-
-        $row = $this->connection->fetchOne($checkSql, \Phalcon\Db\Enum::FETCH_NUM);
-        $this->assertSame(1, (int) $row[0]);
-    }
-
-    /**
-     * Tests Mysql::dropForeignKey
-     *
-     * @issue  https://github.com/phalcon/cphalcon/issues/556
-     * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
-     * @since  2017-07-03
-     */
-    #[Group('mysql')]
-    #[DataProvider('getShouldDropForeignKeyProvider')]
-    public function testDbAdapterPdoMysqlShouldDropForeignKey(
-        string $addSql,
-        string $dropSql
-    ): void {
-        // Self-contained: add the FK first so the drop has something to
-        // remove regardless of test ordering.
-        $this->connection->execute($addSql);
-
-        $this->assertTrue($this->connection->execute($dropSql));
-    }
-
-    /**
      * @return array<array{0: string, 1: bool}>
      */
     public static function getShouldAddForeignKeyProvider(): array
@@ -222,6 +161,67 @@ final class MysqlTest extends AbstractDatabaseTestCase
                 `UPDATE_RULE` = 'CASCADE' AND
                 `DELETE_RULE` = 'RESTRICT' AND
                 `CONSTRAINT_NAME` = '{$foreignKeyName}'";
+    }
+
+    /**
+     * Tests Mysql::addForeignKey
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/556
+     * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
+     * @since  2017-07-03
+     */
+    #[Group('mysql')]
+    #[DataProvider('getShouldAddForeignKeyProvider')]
+    public function testDbAdapterPdoMysqlShouldAddForeignKey(
+        string $sql,
+        bool $expected
+    ): void {
+        $this->assertEquals(
+            $expected,
+            $this->connection->execute($sql)
+        );
+    }
+
+    /**
+     * Tests Mysql::getForeignKey via information_schema lookup
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/556
+     * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
+     * @since  2017-07-03
+     */
+    #[Group('mysql')]
+    #[DataProvider('getShouldCheckAddedForeignKeyProvider')]
+    public function testDbAdapterPdoMysqlShouldCheckAddedForeignKey(
+        string $addSql,
+        string $checkSql
+    ): void {
+        // Each row is self-contained: add the FK, then verify it shows up
+        // in information_schema.REFERENTIAL_CONSTRAINTS with the expected
+        // UPDATE/DELETE rules and name.
+        $this->connection->execute($addSql);
+
+        $row = $this->connection->fetchOne($checkSql, \Phalcon\Db\Enum::FETCH_NUM);
+        $this->assertSame(1, (int) $row[0]);
+    }
+
+    /**
+     * Tests Mysql::dropForeignKey
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/556
+     * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
+     * @since  2017-07-03
+     */
+    #[Group('mysql')]
+    #[DataProvider('getShouldDropForeignKeyProvider')]
+    public function testDbAdapterPdoMysqlShouldDropForeignKey(
+        string $addSql,
+        string $dropSql
+    ): void {
+        // Self-contained: add the FK first so the drop has something to
+        // remove regardless of test ordering.
+        $this->connection->execute($addSql);
+
+        $this->assertTrue($this->connection->execute($dropSql));
     }
 
     /**

@@ -374,6 +374,43 @@ final class FindTest extends AbstractDatabaseTestCase
     }
 
     /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2021-05-10
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelFindWithCacheException(): void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage(
+            "Cache service must be an object implementing " .
+            "Phalcon\Cache\CacheInterface"
+        );
+
+        $options = [
+            'storageDir' => outputDir(),
+            'lifetime'   => 172800,
+            'prefix'     => 'data-',
+        ];
+
+        // Models Cache setup
+        $serializerFactory = new SerializerFactory();
+        $adapterFactory    = new AdapterFactory($serializerFactory);
+        $adapter           = $adapterFactory->newInstance('stream', $options);
+
+        $this->container->setShared('modelsCache', $adapter);
+
+        Objects::find(
+            [
+                'cache' => [
+                    'key' => 'my-cache',
+                ],
+            ]
+        );
+    }
+
+    /**
      * @issue https://github.com/phalcon/cphalcon/issues/16696
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
@@ -439,75 +476,6 @@ final class FindTest extends AbstractDatabaseTestCase
          */
         $data = $modelsCache->get('my-cache');
         $this->assertNull($data);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2021-05-10
-     */
-    #[Group('mysql')]
-    #[Group('pgsql')]
-    #[Group('sqlite')]
-    public function testMvcModelFindWithCacheException(): void
-    {
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage(
-            "Cache service must be an object implementing " .
-            "Phalcon\Cache\CacheInterface"
-        );
-
-        $options = [
-            'storageDir' => outputDir(),
-            'lifetime'   => 172800,
-            'prefix'     => 'data-',
-        ];
-
-        // Models Cache setup
-        $serializerFactory = new SerializerFactory();
-        $adapterFactory    = new AdapterFactory($serializerFactory);
-        $adapter           = $adapterFactory->newInstance('stream', $options);
-
-        $this->container->setShared('modelsCache', $adapter);
-
-        Objects::find(
-            [
-                'cache' => [
-                    'key' => 'my-cache',
-                ],
-            ]
-        );
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2023-06-30
-     */
-    #[Group('mysql')]
-    #[Group('pgsql')]
-    #[Group('sqlite')]
-    public function testMvcModelFindWithSpecificColumn(): void
-    {
-        /** @var PDO $connection */
-        $connection = self::getConnection();
-        $migration  = new ObjectsMigration($connection);
-        $migration->insert(1, 'random data', 1);
-        $migration->insert(2, 'random data 2', 1);
-        $migration->insert(4, 'random data 4', 1);
-
-        /**
-         * Get the records (should cache the resultset)
-         */
-        $data = Objects::find(
-            [
-                'columns'    => 'obj_id',
-                'conditions' => 'obj_id IN ({ids:array})',
-                'bind'       => ['ids' => [1, 2, 3]],
-            ]
-        );
-
-        $this->assertEquals(2, count($data));
-        $this->assertEquals(1, $data[0]->obj_id);
-        $this->assertEquals(2, $data[1]->obj_id);
     }
 
     /**
@@ -608,5 +576,37 @@ final class FindTest extends AbstractDatabaseTestCase
 
         $this->assertNotNull($invoices);
         $this->assertCount(2, $invoices);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2023-06-30
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelFindWithSpecificColumn(): void
+    {
+        /** @var PDO $connection */
+        $connection = self::getConnection();
+        $migration  = new ObjectsMigration($connection);
+        $migration->insert(1, 'random data', 1);
+        $migration->insert(2, 'random data 2', 1);
+        $migration->insert(4, 'random data 4', 1);
+
+        /**
+         * Get the records (should cache the resultset)
+         */
+        $data = Objects::find(
+            [
+                'columns'    => 'obj_id',
+                'conditions' => 'obj_id IN ({ids:array})',
+                'bind'       => ['ids' => [1, 2, 3]],
+            ]
+        );
+
+        $this->assertEquals(2, count($data));
+        $this->assertEquals(1, $data[0]->obj_id);
+        $this->assertEquals(2, $data[1]->obj_id);
     }
 }

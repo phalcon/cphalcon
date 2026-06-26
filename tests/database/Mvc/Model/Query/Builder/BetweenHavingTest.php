@@ -25,6 +25,12 @@ final class BetweenHavingTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
 
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+    }
+
     /**
      * betweenHaving()/notBetweenHaving() append a (NOT) BETWEEN condition to
      * the HAVING clause with auto bind-params.
@@ -37,12 +43,6 @@ final class BetweenHavingTest extends AbstractDatabaseTestCase
             'betweenHaving'    => ['betweenHaving', 'BETWEEN'],
             'notBetweenHaving' => ['notBetweenHaving', 'NOT BETWEEN'],
         ];
-    }
-
-    public function setUp(): void
-    {
-        $this->setNewFactoryDefault();
-        $this->setDatabase();
     }
 
     /**

@@ -46,27 +46,6 @@ final class AddPrimaryKeyTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Db\Dialect :: addPrimaryKey - sqlite throws exception
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2020-01-20
-     */
-    #[Group('sqlite')]
-    public function testDbDialectAddPrimaryKeySqlite(): void
-    {
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage(
-            'Adding a primary key after table has been created '
-            . 'is not supported by SQLite'
-        );
-
-        $dialect = new Sqlite();
-
-        $index = new Index('index1', ['field1', 'field2']);
-        $dialect->addPrimaryKey('table', 'schema', $index);
-    }
-
-    /**
      * Tests Phalcon\Db\Dialect :: addPrimaryKey
      *
      * @author       Phalcon Team <team@phalcon.io>
@@ -86,5 +65,26 @@ final class AddPrimaryKeyTest extends AbstractDatabaseTestCase
         $index  = new Index('index1', ['field1', 'field2']);
         $actual = $dialect->addPrimaryKey('table', 'schema', $index);
         $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Db\Dialect :: addPrimaryKey - sqlite throws exception
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-01-20
+     */
+    #[Group('sqlite')]
+    public function testDbDialectAddPrimaryKeySqlite(): void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage(
+            'Adding a primary key after table has been created '
+            . 'is not supported by SQLite'
+        );
+
+        $dialect = new Sqlite();
+
+        $index = new Index('index1', ['field1', 'field2']);
+        $dialect->addPrimaryKey('table', 'schema', $index);
     }
 }

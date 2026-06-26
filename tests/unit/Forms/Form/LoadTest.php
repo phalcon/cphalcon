@@ -44,22 +44,6 @@ final class LoadTest extends AbstractUnitTestCase
     }
 
     // -----------------------------------------------------------------------
-    // Method return type
-    // -----------------------------------------------------------------------
-
-    public function testLoadReturnsSameForm(): void
-    {
-        $form   = new Form();
-        $schema = new ArrayLoader([
-            ['type' => 'text', 'name' => 'username'],
-        ]);
-
-        $returned = $form->load($schema, $this->locator);
-
-        $this->assertSame($form, $returned);
-    }
-
-    // -----------------------------------------------------------------------
     // All 14 element types
     // -----------------------------------------------------------------------
 
@@ -85,6 +69,41 @@ final class LoadTest extends AbstractUnitTestCase
         ];
     }
 
+    // -----------------------------------------------------------------------
+    // Multiple elements added in one call
+    // -----------------------------------------------------------------------
+
+    public function testLoadAddsAllElements(): void
+    {
+        $form   = new Form();
+        $schema = new ArrayLoader([
+            ['type' => 'text',     'name' => 'username'],
+            ['type' => 'email',    'name' => 'email'],
+            ['type' => 'password', 'name' => 'password'],
+            ['type' => 'submit',   'name' => 'submit'],
+        ]);
+
+        $form->load($schema, $this->locator);
+
+        $this->assertCount(4, $form->getElements());
+    }
+
+    /**
+     * CheckGroup auto-appends [] to the name, so the stored key is field[].
+     */
+    public function testLoadCreatesCheckGroupElement(): void
+    {
+        $form   = new Form();
+        $schema = new ArrayLoader([
+            ['type' => 'checkgroup', 'name' => 'field'],
+        ]);
+
+        $form->load($schema, $this->locator);
+
+        $this->assertTrue($form->has('field[]'));
+        $this->assertInstanceOf(CheckGroup::class, $form->get('field[]'));
+    }
+
     /**
      * @param class-string $expectedClass
      */
@@ -104,129 +123,39 @@ final class LoadTest extends AbstractUnitTestCase
         $this->assertInstanceOf($expectedClass, $form->get('field'));
     }
 
-    /**
-     * CheckGroup auto-appends [] to the name, so the stored key is field[].
-     */
-    public function testLoadCreatesCheckGroupElement(): void
+    // -----------------------------------------------------------------------
+    // Load is additive (chaining)
+    // -----------------------------------------------------------------------
+
+    public function testLoadIsAdditive(): void
     {
-        $form   = new Form();
-        $schema = new ArrayLoader([
-            ['type' => 'checkgroup', 'name' => 'field'],
-        ]);
+        $form = new Form();
+        $form->load(new ArrayLoader([
+            ['type' => 'text', 'name' => 'first_name'],
+        ]), $this->locator);
+        $form->load(new ArrayLoader([
+            ['type' => 'text', 'name' => 'last_name'],
+        ]), $this->locator);
 
-        $form->load($schema, $this->locator);
-
-        $this->assertTrue($form->has('field[]'));
-        $this->assertInstanceOf(CheckGroup::class, $form->get('field[]'));
-    }
-
-    public function testLoadTypeIsCaseInsensitive(): void
-    {
-        $form   = new Form();
-        $schema = new ArrayLoader([
-            ['type' => 'TEXT', 'name' => 'username'],
-        ]);
-
-        $form->load($schema, $this->locator);
-
-        $this->assertInstanceOf(Text::class, $form->get('username'));
+        $this->assertCount(2, $form->getElements());
+        $this->assertTrue($form->has('first_name'));
+        $this->assertTrue($form->has('last_name'));
     }
 
     // -----------------------------------------------------------------------
-    // Unknown type throws
+    // Method return type
     // -----------------------------------------------------------------------
 
-    public function testLoadThrowsOnUnknownType(): void
+    public function testLoadReturnsSameForm(): void
     {
         $form   = new Form();
         $schema = new ArrayLoader([
-            ['type' => 'unknowntype', 'name' => 'field'],
+            ['type' => 'text', 'name' => 'username'],
         ]);
 
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessageMatches('/Unknown form element type.*unknowntype/i');
+        $returned = $form->load($schema, $this->locator);
 
-        $form->load($schema, $this->locator);
-    }
-
-    // -----------------------------------------------------------------------
-    // Metadata propagation
-    // -----------------------------------------------------------------------
-
-    public function testLoadSetsLabel(): void
-    {
-        $form   = new Form();
-        $schema = new ArrayLoader([
-            ['type' => 'text', 'name' => 'email', 'label' => 'Email Address'],
-        ]);
-
-        $form->load($schema, $this->locator);
-
-        $this->assertSame('Email Address', $form->get('email')->getLabel());
-    }
-
-    public function testLoadSetsDefault(): void
-    {
-        $form   = new Form();
-        $schema = new ArrayLoader([
-            ['type' => 'text', 'name' => 'country', 'default' => 'GB'],
-        ]);
-
-        $form->load($schema, $this->locator);
-
-        $this->assertSame('GB', $form->get('country')->getDefault());
-    }
-
-    public function testLoadSetsDefaultFalsyZero(): void
-    {
-        $form   = new Form();
-        $schema = new ArrayLoader([
-            ['type' => 'numeric', 'name' => 'quantity', 'default' => 0],
-        ]);
-
-        $form->load($schema, $this->locator);
-
-        $this->assertSame(0, $form->get('quantity')->getDefault());
-    }
-
-    public function testLoadSetsDefaultFalsyEmptyString(): void
-    {
-        $form   = new Form();
-        $schema = new ArrayLoader([
-            ['type' => 'text', 'name' => 'prefix', 'default' => ''],
-        ]);
-
-        $form->load($schema, $this->locator);
-
-        // array_key_exists check: '' is still set
-        $this->assertSame('', $form->get('prefix')->getDefault());
-    }
-
-    public function testLoadSetsFilters(): void
-    {
-        $form   = new Form();
-        $schema = new ArrayLoader([
-            ['type' => 'text', 'name' => 'name', 'filters' => ['trim', 'lower']],
-        ]);
-
-        $form->load($schema, $this->locator);
-
-        $this->assertSame(['trim', 'lower'], $form->get('name')->getFilters());
-    }
-
-    public function testLoadSetsValidators(): void
-    {
-        $form      = new Form();
-        $validator = new PresenceOf();
-        $schema    = new ArrayLoader([
-            ['type' => 'text', 'name' => 'name', 'validators' => [$validator]],
-        ]);
-
-        $form->load($schema, $this->locator);
-
-        $validators = $form->get('name')->getValidators();
-        $this->assertCount(1, $validators);
-        $this->assertInstanceOf(PresenceOf::class, $validators[0]);
+        $this->assertSame($form, $returned);
     }
 
     public function testLoadSetsAttributes(): void
@@ -265,6 +194,71 @@ final class LoadTest extends AbstractUnitTestCase
         $this->assertSame(['red' => 'Red', 'blue' => 'Blue'], $element->getOptions());
     }
 
+    public function testLoadSetsDefault(): void
+    {
+        $form   = new Form();
+        $schema = new ArrayLoader([
+            ['type' => 'text', 'name' => 'country', 'default' => 'GB'],
+        ]);
+
+        $form->load($schema, $this->locator);
+
+        $this->assertSame('GB', $form->get('country')->getDefault());
+    }
+
+    public function testLoadSetsDefaultFalsyEmptyString(): void
+    {
+        $form   = new Form();
+        $schema = new ArrayLoader([
+            ['type' => 'text', 'name' => 'prefix', 'default' => ''],
+        ]);
+
+        $form->load($schema, $this->locator);
+
+        // array_key_exists check: '' is still set
+        $this->assertSame('', $form->get('prefix')->getDefault());
+    }
+
+    public function testLoadSetsDefaultFalsyZero(): void
+    {
+        $form   = new Form();
+        $schema = new ArrayLoader([
+            ['type' => 'numeric', 'name' => 'quantity', 'default' => 0],
+        ]);
+
+        $form->load($schema, $this->locator);
+
+        $this->assertSame(0, $form->get('quantity')->getDefault());
+    }
+
+    public function testLoadSetsFilters(): void
+    {
+        $form   = new Form();
+        $schema = new ArrayLoader([
+            ['type' => 'text', 'name' => 'name', 'filters' => ['trim', 'lower']],
+        ]);
+
+        $form->load($schema, $this->locator);
+
+        $this->assertSame(['trim', 'lower'], $form->get('name')->getFilters());
+    }
+
+    // -----------------------------------------------------------------------
+    // Metadata propagation
+    // -----------------------------------------------------------------------
+
+    public function testLoadSetsLabel(): void
+    {
+        $form   = new Form();
+        $schema = new ArrayLoader([
+            ['type' => 'text', 'name' => 'email', 'label' => 'Email Address'],
+        ]);
+
+        $form->load($schema, $this->locator);
+
+        $this->assertSame('Email Address', $form->get('email')->getLabel());
+    }
+
     public function testLoadSetsRadioGroupOptions(): void
     {
         $form   = new Form();
@@ -284,42 +278,48 @@ final class LoadTest extends AbstractUnitTestCase
         $this->assertSame(['m' => 'Male', 'f' => 'Female'], $element->getOptions());
     }
 
-    // -----------------------------------------------------------------------
-    // Multiple elements added in one call
-    // -----------------------------------------------------------------------
-
-    public function testLoadAddsAllElements(): void
+    public function testLoadSetsValidators(): void
     {
-        $form   = new Form();
-        $schema = new ArrayLoader([
-            ['type' => 'text',     'name' => 'username'],
-            ['type' => 'email',    'name' => 'email'],
-            ['type' => 'password', 'name' => 'password'],
-            ['type' => 'submit',   'name' => 'submit'],
+        $form      = new Form();
+        $validator = new PresenceOf();
+        $schema    = new ArrayLoader([
+            ['type' => 'text', 'name' => 'name', 'validators' => [$validator]],
         ]);
 
         $form->load($schema, $this->locator);
 
-        $this->assertCount(4, $form->getElements());
+        $validators = $form->get('name')->getValidators();
+        $this->assertCount(1, $validators);
+        $this->assertInstanceOf(PresenceOf::class, $validators[0]);
     }
 
     // -----------------------------------------------------------------------
-    // Load is additive (chaining)
+    // Unknown type throws
     // -----------------------------------------------------------------------
 
-    public function testLoadIsAdditive(): void
+    public function testLoadThrowsOnUnknownType(): void
     {
-        $form = new Form();
-        $form->load(new ArrayLoader([
-            ['type' => 'text', 'name' => 'first_name'],
-        ]), $this->locator);
-        $form->load(new ArrayLoader([
-            ['type' => 'text', 'name' => 'last_name'],
-        ]), $this->locator);
+        $form   = new Form();
+        $schema = new ArrayLoader([
+            ['type' => 'unknowntype', 'name' => 'field'],
+        ]);
 
-        $this->assertCount(2, $form->getElements());
-        $this->assertTrue($form->has('first_name'));
-        $this->assertTrue($form->has('last_name'));
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessageMatches('/Unknown form element type.*unknowntype/i');
+
+        $form->load($schema, $this->locator);
+    }
+
+    public function testLoadTypeIsCaseInsensitive(): void
+    {
+        $form   = new Form();
+        $schema = new ArrayLoader([
+            ['type' => 'TEXT', 'name' => 'username'],
+        ]);
+
+        $form->load($schema, $this->locator);
+
+        $this->assertInstanceOf(Text::class, $form->get('username'));
     }
 
     // -----------------------------------------------------------------------

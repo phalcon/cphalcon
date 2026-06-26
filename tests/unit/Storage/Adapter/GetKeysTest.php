@@ -92,6 +92,23 @@ final class GetKeysTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
+    #[RequiresPhpExtension('apcu')]
+    public function testStorageAdapterApcuGetKeysIteratorError(): void
+    {
+        $serializer = new SerializerFactory();
+        $adapter    = new FakeApcuIterator($serializer);
+
+        $this->setupTest($adapter);
+
+        $actual = $adapter->getKeys();
+        $this->assertIsArray($actual);
+        $this->assertEmpty($actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
     #[DataProvider('getAdapters')]
     public function testStorageAdapterGetKeys(
         string $extension,
@@ -113,23 +130,6 @@ final class GetKeysTest extends AbstractUnitTestCase
         if ('ph-strm' === $prefix) {
             $this->safeDeleteDirectory(outputDir('ph-strm'));
         }
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2020-09-09
-     */
-    #[RequiresPhpExtension('apcu')]
-    public function testStorageAdapterApcuGetKeysIteratorError(): void
-    {
-        $serializer = new SerializerFactory();
-        $adapter    = new FakeApcuIterator($serializer);
-
-        $this->setupTest($adapter);
-
-        $actual = $adapter->getKeys();
-        $this->assertIsArray($actual);
-        $this->assertEmpty($actual);
     }
 
     /**

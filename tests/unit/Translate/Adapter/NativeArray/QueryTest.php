@@ -19,8 +19,8 @@ use Phalcon\Tests\Unit\Translate\Fake\TranslateNativeArrayTrait;
 
 final class QueryTest extends AbstractUnitTestCase
 {
-    use TranslateNativeArrayTrait;
     use TranslateNativeArrayHelperTrait;
+    use TranslateNativeArrayTrait;
 
     /**
      * @return string

@@ -22,6 +22,13 @@ final class RewindTest extends AbstractDatabaseTestCase
 {
     use ResultsetFixtureTrait;
 
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+        $this->seedResultsetFixture();
+    }
+
     /**
      * After advancing the cursor, rewind() returns a populated resultset to
      * row 0; an empty one is invalid, so key() is null.
@@ -35,13 +42,6 @@ final class RewindTest extends AbstractDatabaseTestCase
             'complex' => ['complex', 0],
             'empty'   => ['empty', null],
         ];
-    }
-
-    public function setUp(): void
-    {
-        $this->setNewFactoryDefault();
-        $this->setDatabase();
-        $this->seedResultsetFixture();
     }
 
     /**

@@ -15,6 +15,17 @@ final class CannotExtendResolvedTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-18
      */
+    public function testContainerExceptionsCannotExtendResolvedIsContainerThrowable(): void
+    {
+        $exception = new CannotExtendResolved('myService');
+
+        $this->assertInstanceOf(ContainerThrowable::class, $exception);
+        $this->assertInstanceOf(Throwable::class, $exception);
+    }
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-18
+     */
     public function testContainerExceptionsCannotExtendResolvedMessage(): void
     {
         $exception = new CannotExtendResolved('myService');
@@ -23,17 +34,5 @@ final class CannotExtendResolvedTest extends AbstractUnitTestCase
             "Cannot extend already-resolved service 'myService'",
             $exception->getMessage()
         );
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-18
-     */
-    public function testContainerExceptionsCannotExtendResolvedIsContainerThrowable(): void
-    {
-        $exception = new CannotExtendResolved('myService');
-
-        $this->assertInstanceOf(ContainerThrowable::class, $exception);
-        $this->assertInstanceOf(Throwable::class, $exception);
     }
 }

@@ -22,22 +22,21 @@ final class IsEmptyTest extends AbstractCollectionTestCase
      * @since  2026-05-11
      */
     #[DataProvider('getClasses')]
-    public function testSupportCollectionIsEmptyTrueWhenNoData(string $class): void
-    {
-        $collection = new $class();
-
-        $this->assertTrue($collection->isEmpty());
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-05-11
-     */
-    #[DataProvider('getClasses')]
     public function testSupportCollectionIsEmptyFalseWhenHasData(string $class): void
     {
         $collection = new $class(['a' => 1]);
 
         $this->assertFalse($collection->isEmpty());
+    }
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-11
+     */
+    #[DataProvider('getClasses')]
+    public function testSupportCollectionIsEmptyTrueWhenNoData(string $class): void
+    {
+        $collection = new $class();
+
+        $this->assertTrue($collection->isEmpty());
     }
 }

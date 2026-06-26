@@ -36,6 +36,72 @@ final class MimeTest extends AbstractUnitTestCase
     {
         $this->safeDeleteFile($this->tmpFile);
     }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2018-11-13
+     */
+    public function testFilterValidationValidatorFileMimeType(): void
+    {
+        $_SERVER = [
+            'REQUEST_METHOD' => 'POST',
+        ];
+
+        $_FILES = [
+            'thumbnail' => [
+                'name'      => 'IMG-20180403-WA0000.jpg',
+                'full_path' => 'IMG-20180403-WA0000.jpg',
+                'type'      => 'image/jpeg',
+                'tmp_name'  => $this->tmpFile,
+                'error'     => 0,
+                'size'      => 11768,
+            ],
+        ];
+
+        $options = [
+            'types'   => ['image/jpeg', 'image/png'],
+            'message' => 'Allowed file types are :types'
+        ];
+        $validator = new FakeMimeType($options);
+        $validation = new Validation();
+        $validation->add('thumbnail', $validator);
+
+        $messages = $validation->validate($_FILES);
+        $this->assertCount(0, $messages);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2018-11-13
+     */
+    public function testFilterValidationValidatorFileMimeTypeException(): void
+    {
+        $_SERVER = [
+            'REQUEST_METHOD' => 'POST',
+        ];
+
+        $_FILES = [
+            'thumbnail' => [
+                'name'      => 'IMG-20180403-WA0000.jpg',
+                'full_path' => 'IMG-20180403-WA0000.jpg',
+                'type'      => 'image/jpeg',
+                'tmp_name'  => '/tmp/phpsjLIQJ',
+                'error'     => 0,
+                'size'      => 11768,
+            ],
+        ];
+
+        $options = [
+            'message' => 'Allowed file types are :types'
+        ];
+        $validator = new FakeMimeType($options);
+        $validation = new Validation();
+        $validation->add('thumbnail', $validator);
+
+        $this->expectException(Validation\Exception::class);
+        $this->expectExceptionMessage('Option \'allowedTypes\' must be an array');
+        $validation->validate($_FILES);
+    }
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
@@ -104,72 +170,6 @@ final class MimeTest extends AbstractUnitTestCase
         $expected = 'Allowed file types are image/gif';
         $actual   = $messages[0]->getMessage();
         $this->assertSame($expected, $actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
-     */
-    public function testFilterValidationValidatorFileMimeType(): void
-    {
-        $_SERVER = [
-            'REQUEST_METHOD' => 'POST',
-        ];
-
-        $_FILES = [
-            'thumbnail' => [
-                'name'      => 'IMG-20180403-WA0000.jpg',
-                'full_path' => 'IMG-20180403-WA0000.jpg',
-                'type'      => 'image/jpeg',
-                'tmp_name'  => $this->tmpFile,
-                'error'     => 0,
-                'size'      => 11768,
-            ],
-        ];
-
-        $options = [
-            'types'   => ['image/jpeg', 'image/png'],
-            'message' => 'Allowed file types are :types'
-        ];
-        $validator = new FakeMimeType($options);
-        $validation = new Validation();
-        $validation->add('thumbnail', $validator);
-
-        $messages = $validation->validate($_FILES);
-        $this->assertCount(0, $messages);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
-     */
-    public function testFilterValidationValidatorFileMimeTypeException(): void
-    {
-        $_SERVER = [
-            'REQUEST_METHOD' => 'POST',
-        ];
-
-        $_FILES = [
-            'thumbnail' => [
-                'name'      => 'IMG-20180403-WA0000.jpg',
-                'full_path' => 'IMG-20180403-WA0000.jpg',
-                'type'      => 'image/jpeg',
-                'tmp_name'  => '/tmp/phpsjLIQJ',
-                'error'     => 0,
-                'size'      => 11768,
-            ],
-        ];
-
-        $options = [
-            'message' => 'Allowed file types are :types'
-        ];
-        $validator = new FakeMimeType($options);
-        $validation = new Validation();
-        $validation->add('thumbnail', $validator);
-
-        $this->expectException(Validation\Exception::class);
-        $this->expectExceptionMessage('Option \'allowedTypes\' must be an array');
-        $validation->validate($_FILES);
     }
 
     /**

@@ -77,33 +77,6 @@ final class ConstructTest extends AbstractDatabaseTestCase
     #[Group('mysql')]
     #[Group('pgsql')]
     #[Group('sqlite')]
-    public function testMvcModelQueryBuilderConstructWithDi(): void
-    {
-        $params = [
-            'models'     => Invoices::class,
-            'columns'    => ['inv_id', 'inv_title', 'inv_status_flag'],
-            'conditions' => 'a > 5',
-            'group'      => ['type', 'source'],
-            'having'     => 'b < 5',
-            'order'      => ['name', 'created'],
-            'limit'      => 10,
-            'offset'     => 15,
-        ];
-
-        $builder = new Builder($params, $this->container);
-
-        $expected = $this->container;
-        $actual   = $builder->getDI();
-        $this->assertEquals($expected, $actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
-     */
-    #[Group('mysql')]
-    #[Group('pgsql')]
-    #[Group('sqlite')]
     public function testMvcModelQueryBuilderConstructLimitAndOffset(): void
     {
         $params = [
@@ -129,6 +102,33 @@ final class ConstructTest extends AbstractDatabaseTestCase
 
         $expected = $expectedPhql;
         $actual   = $builderLimitWithOffset->getPhql();
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2018-11-13
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelQueryBuilderConstructWithDi(): void
+    {
+        $params = [
+            'models'     => Invoices::class,
+            'columns'    => ['inv_id', 'inv_title', 'inv_status_flag'],
+            'conditions' => 'a > 5',
+            'group'      => ['type', 'source'],
+            'having'     => 'b < 5',
+            'order'      => ['name', 'created'],
+            'limit'      => 10,
+            'offset'     => 15,
+        ];
+
+        $builder = new Builder($params, $this->container);
+
+        $expected = $this->container;
+        $actual   = $builder->getDI();
         $this->assertEquals($expected, $actual);
     }
 }

@@ -27,6 +27,16 @@ trait ViewTrait
     protected $view;
 
     /**
+     * executed after each test
+     */
+    public function _after()
+    {
+        while (ob_get_level() > $this->level) {
+            ob_end_flush();
+        }
+    }
+
+    /**
      * executed before each test
      */
     public function _before()
@@ -35,13 +45,26 @@ trait ViewTrait
         $this->view  = new View();
     }
 
-    /**
-     * executed after each test
-     */
-    public function _after()
+    protected function clearCache()
     {
-        while (ob_get_level() > $this->level) {
-            ob_end_flush();
+        if (!file_exists(env('PATH_CACHE'))) {
+            mkdir(
+                env('PATH_CACHE')
+            );
+        }
+
+        $items = new DirectoryIterator(
+            env('PATH_CACHE')
+        );
+
+        foreach ($items as $item) {
+            if ($item->isDir()) {
+                continue;
+            }
+
+            unlink(
+                $item->getPathname()
+            );
         }
     }
 
@@ -84,29 +107,6 @@ trait ViewTrait
                 $param['expected'],
                 $view->getContent(),
                 $errorMessage
-            );
-        }
-    }
-
-    protected function clearCache()
-    {
-        if (!file_exists(env('PATH_CACHE'))) {
-            mkdir(
-                env('PATH_CACHE')
-            );
-        }
-
-        $items = new DirectoryIterator(
-            env('PATH_CACHE')
-        );
-
-        foreach ($items as $item) {
-            if ($item->isDir()) {
-                continue;
-            }
-
-            unlink(
-                $item->getPathname()
             );
         }
     }

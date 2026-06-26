@@ -24,77 +24,6 @@ final class CombinedRegexTest extends AbstractUnitTestCase
     use RouterTrait;
 
     /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-05-21
-     */
-    public function testMatchesFirstRoute(): void
-    {
-        $router = $this->getRouter(false);
-        $router->add('/products/{slug:[a-z-]+}', ['controller' => 'products']);
-        $router->add('/users/{id:[0-9]+}', ['controller' => 'users']);
-
-        $router->handle('/users/42');
-
-        $this->assertTrue($router->wasMatched());
-        $this->assertSame('users', $router->getControllerName());
-    }
-
-    /**
-     * Two regex routes that both match the same URI; the later-attached
-     * one must win (reverse-iteration semantics preserved by the combined
-     * regex via alternative-order reversal).
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-05-21
-     */
-    public function testLaterAttachedDynamicRouteWins(): void
-    {
-        $router = $this->getRouter(false);
-        $router->add('/{anything:[a-z]+}', ['controller' => 'first']);
-        $router->add('/{anythingElse:[a-z]+}', ['controller' => 'second']);
-
-        $router->handle('/about');
-
-        $this->assertSame('second', $router->getControllerName());
-    }
-
-    /**
-     * Named-group captures must reach the matched route's paths map even
-     * after group renumbering through (?|...) branch reset.
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-05-21
-     */
-    public function testNamedCapturesReachPaths(): void
-    {
-        $router = $this->getRouter(false);
-        $router->add('/products/{slug:[a-z-]+}', ['controller' => 'products', 'slug' => 1]);
-
-        $router->handle('/products/widget');
-
-        $params = $router->getParams();
-        $this->assertSame('widget', $params['slug']);
-    }
-
-    /**
-     * Converters must run on a combined-regex hit.
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-05-21
-     */
-    public function testConverterRunsAfterCombinedRegexMatch(): void
-    {
-        $router = $this->getRouter(false);
-        $router->add('/users/{id:[0-9]+}', ['controller' => 'users', 'id' => 1])
-            ->convert('id', static fn(string $v): int => (int) $v);
-
-        $router->handle('/users/42');
-
-        $params = $router->getParams();
-        $this->assertSame(42, $params['id']);
-    }
-
-    /**
      * beforeMatch returning false on a combined-regex hit vetoes the
      * match.
      *
@@ -110,54 +39,6 @@ final class CombinedRegexTest extends AbstractUnitTestCase
         $router->handle('/users/42');
 
         $this->assertFalse($router->wasMatched());
-    }
-
-    /**
-     * The presence of a hostname-constrained route in the bucket disables
-     * combined regex for that bucket - reverse-attach order with the
-     * hostname route is preserved by falling back to the per-route loop.
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-05-21
-     */
-    public function testHostnameRouteDisablesCombinedRegex(): void
-    {
-        $router = $this->getRouter(false);
-        $router->add('/{anything:[a-z]+}', ['controller' => 'catchAll']);
-        $router->add('/about', ['controller' => 'about'])
-            ->setHostname('admin.example.com');
-
-        $_SERVER['HTTP_HOST'] = 'www.example.com';
-        $router->handle('/about');
-
-        // about route's hostname does not match; catchAll wins.
-        $this->assertSame('catchAll', $router->getControllerName());
-    }
-
-    /**
-     * When an events manager is attached, the combined regex must be
-     * bypassed so per-route events continue to fire.
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-05-21
-     */
-    public function testEventsManagerDisablesCombinedRegex(): void
-    {
-        $router  = $this->getRouter(false);
-        $fired   = [];
-        $manager = new EventsManager();
-        $manager->attach('router', static function ($event) use (&$fired) {
-            $fired[] = $event->getType();
-        });
-        $router->setEventsManager($manager);
-
-        $router->add('/users/{id:[0-9]+}', ['controller' => 'users']);
-        $router->add('/products/{slug:[a-z-]+}', ['controller' => 'products']);
-
-        $router->handle('/users/42');
-
-        $this->assertContains('beforeCheckRoute', $fired);
-        $this->assertContains('matchedRoute', $fired);
     }
 
     /**
@@ -207,5 +88,124 @@ final class CombinedRegexTest extends AbstractUnitTestCase
         $router->handle('/about');
 
         $this->assertSame('route_24', $router->getControllerName());
+    }
+
+    /**
+     * Converters must run on a combined-regex hit.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-21
+     */
+    public function testConverterRunsAfterCombinedRegexMatch(): void
+    {
+        $router = $this->getRouter(false);
+        $router->add('/users/{id:[0-9]+}', ['controller' => 'users', 'id' => 1])
+            ->convert('id', static fn(string $v): int => (int) $v);
+
+        $router->handle('/users/42');
+
+        $params = $router->getParams();
+        $this->assertSame(42, $params['id']);
+    }
+
+    /**
+     * When an events manager is attached, the combined regex must be
+     * bypassed so per-route events continue to fire.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-21
+     */
+    public function testEventsManagerDisablesCombinedRegex(): void
+    {
+        $router  = $this->getRouter(false);
+        $fired   = [];
+        $manager = new EventsManager();
+        $manager->attach('router', static function ($event) use (&$fired) {
+            $fired[] = $event->getType();
+        });
+        $router->setEventsManager($manager);
+
+        $router->add('/users/{id:[0-9]+}', ['controller' => 'users']);
+        $router->add('/products/{slug:[a-z-]+}', ['controller' => 'products']);
+
+        $router->handle('/users/42');
+
+        $this->assertContains('beforeCheckRoute', $fired);
+        $this->assertContains('matchedRoute', $fired);
+    }
+
+    /**
+     * The presence of a hostname-constrained route in the bucket disables
+     * combined regex for that bucket - reverse-attach order with the
+     * hostname route is preserved by falling back to the per-route loop.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-21
+     */
+    public function testHostnameRouteDisablesCombinedRegex(): void
+    {
+        $router = $this->getRouter(false);
+        $router->add('/{anything:[a-z]+}', ['controller' => 'catchAll']);
+        $router->add('/about', ['controller' => 'about'])
+            ->setHostname('admin.example.com');
+
+        $_SERVER['HTTP_HOST'] = 'www.example.com';
+        $router->handle('/about');
+
+        // about route's hostname does not match; catchAll wins.
+        $this->assertSame('catchAll', $router->getControllerName());
+    }
+
+    /**
+     * Two regex routes that both match the same URI; the later-attached
+     * one must win (reverse-iteration semantics preserved by the combined
+     * regex via alternative-order reversal).
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-21
+     */
+    public function testLaterAttachedDynamicRouteWins(): void
+    {
+        $router = $this->getRouter(false);
+        $router->add('/{anything:[a-z]+}', ['controller' => 'first']);
+        $router->add('/{anythingElse:[a-z]+}', ['controller' => 'second']);
+
+        $router->handle('/about');
+
+        $this->assertSame('second', $router->getControllerName());
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-21
+     */
+    public function testMatchesFirstRoute(): void
+    {
+        $router = $this->getRouter(false);
+        $router->add('/products/{slug:[a-z-]+}', ['controller' => 'products']);
+        $router->add('/users/{id:[0-9]+}', ['controller' => 'users']);
+
+        $router->handle('/users/42');
+
+        $this->assertTrue($router->wasMatched());
+        $this->assertSame('users', $router->getControllerName());
+    }
+
+    /**
+     * Named-group captures must reach the matched route's paths map even
+     * after group renumbering through (?|...) branch reset.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-21
+     */
+    public function testNamedCapturesReachPaths(): void
+    {
+        $router = $this->getRouter(false);
+        $router->add('/products/{slug:[a-z-]+}', ['controller' => 'products', 'slug' => 1]);
+
+        $router->handle('/products/widget');
+
+        $params = $router->getParams();
+        $this->assertSame('widget', $params['slug']);
     }
 }

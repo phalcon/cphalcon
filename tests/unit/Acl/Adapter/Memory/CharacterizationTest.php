@@ -19,16 +19,14 @@ use Phalcon\Tests\AbstractUnitTestCase;
 
 final class CharacterizationTest extends AbstractUnitTestCase
 {
-    public function testSpecificRuleOverridesWildcardForSingleRole(): void
+    public function testClosureDenyOverridesNoArgumentsDefaultAllow(): void
     {
         $acl = new Memory();
-        $acl->setDefaultAction(Enum::DENY);
+        $acl->setNoArgumentsDefaultAction(Enum::ALLOW);
         $acl->addRole('user');
-        $acl->addComponent('posts', ['browse', 'edit']);
-        $acl->allow('user', 'posts', '*');
-        $acl->deny('user', 'posts', 'edit');
+        $acl->addComponent('posts', ['edit']);
+        $acl->allow('user', 'posts', 'edit', fn () => false);
 
-        $this->assertTrue($acl->isAllowed('user', 'posts', 'browse'));
         $this->assertFalse($acl->isAllowed('user', 'posts', 'edit'));
     }
 
@@ -44,15 +42,16 @@ final class CharacterizationTest extends AbstractUnitTestCase
 
         $this->assertTrue($acl->isAllowed('admin', 'posts', 'edit'));
     }
-
-    public function testClosureDenyOverridesNoArgumentsDefaultAllow(): void
+    public function testSpecificRuleOverridesWildcardForSingleRole(): void
     {
         $acl = new Memory();
-        $acl->setNoArgumentsDefaultAction(Enum::ALLOW);
+        $acl->setDefaultAction(Enum::DENY);
         $acl->addRole('user');
-        $acl->addComponent('posts', ['edit']);
-        $acl->allow('user', 'posts', 'edit', fn () => false);
+        $acl->addComponent('posts', ['browse', 'edit']);
+        $acl->allow('user', 'posts', '*');
+        $acl->deny('user', 'posts', 'edit');
 
+        $this->assertTrue($acl->isAllowed('user', 'posts', 'browse'));
         $this->assertFalse($acl->isAllowed('user', 'posts', 'edit'));
     }
 }

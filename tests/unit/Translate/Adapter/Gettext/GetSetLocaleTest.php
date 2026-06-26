@@ -18,6 +18,8 @@ use Phalcon\Tests\Unit\Translate\Fake\TranslateGettextTrait;
 use Phalcon\Translate\Adapter\Gettext;
 use Phalcon\Translate\InterpolatorFactory;
 
+use function getenv;
+
 final class GetSetLocaleTest extends AbstractUnitTestCase
 {
     use TranslateGettextTrait;
@@ -36,16 +38,32 @@ final class GetSetLocaleTest extends AbstractUnitTestCase
         $actual   = $translator->getLocale();
         $this->assertSame($expected, $actual);
 
+        /**
+         * The constructor's locale is propagated to the environment.
+         */
+        $this->assertSame('en_US.utf8', getenv('LC_ALL'));
+
+        /**
+         * An unavailable locale must leave the environment untouched.
+         */
         $translator->setLocale(1, ['ru']);
 
         $expected = '';
         $actual   = $translator->getLocale();
         $this->assertEquals($expected, $actual);
+        $this->assertSame('en_US.utf8', getenv('LC_ALL'));
 
         $translator->setLocale(1, ['ru_RU.utf8']);
 
         $expected = 'ru_RU.utf8';
         $actual   = $translator->getLocale();
         $this->assertSame($expected, $actual);
+
+        /**
+         * A valid locale is propagated to LC_ALL/LANG/LANGUAGE.
+         */
+        $this->assertSame('ru_RU.utf8', getenv('LC_ALL'));
+        $this->assertSame('ru_RU.utf8', getenv('LANG'));
+        $this->assertSame('ru_RU.utf8', getenv('LANGUAGE'));
     }
 }

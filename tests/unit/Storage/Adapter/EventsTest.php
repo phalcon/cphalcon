@@ -35,6 +35,46 @@ final class EventsTest extends AbstractUnitTestCase
     /**
      * @return array[]
      */
+    public static function getAdapters(): array
+    {
+        return [
+            [
+                Apcu::class,
+                [],
+                'apcu',
+            ],
+            [
+                Libmemcached::class,
+                getOptionsLibmemcached(),
+                'memcached'
+            ],
+            [
+                Memory::class,
+                [],
+                '',
+            ],
+            [
+                Redis::class,
+                getOptionsRedis(),
+                'redis',
+            ],
+            [
+                RedisCluster::class,
+                getOptionsRedisCluster(),
+                'redis',
+            ],
+            [
+                Stream::class,
+                [
+                    'storageDir' => outputDir(),
+                ],
+                '',
+            ],
+        ];
+    }
+    /**
+     * @return array[]
+     */
     public static function getExamples(): array
     {
         return [
@@ -74,47 +114,6 @@ final class EventsTest extends AbstractUnitTestCase
                 '',
                 Weak::class,
                 [],
-            ],
-        ];
-    }
-
-    /**
-     * @return array[]
-     */
-    public static function getAdapters(): array
-    {
-        return [
-            [
-                Apcu::class,
-                [],
-                'apcu',
-            ],
-            [
-                Libmemcached::class,
-                getOptionsLibmemcached(),
-                'memcached'
-            ],
-            [
-                Memory::class,
-                [],
-                '',
-            ],
-            [
-                Redis::class,
-                getOptionsRedis(),
-                'redis',
-            ],
-            [
-                RedisCluster::class,
-                getOptionsRedisCluster(),
-                'redis',
-            ],
-            [
-                Stream::class,
-                [
-                    'storageDir' => outputDir(),
-                ],
-                '',
             ],
         ];
     }
@@ -230,6 +229,41 @@ final class EventsTest extends AbstractUnitTestCase
 
         call_user_func_array([$adapter, 'delete'], ['test']);
         call_user_func_array([$adapter, 'delete'], ['test']);
+
+        $expected = 2;
+        $this->assertEquals($expected, $counter);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-25
+     */
+    #[DataProvider('getExamples')]
+    public function testStorageAdapterEventsAfterDeleteMultiple(
+        string $extension,
+        string $class,
+        array $options
+    ): void {
+        if (!empty($extension)) {
+            $this->checkExtensionIsLoaded($extension);
+        }
+
+        $counter    = 0;
+        $serializer = new SerializerFactory();
+        $adapter    = new $class($serializer, $options);
+        $manager    = new Manager();
+
+        $manager->attach(
+            'storage:afterDeleteMultiple',
+            static function () use (&$counter): void {
+                $counter++;
+            }
+        );
+
+        $adapter->setEventsManager($manager);
+
+        call_user_func_array([$adapter, 'deleteMultiple'], [['test']]);
+        call_user_func_array([$adapter, 'deleteMultiple'], [['test']]);
 
         $expected = 2;
         $this->assertEquals($expected, $counter);
@@ -453,6 +487,41 @@ final class EventsTest extends AbstractUnitTestCase
 
         call_user_func_array([$adapter, 'delete'], ['test']);
         call_user_func_array([$adapter, 'delete'], ['test']);
+
+        $expected = 2;
+        $this->assertEquals($expected, $counter);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-25
+     */
+    #[DataProvider('getExamples')]
+    public function testStorageAdapterEventsBeforeDeleteMultiple(
+        string $extension,
+        string $class,
+        array $options
+    ): void {
+        if (!empty($extension)) {
+            $this->checkExtensionIsLoaded($extension);
+        }
+
+        $counter    = 0;
+        $serializer = new SerializerFactory();
+        $adapter    = new $class($serializer, $options);
+        $manager    = new Manager();
+
+        $manager->attach(
+            'storage:beforeDeleteMultiple',
+            static function () use (&$counter): void {
+                $counter++;
+            }
+        );
+
+        $adapter->setEventsManager($manager);
+
+        call_user_func_array([$adapter, 'deleteMultiple'], [['test']]);
+        call_user_func_array([$adapter, 'deleteMultiple'], [['test']]);
 
         $expected = 2;
         $this->assertEquals($expected, $counter);

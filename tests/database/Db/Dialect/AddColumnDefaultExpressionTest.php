@@ -24,6 +24,35 @@ use PHPUnit\Framework\Attributes\Group;
 final class AddColumnDefaultExpressionTest extends AbstractDatabaseTestCase
 {
     /**
+     * MySQL - CURRENT_TIMESTAMP string remains unquoted (legacy whitelist).
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-15
+     */
+    #[Group('mysql')]
+    public function testDbDialectMysqlAddColumnDefaultCurrentTimestampUnchanged(): void
+    {
+        $dialect = new Mysql();
+        $column  = new Column(
+            'created_at',
+            [
+                'type'    => Column::TYPE_TIMESTAMP,
+                'default' => 'CURRENT_TIMESTAMP',
+            ]
+        );
+
+        $actual = $dialect->addColumn('table', 'schema', $column);
+
+        $this->assertStringContainsString(
+            'DEFAULT CURRENT_TIMESTAMP',
+            $actual
+        );
+        $this->assertStringNotContainsString(
+            'DEFAULT "CURRENT_TIMESTAMP"',
+            $actual
+        );
+    }
+    /**
      * MySQL - a RawValue default is emitted unquoted (used for expressions
      * like `(UUID())` introduced in MySQL 8.0.13).
      *
@@ -47,6 +76,31 @@ final class AddColumnDefaultExpressionTest extends AbstractDatabaseTestCase
 
         $this->assertStringContainsString('DEFAULT (UUID())', $actual);
         $this->assertStringNotContainsString('DEFAULT "(UUID())"', $actual);
+    }
+
+    /**
+     * MySQL - non-RawValue strings still go through the existing quoting
+     * path. Regression test for the unchanged behavior.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-15
+     */
+    #[Group('mysql')]
+    public function testDbDialectMysqlAddColumnDefaultStringStillQuoted(): void
+    {
+        $dialect = new Mysql();
+        $column  = new Column(
+            'status',
+            [
+                'type'    => Column::TYPE_VARCHAR,
+                'size'    => 10,
+                'default' => 'active',
+            ]
+        );
+
+        $actual = $dialect->addColumn('table', 'schema', $column);
+
+        $this->assertStringContainsString('DEFAULT "active"', $actual);
     }
 
     /**
@@ -109,61 +163,6 @@ final class AddColumnDefaultExpressionTest extends AbstractDatabaseTestCase
         );
         $this->assertStringNotContainsString(
             "DEFAULT \"strftime('%s','now')\"",
-            $actual
-        );
-    }
-
-    /**
-     * MySQL - non-RawValue strings still go through the existing quoting
-     * path. Regression test for the unchanged behavior.
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-05-15
-     */
-    #[Group('mysql')]
-    public function testDbDialectMysqlAddColumnDefaultStringStillQuoted(): void
-    {
-        $dialect = new Mysql();
-        $column  = new Column(
-            'status',
-            [
-                'type'    => Column::TYPE_VARCHAR,
-                'size'    => 10,
-                'default' => 'active',
-            ]
-        );
-
-        $actual = $dialect->addColumn('table', 'schema', $column);
-
-        $this->assertStringContainsString('DEFAULT "active"', $actual);
-    }
-
-    /**
-     * MySQL - CURRENT_TIMESTAMP string remains unquoted (legacy whitelist).
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-05-15
-     */
-    #[Group('mysql')]
-    public function testDbDialectMysqlAddColumnDefaultCurrentTimestampUnchanged(): void
-    {
-        $dialect = new Mysql();
-        $column  = new Column(
-            'created_at',
-            [
-                'type'    => Column::TYPE_TIMESTAMP,
-                'default' => 'CURRENT_TIMESTAMP',
-            ]
-        );
-
-        $actual = $dialect->addColumn('table', 'schema', $column);
-
-        $this->assertStringContainsString(
-            'DEFAULT CURRENT_TIMESTAMP',
-            $actual
-        );
-        $this->assertStringNotContainsString(
-            'DEFAULT "CURRENT_TIMESTAMP"',
             $actual
         );
     }

@@ -40,17 +40,20 @@ final class CustomOperatorSqlTest extends AbstractDatabaseTestCase
         $this->invoiceMigration = new InvoicesMigration(self::getConnection());
     }
 
+    /**
+     * Accessor must bind tighter than '=': ("i"."inv_title" ->> 'a') = 'b'.
+     */
     #[Group('pgsql')]
-    public function testPostgresEmitsContains(): void
+    public function testAccessorBindsTighterThanEquals(): void
     {
         $phql = sprintf(
-            "SELECT i.inv_id FROM [%s] AS i WHERE i.inv_title @> 'x'",
+            "SELECT i.inv_id FROM [%s] AS i WHERE i.inv_title ->> 'a' = 'b'",
             Invoices::class
         );
 
-        $result = (new Query($phql, $this->container))->getSql();
+        $sql = (new Query($phql, $this->container))->getSql()['sql'];
 
-        $this->assertStringContainsString('"i"."inv_title" @> \'x\'', $result['sql']);
+        $this->assertMatchesRegularExpression('/->>\s*\'a\'\s*=\s*\'b\'/', $sql);
     }
 
     #[Group('pgsql')]
@@ -68,20 +71,17 @@ final class CustomOperatorSqlTest extends AbstractDatabaseTestCase
         $this->assertStringContainsString('->>', $result['sql']);
     }
 
-    /**
-     * Accessor must bind tighter than '=': ("i"."inv_title" ->> 'a') = 'b'.
-     */
     #[Group('pgsql')]
-    public function testAccessorBindsTighterThanEquals(): void
+    public function testPostgresEmitsContains(): void
     {
         $phql = sprintf(
-            "SELECT i.inv_id FROM [%s] AS i WHERE i.inv_title ->> 'a' = 'b'",
+            "SELECT i.inv_id FROM [%s] AS i WHERE i.inv_title @> 'x'",
             Invoices::class
         );
 
-        $sql = (new Query($phql, $this->container))->getSql()['sql'];
+        $result = (new Query($phql, $this->container))->getSql();
 
-        $this->assertMatchesRegularExpression('/->>\s*\'a\'\s*=\s*\'b\'/', $sql);
+        $this->assertStringContainsString('"i"."inv_title" @> \'x\'', $result['sql']);
     }
 
     #[Group('mysql')]

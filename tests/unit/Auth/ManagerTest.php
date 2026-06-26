@@ -18,8 +18,8 @@ namespace Phalcon\Tests\Unit\Auth;
 
 use Phalcon\Acl\Adapter\AdapterInterface as AclAdapterInterface;
 use Phalcon\Acl\Adapter\Memory as AclMemory;
-use Phalcon\Auth\Access\Acl as AclAccess;
 use Phalcon\Auth\Access\AccessLocator;
+use Phalcon\Auth\Access\Acl as AclAccess;
 use Phalcon\Auth\Access\Auth;
 use Phalcon\Auth\Adapter\Config\MemoryAdapterConfig;
 use Phalcon\Auth\Adapter\Memory;
@@ -56,21 +56,6 @@ final class ManagerTest extends AbstractUnitTestCase
                 ],
             ])
         );
-    }
-
-    private function buildGuard(): Session
-    {
-        return new Session(
-            $this->adapter,
-            new FakeRequest(),
-            new FakeCookies(),
-            new FakeSessionManager()
-        );
-    }
-
-    private function buildManager(): Manager
-    {
-        return new Manager(new AccessLocator(new Container()));
     }
 
     public function testAccessInstantiatesAuthGate(): void
@@ -194,6 +179,44 @@ final class ManagerTest extends AbstractUnitTestCase
         $this->assertSame($guard, $manager->getDefaultGuard());
     }
 
+    public function testAttemptForwardsToDefaultGuard(): void
+    {
+        $guard   = $this->buildGuard();
+        $manager = $this->buildManager();
+        $manager->addGuard('web', $guard, true);
+
+        $this->assertTrue($manager->attempt([
+            'email'    => 'alice@example.com',
+            'password' => 'secret',
+        ]));
+    }
+
+    public function testAttemptThrowsWhenDefaultGuardNotStateful(): void
+    {
+        $this->expectException(DoesNotImplement::class);
+        $this->expectExceptionMessageMatches('/GuardStateful/');
+
+        $manager = $this->buildManager();
+        $manager->addGuard('web', new FakeGuard(), true);
+
+        $manager->attempt(['email' => 'alice@example.com']);
+    }
+
+    public function testAttemptThrowsWhenGuardNotStateful(): void
+    {
+        $this->expectException(Exception::class);
+
+        $manager = $this->buildManager();
+        $guard   = new \Phalcon\Auth\Guard\Token(
+            $this->adapter,
+            new FakeRequest(),
+            new \Phalcon\Auth\Guard\Config\TokenGuardConfig('api_token', 'api_token')
+        );
+        $manager->addGuard('api', $guard, true);
+
+        $manager->attempt(['api_token' => 'x']);
+    }
+
     public function testCheckForwardsToDefaultGuard(): void
     {
         $guard   = $this->buildGuard();
@@ -201,6 +224,15 @@ final class ManagerTest extends AbstractUnitTestCase
         $manager->addGuard('web', $guard, true);
 
         $this->assertSame($guard->check(), $manager->check());
+        $this->assertFalse($manager->check());
+    }
+
+    public function testCheckForwardsToDefaultGuardThroughManager(): void
+    {
+        $guard   = $this->buildGuard();
+        $manager = $this->buildManager();
+        $manager->addGuard('web', $guard, true);
+
         $this->assertFalse($manager->check());
     }
 
@@ -267,6 +299,50 @@ final class ManagerTest extends AbstractUnitTestCase
         $this->assertNull($manager->id());
     }
 
+    public function testLogoutForwardsToDefaultGuard(): void
+    {
+        $guard   = $this->buildGuard();
+        $manager = $this->buildManager();
+        $manager->addGuard('web', $guard, true);
+
+        $manager->attempt([
+            'email'    => 'alice@example.com',
+            'password' => 'secret',
+        ]);
+
+        $this->assertTrue($manager->check());
+
+        $manager->logout();
+
+        $this->assertFalse($manager->check());
+    }
+
+    public function testLogoutThrowsWhenDefaultGuardNotStateful(): void
+    {
+        $this->expectException(DoesNotImplement::class);
+        $this->expectExceptionMessageMatches('/GuardStateful/');
+
+        $manager = $this->buildManager();
+        $manager->addGuard('web', new FakeGuard(), true);
+
+        $manager->logout();
+    }
+
+    public function testLogoutThrowsWhenGuardNotStateful(): void
+    {
+        $this->expectException(Exception::class);
+
+        $manager = $this->buildManager();
+        $guard   = new \Phalcon\Auth\Guard\Token(
+            $this->adapter,
+            new FakeRequest(),
+            new \Phalcon\Auth\Guard\Config\TokenGuardConfig('api_token', 'api_token')
+        );
+        $manager->addGuard('api', $guard, true);
+
+        $manager->logout();
+    }
+
     public function testOnlySetsOnActiveAccess(): void
     {
         $guard   = $this->buildGuard();
@@ -287,6 +363,25 @@ final class ManagerTest extends AbstractUnitTestCase
         $manager->only('admin');
     }
 
+    public function testSetAccessAssigns(): void
+    {
+        $manager = $this->buildManager();
+        $access  = new FakeAccess();
+        $manager->setAccess($access);
+
+        $this->assertSame($access, $manager->getAccess());
+    }
+
+    public function testSetDefaultGuardAssigns(): void
+    {
+        $guard   = $this->buildGuard();
+        $manager = $this->buildManager();
+
+        $manager->setDefaultGuard($guard);
+
+        $this->assertSame($guard, $manager->getDefaultGuard());
+    }
+
     public function testUserForwardsToDefaultGuard(): void
     {
         $guard   = $this->buildGuard();
@@ -294,42 +389,6 @@ final class ManagerTest extends AbstractUnitTestCase
         $manager->addGuard('web', $guard, true);
 
         $this->assertNull($manager->user());
-    }
-
-    public function testCheckForwardsToDefaultGuardThroughManager(): void
-    {
-        $guard   = $this->buildGuard();
-        $manager = $this->buildManager();
-        $manager->addGuard('web', $guard, true);
-
-        $this->assertFalse($manager->check());
-    }
-
-    public function testAttemptForwardsToDefaultGuard(): void
-    {
-        $guard   = $this->buildGuard();
-        $manager = $this->buildManager();
-        $manager->addGuard('web', $guard, true);
-
-        $this->assertTrue($manager->attempt([
-            'email'    => 'alice@example.com',
-            'password' => 'secret',
-        ]));
-    }
-
-    public function testAttemptThrowsWhenGuardNotStateful(): void
-    {
-        $this->expectException(Exception::class);
-
-        $manager = $this->buildManager();
-        $guard   = new \Phalcon\Auth\Guard\Token(
-            $this->adapter,
-            new FakeRequest(),
-            new \Phalcon\Auth\Guard\Config\TokenGuardConfig('api_token', 'api_token')
-        );
-        $manager->addGuard('api', $guard, true);
-
-        $manager->attempt(['api_token' => 'x']);
     }
 
     public function testValidateForwardsToDefaultGuard(): void
@@ -344,77 +403,18 @@ final class ManagerTest extends AbstractUnitTestCase
         ]));
     }
 
-    public function testLogoutForwardsToDefaultGuard(): void
+    private function buildGuard(): Session
     {
-        $guard   = $this->buildGuard();
-        $manager = $this->buildManager();
-        $manager->addGuard('web', $guard, true);
-
-        $manager->attempt([
-            'email'    => 'alice@example.com',
-            'password' => 'secret',
-        ]);
-
-        $this->assertTrue($manager->check());
-
-        $manager->logout();
-
-        $this->assertFalse($manager->check());
-    }
-
-    public function testLogoutThrowsWhenGuardNotStateful(): void
-    {
-        $this->expectException(Exception::class);
-
-        $manager = $this->buildManager();
-        $guard   = new \Phalcon\Auth\Guard\Token(
+        return new Session(
             $this->adapter,
             new FakeRequest(),
-            new \Phalcon\Auth\Guard\Config\TokenGuardConfig('api_token', 'api_token')
+            new FakeCookies(),
+            new FakeSessionManager()
         );
-        $manager->addGuard('api', $guard, true);
-
-        $manager->logout();
     }
 
-    public function testSetAccessAssigns(): void
+    private function buildManager(): Manager
     {
-        $manager = $this->buildManager();
-        $access  = new FakeAccess();
-        $manager->setAccess($access);
-
-        $this->assertSame($access, $manager->getAccess());
-    }
-
-    public function testAttemptThrowsWhenDefaultGuardNotStateful(): void
-    {
-        $this->expectException(DoesNotImplement::class);
-        $this->expectExceptionMessageMatches('/GuardStateful/');
-
-        $manager = $this->buildManager();
-        $manager->addGuard('web', new FakeGuard(), true);
-
-        $manager->attempt(['email' => 'alice@example.com']);
-    }
-
-    public function testLogoutThrowsWhenDefaultGuardNotStateful(): void
-    {
-        $this->expectException(DoesNotImplement::class);
-        $this->expectExceptionMessageMatches('/GuardStateful/');
-
-        $manager = $this->buildManager();
-        $manager->addGuard('web', new FakeGuard(), true);
-
-        $manager->logout();
-    }
-
-    public function testSetDefaultGuardAssigns(): void
-    {
-        $guard   = $this->buildGuard();
-        $manager = $this->buildManager();
-
-        $manager->setDefaultGuard($guard);
-
-        $this->assertSame($guard, $manager->getDefaultGuard());
+        return new Manager(new AccessLocator(new Container()));
     }
 }

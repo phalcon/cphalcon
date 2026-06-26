@@ -22,6 +22,13 @@ final class ValidTest extends AbstractDatabaseTestCase
 {
     use ResultsetFixtureTrait;
 
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+        $this->seedResultsetFixture();
+    }
+
     /**
      * @return array<string, array{0: string, 1: bool}>
      */
@@ -32,13 +39,6 @@ final class ValidTest extends AbstractDatabaseTestCase
             'complex' => ['complex', true],
             'empty'   => ['empty', false],
         ];
-    }
-
-    public function setUp(): void
-    {
-        $this->setNewFactoryDefault();
-        $this->setDatabase();
-        $this->seedResultsetFixture();
     }
 
     /**

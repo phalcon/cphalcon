@@ -174,6 +174,24 @@ final class RenderHtmlTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-11
      */
+    public function testSupportDebugRenderHtmlWithDebugVar(): void
+    {
+        $value = uniqid('var-');
+        $exception = new Exception('exception message', 1234);
+        $debug = new Debug();
+        $debug->setShowBackTrace(true);
+        $debug->debugVar($value);
+
+        $actual = $debug->renderHtml($exception);
+
+        $this->assertStringContainsString("id='variables'", $actual);
+        $this->assertStringContainsString($value, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-11
+     */
     public function testSupportDebugRenderHtmlWithRequestBlacklist(): void
     {
         $key = uniqid('var-');
@@ -194,23 +212,5 @@ final class RenderHtmlTest extends AbstractUnitTestCase
 
         $this->assertStringContainsString(self::TABS, $actual);
         $this->assertStringNotContainsString($key, $actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-11
-     */
-    public function testSupportDebugRenderHtmlWithDebugVar(): void
-    {
-        $value = uniqid('var-');
-        $exception = new Exception('exception message', 1234);
-        $debug = new Debug();
-        $debug->setShowBackTrace(true);
-        $debug->debugVar($value);
-
-        $actual = $debug->renderHtml($exception);
-
-        $this->assertStringContainsString("id='variables'", $actual);
-        $this->assertStringContainsString($value, $actual);
     }
 }

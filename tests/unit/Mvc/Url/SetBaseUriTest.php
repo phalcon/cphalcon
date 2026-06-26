@@ -27,6 +27,16 @@ final class SetBaseUriTest extends AbstractUnitTestCase
     use RouterTrait;
 
     /**
+     * executed before each test
+     */
+    public function setUp(): void
+    {
+        $this->newDi();
+        $this->setDiService('url');
+        $this->setupRoutes();
+    }
+
+    /**
      * @return array
      */
     public static function getDataToSetDi(): array
@@ -220,16 +230,6 @@ final class SetBaseUriTest extends AbstractUnitTestCase
                 'https://www.test.com/?_url=/path&params=one',
             ],
         ];
-    }
-
-    /**
-     * executed before each test
-     */
-    public function setUp(): void
-    {
-        $this->newDi();
-        $this->setDiService('url');
-        $this->setupRoutes();
     }
 
     /**

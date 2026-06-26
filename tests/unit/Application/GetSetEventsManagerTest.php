@@ -38,5 +38,12 @@ final class GetSetEventsManagerTest extends AbstractUnitTestCase
         $expected = $manager;
         $actual   = $application->getEventsManager();
         $this->assertSame($expected, $actual);
+
+        /**
+         * setEventsManager() also registers the manager in the DI container
+         * under the 'eventsManager' key.
+         */
+        $actual = $container->get('eventsManager');
+        $this->assertSame($expected, $actual);
     }
 }

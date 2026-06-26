@@ -30,4 +30,23 @@ class ConfigRequiresNonEmptyValue extends Exception
             . configKey . "'" . suffix
         );
     }
+
+    /**
+     * Throws when the value is an empty string. A null value is treated as
+     * "not provided" and passes, so optional settings can reuse the same
+     * guard; callers that require presence reject null earlier. Keeps the
+     * empty-value check shared by every config class in one place.
+     *
+     * @throws self
+     */
+    public static function assert(
+        var value,
+        string configName,
+        string configKey,
+        string suffix = ""
+    ) -> void {
+        if (value === "") {
+            throw new self(configName, configKey, suffix);
+        }
+    }
 }

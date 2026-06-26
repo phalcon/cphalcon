@@ -22,6 +22,13 @@ final class JsonSerializeTest extends AbstractDatabaseTestCase
 {
     use ResultsetFixtureTrait;
 
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+        $this->seedResultsetFixture();
+    }
+
     /**
      * jsonSerialize() returns one serialised entry per row of the resultset.
      *
@@ -34,13 +41,6 @@ final class JsonSerializeTest extends AbstractDatabaseTestCase
             'complex' => ['complex', 4],
             'empty'   => ['empty', 0],
         ];
-    }
-
-    public function setUp(): void
-    {
-        $this->setNewFactoryDefault();
-        $this->setDatabase();
-        $this->seedResultsetFixture();
     }
 
     /**

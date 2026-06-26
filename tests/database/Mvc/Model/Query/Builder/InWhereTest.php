@@ -25,6 +25,12 @@ final class InWhereTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
 
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+    }
+
     /**
      * inWhere()/notInWhere() append a (NOT) IN condition with one auto
      * bind-param per value.
@@ -37,12 +43,6 @@ final class InWhereTest extends AbstractDatabaseTestCase
             'inWhere'    => ['inWhere', 'IN'],
             'notInWhere' => ['notInWhere', 'NOT IN'],
         ];
-    }
-
-    public function setUp(): void
-    {
-        $this->setNewFactoryDefault();
-        $this->setDatabase();
     }
 
     /**

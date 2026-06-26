@@ -20,45 +20,6 @@ final class ArrayDataTest extends AbstractUnitTestCase
 {
     /**
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-17
-     */
-    public function testGetOptionsReturnsFlatArray(): void
-    {
-        $data     = new ArrayData(['1' => 'Ferrari', '2' => 'Ford']);
-        $expected = ['1' => 'Ferrari', '2' => 'Ford'];
-        $actual   = $data->getOptions();
-        $this->assertSame($expected, $actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-17
-     */
-    public function testGetOptionsReturnsNestedArrayForOptgroups(): void
-    {
-        $input = [
-            'Group A' => ['1' => 'Ferrari', '2' => 'Ford'],
-            '3'       => 'Toyota',
-        ];
-        $data   = new ArrayData($input);
-        $actual = $data->getOptions();
-        $this->assertSame($input, $actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-17
-     */
-    public function testGetOptionsReturnsEmptyArrayWhenNoData(): void
-    {
-        $data     = new ArrayData();
-        $expected = [];
-        $actual   = $data->getOptions();
-        $this->assertSame($expected, $actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-04
      */
     public function testGetAttributesDefaultsToEmptyArray(): void
@@ -84,5 +45,43 @@ final class ArrayDataTest extends AbstractUnitTestCase
         );
 
         $this->assertSame($attributes, $data->getAttributes());
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-17
+     */
+    public function testGetOptionsReturnsEmptyArrayWhenNoData(): void
+    {
+        $data     = new ArrayData();
+        $expected = [];
+        $actual   = $data->getOptions();
+        $this->assertSame($expected, $actual);
+    }
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-17
+     */
+    public function testGetOptionsReturnsFlatArray(): void
+    {
+        $data     = new ArrayData(['1' => 'Ferrari', '2' => 'Ford']);
+        $expected = ['1' => 'Ferrari', '2' => 'Ford'];
+        $actual   = $data->getOptions();
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-17
+     */
+    public function testGetOptionsReturnsNestedArrayForOptgroups(): void
+    {
+        $input = [
+            'Group A' => ['1' => 'Ferrari', '2' => 'Ford'],
+            '3'       => 'Toyota',
+        ];
+        $data   = new ArrayData($input);
+        $actual = $data->getOptions();
+        $this->assertSame($input, $actual);
     }
 }

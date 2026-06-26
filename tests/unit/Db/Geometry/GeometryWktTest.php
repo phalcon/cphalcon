@@ -22,16 +22,12 @@ use Phalcon\Tests\AbstractUnitTestCase;
 
 final class GeometryWktTest extends AbstractUnitTestCase
 {
-    public function testPointWkt(): void
+    public function testGeometryCollectionWkt(): void
     {
-        $point = new Point(1.0, 2.0, 4326);
+        $gc = new GeometryCollection([new Point(1.0, 2.0)]);
 
-        $this->assertSame(Column::TYPE_POINT, $point->getType());
-        $this->assertSame(4326, $point->getSrid());
-        $this->assertSame(1.0, $point->getX());
-        $this->assertSame(2.0, $point->getY());
-        $this->assertSame("POINT(1 2)", $point->toWkt());
-        $this->assertSame("POINT(1 2)", (string) $point);
+        $this->assertSame(Column::TYPE_GEOMETRYCOLLECTION, $gc->getType());
+        $this->assertSame("GEOMETRYCOLLECTION(POINT(1 2))", $gc->toWkt());
     }
 
     public function testLineStringWkt(): void
@@ -43,6 +39,17 @@ final class GeometryWktTest extends AbstractUnitTestCase
 
         $this->assertSame(Column::TYPE_LINESTRING, $line->getType());
         $this->assertSame("LINESTRING(0 0, 1 1)", $line->toWkt());
+    }
+    public function testPointWkt(): void
+    {
+        $point = new Point(1.0, 2.0, 4326);
+
+        $this->assertSame(Column::TYPE_POINT, $point->getType());
+        $this->assertSame(4326, $point->getSrid());
+        $this->assertSame(1.0, $point->getX());
+        $this->assertSame(2.0, $point->getY());
+        $this->assertSame("POINT(1 2)", $point->toWkt());
+        $this->assertSame("POINT(1 2)", (string) $point);
     }
 
     public function testPolygonWkt(): void
@@ -58,13 +65,5 @@ final class GeometryWktTest extends AbstractUnitTestCase
 
         $this->assertSame(Column::TYPE_POLYGON, $poly->getType());
         $this->assertSame("POLYGON((0 0, 1 0, 1 1, 0 0))", $poly->toWkt());
-    }
-
-    public function testGeometryCollectionWkt(): void
-    {
-        $gc = new GeometryCollection([new Point(1.0, 2.0)]);
-
-        $this->assertSame(Column::TYPE_GEOMETRYCOLLECTION, $gc->getType());
-        $this->assertSame("GEOMETRYCOLLECTION(POINT(1 2))", $gc->toWkt());
     }
 }

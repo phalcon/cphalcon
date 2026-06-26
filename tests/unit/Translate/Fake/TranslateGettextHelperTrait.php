@@ -54,36 +54,6 @@ trait TranslateGettextHelperTrait
     }
 
     /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2020-09-09
-     */
-    public function testTranslateAdapterGettextWithArrayAccessAndUTF8Strings()
-    {
-
-        $language = $this->getGettextConfig();
-
-        $translator = new Gettext(new InterpolatorFactory(), $language);
-
-        $vars = ['fname' => 'John',
-            'lname' => 'Doe',
-            'mname' => 'D.',];
-
-        $expected = 'Привет, John D. Doe!';
-        $actual = $translator->{$this->func()}('Привет, %fname% %mname% %lname%!', $vars);
-        $this->assertSame($expected, $actual);
-    }
-
-    /**
-     * @return array
-     */
-    abstract protected function getGettextConfig(): array;
-
-    /**
-     * @return string
-     */
-    abstract protected function func(): string;
-
-    /**
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
@@ -153,4 +123,34 @@ trait TranslateGettextHelperTrait
             $this->assertSame($expected, $actual);
         }
     }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    public function testTranslateAdapterGettextWithArrayAccessAndUTF8Strings()
+    {
+
+        $language = $this->getGettextConfig();
+
+        $translator = new Gettext(new InterpolatorFactory(), $language);
+
+        $vars = ['fname' => 'John',
+            'lname' => 'Doe',
+            'mname' => 'D.',];
+
+        $expected = 'Привет, John D. Doe!';
+        $actual = $translator->{$this->func()}('Привет, %fname% %mname% %lname%!', $vars);
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @return string
+     */
+    abstract protected function func(): string;
+
+    /**
+     * @return array
+     */
+    abstract protected function getGettextConfig(): array;
 }

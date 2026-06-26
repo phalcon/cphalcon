@@ -20,8 +20,8 @@ use Phalcon\Mvc\Application;
 use Phalcon\Mvc\Application\Exception;
 use Phalcon\Mvc\Router;
 use Phalcon\Mvc\View;
-use Phalcon\Tests\Support\Modules\Backend\Module as BackendModule;
 use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Tests\Support\Modules\Backend\Module as BackendModule;
 use Phalcon\Tests\Support\Modules\Frontend\Module as FrontendModule;
 
 final class RegisterModulesTest extends AbstractUnitTestCase
@@ -29,54 +29,6 @@ final class RegisterModulesTest extends AbstractUnitTestCase
     public function tearDown(): void
     {
         Di::reset();
-    }
-
-    public function testModulesDefinition(): void
-    {
-        Di::reset();
-
-        $di = new FactoryDefault();
-
-        $di->set(
-            'router',
-            function () {
-                $router = new Router(false);
-
-                $router->add(
-                    '/index',
-                    [
-                        'controller' => 'index',
-                        'module'     => 'frontend',
-                        'namespace'  => 'Phalcon\Tests\Support\Modules\Frontend\Controllers',
-                    ]
-                );
-
-                return $router;
-            }
-        );
-
-        $application = new Application();
-
-        $application->registerModules(
-            [
-                'frontend' => [
-                    'path'      => supportDir('Modules/Frontend/Module.php'),
-                    'className' => FrontendModule::class,
-                ],
-                'backend'  => [
-                    'path'      => supportDir('Modules/Backend/Module.php'),
-                    'className' => BackendModule::class,
-                ],
-            ]
-        );
-
-        $application->setDI($di);
-
-        $response = $application->handle('/index');
-
-        $expected = '<html>here</html>' . PHP_EOL;
-        $actual   = $response->getContent();
-        $this->assertEquals($expected, $actual);
     }
 
     public function testModulesClosure(): void
@@ -147,6 +99,54 @@ final class RegisterModulesTest extends AbstractUnitTestCase
         $application->setDI($di);
 
         $response = $application->handle('/login');
+
+        $expected = '<html>here</html>' . PHP_EOL;
+        $actual   = $response->getContent();
+        $this->assertEquals($expected, $actual);
+    }
+
+    public function testModulesDefinition(): void
+    {
+        Di::reset();
+
+        $di = new FactoryDefault();
+
+        $di->set(
+            'router',
+            function () {
+                $router = new Router(false);
+
+                $router->add(
+                    '/index',
+                    [
+                        'controller' => 'index',
+                        'module'     => 'frontend',
+                        'namespace'  => 'Phalcon\Tests\Support\Modules\Frontend\Controllers',
+                    ]
+                );
+
+                return $router;
+            }
+        );
+
+        $application = new Application();
+
+        $application->registerModules(
+            [
+                'frontend' => [
+                    'path'      => supportDir('Modules/Frontend/Module.php'),
+                    'className' => FrontendModule::class,
+                ],
+                'backend'  => [
+                    'path'      => supportDir('Modules/Backend/Module.php'),
+                    'className' => BackendModule::class,
+                ],
+            ]
+        );
+
+        $application->setDI($di);
+
+        $response = $application->handle('/index');
 
         $expected = '<html>here</html>' . PHP_EOL;
         $actual   = $response->getContent();
