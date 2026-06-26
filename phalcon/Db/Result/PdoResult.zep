@@ -98,6 +98,24 @@ class PdoResult implements ResultInterface
     }
 
     /**
+     * Frees the PDOStatement when this result is garbage collected.
+     * Prevents unbounded accumulation of open statements in tight loops
+     * that would otherwise lead to a segmentation fault.
+     */
+    public function __destruct()
+    {
+        if typeof this->pdoStatement == "object" {
+            try {
+                this->pdoStatement->closeCursor();
+            } catch \Exception {
+            }
+        }
+
+        let this->pdoStatement = null,
+            this->connection = null;
+    }
+
+    /**
      * Moves internal resultset cursor to another position letting us to fetch a
      * certain row
      *
