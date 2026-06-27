@@ -36,22 +36,22 @@ interface Adapter
     /**
      * Adds a column to a table
      */
-    public function addColumn(string! tableName, string! schemaName, <ColumnInterface> column) -> bool;
+    public function addColumn( string tableName,  string schemaName, <ColumnInterface> column) -> bool;
 
     /**
      * Adds a foreign key to a table
      */
-    public function addForeignKey(string! tableName, string! schemaName, <ReferenceInterface> reference) -> bool;
+    public function addForeignKey( string tableName,  string schemaName, <ReferenceInterface> reference) -> bool;
 
     /**
      * Adds an index to a table
      */
-    public function addIndex(string! tableName, string! schemaName, <IndexInterface> index) -> bool;
+    public function addIndex( string tableName,  string schemaName, <IndexInterface> index) -> bool;
 
     /**
      * Adds a primary key to a table
      */
-    public function addPrimaryKey(string! tableName, string! schemaName, <IndexInterface> index) -> bool;
+    public function addPrimaryKey( string tableName,  string schemaName, <IndexInterface> index) -> bool;
 
     /**
      * Returns the number of affected rows by the last INSERT/UPDATE/DELETE
@@ -79,22 +79,22 @@ interface Adapter
      * This method is automatically called in \Phalcon\Db\Adapter\Pdo
      * constructor. Call it when you need to restore a database connection
      */
-    public function connect(array! descriptor = []) -> void;
+    public function connect( array descriptor = []) -> void;
 
     /**
      * Creates a new savepoint
      */
-    public function createSavepoint(string! name) -> bool;
+    public function createSavepoint( string name) -> bool;
 
     /**
      * Creates a table
      */
-    public function createTable(string! tableName, string! schemaName, array! definition) -> bool;
+    public function createTable( string tableName,  string schemaName,  array definition) -> bool;
 
     /**
      * Creates a view
      */
-    public function createView(string! viewName, array! definition, string schemaName = null) -> bool;
+    public function createView( string viewName,  array definition, string schemaName = null) -> bool;
 
     /**
      * Deletes data from a table using custom RDBMS SQL syntax
@@ -116,47 +116,47 @@ interface Adapter
     /**
      * Returns an array of Phalcon\Db\Column objects describing a table
      */
-    public function describeColumns(string! table, string schema = null) -> <ColumnInterface[]>;
+    public function describeColumns( string table, string schema = null) -> <ColumnInterface[]>;
 
     /**
      * Lists table indexes
      */
-    public function describeIndexes(string! table, string schema = null) -> <IndexInterface[]>;
+    public function describeIndexes( string table, string schema = null) -> <IndexInterface[]>;
 
     /**
      * Lists table references
      */
-    public function describeReferences(string! table, string schema = null) -> <ReferenceInterface[]>;
+    public function describeReferences( string table, string schema = null) -> <ReferenceInterface[]>;
 
     /**
      * Drops a column from a table
      */
-    public function dropColumn(string! tableName, string! schemaName, string columnName) -> bool;
+    public function dropColumn( string tableName,  string schemaName, string columnName) -> bool;
 
     /**
      * Drops a foreign key from a table
      */
-    public function dropForeignKey(string! tableName, string! schemaName, string referenceName) -> bool;
+    public function dropForeignKey( string tableName,  string schemaName, string referenceName) -> bool;
 
     /**
      * Drop an index from a table
      */
-    public function dropIndex(string! tableName, string! schemaName, string indexName) -> bool;
+    public function dropIndex( string tableName,  string schemaName, string indexName) -> bool;
 
     /**
      * Drops primary key from a table
      */
-    public function dropPrimaryKey(string! tableName, string! schemaName) -> bool;
+    public function dropPrimaryKey( string tableName,  string schemaName) -> bool;
 
     /**
      * Drops a table from a schema/database
      */
-    public function dropTable(string! tableName, string! schemaName = null, bool ifExists = true) -> bool;
+    public function dropTable( string tableName,  string schemaName = null, bool ifExists = true) -> bool;
 
     /**
      * Drops a view
      */
-    public function dropView(string! viewName, string! schemaName = null, bool ifExists = true) -> bool;
+    public function dropView( string viewName,  string schemaName = null, bool ifExists = true) -> bool;
 
     /**
      * Escapes a column/table/schema name
@@ -166,19 +166,19 @@ interface Adapter
     /**
      * Escapes a value to avoid SQL injections
      */
-    public function escapeString(string! str) -> string;
+    public function escapeString( string str) -> string;
 
     /**
      * Sends SQL statements to the database server returning the success state.
      * Use this method only when the SQL statement sent to the server does not
      * return any rows
      */
-    public function execute(string! sqlStatement, array! bindParams = [], array! bindTypes = []) -> bool;
+    public function execute( string sqlStatement,  array bindParams = [],  array bindTypes = []) -> bool;
 
     /**
      * Dumps the complete result of a query into an array
      */
-    public function fetchAll(string! sqlQuery, int fetchMode = 2, array bindParams = [], array bindTypes = []) -> array;
+    public function fetchAll( string sqlQuery, int fetchMode = 2, array bindParams = [], array bindTypes = []) -> array;
 
     /**
      * Returns the n'th field of first row in a SQL query result
@@ -201,14 +201,14 @@ interface Adapter
     /**
      * Returns the first row in a SQL query result
      */
-    public function fetchOne(string! sqlQuery, int fetchMode = 2, array bindParams = [], array bindTypes = []) -> array;
+    public function fetchOne( string sqlQuery, int fetchMode = 2, array bindParams = [], array bindTypes = []) -> array;
 
     /**
      * Returns a SQL modified with a FOR UPDATE clause. The optional `modifier`
      * appends a row-lock disposition keyword - pass `Dialect::LOCK_NOWAIT`
      * or `Dialect::LOCK_SKIP_LOCKED` (or leave as `Dialect::LOCK_NONE`).
      */
-    public function forUpdate(string! sqlQuery, string modifier = "") -> string;
+    public function forUpdate( string sqlQuery, string modifier = "") -> string;
 
     /**
      * Returns the SQL column definition from a column
@@ -306,7 +306,7 @@ interface Adapter
     /**
      * Inserts data into a table using custom RDBMS SQL syntax
      */
-    public function insert(string table, array! values, fields = null, dataTypes = null) -> bool;
+    public function insert(string table,  array values, fields = null, dataTypes = null) -> bool;
 
     /**
      * Inserts data into a table using custom RBDM SQL syntax
@@ -343,29 +343,29 @@ interface Adapter
      *
      * @param string|null $name Name of the sequence object from which the ID should be returned.
      */
-    public function lastInsertId(string! name = null) -> string|bool;
+    public function lastInsertId( string name = null) -> string|bool;
 
     /**
      * Appends a LIMIT clause to sqlQuery argument
      */
-    public function limit(string! sqlQuery, var number) -> string;
+    public function limit( string sqlQuery, var number) -> string;
 
     /**
      * List all tables on a database
      */
-    public function listTables(string! schemaName = null) -> array;
+    public function listTables( string schemaName = null) -> array;
 
     /**
      * List all views on a database
      */
-    public function listViews(string! schemaName = null) -> array;
+    public function listViews( string schemaName = null) -> array;
 
     /**
      * Modifies a table column based on a definition
      */
     public function modifyColumn(
-        string! tableName,
-        string! schemaName,
+         string tableName,
+         string schemaName,
         <ColumnInterface> column,
         <ColumnInterface> currentColumn = null
     ) -> bool;
@@ -376,15 +376,15 @@ interface Adapter
      * rows
      */
     public function query(
-        string! sqlStatement,
-        array! bindParams = [],
-        array! bindTypes = []
+         string sqlStatement,
+         array bindParams = [],
+         array bindTypes = []
     ) -> <ResultInterface> | bool;
 
     /**
      * Releases given savepoint
      */
-    public function releaseSavepoint(string! name) -> bool;
+    public function releaseSavepoint( string name) -> bool;
 
     /**
      * Rollbacks the active transaction in the connection
@@ -394,7 +394,7 @@ interface Adapter
     /**
      * Rollbacks given savepoint
      */
-    public function rollbackSavepoint(string! name) -> bool;
+    public function rollbackSavepoint( string name) -> bool;
 
     /**
      * Returns a SQL modified with a shared-lock clause. See the dialect's
@@ -402,7 +402,7 @@ interface Adapter
      * passed straight through (use `Dialect::LOCK_NOWAIT` /
      * `Dialect::LOCK_SKIP_LOCKED` for PostgreSQL).
      */
-    public function sharedLock(string! sqlQuery, string modifier = "") -> string;
+    public function sharedLock( string sqlQuery, string modifier = "") -> string;
 
     /**
      * Set if nested transactions should use savepoints
@@ -418,12 +418,12 @@ interface Adapter
     /**
      * Generates SQL checking for the existence of a schema.table
      */
-    public function tableExists(string! tableName, string! schemaName = null) -> bool;
+    public function tableExists( string tableName,  string schemaName = null) -> bool;
 
     /**
      * Gets creation options from a table
      */
-    public function tableOptions(string! tableName, string schemaName = null) -> array;
+    public function tableOptions( string tableName, string schemaName = null) -> array;
 
     /**
      * Updates data on a table using custom RDBMS SQL syntax
@@ -466,5 +466,5 @@ interface Adapter
     /**
      * Generates SQL checking for the existence of a schema.view
      */
-    public function viewExists(string! viewName, string! schemaName = null) -> bool;
+    public function viewExists( string viewName,  string schemaName = null) -> bool;
 }

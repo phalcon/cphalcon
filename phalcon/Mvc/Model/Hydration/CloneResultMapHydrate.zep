@@ -16,7 +16,7 @@ use Phalcon\Support\Settings;
 
 class CloneResultMapHydrate
 {
-    public static function cloneResultMapHydrate(array! data, var columnMap, int hydrationMode, string calledClass = "Phalcon\\Mvc\\Model")
+    public static function cloneResultMapHydrate( array data, var columnMap, int hydrationMode, string calledClass = "Phalcon\\Mvc\\Model")
     {
         var key, value, attribute, attributeName;
         array hydrateArray;

@@ -53,7 +53,7 @@ abstract class Behavior implements BehaviorInterface
      *
      * @return array
      */
-    protected function getOptions(string! eventName = null)
+    protected function getOptions( string eventName = null)
     {
         var options, eventOptions;
 
@@ -73,7 +73,7 @@ abstract class Behavior implements BehaviorInterface
     /**
      * Checks whether the behavior must take action on certain event
      */
-    protected function mustTakeAction(string! eventName) -> bool
+    protected function mustTakeAction( string eventName) -> bool
     {
         return isset this->options[eventName];
     }

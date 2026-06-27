@@ -22,7 +22,7 @@ class AnnotationsFactory extends AbstractFactory
     /**
      * AdapterFactory constructor.
      */
-    public function __construct(array! services = [])
+    public function __construct( array services = [])
     {
         this->init(services);
     }
@@ -63,7 +63,7 @@ class AnnotationsFactory extends AbstractFactory
      *     'annotationsDir' => 'phalconDir'
      * ]
      */
-    public function newInstance(string! name, array! options = []) -> <AdapterInterface>
+    public function newInstance( string name,  array options = []) -> <AdapterInterface>
     {
         var definition;
 

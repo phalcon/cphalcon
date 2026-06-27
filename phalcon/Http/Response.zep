@@ -88,7 +88,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     /**
      * Phalcon\Http\Response constructor
      */
-    public function __construct(string! content = null, code = null, status = null)
+    public function __construct( string content = null, code = null, status = null)
     {
         // Note: Don't remove exclamation mark above otherwise NULL will be coerced.
 
@@ -414,7 +414,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
      * $this->response->setCache(60);
      *```
      */
-    public function setCache(int! minutes) -> <ResponseInterface>
+    public function setCache( int minutes) -> <ResponseInterface>
     {
         var date;
 

@@ -24,12 +24,12 @@ interface DiInterface extends ArrayAccess
      *
      * @param mixed definition
      */
-    public function attempt(string! name, definition, bool shared = false) -> <ServiceInterface> | bool;
+    public function attempt( string name, definition, bool shared = false) -> <ServiceInterface> | bool;
 
     /**
      * Resolves the service based on its configuration
      */
-    public function get(string! name, parameters = null) -> var;
+    public function get( string name, parameters = null) -> var;
 
     /**
      * Return the last DI created
@@ -39,12 +39,12 @@ interface DiInterface extends ArrayAccess
     /**
      * Returns a service definition without resolving
      */
-    public function getRaw(string! name) -> var;
+    public function getRaw( string name) -> var;
 
     /**
      * Returns the corresponding Phalcon\Di\Service instance for a service
      */
-    public function getService(string! name) -> <ServiceInterface>;
+    public function getService( string name) -> <ServiceInterface>;
 
     /**
      * Return the services registered in the DI
@@ -54,12 +54,12 @@ interface DiInterface extends ArrayAccess
     /**
      * Returns a shared service based on their configuration
      */
-    public function getShared(string! name, parameters = null) -> var;
+    public function getShared( string name, parameters = null) -> var;
 
     /**
      * Check whether the DI contains a service by a name
      */
-    public function has(string! name) -> bool;
+    public function has( string name) -> bool;
 
     /**
      * Check whether the DI has a cached shared instance for a service name.
@@ -69,12 +69,12 @@ interface DiInterface extends ArrayAccess
      * `getShared()`. A service can be registered (`has()` returns true)
      * without yet having a shared instance (`hasShared()` returns false).
      */
-    public function hasShared(string! name) -> bool;
+    public function hasShared( string name) -> bool;
 
     /**
      * Removes a service in the services container
      */
-    public function remove(string! name) -> void;
+    public function remove( string name) -> void;
 
     /**
      * Removes the cached shared instance for a service, leaving the service
@@ -84,7 +84,7 @@ interface DiInterface extends ArrayAccess
      * parent's resource handle (e.g. a database connection) and needs to
      * discard the cached instance without re-registering the service.
      */
-    public function removeShared(string! name) -> void;
+    public function removeShared( string name) -> void;
 
     /**
      * Resets the internal default DI
@@ -94,7 +94,7 @@ interface DiInterface extends ArrayAccess
     /**
      * Registers a service in the services container
      */
-    public function set(string! name, definition, bool shared = false) -> <ServiceInterface>;
+    public function set( string name, definition, bool shared = false) -> <ServiceInterface>;
 
     /**
      * Set a default dependency injection container to be obtained into static
@@ -105,10 +105,10 @@ interface DiInterface extends ArrayAccess
     /**
      * Sets a service using a raw Phalcon\Di\Service definition
      */
-    public function setService(string! name, <ServiceInterface> rawDefinition) -> <ServiceInterface>;
+    public function setService( string name, <ServiceInterface> rawDefinition) -> <ServiceInterface>;
 
     /**
      * Registers an "always shared" service in the services container
      */
-    public function setShared(string! name, definition) -> <ServiceInterface>;
+    public function setShared( string name, definition) -> <ServiceInterface>;
 }

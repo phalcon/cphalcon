@@ -84,7 +84,7 @@ class Builder
      *
      * @return static
      */
-    public function addClaim(string! name, var value) -> <static>
+    public function addClaim( string name, var value) -> <static>
     {
         this->claims->set(name, value);
 
@@ -99,7 +99,7 @@ class Builder
      *
      * @return static
      */
-    public function addHeader(string! name, var value) -> <static>
+    public function addHeader( string name, var value) -> <static>
     {
         this->jose->set(name, value);
 
@@ -324,7 +324,7 @@ class Builder
      *
      * @return static
      */
-    public function setId(string! jwtId) -> <static>
+    public function setId( string jwtId) -> <static>
     {
         return this->setClaim(Enum::ID, jwtId);
     }
@@ -339,7 +339,7 @@ class Builder
      *
      * @return static
      */
-    public function setIssuedAt(int! timestamp) -> <static>
+    public function setIssuedAt( int timestamp) -> <static>
     {
         return this->setClaim(Enum::ISSUED_AT, timestamp);
     }
@@ -354,7 +354,7 @@ class Builder
      *
      * @return static
      */
-    public function setIssuer(string! issuer) -> <static>
+    public function setIssuer( string issuer) -> <static>
     {
         return this->setClaim(Enum::ISSUER, issuer);
     }
@@ -373,7 +373,7 @@ class Builder
      * @return static
      * @throws ValidatorException
      */
-    public function setNotBefore(int! timestamp) -> <static>
+    public function setNotBefore( int timestamp) -> <static>
     {
         if timestamp > time() {
             throw new InvalidNotBefore();
@@ -388,7 +388,7 @@ class Builder
      * @return static
      * @throws ValidatorException
      */
-    public function setPassphrase(string! passphrase) -> <static>
+    public function setPassphrase( string passphrase) -> <static>
     {
         if !preg_match(
             "/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[\W_]).{16,}$/",
@@ -415,7 +415,7 @@ class Builder
      *
      * @return static
      */
-    public function setSubject(string! subject) -> <static>
+    public function setSubject( string subject) -> <static>
     {
         return this->setClaim(Enum::SUBJECT, subject);
     }
@@ -428,7 +428,7 @@ class Builder
      *
      * @return Builder
      */
-    protected function setClaim(string! name, var value) -> <Builder>
+    protected function setClaim( string name, var value) -> <Builder>
     {
         this->claims->set(name, value);
 
@@ -438,7 +438,7 @@ class Builder
     /**
      * @todo This will be removed when traits are introduced
      */
-    private function encodeUrl(string! input) -> string
+    private function encodeUrl( string input) -> string
     {
         return str_replace("=", "", strtr(base64_encode(input), "+/", "-_"));
     }

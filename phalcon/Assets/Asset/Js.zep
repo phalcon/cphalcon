@@ -21,7 +21,7 @@ class Js extends AssetBase
      * Phalcon\Assets\Asset\Js constructor
      */
     public function __construct(
-        string! path,
+         string path,
         bool local = true,
         bool filter = true,
         array attributes = [],

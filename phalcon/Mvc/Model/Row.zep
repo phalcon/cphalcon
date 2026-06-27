@@ -89,7 +89,7 @@ class Row extends \stdClass implements EntityInterface, ResultInterface, ArrayAc
      *
      * @return mixed
      */
-    public function readAttribute(string! attribute)
+    public function readAttribute( string attribute)
     {
         var value;
 
@@ -125,7 +125,7 @@ class Row extends \stdClass implements EntityInterface, ResultInterface, ArrayAc
      *
      * @param mixed value
      */
-    public function writeAttribute(string! attribute, value) -> void
+    public function writeAttribute( string attribute, value) -> void
     {
         let this->{attribute} = value;
     }

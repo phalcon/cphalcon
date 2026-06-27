@@ -650,7 +650,7 @@ class Security extends AbstractInjectionAware implements SecurityContract
      *
      * @return static
      */
-    public function setRandomBytes(int! randomBytes) -> <static>
+    public function setRandomBytes( int randomBytes) -> <static>
     {
         let this->numberBytes = randomBytes;
 

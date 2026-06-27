@@ -124,7 +124,7 @@ class Messages implements MessagesContract, JsonSerializable
     /**
      * Filters the message collection by field name
      */
-    public function filter(string! fieldName) -> array
+    public function filter( string fieldName) -> array
     {
         var filtered, messages, message;
 

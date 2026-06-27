@@ -102,7 +102,7 @@ class LoggerFactory extends AbstractConfigFactory
      * @todo Remove this when we get traits
      */
     protected function getArrVal(
-        array! collection,
+         array collection,
         var index,
         var defaultValue = null
     ) -> var {

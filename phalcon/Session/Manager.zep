@@ -408,7 +408,7 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
      * @todo Remove this when we get traits
      */
     private function getArrVal(
-        array! collection,
+         array collection,
         var index,
         var defaultValue = null
     ) -> var {

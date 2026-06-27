@@ -97,7 +97,7 @@ class Stream extends AbstractAdapter
     /**
      * Writes parsed annotations to files
      */
-    public function write(string! key, <Reflection> data) -> void
+    public function write( string key, <Reflection> data) -> void
     {
         var code;
         string path;

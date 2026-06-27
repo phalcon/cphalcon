@@ -29,8 +29,8 @@ class Friendly extends AbstractStr
      * @throws InvalidReplaceFormat
      */
     public function __invoke(
-        string! text,
-        string! separator = "-",
+         string text,
+         string separator = "-",
         bool lowercase = true,
         var replace = null
     ) -> string {

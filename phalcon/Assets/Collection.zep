@@ -288,7 +288,7 @@ class Collection implements Countable, IteratorAggregate
      *
      * @return string
      */
-    public function getRealTargetPath(string! basePath) -> string
+    public function getRealTargetPath( string basePath) -> string
     {
         var completePath;
 

@@ -30,7 +30,7 @@ class AssociativeArray implements InterpolatorInterface
      * @return string
      */
     public function replacePlaceholders(
-        string! translation,
+         string translation,
         array placeholders = []
     ) -> string {
         if null === this->interpolate {

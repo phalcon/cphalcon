@@ -71,7 +71,7 @@ class Dump implements TemplateAware
     /**
      * Phalcon\Debug\Dump constructor
      */
-    public function __construct(array! styles = [], bool detailed = false)
+    public function __construct( array styles = [], bool detailed = false)
     {
         let this->encode = new Encode();
 
@@ -134,7 +134,7 @@ class Dump implements TemplateAware
     /**
      * Set styles for vars type
      */
-    public function setStyles(array! styles = []) -> array
+    public function setStyles( array styles = []) -> array
     {
         var defaultStyles;
 
@@ -279,7 +279,7 @@ class Dump implements TemplateAware
     /**
      * Get style for type
      */
-    protected function getStyle(string! type) -> string
+    protected function getStyle( string type) -> string
     {
         var style;
 

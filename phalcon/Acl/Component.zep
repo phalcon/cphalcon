@@ -20,7 +20,7 @@ class Component extends AbstractElement implements ComponentInterface
     /**
      * Phalcon\Acl\Component constructor
      */
-    public function __construct(string! name, string description = null)
+    public function __construct( string name, string description = null)
     {
         if unlikely name === "*" {
             throw new ForbiddenWildcard("component");

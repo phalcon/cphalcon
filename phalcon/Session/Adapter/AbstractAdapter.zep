@@ -99,7 +99,7 @@ abstract class AbstractAdapter implements SessionHandlerInterface, SessionUpdate
      * @todo Remove this when we get traits
      */
     protected function getArrVal(
-        array! collection,
+         array collection,
         var index,
         var defaultValue = null
     ) -> var {

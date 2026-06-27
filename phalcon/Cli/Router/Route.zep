@@ -81,7 +81,7 @@ class Route implements RouteInterface
     /**
      * @param array|string paths
      */
-    public function __construct(string! pattern, paths = null)
+    public function __construct( string pattern, paths = null)
     {
         var routeId, uniqueId;
 
@@ -122,7 +122,7 @@ class Route implements RouteInterface
      * Replaces placeholders from pattern returning a valid PCRE regular
      * expression
      */
-    public function compilePattern(string! pattern) -> string
+    public function compilePattern( string pattern) -> string
     {
         var idPattern;
         array map;
@@ -166,7 +166,7 @@ class Route implements RouteInterface
      *
      * @param callable converter
      */
-    public function convert(string! name, converter) -> <RouteInterface>
+    public function convert( string name, converter) -> <RouteInterface>
     {
         let this->converters[name] = converter;
 
@@ -182,7 +182,7 @@ class Route implements RouteInterface
      * delimiter, and `Console::setArgument()` reads the current value when it
      * parses arguments.
      */
-    public static function delimiter(string! delimiter = null) -> void
+    public static function delimiter( string delimiter = null) -> void
     {
         let self::delimiterPath = delimiter;
     }
@@ -190,7 +190,7 @@ class Route implements RouteInterface
     /**
      * Extracts parameters from a string
      */
-    public function extractNamedParams(string! pattern) -> array | bool
+    public function extractNamedParams( string pattern) -> array | bool
     {
         char ch;
         var tmp;
@@ -409,7 +409,7 @@ class Route implements RouteInterface
      *
      * @return void
      */
-    public function reConfigure(string! pattern, paths = null) -> void
+    public function reConfigure( string pattern, paths = null) -> void
     {
         var moduleName, taskName, actionName, parts, routePaths, realClassName,
             namespaceName, pcrePattern, compiledPattern, extracted;
@@ -554,7 +554,7 @@ class Route implements RouteInterface
     /**
      * Sets the route's description
      */
-    public function setDescription(string! description) -> <RouteInterface>
+    public function setDescription( string description) -> <RouteInterface>
     {
         let this->description = description;
 
@@ -573,7 +573,7 @@ class Route implements RouteInterface
      * )->setName("about");
      *```
      */
-    public function setName(string! name) -> <RouteInterface>
+    public function setName( string name) -> <RouteInterface>
     {
         let this->name = name;
 

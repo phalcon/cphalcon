@@ -59,7 +59,7 @@ abstract class Dialect implements DialectInterface
     /**
      * Generate SQL to create a new savepoint
      */
-    public function createSavepoint(string! name) -> string
+    public function createSavepoint( string name) -> string
     {
         return "SAVEPOINT " . name;
     }
@@ -67,7 +67,7 @@ abstract class Dialect implements DialectInterface
     /**
      * Escape identifiers
      */
-    final public function escape(string! str, string escapeChar = null) -> string
+    final public function escape( string str, string escapeChar = null) -> string
     {
         var parts, key, part, newParts;
 
@@ -105,7 +105,7 @@ abstract class Dialect implements DialectInterface
     /**
      * Escape Schema
      */
-    final public function escapeSchema(string! str, string escapeChar = null) -> string
+    final public function escapeSchema( string str, string escapeChar = null) -> string
     {
         if !Settings::get("db.escape_identifiers") {
             return str;
@@ -139,7 +139,7 @@ abstract class Dialect implements DialectInterface
      * echo $sql; // SELECT * FROM robots FOR UPDATE SKIP LOCKED
      *```
      */
-    public function forUpdate(string! sqlQuery, string modifier = "") -> string
+    public function forUpdate( string sqlQuery, string modifier = "") -> string
     {
         if modifier !== "" {
             return sqlQuery . " FOR UPDATE " . modifier;
@@ -160,7 +160,7 @@ abstract class Dialect implements DialectInterface
      * );
      * ```
      */
-    final public function getColumnList(array! columnList, string escapeChar = null, array! bindCounts = []) -> string
+    final public function getColumnList( array columnList, string escapeChar = null,  array bindCounts = []) -> string
     {
         var column;
         array columns;
@@ -191,7 +191,7 @@ abstract class Dialect implements DialectInterface
      *
      * @return string
      */
-    final public function getSqlColumn(var column, string escapeChar = null, array! bindCounts = []) -> string
+    final public function getSqlColumn(var column, string escapeChar = null,  array bindCounts = []) -> string
     {
         var columnExpression, columnAlias, columnField, columnDomain;
 
@@ -260,7 +260,7 @@ abstract class Dialect implements DialectInterface
     /**
      * Transforms an intermediate representation for an expression into a database system valid expression
      */
-    public function getSqlExpression(array! expression, string escapeChar = null, array! bindCounts = []) -> string
+    public function getSqlExpression( array expression, string escapeChar = null,  array bindCounts = []) -> string
     {
         int i;
         var type, times, postTimes, rawValue, value, nestedDefinition;
@@ -479,7 +479,7 @@ abstract class Dialect implements DialectInterface
      * );
      * ```
      */
-    public function limit(string! sqlQuery, var number) -> string
+    public function limit( string sqlQuery, var number) -> string
     {
         if typeof number == "array" {
             let sqlQuery .= " LIMIT " . number[0];
@@ -509,7 +509,7 @@ abstract class Dialect implements DialectInterface
      * (`CREATE MATERIALIZED VIEW name AS <sql>`). Other dialects inherit
      * this throw - MySQL and SQLite have no materialized-view concept.
      */
-    public function createMaterializedView(string! viewName, array! definition, string schemaName = null) -> string
+    public function createMaterializedView( string viewName,  array definition, string schemaName = null) -> string
     {
         throw new MaterializedViewsNotSupported();
     }
@@ -517,7 +517,7 @@ abstract class Dialect implements DialectInterface
     /**
      * Generates SQL to drop a materialized view. Supported by PostgreSQL.
      */
-    public function dropMaterializedView(string! viewName, string schemaName = null, bool ifExists = true) -> string
+    public function dropMaterializedView( string viewName, string schemaName = null, bool ifExists = true) -> string
     {
         throw new MaterializedViewsNotSupported();
     }
@@ -528,7 +528,7 @@ abstract class Dialect implements DialectInterface
      * CONCURRENTLY ...`, which avoids blocking concurrent SELECTs (requires
      * the view to have a unique index).
      */
-    public function refreshMaterializedView(string! viewName, string schemaName = null, bool concurrent = false) -> string
+    public function refreshMaterializedView( string viewName, string schemaName = null, bool concurrent = false) -> string
     {
         throw new MaterializedViewsNotSupported();
     }
@@ -540,7 +540,7 @@ abstract class Dialect implements DialectInterface
      * MySQL overrides this method to throw because its `ON DUPLICATE KEY
      * UPDATE` has a different shape (deferred to parser item #23).
      */
-    public function onConflictUpdate(string! sqlQuery, array! conflictColumns, array! updateColumns) -> string
+    public function onConflictUpdate( string sqlQuery,  array conflictColumns,  array updateColumns) -> string
     {
         var col;
         array assignments;
@@ -571,7 +571,7 @@ abstract class Dialect implements DialectInterface
      * names. The base implementation throws - MySQL inherits it because
      * MySQL has no RETURNING construct.
      */
-    public function returning(string! sqlQuery, array! columns) -> string
+    public function returning( string sqlQuery,  array columns) -> string
     {
         throw new ReturningNotSupported();
     }
@@ -579,7 +579,7 @@ abstract class Dialect implements DialectInterface
     /**
      * Generate SQL to release a savepoint
      */
-    public function releaseSavepoint(string! name) -> string
+    public function releaseSavepoint( string name) -> string
     {
         return "RELEASE SAVEPOINT " . name;
     }
@@ -587,7 +587,7 @@ abstract class Dialect implements DialectInterface
     /**
      * Generate SQL to rollback a savepoint
      */
-    public function rollbackSavepoint(string! name) -> string
+    public function rollbackSavepoint( string name) -> string
     {
         return "ROLLBACK TO SAVEPOINT " . name;
     }
@@ -595,7 +595,7 @@ abstract class Dialect implements DialectInterface
     /**
      * Builds a SELECT statement
      */
-    public function select(array! definition) -> string
+    public function select( array definition) -> string
     {
         var tables, columns, sql, distinct, joins, where, escapeChar, groupBy,
             having, orderBy, limit, forUpdate, bindCounts;
@@ -901,7 +901,7 @@ abstract class Dialect implements DialectInterface
     /**
      * Resolve *
      */
-    final protected function getSqlExpressionAll(array! expression, string escapeChar = null) -> string
+    final protected function getSqlExpressionAll( array expression, string escapeChar = null) -> string
     {
         var domain;
 
@@ -919,7 +919,7 @@ abstract class Dialect implements DialectInterface
      *
      * @return string
      */
-    final protected function getSqlExpressionBinaryOperations(array! expression, string escapeChar = null, array! bindCounts = []) -> string
+    final protected function getSqlExpressionBinaryOperations( array expression, string escapeChar = null,  array bindCounts = []) -> string
     {
         var left, right, operator;
 
@@ -953,7 +953,7 @@ abstract class Dialect implements DialectInterface
      *
      * @return string
      */
-    final protected function getSqlExpressionCase(array! expression, string escapeChar = null, array! bindCounts = []) -> string
+    final protected function getSqlExpressionCase( array expression, string escapeChar = null,  array bindCounts = []) -> string
     {
         var whenClause, whenClauses;
         string sql;
@@ -985,7 +985,7 @@ abstract class Dialect implements DialectInterface
      *
      * @return string
      */
-    final protected function getSqlExpressionCastValue(array! expression, string escapeChar = null, array! bindCounts = []) -> string
+    final protected function getSqlExpressionCastValue( array expression, string escapeChar = null,  array bindCounts = []) -> string
     {
         var left, right;
 
@@ -1013,7 +1013,7 @@ abstract class Dialect implements DialectInterface
      *
      * @return string
      */
-    final protected function getSqlExpressionConvertValue(array! expression, string escapeChar = null, array! bindCounts = []) -> string
+    final protected function getSqlExpressionConvertValue( array expression, string escapeChar = null,  array bindCounts = []) -> string
     {
         var left, right;
 
@@ -1063,7 +1063,7 @@ abstract class Dialect implements DialectInterface
      *
      * @return string
      */
-    final protected function getSqlExpressionFunctionCall(array! expression, string escapeChar = null, array! bindCounts = []) -> string
+    final protected function getSqlExpressionFunctionCall( array expression, string escapeChar = null,  array bindCounts = []) -> string
     {
         var name, customFunction, arguments;
 
@@ -1103,7 +1103,7 @@ abstract class Dialect implements DialectInterface
      *
      * @return string
      */
-    final protected function getSqlExpressionGroupBy(var expression, string escapeChar = null, array! bindCounts = []) -> string
+    final protected function getSqlExpressionGroupBy(var expression, string escapeChar = null,  array bindCounts = []) -> string
     {
         var field, fields;
 
@@ -1139,7 +1139,7 @@ abstract class Dialect implements DialectInterface
      *
      * @return string
      */
-    final protected function getSqlExpressionHaving(array! expression, string escapeChar = null, array! bindCounts = []) -> string
+    final protected function getSqlExpressionHaving( array expression, string escapeChar = null,  array bindCounts = []) -> string
     {
         return "HAVING " . this->getSqlExpression(expression, escapeChar, bindCounts);
     }
@@ -1153,7 +1153,7 @@ abstract class Dialect implements DialectInterface
      *
      * @return string
      */
-    final protected function getSqlExpressionJoins(var expression, string escapeChar = null, array! bindCounts = []) -> string
+    final protected function getSqlExpressionJoins(var expression, string escapeChar = null,  array bindCounts = []) -> string
     {
         var condition, join, joinCondition, joinTable, joinType = "",
             joinConditionsArray;
@@ -1208,7 +1208,7 @@ abstract class Dialect implements DialectInterface
      *
      * @return string
      */
-    final protected function getSqlExpressionLimit(var expression, string escapeChar = null, array! bindCounts = []) -> string
+    final protected function getSqlExpressionLimit(var expression, string escapeChar = null,  array bindCounts = []) -> string
     {
         var sql = "", value, limit, offset = null;
 
@@ -1256,7 +1256,7 @@ abstract class Dialect implements DialectInterface
      *
      * @return string
      */
-    final protected function getSqlExpressionList(array! expression, string escapeChar = null, array! bindCounts = []) -> string
+    final protected function getSqlExpressionList( array expression, string escapeChar = null,  array bindCounts = []) -> string
     {
         var item, values, separator;
         array items;
@@ -1293,7 +1293,7 @@ abstract class Dialect implements DialectInterface
      *
      * @return string
      */
-    final protected function getSqlExpressionObject(array! expression, string escapeChar = null, array! bindCounts = []) -> string
+    final protected function getSqlExpressionObject( array expression, string escapeChar = null,  array bindCounts = []) -> string
     {
         var domain = null, objectExpression;
 
@@ -1317,7 +1317,7 @@ abstract class Dialect implements DialectInterface
      *
      * @return string
      */
-    final protected function getSqlExpressionOrderBy(var expression, string escapeChar = null, array! bindCounts = []) -> string
+    final protected function getSqlExpressionOrderBy(var expression, string escapeChar = null,  array bindCounts = []) -> string
     {
         var field, fields, type, fieldSql = null;
 
@@ -1357,7 +1357,7 @@ abstract class Dialect implements DialectInterface
     /**
      * Resolve qualified expressions
      */
-    final protected function getSqlExpressionQualified(array! expression, string escapeChar = null) -> string
+    final protected function getSqlExpressionQualified( array expression, string escapeChar = null) -> string
     {
         var column, domain;
 
@@ -1380,7 +1380,7 @@ abstract class Dialect implements DialectInterface
      * @param string|null escapeChar
      * @param array bindCounts
      */
-    final protected function getSqlExpressionScalar(array! expression, string escapeChar = null, array! bindCounts = []) -> string
+    final protected function getSqlExpressionScalar( array expression, string escapeChar = null,  array bindCounts = []) -> string
     {
         var value;
 
@@ -1408,7 +1408,7 @@ abstract class Dialect implements DialectInterface
      *
      * @return string
      */
-    final protected function getSqlExpressionUnaryOperations(array! expression, string escapeChar = null, array! bindCounts = []) -> string
+    final protected function getSqlExpressionUnaryOperations( array expression, string escapeChar = null,  array bindCounts = []) -> string
     {
         var left, right;
 
@@ -1438,7 +1438,7 @@ abstract class Dialect implements DialectInterface
      *
      * @return string
      */
-    final protected function getSqlExpressionWhere(var expression, string escapeChar = null, array! bindCounts = []) -> string
+    final protected function getSqlExpressionWhere(var expression, string escapeChar = null,  array bindCounts = []) -> string
     {
         var whereSql;
 
@@ -1454,7 +1454,7 @@ abstract class Dialect implements DialectInterface
     /**
      * Prepares column for this RDBMS
      */
-    protected function prepareColumnAlias(string! qualified, string alias = null, string escapeChar = null) -> string
+    protected function prepareColumnAlias( string qualified, string alias = null, string escapeChar = null) -> string
     {
         if alias != "" {
             return qualified . " AS " . this->escape(alias, escapeChar);
@@ -1466,7 +1466,7 @@ abstract class Dialect implements DialectInterface
     /**
      * Prepares table for this RDBMS
      */
-    protected function prepareTable(string! table, string schema = null, string alias = null, string escapeChar = null) -> string
+    protected function prepareTable( string table, string schema = null, string alias = null, string escapeChar = null) -> string
     {
         let table = this->escape(table, escapeChar);
 
@@ -1490,7 +1490,7 @@ abstract class Dialect implements DialectInterface
     /**
      * Prepares qualified for this RDBMS
      */
-    protected function prepareQualified(string! column, string domain = null, string escapeChar = null) -> string
+    protected function prepareQualified( string column, string domain = null, string escapeChar = null) -> string
     {
         if domain != "" {
             return this->escape(domain . "." . column, escapeChar);

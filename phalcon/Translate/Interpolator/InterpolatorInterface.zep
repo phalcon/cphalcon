@@ -25,7 +25,7 @@ interface InterpolatorInterface
      * @return string
      */
     public function replacePlaceholders(
-        string! translation,
+         string translation,
         array placeholders = []
     ) -> string;
 }

@@ -88,7 +88,7 @@ class Application extends AbstractApplication
     /**
      * Handles a MVC request
      */
-    public function handle(string! uri) -> <ResponseInterface> | bool
+    public function handle( string uri) -> <ResponseInterface> | bool
     {
         var container, eventsManager, router, dispatcher, response, view,
             module, moduleObject, moduleName, className, path, implicitView,

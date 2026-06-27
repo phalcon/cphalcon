@@ -94,7 +94,7 @@ class Model extends AbstractAdapter
      *     'page'   => 1
      * ]
      */
-    public function __construct(array! config)
+    public function __construct( array config)
     {
         if unlikely !isset config["model"] {
             throw new MissingRequiredParameter("model");

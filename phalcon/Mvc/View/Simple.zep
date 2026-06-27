@@ -108,7 +108,7 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
      *
      * @return mixed|null
      */
-    public function __get(string! key) -> var | null
+    public function __get( string key) -> var | null
     {
         var value;
 
@@ -128,7 +128,7 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
      *
      * @return void
      */
-    public function __set(string! key, var value) -> void
+    public function __set( string key, var value) -> void
     {
         let this->viewParams[key] = value;
     }
@@ -186,7 +186,7 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
      *
      * @return mixed|null
      */
-    public function getVar(string! key) -> var | null
+    public function getVar( string key) -> var | null
     {
         var value;
 
@@ -227,7 +227,7 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
      *
      * @return void
      */
-    public function partial(string! partialPath, var params = null) -> void
+    public function partial( string partialPath, var params = null) -> void
     {
         var viewParams, mergedParams;
 
@@ -294,7 +294,7 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
      *
      * @return void
      */
-    public function registerEngines(array! engines) -> void
+    public function registerEngines( array engines) -> void
     {
         let this->registeredEngines = engines;
     }
@@ -304,7 +304,7 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
      *
      * @return string
      */
-    public function render(string! path, array params = []) -> string
+    public function render( string path, array params = []) -> string
     {
         var mergedParams, viewParams;
 
@@ -341,7 +341,7 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
      *
      * @return static
      */
-    public function setContent(string! content) -> <static>
+    public function setContent( string content) -> <static>
     {
         let this->content = content;
 
@@ -367,7 +367,7 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
      *
      * @return static
      */
-    public function setParamToView(string! key, var value) -> <static>
+    public function setParamToView( string key, var value) -> <static>
     {
         return this->setVar(key, value);
     }
@@ -381,7 +381,7 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
      *
      * @return static
      */
-    public function setVar(string! key, var value) -> <static>
+    public function setVar( string key, var value) -> <static>
     {
         let this->viewParams[key] = value;
 
@@ -401,7 +401,7 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
      *
      * @return static
      */
-    public function setVars(array! params, bool merge = true) -> <static>
+    public function setVars( array params, bool merge = true) -> <static>
     {
         if merge {
             let params = array_merge(this->viewParams, params);
@@ -417,7 +417,7 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
      *
      * @return void
      */
-    public function setViewsDir(string! viewsDir) -> void
+    public function setViewsDir( string viewsDir) -> void
     {
         let this->viewsDir = this->getDirSeparator(viewsDir);
     }
@@ -502,7 +502,7 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
      *
      * @return void
      */
-    final protected function internalRender(string! path, params) -> void
+    final protected function internalRender( string path, params) -> void
     {
         var eventsManager, engines, extension, engine;
         bool notExists, mustClean;
@@ -590,7 +590,7 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
     /**
      * @todo Remove this when we get traits
      */
-    private function getDirSeparator(string! directory) -> string
+    private function getDirSeparator( string directory) -> string
     {
         return rtrim(directory, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
     }

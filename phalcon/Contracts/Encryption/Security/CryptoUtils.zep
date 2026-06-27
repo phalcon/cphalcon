@@ -25,7 +25,7 @@ interface CryptoUtils
 
     public function getRandomBytes() -> int;
 
-    public function setRandomBytes(int! randomBytes) -> <Security>;
+    public function setRandomBytes( int randomBytes) -> <Security>;
 
     public function getSaltBytes(int numberBytes = 0) -> string;
 }

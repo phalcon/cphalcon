@@ -144,7 +144,7 @@ class Event implements EventInterface, Stoppable
     /**
      * Sets event type.
      */
-    public function setType(string! type) -> <EventInterface>
+    public function setType( string type) -> <EventInterface>
     {
         let this->type = type;
 

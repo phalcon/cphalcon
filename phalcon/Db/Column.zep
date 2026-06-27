@@ -579,7 +579,7 @@ class Column implements ColumnInterface
     /**
      * Phalcon\Db\Column constructor
      */
-    public function __construct(string! name, array! definition)
+    public function __construct( string name,  array definition)
     {
         var type, notNull, primary, size, scale, dunsigned, first, after,
             bindType, isNumeric, autoIncrement, defaultValue, typeReference,

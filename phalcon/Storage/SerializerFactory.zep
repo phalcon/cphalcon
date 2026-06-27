@@ -20,7 +20,7 @@ class SerializerFactory extends AbstractFactory
      *
      * @param array services
      */
-    public function __construct(array! services = [])
+    public function __construct( array services = [])
     {
         this->init(services);
     }
@@ -31,7 +31,7 @@ class SerializerFactory extends AbstractFactory
      * @return SerializerInterface
      * @throws Exception
      */
-    public function newInstance(string! name) -> <SerializerInterface>
+    public function newInstance( string name) -> <SerializerInterface>
     {
         var definition;
 

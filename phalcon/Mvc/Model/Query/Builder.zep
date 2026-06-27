@@ -368,7 +368,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      * );
      *```
      */
-    public function andHaving(string! conditions, array bindParams = [], array bindTypes = []) -> <BuilderInterface>
+    public function andHaving( string conditions, array bindParams = [], array bindTypes = []) -> <BuilderInterface>
     {
         var currentConditions;
 
@@ -399,7 +399,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      * );
      *```
      */
-    public function andWhere(string! conditions, array bindParams = [], array bindTypes = []) -> <BuilderInterface>
+    public function andWhere( string conditions, array bindParams = [], array bindTypes = []) -> <BuilderInterface>
     {
         var currentConditions;
 
@@ -434,7 +434,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      * $builder->betweenHaving("SUM(Robots.price)", 100.25, 200.50);
      *```
      */
-    public function betweenHaving(string! expr, var minimum, var maximum, string! operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
+    public function betweenHaving( string expr, var minimum, var maximum,  string operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
     {
         return this->conditionBetween("Having", operator, expr, minimum, maximum);
     }
@@ -446,7 +446,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      * $builder->betweenWhere("price", 100.25, 200.50);
      *```
      */
-    public function betweenWhere(string! expr, var minimum, var maximum, string! operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
+    public function betweenWhere( string expr, var minimum, var maximum,  string operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
     {
         return this->conditionBetween("Where", operator, expr, minimum, maximum);
     }
@@ -1186,7 +1186,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      * $builder->inHaving("SUM(Robots.price)", [100, 200]);
      *```
      */
-    public function inHaving(string! expr, array! values, string! operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
+    public function inHaving( string expr,  array values,  string operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
     {
         return this->conditionIn("Having", operator, expr, values);
     }
@@ -1201,7 +1201,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      * );
      *```
      */
-    public function inWhere(string! expr, array! values, string! operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
+    public function inWhere( string expr,  array values,  string operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
     {
         return this->conditionIn("Where", operator, expr, values);
     }
@@ -1229,7 +1229,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      * );
      *```
      */
-    public function innerJoin(string! model, string conditions = null, string alias = null) -> <BuilderInterface>
+    public function innerJoin( string model, string conditions = null, string alias = null) -> <BuilderInterface>
     {
         let this->joins[] = [model, conditions, alias, "INNER"];
 
@@ -1267,7 +1267,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      * );
      *```
      */
-    public function join(string! model, string conditions = null, string alias = null, string type = null) -> <BuilderInterface>
+    public function join( string model, string conditions = null, string alias = null, string type = null) -> <BuilderInterface>
     {
         let this->joins[] = [model, conditions, alias, type];
 
@@ -1285,7 +1285,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      * );
      *```
      */
-    public function leftJoin(string! model, string conditions = null, string alias = null) -> <BuilderInterface>
+    public function leftJoin( string model, string conditions = null, string alias = null) -> <BuilderInterface>
     {
         let this->joins[] = [model, conditions, alias, "LEFT"];
 
@@ -1325,7 +1325,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      * $builder->notBetweenHaving("SUM(Robots.price)", 100.25, 200.50);
      *```
      */
-    public function notBetweenHaving(string! expr, var minimum, var maximum, string! operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
+    public function notBetweenHaving( string expr, var minimum, var maximum,  string operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
     {
         return this->conditionNotBetween(
             "Having",
@@ -1343,7 +1343,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      * $builder->notBetweenWhere("price", 100.25, 200.50);
      *```
      */
-    public function notBetweenWhere(string! expr, var minimum, var maximum, string! operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
+    public function notBetweenWhere( string expr, var minimum, var maximum,  string operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
     {
         return this->conditionNotBetween(
             "Where",
@@ -1361,7 +1361,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      * $builder->notInHaving("SUM(Robots.price)", [100, 200]);
      *```
      */
-    public function notInHaving(string! expr, array! values, string! operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
+    public function notInHaving( string expr,  array values,  string operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
     {
         return this->conditionNotIn("Having", operator, expr, values);
     }
@@ -1373,7 +1373,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      * $builder->notInWhere("id", [1, 2, 3]);
      *```
      */
-    public function notInWhere(string! expr, array! values, string! operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
+    public function notInWhere( string expr,  array values,  string operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
     {
         return this->conditionNotIn("Where", operator, expr, values);
     }
@@ -1406,7 +1406,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      * );
      *```
      */
-    public function orHaving(string! conditions, array bindParams = [], array bindTypes = []) -> <BuilderInterface>
+    public function orHaving( string conditions, array bindParams = [], array bindTypes = []) -> <BuilderInterface>
     {
         var currentConditions;
 
@@ -1437,7 +1437,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      * );
      *```
      */
-    public function orWhere(string! conditions, array bindParams = [], array bindTypes = []) -> <BuilderInterface>
+    public function orWhere( string conditions, array bindParams = [], array bindTypes = []) -> <BuilderInterface>
     {
         var currentConditions;
 
@@ -1482,7 +1482,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      * );
      *```
      */
-    public function rightJoin(string! model, string conditions = null, string alias = null) -> <BuilderInterface>
+    public function rightJoin( string model, string conditions = null, string alias = null) -> <BuilderInterface>
     {
         let this->joins[] = [model, conditions, alias, "RIGHT"];
 
@@ -1492,7 +1492,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     /**
      * Set default bind parameters
      */
-    public function setBindParams(array! bindParams, bool merge = false) -> <BuilderInterface>
+    public function setBindParams( array bindParams, bool merge = false) -> <BuilderInterface>
     {
         var currentBindParams;
 
@@ -1513,7 +1513,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     /**
      * Set default bind types
      */
-    public function setBindTypes(array! bindTypes, bool merge = false) -> <BuilderInterface>
+    public function setBindTypes( array bindTypes, bool merge = false) -> <BuilderInterface>
     {
         var currentBindTypes;
 
@@ -1595,7 +1595,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     /**
      * Appends a BETWEEN condition
      */
-    protected function conditionBetween(string! clause, string! operator, string! expr, var minimum, var maximum) -> <BuilderInterface>
+    protected function conditionBetween( string clause,  string operator,  string expr, var minimum, var maximum) -> <BuilderInterface>
     {
         var hiddenParam, nextHiddenParam, minimumKey, maximumKey, operatorMethod;
 
@@ -1637,7 +1637,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     /**
      * Appends an IN condition
      */
-    protected function conditionIn(string! clause, string! operator, string! expr, array! values) -> <BuilderInterface>
+    protected function conditionIn( string clause,  string operator,  string expr,  array values) -> <BuilderInterface>
     {
         var key, queryKey, value, bindKeys, bindParams, operatorMethod;
         int hiddenParam;
@@ -1687,7 +1687,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     /**
      * Appends a NOT BETWEEN condition
      */
-    protected function conditionNotBetween(string! clause, string! operator, string! expr, var minimum, var maximum) -> <BuilderInterface>
+    protected function conditionNotBetween( string clause,  string operator,  string expr, var minimum, var maximum) -> <BuilderInterface>
     {
         var hiddenParam, nextHiddenParam, minimumKey, maximumKey, operatorMethod;
 
@@ -1728,7 +1728,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     /**
      * Appends a NOT IN condition
      */
-    protected function conditionNotIn(string! clause, string! operator, string! expr, array! values) -> <BuilderInterface>
+    protected function conditionNotIn( string clause,  string operator,  string expr,  array values) -> <BuilderInterface>
     {
         var key, queryKey, value, bindKeys, bindParams, operatorMethod;
         int hiddenParam;

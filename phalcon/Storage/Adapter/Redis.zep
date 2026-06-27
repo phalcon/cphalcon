@@ -58,7 +58,7 @@ class Redis extends AbstractAdapter
      *
      * @throws SupportException
      */
-    public function __construct(<SerializerFactory> factory, array! options = [])
+    public function __construct(<SerializerFactory> factory,  array options = [])
     {
         /**
          * Lets set some defaults and options here
@@ -146,7 +146,7 @@ class Redis extends AbstractAdapter
      * @return array
      * @throws StorageException
      */
-    public function getKeys(string! prefix = "") -> array
+    public function getKeys( string prefix = "") -> array
     {
         var adapter, cursor, keys, pattern, result, scanKeys;
 
@@ -204,7 +204,7 @@ class Redis extends AbstractAdapter
      *
      * @return bool
      */
-    public function setForever(string! key, var value) -> bool
+    public function setForever( string key, var value) -> bool
     {
         var result;
 
@@ -225,7 +225,7 @@ class Redis extends AbstractAdapter
      * @return bool|false|int
      * @throws StorageException
      */
-    protected function doDecrement(string! key, int value = 1) -> int | bool
+    protected function doDecrement( string key, int value = 1) -> int | bool
     {
         return this->getAdapter()->decrBy(key, value);
     }
@@ -238,7 +238,7 @@ class Redis extends AbstractAdapter
      * @return bool
      * @throws StorageException
      */
-    protected function doDelete(string! key) -> bool
+    protected function doDelete( string key) -> bool
     {
         return (bool) this->getAdapter()->unlink(key);
     }
@@ -267,7 +267,7 @@ class Redis extends AbstractAdapter
      * @return bool
      * @throws StorageException
      */
-    protected function doHas(string! key) -> bool
+    protected function doHas( string key) -> bool
     {
         return (bool) this->getAdapter()->exists(key);
     }
@@ -281,7 +281,7 @@ class Redis extends AbstractAdapter
      * @return bool|false|int
      * @throws StorageException
      */
-    protected function doIncrement(string! key, int value = 1) -> int | bool
+    protected function doIncrement( string key, int value = 1) -> int | bool
     {
         return this->getAdapter()->incrBy(key, value);
     }
@@ -300,7 +300,7 @@ class Redis extends AbstractAdapter
      * @return bool
      * @throws BaseException
      */
-    protected function doSet(string! key, var value, var ttl = null) -> bool
+    protected function doSet( string key, var value, var ttl = null) -> bool
     {
         var result;
 

@@ -303,7 +303,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface
      *
      * @param string service
      */
-    public function setDbService(string! service) -> <ManagerInterface>
+    public function setDbService( string service) -> <ManagerInterface>
     {
         let this->service = service;
 

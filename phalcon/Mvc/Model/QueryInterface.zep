@@ -70,12 +70,12 @@ interface QueryInterface
     /**
      * Set default bind parameters
      */
-    public function setBindParams(array! bindParams, bool merge = false) -> <QueryInterface>;
+    public function setBindParams( array bindParams, bool merge = false) -> <QueryInterface>;
 
     /**
      * Set default bind parameters
      */
-    public function setBindTypes(array! bindTypes, bool merge = false) -> <QueryInterface>;
+    public function setBindTypes( array bindTypes, bool merge = false) -> <QueryInterface>;
 
     /**
      * Set SHARED LOCK clause

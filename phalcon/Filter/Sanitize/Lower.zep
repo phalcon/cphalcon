@@ -24,7 +24,7 @@ class Lower implements Sanitizer
      *
      * @return false|string|string[]
      */
-    public function __invoke(string! input)
+    public function __invoke( string input)
     {
         if true === function_exists("mb_convert_case") {
             return mb_convert_case(input, MB_CASE_LOWER, "UTF-8");

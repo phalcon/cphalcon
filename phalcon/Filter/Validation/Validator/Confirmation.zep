@@ -70,7 +70,7 @@ class Confirmation extends AbstractValidator
      *     'ignoreCase' => false
      * ]
      */
-    public function __construct(array! options = [])
+    public function __construct( array options = [])
     {
         parent::__construct(options);
     }

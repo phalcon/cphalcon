@@ -43,7 +43,7 @@ interface ModelInterface
      *
      * @return ModelInterface
      */
-    public function assign(array! data, var whiteList = null, var dataColumnMap = null) -> <ModelInterface>;
+    public function assign( array data, var whiteList = null, var dataColumnMap = null) -> <ModelInterface>;
 
     /**
      * Allows to calculate the average value on a column matching the specified
@@ -57,7 +57,7 @@ interface ModelInterface
     /**
      * Assigns values to a model from an array returning a new model
      */
-    public static function cloneResult(<ModelInterface> base, array! data, int dirtyState = 0) -> <ModelInterface>;
+    public static function cloneResult(<ModelInterface> base,  array data, int dirtyState = 0) -> <ModelInterface>;
 
     /**
      * Assigns values to a model from an array returning a new model
@@ -71,7 +71,7 @@ interface ModelInterface
      */
     public static function cloneResultMap(
         var base,
-        array! data,
+         array data,
         var columnMap,
         int dirtyState = 0,
         bool keepSnapshots = false
@@ -82,7 +82,7 @@ interface ModelInterface
      *
      * @param array columnMap
      */
-    public static function cloneResultMapHydrate(array! data, var columnMap, int hydrationMode);
+    public static function cloneResultMapHydrate( array data, var columnMap, int hydrationMode);
 
     /**
      * Allows to count how many records match the specified conditions
@@ -140,14 +140,14 @@ interface ModelInterface
      * Fires an event, implicitly calls behaviors and listeners in the events
      * manager are notified
      */
-    public function fireEvent(string! eventName) -> bool;
+    public function fireEvent( string eventName) -> bool;
 
     /**
      * Fires an event, implicitly calls behaviors and listeners in the events
      * manager are notified. This method stops if one of the callbacks/listeners
      * returns bool false
      */
-    public function fireEventCancel(string! eventName) -> bool;
+    public function fireEventCancel( string eventName) -> bool;
 
     /**
      * Returns one of the DIRTY_STATE_* constants telling if the record exists
@@ -266,7 +266,7 @@ interface ModelInterface
      *
      * @param array columnMap
      */
-    public function setSnapshotData(array! data, columnMap = null) -> void;
+    public function setSnapshotData( array data, columnMap = null) -> void;
 
     /**
      * Marks one or more many-to-many relationships to be synchronized (or not)

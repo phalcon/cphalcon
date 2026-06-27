@@ -22,7 +22,7 @@ interface RouterInterface
      *
      * @phpstan-param array|string|null $paths
      */
-    public function add(string! pattern, var paths = null) -> <RouteInterface>;
+    public function add( string pattern, var paths = null) -> <RouteInterface>;
 
     /**
      * Returns processed action name
@@ -67,7 +67,7 @@ interface RouterInterface
     /**
      * Returns a route object by its name
      */
-    public function getRouteByName(string! name) -> <RouteInterface> | bool;
+    public function getRouteByName( string name) -> <RouteInterface> | bool;
 
     /**
      * Return all the routes defined in the router
@@ -95,22 +95,22 @@ interface RouterInterface
     /**
      * Sets the default action name
      */
-    public function setDefaultAction(string! actionName) -> <RouterInterface>;
+    public function setDefaultAction( string actionName) -> <RouterInterface>;
 
     /**
      * Sets the name of the default module
      */
-    public function setDefaultModule(string! moduleName) -> <RouterInterface>;
+    public function setDefaultModule( string moduleName) -> <RouterInterface>;
 
     /**
      * Sets an array of default paths
      */
-    public function setDefaults(array! defaults) -> <RouterInterface>;
+    public function setDefaults( array defaults) -> <RouterInterface>;
 
     /**
      * Sets the default task name
      */
-    public function setDefaultTask(string! taskName) -> <RouterInterface>;
+    public function setDefaultTask( string taskName) -> <RouterInterface>;
 
     /**
      * Check if the router matches any of the defined routes

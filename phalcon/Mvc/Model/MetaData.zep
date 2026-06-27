@@ -860,7 +860,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
     /**
      * Writes the metadata to adapter
      */
-    public function write(string! key, array data) -> void
+    public function write( string key, array data) -> void
     {
         var result, option;
 
@@ -911,7 +911,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      * @todo Remove this when we get traits
      */
     protected function getArrVal(
-        array! collection,
+         array collection,
         var index,
         var defaultValue = null
     ) -> var {

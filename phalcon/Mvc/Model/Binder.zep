@@ -68,7 +68,7 @@ class Binder implements BinderInterface
     /**
      * Bind models into params in proper handler
      */
-    public function bindToHandler(object handler, array params, string cacheKey, string! methodName = null) -> array
+    public function bindToHandler(object handler, array params, string cacheKey,  string methodName = null) -> array
     {
         var paramKey, className, boundModel, paramsCache, paramValue;
 
@@ -175,7 +175,7 @@ class Binder implements BinderInterface
     /**
      * Get modified params for handler using reflection
      */
-    protected function getParamsFromReflection(object handler, array params, string cacheKey, string! methodName) -> array
+    protected function getParamsFromReflection(object handler, array params, string cacheKey,  string methodName) -> array
     {
         var methodParams, reflection, paramKey, methodParam, className,
             realClasses = null, boundModel, cache, handlerClass,

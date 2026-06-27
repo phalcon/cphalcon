@@ -21,7 +21,7 @@ class Item extends AbstractItem
      * @param array  $payload
      * @param string $encoded
      */
-    public function __construct(array! payload, string! encoded)
+    public function __construct( array payload,  string encoded)
     {
         let this->data["encoded"] = encoded,
             this->data["payload"] = payload;
@@ -33,7 +33,7 @@ class Item extends AbstractItem
      *
      * @return mixed|null
      */
-    public function get(string! name, var defaultValue = null) -> var | null
+    public function get( string name, var defaultValue = null) -> var | null
     {
         if !this->has(name) {
             return defaultValue;
@@ -55,7 +55,7 @@ class Item extends AbstractItem
      *
      * @return bool
      */
-    public function has(string! name) -> bool
+    public function has( string name) -> bool
     {
         return isset this->data["payload"][name];
     }

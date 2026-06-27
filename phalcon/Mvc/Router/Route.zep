@@ -89,7 +89,7 @@ class Route implements RouteInterface
     /**
      * Phalcon\Mvc\Router\Route constructor
      */
-    public function __construct(string! pattern, var paths = null, var httpMethods = null) // TODO: Make paths array
+    public function __construct( string pattern, var paths = null, var httpMethods = null) // TODO: Make paths array
     {
         var uniqueId;
 
@@ -141,7 +141,7 @@ class Route implements RouteInterface
     /**
      * Replaces placeholders from pattern returning a valid PCRE regular expression
      */
-    public function compilePattern(string! pattern) -> string
+    public function compilePattern( string pattern) -> string
     {
         string idPattern;
 
@@ -197,7 +197,7 @@ class Route implements RouteInterface
     /**
      * {@inheritdoc}
      */
-    public function convert(string! name, var converter) -> <RouteInterface>
+    public function convert( string name, var converter) -> <RouteInterface>
     {
         let this->converters[name] = converter;
 
@@ -207,7 +207,7 @@ class Route implements RouteInterface
     /**
      * Extracts parameters from a string
      */
-    public function extractNamedParams(string! pattern) -> array | bool
+    public function extractNamedParams( string pattern) -> array | bool
     {
         char ch, prevCh = '\0';
         var tmp, matches;
@@ -590,7 +590,7 @@ class Route implements RouteInterface
     /**
      * Reconfigure the route adding a new pattern and a set of paths
      */
-    public function reConfigure(string! pattern, var paths = null) -> void
+    public function reConfigure( string pattern, var paths = null) -> void
     {
         var routePaths, pcrePattern, compiledPattern, extracted;
 
@@ -660,7 +660,7 @@ class Route implements RouteInterface
      * $route->setHostname("localhost");
      *```
      */
-    public function setHostname(string! hostname) -> <RouteInterface>
+    public function setHostname( string hostname) -> <RouteInterface>
     {
         let this->hostname        = hostname,
             this->compiledHostName = false;
@@ -711,7 +711,7 @@ class Route implements RouteInterface
      * applications should rely on the auto-incrementing id assigned by
      * the constructor.
      */
-    public function setRouteId(string! routeId) -> <RouteInterface>
+    public function setRouteId( string routeId) -> <RouteInterface>
     {
         let this->routeId = routeId;
 

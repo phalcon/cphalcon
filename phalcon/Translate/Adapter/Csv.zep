@@ -78,7 +78,7 @@ class Csv extends AbstractAdapter
      * @return bool
      * @deprecated
      */
-    public function exists(string! index) -> bool
+    public function exists( string index) -> bool
     {
         return this->has(index);
     }
@@ -90,7 +90,7 @@ class Csv extends AbstractAdapter
      *
      * @return bool
      */
-    public function has(string! index) -> bool
+    public function has( string index) -> bool
     {
         return isset this->translate[index];
     }
@@ -103,7 +103,7 @@ class Csv extends AbstractAdapter
      * @return string
      * @throws Exception
      */
-    public function query(string! translateKey, array placeholders = []) -> string
+    public function query( string translateKey, array placeholders = []) -> string
     {
         var translation;
 

@@ -41,7 +41,7 @@ class Postgresql extends Dialect
     /**
      * Generates SQL to add a column to a table
      */
-    public function addColumn(string! tableName, string! schemaName, <ColumnInterface> column) -> string
+    public function addColumn( string tableName,  string schemaName, <ColumnInterface> column) -> string
     {
         var columnDefinition;
         string sql;
@@ -68,7 +68,7 @@ class Postgresql extends Dialect
     /**
      * Generates SQL to add a CHECK constraint to an existing table.
      */
-    public function addCheck(string! tableName, string! schemaName, <CheckInterface> check) -> string
+    public function addCheck( string tableName,  string schemaName, <CheckInterface> check) -> string
     {
         return "ALTER TABLE " . this->prepareTable(tableName, schemaName)
             . " ADD " . this->getCheckClause(check, "\"");
@@ -77,7 +77,7 @@ class Postgresql extends Dialect
     /**
      * Generates SQL to add an index to a table
      */
-    public function addForeignKey(string! tableName, string! schemaName, <ReferenceInterface> reference) -> string
+    public function addForeignKey( string tableName,  string schemaName, <ReferenceInterface> reference) -> string
     {
         var onDelete, onUpdate;
         string sql;
@@ -107,7 +107,7 @@ class Postgresql extends Dialect
     /**
      * Generates SQL to add an index to a table
      */
-    public function addIndex(string! tableName, string! schemaName, <IndexInterface> index) -> string
+    public function addIndex( string tableName,  string schemaName, <IndexInterface> index) -> string
     {
         var indexType;
         string sql;
@@ -142,7 +142,7 @@ class Postgresql extends Dialect
     /**
      * Generates SQL to add the primary key to a table
      */
-    public function addPrimaryKey(string! tableName, string! schemaName, <IndexInterface> index) -> string
+    public function addPrimaryKey( string tableName,  string schemaName, <IndexInterface> index) -> string
     {
         return "ALTER TABLE " . this->prepareTable(tableName, schemaName) . " ADD CONSTRAINT \"" . tableName . "_PRIMARY\" PRIMARY KEY (" . this->getColumnList(index->getColumns()) . ")";
     }
@@ -150,7 +150,7 @@ class Postgresql extends Dialect
     /**
      * Generates SQL to create a table
      */
-    public function createTable(string! tableName, string! schemaName, array! definition) -> string
+    public function createTable( string tableName,  string schemaName,  array definition) -> string
     {
         var temporary, options, table, columns, column, indexes, index,
             reference, references, indexName, indexType, onDelete, onUpdate,
@@ -311,7 +311,7 @@ class Postgresql extends Dialect
     /**
      * Generates SQL to create a materialized view.
      */
-    public function createMaterializedView(string! viewName, array! definition, string schemaName = null) -> string
+    public function createMaterializedView( string viewName,  array definition, string schemaName = null) -> string
     {
         var viewSql;
 
@@ -327,7 +327,7 @@ class Postgresql extends Dialect
     /**
      * Generates SQL to create a view
      */
-    public function createView(string! viewName, array! definition, string schemaName = null) -> string
+    public function createView( string viewName,  array definition, string schemaName = null) -> string
     {
         var viewSql;
 
@@ -347,7 +347,7 @@ class Postgresql extends Dialect
      * );
      * ```
      */
-    public function describeColumns(string! table, string schema = null) -> string
+    public function describeColumns( string table, string schema = null) -> string
     {
         if schema === null {
             let schema = "public";
@@ -401,7 +401,7 @@ class Postgresql extends Dialect
     /**
      * Generates SQL to query indexes on a table
      */
-    public function describeIndexes(string! table, string schema = null) -> string
+    public function describeIndexes( string table, string schema = null) -> string
     {
         return "SELECT 0 as c0, t.relname as table_name, i.relname as key_name, 3 as c3, a.attname as column_name FROM pg_class t, pg_class i, pg_index ix, pg_attribute a WHERE t.oid = ix.indrelid AND i.oid = ix.indexrelid AND a.attrelid = t.oid AND a.attnum = ANY(ix.indkey) AND t.relkind = 'r' AND t.relname = '" . table . "' ORDER BY t.relname, i.relname;";
     }
@@ -409,7 +409,7 @@ class Postgresql extends Dialect
     /**
      * Generates SQL to query foreign keys on a table
      */
-    public function describeReferences(string! table, string schema = null) -> string
+    public function describeReferences( string table, string schema = null) -> string
     {
         if schema === null {
             let schema = "public";
@@ -421,7 +421,7 @@ class Postgresql extends Dialect
     /**
      * Generates SQL to delete a column from a table
      */
-    public function dropColumn(string! tableName, string! schemaName, string! columnName) -> string
+    public function dropColumn( string tableName,  string schemaName,  string columnName) -> string
     {
         return "ALTER TABLE " . this->prepareTable(tableName, schemaName) . " DROP COLUMN \"" . columnName . "\"";
     }
@@ -429,7 +429,7 @@ class Postgresql extends Dialect
     /**
      * Generates SQL to delete a CHECK constraint from a table
      */
-    public function dropCheck(string! tableName, string! schemaName, string! checkName) -> string
+    public function dropCheck( string tableName,  string schemaName,  string checkName) -> string
     {
         return "ALTER TABLE " . this->prepareTable(tableName, schemaName)
             . " DROP CONSTRAINT \"" . checkName . "\"";
@@ -438,7 +438,7 @@ class Postgresql extends Dialect
     /**
      * Generates SQL to delete a foreign key from a table
      */
-    public function dropForeignKey(string! tableName, string! schemaName, string! referenceName) -> string
+    public function dropForeignKey( string tableName,  string schemaName,  string referenceName) -> string
     {
         return "ALTER TABLE " . this->prepareTable(tableName, schemaName) . " DROP CONSTRAINT \"" . referenceName . "\"";
     }
@@ -446,7 +446,7 @@ class Postgresql extends Dialect
     /**
      * Generates SQL to delete an index from a table
      */
-    public function dropIndex(string! tableName, string! schemaName, string! indexName) -> string
+    public function dropIndex( string tableName,  string schemaName,  string indexName) -> string
     {
         return "DROP INDEX \"" . indexName . "\"";
     }
@@ -454,7 +454,7 @@ class Postgresql extends Dialect
     /**
      * Generates SQL to delete primary key from a table
      */
-    public function dropPrimaryKey(string! tableName, string! schemaName) -> string
+    public function dropPrimaryKey( string tableName,  string schemaName) -> string
     {
         return "ALTER TABLE " . this->prepareTable(tableName, schemaName) . " DROP CONSTRAINT \"" . tableName . "_PRIMARY\"";
     }
@@ -462,7 +462,7 @@ class Postgresql extends Dialect
     /**
      * Generates SQL to drop a table
      */
-    public function dropTable(string! tableName, string schemaName = null, bool! ifExists = true) -> string
+    public function dropTable( string tableName, string schemaName = null,  bool ifExists = true) -> string
     {
         var table;
 
@@ -478,7 +478,7 @@ class Postgresql extends Dialect
     /**
      * Generates SQL to drop a materialized view.
      */
-    public function dropMaterializedView(string! viewName, string schemaName = null, bool ifExists = true) -> string
+    public function dropMaterializedView( string viewName, string schemaName = null, bool ifExists = true) -> string
     {
         var view;
 
@@ -494,7 +494,7 @@ class Postgresql extends Dialect
     /**
      * Generates SQL to drop a view
      */
-    public function dropView(string! viewName, string schemaName = null, bool! ifExists = true) -> string
+    public function dropView( string viewName, string schemaName = null,  bool ifExists = true) -> string
     {
         var view;
 
@@ -512,7 +512,7 @@ class Postgresql extends Dialect
      * true, emits `REFRESH MATERIALIZED VIEW CONCURRENTLY ...` (avoids
      * blocking concurrent SELECTs; requires a unique index on the view).
      */
-    public function refreshMaterializedView(string! viewName, string schemaName = null, bool concurrent = false) -> string
+    public function refreshMaterializedView( string viewName, string schemaName = null, bool concurrent = false) -> string
     {
         var view;
 
@@ -845,7 +845,7 @@ class Postgresql extends Dialect
     /**
      * Generates SQL to modify a column in a table
      */
-    public function modifyColumn(string! tableName, string! schemaName, <ColumnInterface> column, <ColumnInterface> currentColumn = null) -> string
+    public function modifyColumn( string tableName,  string schemaName, <ColumnInterface> column, <ColumnInterface> currentColumn = null) -> string
     {
         var defaultValue, columnDefinition;
         string sql = "", sqlAlterTable;
@@ -902,7 +902,7 @@ class Postgresql extends Dialect
      * Appends a `RETURNING` clause to the supplied INSERT/UPDATE/DELETE
      * statement. Pass `["*"]` for `RETURNING *`, or a list of column names.
      */
-    public function returning(string! sqlQuery, array! columns) -> string
+    public function returning( string sqlQuery,  array columns) -> string
     {
         var first;
 
@@ -954,7 +954,7 @@ class Postgresql extends Dialect
      * // SELECT * FROM robots FOR SHARE NOWAIT
      *```
      */
-    public function sharedLock(string! sqlQuery, string modifier = "") -> string
+    public function sharedLock( string sqlQuery, string modifier = "") -> string
     {
         if modifier !== "" {
             return sqlQuery . " FOR SHARE " . modifier;
@@ -972,7 +972,7 @@ class Postgresql extends Dialect
      * echo $dialect->tableExists("posts");
      * ```
      */
-    public function tableExists(string! tableName, string schemaName = null) -> string
+    public function tableExists( string tableName, string schemaName = null) -> string
     {
         if schemaName === null {
             let schemaName = "public";
@@ -984,7 +984,7 @@ class Postgresql extends Dialect
     /**
      * Generates the SQL to describe the table creation options
      */
-    public function tableOptions(string! table, string schema = null) -> string
+    public function tableOptions( string table, string schema = null) -> string
     {
         string sql;
 
@@ -1000,7 +1000,7 @@ class Postgresql extends Dialect
     /**
      * Generates SQL to truncate a table
      */
-    public function truncateTable(string! tableName, string! schemaName) -> string
+    public function truncateTable( string tableName,  string schemaName) -> string
     {
         var table;
 
@@ -1016,7 +1016,7 @@ class Postgresql extends Dialect
     /**
      * Generates SQL checking for the existence of a schema.view
      */
-    public function viewExists(string! viewName, string schemaName = null) -> string
+    public function viewExists( string viewName, string schemaName = null) -> string
     {
         if schemaName === null {
             let schemaName = "public";
@@ -1067,7 +1067,7 @@ class Postgresql extends Dialect
         return preparedValue;
     }
 
-    protected function getTableOptions(array! definition) -> string
+    protected function getTableOptions( array definition) -> string
     {
         return "";
     }

@@ -37,7 +37,7 @@ class Libmemcached extends AbstractAdapter
      *     'stripPrefix' => false
      * ]
      */
-    public function __construct(<AdapterFactory> factory, array! options = [])
+    public function __construct(<AdapterFactory> factory,  array options = [])
     {
         /**
          * Session ids are externally generated and never carry the storage

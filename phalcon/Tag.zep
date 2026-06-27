@@ -224,7 +224,7 @@ class Tag
     /**
      * Alias of Phalcon\Tag::setDefault()
      */
-    public static function displayTo(string! id, value) -> void
+    public static function displayTo( string id, value) -> void
     {
         self::setDefault(id, value);
     }
@@ -387,7 +387,7 @@ class Tag
     /**
      * Obtains the 'escaper' service if required
      */
-    public static function getEscaper(array! params) -> <EscaperInterface> | null
+    public static function getEscaper( array params) -> <EscaperInterface> | null
     {
         var autoescape;
 
@@ -940,7 +940,7 @@ class Tag
      *     'class' => null
      * ]
      */
-    public static function renderAttributes(string! code, array! attributes) -> string
+    public static function renderAttributes( string code,  array attributes) -> string
     {
         var order, escaper, attrs, attribute, value, escaped, key;
         array attrParts;
@@ -1087,7 +1087,7 @@ class Tag
     /**
      * Assigns default values to generated tags by helpers
      */
-    public static function setDefault(string! id, value) -> void
+    public static function setDefault( string id, value) -> void
     {
         if value !== null {
             if unlikely (typeof value == "array" || typeof value == "object") {
@@ -1103,7 +1103,7 @@ class Tag
     /**
      * Assigns default values to generated tags by helpers
      */
-    public static function setDefaults(array! values, bool merge = false) -> void
+    public static function setDefaults( array values, bool merge = false) -> void
     {
         if merge && typeof self::displayValues == "array" {
             let self::displayValues = array_merge(self::displayValues, values);

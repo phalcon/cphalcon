@@ -31,7 +31,7 @@ interface RequestInterface
      *```
      */
     public function get(
-        string! name = null,
+         string name = null,
         var filters = null,
         var defaultValue = null,
         bool notAllowEmpty = false,
@@ -95,7 +95,7 @@ interface RequestInterface
     /**
      * Gets HTTP header from request data
      */
-    public function getHeader(string! header) -> string;
+    public function getHeader( string header) -> string;
 
     /**
      * Returns the available headers in the request
@@ -196,7 +196,7 @@ interface RequestInterface
      *```
      */
     public function getPost(
-        string! name = null,
+         string name = null,
         var filters = null,
         var defaultValue = null,
         bool notAllowEmpty = false,
@@ -215,7 +215,7 @@ interface RequestInterface
      *```
      */
     public function getPut(
-        string! name = null,
+         string name = null,
         var filters = null,
         var defaultValue = null,
         bool notAllowEmpty = false,
@@ -238,7 +238,7 @@ interface RequestInterface
      *```
      */
     public function getQuery(
-        string! name = null,
+         string name = null,
         var filters = null,
         var defaultValue = null,
         bool notAllowEmpty = false,
@@ -259,7 +259,7 @@ interface RequestInterface
     /**
      * Gets variable from $_SERVER superglobal
      */
-    public function getServer(string! name) -> string | null;
+    public function getServer( string name) -> string | null;
 
     /**
      * Gets active server address IP
@@ -304,7 +304,7 @@ interface RequestInterface
     /**
      * Checks whether $_REQUEST superglobal has certain index
      */
-    public function has(string! name) -> bool;
+    public function has( string name) -> bool;
 
     /**
      * Checks whether request include attached files
@@ -314,27 +314,27 @@ interface RequestInterface
     /**
      * Checks whether headers has certain index
      */
-    public function hasHeader(string! header) -> bool;
+    public function hasHeader( string header) -> bool;
 
     /**
      * Checks whether $_POST superglobal has certain index
      */
-    public function hasPost(string! name) -> bool;
+    public function hasPost( string name) -> bool;
 
     /**
      * Checks whether the PUT data has certain index
      */
-    public function hasPut(string! name) -> bool;
+    public function hasPut( string name) -> bool;
 
     /**
      * Checks whether $_GET superglobal has certain index
      */
-    public function hasQuery(string! name) -> bool;
+    public function hasQuery( string name) -> bool;
 
     /**
      * Checks whether $_SERVER superglobal has certain index
      */
-    public function hasServer(string! name) -> bool;
+    public function hasServer( string name) -> bool;
 
     /**
      * Checks whether request has been made using ajax. Checks if $_SERVER["HTTP_X_REQUESTED_WITH"] === "XMLHttpRequest"
