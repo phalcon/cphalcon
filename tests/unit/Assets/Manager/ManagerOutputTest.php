@@ -149,7 +149,7 @@ final class ManagerOutputTest extends AbstractUnitTestCase
     /**
      * Characterization test: in a *filtered* collection the non-join branch
      * renders the COLLECTION's attributes, discarding the per-asset attributes
-     * — unlike the unfiltered branch, which uses the asset's own attributes.
+     * - unlike the unfiltered branch, which uses the asset's own attributes.
      * Pins the current attribute divergence ahead of the v7 fix.
      *
      * @author Phalcon Team <team@phalcon.io>
