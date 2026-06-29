@@ -43,6 +43,19 @@ final class GetSetStatusCodeTest extends AbstractHttpBase
 
     /**
      * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-29
+     */
+    public function testHttpResponseGetStatusCodeWithoutStatusHeader(): void
+    {
+        $response = $this->getResponseObject();
+        $response->resetHeaders();
+
+        $actual = $response->getStatusCode();
+        $this->assertNull($actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-08
      */
     public function testHttpResponseSetStatusCode(): void

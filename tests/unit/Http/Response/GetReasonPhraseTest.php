@@ -35,4 +35,16 @@ final class GetReasonPhraseTest extends AbstractUnitTestCase
         $actual   = $response->getReasonPhrase();
         $this->assertSame($expected, $actual);
     }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-29
+     */
+    public function testHttpResponseGetReasonPhraseWithoutStatusHeader(): void
+    {
+        $response = new Response();
+
+        $actual = $response->getReasonPhrase();
+        $this->assertNull($actual);
+    }
 }
