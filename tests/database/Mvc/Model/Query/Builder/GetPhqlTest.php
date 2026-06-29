@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Database\Mvc\Model\Query\Builder;
 
 use Phalcon\Mvc\Model\Query\Builder;
+use Phalcon\Mvc\Model\Query\Exceptions\Builder\InvalidCommonTableExpression;
 use Phalcon\Storage\Exception;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Models\Invoices;
@@ -66,5 +67,142 @@ final class GetPhqlTest extends AbstractDatabaseTestCase
             . 'LIMIT :APL0: OFFSET :APL1:';
         $actual   = $builder->getPhql();
         $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @author QUAD69 <https://github.com/QUAD69>
+     * @since  2026-06-10
+     *
+     * @group mysql
+     * @group pgsql
+     * @group sqlite
+     */
+    public function testMvcModelQueryBuilderGetPhqlWithCommonTableExpressionAddWith(): void
+    {
+        $subBuilder = new Builder(
+            [
+                'models'  => ['i' => Invoices::class],
+                'columns' => ['i.inv_id'],
+            ],
+            $this->container
+        );
+
+        $builder = new Builder(null, $this->container);
+        $builder
+            ->addWith('recent', $subBuilder, ['id'])
+            ->columns('recent.id')
+            ->from('recent');
+
+        $expected = 'WITH [recent] ([id]) AS (SELECT i.inv_id FROM [' . Invoices::class . '] AS [i]) '
+            . 'SELECT recent.id FROM [recent]';
+        $actual   = $builder->getPhql();
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @author QUAD69 <https://github.com/QUAD69>
+     * @since  2026-06-10
+     *
+     * @group mysql
+     * @group pgsql
+     * @group sqlite
+     */
+    public function testMvcModelQueryBuilderGetPhqlWithCommonTableExpressionConstructor(): void
+    {
+        $subBuilder = new Builder(
+            [
+                'models'  => ['i' => Invoices::class],
+                'columns' => ['i.inv_id'],
+            ],
+            $this->container
+        );
+
+        $builder = new Builder(
+            [
+                'with'    => [
+                    'recent' => [
+                        'query'   => $subBuilder,
+                        'columns' => ['id'],
+                    ],
+                ],
+                'models'  => 'recent',
+                'columns' => 'recent.id',
+            ],
+            $this->container
+        );
+
+        $with = $builder->getWith();
+        $this->assertSame('recent', $with[0][0]);
+        $this->assertSame(['id'], $with[0][2]);
+
+        $expected = 'WITH [recent] ([id]) AS (SELECT i.inv_id FROM [' . Invoices::class . '] AS [i]) '
+            . 'SELECT recent.id FROM [recent]';
+        $actual   = $builder->getPhql();
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @author QUAD69 <https://github.com/QUAD69>
+     * @since  2026-06-25
+     *
+     * @group mysql
+     * @group pgsql
+     * @group sqlite
+     */
+    public function testMvcModelQueryBuilderGetPhqlWithCommonTableExpressionBindParameters(): void
+    {
+        $subBuilder = new Builder(null, $this->container);
+        $subBuilder
+            ->columns('i.inv_id')
+            ->from(['i' => Invoices::class])
+            ->where('i.inv_status_flag = :status:', ['status' => 1])
+            ->limit(5, 2);
+
+        $builder = new Builder(null, $this->container);
+        $builder
+            ->addWith('recent', $subBuilder, ['id'])
+            ->columns('recent.id')
+            ->from('recent')
+            ->where('recent.id > :id:', ['id' => 10])
+            ->limit(20, 4);
+
+        $expected = 'WITH [recent] ([id]) AS ('
+            . 'SELECT i.inv_id FROM [' . Invoices::class . '] AS [i] '
+            . 'WHERE i.inv_status_flag = :__cte0_status: '
+            . 'LIMIT :__cte0_APL0: OFFSET :__cte0_APL1:'
+            . ') SELECT recent.id FROM [recent] WHERE recent.id > :id: '
+            . 'LIMIT :APL0: OFFSET :APL1:';
+
+        $this->assertSame($expected, $builder->getPhql());
+        $this->assertSame(
+            [
+                'id'             => 10,
+                'APL0'           => 20,
+                'APL1'           => 4,
+                '__cte0_status'  => 1,
+                '__cte0_APL0'    => 5,
+                '__cte0_APL1'    => 2,
+            ],
+            $builder->getBindParams()
+        );
+    }
+
+    /**
+     * @author QUAD69 <https://github.com/QUAD69>
+     * @since  2026-06-25
+     *
+     * @group mysql
+     * @group pgsql
+     * @group sqlite
+     */
+    public function testMvcModelQueryBuilderGetPhqlWithInvalidCommonTableExpression(): void
+    {
+        $this->expectException(InvalidCommonTableExpression::class);
+        $this->expectExceptionMessage(
+            'A common table expression query must be a PHQL string or a builder'
+        );
+
+        (new Builder(null, $this->container))
+            ->addWith('recent', new \stdClass());
     }
 }

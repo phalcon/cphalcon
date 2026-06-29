@@ -32,6 +32,11 @@ interface BuilderInterface
     public function addFrom(string model, string alias = null) -> <BuilderInterface>;
 
     /**
+     * Add a common table expression to the query
+     */
+    public function addWith(string name, var query, array columns = []) -> <BuilderInterface>;
+
+    /**
      * Appends a condition to the current conditions using a AND operator
      */
     public function andWhere(string conditions, array bindParams = [], array bindTypes = []) -> <BuilderInterface>;
@@ -204,6 +209,11 @@ interface BuilderInterface
     public function getWhere();
 
     /**
+     * Return the common table expressions
+     */
+    public function getWith() -> array;
+
+    /**
      * Sets a GROUP BY clause
      *
      * @param string|array group
@@ -296,4 +306,9 @@ interface BuilderInterface
      * Sets conditions for the query
      */
     public function where(string conditions, array bindParams = [], array bindTypes = []) -> <BuilderInterface>;
+
+    /**
+     * Sets common table expressions
+     */
+    public function with(var withClause) -> <BuilderInterface>;
 }

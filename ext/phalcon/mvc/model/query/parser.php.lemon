@@ -136,8 +136,58 @@ query_language(R) ::= delete_statement(D) . {
 	zval_ptr_dtor(&$$);
 }
 
-select_statement(R) ::= select_clause(S) where_clause(W) group_clause(G) having_clause(H) order_clause(O) select_limit_clause(L) for_update_clause(F) . {
+select_statement(R) ::= select_base_statement(S) . {
+	R = S;
+}
+
+select_statement(R) ::= select_base_statement(S) union_list(U) . {
+	R = S;
+	phql_ret_select_statement_union(&R, &U);
+}
+
+%destructor select_base_statement {
+	zval_ptr_dtor(&$$);
+}
+
+select_base_statement(R) ::= select_clause(S) where_clause(W) group_clause(G) having_clause(H) order_clause(O) select_limit_clause(L) for_update_clause(F) . {
 	phql_ret_select_statement(&R, &S, &W, &O, &G, &H, &L, &F);
+}
+
+select_base_statement(R) ::= with_clause(C) select_clause(S) where_clause(W) group_clause(G) having_clause(H) order_clause(O) select_limit_clause(L) for_update_clause(F) . {
+	phql_ret_select_statement(&R, &S, &W, &O, &G, &H, &L, &F);
+	phql_ret_select_statement_with(&R, &C);
+}
+
+%destructor union_list {
+	zval_ptr_dtor(&$$);
+}
+
+union_list(R) ::= union_list(L) union_item(I) . {
+	phql_ret_zval_list(&R, &L, &I);
+}
+
+union_list(R) ::= union_item(I) . {
+	phql_ret_zval_list(&R, &I, NULL);
+}
+
+%destructor union_item {
+	zval_ptr_dtor(&$$);
+}
+
+union_item(R) ::= UNION union_all(A) select_base_statement(S) . {
+	phql_ret_union_item(&R, &A, &S);
+}
+
+%destructor union_all {
+	zephir_safe_zval_ptr_dtor($$);
+}
+
+union_all(R) ::= ALL . {
+	ZVAL_TRUE(&R);
+}
+
+union_all(R) ::= . {
+	ZVAL_UNDEF(&R);
 }
 
 %destructor select_clause {
@@ -484,6 +534,50 @@ with_list(R) ::= with_item(I) . {
 
 with_item(R) ::= IDENTIFIER(I) . {
 	phql_ret_qualified_name(&R, NULL, NULL, I);
+}
+
+%destructor with_clause {
+	zval_ptr_dtor(&$$);
+}
+
+with_clause(R) ::= WITH cte_list(L) . {
+	phql_ret_with_clause(&R, &L, 0);
+}
+
+with_clause(R) ::= WITH RECURSIVE cte_list(L) . {
+	phql_ret_with_clause(&R, &L, 1);
+}
+
+%destructor cte_list {
+	zval_ptr_dtor(&$$);
+}
+
+cte_list(R) ::= cte_list(L) COMMA cte_item(I) . {
+	phql_ret_zval_list(&R, &L, &I);
+}
+
+cte_list(R) ::= cte_item(I) . {
+	phql_ret_zval_list(&R, &I, NULL);
+}
+
+%destructor cte_item {
+	zval_ptr_dtor(&$$);
+}
+
+cte_item(R) ::= IDENTIFIER(I) cte_column_list(C) AS PARENTHESES_OPEN select_statement(S) PARENTHESES_CLOSE . {
+	phql_ret_common_table_expression(&R, I, &C, &S);
+}
+
+%destructor cte_column_list {
+	zephir_safe_zval_ptr_dtor($$);
+}
+
+cte_column_list(R) ::= PARENTHESES_OPEN field_list(F) PARENTHESES_CLOSE . {
+	R = F;
+}
+
+cte_column_list(R) ::= . {
+	ZVAL_UNDEF(&R);
 }
 
 %destructor aliased_or_qualified_name {

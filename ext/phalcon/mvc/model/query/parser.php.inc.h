@@ -106,6 +106,70 @@ static void phql_ret_select_statement(zval *ret, zval *S, zval *W, zval *O, zval
 	}
 }
 
+static void phql_ret_select_statement_with(zval *ret, zval *with)
+{
+	zval *ctes, *recursive;
+
+	if (with && Z_TYPE_P(with) != IS_UNDEF) {
+		ctes = zend_hash_str_find(Z_ARRVAL_P(with), ZEND_STRL("ctes"));
+		if (ctes && Z_TYPE_P(ctes) != IS_UNDEF) {
+			Z_TRY_ADDREF_P(ctes);
+			add_assoc_zval(ret, "with", ctes);
+		}
+
+		recursive = zend_hash_str_find(Z_ARRVAL_P(with), ZEND_STRL("recursive"));
+		if (recursive && zend_is_true(recursive)) {
+			add_assoc_bool(ret, "withRecursive", 1);
+		}
+
+		zval_ptr_dtor(with);
+	}
+}
+
+static void phql_ret_select_statement_union(zval *ret, zval *unions)
+{
+	if (unions && Z_TYPE_P(unions) != IS_UNDEF) {
+		add_assoc_zval(ret, "union", unions);
+	}
+}
+
+static void phql_ret_with_clause(zval *ret, zval *ctes, int recursive)
+{
+	array_init(ret);
+
+	add_assoc_zval(ret, "ctes", ctes);
+
+	if (recursive) {
+		add_assoc_bool(ret, "recursive", 1);
+	}
+}
+
+static void phql_ret_common_table_expression(zval *ret, phql_parser_token *name, zval *columns, zval *select)
+{
+	array_init(ret);
+
+	phql_add_assoc_stringl(ret, "name", name->token, name->token_len, 0);
+	efree(name->token);
+	efree(name);
+
+	if (columns && Z_TYPE_P(columns) != IS_UNDEF) {
+		add_assoc_zval(ret, "columns", columns);
+	}
+
+	add_assoc_zval(ret, "select", select);
+}
+
+static void phql_ret_union_item(zval *ret, zval *all, zval *select)
+{
+	array_init(ret);
+
+	if (all && Z_TYPE_P(all) != IS_UNDEF && zend_is_true(all)) {
+		add_assoc_bool(ret, "all", 1);
+	}
+
+	add_assoc_zval(ret, "select", select);
+}
+
 static void phql_ret_select_clause(zval *ret, zval *distinct, zval *columns, zval *tables, zval *join_list)
 {
 	array_init(ret);

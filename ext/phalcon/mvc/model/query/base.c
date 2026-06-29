@@ -184,7 +184,7 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 	phql_scanner_state *state;
 	phql_scanner_token token;
 	void* phql_parser;
-	char *error;
+	char *error, *token_start;
 	zval *temp_ast;
 
 	if (!phql) {
@@ -225,7 +225,13 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 	token.value = NULL;
 	token.len = 0;
 
-	while (0 <= (scanner_status = phql_get_token(state, &token))) {
+	while (1) {
+		token_start = state->start;
+
+		scanner_status = phql_get_token(state, &token);
+		if (scanner_status < 0) {
+			break;
+		}
 
 		/* Calculate the 'start' length */
 		state->start_length = (phql + phql_length - state->start);
@@ -279,7 +285,19 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 				break;
 
 			case PHQL_T_IDENTIFIER:
-				phql_parse_with_token(phql_parser, PHQL_T_IDENTIFIER, PHQL_IDENTIFIER, &token, parser_status);
+				if (token_start[0] != '[' && token.value && zend_binary_strcasecmp(token.value, token.len, ZEND_STRL("UNION")) == 0) {
+					efree(token.value);
+					token.value = NULL;
+					token.len = 0;
+					phql_(phql_parser, PHQL_UNION, NULL, parser_status);
+				} else if (token_start[0] != '[' && token.value && zend_binary_strcasecmp(token.value, token.len, ZEND_STRL("RECURSIVE")) == 0) {
+					efree(token.value);
+					token.value = NULL;
+					token.len = 0;
+					phql_(phql_parser, PHQL_RECURSIVE, NULL, parser_status);
+				} else {
+					phql_parse_with_token(phql_parser, PHQL_T_IDENTIFIER, PHQL_IDENTIFIER, &token, parser_status);
+				}
 				break;
 
 			case PHQL_T_DOT:
