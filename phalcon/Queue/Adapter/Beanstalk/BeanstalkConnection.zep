@@ -116,7 +116,7 @@ class BeanstalkConnection
             throw new Exception("Can't connect to the Beanstalk server");
         }
 
-        stream_set_timeout(connection, -1, null);
+        stream_set_timeout(connection, -1, 0);
 
         let this->connection = connection;
 
@@ -302,6 +302,27 @@ class BeanstalkConnection
     }
 
     /**
+     * Returns the Beanstalkd statistics for a tube as an associative array, or
+     * false when the tube does not exist.
+     */
+    public function statsTube(string tube) -> array | bool
+    {
+        var response, body;
+
+        this->write("stats-tube " . tube);
+
+        let response = this->readStatus();
+
+        if !isset response[0] || response[0] != "OK" {
+            return false;
+        }
+
+        let body = this->read((int) response[1]);
+
+        return this->parseDictionary(body);
+    }
+
+    /**
      * Extends the time-to-run of a reserved job.
      */
     public function touchJob(string id) -> bool
@@ -363,6 +384,45 @@ class BeanstalkConnection
         let packet = data . "\r\n";
 
         return fwrite(connection, packet, strlen(packet));
+    }
+
+    /**
+     * Parses a Beanstalkd YAML dictionary payload (a flat "key: value" map)
+     * into an associative array. Numeric values are cast to int, except the
+     * `name` field, which is always kept as a string (a tube may be named
+     * numerically). Avoids the yaml extension; the payload format is a fixed,
+     * flat map.
+     */
+    private function parseDictionary(string payload) -> array
+    {
+        var line, parts, key, value, result;
+
+        let result = [];
+
+        for line in explode("\n", payload) {
+            let line = trim(line);
+
+            if line === "" || line === "---" {
+                continue;
+            }
+
+            let parts = explode(":", line, 2);
+
+            if count(parts) != 2 {
+                continue;
+            }
+
+            let key   = trim(parts[0]),
+                value = trim(parts[1]);
+
+            if key !== "name" && value !== "" && is_numeric(value) {
+                let result[key] = (int) value;
+            } else {
+                let result[key] = value;
+            }
+        }
+
+        return result;
     }
 
     /**
