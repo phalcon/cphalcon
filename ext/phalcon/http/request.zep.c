@@ -22,7 +22,6 @@
 #include "kernel/exception.h"
 #include "kernel/file.h"
 #include "kernel/math.h"
-#include "ext/spl/spl_exceptions.h"
 
 
 /**
@@ -157,7 +156,7 @@ PHP_METHOD(Phalcon_Http_Request, get)
 	if (!name) {
 		ZEPHIR_INIT_VAR(&name_zv);
 	} else {
-	zephir_memory_observe(&name_zv);
+		zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
 	}
 	if (!filters) {
@@ -1615,7 +1614,7 @@ PHP_METHOD(Phalcon_Http_Request, getPatch)
 	if (!name) {
 		ZEPHIR_INIT_VAR(&name_zv);
 	} else {
-	zephir_memory_observe(&name_zv);
+		zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
 	}
 	if (!filters) {
@@ -1772,7 +1771,7 @@ PHP_METHOD(Phalcon_Http_Request, getPost)
 	if (!name) {
 		ZEPHIR_INIT_VAR(&name_zv);
 	} else {
-	zephir_memory_observe(&name_zv);
+		zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
 	}
 	if (!filters) {
@@ -1911,7 +1910,7 @@ PHP_METHOD(Phalcon_Http_Request, getPut)
 	if (!name) {
 		ZEPHIR_INIT_VAR(&name_zv);
 	} else {
-	zephir_memory_observe(&name_zv);
+		zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
 	}
 	if (!filters) {
@@ -2008,7 +2007,7 @@ PHP_METHOD(Phalcon_Http_Request, getQuery)
 	if (!name) {
 		ZEPHIR_INIT_VAR(&name_zv);
 	} else {
-	zephir_memory_observe(&name_zv);
+		zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
 	}
 	if (!filters) {
@@ -3708,7 +3707,7 @@ PHP_METHOD(Phalcon_Http_Request, getHelper)
 	if (!name) {
 		ZEPHIR_INIT_VAR(&name_zv);
 	} else {
-	zephir_memory_observe(&name_zv);
+		zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
 	}
 	if (!filters) {
@@ -4589,11 +4588,11 @@ PHP_METHOD(Phalcon_Http_Request, smoothFiles)
 	tmp_names_param = ZEND_CALL_ARG(execute_data, 3);
 	sizes_param = ZEND_CALL_ARG(execute_data, 4);
 	errors_param = ZEND_CALL_ARG(execute_data, 5);
-	ZEPHIR_OBS_COPY_OR_DUP(&names, names_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&types, types_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&tmp_names, tmp_names_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&sizes, sizes_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&errors, errors_param);
+	zephir_get_arrval(&names, names_param);
+	zephir_get_arrval(&types, types_param);
+	zephir_get_arrval(&tmp_names, tmp_names_param);
+	zephir_get_arrval(&sizes, sizes_param);
+	zephir_get_arrval(&errors, errors_param);
 	zephir_memory_observe(&prefix_zv);
 	ZVAL_STR_COPY(&prefix_zv, prefix);
 	ZEPHIR_INIT_VAR(&files);

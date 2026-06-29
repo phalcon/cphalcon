@@ -40,7 +40,7 @@ class Uuid
     /**
      * Generates a version 3 (name-based MD5) UUID.
      */
-    public function v3(string! namespaceName, string! name) -> <Version3>
+    public function v3( string namespaceName,  string name) -> <Version3>
     {
         return new Version3(namespaceName, name);
     }
@@ -56,7 +56,7 @@ class Uuid
     /**
      * Generates a version 5 (name-based SHA-1) UUID.
      */
-    public function v5(string! namespaceName, string! name) -> <Version5>
+    public function v5( string namespaceName,  string name) -> <Version5>
     {
         return new Version5(namespaceName, name);
     }

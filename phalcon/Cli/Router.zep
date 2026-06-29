@@ -140,7 +140,7 @@ class Router extends AbstractInjectionAware implements RouterInterface
      *
      * @phpstan-param array|string|null $paths
      */
-    public function add(string! pattern, paths = null) -> <RouteInterface>
+    public function add( string pattern, paths = null) -> <RouteInterface>
     {
         var route;
 
@@ -217,7 +217,7 @@ class Router extends AbstractInjectionAware implements RouterInterface
     /**
      * Returns a route object by its name
      */
-    public function getRouteByName(string! name) -> <RouteInterface> | bool
+    public function getRouteByName( string name) -> <RouteInterface> | bool
     {
         var route;
 
@@ -487,7 +487,7 @@ class Router extends AbstractInjectionAware implements RouterInterface
      * );
      *```
      */
-    public function setDefaults(array! defaults) -> <static>
+    public function setDefaults( array defaults) -> <static>
     {
         var module, task, action, params;
 

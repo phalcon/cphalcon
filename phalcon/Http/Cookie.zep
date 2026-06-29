@@ -99,7 +99,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
      * Phalcon\Http\Cookie constructor.
      */
     public function __construct(
-        string! name,
+         string name,
         var value = null,
         int expire = 0,
         string path = "/",
@@ -474,7 +474,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
     /**
      * Sets the domain that the cookie is available to
      */
-    public function setDomain(string! domain) -> <CookieInterface>
+    public function setDomain( string domain) -> <CookieInterface>
     {
         if !this->isRestored {
             this->restore();
@@ -516,7 +516,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
     /**
      * Sets the cookie's options
      */
-    public function setOptions(array! options) -> <CookieInterface>
+    public function setOptions( array options) -> <CookieInterface>
     {
         let this->options = options;
 
@@ -526,7 +526,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
     /**
      * Sets the cookie's path
      */
-    public function setPath(string! path) -> <CookieInterface>
+    public function setPath( string path) -> <CookieInterface>
     {
         if !this->isRestored {
             this->restore();
@@ -601,7 +601,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
      *
      * @throws \Phalcon\Http\Cookie\Exception
      */
-    protected function assertSignKeyIsLongEnough(string! signKey) -> void
+    protected function assertSignKeyIsLongEnough( string signKey) -> void
     {
         var length;
 
@@ -616,7 +616,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
      * @todo Remove this when we get traits
      */
     private function getArrVal(
-        array! collection,
+         array collection,
         var index,
         var defaultValue = null
     ) -> var {

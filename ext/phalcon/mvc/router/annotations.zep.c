@@ -114,7 +114,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, addModuleResource)
 	if (!prefix) {
 		ZEPHIR_INIT_VAR(&prefix_zv);
 	} else {
-	zephir_memory_observe(&prefix_zv);
+		zephir_memory_observe(&prefix_zv);
 	ZVAL_STR_COPY(&prefix_zv, prefix);
 	}
 	ZEPHIR_INIT_VAR(&_0);
@@ -154,7 +154,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, addResource)
 	if (!prefix) {
 		ZEPHIR_INIT_VAR(&prefix_zv);
 	} else {
-	zephir_memory_observe(&prefix_zv);
+		zephir_memory_observe(&prefix_zv);
 	ZVAL_STR_COPY(&prefix_zv, prefix);
 	}
 	ZEPHIR_INIT_VAR(&_0);

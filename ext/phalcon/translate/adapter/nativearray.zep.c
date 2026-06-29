@@ -17,7 +17,6 @@
 #include "kernel/memory.h"
 #include "kernel/exception.h"
 #include "kernel/object.h"
-#include "ext/spl/spl_exceptions.h"
 #include "kernel/operators.h"
 
 
@@ -78,7 +77,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, __construct)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &interpolator, &options_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&options, options_param);
+	zephir_get_arrval(&options, options_param);
 	ZEPHIR_CALL_PARENT(NULL, phalcon_translate_adapter_nativearray_ce, getThis(), "__construct", NULL, 0, interpolator, &options);
 	zephir_check_call_status();
 	zephir_memory_observe(&data);

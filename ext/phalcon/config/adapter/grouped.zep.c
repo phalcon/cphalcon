@@ -18,7 +18,6 @@
 #include "kernel/object.h"
 #include "kernel/array.h"
 #include "kernel/exception.h"
-#include "ext/spl/spl_exceptions.h"
 
 
 /**
@@ -147,13 +146,13 @@ PHP_METHOD(Phalcon_Config_Adapter_Grouped, __construct)
 	if (ZEND_NUM_ARGS() > 2) {
 		factory = ZEND_CALL_ARG(execute_data, 3);
 	}
-	ZEPHIR_OBS_COPY_OR_DUP(&arrayConfig, arrayConfig_param);
+	zephir_get_arrval(&arrayConfig, arrayConfig_param);
 	if (!defaultAdapter) {
 		defaultAdapter = zend_string_init(ZEND_STRL("php"), 0);
 		zephir_memory_observe(&defaultAdapter_zv);
 		ZVAL_STR(&defaultAdapter_zv, defaultAdapter);
 	} else {
-	zephir_memory_observe(&defaultAdapter_zv);
+		zephir_memory_observe(&defaultAdapter_zv);
 	ZVAL_STR_COPY(&defaultAdapter_zv, defaultAdapter);
 	}
 	if (!factory) {

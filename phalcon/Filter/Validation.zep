@@ -472,7 +472,7 @@ class Validation extends Injectable implements ValidationInterface
     /**
      * Adds the validators to a field
      */
-    public function rules(var field, array! validators) -> <static>
+    public function rules(var field,  array validators) -> <static>
     {
         var validator;
 
@@ -525,7 +525,7 @@ class Validation extends Injectable implements ValidationInterface
     /**
      * Adds labels for fields
      */
-    public function setLabels(array! labels) -> void
+    public function setLabels( array labels) -> void
     {
         let this->labels = labels;
     }

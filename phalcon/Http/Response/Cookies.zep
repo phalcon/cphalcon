@@ -104,7 +104,7 @@ class Cookies extends AbstractInjectionAware implements CookiesInterface
      * Deletes a cookie by its name
      * This method does not removes cookies from the _COOKIE superglobal
      */
-    public function delete(string! name) -> bool
+    public function delete( string name) -> bool
     {
         var cookie;
 
@@ -123,7 +123,7 @@ class Cookies extends AbstractInjectionAware implements CookiesInterface
     /**
      * Gets a cookie from the bag
      */
-    public function get(string! name) -> <CookieInterface>
+    public function get( string name) -> <CookieInterface>
     {
         var container, encryption, cookie;
 
@@ -172,7 +172,7 @@ class Cookies extends AbstractInjectionAware implements CookiesInterface
      * Check if a cookie is defined in the bag or exists in the _COOKIE
      * superglobal
      */
-    public function has(string! name) -> bool
+    public function has( string name) -> bool
     {
         return isset this->cookies[name] || isset _COOKIE[name];
     }
@@ -244,12 +244,12 @@ class Cookies extends AbstractInjectionAware implements CookiesInterface
      * ```
      */
     public function set(
-        string! name,
+         string name,
         var value = null,
         int expire = 0,
         string path = "/",
         bool secure = false,
-        string! domain = "",
+         string domain = "",
         bool httpOnly = false,
         array options = []
     ) -> <CookiesInterface> {

@@ -20,7 +20,7 @@ class None implements FilterInterface
     /**
      * Returns the content as is
      */
-    public function filter(string! content) -> string
+    public function filter( string content) -> string
     {
         return content;
     }

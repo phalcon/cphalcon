@@ -114,7 +114,7 @@ class Uniqueness extends AbstractCombinedFieldsValidator
      *     'except'     => null
      * ]
      */
-    public function __construct(array! options = [])
+    public function __construct( array options = [])
     {
         parent::__construct(options);
     }
@@ -169,7 +169,7 @@ class Uniqueness extends AbstractCombinedFieldsValidator
     /**
      * The column map is used in the case to get real column name
      */
-    protected function getColumnNameReal(var record, string! field) -> string
+    protected function getColumnNameReal(var record,  string field) -> string
     {
         // Caching columnMap
         if Settings::get("orm.column_renaming") && !this->columnMap {

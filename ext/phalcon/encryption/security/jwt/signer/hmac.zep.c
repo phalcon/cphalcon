@@ -69,7 +69,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Signer_Hmac, __construct)
 		zephir_memory_observe(&algo_zv);
 		ZVAL_STR(&algo_zv, algo);
 	} else {
-	zephir_memory_observe(&algo_zv);
+		zephir_memory_observe(&algo_zv);
 	ZVAL_STR_COPY(&algo_zv, algo);
 	}
 	ZEPHIR_INIT_VAR(&supported);

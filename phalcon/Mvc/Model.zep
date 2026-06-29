@@ -372,7 +372,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *
      * @return mixed
      */
-    public function __get(string! property)
+    public function __get( string property)
     {
         var modelName, manager, lowerProperty, relation;
         string method;
@@ -439,7 +439,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     /**
      * Magic method to check if a property is a valid relation
      */
-    public function __isset(string! property) -> bool
+    public function __isset( string property) -> bool
     {
         var manager, method, modelName, relation, result;
 
@@ -854,7 +854,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *
      * @return ModelInterface
      */
-    public function assign(array! data, var whiteList = null, var dataColumnMap = null) -> <ModelInterface>
+    public function assign( array data, var whiteList = null, var dataColumnMap = null) -> <ModelInterface>
     {
         var key, keyMapped, value, attribute, attributeField, metaData,
             columnMap, disableAssignSetters, rawValues;
@@ -999,7 +999,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * );
      *```
      */
-    public static function cloneResult(<ModelInterface> base, array! data, int dirtyState = 0) -> <ModelInterface>
+    public static function cloneResult(<ModelInterface> base,  array data, int dirtyState = 0) -> <ModelInterface>
     {
         var instance, key, value;
 
@@ -1053,7 +1053,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      */
     public static function cloneResultMap(
         var base,
-        array! data,
+         array data,
         var columnMap,
         int dirtyState = 0,
         bool keepSnapshots = null
@@ -1272,7 +1272,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *
      * @return mixed
      */
-    public static function cloneResultMapHydrate(array! data, var columnMap, int hydrationMode)
+    public static function cloneResultMapHydrate( array data, var columnMap, int hydrationMode)
     {
         return CloneResultMapHydrate::cloneResultMapHydrate(data, columnMap, hydrationMode, get_called_class());
     }
@@ -1933,7 +1933,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * Fires an event, implicitly calls behaviors and listeners in the events
      * manager are notified
      */
-    public function fireEvent(string! eventName) -> bool
+    public function fireEvent( string eventName) -> bool
     {
         /**
          * Check if there is a method with the same name of the event
@@ -1956,7 +1956,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * manager are notified
      * This method stops if one of the callbacks/listeners returns bool false
      */
-    public function fireEventCancel(string! eventName) -> bool
+    public function fireEventCancel( string eventName) -> bool
     {
         /**
          * Check if there is a method with the same name of the event
@@ -2615,7 +2615,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * echo $robot->readAttribute("name");
      * ```
      */
-    public function readAttribute(string! attribute) -> var | null
+    public function readAttribute( string attribute) -> var | null
     {
         if !isset this->{attribute} {
             return null;
@@ -3080,7 +3080,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     /**
      * Sets the DependencyInjection connection service name
      */
-    final public function setConnectionService(string! connectionService) -> void
+    final public function setConnectionService( string connectionService) -> void
     {
         (<ManagerInterface> this->modelsManager)->setConnectionService(
             this,
@@ -3109,7 +3109,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     /**
      * Sets the DependencyInjection connection service name used to read data
      */
-    final public function setReadConnectionService(string! connectionService) -> void
+    final public function setReadConnectionService( string connectionService) -> void
     {
         (<ManagerInterface> this->modelsManager)->setReadConnectionService(
             this,
@@ -3125,7 +3125,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * @param array data
      * @param array columnMap
      */
-    public function setOldSnapshotData(array! data, columnMap = null)
+    public function setOldSnapshotData( array data, columnMap = null)
     {
         var key, value, attribute;
         array snapshot;
@@ -3181,7 +3181,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *
      * @param array columnMap
      */
-    public function setSnapshotData(array! data, columnMap = null) -> void
+    public function setSnapshotData( array data, columnMap = null) -> void
     {
         var key, value, attribute;
         array snapshot;
@@ -3343,7 +3343,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * configuration, and one application's `setup()` reconfigures the ORM for
      * every other user in the same process.
      */
-    public static function setup(array! options) -> void
+    public static function setup( array options) -> void
     {
         var disableEvents, columnRenaming, notNullValidations,
             exceptionOnFailedSave, exceptionOnFailedMetaDataSave, phqlLiterals,
@@ -3449,7 +3449,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     /**
      * Sets the DependencyInjection connection service name used to write data
      */
-    final public function setWriteConnectionService(string! connectionService) -> void
+    final public function setWriteConnectionService( string connectionService) -> void
     {
         (<ManagerInterface> this->modelsManager)->setWriteConnectionService(
             this,
@@ -3654,7 +3654,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * $robot->writeAttribute("name", "Rosey");
      *```
      */
-    public function writeAttribute(string! attribute, var value) -> void
+    public function writeAttribute( string attribute, var value) -> void
     {
         let this->{attribute} = value;
     }
@@ -4738,7 +4738,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *
      * @return ResultsetInterface|ModelInterface|bool|null
      */
-    protected function getRelatedRecords(string! modelName, string! method, array! arguments)
+    protected function getRelatedRecords( string modelName,  string method,  array arguments)
     {
         var manager, relation, queryMethod, extraArgs, alias;
 
@@ -4808,7 +4808,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *
      * @return int|float|string|null|ResultsetInterface
      */
-    protected static function groupResult(string! functionName, string! alias, var parameters = null) -> var
+    protected static function groupResult( string functionName,  string alias, var parameters = null) -> var
     {
         var params, distinctColumn, groupColumn, columns,
             resultset, cache, firstRow, groupColumns, builder, query, container,
@@ -5757,7 +5757,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * }
      *```
      */
-    protected function allowEmptyStringValues(array! attributes) -> void
+    protected function allowEmptyStringValues( array attributes) -> void
     {
         var keysAttributes, attribute;
 
@@ -5829,7 +5829,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *     ]
      * ]
      */
-    protected function belongsTo(var fields, string! referenceModel, var referencedFields, array options = []) -> <Relation>
+    protected function belongsTo(var fields,  string referenceModel, var referencedFields, array options = []) -> <Relation>
     {
         return (<ManagerInterface> this->modelsManager)->addBelongsTo(
             this,
@@ -5941,7 +5941,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *     ]
      * ]
      */
-    protected function hasMany(var fields, string! referenceModel, var referencedFields, array options = []) -> <Relation>
+    protected function hasMany(var fields,  string referenceModel, var referencedFields, array options = []) -> <Relation>
     {
         return (<ManagerInterface> this->modelsManager)->addHasMany(
             this,
@@ -6009,10 +6009,10 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      */
     protected function hasManyToMany(
         var fields,
-        string! intermediateModel,
+         string intermediateModel,
         var intermediateFields,
         var intermediateReferencedFields,
-        string! referenceModel,
+         string referenceModel,
         var referencedFields,
         array options = []
     ) -> <Relation>
@@ -6073,7 +6073,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *     ]
      * ]
      */
-    protected function hasOne(var fields, string! referenceModel, var referencedFields, array options = []) -> <Relation>
+    protected function hasOne(var fields,  string referenceModel, var referencedFields, array options = []) -> <Relation>
     {
         return (<ManagerInterface> this->modelsManager)->addHasOne(
             this,
@@ -6112,8 +6112,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * @param    string|array $referencedFields
      * @param    array $options
      */
-    protected function hasOneThrough(var fields, string! intermediateModel, var intermediateFields, var intermediateReferencedFields,
-        string! referenceModel, var referencedFields, array options = []) -> <Relation>
+    protected function hasOneThrough(var fields,  string intermediateModel, var intermediateFields, var intermediateReferencedFields,
+         string referenceModel, var referencedFields, array options = []) -> <Relation>
     {
         return (<ManagerInterface> this->modelsManager)->addHasOneThrough(
             this,
@@ -6153,7 +6153,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     /**
      * Sets schema name where the mapped table is located
      */
-    final protected function setSchema(string! schema) -> <ModelInterface>
+    final protected function setSchema( string schema) -> <ModelInterface>
     {
         (<ManagerInterface> this->modelsManager)->setModelSchema(
             this,
@@ -6166,7 +6166,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     /**
      * Sets the table name to which model should be mapped
      */
-    final protected function setSource(string! source) -> <ModelInterface>
+    final protected function setSource( string source) -> <ModelInterface>
     {
         (<ManagerInterface> this->modelsManager)->setModelSource(this, source);
 
@@ -6191,7 +6191,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * }
      *```
      */
-    protected function skipAttributes(array! attributes) -> void
+    protected function skipAttributes( array attributes) -> void
     {
         this->skipAttributesOnCreate(attributes);
         this->skipAttributesOnUpdate(attributes);
@@ -6215,7 +6215,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * }
      *```
      */
-    protected function skipAttributesOnCreate(array! attributes) -> void
+    protected function skipAttributesOnCreate( array attributes) -> void
     {
         var attribute;
         array keysAttributes;
@@ -6250,7 +6250,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * }
      *```
      */
-    protected function skipAttributesOnUpdate(array! attributes) -> void
+    protected function skipAttributesOnUpdate( array attributes) -> void
     {
         var attribute;
         array keysAttributes;

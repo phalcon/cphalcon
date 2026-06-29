@@ -218,7 +218,7 @@ class Service implements ServiceInterface
     /**
      * Changes a parameter in the definition without resolve the service
      */
-    public function setParameter(int position, array! parameter) -> <ServiceInterface>
+    public function setParameter(int position,  array parameter) -> <ServiceInterface>
     {
         var arguments;
 

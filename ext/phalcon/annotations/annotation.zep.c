@@ -16,9 +16,8 @@
 #include "kernel/memory.h"
 #include "kernel/object.h"
 #include "kernel/fcall.h"
-#include "ext/spl/spl_exceptions.h"
-#include "kernel/exception.h"
 #include "kernel/operators.h"
+#include "kernel/exception.h"
 
 
 /**
@@ -88,7 +87,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, __construct)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &reflectionData_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&reflectionData, reflectionData_param);
+	zephir_get_arrval(&reflectionData, reflectionData_param);
 	zephir_memory_observe(&name);
 	if (zephir_array_isset_string_fetch(&name, &reflectionData, SL("name"), 0)) {
 		zephir_array_fetch_string(&_0$$3, &reflectionData, SL("name"), PH_NOISY | PH_READONLY, "phalcon/Annotations/Annotation.zep", 50);
@@ -225,7 +224,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &expr_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&expr, expr_param);
+	zephir_get_arrval(&expr, expr_param);
 	zephir_memory_observe(&type);
 	zephir_array_fetch_string(&type, &expr, SL("type"), PH_NOISY, "phalcon/Annotations/Annotation.zep", 113);
 	do {

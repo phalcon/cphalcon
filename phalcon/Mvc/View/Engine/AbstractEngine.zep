@@ -82,7 +82,7 @@ abstract class AbstractEngine extends Injectable implements EngineInterface, Eve
      *
      * @return void
      */
-    public function partial(string! partialPath, var params = null) -> void // TODO: Make params array
+    public function partial( string partialPath, var params = null) -> void // TODO: Make params array
     {
         this->view->partial(partialPath, params);
     }

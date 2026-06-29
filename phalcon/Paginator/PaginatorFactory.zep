@@ -18,7 +18,7 @@ class PaginatorFactory extends AbstractFactory
     /**
      * AdapterFactory constructor.
      */
-    public function __construct(array! services = [])
+    public function __construct( array services = [])
     {
         this->init(services);
     }
@@ -71,7 +71,7 @@ class PaginatorFactory extends AbstractFactory
     /**
      * Create a new instance of the adapter
      */
-    public function newInstance(string! name, array! options = []) -> <AdapterInterface>
+    public function newInstance( string name,  array options = []) -> <AdapterInterface>
     {
         var definition;
 

@@ -17,7 +17,6 @@
 #include "kernel/object.h"
 #include "kernel/operators.h"
 #include "kernel/exception.h"
-#include "ext/spl/spl_exceptions.h"
 #include "kernel/concat.h"
 #include "kernel/file.h"
 #include "kernel/time.h"
@@ -119,7 +118,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, __construct)
 		ZEPHIR_INIT_VAR(&options);
 		array_init(&options);
 	} else {
-	ZEPHIR_OBS_COPY_OR_DUP(&options, options_param);
+		zephir_get_arrval(&options, options_param);
 	}
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "prefix");
@@ -529,7 +528,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, getArrVal)
 	if (ZEND_NUM_ARGS() > 2) {
 		defaultValue = ZEND_CALL_ARG(execute_data, 3);
 	}
-	ZEPHIR_OBS_COPY_OR_DUP(&collection, collection_param);
+	zephir_get_arrval(&collection, collection_param);
 	if (!defaultValue) {
 		defaultValue = &defaultValue_sub;
 		defaultValue = &__$null;
@@ -537,7 +536,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, getArrVal)
 	if (!cast) {
 		ZEPHIR_INIT_VAR(&cast_zv);
 	} else {
-	zephir_memory_observe(&cast_zv);
+		zephir_memory_observe(&cast_zv);
 	ZVAL_STR_COPY(&cast_zv, cast);
 	}
 	zephir_memory_observe(&value);

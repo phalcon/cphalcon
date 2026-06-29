@@ -496,7 +496,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set)
 		zephir_memory_observe(&domain_zv);
 		ZVAL_STR(&domain_zv, domain);
 	} else {
-	zephir_memory_observe(&domain_zv);
+		zephir_memory_observe(&domain_zv);
 	ZVAL_STR_COPY(&domain_zv, domain);
 	}
 	if (!httpOnly_param) {

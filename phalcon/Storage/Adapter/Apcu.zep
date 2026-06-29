@@ -40,7 +40,7 @@ class Apcu extends AbstractAdapter
      *
      * @throws SupportException
      */
-    public function __construct(<SerializerFactory> factory, array! options = [])
+    public function __construct(<SerializerFactory> factory,  array options = [])
     {
         parent::__construct(factory, options);
 
@@ -79,7 +79,7 @@ class Apcu extends AbstractAdapter
      *
      * @return array
      */
-    public function getKeys(string! prefix = "") -> array
+    public function getKeys( string prefix = "") -> array
     {
         var item, pattern, apc = null;
         array results;
@@ -108,7 +108,7 @@ class Apcu extends AbstractAdapter
      *
      * @return bool
      */
-    public function setForever(string! key, var value) -> bool
+    public function setForever( string key, var value) -> bool
     {
         var result;
 
@@ -128,7 +128,7 @@ class Apcu extends AbstractAdapter
      *
      * @return bool|int
      */
-    protected function doDecrement(string! key, int value = 1) -> int | bool
+    protected function doDecrement( string key, int value = 1) -> int | bool
     {
         return this->phpApcuDec(this->getPrefixedKey(key), value);
     }
@@ -140,7 +140,7 @@ class Apcu extends AbstractAdapter
      *
      * @return bool
      */
-    protected function doDelete(string! key) -> bool
+    protected function doDelete( string key) -> bool
     {
         return (bool) this->phpApcuDelete(this->getPrefixedKey(key));
     }
@@ -182,7 +182,7 @@ class Apcu extends AbstractAdapter
      *
      * @return bool
      */
-    protected function doHas(string! key) -> bool
+    protected function doHas( string key) -> bool
     {
         var result;
 
@@ -199,7 +199,7 @@ class Apcu extends AbstractAdapter
      *
      * @return bool|int
      */
-    protected function doIncrement(string! key, int value = 1) -> int | bool
+    protected function doIncrement( string key, int value = 1) -> int | bool
     {
         return this->phpApcuInc(this->getPrefixedKey(key), value);
     }
@@ -218,7 +218,7 @@ class Apcu extends AbstractAdapter
      * @return bool
      * @throws Exception
      */
-    protected function doSet(string! key, var value, var ttl = null) -> bool
+    protected function doSet( string key, var value, var ttl = null) -> bool
     {
         var result;
 

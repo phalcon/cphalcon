@@ -85,7 +85,7 @@ class Manager extends AbstractInjectionAware
      * @param string $type
      * @param Asset  $asset
      */
-    public function addAssetByType(string! type, <Asset> asset) -> <static>
+    public function addAssetByType( string type, <Asset> asset) -> <static>
     {
         var collection;
 
@@ -107,7 +107,7 @@ class Manager extends AbstractInjectionAware
      * @param bool        $autoVersion
      */
     public function addCss(
-        string! path,
+         string path,
         bool local = true,
         bool filter = true,
         array attributes = [],
@@ -144,7 +144,7 @@ class Manager extends AbstractInjectionAware
      * @param string $type
      * @param Inline $code
      */
-    public function addInlineCodeByType(string! type, <$Inline> code) -> <static>
+    public function addInlineCodeByType( string type, <$Inline> code) -> <static>
     {
         var collection;
 
@@ -211,7 +211,7 @@ class Manager extends AbstractInjectionAware
      * @param bool        $autoVersion
      */
     public function addJs(
-        string! path,
+         string path,
         bool local = true,
         bool filter = true,
         array attributes = [],
@@ -273,7 +273,7 @@ class Manager extends AbstractInjectionAware
      * @param string $name
      * @deprecated
      */
-    public function exists(string! name) -> bool
+    public function exists( string name) -> bool
     {
         return this->has(name);
     }
@@ -290,7 +290,7 @@ class Manager extends AbstractInjectionAware
      * @return Collection
      * @throws Exception
      */
-    public function get(string! name) -> <Collection>
+    public function get( string name) -> <Collection>
     {
         if unlikely true !== isset(this->collections[name]) {
             throw new CollectionNotFound(name);
@@ -349,7 +349,7 @@ class Manager extends AbstractInjectionAware
      *
      * @param string $name
      */
-    public function has(string! name) -> bool
+    public function has( string name) -> bool
     {
         return isset this->collections[name];
     }
@@ -815,7 +815,7 @@ class Manager extends AbstractInjectionAware
      * @param string     $name
      * @param Collection $collection
      */
-    public function set(string! name, <Collection> collection) -> <static>
+    public function set( string name, <Collection> collection) -> <static>
     {
         let this->collections[name] = collection;
 

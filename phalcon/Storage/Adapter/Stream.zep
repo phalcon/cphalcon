@@ -55,7 +55,7 @@ class Stream extends AbstractAdapter
      *
      * @throws InvalidConfiguration
      */
-    public function __construct(<SerializerFactory> factory, array! options = [])
+    public function __construct(<SerializerFactory> factory,  array options = [])
     {
         var storageDir;
 
@@ -107,7 +107,7 @@ class Stream extends AbstractAdapter
      *
      * @return array
      */
-    public function getKeys(string! prefix = "") -> array
+    public function getKeys( string prefix = "") -> array
     {
         var directory, file, iterator;
         array files;
@@ -139,7 +139,7 @@ class Stream extends AbstractAdapter
      *
      * @return bool
      */
-    public function setForever(string! key, var value) -> bool
+    public function setForever( string key, var value) -> bool
     {
         array payload;
 
@@ -160,7 +160,7 @@ class Stream extends AbstractAdapter
      *
      * @return bool|int
      */
-    protected function doDecrement(string! key, int value = 1) -> int | bool
+    protected function doDecrement( string key, int value = 1) -> int | bool
     {
         var data, result;
 
@@ -186,7 +186,7 @@ class Stream extends AbstractAdapter
      *
      * @return bool
      */
-    protected function doDelete(string! key) -> bool
+    protected function doDelete( string key) -> bool
     {
         var filepath;
 
@@ -207,7 +207,7 @@ class Stream extends AbstractAdapter
      *
      * @return mixed|null
      */
-    protected function doGet(string! key, var defaultValue = null) -> var
+    protected function doGet( string key, var defaultValue = null) -> var
     {
         var content, filepath, payload;
 
@@ -235,7 +235,7 @@ class Stream extends AbstractAdapter
      *
      * @return bool
      */
-    protected function doHas(string! key) -> bool
+    protected function doHas( string key) -> bool
     {
         var payload, filepath;
 
@@ -262,7 +262,7 @@ class Stream extends AbstractAdapter
      *
      * @return bool|int
      */
-    protected function doIncrement(string! key, int value = 1) -> int | bool
+    protected function doIncrement( string key, int value = 1) -> int | bool
     {
         var data, result;
 
@@ -294,7 +294,7 @@ class Stream extends AbstractAdapter
      *
      * @return bool
      */
-    protected function doSet(string! key, var value, var ttl = null) -> bool
+    protected function doSet( string key, var value, var ttl = null) -> bool
     {
         array payload;
 
@@ -318,7 +318,7 @@ class Stream extends AbstractAdapter
      *
      * @return string
      */
-    private function getDir(string! key = "") -> string
+    private function getDir( string key = "") -> string
     {
         var dirFromFile, dirPrefix;
 
@@ -347,7 +347,7 @@ class Stream extends AbstractAdapter
      *
      * @return Iterator
      */
-    private function getIterator(string! dir) -> <Iterator>
+    private function getIterator( string dir) -> <Iterator>
     {
         return new RecursiveIteratorIterator(
             new RecursiveDirectoryIterator(
@@ -419,7 +419,7 @@ class Stream extends AbstractAdapter
      *
      * @return bool
      */
-    private function isExpired(array! payload) -> bool
+    private function isExpired( array payload) -> bool
     {
         var created, ttl;
 
@@ -490,7 +490,7 @@ class Stream extends AbstractAdapter
         return unlink(filename);
     }
 
-    private function getDirFromFile(string! file) -> string
+    private function getDirFromFile( string file) -> string
     {
         var name, start;
 
@@ -508,7 +508,7 @@ class Stream extends AbstractAdapter
         return implode("/", str_split(start, 2)) . "/";
     }
 
-    private function getDirSeparator(string! directory) -> string
+    private function getDirSeparator( string directory) -> string
     {
         return rtrim(directory, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
     }

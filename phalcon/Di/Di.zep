@@ -115,7 +115,7 @@ class Di implements DiInterface
     /**
      * Magic method to get or set services using setters/getters
      */
-    public function __call(string! method, array arguments = []) -> var | null
+    public function __call( string method, array arguments = []) -> var | null
     {
         var instance, possibleService, definition;
 
@@ -158,7 +158,7 @@ class Di implements DiInterface
      * Only is successful if a service hasn't been registered previously
      * with the same name
      */
-    public function attempt(string! name, definition, bool shared = false) -> <ServiceInterface> | bool
+    public function attempt( string name, definition, bool shared = false) -> <ServiceInterface> | bool
     {
         if isset this->services[name] {
             return false;
@@ -172,7 +172,7 @@ class Di implements DiInterface
     /**
      * Resolves the service based on its configuration
      */
-    public function get(string! name, parameters = null) -> var
+    public function get( string name, parameters = null) -> var
     {
         var service, isShared, instance = null;
 
@@ -306,7 +306,7 @@ class Di implements DiInterface
     /**
      * Returns a service definition without resolving
      */
-    public function getRaw(string! name) -> var
+    public function getRaw( string name) -> var
     {
         return this->getService(name)
                    ->getDefinition()
@@ -316,7 +316,7 @@ class Di implements DiInterface
     /**
      * Returns a Phalcon\Di\Service instance
      */
-    public function getService(string! name) -> <ServiceInterface>
+    public function getService( string name) -> <ServiceInterface>
     {
         /**
          * Resolve the alias, if any
@@ -342,7 +342,7 @@ class Di implements DiInterface
      * Resolves a service, the resolved service is stored in the DI, subsequent
      * requests for this service will return the same instance
      */
-    public function getShared(string! name, parameters = null) -> var
+    public function getShared( string name, parameters = null) -> var
     {
         /**
          * Resolve the alias, if any
@@ -407,7 +407,7 @@ class Di implements DiInterface
      *
      * @link https://docs.phalcon.io/latest/di/
      */
-    public function loadFromPhp(string! filePath) -> void
+    public function loadFromPhp( string filePath) -> void
     {
         var services;
 
@@ -449,7 +449,7 @@ class Di implements DiInterface
      *
      * @link https://docs.phalcon.io/latest/di/
      */
-    public function loadFromYaml(string! filePath, array! callbacks = null) -> void
+    public function loadFromYaml( string filePath,  array callbacks = null) -> void
     {
         var services;
 
@@ -461,7 +461,7 @@ class Di implements DiInterface
     /**
      * Check whether the DI contains a service by a name
      */
-    public function has(string! name) -> bool
+    public function has( string name) -> bool
     {
         /**
          * Resolve the alias, if any
@@ -478,7 +478,7 @@ class Di implements DiInterface
      * this method reports only on the resolved-instance cache populated by
      * `getShared()`.
      */
-    public function hasShared(string! name) -> bool
+    public function hasShared( string name) -> bool
     {
         /**
          * Resolve the alias, if any
@@ -558,7 +558,7 @@ class Di implements DiInterface
      * Removes a service in the services container
      * It also removes any shared instance created for the service
      */
-    public function remove(string! name) -> void
+    public function remove( string name) -> void
     {
         var alias, aliases, services, sharedInstances, target;
 
@@ -593,7 +593,7 @@ class Di implements DiInterface
      * Removes the cached shared instance for a service, leaving the service
      * definition intact so the next `getShared()` call rebuilds it.
      */
-    public function removeShared(string! name) -> void
+    public function removeShared( string name) -> void
     {
         var sharedInstances, service;
 
@@ -630,7 +630,7 @@ class Di implements DiInterface
     /**
      * Registers a service in the services container
      */
-    public function set(string! name, var definition, bool shared = false) -> <ServiceInterface>
+    public function set( string name, var definition, bool shared = false) -> <ServiceInterface>
     {
         /**
          * Resolve the alias, if any
@@ -702,7 +702,7 @@ class Di implements DiInterface
     /**
      * Sets a service using a raw Phalcon\Di\Service definition
      */
-    public function setService(string! name, <ServiceInterface> rawDefinition) -> <ServiceInterface>
+    public function setService( string name, <ServiceInterface> rawDefinition) -> <ServiceInterface>
     {
         let this->services[name] = rawDefinition;
 
@@ -712,7 +712,7 @@ class Di implements DiInterface
     /**
      * Registers an "always shared" service in the services container
      */
-    public function setShared(string! name, var definition) -> <ServiceInterface>
+    public function setShared( string name, var definition) -> <ServiceInterface>
     {
         return this->set(name, definition, true);
     }

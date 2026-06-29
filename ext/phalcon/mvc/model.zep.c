@@ -21,7 +21,6 @@
 #include "kernel/string.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
-#include "ext/spl/spl_exceptions.h"
 #include "kernel/iterator.h"
 
 
@@ -1201,7 +1200,7 @@ PHP_METHOD(Phalcon_Mvc_Model, assign)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 2, &data_param, &whiteList, &dataColumnMap);
-	ZEPHIR_OBS_COPY_OR_DUP(&data, data_param);
+	zephir_get_arrval(&data, data_param);
 	if (!whiteList) {
 		whiteList = &whiteList_sub;
 		whiteList = &__$null;
@@ -1557,7 +1556,7 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResult)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 1, &base, &data_param, &dirtyState_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&data, data_param);
+	zephir_get_arrval(&data, data_param);
 	if (!dirtyState_param) {
 		dirtyState = 0;
 	} else {
@@ -1747,7 +1746,7 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMap)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 3, 2, &base, &data_param, &columnMap, &dirtyState_param, &keepSnapshots_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&data, data_param);
+	zephir_get_arrval(&data, data_param);
 	if (!dirtyState_param) {
 		dirtyState = 0;
 	} else {
@@ -2349,7 +2348,7 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMapHydrate)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 3, 0, &data_param, &columnMap, &hydrationMode_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&data, data_param);
+	zephir_get_arrval(&data, data_param);
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_get_called_class(&_0);
 	ZVAL_LONG(&_1, hydrationMode);
@@ -5388,7 +5387,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setOldSnapshotData)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 1, &data_param, &columnMap);
-	ZEPHIR_OBS_COPY_OR_DUP(&data, data_param);
+	zephir_get_arrval(&data, data_param);
 	if (!columnMap) {
 		columnMap = &columnMap_sub;
 		columnMap = &__$null;
@@ -5586,7 +5585,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setSnapshotData)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 1, &data_param, &columnMap);
-	ZEPHIR_OBS_COPY_OR_DUP(&data, data_param);
+	zephir_get_arrval(&data, data_param);
 	if (!columnMap) {
 		columnMap = &columnMap_sub;
 		columnMap = &__$null;
@@ -6001,7 +6000,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setup)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &options_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&options, options_param);
+	zephir_get_arrval(&options, options_param);
 	zephir_memory_observe(&disableEvents);
 	if (zephir_array_isset_string_fetch(&disableEvents, &options, SL("events"), 0)) {
 		ZEPHIR_INIT_VAR(&_0$$3);
@@ -8984,7 +8983,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getRelatedRecords)
 	ZVAL_STR_COPY(&modelName_zv, modelName);
 	zephir_memory_observe(&method_zv);
 	ZVAL_STR_COPY(&method_zv, method);
-	ZEPHIR_OBS_COPY_OR_DUP(&arguments, arguments_param);
+	zephir_get_arrval(&arguments, arguments_param);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("modelsManager"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&manager, &_0);
 	ZEPHIR_INIT_VAR(&relation);
@@ -12377,7 +12376,7 @@ PHP_METHOD(Phalcon_Mvc_Model, allowEmptyStringValues)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &attributes_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&attributes, attributes_param);
+	zephir_get_arrval(&attributes, attributes_param);
 	ZEPHIR_INIT_VAR(&keysAttributes);
 	array_init(&keysAttributes);
 	zephir_is_iterable(&attributes, 0, "phalcon/Mvc/Model.zep", 5770);
@@ -13109,7 +13108,7 @@ PHP_METHOD(Phalcon_Mvc_Model, skipAttributes)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &attributes_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&attributes, attributes_param);
+	zephir_get_arrval(&attributes, attributes_param);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "skipattributesoncreate", NULL, 0, &attributes);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "skipattributesonupdate", NULL, 0, &attributes);
@@ -13156,7 +13155,7 @@ PHP_METHOD(Phalcon_Mvc_Model, skipAttributesOnCreate)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &attributes_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&attributes, attributes_param);
+	zephir_get_arrval(&attributes, attributes_param);
 	ZEPHIR_INIT_VAR(&keysAttributes);
 	array_init(&keysAttributes);
 	zephir_is_iterable(&attributes, 0, "phalcon/Mvc/Model.zep", 6229);
@@ -13235,7 +13234,7 @@ PHP_METHOD(Phalcon_Mvc_Model, skipAttributesOnUpdate)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &attributes_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&attributes, attributes_param);
+	zephir_get_arrval(&attributes, attributes_param);
 	ZEPHIR_INIT_VAR(&keysAttributes);
 	array_init(&keysAttributes);
 	zephir_is_iterable(&attributes, 0, "phalcon/Mvc/Model.zep", 6264);

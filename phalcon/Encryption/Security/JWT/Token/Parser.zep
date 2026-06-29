@@ -50,7 +50,7 @@ class Parser
      *
      * @return Token
      */
-    public function parse(string! token) -> <Token>
+    public function parse( string token) -> <Token>
     {
         var claims, encodedClaims, encodedHeaders, encodedSignature,
             headers, results, signature;
@@ -125,7 +125,7 @@ class Parser
      *
      * @return Signature
      */
-    private function decodeSignature(<Item> headers, string! signature) -> <Signature>
+    private function decodeSignature(<Item> headers,  string signature) -> <Signature>
     {
         var algo, decoded, encodedSignature;
 
@@ -148,7 +148,7 @@ class Parser
      *
      * @return array
      */
-    private function parseToken(string! token) -> array
+    private function parseToken( string token) -> array
     {
         var parts;
 
@@ -164,7 +164,7 @@ class Parser
     /**
      * @todo This will be removed when traits are introduced
      */
-    private function decodeUrl(string! input) -> string
+    private function decodeUrl( string input) -> string
     {
         var data, remainder;
 

@@ -15,10 +15,9 @@
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
 #include "kernel/array.h"
-#include "ext/spl/spl_exceptions.h"
-#include "kernel/exception.h"
-#include "kernel/object.h"
 #include "kernel/operators.h"
+#include "kernel/object.h"
+#include "kernel/exception.h"
 #include "Zend/zend_closures.h"
 #include "kernel/concat.h"
 #include "kernel/variables.h"
@@ -329,12 +328,7 @@ PHP_METHOD(Phalcon_Mvc_Router, __construct)
 	if (!defaultRoutes_param) {
 		defaultRoutes = 1;
 	} else {
-	if (UNEXPECTED(Z_TYPE_P(defaultRoutes_param) != IS_TRUE && Z_TYPE_P(defaultRoutes_param) != IS_FALSE)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'defaultRoutes' must be of the type bool"));
-		RETURN_MM_NULL();
-	}
-	defaultRoutes = (Z_TYPE_P(defaultRoutes_param) == IS_TRUE);
-	}
+		}
 	if (defaultRoutes) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		object_init_ex(&_0$$3, phalcon_mvc_router_route_ce);
@@ -3218,7 +3212,7 @@ PHP_METHOD(Phalcon_Mvc_Router, useCache)
 		zephir_memory_observe(&key_zv);
 		ZVAL_STR(&key_zv, key);
 	} else {
-	zephir_memory_observe(&key_zv);
+		zephir_memory_observe(&key_zv);
 	ZVAL_STR_COPY(&key_zv, key);
 	}
 	ZEPHIR_CALL_METHOD(&_0, cache, "has", NULL, 0, &key_zv);
@@ -5478,11 +5472,6 @@ PHP_METHOD(Phalcon_Mvc_Router, removeExtraSlashes)
 		Z_PARAM_BOOL(remove)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &remove_param);
-	if (UNEXPECTED(Z_TYPE_P(remove_param) != IS_TRUE && Z_TYPE_P(remove_param) != IS_FALSE)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'remove' must be of the type bool"));
-		RETURN_NULL();
-	}
-	remove = (Z_TYPE_P(remove_param) == IS_TRUE);
 	if (remove) {
 		zephir_update_property_zval(this_ptr, ZEND_STRL("removeExtraSlashes"), &__$true);
 	} else {
@@ -5621,7 +5610,7 @@ PHP_METHOD(Phalcon_Mvc_Router, setDefaults)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &defaults_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&defaults, defaults_param);
+	zephir_get_arrval(&defaults, defaults_param);
 	zephir_memory_observe(&namespaceName);
 	if (zephir_array_isset_string_fetch(&namespaceName, &defaults, SL("namespace"), 0)) {
 		zephir_cast_to_string(&_0$$3, &namespaceName);

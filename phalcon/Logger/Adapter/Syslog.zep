@@ -52,7 +52,7 @@ class Syslog extends AbstractAdapter
      * @param string $name
      * @param array  $options
      */
-    public function __construct(string! name, array options = [])
+    public function __construct( string name, array options = [])
     {
         var facility, option;
 

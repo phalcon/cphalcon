@@ -41,7 +41,7 @@ class Json extends Config
      *
      * @throws CannotLoadConfigFile
      */
-    public function __construct(string! filePath)
+    public function __construct( string filePath)
     {
         var content;
 

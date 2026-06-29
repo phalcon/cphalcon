@@ -5,7 +5,7 @@
 ### Tools
 
 - Zephir Parser v2.0.4
-- Zephir 0.23.0 (development - 062ed64e2)
+- Zephir 1.0.0 (ec525b881)
  
 ### Changed
 
@@ -29,6 +29,7 @@
 - Fixed `Phalcon\Mvc\Model::create()` and `Phalcon\Mvc\Model::update()` passing `null` to the `field` argument of `Phalcon\Messages\Message` (typed `string` since v5.14), which raised a `Passing null to parameter #2 ($field) of type string is deprecated` warning when calling `create()` on an existing record or `update()` on a non-existent one; they now pass an empty string. [#17224](https://github.com/phalcon/cphalcon/issues/17224) [[doc]](https://docs.phalcon.io/5.16/db-models/)
 - Fixed `Phalcon\Image\Adapter\AbstractAdapter::resize()` truncating the scaled master-mode (`Enum::WIDTH`, `Enum::HEIGHT`, `Enum::PRECISE`) dimension to an `int` before rounding, so a value whose fractional part was `>= 0.5` came out one pixel short (e.g. a `1820x694` source resized to height `80` produced width `209` instead of `210`); the scaled width/height are now rounded before the integer cast. [#17225](https://github.com/phalcon/cphalcon/issues/17225) [[doc]](https://docs.phalcon.io/5.16/image/)
 - Fixed `Phalcon\Db\Dialect::getSqlExpression()` throwing `The argument is not initialized or iterable()` while resolving a `case` expression when the expression array is held as a PHP reference, by fetching the `when-clauses` list through `array_values()` before iterating it. [#17225](https://github.com/phalcon/cphalcon/issues/17225) [[doc]](https://docs.phalcon.io/5.16/db-layer/)
+- Fixed `Phalcon\Forms\Element\AbstractElement::render()` to cast a non-`null` element value to `string` before passing it to the input helper, so a numeric default set via `setDefault()` (e.g. `setDefault(10)` or `setDefault(10.5)` on a `Phalcon\Forms\Element\Numeric`) renders as `value="10"` instead of raising a `TypeError` for passing an `int`/`float` to the helper's `string` `$value` parameter. [#17232](https://github.com/phalcon/cphalcon/issues/17232) [[doc]](https://docs.phalcon.io/5.16/forms/)
 
 ### Removed
 

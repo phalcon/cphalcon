@@ -57,7 +57,7 @@ abstract class Injectable extends stdClass implements InjectionAwareInterface
     /**
      * Magic method __get
      */
-    public function __get(string! propertyName) -> var | null
+    public function __get( string propertyName) -> var | null
     {
         var container, service;
 
@@ -112,7 +112,7 @@ abstract class Injectable extends stdClass implements InjectionAwareInterface
     /**
      * Magic method __isset
      */
-    public function __isset(string! name) -> bool
+    public function __isset( string name) -> bool
     {
         return this->getDI()->has(name);
     }

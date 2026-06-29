@@ -125,7 +125,7 @@ class File extends AbstractValidatorComposite
      *     'messageValid' => ''
      * ]
      */
-    public function __construct(array! options = [])
+    public function __construct( array options = [])
     {
         var helper, included = null, key, message = null,
             messageFileEmpty = null, messageIniSize = null, messageValid = null,

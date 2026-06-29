@@ -19,7 +19,6 @@
 #include "kernel/fcall.h"
 #include "kernel/array.h"
 #include "Zend/zend_closures.h"
-#include "ext/spl/spl_exceptions.h"
 
 
 /**
@@ -341,7 +340,7 @@ PHP_METHOD(Phalcon_Di_Service, setParameter)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &position_param, &parameter_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&parameter, parameter_param);
+	zephir_get_arrval(&parameter, parameter_param);
 	zephir_memory_observe(&_0);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("definition"), PH_NOISY_CC);
 	if (UNEXPECTED(Z_TYPE_P(&_0) != IS_ARRAY)) {

@@ -83,7 +83,7 @@ use Phalcon\Storage\AdapterFactory;
      *                                'lockWaitTime'   => 50000,
      * ]
      */
-    public function __construct(<AdapterFactory> factory, array! options = [])
+    public function __construct(<AdapterFactory> factory,  array options = [])
     {
         /**
          * Session ids are externally generated and never carry the storage

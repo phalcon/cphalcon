@@ -29,7 +29,7 @@ class Jsmin implements FilterInterface
     /**
      * Filters the content using JSMIN
      */
-    public function filter(string! content) -> string
+    public function filter( string content) -> string
     {
         return content;
     }

@@ -27,7 +27,7 @@ class Timestampable extends Behavior
     /**
      * Listens for notifications from the models manager
      */
-    public function notify(string! type, <ModelInterface> model)
+    public function notify( string type, <ModelInterface> model)
     {
         var options, timestamp, singleField, field;
 

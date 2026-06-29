@@ -20,7 +20,6 @@
 #include "kernel/exception.h"
 #include "kernel/concat.h"
 #include "kernel/array.h"
-#include "ext/spl/spl_exceptions.h"
 
 
 /**
@@ -1069,11 +1068,6 @@ PHP_METHOD(Phalcon_Encryption_Security, setRandomBytes)
 		Z_PARAM_LONG(randomBytes)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &randomBytes_param);
-	if (UNEXPECTED(Z_TYPE_P(randomBytes_param) != IS_LONG)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'randomBytes' must be of the type int"));
-		RETURN_NULL();
-	}
-	randomBytes = Z_LVAL_P(randomBytes_param);
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, randomBytes);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("numberBytes"), &_0);

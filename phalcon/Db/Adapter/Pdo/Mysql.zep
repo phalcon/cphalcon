@@ -53,7 +53,7 @@ class Mysql extends PdoAdapter
     /**
      * Adds a foreign key to a table
      */
-    public function addForeignKey(string! tableName, string! schemaName, <ReferenceInterface> reference) -> bool
+    public function addForeignKey( string tableName,  string schemaName, <ReferenceInterface> reference) -> bool
     {
         var foreignKeyCheck;
 
@@ -564,7 +564,7 @@ class Mysql extends PdoAdapter
      * );
      * ```
      */
-    public function describeIndexes(string! table, string! schema = null) -> <IndexInterface[]>
+    public function describeIndexes( string table,  string schema = null) -> <IndexInterface[]>
     {
         var indexes, index, keyName, indexType, indexObjects, columns, name,
             directions, collation;
@@ -683,7 +683,7 @@ class Mysql extends PdoAdapter
      * );
      *```
      */
-    public function describeReferences(string! table, string! schema = null) -> <ReferenceInterface[]>
+    public function describeReferences( string table,  string schema = null) -> <ReferenceInterface[]>
     {
         var references, reference, arrayReference, constraintName,
             referenceObjects, name, referencedSchema, referencedTable, columns,

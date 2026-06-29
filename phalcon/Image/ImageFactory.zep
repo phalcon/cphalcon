@@ -22,7 +22,7 @@ class ImageFactory extends AbstractFactory
     /**
      * Constructor
      */
-    public function __construct(array! services = [])
+    public function __construct( array services = [])
     {
         this->init(services);
     }
@@ -60,8 +60,8 @@ class ImageFactory extends AbstractFactory
      * Creates a new instance
      */
     public function newInstance(
-        string! name,
-        string! file,
+         string name,
+         string file,
         int width = null,
         int height = null
     ) -> <AdapterInterface>
@@ -105,7 +105,7 @@ class ImageFactory extends AbstractFactory
      * @todo Remove this when we get traits
      */
     private function getArrVal(
-        array! collection,
+         array collection,
         var index,
         var defaultValue = null
     ) -> var {

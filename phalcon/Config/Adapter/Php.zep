@@ -55,7 +55,7 @@ class Php extends Config
      *
      * @throws CannotLoadConfigFile
      */
-    public function __construct(string! filePath)
+    public function __construct( string filePath)
     {
         if unlikely true !== is_file(filePath) {
             throw new CannotLoadConfigFile(basename(filePath));

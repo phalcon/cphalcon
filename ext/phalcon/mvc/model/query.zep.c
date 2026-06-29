@@ -18,7 +18,6 @@
 #include "kernel/array.h"
 #include "kernel/operators.h"
 #include "kernel/exception.h"
-#include "ext/spl/spl_exceptions.h"
 #include "ext/pdo/php_pdo_driver.h"
 #include "kernel/string.h"
 #include "kernel/concat.h"
@@ -866,7 +865,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, setBindParams)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 1, &bindParams_param, &merge_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&bindParams, bindParams_param);
+	zephir_get_arrval(&bindParams, bindParams_param);
 	if (!merge_param) {
 		merge = 0;
 	} else {
@@ -905,7 +904,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, setBindTypes)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 1, &bindTypes_param, &merge_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&bindTypes, bindTypes_param);
+	zephir_get_arrval(&bindTypes, bindTypes_param);
 	if (!merge_param) {
 		merge = 0;
 	} else {
@@ -997,7 +996,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, setIntermediate)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &intermediate_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&intermediate, intermediate_param);
+	zephir_get_arrval(&intermediate, intermediate_param);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("intermediate"), &intermediate);
 	RETURN_THIS();
 }
@@ -2933,7 +2932,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getCallArgument)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &argument_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&argument, argument_param);
+	zephir_get_arrval(&argument, argument_param);
 	zephir_array_fetch_string(&_0, &argument, SL("type"), PH_NOISY | PH_READONLY, "phalcon/Mvc/Model/Query.zep", 1611);
 	if (ZEPHIR_IS_LONG(&_0, 352)) {
 		zephir_create_array(return_value, 1, 0);
@@ -2985,7 +2984,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getCaseExpression)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &expr_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&expr, expr_param);
+	zephir_get_arrval(&expr, expr_param);
 	ZEPHIR_INIT_VAR(&whenClauses);
 	array_init(&whenClauses);
 	zephir_array_fetch_string(&_0, &expr, SL("right"), PH_NOISY | PH_READONLY, "phalcon/Mvc/Model/Query.zep", 1629);
@@ -4014,7 +4013,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getFunctionCall)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &expr_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&expr, expr_param);
+	zephir_get_arrval(&expr, expr_param);
 	zephir_memory_observe(&arguments);
 	if (zephir_array_isset_string_fetch(&arguments, &expr, SL("arguments"), 0)) {
 		if (zephir_array_isset_value_string(&expr, SL("distinct"))) {
@@ -4123,7 +4122,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getGroupClause)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &group_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&group, group_param);
+	zephir_get_arrval(&group, group_param);
 	if (zephir_array_isset_value_long(&group, 0)) {
 		ZEPHIR_INIT_VAR(&groupParts);
 		array_init(&groupParts);
@@ -4972,7 +4971,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getLimitClause)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &limitClause_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&limitClause, limitClause_param);
+	zephir_get_arrval(&limitClause, limitClause_param);
 	ZEPHIR_INIT_VAR(&limit);
 	array_init(&limit);
 	zephir_memory_observe(&number);
@@ -5470,7 +5469,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getQualified)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &expr_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&expr, expr_param);
+	zephir_get_arrval(&expr, expr_param);
 	zephir_memory_observe(&columnName);
 	zephir_array_fetch_string(&columnName, &expr, SL("name"), PH_NOISY, "phalcon/Mvc/Model/Query.zep", 3086);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("nestingLevel"), PH_NOISY_CC | PH_READONLY);
@@ -5928,7 +5927,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getSelectColumn)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &column_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&column, column_param);
+	zephir_get_arrval(&column, column_param);
 	zephir_memory_observe(&columnType);
 	if (UNEXPECTED(!(zephir_array_isset_string_fetch(&columnType, &column, SL("type"), 0)))) {
 		ZEPHIR_INIT_VAR(&_0$$3);

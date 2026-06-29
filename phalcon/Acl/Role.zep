@@ -20,7 +20,7 @@ class Role extends AbstractElement implements RoleInterface
     /**
      * Phalcon\Acl\Role constructor
      */
-    public function __construct(string! name, string description = null)
+    public function __construct( string name, string description = null)
     {
         if unlikely name === "*" {
             throw new ForbiddenWildcard("role");

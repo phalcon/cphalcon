@@ -78,7 +78,7 @@ abstract class AbstractAdapter implements AdapterInterface, ArrayAccess
      *
      * @return string
      */
-    public function _(string! translateKey, array placeholders = []) -> string
+    public function _( string translateKey, array placeholders = []) -> string
     {
         return this->query(translateKey, placeholders);
     }
@@ -91,7 +91,7 @@ abstract class AbstractAdapter implements AdapterInterface, ArrayAccess
      * @return string
      * @throws Exception
      */
-    public function notFound(string! index) -> string
+    public function notFound( string index) -> string
     {
         if unlikely (true === this->triggerError) {
             throw new KeyNotFound(index);
@@ -158,7 +158,7 @@ abstract class AbstractAdapter implements AdapterInterface, ArrayAccess
      *
      * @return string
      */
-    public function t(string! translateKey, array placeholders = []) -> string
+    public function t( string translateKey, array placeholders = []) -> string
     {
         return this->query(translateKey, placeholders);
     }
@@ -171,7 +171,7 @@ abstract class AbstractAdapter implements AdapterInterface, ArrayAccess
      * @return string
      */
     protected function replacePlaceholders(
-        string! translation,
+         string translation,
         array placeholders = []
     ) -> string {
         if null === this->interpolator {

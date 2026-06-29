@@ -62,7 +62,7 @@ class Url extends AbstractValidator
      *     'options' => []
      * ]
      */
-    public function __construct(array! options = [])
+    public function __construct( array options = [])
     {
         parent::__construct(options);
     }

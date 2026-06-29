@@ -171,6 +171,55 @@ final class RenderTest extends AbstractUnitTestCase
     }
 
     /**
+     * Numeric defaults set via setDefault() must be cast to string when the
+     * element is rendered, instead of throwing a TypeError in the underlying
+     * input helper.
+     *
+     * @see    https://github.com/phalcon/cphalcon/issues/17232
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-28
+     */
+    public function testFormsElementRenderNumericValue(): void
+    {
+        $name    = uniqid();
+        $factory = new TagFactory(new Escaper());
+        $doctype = $factory->newInstance('doctype');
+        $doctype(Doctype::XHTML5);
+
+        $element = new Numeric($name);
+        $element->setTagFactory($factory);
+
+        /**
+         * Integer default
+         */
+        $element->setDefault(10);
+
+        $expected = sprintf(
+            '<input type="number" id="%s" name="%s" value="10" />',
+            $name,
+            $name
+        );
+        $actual = $element->render();
+
+        $this->assertSame($expected, $actual);
+
+        /**
+         * Float default
+         */
+        $element->setDefault(10.5);
+
+        $expected = sprintf(
+            '<input type="number" id="%s" name="%s" value="10.5" />',
+            $name,
+            $name
+        );
+        $actual = $element->render();
+
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2024-01-01
      */

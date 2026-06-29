@@ -16,9 +16,8 @@
 #include "kernel/array.h"
 #include "kernel/exception.h"
 #include "kernel/fcall.h"
-#include "ext/spl/spl_exceptions.h"
-#include "kernel/memory.h"
 #include "kernel/operators.h"
+#include "kernel/memory.h"
 
 
 /**
@@ -87,7 +86,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_AbstractAdapter, __construct)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &config_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&config, config_param);
+	zephir_get_arrval(&config, config_param);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("config"), &config);
 	if (UNEXPECTED(!(zephir_array_isset_value_string(&config, SL("limit"))))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exceptions_missingrequiredparameter_ce, "limit", "phalcon/Paginator/Adapter/AbstractAdapter.zep", 62);

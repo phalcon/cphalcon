@@ -33,7 +33,7 @@ class LazyLoader
     /**
      * Phalcon\Mvc\Micro\LazyLoader constructor
      */
-    public function __construct(string! definition)
+    public function __construct( string definition)
     {
         let this->definition = definition;
     }
@@ -44,7 +44,7 @@ class LazyLoader
      * @param  array arguments
      * @return mixed
      */
-    public function callMethod(string! method, arguments, <BinderInterface> modelBinder = null)
+    public function callMethod( string method, arguments, <BinderInterface> modelBinder = null)
     {
          var handler, definition, bindCacheKey;
 

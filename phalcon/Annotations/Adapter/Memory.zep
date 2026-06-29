@@ -30,7 +30,7 @@ class Memory extends AbstractAdapter
     /**
      * Reads parsed annotations from memory
      */
-    public function read(string! key) -> <Reflection> | bool
+    public function read( string key) -> <Reflection> | bool
     {
         var data;
 
@@ -44,7 +44,7 @@ class Memory extends AbstractAdapter
     /**
      * Writes parsed annotations to memory
      */
-    public function write(string! key, <Reflection> data) -> void
+    public function write( string key, <Reflection> data) -> void
     {
         var lowercasedKey;
 

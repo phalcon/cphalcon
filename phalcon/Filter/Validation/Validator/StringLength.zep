@@ -95,7 +95,7 @@ class StringLength extends AbstractValidatorComposite
      *     'includedMaximum' => false
      * ]
      */
-    public function __construct(array! options = [])
+    public function __construct( array options = [])
     {
         var included = null, key, message = null, validator, value;
 

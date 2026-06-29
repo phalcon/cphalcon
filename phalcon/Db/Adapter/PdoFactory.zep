@@ -18,7 +18,7 @@ class PdoFactory extends AbstractFactory
     /**
      * Constructor
      */
-    public function __construct(array! services = [])
+    public function __construct( array services = [])
     {
         this->init(services);
     }
@@ -59,7 +59,7 @@ class PdoFactory extends AbstractFactory
     /**
      * Create a new instance of the adapter
      */
-    public function newInstance(string! name, array! options = []) ->  <AdapterInterface>
+    public function newInstance( string name,  array options = []) ->  <AdapterInterface>
     {
         var definition;
 

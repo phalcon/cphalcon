@@ -129,7 +129,7 @@ class Index implements IndexInterface
      * `columns` key in the second argument; when present, the third
      * positional `type` argument is ignored in favor of the definition.
      */
-    public function __construct(string! name, array! columnsOrDefinition, string type = "")
+    public function __construct( string name,  array columnsOrDefinition, string type = "")
     {
         var definitionType, invisible, directions, where, concurrent;
 

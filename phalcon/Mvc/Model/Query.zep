@@ -705,7 +705,7 @@ class Query implements QueryInterface, InjectionAwareInterface
     /**
      * Set default bind parameters
      */
-    public function setBindParams(array! bindParams, bool merge = false) -> <QueryInterface>
+    public function setBindParams( array bindParams, bool merge = false) -> <QueryInterface>
     {
         var currentBindParams;
 
@@ -722,7 +722,7 @@ class Query implements QueryInterface, InjectionAwareInterface
     /**
      * Set default bind parameters
      */
-    public function setBindTypes(array! bindTypes, bool merge = false) -> <QueryInterface>
+    public function setBindTypes( array bindTypes, bool merge = false) -> <QueryInterface>
     {
         var currentBindTypes;
 
@@ -769,7 +769,7 @@ class Query implements QueryInterface, InjectionAwareInterface
     /**
      * Allows to set the IR to be executed
      */
-    public function setIntermediate(array! intermediate) -> <QueryInterface>
+    public function setIntermediate( array intermediate) -> <QueryInterface>
     {
         let this->intermediate = intermediate;
 
@@ -1606,7 +1606,7 @@ class Query implements QueryInterface, InjectionAwareInterface
     /**
      * Resolves an expression in a single call argument
      */
-    final protected function getCallArgument(array! argument) -> array
+    final protected function getCallArgument( array argument) -> array
     {
         if argument["type"] == PHQL_T_STARALL {
             return [
@@ -1620,7 +1620,7 @@ class Query implements QueryInterface, InjectionAwareInterface
     /**
      * Resolves an expression in a single call argument
      */
-    final protected function getCaseExpression(array! expr) -> array
+    final protected function getCaseExpression( array expr) -> array
     {
         var whenClauses, whenExpr;
 
@@ -2340,7 +2340,7 @@ class Query implements QueryInterface, InjectionAwareInterface
     /**
      * Resolves an expression in a single call argument
      */
-    final protected function getFunctionCall(array! expr) -> array
+    final protected function getFunctionCall( array expr) -> array
     {
         var arguments, argument;
         array functionArgs;
@@ -2392,7 +2392,7 @@ class Query implements QueryInterface, InjectionAwareInterface
     /**
      * Returns a processed group clause for a SELECT statement
      */
-    final protected function getGroupClause(array! group) -> array
+    final protected function getGroupClause( array group) -> array
     {
         var groupItem;
         array groupParts;
@@ -2832,7 +2832,7 @@ class Query implements QueryInterface, InjectionAwareInterface
     /**
      * Returns a processed limit clause for a SELECT statement
      */
-    final protected function getLimitClause(array! limitClause) -> array
+    final protected function getLimitClause( array limitClause) -> array
     {
         var number, offset;
         array limit = [];
@@ -2853,7 +2853,7 @@ class Query implements QueryInterface, InjectionAwareInterface
      *
      * @param string joinSource
      */
-    final protected function getMultiJoin(string! joinType, joinSource, string modelAlias, string joinAlias, <RelationInterface> relation) -> array
+    final protected function getMultiJoin( string joinType, joinSource, string modelAlias, string joinAlias, <RelationInterface> relation) -> array
     {
         var fields, referencedFields, intermediateModelName,
             intermediateModel, intermediateSource, intermediateSchema,
@@ -3076,7 +3076,7 @@ class Query implements QueryInterface, InjectionAwareInterface
      * Replaces the model's name to its source name in a qualified-name
      * expression
      */
-    final protected function getQualified(array! expr) -> array
+    final protected function getQualified( array expr) -> array
     {
         var columnName, nestingLevel, sqlColumnAliases, metaData, sqlAliases,
             source, sqlAliasesModelsInstances, realColumnName, columnDomain,
@@ -3324,7 +3324,7 @@ class Query implements QueryInterface, InjectionAwareInterface
      * Resolves a column from its intermediate representation into an array
      * used to determine if the resultset produced is simple or complex
      */
-    final protected function getSelectColumn(array! column) -> array
+    final protected function getSelectColumn( array column) -> array
     {
         var columnType, sqlAliases, modelName, source, columnDomain,
             sqlColumnAlias, preparedAlias, sqlExprColumn, sqlAliasesModels,
@@ -3464,7 +3464,7 @@ class Query implements QueryInterface, InjectionAwareInterface
      *
      * @param string joinSource
      */
-    final protected function getSingleJoin(string! joinType, joinSource, string modelAlias, string joinAlias, <RelationInterface> relation) -> array
+    final protected function getSingleJoin( string joinType, joinSource, string modelAlias, string joinAlias, <RelationInterface> relation) -> array
     {
         var fields, referencedFields, sqlJoinConditions = null,
             sqlJoinPartialConditions, position, field, referencedField;

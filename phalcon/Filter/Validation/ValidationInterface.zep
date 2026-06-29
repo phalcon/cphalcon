@@ -57,7 +57,7 @@ interface ValidationInterface
     /**
      * Get label for field
      */
-    public function getLabel(string! field) -> string;
+    public function getLabel( string field) -> string;
 
     /**
      * Returns the registered validators
@@ -85,7 +85,7 @@ interface ValidationInterface
     /**
      * Adds the validators to a field
      */
-    public function rules(string! field, array! validators) -> <ValidationInterface>;
+    public function rules( string field,  array validators) -> <ValidationInterface>;
 
     /**
      * Adds filters to the field
@@ -97,7 +97,7 @@ interface ValidationInterface
     /**
      * Adds labels for fields
      */
-    public function setLabels(array! labels) -> void;
+    public function setLabels( array labels) -> void;
 
     /**
      * Validate a set of data according to a set of rules

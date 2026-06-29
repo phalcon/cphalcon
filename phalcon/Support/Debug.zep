@@ -362,7 +362,7 @@ class Debug
      *
      * @param string $uri
      */
-    public function setUri(string! uri) -> <static>
+    public function setUri( string uri) -> <static>
     {
         let this->uri = uri;
 

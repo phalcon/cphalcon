@@ -14,10 +14,8 @@
 #include "kernel/main.h"
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
-#include "ext/spl/spl_exceptions.h"
-#include "kernel/exception.h"
-#include "kernel/object.h"
 #include "kernel/operators.h"
+#include "kernel/object.h"
 #include "kernel/array.h"
 #include "kernel/string.h"
 
@@ -105,7 +103,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_Resolution_Equal, __construc
 		ZEPHIR_INIT_VAR(&options);
 		array_init(&options);
 	} else {
-	ZEPHIR_OBS_COPY_OR_DUP(&options, options_param);
+		zephir_get_arrval(&options, options_param);
 	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_filter_validation_validator_file_resolution_equal_ce, getThis(), "__construct", NULL, 0, &options);
 	zephir_check_call_status();

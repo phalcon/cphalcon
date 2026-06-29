@@ -67,7 +67,7 @@ class Stream extends Noop
      *     'savePath' => ''
      * ]
      */
-    public function __construct(array! options = [])
+    public function __construct( array options = [])
     {
         var path;
 
@@ -211,10 +211,10 @@ class Stream extends Noop
      * @todo Remove this when we get traits
      */
     protected function getArrVal(
-        array! collection,
+         array collection,
         var index,
         var defaultValue = null,
-        string! cast = null
+         string cast = null
     ) -> var {
         var value;
 
@@ -229,7 +229,7 @@ class Stream extends Noop
         return value;
     }
 
-    private function getDirSeparator(string! directory) -> string
+    private function getDirSeparator( string directory) -> string
     {
         return rtrim(directory, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
     }

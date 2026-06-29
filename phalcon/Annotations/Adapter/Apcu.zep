@@ -57,7 +57,7 @@ class Apcu extends AbstractAdapter
     /**
      * Reads parsed annotations from APCu
      */
-    public function read(string! key) -> <Reflection> | bool
+    public function read( string key) -> <Reflection> | bool
     {
         return apcu_fetch(
             strtolower(
@@ -69,7 +69,7 @@ class Apcu extends AbstractAdapter
     /**
      * Writes parsed annotations to APCu
      */
-    public function write(string! key, <Reflection> data) -> bool
+    public function write( string key, <Reflection> data) -> bool
     {
         return apcu_store(
             strtolower(

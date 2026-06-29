@@ -31,7 +31,7 @@ class Failed extends Exception
      * @param string message
      * @param ModelInterface|null record
      */
-    public function __construct(string! message, <ModelInterface> record = null)
+    public function __construct( string message, <ModelInterface> record = null)
     {
         let this->record = record;
 

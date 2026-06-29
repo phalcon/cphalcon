@@ -20,12 +20,12 @@ interface CollectionInterface
     /**
      * Maps a route to a handler that only matches if the HTTP method is DELETE
      */
-    public function delete(string! routePattern, callable handler, string name = null) -> <CollectionInterface>;
+    public function delete( string routePattern, callable handler, string name = null) -> <CollectionInterface>;
 
     /**
      * Maps a route to a handler that only matches if the HTTP method is GET
      */
-    public function get(string! routePattern, callable handler, string name = null) -> <CollectionInterface>;
+    public function get( string routePattern, callable handler, string name = null) -> <CollectionInterface>;
 
     /**
      * Returns the main handler
@@ -45,7 +45,7 @@ interface CollectionInterface
     /**
      * Maps a route to a handler that only matches if the HTTP method is HEAD
      */
-    public function head(string! routePattern, callable handler, string name = null) -> <CollectionInterface>;
+    public function head( string routePattern, callable handler, string name = null) -> <CollectionInterface>;
 
     /**
      * Returns if the main handler must be lazy loaded
@@ -55,27 +55,27 @@ interface CollectionInterface
     /**
      * Maps a route to a handler
      */
-    public function map(string! routePattern, callable handler, string name = null) -> <CollectionInterface>;
+    public function map( string routePattern, callable handler, string name = null) -> <CollectionInterface>;
 
     /**
      * Maps a route to a handler that only matches if the HTTP method is OPTIONS
      */
-    public function options(string! routePattern, callable handler, string name = null) -> <CollectionInterface>;
+    public function options( string routePattern, callable handler, string name = null) -> <CollectionInterface>;
 
     /**
      * Maps a route to a handler that only matches if the HTTP method is PATCH
      */
-    public function patch(string! routePattern, callable handler, string name = null) -> <CollectionInterface>;
+    public function patch( string routePattern, callable handler, string name = null) -> <CollectionInterface>;
 
     /**
      * Maps a route to a handler that only matches if the HTTP method is POST
      */
-    public function post(string! routePattern, callable handler, string name = null) -> <CollectionInterface>;
+    public function post( string routePattern, callable handler, string name = null) -> <CollectionInterface>;
 
     /**
      * Maps a route to a handler that only matches if the HTTP method is PUT
      */
-    public function put(string! routePattern, callable handler, string name = null) -> <CollectionInterface>;
+    public function put( string routePattern, callable handler, string name = null) -> <CollectionInterface>;
 
     /**
      * Sets the main handler
@@ -90,10 +90,10 @@ interface CollectionInterface
     /**
      * Sets if the main handler must be lazy loaded
      */
-    public function setLazy(bool! isLazy) -> <CollectionInterface>;
+    public function setLazy( bool isLazy) -> <CollectionInterface>;
 
     /**
      * Sets a prefix for all routes added to the collection
      */
-    public function setPrefix(string! prefix) -> <CollectionInterface>;
+    public function setPrefix( string prefix) -> <CollectionInterface>;
 }

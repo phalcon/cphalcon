@@ -36,15 +36,15 @@ interface Dispatcher extends DispatcherContract
     /**
      * Sets the controller name to be dispatched
      */
-    public function setControllerName(string! controllerName) -> <DispatcherContract>;
+    public function setControllerName( string controllerName) -> <DispatcherContract>;
 
     /**
      * Sets the default controller suffix
      */
-    public function setControllerSuffix(string! controllerSuffix) -> <DispatcherContract>;
+    public function setControllerSuffix( string controllerSuffix) -> <DispatcherContract>;
 
     /**
      * Sets the default controller name
      */
-    public function setDefaultController(string! controllerName) -> <DispatcherContract>;
+    public function setDefaultController( string controllerName) -> <DispatcherContract>;
 }

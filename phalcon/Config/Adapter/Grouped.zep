@@ -81,8 +81,8 @@ class Grouped extends Config
      *                                           provided
      */
     public function __construct(
-        array! arrayConfig,
-        string! defaultAdapter = "php",
+         array arrayConfig,
+         string defaultAdapter = "php",
         <ConfigFactory> factory = null
     ) {
         var configArray, configFactory, configInstance, configName;

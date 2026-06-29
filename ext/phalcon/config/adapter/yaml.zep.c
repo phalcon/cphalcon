@@ -17,7 +17,6 @@
 #include "kernel/operators.h"
 #include "kernel/exception.h"
 #include "kernel/file.h"
-#include "ext/spl/spl_exceptions.h"
 #include "kernel/object.h"
 
 
@@ -111,7 +110,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Yaml, __construct)
 	if (!callbacks_param) {
 		ZEPHIR_INIT_VAR(&callbacks);
 	} else {
-	ZEPHIR_OBS_COPY_OR_DUP(&callbacks, callbacks_param);
+		zephir_get_arrval(&callbacks, callbacks_param);
 	}
 	ndocs = 0;
 	ZEPHIR_INIT_VAR(&_1);

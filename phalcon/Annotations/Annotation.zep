@@ -41,7 +41,7 @@ class Annotation
     /**
      * Phalcon\Annotations\Annotation constructor
      */
-    public function __construct(array! reflectionData)
+    public function __construct( array reflectionData)
     {
         var name, exprArguments, argument, resolvedArgument;
         array arguments;
@@ -106,7 +106,7 @@ class Annotation
     /**
      * Resolves an annotation expression
      */
-    public function getExpression(array! expr) -> var
+    public function getExpression( array expr) -> var
     {
         var value, item, resolvedItem, arrayValue, name, type;
 
@@ -170,7 +170,7 @@ class Annotation
     /**
      * Returns a named argument
      */
-    public function getNamedArgument(string! name) -> var | null
+    public function getNamedArgument( string name) -> var | null
     {
         var argument;
 
@@ -184,7 +184,7 @@ class Annotation
     /**
      * Returns a named parameter
      */
-    public function getNamedParameter(string! name) -> var
+    public function getNamedParameter( string name) -> var
     {
         return this->getNamedArgument(name);
     }

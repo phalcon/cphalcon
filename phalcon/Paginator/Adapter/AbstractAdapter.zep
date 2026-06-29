@@ -54,7 +54,7 @@ abstract class AbstractAdapter implements AdapterInterface
      *
      * @param array $config
      */
-    public function __construct(array! config)
+    public function __construct( array config)
     {
         let this->config = config;
 

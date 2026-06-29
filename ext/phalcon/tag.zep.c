@@ -19,7 +19,6 @@
 #include "kernel/array.h"
 #include "kernel/concat.h"
 #include "kernel/exception.h"
-#include "ext/spl/spl_exceptions.h"
 #include "kernel/string.h"
 
 
@@ -738,7 +737,7 @@ PHP_METHOD(Phalcon_Tag, getEscaper)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &params_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&params, params_param);
+	zephir_get_arrval(&params, params_param);
 	zephir_memory_observe(&autoescape);
 	if (!(zephir_array_isset_string_fetch(&autoescape, &params, SL("escape"), 0))) {
 		ZEPHIR_OBS_NVAR(&autoescape);
@@ -1844,7 +1843,7 @@ PHP_METHOD(Phalcon_Tag, renderAttributes)
 	attributes_param = ZEND_CALL_ARG(execute_data, 2);
 	zephir_memory_observe(&code_zv);
 	ZVAL_STR_COPY(&code_zv, code);
-	ZEPHIR_OBS_COPY_OR_DUP(&attributes, attributes_param);
+	zephir_get_arrval(&attributes, attributes_param);
 	ZEPHIR_INIT_VAR(&order);
 	zephir_create_array(&order, 10, 0);
 	zephir_array_update_string(&order, SL("rel"), &__$null, PH_COPY | PH_SEPARATE);
@@ -2242,7 +2241,7 @@ PHP_METHOD(Phalcon_Tag, setDefaults)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 1, &values_param, &merge_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&values, values_param);
+	zephir_get_arrval(&values, values_param);
 	if (!merge_param) {
 		merge = 0;
 	} else {

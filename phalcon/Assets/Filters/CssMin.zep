@@ -28,7 +28,7 @@ class Cssmin implements FilterInterface
     /**
      * Filters the content using CSSMIN
      */
-    public function filter(string! content) -> string
+    public function filter( string content) -> string
     {
         return content;
     }

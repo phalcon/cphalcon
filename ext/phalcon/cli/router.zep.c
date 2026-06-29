@@ -19,7 +19,6 @@
 #include "kernel/operators.h"
 #include "kernel/exception.h"
 #include "kernel/string.h"
-#include "ext/spl/spl_exceptions.h"
 
 
 /**
@@ -961,7 +960,7 @@ PHP_METHOD(Phalcon_Cli_Router, setDefaults)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &defaults_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&defaults, defaults_param);
+	zephir_get_arrval(&defaults, defaults_param);
 	zephir_memory_observe(&module);
 	if (zephir_array_isset_string_fetch(&module, &defaults, SL("module"), 0)) {
 		zephir_update_property_zval(this_ptr, ZEND_STRL("defaultModule"), &module);

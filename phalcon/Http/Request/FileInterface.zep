@@ -49,5 +49,5 @@ interface FileInterface
     /**
      * Move the temporary file to a destination
      */
-    public function moveTo(string! destination) -> bool;
+    public function moveTo( string destination) -> bool;
 }

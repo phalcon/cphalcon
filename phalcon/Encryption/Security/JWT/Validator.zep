@@ -261,7 +261,7 @@ class Validator
      * @return static
      * @throws ValidatorException
      */
-    public function validateIssuer(string! issuer) -> <static>
+    public function validateIssuer( string issuer) -> <static>
     {
         var tokenIssuer;
 

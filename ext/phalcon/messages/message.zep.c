@@ -17,8 +17,6 @@
 #include "kernel/object.h"
 #include "kernel/operators.h"
 #include "kernel/array.h"
-#include "ext/spl/spl_exceptions.h"
-#include "kernel/exception.h"
 
 
 /**
@@ -295,7 +293,7 @@ PHP_METHOD(Phalcon_Messages_Message, setMetaData)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &metaData_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&metaData, metaData_param);
+	zephir_get_arrval(&metaData, metaData_param);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("metaData"), &metaData);
 	RETURN_THIS();
 }

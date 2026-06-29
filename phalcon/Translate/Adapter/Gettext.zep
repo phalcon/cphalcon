@@ -72,7 +72,7 @@ class Gettext extends AbstractAdapter
      * @throws MissingGettextExtension
      * @throws MissingRequiredParameter
      */
-    public function __construct(<InterpolatorFactory> interpolator, array! options)
+    public function __construct(<InterpolatorFactory> interpolator,  array options)
     {
         if unlikely !this->phpFunctionExists("gettext") {
             throw new MissingGettextExtension();
@@ -91,7 +91,7 @@ class Gettext extends AbstractAdapter
      * @return bool
      * @deprecated
      */
-    public function exists(string! index) -> bool
+    public function exists( string index) -> bool
     {
         return this->has(index);
     }
@@ -135,7 +135,7 @@ class Gettext extends AbstractAdapter
      *
      * @return bool
      */
-    public function has(string! index) -> bool
+    public function has( string index) -> bool
     {
         return gettext(index) !== index;
     }
@@ -150,11 +150,11 @@ class Gettext extends AbstractAdapter
      * @return string
      */
     public function nquery(
-        string! msgid1,
-        string! msgid2,
-        int! count,
+         string msgid1,
+         string msgid2,
+         int count,
         array placeholders = [],
-        string! domain = null
+         string domain = null
     ) -> string {
         var translation;
 
@@ -179,7 +179,7 @@ class Gettext extends AbstractAdapter
      * @return string
      * @throws Exception
      */
-    public function query(string! translateKey, array placeholders = []) -> string
+    public function query( string translateKey, array placeholders = []) -> string
     {
         var translation;
 
@@ -207,7 +207,7 @@ class Gettext extends AbstractAdapter
      *
      * @param string $domain
      */
-    public function setDefaultDomain(string! domain) -> void
+    public function setDefaultDomain( string domain) -> void
     {
         let this->defaultDomain = domain;
     }
@@ -286,7 +286,7 @@ class Gettext extends AbstractAdapter
      *
      * @return false|string
      */
-    public function setLocale(int! category, array localeArray = []) -> string | bool
+    public function setLocale( int category, array localeArray = []) -> string | bool
     {
         let this->locale   = setlocale(category, localeArray),
             this->category = category;
@@ -322,7 +322,7 @@ class Gettext extends AbstractAdapter
      * @return void
      * @throws MissingRequiredParameter
      */
-    protected function prepareOptions(array! options) -> void
+    protected function prepareOptions( array options) -> void
     {
         if unlikely !isset options["locale"] {
             throw new MissingRequiredParameter("locale");

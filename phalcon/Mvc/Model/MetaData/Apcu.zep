@@ -38,7 +38,7 @@ class Apcu extends MetaData
      *
      * @param array options
      */
-    public function __construct(<AdapterFactory> factory, array! options = null)
+    public function __construct(<AdapterFactory> factory,  array options = null)
     {
         let options["prefix"]   = this->getArrVal(options, "prefix", "ph-mm-apcu-"),
             options["lifetime"] = this->getArrVal(options, "lifetime", 172800),
