@@ -393,6 +393,10 @@ abstract class AbstractElement implements ElementInterface
             unset attributes["value"];
         }
 
+        if value !== null {
+            let value = (string) value;
+        }
+
         let merged = array_merge(this->attributes, attributes),
             result = helper->__invoke(name, value, merged);
 
