@@ -71,7 +71,7 @@ if (PHP_PHALCON != "no") {
 	ADD_SOURCES(configure_module_dirname + "/phalcon/storage", "exception.zep.c adapterfactory.zep.c serializerfactory.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/contracts/db", "dialect.zep.c check.zep.c column.zep.c index.zep.c reference.zep.c result.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/contracts/logger/adapter", "adapter.zep.c", "phalcon");
-	ADD_SOURCES(configure_module_dirname + "/phalcon/contracts/queue", "consumer.zep.c context.zep.c message.zep.c producer.zep.c subscriptionconsumer.zep.c connectionfactory.zep.c destination.zep.c queue.zep.c topic.zep.c visibilityaware.zep.c processor.zep.c", "phalcon");
+	ADD_SOURCES(configure_module_dirname + "/phalcon/contracts/queue", "consumer.zep.c context.zep.c message.zep.c producer.zep.c subscriptionconsumer.zep.c connectionfactory.zep.c destination.zep.c inspectable.zep.c queue.zep.c topic.zep.c visibilityaware.zep.c processor.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/datamapper/query", "abstractquery.zep.c abstractconditions.zep.c bind.zep.c delete.zep.c insert.zep.c queryfactory.zep.c select.zep.c update.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/db/adapter", "adapterinterface.zep.c abstractadapter.zep.c pdofactory.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/html/escaper", "abstractescaper.zep.c escaperinterface.zep.c attributeescaper.zep.c cssescaper.zep.c exception.zep.c htmlescaper.zep.c jsescaper.zep.c urlescaper.zep.c", "phalcon");

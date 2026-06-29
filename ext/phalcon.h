@@ -255,6 +255,7 @@
 #include "phalcon/contracts/encryption/security/security.zep.h"
 #include "phalcon/contracts/events/stoppable.zep.h"
 #include "phalcon/contracts/messages/messages.zep.h"
+#include "phalcon/contracts/queue/inspectable.zep.h"
 #include "phalcon/contracts/queue/queue.zep.h"
 #include "phalcon/contracts/queue/topic.zep.h"
 #include "phalcon/contracts/queue/visibilityaware.zep.h"

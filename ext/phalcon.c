@@ -159,6 +159,7 @@ zend_class_entry *phalcon_contracts_container_service_collection_ce;
 zend_class_entry *phalcon_contracts_encryption_security_security_ce;
 zend_class_entry *phalcon_contracts_events_stoppable_ce;
 zend_class_entry *phalcon_contracts_messages_messages_ce;
+zend_class_entry *phalcon_contracts_queue_inspectable_ce;
 zend_class_entry *phalcon_contracts_queue_queue_ce;
 zend_class_entry *phalcon_contracts_queue_topic_ce;
 zend_class_entry *phalcon_contracts_queue_visibilityaware_ce;
@@ -1615,6 +1616,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Contracts_Encryption_Security_Security);
 	ZEPHIR_INIT(Phalcon_Contracts_Events_Stoppable);
 	ZEPHIR_INIT(Phalcon_Contracts_Messages_Messages);
+	ZEPHIR_INIT(Phalcon_Contracts_Queue_Inspectable);
 	ZEPHIR_INIT(Phalcon_Contracts_Queue_Queue);
 	ZEPHIR_INIT(Phalcon_Contracts_Queue_Topic);
 	ZEPHIR_INIT(Phalcon_Contracts_Queue_VisibilityAware);
