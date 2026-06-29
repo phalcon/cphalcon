@@ -15,8 +15,7 @@
 #include "kernel/object.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
-#include "ext/spl/spl_exceptions.h"
-#include "kernel/exception.h"
+#include "kernel/operators.h"
 
 
 /**
@@ -171,7 +170,7 @@ PHP_METHOD(Phalcon_Session_Bag, init)
 		ZEPHIR_INIT_VAR(&data);
 		array_init(&data);
 	} else {
-	ZEPHIR_OBS_COPY_OR_DUP(&data, data_param);
+		zephir_get_arrval(&data, data_param);
 	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_session_bag_ce, getThis(), "init", NULL, 0, &data);
 	zephir_check_call_status();

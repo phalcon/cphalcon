@@ -13,11 +13,10 @@
 
 #include "kernel/main.h"
 #include "kernel/fcall.h"
-#include "ext/spl/spl_exceptions.h"
-#include "kernel/exception.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 #include "kernel/object.h"
-#include "kernel/operators.h"
+#include "kernel/exception.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
 #include "kernel/string.h"
@@ -112,7 +111,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, __construct)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &descriptor_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&descriptor, descriptor_param);
+	zephir_get_arrval(&descriptor, descriptor_param);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "connect", NULL, 0, &descriptor);
 	zephir_check_call_status();
 	ZEPHIR_CALL_PARENT(NULL, phalcon_db_adapter_pdo_abstractpdo_ce, getThis(), "__construct", NULL, 0, &descriptor);
@@ -390,7 +389,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, connect)
 		ZEPHIR_INIT_VAR(&descriptor);
 		array_init(&descriptor);
 	} else {
-	ZEPHIR_OBS_COPY_OR_DUP(&descriptor, descriptor_param);
+		zephir_get_arrval(&descriptor, descriptor_param);
 	}
 	ZEPHIR_INIT_VAR(&dsnParts);
 	array_init(&dsnParts);
@@ -708,13 +707,13 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, execute)
 		ZEPHIR_INIT_VAR(&bindParams);
 		array_init(&bindParams);
 	} else {
-	ZEPHIR_OBS_COPY_OR_DUP(&bindParams, bindParams_param);
+		zephir_get_arrval(&bindParams, bindParams_param);
 	}
 	if (!bindTypes_param) {
 		ZEPHIR_INIT_VAR(&bindTypes);
 		array_init(&bindTypes);
 	} else {
-	ZEPHIR_OBS_COPY_OR_DUP(&bindTypes, bindTypes_param);
+		zephir_get_arrval(&bindTypes, bindTypes_param);
 	}
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("eventsManager"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&eventsManager, &_0);
@@ -856,7 +855,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, executePrepared)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 1, &statement, &placeholders_param, &dataTypes_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&placeholders, placeholders_param);
+	zephir_get_arrval(&placeholders, placeholders_param);
 	if (!dataTypes_param) {
 		ZEPHIR_INIT_VAR(&dataTypes);
 		array_init(&dataTypes);
@@ -1391,7 +1390,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, lastInsertId)
 	if (!name) {
 		ZEPHIR_INIT_VAR(&name_zv);
 	} else {
-	zephir_memory_observe(&name_zv);
+		zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
 	}
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("pdo"), PH_NOISY_CC | PH_READONLY);
@@ -1554,13 +1553,13 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, query)
 		ZEPHIR_INIT_VAR(&bindParams);
 		array_init(&bindParams);
 	} else {
-	ZEPHIR_OBS_COPY_OR_DUP(&bindParams, bindParams_param);
+		zephir_get_arrval(&bindParams, bindParams_param);
 	}
 	if (!bindTypes_param) {
 		ZEPHIR_INIT_VAR(&bindTypes);
 		array_init(&bindTypes);
 	} else {
-	ZEPHIR_OBS_COPY_OR_DUP(&bindTypes, bindTypes_param);
+		zephir_get_arrval(&bindTypes, bindTypes_param);
 	}
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("eventsManager"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&eventsManager, &_0);

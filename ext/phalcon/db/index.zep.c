@@ -18,7 +18,6 @@
 #include "kernel/exception.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
-#include "ext/spl/spl_exceptions.h"
 
 
 /**
@@ -182,7 +181,7 @@ PHP_METHOD(Phalcon_Db_Index, __construct)
 	columnsOrDefinition_param = ZEND_CALL_ARG(execute_data, 2);
 	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
-	ZEPHIR_OBS_COPY_OR_DUP(&columnsOrDefinition, columnsOrDefinition_param);
+	zephir_get_arrval(&columnsOrDefinition, columnsOrDefinition_param);
 	if (!type) {
 		type = zend_string_init(ZEND_STRL(""), 0);
 		zephir_memory_observe(&type_zv);

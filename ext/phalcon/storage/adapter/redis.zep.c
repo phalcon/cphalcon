@@ -15,12 +15,11 @@
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/array.h"
-#include "ext/spl/spl_exceptions.h"
-#include "kernel/exception.h"
-#include "kernel/object.h"
 #include "kernel/operators.h"
+#include "kernel/object.h"
 #include "kernel/string.h"
 #include "kernel/concat.h"
+#include "kernel/exception.h"
 
 
 /**
@@ -113,7 +112,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Redis, __construct)
 		ZEPHIR_INIT_VAR(&options);
 		array_init(&options);
 	} else {
-	ZEPHIR_OBS_COPY_OR_DUP(&options, options_param);
+		zephir_get_arrval(&options, options_param);
 	}
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "host");
@@ -374,7 +373,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Redis, getKeys)
 		zephir_memory_observe(&prefix_zv);
 		ZVAL_STR(&prefix_zv, prefix);
 	} else {
-	zephir_memory_observe(&prefix_zv);
+		zephir_memory_observe(&prefix_zv);
 	ZVAL_STR_COPY(&prefix_zv, prefix);
 	}
 	ZEPHIR_CALL_METHOD(&adapter, this_ptr, "getadapter", NULL, 0);
@@ -455,15 +454,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Redis, setForever)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &key_param, &value);
-	if (UNEXPECTED(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string"));
-		RETURN_MM_NULL();
-	}
-	if (EXPECTED(Z_TYPE_P(key_param) == IS_STRING)) {
-		zephir_get_strval(&key, key_param);
-	} else {
-		ZEPHIR_INIT_VAR(&key);
-	}
+	zephir_get_strval(&key, key_param);
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getkeywithoutprefix", NULL, 0, &key);
 	zephir_check_call_status();
 	zephir_get_strval(&key, &_0);

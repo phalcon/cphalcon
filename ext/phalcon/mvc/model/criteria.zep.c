@@ -18,7 +18,6 @@
 #include "kernel/concat.h"
 #include "kernel/operators.h"
 #include "kernel/fcall.h"
-#include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
 #include "kernel/string.h"
 
@@ -107,15 +106,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, andWhere)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 2, &conditions_param, &bindParams, &bindTypes);
-	if (UNEXPECTED(Z_TYPE_P(conditions_param) != IS_STRING && Z_TYPE_P(conditions_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'conditions' must be of the type string"));
-		RETURN_MM_NULL();
-	}
-	if (EXPECTED(Z_TYPE_P(conditions_param) == IS_STRING)) {
-		zephir_get_strval(&conditions, conditions_param);
-	} else {
-		ZEPHIR_INIT_VAR(&conditions);
-	}
+	zephir_get_strval(&conditions, conditions_param);
 	if (!bindParams) {
 		bindParams = &bindParams_sub;
 		bindParams = &__$null;
@@ -225,7 +216,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, bind)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 1, &bindParams_param, &merge_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&bindParams, bindParams_param);
+	zephir_get_arrval(&bindParams, bindParams_param);
 	if (!merge_param) {
 		merge = 0;
 	} else {
@@ -280,7 +271,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, bindTypes)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &bindTypes_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&bindTypes, bindTypes_param);
+	zephir_get_arrval(&bindTypes, bindTypes_param);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "bindTypes");
 	zephir_update_property_array(this_ptr, SL("params"), &_0, &bindTypes);
@@ -306,7 +297,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, cache)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &cache_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&cache, cache_param);
+	zephir_get_arrval(&cache, cache_param);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "cache");
 	zephir_update_property_array(this_ptr, SL("params"), &_0, &cache);
@@ -599,13 +590,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput)
 	data_param = ZEND_CALL_ARG(execute_data, 3);
 	zephir_memory_observe(&modelName_zv);
 	ZVAL_STR_COPY(&modelName_zv, modelName);
-	ZEPHIR_OBS_COPY_OR_DUP(&data, data_param);
+	zephir_get_arrval(&data, data_param);
 	if (!operator) {
 		operator = zend_string_init(ZEND_STRL("AND"), 0);
 		zephir_memory_observe(&operator_zv);
 		ZVAL_STR(&operator_zv, operator);
 	} else {
-	zephir_memory_observe(&operator_zv);
+		zephir_memory_observe(&operator_zv);
 	ZVAL_STR_COPY(&operator_zv, operator);
 	}
 	ZEPHIR_INIT_VAR(&conditions);
@@ -1032,7 +1023,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, inWhere)
 	values_param = ZEND_CALL_ARG(execute_data, 2);
 	zephir_memory_observe(&expr_zv);
 	ZVAL_STR_COPY(&expr_zv, expr);
-	ZEPHIR_OBS_COPY_OR_DUP(&values, values_param);
+	zephir_get_arrval(&values, values_param);
 	if (!(zephir_fast_count_int(&values))) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		ZEPHIR_CONCAT_VSV(&_0$$3, &expr_zv, " != ", &expr_zv);
@@ -1480,7 +1471,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, notInWhere)
 	values_param = ZEND_CALL_ARG(execute_data, 2);
 	zephir_memory_observe(&expr_zv);
 	ZVAL_STR_COPY(&expr_zv, expr);
-	ZEPHIR_OBS_COPY_OR_DUP(&values, values_param);
+	zephir_get_arrval(&values, values_param);
 	zephir_memory_observe(&hiddenParam);
 	zephir_read_property(&hiddenParam, this_ptr, ZEND_STRL("hiddenParamNumber"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(&bindParams);
@@ -1571,15 +1562,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, orWhere)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 2, &conditions_param, &bindParams, &bindTypes);
-	if (UNEXPECTED(Z_TYPE_P(conditions_param) != IS_STRING && Z_TYPE_P(conditions_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'conditions' must be of the type string"));
-		RETURN_MM_NULL();
-	}
-	if (EXPECTED(Z_TYPE_P(conditions_param) == IS_STRING)) {
-		zephir_get_strval(&conditions, conditions_param);
-	} else {
-		ZEPHIR_INIT_VAR(&conditions);
-	}
+	zephir_get_strval(&conditions, conditions_param);
 	if (!bindParams) {
 		bindParams = &bindParams_sub;
 		bindParams = &__$null;

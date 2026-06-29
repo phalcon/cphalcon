@@ -20,7 +20,6 @@
 #include "kernel/array.h"
 #include "kernel/concat.h"
 #include "kernel/string.h"
-#include "ext/spl/spl_exceptions.h"
 #include "kernel/iterator.h"
 
 
@@ -388,7 +387,7 @@ PHP_METHOD(Phalcon_Forms_Form, bind)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 2, &data_param, &entity, &whitelist_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&data, data_param);
+	zephir_get_arrval(&data, data_param);
 	if (!entity) {
 		entity = &entity_sub;
 		ZEPHIR_CPY_WRT(entity, &__$null);
@@ -2306,7 +2305,7 @@ PHP_METHOD(Phalcon_Forms_Form, setUserOptions)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &options_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&options, options_param);
+	zephir_get_arrval(&options, options_param);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("options"), &options);
 	RETURN_THIS();
 }

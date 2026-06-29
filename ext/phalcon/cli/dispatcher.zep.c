@@ -16,9 +16,8 @@
 #include "kernel/memory.h"
 #include "kernel/array.h"
 #include "kernel/object.h"
-#include "ext/spl/spl_exceptions.h"
-#include "kernel/exception.h"
 #include "kernel/operators.h"
+#include "kernel/exception.h"
 
 
 /**
@@ -118,7 +117,7 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, callActionMethod)
 		ZEPHIR_INIT_VAR(&params);
 		array_init(&params);
 	} else {
-	ZEPHIR_OBS_COPY_OR_DUP(&params, params_param);
+		zephir_get_arrval(&params, params_param);
 	}
 	ZEPHIR_CALL_FUNCTION(&localParams, "array_values", NULL, 29, &params);
 	zephir_check_call_status();

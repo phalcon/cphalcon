@@ -21,7 +21,6 @@
 #include "kernel/string.h"
 #include "kernel/concat.h"
 #include "kernel/require.h"
-#include "ext/spl/spl_exceptions.h"
 
 
 /**
@@ -608,7 +607,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, setOptions)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &options_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&options, options_param);
+	zephir_get_arrval(&options, options_param);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("options"), &options);
 	ZEPHIR_MM_RESTORE();
 }

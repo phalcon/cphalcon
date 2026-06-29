@@ -17,8 +17,6 @@
 #include "kernel/object.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
-#include "ext/spl/spl_exceptions.h"
-#include "kernel/exception.h"
 
 
 /**
@@ -124,7 +122,7 @@ PHP_METHOD(Phalcon_Http_Request_File, __construct)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	file_param = ZEND_CALL_ARG(execute_data, 1);
-	ZEPHIR_OBS_COPY_OR_DUP(&file, file_param);
+	zephir_get_arrval(&file, file_param);
 	if (!key) {
 		key = zend_string_init(ZEND_STRL(""), 0);
 		zephir_memory_observe(&key_zv);
@@ -352,7 +350,7 @@ PHP_METHOD(Phalcon_Http_Request_File, getArrVal)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 1, &collection_param, &index, &defaultValue);
-	ZEPHIR_OBS_COPY_OR_DUP(&collection, collection_param);
+	zephir_get_arrval(&collection, collection_param);
 	if (!defaultValue) {
 		defaultValue = &defaultValue_sub;
 		defaultValue = &__$null;

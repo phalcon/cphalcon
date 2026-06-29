@@ -18,7 +18,6 @@
 #include "kernel/fcall.h"
 #include "kernel/object.h"
 #include "kernel/operators.h"
-#include "ext/spl/spl_exceptions.h"
 
 
 /**
@@ -116,7 +115,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 1, &container, &definition_param, &parameters);
-	ZEPHIR_OBS_COPY_OR_DUP(&definition, definition_param);
+	zephir_get_arrval(&definition, definition_param);
 	if (!parameters) {
 		parameters = &parameters_sub;
 		parameters = &__$null;
@@ -472,7 +471,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, buildParameter)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 3, 0, &container, &position_param, &argument_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&argument, argument_param);
+	zephir_get_arrval(&argument, argument_param);
 	zephir_memory_observe(&type);
 	if (UNEXPECTED(!(zephir_array_isset_string_fetch(&type, &argument, SL("type"), 0)))) {
 		ZEPHIR_INIT_VAR(&_0$$3);
@@ -585,7 +584,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, buildParameters)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &container, &arguments_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&arguments, arguments_param);
+	zephir_get_arrval(&arguments, arguments_param);
 	ZEPHIR_INIT_VAR(&buildArguments);
 	array_init(&buildArguments);
 	zephir_is_iterable(&arguments, 0, "phalcon/Di/Service/Builder.zep", 281);

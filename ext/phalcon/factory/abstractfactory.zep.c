@@ -18,7 +18,6 @@
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/concat.h"
-#include "ext/spl/spl_exceptions.h"
 #include "kernel/operators.h"
 
 
@@ -129,7 +128,7 @@ PHP_METHOD(Phalcon_Factory_AbstractFactory, init)
 		ZEPHIR_INIT_VAR(&services);
 		array_init(&services);
 	} else {
-	ZEPHIR_OBS_COPY_OR_DUP(&services, services_param);
+		zephir_get_arrval(&services, services_param);
 	}
 	ZEPHIR_CALL_METHOD(&adapters, this_ptr, "getservices", NULL, 0);
 	zephir_check_call_status();

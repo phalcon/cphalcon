@@ -137,7 +137,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Binder, bindToHandler)
 	if (!methodName) {
 		ZEPHIR_INIT_VAR(&methodName_zv);
 	} else {
-	zephir_memory_observe(&methodName_zv);
+		zephir_memory_observe(&methodName_zv);
 	ZVAL_STR_COPY(&methodName_zv, methodName);
 	}
 	ZEPHIR_INIT_VAR(&_0);

@@ -18,7 +18,6 @@
 #include "kernel/fcall.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
-#include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
 #include "kernel/string.h"
 
@@ -230,7 +229,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, callActionMethod)
 		ZEPHIR_INIT_VAR(&params);
 		array_init(&params);
 	} else {
-	ZEPHIR_OBS_COPY_OR_DUP(&params, params_param);
+		zephir_get_arrval(&params, params_param);
 	}
 	ZEPHIR_CPY_WRT(&altHandler, handler);
 	ZEPHIR_CPY_WRT(&altAction, &actionMethod_zv);

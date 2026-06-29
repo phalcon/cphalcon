@@ -17,8 +17,6 @@
 #include "kernel/fcall.h"
 #include "kernel/object.h"
 #include "kernel/array.h"
-#include "ext/spl/spl_exceptions.h"
-#include "kernel/exception.h"
 
 
 /**
@@ -169,7 +167,7 @@ PHP_METHOD(Phalcon_Queue_QueueFactory, newInstance)
 		ZEPHIR_INIT_VAR(&options);
 		array_init(&options);
 	} else {
-	ZEPHIR_OBS_COPY_OR_DUP(&options, options_param);
+		zephir_get_arrval(&options, options_param);
 	}
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("adapterFactory"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&connectionFactory, &_0, "newinstance", NULL, 0, &name_zv, &options);

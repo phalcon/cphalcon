@@ -269,7 +269,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, getKeys)
 		zephir_memory_observe(&prefix_zv);
 		ZVAL_STR(&prefix_zv, prefix);
 	} else {
-	zephir_memory_observe(&prefix_zv);
+		zephir_memory_observe(&prefix_zv);
 	ZVAL_STR_COPY(&prefix_zv, prefix);
 	}
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getadapter", NULL, 0);

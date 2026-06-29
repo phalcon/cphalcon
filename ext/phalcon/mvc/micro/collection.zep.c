@@ -16,8 +16,6 @@
 #include "kernel/fcall.h"
 #include "kernel/object.h"
 #include "kernel/operators.h"
-#include "ext/spl/spl_exceptions.h"
-#include "kernel/exception.h"
 #include "kernel/array.h"
 
 
@@ -591,11 +589,6 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, setLazy)
 		Z_PARAM_BOOL(isLazy)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &isLazy_param);
-	if (UNEXPECTED(Z_TYPE_P(isLazy_param) != IS_TRUE && Z_TYPE_P(isLazy_param) != IS_FALSE)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'isLazy' must be of the type bool"));
-		RETURN_NULL();
-	}
-	isLazy = (Z_TYPE_P(isLazy_param) == IS_TRUE);
 	if (isLazy) {
 		zephir_update_property_zval(this_ptr, ZEND_STRL("isLazy"), &__$true);
 	} else {

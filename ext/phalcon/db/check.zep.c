@@ -18,7 +18,6 @@
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/object.h"
-#include "ext/spl/spl_exceptions.h"
 
 
 /**
@@ -108,7 +107,7 @@ PHP_METHOD(Phalcon_Db_Check, __construct)
 	definition_param = ZEND_CALL_ARG(execute_data, 2);
 	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
-	ZEPHIR_OBS_COPY_OR_DUP(&definition, definition_param);
+	zephir_get_arrval(&definition, definition_param);
 	zephir_memory_observe(&expression);
 	if (UNEXPECTED(!(zephir_array_isset_string_fetch(&expression, &definition, SL("expression"), 0)))) {
 		ZEPHIR_INIT_VAR(&_0$$3);

@@ -20,7 +20,6 @@
 #include "kernel/exception.h"
 #include "kernel/concat.h"
 #include "kernel/string.h"
-#include "ext/spl/spl_exceptions.h"
 
 
 /**
@@ -895,7 +894,7 @@ PHP_METHOD(Phalcon_Filter_Validation, rules)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &field, &validators_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&validators, validators_param);
+	zephir_get_arrval(&validators, validators_param);
 	zephir_is_iterable(&validators, 0, "phalcon/Filter/Validation.zep", 485);
 	if (Z_TYPE_P(&validators) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&validators), _0)
@@ -1056,7 +1055,7 @@ PHP_METHOD(Phalcon_Filter_Validation, setLabels)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &labels_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&labels, labels_param);
+	zephir_get_arrval(&labels, labels_param);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("labels"), &labels);
 	ZEPHIR_MM_RESTORE();
 }

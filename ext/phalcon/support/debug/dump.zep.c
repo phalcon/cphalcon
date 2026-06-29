@@ -15,8 +15,6 @@
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/object.h"
-#include "ext/spl/spl_exceptions.h"
-#include "kernel/exception.h"
 #include "kernel/operators.h"
 #include "kernel/array.h"
 #include "kernel/main.h"
@@ -113,7 +111,7 @@ PHP_METHOD(Phalcon_Support_Debug_Dump, __construct)
 		ZEPHIR_INIT_VAR(&styles);
 		array_init(&styles);
 	} else {
-	ZEPHIR_OBS_COPY_OR_DUP(&styles, styles_param);
+		zephir_get_arrval(&styles, styles_param);
 	}
 	if (!detailed_param) {
 		detailed = 0;
@@ -284,7 +282,7 @@ PHP_METHOD(Phalcon_Support_Debug_Dump, setStyles)
 		ZEPHIR_INIT_VAR(&styles);
 		array_init(&styles);
 	} else {
-	ZEPHIR_OBS_COPY_OR_DUP(&styles, styles_param);
+		zephir_get_arrval(&styles, styles_param);
 	}
 	ZEPHIR_INIT_VAR(&defaultStyles);
 	zephir_create_array(&defaultStyles, 11, 0);

@@ -18,7 +18,6 @@
 #include "kernel/array.h"
 #include "kernel/operators.h"
 #include "kernel/exception.h"
-#include "ext/spl/spl_exceptions.h"
 #include "kernel/concat.h"
 #include "kernel/string.h"
 
@@ -424,7 +423,7 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, setCssClasses)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &cssClasses_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&cssClasses, cssClasses_param);
+	zephir_get_arrval(&cssClasses, cssClasses_param);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("cssClasses"), &cssClasses);
 	RETURN_THIS();
 }
@@ -448,7 +447,7 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, setCssIconClasses)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &cssIconClasses_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&cssIconClasses, cssIconClasses_param);
+	zephir_get_arrval(&cssIconClasses, cssIconClasses_param);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("cssIconClasses"), &cssIconClasses);
 	RETURN_THIS();
 }

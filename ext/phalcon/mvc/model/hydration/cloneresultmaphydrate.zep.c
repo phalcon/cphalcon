@@ -17,7 +17,6 @@
 #include "kernel/array.h"
 #include "kernel/operators.h"
 #include "kernel/exception.h"
-#include "ext/spl/spl_exceptions.h"
 #include "kernel/object.h"
 
 
@@ -80,7 +79,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Hydration_CloneResultMapHydrate, cloneResultMapHydr
 	data_param = ZEND_CALL_ARG(execute_data, 1);
 	columnMap = ZEND_CALL_ARG(execute_data, 2);
 	hydrationMode_param = ZEND_CALL_ARG(execute_data, 3);
-	ZEPHIR_OBS_COPY_OR_DUP(&data, data_param);
+	zephir_get_arrval(&data, data_param);
 	if (!calledClass) {
 		calledClass = zend_string_init(ZEND_STRL("Phalcon\\Mvc\\Model"), 0);
 		zephir_memory_observe(&calledClass_zv);

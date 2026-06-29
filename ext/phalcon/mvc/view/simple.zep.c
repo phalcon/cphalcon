@@ -17,7 +17,6 @@
 #include "kernel/operators.h"
 #include "kernel/array.h"
 #include "kernel/fcall.h"
-#include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
 #include "Zend/zend_closures.h"
 #include "kernel/concat.h"
@@ -392,7 +391,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, registerEngines)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &engines_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&engines, engines_param);
+	zephir_get_arrval(&engines, engines_param);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("registeredEngines"), &engines);
 	ZEPHIR_MM_RESTORE();
 }
@@ -585,7 +584,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, setVars)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 1, &params_param, &merge_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&params, params_param);
+	zephir_get_arrval(&params, params_param);
 	if (!merge_param) {
 		merge = 1;
 	} else {

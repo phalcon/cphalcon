@@ -1178,7 +1178,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeIndexes)
 	if (!schema) {
 		ZEPHIR_INIT_VAR(&schema_zv);
 	} else {
-	zephir_memory_observe(&schema_zv);
+		zephir_memory_observe(&schema_zv);
 	ZVAL_STR_COPY(&schema_zv, schema);
 	}
 	ZEPHIR_INIT_VAR(&indexes);
@@ -1536,7 +1536,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeReferences)
 	if (!schema) {
 		ZEPHIR_INIT_VAR(&schema_zv);
 	} else {
-	zephir_memory_observe(&schema_zv);
+		zephir_memory_observe(&schema_zv);
 	ZVAL_STR_COPY(&schema_zv, schema);
 	}
 	ZEPHIR_INIT_VAR(&references);

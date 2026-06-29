@@ -16,8 +16,6 @@
 #include "kernel/array.h"
 #include "kernel/fcall.h"
 #include "kernel/object.h"
-#include "ext/spl/spl_exceptions.h"
-#include "kernel/exception.h"
 #include "kernel/operators.h"
 
 
@@ -77,7 +75,7 @@ PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, __construct)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &model, &validationMessages_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&validationMessages, validationMessages_param);
+	zephir_get_arrval(&validationMessages, validationMessages_param);
 	if (zephir_fast_count_int(&validationMessages) > 0) {
 		zephir_memory_observe(&message);
 		zephir_array_fetch_long(&message, &validationMessages, 0, PH_NOISY, "phalcon/Mvc/Model/ValidationFailed.zep", 48);

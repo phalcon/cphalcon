@@ -16,7 +16,6 @@
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/exception.h"
-#include "ext/spl/spl_exceptions.h"
 #include "kernel/object.h"
 #include "kernel/concat.h"
 #include "kernel/array.h"
@@ -108,7 +107,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, __construct)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &interpolator, &options_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&options, options_param);
+	zephir_get_arrval(&options, options_param);
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "gettext");
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "phpfunctionexists", NULL, 0, &_1);
@@ -266,11 +265,6 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, nquery)
 	ZVAL_STR_COPY(&msgid1_zv, msgid1);
 	zephir_memory_observe(&msgid2_zv);
 	ZVAL_STR_COPY(&msgid2_zv, msgid2);
-	if (UNEXPECTED(Z_TYPE_P(count_param) != IS_LONG)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'count' must be of the type int"));
-		RETURN_MM_NULL();
-	}
-	count = Z_LVAL_P(count_param);
 	if (!placeholders_param) {
 		ZEPHIR_INIT_VAR(&placeholders);
 		array_init(&placeholders);
@@ -280,7 +274,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, nquery)
 	if (!domain) {
 		ZEPHIR_INIT_VAR(&domain_zv);
 	} else {
-	zephir_memory_observe(&domain_zv);
+		zephir_memory_observe(&domain_zv);
 	ZVAL_STR_COPY(&domain_zv, domain);
 	}
 	if (!(!(ZEPHIR_IS_EMPTY(&domain_zv)))) {
@@ -569,11 +563,6 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, setLocale)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 1, &category_param, &localeArray_param);
-	if (UNEXPECTED(Z_TYPE_P(category_param) != IS_LONG)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'category' must be of the type int"));
-		RETURN_MM_NULL();
-	}
-	category = Z_LVAL_P(category_param);
 	if (!localeArray_param) {
 		ZEPHIR_INIT_VAR(&localeArray);
 		array_init(&localeArray);
@@ -656,7 +645,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, prepareOptions)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &options_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&options, options_param);
+	zephir_get_arrval(&options, options_param);
 	if (UNEXPECTED(!(zephir_array_isset_value_string(&options, SL("locale"))))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_translate_exceptions_missingrequiredparameter_ce, "locale", "phalcon/Translate/Adapter/Gettext.zep", 328);
 		return;

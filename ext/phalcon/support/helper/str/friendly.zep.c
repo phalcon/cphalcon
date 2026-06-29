@@ -17,9 +17,8 @@
 #include "kernel/fcall.h"
 #include "kernel/string.h"
 #include "kernel/array.h"
-#include "ext/spl/spl_exceptions.h"
-#include "kernel/exception.h"
 #include "kernel/object.h"
+#include "kernel/exception.h"
 
 
 /**
@@ -92,21 +91,13 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Friendly, __invoke)
 	if (ZEND_NUM_ARGS() > 3) {
 		replace = ZEND_CALL_ARG(execute_data, 4);
 	}
-	if (UNEXPECTED(Z_TYPE_P(text_param) != IS_STRING && Z_TYPE_P(text_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'text' must be of the type string"));
-		RETURN_MM_NULL();
-	}
-	if (EXPECTED(Z_TYPE_P(text_param) == IS_STRING)) {
-		zephir_get_strval(&text, text_param);
-	} else {
-		ZEPHIR_INIT_VAR(&text);
-	}
+	zephir_get_strval(&text, text_param);
 	if (!separator) {
 		separator = zend_string_init(ZEND_STRL("-"), 0);
 		zephir_memory_observe(&separator_zv);
 		ZVAL_STR(&separator_zv, separator);
 	} else {
-	zephir_memory_observe(&separator_zv);
+		zephir_memory_observe(&separator_zv);
 	ZVAL_STR_COPY(&separator_zv, separator);
 	}
 	if (!lowercase_param) {

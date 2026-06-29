@@ -20,7 +20,6 @@
 #include "kernel/concat.h"
 #include "kernel/array.h"
 #include "kernel/time.h"
-#include "ext/spl/spl_exceptions.h"
 #include "kernel/string.h"
 
 
@@ -784,11 +783,6 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, setIssuedAt)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &timestamp_param);
-	if (UNEXPECTED(Z_TYPE_P(timestamp_param) != IS_LONG)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'timestamp' must be of the type int"));
-		RETURN_MM_NULL();
-	}
-	timestamp = Z_LVAL_P(timestamp_param);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "iat");
 	ZVAL_LONG(&_1, timestamp);
@@ -862,11 +856,6 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, setNotBefore)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &timestamp_param);
-	if (UNEXPECTED(Z_TYPE_P(timestamp_param) != IS_LONG)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'timestamp' must be of the type int"));
-		RETURN_MM_NULL();
-	}
-	timestamp = Z_LVAL_P(timestamp_param);
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_time(&_0);
 	if (ZEPHIR_LT_LONG(&_0, timestamp)) {

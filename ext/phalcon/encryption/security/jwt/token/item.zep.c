@@ -14,10 +14,8 @@
 #include "kernel/main.h"
 #include "kernel/object.h"
 #include "kernel/memory.h"
-#include "ext/spl/spl_exceptions.h"
-#include "kernel/exception.h"
-#include "kernel/fcall.h"
 #include "kernel/operators.h"
+#include "kernel/fcall.h"
 #include "kernel/array.h"
 
 
@@ -64,7 +62,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Item, __construct)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	payload_param = ZEND_CALL_ARG(execute_data, 1);
-	ZEPHIR_OBS_COPY_OR_DUP(&payload, payload_param);
+	zephir_get_arrval(&payload, payload_param);
 	zephir_memory_observe(&encoded_zv);
 	ZVAL_STR_COPY(&encoded_zv, encoded);
 	ZEPHIR_INIT_VAR(&_0);

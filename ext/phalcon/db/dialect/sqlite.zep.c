@@ -20,7 +20,6 @@
 #include "kernel/string.h"
 #include "kernel/exception.h"
 #include "kernel/array.h"
-#include "ext/spl/spl_exceptions.h"
 
 
 /**
@@ -477,7 +476,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, createTable)
 	ZVAL_STR_COPY(&tableName_zv, tableName);
 	zephir_memory_observe(&schemaName_zv);
 	ZVAL_STR_COPY(&schemaName_zv, schemaName);
-	ZEPHIR_OBS_COPY_OR_DUP(&definition, definition_param);
+	zephir_get_arrval(&definition, definition_param);
 	ZEPHIR_CALL_METHOD(&table, this_ptr, "preparetable", NULL, 0, &tableName_zv, &schemaName_zv);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&temporary);
@@ -933,7 +932,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, createView)
 	definition_param = ZEND_CALL_ARG(execute_data, 2);
 	zephir_memory_observe(&viewName_zv);
 	ZVAL_STR_COPY(&viewName_zv, viewName);
-	ZEPHIR_OBS_COPY_OR_DUP(&definition, definition_param);
+	zephir_get_arrval(&definition, definition_param);
 	if (!schemaName) {
 		ZEPHIR_INIT_VAR(&schemaName_zv);
 	} else {
@@ -1275,12 +1274,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropTable)
 	if (!ifExists_param) {
 		ifExists = 1;
 	} else {
-	if (UNEXPECTED(Z_TYPE_P(ifExists_param) != IS_TRUE && Z_TYPE_P(ifExists_param) != IS_FALSE)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'ifExists' must be of the type bool"));
-		RETURN_MM_NULL();
-	}
-	ifExists = (Z_TYPE_P(ifExists_param) == IS_TRUE);
-	}
+		}
 	ZEPHIR_CALL_METHOD(&table, this_ptr, "preparetable", NULL, 0, &tableName_zv, &schemaName_zv);
 	zephir_check_call_status();
 	if (ifExists) {
@@ -1329,12 +1323,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropView)
 	if (!ifExists_param) {
 		ifExists = 1;
 	} else {
-	if (UNEXPECTED(Z_TYPE_P(ifExists_param) != IS_TRUE && Z_TYPE_P(ifExists_param) != IS_FALSE)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'ifExists' must be of the type bool"));
-		RETURN_MM_NULL();
-	}
-	ifExists = (Z_TYPE_P(ifExists_param) == IS_TRUE);
-	}
+		}
 	ZEPHIR_CALL_METHOD(&view, this_ptr, "preparetable", NULL, 0, &viewName_zv, &schemaName_zv);
 	zephir_check_call_status();
 	if (ifExists) {
@@ -1744,7 +1733,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, listViews)
 	if (!schemaName) {
 		ZEPHIR_INIT_VAR(&schemaName_zv);
 	} else {
-	zephir_memory_observe(&schemaName_zv);
+		zephir_memory_observe(&schemaName_zv);
 	ZVAL_STR_COPY(&schemaName_zv, schemaName);
 	}
 	RETURN_MM_STRING("SELECT tbl_name FROM sqlite_master WHERE type = 'view' ORDER BY tbl_name");
@@ -1828,7 +1817,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, returning)
 	columns_param = ZEND_CALL_ARG(execute_data, 2);
 	zephir_memory_observe(&sqlQuery_zv);
 	ZVAL_STR_COPY(&sqlQuery_zv, sqlQuery);
-	ZEPHIR_OBS_COPY_OR_DUP(&columns, columns_param);
+	zephir_get_arrval(&columns, columns_param);
 	if (UNEXPECTED(ZEPHIR_IS_EMPTY(&columns))) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		object_init_ex(&_0$$3, phalcon_db_exceptions_returningrequirescolumn_ce);

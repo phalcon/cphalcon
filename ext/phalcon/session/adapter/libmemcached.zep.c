@@ -16,8 +16,7 @@
 #include "kernel/fcall.h"
 #include "kernel/array.h"
 #include "kernel/object.h"
-#include "ext/spl/spl_exceptions.h"
-#include "kernel/exception.h"
+#include "kernel/operators.h"
 
 
 /**
@@ -86,7 +85,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Libmemcached, __construct)
 		ZEPHIR_INIT_VAR(&options);
 		array_init(&options);
 	} else {
-	ZEPHIR_OBS_COPY_OR_DUP(&options, options_param);
+		zephir_get_arrval(&options, options_param);
 	}
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "prefix");

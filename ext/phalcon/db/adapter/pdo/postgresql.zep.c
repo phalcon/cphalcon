@@ -15,12 +15,11 @@
 #include "kernel/array.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
-#include "ext/spl/spl_exceptions.h"
-#include "kernel/exception.h"
-#include "kernel/object.h"
 #include "kernel/operators.h"
+#include "kernel/object.h"
 #include "kernel/string.h"
 #include "kernel/concat.h"
+#include "kernel/exception.h"
 
 
 /**
@@ -81,7 +80,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, __construct)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &descriptor_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&descriptor, descriptor_param);
+	zephir_get_arrval(&descriptor, descriptor_param);
 	if (zephir_array_isset_value_string(&descriptor, SL("charset"))) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		ZVAL_STRING(&_0$$3, "Postgres does not allow the charset to be changed in the DSN.");
@@ -124,7 +123,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, connect)
 		ZEPHIR_INIT_VAR(&descriptor);
 		array_init(&descriptor);
 	} else {
-	ZEPHIR_OBS_COPY_OR_DUP(&descriptor, descriptor_param);
+		zephir_get_arrval(&descriptor, descriptor_param);
 	}
 	if (ZEPHIR_IS_EMPTY(&descriptor)) {
 		zephir_read_property(&_0$$3, this_ptr, ZEND_STRL("descriptor"), PH_NOISY_CC | PH_READONLY);
@@ -200,7 +199,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, createTable)
 	ZVAL_STR_COPY(&tableName_zv, tableName);
 	zephir_memory_observe(&schemaName_zv);
 	ZVAL_STR_COPY(&schemaName_zv, schemaName);
-	ZEPHIR_OBS_COPY_OR_DUP(&definition, definition_param);
+	zephir_get_arrval(&definition, definition_param);
 	zephir_memory_observe(&columns);
 	if (UNEXPECTED(!(zephir_array_isset_string_fetch(&columns, &definition, SL("columns"), 0)))) {
 		ZEPHIR_INIT_VAR(&_0$$3);
@@ -1321,7 +1320,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeReferences)
 	if (!schema) {
 		ZEPHIR_INIT_VAR(&schema_zv);
 	} else {
-	zephir_memory_observe(&schema_zv);
+		zephir_memory_observe(&schema_zv);
 	ZVAL_STR_COPY(&schema_zv, schema);
 	}
 	ZEPHIR_INIT_VAR(&references);

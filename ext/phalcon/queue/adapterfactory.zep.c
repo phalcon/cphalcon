@@ -14,8 +14,7 @@
 #include "kernel/main.h"
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
-#include "ext/spl/spl_exceptions.h"
-#include "kernel/exception.h"
+#include "kernel/operators.h"
 #include "kernel/object.h"
 #include "kernel/array.h"
 
@@ -71,7 +70,7 @@ PHP_METHOD(Phalcon_Queue_AdapterFactory, __construct)
 		ZEPHIR_INIT_VAR(&services);
 		array_init(&services);
 	} else {
-	ZEPHIR_OBS_COPY_OR_DUP(&services, services_param);
+		zephir_get_arrval(&services, services_param);
 	}
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "init", NULL, 0, &services);
 	zephir_check_call_status();
@@ -110,7 +109,7 @@ PHP_METHOD(Phalcon_Queue_AdapterFactory, newInstance)
 		ZEPHIR_INIT_VAR(&options);
 		array_init(&options);
 	} else {
-	ZEPHIR_OBS_COPY_OR_DUP(&options, options_param);
+		zephir_get_arrval(&options, options_param);
 	}
 	ZEPHIR_CALL_METHOD(&definition, this_ptr, "getservice", NULL, 0, &name_zv);
 	zephir_check_call_status();

@@ -22,7 +22,6 @@
 #include "kernel/require.h"
 #include "Zend/zend_closures.h"
 #include "kernel/string.h"
-#include "ext/spl/spl_exceptions.h"
 
 
 /**
@@ -394,26 +393,16 @@ PHP_METHOD(Phalcon_Cli_Console, setArgument)
 	if (!arguments_param) {
 		ZEPHIR_INIT_VAR(&arguments);
 	} else {
-	ZEPHIR_OBS_COPY_OR_DUP(&arguments, arguments_param);
+		zephir_get_arrval(&arguments, arguments_param);
 	}
 	if (!str_param) {
 		str = 1;
 	} else {
-	if (UNEXPECTED(Z_TYPE_P(str_param) != IS_TRUE && Z_TYPE_P(str_param) != IS_FALSE)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'str' must be of the type bool"));
-		RETURN_MM_NULL();
-	}
-	str = (Z_TYPE_P(str_param) == IS_TRUE);
-	}
+		}
 	if (!shift_param) {
 		shift = 1;
 	} else {
-	if (UNEXPECTED(Z_TYPE_P(shift_param) != IS_TRUE && Z_TYPE_P(shift_param) != IS_FALSE)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'shift' must be of the type bool"));
-		RETURN_MM_NULL();
-	}
-	shift = (Z_TYPE_P(shift_param) == IS_TRUE);
-	}
+		}
 	ZEPHIR_INIT_VAR(&args);
 	array_init(&args);
 	ZEPHIR_INIT_VAR(&opts);

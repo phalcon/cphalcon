@@ -19,7 +19,6 @@
 #include "kernel/array.h"
 #include "kernel/operators.h"
 #include "kernel/concat.h"
-#include "ext/spl/spl_exceptions.h"
 #include "Zend/zend_closures.h"
 #include "kernel/file.h"
 #include "kernel/string.h"
@@ -302,7 +301,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, attributeReader)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &expr_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&expr, expr_param);
+	zephir_get_arrval(&expr, expr_param);
 	ZEPHIR_INIT_VAR(&exprCode);
 	ZVAL_STRING(&exprCode, "");
 	zephir_memory_observe(&left);
@@ -733,7 +732,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileAutoEscape)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &statement_param, &extendsMode_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&statement, statement_param);
+	zephir_get_arrval(&statement, statement_param);
 	zephir_memory_observe(&autoescape);
 	if (UNEXPECTED(!(zephir_array_isset_string_fetch(&autoescape, &statement, SL("enable"), 0)))) {
 		ZEPHIR_INIT_VAR(&_0$$3);
@@ -780,7 +779,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileCall)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &statement_param, &extendsMode_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&statement, statement_param);
+	zephir_get_arrval(&statement, statement_param);
 	RETURN_MM_STRING("");
 }
 
@@ -813,7 +812,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileCase)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 1, &statement_param, &caseClause_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&statement, statement_param);
+	zephir_get_arrval(&statement, statement_param);
 	if (!caseClause_param) {
 		caseClause = 1;
 	} else {
@@ -862,7 +861,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileDo)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &statement_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&statement, statement_param);
+	zephir_get_arrval(&statement, statement_param);
 	zephir_memory_observe(&expr);
 	if (UNEXPECTED(!(zephir_array_isset_string_fetch(&expr, &statement, SL("expr"), 0)))) {
 		ZEPHIR_INIT_VAR(&_0$$3);
@@ -911,7 +910,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileEcho)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &statement_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&statement, statement_param);
+	zephir_get_arrval(&statement, statement_param);
 	zephir_memory_observe(&expr);
 	if (UNEXPECTED(!(zephir_array_isset_string_fetch(&expr, &statement, SL("expr"), 0)))) {
 		ZEPHIR_INIT_VAR(&_0$$3);
@@ -976,7 +975,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileElseIf)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &statement_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&statement, statement_param);
+	zephir_get_arrval(&statement, statement_param);
 	zephir_memory_observe(&expr);
 	if (UNEXPECTED(!(zephir_array_isset_string_fetch(&expr, &statement, SL("expr"), 0)))) {
 		ZEPHIR_INIT_VAR(&_0$$3);
@@ -1175,7 +1174,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileForeach)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 1, &statement_param, &extendsMode_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&statement, statement_param);
+	zephir_get_arrval(&statement, statement_param);
 	if (!extendsMode_param) {
 		extendsMode = 0;
 	} else {
@@ -1444,7 +1443,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileIf)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 1, &statement_param, &extendsMode_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&statement, statement_param);
+	zephir_get_arrval(&statement, statement_param);
 	if (!extendsMode_param) {
 		extendsMode = 0;
 	} else {
@@ -1523,7 +1522,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileInclude)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &statement_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&statement, statement_param);
+	zephir_get_arrval(&statement, statement_param);
 	zephir_memory_observe(&pathExpr);
 	if (UNEXPECTED(!(zephir_array_isset_string_fetch(&pathExpr, &statement, SL("path"), 0)))) {
 		ZEPHIR_INIT_VAR(&_0$$3);
@@ -1633,7 +1632,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileMacro)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &statement_param, &extendsMode_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&statement, statement_param);
+	zephir_get_arrval(&statement, statement_param);
 	zephir_memory_observe(&name);
 	if (UNEXPECTED(!(zephir_array_isset_string_fetch(&name, &statement, SL("name"), 0)))) {
 		ZEPHIR_INIT_VAR(&_0$$3);
@@ -1811,7 +1810,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileReturn)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &statement_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&statement, statement_param);
+	zephir_get_arrval(&statement, statement_param);
 	zephir_memory_observe(&expr);
 	if (UNEXPECTED(!(zephir_array_isset_string_fetch(&expr, &statement, SL("expr"), 0)))) {
 		ZEPHIR_INIT_VAR(&_0$$3);
@@ -1928,7 +1927,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileSet)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &statement_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&statement, statement_param);
+	zephir_get_arrval(&statement, statement_param);
 	zephir_memory_observe(&assignments);
 	if (UNEXPECTED(!(zephir_array_isset_string_fetch(&assignments, &statement, SL("assignments"), 0)))) {
 		ZEPHIR_INIT_VAR(&_0$$3);
@@ -2140,7 +2139,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileSwitch)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 1, &statement_param, &extendsMode_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&statement, statement_param);
+	zephir_get_arrval(&statement, statement_param);
 	if (!extendsMode_param) {
 		extendsMode = 0;
 	} else {
@@ -2258,7 +2257,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, expression)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 1, &expr_param, &doubleQuotes_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&expr, expr_param);
+	zephir_get_arrval(&expr, expr_param);
 	if (!doubleQuotes_param) {
 		doubleQuotes = 0;
 	} else {
@@ -2922,7 +2921,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, functionCall)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 1, &expr_param, &doubleQuotes_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&expr, expr_param);
+	zephir_get_arrval(&expr, expr_param);
 	if (!doubleQuotes_param) {
 		doubleQuotes = 0;
 	} else {
@@ -3403,7 +3402,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, resolveTest)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	test_param = ZEND_CALL_ARG(execute_data, 1);
-	ZEPHIR_OBS_COPY_OR_DUP(&test, test_param);
+	zephir_get_arrval(&test, test_param);
 	zephir_memory_observe(&left_zv);
 	ZVAL_STR_COPY(&left_zv, left);
 	zephir_memory_observe(&type);
@@ -3532,7 +3531,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, setOptions)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &options_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&options, options_param);
+	zephir_get_arrval(&options, options_param);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("options"), &options);
 	RETURN_THIS();
 }
@@ -3921,7 +3920,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, resolveFilter)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	filter_param = ZEND_CALL_ARG(execute_data, 1);
-	ZEPHIR_OBS_COPY_OR_DUP(&filter, filter_param);
+	zephir_get_arrval(&filter, filter_param);
 	zephir_memory_observe(&left_zv);
 	ZVAL_STR_COPY(&left_zv, left);
 	ZEPHIR_INIT_VAR(&code);
@@ -4321,7 +4320,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, statementList)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 1, &statements_param, &extendsMode_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&statements, statements_param);
+	zephir_get_arrval(&statements, statements_param);
 	if (!extendsMode_param) {
 		extendsMode = 0;
 	} else {

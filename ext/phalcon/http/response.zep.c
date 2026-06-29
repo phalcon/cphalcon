@@ -20,7 +20,6 @@
 #include "kernel/exception.h"
 #include "kernel/string.h"
 #include "ext/date/php_date.h"
-#include "ext/spl/spl_exceptions.h"
 #include "kernel/array.h"
 
 
@@ -124,7 +123,7 @@ PHP_METHOD(Phalcon_Http_Response, __construct)
 	if (!content) {
 		ZEPHIR_INIT_VAR(&content_zv);
 	} else {
-	zephir_memory_observe(&content_zv);
+		zephir_memory_observe(&content_zv);
 	ZVAL_STR_COPY(&content_zv, content);
 	}
 	if (!code) {
@@ -750,11 +749,6 @@ PHP_METHOD(Phalcon_Http_Response, setCache)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &minutes_param);
-	if (UNEXPECTED(Z_TYPE_P(minutes_param) != IS_LONG)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'minutes' must be of the type int"));
-		RETURN_MM_NULL();
-	}
-	minutes = Z_LVAL_P(minutes_param);
 	ZEPHIR_INIT_VAR(&date);
 	object_init_ex(&date, php_date_get_date_ce());
 	ZEPHIR_CALL_METHOD(NULL, &date, "__construct", NULL, 0);
