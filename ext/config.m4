@@ -260,6 +260,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/contracts/encryption/security/security.zep.c
 	phalcon/contracts/events/stoppable.zep.c
 	phalcon/contracts/messages/messages.zep.c
+	phalcon/contracts/queue/inspectable.zep.c
 	phalcon/contracts/queue/queue.zep.c
 	phalcon/contracts/queue/topic.zep.c
 	phalcon/contracts/queue/visibilityaware.zep.c

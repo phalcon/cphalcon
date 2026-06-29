@@ -280,7 +280,8 @@ PHP_METHOD(Phalcon_Http_Response, getHeaders)
  */
 PHP_METHOD(Phalcon_Http_Response, getReasonPhrase)
 {
-	zval statusReasonPhrase, _0, _1, _2, _3;
+	zval _3;
+	zval statusReasonPhrase, _0, _1, _2, _4;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
@@ -289,6 +290,7 @@ PHP_METHOD(Phalcon_Http_Response, getReasonPhrase)
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_3);
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
@@ -298,9 +300,10 @@ PHP_METHOD(Phalcon_Http_Response, getReasonPhrase)
 	ZVAL_STRING(&_2, "Status");
 	ZEPHIR_CALL_METHOD(&_1, &_0, "get", NULL, 0, &_2);
 	zephir_check_call_status();
-	ZVAL_LONG(&_3, 4);
+	zephir_cast_to_string(&_3, &_1);
+	ZVAL_LONG(&_4, 4);
 	ZEPHIR_INIT_VAR(&statusReasonPhrase);
-	zephir_substr(&statusReasonPhrase, &_1, 4 , 0, ZEPHIR_SUBSTR_NO_LENGTH);
+	zephir_substr(&statusReasonPhrase, &_3, 4 , 0, ZEPHIR_SUBSTR_NO_LENGTH);
 	ZEPHIR_INIT_NVAR(&_2);
 	if (zephir_is_true(&statusReasonPhrase)) {
 		ZEPHIR_CPY_WRT(&_2, &statusReasonPhrase);
@@ -320,7 +323,8 @@ PHP_METHOD(Phalcon_Http_Response, getReasonPhrase)
  */
 PHP_METHOD(Phalcon_Http_Response, getStatusCode)
 {
-	zval statusCode, _0, _1, _2, _3, _4;
+	zval _3;
+	zval statusCode, _0, _1, _2, _4, _5;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
@@ -329,8 +333,9 @@ PHP_METHOD(Phalcon_Http_Response, getStatusCode)
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_4);
+	ZVAL_UNDEF(&_5);
+	ZVAL_UNDEF(&_3);
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
@@ -339,10 +344,11 @@ PHP_METHOD(Phalcon_Http_Response, getStatusCode)
 	ZVAL_STRING(&_2, "Status");
 	ZEPHIR_CALL_METHOD(&_1, &_0, "get", NULL, 0, &_2);
 	zephir_check_call_status();
-	ZVAL_LONG(&_3, 0);
-	ZVAL_LONG(&_4, 3);
+	zephir_cast_to_string(&_3, &_1);
+	ZVAL_LONG(&_4, 0);
+	ZVAL_LONG(&_5, 3);
 	ZEPHIR_INIT_VAR(&statusCode);
-	zephir_substr(&statusCode, &_1, 0 , 3 , 0);
+	zephir_substr(&statusCode, &_3, 0 , 3 , 0);
 	ZEPHIR_INIT_NVAR(&_2);
 	if (zephir_is_true(&statusCode)) {
 		ZEPHIR_INIT_NVAR(&_2);

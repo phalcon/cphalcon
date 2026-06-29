@@ -182,7 +182,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     {
         var statusReasonPhrase;
 
-        let statusReasonPhrase = substr(this->headers->get("Status"), 4);
+        let statusReasonPhrase = substr((string) this->headers->get("Status"), 4);
 
         return statusReasonPhrase ? statusReasonPhrase : null;
     }
@@ -198,7 +198,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     {
         var statusCode;
 
-        let statusCode = substr(this->headers->get("Status"), 0, 3);
+        let statusCode = substr((string) this->headers->get("Status"), 0, 3);
 
         return statusCode ? (int) statusCode : null;
     }

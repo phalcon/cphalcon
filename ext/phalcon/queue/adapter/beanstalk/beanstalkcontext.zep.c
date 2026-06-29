@@ -77,6 +77,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_Beanstalk_BeanstalkContext)
 	 * @var int
 	 */
 	zend_declare_property_long(phalcon_queue_adapter_beanstalk_beanstalkcontext_ce, SL("ttr"), 86400, ZEND_ACC_PROTECTED);
+	zend_class_implements(phalcon_queue_adapter_beanstalk_beanstalkcontext_ce, 1, phalcon_contracts_queue_inspectable_ce);
 	return SUCCESS;
 }
 
@@ -275,6 +276,56 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkContext, createSubscriptionC
 }
 
 /**
+ * Returns the Beanstalkd `stats-tube` fields for the queue's tube as an
+ * associative array, with numeric values cast to int (the `name` field is
+ * kept as a string). When the tube exists the result is the full Beanstalkd
+ * stats-tube field set (current-jobs-*, total-jobs, the `cmd-*` counters and
+ * tube-configuration fields).
+ *
+ * The `current-jobs-*` backlog keys are always present: an unknown tube
+ * (no jobs, not used or watched) has zero backlog, so those keys are
+ * returned at zero. This keeps the backlog shape independent of transient
+ * watcher state. Runs on a fresh short-lived connection (like purgeQueue)
+ * so the read never shares the producer's socket.
+ */
+PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkContext, getStats)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *queue, queue_sub, connection, stats, _0;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&queue_sub);
+	ZVAL_UNDEF(&connection);
+	ZVAL_UNDEF(&stats);
+	ZVAL_UNDEF(&_0);
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(queue, phalcon_contracts_queue_queue_ce)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_fetch_params(1, 1, 0, &queue);
+	ZEPHIR_CALL_METHOD(&connection, this_ptr, "newconnection", NULL, 0);
+	zephir_check_call_status();
+	ZEPHIR_CALL_METHOD(&_0, queue, "getqueuename", NULL, 0);
+	zephir_check_call_status();
+	ZEPHIR_CALL_METHOD(&stats, &connection, "statstube", NULL, 0, &_0);
+	zephir_check_call_status();
+	ZEPHIR_CALL_METHOD(NULL, &connection, "disconnect", NULL, 0);
+	zephir_check_call_status();
+	if (ZEPHIR_IS_FALSE_IDENTICAL(&stats)) {
+		zephir_create_array(return_value, 5, 0);
+		add_assoc_long_ex(return_value, SL("current-jobs-urgent"), 0);
+		add_assoc_long_ex(return_value, SL("current-jobs-ready"), 0);
+		add_assoc_long_ex(return_value, SL("current-jobs-reserved"), 0);
+		add_assoc_long_ex(return_value, SL("current-jobs-delayed"), 0);
+		add_assoc_long_ex(return_value, SL("current-jobs-buried"), 0);
+		RETURN_MM();
+	}
+	RETURN_CCTOR(&stats);
+}
+
+/**
  * Default time-to-run (seconds) for new jobs. Used by BeanstalkProducer.
  */
 PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkContext, getTtr)
@@ -323,7 +374,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkContext, purgeQueue)
 		if (Z_TYPE_P(&job) == IS_NULL) {
 			break;
 		}
-		zephir_array_fetch_long(&_3$$4, &job, 0, PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkContext.zep", 149);
+		zephir_array_fetch_long(&_3$$4, &job, 0, PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkContext.zep", 185);
 		ZEPHIR_CALL_METHOD(NULL, &connection, "deletejob", &_4, 0, &_3$$4);
 		zephir_check_call_status();
 	}
