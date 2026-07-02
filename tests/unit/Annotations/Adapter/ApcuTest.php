@@ -16,7 +16,8 @@ namespace Phalcon\Tests\Unit\Annotations\Adapter;
 use Phalcon\Annotations\Adapter\Apcu;
 use Phalcon\Annotations\Collection;
 use Phalcon\Annotations\Reflection;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use TestClass;
 use User\TestClassNs;
@@ -33,8 +34,8 @@ final class ApcuTest extends AbstractUnitTestCase
     {
         parent::setUp();
 
-        require_once supportDir('assets/Annotations/TestClass.php');
-        require_once supportDir('assets/Annotations/TestClassNs.php');
+        require_once Talon::settings()->supportPath('assets/Annotations/TestClass.php');
+        require_once Talon::settings()->supportPath('assets/Annotations/TestClassNs.php');
     }
 
     /**

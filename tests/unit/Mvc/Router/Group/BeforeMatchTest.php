@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Mvc\Router\Group;
 
 use Phalcon\Mvc\Router\Group;
 use Phalcon\Mvc\Router\GroupInterface;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class BeforeMatchTest extends AbstractUnitTestCase
 {

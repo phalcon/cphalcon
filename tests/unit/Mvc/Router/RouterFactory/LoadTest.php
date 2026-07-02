@@ -17,7 +17,7 @@ use Phalcon\Config\Config;
 use Phalcon\Mvc\Router;
 use Phalcon\Mvc\Router\Exception;
 use Phalcon\Mvc\Router\RouterFactory;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class LoadTest extends AbstractUnitTestCase
 {

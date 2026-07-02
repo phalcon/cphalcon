@@ -46,7 +46,7 @@ final class ExecuteQueryTest extends AbstractDatabaseTestCase
         // Recreate the table so the test is isolated from records left behind
         // by earlier tests (the auto-increment INSERT below otherwise collides
         // on PostgreSQL when a prior test seeded inv_id = 1).
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         (new InvoicesMigration($connection));
     }
     /**

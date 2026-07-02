@@ -14,7 +14,8 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Logger\Adapter\Stream;
 
 use Phalcon\Logger\Adapter\Stream;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 
 final class InTransactionTest extends AbstractUnitTestCase
 {
@@ -25,7 +26,7 @@ final class InTransactionTest extends AbstractUnitTestCase
     public function testLoggerAdapterStreamInTransaction(): void
     {
         $fileName   = $this->getNewFileName('log', 'log');
-        $outputPath = logsDir();
+        $outputPath = Talon::settings()->outputPath('tests/logs/');
         $adapter    = new Stream($outputPath . $fileName);
 
         $adapter->begin();

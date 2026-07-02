@@ -16,7 +16,8 @@ namespace Phalcon\Tests\Unit\Logger\Adapter\Stream;
 use Phalcon\Logger\Adapter\Stream;
 use Phalcon\Logger\Formatter\FormatterInterface;
 use Phalcon\Logger\Formatter\Line;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 
 final class GetSetFormatterTest extends AbstractUnitTestCase
 {
@@ -26,7 +27,7 @@ final class GetSetFormatterTest extends AbstractUnitTestCase
     public function testLoggerAdapterStreamGetSetFormatter(): void
     {
         $fileName = $this->getNewFileName('log', 'log');
-        $fileName = logsDir($fileName);
+        $fileName = Talon::settings()->outputPath('tests/logs/' . $fileName);
 
         $adapter = new Stream($fileName);
 

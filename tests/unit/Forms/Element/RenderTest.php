@@ -28,7 +28,7 @@ use Phalcon\Forms\Element\TextArea;
 use Phalcon\Html\Escaper;
 use Phalcon\Html\Helper\Doctype;
 use Phalcon\Html\TagFactory;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\DataProvider;
 

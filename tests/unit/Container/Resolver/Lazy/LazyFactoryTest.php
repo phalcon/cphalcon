@@ -17,7 +17,7 @@ use Phalcon\Container\Resolver\Lazy\LazyFactory;
 use Phalcon\Container\Resolver\Lazy\NewCall;
 use Phalcon\Container\Resolver\Lazy\NewInstance;
 use Phalcon\Container\Resolver\Lazy\StaticCall;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class LazyFactoryTest extends AbstractUnitTestCase
 {

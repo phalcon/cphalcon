@@ -40,7 +40,7 @@ final class UpdateTest extends AbstractDatabaseTestCase
     #[Group('sqlite')]
     public function testDbAdapterPdoUpdate(): void
     {
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $db         = $this->container->get('db');
 
         $migration = new InvoicesMigration($connection);

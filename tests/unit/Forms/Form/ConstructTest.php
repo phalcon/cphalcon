@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Forms\Form;
 
 use Phalcon\Forms\Exceptions\InvalidEntity;
 use Phalcon\Forms\Form;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use stdClass;
 
 final class ConstructTest extends AbstractUnitTestCase

@@ -30,7 +30,7 @@ final class DescribeReferencesTest extends AbstractDatabaseTestCase
         $this->setDatabase();
 
         $this->migration = new InvoicesCustomersFkMigration(
-            self::getConnection(),
+            self::getPdoConnection(),
             false
         );
         $this->migration->create();

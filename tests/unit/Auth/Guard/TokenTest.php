@@ -23,7 +23,7 @@ use Phalcon\Auth\Guard\Config\TokenGuardConfig;
 use Phalcon\Auth\Guard\Token;
 use Phalcon\Contracts\Auth\AuthUser;
 use Phalcon\Encryption\Security;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Auth\Fake\FakeRequest;
 
 final class TokenTest extends AbstractUnitTestCase

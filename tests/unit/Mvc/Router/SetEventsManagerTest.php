@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Mvc\Router;
 
 use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Mvc\Router;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class SetEventsManagerTest extends AbstractUnitTestCase
 {

@@ -33,7 +33,7 @@ final class AssignTest extends AbstractDatabaseTestCase
         $this->setNewFactoryDefault();
         $this->setDatabase();
 
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         (new InvoicesMigration($connection));
     }
 
@@ -156,7 +156,7 @@ final class AssignTest extends AbstractDatabaseTestCase
     #[Group('sqlite')]
     public function testMvcModelAssignReservedSetterColumn(): void
     {
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         (new SourcesMigration($connection));
 
         $value  = uniqid('src-');

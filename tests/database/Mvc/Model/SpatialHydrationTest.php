@@ -34,7 +34,7 @@ final class SpatialHydrationTest extends AbstractDatabaseTestCase
         $this->setNewFactoryDefault();
         $this->setDatabase();
 
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $connection->exec("DROP TABLE IF EXISTS co_spatial");
         $connection->exec(
             "CREATE TABLE co_spatial (id INT PRIMARY KEY, location POINT NOT NULL)"
@@ -46,7 +46,7 @@ final class SpatialHydrationTest extends AbstractDatabaseTestCase
 
     public function tearDown(): void
     {
-        self::getConnection()->exec("DROP TABLE IF EXISTS co_spatial");
+        self::getPdoConnection()->exec("DROP TABLE IF EXISTS co_spatial");
         Settings::set("orm.cast_on_hydrate", false);
     }
 

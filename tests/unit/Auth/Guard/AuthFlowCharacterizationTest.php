@@ -18,7 +18,7 @@ use Phalcon\Auth\Guard\Config\SessionGuardConfig;
 use Phalcon\Auth\Guard\Session;
 use Phalcon\Encryption\Security;
 use Phalcon\Events\Manager as EventsManager;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Auth\Fake\FakeCookies;
 use Phalcon\Tests\Unit\Auth\Fake\FakeRememberAdapter;
 use Phalcon\Tests\Unit\Auth\Fake\FakeRequest;

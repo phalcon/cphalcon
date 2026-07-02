@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Encryption\Crypt;
 
 use Phalcon\Encryption\Crypt;
 use Phalcon\Encryption\Crypt\Exception\Exception;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Encryption\Fake\Crypt\FakeCrypt;
 use Phalcon\Tests\Unit\Encryption\Fake\Crypt\FakeCryptOpensslRandomPseudoBytes;
 use PHPUnit\Framework\Attributes\DataProvider;

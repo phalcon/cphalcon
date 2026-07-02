@@ -36,7 +36,7 @@ final class PaginateTest extends AbstractDatabaseTestCase
         $this->setDatabase();
 
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         (new InvoicesMigration($connection));
     }
 
@@ -46,7 +46,7 @@ final class PaginateTest extends AbstractDatabaseTestCase
     public function testPaginatorAdapterModelPaginate(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $migration  = new InvoicesMigration($connection);
         $invId      = ('sqlite' === self::getDriver()) ? 'null' : 'default';
 
@@ -104,7 +104,7 @@ final class PaginateTest extends AbstractDatabaseTestCase
     public function testPaginatorAdapterModelPaginateBind(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $migration  = new InvoicesMigration($connection);
 
         $invId = ('sqlite' === self::getDriver()) ? 'null' : 'default';
@@ -182,7 +182,7 @@ final class PaginateTest extends AbstractDatabaseTestCase
     public function testPaginatorAdapterModelPaginateParametersArrayString(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $migration  = new InvoicesMigration($connection);
         $invId      = ('sqlite' === self::getDriver()) ? 'null' : 'default';
 
@@ -221,7 +221,7 @@ final class PaginateTest extends AbstractDatabaseTestCase
     public function testPaginatorAdapterModelPaginateParametersString(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $migration  = new InvoicesMigration($connection);
         $invId      = ('sqlite' === self::getDriver()) ? 'null' : 'default';
 
@@ -269,7 +269,7 @@ final class PaginateTest extends AbstractDatabaseTestCase
         $this->setDiService('view');
 
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $migration  = new InvoicesMigration($connection);
         $invId      = ('sqlite' === self::getDriver()) ? 'null' : 'default';
 
@@ -314,7 +314,7 @@ final class PaginateTest extends AbstractDatabaseTestCase
     public function testPaginatorAdapterModelPaginateWithOrder(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $migration  = new InvoicesMigration($connection);
         $invId      = ('sqlite' === self::getDriver()) ? 'null' : 'default';
 

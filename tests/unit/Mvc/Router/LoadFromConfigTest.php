@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Mvc\Router;
 
 use Phalcon\Mvc\Router;
 use Phalcon\Mvc\RouterInterface;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Mvc\Fake\RouterTrait;
 use PHPUnit\Framework\Attributes\BackupGlobals;
 use PHPUnit\Framework\Attributes\DataProvider;

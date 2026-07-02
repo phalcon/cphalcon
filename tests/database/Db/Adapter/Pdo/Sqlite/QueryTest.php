@@ -47,7 +47,7 @@ final class QueryTest extends AbstractDatabaseTestCase
     #[Group('sqlite')]
     public function testDbAdapterPdoSqliteQuery(): void
     {
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $db         = $this->container->get('db');
 
         $migration = new InvoicesMigration($connection);

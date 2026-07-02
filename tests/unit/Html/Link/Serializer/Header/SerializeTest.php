@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Html\Link\Serializer\Header;
 
 use Phalcon\Html\Link\EvolvableLink;
 use Phalcon\Html\Link\Serializer\Header;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class SerializeTest extends AbstractUnitTestCase
 {

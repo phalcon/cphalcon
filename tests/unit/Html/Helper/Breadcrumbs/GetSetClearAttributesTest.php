@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Html\Helper\Breadcrumbs;
 
 use Phalcon\Html\Escaper;
 use Phalcon\Html\Helper\Breadcrumbs;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class GetSetClearAttributesTest extends AbstractUnitTestCase
 {

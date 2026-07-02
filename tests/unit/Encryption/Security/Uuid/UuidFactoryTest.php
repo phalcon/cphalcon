@@ -21,7 +21,7 @@ use Phalcon\Encryption\Security\Uuid\Version4;
 use Phalcon\Encryption\Security\Uuid\Version5;
 use Phalcon\Encryption\Security\Uuid\Version6;
 use Phalcon\Encryption\Security\Uuid\Version7;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class UuidFactoryTest extends AbstractUnitTestCase
 {

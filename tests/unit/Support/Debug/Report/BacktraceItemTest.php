@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Support\Debug\Report;
 
 use Phalcon\Support\Debug\Report\BacktraceItem;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class BacktraceItemTest extends AbstractUnitTestCase
 {

@@ -15,12 +15,11 @@ namespace Phalcon\Tests\Database\Db\Adapter\Pdo;
 
 use Phalcon\Db\Dialect\Postgresql as DialectPostgresql;
 use Phalcon\Db\Reference;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
-
-use function env;
 
 final class PostgresqlTest extends AbstractDatabaseTestCase
 {
@@ -79,7 +78,7 @@ final class PostgresqlTest extends AbstractDatabaseTestCase
     {
         $sql = rtrim(
             (string) file_get_contents(
-                supportDir('assets/Db/postgresql/example9.sql')
+                Talon::settings()->supportPath('assets/Db/postgresql/example9.sql')
             )
         );
 
@@ -143,7 +142,7 @@ final class PostgresqlTest extends AbstractDatabaseTestCase
             'test_describereferences',
             [
                 'referencedTable'   => 'foreign_key_parent',
-                'referencedSchema'  => env('DATA_POSTGRES_NAME'),
+                'referencedSchema'  => Talon::settings()->getDatabaseOptions('pgsql')['dbname'],
                 'columns'           => ['child_int'],
                 'referencedColumns' => ['refer_int'],
                 'onUpdate'          => 'CASCADE',

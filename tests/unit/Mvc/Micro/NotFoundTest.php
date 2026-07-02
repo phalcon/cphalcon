@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Mvc\Micro;
 
 use Phalcon\Mvc\Micro;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Micro\RestHandler;
 use PHPUnit\Framework\Attributes\BackupGlobals;
 

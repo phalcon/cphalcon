@@ -13,7 +13,7 @@ namespace Phalcon\Tests\Unit\Html\TagFactory;
 
 use Phalcon\Html\Escaper;
 use Phalcon\Html\TagFactory;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 /**
  * Verifies that the `*Raw` factory entries skip escaping while their non-Raw

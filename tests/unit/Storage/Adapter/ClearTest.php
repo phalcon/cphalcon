@@ -24,7 +24,8 @@ use Phalcon\Storage\Exception as StorageException;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Support\Exception;
 use Phalcon\Support\Exception as HelperException;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\Unit\Storage\Fake\FakeApcuApcuDelete;
 use Phalcon\Tests\Unit\Storage\Fake\FakeStreamUnlink;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -32,10 +33,6 @@ use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use stdClass;
 
 use function array_merge;
-use function getOptionsLibmemcached;
-use function getOptionsRedis;
-use function getOptionsRedisCluster;
-use function outputDir;
 use function uniqid;
 
 final class ClearTest extends AbstractUnitTestCase
@@ -53,7 +50,12 @@ final class ClearTest extends AbstractUnitTestCase
             ],
             [
                 Libmemcached::class,
-                getOptionsLibmemcached(),
+                [
+                    'client' => [],
+                    'servers' => [
+                        Talon::settings()->getServiceOptions('memcached')
+                    ]
+                ],
                 'memcached',
             ],
             [
@@ -63,18 +65,18 @@ final class ClearTest extends AbstractUnitTestCase
             ],
             [
                 Redis::class,
-                getOptionsRedis(),
+                Talon::settings()->getServiceOptions('redis'),
                 'redis',
             ],
             [
                 RedisCluster::class,
-                getOptionsRedisCluster(),
+                Talon::settings()->getServiceOptions('redisCluster'),
                 'redis',
             ],
             [
                 Stream::class,
                 [
-                    'storageDir' => outputDir(),
+                    'storageDir' => Talon::settings()->outputPath() . '/',
                 ],
                 '',
             ],
@@ -99,13 +101,13 @@ final class ClearTest extends AbstractUnitTestCase
             ],
             [
                 Redis::class,
-                getOptionsRedis(),
+                Talon::settings()->getServiceOptions('redis'),
                 'redis',
             ],
             [
                 Stream::class,
                 [
-                    'storageDir' => outputDir(),
+                    'storageDir' => Talon::settings()->outputPath() . '/',
                 ],
                 '',
             ],
@@ -245,8 +247,8 @@ final class ClearTest extends AbstractUnitTestCase
         $adapter2->clear();
 
         if ($class === Stream::class) {
-            $this->safeDeleteDirectory(outputDir('test-one-'));
-            $this->safeDeleteDirectory(outputDir('test-two-'));
+            $this->safeDeleteDirectory(Talon::settings()->outputPath('test-one-'));
+            $this->safeDeleteDirectory(Talon::settings()->outputPath('test-two-'));
         }
     }
 
@@ -260,7 +262,7 @@ final class ClearTest extends AbstractUnitTestCase
         $adapter    = new FakeStreamUnlink(
             $serializer,
             [
-                'storageDir' => outputDir(),
+                'storageDir' => Talon::settings()->outputPath() . '/',
             ],
         );
 
@@ -277,7 +279,7 @@ final class ClearTest extends AbstractUnitTestCase
         $actual = $adapter->clear();
         $this->assertFalse($actual);
 
-        $this->safeDeleteDirectory(outputDir('ph-strm'));
+        $this->safeDeleteDirectory(Talon::settings()->outputPath('ph-strm'));
     }
 
     /**

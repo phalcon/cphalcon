@@ -15,7 +15,7 @@ use Phalcon\Html\Escaper;
 use Phalcon\Html\Helper\Meta;
 use Phalcon\Html\Helper\Script;
 use Phalcon\Html\Helper\Style;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 /**
  * Verifies positional ordering on `AbstractSeries`. Entries registered with

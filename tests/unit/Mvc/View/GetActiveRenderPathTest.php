@@ -17,10 +17,9 @@ use Phalcon\Di\Di;
 use Phalcon\Events\Manager;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Php;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\Support\Mvc\View\AfterRenderListener;
-
-use function dataDir;
 
 use const DIRECTORY_SEPARATOR;
 
@@ -37,7 +36,7 @@ class GetActiveRenderPathTest extends AbstractUnitTestCase
         $eventsManager->attach('view', new AfterRenderListener());
 
         $view = new View();
-        $view->setViewsDir(dataDir('views' . DIRECTORY_SEPARATOR));
+        $view->setViewsDir(Talon::settings()->dataPath('views' . DIRECTORY_SEPARATOR));
         $view->setRenderLevel(View::LEVEL_ACTION_VIEW);
         $view->setEventsManager($eventsManager);
 
@@ -52,17 +51,25 @@ class GetActiveRenderPathTest extends AbstractUnitTestCase
         $view->getContent();
 
         $this->assertEquals(
-            dataDir('views' . DIRECTORY_SEPARATOR . 'activerender' . DIRECTORY_SEPARATOR . 'index.phtml'),
+            Talon::settings()->dataPath(
+                'views' . DIRECTORY_SEPARATOR
+                . 'activerender' . DIRECTORY_SEPARATOR
+                . 'index.phtml'
+            ),
             $view->getActiveRenderPath()
         );
 
         $view->setViewsDir([
-            dataDir('views' . DIRECTORY_SEPARATOR),
-            dataDir('views2' . DIRECTORY_SEPARATOR),
+            Talon::settings()->dataPath('views' . DIRECTORY_SEPARATOR),
+            Talon::settings()->dataPath('views2' . DIRECTORY_SEPARATOR),
         ]);
 
         $this->assertEquals(
-            dataDir('views' . DIRECTORY_SEPARATOR . 'activerender' . DIRECTORY_SEPARATOR . 'index.phtml'),
+            Talon::settings()->dataPath(
+                'views' . DIRECTORY_SEPARATOR
+                . 'activerender' . DIRECTORY_SEPARATOR
+                . 'index.phtml'
+            ),
             $view->getActiveRenderPath()
         );
     }
@@ -79,7 +86,7 @@ class GetActiveRenderPathTest extends AbstractUnitTestCase
 
         $view = new View();
         $view->setDI($container);
-        $view->setViewsDir(dataDir('views' . DIRECTORY_SEPARATOR));
+        $view->setViewsDir(Talon::settings()->dataPath('views' . DIRECTORY_SEPARATOR));
         $view->setRenderLevel(View::LEVEL_ACTION_VIEW);
         $view->setEventsManager($eventsManager);
         $view->registerEngines(
@@ -93,7 +100,11 @@ class GetActiveRenderPathTest extends AbstractUnitTestCase
         $view->render('activerender', 'missing_file');
         $view->finish();
 
-        $base   = dataDir('views' . DIRECTORY_SEPARATOR . 'activerender' . DIRECTORY_SEPARATOR . 'missing_file');
+        $base   = Talon::settings()->dataPath(
+            'views' . DIRECTORY_SEPARATOR
+            . 'activerender' . DIRECTORY_SEPARATOR
+            . 'missing_file'
+        );
         $actual = $view->getActiveRenderPath();
 
         $this->assertIsArray($actual);

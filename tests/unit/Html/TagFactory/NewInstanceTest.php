@@ -36,7 +36,7 @@ use Phalcon\Html\Helper\Style;
 use Phalcon\Html\Helper\Title;
 use Phalcon\Html\Helper\Ul;
 use Phalcon\Html\TagFactory;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 use function uniqid;

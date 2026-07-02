@@ -18,7 +18,7 @@ use Countable;
 use Exception;
 use Phalcon\Di\Di;
 use Phalcon\Support\AbstractLocator;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use stdClass;
 
 final class AbstractLocatorTest extends AbstractUnitTestCase

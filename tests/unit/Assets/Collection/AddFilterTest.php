@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Assets\Collection;
 
 use Phalcon\Assets\Collection;
 use Phalcon\Assets\Filters\None;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class AddFilterTest extends AbstractUnitTestCase
 {

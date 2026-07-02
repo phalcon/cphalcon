@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Forms;
 
+use Phalcon\Di\FactoryDefault;
 use Phalcon\Filter\Validation\Validator\PresenceOf;
 use Phalcon\Forms\Element\Radio;
 use Phalcon\Forms\Element\Select;
@@ -21,7 +22,7 @@ use Phalcon\Forms\Form;
 use Phalcon\Html\Escaper;
 use Phalcon\Html\TagFactory;
 use Phalcon\Messages\Message;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Forms\ContactFormPublicProperties;
 use Phalcon\Tests\Support\Forms\ContactFormSettersGetters;
 
@@ -157,6 +158,8 @@ final class FormsTest extends AbstractUnitTestCase
 
     public function testFormValidatorEntity(): void
     {
+        new FactoryDefault();
+
         $address = new Text('address');
         $address->addValidator(
             new PresenceOf(

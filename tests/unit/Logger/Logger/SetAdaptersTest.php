@@ -15,7 +15,8 @@ namespace Phalcon\Tests\Unit\Logger\Logger;
 
 use Phalcon\Logger\Adapter\Stream;
 use Phalcon\Logger\Logger;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 
 final class SetAdaptersTest extends AbstractUnitTestCase
 {
@@ -27,7 +28,7 @@ final class SetAdaptersTest extends AbstractUnitTestCase
     {
         $fileName1  = $this->getNewFileName('log', 'log');
         $fileName2  = $this->getNewFileName('log', 'log');
-        $outputPath = logsDir();
+        $outputPath = Talon::settings()->outputPath('tests/logs/');
         $adapter1   = new Stream($outputPath . $fileName1);
         $adapter2   = new Stream($outputPath . $fileName2);
 
@@ -64,7 +65,7 @@ final class SetAdaptersTest extends AbstractUnitTestCase
     {
         $fileName1  = $this->getNewFileName('log', 'log');
         $fileName2  = $this->getNewFileName('log', 'log');
-        $outputPath = logsDir();
+        $outputPath = Talon::settings()->outputPath('tests/logs/');
         $adapter1   = new Stream($outputPath . $fileName1);
         $adapter2   = new Stream($outputPath . $fileName2);
 

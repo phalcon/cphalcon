@@ -15,10 +15,9 @@ namespace Phalcon\Tests\Unit\Image\Adapter\Gd;
 
 use Phalcon\Image\Adapter\Gd;
 use Phalcon\Image\Enum;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\Unit\Image\Fake\GdTrait;
-
-use function outputDir;
 
 final class WatermarkTest extends AbstractUnitTestCase
 {
@@ -33,17 +32,17 @@ final class WatermarkTest extends AbstractUnitTestCase
         $this->checkJpegSupport();
 
         $image = new Gd(
-            supportDir('assets/images/example-jpg.jpg')
+            Talon::settings()->supportPath('assets/images/example-jpg.jpg')
         );
 
         $watermark = new Gd(
-            supportDir('assets/images/example-jpg.jpg')
+            Talon::settings()->supportPath('assets/images/example-jpg.jpg')
         );
         $watermark->resize(250, null, Enum::WIDTH);
 
         $outputDir   = 'tests/image/gd/';
         $outputImage = 'watermark.jpg';
-        $output      = outputDir($outputDir . '/' . $outputImage);
+        $output      = Talon::settings()->outputPath($outputDir . '/' . $outputImage);
         $offsetX     = 200;
         $offsetY     = 200;
         $opacity     = 50;
@@ -55,7 +54,7 @@ final class WatermarkTest extends AbstractUnitTestCase
               ->save($output)
         ;
 
-        $this->assertFileExists(outputDir($outputDir) . $outputImage);
+        $this->assertFileExists(Talon::settings()->outputPath($outputDir) . $outputImage);
 
         $this->assertTrue(
             $this->checkImageHash($output, $hash)
@@ -73,17 +72,17 @@ final class WatermarkTest extends AbstractUnitTestCase
         $this->checkJpegSupport();
 
         $image = new Gd(
-            supportDir('assets/images/example-png.png')
+            Talon::settings()->supportPath('assets/images/example-png.png')
         );
 
         $watermark = new Gd(
-            supportDir('assets/images/example-jpg.jpg')
+            Talon::settings()->supportPath('assets/images/example-jpg.jpg')
         );
         $watermark->resize(50, 50, Enum::NONE);
 
         $outputDir   = 'tests/image/gd/';
         $outputImage = 'watermark.png';
-        $output      = outputDir($outputDir . '/' . $outputImage);
+        $output      = Talon::settings()->outputPath($outputDir . '/' . $outputImage);
         $offsetX     = 10;
         $offsetY     = 10;
         $opacity     = 50;
@@ -95,7 +94,7 @@ final class WatermarkTest extends AbstractUnitTestCase
               ->save($output)
         ;
 
-        $this->assertFileExists(outputDir($outputDir) . $outputImage);
+        $this->assertFileExists(Talon::settings()->outputPath($outputDir) . $outputImage);
 
         $this->assertTrue(
             $this->checkImageHash($output, $hash)
@@ -113,16 +112,16 @@ final class WatermarkTest extends AbstractUnitTestCase
         $this->checkJpegSupport();
 
         $image = new Gd(
-            supportDir('assets/images/example-jpg.jpg')
+            Talon::settings()->supportPath('assets/images/example-jpg.jpg')
         );
 
         $watermark = new Gd(
-            supportDir('assets/images/example-png.png')
+            Talon::settings()->supportPath('assets/images/example-png.png')
         );
 
         $outputDir   = 'tests/image/gd/';
         $outputImage = 'watermark.jpg';
-        $output      = outputDir($outputDir . '/' . $outputImage);
+        $output      = Talon::settings()->outputPath($outputDir . '/' . $outputImage);
         $offsetX     = 200;
         $offsetY     = 200;
 
@@ -132,7 +131,7 @@ final class WatermarkTest extends AbstractUnitTestCase
               ->save($output)
         ;
 
-        $this->assertFileExists(outputDir($outputDir) . $outputImage);
+        $this->assertFileExists(Talon::settings()->outputPath($outputDir) . $outputImage);
 
         $this->assertTrue(
             $this->checkImageHash($output, $hash)
@@ -148,17 +147,17 @@ final class WatermarkTest extends AbstractUnitTestCase
     public function testImageAdapterGdWatermarkPngInsidePng(): void
     {
         $image = new Gd(
-            supportDir('assets/images/example-png.png')
+            Talon::settings()->supportPath('assets/images/example-png.png')
         );
 
         $watermark = new Gd(
-            supportDir('assets/images/example-png.png')
+            Talon::settings()->supportPath('assets/images/example-png.png')
         );
         $watermark->resize(null, 30, Enum::HEIGHT);
 
         $outputDir   = 'tests/image/gd/';
         $outputImage = 'watermark.png';
-        $output      = outputDir($outputDir . '/' . $outputImage);
+        $output      = Talon::settings()->outputPath($outputDir . '/' . $outputImage);
         $offsetX     = 20;
         $offsetY     = 20;
         $opacity     = 75;
@@ -169,7 +168,7 @@ final class WatermarkTest extends AbstractUnitTestCase
               ->save($output)
         ;
 
-        $this->assertFileExists(outputDir($outputDir) . $outputImage);
+        $this->assertFileExists(Talon::settings()->outputPath($outputDir) . $outputImage);
 
         $this->assertTrue(
             $this->checkImageHash($output, $hash)

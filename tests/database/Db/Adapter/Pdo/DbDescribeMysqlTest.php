@@ -14,11 +14,10 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Database\Db\Adapter\Pdo;
 
 use Phalcon\Db\Column;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\Group;
-
-use function env;
 
 final class DbDescribeMysqlTest extends AbstractDatabaseTestCase
 {
@@ -49,7 +48,13 @@ final class DbDescribeMysqlTest extends AbstractDatabaseTestCase
         $expected = $this->getExpectedColumnsMysql();
 
         $this->assertEquals($expected, $db->describeColumns('personas'));
-        $this->assertEquals($expected, $db->describeColumns('personas', env('DATA_MYSQL_NAME')));
+        $this->assertEquals(
+            $expected,
+            $db->describeColumns(
+                'personas',
+                Talon::settings()->getDatabaseOptions('mysql')['dbname']
+            )
+        );
     }
 
     /**
@@ -100,7 +105,12 @@ final class DbDescribeMysqlTest extends AbstractDatabaseTestCase
 
         $this->assertTrue($db->tableExists('co_invoices'));
         $this->assertFalse($db->tableExists('noexist'));
-        $this->assertTrue($db->tableExists('co_invoices', env('DATA_MYSQL_NAME')));
+        $this->assertTrue(
+            $db->tableExists(
+                'co_invoices',
+                Talon::settings()->getDatabaseOptions('mysql')['dbname']
+            )
+        );
         $this->assertFalse($db->tableExists('co_invoices', 'test'));
     }
 

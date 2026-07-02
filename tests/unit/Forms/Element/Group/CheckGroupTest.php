@@ -14,7 +14,7 @@ namespace Phalcon\Tests\Unit\Forms\Element\Group;
 use Phalcon\Forms\Element\CheckGroup;
 use Phalcon\Html\Escaper;
 use Phalcon\Html\TagFactory;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class CheckGroupTest extends AbstractUnitTestCase
 {

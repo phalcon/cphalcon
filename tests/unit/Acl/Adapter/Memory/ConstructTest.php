@@ -19,9 +19,9 @@ use Phalcon\Acl\Component;
 use Phalcon\Acl\Enum;
 use Phalcon\Acl\Role;
 use Phalcon\Contracts\Acl\Adapter\Adapter;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 
-use function cacheDir;
 use function file_get_contents;
 use function file_put_contents;
 use function serialize;
@@ -235,11 +235,13 @@ final class ConstructTest extends AbstractUnitTestCase
         $acl->allow('Administrators', 'Customers', 'search');
         $acl->deny('Administrators', 'Customers', 'destroy');
 
-        file_put_contents(cacheDir($filename), serialize($acl));
+        $cacheFile = Talon::settings()->outputPath('tests/cache/' . $filename);
+
+        file_put_contents($cacheFile, serialize($acl));
 
         $acl      = null;
-        $contents = file_get_contents(cacheDir($filename));
-        $this->safeDeleteFile(cacheDir($filename));
+        $contents = file_get_contents($cacheFile);
+        $this->safeDeleteFile($cacheFile);
 
         $acl = unserialize($contents);
 

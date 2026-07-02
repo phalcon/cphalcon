@@ -14,7 +14,7 @@ namespace Phalcon\Tests\Unit\Html\Helper\Input;
 use Phalcon\Html\Escaper;
 use Phalcon\Html\Helper\Doctype;
 use Phalcon\Html\Helper\Input\Select;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class SelectStrictAndPlaceholderTest extends AbstractUnitTestCase
 {

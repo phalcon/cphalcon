@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Annotations\AnnotationsFactory;
 
 use Phalcon\Annotations\Adapter\Apcu;
 use Phalcon\Annotations\AnnotationsFactory;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Traits\FactoryTrait;
 
 final class LoadTest extends AbstractUnitTestCase

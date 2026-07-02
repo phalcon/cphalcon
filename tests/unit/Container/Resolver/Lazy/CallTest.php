@@ -6,7 +6,7 @@ namespace Phalcon\Tests\Unit\Container\Resolver\Lazy;
 
 use Phalcon\Container\Resolver\Lazy\Call;
 use Phalcon\Container\Resolver\Lazy\CallableNew;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Container\Resolver\Fake\FakeNameContainer;
 use stdClass;
 

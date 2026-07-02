@@ -15,7 +15,8 @@ namespace Phalcon\Tests\Unit\Mvc\View;
 
 use Phalcon\Di\Di;
 use Phalcon\Mvc\View;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\Support\Traits\DiTrait;
 
 class PickTest extends AbstractUnitTestCase
@@ -32,7 +33,7 @@ class PickTest extends AbstractUnitTestCase
         $view      = new View();
 
         $view->setViewsDir(
-            $this->getDirSeparator(supportDir('assets/views'))
+            $this->getDirSeparator(Talon::settings()->supportPath('assets/views'))
         );
 
         $view->setDI($container);

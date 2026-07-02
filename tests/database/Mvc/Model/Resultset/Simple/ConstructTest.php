@@ -17,13 +17,12 @@ use PDO;
 use Phalcon\Mvc\Model\Resultset\Simple;
 use Phalcon\Storage\Exception;
 use Phalcon\Support\Helper\Str\DirFromFile;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\Group;
-
-use function cacheModelsDir;
 
 #[Group('phql')]
 final class ConstructTest extends AbstractDatabaseTestCase
@@ -45,7 +44,7 @@ final class ConstructTest extends AbstractDatabaseTestCase
         $this->setDiService('modelsCacheStream');
 
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $migration  = new InvoicesMigration($connection);
         $migration->insert(1, 1, 0, 'Invoice One');
         $migration->insert(2, 1, 0, 'Invoice Two');
@@ -77,7 +76,7 @@ final class ConstructTest extends AbstractDatabaseTestCase
         $manager = $this->getService('modelsManager');
 
         $dirFromFile = new DirFromFile();
-        $filePath    = cacheModelsDir() . 'ph-strm/' . $dirFromFile('test-resultset');
+        $filePath    = Talon::settings()->outputPath('tests/cache/models/ph-strm/' . $dirFromFile('test-resultset'));
 
         $invoices = $manager->executeQuery('SELECT * FROM ' . Invoices::class);
 
@@ -119,7 +118,7 @@ final class ConstructTest extends AbstractDatabaseTestCase
         $manager = $this->getService('modelsManager');
 
         $dirFromFile = new DirFromFile();
-        $filePath    = cacheModelsDir() . 'ph-strm/' . $dirFromFile('test-resultset');
+        $filePath    = Talon::settings()->outputPath('tests/cache/models/ph-strm/' . $dirFromFile('test-resultset'));
 
         $invoices = $manager->executeQuery('SELECT inv_id FROM ' . Invoices::class);
 
@@ -156,7 +155,7 @@ final class ConstructTest extends AbstractDatabaseTestCase
     private function cleanCacheKey(string $key): void
     {
         $dirFromFile = new DirFromFile();
-        $filePath    = cacheModelsDir() . 'ph-strm/' . $dirFromFile($key) . $key;
+        $filePath    = Talon::settings()->outputPath('tests/cache/models/ph-strm/' . $dirFromFile($key) . $key);
 
         $this->safeDeleteFile($filePath);
     }

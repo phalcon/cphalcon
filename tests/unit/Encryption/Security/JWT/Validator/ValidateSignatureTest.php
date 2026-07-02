@@ -14,7 +14,7 @@ namespace Phalcon\Tests\Unit\Encryption\Security\JWT\Validator;
 use Phalcon\Encryption\Security\JWT\Builder;
 use Phalcon\Encryption\Security\JWT\Signer\Hmac;
 use Phalcon\Encryption\Security\JWT\Validator;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Encryption\Fake\JWTTrait;
 
 final class ValidateSignatureTest extends AbstractUnitTestCase

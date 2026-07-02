@@ -79,7 +79,7 @@ final class GetLastInsertIdTest extends AbstractDatabaseTestCase
         $connection = self::getDataMapperConnection();
         $factory    = new QueryFactory();
         $insert     = $factory->newInsert($connection);
-        (new InvoicesMigration(self::getConnection()));
+        (new InvoicesMigration(self::getPdoConnection()));
 
         $name = uniqid('inv-');
         $insert

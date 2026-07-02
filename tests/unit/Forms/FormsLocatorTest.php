@@ -16,7 +16,7 @@ use Phalcon\Forms\Exception;
 use Phalcon\Forms\Form;
 use Phalcon\Forms\FormsLocator;
 use Phalcon\Forms\Loader\ArrayLoader;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Forms\Fake\FakeCountingFormFactory;
 use Phalcon\Tests\Unit\Forms\Fake\FakeLoginFormFactory;
 use Phalcon\Tests\Unit\Forms\Fake\FakeRegisterFormFactory;

@@ -43,7 +43,7 @@ final class GetHasManyRecordsTest extends AbstractDatabaseTestCase
      */
     public function testMvcModelManagerGetHasManyRecords(): void
     {
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
 
         $artistsMigration = new ArtistsMigration($connection);
         $artistsMigration->insert(1, 'Artist 1');

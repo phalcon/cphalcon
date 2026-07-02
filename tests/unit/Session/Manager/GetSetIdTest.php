@@ -16,7 +16,7 @@ namespace Phalcon\Tests\Unit\Session\Manager;
 use Phalcon\Session\Exception;
 use Phalcon\Session\Exceptions\InvalidSessionId;
 use Phalcon\Session\Manager;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
 
 use function uniqid;

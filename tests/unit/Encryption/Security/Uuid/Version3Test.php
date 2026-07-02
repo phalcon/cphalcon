@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Encryption\Security\Uuid;
 
 use Phalcon\Encryption\Security\Uuid\UuidInterface;
 use Phalcon\Encryption\Security\Uuid\Version3;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class Version3Test extends AbstractUnitTestCase
 {

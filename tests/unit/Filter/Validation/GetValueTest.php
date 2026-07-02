@@ -19,7 +19,7 @@ use Phalcon\Filter\Validation;
 use Phalcon\Filter\Validation\Exception as ValidationException;
 use Phalcon\Filter\Validation\Validator\Alpha;
 use Phalcon\Filter\Validation\Validator\Email;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use Phalcon\Tests\Unit\Filter\Validation\Fake\FakeValueAttribute;
 use Phalcon\Tests\Unit\Filter\Validation\Fake\FakeValueMethod;

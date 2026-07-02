@@ -40,7 +40,7 @@ final class InsertAsDictTest extends AbstractDatabaseTestCase
     #[Group('sqlite')]
     public function testDbAdapterPdoInsertAsDict(): void
     {
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $db         = $this->container->get('db');
 
         new InvoicesMigration($connection);

@@ -15,7 +15,8 @@ namespace Phalcon\Tests\Unit\Mvc\Router\Refactor;
 
 use Phalcon\Mvc\Router\Annotations;
 use Phalcon\Mvc\Router\Route;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\BackupGlobals;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -173,7 +174,7 @@ final class AnnotationsTest extends AbstractUnitTestCase
      */
     public function testMvcRouterAnnotationsRouterFullResourcesNamespaced(): void
     {
-        require_once supportDir('Controllers/NamespacedAnnotationController.php');
+        require_once Talon::settings()->supportPath('Controllers/NamespacedAnnotationController.php');
 
         $container = $this->getDi();
 

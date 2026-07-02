@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Cli\Dispatcher;
 
 use Phalcon\Cli\Dispatcher;
 use Phalcon\Cli\Dispatcher\Exception;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
 
 final class GetSetHandlerSuffixTest extends AbstractUnitTestCase

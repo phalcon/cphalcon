@@ -16,7 +16,7 @@ namespace Phalcon\Tests\Unit\Di\Service;
 use Phalcon\Di\Service;
 use Phalcon\Di\ServiceInterface;
 use Phalcon\Html\Escaper;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class ConstructTest extends AbstractUnitTestCase
 {

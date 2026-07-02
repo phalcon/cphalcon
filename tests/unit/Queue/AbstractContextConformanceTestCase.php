@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Queue;
 
 use Phalcon\Contracts\Queue\Context as ContextInterface;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 /**
  * Cross-adapter conformance suite. Every adapter that ships a Context must
@@ -125,23 +125,6 @@ abstract class AbstractContextConformanceTestCase extends AbstractUnitTestCase
         $this->assertNull($consumer->receiveNoWait());
     }
 
-    public function testRejectWithRequeuePutsMessageBack(): void
-    {
-        $context  = $this->createContext();
-        $queue    = $context->createQueue('requeue');
-
-        $context->createProducer()->send($queue, $context->createMessage('again'));
-
-        $consumer = $context->createConsumer($queue);
-        $message  = $consumer->receiveNoWait();
-
-        $this->assertNotNull($message);
-
-        $consumer->reject($message, true);
-
-        $this->assertSame('again', $consumer->receiveNoWait()->getBody());
-    }
-
     public function testRejectWithoutRequeueDiscardsTheMessage(): void
     {
         $context = $this->createContext();
@@ -157,6 +140,23 @@ abstract class AbstractContextConformanceTestCase extends AbstractUnitTestCase
         $consumer->reject($message, false);
 
         $this->assertNull($consumer->receiveNoWait());
+    }
+
+    public function testRejectWithRequeuePutsMessageBack(): void
+    {
+        $context  = $this->createContext();
+        $queue    = $context->createQueue('requeue');
+
+        $context->createProducer()->send($queue, $context->createMessage('again'));
+
+        $consumer = $context->createConsumer($queue);
+        $message  = $consumer->receiveNoWait();
+
+        $this->assertNotNull($message);
+
+        $consumer->reject($message, true);
+
+        $this->assertSame('again', $consumer->receiveNoWait()->getBody());
     }
 
     public function testSendThenReceiveReturnsTheMessage(): void

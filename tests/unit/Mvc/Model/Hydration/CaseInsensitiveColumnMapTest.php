@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Mvc\Model\Hydration;
 
 use Phalcon\Mvc\Model\Hydration\CaseInsensitiveColumnMap;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class CaseInsensitiveColumnMapTest extends AbstractUnitTestCase
 {

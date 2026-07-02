@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Support\Version;
 
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Support\Fake\VersionTrait;
 use Phalcon\Tests\Unit\Support\Version\Fake\FakeVersionAlpha;
 use Phalcon\Tests\Unit\Support\Version\Fake\FakeVersionBeta;

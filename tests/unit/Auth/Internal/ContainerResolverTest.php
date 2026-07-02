@@ -18,7 +18,7 @@ use Phalcon\Auth\Internal\ContainerResolver;
 use Phalcon\Container\Container;
 use Phalcon\Container\Exceptions\Exception as ContainerException;
 use Phalcon\Di\Di;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Auth\Fake\FakeRequest;
 use stdClass;
 use TypeError;

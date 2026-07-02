@@ -20,7 +20,7 @@ use Phalcon\Acl\Component;
 use Phalcon\Acl\Enum;
 use Phalcon\Acl\Exception as AclException;
 use Phalcon\Acl\Role;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Acl\Fake\Adapter\FakeMemory;
 use Phalcon\Tests\Unit\Acl\Fake\TestComponentAware;
 use Phalcon\Tests\Unit\Acl\Fake\TestRoleAware;

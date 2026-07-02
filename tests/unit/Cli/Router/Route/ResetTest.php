@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Cli\Router\Route;
 
 use Phalcon\Cli\Router\Route;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class ResetTest extends AbstractUnitTestCase
 {

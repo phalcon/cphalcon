@@ -14,7 +14,7 @@ namespace Phalcon\Tests\Unit\Cli\Console;
 use Phalcon\Cli\Console as CliConsole;
 use Phalcon\Di\FactoryDefault\Cli as DiFactoryDefault;
 use Phalcon\Events\Manager as EventsManager;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class GetSetEventsManagerTest extends AbstractUnitTestCase
 {

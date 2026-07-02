@@ -26,7 +26,7 @@ use Phalcon\Auth\Exception;
 use Phalcon\Container\Container;
 use Phalcon\Contracts\Auth\Access\Access;
 use Phalcon\Di\Di;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Auth\Fake\FakeAccess;
 use stdClass;
 

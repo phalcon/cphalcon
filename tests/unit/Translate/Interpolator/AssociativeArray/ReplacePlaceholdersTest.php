@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Translate\Interpolator\AssociativeArray;
 
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Translate\Interpolator\AssociativeArray;
 
 final class ReplacePlaceholdersTest extends AbstractUnitTestCase

@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Filter\Sanitize;
 
 use Phalcon\Filter\Sanitize\BoolVal;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class BoolValTest extends AbstractUnitTestCase
 {

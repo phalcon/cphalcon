@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Support\Debug\Dump;
 
 use Phalcon\Di\Di;
 use Phalcon\Support\Debug\Dump;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Support\Dump\ClassProperties;
 use Phalcon\Tests\Support\Support\Dump\SampleMethods;
 

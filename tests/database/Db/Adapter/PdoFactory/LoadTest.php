@@ -18,6 +18,7 @@ use Phalcon\Db\Adapter\Pdo\Mysql;
 use Phalcon\Db\Adapter\Pdo\Postgresql;
 use Phalcon\Db\Adapter\Pdo\Sqlite;
 use Phalcon\Db\Adapter\PdoFactory;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Traits\FactoryTrait;
 use PHPUnit\Framework\Attributes\Group;
@@ -113,13 +114,7 @@ final class LoadTest extends AbstractDatabaseTestCase
     {
         return [
             'adapter' => 'postgresql',
-            'options' => [
-                'host'     => env('DATA_POSTGRES_HOST'),
-                'username' => env('DATA_POSTGRES_USER'),
-                'password' => env('DATA_POSTGRES_PASS'),
-                'dbname'   => env('DATA_POSTGRES_NAME'),
-                'port'     => (int) env('DATA_POSTGRES_PORT'),
-            ],
+            'options' => Talon::settings()->getDatabaseOptions('pgsql'),
         ];
     }
 
@@ -127,9 +122,7 @@ final class LoadTest extends AbstractDatabaseTestCase
     {
         return [
             'adapter' => 'sqlite',
-            'options' => [
-                'dbname' => env('DATA_SQLITE_NAME'),
-            ],
+            'options' => Talon::settings()->getDatabaseOptions('sqlite'),
         ];
     }
 

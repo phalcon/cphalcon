@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Mvc\View\Simple;
 
 use Phalcon\Mvc\View\Simple;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 class GetSetParamsToViewTest extends AbstractUnitTestCase
 {

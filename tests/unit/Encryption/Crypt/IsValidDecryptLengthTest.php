@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Encryption\Crypt;
 
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Encryption\Fake\Crypt\FakeCryptOpensslCipherIvLength;
 
 final class IsValidDecryptLengthTest extends AbstractUnitTestCase

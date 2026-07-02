@@ -36,7 +36,7 @@ final class SoftDeleteTest extends AbstractDatabaseTestCase
         $this->setNewFactoryDefault();
         $this->setDatabase();
 
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         (new InvoicesMigration($connection));
     }
 
@@ -113,7 +113,7 @@ final class SoftDeleteTest extends AbstractDatabaseTestCase
     #[Group('sqlite')]
     public function testMvcModelBehaviorSoftDeleteDoesNotCreateRelatedBelongsToRecord(): void
     {
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         (new CustomersMigration($connection));
 
         $customer                  = new Customers();

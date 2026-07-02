@@ -64,7 +64,7 @@ final class GetIdentityFieldTest extends AbstractDatabaseTestCase
     ): void {
         $adapter = $this->newService($service);
         $adapter->setDi($this->container);
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
 
         $adapter->reset();
         $this->assertTrue($adapter->isEmpty());

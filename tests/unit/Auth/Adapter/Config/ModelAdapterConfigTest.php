@@ -18,7 +18,7 @@ namespace Phalcon\Tests\Unit\Auth\Adapter\Config;
 
 use Phalcon\Auth\Adapter\Config\ModelAdapterConfig;
 use Phalcon\Auth\Exception;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class ModelAdapterConfigTest extends AbstractUnitTestCase
 {

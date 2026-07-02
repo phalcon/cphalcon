@@ -14,12 +14,11 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Assets\Asset;
 
 use Phalcon\Assets\Asset;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\Unit\Assets\Fake\AssetsTrait;
 use Phalcon\Tests\Unit\Assets\Fake\FakeAssetFileExistsPositive;
 use PHPUnit\Framework\Attributes\DataProvider;
-
-use function supportDir;
 
 final class GetRealTargetPathTest extends AbstractUnitTestCase
 {
@@ -51,8 +50,8 @@ final class GetRealTargetPathTest extends AbstractUnitTestCase
         $file  = 'assets/assets/1198.css';
         $asset = new FakeAssetFileExistsPositive('css', $file);
 
-        $expected = supportDir($file);
-        $actual   = $asset->getRealTargetPath(supportDir());
+        $expected = Talon::settings()->supportPath($file);
+        $actual   = $asset->getRealTargetPath(Talon::settings()->supportPath() . '/');
         $this->assertSame($expected, $actual);
     }
 
@@ -65,7 +64,7 @@ final class GetRealTargetPathTest extends AbstractUnitTestCase
         $file  = 'assets/assets/nonexistent_file.css';
         $asset = new FakeAssetFileExistsPositive('css', $file);
 
-        $actual = $asset->getRealTargetPath(supportDir());
+        $actual = $asset->getRealTargetPath(Talon::settings()->supportPath() . '/');
         $this->assertSame('', $actual);
     }
 
@@ -80,7 +79,7 @@ final class GetRealTargetPathTest extends AbstractUnitTestCase
         $asset  = new Asset('css', $path);
         $asset->setTargetPath($target);
 
-        $actual = $asset->getRealTargetPath(supportDir());
+        $actual = $asset->getRealTargetPath(Talon::settings()->supportPath() . '/');
         $this->assertStringContainsString('1198.css', $actual);
     }
 }

@@ -17,7 +17,7 @@ use Phalcon\Events\AbstractEventsAware;
 
 class ComponentTwo extends AbstractEventsAware
 {
-    public function doAction()
+    public function doAction(): void
     {
         $this->eventsManager->fire('another:beforeAction', $this);
         $this->eventsManager->fire('another:afterAction', $this);

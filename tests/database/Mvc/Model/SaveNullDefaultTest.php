@@ -28,7 +28,7 @@ final class SaveNullDefaultTest extends AbstractDatabaseTestCase
         $this->setNewFactoryDefault();
         $this->setDatabase();
 
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         new PersonasMigration($connection);
     }
 

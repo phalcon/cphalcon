@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Application;
 
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Events\Manager;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Application\Fake\FakeApplication;
 
 final class GetSetEventsManagerTest extends AbstractUnitTestCase

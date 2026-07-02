@@ -13,7 +13,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\View;
 
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use Phalcon\Tests\Unit\Mvc\Fake\ViewTrait;
 
@@ -29,8 +30,8 @@ class RenderTest extends AbstractUnitTestCase
         $view = $this->getService('view');
         $view->setViewsDir(
             [
-                supportDir('assets/views'),
-                supportDir('assets/views-alt'),
+                Talon::settings()->supportPath('assets/views'),
+                Talon::settings()->supportPath('assets/views-alt'),
             ]
         );
 

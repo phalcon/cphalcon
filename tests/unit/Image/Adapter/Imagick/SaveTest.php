@@ -14,10 +14,9 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Image\Adapter\Imagick;
 
 use Phalcon\Image\Adapter\Imagick;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\Unit\Image\Fake\ImagickTrait;
-
-use function outputDir;
 
 final class SaveTest extends AbstractUnitTestCase
 {
@@ -29,12 +28,12 @@ final class SaveTest extends AbstractUnitTestCase
      */
     public function testImageAdapterImagickSave(): void
     {
-        $image = new Imagick(outputDir('tests/image/imagick/new.jpg'), 100, 100);
+        $image = new Imagick(Talon::settings()->outputPath('tests/image/imagick/new.jpg'), 100, 100);
         $image->setResourceLimit(6, 1);
         $image->save();
 
         $this->assertFileExists(
-            outputDir('tests/image/imagick/new.jpg')
+            Talon::settings()->outputPath('tests/image/imagick/new.jpg')
         );
         $this->safeDeleteFile('new.jpg');
     }

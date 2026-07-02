@@ -33,7 +33,7 @@ final class GetSetQueryBuilderTest extends AbstractDatabaseTestCase
         $this->setDatabase();
 
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         (new InvoicesMigration($connection));
     }
 

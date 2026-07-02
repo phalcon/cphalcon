@@ -17,11 +17,11 @@ use Phalcon\Config\Adapter\Ini;
 use Phalcon\Config\Adapter\Yaml;
 use Phalcon\Config\ConfigFactory;
 use Phalcon\Config\Exception;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\Support\Traits\FactoryTrait;
 
 use function hash;
-use function supportDir;
 
 use const INI_SCANNER_NORMAL;
 
@@ -65,7 +65,7 @@ final class LoadTest extends AbstractUnitTestCase
         $this->assertInstanceOf($class, $ini);
 
         //Issue 14756
-        $configFile = supportDir('assets/config/config-with.in-file.name.ini');
+        $configFile = Talon::settings()->supportPath('assets/config/config-with.in-file.name.ini');
         $ini        = new Ini($configFile, INI_SCANNER_NORMAL);
         $this->assertInstanceOf($class, $ini);
 
@@ -89,7 +89,7 @@ final class LoadTest extends AbstractUnitTestCase
         );
 
         $config = [
-            'filePath' => supportDir('assets/config/config.ini'),
+            'filePath' => Talon::settings()->supportPath('assets/config/config.ini'),
         ];
         (new ConfigFactory())->load($config);
     }
@@ -148,14 +148,14 @@ final class LoadTest extends AbstractUnitTestCase
     {
         $factory = new ConfigFactory();
 
-        $configFile1 = supportDir('assets/config/config.php');
+        $configFile1 = Talon::settings()->supportPath('assets/config/config.php');
         $config      = $factory->load($configFile1);
 
         $expected = "/phalcon/";
         $actual   = $config->get('phalcon')->baseUri;
         $this->assertSame($expected, $actual);
 
-        $configFile2 = supportDir('assets/config/config-2.php');
+        $configFile2 = Talon::settings()->supportPath('assets/config/config-2.php');
         $config2     = $factory->load($configFile2);
 
         $expected = "/phalcon4/";
@@ -173,7 +173,7 @@ final class LoadTest extends AbstractUnitTestCase
         $factory = new ConfigFactory();
         $config  = [
             'adapter'   => 'yaml',
-            'filePath'  => supportDir('assets/config/callbacks.yml'),
+            'filePath'  => Talon::settings()->supportPath('assets/config/callbacks.yml'),
             'callbacks' => [
                 '!decrypt' => function ($value) {
                     return hash('sha256', $value);

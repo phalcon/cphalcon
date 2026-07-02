@@ -17,7 +17,7 @@ use Phalcon\Di\Exception;
 use Phalcon\Di\FactoryDefault\Cli as Di;
 use Phalcon\Di\Service;
 use Phalcon\Html\Escaper;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class GetTest extends AbstractUnitTestCase
 {

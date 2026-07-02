@@ -16,10 +16,10 @@ namespace Phalcon\Tests\Unit\Logger\Logger;
 use Phalcon\Logger\Adapter\Stream;
 use Phalcon\Logger\Enum;
 use Phalcon\Logger\Logger;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 
 use function file_get_contents;
-use function logsDir;
 
 final class TraceTest extends AbstractUnitTestCase
 {
@@ -30,7 +30,7 @@ final class TraceTest extends AbstractUnitTestCase
     public function testLoggerTraceLogsWhenLevelEnabled(): void
     {
         $fileName   = $this->getNewFileName('log', 'log');
-        $outputPath = logsDir($fileName);
+        $outputPath = Talon::settings()->outputPath('tests/logs/' . $fileName);
         $adapter    = new Stream($outputPath);
 
         $logger = new Logger(
@@ -57,7 +57,7 @@ final class TraceTest extends AbstractUnitTestCase
     public function testLoggerTraceSuppressedAtDefaultLevel(): void
     {
         $fileName   = $this->getNewFileName('log', 'log');
-        $outputPath = logsDir($fileName);
+        $outputPath = Talon::settings()->outputPath('tests/logs/' . $fileName);
         $adapter    = new Stream($outputPath);
 
         $logger = new Logger(

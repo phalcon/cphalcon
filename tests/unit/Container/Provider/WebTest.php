@@ -71,7 +71,7 @@ use Phalcon\Mvc\Url\UrlInterface;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Support\HelperFactory;
 use Phalcon\Support\Settings;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class WebTest extends AbstractUnitTestCase
 {

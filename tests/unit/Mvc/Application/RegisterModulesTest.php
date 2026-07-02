@@ -20,7 +20,8 @@ use Phalcon\Mvc\Application;
 use Phalcon\Mvc\Application\Exception;
 use Phalcon\Mvc\Router;
 use Phalcon\Mvc\View;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\Support\Modules\Backend\Module as BackendModule;
 use Phalcon\Tests\Support\Modules\Frontend\Module as FrontendModule;
 
@@ -74,7 +75,7 @@ final class RegisterModulesTest extends AbstractUnitTestCase
                         'view',
                         function () use ($view) {
                             $view->setViewsDir(
-                                supportDir('Modules/Frontend/views/')
+                                Talon::settings()->supportPath('Modules/Frontend/views/')
                             );
 
                             return $view;
@@ -86,7 +87,7 @@ final class RegisterModulesTest extends AbstractUnitTestCase
                         'view',
                         function () use ($view) {
                             $view->setViewsDir(
-                                supportDir('Modules/Backend/views/')
+                                Talon::settings()->supportPath('Modules/Backend/views/')
                             );
 
                             return $view;
@@ -134,11 +135,11 @@ final class RegisterModulesTest extends AbstractUnitTestCase
         $application->registerModules(
             [
                 'frontend' => [
-                    'path'      => supportDir('Modules/Frontend/Module.php'),
+                    'path'      => Talon::settings()->supportPath('Modules/Frontend/Module.php'),
                     'className' => FrontendModule::class,
                 ],
                 'backend'  => [
-                    'path'      => supportDir('Modules/Backend/Module.php'),
+                    'path'      => Talon::settings()->supportPath('Modules/Backend/Module.php'),
                     'className' => BackendModule::class,
                 ],
             ]
@@ -186,7 +187,7 @@ final class RegisterModulesTest extends AbstractUnitTestCase
         $application->registerModules(
             [
                 'frontend' => [
-                    'path'      => supportDir('not-a-real-file.php'),
+                    'path'      => Talon::settings()->supportPath('not-a-real-file.php'),
                     'className' => FrontendModule::class,
                 ],
             ]
@@ -197,7 +198,7 @@ final class RegisterModulesTest extends AbstractUnitTestCase
         $this->expectException(Exception::class);
         $this->expectExceptionMessage(
             "Module definition path '"
-            . supportDir('not-a-real-file.php')
+            . Talon::settings()->supportPath('not-a-real-file.php')
             . "' does not exist"
         );
 

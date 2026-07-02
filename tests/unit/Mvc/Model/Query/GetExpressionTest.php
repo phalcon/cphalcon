@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Mvc\Model\Query;
 
 use Phalcon\Mvc\Model\Query;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use ReflectionClass;
 
 final class GetExpressionTest extends AbstractUnitTestCase

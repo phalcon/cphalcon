@@ -12,7 +12,7 @@
 namespace Phalcon\Tests\Unit\Events;
 
 use Phalcon\Events\Manager;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Events\Fake\ComponentFireManager;
 use Phalcon\Tests\Unit\Events\Fake\ComponentWithEvents;
 

@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Dispatcher;
 
 use Phalcon\Events\Manager;
 use Phalcon\Mvc\Dispatcher;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class GetSetEventsManagerTest extends AbstractUnitTestCase
 {

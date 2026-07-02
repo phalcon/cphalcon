@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Annotations\Adapter\Memory;
 
 use Phalcon\Annotations\Adapter\AdapterInterface;
 use Phalcon\Annotations\Adapter\Memory;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class ConstructTest extends AbstractUnitTestCase
 {

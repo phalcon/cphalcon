@@ -16,7 +16,7 @@ namespace Phalcon\Tests\Unit\Mvc\Application;
 use Phalcon\Di\Di;
 use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Mvc\Application;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 class SetEventsManagerTest extends AbstractUnitTestCase
 {

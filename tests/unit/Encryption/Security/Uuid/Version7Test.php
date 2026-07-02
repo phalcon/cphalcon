@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Encryption\Security\Uuid;
 
 use Phalcon\Encryption\Security\Uuid\Version7;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class Version7Test extends AbstractUnitTestCase
 {

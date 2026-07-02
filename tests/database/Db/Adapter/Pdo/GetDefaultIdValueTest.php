@@ -18,8 +18,6 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\Group;
 
-use function env;
-
 final class GetDefaultIdValueTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -50,7 +48,7 @@ final class GetDefaultIdValueTest extends AbstractDatabaseTestCase
             'mysql'  => 'null',
             'pgsql'  => 'DEFAULT',
             'sqlite' => 'null',
-        ][env('driver')];
+        ][self::getDatabaseDriver()];
 
         $this->assertSame($expected, $value->getValue());
     }

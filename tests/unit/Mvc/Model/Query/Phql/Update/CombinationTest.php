@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Mvc\Model\Query\Phql\Update;
 
 use Phalcon\Mvc\Model\Query\Lang;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class CombinationTest extends AbstractUnitTestCase
 {

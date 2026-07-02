@@ -17,7 +17,7 @@ use Phalcon\Html\Escaper;
 use Phalcon\Html\Helper\Breadcrumbs;
 use Phalcon\Html\TagFactory;
 use Phalcon\Mvc\Url;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class GetSetPrefixTest extends AbstractUnitTestCase
 {

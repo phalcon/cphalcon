@@ -21,7 +21,7 @@ use Phalcon\Queue\Adapter\Memory\MemoryConnectionFactory;
 use Phalcon\Queue\Consumer\QueueConsumer;
 use Phalcon\Queue\Consumer\Worker;
 use Phalcon\Queue\Consumer\WorkerOptions;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use RuntimeException;
 
 final class QueueConsumerTest extends AbstractUnitTestCase

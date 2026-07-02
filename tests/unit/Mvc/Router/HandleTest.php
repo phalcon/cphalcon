@@ -18,7 +18,7 @@ use Phalcon\Http\Request;
 use Phalcon\Mvc\Router;
 use Phalcon\Mvc\Router\Group;
 use Phalcon\Mvc\Router\Route;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use Phalcon\Tests\Unit\Mvc\Fake\RouterTrait;
 use PHPUnit\Framework\Attributes\BackupGlobals;

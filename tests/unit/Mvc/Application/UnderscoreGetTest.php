@@ -16,7 +16,7 @@ namespace Phalcon\Tests\Unit\Mvc\Application;
 use Phalcon\Di\Di;
 use Phalcon\Http\Request;
 use Phalcon\Mvc\Application;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 class UnderscoreGetTest extends AbstractUnitTestCase
 {

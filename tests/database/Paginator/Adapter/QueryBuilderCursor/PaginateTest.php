@@ -35,7 +35,7 @@ final class PaginateTest extends AbstractDatabaseTestCase
         $this->setDatabase();
 
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         (new InvoicesMigration($connection));
     }
 
@@ -92,7 +92,7 @@ final class PaginateTest extends AbstractDatabaseTestCase
     public function testPaginatorAdapterQuerybuilderCursorPaginateExactMultiple(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $migration  = new InvoicesMigration($connection);
         $invId      = ('sqlite' === self::getDriver()) ? 'null' : 'default';
 
@@ -139,7 +139,7 @@ final class PaginateTest extends AbstractDatabaseTestCase
     public function testPaginatorAdapterQuerybuilderCursorPaginateFirstPage(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $migration  = new InvoicesMigration($connection);
         $invId      = ('sqlite' === self::getDriver()) ? 'null' : 'default';
 
@@ -187,7 +187,7 @@ final class PaginateTest extends AbstractDatabaseTestCase
     public function testPaginatorAdapterQuerybuilderCursorPaginateForwardTraversal(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $migration  = new InvoicesMigration($connection);
         $invId      = ('sqlite' === self::getDriver()) ? 'null' : 'default';
 
@@ -261,7 +261,7 @@ final class PaginateTest extends AbstractDatabaseTestCase
     public function testPaginatorAdapterQuerybuilderCursorPaginateResetCursor(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $migration  = new InvoicesMigration($connection);
         $invId      = ('sqlite' === self::getDriver()) ? 'null' : 'default';
 

@@ -14,12 +14,12 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Session\Adapter;
 
 use Phalcon\Session\Adapter\Redis;
-use Phalcon\Tests\AbstractServicesTestCase;
+use Phalcon\Talon\PHPUnit\AbstractServicesTestCase;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use Phalcon\Tests\Unit\Session\Fake\Adapter\FakeStreamFileGetContents;
 
-use function cacheDir;
-use function getOptionsSessionStream;
+use function Phalcon\Tests\Support\Traits\getOptionsSessionStream;
 use function uniqid;
 
 final class ReadWriteTest extends AbstractServicesTestCase
@@ -141,7 +141,7 @@ final class ReadWriteTest extends AbstractServicesTestCase
         $actual = $adapter->read('test1');
         $this->assertEquals($value, $actual);
 
-        $this->safeDeleteFile(cacheDir('sessions/test1'));
+        $this->safeDeleteFile(Talon::settings()->outputPath('tests/cache/sessions/test1'));
     }
 
     /**
@@ -157,7 +157,7 @@ final class ReadWriteTest extends AbstractServicesTestCase
         $actual = $adapter->read('test1');
         $this->assertEmpty($actual);
 
-        $this->safeDeleteFile(cacheDir('sessions/test1'));
+        $this->safeDeleteFile(Talon::settings()->outputPath('tests/cache/sessions/test1'));
     }
 
     /**
@@ -170,7 +170,7 @@ final class ReadWriteTest extends AbstractServicesTestCase
         $value   = uniqid();
         $adapter->write('test1', $value);
 
-        $file = cacheDir('sessions/test1');
+        $file = Talon::settings()->outputPath('tests/cache/sessions/test1');
         $this->assertFileExists($file);
 
         $this->assertFileContentsContains($file, $value);

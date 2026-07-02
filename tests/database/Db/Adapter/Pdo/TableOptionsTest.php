@@ -18,8 +18,6 @@ use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\Group;
 
-use function env;
-
 final class TableOptionsTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -41,7 +39,7 @@ final class TableOptionsTest extends AbstractDatabaseTestCase
     #[Group('sqlite')]
     public function testDbAdapterPdoTableOptions(): void
     {
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $db         = $this->container->get('db');
 
         new InvoicesMigration($connection);
@@ -49,10 +47,10 @@ final class TableOptionsTest extends AbstractDatabaseTestCase
         $options = $db->tableOptions('co_invoices');
         $this->assertIsArray($options);
 
-        if (env('driver') === 'mysql') {
+        if (self::getDatabaseDriver() === 'mysql') {
             $this->assertNotEmpty($options);
             $this->assertArrayHasKey('engine', $options);
-        } elseif (env('driver') === 'pgsql') {
+        } elseif (self::getDatabaseDriver() === 'pgsql') {
             $this->assertSame(['table_comment' => null], $options);
         } else {
             $this->assertSame([], $options);

@@ -63,7 +63,7 @@ final class GetAttributesTest extends AbstractDatabaseTestCase
         string $service
     ): void {
         $adapter    = $this->newService($service);
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $adapter->setDi($this->container);
 
         $adapter->reset();

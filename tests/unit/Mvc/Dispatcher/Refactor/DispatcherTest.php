@@ -648,7 +648,7 @@ class DispatcherTest extends BaseDispatcher
     public function testMixingNamespaceForward(): void
     {
         // Temporarily load non-namespaced class
-        require_once __DIR__ . '/../Helper/DispatcherTestDefaultNoNamespaceController.php';
+        require_once dirname(__DIR__) . '/Helper/DispatcherTestDefaultNoNamespaceController.php';
 
         $dispatcher = $this->getDispatcher();
 
@@ -744,7 +744,7 @@ class DispatcherTest extends BaseDispatcher
     public function testNoNamespaces(): void
     {
         // Temporarily load non-namespaced class
-        require_once __DIR__ . '/../Helper/DispatcherTestDefaultNoNamespaceController.php';
+        require_once dirname(__DIR__) . '/Helper/DispatcherTestDefaultNoNamespaceController.php';
 
         $dispatcher = $this->getDispatcher();
 

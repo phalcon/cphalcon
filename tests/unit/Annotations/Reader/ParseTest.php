@@ -15,7 +15,8 @@ namespace Phalcon\Tests\Unit\Annotations\Reader;
 
 use Phalcon\Annotations\Exception;
 use Phalcon\Annotations\Reader;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use ReflectionException;
 
 use function dataDir;
@@ -32,7 +33,7 @@ final class ParseTest extends AbstractUnitTestCase
      */
     public function testAnnotationsReaderParse(): void
     {
-        $includeFile = supportDir('assets/Annotations/TestClass.php');
+        $includeFile = Talon::settings()->supportPath('assets/Annotations/TestClass.php');
 
         $this->assertFileExists($includeFile);
 
@@ -198,7 +199,7 @@ final class ParseTest extends AbstractUnitTestCase
      */
     public function testAnnotationsReaderParseInvalidAnnotation(): void
     {
-        $includeFile = supportDir('assets/Annotations/TestInvalid.php');
+        $includeFile = Talon::settings()->supportPath('assets/Annotations/TestInvalid.php');
 
         $this->assertFileExists($includeFile);
 

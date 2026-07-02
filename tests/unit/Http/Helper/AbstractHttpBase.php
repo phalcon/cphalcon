@@ -16,7 +16,7 @@ namespace Phalcon\Tests\Unit\Http\Helper;
 use Phalcon\Http\Cookie;
 use Phalcon\Http\Request;
 use Phalcon\Http\Response;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Page\Http;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use Phalcon\Tests\Unit\Http\Fake\FakePhpStream;

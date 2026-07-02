@@ -19,7 +19,7 @@ use Phalcon\Assets\Collection;
 use Phalcon\Assets\Manager;
 use Phalcon\Html\Escaper;
 use Phalcon\Html\TagFactory;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class GetCollectionsTest extends AbstractUnitTestCase
 {

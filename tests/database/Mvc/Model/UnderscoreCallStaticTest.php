@@ -49,7 +49,7 @@ final class UnderscoreCallStaticTest extends AbstractDatabaseTestCase
     public function testMvcModelUnderscoreCallStatic(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
 
         $invoicesMigration = new InvoicesMigration($connection);
         $invoicesMigration->insert(77, 1, 0, uniqid('inv-'));

@@ -19,12 +19,12 @@ use Phalcon\Logger\Adapter\Stream;
 use Phalcon\Logger\Enum;
 use Phalcon\Logger\Formatter\Line;
 use Phalcon\Logger\Logger;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use Phalcon\Time\Clock\FrozenClock;
 use Psr\Log\LogLevel;
 
 use function file_get_contents;
-use function logsDir;
 use function sprintf;
 use function strtoupper;
 use function uniqid;
@@ -38,7 +38,7 @@ final class LogTest extends AbstractUnitTestCase
     public function testLoggerLog(): void
     {
         $fileName   = $this->getNewFileName('log', 'log');
-        $outputPath = logsDir($fileName);
+        $outputPath = Talon::settings()->outputPath('tests/logs/' . $fileName);
         $adapter    = new Stream($outputPath);
 
         $logger = new Logger(
@@ -96,7 +96,7 @@ final class LogTest extends AbstractUnitTestCase
     public function testLoggerLogLogInterpolator(): void
     {
         $fileName   = $this->getNewFileName('log', 'log');
-        $outputPath = logsDir($fileName);
+        $outputPath = Talon::settings()->outputPath('tests/logs/' . $fileName);
         $formatter  = new Line(
             '%message%-[%level%]-%server%:%user%',
             'U.u'
@@ -136,7 +136,7 @@ final class LogTest extends AbstractUnitTestCase
     public function testLoggerLogLogLevel(): void
     {
         $fileName   = $this->getNewFileName('log', 'log');
-        $outputPath = logsDir($fileName);
+        $outputPath = Talon::settings()->outputPath('tests/logs/' . $fileName);
         $adapter  = new Stream($outputPath);
 
         $logger = new Logger(
@@ -210,7 +210,7 @@ final class LogTest extends AbstractUnitTestCase
     public function testLoggerUsesInjectedClockForTimestamp(): void
     {
         $fileName   = $this->getNewFileName('log', 'log');
-        $outputPath = logsDir($fileName);
+        $outputPath = Talon::settings()->outputPath('tests/logs/' . $fileName);
         $adapter    = new Stream($outputPath);
         $adapter->setFormatter(new Line('[%date%] %message%', 'Y-m-d H:i:s'));
 

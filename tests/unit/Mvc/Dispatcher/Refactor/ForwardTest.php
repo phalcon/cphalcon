@@ -18,7 +18,8 @@ use Phalcon\Events\Manager;
 use Phalcon\Mvc\Application;
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\View;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 
 /**
  * @todo    : refactor
@@ -38,7 +39,7 @@ class ForwardTest extends AbstractUnitTestCase
                 $view = new View();
 
                 $view->setViewsDir(
-                    supportDir('assets/views/')
+                    Talon::settings()->supportPath('assets/views/')
                 );
 
                 return $view;

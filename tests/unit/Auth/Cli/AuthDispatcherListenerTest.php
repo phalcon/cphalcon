@@ -23,7 +23,7 @@ use Phalcon\Auth\Manager;
 use Phalcon\Cli\Dispatcher;
 use Phalcon\Container\Container;
 use Phalcon\Events\Event;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Auth\Fake\FakeAccess;
 use Phalcon\Tests\Unit\Auth\Fake\FakeGuard;
 

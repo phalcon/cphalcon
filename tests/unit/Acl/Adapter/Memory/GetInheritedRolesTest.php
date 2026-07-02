@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Acl\Adapter\Memory;
 
 use Phalcon\Acl\Adapter\Memory;
 use Phalcon\Acl\Role;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class GetInheritedRolesTest extends AbstractUnitTestCase
 {

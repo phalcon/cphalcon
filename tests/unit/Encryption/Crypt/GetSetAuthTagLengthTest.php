@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Encryption\Crypt;
 
 use Phalcon\Encryption\Crypt;
 use Phalcon\Encryption\Crypt\Exception\InvalidAuthTagLength;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class GetSetAuthTagLengthTest extends AbstractUnitTestCase
 {

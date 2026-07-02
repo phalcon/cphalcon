@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Html\Helper\Input\Select;
 
 use InvalidArgumentException;
 use Phalcon\Html\Helper\Input\Select\ResultsetData;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Html\Helper\Input\Select\Fake\FakeResultset;
 
 final class ResultsetDataTest extends AbstractUnitTestCase

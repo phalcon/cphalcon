@@ -14,7 +14,8 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Filter\Validation\Validator\File\Resolution;
 
 use Phalcon\Filter\Validation;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\Unit\Filter\Validation\Validator\File\Resolution\Fake\FakeAspectRatio;
 use Phalcon\Tests\Unit\Filter\Validation\Validator\File\Resolution\Fake\FakeEqual;
 use Phalcon\Tests\Unit\Filter\Validation\Validator\File\Resolution\Fake\FakeMax;
@@ -23,7 +24,6 @@ use PHPUnit\Framework\Attributes\BackupGlobals;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 use function filesize;
-use function supportDir;
 
 #[BackupGlobals(true)]
 final class ValidateTest extends AbstractUnitTestCase
@@ -138,7 +138,7 @@ final class ValidateTest extends AbstractUnitTestCase
      */
     private function buildFile(): array
     {
-        $path = supportDir('assets/images/example-png.png');
+        $path = Talon::settings()->supportPath('assets/images/example-png.png');
 
         return [
             'name'     => 'example-png.png',

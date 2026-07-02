@@ -40,7 +40,7 @@ final class CommitTest extends AbstractDatabaseTestCase
     #[Group('sqlite')]
     public function testDbAdapterPdoCommit(): void
     {
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $db         = $this->container->get('db');
 
         new InvoicesMigration($connection);

@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Flash\Direct;
 
 use Phalcon\Flash\Direct;
 use Phalcon\Flash\FlashInterface;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class ConstructTest extends AbstractUnitTestCase
 {

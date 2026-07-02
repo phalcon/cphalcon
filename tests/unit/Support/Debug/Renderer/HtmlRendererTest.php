@@ -19,7 +19,7 @@ use Phalcon\Support\Debug\Report\ExceptionReport;
 use Phalcon\Support\Debug\ReportBuilder;
 use Phalcon\Support\Exception;
 use Phalcon\Support\Version;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class HtmlRendererTest extends AbstractUnitTestCase
 {

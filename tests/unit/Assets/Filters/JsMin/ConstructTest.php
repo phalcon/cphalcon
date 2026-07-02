@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Assets\Filters\JsMin;
 
 use Phalcon\Assets\FilterInterface;
 use Phalcon\Assets\Filters\JsMin;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class ConstructTest extends AbstractUnitTestCase
 {

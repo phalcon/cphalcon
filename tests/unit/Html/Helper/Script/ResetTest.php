@@ -13,7 +13,7 @@ namespace Phalcon\Tests\Unit\Html\Helper\Script;
 
 use Phalcon\Html\Escaper;
 use Phalcon\Html\Helper\Script;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 use const PHP_EOL;
 

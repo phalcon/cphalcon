@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Support\Debug;
 
 use Phalcon\Support\Debug\ReportBuilder;
 use Phalcon\Support\Exception;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use PHPUnit\Framework\Attributes\BackupGlobals;
 
 #[BackupGlobals(true)]

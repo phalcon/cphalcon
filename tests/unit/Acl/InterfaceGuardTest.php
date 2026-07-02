@@ -20,7 +20,7 @@ use Phalcon\Acl\RoleInterface;
 use Phalcon\Contracts\Acl\Adapter\Adapter as AdapterContract;
 use Phalcon\Contracts\Acl\Component as ComponentContract;
 use Phalcon\Contracts\Acl\Role as RoleContract;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class InterfaceGuardTest extends AbstractUnitTestCase
 {

@@ -14,7 +14,8 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Mvc\View;
 
 use Phalcon\Mvc\View;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\Unit\Mvc\Fake\ViewTrait;
 
 class GetSetLayoutsDirTest extends AbstractUnitTestCase
@@ -29,7 +30,7 @@ class GetSetLayoutsDirTest extends AbstractUnitTestCase
         $view = new View();
 
         $view->setBasePath(
-            dataDir()
+            Talon::settings()->dataPath() . '/'
         );
 
         $view->setLayoutsDir('views/layouts/');

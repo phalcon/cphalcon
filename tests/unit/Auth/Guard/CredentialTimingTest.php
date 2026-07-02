@@ -17,7 +17,7 @@ use Phalcon\Auth\Adapter\Config\MemoryAdapterConfig;
 use Phalcon\Auth\Adapter\Memory;
 use Phalcon\Auth\Guard\Session;
 use Phalcon\Encryption\Security;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Auth\Fake\FakeCookies;
 use Phalcon\Tests\Unit\Auth\Fake\FakeRequest;
 use Phalcon\Tests\Unit\Auth\Fake\FakeSessionManager;

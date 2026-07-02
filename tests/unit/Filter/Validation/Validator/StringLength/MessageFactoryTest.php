@@ -16,7 +16,7 @@ namespace Phalcon\Tests\Unit\Filter\Validation\Validator\StringLength;
 use Phalcon\Filter\Validation;
 use Phalcon\Filter\Validation\Validator\StringLength;
 use Phalcon\Messages\Message;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class MessageFactoryTest extends AbstractUnitTestCase
 {

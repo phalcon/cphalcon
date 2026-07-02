@@ -37,7 +37,7 @@ final class UpdateTest extends AbstractDatabaseTestCase
         $this->setNewFactoryDefault();
         $this->setDatabase();
 
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         (new InvoicesMigration($connection));
     }
 
@@ -51,7 +51,7 @@ final class UpdateTest extends AbstractDatabaseTestCase
     public function testMvcModelSaveAfterWithoutDefaultValues(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
 
         $customersMigration = new CustomersDefaultsMigration($connection);
         $customersMigration->clear();
@@ -115,7 +115,7 @@ final class UpdateTest extends AbstractDatabaseTestCase
     public function testMvcModelSaveViaSettersAndLocalMethod(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
 
         $settersMigration = new SettersMigration($connection);
         $settersMigration->clear();

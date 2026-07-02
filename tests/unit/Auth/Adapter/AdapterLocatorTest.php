@@ -26,7 +26,7 @@ use Phalcon\Container\Container;
 use Phalcon\Contracts\Auth\Adapter\Adapter;
 use Phalcon\Contracts\Encryption\Security\Security as SecurityContract;
 use Phalcon\Encryption\Security;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use stdClass;
 
 final class AdapterLocatorTest extends AbstractUnitTestCase

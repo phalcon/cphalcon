@@ -16,7 +16,7 @@ namespace Phalcon\Tests\Unit\Mvc\Router\Annotations;
 use Phalcon\Mvc\Router\Annotations;
 use Phalcon\Mvc\Router\Group;
 use Phalcon\Mvc\RouterInterface;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class MountTest extends AbstractUnitTestCase
 {

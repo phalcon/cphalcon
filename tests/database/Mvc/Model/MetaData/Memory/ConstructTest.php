@@ -49,7 +49,7 @@ final class ConstructTest extends AbstractDatabaseTestCase
         );
 
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $migration  = new InvoicesMigration($connection);
         $migration->insert(1, 1, 0, 'Test Invoice');
     }

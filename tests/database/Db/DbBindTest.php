@@ -46,7 +46,7 @@ final class DbBindTest extends AbstractDatabaseTestCase
     #[Group('sqlite')]
     public function testDbBindByType(): void
     {
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $migration  = new InvoicesMigration($connection);
 
         $db = $this->getService('db');

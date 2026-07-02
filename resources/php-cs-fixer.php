@@ -22,19 +22,26 @@ declare(strict_types=1);
  *   composer cs-fixer-fix   (applies the changes)
  */
 
-$finder = PhpCsFixer\Finder::create()
+use PhpCsFixer\Finder;
+use PhpCsFixer\Config;
+use PhpCsFixer\Runner\Parallel\ParallelConfigFactory;
+
+
+$root = dirname(__DIR__);
+
+$finder = Finder::create()
     ->in(
         [
-            __DIR__ . '/../tests/unit',
-            __DIR__ . '/../tests/database',
+            $root . '/tests/unit',
+            $root . '/tests/database',
         ]
     );
 
-return (new PhpCsFixer\Config())
-    ->setParallelConfig(PhpCsFixer\Runner\Parallel\ParallelConfigFactory::detect())
+return (new Config())
+    ->setParallelConfig(ParallelConfigFactory::detect())
     ->setRiskyAllowed(false)
     ->setUsingCache(true)
-    ->setCacheFile(__DIR__ . '/../tests/_output/.php-cs-fixer.cache')
+    ->setCacheFile($root . '/tests/_output/.php-cs-fixer.cache')
     ->setRules(
         [
             'ordered_imports'        => [

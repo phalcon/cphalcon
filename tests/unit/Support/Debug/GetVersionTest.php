@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Support\Debug;
 
 use Phalcon\Support\Debug;
 use Phalcon\Support\Version;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class GetVersionTest extends AbstractUnitTestCase
 {

@@ -16,7 +16,7 @@ namespace Phalcon\Tests\Unit\Cli\Router;
 use Phalcon\Cli\Router;
 use Phalcon\Cli\Router\Exception;
 use Phalcon\Cli\Router\Route;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 final class HandleTest extends AbstractUnitTestCase

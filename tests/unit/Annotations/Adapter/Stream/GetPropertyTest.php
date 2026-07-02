@@ -15,11 +15,11 @@ namespace Phalcon\Tests\Unit\Annotations\Adapter\Stream;
 
 use Phalcon\Annotations\Adapter\Stream;
 use Phalcon\Annotations\Collection;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use TestClass;
 
 use function dataDir;
-use function outputDir;
 
 final class GetPropertyTest extends AbstractUnitTestCase
 {
@@ -29,11 +29,11 @@ final class GetPropertyTest extends AbstractUnitTestCase
      */
     public function testAnnotationsAdapterStreamGetProperty(): void
     {
-        require_once supportDir('assets/Annotations/TestClass.php');
+        require_once Talon::settings()->supportPath('assets/Annotations/TestClass.php');
 
         $adapter = new Stream(
             [
-                'annotationsDir' => outputDir('tests/annotations/'),
+                'annotationsDir' => Talon::settings()->outputPath('tests/annotations/'),
             ]
         );
 
@@ -41,6 +41,6 @@ final class GetPropertyTest extends AbstractUnitTestCase
 
         $this->assertInstanceOf(Collection::class, $propertyAnnotation);
 
-        $this->safeDeleteFile(outputDir('tests/annotations/testclass.php'));
+        $this->safeDeleteFile(Talon::settings()->outputPath('tests/annotations/testclass.php'));
     }
 }

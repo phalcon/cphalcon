@@ -37,7 +37,7 @@ final class CustomOperatorSqlTest extends AbstractDatabaseTestCase
         }
 
         $this->setDatabase();
-        $this->invoiceMigration = new InvoicesMigration(self::getConnection());
+        $this->invoiceMigration = new InvoicesMigration(self::getPdoConnection());
     }
 
     /**

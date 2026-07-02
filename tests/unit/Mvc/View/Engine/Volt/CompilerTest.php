@@ -28,10 +28,10 @@ use Phalcon\Mvc\Url;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Volt;
 use Phalcon\Mvc\View\Engine\Volt\Compiler;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use stdClass;
 
-use function dataDir;
 use function file_put_contents;
 
 /**
@@ -88,7 +88,7 @@ class CompilerTest extends AbstractUnitTestCase
 
         // Refreshing generated view
         file_put_contents(
-            supportDir('assets/views/extends/other.volt'),
+            Talon::settings()->supportPath('assets/views/extends/other.volt'),
             '{{song}} {{song}}'
         );
 
@@ -114,7 +114,7 @@ class CompilerTest extends AbstractUnitTestCase
 
         // Change the view
         file_put_contents(
-            supportDir('assets/views/extends/other.volt'),
+            Talon::settings()->supportPath('assets/views/extends/other.volt'),
             'Two songs: {{song}} {{song}}'
         );
 
@@ -318,47 +318,47 @@ FORM;
     private function clearFiles(): void
     {
         $this->safeDeleteFile(
-            supportDir('assets/views/layouts/extends.volt.php')
+            Talon::settings()->supportPath('assets/views/layouts/extends.volt.php')
         );
 
         $this->safeDeleteFile(
-            supportDir('assets/views/extends/index.volt.php')
+            Talon::settings()->supportPath('assets/views/extends/index.volt.php')
         );
 
         $this->safeDeleteFile(
-            supportDir('assets/views/extends/other.volt.php')
+            Talon::settings()->supportPath('assets/views/extends/other.volt.php')
         );
 
         $this->safeDeleteFile(
-            supportDir('assets/views/macro/hello.volt.php')
+            Talon::settings()->supportPath('assets/views/macro/hello.volt.php')
         );
 
         $this->safeDeleteFile(
-            supportDir('assets/views/macro/conditionaldate.volt.php')
+            Talon::settings()->supportPath('assets/views/macro/conditionaldate.volt.php')
         );
 
         $this->safeDeleteFile(
-            supportDir('assets/views/macro/my_input.volt.php')
+            Talon::settings()->supportPath('assets/views/macro/my_input.volt.php')
         );
 
         $this->safeDeleteFile(
-            supportDir('assets/views/macro/error_messages.volt.php')
+            Talon::settings()->supportPath('assets/views/macro/error_messages.volt.php')
         );
 
         $this->safeDeleteFile(
-            supportDir('assets/views/macro/related_links.volt.php')
+            Talon::settings()->supportPath('assets/views/macro/related_links.volt.php')
         );
 
         $this->safeDeleteFile(
-            supportDir('assets/views/macro/strtotime.volt.php')
+            Talon::settings()->supportPath('assets/views/macro/strtotime.volt.php')
         );
 
         $this->safeDeleteFile(
-            supportDir('assets/views/macro/list.volt.php')
+            Talon::settings()->supportPath('assets/views/macro/list.volt.php')
         );
 
         $this->safeDeleteFile(
-            supportDir('assets/views/macro/form_row.volt.php')
+            Talon::settings()->supportPath('assets/views/macro/form_row.volt.php')
         );
     }
 
@@ -387,7 +387,7 @@ FORM;
         );
         $view->setDI($di);
 
-        $view->setViewsDir(supportDir('assets/views/'));
+        $view->setViewsDir(Talon::settings()->supportPath('assets/views/'));
 
         return $view;
     }

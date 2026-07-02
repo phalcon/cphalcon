@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Html\Attributes;
 
 use Phalcon\Html\Attributes;
 use Phalcon\Html\Exception;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
 
 final class ToStringTest extends AbstractUnitTestCase

@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Acl\Adapter\Memory;
 
 use Phalcon\Acl\Adapter\Memory;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class EmptyStateTest extends AbstractUnitTestCase
 {

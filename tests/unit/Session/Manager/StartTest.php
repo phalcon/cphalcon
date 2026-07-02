@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Session\Manager;
 
 use Phalcon\Session\Exceptions\InvalidSessionAdapter;
 use Phalcon\Session\Manager;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use Phalcon\Tests\Unit\Session\Fake\FakeManagerHeadersSent;
 use PHPUnit\Framework\Attributes\BackupGlobals;

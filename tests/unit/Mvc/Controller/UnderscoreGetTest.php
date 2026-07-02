@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Mvc\Controller;
 
 use Phalcon\Http\Request;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Controllers\ViewRequestController;
 use Phalcon\Tests\Support\Traits\DiTrait;
 

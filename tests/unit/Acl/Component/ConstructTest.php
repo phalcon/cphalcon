@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Acl\Component;
 
 use Phalcon\Acl\Component;
 use Phalcon\Acl\Exception;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class ConstructTest extends AbstractUnitTestCase
 {

@@ -13,11 +13,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Db\Adapter\Pdo\Postgresql;
 
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\Group;
-
-use function env;
 
 final class TableExistsTest extends AbstractDatabaseTestCase
 {
@@ -55,7 +54,7 @@ final class TableExistsTest extends AbstractDatabaseTestCase
         );
 
         $this->assertTrue(
-            $db->tableExists($table, env('DATA_POSTGRES_SCHEMA'))
+            $db->tableExists($table, Talon::settings()->getDatabaseOptions('pgsql')['schema'])
         );
 
         $this->assertFalse(

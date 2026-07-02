@@ -21,13 +21,11 @@ use Phalcon\Cache\Adapter\RedisCluster;
 use Phalcon\Cache\Adapter\Stream;
 use Phalcon\Cache\Adapter\Weak;
 use Phalcon\Storage\SerializerFactory;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 use function array_merge;
-use function getOptionsRedis;
-use function getOptionsRedisCluster;
-use function outputDir;
 
 final class GetPrefixTest extends AbstractUnitTestCase
 {
@@ -60,7 +58,12 @@ final class GetPrefixTest extends AbstractUnitTestCase
             [
                 Libmemcached::class,
                 array_merge(
-                    getOptionsLibmemcached(),
+                    [
+                        'client' => [],
+                        'servers' => [
+                            Talon::settings()->getServiceOptions('memcached')
+                        ]
+                    ],
                     [
                     ]
                 ),
@@ -70,7 +73,12 @@ final class GetPrefixTest extends AbstractUnitTestCase
             [
                 Libmemcached::class,
                 array_merge(
-                    getOptionsLibmemcached(),
+                    [
+                        'client' => [],
+                        'servers' => [
+                            Talon::settings()->getServiceOptions('memcached')
+                        ]
+                    ],
                     [
                         'prefix' => '',
                     ]
@@ -81,7 +89,12 @@ final class GetPrefixTest extends AbstractUnitTestCase
             [
                 Libmemcached::class,
                 array_merge(
-                    getOptionsLibmemcached(),
+                    [
+                        'client' => [],
+                        'servers' => [
+                            Talon::settings()->getServiceOptions('memcached')
+                        ]
+                    ],
                     [
                         'prefix' => 'my-prefix',
                     ]
@@ -115,7 +128,7 @@ final class GetPrefixTest extends AbstractUnitTestCase
             [
                 Redis::class,
                 array_merge(
-                    getOptionsRedis(),
+                    Talon::settings()->getServiceOptions('redis'),
                     [
                     ]
                 ),
@@ -125,7 +138,7 @@ final class GetPrefixTest extends AbstractUnitTestCase
             [
                 Redis::class,
                 array_merge(
-                    getOptionsRedis(),
+                    Talon::settings()->getServiceOptions('redis'),
                     [
                         'prefix' => '',
                     ]
@@ -136,7 +149,7 @@ final class GetPrefixTest extends AbstractUnitTestCase
             [
                 Redis::class,
                 array_merge(
-                    getOptionsRedis(),
+                    Talon::settings()->getServiceOptions('redis'),
                     [
                         'prefix' => 'my-prefix',
                     ]
@@ -147,7 +160,7 @@ final class GetPrefixTest extends AbstractUnitTestCase
             [
                 RedisCluster::class,
                 array_merge(
-                    getOptionsRedisCluster(),
+                    Talon::settings()->getServiceOptions('redisCluster'),
                     [
                     ]
                 ),
@@ -157,7 +170,7 @@ final class GetPrefixTest extends AbstractUnitTestCase
             [
                 RedisCluster::class,
                 array_merge(
-                    getOptionsRedisCluster(),
+                    Talon::settings()->getServiceOptions('redisCluster'),
                     [
                         'prefix' => '',
                     ]
@@ -168,7 +181,7 @@ final class GetPrefixTest extends AbstractUnitTestCase
             [
                 RedisCluster::class,
                 array_merge(
-                    getOptionsRedisCluster(),
+                    Talon::settings()->getServiceOptions('redisCluster'),
                     [
                         'prefix' => 'my-prefix',
                     ]
@@ -179,7 +192,7 @@ final class GetPrefixTest extends AbstractUnitTestCase
             [
                 Stream::class,
                 [
-                    'storageDir' => outputDir(),
+                    'storageDir' => Talon::settings()->outputPath() . '/',
                 ],
                 'ph-strm',
                 '',
@@ -187,7 +200,7 @@ final class GetPrefixTest extends AbstractUnitTestCase
             [
                 Stream::class,
                 [
-                    'storageDir' => outputDir(),
+                    'storageDir' => Talon::settings()->outputPath() . '/',
                     'prefix'     => '',
                 ],
                 '',
@@ -196,7 +209,7 @@ final class GetPrefixTest extends AbstractUnitTestCase
             [
                 Stream::class,
                 [
-                    'storageDir' => outputDir(),
+                    'storageDir' => Talon::settings()->outputPath() . '/',
                     'prefix'     => 'my-prefix',
                 ],
                 'my-prefix',

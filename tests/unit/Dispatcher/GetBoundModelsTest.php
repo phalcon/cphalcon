@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Dispatcher;
 
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\Model\Binder;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class GetBoundModelsTest extends AbstractUnitTestCase
 {

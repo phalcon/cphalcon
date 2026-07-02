@@ -16,10 +16,9 @@ namespace Phalcon\Tests\Unit\Assets\Manager;
 use Phalcon\Assets\Manager;
 use Phalcon\Html\Escaper;
 use Phalcon\Html\TagFactory;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\Support\Traits\DiTrait;
-
-use function supportDir;
 
 final class AddInlineJsTest extends AbstractUnitTestCase
 {
@@ -50,7 +49,7 @@ final class AddInlineJsTest extends AbstractUnitTestCase
     {
         $manager = new Manager(new TagFactory(new Escaper()));
 
-        $jsFile = supportDir('assets/assets/signup.js');
+        $jsFile = Talon::settings()->supportPath('assets/assets/signup.js');
         $js     = file_get_contents($jsFile);
 
         $manager->addInlineJs($js);

@@ -14,12 +14,12 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Database\Mvc\Model\Query;
 
 use Phalcon\Mvc\Model\Query;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Models\InvoicesSchemaSwitchable;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\Group;
 
-use function env;
 use function sprintf;
 
 #[Group('phql')]
@@ -49,7 +49,7 @@ final class ParseDynamicSchemaTest extends AbstractDatabaseTestCase
     public function testMvcModelQueryParseRefreshesSchemaAfterCacheHit(): void
     {
         $manager      = $this->container->get('modelsManager');
-        $defaultName  = (string) env('DATA_MYSQL_NAME');
+        $defaultName  = (string) Talon::settings()->getDatabaseOptions('mysql')['dbname'];
         $secondSchema = $defaultName . '_alt';
 
         /**

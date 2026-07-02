@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Html\Link\EvolvableLink;
 
 use Phalcon\Html\Link\EvolvableLink;
 use Phalcon\Html\Link\Interfaces\EvolvableLinkInterface;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class ConstructTest extends AbstractUnitTestCase
 {

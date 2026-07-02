@@ -39,7 +39,7 @@ final class AffectedRowsTest extends AbstractDatabaseTestCase
     #[Group('sqlite')]
     public function testDbAdapterPdoAffectedRows(): void
     {
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $db         = $this->container->get('db');
 
         $migration = new InvoicesMigration($connection);

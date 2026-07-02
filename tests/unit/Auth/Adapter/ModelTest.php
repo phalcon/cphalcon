@@ -21,7 +21,7 @@ use Phalcon\Auth\Adapter\Model;
 use Phalcon\Auth\Exception;
 use Phalcon\Auth\Exceptions\DoesNotImplement;
 use Phalcon\Encryption\Security;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Auth\Fake\FakeAuthUserModel;
 use Phalcon\Tests\Unit\Auth\Fake\FakeAuthUserNoRemember;
 use Phalcon\Tests\Unit\Auth\Fake\FakeNotAuthUserModel;

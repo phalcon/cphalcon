@@ -23,7 +23,8 @@ use Phalcon\Cache\Adapter\RedisCluster;
 use Phalcon\Cache\Adapter\Stream;
 use Phalcon\Cache\Adapter\Weak;
 use Phalcon\Storage\SerializerFactory;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use PHPUnit\Framework\Attributes\DataProvider;
 use SplObjectStorage;
 use SplQueue;
@@ -31,10 +32,6 @@ use stdClass;
 
 use function array_merge;
 use function file_get_contents;
-use function getOptionsLibmemcached;
-use function getOptionsRedis;
-use function getOptionsRedisCluster;
-use function outputDir;
 use function sort;
 use function uniqid;
 
@@ -53,7 +50,12 @@ final class GetSetTest extends AbstractUnitTestCase
             ],
             [
                 Libmemcached::class,
-                getOptionsLibmemcached(),
+                [
+                    'client' => [],
+                    'servers' => [
+                        Talon::settings()->getServiceOptions('memcached')
+                    ]
+                ],
                 'memcached',
             ],
             [
@@ -63,13 +65,13 @@ final class GetSetTest extends AbstractUnitTestCase
             ],
             [
                 Redis::class,
-                getOptionsRedis(),
+                Talon::settings()->getServiceOptions('redis'),
                 'redis',
             ],
             [
                 Stream::class,
                 [
-                    'storageDir' => outputDir(),
+                    'storageDir' => Talon::settings()->outputPath() . '/',
                 ],
                 '',
             ],
@@ -126,50 +128,90 @@ final class GetSetTest extends AbstractUnitTestCase
             [
                 'memcached',
                 Libmemcached::class,
-                getOptionsLibmemcached(),
+                [
+                    'client' => [],
+                    'servers' => [
+                        Talon::settings()->getServiceOptions('memcached')
+                    ]
+                ],
                 null,
             ],
             [
                 'memcached',
                 Libmemcached::class,
-                getOptionsLibmemcached(),
+                [
+                    'client' => [],
+                    'servers' => [
+                        Talon::settings()->getServiceOptions('memcached')
+                    ]
+                ],
                 true,
             ],
             [
                 'memcached',
                 Libmemcached::class,
-                getOptionsLibmemcached(),
+                [
+                    'client' => [],
+                    'servers' => [
+                        Talon::settings()->getServiceOptions('memcached')
+                    ]
+                ],
                 false,
             ],
             [
                 'memcached',
                 Libmemcached::class,
-                getOptionsLibmemcached(),
+                [
+                    'client' => [],
+                    'servers' => [
+                        Talon::settings()->getServiceOptions('memcached')
+                    ]
+                ],
                 123456,
             ],
             [
                 'memcached',
                 Libmemcached::class,
-                getOptionsLibmemcached(),
+                [
+                    'client' => [],
+                    'servers' => [
+                        Talon::settings()->getServiceOptions('memcached')
+                    ]
+                ],
                 123.456,
             ],
             [
                 'memcached',
                 Libmemcached::class,
-                getOptionsLibmemcached(),
+                [
+                    'client' => [],
+                    'servers' => [
+                        Talon::settings()->getServiceOptions('memcached')
+                    ]
+                ],
                 uniqid(),
             ],
             [
                 'memcached',
                 Libmemcached::class,
-                getOptionsLibmemcached(),
+                [
+                    'client' => [],
+                    'servers' => [
+                        Talon::settings()->getServiceOptions('memcached')
+                    ]
+                ],
                 new stdClass(),
             ],
             [
                 'memcached',
                 Libmemcached::class,
                 array_merge(
-                    getOptionsLibmemcached(),
+                    [
+                        'client' => [],
+                        'servers' => [
+                            Talon::settings()->getServiceOptions('memcached')
+                        ]
+                    ],
                     [
                         'defaultSerializer' => 'Base64',
                     ]
@@ -221,50 +263,50 @@ final class GetSetTest extends AbstractUnitTestCase
             [
                 'redis',
                 Redis::class,
-                getOptionsRedis(),
+                Talon::settings()->getServiceOptions('redis'),
                 null,
             ],
             [
                 'redis',
                 Redis::class,
-                getOptionsRedis(),
+                Talon::settings()->getServiceOptions('redis'),
                 true,
             ],
             [
                 'redis',
                 Redis::class,
-                getOptionsRedis(),
+                Talon::settings()->getServiceOptions('redis'),
                 false,
             ],
             [
                 'redis',
                 Redis::class,
-                getOptionsRedis(),
+                Talon::settings()->getServiceOptions('redis'),
                 123456,
             ],
             [
                 'redis',
                 Redis::class,
-                getOptionsRedis(),
+                Talon::settings()->getServiceOptions('redis'),
                 123.456,
             ],
             [
                 'redis',
                 Redis::class,
-                getOptionsRedis(),
+                Talon::settings()->getServiceOptions('redis'),
                 uniqid(),
             ],
             [
                 'redis',
                 Redis::class,
-                getOptionsRedis(),
+                Talon::settings()->getServiceOptions('redis'),
                 new stdClass(),
             ],
             [
                 'redis',
                 Redis::class,
                 array_merge(
-                    getOptionsRedis(),
+                    Talon::settings()->getServiceOptions('redis'),
                     [
                         'defaultSerializer' => 'Base64',
                     ]
@@ -275,7 +317,7 @@ final class GetSetTest extends AbstractUnitTestCase
                 'redis',
                 Redis::class,
                 array_merge(
-                    getOptionsRedis(),
+                    Talon::settings()->getServiceOptions('redis'),
                     [
                         'persistent' => true,
                     ]
@@ -285,50 +327,50 @@ final class GetSetTest extends AbstractUnitTestCase
             [
                 'redis',
                 RedisCluster::class,
-                getOptionsRedisCluster(),
+                Talon::settings()->getServiceOptions('redisCluster'),
                 null,
             ],
             [
                 'redis',
                 RedisCluster::class,
-                getOptionsRedisCluster(),
+                Talon::settings()->getServiceOptions('redisCluster'),
                 true,
             ],
             [
                 'redis',
                 RedisCluster::class,
-                getOptionsRedisCluster(),
+                Talon::settings()->getServiceOptions('redisCluster'),
                 false,
             ],
             [
                 'redis',
                 RedisCluster::class,
-                getOptionsRedisCluster(),
+                Talon::settings()->getServiceOptions('redisCluster'),
                 123456,
             ],
             [
                 'redis',
                 RedisCluster::class,
-                getOptionsRedisCluster(),
+                Talon::settings()->getServiceOptions('redisCluster'),
                 123.456,
             ],
             [
                 'redis',
                 RedisCluster::class,
-                getOptionsRedisCluster(),
+                Talon::settings()->getServiceOptions('redisCluster'),
                 uniqid(),
             ],
             [
                 'redis',
                 RedisCluster::class,
-                getOptionsRedisCluster(),
+                Talon::settings()->getServiceOptions('redisCluster'),
                 new stdClass(),
             ],
             [
                 '',
                 Stream::class,
                 [
-                    'storageDir' => outputDir(),
+                    'storageDir' => Talon::settings()->outputPath() . '/',
                 ],
                 null,
             ],
@@ -336,7 +378,7 @@ final class GetSetTest extends AbstractUnitTestCase
                 '',
                 Stream::class,
                 [
-                    'storageDir' => outputDir(),
+                    'storageDir' => Talon::settings()->outputPath() . '/',
                 ],
                 true,
             ],
@@ -344,7 +386,7 @@ final class GetSetTest extends AbstractUnitTestCase
                 '',
                 Stream::class,
                 [
-                    'storageDir' => outputDir(),
+                    'storageDir' => Talon::settings()->outputPath() . '/',
                 ],
                 false,
             ],
@@ -352,7 +394,7 @@ final class GetSetTest extends AbstractUnitTestCase
                 '',
                 Stream::class,
                 [
-                    'storageDir' => outputDir(),
+                    'storageDir' => Talon::settings()->outputPath() . '/',
                 ],
                 123456,
             ],
@@ -360,7 +402,7 @@ final class GetSetTest extends AbstractUnitTestCase
                 '',
                 Stream::class,
                 [
-                    'storageDir' => outputDir(),
+                    'storageDir' => Talon::settings()->outputPath() . '/',
                 ],
                 123.456,
             ],
@@ -368,7 +410,7 @@ final class GetSetTest extends AbstractUnitTestCase
                 '',
                 Stream::class,
                 [
-                    'storageDir' => outputDir(),
+                    'storageDir' => Talon::settings()->outputPath() . '/',
                 ],
                 uniqid(),
             ],
@@ -376,7 +418,7 @@ final class GetSetTest extends AbstractUnitTestCase
                 '',
                 Stream::class,
                 [
-                    'storageDir' => outputDir(),
+                    'storageDir' => Talon::settings()->outputPath() . '/',
                 ],
                 new stdClass(),
             ],
@@ -392,7 +434,7 @@ final class GetSetTest extends AbstractUnitTestCase
         $serializer = new SerializerFactory();
         $adapter    = new Stream(
             $serializer,
-            ['storageDir' => outputDir()]
+            ['storageDir' => Talon::settings()->outputPath() . '/']
         );
 
         $key = uniqid();
@@ -419,12 +461,12 @@ final class GetSetTest extends AbstractUnitTestCase
         $adapter    = new Stream(
             $serializer,
             [
-                'storageDir' => outputDir(),
+                'storageDir' => Talon::settings()->outputPath() . '/',
                 'prefix'     => 'en',
             ]
         );
 
-        $target = outputDir() . 'en/';
+        $target = Talon::settings()->outputPath('en/');
 
         $actual = $adapter->set('men', 123);
         $this->assertTrue($actual);
@@ -456,7 +498,7 @@ final class GetSetTest extends AbstractUnitTestCase
         $adapter    = new Stream(
             $serializer,
             [
-                'storageDir' => outputDir(),
+                'storageDir' => Talon::settings()->outputPath() . '/',
             ]
         );
 
@@ -464,7 +506,7 @@ final class GetSetTest extends AbstractUnitTestCase
         $actual = $adapter->set('test-key', $data);
         $this->assertTrue($actual);
 
-        $target   = outputDir() . 'ph-strm/te/st/-k/';
+        $target   = Talon::settings()->outputPath('ph-strm/te/st/-k/');
         $expected = 's:3:"ttl";i:3600;s:7:"content";s:25:"s:17:"Phalcon Framework";";}';
         $actual   = file_get_contents($target . 'test-key');
         $this->assertStringContainsString($expected, $actual);

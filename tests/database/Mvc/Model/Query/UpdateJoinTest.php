@@ -35,7 +35,7 @@ final class UpdateJoinTest extends AbstractDatabaseTestCase
         $this->setDatabase();
 
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
 
         $invoicesMigration  = new InvoicesMigration($connection);
         $customersMigration = new CustomersMigration($connection);

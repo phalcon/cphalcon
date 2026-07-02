@@ -19,15 +19,15 @@ use Phalcon\Session\Adapter\Stream;
 use Phalcon\Session\Exception;
 use Phalcon\Storage\AdapterFactory;
 use Phalcon\Storage\SerializerFactory;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use Phalcon\Tests\Support\Traits\SessionTrait;
 use Phalcon\Tests\Unit\Session\Fake\Adapter\FakeStreamIsWritable;
 use PHPUnit\Framework\Attributes\DataProvider;
 use SessionHandlerInterface;
 
-use function getOptionsRedis;
-use function getOptionsSessionStream;
+use function Phalcon\Tests\Support\Traits\getOptionsSessionStream;
 
 final class ConstructTest extends AbstractUnitTestCase
 {
@@ -54,7 +54,12 @@ final class ConstructTest extends AbstractUnitTestCase
      */
     public function testSessionAdapterLibmemcachedConstructWithPrefix(): void
     {
-        $options           = getOptionsLibmemcached();
+        $options           = [
+            'client' => [],
+            'servers' => [
+                Talon::settings()->getServiceOptions('memcached')
+            ]
+        ];
         $options['prefix'] = 'my-custom-prefix-';
 
         $serializerFactory = new SerializerFactory();
@@ -86,7 +91,7 @@ final class ConstructTest extends AbstractUnitTestCase
      */
     public function testSessionAdapterRedisConstructWithPrefix(): void
     {
-        $options           = getOptionsRedis();
+        $options           = Talon::settings()->getServiceOptions('redis');
         $options['prefix'] = 'my-custom-prefix-';
 
         $serializerFactory = new SerializerFactory();

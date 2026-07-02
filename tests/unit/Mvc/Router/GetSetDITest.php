@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Mvc\Router;
 
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Mvc\Router;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
 
 final class GetSetDITest extends AbstractUnitTestCase

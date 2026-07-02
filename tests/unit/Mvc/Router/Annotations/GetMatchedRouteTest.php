@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Mvc\Router\Annotations;
 
 use Phalcon\Mvc\Router\Annotations;
 use Phalcon\Mvc\Router\RouteInterface;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
 
 final class GetMatchedRouteTest extends AbstractUnitTestCase

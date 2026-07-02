@@ -15,7 +15,8 @@ namespace Phalcon\Tests\Unit\Autoload\Loader;
 
 use Phalcon\Autoload\Exception;
 use Phalcon\Autoload\Loader;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\Unit\Autoload\Fake\LoaderTrait;
 
 use function function_exists;
@@ -31,7 +32,7 @@ final class GetFoundPathTest extends AbstractUnitTestCase
     public function testAutoloaderLoaderGetFoundPath(): void
     {
         $loader = new Loader();
-        $file   = supportDir('assets/Loader/Example/Functions/FunctionsNoClass.php');
+        $file   = Talon::settings()->supportPath('assets/Loader/Example/Functions/FunctionsNoClass.php');
         $loader->addFile($file);
 
         $loader->loadFiles();

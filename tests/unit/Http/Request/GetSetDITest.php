@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Http\Request;
 
 use Phalcon\Di\Di;
 use Phalcon\Http\Request;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class GetSetDITest extends AbstractUnitTestCase
 {

@@ -13,11 +13,12 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Filter\Validation;
 
+use Phalcon\Di\FactoryDefault;
 use Phalcon\Filter\Validation;
 use Phalcon\Filter\Validation\Validator\PresenceOf;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use PHPUnit\Framework\Attributes\Test;
 use stdClass;
 
@@ -29,6 +30,8 @@ final class GetMessagesTest extends AbstractUnitTestCase
      */
     public function testFilterValidationGetMessages(): void
     {
+        new FactoryDefault();
+
         $validator  = new PresenceOf();
         $validation = new Validation();
 

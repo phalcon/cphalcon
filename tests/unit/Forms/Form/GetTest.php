@@ -16,7 +16,7 @@ namespace Phalcon\Tests\Unit\Forms\Form;
 use Phalcon\Forms\Element\Text;
 use Phalcon\Forms\Exception;
 use Phalcon\Forms\Form;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class GetTest extends AbstractUnitTestCase
 {

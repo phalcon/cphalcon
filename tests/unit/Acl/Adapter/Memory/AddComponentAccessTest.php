@@ -16,7 +16,7 @@ namespace Phalcon\Tests\Unit\Acl\Adapter\Memory;
 use Phalcon\Acl\Adapter\Memory;
 use Phalcon\Acl\Component;
 use Phalcon\Acl\Exception;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class AddComponentAccessTest extends AbstractUnitTestCase
 {

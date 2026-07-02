@@ -17,8 +17,6 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\Group;
 
-use function env;
-
 final class SharedLockTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -46,7 +44,7 @@ final class SharedLockTest extends AbstractDatabaseTestCase
             'mysql'  => 'SELECT 1 LOCK IN SHARE MODE',
             'pgsql'  => 'SELECT 1 FOR SHARE',
             'sqlite' => 'SELECT 1',
-        ][env('driver')];
+        ][self::getDatabaseDriver()];
 
         $this->assertSame($expected, $db->sharedLock('SELECT 1'));
     }

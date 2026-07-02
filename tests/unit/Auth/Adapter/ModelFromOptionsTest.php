@@ -19,7 +19,7 @@ namespace Phalcon\Tests\Unit\Auth\Adapter;
 use Phalcon\Auth\Adapter\Model;
 use Phalcon\Auth\Exception;
 use Phalcon\Encryption\Security;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class ModelFromOptionsTest extends AbstractUnitTestCase
 {

@@ -25,7 +25,7 @@ final class MinimumTest extends AbstractDatabaseTestCase
         $this->setDatabase();
 
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         (new InvoicesMigration($connection));
     }
 
@@ -39,7 +39,7 @@ final class MinimumTest extends AbstractDatabaseTestCase
     public function testMvcModelMinimum(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $migration  = new InvoicesMigration($connection);
         $invId      = ('sqlite' === self::getDriver()) ? 'null' : 'default';
 

@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Http\Response;
 
 use Phalcon\Events\Manager;
 use Phalcon\Http\Response;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class GetSetEventsManagerTest extends AbstractUnitTestCase
 {

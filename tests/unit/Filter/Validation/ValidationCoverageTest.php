@@ -17,7 +17,7 @@ use Phalcon\Di\Di;
 use Phalcon\Filter\Validation;
 use Phalcon\Filter\Validation\Exception as ValidationException;
 use Phalcon\Filter\Validation\Validator\PresenceOf;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use Phalcon\Tests\Unit\Filter\Validation\Fake\FakeCombinedValidator;
 use Phalcon\Tests\Unit\Filter\Validation\Fake\FakeEntityWithSetter;

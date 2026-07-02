@@ -16,7 +16,7 @@ namespace Phalcon\Tests\Unit\Filter\Validation\Validator\Alnum;
 use Phalcon\Filter\Validation;
 use Phalcon\Filter\Validation\Exception;
 use Phalcon\Filter\Validation\Validator\Alnum;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use stdClass;
 
 final class ValidateTest extends AbstractUnitTestCase

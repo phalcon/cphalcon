@@ -15,7 +15,7 @@ use Phalcon\Forms\Form;
 use Phalcon\Forms\FormsLocator;
 use Phalcon\Forms\Loader\ArrayLoader;
 use Phalcon\Forms\Manager;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use stdClass;
 
 final class LocatorTest extends AbstractUnitTestCase

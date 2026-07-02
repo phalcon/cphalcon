@@ -17,7 +17,7 @@ use Phalcon\Assets\Manager;
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Html\Escaper;
 use Phalcon\Html\TagFactory;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class ConstructTest extends AbstractUnitTestCase
 {

@@ -34,7 +34,7 @@ final class ForUpdateConnectionTest extends AbstractDatabaseTestCase
         $this->container->setShared('dbWrite', $this->newDbService());
 
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         (new InvoicesMigration($connection));
     }
 

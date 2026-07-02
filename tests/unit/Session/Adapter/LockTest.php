@@ -17,10 +17,10 @@ use Phalcon\Session\Adapter\Exceptions\AdapterRuntimeError;
 use Phalcon\Session\Adapter\Redis;
 use Phalcon\Storage\AdapterFactory;
 use Phalcon\Storage\SerializerFactory;
-use Phalcon\Tests\AbstractServicesTestCase;
+use Phalcon\Talon\PHPUnit\AbstractServicesTestCase;
+use Phalcon\Talon\Talon;
 
 use function array_merge;
-use function getOptionsRedis;
 use function sleep;
 use function uniqid;
 
@@ -171,7 +171,7 @@ final class LockTest extends AbstractServicesTestCase
     {
         return new Redis(
             new AdapterFactory(new SerializerFactory()),
-            array_merge(getOptionsRedis(), $options)
+            array_merge(Talon::settings()->getServiceOptions('redis'), $options)
         );
     }
 }

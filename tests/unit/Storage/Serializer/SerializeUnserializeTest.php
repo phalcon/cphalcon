@@ -27,7 +27,7 @@ use Phalcon\Storage\Serializer\RedisJson;
 use Phalcon\Storage\Serializer\RedisMsgpack;
 use Phalcon\Storage\Serializer\RedisNone;
 use Phalcon\Storage\Serializer\RedisPhp;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 use stdClass;
 

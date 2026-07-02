@@ -14,7 +14,8 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Image\Adapter\Gd;
 
 use Phalcon\Image\Adapter\Gd;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\Unit\Image\Fake\GdTrait;
 
 final class SaveTest extends AbstractUnitTestCase
@@ -35,12 +36,12 @@ final class SaveTest extends AbstractUnitTestCase
         foreach ($this->getImages() as $type => $imagePath) {
             $image = new Gd($imagePath);
 
-            $output   = outputDir($outputDir . '/' . $resultImage . $type);
+            $output   = Talon::settings()->outputPath($outputDir . '/' . $resultImage . $type);
             $expected = Gd::class;
             $actual   = $image->save($output);
             $this->assertInstanceOf($expected, $actual);
 
-            $this->assertFileExists(outputDir($outputDir) . $resultImage . $type);
+            $this->assertFileExists(Talon::settings()->outputPath($outputDir) . $resultImage . $type);
 
             $this->safeDeleteFile($resultImage . $type);
         }

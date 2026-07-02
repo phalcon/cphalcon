@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Filter\Validation;
 
 use Phalcon\Filter\Validation;
 use Phalcon\Filter\Validation\Validator\Alpha;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class AllowEmptyTest extends AbstractUnitTestCase
 {

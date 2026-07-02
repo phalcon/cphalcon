@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Cli\Router;
 
 use Phalcon\Cli\Router;
 use Phalcon\Cli\Router\Route;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
 
 final class GetRouteByNameTest extends AbstractUnitTestCase

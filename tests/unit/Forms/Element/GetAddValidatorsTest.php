@@ -16,7 +16,7 @@ namespace Phalcon\Tests\Unit\Forms\Element;
 use Phalcon\Filter\Validation\Validator\Alnum;
 use Phalcon\Filter\Validation\Validator\Digit;
 use Phalcon\Filter\Validation\Validator\StringLength;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Forms\Fake\FormsTrait;
 use PHPUnit\Framework\Attributes\DataProvider;
 

@@ -17,7 +17,7 @@ use Phalcon\Html\Escaper\CssEscaper;
 use Phalcon\Html\Escaper\HtmlEscaper;
 use Phalcon\Html\Escaper\JsEscaper;
 use Phalcon\Html\Escaper\UrlEscaper;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Html\Escaper\Fake\FakeHtmlEscaper;
 
 /**

@@ -16,7 +16,7 @@ namespace Phalcon\Tests\Unit\Di;
 use Phalcon\Di\Di;
 use Phalcon\Html\Escaper;
 use Phalcon\Html\Escaper\EscaperInterface;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 use function spl_object_hash;
 

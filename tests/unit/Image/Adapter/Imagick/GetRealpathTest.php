@@ -14,10 +14,9 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Image\Adapter\Imagick;
 
 use Phalcon\Image\Adapter\Imagick;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\Unit\Image\Fake\ImagickTrait;
-
-use function supportDir;
 
 final class GetRealpathTest extends AbstractUnitTestCase
 {
@@ -29,7 +28,7 @@ final class GetRealpathTest extends AbstractUnitTestCase
      */
     public function testImageAdapterImagickGetRealpath(): void
     {
-        $source = supportDir('assets/images/example-jpg.jpg');
+        $source = Talon::settings()->supportPath('assets/images/example-jpg.jpg');
         $source = str_replace('/', DIRECTORY_SEPARATOR, $source);
         $image  = new Imagick($source);
 

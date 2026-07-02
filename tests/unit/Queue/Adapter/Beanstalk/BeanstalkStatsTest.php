@@ -16,10 +16,10 @@ namespace Phalcon\Tests\Unit\Queue\Adapter\Beanstalk;
 use Phalcon\Contracts\Queue\Context as ContextInterface;
 use Phalcon\Contracts\Queue\Inspectable;
 use Phalcon\Queue\Adapter\Beanstalk\BeanstalkConnectionFactory;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use Throwable;
 
-use function getOptionsBeanstalk;
 use function random_int;
 use function uniqid;
 
@@ -38,7 +38,7 @@ final class BeanstalkStatsTest extends AbstractUnitTestCase
     {
         parent::setUp();
 
-        $this->options = getOptionsBeanstalk();
+        $this->options = Talon::settings()->getServiceOptions('beanstalk');
         $this->tube    = 'phalcon_test_' . uniqid('', true);
 
         try {
@@ -66,23 +66,6 @@ final class BeanstalkStatsTest extends AbstractUnitTestCase
         $this->assertInstanceOf(Inspectable::class, $this->createContext());
     }
 
-    public function testGetStatsReportsReadyBacklog(): void
-    {
-        $context  = $this->createContext();
-        $queue    = $context->createQueue($this->tube);
-        $producer = $context->createProducer();
-
-        $producer->send($queue, $context->createMessage('one'));
-        $producer->send($queue, $context->createMessage('two'));
-        $producer->send($queue, $context->createMessage('three'));
-
-        $stats = $context->getStats($queue);
-
-        $this->assertIsInt($stats['current-jobs-ready']);
-        $this->assertSame(3, $stats['current-jobs-ready']);
-        $this->assertSame($this->tube, $stats['name']);
-    }
-
     public function testGetStatsForUnknownTubeReturnsZeroedBacklog(): void
     {
         $context = $this->createContext();
@@ -95,6 +78,26 @@ final class BeanstalkStatsTest extends AbstractUnitTestCase
         $this->assertSame(0, $stats['current-jobs-reserved']);
         $this->assertSame(0, $stats['current-jobs-delayed']);
         $this->assertSame(0, $stats['current-jobs-buried']);
+    }
+
+    public function testGetStatsKeepsNumericTubeNameAsString(): void
+    {
+        $context = $this->createContext();
+        $name    = (string) random_int(100000, 999999);
+        $queue   = $context->createQueue($name);
+
+        try {
+            $context->createProducer()->send($queue, $context->createMessage('x'));
+
+            $stats = $context->getStats($queue);
+
+            $this->assertIsString($stats['name']);
+            $this->assertSame($name, $stats['name']);
+            $this->assertIsInt($stats['current-jobs-ready']);
+            $this->assertSame(1, $stats['current-jobs-ready']);
+        } finally {
+            $context->purgeQueue($queue);
+        }
     }
 
     public function testGetStatsLeavesProducerUsable(): void
@@ -124,24 +127,21 @@ final class BeanstalkStatsTest extends AbstractUnitTestCase
         $consumer->acknowledge($second);
     }
 
-    public function testGetStatsKeepsNumericTubeNameAsString(): void
+    public function testGetStatsReportsReadyBacklog(): void
     {
-        $context = $this->createContext();
-        $name    = (string) random_int(100000, 999999);
-        $queue   = $context->createQueue($name);
+        $context  = $this->createContext();
+        $queue    = $context->createQueue($this->tube);
+        $producer = $context->createProducer();
 
-        try {
-            $context->createProducer()->send($queue, $context->createMessage('x'));
+        $producer->send($queue, $context->createMessage('one'));
+        $producer->send($queue, $context->createMessage('two'));
+        $producer->send($queue, $context->createMessage('three'));
 
-            $stats = $context->getStats($queue);
+        $stats = $context->getStats($queue);
 
-            $this->assertIsString($stats['name']);
-            $this->assertSame($name, $stats['name']);
-            $this->assertIsInt($stats['current-jobs-ready']);
-            $this->assertSame(1, $stats['current-jobs-ready']);
-        } finally {
-            $context->purgeQueue($queue);
-        }
+        $this->assertIsInt($stats['current-jobs-ready']);
+        $this->assertSame(3, $stats['current-jobs-ready']);
+        $this->assertSame($this->tube, $stats['name']);
     }
 
     private function createContext(): ContextInterface

@@ -17,7 +17,7 @@ use Phalcon\Acl\Adapter\Storage;
 use Phalcon\Acl\Exceptions\InvalidSnapshot;
 use Phalcon\Storage\Adapter\Memory as StorageMemory;
 use Phalcon\Storage\SerializerFactory;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class VersionTest extends AbstractUnitTestCase
 {

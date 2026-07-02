@@ -15,7 +15,8 @@ namespace Phalcon\Tests\Unit\Mvc\View;
 
 use Phalcon\Di\Di;
 use Phalcon\Mvc\View;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 
 class GetPartialTest extends AbstractUnitTestCase
 {
@@ -29,7 +30,7 @@ class GetPartialTest extends AbstractUnitTestCase
         $view      = new View();
 
         $view->setViewsDir(
-            $this->getDirSeparator(supportDir('assets/views'))
+            $this->getDirSeparator(Talon::settings()->supportPath('assets/views'))
         );
         $view->setPartialsDir('partials/');
         $view->setDI($container);

@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Translate\Adapter\NativeArray;
 
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Translate\Fake\TranslateNativeArrayHelperTrait;
 use Phalcon\Tests\Unit\Translate\Fake\TranslateNativeArrayTrait;
 

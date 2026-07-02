@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Http\Response\Cookies;
 
 use Phalcon\Http\Response\Cookies;
 use Phalcon\Http\Response\Exceptions\ResponseServiceUnavailable;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class ExceptionsTest extends AbstractUnitTestCase
 {

@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Queue\Adapter;
 
 use Phalcon\Queue\Adapter\Memory\MemoryMessage;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class AbstractMessageTest extends AbstractUnitTestCase
 {

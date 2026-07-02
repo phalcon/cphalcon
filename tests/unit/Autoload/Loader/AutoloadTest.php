@@ -16,7 +16,8 @@ namespace Phalcon\Tests\Unit\Autoload\Loader;
 use Example\Namespaces\Adapter\Another;
 use Example\Namespaces\Adapter\Mongo;
 use Phalcon\Autoload\Loader;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\Unit\Autoload\Fake\LoaderTrait;
 
 final class AutoloadTest extends AbstractUnitTestCase
@@ -34,11 +35,11 @@ final class AutoloadTest extends AbstractUnitTestCase
         $loader
             ->addClass(
                 'One',
-                supportDir('assets/Loader/Example/Classes/One.php')
+                Talon::settings()->supportPath('assets/Loader/Example/Classes/One.php')
             )
             ->addClass(
                 'Two',
-                supportDir('assets/Loader/Example/Classes/Two.php')
+                Talon::settings()->supportPath('assets/Loader/Example/Classes/Two.php')
             )
         ;
 
@@ -46,8 +47,8 @@ final class AutoloadTest extends AbstractUnitTestCase
 
         $expected = [
             'Loading: One',
-            'Require: ' . supportDir('assets/Loader/Example/Classes/One.php'),
-            'Class: load: ' . supportDir('assets/Loader/Example/Classes/One.php'),
+            'Require: ' . Talon::settings()->supportPath('assets/Loader/Example/Classes/One.php'),
+            'Class: load: ' . Talon::settings()->supportPath('assets/Loader/Example/Classes/One.php'),
         ];
         $actual   = $loader->getDebug();
         $this->assertSame($expected, $actual);
@@ -56,8 +57,8 @@ final class AutoloadTest extends AbstractUnitTestCase
 
         $expected = [
             'Loading: Two',
-            'Require: ' . supportDir('assets/Loader/Example/Classes/Two.php'),
-            'Class: load: ' . supportDir('assets/Loader/Example/Classes/Two.php'),
+            'Require: ' . Talon::settings()->supportPath('assets/Loader/Example/Classes/Two.php'),
+            'Class: load: ' . Talon::settings()->supportPath('assets/Loader/Example/Classes/Two.php'),
         ];
         $actual   = $loader->getDebug();
         $this->assertSame($expected, $actual);
@@ -89,9 +90,15 @@ final class AutoloadTest extends AbstractUnitTestCase
             )
             ->setNamespaces(
                 [
-                    'Example\Namespaces\Base' => supportDir('assets/Loader/Example/Namespaces/Base/'),
-                    'Example\Namespaces'      => supportDir('assets/Loader/Example/Namespaces/'),
-                    'Example'                 => supportDir('assets/Loader/Example/Namespaces/'),
+                    'Example\Namespaces\Base' => Talon::settings()->supportPath(
+                        'assets/Loader/Example/Namespaces/Base/'
+                    ),
+                    'Example\Namespaces'      => Talon::settings()->supportPath(
+                        'assets/Loader/Example/Namespaces/'
+                    ),
+                    'Example'                 => Talon::settings()->supportPath(
+                        'assets/Loader/Example/Namespaces/'
+                    ),
                 ]
             )
         ;
@@ -102,11 +109,11 @@ final class AutoloadTest extends AbstractUnitTestCase
             'Loading: Example\Namespaces\Engines\Alcohol',
             'Class: 404: Example\Namespaces\Engines\Alcohol',
             'Require: 404: ' .
-            supportDir('assets/Loader/Example/Namespaces/Engines/Alcohol.php'),
+            Talon::settings()->supportPath('assets/Loader/Example/Namespaces/Engines/Alcohol.php'),
             'Require: ' .
-            supportDir('assets/Loader/Example/Namespaces/Engines/Alcohol.inc'),
+            Talon::settings()->supportPath('assets/Loader/Example/Namespaces/Engines/Alcohol.inc'),
             'Namespace: Example\Namespaces\ - ' .
-            supportDir('assets/Loader/Example/Namespaces/Engines/Alcohol.inc'),
+            Talon::settings()->supportPath('assets/Loader/Example/Namespaces/Engines/Alcohol.inc'),
         ];
         $actual   = $loader->getDebug();
         $this->assertSame($expected, $actual);
@@ -122,15 +129,15 @@ final class AutoloadTest extends AbstractUnitTestCase
         $loader
             ->addNamespace(
                 'Example\Namespaces\Base',
-                supportDir('assets/Loader/Example/Namespaces/Base/')
+                Talon::settings()->supportPath('assets/Loader/Example/Namespaces/Base/')
             )
             ->addNamespace(
                 'Example\Namespaces\Adapter',
-                supportDir('assets/Loader/Example/Namespaces/Adapter/')
+                Talon::settings()->supportPath('assets/Loader/Example/Namespaces/Adapter/')
             )
             ->addNamespace(
                 'Example\Namespaces',
-                supportDir('assets/Loader/Example/Namespaces/')
+                Talon::settings()->supportPath('assets/Loader/Example/Namespaces/')
             )
         ;
 
@@ -140,10 +147,10 @@ final class AutoloadTest extends AbstractUnitTestCase
             'Loading: Example\Namespaces\Adapter\Mongo',
             'Class: 404: Example\Namespaces\Adapter\Mongo',
             'Require: ' .
-            supportDir('assets/Loader/Example/Namespaces/Adapter/') .
+            Talon::settings()->supportPath('assets/Loader/Example/Namespaces/Adapter/') .
             'Mongo.php',
             'Namespace: Example\Namespaces\Adapter\ - ' .
-            supportDir('assets/Loader/Example/Namespaces/Adapter/') .
+            Talon::settings()->supportPath('assets/Loader/Example/Namespaces/Adapter/') .
             'Mongo.php',
         ];
         $actual   = $loader->getDebug();
@@ -160,7 +167,7 @@ final class AutoloadTest extends AbstractUnitTestCase
         $loader
             ->addNamespace(
                 'Example\Namespaces\Adapter',
-                supportDir('assets/Loader/Example/Namespaces/Adapter/')
+                Talon::settings()->supportPath('assets/Loader/Example/Namespaces/Adapter/')
             )
         ;
 
@@ -170,7 +177,7 @@ final class AutoloadTest extends AbstractUnitTestCase
             'Loading: Example\Namespaces\Adapter\Unknown',
             'Class: 404: Example\Namespaces\Adapter\Unknown',
             'Require: 404: ' .
-            supportDir('assets/Loader/Example/Namespaces/Adapter/Unknown.php'),
+            Talon::settings()->supportPath('assets/Loader/Example/Namespaces/Adapter/Unknown.php'),
             'Namespace: 404: Example\Namespaces\Adapter\Unknown',
             'Directories: 404: Example\Namespaces\Adapter\Unknown',
         ];
@@ -188,23 +195,23 @@ final class AutoloadTest extends AbstractUnitTestCase
         $loader
             ->addNamespace(
                 'Example\Namespaces\Base',
-                supportDir('assets/Loader/Example/Namespaces/Base/')
+                Talon::settings()->supportPath('assets/Loader/Example/Namespaces/Base/')
             )
             ->addNamespace(
                 'Example\Namespaces\Adapter',
-                supportDir('assets/Loader/Example/Namespaces/Adapter/')
+                Talon::settings()->supportPath('assets/Loader/Example/Namespaces/Adapter/')
             )
             ->addNamespace(
                 'Example\Namespaces',
-                supportDir('assets/Loader/Example/Namespaces/')
+                Talon::settings()->supportPath('assets/Loader/Example/Namespaces/')
             )
         ;
         $loader
             ->setNamespaces(
                 [
                     'Example\Namespaces\Adapter' => [
-                        supportDir('assets/Loader/Example/Namespaces/Adapter/'),
-                        supportDir('assets/Loader/Example/Namespaces/Plugin/'),
+                        Talon::settings()->supportPath('assets/Loader/Example/Namespaces/Adapter/'),
+                        Talon::settings()->supportPath('assets/Loader/Example/Namespaces/Plugin/'),
                     ],
                 ]
             )
@@ -216,11 +223,11 @@ final class AutoloadTest extends AbstractUnitTestCase
             'Loading: Example\Namespaces\Adapter\Another',
             'Class: 404: Example\Namespaces\Adapter\Another',
             'Require: 404: ' .
-            supportDir('assets/Loader/Example/Namespaces/Adapter/Another.php'),
+            Talon::settings()->supportPath('assets/Loader/Example/Namespaces/Adapter/Another.php'),
             'Require: ' .
-            supportDir('assets/Loader/Example/Namespaces/Plugin/Another.php'),
+            Talon::settings()->supportPath('assets/Loader/Example/Namespaces/Plugin/Another.php'),
             'Namespace: Example\Namespaces\Adapter\ - ' .
-            supportDir('assets/Loader/Example/Namespaces/Plugin/Another.php'),
+            Talon::settings()->supportPath('assets/Loader/Example/Namespaces/Plugin/Another.php'),
         ];
         $actual   = $loader->getDebug();
         $this->assertSame($expected, $actual);

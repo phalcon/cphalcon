@@ -16,7 +16,7 @@ namespace Phalcon\Tests\Unit\Mvc\Micro;
 use Phalcon\Di\Di;
 use Phalcon\Http\Request;
 use Phalcon\Mvc\Micro;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 class SetServiceTest extends AbstractUnitTestCase
 {
