@@ -19,8 +19,8 @@ use Phalcon\Config\Adapter\Json;
 use Phalcon\Config\Adapter\Php;
 use Phalcon\Config\Adapter\Yaml;
 use Phalcon\Config\Config;
+use Phalcon\Talon\Talon;
 
-use function supportDir;
 
 trait ConfigTrait
 {
@@ -130,30 +130,30 @@ trait ConfigTrait
         switch ($adapter) {
             case 'Ini':
                 return new Ini(
-                    supportDir('assets/config/config.ini')
+                    Talon::settings()->supportPath('assets/config/config.ini')
                 );
 
             case 'Json':
                 return new Json(
-                    supportDir('assets/config/config.json')
+                    Talon::settings()->supportPath('assets/config/config.json')
                 );
 
             case 'Php':
                 return new Php(
-                    supportDir('assets/config/config.php')
+                    Talon::settings()->supportPath('assets/config/config.php')
                 );
 
             case 'Yaml':
                 return new Yaml(
-                    supportDir('assets/config/config.yml')
+                    Talon::settings()->supportPath('assets/config/config.yml')
                 );
 
             case 'Grouped':
                 $config = [
-                    supportDir('assets/config/config.php'),
+                    Talon::settings()->supportPath('assets/config/config.php'),
                     [
                         'adapter'  => 'json',
-                        'filePath' => supportDir('assets/config/config.json'),
+                        'filePath' => Talon::settings()->supportPath('assets/config/config.json'),
                     ],
                     [
                         'adapter' => 'array',

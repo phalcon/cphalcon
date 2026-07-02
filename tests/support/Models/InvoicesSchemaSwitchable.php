@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Support\Models;
 
 use Phalcon\Mvc\Model;
+use Phalcon\Talon\Talon;
 
 class InvoicesSchemaSwitchable extends Model
 {
@@ -27,7 +28,7 @@ class InvoicesSchemaSwitchable extends Model
     public function initialize()
     {
         $this->setSource('co_invoices');
-        $this->setSchema(env('DATA_MYSQL_NAME'));
+        $this->setSchema(Talon::settings()->getDatabaseOptions('mysql')['dbname']);
     }
 
     public function switchSchema(string $schema): void

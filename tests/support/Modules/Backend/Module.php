@@ -6,7 +6,7 @@ use Phalcon\Di\DiInterface;
 use Phalcon\Autoload\Loader;
 use Phalcon\Mvc\ModuleDefinitionInterface;
 use Phalcon\Mvc\View;
-use function supportDir;
+use Phalcon\Talon\Talon;
 
 /**
  * \Phalcon\Tests\Support\Modules\Backend\Module
@@ -38,7 +38,7 @@ class Module implements ModuleDefinitionInterface
                 $view = new View();
 
                 $view->setViewsDir(
-                    supportDir('assets/modules/backend/views/')
+                    Talon::settings()->supportPath('assets/modules/backend/views/')
                 );
 
                 return $view;
@@ -52,7 +52,7 @@ class Module implements ModuleDefinitionInterface
         $loader->setNamespaces(
             [
                 'Phalcon\Tests\Support\Modules\Backend\Tasks' =>
-                    supportDir('assets/modules/backend/tasks/')
+                    Talon::settings()->supportPath('assets/modules/backend/tasks/')
             ]
         );
         $loader->register();
