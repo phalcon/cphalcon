@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Container\Resolver\Lazy;
 
 use Phalcon\Container\Resolver\Lazy\GetCall;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Container\Resolver\Fake\FakeContainerWithService;
 use Phalcon\Tests\Unit\Container\Resolver\Fake\FakeServiceWithMethod;
 

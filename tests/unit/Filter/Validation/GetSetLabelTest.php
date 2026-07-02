@@ -13,9 +13,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Filter\Validation;
 
+use Phalcon\Di\FactoryDefault;
 use Phalcon\Filter\Validation;
 use Phalcon\Filter\Validation\Validator\PresenceOf;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use PHPUnit\Framework\Attributes\Test;
 use stdClass;
 
@@ -31,6 +32,8 @@ final class GetSetLabelTest extends AbstractUnitTestCase
      */
     public function testFilterValidationGetLabel(): void
     {
+        new FactoryDefault();
+
         $validator  = new PresenceOf();
         $validation = new Validation();
 

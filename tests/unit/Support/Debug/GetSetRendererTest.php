@@ -17,7 +17,7 @@ use Phalcon\Support\Debug;
 use Phalcon\Support\Debug\Renderer\HtmlRenderer;
 use Phalcon\Support\Debug\Report\ExceptionReport;
 use Phalcon\Support\Exception;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class GetSetRendererTest extends AbstractUnitTestCase
 {

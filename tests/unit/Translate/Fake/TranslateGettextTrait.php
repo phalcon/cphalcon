@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Translate\Fake;
 
-use function supportDir;
+use Phalcon\Talon\Talon;
 
 trait TranslateGettextTrait
 {
@@ -37,7 +37,7 @@ trait TranslateGettextTrait
 
         return ['locale' => ['en_US.utf8'],
             'defaultDomain' => 'messages',
-            'directory' => supportDir('assets/translation/gettext'),
+            'directory' => Talon::settings()->supportPath('assets/translation/gettext'),
             'category' => LC_MESSAGES,];
     }
 }

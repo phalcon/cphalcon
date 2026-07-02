@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Queue\Adapter\Beanstalk;
 
 use Phalcon\Queue\Adapter\Beanstalk\BeanstalkConnection;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use ReflectionMethod;
 
 use function array_slice;

@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Annotations\Adapter\Memory;
 
 use Phalcon\Annotations\Adapter\Memory;
 use Phalcon\Annotations\Reader;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class GetSetReaderTest extends AbstractUnitTestCase
 {

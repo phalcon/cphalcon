@@ -16,7 +16,7 @@ namespace Phalcon\Tests\Unit\Filter\Validation\Validator\File;
 use Phalcon\Filter\Validation\Validator\File;
 use Phalcon\Filter\Validation\Validator\File\Resolution\Equal as EqualResolution;
 use Phalcon\Filter\Validation\Validator\File\Size\Equal as EqualFileSize;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class CustomMessagesTest extends AbstractUnitTestCase
 {

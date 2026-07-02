@@ -15,7 +15,8 @@ namespace Phalcon\Tests\Unit\Autoload\Loader;
 
 use Phalcon\Autoload\Exception;
 use Phalcon\Autoload\Loader;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\Unit\Autoload\Fake\LoaderTrait;
 
 final class GetCheckedPathTest extends AbstractUnitTestCase
@@ -29,7 +30,7 @@ final class GetCheckedPathTest extends AbstractUnitTestCase
     public function testAutoloaderLoaderGetCheckedPath(): void
     {
         $loader    = new Loader(true);
-        $directory = supportDir('assets/Loader/Example/Folders/Types/');
+        $directory = Talon::settings()->supportPath('assets/Loader/Example/Folders/Types/');
         $loader->addDirectory($directory);
 
         $loader->autoload('Integer');

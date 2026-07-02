@@ -14,9 +14,8 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Mvc\View\Simple;
 
 use Phalcon\Mvc\View\Simple;
-use Phalcon\Tests\AbstractUnitTestCase;
-
-use function dataDir;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 
 use const DIRECTORY_SEPARATOR;
 
@@ -31,11 +30,11 @@ class GetSetViewsDirTest extends AbstractUnitTestCase
         $view = new Simple();
 
         $view->setViewsDir(
-            dataDir('views' . DIRECTORY_SEPARATOR)
+            Talon::settings()->dataPath('views' . DIRECTORY_SEPARATOR)
         );
 
         $this->assertEquals(
-            dataDir('views' . DIRECTORY_SEPARATOR),
+            Talon::settings()->dataPath('views' . DIRECTORY_SEPARATOR),
             $view->getViewsDir()
         );
     }

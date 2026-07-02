@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Forms\Form;
 
 use Phalcon\Forms\Form;
 use Phalcon\Html\Attributes\AttributesInterface;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 use function method_exists;
 

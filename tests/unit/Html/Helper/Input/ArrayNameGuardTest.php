@@ -16,7 +16,7 @@ use Phalcon\Html\Helper\Doctype;
 use Phalcon\Html\Helper\Input\Checkbox;
 use Phalcon\Html\Helper\Input\Generic;
 use Phalcon\Html\Helper\Input\Radio;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 /**
  * Covers the id-guard added to AbstractInput.__invoke():

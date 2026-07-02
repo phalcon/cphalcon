@@ -14,7 +14,7 @@ namespace Phalcon\Tests\Unit\Encryption\Security\JWT\Validator;
 use DateTimeImmutable;
 use Phalcon\Encryption\Security\JWT\Token\Enum;
 use Phalcon\Encryption\Security\JWT\Validator;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Encryption\Fake\JWTTrait;
 use Phalcon\Time\Clock\FrozenClock;
 

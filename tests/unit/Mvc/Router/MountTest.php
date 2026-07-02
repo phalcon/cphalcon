@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Mvc\Router;
 
 use Phalcon\Mvc\Router\Group;
 use Phalcon\Mvc\RouterInterface;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Mvc\Fake\RouterTrait;
 
 final class MountTest extends AbstractUnitTestCase

@@ -25,16 +25,13 @@ use Phalcon\Cache\Exception\Exception as StorageException;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Support\Exception;
 use Phalcon\Support\Exception as HelperException;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\Unit\Cache\Fake\Adapter\FakeApcuIterator;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use stdClass;
 
-use function getOptionsLibmemcached;
-use function getOptionsRedis;
-use function getOptionsRedisCluster;
-use function outputDir;
 use function phpversion;
 use function uniqid;
 use function version_compare;
@@ -62,20 +59,20 @@ final class GetKeysTest extends AbstractUnitTestCase
             [
                 'redis',
                 Redis::class,
-                getOptionsRedis(),
+                Talon::settings()->getServiceOptions('redis'),
                 'ph-reds-'
             ],
             [
                 'redis',
                 RedisCluster::class,
-                getOptionsRedisCluster(),
+                Talon::settings()->getServiceOptions('redisCluster'),
                 'ph-redc-'
             ],
             [
                 '',
                 Stream::class,
                 [
-                    'storageDir' => outputDir(),
+                    'storageDir' => Talon::settings()->outputPath() . '/',
                 ],
                 'ph-strm'
             ],
@@ -128,7 +125,7 @@ final class GetKeysTest extends AbstractUnitTestCase
         $this->runTests($adapter, $prefix);
 
         if ('ph-strm' === $prefix) {
-            $this->safeDeleteDirectory(outputDir('ph-strm'));
+            $this->safeDeleteDirectory(Talon::settings()->outputPath('ph-strm'));
         }
     }
 
@@ -142,7 +139,12 @@ final class GetKeysTest extends AbstractUnitTestCase
         $serializer = new SerializerFactory();
         $adapter    = new Libmemcached(
             $serializer,
-            getOptionsLibmemcached()
+            [
+                'client' => [],
+                'servers' => [
+                    Talon::settings()->getServiceOptions('memcached')
+                ]
+            ],
         );
 
         $memcachedServerVersions   = $adapter->getAdapter()
@@ -186,7 +188,7 @@ final class GetKeysTest extends AbstractUnitTestCase
         $adapter    = new Stream(
             $serializer,
             [
-                'storageDir' => outputDir(),
+                'storageDir' => Talon::settings()->outputPath() . '/',
                 'prefix'     => 'basePrefix-',
             ]
         );
@@ -213,7 +215,7 @@ final class GetKeysTest extends AbstractUnitTestCase
             $this->assertTrue($actual);
         }
 
-        $this->safeDeleteDirectory(outputDir('basePrefix-'));
+        $this->safeDeleteDirectory(Talon::settings()->outputPath('basePrefix-'));
     }
 
     /**
@@ -227,7 +229,7 @@ final class GetKeysTest extends AbstractUnitTestCase
         $adapter    = new Stream(
             $serializer,
             [
-                'storageDir' => outputDir(),
+                'storageDir' => Talon::settings()->outputPath() . '/',
                 'prefix'     => 'pref-',
             ]
         );
@@ -268,7 +270,7 @@ final class GetKeysTest extends AbstractUnitTestCase
         $actual = $adapter->clear();
         $this->assertTrue($actual);
 
-        $this->safeDeleteDirectory(outputDir('pref-'));
+        $this->safeDeleteDirectory(Talon::settings()->outputPath('pref-'));
     }
 
     /**

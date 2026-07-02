@@ -15,14 +15,14 @@ namespace Phalcon\Tests\Unit\Assets\Asset;
 
 use Phalcon\Assets\Asset;
 use Phalcon\Assets\Exception;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\Unit\Assets\Fake\AssetsTrait;
 use Phalcon\Tests\Unit\Assets\Fake\FakeAssetFileExists;
 use Phalcon\Tests\Unit\Assets\Fake\FakeAssetFileGetContents;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 use function file_get_contents;
-use function supportDir;
 
 use const PHP_EOL;
 
@@ -41,9 +41,9 @@ final class GetContentTest extends AbstractUnitTestCase
     ): void {
         $asset = new Asset($type, $path);
 
-        $expected = file_get_contents(supportDir($path));
+        $expected = file_get_contents(Talon::settings()->supportPath($path));
         $expected = str_replace("\r\n", PHP_EOL, $expected);
-        $actual   = $asset->getContent(supportDir());
+        $actual   = $asset->getContent(Talon::settings()->supportPath() . '/');
         $this->assertSame($expected, $actual);
     }
 
@@ -54,13 +54,13 @@ final class GetContentTest extends AbstractUnitTestCase
     public function testAssetsAssetGetContentException404(): void
     {
         $file    = 'assets/assets/1198.css';
-        $message = "Asset's content for '" . supportDir($file) . "' cannot be read";
+        $message = "Asset's content for '" . Talon::settings()->supportPath($file) . "' cannot be read";
 
         $this->expectException(Exception::class);
         $this->expectExceptionMessage($message);
 
         $asset = new FakeAssetFileExists('css', $file);
-        $asset->getContent(supportDir());
+        $asset->getContent(Talon::settings()->supportPath() . '/');
     }
 
     /**
@@ -70,12 +70,12 @@ final class GetContentTest extends AbstractUnitTestCase
     public function testAssetsAssetGetContentExceptionCannotReadFile(): void
     {
         $file    = 'assets/assets/1198.css';
-        $message = "Asset's content for '" . supportDir($file) . "' cannot be read";
+        $message = "Asset's content for '" . Talon::settings()->supportPath($file) . "' cannot be read";
         $this->expectException(Exception::class);
         $this->expectExceptionMessage($message);
 
         $asset = new FakeAssetFileGetContents('css', $file);
-        $asset->getContent(supportDir());
+        $asset->getContent(Talon::settings()->supportPath() . '/');
     }
 
     /**
@@ -89,9 +89,9 @@ final class GetContentTest extends AbstractUnitTestCase
         $asset  = new Asset('js', $path);
         $asset->setSourcePath($source);
 
-        $expected = file_get_contents(supportDir($source));
+        $expected = file_get_contents(Talon::settings()->supportPath($source));
         $expected = str_replace("\r\n", PHP_EOL, $expected);
-        $actual   = $asset->getContent(supportDir());
+        $actual   = $asset->getContent(Talon::settings()->supportPath() . '/');
         $this->assertSame($expected, $actual);
     }
 }

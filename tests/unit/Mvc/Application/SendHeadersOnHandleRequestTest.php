@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Mvc\Application;
 
 use Phalcon\Mvc\Application;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 class SendHeadersOnHandleRequestTest extends AbstractUnitTestCase
 {

@@ -17,7 +17,7 @@ use Phalcon\Filter\Validation;
 use Phalcon\Filter\Validation\Validator\File\Size\Equal;
 use Phalcon\Filter\Validation\Validator\File\Size\Max;
 use Phalcon\Filter\Validation\Validator\File\Size\Min;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Filter\Validation\Validator\File\Size\Fake\FakeEqual;
 use Phalcon\Tests\Unit\Filter\Validation\Validator\File\Size\Fake\FakeMax;
 use Phalcon\Tests\Unit\Filter\Validation\Validator\File\Size\Fake\FakeMin;

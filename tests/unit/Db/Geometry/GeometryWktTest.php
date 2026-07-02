@@ -18,7 +18,7 @@ use Phalcon\Db\Geometry\GeometryCollection;
 use Phalcon\Db\Geometry\LineString;
 use Phalcon\Db\Geometry\Point;
 use Phalcon\Db\Geometry\Polygon;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class GeometryWktTest extends AbstractUnitTestCase
 {

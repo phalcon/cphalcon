@@ -35,7 +35,7 @@ namespace Phalcon\Tests\Unit\Container\Definition\Processor;
 
 use Phalcon\Container\Definition\DefinitionType;
 use Phalcon\Container\Definition\Processor\ParameterProcessor;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Container\Fake\FakeContainer;
 use stdClass;
 

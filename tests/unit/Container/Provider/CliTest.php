@@ -56,7 +56,7 @@ use Phalcon\Mvc\Model\Transaction\ManagerInterface as TransactionManagerInterfac
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Support\HelperFactory;
 use Phalcon\Support\Settings;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class CliTest extends AbstractUnitTestCase
 {

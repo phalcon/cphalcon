@@ -15,7 +15,7 @@ use Phalcon\Html\Escaper;
 use Phalcon\Html\Helper\Doctype;
 use Phalcon\Html\Helper\Input\AbstractInput;
 use Phalcon\Html\Helper\Input\Generic;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class SetTypeTest extends AbstractUnitTestCase
 {

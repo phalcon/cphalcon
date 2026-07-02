@@ -16,7 +16,7 @@ namespace Phalcon\Tests\Unit\Messages\Messages;
 use Phalcon\Messages\Exception;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class AppendMessagesTest extends AbstractUnitTestCase
 {

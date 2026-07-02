@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Filter\Validation\Validator\File;
 
 use Phalcon\Filter\Validation;
 use Phalcon\Filter\Validation\Validator\File\Size\Equal;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Filter\Validation\Validator\File\Fake\FakeMimeType;
 use PHPUnit\Framework\Attributes\BackupGlobals;
 

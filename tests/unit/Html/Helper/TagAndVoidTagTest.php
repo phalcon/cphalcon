@@ -16,7 +16,7 @@ use Phalcon\Html\Helper\Doctype;
 use Phalcon\Html\Helper\Tag;
 use Phalcon\Html\Helper\VoidTag;
 use Phalcon\Html\TagFactory;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class TagAndVoidTagTest extends AbstractUnitTestCase
 {

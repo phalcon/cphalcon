@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Mvc\Model;
 
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\ResultsetInterface;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use ReflectionMethod;
 use ReflectionNamedType;
 

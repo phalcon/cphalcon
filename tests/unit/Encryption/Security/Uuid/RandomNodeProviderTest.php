@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Encryption\Security\Uuid;
 
 use Phalcon\Encryption\Security\Uuid\NodeProviderInterface;
 use Phalcon\Encryption\Security\Uuid\RandomNodeProvider;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class RandomNodeProviderTest extends AbstractUnitTestCase
 {

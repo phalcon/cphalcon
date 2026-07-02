@@ -15,12 +15,16 @@ namespace Phalcon\Tests\Unit\Queue\Adapter;
 
 use Phalcon\Queue\Adapter\Memory\MemoryMessage;
 use Phalcon\Queue\Adapter\MessageEnvelope;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 use function serialize;
 
 final class MessageEnvelopeTest extends AbstractUnitTestCase
 {
+    public function testDecodeReturnsNullForNonEnvelopePayload(): void
+    {
+        $this->assertNull(MessageEnvelope::decode(serialize('not-an-array')));
+    }
     public function testEncodeDecodeRoundTripPreservesBodyPropertiesHeaders(): void
     {
         $message = new MemoryMessage(
@@ -34,10 +38,5 @@ final class MessageEnvelopeTest extends AbstractUnitTestCase
         $this->assertSame('the-body', $decoded['body']);
         $this->assertSame(['prop-key' => 'prop-value'], $decoded['properties']);
         $this->assertSame(['head-key' => 'head-value'], $decoded['headers']);
-    }
-
-    public function testDecodeReturnsNullForNonEnvelopePayload(): void
-    {
-        $this->assertNull(MessageEnvelope::decode(serialize('not-an-array')));
     }
 }

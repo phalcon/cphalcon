@@ -14,11 +14,10 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Image\Adapter\Imagick;
 
 use Phalcon\Image\Adapter\Imagick;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\Unit\Image\Fake\ImagickTrait;
 use PHPUnit\Framework\Attributes\DataProvider;
-
-use function supportDir;
 
 final class GetTypeTest extends AbstractUnitTestCase
 {
@@ -31,13 +30,13 @@ final class GetTypeTest extends AbstractUnitTestCase
     {
         return [
             [
-                supportDir('assets/images/example-gif.gif'),
+                Talon::settings()->supportPath('assets/images/example-gif.gif'),
             ],
             [
-                supportDir('assets/images/example-jpg.jpg'),
+                Talon::settings()->supportPath('assets/images/example-jpg.jpg'),
             ],
             [
-                supportDir('assets/images/example-png.png'),
+                Talon::settings()->supportPath('assets/images/example-png.png'),
             ],
         ];
     }

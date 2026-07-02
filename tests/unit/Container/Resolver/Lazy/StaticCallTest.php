@@ -6,7 +6,7 @@ namespace Phalcon\Tests\Unit\Container\Resolver\Lazy;
 
 use DateTime;
 use Phalcon\Container\Resolver\Lazy\StaticCall;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Container\Resolver\Fake\FakeNameContainer;
 
 final class StaticCallTest extends AbstractUnitTestCase

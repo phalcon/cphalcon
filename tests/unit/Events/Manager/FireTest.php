@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Events\Manager;
 
 use Phalcon\Events\Exception;
 use Phalcon\Events\Manager;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Listener\OneListener;
 use Phalcon\Tests\Support\Listener\ThreeListener;
 use Phalcon\Tests\Support\Listener\TwoListener;

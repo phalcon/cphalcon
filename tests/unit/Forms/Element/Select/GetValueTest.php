@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Forms\Element\Select;
 
 use Phalcon\Forms\Element\Select;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class GetValueTest extends AbstractUnitTestCase
 {

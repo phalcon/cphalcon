@@ -12,7 +12,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Encryption\Security\JWT\Token\Signature;
 
 use Phalcon\Encryption\Security\JWT\Token\Signature;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class UnderscoreCallTest extends AbstractUnitTestCase
 {

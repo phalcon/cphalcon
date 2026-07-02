@@ -22,7 +22,8 @@ use Phalcon\Cli\Dispatcher\Exception as DispatcherException;
 use Phalcon\Cli\Router\Exception as RouterException;
 use Phalcon\Di\FactoryDefault\Cli as DiFactoryDefault;
 use Phalcon\Events\Event;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\Support\Modules\Backend\Module as BackendModule;
 use Phalcon\Tests\Support\Modules\Frontend\Module as FrontendModule;
 use Phalcon\Tests\Support\Tasks\Issue787Task;
@@ -147,7 +148,7 @@ final class HandleTest extends AbstractUnitTestCase
             [
                 'backend' => [
                     'className' => BackendModule::class,
-                    'path'      => supportDir('Modules/Backend/Module.php'),
+                    'path'      => Talon::settings()->supportPath('Modules/Backend/Module.php'),
                 ],
             ]
         );
@@ -168,7 +169,7 @@ final class HandleTest extends AbstractUnitTestCase
             [
                 'backend' => [
                     'className' => BackendModule::class,
-                    'path'      => supportDir('Modules/Backend/Module.php'),
+                    'path'      => Talon::settings()->supportPath('Modules/Backend/Module.php'),
                 ],
             ]
         );
@@ -217,7 +218,7 @@ final class HandleTest extends AbstractUnitTestCase
             [
                 'backend' => [
                     'className' => BackendModule::class,
-                    'path'      => supportDir('Modules/Backend/Module.php'),
+                    'path'      => Talon::settings()->supportPath('Modules/Backend/Module.php'),
                 ],
             ]
         );
@@ -266,7 +267,7 @@ final class HandleTest extends AbstractUnitTestCase
             [
                 'backend' => [
                     'className' => BackendModule::class,
-                    'path'      => supportDir('Modules/Backend/Module.php'),
+                    'path'      => Talon::settings()->supportPath('Modules/Backend/Module.php'),
                 ],
             ]
         );
@@ -323,11 +324,11 @@ final class HandleTest extends AbstractUnitTestCase
             [
                 'frontend' => [
                     'className' => FrontendModule::class,
-                    'path'      => supportDir('Modules/Frontend/Module.php'),
+                    'path'      => Talon::settings()->supportPath('Modules/Frontend/Module.php'),
                 ],
                 'backend'  => [
                     'className' => BackendModule::class,
-                    'path'      => supportDir('Modules/Backend/Module.php'),
+                    'path'      => Talon::settings()->supportPath('Modules/Backend/Module.php'),
                 ],
             ]
         );
@@ -360,7 +361,7 @@ final class HandleTest extends AbstractUnitTestCase
             [
                 'frontend' => [
                     'className' => FrontendModule::class,
-                    'path'      => supportDir('Modules/Frontend/Module.php'),
+                    'path'      => Talon::settings()->supportPath('Modules/Frontend/Module.php'),
                 ],
                 'backend'  => [
                     'className' => BackendModule::class,
@@ -436,7 +437,7 @@ final class HandleTest extends AbstractUnitTestCase
             [
                 'frontend' => [
                     'className' => FrontendModule::class,
-                    'path'      => supportDir('Modules/Frontend/Module.php'),
+                    'path'      => Talon::settings()->supportPath('Modules/Frontend/Module.php'),
                 ],
                 'backend'  => [
                     'className' => BackendModule::class,
@@ -511,11 +512,11 @@ final class HandleTest extends AbstractUnitTestCase
             [
                 'frontend' => [
                     'className' => FrontendModule::class,
-                    'path'      => supportDir('Modules/Frontend/Module.php'),
+                    'path'      => Talon::settings()->supportPath('Modules/Frontend/Module.php'),
                 ],
                 'backend'  => [
                     'className' => BackendModule::class,
-                    'path'      => supportDir('Modules/Backend/Module.php'),
+                    'path'      => Talon::settings()->supportPath('Modules/Backend/Module.php'),
                 ],
             ]
         );
@@ -574,11 +575,12 @@ final class HandleTest extends AbstractUnitTestCase
      */
     public function testCliConsoleHandleNoAction(): void
     {
+        $rootPath = Talon::settings()->rootPath();
         $module   = '';
-        if (!env('GITHUB_RUN_ID')) {
-            $module = '-d extension=' . rootDir() . 'ext/modules/phalcon.so ';
+        if (!getenv('GITHUB_RUN_ID')) {
+            $module = '-d extension=' . $rootPath . '/ext/modules/phalcon.so ';
         }
-        $script = rootDir() . 'tests/testbed/cli.php ';
+        $script = $rootPath . '/tests/testbed/cli.php ';
 
         ob_start();
         $actual = shell_exec('php ' . $module . $script . 'print');
@@ -614,7 +616,7 @@ final class HandleTest extends AbstractUnitTestCase
             [
                 'backend' => [
                     'className' => BackendModule::class,
-                    'path'      => supportDir('Modules/Backend/Module.php'),
+                    'path'      => Talon::settings()->supportPath('Modules/Backend/Module.php'),
                 ],
             ]
         );

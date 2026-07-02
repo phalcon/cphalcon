@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Html\Helper\Input\Select;
 
 use Phalcon\Html\Helper\Input\Select\ArrayData;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class ArrayDataTest extends AbstractUnitTestCase
 {

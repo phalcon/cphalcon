@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Time\Clock;
 
 use DateTimeImmutable;
 use DateTimeZone;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Time\Clock\SystemClock;
 
 use function date_default_timezone_get;

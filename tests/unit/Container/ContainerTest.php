@@ -46,7 +46,7 @@ use Phalcon\Container\Exceptions\ServiceNotFound;
 use Phalcon\Container\Exceptions\ServiceNotRegistered;
 use Phalcon\Container\Resolver\Lazy\Env;
 use Phalcon\Contracts\Container\Service\Collection;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Container\Fake\FakeService;
 use Phalcon\Tests\Unit\Container\Fake\FakeServiceProvider;
 use Phalcon\Tests\Unit\Container\Fake\FakeServiceWithDependency;

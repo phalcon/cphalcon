@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Mvc\Model\Query;
 
 use Phalcon\Mvc\Model\Query\Status;
 use Phalcon\Mvc\ModelInterface;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class StatusTest extends AbstractUnitTestCase
 {

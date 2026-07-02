@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Html\Link\Link;
 
 use Phalcon\Html\Link\Interfaces\LinkInterface;
 use Phalcon\Html\Link\Link;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class ConstructTest extends AbstractUnitTestCase
 {

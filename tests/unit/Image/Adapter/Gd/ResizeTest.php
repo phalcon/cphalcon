@@ -16,12 +16,10 @@ namespace Phalcon\Tests\Unit\Image\Adapter\Gd;
 use Phalcon\Image\Adapter\Gd;
 use Phalcon\Image\Enum;
 use Phalcon\Image\Exception;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\Unit\Image\Fake\GdTrait;
 use PHPUnit\Framework\Attributes\DataProvider;
-
-use function outputDir;
-use function supportDir;
 
 final class ResizeTest extends AbstractUnitTestCase
 {
@@ -34,14 +32,14 @@ final class ResizeTest extends AbstractUnitTestCase
     {
         return [
             [
-                supportDir('assets/images/example-jpg.jpg'),
+                Talon::settings()->supportPath('assets/images/example-jpg.jpg'),
                 'resize.jpg',
                 75,
                 197,
                 'fbf9f3e3c3c1c183',
             ],
             [
-                supportDir('assets/images/example-png.png'),
+                Talon::settings()->supportPath('assets/images/example-png.png'),
                 'resize.jpg',
                 50,
                 50,
@@ -134,7 +132,7 @@ final class ResizeTest extends AbstractUnitTestCase
         $this->checkJpegSupport();
 
         $outputDir = 'tests/image/gd/';
-        $output    = outputDir($outputDir . '/' . $file);
+        $output    = Talon::settings()->outputPath($outputDir . '/' . $file);
 
         $image = new Gd($source);
 
@@ -142,7 +140,7 @@ final class ResizeTest extends AbstractUnitTestCase
               ->save($output)
         ;
 
-        $this->assertFileExists(outputDir($outputDir) . $file);
+        $this->assertFileExists(Talon::settings()->outputPath($outputDir) . $file);
 
         $actual = $image->getWidth();
         $this->assertSame($width, $actual);
@@ -169,7 +167,7 @@ final class ResizeTest extends AbstractUnitTestCase
     ): void {
         $this->checkJpegSupport();
 
-        $source = supportDir('assets/images/example-jpg.jpg');
+        $source = Talon::settings()->supportPath('assets/images/example-jpg.jpg');
         $image  = new Gd($source);
 
         $this->expectException(Exception::class);
@@ -185,7 +183,7 @@ final class ResizeTest extends AbstractUnitTestCase
     {
         $this->checkJpegSupport();
 
-        $source = supportDir('assets/images/example-jpg.jpg');
+        $source = Talon::settings()->supportPath('assets/images/example-jpg.jpg');
 
         $original = new Gd($source);
         $sourceWidth  = $original->getWidth();
@@ -245,8 +243,8 @@ final class ResizeTest extends AbstractUnitTestCase
      */
     public function testImageAdapterGdResizePreservesTransparency(): void
     {
-        $source = supportDir('assets/images/example-png.png');
-        $output = outputDir('tests/image/gd/resize-transparency.png');
+        $source = Talon::settings()->supportPath('assets/images/example-png.png');
+        $output = Talon::settings()->outputPath('tests/image/gd/resize-transparency.png');
 
         $image = new Gd($source);
         $image->resize(50, 50)->save($output);

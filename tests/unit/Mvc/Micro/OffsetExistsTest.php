@@ -18,7 +18,7 @@ use Phalcon\Html\Escaper;
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\Micro;
 use Phalcon\Mvc\Router;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 class OffsetExistsTest extends AbstractUnitTestCase
 {

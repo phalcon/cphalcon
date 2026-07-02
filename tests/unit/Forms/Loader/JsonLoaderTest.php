@@ -13,7 +13,7 @@ namespace Phalcon\Tests\Unit\Forms\Loader;
 
 use Phalcon\Forms\Exception;
 use Phalcon\Forms\Loader\JsonLoader;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class JsonLoaderTest extends AbstractUnitTestCase
 {

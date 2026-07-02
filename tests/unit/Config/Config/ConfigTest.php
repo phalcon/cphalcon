@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Config\Config;
 
 use Phalcon\Config\Config;
 use Phalcon\Support\Collection\Exceptions\InvalidValueType;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Traits\ConfigTrait;
 
 final class ConfigTest extends AbstractUnitTestCase

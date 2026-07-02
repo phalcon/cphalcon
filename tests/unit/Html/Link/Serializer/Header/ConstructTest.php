@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Html\Link\Serializer\Header;
 
 use Phalcon\Html\Link\Serializer\Header;
 use Phalcon\Html\Link\Serializer\SerializerInterface;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class ConstructTest extends AbstractUnitTestCase
 {

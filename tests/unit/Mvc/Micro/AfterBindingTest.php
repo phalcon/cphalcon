@@ -17,7 +17,7 @@ use Phalcon\Di\FactoryDefault;
 use Phalcon\Events\Event;
 use Phalcon\Events\Manager;
 use Phalcon\Mvc\Micro;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Micro\MyMiddleware;
 use Phalcon\Tests\Support\Micro\MyMiddlewareStop;
 use PHPUnit\Framework\Attributes\BackupGlobals;

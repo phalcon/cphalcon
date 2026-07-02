@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Http\Cookie;
 
 use Phalcon\Di\Di;
 use Phalcon\Http\Cookie;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 use function uniqid;
 

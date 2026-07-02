@@ -19,12 +19,12 @@ use Phalcon\Logger\Adapter\Exceptions\FileOpenFailed;
 use Phalcon\Logger\Adapter\Stream;
 use Phalcon\Logger\Enum;
 use Phalcon\Logger\Item;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\Unit\Logger\Fake\Adapter\FakeStreamAdapter;
 
 use function date_default_timezone_get;
 use function file_get_contents;
-use function logsDir;
 
 final class ProcessTest extends AbstractUnitTestCase
 {
@@ -35,7 +35,7 @@ final class ProcessTest extends AbstractUnitTestCase
     public function testLoggerAdapterStreamProcess(): void
     {
         $fileName   = $this->getNewFileName('log', 'log');
-        $outputPath = logsDir();
+        $outputPath = Talon::settings()->outputPath('tests/logs/');
         $timezone   = date_default_timezone_get();
         $datetime   = new DateTimeImmutable('now', new DateTimeZone($timezone));
         $adapter    = new Stream($outputPath . $fileName);
@@ -66,7 +66,7 @@ final class ProcessTest extends AbstractUnitTestCase
     public function testLoggerAdapterStreamProcessException(): void
     {
         $fileName   = $this->getNewFileName('log', 'log');
-        $outputPath = logsDir();
+        $outputPath = Talon::settings()->outputPath('tests/logs/');
 
         $this->expectException(FileOpenFailed::class);
         $this->expectExceptionMessage(

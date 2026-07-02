@@ -14,7 +14,7 @@ namespace Phalcon\Tests\Unit\Html\Helper\FriendlyTitle;
 use Phalcon\Html\Escaper;
 use Phalcon\Html\Helper\FriendlyTitle;
 use Phalcon\Html\TagFactory;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 final class UnderscoreInvokeTest extends AbstractUnitTestCase

@@ -30,7 +30,7 @@ use Phalcon\Forms\Exception;
 use Phalcon\Forms\Form;
 use Phalcon\Forms\FormsLocator;
 use Phalcon\Forms\Loader\ArrayLoader;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 final class LoadTest extends AbstractUnitTestCase

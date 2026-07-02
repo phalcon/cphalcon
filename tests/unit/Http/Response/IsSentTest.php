@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Http\Response;
 
 use Phalcon\Http\Response;
 use Phalcon\Http\Response\Exception;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Page\Http;
 
 final class IsSentTest extends AbstractUnitTestCase

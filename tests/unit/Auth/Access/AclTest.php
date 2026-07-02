@@ -16,7 +16,7 @@ namespace Phalcon\Tests\Unit\Auth\Access;
 use Phalcon\Acl\Adapter\Memory as AclMemory;
 use Phalcon\Auth\Access\Acl;
 use Phalcon\Auth\Exception;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Auth\Fake\FakeAuthUserNoRemember;
 use Phalcon\Tests\Unit\Auth\Fake\FakeGuard;
 use Phalcon\Tests\Unit\Auth\Fake\FakeRoleUser;

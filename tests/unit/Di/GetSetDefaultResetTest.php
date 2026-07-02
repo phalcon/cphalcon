@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Di;
 
 use Phalcon\Di\Di;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class GetSetDefaultResetTest extends AbstractUnitTestCase
 {
@@ -24,7 +24,9 @@ final class GetSetDefaultResetTest extends AbstractUnitTestCase
      */
     public function testDiGetSetDefaultReset(): void
     {
-        $class  = Di::class;
+        $class = Di::class;
+        new Di();
+
         $actual = Di::getDefault();
         $this->assertInstanceOf($class, $actual);
 

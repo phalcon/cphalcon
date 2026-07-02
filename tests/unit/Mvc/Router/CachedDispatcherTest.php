@@ -14,11 +14,11 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Mvc\Router;
 
 use Phalcon\Mvc\Router\Exception;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\Unit\Mvc\Fake\RouterTrait;
 use PHPUnit\Framework\Attributes\BackupGlobals;
 
-use function cacheDir;
 use function file_put_contents;
 use function glob;
 use function uniqid;
@@ -249,7 +249,12 @@ final class CachedDispatcherTest extends AbstractUnitTestCase
         $this->expectException(Exception::class);
         $this->expectExceptionMessageMatches('/not found/i');
 
-        $router->loadDispatcher(cacheDir('_router_nonexistent_' . uniqid('', true) . '.php'));
+        $router->loadDispatcher(
+            Talon::settings()->outputPath(
+                'tests/cache/_router_nonexistent_'
+                . uniqid('', true) . '.php'
+            )
+        );
     }
 
     /**
@@ -382,6 +387,9 @@ final class CachedDispatcherTest extends AbstractUnitTestCase
 
     private function makeCachePath(): string
     {
-        return cacheDir('_router_cache_' . uniqid('', true) . '.php');
+        return Talon::settings()->outputPath(
+            'tests/cache/_router_cache_'
+            . uniqid('', true) . '.php'
+        );
     }
 }

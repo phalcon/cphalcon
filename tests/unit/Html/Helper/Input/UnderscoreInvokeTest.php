@@ -17,7 +17,7 @@ use Phalcon\Html\Helper\Doctype;
 use Phalcon\Html\Helper\Input\Generic;
 use Phalcon\Html\Helper\Input\Textarea;
 use Phalcon\Html\TagFactory;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 use function sprintf;

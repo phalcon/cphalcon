@@ -14,7 +14,8 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Mvc\View\Engine\Volt;
 
 use Phalcon\Mvc\View\Engine\Volt;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\Support\Listener\ViewCompileListener;
 use Phalcon\Tests\Support\Traits\DiTrait;
 
@@ -34,7 +35,7 @@ class RenderTest extends AbstractUnitTestCase
         $view = $this->getService('viewSimple');
         $volt = new Volt($view, $this->container);
 
-        $templatePath = supportDir('assets/views/compiler/partial.volt');
+        $templatePath = Talon::settings()->supportPath('assets/views/compiler/partial.volt');
 
         ob_start();
         $volt->render($templatePath, ['some_var' => 'Label']);
@@ -72,7 +73,7 @@ class RenderTest extends AbstractUnitTestCase
         // render() echoes out its result
         ob_start();
         $volt->render(
-            supportDir('assets/views/compiler/partial.volt'),
+            Talon::settings()->supportPath('assets/views/compiler/partial.volt'),
             [
                 'some_var' => 'aaa',
             ]

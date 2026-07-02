@@ -20,7 +20,7 @@ use Phalcon\Storage\Serializer\Msgpack;
 use Phalcon\Storage\Serializer\None;
 use Phalcon\Storage\Serializer\Php;
 use Phalcon\Support\Collection;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Storage\Fake\FakeBase64Decode;
 use Phalcon\Tests\Unit\Storage\Fake\FakeIgbinarySerialize;
 use Phalcon\Tests\Unit\Storage\Fake\FakeIgbinaryUnserialize;

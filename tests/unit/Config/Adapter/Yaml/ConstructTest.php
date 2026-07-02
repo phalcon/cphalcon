@@ -16,7 +16,8 @@ namespace Phalcon\Tests\Unit\Config\Adapter\Yaml;
 use Phalcon\Config\Adapter\Yaml;
 use Phalcon\Config\Config;
 use Phalcon\Config\Exception;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\Support\Traits\ConfigTrait;
 use Phalcon\Tests\Unit\Config\Fake\Adapter\FakeYamlExtensionLoaded;
 use Phalcon\Tests\Unit\Config\Fake\Adapter\FakeYamlParseFile;
@@ -24,7 +25,6 @@ use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 
 use function basename;
 use function hash;
-use function supportDir;
 
 #[RequiresPhpExtension('yaml')]
 final class ConstructTest extends AbstractUnitTestCase
@@ -44,10 +44,10 @@ final class ConstructTest extends AbstractUnitTestCase
      */
     public function testConfigAdapterYamlConstructCallbacks(): void
     {
-        $baseDir = supportDir();
+        $baseDir = Talon::settings()->supportPath() . '/';
 
         $config = new Yaml(
-            supportDir('assets/config/callbacks.yml'),
+            Talon::settings()->supportPath('assets/config/callbacks.yml'),
             [
                 '!decrypt' => function ($value) {
                     return hash('sha256', $value);
@@ -73,7 +73,7 @@ final class ConstructTest extends AbstractUnitTestCase
      */
     public function testConfigAdapterYamlConstructExceptionLoaded(): void
     {
-        $filePath = supportDir('assets/config/callbacks.yml');
+        $filePath = Talon::settings()->supportPath('assets/config/callbacks.yml');
 
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('Yaml extension is not loaded');
@@ -87,7 +87,7 @@ final class ConstructTest extends AbstractUnitTestCase
      */
     public function testConfigAdapterYamlConstructExceptionParseFile(): void
     {
-        $filePath = supportDir('assets/config/callbacks.yml');
+        $filePath = Talon::settings()->supportPath('assets/config/callbacks.yml');
 
         $this->expectException(Exception::class);
         $this->expectExceptionMessage(
@@ -103,7 +103,7 @@ final class ConstructTest extends AbstractUnitTestCase
      */
     public function testConfigAdapterYamlConstructHandlesEmptyYaml(): void
     {
-        $config = new Yaml(supportDir('assets/config/empty.yml'));
+        $config = new Yaml(Talon::settings()->supportPath('assets/config/empty.yml'));
 
         $this->assertInstanceOf(Config::class, $config);
         $this->assertEquals([], $config->toArray());

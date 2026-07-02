@@ -19,7 +19,7 @@ use Phalcon\Db\Geometry\LineString;
 use Phalcon\Db\Geometry\MultiPoint;
 use Phalcon\Db\Geometry\Point;
 use Phalcon\Db\Geometry\WkbParser;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class WkbParserTest extends AbstractUnitTestCase
 {

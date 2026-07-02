@@ -15,9 +15,8 @@ namespace Phalcon\Tests\Unit\Annotations\Adapter\Stream;
 
 use Phalcon\Annotations\Adapter\AdapterInterface;
 use Phalcon\Annotations\Adapter\Stream;
-use Phalcon\Tests\AbstractUnitTestCase;
-
-use function outputDir;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 
 final class ConstructTest extends AbstractUnitTestCase
 {
@@ -29,7 +28,7 @@ final class ConstructTest extends AbstractUnitTestCase
     {
         $adapter = new Stream(
             [
-                'annotationsDir' => outputDir('tests/annotations/'),
+                'annotationsDir' => Talon::settings()->outputPath('tests/annotations/'),
             ]
         );
 

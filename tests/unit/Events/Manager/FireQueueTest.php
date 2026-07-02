@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Events\Manager;
 
 use Phalcon\Events\Event;
 use Phalcon\Events\Manager;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use stdClass;
 
 final class FireQueueTest extends AbstractUnitTestCase

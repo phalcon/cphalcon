@@ -18,7 +18,7 @@ use Phalcon\Assets\Exceptions\InvalidAssetSourcePath;
 use Phalcon\Assets\Exceptions\InvalidAssetTargetPath;
 use Phalcon\Assets\Exceptions\InvalidTargetPath;
 use Phalcon\Assets\Exceptions\TargetPathIsDirectory;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 use function uniqid;
 

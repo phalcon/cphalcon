@@ -18,7 +18,7 @@ use Phalcon\Filter\Validation\Exception;
 use Phalcon\Filter\Validation\Validator\Identical;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use stdClass;
 
 final class ValidateTest extends AbstractUnitTestCase

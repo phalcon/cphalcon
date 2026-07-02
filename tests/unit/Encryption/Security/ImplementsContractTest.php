@@ -18,7 +18,7 @@ use Phalcon\Contracts\Encryption\Security\CsrfProtection;
 use Phalcon\Contracts\Encryption\Security\PasswordSecurity;
 use Phalcon\Contracts\Encryption\Security\Security as SecurityContract;
 use Phalcon\Encryption\Security;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class ImplementsContractTest extends AbstractUnitTestCase
 {

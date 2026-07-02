@@ -17,7 +17,7 @@ use Phalcon\Di\Di;
 use Phalcon\Di\Exception;
 use Phalcon\Di\Service\Builder;
 use Phalcon\Html\Escaper;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Di\PropertiesComponent;
 use Phalcon\Tests\Support\Di\ServiceComponent;
 

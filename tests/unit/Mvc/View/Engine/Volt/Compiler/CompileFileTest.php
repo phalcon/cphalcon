@@ -14,7 +14,8 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Mvc\View\Engine\Volt\Compiler;
 
 use Phalcon\Mvc\View\Engine\Volt\Compiler;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 class CompileFileTest extends AbstractUnitTestCase
@@ -40,7 +41,7 @@ class CompileFileTest extends AbstractUnitTestCase
      */
     public function testMvcViewEngineVoltCompilerCompileFile(): void
     {
-        $viewFile    = supportDir('assets/views/layouts/compiler.volt');
+        $viewFile    = Talon::settings()->supportPath('assets/views/layouts/compiler.volt');
         $compileFile = $viewFile . '.php';
 
         $expected = '<?php if ($some_eval) { ?>
@@ -69,7 +70,7 @@ Clearly, the song is: <?= $this->getContent() ?>.
 
         $viewFile = sprintf(
             '%sassets/views/filters/%s.volt',
-            supportDir(),
+            Talon::settings()->supportPath() . '/',
             $view
         );
 

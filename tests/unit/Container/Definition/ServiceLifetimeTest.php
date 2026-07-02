@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Container\Definition;
 
 use Phalcon\Container\Definition\ServiceLifetime;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class ServiceLifetimeTest extends AbstractUnitTestCase
 {

@@ -20,7 +20,8 @@ use Phalcon\Logger\Exception;
 use Phalcon\Logger\Formatter\Json;
 use Phalcon\Logger\Logger;
 use Phalcon\Logger\LoggerInterface;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 
 final class ConstructTest extends AbstractUnitTestCase
 {
@@ -72,7 +73,7 @@ final class ConstructTest extends AbstractUnitTestCase
     public function testLoggerConstructStreamReadOnlyModeException(): void
     {
         $fileName   = $this->getNewFileName('log', 'log');
-        $outputPath = logsDir();
+        $outputPath = Talon::settings()->outputPath('tests/logs/');
 
         $file = $outputPath . $fileName;
 
@@ -94,7 +95,7 @@ final class ConstructTest extends AbstractUnitTestCase
     public function testLoggerConstructStreamWithJsonConstants(): void
     {
         $fileName   = $this->getNewFileName('log', 'log');
-        $outputPath = logsDir($fileName);
+        $outputPath = Talon::settings()->outputPath('tests/logs/' . $fileName);
         $adapter    = new Stream($outputPath);
 
         $adapter->setFormatter(new Json());

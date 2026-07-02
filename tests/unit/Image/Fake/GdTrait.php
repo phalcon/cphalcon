@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Image\Fake;
 
-use function supportDir;
+use Phalcon\Talon\Talon;
 
 /**
  * Trait GdTrait
@@ -197,14 +197,14 @@ trait GdTrait
     private function getImages(): array
     {
         $images = [
-            'gif' => supportDir('assets/images/example-gif.gif'),
-            'png' => supportDir('assets/images/example-png.png'),
+            'gif' => Talon::settings()->supportPath('assets/images/example-gif.gif'),
+            'png' => Talon::settings()->supportPath('assets/images/example-png.png'),
         ];
 
         if (true === $this->hasJpegSupport()) {
-            $images['jpg']  = supportDir('assets/images/example-jpg.jpg');
-            $images['wbmp'] = supportDir('assets/images/example-wbmp.wbmp');
-            $images['webp'] = supportDir('assets/images/example-webp.webp');
+            $images['jpg']  = Talon::settings()->supportPath('assets/images/example-jpg.jpg');
+            $images['wbmp'] = Talon::settings()->supportPath('assets/images/example-wbmp.wbmp');
+            $images['webp'] = Talon::settings()->supportPath('assets/images/example-webp.webp');
         }
 
         return $images;

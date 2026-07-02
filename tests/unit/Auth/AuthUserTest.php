@@ -18,7 +18,7 @@ namespace Phalcon\Tests\Unit\Auth;
 
 use Phalcon\Auth\AuthUser;
 use Phalcon\Auth\Exception;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class AuthUserTest extends AbstractUnitTestCase
 {

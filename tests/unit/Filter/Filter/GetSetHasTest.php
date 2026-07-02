@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Filter\Filter;
 
 use Closure;
 use Phalcon\Filter\Filter;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Service\HelloService;
 
 final class GetSetHasTest extends AbstractUnitTestCase

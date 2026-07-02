@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Config\Adapter\Php;
 
 use Phalcon\Config\Adapter\Php;
 use Phalcon\Config\Exceptions\CannotLoadConfigFile;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 use function basename;
 use function uniqid;

@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Di\Service;
 
 use Phalcon\Di\Di;
 use Phalcon\Html\Escaper;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class IsResolvedResolveTest extends AbstractUnitTestCase
 {

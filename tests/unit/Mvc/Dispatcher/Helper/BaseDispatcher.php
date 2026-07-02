@@ -7,7 +7,7 @@ use Phalcon\Dispatcher\DispatcherInterface;
 use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Http\Response;
 use Phalcon\Mvc\Dispatcher;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 /**
  * @author        Andres Gutierrez <andres@phalcon.io>

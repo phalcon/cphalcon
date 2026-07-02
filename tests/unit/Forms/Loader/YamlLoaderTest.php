@@ -13,7 +13,8 @@ namespace Phalcon\Tests\Unit\Forms\Loader;
 
 use Phalcon\Forms\Exception;
 use Phalcon\Forms\Loader\YamlLoader;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 
 /**
@@ -146,7 +147,7 @@ final class YamlLoaderTest extends AbstractUnitTestCase
 
     private function writeYamlFile(string $yaml): string
     {
-        $dir  = outputDir('tests/forms/');
+        $dir  = Talon::settings()->outputPath('tests/forms/');
         if (!is_dir($dir)) {
             mkdir($dir, 0777, true);
         }

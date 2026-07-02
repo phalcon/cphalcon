@@ -15,7 +15,8 @@ namespace Phalcon\Tests\Unit\Mvc\View;
 
 use Phalcon\Events\Manager;
 use Phalcon\Mvc\View;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\Support\Mvc\View\AfterRenderListener;
 use Phalcon\Tests\Support\Traits\DiTrait;
 
@@ -40,7 +41,7 @@ class GetSetRenderLevelTest extends AbstractUnitTestCase
         $this->setDiService('view');
         $view = $this->getService('view');
 
-        $view->setViewsDir(supportDir('assets/views' . DIRECTORY_SEPARATOR));
+        $view->setViewsDir(Talon::settings()->supportPath('assets/views' . DIRECTORY_SEPARATOR));
         $view->setEventsManager($eventsManager);
 
         $view->start();

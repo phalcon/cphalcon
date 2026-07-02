@@ -20,7 +20,7 @@ use Phalcon\Auth\Adapter\Config\StreamAdapterConfig;
 use Phalcon\Auth\Exception;
 use Phalcon\Contracts\Auth\AuthUser;
 use Phalcon\Encryption\Security;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Auth\Fake\FakeStreamAdapter;
 
 final class StreamTest extends AbstractUnitTestCase

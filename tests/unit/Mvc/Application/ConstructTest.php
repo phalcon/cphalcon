@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Mvc\Application;
 
 use Phalcon\Application\AbstractApplication;
 use Phalcon\Mvc\Application;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 class ConstructTest extends AbstractUnitTestCase
 {

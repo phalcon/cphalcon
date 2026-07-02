@@ -17,7 +17,7 @@ use Phalcon\Mvc\Model\Exceptions\ColumnNotInMap;
 use Phalcon\Mvc\Model\Hydration\CloneResultMapHydrate;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Support\Settings;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class CloneResultMapHydrateTest extends AbstractUnitTestCase
 {

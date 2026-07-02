@@ -6,7 +6,7 @@ namespace Phalcon\Tests\Unit\Container\Exceptions;
 
 use Phalcon\Container\Exceptions\CannotExtendResolved;
 use Phalcon\Container\Exceptions\ContainerThrowable;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Throwable;
 
 final class CannotExtendResolvedTest extends AbstractUnitTestCase

@@ -16,7 +16,7 @@ namespace Phalcon\Tests\Unit\Http\Response;
 use Phalcon\Di\Di;
 use Phalcon\Http\Response;
 use Phalcon\Http\Response\Exception;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class GetSetDITest extends AbstractUnitTestCase
 {

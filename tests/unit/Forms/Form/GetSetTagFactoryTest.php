@@ -16,7 +16,7 @@ namespace Phalcon\Tests\Unit\Forms\Form;
 use Phalcon\Forms\Form;
 use Phalcon\Html\Escaper;
 use Phalcon\Html\TagFactory;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class GetSetTagFactoryTest extends AbstractUnitTestCase
 {

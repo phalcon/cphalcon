@@ -16,7 +16,7 @@ namespace Phalcon\Tests\Unit\Encryption\Security\Uuid;
 use DateTimeImmutable;
 use Phalcon\Encryption\Security\Uuid\TimeBasedUuidInterface;
 use Phalcon\Encryption\Security\Uuid\Version6;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class Version6Test extends AbstractUnitTestCase
 {

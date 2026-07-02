@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Queue\Consumer;
 
 use Phalcon\Queue\Consumer\WorkerOptions;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class WorkerOptionsTest extends AbstractUnitTestCase
 {

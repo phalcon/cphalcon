@@ -18,7 +18,7 @@ use Phalcon\Forms\Element\Radio;
 use Phalcon\Forms\Element\Text;
 use Phalcon\Forms\Exception;
 use Phalcon\Forms\Form;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Forms\Fake\FakeFormAfterBind;
 use Phalcon\Tests\Unit\Forms\Fake\FakeFormBeforeBind;
 use stdClass;

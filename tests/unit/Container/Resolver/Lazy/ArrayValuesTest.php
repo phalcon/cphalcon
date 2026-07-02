@@ -7,7 +7,7 @@ namespace Phalcon\Tests\Unit\Container\Resolver\Lazy;
 use ArrayIterator;
 use Phalcon\Container\Resolver\Lazy\ArrayValues;
 use Phalcon\Container\Resolver\Lazy\Get;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Container\Resolver\Fake\FakeNameContainer;
 use stdClass;
 

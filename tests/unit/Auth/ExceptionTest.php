@@ -25,7 +25,7 @@ use Phalcon\Auth\Exceptions\FileCannotRead;
 use Phalcon\Auth\Exceptions\FileDoesNotContainJson;
 use Phalcon\Auth\Exceptions\FileDoesNotExist;
 use Phalcon\Auth\Exceptions\FileNotValidJson;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use RuntimeException;
 
 final class ExceptionTest extends AbstractUnitTestCase

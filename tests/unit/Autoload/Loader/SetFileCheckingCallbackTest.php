@@ -16,7 +16,8 @@ namespace Phalcon\Tests\Unit\Autoload\Loader;
 use Phalcon\Autoload\Exception;
 use Phalcon\Autoload\Loader;
 use Phalcon\Events\Exception as EventsException;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\Unit\Autoload\Fake\LoaderTrait;
 use PHPUnit\Framework\Attributes\DataProvider;
 
@@ -68,12 +69,12 @@ final class SetFileCheckingCallbackTest extends AbstractUnitTestCase
         $loader
             ->setFiles(
                 [
-                    supportDir('assets/Loader/Example/Functions/FunctionsNoClassThree.php'),
+                    Talon::settings()->supportPath('assets/Loader/Example/Functions/FunctionsNoClassThree.php'),
                 ]
             )
             ->setNamespaces(
                 [
-                    'Example' => supportDir('assets/Loader/Example/'),
+                    'Example' => Talon::settings()->supportPath('assets/Loader/Example/'),
                 ],
                 true
             )
@@ -109,12 +110,12 @@ final class SetFileCheckingCallbackTest extends AbstractUnitTestCase
         $loader
             ->setFiles(
                 [
-                    supportDir('assets/Loader/Example/Functions/FunctionsNoClassThree.php'),
+                    Talon::settings()->supportPath('assets/Loader/Example/Functions/FunctionsNoClassThree.php'),
                 ]
             )
             ->setNamespaces(
                 [
-                    'Example\Namespaces' => supportDir('assets/Loader/Example/Namespaces'),
+                    'Example\Namespaces' => Talon::settings()->supportPath('assets/Loader/Example/Namespaces'),
                 ],
                 true
             )

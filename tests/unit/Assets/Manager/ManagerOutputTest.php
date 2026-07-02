@@ -19,7 +19,8 @@ use Phalcon\Assets\Exception;
 use Phalcon\Assets\Manager;
 use Phalcon\Html\Escaper;
 use Phalcon\Html\TagFactory;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\Unit\Assets\Fake\FakeAssetFileExistsPositive;
 use Phalcon\Tests\Unit\Assets\Fake\UppercaseFilter;
 
@@ -27,8 +28,6 @@ use function file_put_contents;
 use function filemtime;
 use function ob_get_clean;
 use function ob_start;
-use function outputDir;
-use function supportDir;
 use function touch;
 
 use const PHP_EOL;
@@ -44,7 +43,7 @@ final class ManagerOutputTest extends AbstractUnitTestCase
      */
     public function testAssetsManagerCalculatePrefixedPathAutoVersion(): void
     {
-        $cssFile = supportDir('assets/assets/1198.css');
+        $cssFile = Talon::settings()->supportPath('assets/assets/1198.css');
 
         $manager = new Manager(new TagFactory(new Escaper()));
         $manager->useImplicitOutput(false);
@@ -119,7 +118,7 @@ final class ManagerOutputTest extends AbstractUnitTestCase
         $collection = new Collection();
         $collection->addCss('css/style.css');
         $collection->addFilter(new UppercaseFilter());
-        $collection->setTargetPath(outputDir('tests/assets/'));  // existing directory
+        $collection->setTargetPath(Talon::settings()->outputPath('tests/assets/'));  // existing directory
         $collection->join(false);
 
         $manager->output($collection, 'css');
@@ -157,8 +156,8 @@ final class ManagerOutputTest extends AbstractUnitTestCase
      */
     public function testAssetsManagerOutputCharacterizationFilteredBranchUsesCollectionAttributes(): void
     {
-        $cssFile = supportDir('assets/assets/1198.css');
-        $prefix  = outputDir('tests/assets/') . 'cov_char_attrs_';
+        $cssFile = Talon::settings()->supportPath('assets/assets/1198.css');
+        $prefix  = Talon::settings()->outputPath('tests/assets/') . 'cov_char_attrs_';
 
         $asset = new Asset('css', $cssFile, true, false); // filter=false on asset
         $asset->setTargetPath('char_attrs.css');
@@ -189,10 +188,13 @@ final class ManagerOutputTest extends AbstractUnitTestCase
      */
     public function testAssetsManagerOutputCollectionSourcePath(): void
     {
-        $targetFile = outputDir('tests/assets/cov_srcpath_' . $this->getNewFileName() . '.css');
+        $targetFile = Talon::settings()->outputPath(
+            'tests/assets/cov_srcpath_'
+            . $this->getNewFileName() . '.css'
+        );
 
         $manager = new Manager(new TagFactory(new Escaper()), [
-            'sourceBasePath' => supportDir(),
+            'sourceBasePath' => Talon::settings()->supportPath() . '/',
         ]);
         $manager->useImplicitOutput(false);
 
@@ -216,8 +218,8 @@ final class ManagerOutputTest extends AbstractUnitTestCase
      */
     public function testAssetsManagerOutputEchoImplicit(): void
     {
-        $prefix  = outputDir('tests/assets/') . 'cov_echo_nojoin_';
-        $cssFile = supportDir('assets/assets/1198.css');
+        $prefix  = Talon::settings()->outputPath('tests/assets/') . 'cov_echo_nojoin_';
+        $cssFile = Talon::settings()->supportPath('assets/assets/1198.css');
 
         $asset = new Asset('css', $cssFile);
         $asset->setTargetPath('echo_nojoin.css');
@@ -247,8 +249,11 @@ final class ManagerOutputTest extends AbstractUnitTestCase
      */
     public function testAssetsManagerOutputEchoImplicitJoin(): void
     {
-        $targetFile = outputDir('tests/assets/cov_echo_join_' . $this->getNewFileName() . '.css');
-        $cssFile    = supportDir('assets/assets/1198.css');
+        $targetFile = Talon::settings()->outputPath(
+            'tests/assets/cov_echo_join_'
+            . $this->getNewFileName() . '.css'
+        );
+        $cssFile    = Talon::settings()->supportPath('assets/assets/1198.css');
 
         $collection = new Collection();
         $collection->addCss($cssFile);
@@ -306,7 +311,7 @@ final class ManagerOutputTest extends AbstractUnitTestCase
         // FakeAssetFileExistsPositive always returns true for phpFileExists
         // When the file doesn't actually exist, realpath returns false → empty string
         $asset = new FakeAssetFileExistsPositive('css', 'nonexistent_target_for_coverage.css');
-        $asset->setSourcePath(supportDir('assets/assets/1198.css'));
+        $asset->setSourcePath(Talon::settings()->supportPath('assets/assets/1198.css'));
 
         $collection = new Collection();
         $collection->add($asset);
@@ -421,8 +426,11 @@ final class ManagerOutputTest extends AbstractUnitTestCase
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('The filter is not valid');
 
-        $cssFile    = supportDir('assets/assets/1198.css');
-        $targetFile = outputDir('tests/assets/cov_inv_filter_' . $this->getNewFileName() . '.css');
+        $cssFile    = Talon::settings()->supportPath('assets/assets/1198.css');
+        $targetFile = Talon::settings()->outputPath(
+            'tests/assets/cov_inv_filter_'
+            . $this->getNewFileName() . '.css'
+        );
 
         $manager = new Manager(new TagFactory(new Escaper()));
         $manager->useImplicitOutput(false);
@@ -443,8 +451,11 @@ final class ManagerOutputTest extends AbstractUnitTestCase
      */
     public function testAssetsManagerOutputNoFilterJoin(): void
     {
-        $cssFile    = supportDir('assets/assets/1198.css');
-        $targetFile = outputDir('tests/assets/cov_nofilter_join_' . $this->getNewFileName() . '.css');
+        $cssFile    = Talon::settings()->supportPath('assets/assets/1198.css');
+        $targetFile = Talon::settings()->outputPath(
+            'tests/assets/cov_nofilter_join_'
+            . $this->getNewFileName() . '.css'
+        );
 
         $manager = new Manager(new TagFactory(new Escaper()));
         $manager->useImplicitOutput(false);
@@ -469,8 +480,8 @@ final class ManagerOutputTest extends AbstractUnitTestCase
      */
     public function testAssetsManagerOutputNoFilterNoJoin(): void
     {
-        $cssFile = supportDir('assets/assets/1198.css');
-        $prefix  = outputDir('tests/assets/') . 'cov_noflt_nojoin_';
+        $cssFile = Talon::settings()->supportPath('assets/assets/1198.css');
+        $prefix  = Talon::settings()->outputPath('tests/assets/') . 'cov_noflt_nojoin_';
 
         $asset = new Asset('css', $cssFile, true, false);  // filter=false on asset
         $asset->setTargetPath('output.css');
@@ -500,7 +511,7 @@ final class ManagerOutputTest extends AbstractUnitTestCase
         $this->expectException(Exception::class);
         $this->expectExceptionMessage("has the same source and target paths");
 
-        $cssFile = supportDir('assets/assets/1198.css');
+        $cssFile = Talon::settings()->supportPath('assets/assets/1198.css');
 
         $manager = new Manager(new TagFactory(new Escaper()));
         $manager->useImplicitOutput(false);
@@ -524,8 +535,8 @@ final class ManagerOutputTest extends AbstractUnitTestCase
      */
     public function testAssetsManagerOutputTargetExistsFiletimeDiffers(): void
     {
-        $cssFile    = supportDir('assets/assets/1198.css');
-        $prefix     = outputDir('tests/assets/') . 'cov_fmtime_';
+        $cssFile    = Talon::settings()->supportPath('assets/assets/1198.css');
+        $prefix     = Talon::settings()->outputPath('tests/assets/') . 'cov_fmtime_';
         $targetFile = $prefix . 'differs.css';
 
         // Pre-create target file with an older mtime than the source

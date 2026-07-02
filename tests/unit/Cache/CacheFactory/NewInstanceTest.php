@@ -19,7 +19,7 @@ use Phalcon\Cache\CacheFactory;
 use Phalcon\Cache\CacheInterface;
 use Phalcon\Cache\Exception\Exception;
 use Phalcon\Storage\SerializerFactory;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 use function uniqid;
 

@@ -19,7 +19,7 @@ namespace Phalcon\Tests\Unit\Auth\Adapter;
 use Phalcon\Auth\Adapter\Memory;
 use Phalcon\Contracts\Auth\AuthUser;
 use Phalcon\Encryption\Security;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class MemoryFromOptionsTest extends AbstractUnitTestCase
 {

@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Filter\Validation\Validator\Uniqueness;
 
 use Phalcon\Filter\Validation\Validator\Uniqueness;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class SetOptionTest extends AbstractUnitTestCase
 {

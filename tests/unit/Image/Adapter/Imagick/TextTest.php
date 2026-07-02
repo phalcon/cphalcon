@@ -14,11 +14,9 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Image\Adapter\Imagick;
 
 use Phalcon\Image\Adapter\Imagick;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\Unit\Image\Fake\ImagickTrait;
-
-use function outputDir;
-use function supportDir;
 
 final class TextTest extends AbstractUnitTestCase
 {
@@ -31,7 +29,7 @@ final class TextTest extends AbstractUnitTestCase
     public function testImageAdapterImagickText(): void
     {
         $image = new Imagick(
-            supportDir('assets/images/example-jpg.jpg')
+            Talon::settings()->supportPath('assets/images/example-jpg.jpg')
         );
 
         $image->setResourceLimit(6, 1);
@@ -43,13 +41,13 @@ final class TextTest extends AbstractUnitTestCase
             100,
             '000099',
             12,
-            supportDir('assets/fonts/Roboto-Thin.ttf')
+            Talon::settings()->supportPath('assets/fonts/Roboto-Thin.ttf')
         )
-              ->save(outputDir('tests/image/imagick/text.jpg'))
+              ->save(Talon::settings()->outputPath('tests/image/imagick/text.jpg'))
         ;
 
         $this->assertFileExists(
-            outputDir('tests/image/imagick/text.jpg')
+            Talon::settings()->outputPath('tests/image/imagick/text.jpg')
         );
 
         $expected = 1820;

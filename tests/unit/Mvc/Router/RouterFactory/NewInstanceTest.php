@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Mvc\Router\RouterFactory;
 
 use Phalcon\Mvc\Router;
 use Phalcon\Mvc\Router\RouterFactory;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class NewInstanceTest extends AbstractUnitTestCase
 {

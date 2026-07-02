@@ -25,7 +25,7 @@ use Phalcon\Container\Exceptions\Exception as ContainerException;
 use Phalcon\Di\Di;
 use Phalcon\Encryption\Security;
 use Phalcon\Http\RequestInterface;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Auth\Fake\FakeRequest;
 
 final class TokenFromOptionsTest extends AbstractUnitTestCase

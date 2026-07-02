@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Encryption\Security;
 
 use Phalcon\Encryption\Security;
 use Phalcon\Encryption\Security\Random;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class GetRandomTest extends AbstractUnitTestCase
 {

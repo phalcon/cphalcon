@@ -17,7 +17,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Auth\Access;
 
 use Phalcon\Auth\Access\Auth;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Auth\Fake\FakeGuard;
 use Phalcon\Tests\Unit\Auth\Fake\FakeRoleUser;
 

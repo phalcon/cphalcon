@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Support\Debug;
 
 use ErrorException;
 use Phalcon\Support\Debug;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class OnUncaughtLowSeverityTest extends AbstractUnitTestCase
 {

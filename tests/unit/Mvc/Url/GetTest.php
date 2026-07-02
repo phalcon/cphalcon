@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Mvc\Url;
 
 use Phalcon\Mvc\Router;
 use Phalcon\Mvc\Url;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 final class GetTest extends AbstractUnitTestCase

@@ -17,7 +17,7 @@ use Phalcon\Di\Di;
 use Phalcon\Di\Exception;
 use Phalcon\Html\Escaper;
 use Phalcon\Html\Escaper\EscaperInterface;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use ReflectionProperty;
 
 use function uniqid;

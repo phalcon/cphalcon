@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Events\Manager;
 
 use Phalcon\Events\Exception;
 use Phalcon\Events\Manager;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Events\Manager\Fake\InvalidSubscriber;
 use Phalcon\Tests\Unit\Events\Manager\Fake\MultiListenerSubscriber;
 use Phalcon\Tests\Unit\Events\Manager\Fake\PrioritySubscriber;

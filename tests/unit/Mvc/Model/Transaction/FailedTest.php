@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Mvc\Model\Transaction;
 
 use Phalcon\Mvc\Model\Transaction\Failed;
 use Phalcon\Mvc\ModelInterface;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class FailedTest extends AbstractUnitTestCase
 {

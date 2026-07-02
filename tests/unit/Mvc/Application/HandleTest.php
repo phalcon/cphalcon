@@ -20,7 +20,8 @@ use Phalcon\Mvc\Application;
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\Router;
 use Phalcon\Mvc\View;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\Support\Modules\Frontend\Module as FrontendModule;
 use Phalcon\Tests\Support\Traits\DiTrait;
 
@@ -58,7 +59,7 @@ final class HandleTest extends AbstractUnitTestCase
                 $view = new View();
 
                 $view->setViewsDir(
-                    supportDir('assets/views/simple/')
+                    Talon::settings()->supportPath('assets/views/simple/')
                 );
 
                 return $view;
@@ -117,7 +118,7 @@ final class HandleTest extends AbstractUnitTestCase
                 $view = new View();
 
                 $view->setViewsDir(
-                    supportDir('assets/views/simple/')
+                    Talon::settings()->supportPath('assets/views/simple/')
                 );
 
                 return $view;
@@ -196,7 +197,7 @@ final class HandleTest extends AbstractUnitTestCase
         $application->registerModules(
             [
                 'frontend' => [
-                    'path'      => supportDir('Modules/Frontend/Module.php'),
+                    'path'      => Talon::settings()->supportPath('Modules/Frontend/Module.php'),
                     'className' => FrontendModule::class,
                 ],
             ]
@@ -224,7 +225,7 @@ final class HandleTest extends AbstractUnitTestCase
                 $view = new View();
 
                 $view->setViewsDir(
-                    supportDir('assets/views/simple/')
+                    Talon::settings()->supportPath('assets/views/simple/')
                 );
 
                 return $view;

@@ -20,7 +20,7 @@ use Phalcon\Cli\Router;
 use Phalcon\Cli\Router\Exception as RouterException;
 use Phalcon\Di\Exception as DiException;
 use Phalcon\Di\FactoryDefault\Cli as DiFactoryDefault;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 final class SetArgumentTest extends AbstractUnitTestCase

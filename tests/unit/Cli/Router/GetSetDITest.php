@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Cli\Router;
 
 use Phalcon\Cli\Router;
 use Phalcon\Di\Di;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class GetSetDITest extends AbstractUnitTestCase
 {

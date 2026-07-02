@@ -17,7 +17,7 @@ use Phalcon\Di\Di;
 use Phalcon\Http\Request;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Php as PhpEngine;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 class UnderscoreGetTest extends AbstractUnitTestCase
 {

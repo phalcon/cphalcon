@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Storage\Adapter;
 
 use Phalcon\Storage\Adapter\Memory;
 use Phalcon\Storage\SerializerFactory;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class StripPrefixTest extends AbstractUnitTestCase
 {

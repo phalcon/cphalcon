@@ -19,16 +19,14 @@ use Phalcon\Storage\Adapter\Stream;
 use Phalcon\Storage\Exception as StorageException;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Support\Exception as HelperException;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 
 use function array_merge;
 use function file_put_contents;
-use function getOptionsRedis;
-use function getOptionsRedisCluster;
 use function is_dir;
 use function mkdir;
-use function outputDir;
 use function sleep;
 use function uniqid;
 
@@ -72,7 +70,7 @@ final class ExceptionsTest extends AbstractUnitTestCase
         $adapter    = new Redis(
             $serializer,
             array_merge(
-                getOptionsRedis(),
+                Talon::settings()->getServiceOptions('redis'),
                 [
                     'auth' => 'something',
                 ]
@@ -95,7 +93,7 @@ final class ExceptionsTest extends AbstractUnitTestCase
 //        );
 
         $serializer      = new SerializerFactory();
-        $options         = getOptionsRedis();
+        $options         = Talon::settings()->getServiceOptions('redis');
         $options['host'] = 'tls://127.0.0.1';
         $options['ssl']  = [
             'verify_peer_name' => '127.0.0.1',
@@ -121,7 +119,7 @@ final class ExceptionsTest extends AbstractUnitTestCase
         $adapter    = new Redis(
             $serializer,
             array_merge(
-                getOptionsRedis(),
+                Talon::settings()->getServiceOptions('redis'),
                 [
                     'index' => 99,
                 ]
@@ -141,11 +139,11 @@ final class ExceptionsTest extends AbstractUnitTestCase
         $adapter    = new Stream(
             $serializer,
             [
-                'storageDir' => outputDir(),
+                'storageDir' => Talon::settings()->outputPath() . '/',
             ]
         );
 
-        $target = outputDir() . 'ph-strm/te/st/-k/';
+        $target = Talon::settings()->outputPath('ph-strm/te/st/-k/');
         if (true !== is_dir($target)) {
             mkdir($target, 0777, true);
         }

@@ -15,7 +15,8 @@ namespace Phalcon\Tests\Unit\Di\FactoryDefault\Cli;
 
 use Phalcon\Config\Config;
 use Phalcon\Di\FactoryDefault\Cli as Di;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 
 final class LoadFromYamlTest extends AbstractUnitTestCase
 {
@@ -28,7 +29,7 @@ final class LoadFromYamlTest extends AbstractUnitTestCase
         $di = new Di();
 
         // load php
-        $di->loadFromYaml(supportDir('assets/Di/services.yml'));
+        $di->loadFromYaml(Talon::settings()->supportPath('assets/Di/services.yml'));
 
         // there are 3 new + 14 from Default
         $this->assertCount(17, $di->getServices());

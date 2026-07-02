@@ -14,7 +14,8 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Mvc\View;
 
 use Phalcon\Mvc\View;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\Unit\Mvc\Fake\ViewTrait;
 
 class GetSetViewsDirTest extends AbstractUnitTestCase
@@ -28,7 +29,7 @@ class GetSetViewsDirTest extends AbstractUnitTestCase
     {
         $view = new View();
 
-        $view->setBasePath(dataDir());
+        $view->setBasePath(Talon::settings()->dataPath() . '/');
 
         $view->setViewsDir('views/');
 

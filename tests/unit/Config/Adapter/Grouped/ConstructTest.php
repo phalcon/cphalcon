@@ -16,10 +16,9 @@ namespace Phalcon\Tests\Unit\Config\Adapter\Grouped;
 use Phalcon\Config\Adapter\Grouped;
 use Phalcon\Config\Config;
 use Phalcon\Config\Exception;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\Support\Traits\ConfigTrait;
-
-use function supportDir;
 
 final class ConstructTest extends AbstractUnitTestCase
 {
@@ -40,10 +39,10 @@ final class ConstructTest extends AbstractUnitTestCase
         $this->config['test']['property']  = 'blah';
 
         $config = [
-            supportDir('assets/config/config.php'),
+            Talon::settings()->supportPath('assets/config/config.php'),
             [
                 'adapter'  => 'json',
-                'filePath' => supportDir('assets/config/config.json'),
+                'filePath' => Talon::settings()->supportPath('assets/config/config.json'),
             ],
             [
                 'adapter' => 'array',
@@ -80,7 +79,7 @@ final class ConstructTest extends AbstractUnitTestCase
 
         $config = [
             [
-                'filePath' => supportDir('assets/config/config.json'),
+                'filePath' => Talon::settings()->supportPath('assets/config/config.json'),
             ],
             [
                 'adapter' => 'array',

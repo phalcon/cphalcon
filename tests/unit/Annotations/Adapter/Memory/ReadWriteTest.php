@@ -15,7 +15,8 @@ namespace Phalcon\Tests\Unit\Annotations\Adapter\Memory;
 
 use Phalcon\Annotations\Adapter\Memory;
 use Phalcon\Annotations\Reflection;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use TestClass;
 
 use function dataDir;
@@ -28,7 +29,7 @@ final class ReadWriteTest extends AbstractUnitTestCase
      */
     public function testAnnotationsAdapterMemoryReadWrite(): void
     {
-        require_once supportDir('assets/Annotations/TestClass.php');
+        require_once Talon::settings()->supportPath('assets/Annotations/TestClass.php');
 
         $adapter = new Memory();
 

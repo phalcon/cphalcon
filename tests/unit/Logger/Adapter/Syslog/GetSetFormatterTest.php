@@ -16,7 +16,7 @@ namespace Phalcon\Tests\Unit\Logger\Adapter\Syslog;
 use Phalcon\Logger\Adapter\Syslog;
 use Phalcon\Logger\Formatter\FormatterInterface;
 use Phalcon\Logger\Formatter\Line;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class GetSetFormatterTest extends AbstractUnitTestCase
 {

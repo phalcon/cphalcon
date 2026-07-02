@@ -14,11 +14,11 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Assets\Asset\Css;
 
 use Phalcon\Assets\Asset\Css;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use PHPUnit\Framework\Attributes\Test;
 
 use function file_get_contents;
-use function supportDir;
 
 final class GetContentTest extends AbstractUnitTestCase
 {
@@ -30,8 +30,8 @@ final class GetContentTest extends AbstractUnitTestCase
     {
         $asset = new Css('assets/assets/1198.css');
 
-        $expected = file_get_contents(supportDir('assets/assets/1198.css'));
-        $actual   = $asset->getContent(supportDir());
+        $expected = file_get_contents(Talon::settings()->supportPath('assets/assets/1198.css'));
+        $actual   = $asset->getContent(Talon::settings()->supportPath() . '/');
         $this->assertSame($expected, $actual);
     }
 }

@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Filter\Validation\Validator\Uniqueness;
 
 use Phalcon\Filter\Validation\Validator\Uniqueness;
 use Phalcon\Filter\Validation\ValidatorInterface;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class ConstructTest extends AbstractUnitTestCase
 {

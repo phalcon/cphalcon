@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Mvc\Application;
 
 use Phalcon\Di\Di;
 use Phalcon\Mvc\Application;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 class GetSetDITest extends AbstractUnitTestCase
 {

@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Session;
 
 use Phalcon\Session\Adapter\Noop;
 use Phalcon\Session\Manager;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use PHPUnit\Framework\Attributes\BackupGlobals;
 use PHPUnit\Framework\Attributes\DataProvider;
 

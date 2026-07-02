@@ -14,13 +14,13 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Session\Adapter;
 
 use Phalcon\Session\Exception;
-use Phalcon\Tests\AbstractServicesTestCase;
+use Phalcon\Talon\PHPUnit\AbstractServicesTestCase;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use Phalcon\Tests\Unit\Session\Fake\FakeStreamGlob;
 
-use function cacheDir;
 use function file_put_contents;
-use function getOptionsSessionStream;
+use function Phalcon\Tests\Support\Traits\getOptionsSessionStream;
 use function sleep;
 use function uniqid;
 
@@ -86,10 +86,10 @@ final class GcTest extends AbstractServicesTestCase
         /**
          * Add two session files
          */
-        $actual = file_put_contents(cacheDir('sessions/gc_1'), uniqid());
+        $actual = file_put_contents(Talon::settings()->outputPath('tests/cache/sessions/gc_1'), uniqid());
         $this->assertNotFalse($actual);
 
-        $actual = file_put_contents(cacheDir('sessions/gc_2'), uniqid());
+        $actual = file_put_contents(Talon::settings()->outputPath('tests/cache/sessions/gc_2'), uniqid());
         $this->assertNotFalse($actual);
 
         /**
@@ -100,8 +100,8 @@ final class GcTest extends AbstractServicesTestCase
         $actual = $adapter->gc(1);
         $this->assertNotFalse($actual);
 
-        $this->assertFileDoesNotExist(cacheDir('sessions/gc_1'));
-        $this->assertFileDoesNotExist(cacheDir('sessions/gc_2'));
+        $this->assertFileDoesNotExist(Talon::settings()->outputPath('tests/cache/sessions/gc_1'));
+        $this->assertFileDoesNotExist(Talon::settings()->outputPath('tests/cache/sessions/gc_2'));
     }
 
     /**

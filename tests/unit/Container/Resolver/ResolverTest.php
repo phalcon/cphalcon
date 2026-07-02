@@ -37,7 +37,7 @@ use Countable;
 use Phalcon\Container\Exceptions\CannotResolveParameter;
 use Phalcon\Container\Resolver\Lazy\Get;
 use Phalcon\Container\Resolver\Resolver;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Container\Resolver\Fake\FakeContainerResolver;
 use Phalcon\Tests\Unit\Container\Resolver\Fake\FakeServiceNoConstructor;
 use Phalcon\Tests\Unit\Container\Resolver\Fake\FakeServiceWithArgs;

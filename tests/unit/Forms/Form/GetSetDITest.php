@@ -16,7 +16,7 @@ namespace Phalcon\Tests\Unit\Forms\Form;
 use Phalcon\Di\Di;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Forms\Form;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class GetSetDITest extends AbstractUnitTestCase
 {
@@ -26,6 +26,8 @@ final class GetSetDITest extends AbstractUnitTestCase
      */
     public function testFormsFormGetSetDI(): void
     {
+        new FactoryDefault();
+
         $container = new Di();
         $form      = new Form();
 

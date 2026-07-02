@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Mvc\View\Engine\Php;
 
 use Phalcon\Mvc\View\Engine\Php as PhpEngine;
 use Phalcon\Mvc\View\Simple;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
 
 use function ob_end_clean;

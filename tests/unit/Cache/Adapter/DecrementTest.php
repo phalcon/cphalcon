@@ -20,13 +20,10 @@ use Phalcon\Cache\Adapter\Redis;
 use Phalcon\Cache\Adapter\RedisCluster;
 use Phalcon\Cache\Adapter\Stream;
 use Phalcon\Storage\SerializerFactory;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use PHPUnit\Framework\Attributes\DataProvider;
 
-use function getOptionsLibmemcached;
-use function getOptionsRedis;
-use function getOptionsRedisCluster;
-use function outputDir;
 use function uniqid;
 
 final class DecrementTest extends AbstractUnitTestCase
@@ -47,7 +44,12 @@ final class DecrementTest extends AbstractUnitTestCase
             [
                 'Libmemcached',
                 Libmemcached::class,
-                getOptionsLibmemcached(),
+                [
+                    'client' => [],
+                    'servers' => [
+                        Talon::settings()->getServiceOptions('memcached')
+                    ]
+                ],
                 'memcached',
                 false,
             ],
@@ -61,14 +63,14 @@ final class DecrementTest extends AbstractUnitTestCase
             [
                 'Redis',
                 Redis::class,
-                getOptionsRedis(),
+                Talon::settings()->getServiceOptions('redis'),
                 'redis',
                 -1
             ],
             [
                 'RedisCluster',
                 RedisCluster::class,
-                getOptionsRedisCluster(),
+                Talon::settings()->getServiceOptions('redisCluster'),
                 'redis',
                 -1
             ],
@@ -76,7 +78,7 @@ final class DecrementTest extends AbstractUnitTestCase
                 'Stream',
                 Stream::class,
                 [
-                    'storageDir' => outputDir(),
+                    'storageDir' => Talon::settings()->outputPath() . '/',
                 ],
                 '',
                 false,
@@ -130,7 +132,7 @@ final class DecrementTest extends AbstractUnitTestCase
         $this->assertEquals($expected, $actual);
 
         if ('Stream' === $className) {
-            $this->safeDeleteDirectory(outputDir('ph-strm'));
+            $this->safeDeleteDirectory(Talon::settings()->outputPath('ph-strm'));
         }
     }
 }

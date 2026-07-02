@@ -19,7 +19,7 @@ use Phalcon\Acl\Enum;
 use Phalcon\Acl\Role;
 use Phalcon\Storage\Adapter\Memory as StorageMemory;
 use Phalcon\Storage\SerializerFactory;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 final class SerializerMatrixTest extends AbstractUnitTestCase

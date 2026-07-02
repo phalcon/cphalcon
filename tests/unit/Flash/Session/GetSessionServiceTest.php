@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Flash\Session;
 
 use Phalcon\Flash\Exception;
 use Phalcon\Flash\Session;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
 
 final class GetSessionServiceTest extends AbstractUnitTestCase

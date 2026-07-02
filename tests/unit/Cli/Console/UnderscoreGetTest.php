@@ -16,7 +16,7 @@ namespace Phalcon\Tests\Unit\Cli\Console;
 use Phalcon\Cli\Console as CliConsole;
 use Phalcon\Cli\Dispatcher;
 use Phalcon\Di\FactoryDefault\Cli as DiFactoryDefault;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class UnderscoreGetTest extends AbstractUnitTestCase
 {

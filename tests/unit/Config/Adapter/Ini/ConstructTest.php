@@ -15,13 +15,13 @@ namespace Phalcon\Tests\Unit\Config\Adapter\Ini;
 
 use Phalcon\Config\Adapter\Ini;
 use Phalcon\Config\Exception;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\Support\Traits\ConfigTrait;
 use Phalcon\Tests\Unit\Config\Fake\Adapter\FakeIniParseFile;
 
 use function basename;
 use function define;
-use function supportDir;
 
 use const INI_SCANNER_NORMAL;
 
@@ -59,7 +59,7 @@ final class ConstructTest extends AbstractUnitTestCase
         define('TEST_CONST', 'foo');
 
         $config = new Ini(
-            supportDir('assets/config/config-with-constants.ini'),
+            Talon::settings()->supportPath('assets/config/config-with-constants.ini'),
             INI_SCANNER_NORMAL
         );
 
@@ -90,7 +90,7 @@ final class ConstructTest extends AbstractUnitTestCase
      */
     public function testConfigAdapterIniConstructException(): void
     {
-        $filePath = supportDir('assets/config/config-with-constants.ini');
+        $filePath = Talon::settings()->supportPath('assets/config/config-with-constants.ini');
 
         $this->expectException(Exception::class);
         $this->expectExceptionMessage(

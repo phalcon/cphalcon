@@ -16,10 +16,10 @@ namespace Phalcon\Tests\Unit\Image\ImageFactory;
 use Phalcon\Image\Adapter\Imagick;
 use Phalcon\Image\Exception;
 use Phalcon\Image\ImageFactory;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 
-use function supportDir;
 use function uniqid;
 
 final class NewInstanceTest extends AbstractUnitTestCase
@@ -32,7 +32,7 @@ final class NewInstanceTest extends AbstractUnitTestCase
     public function testImageImageFactoryNewInstance(): void
     {
         $factory = new ImageFactory();
-        $file    = supportDir('assets/images/example-jpg.jpg');
+        $file    = Talon::settings()->supportPath('assets/images/example-jpg.jpg');
         $file    = str_replace("/", DIRECTORY_SEPARATOR, $file);
         $name    = 'imagick';
 
