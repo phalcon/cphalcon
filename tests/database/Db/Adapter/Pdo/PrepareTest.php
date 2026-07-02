@@ -40,7 +40,7 @@ final class PrepareTest extends AbstractDatabaseTestCase
     #[Group('sqlite')]
     public function testDbAdapterPdoPrepare(): void
     {
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $db         = $this->container->get('db');
 
         new InvoicesMigration($connection);

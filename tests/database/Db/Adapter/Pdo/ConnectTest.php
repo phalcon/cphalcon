@@ -15,11 +15,10 @@ namespace Phalcon\Tests\Database\Db\Adapter\Pdo;
 
 use PDO;
 use Phalcon\Db\Adapter\PdoFactory;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\Group;
-
-use function getOptionsMysql;
 
 final class ConnectTest extends AbstractDatabaseTestCase
 {
@@ -64,7 +63,7 @@ final class ConnectTest extends AbstractDatabaseTestCase
     #[Group('mysql')]
     public function testDbAdapterPdoConnectPersistentMysql(): void
     {
-        $options               = getOptionsMysql();
+        $options               = Talon::settings()->getDatabaseOptions('mysql');
         $options['persistent'] = true;
         $options['options']    = [
             PDO::ATTR_EMULATE_PREPARES  => false,
@@ -92,7 +91,7 @@ final class ConnectTest extends AbstractDatabaseTestCase
         // unset before DSN assembly in AbstractPdo::connect(); pgsql
         // then rejects the leaked `persistent=true` DSN attribute.
         // Pass the persistent flag via PDO::ATTR_PERSISTENT instead.
-        $options            = getOptionsPostgresql();
+        $options            = Talon::settings()->getDatabaseOptions('pgsql');
         $options['options'] = [
             PDO::ATTR_EMULATE_PREPARES  => false,
             PDO::ATTR_STRINGIFY_FETCHES => false,
@@ -116,7 +115,7 @@ final class ConnectTest extends AbstractDatabaseTestCase
     #[Group('sqlite')]
     public function testDbAdapterPdoConnectPersistentSqlite(): void
     {
-        $options               = getOptionsSqlite();
+        $options               = Talon::settings()->getDatabaseOptions('sqlite');
         $options['persistent'] = true;
         $options['options']    = [
             PDO::ATTR_EMULATE_PREPARES  => false,

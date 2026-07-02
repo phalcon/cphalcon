@@ -32,7 +32,7 @@ final class ManagerTest extends AbstractDatabaseTestCase
         $this->setNewFactoryDefault();
         $this->setDatabase();
 
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         new PersonasMigration($connection);
         new SelectMigration($connection);
     }
@@ -119,7 +119,7 @@ final class ManagerTest extends AbstractDatabaseTestCase
 
         $tm->rollback();
 
-        $stmt             = self::getConnection()->query('SELECT COUNT(*) FROM ph_select');
+        $stmt             = self::getPdoConnection()->query('SELECT COUNT(*) FROM ph_select');
         $countAfterRollback = (int) $stmt->fetchColumn();
         $this->assertSame($countAfterCommit, $countAfterRollback);
     }

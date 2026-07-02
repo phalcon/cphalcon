@@ -40,7 +40,7 @@ final class ConstructTest extends AbstractDatabaseTestCase
      */
     public function testDbResultPdoConstruct(): void
     {
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $migration  = new InvoicesMigration($connection);
         $migration->insert(1, 1, 1, 'title 1', 101);
 

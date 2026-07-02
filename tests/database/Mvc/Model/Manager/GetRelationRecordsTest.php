@@ -47,7 +47,7 @@ final class GetRelationRecordsTest extends AbstractDatabaseTestCase
     public function testMvcModelManagerGetRelationRecords(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
 
         $artistsMigration = new ArtistsMigration($connection);
         $artistsMigration->insert(1, 'Lana del Rey');

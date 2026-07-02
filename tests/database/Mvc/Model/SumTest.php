@@ -49,7 +49,7 @@ final class SumTest extends AbstractDatabaseTestCase
 
         $this->setDatabase();
 
-        $this->invoiceMigration = new InvoicesMigration(self::getConnection());
+        $this->invoiceMigration = new InvoicesMigration(self::getPdoConnection());
     }
 
     public function tearDown(): void

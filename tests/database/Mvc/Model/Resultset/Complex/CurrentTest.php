@@ -49,8 +49,8 @@ final class CurrentTest extends AbstractDatabaseTestCase
 
         $this->setDatabase();
 
-        $this->customerMigration = new CustomersMigration(self::getConnection());
-        $this->invoiceMigration  = new InvoicesMigration(self::getConnection());
+        $this->customerMigration = new CustomersMigration(self::getPdoConnection());
+        $this->invoiceMigration  = new InvoicesMigration(self::getPdoConnection());
     }
 
     public function tearDown(): void

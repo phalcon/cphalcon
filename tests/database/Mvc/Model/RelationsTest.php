@@ -66,7 +66,7 @@ final class RelationsTest extends AbstractDatabaseTestCase
     public function testMvcModelGetBelongsTo(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
 
         $custIdOne    = 50;
         $firstNameOne = uniqid('cust-1-', true);
@@ -120,7 +120,7 @@ final class RelationsTest extends AbstractDatabaseTestCase
     public function testMvcModelGetHasMany(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
 
         $custIdOne    = 50;
         $firstNameOne = uniqid('cust-1-', true);
@@ -187,7 +187,7 @@ final class RelationsTest extends AbstractDatabaseTestCase
     public function testMvcModelGetHasManyToMany(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
 
         $orderId       = 10;
         $orderName     = uniqid('ord', true);
@@ -243,7 +243,7 @@ final class RelationsTest extends AbstractDatabaseTestCase
     public function testMvcModelGetHasManyToManyComp(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
 
         $orderId       = 10;
         $orderName     = uniqid('ord', true);
@@ -298,7 +298,7 @@ final class RelationsTest extends AbstractDatabaseTestCase
     public function testMvcModelGetHasOneThrough(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
 
         $orderId       = 10;
         $orderName     = uniqid('ord', true);
@@ -349,7 +349,7 @@ final class RelationsTest extends AbstractDatabaseTestCase
     public function testMvcModelGetHasOneThroughComp(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
 
         $orderId       = 10;
         $orderName     = uniqid('ord', true);
@@ -399,7 +399,7 @@ final class RelationsTest extends AbstractDatabaseTestCase
     public function testMvcModelSetBelongsTo(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
 
         $custIdOne    = 50;
         $firstNameOne = uniqid('cust-1-', true);
@@ -454,7 +454,7 @@ final class RelationsTest extends AbstractDatabaseTestCase
     public function testMvcModelSetHasMany(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
 
         $custIdOne    = 50;
         $firstNameOne = uniqid('cust-1-', true);
@@ -508,7 +508,7 @@ final class RelationsTest extends AbstractDatabaseTestCase
     public function testMvcModelSetHasManyToMany(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
 
         $orderId     = 10;
         $orderName   = uniqid('ord', true);
@@ -610,7 +610,7 @@ final class RelationsTest extends AbstractDatabaseTestCase
     public function testMvcModelSetHasManyToManyComp(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
 
         $orderId     = 10;
         $orderName   = uniqid('ord', true);
@@ -693,7 +693,7 @@ final class RelationsTest extends AbstractDatabaseTestCase
     public function testMvcModelSetHasManyToManySetSyncDisable(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
 
         $orderId     = 10;
         $orderName   = uniqid('ord', true);
@@ -740,7 +740,7 @@ final class RelationsTest extends AbstractDatabaseTestCase
     public function testMvcModelSetHasManyToManySetSyncMethod(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
 
         $orderId     = 10;
         $orderName   = uniqid('ord', true);
@@ -797,7 +797,7 @@ final class RelationsTest extends AbstractDatabaseTestCase
     public function testMvcModelSetHasManyToManySyncOption(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
 
         $orderId     = 10;
         $orderName   = uniqid('ord', true);
@@ -849,7 +849,7 @@ final class RelationsTest extends AbstractDatabaseTestCase
     public function testMvcModelSetHasOneThrough(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
 
         $orderId     = 10;
         $orderName   = uniqid('ord', true);
@@ -920,7 +920,7 @@ final class RelationsTest extends AbstractDatabaseTestCase
     public function testMvcModelSetHasOneThroughComp(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
 
         $orderId     = 10;
         $orderName   = uniqid('ord', true);

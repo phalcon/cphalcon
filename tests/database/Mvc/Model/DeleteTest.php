@@ -76,7 +76,7 @@ final class DeleteTest extends AbstractDatabaseTestCase
     public function testMvcModelDeleteCascadeRelated(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
 
         $custId = 2;
 
@@ -146,7 +146,7 @@ final class DeleteTest extends AbstractDatabaseTestCase
     public function testMvcModelDeleteGetRelated(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
 
         $custId    = 2;
         $firstName = uniqid('cust-', true);
@@ -268,7 +268,7 @@ final class DeleteTest extends AbstractDatabaseTestCase
     public function testMvcModelDeleteRestrictRelated(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
 
         $customerId = 2;
 
@@ -319,7 +319,7 @@ final class DeleteTest extends AbstractDatabaseTestCase
     public function testMvcModelDeleteRestrictRelatedInTransaction(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
 
         $invoiceId  = 1;
         $customerId = 2;

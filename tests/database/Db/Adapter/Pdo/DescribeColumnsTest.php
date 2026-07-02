@@ -22,8 +22,6 @@ use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\Group;
 
-use function env;
-
 final class DescribeColumnsTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -50,7 +48,7 @@ final class DescribeColumnsTest extends AbstractDatabaseTestCase
     #[Group('sqlite')]
     public function testDbAdapterPdoDescribeColumns(): void
     {
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $db         = $this->container->get('db');
 
         new InvoicesMigration($connection);
@@ -108,7 +106,7 @@ final class DescribeColumnsTest extends AbstractDatabaseTestCase
                 'inv_total'       => Column::TYPE_FLOAT,
                 'inv_created_at'  => Column::TYPE_TEXT,
             ],
-        ][env('driver')];
+        ][self::getDatabaseDriver()];
 
         foreach ($expectedTypes as $col => $type) {
             $this->assertSame(
@@ -132,7 +130,7 @@ final class DescribeColumnsTest extends AbstractDatabaseTestCase
     {
         $db        = $this->container->get('db');
         $now       = date('Y-m-d H:i:s');
-        $migration = new ComplexDefaultMigration(self::getConnection());
+        $migration = new ComplexDefaultMigration(self::getPdoConnection());
         $migration->insert(1, $now, $now);
 
         $columns = $db->describeColumns($migration->getTable());
@@ -154,7 +152,7 @@ final class DescribeColumnsTest extends AbstractDatabaseTestCase
     {
         $db        = $this->container->get('db');
         $now       = date('Y-m-d H:i:s');
-        $migration = new ComplexDefaultMigration(self::getConnection());
+        $migration = new ComplexDefaultMigration(self::getPdoConnection());
         $migration->insert(1, $now, $now);
 
         $columns = $db->describeColumns($migration->getTable());
@@ -176,7 +174,7 @@ final class DescribeColumnsTest extends AbstractDatabaseTestCase
     {
         /** @var Mysql $db */
         $db        = $this->container->get('db');
-        $migration = new DialectMigration(self::getConnection());
+        $migration = new DialectMigration(self::getPdoConnection());
         $columns   = $db->describeColumns($migration->getTable());
 
         $expected = 40;

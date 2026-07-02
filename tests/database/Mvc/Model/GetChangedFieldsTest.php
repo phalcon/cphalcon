@@ -30,7 +30,7 @@ final class GetChangedFieldsTest extends AbstractDatabaseTestCase
         $this->setNewFactoryDefault();
         $this->setDatabase();
 
-        $migration = new InvoicesMigration(self::getConnection());
+        $migration = new InvoicesMigration(self::getPdoConnection());
         $migration->insert(1, 1, 0, 'Test Invoice');
     }
 
@@ -55,7 +55,7 @@ final class GetChangedFieldsTest extends AbstractDatabaseTestCase
     #[Group('sqlite')]
     public function testMvcModelGetChangedFieldsIgnoresNullValuedColumns(): void
     {
-        $stmt = self::getConnection()->prepare(
+        $stmt = self::getPdoConnection()->prepare(
             'INSERT INTO co_invoices (inv_id, inv_cst_id, inv_status_flag, inv_title, inv_total, inv_created_at) '
             . 'VALUES (99, NULL, NULL, :title, NULL, :createdAt)'
         );

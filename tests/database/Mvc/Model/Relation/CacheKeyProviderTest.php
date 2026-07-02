@@ -63,7 +63,7 @@ final class CacheKeyProviderTest extends AbstractDatabaseTestCase
     public function testMvcModelManagerCacheKeyProviderUniqueKey(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
 
         $custId    = 50;
         $firstName = uniqid('cust-', true);

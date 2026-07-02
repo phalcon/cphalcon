@@ -31,7 +31,7 @@ final class SelectTest extends AbstractDatabaseTestCase
         $this->setNewFactoryDefault();
         $this->setDatabase();
 
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $migration  = new SelectMigration($connection);
         $migration->insert('Alpha', 'First option');
         $migration->insert('Beta', 'Second option');

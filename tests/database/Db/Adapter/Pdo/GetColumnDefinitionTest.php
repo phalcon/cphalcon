@@ -18,8 +18,6 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\Group;
 
-use function env;
-
 final class GetColumnDefinitionTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -52,7 +50,7 @@ final class GetColumnDefinitionTest extends AbstractDatabaseTestCase
             'size' => 100,
         ]);
 
-        $driver = env('driver');
+        $driver = self::getDatabaseDriver();
         $expectedInt = [
             'mysql'  => 'INT(10)',
             'pgsql'  => 'INT',

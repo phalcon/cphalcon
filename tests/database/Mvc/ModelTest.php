@@ -50,7 +50,7 @@ final class ModelTest extends AbstractDatabaseTestCase
     public function testExecuteCamelCaseRelation(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         (new ArtistsMigration($connection))->insert(1, 'Test Artist');
         (new AlbumsMigration($connection))->insert(1, 1, 'Test Album');
 

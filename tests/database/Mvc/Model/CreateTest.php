@@ -33,7 +33,7 @@ final class CreateTest extends AbstractDatabaseTestCase
         $this->setDatabase();
 
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         (new InvoicesMigration($connection));
     }
 
@@ -134,7 +134,7 @@ final class CreateTest extends AbstractDatabaseTestCase
 
         // Advance the sequence past the explicit id so the next
         // auto-increment insert does not collide with it.
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $connection->exec(
             "SELECT setval(pg_get_serial_sequence('co_invoices', 'inv_id'), 77)"
         );

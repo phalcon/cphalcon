@@ -71,7 +71,7 @@ trait ResultsetFixtureTrait
      */
     protected function seedResultsetFixture(): void
     {
-        $connection         = self::getConnection();
+        $connection         = self::getPdoConnection();
         $customersMigration = new CustomersMigration($connection);
         $invoicesMigration  = new InvoicesMigration($connection);
 

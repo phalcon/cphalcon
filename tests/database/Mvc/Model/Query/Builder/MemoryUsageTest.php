@@ -30,7 +30,7 @@ final class MemoryUsageTest extends AbstractDatabaseTestCase
         $this->setNewFactoryDefault();
         $this->setDatabase();
 
-        $this->invoiceMigration = new InvoicesMigration(self::getConnection());
+        $this->invoiceMigration = new InvoicesMigration(self::getPdoConnection());
         $this->invoiceMigration->clear();
     }
 

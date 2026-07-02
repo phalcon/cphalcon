@@ -18,8 +18,6 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\Group;
 
-use function env;
-
 final class DropForeignKeyTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -38,7 +36,7 @@ final class DropForeignKeyTest extends AbstractDatabaseTestCase
         $db->execute('DROP TABLE IF EXISTS ' . self::CHILD);
         $db->execute('DROP TABLE IF EXISTS ' . self::PARENT);
 
-        $engineSuffix = env('driver') === 'mysql' ? ' ENGINE=InnoDB' : '';
+        $engineSuffix = self::getDatabaseDriver() === 'mysql' ? ' ENGINE=InnoDB' : '';
         $db->execute(
             'CREATE TABLE ' . self::PARENT
             . ' (id integer primary key, name varchar(50))' . $engineSuffix

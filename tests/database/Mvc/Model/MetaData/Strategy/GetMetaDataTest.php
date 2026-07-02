@@ -34,7 +34,7 @@ final class GetMetaDataTest extends AbstractDatabaseTestCase
         $this->setDatabase();
 
         // The Introspection strategy reads the live table schema.
-        new InvoicesMigration(self::getConnection());
+        new InvoicesMigration(self::getPdoConnection());
     }
 
     public function tearDown(): void

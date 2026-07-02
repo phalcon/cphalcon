@@ -34,7 +34,7 @@ final class UniquenessTest extends AbstractDatabaseTestCase
         $this->setDatabase();
 
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $migration  = new ObjectsMigration($connection);
         $migration->clear();
     }
@@ -52,7 +52,7 @@ final class UniquenessTest extends AbstractDatabaseTestCase
     public function testFilterValidationValidatorUniquenessExceptMultipleFieldMultipleExcept(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $migration  = new ObjectsMigration($connection);
         $migration->insert(1, 'Phalcon 1', 1);
         $migration->insert(2, 'Phalcon 2', 2);
@@ -104,7 +104,7 @@ final class UniquenessTest extends AbstractDatabaseTestCase
     public function testFilterValidationValidatorUniquenessExceptMultipleFieldSingleExcept(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $migration  = new ObjectsMigration($connection);
         $migration->insert(1, 'Phalcon 1', 1);
         $migration->insert(2, 'Phalcon 2', 2);
@@ -165,7 +165,7 @@ final class UniquenessTest extends AbstractDatabaseTestCase
     public function testFilterValidationValidatorUniquenessExceptSingleFieldMultipleExcept(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $migration  = new ObjectsMigration($connection);
         $migration->insert(1, 'Phalcon 1', 1);
         $migration->insert(2, 'Phalcon 2', 2);
@@ -223,7 +223,7 @@ final class UniquenessTest extends AbstractDatabaseTestCase
     public function testFilterValidationValidatorUniquenessExceptSingleFieldSingleExcept(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $migration  = new ObjectsMigration($connection);
         $migration->insert(1, 'Phalcon 1', 1);
         $migration->insert(2, 'Phalcon 2', 2);
@@ -272,7 +272,7 @@ final class UniquenessTest extends AbstractDatabaseTestCase
     public function testFilterValidationValidatorUniquenessIssue13398(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $migration  = new ObjectsMigration($connection);
         $migration->insert(1, 'Phalcon 1', 1);
         $migration->insert(2, 'Phalcon 2', 2);
@@ -313,7 +313,7 @@ final class UniquenessTest extends AbstractDatabaseTestCase
     public function testFilterValidationValidatorUniquenessMultipleFields(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $migration  = new ObjectsMigration($connection);
         $migration->insert(1, 'Phalcon', 1);
 
@@ -374,7 +374,7 @@ final class UniquenessTest extends AbstractDatabaseTestCase
     public function testFilterValidationValidatorUniquenessMultipleFieldsConvert(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $migration  = new ObjectsMigration($connection);
         $migration->insert(1, 'Phalcon', 1);
 
@@ -416,7 +416,7 @@ final class UniquenessTest extends AbstractDatabaseTestCase
     public function testFilterValidationValidatorUniquenessSingleField(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $migration  = new ObjectsMigration($connection);
         $migration->insert(1, 'Phalcon', 1);
 
@@ -455,7 +455,7 @@ final class UniquenessTest extends AbstractDatabaseTestCase
     public function testFilterValidationValidatorUniquenessSingleFieldConvert(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $migration  = new ObjectsMigration($connection);
         $migration->insert(1, 'Phalcon', 1);
 

@@ -86,7 +86,7 @@ final class SaveTest extends AbstractDatabaseTestCase
     {
 
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
 
         $customersMigration = new CustomersMigration($connection);
 
@@ -156,7 +156,7 @@ final class SaveTest extends AbstractDatabaseTestCase
     {
 
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
 
         $invoicesMigration = new InvoicesMigration($connection);
         $invoicesMigration->insert(77, 1, 0, uniqid('inv-'));
@@ -199,7 +199,7 @@ final class SaveTest extends AbstractDatabaseTestCase
     {
 
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
 
         $customersMigration = new CustomersMigration($connection);
         $customersMigration->insert(1, 1, 'test_firstName_1', 'test_lastName_1');
@@ -232,7 +232,7 @@ final class SaveTest extends AbstractDatabaseTestCase
     {
 
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
 
         $invoicesMigration = new InvoicesMigration($connection);
         $invoicesMigration->insert(77, 1, 0, uniqid('inv-'));
@@ -275,7 +275,7 @@ final class SaveTest extends AbstractDatabaseTestCase
     {
 
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
 
         $customersMigration = new CustomersDefaultsMigration($connection);
         $customer           = new CustomersDefaults();
@@ -320,7 +320,7 @@ final class SaveTest extends AbstractDatabaseTestCase
     public function testMvcModelSaveBelongsToUpdatesExistingParent(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
 
         $customersMigration = new CustomersMigration($connection);
         $customersMigration->insert(1, 1, 'firstName', 'lastName');
@@ -355,7 +355,7 @@ final class SaveTest extends AbstractDatabaseTestCase
     {
 
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
 
         $invoicesMigration  = new InvoicesMigration($connection);
         $customersMigration = new CustomersMigration($connection);
@@ -401,7 +401,7 @@ final class SaveTest extends AbstractDatabaseTestCase
     #[Group('sqlite')]
     public function testMvcModelSaveClearsReusableObjects(): void
     {
-        $connection        = self::getConnection();
+        $connection        = self::getPdoConnection();
         $invoicesMigration = new InvoicesMigration($connection);
         $invoicesMigration->insert('default', 1, 0, uniqid('inv-', true));
 
@@ -439,7 +439,7 @@ final class SaveTest extends AbstractDatabaseTestCase
     public function testMvcModelSaveDoesNotSaveUnmodifiedHasOneRelation(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
 
         $customersMigration = new CustomersMigration($connection);
         $customersMigration->insert(1, 1, 'firstName', 'lastName');
@@ -481,7 +481,7 @@ final class SaveTest extends AbstractDatabaseTestCase
     {
 
         /** @var PDO $connection */
-        $connection        = self::getConnection();
+        $connection        = self::getPdoConnection();
         $invoicesMigration = new InvoicesMigration($connection);
         $invoicesMigration->insert(77, 1, 0, uniqid('inv-', true));
 
@@ -507,7 +507,7 @@ final class SaveTest extends AbstractDatabaseTestCase
     public function testMvcModelSaveMultipleChangedRelationValues(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
 
         $invoicesMigration = new InvoicesMigration($connection);
         $invoicesMigration->insert(77, 1, 0, uniqid('inv-', true));
@@ -540,7 +540,7 @@ final class SaveTest extends AbstractDatabaseTestCase
     public function testMvcModelSaveNullRelatedAfterCallingGetter(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
 
         $customersMigration = new CustomersMigration($connection);
         $customersMigration->insert(1, 1, 'firstName', 'lastName');
@@ -576,7 +576,7 @@ final class SaveTest extends AbstractDatabaseTestCase
     public function testMvcModelSaveOnlyIdentityColumn(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
 
         $migration = new OnlyIdentityMigration($connection);
 
@@ -605,7 +605,7 @@ final class SaveTest extends AbstractDatabaseTestCase
     {
 
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
 
         $sourcesMigration = new SourcesMigration($connection);
         $sourcesMigration->insert(1, 'llama', 'test_source');
@@ -658,7 +658,7 @@ final class SaveTest extends AbstractDatabaseTestCase
     {
 
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
 
         $invoicesMigration = new InvoicesMigration($connection);
         $invoicesMigration->insert(77, 1, 0, uniqid('inv-', true));
@@ -749,7 +749,7 @@ final class SaveTest extends AbstractDatabaseTestCase
     {
 
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
 
         $invoicesMigration = new InvoicesMigration($connection);
         $invoicesMigration->insert(77, 1, 0, uniqid('inv-', true));

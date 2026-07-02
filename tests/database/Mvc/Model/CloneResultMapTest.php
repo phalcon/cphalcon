@@ -36,7 +36,7 @@ final class CloneResultMapTest extends AbstractDatabaseTestCase
         $this->setDatabase();
 
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         (new InvoicesMigration($connection));
     }
 
@@ -211,7 +211,7 @@ final class CloneResultMapTest extends AbstractDatabaseTestCase
     public function testMvcModelCloneResultMapQuerySetterNoRecursion(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $migration  = new InvoicesMigration($connection);
         $migration->insert(1, 2, 0, 'original-title', 10.0, '2026-01-01 00:00:00');
 

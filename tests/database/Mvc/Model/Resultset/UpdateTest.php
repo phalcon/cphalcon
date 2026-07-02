@@ -29,7 +29,7 @@ final class UpdateTest extends AbstractDatabaseTestCase
         $this->setNewFactoryDefault();
         $this->setDatabase();
 
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $migration  = new InvoicesMigration($connection);
         $migration->insert(1, 1, 0, 'Test Invoice One');
         $migration->insert(2, 1, 0, 'Test Invoice Two');

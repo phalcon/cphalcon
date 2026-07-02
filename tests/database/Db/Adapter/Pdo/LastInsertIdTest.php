@@ -39,7 +39,7 @@ final class LastInsertIdTest extends AbstractDatabaseTestCase
     #[Group('sqlite')]
     public function testDbAdapterPdoLastInsertId(): void
     {
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $db         = $this->container->get('db');
 
         new InvoicesMigration($connection);
@@ -67,7 +67,7 @@ final class LastInsertIdTest extends AbstractDatabaseTestCase
     #[Group('pgsql')]
     public function testDbAdapterPdoLastInsertIdPostgresqlSequence(): void
     {
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $db         = $this->container->get('db');
 
         new InvoicesMigration($connection);

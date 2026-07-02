@@ -49,7 +49,7 @@ final class DynamicUpdateTest extends AbstractDatabaseTestCase
     public function testMvcModelDisabledCherryPickDynamicUpdate(): void
     {
 
-        $connection         = self::getConnection();
+        $connection         = self::getPdoConnection();
         $customersMigration = new CustomersMigration($connection);
         $customersMigration->insert(90, 1);
 
@@ -103,7 +103,7 @@ final class DynamicUpdateTest extends AbstractDatabaseTestCase
     public function testMvcModelDisableDynamicUpdate(): void
     {
 
-        $connection         = self::getConnection();
+        $connection         = self::getPdoConnection();
         $customersMigration = new CustomersMigration($connection);
         $customersMigration->insert(90, 1);
 
@@ -161,7 +161,7 @@ final class DynamicUpdateTest extends AbstractDatabaseTestCase
     public function testMvcModelEnableDynamicUpdate(): void
     {
 
-        $connection         = self::getConnection();
+        $connection         = self::getPdoConnection();
         $customersMigration = new CustomersMigration($connection);
         $customersMigration->insert(90, 1);
 

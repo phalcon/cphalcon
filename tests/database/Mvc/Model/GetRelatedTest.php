@@ -45,7 +45,7 @@ final class GetRelatedTest extends AbstractDatabaseTestCase
     public function testMvcModelGetRelated(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
 
         $custId = 2;
 
@@ -126,7 +126,7 @@ final class GetRelatedTest extends AbstractDatabaseTestCase
     public function testMvcModelGetRelatedChangeForeignKey(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
 
 
         $custIdOne    = 10;
@@ -219,7 +219,7 @@ final class GetRelatedTest extends AbstractDatabaseTestCase
     public function testMvcModelGetRelatedPrioritisesDirtyRelated(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
 
         $custId    = 4;
         $firstName = uniqid('cust-', true);
@@ -258,7 +258,7 @@ final class GetRelatedTest extends AbstractDatabaseTestCase
     public function testMvcModelGetRelatedReturnsCachedResult(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
 
         $custId    = 3;
         $firstName = uniqid('cust-', true);

@@ -7,7 +7,7 @@ namespace Phalcon\Tests\Database\Db\Adapter\Pdo;
 use PDO;
 use Phalcon\Db\Adapter\Pdo\Sqlite;
 use Phalcon\Events\Manager;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 final class EventsTest extends AbstractUnitTestCase

@@ -67,7 +67,7 @@ final class ReadMetadataTest extends AbstractDatabaseTestCase
      */
     private static function getKeyData(): array
     {
-        $dateUploadedType = ('pgsql' === self::getDriver()) ? 17 : 4;
+        $dateUploadedType = ('pgsql' === self::getDatabaseDriver()) ? 17 : 4;
 
         return [
         'meta-phalcon\tests\support\models\albumphoto' => [
@@ -309,7 +309,7 @@ final class ReadMetadataTest extends AbstractDatabaseTestCase
     public function testMvcModelMetadataGetAttributes(
         string $service
     ): void {
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $adapter    = $this->newService($service);
 
         /**

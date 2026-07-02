@@ -44,7 +44,7 @@ final class FindFirstTest extends AbstractDatabaseTestCase
         $this->setDatabase();
 
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         (new InvoicesMigration($connection));
     }
 
@@ -88,7 +88,7 @@ final class FindFirstTest extends AbstractDatabaseTestCase
     {
         $title = uniqid('inv-');
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $migration  = new InvoicesMigration($connection);
         $migration->insert(4, null, 0, $title);
 
@@ -137,7 +137,7 @@ final class FindFirstTest extends AbstractDatabaseTestCase
     public function testMvcModelFindFirstColumn(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $migration  = new InvoicesMigration($connection);
         $migration->insert(4);
 
@@ -171,7 +171,7 @@ final class FindFirstTest extends AbstractDatabaseTestCase
     {
         $title = uniqid('inv-');
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $migration  = new InvoicesMigration($connection);
         $migration->insert(4, null, 0, $title);
 
@@ -233,7 +233,7 @@ final class FindFirstTest extends AbstractDatabaseTestCase
     {
         $title = uniqid('inv-');
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $migration  = new InvoicesMigration($connection);
         $migration->insert(4, null, 0, $title);
 
@@ -262,7 +262,7 @@ final class FindFirstTest extends AbstractDatabaseTestCase
     {
         $title = uniqid('inv-');
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $migration  = new InvoicesMigration($connection);
         $migration->insert(4, null, 0, $title);
 
@@ -291,7 +291,7 @@ final class FindFirstTest extends AbstractDatabaseTestCase
     public function testMvcModelFindFirstFoundNotFoundGetRelated(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
 
         $customersMigration = new CustomersMigration($connection);
         $invoicesMigration  = new InvoicesMigration($connection);
@@ -401,7 +401,7 @@ final class FindFirstTest extends AbstractDatabaseTestCase
         array | string $params,
         bool $found
     ): void {
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $migration  = new StringPrimaryMigration($connection);
         $migration->insert(
             '5741bfd7-6870-40b7-adf6-cbacb515b9a9',
@@ -425,7 +425,7 @@ final class FindFirstTest extends AbstractDatabaseTestCase
     #[Group('mysql')]
     public function testMvcModelFindFirstWithRawValueBind(): void
     {
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $migration  = new InvoicesMigration($connection);
         $migration->insert(4, null, 1, 'test-raw-value', 100, '2000-01-01 00:00:00');
 

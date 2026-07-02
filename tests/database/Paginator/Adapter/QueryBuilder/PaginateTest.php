@@ -40,7 +40,7 @@ final class PaginateTest extends AbstractDatabaseTestCase
         $this->setDatabase();
 
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         (new InvoicesMigration($connection));
     }
 
@@ -59,7 +59,7 @@ final class PaginateTest extends AbstractDatabaseTestCase
          * Sqlite does not like `where` that much and locks the database
          */
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $migration  = new InvoicesMigration($connection);
         $invId      = ('sqlite' === self::getDriver()) ? 'null' : 'default';
 
@@ -107,7 +107,7 @@ final class PaginateTest extends AbstractDatabaseTestCase
     public function testPaginatorAdapterQuerybuilderPaginateDistinct(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $migration  = new InvoicesMigration($connection);
         $invId      = ('sqlite' === self::getDriver()) ? 'null' : 'default';
 
@@ -154,7 +154,7 @@ final class PaginateTest extends AbstractDatabaseTestCase
          */
 
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $migration  = new InvoicesMigration($connection);
         $invId      = ('sqlite' === self::getDriver()) ? 'null' : 'default';
 
@@ -225,7 +225,7 @@ final class PaginateTest extends AbstractDatabaseTestCase
     public function testPaginatorAdapterQuerybuilderPaginateGroupByMultipleColumns(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $migration  = new InvoicesMigration($connection);
         $invId      = ('sqlite' === self::getDriver()) ? 'null' : 'default';
 
@@ -278,7 +278,7 @@ final class PaginateTest extends AbstractDatabaseTestCase
     public function testPaginatorAdapterQuerybuilderPaginateGroupByNullColumnsOption(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $migration  = new InvoicesMigration($connection);
 
         $invId = ('sqlite' === self::getDriver()) ? 'null' : 'default';
@@ -342,7 +342,7 @@ final class PaginateTest extends AbstractDatabaseTestCase
         $this->setDiService('view');
 
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $migration  = new InvoicesMigration($connection);
         $invId      = ('sqlite' === self::getDriver()) ? 'null' : 'default';
 

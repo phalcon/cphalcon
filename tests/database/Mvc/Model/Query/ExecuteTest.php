@@ -32,7 +32,7 @@ final class ExecuteTest extends AbstractDatabaseTestCase
         $this->setNewFactoryDefault();
         $this->setDatabase();
 
-        $migration = new InvoicesMigration(self::getConnection());
+        $migration = new InvoicesMigration(self::getPdoConnection());
         $migration->insert(1, 1, 0, 'Title 1');
         $migration->insert(2, 2, 1, 'Title 2');
     }

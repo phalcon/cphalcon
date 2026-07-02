@@ -42,7 +42,7 @@ final class GetHasOneRecordsTest extends AbstractDatabaseTestCase
      */
     public function testMvcModelManagerGetHasOneRecords(): void
     {
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
 
         $customersMigration = new CustomersMigration($connection);
         $customersMigration->insert(1, 0, 'cst-first', 'cst-last');

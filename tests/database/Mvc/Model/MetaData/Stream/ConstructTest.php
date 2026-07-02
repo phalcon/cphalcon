@@ -16,13 +16,12 @@ namespace Phalcon\Tests\Database\Mvc\Model\MetaData\Stream;
 use PDO;
 use Phalcon\Mvc\Model\MetaData\Stream;
 use Phalcon\Storage\Exception;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\Group;
-
-use function cacheDir;
 
 #[Group('phql')]
 final class ConstructTest extends AbstractDatabaseTestCase
@@ -47,14 +46,14 @@ final class ConstructTest extends AbstractDatabaseTestCase
             function () {
                 return new Stream(
                     [
-                        'metaDataDir' => cacheDir(),
+                        'metaDataDir' => Talon::settings()->outputPath('tests/cache/'),
                     ]
                 );
             }
         );
 
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $migration  = new InvoicesMigration($connection);
         $migration->insert(1, 1, 0, 'Test Invoice');
     }
@@ -64,8 +63,14 @@ final class ConstructTest extends AbstractDatabaseTestCase
      */
     public function tearDown(): void
     {
-        $this->safeDeleteFile(cacheDir('meta-phalcon_tests_support_models_invoices.php'));
-        $this->safeDeleteFile(cacheDir('map-phalcon_tests_support_models_invoices.php'));
+        $this->safeDeleteFile(
+            Talon::settings()->outputPath('tests/cache/'
+                . 'meta-phalcon_tests_support_models_invoices.php')
+        );
+        $this->safeDeleteFile(
+            Talon::settings()->outputPath('tests/cache/'
+                . 'map-phalcon_tests_support_models_invoices.php')
+        );
 
         $this->tearDownDatabase();
     }
@@ -88,11 +93,21 @@ final class ConstructTest extends AbstractDatabaseTestCase
         Invoices::findFirst();
 
         $this->assertTrue(
-            file_exists(cacheDir('meta-phalcon_tests_support_models_invoices.php'))
+            file_exists(
+                Talon::settings()->outputPath(
+                    'tests/cache/'
+                    . 'meta-phalcon_tests_support_models_invoices.php'
+                )
+            )
         );
 
         $this->assertTrue(
-            file_exists(cacheDir('map-phalcon_tests_support_models_invoices.php'))
+            file_exists(
+                Talon::settings()->outputPath(
+                    'tests/cache/'
+                    . 'map-phalcon_tests_support_models_invoices.php'
+                )
+            )
         );
 
         $this->assertFalse($md->isEmpty());

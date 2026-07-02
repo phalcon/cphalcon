@@ -39,7 +39,7 @@ final class SerializeTest extends AbstractDatabaseTestCase
         $this->setDatabase();
 
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         (new InvoicesMigration($connection));
     }
 
@@ -266,7 +266,7 @@ final class SerializeTest extends AbstractDatabaseTestCase
     public function testMvcModelUnserializeRestoresNullSnapshot(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         (new InvoicesMigration($connection))->insert(10, 1, 0, uniqid('inv-'));
 
         $invoice = InvoicesKeepSnapshots::findFirst(10);

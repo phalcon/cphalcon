@@ -57,7 +57,7 @@ final class GetUpdatedFieldsTest extends AbstractDatabaseTestCase
     #[Group('sqlite')]
     public function testMvcModelGetUpdatedFieldsIgnoresUnchangedNullColumns(): void
     {
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         (new InvoicesMigration($connection));
 
         $stmt = $connection->prepare(
@@ -114,7 +114,7 @@ final class GetUpdatedFieldsTest extends AbstractDatabaseTestCase
     #[Group('sqlite')]
     public function testMvcModelSnapshotRestoredAfterRelatedRecordRollback(): void
     {
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         (new CustomersMigration($connection));
         (new InvoicesMigration($connection));
 

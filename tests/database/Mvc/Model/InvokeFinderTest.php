@@ -29,7 +29,7 @@ final class InvokeFinderTest extends AbstractDatabaseTestCase
         $this->setNewFactoryDefault();
         $this->setDatabase();
 
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $migration  = new ObjectsMigration($connection);
         $migration->insert(1, 'random data', 1);
     }
@@ -54,7 +54,7 @@ final class InvokeFinderTest extends AbstractDatabaseTestCase
         $this->assertSame('random data', $record->obj_name);
         $this->assertSame(1, (int) $record->obj_type);
 
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $migration  = new ObjectsMigration($connection, false);
         $migration->insert(2, 'random one', 1);
         $migration->insert(3, 'random two', 1);

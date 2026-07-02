@@ -17,8 +17,6 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\Group;
 
-use function env;
-
 final class GetTypeTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -46,7 +44,7 @@ final class GetTypeTest extends AbstractDatabaseTestCase
             'mysql'  => 'mysql',
             'pgsql'  => 'pgsql',
             'sqlite' => 'sqlite',
-        ][env('driver')];
+        ][self::getDatabaseDriver()];
 
         $this->assertSame($expected, $db->getType());
     }

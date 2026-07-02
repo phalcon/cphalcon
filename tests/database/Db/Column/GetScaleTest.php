@@ -67,7 +67,7 @@ final class GetScaleTest extends AbstractDatabaseTestCase
     {
         // pgsql/sqlite are excluded above - the FractalDates schema and
         // sub-second precision behavior tested here are mysql-specific.
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $migration  = new FractalDatesMigration($connection);
         $migration->clear();
         $migration->insert(

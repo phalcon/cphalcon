@@ -49,7 +49,7 @@ final class CountTest extends AbstractDatabaseTestCase
 
         $this->setDatabase();
 
-        $this->invoiceMigration = new InvoicesMigration(self::getConnection());
+        $this->invoiceMigration = new InvoicesMigration(self::getPdoConnection());
     }
 
     /**

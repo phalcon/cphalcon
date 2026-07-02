@@ -40,7 +40,7 @@ final class FetchAllTest extends AbstractDatabaseTestCase
      */
     public function testDbResultPdoFetchAll(): void
     {
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $migration  = new InvoicesMigration($connection);
         $migration->insert(1, 1, 1, 'title 1', 101);
         $migration->insert(2, 1, 1, 'title 2', 102);

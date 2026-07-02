@@ -44,7 +44,7 @@ final class IsRelationshipLoadedTest extends AbstractDatabaseTestCase
         $this->setDatabase();
 
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
 
         $artistsMigration = new ArtistsMigration($connection);
         $artistsMigration->insert(1, 'Test Artist');

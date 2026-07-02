@@ -40,7 +40,7 @@ final class FetchOneTest extends AbstractDatabaseTestCase
     #[Group('sqlite')]
     public function testDbAdapterPdoFetchOne(): void
     {
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $db         = $this->container->get('db');
 
         $migration = new InvoicesMigration($connection);

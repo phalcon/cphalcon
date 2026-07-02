@@ -31,7 +31,7 @@ final class UnserializeTest extends AbstractDatabaseTestCase
         $this->setNewFactoryDefault();
         $this->setDatabase();
 
-        (new InvoicesMigration(self::getConnection()));
+        (new InvoicesMigration(self::getPdoConnection()));
     }
 
     /**

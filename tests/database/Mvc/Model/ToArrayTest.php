@@ -16,6 +16,7 @@ namespace Phalcon\Tests\Database\Mvc\Model;
 use PDO;
 use Phalcon\Db\Adapter\PdoFactory;
 use Phalcon\Mvc\Model\Manager;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Models\Invoices;
@@ -25,7 +26,6 @@ use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\Group;
 
 use function date;
-use function getOptionsMysql;
 use function uniqid;
 
 #[Group('phql')]
@@ -39,7 +39,7 @@ final class ToArrayTest extends AbstractDatabaseTestCase
         $this->setDatabase();
 
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         (new InvoicesMigration($connection));
     }
 
@@ -146,7 +146,7 @@ final class ToArrayTest extends AbstractDatabaseTestCase
     public function testMvcModelToArrayExecuteColumnNotInColumnMap(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $title      = uniqid('inv-');
         $date       = date('Y-m-d H:i:s');
 
@@ -203,7 +203,7 @@ final class ToArrayTest extends AbstractDatabaseTestCase
     public function testMvcModelToArrayFindCastOnHydrateForceCasting(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $title      = uniqid('inv-');
         $date       = date('Y-m-d H:i:s');
 
@@ -211,7 +211,7 @@ final class ToArrayTest extends AbstractDatabaseTestCase
         $migration->insert(4, 1, 0, $title, 111.26, $date);
         $migration->insert(5, 2, 1, $title, 222.19, $date);
 
-        $options            = getOptionsMysql();
+        $options            = Talon::settings()->getDatabaseOptions('mysql');
         $options['options'] = [
             PDO::ATTR_EMULATE_PREPARES  => false,
             PDO::ATTR_STRINGIFY_FETCHES => false,
@@ -320,7 +320,7 @@ final class ToArrayTest extends AbstractDatabaseTestCase
     public function testMvcModelToArrayModelWithGetters(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $title      = uniqid('inv-');
         $date       = date('Y-m-d H:i:s');
 
@@ -375,7 +375,7 @@ final class ToArrayTest extends AbstractDatabaseTestCase
     public function testMvcModelToArrayModelWithGettersSerialize(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $title      = uniqid('inv-');
         $date       = date('Y-m-d H:i:s');
 

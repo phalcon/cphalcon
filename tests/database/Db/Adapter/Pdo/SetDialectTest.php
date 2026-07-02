@@ -20,8 +20,6 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\Group;
 
-use function env;
-
 final class SetDialectTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -45,7 +43,7 @@ final class SetDialectTest extends AbstractDatabaseTestCase
     {
         $db = $this->container->get('db');
 
-        $newDialect = match (env('driver')) {
+        $newDialect = match (self::getDatabaseDriver()) {
             'mysql'  => new Mysql(),
             'pgsql'  => new Postgresql(),
             'sqlite' => new Sqlite(),
