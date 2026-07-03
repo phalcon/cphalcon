@@ -288,12 +288,16 @@ class Annotations extends Router
                 let isRoute = true;
                 break;
 
-            case "Get":
-            case "Post":
-            case "Put":
-            case "Patch":
+            case "Connect":
             case "Delete":
+            case "Get":
+            case "Head":
             case "Options":
+            case "Patch":
+            case "Post":
+            case "Purge":
+            case "Put":
+            case "Trace":
                 let isRoute = true,
                     methods = strtoupper(name);
                 break;
