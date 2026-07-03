@@ -4,7 +4,6 @@
 
 ### Tools
 
-- Zephir Parser v2.0.4
 - Zephir 1.0.0 (ec525b881)
  
 ### Changed
