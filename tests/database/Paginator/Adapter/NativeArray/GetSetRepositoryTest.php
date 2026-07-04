@@ -17,7 +17,6 @@ use Phalcon\Paginator\Adapter\NativeArray;
 use Phalcon\Paginator\Repository;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Paginator\Store;
-
 use PHPUnit\Framework\Attributes\Group;
 
 use function array_fill;
