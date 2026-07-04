@@ -76,7 +76,8 @@ class MimeType extends AbstractFile
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var fieldTypes, mime, replacePairs, tmp, types, value;
+        var allowWildcards, fieldTypes, matched, mime, replacePairs, tmp,
+            type, types, value;
 
         // Check file upload
         if this->checkUpload(validation, field) === false {
@@ -106,7 +107,22 @@ class MimeType extends AbstractFile
             let mime = value["type"];
         }
 
-        if !in_array(mime, types) {
+        let allowWildcards = (bool) this->getOption("allowWildcards", false),
+            matched        = false;
+
+        if allowWildcards {
+            for type in types {
+                if mime === type || preg_match("#^" . type . "$#", mime) {
+                    let matched = true;
+
+                    break;
+                }
+            }
+        } else {
+            let matched = in_array(mime, types);
+        }
+
+        if !matched {
             let replacePairs = [
                 ":types": join(", ", types)
             ];
