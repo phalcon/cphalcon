@@ -254,7 +254,6 @@ final class ResizeTest extends AbstractUnitTestCase
         $resized = imagecreatefrompng($output);
         imagesavealpha($resized, true);
         $color = imagecolorsforindex($resized, imagecolorat($resized, 0, 0));
-        imagedestroy($resized);
 
         $this->assertSame(127, $color['alpha'], 'Transparent pixel must remain transparent after resize');
 

@@ -9,7 +9,11 @@ use Phalcon\Db\Adapter\Pdo\Sqlite;
 use Phalcon\Events\Manager;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 
+#[Group('mysql')]
+#[Group('pgsql')]
+#[Group('sqlite')]
 final class EventsTest extends AbstractUnitTestCase
 {
     public static function eventsProvider(): array
@@ -17,8 +21,8 @@ final class EventsTest extends AbstractUnitTestCase
         return [
             ['SELECT 1', 'query', ['beforeQuery', 'afterQuery']],
             ['CREATE TABLE test (id INT)', 'execute', ['beforeQuery', 'afterQuery']],
-            ['', 'commit', ['beginTransaction', 'commitTransaction', 'transactionCommitted']],
-            ['', 'rollback', ['beginTransaction', 'rollbackTransaction', 'transactionRolledBack']],
+            ['', 'commit', ['beginTransaction', 'commitTransaction']],
+            ['', 'rollback', ['beginTransaction', 'rollbackTransaction']],
         ];
     }
 

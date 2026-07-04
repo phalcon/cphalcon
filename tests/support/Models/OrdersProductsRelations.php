@@ -9,41 +9,34 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Tests\Support\Models;
 
 use Phalcon\Mvc\Model;
 
-class RobottersDeles extends Model
+class OrdersProductsRelations extends Model
 {
-    public function columnMap()
-    {
-        return [
-            'id'        => 'code',
-            'robots_id' => 'robottersCode',
-            'parts_id'  => 'delesCode',
-        ];
-    }
-
     public function initialize()
     {
-        $this->setSource('robots_parts');
+        $this->setSource('co_orders_x_products');
 
         $this->belongsTo(
-            'delesCode',
-            Deles::class,
-            'code',
+            'oxp_prd_id',
+            ProductsRelations::class,
+            'prd_id',
             [
                 'foreignKey' => true,
             ]
         );
 
         $this->belongsTo(
-            'robottersCode',
-            Robotters::class,
-            'code',
+            'oxp_ord_id',
+            OrdersRelations::class,
+            'ord_id',
             [
                 'foreignKey' => [
-                    'message' => 'The robotters code does not exist',
+                    'message' => 'The order does not exist',
                 ],
             ]
         );

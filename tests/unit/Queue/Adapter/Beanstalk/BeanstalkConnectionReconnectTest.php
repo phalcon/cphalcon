@@ -75,7 +75,6 @@ final class BeanstalkConnectionReconnectTest extends AbstractUnitTestCase
     private function restoreSession(BeanstalkConnection $connection): void
     {
         $method = new ReflectionMethod(BeanstalkConnection::class, 'restoreSession');
-        $method->setAccessible(true);
         $method->invoke($connection);
     }
 

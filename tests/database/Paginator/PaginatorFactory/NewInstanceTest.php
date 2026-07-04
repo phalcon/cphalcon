@@ -17,7 +17,11 @@ use Phalcon\Paginator\Adapter\AdapterInterface;
 use Phalcon\Paginator\Adapter\NativeArray;
 use Phalcon\Paginator\PaginatorFactory;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
+#[Group('mysql')]
+#[Group('pgsql')]
+#[Group('sqlite')]
 final class NewInstanceTest extends AbstractDatabaseTestCase
 {
     /**
@@ -29,7 +33,7 @@ final class NewInstanceTest extends AbstractDatabaseTestCase
     public function testPaginatorAdapterFactoryNewInstance(): void
     {
         $factory = new PaginatorFactory();
-        $adapter = $factory->newInstance('nativeArray');
+        $adapter = $factory->newInstance('nativeArray', ['limit' => 10]);
 
         $this->assertInstanceOf(NativeArray::class, $adapter);
         $this->assertInstanceOf(AdapterInterface::class, $adapter);

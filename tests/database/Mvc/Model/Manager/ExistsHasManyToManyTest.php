@@ -14,10 +14,14 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Database\Mvc\Model\Manager;
 
 use Phalcon\Tests\AbstractDatabaseTestCase;
-use Phalcon\Tests\Support\Models\Relations\RelationsParts;
-use Phalcon\Tests\Support\Models\Relations\RelationsRobots;
+use Phalcon\Tests\Support\Models\OrdersRelations;
+use Phalcon\Tests\Support\Models\ProductsRelations;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
+#[Group('mysql')]
+#[Group('pgsql')]
+#[Group('sqlite')]
 final class ExistsHasManyToManyTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -37,15 +41,15 @@ final class ExistsHasManyToManyTest extends AbstractDatabaseTestCase
 
         $this->assertFalse(
             $manager->existsHasManyToMany(
-                RelationsParts::class,
-                RelationsRobots::class
+                ProductsRelations::class,
+                OrdersRelations::class
             )
         );
 
         $this->assertTrue(
             $manager->existsHasManyToMany(
-                RelationsRobots::class,
-                RelationsParts::class
+                OrdersRelations::class,
+                ProductsRelations::class
             )
         );
     }

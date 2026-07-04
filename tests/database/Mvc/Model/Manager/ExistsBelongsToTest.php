@@ -14,11 +14,15 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Database\Mvc\Model\Manager;
 
 use Phalcon\Tests\AbstractDatabaseTestCase;
-use Phalcon\Tests\Support\Models\Relations\RelationsParts;
-use Phalcon\Tests\Support\Models\Relations\RelationsRobots;
-use Phalcon\Tests\Support\Models\Relations\RelationsRobotsParts;
+use Phalcon\Tests\Support\Models\OrdersProductsRelations;
+use Phalcon\Tests\Support\Models\OrdersRelations;
+use Phalcon\Tests\Support\Models\ProductsRelations;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
+#[Group('mysql')]
+#[Group('pgsql')]
+#[Group('sqlite')]
 final class ExistsBelongsToTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -38,29 +42,29 @@ final class ExistsBelongsToTest extends AbstractDatabaseTestCase
 
         $this->assertFalse(
             $manager->existsBelongsTo(
-                RelationsRobots::class,
-                RelationsRobotsParts::class
+                OrdersRelations::class,
+                OrdersProductsRelations::class
             )
         );
 
         $this->assertFalse(
             $manager->existsBelongsTo(
-                RelationsParts::class,
-                RelationsRobotsParts::class
+                ProductsRelations::class,
+                OrdersProductsRelations::class
             )
         );
 
         $this->assertTrue(
             $manager->existsBelongsTo(
-                RelationsRobotsParts::class,
-                RelationsRobots::class
+                OrdersProductsRelations::class,
+                OrdersRelations::class
             )
         );
 
         $this->assertTrue(
             $manager->existsBelongsTo(
-                RelationsRobotsParts::class,
-                RelationsParts::class
+                OrdersProductsRelations::class,
+                ProductsRelations::class
             )
         );
     }
