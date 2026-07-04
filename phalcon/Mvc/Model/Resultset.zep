@@ -27,7 +27,6 @@ use Phalcon\Mvc\ModelInterface;
 use Phalcon\Storage\Serializer\SerializerInterface;
 use Phalcon\Support\Settings;
 use SeekableIterator;
-use Serializable;
 
 /**
  * Phalcon\Mvc\Model\Resultset
@@ -75,7 +74,7 @@ use Serializable;
  * @implements ArrayAccess<TKey, TValue>
  */
 abstract class Resultset
-    implements ResultsetInterface, Iterator, SeekableIterator, Countable, ArrayAccess, Serializable, JsonSerializable
+    implements ResultsetInterface, Iterator, SeekableIterator, Countable, ArrayAccess, JsonSerializable
 {
     /**
      * @var int

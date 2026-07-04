@@ -374,8 +374,6 @@ class Dump implements TemplateAware
                 );
 
                 for property in props {
-                    property->setAccessible(true);
-
                     let key = property->getName();
 
                     let type = implode(

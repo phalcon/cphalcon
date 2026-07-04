@@ -99,7 +99,6 @@ class MimeType extends AbstractFile
             let tmp = finfo_open(FILEINFO_MIME_TYPE);
             if (tmp) {
                 let mime = finfo_file(tmp, value["tmp_name"]);
-                finfo_close(tmp);
             }
         }
 

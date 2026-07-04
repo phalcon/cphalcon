@@ -70,7 +70,6 @@ use Phalcon\Filter\Validation\ValidationInterface;
 use Phalcon\Support\Collection;
 use Phalcon\Support\Collection\CollectionInterface;
 use Phalcon\Support\Settings;
-use Serializable;
 
 /**
  * Phalcon\Mvc\Model
@@ -126,7 +125,7 @@ use Serializable;
  *
  * @template T of static
  */
-abstract class Model extends AbstractInjectionAware implements EntityInterface, ModelInterface, ResultInterface, Serializable, JsonSerializable
+abstract class Model extends AbstractInjectionAware implements EntityInterface, ModelInterface, ResultInterface, JsonSerializable
 {
     /**
      * @var int
