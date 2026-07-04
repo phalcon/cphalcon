@@ -108,6 +108,7 @@ class File extends AbstractValidatorComposite
      *     'equalSize' => '',
      *     'messageEqualSize' => '',
      *     'allowedTypes' => [],
+     *     'allowWildcards' => false,
      *     'messageType' => '',
      *     'maxResolution' => '1000x1000',
      *     'messageMaxResolution' => '',
@@ -127,7 +128,7 @@ class File extends AbstractValidatorComposite
      */
     public function __construct( array options = [])
     {
-        var helper, included = null, key, message = null,
+        var allowWildcards = false, helper, included = null, key, message = null,
             messageFileEmpty = null, messageIniSize = null, messageValid = null,
             validator, value;
 
@@ -146,6 +147,11 @@ class File extends AbstractValidatorComposite
         if isset options["messageValid"] {
             let messageValid  = helper->__invoke(options, "messageValid");
             unset options["messageValid"];
+        }
+
+        if isset options["allowWildcards"] {
+            let allowWildcards = (bool) helper->__invoke(options, "allowWildcards");
+            unset options["allowWildcards"];
         }
 
         // create individual validators
@@ -206,8 +212,9 @@ class File extends AbstractValidatorComposite
 
                 let validator = new MimeType(
                     [
-                        "types"   : value,
-                        "message" : message
+                        "types"          : value,
+                        "message"        : message,
+                        "allowWildcards" : allowWildcards
                     ]
                 );
 
