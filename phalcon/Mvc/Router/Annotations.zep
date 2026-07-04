@@ -30,8 +30,8 @@ use Phalcon\Mvc\Router\Exceptions\InvalidCallbackParameter;
  *         // Use the annotations router
  *         $router = new Annotations(false);
  *
- *         // This will do the same as above but only if the handled uri starts with /robots
- *         $router->addResource("Robots", "/robots");
+ *         // This will do the same as above but only if the handled uri starts with /invoices
+ *         $router->addResource("Invoices", "/invoices");
  *
  *         return $router;
  *     }

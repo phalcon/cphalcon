@@ -84,7 +84,7 @@ class Row extends \stdClass implements EntityInterface, ResultInterface, ArrayAc
      * Reads an attribute value by its name
      *
      *```php
-     * echo $robot->readAttribute("name");
+     * echo $invoice->readAttribute("inv_title");
      *```
      *
      * @return mixed
@@ -120,7 +120,7 @@ class Row extends \stdClass implements EntityInterface, ResultInterface, ArrayAc
      * Writes an attribute value by its name
      *
      *```php
-     * $robot->writeAttribute("name", "Rosey");
+     * $invoice->writeAttribute("inv_title", "Test Invoice");
      *```
      *
      * @param mixed value

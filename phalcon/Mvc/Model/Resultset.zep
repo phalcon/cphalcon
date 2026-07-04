@@ -39,33 +39,33 @@ use SeekableIterator;
  * ```php
  *
  * // Using a standard foreach
- * $robots = Robots::find(
+ * $invoices = Invoices::find(
  *     [
- *         "type = 'virtual'",
- *         "order" => "name",
+ *         "inv_status_flag = 1",
+ *         "order" => "inv_title",
  *     ]
  * );
  *
- * foreach ($robots as robot) {
- *     echo robot->name, "\n";
+ * foreach ($invoices as invoice) {
+ *     echo invoice->inv_title, "\n";
  * }
  *
  * // Using a while
- * $robots = Robots::find(
+ * $invoices = Invoices::find(
  *     [
- *         "type = 'virtual'",
- *         "order" => "name",
+ *         "inv_status_flag = 1",
+ *         "order" => "inv_title",
  *     ]
  * );
  *
- * $robots->rewind();
+ * $invoices->rewind();
  *
- * while ($robots->valid()) {
- *     $robot = $robots->current();
+ * while ($invoices->valid()) {
+ *     $invoice = $invoices->current();
  *
- *     echo $robot->name, "\n";
+ *     echo $invoice->inv_title, "\n";
  *
- *     $robots->next();
+ *     $invoices->next();
  * }
  * ```
  * @template TKey
@@ -313,10 +313,10 @@ abstract class Resultset
      * Filters a resultset returning only those the developer requires
      *
      *```php
-     * $filtered = $robots->filter(
-     *     function ($robot) {
-     *         if ($robot->id < 3) {
-     *             return $robot;
+     * $filtered = $invoices->filter(
+     *     function ($invoice) {
+     *         if ($invoice->inv_id < 3) {
+     *             return $invoice;
      *         }
      *     }
      * );
@@ -370,21 +370,21 @@ abstract class Resultset
      * Get first row in the resultset
      *
      * ```php
-     * $model = new Robots();
+     * $model = new Invoices();
      * $manager = $model->getModelsManager();
      *
-     * // \Robots
-     * $manager->createQuery('SELECT * FROM Robots')
+     * // \Invoices
+     * $manager->createQuery('SELECT * FROM Invoices')
      *         ->execute()
      *         ->getFirst();
      *
      * // \Phalcon\Mvc\Model\Row
-     * $manager->createQuery('SELECT r.id FROM Robots AS r')
+     * $manager->createQuery('SELECT r.inv_id FROM Invoices AS r')
      *         ->execute()
      *         ->getFirst();
      *
      * // NULL
-     * $manager->createQuery('SELECT r.id FROM Robots AS r WHERE r.name = "NON-EXISTENT"')
+     * $manager->createQuery('SELECT r.inv_id FROM Invoices AS r WHERE r.inv_title = "NON-EXISTENT"')
      *         ->execute()
      *         ->getFirst();
      * ```
@@ -457,9 +457,9 @@ abstract class Resultset
      * Calls jsonSerialize on each object if present
      *
      *```php
-     * $robots = Robots::find();
+     * $invoices = Invoices::find();
      *
-     * echo json_encode($robots);
+     * echo json_encode($invoices);
      *```
      */
     public function jsonSerialize() -> array
