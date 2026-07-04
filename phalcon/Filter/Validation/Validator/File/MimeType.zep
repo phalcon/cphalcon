@@ -76,15 +76,9 @@ class MimeType extends AbstractFile
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var allowWildcards,
-            fieldTypes,
+        var allowWildcards, fieldTypes,
             matched = false,
-            mime,
-            replacePairs,
-            tmp,
-            type,
-            types,
-            value;
+            mime, replacePairs, tmp, type, types, value;
 
         // Check file upload
         if this->checkUpload(validation, field) === false {
