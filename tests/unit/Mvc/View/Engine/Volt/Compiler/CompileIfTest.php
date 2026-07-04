@@ -35,4 +35,32 @@ class CompileIfTest extends AbstractUnitTestCase
             $compiled
         );
     }
+
+    /**
+     * "in" has higher precedence than "and"
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-07-04
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/14816
+     */
+    public function testMvcViewEngineVoltCompilerCompileIfInPrecedence(): void
+    {
+        $volt = new Compiler();
+
+        $source = "{% if categoryIds is defined AND category['id'] in categoryIds %}\n"
+            . "    checked\n"
+            . "{% endif %}";
+
+        $exprs    = $volt->parse($source);
+        $compiled = $volt->compileIf($exprs[0], false);
+
+        $this->assertSame(
+            "<?php if (isset(\$categoryIds) && "
+            . "\$this->isIncluded(\$category['id'], \$categoryIds)) { ?>\n"
+            . "    checked\n"
+            . "<?php } ?>",
+            $compiled
+        );
+    }
 }

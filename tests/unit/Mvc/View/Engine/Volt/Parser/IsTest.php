@@ -430,4 +430,211 @@ final class IsTest extends AbstractUnitTestCase
         $actual   = $this->compiler->parse($source);
         $this->assertSame($expected, $actual);
     }
+
+    /**
+     * Perform test for equals ("is" as a binary comparison operator)
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-07-04
+     */
+    public function testMvcViewEngineVoltParserExprIsComparison(): void
+    {
+        $source   = '{% if a is b %}c{% endif %}';
+        $expected = [
+            [
+                'type' => 300,
+                'expr' => [
+                    'type' => 311,
+                    'left' => [
+                        'type' => 265,
+                        'value' => 'a',
+                        'file' => 'eval code',
+                        'line' => 1,
+                    ],
+                    'right' => [
+                        'type' => 265,
+                        'value' => 'b',
+                        'file' => 'eval code',
+                        'line' => 1,
+                    ],
+                    'file' => 'eval code',
+                    'line' => 1,
+                ],
+                'true_statements' => [
+                    [
+                        'type' => 357,
+                        'value' => 'c',
+                        'file' => 'eval code',
+                        'line' => 1,
+                    ],
+                ],
+                'file' => 'eval code',
+                'line' => 1,
+            ],
+        ];
+        $actual   = $this->compiler->parse($source);
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * Perform test for not equals ("is not" as a binary comparison operator)
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-07-04
+     */
+    public function testMvcViewEngineVoltParserExprIsNotComparison(): void
+    {
+        $source   = '{% if a is not b %}c{% endif %}';
+        $expected = [
+            [
+                'type' => 300,
+                'expr' => [
+                    'type' => 273,
+                    'left' => [
+                        'type' => 265,
+                        'value' => 'a',
+                        'file' => 'eval code',
+                        'line' => 1,
+                    ],
+                    'right' => [
+                        'type' => 265,
+                        'value' => 'b',
+                        'file' => 'eval code',
+                        'line' => 1,
+                    ],
+                    'file' => 'eval code',
+                    'line' => 1,
+                ],
+                'true_statements' => [
+                    [
+                        'type' => 357,
+                        'value' => 'c',
+                        'file' => 'eval code',
+                        'line' => 1,
+                    ],
+                ],
+                'file' => 'eval code',
+                'line' => 1,
+            ],
+        ];
+        $actual   = $this->compiler->parse($source);
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * Perform conditional echo ("is" test inside a ternary)
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-07-04
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/14476
+     */
+    public function testMvcViewEngineVoltParserExprIsTernary(): void
+    {
+        $source   = '{{ uploadedPhoto is user.avatar ? \'checked="checked"\' : \'\' }}';
+        $expected = [
+            [
+                'type' => 359,
+                'expr' => [
+                    'type' => 366,
+                    'ternary' => [
+                        'type' => 311,
+                        'left' => [
+                            'type' => 265,
+                            'value' => 'uploadedPhoto',
+                            'file' => 'eval code',
+                            'line' => 1,
+                        ],
+                        'right' => [
+                            'type' => 46,
+                            'left' => [
+                                'type' => 265,
+                                'value' => 'user',
+                                'file' => 'eval code',
+                                'line' => 1,
+                            ],
+                            'right' => [
+                                'type' => 265,
+                                'value' => 'avatar',
+                                'file' => 'eval code',
+                                'line' => 1,
+                            ],
+                            'file' => 'eval code',
+                            'line' => 1,
+                        ],
+                        'file' => 'eval code',
+                        'line' => 1,
+                    ],
+                    'left' => [
+                        'type' => 260,
+                        'value' => 'checked="checked"',
+                        'file' => 'eval code',
+                        'line' => 1,
+                    ],
+                    'right' => [
+                        'type' => 260,
+                        'value' => '',
+                        'file' => 'eval code',
+                        'line' => 1,
+                    ],
+                    'file' => 'eval code',
+                    'line' => 1,
+                ],
+                'file' => 'eval code',
+                'line' => 1,
+            ],
+        ];
+        $actual   = $this->compiler->parse($source);
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * Perform conditional echo II ("is empty" test inside a ternary)
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-07-04
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/14476
+     */
+    public function testMvcViewEngineVoltParserExprIsEmptyTernary(): void
+    {
+        $source   = '{{ title is empty ? siteName : title }}';
+        $expected = [
+            [
+                'type' => 359,
+                'expr' => [
+                    'type' => 366,
+                    'ternary' => [
+                        'type' => 386,
+                        'left' => [
+                            'type' => 265,
+                            'value' => 'title',
+                            'file' => 'eval code',
+                            'line' => 1,
+                        ],
+                        'file' => 'eval code',
+                        'line' => 1,
+                    ],
+                    'left' => [
+                        'type' => 265,
+                        'value' => 'siteName',
+                        'file' => 'eval code',
+                        'line' => 1,
+                    ],
+                    'right' => [
+                        'type' => 265,
+                        'value' => 'title',
+                        'file' => 'eval code',
+                        'line' => 1,
+                    ],
+                    'file' => 'eval code',
+                    'line' => 1,
+                ],
+                'file' => 'eval code',
+                'line' => 1,
+            ],
+        ];
+        $actual   = $this->compiler->parse($source);
+        $this->assertSame($expected, $actual);
+    }
 }

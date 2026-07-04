@@ -406,4 +406,102 @@ final class SetTest extends AbstractUnitTestCase
         $actual   = $this->compiler->parse($source);
         $this->assertSame($expected, $actual);
     }
+
+    /**
+     * Setting a value with whitespace-control delimiters ({%- ... -%})
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-07-04
+     */
+    public function testMvcViewEngineVoltParserSetWhitespaceControl(): void
+    {
+        $source   = '{%- set defaultClass = \'form-control \' -%}';
+        $expected = [
+            [
+                'type' => 306,
+                'assignments' => [
+                    [
+                        'variable' => [
+                            'type' => 265,
+                            'value' => 'defaultClass',
+                            'file' => 'eval code',
+                            'line' => 1,
+                        ],
+                        'op' => 61,
+                        'expr' => [
+                            'type' => 260,
+                            'value' => 'form-control ',
+                            'file' => 'eval code',
+                            'line' => 1,
+                        ],
+                        'file' => 'eval code',
+                        'line' => 1,
+                    ],
+                ],
+            ],
+        ];
+        $actual   = $this->compiler->parse($source);
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * Using "is" and the ternary operator in the assigned expression
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-07-04
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/14476
+     */
+    public function testMvcViewEngineVoltParserSetIsDefinedTernary(): void
+    {
+        $source   = '{% set myVar = someVar is defined ? \'yes\' : \'no\' %}';
+        $expected = [
+            [
+                'type' => 306,
+                'assignments' => [
+                    [
+                        'variable' => [
+                            'type' => 265,
+                            'value' => 'myVar',
+                            'file' => 'eval code',
+                            'line' => 1,
+                        ],
+                        'op' => 61,
+                        'expr' => [
+                            'type' => 366,
+                            'ternary' => [
+                                'type' => 363,
+                                'left' => [
+                                    'type' => 265,
+                                    'value' => 'someVar',
+                                    'file' => 'eval code',
+                                    'line' => 1,
+                                ],
+                                'file' => 'eval code',
+                                'line' => 1,
+                            ],
+                            'left' => [
+                                'type' => 260,
+                                'value' => 'yes',
+                                'file' => 'eval code',
+                                'line' => 1,
+                            ],
+                            'right' => [
+                                'type' => 260,
+                                'value' => 'no',
+                                'file' => 'eval code',
+                                'line' => 1,
+                            ],
+                            'file' => 'eval code',
+                            'line' => 1,
+                        ],
+                        'file' => 'eval code',
+                        'line' => 1,
+                    ],
+                ],
+            ],
+        ];
+        $actual   = $this->compiler->parse($source);
+        $this->assertSame($expected, $actual);
+    }
 }
