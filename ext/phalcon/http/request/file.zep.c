@@ -237,8 +237,6 @@ PHP_METHOD(Phalcon_Http_Request_File, getRealType)
 			zephir_read_property(&_2$$4, this_ptr, ZEND_STRL("tmpName"), PH_NOISY_CC | PH_READONLY);
 			ZEPHIR_CALL_FUNCTION(&mime, "finfo_file", NULL, 0, &finfo, &_2$$4);
 			zephir_check_call_status();
-			ZEPHIR_CALL_FUNCTION(NULL, "finfo_close", NULL, 0, &finfo);
-			zephir_check_call_status();
 			zephir_update_property_zval(this_ptr, ZEND_STRL("realType"), &mime);
 		}
 	}

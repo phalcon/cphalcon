@@ -598,14 +598,14 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, createView)
  * Deletes data from a table using custom RBDM SQL syntax
  *
  * ```php
- * // Deleting existing robot
+ * // Deleting existing invoice
  * $success = $connection->delete(
- *     "robots",
- *     "id = 101"
+ *     "co_invoices",
+ *     "inv_id = 101"
  * );
  *
  * // Next SQL sentence is generated
- * DELETE FROM `robots` WHERE `id` = 101
+ * DELETE FROM `co_invoices` WHERE `inv_id` = 101
  * ```
  *
  * Warning! If $whereCondition is string it not escaped.
@@ -688,7 +688,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, delete)
  *
  *```php
  * print_r(
- *     $connection->describeIndexes("robots_parts")
+ *     $connection->describeIndexes("co_orders_x_products")
  * );
  *```
  *
@@ -831,7 +831,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, describeIndexes)
  *
  *```php
  * print_r(
- *     $connection->describeReferences("robots_parts")
+ *     $connection->describeReferences("co_orders_x_products")
  * );
  *```
  *
@@ -1344,13 +1344,13 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, dropView)
  *
  *```php
  * $escapedTable = $connection->escapeIdentifier(
- *     "robots"
+ *     "co_invoices"
  * );
  *
  * $escapedTable = $connection->escapeIdentifier(
  *     [
  *         "store",
- *         "robots",
+ *         "co_invoices",
  *     ]
  * );
  *```
@@ -1398,26 +1398,26 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, escapeIdentifier)
  * Dumps the complete result of a query into an array
  *
  *```php
- * // Getting all robots with associative indexes only
- * $robots = $connection->fetchAll(
- *     "SELECT * FROM robots",
+ * // Getting all invoices with associative indexes only
+ * $invoices = $connection->fetchAll(
+ *     "SELECT * FROM co_invoices",
  *     \Phalcon\Db\Enum::FETCH_ASSOC
  * );
  *
- * foreach ($robots as $robot) {
- *     print_r($robot);
+ * foreach ($invoices as $invoice) {
+ *     print_r($invoice);
  * }
  *
- *  // Getting all robots that contains word "robot" withing the name
- * $robots = $connection->fetchAll(
- *     "SELECT * FROM robots WHERE name LIKE :name",
+ *  // Getting all invoices whose title contains the word "Test"
+ * $invoices = $connection->fetchAll(
+ *     "SELECT * FROM co_invoices WHERE inv_title LIKE :inv_title",
  *     \Phalcon\Db\Enum::FETCH_ASSOC,
  *     [
- *         "name" => "%robot%",
+ *         "inv_title" => "%Test%",
  *     ]
  * );
- * foreach($robots as $robot) {
- *     print_r($robot);
+ * foreach($invoices as $invoice) {
+ *     print_r($invoice);
  * }
  *```
  */
@@ -1496,16 +1496,16 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, fetchAll)
  * Returns the n'th field of first row in a SQL query result
  *
  *```php
- * // Getting count of robots
- * $robotsCount = $connection->fetchColumn("SELECT count(*) FROM robots");
- * print_r($robotsCount);
+ * // Getting count of invoices
+ * $invoicesCount = $connection->fetchColumn("SELECT count(*) FROM co_invoices");
+ * print_r($invoicesCount);
  *
- * // Getting name of last edited robot
- * $robot = $connection->fetchColumn(
- *     "SELECT id, name FROM robots ORDER BY modified DESC",
+ * // Getting the title of the last created invoice
+ * $invoice = $connection->fetchColumn(
+ *     "SELECT inv_id, inv_title FROM co_invoices ORDER BY inv_created_at DESC",
  *     1
  * );
- * print_r($robot);
+ * print_r($invoice);
  *```
  */
 PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, fetchColumn)
@@ -1563,16 +1563,16 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, fetchColumn)
  * Returns the first row in a SQL query result
  *
  *```php
- * // Getting first robot
- * $robot = $connection->fetchOne("SELECT * FROM robots");
- * print_r($robot);
+ * // Getting first invoice
+ * $invoice = $connection->fetchOne("SELECT * FROM co_invoices");
+ * print_r($invoice);
  *
- * // Getting first robot with associative indexes only
- * $robot = $connection->fetchOne(
- *     "SELECT * FROM robots",
+ * // Getting first invoice with associative indexes only
+ * $invoice = $connection->fetchOne(
+ *     "SELECT * FROM co_invoices",
  *     \Phalcon\Db\Enum::FETCH_ASSOC
  * );
- * print_r($robot);
+ * print_r($invoice);
  *```
  */
 PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, fetchOne)
@@ -1741,18 +1741,18 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, getConnectionId)
  * Returns the default identity value to be inserted in an identity column
  *
  *```php
- * // Inserting a new robot with a valid default value for the column 'id'
+ * // Inserting a new invoice with a valid default value for the column 'inv_id'
  * $success = $connection->insert(
- *     "robots",
+ *     "co_invoices",
  *     [
  *         $connection->getDefaultIdValue(),
- *         "Astro Boy",
- *         1952,
+ *         "Test Invoice",
+ *         100,
  *     ],
  *     [
- *         "id",
- *         "name",
- *         "year",
+ *         "inv_id",
+ *         "inv_title",
+ *         "inv_total",
  *     ]
  * );
  *```
@@ -1780,16 +1780,16 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, getDefaultIdValue)
  * in the table definition
  *
  *```php
- * // Inserting a new robot with a valid default value for the column 'year'
+ * // Inserting a new invoice with a valid default value for the column 'inv_total'
  * $success = $connection->insert(
- *     "robots",
+ *     "co_invoices",
  *     [
- *         "Astro Boy",
+ *         "Test Invoice",
  *         $connection->getDefaultValue()
  *     ],
  *     [
- *         "name",
- *         "year",
+ *         "inv_title",
+ *         "inv_total",
  *     ]
  * );
  *```
@@ -1913,15 +1913,15 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, getType)
  * Inserts data into a table using custom RDBMS SQL syntax
  *
  * ```php
- * // Inserting a new robot
+ * // Inserting a new invoice
  * $success = $connection->insert(
- *     "robots",
- *     ["Astro Boy", 1952],
- *     ["name", "year"]
+ *     "co_invoices",
+ *     ["Test Invoice", 100],
+ *     ["inv_title", "inv_total"]
  * );
  *
  * // Next SQL sentence is sent to the database system
- * INSERT INTO `robots` (`name`, `year`) VALUES ("Astro boy", 1952);
+ * INSERT INTO `co_invoices` (`inv_title`, `inv_total`) VALUES ("Test Invoice", 100);
  * ```
  */
 PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, insert)
@@ -2151,17 +2151,17 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, insert)
  * Inserts data into a table using custom RBDM SQL syntax
  *
  * ```php
- * // Inserting a new robot
+ * // Inserting a new invoice
  * $success = $connection->insertAsDict(
- *     "robots",
+ *     "co_invoices",
  *     [
- *         "name" => "Astro Boy",
- *         "year" => 1952,
+ *         "inv_title" => "Test Invoice",
+ *         "inv_total" => 100,
  *     ]
  * );
  *
  * // Next SQL sentence is sent to the database system
- * INSERT INTO `robots` (`name`, `year`) VALUES ("Astro boy", 1952);
+ * INSERT INTO `co_invoices` (`inv_title`, `inv_total`) VALUES ("Test Invoice", 100);
  * ```
  */
 PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, insertAsDict)
@@ -2272,7 +2272,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, isNestedTransactionsWithSavepoint
  * Appends a LIMIT clause to $sqlQuery argument
  *
  * ```php
- * echo $connection->limit("SELECT * FROM robots", 5);
+ * echo $connection->limit("SELECT * FROM co_invoices", 5);
  * ```
  */
 PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, limit)
@@ -3080,7 +3080,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, tableExists)
  *
  *```php
  * print_r(
- *     $connection->tableOptions("robots")
+ *     $connection->tableOptions("co_invoices")
  * );
  *```
  */
@@ -3137,24 +3137,24 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, tableOptions)
  * Updates data on a table using custom RBDM SQL syntax
  *
  * ```php
- * // Updating existing robot
+ * // Updating existing invoice
  * $success = $connection->update(
- *     "robots",
- *     ["name"],
- *     ["New Astro Boy"],
- *     "id = 101"
+ *     "co_invoices",
+ *     ["inv_title"],
+ *     ["New Test Invoice"],
+ *     "inv_id = 101"
  * );
  *
  * // Next SQL sentence is sent to the database system
- * UPDATE `robots` SET `name` = "Astro boy" WHERE id = 101
+ * UPDATE `co_invoices` SET `inv_title` = "New Test Invoice" WHERE inv_id = 101
  *
- * // Updating existing robot with array condition and $dataTypes
+ * // Updating existing invoice with array condition and $dataTypes
  * $success = $connection->update(
- *     "robots",
- *     ["name"],
- *     ["New Astro Boy"],
+ *     "co_invoices",
+ *     ["inv_title"],
+ *     ["New Test Invoice"],
  *     [
- *         "conditions" => "id = ?",
+ *         "conditions" => "inv_id = ?",
  *         "bind"       => [$some_unsafe_id],
  *         "bindTypes"  => [PDO::PARAM_INT], // use only if you use $dataTypes param
  *     ],
@@ -3405,17 +3405,17 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, update)
  * Another, more convenient syntax
  *
  * ```php
- * // Updating existing robot
+ * // Updating existing invoice
  * $success = $connection->updateAsDict(
- *     "robots",
+ *     "co_invoices",
  *     [
- *         "name" => "New Astro Boy",
+ *         "inv_title" => "New Test Invoice",
  *     ],
- *     "id = 101"
+ *     "inv_id = 101"
  * );
  *
  * // Next SQL sentence is sent to the database system
- * UPDATE `robots` SET `name` = "Astro boy" WHERE id = 101
+ * UPDATE `co_invoices` SET `inv_title` = "New Test Invoice" WHERE inv_id = 101
  * ```
  */
 PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, updateAsDict)

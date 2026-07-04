@@ -73,9 +73,9 @@ PHP_METHOD(Phalcon_Paginator_PaginatorFactory, __construct)
  * $builder = $this
  *      ->modelsManager
  *      ->createBuilder()
- *      ->columns("id, name")
- *      ->from(Robots::class)
- *      ->orderBy("name");
+ *      ->columns("inv_id, inv_title")
+ *      ->from(Invoices::class)
+ *      ->orderBy("inv_title");
  *
  * $options = [
  *     "builder" => $builder,

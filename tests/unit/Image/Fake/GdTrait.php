@@ -111,7 +111,6 @@ trait GdTrait
                 $dst_w * $quality,
                 $dst_h * $quality
             );
-            imagedestroy($temp);
         } else {
             imagecopyresampled($dst_image, $src_image, $dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h);
         }
@@ -184,9 +183,6 @@ trait GdTrait
                 $this->leftShift($phash, 1, ($product - $i));
             }
         }
-
-        // free memory
-        imagedestroy($img);
 
         return $phash;
     }
@@ -312,9 +308,6 @@ trait GdTrait
             $width,
             $height
         );
-
-        // release the source object
-        imagedestroy($img);
 
         return $finalimg;
     }

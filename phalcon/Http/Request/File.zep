@@ -147,8 +147,6 @@ class File implements FileInterface
             if finfo !== false {
                 let mime = finfo_file(finfo, this->tmpName);
 
-                finfo_close(finfo);
-
                 let this->realType = mime;
             }
         }

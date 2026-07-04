@@ -501,7 +501,11 @@ PHP_METHOD(Phalcon_Messages_Messages, offsetSet)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	zephir_update_property_array(this_ptr, SL("messages"), offset, value);
+	if (Z_TYPE_P(offset) == IS_NULL) {
+		zephir_update_property_array_append(this_ptr, SL("messages"), value);
+	} else {
+		zephir_update_property_array(this_ptr, SL("messages"), offset, value);
+	}
 	ZEPHIR_MM_RESTORE();
 }
 

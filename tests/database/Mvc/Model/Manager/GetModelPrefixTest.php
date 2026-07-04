@@ -15,7 +15,11 @@ namespace Phalcon\Tests\Database\Mvc\Model\Manager;
 
 use Phalcon\Mvc\Model\Manager;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
+#[Group('mysql')]
+#[Group('pgsql')]
+#[Group('sqlite')]
 final class GetModelPrefixTest extends AbstractDatabaseTestCase
 {
     /**

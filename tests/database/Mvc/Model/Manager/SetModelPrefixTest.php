@@ -15,9 +15,13 @@ namespace Phalcon\Tests\Database\Mvc\Model\Manager;
 
 use Phalcon\Mvc\Model\Manager;
 use Phalcon\Tests\AbstractDatabaseTestCase;
-use Phalcon\Tests\Support\Models\Robots;
+use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
+#[Group('mysql')]
+#[Group('pgsql')]
+#[Group('sqlite')]
 final class SetModelPrefixTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -36,13 +40,13 @@ final class SetModelPrefixTest extends AbstractDatabaseTestCase
     {
         $manager = new Manager();
 
-        $robots = new Robots(null, null, $manager);
+        $invoices = new Invoices(null, null, $manager);
 
-        $expected = 'robots';
-        $actual   = $robots->getModelsManager()->getModelSource($robots);
+        $expected = 'co_invoices';
+        $actual   = $invoices->getModelsManager()->getModelSource($invoices);
         $this->assertEquals($expected, $actual);
 
-        $actual = $robots->getSource();
+        $actual = $invoices->getSource();
         $this->assertEquals($expected, $actual);
     }
 
@@ -57,13 +61,13 @@ final class SetModelPrefixTest extends AbstractDatabaseTestCase
 
         $manager->setModelPrefix('wp_');
 
-        $robots = new Robots(null, null, $manager);
+        $invoices = new Invoices(null, null, $manager);
 
-        $expected = 'wp_robots';
-        $actual   = $robots->getModelsManager()->getModelSource($robots);
+        $expected = 'wp_co_invoices';
+        $actual   = $invoices->getModelsManager()->getModelSource($invoices);
         $this->assertEquals($expected, $actual);
 
-        $actual = $robots->getSource();
+        $actual = $invoices->getSource();
         $this->assertEquals($expected, $actual);
     }
 }

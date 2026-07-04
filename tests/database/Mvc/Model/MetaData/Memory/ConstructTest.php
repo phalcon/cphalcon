@@ -19,7 +19,7 @@ use Phalcon\Storage\Exception;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Models\Invoices;
-use Phalcon\Tests\Support\Models\Robotto;
+use Phalcon\Tests\Support\Models\InvoicesMetaData;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\Group;
 
@@ -87,20 +87,20 @@ final class ConstructTest extends AbstractDatabaseTestCase
     public function testMvcModelMetadataMemoryConstructManual(): void
     {
         $metaData = $this->container->getShared('modelsMetadata');
-        $robotto  = new Robotto();
+        $invoices = new InvoicesMetaData();
 
         $this->assertSame(
-            ['id', 'name', 'type', 'year'],
-            $metaData->getAttributes($robotto)
+            ['inv_id', 'inv_cst_id', 'inv_status_flag', 'inv_title'],
+            $metaData->getAttributes($invoices)
         );
         $this->assertSame(
-            ['id'],
-            $metaData->getPrimaryKeyAttributes($robotto)
+            ['inv_id'],
+            $metaData->getPrimaryKeyAttributes($invoices)
         );
         $this->assertSame(
-            ['name', 'type', 'year'],
-            $metaData->getNonPrimaryKeyAttributes($robotto)
+            ['inv_cst_id', 'inv_status_flag', 'inv_title'],
+            $metaData->getNonPrimaryKeyAttributes($invoices)
         );
-        $this->assertSame('id', $metaData->getIdentityField($robotto));
+        $this->assertSame('inv_id', $metaData->getIdentityField($invoices));
     }
 }

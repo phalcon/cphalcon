@@ -22,14 +22,14 @@ use Phalcon\Db\Adapter\AdapterInterface;
  * Encapsulates the resultset internals
  *
  * ```php
- * $result = $connection->query("SELECT * FROM robots ORDER BY name");
+ * $result = $connection->query("SELECT * FROM co_invoices ORDER BY inv_title");
  *
  * $result->setFetchMode(
  *     \Phalcon\Db\Enum::FETCH_NUM
  * );
  *
- * while ($robot = $result->fetchArray()) {
- *     print_r($robot);
+ * while ($invoice = $result->fetchArray()) {
+ *     print_r($invoice);
  * }
  * ```
  */
@@ -103,7 +103,7 @@ class PdoResult implements ResultInterface
      *
      *```php
      * $result = $connection->query(
-     *     "SELECT * FROM robots ORDER BY name"
+     *     "SELECT * FROM co_invoices ORDER BY inv_title"
      * );
      *
      * // Move to third row on result
@@ -174,14 +174,14 @@ class PdoResult implements ResultInterface
      * fetch flag set using `Phalcon\Db\Result\Pdo::setFetchMode()`
      *
      *```php
-     * $result = $connection->query("SELECT * FROM robots ORDER BY name");
+     * $result = $connection->query("SELECT * FROM co_invoices ORDER BY inv_title");
      *
      * $result->setFetchMode(
      *     \Phalcon\Enum::FETCH_OBJ
      * );
      *
-     * while ($robot = $result->fetch()) {
-     *     echo $robot->name;
+     * while ($invoice = $result->fetch()) {
+     *     echo $invoice->inv_title;
      * }
      *```
      */
@@ -208,10 +208,10 @@ class PdoResult implements ResultInterface
      *
      *```php
      * $result = $connection->query(
-     *     "SELECT * FROM robots ORDER BY name"
+     *     "SELECT * FROM co_invoices ORDER BY inv_title"
      * );
      *
-     * $robots = $result->fetchAll();
+     * $invoices = $result->fetchAll();
      *```
      *
      * @param int                      $mode
@@ -240,14 +240,14 @@ class PdoResult implements ResultInterface
      * flag set using `Phalcon\Db\Result\Pdo::setFetchMode()`
      *
      *```php
-     * $result = $connection->query("SELECT * FROM robots ORDER BY name");
+     * $result = $connection->query("SELECT * FROM co_invoices ORDER BY inv_title");
      *
      * $result->setFetchMode(
      *     \Phalcon\Enum::FETCH_NUM
      * );
      *
-     * while ($robot = result->fetchArray()) {
-     *     print_r($robot);
+     * while ($invoice = result->fetchArray()) {
+     *     print_r($invoice);
      * }
      *```
      */
@@ -269,7 +269,7 @@ class PdoResult implements ResultInterface
      *
      *```php
      * $result = $connection->query(
-     *     "SELECT * FROM robots ORDER BY name"
+     *     "SELECT * FROM co_invoices ORDER BY inv_title"
      * );
      *
      * echo "There are ", $result->numRows(), " rows in the resultset";

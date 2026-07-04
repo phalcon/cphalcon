@@ -37,7 +37,7 @@ use Phalcon\Db\Exceptions\InvalidGenerationExpression;
  * );
  *
  * // Add column to existing table
- * $connection->addColumn("robots", null, $column);
+ * $connection->addColumn("co_invoices", null, $column);
  *```
  */
 class Column implements ColumnInterface

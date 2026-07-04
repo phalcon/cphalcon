@@ -97,7 +97,7 @@ abstract class AbstractPdo extends AbstractAdapter
      *
      *```php
      * $connection->execute(
-     *     "DELETE FROM robots"
+     *     "DELETE FROM co_invoices"
      * );
      *
      * echo $connection->affectedRows(), " were deleted";
@@ -341,9 +341,9 @@ abstract class AbstractPdo extends AbstractAdapter
      *```php
      * print_r(
      *     $connection->convertBoundParams(
-     *         "SELECT * FROM robots WHERE name = :name:",
+     *         "SELECT * FROM co_invoices WHERE inv_title = :inv_title:",
      *         [
-     *             "Bender",
+     *             "Test Invoice",
      *         ]
      *     )
      * );
@@ -416,14 +416,14 @@ abstract class AbstractPdo extends AbstractAdapter
      *```php
      * // Inserting data
      * $success = $connection->execute(
-     *     "INSERT INTO robots VALUES (1, 'Astro Boy')"
+     *     "INSERT INTO co_invoices VALUES (1, 'Test Invoice')"
      * );
      *
      * $success = $connection->execute(
-     *     "INSERT INTO robots VALUES (?, ?)",
+     *     "INSERT INTO co_invoices VALUES (?, ?)",
      *     [
      *         1,
-     *         "Astro Boy",
+     *         "Test Invoice",
      *     ]
      * );
      *```
@@ -487,16 +487,16 @@ abstract class AbstractPdo extends AbstractAdapter
      * use Phalcon\Db\Column;
      *
      * $statement = $db->prepare(
-     *     "SELECT * FROM robots WHERE name = :name"
+     *     "SELECT * FROM co_invoices WHERE inv_title = :inv_title"
      * );
      *
      * $result = $connection->executePrepared(
      *     $statement,
      *     [
-     *         "name" => "Voltron",
+     *         "inv_title" => "Test Invoice",
      *     ],
      *     [
-     *         "name" => Column::BIND_PARAM_STR,
+     *         "inv_title" => Column::BIND_PARAM_STR,
      *     ]
      * );
      *```
@@ -650,16 +650,16 @@ abstract class AbstractPdo extends AbstractAdapter
      * the latest executed SQL statement
      *
      *```php
-     * // Inserting a new robot
+     * // Inserting a new invoice
      * $success = $connection->insert(
-     *     "robots",
+     *     "co_invoices",
      *     [
-     *         "Astro Boy",
-     *         1952,
+     *         "Test Invoice",
+     *         100,
      *     ],
      *     [
-     *         "name",
-     *         "year",
+     *         "inv_title",
+     *         "inv_total",
      *     ]
      * );
      *
@@ -701,16 +701,16 @@ abstract class AbstractPdo extends AbstractAdapter
      * use Phalcon\Db\Column;
      *
      * $statement = $db->prepare(
-     *     "SELECT * FROM robots WHERE name = :name"
+     *     "SELECT * FROM co_invoices WHERE inv_title = :inv_title"
      * );
      *
      * $result = $connection->executePrepared(
      *     $statement,
      *     [
-     *         "name" => "Voltron",
+     *         "inv_title" => "Test Invoice",
      *     ],
      *     [
-     *         "name" => Column::BIND_PARAM_INT,
+     *         "inv_title" => Column::BIND_PARAM_INT,
      *     ]
      * );
      *```
@@ -728,13 +728,13 @@ abstract class AbstractPdo extends AbstractAdapter
      *```php
      * // Querying data
      * $resultset = $connection->query(
-     *     "SELECT * FROM robots WHERE type = 'mechanical'"
+     *     "SELECT * FROM co_invoices WHERE inv_status_flag = 1"
      * );
      *
      * $resultset = $connection->query(
-     *     "SELECT * FROM robots WHERE type = ?",
+     *     "SELECT * FROM co_invoices WHERE inv_status_flag = ?",
      *     [
-     *         "mechanical",
+     *         1,
      *     ]
      * );
      *```

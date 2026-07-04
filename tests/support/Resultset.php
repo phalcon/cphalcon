@@ -18,6 +18,7 @@ namespace Phalcon\Tests\Support;
  * The constructor argument is stored as $calculated; database columns are
  * hydrated by PDO directly onto the public properties.
  */
+#[\AllowDynamicProperties]
 class Resultset
 {
     public string $calculated = '';

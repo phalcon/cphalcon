@@ -106,4 +106,54 @@ final class TernaryTest extends AbstractUnitTestCase
         $actual   = $this->compiler->parse($source);
         $this->assertSame($expected, $actual);
     }
+
+    /**
+     * Use with {{ }} ("is defined" test as the ternary condition)
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-07-04
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/14476
+     */
+    public function testMvcViewEngineVoltParserExprTernaryIsDefined(): void
+    {
+        $source   = '{{ someVar is defined ? \'yes\' : \'no\' }}';
+        $expected = [
+            [
+                'type' => 359,
+                'expr' => [
+                    'type' => 366,
+                    'ternary' => [
+                        'type' => 363,
+                        'left' => [
+                            'type' => 265,
+                            'value' => 'someVar',
+                            'file' => 'eval code',
+                            'line' => 1,
+                        ],
+                        'file' => 'eval code',
+                        'line' => 1,
+                    ],
+                    'left' => [
+                        'type' => 260,
+                        'value' => 'yes',
+                        'file' => 'eval code',
+                        'line' => 1,
+                    ],
+                    'right' => [
+                        'type' => 260,
+                        'value' => 'no',
+                        'file' => 'eval code',
+                        'line' => 1,
+                    ],
+                    'file' => 'eval code',
+                    'line' => 1,
+                ],
+                'file' => 'eval code',
+                'line' => 1,
+            ],
+        ];
+        $actual   = $this->compiler->parse($source);
+        $this->assertSame($expected, $actual);
+    }
 }

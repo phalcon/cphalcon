@@ -20,15 +20,15 @@ use Phalcon\Mvc\ModelInterface;
  * model which finally executes the operations when it fails
  *
  *```php
- * $phql = "UPDATE Robots SET name = :name:, type = :type:, year = :year: WHERE id = :id:";
+ * $phql = "UPDATE Invoices SET inv_title = :inv_title:, inv_status_flag = :inv_status_flag:, inv_total = :inv_total: WHERE inv_id = :inv_id:";
  *
  * $status = $app->modelsManager->executeQuery(
  *     $phql,
  *     [
- *         "id"   => 100,
- *         "name" => "Astroy Boy",
- *         "type" => "mechanical",
- *         "year" => 1959,
+ *         "inv_id"          => 100,
+ *         "inv_title"       => "Test Invoice",
+ *         "inv_status_flag" => 1,
+ *         "inv_total"       => 1959,
  *     ]
  * );
  *

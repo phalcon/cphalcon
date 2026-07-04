@@ -674,7 +674,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns)
  *
  * ```php
  * print_r(
- *     $connection->describeIndexes("robots_parts")
+ *     $connection->describeIndexes("co_orders_x_products")
  * );
  * ```
  */
@@ -1214,16 +1214,16 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeReferences)
  * in the table definition
  *
  *```php
- * // Inserting a new robot with a valid default value for the column 'year'
+ * // Inserting a new invoice with a valid default value for the column 'inv_total'
  * $success = $connection->insert(
- *     "robots",
+ *     "co_invoices",
  *     [
- *         "Astro Boy",
+ *         "Test Invoice",
  *         $connection->getDefaultValue(),
  *     ],
  *     [
- *         "name",
- *         "year",
+ *         "inv_title",
+ *         "inv_total",
  *     ]
  * );
  *```

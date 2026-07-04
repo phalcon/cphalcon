@@ -944,14 +944,14 @@ class Postgresql extends Dialect
      * or `Dialect::LOCK_SKIP_LOCKED`).
      *
      *```php
-     * echo $dialect->sharedLock("SELECT * FROM robots");
-     * // SELECT * FROM robots FOR SHARE
+     * echo $dialect->sharedLock("SELECT * FROM co_invoices");
+     * // SELECT * FROM co_invoices FOR SHARE
      *
      * echo $dialect->sharedLock(
-     *     "SELECT * FROM robots",
+     *     "SELECT * FROM co_invoices",
      *     Dialect::LOCK_NOWAIT
      * );
-     * // SELECT * FROM robots FOR SHARE NOWAIT
+     * // SELECT * FROM co_invoices FOR SHARE NOWAIT
      *```
      */
     public function sharedLock( string sqlQuery, string modifier = "") -> string

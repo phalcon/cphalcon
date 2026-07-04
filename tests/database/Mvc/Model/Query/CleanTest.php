@@ -37,7 +37,6 @@ final class CleanTest extends AbstractDatabaseTestCase
 
         $reflection = new ReflectionClass(Query::class);
         $property   = $reflection->getProperty('internalPhqlCache');
-        $property->setAccessible(true);
 
         $this->assertSame([], $property->getValue());
     }

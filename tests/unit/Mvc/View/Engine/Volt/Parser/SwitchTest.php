@@ -14,7 +14,9 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Mvc\View\Engine\Volt\Parser;
 
 use Phalcon\Mvc\View\Engine\Volt\Compiler;
+use Phalcon\Mvc\View\Exception;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class SwitchTest extends AbstractUnitTestCase
 {
@@ -278,5 +280,283 @@ final class SwitchTest extends AbstractUnitTestCase
         ];
         $actual   = $this->compiler->parse($source);
         $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * Tests recognize empty case clause
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-07-04
+     */
+    public function testMvcViewEngineVoltParserSwitchEmptyCase(): void
+    {
+        $source   = '{% switch foo%} {% case foo %} {% endswitch%}';
+        $expected = [
+            [
+                'type' => 411,
+                'expr' => [
+                    'type' => 265,
+                    'value' => 'foo',
+                    'file' => 'eval code',
+                    'line' => 1,
+                ],
+                'case_clauses' => [
+                    [
+                        'type' => 357,
+                        'value' => ' ',
+                        'file' => 'eval code',
+                        'line' => 1,
+                    ],
+                    [
+                        'type' => 412,
+                        'expr' => [
+                            'type' => 265,
+                            'value' => 'foo',
+                            'file' => 'eval code',
+                            'line' => 1,
+                        ],
+                        'file' => 'eval code',
+                        'line' => 1,
+                    ],
+                    [
+                        'type' => 357,
+                        'value' => ' ',
+                        'file' => 'eval code',
+                        'line' => 1,
+                    ],
+                ],
+                'file' => 'eval code',
+                'line' => 1,
+            ],
+        ];
+        $actual   = $this->compiler->parse($source);
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * Tests recognize empty case clause with empty default clause
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-07-04
+     */
+    public function testMvcViewEngineVoltParserSwitchEmptyCaseDefault(): void
+    {
+        $source   = '{% switch foo%} {% case foo %} {% default %} {% endswitch%}';
+        $expected = [
+            [
+                'type' => 411,
+                'expr' => [
+                    'type' => 265,
+                    'value' => 'foo',
+                    'file' => 'eval code',
+                    'line' => 1,
+                ],
+                'case_clauses' => [
+                    [
+                        'type' => 357,
+                        'value' => ' ',
+                        'file' => 'eval code',
+                        'line' => 1,
+                    ],
+                    [
+                        'type' => 412,
+                        'expr' => [
+                            'type' => 265,
+                            'value' => 'foo',
+                            'file' => 'eval code',
+                            'line' => 1,
+                        ],
+                        'file' => 'eval code',
+                        'line' => 1,
+                    ],
+                    [
+                        'type' => 357,
+                        'value' => ' ',
+                        'file' => 'eval code',
+                        'line' => 1,
+                    ],
+                    [
+                        'type' => 413,
+                        'file' => 'eval code',
+                        'line' => 1,
+                    ],
+                    [
+                        'type' => 357,
+                        'value' => ' ',
+                        'file' => 'eval code',
+                        'line' => 1,
+                    ],
+                ],
+                'file' => 'eval code',
+                'line' => 1,
+            ],
+        ];
+        $actual   = $this->compiler->parse($source);
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * Tests recognize a multi-line switch with cases, break and default clause
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-07-04
+     */
+    public function testMvcViewEngineVoltParserSwitchMultiLine(): void
+    {
+        $source   = <<<'VOLT'
+{% switch username %}
+    {% case "Jim" %}
+        Hello username
+    {% case "Nik" %}
+        {{ username }}!
+        {% break %}
+    {% default %}
+        Who are you?
+{% endswitch %}
+VOLT;
+        $expected = [
+            [
+                'type' => 411,
+                'expr' => [
+                    'type' => 265,
+                    'value' => 'username',
+                    'file' => 'eval code',
+                    'line' => 1,
+                ],
+                'case_clauses' => [
+                    [
+                        'type' => 357,
+                        'value' => "\n    ",
+                        'file' => 'eval code',
+                        'line' => 2,
+                    ],
+                    [
+                        'type' => 412,
+                        'expr' => [
+                            'type' => 260,
+                            'value' => 'Jim',
+                            'file' => 'eval code',
+                            'line' => 2,
+                        ],
+                        'file' => 'eval code',
+                        'line' => 4,
+                    ],
+                    [
+                        'type' => 357,
+                        'value' => "\n        Hello username\n    ",
+                        'file' => 'eval code',
+                        'line' => 4,
+                    ],
+                    [
+                        'type' => 412,
+                        'expr' => [
+                            'type' => 260,
+                            'value' => 'Nik',
+                            'file' => 'eval code',
+                            'line' => 4,
+                        ],
+                        'file' => 'eval code',
+                        'line' => 5,
+                    ],
+                    [
+                        'type' => 357,
+                        'value' => "\n        ",
+                        'file' => 'eval code',
+                        'line' => 5,
+                    ],
+                    [
+                        'type' => 359,
+                        'expr' => [
+                            'type' => 265,
+                            'value' => 'username',
+                            'file' => 'eval code',
+                            'line' => 5,
+                        ],
+                        'file' => 'eval code',
+                        'line' => 6,
+                    ],
+                    [
+                        'type' => 357,
+                        'value' => "!\n        ",
+                        'file' => 'eval code',
+                        'line' => 6,
+                    ],
+                    [
+                        'type' => 320,
+                        'file' => 'eval code',
+                        'line' => 7,
+                    ],
+                    [
+                        'type' => 357,
+                        'value' => "\n    ",
+                        'file' => 'eval code',
+                        'line' => 7,
+                    ],
+                    [
+                        'type' => 413,
+                        'file' => 'eval code',
+                        'line' => 9,
+                    ],
+                    [
+                        'type' => 357,
+                        'value' => "\n        Who are you?\n",
+                        'file' => 'eval code',
+                        'line' => 9,
+                    ],
+                ],
+                'file' => 'eval code',
+                'line' => 9,
+            ],
+        ];
+        $actual   = $this->compiler->parse($source);
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @return array<string, array{0: string, 1: string}>
+     */
+    public static function getSwitchExceptions(): array
+    {
+        return [
+            'lack of endswitch' => [
+                '{% switch foo %}',
+                "Syntax error, unexpected EOF in eval code, there is a 'switch' block without 'endswitch'",
+            ],
+            'lack of switch' => [
+                '{% case foo %}',
+                'Unexpected CASE in eval code on line 1',
+            ],
+            'stray default' => [
+                '{% default %}',
+                'Syntax error, unexpected token DEFAULT(default) in eval code on line 1',
+            ],
+            'nested switch' => [
+                "{% switch foo %}\n  {% switch %}\n  {% endswitch %}\n{% endswitch %}",
+                'A nested switch detected. There is no nested switch-case '
+                . 'statements support in eval code on line 2',
+            ],
+            'empty switch expression' => [
+                "{% switch %}\n  {% case foo %}\n  {% break %}\n{% endswitch %}",
+                'Syntax error, unexpected token %} in eval code on line 1',
+            ],
+        ];
+    }
+
+    /**
+     * Tests switch-case parser exceptions: missing endswitch, missing switch,
+     * stray default, nested switch and empty switch expression
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-07-04
+     */
+    #[DataProvider('getSwitchExceptions')]
+    public function testMvcViewEngineVoltParserSwitchException(
+        string $source,
+        string $message
+    ): void {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage($message);
+
+        $this->compiler->parse($source);
     }
 }

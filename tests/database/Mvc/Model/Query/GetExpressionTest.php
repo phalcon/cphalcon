@@ -15,8 +15,12 @@ namespace Phalcon\Tests\Database\Mvc\Model\Query;
 
 use Phalcon\Mvc\Model\Query;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
 use ReflectionClass;
 
+#[Group('mysql')]
+#[Group('pgsql')]
+#[Group('sqlite')]
 final class GetExpressionTest extends AbstractDatabaseTestCase
 {
     private int $PHQL_T_AND = 266;

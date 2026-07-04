@@ -953,9 +953,9 @@ class Mysql extends Dialect
      * should target PostgreSQL or stay on `forUpdate()`.
      *
      *```php
-     * $sql = $dialect->sharedLock("SELECT * FROM robots");
+     * $sql = $dialect->sharedLock("SELECT * FROM co_invoices");
      *
-     * echo $sql; // SELECT * FROM robots LOCK IN SHARE MODE
+     * echo $sql; // SELECT * FROM co_invoices LOCK IN SHARE MODE
      *```
      */
     public function sharedLock( string sqlQuery, string modifier = "") -> string

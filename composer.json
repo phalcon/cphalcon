@@ -49,7 +49,7 @@
     "mustache/mustache": "^3.2",
     "phalcon/ide-stubs": "^5.13.0",
     "phalcon/talon": "^0.6.0",
-    "phalcon/zephir": "1.0.0.x-dev",
+    "phalcon/zephir": "dev-development",
     "phpstan/phpstan": "^2.2",
     "phpunit/phpunit": "^10.5",
     "predis/predis": "^3.4",

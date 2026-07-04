@@ -43,7 +43,7 @@
  * $metaData = new \Phalcon\Mvc\Model\MetaData\Memory();
  *
  * $attributes = $metaData->getAttributes(
- *     new Robots()
+ *     new Invoices()
  * );
  *
  * print_r($attributes);
@@ -217,7 +217,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAdapter)
  *```php
  * print_r(
  *     $metaData->getAttributes(
- *         new Robots()
+ *         new Invoices()
  *     )
  * );
  *```
@@ -260,7 +260,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAttributes)
  *```php
  * print_r(
  *     $metaData->getAutomaticCreateAttributes(
- *         new Robots()
+ *         new Invoices()
  *     )
  * );
  *```
@@ -303,7 +303,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAutomaticCreateAttributes)
  *```php
  * print_r(
  *     $metaData->getAutomaticUpdateAttributes(
- *         new Robots()
+ *         new Invoices()
  *     )
  * );
  *```
@@ -346,7 +346,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAutomaticUpdateAttributes)
  *```php
  * print_r(
  *     $metaData->getBindTypes(
- *         new Robots()
+ *         new Invoices()
  *     )
  * );
  *```
@@ -389,7 +389,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getBindTypes)
  *```php
  * print_r(
  *     $metaData->getColumnMap(
- *         new Robots()
+ *         new Invoices()
  *     )
  * );
  *```
@@ -503,7 +503,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDI)
  *```php
  * print_r(
  *     $metaData->getDataTypes(
- *         new Robots()
+ *         new Invoices()
  *     )
  * );
  *```
@@ -546,7 +546,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataTypes)
  *```php
  * print_r(
  *     $metaData->getDataTypesNumeric(
- *         new Robots()
+ *         new Invoices()
  *     )
  * );
  *```
@@ -589,7 +589,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataTypesNumeric)
  *```php
  * print_r(
  *     $metaData->getDefaultValues(
- *         new Robots()
+ *         new Invoices()
  *     )
  * );
  *```
@@ -632,7 +632,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDefaultValues)
  *```php
  * print_r(
  *     $metaData->getEmptyStringAttributes(
- *         new Robots()
+ *         new Invoices()
  *     )
  * );
  *```
@@ -675,7 +675,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getEmptyStringAttributes)
  *```php
  * print_r(
  *     $metaData->getIdentityField(
- *         new Robots()
+ *         new Invoices()
  *     )
  * );
  *```
@@ -821,7 +821,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getModelUUID)
  *```php
  * print_r(
  *     $metaData->getNonPrimaryKeyAttributes(
- *         new Robots()
+ *         new Invoices()
  *     )
  * );
  *```
@@ -864,7 +864,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getNonPrimaryKeyAttributes)
  *```php
  * print_r(
  *     $metaData->getNotNullAttributes(
- *         new Robots()
+ *         new Invoices()
  *     )
  * );
  *```
@@ -907,7 +907,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getNotNullAttributes)
  *```php
  * print_r(
  *     $metaData->getPrimaryKeyAttributes(
- *         new Robots()
+ *         new Invoices()
  *     )
  * );
  *```
@@ -950,7 +950,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getPrimaryKeyAttributes)
  *```php
  * print_r(
  *     $metaData->getReverseColumnMap(
- *         new Robots()
+ *         new Invoices()
  *     )
  * );
  *```
@@ -1027,7 +1027,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getStrategy)
  *```php
  * var_dump(
  *     $metaData->hasAttribute(
- *         new Robots(),
+ *         new Invoices(),
  *         "name"
  *     )
  * );
@@ -1142,7 +1142,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, read)
  *```php
  * print_r(
  *     $metaData->readColumnMap(
- *         new Robots()
+ *         new Invoices()
  *     )
  * );
  *```
@@ -1189,7 +1189,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMap)
  *```php
  * print_r(
  *     $metaData->readColumnMapIndex(
- *         new Robots(),
+ *         new Invoices(),
  *         MetaData::MODELS_REVERSE_COLUMN_MAP
  *     )
  * );
@@ -1240,7 +1240,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMapIndex)
  *```php
  * print_r(
  *     $metaData->readMetaData(
- *         new Robots()
+ *         new Invoices()
  *     )
  * );
  *```
@@ -1278,7 +1278,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaData)
  *```php
  * print_r(
  *     $metaData->readMetaDataIndex(
- *         new Robots(),
+ *         new Invoices(),
  *         0
  *     )
  * );
@@ -1350,7 +1350,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, reset)
  *
  *```php
  * $metaData->setAutomaticCreateAttributes(
- *     new Robots(),
+ *     new Invoices(),
  *     [
  *         "created_at" => true,
  *     ]
@@ -1387,7 +1387,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, setAutomaticCreateAttributes)
  *
  *```php
  * $metaData->setAutomaticUpdateAttributes(
- *     new Robots(),
+ *     new Invoices(),
  *     [
  *         "modified_at" => true,
  *     ]
@@ -1440,7 +1440,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, setDI)
  *
  *```php
  * $metaData->setEmptyStringAttributes(
- *     new Robots(),
+ *     new Invoices(),
  *     [
  *         "name" => true,
  *     ]
@@ -1555,7 +1555,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, write)
  *```php
  * print_r(
  *     $metaData->writeColumnMapIndex(
- *         new Robots(),
+ *         new Invoices(),
  *         MetaData::MODELS_REVERSE_COLUMN_MAP,
  *         [
  *             "leName" => "name",

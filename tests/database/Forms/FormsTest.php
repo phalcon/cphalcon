@@ -34,7 +34,6 @@ final class FormsTest extends AbstractDatabaseTestCase
     {
         $this->setNewFactoryDefault();
         $this->setDatabase();
-        Tag::resetInput();
         Tag::setDocType(Tag::HTML5);
     }
 

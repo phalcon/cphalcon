@@ -131,14 +131,6 @@ class Gd extends AbstractAdapter
      */
     public function __destruct()
     {
-        var image;
-
-        let image = this->image;
-
-        if (null !== image) {
-            imagedestroy(image);
-        }
-
         let this->image = null;
     }
 
@@ -232,8 +224,6 @@ class Gd extends AbstractAdapter
             this->height
         );
         if (false !== copy) {
-            imagedestroy(image);
-
             let this->image = background;
         }
     }
@@ -298,8 +288,6 @@ class Gd extends AbstractAdapter
         ];
 
         let image = imagecrop(this->image, rect);
-
-        imagedestroy(this->image);
 
         let this->image  = image;
         let this->width  = imagesx(image);
@@ -367,8 +355,6 @@ class Gd extends AbstractAdapter
                 maskHeight
             );
 
-            imagedestroy(maskImage);
-
             let maskImage = tempImage;
         }
 
@@ -403,9 +389,6 @@ class Gd extends AbstractAdapter
 
             let x++;
         }
-
-        imagedestroy(this->image);
-        imagedestroy(maskImage);
 
         let this->image = newImage;
     }
@@ -542,8 +525,6 @@ class Gd extends AbstractAdapter
             let offset++;
         }
 
-        imagedestroy(this->image);
-
         let this->image  = reflection;
         let this->width  = imagesx(reflection);
         let this->height = imagesy(reflection);
@@ -604,8 +585,6 @@ class Gd extends AbstractAdapter
         imagesavealpha(image, true);
         imagecopyresampled(image, this->image, 0, 0, 0, 0, width, height, this->width, this->height);
 
-        imagedestroy(this->image);
-
         let this->image  = image;
         let this->width  = imagesx(image);
         let this->height = imagesy(image);
@@ -651,8 +630,6 @@ class Gd extends AbstractAdapter
             100
         );
         if (false !== copy) {
-            imagedestroy(this->image);
-
             let this->image  = image;
             let this->width  = width;
             let this->height = height;
@@ -867,7 +844,7 @@ class Gd extends AbstractAdapter
         int offsetY,
         int opacity
     ) -> void {
-        var color, copy, overlay;
+        var color, overlay;
         int height, width;
 
         let overlay = imagecreatefromstring(watermark->render());
@@ -899,7 +876,7 @@ class Gd extends AbstractAdapter
 
         imagealphablending(this->image, true);
 
-        let copy = imagecopy(
+        imagecopy(
             this->image,
             overlay,
             offsetX,
@@ -909,9 +886,6 @@ class Gd extends AbstractAdapter
             width,
             height
         );
-        if (true === copy) {
-            imagedestroy(overlay);
-        }
     }
 
     /**

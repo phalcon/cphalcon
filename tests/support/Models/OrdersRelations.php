@@ -15,18 +15,28 @@ namespace Phalcon\Tests\Support\Models;
 
 use Phalcon\Mvc\Model;
 
-class Robots extends Model
+class OrdersRelations extends Model
 {
     public function initialize()
     {
+        $this->setSource('co_orders');
+
         $this->hasMany(
-            'id',
-            RobotsParts::class,
-            'robots_id',
+            'ord_id',
+            OrdersProductsRelations::class,
+            'oxp_ord_id',
             [
-                'alias'      => 'robotsParts',
                 'foreignKey' => true,
             ]
+        );
+
+        $this->hasManyToMany(
+            'ord_id',
+            OrdersProductsRelations::class,
+            'oxp_ord_id',
+            'oxp_prd_id',
+            ProductsRelations::class,
+            'prd_id'
         );
     }
 }

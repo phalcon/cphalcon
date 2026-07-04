@@ -245,7 +245,11 @@ class Messages implements MessagesContract, JsonSerializable
             throw new MessageNotObject();
         }
 
-        let this->messages[offset] = value;
+        if offset === null {
+            let this->messages[] = value;
+        } else {
+            let this->messages[offset] = value;
+        }
     }
 
     /**

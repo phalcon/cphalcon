@@ -142,14 +142,12 @@ final class CropTest extends AbstractUnitTestCase
 
         $original = imagecreatefromjpeg($source);
         $expected = imagecolorat($original, 0, 0);
-        imagedestroy($original);
 
         $image = new Gd($source);
         $image->crop(200, 200, 0, 0)->save($output);
 
         $cropped = imagecreatefromjpeg($output);
         $actual  = imagecolorat($cropped, 0, 0);
-        imagedestroy($cropped);
 
         $this->assertSame(
             $expected,

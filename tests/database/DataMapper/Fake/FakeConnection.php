@@ -18,11 +18,11 @@ class FakeConnection extends Connection
 {
     public function __construct(
         string $dsn,
-        string $username = null,
-        string $password = null,
+        ?string $username = null,
+        ?string $password = null,
         array $options = [],
         array $queries = [],
-        ProfilerInterface $profiler = null
+        ?ProfilerInterface $profiler = null
     ) {
         $this->pdo = new PdoFixture();
     }

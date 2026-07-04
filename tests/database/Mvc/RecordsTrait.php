@@ -41,7 +41,7 @@ trait RecordsTrait
     private function insertDataInvoices(
         InvoicesMigration $migration,
         int $count,
-        string $invId = null,
+        ?string $invId,
         int $custId,
         string $prefix,
         int $pad = 0
