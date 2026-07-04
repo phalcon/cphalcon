@@ -1069,7 +1069,7 @@ PHP_METHOD(Phalcon_Mvc_Model, addBehavior)
  *     {
  *         if ($this->name === "Peter") {
  *             $message = new Message(
- *                 "Sorry, but a invoice cannot be named Peter"
+ *                 "Sorry, but an invoice cannot be named Peter"
  *             );
  *
  *             $this->appendMessage($message);
@@ -1456,7 +1456,7 @@ PHP_METHOD(Phalcon_Mvc_Model, assign)
  *
  * echo "The average price is ", $average, "\n";
  *
- * // What's the average price of mechanical invoices?
+ * // What's the average price of paid invoices?
  * $average = Invoices::average(
  *     [
  *         "inv_status_flag = 1",
@@ -1464,7 +1464,7 @@ PHP_METHOD(Phalcon_Mvc_Model, assign)
  *     ]
  * );
  *
- * echo "The average price of mechanical invoices is ", $average, "\n";
+ * echo "The average price of paid invoices is ", $average, "\n";
  * ```
  *
  * @param array parameters
@@ -2444,10 +2444,10 @@ PHP_METHOD(Phalcon_Mvc_Model, collectRelatedToSave)
  *
  * echo "There are ", $number, "\n";
  *
- * // How many mechanical invoices are there?
+ * // How many paid invoices are there?
  * $number = Invoices::count("inv_status_flag = 1");
  *
- * echo "There are ", $number, " mechanical invoices\n";
+ * echo "There are ", $number, " paid invoices\n";
  * ```
  *
  * @param array|string|null parameters
@@ -2944,7 +2944,7 @@ PHP_METHOD(Phalcon_Mvc_Model, dump)
  *
  * echo "There are ", count($invoices), "\n";
  *
- * // How many mechanical invoices are there?
+ * // How many paid invoices are there?
  * $invoices = Invoices::find(
  *     "inv_status_flag = 1"
  * );
@@ -3170,12 +3170,12 @@ PHP_METHOD(Phalcon_Mvc_Model, find)
  *
  * echo "The invoice name is ", $invoice->inv_title;
  *
- * // What's the first mechanical invoice in invoices table?
+ * // What's the first paid invoice in invoices table?
  * $invoice = Invoices::findFirst(
  *     "inv_status_flag = 1"
  * );
  *
- * echo "The first mechanical invoice name is ", $invoice->inv_title;
+ * echo "The first paid invoice name is ", $invoice->inv_title;
  *
  * // Get first virtual invoice ordered by name
  * $invoice = Invoices::findFirst(
@@ -4329,7 +4329,7 @@ PHP_METHOD(Phalcon_Mvc_Model, jsonSerialize)
  *
  * echo "The maximum invoice id is: ", $id, "\n";
  *
- * // What is the maximum id of mechanical invoices?
+ * // What is the maximum id of paid invoices?
  * $sum = Invoices::maximum(
  *     [
  *         "inv_status_flag = 1",
@@ -4337,7 +4337,7 @@ PHP_METHOD(Phalcon_Mvc_Model, jsonSerialize)
  *     ]
  * );
  *
- * echo "The maximum invoice id of mechanical invoices is ", $id, "\n";
+ * echo "The maximum invoice id of paid invoices is ", $id, "\n";
  * ```
  *
  * @param array parameters
@@ -4388,7 +4388,7 @@ PHP_METHOD(Phalcon_Mvc_Model, maximum)
  *
  * echo "The minimum invoice id is: ", $id;
  *
- * // What is the minimum id of mechanical invoices?
+ * // What is the minimum id of paid invoices?
  * $sum = Invoices::minimum(
  *     [
  *         "inv_status_flag = 1",
@@ -4396,7 +4396,7 @@ PHP_METHOD(Phalcon_Mvc_Model, maximum)
  *     ]
  * );
  *
- * echo "The minimum invoice id of mechanical invoices is ", $id;
+ * echo "The minimum invoice id of paid invoices is ", $id;
  * ```
  *
  * @param array parameters
@@ -4722,7 +4722,7 @@ PHP_METHOD(Phalcon_Mvc_Model, refresh)
  *
  * $invoice->save();
  *
- * // Updating a invoice name
+ * // Updating an invoice name
  * $invoice = Invoices::findFirst("id = 100");
  *
  * $invoice->inv_title = "Biomass";
@@ -6185,7 +6185,7 @@ PHP_METHOD(Phalcon_Mvc_Model, skipOperation)
  *
  * echo "The total price of invoices is ", $sum, "\n";
  *
- * // How much are mechanical invoices?
+ * // How much are paid invoices?
  * $sum = Invoices::sum(
  *     [
  *         "inv_status_flag = 1",
@@ -6193,7 +6193,7 @@ PHP_METHOD(Phalcon_Mvc_Model, skipOperation)
  *     ]
  * );
  *
- * echo "The total price of mechanical invoices is  ", $sum, "\n";
+ * echo "The total price of paid invoices is  ", $sum, "\n";
  * ```
  *
  * @param array parameters

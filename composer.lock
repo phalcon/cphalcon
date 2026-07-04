@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "eb9d39e5b6b7e33d7da0fdba5cff3353",
+    "content-hash": "8d84fb8c2a2c36194b019fa35c38b409",
     "packages": [],
     "packages-dev": [
         {
@@ -2545,16 +2545,16 @@
         },
         {
             "name": "phalcon/zephir",
-            "version": "1.0.0",
+            "version": "dev-development",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zephir-lang/zephir.git",
-                "reference": "72c84ca063772664dac5a2e5510490045b4e2804"
+                "reference": "61ee88c0f402db583c830f5d832f5fa9053899e9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zephir-lang/zephir/zipball/72c84ca063772664dac5a2e5510490045b4e2804",
-                "reference": "72c84ca063772664dac5a2e5510490045b4e2804",
+                "url": "https://api.github.com/repos/zephir-lang/zephir/zipball/61ee88c0f402db583c830f5d832f5fa9053899e9",
+                "reference": "61ee88c0f402db583c830f5d832f5fa9053899e9",
                 "shasum": ""
             },
             "require": {
@@ -2582,6 +2582,7 @@
             "suggest": {
                 "ext-zephir_parser": "Optional native parser used as a fast path; the built-in pure-PHP parser is used when it is absent"
             },
+            "default-branch": true,
             "bin": [
                 "zephir"
             ],
@@ -2630,7 +2631,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-06-30T23:46:48+00:00"
+            "time": "2026-07-04T13:24:29+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -7528,7 +7529,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {},
+    "stability-flags": {
+        "phalcon/zephir": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
