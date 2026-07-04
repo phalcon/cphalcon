@@ -49,7 +49,7 @@
  * );
  *
  * // Add column to existing table
- * $connection->addColumn("robots", null, $column);
+ * $connection->addColumn("co_invoices", null, $column);
  *```
  */
 ZEPHIR_INIT_CLASS(Phalcon_Db_Column)

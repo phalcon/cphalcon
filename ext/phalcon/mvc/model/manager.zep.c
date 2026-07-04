@@ -53,7 +53,7 @@
  *     }
  * );
  *
- * $robot = new Robots($di);
+ * $invoice = new Invoices($di);
  * ```
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Manager)
@@ -1122,23 +1122,23 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, createQuery)
  * Creates a Phalcon\Mvc\Model\Query and execute it
  *
  * ```php
- * $model = new Robots();
+ * $model = new Invoices();
  * $manager = $model->getModelsManager();
  *
  * // \Phalcon\Mvc\Model\Resultset\Simple
- * $manager->executeQuery('SELECT * FROM Robots');
+ * $manager->executeQuery('SELECT * FROM Invoices');
  *
  * // \Phalcon\Mvc\Model\Resultset\Complex
- * $manager->executeQuery('SELECT COUNT(type) FROM Robots GROUP BY type');
+ * $manager->executeQuery('SELECT COUNT(inv_status_flag) FROM Invoices GROUP BY inv_status_flag');
  *
  * // \Phalcon\Mvc\Model\Query\StatusInterface
- * $manager->executeQuery('INSERT INTO Robots (id) VALUES (1)');
+ * $manager->executeQuery('INSERT INTO Invoices (inv_id) VALUES (1)');
  *
  * // \Phalcon\Mvc\Model\Query\StatusInterface
- * $manager->executeQuery('UPDATE Robots SET id = 0 WHERE id = :id:', ['id' => 1]);
+ * $manager->executeQuery('UPDATE Invoices SET inv_id = 0 WHERE inv_id = :id:', ['id' => 1]);
  *
  * // \Phalcon\Mvc\Model\Query\StatusInterface
- * $manager->executeQuery('DELETE FROM Robots WHERE id = :id:', ['id' => 1]);
+ * $manager->executeQuery('DELETE FROM Invoices WHERE inv_id = :id:', ['id' => 1]);
  * ```
  *
  * @param string     $phql
@@ -1350,7 +1350,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, existsHasOneThrough)
  *
  *```php
  * $relations = $modelsManager->getBelongsTo(
- *     new Robots()
+ *     new Invoices()
  * );
  *```
  *
@@ -3238,7 +3238,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, isUsingDynamicUpdate)
  *
  * ```php
  * $isPublic = $manager->isVisibleModelProperty(
- *     new Robots(),
+ *     new Invoices(),
  *     "name"
  * );
  * ```
@@ -3864,9 +3864,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, setEventsManager)
  *     }
  * );
  *
- * $robots = new Robots();
+ * $invoices = new Invoices();
  *
- * echo $robots->getSource(); // wp_robots
+ * echo $invoices->getSource(); // wp_co_invoices
  * ```
  *
  * $param string $prefix

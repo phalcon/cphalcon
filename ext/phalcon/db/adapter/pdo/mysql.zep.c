@@ -1091,7 +1091,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns)
  *
  * ```php
  * print_r(
- *     $connection->describeIndexes("robots_parts")
+ *     $connection->describeIndexes("co_orders_x_products")
  * );
  * ```
  */
@@ -1467,7 +1467,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeIndexes)
  *
  *```php
  * print_r(
- *     $connection->describeReferences("robots_parts")
+ *     $connection->describeReferences("co_orders_x_products")
  * );
  *```
  */

@@ -142,17 +142,17 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, inWhere);
  *
  *```php
  * $criteria->innerJoin(
- *     Robots::class
+ *     Orders::class
  * );
  *
  * $criteria->innerJoin(
- *     Robots::class,
- *     "r.id = RobotsParts.robots_id"
+ *     Orders::class,
+ *     "r.ord_id = OrdersProducts.oxp_ord_id"
  * );
  *
  * $criteria->innerJoin(
- *     Robots::class,
- *     "r.id = RobotsParts.robots_id",
+ *     Orders::class,
+ *     "r.ord_id = OrdersProducts.oxp_ord_id",
  *     "r"
  * );
  *```
@@ -163,8 +163,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, innerJoin);
  *
  *```php
  * $criteria->leftJoin(
- *     Robots::class,
- *     "r.id = RobotsParts.robots_id",
+ *     Orders::class,
+ *     "r.ord_id = OrdersProducts.oxp_ord_id",
  *     "r"
  * );
  *```
@@ -209,8 +209,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, orderBy);
  *
  *```php
  * $criteria->rightJoin(
- *     Robots::class,
- *     "r.id = RobotsParts.robots_id",
+ *     Orders::class,
+ *     "r.ord_id = OrdersProducts.oxp_ord_id",
  *     "r"
  * );
  *```

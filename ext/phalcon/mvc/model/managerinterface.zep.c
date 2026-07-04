@@ -265,7 +265,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, isUsingDynamicUpdate);
  *
  * ```php
  * $isPublic = $manager->isVisibleModelProperty(
- *     new Robots(),
+ *     new Invoices(),
  *     "name"
  * );
  * ```

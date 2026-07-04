@@ -42,33 +42,33 @@
  * ```php
  *
  * // Using a standard foreach
- * $robots = Robots::find(
+ * $invoices = Invoices::find(
  *     [
- *         "type = 'virtual'",
- *         "order" => "name",
+ *         "inv_status_flag = 1",
+ *         "order" => "inv_title",
  *     ]
  * );
  *
- * foreach ($robots as robot) {
- *     echo robot->name, "\n";
+ * foreach ($invoices as invoice) {
+ *     echo invoice->inv_title, "\n";
  * }
  *
  * // Using a while
- * $robots = Robots::find(
+ * $invoices = Invoices::find(
  *     [
- *         "type = 'virtual'",
- *         "order" => "name",
+ *         "inv_status_flag = 1",
+ *         "order" => "inv_title",
  *     ]
  * );
  *
- * $robots->rewind();
+ * $invoices->rewind();
  *
- * while ($robots->valid()) {
- *     $robot = $robots->current();
+ * while ($invoices->valid()) {
+ *     $invoice = $invoices->current();
  *
- *     echo $robot->name, "\n";
+ *     echo $invoice->inv_title, "\n";
  *
- *     $robots->next();
+ *     $invoices->next();
  * }
  * ```
  * @template TKey
@@ -153,7 +153,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Resultset)
 	zend_class_implements(phalcon_mvc_model_resultset_ce, 1, spl_ce_SeekableIterator);
 	zend_class_implements(phalcon_mvc_model_resultset_ce, 1, zend_ce_countable);
 	zend_class_implements(phalcon_mvc_model_resultset_ce, 1, zend_ce_arrayaccess);
-	zend_class_implements(phalcon_mvc_model_resultset_ce, 1, zend_ce_serializable);
 	zend_class_implements(phalcon_mvc_model_resultset_ce, 1, php_json_serializable_ce);
 	return SUCCESS;
 }
@@ -229,7 +228,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, __construct)
 			object_init_ex(&_6$$5, phalcon_mvc_model_exceptions_invalidresultsetcacheservice_ce);
 			ZEPHIR_CALL_METHOD(NULL, &_6$$5, "__construct", NULL, 197);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_6$$5, "phalcon/Mvc/Model/Resultset.zep", 186);
+			zephir_throw_exception_debug(&_6$$5, "phalcon/Mvc/Model/Resultset.zep", 185);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -334,7 +333,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete)
 				object_init_ex(&_3$$5, phalcon_mvc_model_exceptions_invalidreturnedrecord_ce);
 				ZEPHIR_CALL_METHOD(NULL, &_3$$5, "__construct", &_4, 199);
 				zephir_check_call_status();
-				zephir_throw_exception_debug(&_3$$5, "phalcon/Mvc/Model/Resultset.zep", 260);
+				zephir_throw_exception_debug(&_3$$5, "phalcon/Mvc/Model/Resultset.zep", 259);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
@@ -385,10 +384,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete)
  * Filters a resultset returning only those the developer requires
  *
  *```php
- * $filtered = $robots->filter(
- *     function ($robot) {
- *         if ($robot->id < 3) {
- *             return $robot;
+ * $filtered = $invoices->filter(
+ *     function ($invoice) {
+ *         if ($invoice->inv_id < 3) {
+ *             return $invoice;
  *         }
  *     }
  * );
@@ -443,7 +442,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, filter)
 			zephir_check_call_status();
 			continue;
 		}
-		zephir_array_append(&records, &processedRecord, PH_SEPARATE, "phalcon/Mvc/Model/Resultset.zep", 354);
+		zephir_array_append(&records, &processedRecord, PH_SEPARATE, "phalcon/Mvc/Model/Resultset.zep", 353);
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "next", &_5, 0);
 		zephir_check_call_status();
 	}
@@ -463,21 +462,21 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, getCache)
  * Get first row in the resultset
  *
  * ```php
- * $model = new Robots();
+ * $model = new Invoices();
  * $manager = $model->getModelsManager();
  *
- * // \Robots
- * $manager->createQuery('SELECT * FROM Robots')
+ * // \Invoices
+ * $manager->createQuery('SELECT * FROM Invoices')
  *         ->execute()
  *         ->getFirst();
  *
  * // \Phalcon\Mvc\Model\Row
- * $manager->createQuery('SELECT r.id FROM Robots AS r')
+ * $manager->createQuery('SELECT r.inv_id FROM Invoices AS r')
  *         ->execute()
  *         ->getFirst();
  *
  * // NULL
- * $manager->createQuery('SELECT r.id FROM Robots AS r WHERE r.name = "NON-EXISTENT"')
+ * $manager->createQuery('SELECT r.inv_id FROM Invoices AS r WHERE r.inv_title = "NON-EXISTENT"')
  *         ->execute()
  *         ->getFirst();
  * ```
@@ -595,9 +594,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, isFresh)
  * Calls jsonSerialize on each object if present
  *
  *```php
- * $robots = Robots::find();
+ * $invoices = Invoices::find();
  *
- * echo json_encode($robots);
+ * echo json_encode($invoices);
  *```
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, jsonSerialize)
@@ -636,9 +635,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, jsonSerialize)
 		if (_3$$3) {
 			ZEPHIR_CALL_METHOD(&_4$$4, &current, "jsonserialize", NULL, 0);
 			zephir_check_call_status();
-			zephir_array_append(&records, &_4$$4, PH_SEPARATE, "phalcon/Mvc/Model/Resultset.zep", 479);
+			zephir_array_append(&records, &_4$$4, PH_SEPARATE, "phalcon/Mvc/Model/Resultset.zep", 478);
 		} else {
-			zephir_array_append(&records, &current, PH_SEPARATE, "phalcon/Mvc/Model/Resultset.zep", 481);
+			zephir_array_append(&records, &current, PH_SEPARATE, "phalcon/Mvc/Model/Resultset.zep", 480);
 		}
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "next", &_5, 0);
 		zephir_check_call_status();
@@ -736,7 +735,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetGet)
 		object_init_ex(&_1$$3, phalcon_mvc_model_exceptions_indexnotincursor_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 201);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Mvc/Model/Resultset.zep", 529);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Mvc/Model/Resultset.zep", 528);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -773,7 +772,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetSet)
 	object_init_ex(&_0, phalcon_mvc_model_exceptions_cursorisimmutable_ce);
 	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 202);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(&_0, "phalcon/Mvc/Model/Resultset.zep", 548);
+	zephir_throw_exception_debug(&_0, "phalcon/Mvc/Model/Resultset.zep", 547);
 	ZEPHIR_MM_RESTORE();
 	return;
 }
@@ -799,7 +798,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetUnset)
 	object_init_ex(&_0, phalcon_mvc_model_exceptions_cursorisimmutable_ce);
 	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 202);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(&_0, "phalcon/Mvc/Model/Resultset.zep", 556);
+	zephir_throw_exception_debug(&_0, "phalcon/Mvc/Model/Resultset.zep", 555);
 	ZEPHIR_MM_RESTORE();
 	return;
 }
@@ -1016,7 +1015,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, update)
 				object_init_ex(&_3$$5, phalcon_mvc_model_exceptions_invalidreturnedrecord_ce);
 				ZEPHIR_CALL_METHOD(NULL, &_3$$5, "__construct", &_4, 199);
 				zephir_check_call_status();
-				zephir_throw_exception_debug(&_3$$5, "phalcon/Mvc/Model/Resultset.zep", 673);
+				zephir_throw_exception_debug(&_3$$5, "phalcon/Mvc/Model/Resultset.zep", 672);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}

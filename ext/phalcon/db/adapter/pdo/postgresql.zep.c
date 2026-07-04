@@ -1251,7 +1251,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns)
  *
  *```php
  * print_r(
- *     $connection->describeReferences("robots_parts")
+ *     $connection->describeReferences("co_orders_x_products")
  * );
  *```
  */
@@ -1502,18 +1502,18 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeReferences)
  * Returns the default identity value to be inserted in an identity column
  *
  *```php
- * // Inserting a new robot with a valid default value for the column 'id'
+ * // Inserting a new invoice with a valid default value for the column 'inv_id'
  * $success = $connection->insert(
- *     "robots",
+ *     "co_invoices",
  *     [
  *         $connection->getDefaultIdValue(),
- *         "Astro Boy",
- *         1952,
+ *         "Test Invoice",
+ *         100,
  *     ],
  *     [
- *         "id",
- *         "name",
- *         "year",
+ *         "inv_id",
+ *         "inv_title",
+ *         "inv_total",
  *     ]
  * );
  *```

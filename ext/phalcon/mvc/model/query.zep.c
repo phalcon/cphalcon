@@ -61,17 +61,17 @@
  * // $di needs to have the service "db" registered for this to work
  * $di = Phalcon\Di\FactoryDefault::getDefault();
  *
- * $phql = 'SELECT * FROM robot';
+ * $phql = 'SELECT * FROM Invoices';
  *
  * $myTransaction = new Transaction($di);
  * $myTransaction->begin();
  *
- * $newRobot = new Robot();
- * $newRobot->setTransaction($myTransaction);
- * $newRobot->type = "mechanical";
- * $newRobot->name = "Astro Boy";
- * $newRobot->year = 1952;
- * $newRobot->save();
+ * $newInvoice = new Invoices();
+ * $newInvoice->setTransaction($myTransaction);
+ * $newInvoice->inv_status_flag = 1;
+ * $newInvoice->inv_title = "Test Invoice";
+ * $newInvoice->inv_total = 100;
+ * $newInvoice->save();
  *
  * $queryWithTransaction = new Query($phql, $di);
  * $queryWithTransaction->setTransaction($myTransaction);
@@ -663,9 +663,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getSingleResult)
  *
  *```php
  * [
- *     'sql' => 'SELECT * FROM parts WHERE robot = :robot',
- *     'bind' => ['robot' => 123],
- *     'bindTypes => ['robot' => 1] // 1 corresponds to int
+ *     'sql' => 'SELECT * FROM co_invoices WHERE inv_cst_id = :cst_id',
+ *     'bind' => ['cst_id' => 123],
+ *     'bindTypes => ['cst_id' => 1] // 1 corresponds to int
  * ]
  *```
  */
