@@ -18,8 +18,9 @@ use Phalcon\Paginator\Repository;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Paginator\Store;
 
-use function array_fill;
 use PHPUnit\Framework\Attributes\Group;
+
+use function array_fill;
 
 #[Group('mysql')]
 #[Group('pgsql')]
