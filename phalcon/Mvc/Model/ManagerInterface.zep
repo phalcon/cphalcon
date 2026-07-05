@@ -393,9 +393,20 @@ interface ManagerInterface
     public function notifyEvent( string eventName, <ModelInterface> model);
 
     /**
+     * Marks the model's write connection service as written-to for the
+     * current request cycle (sticky connections)
+     */
+    public function registerWrite(<ModelInterface> model) -> void;
+
+    /**
      * Removes a behavior from a model
      */
     public function removeBehavior(<ModelInterface> model,  string behaviorClass) -> void;
+
+    /**
+     * Clears the per-request sticky write tracking
+     */
+    public function resetConnectionState() -> void;
 
     /**
      * Sets both write and read connection service for a model
@@ -427,6 +438,11 @@ interface ManagerInterface
      * @return void
      */
     public function setReusableRecords( string modelName,  string key, var records) -> void;
+
+    /**
+     * Enables or disables sticky connections
+     */
+    public function setSticky(bool sticky) -> void;
 
     /**
      * Sets write connection service for a model

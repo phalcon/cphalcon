@@ -1576,6 +1576,12 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
          * we can get proper counts.
          */
         if (success) {
+            /**
+             * Mark the write connection service as written-to for the sticky
+             * connection mechanism.
+             */
+            this->modelsManager->registerWrite(this);
+
             let this->related = [];
             let this->dirtyRelated = [];
             this->modelsManager->clearReusableObjects();
@@ -4257,6 +4263,12 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
         if success {
             /**
+             * Mark the write connection service as written-to for the sticky
+             * connection mechanism.
+             */
+            manager->registerWrite(this);
+
+            /**
              * Default values from the database should be
              * written to the model attributes upon successful
              * insert.
@@ -4560,6 +4572,14 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 ],
                 bindTypes
             );
+
+        if success {
+            /**
+             * Mark the write connection service as written-to for the sticky
+             * connection mechanism.
+             */
+            manager->registerWrite(this);
+        }
 
         if success && manager->isKeepingSnapshots(this) && Settings::get("orm.update_snapshot_on_save") {
             if typeof snapshot == "array" {

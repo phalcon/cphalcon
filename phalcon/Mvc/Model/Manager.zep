@@ -99,6 +99,15 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     protected customEventsManager = [];
 
     /**
+     * Write connection services that have been written to during the current
+     * request cycle. Used by the sticky mechanism to route reads to the write
+     * connection after a write.
+     *
+     * @var array
+     */
+    protected dirtyWriteServices = [];
+
+    /**
      * Does the model use dynamic update, instead of updating all rows?
      *
      * @var array
@@ -216,6 +225,14 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      * @var array
      */
     protected schemas = [];
+
+    /**
+     * Whether reads should stick to the write connection after a write has
+     * occurred during the current request cycle.
+     *
+     * @var bool
+     */
+    protected sticky = false;
 
     /**
      * @var array
@@ -1282,6 +1299,24 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      */
     public function getReadConnection(<ModelInterface> model) -> <AdapterInterface>
     {
+        var writeService;
+
+        /**
+         * When sticky is enabled and the model's write service has been
+         * written to during this request cycle, serve reads from the write
+         * connection so freshly written data can be read back immediately.
+         */
+        if this->sticky {
+            let writeService = this->getConnectionService(
+                model,
+                this->writeConnectionServices
+            );
+
+            if isset this->dirtyWriteServices[writeService] {
+                return this->getConnection(model, this->writeConnectionServices);
+            }
+        }
+
         return this->getConnection(model, this->readConnectionServices);
     }
 
@@ -2112,6 +2147,26 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     }
 
     /**
+     * Marks the model's write connection service as written-to for the
+     * current request cycle. Used by the sticky mechanism to route
+     * subsequent reads to the write connection.
+     *
+     * @param ModelInterface $model
+     *
+     * @return void
+     */
+    public function registerWrite(<ModelInterface> model) -> void
+    {
+        if !this->sticky {
+            return;
+        }
+
+        let this->dirtyWriteServices[
+            this->getConnectionService(model, this->writeConnectionServices)
+        ] = true;
+    }
+
+    /**
      * Removes a behavior from a model
      *
      * @param ModelInterface $model
@@ -2134,6 +2189,18 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 
             let this->behaviors[entityName] = array_values(this->behaviors[entityName]);
         }
+    }
+
+    /**
+     * Clears the per-request sticky write tracking. Call this between
+     * requests in long-running runtimes (e.g. Swoole, RoadRunner) where the
+     * manager instance is reused across requests.
+     *
+     * @return void
+     */
+    public function resetConnectionState() -> void
+    {
+        let this->dirtyWriteServices = [];
     }
 
     /**
@@ -2269,6 +2336,20 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     public function setReusableRecords( string modelName,  string key, var records) -> void
     {
         let this->reusable[key] = records;
+    }
+
+    /**
+     * Enables or disables sticky connections. When enabled, once a model has
+     * written to its write connection during the current request cycle, any
+     * further reads for that write service use the write connection.
+     *
+     * @param bool $sticky
+     *
+     * @return void
+     */
+    public function setSticky(bool sticky) -> void
+    {
+        let this->sticky = sticky;
     }
 
     /**
