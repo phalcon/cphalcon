@@ -48,9 +48,14 @@ class Validation extends Injectable implements ValidationInterface
     /**
      * Default messages for validators, keyed by validator class name
      *
+     * Declared without an array initializer on purpose: an initialized static
+     * array makes Zephir emit a zephir_init_static_properties() function that
+     * fails to compile in the single-file build. It is null until first set
+     * and treated as an empty array by the accessors below.
+     *
      * @var array
      */
-    protected static defaultMessages = [];
+    protected static defaultMessages;
 
     /**
      * @var object|null
@@ -523,7 +528,15 @@ class Validation extends Injectable implements ValidationInterface
      */
     public static function setDefaultMessages(array messages = []) -> array
     {
-        let self::defaultMessages = array_merge(self::defaultMessages, messages);
+        var localMessages;
+
+        let localMessages = self::defaultMessages;
+
+        if empty localMessages {
+            let localMessages = [];
+        }
+
+        let self::defaultMessages = array_merge(localMessages, messages);
 
         return self::defaultMessages;
     }
