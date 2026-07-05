@@ -49,6 +49,36 @@ final class StickyConnectionTest extends AbstractDatabaseTestCase
     }
 
     /**
+     * Tests that with sticky disabled (the default) a read after a write still
+     * uses the read connection.
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/17256
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-07-04
+     */
+    public function testMvcModelManagerStickyDisabledKeepsReadOnReadConnection(): void
+    {
+        $invoice                  = new InvoicesReadWrite();
+        $invoice->inv_cst_id      = 1;
+        $invoice->inv_status_flag = 0;
+        $invoice->inv_title       = uniqid('inv-', true);
+        $invoice->inv_total       = 100.0;
+        $invoice->inv_created_at  = date('Y-m-d H:i:s');
+
+        $this->assertTrue($invoice->save());
+
+        InvoicesReadWrite::find();
+
+        /**
+         * Sticky is off, so the SELECT is executed on the read connection.
+         */
+        $readSql = $this->container->getShared('dbRead')->getRealSQLStatement();
+
+        $this->assertStringContainsStringIgnoringCase('SELECT', $readSql);
+        $this->assertStringContainsString('co_invoices', $readSql);
+    }
+
+    /**
      * Tests that a read issued after a write during the same request cycle is
      * served from the write connection when sticky is enabled.
      *
@@ -80,35 +110,5 @@ final class StickyConnectionTest extends AbstractDatabaseTestCase
 
         $this->assertStringContainsStringIgnoringCase('SELECT', $writeSql);
         $this->assertStringContainsString('co_invoices', $writeSql);
-    }
-
-    /**
-     * Tests that with sticky disabled (the default) a read after a write still
-     * uses the read connection.
-     *
-     * @issue  https://github.com/phalcon/cphalcon/issues/17256
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-07-04
-     */
-    public function testMvcModelManagerStickyDisabledKeepsReadOnReadConnection(): void
-    {
-        $invoice                  = new InvoicesReadWrite();
-        $invoice->inv_cst_id      = 1;
-        $invoice->inv_status_flag = 0;
-        $invoice->inv_title       = uniqid('inv-', true);
-        $invoice->inv_total       = 100.0;
-        $invoice->inv_created_at  = date('Y-m-d H:i:s');
-
-        $this->assertTrue($invoice->save());
-
-        InvoicesReadWrite::find();
-
-        /**
-         * Sticky is off, so the SELECT is executed on the read connection.
-         */
-        $readSql = $this->container->getShared('dbRead')->getRealSQLStatement();
-
-        $this->assertStringContainsStringIgnoringCase('SELECT', $readSql);
-        $this->assertStringContainsString('co_invoices', $readSql);
     }
 }
