@@ -8,6 +8,7 @@ PHP_METHOD(Phalcon_Filter_Validation, add);
 PHP_METHOD(Phalcon_Filter_Validation, appendMessage);
 PHP_METHOD(Phalcon_Filter_Validation, bind);
 PHP_METHOD(Phalcon_Filter_Validation, getData);
+PHP_METHOD(Phalcon_Filter_Validation, getDefaultMessage);
 PHP_METHOD(Phalcon_Filter_Validation, getEntity);
 PHP_METHOD(Phalcon_Filter_Validation, getFilters);
 PHP_METHOD(Phalcon_Filter_Validation, getLabel);
@@ -18,6 +19,7 @@ PHP_METHOD(Phalcon_Filter_Validation, getValueByData);
 PHP_METHOD(Phalcon_Filter_Validation, getValue);
 PHP_METHOD(Phalcon_Filter_Validation, rule);
 PHP_METHOD(Phalcon_Filter_Validation, rules);
+PHP_METHOD(Phalcon_Filter_Validation, setDefaultMessages);
 PHP_METHOD(Phalcon_Filter_Validation, setEntity);
 PHP_METHOD(Phalcon_Filter_Validation, setFilters);
 PHP_METHOD(Phalcon_Filter_Validation, setLabels);
@@ -47,6 +49,10 @@ ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, whitelist, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_validation_getdata, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_getdefaultmessage, 0, 1, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, validatorClassName, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_validation_getentity, 0, 0, 0)
@@ -88,6 +94,10 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_filter_validation_rules, 0, 2, MAY_BE_STATIC)
 	ZEND_ARG_INFO(0, field)
 	ZEND_ARG_ARRAY_INFO(0, validators, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_setdefaultmessages, 0, 0, IS_ARRAY, 0)
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, messages, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_setentity, 0, 1, IS_VOID, 0)
@@ -132,6 +142,7 @@ ZEPHIR_INIT_FUNCS(phalcon_filter_validation_method_entry) {
 	PHP_ME(Phalcon_Filter_Validation, appendMessage, arginfo_phalcon_filter_validation_appendmessage, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Filter_Validation, bind, arginfo_phalcon_filter_validation_bind, ZEND_ACC_PUBLIC)
 PHP_ME(Phalcon_Filter_Validation, getData, arginfo_phalcon_filter_validation_getdata, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Filter_Validation, getDefaultMessage, arginfo_phalcon_filter_validation_getdefaultmessage, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 PHP_ME(Phalcon_Filter_Validation, getEntity, arginfo_phalcon_filter_validation_getentity, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Filter_Validation, getFilters, arginfo_phalcon_filter_validation_getfilters, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Filter_Validation, getLabel, arginfo_phalcon_filter_validation_getlabel, ZEND_ACC_PUBLIC)
@@ -142,6 +153,7 @@ PHP_ME(Phalcon_Filter_Validation, getEntity, arginfo_phalcon_filter_validation_g
 	PHP_ME(Phalcon_Filter_Validation, getValue, arginfo_phalcon_filter_validation_getvalue, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Filter_Validation, rule, arginfo_phalcon_filter_validation_rule, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Filter_Validation, rules, arginfo_phalcon_filter_validation_rules, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Filter_Validation, setDefaultMessages, arginfo_phalcon_filter_validation_setdefaultmessages, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Filter_Validation, setEntity, arginfo_phalcon_filter_validation_setentity, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Filter_Validation, setFilters, arginfo_phalcon_filter_validation_setfilters, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Filter_Validation, setLabels, arginfo_phalcon_filter_validation_setlabels, ZEND_ACC_PUBLIC)
