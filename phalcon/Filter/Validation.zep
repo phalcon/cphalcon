@@ -46,6 +46,13 @@ class Validation extends Injectable implements ValidationInterface
     protected data;
 
     /**
+     * Default messages for validators, keyed by validator class name
+     *
+     * @var array
+     */
+    protected static defaultMessages = [];
+
+    /**
      * @var object|null
      */
     protected entity = null;
@@ -245,6 +252,25 @@ class Validation extends Injectable implements ValidationInterface
     public function getData() -> var
     {
         return this->data;
+    }
+
+    /**
+     * Returns the default message registered for a validator class, or an
+     * empty string when none has been registered.
+     *
+     * @param string $validatorClassName
+     *
+     * @return string
+     */
+    public static function getDefaultMessage(string validatorClassName) -> string
+    {
+        var defaultMessage;
+
+        if fetch defaultMessage, self::defaultMessages[validatorClassName] {
+            return defaultMessage;
+        }
+
+        return "";
     }
 
     /**
@@ -483,6 +509,23 @@ class Validation extends Injectable implements ValidationInterface
         }
 
         return this;
+    }
+
+    /**
+     * Registers default messages for validators, keyed by validator class
+     * name. A registered default is used when a validator does not define its
+     * own message; a message set on the validator instance still wins. Calls
+     * are merged, so defaults can be registered incrementally.
+     *
+     * @param array $messages
+     *
+     * @return array
+     */
+    public static function setDefaultMessages(array messages = []) -> array
+    {
+        let self::defaultMessages = array_merge(self::defaultMessages, messages);
+
+        return self::defaultMessages;
     }
 
     /**
