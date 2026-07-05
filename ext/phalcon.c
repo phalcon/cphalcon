@@ -2977,6 +2977,7 @@ static PHP_RINIT_FUNCTION(phalcon)
 	php_zephir_init_globals(phalcon_globals_ptr);
 	zephir_initialize_memory(phalcon_globals_ptr);
 
+		zephir_init_static_properties_Phalcon_Filter_Validation();
 	
 	return SUCCESS;
 }
