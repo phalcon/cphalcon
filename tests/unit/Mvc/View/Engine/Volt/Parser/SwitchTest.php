@@ -28,6 +28,36 @@ final class SwitchTest extends AbstractUnitTestCase
     }
 
     /**
+     * @return array<string, array{0: string, 1: string}>
+     */
+    public static function getSwitchExceptions(): array
+    {
+        return [
+            'lack of endswitch' => [
+                '{% switch foo %}',
+                "Syntax error, unexpected EOF in eval code, there is a 'switch' block without 'endswitch'",
+            ],
+            'lack of switch' => [
+                '{% case foo %}',
+                'Unexpected CASE in eval code on line 1',
+            ],
+            'stray default' => [
+                '{% default %}',
+                'Syntax error, unexpected token DEFAULT(default) in eval code on line 1',
+            ],
+            'nested switch' => [
+                "{% switch foo %}\n  {% switch %}\n  {% endswitch %}\n{% endswitch %}",
+                'A nested switch detected. There is no nested switch-case '
+                . 'statements support in eval code on line 2',
+            ],
+            'empty switch expression' => [
+                "{% switch %}\n  {% case foo %}\n  {% break %}\n{% endswitch %}",
+                'Syntax error, unexpected token %} in eval code on line 1',
+            ],
+        ];
+    }
+
+    /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-10
      */
@@ -396,6 +426,24 @@ final class SwitchTest extends AbstractUnitTestCase
     }
 
     /**
+     * Tests switch-case parser exceptions: missing endswitch, missing switch,
+     * stray default, nested switch and empty switch expression
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-07-04
+     */
+    #[DataProvider('getSwitchExceptions')]
+    public function testMvcViewEngineVoltParserSwitchException(
+        string $source,
+        string $message
+    ): void {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage($message);
+
+        $this->compiler->parse($source);
+    }
+
+    /**
      * Tests recognize a multi-line switch with cases, break and default clause
      *
      * @author Phalcon Team <team@phalcon.io>
@@ -510,53 +558,5 @@ VOLT;
         ];
         $actual   = $this->compiler->parse($source);
         $this->assertSame($expected, $actual);
-    }
-
-    /**
-     * @return array<string, array{0: string, 1: string}>
-     */
-    public static function getSwitchExceptions(): array
-    {
-        return [
-            'lack of endswitch' => [
-                '{% switch foo %}',
-                "Syntax error, unexpected EOF in eval code, there is a 'switch' block without 'endswitch'",
-            ],
-            'lack of switch' => [
-                '{% case foo %}',
-                'Unexpected CASE in eval code on line 1',
-            ],
-            'stray default' => [
-                '{% default %}',
-                'Syntax error, unexpected token DEFAULT(default) in eval code on line 1',
-            ],
-            'nested switch' => [
-                "{% switch foo %}\n  {% switch %}\n  {% endswitch %}\n{% endswitch %}",
-                'A nested switch detected. There is no nested switch-case '
-                . 'statements support in eval code on line 2',
-            ],
-            'empty switch expression' => [
-                "{% switch %}\n  {% case foo %}\n  {% break %}\n{% endswitch %}",
-                'Syntax error, unexpected token %} in eval code on line 1',
-            ],
-        ];
-    }
-
-    /**
-     * Tests switch-case parser exceptions: missing endswitch, missing switch,
-     * stray default, nested switch and empty switch expression
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-07-04
-     */
-    #[DataProvider('getSwitchExceptions')]
-    public function testMvcViewEngineVoltParserSwitchException(
-        string $source,
-        string $message
-    ): void {
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage($message);
-
-        $this->compiler->parse($source);
     }
 }
