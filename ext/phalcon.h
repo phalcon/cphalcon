@@ -760,6 +760,7 @@
 #include "phalcon/filter/validation/validator/file/resolution/min.zep.h"
 #include "phalcon/filter/validation/validator/file/size/max.zep.h"
 #include "phalcon/filter/validation/validator/file/size/min.zep.h"
+#include "phalcon/filter/validation/validator/files.zep.h"
 #include "phalcon/filter/validation/validator/identical.zep.h"
 #include "phalcon/filter/validation/validator/inclusionin.zep.h"
 #include "phalcon/filter/validation/validator/ip.zep.h"

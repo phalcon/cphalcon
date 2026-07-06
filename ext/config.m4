@@ -765,6 +765,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/filter/validation/validator/file/resolution/min.zep.c
 	phalcon/filter/validation/validator/file/size/max.zep.c
 	phalcon/filter/validation/validator/file/size/min.zep.c
+	phalcon/filter/validation/validator/files.zep.c
 	phalcon/filter/validation/validator/identical.zep.c
 	phalcon/filter/validation/validator/inclusionin.zep.c
 	phalcon/filter/validation/validator/ip.zep.c
