@@ -55,7 +55,7 @@ class Validation extends Injectable implements ValidationInterface
      *
      * @var array
      */
-    protected static defaultMessages;
+    protected static defaultMessages = [];
 
     /**
      * @var object|null
@@ -531,10 +531,6 @@ class Validation extends Injectable implements ValidationInterface
         var localMessages;
 
         let localMessages = self::defaultMessages;
-
-        if empty localMessages {
-            let localMessages = [];
-        }
 
         let self::defaultMessages = array_merge(localMessages, messages);
 

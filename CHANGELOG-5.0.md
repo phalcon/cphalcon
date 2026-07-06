@@ -4,7 +4,7 @@
 
 ### Tools
 
-- Zephir 1.0.0 (61ee88c0f)
+- Zephir 1.0.0 (047d2a4a0)
  
 ### Changed
 
