@@ -26,6 +26,73 @@ use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 final class ValidateTest extends AbstractUnitTestCase
 {
     /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-07-06
+     */
+    public function testFilterValidationValidatorCallbackValidateBoundClosure(): void
+    {
+        $validation = new Validation();
+
+        $validation->add(
+            'title',
+            new Callback(
+                [
+                    'callback' => function ($data) {
+                        if (!is_string($data['title'])) {
+                            $this->setTemplate('Title is not a string');
+
+                            return false;
+                        }
+
+                        if (strlen($data['title']) > 10) {
+                            $this->setTemplate('Title too long');
+
+                            return false;
+                        }
+
+                        return true;
+                    },
+                ]
+            )
+        );
+
+
+        $messages = $validation->validate(
+            [
+                'title' => 123,
+            ]
+        );
+
+        $this->assertCount(1, $messages);
+        $this->assertSame(
+            'Title is not a string',
+            $messages[0]->getMessage()
+        );
+
+
+        $messages = $validation->validate(
+            [
+                'title' => 'This title is way too long',
+            ]
+        );
+
+        $this->assertCount(1, $messages);
+        $this->assertSame(
+            'Title too long',
+            $messages[0]->getMessage()
+        );
+
+
+        $messages = $validation->validate(
+            [
+                'title' => 'Short',
+            ]
+        );
+
+        $this->assertCount(0, $messages);
+    }
+
+    /**
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-10-29
      */
