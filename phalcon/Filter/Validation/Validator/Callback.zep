@@ -94,6 +94,10 @@ class Callback extends AbstractValidator
                 let data = validation->getData();
             }
 
+            if callback instanceof \Closure {
+                let callback = \Closure::bind(callback, this);
+            }
+
             let returnedValue = call_user_func(callback, data);
 
             if typeof returnedValue == "boolean" {
