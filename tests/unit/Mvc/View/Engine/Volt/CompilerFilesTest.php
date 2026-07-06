@@ -35,6 +35,8 @@ class CompilerFilesTest extends AbstractUnitTestCase
             Talon::settings()->supportPath('assets/views/blocks/index/login.volt.php'),
             Talon::settings()->supportPath('assets/views/blocks/index/main.volt.php'),
             Talon::settings()->supportPath('assets/views/blocks/partials/header.volt.php'),
+            Talon::settings()->supportPath('assets/views/extends/themes/theme-a/child.volt.php'),
+            Talon::settings()->supportPath('assets/views/extends/themes/theme-b/base.volt%%e%%.php'),
         ];
         foreach ($compiledFiles as $fileName) {
             $this->safeDeleteFile($fileName);
@@ -52,6 +54,8 @@ class CompilerFilesTest extends AbstractUnitTestCase
             Talon::settings()->supportPath('assets/views/extends/children.extends.volt.php'),
             Talon::settings()->supportPath('assets/views/extends/import.volt.php'),
             Talon::settings()->supportPath('assets/views/extends/import2.volt.php'),
+            Talon::settings()->supportPath('assets/views/extends/themes/theme-a/child.volt.php'),
+            Talon::settings()->supportPath('assets/views/extends/themes/theme-b/base.volt%%e%%.php'),
             Talon::settings()->supportPath('assets/views/layouts/extends.volt.php'),
             Talon::settings()->supportPath('assets/views/partials/header.volt.php'),
             Talon::settings()->supportPath('assets/views/partials/header2.volt.php'),
@@ -151,6 +155,57 @@ class CompilerFilesTest extends AbstractUnitTestCase
             . '</div></body>';
 
         $this->assertFileContentsEqual($file, $contents);
+    }
+
+    /**
+     * Volt extends from an absolute path
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-07-06
+     *
+     * @see    https://github.com/phalcon/cphalcon/issues/17269
+     */
+    public function testMvcViewEngineVoltCompileExtendsFileAbsolutePath(): void
+    {
+        $parent = Talon::settings()->supportPath(
+            'assets/views/extends/themes/theme-b/base.volt'
+        );
+
+        $source = '{% extends "' . $parent . '" %}'
+            . '{% block content %}absolute{% endblock %}';
+
+        $volt     = new Compiler();
+        $actual   = $volt->compileString($source);
+        $expected = '<html><body>absolute</body></html>';
+
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * Volt extends from a "../" relative path, resolved against the directory
+     * of the template currently being compiled
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-07-06
+     *
+     * @see    https://github.com/phalcon/cphalcon/issues/17269
+     */
+    public function testMvcViewEngineVoltCompileExtendsFileRelativePath(): void
+    {
+        $view = new View();
+        $view->setViewsDir(Talon::settings()->supportPath('assets/views/'));
+
+        $volt = new Compiler($view);
+
+        $volt->compileFile(
+            Talon::settings()->supportPath('assets/views/extends/themes/theme-a/child.volt'),
+            Talon::settings()->supportPath('assets/views/extends/themes/theme-a/child.volt.php')
+        );
+
+        $file     = Talon::settings()->supportPath('assets/views/extends/themes/theme-a/child.volt.php');
+        $expected = '<html><body>overridden</body></html>';
+
+        $this->assertFileContentsEqual($file, $expected);
     }
 
     /**
