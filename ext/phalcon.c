@@ -876,6 +876,7 @@ zend_class_entry *phalcon_filter_validation_validator_file_resolution_max_ce;
 zend_class_entry *phalcon_filter_validation_validator_file_resolution_min_ce;
 zend_class_entry *phalcon_filter_validation_validator_file_size_max_ce;
 zend_class_entry *phalcon_filter_validation_validator_file_size_min_ce;
+zend_class_entry *phalcon_filter_validation_validator_files_ce;
 zend_class_entry *phalcon_filter_validation_validator_identical_ce;
 zend_class_entry *phalcon_filter_validation_validator_inclusionin_ce;
 zend_class_entry *phalcon_filter_validation_validator_ip_ce;
@@ -2242,6 +2243,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Filter_Validation_Validator_File_Resolution_Min);
 	ZEPHIR_INIT(Phalcon_Filter_Validation_Validator_File_Size_Max);
 	ZEPHIR_INIT(Phalcon_Filter_Validation_Validator_File_Size_Min);
+	ZEPHIR_INIT(Phalcon_Filter_Validation_Validator_Files);
 	ZEPHIR_INIT(Phalcon_Filter_Validation_Validator_Identical);
 	ZEPHIR_INIT(Phalcon_Filter_Validation_Validator_InclusionIn);
 	ZEPHIR_INIT(Phalcon_Filter_Validation_Validator_Ip);
@@ -2969,6 +2971,7 @@ static void php_zephir_init_module_globals(zend_phalcon_globals *phalcon_globals
 	
 }
 
+void zephir_init_static_properties_Phalcon_Filter_Validation();
 static PHP_RINIT_FUNCTION(phalcon)
 {
 	zend_phalcon_globals *phalcon_globals_ptr;
@@ -2977,6 +2980,7 @@ static PHP_RINIT_FUNCTION(phalcon)
 	php_zephir_init_globals(phalcon_globals_ptr);
 	zephir_initialize_memory(phalcon_globals_ptr);
 
+		zephir_init_static_properties_Phalcon_Filter_Validation();
 	
 	return SUCCESS;
 }
