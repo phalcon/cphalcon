@@ -25,6 +25,7 @@
 #include "kernel/fcall.h"
 #include "kernel/object.h"
 #include "kernel/exception.h"
+#include "kernel/generator.h"
 
 
 zend_string* i_parent = NULL;
@@ -697,4 +698,6 @@ void zephir_module_init()
 	i_parent = zend_new_interned_string(zend_string_init(ZEND_STRL("parent"), 1));
 	i_static = zend_new_interned_string(zend_string_init(ZEND_STRL("static"), 1));
 	i_self   = zend_new_interned_string(zend_string_init(ZEND_STRL("self"), 1));
+
+	zephir_generator_module_init();
 }
