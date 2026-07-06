@@ -1,0 +1,1 @@
+{% extends "../theme-b/base.volt" %}{% block content %}overridden{% endblock %}
