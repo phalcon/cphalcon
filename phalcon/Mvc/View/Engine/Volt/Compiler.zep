@@ -2381,6 +2381,21 @@ class Compiler implements InjectionAwareInterface
     {
         var view, viewsDirs, viewsDir;
 
+        /**
+         * Absolute paths are used as they are
+         */
+        if this->isAbsolutePath(path) {
+            return path;
+        }
+
+        /**
+         * Paths starting with "./" or "../" are resolved relative to the
+         * directory of the template currently being compiled
+         */
+        if starts_with(path, "./") || starts_with(path, "../") {
+            return dirname(this->currentPath) . DIRECTORY_SEPARATOR . path;
+        }
+
         let view = this->view;
 
         if typeof view == "object" {
@@ -2934,6 +2949,28 @@ class Compiler implements InjectionAwareInterface
          * Is an array but not a statement list?
          */
         return statements;
+    }
+
+    /**
+     * Checks whether a path is absolute (Unix root, Windows UNC or drive)
+     */
+    private function isAbsolutePath(string path) -> bool
+    {
+        /**
+         * Unix absolute path or Windows UNC path
+         */
+        if starts_with(path, "/") || starts_with(path, "\\") {
+            return true;
+        }
+
+        /**
+         * Windows absolute path with a drive letter, e.g. "C:\" or "C:/"
+         */
+        if strlen(path) >= 2 && ctype_alpha(substr(path, 0, 1)) && substr(path, 1, 1) === ":" {
+            return true;
+        }
+
+        return false;
     }
 
     private function isTagFactory(array expression) -> bool

@@ -1,0 +1,1 @@
+<html><body>{% block content %}base{% endblock %}</body></html>
