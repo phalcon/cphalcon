@@ -83,7 +83,7 @@ class Callback extends AbstractValidator
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var callback, returnedValue, data;
+        var callback, returnedValue, data, savedTemplate, savedChanged, savedTemplates;
 
         let callback = this->getOption("callback");
 
@@ -94,23 +94,37 @@ class Callback extends AbstractValidator
                 let data = validation->getData();
             }
 
+            /**
+             * Snapshot the message state so a setTemplate()/setTemplates()
+             * call inside the bound closure cannot leak into later
+             * validations that reuse this validator instance. Restored below
+             * once the failure message (if any) has been built.
+             */
+            let savedTemplate  = this->template,
+                savedChanged   = this->templateChanged,
+                savedTemplates = this->templates;
+
             if callback instanceof \Closure {
                 let callback = \Closure::bind(callback, this);
             }
 
             let returnedValue = call_user_func(callback, data);
 
+            if typeof returnedValue == "boolean" && !returnedValue {
+                validation->appendMessage(
+                    this->messageFactory(validation, field)
+                );
+            }
+
+            let this->template        = savedTemplate,
+                this->templateChanged = savedChanged,
+                this->templates       = savedTemplates;
+
             if typeof returnedValue == "boolean" {
-                if !returnedValue {
-                    validation->appendMessage(
-                        this->messageFactory(validation, field)
-                    );
+                return returnedValue;
+            }
 
-                    return false;
-                }
-
-                return true;
-            } elseif typeof returnedValue == "object" && returnedValue instanceof ValidatorInterface {
+            if typeof returnedValue == "object" && returnedValue instanceof ValidatorInterface {
                 return returnedValue->validate(validation, field);
             }
 
