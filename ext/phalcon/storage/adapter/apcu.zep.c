@@ -618,7 +618,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Apcu, phpApcuDec)
 	} else {
 		}
 	ZVAL_LONG(&_0, step);
-	ZEPHIR_RETURN_CALL_FUNCTION("apcu_dec", NULL, 255, key, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("apcu_dec", NULL, 254, key, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -636,7 +636,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Apcu, phpApcuDelete)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &key);
-	ZEPHIR_RETURN_CALL_FUNCTION("apcu_delete", NULL, 256, key);
+	ZEPHIR_RETURN_CALL_FUNCTION("apcu_delete", NULL, 255, key);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -654,7 +654,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Apcu, phpApcuExists)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &key);
-	ZEPHIR_RETURN_CALL_FUNCTION("apcu_exists", NULL, 257, key);
+	ZEPHIR_RETURN_CALL_FUNCTION("apcu_exists", NULL, 256, key);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -680,7 +680,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Apcu, phpApcuInc)
 	} else {
 		}
 	ZVAL_LONG(&_0, step);
-	ZEPHIR_RETURN_CALL_FUNCTION("apcu_inc", NULL, 258, key, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("apcu_inc", NULL, 257, key, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -698,7 +698,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Apcu, phpApcuFetch)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &key);
-	ZEPHIR_RETURN_CALL_FUNCTION("apcu_fetch", NULL, 259, key);
+	ZEPHIR_RETURN_CALL_FUNCTION("apcu_fetch", NULL, 258, key);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -747,7 +747,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Apcu, phpApcuStore)
 	} else {
 		}
 	ZVAL_LONG(&_0, ttl);
-	ZEPHIR_RETURN_CALL_FUNCTION("apcu_store", NULL, 260, key, payload, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("apcu_store", NULL, 259, key, payload, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }

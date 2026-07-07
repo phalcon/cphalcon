@@ -3322,7 +3322,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, isVisibleModelProperty)
 		array_init(&publicProperties);
 		ZEPHIR_INIT_VAR(&classReflection);
 		object_init_ex(&classReflection, zephir_get_internal_ce(SL("reflectionclass")));
-		ZEPHIR_CALL_METHOD(NULL, &classReflection, "__construct", NULL, 223, &className);
+		ZEPHIR_CALL_METHOD(NULL, &classReflection, "__construct", NULL, 222, &className);
 		zephir_check_call_status();
 		ZVAL_LONG(&_1$$3, 1);
 		ZEPHIR_CALL_METHOD(&reflectionProperties, &classReflection, "getproperties", NULL, 299, &_1$$3);
@@ -3807,7 +3807,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, removeBehavior)
 		ZEPHIR_INIT_NVAR(&key);
 		zephir_read_property(&_14$$3, this_ptr, ZEND_STRL("behaviors"), PH_NOISY_CC | PH_READONLY);
 		zephir_array_fetch(&_15$$3, &_14$$3, &entityName, PH_NOISY | PH_READONLY, "phalcon/Mvc/Model/Manager.zep", 2190);
-		ZEPHIR_CALL_FUNCTION(&_16$$3, "array_values", NULL, 29, &_15$$3);
+		ZEPHIR_CALL_FUNCTION(&_16$$3, "array_values", NULL, 28, &_15$$3);
 		zephir_check_call_status();
 		zephir_update_property_array(this_ptr, SL("behaviors"), &entityName, &_16$$3);
 	}

@@ -68,7 +68,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractContext, createQueue)
 	zephir_memory_observe(&queueName_zv);
 	ZVAL_STR_COPY(&queueName_zv, queueName);
 	object_init_ex(return_value, phalcon_queue_adapter_genericqueue_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 75, &queueName_zv);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 74, &queueName_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -91,9 +91,9 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractContext, createTemporaryQueue)
 	object_init_ex(return_value, phalcon_queue_adapter_genericqueue_ce);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "phalcon_queue_");
-	ZEPHIR_CALL_FUNCTION(&_1, "uniqid", NULL, 76, &_0, &__$true);
+	ZEPHIR_CALL_FUNCTION(&_1, "uniqid", NULL, 75, &_0, &__$true);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 75, &_1);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 74, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -117,7 +117,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractContext, createTopic)
 	zephir_memory_observe(&topicName_zv);
 	ZVAL_STR_COPY(&topicName_zv, topicName);
 	object_init_ex(return_value, phalcon_queue_adapter_generictopic_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 77, &topicName_zv);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 76, &topicName_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }

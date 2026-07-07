@@ -51,6 +51,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_adapter_abstractadapter_getarrval
 	ZEND_ARG_ARRAY_INFO(0, collection, 0)
 	ZEND_ARG_INFO(0, index)
 	ZEND_ARG_INFO(0, defaultValue)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, cast, IS_STRING, 1, "null")
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_session_adapter_abstractadapter_method_entry) {

@@ -312,7 +312,7 @@ PHP_METHOD(Phalcon_Auth_Manager, except)
 	zephir_get_args_from(&actions, 0);
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "requireactiveaccess", NULL, 356);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_1, "array_values", NULL, 29, &actions);
+	ZEPHIR_CALL_FUNCTION(&_1, "array_values", NULL, 28, &actions);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, &_0, "setexceptactions", NULL, 0, &_1);
 	zephir_check_call_status();
@@ -476,7 +476,7 @@ PHP_METHOD(Phalcon_Auth_Manager, only)
 	zephir_get_args_from(&actions, 0);
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "requireactiveaccess", NULL, 356);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_1, "array_values", NULL, 29, &actions);
+	ZEPHIR_CALL_FUNCTION(&_1, "array_values", NULL, 28, &actions);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, &_0, "setonlyactions", NULL, 0, &_1);
 	zephir_check_call_status();
