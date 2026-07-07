@@ -104,9 +104,9 @@ PHP_METHOD(Phalcon_Auth_Adapter_Stream, fromOptions)
 	ZVAL_STRING(&_2, "model");
 	ZEPHIR_CALL_CE_STATIC(&_4, phalcon_auth_internal_options_ce, "stringornull", NULL, 0, &options, &_2);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 334, &_1, &_4);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 335, &_1, &_4);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 335, hasher, &_0);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 336, hasher, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -151,7 +151,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Stream, loadUsers)
 	if (!zephir_is_true(&_1)) {
 		ZEPHIR_INIT_VAR(&_2$$3);
 		object_init_ex(&_2$$3, phalcon_auth_exceptions_filedoesnotexist_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 336, &path);
+		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 337, &path);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_2$$3, "phalcon/Auth/Adapter/Stream.zep", 73);
 		ZEPHIR_MM_RESTORE();
@@ -162,7 +162,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Stream, loadUsers)
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&contents)) {
 		ZEPHIR_INIT_VAR(&_3$$4);
 		object_init_ex(&_3$$4, phalcon_auth_exceptions_filecannotread_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_3$$4, "__construct", NULL, 337, &path);
+		ZEPHIR_CALL_METHOD(NULL, &_3$$4, "__construct", NULL, 338, &path);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_3$$4, "phalcon/Auth/Adapter/Stream.zep", 79);
 		ZEPHIR_MM_RESTORE();
@@ -179,7 +179,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Stream, loadUsers)
 		}
 
 		ZVAL_BOOL(&_5$$5, 1);
-		ZEPHIR_CALL_METHOD(&data, &_4$$5, "__invoke", NULL, 338, &contents, &_5$$5);
+		ZEPHIR_CALL_METHOD(&data, &_4$$5, "__invoke", NULL, 339, &contents, &_5$$5);
 		zephir_check_call_status_or_jump(try_end_1);
 
 	try_end_1:
@@ -193,7 +193,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Stream, loadUsers)
 			ZEPHIR_CPY_WRT(&ex, &_6);
 			ZEPHIR_INIT_VAR(&_7$$6);
 			object_init_ex(&_7$$6, phalcon_auth_exceptions_filenotvalidjson_ce);
-			ZEPHIR_CALL_METHOD(NULL, &_7$$6, "__construct", NULL, 339, &path, &ex);
+			ZEPHIR_CALL_METHOD(NULL, &_7$$6, "__construct", NULL, 340, &path, &ex);
 			zephir_check_call_status();
 			zephir_throw_exception_debug(&_7$$6, "phalcon/Auth/Adapter/Stream.zep", 85);
 			ZEPHIR_MM_RESTORE();
@@ -203,7 +203,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Stream, loadUsers)
 	if (Z_TYPE_P(&data) != IS_ARRAY) {
 		ZEPHIR_INIT_VAR(&_8$$7);
 		object_init_ex(&_8$$7, phalcon_auth_exceptions_filedoesnotcontainjson_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_8$$7, "__construct", NULL, 340, &path);
+		ZEPHIR_CALL_METHOD(NULL, &_8$$7, "__construct", NULL, 341, &path);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_8$$7, "phalcon/Auth/Adapter/Stream.zep", 89);
 		ZEPHIR_MM_RESTORE();
@@ -341,7 +341,11 @@ PHP_METHOD(Phalcon_Auth_Adapter_Stream, phpFileExists)
 }
 
 /**
- * @param string $filename
+ * @param string        $filename
+ * @param bool          $useIncludePath
+ * @param resource|null $context
+ * @param int           $offset
+ * @param int|null      $length
  *
  * @return false|string
  *
@@ -349,16 +353,74 @@ PHP_METHOD(Phalcon_Auth_Adapter_Stream, phpFileExists)
  */
 PHP_METHOD(Phalcon_Auth_Adapter_Stream, phpFileGetContents)
 {
-	zval filename_zv;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long offset, length, ZEPHIR_LAST_CALL_STATUS;
+	zend_bool useIncludePath;
+	zval filename_zv, *useIncludePath_param = NULL, *context = NULL, context_sub, *offset_param = NULL, *length_param = NULL, __$null, _0$$3, _1$$3, _2, _3, _4;
 	zend_string *filename = NULL;
 
 	ZVAL_UNDEF(&filename_zv);
-	ZEND_PARSE_PARAMETERS_START(1, 1)
+	ZVAL_UNDEF(&context_sub);
+	ZVAL_NULL(&__$null);
+	ZVAL_UNDEF(&_0$$3);
+	ZVAL_UNDEF(&_1$$3);
+	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_4);
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 5)
 		Z_PARAM_STR(filename)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_BOOL(useIncludePath)
+		Z_PARAM_ZVAL_OR_NULL(context)
+		Z_PARAM_LONG(offset)
+		Z_PARAM_LONG_OR_NULL(length, is_null_true)
 	ZEND_PARSE_PARAMETERS_END();
-	ZVAL_STR(&filename_zv, filename);
-	zephir_file_get_contents(return_value, &filename_zv);
-	return;
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	if (ZEND_NUM_ARGS() > 1) {
+		useIncludePath_param = ZEND_CALL_ARG(execute_data, 2);
+	}
+	if (ZEND_NUM_ARGS() > 2) {
+		context = ZEND_CALL_ARG(execute_data, 3);
+	}
+	if (ZEND_NUM_ARGS() > 3) {
+		offset_param = ZEND_CALL_ARG(execute_data, 4);
+	}
+	if (ZEND_NUM_ARGS() > 4) {
+		length_param = ZEND_CALL_ARG(execute_data, 5);
+	}
+	zephir_memory_observe(&filename_zv);
+	ZVAL_STR_COPY(&filename_zv, filename);
+	if (!useIncludePath_param) {
+		useIncludePath = 0;
+	} else {
+		}
+	if (!context) {
+		context = &context_sub;
+		context = &__$null;
+	}
+	if (!offset_param) {
+		offset = 0;
+	} else {
+		}
+	if (!length_param) {
+		length = 0;
+	} else {
+		}
+	if (0 == length) {
+		ZVAL_BOOL(&_0$$3, (useIncludePath ? 1 : 0));
+		ZVAL_LONG(&_1$$3, offset);
+		ZEPHIR_RETURN_CALL_FUNCTION("file_get_contents", NULL, 159, &filename_zv, &_0$$3, context, &_1$$3);
+		zephir_check_call_status();
+		RETURN_MM();
+	}
+	ZVAL_BOOL(&_2, (useIncludePath ? 1 : 0));
+	ZVAL_LONG(&_3, offset);
+	ZVAL_LONG(&_4, length);
+	ZEPHIR_RETURN_CALL_FUNCTION("file_get_contents", NULL, 159, &filename_zv, &_2, context, &_3, &_4);
+	zephir_check_call_status();
+	RETURN_MM();
 }
 
 /**
@@ -411,14 +473,16 @@ PHP_METHOD(Phalcon_Auth_Adapter_Stream, phpFilePutContents)
 		context = &__$null;
 	}
 	ZVAL_LONG(&_0, flags);
-	ZEPHIR_RETURN_CALL_FUNCTION("file_put_contents", NULL, 159, &filename_zv, data, &_0, context);
+	ZEPHIR_RETURN_CALL_FUNCTION("file_put_contents", NULL, 160, &filename_zv, data, &_0, context);
 	zephir_check_call_status();
 	RETURN_MM();
 }
 
 /**
- * @param string $filename
- * @param string $mode
+ * @param string        $filename
+ * @param string        $mode
+ * @param bool          $useIncludePath
+ * @param resource|null $context
  *
  * @return resource|false
  *
@@ -428,22 +492,45 @@ PHP_METHOD(Phalcon_Auth_Adapter_Stream, phpFopen)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval filename_zv, mode_zv;
+	zend_bool useIncludePath;
+	zval filename_zv, mode_zv, *useIncludePath_param = NULL, *context = NULL, context_sub, __$null, _0;
 	zend_string *filename = NULL, *mode = NULL;
 
 	ZVAL_UNDEF(&filename_zv);
 	ZVAL_UNDEF(&mode_zv);
-	ZEND_PARSE_PARAMETERS_START(2, 2)
+	ZVAL_UNDEF(&context_sub);
+	ZVAL_NULL(&__$null);
+	ZVAL_UNDEF(&_0);
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 4)
 		Z_PARAM_STR(filename)
 		Z_PARAM_STR(mode)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_BOOL(useIncludePath)
+		Z_PARAM_ZVAL_OR_NULL(context)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	if (ZEND_NUM_ARGS() > 2) {
+		useIncludePath_param = ZEND_CALL_ARG(execute_data, 3);
+	}
+	if (ZEND_NUM_ARGS() > 3) {
+		context = ZEND_CALL_ARG(execute_data, 4);
+	}
 	zephir_memory_observe(&filename_zv);
 	ZVAL_STR_COPY(&filename_zv, filename);
 	zephir_memory_observe(&mode_zv);
 	ZVAL_STR_COPY(&mode_zv, mode);
-	ZEPHIR_RETURN_CALL_FUNCTION("fopen", NULL, 160, &filename_zv, &mode_zv);
+	if (!useIncludePath_param) {
+		useIncludePath = 0;
+	} else {
+		}
+	if (!context) {
+		context = &context_sub;
+		context = &__$null;
+	}
+	ZVAL_BOOL(&_0, (useIncludePath ? 1 : 0));
+	ZEPHIR_RETURN_CALL_FUNCTION("fopen", NULL, 161, &filename_zv, &mode_zv, &_0, context);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -493,7 +580,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Stream, phpFwrite)
 		RETURN_MM();
 	}
 	ZVAL_LONG(&_0, length);
-	ZEPHIR_RETURN_CALL_FUNCTION("fwrite", NULL, 161, handle, &data_zv, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("fwrite", NULL, 162, handle, &data_zv, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -522,13 +609,14 @@ PHP_METHOD(Phalcon_Auth_Adapter_Stream, phpIsWritable)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&filename_zv);
 	ZVAL_STR_COPY(&filename_zv, filename);
-	ZEPHIR_RETURN_CALL_FUNCTION("is_writable", NULL, 162, &filename_zv);
+	ZEPHIR_RETURN_CALL_FUNCTION("is_writable", NULL, 163, &filename_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }
 
 /**
- * @param string $filename
+ * @param string        $filename
+ * @param resource|null $context
  *
  * @return bool
  *
@@ -538,18 +626,30 @@ PHP_METHOD(Phalcon_Auth_Adapter_Stream, phpUnlink)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval filename_zv;
+	zval filename_zv, *context = NULL, context_sub, __$null;
 	zend_string *filename = NULL;
 
 	ZVAL_UNDEF(&filename_zv);
-	ZEND_PARSE_PARAMETERS_START(1, 1)
+	ZVAL_UNDEF(&context_sub);
+	ZVAL_NULL(&__$null);
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(filename)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL_OR_NULL(context)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	if (ZEND_NUM_ARGS() > 1) {
+		context = ZEND_CALL_ARG(execute_data, 2);
+	}
 	zephir_memory_observe(&filename_zv);
 	ZVAL_STR_COPY(&filename_zv, filename);
-	ZEPHIR_RETURN_CALL_FUNCTION("unlink", NULL, 163, &filename_zv);
+	if (!context) {
+		context = &context_sub;
+		context = &__$null;
+	}
+	ZEPHIR_RETURN_CALL_FUNCTION("unlink", NULL, 164, &filename_zv, context);
 	zephir_check_call_status();
 	RETURN_MM();
 }
