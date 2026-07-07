@@ -249,7 +249,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, callActionMethod)
 		zephir_array_update_string(&_3$$3, SL("handler"), handler, PH_COPY | PH_SEPARATE);
 		zephir_array_update_string(&_3$$3, SL("action"), &actionMethod_zv, PH_COPY | PH_SEPARATE);
 		zephir_array_update_string(&_3$$3, SL("params"), &params, PH_COPY | PH_SEPARATE);
-		ZEPHIR_CALL_METHOD(NULL, &observer, "__construct", NULL, 42, &_3$$3);
+		ZEPHIR_CALL_METHOD(NULL, &observer, "__construct", NULL, 41, &_3$$3);
 		zephir_check_call_status();
 		zephir_read_property(&_4$$3, this_ptr, ZEND_STRL("eventsManager"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_INIT_VAR(&_5$$3);
@@ -258,11 +258,11 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, callActionMethod)
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(&_5$$3);
 		ZVAL_STRING(&_5$$3, "handler");
-		ZEPHIR_CALL_METHOD(&altHandler, &observer, "get", NULL, 175, &_5$$3);
+		ZEPHIR_CALL_METHOD(&altHandler, &observer, "get", NULL, 174, &_5$$3);
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(&_5$$3);
 		ZVAL_STRING(&_5$$3, "action");
-		ZEPHIR_CALL_METHOD(&altAction, &observer, "get", NULL, 175, &_5$$3);
+		ZEPHIR_CALL_METHOD(&altAction, &observer, "get", NULL, 174, &_5$$3);
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(&_5$$3);
 		array_init(&_5$$3);
@@ -270,7 +270,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, callActionMethod)
 		ZVAL_STRING(&_6$$3, "params");
 		ZEPHIR_INIT_VAR(&_7$$3);
 		ZVAL_STRING(&_7$$3, "array");
-		ZEPHIR_CALL_METHOD(&altParams, &observer, "get", NULL, 175, &_6$$3, &_5$$3, &_7$$3);
+		ZEPHIR_CALL_METHOD(&altParams, &observer, "get", NULL, 174, &_6$$3, &_5$$3, &_7$$3);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_8$$3);
 		zephir_create_array(&_8$$3, 2, 0);
@@ -291,7 +291,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, callActionMethod)
 	zephir_create_array(&_13, 2, 0);
 	zephir_array_fast_append(&_13, &altHandler);
 	zephir_array_fast_append(&_13, &altAction);
-	ZEPHIR_CALL_FUNCTION(&_14, "array_values", NULL, 29, &altParams);
+	ZEPHIR_CALL_FUNCTION(&_14, "array_values", NULL, 28, &altParams);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&result);
 	ZEPHIR_CALL_USER_FUNC_ARRAY(&result, &_13, &_14);
@@ -621,7 +621,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, dispatch)
 			}
 			break;
 		}
-		ZEPHIR_CALL_FUNCTION(&handlerHash, "spl_object_hash", &_30, 176, &handler);
+		ZEPHIR_CALL_FUNCTION(&handlerHash, "spl_object_hash", &_30, 175, &handler);
 		zephir_check_call_status();
 		zephir_read_property(&_31$$10, this_ptr, ZEND_STRL("handlerHashes"), PH_NOISY_CC | PH_READONLY);
 		isNewHandler = !((zephir_array_isset_value(&_31$$10, &handlerHash)));
@@ -1177,7 +1177,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, forward)
 	if (UNEXPECTED(ZEPHIR_IS_TRUE_IDENTICAL(&_0))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_dispatcher_exceptions_forwardininitializeforbidden_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 177);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 176);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Dispatcher/AbstractDispatcher.zep", 780);
 		ZEPHIR_MM_RESTORE();
@@ -1264,7 +1264,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, getActiveMethod)
 		zephir_read_property(&_3$$3, this_ptr, ZEND_STRL("actionName"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_METHOD(&_2$$3, this_ptr, "tocamelcase", NULL, 0, &_3$$3);
 		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(&activeMethodName, "lcfirst", NULL, 166, &_2$$3);
+		ZEPHIR_CALL_FUNCTION(&activeMethodName, "lcfirst", NULL, 165, &_2$$3);
 		zephir_check_call_status();
 		zephir_memory_observe(&_4$$3);
 		zephir_read_property(&_4$$3, this_ptr, ZEND_STRL("actionName"), PH_NOISY_CC);
@@ -2075,11 +2075,11 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, toCamelCase)
 	if (!(zephir_array_isset_fetch(&camelCaseInput, &_0, &input_zv, 0))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		ZVAL_STRING(&_1$$3, "/[_-]+/");
-		ZEPHIR_CALL_FUNCTION(&_2$$3, "preg_split", NULL, 150, &_1$$3, &input_zv);
+		ZEPHIR_CALL_FUNCTION(&_2$$3, "preg_split", NULL, 149, &_1$$3, &input_zv);
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(&_1$$3);
 		ZVAL_STRING(&_1$$3, "ucfirst");
-		ZEPHIR_CALL_FUNCTION(&_3$$3, "array_map", NULL, 21, &_1$$3, &_2$$3);
+		ZEPHIR_CALL_FUNCTION(&_3$$3, "array_map", NULL, 20, &_1$$3, &_2$$3);
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(&camelCaseInput);
 		zephir_fast_join_str(&camelCaseInput, SL(""), &_3$$3);

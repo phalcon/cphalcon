@@ -10,6 +10,8 @@
 
 namespace Phalcon\Support\Helper\Arr;
 
+use Phalcon\Traits\Support\Helper\Arr\GetTrait;
+
 /**
  * Gets an array element by key and if it does not exist returns the default.
  * It also allows for casting the returned value to a specific type using
@@ -17,6 +19,8 @@ namespace Phalcon\Support\Helper\Arr;
  */
 class Get
 {
+    use GetTrait;
+
     /**
      * @param array       $collection
      * @param mixed       $index
@@ -31,17 +35,6 @@ class Get
         var defaultValue = null,
         string cast = null
     ) -> var {
-        var value;
-
-        let value = defaultValue;
-        if true === isset(collection[index]) {
-            let value = collection[index];
-        }
-
-        if cast {
-            settype(value, cast);
-        }
-
-        return value;
+        return this->getArrVal(collection, index, defaultValue, cast);
     }
 }

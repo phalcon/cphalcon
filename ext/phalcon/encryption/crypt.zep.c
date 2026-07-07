@@ -366,7 +366,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt, decrypt)
 		if (!(zephir_array_isset_fetch(&hashLength, &_5$$6, &hashAlgorithm, 0))) {
 			ZEPHIR_INIT_VAR(&_6$$7);
 			ZVAL_STRING(&_6$$7, "");
-			ZEPHIR_CALL_FUNCTION(&_7$$7, "hash", NULL, 154, &hashAlgorithm, &_6$$7, &__$true);
+			ZEPHIR_CALL_FUNCTION(&_7$$7, "hash", NULL, 153, &hashAlgorithm, &_6$$7, &__$true);
 			zephir_check_call_status();
 			ZEPHIR_INIT_NVAR(&hashLength);
 			ZVAL_LONG(&hashLength, zephir_fast_strlen_ev(&_7$$7));

@@ -13,6 +13,7 @@ namespace Phalcon\Session\Adapter;
 use Phalcon\Session\Adapter\Exceptions\AdapterRuntimeError;
 use Phalcon\Session\Adapter\Exceptions\InvalidSavePath;
 use Phalcon\Session\Adapter\Exceptions\SavePathUnavailable;
+use Phalcon\Traits\Support\Helper\Arr\GetTrait;
 
 /**
  * Phalcon\Session\Adapter\Stream
@@ -40,6 +41,8 @@ use Phalcon\Session\Adapter\Exceptions\SavePathUnavailable;
  */
 class Stream extends Noop
 {
+    use GetTrait;
+
     /**
      * Session options
      *
@@ -205,28 +208,6 @@ class Stream extends Noop
         let name = this->path . this->getPrefixedName(id);
 
         return false !== this->phpFilePutContents(name, data, LOCK_EX);
-    }
-
-    /**
-     * @todo Remove this when we get traits
-     */
-    protected function getArrVal(
-         array collection,
-        var index,
-        var defaultValue = null,
-         string cast = null
-    ) -> var {
-        var value;
-
-        if unlikely !fetch value, collection[index] {
-            return defaultValue;
-        }
-
-        if unlikely cast {
-            settype(value, cast);
-        }
-
-        return value;
     }
 
     private function getDirSeparator( string directory) -> string
