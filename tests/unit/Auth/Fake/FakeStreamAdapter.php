@@ -64,8 +64,13 @@ final class FakeStreamAdapter extends Stream
         return $this->fileExists;
     }
 
-    protected function phpFileGetContents(string $filename): false | string
-    {
+    protected function phpFileGetContents(
+        string $filename,
+        bool $useIncludePath = false,
+        $context = null,
+        int $offset = 0,
+        ?int $length = null
+    ): false | string {
         return $this->rawContents;
     }
 }

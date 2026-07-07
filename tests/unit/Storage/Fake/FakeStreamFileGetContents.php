@@ -14,11 +14,9 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Storage\Fake;
 
 use Phalcon\Storage\Adapter\Stream;
+use Phalcon\Tests\Support\Fake\FileGetContentsReturnsFalseTrait;
 
 final class FakeStreamFileGetContents extends Stream
 {
-    protected function phpFileGetContents(string $filename): false|string
-    {
-        return false;
-    }
+    use FileGetContentsReturnsFalseTrait;
 }

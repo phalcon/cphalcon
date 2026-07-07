@@ -13,13 +13,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Translate\Fake;
 
+use Phalcon\Tests\Support\Fake\FopenReturnsFalseTrait;
 use Phalcon\Translate\Adapter\Csv;
 
 final class FakeCsvFopen extends Csv
 {
-    protected function phpFopen(string $filename, string $mode)
-    {
-
-        return false;
-    }
+    use FopenReturnsFalseTrait;
 }
