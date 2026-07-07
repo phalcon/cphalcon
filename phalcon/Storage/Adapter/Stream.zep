@@ -15,6 +15,7 @@ use Iterator;
 use Phalcon\Storage\Exceptions\InvalidConfiguration;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Support\Exception as SupportException;
+use Phalcon\Traits\Php\FileTrait;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 
@@ -32,6 +33,8 @@ use RecursiveIteratorIterator;
  */
 class Stream extends AbstractAdapter
 {
+    use FileTrait;
+
     /**
      * @var string
      */
@@ -196,7 +199,7 @@ class Stream extends AbstractAdapter
 
         let filepath = this->getFilepath(key);
 
-        return unlink(filepath);
+        return this->phpUnlink(filepath);
     }
 
     /**
@@ -213,7 +216,7 @@ class Stream extends AbstractAdapter
 
         let filepath = this->getFilepath(key);
 
-        if (true !== file_exists(filepath)) {
+        if (true !== this->phpFileExists(filepath)) {
             return defaultValue;
         }
 
@@ -384,7 +387,7 @@ class Stream extends AbstractAdapter
             let payload = this->phpFileGetContents(filepath);
         }
 
-        fclose(pointer);
+        this->phpFclose(pointer);
 
         /**
          * No results
@@ -456,38 +459,6 @@ class Stream extends AbstractAdapter
         return (
             false !== this->phpFilePutContents(directory . key, localPayload, LOCK_EX)
         );
-    }
-
-    /**
-     * @todo Remove the methods below when we get traits
-     */
-    protected function phpFileExists(string filename) -> bool
-    {
-        return file_exists(filename);
-    }
-
-    protected function phpFileGetContents(string filename) -> string | bool
-    {
-        return file_get_contents(filename);
-    }
-
-    protected function phpFilePutContents(
-        string filename,
-        var data,
-        int flags = 0,
-        var context = null
-    ) -> int | bool {
-        return file_put_contents(filename, data, flags, context);
-    }
-
-    protected function phpFopen(string filename, string mode) -> var
-    {
-        return fopen(filename, mode);
-    }
-
-    protected function phpUnlink(string filename) -> bool
-    {
-        return unlink(filename);
     }
 
     private function getDirFromFile( string file) -> string

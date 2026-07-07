@@ -24,6 +24,7 @@ use Phalcon\Http\Request\Exceptions\SanitizerNotFound;
 use Phalcon\Http\Request\File;
 use Phalcon\Http\Request\FileInterface;
 use Phalcon\Support\Helper\Json\Decode;
+use Phalcon\Traits\Php\FileTrait;
 use stdClass;
 
 /**
@@ -54,6 +55,8 @@ use stdClass;
  */
 class Request extends AbstractInjectionAware implements RequestInterface, RequestMethodInterface
 {
+    use FileTrait;
+
     /**
      * @var FilterInterface|null
      */
@@ -878,7 +881,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
         let rawBody = this->rawBody;
 
         if empty rawBody {
-            let contents = file_get_contents("php://input");
+            let contents = this->phpFileGetContents("php://input");
 
             /**
              * We need store the read raw body because it can't be read again
