@@ -31,7 +31,7 @@ class FakeIniParseFile extends Ini
     protected function phpParseIniFile(
         string $filename,
         bool $processSections = false,
-        int $scannerMode = 1
+        int $scannerMode = 0
     ): array|false {
         return false;
     }
