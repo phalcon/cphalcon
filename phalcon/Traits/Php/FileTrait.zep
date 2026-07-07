@@ -73,15 +73,28 @@ trait FileTrait
     }
 
     /**
-     * @param string $filename
+     * @param string        $filename
+     * @param bool          $useIncludePath
+     * @param resource|null $context
+     * @param int           $offset
+     * @param int|null      $length
      *
      * @return false|string
      *
      * @link https://php.net/manual/en/function.file-get-contents.php
      */
-    protected function phpFileGetContents(string filename) -> false | string
-    {
-        return file_get_contents(filename);
+    protected function phpFileGetContents(
+        string filename,
+        bool useIncludePath = false,
+        var context = null,
+        int offset = 0,
+        int length = null
+    ) -> false | string {
+        if null === length {
+            return file_get_contents(filename, useIncludePath, context, offset);
+        }
+
+        return file_get_contents(filename, useIncludePath, context, offset, length);
     }
 
     /**
@@ -104,16 +117,22 @@ trait FileTrait
     }
 
     /**
-     * @param string $filename
-     * @param string $mode
+     * @param string        $filename
+     * @param string        $mode
+     * @param bool          $useIncludePath
+     * @param resource|null $context
      *
      * @return resource|false
      *
      * @link https://php.net/manual/en/function.fopen.php
      */
-    protected function phpFopen(string filename, string mode) -> mixed
-    {
-        return fopen(filename, mode);
+    protected function phpFopen(
+        string filename,
+        string mode,
+        bool useIncludePath = false,
+        var context = null
+    ) -> var {
+        return fopen(filename, mode, useIncludePath, context);
     }
 
     /**
@@ -151,14 +170,15 @@ trait FileTrait
     }
 
     /**
-     * @param string $filename
+     * @param string        $filename
+     * @param resource|null $context
      *
      * @return bool
      *
      * @link https://php.net/manual/en/function.unlink.php
      */
-    protected function phpUnlink(string filename) -> bool
+    protected function phpUnlink(string filename, var context = null) -> bool
     {
-        return unlink(filename);
+        return unlink(filename, context);
     }
 }
