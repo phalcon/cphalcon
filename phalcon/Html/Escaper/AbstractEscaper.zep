@@ -14,6 +14,8 @@
 
 namespace Phalcon\Html\Escaper;
 
+use Phalcon\Traits\Php\InfoTrait;
+
 /**
  * Shared base for the per-context escaper objects. Holds the encoding,
  * htmlspecialchars flag, and double-encode toggle, plus the encoding
@@ -29,6 +31,8 @@ namespace Phalcon\Html\Escaper;
  */
 abstract class AbstractEscaper
 {
+    use InfoTrait;
+
     /**
      * @var bool
      */
@@ -64,7 +68,7 @@ abstract class AbstractEscaper
             return charset;
         }
 
-        if !function_exists("mb_detect_encoding") {
+        if !this->phpFunctionExists("mb_detect_encoding") {
             return null;
         }
 

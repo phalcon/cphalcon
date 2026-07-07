@@ -14,6 +14,7 @@ use Phalcon\Filter\Validation;
 use Phalcon\Filter\Validation\Exception;
 use Phalcon\Filter\Validation\Exceptions\InvalidAllowedTypes;
 use Phalcon\Messages\Message;
+use Phalcon\Traits\Php\InfoTrait;
 
 /**
  * Checks if a value has a correct file mime type
@@ -65,6 +66,8 @@ use Phalcon\Messages\Message;
  */
 class MimeType extends AbstractFile
 {
+    use InfoTrait;
+
     protected template = "File :field must be of type: :types";
 
     /**
@@ -97,7 +100,7 @@ class MimeType extends AbstractFile
             throw new InvalidAllowedTypes();
         }
 
-        if function_exists("finfo_open") {
+        if this->phpFunctionExists("finfo_open") {
             let tmp = finfo_open(FILEINFO_MIME_TYPE);
             if (tmp) {
                 let mime = finfo_file(tmp, value["tmp_name"]);

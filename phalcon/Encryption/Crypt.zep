@@ -26,6 +26,7 @@ use Phalcon\Encryption\Crypt\Exception\MissingOpensslExtension;
 use Phalcon\Encryption\Crypt\Exception\RandomBytesGenerationFailed;
 use Phalcon\Encryption\Crypt\Exception\UnsupportedAlgorithm;
 use Phalcon\Encryption\Crypt\PadFactory;
+use Phalcon\Traits\Php\InfoTrait;
 
 /**
  * Provides encryption capabilities to Phalcon applications.
@@ -48,6 +49,8 @@ use Phalcon\Encryption\Crypt\PadFactory;
  */
 class Crypt implements CryptInterface
 {
+    use InfoTrait;
+
     /**
      * @var string
      */
@@ -1026,14 +1029,6 @@ class Crypt implements CryptInterface
         return mb_strtolower(
             substr(this->cipher, position - strlen(this->cipher) + 1)
         );
-    }
-
-    /**
-     * @todo to be removed when we get traits
-     */
-    protected function phpFunctionExists(string name) -> bool
-    {
-        return function_exists(name);
     }
 
     protected function phpOpensslCipherIvLength(string cipher) -> int|bool
