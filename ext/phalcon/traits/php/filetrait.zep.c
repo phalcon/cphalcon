@@ -12,14 +12,11 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/array.h"
+#include "kernel/file.h"
 #include "kernel/memory.h"
 #include "kernel/object.h"
 #include "kernel/operators.h"
-#include "kernel/concat.h"
-#include "kernel/file.h"
 #include "kernel/fcall.h"
-#include "kernel/exception.h"
 
 
 /**
@@ -31,192 +28,13 @@
  * file that was distributed with this source code.
  */
 /**
- * Stores the parsed annotations in files. This adapter is suitable for production
- *
- *```php
- * use Phalcon\Annotations\Adapter\Stream;
- *
- * $annotations = new Stream(
- *     [
- *         "annotationsDir" => "app/cache/annotations/",
- *     ]
- * );
- *```
+ * File based wrapper methods
  */
-ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_Stream)
+ZEPHIR_INIT_CLASS(Phalcon_Traits_Php_FileTrait)
 {
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Annotations\\Adapter, Stream, phalcon, annotations_adapter_stream, phalcon_annotations_adapter_abstractadapter_ce, phalcon_annotations_adapter_stream_method_entry, 0);
+	ZEPHIR_REGISTER_TRAIT(Phalcon\\Traits\\Php, FileTrait, phalcon, traits_php_filetrait, phalcon_traits_php_filetrait_method_entry);
 
-	/**
-	 * @var string
-	 */
-	zend_declare_property_string(phalcon_annotations_adapter_stream_ce, SL("annotationsDir"), "./", ZEND_ACC_PROTECTED);
 	return SUCCESS;
-}
-
-/**
- * @param array options = [
- *     'annotationsDir' => 'phalconDir'
- * ]
- *
- * Phalcon\Annotations\Adapter\Stream constructor
- */
-PHP_METHOD(Phalcon_Annotations_Adapter_Stream, __construct)
-{
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval *options_param = NULL, annotationsDir;
-	zval options;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&options);
-	ZVAL_UNDEF(&annotationsDir);
-	ZEND_PARSE_PARAMETERS_START(0, 1)
-		Z_PARAM_OPTIONAL
-		ZEPHIR_Z_PARAM_ARRAY(options, options_param)
-	ZEND_PARSE_PARAMETERS_END();
-	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_fetch_params(1, 0, 1, &options_param);
-	if (!options_param) {
-		ZEPHIR_INIT_VAR(&options);
-		array_init(&options);
-	} else {
-		zephir_get_arrval(&options, options_param);
-	}
-	zephir_memory_observe(&annotationsDir);
-	if (zephir_array_isset_string_fetch(&annotationsDir, &options, SL("annotationsDir"), 0)) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("annotationsDir"), &annotationsDir);
-	}
-	ZEPHIR_MM_RESTORE();
-}
-
-/**
- * Reads parsed annotations from files
- */
-PHP_METHOD(Phalcon_Annotations_Adapter_Stream, read)
-{
-	zval path;
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval key_zv, __$false, contents, _0, _1, _2, _3, _4, _5, _6, _7, _8$$5;
-	zend_string *key = NULL;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&key_zv);
-	ZVAL_BOOL(&__$false, 0);
-	ZVAL_UNDEF(&contents);
-	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_3);
-	ZVAL_UNDEF(&_4);
-	ZVAL_UNDEF(&_5);
-	ZVAL_UNDEF(&_6);
-	ZVAL_UNDEF(&_7);
-	ZVAL_UNDEF(&_8$$5);
-	ZVAL_UNDEF(&path);
-	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_STR(key)
-	ZEND_PARSE_PARAMETERS_END();
-	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_memory_observe(&key_zv);
-	ZVAL_STR_COPY(&key_zv, key);
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("annotationsDir"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_INIT_VAR(&_1);
-	ZEPHIR_INIT_VAR(&_2);
-	ZVAL_STRING(&_2, "_");
-	zephir_prepare_virtual_path(&_1, &key_zv, &_2);
-	ZEPHIR_INIT_VAR(&_3);
-	ZEPHIR_CONCAT_VVS(&_3, &_0, &_1, ".php");
-	zephir_get_strval(&path, &_3);
-	ZEPHIR_CALL_METHOD(&_4, this_ptr, "phpfileexists", NULL, 0, &path);
-	zephir_check_call_status();
-	if (!(zephir_is_true(&_4))) {
-		RETURN_MM_BOOL(0);
-	}
-	ZEPHIR_CALL_METHOD(&contents, this_ptr, "phpfilegetcontents", NULL, 0, &path);
-	zephir_check_call_status();
-	if (UNEXPECTED(ZEPHIR_IS_EMPTY(&contents))) {
-		RETURN_MM_BOOL(0);
-	}
-	ZEPHIR_GLOBAL(warning).enable = zend_is_true(&__$false);
-	ZEPHIR_INIT_VAR(&_5);
-	ZEPHIR_INIT_NVAR(&_5);
-	zephir_create_closure_ex(&_5, NULL, phalcon_4__closure_ce, SL("__invoke"));
-	ZVAL_LONG(&_6, 2);
-	ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 282, &_5, &_6);
-	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_7, "unserialize", NULL, 27, &contents);
-	zephir_check_call_status();
-	ZEPHIR_CPY_WRT(&contents, &_7);
-	ZEPHIR_CALL_FUNCTION(NULL, "restore_error_handler", NULL, 283);
-	zephir_check_call_status();
-	if (UNEXPECTED(ZEPHIR_GLOBAL(warning).enable)) {
-		ZEPHIR_INIT_VAR(&_8$$5);
-		object_init_ex(&_8$$5, phalcon_annotations_exceptions_cannotreadannotationdata_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_8$$5, "__construct", NULL, 290);
-		zephir_check_call_status();
-		zephir_throw_exception_debug(&_8$$5, "phalcon/Annotations/Adapter/Stream.zep", 94);
-		ZEPHIR_MM_RESTORE();
-		return;
-	}
-	RETURN_CCTOR(&contents);
-}
-
-/**
- * Writes parsed annotations to files
- */
-PHP_METHOD(Phalcon_Annotations_Adapter_Stream, write)
-{
-	zval path;
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval key_zv, *data, data_sub, code, _0, _1, _2, _3, _4, _5$$3;
-	zend_string *key = NULL;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&key_zv);
-	ZVAL_UNDEF(&data_sub);
-	ZVAL_UNDEF(&code);
-	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_3);
-	ZVAL_UNDEF(&_4);
-	ZVAL_UNDEF(&_5$$3);
-	ZVAL_UNDEF(&path);
-	ZEND_PARSE_PARAMETERS_START(2, 2)
-		Z_PARAM_STR(key)
-		Z_PARAM_OBJECT_OF_CLASS(data, phalcon_annotations_reflection_ce)
-	ZEND_PARSE_PARAMETERS_END();
-	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	data = ZEND_CALL_ARG(execute_data, 2);
-	zephir_memory_observe(&key_zv);
-	ZVAL_STR_COPY(&key_zv, key);
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("annotationsDir"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_INIT_VAR(&_1);
-	ZEPHIR_INIT_VAR(&_2);
-	ZVAL_STRING(&_2, "_");
-	zephir_prepare_virtual_path(&_1, &key_zv, &_2);
-	ZEPHIR_INIT_VAR(&_3);
-	ZEPHIR_CONCAT_VVS(&_3, &_0, &_1, ".php");
-	zephir_get_strval(&path, &_3);
-	ZEPHIR_CALL_FUNCTION(&code, "serialize", NULL, 22, data);
-	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_4, this_ptr, "phpfileputcontents", NULL, 0, &path, &code);
-	zephir_check_call_status();
-	if (UNEXPECTED(ZEPHIR_IS_FALSE_IDENTICAL(&_4))) {
-		ZEPHIR_INIT_VAR(&_5$$3);
-		object_init_ex(&_5$$3, phalcon_annotations_exceptions_annotationsdirectorynotwritable_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_5$$3, "__construct", NULL, 291);
-		zephir_check_call_status();
-		zephir_throw_exception_debug(&_5$$3, "phalcon/Annotations/Adapter/Stream.zep", 115);
-		ZEPHIR_MM_RESTORE();
-		return;
-	}
-	ZEPHIR_MM_RESTORE();
 }
 
 /**
@@ -228,7 +46,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Stream, write)
  *
  * @return bool
  */
-PHP_METHOD(Phalcon_Annotations_Adapter_Stream, phpFclose)
+PHP_METHOD(Phalcon_Traits_Php_FileTrait, phpFclose)
 {
 	zval *handle, handle_sub;
 
@@ -253,7 +71,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Stream, phpFclose)
  *
  * @link https://php.net/manual/en/function.fgetcsv.php
  */
-PHP_METHOD(Phalcon_Annotations_Adapter_Stream, phpFgetCsv)
+PHP_METHOD(Phalcon_Traits_Php_FileTrait, phpFgetCsv)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_string *separator = NULL;
@@ -332,7 +150,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Stream, phpFgetCsv)
  *
  * @link https://php.net/manual/en/function.file-exists.php
  */
-PHP_METHOD(Phalcon_Annotations_Adapter_Stream, phpFileExists)
+PHP_METHOD(Phalcon_Traits_Php_FileTrait, phpFileExists)
 {
 	zval filename_zv;
 	zend_string *filename = NULL;
@@ -352,7 +170,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Stream, phpFileExists)
  *
  * @link https://php.net/manual/en/function.file-get-contents.php
  */
-PHP_METHOD(Phalcon_Annotations_Adapter_Stream, phpFileGetContents)
+PHP_METHOD(Phalcon_Traits_Php_FileTrait, phpFileGetContents)
 {
 	zval filename_zv;
 	zend_string *filename = NULL;
@@ -376,7 +194,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Stream, phpFileGetContents)
  *
  * @link https://php.net/manual/en/function.file-put-contents.php
  */
-PHP_METHOD(Phalcon_Annotations_Adapter_Stream, phpFilePutContents)
+PHP_METHOD(Phalcon_Traits_Php_FileTrait, phpFilePutContents)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long flags, ZEPHIR_LAST_CALL_STATUS;
@@ -429,7 +247,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Stream, phpFilePutContents)
  *
  * @link https://php.net/manual/en/function.fopen.php
  */
-PHP_METHOD(Phalcon_Annotations_Adapter_Stream, phpFopen)
+PHP_METHOD(Phalcon_Traits_Php_FileTrait, phpFopen)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -464,7 +282,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Stream, phpFopen)
  *
  * @return false|int
  */
-PHP_METHOD(Phalcon_Annotations_Adapter_Stream, phpFwrite)
+PHP_METHOD(Phalcon_Traits_Php_FileTrait, phpFwrite)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long length, ZEPHIR_LAST_CALL_STATUS;
@@ -512,7 +330,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Stream, phpFwrite)
  *
  * @link https://php.net/manual/en/function.is-writable.php
  */
-PHP_METHOD(Phalcon_Annotations_Adapter_Stream, phpIsWritable)
+PHP_METHOD(Phalcon_Traits_Php_FileTrait, phpIsWritable)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -539,7 +357,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Stream, phpIsWritable)
  *
  * @link https://php.net/manual/en/function.unlink.php
  */
-PHP_METHOD(Phalcon_Annotations_Adapter_Stream, phpUnlink)
+PHP_METHOD(Phalcon_Traits_Php_FileTrait, phpUnlink)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
