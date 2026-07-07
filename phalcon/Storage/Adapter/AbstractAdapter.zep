@@ -17,7 +17,7 @@ use Phalcon\Events\ManagerInterface;
 use Phalcon\Storage\Serializer\SerializerInterface;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Support\Exception as SupportException;
-use Phalcon\Support\Helper\Arr\Get;
+use Phalcon\Traits\Support\Helper\Arr\GetTrait;
 
 /**
  * Class AbstractAdapter
@@ -34,6 +34,8 @@ use Phalcon\Support\Helper\Arr\Get;
  */
 abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
 {
+    use GetTrait;
+
     /**
      * @var mixed
      */
@@ -617,21 +619,6 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
             let className        = this->defaultSerializer,
                 this->serializer = this->serializerFactory->newInstance(className);
         }
-    }
-
-    /**
-     * Reads an element from an array, optionally casting it. Delegates to the
-     * canonical Support\Helper\Arr\Get helper.
-     *
-     * @todo Remove this wrapper when we get traits
-     */
-    protected function getArrVal(
-         array collection,
-        var index,
-        var defaultValue = null,
-         string cast = null
-    ) -> var {
-        return (new Get())->__invoke(collection, index, defaultValue, cast);
     }
 
     /**

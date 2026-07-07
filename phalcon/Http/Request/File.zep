@@ -10,6 +10,8 @@
 
 namespace Phalcon\Http\Request;
 
+use Phalcon\Traits\Support\Helper\Arr\GetTrait;
+
 /**
  * Phalcon\Http\Request\File
  *
@@ -35,6 +37,8 @@ namespace Phalcon\Http\Request;
  */
 class File implements FileInterface
 {
+    use GetTrait;
+
     /**
      * @var int
      */
@@ -197,22 +201,5 @@ class File implements FileInterface
     public function moveTo( string destination) -> bool
     {
         return move_uploaded_file(this->tmpName, destination);
-    }
-
-    /**
-     * @todo Remove this when we get traits
-     */
-    private function getArrVal(
-         array collection,
-        var index,
-        var defaultValue = null
-    ) -> var {
-        var value;
-
-        if unlikely !fetch value, collection[index] {
-            return defaultValue;
-        }
-
-        return value;
     }
 }

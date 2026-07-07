@@ -22,12 +22,15 @@ use Phalcon\Http\Cookie\Exceptions\CryptServiceUnavailable;
 use Phalcon\Http\Cookie\Exceptions\FilterServiceUnavailable;
 use Phalcon\Http\Response\Exception;
 use Phalcon\Session\ManagerInterface as SessionManagerInterface;
+use Phalcon\Traits\Support\Helper\Arr\GetTrait;
 
 /**
  * Provide OO wrappers to manage a HTTP cookie.
  */
 class Cookie extends AbstractInjectionAware implements CookieInterface
 {
+    use GetTrait;
+
     /**
      * @var string
      */
@@ -610,23 +613,6 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
         if unlikely length < 32 {
             throw new CookieKeyTooShort(length);
         }
-    }
-
-    /**
-     * @todo Remove this when we get traits
-     */
-    private function getArrVal(
-         array collection,
-        var index,
-        var defaultValue = null
-    ) -> var {
-        var value;
-
-        if unlikely !fetch value, collection[index] {
-            return defaultValue;
-        }
-
-        return value;
     }
 
     /**
