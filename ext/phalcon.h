@@ -1317,6 +1317,7 @@
 #include "phalcon/time/clock/exceptions/invalidmodifier.zep.h"
 #include "phalcon/time/clock/frozenclock.zep.h"
 #include "phalcon/time/clock/systemclock.zep.h"
+#include "phalcon/traits/php/filetrait.zep.h"
 #include "phalcon/traits/support/helper/arr/gettrait.zep.h"
 #include "phalcon/translate/adapter/csv.zep.h"
 #include "phalcon/translate/adapter/gettext.zep.h"

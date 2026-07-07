@@ -42,6 +42,7 @@ use Phalcon\Mvc\Router\Group;
 use Phalcon\Mvc\Router\GroupInterface;
 use Phalcon\Mvc\Router\Route;
 use Phalcon\Mvc\Router\RouteInterface;
+use Phalcon\Traits\Php\FileTrait;
 
 /**
  * Phalcon\Mvc\Router
@@ -73,6 +74,8 @@ use Phalcon\Mvc\Router\RouteInterface;
  */
 class Router extends AbstractInjectionAware implements RouterInterface, EventsAwareInterface
 {
+    use FileTrait;
+
     /**
      * @var int
      */
@@ -925,12 +928,12 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
         let php     = "<?php\nreturn " . var_export(dump, true) . ";\n";
         let tmpPath = path . ".tmp." . (string) getmypid();
 
-        if file_put_contents(tmpPath, php) === false {
+        if this->phpFilePutContents(tmpPath, php) === false {
             throw new Exception("Failed to write router cache temp file: " . tmpPath);
         }
 
         if !rename(tmpPath, path) {
-            unlink(tmpPath);
+            this->phpUnlink(tmpPath);
             throw new Exception("Failed to commit router cache: " . path);
         }
     }
@@ -945,7 +948,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
     {
         var dump;
 
-        if !file_exists(path) {
+        if !this->phpFileExists(path) {
             throw new Exception("Router cache not found: " . path);
         }
 

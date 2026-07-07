@@ -14,6 +14,7 @@ use Phalcon\Annotations\Exception;
 use Phalcon\Annotations\Exceptions\AnnotationsDirectoryNotWritable;
 use Phalcon\Annotations\Exceptions\CannotReadAnnotationData;
 use Phalcon\Annotations\Reflection;
+use Phalcon\Traits\Php\FileTrait;
 use RuntimeException;
 
 /**
@@ -31,6 +32,8 @@ use RuntimeException;
  */
 class Stream extends AbstractAdapter
 {
+    use FileTrait;
+
     /**
      * @var string
      */
@@ -65,11 +68,11 @@ class Stream extends AbstractAdapter
          */
         let path = this->annotationsDir . prepare_virtual_path(key, "_") . ".php";
 
-        if !file_exists(path) {
+        if !this->phpFileExists(path) {
             return false;
         }
 
-        let contents = file_get_contents(path);
+        let contents = this->phpFileGetContents(path);
 
         if unlikely empty contents {
             return false;
@@ -108,7 +111,7 @@ class Stream extends AbstractAdapter
         let path = this->annotationsDir . prepare_virtual_path(key, "_") . ".php",
             code = serialize(data);
 
-        if unlikely file_put_contents(path, code) === false {
+        if unlikely this->phpFilePutContents(path, code) === false {
             throw new AnnotationsDirectoryNotWritable();
         }
     }

@@ -13,6 +13,7 @@ namespace Phalcon\Logger\Adapter;
 use Phalcon\Logger\Adapter\Exceptions\FileOpenFailed;
 use Phalcon\Logger\Adapter\Exceptions\InvalidStreamMode;
 use Phalcon\Logger\Item;
+use Phalcon\Traits\Php\FileTrait;
 
 /**
  * Phalcon\Logger\Adapter\Stream
@@ -35,6 +36,8 @@ use Phalcon\Logger\Item;
  */
 class Stream extends AbstractAdapter
 {
+    use FileTrait;
+
     /**
      * Stream handler resource
      *
@@ -129,29 +132,5 @@ class Stream extends AbstractAdapter
 
         let message = this->getFormattedItem(item) . PHP_EOL;
         this->phpFwrite(this->handler, message);
-    }
-
-    /**
-     * @todo to be removed when we get traits
-     */
-    protected function phpFclose(var handle) -> bool
-    {
-        return fclose(handle);
-    }
-
-    /**
-     * @todo to be removed when we get traits
-     */
-    protected function phpFopen(string filename, string mode)
-    {
-        return fopen(filename, mode);
-    }
-
-    /**
-     * @todo to be removed when we get traits
-     */
-    protected function phpFwrite(var handle, string message)
-    {
-        return fwrite(handle, message);
     }
 }

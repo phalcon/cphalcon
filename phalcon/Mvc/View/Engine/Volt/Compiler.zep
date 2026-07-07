@@ -35,6 +35,7 @@ use Phalcon\Mvc\View\Engine\Volt\Exceptions\UnknownVoltFilterType;
 use Phalcon\Mvc\View\Engine\Volt\Exceptions\UnknownVoltStatement;
 use Phalcon\Mvc\View\Engine\Volt\Exceptions\VoltDirectoryNotWritable;
 use Phalcon\Mvc\ViewBaseInterface;
+use Phalcon\Traits\Php\FileTrait;
 
 /**
  * This class reads and compiles Volt templates into PHP plain code
@@ -49,6 +50,8 @@ use Phalcon\Mvc\ViewBaseInterface;
  */
 class Compiler implements InjectionAwareInterface
 {
+    use FileTrait;
+
     /**
      * @var bool
      */
@@ -459,7 +462,7 @@ class Compiler implements InjectionAwareInterface
         /**
          * Compile always must be used only in the development stage
          */
-        if !file_exists(compiledTemplatePath) || compileAlways {
+        if !this->phpFileExists(compiledTemplatePath) || compileAlways {
             /**
              * The file needs to be compiled because it either does not exist or
              * needs to compiled every time
@@ -487,7 +490,7 @@ class Compiler implements InjectionAwareInterface
                          * In extends mode we read the file that must
                          * contains a serialized array of blocks
                          */
-                        let blocksCode = file_get_contents(compiledTemplatePath);
+                        let blocksCode = this->phpFileGetContents(compiledTemplatePath);
 
                         if unlikely blocksCode === false {
                             throw new CannotOpenCompiledFile(compiledTemplatePath);
@@ -716,7 +719,7 @@ class Compiler implements InjectionAwareInterface
         /**
          * Check if the template does exist
          */
-        if unlikely !file_exists(path) {
+        if unlikely !this->phpFileExists(path) {
             throw new TemplateFileNotFound(path);
         }
 
@@ -724,7 +727,7 @@ class Compiler implements InjectionAwareInterface
          * Always use file_get_contents instead of read the file directly, this
          * respect the open_basedir directive
          */
-        let viewCode = file_get_contents(path);
+        let viewCode = this->phpFileGetContents(path);
 
         if unlikely viewCode === false {
             throw new TemplateFileNotOpenable(path);
@@ -747,7 +750,7 @@ class Compiler implements InjectionAwareInterface
          * Always use file_put_contents to write files instead of write the file
          * directly, this respect the open_basedir directive
          */
-        if unlikely file_put_contents(compiledPath, finalCompilation) === false {
+        if unlikely this->phpFilePutContents(compiledPath, finalCompilation) === false {
             throw new VoltDirectoryNotWritable();
         }
 
@@ -1023,7 +1026,7 @@ class Compiler implements InjectionAwareInterface
                      * Use file-get-contents to respect the openbase_dir
                      * directive
                      */
-                    let compilation = file_get_contents(
+                    let compilation = this->phpFileGetContents(
                         subCompiler->getCompiledTemplatePath()
                     );
                 }
@@ -2403,7 +2406,7 @@ class Compiler implements InjectionAwareInterface
 
             if typeof viewsDirs == "array" {
                 for viewsDir in viewsDirs {
-                    if file_exists(viewsDir . path) {
+                    if this->phpFileExists(viewsDir . path) {
                         return viewsDir . path;
                     }
                 }
@@ -2797,7 +2800,7 @@ class Compiler implements InjectionAwareInterface
                      * compiled path
                      */
                     if tempCompilation === null {
-                        let tempCompilation = file_get_contents(
+                        let tempCompilation = this->phpFileGetContents(
                             subCompiler->getCompiledTemplatePath()
                         );
                     }

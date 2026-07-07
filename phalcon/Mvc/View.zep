@@ -22,6 +22,7 @@ use Phalcon\Mvc\View\Exceptions\InvalidViewsDirType;
 use Phalcon\Mvc\View\Exceptions\ViewNotFound;
 use Phalcon\Mvc\View\Exceptions\ViewServicesUnavailable;
 use Phalcon\Mvc\View\Exceptions\ViewsDirItemMustBeString;
+use Phalcon\Traits\Php\FileTrait;
 
 /**
  * Phalcon\Mvc\View is a class for working with the "view" portion of the
@@ -49,6 +50,8 @@ use Phalcon\Mvc\View\Exceptions\ViewsDirItemMustBeString;
  */
 class View extends Injectable implements ViewInterface, EventsAwareInterface
 {
+    use FileTrait;
+
     /**
      * Render Level: To the action view
      *
@@ -593,7 +596,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
 
         for viewsDir in this->getViewsDirs() {
             for extension, _ in engines {
-                if file_exists(basePath . viewsDir . view . extension) {
+                if this->phpFileExists(basePath . viewsDir . view . extension) {
                     return true;
                 }
             }
@@ -1289,7 +1292,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
             for extension, engine in engines {
                 let viewEnginePath = viewsDirPath . extension;
 
-                if file_exists(viewEnginePath) {
+                if this->phpFileExists(viewEnginePath) {
                     /**
                      * Call beforeRenderView if there is an events manager
                      * available

@@ -14,19 +14,9 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Logger\Fake\Adapter;
 
 use Phalcon\Logger\Adapter\Stream;
+use Phalcon\Tests\Support\Fake\FopenReturnsFalseTrait;
 
 final class FakeStreamAdapter extends Stream
 {
-    /**
-     * @param string $filename
-     * @param string $mode
-     *
-     * @return resource|false
-     *
-     * @link https://php.net/manual/en/function.fopen.php
-     */
-    protected function phpFopen(string $filename, string $mode)
-    {
-        return false;
-    }
+    use FopenReturnsFalseTrait;
 }

@@ -16,6 +16,7 @@ use Phalcon\Forms\Exception;
 use Phalcon\Forms\Exceptions\InvalidJsonSchema;
 use Phalcon\Forms\Exceptions\JsonSchemaNotArray;
 use Phalcon\Support\Helper\Json\Decode;
+use Phalcon\Traits\Php\FileTrait;
 
 /**
  * Supplies form element definitions from a JSON string or file.
@@ -25,6 +26,8 @@ use Phalcon\Support\Helper\Json\Decode;
  */
 class JsonLoader implements Schema
 {
+    use FileTrait;
+
     /**
      * @var string
      */
@@ -65,10 +68,5 @@ class JsonLoader implements Schema
         let loader = new ArrayLoader(definitions);
 
         return loader->load();
-    }
-
-    protected function phpFileGetContents(string filename)
-    {
-        return file_get_contents(filename);
     }
 }

@@ -26,12 +26,15 @@ use Phalcon\Html\Helper\Element;
 use Phalcon\Html\Helper\Link;
 use Phalcon\Html\Helper\Script;
 use Phalcon\Html\TagFactory;
+use Phalcon\Traits\Php\FileTrait;
 
 /**
  * Manages collections of CSS/JavaScript assets
  */
 class Manager extends AbstractInjectionAware
 {
+    use FileTrait;
+
     /**
      * @var array
      */
@@ -518,7 +521,7 @@ class Manager extends AbstractInjectionAware
                         throw new AssetSourceTargetCollision(targetPath);
                     }
 
-                    if (true === file_exists(targetPath)) {
+                    if (true === this->phpFileExists(targetPath)) {
                         if (filemtime(targetPath) !== filemtime(sourcePath)) {
                             let filterNeeded = true;
                         }
@@ -586,7 +589,7 @@ class Manager extends AbstractInjectionAware
                      * Write the file using file-put-contents. This respects the
                      * openbase-dir also writes to streams
                      */
-                    file_put_contents(targetPath, filteredContent);
+                    this->phpFilePutContents(targetPath, filteredContent);
                 }
             }
 
@@ -626,7 +629,7 @@ class Manager extends AbstractInjectionAware
              * Write the file using file_put_contents. This respects the
              * openbase-dir also writes to streams
              */
-            file_put_contents(completeTargetPath, filteredJoinedContent);
+            this->phpFilePutContents(completeTargetPath, filteredJoinedContent);
 
             let prefixedPath = this->calculatePrefixedPath(
                 collection,

@@ -58,6 +58,15 @@ PHP_METHOD(Phalcon_Mvc_Router, addRouteFromConfig);
 PHP_METHOD(Phalcon_Mvc_Router, extractRealUri);
 PHP_METHOD(Phalcon_Mvc_Router, mountGroupFromConfig);
 PHP_METHOD(Phalcon_Mvc_Router, rebuildMethodIndex);
+PHP_METHOD(Phalcon_Mvc_Router, phpFclose);
+PHP_METHOD(Phalcon_Mvc_Router, phpFgetCsv);
+PHP_METHOD(Phalcon_Mvc_Router, phpFileExists);
+PHP_METHOD(Phalcon_Mvc_Router, phpFileGetContents);
+PHP_METHOD(Phalcon_Mvc_Router, phpFilePutContents);
+PHP_METHOD(Phalcon_Mvc_Router, phpFopen);
+PHP_METHOD(Phalcon_Mvc_Router, phpFwrite);
+PHP_METHOD(Phalcon_Mvc_Router, phpIsWritable);
+PHP_METHOD(Phalcon_Mvc_Router, phpUnlink);
 zend_object *zephir_init_properties_Phalcon_Mvc_Router(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router___construct, 0, 0, 0)
@@ -294,6 +303,59 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_rebuildmethodindex, 0, 0, IS_VOID, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_phpfclose, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_INFO(0, handle)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_router_phpfgetcsv, 0, 1, MAY_BE_ARRAY|MAY_BE_FALSE)
+	ZEND_ARG_INFO(0, stream)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, length, IS_LONG, 0, "0")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, separator, IS_STRING, 0, "','")
+	ZEND_ARG_INFO(0, enclosure)
+	ZEND_ARG_INFO(0, escape)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_phpfileexists, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_router_phpfilegetcontents, 0, 1, MAY_BE_FALSE|MAY_BE_STRING)
+	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, useIncludePath, _IS_BOOL, 0, "false")
+	ZEND_ARG_INFO(0, context)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, offset, IS_LONG, 0, "0")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, length, IS_LONG, 1, "null")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_router_phpfileputcontents, 0, 2, MAY_BE_FALSE|MAY_BE_LONG)
+	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+	ZEND_ARG_INFO(0, data)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, flags, IS_LONG, 0, "0")
+	ZEND_ARG_INFO(0, context)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_phpfopen, 0, 0, 2)
+	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, mode, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, useIncludePath, _IS_BOOL, 0, "false")
+	ZEND_ARG_INFO(0, context)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_router_phpfwrite, 0, 2, MAY_BE_FALSE|MAY_BE_LONG)
+	ZEND_ARG_INFO(0, handle)
+	ZEND_ARG_TYPE_INFO(0, data, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, length, IS_LONG, 1, "null")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_phpiswritable, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_phpunlink, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+	ZEND_ARG_INFO(0, context)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_zephir_init_properties_phalcon_mvc_router, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
@@ -353,5 +415,14 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_router_method_entry) {
 	PHP_ME(Phalcon_Mvc_Router, extractRealUri, arginfo_phalcon_mvc_router_extractrealuri, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Router, mountGroupFromConfig, arginfo_phalcon_mvc_router_mountgroupfromconfig, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Router, rebuildMethodIndex, arginfo_phalcon_mvc_router_rebuildmethodindex, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Router, phpFclose, arginfo_phalcon_mvc_router_phpfclose, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Router, phpFgetCsv, arginfo_phalcon_mvc_router_phpfgetcsv, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Router, phpFileExists, arginfo_phalcon_mvc_router_phpfileexists, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Router, phpFileGetContents, arginfo_phalcon_mvc_router_phpfilegetcontents, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Router, phpFilePutContents, arginfo_phalcon_mvc_router_phpfileputcontents, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Router, phpFopen, arginfo_phalcon_mvc_router_phpfopen, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Router, phpFwrite, arginfo_phalcon_mvc_router_phpfwrite, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Router, phpIsWritable, arginfo_phalcon_mvc_router_phpiswritable, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Router, phpUnlink, arginfo_phalcon_mvc_router_phpunlink, ZEND_ACC_PROTECTED)
 	PHP_FE_END
 };

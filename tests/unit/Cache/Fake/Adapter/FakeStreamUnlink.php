@@ -14,11 +14,9 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Cache\Fake\Adapter;
 
 use Phalcon\Cache\Adapter\Stream;
+use Phalcon\Tests\Support\Fake\UnlinkReturnsFalseTrait;
 
 class FakeStreamUnlink extends Stream
 {
-    protected function phpUnlink(string $filename): bool
-    {
-        return false;
-    }
+    use UnlinkReturnsFalseTrait;
 }

@@ -11,6 +11,7 @@
 namespace Phalcon\Assets;
 
 use Phalcon\Assets\Exceptions\CannotReadAsset;
+use Phalcon\Traits\Php\FileTrait;
 
 /**
  * Represents an asset
@@ -21,6 +22,8 @@ use Phalcon\Assets\Exceptions\CannotReadAsset;
  */
 class Asset implements AssetInterface
 {
+    use FileTrait;
+
     /**
      * @var array
      */
@@ -470,18 +473,5 @@ class Asset implements AssetInterface
     private function throwException(string completePath) -> void
     {
         throw new CannotReadAsset(completePath);
-    }
-
-    /**
-     * @todo to be removed when we get traits
-     */
-    protected function phpFileExists(string filename) -> bool
-    {
-        return file_exists(filename);
-    }
-
-    protected function phpFileGetContents(string filename)
-    {
-        return file_get_contents(filename);
     }
 }

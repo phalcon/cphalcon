@@ -20,6 +20,7 @@
 namespace Phalcon\Queue\Adapter\Beanstalk;
 
 use Phalcon\Queue\Exceptions\Exception;
+use Phalcon\Traits\Php\FileTrait;
 
 /**
  * Dependency-free socket client for the Beanstalkd work queue, implementing
@@ -29,6 +30,8 @@ use Phalcon\Queue\Exceptions\Exception;
  */
 class BeanstalkConnection
 {
+    use FileTrait;
+
     /**
      * Connection resource.
      *
@@ -148,7 +151,7 @@ class BeanstalkConnection
             return false;
         }
 
-        fclose(connection);
+        this->phpFclose(connection);
 
         let this->connection = null;
 
@@ -383,7 +386,7 @@ class BeanstalkConnection
 
         let packet = data . "\r\n";
 
-        return fwrite(connection, packet, strlen(packet));
+        return this->phpFwrite(connection, packet, strlen(packet));
     }
 
     /**

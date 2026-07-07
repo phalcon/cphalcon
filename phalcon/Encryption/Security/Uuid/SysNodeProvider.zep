@@ -13,6 +13,8 @@
 
 namespace Phalcon\Encryption\Security\Uuid;
 
+use Phalcon\Traits\Php\FileTrait;
+
 /**
  * Discovers the hardware MAC address and returns it as a 12-character hex node.
  *
@@ -30,6 +32,8 @@ namespace Phalcon\Encryption\Security\Uuid;
  */
 class SysNodeProvider implements NodeProviderInterface
 {
+    use FileTrait;
+
     /**
      * @var string|null
      */
@@ -65,7 +69,7 @@ class SysNodeProvider implements NodeProviderInterface
                     if strpos(address, "/lo/") !== false {
                         continue;
                     }
-                    let node = trim(file_get_contents(address));
+                    let node = trim(this->phpFileGetContents(address));
                     let node = str_replace(":", "", node);
                     if this->isValidNode(node) {
                         break;

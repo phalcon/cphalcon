@@ -21,6 +21,7 @@ use Phalcon\Mvc\View\Exceptions\InvalidEngineRegistration;
 use Phalcon\Mvc\View\Exceptions\SimpleViewNotFound;
 use Phalcon\Mvc\View\Exceptions\SimpleViewServicesUnavailable;
 use Phalcon\Mvc\ViewBaseInterface;
+use Phalcon\Traits\Php\FileTrait;
 
 /**
  * This component allows to render views without hierarchical levels
@@ -49,6 +50,8 @@ use Phalcon\Mvc\ViewBaseInterface;
  */
 class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterface
 {
+    use FileTrait;
+
     /**
      * @var string
      */
@@ -537,9 +540,9 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
          * Views are rendered in each engine
          */
         for extension, engine in engines {
-            if file_exists(viewsDirPath . extension) {
+            if this->phpFileExists(viewsDirPath . extension) {
                 let viewEnginePath = viewsDirPath . extension;
-            } elseif substr(viewsDirPath, -strlen(extension)) == extension && file_exists(viewsDirPath) {
+            } elseif substr(viewsDirPath, -strlen(extension)) == extension && this->phpFileExists(viewsDirPath) {
                 /**
                  * if passed filename with engine extension
                  */

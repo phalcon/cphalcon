@@ -13,12 +13,15 @@ namespace Phalcon\Assets;
 use ArrayIterator;
 use Countable;
 use IteratorAggregate;
+use Phalcon\Traits\Php\FileTrait;
 
 /**
  * Collection of asset objects
  */
 class Collection implements Countable, IteratorAggregate
 {
+    use FileTrait;
+
     /**
      * @var array
      */
@@ -301,7 +304,7 @@ class Collection implements Countable, IteratorAggregate
          * Get the real template path, the target path can optionally don't
          * exist
          */
-        if (true === file_exists(completePath)) {
+        if (true === this->phpFileExists(completePath)) {
             return realPath(completePath);
         }
 

@@ -13,6 +13,7 @@ namespace Phalcon\Mvc\Model\MetaData;
 use Phalcon\Mvc\Model\MetaData;
 use Phalcon\Mvc\Model\MetaData\Exceptions\MetaDataDirectoryNotWritable;
 use Phalcon\Support\Settings;
+use Phalcon\Traits\Php\FileTrait;
 
 /**
  * Phalcon\Mvc\Model\MetaData\Stream
@@ -29,6 +30,8 @@ use Phalcon\Support\Settings;
  */
 class Stream extends MetaData
 {
+    use FileTrait;
+
     /**
      * @var string
      */
@@ -61,7 +64,7 @@ class Stream extends MetaData
 
         let path = this->metaDataDir . prepare_virtual_path(key, "_") . ".php";
 
-        if !file_exists(path) {
+        if !this->phpFileExists(path) {
             return null;
         }
 
@@ -80,7 +83,7 @@ class Stream extends MetaData
         try {
             let path = this->metaDataDir . prepare_virtual_path(key, "_") . ".php";
 
-            if false === file_put_contents(path, "<?php return " . var_export(data, true) . "; ") {
+            if false === this->phpFilePutContents(path, "<?php return " . var_export(data, true) . "; ") {
                 this->throwWriteException(option);
             }
         } catch \Exception {

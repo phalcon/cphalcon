@@ -18,12 +18,15 @@ use Phalcon\Cli\Console\Exceptions\ModuleDefinitionPathNotFound;
 use Phalcon\Cli\Router\Route;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Mvc\ModuleDefinitionInterface;
+use Phalcon\Traits\Php\FileTrait;
 
 /**
  * This component allows to create CLI applications using Phalcon
  */
 class Console extends AbstractApplication
 {
+    use FileTrait;
+
     /**
      * @var array|string
      */
@@ -111,7 +114,7 @@ class Console extends AbstractApplication
                  * If developer specify a path try to include the file
                  */
                 if fetch path, module["path"] {
-                    if unlikely !file_exists(path) {
+                    if unlikely !this->phpFileExists(path) {
                         throw new ModuleDefinitionPathNotFound(path);
                     }
 
