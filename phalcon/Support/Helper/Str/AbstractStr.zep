@@ -14,6 +14,7 @@ use Phalcon\Traits\Support\Helper\Str\EndsWithTrait;
 use Phalcon\Traits\Support\Helper\Str\InterpolateTrait;
 use Phalcon\Traits\Support\Helper\Str\LowerTrait;
 use Phalcon\Traits\Support\Helper\Str\StartsWithTrait;
+use Phalcon\Traits\Support\Helper\Str\UpperTrait;
 
 /**
  * Abstract class offering methods to help with the Str namespace. This can
@@ -33,19 +34,5 @@ abstract class AbstractStr
     use InterpolateTrait;
     use LowerTrait;
     use StartsWithTrait;
-
-    /**
-     * Uppercases a string using mbstring
-     *
-     * @param string $text
-     * @param string $encoding
-     *
-     * @return string
-     */
-    protected function toUpper(
-        string text,
-        string encoding = "UTF-8"
-    ) -> string {
-        return mb_convert_case(text, MB_CASE_UPPER, encoding);
-    }
+    use UpperTrait;
 }
