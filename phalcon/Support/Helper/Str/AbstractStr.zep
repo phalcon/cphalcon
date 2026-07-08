@@ -11,6 +11,7 @@
 namespace Phalcon\Support\Helper\Str;
 
 use Phalcon\Traits\Support\Helper\Str\EndsWithTrait;
+use Phalcon\Traits\Support\Helper\Str\StartsWithTrait;
 
 /**
  * Abstract class offering methods to help with the Str namespace. This can
@@ -27,6 +28,7 @@ use Phalcon\Traits\Support\Helper\Str\EndsWithTrait;
 abstract class AbstractStr
 {
     use EndsWithTrait;
+    use StartsWithTrait;
 
     /**
      * Interpolates context values into the message placeholders
@@ -73,38 +75,6 @@ abstract class AbstractStr
         string encoding = "UTF-8"
     ) -> string {
         return mb_convert_case(text, MB_CASE_LOWER, encoding);
-    }
-
-    /**
-     * Check if a string starts with a given string
-     *
-     * @param string $haystack
-     * @param string $needle
-     * @param bool   $ignoreCase
-     *
-     * @return bool
-     */
-    protected function toStartsWith(
-        string haystack,
-        string needle,
-        bool ignoreCase = true
-    ) -> bool {
-        var child, parent;
-
-        if ("" === haystack) {
-            return false;
-        }
-
-        if likely ignoreCase {
-            let child  = mb_strtolower(needle),
-                parent = mb_strtolower(haystack);
-        } else {
-            let child  = needle,
-                parent = haystack;
-        }
-
-
-        return starts_with(parent, child);
     }
 
     /**
