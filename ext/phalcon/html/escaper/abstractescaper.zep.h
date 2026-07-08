@@ -11,6 +11,8 @@ PHP_METHOD(Phalcon_Html_Escaper_AbstractEscaper, normalizeEncoding);
 PHP_METHOD(Phalcon_Html_Escaper_AbstractEscaper, setDoubleEncode);
 PHP_METHOD(Phalcon_Html_Escaper_AbstractEscaper, setEncoding);
 PHP_METHOD(Phalcon_Html_Escaper_AbstractEscaper, setFlags);
+PHP_METHOD(Phalcon_Html_Escaper_AbstractEscaper, phpExtensionLoaded);
+PHP_METHOD(Phalcon_Html_Escaper_AbstractEscaper, phpFunctionExists);
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_escaper_abstractescaper_detectencoding, 0, 1, IS_STRING, 1)
 	ZEND_ARG_TYPE_INFO(0, input, IS_STRING, 0)
@@ -41,6 +43,14 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_html_escaper_abstractesc
 	ZEND_ARG_TYPE_INFO(0, flags, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_escaper_abstractescaper_phpextensionloaded, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_escaper_abstractescaper_phpfunctionexists, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, functionName, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEPHIR_INIT_FUNCS(phalcon_html_escaper_abstractescaper_method_entry) {
 	PHP_ME(Phalcon_Html_Escaper_AbstractEscaper, detectEncoding, arginfo_phalcon_html_escaper_abstractescaper_detectencoding, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Html_Escaper_AbstractEscaper, getDoubleEncode, arginfo_phalcon_html_escaper_abstractescaper_getdoubleencode, ZEND_ACC_PUBLIC)
@@ -50,5 +60,7 @@ ZEPHIR_INIT_FUNCS(phalcon_html_escaper_abstractescaper_method_entry) {
 	PHP_ME(Phalcon_Html_Escaper_AbstractEscaper, setDoubleEncode, arginfo_phalcon_html_escaper_abstractescaper_setdoubleencode, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Html_Escaper_AbstractEscaper, setEncoding, arginfo_phalcon_html_escaper_abstractescaper_setencoding, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Html_Escaper_AbstractEscaper, setFlags, arginfo_phalcon_html_escaper_abstractescaper_setflags, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Html_Escaper_AbstractEscaper, phpExtensionLoaded, arginfo_phalcon_html_escaper_abstractescaper_phpextensionloaded, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Html_Escaper_AbstractEscaper, phpFunctionExists, arginfo_phalcon_html_escaper_abstractescaper_phpfunctionexists, ZEND_ACC_PROTECTED)
 	PHP_FE_END
 };

@@ -356,7 +356,7 @@ PHP_METHOD(Phalcon_Support_Debug, listenLowSeverity)
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "onUncaughtLowSeverity");
 	zephir_array_fast_append(&_0, &_1);
-	ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 283, &_0);
+	ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 284, &_0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_2);
 	zephir_create_array(&_2, 2, 0);
@@ -556,7 +556,7 @@ PHP_METHOD(Phalcon_Support_Debug, setBlacklist)
 	array_init(&_0);
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "request");
-	ZEPHIR_CALL_METHOD(&area, &getter, "__invoke", NULL, 296, &blacklist, &_1, &_0);
+	ZEPHIR_CALL_METHOD(&area, &getter, "__invoke", NULL, 297, &blacklist, &_1, &_0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&subArray);
 	array_init(&subArray);
@@ -607,7 +607,7 @@ PHP_METHOD(Phalcon_Support_Debug, setBlacklist)
 	array_init(&_1);
 	ZEPHIR_INIT_VAR(&_10);
 	ZVAL_STRING(&_10, "server");
-	ZEPHIR_CALL_METHOD(&area, &getter, "__invoke", NULL, 296, &blacklist, &_10, &_1);
+	ZEPHIR_CALL_METHOD(&area, &getter, "__invoke", NULL, 297, &blacklist, &_10, &_1);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&subArray);
 	array_init(&subArray);

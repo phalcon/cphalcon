@@ -32,6 +32,8 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, phpFopen);
 PHP_METHOD(Phalcon_Image_Adapter_Gd, phpFwrite);
 PHP_METHOD(Phalcon_Image_Adapter_Gd, phpIsWritable);
 PHP_METHOD(Phalcon_Image_Adapter_Gd, phpUnlink);
+PHP_METHOD(Phalcon_Image_Adapter_Gd, phpExtensionLoaded);
+PHP_METHOD(Phalcon_Image_Adapter_Gd, phpFunctionExists);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_gd___construct, 0, 0, 1)
 	ZEND_ARG_TYPE_INFO(0, file, IS_STRING, 0)
@@ -200,6 +202,14 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_image_adapter_gd_phpunli
 	ZEND_ARG_INFO(0, context)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_image_adapter_gd_phpextensionloaded, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_image_adapter_gd_phpfunctionexists, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, functionName, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEPHIR_INIT_FUNCS(phalcon_image_adapter_gd_method_entry) {
 	PHP_ME(Phalcon_Image_Adapter_Gd, __construct, arginfo_phalcon_image_adapter_gd___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 PHP_ME(Phalcon_Image_Adapter_Gd, __destruct, arginfo_phalcon_image_adapter_gd___destruct, ZEND_ACC_PUBLIC|ZEND_ACC_DTOR)
@@ -230,5 +240,7 @@ PHP_ME(Phalcon_Image_Adapter_Gd, __destruct, arginfo_phalcon_image_adapter_gd___
 	PHP_ME(Phalcon_Image_Adapter_Gd, phpFwrite, arginfo_phalcon_image_adapter_gd_phpfwrite, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Image_Adapter_Gd, phpIsWritable, arginfo_phalcon_image_adapter_gd_phpiswritable, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Image_Adapter_Gd, phpUnlink, arginfo_phalcon_image_adapter_gd_phpunlink, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Image_Adapter_Gd, phpExtensionLoaded, arginfo_phalcon_image_adapter_gd_phpextensionloaded, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Image_Adapter_Gd, phpFunctionExists, arginfo_phalcon_image_adapter_gd_phpfunctionexists, ZEND_ACC_PROTECTED)
 	PHP_FE_END
 };
