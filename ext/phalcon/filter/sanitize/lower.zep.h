@@ -21,7 +21,7 @@ ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_filter_sanitize_lower_method_entry) {
 	PHP_ME(Phalcon_Filter_Sanitize_Lower, __invoke, arginfo_phalcon_filter_sanitize_lower___invoke, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Filter_Sanitize_Lower, phpExtensionLoaded, arginfo_phalcon_filter_sanitize_lower_phpextensionloaded, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Filter_Sanitize_Lower, phpFunctionExists, arginfo_phalcon_filter_sanitize_lower_phpfunctionexists, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Filter_Sanitize_Lower, phpExtensionLoaded, arginfo_phalcon_filter_sanitize_lower_phpextensionloaded, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Filter_Sanitize_Lower, phpFunctionExists, arginfo_phalcon_filter_sanitize_lower_phpfunctionexists, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_FE_END
 };

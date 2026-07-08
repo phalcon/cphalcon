@@ -24,7 +24,7 @@ trait FileTrait
      *
      * @return bool
      */
-    protected function phpFclose(var handle) -> bool
+    protected static function phpFclose(var handle) -> bool
     {
         return fclose(handle);
     }
@@ -42,7 +42,7 @@ trait FileTrait
      *
      * @link https://php.net/manual/en/function.fgetcsv.php
      */
-    protected function phpFgetCsv(
+    protected static function phpFgetCsv(
         var stream,
         int length = 0,
         string separator = ",",
@@ -67,7 +67,7 @@ trait FileTrait
      *
      * @link https://php.net/manual/en/function.file-exists.php
      */
-    protected function phpFileExists(string filename) -> bool
+    protected static function phpFileExists(string filename) -> bool
     {
         return file_exists(filename);
     }
@@ -83,7 +83,7 @@ trait FileTrait
      *
      * @link https://php.net/manual/en/function.file-get-contents.php
      */
-    protected function phpFileGetContents(
+    protected static function phpFileGetContents(
         string filename,
         bool useIncludePath = false,
         var context = null,
@@ -107,7 +107,7 @@ trait FileTrait
      *
      * @link https://php.net/manual/en/function.file-put-contents.php
      */
-    protected function phpFilePutContents(
+    protected static function phpFilePutContents(
         string filename,
         var data,
         int flags = 0,
@@ -126,7 +126,7 @@ trait FileTrait
      *
      * @link https://php.net/manual/en/function.fopen.php
      */
-    protected function phpFopen(
+    protected static function phpFopen(
         string filename,
         string mode,
         bool useIncludePath = false,
@@ -146,7 +146,7 @@ trait FileTrait
      *
      * @return false|int
      */
-    protected function phpFwrite(var handle, string data, int length = null) -> false | int
+    protected static function phpFwrite(var handle, string data, int length = null) -> false | int
     {
         if null === length {
             return fwrite(handle, data);
@@ -164,7 +164,7 @@ trait FileTrait
      *
      * @link https://php.net/manual/en/function.is-writable.php
      */
-    protected function phpIsWritable(string filename) -> bool
+    protected static function phpIsWritable(string filename) -> bool
     {
         return is_writable(filename);
     }
@@ -177,7 +177,7 @@ trait FileTrait
      *
      * @link https://php.net/manual/en/function.unlink.php
      */
-    protected function phpUnlink(string filename, var context = null) -> bool
+    protected static function phpUnlink(string filename, var context = null) -> bool
     {
         return unlink(filename, context);
     }

@@ -219,7 +219,7 @@ ZEPHIR_INIT_FUNCS(phalcon_http_response_method_entry) {
 	PHP_ME(Phalcon_Http_Response, setNotModified, arginfo_phalcon_http_response_setnotmodified, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Response, setRawHeader, arginfo_phalcon_http_response_setrawheader, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Response, setStatusCode, arginfo_phalcon_http_response_setstatuscode, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Http_Response, phpExtensionLoaded, arginfo_phalcon_http_response_phpextensionloaded, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Http_Response, phpFunctionExists, arginfo_phalcon_http_response_phpfunctionexists, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Http_Response, phpExtensionLoaded, arginfo_phalcon_http_response_phpextensionloaded, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Http_Response, phpFunctionExists, arginfo_phalcon_http_response_phpfunctionexists, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_FE_END
 };

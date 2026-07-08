@@ -15,7 +15,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_traits_php_infotrait_php
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_traits_php_infotrait_method_entry) {
-	PHP_ME(Phalcon_Traits_Php_InfoTrait, phpExtensionLoaded, arginfo_phalcon_traits_php_infotrait_phpextensionloaded, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Traits_Php_InfoTrait, phpFunctionExists, arginfo_phalcon_traits_php_infotrait_phpfunctionexists, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Traits_Php_InfoTrait, phpExtensionLoaded, arginfo_phalcon_traits_php_infotrait_phpextensionloaded, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Traits_Php_InfoTrait, phpFunctionExists, arginfo_phalcon_traits_php_infotrait_phpfunctionexists, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_FE_END
 };

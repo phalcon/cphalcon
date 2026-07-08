@@ -17,7 +17,7 @@ use Phalcon\Session\Adapter\Stream;
 
 final class FakeStreamIsWritable extends Stream
 {
-    protected function phpIsWritable(string $filename): bool
+    protected static function phpIsWritable(string $filename): bool
     {
         return false;
     }

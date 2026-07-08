@@ -28,7 +28,7 @@ class FakeIniParseFile extends Ini
      *
      * @link https://php.net/manual/en/function.parse-ini-file.php
      */
-    protected function phpParseIniFile(
+    protected static function phpParseIniFile(
         string $filename,
         bool $processSections = false,
         int $scannerMode = 0

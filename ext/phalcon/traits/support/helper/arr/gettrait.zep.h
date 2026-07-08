@@ -13,6 +13,6 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_traits_support_helper_arr_gettrait_getarr
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_traits_support_helper_arr_gettrait_method_entry) {
-	PHP_ME(Phalcon_Traits_Support_Helper_Arr_GetTrait, getArrVal, arginfo_phalcon_traits_support_helper_arr_gettrait_getarrval, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Traits_Support_Helper_Arr_GetTrait, getArrVal, arginfo_phalcon_traits_support_helper_arr_gettrait_getarrval, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_FE_END
 };

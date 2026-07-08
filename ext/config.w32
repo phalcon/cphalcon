@@ -251,6 +251,7 @@ if (PHP_PHALCON != "no") {
 	ADD_SOURCES(configure_module_dirname + "/phalcon/time/clock/exceptions", "invalidmodifier.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/traits/php", "filetrait.zep.c infotrait.zep.c initrait.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/traits/support/helper/arr", "gettrait.zep.c", "phalcon");
+	ADD_SOURCES(configure_module_dirname + "/phalcon/traits/support/helper/str", "camelizetrait.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/translate/exceptions", "fileopenerror.zep.c immutableobject.zep.c interpolatornotregistered.zep.c invaliddatatype.zep.c keynotfound.zep.c missingcontent.zep.c missinggettextextension.zep.c missingrequiredparameter.zep.c translatornotregistered.zep.c", "phalcon");
   ADD_FLAG("CFLAGS_PHALCON", "/D ZEPHIR_RELEASE /Oi /Ot /Oy /Ob2 /Gs /GF /Gy /GL");
   ADD_FLAG("CFLAGS", "/D ZEPHIR_RELEASE /Oi /Ot /Oy /Ob2 /Gs /GF /Gy /GL");

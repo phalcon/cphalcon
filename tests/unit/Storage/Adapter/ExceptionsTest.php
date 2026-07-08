@@ -22,6 +22,7 @@ use Phalcon\Support\Exception as HelperException;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Talon\Talon;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
+use PHPUnit\Framework\Attributes\WithoutErrorHandler;
 
 use function array_merge;
 use function file_put_contents;
@@ -85,6 +86,7 @@ final class ExceptionsTest extends AbstractUnitTestCase
      * @since  2020-09-09
      */
     #[RequiresPhpExtension('redis')]
+    #[WithoutErrorHandler]
     public function testStorageAdapterRedisGetSetFailedSslLocalhost(): void
     {
         $this->expectException(StorageException::class);

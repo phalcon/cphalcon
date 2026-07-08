@@ -20,7 +20,7 @@ namespace Phalcon\Tests\Support\Fake;
  */
 trait FopenReturnsFalseTrait
 {
-    protected function phpFopen(
+    protected static function phpFopen(
         string $filename,
         string $mode,
         bool $useIncludePath = false,

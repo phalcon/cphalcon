@@ -17,7 +17,14 @@ use Phalcon\Encryption\Crypt;
 
 class FakeCryptFunctionExistsTwice extends Crypt
 {
-    private int $usage = 0;
+    private static int $usage = 0;
+
+    public function __construct(...$args)
+    {
+        self::$usage = 0;
+
+        parent::__construct(...$args);
+    }
 
     /**
      * Return true if the given function has been defined
@@ -28,10 +35,10 @@ class FakeCryptFunctionExistsTwice extends Crypt
      *
      * @link https://php.net/manual/en/function.function-exists.php
      */
-    protected function phpFunctionExists(string $function): bool
+    protected static function phpFunctionExists(string $function): bool
     {
-        if (0 === $this->usage) {
-            $this->usage++;
+        if (0 === self::$usage) {
+            self::$usage++;
 
             return parent::phpFunctionExists($function);
         }

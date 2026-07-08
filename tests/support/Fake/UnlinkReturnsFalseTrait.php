@@ -20,7 +20,7 @@ namespace Phalcon\Tests\Support\Fake;
  */
 trait UnlinkReturnsFalseTrait
 {
-    protected function phpUnlink(string $filename, $context = null): bool
+    protected static function phpUnlink(string $filename, $context = null): bool
     {
         return false;
     }

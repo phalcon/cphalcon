@@ -24,7 +24,7 @@ trait InfoTrait
      *
      * @link https://php.net/manual/en/function.extension-loaded.php
      */
-    protected function phpExtensionLoaded(string name) -> bool
+    protected static function phpExtensionLoaded(string name) -> bool
     {
         return extension_loaded(name);
     }
@@ -38,7 +38,7 @@ trait InfoTrait
      *
      * @link https://php.net/manual/en/function.function-exists.php
      */
-    protected function phpFunctionExists(string functionName) -> bool
+    protected static function phpFunctionExists(string functionName) -> bool
     {
         return function_exists(functionName);
     }
