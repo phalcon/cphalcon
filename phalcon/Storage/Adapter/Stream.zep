@@ -17,6 +17,7 @@ use Phalcon\Storage\SerializerFactory;
 use Phalcon\Support\Exception as SupportException;
 use Phalcon\Traits\Php\FileTrait;
 use Phalcon\Traits\Support\Helper\Str\DirFromFileTrait;
+use Phalcon\Traits\Support\Helper\Str\DirSeparatorTrait;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 
@@ -35,6 +36,7 @@ use RecursiveIteratorIterator;
 class Stream extends AbstractAdapter
 {
     use DirFromFileTrait;
+    use DirSeparatorTrait;
     use FileTrait;
 
     /**
@@ -72,7 +74,7 @@ class Stream extends AbstractAdapter
         /**
          * Lets set some defaults and options here
          */
-        let this->storageDir = this->getDirSeparator(storageDir);
+        let this->storageDir = this->toDirSeparator(storageDir);
 
         parent::__construct(factory, options);
 
@@ -327,10 +329,10 @@ class Stream extends AbstractAdapter
     {
         var dirFromFile, dirPrefix;
 
-        let dirPrefix   = this->getDirSeparator(this->storageDir . this->prefix),
+        let dirPrefix   = this->toDirSeparator(this->storageDir . this->prefix),
             dirFromFile = this->toDirFromFile(this->getKeyWithoutPrefix(key), true);
 
-        return this->getDirSeparator(dirPrefix . dirFromFile);
+        return this->toDirSeparator(dirPrefix . dirFromFile);
     }
 
     /**
@@ -461,10 +463,5 @@ class Stream extends AbstractAdapter
         return (
             false !== this->phpFilePutContents(directory . key, localPayload, LOCK_EX)
         );
-    }
-
-    private function getDirSeparator( string directory) -> string
-    {
-        return rtrim(directory, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
     }
 }

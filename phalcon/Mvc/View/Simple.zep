@@ -22,6 +22,7 @@ use Phalcon\Mvc\View\Exceptions\SimpleViewNotFound;
 use Phalcon\Mvc\View\Exceptions\SimpleViewServicesUnavailable;
 use Phalcon\Mvc\ViewBaseInterface;
 use Phalcon\Traits\Php\FileTrait;
+use Phalcon\Traits\Support\Helper\Str\DirSeparatorTrait;
 
 /**
  * This component allows to render views without hierarchical levels
@@ -50,6 +51,7 @@ use Phalcon\Traits\Php\FileTrait;
  */
 class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterface
 {
+    use DirSeparatorTrait;
     use FileTrait;
 
     /**
@@ -422,7 +424,7 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
      */
     public function setViewsDir( string viewsDir) -> void
     {
-        let this->viewsDir = this->getDirSeparator(viewsDir);
+        let this->viewsDir = this->toDirSeparator(viewsDir);
     }
 
     /**
@@ -588,13 +590,5 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
         if typeof eventsManager == "object" {
             eventsManager->fire("view:afterRender", this);
         }
-    }
-
-    /**
-     * @todo Remove this when we get traits
-     */
-    private function getDirSeparator( string directory) -> string
-    {
-        return rtrim(directory, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
     }
 }
