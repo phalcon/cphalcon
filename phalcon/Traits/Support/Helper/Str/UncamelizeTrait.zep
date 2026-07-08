@@ -4,31 +4,27 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE
+ * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Support\Helper\Str;
-
-use Phalcon\Traits\Support\Helper\Str\UncamelizeTrait;
+namespace Phalcon\Traits\Support\Helper\Str;
 
 /**
  * Converts strings to non camelized style
  */
-class Uncamelize
+trait UncamelizeTrait
 {
-    use UncamelizeTrait;
-
     /**
      * @param string $text
-     * @param string $delimiters
+     * @param string $delimiter
      *
      * @return string
      */
-    public function __invoke(
+    protected static function toUncamelize(
         string text,
         string delimiter = "_"
     ) -> string {
-        return this->toUncamelize(text, delimiter);
+        return uncamelize(text, delimiter);
     }
 }
