@@ -1468,7 +1468,7 @@ PHP_METHOD(Phalcon_Events_Manager, getSubscribers)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("subscribers"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_RETURN_CALL_FUNCTION("array_values", NULL, 28, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("array_values", NULL, 27, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }

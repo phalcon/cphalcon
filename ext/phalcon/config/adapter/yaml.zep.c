@@ -120,7 +120,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Yaml, __construct)
 	if (UNEXPECTED(!zephir_is_true(&_0))) {
 		ZEPHIR_INIT_VAR(&_2$$3);
 		object_init_ex(&_2$$3, phalcon_config_exceptions_missingyamlextension_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 400);
+		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 399);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_2$$3, "phalcon/Config/Adapter/Yaml.zep", 69);
 		ZEPHIR_MM_RESTORE();
@@ -144,7 +144,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Yaml, __construct)
 		object_init_ex(&_5$$7, phalcon_config_exceptions_cannotloadconfigfile_ce);
 		ZEPHIR_INIT_VAR(&_6$$7);
 		zephir_basename(&_6$$7, &filePath_zv);
-		ZEPHIR_CALL_METHOD(NULL, &_5$$7, "__construct", NULL, 395, &_6$$7);
+		ZEPHIR_CALL_METHOD(NULL, &_5$$7, "__construct", NULL, 394, &_6$$7);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_5$$7, "phalcon/Config/Adapter/Yaml.zep", 83);
 		ZEPHIR_MM_RESTORE();
@@ -195,7 +195,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Yaml, phpYamlParseFile)
 		array_init(callbacks);
 	}
 	ZEPHIR_MAKE_REF(ndocs);
-	ZEPHIR_RETURN_CALL_FUNCTION("yaml_parse_file", NULL, 401, filename, pos, ndocs, callbacks);
+	ZEPHIR_RETURN_CALL_FUNCTION("yaml_parse_file", NULL, 400, filename, pos, ndocs, callbacks);
 	ZEPHIR_UNREF(ndocs);
 	zephir_check_call_status();
 	RETURN_MM();

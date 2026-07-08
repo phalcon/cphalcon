@@ -1017,7 +1017,7 @@ PHP_METHOD(Phalcon_Support_Debug_Dump, output)
 				_48$$9 = zephir_is_instance_of(variable, SL("stdClass"));
 			}
 			if (_48$$9) {
-				ZEPHIR_CALL_FUNCTION(&_52$$12, "get_object_vars", NULL, 292, variable);
+				ZEPHIR_CALL_FUNCTION(&_52$$12, "get_object_vars", NULL, 291, variable);
 				zephir_check_call_status();
 				zephir_is_iterable(&_52$$12, 0, "phalcon/Support/Debug/Dump.zep", 367);
 				if (Z_TYPE_P(&_52$$12) == IS_ARRAY) {
@@ -1120,7 +1120,7 @@ PHP_METHOD(Phalcon_Support_Debug_Dump, output)
 				ZEPHIR_CALL_METHOD(NULL, &reflect, "__construct", NULL, 230, variable);
 				zephir_check_call_status();
 				ZVAL_LONG(&_76$$15, ((1 | 2) | 4));
-				ZEPHIR_CALL_METHOD(&props, &reflect, "getproperties", NULL, 305, &_76$$15);
+				ZEPHIR_CALL_METHOD(&props, &reflect, "getproperties", NULL, 304, &_76$$15);
 				zephir_check_call_status();
 				zephir_is_iterable(&props, 0, "phalcon/Support/Debug/Dump.zep", 393);
 				if (Z_TYPE_P(&props) == IS_ARRAY) {
@@ -1425,7 +1425,7 @@ PHP_METHOD(Phalcon_Support_Debug_Dump, output)
 		ZEPHIR_CONCAT_VV(return_value, &output, &_159$$26);
 		RETURN_MM();
 	}
-	ZEPHIR_CALL_FUNCTION(&_160, "is_float", NULL, 29, variable);
+	ZEPHIR_CALL_FUNCTION(&_160, "is_float", NULL, 28, variable);
 	zephir_check_call_status();
 	if (zephir_is_true(&_160)) {
 		ZEPHIR_INIT_VAR(&_162$$27);

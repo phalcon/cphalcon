@@ -17,7 +17,7 @@ use Phalcon\Storage\Adapter\Apcu;
 
 final class FakeApcuApcuDelete extends Apcu
 {
-    protected function phpApcuDelete($key): bool|array
+    protected static function phpApcuDelete($key): bool|array
     {
         return false;
     }

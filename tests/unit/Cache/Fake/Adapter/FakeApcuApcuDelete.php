@@ -17,7 +17,7 @@ use Phalcon\Cache\Adapter\Apcu;
 
 class FakeApcuApcuDelete extends Apcu
 {
-    protected function phpApcuDelete(mixed $key): bool|array
+    protected static function phpApcuDelete(mixed $key): bool|array
     {
         return false;
     }

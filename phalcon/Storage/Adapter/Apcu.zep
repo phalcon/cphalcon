@@ -9,11 +9,11 @@
 
 namespace Phalcon\Storage\Adapter;
 
-use APCUIterator;
 use DateInterval;
 use Exception;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Support\Exception as SupportException;
+use Phalcon\Traits\Php\ApcuTrait;
 
 /**
  * Apcu adapter
@@ -27,6 +27,8 @@ use Phalcon\Support\Exception as SupportException;
  */
 class Apcu extends AbstractAdapter
 {
+    use ApcuTrait;
+
     /**
      * @var string
      */
@@ -233,43 +235,5 @@ class Apcu extends AbstractAdapter
         );
 
         return typeof result === "bool" ? result : false;
-    }
-
-    /**
-     * @todo Remove the below once we get traits
-     */
-    protected function phpApcuDec(var key, int step = 1) -> bool | int
-    {
-        return apcu_dec(key, step);
-    }
-
-    protected function phpApcuDelete(var key) ->  bool | array
-    {
-        return apcu_delete(key);
-    }
-
-    protected function phpApcuExists(var key) -> bool | array
-    {
-        return apcu_exists(key);
-    }
-
-    protected function phpApcuInc(var key, int step = 1) -> bool | int
-    {
-        return apcu_inc(key, step);
-    }
-
-    protected function phpApcuFetch(var key) -> var
-    {
-        return apcu_fetch(key);
-    }
-
-    protected function phpApcuIterator(string pattern) -> <APCUIterator> | bool
-    {
-        return new APCUIterator(pattern);
-    }
-
-    protected function phpApcuStore(var key, var payload, int ttl = 0) -> bool | array
-    {
-        return apcu_store(key, payload, ttl);
     }
 }

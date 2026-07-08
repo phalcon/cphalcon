@@ -2934,7 +2934,7 @@ PHP_METHOD(Phalcon_Mvc_Model, dump)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	ZEPHIR_RETURN_CALL_FUNCTION("get_object_vars", NULL, 292, this_ptr);
+	ZEPHIR_RETURN_CALL_FUNCTION("get_object_vars", NULL, 291, this_ptr);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -5048,7 +5048,7 @@ PHP_METHOD(Phalcon_Mvc_Model, serialize)
 	zephir_array_update_string(&_6, SL("attributes"), &attributes, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&_6, SL("snapshot"), &snapshot, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&_6, SL("dirtyState"), &dirtyState, PH_COPY | PH_SEPARATE);
-	ZEPHIR_RETURN_CALL_FUNCTION("serialize", NULL, 22, &_6);
+	ZEPHIR_RETURN_CALL_FUNCTION("serialize", NULL, 21, &_6);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -5095,7 +5095,7 @@ PHP_METHOD(Phalcon_Mvc_Model, unserialize)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&data_zv);
 	ZVAL_STR_COPY(&data_zv, data);
-	ZEPHIR_CALL_FUNCTION(&attributes, "unserialize", NULL, 27, &data_zv);
+	ZEPHIR_CALL_FUNCTION(&attributes, "unserialize", NULL, 26, &data_zv);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&attributes) == IS_ARRAY) {
 		if (!(zephir_array_isset_value_string(&attributes, SL("attributes")))) {

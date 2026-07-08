@@ -16,6 +16,7 @@
 #include "kernel/main.h"
 #include "kernel/exception.h"
 #include "kernel/fcall.h"
+#include "kernel/operators.h"
 #include "kernel/string.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
@@ -51,10 +52,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Str_Concat)
  */
 PHP_METHOD(Phalcon_Support_Helper_Str_Concat, __invoke)
 {
-	zend_bool _6;
-	zval argument, arguments, delimiter, data, first, last, prefix, suffix, _1, _2, *_3, _5, _8, _0$$3, _4$$6, _7$$7;
+	zend_bool _7;
+	zval argument, arguments, delimiter, data, first, last, prefix, suffix, _1, _2, _3, *_4, _6, _9, _0$$3, _5$$6, _8$$7;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&argument);
 	ZVAL_UNDEF(&arguments);
@@ -66,11 +68,12 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Concat, __invoke)
 	ZVAL_UNDEF(&suffix);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_5);
-	ZVAL_UNDEF(&_8);
+	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_6);
+	ZVAL_UNDEF(&_9);
 	ZVAL_UNDEF(&_0$$3);
-	ZVAL_UNDEF(&_4$$6);
-	ZVAL_UNDEF(&_7$$7);
+	ZVAL_UNDEF(&_5$$6);
+	ZVAL_UNDEF(&_8$$7);
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
@@ -107,49 +110,55 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Concat, __invoke)
 	ZVAL_STRING(&suffix, "");
 	ZEPHIR_INIT_VAR(&data);
 	array_init(&data);
-	if (zephir_start_with(&first, &delimiter, NULL)) {
+	ZVAL_BOOL(&_1, 0);
+	ZEPHIR_CALL_METHOD(&_2, this_ptr, "tostartswith", NULL, 0, &first, &delimiter, &_1);
+	zephir_check_call_status();
+	if (zephir_is_true(&_2)) {
 		ZEPHIR_CPY_WRT(&prefix, &delimiter);
 	}
-	if (zephir_end_with(&last, &delimiter, NULL)) {
+	ZVAL_BOOL(&_1, 0);
+	ZEPHIR_CALL_METHOD(&_3, this_ptr, "toendswith", NULL, 0, &last, &delimiter, &_1);
+	zephir_check_call_status();
+	if (zephir_is_true(&_3)) {
 		ZEPHIR_CPY_WRT(&suffix, &delimiter);
 	}
 	zephir_is_iterable(&arguments, 0, "phalcon/Support/Helper/Str/Concat.zep", 61);
 	if (Z_TYPE_P(&arguments) == IS_ARRAY) {
-		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&arguments), _3)
+		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&arguments), _4)
 		{
 			ZEPHIR_INIT_NVAR(&argument);
-			ZVAL_COPY(&argument, _3);
-			ZEPHIR_INIT_NVAR(&_4$$6);
-			zephir_fast_trim(&_4$$6, &argument, &delimiter, ZEPHIR_TRIM_BOTH);
-			zephir_array_append(&data, &_4$$6, PH_SEPARATE, "phalcon/Support/Helper/Str/Concat.zep", 58);
+			ZVAL_COPY(&argument, _4);
+			ZEPHIR_INIT_NVAR(&_5$$6);
+			zephir_fast_trim(&_5$$6, &argument, &delimiter, ZEPHIR_TRIM_BOTH);
+			zephir_array_append(&data, &_5$$6, PH_SEPARATE, "phalcon/Support/Helper/Str/Concat.zep", 58);
 		} ZEND_HASH_FOREACH_END();
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, &arguments, "rewind", NULL, 0);
 		zephir_check_call_status();
-		_6 = 1;
+		_7 = 1;
 		while (1) {
-			if (_6) {
-				_6 = 0;
+			if (_7) {
+				_7 = 0;
 			} else {
 				ZEPHIR_CALL_METHOD(NULL, &arguments, "next", NULL, 0);
 				zephir_check_call_status();
 			}
-			ZEPHIR_CALL_METHOD(&_5, &arguments, "valid", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_6, &arguments, "valid", NULL, 0);
 			zephir_check_call_status();
-			if (!zend_is_true(&_5)) {
+			if (!zend_is_true(&_6)) {
 				break;
 			}
 			ZEPHIR_CALL_METHOD(&argument, &arguments, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_INIT_NVAR(&_7$$7);
-				zephir_fast_trim(&_7$$7, &argument, &delimiter, ZEPHIR_TRIM_BOTH);
-				zephir_array_append(&data, &_7$$7, PH_SEPARATE, "phalcon/Support/Helper/Str/Concat.zep", 58);
+				ZEPHIR_INIT_NVAR(&_8$$7);
+				zephir_fast_trim(&_8$$7, &argument, &delimiter, ZEPHIR_TRIM_BOTH);
+				zephir_array_append(&data, &_8$$7, PH_SEPARATE, "phalcon/Support/Helper/Str/Concat.zep", 58);
 		}
 	}
 	ZEPHIR_INIT_NVAR(&argument);
-	ZEPHIR_INIT_VAR(&_8);
-	zephir_fast_join(&_8, &delimiter, &data);
-	ZEPHIR_CONCAT_VVV(return_value, &prefix, &_8, &suffix);
+	ZEPHIR_INIT_VAR(&_9);
+	zephir_fast_join(&_9, &delimiter, &data);
+	ZEPHIR_CONCAT_VVV(return_value, &prefix, &_9, &suffix);
 	RETURN_MM();
 }
 
