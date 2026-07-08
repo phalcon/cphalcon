@@ -1327,6 +1327,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/traits/php/initrait.zep.c
 	phalcon/traits/support/helper/arr/gettrait.zep.c
 	phalcon/traits/support/helper/str/camelizetrait.zep.c
+	phalcon/traits/support/helper/str/dirfromfiletrait.zep.c
 	phalcon/translate/adapter/csv.zep.c
 	phalcon/translate/adapter/gettext.zep.c
 	phalcon/translate/adapter/nativearray.zep.c

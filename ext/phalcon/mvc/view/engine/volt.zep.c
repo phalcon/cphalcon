@@ -729,12 +729,12 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, slice)
 	if (zephir_is_true(&_6)) {
 		if (Z_TYPE_P(&length) != IS_NULL) {
 			ZVAL_LONG(&_8$$11, start);
-			ZEPHIR_RETURN_CALL_FUNCTION("mb_substr", NULL, 355, value, &_8$$11, &length);
+			ZEPHIR_RETURN_CALL_FUNCTION("mb_substr", NULL, 287, value, &_8$$11, &length);
 			zephir_check_call_status();
 			RETURN_MM();
 		}
 		ZVAL_LONG(&_9$$10, start);
-		ZEPHIR_RETURN_CALL_FUNCTION("mb_substr", NULL, 355, value, &_9$$10);
+		ZEPHIR_RETURN_CALL_FUNCTION("mb_substr", NULL, 287, value, &_9$$10);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
