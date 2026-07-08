@@ -1,4 +1,3 @@
-<?php
 
 /**
  * This file is part of the Phalcon Framework.
@@ -9,13 +8,12 @@
  * file that was distributed with this source code.
  */
 
-declare(strict_types=1);
+namespace Phalcon\Traits\Php;
 
-namespace Phalcon\Tests\Unit\Config\Fake\Adapter;
-
-use Phalcon\Config\Adapter\Yaml;
-
-final class FakeYamlParseFile extends Yaml
+/**
+ * YAML based wrapper methods
+ */
+trait YamlTrait
 {
     /**
      * Parse a YAML stream from a file
@@ -29,10 +27,12 @@ final class FakeYamlParseFile extends Yaml
      * @link https://php.net/manual/en/function.yaml-parse-file.php
      */
     protected static function phpYamlParseFile(
-        $filename,
-        $pos = 0,
-        $callbacks = []
-    ): mixed {
-        return false;
+        filename,
+        pos = 0,
+        callbacks = []
+    ) {
+        var ndocs = null;
+
+        return yaml_parse_file(filename, pos, ndocs, callbacks);
     }
 }
