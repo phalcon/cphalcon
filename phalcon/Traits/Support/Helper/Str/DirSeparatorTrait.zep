@@ -4,29 +4,25 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE
+ * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Support\Helper\Str;
-
-use Phalcon\Traits\Support\Helper\Str\DirSeparatorTrait;
+namespace Phalcon\Traits\Support\Helper\Str;
 
 /**
  * Accepts a directory name and ensures that it ends with
  * DIRECTORY_SEPARATOR
  */
-class DirSeparator
+trait DirSeparatorTrait
 {
-    use DirSeparatorTrait;
-
     /**
      * @param string $directory
      *
      * @return string
      */
-    public function __invoke(string directory) -> string
+    protected static function toDirSeparator(string directory) -> string
     {
-        return this->toDirSeparator(directory);
+        return rtrim(directory, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
     }
 }

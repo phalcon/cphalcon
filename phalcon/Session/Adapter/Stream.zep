@@ -16,6 +16,7 @@ use Phalcon\Session\Adapter\Exceptions\SavePathUnavailable;
 use Phalcon\Traits\Php\FileTrait;
 use Phalcon\Traits\Php\IniTrait;
 use Phalcon\Traits\Support\Helper\Arr\GetTrait;
+use Phalcon\Traits\Support\Helper\Str\DirSeparatorTrait;
 
 /**
  * Phalcon\Session\Adapter\Stream
@@ -43,6 +44,7 @@ use Phalcon\Traits\Support\Helper\Arr\GetTrait;
  */
 class Stream extends Noop
 {
+    use DirSeparatorTrait;
     use FileTrait;
     use GetTrait;
     use IniTrait;
@@ -95,7 +97,7 @@ class Stream extends Noop
             throw new SavePathUnavailable(path);
         }
 
-        let this->path = this->getDirSeparator(path);
+        let this->path = this->toDirSeparator(path);
     }
 
     public function destroy(var id) -> bool
@@ -213,12 +215,6 @@ class Stream extends Noop
 
         return false !== this->phpFilePutContents(name, data, LOCK_EX);
     }
-
-    private function getDirSeparator( string directory) -> string
-    {
-        return rtrim(directory, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
-    }
-
 
     /**
      * Gets the glob array or returns false on failure

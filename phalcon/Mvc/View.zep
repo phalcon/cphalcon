@@ -23,6 +23,7 @@ use Phalcon\Mvc\View\Exceptions\ViewNotFound;
 use Phalcon\Mvc\View\Exceptions\ViewServicesUnavailable;
 use Phalcon\Mvc\View\Exceptions\ViewsDirItemMustBeString;
 use Phalcon\Traits\Php\FileTrait;
+use Phalcon\Traits\Support\Helper\Str\DirSeparatorTrait;
 
 /**
  * Phalcon\Mvc\View is a class for working with the "view" portion of the
@@ -50,6 +51,7 @@ use Phalcon\Traits\Php\FileTrait;
  */
 class View extends Injectable implements ViewInterface, EventsAwareInterface
 {
+    use DirSeparatorTrait;
     use FileTrait;
 
     /**
@@ -1203,7 +1205,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
         }
 
         if typeof viewsDir == "string" {
-            let this->viewsDirs = this->getDirSeparator(viewsDir);
+            let this->viewsDirs = this->toDirSeparator(viewsDir);
         } else {
             let newViewsDir = [];
 
@@ -1212,7 +1214,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
                     throw new ViewsDirItemMustBeString();
                 }
 
-                let newViewsDir[position] = this->getDirSeparator(directory);
+                let newViewsDir[position] = this->toDirSeparator(directory);
             }
 
             let this->viewsDirs = newViewsDir;
@@ -1423,13 +1425,5 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
         }
 
         return engines;
-    }
-
-    /**
-     * @todo Remove this when we get traits
-     */
-    private function getDirSeparator( string directory) -> string
-    {
-        return rtrim(directory, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
     }
 }
