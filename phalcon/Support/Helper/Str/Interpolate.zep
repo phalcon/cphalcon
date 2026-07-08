@@ -10,6 +10,8 @@
 
 namespace Phalcon\Support\Helper\Str;
 
+use Phalcon\Traits\Support\Helper\Str\InterpolateTrait;
+
 /**
  * Interpolates context values into the message placeholders. By default, the
  * right and left tokens are `%`
@@ -18,6 +20,8 @@ namespace Phalcon\Support\Helper\Str;
  */
 class Interpolate
 {
+    use InterpolateTrait;
+
     /**
      * @param string $message
      * @param array  $context
@@ -28,19 +32,6 @@ class Interpolate
         string leftToken = "%",
         string rightToken = "%"
     ) -> string {
-        var key, value;
-        array replace;
-
-        if !empty context {
-            let replace = [];
-
-            for key, value in context {
-                let replace[leftToken . key . rightToken] = value;
-            }
-
-            return strtr(message, replace);
-        }
-
-        return message;
+        return this->toInterpolate(message, context, leftToken, rightToken);
     }
 }
