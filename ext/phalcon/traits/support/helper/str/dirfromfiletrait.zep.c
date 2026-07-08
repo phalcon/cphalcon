@@ -1,11 +1,11 @@
 
 #ifdef HAVE_CONFIG_H
-#include "../../../../ext_config.h"
+#include "../../../../../ext_config.h"
 #endif
 
 #include <php.h>
-#include "../../../../php_ext.h"
-#include "../../../../ext.h"
+#include "../../../../../php_ext.h"
+#include "../../../../../ext.h"
 
 #include <Zend/zend_operators.h>
 #include <Zend/zend_exceptions.h>
@@ -13,11 +13,11 @@
 
 #include "kernel/main.h"
 #include "kernel/fcall.h"
-#include "kernel/object.h"
-#include "kernel/memory.h"
 #include "kernel/operators.h"
+#include "kernel/memory.h"
 #include "kernel/string.h"
 #include "kernel/concat.h"
+#include "kernel/object.h"
 
 
 /**
@@ -25,44 +25,18 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE
+ * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
 /**
  * Accepts a file name (without extension) and returns a calculated
  * directory structure with the filename in the end
  */
-ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Str_DirFromFile)
+ZEPHIR_INIT_CLASS(Phalcon_Traits_Support_Helper_Str_DirFromFileTrait)
 {
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Support\\Helper\\Str, DirFromFile, phalcon, support_helper_str_dirfromfile, phalcon_support_helper_str_dirfromfile_method_entry, 0);
+	ZEPHIR_REGISTER_TRAIT(Phalcon\\Traits\\Support\\Helper\\Str, DirFromFileTrait, phalcon, traits_support_helper_str_dirfromfiletrait, phalcon_traits_support_helper_str_dirfromfiletrait_method_entry);
 
 	return SUCCESS;
-}
-
-/**
- * @param string $file
- *
- * @return string
- */
-PHP_METHOD(Phalcon_Support_Helper_Str_DirFromFile, __invoke)
-{
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval file_zv;
-	zend_string *file = NULL;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&file_zv);
-	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_STR(file)
-	ZEND_PARSE_PARAMETERS_END();
-	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_memory_observe(&file_zv);
-	ZVAL_STR_COPY(&file_zv, file);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "todirfromfile", NULL, 0, &file_zv);
-	zephir_check_call_status();
-	RETURN_MM();
 }
 
 /**
@@ -71,7 +45,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_DirFromFile, __invoke)
  *
  * @return string
  */
-PHP_METHOD(Phalcon_Support_Helper_Str_DirFromFile, toDirFromFile)
+PHP_METHOD(Phalcon_Traits_Support_Helper_Str_DirFromFileTrait, toDirFromFile)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;

@@ -234,6 +234,7 @@ zend_class_entry *phalcon_traits_php_infotrait_ce;
 zend_class_entry *phalcon_traits_php_initrait_ce;
 zend_class_entry *phalcon_traits_support_helper_arr_gettrait_ce;
 zend_class_entry *phalcon_traits_support_helper_str_camelizetrait_ce;
+zend_class_entry *phalcon_traits_support_helper_str_dirfromfiletrait_ce;
 zend_class_entry *phalcon_mvc_model_exception_ce;
 zend_class_entry *phalcon_db_exception_ce;
 zend_class_entry *phalcon_filter_validation_abstractvalidator_ce;
@@ -1697,6 +1698,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Traits_Php_IniTrait);
 	ZEPHIR_INIT(Phalcon_Traits_Support_Helper_Arr_GetTrait);
 	ZEPHIR_INIT(Phalcon_Traits_Support_Helper_Str_CamelizeTrait);
+	ZEPHIR_INIT(Phalcon_Traits_Support_Helper_Str_DirFromFileTrait);
 	ZEPHIR_INIT(Phalcon_Mvc_Model_Exception);
 	ZEPHIR_INIT(Phalcon_Db_Exception);
 	ZEPHIR_INIT(Phalcon_Filter_Validation_AbstractValidator);

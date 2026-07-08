@@ -19,8 +19,8 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, getIterator);
 PHP_METHOD(Phalcon_Storage_Adapter_Stream, getPayload);
 PHP_METHOD(Phalcon_Storage_Adapter_Stream, isExpired);
 PHP_METHOD(Phalcon_Storage_Adapter_Stream, storePayload);
-PHP_METHOD(Phalcon_Storage_Adapter_Stream, getDirFromFile);
 PHP_METHOD(Phalcon_Storage_Adapter_Stream, getDirSeparator);
+PHP_METHOD(Phalcon_Storage_Adapter_Stream, toDirFromFile);
 PHP_METHOD(Phalcon_Storage_Adapter_Stream, phpFclose);
 PHP_METHOD(Phalcon_Storage_Adapter_Stream, phpFgetCsv);
 PHP_METHOD(Phalcon_Storage_Adapter_Stream, phpFileExists);
@@ -102,12 +102,13 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_adapter_stream_s
 	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_adapter_stream_getdirfromfile, 0, 1, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, file, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_adapter_stream_getdirseparator, 0, 1, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, directory, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_adapter_stream_todirfromfile, 0, 1, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, file, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, filesystemSafe, _IS_BOOL, 0, "false")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_adapter_stream_phpfclose, 0, 1, _IS_BOOL, 0)
@@ -180,8 +181,8 @@ ZEPHIR_INIT_FUNCS(phalcon_storage_adapter_stream_method_entry) {
 	PHP_ME(Phalcon_Storage_Adapter_Stream, getPayload, arginfo_phalcon_storage_adapter_stream_getpayload, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Storage_Adapter_Stream, isExpired, arginfo_phalcon_storage_adapter_stream_isexpired, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Storage_Adapter_Stream, storePayload, arginfo_phalcon_storage_adapter_stream_storepayload, ZEND_ACC_PRIVATE)
-	PHP_ME(Phalcon_Storage_Adapter_Stream, getDirFromFile, arginfo_phalcon_storage_adapter_stream_getdirfromfile, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Storage_Adapter_Stream, getDirSeparator, arginfo_phalcon_storage_adapter_stream_getdirseparator, ZEND_ACC_PRIVATE)
+	PHP_ME(Phalcon_Storage_Adapter_Stream, toDirFromFile, arginfo_phalcon_storage_adapter_stream_todirfromfile, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Storage_Adapter_Stream, phpFclose, arginfo_phalcon_storage_adapter_stream_phpfclose, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Storage_Adapter_Stream, phpFgetCsv, arginfo_phalcon_storage_adapter_stream_phpfgetcsv, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Storage_Adapter_Stream, phpFileExists, arginfo_phalcon_storage_adapter_stream_phpfileexists, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)

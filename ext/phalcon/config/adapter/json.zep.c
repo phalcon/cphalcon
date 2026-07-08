@@ -103,7 +103,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Json, __construct)
 	}
 
 	ZVAL_BOOL(&_4, 1);
-	ZEPHIR_CALL_METHOD(&_3, &_2, "__invoke", NULL, 340, &content, &_4);
+	ZEPHIR_CALL_METHOD(&_3, &_2, "__invoke", NULL, 341, &content, &_4);
 	zephir_check_call_status();
 	ZEPHIR_CALL_PARENT(NULL, phalcon_config_adapter_json_ce, getThis(), "__construct", NULL, 0, &_3);
 	zephir_check_call_status();

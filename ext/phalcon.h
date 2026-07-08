@@ -1322,6 +1322,7 @@
 #include "phalcon/traits/php/initrait.zep.h"
 #include "phalcon/traits/support/helper/arr/gettrait.zep.h"
 #include "phalcon/traits/support/helper/str/camelizetrait.zep.h"
+#include "phalcon/traits/support/helper/str/dirfromfiletrait.zep.h"
 #include "phalcon/translate/adapter/csv.zep.h"
 #include "phalcon/translate/adapter/gettext.zep.h"
 #include "phalcon/translate/adapter/nativearray.zep.h"
