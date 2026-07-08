@@ -1,0 +1,21 @@
+
+extern zend_class_entry *phalcon_traits_php_openssltrait_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Traits_Php_OpensslTrait);
+
+PHP_METHOD(Phalcon_Traits_Php_OpensslTrait, phpOpensslCipherIvLength);
+PHP_METHOD(Phalcon_Traits_Php_OpensslTrait, phpOpensslRandomPseudoBytes);
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_traits_php_openssltrait_phpopensslcipherivlength, 0, 1, MAY_BE_LONG|MAY_BE_BOOL)
+	ZEND_ARG_TYPE_INFO(0, cipher, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_traits_php_openssltrait_phpopensslrandompseudobytes, 0, 0, 1)
+	ZEND_ARG_TYPE_INFO(0, length, IS_LONG, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_traits_php_openssltrait_method_entry) {
+	PHP_ME(Phalcon_Traits_Php_OpensslTrait, phpOpensslCipherIvLength, arginfo_phalcon_traits_php_openssltrait_phpopensslcipherivlength, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Traits_Php_OpensslTrait, phpOpensslRandomPseudoBytes, arginfo_phalcon_traits_php_openssltrait_phpopensslrandompseudobytes, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_FE_END
+};
