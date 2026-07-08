@@ -1111,194 +1111,6 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, phpIniGet)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval input_zv, defaultValue_zv;
-	zend_string *input = NULL, *defaultValue = NULL;
-
-	ZVAL_UNDEF(&input_zv);
-	ZVAL_UNDEF(&defaultValue_zv);
-	ZEND_PARSE_PARAMETERS_START(1, 2)
-		Z_PARAM_STR(input)
-		Z_PARAM_OPTIONAL
-		Z_PARAM_STR(defaultValue)
-	ZEND_PARSE_PARAMETERS_END();
-	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_memory_observe(&input_zv);
-	ZVAL_STR_COPY(&input_zv, input);
-	if (!defaultValue) {
-		defaultValue = zend_string_init(ZEND_STRL(""), 0);
-		zephir_memory_observe(&defaultValue_zv);
-		ZVAL_STR(&defaultValue_zv, defaultValue);
-	} else {
-		zephir_memory_observe(&defaultValue_zv);
-	ZVAL_STR_COPY(&defaultValue_zv, defaultValue);
-	}
-	ZEPHIR_RETURN_CALL_SELF("staticphpiniget", NULL, 0, &input_zv, &defaultValue_zv);
-	zephir_check_call_status();
-	RETURN_MM();
-}
-
-/**
- * Query a php.ini value and return it back as boolean
- *
- * @param string $input
- * @param bool   $defaultValue
- *
- * @return bool
- *
- * @link https://php.net/manual/en/function.ini-get.php
- * @link https://php.net/manual/en/ini.list.php
- */
-PHP_METHOD(Phalcon_Session_Adapter_Stream, phpIniGetBool)
-{
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zend_bool defaultValue;
-	zval input_zv, *defaultValue_param = NULL, _0;
-	zend_string *input = NULL;
-
-	ZVAL_UNDEF(&input_zv);
-	ZVAL_UNDEF(&_0);
-	ZEND_PARSE_PARAMETERS_START(1, 2)
-		Z_PARAM_STR(input)
-		Z_PARAM_OPTIONAL
-		Z_PARAM_BOOL(defaultValue)
-	ZEND_PARSE_PARAMETERS_END();
-	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	if (ZEND_NUM_ARGS() > 1) {
-		defaultValue_param = ZEND_CALL_ARG(execute_data, 2);
-	}
-	zephir_memory_observe(&input_zv);
-	ZVAL_STR_COPY(&input_zv, input);
-	if (!defaultValue_param) {
-		defaultValue = 0;
-	} else {
-		}
-	if (defaultValue) {
-		ZVAL_BOOL(&_0, 1);
-	} else {
-		ZVAL_BOOL(&_0, 0);
-	}
-	ZEPHIR_RETURN_CALL_SELF("staticphpinigetbool", NULL, 0, &input_zv, &_0);
-	zephir_check_call_status();
-	RETURN_MM();
-}
-
-/**
- * Query a php.ini value and return it back as integer
- *
- * @param string $input
- * @param int    $defaultValue
- *
- * @return int
- *
- * @link https://php.net/manual/en/function.ini-get.php
- * @link https://php.net/manual/en/ini.list.php
- */
-PHP_METHOD(Phalcon_Session_Adapter_Stream, phpIniGetInt)
-{
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long defaultValue, ZEPHIR_LAST_CALL_STATUS;
-	zval input_zv, *defaultValue_param = NULL, _0;
-	zend_string *input = NULL;
-
-	ZVAL_UNDEF(&input_zv);
-	ZVAL_UNDEF(&_0);
-	ZEND_PARSE_PARAMETERS_START(1, 2)
-		Z_PARAM_STR(input)
-		Z_PARAM_OPTIONAL
-		Z_PARAM_LONG(defaultValue)
-	ZEND_PARSE_PARAMETERS_END();
-	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	if (ZEND_NUM_ARGS() > 1) {
-		defaultValue_param = ZEND_CALL_ARG(execute_data, 2);
-	}
-	zephir_memory_observe(&input_zv);
-	ZVAL_STR_COPY(&input_zv, input);
-	if (!defaultValue_param) {
-		defaultValue = 0;
-	} else {
-		}
-	ZVAL_LONG(&_0, defaultValue);
-	ZEPHIR_RETURN_CALL_SELF("staticphpinigetint", NULL, 0, &input_zv, &_0);
-	zephir_check_call_status();
-	RETURN_MM();
-}
-
-/**
- * Parse a configuration file
- *
- * @param string $filename
- * @param bool   $processSections
- * @param int    $scannerMode
- *
- * @return array|false
- *
- * @link https://php.net/manual/en/function.parse-ini-file.php
- */
-PHP_METHOD(Phalcon_Session_Adapter_Stream, phpParseIniFile)
-{
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long scannerMode, ZEPHIR_LAST_CALL_STATUS;
-	zend_bool processSections;
-	zval filename_zv, *processSections_param = NULL, *scannerMode_param = NULL, _0, _1;
-	zend_string *filename = NULL;
-
-	ZVAL_UNDEF(&filename_zv);
-	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1);
-	ZEND_PARSE_PARAMETERS_START(1, 3)
-		Z_PARAM_STR(filename)
-		Z_PARAM_OPTIONAL
-		Z_PARAM_BOOL(processSections)
-		Z_PARAM_LONG(scannerMode)
-	ZEND_PARSE_PARAMETERS_END();
-	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	if (ZEND_NUM_ARGS() > 1) {
-		processSections_param = ZEND_CALL_ARG(execute_data, 2);
-	}
-	if (ZEND_NUM_ARGS() > 2) {
-		scannerMode_param = ZEND_CALL_ARG(execute_data, 3);
-	}
-	zephir_memory_observe(&filename_zv);
-	ZVAL_STR_COPY(&filename_zv, filename);
-	if (!processSections_param) {
-		processSections = 0;
-	} else {
-		}
-	if (!scannerMode_param) {
-		scannerMode = 0;
-	} else {
-		}
-	if (processSections) {
-		ZVAL_BOOL(&_0, 1);
-	} else {
-		ZVAL_BOOL(&_0, 0);
-	}
-	ZVAL_LONG(&_1, scannerMode);
-	ZEPHIR_RETURN_CALL_SELF("staticphpparseinifile", NULL, 0, &filename_zv, &_0, &_1);
-	zephir_check_call_status();
-	RETURN_MM();
-}
-
-/**
- * Gets the value of a configuration option
- *
- * @param string $input
- * @param string $defaultValue
- *
- * @return string
- *
- * @link https://php.net/manual/en/function.ini-get.php
- * @link https://php.net/manual/en/ini.list.php
- */
-PHP_METHOD(Phalcon_Session_Adapter_Stream, staticPhpIniGet)
-{
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval input_zv, defaultValue_zv, value;
 	zend_string *input = NULL, *defaultValue = NULL;
 
@@ -1341,7 +1153,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, staticPhpIniGet)
  * @link https://php.net/manual/en/function.ini-get.php
  * @link https://php.net/manual/en/ini.list.php
  */
-PHP_METHOD(Phalcon_Session_Adapter_Stream, staticPhpIniGetBool)
+PHP_METHOD(Phalcon_Session_Adapter_Stream, phpIniGetBool)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -1396,7 +1208,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, staticPhpIniGetBool)
  * @link https://php.net/manual/en/function.ini-get.php
  * @link https://php.net/manual/en/ini.list.php
  */
-PHP_METHOD(Phalcon_Session_Adapter_Stream, staticPhpIniGetInt)
+PHP_METHOD(Phalcon_Session_Adapter_Stream, phpIniGetInt)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long defaultValue, ZEPHIR_LAST_CALL_STATUS;
@@ -1440,7 +1252,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, staticPhpIniGetInt)
  *
  * @link https://php.net/manual/en/function.parse-ini-file.php
  */
-PHP_METHOD(Phalcon_Session_Adapter_Stream, staticPhpParseIniFile)
+PHP_METHOD(Phalcon_Session_Adapter_Stream, phpParseIniFile)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long scannerMode, ZEPHIR_LAST_CALL_STATUS;

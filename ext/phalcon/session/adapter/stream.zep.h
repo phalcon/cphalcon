@@ -28,10 +28,6 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, phpIniGet);
 PHP_METHOD(Phalcon_Session_Adapter_Stream, phpIniGetBool);
 PHP_METHOD(Phalcon_Session_Adapter_Stream, phpIniGetInt);
 PHP_METHOD(Phalcon_Session_Adapter_Stream, phpParseIniFile);
-PHP_METHOD(Phalcon_Session_Adapter_Stream, staticPhpIniGet);
-PHP_METHOD(Phalcon_Session_Adapter_Stream, staticPhpIniGetBool);
-PHP_METHOD(Phalcon_Session_Adapter_Stream, staticPhpIniGetInt);
-PHP_METHOD(Phalcon_Session_Adapter_Stream, staticPhpParseIniFile);
 zend_object *zephir_init_properties_Phalcon_Session_Adapter_Stream(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_adapter_stream___construct, 0, 0, 0)
@@ -162,27 +158,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_session_adapter_stream_p
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, scannerMode, IS_LONG, 0, "0")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_session_adapter_stream_staticphpiniget, 0, 1, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, input, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, defaultValue, IS_STRING, 0, "''")
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_session_adapter_stream_staticphpinigetbool, 0, 1, _IS_BOOL, 0)
-	ZEND_ARG_TYPE_INFO(0, input, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, defaultValue, _IS_BOOL, 0, "false")
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_session_adapter_stream_staticphpinigetint, 0, 1, IS_LONG, 0)
-	ZEND_ARG_TYPE_INFO(0, input, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, defaultValue, IS_LONG, 0, "0")
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_session_adapter_stream_staticphpparseinifile, 0, 1, MAY_BE_ARRAY|MAY_BE_FALSE)
-	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, processSections, _IS_BOOL, 0, "false")
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, scannerMode, IS_LONG, 0, "0")
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_adapter_stream_zephir_init_properties_phalcon_session_adapter_stream, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
@@ -208,13 +183,9 @@ ZEPHIR_INIT_FUNCS(phalcon_session_adapter_stream_method_entry) {
 	PHP_ME(Phalcon_Session_Adapter_Stream, phpIsWritable, arginfo_phalcon_session_adapter_stream_phpiswritable, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Session_Adapter_Stream, phpUnlink, arginfo_phalcon_session_adapter_stream_phpunlink, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Session_Adapter_Stream, getArrVal, arginfo_phalcon_session_adapter_stream_getarrval, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Session_Adapter_Stream, phpIniGet, arginfo_phalcon_session_adapter_stream_phpiniget, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Session_Adapter_Stream, phpIniGetBool, arginfo_phalcon_session_adapter_stream_phpinigetbool, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Session_Adapter_Stream, phpIniGetInt, arginfo_phalcon_session_adapter_stream_phpinigetint, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Session_Adapter_Stream, phpParseIniFile, arginfo_phalcon_session_adapter_stream_phpparseinifile, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Session_Adapter_Stream, staticPhpIniGet, arginfo_phalcon_session_adapter_stream_staticphpiniget, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
-	PHP_ME(Phalcon_Session_Adapter_Stream, staticPhpIniGetBool, arginfo_phalcon_session_adapter_stream_staticphpinigetbool, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
-	PHP_ME(Phalcon_Session_Adapter_Stream, staticPhpIniGetInt, arginfo_phalcon_session_adapter_stream_staticphpinigetint, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
-	PHP_ME(Phalcon_Session_Adapter_Stream, staticPhpParseIniFile, arginfo_phalcon_session_adapter_stream_staticphpparseinifile, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Session_Adapter_Stream, phpIniGet, arginfo_phalcon_session_adapter_stream_phpiniget, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Session_Adapter_Stream, phpIniGetBool, arginfo_phalcon_session_adapter_stream_phpinigetbool, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Session_Adapter_Stream, phpIniGetInt, arginfo_phalcon_session_adapter_stream_phpinigetint, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Session_Adapter_Stream, phpParseIniFile, arginfo_phalcon_session_adapter_stream_phpparseinifile, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_FE_END
 };
