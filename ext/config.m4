@@ -1323,6 +1323,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/time/clock/frozenclock.zep.c
 	phalcon/time/clock/systemclock.zep.c
 	phalcon/traits/php/filetrait.zep.c
+	phalcon/traits/php/initrait.zep.c
 	phalcon/traits/support/helper/arr/gettrait.zep.c
 	phalcon/translate/adapter/csv.zep.c
 	phalcon/translate/adapter/gettext.zep.c

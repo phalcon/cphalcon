@@ -14,6 +14,7 @@ use Phalcon\Session\Adapter\Exceptions\AdapterRuntimeError;
 use Phalcon\Session\Adapter\Exceptions\InvalidSavePath;
 use Phalcon\Session\Adapter\Exceptions\SavePathUnavailable;
 use Phalcon\Traits\Php\FileTrait;
+use Phalcon\Traits\Php\IniTrait;
 use Phalcon\Traits\Support\Helper\Arr\GetTrait;
 
 /**
@@ -44,6 +45,7 @@ class Stream extends Noop
 {
     use FileTrait;
     use GetTrait;
+    use IniTrait;
 
     /**
      * Session options
@@ -245,20 +247,5 @@ class Stream extends Noop
         let name = (string) name;
 
         return this->prefix . name;
-    }
-
-    /**
-     * Gets the value of a configuration option
-     *
-     * @param string $varname
-     *
-     * @return string
-     *
-     * @link https://php.net/manual/en/function.ini-get.php
-     * @link https://php.net/manual/en/ini.list.php
-     */
-    protected function phpIniGet(string varname) -> string
-    {
-        return ini_get(varname);
     }
 }

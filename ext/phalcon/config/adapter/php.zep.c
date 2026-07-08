@@ -95,7 +95,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Php, __construct)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&filePath_zv);
 	ZVAL_STR_COPY(&filePath_zv, filePath);
-	ZEPHIR_CALL_FUNCTION(&_0, "is_file", NULL, 397, &filePath_zv);
+	ZEPHIR_CALL_FUNCTION(&_0, "is_file", NULL, 398, &filePath_zv);
 	zephir_check_call_status();
 	if (UNEXPECTED(!ZEPHIR_IS_TRUE_IDENTICAL(&_0))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
