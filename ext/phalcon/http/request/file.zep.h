@@ -71,6 +71,6 @@ ZEPHIR_INIT_FUNCS(phalcon_http_request_file_method_entry) {
 	PHP_ME(Phalcon_Http_Request_File, getType, arginfo_phalcon_http_request_file_gettype, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request_File, isUploadedFile, arginfo_phalcon_http_request_file_isuploadedfile, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request_File, moveTo, arginfo_phalcon_http_request_file_moveto, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Http_Request_File, getArrVal, arginfo_phalcon_http_request_file_getarrval, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Http_Request_File, getArrVal, arginfo_phalcon_http_request_file_getarrval, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_FE_END
 };

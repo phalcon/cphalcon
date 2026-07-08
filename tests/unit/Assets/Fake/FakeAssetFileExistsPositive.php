@@ -17,7 +17,7 @@ use Phalcon\Assets\Asset;
 
 class FakeAssetFileExistsPositive extends Asset
 {
-    protected function phpFileExists(string $filename): bool
+    protected static function phpFileExists(string $filename): bool
     {
         return true;
     }

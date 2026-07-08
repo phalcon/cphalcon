@@ -22,6 +22,6 @@ ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_support_helper_arr_get_method_entry) {
 	PHP_ME(Phalcon_Support_Helper_Arr_Get, __invoke, arginfo_phalcon_support_helper_arr_get___invoke, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Support_Helper_Arr_Get, getArrVal, arginfo_phalcon_support_helper_arr_get_getarrval, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Support_Helper_Arr_Get, getArrVal, arginfo_phalcon_support_helper_arr_get_getarrval, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_FE_END
 };

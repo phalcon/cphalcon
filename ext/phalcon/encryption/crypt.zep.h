@@ -252,7 +252,7 @@ ZEPHIR_INIT_FUNCS(phalcon_encryption_crypt_method_entry) {
 	PHP_ME(Phalcon_Encryption_Crypt, getMode, arginfo_phalcon_encryption_crypt_getmode, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Encryption_Crypt, phpOpensslCipherIvLength, arginfo_phalcon_encryption_crypt_phpopensslcipherivlength, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Encryption_Crypt, phpOpensslRandomPseudoBytes, arginfo_phalcon_encryption_crypt_phpopensslrandompseudobytes, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Encryption_Crypt, phpExtensionLoaded, arginfo_phalcon_encryption_crypt_phpextensionloaded, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Encryption_Crypt, phpFunctionExists, arginfo_phalcon_encryption_crypt_phpfunctionexists, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Encryption_Crypt, phpExtensionLoaded, arginfo_phalcon_encryption_crypt_phpextensionloaded, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Encryption_Crypt, phpFunctionExists, arginfo_phalcon_encryption_crypt_phpfunctionexists, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_FE_END
 };

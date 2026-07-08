@@ -44,6 +44,6 @@ ZEPHIR_INIT_FUNCS(phalcon_image_imagefactory_method_entry) {
 	PHP_ME(Phalcon_Image_ImageFactory, newInstance, arginfo_phalcon_image_imagefactory_newinstance, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Image_ImageFactory, getExceptionClass, arginfo_phalcon_image_imagefactory_getexceptionclass, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Image_ImageFactory, getServices, arginfo_phalcon_image_imagefactory_getservices, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Image_ImageFactory, getArrVal, arginfo_phalcon_image_imagefactory_getarrval, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Image_ImageFactory, getArrVal, arginfo_phalcon_image_imagefactory_getarrval, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_FE_END
 };

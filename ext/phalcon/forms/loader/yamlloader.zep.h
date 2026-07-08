@@ -26,7 +26,7 @@ ZEND_END_ARG_INFO()
 ZEPHIR_INIT_FUNCS(phalcon_forms_loader_yamlloader_method_entry) {
 	PHP_ME(Phalcon_Forms_Loader_YamlLoader, __construct, arginfo_phalcon_forms_loader_yamlloader___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Forms_Loader_YamlLoader, load, arginfo_phalcon_forms_loader_yamlloader_load, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Forms_Loader_YamlLoader, phpExtensionLoaded, arginfo_phalcon_forms_loader_yamlloader_phpextensionloaded, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Forms_Loader_YamlLoader, phpFunctionExists, arginfo_phalcon_forms_loader_yamlloader_phpfunctionexists, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Forms_Loader_YamlLoader, phpExtensionLoaded, arginfo_phalcon_forms_loader_yamlloader_phpextensionloaded, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Forms_Loader_YamlLoader, phpFunctionExists, arginfo_phalcon_forms_loader_yamlloader_phpfunctionexists, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_FE_END
 };

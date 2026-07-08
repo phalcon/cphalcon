@@ -168,6 +168,6 @@ PHP_ME(Phalcon_Http_Cookie, delete, arginfo_phalcon_http_cookie_delete, ZEND_ACC
 	PHP_ME(Phalcon_Http_Cookie, assertSignKeyIsLongEnough, arginfo_phalcon_http_cookie_assertsignkeyislongenough, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Http_Cookie, getSessionKey, arginfo_phalcon_http_cookie_getsessionkey, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Http_Cookie, getStartedSession, arginfo_phalcon_http_cookie_getstartedsession, ZEND_ACC_PRIVATE)
-	PHP_ME(Phalcon_Http_Cookie, getArrVal, arginfo_phalcon_http_cookie_getarrval, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Http_Cookie, getArrVal, arginfo_phalcon_http_cookie_getarrval, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_FE_END
 };

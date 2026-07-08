@@ -17,7 +17,7 @@ use Phalcon\Translate\Adapter\Gettext;
 
 final class FakeGettextFunctionExists extends Gettext
 {
-    protected function phpFunctionExists(string $name): bool
+    protected static function phpFunctionExists(string $name): bool
     {
         return false;
     }

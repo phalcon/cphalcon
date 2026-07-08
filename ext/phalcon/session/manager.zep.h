@@ -161,6 +161,6 @@ ZEPHIR_INIT_FUNCS(phalcon_session_manager_method_entry) {
 	PHP_ME(Phalcon_Session_Manager, status, arginfo_phalcon_session_manager_status, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Session_Manager, phpHeadersSent, arginfo_phalcon_session_manager_phpheaderssent, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Session_Manager, getUniqueKey, arginfo_phalcon_session_manager_getuniquekey, ZEND_ACC_PRIVATE)
-	PHP_ME(Phalcon_Session_Manager, getArrVal, arginfo_phalcon_session_manager_getarrval, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Session_Manager, getArrVal, arginfo_phalcon_session_manager_getarrval, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_FE_END
 };

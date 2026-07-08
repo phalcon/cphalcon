@@ -31,7 +31,7 @@ ZEND_END_ARG_INFO()
 ZEPHIR_INIT_FUNCS(phalcon_config_adapter_yaml_method_entry) {
 	PHP_ME(Phalcon_Config_Adapter_Yaml, __construct, arginfo_phalcon_config_adapter_yaml___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Config_Adapter_Yaml, phpYamlParseFile, arginfo_phalcon_config_adapter_yaml_phpyamlparsefile, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Config_Adapter_Yaml, phpExtensionLoaded, arginfo_phalcon_config_adapter_yaml_phpextensionloaded, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Config_Adapter_Yaml, phpFunctionExists, arginfo_phalcon_config_adapter_yaml_phpfunctionexists, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Config_Adapter_Yaml, phpExtensionLoaded, arginfo_phalcon_config_adapter_yaml_phpextensionloaded, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Config_Adapter_Yaml, phpFunctionExists, arginfo_phalcon_config_adapter_yaml_phpfunctionexists, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_FE_END
 };

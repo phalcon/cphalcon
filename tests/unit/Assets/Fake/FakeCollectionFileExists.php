@@ -24,7 +24,7 @@ class FakeCollectionFileExists extends Collection
      *
      * @link https://php.net/manual/en/function.file-exists.php
      */
-    protected function phpFileExists(string $filename): bool
+    protected static function phpFileExists(string $filename): bool
     {
         return false;
     }

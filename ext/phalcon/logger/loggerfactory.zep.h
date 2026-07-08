@@ -38,6 +38,6 @@ ZEPHIR_INIT_FUNCS(phalcon_logger_loggerfactory_method_entry) {
 	PHP_ME(Phalcon_Logger_LoggerFactory, load, arginfo_phalcon_logger_loggerfactory_load, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_LoggerFactory, newInstance, arginfo_phalcon_logger_loggerfactory_newinstance, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_LoggerFactory, getExceptionClass, arginfo_phalcon_logger_loggerfactory_getexceptionclass, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Logger_LoggerFactory, getArrVal, arginfo_phalcon_logger_loggerfactory_getarrval, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Logger_LoggerFactory, getArrVal, arginfo_phalcon_logger_loggerfactory_getarrval, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_FE_END
 };

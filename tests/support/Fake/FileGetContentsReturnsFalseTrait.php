@@ -20,7 +20,7 @@ namespace Phalcon\Tests\Support\Fake;
  */
 trait FileGetContentsReturnsFalseTrait
 {
-    protected function phpFileGetContents(
+    protected static function phpFileGetContents(
         string $filename,
         bool $useIncludePath = false,
         $context = null,
