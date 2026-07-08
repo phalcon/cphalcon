@@ -35,6 +35,10 @@ class CompilerFilesTest extends AbstractUnitTestCase
             Talon::settings()->supportPath('assets/views/blocks/index/login.volt.php'),
             Talon::settings()->supportPath('assets/views/blocks/index/main.volt.php'),
             Talon::settings()->supportPath('assets/views/blocks/partials/header.volt.php'),
+            Talon::settings()->supportPath('assets/views/extends/nested/base.volt%%e%%.php'),
+            Talon::settings()->supportPath('assets/views/extends/nested/leaf.volt.php'),
+            Talon::settings()->supportPath('assets/views/extends/nested/mid.volt%%e%%.php'),
+            Talon::settings()->supportPath('assets/views/extends/nested/sub.volt%%e%%.php'),
             Talon::settings()->supportPath('assets/views/extends/themes/theme-a/child.volt.php'),
             Talon::settings()->supportPath('assets/views/extends/themes/theme-b/base.volt%%e%%.php'),
         ];
@@ -54,6 +58,10 @@ class CompilerFilesTest extends AbstractUnitTestCase
             Talon::settings()->supportPath('assets/views/extends/children.extends.volt.php'),
             Talon::settings()->supportPath('assets/views/extends/import.volt.php'),
             Talon::settings()->supportPath('assets/views/extends/import2.volt.php'),
+            Talon::settings()->supportPath('assets/views/extends/nested/base.volt%%e%%.php'),
+            Talon::settings()->supportPath('assets/views/extends/nested/leaf.volt.php'),
+            Talon::settings()->supportPath('assets/views/extends/nested/mid.volt%%e%%.php'),
+            Talon::settings()->supportPath('assets/views/extends/nested/sub.volt%%e%%.php'),
             Talon::settings()->supportPath('assets/views/extends/themes/theme-a/child.volt.php'),
             Talon::settings()->supportPath('assets/views/extends/themes/theme-b/base.volt%%e%%.php'),
             Talon::settings()->supportPath('assets/views/layouts/extends.volt.php'),
@@ -204,6 +212,39 @@ class CompilerFilesTest extends AbstractUnitTestCase
 
         $file     = Talon::settings()->supportPath('assets/views/extends/themes/theme-a/child.volt.php');
         $expected = '<html><body>overridden</body></html>';
+
+        $this->assertFileContentsEqual($file, $expected);
+    }
+
+    /**
+     * Volt template that extends a parent chain but overrides no blocks of its
+     * own, where a block defined higher in the chain calls partial(). Compiling
+     * such a template segfaulted because Compiler::compileSource passed a null
+     * "blocks" value to array_key_exists(). The chain here is four levels deep
+     * (base <- mid <- sub <- leaf) with both "sub" and "leaf" overriding
+     * nothing, so the null-blocks path is exercised at more than one level.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-07-07
+     *
+     * @see    https://github.com/phalcon/cphalcon/issues/17294
+     */
+    public function testMvcViewEngineVoltCompileExtendsInheritedPartialDeepNesting(): void
+    {
+        $view = new View();
+        $view->setViewsDir(Talon::settings()->supportPath('assets/views/'));
+
+        $volt = new Compiler($view);
+
+        $volt->compileFile(
+            Talon::settings()->supportPath('assets/views/extends/nested/leaf.volt'),
+            Talon::settings()->supportPath('assets/views/extends/nested/leaf.volt.php')
+        );
+
+        $file     = Talon::settings()->supportPath('assets/views/extends/nested/leaf.volt.php');
+        $expected = '<!doctype html><html><body>'
+            . '<?= $this->partial(\'body\') ?> MID '
+            . '</body></html>';
 
         $this->assertFileContentsEqual($file, $expected);
     }

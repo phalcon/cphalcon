@@ -1,0 +1,1 @@
+{% extends "extends/nested/base.volt" %}{% block content %}{{ partial("body") }} MID {% endblock %}
