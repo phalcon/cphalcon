@@ -14,6 +14,7 @@ use Phalcon\Config\Config;
 use Phalcon\Config\Exception;
 use Phalcon\Config\Exceptions\CannotLoadConfigFile;
 use Phalcon\Config\Exceptions\MissingYamlExtension;
+use Phalcon\Traits\Php\InfoTrait;
 
 /**
  * Reads YAML files and converts them to Phalcon\Config\Config objects.
@@ -54,6 +55,8 @@ use Phalcon\Config\Exceptions\MissingYamlExtension;
  */
 class Yaml extends Config
 {
+    use InfoTrait;
+
     /**
      * Phalcon\Config\Adapter\Yaml constructor
      */
@@ -93,10 +96,5 @@ class Yaml extends Config
         callbacks = []
     ) {
         return yaml_parse_file(filename, pos, ndocs, callbacks);
-    }
-
-    protected function phpExtensionLoaded(string name) -> bool
-    {
-        return extension_loaded(name);
     }
 }

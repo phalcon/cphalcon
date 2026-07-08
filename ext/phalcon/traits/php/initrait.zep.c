@@ -260,7 +260,7 @@ PHP_METHOD(Phalcon_Traits_Php_IniTrait, staticPhpIniGet)
 		zephir_memory_observe(&defaultValue_zv);
 	ZVAL_STR_COPY(&defaultValue_zv, defaultValue);
 	}
-	ZEPHIR_CALL_FUNCTION(&value, "ini_get", NULL, 396, &input_zv);
+	ZEPHIR_CALL_FUNCTION(&value, "ini_get", NULL, 397, &input_zv);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&value)) {
 		RETURN_MM_STR(zend_string_copy(defaultValue));
@@ -307,7 +307,7 @@ PHP_METHOD(Phalcon_Traits_Php_IniTrait, staticPhpIniGetBool)
 	} else {
 		}
 	result = 0;
-	ZEPHIR_CALL_FUNCTION(&value, "ini_get", NULL, 396, &input_zv);
+	ZEPHIR_CALL_FUNCTION(&value, "ini_get", NULL, 397, &input_zv);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&value)) {
 		RETURN_MM_BOOL(defaultValue);
@@ -359,7 +359,7 @@ PHP_METHOD(Phalcon_Traits_Php_IniTrait, staticPhpIniGetInt)
 		defaultValue = 0;
 	} else {
 		}
-	ZEPHIR_CALL_FUNCTION(&value, "ini_get", NULL, 396, &input_zv);
+	ZEPHIR_CALL_FUNCTION(&value, "ini_get", NULL, 397, &input_zv);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&value)) {
 		RETURN_MM_LONG(defaultValue);
@@ -415,7 +415,7 @@ PHP_METHOD(Phalcon_Traits_Php_IniTrait, staticPhpParseIniFile)
 		}
 	ZVAL_BOOL(&_0, (processSections ? 1 : 0));
 	ZVAL_LONG(&_1, scannerMode);
-	ZEPHIR_RETURN_CALL_FUNCTION("parse_ini_file", NULL, 397, &filename_zv, &_0, &_1);
+	ZEPHIR_RETURN_CALL_FUNCTION("parse_ini_file", NULL, 398, &filename_zv, &_0, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 }

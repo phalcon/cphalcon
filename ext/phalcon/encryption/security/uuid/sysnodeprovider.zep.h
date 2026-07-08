@@ -14,6 +14,8 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_SysNodeProvider, phpFopen);
 PHP_METHOD(Phalcon_Encryption_Security_Uuid_SysNodeProvider, phpFwrite);
 PHP_METHOD(Phalcon_Encryption_Security_Uuid_SysNodeProvider, phpIsWritable);
 PHP_METHOD(Phalcon_Encryption_Security_Uuid_SysNodeProvider, phpUnlink);
+PHP_METHOD(Phalcon_Encryption_Security_Uuid_SysNodeProvider, phpExtensionLoaded);
+PHP_METHOD(Phalcon_Encryption_Security_Uuid_SysNodeProvider, phpFunctionExists);
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_uuid_sysnodeprovider_getnode, 0, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
@@ -75,6 +77,14 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_uuid
 	ZEND_ARG_INFO(0, context)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_uuid_sysnodeprovider_phpextensionloaded, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_uuid_sysnodeprovider_phpfunctionexists, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, functionName, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEPHIR_INIT_FUNCS(phalcon_encryption_security_uuid_sysnodeprovider_method_entry) {
 	PHP_ME(Phalcon_Encryption_Security_Uuid_SysNodeProvider, getNode, arginfo_phalcon_encryption_security_uuid_sysnodeprovider_getnode, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Encryption_Security_Uuid_SysNodeProvider, isValidNode, arginfo_phalcon_encryption_security_uuid_sysnodeprovider_isvalidnode, ZEND_ACC_PRIVATE)
@@ -87,5 +97,7 @@ ZEPHIR_INIT_FUNCS(phalcon_encryption_security_uuid_sysnodeprovider_method_entry)
 	PHP_ME(Phalcon_Encryption_Security_Uuid_SysNodeProvider, phpFwrite, arginfo_phalcon_encryption_security_uuid_sysnodeprovider_phpfwrite, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Encryption_Security_Uuid_SysNodeProvider, phpIsWritable, arginfo_phalcon_encryption_security_uuid_sysnodeprovider_phpiswritable, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Encryption_Security_Uuid_SysNodeProvider, phpUnlink, arginfo_phalcon_encryption_security_uuid_sysnodeprovider_phpunlink, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Encryption_Security_Uuid_SysNodeProvider, phpExtensionLoaded, arginfo_phalcon_encryption_security_uuid_sysnodeprovider_phpextensionloaded, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Encryption_Security_Uuid_SysNodeProvider, phpFunctionExists, arginfo_phalcon_encryption_security_uuid_sysnodeprovider_phpfunctionexists, ZEND_ACC_PROTECTED)
 	PHP_FE_END
 };

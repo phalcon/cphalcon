@@ -10,6 +10,7 @@
 
 namespace Phalcon\Translate\Adapter;
 
+use Phalcon\Traits\Php\InfoTrait;
 use Phalcon\Translate\Exception;
 use Phalcon\Translate\Exceptions\MissingGettextExtension;
 use Phalcon\Translate\Exceptions\MissingRequiredParameter;
@@ -42,6 +43,8 @@ use Phalcon\Translate\InterpolatorFactory;
  */
 class Gettext extends AbstractAdapter
 {
+    use InfoTrait;
+
     /**
      * @var int
      */
@@ -341,13 +344,5 @@ class Gettext extends AbstractAdapter
         this->setDefaultDomain(options["defaultDomain"]);
         this->setDirectory(options["directory"]);
         this->setDomain(options["defaultDomain"]);
-    }
-
-    /**
-     * @todo to be removed when we get traits
-     */
-    protected function phpFunctionExists(string name) -> bool
-    {
-        return function_exists(name);
     }
 }

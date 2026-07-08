@@ -20,12 +20,15 @@ use Phalcon\Mvc\View\Engine\Volt\Exceptions\InvalidHaystack;
 use Phalcon\Mvc\View\Engine\Volt\Exceptions\MacroNotFound;
 use Phalcon\Mvc\View\Engine\Volt\Exceptions\MbstringRequired;
 use Phalcon\Mvc\View\Exception;
+use Phalcon\Traits\Php\InfoTrait;
 
 /**
  * Designer friendly and fast template engine for PHP written in Zephir/C
  */
 class Volt extends AbstractEngine implements EventsAwareInterface
 {
+    use InfoTrait;
+
     /**
      * @var Compiler
      */
@@ -72,7 +75,7 @@ class Volt extends AbstractEngine implements EventsAwareInterface
      */
     public function convertEncoding(string text,  string from,  string to) -> string
     {
-        if unlikely !function_exists("mb_convert_encoding") {
+        if unlikely !this->phpFunctionExists("mb_convert_encoding") {
             throw new MbstringRequired();
         }
 
@@ -156,7 +159,7 @@ class Volt extends AbstractEngine implements EventsAwareInterface
         }
 
         if typeof haystack == "string" {
-            if function_exists("mb_strpos") {
+            if this->phpFunctionExists("mb_strpos") {
                 return mb_strpos(haystack, needle) !== false;
             }
 
@@ -183,7 +186,7 @@ class Volt extends AbstractEngine implements EventsAwareInterface
             return count(item);
         }
 
-        if function_exists("mb_strlen") {
+        if this->phpFunctionExists("mb_strlen") {
             return mb_strlen(item);
         }
 
@@ -373,7 +376,7 @@ class Volt extends AbstractEngine implements EventsAwareInterface
         /**
          * Use mb_substr if available
          */
-        if function_exists("mb_substr") {
+        if this->phpFunctionExists("mb_substr") {
             if length !== null {
                 return mb_substr(value, start, length);
             }

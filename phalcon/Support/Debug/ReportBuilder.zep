@@ -13,6 +13,7 @@ namespace Phalcon\Support\Debug;
 use Phalcon\Support\Debug\Report\BacktraceItem;
 use Phalcon\Support\Debug\Report\ExceptionReport;
 use Phalcon\Support\Helper\Arr\Get;
+use Phalcon\Traits\Php\InfoTrait;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionFunction;
@@ -25,6 +26,8 @@ use Throwable;
  */
 class ReportBuilder
 {
+    use InfoTrait;
+
     /**
      * @param Throwable $exception
      * @param array     $blacklist
@@ -248,7 +251,7 @@ class ReportBuilder
     {
         var reflection, prepared;
 
-        if function_exists(functionName) !== true {
+        if this->phpFunctionExists(functionName) !== true {
             return null;
         }
 

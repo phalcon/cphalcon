@@ -5,6 +5,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Validation_Validator_StringLength_Max);
 
 PHP_METHOD(Phalcon_Filter_Validation_Validator_StringLength_Max, __construct);
 PHP_METHOD(Phalcon_Filter_Validation_Validator_StringLength_Max, validate);
+PHP_METHOD(Phalcon_Filter_Validation_Validator_StringLength_Max, phpExtensionLoaded);
+PHP_METHOD(Phalcon_Filter_Validation_Validator_StringLength_Max, phpFunctionExists);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_validation_validator_stringlength_max___construct, 0, 0, 0)
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, options, IS_ARRAY, 0, "[]")
@@ -15,8 +17,18 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_valida
 	ZEND_ARG_INFO(0, field)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_validator_stringlength_max_phpextensionloaded, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_validator_stringlength_max_phpfunctionexists, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, functionName, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEPHIR_INIT_FUNCS(phalcon_filter_validation_validator_stringlength_max_method_entry) {
 	PHP_ME(Phalcon_Filter_Validation_Validator_StringLength_Max, __construct, arginfo_phalcon_filter_validation_validator_stringlength_max___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Filter_Validation_Validator_StringLength_Max, validate, arginfo_phalcon_filter_validation_validator_stringlength_max_validate, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Filter_Validation_Validator_StringLength_Max, phpExtensionLoaded, arginfo_phalcon_filter_validation_validator_stringlength_max_phpextensionloaded, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Filter_Validation_Validator_StringLength_Max, phpFunctionExists, arginfo_phalcon_filter_validation_validator_stringlength_max_phpfunctionexists, ZEND_ACC_PROTECTED)
 	PHP_FE_END
 };

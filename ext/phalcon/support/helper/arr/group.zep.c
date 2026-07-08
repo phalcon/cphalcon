@@ -70,7 +70,7 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Group, __invoke)
 	zephir_get_arrval(&collection, collection_param);
 	ZEPHIR_INIT_VAR(&filtered);
 	array_init(&filtered);
-	zephir_is_iterable(&collection, 0, "phalcon/Support/Helper/Arr/Group.zep", 36);
+	zephir_is_iterable(&collection, 0, "phalcon/Support/Helper/Arr/Group.zep", 40);
 	if (Z_TYPE_P(&collection) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&collection), _0)
 		{
@@ -127,22 +127,30 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Group, __invoke)
 PHP_METHOD(Phalcon_Support_Helper_Arr_Group, isCallable)
 {
 	zend_bool _0, _1;
-	zval *method, method_sub;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *method, method_sub, _2;
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&method_sub);
+	ZVAL_UNDEF(&_2);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(method)
 	ZEND_PARSE_PARAMETERS_END();
-	zephir_fetch_params_without_memory_grow(1, 0, &method);
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_fetch_params(1, 1, 0, &method);
 	_0 = zephir_is_callable(method);
 	if (!(_0)) {
 		_1 = Z_TYPE_P(method) == IS_STRING;
 		if (_1) {
-			_1 = 1 == (zephir_function_exists(method) == SUCCESS);
+			ZEPHIR_CALL_METHOD(&_2, this_ptr, "phpfunctionexists", NULL, 0, method);
+			zephir_check_call_status();
+			_1 = ZEPHIR_IS_TRUE_IDENTICAL(&_2);
 		}
 		_0 = _1;
 	}
-	RETURN_BOOL(_0);
+	RETURN_MM_BOOL(_0);
 }
 
 /**
@@ -179,7 +187,7 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Group, processCallable)
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "iscallable", NULL, 0, method);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_TRUE_IDENTICAL(&_0)) {
-		ZEPHIR_CALL_FUNCTION(&key, "call_user_func", NULL, 80, method, element);
+		ZEPHIR_CALL_FUNCTION(&key, "call_user_func", NULL, 81, method, element);
 		zephir_check_call_status();
 		zephir_array_update_multi(&output, element, SL("za"), 2, &key);
 	}
@@ -277,10 +285,61 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Group, processOther)
 	}
 	if (_2) {
 		zephir_memory_observe(&key$$3);
-		zephir_array_fetch(&key$$3, element, method, PH_NOISY, "phalcon/Support/Helper/Arr/Group.zep", 116);
+		zephir_array_fetch(&key$$3, element, method, PH_NOISY, "phalcon/Support/Helper/Arr/Group.zep", 120);
 		ZEPHIR_CPY_WRT(&key$$3, &key$$3);
 		zephir_array_update_multi(&output, element, SL("za"), 2, &key$$3);
 	}
 	RETURN_CCTOR(&output);
+}
+
+/**
+ * Find out whether an extension is loaded
+ *
+ * @param string $name
+ *
+ * @return bool
+ *
+ * @link https://php.net/manual/en/function.extension-loaded.php
+ */
+PHP_METHOD(Phalcon_Support_Helper_Arr_Group, phpExtensionLoaded)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval name_zv;
+	zend_string *name = NULL;
+
+	ZVAL_UNDEF(&name_zv);
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(name)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&name_zv);
+	ZVAL_STR_COPY(&name_zv, name);
+	ZEPHIR_RETURN_CALL_FUNCTION("extension_loaded", NULL, 45, &name_zv);
+	zephir_check_call_status();
+	RETURN_MM();
+}
+
+/**
+ * Return true if the given function has been defined
+ *
+ * @param string $functionName
+ *
+ * @return bool
+ *
+ * @link https://php.net/manual/en/function.function-exists.php
+ */
+PHP_METHOD(Phalcon_Support_Helper_Arr_Group, phpFunctionExists)
+{
+	zval functionName_zv;
+	zend_string *functionName = NULL;
+
+	ZVAL_UNDEF(&functionName_zv);
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(functionName)
+	ZEND_PARSE_PARAMETERS_END();
+	ZVAL_STR(&functionName_zv, functionName);
+	RETURN_BOOL((zephir_function_exists(&functionName_zv) == SUCCESS));
 }
 

@@ -323,7 +323,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt, decrypt)
 		object_init_ex(&_0$$4, phalcon_encryption_crypt_exception_emptydecryptionkey_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_0$$4, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_0$$4, "phalcon/Encryption/Crypt.zep", 221);
+		zephir_throw_exception_debug(&_0$$4, "phalcon/Encryption/Crypt.zep", 224);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -342,7 +342,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt, decrypt)
 		object_init_ex(&_4$$5, phalcon_encryption_crypt_exception_invaliddecryptlength_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_4$$5, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_4$$5, "phalcon/Encryption/Crypt.zep", 230);
+		zephir_throw_exception_debug(&_4$$5, "phalcon/Encryption/Crypt.zep", 233);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -353,7 +353,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt, decrypt)
 	ZVAL_LONG(&_1, 0);
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "8bit");
-	ZEPHIR_CALL_FUNCTION(&iv, "mb_substr", NULL, 354, &input_zv, &_1, &ivLength, &_2);
+	ZEPHIR_CALL_FUNCTION(&iv, "mb_substr", NULL, 355, &input_zv, &_1, &ivLength, &_2);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&digest);
 	ZVAL_STRING(&digest, "");
@@ -366,7 +366,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt, decrypt)
 		if (!(zephir_array_isset_fetch(&hashLength, &_5$$6, &hashAlgorithm, 0))) {
 			ZEPHIR_INIT_VAR(&_6$$7);
 			ZVAL_STRING(&_6$$7, "");
-			ZEPHIR_CALL_FUNCTION(&_7$$7, "hash", NULL, 153, &hashAlgorithm, &_6$$7, &__$true);
+			ZEPHIR_CALL_FUNCTION(&_7$$7, "hash", NULL, 154, &hashAlgorithm, &_6$$7, &__$true);
 			zephir_check_call_status();
 			ZEPHIR_INIT_NVAR(&hashLength);
 			ZVAL_LONG(&hashLength, zephir_fast_strlen_ev(&_7$$7));
@@ -374,18 +374,18 @@ PHP_METHOD(Phalcon_Encryption_Crypt, decrypt)
 		}
 		ZEPHIR_INIT_VAR(&_8$$6);
 		ZVAL_STRING(&_8$$6, "8bit");
-		ZEPHIR_CALL_FUNCTION(&digest, "mb_substr", NULL, 354, &input_zv, &ivLength, &hashLength, &_8$$6);
+		ZEPHIR_CALL_FUNCTION(&digest, "mb_substr", NULL, 355, &input_zv, &ivLength, &hashLength, &_8$$6);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_9$$6);
 		zephir_add_function(&_9$$6, &ivLength, &hashLength);
 		ZEPHIR_INIT_NVAR(&_8$$6);
 		ZVAL_STRING(&_8$$6, "8bit");
-		ZEPHIR_CALL_FUNCTION(&cipherText, "mb_substr", NULL, 354, &input_zv, &_9$$6, &__$null, &_8$$6);
+		ZEPHIR_CALL_FUNCTION(&cipherText, "mb_substr", NULL, 355, &input_zv, &_9$$6, &__$null, &_8$$6);
 		zephir_check_call_status();
 	} else {
 		ZEPHIR_INIT_VAR(&_10$$8);
 		ZVAL_STRING(&_10$$8, "8bit");
-		ZEPHIR_CALL_FUNCTION(&cipherText, "mb_substr", NULL, 354, &input_zv, &ivLength, &__$null, &_10$$8);
+		ZEPHIR_CALL_FUNCTION(&cipherText, "mb_substr", NULL, 355, &input_zv, &ivLength, &__$null, &_10$$8);
 		zephir_check_call_status();
 	}
 	ZEPHIR_CALL_METHOD(&decrypted, this_ptr, "decryptgcmccmauth", NULL, 0, &mode, &cipherText, &decryptKey, &iv);
@@ -396,7 +396,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt, decrypt)
 		ZEPHIR_CALL_FUNCTION(&_13$$9, "hash_hmac", NULL, 0, &hashAlgorithm, &decrypted, &decryptKey, &__$true);
 		zephir_check_call_status();
 		if (1 != zephir_hash_equals(&_13$$9, &digest)) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_encryption_crypt_exception_mismatch_ce, "Hash does not match.", "phalcon/Encryption/Crypt.zep", 267);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_encryption_crypt_exception_mismatch_ce, "Hash does not match.", "phalcon/Encryption/Crypt.zep", 270);
 			return;
 		}
 	}
@@ -550,7 +550,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt, encrypt)
 		object_init_ex(&_0$$4, phalcon_encryption_crypt_exception_emptyencryptionkey_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_0$$4, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_0$$4, "phalcon/Encryption/Crypt.zep", 329);
+		zephir_throw_exception_debug(&_0$$4, "phalcon/Encryption/Crypt.zep", 332);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -586,7 +586,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt, encrypt)
 			object_init_ex(&_4$$6, phalcon_encryption_crypt_exception_randombytesgenerationfailed_ce);
 			ZEPHIR_CALL_METHOD(NULL, &_4$$6, "__construct", NULL, 0);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_4$$6, "phalcon/Encryption/Crypt.zep", 343);
+			zephir_throw_exception_debug(&_4$$6, "phalcon/Encryption/Crypt.zep", 346);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -596,7 +596,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt, encrypt)
 		object_init_ex(&_5$$7, phalcon_encryption_crypt_exception_randombytesgenerationfailed_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_5$$7, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_5$$7, "phalcon/Encryption/Crypt.zep", 347);
+		zephir_throw_exception_debug(&_5$$7, "phalcon/Encryption/Crypt.zep", 350);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -905,7 +905,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt, setAuthTagLength)
 		object_init_ex(&_1$$3, phalcon_encryption_crypt_exception_invalidauthtaglength_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Encryption/Crypt.zep", 541);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Encryption/Crypt.zep", 544);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -1120,7 +1120,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt, checkCipherHashIsAvailable)
 		object_init_ex(&_1$$5, phalcon_encryption_crypt_exception_unsupportedalgorithm_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$5, "__construct", NULL, 0, &type_zv, &cipher_zv);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$5, "phalcon/Encryption/Crypt.zep", 659);
+		zephir_throw_exception_debug(&_1$$5, "phalcon/Encryption/Crypt.zep", 662);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -1198,7 +1198,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt, cryptPadText)
 			object_init_ex(&_4$$4, phalcon_encryption_crypt_exception_invalidpaddingsize_ce);
 			ZEPHIR_CALL_METHOD(NULL, &_4$$4, "__construct", NULL, 0);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_4$$4, "phalcon/Encryption/Crypt.zep", 690);
+			zephir_throw_exception_debug(&_4$$4, "phalcon/Encryption/Crypt.zep", 693);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -1477,7 +1477,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt, decryptGcmCcmAuth)
 		object_init_ex(&_9$$5, phalcon_encryption_crypt_exception_decryptionfailed_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_9$$5, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_9$$5, "phalcon/Encryption/Crypt.zep", 834);
+		zephir_throw_exception_debug(&_9$$5, "phalcon/Encryption/Crypt.zep", 837);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -1617,7 +1617,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt, encryptGcmCcm)
 			object_init_ex(&_5$$4, phalcon_encryption_crypt_exception_missingauthdata_ce);
 			ZEPHIR_CALL_METHOD(NULL, &_5$$4, "__construct", NULL, 0);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_5$$4, "phalcon/Encryption/Crypt.zep", 891);
+			zephir_throw_exception_debug(&_5$$4, "phalcon/Encryption/Crypt.zep", 894);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -1641,7 +1641,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt, encryptGcmCcm)
 		object_init_ex(&_7$$6, phalcon_encryption_crypt_exception_encryptionfailed_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_7$$6, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_7$$6, "phalcon/Encryption/Crypt.zep", 920);
+		zephir_throw_exception_debug(&_7$$6, "phalcon/Encryption/Crypt.zep", 923);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -1684,7 +1684,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt, initializeAvailableCiphers)
 		object_init_ex(&_2$$3, phalcon_encryption_crypt_exception_missingopensslextension_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_2$$3, "phalcon/Encryption/Crypt.zep", 942);
+		zephir_throw_exception_debug(&_2$$3, "phalcon/Encryption/Crypt.zep", 945);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -1692,7 +1692,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt, initializeAvailableCiphers)
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&allowed);
 	array_init(&allowed);
-	zephir_is_iterable(&available, 0, "phalcon/Encryption/Crypt.zep", 959);
+	zephir_is_iterable(&available, 0, "phalcon/Encryption/Crypt.zep", 962);
 	if (Z_TYPE_P(&available) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&available), _3)
 		{
@@ -1862,7 +1862,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt, getIvLength)
 		object_init_ex(&_0$$3, phalcon_encryption_crypt_exception_ivlengthcalculationfailed_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_0$$3, "phalcon/Encryption/Crypt.zep", 1010);
+		zephir_throw_exception_debug(&_0$$3, "phalcon/Encryption/Crypt.zep", 1013);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -1908,22 +1908,6 @@ PHP_METHOD(Phalcon_Encryption_Crypt, getMode)
 	RETURN_MM();
 }
 
-/**
- * @todo to be removed when we get traits
- */
-PHP_METHOD(Phalcon_Encryption_Crypt, phpFunctionExists)
-{
-	zval name_zv;
-	zend_string *name = NULL;
-
-	ZVAL_UNDEF(&name_zv);
-	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_STR(name)
-	ZEND_PARSE_PARAMETERS_END();
-	ZVAL_STR(&name_zv, name);
-	RETURN_BOOL((zephir_function_exists(&name_zv) == SUCCESS));
-}
-
 PHP_METHOD(Phalcon_Encryption_Crypt, phpOpensslCipherIvLength)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -1961,6 +1945,57 @@ PHP_METHOD(Phalcon_Encryption_Crypt, phpOpensslRandomPseudoBytes)
 	ZEPHIR_RETURN_CALL_FUNCTION("openssl_random_pseudo_bytes", NULL, 0, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
+}
+
+/**
+ * Find out whether an extension is loaded
+ *
+ * @param string $name
+ *
+ * @return bool
+ *
+ * @link https://php.net/manual/en/function.extension-loaded.php
+ */
+PHP_METHOD(Phalcon_Encryption_Crypt, phpExtensionLoaded)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval name_zv;
+	zend_string *name = NULL;
+
+	ZVAL_UNDEF(&name_zv);
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(name)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&name_zv);
+	ZVAL_STR_COPY(&name_zv, name);
+	ZEPHIR_RETURN_CALL_FUNCTION("extension_loaded", NULL, 45, &name_zv);
+	zephir_check_call_status();
+	RETURN_MM();
+}
+
+/**
+ * Return true if the given function has been defined
+ *
+ * @param string $functionName
+ *
+ * @return bool
+ *
+ * @link https://php.net/manual/en/function.function-exists.php
+ */
+PHP_METHOD(Phalcon_Encryption_Crypt, phpFunctionExists)
+{
+	zval functionName_zv;
+	zend_string *functionName = NULL;
+
+	ZVAL_UNDEF(&functionName_zv);
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(functionName)
+	ZEND_PARSE_PARAMETERS_END();
+	ZVAL_STR(&functionName_zv, functionName);
+	RETURN_BOOL((zephir_function_exists(&functionName_zv) == SUCCESS));
 }
 
 zend_object *zephir_init_properties_Phalcon_Encryption_Crypt(zend_class_entry *class_type)

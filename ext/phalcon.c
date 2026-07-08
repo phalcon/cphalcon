@@ -230,6 +230,7 @@ zend_class_entry *phalcon_mvc_micro_middlewareinterface_ce;
 zend_class_entry *phalcon_mvc_model_binder_bindableinterface_ce;
 zend_class_entry *phalcon_mvc_moduledefinitioninterface_ce;
 zend_class_entry *phalcon_traits_php_filetrait_ce;
+zend_class_entry *phalcon_traits_php_infotrait_ce;
 zend_class_entry *phalcon_traits_php_initrait_ce;
 zend_class_entry *phalcon_traits_support_helper_arr_gettrait_ce;
 zend_class_entry *phalcon_mvc_model_exception_ce;
@@ -1691,6 +1692,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Mvc_Model_Binder_BindableInterface);
 	ZEPHIR_INIT(Phalcon_Mvc_ModuleDefinitionInterface);
 	ZEPHIR_INIT(Phalcon_Traits_Php_FileTrait);
+	ZEPHIR_INIT(Phalcon_Traits_Php_InfoTrait);
 	ZEPHIR_INIT(Phalcon_Traits_Php_IniTrait);
 	ZEPHIR_INIT(Phalcon_Traits_Support_Helper_Arr_GetTrait);
 	ZEPHIR_INIT(Phalcon_Mvc_Model_Exception);
