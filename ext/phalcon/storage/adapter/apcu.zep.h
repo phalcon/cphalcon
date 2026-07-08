@@ -17,8 +17,8 @@ PHP_METHOD(Phalcon_Storage_Adapter_Apcu, doSet);
 PHP_METHOD(Phalcon_Storage_Adapter_Apcu, phpApcuDec);
 PHP_METHOD(Phalcon_Storage_Adapter_Apcu, phpApcuDelete);
 PHP_METHOD(Phalcon_Storage_Adapter_Apcu, phpApcuExists);
-PHP_METHOD(Phalcon_Storage_Adapter_Apcu, phpApcuInc);
 PHP_METHOD(Phalcon_Storage_Adapter_Apcu, phpApcuFetch);
+PHP_METHOD(Phalcon_Storage_Adapter_Apcu, phpApcuInc);
 PHP_METHOD(Phalcon_Storage_Adapter_Apcu, phpApcuIterator);
 PHP_METHOD(Phalcon_Storage_Adapter_Apcu, phpApcuStore);
 
@@ -84,13 +84,13 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_storage_adapter_apcu_php
 	ZEND_ARG_INFO(0, key)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_storage_adapter_apcu_phpapcufetch, 0, 0, 1)
+	ZEND_ARG_INFO(0, key)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_storage_adapter_apcu_phpapcuinc, 0, 1, MAY_BE_BOOL|MAY_BE_LONG)
 	ZEND_ARG_INFO(0, key)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, step, IS_LONG, 0, "1")
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_storage_adapter_apcu_phpapcufetch, 0, 0, 1)
-	ZEND_ARG_INFO(0, key)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_TYPE_MASK_EX(arginfo_phalcon_storage_adapter_apcu_phpapcuiterator, 0, 1, APCUIterator, MAY_BE_BOOL)
@@ -115,12 +115,12 @@ ZEPHIR_INIT_FUNCS(phalcon_storage_adapter_apcu_method_entry) {
 	PHP_ME(Phalcon_Storage_Adapter_Apcu, doHas, arginfo_phalcon_storage_adapter_apcu_dohas, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Storage_Adapter_Apcu, doIncrement, arginfo_phalcon_storage_adapter_apcu_doincrement, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Storage_Adapter_Apcu, doSet, arginfo_phalcon_storage_adapter_apcu_doset, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Storage_Adapter_Apcu, phpApcuDec, arginfo_phalcon_storage_adapter_apcu_phpapcudec, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Storage_Adapter_Apcu, phpApcuDelete, arginfo_phalcon_storage_adapter_apcu_phpapcudelete, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Storage_Adapter_Apcu, phpApcuExists, arginfo_phalcon_storage_adapter_apcu_phpapcuexists, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Storage_Adapter_Apcu, phpApcuInc, arginfo_phalcon_storage_adapter_apcu_phpapcuinc, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Storage_Adapter_Apcu, phpApcuFetch, arginfo_phalcon_storage_adapter_apcu_phpapcufetch, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Storage_Adapter_Apcu, phpApcuIterator, arginfo_phalcon_storage_adapter_apcu_phpapcuiterator, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Storage_Adapter_Apcu, phpApcuStore, arginfo_phalcon_storage_adapter_apcu_phpapcustore, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Storage_Adapter_Apcu, phpApcuDec, arginfo_phalcon_storage_adapter_apcu_phpapcudec, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Storage_Adapter_Apcu, phpApcuDelete, arginfo_phalcon_storage_adapter_apcu_phpapcudelete, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Storage_Adapter_Apcu, phpApcuExists, arginfo_phalcon_storage_adapter_apcu_phpapcuexists, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Storage_Adapter_Apcu, phpApcuFetch, arginfo_phalcon_storage_adapter_apcu_phpapcufetch, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Storage_Adapter_Apcu, phpApcuInc, arginfo_phalcon_storage_adapter_apcu_phpapcuinc, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Storage_Adapter_Apcu, phpApcuIterator, arginfo_phalcon_storage_adapter_apcu_phpapcuiterator, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Storage_Adapter_Apcu, phpApcuStore, arginfo_phalcon_storage_adapter_apcu_phpapcustore, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_FE_END
 };

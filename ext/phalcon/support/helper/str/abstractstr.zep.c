@@ -49,8 +49,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Str_AbstractStr)
 }
 
 /**
- * Check if a string ends with a given string
- *
  * @param string $haystack
  * @param string $needle
  * @param bool   $ignoreCase
@@ -107,37 +105,34 @@ PHP_METHOD(Phalcon_Support_Helper_Str_AbstractStr, toEndsWith)
 }
 
 /**
- * Interpolates context values into the message placeholders
- *
- * @see https://www.php-fig.org/psr/psr-3/ Section 1.2 Message
- *
- * @param string $input
- * @param array  $context
- * @param string $left
- * @param string $right
+ * @param string   $input
+ * @param string[] $context
+ * @param string   $left
+ * @param string   $right
  *
  * @return string
  */
 PHP_METHOD(Phalcon_Support_Helper_Str_AbstractStr, toInterpolate)
 {
-	zend_bool _5;
-	zend_ulong _1;
+	zend_bool _6;
+	zend_ulong _2;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval context;
-	zval input_zv, *context_param = NULL, left_zv, right_zv, key, replace, value, *_0, _4, _3$$4, _6$$5;
-	zend_string *input = NULL, *left = NULL, *right = NULL, *_2;
+	zval context, replace;
+	zval input_zv, *context_param = NULL, left_zv, right_zv, key, value, _0, *_1, _5, _4$$5, _7$$6;
+	zend_string *input = NULL, *left = NULL, *right = NULL, *_3;
 
 	ZVAL_UNDEF(&input_zv);
 	ZVAL_UNDEF(&left_zv);
 	ZVAL_UNDEF(&right_zv);
 	ZVAL_UNDEF(&key);
-	ZVAL_UNDEF(&replace);
 	ZVAL_UNDEF(&value);
-	ZVAL_UNDEF(&_4);
-	ZVAL_UNDEF(&_3$$4);
-	ZVAL_UNDEF(&_6$$5);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_5);
+	ZVAL_UNDEF(&_4$$5);
+	ZVAL_UNDEF(&_7$$6);
 	ZVAL_UNDEF(&context);
+	ZVAL_UNDEF(&replace);
 	ZEND_PARSE_PARAMETERS_START(1, 4)
 		Z_PARAM_STR(input)
 		Z_PARAM_OPTIONAL
@@ -174,50 +169,55 @@ PHP_METHOD(Phalcon_Support_Helper_Str_AbstractStr, toInterpolate)
 		zephir_memory_observe(&right_zv);
 	ZVAL_STR_COPY(&right_zv, right);
 	}
+	ZEPHIR_INIT_VAR(&replace);
+	array_init(&replace);
 	if (ZEPHIR_IS_EMPTY(&context)) {
 		RETURN_MM_STR(zend_string_copy(input));
 	}
-	ZEPHIR_INIT_VAR(&replace);
-	array_init(&replace);
-	zephir_is_iterable(&context, 0, "phalcon/Support/Helper/Str/AbstractStr.zep", 88);
+	ZEPHIR_INIT_VAR(&_0);
+	zephir_fast_strpos(&_0, &input_zv, &left_zv, 0 );
+	if (ZEPHIR_IS_FALSE_IDENTICAL(&_0)) {
+		RETURN_MM_STR(zend_string_copy(input));
+	}
+	zephir_is_iterable(&context, 0, "phalcon/Traits/Support/Helper/Str/InterpolateTrait.zep", 49);
 	if (Z_TYPE_P(&context) == IS_ARRAY) {
-		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&context), _1, _2, _0)
+		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&context), _2, _3, _1)
 		{
 			ZEPHIR_INIT_NVAR(&key);
-			if (_2 != NULL) { 
-				ZVAL_STR_COPY(&key, _2);
+			if (_3 != NULL) { 
+				ZVAL_STR_COPY(&key, _3);
 			} else {
-				ZVAL_LONG(&key, _1);
+				ZVAL_LONG(&key, _2);
 			}
 			ZEPHIR_INIT_NVAR(&value);
-			ZVAL_COPY(&value, _0);
-			ZEPHIR_INIT_NVAR(&_3$$4);
-			ZEPHIR_CONCAT_VVV(&_3$$4, &left_zv, &key, &right_zv);
-			zephir_array_update_zval(&replace, &_3$$4, &value, PH_COPY | PH_SEPARATE);
+			ZVAL_COPY(&value, _1);
+			ZEPHIR_INIT_NVAR(&_4$$5);
+			ZEPHIR_CONCAT_VVV(&_4$$5, &left_zv, &key, &right_zv);
+			zephir_array_update_zval(&replace, &_4$$5, &value, PH_COPY | PH_SEPARATE);
 		} ZEND_HASH_FOREACH_END();
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, &context, "rewind", NULL, 0);
 		zephir_check_call_status();
-		_5 = 1;
+		_6 = 1;
 		while (1) {
-			if (_5) {
-				_5 = 0;
+			if (_6) {
+				_6 = 0;
 			} else {
 				ZEPHIR_CALL_METHOD(NULL, &context, "next", NULL, 0);
 				zephir_check_call_status();
 			}
-			ZEPHIR_CALL_METHOD(&_4, &context, "valid", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_5, &context, "valid", NULL, 0);
 			zephir_check_call_status();
-			if (!zend_is_true(&_4)) {
+			if (!zend_is_true(&_5)) {
 				break;
 			}
 			ZEPHIR_CALL_METHOD(&key, &context, "key", NULL, 0);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(&value, &context, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_INIT_NVAR(&_6$$5);
-				ZEPHIR_CONCAT_VVV(&_6$$5, &left_zv, &key, &right_zv);
-				zephir_array_update_zval(&replace, &_6$$5, &value, PH_COPY | PH_SEPARATE);
+				ZEPHIR_INIT_NVAR(&_7$$6);
+				ZEPHIR_CONCAT_VVV(&_7$$6, &left_zv, &key, &right_zv);
+				zephir_array_update_zval(&replace, &_7$$6, &value, PH_COPY | PH_SEPARATE);
 		}
 	}
 	ZEPHIR_INIT_NVAR(&value);
@@ -228,8 +228,6 @@ PHP_METHOD(Phalcon_Support_Helper_Str_AbstractStr, toInterpolate)
 }
 
 /**
- * Lowercases a string using mbstring
- *
  * @param string $text
  * @param string $encoding
  *
@@ -263,14 +261,12 @@ PHP_METHOD(Phalcon_Support_Helper_Str_AbstractStr, toLower)
 	ZVAL_STR_COPY(&encoding_zv, encoding);
 	}
 	ZVAL_LONG(&_0, 1);
-	ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_case", NULL, 17, &text_zv, &_0, &encoding_zv);
+	ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_case", NULL, 31, &text_zv, &_0, &encoding_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }
 
 /**
- * Check if a string starts with a given string
- *
  * @param string $haystack
  * @param string $needle
  * @param bool   $ignoreCase
@@ -327,8 +323,6 @@ PHP_METHOD(Phalcon_Support_Helper_Str_AbstractStr, toStartsWith)
 }
 
 /**
- * Uppercases a string using mbstring
- *
  * @param string $text
  * @param string $encoding
  *
@@ -362,7 +356,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_AbstractStr, toUpper)
 	ZVAL_STR_COPY(&encoding_zv, encoding);
 	}
 	ZVAL_LONG(&_0, 0);
-	ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_case", NULL, 17, &text_zv, &_0, &encoding_zv);
+	ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_case", NULL, 31, &text_zv, &_0, &encoding_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }

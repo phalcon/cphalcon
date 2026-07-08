@@ -422,7 +422,7 @@ PHP_METHOD(Phalcon_Http_Request, getClientAddress)
 			zephir_fast_explode_str(&_5$$8, SL(","), &forwarded, LONG_MAX);
 			ZEPHIR_INIT_VAR(&_6$$8);
 			ZVAL_STRING(&_6$$8, "trim");
-			ZEPHIR_CALL_FUNCTION(&forwardedIps, "array_map", NULL, 20, &_6$$8, &_5$$8);
+			ZEPHIR_CALL_FUNCTION(&forwardedIps, "array_map", NULL, 19, &_6$$8, &_5$$8);
 			zephir_check_call_status();
 			ZEPHIR_CALL_FUNCTION(&reverseForwardedIps, "array_reverse", NULL, 251, &forwardedIps);
 			zephir_check_call_status();
@@ -1456,7 +1456,7 @@ PHP_METHOD(Phalcon_Http_Request, getJsonRawBody)
 	} else {
 		ZVAL_BOOL(&_1, 0);
 	}
-	ZEPHIR_RETURN_CALL_METHOD(&_0, "__invoke", NULL, 341, &rawBody, &_1);
+	ZEPHIR_RETURN_CALL_METHOD(&_0, "__invoke", NULL, 340, &rawBody, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -4248,11 +4248,11 @@ PHP_METHOD(Phalcon_Http_Request, isIpAddressInCIDR)
 	}
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, "H*");
-	ZEPHIR_CALL_FUNCTION(&ipBits, "unpack", NULL, 484, &_3, &ipBin);
+	ZEPHIR_CALL_FUNCTION(&ipBits, "unpack", NULL, 483, &_3, &ipBin);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_3);
 	ZVAL_STRING(&_3, "H*");
-	ZEPHIR_CALL_FUNCTION(&subnetBits, "unpack", NULL, 484, &_3, &subnetBin);
+	ZEPHIR_CALL_FUNCTION(&subnetBits, "unpack", NULL, 483, &_3, &subnetBin);
 	zephir_check_call_status();
 	zephir_array_fetch_long(&_4, &ipBits, 1, PH_NOISY | PH_READONLY, "phalcon/Http/Request.zep", 1664);
 	ZEPHIR_CPY_WRT(&ipBits, &_4);
@@ -4276,7 +4276,7 @@ PHP_METHOD(Phalcon_Http_Request, isIpAddressInCIDR)
 	maskBytes = (int) zephir_floor(&_5);
 	remainingBits = (long) (zephir_safe_mod_zval_long(&maskLength, 8));
 	ZVAL_LONG(&_8, maskBytes);
-	ZEPHIR_CALL_FUNCTION(&_9, "strncmp", NULL, 386, &ipBits, &subnetBits, &_8);
+	ZEPHIR_CALL_FUNCTION(&_9, "strncmp", NULL, 385, &ipBits, &subnetBits, &_8);
 	zephir_check_call_status();
 	if (!ZEPHIR_IS_LONG_IDENTICAL(&_9, 0)) {
 		RETURN_MM_BOOL(0);

@@ -60,7 +60,7 @@ PHP_METHOD(Phalcon_Mvc_View, engineRender);
 PHP_METHOD(Phalcon_Mvc_View, getViewsDirs);
 PHP_METHOD(Phalcon_Mvc_View, isAbsolutePath);
 PHP_METHOD(Phalcon_Mvc_View, loadTemplateEngines);
-PHP_METHOD(Phalcon_Mvc_View, getDirSeparator);
+PHP_METHOD(Phalcon_Mvc_View, toDirSeparator);
 PHP_METHOD(Phalcon_Mvc_View, phpFclose);
 PHP_METHOD(Phalcon_Mvc_View, phpFgetCsv);
 PHP_METHOD(Phalcon_Mvc_View, phpFileExists);
@@ -295,7 +295,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_loadtemplateengines, 0, 0, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_getdirseparator, 0, 1, IS_STRING, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_todirseparator, 0, 1, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, directory, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
@@ -413,7 +413,7 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_view_method_entry) {
 	PHP_ME(Phalcon_Mvc_View, getViewsDirs, arginfo_phalcon_mvc_view_getviewsdirs, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_View, isAbsolutePath, arginfo_phalcon_mvc_view_isabsolutepath, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_View, loadTemplateEngines, arginfo_phalcon_mvc_view_loadtemplateengines, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Mvc_View, getDirSeparator, arginfo_phalcon_mvc_view_getdirseparator, ZEND_ACC_PRIVATE)
+	PHP_ME(Phalcon_Mvc_View, toDirSeparator, arginfo_phalcon_mvc_view_todirseparator, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_View, phpFclose, arginfo_phalcon_mvc_view_phpfclose, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_View, phpFgetCsv, arginfo_phalcon_mvc_view_phpfgetcsv, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_View, phpFileExists, arginfo_phalcon_mvc_view_phpfileexists, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
