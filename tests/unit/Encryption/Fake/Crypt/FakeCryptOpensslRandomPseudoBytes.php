@@ -27,7 +27,7 @@ class FakeCryptOpensslRandomPseudoBytes extends Crypt
      *
      * @link https://php.net/manual/en/function.openssl-random-pseudo-bytes
      */
-    protected function phpOpensslRandomPseudoBytes(int $length): mixed
+    protected static function phpOpensslRandomPseudoBytes(int $length): mixed
     {
         return false;
     }
