@@ -80,7 +80,7 @@ trait ApcuTrait
     /**
      * @param string $pattern
      *
-     * @return APCUIterator|bool
+     * @return \APCUIterator|bool
      *
      * @link https://php.net/manual/en/class.apcuiterator.php
      */
