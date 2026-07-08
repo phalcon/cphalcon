@@ -25,7 +25,7 @@ trait GetTrait
      *
      * @return mixed|null
      */
-    protected function getArrVal(
+    protected static function getArrVal(
         array collection,
         var index,
         var defaultValue = null,
