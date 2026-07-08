@@ -45,7 +45,7 @@ class Concat extends AbstractStr
             suffix    = "",
             data      = [];
 
-        if starts_with(first, delimiter) {
+        if this->toStartsWith(first, delimiter, false) {
             let prefix = delimiter;
         }
 
