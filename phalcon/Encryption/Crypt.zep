@@ -27,6 +27,7 @@ use Phalcon\Encryption\Crypt\Exception\RandomBytesGenerationFailed;
 use Phalcon\Encryption\Crypt\Exception\UnsupportedAlgorithm;
 use Phalcon\Encryption\Crypt\PadFactory;
 use Phalcon\Traits\Php\InfoTrait;
+use Phalcon\Traits\Php\OpensslTrait;
 
 /**
  * Provides encryption capabilities to Phalcon applications.
@@ -50,6 +51,7 @@ use Phalcon\Traits\Php\InfoTrait;
 class Crypt implements CryptInterface
 {
     use InfoTrait;
+    use OpensslTrait;
 
     /**
      * @var string
@@ -1029,15 +1031,5 @@ class Crypt implements CryptInterface
         return mb_strtolower(
             substr(this->cipher, position - strlen(this->cipher) + 1)
         );
-    }
-
-    protected function phpOpensslCipherIvLength(string cipher) -> int|bool
-    {
-        return openssl_cipher_iv_length(cipher);
-    }
-
-    protected function phpOpensslRandomPseudoBytes(int length)
-    {
-        return openssl_random_pseudo_bytes(length);
     }
 }
