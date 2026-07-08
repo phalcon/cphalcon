@@ -12,6 +12,7 @@ namespace Phalcon\Support\Helper\Str;
 
 use Phalcon\Traits\Support\Helper\Str\EndsWithTrait;
 use Phalcon\Traits\Support\Helper\Str\InterpolateTrait;
+use Phalcon\Traits\Support\Helper\Str\LowerTrait;
 use Phalcon\Traits\Support\Helper\Str\StartsWithTrait;
 
 /**
@@ -30,22 +31,8 @@ abstract class AbstractStr
 {
     use EndsWithTrait;
     use InterpolateTrait;
+    use LowerTrait;
     use StartsWithTrait;
-
-    /**
-     * Lowercases a string using mbstring
-     *
-     * @param string $text
-     * @param string $encoding
-     *
-     * @return string
-     */
-    protected function toLower(
-        string text,
-        string encoding = "UTF-8"
-    ) -> string {
-        return mb_convert_case(text, MB_CASE_LOWER, encoding);
-    }
 
     /**
      * Uppercases a string using mbstring
