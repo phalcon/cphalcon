@@ -11,6 +11,7 @@
 namespace Phalcon\Support\Helper\Str;
 
 use Phalcon\Traits\Support\Helper\Str\EndsWithTrait;
+use Phalcon\Traits\Support\Helper\Str\InterpolateTrait;
 use Phalcon\Traits\Support\Helper\Str\StartsWithTrait;
 
 /**
@@ -28,39 +29,8 @@ use Phalcon\Traits\Support\Helper\Str\StartsWithTrait;
 abstract class AbstractStr
 {
     use EndsWithTrait;
+    use InterpolateTrait;
     use StartsWithTrait;
-
-    /**
-     * Interpolates context values into the message placeholders
-     *
-     * @see https://www.php-fig.org/psr/psr-3/ Section 1.2 Message
-     *
-     * @param string $input
-     * @param array  $context
-     * @param string $left
-     * @param string $right
-     *
-     * @return string
-     */
-    protected function toInterpolate(
-        string input,
-        array context = [],
-        string left = "%",
-        string right = "%"
-    ) -> string {
-        var key, replace, value;
-
-        if empty(context) {
-            return input;
-        }
-
-        let replace = [];
-        for key, value in context {
-            let replace[left . key . right] = value;
-        }
-
-        return strtr(input, replace);
-    }
 
     /**
      * Lowercases a string using mbstring

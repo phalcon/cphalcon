@@ -12,13 +12,15 @@ namespace Phalcon\Logger\Formatter;
 
 use DateTimeImmutable;
 use Phalcon\Logger\Item;
-use Phalcon\Support\Helper\Str\AbstractStr;
+use Phalcon\Traits\Support\Helper\Str\InterpolateTrait;
 
 /**
  * Class AbstractFormatter
  */
-abstract class AbstractFormatter extends AbstractStr implements FormatterInterface
+abstract class AbstractFormatter implements FormatterInterface
 {
+    use InterpolateTrait;
+
     /**
      * Default date format
      *
