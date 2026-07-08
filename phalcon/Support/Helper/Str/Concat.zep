@@ -49,7 +49,7 @@ class Concat extends AbstractStr
             let prefix = delimiter;
         }
 
-        if ends_with(last, delimiter) {
+        if this->toEndsWith(last, delimiter, false) {
             let suffix = delimiter;
         }
 

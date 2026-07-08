@@ -10,6 +10,8 @@
 
 namespace Phalcon\Support\Helper\Str;
 
+use Phalcon\Traits\Support\Helper\Str\EndsWithTrait;
+
 /**
  * Abstract class offering methods to help with the Str namespace. This can
  * be moved to a trait once Zephir supports it.
@@ -24,37 +26,7 @@ namespace Phalcon\Support\Helper\Str;
  */
 abstract class AbstractStr
 {
-    /**
-     * Check if a string ends with a given string
-     *
-     * @param string $haystack
-     * @param string $needle
-     * @param bool   $ignoreCase
-     *
-     * @return bool
-     */
-    protected function toEndsWith(
-        string haystack,
-        string needle,
-        bool ignoreCase = true
-    ) -> bool {
-        var child, parent;
-
-        if ("" === haystack) {
-            return false;
-        }
-
-        if likely ignoreCase {
-            let child  = mb_strtolower(needle),
-                parent = mb_strtolower(haystack);
-        } else {
-            let child  = needle,
-                parent = haystack;
-        }
-
-
-        return ends_with(parent, child);
-    }
+    use EndsWithTrait;
 
     /**
      * Interpolates context values into the message placeholders
