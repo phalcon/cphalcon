@@ -10,11 +10,15 @@
 
 namespace Phalcon\Support\Helper\Str;
 
+use Phalcon\Traits\Support\Helper\Str\CamelizeTrait;
+
 /**
  * Converts strings to upperCamelCase or lowerCamelCase
  */
-class Camelize extends PascalCase
+class Camelize
 {
+    use CamelizeTrait;
+
     /**
      * @param string      $text
      * @param string|null $delimiters
@@ -27,14 +31,10 @@ class Camelize extends PascalCase
         string delimiters = null,
         bool lowerFirst = false
     ) -> string {
-        var result;
-
-        let result = parent::__invoke(text, delimiters);
-
-        if (lowerFirst === true) {
-            let result = lcfirst(result);
+        if delimiters === null {
+            let delimiters = "-_";
         }
 
-        return result;
+        return this->toCamelize(text, delimiters, lowerFirst);
     }
 }
