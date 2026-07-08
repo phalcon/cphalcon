@@ -2314,6 +2314,15 @@ class Compiler implements InjectionAwareInterface
             let blocks = this->blocks;
             let extendedBlocks = this->extendedBlocks;
 
+            /**
+             * When the local template extends a parent but does not define any
+             * blocks of its own, "blocks" is null. Coerce it to an array so
+             * array_key_exists() below never receives a non-array value.
+             */
+            if typeof blocks != "array" {
+                let blocks = [];
+            }
+
             for name, block in extendedBlocks {
                 /**
                  * If name is a string then is a block name
