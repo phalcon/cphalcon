@@ -22,7 +22,7 @@ trait CamelizeTrait
      *
      * @return string
      */
-    public static function staticToCamelize(
+    public static function toCamelize(
         string text,
         string delimiters = "-_",
         bool lowerFirst = false
@@ -36,20 +36,5 @@ trait CamelizeTrait
         }
 
         return result;
-    }
-
-    /**
-     * @param string $text
-     * @param string $delimiters
-     * @param bool   $lowerFirst
-     *
-     * @return string
-     */
-    public static function toCamelize(
-        string text,
-        string delimiters = "-_",
-        bool lowerFirst = false
-    ) -> string {
-        return self::staticToCamelize(text, delimiters, lowerFirst);
     }
 }
