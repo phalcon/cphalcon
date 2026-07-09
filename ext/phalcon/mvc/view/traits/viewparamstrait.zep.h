@@ -1,0 +1,43 @@
+
+extern zend_class_entry *phalcon_mvc_view_traits_viewparamstrait_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Mvc_View_Traits_ViewParamsTrait);
+
+PHP_METHOD(Phalcon_Mvc_View_Traits_ViewParamsTrait, getContent);
+PHP_METHOD(Phalcon_Mvc_View_Traits_ViewParamsTrait, getParamsToView);
+PHP_METHOD(Phalcon_Mvc_View_Traits_ViewParamsTrait, getRegisteredEngines);
+PHP_METHOD(Phalcon_Mvc_View_Traits_ViewParamsTrait, getVar);
+PHP_METHOD(Phalcon_Mvc_View_Traits_ViewParamsTrait, setContent);
+PHP_METHOD(Phalcon_Mvc_View_Traits_ViewParamsTrait, setVar);
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_traits_viewparamstrait_getcontent, 0, 0, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_traits_viewparamstrait_getparamstoview, 0, 0, IS_ARRAY, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_traits_viewparamstrait_getregisteredengines, 0, 0, IS_ARRAY, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_traits_viewparamstrait_getvar, 0, 0, 1)
+	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_view_traits_viewparamstrait_setcontent, 0, 1, MAY_BE_STATIC)
+	ZEND_ARG_TYPE_INFO(0, content, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_view_traits_viewparamstrait_setvar, 0, 2, MAY_BE_STATIC)
+	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
+	ZEND_ARG_INFO(0, value)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_mvc_view_traits_viewparamstrait_method_entry) {
+	PHP_ME(Phalcon_Mvc_View_Traits_ViewParamsTrait, getContent, arginfo_phalcon_mvc_view_traits_viewparamstrait_getcontent, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View_Traits_ViewParamsTrait, getParamsToView, arginfo_phalcon_mvc_view_traits_viewparamstrait_getparamstoview, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View_Traits_ViewParamsTrait, getRegisteredEngines, arginfo_phalcon_mvc_view_traits_viewparamstrait_getregisteredengines, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View_Traits_ViewParamsTrait, getVar, arginfo_phalcon_mvc_view_traits_viewparamstrait_getvar, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View_Traits_ViewParamsTrait, setContent, arginfo_phalcon_mvc_view_traits_viewparamstrait_setcontent, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View_Traits_ViewParamsTrait, setVar, arginfo_phalcon_mvc_view_traits_viewparamstrait_setvar, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};

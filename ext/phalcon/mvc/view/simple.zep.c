@@ -66,10 +66,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_View_Simple)
 	 */
 	zend_declare_property_null(phalcon_mvc_view_simple_ce, SL("activeRenderPath"), ZEND_ACC_PROTECTED);
 	/**
-	 * @var string
-	 */
-	zend_declare_property_null(phalcon_mvc_view_simple_ce, SL("content"), ZEND_ACC_PROTECTED);
-	/**
 	 * @var EngineInterface[]|false
 	 */
 	zend_declare_property_bool(phalcon_mvc_view_simple_ce, SL("engines"), 0, ZEND_ACC_PROTECTED);
@@ -82,17 +78,25 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_View_Simple)
 	 */
 	zend_declare_property_null(phalcon_mvc_view_simple_ce, SL("options"), ZEND_ACC_PROTECTED);
 	/**
+	 * @var string
+	 */
+	zend_declare_property_null(phalcon_mvc_view_simple_ce, SL("viewsDir"), ZEND_ACC_PROTECTED);
+	/**
+	 * @var string
+	 */
+	zend_declare_property_string(phalcon_mvc_view_simple_ce, SL("content"), "", ZEND_ACC_PROTECTED);
+	/**
 	 * @var array
+	 *
+	 * @todo Use a default [] once Zephir supports array trait defaults
 	 */
 	zend_declare_property_null(phalcon_mvc_view_simple_ce, SL("registeredEngines"), ZEND_ACC_PROTECTED);
 	/**
 	 * @var array
+	 *
+	 * @todo Use a default [] once Zephir supports array trait defaults
 	 */
 	zend_declare_property_null(phalcon_mvc_view_simple_ce, SL("viewParams"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var string
-	 */
-	zend_declare_property_null(phalcon_mvc_view_simple_ce, SL("viewsDir"), ZEND_ACC_PROTECTED);
 	phalcon_mvc_view_simple_ce->create_object = zephir_init_properties_Phalcon_Mvc_View_Simple;
 
 	zend_class_implements(phalcon_mvc_view_simple_ce, 1, phalcon_mvc_viewbaseinterface_ce);
@@ -108,11 +112,13 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_View_Simple)
 PHP_METHOD(Phalcon_Mvc_View_Simple, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval *options_param = NULL;
+	zval *options_param = NULL, _0, _1;
 	zval options;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&options);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
 		ZEPHIR_Z_PARAM_ARRAY(options, options_param)
@@ -127,6 +133,12 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, __construct)
 		zephir_get_arrval(&options, options_param);
 	}
 	zephir_update_property_zval(this_ptr, ZEND_STRL("options"), &options);
+	ZEPHIR_INIT_VAR(&_0);
+	array_init(&_0);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("registeredEngines"), &_0);
+	ZEPHIR_INIT_VAR(&_1);
+	array_init(&_1);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("viewParams"), &_1);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -202,17 +214,6 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, getActiveRenderPath)
 }
 
 /**
- * Returns output from another view stage
- *
- * @return string
- */
-PHP_METHOD(Phalcon_Mvc_View_Simple, getContent)
-{
-
-	RETURN_MEMBER_TYPED(getThis(), "content", IS_STRING);
-}
-
-/**
  * Returns the internal event manager
  *
  * @return ManagerInterface|null
@@ -221,56 +222,6 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, getEventsManager)
 {
 
 	RETURN_MEMBER(getThis(), "eventsManager");
-}
-
-/**
- * Returns parameters to views
- *
- * @return array
- */
-PHP_METHOD(Phalcon_Mvc_View_Simple, getParamsToView)
-{
-
-	RETURN_MEMBER_TYPED(getThis(), "viewParams", IS_ARRAY);
-}
-
-/**
- * @return array
- */
-PHP_METHOD(Phalcon_Mvc_View_Simple, getRegisteredEngines)
-{
-
-	RETURN_MEMBER_TYPED(getThis(), "registeredEngines", IS_ARRAY);
-}
-
-/**
- * Returns a parameter previously set in the view
- *
- * @return mixed|null
- */
-PHP_METHOD(Phalcon_Mvc_View_Simple, getVar)
-{
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval key_zv, value, _0;
-	zend_string *key = NULL;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&key_zv);
-	ZVAL_UNDEF(&value);
-	ZVAL_UNDEF(&_0);
-	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_STR(key)
-	ZEND_PARSE_PARAMETERS_END();
-	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_memory_observe(&key_zv);
-	ZVAL_STR_COPY(&key_zv, key);
-	zephir_memory_observe(&value);
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("viewParams"), PH_NOISY_CC | PH_READONLY);
-	if (!(zephir_array_isset_fetch(&value, &_0, &key_zv, 0))) {
-		RETURN_MM_NULL();
-	}
-	RETURN_CCTOR(&value);
 }
 
 /**
@@ -451,30 +402,6 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, render)
 }
 
 /**
- * Externally sets the view content
- *
- *```php
- * $this->view->setContent("<h1>hello</h1>");
- *```
- *
- * @return static
- */
-PHP_METHOD(Phalcon_Mvc_View_Simple, setContent)
-{
-	zval content_zv;
-	zend_string *content = NULL;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&content_zv);
-	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_STR(content)
-	ZEND_PARSE_PARAMETERS_END();
-	ZVAL_STR(&content_zv, content);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("content"), &content_zv);
-	RETURN_THISW();
-}
-
-/**
  * Sets the events manager
  *
  * @return void
@@ -523,33 +450,6 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, setParamToView)
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "setvar", NULL, 0, &key_zv, value);
 	zephir_check_call_status();
 	RETURN_MM();
-}
-
-/**
- * Set a single view parameter
- *
- *```php
- * $this->view->setVar("products", $products);
- *```
- *
- * @return static
- */
-PHP_METHOD(Phalcon_Mvc_View_Simple, setVar)
-{
-	zval key_zv, *value, value_sub;
-	zend_string *key = NULL;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&key_zv);
-	ZVAL_UNDEF(&value_sub);
-	ZEND_PARSE_PARAMETERS_START(2, 2)
-		Z_PARAM_STR(key)
-		Z_PARAM_ZVAL(value)
-	ZEND_PARSE_PARAMETERS_END();
-	value = ZEND_CALL_ARG(execute_data, 2);
-	ZVAL_STR(&key_zv, key);
-	zephir_update_property_array(this_ptr, SL("viewParams"), &key_zv, value);
-	RETURN_THISW();
 }
 
 /**
@@ -688,11 +588,11 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, loadTemplateEngines)
 				object_init_ex(&_3$$6, phalcon_mvc_view_exceptions_simpleviewservicesunavailable_ce);
 				ZEPHIR_CALL_METHOD(NULL, &_3$$6, "__construct", NULL, 0);
 				zephir_check_call_status();
-				zephir_throw_exception_debug(&_3$$6, "phalcon/Mvc/View/Simple.zep", 461);
+				zephir_throw_exception_debug(&_3$$6, "phalcon/Mvc/View/Simple.zep", 374);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
-			zephir_is_iterable(&registeredEngines, 0, "phalcon/Mvc/View/Simple.zep", 492);
+			zephir_is_iterable(&registeredEngines, 0, "phalcon/Mvc/View/Simple.zep", 405);
 			if (Z_TYPE_P(&registeredEngines) == IS_ARRAY) {
 				ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&registeredEngines), _5$$5, _6$$5, _4$$5)
 				{
@@ -726,7 +626,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, loadTemplateEngines)
 						object_init_ex(&_12$$12, phalcon_mvc_view_exceptions_invalidengineregistration_ce);
 						ZEPHIR_CALL_METHOD(NULL, &_12$$12, "__construct", &_13, 0, &extension);
 						zephir_check_call_status();
-						zephir_throw_exception_debug(&_12$$12, "phalcon/Mvc/View/Simple.zep", 487);
+						zephir_throw_exception_debug(&_12$$12, "phalcon/Mvc/View/Simple.zep", 400);
 						ZEPHIR_MM_RESTORE();
 						return;
 					}
@@ -774,7 +674,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, loadTemplateEngines)
 							object_init_ex(&_19$$18, phalcon_mvc_view_exceptions_invalidengineregistration_ce);
 							ZEPHIR_CALL_METHOD(NULL, &_19$$18, "__construct", &_13, 0, &extension);
 							zephir_check_call_status();
-							zephir_throw_exception_debug(&_19$$18, "phalcon/Mvc/View/Simple.zep", 487);
+							zephir_throw_exception_debug(&_19$$18, "phalcon/Mvc/View/Simple.zep", 400);
 							ZEPHIR_MM_RESTORE();
 							return;
 						}
@@ -878,7 +778,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, internalRender)
 	zephir_get_strval(&viewsDirPath, &_3);
 	ZEPHIR_CALL_METHOD(&engines, this_ptr, "loadtemplateengines", NULL, 0);
 	zephir_check_call_status();
-	zephir_is_iterable(&engines, 0, "phalcon/Mvc/View/Simple.zep", 583);
+	zephir_is_iterable(&engines, 0, "phalcon/Mvc/View/Simple.zep", 496);
 	if (Z_TYPE_P(&engines) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&engines), _5, _6, _4)
 		{
@@ -1016,7 +916,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, internalRender)
 		object_init_ex(&_36$$20, phalcon_mvc_view_exceptions_simpleviewnotfound_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_36$$20, "__construct", NULL, 0, &viewsDirPath);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_36$$20, "phalcon/Mvc/View/Simple.zep", 584);
+		zephir_throw_exception_debug(&_36$$20, "phalcon/Mvc/View/Simple.zep", 497);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -1498,16 +1398,148 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, phpUnlink)
 	RETURN_MM();
 }
 
+/**
+ * Returns output from another view stage
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Mvc_View_Simple, getContent)
+{
+
+	RETURN_MEMBER_TYPED(getThis(), "content", IS_STRING);
+}
+
+/**
+ * Returns parameters to views
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Mvc_View_Simple, getParamsToView)
+{
+	zval _1;
+	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+
+	zephir_memory_observe(&_0);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("viewParams"), PH_NOISY_CC);
+	zephir_get_arrval(&_1, &_0);
+	RETURN_CTOR(&_1);
+}
+
+/**
+ * @return array
+ */
+PHP_METHOD(Phalcon_Mvc_View_Simple, getRegisteredEngines)
+{
+	zval _1;
+	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+
+	zephir_memory_observe(&_0);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("registeredEngines"), PH_NOISY_CC);
+	zephir_get_arrval(&_1, &_0);
+	RETURN_CTOR(&_1);
+}
+
+/**
+ * Returns a parameter previously set in the view
+ *
+ * @return mixed|null
+ */
+PHP_METHOD(Phalcon_Mvc_View_Simple, getVar)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zval key_zv, value, _0;
+	zend_string *key = NULL;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&key_zv);
+	ZVAL_UNDEF(&value);
+	ZVAL_UNDEF(&_0);
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(key)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&key_zv);
+	ZVAL_STR_COPY(&key_zv, key);
+	zephir_memory_observe(&value);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("viewParams"), PH_NOISY_CC | PH_READONLY);
+	if (!(zephir_array_isset_fetch(&value, &_0, &key_zv, 0))) {
+		RETURN_MM_NULL();
+	}
+	RETURN_CCTOR(&value);
+}
+
+/**
+ * Externally sets the view content
+ *
+ *```php
+ * $this->view->setContent("<h1>hello</h1>");
+ *```
+ *
+ * @return static
+ */
+PHP_METHOD(Phalcon_Mvc_View_Simple, setContent)
+{
+	zval content_zv;
+	zend_string *content = NULL;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&content_zv);
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(content)
+	ZEND_PARSE_PARAMETERS_END();
+	ZVAL_STR(&content_zv, content);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("content"), &content_zv);
+	RETURN_THISW();
+}
+
+/**
+ * Set a single view parameter
+ *
+ *```php
+ * $this->view->setVar("products", $products);
+ *```
+ *
+ * @return static
+ */
+PHP_METHOD(Phalcon_Mvc_View_Simple, setVar)
+{
+	zval key_zv, *value, value_sub;
+	zend_string *key = NULL;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&key_zv);
+	ZVAL_UNDEF(&value_sub);
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_STR(key)
+		Z_PARAM_ZVAL(value)
+	ZEND_PARSE_PARAMETERS_END();
+	value = ZEND_CALL_ARG(execute_data, 2);
+	ZVAL_STR(&key_zv, key);
+	zephir_update_property_array(this_ptr, SL("viewParams"), &key_zv, value);
+	RETURN_THISW();
+}
+
 zend_object *zephir_init_properties_Phalcon_Mvc_View_Simple(zend_class_entry *class_type)
 {
-		zval _0, _2, _4, _1$$3, _3$$4, _5$$5;
+		zval _0, _1$$3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_1$$3);
-	ZVAL_UNDEF(&_3$$4);
-	ZVAL_UNDEF(&_5$$5);
 	
 
 		ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
@@ -1516,23 +1548,11 @@ zend_object *zephir_init_properties_Phalcon_Mvc_View_Simple(zend_class_entry *cl
 	{
 		zval local_this_ptr, *this_ptr = &local_this_ptr;
 		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		zephir_read_property_ex(&_0, this_ptr, ZEND_STRL("viewParams"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_ex(&_0, this_ptr, ZEND_STRL("options"), PH_NOISY_CC | PH_READONLY);
 		if (Z_TYPE_P(&_0) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_1$$3);
 			array_init(&_1$$3);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("viewParams"), &_1$$3);
-		}
-		zephir_read_property_ex(&_2, this_ptr, ZEND_STRL("registeredEngines"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_2) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_3$$4);
-			array_init(&_3$$4);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("registeredEngines"), &_3$$4);
-		}
-		zephir_read_property_ex(&_4, this_ptr, ZEND_STRL("options"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_4) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_5$$5);
-			array_init(&_5$$5);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("options"), &_5$$5);
+			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("options"), &_1$$3);
 		}
 		ZEPHIR_MM_RESTORE();
 		return Z_OBJ_P(this_ptr);
