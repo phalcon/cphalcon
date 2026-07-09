@@ -1,19 +1,19 @@
 
 #ifdef HAVE_CONFIG_H
-#include "../../../../ext_config.h"
+#include "../../../../../ext_config.h"
 #endif
 
 #include <php.h>
-#include "../../../../php_ext.h"
-#include "../../../../ext.h"
+#include "../../../../../php_ext.h"
+#include "../../../../../ext.h"
 
 #include <Zend/zend_operators.h>
 #include <Zend/zend_exceptions.h>
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/fcall.h"
 #include "kernel/operators.h"
+#include "kernel/fcall.h"
 #include "kernel/memory.h"
 #include "kernel/object.h"
 
@@ -23,53 +23,17 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE
+ * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
 /**
- * Filters a collection using array_filter and using the callable (if defined)
+ * Filters a collection using array_filter with an optional callable
  */
-ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Arr_Filter)
+ZEPHIR_INIT_CLASS(Phalcon_Traits_Support_Helper_Arr_FilterTrait)
 {
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Support\\Helper\\Arr, Filter, phalcon, support_helper_arr_filter, phalcon_support_helper_arr_filter_method_entry, 0);
+	ZEPHIR_REGISTER_TRAIT(Phalcon\\Traits\\Support\\Helper\\Arr, FilterTrait, phalcon, traits_support_helper_arr_filtertrait, phalcon_traits_support_helper_arr_filtertrait_method_entry);
 
 	return SUCCESS;
-}
-
-/**
- * @param array         $collection
- * @param callable|null $method
- *
- * @return mixed
- */
-PHP_METHOD(Phalcon_Support_Helper_Arr_Filter, __invoke)
-{
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *collection_param = NULL, *method = NULL, method_sub, __$null;
-	zval collection;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&collection);
-	ZVAL_UNDEF(&method_sub);
-	ZVAL_NULL(&__$null);
-	bool is_null_true = 1;
-	ZEND_PARSE_PARAMETERS_START(1, 2)
-		ZEPHIR_Z_PARAM_ARRAY(collection, collection_param)
-		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(method)
-	ZEND_PARSE_PARAMETERS_END();
-	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_fetch_params(1, 1, 1, &collection_param, &method);
-	zephir_get_arrval(&collection, collection_param);
-	if (!method) {
-		method = &method_sub;
-		method = &__$null;
-	}
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "tofilter", NULL, 0, &collection, method);
-	zephir_check_call_status();
-	RETURN_MM();
 }
 
 /**
@@ -80,7 +44,7 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Filter, __invoke)
  *
  * @return array
  */
-PHP_METHOD(Phalcon_Support_Helper_Arr_Filter, toFilter)
+PHP_METHOD(Phalcon_Traits_Support_Helper_Arr_FilterTrait, toFilter)
 {
 	zend_bool _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;

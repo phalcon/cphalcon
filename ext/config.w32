@@ -48,7 +48,6 @@ if (PHP_PHALCON != "no") {
 	ADD_SOURCES(configure_module_dirname + "/phalcon/contracts/db/geometry", "geometry.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/logger", "exception.zep.c loggerinterface.zep.c abstractlogger.zep.c adapterfactory.zep.c enum.zep.c item.zep.c logger.zep.c loggerfactory.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/queue/exceptions", "queuethrowable.zep.c exception.zep.c deliverydelaynotsupportedexception.zep.c invaliddestinationexception.zep.c invalidmessageexception.zep.c prioritynotsupportedexception.zep.c purgequeuenotsupportedexception.zep.c subscriptionconsumernotsupportedexception.zep.c temporaryqueuenotsupportedexception.zep.c timetolivenotsupportedexception.zep.c", "phalcon");
-	ADD_SOURCES(configure_module_dirname + "/phalcon/support/helper/arr", "abstractarr.zep.c blacklist.zep.c chunk.zep.c filter.zep.c first.zep.c firstkey.zep.c flatten.zep.c get.zep.c group.zep.c has.zep.c isunique.zep.c last.zep.c lastkey.zep.c order.zep.c pluck.zep.c set.zep.c sliceleft.zep.c sliceright.zep.c split.zep.c toobject.zep.c validateall.zep.c validateany.zep.c whitelist.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/translate", "exception.zep.c interpolatorfactory.zep.c translatefactory.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/assets", "exception.zep.c assetinterface.zep.c filterinterface.zep.c asset.zep.c inline.zep.c collection.zep.c manager.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/contracts/encryption/crypt/padding", "pad.zep.c", "phalcon");
@@ -241,6 +240,7 @@ if (PHP_PHALCON != "no") {
 	ADD_SOURCES(configure_module_dirname + "/phalcon/support/debug/exceptions", "requesthalted.zep.c runtimewarning.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/support/debug/renderer", "htmlrenderer.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/support/debug/report", "backtraceitem.zep.c exceptionreport.zep.c", "phalcon");
+	ADD_SOURCES(configure_module_dirname + "/phalcon/support/helper/arr", "blacklist.zep.c chunk.zep.c filter.zep.c first.zep.c firstkey.zep.c flatten.zep.c get.zep.c group.zep.c has.zep.c isunique.zep.c last.zep.c lastkey.zep.c order.zep.c pluck.zep.c set.zep.c sliceleft.zep.c sliceright.zep.c split.zep.c toobject.zep.c validateall.zep.c validateany.zep.c whitelist.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/support/helper/file", "basename.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/support/helper/json", "decode.zep.c encode.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/support/helper/json/exceptions", "jsondecodeerror.zep.c jsonencodeerror.zep.c", "phalcon");
@@ -250,7 +250,7 @@ if (PHP_PHALCON != "no") {
 	ADD_SOURCES(configure_module_dirname + "/phalcon/tag", "exception.zep.c select.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/time/clock/exceptions", "invalidmodifier.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/traits/php", "apcutrait.zep.c base64trait.zep.c filetrait.zep.c igbinarytrait.zep.c infotrait.zep.c initrait.zep.c msgpacktrait.zep.c openssltrait.zep.c serializetrait.zep.c yamltrait.zep.c", "phalcon");
-	ADD_SOURCES(configure_module_dirname + "/phalcon/traits/support/helper/arr", "gettrait.zep.c", "phalcon");
+	ADD_SOURCES(configure_module_dirname + "/phalcon/traits/support/helper/arr", "filtertrait.zep.c gettrait.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/traits/support/helper/str", "camelizetrait.zep.c dirfromfiletrait.zep.c dirseparatortrait.zep.c endswithtrait.zep.c interpolatetrait.zep.c lowertrait.zep.c startswithtrait.zep.c uncamelizetrait.zep.c uppertrait.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/translate/exceptions", "fileopenerror.zep.c immutableobject.zep.c interpolatornotregistered.zep.c invaliddatatype.zep.c keynotfound.zep.c missingcontent.zep.c missinggettextextension.zep.c missingrequiredparameter.zep.c translatornotregistered.zep.c", "phalcon");
   ADD_FLAG("CFLAGS_PHALCON", "/D ZEPHIR_RELEASE /Oi /Ot /Oy /Ob2 /Gs /GF /Gy /GL");

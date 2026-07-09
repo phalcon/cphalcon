@@ -187,7 +187,7 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Group, processCallable)
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "iscallable", NULL, 0, method);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_TRUE_IDENTICAL(&_0)) {
-		ZEPHIR_CALL_FUNCTION(&key, "call_user_func", NULL, 80, method, element);
+		ZEPHIR_CALL_FUNCTION(&key, "call_user_func", NULL, 79, method, element);
 		zephir_check_call_status();
 		zephir_array_update_multi(&output, element, SL("za"), 2, &key);
 	}
@@ -316,7 +316,7 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Group, phpExtensionLoaded)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
-	ZEPHIR_RETURN_CALL_FUNCTION("extension_loaded", NULL, 44, &name_zv);
+	ZEPHIR_RETURN_CALL_FUNCTION("extension_loaded", NULL, 43, &name_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }
