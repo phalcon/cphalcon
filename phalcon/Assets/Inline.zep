@@ -10,6 +10,8 @@
 
 namespace Phalcon\Assets;
 
+use Phalcon\Assets\Traits\AttributesTrait;
+
 /**
  * Represents an inline asset
  *
@@ -19,10 +21,7 @@ namespace Phalcon\Assets;
  */
 class $Inline implements AssetInterface
 {
-    /**
-     * @var array
-     */
-    protected attributes;
+    use AttributesTrait;
 
     /**
      * @var string
@@ -60,14 +59,6 @@ class $Inline implements AssetInterface
         let key = this->getType() . ":" . this->getContent();
 
         return hash("sha256", key);
-    }
-
-    /**
-     * @return array
-     */
-    public function getAttributes() -> array
-    {
-        return this->attributes;
     }
 
     /**

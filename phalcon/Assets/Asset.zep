@@ -11,6 +11,8 @@
 namespace Phalcon\Assets;
 
 use Phalcon\Assets\Exceptions\CannotReadAsset;
+use Phalcon\Assets\Traits\AttributesTrait;
+use Phalcon\Assets\Traits\SourceTargetTrait;
 use Phalcon\Traits\Php\FileTrait;
 
 /**
@@ -22,12 +24,9 @@ use Phalcon\Traits\Php\FileTrait;
  */
 class Asset implements AssetInterface
 {
+    use AttributesTrait;
     use FileTrait;
-
-    /**
-     * @var array
-     */
-    protected attributes;
+    use SourceTargetTrait;
 
     /**
      * @var bool
@@ -40,29 +39,9 @@ class Asset implements AssetInterface
     protected filter;
 
     /**
-     * @var bool
-     */
-    protected isLocal;
-
-    /**
      * @var string
      */
     protected path;
-
-    /**
-     * @var string
-     */
-    protected sourcePath;
-
-    /**
-     * @var string
-     */
-    protected targetPath;
-
-    /**
-     * @var string
-     */
-    protected targetUri;
 
     /**
      * @var string
@@ -115,16 +94,6 @@ class Asset implements AssetInterface
         let key = this->getType() . ":" . this->getPath();
 
         return hash("sha256", key);
-    }
-
-    /**
-     * Gets extra HTML attributes.
-     *
-     * @return array
-     */
-    public function getAttributes() -> array
-    {
-        return this->attributes;
     }
 
     /**
@@ -260,21 +229,6 @@ class Asset implements AssetInterface
         return target;
     }
 
-    public function getSourcePath() -> string
-    {
-        return this->sourcePath;
-    }
-
-    public function getTargetPath() -> string
-    {
-        return this->targetPath;
-    }
-
-    public function getTargetUri() -> string
-    {
-        return this->targetUri;
-    }
-
     /**
      * @return string
      */
@@ -301,16 +255,6 @@ class Asset implements AssetInterface
     public function isAutoVersion() -> bool
     {
         return this->isAutoVersion;
-    }
-
-    /**
-     * Checks if the asset is local or not
-     *
-     * @return bool
-     */
-    public function isLocal() -> bool
-    {
-        return this->isLocal;
     }
 
     /**
@@ -349,62 +293,6 @@ class Asset implements AssetInterface
     public function setFilter(bool filter) -> <AssetInterface>
     {
         let this->filter = filter;
-
-        return this;
-    }
-
-    /**
-     * Sets if the asset is local or external
-     *
-     * @param bool $flag
-     *
-     * @return AssetInterface
-     */
-    public function setIsLocal(bool flag) -> <AssetInterface>
-    {
-        let this->isLocal = flag;
-
-        return this;
-    }
-
-    /**
-     * Sets the asset's source path
-     *
-     * @param string $sourcePath
-     *
-     * @return AssetInterface
-     */
-    public function setSourcePath(string sourcePath) -> <AssetInterface>
-    {
-        let this->sourcePath = sourcePath;
-
-        return this;
-    }
-
-    /**
-     * Sets the asset's target path
-     *
-     * @param string $targetPath
-     *
-     * @return AssetInterface
-     */
-    public function setTargetPath(string targetPath) -> <AssetInterface>
-    {
-        let this->targetPath = targetPath;
-
-        return this;
-    }
-
-    /**
-     * Sets a target uri for the generated HTML
-     *
-     * @param string $targetUri
-     *
-     * @return AssetInterface
-     */
-    public function setTargetUri(string targetUri) -> <AssetInterface>
-    {
-        let this->targetUri = targetUri;
 
         return this;
     }

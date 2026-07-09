@@ -8,13 +8,12 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Acl;
+namespace Phalcon\Acl\Traits;
 
 /**
- * Shared base for ACL Role and Component entities: a name and an optional
- * description.
+ * Shared name/description state for ACL Role and Component entities.
  */
-abstract class AbstractElement
+trait ItemTrait
 {
     /**
      * Element description
