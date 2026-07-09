@@ -232,6 +232,7 @@ zend_class_entry *phalcon_mvc_moduledefinitioninterface_ce;
 zend_class_entry *phalcon_traits_php_apcutrait_ce;
 zend_class_entry *phalcon_traits_php_base64trait_ce;
 zend_class_entry *phalcon_traits_php_filetrait_ce;
+zend_class_entry *phalcon_traits_php_headertrait_ce;
 zend_class_entry *phalcon_traits_php_igbinarytrait_ce;
 zend_class_entry *phalcon_traits_php_infotrait_ce;
 zend_class_entry *phalcon_traits_php_initrait_ce;
@@ -1709,6 +1710,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Traits_Php_ApcuTrait);
 	ZEPHIR_INIT(Phalcon_Traits_Php_Base64Trait);
 	ZEPHIR_INIT(Phalcon_Traits_Php_FileTrait);
+	ZEPHIR_INIT(Phalcon_Traits_Php_HeaderTrait);
 	ZEPHIR_INIT(Phalcon_Traits_Php_IgbinaryTrait);
 	ZEPHIR_INIT(Phalcon_Traits_Php_InfoTrait);
 	ZEPHIR_INIT(Phalcon_Traits_Php_IniTrait);
