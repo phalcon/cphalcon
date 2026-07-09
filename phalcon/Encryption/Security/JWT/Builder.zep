@@ -24,6 +24,7 @@ use Phalcon\Encryption\Security\JWT\Token\Token;
 use Phalcon\Support\Collection;
 use Phalcon\Support\Collection\CollectionInterface;
 use Phalcon\Support\Helper\Json\Encode;
+use Phalcon\Traits\Php\Base64Trait;
 
 /**
  * JWT Builder
@@ -32,6 +33,8 @@ use Phalcon\Support\Helper\Json\Encode;
  */
 class Builder
 {
+    use Base64Trait;
+
     /**
      * @var CollectionInterface
      */
@@ -207,15 +210,15 @@ class Builder
             throw new EmptyPassphrase();
         }
 
-        let encodedClaims    = this->encodeUrl(this->encode->__invoke(this->getClaims())),
+        let encodedClaims    = this->doEncodeUrl(this->encode->__invoke(this->getClaims())),
             claims           = new Item(this->getClaims(), encodedClaims),
-            encodedHeaders   = this->encodeUrl(this->encode->__invoke(this->getHeaders())),
+            encodedHeaders   = this->doEncodeUrl(this->encode->__invoke(this->getHeaders())),
             headers          = new Item(this->getHeaders(), encodedHeaders),
             signatureHash    = this->signer->sign(
                 encodedHeaders . "." . encodedClaims,
                 this->passphrase
             ),
-            encodedSignature = this->encodeUrl(signatureHash),
+            encodedSignature = this->doEncodeUrl(signatureHash),
             signature        = new Signature(signatureHash, encodedSignature);
 
         return new Token(headers, claims, signature);
@@ -435,11 +438,4 @@ class Builder
         return this;
     }
 
-    /**
-     * @todo This will be removed when traits are introduced
-     */
-    private function encodeUrl( string input) -> string
-    {
-        return str_replace("=", "", strtr(base64_encode(input), "+/", "-_"));
-    }
 }

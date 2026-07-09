@@ -55,7 +55,6 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/logger/exception.zep.c
 	phalcon/queue/exceptions/queuethrowable.zep.c
 	phalcon/support/helper/arr/abstractarr.zep.c
-	phalcon/support/helper/str/abstractstr.zep.c
 	phalcon/translate/exception.zep.c
 	phalcon/assets/exception.zep.c
 	phalcon/contracts/encryption/crypt/padding/pad.zep.c
@@ -1323,9 +1322,15 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/time/clock/frozenclock.zep.c
 	phalcon/time/clock/systemclock.zep.c
 	phalcon/traits/php/apcutrait.zep.c
+	phalcon/traits/php/base64trait.zep.c
 	phalcon/traits/php/filetrait.zep.c
+	phalcon/traits/php/igbinarytrait.zep.c
 	phalcon/traits/php/infotrait.zep.c
 	phalcon/traits/php/initrait.zep.c
+	phalcon/traits/php/msgpacktrait.zep.c
+	phalcon/traits/php/openssltrait.zep.c
+	phalcon/traits/php/serializetrait.zep.c
+	phalcon/traits/php/yamltrait.zep.c
 	phalcon/traits/support/helper/arr/gettrait.zep.c
 	phalcon/traits/support/helper/str/camelizetrait.zep.c
 	phalcon/traits/support/helper/str/dirfromfiletrait.zep.c

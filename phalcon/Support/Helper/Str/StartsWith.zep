@@ -10,11 +10,15 @@
 
 namespace Phalcon\Support\Helper\Str;
 
+use Phalcon\Traits\Support\Helper\Str\StartsWithTrait;
+
 /**
  * Check if a string starts with a given string
  */
-class StartsWith extends AbstractStr
+class StartsWith
 {
+    use StartsWithTrait;
+
     /**
      * @param string $haystack
      * @param string $needle

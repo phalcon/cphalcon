@@ -10,13 +10,19 @@
 
 namespace Phalcon\Support\Helper\Str;
 
+use Phalcon\Traits\Support\Helper\Str\LowerTrait;
+use Phalcon\Traits\Support\Helper\Str\UpperTrait;
+
 /**
  * Decapitalizes the first letter of the string and then adds it with rest
  * of the string. Omit the upperRest parameter to keep the rest of the
  * string intact, or set it to true to convert to uppercase.
  */
-class Decapitalize extends AbstractStr
+class Decapitalize
 {
+    use LowerTrait;
+    use UpperTrait;
+
     /**
      * @param string $text
      * @param bool   $upperRest

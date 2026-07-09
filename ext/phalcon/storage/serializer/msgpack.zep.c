@@ -42,6 +42,56 @@ PHP_METHOD(Phalcon_Storage_Serializer_Msgpack, doSerialize)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *value, value_sub;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&value_sub);
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(value)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_fetch_params(1, 1, 0, &value);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "phpmsgpackpack", NULL, 0, value);
+	zephir_check_call_status();
+	RETURN_MM();
+}
+
+/**
+ * @param mixed $value
+ *
+ * @return mixed
+ */
+PHP_METHOD(Phalcon_Storage_Serializer_Msgpack, doUnserialize)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *value, value_sub;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&value_sub);
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(value)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_fetch_params(1, 1, 0, &value);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "phpmsgpackunpack", NULL, 0, value);
+	zephir_check_call_status();
+	RETURN_MM();
+}
+
+/**
+ * @param mixed $value
+ *
+ * @return string
+ *
+ * @link https://php.net/manual/en/function.msgpack-pack.php
+ */
+PHP_METHOD(Phalcon_Storage_Serializer_Msgpack, phpMsgpackPack)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *value, value_sub;
 
 	ZVAL_UNDEF(&value_sub);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
@@ -56,11 +106,13 @@ PHP_METHOD(Phalcon_Storage_Serializer_Msgpack, doSerialize)
 }
 
 /**
- * @param mixed $value
+ * @param string $value
  *
  * @return mixed
+ *
+ * @link https://php.net/manual/en/function.msgpack-unpack.php
  */
-PHP_METHOD(Phalcon_Storage_Serializer_Msgpack, doUnserialize)
+PHP_METHOD(Phalcon_Storage_Serializer_Msgpack, phpMsgpackUnpack)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;

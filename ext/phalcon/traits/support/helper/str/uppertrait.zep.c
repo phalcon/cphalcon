@@ -69,7 +69,7 @@ PHP_METHOD(Phalcon_Traits_Support_Helper_Str_UpperTrait, toUpper)
 	ZVAL_STR_COPY(&encoding_zv, encoding);
 	}
 	ZVAL_LONG(&_0, 0);
-	ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_case", NULL, 31, &text_zv, &_0, &encoding_zv);
+	ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_case", NULL, 0, &text_zv, &_0, &encoding_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }

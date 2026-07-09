@@ -17,7 +17,7 @@ use Phalcon\Storage\Serializer\Igbinary;
 
 final class FakeIgbinarySerialize extends Igbinary
 {
-    protected function phpIgbinarySerialize($value): string|null
+    protected static function phpIgbinarySerialize($value): string|null
     {
         return null;
     }
