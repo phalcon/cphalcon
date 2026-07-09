@@ -12,10 +12,10 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/memory.h"
 #include "kernel/fcall.h"
-#include "kernel/operators.h"
+#include "kernel/memory.h"
 #include "kernel/object.h"
+#include "kernel/operators.h"
 
 
 /**
@@ -48,16 +48,13 @@ PHP_METHOD(Phalcon_Filter_Sanitize_UpperWords, __invoke)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval input_zv, _0, _1, _4, _2$$3, _3$$3;
+	zval input_zv, _0, _1;
 	zend_string *input = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&input_zv);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_4);
-	ZVAL_UNDEF(&_2$$3);
-	ZVAL_UNDEF(&_3$$3);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(input)
 	ZEND_PARSE_PARAMETERS_END();
@@ -65,73 +62,63 @@ PHP_METHOD(Phalcon_Filter_Sanitize_UpperWords, __invoke)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&input_zv);
 	ZVAL_STR_COPY(&input_zv, input);
+	ZVAL_LONG(&_0, 2);
 	ZEPHIR_INIT_VAR(&_1);
-	ZVAL_STRING(&_1, "mb_convert_case");
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "phpfunctionexists", NULL, 0, &_1);
-	zephir_check_call_status();
-	if (ZEPHIR_IS_TRUE_IDENTICAL(&_0)) {
-		ZVAL_LONG(&_2$$3, 2);
-		ZEPHIR_INIT_VAR(&_3$$3);
-		ZVAL_STRING(&_3$$3, "UTF-8");
-		ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_case", NULL, 0, &input_zv, &_2$$3, &_3$$3);
-		zephir_check_call_status();
-		RETURN_MM();
-	}
-	ZEPHIR_CALL_FUNCTION(&_4, "utf8_decode", NULL, 0, &input_zv);
-	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_FUNCTION("ucwords", NULL, 0, &_4);
+	ZVAL_STRING(&_1, "ucwords");
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "phpmbconvertcase", NULL, 0, &input_zv, &_0, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 }
 
 /**
- * Find out whether an extension is loaded
+ * Converts the case of a string using `mb_convert_case()` when the
+ * `mbstring` extension is available, otherwise applies the passed fallback
+ * function to the `utf8_decode()`d input.
  *
- * @param string $name
+ * @param string $input
+ * @param int    $mode
+ * @param string $fallback
  *
- * @return bool
+ * @return string
  *
- * @link https://php.net/manual/en/function.extension-loaded.php
+ * @link https://php.net/manual/en/function.mb-convert-case.php
  */
-PHP_METHOD(Phalcon_Filter_Sanitize_UpperWords, phpExtensionLoaded)
+PHP_METHOD(Phalcon_Filter_Sanitize_UpperWords, phpMbConvertCase)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval name_zv;
-	zend_string *name = NULL;
+	zend_long mode, ZEPHIR_LAST_CALL_STATUS;
+	zval input_zv, *mode_param = NULL, fallback_zv, _0$$3, _1$$3, _2;
+	zend_string *input = NULL, *fallback = NULL;
 
-	ZVAL_UNDEF(&name_zv);
-	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_STR(name)
+	ZVAL_UNDEF(&input_zv);
+	ZVAL_UNDEF(&fallback_zv);
+	ZVAL_UNDEF(&_0$$3);
+	ZVAL_UNDEF(&_1$$3);
+	ZVAL_UNDEF(&_2);
+	ZEND_PARSE_PARAMETERS_START(3, 3)
+		Z_PARAM_STR(input)
+		Z_PARAM_LONG(mode)
+		Z_PARAM_STR(fallback)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_memory_observe(&name_zv);
-	ZVAL_STR_COPY(&name_zv, name);
-	ZEPHIR_RETURN_CALL_FUNCTION("extension_loaded", NULL, 43, &name_zv);
+	mode_param = ZEND_CALL_ARG(execute_data, 2);
+	zephir_memory_observe(&input_zv);
+	ZVAL_STR_COPY(&input_zv, input);
+	zephir_memory_observe(&fallback_zv);
+	ZVAL_STR_COPY(&fallback_zv, fallback);
+	if (1 == (zephir_function_exists_ex(ZEND_STRL("mb_convert_case")) == SUCCESS)) {
+		ZVAL_LONG(&_0$$3, mode);
+		ZEPHIR_INIT_VAR(&_1$$3);
+		ZVAL_STRING(&_1$$3, "UTF-8");
+		ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_case", NULL, 0, &input_zv, &_0$$3, &_1$$3);
+		zephir_check_call_status();
+		RETURN_MM();
+	}
+	ZEPHIR_CALL_FUNCTION(&_2, "utf8_decode", NULL, 0, &input_zv);
+	zephir_check_call_status();
+	ZEPHIR_RETURN_CALL_ZVAL_FUNCTION(&fallback_zv, NULL, 0, &_2);
 	zephir_check_call_status();
 	RETURN_MM();
-}
-
-/**
- * Return true if the given function has been defined
- *
- * @param string $functionName
- *
- * @return bool
- *
- * @link https://php.net/manual/en/function.function-exists.php
- */
-PHP_METHOD(Phalcon_Filter_Sanitize_UpperWords, phpFunctionExists)
-{
-	zval functionName_zv;
-	zend_string *functionName = NULL;
-
-	ZVAL_UNDEF(&functionName_zv);
-	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_STR(functionName)
-	ZEND_PARSE_PARAMETERS_END();
-	ZVAL_STR(&functionName_zv, functionName);
-	RETURN_BOOL((zephir_function_exists(&functionName_zv) == SUCCESS));
 }
 

@@ -1120,7 +1120,7 @@ PHP_METHOD(Phalcon_Support_Debug_Dump, output)
 				ZEPHIR_CALL_METHOD(NULL, &reflect, "__construct", NULL, 229, variable);
 				zephir_check_call_status();
 				ZVAL_LONG(&_76$$15, ((1 | 2) | 4));
-				ZEPHIR_CALL_METHOD(&props, &reflect, "getproperties", NULL, 303, &_76$$15);
+				ZEPHIR_CALL_METHOD(&props, &reflect, "getproperties", NULL, 302, &_76$$15);
 				zephir_check_call_status();
 				zephir_is_iterable(&props, 0, "phalcon/Support/Debug/Dump.zep", 393);
 				if (Z_TYPE_P(&props) == IS_ARRAY) {

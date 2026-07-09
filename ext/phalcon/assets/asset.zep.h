@@ -32,6 +32,9 @@ PHP_METHOD(Phalcon_Assets_Asset, phpFopen);
 PHP_METHOD(Phalcon_Assets_Asset, phpFwrite);
 PHP_METHOD(Phalcon_Assets_Asset, phpIsWritable);
 PHP_METHOD(Phalcon_Assets_Asset, phpUnlink);
+PHP_METHOD(Phalcon_Assets_Asset, phpHash);
+PHP_METHOD(Phalcon_Assets_Asset, phpHashEquals);
+PHP_METHOD(Phalcon_Assets_Asset, phpHashHmac);
 PHP_METHOD(Phalcon_Assets_Asset, getSourcePath);
 PHP_METHOD(Phalcon_Assets_Asset, getTargetPath);
 PHP_METHOD(Phalcon_Assets_Asset, getTargetUri);
@@ -173,6 +176,24 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_asset_phpunlink, 
 	ZEND_ARG_INFO(0, context)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_asset_phphash, 0, 2, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, algorithm, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, data, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, binary, _IS_BOOL, 0, "false")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_asset_phphashequals, 0, 2, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, knownString, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, userString, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_asset_phphashhmac, 0, 3, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, algorithm, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, data, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, binary, _IS_BOOL, 0, "false")
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_asset_getsourcepath, 0, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
@@ -231,6 +252,9 @@ ZEPHIR_INIT_FUNCS(phalcon_assets_asset_method_entry) {
 	PHP_ME(Phalcon_Assets_Asset, phpFwrite, arginfo_phalcon_assets_asset_phpfwrite, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Assets_Asset, phpIsWritable, arginfo_phalcon_assets_asset_phpiswritable, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Assets_Asset, phpUnlink, arginfo_phalcon_assets_asset_phpunlink, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Assets_Asset, phpHash, arginfo_phalcon_assets_asset_phphash, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Assets_Asset, phpHashEquals, arginfo_phalcon_assets_asset_phphashequals, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Assets_Asset, phpHashHmac, arginfo_phalcon_assets_asset_phphashhmac, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Assets_Asset, getSourcePath, arginfo_phalcon_assets_asset_getsourcepath, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Assets_Asset, getTargetPath, arginfo_phalcon_assets_asset_gettargetpath, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Assets_Asset, getTargetUri, arginfo_phalcon_assets_asset_gettargeturi, ZEND_ACC_PUBLIC)

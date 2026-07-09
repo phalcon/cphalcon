@@ -8,6 +8,9 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Signer_Hmac, getAlgHeader);
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Signer_Hmac, sign);
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Signer_Hmac, verify);
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Signer_Hmac, getHash);
+PHP_METHOD(Phalcon_Encryption_Security_JWT_Signer_Hmac, phpHash);
+PHP_METHOD(Phalcon_Encryption_Security_JWT_Signer_Hmac, phpHashEquals);
+PHP_METHOD(Phalcon_Encryption_Security_JWT_Signer_Hmac, phpHashHmac);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_encryption_security_jwt_signer_hmac___construct, 0, 0, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, algo, IS_STRING, 0, "'sha512'")
@@ -32,11 +35,32 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_jwt_
 	ZEND_ARG_TYPE_INFO(0, passphrase, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_jwt_signer_hmac_phphash, 0, 2, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, algorithm, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, data, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, binary, _IS_BOOL, 0, "false")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_jwt_signer_hmac_phphashequals, 0, 2, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, knownString, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, userString, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_jwt_signer_hmac_phphashhmac, 0, 3, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, algorithm, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, data, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, binary, _IS_BOOL, 0, "false")
+ZEND_END_ARG_INFO()
+
 ZEPHIR_INIT_FUNCS(phalcon_encryption_security_jwt_signer_hmac_method_entry) {
 	PHP_ME(Phalcon_Encryption_Security_JWT_Signer_Hmac, __construct, arginfo_phalcon_encryption_security_jwt_signer_hmac___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Encryption_Security_JWT_Signer_Hmac, getAlgHeader, arginfo_phalcon_encryption_security_jwt_signer_hmac_getalgheader, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Encryption_Security_JWT_Signer_Hmac, sign, arginfo_phalcon_encryption_security_jwt_signer_hmac_sign, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Encryption_Security_JWT_Signer_Hmac, verify, arginfo_phalcon_encryption_security_jwt_signer_hmac_verify, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Encryption_Security_JWT_Signer_Hmac, getHash, arginfo_phalcon_encryption_security_jwt_signer_hmac_gethash, ZEND_ACC_PRIVATE)
+	PHP_ME(Phalcon_Encryption_Security_JWT_Signer_Hmac, phpHash, arginfo_phalcon_encryption_security_jwt_signer_hmac_phphash, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Encryption_Security_JWT_Signer_Hmac, phpHashEquals, arginfo_phalcon_encryption_security_jwt_signer_hmac_phphashequals, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Encryption_Security_JWT_Signer_Hmac, phpHashHmac, arginfo_phalcon_encryption_security_jwt_signer_hmac_phphashhmac, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_FE_END
 };

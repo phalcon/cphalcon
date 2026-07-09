@@ -12,6 +12,9 @@ PHP_METHOD(Phalcon_Assets_Inline, setAttributes);
 PHP_METHOD(Phalcon_Assets_Inline, setFilter);
 PHP_METHOD(Phalcon_Assets_Inline, setType);
 PHP_METHOD(Phalcon_Assets_Inline, getAttributes);
+PHP_METHOD(Phalcon_Assets_Inline, phpHash);
+PHP_METHOD(Phalcon_Assets_Inline, phpHashEquals);
+PHP_METHOD(Phalcon_Assets_Inline, phpHashHmac);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_inline___construct, 0, 0, 2)
 	ZEND_ARG_TYPE_INFO(0, type, IS_STRING, 0)
@@ -47,6 +50,24 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_inline_getattributes, 0, 0, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_inline_phphash, 0, 2, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, algorithm, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, data, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, binary, _IS_BOOL, 0, "false")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_inline_phphashequals, 0, 2, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, knownString, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, userString, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_inline_phphashhmac, 0, 3, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, algorithm, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, data, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, binary, _IS_BOOL, 0, "false")
+ZEND_END_ARG_INFO()
+
 ZEPHIR_INIT_FUNCS(phalcon_assets_inline_method_entry) {
 	PHP_ME(Phalcon_Assets_Inline, __construct, arginfo_phalcon_assets_inline___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Assets_Inline, getAssetKey, arginfo_phalcon_assets_inline_getassetkey, ZEND_ACC_PUBLIC)
@@ -57,5 +78,8 @@ ZEPHIR_INIT_FUNCS(phalcon_assets_inline_method_entry) {
 	PHP_ME(Phalcon_Assets_Inline, setFilter, arginfo_phalcon_assets_inline_setfilter, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Assets_Inline, setType, arginfo_phalcon_assets_inline_settype, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Assets_Inline, getAttributes, arginfo_phalcon_assets_inline_getattributes, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Assets_Inline, phpHash, arginfo_phalcon_assets_inline_phphash, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Assets_Inline, phpHashEquals, arginfo_phalcon_assets_inline_phphashequals, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Assets_Inline, phpHashHmac, arginfo_phalcon_assets_inline_phphashhmac, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_FE_END
 };

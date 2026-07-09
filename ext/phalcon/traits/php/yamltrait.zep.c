@@ -78,7 +78,7 @@ PHP_METHOD(Phalcon_Traits_Php_YamlTrait, phpYamlParseFile)
 	ZEPHIR_INIT_VAR(&ndocs);
 	ZVAL_NULL(&ndocs);
 	ZEPHIR_MAKE_REF(&ndocs);
-	ZEPHIR_RETURN_CALL_FUNCTION("yaml_parse_file", NULL, 399, filename, pos, &ndocs, callbacks);
+	ZEPHIR_RETURN_CALL_FUNCTION("yaml_parse_file", NULL, 398, filename, pos, &ndocs, callbacks);
 	ZEPHIR_UNREF(&ndocs);
 	zephir_check_call_status();
 	RETURN_MM();

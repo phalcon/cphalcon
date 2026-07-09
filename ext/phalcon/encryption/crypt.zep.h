@@ -41,6 +41,9 @@ PHP_METHOD(Phalcon_Encryption_Crypt, doDecodeUrl);
 PHP_METHOD(Phalcon_Encryption_Crypt, doEncodeUrl);
 PHP_METHOD(Phalcon_Encryption_Crypt, phpBase64Decode);
 PHP_METHOD(Phalcon_Encryption_Crypt, phpBase64Encode);
+PHP_METHOD(Phalcon_Encryption_Crypt, phpHash);
+PHP_METHOD(Phalcon_Encryption_Crypt, phpHashEquals);
+PHP_METHOD(Phalcon_Encryption_Crypt, phpHashHmac);
 PHP_METHOD(Phalcon_Encryption_Crypt, phpExtensionLoaded);
 PHP_METHOD(Phalcon_Encryption_Crypt, phpFunctionExists);
 PHP_METHOD(Phalcon_Encryption_Crypt, phpOpensslCipherIvLength);
@@ -217,6 +220,24 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_crypt_phpbase
 	ZEND_ARG_TYPE_INFO(0, input, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_crypt_phphash, 0, 2, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, algorithm, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, data, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, binary, _IS_BOOL, 0, "false")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_crypt_phphashequals, 0, 2, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, knownString, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, userString, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_crypt_phphashhmac, 0, 3, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, algorithm, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, data, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, binary, _IS_BOOL, 0, "false")
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_crypt_phpextensionloaded, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 ZEND_END_ARG_INFO()
@@ -275,6 +296,9 @@ ZEPHIR_INIT_FUNCS(phalcon_encryption_crypt_method_entry) {
 	PHP_ME(Phalcon_Encryption_Crypt, doEncodeUrl, arginfo_phalcon_encryption_crypt_doencodeurl, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Encryption_Crypt, phpBase64Decode, arginfo_phalcon_encryption_crypt_phpbase64decode, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Encryption_Crypt, phpBase64Encode, arginfo_phalcon_encryption_crypt_phpbase64encode, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Encryption_Crypt, phpHash, arginfo_phalcon_encryption_crypt_phphash, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Encryption_Crypt, phpHashEquals, arginfo_phalcon_encryption_crypt_phphashequals, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Encryption_Crypt, phpHashHmac, arginfo_phalcon_encryption_crypt_phphashhmac, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Encryption_Crypt, phpExtensionLoaded, arginfo_phalcon_encryption_crypt_phpextensionloaded, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Encryption_Crypt, phpFunctionExists, arginfo_phalcon_encryption_crypt_phpfunctionexists, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Encryption_Crypt, phpOpensslCipherIvLength, arginfo_phalcon_encryption_crypt_phpopensslcipherivlength, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
