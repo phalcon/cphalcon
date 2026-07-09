@@ -13,11 +13,15 @@
 
 namespace Phalcon\Auth\Adapter\Config;
 
+use Phalcon\Auth\Adapter\Config\Traits\ModelConfigTrait;
 use Phalcon\Auth\Exception;
 use Phalcon\Auth\Exceptions\ConfigRequiresNonEmptyValue;
+use Phalcon\Contracts\Auth\Adapter\AdapterConfig;
 
-class ModelAdapterConfig extends AbstractAdapterConfig
+class ModelAdapterConfig implements AdapterConfig
 {
+    use ModelConfigTrait;
+
     /**
      * @var string
      */
@@ -43,9 +47,8 @@ class ModelAdapterConfig extends AbstractAdapterConfig
             );
         }
 
-        let this->idColumn = idColumn;
-
-        parent::__construct(model);
+        let this->idColumn = idColumn,
+            this->model    = model;
     }
 
     public function getIdColumn() -> string

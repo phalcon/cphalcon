@@ -8,38 +8,40 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Filter\Validation;
-
-use Phalcon\Filter\Validation;
-use Phalcon\Filter\Validation\Exceptions\NoValidatorsInComposite;
+namespace Phalcon\Filter\Validation\Traits;
 
 /**
- * This is a base class for combined fields validators
+ * Shared validator collection state and combined validation for composite
+ * validators.
  */
-abstract class AbstractValidatorComposite extends AbstractValidator implements ValidatorCompositeInterface
+trait ValidatorCompositeTrait
 {
     /**
      * @var array
+     *
+     * @todo Use a default [] once Zephir supports array trait defaults
      */
-    protected validators = [];
+    protected validators = null;
 
     /**
      * @return array
      */
     public function getValidators() -> array
     {
-        return this->validators;
+        return (array) this->validators;
     }
 
     /**
      * Executes the validation
      */
-    public function validate(<Validation> validation, var field) -> bool
+    public function validate(<\Phalcon\Filter\Validation> validation, var field) -> bool
     {
         var validator;
 
         if unlikely count(this->getValidators()) === 0 {
-            throw new NoValidatorsInComposite(get_class(this));
+            throw new \Phalcon\Filter\Validation\Exceptions\NoValidatorsInComposite(
+                get_class(this)
+            );
         }
 
         for validator in this->getValidators() {

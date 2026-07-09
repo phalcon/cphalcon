@@ -12,7 +12,8 @@ namespace Phalcon\Filter\Validation\Validator;
 
 use Phalcon\Messages\Message;
 use Phalcon\Filter\Validation\AbstractValidator;
-use Phalcon\Filter\Validation\AbstractValidatorComposite;
+use Phalcon\Filter\Validation\Traits\ValidatorCompositeTrait;
+use Phalcon\Filter\Validation\ValidatorCompositeInterface;
 use Phalcon\Filter\Validation\Validator\StringLength\Max;
 use Phalcon\Filter\Validation\Validator\StringLength\Min;
 use Phalcon\Filter\Validation\Exception;
@@ -79,8 +80,10 @@ use Phalcon\Filter\Validation\Exception;
  * );
  * ```
  */
-class StringLength extends AbstractValidatorComposite
+class StringLength extends AbstractValidator implements ValidatorCompositeInterface
 {
+    use ValidatorCompositeTrait;
+
     /**
      * Constructor
      *

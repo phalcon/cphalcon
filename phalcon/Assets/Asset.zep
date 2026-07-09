@@ -14,6 +14,7 @@ use Phalcon\Assets\Exceptions\CannotReadAsset;
 use Phalcon\Assets\Traits\AttributesTrait;
 use Phalcon\Assets\Traits\SourceTargetTrait;
 use Phalcon\Traits\Php\FileTrait;
+use Phalcon\Traits\Php\HashTrait;
 
 /**
  * Represents an asset
@@ -26,6 +27,7 @@ class Asset implements AssetInterface
 {
     use AttributesTrait;
     use FileTrait;
+    use HashTrait;
     use SourceTargetTrait;
 
     /**
@@ -93,7 +95,7 @@ class Asset implements AssetInterface
 
         let key = this->getType() . ":" . this->getPath();
 
-        return hash("sha256", key);
+        return this->phpHash("sha256", key);
     }
 
     /**

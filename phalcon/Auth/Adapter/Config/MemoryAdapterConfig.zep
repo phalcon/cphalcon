@@ -13,11 +13,16 @@
 
 namespace Phalcon\Auth\Adapter\Config;
 
+use Phalcon\Auth\Adapter\Config\Traits\ModelConfigTrait;
+use Phalcon\Contracts\Auth\Adapter\AdapterConfig;
+
 /**
  * @phpstan-type AuthUserRow array{id?: int|string}&array<string, mixed>
  */
-class MemoryAdapterConfig extends AbstractAdapterConfig
+class MemoryAdapterConfig implements AdapterConfig
 {
+    use ModelConfigTrait;
+
     /**
      * @var array
      */
@@ -28,9 +33,8 @@ class MemoryAdapterConfig extends AbstractAdapterConfig
      */
     public function __construct(array users = [], string model = null)
     {
-        let this->users = users;
-
-        parent::__construct(model);
+        let this->users = users,
+            this->model = model;
     }
 
     /**

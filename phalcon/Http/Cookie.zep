@@ -21,6 +21,7 @@ use Phalcon\Http\Cookie\Exceptions\CryptInterfaceRequired;
 use Phalcon\Http\Cookie\Exceptions\CryptServiceUnavailable;
 use Phalcon\Http\Cookie\Exceptions\FilterServiceUnavailable;
 use Phalcon\Http\Response\Exception;
+use Phalcon\Http\Traits\EncryptionAwareTrait;
 use Phalcon\Session\ManagerInterface as SessionManagerInterface;
 use Phalcon\Traits\Support\Helper\Arr\GetTrait;
 
@@ -29,6 +30,7 @@ use Phalcon\Traits\Support\Helper\Arr\GetTrait;
  */
 class Cookie extends AbstractInjectionAware implements CookieInterface
 {
+    use EncryptionAwareTrait;
     use GetTrait;
 
     /**
@@ -87,11 +89,6 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
      * @var string|null
      */
     protected signKey = null;
-
-    /**
-     * @var bool
-     */
-    protected useEncryption = false;
 
     /**
      * @var mixed|null
@@ -325,14 +322,6 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
         }
 
         return this->value;
-    }
-
-    /**
-     * Check if the cookie is using implicit encryption
-     */
-    public function isUsingEncryption() -> bool
-    {
-        return this->useEncryption;
     }
 
     /**

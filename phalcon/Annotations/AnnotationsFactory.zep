@@ -12,13 +12,15 @@ namespace Phalcon\Annotations;
 
 use Phalcon\Annotations\Adapter\AdapterInterface;
 use Phalcon\Factory\AbstractFactory;
-use Phalcon\Support\Helper\Arr\Get;
+use Phalcon\Traits\Support\Helper\Arr\GetTrait;
 
 /**
  * Factory to create annotations components
  */
 class AnnotationsFactory extends AbstractFactory
 {
+    use GetTrait;
+
     /**
      * AdapterFactory constructor.
      */
@@ -49,7 +51,7 @@ class AnnotationsFactory extends AbstractFactory
 
         unset config["adapter"];
 
-        let options = (new Get())->__invoke(config, "options", []);
+        let options = this->getArrVal(config, "options", []);
 
         return this->newInstance(name, options);
     }
