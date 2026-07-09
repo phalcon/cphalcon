@@ -242,6 +242,8 @@ zend_class_entry *phalcon_traits_php_serializetrait_ce;
 zend_class_entry *phalcon_traits_php_yamltrait_ce;
 zend_class_entry *phalcon_traits_support_helper_arr_filtertrait_ce;
 zend_class_entry *phalcon_traits_support_helper_arr_gettrait_ce;
+zend_class_entry *phalcon_traits_support_helper_json_decodetrait_ce;
+zend_class_entry *phalcon_traits_support_helper_json_encodetrait_ce;
 zend_class_entry *phalcon_traits_support_helper_str_camelizetrait_ce;
 zend_class_entry *phalcon_traits_support_helper_str_dirfromfiletrait_ce;
 zend_class_entry *phalcon_traits_support_helper_str_dirseparatortrait_ce;
@@ -1720,6 +1722,8 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Traits_Php_YamlTrait);
 	ZEPHIR_INIT(Phalcon_Traits_Support_Helper_Arr_FilterTrait);
 	ZEPHIR_INIT(Phalcon_Traits_Support_Helper_Arr_GetTrait);
+	ZEPHIR_INIT(Phalcon_Traits_Support_Helper_Json_DecodeTrait);
+	ZEPHIR_INIT(Phalcon_Traits_Support_Helper_Json_EncodeTrait);
 	ZEPHIR_INIT(Phalcon_Traits_Support_Helper_Str_CamelizeTrait);
 	ZEPHIR_INIT(Phalcon_Traits_Support_Helper_Str_DirFromFileTrait);
 	ZEPHIR_INIT(Phalcon_Traits_Support_Helper_Str_DirSeparatorTrait);
