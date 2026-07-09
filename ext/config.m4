@@ -54,7 +54,6 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/contracts/db/geometry/geometry.zep.c
 	phalcon/logger/exception.zep.c
 	phalcon/queue/exceptions/queuethrowable.zep.c
-	phalcon/support/helper/arr/abstractarr.zep.c
 	phalcon/translate/exception.zep.c
 	phalcon/assets/exception.zep.c
 	phalcon/contracts/encryption/crypt/padding/pad.zep.c
@@ -1332,6 +1331,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/traits/php/openssltrait.zep.c
 	phalcon/traits/php/serializetrait.zep.c
 	phalcon/traits/php/yamltrait.zep.c
+	phalcon/traits/support/helper/arr/filtertrait.zep.c
 	phalcon/traits/support/helper/arr/gettrait.zep.c
 	phalcon/traits/support/helper/str/camelizetrait.zep.c
 	phalcon/traits/support/helper/str/dirfromfiletrait.zep.c

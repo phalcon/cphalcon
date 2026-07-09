@@ -10,12 +10,16 @@
 
 namespace Phalcon\Support\Helper\Arr;
 
+use Phalcon\Traits\Support\Helper\Arr\FilterTrait;
+
 /**
  * Returns the key of the first element of the collection. If a callable
  * is passed, the element returned is the first that validates true
  */
-class FirstKey extends AbstractArr
+class FirstKey
 {
+    use FilterTrait;
+
     /**
      * @param array         $collection
      * @param callable|null $method

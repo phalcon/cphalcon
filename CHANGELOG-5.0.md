@@ -50,6 +50,7 @@
 - Added `Phalcon\Traits\Php\MsgpackTrait`, exposing protected `static` wrappers `phpMsgpackPack()` and `phpMsgpackUnpack()` around the `msgpack_*` functions, used by `Phalcon\Storage\Serializer\Msgpack`. [#17273](https://github.com/phalcon/cphalcon/issues/17273) [[doc]](https://docs.phalcon.io/5.17/traits)
 - Added `Phalcon\Traits\Php\SerializeTrait`, exposing protected `static` wrappers `phpSerialize()` and `phpUnserialize()` around PHP's `serialize()`/`unserialize()`, used by `Phalcon\Storage\Serializer\Php`. [#17273](https://github.com/phalcon/cphalcon/issues/17273) [[doc]](https://docs.phalcon.io/5.17/traits)
 - Added `Phalcon\Traits\Php\HeaderTrait`, exposing the protected `static phpHeadersSent()` wrapper around `headers_sent()` so the header-state check can be substituted in tests. `Phalcon\Session\Manager` now `use`s the trait, removing its inline copy. [#17273](https://github.com/phalcon/cphalcon/issues/17273) [[doc]](https://docs.phalcon.io/5.17/traits)
+- Added `Phalcon\Traits\Support\Helper\Arr\FilterTrait`, exposing the protected `static toFilter()` helper that filters a collection with `array_filter()` when a valid `callable` is supplied (returning the collection unchanged otherwise). The nine `Arr` helper classes that shared this method - `Phalcon\Support\Helper\Arr\Blacklist`, `Phalcon\Support\Helper\Arr\Filter`, `Phalcon\Support\Helper\Arr\First`, `Phalcon\Support\Helper\Arr\FirstKey`, `Phalcon\Support\Helper\Arr\Last`, `Phalcon\Support\Helper\Arr\LastKey`, `Phalcon\Support\Helper\Arr\ValidateAll`, `Phalcon\Support\Helper\Arr\ValidateAny` and `Phalcon\Support\Helper\Arr\Whitelist` - now `use` the trait, removing the shared `Phalcon\Support\Helper\Arr\AbstractArr` base that previously carried it. [#17273](https://github.com/phalcon/cphalcon/issues/17273) [[doc]](https://docs.phalcon.io/5.17/traits)
 
 ### Fixed
 
@@ -66,6 +67,7 @@
 
 - Removed the deprecated `Serializable` interface from `Phalcon\Mvc\Model` and `Phalcon\Mvc\Model\Resultset` (deprecated by PHP 8.1); the `__serialize()` and `__unserialize()` magic methods remain, so model and resultset serialization is unchanged. [#17253](https://github.com/phalcon/cphalcon/issues/17253) [[doc]](https://docs.phalcon.io/5.17/db-models/)
 - Removed the internal `Phalcon\Support\Helper\Str\AbstractStr` base class; the `Str` helper classes now compose the extracted `Str` traits directly (via `use`) instead of extending it. [#17273](https://github.com/phalcon/cphalcon/issues/17273) [[doc]](https://docs.phalcon.io/5.17/traits)
+- Removed the internal `Phalcon\Support\Helper\Arr\AbstractArr` base class; the `Arr` helper classes now compose the extracted `Phalcon\Traits\Support\Helper\Arr\FilterTrait` directly (via `use`) instead of extending it. [#17273](https://github.com/phalcon/cphalcon/issues/17273) [[doc]](https://docs.phalcon.io/5.17/traits)
 
 ## [5.16.0](https://github.com/phalcon/cphalcon/releases/tag/v5.16.0) (2026-06-22)
 
