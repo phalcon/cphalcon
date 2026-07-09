@@ -12,12 +12,15 @@ namespace Phalcon\Logger\Formatter;
 
 use JsonException;
 use Phalcon\Logger\Item;
+use Phalcon\Traits\Support\Helper\Json\EncodeTrait;
 
 /**
  * Formats messages using JSON encoding
  */
 class Json extends AbstractFormatter
 {
+    use EncodeTrait;
+
     /**
      * Json constructor.
      *
@@ -55,7 +58,7 @@ class Json extends AbstractFormatter
             + JSON_UNESCAPED_SLASHES
             + JSON_THROW_ON_ERROR;
 
-        return json_encode(
+        return this->toEncode(
             [
                 "level"     : item->getLevelName(),
                 "message"   : message,
