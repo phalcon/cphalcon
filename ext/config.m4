@@ -1323,6 +1323,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/traits/php/apcutrait.zep.c
 	phalcon/traits/php/base64trait.zep.c
 	phalcon/traits/php/filetrait.zep.c
+	phalcon/traits/php/headertrait.zep.c
 	phalcon/traits/php/igbinarytrait.zep.c
 	phalcon/traits/php/infotrait.zep.c
 	phalcon/traits/php/initrait.zep.c

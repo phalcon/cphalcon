@@ -1318,6 +1318,7 @@
 #include "phalcon/traits/php/apcutrait.zep.h"
 #include "phalcon/traits/php/base64trait.zep.h"
 #include "phalcon/traits/php/filetrait.zep.h"
+#include "phalcon/traits/php/headertrait.zep.h"
 #include "phalcon/traits/php/igbinarytrait.zep.h"
 #include "phalcon/traits/php/infotrait.zep.h"
 #include "phalcon/traits/php/initrait.zep.h"
