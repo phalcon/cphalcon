@@ -19,6 +19,7 @@ use Phalcon\Session\Exceptions\InvalidSessionId;
 use Phalcon\Session\Exceptions\InvalidSessionName;
 use Phalcon\Session\Exceptions\SessionAlreadyStarted;
 use Phalcon\Session\Exceptions\SessionModificationDenied;
+use Phalcon\Traits\Php\HeaderTrait;
 use Phalcon\Traits\Support\Helper\Arr\GetTrait;
 
 /**
@@ -30,6 +31,7 @@ use Phalcon\Traits\Support\Helper\Arr\GetTrait;
 class Manager extends AbstractInjectionAware implements ManagerInterface
 {
     use GetTrait;
+    use HeaderTrait;
 
     /**
      * @var SessionHandlerInterface|null
@@ -393,18 +395,6 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
         }
 
         return self::SESSION_NONE;
-    }
-
-    /**
-     * Checks if or where headers have been sent
-     *
-     * @return bool
-     *
-     * @link https://php.net/manual/en/function.headers-sent.php
-     */
-    protected function phpHeadersSent() -> bool
-    {
-        return headers_sent();
     }
 
     /**
