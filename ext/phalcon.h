@@ -1328,6 +1328,8 @@
 #include "phalcon/traits/php/yamltrait.zep.h"
 #include "phalcon/traits/support/helper/arr/filtertrait.zep.h"
 #include "phalcon/traits/support/helper/arr/gettrait.zep.h"
+#include "phalcon/traits/support/helper/json/decodetrait.zep.h"
+#include "phalcon/traits/support/helper/json/encodetrait.zep.h"
 #include "phalcon/traits/support/helper/str/camelizetrait.zep.h"
 #include "phalcon/traits/support/helper/str/dirfromfiletrait.zep.h"
 #include "phalcon/traits/support/helper/str/dirseparatortrait.zep.h"
