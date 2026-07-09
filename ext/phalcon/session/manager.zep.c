@@ -572,7 +572,7 @@ PHP_METHOD(Phalcon_Session_Manager, setId)
 		object_init_ex(&_1$$3, phalcon_session_exceptions_sessionalreadystarted_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Session/Manager.zep", 276);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Session/Manager.zep", 278);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -588,7 +588,7 @@ PHP_METHOD(Phalcon_Session_Manager, setId)
 		object_init_ex(&_6$$4, phalcon_session_exceptions_invalidsessionid_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_6$$4, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_6$$4, "phalcon/Session/Manager.zep", 280);
+		zephir_throw_exception_debug(&_6$$4, "phalcon/Session/Manager.zep", 282);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -642,7 +642,7 @@ PHP_METHOD(Phalcon_Session_Manager, setName)
 		object_init_ex(&_1$$3, phalcon_session_exceptions_sessionmodificationdenied_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Session/Manager.zep", 301);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Session/Manager.zep", 303);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -669,7 +669,7 @@ PHP_METHOD(Phalcon_Session_Manager, setName)
 		object_init_ex(&_11$$4, phalcon_session_exceptions_invalidsessionname_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_11$$4, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_11$$4, "phalcon/Session/Manager.zep", 308);
+		zephir_throw_exception_debug(&_11$$4, "phalcon/Session/Manager.zep", 310);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -771,7 +771,7 @@ PHP_METHOD(Phalcon_Session_Manager, start)
 		object_init_ex(&_7$$7, phalcon_session_exceptions_invalidsessionadapter_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_7$$7, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_7$$7, "phalcon/Session/Manager.zep", 364);
+		zephir_throw_exception_debug(&_7$$7, "phalcon/Session/Manager.zep", 366);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -808,25 +808,6 @@ PHP_METHOD(Phalcon_Session_Manager, status)
 	} while(0);
 
 	RETURN_MM_LONG(1);
-}
-
-/**
- * Checks if or where headers have been sent
- *
- * @return bool
- *
- * @link https://php.net/manual/en/function.headers-sent.php
- */
-PHP_METHOD(Phalcon_Session_Manager, phpHeadersSent)
-{
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-
-	ZEPHIR_RETURN_CALL_FUNCTION("headers_sent", NULL, 0);
-	zephir_check_call_status();
-	RETURN_MM();
 }
 
 /**
@@ -928,6 +909,25 @@ PHP_METHOD(Phalcon_Session_Manager, getArrVal)
 		zephir_check_call_status();
 	}
 	RETURN_CCTOR(&value);
+}
+
+/**
+ * Checks if or where headers have been sent
+ *
+ * @return bool
+ *
+ * @link https://php.net/manual/en/function.headers-sent.php
+ */
+PHP_METHOD(Phalcon_Session_Manager, phpHeadersSent)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+
+	ZEPHIR_RETURN_CALL_FUNCTION("headers_sent", NULL, 0);
+	zephir_check_call_status();
+	RETURN_MM();
 }
 
 zend_object *zephir_init_properties_Phalcon_Session_Manager(zend_class_entry *class_type)
