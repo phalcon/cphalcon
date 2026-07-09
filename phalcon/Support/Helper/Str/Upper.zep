@@ -10,11 +10,15 @@
 
 namespace Phalcon\Support\Helper\Str;
 
+use Phalcon\Traits\Support\Helper\Str\UpperTrait;
+
 /**
  * Converts a string to uppercase using mbstring
  */
-class Upper extends AbstractStr
+class Upper
 {
+    use UpperTrait;
+
     /**
      * @param string $text
      * @param string $encoding

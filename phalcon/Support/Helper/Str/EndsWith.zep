@@ -10,11 +10,15 @@
 
 namespace Phalcon\Support\Helper\Str;
 
+use Phalcon\Traits\Support\Helper\Str\EndsWithTrait;
+
 /**
  * Check if a string ends with a given string
  */
-class EndsWith extends AbstractStr
+class EndsWith
 {
+    use EndsWithTrait;
+
     /**
      * @param string $haystack
      * @param string $needle
