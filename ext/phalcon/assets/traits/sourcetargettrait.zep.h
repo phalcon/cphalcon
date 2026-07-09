@@ -1,0 +1,53 @@
+
+extern zend_class_entry *phalcon_assets_traits_sourcetargettrait_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Assets_Traits_SourceTargetTrait);
+
+PHP_METHOD(Phalcon_Assets_Traits_SourceTargetTrait, getSourcePath);
+PHP_METHOD(Phalcon_Assets_Traits_SourceTargetTrait, getTargetPath);
+PHP_METHOD(Phalcon_Assets_Traits_SourceTargetTrait, getTargetUri);
+PHP_METHOD(Phalcon_Assets_Traits_SourceTargetTrait, isLocal);
+PHP_METHOD(Phalcon_Assets_Traits_SourceTargetTrait, setIsLocal);
+PHP_METHOD(Phalcon_Assets_Traits_SourceTargetTrait, setSourcePath);
+PHP_METHOD(Phalcon_Assets_Traits_SourceTargetTrait, setTargetPath);
+PHP_METHOD(Phalcon_Assets_Traits_SourceTargetTrait, setTargetUri);
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_traits_sourcetargettrait_getsourcepath, 0, 0, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_traits_sourcetargettrait_gettargetpath, 0, 0, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_traits_sourcetargettrait_gettargeturi, 0, 0, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_traits_sourcetargettrait_islocal, 0, 0, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_assets_traits_sourcetargettrait_setislocal, 0, 1, MAY_BE_STATIC)
+	ZEND_ARG_TYPE_INFO(0, flag, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_assets_traits_sourcetargettrait_setsourcepath, 0, 1, MAY_BE_STATIC)
+	ZEND_ARG_TYPE_INFO(0, sourcePath, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_assets_traits_sourcetargettrait_settargetpath, 0, 1, MAY_BE_STATIC)
+	ZEND_ARG_TYPE_INFO(0, targetPath, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_assets_traits_sourcetargettrait_settargeturi, 0, 1, MAY_BE_STATIC)
+	ZEND_ARG_TYPE_INFO(0, targetUri, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_assets_traits_sourcetargettrait_method_entry) {
+	PHP_ME(Phalcon_Assets_Traits_SourceTargetTrait, getSourcePath, arginfo_phalcon_assets_traits_sourcetargettrait_getsourcepath, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Assets_Traits_SourceTargetTrait, getTargetPath, arginfo_phalcon_assets_traits_sourcetargettrait_gettargetpath, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Assets_Traits_SourceTargetTrait, getTargetUri, arginfo_phalcon_assets_traits_sourcetargettrait_gettargeturi, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Assets_Traits_SourceTargetTrait, isLocal, arginfo_phalcon_assets_traits_sourcetargettrait_islocal, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Assets_Traits_SourceTargetTrait, setIsLocal, arginfo_phalcon_assets_traits_sourcetargettrait_setislocal, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Assets_Traits_SourceTargetTrait, setSourcePath, arginfo_phalcon_assets_traits_sourcetargettrait_setsourcepath, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Assets_Traits_SourceTargetTrait, setTargetPath, arginfo_phalcon_assets_traits_sourcetargettrait_settargetpath, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Assets_Traits_SourceTargetTrait, setTargetUri, arginfo_phalcon_assets_traits_sourcetargettrait_settargeturi, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};

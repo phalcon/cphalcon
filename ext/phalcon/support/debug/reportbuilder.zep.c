@@ -212,7 +212,7 @@ PHP_METHOD(Phalcon_Support_Debug_ReportBuilder, build)
 	array_init(&_17);
 	ZEPHIR_INIT_VAR(&_18);
 	ZVAL_STRING(&_18, "request");
-	ZEPHIR_CALL_METHOD(&_16, &getter, "__invoke", NULL, 295, &blacklist, &_18, &_17);
+	ZEPHIR_CALL_METHOD(&_16, &getter, "__invoke", NULL, 296, &blacklist, &_18, &_17);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_15, this_ptr, "filter", NULL, 0, &_REQUEST, &_16);
 	zephir_check_call_status();
@@ -222,7 +222,7 @@ PHP_METHOD(Phalcon_Support_Debug_ReportBuilder, build)
 	array_init(&_18);
 	ZEPHIR_INIT_VAR(&_21);
 	ZVAL_STRING(&_21, "server");
-	ZEPHIR_CALL_METHOD(&_20, &getter, "__invoke", NULL, 295, &blacklist, &_21, &_18);
+	ZEPHIR_CALL_METHOD(&_20, &getter, "__invoke", NULL, 296, &blacklist, &_21, &_18);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_19, this_ptr, "filter", NULL, 0, &_SERVER, &_20);
 	zephir_check_call_status();
@@ -555,7 +555,7 @@ PHP_METHOD(Phalcon_Support_Debug_ReportBuilder, resolveClassLink)
 	}
 	ZEPHIR_INIT_VAR(&reflection);
 	object_init_ex(&reflection, zephir_get_internal_ce(SL("reflectionclass")));
-	ZEPHIR_CALL_METHOD(NULL, &reflection, "__construct", NULL, 228, &className_zv);
+	ZEPHIR_CALL_METHOD(NULL, &reflection, "__construct", NULL, 229, &className_zv);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_4, &reflection, "isinternal", NULL, 0);
 	zephir_check_call_status();
@@ -609,7 +609,7 @@ PHP_METHOD(Phalcon_Support_Debug_ReportBuilder, resolveFunctionLink)
 	}
 	ZEPHIR_INIT_VAR(&reflection);
 	object_init_ex(&reflection, zephir_get_internal_ce(SL("reflectionfunction")));
-	ZEPHIR_CALL_METHOD(NULL, &reflection, "__construct", NULL, 225, &functionName_zv);
+	ZEPHIR_CALL_METHOD(NULL, &reflection, "__construct", NULL, 226, &functionName_zv);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_1, &reflection, "isinternal", NULL, 0);
 	zephir_check_call_status();

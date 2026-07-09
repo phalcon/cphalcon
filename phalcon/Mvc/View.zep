@@ -22,6 +22,7 @@ use Phalcon\Mvc\View\Exceptions\InvalidViewsDirType;
 use Phalcon\Mvc\View\Exceptions\ViewNotFound;
 use Phalcon\Mvc\View\Exceptions\ViewServicesUnavailable;
 use Phalcon\Mvc\View\Exceptions\ViewsDirItemMustBeString;
+use Phalcon\Mvc\View\Traits\ViewParamsTrait;
 use Phalcon\Traits\Php\FileTrait;
 use Phalcon\Traits\Support\Helper\Str\DirSeparatorTrait;
 
@@ -53,6 +54,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
 {
     use DirSeparatorTrait;
     use FileTrait;
+    use ViewParamsTrait;
 
     /**
      * Render Level: To the action view
@@ -110,11 +112,6 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
      * @var string
      */
     protected basePath = "";
-
-    /**
-     * @var string
-     */
-    protected content = "";
 
     /**
      * @var string
@@ -182,11 +179,6 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
     protected partialsDir = "";
 
     /**
-     * @var array
-     */
-    protected registeredEngines = [];
-
-    /**
      * @var int
      */
     protected renderLevel = 5;
@@ -207,16 +199,13 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
     protected viewsDirs = [];
 
     /**
-     * @var array
-     */
-    protected viewParams = [];
-
-    /**
      * Phalcon\Mvc\View constructor
      */
     public function __construct(array options = [])
     {
-        let this->options = options;
+        let this->options           = options,
+            this->registeredEngines = [],
+            this->viewParams        = [];
     }
 
     /**
@@ -376,14 +365,6 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
     }
 
     /**
-     * Returns output from another view stage
-     */
-    public function getContent() -> string
-    {
-        return this->content;
-    }
-
-    /**
      * Gets the name of the controller rendered
      */
     public function getControllerName() -> string
@@ -432,14 +413,6 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
     }
 
     /**
-     * Returns parameters to views
-     */
-    public function getParamsToView() -> array
-    {
-        return this->viewParams;
-    }
-
-    /**
      * Renders a partial view
      *
      * ```php
@@ -474,14 +447,6 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
     public function getPartialsDir() -> string
     {
         return this->partialsDir;
-    }
-
-    /**
-     * @return array
-     */
-    public function getRegisteredEngines() -> array
-    {
-        return this->registeredEngines;
     }
 
     /**
@@ -552,22 +517,6 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
     public function getRenderLevel() -> int
     {
         return this->renderLevel;
-    }
-
-    /**
-     * Returns a parameter previously set in the view
-     *
-     * @return mixed|null
-     */
-    public function getVar( string key) -> var | null
-    {
-        var value;
-
-        if !fetch value, this->viewParams[key] {
-            return null;
-        }
-
-        return value;
     }
 
     /**
@@ -1013,20 +962,6 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
     }
 
     /**
-     * Externally sets the view content
-     *
-     *```php
-     * $this->view->setContent("<h1>hello</h1>");
-     *```
-     */
-    public function setContent(string content) -> <static>
-    {
-        let this->content = content;
-
-        return this;
-    }
-
-    /**
      * Sets the events manager
      */
     public function setEventsManager(<ManagerInterface> eventsManager) -> void
@@ -1152,20 +1087,6 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
         } else {
             let this->templatesBefore = templateBefore;
         }
-
-        return this;
-    }
-
-    /**
-     * Set a single view parameter
-     *
-     *```php
-     * $this->view->setVar("products", $products);
-     *```
-     */
-    public function setVar( string key, var value) -> <static>
-    {
-        let this->viewParams[key] = value;
 
         return this;
     }

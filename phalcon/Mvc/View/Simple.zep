@@ -20,6 +20,7 @@ use Phalcon\Mvc\View\Engine\Php as PhpEngine;
 use Phalcon\Mvc\View\Exceptions\InvalidEngineRegistration;
 use Phalcon\Mvc\View\Exceptions\SimpleViewNotFound;
 use Phalcon\Mvc\View\Exceptions\SimpleViewServicesUnavailable;
+use Phalcon\Mvc\View\Traits\ViewParamsTrait;
 use Phalcon\Mvc\ViewBaseInterface;
 use Phalcon\Traits\Php\FileTrait;
 use Phalcon\Traits\Support\Helper\Str\DirSeparatorTrait;
@@ -53,16 +54,12 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
 {
     use DirSeparatorTrait;
     use FileTrait;
+    use ViewParamsTrait;
 
     /**
      * @var string
      */
     protected activeRenderPath;
-
-    /**
-     * @var string
-     */
-    protected content;
 
     /**
      * @var EngineInterface[]|false
@@ -80,16 +77,6 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
     protected options = [];
 
     /**
-     * @var array
-     */
-    protected registeredEngines = [];
-
-    /**
-     * @var array
-     */
-    protected viewParams = [];
-
-    /**
      * @var string
      */
     protected viewsDir;
@@ -101,7 +88,9 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
      */
     public function __construct(array options = [])
     {
-        let this->options = options;
+        let this->options           = options,
+            this->registeredEngines = [],
+            this->viewParams        = [];
     }
 
     /**
@@ -149,16 +138,6 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
     }
 
     /**
-     * Returns output from another view stage
-     *
-     * @return string
-     */
-    public function getContent() -> string
-    {
-        return this->content;
-    }
-
-    /**
      * Returns the internal event manager
      *
      * @return ManagerInterface|null
@@ -166,40 +145,6 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
     public function getEventsManager()  -> <ManagerInterface> | null
     {
         return this->eventsManager;
-    }
-
-    /**
-     * Returns parameters to views
-     *
-     * @return array
-     */
-    public function getParamsToView() -> array
-    {
-        return this->viewParams;
-    }
-
-    /**
-     * @return array
-     */
-    public function getRegisteredEngines() -> array
-    {
-        return this->registeredEngines;
-    }
-
-    /**
-     * Returns a parameter previously set in the view
-     *
-     * @return mixed|null
-     */
-    public function getVar( string key) -> var | null
-    {
-        var value;
-
-        if !fetch value, this->viewParams[key] {
-            return null;
-        }
-
-        return value;
     }
 
     /**
@@ -338,22 +283,6 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
     }
 
     /**
-     * Externally sets the view content
-     *
-     *```php
-     * $this->view->setContent("<h1>hello</h1>");
-     *```
-     *
-     * @return static
-     */
-    public function setContent( string content) -> <static>
-    {
-        let this->content = content;
-
-        return this;
-    }
-
-    /**
      * Sets the events manager
      *
      * @return void
@@ -375,22 +304,6 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
     public function setParamToView( string key, var value) -> <static>
     {
         return this->setVar(key, value);
-    }
-
-    /**
-     * Set a single view parameter
-     *
-     *```php
-     * $this->view->setVar("products", $products);
-     *```
-     *
-     * @return static
-     */
-    public function setVar( string key, var value) -> <static>
-    {
-        let this->viewParams[key] = value;
-
-        return this;
     }
 
     /**
