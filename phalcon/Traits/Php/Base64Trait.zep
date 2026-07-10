@@ -59,7 +59,7 @@ trait Base64Trait
      *
      * @link https://php.net/manual/en/function.base64-decode.php
      */
-    protected static function phpBase64Decode(string input, bool strict = false)
+    protected static function phpBase64Decode(string input, bool strict = false) -> string | false
     {
         return base64_decode(input, strict);
     }

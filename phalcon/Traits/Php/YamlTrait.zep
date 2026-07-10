@@ -27,9 +27,9 @@ trait YamlTrait
      * @link https://php.net/manual/en/function.yaml-parse-file.php
      */
     protected static function phpYamlParseFile(
-        filename,
-        pos = 0,
-        callbacks = []
+        string filename,
+        int pos = 0,
+        array callbacks = []
     ) {
         var ndocs = null;
 
