@@ -12,9 +12,7 @@ namespace Phalcon\Filter\Validation\Validator;
 
 use Phalcon\Messages\Message;
 use Phalcon\Filter\Validation;
-use Phalcon\Filter\Validation\AbstractValidator;
-use Phalcon\Filter\Validation\Traits\ValidatorCompositeTrait;
-use Phalcon\Filter\Validation\ValidatorCompositeInterface;
+use Phalcon\Filter\Validation\AbstractValidatorComposite;
 use Phalcon\Filter\Validation\Validator\File\MimeType;
 use Phalcon\Filter\Validation\Validator\File\Resolution\AspectRatio;
 use Phalcon\Filter\Validation\Validator\File\Resolution\Equal as EqualResolution;
@@ -95,10 +93,9 @@ use Phalcon\Traits\Support\Helper\Arr\GetTrait;
  * );
  * ```
  */
-class File extends AbstractValidator implements ValidatorCompositeInterface
+class File extends AbstractValidatorComposite
 {
     use GetTrait;
-    use ValidatorCompositeTrait;
 
     /**
      * Constructor

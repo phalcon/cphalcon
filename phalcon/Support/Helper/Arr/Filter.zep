@@ -10,15 +10,11 @@
 
 namespace Phalcon\Support\Helper\Arr;
 
-use Phalcon\Traits\Support\Helper\Arr\FilterTrait;
-
 /**
  * Filters a collection using array_filter and using the callable (if defined)
  */
-class Filter
+class Filter extends AbstractArr
 {
-    use FilterTrait;
-
     /**
      * @param array         $collection
      * @param callable|null $method

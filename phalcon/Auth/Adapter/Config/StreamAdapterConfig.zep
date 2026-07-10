@@ -13,15 +13,11 @@
 
 namespace Phalcon\Auth\Adapter\Config;
 
-use Phalcon\Auth\Adapter\Config\Traits\ModelConfigTrait;
 use Phalcon\Auth\Exception;
 use Phalcon\Auth\Exceptions\ConfigRequiresNonEmptyValue;
-use Phalcon\Contracts\Auth\Adapter\AdapterConfig;
 
-class StreamAdapterConfig implements AdapterConfig
+class StreamAdapterConfig extends AbstractAdapterConfig
 {
-    use ModelConfigTrait;
-
     /**
      * @var string
      */
@@ -40,8 +36,9 @@ class StreamAdapterConfig implements AdapterConfig
             );
         }
 
-        let this->file  = file,
-            this->model = model;
+        let this->file = file;
+
+        parent::__construct(model);
     }
 
     public function getFile() -> string
