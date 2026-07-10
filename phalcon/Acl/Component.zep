@@ -11,15 +11,12 @@
 namespace Phalcon\Acl;
 
 use Phalcon\Acl\Exceptions\ForbiddenWildcard;
-use Phalcon\Acl\Traits\ItemTrait;
 
 /**
  * This class defines component entity and its description
  */
-class Component implements ComponentInterface
+class Component extends AbstractElement implements ComponentInterface
 {
-    use ItemTrait;
-
     /**
      * Phalcon\Acl\Component constructor
      */

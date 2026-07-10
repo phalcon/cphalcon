@@ -14,7 +14,6 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 #include "kernel/object.h"
-#include "kernel/fcall.h"
 #include "kernel/operators.h"
 
 
@@ -34,14 +33,19 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Auth_Adapter_Config_MemoryAdapterConfig)
 {
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Auth\\Adapter\\Config, MemoryAdapterConfig, phalcon, auth_adapter_config_memoryadapterconfig, phalcon_auth_adapter_config_abstractadapterconfig_ce, phalcon_auth_adapter_config_memoryadapterconfig_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Auth\\Adapter\\Config, MemoryAdapterConfig, phalcon, auth_adapter_config_memoryadapterconfig, phalcon_auth_adapter_config_memoryadapterconfig_method_entry, 0);
 
 	/**
 	 * @var array
 	 */
 	zend_declare_property_null(phalcon_auth_adapter_config_memoryadapterconfig_ce, SL("users"), ZEND_ACC_PROTECTED);
+	/**
+	 * @var string|null
+	 */
+	zend_declare_property_null(phalcon_auth_adapter_config_memoryadapterconfig_ce, SL("model"), ZEND_ACC_PROTECTED);
 	phalcon_auth_adapter_config_memoryadapterconfig_ce->create_object = zephir_init_properties_Phalcon_Auth_Adapter_Config_MemoryAdapterConfig;
 
+	zend_class_implements(phalcon_auth_adapter_config_memoryadapterconfig_ce, 1, phalcon_contracts_auth_adapter_adapterconfig_ce);
 	return SUCCESS;
 }
 
@@ -51,7 +55,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Auth_Adapter_Config_MemoryAdapterConfig)
 PHP_METHOD(Phalcon_Auth_Adapter_Config_MemoryAdapterConfig, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_string *model = NULL;
 	zval *users_param = NULL, model_zv;
 	zval users;
@@ -83,8 +86,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Config_MemoryAdapterConfig, __construct)
 	ZVAL_STR_COPY(&model_zv, model);
 	}
 	zephir_update_property_zval(this_ptr, ZEND_STRL("users"), &users);
-	ZEPHIR_CALL_PARENT(NULL, phalcon_auth_adapter_config_memoryadapterconfig_ce, getThis(), "__construct", NULL, 0, &model_zv);
-	zephir_check_call_status();
+	zephir_update_property_zval(this_ptr, ZEND_STRL("model"), &model_zv);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -95,6 +97,12 @@ PHP_METHOD(Phalcon_Auth_Adapter_Config_MemoryAdapterConfig, getUsers)
 {
 
 	RETURN_MEMBER_TYPED(getThis(), "users", IS_ARRAY);
+}
+
+PHP_METHOD(Phalcon_Auth_Adapter_Config_MemoryAdapterConfig, getModel)
+{
+
+	RETURN_MEMBER(getThis(), "model");
 }
 
 zend_object *zephir_init_properties_Phalcon_Auth_Adapter_Config_MemoryAdapterConfig(zend_class_entry *class_type)

@@ -244,7 +244,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, get)
 	ZEPHIR_INIT_NVAR(&annotation);
 	ZEPHIR_INIT_VAR(&_6);
 	object_init_ex(&_6, phalcon_annotations_exceptions_annotationnotfound_ce);
-	ZEPHIR_CALL_METHOD(NULL, &_6, "__construct", NULL, 297, &name_zv);
+	ZEPHIR_CALL_METHOD(NULL, &_6, "__construct", NULL, 296, &name_zv);
 	zephir_check_call_status();
 	zephir_throw_exception_debug(&_6, "phalcon/Annotations/Collection.zep", 99);
 	ZEPHIR_MM_RESTORE();

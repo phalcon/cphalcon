@@ -11,6 +11,7 @@
 namespace Phalcon\Db;
 
 use Phalcon\Db\Profiler\Item;
+use Phalcon\Db\Traits\ElapsedTimeTrait;
 
 /**
  * Instances of Phalcon\Db can generate execution profiles
@@ -65,6 +66,8 @@ use Phalcon\Db\Profiler\Item;
  */
 class Profiler
 {
+    use ElapsedTimeTrait;
+
     /**
      * Active Item
      *
@@ -126,22 +129,6 @@ class Profiler
     public function getTotalElapsedNanoseconds() -> double
     {
         return this->totalNanoseconds;
-    }
-
-    /**
-     * Returns the total time in milliseconds spent by the profiles
-     */
-    public function getTotalElapsedMilliseconds() -> double
-    {
-        return this->getTotalElapsedNanoseconds() / 1000000;
-    }
-
-    /**
-     * Returns the total time in seconds spent by the profiles
-     */
-    public function getTotalElapsedSeconds() -> double
-    {
-        return this->getTotalElapsedMilliseconds() / 1000;
     }
 
     /**

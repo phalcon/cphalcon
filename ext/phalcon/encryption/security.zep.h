@@ -31,6 +31,9 @@ PHP_METHOD(Phalcon_Encryption_Security, processArgonOptions);
 PHP_METHOD(Phalcon_Encryption_Security, processCost);
 PHP_METHOD(Phalcon_Encryption_Security, processTokenKey);
 PHP_METHOD(Phalcon_Encryption_Security, processUserToken);
+PHP_METHOD(Phalcon_Encryption_Security, phpHash);
+PHP_METHOD(Phalcon_Encryption_Security, phpHashEquals);
+PHP_METHOD(Phalcon_Encryption_Security, phpHashHmac);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_encryption_security___construct, 0, 0, 0)
 	ZEND_ARG_OBJ_TYPE_MASK(0, session, Phalcon\\Session\\ManagerInterface, MAY_BE_NULL, "null")
@@ -144,6 +147,24 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_proc
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, tokenValue, IS_STRING, 1, "null")
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_phphash, 0, 2, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, algorithm, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, data, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, binary, _IS_BOOL, 0, "false")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_phphashequals, 0, 2, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, knownString, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, userString, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_phphashhmac, 0, 3, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, algorithm, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, data, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, binary, _IS_BOOL, 0, "false")
+ZEND_END_ARG_INFO()
+
 ZEPHIR_INIT_FUNCS(phalcon_encryption_security_method_entry) {
 	PHP_ME(Phalcon_Encryption_Security, __construct, arginfo_phalcon_encryption_security___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Encryption_Security, checkHash, arginfo_phalcon_encryption_security_checkhash, ZEND_ACC_PUBLIC)
@@ -173,5 +194,8 @@ ZEPHIR_INIT_FUNCS(phalcon_encryption_security_method_entry) {
 	PHP_ME(Phalcon_Encryption_Security, processCost, arginfo_phalcon_encryption_security_processcost, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Encryption_Security, processTokenKey, arginfo_phalcon_encryption_security_processtokenkey, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Encryption_Security, processUserToken, arginfo_phalcon_encryption_security_processusertoken, ZEND_ACC_PRIVATE)
+	PHP_ME(Phalcon_Encryption_Security, phpHash, arginfo_phalcon_encryption_security_phphash, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Encryption_Security, phpHashEquals, arginfo_phalcon_encryption_security_phphashequals, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Encryption_Security, phpHashHmac, arginfo_phalcon_encryption_security_phphashhmac, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_FE_END
 };

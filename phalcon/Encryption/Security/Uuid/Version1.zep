@@ -27,7 +27,8 @@ class Version1 extends AbstractUuid implements TimeBasedUuidInterface
 {
     public function __construct(<\DateTimeInterface> dateTime = null, var node = null)
     {
-        var nowSec, nowUsec, dateTimestamp, dateUsec, timeLow, timeMid, timeHi, clockSeqBytes, clockSeqHiRes, clockSeqLow, nodeStr;
+        var nowSec, nowUsec, dateTimestamp, dateUsec, timeLow, timeMid, timeHi,
+            clockSeqBytes, clockSeqHiRes, clockSeqLow, nodeStr;
         int sec, usec, timestamp;
 
         if dateTime !== null {

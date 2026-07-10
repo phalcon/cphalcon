@@ -18,6 +18,7 @@ use Phalcon\Encryption\Security\Exception;
 use Phalcon\Encryption\Security\Exceptions\UnknownHashAlgorithm;
 use Phalcon\Encryption\Security\Random;
 use Phalcon\Session\ManagerInterface as SessionInterface;
+use Phalcon\Traits\Php\HashTrait;
 
 /**
  * This component provides a set of functions to improve the security in Phalcon
@@ -38,6 +39,8 @@ use Phalcon\Session\ManagerInterface as SessionInterface;
  */
 class Security extends AbstractInjectionAware implements SecurityContract
 {
+    use HashTrait;
+
     /**
      * @var int
      */
@@ -233,7 +236,7 @@ class Security extends AbstractInjectionAware implements SecurityContract
             return false;
         }
 
-        let equals = hash_equals(knownToken, userToken);
+        let equals = this->phpHashEquals(knownToken, userToken);
 
         /**
          * Remove the key and value of the CSRF token in session
@@ -265,7 +268,7 @@ class Security extends AbstractInjectionAware implements SecurityContract
         var hmac;
 
         try {
-            let hmac = hash_hmac(algorithm, data, key, raw);
+            let hmac = this->phpHashHmac(algorithm, data, key, raw);
         } catch \ValueError {
             throw new UnknownHashAlgorithm(algorithm);
         }

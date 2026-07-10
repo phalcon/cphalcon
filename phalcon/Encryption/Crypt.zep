@@ -27,6 +27,7 @@ use Phalcon\Encryption\Crypt\Exception\RandomBytesGenerationFailed;
 use Phalcon\Encryption\Crypt\Exception\UnsupportedAlgorithm;
 use Phalcon\Encryption\Crypt\PadFactory;
 use Phalcon\Traits\Php\Base64Trait;
+use Phalcon\Traits\Php\HashTrait;
 use Phalcon\Traits\Php\InfoTrait;
 use Phalcon\Traits\Php\OpensslTrait;
 
@@ -52,6 +53,7 @@ use Phalcon\Traits\Php\OpensslTrait;
 class Crypt implements CryptInterface
 {
     use Base64Trait;
+    use HashTrait;
     use InfoTrait;
     use OpensslTrait;
 
@@ -248,7 +250,7 @@ class Crypt implements CryptInterface
             hashAlgorithm = this->getHashAlgorithm();
         if true === this->useSigning {
             if !fetch hashLength, this->hashLengthCache[hashAlgorithm] {
-                let hashLength = strlen(hash(hashAlgorithm, "", true));
+                let hashLength = strlen(this->phpHash(hashAlgorithm, "", true));
                 let this->hashLengthCache[hashAlgorithm] = hashLength;
             }
             let digest     = mb_substr(input, ivLength, hashLength, "8bit"),
@@ -270,7 +272,7 @@ class Crypt implements CryptInterface
              * The check runs against the padded plaintext, before unpadding,
              * and uses hash_equals() so that the comparison is constant-time.
              */
-            if true !== hash_equals(hash_hmac(hashAlgorithm, decrypted, decryptKey, true), digest) {
+            if true !== this->phpHashEquals(this->phpHashHmac(hashAlgorithm, decrypted, decryptKey, true), digest) {
                 throw new Mismatch("Hash does not match.");
             }
         }
@@ -362,7 +364,7 @@ class Crypt implements CryptInterface
         let encrypted = this->encryptGcmCcm(mode, padded, encryptKey, iv);
 
         if true === this->useSigning {
-            let digest = hash_hmac(
+            let digest = this->phpHashHmac(
                 this->getHashAlgorithm(),
                 padded,
                 encryptKey,

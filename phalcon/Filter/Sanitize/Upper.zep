@@ -11,7 +11,7 @@
 namespace Phalcon\Filter\Sanitize;
 
 use Phalcon\Contracts\Filter\Sanitizer;
-use Phalcon\Traits\Php\InfoTrait;
+use Phalcon\Traits\Php\MbCaseTrait;
 
 /**
  * Phalcon\Filter\Sanitize\Upper
@@ -20,7 +20,7 @@ use Phalcon\Traits\Php\InfoTrait;
  */
 class Upper implements Sanitizer
 {
-    use InfoTrait;
+    use MbCaseTrait;
 
     /**
      * @param string $input The text to sanitize
@@ -29,10 +29,6 @@ class Upper implements Sanitizer
      */
     public function __invoke( string input)
     {
-        if true === this->phpFunctionExists("mb_convert_case") {
-            return mb_convert_case(input, MB_CASE_UPPER, "UTF-8");
-        }
-
-        return strtoupper(utf8_decode(input));
+        return this->phpMbConvertCase(input, MB_CASE_UPPER, "strtoupper");
     }
 }

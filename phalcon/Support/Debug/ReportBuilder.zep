@@ -12,8 +12,8 @@ namespace Phalcon\Support\Debug;
 
 use Phalcon\Support\Debug\Report\BacktraceItem;
 use Phalcon\Support\Debug\Report\ExceptionReport;
-use Phalcon\Support\Helper\Arr\Get;
 use Phalcon\Traits\Php\InfoTrait;
+use Phalcon\Traits\Support\Helper\Arr\GetTrait;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionFunction;
@@ -26,6 +26,7 @@ use Throwable;
  */
 class ReportBuilder
 {
+    use GetTrait;
     use InfoTrait;
 
     /**
@@ -49,7 +50,7 @@ class ReportBuilder
         string uri,
         array data
     ) -> <ExceptionReport> {
-        var report, items, trace, item, getter;
+        var report, items, trace, item;
 
         let report = new ExceptionReport(
             get_class(exception),
@@ -71,14 +72,12 @@ class ReportBuilder
             let items[] = this->buildItem(item, showFiles, showFileFragment);
         }
 
-        let getter = new Get();
-
         report->setBacktrace(items);
         report->setRequest(
-            this->filter(_REQUEST, getter->__invoke(blacklist, "request", []))
+            this->filter(_REQUEST, this->getArrVal(blacklist, "request", []))
         );
         report->setServer(
-            this->filter(_SERVER, getter->__invoke(blacklist, "server", []))
+            this->filter(_SERVER, this->getArrVal(blacklist, "server", []))
         );
         report->setIncludedFiles(get_included_files());
         report->setMemoryUsage(memory_get_usage(true));

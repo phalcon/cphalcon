@@ -11,15 +11,12 @@
 namespace Phalcon\Acl;
 
 use Phalcon\Acl\Exceptions\ForbiddenWildcard;
-use Phalcon\Acl\Traits\ItemTrait;
 
 /**
  * This class defines role entity and its description
  */
-class Role implements RoleInterface
+class Role extends AbstractElement implements RoleInterface
 {
-    use ItemTrait;
-
     /**
      * Phalcon\Acl\Role constructor
      */

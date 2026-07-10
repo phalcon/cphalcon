@@ -13,22 +13,20 @@
 
 namespace Phalcon\Auth\Adapter\Config;
 
+use Phalcon\Auth\Adapter\Config\Traits\ModelConfigTrait;
 use Phalcon\Contracts\Auth\Adapter\AdapterConfig;
 
+/**
+ * @todo Remove in v7. Kept only for backwards compatibility; compose
+ * Phalcon\Auth\Adapter\Config\Traits\ModelConfigTrait directly instead of
+ * extending this.
+ */
 abstract class AbstractAdapterConfig implements AdapterConfig
 {
-    /**
-     * @var string|null
-     */
-    protected model = null;
+    use ModelConfigTrait;
 
     public function __construct(string model = null)
     {
         let this->model = model;
-    }
-
-    public function getModel() -> string | null
-    {
-        return this->model;
     }
 }

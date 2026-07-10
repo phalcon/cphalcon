@@ -1,0 +1,14 @@
+
+extern zend_class_entry *phalcon_auth_adapter_config_traits_modelconfigtrait_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Auth_Adapter_Config_Traits_ModelConfigTrait);
+
+PHP_METHOD(Phalcon_Auth_Adapter_Config_Traits_ModelConfigTrait, getModel);
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_auth_adapter_config_traits_modelconfigtrait_getmodel, 0, 0, IS_STRING, 1)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_auth_adapter_config_traits_modelconfigtrait_method_entry) {
+	PHP_ME(Phalcon_Auth_Adapter_Config_Traits_ModelConfigTrait, getModel, arginfo_phalcon_auth_adapter_config_traits_modelconfigtrait_getmodel, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};

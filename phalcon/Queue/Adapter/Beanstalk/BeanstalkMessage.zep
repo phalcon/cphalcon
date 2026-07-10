@@ -24,7 +24,7 @@ use Phalcon\Queue\Adapter\AbstractMessage;
 /**
  * Beanstalkd-backed message. Carries the reserved job id so the consumer can
  * delete, release, bury or touch it; all other behavior comes from
- * AbstractMessage.
+ * MessageTrait.
  */
 class BeanstalkMessage extends AbstractMessage
 {

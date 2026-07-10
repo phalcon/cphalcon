@@ -11,6 +11,7 @@
 namespace Phalcon\Assets;
 
 use Phalcon\Assets\Traits\AttributesTrait;
+use Phalcon\Traits\Php\HashTrait;
 
 /**
  * Represents an inline asset
@@ -22,6 +23,7 @@ use Phalcon\Assets\Traits\AttributesTrait;
 class $Inline implements AssetInterface
 {
     use AttributesTrait;
+    use HashTrait;
 
     /**
      * @var string
@@ -58,7 +60,7 @@ class $Inline implements AssetInterface
 
         let key = this->getType() . ":" . this->getContent();
 
-        return hash("sha256", key);
+        return this->phpHash("sha256", key);
     }
 
     /**

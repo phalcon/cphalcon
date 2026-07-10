@@ -23,7 +23,7 @@ use Phalcon\Queue\Adapter\AbstractSubscriptionConsumer;
 
 /**
  * Consumes from several Beanstalkd tubes at once. The round-robin poll loop
- * lives in AbstractSubscriptionConsumer.
+ * lives in SubscriptionConsumerTrait.
  */
 class BeanstalkSubscriptionConsumer extends AbstractSubscriptionConsumer
 {

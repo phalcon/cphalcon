@@ -11,7 +11,6 @@
 namespace Phalcon\Filter\Validation\Validator;
 
 use Phalcon\Messages\Message;
-use Phalcon\Filter\Validation\AbstractValidator;
 use Phalcon\Filter\Validation\AbstractValidatorComposite;
 use Phalcon\Filter\Validation\Validator\StringLength\Max;
 use Phalcon\Filter\Validation\Validator\StringLength\Min;

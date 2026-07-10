@@ -22,7 +22,7 @@ namespace Phalcon\Queue\Adapter\Memory;
 use Phalcon\Queue\Adapter\AbstractMessage;
 
 /**
- * In-process message. All behavior comes from AbstractMessage.
+ * In-process message. All behavior comes from MessageTrait.
  */
 class MemoryMessage extends AbstractMessage
 {

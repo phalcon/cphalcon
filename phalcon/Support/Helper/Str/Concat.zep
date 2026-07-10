@@ -10,19 +10,14 @@
 
 namespace Phalcon\Support\Helper\Str;
 
-use Phalcon\Traits\Support\Helper\Str\EndsWithTrait;
-use Phalcon\Traits\Support\Helper\Str\StartsWithTrait;
 use Phalcon\Support\Helper\Str\Exceptions\InsufficientArguments;
 
 /**
  * Concatenates strings using the separator only once without duplication in
  * places concatenation
  */
-class Concat
+class Concat extends AbstractStr
 {
-    use EndsWithTrait;
-    use StartsWithTrait;
-
     /**
      * @param string $delimiter
      * @param string ...$many

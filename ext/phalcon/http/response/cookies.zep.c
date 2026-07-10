@@ -98,7 +98,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Response_Cookies)
 	/**
 	 * @var bool
 	 */
-	zend_declare_property_bool(phalcon_http_response_cookies_ce, SL("useEncryption"), 1, ZEND_ACC_PROTECTED);
+	zend_declare_property_bool(phalcon_http_response_cookies_ce, SL("useEncryption"), 0, ZEND_ACC_PROTECTED);
 	phalcon_http_response_cookies_ce->create_object = zephir_init_properties_Phalcon_Http_Response_Cookies;
 
 	zend_class_implements(phalcon_http_response_cookies_ce, 1, phalcon_http_response_cookiesinterface_ce);
@@ -286,15 +286,6 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, isSent)
 }
 
 /**
- * Returns if the bag is automatically encrypting/decrypting cookies
- */
-PHP_METHOD(Phalcon_Http_Response_Cookies, isUsingEncryption)
-{
-
-	RETURN_MEMBER(getThis(), "useEncryption");
-}
-
-/**
  * Reset set cookies
  */
 PHP_METHOD(Phalcon_Http_Response_Cookies, reset)
@@ -347,7 +338,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, send)
 		RETURN_MM_BOOL(0);
 	}
 	zephir_read_property(&_3, this_ptr, ZEND_STRL("cookies"), PH_NOISY_CC | PH_READONLY);
-	zephir_is_iterable(&_3, 0, "phalcon/Http/Response/Cookies.zep", 222);
+	zephir_is_iterable(&_3, 0, "phalcon/Http/Response/Cookies.zep", 212);
 	if (Z_TYPE_P(&_3) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_3), _4)
 		{
@@ -674,11 +665,20 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, checkContainer)
 		object_init_ex(&_1$$3, phalcon_http_response_exceptions_responseserviceunavailable_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Http/Response/Cookies.zep", 352);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Http/Response/Cookies.zep", 342);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	RETURN_CCTOR(&container);
+}
+
+/**
+ * Check if implicit encryption is being used
+ */
+PHP_METHOD(Phalcon_Http_Response_Cookies, isUsingEncryption)
+{
+
+	RETURN_MEMBER(getThis(), "useEncryption");
 }
 
 zend_object *zephir_init_properties_Phalcon_Http_Response_Cookies(zend_class_entry *class_type)
