@@ -35,7 +35,7 @@
  */
 /**
  * Consumes from several in-process queues at once. The round-robin poll loop
- * lives in AbstractSubscriptionConsumer.
+ * lives in SubscriptionConsumerTrait.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_Memory_MemorySubscriptionConsumer)
 {

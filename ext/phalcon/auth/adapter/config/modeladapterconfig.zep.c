@@ -32,17 +32,12 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Auth_Adapter_Config_ModelAdapterConfig)
 {
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Auth\\Adapter\\Config, ModelAdapterConfig, phalcon, auth_adapter_config_modeladapterconfig, phalcon_auth_adapter_config_modeladapterconfig_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Auth\\Adapter\\Config, ModelAdapterConfig, phalcon, auth_adapter_config_modeladapterconfig, phalcon_auth_adapter_config_abstractadapterconfig_ce, phalcon_auth_adapter_config_modeladapterconfig_method_entry, 0);
 
 	/**
 	 * @var string
 	 */
 	zend_declare_property_string(phalcon_auth_adapter_config_modeladapterconfig_ce, SL("idColumn"), "id", ZEND_ACC_PROTECTED);
-	/**
-	 * @var string|null
-	 */
-	zend_declare_property_null(phalcon_auth_adapter_config_modeladapterconfig_ce, SL("model"), ZEND_ACC_PROTECTED);
-	zend_class_implements(phalcon_auth_adapter_config_modeladapterconfig_ce, 1, phalcon_contracts_auth_adapter_adapterconfig_ce);
 	return SUCCESS;
 }
 
@@ -92,9 +87,9 @@ PHP_METHOD(Phalcon_Auth_Adapter_Config_ModelAdapterConfig, __construct)
 		ZVAL_STRING(&_2$$3, "model");
 		ZEPHIR_INIT_VAR(&_3$$3);
 		ZVAL_STRING(&_3$$3, " class name");
-		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 326, &_1$$3, &_2$$3, &_3$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 327, &_1$$3, &_2$$3, &_3$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_0$$3, "phalcon/Auth/Adapter/Config/ModelAdapterConfig.zep", 40);
+		zephir_throw_exception_debug(&_0$$3, "phalcon/Auth/Adapter/Config/ModelAdapterConfig.zep", 36);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -105,14 +100,15 @@ PHP_METHOD(Phalcon_Auth_Adapter_Config_ModelAdapterConfig, __construct)
 		ZVAL_STRING(&_5$$4, "Model adapter");
 		ZEPHIR_INIT_VAR(&_6$$4);
 		ZVAL_STRING(&_6$$4, "idColumn");
-		ZEPHIR_CALL_METHOD(NULL, &_4$$4, "__construct", NULL, 326, &_5$$4, &_6$$4);
+		ZEPHIR_CALL_METHOD(NULL, &_4$$4, "__construct", NULL, 327, &_5$$4, &_6$$4);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_4$$4, "phalcon/Auth/Adapter/Config/ModelAdapterConfig.zep", 47);
+		zephir_throw_exception_debug(&_4$$4, "phalcon/Auth/Adapter/Config/ModelAdapterConfig.zep", 43);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	zephir_update_property_zval(this_ptr, ZEND_STRL("idColumn"), &idColumn_zv);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("model"), &model_zv);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_auth_adapter_config_modeladapterconfig_ce, getThis(), "__construct", NULL, 0, &model_zv);
+	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
 

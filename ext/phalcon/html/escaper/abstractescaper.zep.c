@@ -14,10 +14,10 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 #include "kernel/filter.h"
+#include "kernel/object.h"
+#include "kernel/array.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
-#include "kernel/array.h"
-#include "kernel/object.h"
 
 
 /**
@@ -27,23 +27,12 @@
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
- *
- * Implementation of this file has been influenced by AuraPHP
- * @link    https://github.com/auraphp/Aura.Html
- * @license https://github.com/auraphp/Aura.Html/blob/2.x/LICENSE
  */
 /**
- * Shared base for the per-context escaper objects. Holds the encoding,
- * htmlspecialchars flag, and double-encode toggle, plus the encoding
- * detection / normalization utilities used by the CSS and JS escapers.
+ * Shared base for the per-context escaper objects.
  *
- * Each concrete context (`HtmlEscaper`, `AttributeEscaper`, `CssEscaper`,
- * `JsEscaper`, `UrlEscaper`) extends this so that callers can configure
- * one context without affecting the others.
- *
- * @property bool   $doubleEncode
- * @property string $encoding
- * @property int    $flags
+ * @todo Remove in v7. Kept only for backwards compatibility; compose
+ * Phalcon\Html\Escaper\Traits\EscaperTrait directly instead of extending this.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Html_Escaper_AbstractEscaper)
 {
@@ -77,21 +66,19 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Escaper_AbstractEscaper)
  */
 PHP_METHOD(Phalcon_Html_Escaper_AbstractEscaper, detectEncoding)
 {
-	zval _2;
+	zval _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_5 = NULL;
+	zephir_fcall_cache_entry *_4 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval input_zv, __$true, charset, _0, _1, *_3, _4$$5;
+	zval input_zv, __$true, charset, _1, *_2, _3$$5;
 	zend_string *input = NULL;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&input_zv);
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_UNDEF(&charset);
-	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_4$$5);
-	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_3$$5);
+	ZVAL_UNDEF(&_0);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(input)
 	ZEND_PARSE_PARAMETERS_END();
@@ -104,40 +91,36 @@ PHP_METHOD(Phalcon_Html_Escaper_AbstractEscaper, detectEncoding)
 	if (Z_TYPE_P(&charset) == IS_STRING) {
 		RETURN_CCTOR(&charset);
 	}
-	ZEPHIR_INIT_VAR(&_1);
-	ZVAL_STRING(&_1, "mb_detect_encoding");
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "phpfunctionexists", NULL, 0, &_1);
-	zephir_check_call_status();
-	if (!(zephir_is_true(&_0))) {
+	if (!((zephir_function_exists_ex(ZEND_STRL("mb_detect_encoding")) == SUCCESS))) {
 		RETURN_MM_NULL();
 	}
-	ZEPHIR_INIT_VAR(&_2);
-	zephir_create_array(&_2, 4, 0);
-	ZEPHIR_INIT_NVAR(&_1);
+	ZEPHIR_INIT_VAR(&_0);
+	zephir_create_array(&_0, 4, 0);
+	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "UTF-32");
-	zephir_array_fast_append(&_2, &_1);
+	zephir_array_fast_append(&_0, &_1);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "UTF-8");
-	zephir_array_fast_append(&_2, &_1);
+	zephir_array_fast_append(&_0, &_1);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "ISO-8859-1");
-	zephir_array_fast_append(&_2, &_1);
+	zephir_array_fast_append(&_0, &_1);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "ASCII");
-	zephir_array_fast_append(&_2, &_1);
-	zephir_is_iterable(&_2, 0, "phalcon/Html/Escaper/AbstractEscaper.zep", 81);
-	ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_2), _3)
+	zephir_array_fast_append(&_0, &_1);
+	zephir_is_iterable(&_0, 0, "phalcon/Html/Escaper/Traits/EscaperTrait.zep", 73);
+	ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_0), _2)
 	{
 		ZEPHIR_INIT_NVAR(&charset);
-		ZVAL_COPY(&charset, _3);
-		ZEPHIR_CALL_FUNCTION(&_4$$5, "mb_detect_encoding", &_5, 40, &input_zv, &charset, &__$true);
+		ZVAL_COPY(&charset, _2);
+		ZEPHIR_CALL_FUNCTION(&_3$$5, "mb_detect_encoding", &_4, 42, &input_zv, &charset, &__$true);
 		zephir_check_call_status();
-		if (!ZEPHIR_IS_FALSE_IDENTICAL(&_4$$5)) {
+		if (!ZEPHIR_IS_FALSE_IDENTICAL(&_3$$5)) {
 			RETURN_CCTOR(&charset);
 		}
 	} ZEND_HASH_FOREACH_END();
 	ZEPHIR_INIT_NVAR(&charset);
-	ZEPHIR_RETURN_CALL_FUNCTION("mb_detect_encoding", &_5, 40, &input_zv);
+	ZEPHIR_RETURN_CALL_FUNCTION("mb_detect_encoding", &_4, 42, &input_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -195,11 +178,11 @@ PHP_METHOD(Phalcon_Html_Escaper_AbstractEscaper, normalizeEncoding)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&input_zv);
 	ZVAL_STR_COPY(&input_zv, input);
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "detectencoding", NULL, 41, &input_zv);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "detectencoding", NULL, 43, &input_zv);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "UTF-32");
-	ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_encoding", NULL, 42, &input_zv, &_1, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_encoding", NULL, 44, &input_zv, &_1, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -263,56 +246,5 @@ PHP_METHOD(Phalcon_Html_Escaper_AbstractEscaper, setFlags)
 	ZVAL_LONG(&_0, flags);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("flags"), &_0);
 	RETURN_THISW();
-}
-
-/**
- * Find out whether an extension is loaded
- *
- * @param string $name
- *
- * @return bool
- *
- * @link https://php.net/manual/en/function.extension-loaded.php
- */
-PHP_METHOD(Phalcon_Html_Escaper_AbstractEscaper, phpExtensionLoaded)
-{
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval name_zv;
-	zend_string *name = NULL;
-
-	ZVAL_UNDEF(&name_zv);
-	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_STR(name)
-	ZEND_PARSE_PARAMETERS_END();
-	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_memory_observe(&name_zv);
-	ZVAL_STR_COPY(&name_zv, name);
-	ZEPHIR_RETURN_CALL_FUNCTION("extension_loaded", NULL, 43, &name_zv);
-	zephir_check_call_status();
-	RETURN_MM();
-}
-
-/**
- * Return true if the given function has been defined
- *
- * @param string $functionName
- *
- * @return bool
- *
- * @link https://php.net/manual/en/function.function-exists.php
- */
-PHP_METHOD(Phalcon_Html_Escaper_AbstractEscaper, phpFunctionExists)
-{
-	zval functionName_zv;
-	zend_string *functionName = NULL;
-
-	ZVAL_UNDEF(&functionName_zv);
-	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_STR(functionName)
-	ZEND_PARSE_PARAMETERS_END();
-	ZVAL_STR(&functionName_zv, functionName);
-	RETURN_BOOL((zephir_function_exists(&functionName_zv) == SUCCESS));
 }
 

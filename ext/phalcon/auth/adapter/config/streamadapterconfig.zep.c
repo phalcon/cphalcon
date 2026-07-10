@@ -32,17 +32,12 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Auth_Adapter_Config_StreamAdapterConfig)
 {
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Auth\\Adapter\\Config, StreamAdapterConfig, phalcon, auth_adapter_config_streamadapterconfig, phalcon_auth_adapter_config_streamadapterconfig_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Auth\\Adapter\\Config, StreamAdapterConfig, phalcon, auth_adapter_config_streamadapterconfig, phalcon_auth_adapter_config_abstractadapterconfig_ce, phalcon_auth_adapter_config_streamadapterconfig_method_entry, 0);
 
 	/**
 	 * @var string
 	 */
 	zend_declare_property_null(phalcon_auth_adapter_config_streamadapterconfig_ce, SL("file"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var string|null
-	 */
-	zend_declare_property_null(phalcon_auth_adapter_config_streamadapterconfig_ce, SL("model"), ZEND_ACC_PROTECTED);
-	zend_class_implements(phalcon_auth_adapter_config_streamadapterconfig_ce, 1, phalcon_contracts_auth_adapter_adapterconfig_ce);
 	return SUCCESS;
 }
 
@@ -88,14 +83,15 @@ PHP_METHOD(Phalcon_Auth_Adapter_Config_StreamAdapterConfig, __construct)
 		ZVAL_STRING(&_2$$3, "file");
 		ZEPHIR_INIT_VAR(&_3$$3);
 		ZVAL_STRING(&_3$$3, " path");
-		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 326, &_1$$3, &_2$$3, &_3$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 327, &_1$$3, &_2$$3, &_3$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_0$$3, "phalcon/Auth/Adapter/Config/StreamAdapterConfig.zep", 40);
+		zephir_throw_exception_debug(&_0$$3, "phalcon/Auth/Adapter/Config/StreamAdapterConfig.zep", 36);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	zephir_update_property_zval(this_ptr, ZEND_STRL("file"), &file_zv);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("model"), &model_zv);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_auth_adapter_config_streamadapterconfig_ce, getThis(), "__construct", NULL, 0, &model_zv);
+	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -103,11 +99,5 @@ PHP_METHOD(Phalcon_Auth_Adapter_Config_StreamAdapterConfig, getFile)
 {
 
 	RETURN_MEMBER_TYPED(getThis(), "file", IS_STRING);
-}
-
-PHP_METHOD(Phalcon_Auth_Adapter_Config_StreamAdapterConfig, getModel)
-{
-
-	RETURN_MEMBER(getThis(), "model");
 }
 

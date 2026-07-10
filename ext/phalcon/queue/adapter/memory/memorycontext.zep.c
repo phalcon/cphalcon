@@ -223,7 +223,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryContext, popMessage)
 		RETURN_MM_NULL();
 	}
 	ZEPHIR_MAKE_REF(&messages);
-	ZEPHIR_CALL_FUNCTION(&message, "array_shift", NULL, 38, &messages);
+	ZEPHIR_CALL_FUNCTION(&message, "array_shift", NULL, 40, &messages);
 	ZEPHIR_UNREF(&messages);
 	zephir_check_call_status();
 	zephir_update_property_array(this_ptr, SL("queues"), &queueName_zv, &messages);

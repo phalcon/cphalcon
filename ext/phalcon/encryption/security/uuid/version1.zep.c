@@ -138,7 +138,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_Version1, __construct)
 	ZEPHIR_INIT_VAR(&timeHi);
 	ZVAL_LONG(&timeHi, (((((timestamp >> 48)) & 0x0fff)) | 0x1000));
 	ZVAL_LONG(&_5, 2);
-	ZEPHIR_CALL_FUNCTION(&clockSeqBytes, "random_bytes", NULL, 331, &_5);
+	ZEPHIR_CALL_FUNCTION(&clockSeqBytes, "random_bytes", NULL, 332, &_5);
 	zephir_check_call_status();
 	ZVAL_LONG(&_5, 0);
 	ZVAL_LONG(&_6, 1);
@@ -164,7 +164,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_Version1, __construct)
 	}
 	ZEPHIR_INIT_VAR(&_13);
 	ZVAL_STRING(&_13, "%08x-%04x-%04x-%02x%02x-%s");
-	ZEPHIR_CALL_FUNCTION(&_14, "sprintf", NULL, 143, &_13, &timeLow, &timeMid, &timeHi, &clockSeqHiRes, &clockSeqLow, &nodeStr);
+	ZEPHIR_CALL_FUNCTION(&_14, "sprintf", NULL, 144, &_13, &timeLow, &timeMid, &timeHi, &clockSeqHiRes, &clockSeqLow, &nodeStr);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("uid"), &_14);
 	ZEPHIR_MM_RESTORE();
@@ -196,13 +196,13 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_Version1, getDateTime)
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("uid"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&parts);
 	zephir_fast_explode_str(&parts, SL("-"), &_0, LONG_MAX);
-	zephir_array_fetch_long(&_1, &parts, 0, PH_NOISY | PH_READONLY, "phalcon/Encryption/Security/Uuid/Version1.zep", 81);
+	zephir_array_fetch_long(&_1, &parts, 0, PH_NOISY | PH_READONLY, "phalcon/Encryption/Security/Uuid/Version1.zep", 82);
 	ZEPHIR_CALL_FUNCTION(&hexTimeLow, "hexdec", NULL, 0, &_1);
 	zephir_check_call_status();
-	zephir_array_fetch_long(&_2, &parts, 1, PH_NOISY | PH_READONLY, "phalcon/Encryption/Security/Uuid/Version1.zep", 82);
+	zephir_array_fetch_long(&_2, &parts, 1, PH_NOISY | PH_READONLY, "phalcon/Encryption/Security/Uuid/Version1.zep", 83);
 	ZEPHIR_CALL_FUNCTION(&hexTimeMid, "hexdec", NULL, 0, &_2);
 	zephir_check_call_status();
-	zephir_array_fetch_long(&_3, &parts, 2, PH_NOISY | PH_READONLY, "phalcon/Encryption/Security/Uuid/Version1.zep", 83);
+	zephir_array_fetch_long(&_3, &parts, 2, PH_NOISY | PH_READONLY, "phalcon/Encryption/Security/Uuid/Version1.zep", 84);
 	ZEPHIR_CALL_FUNCTION(&_4, "hexdec", NULL, 0, &_3);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&hexTimeHi);

@@ -77,7 +77,7 @@ PHP_METHOD(Phalcon_Traits_Php_MbCaseTrait, phpMbConvertCase)
 		ZVAL_LONG(&_0$$3, mode);
 		ZEPHIR_INIT_VAR(&_1$$3);
 		ZVAL_STRING(&_1$$3, "UTF-8");
-		ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_case", NULL, 0, &input_zv, &_0$$3, &_1$$3);
+		ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_case", NULL, 31, &input_zv, &_0$$3, &_1$$3);
 		zephir_check_call_status();
 		RETURN_MM();
 	}

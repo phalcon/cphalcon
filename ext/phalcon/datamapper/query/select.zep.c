@@ -145,7 +145,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, __call)
 	}
 	ZEPHIR_INIT_VAR(&_5);
 	object_init_ex(&_5, phalcon_datamapper_pdo_exception_unknownquerymethod_ce);
-	ZEPHIR_CALL_METHOD(NULL, &_5, "__construct", NULL, 451, &method_zv);
+	ZEPHIR_CALL_METHOD(NULL, &_5, "__construct", NULL, 453, &method_zv);
 	zephir_check_call_status();
 	zephir_throw_exception_debug(&_5, "phalcon/DataMapper/Query/Select.zep", 94);
 	ZEPHIR_MM_RESTORE();
@@ -938,7 +938,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, subSelect)
 	object_init_ex(return_value, phalcon_datamapper_query_select_ce);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("connection"), PH_NOISY_CC | PH_READONLY);
 	zephir_read_property(&_1, this_ptr, ZEND_STRL("bind"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 452, &_0, &_1);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 454, &_0, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -1056,9 +1056,9 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, getCurrentStatement)
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_2, this_ptr, "buildlimitearly", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_3, this_ptr, "buildcolumns", NULL, 453);
+	ZEPHIR_CALL_METHOD(&_3, this_ptr, "buildcolumns", NULL, 455);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_4, this_ptr, "buildfrom", NULL, 454);
+	ZEPHIR_CALL_METHOD(&_4, this_ptr, "buildfrom", NULL, 456);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_6);
 	ZVAL_STRING(&_6, "WHERE");
@@ -1182,7 +1182,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, buildFrom)
 			ZEPHIR_INIT_NVAR(&table);
 			ZVAL_COPY(&table, _4);
 			ZEPHIR_MAKE_REF(&table);
-			ZEPHIR_CALL_FUNCTION(&_5$$4, "array_shift", &_6, 38, &table);
+			ZEPHIR_CALL_FUNCTION(&_5$$4, "array_shift", &_6, 40, &table);
 			ZEPHIR_UNREF(&table);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(&_7$$4, this_ptr, "indent", &_8, 0, &table);
@@ -1210,7 +1210,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, buildFrom)
 			ZEPHIR_CALL_METHOD(&table, &_3, "current", NULL, 0);
 			zephir_check_call_status();
 				ZEPHIR_MAKE_REF(&table);
-				ZEPHIR_CALL_FUNCTION(&_12$$5, "array_shift", &_6, 38, &table);
+				ZEPHIR_CALL_FUNCTION(&_12$$5, "array_shift", &_6, 40, &table);
 				ZEPHIR_UNREF(&table);
 				zephir_check_call_status();
 				ZEPHIR_CALL_METHOD(&_13$$5, this_ptr, "indent", &_8, 0, &table);

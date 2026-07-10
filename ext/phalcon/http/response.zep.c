@@ -1090,7 +1090,7 @@ PHP_METHOD(Phalcon_Http_Response, setFileToSend)
 		if (zephir_is_true(&_1$$5)) {
 			ZEPHIR_CALL_FUNCTION(&_3$$6, "mb_detect_order", NULL, 0);
 			zephir_check_call_status();
-			ZEPHIR_CALL_FUNCTION(&basePathEncoding, "mb_detect_encoding", NULL, 40, &basePath, &_3$$6, &__$true);
+			ZEPHIR_CALL_FUNCTION(&basePathEncoding, "mb_detect_encoding", NULL, 42, &basePath, &_3$$6, &__$true);
 			zephir_check_call_status();
 		}
 		ZEPHIR_INIT_NVAR(&_2$$5);
@@ -1118,7 +1118,7 @@ PHP_METHOD(Phalcon_Http_Response, setFileToSend)
 		} else {
 			ZEPHIR_INIT_VAR(&_7$$8);
 			ZVAL_STRING(&_7$$8, "\15\17\\\"");
-			ZEPHIR_CALL_FUNCTION(&_8$$8, "addcslashes", NULL, 467, &basePath, &_7$$8);
+			ZEPHIR_CALL_FUNCTION(&_8$$8, "addcslashes", NULL, 469, &basePath, &_7$$8);
 			zephir_check_call_status();
 			ZEPHIR_CPY_WRT(&basePath, &_8$$8);
 			ZEPHIR_INIT_VAR(&_9$$8);
@@ -1669,7 +1669,7 @@ PHP_METHOD(Phalcon_Http_Response, phpExtensionLoaded)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
-	ZEPHIR_RETURN_CALL_FUNCTION("extension_loaded", NULL, 43, &name_zv);
+	ZEPHIR_RETURN_CALL_FUNCTION("extension_loaded", NULL, 399, &name_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }

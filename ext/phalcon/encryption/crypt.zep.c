@@ -354,7 +354,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt, decrypt)
 	ZVAL_LONG(&_1, 0);
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "8bit");
-	ZEPHIR_CALL_FUNCTION(&iv, "mb_substr", NULL, 285, &input_zv, &_1, &ivLength, &_2);
+	ZEPHIR_CALL_FUNCTION(&iv, "mb_substr", NULL, 286, &input_zv, &_1, &ivLength, &_2);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&digest);
 	ZVAL_STRING(&digest, "");
@@ -376,18 +376,18 @@ PHP_METHOD(Phalcon_Encryption_Crypt, decrypt)
 		}
 		ZEPHIR_INIT_VAR(&_9$$6);
 		ZVAL_STRING(&_9$$6, "8bit");
-		ZEPHIR_CALL_FUNCTION(&digest, "mb_substr", NULL, 285, &input_zv, &ivLength, &hashLength, &_9$$6);
+		ZEPHIR_CALL_FUNCTION(&digest, "mb_substr", NULL, 286, &input_zv, &ivLength, &hashLength, &_9$$6);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_10$$6);
 		zephir_add_function(&_10$$6, &ivLength, &hashLength);
 		ZEPHIR_INIT_NVAR(&_9$$6);
 		ZVAL_STRING(&_9$$6, "8bit");
-		ZEPHIR_CALL_FUNCTION(&cipherText, "mb_substr", NULL, 285, &input_zv, &_10$$6, &__$null, &_9$$6);
+		ZEPHIR_CALL_FUNCTION(&cipherText, "mb_substr", NULL, 286, &input_zv, &_10$$6, &__$null, &_9$$6);
 		zephir_check_call_status();
 	} else {
 		ZEPHIR_INIT_VAR(&_11$$8);
 		ZVAL_STRING(&_11$$8, "8bit");
-		ZEPHIR_CALL_FUNCTION(&cipherText, "mb_substr", NULL, 285, &input_zv, &ivLength, &__$null, &_11$$8);
+		ZEPHIR_CALL_FUNCTION(&cipherText, "mb_substr", NULL, 286, &input_zv, &ivLength, &__$null, &_11$$8);
 		zephir_check_call_status();
 	}
 	ZEPHIR_CALL_METHOD(&decrypted, this_ptr, "decryptgcmccmauth", NULL, 0, &mode, &cipherText, &decryptKey, &iv);
@@ -2106,7 +2106,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt, phpHash)
 	} else {
 		}
 	ZVAL_BOOL(&_0, (binary ? 1 : 0));
-	ZEPHIR_RETURN_CALL_FUNCTION("hash", NULL, 162, &algorithm_zv, &data_zv, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("hash", NULL, 163, &algorithm_zv, &data_zv, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -2180,7 +2180,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt, phpHashHmac)
 	} else {
 		}
 	ZVAL_BOOL(&_0, (binary ? 1 : 0));
-	ZEPHIR_RETURN_CALL_FUNCTION("hash_hmac", NULL, 163, &algorithm_zv, &data_zv, &key_zv, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("hash_hmac", NULL, 164, &algorithm_zv, &data_zv, &key_zv, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -2209,7 +2209,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt, phpExtensionLoaded)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
-	ZEPHIR_RETURN_CALL_FUNCTION("extension_loaded", NULL, 43, &name_zv);
+	ZEPHIR_RETURN_CALL_FUNCTION("extension_loaded", NULL, 399, &name_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }

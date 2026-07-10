@@ -12,11 +12,11 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/object.h"
 #include "kernel/memory.h"
+#include "kernel/object.h"
+#include "kernel/operators.h"
 #include "kernel/fcall.h"
 #include "kernel/exception.h"
-#include "kernel/operators.h"
 
 
 /**
@@ -29,6 +29,11 @@
  */
 /**
  * This is a base class for combined fields validators
+ *
+ * @todo Remove in v7. Kept only for backwards compatibility; compose
+ * Phalcon\Filter\Validation\Traits\ValidatorCompositeTrait directly (with
+ * extends AbstractValidator implements ValidatorCompositeInterface) instead of
+ * extending this.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Filter_Validation_AbstractValidatorComposite)
 {
@@ -36,10 +41,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Validation_AbstractValidatorComposite)
 
 	/**
 	 * @var array
+	 *
+	 * @todo Use a default [] once Zephir supports array trait defaults
 	 */
 	zend_declare_property_null(phalcon_filter_validation_abstractvalidatorcomposite_ce, SL("validators"), ZEND_ACC_PROTECTED);
-	phalcon_filter_validation_abstractvalidatorcomposite_ce->create_object = zephir_init_properties_Phalcon_Filter_Validation_AbstractValidatorComposite;
-
 	zend_class_implements(phalcon_filter_validation_abstractvalidatorcomposite_ce, 1, phalcon_filter_validation_validatorcompositeinterface_ce);
 	return SUCCESS;
 }
@@ -49,8 +54,20 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Validation_AbstractValidatorComposite)
  */
 PHP_METHOD(Phalcon_Filter_Validation_AbstractValidatorComposite, getValidators)
 {
+	zval _1;
+	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zval *this_ptr = getThis();
 
-	RETURN_MEMBER_TYPED(getThis(), "validators", IS_ARRAY);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+
+	zephir_memory_observe(&_0);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("validators"), PH_NOISY_CC);
+	zephir_get_arrval(&_1, &_0);
+	RETURN_CTOR(&_1);
 }
 
 /**
@@ -88,15 +105,15 @@ PHP_METHOD(Phalcon_Filter_Validation_AbstractValidatorComposite, validate)
 		object_init_ex(&_1$$3, phalcon_filter_validation_exceptions_novalidatorsincomposite_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		zephir_get_class(&_2$$3, this_ptr, 0);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 183, &_2$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 185, &_2$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Filter/Validation/AbstractValidatorComposite.zep", 42);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Filter/Validation/Traits/ValidatorCompositeTrait.zep", 44);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&_3, this_ptr, "getvalidators", NULL, 0);
 	zephir_check_call_status();
-	zephir_is_iterable(&_3, 0, "phalcon/Filter/Validation/AbstractValidatorComposite.zep", 51);
+	zephir_is_iterable(&_3, 0, "phalcon/Filter/Validation/Traits/ValidatorCompositeTrait.zep", 53);
 	if (Z_TYPE_P(&_3) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_3), _4)
 		{
@@ -135,46 +152,5 @@ PHP_METHOD(Phalcon_Filter_Validation_AbstractValidatorComposite, validate)
 	}
 	ZEPHIR_INIT_NVAR(&validator);
 	RETURN_MM_BOOL(1);
-}
-
-zend_object *zephir_init_properties_Phalcon_Filter_Validation_AbstractValidatorComposite(zend_class_entry *class_type)
-{
-		zval _0, _2, _4, _1$$3, _3$$4, _5$$5;
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-		ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_4);
-	ZVAL_UNDEF(&_1$$3);
-	ZVAL_UNDEF(&_3$$4);
-	ZVAL_UNDEF(&_5$$5);
-	
-
-		ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-		zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	
-	{
-		zval local_this_ptr, *this_ptr = &local_this_ptr;
-		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		zephir_read_property_ex(&_0, this_ptr, ZEND_STRL("options"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_0) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_1$$3);
-			array_init(&_1$$3);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("options"), &_1$$3);
-		}
-		zephir_read_property_ex(&_2, this_ptr, ZEND_STRL("templates"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_2) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_3$$4);
-			array_init(&_3$$4);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("templates"), &_3$$4);
-		}
-		zephir_read_property_ex(&_4, this_ptr, ZEND_STRL("validators"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_4) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_5$$5);
-			array_init(&_5$$5);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("validators"), &_5$$5);
-		}
-		ZEPHIR_MM_RESTORE();
-		return Z_OBJ_P(this_ptr);
-	}
 }
 

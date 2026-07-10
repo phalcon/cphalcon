@@ -37,7 +37,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Str_Concat)
 {
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Support\\Helper\\Str, Concat, phalcon, support_helper_str_concat, phalcon_support_helper_str_concat_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Support\\Helper\\Str, Concat, phalcon, support_helper_str_concat, phalcon_support_helper_str_abstractstr_ce, phalcon_support_helper_str_concat_method_entry, 0);
 
 	return SUCCESS;
 }
@@ -97,7 +97,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Concat, __invoke)
 		object_init_ex(&_0$$3, phalcon_support_helper_str_exceptions_insufficientarguments_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_0$$3, "phalcon/Support/Helper/Str/Concat.zep", 41);
+		zephir_throw_exception_debug(&_0$$3, "phalcon/Support/Helper/Str/Concat.zep", 36);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -121,7 +121,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Concat, __invoke)
 	if (zephir_is_true(&_3)) {
 		ZEPHIR_CPY_WRT(&suffix, &delimiter_zv);
 	}
-	zephir_is_iterable(&many, 0, "phalcon/Support/Helper/Str/Concat.zep", 59);
+	zephir_is_iterable(&many, 0, "phalcon/Support/Helper/Str/Concat.zep", 54);
 	if (Z_TYPE_P(&many) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&many), _4)
 		{
@@ -129,7 +129,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Concat, __invoke)
 			ZVAL_COPY(&item, _4);
 			ZEPHIR_INIT_NVAR(&_5$$6);
 			zephir_fast_trim(&_5$$6, &item, &delimiter_zv, ZEPHIR_TRIM_BOTH);
-			zephir_array_append(&data, &_5$$6, PH_SEPARATE, "phalcon/Support/Helper/Str/Concat.zep", 56);
+			zephir_array_append(&data, &_5$$6, PH_SEPARATE, "phalcon/Support/Helper/Str/Concat.zep", 51);
 		} ZEND_HASH_FOREACH_END();
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, &many, "rewind", NULL, 0);
@@ -151,7 +151,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Concat, __invoke)
 			zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(&_8$$7);
 				zephir_fast_trim(&_8$$7, &item, &delimiter_zv, ZEPHIR_TRIM_BOTH);
-				zephir_array_append(&data, &_8$$7, PH_SEPARATE, "phalcon/Support/Helper/Str/Concat.zep", 56);
+				zephir_array_append(&data, &_8$$7, PH_SEPARATE, "phalcon/Support/Helper/Str/Concat.zep", 51);
 		}
 	}
 	ZEPHIR_INIT_NVAR(&item);
@@ -159,117 +159,5 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Concat, __invoke)
 	zephir_fast_join(&_9, &delimiter_zv, &data);
 	ZEPHIR_CONCAT_VVV(return_value, &prefix, &_9, &suffix);
 	RETURN_MM();
-}
-
-/**
- * @param string $haystack
- * @param string $needle
- * @param bool   $ignoreCase
- *
- * @return bool
- */
-PHP_METHOD(Phalcon_Support_Helper_Str_Concat, toEndsWith)
-{
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zend_bool ignoreCase;
-	zval haystack_zv, needle_zv, *ignoreCase_param = NULL, child, parent, _0;
-	zend_string *haystack = NULL, *needle = NULL;
-
-	ZVAL_UNDEF(&haystack_zv);
-	ZVAL_UNDEF(&needle_zv);
-	ZVAL_UNDEF(&child);
-	ZVAL_UNDEF(&parent);
-	ZVAL_UNDEF(&_0);
-	ZEND_PARSE_PARAMETERS_START(2, 3)
-		Z_PARAM_STR(haystack)
-		Z_PARAM_STR(needle)
-		Z_PARAM_OPTIONAL
-		Z_PARAM_BOOL(ignoreCase)
-	ZEND_PARSE_PARAMETERS_END();
-	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	if (ZEND_NUM_ARGS() > 2) {
-		ignoreCase_param = ZEND_CALL_ARG(execute_data, 3);
-	}
-	zephir_memory_observe(&haystack_zv);
-	ZVAL_STR_COPY(&haystack_zv, haystack);
-	zephir_memory_observe(&needle_zv);
-	ZVAL_STR_COPY(&needle_zv, needle);
-	if (!ignoreCase_param) {
-		ignoreCase = 1;
-	} else {
-		}
-	ZEPHIR_INIT_VAR(&_0);
-	ZVAL_STRING(&_0, "");
-	if (ZEPHIR_IS_IDENTICAL(&_0, &haystack_zv)) {
-		RETURN_MM_BOOL(0);
-	}
-	if (EXPECTED(ignoreCase)) {
-		ZEPHIR_CALL_FUNCTION(&child, "mb_strtolower", NULL, 15, &needle_zv);
-		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(&parent, "mb_strtolower", NULL, 15, &haystack_zv);
-		zephir_check_call_status();
-	} else {
-		ZEPHIR_CPY_WRT(&child, &needle_zv);
-		ZEPHIR_CPY_WRT(&parent, &haystack_zv);
-	}
-	RETURN_MM_BOOL(zephir_end_with(&parent, &child, NULL));
-}
-
-/**
- * @param string $haystack
- * @param string $needle
- * @param bool   $ignoreCase
- *
- * @return bool
- */
-PHP_METHOD(Phalcon_Support_Helper_Str_Concat, toStartsWith)
-{
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zend_bool ignoreCase;
-	zval haystack_zv, needle_zv, *ignoreCase_param = NULL, child, parent, _0;
-	zend_string *haystack = NULL, *needle = NULL;
-
-	ZVAL_UNDEF(&haystack_zv);
-	ZVAL_UNDEF(&needle_zv);
-	ZVAL_UNDEF(&child);
-	ZVAL_UNDEF(&parent);
-	ZVAL_UNDEF(&_0);
-	ZEND_PARSE_PARAMETERS_START(2, 3)
-		Z_PARAM_STR(haystack)
-		Z_PARAM_STR(needle)
-		Z_PARAM_OPTIONAL
-		Z_PARAM_BOOL(ignoreCase)
-	ZEND_PARSE_PARAMETERS_END();
-	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	if (ZEND_NUM_ARGS() > 2) {
-		ignoreCase_param = ZEND_CALL_ARG(execute_data, 3);
-	}
-	zephir_memory_observe(&haystack_zv);
-	ZVAL_STR_COPY(&haystack_zv, haystack);
-	zephir_memory_observe(&needle_zv);
-	ZVAL_STR_COPY(&needle_zv, needle);
-	if (!ignoreCase_param) {
-		ignoreCase = 1;
-	} else {
-		}
-	ZEPHIR_INIT_VAR(&_0);
-	ZVAL_STRING(&_0, "");
-	if (ZEPHIR_IS_IDENTICAL(&_0, &haystack_zv)) {
-		RETURN_MM_BOOL(0);
-	}
-	if (EXPECTED(ignoreCase)) {
-		ZEPHIR_CALL_FUNCTION(&child, "mb_strtolower", NULL, 15, &needle_zv);
-		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(&parent, "mb_strtolower", NULL, 15, &haystack_zv);
-		zephir_check_call_status();
-	} else {
-		ZEPHIR_CPY_WRT(&child, &needle_zv);
-		ZEPHIR_CPY_WRT(&parent, &haystack_zv);
-	}
-	RETURN_MM_BOOL(zephir_start_with(&parent, &child, NULL));
 }
 

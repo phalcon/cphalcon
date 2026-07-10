@@ -32,7 +32,7 @@
  * @license https://github.com/php-enqueue/enqueue-dev/blob/master/LICENSE
  */
 /**
- * Redis-backed message. All behavior comes from AbstractMessage.
+ * Redis-backed message. All behavior comes from MessageTrait.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_Redis_RedisMessage)
 {
