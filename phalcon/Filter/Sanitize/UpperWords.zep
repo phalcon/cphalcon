@@ -29,6 +29,6 @@ class UpperWords implements Sanitizer
      */
     public function __invoke( string input)
     {
-        return this->phpMbConvertCase(input, MB_CASE_TITLE, "ucwords");
+        return this->phpMbConvertCase(input, MB_CASE_TITLE);
     }
 }

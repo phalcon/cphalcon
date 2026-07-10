@@ -29,6 +29,7 @@ use Phalcon\Mvc\ViewInterface;
 use Phalcon\Support\Helper\File\Basename;
 use Phalcon\Support\Helper\Json\Encode;
 use Phalcon\Traits\Php\InfoTrait;
+use Phalcon\Traits\Php\UrlTrait;
 
 /**
  * Part of the HTTP cycle is return responses to the clients.
@@ -47,6 +48,7 @@ use Phalcon\Traits\Php\InfoTrait;
 class Response implements ResponseInterface, InjectionAwareInterface, EventsAwareInterface, ResponseStatusCodeInterface
 {
     use InfoTrait;
+    use UrlTrait;
 
     /**
      * @var DiInterface|null
@@ -579,7 +581,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
             // According RFC2231 section-7, non-ASCII header param must add a
             // extended one to indicate charset
             if basePathEncoding != "ASCII" {
-                let basePath = rawurlencode(basePath);
+                let basePath = this->phpRawUrlEncode(basePath);
                 this->setRawHeader("Content-Disposition: attachment; filename=" . basePath . "; filename*=". strtolower(basePathEncoding) . "''" . basePath);
             } else {
                 // According RFC2045 section-5.1, header param value contains

@@ -16,24 +16,17 @@ namespace Phalcon\Traits\Php;
 trait MbCaseTrait
 {
     /**
-     * Converts the case of a string using `mb_convert_case()` when the
-     * `mbstring` extension is available, otherwise applies the passed fallback
-     * function to the `utf8_decode()`d input.
+     * Converts the case of a string using `mb_convert_case()`
      *
      * @param string $input
      * @param int    $mode
-     * @param string $fallback
      *
      * @return string
      *
      * @link https://php.net/manual/en/function.mb-convert-case.php
      */
-    protected static function phpMbConvertCase(string input, int mode, string fallback) -> string
+    protected static function phpMbConvertCase(string input, int mode) -> string
     {
-        if true === function_exists("mb_convert_case") {
-            return mb_convert_case(input, mode, "UTF-8");
-        }
-
-        return {fallback}(utf8_decode(input));
+        return mb_convert_case(input, mode, "UTF-8");
     }
 }

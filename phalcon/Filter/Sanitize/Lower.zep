@@ -29,6 +29,6 @@ class Lower implements Sanitizer
      */
     public function __invoke( string input)
     {
-        return this->phpMbConvertCase(input, MB_CASE_LOWER, "strtolower");
+        return this->phpMbConvertCase(input, MB_CASE_LOWER);
     }
 }
