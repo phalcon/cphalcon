@@ -23,7 +23,7 @@
 - Added `Phalcon\Acl\Exceptions\InvalidSnapshot`, thrown by `Phalcon\Acl\Adapter\Storage::load()` on an incompatible or malformed policy snapshot. [#17220](https://github.com/phalcon/cphalcon/issues/17220) [[doc]](https://docs.phalcon.io/5.17/acl/)
 - Added `Phalcon\Filter\Validation::setDefaultMessages()` and `Phalcon\Filter\Validation::getDefaultMessage()` for registering global default validator failure messages keyed by validator class name (e.g. `Validation::setDefaultMessages([PresenceOf::class => 'Default message :field is required'])`). A registered default overrides a validator's built-in class default message, while a message set on the validator instance (the constructor `message`/`template` option or `setTemplate()`) still takes precedence; it applies to validators whose message is produced through `getTemplate()`/`messageFactory()`. [#17257](https://github.com/phalcon/cphalcon/issues/17257) [[doc]](https://docs.phalcon.io/5.17/filter-validation/)
 - Added `Phalcon\Filter\Validation\Validator\Files`, a validator for an array of uploaded files (`<input name="files[]" type="file" multiple>`). It accepts the same options as `Phalcon\Filter\Validation\Validator\File`, normalizes a single-file or transposed multi-file `$_FILES` node into individual files, and validates each by delegating to `File`, failing on the first file that violates a rule. [#17259](https://github.com/phalcon/cphalcon/issues/17259) [[doc]](https://docs.phalcon.io/5.17/filter-validation/)
-- Added a set of reusable traits under the `Phalcon\Traits` namespace that framework classes compose instead of carrying duplicated logic; several internal abstract helper base classes were dissolved into them in the process. The public traits:
+- Added a set of reusable traits under the `Phalcon\Traits` namespace that framework classes compose instead of carrying duplicated logic. The public traits:
     - `Phalcon\Traits\Support\Helper\Arr\GetTrait` - read an array element by key with a default value and an optional cast.
     - `Phalcon\Traits\Support\Helper\Arr\FilterTrait` - filter a collection with `array_filter()` and an optional callable.
     - `Phalcon\Traits\Support\Helper\Str\DirFromFileTrait` - build a nested directory path from a file name, with an optional path-safety flag.
@@ -68,12 +68,6 @@
 ### Removed
 
 - Removed the deprecated `Serializable` interface from `Phalcon\Mvc\Model` and `Phalcon\Mvc\Model\Resultset` (deprecated by PHP 8.1); the `__serialize()` and `__unserialize()` magic methods remain, so model and resultset serialization is unchanged. [#17253](https://github.com/phalcon/cphalcon/issues/17253) [[doc]](https://docs.phalcon.io/5.17/db-models/)
-- Removed several internal abstract helper base classes dissolved into the new traits 
-  - `Phalcon\Acl\AbstractElement`, 
-  - `Phalcon\Auth\Adapter\Config\AbstractAdapterConfig`, 
-  - `Phalcon\Filter\Validation\AbstractValidatorComposite` 
-  - `Phalcon\Support\Helper\Arr\AbstractArr`,
-  - `Phalcon\Support\Helper\Str\AbstractStr` - whose former subclasses now `use` the extracted traits instead of extending them. [#17273](https://github.com/phalcon/cphalcon/issues/17273) [[doc]](https://docs.phalcon.io/5.17/traits)
 
 ## [5.16.0](https://github.com/phalcon/cphalcon/releases/tag/v5.16.0) (2026-06-22)
 
