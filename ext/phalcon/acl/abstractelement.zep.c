@@ -26,6 +26,10 @@
 /**
  * Shared base for ACL Role and Component entities: a name and an optional
  * description.
+ *
+ * @todo Remove in v7. Kept only for backwards compatibility; the logic now
+ *       lives in `Phalcon\Acl\Traits\ItemTrait` - compose that trait directly
+ *       instead of extending this class.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Acl_AbstractElement)
 {

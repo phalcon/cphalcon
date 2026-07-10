@@ -1,0 +1,21 @@
+
+extern zend_class_entry *phalcon_filter_validation_traits_validatorcompositetrait_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Filter_Validation_Traits_ValidatorCompositeTrait);
+
+PHP_METHOD(Phalcon_Filter_Validation_Traits_ValidatorCompositeTrait, getValidators);
+PHP_METHOD(Phalcon_Filter_Validation_Traits_ValidatorCompositeTrait, validate);
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_traits_validatorcompositetrait_getvalidators, 0, 0, IS_ARRAY, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_traits_validatorcompositetrait_validate, 0, 2, _IS_BOOL, 0)
+	ZEND_ARG_OBJ_INFO(0, validation, Phalcon\\Filter\\Validation, 0)
+	ZEND_ARG_INFO(0, field)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_filter_validation_traits_validatorcompositetrait_method_entry) {
+	PHP_ME(Phalcon_Filter_Validation_Traits_ValidatorCompositeTrait, getValidators, arginfo_phalcon_filter_validation_traits_validatorcompositetrait_getvalidators, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Filter_Validation_Traits_ValidatorCompositeTrait, validate, arginfo_phalcon_filter_validation_traits_validatorcompositetrait_validate, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};

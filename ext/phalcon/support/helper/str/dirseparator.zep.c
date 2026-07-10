@@ -12,10 +12,11 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/concat.h"
-#include "kernel/memory.h"
-#include "kernel/string.h"
+#include "kernel/fcall.h"
 #include "kernel/object.h"
+#include "kernel/memory.h"
+#include "kernel/concat.h"
+#include "kernel/string.h"
 
 
 /**
@@ -43,6 +44,32 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Str_DirSeparator)
  * @return string
  */
 PHP_METHOD(Phalcon_Support_Helper_Str_DirSeparator, __invoke)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval directory_zv;
+	zend_string *directory = NULL;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&directory_zv);
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(directory)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&directory_zv);
+	ZVAL_STR_COPY(&directory_zv, directory);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "todirseparator", NULL, 0, &directory_zv);
+	zephir_check_call_status();
+	RETURN_MM();
+}
+
+/**
+ * @param string $directory
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Support_Helper_Str_DirSeparator, toDirSeparator)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval directory_zv, _0, _1;

@@ -17,7 +17,14 @@ use Phalcon\Encryption\Crypt;
 
 class FakeCryptOpensslCipherIvLength extends Crypt
 {
-    private int $usage = 0;
+    private static int $usage = 0;
+
+    public function __construct(...$args)
+    {
+        self::$usage = 0;
+
+        parent::__construct(...$args);
+    }
 
     /**
      * @param string $cipher
@@ -26,13 +33,13 @@ class FakeCryptOpensslCipherIvLength extends Crypt
      *
      * @link https://www.php.net/manual/en/function.openssl-cipher-iv-length
      */
-    public function phpOpensslCipherIvLength(string $cipher): false|int
+    public static function phpOpensslCipherIvLength(string $cipher): false|int
     {
         /**
          * Need to run this twice, and the second time it has to return false.
          */
-        if (0 === $this->usage) {
-            $this->usage++;
+        if (0 === self::$usage) {
+            self::$usage++;
 
             return parent::phpOpensslCipherIvLength($cipher);
         }

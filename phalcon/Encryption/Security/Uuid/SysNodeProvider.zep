@@ -13,6 +13,9 @@
 
 namespace Phalcon\Encryption\Security\Uuid;
 
+use Phalcon\Traits\Php\FileTrait;
+use Phalcon\Traits\Php\InfoTrait;
+
 /**
  * Discovers the hardware MAC address and returns it as a 12-character hex node.
  *
@@ -30,6 +33,9 @@ namespace Phalcon\Encryption\Security\Uuid;
  */
 class SysNodeProvider implements NodeProviderInterface
 {
+    use FileTrait;
+    use InfoTrait;
+
     /**
      * @var string|null
      */
@@ -47,7 +53,7 @@ class SysNodeProvider implements NodeProviderInterface
             return this->node;
         }
 
-        if function_exists("apcu_fetch") {
+        if this->phpFunctionExists("apcu_fetch") {
             let cached = apcu_fetch("__phalcon_uuid_node");
             if cached !== false {
                 let this->node = cached;
@@ -65,7 +71,7 @@ class SysNodeProvider implements NodeProviderInterface
                     if strpos(address, "/lo/") !== false {
                         continue;
                     }
-                    let node = trim(file_get_contents(address));
+                    let node = trim(this->phpFileGetContents(address));
                     let node = str_replace(":", "", node);
                     if this->isValidNode(node) {
                         break;
@@ -111,7 +117,7 @@ class SysNodeProvider implements NodeProviderInterface
 
         let this->node = node;
 
-        if function_exists("apcu_store") {
+        if this->phpFunctionExists("apcu_store") {
             apcu_store("__phalcon_uuid_node", this->node);
         }
 

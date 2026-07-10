@@ -26,7 +26,7 @@ class FakeYamlExtensionLoaded extends Yaml
      *
      * @link https://php.net/manual/en/function.extension-loaded.php
      */
-    protected function phpExtensionLoaded(string $name): bool
+    protected static function phpExtensionLoaded(string $name): bool
     {
         return false;
     }

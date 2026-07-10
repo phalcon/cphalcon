@@ -62,6 +62,6 @@ class None implements SignerInterface
         string payload,
         string passphrase
     ) -> bool {
-        return "" === $source;
+        return "" === source;
     }
 }

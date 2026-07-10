@@ -17,6 +17,8 @@ use Phalcon\Image\Exceptions\ImageLoadFailed;
 use Phalcon\Image\Exceptions\TextRenderingFailed;
 use Phalcon\Image\Exceptions\UnsupportedImageType;
 use Phalcon\Image\Exceptions\VersionMismatch;
+use Phalcon\Traits\Php\FileTrait;
+use Phalcon\Traits\Php\InfoTrait;
 
 /**
  * Image manipulation backed by the GD extension.
@@ -37,6 +39,9 @@ use Phalcon\Image\Exceptions\VersionMismatch;
  */
 class Gd extends AbstractAdapter
 {
+    use FileTrait;
+    use InfoTrait;
+
     /**
      * Loads an image from a file, or creates a blank canvas.
      *
@@ -64,7 +69,7 @@ class Gd extends AbstractAdapter
         let this->file = file;
         let this->type = 0;
 
-        if (true === file_exists(this->file)) {
+        if (true === this->phpFileExists(this->file)) {
             let this->realpath = realpath(this->file);
             let imageInfo      = getimagesize(this->file);
 
@@ -157,7 +162,7 @@ class Gd extends AbstractAdapter
     {
         var info, matches, version;
 
-        if (true !== function_exists("gd_info")) {
+        if (true !== this->phpFunctionExists("gd_info")) {
             throw new ExtensionNotLoaded("GD");
         }
 

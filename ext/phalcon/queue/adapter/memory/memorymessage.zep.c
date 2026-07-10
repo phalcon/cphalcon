@@ -32,7 +32,7 @@
  * @license https://github.com/php-enqueue/enqueue-dev/blob/master/LICENSE
  */
 /**
- * In-process message. All behavior comes from AbstractMessage.
+ * In-process message. All behavior comes from MessageTrait.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_Memory_MemoryMessage)
 {

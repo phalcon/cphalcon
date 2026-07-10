@@ -32,7 +32,7 @@
  * @license https://github.com/php-enqueue/enqueue-dev/blob/master/LICENSE
  */
 /**
- * Filesystem-backed message. All behavior comes from AbstractMessage.
+ * Filesystem-backed message. All behavior comes from MessageTrait.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_Stream_StreamMessage)
 {

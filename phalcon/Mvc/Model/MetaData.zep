@@ -21,6 +21,7 @@ use Phalcon\Mvc\Model\MetaData\Strategy\Introspection;
 use Phalcon\Mvc\Model\MetaData\Strategy\StrategyInterface;
 use Phalcon\Mvc\ModelInterface;
 use Phalcon\Support\Settings;
+use Phalcon\Traits\Support\Helper\Arr\GetTrait;
 
 /**
  * Phalcon\Mvc\Model\MetaData
@@ -78,6 +79,8 @@ use Phalcon\Support\Settings;
  */
 abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 {
+    use GetTrait;
+
     /**
      * @var int
      */
@@ -905,23 +908,6 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
             }
             let this->pendingMetaDataWrites[key][index] = data;
         }
-    }
-
-    /**
-     * @todo Remove this when we get traits
-     */
-    protected function getArrVal(
-         array collection,
-        var index,
-        var defaultValue = null
-    ) -> var {
-        var value;
-
-        if unlikely !fetch value, collection[index] {
-            return defaultValue;
-        }
-
-        return value;
     }
 
     /**

@@ -28,6 +28,7 @@ use Phalcon\Mvc\Url\UrlInterface;
 use Phalcon\Mvc\ViewInterface;
 use Phalcon\Support\Helper\File\Basename;
 use Phalcon\Support\Helper\Json\Encode;
+use Phalcon\Traits\Php\InfoTrait;
 
 /**
  * Part of the HTTP cycle is return responses to the clients.
@@ -45,6 +46,8 @@ use Phalcon\Support\Helper\Json\Encode;
  */
 class Response implements ResponseInterface, InjectionAwareInterface, EventsAwareInterface, ResponseStatusCodeInterface
 {
+    use InfoTrait;
+
     /**
      * @var DiInterface|null
      */
@@ -563,7 +566,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
         }
         if attachment {
             // mbstring is a non-default extension
-            if function_exists("mb_detect_encoding") {
+            if this->phpFunctionExists("mb_detect_encoding") {
                 let basePathEncoding = mb_detect_encoding(
                     basePath,
                     mb_detect_order(),

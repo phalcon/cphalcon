@@ -36,7 +36,7 @@
  */
 /**
  * Consumes from several Redis queues at once. The round-robin poll loop lives
- * in AbstractSubscriptionConsumer.
+ * in SubscriptionConsumerTrait.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_Redis_RedisSubscriptionConsumer)
 {

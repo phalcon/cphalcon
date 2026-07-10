@@ -17,7 +17,7 @@ use Phalcon\Storage\Serializer\Base64;
 
 final class FakeBase64Decode extends Base64
 {
-    protected function phpBase64Decode(string $input, bool $strict = false)
+    protected static function phpBase64Decode(string $input, bool $strict = false)
     {
         return false;
     }

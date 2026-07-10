@@ -19,6 +19,8 @@
 
 namespace Phalcon\Queue\Consumer;
 
+use Phalcon\Traits\Php\InfoTrait;
+
 /**
  * Long-running operational shell around a QueueConsumer. Owns the outer loop,
  * the bounded lifetime (max messages / seconds / memory, plus jitter) and -
@@ -28,6 +30,8 @@ namespace Phalcon\Queue\Consumer;
  */
 class Worker
 {
+    use InfoTrait;
+
     /**
      * @var QueueConsumer
      */
@@ -121,7 +125,7 @@ class Worker
      */
     private function installSignalHandlers() -> void
     {
-        if !function_exists("pcntl_async_signals") {
+        if !this->phpFunctionExists("pcntl_async_signals") {
             return;
         }
 

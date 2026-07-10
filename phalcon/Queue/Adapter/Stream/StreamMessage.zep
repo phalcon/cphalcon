@@ -22,7 +22,7 @@ namespace Phalcon\Queue\Adapter\Stream;
 use Phalcon\Queue\Adapter\AbstractMessage;
 
 /**
- * Filesystem-backed message. All behavior comes from AbstractMessage.
+ * Filesystem-backed message. All behavior comes from MessageTrait.
  */
 class StreamMessage extends AbstractMessage
 {

@@ -23,7 +23,7 @@ use Phalcon\Queue\Adapter\AbstractSubscriptionConsumer;
 
 /**
  * Consumes from several in-process queues at once. The round-robin poll loop
- * lives in AbstractSubscriptionConsumer.
+ * lives in SubscriptionConsumerTrait.
  */
 class MemorySubscriptionConsumer extends AbstractSubscriptionConsumer
 {

@@ -17,7 +17,7 @@ use Phalcon\Session\Manager;
 
 final class FakeManagerHeadersSent extends Manager
 {
-    protected function phpHeadersSent(): bool
+    protected static function phpHeadersSent(): bool
     {
         return true;
     }

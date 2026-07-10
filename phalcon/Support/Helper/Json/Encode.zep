@@ -11,6 +11,7 @@
 namespace Phalcon\Support\Helper\Json;
 
 use Phalcon\Support\Helper\Json\Exceptions\JsonEncodeError;
+use Phalcon\Traits\Support\Helper\Json\EncodeTrait;
 
 /**
  * Encodes a string using `json_encode` and throws an exception if the
@@ -29,6 +30,8 @@ use Phalcon\Support\Helper\Json\Exceptions\JsonEncodeError;
  */
 class Encode
 {
+    use EncodeTrait;
+
     /**
      * @param mixed $data    JSON data to parse
      * @param int   $options Bitmask of JSON encode options.
@@ -44,29 +47,12 @@ class Encode
         int options = 79,
         int depth = 512
     ) -> string {
-        var encoded, error, ex, message;
+        var ex;
 
-        /**
-         * Need to clear the json_last_error() before the code below
-         */
         try {
-            let encoded = json_encode(null),
-                encoded = json_encode(data, options, depth),
-                error   = json_last_error(),
-                message = json_last_error_msg();
+            return this->toEncode(data, options, depth);
         } catch \JsonException, ex {
             throw new JsonEncodeError(ex->getMessage(), ex->getCode(), ex);
         }
-        /**
-         * The above will throw an exception when JSON_THROW_ON_ERROR is
-         * specified. If not, the code below will handle the exception when
-         * an error occurs
-         */
-        if (JSON_ERROR_NONE !== error) {
-            json_encode(null);
-            throw new JsonEncodeError(message, error);
-        }
-
-        return (string) encoded;
     }
 }

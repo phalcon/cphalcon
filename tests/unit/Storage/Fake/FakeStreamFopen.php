@@ -14,11 +14,9 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Storage\Fake;
 
 use Phalcon\Storage\Adapter\Stream;
+use Phalcon\Tests\Support\Fake\FopenReturnsFalseTrait;
 
 final class FakeStreamFopen extends Stream
 {
-    protected function phpFopen(string $filename, string $mode): mixed
-    {
-        return false;
-    }
+    use FopenReturnsFalseTrait;
 }

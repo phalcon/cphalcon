@@ -14,11 +14,9 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Assets\Fake;
 
 use Phalcon\Assets\Asset;
+use Phalcon\Tests\Support\Fake\FileGetContentsReturnsFalseTrait;
 
 class FakeAssetFileGetContents extends Asset
 {
-    protected function phpFileGetContents(string $filename): false|string
-    {
-        return false;
-    }
+    use FileGetContentsReturnsFalseTrait;
 }

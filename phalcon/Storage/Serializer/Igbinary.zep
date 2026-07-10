@@ -10,8 +10,12 @@
 
 namespace Phalcon\Storage\Serializer;
 
+use Phalcon\Traits\Php\IgbinaryTrait;
+
 class Igbinary extends AbstractSerializer
 {
+    use IgbinaryTrait;
+
     /**
      * Serializes data
      *
@@ -95,18 +99,7 @@ class Igbinary extends AbstractSerializer
      */
     protected function doUnserialize(value)
     {
-        return igbinary_unserialize(value);
+        return this->phpIgbinaryUnserialize(value);
     }
 
-    /**
-     * Wrapper for `igbinary_serialize`
-     *
-     * @param mixed $value
-     *
-     * @return string|null
-     */
-    protected function phpIgbinarySerialize(var value) -> string | null
-    {
-        return igbinary_serialize(value);
-    }
 }

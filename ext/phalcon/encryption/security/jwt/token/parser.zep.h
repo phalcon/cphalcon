@@ -9,7 +9,10 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Parser, decodeClaims);
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Parser, decodeHeaders);
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Parser, decodeSignature);
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Parser, parseToken);
-PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Parser, decodeUrl);
+PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Parser, doDecodeUrl);
+PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Parser, doEncodeUrl);
+PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Parser, phpBase64Decode);
+PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Parser, phpBase64Encode);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_encryption_security_jwt_token_parser___construct, 0, 0, 0)
 	ZEND_ARG_OBJ_TYPE_MASK(0, decode, Phalcon\\Support\\Helper\\Json\\Decode, MAY_BE_NULL, "null")
@@ -36,7 +39,20 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_jwt_
 	ZEND_ARG_TYPE_INFO(0, token, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_jwt_token_parser_decodeurl, 0, 1, IS_STRING, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_jwt_token_parser_dodecodeurl, 0, 1, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, input, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_jwt_token_parser_doencodeurl, 0, 1, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, input, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_encryption_security_jwt_token_parser_phpbase64decode, 0, 0, 1)
+	ZEND_ARG_TYPE_INFO(0, input, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, strict, _IS_BOOL, 0, "false")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_jwt_token_parser_phpbase64encode, 0, 1, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, input, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
@@ -47,6 +63,9 @@ ZEPHIR_INIT_FUNCS(phalcon_encryption_security_jwt_token_parser_method_entry) {
 	PHP_ME(Phalcon_Encryption_Security_JWT_Token_Parser, decodeHeaders, arginfo_phalcon_encryption_security_jwt_token_parser_decodeheaders, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Encryption_Security_JWT_Token_Parser, decodeSignature, arginfo_phalcon_encryption_security_jwt_token_parser_decodesignature, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Encryption_Security_JWT_Token_Parser, parseToken, arginfo_phalcon_encryption_security_jwt_token_parser_parsetoken, ZEND_ACC_PRIVATE)
-	PHP_ME(Phalcon_Encryption_Security_JWT_Token_Parser, decodeUrl, arginfo_phalcon_encryption_security_jwt_token_parser_decodeurl, ZEND_ACC_PRIVATE)
+	PHP_ME(Phalcon_Encryption_Security_JWT_Token_Parser, doDecodeUrl, arginfo_phalcon_encryption_security_jwt_token_parser_dodecodeurl, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Encryption_Security_JWT_Token_Parser, doEncodeUrl, arginfo_phalcon_encryption_security_jwt_token_parser_doencodeurl, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Encryption_Security_JWT_Token_Parser, phpBase64Decode, arginfo_phalcon_encryption_security_jwt_token_parser_phpbase64decode, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Encryption_Security_JWT_Token_Parser, phpBase64Encode, arginfo_phalcon_encryption_security_jwt_token_parser_phpbase64encode, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_FE_END
 };

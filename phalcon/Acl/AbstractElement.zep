@@ -10,38 +10,17 @@
 
 namespace Phalcon\Acl;
 
+use Phalcon\Acl\Traits\ItemTrait;
+
 /**
  * Shared base for ACL Role and Component entities: a name and an optional
  * description.
+ *
+ * @todo Remove in v7. Kept only for backwards compatibility; the logic now
+ *       lives in `Phalcon\Acl\Traits\ItemTrait` - compose that trait directly
+ *       instead of extending this class.
  */
 abstract class AbstractElement
 {
-    /**
-     * Element description
-     *
-     * @var string | null
-     */
-    protected description;
-
-    /**
-     * Element name
-     *
-     * @var string
-     */
-    protected name;
-
-    public function __toString() -> string
-    {
-        return this->name;
-    }
-
-    public function getDescription() -> string | null
-    {
-        return this->description;
-    }
-
-    public function getName() -> string
-    {
-        return this->name;
-    }
+    use ItemTrait;
 }

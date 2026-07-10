@@ -13,6 +13,10 @@ namespace Phalcon\Session\Adapter;
 use Phalcon\Session\Adapter\Exceptions\AdapterRuntimeError;
 use Phalcon\Session\Adapter\Exceptions\InvalidSavePath;
 use Phalcon\Session\Adapter\Exceptions\SavePathUnavailable;
+use Phalcon\Traits\Php\FileTrait;
+use Phalcon\Traits\Php\IniTrait;
+use Phalcon\Traits\Support\Helper\Arr\GetTrait;
+use Phalcon\Traits\Support\Helper\Str\DirSeparatorTrait;
 
 /**
  * Phalcon\Session\Adapter\Stream
@@ -40,6 +44,11 @@ use Phalcon\Session\Adapter\Exceptions\SavePathUnavailable;
  */
 class Stream extends Noop
 {
+    use DirSeparatorTrait;
+    use FileTrait;
+    use GetTrait;
+    use IniTrait;
+
     /**
      * Session options
      *
@@ -88,7 +97,7 @@ class Stream extends Noop
             throw new SavePathUnavailable(path);
         }
 
-        let this->path = this->getDirSeparator(path);
+        let this->path = this->toDirSeparator(path);
     }
 
     public function destroy(var id) -> bool
@@ -97,8 +106,8 @@ class Stream extends Noop
 
         let file = this->path . this->getPrefixedName(id);
 
-        if file_exists(file) && is_file(file) {
-            unlink(file);
+        if this->phpFileExists(file) && is_file(file) {
+            this->phpUnlink(file);
         }
 
         return true;
@@ -130,10 +139,10 @@ class Stream extends Noop
 
         if (!empty(glob)) {
             for file in glob {
-                if true === file_exists(file) &&
+                if true === this->phpFileExists(file) &&
                    true === is_file(file)     &&
                    (filemtime(file) < time) {
-                    unlink(file);
+                    this->phpUnlink(file);
                 }
             }
         }
@@ -168,7 +177,7 @@ class Stream extends Noop
                 let data = this->phpFileGetContents(name);
             }
 
-            fclose(pointer);
+            this->phpFclose(pointer);
 
             if false === data {
                 return "";
@@ -208,34 +217,6 @@ class Stream extends Noop
     }
 
     /**
-     * @todo Remove this when we get traits
-     */
-    protected function getArrVal(
-         array collection,
-        var index,
-        var defaultValue = null,
-         string cast = null
-    ) -> var {
-        var value;
-
-        if unlikely !fetch value, collection[index] {
-            return defaultValue;
-        }
-
-        if unlikely cast {
-            settype(value, cast);
-        }
-
-        return value;
-    }
-
-    private function getDirSeparator( string directory) -> string
-    {
-        return rtrim(directory, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
-    }
-
-
-    /**
      * Gets the glob array or returns false on failure
      *
      * @param string $pattern
@@ -263,90 +244,4 @@ class Stream extends Noop
 
         return this->prefix . name;
     }
-
-    /**
-     * @param string $filename
-     *
-     * @return bool
-     *
-     * @link https://php.net/manual/en/function.file-exists.php
-     */
-    protected function phpFileExists(string filename)
-    {
-        return file_exists(filename);
-    }
-
-    /**
-     * @param string $filename
-     *
-     * @return string|false
-     *
-     * @link https://php.net/manual/en/function.file-get-contents.php
-     */
-    protected function phpFileGetContents(string filename)
-    {
-        return file_get_contents(filename);
-    }
-
-    /**
-     * @param string   $filename
-     * @param mixed    $data
-     * @param int      $flags
-     * @param resource $context
-     *
-     * @return int|false
-     *
-     * @link https://php.net/manual/en/function.file-put-contents.php
-     */
-    protected function phpFilePutContents(
-        string filename,
-        var data,
-        int flags = 0,
-        var context = null
-    ) {
-        return file_put_contents(filename, data, flags, context);
-    }
-
-    /**
-     * @param string $filename
-     * @param string $mode
-     *
-     * @return resource|false
-     *
-     * @link https://php.net/manual/en/function.fopen.php
-     */
-    protected function phpFopen(string filename, string mode)
-    {
-        return fopen(filename, mode);
-    }
-
-    /**
-     * Gets the value of a configuration option
-     *
-     * @param string $varname
-     *
-     * @return string
-     *
-     * @link https://php.net/manual/en/function.ini-get.php
-     * @link https://php.net/manual/en/ini.list.php
-     */
-    protected function phpIniGet(string varname) -> string
-    {
-        return ini_get(varname);
-    }
-
-    /**
-     * Tells whether the filename is writable
-     *
-     * @param string $filename
-     *
-     * @return bool
-     *
-     * @link https://php.net/manual/en/function.is-writable.php
-     */
-    protected function phpIsWritable(string filename) -> bool
-    {
-        return is_writable(filename);
-    }
-
 }

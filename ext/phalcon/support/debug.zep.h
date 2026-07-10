@@ -23,6 +23,7 @@ PHP_METHOD(Phalcon_Support_Debug, setShowBackTrace);
 PHP_METHOD(Phalcon_Support_Debug, setShowFileFragment);
 PHP_METHOD(Phalcon_Support_Debug, setShowFiles);
 PHP_METHOD(Phalcon_Support_Debug, setUri);
+PHP_METHOD(Phalcon_Support_Debug, getArrVal);
 zend_object *zephir_init_properties_Phalcon_Support_Debug(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_support_debug___construct, 0, 0, 0)
@@ -101,6 +102,13 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_support_debug_seturi, 0,
 	ZEND_ARG_TYPE_INFO(0, uri, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_support_debug_getarrval, 0, 0, 2)
+	ZEND_ARG_ARRAY_INFO(0, collection, 0)
+	ZEND_ARG_INFO(0, index)
+	ZEND_ARG_INFO(0, defaultValue)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, cast, IS_STRING, 1, "null")
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_support_debug_zephir_init_properties_phalcon_support_debug, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
@@ -125,5 +133,6 @@ PHP_ME(Phalcon_Support_Debug, __construct, arginfo_phalcon_support_debug___const
 	PHP_ME(Phalcon_Support_Debug, setShowFileFragment, arginfo_phalcon_support_debug_setshowfilefragment, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Support_Debug, setShowFiles, arginfo_phalcon_support_debug_setshowfiles, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Support_Debug, setUri, arginfo_phalcon_support_debug_seturi, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Support_Debug, getArrVal, arginfo_phalcon_support_debug_getarrval, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_FE_END
 };

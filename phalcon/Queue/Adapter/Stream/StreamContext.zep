@@ -28,6 +28,7 @@ use Phalcon\Contracts\Queue\SubscriptionConsumer as SubscriptionConsumerInterfac
 use Phalcon\Queue\Adapter\AbstractContext;
 use Phalcon\Queue\Adapter\MessageEnvelope;
 use Phalcon\Queue\Adapter\QueueDestinationGuard;
+use Phalcon\Traits\Php\FileTrait;
 
 /**
  * Filesystem transport session. Each queue is one append-only file under the
@@ -37,6 +38,8 @@ use Phalcon\Queue\Adapter\QueueDestinationGuard;
  */
 class StreamContext extends AbstractContext
 {
+    use FileTrait;
+
     /**
      * Milliseconds slept between poll attempts by consumers.
      *
@@ -93,18 +96,18 @@ class StreamContext extends AbstractContext
 
         let filepath = this->getFilepath(queueName);
 
-        if !file_exists(filepath) {
+        if !this->phpFileExists(filepath) {
             return null;
         }
 
-        let pointer = fopen(filepath, "c+");
+        let pointer = this->phpFopen(filepath, "c+");
 
         if pointer === false {
             return null;
         }
 
         if !flock(pointer, LOCK_EX) {
-            fclose(pointer);
+            this->phpFclose(pointer);
 
             return null;
         }
@@ -114,7 +117,7 @@ class StreamContext extends AbstractContext
 
         if empty lines {
             flock(pointer, LOCK_UN);
-            fclose(pointer);
+            this->phpFclose(pointer);
 
             return null;
         }
@@ -129,9 +132,9 @@ class StreamContext extends AbstractContext
 
         ftruncate(pointer, 0);
         rewind(pointer);
-        fwrite(pointer, remaining);
+        this->phpFwrite(pointer, remaining);
         flock(pointer, LOCK_UN);
-        fclose(pointer);
+        this->phpFclose(pointer);
 
         let data = MessageEnvelope::decode(base64_decode(line));
 
@@ -148,8 +151,8 @@ class StreamContext extends AbstractContext
 
         let filepath = this->getFilepath(queue->getQueueName());
 
-        if file_exists(filepath) {
-            unlink(filepath);
+        if this->phpFileExists(filepath) {
+            this->phpUnlink(filepath);
         }
     }
 
@@ -167,7 +170,7 @@ class StreamContext extends AbstractContext
 
         let line = base64_encode(MessageEnvelope::encode(message)) . PHP_EOL;
 
-        file_put_contents(filepath, line, FILE_APPEND | LOCK_EX);
+        this->phpFilePutContents(filepath, line, FILE_APPEND | LOCK_EX);
     }
 
     private function ensureDir() -> void

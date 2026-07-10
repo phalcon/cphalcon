@@ -13,21 +13,23 @@ namespace Phalcon\Assets;
 use ArrayIterator;
 use Countable;
 use IteratorAggregate;
+use Phalcon\Assets\Traits\AttributesTrait;
+use Phalcon\Assets\Traits\SourceTargetTrait;
+use Phalcon\Traits\Php\FileTrait;
 
 /**
  * Collection of asset objects
  */
 class Collection implements Countable, IteratorAggregate
 {
-    /**
-     * @var array
-     */
-    protected assets = [];
+    use AttributesTrait;
+    use FileTrait;
+    use SourceTargetTrait;
 
     /**
      * @var array
      */
-    protected attributes = [];
+    protected assets = [];
 
     /**
      * Should version be determined from file modification time
@@ -49,11 +51,6 @@ class Collection implements Countable, IteratorAggregate
     /**
      * @var bool
      */
-    protected isLocal = true;
-
-    /**
-     * @var bool
-     */
     protected join = true;
 
     /**
@@ -62,24 +59,9 @@ class Collection implements Countable, IteratorAggregate
     protected prefix = "";
 
     /**
-     * @var string
-     */
-    protected sourcePath = "";
-
-    /**
      * @var bool
      */
     protected targetIsLocal = true;
-
-    /**
-     * @var string
-     */
-    protected targetPath = "";
-
-    /**
-     * @var string
-     */
-    protected targetUri = "";
 
     /**
      * @var string
@@ -233,14 +215,6 @@ class Collection implements Countable, IteratorAggregate
     /**
      * @return array
      */
-    public function getAttributes() -> array
-    {
-        return this->attributes;
-    }
-
-    /**
-     * @return array
-     */
     public function getCodes() -> array
     {
         return this->codes;
@@ -301,19 +275,11 @@ class Collection implements Countable, IteratorAggregate
          * Get the real template path, the target path can optionally don't
          * exist
          */
-        if (true === file_exists(completePath)) {
+        if (true === this->phpFileExists(completePath)) {
             return realPath(completePath);
         }
 
         return completePath;
-    }
-
-    /**
-     * @return string
-     */
-    public function getSourcePath() -> string
-    {
-        return this->sourcePath;
     }
 
     /**
@@ -322,22 +288,6 @@ class Collection implements Countable, IteratorAggregate
     public function getTargetIsLocal() -> bool
     {
         return this->targetIsLocal;
-    }
-
-    /**
-     * @return string
-     */
-    public function getTargetPath() -> string
-    {
-        return this->targetPath;
-    }
-
-    /**
-     * @return string
-     */
-    public function getTargetUri() -> string
-    {
-        return this->targetUri;
     }
 
     /**
@@ -384,14 +334,6 @@ class Collection implements Countable, IteratorAggregate
     public function isAutoVersion() -> bool
     {
         return this->autoVersion;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isLocal() -> bool
-    {
-        return this->isLocal;
     }
 
     /**
@@ -444,18 +386,6 @@ class Collection implements Countable, IteratorAggregate
     }
 
     /**
-     * Sets if the collection uses local assets by default
-     *
-     * @param bool $flag
-     */
-    public function setIsLocal(bool flag) -> <static>
-    {
-        let this->isLocal = flag;
-
-        return this;
-    }
-
-    /**
      * Sets a common prefix for all the assets
      *
      * @param string $prefix
@@ -475,42 +405,6 @@ class Collection implements Countable, IteratorAggregate
     public function setTargetIsLocal(bool flag) -> <static>
     {
         let this->targetIsLocal = flag;
-
-        return this;
-    }
-
-    /**
-     * Sets the target path of the file for the filtered/join output
-     *
-     * @param string $targetPath
-     */
-    public function setTargetPath(string targetPath) -> <static>
-    {
-        let this->targetPath = targetPath;
-
-        return this;
-    }
-
-    /**
-     * Sets a target uri for the generated HTML
-     *
-     * @param string $targetUri
-     */
-    public function setTargetUri(string targetUri) -> <static>
-    {
-        let this->targetUri = targetUri;
-
-        return this;
-    }
-
-    /**
-     * Sets a base source path for all the assets in this collection
-     *
-     * @param string $sourcePath
-     */
-    public function setSourcePath(string sourcePath) -> <static>
-    {
-        let this->sourcePath = sourcePath;
 
         return this;
     }
@@ -612,6 +506,6 @@ class Collection implements Countable, IteratorAggregate
      */
     private function processAttributes(array attributes) -> array
     {
-        return (true !== empty(attributes)) ? attributes : this->attributes;
+        return (true !== empty(attributes)) ? attributes : (array) this->attributes;
     }
 }

@@ -17,7 +17,7 @@ use Phalcon\Storage\Adapter\Apcu;
 
 final class FakeApcuIterator extends Apcu
 {
-    protected function phpApcuIterator(string $pattern): bool
+    protected static function phpApcuIterator(string $pattern): bool
     {
         return false;
     }

@@ -15,7 +15,7 @@ use Phalcon\Support\Debug\Exceptions\RequestHalted;
 use Phalcon\Support\Debug\Exceptions\RuntimeWarning;
 use Phalcon\Support\Debug\Renderer\HtmlRenderer;
 use Phalcon\Support\Debug\ReportBuilder;
-use Phalcon\Support\Helper\Arr\Get;
+use Phalcon\Traits\Support\Helper\Arr\GetTrait;
 use ReflectionException;
 use Throwable;
 
@@ -25,6 +25,8 @@ use Throwable;
  */
 class Debug
 {
+    use GetTrait;
+
     /**
      * @var array
      */
@@ -281,10 +283,9 @@ class Debug
      */
     public function setBlacklist(array blacklist) -> <static>
     {
-        var area, result, subArray, value, getter;
+        var area, result, subArray, value;
 
-        let getter   = new Get(),
-            area     = getter->__invoke(blacklist, "request", []),
+        let area     = this->getArrVal(blacklist, "request", []),
             subArray = [],
             result   = [];
 
@@ -294,7 +295,7 @@ class Debug
         }
 
         let result["request"] = subArray,
-            area              = getter->__invoke(blacklist, "server", []),
+            area              = this->getArrVal(blacklist, "server", []),
             subArray          = [];
 
         for value in area {

@@ -1,0 +1,24 @@
+
+extern zend_class_entry *phalcon_db_traits_elapsedtimetrait_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Db_Traits_ElapsedTimeTrait);
+
+PHP_METHOD(Phalcon_Db_Traits_ElapsedTimeTrait, getTotalElapsedNanoseconds);
+PHP_METHOD(Phalcon_Db_Traits_ElapsedTimeTrait, getTotalElapsedMilliseconds);
+PHP_METHOD(Phalcon_Db_Traits_ElapsedTimeTrait, getTotalElapsedSeconds);
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_traits_elapsedtimetrait_gettotalelapsednanoseconds, 0, 0, IS_DOUBLE, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_traits_elapsedtimetrait_gettotalelapsedmilliseconds, 0, 0, IS_DOUBLE, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_traits_elapsedtimetrait_gettotalelapsedseconds, 0, 0, IS_DOUBLE, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_db_traits_elapsedtimetrait_method_entry) {
+	PHP_ME(Phalcon_Db_Traits_ElapsedTimeTrait, getTotalElapsedNanoseconds, arginfo_phalcon_db_traits_elapsedtimetrait_gettotalelapsednanoseconds, ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Traits_ElapsedTimeTrait, getTotalElapsedMilliseconds, arginfo_phalcon_db_traits_elapsedtimetrait_gettotalelapsedmilliseconds, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Traits_ElapsedTimeTrait, getTotalElapsedSeconds, arginfo_phalcon_db_traits_elapsedtimetrait_gettotalelapsedseconds, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};

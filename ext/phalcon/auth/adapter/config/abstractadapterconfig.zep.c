@@ -27,6 +27,11 @@
  * Implementation of this file has been influenced by sinbadxiii/cphalcon-auth
  * @link    https://github.com/sinbadxiii/cphalcon-auth
  */
+/**
+ * @todo Remove in v7. Kept only for backwards compatibility; compose
+ * Phalcon\Auth\Adapter\Config\Traits\ModelConfigTrait directly instead of
+ * extending this.
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Auth_Adapter_Config_AbstractAdapterConfig)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Auth\\Adapter\\Config, AbstractAdapterConfig, phalcon, auth_adapter_config_abstractadapterconfig, phalcon_auth_adapter_config_abstractadapterconfig_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);

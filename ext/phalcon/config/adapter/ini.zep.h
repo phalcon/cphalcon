@@ -7,6 +7,9 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct);
 PHP_METHOD(Phalcon_Config_Adapter_Ini, cast);
 PHP_METHOD(Phalcon_Config_Adapter_Ini, castArray);
 PHP_METHOD(Phalcon_Config_Adapter_Ini, parseIniString);
+PHP_METHOD(Phalcon_Config_Adapter_Ini, phpIniGet);
+PHP_METHOD(Phalcon_Config_Adapter_Ini, phpIniGetBool);
+PHP_METHOD(Phalcon_Config_Adapter_Ini, phpIniGetInt);
 PHP_METHOD(Phalcon_Config_Adapter_Ini, phpParseIniFile);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_config_adapter_ini___construct, 0, 0, 1)
@@ -27,10 +30,25 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_config_adapter_ini_parse
 	ZEND_ARG_INFO(0, value)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_config_adapter_ini_phpparseinifile, 0, 0, 1)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_config_adapter_ini_phpiniget, 0, 1, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, input, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, defaultValue, IS_STRING, 0, "''")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_config_adapter_ini_phpinigetbool, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, input, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, defaultValue, _IS_BOOL, 0, "false")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_config_adapter_ini_phpinigetint, 0, 1, IS_LONG, 0)
+	ZEND_ARG_TYPE_INFO(0, input, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, defaultValue, IS_LONG, 0, "0")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_config_adapter_ini_phpparseinifile, 0, 1, MAY_BE_ARRAY|MAY_BE_FALSE)
 	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, processSections, _IS_BOOL, 0, "false")
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, scannerMode, IS_LONG, 0, "1")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, scannerMode, IS_LONG, 0, "0")
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_config_adapter_ini_method_entry) {
@@ -38,6 +56,9 @@ ZEPHIR_INIT_FUNCS(phalcon_config_adapter_ini_method_entry) {
 	PHP_ME(Phalcon_Config_Adapter_Ini, cast, arginfo_phalcon_config_adapter_ini_cast, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Config_Adapter_Ini, castArray, arginfo_phalcon_config_adapter_ini_castarray, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Config_Adapter_Ini, parseIniString, arginfo_phalcon_config_adapter_ini_parseinistring, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Config_Adapter_Ini, phpParseIniFile, arginfo_phalcon_config_adapter_ini_phpparseinifile, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Config_Adapter_Ini, phpIniGet, arginfo_phalcon_config_adapter_ini_phpiniget, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Config_Adapter_Ini, phpIniGetBool, arginfo_phalcon_config_adapter_ini_phpinigetbool, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Config_Adapter_Ini, phpIniGetInt, arginfo_phalcon_config_adapter_ini_phpinigetint, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Config_Adapter_Ini, phpParseIniFile, arginfo_phalcon_config_adapter_ini_phpparseinifile, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_FE_END
 };

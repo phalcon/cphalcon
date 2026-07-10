@@ -26,6 +26,10 @@ use Phalcon\Encryption\Crypt\Exception\MissingOpensslExtension;
 use Phalcon\Encryption\Crypt\Exception\RandomBytesGenerationFailed;
 use Phalcon\Encryption\Crypt\Exception\UnsupportedAlgorithm;
 use Phalcon\Encryption\Crypt\PadFactory;
+use Phalcon\Traits\Php\Base64Trait;
+use Phalcon\Traits\Php\HashTrait;
+use Phalcon\Traits\Php\InfoTrait;
+use Phalcon\Traits\Php\OpensslTrait;
 
 /**
  * Provides encryption capabilities to Phalcon applications.
@@ -48,6 +52,11 @@ use Phalcon\Encryption\Crypt\PadFactory;
  */
 class Crypt implements CryptInterface
 {
+    use Base64Trait;
+    use HashTrait;
+    use InfoTrait;
+    use OpensslTrait;
+
     /**
      * @var string
      */
@@ -241,7 +250,7 @@ class Crypt implements CryptInterface
             hashAlgorithm = this->getHashAlgorithm();
         if true === this->useSigning {
             if !fetch hashLength, this->hashLengthCache[hashAlgorithm] {
-                let hashLength = strlen(hash(hashAlgorithm, "", true));
+                let hashLength = strlen(this->phpHash(hashAlgorithm, "", true));
                 let this->hashLengthCache[hashAlgorithm] = hashLength;
             }
             let digest     = mb_substr(input, ivLength, hashLength, "8bit"),
@@ -263,7 +272,7 @@ class Crypt implements CryptInterface
              * The check runs against the padded plaintext, before unpadding,
              * and uses hash_equals() so that the comparison is constant-time.
              */
-            if true !== hash_equals(hash_hmac(hashAlgorithm, decrypted, decryptKey, true), digest) {
+            if true !== this->phpHashEquals(this->phpHashHmac(hashAlgorithm, decrypted, decryptKey, true), digest) {
                 throw new Mismatch("Hash does not match.");
             }
         }
@@ -292,8 +301,7 @@ class Crypt implements CryptInterface
         bool safe = false
     ) -> string {
         if safe {
-            let input = strtr(input, "-_", "+/")
-                . substr("===", (strlen(input) + 3) % 4);
+            return this->decrypt(this->doDecodeUrl(input), key);
         }
 
         return this->decrypt(base64_decode(input), key);
@@ -356,7 +364,7 @@ class Crypt implements CryptInterface
         let encrypted = this->encryptGcmCcm(mode, padded, encryptKey, iv);
 
         if true === this->useSigning {
-            let digest = hash_hmac(
+            let digest = this->phpHashHmac(
                 this->getHashAlgorithm(),
                 padded,
                 encryptKey,
@@ -1026,23 +1034,5 @@ class Crypt implements CryptInterface
         return mb_strtolower(
             substr(this->cipher, position - strlen(this->cipher) + 1)
         );
-    }
-
-    /**
-     * @todo to be removed when we get traits
-     */
-    protected function phpFunctionExists(string name) -> bool
-    {
-        return function_exists(name);
-    }
-
-    protected function phpOpensslCipherIvLength(string cipher) -> int|bool
-    {
-        return openssl_cipher_iv_length(cipher);
-    }
-
-    protected function phpOpensslRandomPseudoBytes(int length)
-    {
-        return openssl_random_pseudo_bytes(length);
     }
 }

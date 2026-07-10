@@ -12,10 +12,10 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/object.h"
-#include "kernel/memory.h"
 #include "kernel/fcall.h"
-#include "kernel/string.h"
+#include "kernel/memory.h"
+#include "kernel/object.h"
+#include "kernel/operators.h"
 
 
 /**
@@ -48,13 +48,13 @@ PHP_METHOD(Phalcon_Filter_Sanitize_Upper, __invoke)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval input_zv, _0$$3, _1$$3, _2;
+	zval input_zv, _0, _1;
 	zend_string *input = NULL;
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&input_zv);
-	ZVAL_UNDEF(&_0$$3);
-	ZVAL_UNDEF(&_1$$3);
-	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(input)
 	ZEND_PARSE_PARAMETERS_END();
@@ -62,17 +62,63 @@ PHP_METHOD(Phalcon_Filter_Sanitize_Upper, __invoke)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&input_zv);
 	ZVAL_STR_COPY(&input_zv, input);
+	ZVAL_LONG(&_0, 0);
+	ZEPHIR_INIT_VAR(&_1);
+	ZVAL_STRING(&_1, "strtoupper");
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "phpmbconvertcase", NULL, 0, &input_zv, &_0, &_1);
+	zephir_check_call_status();
+	RETURN_MM();
+}
+
+/**
+ * Converts the case of a string using `mb_convert_case()` when the
+ * `mbstring` extension is available, otherwise applies the passed fallback
+ * function to the `utf8_decode()`d input.
+ *
+ * @param string $input
+ * @param int    $mode
+ * @param string $fallback
+ *
+ * @return string
+ *
+ * @link https://php.net/manual/en/function.mb-convert-case.php
+ */
+PHP_METHOD(Phalcon_Filter_Sanitize_Upper, phpMbConvertCase)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long mode, ZEPHIR_LAST_CALL_STATUS;
+	zval input_zv, *mode_param = NULL, fallback_zv, _0$$3, _1$$3, _2;
+	zend_string *input = NULL, *fallback = NULL;
+
+	ZVAL_UNDEF(&input_zv);
+	ZVAL_UNDEF(&fallback_zv);
+	ZVAL_UNDEF(&_0$$3);
+	ZVAL_UNDEF(&_1$$3);
+	ZVAL_UNDEF(&_2);
+	ZEND_PARSE_PARAMETERS_START(3, 3)
+		Z_PARAM_STR(input)
+		Z_PARAM_LONG(mode)
+		Z_PARAM_STR(fallback)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	mode_param = ZEND_CALL_ARG(execute_data, 2);
+	zephir_memory_observe(&input_zv);
+	ZVAL_STR_COPY(&input_zv, input);
+	zephir_memory_observe(&fallback_zv);
+	ZVAL_STR_COPY(&fallback_zv, fallback);
 	if (1 == (zephir_function_exists_ex(ZEND_STRL("mb_convert_case")) == SUCCESS)) {
-		ZVAL_LONG(&_0$$3, 0);
+		ZVAL_LONG(&_0$$3, mode);
 		ZEPHIR_INIT_VAR(&_1$$3);
 		ZVAL_STRING(&_1$$3, "UTF-8");
-		ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_case", NULL, 17, &input_zv, &_0$$3, &_1$$3);
+		ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_case", NULL, 31, &input_zv, &_0$$3, &_1$$3);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
 	ZEPHIR_CALL_FUNCTION(&_2, "utf8_decode", NULL, 0, &input_zv);
 	zephir_check_call_status();
-	zephir_fast_strtoupper(return_value, &_2);
+	ZEPHIR_RETURN_CALL_ZVAL_FUNCTION(&fallback_zv, NULL, 0, &_2);
+	zephir_check_call_status();
 	RETURN_MM();
 }
 

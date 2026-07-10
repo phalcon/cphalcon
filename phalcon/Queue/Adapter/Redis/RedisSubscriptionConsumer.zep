@@ -23,7 +23,7 @@ use Phalcon\Queue\Adapter\AbstractSubscriptionConsumer;
 
 /**
  * Consumes from several Redis queues at once. The round-robin poll loop lives
- * in AbstractSubscriptionConsumer.
+ * in SubscriptionConsumerTrait.
  */
 class RedisSubscriptionConsumer extends AbstractSubscriptionConsumer
 {

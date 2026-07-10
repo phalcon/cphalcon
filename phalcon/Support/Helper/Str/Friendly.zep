@@ -29,8 +29,8 @@ class Friendly extends AbstractStr
      * @throws InvalidReplaceFormat
      */
     public function __invoke(
-         string text,
-         string separator = "-",
+        string text,
+        string separator = "-",
         bool lowercase = true,
         var replace = null
     ) -> string {
@@ -52,7 +52,7 @@ class Friendly extends AbstractStr
             );
 
         if lowercase {
-            let friendly = strtolower(friendly);
+            let friendly = this->toLower(friendly);
         }
 
         let friendly = preg_replace("/[\\/_|+ -]+/", separator, friendly);

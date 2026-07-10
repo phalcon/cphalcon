@@ -25,26 +25,32 @@ use Phalcon\Contracts\Encryption\Security\Security;
  * FileTrait helpers. This lets the real Stream::loadUsers logic execute
  * (including the JSON decode + shape checks) under test, while the test
  * controls what bytes are "read" from disk.
+ *
+ * The FileTrait wrappers are static, so the configured state lives in static
+ * properties; the constructor resets them so each new instance starts clean.
  */
 final class FakeStreamAdapter extends Stream
 {
-    private bool $fileExists = true;
+    private static bool $fileExists = true;
 
-    private false | string $rawContents = '';
+    private static false | string $rawContents = '';
 
     public function __construct(Security $hasher)
     {
+        self::$fileExists  = true;
+        self::$rawContents = '';
+
         parent::__construct($hasher, new StreamAdapterConfig('unused.json'));
     }
 
     public function setFileExists(bool $exists): void
     {
-        $this->fileExists = $exists;
+        self::$fileExists = $exists;
     }
 
     public function setRawContents(false | string $contents): void
     {
-        $this->rawContents = $contents;
+        self::$rawContents = $contents;
     }
 
     /**
@@ -55,17 +61,22 @@ final class FakeStreamAdapter extends Stream
      */
     public function setUsers(array $users): void
     {
-        $this->rawContents = (string) json_encode($users);
-        $this->fileExists  = true;
+        self::$rawContents = (string) json_encode($users);
+        self::$fileExists  = true;
     }
 
-    protected function phpFileExists(string $filename): bool
+    protected static function phpFileExists(string $filename): bool
     {
-        return $this->fileExists;
+        return self::$fileExists;
     }
 
-    protected function phpFileGetContents(string $filename): false | string
-    {
-        return $this->rawContents;
+    protected static function phpFileGetContents(
+        string $filename,
+        bool $useIncludePath = false,
+        $context = null,
+        int $offset = 0,
+        ?int $length = null
+    ): false | string {
+        return self::$rawContents;
     }
 }

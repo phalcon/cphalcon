@@ -128,44 +128,6 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, getTotalElapsedNanoseconds)
 }
 
 /**
- * Returns the total time in milliseconds spent by the profile
- */
-PHP_METHOD(Phalcon_Db_Profiler_Item, getTotalElapsedMilliseconds)
-{
-	zval _0;
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&_0);
-	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "gettotalelapsednanoseconds", NULL, 0);
-	zephir_check_call_status();
-	RETURN_MM_DOUBLE(zephir_safe_div_zval_long(&_0, 1000000));
-}
-
-/**
- * Returns the total time in seconds spent by the profile
- */
-PHP_METHOD(Phalcon_Db_Profiler_Item, getTotalElapsedSeconds)
-{
-	zval _0;
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&_0);
-	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "gettotalelapsedmilliseconds", NULL, 0);
-	zephir_check_call_status();
-	RETURN_MM_DOUBLE(zephir_safe_div_zval_long(&_0, 1000));
-}
-
-/**
  * Return the timestamp when the profile ended
  */
 PHP_METHOD(Phalcon_Db_Profiler_Item, setFinalTime)
@@ -267,5 +229,43 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, setSqlVariables)
 	zephir_get_arrval(&sqlVariables, sqlVariables_param);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("sqlVariables"), &sqlVariables);
 	RETURN_THIS();
+}
+
+/**
+ * Returns the total time in milliseconds spent by the profiles
+ */
+PHP_METHOD(Phalcon_Db_Profiler_Item, getTotalElapsedMilliseconds)
+{
+	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&_0);
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "gettotalelapsednanoseconds", NULL, 0);
+	zephir_check_call_status();
+	RETURN_MM_DOUBLE(zephir_safe_div_zval_long(&_0, 1000000));
+}
+
+/**
+ * Returns the total time in seconds spent by the profiles
+ */
+PHP_METHOD(Phalcon_Db_Profiler_Item, getTotalElapsedSeconds)
+{
+	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&_0);
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "gettotalelapsedmilliseconds", NULL, 0);
+	zephir_check_call_status();
+	RETURN_MM_DOUBLE(zephir_safe_div_zval_long(&_0, 1000));
 }
 

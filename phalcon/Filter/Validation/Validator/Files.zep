@@ -10,8 +10,10 @@
 
 namespace Phalcon\Filter\Validation\Validator;
 
+use Phalcon\Messages\Messages;
 use Phalcon\Filter\Validation;
 use Phalcon\Filter\Validation\AbstractValidator;
+use Phalcon\Messages\Messages;
 
 /**
  * Validates an array of uploaded files by delegating each file to the `File`

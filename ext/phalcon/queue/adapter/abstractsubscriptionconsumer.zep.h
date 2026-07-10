@@ -8,7 +8,6 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractSubscriptionConsumer, subscribe);
 PHP_METHOD(Phalcon_Queue_Adapter_AbstractSubscriptionConsumer, unsubscribe);
 PHP_METHOD(Phalcon_Queue_Adapter_AbstractSubscriptionConsumer, unsubscribeAll);
 PHP_METHOD(Phalcon_Queue_Adapter_AbstractSubscriptionConsumer, resolveQueueName);
-zend_object *zephir_init_properties_Phalcon_Queue_Adapter_AbstractSubscriptionConsumer(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_queue_adapter_abstractsubscriptionconsumer_consume, 0, 0, IS_VOID, 0)
 
@@ -31,9 +30,6 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_queue_adapter_abstractsubscriptionconsumer_resolvequeuename, 0, 1, IS_STRING, 0)
 	ZEND_ARG_INFO(0, consumer)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_queue_adapter_abstractsubscriptionconsumer_zephir_init_properties_phalcon_queue_adapter_abstractsubscriptionconsumer, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_queue_adapter_abstractsubscriptionconsumer_method_entry) {

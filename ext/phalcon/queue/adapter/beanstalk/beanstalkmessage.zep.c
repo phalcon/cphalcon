@@ -35,7 +35,7 @@
 /**
  * Beanstalkd-backed message. Carries the reserved job id so the consumer can
  * delete, release, bury or touch it; all other behavior comes from
- * AbstractMessage.
+ * MessageTrait.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_Beanstalk_BeanstalkMessage)
 {

@@ -10,6 +10,7 @@
 
 namespace Phalcon\Translate\Adapter;
 
+use Phalcon\Traits\Php\FileTrait;
 use Phalcon\Translate\Exception;
 use Phalcon\Translate\Exceptions\MissingRequiredParameter;
 use Phalcon\Translate\Exceptions\FileOpenError;
@@ -25,6 +26,8 @@ use Phalcon\Translate\InterpolatorFactory;
  */
 class Csv extends AbstractAdapter
 {
+    use FileTrait;
+
     /**
      * @var array
      */
@@ -125,14 +128,6 @@ class Csv extends AbstractAdapter
     }
 
     /**
-     * @todo to be removed when we get traits
-     */
-    protected function phpFopen(string filename, string mode)
-    {
-        return fopen(filename, mode);
-    }
-
-    /**
      * Load translations from file
      *
      * Lines whose first column begins with a `#` are treated as comments
@@ -158,7 +153,7 @@ class Csv extends AbstractAdapter
         }
 
         loop {
-            let data = fgetcsv(fileHandler, length, delimiter, enclosure, escape);
+            let data = this->phpFgetCsv(fileHandler, length, delimiter, enclosure, escape);
 
             if data === false {
                 break;
@@ -171,6 +166,6 @@ class Csv extends AbstractAdapter
             let this->translate[data[0]] = data[1];
         }
 
-        fclose(fileHandler);
+        this->phpFclose(fileHandler);
     }
 }

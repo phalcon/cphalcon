@@ -24,7 +24,6 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractMessage, setProperty);
 PHP_METHOD(Phalcon_Queue_Adapter_AbstractMessage, setRedelivered);
 PHP_METHOD(Phalcon_Queue_Adapter_AbstractMessage, setReplyTo);
 PHP_METHOD(Phalcon_Queue_Adapter_AbstractMessage, setTimestamp);
-zend_object *zephir_init_properties_Phalcon_Queue_Adapter_AbstractMessage(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_queue_adapter_abstractmessage___construct, 0, 0, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, body, IS_STRING, 0, "''")
@@ -116,9 +115,6 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_queue_adapter_abstractmessage_settimestamp, 0, 1, IS_VOID, 0)
 
 	ZEND_ARG_TYPE_INFO(0, timestamp, IS_LONG, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_queue_adapter_abstractmessage_zephir_init_properties_phalcon_queue_adapter_abstractmessage, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_queue_adapter_abstractmessage_method_entry) {

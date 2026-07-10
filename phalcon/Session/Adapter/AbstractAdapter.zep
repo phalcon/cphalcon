@@ -11,11 +11,14 @@
 namespace Phalcon\Session\Adapter;
 
 use Phalcon\Storage\Adapter\AdapterInterface;
+use Phalcon\Traits\Support\Helper\Arr\GetTrait;
 use SessionHandlerInterface;
 use SessionUpdateTimestampHandlerInterface;
 
 abstract class AbstractAdapter implements SessionHandlerInterface, SessionUpdateTimestampHandlerInterface
 {
+    use GetTrait;
+
     /**
      * @var AdapterInterface
      */
@@ -93,22 +96,5 @@ abstract class AbstractAdapter implements SessionHandlerInterface, SessionUpdate
     public function write(var id, var data) -> bool
     {
         return this->adapter->set(id, data);
-    }
-
-    /**
-     * @todo Remove this when we get traits
-     */
-    protected function getArrVal(
-         array collection,
-        var index,
-        var defaultValue = null
-    ) -> var {
-        var value;
-
-        if unlikely !fetch value, collection[index] {
-            return defaultValue;
-        }
-
-        return value;
     }
 }
