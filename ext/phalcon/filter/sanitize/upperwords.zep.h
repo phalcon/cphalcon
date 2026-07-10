@@ -10,10 +10,9 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_sanitize_upperwords___invoke, 0, 0
 	ZEND_ARG_TYPE_INFO(0, input, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_sanitize_upperwords_phpmbconvertcase, 0, 3, IS_STRING, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_sanitize_upperwords_phpmbconvertcase, 0, 2, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, input, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, mode, IS_LONG, 0)
-	ZEND_ARG_TYPE_INFO(0, fallback, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_filter_sanitize_upperwords_method_entry) {

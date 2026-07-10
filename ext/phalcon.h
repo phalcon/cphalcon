@@ -1340,6 +1340,7 @@
 #include "phalcon/traits/php/msgpacktrait.zep.h"
 #include "phalcon/traits/php/openssltrait.zep.h"
 #include "phalcon/traits/php/serializetrait.zep.h"
+#include "phalcon/traits/php/urltrait.zep.h"
 #include "phalcon/traits/php/yamltrait.zep.h"
 #include "phalcon/traits/support/helper/arr/filtertrait.zep.h"
 #include "phalcon/traits/support/helper/arr/gettrait.zep.h"

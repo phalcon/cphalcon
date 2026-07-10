@@ -252,6 +252,7 @@ zend_class_entry *phalcon_traits_php_mbcasetrait_ce;
 zend_class_entry *phalcon_traits_php_msgpacktrait_ce;
 zend_class_entry *phalcon_traits_php_openssltrait_ce;
 zend_class_entry *phalcon_traits_php_serializetrait_ce;
+zend_class_entry *phalcon_traits_php_urltrait_ce;
 zend_class_entry *phalcon_traits_php_yamltrait_ce;
 zend_class_entry *phalcon_traits_support_helper_arr_filtertrait_ce;
 zend_class_entry *phalcon_traits_support_helper_arr_gettrait_ce;
@@ -1747,6 +1748,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Traits_Php_MsgpackTrait);
 	ZEPHIR_INIT(Phalcon_Traits_Php_OpensslTrait);
 	ZEPHIR_INIT(Phalcon_Traits_Php_SerializeTrait);
+	ZEPHIR_INIT(Phalcon_Traits_Php_UrlTrait);
 	ZEPHIR_INIT(Phalcon_Traits_Php_YamlTrait);
 	ZEPHIR_INIT(Phalcon_Traits_Support_Helper_Arr_FilterTrait);
 	ZEPHIR_INIT(Phalcon_Traits_Support_Helper_Arr_GetTrait);

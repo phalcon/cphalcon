@@ -13,9 +13,9 @@
 
 #include "kernel/main.h"
 #include "kernel/fcall.h"
+#include "kernel/operators.h"
 #include "kernel/object.h"
 #include "kernel/memory.h"
-#include "kernel/operators.h"
 
 
 /**
@@ -25,71 +25,15 @@
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
- *
- * Implementation of this file has been influenced by AuraPHP
- * @link    https://github.com/auraphp/Aura.Html
- * @license https://github.com/auraphp/Aura.Html/blob/2.x/LICENSE
  */
 /**
- * Escapes a string for use as a URL component via `rawurlencode`.
+ * URL based wrapper methods
  */
-ZEPHIR_INIT_CLASS(Phalcon_Html_Escaper_UrlEscaper)
+ZEPHIR_INIT_CLASS(Phalcon_Traits_Php_UrlTrait)
 {
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Html\\Escaper, UrlEscaper, phalcon, html_escaper_urlescaper, phalcon_html_escaper_abstractescaper_ce, phalcon_html_escaper_urlescaper_method_entry, 0);
+	ZEPHIR_REGISTER_TRAIT(Phalcon\\Traits\\Php, UrlTrait, phalcon, traits_php_urltrait, phalcon_traits_php_urltrait_method_entry);
 
 	return SUCCESS;
-}
-
-/**
- * @param string $input
- *
- * @return string
- */
-PHP_METHOD(Phalcon_Html_Escaper_UrlEscaper, __invoke)
-{
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval input_zv;
-	zend_string *input = NULL;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&input_zv);
-	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_STR(input)
-	ZEND_PARSE_PARAMETERS_END();
-	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_memory_observe(&input_zv);
-	ZVAL_STR_COPY(&input_zv, input);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "escape", NULL, 0, &input_zv);
-	zephir_check_call_status();
-	RETURN_MM();
-}
-
-/**
- * @param string $input
- *
- * @return string
- */
-PHP_METHOD(Phalcon_Html_Escaper_UrlEscaper, escape)
-{
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval input_zv;
-	zend_string *input = NULL;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&input_zv);
-	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_STR(input)
-	ZEND_PARSE_PARAMETERS_END();
-	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_memory_observe(&input_zv);
-	ZVAL_STR_COPY(&input_zv, input);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "phprawurlencode", NULL, 0, &input_zv);
-	zephir_check_call_status();
-	RETURN_MM();
 }
 
 /**
@@ -100,7 +44,7 @@ PHP_METHOD(Phalcon_Html_Escaper_UrlEscaper, escape)
  *
  * @link https://php.net/manual/en/function.parse-url.php
  */
-PHP_METHOD(Phalcon_Html_Escaper_UrlEscaper, phpParseUrl)
+PHP_METHOD(Phalcon_Traits_Php_UrlTrait, phpParseUrl)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long component, ZEPHIR_LAST_CALL_STATUS;
@@ -138,7 +82,7 @@ PHP_METHOD(Phalcon_Html_Escaper_UrlEscaper, phpParseUrl)
  *
  * @link https://php.net/manual/en/function.rawurldecode.php
  */
-PHP_METHOD(Phalcon_Html_Escaper_UrlEscaper, phpRawUrlDecode)
+PHP_METHOD(Phalcon_Traits_Php_UrlTrait, phpRawUrlDecode)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -165,7 +109,7 @@ PHP_METHOD(Phalcon_Html_Escaper_UrlEscaper, phpRawUrlDecode)
  *
  * @link https://php.net/manual/en/function.rawurlencode.php
  */
-PHP_METHOD(Phalcon_Html_Escaper_UrlEscaper, phpRawUrlEncode)
+PHP_METHOD(Phalcon_Traits_Php_UrlTrait, phpRawUrlEncode)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;

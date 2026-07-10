@@ -39,6 +39,9 @@ PHP_METHOD(Phalcon_Http_Response, setRawHeader);
 PHP_METHOD(Phalcon_Http_Response, setStatusCode);
 PHP_METHOD(Phalcon_Http_Response, phpExtensionLoaded);
 PHP_METHOD(Phalcon_Http_Response, phpFunctionExists);
+PHP_METHOD(Phalcon_Http_Response, phpParseUrl);
+PHP_METHOD(Phalcon_Http_Response, phpRawUrlDecode);
+PHP_METHOD(Phalcon_Http_Response, phpRawUrlEncode);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response___construct, 0, 0, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, content, IS_STRING, 1, "null")
@@ -184,6 +187,19 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_response_phpfunctio
 	ZEND_ARG_TYPE_INFO(0, functionName, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_phpparseurl, 0, 0, 1)
+	ZEND_ARG_TYPE_INFO(0, url, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, component, IS_LONG, 0, "-1")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_response_phprawurldecode, 0, 1, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, input, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_response_phprawurlencode, 0, 1, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, input, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEPHIR_INIT_FUNCS(phalcon_http_response_method_entry) {
 	PHP_ME(Phalcon_Http_Response, __construct, arginfo_phalcon_http_response___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Http_Response, appendContent, arginfo_phalcon_http_response_appendcontent, ZEND_ACC_PUBLIC)
@@ -221,5 +237,8 @@ ZEPHIR_INIT_FUNCS(phalcon_http_response_method_entry) {
 	PHP_ME(Phalcon_Http_Response, setStatusCode, arginfo_phalcon_http_response_setstatuscode, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Response, phpExtensionLoaded, arginfo_phalcon_http_response_phpextensionloaded, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Http_Response, phpFunctionExists, arginfo_phalcon_http_response_phpfunctionexists, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Http_Response, phpParseUrl, arginfo_phalcon_http_response_phpparseurl, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Http_Response, phpRawUrlDecode, arginfo_phalcon_http_response_phprawurldecode, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Http_Response, phpRawUrlEncode, arginfo_phalcon_http_response_phprawurlencode, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_FE_END
 };

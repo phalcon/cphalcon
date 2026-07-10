@@ -1345,6 +1345,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/traits/php/msgpacktrait.zep.c
 	phalcon/traits/php/openssltrait.zep.c
 	phalcon/traits/php/serializetrait.zep.c
+	phalcon/traits/php/urltrait.zep.c
 	phalcon/traits/php/yamltrait.zep.c
 	phalcon/traits/support/helper/arr/filtertrait.zep.c
 	phalcon/traits/support/helper/arr/gettrait.zep.c
