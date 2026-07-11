@@ -295,22 +295,26 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     public function getDigestAuth() -> array
     {
         var digest, matches, match, server;
-        array auth;
+        array auth = [];
 
-        let auth   = [],
-            server = this->getServerArray();
+        let server = this->getServerArray();
 
         if fetch digest, server["PHP_AUTH_DIGEST"] {
             let matches = [];
 
-            if !preg_match_all("#(\\w+)=(['\"]?)([^'\" ,]+)\\2#", digest, matches, 2) {
+            if (
+                !preg_match_all(
+                    "#(\\w+)=(['\"]?)([^'\" ,]+)\\2#",
+                    digest,
+                    matches,
+                    2
+                )
+            ) {
                 return auth;
             }
 
-            if typeof matches == "array" {
-                for match in matches {
-                    let auth[match[1]] = match[3];
-                }
+            for match in matches {
+                let auth[match[1]] = match[3];
             }
         }
 
