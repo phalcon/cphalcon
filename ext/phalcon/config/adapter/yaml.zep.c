@@ -217,36 +217,46 @@ PHP_METHOD(Phalcon_Config_Adapter_Yaml, phpFunctionExists)
 PHP_METHOD(Phalcon_Config_Adapter_Yaml, phpYamlParseFile)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *filename, filename_sub, *pos = NULL, pos_sub, *callbacks = NULL, callbacks_sub, ndocs;
+	zval callbacks;
+	zend_long pos, ZEPHIR_LAST_CALL_STATUS;
+	zval filename_zv, *pos_param = NULL, *callbacks_param = NULL, ndocs, _0;
+	zend_string *filename = NULL;
 
-	ZVAL_UNDEF(&filename_sub);
-	ZVAL_UNDEF(&pos_sub);
-	ZVAL_UNDEF(&callbacks_sub);
+	ZVAL_UNDEF(&filename_zv);
 	ZVAL_UNDEF(&ndocs);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&callbacks);
 	ZEND_PARSE_PARAMETERS_START(1, 3)
-		Z_PARAM_ZVAL(filename)
+		Z_PARAM_STR(filename)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(pos)
-		Z_PARAM_ZVAL(callbacks)
+		Z_PARAM_LONG(pos)
+		ZEPHIR_Z_PARAM_ARRAY(callbacks, callbacks_param)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_fetch_params(1, 1, 2, &filename, &pos, &callbacks);
-	if (!pos) {
-		pos = &pos_sub;
-		ZEPHIR_INIT_VAR(pos);
-		ZVAL_LONG(pos, 0);
+	if (ZEND_NUM_ARGS() > 1) {
+		pos_param = ZEND_CALL_ARG(execute_data, 2);
 	}
-	if (!callbacks) {
-		callbacks = &callbacks_sub;
-		ZEPHIR_INIT_VAR(callbacks);
-		array_init(callbacks);
+	if (ZEND_NUM_ARGS() > 2) {
+		callbacks_param = ZEND_CALL_ARG(execute_data, 3);
+	}
+	zephir_memory_observe(&filename_zv);
+	ZVAL_STR_COPY(&filename_zv, filename);
+	if (!pos_param) {
+		pos = 0;
+	} else {
+		}
+	if (!callbacks_param) {
+		ZEPHIR_INIT_VAR(&callbacks);
+		array_init(&callbacks);
+	} else {
+		zephir_get_arrval(&callbacks, callbacks_param);
 	}
 	ZEPHIR_INIT_VAR(&ndocs);
 	ZVAL_NULL(&ndocs);
+	ZVAL_LONG(&_0, pos);
 	ZEPHIR_MAKE_REF(&ndocs);
-	ZEPHIR_RETURN_CALL_FUNCTION("yaml_parse_file", NULL, 400, filename, pos, &ndocs, callbacks);
+	ZEPHIR_RETURN_CALL_FUNCTION("yaml_parse_file", NULL, 400, &filename_zv, &_0, &ndocs, &callbacks);
 	ZEPHIR_UNREF(&ndocs);
 	zephir_check_call_status();
 	RETURN_MM();

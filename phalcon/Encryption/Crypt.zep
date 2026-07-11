@@ -347,11 +347,7 @@ class Crypt implements CryptInterface
 
         try {
             let iv = this->phpOpensslRandomPseudoBytes(ivLength);
-        } catch \ValueError {
-            throw new RandomBytesGenerationFailed();
-        }
-
-        if false === iv {
+        } catch \Throwable {
             throw new RandomBytesGenerationFailed();
         }
 
