@@ -43,6 +43,21 @@ final class FakeStreamAdapter extends Stream
         parent::__construct($hasher, new StreamAdapterConfig('unused.json'));
     }
 
+    protected static function phpFileExists(string $filename): bool
+    {
+        return self::$fileExists;
+    }
+
+    protected static function phpFileGetContents(
+        string $filename,
+        bool $useIncludePath = false,
+        $context = null,
+        int $offset = 0,
+        ?int $length = null
+    ): false | string {
+        return self::$rawContents;
+    }
+
     public function setFileExists(bool $exists): void
     {
         self::$fileExists = $exists;
@@ -63,20 +78,5 @@ final class FakeStreamAdapter extends Stream
     {
         self::$rawContents = (string) json_encode($users);
         self::$fileExists  = true;
-    }
-
-    protected static function phpFileExists(string $filename): bool
-    {
-        return self::$fileExists;
-    }
-
-    protected static function phpFileGetContents(
-        string $filename,
-        bool $useIncludePath = false,
-        $context = null,
-        int $offset = 0,
-        ?int $length = null
-    ): false | string {
-        return self::$rawContents;
     }
 }

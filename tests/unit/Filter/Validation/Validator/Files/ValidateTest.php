@@ -25,6 +25,74 @@ use const UPLOAD_ERR_OK;
 final class ValidateTest extends AbstractUnitTestCase
 {
     /**
+     * allowEmpty with every file missing (UPLOAD_ERR_NO_FILE) -> passes.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-07-06
+     */
+    public function testFilterValidationValidatorFilesValidateAllowEmptyAllNoFile(): void
+    {
+        $_SERVER = ['REQUEST_METHOD' => 'POST'];
+
+        $files = new Files(
+            [
+                'allowEmpty'   => true,
+                'allowedTypes' => ['image/jpeg'],
+            ]
+        );
+
+        $validation = new Validation();
+        $validation->add('photos', $files);
+
+        $data = [
+            'photos' => [
+                'name'     => ['', ''],
+                'type'     => ['', ''],
+                'tmp_name' => ['', ''],
+                'error'    => [UPLOAD_ERR_NO_FILE, UPLOAD_ERR_NO_FILE],
+                'size'     => [0, 0],
+            ],
+        ];
+
+        $messages = $validation->validate($data);
+
+        $this->assertCount(0, $messages);
+    }
+
+    /**
+     * A multi-file node with no files selected -> nothing to validate, passes.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-07-06
+     */
+    public function testFilterValidationValidatorFilesValidateEmptyFileList(): void
+    {
+        $_SERVER = ['REQUEST_METHOD' => 'POST'];
+
+        $files = new Files(
+            [
+                'allowedTypes' => ['image/jpeg'],
+            ]
+        );
+
+        $validation = new Validation();
+        $validation->add('photos', $files);
+
+        $data = [
+            'photos' => [
+                'name'     => [],
+                'type'     => [],
+                'tmp_name' => [],
+                'error'    => [],
+                'size'     => [],
+            ],
+        ];
+
+        $messages = $validation->validate($data);
+
+        $this->assertCount(0, $messages);
+    }
+    /**
      * Multiple files, the first one invalid -> one message, fail-fast.
      *
      * @author Phalcon Team <team@phalcon.io>
@@ -99,74 +167,5 @@ final class ValidateTest extends AbstractUnitTestCase
 
         $this->assertCount(1, $messages);
         $this->assertSame('File is empty', $messages->offsetGet(0)->getMessage());
-    }
-
-    /**
-     * allowEmpty with every file missing (UPLOAD_ERR_NO_FILE) -> passes.
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-07-06
-     */
-    public function testFilterValidationValidatorFilesValidateAllowEmptyAllNoFile(): void
-    {
-        $_SERVER = ['REQUEST_METHOD' => 'POST'];
-
-        $files = new Files(
-            [
-                'allowEmpty'   => true,
-                'allowedTypes' => ['image/jpeg'],
-            ]
-        );
-
-        $validation = new Validation();
-        $validation->add('photos', $files);
-
-        $data = [
-            'photos' => [
-                'name'     => ['', ''],
-                'type'     => ['', ''],
-                'tmp_name' => ['', ''],
-                'error'    => [UPLOAD_ERR_NO_FILE, UPLOAD_ERR_NO_FILE],
-                'size'     => [0, 0],
-            ],
-        ];
-
-        $messages = $validation->validate($data);
-
-        $this->assertCount(0, $messages);
-    }
-
-    /**
-     * A multi-file node with no files selected -> nothing to validate, passes.
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-07-06
-     */
-    public function testFilterValidationValidatorFilesValidateEmptyFileList(): void
-    {
-        $_SERVER = ['REQUEST_METHOD' => 'POST'];
-
-        $files = new Files(
-            [
-                'allowedTypes' => ['image/jpeg'],
-            ]
-        );
-
-        $validation = new Validation();
-        $validation->add('photos', $files);
-
-        $data = [
-            'photos' => [
-                'name'     => [],
-                'type'     => [],
-                'tmp_name' => [],
-                'error'    => [],
-                'size'     => [],
-            ],
-        ];
-
-        $messages = $validation->validate($data);
-
-        $this->assertCount(0, $messages);
     }
 }
