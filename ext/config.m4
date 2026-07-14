@@ -1057,6 +1057,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/mvc/model/query/exceptions/invalidinjectedmetadata.zep.c
 	phalcon/mvc/model/query/exceptions/invalidquerycacheservice.zep.c
 	phalcon/mvc/model/query/exceptions/invalidresultsetclass.zep.c
+	phalcon/mvc/model/query/exceptions/invalidresultsetrowclass.zep.c
 	phalcon/mvc/model/query/exceptions/joinaliasalreadyused.zep.c
 	phalcon/mvc/model/query/exceptions/joinfieldcountmismatch.zep.c
 	phalcon/mvc/model/query/exceptions/missingcachekey.zep.c
@@ -1073,6 +1074,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/mvc/model/query/exceptions/relationshipnotfound.zep.c
 	phalcon/mvc/model/query/exceptions/resultsetclassnotfound.zep.c
 	phalcon/mvc/model/query/exceptions/resultsetnoncacheable.zep.c
+	phalcon/mvc/model/query/exceptions/resultsetrowclassnotfound.zep.c
 	phalcon/mvc/model/query/exceptions/unknownbindtype.zep.c
 	phalcon/mvc/model/query/exceptions/unknowncolumntype.zep.c
 	phalcon/mvc/model/query/exceptions/unknownjointype.zep.c

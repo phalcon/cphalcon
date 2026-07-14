@@ -15,6 +15,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_resultset_complex___construct, 
 	ZEND_ARG_INFO(0, columnTypes)
 	ZEND_ARG_OBJ_TYPE_MASK(0, result, Phalcon\\Db\\ResultInterface, MAY_BE_NULL, "null")
 	ZEND_ARG_INFO(0, cache)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, resultsetRowClass, IS_STRING, 0, "''")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_resultset_complex___serialize, 0, 0, IS_ARRAY, 0)
