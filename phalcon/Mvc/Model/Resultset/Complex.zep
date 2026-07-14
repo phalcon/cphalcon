@@ -51,22 +51,31 @@ class Complex extends Resultset
     protected disableHydration = false;
 
     /**
+     * @var string
+     */
+    protected resultsetRowClass = "";
+
+    /**
      * Phalcon\Mvc\Model\Resultset\Complex constructor
      *
      * @param array                $columnTypes
      * @param ResultInterface|null $result
      * @param mixed|null           $cache
+     * @param string               $resultsetRowClass
      */
     public function __construct(
         var columnTypes,
         <ResultInterface> result = null,
-        var cache = null
+        var cache = null,
+        string resultsetRowClass = ""
     )
     {
         /**
          * Column types, tell the resultset how to build the result
          */
         let this->columnTypes = columnTypes;
+
+        let this->resultsetRowClass = resultsetRowClass;
 
         parent::__construct(result, cache);
     }
@@ -155,7 +164,11 @@ class Complex extends Resultset
          */
         switch hydrateMode {
             case Resultset::HYDRATE_RECORDS:
-                let activeRow = new Row();
+                if this->resultsetRowClass !== "" {
+                    let activeRow = create_instance(this->resultsetRowClass);
+                } else {
+                    let activeRow = new Row();
+                }
                 break;
 
             case Resultset::HYDRATE_ARRAYS:

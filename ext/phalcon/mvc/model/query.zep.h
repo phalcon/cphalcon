@@ -17,6 +17,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getSingleResult);
 PHP_METHOD(Phalcon_Mvc_Model_Query, getSql);
 PHP_METHOD(Phalcon_Mvc_Model_Query, getTransaction);
 PHP_METHOD(Phalcon_Mvc_Model_Query, getType);
+PHP_METHOD(Phalcon_Mvc_Model_Query, getResultsetRowClass);
 PHP_METHOD(Phalcon_Mvc_Model_Query, getUniqueRow);
 PHP_METHOD(Phalcon_Mvc_Model_Query, parse);
 PHP_METHOD(Phalcon_Mvc_Model_Query, setBindParams);
@@ -26,6 +27,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, setIntermediate);
 PHP_METHOD(Phalcon_Mvc_Model_Query, setSharedLock);
 PHP_METHOD(Phalcon_Mvc_Model_Query, setTransaction);
 PHP_METHOD(Phalcon_Mvc_Model_Query, setType);
+PHP_METHOD(Phalcon_Mvc_Model_Query, setResultsetRowClass);
 PHP_METHOD(Phalcon_Mvc_Model_Query, setUniqueRow);
 PHP_METHOD(Phalcon_Mvc_Model_Query, executeDelete);
 PHP_METHOD(Phalcon_Mvc_Model_Query, executeInsert);
@@ -106,6 +108,9 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_gettype, 0, 0, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_getresultsetrowclass, 0, 0, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_getuniquerow, 0, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
@@ -141,6 +146,10 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_settype, 0, 1, Phalcon\\Mvc\\Model\\QueryInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, type, IS_LONG, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_setresultsetrowclass, 0, 1, Phalcon\\Mvc\\Model\\QueryInterface, 0)
+	ZEND_ARG_TYPE_INFO(0, resultsetRowClass, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_setuniquerow, 0, 1, Phalcon\\Mvc\\Model\\QueryInterface, 0)
@@ -300,6 +309,7 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_query_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model_Query, getSql, arginfo_phalcon_mvc_model_query_getsql, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query, getTransaction, arginfo_phalcon_mvc_model_query_gettransaction, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query, getType, arginfo_phalcon_mvc_model_query_gettype, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Query, getResultsetRowClass, arginfo_phalcon_mvc_model_query_getresultsetrowclass, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query, getUniqueRow, arginfo_phalcon_mvc_model_query_getuniquerow, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query, parse, arginfo_phalcon_mvc_model_query_parse, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query, setBindParams, arginfo_phalcon_mvc_model_query_setbindparams, ZEND_ACC_PUBLIC)
@@ -309,6 +319,7 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_query_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model_Query, setSharedLock, arginfo_phalcon_mvc_model_query_setsharedlock, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query, setTransaction, arginfo_phalcon_mvc_model_query_settransaction, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query, setType, arginfo_phalcon_mvc_model_query_settype, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Query, setResultsetRowClass, arginfo_phalcon_mvc_model_query_setresultsetrowclass, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query, setUniqueRow, arginfo_phalcon_mvc_model_query_setuniquerow, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query, executeDelete, arginfo_phalcon_mvc_model_query_executedelete, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model_Query, executeInsert, arginfo_phalcon_mvc_model_query_executeinsert, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
