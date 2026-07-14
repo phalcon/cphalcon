@@ -64,6 +64,15 @@ PHP_METHOD(Phalcon_Auth_Guard_Config_TokenGuardConfig, __construct)
 	ZVAL_UNDEF(&_3$$4);
 	ZVAL_UNDEF(&_4$$4);
 	ZVAL_UNDEF(&_5$$4);
+	static zend_string *_zephir_prop_0 = NULL;
+	static zend_string *_zephir_prop_1 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("inputKey", 8, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_1)) {
+		_zephir_prop_1 = zend_string_init("storageKey", 10, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_STR(inputKey)
 		Z_PARAM_STR(storageKey)
@@ -100,8 +109,8 @@ PHP_METHOD(Phalcon_Auth_Guard_Config_TokenGuardConfig, __construct)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	zephir_update_property_zval(this_ptr, ZEND_STRL("inputKey"), &inputKey_zv);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("storageKey"), &storageKey_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 391, &inputKey_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 392, &storageKey_zv);
 	ZEPHIR_MM_RESTORE();
 }
 

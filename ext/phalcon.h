@@ -1463,5 +1463,7 @@
 #include "phalcon/89__closure.zep.h"
 #include "phalcon/90__closure.zep.h"
 #include "phalcon/91__closure.zep.h"
+#include "phalcon/92__closure.zep.h"
+#include "phalcon/93__closure.zep.h"
 
 #endif

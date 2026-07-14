@@ -66,6 +66,11 @@ PHP_METHOD(Phalcon_Db_RawValue, __construct)
 	ZVAL_UNDEF(&_0$$3);
 	ZVAL_UNDEF(&_1$$4);
 	ZVAL_UNDEF(&_2$$5);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("value", 5, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(value)
 	ZEND_PARSE_PARAMETERS_END();
@@ -76,15 +81,15 @@ PHP_METHOD(Phalcon_Db_RawValue, __construct)
 		ZEPHIR_INIT_VAR(&_0$$3);
 		ZEPHIR_INIT_NVAR(&_0$$3);
 		ZVAL_STRING(&_0$$3, "''");
-		zephir_update_property_zval(this_ptr, ZEND_STRL("value"), &_0$$3);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 596, &_0$$3);
 	} else if (Z_TYPE_P(value) == IS_NULL) {
 		ZEPHIR_INIT_VAR(&_1$$4);
 		ZEPHIR_INIT_NVAR(&_1$$4);
 		ZVAL_STRING(&_1$$4, "NULL");
-		zephir_update_property_zval(this_ptr, ZEND_STRL("value"), &_1$$4);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 596, &_1$$4);
 	} else {
 		zephir_cast_to_string(&_2$$5, value);
-		zephir_update_property_zval(this_ptr, ZEND_STRL("value"), &_2$$5);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 596, &_2$$5);
 	}
 	ZEPHIR_MM_RESTORE();
 }

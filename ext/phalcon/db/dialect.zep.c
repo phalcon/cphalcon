@@ -115,6 +115,11 @@ PHP_METHOD(Phalcon_Db_Dialect, escape)
 	ZVAL_UNDEF(&_6$$6);
 	ZVAL_UNDEF(&_15$$7);
 	ZVAL_UNDEF(&_8);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("escapeChar", 10, 1);
+	}
+
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(str)
@@ -142,7 +147,7 @@ PHP_METHOD(Phalcon_Db_Dialect, escape)
 	}
 	if (ZEPHIR_IS_EMPTY(&escapeChar)) {
 		zephir_memory_observe(&_2$$4);
-		zephir_read_property(&_2$$4, this_ptr, ZEND_STRL("escapeChar"), PH_NOISY_CC);
+		zephir_read_property_cached(&_2$$4, this_ptr, _zephir_prop_0, 111, PH_NOISY_CC);
 		zephir_cast_to_string(&_3$$4, &_2$$4);
 		ZEPHIR_CPY_WRT(&escapeChar, &_3$$4);
 	}
@@ -222,6 +227,11 @@ PHP_METHOD(Phalcon_Db_Dialect, escapeSchema)
 	ZVAL_UNDEF(&_2$$4);
 	ZVAL_UNDEF(&escapeChar);
 	ZVAL_UNDEF(&_3$$4);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("escapeChar", 10, 1);
+	}
+
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(str)
@@ -249,7 +259,7 @@ PHP_METHOD(Phalcon_Db_Dialect, escapeSchema)
 	}
 	if (ZEPHIR_IS_STRING(&escapeChar, "")) {
 		zephir_memory_observe(&_2$$4);
-		zephir_read_property(&_2$$4, this_ptr, ZEND_STRL("escapeChar"), PH_NOISY_CC);
+		zephir_read_property_cached(&_2$$4, this_ptr, _zephir_prop_0, 111, PH_NOISY_CC);
 		zephir_cast_to_string(&_3$$4, &_2$$4);
 		ZEPHIR_CPY_WRT(&escapeChar, &_3$$4);
 	}
@@ -1242,6 +1252,11 @@ PHP_METHOD(Phalcon_Db_Dialect, select)
 	ZVAL_UNDEF(&_8$$12);
 	ZVAL_UNDEF(&_10$$13);
 	ZVAL_UNDEF(&_12$$14);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("escapeChar", 10, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		ZEPHIR_Z_PARAM_ARRAY(definition, definition_param)
 	ZEND_PARSE_PARAMETERS_END();
@@ -1277,7 +1292,7 @@ PHP_METHOD(Phalcon_Db_Dialect, select)
 		ZEPHIR_INIT_NVAR(&bindCounts);
 		array_init(&bindCounts);
 	}
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("escapeChar"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 111, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&escapeChar, &_0);
 	ZEPHIR_INIT_VAR(&parts);
 	zephir_create_array(&parts, 3, 0);
@@ -1926,6 +1941,15 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionBinaryOperations)
 	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_5);
 	ZVAL_UNDEF(&_3$$3);
+	static zend_string *_zephir_prop_0 = NULL;
+	static zend_string *_zephir_prop_1 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("guardedOperators", 16, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_1)) {
+		_zephir_prop_1 = zend_string_init("supportedOperators", 18, 1);
+	}
+
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		ZEPHIR_Z_PARAM_ARRAY(expression, expression_param)
@@ -1954,10 +1978,10 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionBinaryOperations)
 	}
 	zephir_memory_observe(&operator);
 	zephir_array_fetch_string(&operator, &expression, SL("op"), PH_NOISY, "phalcon/Db/Dialect.zep", 926);
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("guardedOperators"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 112, PH_NOISY_CC | PH_READONLY);
 	_1 = zephir_fast_in_array(&operator, &_0);
 	if (_1) {
-		zephir_read_property(&_2, this_ptr, ZEND_STRL("supportedOperators"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_2, this_ptr, _zephir_prop_1, 113, PH_NOISY_CC | PH_READONLY);
 		_1 = !(zephir_fast_in_array(&operator, &_2));
 	}
 	if (_1) {
@@ -2367,6 +2391,11 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionFunctionCall)
 	ZVAL_UNDEF(&arguments);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_4$$4);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("customFunctions", 15, 1);
+	}
+
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		ZEPHIR_Z_PARAM_ARRAY(expression, expression_param)
@@ -2396,7 +2425,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionFunctionCall)
 	zephir_memory_observe(&name);
 	zephir_array_fetch_string(&name, &expression, SL("name"), PH_NOISY, "phalcon/Db/Dialect.zep", 1070);
 	zephir_memory_observe(&customFunction);
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("customFunctions"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 114, PH_NOISY_CC | PH_READONLY);
 	if (zephir_array_isset_fetch(&customFunction, &_0, &name, 0)) {
 		ZEPHIR_RETURN_CALL_ZVAL_FUNCTION(&customFunction, NULL, 0, this_ptr, &expression, &escapeChar_zv);
 		zephir_check_call_status();

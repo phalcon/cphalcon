@@ -574,6 +574,66 @@ int zephir_read_property(
 }
 
 /**
+ * Fast object-property read for compile-time-known names.
+ *
+ * Identical semantics to zephir_read_property(), but the name is a
+ * pre-interned zend_string (the codegen emits a method-static slot,
+ * skipping the per-call zend_string_init/dtor) and an optional inline
+ * cache slot index may be supplied. cache_slot == 0 means "uncached"
+ * (a NULL cache_slot is handed to the engine, i.e. today's behavior).
+ * See https://github.com/zephir-lang/zephir/issues/1884 (property access).
+ */
+int zephir_read_property_cached(
+	zval *result,
+	zval *object,
+	zend_string *name,
+	zend_ulong cache_slot,
+	int flags
+) {
+	zval tmp;
+	zval *res;
+	void **slot = NULL;
+
+	/*
+	 * Resolve the per-site inline cache slot from the per-request-zeroed
+	 * module globals. Index 0 = uncached -> NULL (engine re-resolves every
+	 * time, as before). A zeroed slot is a safe miss: the engine's
+	 * `ce == slot[0]` check fails against NULL and it fills the slot.
+	 */
+	if (cache_slot) {
+		zend_zephir_globals_def *zephir_globals_ptr = ZEPHIR_VGLOBAL;
+		slot = &zephir_globals_ptr->pcache[cache_slot * ZEPHIR_PROPERTY_CACHE_SLOT_SIZE];
+	}
+
+	ZVAL_UNDEF(&tmp);
+
+	if (Z_TYPE_P(object) != IS_OBJECT) {
+		if ((flags & PH_NOISY) == PH_NOISY) {
+			php_error_docref(NULL, E_NOTICE, "Trying to get property '%s' of non-object", ZSTR_VAL(name));
+		}
+
+		ZVAL_NULL(result);
+		return FAILURE;
+	}
+
+	if (!Z_OBJ_HT_P(object)->read_property) {
+		zend_error(E_CORE_ERROR, "Property %s of class %s cannot be read", ZSTR_VAL(name), ZSTR_VAL(Z_OBJCE_P(object)->name));
+	}
+
+	res = Z_OBJ_HT_P(object)->read_property(Z_OBJ_P(object), name,
+											flags ? BP_VAR_IS : BP_VAR_R,
+											slot, &tmp);
+
+	if ((flags & PH_READONLY) == PH_READONLY) {
+		ZVAL_COPY_VALUE(result, res);
+	} else {
+		ZVAL_COPY(result, res);
+	}
+
+	return SUCCESS;
+}
+
+/**
  * Fetches a property using a const char
  */
 int zephir_fetch_property(zval *result, zval *object, const char *property_name, uint32_t property_length, int silent)
@@ -706,6 +766,59 @@ int zephir_update_property_zval(
 	Z_OBJ_HT_P(object)->write_property(Z_OBJ_P(object), Z_STR(property), &sep_value, 0);
 
 	zval_ptr_dtor(&property);
+
+	if (UNEXPECTED(EG(exception))) {
+		return FAILURE;
+	}
+
+	return SUCCESS;
+}
+
+/**
+ * Fast object-property write for compile-time-known names.
+ *
+ * Identical semantics to zephir_update_property_zval(), but the name is a
+ * pre-interned zend_string and an optional inline cache slot index may be
+ * supplied. cache_slot == 0 means "uncached" (NULL cache_slot to the engine).
+ * See https://github.com/zephir-lang/zephir/issues/1884 (property access).
+ */
+int zephir_update_property_zval_cached(
+	zval *object,
+	zend_string *name,
+	zend_ulong cache_slot,
+	zval *value
+) {
+	zval sep_value;
+	void **slot = NULL;
+
+	/* See zephir_read_property_cached: resolve the per-request cache slot. */
+	if (cache_slot) {
+		zend_zephir_globals_def *zephir_globals_ptr = ZEPHIR_VGLOBAL;
+		slot = &zephir_globals_ptr->pcache[cache_slot * ZEPHIR_PROPERTY_CACHE_SLOT_SIZE];
+	}
+
+	if (Z_TYPE_P(object) != IS_OBJECT) {
+		php_error_docref(NULL, E_WARNING, "Attempt to assign property '%s' of non-object", ZSTR_VAL(name));
+		return FAILURE;
+	}
+
+	if (!Z_OBJ_HT_P(object)->write_property) {
+		zend_error(E_CORE_ERROR, "Property %s of class %s cannot be updated", ZSTR_VAL(name), ZSTR_VAL(Z_OBJCE_P(object)->name));
+	}
+
+	ZVAL_COPY_VALUE(&sep_value, value);
+	if (Z_TYPE(sep_value) == IS_ARRAY) {
+		ZVAL_ARR(&sep_value, zend_array_dup(Z_ARR(sep_value)));
+		if (EXPECTED(!(GC_FLAGS(Z_ARRVAL(sep_value)) & IS_ARRAY_IMMUTABLE))) {
+			if (UNEXPECTED(GC_REFCOUNT(Z_ARR(sep_value)) > 0)) {
+				GC_DELREF(Z_ARR(sep_value));
+			}
+		}
+	}
+
+	/* write_property will add 1 to refcount,
+	   so no Z_TRY_ADDREF_P(value) is necessary */
+	Z_OBJ_HT_P(object)->write_property(Z_OBJ_P(object), name, &sep_value, slot);
 
 	if (UNEXPECTED(EG(exception))) {
 		return FAILURE;

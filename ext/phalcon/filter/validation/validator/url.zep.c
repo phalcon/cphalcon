@@ -125,6 +125,11 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Url, validate)
 	ZVAL_UNDEF(&_2$$4);
 	ZVAL_UNDEF(&_3$$5);
 	ZVAL_UNDEF(&_4$$6);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("options", 7, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_OBJECT_OF_CLASS(validation, phalcon_filter_validation_ce)
 		Z_PARAM_ZVAL(field)
@@ -140,7 +145,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Url, validate)
 		RETURN_MM_BOOL(1);
 	}
 	zephir_memory_observe(&options);
-	zephir_read_property(&_1, this_ptr, ZEND_STRL("options"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 705, PH_NOISY_CC | PH_READONLY);
 	if (zephir_array_isset_string_fetch(&options, &_1, SL("options"), 0)) {
 		ZVAL_LONG(&_2$$4, 273);
 		ZEPHIR_CALL_FUNCTION(&result, "filter_var", NULL, 0, &value, &_2$$4, &options);

@@ -62,6 +62,10 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_Version4, __construct)
 	ZVAL_UNDEF(&_6);
 	ZVAL_UNDEF(&_7);
 	ZVAL_UNDEF(&_8);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("uid", 3, 1);
+	}
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
@@ -93,7 +97,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_Version4, __construct)
 	ZVAL_STRING(&_8, "sprintf");
 	ZEPHIR_CALL_USER_FUNC_ARRAY(&_7, &_8, &ary);
 	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, ZEND_STRL("uid"), &_7);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 666, &_7);
 	ZEPHIR_MM_RESTORE();
 }
 

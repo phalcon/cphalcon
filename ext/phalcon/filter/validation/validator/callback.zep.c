@@ -139,6 +139,19 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Callback, validate)
 	ZVAL_UNDEF(&_1$$5);
 	ZVAL_UNDEF(&_6$$3);
 	ZVAL_UNDEF(&_4$$6);
+	static zend_string *_zephir_prop_0 = NULL;
+	static zend_string *_zephir_prop_1 = NULL;
+	static zend_string *_zephir_prop_2 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("template", 8, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_1)) {
+		_zephir_prop_1 = zend_string_init("templateChanged", 15, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_2)) {
+		_zephir_prop_2 = zend_string_init("templates", 9, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_OBJECT_OF_CLASS(validation, phalcon_filter_validation_ce)
 		Z_PARAM_ZVAL(field)
@@ -158,11 +171,11 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Callback, validate)
 			zephir_check_call_status();
 		}
 		zephir_memory_observe(&savedTemplate);
-		zephir_read_property(&savedTemplate, this_ptr, ZEND_STRL("template"), PH_NOISY_CC);
+		zephir_read_property_cached(&savedTemplate, this_ptr, _zephir_prop_0, 700, PH_NOISY_CC);
 		zephir_memory_observe(&savedChanged);
-		zephir_read_property(&savedChanged, this_ptr, ZEND_STRL("templateChanged"), PH_NOISY_CC);
+		zephir_read_property_cached(&savedChanged, this_ptr, _zephir_prop_1, 701, PH_NOISY_CC);
 		zephir_memory_observe(&savedTemplates);
-		zephir_read_property(&savedTemplates, this_ptr, ZEND_STRL("templates"), PH_NOISY_CC);
+		zephir_read_property_cached(&savedTemplates, this_ptr, _zephir_prop_2, 702, PH_NOISY_CC);
 		if (zephir_is_instance_of(&callback, SL("Closure"))) {
 			_2$$5 = zephir_fetch_class_str_ex(SL("Closure"), ZEND_FETCH_CLASS_AUTO);
 			ZEPHIR_CALL_CE_STATIC(&_1$$5, _2$$5, "bind", NULL, 0, &callback, this_ptr);
@@ -181,9 +194,9 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Callback, validate)
 			ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_4$$6);
 			zephir_check_call_status();
 		}
-		zephir_update_property_zval(this_ptr, ZEND_STRL("template"), &savedTemplate);
-		zephir_update_property_zval(this_ptr, ZEND_STRL("templateChanged"), &savedChanged);
-		zephir_update_property_zval(this_ptr, ZEND_STRL("templates"), &savedTemplates);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 700, &savedTemplate);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 701, &savedChanged);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 702, &savedTemplates);
 		if (((Z_TYPE_P(&returnedValue) == IS_TRUE || Z_TYPE_P(&returnedValue) == IS_FALSE) == 1)) {
 			RETURN_CCTOR(&returnedValue);
 		}

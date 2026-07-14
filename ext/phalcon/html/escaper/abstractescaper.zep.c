@@ -198,14 +198,19 @@ PHP_METHOD(Phalcon_Html_Escaper_AbstractEscaper, setDoubleEncode)
 
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("doubleEncode", 12, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_BOOL(doubleEncode)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &doubleEncode_param);
 	if (doubleEncode) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("doubleEncode"), &__$true);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 56, &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("doubleEncode"), &__$false);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 56, &__$false);
 	}
 	RETURN_THISW();
 }
@@ -220,11 +225,16 @@ PHP_METHOD(Phalcon_Html_Escaper_AbstractEscaper, setEncoding)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&encoding_zv);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("encoding", 8, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(encoding)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&encoding_zv, encoding);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("encoding"), &encoding_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 57, &encoding_zv);
 	RETURN_THISW();
 }
 
@@ -238,13 +248,18 @@ PHP_METHOD(Phalcon_Html_Escaper_AbstractEscaper, setFlags)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("flags", 5, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_LONG(flags)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &flags_param);
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, flags);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("flags"), &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 58, &_0);
 	RETURN_THISW();
 }
 

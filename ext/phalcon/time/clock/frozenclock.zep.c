@@ -51,11 +51,16 @@ PHP_METHOD(Phalcon_Time_Clock_FrozenClock, __construct)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&now_sub);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("now", 3, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT_OF_CLASS(now, php_date_get_immutable_ce())
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &now);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("now"), now);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1312, now);
 }
 
 /**
@@ -87,6 +92,11 @@ PHP_METHOD(Phalcon_Time_Clock_FrozenClock, adjust)
 	ZVAL_UNDEF(&_7$$6);
 	ZVAL_UNDEF(&_8$$6);
 	ZVAL_UNDEF(&_10$$7);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("now", 3, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(modifier)
 	ZEND_PARSE_PARAMETERS_END();
@@ -107,7 +117,7 @@ PHP_METHOD(Phalcon_Time_Clock_FrozenClock, adjust)
 
 		/* try_start_1: */
 
-			zephir_read_property(&_4$$4, this_ptr, ZEND_STRL("now"), PH_NOISY_CC | PH_READONLY);
+			zephir_read_property_cached(&_4$$4, this_ptr, _zephir_prop_0, 1312, PH_NOISY_CC | PH_READONLY);
 			ZEPHIR_CALL_METHOD(&modified, &_4$$4, "modify", NULL, 0, &modifier_zv);
 			zephir_check_call_status_or_jump(try_end_1);
 
@@ -135,11 +145,11 @@ PHP_METHOD(Phalcon_Time_Clock_FrozenClock, adjust)
 		ZEPHIR_GLOBAL(warning).enable = zend_is_true(&__$false);
 		ZEPHIR_INIT_VAR(&_7$$6);
 		ZEPHIR_INIT_NVAR(&_7$$6);
-		zephir_create_closure_ex(&_7$$6, NULL, phalcon_91__closure_ce, SL("__invoke"));
+		zephir_create_closure_ex(&_7$$6, NULL, phalcon_93__closure_ce, SL("__invoke"));
 		ZVAL_LONG(&_8$$6, 2);
 		ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 282, &_7$$6, &_8$$6);
 		zephir_check_call_status();
-		zephir_read_property(&_8$$6, this_ptr, ZEND_STRL("now"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_8$$6, this_ptr, _zephir_prop_0, 1312, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_METHOD(&modified, &_8$$6, "modify", NULL, 0, &modifier_zv);
 		zephir_check_call_status();
 		ZEPHIR_CALL_FUNCTION(NULL, "restore_error_handler", NULL, 283);
@@ -160,7 +170,7 @@ PHP_METHOD(Phalcon_Time_Clock_FrozenClock, adjust)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	zephir_update_property_zval(this_ptr, ZEND_STRL("now"), &modified);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1312, &modified);
 	RETURN_THIS();
 }
 
@@ -249,11 +259,16 @@ PHP_METHOD(Phalcon_Time_Clock_FrozenClock, set)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&now_sub);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("now", 3, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT_OF_CLASS(now, php_date_get_immutable_ce())
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &now);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("now"), now);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1312, now);
 	RETURN_THISW();
 }
 

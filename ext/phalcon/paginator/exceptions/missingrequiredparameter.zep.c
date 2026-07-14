@@ -48,6 +48,11 @@ PHP_METHOD(Phalcon_Paginator_Exceptions_MissingRequiredParameter, __construct)
 
 	ZVAL_UNDEF(&parameter_zv);
 	ZVAL_UNDEF(&_0);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("parameter", 9, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(parameter)
 	ZEND_PARSE_PARAMETERS_END();
@@ -55,7 +60,7 @@ PHP_METHOD(Phalcon_Paginator_Exceptions_MissingRequiredParameter, __construct)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&parameter_zv);
 	ZVAL_STR_COPY(&parameter_zv, parameter);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("parameter"), &parameter_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1173, &parameter_zv);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SVS(&_0, "Parameter '", &parameter_zv, "' is required");
 	ZEPHIR_CALL_PARENT(NULL, phalcon_paginator_exceptions_missingrequiredparameter_ce, getThis(), "__construct", NULL, 0, &_0);

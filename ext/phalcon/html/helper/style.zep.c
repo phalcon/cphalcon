@@ -135,14 +135,19 @@ PHP_METHOD(Phalcon_Html_Helper_Style, setStyle)
 
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("isStyle", 7, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_BOOL(flag)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &flag_param);
 	if (flag) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("isStyle"), &__$true);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 264, &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("isStyle"), &__$false);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 264, &__$false);
 	}
 	RETURN_THISW();
 }
@@ -167,6 +172,11 @@ PHP_METHOD(Phalcon_Html_Helper_Style, getAttributes)
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&attributes);
 	ZVAL_UNDEF(&required);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("isStyle", 7, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_STR(url)
 		ZEPHIR_Z_PARAM_ARRAY(attributes, attributes_param)
@@ -183,7 +193,7 @@ PHP_METHOD(Phalcon_Html_Helper_Style, getAttributes)
 	zephir_array_update_string(&required, SL("href"), &url_zv, PH_COPY | PH_SEPARATE);
 	add_assoc_stringl_ex(&required, SL("type"), SL("text/css"));
 	add_assoc_stringl_ex(&required, SL("media"), SL("screen"));
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("isStyle"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 264, PH_NOISY_CC | PH_READONLY);
 	if (ZEPHIR_IS_TRUE_IDENTICAL(&_0)) {
 		zephir_array_unset_string(&required, SL("rel"), PH_SEPARATE);
 	}
@@ -203,11 +213,15 @@ PHP_METHOD(Phalcon_Html_Helper_Style, getTag)
 
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("isStyle", 7, 1);
+	}
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	ZEPHIR_INIT_VAR(&_0);
-	zephir_read_property(&_1, this_ptr, ZEND_STRL("isStyle"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 264, PH_NOISY_CC | PH_READONLY);
 	if (ZEPHIR_IS_TRUE_IDENTICAL(&_1)) {
 		ZEPHIR_INIT_NVAR(&_0);
 		ZVAL_STRING(&_0, "style");

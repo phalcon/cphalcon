@@ -79,15 +79,24 @@ PHP_METHOD(Phalcon_Forms_Element_Check, setUncheckedValue)
 	ZVAL_UNDEF(&value_sub);
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
+	static zend_string *_zephir_prop_0 = NULL;
+	static zend_string *_zephir_prop_1 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("uncheckedValue", 14, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_1)) {
+		_zephir_prop_1 = zend_string_init("uncheckedValueSet", 17, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(value)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &value);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("uncheckedValue"), value);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 711, value);
 	if (1) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("uncheckedValueSet"), &__$true);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 712, &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("uncheckedValueSet"), &__$false);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 712, &__$false);
 	}
 	RETURN_THISW();
 }

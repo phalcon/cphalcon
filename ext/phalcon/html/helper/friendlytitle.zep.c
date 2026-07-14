@@ -57,6 +57,11 @@ PHP_METHOD(Phalcon_Html_Helper_FriendlyTitle, __construct)
 
 	ZVAL_UNDEF(&escaper_sub);
 	ZVAL_UNDEF(&_0);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("friendly", 8, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT_OF_CLASS(escaper, phalcon_html_escaper_escaperinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
@@ -72,7 +77,7 @@ PHP_METHOD(Phalcon_Html_Helper_FriendlyTitle, __construct)
 		zephir_check_call_status();
 	}
 
-	zephir_update_property_zval(this_ptr, ZEND_STRL("friendly"), &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 774, &_0);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -104,6 +109,11 @@ PHP_METHOD(Phalcon_Html_Helper_FriendlyTitle, __invoke)
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_3$$4);
 	ZVAL_UNDEF(&_4$$4);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("friendly", 8, 1);
+	}
+
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 4)
 		Z_PARAM_STR(text)
@@ -140,7 +150,7 @@ PHP_METHOD(Phalcon_Html_Helper_FriendlyTitle, __invoke)
 	}
 	/* try_start_1: */
 
-		zephir_read_property(&_0$$3, this_ptr, ZEND_STRL("friendly"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_0$$3, this_ptr, _zephir_prop_0, 774, PH_NOISY_CC | PH_READONLY);
 		if (lowercase) {
 			ZVAL_BOOL(&_1$$3, 1);
 		} else {

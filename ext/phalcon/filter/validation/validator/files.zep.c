@@ -191,6 +191,11 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Files, validate)
 	ZVAL_UNDEF(&_9);
 	ZVAL_UNDEF(&_5$$3);
 	ZVAL_UNDEF(&_11$$6);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("options", 7, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_OBJECT_OF_CLASS(validation, phalcon_filter_validation_ce)
 		Z_PARAM_ZVAL(field)
@@ -204,7 +209,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Files, validate)
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&validator);
 	object_init_ex(&validator, phalcon_filter_validation_validator_file_ce);
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("options"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 703, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(NULL, &validator, "__construct", NULL, 0, &_0);
 	zephir_check_call_status();
 	zephir_is_iterable(&files, 0, "phalcon/Filter/Validation/Validator/Files.zep", 114);

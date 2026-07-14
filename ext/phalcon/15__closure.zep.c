@@ -35,11 +35,15 @@ PHP_METHOD(phalcon_15__closure, __invoke)
 	ZVAL_UNDEF(&ioc);
 	ZVAL_UNDEF(&id);
 	ZVAL_UNDEF(&_0);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("id", 2, 1);
+	}
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_read_static_property_ce(&ioc, phalcon_15__closure_ce, SL("ioc"), PH_NOISY_CC);
 
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("id"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1323, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&id, this_ptr, "resolveargument", NULL, 0, &ioc, &_0);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(&ioc, "new", NULL, 0, &id);

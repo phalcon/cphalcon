@@ -105,11 +105,15 @@ PHP_METHOD(Phalcon_Mvc_Controller, getEventsManager)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("eventsManager", 13, 1);
+	}
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_memory_observe(&_0);
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("eventsManager"), PH_NOISY_CC);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 903, PH_NOISY_CC);
 	RETURN_CCTOR(&_0);
 }
 
@@ -124,11 +128,16 @@ PHP_METHOD(Phalcon_Mvc_Controller, setEventsManager)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&eventsManager_sub);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("eventsManager", 13, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT_OF_CLASS(eventsManager, phalcon_events_managerinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &eventsManager);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("eventsManager"), eventsManager);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 903, eventsManager);
 }
 
 /**
@@ -154,6 +163,11 @@ PHP_METHOD(Phalcon_Mvc_Controller, fireManagerEvent)
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&eventsManager);
 	ZVAL_UNDEF(&_0$$3);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("eventsManager", 13, 1);
+	}
+
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_STR(eventName)
@@ -180,7 +194,7 @@ PHP_METHOD(Phalcon_Mvc_Controller, fireManagerEvent)
 	} else {
 		}
 	zephir_memory_observe(&eventsManager);
-	zephir_read_property(&eventsManager, this_ptr, ZEND_STRL("eventsManager"), PH_NOISY_CC);
+	zephir_read_property_cached(&eventsManager, this_ptr, _zephir_prop_0, 903, PH_NOISY_CC);
 	if (Z_TYPE_P(&eventsManager) != IS_NULL) {
 		if (cancellable) {
 			ZVAL_BOOL(&_0$$3, 1);

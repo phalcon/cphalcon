@@ -50,6 +50,19 @@ PHP_METHOD(Phalcon_Db_Geometry_Point, __construct)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
+	static zend_string *_zephir_prop_0 = NULL;
+	static zend_string *_zephir_prop_1 = NULL;
+	static zend_string *_zephir_prop_2 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("x", 1, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_1)) {
+		_zephir_prop_1 = zend_string_init("y", 1, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_2)) {
+		_zephir_prop_2 = zend_string_init("srid", 4, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(2, 3)
 		Z_PARAM_ZVAL(x_param)
 		Z_PARAM_ZVAL(y_param)
@@ -65,13 +78,13 @@ PHP_METHOD(Phalcon_Db_Geometry_Point, __construct)
 		}
 	ZVAL_UNDEF(&_0);
 	ZVAL_DOUBLE(&_0, x);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("x"), &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 572, &_0);
 	ZVAL_UNDEF(&_0);
 	ZVAL_DOUBLE(&_0, y);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("y"), &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 573, &_0);
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, srid);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("srid"), &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 574, &_0);
 }
 
 PHP_METHOD(Phalcon_Db_Geometry_Point, getType)
@@ -116,8 +129,16 @@ PHP_METHOD(Phalcon_Db_Geometry_Point, coordsWkt)
 
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("x"), PH_NOISY_CC | PH_READONLY);
-	zephir_read_property(&_1, this_ptr, ZEND_STRL("y"), PH_NOISY_CC | PH_READONLY);
+	static zend_string *_zephir_prop_0 = NULL;
+	static zend_string *_zephir_prop_1 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("x", 1, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_1)) {
+		_zephir_prop_1 = zend_string_init("y", 1, 1);
+	}
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 572, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 573, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CONCAT_VSV(return_value, &_0, " ", &_1);
 	return;
 }

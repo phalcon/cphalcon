@@ -51,11 +51,16 @@ PHP_METHOD(Phalcon_Logger_LoggerFactory, __construct)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&factory_sub);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("adapterFactory", 14, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT_OF_CLASS(factory, phalcon_logger_adapterfactory_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &factory);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("adapterFactory"), factory);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 889, factory);
 }
 
 /**
@@ -111,6 +116,11 @@ PHP_METHOD(Phalcon_Logger_LoggerFactory, load)
 	ZVAL_UNDEF(&_15$$4);
 	ZVAL_UNDEF(&_16$$4);
 	ZVAL_UNDEF(&data);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("adapterFactory", 14, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(config)
 	ZEND_PARSE_PARAMETERS_END();
@@ -172,7 +182,7 @@ PHP_METHOD(Phalcon_Logger_LoggerFactory, load)
 			ZVAL_STRING(&_8$$3, "options");
 			ZEPHIR_CALL_METHOD(&adapterOptions, this_ptr, "getarrval", NULL, 0, &adapter, &_8$$3, &_7$$3);
 			zephir_check_call_status();
-			zephir_read_property(&_9$$3, this_ptr, ZEND_STRL("adapterFactory"), PH_NOISY_CC | PH_READONLY);
+			zephir_read_property_cached(&_9$$3, this_ptr, _zephir_prop_0, 889, PH_NOISY_CC | PH_READONLY);
 			ZEPHIR_CALL_METHOD(&_10$$3, &_9$$3, "newinstance", NULL, 0, &adapterClass, &adapterFileName, &adapterOptions);
 			zephir_check_call_status();
 			zephir_array_update_zval(&data, &adapterName, &_10$$3, PH_COPY | PH_SEPARATE);
@@ -211,7 +221,7 @@ PHP_METHOD(Phalcon_Logger_LoggerFactory, load)
 				ZVAL_STRING(&_14$$4, "options");
 				ZEPHIR_CALL_METHOD(&adapterOptions, this_ptr, "getarrval", NULL, 0, &adapter, &_14$$4, &_13$$4);
 				zephir_check_call_status();
-				zephir_read_property(&_15$$4, this_ptr, ZEND_STRL("adapterFactory"), PH_NOISY_CC | PH_READONLY);
+				zephir_read_property_cached(&_15$$4, this_ptr, _zephir_prop_0, 889, PH_NOISY_CC | PH_READONLY);
 				ZEPHIR_CALL_METHOD(&_16$$4, &_15$$4, "newinstance", NULL, 0, &adapterClass, &adapterFileName, &adapterOptions);
 				zephir_check_call_status();
 				zephir_array_update_zval(&data, &adapterName, &_16$$4, PH_COPY | PH_SEPARATE);

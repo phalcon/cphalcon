@@ -498,6 +498,8 @@ zend_class_entry *phalcon_89__closure_ce;
 zend_class_entry *phalcon_8__closure_ce;
 zend_class_entry *phalcon_90__closure_ce;
 zend_class_entry *phalcon_91__closure_ce;
+zend_class_entry *phalcon_92__closure_ce;
+zend_class_entry *phalcon_93__closure_ce;
 zend_class_entry *phalcon_9__closure_ce;
 zend_class_entry *phalcon_acl_adapter_storage_ce;
 zend_class_entry *phalcon_acl_component_ce;
@@ -2978,6 +2980,8 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(phalcon_8__closure);
 	ZEPHIR_INIT(phalcon_90__closure);
 	ZEPHIR_INIT(phalcon_91__closure);
+	ZEPHIR_INIT(phalcon_92__closure);
+	ZEPHIR_INIT(phalcon_93__closure);
 	ZEPHIR_INIT(phalcon_9__closure);
 	
 	return SUCCESS;
@@ -3008,6 +3012,9 @@ static void php_zephir_init_globals(zend_phalcon_globals *phalcon_globals)
 
 	/* Static cache */
 	memset(phalcon_globals->scache, '\0', sizeof(zephir_fcall_cache_entry*) * ZEPHIR_MAX_CACHE_SLOTS);
+
+	/* Inline property cache (per-request reset defeats stale-ce/ABA reuse) */
+	memset(phalcon_globals->pcache, '\0', sizeof(void*) * ZEPHIR_MAX_PROPERTY_CACHE_SLOTS * ZEPHIR_PROPERTY_CACHE_SLOT_SIZE);
 
 	
 

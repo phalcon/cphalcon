@@ -73,6 +73,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apcu, __construct)
 	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_5);
 	ZVAL_UNDEF(&options);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("adapter", 7, 1);
+	}
+
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_OBJECT_OF_CLASS(factory, phalcon_cache_adapterfactory_ce)
@@ -104,7 +109,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apcu, __construct)
 	ZVAL_STRING(&_1, "apcu");
 	ZEPHIR_CALL_METHOD(&_5, factory, "newinstance", NULL, 0, &_1, &options);
 	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, ZEND_STRL("adapter"), &_5);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 983, &_5);
 	ZEPHIR_MM_RESTORE();
 }
 
