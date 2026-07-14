@@ -296,4 +296,12 @@ interface BuilderInterface
      * Sets conditions for the query
      */
     public function where(string conditions, array bindParams = [], array bindTypes = []) -> <BuilderInterface>;
+
+    // TODO v7: promote the custom resultset-row-class accessors into this
+    // interface. They are implemented on Phalcon\Mvc\Model\Query\Builder but
+    // are kept out of the contract in 5.x to avoid breaking existing
+    // BuilderInterface implementations in the wild.
+    //
+    // public function getResultsetRowClass() -> string;
+    // public function setResultsetRowClass(string resultsetRowClass) -> <BuilderInterface>;
 }
