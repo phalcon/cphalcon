@@ -136,6 +136,11 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     protected order;
 
     /**
+     * @var string
+     */
+    protected resultsetRowClass = "";
+
+    /**
      * @var bool
      */
     protected sharedLock = false;
@@ -1093,7 +1098,28 @@ class Builder implements BuilderInterface, InjectionAwareInterface
             query->setSharedLock(this->sharedLock);
         }
 
+        /**
+         * The accessor is not part of QueryInterface (see the interface's
+         * v7 note), so a custom query service may not implement it.
+         *
+         * @todo v7: remove the method_exists() guard once the accessors are
+         *       promoted to QueryInterface.
+         */
+        if this->resultsetRowClass != "" && method_exists(query, "setResultsetRowClass") {
+            query->setResultsetRowClass(this->resultsetRowClass);
+        }
+
         return query;
+    }
+
+    /**
+     * Returns the class that will be used to hydrate rows that are not mapped
+     * to a model (custom columns/joins). An empty string means the default
+     * Phalcon\Mvc\Model\Row is used.
+     */
+    public function getResultsetRowClass() -> string
+    {
+        return this->resultsetRowClass;
     }
 
     /**
@@ -1538,6 +1564,19 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     public function setDI(<DiInterface> container) -> void
     {
         let this->container = container;
+    }
+
+    /**
+     * Sets the class used to hydrate rows that are not mapped to a model
+     * (custom columns/joins). The class must be a subclass of
+     * Phalcon\Mvc\Model\Row. Validation is performed by the underlying
+     * Phalcon\Mvc\Model\Query when the query is built.
+     */
+    public function setResultsetRowClass(string resultsetRowClass) -> <BuilderInterface>
+    {
+        let this->resultsetRowClass = resultsetRowClass;
+
+        return this;
     }
 
     /**
