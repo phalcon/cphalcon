@@ -109,7 +109,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Libmemcached, __construct)
 	ZVAL_STRING(&_1, "libmemcached");
 	ZEPHIR_CALL_METHOD(&_5, factory, "newinstance", NULL, 0, &_1, &options);
 	zephir_check_call_status();
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1246, &_5);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1247, &_5);
 	ZEPHIR_MM_RESTORE();
 }
 
