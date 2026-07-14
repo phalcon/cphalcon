@@ -59,11 +59,16 @@ PHP_METHOD(Phalcon_Queue_Adapter_GenericQueue, __construct)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&queueName_zv);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("queueName", 9, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(queueName)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&queueName_zv, queueName);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("queueName"), &queueName_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1197, &queueName_zv);
 }
 
 /**

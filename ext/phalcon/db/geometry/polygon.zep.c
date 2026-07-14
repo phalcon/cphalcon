@@ -50,6 +50,15 @@ PHP_METHOD(Phalcon_Db_Geometry_Polygon, __construct)
 
 	ZVAL_UNDEF(&rings);
 	ZVAL_UNDEF(&_0);
+	static zend_string *_zephir_prop_0 = NULL;
+	static zend_string *_zephir_prop_1 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("rings", 5, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_1)) {
+		_zephir_prop_1 = zend_string_init("srid", 4, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		ZEPHIR_Z_PARAM_ARRAY(rings, rings_param)
 		Z_PARAM_OPTIONAL
@@ -63,10 +72,10 @@ PHP_METHOD(Phalcon_Db_Geometry_Polygon, __construct)
 		srid = 0;
 	} else {
 		}
-	zephir_update_property_zval(this_ptr, ZEND_STRL("rings"), &rings);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 575, &rings);
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, srid);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("srid"), &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 576, &_0);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -123,12 +132,16 @@ PHP_METHOD(Phalcon_Db_Geometry_Polygon, ringsWkt)
 	ZVAL_UNDEF(&_17$$6);
 	ZVAL_UNDEF(&_12$$7);
 	ZVAL_UNDEF(&_15$$8);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("rings", 5, 1);
+	}
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	ZEPHIR_INIT_VAR(&parts);
 	array_init(&parts);
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("rings"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 575, PH_NOISY_CC | PH_READONLY);
 	zephir_is_iterable(&_0, 0, "phalcon/Db/Geometry/Polygon.zep", 57);
 	if (Z_TYPE_P(&_0) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_0), _1)

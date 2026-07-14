@@ -136,6 +136,27 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, __construct)
 	ZVAL_UNDEF(&referencedFields_sub);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&options);
+	static zend_string *_zephir_prop_0 = NULL;
+	static zend_string *_zephir_prop_1 = NULL;
+	static zend_string *_zephir_prop_2 = NULL;
+	static zend_string *_zephir_prop_3 = NULL;
+	static zend_string *_zephir_prop_4 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("type", 4, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_1)) {
+		_zephir_prop_1 = zend_string_init("referencedModel", 15, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_2)) {
+		_zephir_prop_2 = zend_string_init("fields", 6, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_3)) {
+		_zephir_prop_3 = zend_string_init("referencedFields", 16, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_4)) {
+		_zephir_prop_4 = zend_string_init("options", 7, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(4, 5)
 		Z_PARAM_LONG(type)
 		Z_PARAM_STR(referencedModel)
@@ -161,11 +182,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, __construct)
 	}
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, type);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("type"), &_0);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("referencedModel"), &referencedModel_zv);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("fields"), fields);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("referencedFields"), referencedFields);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("options"), &options);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1028, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1029, &referencedModel_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 1030, fields);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 1031, referencedFields);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_4, 1032, &options);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -194,10 +215,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getForeignKey)
 	ZVAL_UNDEF(&options);
 	ZVAL_UNDEF(&foreignKey);
 	ZVAL_UNDEF(&_0);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("options", 7, 1);
+	}
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("options"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1032, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&options, &_0);
 	zephir_memory_observe(&foreignKey);
 	if (zephir_array_isset_string_fetch(&foreignKey, &options, SL("foreignKey"), 0)) {
@@ -253,6 +278,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getOption)
 	ZVAL_UNDEF(&name_zv);
 	ZVAL_UNDEF(&option);
 	ZVAL_UNDEF(&_0);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("options", 7, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(name)
 	ZEND_PARSE_PARAMETERS_END();
@@ -261,7 +291,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getOption)
 	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
 	zephir_memory_observe(&option);
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("options"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1032, PH_NOISY_CC | PH_READONLY);
 	if (!(zephir_array_isset_fetch(&option, &_0, &name_zv, 0))) {
 		RETURN_MM_NULL();
 	}
@@ -292,10 +322,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getParams)
 	ZVAL_UNDEF(&options);
 	ZVAL_UNDEF(&params);
 	ZVAL_UNDEF(&_0);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("options", 7, 1);
+	}
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("options"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1032, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&options, &_0);
 	zephir_memory_observe(&params);
 	if (zephir_array_isset_string_fetch(&params, &options, SL("params"), 0)) {
@@ -351,11 +385,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, isForeignKey)
 
 	ZVAL_UNDEF(&foreignKey);
 	ZVAL_UNDEF(&_0);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("options", 7, 1);
+	}
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_memory_observe(&foreignKey);
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("options"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1032, PH_NOISY_CC | PH_READONLY);
 	if (!(zephir_array_isset_string_fetch(&foreignKey, &_0, SL("foreignKey"), 0))) {
 		RETURN_MM_BOOL(0);
 	}
@@ -374,10 +412,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, isThrough)
 
 	ZVAL_UNDEF(&type);
 	ZVAL_UNDEF(&_0);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("type", 4, 1);
+	}
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("type"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1028, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&type, &_0);
 	_1 = ZEPHIR_IS_LONG(&type, 3);
 	if (!(_1)) {
@@ -398,10 +440,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, isReusable)
 	ZVAL_UNDEF(&options);
 	ZVAL_UNDEF(&reusable);
 	ZVAL_UNDEF(&_0);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("options", 7, 1);
+	}
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("options"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1032, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&options, &_0);
 	zephir_memory_observe(&reusable);
 	if (!(zephir_array_isset_string_fetch(&reusable, &options, SL("reusable"), 0))) {
@@ -426,6 +472,19 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, setIntermediateRelation)
 	ZVAL_UNDEF(&intermediateFields_sub);
 	ZVAL_UNDEF(&intermediateModel_zv);
 	ZVAL_UNDEF(&intermediateReferencedFields_sub);
+	static zend_string *_zephir_prop_0 = NULL;
+	static zend_string *_zephir_prop_1 = NULL;
+	static zend_string *_zephir_prop_2 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("intermediateFields", 18, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_1)) {
+		_zephir_prop_1 = zend_string_init("intermediateModel", 17, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_2)) {
+		_zephir_prop_2 = zend_string_init("intermediateReferencedFields", 28, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(3, 3)
 		Z_PARAM_ZVAL(intermediateFields)
 		Z_PARAM_STR(intermediateModel)
@@ -434,9 +493,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, setIntermediateRelation)
 	intermediateFields = ZEND_CALL_ARG(execute_data, 1);
 	intermediateReferencedFields = ZEND_CALL_ARG(execute_data, 3);
 	ZVAL_STR(&intermediateModel_zv, intermediateModel);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("intermediateFields"), intermediateFields);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("intermediateModel"), &intermediateModel_zv);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("intermediateReferencedFields"), intermediateReferencedFields);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1033, intermediateFields);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1034, &intermediateModel_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 1035, intermediateReferencedFields);
 }
 
 zend_object *zephir_init_properties_Phalcon_Mvc_Model_Relation(zend_class_entry *class_type)

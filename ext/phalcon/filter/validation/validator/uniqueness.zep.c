@@ -272,6 +272,11 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Uniqueness, getColumnNameReal)
 	ZVAL_UNDEF(&_7$$3);
 	ZVAL_UNDEF(&_11$$4);
 	ZVAL_UNDEF(&_12$$4);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("columnMap", 9, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_ZVAL(record)
 		Z_PARAM_STR(field)
@@ -287,7 +292,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Uniqueness, getColumnNameReal)
 	zephir_check_call_status();
 	_2 = zephir_is_true(&_0);
 	if (_2) {
-		zephir_read_property(&_3, this_ptr, ZEND_STRL("columnMap"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_3, this_ptr, _zephir_prop_0, 704, PH_NOISY_CC | PH_READONLY);
 		_2 = !zephir_is_true(&_3);
 	}
 	if (_2) {
@@ -299,17 +304,17 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Uniqueness, getColumnNameReal)
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(&_7$$3, &_5$$3, "getcolumnmap", NULL, 0, record);
 		zephir_check_call_status();
-		zephir_update_property_zval(this_ptr, ZEND_STRL("columnMap"), &_7$$3);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 704, &_7$$3);
 	}
 	zephir_memory_observe(&_8);
-	zephir_read_property(&_8, this_ptr, ZEND_STRL("columnMap"), PH_NOISY_CC);
+	zephir_read_property_cached(&_8, this_ptr, _zephir_prop_0, 704, PH_NOISY_CC);
 	_9 = Z_TYPE_P(&_8) == IS_ARRAY;
 	if (_9) {
-		zephir_read_property(&_10, this_ptr, ZEND_STRL("columnMap"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_10, this_ptr, _zephir_prop_0, 704, PH_NOISY_CC | PH_READONLY);
 		_9 = zephir_array_isset_value(&_10, &field_zv);
 	}
 	if (_9) {
-		zephir_read_property(&_11$$4, this_ptr, ZEND_STRL("columnMap"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_11$$4, this_ptr, _zephir_prop_0, 704, PH_NOISY_CC | PH_READONLY);
 		zephir_array_fetch(&_12$$4, &_11$$4, &field_zv, PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/Uniqueness.zep", 182);
 		RETURN_CTOR(&_12$$4);
 	}

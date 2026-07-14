@@ -88,6 +88,19 @@ PHP_METHOD(Phalcon_Auth_Guard_Config_SessionGuardConfig, __construct)
 	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_5);
 	ZVAL_UNDEF(&_6$$3);
+	static zend_string *_zephir_prop_0 = NULL;
+	static zend_string *_zephir_prop_1 = NULL;
+	static zend_string *_zephir_prop_2 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("name", 4, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_1)) {
+		_zephir_prop_1 = zend_string_init("rememberName", 12, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_2)) {
+		_zephir_prop_2 = zend_string_init("rememberTtl", 11, 1);
+	}
+
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 4)
 		Z_PARAM_OPTIONAL
@@ -144,7 +157,7 @@ PHP_METHOD(Phalcon_Auth_Guard_Config_SessionGuardConfig, __construct)
 		ZEPHIR_CALL_METHOD(&_1, this_ptr, "derive", NULL, 344, &_0, &suffix_zv);
 		zephir_check_call_status();
 	}
-	zephir_update_property_zval(this_ptr, ZEND_STRL("name"), &_1);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 388, &_1);
 	ZEPHIR_INIT_VAR(&_2);
 	if (Z_TYPE_P(&rememberName_zv) != IS_NULL) {
 		ZEPHIR_CPY_WRT(&_2, &rememberName_zv);
@@ -154,7 +167,7 @@ PHP_METHOD(Phalcon_Auth_Guard_Config_SessionGuardConfig, __construct)
 		ZEPHIR_CALL_METHOD(&_2, this_ptr, "derive", NULL, 344, &_0, &suffix_zv);
 		zephir_check_call_status();
 	}
-	zephir_update_property_zval(this_ptr, ZEND_STRL("rememberName"), &_2);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 389, &_2);
 	ZEPHIR_INIT_VAR(&_3);
 	if (Z_TYPE_P(rememberTtl) != IS_NULL) {
 		ZEPHIR_INIT_NVAR(&_3);
@@ -163,9 +176,9 @@ PHP_METHOD(Phalcon_Auth_Guard_Config_SessionGuardConfig, __construct)
 		ZEPHIR_INIT_NVAR(&_3);
 		ZVAL_LONG(&_3, 31536000);
 	}
-	zephir_update_property_zval(this_ptr, ZEND_STRL("rememberTtl"), &_3);
-	zephir_read_property(&_4, this_ptr, ZEND_STRL("name"), PH_NOISY_CC | PH_READONLY);
-	zephir_read_property(&_5, this_ptr, ZEND_STRL("rememberName"), PH_NOISY_CC | PH_READONLY);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 390, &_3);
+	zephir_read_property_cached(&_4, this_ptr, _zephir_prop_0, 388, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_5, this_ptr, _zephir_prop_1, 389, PH_NOISY_CC | PH_READONLY);
 	if (ZEPHIR_IS_IDENTICAL(&_4, &_5)) {
 		ZEPHIR_INIT_VAR(&_6$$3);
 		object_init_ex(&_6$$3, phalcon_auth_exceptions_sessionnamesmustdiffer_ce);

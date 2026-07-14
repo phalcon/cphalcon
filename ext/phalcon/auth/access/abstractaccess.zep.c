@@ -93,6 +93,15 @@ PHP_METHOD(Phalcon_Auth_Access_AbstractAccess, isAllowed)
 	ZVAL_UNDEF(&_6$$4);
 	ZVAL_UNDEF(&_7$$4);
 	ZVAL_UNDEF(&context);
+	static zend_string *_zephir_prop_0 = NULL;
+	static zend_string *_zephir_prop_1 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("exceptActions", 13, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_1)) {
+		_zephir_prop_1 = zend_string_init("onlyActions", 11, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(2, 3)
 		Z_PARAM_OBJECT_OF_CLASS(guard, phalcon_contracts_auth_guard_guard_ce)
 		Z_PARAM_STR(actionName)
@@ -116,11 +125,11 @@ PHP_METHOD(Phalcon_Auth_Access_AbstractAccess, isAllowed)
 	ZEPHIR_CALL_METHOD(&allowed, this_ptr, "allowedif", NULL, 0, guard);
 	zephir_check_call_status();
 	zephir_memory_observe(&_0);
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("exceptActions"), PH_NOISY_CC);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 95, PH_NOISY_CC);
 	if (!(ZEPHIR_IS_EMPTY(&_0))) {
 		_1$$3 = zephir_is_true(&allowed);
 		if (!(_1$$3)) {
-			zephir_read_property(&_2$$3, this_ptr, ZEND_STRL("exceptActions"), PH_NOISY_CC | PH_READONLY);
+			zephir_read_property_cached(&_2$$3, this_ptr, _zephir_prop_0, 95, PH_NOISY_CC | PH_READONLY);
 			ZEPHIR_CALL_FUNCTION(&_3$$3, "in_array", NULL, 86, &actionName_zv, &_2$$3, &__$true);
 			zephir_check_call_status();
 			_1$$3 = zephir_is_true(&_3$$3);
@@ -128,11 +137,11 @@ PHP_METHOD(Phalcon_Auth_Access_AbstractAccess, isAllowed)
 		RETURN_MM_BOOL(_1$$3);
 	}
 	zephir_memory_observe(&_4);
-	zephir_read_property(&_4, this_ptr, ZEND_STRL("onlyActions"), PH_NOISY_CC);
+	zephir_read_property_cached(&_4, this_ptr, _zephir_prop_1, 96, PH_NOISY_CC);
 	if (!(ZEPHIR_IS_EMPTY(&_4))) {
 		_5$$4 = zephir_is_true(&allowed);
 		if (_5$$4) {
-			zephir_read_property(&_6$$4, this_ptr, ZEND_STRL("onlyActions"), PH_NOISY_CC | PH_READONLY);
+			zephir_read_property_cached(&_6$$4, this_ptr, _zephir_prop_1, 96, PH_NOISY_CC | PH_READONLY);
 			ZEPHIR_CALL_FUNCTION(&_7$$4, "in_array", NULL, 86, &actionName_zv, &_6$$4, &__$true);
 			zephir_check_call_status();
 			_5$$4 = zephir_is_true(&_7$$4);
@@ -162,6 +171,11 @@ PHP_METHOD(Phalcon_Auth_Access_AbstractAccess, setExceptActions)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&exceptActions);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("exceptActions", 13, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
 		ZEPHIR_Z_PARAM_ARRAY(exceptActions, exceptActions_param)
@@ -175,7 +189,7 @@ PHP_METHOD(Phalcon_Auth_Access_AbstractAccess, setExceptActions)
 	} else {
 		zephir_get_arrval(&exceptActions, exceptActions_param);
 	}
-	zephir_update_property_zval(this_ptr, ZEND_STRL("exceptActions"), &exceptActions);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 95, &exceptActions);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -190,6 +204,11 @@ PHP_METHOD(Phalcon_Auth_Access_AbstractAccess, setOnlyActions)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&onlyActions);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("onlyActions", 11, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
 		ZEPHIR_Z_PARAM_ARRAY(onlyActions, onlyActions_param)
@@ -203,7 +222,7 @@ PHP_METHOD(Phalcon_Auth_Access_AbstractAccess, setOnlyActions)
 	} else {
 		zephir_get_arrval(&onlyActions, onlyActions_param);
 	}
-	zephir_update_property_zval(this_ptr, ZEND_STRL("onlyActions"), &onlyActions);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 96, &onlyActions);
 	ZEPHIR_MM_RESTORE();
 }
 

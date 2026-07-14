@@ -603,11 +603,16 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, setMessageFile
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&message_zv);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("messageFileEmpty", 16, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(message)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&message_zv, message);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("messageFileEmpty"), &message_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 44, &message_zv);
 }
 
 /**
@@ -624,11 +629,16 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, setMessageIniS
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&message_zv);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("messageIniSize", 14, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(message)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&message_zv, message);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("messageIniSize"), &message_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 45, &message_zv);
 }
 
 /**
@@ -645,11 +655,16 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, setMessageVali
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&message_zv);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("messageValid", 12, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(message)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&message_zv, message);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("messageValid"), &message_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 46, &message_zv);
 }
 
 /**

@@ -75,6 +75,11 @@ PHP_METHOD(Phalcon_DataMapper_Query_Bind, bindInline)
 	ZVAL_UNDEF(&_5);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$4);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("inlineCount", 11, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_ZVAL(value)
 		Z_PARAM_OPTIONAL
@@ -103,11 +108,11 @@ PHP_METHOD(Phalcon_DataMapper_Query_Bind, bindInline)
 		zephir_check_call_status();
 		RETURN_MM();
 	}
-	zephir_read_property(&_3, this_ptr, ZEND_STRL("inlineCount"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_0, 521, PH_NOISY_CC | PH_READONLY);
 	ZVAL_UNDEF(&_4);
 	ZVAL_LONG(&_4, (zephir_get_numberval(&_3) + 1));
-	zephir_update_property_zval(this_ptr, ZEND_STRL("inlineCount"), &_4);
-	zephir_read_property(&_4, this_ptr, ZEND_STRL("inlineCount"), PH_NOISY_CC | PH_READONLY);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 521, &_4);
+	zephir_read_property_cached(&_4, this_ptr, _zephir_prop_0, 521, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&key);
 	ZEPHIR_CONCAT_SVS(&key, "__", &_4, "__");
 	ZVAL_LONG(&_5, type);
@@ -132,6 +137,11 @@ PHP_METHOD(Phalcon_DataMapper_Query_Bind, remove)
 	ZVAL_UNDEF(&key_zv);
 	ZVAL_UNDEF(&store);
 	ZVAL_UNDEF(&_0);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("store", 5, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(key)
 	ZEND_PARSE_PARAMETERS_END();
@@ -139,10 +149,10 @@ PHP_METHOD(Phalcon_DataMapper_Query_Bind, remove)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&key_zv);
 	ZVAL_STR_COPY(&key_zv, key);
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("store"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 522, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&store, &_0);
 	zephir_array_unset(&store, &key_zv, PH_SEPARATE);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("store"), &store);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 522, &store);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -352,6 +362,11 @@ PHP_METHOD(Phalcon_DataMapper_Query_Bind, inlineArray)
 	ZVAL_UNDEF(&_9$$4);
 	ZVAL_UNDEF(&_10$$4);
 	ZVAL_UNDEF(&_11$$4);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("inlineCount", 11, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		ZEPHIR_Z_PARAM_ARRAY(data, data_param)
 		Z_PARAM_LONG(type)
@@ -368,11 +383,11 @@ PHP_METHOD(Phalcon_DataMapper_Query_Bind, inlineArray)
 		{
 			ZEPHIR_INIT_NVAR(&value);
 			ZVAL_COPY(&value, _0);
-			zephir_read_property(&_1$$3, this_ptr, ZEND_STRL("inlineCount"), PH_NOISY_CC | PH_READONLY);
+			zephir_read_property_cached(&_1$$3, this_ptr, _zephir_prop_0, 521, PH_NOISY_CC | PH_READONLY);
 			ZVAL_UNDEF(&_2$$3);
 			ZVAL_LONG(&_2$$3, (zephir_get_numberval(&_1$$3) + 1));
-			zephir_update_property_zval(this_ptr, ZEND_STRL("inlineCount"), &_2$$3);
-			zephir_read_property(&_2$$3, this_ptr, ZEND_STRL("inlineCount"), PH_NOISY_CC | PH_READONLY);
+			zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 521, &_2$$3);
+			zephir_read_property_cached(&_2$$3, this_ptr, _zephir_prop_0, 521, PH_NOISY_CC | PH_READONLY);
 			ZEPHIR_INIT_NVAR(&key);
 			ZEPHIR_CONCAT_SVS(&key, "__", &_2$$3, "__");
 			ZVAL_LONG(&_3$$3, type);
@@ -400,11 +415,11 @@ PHP_METHOD(Phalcon_DataMapper_Query_Bind, inlineArray)
 			}
 			ZEPHIR_CALL_METHOD(&value, &data, "current", NULL, 0);
 			zephir_check_call_status();
-				zephir_read_property(&_8$$4, this_ptr, ZEND_STRL("inlineCount"), PH_NOISY_CC | PH_READONLY);
+				zephir_read_property_cached(&_8$$4, this_ptr, _zephir_prop_0, 521, PH_NOISY_CC | PH_READONLY);
 				ZVAL_UNDEF(&_9$$4);
 				ZVAL_LONG(&_9$$4, (zephir_get_numberval(&_8$$4) + 1));
-				zephir_update_property_zval(this_ptr, ZEND_STRL("inlineCount"), &_9$$4);
-				zephir_read_property(&_9$$4, this_ptr, ZEND_STRL("inlineCount"), PH_NOISY_CC | PH_READONLY);
+				zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 521, &_9$$4);
+				zephir_read_property_cached(&_9$$4, this_ptr, _zephir_prop_0, 521, PH_NOISY_CC | PH_READONLY);
 				ZEPHIR_INIT_NVAR(&key);
 				ZEPHIR_CONCAT_SVS(&key, "__", &_9$$4, "__");
 				ZVAL_LONG(&_10$$4, type);

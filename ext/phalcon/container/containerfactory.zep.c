@@ -98,6 +98,10 @@ PHP_METHOD(Phalcon_Container_ContainerFactory, newContainer)
 	ZVAL_UNDEF(&provider);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_2);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("providers", 9, 1);
+	}
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
@@ -105,7 +109,7 @@ PHP_METHOD(Phalcon_Container_ContainerFactory, newContainer)
 	object_init_ex(&container, phalcon_container_container_ce);
 	ZEPHIR_CALL_METHOD(NULL, &container, "__construct", NULL, 417);
 	zephir_check_call_status();
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("providers"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 476, PH_NOISY_CC | PH_READONLY);
 	zephir_is_iterable(&_0, 0, "phalcon/Container/ContainerFactory.zep", 72);
 	if (Z_TYPE_P(&_0) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_0), _1)

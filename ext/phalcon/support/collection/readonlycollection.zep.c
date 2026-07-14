@@ -65,6 +65,11 @@ PHP_METHOD(Phalcon_Support_Collection_ReadOnlyCollection, __construct)
 	ZVAL_BOOL(&__$false, 0);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("constructed", 11, 1);
+	}
+
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 4)
 		Z_PARAM_OPTIONAL
@@ -117,9 +122,9 @@ PHP_METHOD(Phalcon_Support_Collection_ReadOnlyCollection, __construct)
 	ZEPHIR_CALL_PARENT(NULL, phalcon_support_collection_readonlycollection_ce, getThis(), "__construct", NULL, 0, &data, &_0, &_1, &type_zv);
 	zephir_check_call_status();
 	if (1) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("constructed"), &__$true);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1273, &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("constructed"), &__$false);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1273, &__$false);
 	}
 	ZEPHIR_MM_RESTORE();
 }
@@ -145,6 +150,11 @@ PHP_METHOD(Phalcon_Support_Collection_ReadOnlyCollection, __unserialize)
 	ZVAL_BOOL(&__$false, 0);
 	ZVAL_UNDEF(&ex);
 	ZVAL_UNDEF(&_0);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("constructed", 11, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		ZEPHIR_Z_PARAM_ARRAY(data, data_param)
 	ZEND_PARSE_PARAMETERS_END();
@@ -153,9 +163,9 @@ PHP_METHOD(Phalcon_Support_Collection_ReadOnlyCollection, __unserialize)
 	zephir_fetch_params(1, 1, 0, &data_param);
 	zephir_get_arrval(&data, data_param);
 	if (0) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("constructed"), &__$true);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1273, &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("constructed"), &__$false);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1273, &__$false);
 	}
 
 	/* try_start_1: */
@@ -173,9 +183,9 @@ PHP_METHOD(Phalcon_Support_Collection_ReadOnlyCollection, __unserialize)
 			zend_clear_exception();
 			ZEPHIR_CPY_WRT(&ex, &_0);
 			if (1) {
-				zephir_update_property_zval(this_ptr, ZEND_STRL("constructed"), &__$true);
+				zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1273, &__$true);
 			} else {
-				zephir_update_property_zval(this_ptr, ZEND_STRL("constructed"), &__$false);
+				zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1273, &__$false);
 			}
 			zephir_throw_exception_debug(&ex, "phalcon/Support/Collection/ReadOnlyCollection.zep", 64);
 			ZEPHIR_MM_RESTORE();
@@ -183,9 +193,9 @@ PHP_METHOD(Phalcon_Support_Collection_ReadOnlyCollection, __unserialize)
 		}
 	}
 	if (1) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("constructed"), &__$true);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1273, &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("constructed"), &__$false);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1273, &__$false);
 	}
 	ZEPHIR_MM_RESTORE();
 }
@@ -226,6 +236,11 @@ PHP_METHOD(Phalcon_Support_Collection_ReadOnlyCollection, init)
 	ZVAL_UNDEF(&data);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("constructed", 11, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
 		ZEPHIR_Z_PARAM_ARRAY(data, data_param)
@@ -239,7 +254,7 @@ PHP_METHOD(Phalcon_Support_Collection_ReadOnlyCollection, init)
 	} else {
 		zephir_get_arrval(&data, data_param);
 	}
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("constructed"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1273, PH_NOISY_CC | PH_READONLY);
 	if (zephir_is_true(&_0)) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_support_collection_exceptions_readonlyviolation_ce);

@@ -101,6 +101,23 @@ PHP_METHOD(Phalcon_Events_Event, __construct)
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$3);
+	static zend_string *_zephir_prop_0 = NULL;
+	static zend_string *_zephir_prop_1 = NULL;
+	static zend_string *_zephir_prop_2 = NULL;
+	static zend_string *_zephir_prop_3 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("type", 4, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_1)) {
+		_zephir_prop_1 = zend_string_init("source", 6, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_2)) {
+		_zephir_prop_2 = zend_string_init("data", 4, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_3)) {
+		_zephir_prop_3 = zend_string_init("cancelable", 10, 1);
+	}
+
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 4)
 		Z_PARAM_STR(type)
@@ -149,13 +166,13 @@ PHP_METHOD(Phalcon_Events_Event, __construct)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	zephir_update_property_zval(this_ptr, ZEND_STRL("type"), &type_zv);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("source"), source);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("data"), data);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 670, &type_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 671, source);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 672, data);
 	if (cancelable) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("cancelable"), &__$true);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 673, &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("cancelable"), &__$false);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 673, &__$false);
 	}
 	ZEPHIR_MM_RESTORE();
 }
@@ -222,6 +239,11 @@ PHP_METHOD(Phalcon_Events_Event, setData)
 
 	ZVAL_UNDEF(&data_sub);
 	ZVAL_NULL(&__$null);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("data", 4, 1);
+	}
+
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
@@ -232,7 +254,7 @@ PHP_METHOD(Phalcon_Events_Event, setData)
 		data = &data_sub;
 		data = &__$null;
 	}
-	zephir_update_property_zval(this_ptr, ZEND_STRL("data"), data);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 672, data);
 	RETURN_THISW();
 }
 
@@ -246,11 +268,16 @@ PHP_METHOD(Phalcon_Events_Event, setType)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&type_zv);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("type", 4, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(type)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&type_zv, type);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("type"), &type_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 670, &type_zv);
 	RETURN_THISW();
 }
 
@@ -274,10 +301,18 @@ PHP_METHOD(Phalcon_Events_Event, stop)
 	ZVAL_BOOL(&__$false, 0);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
+	static zend_string *_zephir_prop_0 = NULL;
+	static zend_string *_zephir_prop_1 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("cancelable", 10, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_1)) {
+		_zephir_prop_1 = zend_string_init("stopped", 7, 1);
+	}
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("cancelable"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 673, PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(!zephir_is_true(&_0))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_events_exceptions_eventnotcancelable_ce);
@@ -288,9 +323,9 @@ PHP_METHOD(Phalcon_Events_Event, stop)
 		return;
 	}
 	if (1) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("stopped"), &__$true);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 674, &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("stopped"), &__$false);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 674, &__$false);
 	}
 	RETURN_THIS();
 }

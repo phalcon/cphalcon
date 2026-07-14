@@ -56,6 +56,19 @@ PHP_METHOD(Phalcon_Logger_Formatter_Json, __construct)
 	ZVAL_UNDEF(&dateFormat_zv);
 	ZVAL_UNDEF(&interpolatorLeft_zv);
 	ZVAL_UNDEF(&interpolatorRight_zv);
+	static zend_string *_zephir_prop_0 = NULL;
+	static zend_string *_zephir_prop_1 = NULL;
+	static zend_string *_zephir_prop_2 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("dateFormat", 10, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_1)) {
+		_zephir_prop_1 = zend_string_init("interpolatorLeft", 16, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_2)) {
+		_zephir_prop_2 = zend_string_init("interpolatorRight", 17, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(0, 3)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_STR(dateFormat)
@@ -88,9 +101,9 @@ PHP_METHOD(Phalcon_Logger_Formatter_Json, __construct)
 		zephir_memory_observe(&interpolatorRight_zv);
 	ZVAL_STR_COPY(&interpolatorRight_zv, interpolatorRight);
 	}
-	zephir_update_property_zval(this_ptr, ZEND_STRL("dateFormat"), &dateFormat_zv);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("interpolatorLeft"), &interpolatorLeft_zv);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("interpolatorRight"), &interpolatorRight_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 877, &dateFormat_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 878, &interpolatorLeft_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 879, &interpolatorRight_zv);
 	ZEPHIR_MM_RESTORE();
 }
 

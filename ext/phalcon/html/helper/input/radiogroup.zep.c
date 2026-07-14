@@ -65,6 +65,11 @@ PHP_METHOD(Phalcon_Html_Helper_Input_RadioGroup, isChecked)
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("checked", 7, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(value)
 	ZEND_PARSE_PARAMETERS_END();
@@ -72,12 +77,12 @@ PHP_METHOD(Phalcon_Html_Helper_Input_RadioGroup, isChecked)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&value_zv);
 	ZVAL_STR_COPY(&value_zv, value);
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("checked"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 777, PH_NOISY_CC | PH_READONLY);
 	if (Z_TYPE_P(&_0) == IS_NULL) {
 		RETURN_MM_BOOL(0);
 	}
 	zephir_memory_observe(&_1);
-	zephir_read_property(&_1, this_ptr, ZEND_STRL("checked"), PH_NOISY_CC);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 777, PH_NOISY_CC);
 	zephir_cast_to_string(&_2, &_1);
 	RETURN_MM_BOOL(ZEPHIR_IS_IDENTICAL(&_2, &value_zv));
 }

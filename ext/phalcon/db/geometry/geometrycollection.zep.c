@@ -50,6 +50,15 @@ PHP_METHOD(Phalcon_Db_Geometry_GeometryCollection, __construct)
 
 	ZVAL_UNDEF(&geometries);
 	ZVAL_UNDEF(&_0);
+	static zend_string *_zephir_prop_0 = NULL;
+	static zend_string *_zephir_prop_1 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("geometries", 10, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_1)) {
+		_zephir_prop_1 = zend_string_init("srid", 4, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		ZEPHIR_Z_PARAM_ARRAY(geometries, geometries_param)
 		Z_PARAM_OPTIONAL
@@ -63,10 +72,10 @@ PHP_METHOD(Phalcon_Db_Geometry_GeometryCollection, __construct)
 		srid = 0;
 	} else {
 		}
-	zephir_update_property_zval(this_ptr, ZEND_STRL("geometries"), &geometries);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 562, &geometries);
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, srid);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("srid"), &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 563, &_0);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -97,12 +106,16 @@ PHP_METHOD(Phalcon_Db_Geometry_GeometryCollection, toWkt)
 	ZVAL_UNDEF(&_6);
 	ZVAL_UNDEF(&_2$$3);
 	ZVAL_UNDEF(&_5$$4);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("geometries", 10, 1);
+	}
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	ZEPHIR_INIT_VAR(&parts);
 	array_init(&parts);
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("geometries"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 562, PH_NOISY_CC | PH_READONLY);
 	zephir_is_iterable(&_0, 0, "phalcon/Db/Geometry/GeometryCollection.zep", 46);
 	if (Z_TYPE_P(&_0) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_0), _1)

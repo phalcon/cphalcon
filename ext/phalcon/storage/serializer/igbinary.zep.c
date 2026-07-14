@@ -51,31 +51,39 @@ PHP_METHOD(Phalcon_Storage_Serializer_Igbinary, serialize)
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
+	static zend_string *_zephir_prop_0 = NULL;
+	static zend_string *_zephir_prop_1 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("data", 4, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_1)) {
+		_zephir_prop_1 = zend_string_init("isSuccess", 9, 1);
+	}
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	zephir_read_property(&_1, this_ptr, ZEND_STRL("data"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 324, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "isserializable", NULL, 0, &_1);
 	zephir_check_call_status();
 	if (!ZEPHIR_IS_TRUE_IDENTICAL(&_0)) {
 		RETURN_MM_MEMBER(getThis(), "data");
 	}
-	zephir_read_property(&_2, this_ptr, ZEND_STRL("data"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 324, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&result, this_ptr, "doserialize", NULL, 0, &_2);
 	zephir_check_call_status();
 	if (UNEXPECTED(Z_TYPE_P(&result) == IS_NULL)) {
 		if (0) {
-			zephir_update_property_zval(this_ptr, ZEND_STRL("isSuccess"), &__$true);
+			zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 325, &__$true);
 		} else {
-			zephir_update_property_zval(this_ptr, ZEND_STRL("isSuccess"), &__$false);
+			zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 325, &__$false);
 		}
 		ZEPHIR_INIT_NVAR(&result);
 		ZVAL_STRING(&result, "");
 	} else {
 		if (1) {
-			zephir_update_property_zval(this_ptr, ZEND_STRL("isSuccess"), &__$true);
+			zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 325, &__$true);
 		} else {
-			zephir_update_property_zval(this_ptr, ZEND_STRL("isSuccess"), &__$false);
+			zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 325, &__$false);
 		}
 	}
 	RETURN_CCTOR(&result);
@@ -104,6 +112,15 @@ PHP_METHOD(Phalcon_Storage_Serializer_Igbinary, unserialize)
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$4);
 	ZVAL_UNDEF(&_2$$4);
+	static zend_string *_zephir_prop_0 = NULL;
+	static zend_string *_zephir_prop_1 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("data", 4, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_1)) {
+		_zephir_prop_1 = zend_string_init("isSuccess", 9, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(data)
 	ZEND_PARSE_PARAMETERS_END();
@@ -113,7 +130,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_Igbinary, unserialize)
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "isserializable", NULL, 0, data);
 	zephir_check_call_status();
 	if (!ZEPHIR_IS_TRUE_IDENTICAL(&_0)) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("data"), data);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 324, data);
 	} else {
 		ZEPHIR_GLOBAL(warning).enable = zend_is_true(&__$false);
 		ZEPHIR_INIT_VAR(&_1$$4);
@@ -132,20 +149,20 @@ PHP_METHOD(Phalcon_Storage_Serializer_Igbinary, unserialize)
 		}
 		if (UNEXPECTED(_3$$4)) {
 			if (0) {
-				zephir_update_property_zval(this_ptr, ZEND_STRL("isSuccess"), &__$true);
+				zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 325, &__$true);
 			} else {
-				zephir_update_property_zval(this_ptr, ZEND_STRL("isSuccess"), &__$false);
+				zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 325, &__$false);
 			}
 			ZEPHIR_INIT_NVAR(&result);
 			ZVAL_STRING(&result, "");
 		} else {
 			if (1) {
-				zephir_update_property_zval(this_ptr, ZEND_STRL("isSuccess"), &__$true);
+				zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 325, &__$true);
 			} else {
-				zephir_update_property_zval(this_ptr, ZEND_STRL("isSuccess"), &__$false);
+				zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 325, &__$false);
 			}
 		}
-		zephir_update_property_zval(this_ptr, ZEND_STRL("data"), &result);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 324, &result);
 	}
 	ZEPHIR_MM_RESTORE();
 }

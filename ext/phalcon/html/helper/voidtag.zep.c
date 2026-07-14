@@ -65,6 +65,11 @@ PHP_METHOD(Phalcon_Html_Helper_VoidTag, __invoke)
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&attributes);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("doctype", 7, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(name)
 		Z_PARAM_OPTIONAL
@@ -85,10 +90,10 @@ PHP_METHOD(Phalcon_Html_Helper_VoidTag, __invoke)
 	}
 	ZEPHIR_INIT_VAR(&closeTag);
 	ZVAL_STRING(&closeTag, "");
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("doctype"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 801, PH_NOISY_CC | PH_READONLY);
 	_1 = Z_TYPE_P(&_0) != IS_NULL;
 	if (_1) {
-		zephir_read_property(&_2, this_ptr, ZEND_STRL("doctype"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 801, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_METHOD(&_3, &_2, "gettype", NULL, 0);
 		zephir_check_call_status();
 		_1 = ZEPHIR_GT_LONG(&_3, 5);

@@ -114,6 +114,35 @@ PHP_METHOD(Phalcon_Http_Request_File, __construct)
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$4);
 	ZVAL_UNDEF(&_3$$4);
+	static zend_string *_zephir_prop_0 = NULL;
+	static zend_string *_zephir_prop_1 = NULL;
+	static zend_string *_zephir_prop_2 = NULL;
+	static zend_string *_zephir_prop_3 = NULL;
+	static zend_string *_zephir_prop_4 = NULL;
+	static zend_string *_zephir_prop_5 = NULL;
+	static zend_string *_zephir_prop_6 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("name", 4, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_1)) {
+		_zephir_prop_1 = zend_string_init("extension", 9, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_2)) {
+		_zephir_prop_2 = zend_string_init("tmpName", 7, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_3)) {
+		_zephir_prop_3 = zend_string_init("size", 4, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_4)) {
+		_zephir_prop_4 = zend_string_init("type", 4, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_5)) {
+		_zephir_prop_5 = zend_string_init("error", 5, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_6)) {
+		_zephir_prop_6 = zend_string_init("key", 3, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		ZEPHIR_Z_PARAM_ARRAY(file, file_param)
 		Z_PARAM_OPTIONAL
@@ -133,7 +162,7 @@ PHP_METHOD(Phalcon_Http_Request_File, __construct)
 	}
 	zephir_memory_observe(&name);
 	if (zephir_array_isset_string_fetch(&name, &file, SL("name"), 0)) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("name"), &name);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 831, &name);
 		ZEPHIR_INIT_VAR(&_0$$3);
 		ZVAL_STRING(&_0$$3, "PATHINFO_EXTENSION");
 		ZEPHIR_CALL_FUNCTION(&_1$$3, "defined", NULL, 146, &_0$$3);
@@ -142,31 +171,31 @@ PHP_METHOD(Phalcon_Http_Request_File, __construct)
 			ZVAL_LONG(&_2$$4, 4);
 			ZEPHIR_CALL_FUNCTION(&_3$$4, "pathinfo", NULL, 196, &name, &_2$$4);
 			zephir_check_call_status();
-			zephir_update_property_zval(this_ptr, ZEND_STRL("extension"), &_3$$4);
+			zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 832, &_3$$4);
 		}
 	}
 	ZEPHIR_INIT_VAR(&_5);
 	ZVAL_STRING(&_5, "tmp_name");
 	ZEPHIR_CALL_METHOD(&_4, this_ptr, "getarrval", NULL, 0, &file, &_5);
 	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, ZEND_STRL("tmpName"), &_4);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 833, &_4);
 	ZEPHIR_INIT_NVAR(&_5);
 	ZVAL_STRING(&_5, "size");
 	ZEPHIR_CALL_METHOD(&_6, this_ptr, "getarrval", NULL, 0, &file, &_5);
 	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, ZEND_STRL("size"), &_6);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 834, &_6);
 	ZEPHIR_INIT_NVAR(&_5);
 	ZVAL_STRING(&_5, "type");
 	ZEPHIR_CALL_METHOD(&_7, this_ptr, "getarrval", NULL, 0, &file, &_5);
 	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, ZEND_STRL("type"), &_7);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_4, 835, &_7);
 	ZEPHIR_INIT_NVAR(&_5);
 	ZVAL_STRING(&_5, "error");
 	ZEPHIR_CALL_METHOD(&_8, this_ptr, "getarrval", NULL, 0, &file, &_5);
 	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, ZEND_STRL("error"), &_8);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_5, 836, &_8);
 	if (!(ZEPHIR_IS_EMPTY(&key_zv))) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("key"), &key_zv);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_6, 837, &key_zv);
 	}
 	ZEPHIR_MM_RESTORE();
 }
@@ -224,20 +253,28 @@ PHP_METHOD(Phalcon_Http_Request_File, getRealType)
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$4);
+	static zend_string *_zephir_prop_0 = NULL;
+	static zend_string *_zephir_prop_1 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("realType", 8, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_1)) {
+		_zephir_prop_1 = zend_string_init("tmpName", 7, 1);
+	}
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_memory_observe(&_0);
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("realType"), PH_NOISY_CC);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 838, PH_NOISY_CC);
 	if (ZEPHIR_IS_EMPTY(&_0)) {
 		ZVAL_LONG(&_1$$3, 16);
 		ZEPHIR_CALL_FUNCTION(&finfo, "finfo_open", NULL, 0, &_1$$3);
 		zephir_check_call_status();
 		if (!ZEPHIR_IS_FALSE_IDENTICAL(&finfo)) {
-			zephir_read_property(&_2$$4, this_ptr, ZEND_STRL("tmpName"), PH_NOISY_CC | PH_READONLY);
+			zephir_read_property_cached(&_2$$4, this_ptr, _zephir_prop_1, 833, PH_NOISY_CC | PH_READONLY);
 			ZEPHIR_CALL_FUNCTION(&mime, "finfo_file", NULL, 0, &finfo, &_2$$4);
 			zephir_check_call_status();
-			zephir_update_property_zval(this_ptr, ZEND_STRL("realType"), &mime);
+			zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 838, &mime);
 		}
 	}
 	RETURN_MM_MEMBER_TYPED(getThis(), "realType", IS_STRING);
@@ -284,11 +321,15 @@ PHP_METHOD(Phalcon_Http_Request_File, isUploadedFile)
 
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&_1);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("tmpName", 7, 1);
+	}
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_memory_observe(&name);
-	zephir_read_property(&name, this_ptr, ZEND_STRL("tmpName"), PH_NOISY_CC);
+	zephir_read_property_cached(&name, this_ptr, _zephir_prop_0, 833, PH_NOISY_CC);
 	_0 = !(ZEPHIR_IS_EMPTY(&name));
 	if (_0) {
 		ZEPHIR_CALL_FUNCTION(&_1, "is_uploaded_file", NULL, 34, &name);
@@ -311,6 +352,11 @@ PHP_METHOD(Phalcon_Http_Request_File, moveTo)
 
 	ZVAL_UNDEF(&destination_zv);
 	ZVAL_UNDEF(&_0);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("tmpName", 7, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(destination)
 	ZEND_PARSE_PARAMETERS_END();
@@ -318,7 +364,7 @@ PHP_METHOD(Phalcon_Http_Request_File, moveTo)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&destination_zv);
 	ZVAL_STR_COPY(&destination_zv, destination);
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("tmpName"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 833, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_RETURN_CALL_FUNCTION("move_uploaded_file", NULL, 0, &_0, &destination_zv);
 	zephir_check_call_status();
 	RETURN_MM();

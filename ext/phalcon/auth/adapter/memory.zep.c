@@ -178,6 +178,11 @@ PHP_METHOD(Phalcon_Auth_Adapter_Memory, retrieveById)
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("idStore", 7, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(id)
 	ZEND_PARSE_PARAMETERS_END();
@@ -192,11 +197,11 @@ PHP_METHOD(Phalcon_Auth_Adapter_Memory, retrieveById)
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(zend_ce_type_error, "The parameter must be 'int' or 'string'", "phalcon/Auth/Adapter/Memory.zep", 68);
 		return;
 	}
-	zephir_read_property(&_1, this_ptr, ZEND_STRL("idStore"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 383, PH_NOISY_CC | PH_READONLY);
 	if (!(zephir_array_isset_value(&_1, id))) {
 		RETURN_MM_NULL();
 	}
-	zephir_read_property(&_2, this_ptr, ZEND_STRL("idStore"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 383, PH_NOISY_CC | PH_READONLY);
 	zephir_array_fetch(&_3, &_2, id, PH_NOISY | PH_READONLY, "phalcon/Auth/Adapter/Memory.zep", 75);
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "hydrate", NULL, 0, &_3);
 	zephir_check_call_status();
@@ -214,10 +219,14 @@ PHP_METHOD(Phalcon_Auth_Adapter_Memory, loadUsers)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("config", 6, 1);
+	}
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("config"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 384, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_RETURN_CALL_METHOD(&_0, "getusers", NULL, 0);
 	zephir_check_call_status();
 	RETURN_MM();

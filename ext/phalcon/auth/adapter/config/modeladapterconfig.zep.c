@@ -61,6 +61,11 @@ PHP_METHOD(Phalcon_Auth_Adapter_Config_ModelAdapterConfig, __construct)
 	ZVAL_UNDEF(&_4$$4);
 	ZVAL_UNDEF(&_5$$4);
 	ZVAL_UNDEF(&_6$$4);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("idColumn", 8, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(model)
 		Z_PARAM_OPTIONAL
@@ -106,7 +111,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Config_ModelAdapterConfig, __construct)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	zephir_update_property_zval(this_ptr, ZEND_STRL("idColumn"), &idColumn_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 381, &idColumn_zv);
 	ZEPHIR_CALL_PARENT(NULL, phalcon_auth_adapter_config_modeladapterconfig_ce, getThis(), "__construct", NULL, 0, &model_zv);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

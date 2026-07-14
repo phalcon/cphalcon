@@ -59,6 +59,11 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render)
 	ZVAL_UNDEF(&_6$$6);
 	ZVAL_UNDEF(&_7$$7);
 	ZVAL_UNDEF(&_8$$7);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("view", 4, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(2, 3)
 		Z_PARAM_STR(path)
 		Z_PARAM_ZVAL(params)
@@ -132,7 +137,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render)
 		RETURN_MM_NULL();
 	}
 	if (mustClean) {
-		zephir_read_property(&_7$$7, this_ptr, ZEND_STRL("view"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_7$$7, this_ptr, _zephir_prop_0, 1119, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_FUNCTION(&_8$$7, "ob_get_contents", NULL, 0);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, &_7$$7, "setcontent", NULL, 0, &_8$$7);

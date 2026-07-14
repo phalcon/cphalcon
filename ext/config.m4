@@ -1467,7 +1467,9 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/88__closure.zep.c
 	phalcon/89__closure.zep.c
 	phalcon/90__closure.zep.c
-	phalcon/91__closure.zep.c phalcon/annotations/scanner.c
+	phalcon/91__closure.zep.c
+	phalcon/92__closure.zep.c
+	phalcon/93__closure.zep.c phalcon/annotations/scanner.c
 	phalcon/annotations/parser.c
 	phalcon/mvc/model/orm.c
 	phalcon/mvc/model/query/scanner.c

@@ -60,6 +60,10 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct)
 	ZVAL_UNDEF(&_5);
 	ZVAL_UNDEF(&_6);
 	ZVAL_UNDEF(&_8);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("services", 8, 1);
+	}
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
@@ -268,7 +272,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct)
 	ZEPHIR_CALL_METHOD(NULL, &_1, "__construct", NULL, 173, &_2, &_3);
 	zephir_check_call_status();
 	zephir_array_update_string(&_0, SL("url"), &_1, PH_COPY | PH_SEPARATE);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("services"), &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 261, &_0);
 	ZEPHIR_MM_RESTORE();
 }
 

@@ -87,11 +87,15 @@ PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, __serialize)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("data", 4, 1);
+	}
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_memory_observe(&_0);
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("data"), PH_NOISY_CC);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 37, PH_NOISY_CC);
 	if (Z_TYPE_P(&_0) == IS_ARRAY) {
 		RETURN_MM_MEMBER_TYPED(getThis(), "data", IS_ARRAY);
 	}
@@ -110,6 +114,11 @@ PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, __unserialize)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&data);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("data", 4, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		ZEPHIR_Z_PARAM_ARRAY(data, data_param)
 	ZEND_PARSE_PARAMETERS_END();
@@ -117,7 +126,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, __unserialize)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &data_param);
 	zephir_get_arrval(&data, data_param);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("data"), &data);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 37, &data);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -151,11 +160,16 @@ PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, setData)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&data_sub);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("data", 4, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(data)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &data);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("data"), data);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 37, data);
 }
 
 /**

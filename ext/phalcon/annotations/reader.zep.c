@@ -90,6 +90,11 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse)
 	ZVAL_UNDEF(&_22$$23);
 	ZVAL_UNDEF(&_23$$24);
 	ZVAL_UNDEF(&annotations);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("name", 4, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(className)
 	ZEND_PARSE_PARAMETERS_END();
@@ -174,7 +179,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse)
 					zephir_check_call_status();
 					if (Z_TYPE_P(&propertyAnnotations) == IS_ARRAY) {
 						ZEPHIR_OBS_NVAR(&_9$$13);
-						zephir_read_property(&_9$$13, &property, ZEND_STRL("name"), PH_NOISY_CC);
+						zephir_read_property_cached(&_9$$13, &property, _zephir_prop_0, 0, PH_NOISY_CC);
 						zephir_array_update_zval(&annotationsProperties, &_9$$13, &propertyAnnotations, PH_COPY | PH_SEPARATE);
 					}
 				}
@@ -208,7 +213,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse)
 						zephir_check_call_status();
 						if (Z_TYPE_P(&propertyAnnotations) == IS_ARRAY) {
 							ZEPHIR_OBS_NVAR(&_14$$16);
-							zephir_read_property(&_14$$16, &property, ZEND_STRL("name"), PH_NOISY_CC);
+							zephir_read_property_cached(&_14$$16, &property, _zephir_prop_0, 0, PH_NOISY_CC);
 							zephir_array_update_zval(&annotationsProperties, &_14$$16, &propertyAnnotations, PH_COPY | PH_SEPARATE);
 						}
 					}
@@ -242,7 +247,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse)
 					zephir_check_call_status();
 					if (Z_TYPE_P(&methodAnnotations) == IS_ARRAY) {
 						ZEPHIR_OBS_NVAR(&_18$$21);
-						zephir_read_property(&_18$$21, &method, ZEND_STRL("name"), PH_NOISY_CC);
+						zephir_read_property_cached(&_18$$21, &method, _zephir_prop_0, 0, PH_NOISY_CC);
 						zephir_array_update_zval(&annotationsMethods, &_18$$21, &methodAnnotations, PH_COPY | PH_SEPARATE);
 					}
 				}
@@ -277,7 +282,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse)
 						zephir_check_call_status();
 						if (Z_TYPE_P(&methodAnnotations) == IS_ARRAY) {
 							ZEPHIR_OBS_NVAR(&_23$$24);
-							zephir_read_property(&_23$$24, &method, ZEND_STRL("name"), PH_NOISY_CC);
+							zephir_read_property_cached(&_23$$24, &method, _zephir_prop_0, 0, PH_NOISY_CC);
 							zephir_array_update_zval(&annotationsMethods, &_23$$24, &methodAnnotations, PH_COPY | PH_SEPARATE);
 						}
 					}

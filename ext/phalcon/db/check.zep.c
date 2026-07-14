@@ -98,6 +98,15 @@ PHP_METHOD(Phalcon_Db_Check, __construct)
 	ZVAL_UNDEF(&_0$$3);
 	ZVAL_UNDEF(&_2$$4);
 	ZVAL_UNDEF(&definition);
+	static zend_string *_zephir_prop_0 = NULL;
+	static zend_string *_zephir_prop_1 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("name", 4, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_1)) {
+		_zephir_prop_1 = zend_string_init("expression", 10, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_STR(name)
 		ZEPHIR_Z_PARAM_ARRAY(definition, definition_param)
@@ -131,8 +140,8 @@ PHP_METHOD(Phalcon_Db_Check, __construct)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	zephir_update_property_zval(this_ptr, ZEND_STRL("name"), &name_zv);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("expression"), &expression);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 540, &name_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 541, &expression);
 	ZEPHIR_MM_RESTORE();
 }
 

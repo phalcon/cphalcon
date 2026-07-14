@@ -56,11 +56,16 @@ PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryProducer, __construct)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&context_sub);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("context", 7, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT_OF_CLASS(context, phalcon_queue_adapter_memory_memorycontext_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &context);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("context"), context);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1203, context);
 }
 
 PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryProducer, send)
@@ -75,6 +80,11 @@ PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryProducer, send)
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("context", 7, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_OBJECT_OF_CLASS(destination, phalcon_contracts_queue_destination_ce)
 		Z_PARAM_OBJECT_OF_CLASS(message, phalcon_contracts_queue_message_ce)
@@ -86,7 +96,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryProducer, send)
 	ZVAL_STRING(&_0, "send to");
 	ZEPHIR_CALL_CE_STATIC(NULL, phalcon_queue_adapter_queuedestinationguard_ce, "assertqueue", NULL, 0, destination, &_0);
 	zephir_check_call_status();
-	zephir_read_property(&_1, this_ptr, ZEND_STRL("context"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 1203, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&_2, destination, "getqueuename", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, &_1, "pushmessage", NULL, 0, &_2, message);

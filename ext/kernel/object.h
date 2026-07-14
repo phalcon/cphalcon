@@ -68,6 +68,7 @@ int zephir_isset_property_value_fast(zval *object, zend_string *property_name);
 /** Reading properties */
 int zephir_read_property_ex(zval *result, zval *object, const char *property_name, uint32_t property_length, int silent);
 int zephir_read_property(zval *result, zval *object, const char *property_name, uint32_t property_length, int silent);
+int zephir_read_property_cached(zval *result, zval *object, zend_string *name, zend_ulong cache_slot, int flags);
 int zephir_read_property_zval(zval *result, zval *object, zval *property, int silent);
 int zephir_return_property(zval *return_value, zval *object, char *property_name, unsigned int property_length);
 int zephir_fetch_property(zval *result, zval *object, const char *property_name, uint32_t property_length, int silent);
@@ -76,6 +77,7 @@ int zephir_fetch_property_zval(zval *result, zval *object, zval *property, int s
 /** Updating properties */
 int zephir_update_property_zval_ex(zval *obj, const char *property_name, unsigned int property_length, zval *value);
 int zephir_update_property_zval(zval *obj, const char *property_name, unsigned int property_length, zval *value);
+int zephir_update_property_zval_cached(zval *obj, zend_string *name, zend_ulong cache_slot, zval *value);
 int zephir_update_property_zval_zval(zval *obj, zval *property, zval *value);
 
 /** Updating array properties */

@@ -60,11 +60,16 @@ PHP_METHOD(Phalcon_Auth_AbstractAuthDispatcherListener, __construct)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&manager_sub);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("manager", 7, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT_OF_CLASS(manager, phalcon_contracts_auth_manager_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &manager);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("manager"), manager);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 94, manager);
 }
 
 /**
@@ -109,6 +114,11 @@ PHP_METHOD(Phalcon_Auth_AbstractAuthDispatcherListener, enforce)
 	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_5);
 	ZVAL_UNDEF(&context);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("manager", 7, 1);
+	}
+
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_STR(actionName)
@@ -136,13 +146,13 @@ PHP_METHOD(Phalcon_Auth_AbstractAuthDispatcherListener, enforce)
 		forwardHandler = &forwardHandler_sub;
 		forwardHandler = &__$null;
 	}
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("manager"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 94, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&access, &_0, "getaccess", NULL, 0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&access) == IS_NULL) {
 		RETURN_MM_BOOL(1);
 	}
-	zephir_read_property(&_2, this_ptr, ZEND_STRL("manager"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 94, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&_3, &_2, "guard", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_1, &access, "isallowed", NULL, 0, &_3, &actionName_zv, &context);

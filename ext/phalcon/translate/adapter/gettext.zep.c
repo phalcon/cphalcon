@@ -379,11 +379,16 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, setDefaultDomain)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&domain_zv);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("defaultDomain", 13, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(domain)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&domain_zv, domain);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("defaultDomain"), &domain_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1315, &domain_zv);
 }
 
 /**
@@ -420,6 +425,11 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, setDirectory)
 	ZVAL_UNDEF(&value);
 	ZVAL_UNDEF(&_4$$4);
 	ZVAL_UNDEF(&_6$$7);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("directory", 9, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(directory)
 	ZEND_PARSE_PARAMETERS_END();
@@ -429,7 +439,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, setDirectory)
 	if (ZEPHIR_IS_EMPTY(directory)) {
 		RETURN_MM_NULL();
 	}
-	zephir_update_property_zval(this_ptr, ZEND_STRL("directory"), directory);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1316, directory);
 	if (Z_TYPE_P(directory) == IS_ARRAY) {
 		zephir_is_iterable(directory, 0, "phalcon/Translate/Adapter/Gettext.zep", 250);
 		if (Z_TYPE_P(directory) == IS_ARRAY) {
@@ -555,6 +565,15 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, setLocale)
 	ZVAL_UNDEF(&_8$$3);
 	ZVAL_UNDEF(&_9$$3);
 	ZVAL_UNDEF(&localeArray);
+	static zend_string *_zephir_prop_0 = NULL;
+	static zend_string *_zephir_prop_1 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("locale", 6, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_1)) {
+		_zephir_prop_1 = zend_string_init("category", 8, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_LONG(category)
 		Z_PARAM_OPTIONAL
@@ -572,28 +591,28 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, setLocale)
 	ZVAL_LONG(&_0, category);
 	ZEPHIR_CALL_FUNCTION(&_1, "setlocale", NULL, 0, &_0, &localeArray);
 	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, ZEND_STRL("locale"), &_1);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1317, &_1);
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, category);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("category"), &_0);
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("locale"), PH_NOISY_CC | PH_READONLY);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1318, &_0);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1317, PH_NOISY_CC | PH_READONLY);
 	if (!ZEPHIR_IS_FALSE_IDENTICAL(&_0)) {
-		zephir_read_property(&_2$$3, this_ptr, ZEND_STRL("locale"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_2$$3, this_ptr, _zephir_prop_0, 1317, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_INIT_VAR(&_3$$3);
 		ZEPHIR_CONCAT_SV(&_3$$3, "LC_ALL=", &_2$$3);
 		ZEPHIR_CALL_FUNCTION(NULL, "putenv", NULL, 0, &_3$$3);
 		zephir_check_call_status();
-		zephir_read_property(&_4$$3, this_ptr, ZEND_STRL("locale"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_4$$3, this_ptr, _zephir_prop_0, 1317, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_INIT_VAR(&_5$$3);
 		ZEPHIR_CONCAT_SV(&_5$$3, "LANG=", &_4$$3);
 		ZEPHIR_CALL_FUNCTION(NULL, "putenv", NULL, 0, &_5$$3);
 		zephir_check_call_status();
-		zephir_read_property(&_6$$3, this_ptr, ZEND_STRL("locale"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_6$$3, this_ptr, _zephir_prop_0, 1317, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_INIT_VAR(&_7$$3);
 		ZEPHIR_CONCAT_SV(&_7$$3, "LANGUAGE=", &_6$$3);
 		ZEPHIR_CALL_FUNCTION(NULL, "putenv", NULL, 0, &_7$$3);
 		zephir_check_call_status();
-		zephir_read_property(&_8$$3, this_ptr, ZEND_STRL("locale"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_8$$3, this_ptr, _zephir_prop_0, 1317, PH_NOISY_CC | PH_READONLY);
 		ZVAL_LONG(&_9$$3, 6);
 		ZEPHIR_CALL_FUNCTION(NULL, "setlocale", NULL, 0, &_9$$3, &_8$$3);
 		zephir_check_call_status();

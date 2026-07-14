@@ -120,6 +120,31 @@ PHP_METHOD(Phalcon_Session_Adapter_Redis, __construct)
 	ZVAL_UNDEF(&_10);
 	ZVAL_UNDEF(&options);
 	ZVAL_UNDEF(&_9);
+	static zend_string *_zephir_prop_0 = NULL;
+	static zend_string *_zephir_prop_1 = NULL;
+	static zend_string *_zephir_prop_2 = NULL;
+	static zend_string *_zephir_prop_3 = NULL;
+	static zend_string *_zephir_prop_4 = NULL;
+	static zend_string *_zephir_prop_5 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("lockExpiry", 10, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_1)) {
+		_zephir_prop_1 = zend_string_init("lockingEnabled", 14, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_2)) {
+		_zephir_prop_2 = zend_string_init("lockRetries", 11, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_3)) {
+		_zephir_prop_3 = zend_string_init("lockWaitTime", 12, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_4)) {
+		_zephir_prop_4 = zend_string_init("prefix", 6, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_5)) {
+		_zephir_prop_5 = zend_string_init("adapter", 7, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_OBJECT_OF_CLASS(factory, phalcon_storage_adapterfactory_ce)
 		Z_PARAM_OPTIONAL
@@ -154,16 +179,16 @@ PHP_METHOD(Phalcon_Session_Adapter_Redis, __construct)
 	zephir_check_call_status();
 	ZVAL_UNDEF(&_4);
 	ZVAL_LONG(&_4, zephir_get_intval(&_5));
-	zephir_update_property_zval(this_ptr, ZEND_STRL("lockExpiry"), &_4);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1245, &_4);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "lockingEnabled");
 	ZVAL_BOOL(&_4, 0);
 	ZEPHIR_CALL_METHOD(&_6, this_ptr, "getarrval", NULL, 0, &options, &_1, &_4);
 	zephir_check_call_status();
 	if (zephir_get_boolval(&_6)) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("lockingEnabled"), &__$true);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1246, &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("lockingEnabled"), &__$false);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1246, &__$false);
 	}
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "lockRetries");
@@ -172,7 +197,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Redis, __construct)
 	zephir_check_call_status();
 	ZVAL_UNDEF(&_4);
 	ZVAL_LONG(&_4, zephir_get_intval(&_6));
-	zephir_update_property_zval(this_ptr, ZEND_STRL("lockRetries"), &_4);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 1247, &_4);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "lockWaitTime");
 	ZVAL_LONG(&_4, 50000);
@@ -180,16 +205,16 @@ PHP_METHOD(Phalcon_Session_Adapter_Redis, __construct)
 	zephir_check_call_status();
 	ZVAL_UNDEF(&_4);
 	ZVAL_LONG(&_4, zephir_get_intval(&_7));
-	zephir_update_property_zval(this_ptr, ZEND_STRL("lockWaitTime"), &_4);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 1248, &_4);
 	zephir_memory_observe(&_8);
 	zephir_array_fetch_string(&_8, &options, SL("prefix"), PH_NOISY, "phalcon/Session/Adapter/Redis.zep", 99);
 	zephir_cast_to_string(&_9, &_8);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("prefix"), &_9);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_4, 1249, &_9);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "redis");
 	ZEPHIR_CALL_METHOD(&_10, factory, "newinstance", NULL, 0, &_1, &options);
 	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, ZEND_STRL("adapter"), &_10);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_5, 1250, &_10);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -251,13 +276,22 @@ PHP_METHOD(Phalcon_Session_Adapter_Redis, read)
 	ZVAL_UNDEF(&_3$$3);
 	ZVAL_UNDEF(&_4$$3);
 	ZVAL_UNDEF(&_5$$3);
+	static zend_string *_zephir_prop_0 = NULL;
+	static zend_string *_zephir_prop_1 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("lockingEnabled", 14, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_1)) {
+		_zephir_prop_1 = zend_string_init("lockKey", 7, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(id)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &id);
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("lockingEnabled"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1246, PH_NOISY_CC | PH_READONLY);
 	_1 = ZEPHIR_IS_TRUE_IDENTICAL(&_0);
 	if (_1) {
 		ZEPHIR_CALL_METHOD(&_2, this_ptr, "acquirelock", NULL, 0, id);
@@ -267,7 +301,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Redis, read)
 	if (_1) {
 		ZEPHIR_INIT_VAR(&_3$$3);
 		object_init_ex(&_3$$3, phalcon_session_adapter_exceptions_adapterruntimeerror_ce);
-		zephir_read_property(&_4$$3, this_ptr, ZEND_STRL("lockKey"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_4$$3, this_ptr, _zephir_prop_1, 1251, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_INIT_VAR(&_5$$3);
 		ZEPHIR_CONCAT_SV(&_5$$3, "Could not acquire the session lock with key: ", &_4$$3);
 		ZEPHIR_CALL_METHOD(NULL, &_3$$3, "__construct", NULL, 8, &_5$$3);
@@ -313,26 +347,59 @@ PHP_METHOD(Phalcon_Session_Adapter_Redis, acquireLock)
 	ZVAL_UNDEF(&_10$$4);
 	ZVAL_UNDEF(&_11$$4);
 	ZVAL_UNDEF(&_13$$4);
+	static zend_string *_zephir_prop_0 = NULL;
+	static zend_string *_zephir_prop_1 = NULL;
+	static zend_string *_zephir_prop_2 = NULL;
+	static zend_string *_zephir_prop_3 = NULL;
+	static zend_string *_zephir_prop_4 = NULL;
+	static zend_string *_zephir_prop_5 = NULL;
+	static zend_string *_zephir_prop_6 = NULL;
+	static zend_string *_zephir_prop_7 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("prefix", 6, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_1)) {
+		_zephir_prop_1 = zend_string_init("lockAcquired", 12, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_2)) {
+		_zephir_prop_2 = zend_string_init("lockKey", 7, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_3)) {
+		_zephir_prop_3 = zend_string_init("adapter", 7, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_4)) {
+		_zephir_prop_4 = zend_string_init("lockRetries", 11, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_5)) {
+		_zephir_prop_5 = zend_string_init("lockExpiry", 10, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_6)) {
+		_zephir_prop_6 = zend_string_init("lockToken", 9, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_7)) {
+		_zephir_prop_7 = zend_string_init("lockWaitTime", 12, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(id)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &id);
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("prefix"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1249, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&lockKey);
 	ZEPHIR_CONCAT_VVS(&lockKey, &_0, id, "-lock");
-	zephir_read_property(&_1, this_ptr, ZEND_STRL("lockAcquired"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 1252, PH_NOISY_CC | PH_READONLY);
 	_2 = ZEPHIR_IS_TRUE_IDENTICAL(&_1);
 	if (_2) {
-		zephir_read_property(&_3, this_ptr, ZEND_STRL("lockKey"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_3, this_ptr, _zephir_prop_2, 1251, PH_NOISY_CC | PH_READONLY);
 		_2 = ZEPHIR_IS_IDENTICAL(&lockKey, &_3);
 	}
 	if (_2) {
 		RETURN_MM_BOOL(1);
 	}
-	zephir_update_property_zval(this_ptr, ZEND_STRL("lockKey"), &lockKey);
-	zephir_read_property(&_4, this_ptr, ZEND_STRL("adapter"), PH_NOISY_CC | PH_READONLY);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 1251, &lockKey);
+	zephir_read_property_cached(&_4, this_ptr, _zephir_prop_3, 1250, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&client, &_4, "getadapter", NULL, 0);
 	zephir_check_call_status();
 	ZVAL_LONG(&_5, 16);
@@ -342,12 +409,12 @@ PHP_METHOD(Phalcon_Session_Adapter_Redis, acquireLock)
 	zephir_check_call_status();
 	attempt = 0;
 	while (1) {
-		zephir_read_property(&_5, this_ptr, ZEND_STRL("lockRetries"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_5, this_ptr, _zephir_prop_4, 1247, PH_NOISY_CC | PH_READONLY);
 		if (!(ZEPHIR_GT_LONG(&_5, attempt))) {
 			break;
 		}
-		zephir_read_property(&_7$$4, this_ptr, ZEND_STRL("lockKey"), PH_NOISY_CC | PH_READONLY);
-		zephir_read_property(&_8$$4, this_ptr, ZEND_STRL("lockExpiry"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_7$$4, this_ptr, _zephir_prop_2, 1251, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_8$$4, this_ptr, _zephir_prop_5, 1245, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_INIT_NVAR(&_9$$4);
 		ZVAL_STRING(&_9$$4, "SET");
 		ZEPHIR_INIT_NVAR(&_10$$4);
@@ -358,14 +425,14 @@ PHP_METHOD(Phalcon_Session_Adapter_Redis, acquireLock)
 		zephir_check_call_status();
 		if (!ZEPHIR_IS_FALSE_IDENTICAL(&result)) {
 			if (1) {
-				zephir_update_property_zval(this_ptr, ZEND_STRL("lockAcquired"), &__$true);
+				zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1252, &__$true);
 			} else {
-				zephir_update_property_zval(this_ptr, ZEND_STRL("lockAcquired"), &__$false);
+				zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1252, &__$false);
 			}
-			zephir_update_property_zval(this_ptr, ZEND_STRL("lockToken"), &token);
+			zephir_update_property_zval_cached(this_ptr, _zephir_prop_6, 1253, &token);
 			RETURN_MM_BOOL(1);
 		}
-		zephir_read_property(&_13$$4, this_ptr, ZEND_STRL("lockWaitTime"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_13$$4, this_ptr, _zephir_prop_7, 1248, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_FUNCTION(NULL, "usleep", &_14, 73, &_13$$4);
 		zephir_check_call_status();
 		attempt++;
@@ -394,33 +461,49 @@ PHP_METHOD(Phalcon_Session_Adapter_Redis, releaseLock)
 	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_5);
 	ZVAL_UNDEF(&script);
+	static zend_string *_zephir_prop_0 = NULL;
+	static zend_string *_zephir_prop_1 = NULL;
+	static zend_string *_zephir_prop_2 = NULL;
+	static zend_string *_zephir_prop_3 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("lockAcquired", 12, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_1)) {
+		_zephir_prop_1 = zend_string_init("adapter", 7, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_2)) {
+		_zephir_prop_2 = zend_string_init("lockKey", 7, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_3)) {
+		_zephir_prop_3 = zend_string_init("lockToken", 9, 1);
+	}
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("lockAcquired"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1252, PH_NOISY_CC | PH_READONLY);
 	if (!ZEPHIR_IS_TRUE_IDENTICAL(&_0)) {
 		RETURN_MM_NULL();
 	}
 	ZEPHIR_INIT_VAR(&script);
 	ZVAL_STRING(&script, "if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end");
-	zephir_read_property(&_1, this_ptr, ZEND_STRL("adapter"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 1250, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&client, &_1, "getadapter", NULL, 0);
 	zephir_check_call_status();
-	zephir_read_property(&_2, this_ptr, ZEND_STRL("lockKey"), PH_NOISY_CC | PH_READONLY);
-	zephir_read_property(&_3, this_ptr, ZEND_STRL("lockToken"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_2, 1251, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_3, 1253, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_4);
 	ZVAL_STRING(&_4, "EVAL");
 	ZVAL_LONG(&_5, 1);
 	ZEPHIR_CALL_METHOD(NULL, &client, "rawcommand", NULL, 0, &_4, &script, &_5, &_2, &_3);
 	zephir_check_call_status();
 	if (0) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("lockAcquired"), &__$true);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1252, &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("lockAcquired"), &__$false);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1252, &__$false);
 	}
 	ZEPHIR_INIT_NVAR(&_4);
 	ZVAL_STRING(&_4, "");
-	zephir_update_property_zval(this_ptr, ZEND_STRL("lockToken"), &_4);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 1253, &_4);
 	ZEPHIR_MM_RESTORE();
 }
 
