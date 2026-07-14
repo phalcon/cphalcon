@@ -39,6 +39,7 @@ use Phalcon\Mvc\Model\Query\Exceptions\InvalidInjectedManager;
 use Phalcon\Mvc\Model\Query\Exceptions\InvalidInjectedMetadata;
 use Phalcon\Mvc\Model\Query\Exceptions\InvalidQueryCacheService;
 use Phalcon\Mvc\Model\Query\Exceptions\InvalidResultsetClass;
+use Phalcon\Mvc\Model\Query\Exceptions\InvalidResultsetRowClass;
 use Phalcon\Mvc\Model\Query\Exceptions\JoinAliasAlreadyUsed;
 use Phalcon\Mvc\Model\Query\Exceptions\JoinFieldCountMismatch;
 use Phalcon\Mvc\Model\Query\Exceptions\MissingCacheKey;
@@ -55,6 +56,7 @@ use Phalcon\Mvc\Model\Query\Exceptions\ReadConnectionMissing;
 use Phalcon\Mvc\Model\Query\Exceptions\RelationshipNotFound;
 use Phalcon\Mvc\Model\Query\Exceptions\ResultsetClassNotFound;
 use Phalcon\Mvc\Model\Query\Exceptions\ResultsetNonCacheable;
+use Phalcon\Mvc\Model\Query\Exceptions\ResultsetRowClassNotFound;
 use Phalcon\Mvc\Model\Query\Exceptions\UnknownBindType;
 use Phalcon\Mvc\Model\Query\Exceptions\UnknownColumnType;
 use Phalcon\Mvc\Model\Query\Exceptions\UnknownJoinType;
@@ -218,6 +220,11 @@ class Query implements QueryInterface, InjectionAwareInterface
      * @var string|null
      */
     protected phql = null;
+
+    /**
+     * @var string
+     */
+    protected resultsetRowClass = "";
 
     /**
      * @var bool
@@ -598,6 +605,16 @@ class Query implements QueryInterface, InjectionAwareInterface
     }
 
     /**
+     * Returns the class that will be used to hydrate rows that are not mapped
+     * to a model (custom columns/joins). An empty string means the default
+     * Phalcon\Mvc\Model\Row is used.
+     */
+    public function getResultsetRowClass() -> string
+    {
+        return this->resultsetRowClass;
+    }
+
+    /**
      * Check if the query is programmed to get only the first row in the
      * resultset
      *
@@ -802,6 +819,26 @@ class Query implements QueryInterface, InjectionAwareInterface
     public function setType(int type) -> <QueryInterface>
     {
         let this->type = type;
+
+        return this;
+    }
+
+    /**
+     * Sets the class used to hydrate rows that are not mapped to a model
+     * (custom columns/joins). The class must be a subclass of
+     * Phalcon\Mvc\Model\Row.
+     */
+    public function setResultsetRowClass(string resultsetRowClass) -> <QueryInterface>
+    {
+        if unlikely !class_exists(resultsetRowClass) {
+            throw new ResultsetRowClassNotFound(resultsetRowClass);
+        }
+
+        if unlikely !is_subclass_of(resultsetRowClass, "Phalcon\\Mvc\\Model\\Row") {
+            throw new InvalidResultsetRowClass(resultsetRowClass);
+        }
+
+        let this->resultsetRowClass = resultsetRowClass;
 
         return this;
     }
@@ -1339,9 +1376,13 @@ class Query implements QueryInterface, InjectionAwareInterface
             if isSimpleStd {
                 /**
                  * If the result is a simple standard object use an
-                 * Phalcon\Mvc\Model\Row as base
+                 * Phalcon\Mvc\Model\Row as base (or a custom subclass when set)
                  */
-                let resultObject = new Row();
+                if this->resultsetRowClass !== "" {
+                    let resultObject = create_instance(this->resultsetRowClass);
+                } else {
+                    let resultObject = new Row();
+                }
 
                 /**
                  * Standard objects can't keep snapshots
@@ -1433,7 +1474,8 @@ class Query implements QueryInterface, InjectionAwareInterface
         return new Complex(
             columns1,
             resultData,
-            cache
+            cache,
+            this->resultsetRowClass
         );
     }
 
