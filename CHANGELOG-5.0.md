@@ -1,10 +1,12 @@
 # Changelog
 
+All notable changes to `phalcon/debugbar` are documented here. The format is based on [Keep a Changelog][keep_a_changelog] and this project adheres to [Semantic Versioning][semantic_versioning].
+
 ## [5.17.0](https://github.com/phalcon/cphalcon/releases/tag/v5.17.0) (2026-xx-xx)
 
 ### Tools
 
-- Zephir 1.0.0 (69221aae6)
+- Zephir 1.0.0 (e9bcfae15)
  
 ### Changed
 
@@ -64,6 +66,7 @@
 - Fixed `Phalcon\Http\Response::getStatusCode()` and `Phalcon\Http\Response::getReasonPhrase()` raising a `TypeError` (`substr(): Argument #1 ($string) must be of type string, bool given`) when no `Status` header had been set (e.g. a response built with only `setContent()`), because `Phalcon\Http\Response\Headers::get('Status')` returns `false` for an absent header; the header value is now cast to string before `substr()`, so both methods return `null` as documented. [#17248](https://github.com/phalcon/cphalcon/issues/17248) [[doc]](https://docs.phalcon.io/5.17/http-response/)
 - Fixed `Phalcon\Image\Adapter\AbstractAdapter::resize()` truncating the scaled master-mode (`Enum::WIDTH`, `Enum::HEIGHT`, `Enum::PRECISE`) dimension to an `int` before rounding, so a value whose fractional part was `>= 0.5` came out one pixel short (e.g. a `1820x694` source resized to height `80` produced width `209` instead of `210`); the scaled width/height are now rounded before the integer cast. [#17225](https://github.com/phalcon/cphalcon/issues/17225) [[doc]](https://docs.phalcon.io/5.17/image/)
 - Fixed `Phalcon\Mvc\Model::create()` and `Phalcon\Mvc\Model::update()` passing `null` to the `field` argument of `Phalcon\Messages\Message` (typed `string` since v5.14), which raised a `Passing null to parameter #2 ($field) of type string is deprecated` warning when calling `create()` on an existing record or `update()` on a non-existent one; they now pass an empty string. [#17224](https://github.com/phalcon/cphalcon/issues/17224) [[doc]](https://docs.phalcon.io/5.17/db-models/)
+- Fixed `Phalcon\Mvc\Model\Query::executeUpdate()` raising a PDO `Invalid parameter number: mixed named and positional parameters` error for a PHQL `UPDATE` whose `SET` clause is an expression carrying a bound placeholder (e.g. `SET col = col + :inc:`): the named placeholder is now resolved from the bind parameters and inlined into the expression before the `Phalcon\Db\RawValue` is built, so it no longer collides with the positional `?` marker of the primary-key `WHERE` clause, and the placeholder is removed from the bind parameters forwarded to the pre-update `SELECT`. [#16976](https://github.com/phalcon/cphalcon/issues/16976) [[doc]](https://docs.phalcon.io/5.17/db-models/)
 - Fixed a segmentation fault when rendering a Volt template that `extends` a parent chain but defines no blocks of its own, where a block declared higher in the chain calls `{{ partial() }}`: `Phalcon\Mvc\View\Engine\Volt\Compiler::compileSource()` passed a `null` `blocks` value to `array_key_exists()`, which read it as an array from an uninitialized pointer; `blocks` is now coerced to an empty array so any inheritance depth is handled. [#17294](https://github.com/phalcon/cphalcon/issues/17294) [[doc]](https://docs.phalcon.io/5.17/volt/)
 - Fixed the PHP 8.4/8.5 deprecation notices raised by the extension: removed the `imagedestroy()` calls in `Phalcon\Image\Adapter\Gd` (a no-op since PHP 8.0), the `finfo_close()` calls in `Phalcon\Http\Request\File` and `Phalcon\Filter\Validation\Validator\File\MimeType` and the `ReflectionProperty::setAccessible()` call in `Phalcon\Support\Debug\Dump` (no-ops since PHP 8.1), clamped the random pad byte in `Phalcon\Encryption\Crypt\Padding\Iso10126` to `chr(rand() % 256)` to avoid the out-of-range `chr()` deprecation on PHP 8.5, and guarded `Phalcon\Messages\Messages::offsetSet()` against an implicit `null` array offset. [#17253](https://github.com/phalcon/cphalcon/issues/17253) [[doc]](https://docs.phalcon.io/5.17/)
 
@@ -2341,3 +2344,7 @@
 - Changes to the `Phalcon\Annotations\Adapter\AdapterInterface`:
     - Added `getConstant()` method that returns class constant annotations collection
     - Added `getConstants()` method that returns class constants annotations array list
+
+
+[keep_a_changelog]: https://keepachangelog.com/en/1.1.0/
+[semantic_versioning]: https://semver.org/spec/v2.0.0.html
