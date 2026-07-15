@@ -960,6 +960,8 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
 
     /**
      * Gets attached files as Phalcon\Http\Request\File instances
+     *
+     * @return FileInterface[]
      */
     public function getUploadedFiles(
         bool onlySuccessful = false,

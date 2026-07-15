@@ -274,6 +274,8 @@ interface RequestInterface
     /**
      * Gets attached files as Phalcon\Http\Request\FileInterface compatible
      * instances
+     *
+     * @return FileInterface[]
      */
     public function getUploadedFiles(
         bool onlySuccessful = false,
