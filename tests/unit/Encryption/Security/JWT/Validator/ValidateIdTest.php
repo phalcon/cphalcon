@@ -35,4 +35,23 @@ final class ValidateIdTest extends AbstractUnitTestCase
         $actual   = $validator->getErrors();
         $this->assertSame($expected, $actual);
     }
+
+    /**
+     * Tests that a null id expresses no expectation and is skipped.
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/17361
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-07-15
+     */
+    public function testEncryptionSecurityJWTValidatorValidateIdNull(): void
+    {
+        $token     = $this->newToken();
+        $validator = new Validator($token);
+
+        $validator->validateId(null);
+
+        $expected = [];
+        $actual   = $validator->getErrors();
+        $this->assertSame($expected, $actual);
+    }
 }
