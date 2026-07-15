@@ -406,7 +406,6 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, validateAudience)
  * @param int $timestamp
  *
  * @return static
- * @throws ValidatorException
  */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, validateExpiration)
 {
@@ -471,17 +470,18 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, validateExpiration)
 /**
  * Validate the id of the token
  *
- * @param string $id
+ * A null id expresses no expectation and is skipped.
+ *
+ * @param string|null $id
  *
  * @return static
- * @throws ValidatorException
  */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, validateId)
 {
 	zval _4;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval id_zv, tokenId, _0, _1, _2, _3, _5$$3;
+	zval id_zv, tokenId, _0, _1, _2, _3, _5$$4;
 	zend_string *id = NULL;
 	zval *this_ptr = getThis();
 
@@ -491,20 +491,29 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, validateId)
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
-	ZVAL_UNDEF(&_5$$3);
+	ZVAL_UNDEF(&_5$$4);
 	ZVAL_UNDEF(&_4);
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("token", 5, 1);
 	}
 
-	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_STR(id)
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_STR_OR_NULL(id)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_memory_observe(&id_zv);
+	if (!id) {
+		ZEPHIR_INIT_VAR(&id_zv);
+	} else {
+		zephir_memory_observe(&id_zv);
 	ZVAL_STR_COPY(&id_zv, id);
+	}
+	if (Z_TYPE_P(&id_zv) == IS_NULL) {
+		RETURN_THIS();
+	}
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 660, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&_1, &_0, "getclaims", NULL, 0);
 	zephir_check_call_status();
@@ -515,10 +524,10 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, validateId)
 	zephir_cast_to_string(&_4, &_2);
 	ZEPHIR_CPY_WRT(&tokenId, &_4);
 	if (!ZEPHIR_IS_IDENTICAL(&id_zv, &tokenId)) {
-		ZVAL_UNDEF(&_5$$3);
-		ZEPHIR_INIT_VAR(&_5$$3);
-		ZVAL_STRING(&_5$$3, "Validation: incorrect Id");
-		zephir_update_property_array_append(this_ptr, SL("errors"), &_5$$3);
+		ZVAL_UNDEF(&_5$$4);
+		ZEPHIR_INIT_VAR(&_5$$4);
+		ZVAL_STRING(&_5$$4, "Validation: incorrect Id");
+		zephir_update_property_array_append(this_ptr, SL("errors"), &_5$$4);
 	}
 	RETURN_THIS();
 }
@@ -526,10 +535,12 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, validateId)
 /**
  * Validate the issued at (iat) of the token
  *
+ * A token issued at exactly $timestamp is valid. Only a token issued after
+ * it, i.e. in the future, is rejected.
+ *
  * @param int $timestamp
  *
  * @return static
- * @throws ValidatorException
  */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, validateIssuedAt)
 {
@@ -567,7 +578,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, validateIssuedAt)
 	ZVAL_LONG(&_5, timestamp);
 	ZEPHIR_CALL_METHOD(&_4, this_ptr, "gettimestamp", NULL, 0, &_5);
 	zephir_check_call_status();
-	if (ZEPHIR_LE_LONG(&_4, tokenIssuedAt)) {
+	if (ZEPHIR_LT_LONG(&_4, tokenIssuedAt)) {
 		ZVAL_UNDEF(&_6$$3);
 		ZEPHIR_INIT_VAR(&_6$$3);
 		ZVAL_STRING(&_6$$3, "Validation: the token cannot be used yet (future)");
@@ -579,17 +590,18 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, validateIssuedAt)
 /**
  * Validate the issuer of the token
  *
- * @param string $issuer
+ * A null issuer expresses no expectation and is skipped.
+ *
+ * @param string|null $issuer
  *
  * @return static
- * @throws ValidatorException
  */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, validateIssuer)
 {
 	zval _4;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval issuer_zv, tokenIssuer, _0, _1, _2, _3, _5$$3;
+	zval issuer_zv, tokenIssuer, _0, _1, _2, _3, _5$$4;
 	zend_string *issuer = NULL;
 	zval *this_ptr = getThis();
 
@@ -599,20 +611,29 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, validateIssuer)
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
-	ZVAL_UNDEF(&_5$$3);
+	ZVAL_UNDEF(&_5$$4);
 	ZVAL_UNDEF(&_4);
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("token", 5, 1);
 	}
 
-	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_STR(issuer)
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_STR_OR_NULL(issuer)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_memory_observe(&issuer_zv);
+	if (!issuer) {
+		ZEPHIR_INIT_VAR(&issuer_zv);
+	} else {
+		zephir_memory_observe(&issuer_zv);
 	ZVAL_STR_COPY(&issuer_zv, issuer);
+	}
+	if (Z_TYPE_P(&issuer_zv) == IS_NULL) {
+		RETURN_THIS();
+	}
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 660, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&_1, &_0, "getclaims", NULL, 0);
 	zephir_check_call_status();
@@ -623,10 +644,10 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, validateIssuer)
 	zephir_cast_to_string(&_4, &_2);
 	ZEPHIR_CPY_WRT(&tokenIssuer, &_4);
 	if (!ZEPHIR_IS_IDENTICAL(&issuer_zv, &tokenIssuer)) {
-		ZVAL_UNDEF(&_5$$3);
-		ZEPHIR_INIT_VAR(&_5$$3);
-		ZVAL_STRING(&_5$$3, "Validation: incorrect issuer");
-		zephir_update_property_array_append(this_ptr, SL("errors"), &_5$$3);
+		ZVAL_UNDEF(&_5$$4);
+		ZEPHIR_INIT_VAR(&_5$$4);
+		ZVAL_STRING(&_5$$4, "Validation: incorrect issuer");
+		zephir_update_property_array_append(this_ptr, SL("errors"), &_5$$4);
 	}
 	RETURN_THIS();
 }
@@ -634,10 +655,12 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, validateIssuer)
 /**
  * Validate the notbefore (nbf) of the token
  *
+ * A token is valid at exactly $timestamp. Only a timestamp before the
+ * "nbf" claim is rejected.
+ *
  * @param int $timestamp
  *
  * @return static
- * @throws ValidatorException
  */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, validateNotBefore)
 {
@@ -675,7 +698,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, validateNotBefore)
 	ZVAL_LONG(&_5, timestamp);
 	ZEPHIR_CALL_METHOD(&_4, this_ptr, "gettimestamp", NULL, 0, &_5);
 	zephir_check_call_status();
-	if (ZEPHIR_LE_LONG(&_4, tokenNotBefore)) {
+	if (ZEPHIR_LT_LONG(&_4, tokenNotBefore)) {
 		ZVAL_UNDEF(&_6$$3);
 		ZEPHIR_INIT_VAR(&_6$$3);
 		ZVAL_STRING(&_6$$3, "Validation: the token cannot be used yet (not before)");
@@ -691,7 +714,6 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, validateNotBefore)
  * @param string          $passphrase
  *
  * @return static
- * @throws ValidatorException
  */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, validateSignature)
 {
@@ -739,6 +761,71 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, validateSignature)
 		ZEPHIR_INIT_VAR(&_6$$3);
 		ZVAL_STRING(&_6$$3, "Validation: the signature does not match");
 		zephir_update_property_array_append(this_ptr, SL("errors"), &_6$$3);
+	}
+	RETURN_THIS();
+}
+
+/**
+ * Validate the subject of the token
+ *
+ * A null subject expresses no expectation and is skipped.
+ *
+ * @param string|null $subject
+ *
+ * @return static
+ */
+PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, validateSubject)
+{
+	zval _4;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval subject_zv, tokenSubject, _0, _1, _2, _3, _5$$4;
+	zend_string *subject = NULL;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&subject_zv);
+	ZVAL_UNDEF(&tokenSubject);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_5$$4);
+	ZVAL_UNDEF(&_4);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("token", 5, 1);
+	}
+
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_STR_OR_NULL(subject)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	if (!subject) {
+		ZEPHIR_INIT_VAR(&subject_zv);
+	} else {
+		zephir_memory_observe(&subject_zv);
+	ZVAL_STR_COPY(&subject_zv, subject);
+	}
+	if (Z_TYPE_P(&subject_zv) == IS_NULL) {
+		RETURN_THIS();
+	}
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 660, PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_CALL_METHOD(&_1, &_0, "getclaims", NULL, 0);
+	zephir_check_call_status();
+	ZEPHIR_INIT_VAR(&_3);
+	ZVAL_STRING(&_3, "sub");
+	ZEPHIR_CALL_METHOD(&_2, &_1, "get", NULL, 0, &_3);
+	zephir_check_call_status();
+	zephir_cast_to_string(&_4, &_2);
+	ZEPHIR_CPY_WRT(&tokenSubject, &_4);
+	if (!ZEPHIR_IS_IDENTICAL(&subject_zv, &tokenSubject)) {
+		ZVAL_UNDEF(&_5$$4);
+		ZEPHIR_INIT_VAR(&_5$$4);
+		ZVAL_STRING(&_5$$4, "Validation: incorrect subject");
+		zephir_update_property_array_append(this_ptr, SL("errors"), &_5$$4);
 	}
 	RETURN_THIS();
 }

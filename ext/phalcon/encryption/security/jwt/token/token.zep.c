@@ -200,6 +200,11 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, getToken)
 }
 
 /**
+ * Validate the token against the claims registered in the validator.
+ *
+ * Only claims that have a value in the validator are checked. A claim left
+ * as null expresses no expectation and is skipped.
+ *
  * @param Validator $validator
  *
  * @return array
@@ -211,10 +216,10 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, validate)
 	zval methods;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *validator, validator_sub, claimId, method, _0, _1, *_2;
+	zval *validator, validator_sub, claimValue, method, _0, _1, *_2;
 
 	ZVAL_UNDEF(&validator_sub);
-	ZVAL_UNDEF(&claimId);
+	ZVAL_UNDEF(&claimValue);
 	ZVAL_UNDEF(&method);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
@@ -226,7 +231,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, validate)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &validator);
 	ZEPHIR_INIT_VAR(&methods);
-	zephir_create_array(&methods, 6, 0);
+	zephir_create_array(&methods, 7, 0);
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "aud");
 	ZEPHIR_CALL_METHOD(&_0, validator, "get", NULL, 0, &_1);
@@ -257,7 +262,12 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, validate)
 	ZEPHIR_CALL_METHOD(&_0, validator, "get", NULL, 0, &_1);
 	zephir_check_call_status();
 	zephir_array_update_string(&methods, SL("validateNotBefore"), &_0, PH_COPY | PH_SEPARATE);
-	zephir_is_iterable(&methods, 0, "phalcon/Encryption/Security/JWT/Token/Token.zep", 135);
+	ZEPHIR_INIT_NVAR(&_1);
+	ZVAL_STRING(&_1, "sub");
+	ZEPHIR_CALL_METHOD(&_0, validator, "get", NULL, 0, &_1);
+	zephir_check_call_status();
+	zephir_array_update_string(&methods, SL("validateSubject"), &_0, PH_COPY | PH_SEPARATE);
+	zephir_is_iterable(&methods, 0, "phalcon/Encryption/Security/JWT/Token/Token.zep", 143);
 	ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&methods), _3, _4, _2)
 	{
 		ZEPHIR_INIT_NVAR(&method);
@@ -266,12 +276,14 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, validate)
 		} else {
 			ZVAL_LONG(&method, _3);
 		}
-		ZEPHIR_INIT_NVAR(&claimId);
-		ZVAL_COPY(&claimId, _2);
-		ZEPHIR_CALL_METHOD_ZVAL(NULL, validator, &method, NULL, 0, &claimId);
-		zephir_check_call_status();
+		ZEPHIR_INIT_NVAR(&claimValue);
+		ZVAL_COPY(&claimValue, _2);
+		if (Z_TYPE_P(&claimValue) != IS_NULL) {
+			ZEPHIR_CALL_METHOD_ZVAL(NULL, validator, &method, NULL, 0, &claimValue);
+			zephir_check_call_status();
+		}
 	} ZEND_HASH_FOREACH_END();
-	ZEPHIR_INIT_NVAR(&claimId);
+	ZEPHIR_INIT_NVAR(&claimValue);
 	ZEPHIR_INIT_NVAR(&method);
 	ZEPHIR_RETURN_CALL_METHOD(validator, "geterrors", NULL, 0);
 	zephir_check_call_status();
