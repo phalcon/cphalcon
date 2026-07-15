@@ -235,6 +235,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getServerName);
 /**
  * Gets attached files as Phalcon\Http\Request\FileInterface compatible
  * instances
+ *
+ * @return FileInterface[]
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getUploadedFiles);
 /**

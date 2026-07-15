@@ -16,6 +16,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, validateIssuedAt);
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, validateIssuer);
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, validateNotBefore);
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, validateSignature);
+PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, validateSubject);
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, getTimestamp);
 zend_object *zephir_init_properties_Phalcon_Encryption_Security_JWT_Validator(zend_class_entry *class_type);
 
@@ -54,16 +55,16 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_encryption_security_jwt_
 	ZEND_ARG_TYPE_INFO(0, timestamp, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_encryption_security_jwt_validator_validateid, 0, 1, MAY_BE_STATIC)
-	ZEND_ARG_TYPE_INFO(0, id, IS_STRING, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_encryption_security_jwt_validator_validateid, 0, 0, MAY_BE_STATIC)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, id, IS_STRING, 1, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_encryption_security_jwt_validator_validateissuedat, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, timestamp, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_encryption_security_jwt_validator_validateissuer, 0, 1, MAY_BE_STATIC)
-	ZEND_ARG_TYPE_INFO(0, issuer, IS_STRING, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_encryption_security_jwt_validator_validateissuer, 0, 0, MAY_BE_STATIC)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, issuer, IS_STRING, 1, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_encryption_security_jwt_validator_validatenotbefore, 0, 1, MAY_BE_STATIC)
@@ -73,6 +74,10 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_encryption_security_jwt_validator_validatesignature, 0, 2, MAY_BE_STATIC)
 	ZEND_ARG_OBJ_INFO(0, signer, Phalcon\\Encryption\\Security\\JWT\\Signer\\SignerInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, passphrase, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_encryption_security_jwt_validator_validatesubject, 0, 0, MAY_BE_STATIC)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, subject, IS_STRING, 1, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_jwt_validator_gettimestamp, 0, 1, IS_LONG, 0)
@@ -96,6 +101,7 @@ ZEPHIR_INIT_FUNCS(phalcon_encryption_security_jwt_validator_method_entry) {
 	PHP_ME(Phalcon_Encryption_Security_JWT_Validator, validateIssuer, arginfo_phalcon_encryption_security_jwt_validator_validateissuer, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Encryption_Security_JWT_Validator, validateNotBefore, arginfo_phalcon_encryption_security_jwt_validator_validatenotbefore, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Encryption_Security_JWT_Validator, validateSignature, arginfo_phalcon_encryption_security_jwt_validator_validatesignature, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Encryption_Security_JWT_Validator, validateSubject, arginfo_phalcon_encryption_security_jwt_validator_validatesubject, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Encryption_Security_JWT_Validator, getTimestamp, arginfo_phalcon_encryption_security_jwt_validator_gettimestamp, ZEND_ACC_PRIVATE)
 	PHP_FE_END
 };

@@ -193,7 +193,6 @@ class Validator
      * @param int $timestamp
      *
      * @return static
-     * @throws ValidatorException
      */
     public function validateExpiration(int timestamp) -> <static>
     {
@@ -214,14 +213,19 @@ class Validator
     /**
      * Validate the id of the token
      *
-     * @param string $id
+     * A null id expresses no expectation and is skipped.
+     *
+     * @param string|null $id
      *
      * @return static
-     * @throws ValidatorException
      */
-    public function validateId(string id) -> <static>
+    public function validateId(string id = null) -> <static>
     {
         var tokenId;
+
+        if (null === id) {
+            return this;
+        }
 
         let tokenId = (string) this->token->getClaims()->get(Enum::ID);
 
@@ -235,10 +239,12 @@ class Validator
     /**
      * Validate the issued at (iat) of the token
      *
+     * A token issued at exactly $timestamp is valid. Only a token issued after
+     * it, i.e. in the future, is rejected.
+     *
      * @param int $timestamp
      *
      * @return static
-     * @throws ValidatorException
      */
     public function validateIssuedAt(int timestamp) -> <static>
     {
@@ -246,7 +252,7 @@ class Validator
 
         let tokenIssuedAt = (int) this->token->getClaims()->get(Enum::ISSUED_AT);
 
-        if (this->getTimestamp(timestamp) <= tokenIssuedAt) {
+        if (this->getTimestamp(timestamp) < tokenIssuedAt) {
             let this->errors[] = "Validation: the token cannot be used yet (future)";
         }
 
@@ -256,14 +262,19 @@ class Validator
     /**
      * Validate the issuer of the token
      *
-     * @param string $issuer
+     * A null issuer expresses no expectation and is skipped.
+     *
+     * @param string|null $issuer
      *
      * @return static
-     * @throws ValidatorException
      */
-    public function validateIssuer( string issuer) -> <static>
+    public function validateIssuer(string issuer = null) -> <static>
     {
         var tokenIssuer;
+
+        if (null === issuer) {
+            return this;
+        }
 
         let tokenIssuer = (string) this->token->getClaims()->get(Enum::ISSUER);
 
@@ -277,10 +288,12 @@ class Validator
     /**
      * Validate the notbefore (nbf) of the token
      *
+     * A token is valid at exactly $timestamp. Only a timestamp before the
+     * "nbf" claim is rejected.
+     *
      * @param int $timestamp
      *
      * @return static
-     * @throws ValidatorException
      */
     public function validateNotBefore(int timestamp) -> <static>
     {
@@ -288,7 +301,7 @@ class Validator
 
         let tokenNotBefore = (int) this->token->getClaims()->get(Enum::NOT_BEFORE);
 
-        if (this->getTimestamp(timestamp) <= tokenNotBefore) {
+        if (this->getTimestamp(timestamp) < tokenNotBefore) {
             let this->errors[] = "Validation: the token cannot be used yet (not before)";
         }
 
@@ -302,7 +315,6 @@ class Validator
      * @param string          $passphrase
      *
      * @return static
-     * @throws ValidatorException
      */
     public function validateSignature(
         <SignerInterface> signer,
@@ -316,6 +328,32 @@ class Validator
             )
         ) {
             let this->errors[] = "Validation: the signature does not match";
+        }
+
+        return this;
+    }
+
+    /**
+     * Validate the subject of the token
+     *
+     * A null subject expresses no expectation and is skipped.
+     *
+     * @param string|null $subject
+     *
+     * @return static
+     */
+    public function validateSubject(string subject = null) -> <static>
+    {
+        var tokenSubject;
+
+        if (null === subject) {
+            return this;
+        }
+
+        let tokenSubject = (string) this->token->getClaims()->get(Enum::SUBJECT);
+
+        if (subject !== tokenSubject) {
+            let this->errors[] = "Validation: incorrect subject";
         }
 
         return this;

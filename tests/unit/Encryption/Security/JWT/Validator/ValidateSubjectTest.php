@@ -15,40 +15,41 @@ use Phalcon\Encryption\Security\JWT\Validator;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Encryption\Fake\JWTTrait;
 
-final class ValidateIssuerTest extends AbstractUnitTestCase
+final class ValidateSubjectTest extends AbstractUnitTestCase
 {
     use JWTTrait;
 
     /**
+     * @issue  https://github.com/phalcon/cphalcon/issues/17361
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2020-09-09
+     * @since  2026-07-15
      */
-    public function testEncryptionSecurityJWTValidatorValidateIssuer(): void
+    public function testEncryptionSecurityJWTValidatorValidateSubject(): void
     {
         $token     = $this->newToken();
         $validator = new Validator($token);
         $this->assertInstanceOf(Validator::class, $validator);
 
-        $validator->validateIssuer("unknown");
+        $validator->validateSubject("unknown");
 
-        $expected = ["Validation: incorrect issuer"];
+        $expected = ["Validation: incorrect subject"];
         $actual   = $validator->getErrors();
         $this->assertSame($expected, $actual);
     }
 
     /**
-     * Tests that a null issuer expresses no expectation and is skipped.
+     * Tests that a null subject expresses no expectation and is skipped.
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/17361
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-07-15
      */
-    public function testEncryptionSecurityJWTValidatorValidateIssuerNull(): void
+    public function testEncryptionSecurityJWTValidatorValidateSubjectNull(): void
     {
         $token     = $this->newToken();
         $validator = new Validator($token);
 
-        $validator->validateIssuer(null);
+        $validator->validateSubject(null);
 
         $expected = [];
         $actual   = $validator->getErrors();

@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Encryption\Security\JWT\Validator;
 
+use Phalcon\Encryption\Security\JWT\Token\Enum;
 use Phalcon\Encryption\Security\JWT\Validator;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Encryption\Fake\JWTTrait;
@@ -33,6 +34,27 @@ final class ValidateNotBeforeTest extends AbstractUnitTestCase
         $validator->validateNotBefore($timestamp);
 
         $expected = ["Validation: the token cannot be used yet (not before)"];
+        $actual   = $validator->getErrors();
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * Tests that a token is valid at exactly the "nbf" claim. Only a timestamp
+     * before it is rejected.
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/17361
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-07-15
+     */
+    public function testEncryptionSecurityJWTValidatorValidateNotBeforeSameSecond(): void
+    {
+        $token     = $this->newToken();
+        $timestamp = $token->getClaims()->get(Enum::NOT_BEFORE);
+        $validator = new Validator($token);
+
+        $validator->validateNotBefore($timestamp);
+
+        $expected = [];
         $actual   = $validator->getErrors();
         $this->assertSame($expected, $actual);
     }
