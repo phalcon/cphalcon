@@ -16,6 +16,7 @@ namespace Phalcon\Tests\Database\Mvc\Model;
 use Phalcon\Mvc\Model;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Models\Invoices;
+use Phalcon\Tests\Support\Models\InvoicesWithPrivateSetters;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\Group;
 
@@ -58,5 +59,28 @@ final class CloneResultTest extends AbstractDatabaseTestCase
             Model::DIRTY_STATE_PERSISTENT,
             $clone->getDirtyState()
         );
+    }
+
+    /**
+     * Tests that cloneResult() does NOT call the setter of a private property
+     * during hydration; the raw DB value must be written directly.
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/16454
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-07-16
+     */
+    public function testMvcModelCloneResultPrivateDoesNotCallSetter(): void
+    {
+        /** @var InvoicesWithPrivateSetters $clone */
+        $clone = Model::cloneResult(
+            new InvoicesWithPrivateSetters(),
+            [
+                'inv_id'      => 5,
+                'secretValue' => 'raw-db-value',
+            ]
+        );
+
+        // The private property receives the raw value - no 'SETTER:' prefix.
+        $this->assertSame('raw-db-value', $clone->getSecretValue());
     }
 }
