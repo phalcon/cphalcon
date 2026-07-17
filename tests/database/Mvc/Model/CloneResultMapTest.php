@@ -14,17 +14,23 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Database\Mvc\Model;
 
 use PDO;
+use Phalcon\Db\Column;
 use Phalcon\Mvc\Model;
 use Phalcon\Support\Settings;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Migrations\InvoicesMigration;
+use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Models\InvoicesMap;
+use Phalcon\Tests\Support\Models\InvoicesWithPrivateSetters;
+use Phalcon\Tests\Support\Models\InvoicesWithProtectedSetter;
 use Phalcon\Tests\Support\Models\InvoicesWithQuerySetter;
 use Phalcon\Tests\Support\Models\InvoicesWithSetters;
 use Phalcon\Tests\Support\Models\InvoicesWithTypedSetters;
+use Phalcon\Tests\Support\Models\InvoicesWithUndeclaredSetter;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
+use ReflectionProperty;
 
 final class CloneResultMapTest extends AbstractDatabaseTestCase
 {
@@ -196,6 +202,171 @@ final class CloneResultMapTest extends AbstractDatabaseTestCase
     }
 
     /**
+     * Tests that cloneResultMap() calls the setter of a private property when
+     * orm.call_setters_on_hydration is enabled.
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/16454
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-07-16
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelCloneResultMapPrivateCallsSetterWhenEnabled(): void
+    {
+        Settings::set('orm.call_setters_on_hydration', true);
+
+        /** @var InvoicesWithPrivateSetters $invoice */
+        $invoice = Model::cloneResultMap(
+            new InvoicesWithPrivateSetters(),
+            [
+                'inv_id'      => 1,
+                'secretValue' => 'raw-db-value',
+            ],
+            null
+        );
+
+        // Opt-in: setSecretValue() prepends 'SETTER:'.
+        $this->assertSame('SETTER:raw-db-value', $invoice->getSecretValue());
+    }
+
+    /**
+     * Tests that cloneResultMap() does NOT call the setter of a private
+     * property during hydration at default settings; the raw DB value must be
+     * written directly.
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/16454
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-07-16
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelCloneResultMapPrivateDoesNotCallSetter(): void
+    {
+        /** @var InvoicesWithPrivateSetters $invoice */
+        $invoice = Model::cloneResultMap(
+            new InvoicesWithPrivateSetters(),
+            [
+                'inv_id'      => 1,
+                'secretValue' => 'raw-db-value',
+            ],
+            null
+        );
+
+        // The private property receives the raw value - no 'SETTER:' prefix.
+        $this->assertSame('raw-db-value', $invoice->getSecretValue());
+    }
+
+    /**
+     * Tests that cloneResultMap() hydrates a private property without a
+     * setter instead of throwing PropertyNotAccessible.
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/16454
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-07-16
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelCloneResultMapPrivateNoSetterHydratesRaw(): void
+    {
+        /** @var Invoices $invoice */
+        $invoice = Model::cloneResultMap(
+            new Invoices(),
+            [
+                'inv_id'      => 1,
+                'superSecret' => 'raw-db-value',
+            ],
+            null
+        );
+
+        $property = new ReflectionProperty(Invoices::class, 'superSecret');
+
+        $this->assertSame('raw-db-value', $property->getValue($invoice));
+    }
+
+    /**
+     * Tests that cloneResultMap() writes the raw value to a private property
+     * when a column map is used.
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/16454
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-07-16
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelCloneResultMapPrivateWithColumnMap(): void
+    {
+        /** @var InvoicesWithPrivateSetters $invoice */
+        $invoice = Model::cloneResultMap(
+            new InvoicesWithPrivateSetters(),
+            [
+                'secretValue' => 'raw-db-value',
+            ],
+            [
+                'secretValue' => 'secretValue',
+            ]
+        );
+
+        $this->assertSame('raw-db-value', $invoice->getSecretValue());
+    }
+
+    /**
+     * Tests that cloneResultMap() writes the raw value to a private property
+     * when a typed column map is used.
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/16454
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-07-16
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelCloneResultMapPrivateWithTypedColumnMap(): void
+    {
+        /** @var InvoicesWithPrivateSetters $invoice */
+        $invoice = Model::cloneResultMap(
+            new InvoicesWithPrivateSetters(),
+            [
+                'secretValue' => 'raw-db-value',
+            ],
+            [
+                'secretValue' => ['secretValue', Column::TYPE_VARCHAR],
+            ]
+        );
+
+        $this->assertSame('raw-db-value', $invoice->getSecretValue());
+    }
+
+    /**
+     * Tests that cloneResultMap() keeps writing protected properties directly
+     * (raw DB value, no setter) at default settings.
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/16454
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-07-16
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelCloneResultMapProtectedDoesNotCallSetter(): void
+    {
+        /** @var InvoicesWithProtectedSetter $invoice */
+        $invoice = Model::cloneResultMap(
+            new InvoicesWithProtectedSetter(),
+            [
+                'inv_id'    => 1,
+                'inv_title' => 'raw-db-value',
+            ],
+            null
+        );
+
+        $this->assertSame('raw-db-value', $invoice->getInvTitle());
+    }
+
+    /**
      * Regression test for #17214: a model setter that performs an ORM query
      * must not cause infinite recursion during hydration. At default settings
      * the hydration setter is not invoked, so findFirst() completes instead of
@@ -257,6 +428,34 @@ final class CloneResultMapTest extends AbstractDatabaseTestCase
         // setInvTitle() expects ?array - the raw string causes a TypeError.
         // The ORM must NOT throw; it must fall back to direct property assignment.
         $this->assertSame('raw-string-from-db', $invoice->inv_title);
+    }
+
+    /**
+     * Tests that hydrating an undeclared property keeps routing through
+     * __set()/possibleSetter() - longstanding behavior that the #16454 fix
+     * for private properties must not change.
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/16454
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-07-16
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelCloneResultMapUndeclaredCallsSetter(): void
+    {
+        /** @var InvoicesWithUndeclaredSetter $invoice */
+        $invoice = Model::cloneResultMap(
+            new InvoicesWithUndeclaredSetter(),
+            [
+                'inv_id'    => 1,
+                'inv_title' => 'raw-db-value',
+            ],
+            null
+        );
+
+        // inv_title is not declared: __set() finds setInvTitle() and calls it.
+        $this->assertSame('SETTER:raw-db-value', $invoice->inv_title);
     }
 
     /**

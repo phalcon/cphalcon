@@ -70,6 +70,8 @@ use Phalcon\Filter\Validation\ValidationInterface;
 use Phalcon\Support\Collection;
 use Phalcon\Support\Collection\CollectionInterface;
 use Phalcon\Support\Settings;
+use ReflectionClass;
+use ReflectionProperty;
 
 /**
  * Phalcon\Mvc\Model
@@ -242,6 +244,15 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * @var array
      */
     protected uniqueTypes = [];
+
+    /**
+     * Per-process cache of declared private model properties as
+     * [class name => [property name => ReflectionProperty]], used during
+     * hydration - see getPrivateProperties()
+     *
+     * @var array
+     */
+    private static privatePropertiesCache = [];
 
     /**
      * Phalcon\Mvc\Model constructor
@@ -1002,12 +1013,18 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      */
     public static function cloneResult(<ModelInterface> base,  array data, int dirtyState = 0) -> <ModelInterface>
     {
-        var instance, key, value;
+        var instance, key, privateProperties, reflectionProperty, value;
 
         /**
          * Clone the base record
          */
         let instance = clone base;
+
+        /**
+         * Declared private properties must be written via reflection during
+         * hydration - see getPrivateProperties()
+         */
+        let privateProperties = self::getPrivateProperties(get_class(instance));
 
         /**
          * Mark the object as persistent
@@ -1019,7 +1036,12 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 throw new InvalidDumpResultKey(get_class(base));
             }
 
-            let instance->{key} = value;
+            if unlikely isset privateProperties[key] {
+                let reflectionProperty = privateProperties[key];
+                reflectionProperty->setValue(instance, value);
+            } else {
+                let instance->{key} = value;
+            }
         }
 
         /**
@@ -1060,10 +1082,17 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         bool keepSnapshots = null
     ) -> <ModelInterface> {
         var instance, attribute, key, value, castValue, attributeName, metaData, reverseMap, notNullAttributes,
-            callSetters, setter;
+            callSetters, privateProperties, reflectionProperty, setter;
         array localMethods;
 
         let instance = clone base;
+
+        /**
+         * Declared private properties must be written via reflection during
+         * hydration - see getPrivateProperties()
+         */
+        let privateProperties = self::getPrivateProperties(get_class(instance));
+
         if instance instanceof Model {
             let metaData = instance->getModelsMetaData();
             let notNullAttributes = metaData->getNotNullAttributes(instance);
@@ -1110,13 +1139,23 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                         try {
                             instance->{setter}(value);
                         } catch \TypeError {
-                            let instance->{key} = value;
+                            if unlikely isset privateProperties[key] {
+                                let reflectionProperty = privateProperties[key];
+                                reflectionProperty->setValue(instance, value);
+                            } else {
+                                let instance->{key} = value;
+                            }
                         }
                         continue;
                     }
                 }
 
-                let instance->{key} = value;
+                if unlikely isset privateProperties[key] {
+                    let reflectionProperty = privateProperties[key];
+                    reflectionProperty->setValue(instance, value);
+                } else {
+                    let instance->{key} = value;
+                }
 
                 continue;
             }
@@ -1152,13 +1191,23 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                         try {
                             instance->{setter}(value);
                         } catch \TypeError {
-                            let instance->{attribute} = value;
+                            if unlikely isset privateProperties[attribute] {
+                                let reflectionProperty = privateProperties[attribute];
+                                reflectionProperty->setValue(instance, value);
+                            } else {
+                                let instance->{attribute} = value;
+                            }
                         }
                         continue;
                     }
                 }
 
-                let instance->{attribute} = value;
+                if unlikely isset privateProperties[attribute] {
+                    let reflectionProperty = privateProperties[attribute];
+                    reflectionProperty->setValue(instance, value);
+                } else {
+                    let instance->{attribute} = value;
+                }
 
                 continue;
             }
@@ -1231,13 +1280,23 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                     try {
                         instance->{setter}(castValue);
                     } catch \TypeError {
-                        let instance->{attributeName} = castValue;
+                        if unlikely isset privateProperties[attributeName] {
+                            let reflectionProperty = privateProperties[attributeName];
+                            reflectionProperty->setValue(instance, castValue);
+                        } else {
+                            let instance->{attributeName} = castValue;
+                        }
                     }
                     continue;
                 }
             }
 
-            let instance->{attributeName} = castValue;
+            if unlikely isset privateProperties[attributeName] {
+                let reflectionProperty = privateProperties[attributeName];
+                reflectionProperty->setValue(instance, castValue);
+            } else {
+                let instance->{attributeName} = castValue;
+            }
         }
 
         /**
@@ -6420,6 +6479,54 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         }
 
         return key;
+    }
+
+    /**
+     * Returns the declared private properties of a class (including inherited
+     * ones) as [property name => ReflectionProperty], cached per class.
+     *
+     * Hydration (cloneResult/cloneResultMap) cannot write private properties
+     * directly: the engine write from Model scope falls back to __set(),
+     * which invokes a possible setter - or throws for a non-public property
+     * without one. Writing through ReflectionProperty stores the raw
+     * database value instead.
+     *
+     * @see https://github.com/phalcon/cphalcon/issues/16454
+     */
+    private static function getPrivateProperties(string className) -> array
+    {
+        var cache, privateProperties, propertyName, reflection,
+            reflectionProperties, reflectionProperty;
+
+        let cache = self::privatePropertiesCache;
+
+        if !isset cache[className] {
+            let privateProperties = [];
+            let reflection        = new ReflectionClass(className);
+
+            while typeof reflection === "object" {
+                let reflectionProperties = reflection->getProperties(ReflectionProperty::IS_PRIVATE);
+
+                for reflectionProperty in reflectionProperties {
+                    if reflectionProperty->isStatic() {
+                        continue;
+                    }
+
+                    let propertyName = reflectionProperty->getName();
+
+                    if !isset privateProperties[propertyName] {
+                        let privateProperties[propertyName] = reflectionProperty;
+                    }
+                }
+
+                let reflection = reflection->getParentClass();
+            }
+
+            let cache[className]             = privateProperties,
+                self::privatePropertiesCache = cache;
+        }
+
+        return cache[className];
     }
 
     /***

@@ -398,6 +398,9 @@ int zephir_declare_class_constant_double(zend_class_entry *ce, const char *name,
 int zephir_declare_class_constant_stringl(zend_class_entry *ce, const char *name, size_t name_length, const char *value, size_t value_length);
 int zephir_declare_class_constant_string(zend_class_entry *ce, const char *name, size_t name_length, const char *value);
 
+/* Declare a class property whose default is an array (persisted immutable, e.g. on a trait ce) */
+int zephir_declare_property_array(zend_class_entry *ce, const char *name, size_t name_length, zval *value, int access_type);
+
 int zephir_is_php_version(unsigned int id);
 
 /** Method declaration for API generation */

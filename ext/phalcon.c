@@ -3059,6 +3059,7 @@ static void php_zephir_init_module_globals(zend_phalcon_globals *phalcon_globals
 }
 
 void zephir_init_static_properties_Phalcon_Filter_Validation();
+void zephir_init_static_properties_Phalcon_Mvc_Model();
 static PHP_RINIT_FUNCTION(phalcon)
 {
 	zend_phalcon_globals *phalcon_globals_ptr;
@@ -3068,6 +3069,7 @@ static PHP_RINIT_FUNCTION(phalcon)
 	zephir_initialize_memory(phalcon_globals_ptr);
 
 		zephir_init_static_properties_Phalcon_Filter_Validation();
+		zephir_init_static_properties_Phalcon_Mvc_Model();
 	
 	return SUCCESS;
 }

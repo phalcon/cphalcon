@@ -489,6 +489,31 @@ int zephir_declare_class_constant_array(zend_class_entry *ce, const char *name, 
 	return zephir_declare_class_constant(ce, name, name_length, &persisted);
 }
 
+/**
+ * Declares a class property whose default value is an array.
+ *
+ * Unlike a regular class, a trait cannot rely on the runtime create_object
+ * initializer to build an array default: PHP's zend_do_bind_traits() copies a
+ * trait's property_info and default zvals into a using class but not its object
+ * handlers, so the initializer never runs for a userland class that `use`s the
+ * trait. Storing the array as a persistent, immutable (non-refcounted) zval in
+ * the ce's default_properties_table makes the engine carry it natively, exactly
+ * like a hand-written PHP trait property default.
+ *
+ * @see https://github.com/zephir-lang/zephir/issues/2607
+ */
+int zephir_declare_property_array(zend_class_entry *ce, const char *name, size_t name_length, zval *value, int access_type)
+{
+	zval persisted;
+
+	zephir_persist_constant_zval(&persisted, value);
+	zval_ptr_dtor(value);
+
+	zend_declare_property(ce, name, name_length, &persisted, access_type);
+
+	return SUCCESS;
+}
+
 int zephir_declare_class_constant_null(zend_class_entry *ce, const char *name, size_t name_length)
 {
 	zval constant;
