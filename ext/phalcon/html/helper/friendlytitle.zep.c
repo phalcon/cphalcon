@@ -77,7 +77,7 @@ PHP_METHOD(Phalcon_Html_Helper_FriendlyTitle, __construct)
 		zephir_check_call_status();
 	}
 
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 774, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 775, &_0);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -150,7 +150,7 @@ PHP_METHOD(Phalcon_Html_Helper_FriendlyTitle, __invoke)
 	}
 	/* try_start_1: */
 
-		zephir_read_property_cached(&_0$$3, this_ptr, _zephir_prop_0, 774, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_0$$3, this_ptr, _zephir_prop_0, 775, PH_NOISY_CC | PH_READONLY);
 		if (lowercase) {
 			ZVAL_BOOL(&_1$$3, 1);
 		} else {

@@ -215,9 +215,9 @@ PHP_METHOD(Phalcon_Html_Escaper_Traits_EscaperTrait, setDoubleEncode)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &doubleEncode_param);
 	if (doubleEncode) {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 756, &__$true);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 757, &__$true);
 	} else {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 756, &__$false);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 757, &__$false);
 	}
 	RETURN_THISW();
 }
@@ -241,7 +241,7 @@ PHP_METHOD(Phalcon_Html_Escaper_Traits_EscaperTrait, setEncoding)
 		Z_PARAM_STR(encoding)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&encoding_zv, encoding);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 757, &encoding_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 758, &encoding_zv);
 	RETURN_THISW();
 }
 
@@ -266,7 +266,7 @@ PHP_METHOD(Phalcon_Html_Escaper_Traits_EscaperTrait, setFlags)
 	zephir_fetch_params_without_memory_grow(1, 0, &flags_param);
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, flags);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 758, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 759, &_0);
 	RETURN_THISW();
 }
 

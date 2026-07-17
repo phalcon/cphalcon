@@ -5,6 +5,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Request);
 
 PHP_METHOD(Phalcon_Http_Request, get);
 PHP_METHOD(Phalcon_Http_Request, getAcceptableContent);
+PHP_METHOD(Phalcon_Http_Request, getAttributes);
 PHP_METHOD(Phalcon_Http_Request, getBasicAuth);
 PHP_METHOD(Phalcon_Http_Request, getBestAccept);
 PHP_METHOD(Phalcon_Http_Request, getBestCharset);
@@ -105,6 +106,9 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_request_get, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_getacceptablecontent, 0, 0, IS_ARRAY, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_request_getattributes, 0, 0, Phalcon\\Http\\Request\\Bag\\AttributeBag, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_getbasicauth, 0, 0, IS_ARRAY, 1)
@@ -500,6 +504,7 @@ ZEND_END_ARG_INFO()
 ZEPHIR_INIT_FUNCS(phalcon_http_request_method_entry) {
 	PHP_ME(Phalcon_Http_Request, get, arginfo_phalcon_http_request_get, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, getAcceptableContent, arginfo_phalcon_http_request_getacceptablecontent, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request, getAttributes, arginfo_phalcon_http_request_getattributes, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, getBasicAuth, arginfo_phalcon_http_request_getbasicauth, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, getBestAccept, arginfo_phalcon_http_request_getbestaccept, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, getBestCharset, arginfo_phalcon_http_request_getbestcharset, ZEND_ACC_PUBLIC)

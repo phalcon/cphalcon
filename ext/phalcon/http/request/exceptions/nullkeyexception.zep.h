@@ -1,0 +1,14 @@
+
+extern zend_class_entry *phalcon_http_request_exceptions_nullkeyexception_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Http_Request_Exceptions_NullKeyException);
+
+PHP_METHOD(Phalcon_Http_Request_Exceptions_NullKeyException, __construct);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_request_exceptions_nullkeyexception___construct, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_http_request_exceptions_nullkeyexception_method_entry) {
+PHP_ME(Phalcon_Http_Request_Exceptions_NullKeyException, __construct, arginfo_phalcon_http_request_exceptions_nullkeyexception___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_FE_END
+};
