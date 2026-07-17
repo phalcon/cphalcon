@@ -559,7 +559,7 @@ PHP_METHOD(Phalcon_Config_Config, internalMerge)
  *
  * Array values become nested Config objects carrying the `insensitive`,
  * `strictNull` and `type` flags of this instance. The `type` guard is
- * applied to leaf values only — arrays are not validated themselves;
+ * applied to leaf values only - arrays are not validated themselves;
  * the nested Config validates its own leaves.
  *
  * @param mixed $element

@@ -26,7 +26,7 @@
  * Holds the request attributes: arbitrary, application-defined values
  * attached to the request during its lifecycle (router, dispatcher,
  * security components etc.). Unlike the other request bags, it is not
- * hydrated from a superglobal — it always starts empty.
+ * hydrated from a superglobal - it always starts empty.
  *
  * The base class supplies the entire surface; this class exists as a
  * distinct type so DI typing and IDE autocomplete stay precise.

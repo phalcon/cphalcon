@@ -410,7 +410,7 @@ function emitTree(array $class, array $registry): string
     }
 
     if ([] !== $annotations) {
-        $current .= ' — ' . implode('; ', $annotations);
+        $current .= ' - ' . implode('; ', $annotations);
     }
 
     $lines[] = $current;
