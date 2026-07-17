@@ -209,7 +209,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Files, validate)
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&validator);
 	object_init_ex(&validator, phalcon_filter_validation_validator_file_ce);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 703, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 704, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(NULL, &validator, "__construct", NULL, 0, &_0);
 	zephir_check_call_status();
 	zephir_is_iterable(&files, 0, "phalcon/Filter/Validation/Validator/Files.zep", 114);

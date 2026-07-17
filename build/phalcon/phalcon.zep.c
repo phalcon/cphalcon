@@ -9599,7 +9599,7 @@ static int zephir_require_ret(zval *return_value_ptr, const char *require_path)
 
 		/* zend_op_array.scope is `zend_class_entry *`, but EG(fake_scope) was
 		 * made `const zend_class_entry *` in PHP 8.5. The cast is safe: the
-		 * class entry itself is the same object — only the access path differs. */
+		 * class entry itself is the same object - only the access path differs. */
 		new_op_array->scope = (zend_class_entry *) (EG(fake_scope) ? EG(fake_scope) : zend_get_executed_scope());
 		zend_execute(new_op_array, &local_retval);
 
@@ -9687,7 +9687,7 @@ static int zephir_require_once_ret(zval *return_value_ptr, const char *require_p
 
 		/* zend_op_array.scope is `zend_class_entry *`, but EG(fake_scope) was
 		 * made `const zend_class_entry *` in PHP 8.5. The cast is safe: the
-		 * class entry itself is the same object — only the access path differs. */
+		 * class entry itself is the same object - only the access path differs. */
 		new_op_array->scope = (zend_class_entry *) (EG(fake_scope) ? EG(fake_scope) : zend_get_executed_scope());
 		zend_execute(new_op_array, &local_retval);
 

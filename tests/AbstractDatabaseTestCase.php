@@ -77,7 +77,7 @@ abstract class AbstractDatabaseTestCase extends TalonAbstractDatabaseTestCase
 
     /**
      * Named distinctly from Talon's inherited `getConnection(): ConnectionContract`
-     * (not an override — PHP enforces covariant return types on an inherited
+     * (not an override - PHP enforces covariant return types on an inherited
      * method, and `PDO` is unrelated to `ConnectionContract`). Reuses Talon's
      * cached, auto-schema-loaded connection under the hood.
      */
@@ -88,7 +88,7 @@ abstract class AbstractDatabaseTestCase extends TalonAbstractDatabaseTestCase
 
     /**
      * Named distinctly from Talon's inherited, non-static `getDriver()`
-     * (`DatabaseTrait::getDriver()`) — same collision reasoning as
+     * (`DatabaseTrait::getDriver()`) - same collision reasoning as
      * `getPdoConnection()` above, but for a `static`-vs-instance mismatch
      * instead of a return-type mismatch: PHP does not allow an override to
      * change a method from non-static to static.
