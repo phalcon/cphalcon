@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to `phalcon/debugbar` are documented here. The format is based on [Keep a Changelog][keep_a_changelog] and this project adheres to [Semantic Versioning][semantic_versioning].
+All notable changes to `phalcon/cphalcon` are documented here. The format is based on [Keep a Changelog][keep_a_changelog] and this project adheres to [Semantic Versioning][semantic_versioning].
 
 ## [5.18.0](https://github.com/phalcon/cphalcon/releases/tag/v5.18.0) (2026-xx-xx)
 
@@ -13,6 +13,10 @@ All notable changes to `phalcon/debugbar` are documented here. The format is bas
 ### Added
 
 - Added request attributes support to `Phalcon\Http\Request`. `Phalcon\Http\Request::getAttributes()` returns a `Phalcon\Http\Request\Bag\AttributeBag`, a mutable, string-keyed bag of arbitrary application-defined values attached to the request during its lifecycle (router, dispatcher, security components etc.). Writing with a `null` key (the `$bag[] = ...` append form) throws the new `Phalcon\Http\Request\Exceptions\NullKeyException`, since bag elements are always string-keyed. [#17367](https://github.com/phalcon/cphalcon/issues/17367) [[doc]](https://docs.phalcon.io/5.18/http-request/)
+
+### Fixed
+
+### Removed
 
 ## [5.17.0](https://github.com/phalcon/cphalcon/releases/tag/v5.17.0) (2026-07-17)
 
