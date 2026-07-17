@@ -13,8 +13,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Session\Manager;
 
+use Phalcon\Session\Exceptions\InvalidSessionAdapter;
 use Phalcon\Session\Manager;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use Phalcon\Tests\Unit\Session\Fake\FakeManagerHeadersSent;
 use PHPUnit\Framework\Attributes\BackupGlobals;
@@ -96,5 +97,21 @@ final class StartTest extends AbstractUnitTestCase
 
         $manager->destroy();
         unset($_COOKIE[$name]);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    public function testSessionManagerStartWithoutAdapterThrows(): void
+    {
+        $manager = new Manager();
+
+        if ($manager->exists()) {
+            $manager->destroy();
+        }
+
+        $this->expectException(InvalidSessionAdapter::class);
+        $manager->start();
     }
 }

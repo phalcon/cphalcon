@@ -14,12 +14,44 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Image\Adapter\Gd;
 
 use Phalcon\Image\Adapter\Gd;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\Unit\Image\Fake\GdTrait;
 
 final class CropTest extends AbstractUnitTestCase
 {
     use GdTrait;
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    public function testImageAdapterGdCropClampsToBounds(): void
+    {
+        $this->checkJpegSupport();
+
+        $source       = Talon::settings()->supportPath('assets/images/example-jpg.jpg');
+        $original     = new Gd($source);
+        $sourceWidth  = $original->getWidth();
+        $sourceHeight = $original->getHeight();
+
+        // an oversized crop is clamped to the source dimensions
+        $image = new Gd($source);
+        $image->crop($sourceWidth * 2, $sourceHeight * 2, 0, 0);
+        $this->assertSame($sourceWidth, $image->getWidth());
+        $this->assertSame($sourceHeight, $image->getHeight());
+
+        // a positive offset reduces the available width/height
+        $image = new Gd($source);
+        $image->crop($sourceWidth, $sourceHeight, 50, 30);
+        $this->assertSame($sourceWidth - 50, $image->getWidth());
+        $this->assertSame($sourceHeight - 30, $image->getHeight());
+
+        // a negative offsetX is measured from the right edge
+        $image = new Gd($source);
+        $image->crop(100, 100, -40, 0);
+        $this->assertSame(100, $image->getWidth());
+    }
 
     /**
      * @author Phalcon Team <team@phalcon.io>
@@ -29,21 +61,59 @@ final class CropTest extends AbstractUnitTestCase
     {
         $this->checkJpegSupport();
 
-        $image = new Gd(supportDir('assets/images/example-jpg.jpg'));
+        $image = new Gd(Talon::settings()->supportPath('assets/images/example-jpg.jpg'));
 
         $outputDir = 'tests/image/gd/';
         $width     = 200;
         $height    = 200;
         $cropImage = 'crop.jpg';
-        $output    = outputDir($outputDir . '/' . $cropImage);
+        $output    = Talon::settings()->outputPath($outputDir . '/' . $cropImage);
         $hash      = 'ffffffb803402030';
 
         // Resize to 200 pixels on the shortest side
         $image->crop($width, $height)
-              ->save(outputDir($outputDir . '/' . $cropImage))
+              ->save(Talon::settings()->outputPath($outputDir . '/' . $cropImage))
         ;
 
-        $this->assertFileExists(outputDir($outputDir) . $cropImage);
+        $this->assertFileExists(Talon::settings()->outputPath($outputDir) . $cropImage);
+
+        $actual = $image->getWidth();
+        $this->assertSame($width, $actual);
+
+        $actual = $image->getHeight();
+        $this->assertSame($height, $actual);
+
+        $actual = $this->checkImageHash($output, $hash);
+        $this->assertTrue($actual);
+
+        $this->safeDeleteFile($cropImage);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2018-11-13
+     */
+    public function testImageAdapterGdCropJpgWithOffset(): void
+    {
+        $this->checkJpegSupport();
+
+        $image = new Gd(Talon::settings()->supportPath('assets/images/example-jpg.jpg'));
+
+        $outputDir = 'tests/image/gd/';
+        $width     = 200;
+        $height    = 200;
+        $offsetX   = 200;
+        $offsetY   = 200;
+        $cropImage = 'cropwithoffset.jpg';
+        $output    = Talon::settings()->outputPath($outputDir . '/' . $cropImage);
+        $hash      = 'fffff00000000000';
+
+        // Resize to 200 pixels on the shortest side
+        $image->crop($width, $height, $offsetX, $offsetY)
+              ->save($output)
+        ;
+
+        $this->assertFileExists(Talon::settings()->outputPath($outputDir) . $cropImage);
 
         $actual = $image->getWidth();
         $this->assertSame($width, $actual);
@@ -67,19 +137,17 @@ final class CropTest extends AbstractUnitTestCase
     {
         $this->checkJpegSupport();
 
-        $source = supportDir('assets/images/example-jpg.jpg');
-        $output = outputDir('tests/image/gd/crop-zero-offset.jpg');
+        $source = Talon::settings()->supportPath('assets/images/example-jpg.jpg');
+        $output = Talon::settings()->outputPath('tests/image/gd/crop-zero-offset.jpg');
 
         $original = imagecreatefromjpeg($source);
         $expected = imagecolorat($original, 0, 0);
-        imagedestroy($original);
 
         $image = new Gd($source);
         $image->crop(200, 200, 0, 0)->save($output);
 
         $cropped = imagecreatefromjpeg($output);
         $actual  = imagecolorat($cropped, 0, 0);
-        imagedestroy($cropped);
 
         $this->assertSame(
             $expected,
@@ -88,43 +156,5 @@ final class CropTest extends AbstractUnitTestCase
         );
 
         $this->safeDeleteFile($output);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
-     */
-    public function testImageAdapterGdCropJpgWithOffset(): void
-    {
-        $this->checkJpegSupport();
-
-        $image = new Gd(supportDir('assets/images/example-jpg.jpg'));
-
-        $outputDir = 'tests/image/gd/';
-        $width     = 200;
-        $height    = 200;
-        $offsetX   = 200;
-        $offsetY   = 200;
-        $cropImage = 'cropwithoffset.jpg';
-        $output    = outputDir($outputDir . '/' . $cropImage);
-        $hash      = 'fffff00000000000';
-
-        // Resize to 200 pixels on the shortest side
-        $image->crop($width, $height, $offsetX, $offsetY)
-              ->save($output)
-        ;
-
-        $this->assertFileExists(outputDir($outputDir) . $cropImage);
-
-        $actual = $image->getWidth();
-        $this->assertSame($width, $actual);
-
-        $actual = $image->getHeight();
-        $this->assertSame($height, $actual);
-
-        $actual = $this->checkImageHash($output, $hash);
-        $this->assertTrue($actual);
-
-        $this->safeDeleteFile($cropImage);
     }
 }

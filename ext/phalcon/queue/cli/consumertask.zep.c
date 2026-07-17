@@ -88,6 +88,10 @@ PHP_METHOD(Phalcon_Queue_Cli_ConsumerTask, mainAction)
 	ZVAL_UNDEF(&_11);
 	ZVAL_UNDEF(&_12);
 	ZVAL_UNDEF(&_13);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("queue", 5, 1);
+	}
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
@@ -121,7 +125,7 @@ PHP_METHOD(Phalcon_Queue_Cli_ConsumerTask, mainAction)
 	ZVAL_STRING(&_0, "config");
 	ZEPHIR_CALL_METHOD(&_2, &di, "get", NULL, 0, &_0);
 	zephir_check_call_status();
-	zephir_read_property(&_3, &_2, ZEND_STRL("queue"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_3, &_2, _zephir_prop_0, 0, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&context, &_1, "load", NULL, 0, &_3);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&consumer);

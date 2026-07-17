@@ -89,16 +89,6 @@ trait TranslateNativeArrayHelperTrait
     }
 
     /**
-     * @return array
-     */
-    abstract protected function getArrayConfig(): array;
-
-    /**
-     * @return string
-     */
-    abstract protected function func(): string;
-
-    /**
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
@@ -168,4 +158,14 @@ trait TranslateNativeArrayHelperTrait
         $actual = $translator->{$this->func()}('Hello %fname% %mname% %lname%!', $vars);
         $this->assertSame($expected, $actual);
     }
+
+    /**
+     * @return string
+     */
+    abstract protected function func(): string;
+
+    /**
+     * @return array
+     */
+    abstract protected function getArrayConfig(): array;
 }

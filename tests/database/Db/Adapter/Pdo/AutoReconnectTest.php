@@ -54,6 +54,24 @@ final class AutoReconnectTest extends AbstractDatabaseTestCase
     }
 
     /**
+     * Tests Phalcon\Db\Adapter\Pdo :: auto-reconnect is a no-op on sqlite
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-20
+     */
+    #[Group('sqlite')]
+    public function testDbAdapterPdoAutoReconnectSqliteNoop(): void
+    {
+        $db = $this->container->get('db');
+        $db->setAutoReconnect(true);
+
+        $result = $db->query('SELECT 1 AS num');
+        $row    = $result->fetch();
+
+        $this->assertEquals(1, (int) $row['num']);
+    }
+
+    /**
      * Tests Phalcon\Db\Adapter\Pdo :: db:connectionLost event fires
      *
      * @author Phalcon Team <team@phalcon.io>
@@ -102,24 +120,6 @@ final class AutoReconnectTest extends AbstractDatabaseTestCase
         $this->expectException(PDOException::class);
 
         $db->execute('SELECT 1');
-    }
-
-    /**
-     * Tests Phalcon\Db\Adapter\Pdo :: auto-reconnect is a no-op on sqlite
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-06-20
-     */
-    #[Group('sqlite')]
-    public function testDbAdapterPdoAutoReconnectSqliteNoop(): void
-    {
-        $db = $this->container->get('db');
-        $db->setAutoReconnect(true);
-
-        $result = $db->query('SELECT 1 AS num');
-        $row    = $result->fetch();
-
-        $this->assertEquals(1, (int) $row['num']);
     }
 
     /**

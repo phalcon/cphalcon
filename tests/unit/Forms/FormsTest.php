@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Forms;
 
+use Phalcon\Di\FactoryDefault;
 use Phalcon\Filter\Validation\Validator\PresenceOf;
 use Phalcon\Forms\Element\Radio;
 use Phalcon\Forms\Element\Select;
@@ -21,12 +22,22 @@ use Phalcon\Forms\Form;
 use Phalcon\Html\Escaper;
 use Phalcon\Html\TagFactory;
 use Phalcon\Messages\Message;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Forms\ContactFormPublicProperties;
 use Phalcon\Tests\Support\Forms\ContactFormSettersGetters;
 
 final class FormsTest extends AbstractUnitTestCase
 {
+    public function testElementAppendMessage(): void
+    {
+        $element = new Select('test-select');
+
+        $element->appendMessage(
+            new Message('')
+        );
+
+        $this->assertCount(1, $element->getMessages());
+    }
     public function testFormElementRender(): void
     {
         $factory = new TagFactory(new Escaper());
@@ -147,6 +158,8 @@ final class FormsTest extends AbstractUnitTestCase
 
     public function testFormValidatorEntity(): void
     {
+        new FactoryDefault();
+
         $address = new Text('address');
         $address->addValidator(
             new PresenceOf(
@@ -280,16 +293,5 @@ final class FormsTest extends AbstractUnitTestCase
             'hello',
             $entity->getAddress()
         );
-    }
-
-    public function testElementAppendMessage(): void
-    {
-        $element = new Select('test-select');
-
-        $element->appendMessage(
-            new Message('')
-        );
-
-        $this->assertCount(1, $element->getMessages());
     }
 }

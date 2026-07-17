@@ -14,6 +14,7 @@ use Phalcon\Messages\Message;
 use Phalcon\Filter\Validation;
 use Phalcon\Filter\Validation\AbstractValidator;
 use Phalcon\Filter\Validation\Exception;
+use Phalcon\Traits\Php\InfoTrait;
 
 /**
  * Validates that a string has the specified maximum constraints
@@ -63,6 +64,8 @@ use Phalcon\Filter\Validation\Exception;
  */
 class Max extends AbstractValidator
 {
+    use InfoTrait;
+
     protected template = "Field :field must not exceed :max characters long";
 
     /**
@@ -76,7 +79,7 @@ class Max extends AbstractValidator
      *     'included' => false
      * ]
      */
-    public function __construct(array! options = [])
+    public function __construct( array options = [])
     {
         parent::__construct(options);
     }
@@ -94,7 +97,7 @@ class Max extends AbstractValidator
         }
 
         // Check if mbstring is available to calculate the correct length
-        if function_exists("mb_strlen") {
+        if this->phpFunctionExists("mb_strlen") {
             let length = mb_strlen((string) value);
         } else {
             let length = strlen((string) value);

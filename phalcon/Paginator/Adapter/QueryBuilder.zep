@@ -28,9 +28,9 @@ use Phalcon\Paginator\RepositoryInterface;
  * use Phalcon\Paginator\Adapter\QueryBuilder;
  *
  * $builder = $this->modelsManager->createBuilder()
- *                 ->columns("id, name")
- *                 ->from(Robots::class)
- *                 ->orderBy("name");
+ *                 ->columns("inv_id, inv_title")
+ *                 ->from(Invoices::class)
+ *                 ->orderBy("inv_title");
  *
  * $paginator = new QueryBuilder(
  *     [

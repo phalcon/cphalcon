@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Mvc\View\Engine\Volt\Parser;
 
 use Phalcon\Mvc\View\Engine\Volt\Compiler;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class FunctionCallTest extends AbstractUnitTestCase
 {
@@ -23,76 +23,6 @@ final class FunctionCallTest extends AbstractUnitTestCase
     public function setUp(): void
     {
         $this->compiler = new Compiler();
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-10
-     */
-    public function testMvcViewEngineVoltParserExprFuncNoArgs(): void
-    {
-        $source   = '{{ myFunc() }}';
-        $expected = [
-            [
-                'type' => 359,
-                'expr' => [
-                    'type' => 350,
-                    'name' => [
-                        'type' => 265,
-                        'value' => 'myFunc',
-                        'file' => 'eval code',
-                        'line' => 1,
-                    ],
-                    'file' => 'eval code',
-                    'line' => 1,
-                ],
-                'file' => 'eval code',
-                'line' => 1,
-            ],
-        ];
-        $actual   = $this->compiler->parse($source);
-        $this->assertSame($expected, $actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-10
-     */
-    public function testMvcViewEngineVoltParserExprFuncOneArg(): void
-    {
-        $source   = '{{ upper(name) }}';
-        $expected = [
-            [
-                'type' => 359,
-                'expr' => [
-                    'type' => 350,
-                    'name' => [
-                        'type' => 265,
-                        'value' => 'upper',
-                        'file' => 'eval code',
-                        'line' => 1,
-                    ],
-                    'arguments' => [
-                        [
-                            'expr' => [
-                                'type' => 265,
-                                'value' => 'name',
-                                'file' => 'eval code',
-                                'line' => 1,
-                            ],
-                            'file' => 'eval code',
-                            'line' => 1,
-                        ],
-                    ],
-                    'file' => 'eval code',
-                    'line' => 1,
-                ],
-                'file' => 'eval code',
-                'line' => 1,
-            ],
-        ];
-        $actual   = $this->compiler->parse($source);
-        $this->assertSame($expected, $actual);
     }
 
     /**
@@ -183,6 +113,76 @@ final class FunctionCallTest extends AbstractUnitTestCase
                                 'line' => 1,
                             ],
                             'name' => 'key',
+                            'file' => 'eval code',
+                            'line' => 1,
+                        ],
+                    ],
+                    'file' => 'eval code',
+                    'line' => 1,
+                ],
+                'file' => 'eval code',
+                'line' => 1,
+            ],
+        ];
+        $actual   = $this->compiler->parse($source);
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-10
+     */
+    public function testMvcViewEngineVoltParserExprFuncNoArgs(): void
+    {
+        $source   = '{{ myFunc() }}';
+        $expected = [
+            [
+                'type' => 359,
+                'expr' => [
+                    'type' => 350,
+                    'name' => [
+                        'type' => 265,
+                        'value' => 'myFunc',
+                        'file' => 'eval code',
+                        'line' => 1,
+                    ],
+                    'file' => 'eval code',
+                    'line' => 1,
+                ],
+                'file' => 'eval code',
+                'line' => 1,
+            ],
+        ];
+        $actual   = $this->compiler->parse($source);
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-10
+     */
+    public function testMvcViewEngineVoltParserExprFuncOneArg(): void
+    {
+        $source   = '{{ upper(name) }}';
+        $expected = [
+            [
+                'type' => 359,
+                'expr' => [
+                    'type' => 350,
+                    'name' => [
+                        'type' => 265,
+                        'value' => 'upper',
+                        'file' => 'eval code',
+                        'line' => 1,
+                    ],
+                    'arguments' => [
+                        [
+                            'expr' => [
+                                'type' => 265,
+                                'value' => 'name',
+                                'file' => 'eval code',
+                                'line' => 1,
+                            ],
                             'file' => 'eval code',
                             'line' => 1,
                         ],

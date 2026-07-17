@@ -43,7 +43,7 @@ class None implements SignerInterface
      *
      * @return string
      */
-    public function sign(string! payload, string passphrase) -> string
+    public function sign( string payload, string passphrase) -> string
     {
         return "";
     }
@@ -62,6 +62,6 @@ class None implements SignerInterface
         string payload,
         string passphrase
     ) -> bool {
-        return "" === $source;
+        return "" === source;
     }
 }

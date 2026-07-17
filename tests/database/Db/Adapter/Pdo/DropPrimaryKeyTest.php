@@ -18,8 +18,6 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\Group;
 
-use function env;
-
 final class DropPrimaryKeyTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -36,7 +34,7 @@ final class DropPrimaryKeyTest extends AbstractDatabaseTestCase
         // pgsql: Phalcon's dropPrimaryKey hardcodes "<table>_PRIMARY" as the
         // constraint name; pgsql's default for inline PRIMARY KEY is
         // "<table>_pkey", so name the constraint explicitly to match.
-        if (env('driver') === 'pgsql') {
+        if (self::getDatabaseDriver() === 'pgsql') {
             $db->execute(
                 'CREATE TABLE ' . self::TABLE
                 . ' (id integer NOT NULL, name varchar(50), '

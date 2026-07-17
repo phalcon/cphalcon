@@ -24,18 +24,6 @@ use Phalcon\Tests\Unit\Http\Helper\AbstractHttpBase;
 final class CookiesTest extends AbstractHttpBase
 {
     /**
-     * @issue  https://github.com/phalcon/cphalcon/issues/12978
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2017-09-02
-     */
-    public function testShouldWorkWithoutInitializeInternalCookiesProperty(): void
-    {
-        $this->assertTrue(
-            (new Cookies())->send()
-        );
-    }
-
-    /**
      * @author limx <715557344@qq.com>
      */
     public function testGetCookies(): void
@@ -92,5 +80,16 @@ final class CookiesTest extends AbstractHttpBase
         $expected = 1;
         $actual   = $cookieArray['x-user-id']->getValue();
         $this->assertSame($expected, $actual);
+    }
+    /**
+     * @issue  https://github.com/phalcon/cphalcon/issues/12978
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2017-09-02
+     */
+    public function testShouldWorkWithoutInitializeInternalCookiesProperty(): void
+    {
+        $this->assertTrue(
+            (new Cookies())->send()
+        );
     }
 }

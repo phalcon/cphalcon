@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Encryption\Security\Uuid;
 
 use Phalcon\Encryption\Security\Uuid\NodeProviderInterface;
 use Phalcon\Encryption\Security\Uuid\RandomNodeProvider;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class RandomNodeProviderTest extends AbstractUnitTestCase
 {
@@ -28,18 +28,6 @@ final class RandomNodeProviderTest extends AbstractUnitTestCase
         $provider = new RandomNodeProvider();
 
         $this->assertInstanceOf(NodeProviderInterface::class, $provider);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-29
-     */
-    public function testRandomNodeProviderReturnsHex(): void
-    {
-        $provider = new RandomNodeProvider();
-        $node     = $provider->getNode();
-
-        $this->assertMatchesRegularExpression('/^[a-f0-9]{12}$/', $node);
     }
 
     /**
@@ -64,5 +52,17 @@ final class RandomNodeProviderTest extends AbstractUnitTestCase
         $provider = new RandomNodeProvider();
 
         $this->assertNotSame($provider->getNode(), $provider->getNode());
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-29
+     */
+    public function testRandomNodeProviderReturnsHex(): void
+    {
+        $provider = new RandomNodeProvider();
+        $node     = $provider->getNode();
+
+        $this->assertMatchesRegularExpression('/^[a-f0-9]{12}$/', $node);
     }
 }

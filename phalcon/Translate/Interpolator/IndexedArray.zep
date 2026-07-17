@@ -20,7 +20,7 @@ class IndexedArray implements InterpolatorInterface
      * @return string
      */
     public function replacePlaceholders(
-        string! translation,
+         string translation,
         array placeholders = []
     ) -> string {
         if true !== empty(placeholders) {

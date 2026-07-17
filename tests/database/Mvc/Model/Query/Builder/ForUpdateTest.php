@@ -13,7 +13,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Mvc\Model\Query\Builder;
 
+use Phalcon\Mvc\Model\Query\Builder;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use Phalcon\Tests\Support\Models\Invoices;
 use PHPUnit\Framework\Attributes\Group;
 
 #[Group('mysql')]
@@ -22,11 +24,24 @@ use PHPUnit\Framework\Attributes\Group;
 final class ForUpdateTest extends AbstractDatabaseTestCase
 {
     /**
+     * Tests Phalcon\Mvc\Model\Query\Builder :: forUpdate()
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2026-06-22
      */
     public function testMvcModelQueryBuilderForUpdate(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $builder = new Builder();
+
+        $phql = $builder
+            ->columns('*')
+            ->addFrom(Invoices::class)
+            ->forUpdate(true)
+            ->getPhql();
+
+        $this->assertSame(
+            'SELECT * FROM [' . Invoices::class . '] FOR UPDATE',
+            $phql
+        );
     }
 }

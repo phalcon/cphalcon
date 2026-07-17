@@ -17,7 +17,7 @@ use Phalcon\Di\Di;
 use Phalcon\Flash\Direct;
 use Phalcon\Flash\Exception;
 use Phalcon\Html\Escaper;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 use function spl_object_hash;
 

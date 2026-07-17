@@ -39,7 +39,7 @@ final class ExecuteTest extends AbstractDatabaseTestCase
     #[Group('sqlite')]
     public function testDbAdapterPdoExecute(): void
     {
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $db         = $this->container->get('db');
 
         $migration = new InvoicesMigration($connection);

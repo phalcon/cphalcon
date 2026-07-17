@@ -66,7 +66,7 @@ final class Registry extends Collection
     /**
      * Constructor
      */
-    final public function __construct(array! data = [])
+    final public function __construct( array data = [])
     {
         parent::__construct(data);
     }
@@ -125,9 +125,9 @@ final class Registry extends Collection
      * Get the element from the collection
      */
     final public function get(
-        string! element,
+         string element,
         var defaultValue = null,
-        string! cast = null
+         string cast = null
     ) -> mixed {
         return parent::get(element, defaultValue, cast);
     }
@@ -143,7 +143,7 @@ final class Registry extends Collection
     /**
      * Determines whether an element is present in the collection.
      */
-    final public function has(string! element) -> bool
+    final public function has( string element) -> bool
     {
         return parent::has(element);
     }
@@ -151,7 +151,7 @@ final class Registry extends Collection
     /**
      * Initialize internal array
      */
-    final public function init(array! data = []) -> void
+    final public function init( array data = []) -> void
     {
         parent::init(data);
     }
@@ -209,7 +209,7 @@ final class Registry extends Collection
     /**
      * Delete the element from the collection
      */
-    final public function remove(string! element) -> void
+    final public function remove( string element) -> void
     {
         parent::remove(element);
     }
@@ -227,7 +227,7 @@ final class Registry extends Collection
     /**
      * Set an element in the collection
      */
-    final public function set(string! element, var value) -> void
+    final public function set( string element, var value) -> void
     {
         parent::set(element, value);
     }

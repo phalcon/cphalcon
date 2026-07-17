@@ -34,7 +34,7 @@ abstract class AbstractFactory extends AbstractConfigFactory
     /**
      * Checks if a service exists and throws an exception
      */
-    protected function getService(string! name) -> var
+    protected function getService( string name) -> var
     {
         if unlikely !isset this->mapper[name] {
             throw this->getException("Service " . name . " is not registered");
@@ -46,7 +46,7 @@ abstract class AbstractFactory extends AbstractConfigFactory
     /**
      * Initialize services/add new services
      */
-    protected function init(array! services = []) -> void
+    protected function init( array services = []) -> void
     {
         var adapters, name, service;
 

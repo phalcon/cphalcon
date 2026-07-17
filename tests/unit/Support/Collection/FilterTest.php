@@ -23,6 +23,18 @@ final class FilterTest extends AbstractCollectionTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-12
      */
+    public function testSupportCollectionFilterPassesKeyToCallback(): void
+    {
+        $collection = new Collection(['a' => 1, 'bb' => 2, 'ccc' => 3]);
+
+        $filtered = $collection->filter(static fn ($v, $k) => strlen((string) $k) > 1);
+
+        $this->assertSame(['bb' => 2, 'ccc' => 3], $filtered->toArray());
+    }
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-12
+     */
     public function testSupportCollectionFilterReturnsNewCollection(): void
     {
         $collection = new Collection(['a' => 1, 'b' => 2, 'c' => 3]);
@@ -32,18 +44,5 @@ final class FilterTest extends AbstractCollectionTestCase
         $this->assertNotSame($collection, $filtered);
         $this->assertSame(['b' => 2, 'c' => 3], $filtered->toArray());
         $this->assertSame(['a' => 1, 'b' => 2, 'c' => 3], $collection->toArray());
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-05-12
-     */
-    public function testSupportCollectionFilterPassesKeyToCallback(): void
-    {
-        $collection = new Collection(['a' => 1, 'bb' => 2, 'ccc' => 3]);
-
-        $filtered = $collection->filter(static fn ($v, $k) => strlen((string) $k) > 1);
-
-        $this->assertSame(['bb' => 2, 'ccc' => 3], $filtered->toArray());
     }
 }

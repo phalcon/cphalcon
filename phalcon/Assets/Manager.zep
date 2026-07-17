@@ -26,12 +26,15 @@ use Phalcon\Html\Helper\Element;
 use Phalcon\Html\Helper\Link;
 use Phalcon\Html\Helper\Script;
 use Phalcon\Html\TagFactory;
+use Phalcon\Traits\Php\FileTrait;
 
 /**
  * Manages collections of CSS/JavaScript assets
  */
 class Manager extends AbstractInjectionAware
 {
+    use FileTrait;
+
     /**
      * @var array
      */
@@ -85,7 +88,7 @@ class Manager extends AbstractInjectionAware
      * @param string $type
      * @param Asset  $asset
      */
-    public function addAssetByType(string! type, <Asset> asset) -> <static>
+    public function addAssetByType( string type, <Asset> asset) -> <static>
     {
         var collection;
 
@@ -107,7 +110,7 @@ class Manager extends AbstractInjectionAware
      * @param bool        $autoVersion
      */
     public function addCss(
-        string! path,
+         string path,
         bool local = true,
         bool filter = true,
         array attributes = [],
@@ -144,7 +147,7 @@ class Manager extends AbstractInjectionAware
      * @param string $type
      * @param Inline $code
      */
-    public function addInlineCodeByType(string! type, <$Inline> code) -> <static>
+    public function addInlineCodeByType( string type, <$Inline> code) -> <static>
     {
         var collection;
 
@@ -211,7 +214,7 @@ class Manager extends AbstractInjectionAware
      * @param bool        $autoVersion
      */
     public function addJs(
-        string! path,
+         string path,
         bool local = true,
         bool filter = true,
         array attributes = [],
@@ -273,7 +276,7 @@ class Manager extends AbstractInjectionAware
      * @param string $name
      * @deprecated
      */
-    public function exists(string! name) -> bool
+    public function exists( string name) -> bool
     {
         return this->has(name);
     }
@@ -290,7 +293,7 @@ class Manager extends AbstractInjectionAware
      * @return Collection
      * @throws Exception
      */
-    public function get(string! name) -> <Collection>
+    public function get( string name) -> <Collection>
     {
         if unlikely true !== isset(this->collections[name]) {
             throw new CollectionNotFound(name);
@@ -349,7 +352,7 @@ class Manager extends AbstractInjectionAware
      *
      * @param string $name
      */
-    public function has(string! name) -> bool
+    public function has( string name) -> bool
     {
         return isset this->collections[name];
     }
@@ -518,7 +521,7 @@ class Manager extends AbstractInjectionAware
                         throw new AssetSourceTargetCollision(targetPath);
                     }
 
-                    if (true === file_exists(targetPath)) {
+                    if (true === this->phpFileExists(targetPath)) {
                         if (filemtime(targetPath) !== filemtime(sourcePath)) {
                             let filterNeeded = true;
                         }
@@ -586,7 +589,7 @@ class Manager extends AbstractInjectionAware
                      * Write the file using file-put-contents. This respects the
                      * openbase-dir also writes to streams
                      */
-                    file_put_contents(targetPath, filteredContent);
+                    this->phpFilePutContents(targetPath, filteredContent);
                 }
             }
 
@@ -626,7 +629,7 @@ class Manager extends AbstractInjectionAware
              * Write the file using file_put_contents. This respects the
              * openbase-dir also writes to streams
              */
-            file_put_contents(completeTargetPath, filteredJoinedContent);
+            this->phpFilePutContents(completeTargetPath, filteredJoinedContent);
 
             let prefixedPath = this->calculatePrefixedPath(
                 collection,
@@ -815,7 +818,7 @@ class Manager extends AbstractInjectionAware
      * @param string     $name
      * @param Collection $collection
      */
-    public function set(string! name, <Collection> collection) -> <static>
+    public function set( string name, <Collection> collection) -> <static>
     {
         let this->collections[name] = collection;
 

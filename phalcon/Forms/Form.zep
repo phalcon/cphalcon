@@ -192,7 +192,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
      * @param object entity
      * @param array whitelist
      */
-    public function bind(array! data, var entity = null, array whitelist = []) -> <static>
+    public function bind( array data, var entity = null, array whitelist = []) -> <static>
     {
         var filter, key, value, element, candidate, filters, container, filteredValue;
         var elementName, dataKey;
@@ -400,7 +400,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     /**
      * Returns an element added to the form by its name
      */
-    public function get(string! name) -> <ElementInterface>
+    public function get( string name) -> <ElementInterface>
     {
         var element;
 
@@ -452,7 +452,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     /**
      * Gets a value from the internal filtered data or calls getValue(name)
      */
-    public function getFilteredValue(string! name) -> var | null
+    public function getFilteredValue( string name) -> var | null
     {
         var filteredData, value;
 
@@ -473,7 +473,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     /**
      * Returns a label for an element
      */
-    public function getLabel(string! name) -> string
+    public function getLabel( string name) -> string
     {
         var element, label;
 
@@ -514,7 +514,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     /**
      * Returns the messages generated for a specific element
      */
-    public function getMessagesFor(string! name) -> <Messages>
+    public function getMessagesFor( string name) -> <Messages>
     {
         if !this->has(name) {
             return new Messages();
@@ -556,7 +556,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     /**
      * Gets a value from the internal related entity or from the default value
      */
-    public function getValue(string! name) -> var | null
+    public function getValue( string name) -> var | null
     {
         var entity, value, data, internalEntity, element;
         array forbidden;
@@ -667,7 +667,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     /**
      * Check if the form contains an element
      */
-    public function has(string! name) -> bool
+    public function has( string name) -> bool
     {
         /**
          * Checks if the element is in the form
@@ -678,7 +678,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     /**
      * Check if messages were generated for a specific element
      */
-    public function hasMessagesFor(string! name) -> bool
+    public function hasMessagesFor( string name) -> bool
     {
         return this->getMessagesFor(name)->count() > 0;
     }
@@ -864,7 +864,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     /**
      * Generate the label of an element added to the form including HTML
      */
-    public function label(string! name, array attributes = []) -> string
+    public function label( string name, array attributes = []) -> string
     {
         var element;
 
@@ -886,7 +886,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     /**
      * Renders a specific item in the form
      */
-    public function render(string! name, array attributes = []) -> string
+    public function render( string name, array attributes = []) -> string
     {
         var element;
 
@@ -900,7 +900,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     /**
      * Removes an element from the form
      */
-    public function remove(string! name) -> bool
+    public function remove( string name) -> bool
     {
         /**
          * Checks if the element is in the form
@@ -934,7 +934,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
      *
      * @return static
      */
-    public function setAction(string! action) -> <static>
+    public function setAction( string action) -> <static>
     {
         this->getAttributes()->set("action", action);
 
@@ -1010,7 +1010,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     /**
      * Sets options for the element
      */
-    public function setUserOptions(array! options) -> <static>
+    public function setUserOptions( array options) -> <static>
     {
         let this->options = options;
 

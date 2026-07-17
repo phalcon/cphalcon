@@ -16,7 +16,7 @@ namespace Phalcon\Tests\Unit\Encryption\Crypt;
 use Phalcon\Encryption\Crypt;
 use Phalcon\Encryption\Crypt\Exception\Exception;
 use Phalcon\Encryption\Crypt\Exception\Mismatch;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 final class SetPaddingTest extends AbstractUnitTestCase

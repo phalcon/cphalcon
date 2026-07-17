@@ -110,6 +110,47 @@ PHP_METHOD(Phalcon_Support_Debug_Report_BacktraceItem, __construct)
 	ZVAL_BOOL(&__$false, 0);
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&args);
+	static zend_string *_zephir_prop_0 = NULL;
+	static zend_string *_zephir_prop_1 = NULL;
+	static zend_string *_zephir_prop_2 = NULL;
+	static zend_string *_zephir_prop_3 = NULL;
+	static zend_string *_zephir_prop_4 = NULL;
+	static zend_string *_zephir_prop_5 = NULL;
+	static zend_string *_zephir_prop_6 = NULL;
+	static zend_string *_zephir_prop_7 = NULL;
+	static zend_string *_zephir_prop_8 = NULL;
+	static zend_string *_zephir_prop_9 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("functionName", 12, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_1)) {
+		_zephir_prop_1 = zend_string_init("type", 4, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_2)) {
+		_zephir_prop_2 = zend_string_init("className", 9, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_3)) {
+		_zephir_prop_3 = zend_string_init("classLink", 9, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_4)) {
+		_zephir_prop_4 = zend_string_init("functionLink", 12, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_5)) {
+		_zephir_prop_5 = zend_string_init("hasArgs", 7, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_6)) {
+		_zephir_prop_6 = zend_string_init("args", 4, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_7)) {
+		_zephir_prop_7 = zend_string_init("file", 4, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_8)) {
+		_zephir_prop_8 = zend_string_init("line", 4, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_9)) {
+		_zephir_prop_9 = zend_string_init("fragment", 8, 1);
+	}
+
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 10)
 		Z_PARAM_STR(functionName)
@@ -192,20 +233,20 @@ PHP_METHOD(Phalcon_Support_Debug_Report_BacktraceItem, __construct)
 		fragment = &fragment_sub;
 		fragment = &__$null;
 	}
-	zephir_update_property_zval(this_ptr, ZEND_STRL("functionName"), &functionName_zv);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("type"), type);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("className"), className);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("classLink"), classLink);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("functionLink"), functionLink);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1291, &functionName_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1292, type);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 1293, className);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 1294, classLink);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_4, 1295, functionLink);
 	if (hasArgs) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("hasArgs"), &__$true);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_5, 1296, &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("hasArgs"), &__$false);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_5, 1296, &__$false);
 	}
-	zephir_update_property_zval(this_ptr, ZEND_STRL("args"), &args);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("file"), file);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("line"), line);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("fragment"), fragment);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_6, 1297, &args);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_7, 1298, file);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_8, 1299, line);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_9, 1300, fragment);
 	ZEPHIR_MM_RESTORE();
 }
 

@@ -18,17 +18,20 @@ use Phalcon\Encryption\Crypt;
 class FakeCryptOpensslRandomPseudoBytes extends Crypt
 {
     /**
-     * Returns false to simulate a failure in openssl_random_pseudo_bytes(),
-     * triggering the "Cannot calculate Random Pseudo Bytes" exception.
+     * Throws to simulate a failure in openssl_random_pseudo_bytes(). On PHP
+     * 8.1+ the native function returns a string or throws on failure (it never
+     * returns false), so a failure is signalled by an exception, which
+     * Crypt::encrypt() catches and rethrows as RandomBytesGenerationFailed
+     * ("Cannot calculate Random Pseudo Bytes").
      *
      * @param int $length
      *
-     * @return mixed
+     * @return string
      *
      * @link https://php.net/manual/en/function.openssl-random-pseudo-bytes
      */
-    protected function phpOpensslRandomPseudoBytes(int $length): mixed
+    protected static function phpOpensslRandomPseudoBytes(int $length): string
     {
-        return false;
+        throw new \Exception('Simulated openssl_random_pseudo_bytes() failure');
     }
 }

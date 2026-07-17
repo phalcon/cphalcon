@@ -75,7 +75,7 @@ final class UnderscoreGetTest extends AbstractDatabaseTestCase
     public function testMvcModelUnderscoreGetDirtyRelated(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
 
         $invoicesMigration = new InvoicesMigration($connection);
         $invoicesMigration->insert(77, 1, 0, uniqid('inv-'));
@@ -173,7 +173,7 @@ final class UnderscoreGetTest extends AbstractDatabaseTestCase
     public function testMvcModelUnderscoreGetRelated(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
 
         $invoicesMigration = new InvoicesMigration($connection);
         $invoicesMigration->insert(77, 1, 0, uniqid('inv-'));

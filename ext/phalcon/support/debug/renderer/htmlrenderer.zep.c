@@ -150,6 +150,11 @@ PHP_METHOD(Phalcon_Support_Debug_Renderer_HtmlRenderer, getTemplate)
 	ZVAL_UNDEF(&name_zv);
 	ZVAL_UNDEF(&template);
 	ZVAL_UNDEF(&_0);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("templates", 9, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(name)
 	ZEND_PARSE_PARAMETERS_END();
@@ -158,7 +163,7 @@ PHP_METHOD(Phalcon_Support_Debug_Renderer_HtmlRenderer, getTemplate)
 	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
 	zephir_memory_observe(&template);
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("templates"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1290, PH_NOISY_CC | PH_READONLY);
 	if (zephir_array_isset_fetch(&template, &_0, &name_zv, 0)) {
 		RETURN_CCTOR(&template);
 	}

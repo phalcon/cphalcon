@@ -19,6 +19,7 @@ use Phalcon\Mvc\Model\Resultset\Complex;
 use Phalcon\Mvc\Model\Resultset\Simple;
 use Phalcon\Storage\Exception;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\Group;
@@ -41,6 +42,12 @@ final class ExecuteQueryTest extends AbstractDatabaseTestCase
             $this->fail($e->getMessage());
         }
         $this->setDatabase();
+
+        // Recreate the table so the test is isolated from records left behind
+        // by earlier tests (the auto-increment INSERT below otherwise collides
+        // on PostgreSQL when a prior test seeded inv_id = 1).
+        $connection = self::getPdoConnection();
+        (new InvoicesMigration($connection));
     }
     /**
      * @issue  https://github.com/phalcon/cphalcon/issues/15024
@@ -79,14 +86,8 @@ final class ExecuteQueryTest extends AbstractDatabaseTestCase
     #[Group('mysql')]
     #[Group('pgsql')]
     #[Group('sqlite')]
-    public function testMvcModelManagerExecuteQueryIssue16976(): void
+    public function testMvcModelManagerExecuteQueryUpdateSetExpressionWithPlaceholder(): void
     {
-        $this->markTestSkipped(
-            "Skipped pending re-implementation of #16976. "
-            . "Original fix reverted because the substitution path triggered "
-            . "a use-after-free during record->update (#17042)."
-        );
-
         /** @var ManagerInterface $manager */
         $manager = $this->getService("modelsManager");
 

@@ -13,12 +13,15 @@ namespace Phalcon\Logger;
 use DateTimeZone;
 use Phalcon\Config\ConfigInterface;
 use Phalcon\Factory\AbstractConfigFactory;
+use Phalcon\Traits\Support\Helper\Arr\GetTrait;
 
 /**
  * Factory creating logger objects
  */
 class LoggerFactory extends AbstractConfigFactory
 {
+    use GetTrait;
+
     /**
      * @var AdapterFactory
      */
@@ -96,23 +99,6 @@ class LoggerFactory extends AbstractConfigFactory
         <DateTimeZone> timezone = null
     ) -> <Logger> {
         return new Logger(name, adapters, timezone);
-    }
-
-    /**
-     * @todo Remove this when we get traits
-     */
-    protected function getArrVal(
-        array! collection,
-        var index,
-        var defaultValue = null
-    ) -> var {
-        var value;
-
-        if unlikely !fetch value, collection[index] {
-            return defaultValue;
-        }
-
-        return value;
     }
 
     /**

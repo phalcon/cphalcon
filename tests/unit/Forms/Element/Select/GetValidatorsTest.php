@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Forms\Element\Select;
 
 use Phalcon\Filter\Validation\Validator\PresenceOf;
 use Phalcon\Forms\Element\Select;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class GetValidatorsTest extends AbstractUnitTestCase
 {

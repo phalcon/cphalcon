@@ -51,6 +51,18 @@ final class SortTest extends AbstractCollectionTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-12
      */
+    public function testSupportCollectionSortDoesNotMutateOriginal(): void
+    {
+        $collection = new Collection(['b' => 2, 'a' => 1]);
+        $collection->sort();
+
+        $this->assertSame(['b' => 2, 'a' => 1], $collection->toArray());
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-12
+     */
     public function testSupportCollectionSortWithCallbackPreservesKeys(): void
     {
         $collection = new Collection([
@@ -65,17 +77,5 @@ final class SortTest extends AbstractCollectionTestCase
             ['b' => 'apple', 'a' => 'banana', 'c' => 'cherry'],
             $sorted->toArray()
         );
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-05-12
-     */
-    public function testSupportCollectionSortDoesNotMutateOriginal(): void
-    {
-        $collection = new Collection(['b' => 2, 'a' => 1]);
-        $collection->sort();
-
-        $this->assertSame(['b' => 2, 'a' => 1], $collection->toArray());
     }
 }

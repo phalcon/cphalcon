@@ -17,7 +17,7 @@ use Phalcon\Di\FactoryDefault;
 use Phalcon\Mvc\Router;
 use Phalcon\Mvc\Router\Group;
 use Phalcon\Mvc\Router\Route;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\BackupGlobals;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -26,6 +26,42 @@ use PHPUnit\Framework\Attributes\DataProvider;
 final class GroupTest extends AbstractUnitTestCase
 {
     use DiTrait;
+
+    /**
+     * @return array<array{string, string, string, string}>
+     */
+    public static function groupsProvider(): array
+    {
+        return [
+            ['/blog/save', 'blog', 'index', 'save'],
+            ['/blog/edit/1', 'blog', 'index', 'edit'],
+            ['/blog/about', 'blog', 'about', 'index'],
+        ];
+    }
+
+    /**
+     * @return array<array{string|null, string|null, string}>
+     */
+    public static function hostnameRoutesProvider(): array
+    {
+        return [
+            ['localhost', null, 'posts3'],
+            ['my.phalcon.io', 'my.phalcon.io', 'posts'],
+            [null, null, 'posts3'],
+        ];
+    }
+
+    /**
+     * @return array<array{string|null, string|null, string}>
+     */
+    public static function hostnameRoutesRegexProvider(): array
+    {
+        return [
+            ['localhost', null, 'posts3'],
+            ['my.phalcon.io', '([a-z]+).phalcon.io', 'posts'],
+            [null, null, 'posts3'],
+        ];
+    }
 
     /**
      * @author Phalcon Team <team@phalcon.io>
@@ -99,59 +135,6 @@ final class GroupTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    #[DataProvider('hostnameRoutesProvider')]
-    public function testMvcRouterGroupHostnameRouteGroup(
-        ?string $actualHost,
-        ?string $expectedHost,
-        string $controller
-    ): void {
-        Route::reset();
-
-        $this->newDi();
-        $this->setDiService('request');
-
-        $container = $this->getDi();
-
-        $router = new Router(false);
-        $router->setDI($container);
-
-        $router->add(
-            '/edit',
-            [
-                'controller' => 'posts3',
-                'action'     => 'edit3',
-            ]
-        );
-
-        $group = new Group();
-        $group->setHostname('my.phalcon.io');
-        $group->add(
-            '/edit',
-            [
-                'controller' => 'posts',
-                'action'     => 'edit',
-            ]
-        );
-
-        $router->mount($group);
-
-        $_SERVER['HTTP_HOST'] = $actualHost;
-
-        $router->handle('/edit');
-
-        $expected = $controller;
-        $actual   = $router->getControllerName();
-        $this->assertSame($expected, $actual);
-
-        $expected = $expectedHost;
-        $actual   = $router->getMatchedRoute()->getHostname();
-        $this->assertSame($expected, $actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
-     */
     #[DataProvider('hostnameRoutesRegexProvider')]
     public function testMvcRouterGroupHostnameRegexRouteGroup(
         ?string $actualHost,
@@ -202,38 +185,55 @@ final class GroupTest extends AbstractUnitTestCase
     }
 
     /**
-     * @return array<array{string, string, string, string}>
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2018-11-13
      */
-    public static function groupsProvider(): array
-    {
-        return [
-            ['/blog/save', 'blog', 'index', 'save'],
-            ['/blog/edit/1', 'blog', 'index', 'edit'],
-            ['/blog/about', 'blog', 'about', 'index'],
-        ];
-    }
+    #[DataProvider('hostnameRoutesProvider')]
+    public function testMvcRouterGroupHostnameRouteGroup(
+        ?string $actualHost,
+        ?string $expectedHost,
+        string $controller
+    ): void {
+        Route::reset();
 
-    /**
-     * @return array<array{string|null, string|null, string}>
-     */
-    public static function hostnameRoutesProvider(): array
-    {
-        return [
-            ['localhost', null, 'posts3'],
-            ['my.phalcon.io', 'my.phalcon.io', 'posts'],
-            [null, null, 'posts3'],
-        ];
-    }
+        $this->newDi();
+        $this->setDiService('request');
 
-    /**
-     * @return array<array{string|null, string|null, string}>
-     */
-    public static function hostnameRoutesRegexProvider(): array
-    {
-        return [
-            ['localhost', null, 'posts3'],
-            ['my.phalcon.io', '([a-z]+).phalcon.io', 'posts'],
-            [null, null, 'posts3'],
-        ];
+        $container = $this->getDi();
+
+        $router = new Router(false);
+        $router->setDI($container);
+
+        $router->add(
+            '/edit',
+            [
+                'controller' => 'posts3',
+                'action'     => 'edit3',
+            ]
+        );
+
+        $group = new Group();
+        $group->setHostname('my.phalcon.io');
+        $group->add(
+            '/edit',
+            [
+                'controller' => 'posts',
+                'action'     => 'edit',
+            ]
+        );
+
+        $router->mount($group);
+
+        $_SERVER['HTTP_HOST'] = $actualHost;
+
+        $router->handle('/edit');
+
+        $expected = $controller;
+        $actual   = $router->getControllerName();
+        $this->assertSame($expected, $actual);
+
+        $expected = $expectedHost;
+        $actual   = $router->getMatchedRoute()->getHostname();
+        $this->assertSame($expected, $actual);
     }
 }

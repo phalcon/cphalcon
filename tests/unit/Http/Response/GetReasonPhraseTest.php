@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Http\Response;
 
 use Phalcon\Http\Response;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Page\Http;
 
 final class GetReasonPhraseTest extends AbstractUnitTestCase
@@ -34,5 +34,17 @@ final class GetReasonPhraseTest extends AbstractUnitTestCase
         $expected = $phrase;
         $actual   = $response->getReasonPhrase();
         $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-29
+     */
+    public function testHttpResponseGetReasonPhraseWithoutStatusHeader(): void
+    {
+        $response = new Response();
+
+        $actual = $response->getReasonPhrase();
+        $this->assertNull($actual);
     }
 }

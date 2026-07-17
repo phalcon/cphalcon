@@ -27,7 +27,7 @@ class PadFactory extends AbstractFactory
     /**
      * AdapterFactory constructor.
      */
-    public function __construct(array! services = [])
+    public function __construct( array services = [])
     {
         this->init(services);
     }
@@ -35,7 +35,7 @@ class PadFactory extends AbstractFactory
     /**
      * Create a new instance of the adapter
      */
-    public function newInstance(string! name) -> <PadInterface>
+    public function newInstance( string name) -> <PadInterface>
     {
         var definition;
 

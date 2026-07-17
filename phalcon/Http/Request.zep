@@ -24,6 +24,7 @@ use Phalcon\Http\Request\Exceptions\SanitizerNotFound;
 use Phalcon\Http\Request\File;
 use Phalcon\Http\Request\FileInterface;
 use Phalcon\Support\Helper\Json\Decode;
+use Phalcon\Traits\Php\FileTrait;
 use stdClass;
 
 /**
@@ -54,6 +55,8 @@ use stdClass;
  */
 class Request extends AbstractInjectionAware implements RequestInterface, RequestMethodInterface
 {
+    use FileTrait;
+
     /**
      * @var FilterInterface|null
      */
@@ -107,7 +110,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
      *```
      */
     public function get(
-        string! name = null,
+         string name = null,
         var filters = null,
         var defaultValue = null,
         bool notAllowEmpty = false,
@@ -292,22 +295,26 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     public function getDigestAuth() -> array
     {
         var digest, matches, match, server;
-        array auth;
+        array auth = [];
 
-        let auth   = [],
-            server = this->getServerArray();
+        let server = this->getServerArray();
 
         if fetch digest, server["PHP_AUTH_DIGEST"] {
             let matches = [];
 
-            if !preg_match_all("#(\\w+)=(['\"]?)([^'\" ,]+)\\2#", digest, matches, 2) {
+            if (
+                !preg_match_all(
+                    "#(\\w+)=(['\"]?)([^'\" ,]+)\\2#",
+                    digest,
+                    matches,
+                    2
+                )
+            ) {
                 return auth;
             }
 
-            if typeof matches == "array" {
-                for match in matches {
-                    let auth[match[1]] = match[3];
-                }
+            for match in matches {
+                let auth[match[1]] = match[3];
             }
         }
 
@@ -419,7 +426,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     /**
      * Gets HTTP header from request data
      */
-    public function getHeader(string! header) -> string
+    public function getHeader( string header) -> string
     {
         var value, name, server;
 
@@ -707,7 +714,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
      *```
      */
     public function getPatch(
-        string! name = null,
+         string name = null,
         var filters = null,
         var defaultValue = null,
         bool notAllowEmpty = false,
@@ -765,7 +772,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
      *```
      */
     public function getPost(
-        string! name = null,
+         string name = null,
         var filters = null,
         var defaultValue = null,
         bool notAllowEmpty = false,
@@ -818,7 +825,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
      *```
      */
     public function getPut(
-        string! name = null,
+         string name = null,
         var filters = null,
         var defaultValue = null,
         bool notAllowEmpty = false,
@@ -852,7 +859,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
      *```
      */
     public function getQuery(
-        string! name = null,
+         string name = null,
         var filters = null,
         var defaultValue = null,
         bool notAllowEmpty = false,
@@ -878,7 +885,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
         let rawBody = this->rawBody;
 
         if empty rawBody {
-            let contents = file_get_contents("php://input");
+            let contents = this->phpFileGetContents("php://input");
 
             /**
              * We need store the read raw body because it can't be read again
@@ -910,7 +917,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     /**
      * Gets variable from $_SERVER superglobal
      */
-    public function getServer(string! name) -> string | null
+    public function getServer( string name) -> string | null
     {
         var serverValue, server;
 
@@ -953,6 +960,8 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
 
     /**
      * Gets attached files as Phalcon\Http\Request\File instances
+     *
+     * @return FileInterface[]
      */
     public function getUploadedFiles(
         bool onlySuccessful = false,
@@ -1057,7 +1066,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     /**
      * Checks whether $_REQUEST superglobal has certain index
      */
-    public function has(string! name) -> bool
+    public function has( string name) -> bool
     {
         return array_key_exists(name, _REQUEST);
     }
@@ -1073,7 +1082,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     /**
      * Checks whether headers has certain index
      */
-    final public function hasHeader(string! header) -> bool
+    final public function hasHeader( string header) -> bool
     {
         var name;
 
@@ -1085,7 +1094,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     /**
      * Checks whether the PATCH data has certain index
      */
-    public function hasPatch(string! name) -> bool
+    public function hasPatch( string name) -> bool
     {
         var patch;
 
@@ -1097,7 +1106,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     /**
      * Checks whether $_POST superglobal has certain index
      */
-    public function hasPost(string! name) -> bool
+    public function hasPost( string name) -> bool
     {
         var post;
 
@@ -1109,7 +1118,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     /**
      * Checks whether the PUT data has certain index
      */
-    public function hasPut(string! name) -> bool
+    public function hasPut( string name) -> bool
     {
         var put;
 
@@ -1121,7 +1130,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     /**
      * Checks whether $_GET superglobal has certain index
      */
-    public function hasQuery(string! name) -> bool
+    public function hasQuery( string name) -> bool
     {
         return array_key_exists(name, _GET);
     }
@@ -1129,7 +1138,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     /**
      * Checks whether $_SERVER superglobal has certain index
      */
-    final public function hasServer(string! name) -> bool
+    final public function hasServer( string name) -> bool
     {
         var server;
 
@@ -1395,7 +1404,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
      * particular methods
      */
     public function setParameterFilters(
-        string! name,
+         string name,
         array filters = [],
         array scope = []
     ) -> <static> {
@@ -1490,7 +1499,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     /**
      * Process a request header and return the one with best quality
      */
-    protected function getBestQuality(array qualityParts, string! name) -> string
+    protected function getBestQuality(array qualityParts,  string name) -> string
     {
         int i;
         double quality, acceptQuality;
@@ -1525,7 +1534,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
      */
     protected function getHelper(
         array source,
-        string! name = null,
+         string name = null,
         var filters = null,
         var defaultValue = null,
         bool notAllowEmpty = false,
@@ -1564,7 +1573,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     /**
      * Process a request header and return an array of values with their qualities
      */
-    protected function getQualityHeader(string! serverIndex, string! name) -> array
+    protected function getQualityHeader( string serverIndex,  string name) -> array
     {
         var headerPart, headerParts, headerSplit, part, parts, returnedParts, serverValue, split;
 
@@ -1783,7 +1792,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     /**
      * Smooth out $_FILES to have plain array with all files uploaded
      */
-    protected function smoothFiles(array! names, array! types, array! tmp_names, array! sizes, array! errors, string prefix) -> array
+    protected function smoothFiles( array names,  array types,  array tmp_names,  array sizes,  array errors, string prefix) -> array
     {
         var idx, name, file, files, parentFiles, p;
 

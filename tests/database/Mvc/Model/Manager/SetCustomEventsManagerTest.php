@@ -13,7 +13,11 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Mvc\Model\Manager;
 
+use Phalcon\Events\Manager as EventsManager;
+use Phalcon\Mvc\Model\Manager;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use Phalcon\Tests\Support\Models\Invoices;
+use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\Group;
 
 #[Group('mysql')]
@@ -21,12 +25,28 @@ use PHPUnit\Framework\Attributes\Group;
 #[Group('sqlite')]
 final class SetCustomEventsManagerTest extends AbstractDatabaseTestCase
 {
+    use DiTrait;
+
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+    }
+
     /**
+     * Tests Phalcon\Mvc\Model\Manager :: setCustomEventsManager()
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2026-06-22
      */
     public function testMvcModelManagerSetCustomEventsManager(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $manager       = new Manager();
+        $model         = new Invoices();
+        $eventsManager = new EventsManager();
+
+        $manager->setCustomEventsManager($model, $eventsManager);
+
+        $this->assertSame($eventsManager, $manager->getCustomEventsManager($model));
     }
 }

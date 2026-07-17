@@ -10,17 +10,14 @@
 
 namespace Phalcon\Translate\Interpolator;
 
-use Phalcon\Support\Helper\Str\Interpolate;
+use Phalcon\Traits\Support\Helper\Str\InterpolateTrait;
 
 /**
  * Class AssociativeArray
  */
 class AssociativeArray implements InterpolatorInterface
 {
-    /**
-     * @var Interpolate | null
-     */
-    protected interpolate = null;
+    use InterpolateTrait;
 
     /**
      * Replaces placeholders by the values passed
@@ -30,13 +27,9 @@ class AssociativeArray implements InterpolatorInterface
      * @return string
      */
     public function replacePlaceholders(
-        string! translation,
+         string translation,
         array placeholders = []
     ) -> string {
-        if null === this->interpolate {
-            let this->interpolate = new Interpolate();
-        }
-
-        return this->interpolate->__invoke(translation, placeholders);
+        return this->toInterpolate(translation, placeholders);
     }
 }

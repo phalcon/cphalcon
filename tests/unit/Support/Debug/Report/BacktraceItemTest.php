@@ -14,10 +14,20 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Support\Debug\Report;
 
 use Phalcon\Support\Debug\Report\BacktraceItem;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class BacktraceItemTest extends AbstractUnitTestCase
 {
+    public function testDefaultsForMinimalFrame(): void
+    {
+        $item = new BacktraceItem('closure');
+
+        $this->assertNull($item->getClassName());
+        $this->assertNull($item->getType());
+        $this->assertFalse($item->hasArgs());
+        $this->assertSame([], $item->getArgs());
+        $this->assertNull($item->getFragment());
+    }
     public function testGettersReturnConstructorValues(): void
     {
         $fragment = [
@@ -51,16 +61,5 @@ final class BacktraceItemTest extends AbstractUnitTestCase
         $this->assertSame('/path/file.php', $item->getFile());
         $this->assertSame(42, $item->getLine());
         $this->assertSame($fragment, $item->getFragment());
-    }
-
-    public function testDefaultsForMinimalFrame(): void
-    {
-        $item = new BacktraceItem('closure');
-
-        $this->assertNull($item->getClassName());
-        $this->assertNull($item->getType());
-        $this->assertFalse($item->hasArgs());
-        $this->assertSame([], $item->getArgs());
-        $this->assertNull($item->getFragment());
     }
 }

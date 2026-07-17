@@ -60,6 +60,11 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Generic, __construct)
 	ZVAL_UNDEF(&doctype_sub);
 	ZVAL_UNDEF(&type_zv);
 	ZVAL_NULL(&__$null);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("type", 4, 1);
+	}
+
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_OBJECT_OF_CLASS(escaper, phalcon_html_escaper_escaperinterface_ce)
@@ -87,7 +92,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Generic, __construct)
 	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_html_helper_input_generic_ce, getThis(), "__construct", NULL, 0, escaper, doctype);
 	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, ZEND_STRL("type"), &type_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 776, &type_zv);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -105,11 +110,16 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Generic, setType)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&type_zv);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("type", 4, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(type)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&type_zv, type);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("type"), &type_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 776, &type_zv);
 	RETURN_THISW();
 }
 

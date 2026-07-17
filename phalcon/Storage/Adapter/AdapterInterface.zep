@@ -25,12 +25,12 @@ interface AdapterInterface
     /**
      * Decrements a stored number
      */
-    public function decrement(string! key, int value = 1) -> int | bool;
+    public function decrement( string key, int value = 1) -> int | bool;
 
     /**
      * Deletes data from the adapter
      */
-    public function delete(string! key) -> bool;
+    public function delete( string key) -> bool;
 
     /**
      * Deletes multiple data from the adapter
@@ -45,7 +45,7 @@ interface AdapterInterface
      *
      * @return mixed
      */
-    public function get(string! key, var defaultValue = null) -> var;
+    public function get( string key, var defaultValue = null) -> var;
 
     /**
      * Returns the already connected adapter or connects to the backend
@@ -56,7 +56,7 @@ interface AdapterInterface
     /**
      * Returns all the keys stored
      */
-    public function getKeys(string! prefix = "") -> array;
+    public function getKeys( string prefix = "") -> array;
 
     /**
      * Returns the prefix for the keys
@@ -66,12 +66,12 @@ interface AdapterInterface
     /**
      * Checks if an element exists in the cache
      */
-    public function has(string! key) -> bool;
+    public function has( string key) -> bool;
 
     /**
      * Increments a stored number
      */
-    public function increment(string! key, int value = 1) -> int | bool;
+    public function increment( string key, int value = 1) -> int | bool;
 
     /**
      * Stores data in the adapter. If the TTL is `null` (default) or not defined
@@ -86,7 +86,7 @@ interface AdapterInterface
      *
      * @return bool
      */
-    public function set(string! key, var value, var ttl = null) -> bool;
+    public function set( string key, var value, var ttl = null) -> bool;
 
     /**
      * Stores data in the adapter forever. The key needs to manually deleted

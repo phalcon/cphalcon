@@ -41,7 +41,7 @@ class Redis extends MetaData
      *
      * @param array options
      */
-    public function __construct(<AdapterFactory> factory, array! options = [])
+    public function __construct(<AdapterFactory> factory,  array options = [])
     {
         let options["prefix"]   = this->getArrVal(options, "prefix", "ph-mm-reds-"),
             options["lifetime"] = this->getArrVal(options, "lifetime", 172800),

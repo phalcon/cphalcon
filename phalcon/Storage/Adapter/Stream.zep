@@ -15,6 +15,9 @@ use Iterator;
 use Phalcon\Storage\Exceptions\InvalidConfiguration;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Support\Exception as SupportException;
+use Phalcon\Traits\Php\FileTrait;
+use Phalcon\Traits\Support\Helper\Str\DirFromFileTrait;
+use Phalcon\Traits\Support\Helper\Str\DirSeparatorTrait;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 
@@ -32,6 +35,10 @@ use RecursiveIteratorIterator;
  */
 class Stream extends AbstractAdapter
 {
+    use DirFromFileTrait;
+    use DirSeparatorTrait;
+    use FileTrait;
+
     /**
      * @var string
      */
@@ -55,7 +62,7 @@ class Stream extends AbstractAdapter
      *
      * @throws InvalidConfiguration
      */
-    public function __construct(<SerializerFactory> factory, array! options = [])
+    public function __construct(<SerializerFactory> factory,  array options = [])
     {
         var storageDir;
 
@@ -67,7 +74,7 @@ class Stream extends AbstractAdapter
         /**
          * Lets set some defaults and options here
          */
-        let this->storageDir = this->getDirSeparator(storageDir);
+        let this->storageDir = this->toDirSeparator(storageDir);
 
         parent::__construct(factory, options);
 
@@ -107,7 +114,7 @@ class Stream extends AbstractAdapter
      *
      * @return array
      */
-    public function getKeys(string! prefix = "") -> array
+    public function getKeys( string prefix = "") -> array
     {
         var directory, file, iterator;
         array files;
@@ -139,7 +146,7 @@ class Stream extends AbstractAdapter
      *
      * @return bool
      */
-    public function setForever(string! key, var value) -> bool
+    public function setForever( string key, var value) -> bool
     {
         array payload;
 
@@ -160,7 +167,7 @@ class Stream extends AbstractAdapter
      *
      * @return bool|int
      */
-    protected function doDecrement(string! key, int value = 1) -> int | bool
+    protected function doDecrement( string key, int value = 1) -> int | bool
     {
         var data, result;
 
@@ -186,7 +193,7 @@ class Stream extends AbstractAdapter
      *
      * @return bool
      */
-    protected function doDelete(string! key) -> bool
+    protected function doDelete( string key) -> bool
     {
         var filepath;
 
@@ -196,7 +203,7 @@ class Stream extends AbstractAdapter
 
         let filepath = this->getFilepath(key);
 
-        return unlink(filepath);
+        return this->phpUnlink(filepath);
     }
 
     /**
@@ -207,13 +214,13 @@ class Stream extends AbstractAdapter
      *
      * @return mixed|null
      */
-    protected function doGet(string! key, var defaultValue = null) -> var
+    protected function doGet( string key, var defaultValue = null) -> var
     {
         var content, filepath, payload;
 
         let filepath = this->getFilepath(key);
 
-        if (true !== file_exists(filepath)) {
+        if (true !== this->phpFileExists(filepath)) {
             return defaultValue;
         }
 
@@ -235,7 +242,7 @@ class Stream extends AbstractAdapter
      *
      * @return bool
      */
-    protected function doHas(string! key) -> bool
+    protected function doHas( string key) -> bool
     {
         var payload, filepath;
 
@@ -262,7 +269,7 @@ class Stream extends AbstractAdapter
      *
      * @return bool|int
      */
-    protected function doIncrement(string! key, int value = 1) -> int | bool
+    protected function doIncrement( string key, int value = 1) -> int | bool
     {
         var data, result;
 
@@ -294,7 +301,7 @@ class Stream extends AbstractAdapter
      *
      * @return bool
      */
-    protected function doSet(string! key, var value, var ttl = null) -> bool
+    protected function doSet( string key, var value, var ttl = null) -> bool
     {
         array payload;
 
@@ -318,14 +325,14 @@ class Stream extends AbstractAdapter
      *
      * @return string
      */
-    private function getDir(string! key = "") -> string
+    private function getDir( string key = "") -> string
     {
         var dirFromFile, dirPrefix;
 
-        let dirPrefix   = this->getDirSeparator(this->storageDir . this->prefix),
-            dirFromFile = this->getDirFromFile(this->getKeyWithoutPrefix(key));
+        let dirPrefix   = this->toDirSeparator(this->storageDir . this->prefix),
+            dirFromFile = this->toDirFromFile(this->getKeyWithoutPrefix(key), true);
 
-        return this->getDirSeparator(dirPrefix . dirFromFile);
+        return this->toDirSeparator(dirPrefix . dirFromFile);
     }
 
     /**
@@ -347,7 +354,7 @@ class Stream extends AbstractAdapter
      *
      * @return Iterator
      */
-    private function getIterator(string! dir) -> <Iterator>
+    private function getIterator( string dir) -> <Iterator>
     {
         return new RecursiveIteratorIterator(
             new RecursiveDirectoryIterator(
@@ -384,7 +391,7 @@ class Stream extends AbstractAdapter
             let payload = this->phpFileGetContents(filepath);
         }
 
-        fclose(pointer);
+        this->phpFclose(pointer);
 
         /**
          * No results
@@ -419,7 +426,7 @@ class Stream extends AbstractAdapter
      *
      * @return bool
      */
-    private function isExpired(array! payload) -> bool
+    private function isExpired( array payload) -> bool
     {
         var created, ttl;
 
@@ -456,60 +463,5 @@ class Stream extends AbstractAdapter
         return (
             false !== this->phpFilePutContents(directory . key, localPayload, LOCK_EX)
         );
-    }
-
-    /**
-     * @todo Remove the methods below when we get traits
-     */
-    protected function phpFileExists(string filename) -> bool
-    {
-        return file_exists(filename);
-    }
-
-    protected function phpFileGetContents(string filename) -> string | bool
-    {
-        return file_get_contents(filename);
-    }
-
-    protected function phpFilePutContents(
-        string filename,
-        var data,
-        int flags = 0,
-        var context = null
-    ) -> int | bool {
-        return file_put_contents(filename, data, flags, context);
-    }
-
-    protected function phpFopen(string filename, string mode) -> var
-    {
-        return fopen(filename, mode);
-    }
-
-    protected function phpUnlink(string filename) -> bool
-    {
-        return unlink(filename);
-    }
-
-    private function getDirFromFile(string! file) -> string
-    {
-        var name, start;
-
-        let name  = pathinfo(file, PATHINFO_FILENAME),
-            start = substr(name, 0, -2);
-
-         if !empty start {
-            let start = str_replace(".", "-", start);
-        }
-
-        if !start {
-            let start = substr(name, 0, 1);
-        }
-
-        return implode("/", str_split(start, 2)) . "/";
-    }
-
-    private function getDirSeparator(string! directory) -> string
-    {
-        return rtrim(directory, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
     }
 }

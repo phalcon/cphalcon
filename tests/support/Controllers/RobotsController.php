@@ -13,14 +13,20 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Support\Controllers;
 
+use Phalcon\Annotations\Router\Get;
+use Phalcon\Annotations\Router\Route;
+use Phalcon\Annotations\Router\RoutePrefix;
+
 /**
  * @RoutePrefix("/robots")
  */
+#[RoutePrefix("/robots")]
 class RobotsController
 {
     /**
      * @Get("/")
      */
+    #[Get("/")]
     public function indexAction()
     {
     }
@@ -29,6 +35,7 @@ class RobotsController
      * @Get("/edit/{id:[0-9]+}", name="edit-robot")
      * @param int $id
      */
+    #[Get("/edit/{id:[0-9]+}", name: "edit-robot")]
     public function editAction($id)
     {
     }
@@ -36,6 +43,7 @@ class RobotsController
     /**
      * @Route("/save", methods={"POST", "PUT"}, name="save-robot")
      */
+    #[Route("/save", methods: ["POST", "PUT"], name: "save-robot")]
     public function saveAction()
     {
     }

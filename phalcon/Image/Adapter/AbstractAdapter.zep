@@ -355,20 +355,20 @@ abstract class AbstractAdapter implements AdapterInterface
 
             switch (master) {
                 case Enum::WIDTH:
-                    let height = this->height * width / this->width;
+                    let height = (int) round(this->height * width / this->width);
                     break;
 
                 case Enum::HEIGHT:
-                    let width = this->width * height / this->height;
+                    let width = (int) round(this->width * height / this->height);
                     break;
 
                 case Enum::PRECISE:
                     let ratio = this->width / this->height;
 
                     if ((width / height) > ratio) {
-                        let height = this->height * width / this->width;
+                        let height = (int) round(this->height * width / this->width);
                     } else {
-                        let width = this->width * height / this->height;
+                        let width = (int) round(this->width * height / this->height);
                     }
                     break;
 

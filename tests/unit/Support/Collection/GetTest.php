@@ -89,6 +89,34 @@ final class GetTest extends AbstractCollectionTestCase
 
     /**
      * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-13
+     * @issue  https://github.com/phalcon/cphalcon/issues/17005
+     */
+    public function testSupportCollectionGetCastArrayUnwrapsToArrayObjects(): void
+    {
+        $nested = new Collection(['inKey' => 'inValue']);
+        $collection = new Collection(['outKey' => $nested]);
+
+        $extractedArray = $collection->get('outKey', [], 'array');
+
+        $this->assertIsArray($extractedArray);
+        $this->assertArrayHasKey('inKey', $extractedArray);
+        $this->assertSame('inValue', $extractedArray['inKey']);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-11
+     */
+    public function testSupportCollectionGetReturnsDefaultForMissingKeyEvenWhenStrict(): void
+    {
+        $collection = new Collection([], true, true);
+
+        $this->assertSame('fallback', $collection->get('missing', 'fallback'));
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-11
      */
     public function testSupportCollectionGetReturnsDefaultForNullByDefaultBC(): void
@@ -107,33 +135,5 @@ final class GetTest extends AbstractCollectionTestCase
         $collection = new Collection(['key' => null], true, true);
 
         $this->assertNull($collection->get('key', 'fallback'));
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-05-11
-     */
-    public function testSupportCollectionGetReturnsDefaultForMissingKeyEvenWhenStrict(): void
-    {
-        $collection = new Collection([], true, true);
-
-        $this->assertSame('fallback', $collection->get('missing', 'fallback'));
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-05-13
-     * @issue  https://github.com/phalcon/cphalcon/issues/17005
-     */
-    public function testSupportCollectionGetCastArrayUnwrapsToArrayObjects(): void
-    {
-        $nested = new Collection(['inKey' => 'inValue']);
-        $collection = new Collection(['outKey' => $nested]);
-
-        $extractedArray = $collection->get('outKey', [], 'array');
-
-        $this->assertIsArray($extractedArray);
-        $this->assertArrayHasKey('inKey', $extractedArray);
-        $this->assertSame('inValue', $extractedArray['inKey']);
     }
 }

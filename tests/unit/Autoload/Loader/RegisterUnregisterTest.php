@@ -16,7 +16,8 @@ namespace Phalcon\Tests\Unit\Autoload\Loader;
 use LoaderEvent;
 use Phalcon\Autoload\Loader;
 use Phalcon\Events\Manager;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\Unit\Autoload\Fake\LoaderTrait;
 
 use function array_pop;
@@ -39,17 +40,17 @@ final class RegisterUnregisterTest extends AbstractUnitTestCase
         $loader
             ->setDirectories(
                 [
-                    supportDir('assets/Loader/Example/Events/'),
+                    Talon::settings()->supportPath('assets/Loader/Example/Events/'),
                 ]
             )
             ->setClasses(
                 [
-                    'OtherClass' => supportDir('assets/Loader/Example/Events/Other/'),
+                    'OtherClass' => Talon::settings()->supportPath('assets/Loader/Example/Events/Other/'),
                 ]
             )
             ->setNamespaces(
                 [
-                    'Other\OtherClass' => supportDir('assets/Loader/Example/Events/Other/'),
+                    'Other\OtherClass' => Talon::settings()->supportPath('assets/Loader/Example/Events/Other/'),
                 ]
             )
         ;
@@ -78,10 +79,10 @@ final class RegisterUnregisterTest extends AbstractUnitTestCase
                 0 => null,
             ],
             'beforeCheckPath'  => [
-                0 => supportDir('assets/Loader/Example/Events/LoaderEvent.php'),
+                0 => Talon::settings()->supportPath('assets/Loader/Example/Events/LoaderEvent.php'),
             ],
             'pathFound'        => [
-                0 => supportDir('assets/Loader/Example/Events/LoaderEvent.php'),
+                0 => Talon::settings()->supportPath('assets/Loader/Example/Events/LoaderEvent.php'),
             ],
         ];
 
@@ -126,5 +127,14 @@ final class RegisterUnregisterTest extends AbstractUnitTestCase
         $this->assertSame($expected, $actual);
 
         $loader->unregister();
+
+        /**
+         * After unregister() the loader's autoload must no longer be on the
+         * SPL autoload stack.
+         */
+        $functions = spl_autoload_functions();
+        foreach ($functions as $function) {
+            $this->assertNotSame($loader, $function[0]);
+        }
     }
 }

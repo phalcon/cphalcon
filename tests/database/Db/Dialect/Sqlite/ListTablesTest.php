@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Db\Dialect\Sqlite;
 
+use Phalcon\Db\Dialect\Sqlite;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use PHPUnit\Framework\Attributes\Group;
 
@@ -29,6 +30,12 @@ final class ListTablesTest extends AbstractDatabaseTestCase
      */
     public function testDbDialectSqliteListTables(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $dialect = new Sqlite();
+
+        $expected = "SELECT tbl_name FROM sqlite_master "
+            . "WHERE type = 'table' ORDER BY tbl_name";
+
+        $this->assertSame($expected, $dialect->listTables());
+        $this->assertSame($expected, $dialect->listTables('schema'));
     }
 }

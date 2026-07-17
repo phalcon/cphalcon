@@ -26,6 +26,17 @@ final class GetColumnMapTest extends AbstractDatabaseTestCase
     use DiTrait;
 
     /**
+     * Executed before each test
+     *
+     * @return void
+     */
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+    }
+
+    /**
      * @return array[]
      */
     public static function getExamples(): array
@@ -47,17 +58,6 @@ final class GetColumnMapTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Executed before each test
-     *
-     * @return void
-     */
-    public function setUp(): void
-    {
-        $this->setNewFactoryDefault();
-        $this->setDatabase();
-    }
-
-    /**
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-02-01
      */
@@ -70,7 +70,7 @@ final class GetColumnMapTest extends AbstractDatabaseTestCase
     ): void {
         $adapter = $this->newService($service);
         $adapter->setDi($this->container);
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
 
         $adapter->reset();
 

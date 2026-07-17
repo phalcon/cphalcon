@@ -16,7 +16,7 @@ namespace Phalcon\Tests\Unit\Mvc\View\Engine\Volt\Compiler;
 use Phalcon\Html\TagFactory;
 use Phalcon\Mvc\View\Engine\Volt\Compiler;
 use Phalcon\Mvc\View\Exception;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\DataProvider;
 

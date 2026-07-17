@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Annotations\Adapter\Apcu;
 
 use Phalcon\Annotations\Adapter\AdapterInterface;
 use Phalcon\Annotations\Adapter\Apcu;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class ConstructTest extends AbstractUnitTestCase
 {

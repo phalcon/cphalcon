@@ -18,15 +18,15 @@ namespace Phalcon\Tests\Unit\Auth\Access;
 
 use Phalcon\Acl\Adapter\AdapterInterface as AclAdapterInterface;
 use Phalcon\Acl\Adapter\Memory as AclMemory;
-use Phalcon\Auth\Access\Acl as AclAccess;
 use Phalcon\Auth\Access\AccessLocator;
+use Phalcon\Auth\Access\Acl as AclAccess;
 use Phalcon\Auth\Access\Auth;
 use Phalcon\Auth\Access\Guest;
 use Phalcon\Auth\Exception;
 use Phalcon\Container\Container;
 use Phalcon\Contracts\Auth\Access\Access;
 use Phalcon\Di\Di;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Auth\Fake\FakeAccess;
 use stdClass;
 

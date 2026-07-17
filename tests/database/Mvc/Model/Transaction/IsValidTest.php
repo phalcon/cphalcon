@@ -13,7 +13,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Mvc\Model\Transaction;
 
+use Phalcon\Mvc\Model\Transaction;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\Group;
 
 #[Group('mysql')]
@@ -21,12 +23,34 @@ use PHPUnit\Framework\Attributes\Group;
 #[Group('sqlite')]
 final class IsValidTest extends AbstractDatabaseTestCase
 {
+    use DiTrait;
+
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+    }
+
+    public function tearDown(): void
+    {
+        $this->tearDownDatabase();
+    }
+
     /**
+     * isValid() reflects whether the connection is under an active transaction.
+     *
+     * Tests Phalcon\Mvc\Model\Transaction :: isValid()
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2026-06-22
      */
     public function testMvcModelTransactionIsValid(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $transaction = new Transaction($this->container);
+        $transaction->begin();
+
+        $this->assertTrue($transaction->isValid());
+
+        $transaction->commit();
     }
 }

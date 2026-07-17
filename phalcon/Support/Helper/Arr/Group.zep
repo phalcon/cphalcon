@@ -10,11 +10,15 @@
 
 namespace Phalcon\Support\Helper\Arr;
 
+use Phalcon\Traits\Php\InfoTrait;
+
 /**
  * Groups the elements of an array based on the passed callable
  */
 class Group
 {
+    use InfoTrait;
+
     /**
      * @param array           $collection
      * @param callable|string $method
@@ -45,7 +49,7 @@ class Group
     {
         return (
             is_callable(method) ||
-            (typeof method === "string" && true === function_exists(method))
+            (typeof method === "string" && true === this->phpFunctionExists(method))
         );
     }
 

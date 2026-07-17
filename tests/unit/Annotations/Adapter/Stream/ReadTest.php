@@ -15,11 +15,11 @@ namespace Phalcon\Tests\Unit\Annotations\Adapter\Stream;
 
 use Phalcon\Annotations\Adapter\Stream;
 use Phalcon\Annotations\Reflection;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use TestClass;
 
 use function dataDir;
-use function outputDir;
 
 final class ReadTest extends AbstractUnitTestCase
 {
@@ -29,11 +29,11 @@ final class ReadTest extends AbstractUnitTestCase
      */
     public function testAnnotationsAdapterStreamRead(): void
     {
-        require_once supportDir('assets/Annotations/TestClass.php');
+        require_once Talon::settings()->supportPath('assets/Annotations/TestClass.php');
 
         $adapter = new Stream(
             [
-                'annotationsDir' => outputDir('tests/annotations/'),
+                'annotationsDir' => Talon::settings()->outputPath('tests/annotations/'),
             ]
         );
 
@@ -41,12 +41,12 @@ final class ReadTest extends AbstractUnitTestCase
 
         $adapter->write('testwrite', $classAnnotations);
 
-        $this->assertFileExists(outputDir('tests/annotations/testclass.php'));
+        $this->assertFileExists(Talon::settings()->outputPath('tests/annotations/testclass.php'));
 
         $newClass = $adapter->read('testwrite');
         $this->assertInstanceOf(Reflection::class, $newClass);
 
-        $this->safeDeleteFile(outputDir('tests/annotations/testwrite.php'));
-        $this->safeDeleteFile(outputDir('tests/annotations/testclass.php'));
+        $this->safeDeleteFile(Talon::settings()->outputPath('tests/annotations/testwrite.php'));
+        $this->safeDeleteFile(Talon::settings()->outputPath('tests/annotations/testclass.php'));
     }
 }

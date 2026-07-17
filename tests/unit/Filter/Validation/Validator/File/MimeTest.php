@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Filter\Validation\Validator\File;
 
 use Phalcon\Filter\Validation;
 use Phalcon\Filter\Validation\Validator\File;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Filter\Validation\Validator\File\Fake\FakeMimeType;
 use PHPUnit\Framework\Attributes\BackupGlobals;
 use PHPUnit\Framework\Attributes\Test;
@@ -35,75 +35,6 @@ final class MimeTest extends AbstractUnitTestCase
     public function tearDown(): void
     {
         $this->safeDeleteFile($this->tmpFile);
-    }
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
-     */
-    public function testFilterValidationValidatorFileMimeTypeNotUploaded(): void
-    {
-        $_SERVER = [
-            'REQUEST_METHOD' => 'POST',
-        ];
-
-        $_FILES = [
-            'thumbnail' => [
-                'name'      => 'IMG-20180403-WA0000.jpg',
-                'full_path' => 'IMG-20180403-WA0000.jpg',
-                'type'      => 'image/jpeg',
-                'tmp_name'  => '/tmp/phpsjLIQJ',
-                'error'     => 0,
-                'size'      => 11768,
-            ],
-        ];
-
-        $options = [
-            'types'   => ['image/jpeg', 'image/png'],
-            'message' => 'Allowed file types are :types'
-        ];
-        $validator = new File\MimeType($options);
-        $validation = new Validation();
-        $validation->add('thumbnail', $validator);
-
-        $messages = $validation->validate($_FILES);
-        $this->assertCount(1, $messages);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
-     */
-    public function testFilterValidationValidatorFileMimeTypeWrongTypes(): void
-    {
-        $_SERVER = [
-            'REQUEST_METHOD' => 'POST',
-        ];
-
-        $_FILES = [
-            'thumbnail' => [
-                'name'      => 'IMG-20180403-WA0000.jpg',
-                'full_path' => 'IMG-20180403-WA0000.jpg',
-                'type'      => 'image/jpeg',
-                'tmp_name'  => $this->tmpFile,
-                'error'     => 0,
-                'size'      => 11768,
-            ],
-        ];
-
-        $options = [
-            'types'   => ['image/gif'],
-            'message' => 'Allowed file types are :types'
-        ];
-        $validator = new FakeMimeType($options);
-        $validation = new Validation();
-        $validation->add('thumbnail', $validator);
-
-        $messages = $validation->validate($_FILES);
-        $this->assertCount(1, $messages);
-
-        $expected = 'Allowed file types are image/gif';
-        $actual   = $messages[0]->getMessage();
-        $this->assertSame($expected, $actual);
     }
 
     /**
@@ -171,6 +102,216 @@ final class MimeTest extends AbstractUnitTestCase
         $this->expectExceptionMessage('Option \'allowedTypes\' must be an array');
         $validation->validate($_FILES);
     }
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2018-11-13
+     */
+    public function testFilterValidationValidatorFileMimeTypeNotUploaded(): void
+    {
+        $_SERVER = [
+            'REQUEST_METHOD' => 'POST',
+        ];
+
+        $_FILES = [
+            'thumbnail' => [
+                'name'      => 'IMG-20180403-WA0000.jpg',
+                'full_path' => 'IMG-20180403-WA0000.jpg',
+                'type'      => 'image/jpeg',
+                'tmp_name'  => '/tmp/phpsjLIQJ',
+                'error'     => 0,
+                'size'      => 11768,
+            ],
+        ];
+
+        $options = [
+            'types'   => ['image/jpeg', 'image/png'],
+            'message' => 'Allowed file types are :types'
+        ];
+        $validator = new File\MimeType($options);
+        $validation = new Validation();
+        $validation->add('thumbnail', $validator);
+
+        $messages = $validation->validate($_FILES);
+        $this->assertCount(1, $messages);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-07-04
+     */
+    public function testFilterValidationValidatorFileMimeTypeWildcardDisabled(): void
+    {
+        $_SERVER = [
+            'REQUEST_METHOD' => 'POST',
+        ];
+
+        $_FILES = [
+            'thumbnail' => [
+                'name'      => 'IMG-20180403-WA0000.jpg',
+                'full_path' => 'IMG-20180403-WA0000.jpg',
+                'type'      => 'image/jpeg',
+                'tmp_name'  => $this->tmpFile,
+                'error'     => 0,
+                'size'      => 11768,
+            ],
+        ];
+
+        // Without the opt-in flag, patterns are treated as literal strings
+        $options = [
+            'types'   => ['image/.*'],
+            'message' => 'Allowed file types are :types'
+        ];
+        $validator = new FakeMimeType($options);
+        $validation = new Validation();
+        $validation->add('thumbnail', $validator);
+
+        $messages = $validation->validate($_FILES);
+        $this->assertCount(1, $messages);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-07-04
+     */
+    public function testFilterValidationValidatorFileMimeTypeWildcardLiteral(): void
+    {
+        $_SERVER = [
+            'REQUEST_METHOD' => 'POST',
+        ];
+
+        $_FILES = [
+            'thumbnail' => [
+                'name'      => 'IMG-20180403-WA0000.jpg',
+                'full_path' => 'IMG-20180403-WA0000.jpg',
+                'type'      => 'image/jpeg',
+                'tmp_name'  => $this->tmpFile,
+                'error'     => 0,
+                'size'      => 11768,
+            ],
+        ];
+
+        // Enabling wildcards must not break exact literal matches
+        $options = [
+            'types'          => ['image/jpeg', 'image/png'],
+            'message'        => 'Allowed file types are :types',
+            'allowWildcards' => true
+        ];
+        $validator = new FakeMimeType($options);
+        $validation = new Validation();
+        $validation->add('thumbnail', $validator);
+
+        $messages = $validation->validate($_FILES);
+        $this->assertCount(0, $messages);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-07-04
+     */
+    public function testFilterValidationValidatorFileMimeTypeWildcardMatch(): void
+    {
+        $_SERVER = [
+            'REQUEST_METHOD' => 'POST',
+        ];
+
+        $_FILES = [
+            'thumbnail' => [
+                'name'      => 'IMG-20180403-WA0000.jpg',
+                'full_path' => 'IMG-20180403-WA0000.jpg',
+                'type'      => 'image/jpeg',
+                'tmp_name'  => $this->tmpFile,
+                'error'     => 0,
+                'size'      => 11768,
+            ],
+        ];
+
+        $options = [
+            'types'          => ['image/.*'],
+            'message'        => 'Allowed file types are :types',
+            'allowWildcards' => true
+        ];
+        $validator = new FakeMimeType($options);
+        $validation = new Validation();
+        $validation->add('thumbnail', $validator);
+
+        $messages = $validation->validate($_FILES);
+        $this->assertCount(0, $messages);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-07-04
+     */
+    public function testFilterValidationValidatorFileMimeTypeWildcardNoMatch(): void
+    {
+        $_SERVER = [
+            'REQUEST_METHOD' => 'POST',
+        ];
+
+        $_FILES = [
+            'thumbnail' => [
+                'name'      => 'IMG-20180403-WA0000.jpg',
+                'full_path' => 'IMG-20180403-WA0000.jpg',
+                'type'      => 'image/jpeg',
+                'tmp_name'  => $this->tmpFile,
+                'error'     => 0,
+                'size'      => 11768,
+            ],
+        ];
+
+        $options = [
+            'types'          => ['video/.*'],
+            'message'        => 'Allowed file types are :types',
+            'allowWildcards' => true
+        ];
+        $validator = new FakeMimeType($options);
+        $validation = new Validation();
+        $validation->add('thumbnail', $validator);
+
+        $messages = $validation->validate($_FILES);
+        $this->assertCount(1, $messages);
+
+        $expected = 'Allowed file types are video/.*';
+        $actual   = $messages[0]->getMessage();
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2018-11-13
+     */
+    public function testFilterValidationValidatorFileMimeTypeWrongTypes(): void
+    {
+        $_SERVER = [
+            'REQUEST_METHOD' => 'POST',
+        ];
+
+        $_FILES = [
+            'thumbnail' => [
+                'name'      => 'IMG-20180403-WA0000.jpg',
+                'full_path' => 'IMG-20180403-WA0000.jpg',
+                'type'      => 'image/jpeg',
+                'tmp_name'  => $this->tmpFile,
+                'error'     => 0,
+                'size'      => 11768,
+            ],
+        ];
+
+        $options = [
+            'types'   => ['image/gif'],
+            'message' => 'Allowed file types are :types'
+        ];
+        $validator = new FakeMimeType($options);
+        $validation = new Validation();
+        $validation->add('thumbnail', $validator);
+
+        $messages = $validation->validate($_FILES);
+        $this->assertCount(1, $messages);
+
+        $expected = 'Allowed file types are image/gif';
+        $actual   = $messages[0]->getMessage();
+        $this->assertSame($expected, $actual);
+    }
 
     /**
      * @author Phalcon Team <team@phalcon.io>
@@ -190,5 +331,28 @@ final class MimeTest extends AbstractUnitTestCase
         $expected  = File\MimeType::class;
         $actual    = $validators[0];
         $this->assertInstanceOf($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-07-04
+     */
+    public function testFilterValidationValidatorFileValidateAllowedTypesWildcards(): void
+    {
+        $options    = [
+            'allowedTypes'   => ['image/.*'],
+            'allowWildcards' => true,
+            'messageValid'   => 'File is not valid',
+        ];
+        $file       = new File($options);
+        $validators = $file->getValidators();
+
+        $this->assertCount(1, $validators);
+
+        $expected  = File\MimeType::class;
+        $actual    = $validators[0];
+        $this->assertInstanceOf($expected, $actual);
+
+        $this->assertTrue($validators[0]->getOption('allowWildcards'));
     }
 }

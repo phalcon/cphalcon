@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Mvc\View\Engine\Volt\Parser;
 
 use Phalcon\Mvc\View\Engine\Volt\Compiler;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class AutoescapeTest extends AbstractUnitTestCase
 {
@@ -23,38 +23,6 @@ final class AutoescapeTest extends AbstractUnitTestCase
     public function setUp(): void
     {
         $this->compiler = new Compiler();
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-10
-     */
-    public function testMvcViewEngineVoltParserAutoescapeTrue(): void
-    {
-        $source   = '{% autoescape true %}{{ name }}{% endautoescape %}';
-        $expected = [
-            [
-                'type' => 317,
-                'enable' => 1,
-                'block_statements' => [
-                    [
-                        'type' => 359,
-                        'expr' => [
-                            'type' => 265,
-                            'value' => 'name',
-                            'file' => 'eval code',
-                            'line' => 1,
-                        ],
-                        'file' => 'eval code',
-                        'line' => 1,
-                    ],
-                ],
-                'file' => 'eval code',
-                'line' => 1,
-            ],
-        ];
-        $actual   = $this->compiler->parse($source);
-        $this->assertSame($expected, $actual);
     }
 
     /**
@@ -74,6 +42,38 @@ final class AutoescapeTest extends AbstractUnitTestCase
                         'expr' => [
                             'type' => 265,
                             'value' => 'html',
+                            'file' => 'eval code',
+                            'line' => 1,
+                        ],
+                        'file' => 'eval code',
+                        'line' => 1,
+                    ],
+                ],
+                'file' => 'eval code',
+                'line' => 1,
+            ],
+        ];
+        $actual   = $this->compiler->parse($source);
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-10
+     */
+    public function testMvcViewEngineVoltParserAutoescapeTrue(): void
+    {
+        $source   = '{% autoescape true %}{{ name }}{% endautoescape %}';
+        $expected = [
+            [
+                'type' => 317,
+                'enable' => 1,
+                'block_statements' => [
+                    [
+                        'type' => 359,
+                        'expr' => [
+                            'type' => 265,
+                            'value' => 'name',
                             'file' => 'eval code',
                             'line' => 1,
                         ],

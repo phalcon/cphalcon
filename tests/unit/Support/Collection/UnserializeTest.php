@@ -36,4 +36,22 @@ final class UnserializeTest extends AbstractCollectionTestCase
         $actual = $collection->toArray();
         $this->assertSame($expected, $actual);
     }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    #[DataProvider('getClasses')]
+    public function testSupportCollectionUnserializeRoundTrip(
+        string $class,
+    ): void {
+        $data       = $this->getData();
+        $collection = new $class($data);
+
+        $restored = unserialize(serialize($collection));
+
+        $expected = $data;
+        $actual   = $restored->toArray();
+        $this->assertSame($expected, $actual);
+    }
 }

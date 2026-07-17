@@ -22,6 +22,9 @@ use Phalcon\Mvc\View\Exceptions\InvalidViewsDirType;
 use Phalcon\Mvc\View\Exceptions\ViewNotFound;
 use Phalcon\Mvc\View\Exceptions\ViewServicesUnavailable;
 use Phalcon\Mvc\View\Exceptions\ViewsDirItemMustBeString;
+use Phalcon\Mvc\View\Traits\ViewParamsTrait;
+use Phalcon\Traits\Php\FileTrait;
+use Phalcon\Traits\Support\Helper\Str\DirSeparatorTrait;
 
 /**
  * Phalcon\Mvc\View is a class for working with the "view" portion of the
@@ -49,6 +52,10 @@ use Phalcon\Mvc\View\Exceptions\ViewsDirItemMustBeString;
  */
 class View extends Injectable implements ViewInterface, EventsAwareInterface
 {
+    use DirSeparatorTrait;
+    use FileTrait;
+    use ViewParamsTrait;
+
     /**
      * Render Level: To the action view
      *
@@ -105,11 +112,6 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
      * @var string
      */
     protected basePath = "";
-
-    /**
-     * @var string
-     */
-    protected content = "";
 
     /**
      * @var string
@@ -177,11 +179,6 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
     protected partialsDir = "";
 
     /**
-     * @var array
-     */
-    protected registeredEngines = [];
-
-    /**
      * @var int
      */
     protected renderLevel = 5;
@@ -202,16 +199,13 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
     protected viewsDirs = [];
 
     /**
-     * @var array
-     */
-    protected viewParams = [];
-
-    /**
      * Phalcon\Mvc\View constructor
      */
     public function __construct(array options = [])
     {
-        let this->options = options;
+        let this->options           = options,
+            this->registeredEngines = [],
+            this->viewParams        = [];
     }
 
     /**
@@ -221,7 +215,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
      * echo $this->view->products;
      *```
      */
-    public function __get(string! key) -> var | null
+    public function __get( string key) -> var | null
     {
         return this->getVar(key);
     }
@@ -233,7 +227,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
      * echo isset($this->view->products);
      *```
      */
-    public function __isset(string! key) -> bool
+    public function __isset( string key) -> bool
     {
         return isset this->viewParams[key];
     }
@@ -245,7 +239,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
      * $this->view->products = $products;
      *```
      */
-    public function __set(string! key, var value)
+    public function __set( string key, var value)
     {
         this->setVar(key, value);
     }
@@ -315,7 +309,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
      * Checks whether view exists
      * @deprecated
      */
-    public function exists(string! view) -> bool
+    public function exists( string view) -> bool
     {
         return this->has(view);
     }
@@ -371,14 +365,6 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
     }
 
     /**
-     * Returns output from another view stage
-     */
-    public function getContent() -> string
-    {
-        return this->content;
-    }
-
-    /**
      * Gets the name of the controller rendered
      */
     public function getControllerName() -> string
@@ -427,14 +413,6 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
     }
 
     /**
-     * Returns parameters to views
-     */
-    public function getParamsToView() -> array
-    {
-        return this->viewParams;
-    }
-
-    /**
      * Renders a partial view
      *
      * ```php
@@ -452,7 +430,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
      * );
      * ```
      */
-    public function getPartial(string! partialPath, var params = null) -> string
+    public function getPartial( string partialPath, var params = null) -> string
     {
         // not liking the ob_* functions here, but it will greatly reduce the
         // amount of double code.
@@ -472,14 +450,6 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
     }
 
     /**
-     * @return array
-     */
-    public function getRegisteredEngines() -> array
-    {
-        return this->registeredEngines;
-    }
-
-    /**
      * Perform the automatic rendering returning the output as a string
      *
      * ```php
@@ -494,7 +464,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
      *
      * @param mixed configCallback
      */
-    public function getRender(string! controllerName, string! actionName, array params = [], configCallback = null) -> string
+    public function getRender( string controllerName,  string actionName, array params = [], configCallback = null) -> string
     {
         var view;
 
@@ -550,22 +520,6 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
     }
 
     /**
-     * Returns a parameter previously set in the view
-     *
-     * @return mixed|null
-     */
-    public function getVar(string! key) -> var | null
-    {
-        var value;
-
-        if !fetch value, this->viewParams[key] {
-            return null;
-        }
-
-        return value;
-    }
-
-    /**
      * Gets views directory
      */
     public function getViewsDir() -> string | array
@@ -576,7 +530,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
     /**
      * Checks whether view exists
      */
-    public function has(string! view) -> bool
+    public function has( string view) -> bool
     {
         var basePath, viewsDir, engines, extension;
 
@@ -593,7 +547,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
 
         for viewsDir in this->getViewsDirs() {
             for extension, _ in engines {
-                if file_exists(basePath . viewsDir . view . extension) {
+                if this->phpFileExists(basePath . viewsDir . view . extension) {
                     return true;
                 }
             }
@@ -628,7 +582,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
      * );
      * ```
      */
-    public function partial(string! partialPath, var params = null)
+    public function partial( string partialPath, var params = null)
     {
         var viewParams;
 
@@ -722,8 +676,8 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
      * Processes the view and templates; Fires events if needed
      */
     public function processRender(
-        string! controllerName,
-        string! actionName,
+         string controllerName,
+         string actionName,
         array params = [],
         bool fireEvents = true
     ) -> bool
@@ -945,7 +899,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
      * );
      * ```
      */
-    public function registerEngines(array! engines) -> <static>
+    public function registerEngines( array engines) -> <static>
     {
         let this->registeredEngines = engines;
 
@@ -961,8 +915,8 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
      *```
      */
     public function render(
-        string! controllerName,
-        string! actionName,
+         string controllerName,
+         string actionName,
         array params = []
     ) -> <static> | false
     {
@@ -1003,20 +957,6 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
     public function setBasePath(string basePath) -> <static>
     {
         let this->basePath = basePath;
-
-        return this;
-    }
-
-    /**
-     * Externally sets the view content
-     *
-     *```php
-     * $this->view->setContent("<h1>hello</h1>");
-     *```
-     */
-    public function setContent(string content) -> <static>
-    {
-        let this->content = content;
 
         return this;
     }
@@ -1083,7 +1023,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
      * $this->view->setParamToView("products", $products);
      *```
      */
-    public function setParamToView(string! key, var value) -> <static>
+    public function setParamToView( string key, var value) -> <static>
     {
         let this->viewParams[key] = value;
 
@@ -1152,20 +1092,6 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
     }
 
     /**
-     * Set a single view parameter
-     *
-     *```php
-     * $this->view->setVar("products", $products);
-     *```
-     */
-    public function setVar(string! key, var value) -> <static>
-    {
-        let this->viewParams[key] = value;
-
-        return this;
-    }
-
-    /**
      * Set all the render params
      *
      *```php
@@ -1176,7 +1102,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
      * );
      *```
      */
-    public function setVars(array! params, bool merge = true) -> <static>
+    public function setVars( array params, bool merge = true) -> <static>
     {
         if merge {
             let this->viewParams = array_merge(this->viewParams, params);
@@ -1200,7 +1126,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
         }
 
         if typeof viewsDir == "string" {
-            let this->viewsDirs = this->getDirSeparator(viewsDir);
+            let this->viewsDirs = this->toDirSeparator(viewsDir);
         } else {
             let newViewsDir = [];
 
@@ -1209,7 +1135,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
                     throw new ViewsDirItemMustBeString();
                 }
 
-                let newViewsDir[position] = this->getDirSeparator(directory);
+                let newViewsDir[position] = this->toDirSeparator(directory);
             }
 
             let this->viewsDirs = newViewsDir;
@@ -1234,8 +1160,8 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
      * Renders the view and returns it as a string
      */
     public function toString(
-        string! controllerName,
-        string! actionName,
+         string controllerName,
+         string actionName,
         array params = []
     ) -> string
     {
@@ -1289,7 +1215,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
             for extension, engine in engines {
                 let viewEnginePath = viewsDirPath . extension;
 
-                if file_exists(viewEnginePath) {
+                if this->phpFileExists(viewEnginePath) {
                     /**
                      * Call beforeRenderView if there is an events manager
                      * available
@@ -1420,13 +1346,5 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
         }
 
         return engines;
-    }
-
-    /**
-     * @todo Remove this when we get traits
-     */
-    private function getDirSeparator(string! directory) -> string
-    {
-        return rtrim(directory, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
     }
 }

@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Events\Event;
 
 use Phalcon\Contracts\Events\Stoppable;
 use Phalcon\Events\Event;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use stdClass;
 
 final class IsPropagationStoppedTest extends AbstractUnitTestCase

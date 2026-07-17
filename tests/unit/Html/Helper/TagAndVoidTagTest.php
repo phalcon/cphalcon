@@ -16,10 +16,19 @@ use Phalcon\Html\Helper\Doctype;
 use Phalcon\Html\Helper\Tag;
 use Phalcon\Html\Helper\VoidTag;
 use Phalcon\Html\TagFactory;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class TagAndVoidTagTest extends AbstractUnitTestCase
 {
+    public function testFactoryRegistersTagAndVoidTag(): void
+    {
+        $factory = new TagFactory(new Escaper());
+
+        $this->assertTrue($factory->has('tag'));
+        $this->assertTrue($factory->has('voidTag'));
+        $this->assertSame('<section>', $factory->tag('section'));
+        $this->assertSame('<input name="x">', $factory->voidTag('input', ['name' => 'x']));
+    }
     public function testTagRendersOpenTagOnly(): void
     {
         $tag = new Tag(new Escaper());
@@ -42,6 +51,13 @@ final class TagAndVoidTagTest extends AbstractUnitTestCase
         );
     }
 
+    public function testVoidTagWithoutDoctypeDoesNotSelfClose(): void
+    {
+        $vt = new VoidTag(new Escaper());
+
+        $this->assertSame('<br>', $vt('br'));
+    }
+
     public function testVoidTagXhtmlAddsTrailingSlash(): void
     {
         $doctype = new Doctype();
@@ -50,22 +66,5 @@ final class TagAndVoidTagTest extends AbstractUnitTestCase
         $vt = new VoidTag(new Escaper(), $doctype);
 
         $this->assertSame('<br />', $vt('br'));
-    }
-
-    public function testVoidTagWithoutDoctypeDoesNotSelfClose(): void
-    {
-        $vt = new VoidTag(new Escaper());
-
-        $this->assertSame('<br>', $vt('br'));
-    }
-
-    public function testFactoryRegistersTagAndVoidTag(): void
-    {
-        $factory = new TagFactory(new Escaper());
-
-        $this->assertTrue($factory->has('tag'));
-        $this->assertTrue($factory->has('voidTag'));
-        $this->assertSame('<section>', $factory->tag('section'));
-        $this->assertSame('<input name="x">', $factory->voidTag('input', ['name' => 'x']));
     }
 }

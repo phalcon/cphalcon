@@ -16,14 +16,14 @@ namespace Phalcon\Tests\Unit\Logger\Logger;
 use DateTime;
 use Phalcon\Logger\Adapter\Stream;
 use Phalcon\Logger\Logger;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Psr\Log\LogLevel;
 
 use function date;
 use function end;
 use function file_get_contents;
-use function logsDir;
 use function preg_match;
 use function strtoupper;
 
@@ -55,7 +55,7 @@ final class LevelsTest extends AbstractUnitTestCase
         string $level
     ): void {
         $fileName = $this->getNewFileName('log', 'log');
-        $fileName = logsDir($fileName);
+        $fileName = Talon::settings()->outputPath('tests/logs/' . $fileName);
         $adapter  = new Stream($fileName);
         $logger   = new Logger('my-logger', ['one' => $adapter]);
 

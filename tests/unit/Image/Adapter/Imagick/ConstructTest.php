@@ -15,10 +15,9 @@ namespace Phalcon\Tests\Unit\Image\Adapter\Imagick;
 
 use Phalcon\Image\Adapter\Imagick;
 use Phalcon\Image\Exception;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\Unit\Image\Fake\ImagickTrait;
-
-use function supportDir;
 
 final class ConstructTest extends AbstractUnitTestCase
 {
@@ -30,7 +29,7 @@ final class ConstructTest extends AbstractUnitTestCase
      */
     public function testImageAdapterImagickConstruct(): void
     {
-        $source = supportDir('assets/images/example-jpg.jpg');
+        $source = Talon::settings()->supportPath('assets/images/example-jpg.jpg');
         $source = str_replace('/', DIRECTORY_SEPARATOR, $source);
         $image  = new Imagick($source);
 

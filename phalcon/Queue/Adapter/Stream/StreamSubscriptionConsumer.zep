@@ -23,7 +23,7 @@ use Phalcon\Queue\Adapter\AbstractSubscriptionConsumer;
 
 /**
  * Consumes from several filesystem queues at once. The round-robin poll loop
- * lives in AbstractSubscriptionConsumer.
+ * lives in SubscriptionConsumerTrait.
  */
 class StreamSubscriptionConsumer extends AbstractSubscriptionConsumer
 {

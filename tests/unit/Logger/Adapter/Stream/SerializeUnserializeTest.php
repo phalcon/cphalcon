@@ -15,7 +15,8 @@ namespace Phalcon\Tests\Unit\Logger\Adapter\Stream;
 
 use Phalcon\Logger\Adapter\Stream;
 use Phalcon\Logger\Exception;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 
 use function serialize;
 
@@ -32,7 +33,7 @@ final class SerializeUnserializeTest extends AbstractUnitTestCase
         $this->expectExceptionMessage('This object cannot be serialized');
 
         $fileName   = $this->getNewFileName('log', 'log');
-        $outputPath = logsDir();
+        $outputPath = Talon::settings()->outputPath('tests/logs/');
         $adapter    = new Stream($outputPath . $fileName);
 
         $object = serialize($adapter);

@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Translate\TranslateFactory;
 
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Translate\Fake\TranslateCsvTrait;
 use Phalcon\Translate\Adapter\AdapterInterface;
 use Phalcon\Translate\Adapter\Csv;

@@ -24,7 +24,7 @@ use Phalcon\Encryption\Crypt\Padding\Pkcs7;
 use Phalcon\Encryption\Crypt\Padding\Space;
 use Phalcon\Encryption\Crypt\Padding\Zero;
 use Phalcon\Encryption\Crypt\PadFactory;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 final class NewInstanceTest extends AbstractUnitTestCase

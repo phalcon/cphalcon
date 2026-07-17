@@ -19,7 +19,7 @@ use Phalcon\Forms\Exception;
 use Phalcon\Forms\Form;
 use Phalcon\Html\Escaper;
 use Phalcon\Html\TagFactory;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
 
 use function sprintf;
@@ -28,6 +28,22 @@ use function uniqid;
 final class GetSetTagFactoryTest extends AbstractUnitTestCase
 {
     use DiTrait;
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    public function testFormsElementGetLocalTagFactoryThrowsWhenNotResolvable(): void
+    {
+        Di::reset();
+
+        $name    = uniqid();
+        $element = new Text($name);
+
+        $this->expectException(Exception::class);
+
+        $element->render();
+    }
 
     /**
      * @author Phalcon Team <team@phalcon.io>
@@ -118,21 +134,5 @@ final class GetSetTagFactoryTest extends AbstractUnitTestCase
         $expected = $tagFactoryOne;
         $actual   = $element->getTagFactory();
         $this->assertSame($expected, $actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2024-01-01
-     */
-    public function testFormsElementGetLocalTagFactoryThrowsWhenNotResolvable(): void
-    {
-        Di::reset();
-
-        $name    = uniqid();
-        $element = new Text($name);
-
-        $this->expectException(Exception::class);
-
-        $element->render();
     }
 }

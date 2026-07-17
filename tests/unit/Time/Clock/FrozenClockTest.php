@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Time\Clock;
 
 use DateTimeImmutable;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Time\Clock\Exceptions\InvalidModifier;
 use Phalcon\Time\Clock\FrozenClock;
 

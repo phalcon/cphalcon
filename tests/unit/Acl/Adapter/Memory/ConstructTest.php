@@ -13,13 +13,15 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Acl\Adapter\Memory;
 
+use Phalcon\Acl\Adapter\AdapterInterface;
 use Phalcon\Acl\Adapter\Memory;
 use Phalcon\Acl\Component;
 use Phalcon\Acl\Enum;
 use Phalcon\Acl\Role;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Contracts\Acl\Adapter\Adapter;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 
-use function cacheDir;
 use function file_get_contents;
 use function file_put_contents;
 use function serialize;
@@ -27,6 +29,44 @@ use function unserialize;
 
 final class ConstructTest extends AbstractUnitTestCase
 {
+    /**
+     * @issue   https://github.com/phalcon/cphalcon/issues/12004
+     * @author  Wojciech Slawski <jurigag@gmail.com>
+     * @since   2016-07-22
+     */
+    public function testAclAdapterMemoryAllowFunctionWithInheritedRoles(): void
+    {
+        $acl = new Memory();
+        $acl->setDefaultAction(Enum::DENY);
+
+        $roleGuest      = new Role('guest');
+        $roleUser       = new Role('user');
+        $roleAdmin      = new Role('admin');
+        $roleSuperAdmin = new Role('superadmin');
+
+        $acl->addRole($roleGuest);
+        $acl->addRole($roleUser, $roleGuest);
+        $acl->addRole($roleAdmin, $roleUser);
+        $acl->addRole($roleSuperAdmin, $roleAdmin);
+
+        $acl->addComponent('payment', ['paypal', 'facebook',]);
+
+        $acl->allow($roleGuest->getName(), 'payment', 'paypal');
+        $acl->allow($roleGuest->getName(), 'payment', 'facebook');
+        $acl->allow($roleUser->getName(), 'payment', '*');
+
+        $actual = $acl->isAllowed($roleUser->getName(), 'payment', 'notSet');
+        $this->assertTrue($actual);
+
+        $actual = $acl->isAllowed($roleUser->getName(), 'payment', '*');
+        $this->assertTrue($actual);
+
+        $actual = $acl->isAllowed($roleAdmin->getName(), 'payment', 'notSet');
+        $this->assertTrue($actual);
+
+        $actual = $acl->isAllowed($roleAdmin->getName(), 'payment', '*');
+        $this->assertTrue($actual);
+    }
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
@@ -58,6 +98,14 @@ final class ConstructTest extends AbstractUnitTestCase
         $expected = 0;
         $actual   = Enum::DENY;
         $this->assertSame($expected, $actual);
+    }
+
+    public function testAclAdapterMemoryImplementsAdapterContract(): void
+    {
+        $acl = new Memory();
+
+        $this->assertInstanceOf(Adapter::class, $acl);
+        $this->assertInstanceOf(AdapterInterface::class, $acl);
     }
 
     /**
@@ -187,11 +235,13 @@ final class ConstructTest extends AbstractUnitTestCase
         $acl->allow('Administrators', 'Customers', 'search');
         $acl->deny('Administrators', 'Customers', 'destroy');
 
-        file_put_contents(cacheDir($filename), serialize($acl));
+        $cacheFile = Talon::settings()->outputPath('tests/cache/' . $filename);
+
+        file_put_contents($cacheFile, serialize($acl));
 
         $acl      = null;
-        $contents = file_get_contents(cacheDir($filename));
-        $this->safeDeleteFile(cacheDir($filename));
+        $contents = file_get_contents($cacheFile);
+        $this->safeDeleteFile($cacheFile);
 
         $acl = unserialize($contents);
 
@@ -204,45 +254,6 @@ final class ConstructTest extends AbstractUnitTestCase
         $this->assertTrue($actual);
         $actual = $acl->isAllowed('Administrators', 'Customers', 'destroy');
         $this->assertFalse($actual);
-    }
-
-    /**
-     * @issue   https://github.com/phalcon/cphalcon/issues/12004
-     * @author  Wojciech Slawski <jurigag@gmail.com>
-     * @since   2016-07-22
-     */
-    public function testAclAdapterMemoryAllowFunctionWithInheritedRoles(): void
-    {
-        $acl = new Memory();
-        $acl->setDefaultAction(Enum::DENY);
-
-        $roleGuest      = new Role('guest');
-        $roleUser       = new Role('user');
-        $roleAdmin      = new Role('admin');
-        $roleSuperAdmin = new Role('superadmin');
-
-        $acl->addRole($roleGuest);
-        $acl->addRole($roleUser, $roleGuest);
-        $acl->addRole($roleAdmin, $roleUser);
-        $acl->addRole($roleSuperAdmin, $roleAdmin);
-
-        $acl->addComponent('payment', ['paypal', 'facebook',]);
-
-        $acl->allow($roleGuest->getName(), 'payment', 'paypal');
-        $acl->allow($roleGuest->getName(), 'payment', 'facebook');
-        $acl->allow($roleUser->getName(), 'payment', '*');
-
-        $actual = $acl->isAllowed($roleUser->getName(), 'payment', 'notSet');
-        $this->assertTrue($actual);
-
-        $actual = $acl->isAllowed($roleUser->getName(), 'payment', '*');
-        $this->assertTrue($actual);
-
-        $actual = $acl->isAllowed($roleAdmin->getName(), 'payment', 'notSet');
-        $this->assertTrue($actual);
-
-        $actual = $acl->isAllowed($roleAdmin->getName(), 'payment', '*');
-        $this->assertTrue($actual);
     }
 
     /**

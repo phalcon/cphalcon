@@ -17,7 +17,7 @@ use Phalcon\Events\ManagerInterface;
 use Phalcon\Storage\Serializer\SerializerInterface;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Support\Exception as SupportException;
-use Phalcon\Support\Helper\Arr\Get;
+use Phalcon\Traits\Support\Helper\Arr\GetTrait;
 
 /**
  * Class AbstractAdapter
@@ -34,6 +34,8 @@ use Phalcon\Support\Helper\Arr\Get;
  */
 abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
 {
+    use GetTrait;
+
     /**
      * @var mixed
      */
@@ -150,7 +152,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      *
      * @return int | bool
      */
-    public function decrement(string! key, int value = 1) -> int | bool
+    public function decrement( string key, int value = 1) -> int | bool
     {
         var result;
 
@@ -172,7 +174,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      *
      * @return bool
      */
-    public function delete(string! key) -> bool
+    public function delete( string key) -> bool
     {
         var result;
 
@@ -321,7 +323,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      *
      * @return bool
      */
-    public function has(string! key) -> bool
+    public function has( string key) -> bool
     {
         var result;
 
@@ -344,7 +346,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      *
      * @return int | bool
      */
-    public function increment(string! key, int value = 1) -> int | bool
+    public function increment( string key, int value = 1) -> int | bool
     {
         var result;
 
@@ -372,7 +374,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      *
      * @return bool
      */
-    public function set(string! key, var value, var ttl = null) -> bool
+    public function set( string key, var value, var ttl = null) -> bool
     {
         var result;
 
@@ -431,7 +433,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      *
      * @return int | bool
      */
-    abstract protected function doDecrement(string! key, int value = 1) -> int | bool;
+    abstract protected function doDecrement( string key, int value = 1) -> int | bool;
 
     /**
      * Deletes data from the adapter
@@ -440,7 +442,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      *
      * @return bool
      */
-    abstract protected function doDelete(string! key) -> bool;
+    abstract protected function doDelete( string key) -> bool;
 
     /**
      * Checks if an element exists in the cache
@@ -449,7 +451,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      *
      * @return bool
      */
-    abstract protected function doHas(string! key) -> bool;
+    abstract protected function doHas( string key) -> bool;
 
     /**
      * Increments a stored number
@@ -459,7 +461,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      *
      * @return int | bool
      */
-    abstract protected function doIncrement(string! key, int value = 1) -> int | bool;
+    abstract protected function doIncrement( string key, int value = 1) -> int | bool;
 
     /**
      * Stores data in the adapter. If the TTL is `null` (default) or not defined
@@ -474,7 +476,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      *
      * @return bool
      */
-    abstract protected function doSet(string! key, var value, var ttl = null) -> bool;
+    abstract protected function doSet( string key, var value, var ttl = null) -> bool;
 
     /**
      * Filters the keys array based on global and passed prefix
@@ -484,7 +486,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      *
      * @return array
      */
-    protected function getFilteredKeys(var keys, string! prefix) -> array
+    protected function getFilteredKeys(var keys,  string prefix) -> array
     {
         var key, pattern;
         array results;
@@ -617,21 +619,6 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
             let className        = this->defaultSerializer,
                 this->serializer = this->serializerFactory->newInstance(className);
         }
-    }
-
-    /**
-     * Reads an element from an array, optionally casting it. Delegates to the
-     * canonical Support\Helper\Arr\Get helper.
-     *
-     * @todo Remove this wrapper when we get traits
-     */
-    protected function getArrVal(
-        array! collection,
-        var index,
-        var defaultValue = null,
-        string! cast = null
-    ) -> var {
-        return (new Get())->__invoke(collection, index, defaultValue, cast);
     }
 
     /**

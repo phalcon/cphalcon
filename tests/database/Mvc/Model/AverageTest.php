@@ -48,7 +48,7 @@ final class AverageTest extends AbstractDatabaseTestCase
 
         $this->setDatabase();
 
-        $this->invoiceMigration = new InvoicesMigration(self::getConnection());
+        $this->invoiceMigration = new InvoicesMigration(self::getPdoConnection());
     }
 
     /**

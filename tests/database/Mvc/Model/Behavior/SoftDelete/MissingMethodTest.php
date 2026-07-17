@@ -16,9 +16,21 @@ namespace Phalcon\Tests\Database\Mvc\Model\Behavior\SoftDelete;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Models\Users;
+use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
 
+#[Group('mysql')]
+#[Group('pgsql')]
+#[Group('sqlite')]
 final class MissingMethodTest extends AbstractDatabaseTestCase
 {
+    use DiTrait;
+
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+    }
+
     /**
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-06-03

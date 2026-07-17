@@ -22,16 +22,6 @@ use PHPUnit\Framework\Attributes\Group;
 
 final class TableCommentTest extends AbstractDatabaseTestCase
 {
-    private function definition(array $options = []): array
-    {
-        return [
-            'columns' => [
-                new Column('id', ['type' => Column::TYPE_INTEGER, 'notNull' => true]),
-            ],
-            'options' => $options,
-        ];
-    }
-
     #[Group('mysql')]
     public function testMysqlCreateTableComment(): void
     {
@@ -50,6 +40,23 @@ final class TableCommentTest extends AbstractDatabaseTestCase
         $sql = (new Mysql())->tableOptions('robots', 'phalcon');
 
         $this->assertStringContainsString('TABLES.TABLE_COMMENT AS table_comment', $sql);
+    }
+
+    #[Group('pgsql')]
+    public function testPostgresqlColumnCommentEscaped(): void
+    {
+        $definition = [
+            'columns' => [
+                new Column(
+                    'name',
+                    ['type' => Column::TYPE_VARCHAR, 'size' => 70, 'comment' => "it's"]
+                ),
+            ],
+        ];
+
+        $sql = (new Postgresql())->createTable('robots', '', $definition);
+
+        $this->assertStringContainsString("IS 'it''s';", $sql);
     }
 
     #[Group('pgsql')]
@@ -76,23 +83,6 @@ final class TableCommentTest extends AbstractDatabaseTestCase
         $this->assertStringContainsString("n.nspname = 'reporting'", $sql);
     }
 
-    #[Group('pgsql')]
-    public function testPostgresqlColumnCommentEscaped(): void
-    {
-        $definition = [
-            'columns' => [
-                new Column(
-                    'name',
-                    ['type' => Column::TYPE_VARCHAR, 'size' => 70, 'comment' => "it's"]
-                ),
-            ],
-        ];
-
-        $sql = (new Postgresql())->createTable('robots', '', $definition);
-
-        $this->assertStringContainsString("IS 'it''s';", $sql);
-    }
-
     #[Group('sqlite')]
     public function testSqliteIgnoresComment(): void
     {
@@ -103,5 +93,14 @@ final class TableCommentTest extends AbstractDatabaseTestCase
         );
 
         $this->assertStringNotContainsString('COMMENT', $sql);
+    }
+    private function definition(array $options = []): array
+    {
+        return [
+            'columns' => [
+                new Column('id', ['type' => Column::TYPE_INTEGER, 'notNull' => true]),
+            ],
+            'options' => $options,
+        ];
     }
 }

@@ -47,10 +47,10 @@ interface UrlInterface
     /**
      * Sets a base paths for all the generated paths
      */
-    public function setBasePath(string! basePath) -> <UrlInterface>;
+    public function setBasePath( string basePath) -> <UrlInterface>;
 
     /**
      * Sets a prefix to all the urls generated
      */
-    public function setBaseUri(string! baseUri) -> <UrlInterface>;
+    public function setBaseUri( string baseUri) -> <UrlInterface>;
 }

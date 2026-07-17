@@ -20,7 +20,8 @@ use Phalcon\Mvc\Application;
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\Router;
 use Phalcon\Mvc\View;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\Support\Modules\Frontend\Module as FrontendModule;
 use Phalcon\Tests\Support\Traits\DiTrait;
 
@@ -58,7 +59,7 @@ final class HandleTest extends AbstractUnitTestCase
                 $view = new View();
 
                 $view->setViewsDir(
-                    supportDir('assets/views/simple/')
+                    Talon::settings()->supportPath('assets/views/simple/')
                 );
 
                 return $view;
@@ -104,50 +105,6 @@ final class HandleTest extends AbstractUnitTestCase
     }
 
     /**
-     * @issue https://github.com/phalcon/cphalcon/issues/17013
-     */
-    public function testMvcApplicationHandlePropagatesDefaultModuleToDispatcher(): void
-    {
-        Di::reset();
-
-        $di = new FactoryDefault();
-
-        $di->set(
-            'router',
-            function () {
-                $router = new Router(false);
-
-                $router->add(
-                    '/index',
-                    [
-                        'controller' => 'index',
-                        'namespace'  => 'Phalcon\Tests\Support\Modules\Frontend\Controllers',
-                    ]
-                );
-
-                return $router;
-            }
-        );
-
-        $application = new Application();
-        $application->registerModules(
-            [
-                'frontend' => [
-                    'path'      => supportDir('Modules/Frontend/Module.php'),
-                    'className' => FrontendModule::class,
-                ],
-            ]
-        );
-        $application->setDefaultModule('frontend');
-        $application->setDI($di);
-
-        $application->handle('/index');
-
-        $dispatcher = $di->getShared('dispatcher');
-        $this->assertSame('frontend', $dispatcher->getModuleName());
-    }
-
-    /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-10-17
      */
@@ -161,7 +118,7 @@ final class HandleTest extends AbstractUnitTestCase
                 $view = new View();
 
                 $view->setViewsDir(
-                    supportDir('assets/views/simple/')
+                    Talon::settings()->supportPath('assets/views/simple/')
                 );
 
                 return $view;
@@ -211,6 +168,50 @@ final class HandleTest extends AbstractUnitTestCase
     }
 
     /**
+     * @issue https://github.com/phalcon/cphalcon/issues/17013
+     */
+    public function testMvcApplicationHandlePropagatesDefaultModuleToDispatcher(): void
+    {
+        Di::reset();
+
+        $di = new FactoryDefault();
+
+        $di->set(
+            'router',
+            function () {
+                $router = new Router(false);
+
+                $router->add(
+                    '/index',
+                    [
+                        'controller' => 'index',
+                        'namespace'  => 'Phalcon\Tests\Support\Modules\Frontend\Controllers',
+                    ]
+                );
+
+                return $router;
+            }
+        );
+
+        $application = new Application();
+        $application->registerModules(
+            [
+                'frontend' => [
+                    'path'      => Talon::settings()->supportPath('Modules/Frontend/Module.php'),
+                    'className' => FrontendModule::class,
+                ],
+            ]
+        );
+        $application->setDefaultModule('frontend');
+        $application->setDI($di);
+
+        $application->handle('/index');
+
+        $dispatcher = $di->getShared('dispatcher');
+        $this->assertSame('frontend', $dispatcher->getModuleName());
+    }
+
+    /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-05-01
      */
@@ -224,7 +225,7 @@ final class HandleTest extends AbstractUnitTestCase
                 $view = new View();
 
                 $view->setViewsDir(
-                    supportDir('assets/views/simple/')
+                    Talon::settings()->supportPath('assets/views/simple/')
                 );
 
                 return $view;

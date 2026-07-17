@@ -48,6 +48,11 @@ PHP_METHOD(Phalcon_Config_Exceptions_MissingConfigOption, __construct)
 
 	ZVAL_UNDEF(&option_zv);
 	ZVAL_UNDEF(&_0);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("option", 6, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(option)
 	ZEND_PARSE_PARAMETERS_END();
@@ -55,7 +60,7 @@ PHP_METHOD(Phalcon_Config_Exceptions_MissingConfigOption, __construct)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&option_zv);
 	ZVAL_STR_COPY(&option_zv, option);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("option"), &option_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 466, &option_zv);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SVS(&_0, "You must provide '", &option_zv, "' option in factory config parameter.");
 	ZEPHIR_CALL_PARENT(NULL, phalcon_config_exceptions_missingconfigoption_ce, getThis(), "__construct", NULL, 0, &_0);

@@ -52,7 +52,11 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_AbstractItem, getEncoded)
 
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("data"), PH_NOISY_CC | PH_READONLY);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("data", 4, 1);
+	}
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 194, PH_NOISY_CC | PH_READONLY);
 	zephir_array_fetch_string(&_1, &_0, SL("encoded"), PH_NOISY | PH_READONLY, "phalcon/Encryption/Security/JWT/Token/AbstractItem.zep", 28);
 	RETURN_CTORW(&_1);
 }

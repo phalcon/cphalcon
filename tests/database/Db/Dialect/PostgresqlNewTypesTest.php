@@ -41,71 +41,6 @@ final class PostgresqlNewTypesTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * PostgreSQL - getColumnDefinition emits the new type keywords.
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-05-15
-     */
-    #[Group('pgsql')]
-    #[DataProvider('provideScalarTypes')]
-    public function testDbDialectPostgresqlGetColumnDefinitionNewTypes(
-        int $type,
-        string $expected
-    ): void {
-        $dialect = new Postgresql();
-        $column  = new Column(
-            'col',
-            [
-                'type' => $type,
-            ]
-        );
-
-        $this->assertSame($expected, $dialect->getColumnDefinition($column));
-    }
-
-    /**
-     * Array suffix is appended after the type when `isArray()` is true.
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-05-15
-     */
-    #[Group('pgsql')]
-    public function testDbDialectPostgresqlGetColumnDefinitionArrayOfInt(): void
-    {
-        $dialect = new Postgresql();
-        $column  = new Column(
-            'tags',
-            [
-                'type'  => Column::TYPE_INTEGER,
-                'array' => true,
-            ]
-        );
-
-        $this->assertSame('INT[]', $dialect->getColumnDefinition($column));
-    }
-
-    /**
-     * Array suffix works with the new types too.
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-05-15
-     */
-    #[Group('pgsql')]
-    public function testDbDialectPostgresqlGetColumnDefinitionArrayOfInet(): void
-    {
-        $dialect = new Postgresql();
-        $column  = new Column(
-            'addresses',
-            [
-                'type'  => Column::TYPE_INET,
-                'array' => true,
-            ]
-        );
-
-        $this->assertSame('INET[]', $dialect->getColumnDefinition($column));
-    }
-
-    /**
      * Column::isArray() defaults to false.
      *
      * @author Phalcon Team <team@phalcon.io>
@@ -146,5 +81,70 @@ final class PostgresqlNewTypesTest extends AbstractDatabaseTestCase
         );
 
         $this->assertTrue($column->isArray());
+    }
+
+    /**
+     * Array suffix works with the new types too.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-15
+     */
+    #[Group('pgsql')]
+    public function testDbDialectPostgresqlGetColumnDefinitionArrayOfInet(): void
+    {
+        $dialect = new Postgresql();
+        $column  = new Column(
+            'addresses',
+            [
+                'type'  => Column::TYPE_INET,
+                'array' => true,
+            ]
+        );
+
+        $this->assertSame('INET[]', $dialect->getColumnDefinition($column));
+    }
+
+    /**
+     * Array suffix is appended after the type when `isArray()` is true.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-15
+     */
+    #[Group('pgsql')]
+    public function testDbDialectPostgresqlGetColumnDefinitionArrayOfInt(): void
+    {
+        $dialect = new Postgresql();
+        $column  = new Column(
+            'tags',
+            [
+                'type'  => Column::TYPE_INTEGER,
+                'array' => true,
+            ]
+        );
+
+        $this->assertSame('INT[]', $dialect->getColumnDefinition($column));
+    }
+
+    /**
+     * PostgreSQL - getColumnDefinition emits the new type keywords.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-15
+     */
+    #[Group('pgsql')]
+    #[DataProvider('provideScalarTypes')]
+    public function testDbDialectPostgresqlGetColumnDefinitionNewTypes(
+        int $type,
+        string $expected
+    ): void {
+        $dialect = new Postgresql();
+        $column  = new Column(
+            'col',
+            [
+                'type' => $type,
+            ]
+        );
+
+        $this->assertSame($expected, $dialect->getColumnDefinition($column));
     }
 }

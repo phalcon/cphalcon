@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Support\Collection;
 
 use Phalcon\Support\Collection;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use stdClass;
 
 use function array_keys;
@@ -165,6 +165,18 @@ abstract class AbstractCollectionTestCase extends AbstractUnitTestCase
     /**
      * @return string[]
      */
+    protected function getData(): array
+    {
+        return [
+            'one'   => 'two',
+            'three' => 'four',
+            'five'  => 'six',
+        ];
+    }
+
+    /**
+     * @return string[]
+     */
     protected function getDataForGet(): array
     {
         return [
@@ -182,18 +194,6 @@ abstract class AbstractCollectionTestCase extends AbstractUnitTestCase
     protected function getDataKeys(): array
     {
         return array_keys($this->getData());
-    }
-
-    /**
-     * @return string[]
-     */
-    protected function getData(): array
-    {
-        return [
-            'one'   => 'two',
-            'three' => 'four',
-            'five'  => 'six',
-        ];
     }
 
     /**

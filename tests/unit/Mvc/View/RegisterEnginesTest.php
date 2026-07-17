@@ -16,7 +16,7 @@ namespace Phalcon\Tests\Unit\Mvc\View;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Php;
 use Phalcon\Mvc\View\Engine\Volt;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
 
 class RegisterEnginesTest extends AbstractUnitTestCase

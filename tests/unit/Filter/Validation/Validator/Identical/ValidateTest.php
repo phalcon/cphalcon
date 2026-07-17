@@ -18,7 +18,7 @@ use Phalcon\Filter\Validation\Exception;
 use Phalcon\Filter\Validation\Validator\Identical;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use stdClass;
 
 final class ValidateTest extends AbstractUnitTestCase
@@ -381,5 +381,32 @@ final class ValidateTest extends AbstractUnitTestCase
         $validation->bind($entity, []);
         $result = $validator->validate($validation, 'price');
         $this->assertTrue($result);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    public function testFilterValidationValidatorIdenticalValidateReturnValue(): void
+    {
+        $validation = new Validation();
+        $validator  = new Identical(['accepted' => 'yes']);
+        $validation->add('terms', $validator);
+
+        $entity = new stdClass();
+
+        // a matching value passes
+        $entity->terms = 'yes';
+        $validation->bind($entity, []);
+        $this->assertTrue($validator->validate($validation, 'terms'));
+
+        // a non-matching value fails
+        $entity->terms = 'no';
+        $validation->bind($entity, []);
+        $this->assertFalse($validator->validate($validation, 'terms'));
+
+        // without an "accepted" or "value" option the field can never match
+        $emptyOptions = new Identical();
+        $this->assertFalse($emptyOptions->validate($validation, 'terms'));
     }
 }

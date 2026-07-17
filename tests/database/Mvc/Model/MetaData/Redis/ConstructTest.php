@@ -18,14 +18,13 @@ use Phalcon\Cache\AdapterFactory;
 use Phalcon\Mvc\Model\MetaData\Redis;
 use Phalcon\Storage\Exception;
 use Phalcon\Storage\SerializerFactory;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
-
-use function env;
 
 #[Group('phql')]
 #[RequiresPhpExtension('redis')]
@@ -54,17 +53,13 @@ final class ConstructTest extends AbstractDatabaseTestCase
 
                 return new Redis(
                     $factory,
-                    [
-                        'host'  => env('DATA_REDIS_HOST', '127.0.0.1'),
-                        'port'  => env('DATA_REDIS_PORT', 6379),
-                        'index' => env('DATA_REDIS_NAME', 0),
-                    ]
+                    Talon::settings()->getServiceOptions('redis')
                 );
             }
         );
 
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $migration  = new InvoicesMigration($connection);
         $migration->insert(1, 1, 0, 'Test Invoice');
     }

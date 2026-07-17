@@ -17,8 +17,6 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\Group;
 
-use function env;
-
 final class SupportSequencesTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -46,7 +44,7 @@ final class SupportSequencesTest extends AbstractDatabaseTestCase
             'mysql'  => false,
             'pgsql'  => true,
             'sqlite' => false,
-        ][env('driver')];
+        ][self::getDatabaseDriver()];
 
         $this->assertSame($expected, $db->supportSequences());
     }

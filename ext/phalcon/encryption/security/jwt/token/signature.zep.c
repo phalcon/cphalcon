@@ -64,7 +64,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Signature, __construct)
 		zephir_memory_observe(&hash_zv);
 		ZVAL_STR(&hash_zv, hash);
 	} else {
-	zephir_memory_observe(&hash_zv);
+		zephir_memory_observe(&hash_zv);
 	ZVAL_STR_COPY(&hash_zv, hash);
 	}
 	if (!encoded) {
@@ -72,7 +72,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Signature, __construct)
 		zephir_memory_observe(&encoded_zv);
 		ZVAL_STR(&encoded_zv, encoded);
 	} else {
-	zephir_memory_observe(&encoded_zv);
+		zephir_memory_observe(&encoded_zv);
 	ZVAL_STR_COPY(&encoded_zv, encoded);
 	}
 	ZEPHIR_INIT_VAR(&_0);
@@ -94,7 +94,11 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Signature, getHash)
 
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("data"), PH_NOISY_CC | PH_READONLY);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("data", 4, 1);
+	}
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 656, PH_NOISY_CC | PH_READONLY);
 	zephir_array_fetch_string(&_1, &_0, SL("hash"), PH_NOISY | PH_READONLY, "phalcon/Encryption/Security/JWT/Token/Signature.zep", 35);
 	RETURN_CTORW(&_1);
 }

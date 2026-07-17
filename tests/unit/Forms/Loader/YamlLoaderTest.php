@@ -13,7 +13,8 @@ namespace Phalcon\Tests\Unit\Forms\Loader;
 
 use Phalcon\Forms\Exception;
 use Phalcon\Forms\Loader\YamlLoader;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 
 /**
@@ -27,6 +28,31 @@ final class YamlLoaderTest extends AbstractUnitTestCase
     protected function setUp(): void
     {
         parent::setUp();
+    }
+
+    // -----------------------------------------------------------------------
+    // Valid YAML file path
+    // -----------------------------------------------------------------------
+
+    public function testLoadFromValidYamlFile(): void
+    {
+        $yaml = implode(PHP_EOL, [
+            '- type: text',
+            '  name: title',
+            '- type: textarea',
+            '  name: body',
+        ]);
+
+        $path = $this->writeYamlFile($yaml);
+
+        $schema = new YamlLoader($path);
+        $result = $schema->load();
+
+        $this->assertCount(2, $result);
+        $this->assertSame('title', $result[0]['name']);
+        $this->assertSame('body', $result[1]['name']);
+
+        unlink($path);
     }
 
     // -----------------------------------------------------------------------
@@ -68,29 +94,18 @@ final class YamlLoaderTest extends AbstractUnitTestCase
         $this->assertSame('London', $result[0]['default']);
     }
 
-    // -----------------------------------------------------------------------
-    // Valid YAML file path
-    // -----------------------------------------------------------------------
-
-    public function testLoadFromValidYamlFile(): void
+    public function testLoadThrowsWhenEntryMissingName(): void
     {
         $yaml = implode(PHP_EOL, [
             '- type: text',
-            '  name: title',
-            '- type: textarea',
-            '  name: body',
         ]);
 
-        $path = $this->writeYamlFile($yaml);
+        $schema = new YamlLoader($yaml);
 
-        $schema = new YamlLoader($path);
-        $result = $schema->load();
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessageMatches('/missing required key "name"/i');
 
-        $this->assertCount(2, $result);
-        $this->assertSame('title', $result[0]['name']);
-        $this->assertSame('body', $result[1]['name']);
-
-        unlink($path);
+        $schema->load();
     }
 
     // -----------------------------------------------------------------------
@@ -107,20 +122,6 @@ final class YamlLoaderTest extends AbstractUnitTestCase
 
         $this->expectException(Exception::class);
         $this->expectExceptionMessageMatches('/missing required key "type"/i');
-
-        $schema->load();
-    }
-
-    public function testLoadThrowsWhenEntryMissingName(): void
-    {
-        $yaml = implode(PHP_EOL, [
-            '- type: text',
-        ]);
-
-        $schema = new YamlLoader($yaml);
-
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessageMatches('/missing required key "name"/i');
 
         $schema->load();
     }
@@ -146,7 +147,7 @@ final class YamlLoaderTest extends AbstractUnitTestCase
 
     private function writeYamlFile(string $yaml): string
     {
-        $dir  = outputDir('tests/forms/');
+        $dir  = Talon::settings()->outputPath('tests/forms/');
         if (!is_dir($dir)) {
             mkdir($dir, 0777, true);
         }

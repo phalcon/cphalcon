@@ -23,25 +23,18 @@ use PHPUnit\Framework\Attributes\Group;
 final class AddIndexDirectionsTest extends AbstractDatabaseTestCase
 {
     /**
-     * MySQL - explicit per-column directions are emitted.
+     * MySQL - empty directions array preserves legacy plain rendering.
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
      */
     #[Group('mysql')]
-    public function testDbDialectMysqlAddIndexWithDirections(): void
+    public function testDbDialectMysqlAddIndexEmptyDirectionsIsLegacy(): void
     {
         $dialect = new Mysql();
-        $index   = new Index(
-            'idx_compound',
-            [
-                'columns'    => ['col1', 'col2'],
-                'directions' => ['ASC', 'DESC'],
-            ]
-        );
+        $index   = new Index('idx_email', ['email']);
 
-        $expected = 'ALTER TABLE `schema`.`table`'
-            . ' ADD INDEX `idx_compound` (`col1` ASC, `col2` DESC)';
+        $expected = 'ALTER TABLE `schema`.`table` ADD INDEX `idx_email` (`email`)';
         $actual   = $dialect->addIndex('table', 'schema', $index);
 
         $this->assertSame($expected, $actual);
@@ -72,20 +65,26 @@ final class AddIndexDirectionsTest extends AbstractDatabaseTestCase
 
         $this->assertSame($expected, $actual);
     }
-
     /**
-     * MySQL - empty directions array preserves legacy plain rendering.
+     * MySQL - explicit per-column directions are emitted.
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-15
      */
     #[Group('mysql')]
-    public function testDbDialectMysqlAddIndexEmptyDirectionsIsLegacy(): void
+    public function testDbDialectMysqlAddIndexWithDirections(): void
     {
         $dialect = new Mysql();
-        $index   = new Index('idx_email', ['email']);
+        $index   = new Index(
+            'idx_compound',
+            [
+                'columns'    => ['col1', 'col2'],
+                'directions' => ['ASC', 'DESC'],
+            ]
+        );
 
-        $expected = 'ALTER TABLE `schema`.`table` ADD INDEX `idx_email` (`email`)';
+        $expected = 'ALTER TABLE `schema`.`table`'
+            . ' ADD INDEX `idx_compound` (`col1` ASC, `col2` DESC)';
         $actual   = $dialect->addIndex('table', 'schema', $index);
 
         $this->assertSame($expected, $actual);

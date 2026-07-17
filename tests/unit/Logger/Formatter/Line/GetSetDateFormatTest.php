@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Logger\Formatter\Line;
 
 use Phalcon\Logger\Formatter\Line;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class GetSetDateFormatTest extends AbstractUnitTestCase
 {

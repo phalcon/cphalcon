@@ -15,6 +15,7 @@ use Phalcon\Filter\Validation\AbstractValidator;
 use Phalcon\Filter\Validation\Exception;
 use Phalcon\Filter\Validation\Exceptions\MissingMbstring;
 use Phalcon\Messages\Message;
+use Phalcon\Traits\Php\InfoTrait;
 
 /**
  * Checks that two values have the same value
@@ -57,6 +58,8 @@ use Phalcon\Messages\Message;
  */
 class Confirmation extends AbstractValidator
 {
+    use InfoTrait;
+
     protected template = "Field :field must be the same as :with";
 
     /**
@@ -70,7 +73,7 @@ class Confirmation extends AbstractValidator
      *     'ignoreCase' => false
      * ]
      */
-    public function __construct(array! options = [])
+    public function __construct( array options = [])
     {
         parent::__construct(options);
     }
@@ -125,7 +128,7 @@ class Confirmation extends AbstractValidator
             /**
              * mbstring is required here
              */
-            if unlikely !function_exists("mb_strtolower") {
+            if unlikely !this->phpFunctionExists("mb_strtolower") {
                 throw new MissingMbstring();
             }
 

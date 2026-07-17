@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Encryption\Security;
 
 use Phalcon\Encryption\Security;
 use Phalcon\Session\Manager;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 

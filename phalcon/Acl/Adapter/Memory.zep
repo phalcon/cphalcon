@@ -178,8 +178,13 @@ class Memory extends AbstractAdapter
      */
     public function __construct()
     {
+        let this->access          = [];
+        let this->components      = [];
         let this->componentsNames = ["*": true];
-        let this->accessList = ["*!*": true];
+        let this->functions       = [];
+        let this->roleInherits    = [];
+        let this->roles           = [];
+        let this->accessList      = ["*!*": true];
     }
 
     /**
@@ -547,6 +552,10 @@ class Memory extends AbstractAdapter
 
     /**
      * Returns the latest key used to acquire access
+     *
+     * @deprecated Relies on the internal "role!component!access" encoding,
+     *             which will be removed in v7. Use getActiveRole(),
+     *             getActiveComponent() and getActiveAccess() instead.
      */
     public function getActiveKey() -> string | null
     {
@@ -611,13 +620,9 @@ class Memory extends AbstractAdapter
      */
     public function isAllowed(var roleName, var componentName, string access, array parameters = null) -> bool
     {
-        var accessKey, accessList, className, componentObject = null,
+        var accessKey, accessList, componentObject = null,
             haveAccess = null, funcAccess = null, funcList,
-            numberOfRequiredParameters, parameterNumber, parameterToCheck,
-            parametersForFunction, reflectionClass, reflectionFunction,
-            reflectionParameter, reflectionParameters, reflectionType,
-            roleObject = null, userParametersSizeShouldBe;
-        bool hasComponent = false, hasRole = false;
+            roleObject = null;
 
         if typeof roleName === "object" && roleName instanceof RoleAwareInterface {
             let roleObject = roleName;
@@ -701,125 +706,15 @@ class Memory extends AbstractAdapter
          * If we have funcAccess then do all the checks for it
          */
         if is_callable(funcAccess) {
-            let reflectionFunction   = new ReflectionFunction(funcAccess),
-                reflectionParameters = reflectionFunction->getParameters(),
-                parameterNumber      = count(reflectionParameters);
-
-            /**
-             * No parameters, just return haveAccess and call function without
-             * array
-             */
-            if parameterNumber === 0 {
-                return haveAccess == Enum::ALLOW && call_user_func(funcAccess);
-            }
-
-            let parametersForFunction      = [],
-                numberOfRequiredParameters = reflectionFunction->getNumberOfRequiredParameters(),
-                userParametersSizeShouldBe = parameterNumber;
-
-            for reflectionParameter in reflectionParameters {
-                let reflectionType   = reflectionParameter->getType();
-                let parameterToCheck = reflectionParameter->getName();
-
-
-                if null !== reflectionType && (reflectionType instanceof ReflectionNamedType) {
-                    let className       = reflectionType->getName();
-                    let reflectionClass = new ReflectionClass(className);
-                    // roleObject is this class
-                    if (
-                        null !== roleObject &&
-                        reflectionClass->isInstance(roleObject) &&
-                        !hasRole
-                    ) {
-                        let hasRole                 = true,
-                            parametersForFunction[] = roleObject;
-                        let userParametersSizeShouldBe--;
-
-                        continue;
-                    }
-
-                    // componentObject is this class
-                    if (componentObject !== null &&
-                        reflectionClass->isInstance(componentObject) &&
-                        !hasComponent
-                    ) {
-                        let hasComponent            = true,
-                            parametersForFunction[] = componentObject;
-                        let userParametersSizeShouldBe--;
-
-                        continue;
-                    }
-
-                    /**
-                     * This is some user defined class, check if his parameter
-                     * is instance of it
-                     */
-                    if unlikely (isset(parameters[parameterToCheck]) &&
-                        is_object(parameters[parameterToCheck]) &&
-                        !reflectionClass->isInstance(parameters[parameterToCheck])
-                    ) {
-                        throw new ParameterTypeMismatch(
-                            "Your passed parameter does not have the " .
-                            "same class as the parameter in defined function " .
-                            "when checking if " . roleName . " can " . access .
-                            " " . componentName . ". Class passed: " .
-                            get_class(parameters[parameterToCheck]) .
-                            " , Class in defined function: " .
-                            reflectionClass->getName() . "."
-                        );
-                    }
-                }
-
-                if isset parameters[parameterToCheck] {
-                    /**
-                     * We can't check type of ReflectionParameter in PHP 5.x so
-                     * we just add it as it is
-                     */
-                    let parametersForFunction[] = parameters[parameterToCheck];
-                }
-            }
-
-            let this->activeFunctionCustomArgumentsCount = userParametersSizeShouldBe;
-
-            if unlikely count(parameters) > userParametersSizeShouldBe {
-                trigger_error(
-                    "Number of parameters in array is higher than " .
-                    "the number of parameters in defined function when checking if '" .
-                    roleName . "' can '" . access . "' '" . componentName .
-                    "'. Extra parameters will be ignored.",
-                    E_USER_WARNING
-                );
-            }
-
-            // We dont have any parameters so check default action
-            if count(parametersForFunction) == 0 {
-                if unlikely numberOfRequiredParameters > 0 {
-                    trigger_error(
-                        "You did not provide any parameters when '" . roleName .
-                        "' can '" . access . "' '"  . componentName .
-                        "'. We will use default action when no arguments."
-                    );
-
-                    return haveAccess == Enum::ALLOW && this->noArgumentsDefaultAction == Enum::ALLOW;
-                }
-
-                /**
-                 * Number of required parameters == 0 so call funcAccess without
-                 * any arguments
-                 */
-                return haveAccess == Enum::ALLOW && call_user_func(funcAccess);
-            }
-
-            // Check necessary parameters
-            if count(parametersForFunction) >= numberOfRequiredParameters {
-                return haveAccess == Enum::ALLOW && call_user_func_array(funcAccess, parametersForFunction);
-            }
-
-            // We don't have enough parameters
-            throw new MissingFunctionParameters(
-                "You did not provide all necessary parameters for the " .
-                "defined function when checking if '" . roleName . "' can '" .
-                access . "' for '" . componentName . "'."
+            return this->invokeRule(
+                funcAccess,
+                haveAccess,
+                parameters,
+                roleObject,
+                componentObject,
+                roleName,
+                componentName,
+                access
             );
         }
 
@@ -1057,6 +952,148 @@ class Memory extends AbstractAdapter
                 "' does not exist in the " . suffix
             );
         }
+    }
+
+    /**
+     * Invokes a callable rule, binding the role/component/user objects to the
+     * closure parameters by type and enforcing its arity.
+     */
+    private function invokeRule(
+        var funcAccess,
+        int haveAccess,
+        var parameters,
+        var roleObject,
+        var componentObject,
+        string roleName,
+        string componentName,
+        string access
+    ) -> bool {
+        var className, numberOfRequiredParameters, parameterNumber,
+            parameterToCheck, parametersForFunction, reflectionClass,
+            reflectionFunction, reflectionParameter, reflectionParameters,
+            reflectionType, userParametersSizeShouldBe;
+        bool hasComponent = false, hasRole = false;
+
+        let reflectionFunction   = new ReflectionFunction(funcAccess),
+            reflectionParameters = reflectionFunction->getParameters(),
+            parameterNumber      = count(reflectionParameters);
+
+        /**
+         * No parameters, just return haveAccess and call function without
+         * array
+         */
+        if parameterNumber === 0 {
+            return haveAccess == Enum::ALLOW && call_user_func(funcAccess);
+        }
+
+        let parametersForFunction      = [],
+            numberOfRequiredParameters = reflectionFunction->getNumberOfRequiredParameters(),
+            userParametersSizeShouldBe = parameterNumber;
+
+        for reflectionParameter in reflectionParameters {
+            let reflectionType   = reflectionParameter->getType();
+            let parameterToCheck = reflectionParameter->getName();
+
+
+            if null !== reflectionType && (reflectionType instanceof ReflectionNamedType) {
+                let className       = reflectionType->getName();
+                let reflectionClass = new ReflectionClass(className);
+                // roleObject is this class
+                if (
+                    null !== roleObject &&
+                    reflectionClass->isInstance(roleObject) &&
+                    !hasRole
+                ) {
+                    let hasRole                 = true,
+                        parametersForFunction[] = roleObject;
+                    let userParametersSizeShouldBe--;
+
+                    continue;
+                }
+
+                // componentObject is this class
+                if (componentObject !== null &&
+                    reflectionClass->isInstance(componentObject) &&
+                    !hasComponent
+                ) {
+                    let hasComponent            = true,
+                        parametersForFunction[] = componentObject;
+                    let userParametersSizeShouldBe--;
+
+                    continue;
+                }
+
+                /**
+                 * This is some user defined class, check if his parameter
+                 * is instance of it
+                 */
+                if unlikely (isset(parameters[parameterToCheck]) &&
+                    is_object(parameters[parameterToCheck]) &&
+                    !reflectionClass->isInstance(parameters[parameterToCheck])
+                ) {
+                    throw new ParameterTypeMismatch(
+                        "Your passed parameter does not have the " .
+                        "same class as the parameter in defined function " .
+                        "when checking if " . roleName . " can " . access .
+                        " " . componentName . ". Class passed: " .
+                        get_class(parameters[parameterToCheck]) .
+                        " , Class in defined function: " .
+                        reflectionClass->getName() . "."
+                    );
+                }
+            }
+
+            if isset parameters[parameterToCheck] {
+                /**
+                 * We can't check type of ReflectionParameter in PHP 5.x so
+                 * we just add it as it is
+                 */
+                let parametersForFunction[] = parameters[parameterToCheck];
+            }
+        }
+
+        let this->activeFunctionCustomArgumentsCount = userParametersSizeShouldBe;
+
+        if unlikely count(parameters) > userParametersSizeShouldBe {
+            trigger_error(
+                "Number of parameters in array is higher than " .
+                "the number of parameters in defined function when checking if '" .
+                roleName . "' can '" . access . "' '" . componentName .
+                "'. Extra parameters will be ignored.",
+                E_USER_WARNING
+            );
+        }
+
+        // We dont have any parameters so check default action
+        if count(parametersForFunction) == 0 {
+            if unlikely numberOfRequiredParameters > 0 {
+                trigger_error(
+                    "You did not provide any parameters when '" . roleName .
+                    "' can '" . access . "' '"  . componentName .
+                    "'. We will use default action when no arguments."
+                );
+
+                return haveAccess == Enum::ALLOW && this->noArgumentsDefaultAction == Enum::ALLOW;
+            }
+
+            /**
+             * Number of required parameters == 0 so call funcAccess without
+             * any arguments
+             */
+            return haveAccess == Enum::ALLOW && call_user_func(funcAccess);
+        }
+
+        // Check necessary parameters
+        if count(parametersForFunction) >= numberOfRequiredParameters {
+            return haveAccess == Enum::ALLOW && call_user_func_array(funcAccess, parametersForFunction);
+        }
+
+        // We don't have enough parameters
+        throw new MissingFunctionParameters(
+            "You did not provide all necessary parameters for the " .
+            "defined function when checking if '" . roleName . "' can '" .
+            access . "' for '" . componentName . "'."
+        );
     }
 
     /**

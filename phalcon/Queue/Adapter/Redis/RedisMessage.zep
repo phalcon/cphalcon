@@ -22,7 +22,7 @@ namespace Phalcon\Queue\Adapter\Redis;
 use Phalcon\Queue\Adapter\AbstractMessage;
 
 /**
- * Redis-backed message. All behavior comes from AbstractMessage.
+ * Redis-backed message. All behavior comes from MessageTrait.
  */
 class RedisMessage extends AbstractMessage
 {

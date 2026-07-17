@@ -35,7 +35,7 @@ final class LastInsertIdTest extends AbstractDatabaseTestCase
     {
         /** @var Connection $connection */
         $connection = self::getDataMapperConnection();
-        $migration  = new InvoicesMigration(self::getConnection());
+        $migration  = new InvoicesMigration(self::getPdoConnection());
         $migration->clear();
 
         $title    = uniqid('inv-');

@@ -71,7 +71,7 @@ use Phalcon\Mvc\Url\UrlInterface;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Support\HelperFactory;
 use Phalcon\Support\Settings;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class WebTest extends AbstractUnitTestCase
 {
@@ -141,6 +141,18 @@ final class WebTest extends AbstractUnitTestCase
         foreach ($interfaces as $interface) {
             $this->assertTrue($this->container->has($interface), "Interface '{$interface}' should be resolvable");
         }
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-18
+     */
+    public function testContainerProviderWebRegistersTransactionManager(): void
+    {
+        // Resolution requires a Di container internally (hardcoded dependency).
+        // Verify registration only until Container replaces Di as the framework container.
+        $this->assertTrue($this->container->has('transactionManager'));
+        $this->assertTrue($this->container->has(TransactionManagerInterface::class));
     }
 
     /**
@@ -336,18 +348,6 @@ final class WebTest extends AbstractUnitTestCase
         $this->markTestSkipped('Enable after setDI is addressed');
 
         $this->assertInstanceOf(TagFactory::class, $this->container->get('tag'));
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-18
-     */
-    public function testContainerProviderWebRegistersTransactionManager(): void
-    {
-        // Resolution requires a Di container internally (hardcoded dependency).
-        // Verify registration only until Container replaces Di as the framework container.
-        $this->assertTrue($this->container->has('transactionManager'));
-        $this->assertTrue($this->container->has(TransactionManagerInterface::class));
     }
 
     /**

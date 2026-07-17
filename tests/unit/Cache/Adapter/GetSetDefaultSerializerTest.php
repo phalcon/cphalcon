@@ -21,13 +21,9 @@ use Phalcon\Cache\Adapter\RedisCluster;
 use Phalcon\Cache\Adapter\Stream;
 use Phalcon\Cache\Adapter\Weak;
 use Phalcon\Storage\SerializerFactory;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use PHPUnit\Framework\Attributes\DataProvider;
-
-use function getOptionsLibmemcached;
-use function getOptionsRedis;
-use function getOptionsRedisCluster;
-use function outputDir;
 
 final class GetSetDefaultSerializerTest extends AbstractUnitTestCase
 {
@@ -44,7 +40,12 @@ final class GetSetDefaultSerializerTest extends AbstractUnitTestCase
             ],
             [
                 Libmemcached::class,
-                getOptionsLibmemcached(),
+                [
+                    'client' => [],
+                    'servers' => [
+                        Talon::settings()->getServiceOptions('memcached')
+                    ]
+                ],
                 'memcached',
             ],
             [
@@ -54,18 +55,18 @@ final class GetSetDefaultSerializerTest extends AbstractUnitTestCase
             ],
             [
                 Redis::class,
-                getOptionsRedis(),
+                Talon::settings()->getServiceOptions('redis'),
                 'redis',
             ],
             [
                 RedisCluster::class,
-                getOptionsRedisCluster(),
+                Talon::settings()->getServiceOptions('redisCluster'),
                 'redis',
             ],
             [
                 Stream::class,
                 [
-                    'storageDir' => outputDir(),
+                    'storageDir' => Talon::settings()->outputPath() . '/',
                 ],
                 '',
             ],

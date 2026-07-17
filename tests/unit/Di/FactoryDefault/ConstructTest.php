@@ -36,7 +36,7 @@ use Phalcon\Mvc\Url;
 use Phalcon\Queue\QueueFactory;
 use Phalcon\Support\HelperFactory;
 use Phalcon\Support\Settings;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 final class ConstructTest extends AbstractUnitTestCase

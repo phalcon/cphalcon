@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Mvc\Micro;
 
 use Phalcon\Mvc\Micro;
 use Phalcon\Mvc\Router\RouteInterface;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 class MapTest extends AbstractUnitTestCase
 {

@@ -15,7 +15,7 @@ use Phalcon\Html\Escaper;
 use Phalcon\Html\Exception;
 use Phalcon\Html\Helper\Anchor;
 use Phalcon\Html\TagFactory;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 final class UnderscoreInvokeTest extends AbstractUnitTestCase

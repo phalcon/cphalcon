@@ -98,32 +98,6 @@ final class AddForeignKeyTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Db\Dialect :: addForeignKey - sqlite throws exception
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2020-01-20
-     */
-    #[Group('sqlite')]
-    public function testDbDialectAddForeignKeySqlite(): void
-    {
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage(
-            'Adding a foreign key constraint to an existing table '
-            . 'is not supported by SQLite'
-        );
-
-        $dialect = new Sqlite();
-
-        $reference = new Reference('fk1', [
-            'referencedSchema'  => 'ref_schema',
-            'referencedTable'   => 'ref_table',
-            'columns'           => ['field_primary'],
-            'referencedColumns' => ['field_referenced'],
-        ]);
-        $dialect->addForeignKey('table', 'schema', $reference);
-    }
-
-    /**
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-01-20
      */
@@ -198,5 +172,31 @@ final class AddForeignKeyTest extends AbstractDatabaseTestCase
         ]);
         $actual    = $dialect->addForeignKey('table', 'schema', $reference);
         $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Db\Dialect :: addForeignKey - sqlite throws exception
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-01-20
+     */
+    #[Group('sqlite')]
+    public function testDbDialectAddForeignKeySqlite(): void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage(
+            'Adding a foreign key constraint to an existing table '
+            . 'is not supported by SQLite'
+        );
+
+        $dialect = new Sqlite();
+
+        $reference = new Reference('fk1', [
+            'referencedSchema'  => 'ref_schema',
+            'referencedTable'   => 'ref_table',
+            'columns'           => ['field_primary'],
+            'referencedColumns' => ['field_referenced'],
+        ]);
+        $dialect->addForeignKey('table', 'schema', $reference);
     }
 }

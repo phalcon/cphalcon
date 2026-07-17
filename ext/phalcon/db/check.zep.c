@@ -18,7 +18,6 @@
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/object.h"
-#include "ext/spl/spl_exceptions.h"
 
 
 /**
@@ -99,6 +98,15 @@ PHP_METHOD(Phalcon_Db_Check, __construct)
 	ZVAL_UNDEF(&_0$$3);
 	ZVAL_UNDEF(&_2$$4);
 	ZVAL_UNDEF(&definition);
+	static zend_string *_zephir_prop_0 = NULL;
+	static zend_string *_zephir_prop_1 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("name", 4, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_1)) {
+		_zephir_prop_1 = zend_string_init("expression", 10, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_STR(name)
 		ZEPHIR_Z_PARAM_ARRAY(definition, definition_param)
@@ -108,12 +116,12 @@ PHP_METHOD(Phalcon_Db_Check, __construct)
 	definition_param = ZEND_CALL_ARG(execute_data, 2);
 	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
-	ZEPHIR_OBS_COPY_OR_DUP(&definition, definition_param);
+	zephir_get_arrval(&definition, definition_param);
 	zephir_memory_observe(&expression);
 	if (UNEXPECTED(!(zephir_array_isset_string_fetch(&expression, &definition, SL("expression"), 0)))) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		object_init_ex(&_0$$3, phalcon_db_exceptions_checkexpressionrequired_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 442);
+		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 461);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_0$$3, "phalcon/Db/Check.zep", 72);
 		ZEPHIR_MM_RESTORE();
@@ -126,14 +134,14 @@ PHP_METHOD(Phalcon_Db_Check, __construct)
 	if (UNEXPECTED(_1)) {
 		ZEPHIR_INIT_VAR(&_2$$4);
 		object_init_ex(&_2$$4, phalcon_db_exceptions_invalidcheckexpression_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_2$$4, "__construct", NULL, 443);
+		ZEPHIR_CALL_METHOD(NULL, &_2$$4, "__construct", NULL, 462);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_2$$4, "phalcon/Db/Check.zep", 76);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	zephir_update_property_zval(this_ptr, ZEND_STRL("name"), &name_zv);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("expression"), &expression);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 540, &name_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 541, &expression);
 	ZEPHIR_MM_RESTORE();
 }
 

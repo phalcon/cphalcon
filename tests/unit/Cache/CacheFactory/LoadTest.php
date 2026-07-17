@@ -20,7 +20,7 @@ use Phalcon\Cache\CacheInterface;
 use Phalcon\Cache\Exception\Exception;
 use Phalcon\Config\Config;
 use Phalcon\Storage\SerializerFactory;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Traits\FactoryTrait;
 
 final class LoadTest extends AbstractUnitTestCase

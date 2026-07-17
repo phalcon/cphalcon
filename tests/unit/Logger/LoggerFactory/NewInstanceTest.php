@@ -18,10 +18,9 @@ use Phalcon\Logger\Adapter\Stream;
 use Phalcon\Logger\AdapterFactory;
 use Phalcon\Logger\Logger;
 use Phalcon\Logger\LoggerFactory;
-use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Logger\LoggerInterface;
-
-use function logsDir;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 
 /**
  * Class NewInstanceTest extends AbstractUnitTestCase
@@ -30,6 +29,26 @@ use function logsDir;
  */
 final class NewInstanceTest extends AbstractUnitTestCase
 {
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    public function testLoggerLoggerFactoryNewInstance(): void
+    {
+        $logPath = Talon::settings()->outputPath('tests/logs/');
+        $fileName = $this->getNewFileName('log', 'log');
+        $adapter = new Stream($logPath . $fileName);
+        $factory = new LoggerFactory(new AdapterFactory());
+        $logger = $factory->newInstance(
+            'my-logger',
+            [
+                'one' => $adapter,
+            ]
+        );
+
+        $this->assertInstanceOf(LoggerInterface::class, $logger);
+        $this->assertInstanceOf(Logger::class, $logger);
+    }
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
@@ -43,26 +62,5 @@ final class NewInstanceTest extends AbstractUnitTestCase
         $this->assertInstanceOf(LoggerInterface::class, $logger);
         $this->assertInstanceOf(Logger::class, $logger);
         $this->assertSame('my-logger', $logger->getName());
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2020-09-09
-     */
-    public function testLoggerLoggerFactoryNewInstance(): void
-    {
-        $logPath = logsDir();
-        $fileName = $this->getNewFileName('log', 'log');
-        $adapter = new Stream($logPath . $fileName);
-        $factory = new LoggerFactory(new AdapterFactory());
-        $logger = $factory->newInstance(
-            'my-logger',
-            [
-                'one' => $adapter,
-            ]
-        );
-
-        $this->assertInstanceOf(LoggerInterface::class, $logger);
-        $this->assertInstanceOf(Logger::class, $logger);
     }
 }

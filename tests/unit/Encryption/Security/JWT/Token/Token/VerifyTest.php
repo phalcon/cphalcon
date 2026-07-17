@@ -13,7 +13,7 @@ namespace Phalcon\Tests\Unit\Encryption\Security\JWT\Token\Token;
 
 use Phalcon\Encryption\Security\JWT\Builder;
 use Phalcon\Encryption\Security\JWT\Signer\Hmac;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class VerifyTest extends AbstractUnitTestCase
 {

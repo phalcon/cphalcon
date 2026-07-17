@@ -110,13 +110,18 @@ class Token
     }
 
     /**
+     * Validate the token against the claims registered in the validator.
+     *
+     * Only claims that have a value in the validator are checked. A claim left
+     * as null expresses no expectation and is skipped.
+     *
      * @param Validator $validator
      *
      * @return array
      */
     public function validate(<Validator> validator) -> array
     {
-        var claimId, method;
+        var claimValue, method;
         array methods;
 
         let methods = [
@@ -125,11 +130,14 @@ class Token
             "validateId"         : validator->get(Enum::ID),
             "validateIssuedAt"   : validator->get(Enum::ISSUED_AT),
             "validateIssuer"     : validator->get(Enum::ISSUER),
-            "validateNotBefore"  : validator->get(Enum::NOT_BEFORE)
+            "validateNotBefore"  : validator->get(Enum::NOT_BEFORE),
+            "validateSubject"    : validator->get(Enum::SUBJECT)
         ];
 
-        for method, claimId in methods {
-            validator->{method}(claimId);
+        for method, claimValue in methods {
+            if (null !== claimValue) {
+                validator->{method}(claimValue);
+            }
         }
 
         return validator->getErrors();

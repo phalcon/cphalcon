@@ -13,14 +13,14 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Translate\Adapter\Gettext;
 
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Translate\Fake\TranslateGettextHelperTrait;
 use Phalcon\Tests\Unit\Translate\Fake\TranslateGettextTrait;
 
 final class QueryTest extends AbstractUnitTestCase
 {
-    use TranslateGettextTrait;
     use TranslateGettextHelperTrait;
+    use TranslateGettextTrait;
 
     /**
      * @return string

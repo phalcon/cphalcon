@@ -63,11 +63,16 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisProducer, __construct)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&context_sub);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("context", 7, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT_OF_CLASS(context, phalcon_queue_adapter_redis_rediscontext_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &context);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("context"), context);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1214, context);
 }
 
 PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisProducer, getDeliveryDelay)
@@ -92,6 +97,15 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisProducer, send)
 	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_5);
 	ZVAL_UNDEF(&_6);
+	static zend_string *_zephir_prop_0 = NULL;
+	static zend_string *_zephir_prop_1 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("deliveryDelay", 13, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_1)) {
+		_zephir_prop_1 = zend_string_init("context", 7, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_OBJECT_OF_CLASS(destination, phalcon_contracts_queue_destination_ce)
 		Z_PARAM_OBJECT_OF_CLASS(message, phalcon_contracts_queue_message_ce)
@@ -104,18 +118,18 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisProducer, send)
 	ZEPHIR_CALL_CE_STATIC(NULL, phalcon_queue_adapter_queuedestinationguard_ce, "assertqueue", NULL, 0, destination, &_0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_1);
-	zephir_read_property(&_2, this_ptr, ZEND_STRL("deliveryDelay"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 1215, PH_NOISY_CC | PH_READONLY);
 	if (Z_TYPE_P(&_2) == IS_NULL) {
 		ZEPHIR_INIT_NVAR(&_1);
 		ZVAL_LONG(&_1, 0);
 	} else {
 		zephir_memory_observe(&_3);
-		zephir_read_property(&_3, this_ptr, ZEND_STRL("deliveryDelay"), PH_NOISY_CC);
+		zephir_read_property_cached(&_3, this_ptr, _zephir_prop_0, 1215, PH_NOISY_CC);
 		ZEPHIR_INIT_NVAR(&_1);
 		ZVAL_LONG(&_1, zephir_get_intval(&_3));
 	}
 	delay = zephir_get_numberval(&_1);
-	zephir_read_property(&_4, this_ptr, ZEND_STRL("context"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_4, this_ptr, _zephir_prop_1, 1214, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&_5, destination, "getqueuename", NULL, 0);
 	zephir_check_call_status();
 	ZVAL_LONG(&_6, delay);
@@ -133,6 +147,11 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisProducer, setDeliveryDelay)
 	ZVAL_UNDEF(&deliveryDelay_sub);
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&_0);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("deliveryDelay", 13, 1);
+	}
+
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
@@ -153,7 +172,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisProducer, setDeliveryDelay)
 		ZEPHIR_INIT_NVAR(&_0);
 		ZVAL_LONG(&_0, zephir_get_intval(deliveryDelay));
 	}
-	zephir_update_property_zval(this_ptr, ZEND_STRL("deliveryDelay"), &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1215, &_0);
 	RETURN_THIS();
 }
 

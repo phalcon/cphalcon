@@ -25,7 +25,7 @@ use Phalcon\Auth\Exceptions\FileCannotRead;
 use Phalcon\Auth\Exceptions\FileDoesNotContainJson;
 use Phalcon\Auth\Exceptions\FileDoesNotExist;
 use Phalcon\Auth\Exceptions\FileNotValidJson;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use RuntimeException;
 
 final class ExceptionTest extends AbstractUnitTestCase
@@ -38,6 +38,28 @@ final class ExceptionTest extends AbstractUnitTestCase
             "Access denied for action 'login'",
             $exception->getMessage()
         );
+    }
+
+    public function testAssertAcceptsNonEmptyValue(): void
+    {
+        $this->expectNotToPerformAssertions();
+
+        ConfigRequiresNonEmptyValue::assert('value', 'Stream adapter', 'file');
+    }
+
+    public function testAssertSkipsNull(): void
+    {
+        $this->expectNotToPerformAssertions();
+
+        ConfigRequiresNonEmptyValue::assert(null, 'Stream adapter', 'file');
+    }
+
+    public function testAssertThrowsOnEmptyValue(): void
+    {
+        $this->expectException(ConfigRequiresNonEmptyValue::class);
+        $this->expectExceptionMessage("Model adapter requires a non-empty 'model' class name");
+
+        ConfigRequiresNonEmptyValue::assert('', 'Model adapter', 'model', ' class name');
     }
 
     public function testConfigRequiresNonEmptyValue(): void

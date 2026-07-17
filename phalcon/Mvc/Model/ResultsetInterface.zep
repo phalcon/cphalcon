@@ -30,10 +30,10 @@ interface ResultsetInterface
      * Filters a resultset returning only those the developer requires
      *
      *```php
-     * $filtered = $robots->filter(
-     *     function ($robot) {
-     *         if ($robot->id < 3) {
-     *             return $robot;
+     * $filtered = $invoices->filter(
+     *     function ($invoice) {
+     *         if ($invoice->inv_id < 3) {
+     *             return $invoice;
      *         }
      *     }
      * );

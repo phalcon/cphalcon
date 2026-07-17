@@ -23,13 +23,10 @@ use Phalcon\Storage\Adapter\Weak;
 use Phalcon\Storage\AdapterFactory;
 use Phalcon\Storage\Exception;
 use Phalcon\Storage\SerializerFactory;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use PHPUnit\Framework\Attributes\DataProvider;
 
-use function getOptionsLibmemcached;
-use function getOptionsRedis;
-use function getOptionsRedisCluster;
-use function outputDir;
 use function uniqid;
 
 final class NewInstanceTest extends AbstractUnitTestCase
@@ -45,7 +42,12 @@ final class NewInstanceTest extends AbstractUnitTestCase
             [
                 'libmemcached',
                 Libmemcached::class,
-                getOptionsLibmemcached(),
+                [
+                    'client' => [],
+                    'servers' => [
+                        Talon::settings()->getServiceOptions('memcached')
+                    ]
+                ],
             ],
             [
                 'memory',
@@ -55,18 +57,18 @@ final class NewInstanceTest extends AbstractUnitTestCase
             [
                 'redis',
                 Redis::class,
-                getOptionsRedis(),
+                Talon::settings()->getServiceOptions('redis'),
             ],
             [
                 'rediscluster',
                 RedisCluster::class,
-                getOptionsRedisCluster(),
+                Talon::settings()->getServiceOptions('redisCluster'),
             ],
             [
                 'stream',
                 Stream::class,
                 [
-                    'storageDir' => outputDir(),
+                    'storageDir' => Talon::settings()->outputPath() . '/',
                 ],
             ],
             [

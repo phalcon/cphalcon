@@ -23,7 +23,7 @@ class AdapterFactory extends AbstractFactory
     /**
      * AdapterFactory constructor.
      */
-    public function __construct(<SerializerFactory> factory, array! services = [])
+    public function __construct(<SerializerFactory> factory,  array services = [])
     {
         let this->serializerFactory = factory;
 
@@ -57,7 +57,7 @@ class AdapterFactory extends AbstractFactory
      * @return AdapterInterface
      * @throws Exception
      */
-    public function newInstance(string! name, array! options = []) -> <AdapterInterface>
+    public function newInstance( string name,  array options = []) -> <AdapterInterface>
     {
         var definition;
 

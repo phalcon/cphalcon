@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Db\Dialect\Mysql;
 
+use Phalcon\Db\Dialect\Mysql;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use PHPUnit\Framework\Attributes\Group;
 
@@ -29,6 +30,25 @@ final class TableOptionsTest extends AbstractDatabaseTestCase
      */
     public function testDbDialectMysqlTableOptions(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $dialect = new Mysql();
+
+        $prefix = 'SELECT TABLES.TABLE_TYPE AS table_type,'
+            . 'TABLES.AUTO_INCREMENT AS auto_increment,'
+            . 'TABLES.ENGINE AS engine,'
+            . 'TABLES.TABLE_COLLATION AS table_collation,'
+            . 'TABLES.TABLE_COMMENT AS table_comment '
+            . 'FROM INFORMATION_SCHEMA.TABLES WHERE ';
+
+        $this->assertSame(
+            $prefix
+            . "TABLES.TABLE_SCHEMA = 'schema' AND TABLES.TABLE_NAME = 'robots'",
+            $dialect->tableOptions('robots', 'schema')
+        );
+
+        $this->assertSame(
+            $prefix
+            . "TABLES.TABLE_SCHEMA = DATABASE() AND TABLES.TABLE_NAME = 'robots'",
+            $dialect->tableOptions('robots')
+        );
     }
 }

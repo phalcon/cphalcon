@@ -15,6 +15,7 @@ use Phalcon\Di\DiInterface;
 use Phalcon\Http\Cookie\CookieInterface;
 use Phalcon\Http\Cookie\Exception;
 use Phalcon\Http\Response\Exceptions\ResponseServiceUnavailable;
+use Phalcon\Http\Traits\EncryptionAwareTrait;
 
 /**
  * This class is a bag to manage the cookies.
@@ -64,6 +65,8 @@ use Phalcon\Http\Response\Exceptions\ResponseServiceUnavailable;
  */
 class Cookies extends AbstractInjectionAware implements CookiesInterface
 {
+    use EncryptionAwareTrait;
+
     /**
      * @var array
      */
@@ -86,11 +89,6 @@ class Cookies extends AbstractInjectionAware implements CookiesInterface
     protected signKey = null;
 
     /**
-     * @var bool
-     */
-    protected useEncryption = true;
-
-    /**
      * Phalcon\Http\Response\Cookies constructor
      */
     public function __construct(bool useEncryption = true, string signKey = null)
@@ -104,7 +102,7 @@ class Cookies extends AbstractInjectionAware implements CookiesInterface
      * Deletes a cookie by its name
      * This method does not removes cookies from the _COOKIE superglobal
      */
-    public function delete(string! name) -> bool
+    public function delete( string name) -> bool
     {
         var cookie;
 
@@ -123,7 +121,7 @@ class Cookies extends AbstractInjectionAware implements CookiesInterface
     /**
      * Gets a cookie from the bag
      */
-    public function get(string! name) -> <CookieInterface>
+    public function get( string name) -> <CookieInterface>
     {
         var container, encryption, cookie;
 
@@ -172,7 +170,7 @@ class Cookies extends AbstractInjectionAware implements CookiesInterface
      * Check if a cookie is defined in the bag or exists in the _COOKIE
      * superglobal
      */
-    public function has(string! name) -> bool
+    public function has( string name) -> bool
     {
         return isset this->cookies[name] || isset _COOKIE[name];
     }
@@ -183,14 +181,6 @@ class Cookies extends AbstractInjectionAware implements CookiesInterface
     public function isSent() -> bool
     {
         return this->isSent;
-    }
-
-    /**
-     * Returns if the bag is automatically encrypting/decrypting cookies
-     */
-    public function isUsingEncryption() -> bool
-    {
-        return this->useEncryption;
     }
 
     /**
@@ -244,12 +234,12 @@ class Cookies extends AbstractInjectionAware implements CookiesInterface
      * ```
      */
     public function set(
-        string! name,
+         string name,
         var value = null,
         int expire = 0,
         string path = "/",
         bool secure = false,
-        string! domain = "",
+         string domain = "",
         bool httpOnly = false,
         array options = []
     ) -> <CookiesInterface> {

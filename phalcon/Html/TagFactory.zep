@@ -151,7 +151,7 @@ class TagFactory
      */
     public function __construct(
         <EscaperInterface> escaper,
-        array! services = [],
+         array services = [],
         <ResponseInterface> response = null,
         <UrlInterface> url = null
     ) {

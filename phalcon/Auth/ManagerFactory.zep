@@ -15,6 +15,8 @@ namespace Phalcon\Auth;
 
 use Phalcon\Auth\Access\AccessLocator;
 use Phalcon\Auth\Adapter\AdapterLocator;
+use Phalcon\Auth\Exceptions\UnknownAdapter;
+use Phalcon\Auth\Exceptions\UnknownGuard;
 use Phalcon\Auth\Guard\GuardLocator;
 use Phalcon\Auth\Internal\ContainerResolver;
 use Phalcon\Auth\Internal\Options;
@@ -179,7 +181,7 @@ class ManagerFactory
         let name = Options::requireString(cfg, "name", "adapter");
 
         if (!locator->has(name)) {
-            throw new Exception(sprintf("Unknown auth adapter '%s'", name));
+            throw new UnknownAdapter(name);
         }
 
         let className = locator->getClass(name);
@@ -204,7 +206,7 @@ class ManagerFactory
         var className;
 
         if (!locator->has(type)) {
-            throw new Exception(sprintf("Unknown auth guard '%s'", type));
+            throw new UnknownGuard(type);
         }
 
         let className = locator->getClass(type);

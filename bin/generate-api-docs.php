@@ -7,7 +7,7 @@
  * chips, multi-line signatures).
  *
  * Two passes:
- *   1. Parse every .zep file with zephir_parse_file() and build a global
+ *   1. Parse every .zep file with Zephir\Parser\Parser and build a global
  *      class registry (FQCN -> metadata) so inheritance trees and
  *      cross-page links can be resolved.
  *   2. Emit one markdown file per top-level namespace segment.
@@ -22,15 +22,12 @@
 
 declare(strict_types=1);
 
-if (!function_exists('zephir_parse_file')) {
-    fwrite(STDERR, 'The zephir parser extension is not loaded.' . PHP_EOL);
-    exit(1);
-}
-
 $baseDir   = dirname(__DIR__);
 $sourceDir = $baseDir . DIRECTORY_SEPARATOR . 'phalcon' . DIRECTORY_SEPARATOR;
 $filter    = $argv[1] ?? '';
 $outputDir = rtrim($argv[2] ?? $baseDir . '/nikos/api', '/') . '/';
+
+require_once $baseDir . '/vendor/autoload.php';
 
 if (!is_dir($outputDir)) {
     mkdir($outputDir, 0777, true);
@@ -39,12 +36,10 @@ if (!is_dir($outputDir)) {
 /*
  * Pass 1 - registry
  */
+$parser   = new Zephir\Parser\Parser();
 $registry = [];
 foreach (collectZepFiles($sourceDir) as $relPath) {
-    $ast = zephir_parse_file(
-        file_get_contents($sourceDir . $relPath),
-        $relPath
-    );
+    $ast = $parser->parse($sourceDir . $relPath);
 
     $class = extractClass($ast, $relPath);
     if (null !== $class) {

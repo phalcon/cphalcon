@@ -16,10 +16,10 @@ namespace Phalcon\Tests\Database\Mvc\Model\Relation;
 use PDO;
 use Phalcon\Contracts\Mvc\Model\Relation\CacheKeyProvider;
 use Phalcon\Tests\AbstractDatabaseTestCase;
-use Phalcon\Tests\Support\Models\CustomersCacheKeyProvider;
-use Phalcon\Tests\Support\Models\InvoicesCacheKeyProvider;
 use Phalcon\Tests\Support\Migrations\CustomersMigration;
 use Phalcon\Tests\Support\Migrations\InvoicesMigration;
+use Phalcon\Tests\Support\Models\CustomersCacheKeyProvider;
+use Phalcon\Tests\Support\Models\InvoicesCacheKeyProvider;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\Group;
 
@@ -63,7 +63,7 @@ final class CacheKeyProviderTest extends AbstractDatabaseTestCase
     public function testMvcModelManagerCacheKeyProviderUniqueKey(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
 
         $custId    = 50;
         $firstName = uniqid('cust-', true);

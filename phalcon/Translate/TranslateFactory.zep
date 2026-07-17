@@ -43,7 +43,7 @@ class TranslateFactory extends AbstractFactory
      */
     public function __construct(
         <InterpolatorFactory> interpolator,
-        array! services = []
+         array services = []
     ) {
         let this->interpolator = interpolator;
 
@@ -80,7 +80,7 @@ class TranslateFactory extends AbstractFactory
      *
      * @return AdapterInterface
      */
-    public function newInstance(string! name, array! options = []) -> <AdapterInterface>
+    public function newInstance( string name,  array options = []) -> <AdapterInterface>
     {
         var definition;
 

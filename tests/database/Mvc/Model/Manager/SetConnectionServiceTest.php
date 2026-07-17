@@ -14,6 +14,8 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Database\Mvc\Model\Manager;
 
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use Phalcon\Tests\Support\Models\Invoices;
+use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\Group;
 
 #[Group('mysql')]
@@ -21,12 +23,28 @@ use PHPUnit\Framework\Attributes\Group;
 #[Group('sqlite')]
 final class SetConnectionServiceTest extends AbstractDatabaseTestCase
 {
+    use DiTrait;
+
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+    }
+
     /**
+     * Tests Phalcon\Mvc\Model\Manager :: setConnectionService()
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2026-06-22
      */
     public function testMvcModelManagerSetConnectionService(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $manager = $this->container->get('modelsManager');
+        $model   = new Invoices();
+
+        $manager->setConnectionService($model, 'dbBoth');
+
+        $this->assertSame('dbBoth', $manager->getReadConnectionService($model));
+        $this->assertSame('dbBoth', $manager->getWriteConnectionService($model));
     }
 }

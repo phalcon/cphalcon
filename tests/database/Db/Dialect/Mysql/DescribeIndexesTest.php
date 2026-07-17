@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Db\Dialect\Mysql;
 
+use Phalcon\Db\Dialect\Mysql;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use PHPUnit\Framework\Attributes\Group;
 
@@ -29,6 +30,16 @@ final class DescribeIndexesTest extends AbstractDatabaseTestCase
      */
     public function testDbDialectMysqlDescribeIndexes(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $dialect = new Mysql();
+
+        $this->assertSame(
+            'SHOW INDEXES FROM `robots`',
+            $dialect->describeIndexes('robots')
+        );
+
+        $this->assertSame(
+            'SHOW INDEXES FROM `schema`.`robots`',
+            $dialect->describeIndexes('robots', 'schema')
+        );
     }
 }

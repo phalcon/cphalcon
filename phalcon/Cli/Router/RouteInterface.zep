@@ -26,12 +26,12 @@ interface RouteInterface
      * Replaces placeholders from pattern returning a valid PCRE regular
      * expression
      */
-    public function compilePattern(string! pattern) -> string;
+    public function compilePattern( string pattern) -> string;
 
     /**
      * Set the routing delimiter
      */
-    public static function delimiter(string! delimiter = null);
+    public static function delimiter( string delimiter = null);
 
     /**
      * Returns the route's pattern
@@ -81,7 +81,7 @@ interface RouteInterface
      *
      * @return void
      */
-    public function reConfigure(string! pattern, var paths = null) -> void;
+    public function reConfigure( string pattern, var paths = null) -> void;
 
     /**
      * Resets the internal route id generator
@@ -91,7 +91,7 @@ interface RouteInterface
     /**
      * Sets the route's description
      */
-    public function setDescription(string! description) -> <RouteInterface>;
+    public function setDescription( string description) -> <RouteInterface>;
 
     /**
      * Sets the route's name

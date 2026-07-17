@@ -45,6 +45,30 @@ final class GetModelsTest extends AbstractDatabaseTestCase
     #[Group('mysql')]
     #[Group('pgsql')]
     #[Group('sqlite')]
+    public function testMvcModelQueryBuilderGetModelsArray(): void
+    {
+        $manager = $this->getService('modelsManager');
+        $builder = $manager
+            ->createBuilder()
+            ->from(['Invoices' => Invoices::class])
+            ->addFrom(Customers::class, 'Customers')
+        ;
+
+        $expected = [
+            'Invoices'  => Invoices::class,
+            'Customers' => Customers::class,
+        ];
+        $actual   = $builder->getModels();
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2018-04-08
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
     public function testMvcModelQueryBuilderGetModelsNull(): void
     {
         $manager = $this->getService('modelsManager');
@@ -69,30 +93,6 @@ final class GetModelsTest extends AbstractDatabaseTestCase
         ;
 
         $expected = Invoices::class;
-        $actual   = $builder->getModels();
-        $this->assertEquals($expected, $actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-04-08
-     */
-    #[Group('mysql')]
-    #[Group('pgsql')]
-    #[Group('sqlite')]
-    public function testMvcModelQueryBuilderGetModelsArray(): void
-    {
-        $manager = $this->getService('modelsManager');
-        $builder = $manager
-            ->createBuilder()
-            ->from(['Invoices' => Invoices::class])
-            ->addFrom(Customers::class, 'Customers')
-        ;
-
-        $expected = [
-            'Invoices'  => Invoices::class,
-            'Customers' => Customers::class,
-        ];
         $actual   = $builder->getModels();
         $this->assertEquals($expected, $actual);
     }

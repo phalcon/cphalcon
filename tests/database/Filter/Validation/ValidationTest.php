@@ -96,45 +96,97 @@ final class ValidationTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests validate method with entity and filters
+     * Tests that empty values behavior.
      *
-     * @author Wojciech Ślawski <jurigag@gmail.com>
-     * @since  2016-09-26
+     * @author Gorka Guridi <gorka.guridi@gmail.com>
+     * @since  2016-12-30
      */
     #[Group('mysql')]
     #[Group('sqlite')]
-    public function testWithEntityAndFilter(): void
+    public function testEmptyValues(): void
     {
-        $object = new Objects(
+        $validation = new Validation();
+
+        $validation->setDI(
+            $this->container
+        );
+
+        $validation
+            ->add(
+                'name',
+                new Alpha(
+                    [
+                        'message' => 'The name is not valid',
+                    ]
+                )
+            )
+            ->add(
+                'name',
+                new PresenceOf(
+                    [
+                        'message' => 'The name is required',
+                    ]
+                )
+            )
+            ->add(
+                'url',
+                new Url(
+                    [
+                        'message'    => 'The url is not valid.',
+                        'allowEmpty' => true,
+                    ]
+                )
+            )
+            ->add(
+                'email',
+                new Email(
+                    [
+                        'message'    => 'The email is not valid.',
+                        'allowEmpty' => [null, false],
+                    ]
+                )
+            )
+        ;
+
+        $messages = $validation->validate(
             [
-                'obj_name' => ' ',
+                'name'  => '',
+                'url'   => null,
+                'email' => '',
             ]
         );
 
-        $messages = $this->validation->validate(null, $object);
+        $this->assertCount(2, $messages);
 
-        $this->assertEquals(
-            1,
-            $messages->count()
-        );
-
-        $this->assertEquals(
-            'Name cant be empty.',
-            $messages->offsetGet(0)->getMessage()
-        );
-
-        $expectedMessages = new Messages(
+        $messages = $validation->validate(
             [
-                new Message(
-                    'Name cant be empty.',
-                    'obj_name',
-                    PresenceOf::class,
-                    0
-                ),
+                'name'  => 'MyName',
+                'url'   => '',
+                'email' => '',
             ]
         );
 
-        $this->assertEquals($messages, $expectedMessages);
+        $this->assertCount(1, $messages);
+
+        $messages = $validation->validate(
+            [
+                'name'  => 'MyName',
+                'url'   => false,
+                'email' => null,
+            ]
+        );
+
+        $this->assertCount(0, $messages);
+
+        $messages = $validation->validate(
+            [
+                'name'  => 'MyName',
+                'url'   => 0,
+                'email' => 0,
+            ]
+        );
+
+        $this->assertCount(1, $messages);
     }
 
     /**
@@ -316,96 +368,44 @@ final class ValidationTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests that empty values behavior.
+     * Tests validate method with entity and filters
      *
-     * @author Gorka Guridi <gorka.guridi@gmail.com>
-     * @since  2016-12-30
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2016-09-26
      */
     #[Group('mysql')]
     #[Group('sqlite')]
-    public function testEmptyValues(): void
+    public function testWithEntityAndFilter(): void
     {
-        $validation = new Validation();
-
-        $validation->setDI(
-            $this->container
-        );
-
-        $validation
-            ->add(
-                'name',
-                new Alpha(
-                    [
-                        'message' => 'The name is not valid',
-                    ]
-                )
-            )
-            ->add(
-                'name',
-                new PresenceOf(
-                    [
-                        'message' => 'The name is required',
-                    ]
-                )
-            )
-            ->add(
-                'url',
-                new Url(
-                    [
-                        'message'    => 'The url is not valid.',
-                        'allowEmpty' => true,
-                    ]
-                )
-            )
-            ->add(
-                'email',
-                new Email(
-                    [
-                        'message'    => 'The email is not valid.',
-                        'allowEmpty' => [null, false],
-                    ]
-                )
-            )
-        ;
-
-        $messages = $validation->validate(
+        $object = new Objects(
             [
-                'name'  => '',
-                'url'   => null,
-                'email' => '',
+                'obj_name' => ' ',
             ]
         );
 
-        $this->assertCount(2, $messages);
+        $messages = $this->validation->validate(null, $object);
 
-        $messages = $validation->validate(
+        $this->assertEquals(
+            1,
+            $messages->count()
+        );
+
+        $this->assertEquals(
+            'Name cant be empty.',
+            $messages->offsetGet(0)->getMessage()
+        );
+
+        $expectedMessages = new Messages(
             [
-                'name'  => 'MyName',
-                'url'   => '',
-                'email' => '',
+                new Message(
+                    'Name cant be empty.',
+                    'obj_name',
+                    PresenceOf::class,
+                    0
+                ),
             ]
         );
 
-        $this->assertCount(1, $messages);
-
-        $messages = $validation->validate(
-            [
-                'name'  => 'MyName',
-                'url'   => false,
-                'email' => null,
-            ]
-        );
-
-        $this->assertCount(0, $messages);
-
-        $messages = $validation->validate(
-            [
-                'name'  => 'MyName',
-                'url'   => 0,
-                'email' => 0,
-            ]
-        );
-
-        $this->assertCount(1, $messages);
+        $this->assertEquals($messages, $expectedMessages);
     }
 }

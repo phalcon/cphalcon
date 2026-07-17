@@ -63,15 +63,28 @@ PHP_METHOD(Phalcon_Queue_Consumer_BoundProcessor, __construct)
 	ZVAL_UNDEF(&queue_sub);
 	ZVAL_UNDEF(&processor_sub);
 	ZVAL_UNDEF(&consumer_sub);
+	static zend_string *_zephir_prop_0 = NULL;
+	static zend_string *_zephir_prop_1 = NULL;
+	static zend_string *_zephir_prop_2 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("queue", 5, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_1)) {
+		_zephir_prop_1 = zend_string_init("processor", 9, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_2)) {
+		_zephir_prop_2 = zend_string_init("consumer", 8, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(3, 3)
 		Z_PARAM_OBJECT_OF_CLASS(queue, phalcon_contracts_queue_queue_ce)
 		Z_PARAM_OBJECT_OF_CLASS(processor, phalcon_contracts_queue_processor_ce)
 		Z_PARAM_OBJECT_OF_CLASS(consumer, phalcon_contracts_queue_consumer_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(3, 0, &queue, &processor, &consumer);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("queue"), queue);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("processor"), processor);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("consumer"), consumer);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1233, queue);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1234, processor);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 1235, consumer);
 }
 
 PHP_METHOD(Phalcon_Queue_Consumer_BoundProcessor, getConsumer)

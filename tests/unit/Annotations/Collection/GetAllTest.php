@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Annotations\Collection;
 
 use Phalcon\Annotations\Annotation;
 use Phalcon\Annotations\Collection;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class GetAllTest extends AbstractUnitTestCase
 {

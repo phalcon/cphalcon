@@ -61,7 +61,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, keepSnapshots);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, load);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, missingMethod);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, notifyEvent);
+PHP_METHOD(Phalcon_Mvc_Model_Manager, registerWrite);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, removeBehavior);
+PHP_METHOD(Phalcon_Mvc_Model_Manager, resetConnectionState);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, setConnectionService);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, setCustomEventsManager);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, setDI);
@@ -71,6 +73,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, setModelSchema);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, setModelSource);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, setReadConnectionService);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, setReusableRecords);
+PHP_METHOD(Phalcon_Mvc_Model_Manager, setSticky);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, setWriteConnectionService);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, useDynamicUpdate);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getConnection);
@@ -367,10 +370,18 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_notifyevent, 0, 0, 2)
 	ZEND_ARG_OBJ_INFO(0, model, Phalcon\\Mvc\\ModelInterface, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_manager_registerwrite, 0, 1, IS_VOID, 0)
+
+	ZEND_ARG_OBJ_INFO(0, model, Phalcon\\Mvc\\ModelInterface, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_manager_removebehavior, 0, 2, IS_VOID, 0)
 
 	ZEND_ARG_OBJ_INFO(0, model, Phalcon\\Mvc\\ModelInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, behaviorClass, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_manager_resetconnectionstate, 0, 0, IS_VOID, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_manager_setconnectionservice, 0, 2, IS_VOID, 0)
@@ -423,6 +434,11 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_manager_setreu
 	ZEND_ARG_TYPE_INFO(0, modelName, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
 	ZEND_ARG_INFO(0, records)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_manager_setsticky, 0, 1, IS_VOID, 0)
+
+	ZEND_ARG_TYPE_INFO(0, sticky, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_manager_setwriteconnectionservice, 0, 2, IS_VOID, 0)
@@ -515,7 +531,9 @@ PHP_ME(Phalcon_Mvc_Model_Manager, __destruct, arginfo_phalcon_mvc_model_manager_
 	PHP_ME(Phalcon_Mvc_Model_Manager, load, arginfo_phalcon_mvc_model_manager_load, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Manager, missingMethod, arginfo_phalcon_mvc_model_manager_missingmethod, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Manager, notifyEvent, arginfo_phalcon_mvc_model_manager_notifyevent, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Manager, registerWrite, arginfo_phalcon_mvc_model_manager_registerwrite, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Manager, removeBehavior, arginfo_phalcon_mvc_model_manager_removebehavior, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Manager, resetConnectionState, arginfo_phalcon_mvc_model_manager_resetconnectionstate, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Manager, setConnectionService, arginfo_phalcon_mvc_model_manager_setconnectionservice, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Manager, setCustomEventsManager, arginfo_phalcon_mvc_model_manager_setcustomeventsmanager, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Manager, setDI, arginfo_phalcon_mvc_model_manager_setdi, ZEND_ACC_PUBLIC)
@@ -525,6 +543,7 @@ PHP_ME(Phalcon_Mvc_Model_Manager, __destruct, arginfo_phalcon_mvc_model_manager_
 	PHP_ME(Phalcon_Mvc_Model_Manager, setModelSource, arginfo_phalcon_mvc_model_manager_setmodelsource, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Manager, setReadConnectionService, arginfo_phalcon_mvc_model_manager_setreadconnectionservice, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Manager, setReusableRecords, arginfo_phalcon_mvc_model_manager_setreusablerecords, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Manager, setSticky, arginfo_phalcon_mvc_model_manager_setsticky, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Manager, setWriteConnectionService, arginfo_phalcon_mvc_model_manager_setwriteconnectionservice, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Manager, useDynamicUpdate, arginfo_phalcon_mvc_model_manager_usedynamicupdate, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Manager, getConnection, arginfo_phalcon_mvc_model_manager_getconnection, ZEND_ACC_PROTECTED)

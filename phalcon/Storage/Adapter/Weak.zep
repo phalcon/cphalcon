@@ -53,7 +53,7 @@ class Weak extends AbstractAdapter
      * @param array options = []
      * @throws SupportException
      */
-    public function __construct(<SerializerFactory> factory, array! options = [])
+    public function __construct(<SerializerFactory> factory,  array options = [])
     {
         let this->defaultSerializer = "none",
             this->lifetime           = this->getArrVal(options, "lifetime", 3600),
@@ -123,7 +123,7 @@ class Weak extends AbstractAdapter
      *
      * @return bool|int
      */
-    protected function doDecrement(string! key, int value = 1) -> int | bool
+    protected function doDecrement( string key, int value = 1) -> int | bool
     {
         return false;
     }
@@ -135,7 +135,7 @@ class Weak extends AbstractAdapter
      *
      * @return bool
      */
-    protected function doDelete(string! key) -> bool
+    protected function doDelete( string key) -> bool
     {
         var exists;
 
@@ -157,7 +157,7 @@ class Weak extends AbstractAdapter
      *
      * @return mixed
      */
-    protected function doGet(string! key, var defaultValue = null) -> var
+    protected function doGet( string key, var defaultValue = null) -> var
     {
         var value, wr;
 
@@ -196,7 +196,7 @@ class Weak extends AbstractAdapter
      *
      * @return bool
      */
-    protected function doHas(string! key) -> bool
+    protected function doHas( string key) -> bool
     {
         return isset this->weakList[key];
     }
@@ -209,7 +209,7 @@ class Weak extends AbstractAdapter
      *
      * @return bool|int
      */
-    protected function doIncrement(string! key, int value = 1) -> int | bool
+    protected function doIncrement( string key, int value = 1) -> int | bool
     {
         return false;
     }
@@ -228,7 +228,7 @@ class Weak extends AbstractAdapter
      * @return bool
      * @throws BaseException
      */
-    protected function doSet(string! key, var value, var ttl = null) -> bool
+    protected function doSet( string key, var value, var ttl = null) -> bool
     {
         if typeof value !== "object" {
             return false;

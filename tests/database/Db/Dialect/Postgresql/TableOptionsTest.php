@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Db\Dialect\Postgresql;
 
+use Phalcon\Db\Dialect\Postgresql;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use PHPUnit\Framework\Attributes\Group;
 
@@ -29,6 +30,21 @@ final class TableOptionsTest extends AbstractDatabaseTestCase
      */
     public function testDbDialectPostgresqlTableOptions(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $dialect = new Postgresql();
+
+        $prefix = "SELECT obj_description(c.oid, 'pg_class') AS table_comment "
+            . "FROM pg_class c "
+            . "JOIN pg_namespace n ON n.oid = c.relnamespace "
+            . "WHERE c.relname = 'robots' AND ";
+
+        $this->assertSame(
+            $prefix . "n.nspname = 'schema'",
+            $dialect->tableOptions('robots', 'schema')
+        );
+
+        $this->assertSame(
+            $prefix . "n.nspname = current_schema()",
+            $dialect->tableOptions('robots')
+        );
     }
 }

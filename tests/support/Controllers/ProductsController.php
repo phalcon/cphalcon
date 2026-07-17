@@ -13,11 +13,15 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Support\Controllers;
 
+use Phalcon\Annotations\Router\Get;
+use Phalcon\Annotations\Router\Route;
+
 class ProductsController
 {
     /**
      * @Get("/products")
      */
+    #[Get("/products")]
     public function indexAction()
     {
     }
@@ -26,6 +30,7 @@ class ProductsController
      * @Get("/products/edit/{id:[0-9]+}", name="edit-product")
      * @param int $id
      */
+    #[Get("/products/edit/{id:[0-9]+}", name: "edit-product")]
     public function editAction($id)
     {
     }
@@ -33,6 +38,7 @@ class ProductsController
     /**
      * @Route("/products/save", methods={"POST", "PUT"}, name="save-product")
      */
+    #[Route("/products/save", methods: ["POST", "PUT"], name: "save-product")]
     public function saveAction()
     {
     }

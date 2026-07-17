@@ -62,6 +62,11 @@ PHP_METHOD(Phalcon_Auth_Micro_AuthMicroListener, __construct)
 
 	ZVAL_UNDEF(&manager_sub);
 	ZVAL_UNDEF(&componentName_zv);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("componentName", 13, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_OBJECT_OF_CLASS(manager, phalcon_contracts_auth_manager_ce)
 		Z_PARAM_OPTIONAL
@@ -80,7 +85,7 @@ PHP_METHOD(Phalcon_Auth_Micro_AuthMicroListener, __construct)
 	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_auth_micro_authmicrolistener_ce, getThis(), "__construct", NULL, 0, manager);
 	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, ZEND_STRL("componentName"), &componentName_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 418, &componentName_zv);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -106,6 +111,11 @@ PHP_METHOD(Phalcon_Auth_Micro_AuthMicroListener, beforeExecuteRoute)
 	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("componentName", 13, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_OBJECT_OF_CLASS(event, phalcon_events_event_ce)
 		Z_PARAM_OBJECT_OF_CLASS(application, phalcon_mvc_micro_ce)
@@ -134,7 +144,7 @@ PHP_METHOD(Phalcon_Auth_Micro_AuthMicroListener, beforeExecuteRoute)
 	ZEPHIR_INIT_VAR(&_2);
 	zephir_create_array(&_2, 2, 0);
 	zephir_memory_observe(&_3);
-	zephir_read_property(&_3, this_ptr, ZEND_STRL("componentName"), PH_NOISY_CC);
+	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_0, 418, PH_NOISY_CC);
 	zephir_array_update_string(&_2, SL("handler"), &_3, PH_COPY | PH_SEPARATE);
 	ZEPHIR_CALL_METHOD(&_4, &router, "getparams", NULL, 0);
 	zephir_check_call_status();

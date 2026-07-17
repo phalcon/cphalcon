@@ -14,6 +14,8 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Database\Mvc\Model;
 
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use Phalcon\Tests\Support\Models\Invoices;
+use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\Group;
 
 #[Group('mysql')]
@@ -21,12 +23,29 @@ use PHPUnit\Framework\Attributes\Group;
 #[Group('sqlite')]
 final class GetOldSnapshotDataTest extends AbstractDatabaseTestCase
 {
+    use DiTrait;
+
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+    }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function testMvcModelGetOldSnapshotData(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $invoice = new Invoices();
+
+        $data = [
+            'inv_id'    => 1,
+            'inv_title' => 'snapshot title',
+        ];
+
+        $invoice->setOldSnapshotData($data);
+
+        $this->assertSame($data, $invoice->getOldSnapshotData());
     }
 }

@@ -15,11 +15,11 @@ namespace Phalcon\Tests\Unit\Mvc\View\Simple;
 
 use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Mvc\View\Simple;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 
 use function ob_end_clean;
 use function ob_start;
-use function supportDir;
 
 class GetActiveRenderPathTest extends AbstractUnitTestCase
 {
@@ -30,7 +30,7 @@ class GetActiveRenderPathTest extends AbstractUnitTestCase
     public function testMvcViewSimpleGetActiveRenderPath(): void
     {
         $view = new Simple();
-        $view->setViewsDir(supportDir('assets/views/'));
+        $view->setViewsDir(Talon::settings()->supportPath('assets/views/'));
         $view->setEventsManager(new EventsManager());
 
         ob_start();

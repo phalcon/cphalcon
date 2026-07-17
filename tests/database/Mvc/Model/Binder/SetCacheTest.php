@@ -13,6 +13,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Mvc\Model\Binder;
 
+use Phalcon\Cache\Adapter\Memory;
+use Phalcon\Mvc\Model\Binder;
+use Phalcon\Mvc\Model\BinderInterface;
+use Phalcon\Storage\SerializerFactory;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use PHPUnit\Framework\Attributes\Group;
 
@@ -27,6 +31,14 @@ final class SetCacheTest extends AbstractDatabaseTestCase
      */
     public function testMvcModelBinderSetCache(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $serializer = new SerializerFactory();
+        $cache      = new Memory($serializer);
+
+        $binder = new Binder();
+
+        $returned = $binder->setCache($cache);
+
+        $this->assertInstanceOf(BinderInterface::class, $returned);
+        $this->assertSame($cache, $binder->getCache());
     }
 }

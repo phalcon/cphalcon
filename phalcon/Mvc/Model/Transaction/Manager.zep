@@ -35,25 +35,25 @@ use Phalcon\Mvc\Model\TransactionInterface;
  *
  *    $transaction = $transactionManager->get();
  *
- *    $robot = new Robots();
+ *    $invoice = new Invoices();
  *
- *    $robot->setTransaction($transaction);
+ *    $invoice->setTransaction($transaction);
  *
- *    $robot->name       = "WALL·E";
- *    $robot->created_at = date("Y-m-d");
+ *    $invoice->inv_title       = "Test Invoice";
+ *    $invoice->inv_created_at = date("Y-m-d");
  *
- *    if ($robot->save() === false) {
- *        $transaction->rollback("Can't save robot");
+ *    if ($invoice->save() === false) {
+ *        $transaction->rollback("Can't save invoice");
  *    }
  *
- *    $robotPart = new RobotParts();
+ *    $product = new Products();
  *
- *    $robotPart->setTransaction($transaction);
+ *    $product->setTransaction($transaction);
  *
- *    $robotPart->type = "head";
+ *    $product->prd_name = "Widget";
  *
- *    if ($robotPart->save() === false) {
- *        $transaction->rollback("Can't save robot part");
+ *    if ($product->save() === false) {
+ *        $transaction->rollback("Can't save product");
  *    }
  *
  *    $transaction->commit();
@@ -303,7 +303,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface
      *
      * @param string service
      */
-    public function setDbService(string! service) -> <ManagerInterface>
+    public function setDbService( string service) -> <ManagerInterface>
     {
         let this->service = service;
 

@@ -46,6 +46,18 @@ class Validation extends Injectable implements ValidationInterface
     protected data;
 
     /**
+     * Default messages for validators, keyed by validator class name
+     *
+     * Declared without an array initializer on purpose: an initialized static
+     * array makes Zephir emit a zephir_init_static_properties() function that
+     * fails to compile in the single-file build. It is null until first set
+     * and treated as an empty array by the accessors below.
+     *
+     * @var array
+     */
+    protected static defaultMessages = [];
+
+    /**
      * @var object|null
      */
     protected entity = null;
@@ -245,6 +257,25 @@ class Validation extends Injectable implements ValidationInterface
     public function getData() -> var
     {
         return this->data;
+    }
+
+    /**
+     * Returns the default message registered for a validator class, or an
+     * empty string when none has been registered.
+     *
+     * @param string $validatorClassName
+     *
+     * @return string
+     */
+    public static function getDefaultMessage(string validatorClassName) -> string
+    {
+        var defaultMessage;
+
+        if fetch defaultMessage, self::defaultMessages[validatorClassName] {
+            return defaultMessage;
+        }
+
+        return "";
     }
 
     /**
@@ -472,7 +503,7 @@ class Validation extends Injectable implements ValidationInterface
     /**
      * Adds the validators to a field
      */
-    public function rules(var field, array! validators) -> <static>
+    public function rules(var field,  array validators) -> <static>
     {
         var validator;
 
@@ -483,6 +514,27 @@ class Validation extends Injectable implements ValidationInterface
         }
 
         return this;
+    }
+
+    /**
+     * Registers default messages for validators, keyed by validator class
+     * name. A registered default is used when a validator does not define its
+     * own message; a message set on the validator instance still wins. Calls
+     * are merged, so defaults can be registered incrementally.
+     *
+     * @param array $messages
+     *
+     * @return array
+     */
+    public static function setDefaultMessages(array messages = []) -> array
+    {
+        var localMessages;
+
+        let localMessages = self::defaultMessages;
+
+        let self::defaultMessages = array_merge(localMessages, messages);
+
+        return self::defaultMessages;
     }
 
     /**
@@ -525,7 +577,7 @@ class Validation extends Injectable implements ValidationInterface
     /**
      * Adds labels for fields
      */
-    public function setLabels(array! labels) -> void
+    public function setLabels( array labels) -> void
     {
         let this->labels = labels;
     }

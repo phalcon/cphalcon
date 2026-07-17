@@ -40,7 +40,7 @@ final class GetSqlVariablesTest extends AbstractDatabaseTestCase
     #[Group('sqlite')]
     public function testDbAdapterPdoGetSqlVariables(): void
     {
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $db         = $this->container->get('db');
         $db->setEventsManager(new Manager());
 

@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\Fake;
 
-use DirectoryIterator;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\ViewBaseInterface;
 
@@ -27,15 +26,6 @@ trait ViewTrait
     protected $view;
 
     /**
-     * executed before each test
-     */
-    public function _before()
-    {
-        $this->level = ob_get_level();
-        $this->view  = new View();
-    }
-
-    /**
      * executed after each test
      */
     public function _after()
@@ -43,6 +33,15 @@ trait ViewTrait
         while (ob_get_level() > $this->level) {
             ob_end_flush();
         }
+    }
+
+    /**
+     * executed before each test
+     */
+    public function _before()
+    {
+        $this->level = ob_get_level();
+        $this->view  = new View();
     }
 
     protected function renderPartialBuffered(ViewBaseInterface $view, $partial, $expectedParams = null)
@@ -84,29 +83,6 @@ trait ViewTrait
                 $param['expected'],
                 $view->getContent(),
                 $errorMessage
-            );
-        }
-    }
-
-    protected function clearCache()
-    {
-        if (!file_exists(env('PATH_CACHE'))) {
-            mkdir(
-                env('PATH_CACHE')
-            );
-        }
-
-        $items = new DirectoryIterator(
-            env('PATH_CACHE')
-        );
-
-        foreach ($items as $item) {
-            if ($item->isDir()) {
-                continue;
-            }
-
-            unlink(
-                $item->getPathname()
             );
         }
     }

@@ -48,6 +48,29 @@ final class AddIndexFunctionalTest extends AbstractDatabaseTestCase
     }
 
     /**
+     * MySQL - expression + direction compose.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-15
+     */
+    #[Group('mysql')]
+    public function testDbDialectMysqlAddIndexFunctionalWithDirection(): void
+    {
+        $dialect = new Mysql();
+        $index   = new Index(
+            'idx_lower_email_desc',
+            [
+                'columns'    => [new RawValue('LOWER(email)')],
+                'directions' => ['DESC'],
+            ]
+        );
+
+        $actual = $dialect->addIndex('table', 'schema', $index);
+
+        $this->assertStringContainsString('((LOWER(email)) DESC)', $actual);
+    }
+
+    /**
      * MySQL - mixed columns and expressions.
      *
      * @author Phalcon Team <team@phalcon.io>
@@ -119,28 +142,5 @@ final class AddIndexFunctionalTest extends AbstractDatabaseTestCase
 
         $this->assertStringContainsString('(lower(email))', $actual);
         $this->assertStringNotContainsString('((lower(email)))', $actual);
-    }
-
-    /**
-     * MySQL - expression + direction compose.
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-05-15
-     */
-    #[Group('mysql')]
-    public function testDbDialectMysqlAddIndexFunctionalWithDirection(): void
-    {
-        $dialect = new Mysql();
-        $index   = new Index(
-            'idx_lower_email_desc',
-            [
-                'columns'    => [new RawValue('LOWER(email)')],
-                'directions' => ['DESC'],
-            ]
-        );
-
-        $actual = $dialect->addIndex('table', 'schema', $index);
-
-        $this->assertStringContainsString('((LOWER(email)) DESC)', $actual);
     }
 }

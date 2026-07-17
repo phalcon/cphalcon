@@ -22,23 +22,16 @@
  */
 /**
  * Interface for Phalcon\Acl\Component
+ *
+ * @psalm-suppress DeprecatedInterface
+ * @deprecated Will be removed in a future major release.
+ *             Use {@see \Phalcon\Contracts\Acl\Component} instead.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Acl_ComponentInterface)
 {
-	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Acl, ComponentInterface, phalcon, acl_componentinterface, phalcon_acl_componentinterface_method_entry);
+	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Acl, ComponentInterface, phalcon, acl_componentinterface, NULL);
 
+	zend_class_implements(phalcon_acl_componentinterface_ce, 1, phalcon_contracts_acl_component_ce);
 	return SUCCESS;
 }
 
-/**
- * Magic method __toString
- */
-ZEPHIR_DOC_METHOD(Phalcon_Acl_ComponentInterface, __toString);
-/**
- * Returns component description
- */
-ZEPHIR_DOC_METHOD(Phalcon_Acl_ComponentInterface, getDescription);
-/**
- * Returns the component name
- */
-ZEPHIR_DOC_METHOD(Phalcon_Acl_ComponentInterface, getName);

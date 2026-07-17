@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Forms\Element;
 
 use Phalcon\Forms\Element\TextArea;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class GetValueTest extends AbstractUnitTestCase
 {

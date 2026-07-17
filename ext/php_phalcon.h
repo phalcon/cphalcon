@@ -11,11 +11,13 @@
 #include "kernel/globals.h"
 
 #define PHP_PHALCON_NAME        "phalcon"
-#define PHP_PHALCON_VERSION     "5.16.0"
+#define PHP_PHALCON_VERSION     "5.17.0"
 #define PHP_PHALCON_EXTNAME     "phalcon"
 #define PHP_PHALCON_AUTHOR      "Phalcon Team and contributors"
-#define PHP_PHALCON_ZEPVERSION  "0.23.0-$Id$"
+#define PHP_PHALCON_ZEPVERSION  "1.1.0-$Id$"
 #define PHP_PHALCON_DESCRIPTION "Phalcon is a full stack PHP framework, delivered as a PHP extension, offering lower resource consumption and high performance."
+
+
 
 typedef struct _zephir_struct_db { 
 	zend_bool escape_identifiers;
@@ -66,6 +68,9 @@ ZEND_BEGIN_MODULE_GLOBALS(phalcon)
 	HashTable *fcache;
 
 	zephir_fcall_cache_entry *scache[ZEPHIR_MAX_CACHE_SLOTS];
+
+	/* Inline property cache slots (issue #1902): [ce, offset, prop_info] per site */
+	void *pcache[ZEPHIR_MAX_PROPERTY_CACHE_SLOTS * ZEPHIR_PROPERTY_CACHE_SLOT_SIZE];
 
 	/* Cache enabled */
 	unsigned int cache_enabled;

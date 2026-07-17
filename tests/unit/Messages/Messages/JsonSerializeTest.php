@@ -16,7 +16,7 @@ namespace Phalcon\Tests\Unit\Messages\Messages;
 use JsonSerializable;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Messages\Fake\FakeMessage;
 
 final class JsonSerializeTest extends AbstractUnitTestCase

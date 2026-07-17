@@ -17,7 +17,7 @@ use Phalcon\Di\Di;
 use Phalcon\Events\Manager;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Html\Escaper;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class GetSetInternalEventsManagerTest extends AbstractUnitTestCase
 {

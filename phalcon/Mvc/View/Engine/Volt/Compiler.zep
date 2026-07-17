@@ -35,6 +35,7 @@ use Phalcon\Mvc\View\Engine\Volt\Exceptions\UnknownVoltFilterType;
 use Phalcon\Mvc\View\Engine\Volt\Exceptions\UnknownVoltStatement;
 use Phalcon\Mvc\View\Engine\Volt\Exceptions\VoltDirectoryNotWritable;
 use Phalcon\Mvc\ViewBaseInterface;
+use Phalcon\Traits\Php\FileTrait;
 
 /**
  * This class reads and compiles Volt templates into PHP plain code
@@ -49,6 +50,8 @@ use Phalcon\Mvc\ViewBaseInterface;
  */
 class Compiler implements InjectionAwareInterface
 {
+    use FileTrait;
+
     /**
      * @var bool
      */
@@ -201,7 +204,7 @@ class Compiler implements InjectionAwareInterface
      *
      * @return static
      */
-    public function addFilter(string! name, var definition) -> <static>
+    public function addFilter( string name, var definition) -> <static>
     {
         let this->filters[name] = definition;
 
@@ -216,7 +219,7 @@ class Compiler implements InjectionAwareInterface
      *
      * @return static
      */
-    public function addFunction(string! name, var definition) -> <static>
+    public function addFunction( string name, var definition) -> <static>
     {
         let this->functions[name] = definition;
 
@@ -230,7 +233,7 @@ class Compiler implements InjectionAwareInterface
      *
      * @return string
      */
-    public function attributeReader(array! expr) -> string
+    public function attributeReader( array expr) -> string
     {
         var left, leftType, variable, level, leftCode, right;
         string exprCode;
@@ -300,7 +303,7 @@ class Compiler implements InjectionAwareInterface
      * @throws \Phalcon\Mvc\View\Engine\Volt\Exception
      * @return mixed
      */
-    public function compile(string! templatePath, bool extendsMode = false)
+    public function compile( string templatePath, bool extendsMode = false)
     {
         var blocksCode, compilation, compileAlways, compiledExtension,
             compiledPath, compiledSeparator, compiledTemplatePath, options,
@@ -459,7 +462,7 @@ class Compiler implements InjectionAwareInterface
         /**
          * Compile always must be used only in the development stage
          */
-        if !file_exists(compiledTemplatePath) || compileAlways {
+        if !this->phpFileExists(compiledTemplatePath) || compileAlways {
             /**
              * The file needs to be compiled because it either does not exist or
              * needs to compiled every time
@@ -487,7 +490,7 @@ class Compiler implements InjectionAwareInterface
                          * In extends mode we read the file that must
                          * contains a serialized array of blocks
                          */
-                        let blocksCode = file_get_contents(compiledTemplatePath);
+                        let blocksCode = this->phpFileGetContents(compiledTemplatePath);
 
                         if unlikely blocksCode === false {
                             throw new CannotOpenCompiledFile(compiledTemplatePath);
@@ -519,7 +522,7 @@ class Compiler implements InjectionAwareInterface
      *
      * @return string
      */
-    public function compileAutoEscape(array! statement, bool extendsMode) -> string
+    public function compileAutoEscape( array statement, bool extendsMode) -> string
     {
         var autoescape, oldAutoescape, compilation;
 
@@ -552,7 +555,7 @@ class Compiler implements InjectionAwareInterface
      * @param array statement
      * @param bool extendsMode
      */
-    public function compileCall(array! statement, bool extendsMode) -> string
+    public function compileCall( array statement, bool extendsMode) -> string
     {
         // Not implemented?
         return "";
@@ -566,7 +569,7 @@ class Compiler implements InjectionAwareInterface
      *
      * @return string
      */
-    public function compileCase(array! statement, bool caseClause = true) -> string
+    public function compileCase( array statement, bool caseClause = true) -> string
     {
         var expr;
 
@@ -597,7 +600,7 @@ class Compiler implements InjectionAwareInterface
      *
      * @return string
      */
-    public function compileDo(array! statement) -> string
+    public function compileDo( array statement) -> string
     {
         var expr;
 
@@ -621,7 +624,7 @@ class Compiler implements InjectionAwareInterface
      *
      * @return string
      */
-    public function compileEcho(array! statement) -> string
+    public function compileEcho( array statement) -> string
     {
         var expr, exprCode, name;
 
@@ -671,7 +674,7 @@ class Compiler implements InjectionAwareInterface
      *
      * @return string
      */
-    public function compileElseIf(array! statement) -> string
+    public function compileElseIf( array statement) -> string
     {
         var expr;
 
@@ -705,7 +708,7 @@ class Compiler implements InjectionAwareInterface
      * @throws \Phalcon\Mvc\View\Engine\Volt\Exception
      * @return string|array
      */
-    public function compileFile(string! path, string! compiledPath, bool extendsMode = false)
+    public function compileFile( string path,  string compiledPath, bool extendsMode = false)
     {
         var viewCode, compilation, finalCompilation;
 
@@ -716,7 +719,7 @@ class Compiler implements InjectionAwareInterface
         /**
          * Check if the template does exist
          */
-        if unlikely !file_exists(path) {
+        if unlikely !this->phpFileExists(path) {
             throw new TemplateFileNotFound(path);
         }
 
@@ -724,7 +727,7 @@ class Compiler implements InjectionAwareInterface
          * Always use file_get_contents instead of read the file directly, this
          * respect the open_basedir directive
          */
-        let viewCode = file_get_contents(path);
+        let viewCode = this->phpFileGetContents(path);
 
         if unlikely viewCode === false {
             throw new TemplateFileNotOpenable(path);
@@ -747,7 +750,7 @@ class Compiler implements InjectionAwareInterface
          * Always use file_put_contents to write files instead of write the file
          * directly, this respect the open_basedir directive
          */
-        if unlikely file_put_contents(compiledPath, finalCompilation) === false {
+        if unlikely this->phpFilePutContents(compiledPath, finalCompilation) === false {
             throw new VoltDirectoryNotWritable();
         }
 
@@ -762,7 +765,7 @@ class Compiler implements InjectionAwareInterface
      *
      * @return string
      */
-    public function compileForeach(array! statement, bool extendsMode = false) -> string
+    public function compileForeach( array statement, bool extendsMode = false) -> string
     {
         var prefix, level, prefixLevel, expr, exprCode, bstatement, type,
             blockStatements, forElse, code, loopContext, iterator, key, ifExpr,
@@ -941,7 +944,7 @@ class Compiler implements InjectionAwareInterface
      * @throws \Phalcon\Mvc\View\Engine\Volt\Exception
      * @return string
      */
-    public function compileIf(array! statement, bool extendsMode = false) -> string
+    public function compileIf( array statement, bool extendsMode = false) -> string
     {
         var blockStatements, expr;
         string compilation;
@@ -981,7 +984,7 @@ class Compiler implements InjectionAwareInterface
      * @throws \Phalcon\Mvc\View\Engine\Volt\Exception
      * @return string
      */
-    public function compileInclude(array! statement) -> string
+    public function compileInclude( array statement) -> string
     {
         var pathExpr, path, subCompiler, finalPath, compilation, params;
 
@@ -1023,7 +1026,7 @@ class Compiler implements InjectionAwareInterface
                      * Use file-get-contents to respect the openbase_dir
                      * directive
                      */
-                    let compilation = file_get_contents(
+                    let compilation = this->phpFileGetContents(
                         subCompiler->getCompiledTemplatePath()
                     );
                 }
@@ -1055,7 +1058,7 @@ class Compiler implements InjectionAwareInterface
      *
      * @return string
      */
-    public function compileMacro(array! statement, bool extendsMode) -> string
+    public function compileMacro( array statement, bool extendsMode) -> string
     {
         var name, defaultValue, parameters, position, parameter, variableName,
             blockStatements;
@@ -1138,7 +1141,7 @@ class Compiler implements InjectionAwareInterface
      * @throws \Phalcon\Mvc\View\Engine\Volt\Exception
      * @return string
      */
-    public function compileReturn(array! statement) -> string
+    public function compileReturn( array statement) -> string
     {
         var expr;
 
@@ -1214,7 +1217,7 @@ class Compiler implements InjectionAwareInterface
      * @throws \Phalcon\Mvc\View\Engine\Volt\Exception
      * @return string
      */
-    public function compileSet(array! statement) -> string
+    public function compileSet( array statement) -> string
     {
         var assignments, assignment, exprCode, target;
         string compilation;
@@ -1289,7 +1292,7 @@ class Compiler implements InjectionAwareInterface
      *
      * @return string
      */
-    public function compileString(string! viewCode, bool extendsMode = false) -> string
+    public function compileString( string viewCode, bool extendsMode = false) -> string
     {
         let this->currentPath = "eval code";
 
@@ -1305,7 +1308,7 @@ class Compiler implements InjectionAwareInterface
      * @throws \Phalcon\Mvc\View\Engine\Volt\Exception
      * @return string
      */
-    public function compileSwitch(array! statement, bool extendsMode = false) -> string
+    public function compileSwitch( array statement, bool extendsMode = false) -> string
     {
         var compilation, caseClauses, expr, lines;
 
@@ -1368,7 +1371,7 @@ class Compiler implements InjectionAwareInterface
      *
      * @return string
      */
-    final public function expression(array! expr, bool doubleQuotes = false) -> string
+    final public function expression( array expr, bool doubleQuotes = false) -> string
     {
         var end, endCode, exprCode, extensions, items, left, leftCode, name,
             right, rightCode, singleExpr, singleExprCode, start, startCode, type;
@@ -1725,7 +1728,7 @@ class Compiler implements InjectionAwareInterface
      *
      * @return mixed
      */
-    final public function fireExtensionEvent(string! name, array arguments = [])
+    final public function fireExtensionEvent( string name, array arguments = [])
     {
         var extensions, extension, status;
 
@@ -1765,7 +1768,7 @@ class Compiler implements InjectionAwareInterface
      * @throws \Phalcon\Mvc\View\Engine\Volt\Exception
      * @return string
      */
-    public function functionCall(array! expr, bool doubleQuotes = false) -> string
+    public function functionCall( array expr, bool doubleQuotes = false) -> string
     {
         var arguments, arrayHelpers, block, code, currentBlock, definition,
             escapedCode, exprLevel, extendedBlocks, extensions, funcArguments,
@@ -2068,7 +2071,7 @@ class Compiler implements InjectionAwareInterface
      *
      * @return string|null
      */
-    public function getOption(string! option) -> string | null
+    public function getOption( string option) -> string | null
     {
         var value;
 
@@ -2150,7 +2153,7 @@ class Compiler implements InjectionAwareInterface
      *
      * @return array
      */
-    public function parse(string! viewCode) -> array
+    public function parse( string viewCode) -> array
     {
         var currentPath = "eval code";
 
@@ -2160,7 +2163,7 @@ class Compiler implements InjectionAwareInterface
     /**
      * Resolves filter intermediate code into a valid PHP expression
      */
-    public function resolveTest(array! test, string left) -> string
+    public function resolveTest( array test, string left) -> string
     {
         var type, name, testName;
 
@@ -2226,7 +2229,7 @@ class Compiler implements InjectionAwareInterface
      *
      * @param mixed value
      */
-    public function setOption(string! option, value) -> <static>
+    public function setOption( string option, value) -> <static>
     {
         let this->options[option] = value;
 
@@ -2236,7 +2239,7 @@ class Compiler implements InjectionAwareInterface
     /**
      * Sets the compiler options
      */
-    public function setOptions(array! options) -> <static>
+    public function setOptions( array options) -> <static>
     {
         let this->options = options;
 
@@ -2246,7 +2249,7 @@ class Compiler implements InjectionAwareInterface
     /**
      * Set a unique prefix to be used as prefix for compiled variables
      */
-    public function setUniquePrefix(string! prefix) -> <static>
+    public function setUniquePrefix( string prefix) -> <static>
     {
         let this->prefix = prefix;
 
@@ -2256,7 +2259,7 @@ class Compiler implements InjectionAwareInterface
     /**
      * Compiles a Volt source code returning a PHP plain version
      */
-    protected function compileSource(string! viewCode, bool extendsMode = false) -> array | string
+    protected function compileSource( string viewCode, bool extendsMode = false) -> array | string
     {
         var currentPath, intermediate, extended, finalCompilation, blocks,
             extendedBlocks, name, block, blockCompilation, localBlock,
@@ -2310,6 +2313,15 @@ class Compiler implements InjectionAwareInterface
 
             let blocks = this->blocks;
             let extendedBlocks = this->extendedBlocks;
+
+            /**
+             * When the local template extends a parent but does not define any
+             * blocks of its own, "blocks" is null. Coerce it to an array so
+             * array_key_exists() below never receives a non-array value.
+             */
+            if typeof blocks != "array" {
+                let blocks = [];
+            }
 
             for name, block in extendedBlocks {
                 /**
@@ -2381,6 +2393,21 @@ class Compiler implements InjectionAwareInterface
     {
         var view, viewsDirs, viewsDir;
 
+        /**
+         * Absolute paths are used as they are
+         */
+        if this->isAbsolutePath(path) {
+            return path;
+        }
+
+        /**
+         * Paths starting with "./" or "../" are resolved relative to the
+         * directory of the template currently being compiled
+         */
+        if starts_with(path, "./") || starts_with(path, "../") {
+            return dirname(this->currentPath) . DIRECTORY_SEPARATOR . path;
+        }
+
         let view = this->view;
 
         if typeof view == "object" {
@@ -2388,7 +2415,7 @@ class Compiler implements InjectionAwareInterface
 
             if typeof viewsDirs == "array" {
                 for viewsDir in viewsDirs {
-                    if file_exists(viewsDir . path) {
+                    if this->phpFileExists(viewsDir . path) {
                         return viewsDir . path;
                     }
                 }
@@ -2406,7 +2433,7 @@ class Compiler implements InjectionAwareInterface
     /**
      * Resolves filter intermediate code into PHP function calls
      */
-    final protected function resolveFilter(array! filter, string left) -> string
+    final protected function resolveFilter( array filter, string left) -> string
     {
         var code, type, functionName, name, file, line, extensions, filters,
             funcArguments, arguments, definition;
@@ -2594,7 +2621,7 @@ class Compiler implements InjectionAwareInterface
     /**
      * Traverses a statement list compiling each of its nodes
      */
-    final protected function statementList(array! statements, bool extendsMode = false) -> string
+    final protected function statementList( array statements, bool extendsMode = false) -> string
     {
         var extended, blockMode, compilation, extensions, statement,
             tempCompilation, type, blockName, blockStatements, blocks, path,
@@ -2782,7 +2809,7 @@ class Compiler implements InjectionAwareInterface
                      * compiled path
                      */
                     if tempCompilation === null {
-                        let tempCompilation = file_get_contents(
+                        let tempCompilation = this->phpFileGetContents(
                             subCompiler->getCompiledTemplatePath()
                         );
                     }
@@ -2934,6 +2961,28 @@ class Compiler implements InjectionAwareInterface
          * Is an array but not a statement list?
          */
         return statements;
+    }
+
+    /**
+     * Checks whether a path is absolute (Unix root, Windows UNC or drive)
+     */
+    private function isAbsolutePath(string path) -> bool
+    {
+        /**
+         * Unix absolute path or Windows UNC path
+         */
+        if starts_with(path, "/") || starts_with(path, "\\") {
+            return true;
+        }
+
+        /**
+         * Windows absolute path with a drive letter, e.g. "C:\" or "C:/"
+         */
+        if strlen(path) >= 2 && ctype_alpha(substr(path, 0, 1)) && substr(path, 1, 1) === ":" {
+            return true;
+        }
+
+        return false;
     }
 
     private function isTagFactory(array expression) -> bool

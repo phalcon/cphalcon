@@ -28,6 +28,8 @@ use Phalcon\Mvc\Url\UrlInterface;
 use Phalcon\Mvc\ViewInterface;
 use Phalcon\Support\Helper\File\Basename;
 use Phalcon\Support\Helper\Json\Encode;
+use Phalcon\Traits\Php\InfoTrait;
+use Phalcon\Traits\Php\UrlTrait;
 
 /**
  * Part of the HTTP cycle is return responses to the clients.
@@ -45,6 +47,9 @@ use Phalcon\Support\Helper\Json\Encode;
  */
 class Response implements ResponseInterface, InjectionAwareInterface, EventsAwareInterface, ResponseStatusCodeInterface
 {
+    use InfoTrait;
+    use UrlTrait;
+
     /**
      * @var DiInterface|null
      */
@@ -88,7 +93,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     /**
      * Phalcon\Http\Response constructor
      */
-    public function __construct(string! content = null, code = null, status = null)
+    public function __construct( string content = null, code = null, status = null)
     {
         // Note: Don't remove exclamation mark above otherwise NULL will be coerced.
 
@@ -182,7 +187,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     {
         var statusReasonPhrase;
 
-        let statusReasonPhrase = substr(this->headers->get("Status"), 4);
+        let statusReasonPhrase = substr((string) this->headers->get("Status"), 4);
 
         return statusReasonPhrase ? statusReasonPhrase : null;
     }
@@ -198,7 +203,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     {
         var statusCode;
 
-        let statusCode = substr(this->headers->get("Status"), 0, 3);
+        let statusCode = substr((string) this->headers->get("Status"), 0, 3);
 
         return statusCode ? (int) statusCode : null;
     }
@@ -414,7 +419,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
      * $this->response->setCache(60);
      *```
      */
-    public function setCache(int! minutes) -> <ResponseInterface>
+    public function setCache( int minutes) -> <ResponseInterface>
     {
         var date;
 
@@ -563,7 +568,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
         }
         if attachment {
             // mbstring is a non-default extension
-            if function_exists("mb_detect_encoding") {
+            if this->phpFunctionExists("mb_detect_encoding") {
                 let basePathEncoding = mb_detect_encoding(
                     basePath,
                     mb_detect_order(),
@@ -576,7 +581,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
             // According RFC2231 section-7, non-ASCII header param must add a
             // extended one to indicate charset
             if basePathEncoding != "ASCII" {
-                let basePath = rawurlencode(basePath);
+                let basePath = this->phpRawUrlEncode(basePath);
                 this->setRawHeader("Content-Disposition: attachment; filename=" . basePath . "; filename*=". strtolower(basePathEncoding) . "''" . basePath);
             } else {
                 // According RFC2045 section-5.1, header param value contains

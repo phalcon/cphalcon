@@ -16,7 +16,7 @@ namespace Phalcon\Tests\Unit\Assets\Manager;
 use Phalcon\Assets\Manager;
 use Phalcon\Html\Escaper;
 use Phalcon\Html\TagFactory;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use PHPUnit\Framework\Attributes\Test;
 
 final class AddCssTest extends AbstractUnitTestCase

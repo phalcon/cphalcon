@@ -69,7 +69,7 @@ class AspectRatio extends AbstractFile
      *     'ratio' => '16x9'
      * ]
      */
-    public function __construct(array! options = [])
+    public function __construct( array options = [])
     {
         parent::__construct(options);
     }

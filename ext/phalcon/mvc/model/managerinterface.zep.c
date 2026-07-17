@@ -265,7 +265,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, isUsingDynamicUpdate);
  *
  * ```php
  * $isPublic = $manager->isVisibleModelProperty(
- *     new Robots(),
+ *     new Invoices(),
  *     "name"
  * );
  * ```
@@ -294,9 +294,18 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, missingMethod);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, notifyEvent);
 /**
+ * Marks the model's write connection service as written-to for the
+ * current request cycle (sticky connections)
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, registerWrite);
+/**
  * Removes a behavior from a model
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, removeBehavior);
+/**
+ * Clears the per-request sticky write tracking
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, resetConnectionState);
 /**
  * Sets both write and read connection service for a model
  */
@@ -323,6 +332,10 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, setReadConnectionService);
  * @return void
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, setReusableRecords);
+/**
+ * Enables or disables sticky connections
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, setSticky);
 /**
  * Sets write connection service for a model
  */

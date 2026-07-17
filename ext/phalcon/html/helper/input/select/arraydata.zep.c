@@ -66,6 +66,15 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select_ArrayData, __construct)
 
 	ZVAL_UNDEF(&data);
 	ZVAL_UNDEF(&attributes);
+	static zend_string *_zephir_prop_0 = NULL;
+	static zend_string *_zephir_prop_1 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("data", 4, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_1)) {
+		_zephir_prop_1 = zend_string_init("attributes", 10, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(0, 2)
 		Z_PARAM_OPTIONAL
 		ZEPHIR_Z_PARAM_ARRAY(data, data_param)
@@ -86,8 +95,8 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select_ArrayData, __construct)
 	} else {
 		zephir_get_arrval(&attributes, attributes_param);
 	}
-	zephir_update_property_zval(this_ptr, ZEND_STRL("data"), &data);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("attributes"), &attributes);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 783, &data);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 784, &attributes);
 	ZEPHIR_MM_RESTORE();
 }
 

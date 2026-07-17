@@ -14,11 +14,44 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Application;
 
 use Phalcon\Application\Exception;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Application\Fake\FakeApplication;
 
 final class GetRegisterModulesTest extends AbstractUnitTestCase
 {
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    public function testApplicationGetModule(): void
+    {
+        $application = new FakeApplication();
+
+        $modules = [
+            'admin'    => [1],
+            'invoices' => [2],
+        ];
+        $application->registerModules($modules);
+
+        $expected = [1];
+        $actual   = $application->getModule('admin');
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    public function testApplicationGetModuleException(): void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage(
+            "Module 'no-module' is not registered in the application"
+        );
+
+        $application = new FakeApplication();
+        $application->getModule('no-module');
+    }
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
@@ -67,39 +100,5 @@ final class GetRegisterModulesTest extends AbstractUnitTestCase
         $expected = array_merge($modules2, $modules1);
         $actual   = $application->getModules();
         $this->assertSame($expected, $actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2020-09-09
-     */
-    public function testApplicationGetModule(): void
-    {
-        $application = new FakeApplication();
-
-        $modules = [
-            'admin'    => [1],
-            'invoices' => [2],
-        ];
-        $application->registerModules($modules);
-
-        $expected = [1];
-        $actual   = $application->getModule('admin');
-        $this->assertSame($expected, $actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2020-09-09
-     */
-    public function testApplicationGetModuleException(): void
-    {
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage(
-            "Module 'no-module' is not registered in the application"
-        );
-
-        $application = new FakeApplication();
-        $application->getModule('no-module');
     }
 }

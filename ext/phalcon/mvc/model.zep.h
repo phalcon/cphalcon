@@ -106,6 +106,7 @@ PHP_METHOD(Phalcon_Mvc_Model, useDynamicUpdate);
 PHP_METHOD(Phalcon_Mvc_Model, validate);
 PHP_METHOD(Phalcon_Mvc_Model, validationHasFailed);
 PHP_METHOD(Phalcon_Mvc_Model, caseInsensitiveColumnMap);
+PHP_METHOD(Phalcon_Mvc_Model, getPrivateProperties);
 PHP_METHOD(Phalcon_Mvc_Model, appendMessagesFrom);
 zend_object *zephir_init_properties_Phalcon_Mvc_Model(zend_class_entry *class_type);
 
@@ -570,12 +571,19 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_caseinsensitiv
 	ZEND_ARG_INFO(0, key)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_getprivateproperties, 0, 1, IS_ARRAY, 0)
+	ZEND_ARG_TYPE_INFO(0, className, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_appendmessagesfrom, 0, 1, IS_VOID, 0)
 
 	ZEND_ARG_INFO(0, model)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_zephir_init_properties_phalcon_mvc_model, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_zephir_init_static_properties_phalcon_mvc_model, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_mvc_model_method_entry) {
@@ -682,6 +690,7 @@ PHP_ME(Phalcon_Mvc_Model, cancelOperation, arginfo_phalcon_mvc_model_cancelopera
 	PHP_ME(Phalcon_Mvc_Model, validate, arginfo_phalcon_mvc_model_validate, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model, validationHasFailed, arginfo_phalcon_mvc_model_validationhasfailed, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, caseInsensitiveColumnMap, arginfo_phalcon_mvc_model_caseinsensitivecolumnmap, ZEND_ACC_PRIVATE|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Mvc_Model, getPrivateProperties, arginfo_phalcon_mvc_model_getprivateproperties, ZEND_ACC_PRIVATE|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_Model, appendMessagesFrom, arginfo_phalcon_mvc_model_appendmessagesfrom, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };

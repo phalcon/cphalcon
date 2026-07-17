@@ -22,8 +22,6 @@ use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\Group;
 
-use function env;
-
 final class DescribeColumnsTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -40,81 +38,6 @@ final class DescribeColumnsTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Db\Adapter\Pdo :: describeColumns()
-     *
-     * @return void
-     *
-     * @author Jeremy PASTOURET <https://github.com/jenovateurs>
-     * @since  2020-03-09
-     */
-    #[Group('pgsql')]
-    public function testDbAdapterPdoDescribeColumnsDefaultPostgres(): void
-    {
-        $db        = $this->container->get('db');
-        $now       = date('Y-m-d H:i:s');
-        $migration = new ComplexDefaultMigration(self::getConnection());
-        $migration->insert(1, $now, $now);
-
-        $columns = $db->describeColumns($migration->getTable());
-
-        $this->assertMatchesRegularExpression('/CURRENT_TIMESTAMP|now\(\)/i', $columns[1]->getDefault());
-        $this->assertMatchesRegularExpression('/CURRENT_TIMESTAMP|now\(\)/i', $columns[2]->getDefault());
-    }
-
-    /**
-     * Tests Phalcon\Db\Adapter\Pdo :: describeColumns()
-     *
-     * @return void
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2020-03-02
-     */
-    #[Group('mysql')]
-    public function testDbAdapterPdoDescribeColumnsOnUpdate(): void
-    {
-        $db        = $this->container->get('db');
-        $now       = date('Y-m-d H:i:s');
-        $migration = new ComplexDefaultMigration(self::getConnection());
-        $migration->insert(1, $now, $now);
-
-        $columns = $db->describeColumns($migration->getTable());
-
-        $this->assertSame('CURRENT_TIMESTAMP DEFAULT_GENERATED on update CURRENT_TIMESTAMP', $columns[2]->getDefault());
-        $this->assertSame('NULL on update CURRENT_TIMESTAMP', $columns[3]->getDefault());
-    }
-
-    /**
-     * Tests Phalcon\Db\Adapter\Pdo :: describeColumns() - supported
-     *
-     * @return void
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2021-04-20
-     */
-    #[Group('mysql')]
-    public function testDbAdapterPdoDescribeColumnsSupported(): void
-    {
-        /** @var Mysql $db */
-        $db        = $this->container->get('db');
-        $migration = new DialectMigration(self::getConnection());
-        $columns   = $db->describeColumns($migration->getTable());
-
-        $expected = 40;
-        $this->assertCount($expected, $columns);
-
-        $expected = Column::class;
-        $actual   = $columns[1];
-        $this->assertInstanceOf($expected, $actual);
-
-        foreach ($columns as $index => $column) {
-            $expected = $this->getExpected($index);
-            $actual   = $this->getActual($column);
-
-            $this->assertSame($expected, $actual);
-        }
-    }
-
-    /**
      * Tests Phalcon\Db\Adapter\Pdo :: describeColumns() cross-adapter sanity
      *
      * @author Phalcon Team <team@phalcon.io>
@@ -125,7 +48,7 @@ final class DescribeColumnsTest extends AbstractDatabaseTestCase
     #[Group('sqlite')]
     public function testDbAdapterPdoDescribeColumns(): void
     {
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $db         = $this->container->get('db');
 
         new InvoicesMigration($connection);
@@ -183,7 +106,7 @@ final class DescribeColumnsTest extends AbstractDatabaseTestCase
                 'inv_total'       => Column::TYPE_FLOAT,
                 'inv_created_at'  => Column::TYPE_TEXT,
             ],
-        ][env('driver')];
+        ][self::getDatabaseDriver()];
 
         foreach ($expectedTypes as $col => $type) {
             $this->assertSame(
@@ -191,6 +114,81 @@ final class DescribeColumnsTest extends AbstractDatabaseTestCase
                 $byName[$col]->getType(),
                 "Column '{$col}' type mismatch"
             );
+        }
+    }
+
+    /**
+     * Tests Phalcon\Db\Adapter\Pdo :: describeColumns()
+     *
+     * @return void
+     *
+     * @author Jeremy PASTOURET <https://github.com/jenovateurs>
+     * @since  2020-03-09
+     */
+    #[Group('pgsql')]
+    public function testDbAdapterPdoDescribeColumnsDefaultPostgres(): void
+    {
+        $db        = $this->container->get('db');
+        $now       = date('Y-m-d H:i:s');
+        $migration = new ComplexDefaultMigration(self::getPdoConnection());
+        $migration->insert(1, $now, $now);
+
+        $columns = $db->describeColumns($migration->getTable());
+
+        $this->assertMatchesRegularExpression('/CURRENT_TIMESTAMP|now\(\)/i', $columns[1]->getDefault());
+        $this->assertMatchesRegularExpression('/CURRENT_TIMESTAMP|now\(\)/i', $columns[2]->getDefault());
+    }
+
+    /**
+     * Tests Phalcon\Db\Adapter\Pdo :: describeColumns()
+     *
+     * @return void
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-03-02
+     */
+    #[Group('mysql')]
+    public function testDbAdapterPdoDescribeColumnsOnUpdate(): void
+    {
+        $db        = $this->container->get('db');
+        $now       = date('Y-m-d H:i:s');
+        $migration = new ComplexDefaultMigration(self::getPdoConnection());
+        $migration->insert(1, $now, $now);
+
+        $columns = $db->describeColumns($migration->getTable());
+
+        $this->assertSame('CURRENT_TIMESTAMP DEFAULT_GENERATED on update CURRENT_TIMESTAMP', $columns[2]->getDefault());
+        $this->assertSame('NULL on update CURRENT_TIMESTAMP', $columns[3]->getDefault());
+    }
+
+    /**
+     * Tests Phalcon\Db\Adapter\Pdo :: describeColumns() - supported
+     *
+     * @return void
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2021-04-20
+     */
+    #[Group('mysql')]
+    public function testDbAdapterPdoDescribeColumnsSupported(): void
+    {
+        /** @var Mysql $db */
+        $db        = $this->container->get('db');
+        $migration = new DialectMigration(self::getPdoConnection());
+        $columns   = $db->describeColumns($migration->getTable());
+
+        $expected = 40;
+        $this->assertCount($expected, $columns);
+
+        $expected = Column::class;
+        $actual   = $columns[1];
+        $this->assertInstanceOf($expected, $actual);
+
+        foreach ($columns as $index => $column) {
+            $expected = $this->getExpected($index);
+            $actual   = $this->getActual($column);
+
+            $this->assertSame($expected, $actual);
         }
     }
 

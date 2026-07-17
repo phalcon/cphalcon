@@ -23,6 +23,7 @@ use Phalcon\Image\Exceptions\ExtensionNotLoaded;
 use Phalcon\Image\Exceptions\ImageLoadFailed;
 use Phalcon\Image\Exceptions\ResizeFailed;
 use Phalcon\Image\Exceptions\ResourceTypeError;
+use Phalcon\Traits\Php\FileTrait;
 
 /**
  * Phalcon\Image\Adapter\Imagick
@@ -53,6 +54,8 @@ use Phalcon\Image\Exceptions\ResourceTypeError;
  */
 class Imagick extends AbstractAdapter
 {
+    use FileTrait;
+
     /**
      * @var int
      */
@@ -86,7 +89,7 @@ class Imagick extends AbstractAdapter
         let this->file  = file;
         let this->image = new ImagickNative();
 
-        if (true === file_exists(this->file)) {
+        if (true === this->phpFileExists(this->file)) {
             let this->realpath = realpath(this->file);
 
             if (true !== this->image->readImage(this->realpath)) {
@@ -734,11 +737,11 @@ class Imagick extends AbstractAdapter
         switch (extension) {
             case "gif":
                 this->image->optimizeImageLayers();
-                let fp = fopen(file, "w");
+                let fp = this->phpFopen(file, "w");
 
                 this->image->writeImagesFile(fp);
 
-                fclose(fp);
+                this->phpFclose(fp);
 
                 return;
             case "jpg":

@@ -12,7 +12,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Encryption\Security\JWT\Signer\None;
 
 use Phalcon\Encryption\Security\JWT\Signer\None;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class GetAlgorithmTest extends AbstractUnitTestCase
 {

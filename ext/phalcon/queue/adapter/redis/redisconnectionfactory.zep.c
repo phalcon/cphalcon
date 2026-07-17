@@ -76,6 +76,11 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisConnectionFactory, __construct)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&options);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("options", 7, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
 		ZEPHIR_Z_PARAM_ARRAY(options, options_param)
@@ -89,7 +94,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisConnectionFactory, __construct)
 	} else {
 		zephir_get_arrval(&options, options_param);
 	}
-	zephir_update_property_zval(this_ptr, ZEND_STRL("options"), &options);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1208, &options);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -117,10 +122,14 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisConnectionFactory, createContext)
 	ZVAL_UNDEF(&_8$$4);
 	ZVAL_UNDEF(&_9$$4);
 	ZVAL_UNDEF(&_4);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("options", 7, 1);
+	}
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("options"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1208, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&options, &_0);
 	if (zephir_array_isset_value_string(&options, SL("prefix"))) {
 		zephir_memory_observe(&prefix);

@@ -10,6 +10,8 @@
 
 namespace Phalcon\Http\Request;
 
+use Phalcon\Traits\Support\Helper\Arr\GetTrait;
+
 /**
  * Phalcon\Http\Request\File
  *
@@ -35,6 +37,8 @@ namespace Phalcon\Http\Request;
  */
 class File implements FileInterface
 {
+    use GetTrait;
+
     /**
      * @var int
      */
@@ -78,7 +82,7 @@ class File implements FileInterface
     /**
      * Phalcon\Http\Request\File constructor
      */
-    public function __construct(array! file, string key = "")
+    public function __construct( array file, string key = "")
     {
         var name;
 
@@ -147,8 +151,6 @@ class File implements FileInterface
             if finfo !== false {
                 let mime = finfo_file(finfo, this->tmpName);
 
-                finfo_close(finfo);
-
                 let this->realType = mime;
             }
         }
@@ -196,25 +198,8 @@ class File implements FileInterface
     /**
      * Moves the temporary file to a destination within the application
      */
-    public function moveTo(string! destination) -> bool
+    public function moveTo( string destination) -> bool
     {
         return move_uploaded_file(this->tmpName, destination);
-    }
-
-    /**
-     * @todo Remove this when we get traits
-     */
-    private function getArrVal(
-        array! collection,
-        var index,
-        var defaultValue = null
-    ) -> var {
-        var value;
-
-        if unlikely !fetch value, collection[index] {
-            return defaultValue;
-        }
-
-        return value;
     }
 }

@@ -14,11 +14,10 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Database\Db\Adapter\Pdo;
 
 use Phalcon\Db\Column;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\Group;
-
-use function env;
 
 final class DbDescribeMysqlTest extends AbstractDatabaseTestCase
 {
@@ -36,23 +35,6 @@ final class DbDescribeMysqlTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Db :: Mysql - tableExists()
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
-     */
-    #[Group('mysql')]
-    public function testDbMySqlTableExists(): void
-    {
-        $db = $this->container->get('db');
-
-        $this->assertTrue($db->tableExists('co_invoices'));
-        $this->assertFalse($db->tableExists('noexist'));
-        $this->assertTrue($db->tableExists('co_invoices', env('DATA_MYSQL_NAME')));
-        $this->assertFalse($db->tableExists('co_invoices', 'test'));
-    }
-
-    /**
      * Tests Phalcon\Db :: Mysql - describeColumns()
      *
      * @author Phalcon Team <team@phalcon.io>
@@ -66,25 +48,13 @@ final class DbDescribeMysqlTest extends AbstractDatabaseTestCase
         $expected = $this->getExpectedColumnsMysql();
 
         $this->assertEquals($expected, $db->describeColumns('personas'));
-        $this->assertEquals($expected, $db->describeColumns('personas', env('DATA_MYSQL_NAME')));
-    }
-
-    /**
-     * Tests Phalcon\Db :: Mysql - tableOptions()
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
-     */
-    #[Group('mysql')]
-    public function testDbMySqlTableOptions(): void
-    {
-        $db = $this->container->get('db');
-
-        $options = $db->tableOptions('personas');
-
-        $this->assertSame('BASE TABLE', $options['table_type']);
-        $this->assertSame('InnoDB', $options['engine']);
-        $this->assertNotEmpty($options['table_collation']);
+        $this->assertEquals(
+            $expected,
+            $db->describeColumns(
+                'personas',
+                Talon::settings()->getDatabaseOptions('mysql')['dbname']
+            )
+        );
     }
 
     /**
@@ -120,6 +90,46 @@ final class DbDescribeMysqlTest extends AbstractDatabaseTestCase
         $db = $this->container->get('db');
 
         $this->assertSame([], $db->describeReferences('personas'));
+    }
+
+    /**
+     * Tests Phalcon\Db :: Mysql - tableExists()
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2018-11-13
+     */
+    #[Group('mysql')]
+    public function testDbMySqlTableExists(): void
+    {
+        $db = $this->container->get('db');
+
+        $this->assertTrue($db->tableExists('co_invoices'));
+        $this->assertFalse($db->tableExists('noexist'));
+        $this->assertTrue(
+            $db->tableExists(
+                'co_invoices',
+                Talon::settings()->getDatabaseOptions('mysql')['dbname']
+            )
+        );
+        $this->assertFalse($db->tableExists('co_invoices', 'test'));
+    }
+
+    /**
+     * Tests Phalcon\Db :: Mysql - tableOptions()
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2018-11-13
+     */
+    #[Group('mysql')]
+    public function testDbMySqlTableOptions(): void
+    {
+        $db = $this->container->get('db');
+
+        $options = $db->tableOptions('personas');
+
+        $this->assertSame('BASE TABLE', $options['table_type']);
+        $this->assertSame('InnoDB', $options['engine']);
+        $this->assertNotEmpty($options['table_collation']);
     }
 
     /**

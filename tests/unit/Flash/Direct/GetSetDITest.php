@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Flash\Direct;
 
 use Phalcon\Di\Di;
 use Phalcon\Flash\Direct;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class GetSetDITest extends AbstractUnitTestCase
 {

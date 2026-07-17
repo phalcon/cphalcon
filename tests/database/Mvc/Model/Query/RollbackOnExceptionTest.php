@@ -42,7 +42,7 @@ final class RollbackOnExceptionTest extends AbstractDatabaseTestCase
         $this->setNewFactoryDefault();
         $this->setDatabase();
 
-        $this->migration = new RollbackTestMigration(self::getConnection(), false);
+        $this->migration = new RollbackTestMigration(self::getPdoConnection(), false);
     }
 
     /**

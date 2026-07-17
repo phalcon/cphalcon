@@ -40,7 +40,7 @@ final class RollbackSavepointTest extends AbstractDatabaseTestCase
     #[Group('sqlite')]
     public function testDbAdapterPdoRollbackSavepoint(): void
     {
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $db         = $this->container->get('db');
 
         new InvoicesMigration($connection);

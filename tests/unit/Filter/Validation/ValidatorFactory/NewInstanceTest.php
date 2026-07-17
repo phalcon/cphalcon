@@ -16,7 +16,7 @@ namespace Phalcon\Tests\Unit\Filter\Validation\ValidatorFactory;
 use Phalcon\Filter\Validation\Exception;
 use Phalcon\Filter\Validation\Validator\Alnum;
 use Phalcon\Filter\Validation\ValidatorFactory;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class NewInstanceTest extends AbstractUnitTestCase
 {

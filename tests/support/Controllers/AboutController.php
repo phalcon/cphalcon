@@ -13,11 +13,15 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Support\Controllers;
 
+use Phalcon\Annotations\Router\Get;
+use Phalcon\Annotations\Router\Post;
+
 class AboutController
 {
     /**
      * @Get("/about/team")
      */
+    #[Get("/about/team")]
     public function teamAction()
     {
     }
@@ -25,6 +29,7 @@ class AboutController
     /**
      * @Post("/about/team")
      */
+    #[Post("/about/team")]
     public function teamPostAction()
     {
     }

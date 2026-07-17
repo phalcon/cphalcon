@@ -12,12 +12,15 @@ namespace Phalcon\Encryption\Security\JWT\Signer;
 
 use Phalcon\Encryption\Security\JWT\Exceptions\UnsupportedAlgorithmException;
 use Phalcon\Encryption\Security\JWT\Exceptions\UnsupportedHmacAlgorithm;
+use Phalcon\Traits\Php\HashTrait;
 
 /**
  * HMAC signing class
  */
 class Hmac extends AbstractSigner
 {
+    use HashTrait;
+
     /**
      * Hmac constructor.
      *
@@ -25,7 +28,7 @@ class Hmac extends AbstractSigner
      *
      * @throws UnsupportedAlgorithmException
      */
-    public function __construct(string! algo = "sha512")
+    public function __construct( string algo = "sha512")
     {
         array supported;
 
@@ -60,7 +63,7 @@ class Hmac extends AbstractSigner
      *
      * @return string
      */
-    public function sign(string! payload, string! passphrase) -> string
+    public function sign( string payload,  string passphrase) -> string
     {
         return this->getHash(payload, passphrase);
     }
@@ -79,7 +82,7 @@ class Hmac extends AbstractSigner
         string payload,
         string passphrase
     ) -> bool {
-        return hash_equals(source, this->getHash(payload, passphrase));
+        return this->phpHashEquals(source, this->getHash(payload, passphrase));
     }
 
     /**
@@ -92,6 +95,6 @@ class Hmac extends AbstractSigner
      */
     private function getHash(string payload, string passphrase) -> string
     {
-        return hash_hmac(this->getAlgorithm(), payload, passphrase, true);
+        return this->phpHashHmac(this->getAlgorithm(), payload, passphrase, true);
     }
 }

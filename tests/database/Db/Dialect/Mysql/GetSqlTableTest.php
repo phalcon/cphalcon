@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Db\Dialect\Mysql;
 
+use Phalcon\Db\Dialect\Mysql;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use PHPUnit\Framework\Attributes\Group;
 
@@ -29,6 +30,21 @@ final class GetSqlTableTest extends AbstractDatabaseTestCase
      */
     public function testDbDialectMysqlGetSqlTable(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $dialect = new Mysql();
+
+        $this->assertSame(
+            '`robots`',
+            $dialect->getSqlTable('robots')
+        );
+
+        $this->assertSame(
+            '`schema`.`robots`',
+            $dialect->getSqlTable(['robots', 'schema'])
+        );
+
+        $this->assertSame(
+            '`schema`.`robots` AS `r`',
+            $dialect->getSqlTable(['robots', 'schema', 'r'])
+        );
     }
 }

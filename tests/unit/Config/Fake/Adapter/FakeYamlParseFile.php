@@ -22,18 +22,16 @@ final class FakeYamlParseFile extends Yaml
      *
      * @param string $filename
      * @param int    $pos
-     * @param int    $ndocs
      * @param array  $callbacks
      *
      * @return mixed
      *
      * @link https://php.net/manual/en/function.yaml-parse-file.php
      */
-    protected function phpYamlParseFile(
-        $filename,
-        $pos = 0,
-        $ndocs = null,
-        $callbacks = []
+    protected static function phpYamlParseFile(
+        string $filename,
+        int $pos = 0,
+        array $callbacks = []
     ): mixed {
         return false;
     }

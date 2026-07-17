@@ -1,0 +1,54 @@
+
+extern zend_class_entry *phalcon_html_escaper_traits_escapertrait_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Html_Escaper_Traits_EscaperTrait);
+
+PHP_METHOD(Phalcon_Html_Escaper_Traits_EscaperTrait, detectEncoding);
+PHP_METHOD(Phalcon_Html_Escaper_Traits_EscaperTrait, getDoubleEncode);
+PHP_METHOD(Phalcon_Html_Escaper_Traits_EscaperTrait, getEncoding);
+PHP_METHOD(Phalcon_Html_Escaper_Traits_EscaperTrait, getFlags);
+PHP_METHOD(Phalcon_Html_Escaper_Traits_EscaperTrait, normalizeEncoding);
+PHP_METHOD(Phalcon_Html_Escaper_Traits_EscaperTrait, setDoubleEncode);
+PHP_METHOD(Phalcon_Html_Escaper_Traits_EscaperTrait, setEncoding);
+PHP_METHOD(Phalcon_Html_Escaper_Traits_EscaperTrait, setFlags);
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_escaper_traits_escapertrait_detectencoding, 0, 1, IS_STRING, 1)
+	ZEND_ARG_TYPE_INFO(0, input, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_escaper_traits_escapertrait_getdoubleencode, 0, 0, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_escaper_traits_escapertrait_getencoding, 0, 0, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_escaper_traits_escapertrait_getflags, 0, 0, IS_LONG, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_escaper_traits_escapertrait_normalizeencoding, 0, 1, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, input, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_html_escaper_traits_escapertrait_setdoubleencode, 0, 1, MAY_BE_STATIC)
+	ZEND_ARG_TYPE_INFO(0, doubleEncode, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_html_escaper_traits_escapertrait_setencoding, 0, 1, MAY_BE_STATIC)
+	ZEND_ARG_TYPE_INFO(0, encoding, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_html_escaper_traits_escapertrait_setflags, 0, 1, MAY_BE_STATIC)
+	ZEND_ARG_TYPE_INFO(0, flags, IS_LONG, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_html_escaper_traits_escapertrait_method_entry) {
+	PHP_ME(Phalcon_Html_Escaper_Traits_EscaperTrait, detectEncoding, arginfo_phalcon_html_escaper_traits_escapertrait_detectencoding, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Html_Escaper_Traits_EscaperTrait, getDoubleEncode, arginfo_phalcon_html_escaper_traits_escapertrait_getdoubleencode, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Html_Escaper_Traits_EscaperTrait, getEncoding, arginfo_phalcon_html_escaper_traits_escapertrait_getencoding, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Html_Escaper_Traits_EscaperTrait, getFlags, arginfo_phalcon_html_escaper_traits_escapertrait_getflags, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Html_Escaper_Traits_EscaperTrait, normalizeEncoding, arginfo_phalcon_html_escaper_traits_escapertrait_normalizeencoding, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Html_Escaper_Traits_EscaperTrait, setDoubleEncode, arginfo_phalcon_html_escaper_traits_escapertrait_setdoubleencode, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Html_Escaper_Traits_EscaperTrait, setEncoding, arginfo_phalcon_html_escaper_traits_escapertrait_setencoding, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Html_Escaper_Traits_EscaperTrait, setFlags, arginfo_phalcon_html_escaper_traits_escapertrait_setflags, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};

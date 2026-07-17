@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Http\Response\Headers;
 
 use Phalcon\Http\Response\Headers;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Page\Http;
 
 final class SetRawTest extends AbstractUnitTestCase

@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Mvc\Router\Route;
 
 use Phalcon\Mvc\Router\Group;
 use Phalcon\Mvc\Router\Route;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class GetSetGroupTest extends AbstractUnitTestCase
 {

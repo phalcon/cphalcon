@@ -12,17 +12,19 @@ namespace Phalcon\Annotations;
 
 use Phalcon\Annotations\Adapter\AdapterInterface;
 use Phalcon\Factory\AbstractFactory;
-use Phalcon\Support\Helper\Arr\Get;
+use Phalcon\Traits\Support\Helper\Arr\GetTrait;
 
 /**
  * Factory to create annotations components
  */
 class AnnotationsFactory extends AbstractFactory
 {
+    use GetTrait;
+
     /**
      * AdapterFactory constructor.
      */
-    public function __construct(array! services = [])
+    public function __construct( array services = [])
     {
         this->init(services);
     }
@@ -49,7 +51,7 @@ class AnnotationsFactory extends AbstractFactory
 
         unset config["adapter"];
 
-        let options = (new Get())->__invoke(config, "options", []);
+        let options = this->getArrVal(config, "options", []);
 
         return this->newInstance(name, options);
     }
@@ -63,7 +65,7 @@ class AnnotationsFactory extends AbstractFactory
      *     'annotationsDir' => 'phalconDir'
      * ]
      */
-    public function newInstance(string! name, array! options = []) -> <AdapterInterface>
+    public function newInstance( string name,  array options = []) -> <AdapterInterface>
     {
         var definition;
 

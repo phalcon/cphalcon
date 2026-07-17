@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Db\Dialect\Mysql;
 
+use Phalcon\Db\Dialect\Mysql;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use PHPUnit\Framework\Attributes\Group;
 
@@ -29,6 +30,16 @@ final class GetSqlColumnTest extends AbstractDatabaseTestCase
      */
     public function testDbDialectMysqlGetSqlColumn(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $dialect = new Mysql();
+
+        $this->assertSame(
+            '`name`',
+            $dialect->getSqlColumn('name')
+        );
+
+        $this->assertSame(
+            '`r`.`name` AS `nick`',
+            $dialect->getSqlColumn(['name', 'r', 'nick'])
+        );
     }
 }

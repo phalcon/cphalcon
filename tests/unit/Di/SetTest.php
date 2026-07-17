@@ -17,7 +17,7 @@ use Phalcon\Di\Di;
 use Phalcon\Di\Exception;
 use Phalcon\Html\Escaper;
 use Phalcon\Support\Collection;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 final class SetTest extends AbstractUnitTestCase

@@ -21,10 +21,147 @@ use Phalcon\Filter\Validation\Validator\StringLength;
 use Phalcon\Filter\Validation\Validator\StringLength\Min;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class ValidateTest extends AbstractUnitTestCase
 {
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-07-06
+     */
+    public function testFilterValidationValidatorCallbackValidateBoundClosure(): void
+    {
+        $validation = new Validation();
+
+        $validation->add(
+            'title',
+            new Callback(
+                [
+                    'callback' => function ($data) {
+                        if (!is_string($data['title'])) {
+                            $this->setTemplate('Title is not a string');
+
+                            return false;
+                        }
+
+                        if (strlen($data['title']) > 10) {
+                            $this->setTemplate('Title too long');
+
+                            return false;
+                        }
+
+                        return true;
+                    },
+                ]
+            )
+        );
+
+
+        $messages = $validation->validate(
+            [
+                'title' => 123,
+            ]
+        );
+
+        $this->assertCount(1, $messages);
+        $this->assertSame(
+            'Title is not a string',
+            $messages[0]->getMessage()
+        );
+
+
+        $messages = $validation->validate(
+            [
+                'title' => 'This title is way too long',
+            ]
+        );
+
+        $this->assertCount(1, $messages);
+        $this->assertSame(
+            'Title too long',
+            $messages[0]->getMessage()
+        );
+
+
+        $messages = $validation->validate(
+            [
+                'title' => 'Short',
+            ]
+        );
+
+        $this->assertCount(0, $messages);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-07-06
+     */
+    public function testFilterValidationValidatorCallbackValidateBoundClosureTemplateIsolation(): void
+    {
+        $validation = new Validation();
+
+        $validation->add(
+            'amount',
+            new Callback(
+                [
+                    'message'  => 'DEFAULT failure message',
+                    'callback' => function ($data) {
+                        if ($data['amount'] > 100) {
+                            $this->setTemplate('Amount too big');
+
+                            return false;
+                        }
+
+                        return $data['amount'] >= 0;
+                    },
+                ]
+            )
+        );
+
+
+        /**
+         * The branch that calls setTemplate() must use that template.
+         */
+        $messages = $validation->validate(
+            [
+                'amount' => 200,
+            ]
+        );
+
+        $this->assertCount(1, $messages);
+        $this->assertSame(
+            'Amount too big',
+            $messages[0]->getMessage()
+        );
+
+
+        /**
+         * A later branch that does NOT call setTemplate() must fall back to
+         * the configured 'message' option, not leak the template set on the
+         * previous call.
+         */
+        $messages = $validation->validate(
+            [
+                'amount' => -5,
+            ]
+        );
+
+        $this->assertCount(1, $messages);
+        $this->assertSame(
+            'DEFAULT failure message',
+            $messages[0]->getMessage()
+        );
+
+
+        $messages = $validation->validate(
+            [
+                'amount' => 50,
+            ]
+        );
+
+        $this->assertCount(0, $messages);
+    }
+
     /**
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-10-29

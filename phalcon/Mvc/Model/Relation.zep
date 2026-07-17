@@ -99,7 +99,7 @@ class Relation implements RelationInterface
      * @param array|string referencedFields
      * @param array options
      */
-    public function __construct(int type, string! referencedModel, var fields, var referencedFields, array options = [])
+    public function __construct(int type,  string referencedModel, var fields, var referencedFields, array options = [])
     {
         let this->type = type,
             this->referencedModel = referencedModel,
@@ -170,7 +170,7 @@ class Relation implements RelationInterface
      * Returns an option by the specified name
      * If the option does not exist null is returned
      */
-    public function getOption(string! name)
+    public function getOption( string name)
     {
         var option;
 
@@ -288,7 +288,7 @@ class Relation implements RelationInterface
      * @param string       intermediateModel
      * @param array|string intermediateReferencedFields
      */
-    public function setIntermediateRelation(var intermediateFields, string! intermediateModel, var intermediateReferencedFields)
+    public function setIntermediateRelation(var intermediateFields,  string intermediateModel, var intermediateReferencedFields)
     {
         let this->intermediateFields = intermediateFields,
             this->intermediateModel = intermediateModel,

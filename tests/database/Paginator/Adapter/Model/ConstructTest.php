@@ -33,7 +33,7 @@ final class ConstructTest extends AbstractDatabaseTestCase
         $this->setDatabase();
 
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         (new InvoicesMigration($connection));
     }
 
@@ -50,7 +50,7 @@ final class ConstructTest extends AbstractDatabaseTestCase
     {
         $title = uniqid('inv-');
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $migration  = new InvoicesMigration($connection);
         $migration->insert(4, null, 0, $title);
 

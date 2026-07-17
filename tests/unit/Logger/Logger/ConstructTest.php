@@ -19,24 +19,12 @@ use Phalcon\Logger\Enum;
 use Phalcon\Logger\Exception;
 use Phalcon\Logger\Formatter\Json;
 use Phalcon\Logger\Logger;
-use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Logger\LoggerInterface;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 
 final class ConstructTest extends AbstractUnitTestCase
 {
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2020-09-09
-     */
-    public function testLoggerConstructWithTimezone(): void
-    {
-        $timezone = new DateTimeZone('America/New_York');
-        $logger   = new Logger('my-logger', [], $timezone);
-
-        $this->assertInstanceOf(LoggerInterface::class, $logger);
-        $this->assertSame('my-logger', $logger->getName());
-    }
-
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
@@ -85,7 +73,7 @@ final class ConstructTest extends AbstractUnitTestCase
     public function testLoggerConstructStreamReadOnlyModeException(): void
     {
         $fileName   = $this->getNewFileName('log', 'log');
-        $outputPath = logsDir();
+        $outputPath = Talon::settings()->outputPath('tests/logs/');
 
         $file = $outputPath . $fileName;
 
@@ -107,7 +95,7 @@ final class ConstructTest extends AbstractUnitTestCase
     public function testLoggerConstructStreamWithJsonConstants(): void
     {
         $fileName   = $this->getNewFileName('log', 'log');
-        $outputPath = logsDir($fileName);
+        $outputPath = Talon::settings()->outputPath('tests/logs/' . $fileName);
         $adapter    = new Stream($outputPath);
 
         $adapter->setFormatter(new Json());
@@ -139,5 +127,17 @@ final class ConstructTest extends AbstractUnitTestCase
 
         $adapter->close();
         $this->safeDeleteFile($outputPath);
+    }
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    public function testLoggerConstructWithTimezone(): void
+    {
+        $timezone = new DateTimeZone('America/New_York');
+        $logger   = new Logger('my-logger', [], $timezone);
+
+        $this->assertInstanceOf(LoggerInterface::class, $logger);
+        $this->assertSame('my-logger', $logger->getName());
     }
 }

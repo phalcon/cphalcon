@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Html\Helper\Breadcrumbs;
 
 use Phalcon\Html\Escaper;
 use Phalcon\Html\TagFactory;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class RenderTest extends AbstractUnitTestCase
 {
@@ -83,6 +83,21 @@ final class RenderTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
+    public function testHtmlHelperBreadcrumbsRenderEmpty(): void
+    {
+        $escaper     = new Escaper();
+        $helper      = new TagFactory($escaper);
+        $breadcrumbs = $helper->breadcrumbs();
+
+        $expected = '';
+        $actual   = $breadcrumbs->render();
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
     public function testHtmlHelperBreadcrumbsRenderWithSameHref(): void
     {
         $escaper     = new Escaper();
@@ -114,21 +129,6 @@ final class RenderTest extends AbstractUnitTestCase
 
     </ol>
 </nav>";
-        $actual   = $breadcrumbs->render();
-        $this->assertSame($expected, $actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2020-09-09
-     */
-    public function testHtmlHelperBreadcrumbsRenderEmpty(): void
-    {
-        $escaper     = new Escaper();
-        $helper      = new TagFactory($escaper);
-        $breadcrumbs = $helper->breadcrumbs();
-
-        $expected = '';
         $actual   = $breadcrumbs->render();
         $this->assertSame($expected, $actual);
     }

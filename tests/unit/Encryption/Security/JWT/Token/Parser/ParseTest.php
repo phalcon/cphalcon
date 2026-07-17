@@ -16,7 +16,7 @@ use Phalcon\Encryption\Security\JWT\Signer\None;
 use Phalcon\Encryption\Security\JWT\Token\Item;
 use Phalcon\Encryption\Security\JWT\Token\Parser;
 use Phalcon\Encryption\Security\JWT\Token\Signature;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Encryption\Fake\JWTTrait;
 
 final class ParseTest extends AbstractUnitTestCase

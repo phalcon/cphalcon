@@ -40,5 +40,5 @@ interface Messages extends ArrayAccess, Countable, Iterator
     /**
      * Filters the message collection by field name
      */
-    public function filter(string! fieldName) -> array;
+    public function filter( string fieldName) -> array;
 }

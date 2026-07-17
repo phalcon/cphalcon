@@ -23,6 +23,28 @@ use PHPUnit\Framework\Attributes\Group;
 final class AddIndexPartialTest extends AbstractDatabaseTestCase
 {
     /**
+     * MySQL - has no partial-index feature; the WHERE predicate is ignored.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-15
+     */
+    #[Group('mysql')]
+    public function testDbDialectMysqlAddIndexIgnoresWhere(): void
+    {
+        $dialect = new Mysql();
+        $index   = new Index(
+            'idx_active',
+            [
+                'columns' => ['email'],
+                'where'   => 'active = true',
+            ]
+        );
+
+        $actual = $dialect->addIndex('table', 'schema', $index);
+
+        $this->assertStringNotContainsString('WHERE', $actual);
+    }
+    /**
      * PostgreSQL - emits `WHERE <expr>` for partial indexes.
      *
      * @author Phalcon Team <team@phalcon.io>
@@ -66,28 +88,5 @@ final class AddIndexPartialTest extends AbstractDatabaseTestCase
         $actual = $dialect->addIndex('table', 'schema', $index);
 
         $this->assertStringContainsString(' WHERE active = 1', $actual);
-    }
-
-    /**
-     * MySQL - has no partial-index feature; the WHERE predicate is ignored.
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-05-15
-     */
-    #[Group('mysql')]
-    public function testDbDialectMysqlAddIndexIgnoresWhere(): void
-    {
-        $dialect = new Mysql();
-        $index   = new Index(
-            'idx_active',
-            [
-                'columns' => ['email'],
-                'where'   => 'active = true',
-            ]
-        );
-
-        $actual = $dialect->addIndex('table', 'schema', $index);
-
-        $this->assertStringNotContainsString('WHERE', $actual);
     }
 }

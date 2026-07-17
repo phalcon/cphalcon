@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Db\Dialect\Sqlite;
 
+use Phalcon\Db\Dialect\Sqlite;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use PHPUnit\Framework\Attributes\Group;
 
@@ -29,6 +30,16 @@ final class LimitTest extends AbstractDatabaseTestCase
      */
     public function testDbDialectSqliteLimit(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $dialect = new Sqlite();
+
+        $this->assertSame(
+            'SELECT * FROM robots LIMIT 10',
+            $dialect->limit('SELECT * FROM robots', 10)
+        );
+
+        $this->assertSame(
+            'SELECT * FROM robots LIMIT 10 OFFSET 50',
+            $dialect->limit('SELECT * FROM robots', [10, 50])
+        );
     }
 }

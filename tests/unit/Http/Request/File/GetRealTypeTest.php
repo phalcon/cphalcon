@@ -14,11 +14,11 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Http\Request\File;
 
 use Phalcon\Http\Request\File;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\Support\Page\Http;
 
 use function function_exists;
-use function supportDir;
 
 final class GetRealTypeTest extends AbstractUnitTestCase
 {
@@ -38,7 +38,7 @@ final class GetRealTypeTest extends AbstractUnitTestCase
             [
                 'name'     => 'test',
                 'type'     => Http::CONTENT_TYPE_PLAIN,
-                'tmp_name' => supportDir('/assets/images/example-jpg.jpg'),
+                'tmp_name' => Talon::settings()->supportPath('/assets/images/example-jpg.jpg'),
                 'size'     => 1,
                 'error'    => 0,
             ]

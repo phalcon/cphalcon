@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Annotations\Reader;
 
 use Phalcon\Annotations\Reader;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class ParseDocBlockTest extends AbstractUnitTestCase
 {

@@ -33,7 +33,7 @@ final class ExecuteTest extends AbstractDatabaseTestCase
         $this->setNewFactoryDefault();
         $this->setDatabase();
 
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         (new InvoicesMigration($connection));
     }
 
@@ -47,7 +47,7 @@ final class ExecuteTest extends AbstractDatabaseTestCase
     public function testMvcModelCriteriaExecute(): void
     {
         $title      = uniqid('inv-');
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $migration  = new InvoicesMigration($connection);
         $migration->insert(4, 1, 2, $title);
 

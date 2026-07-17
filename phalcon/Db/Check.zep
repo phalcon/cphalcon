@@ -64,7 +64,7 @@ class Check implements CheckInterface
     /**
      * Phalcon\Db\Check constructor
      */
-    public function __construct(string! name, array! definition)
+    public function __construct( string name,  array definition)
     {
         var expression;
 

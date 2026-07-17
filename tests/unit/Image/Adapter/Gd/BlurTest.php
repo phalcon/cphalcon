@@ -14,7 +14,8 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Image\Adapter\Gd;
 
 use Phalcon\Image\Adapter\Gd;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\Unit\Image\Fake\GdTrait;
 
 final class BlurTest extends AbstractUnitTestCase
@@ -67,14 +68,14 @@ final class BlurTest extends AbstractUnitTestCase
         foreach ($this->getImages() as $type => $imagePath) {
             foreach ($params[$type] as [$level, $hash]) {
                 $resultImage = 'blur-' . $level . '.' . $type;
-                $output      = outputDir($outputDir . '/' . $resultImage);
+                $output      = Talon::settings()->outputPath($outputDir . '/' . $resultImage);
 
                 $image = new Gd($imagePath);
 
                 $image->blur($level)
                       ->save($output)
                 ;
-                $this->assertFileExists(outputDir($outputDir) . $resultImage);
+                $this->assertFileExists(Talon::settings()->outputPath($outputDir) . $resultImage);
 
                 $actual = $this->checkImageHash($output, $hash);
                 $this->assertTrue($actual);

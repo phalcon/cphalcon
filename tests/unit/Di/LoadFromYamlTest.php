@@ -17,7 +17,8 @@ use Phalcon\Config\Config;
 use Phalcon\Config\ConfigInterface;
 use Phalcon\Di\Di;
 use Phalcon\Di\Exception;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 
 final class LoadFromYamlTest extends AbstractUnitTestCase
 {
@@ -30,7 +31,7 @@ final class LoadFromYamlTest extends AbstractUnitTestCase
         $container = new Di();
 
         // load yaml
-        $container->loadFromYaml(supportDir('assets/Di/services.yml'));
+        $container->loadFromYaml(Talon::settings()->supportPath('assets/Di/services.yml'));
 
         // there are 3
         $this->assertCount(3, $container->getServices());

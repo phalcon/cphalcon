@@ -13,7 +13,7 @@ namespace Phalcon\Tests\Unit\Forms\Form;
 
 use Phalcon\Forms\Element\Text;
 use Phalcon\Forms\Form;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
 
 final class IteratorTest extends AbstractUnitTestCase
@@ -25,6 +25,23 @@ final class IteratorTest extends AbstractUnitTestCase
         $this->newDi();
         $this->setDiService('escaper');
         $this->setDiService('url');
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    public function testFormsFormCurrentReturnsFalseWhenOutOfBounds(): void
+    {
+        $form = new Form();
+        $form->add(new Text('name'));
+        $form->rewind();
+
+        // Advance beyond end
+        $form->next();
+
+        $actual = $form->current();
+        $this->assertFalse($actual);
     }
 
     public function testIterator(): void
@@ -60,22 +77,5 @@ final class IteratorTest extends AbstractUnitTestCase
         ];
 
         $this->assertEquals($expected, $data);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2024-01-01
-     */
-    public function testFormsFormCurrentReturnsFalseWhenOutOfBounds(): void
-    {
-        $form = new Form();
-        $form->add(new Text('name'));
-        $form->rewind();
-
-        // Advance beyond end
-        $form->next();
-
-        $actual = $form->current();
-        $this->assertFalse($actual);
     }
 }

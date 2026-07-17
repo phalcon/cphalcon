@@ -45,7 +45,6 @@ final class ClearTest extends AbstractDatabaseTestCase
         $this->setNewFactoryDefault();
         $this->setDatabase();
 
-        Tag::resetInput();
         Tag::setDocType(Tag::HTML5);
     }
 
@@ -53,152 +52,6 @@ final class ClearTest extends AbstractDatabaseTestCase
     {
         $_POST = $this->postStore;
         $this->tearDownDatabase();
-    }
-
-    /**
-     * Tests Phalcon\Forms\Form :: clear() - all
-     *
-     * @author Sid Roberts <https://github.com/SidRoberts>
-     * @since  2019-06-28
-     */
-    #[Group('mysql')]
-    #[Group('sqlite')]
-    public function testFormsFormClearAll(): void
-    {
-        $name     = new Text('name');
-        $email    = new Email('email');
-        $password = new Password('password');
-
-        $form = new Form();
-        $form
-            ->add($name)
-            ->add($email)
-            ->add($password)
-        ;
-
-        $entity = new stdClass();
-        $form->bind(
-            [
-                'name'     => 'Sid Roberts',
-                'email'    => 'team@phalcon.io',
-                'password' => 'hunter2',
-            ],
-            $entity
-        );
-
-        $form->clear();
-
-        $this->assertNull(
-            $form->get('name')->getValue()
-        );
-
-        $this->assertNull(
-            $form->get('email')->getValue()
-        );
-
-        $this->assertNull(
-            $form->get('password')->getValue()
-        );
-    }
-
-    /**
-     * Tests Phalcon\Forms\Form :: clear() - fields array
-     *
-     * @author Sid Roberts <https://github.com/SidRoberts>
-     * @since  2019-06-28
-     */
-    #[Group('mysql')]
-    #[Group('sqlite')]
-    public function testFormsFormClearFieldsArray(): void
-    {
-        $name     = new Text('name');
-        $email    = new Email('email');
-        $password = new Password('password');
-
-        $form = new Form();
-        $form
-            ->add($name)
-            ->add($email)
-            ->add($password)
-        ;
-
-        $entity = new stdClass();
-        $form->bind(
-            [
-                'name'     => 'Sid Roberts',
-                'email'    => 'team@phalcon.io',
-                'password' => 'hunter2',
-            ],
-            $entity
-        );
-
-        $form->clear(
-            [
-                'email',
-                'password',
-            ]
-        );
-
-        $this->assertEquals(
-            'Sid Roberts',
-            $form->get('name')->getValue()
-        );
-
-        $this->assertNull(
-            $form->get('email')->getValue()
-        );
-
-        $this->assertNull(
-            $form->get('password')->getValue()
-        );
-    }
-
-    /**
-     * Tests Phalcon\Forms\Form :: clear() - field string
-     *
-     * @author Sid Roberts <https://github.com/SidRoberts>
-     * @since  2019-06-28
-     */
-    #[Group('mysql')]
-    #[Group('sqlite')]
-    public function testFormsFormClearFieldString(): void
-    {
-        $name     = new Text('name');
-        $email    = new Email('email');
-        $password = new Password('password');
-
-        $form = new Form();
-        $form
-            ->add($name)
-            ->add($email)
-            ->add($password)
-        ;
-
-        $entity = new stdClass();
-        $form->bind(
-            [
-                'name'     => 'Sid Roberts',
-                'email'    => 'team@phalcon.io',
-                'password' => 'hunter2',
-            ],
-            $entity
-        );
-
-        $form->clear('password');
-
-        $this->assertEquals(
-            'Sid Roberts',
-            $form->get('name')->getValue()
-        );
-
-        $this->assertEquals(
-            'team@phalcon.io',
-            $form->get('email')->getValue()
-        );
-
-        $this->assertNull(
-            $form->get('password')->getValue()
-        );
     }
 
     /**
@@ -621,6 +474,152 @@ final class ClearTest extends AbstractDatabaseTestCase
                 'sel_text' => 'Some Text',
             ],
             $_POST
+        );
+    }
+
+    /**
+     * Tests Phalcon\Forms\Form :: clear() - all
+     *
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-06-28
+     */
+    #[Group('mysql')]
+    #[Group('sqlite')]
+    public function testFormsFormClearAll(): void
+    {
+        $name     = new Text('name');
+        $email    = new Email('email');
+        $password = new Password('password');
+
+        $form = new Form();
+        $form
+            ->add($name)
+            ->add($email)
+            ->add($password)
+        ;
+
+        $entity = new stdClass();
+        $form->bind(
+            [
+                'name'     => 'Sid Roberts',
+                'email'    => 'team@phalcon.io',
+                'password' => 'hunter2',
+            ],
+            $entity
+        );
+
+        $form->clear();
+
+        $this->assertNull(
+            $form->get('name')->getValue()
+        );
+
+        $this->assertNull(
+            $form->get('email')->getValue()
+        );
+
+        $this->assertNull(
+            $form->get('password')->getValue()
+        );
+    }
+
+    /**
+     * Tests Phalcon\Forms\Form :: clear() - fields array
+     *
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-06-28
+     */
+    #[Group('mysql')]
+    #[Group('sqlite')]
+    public function testFormsFormClearFieldsArray(): void
+    {
+        $name     = new Text('name');
+        $email    = new Email('email');
+        $password = new Password('password');
+
+        $form = new Form();
+        $form
+            ->add($name)
+            ->add($email)
+            ->add($password)
+        ;
+
+        $entity = new stdClass();
+        $form->bind(
+            [
+                'name'     => 'Sid Roberts',
+                'email'    => 'team@phalcon.io',
+                'password' => 'hunter2',
+            ],
+            $entity
+        );
+
+        $form->clear(
+            [
+                'email',
+                'password',
+            ]
+        );
+
+        $this->assertEquals(
+            'Sid Roberts',
+            $form->get('name')->getValue()
+        );
+
+        $this->assertNull(
+            $form->get('email')->getValue()
+        );
+
+        $this->assertNull(
+            $form->get('password')->getValue()
+        );
+    }
+
+    /**
+     * Tests Phalcon\Forms\Form :: clear() - field string
+     *
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-06-28
+     */
+    #[Group('mysql')]
+    #[Group('sqlite')]
+    public function testFormsFormClearFieldString(): void
+    {
+        $name     = new Text('name');
+        $email    = new Email('email');
+        $password = new Password('password');
+
+        $form = new Form();
+        $form
+            ->add($name)
+            ->add($email)
+            ->add($password)
+        ;
+
+        $entity = new stdClass();
+        $form->bind(
+            [
+                'name'     => 'Sid Roberts',
+                'email'    => 'team@phalcon.io',
+                'password' => 'hunter2',
+            ],
+            $entity
+        );
+
+        $form->clear('password');
+
+        $this->assertEquals(
+            'Sid Roberts',
+            $form->get('name')->getValue()
+        );
+
+        $this->assertEquals(
+            'team@phalcon.io',
+            $form->get('email')->getValue()
+        );
+
+        $this->assertNull(
+            $form->get('password')->getValue()
         );
     }
 }

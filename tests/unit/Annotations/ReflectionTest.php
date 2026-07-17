@@ -17,7 +17,8 @@ use Phalcon\Annotations\Annotation;
 use Phalcon\Annotations\Collection;
 use Phalcon\Annotations\Reader;
 use Phalcon\Annotations\Reflection;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 
 use function dataDir;
 
@@ -30,7 +31,7 @@ final class ReflectionTest extends AbstractUnitTestCase
     {
         parent::setUp();
 
-        require_once supportDir('assets/Annotations/TestClass.php');
+        require_once Talon::settings()->supportPath('assets/Annotations/TestClass.php');
     }
 
     /**

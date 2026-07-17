@@ -37,7 +37,7 @@ class ValidationFailed extends Exception
      * @param ModelInterface model
      * @param Message[] validationMessages
      */
-    public function __construct(<ModelInterface> model, array! validationMessages)
+    public function __construct(<ModelInterface> model,  array validationMessages)
     {
         var messageStr, message;
 

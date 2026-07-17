@@ -39,7 +39,7 @@ class Builder
      * @param array parameters
      * @return mixed
      */
-    public function build(<DiInterface> container, array! definition, parameters = null)
+    public function build(<DiInterface> container,  array definition, parameters = null)
     {
         var className, arguments, paramCalls, methodPosition, method,
             methodName, methodCall, instance, propertyPosition, property,
@@ -198,7 +198,7 @@ class Builder
      *
      * @return mixed
      */
-    private function buildParameter(<DiInterface> container, int position, array! argument)
+    private function buildParameter(<DiInterface> container, int position,  array argument)
     {
         var type, name, value, instanceArguments;
 
@@ -263,7 +263,7 @@ class Builder
     /**
      * Resolves an array of parameters
      */
-    private function buildParameters(<DiInterface> container, array! arguments) -> array
+    private function buildParameters(<DiInterface> container,  array arguments) -> array
     {
         var position, argument;
         array buildArguments;

@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Filter\Sanitize;
 
 use Phalcon\Filter\Sanitize\BoolVal;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class BoolValTest extends AbstractUnitTestCase
 {
@@ -44,5 +44,11 @@ final class BoolValTest extends AbstractUnitTestCase
         $this->assertTrue($sanitizer(42));
         $this->assertFalse($sanitizer(null));
         $this->assertFalse($sanitizer(''));
+
+        // non-scalar input is rejected by the type guard before any conversion
+        $this->assertFalse($sanitizer(3.14));
+
+        // surrounding whitespace is trimmed before the false-array lookup
+        $this->assertFalse($sanitizer(' no '));
     }
 }

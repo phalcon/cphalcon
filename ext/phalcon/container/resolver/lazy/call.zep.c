@@ -65,11 +65,16 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_Call, __construct)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&callableObject_sub);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("callableObject", 14, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(callableObject)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &callableObject);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("callableObject"), callableObject);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 491, callableObject);
 }
 
 /**
@@ -89,13 +94,18 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_Call, resolve)
 	ZVAL_UNDEF(&ioc_sub);
 	ZVAL_UNDEF(&callableObject);
 	ZVAL_UNDEF(&_0);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("callableObject", 14, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT(ioc)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &ioc);
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("callableObject"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 491, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&callableObject, &_0);
 	ZEPHIR_RETURN_CALL_ZVAL_FUNCTION(&callableObject, NULL, 0, ioc);
 	zephir_check_call_status();

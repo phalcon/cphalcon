@@ -13,11 +13,14 @@ declare(strict_types=1);
 
 namespace MyNamespace\Controllers;
 
+use Phalcon\Annotations\Router\Get;
+
 class NamespacedAnnotationController
 {
     /**
      * @Get("/")
      */
+    #[Get("/")]
     public function indexAction()
     {
     }

@@ -66,7 +66,7 @@ class Equal extends AbstractFile
      *     'resolution' => '1000x1000'
      * ]
      */
-    public function __construct(array! options = [])
+    public function __construct( array options = [])
     {
         parent::__construct(options);
     }

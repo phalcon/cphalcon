@@ -47,7 +47,7 @@ class Message implements MessageInterface, JsonSerializable
     /**
      * Phalcon\Messages\Message constructor
      */
-    public function __construct(string! message, string field = "", string type = "", int code = 0, array metaData = [])
+    public function __construct( string message, string field = "", string type = "", int code = 0, array metaData = [])
     {
         let this->message  = message,
             this->field    = field,
@@ -131,7 +131,7 @@ class Message implements MessageInterface, JsonSerializable
     /**
      * Sets field name related to message
      */
-    public function setField(string! field) -> <MessageInterface>
+    public function setField( string field) -> <MessageInterface>
     {
         let this->field = field;
 
@@ -141,7 +141,7 @@ class Message implements MessageInterface, JsonSerializable
     /**
      * Sets verbose message
      */
-    public function setMessage(string! message) -> <MessageInterface>
+    public function setMessage( string message) -> <MessageInterface>
     {
         let this->message = message;
 
@@ -151,7 +151,7 @@ class Message implements MessageInterface, JsonSerializable
     /**
      * Sets message metadata
      */
-    public function setMetaData(array! metaData) -> <MessageInterface>
+    public function setMetaData( array metaData) -> <MessageInterface>
     {
         let this->metaData = metaData;
 
@@ -161,7 +161,7 @@ class Message implements MessageInterface, JsonSerializable
     /**
      * Sets message type
      */
-    public function setType(string! type) -> <MessageInterface>
+    public function setType( string type) -> <MessageInterface>
     {
         let this->type = type;
 

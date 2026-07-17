@@ -26,7 +26,7 @@ interface BagInterface
 
     public function init(array data = []) -> void;
 
-    public function get(string element, var defaultValue = null, string! cast = null) -> var;
+    public function get(string element, var defaultValue = null,  string cast = null) -> var;
 
     public function set(string element, var value) -> void;
 

@@ -23,6 +23,32 @@ use PHPUnit\Framework\Attributes\Group;
 final class SharedLockModifierTest extends AbstractDatabaseTestCase
 {
     /**
+     * MySQL - modifier is silently ignored (legacy `LOCK IN SHARE MODE`
+     * does not support `NOWAIT` / `SKIP LOCKED`).
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-15
+     */
+    #[Group('mysql')]
+    public function testDbDialectMysqlSharedLockIgnoresModifier(): void
+    {
+        $dialect = new Mysql();
+        $sql     = 'SELECT * FROM robots';
+
+        $this->assertSame(
+            $sql . ' LOCK IN SHARE MODE',
+            $dialect->sharedLock($sql)
+        );
+        $this->assertSame(
+            $sql . ' LOCK IN SHARE MODE',
+            $dialect->sharedLock($sql, DialectContract::LOCK_NOWAIT)
+        );
+        $this->assertSame(
+            $sql . ' LOCK IN SHARE MODE',
+            $dialect->sharedLock($sql, DialectContract::LOCK_SKIP_LOCKED)
+        );
+    }
+    /**
      * PostgreSQL - default emits `FOR SHARE`.
      *
      * @author Phalcon Team <team@phalcon.io>
@@ -70,33 +96,6 @@ final class SharedLockModifierTest extends AbstractDatabaseTestCase
                 'SELECT * FROM robots',
                 DialectContract::LOCK_SKIP_LOCKED
             )
-        );
-    }
-
-    /**
-     * MySQL - modifier is silently ignored (legacy `LOCK IN SHARE MODE`
-     * does not support `NOWAIT` / `SKIP LOCKED`).
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-05-15
-     */
-    #[Group('mysql')]
-    public function testDbDialectMysqlSharedLockIgnoresModifier(): void
-    {
-        $dialect = new Mysql();
-        $sql     = 'SELECT * FROM robots';
-
-        $this->assertSame(
-            $sql . ' LOCK IN SHARE MODE',
-            $dialect->sharedLock($sql)
-        );
-        $this->assertSame(
-            $sql . ' LOCK IN SHARE MODE',
-            $dialect->sharedLock($sql, DialectContract::LOCK_NOWAIT)
-        );
-        $this->assertSame(
-            $sql . ' LOCK IN SHARE MODE',
-            $dialect->sharedLock($sql, DialectContract::LOCK_SKIP_LOCKED)
         );
     }
 

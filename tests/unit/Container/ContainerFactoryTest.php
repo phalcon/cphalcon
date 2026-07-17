@@ -59,6 +59,18 @@ class ContainerFactoryTest extends TestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-18
      */
+    public function testNewContainerImplementsIocContainer(): void
+    {
+        $factory   = new ContainerFactory();
+        $container = $factory->newContainer();
+
+        $this->assertInstanceOf(IocContainer::class, $container);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-18
+     */
     public function testNewContainerReturnsAContainer(): void
     {
         $factory = new ContainerFactory();
@@ -78,18 +90,6 @@ class ContainerFactoryTest extends TestCase
         $container2 = $factory->newContainer();
 
         $this->assertNotSame($container1, $container2);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-18
-     */
-    public function testNewContainerImplementsIocContainer(): void
-    {
-        $factory   = new ContainerFactory();
-        $container = $factory->newContainer();
-
-        $this->assertInstanceOf(IocContainer::class, $container);
     }
 
     /**

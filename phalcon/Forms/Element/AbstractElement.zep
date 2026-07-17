@@ -147,7 +147,7 @@ abstract class AbstractElement implements ElementInterface
      * @param \Phalcon\Filter\Validation\ValidatorInterface[] validators
      * @param bool                                            merge
      */
-    public function addValidators(array! validators, bool merge = true) -> <ElementInterface>
+    public function addValidators( array validators, bool merge = true) -> <ElementInterface>
     {
         var validator;
 
@@ -393,6 +393,10 @@ abstract class AbstractElement implements ElementInterface
             unset attributes["value"];
         }
 
+        if value !== null {
+            let value = (string) value;
+        }
+
         let merged = array_merge(this->attributes, attributes),
             result = helper->__invoke(name, value, merged);
 
@@ -412,7 +416,7 @@ abstract class AbstractElement implements ElementInterface
     /**
      * Sets default attributes for the element
      */
-    public function setAttributes(array! attributes) -> <ElementInterface>
+    public function setAttributes( array attributes) -> <ElementInterface>
     {
         let this->attributes = attributes;
 
@@ -483,7 +487,7 @@ abstract class AbstractElement implements ElementInterface
     /**
      * Sets the element name
      */
-    public function setName(string! name) -> <ElementInterface>
+    public function setName( string name) -> <ElementInterface>
     {
         let this->name = name;
 

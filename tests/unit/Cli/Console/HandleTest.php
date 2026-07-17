@@ -22,7 +22,8 @@ use Phalcon\Cli\Dispatcher\Exception as DispatcherException;
 use Phalcon\Cli\Router\Exception as RouterException;
 use Phalcon\Di\FactoryDefault\Cli as DiFactoryDefault;
 use Phalcon\Events\Event;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\Support\Modules\Backend\Module as BackendModule;
 use Phalcon\Tests\Support\Modules\Frontend\Module as FrontendModule;
 use Phalcon\Tests\Support\Tasks\Issue787Task;
@@ -147,7 +148,7 @@ final class HandleTest extends AbstractUnitTestCase
             [
                 'backend' => [
                     'className' => BackendModule::class,
-                    'path'      => supportDir('Modules/Backend/Module.php'),
+                    'path'      => Talon::settings()->supportPath('Modules/Backend/Module.php'),
                 ],
             ]
         );
@@ -168,7 +169,7 @@ final class HandleTest extends AbstractUnitTestCase
             [
                 'backend' => [
                     'className' => BackendModule::class,
-                    'path'      => supportDir('Modules/Backend/Module.php'),
+                    'path'      => Talon::settings()->supportPath('Modules/Backend/Module.php'),
                 ],
             ]
         );
@@ -205,6 +206,104 @@ final class HandleTest extends AbstractUnitTestCase
     }
 
     /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    public function testCliConsoleHandleAfterStartModuleReturnsFalse(): void
+    {
+        $console       = new CliConsole(new DiFactoryDefault());
+        $eventsManager = $console->eventsManager;
+
+        $console->registerModules(
+            [
+                'backend' => [
+                    'className' => BackendModule::class,
+                    'path'      => Talon::settings()->supportPath('Modules/Backend/Module.php'),
+                ],
+            ]
+        );
+
+        $eventsManager->attach(
+            'console:afterStartModule',
+            function () {
+                return false;
+            }
+        );
+
+        $actual = $console->handle(['module' => 'backend']);
+        $this->assertFalse($actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    public function testCliConsoleHandleBeforeHandleTaskReturnsFalse(): void
+    {
+        $console       = new CliConsole(new DiFactoryDefault());
+        $eventsManager = $console->eventsManager;
+
+        $eventsManager->attach(
+            'console:beforeHandleTask',
+            function () {
+                return false;
+            }
+        );
+
+        $actual = $console->handle([]);
+        $this->assertFalse($actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    public function testCliConsoleHandleBeforeStartModuleReturnsFalse(): void
+    {
+        $console       = new CliConsole(new DiFactoryDefault());
+        $eventsManager = $console->eventsManager;
+
+        $console->registerModules(
+            [
+                'backend' => [
+                    'className' => BackendModule::class,
+                    'path'      => Talon::settings()->supportPath('Modules/Backend/Module.php'),
+                ],
+            ]
+        );
+
+        $eventsManager->attach(
+            'console:beforeStartModule',
+            function () {
+                return false;
+            }
+        );
+
+        $actual = $console->handle(['module' => 'backend']);
+        $this->assertFalse($actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    public function testCliConsoleHandleBootEventReturnsFalse(): void
+    {
+        $console       = new CliConsole(new DiFactoryDefault());
+        $eventsManager = $console->eventsManager;
+
+        $eventsManager->attach(
+            'console:boot',
+            function () {
+                return false;
+            }
+        );
+
+        $actual = $console->handle();
+        $this->assertFalse($actual);
+    }
+
+    /**
      * @author Nathan Edwards <https://github.com/npfedwards>
      * @since  2018-12-26
      */
@@ -225,11 +324,11 @@ final class HandleTest extends AbstractUnitTestCase
             [
                 'frontend' => [
                     'className' => FrontendModule::class,
-                    'path'      => supportDir('Modules/Frontend/Module.php'),
+                    'path'      => Talon::settings()->supportPath('Modules/Frontend/Module.php'),
                 ],
                 'backend'  => [
                     'className' => BackendModule::class,
-                    'path'      => supportDir('Modules/Backend/Module.php'),
+                    'path'      => Talon::settings()->supportPath('Modules/Backend/Module.php'),
                 ],
             ]
         );
@@ -262,7 +361,7 @@ final class HandleTest extends AbstractUnitTestCase
             [
                 'frontend' => [
                     'className' => FrontendModule::class,
-                    'path'      => supportDir('Modules/Frontend/Module.php'),
+                    'path'      => Talon::settings()->supportPath('Modules/Frontend/Module.php'),
                 ],
                 'backend'  => [
                     'className' => BackendModule::class,
@@ -338,7 +437,7 @@ final class HandleTest extends AbstractUnitTestCase
             [
                 'frontend' => [
                     'className' => FrontendModule::class,
-                    'path'      => supportDir('Modules/Frontend/Module.php'),
+                    'path'      => Talon::settings()->supportPath('Modules/Frontend/Module.php'),
                 ],
                 'backend'  => [
                     'className' => BackendModule::class,
@@ -385,6 +484,23 @@ final class HandleTest extends AbstractUnitTestCase
     }
 
     /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    public function testCliConsoleHandleInvalidModuleDefinition(): void
+    {
+        $this->expectException(InvalidModuleDefinition::class);
+        $this->expectExceptionMessage('Invalid module definition');
+
+        $console = new CliConsole(new DiFactoryDefault());
+
+        // Register a module as a non-array value
+        $console->registerModules(['backend' => 'not-an-array']);
+
+        $console->handle(['module' => 'backend']);
+    }
+
+    /**
      * @author Nathan Edwards <https://github.com/npfedwards>
      * @since  2018-12-26
      */
@@ -396,11 +512,11 @@ final class HandleTest extends AbstractUnitTestCase
             [
                 'frontend' => [
                     'className' => FrontendModule::class,
-                    'path'      => supportDir('Modules/Frontend/Module.php'),
+                    'path'      => Talon::settings()->supportPath('Modules/Frontend/Module.php'),
                 ],
                 'backend'  => [
                     'className' => BackendModule::class,
-                    'path'      => supportDir('Modules/Backend/Module.php'),
+                    'path'      => Talon::settings()->supportPath('Modules/Backend/Module.php'),
                 ],
             ]
         );
@@ -459,11 +575,12 @@ final class HandleTest extends AbstractUnitTestCase
      */
     public function testCliConsoleHandleNoAction(): void
     {
+        $rootPath = Talon::settings()->rootPath();
         $module   = '';
-        if (!env('GITHUB_RUN_ID')) {
-            $module = '-d extension=' . rootDir() . 'ext/modules/phalcon.so ';
+        if (!getenv('GITHUB_RUN_ID')) {
+            $module = '-d extension=' . $rootPath . '/ext/modules/phalcon.so ';
         }
-        $script = rootDir() . 'tests/testbed/cli.php ';
+        $script = $rootPath . '/tests/testbed/cli.php ';
 
         ob_start();
         $actual = shell_exec('php ' . $module . $script . 'print');
@@ -471,6 +588,51 @@ final class HandleTest extends AbstractUnitTestCase
 
         $expected = 'printMainAction';
         $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    public function testCliConsoleHandleNoDi(): void
+    {
+        $this->expectException(ConsoleException::class);
+        $this->expectExceptionMessage(
+            'A dependency injection container is required to access internal services'
+        );
+
+        $console = new CliConsole();
+        $console->handle();
+    }
+
+    /**
+     * @issue https://github.com/phalcon/cphalcon/issues/17013
+     */
+    public function testCliConsoleHandlePropagatesDefaultModuleToDispatcher(): void
+    {
+        $console = new CliConsole(new DiFactoryDefault());
+
+        $console->registerModules(
+            [
+                'backend' => [
+                    'className' => BackendModule::class,
+                    'path'      => Talon::settings()->supportPath('Modules/Backend/Module.php'),
+                ],
+            ]
+        );
+
+        $console->setDefaultModule('backend');
+
+        $dispatcher = $console->dispatcher;
+        $dispatcher->setNamespaceName('Phalcon\Tests\Support\Modules\Backend\Tasks');
+
+        $console->handle(
+            [
+                'action' => 'noop',
+            ]
+        );
+
+        $this->assertSame('backend', $dispatcher->getModuleName());
     }
 
     public function testCliConsoleHandleTaskDoesNotExists(): void
@@ -494,165 +656,5 @@ final class HandleTest extends AbstractUnitTestCase
                 '!',
             ]
         );
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2024-01-01
-     */
-    public function testCliConsoleHandleNoDi(): void
-    {
-        $this->expectException(ConsoleException::class);
-        $this->expectExceptionMessage(
-            'A dependency injection container is required to access internal services'
-        );
-
-        $console = new CliConsole();
-        $console->handle();
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2024-01-01
-     */
-    public function testCliConsoleHandleBootEventReturnsFalse(): void
-    {
-        $console       = new CliConsole(new DiFactoryDefault());
-        $eventsManager = $console->eventsManager;
-
-        $eventsManager->attach(
-            'console:boot',
-            function () {
-                return false;
-            }
-        );
-
-        $actual = $console->handle();
-        $this->assertFalse($actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2024-01-01
-     */
-    public function testCliConsoleHandleBeforeStartModuleReturnsFalse(): void
-    {
-        $console       = new CliConsole(new DiFactoryDefault());
-        $eventsManager = $console->eventsManager;
-
-        $console->registerModules(
-            [
-                'backend' => [
-                    'className' => BackendModule::class,
-                    'path'      => supportDir('Modules/Backend/Module.php'),
-                ],
-            ]
-        );
-
-        $eventsManager->attach(
-            'console:beforeStartModule',
-            function () {
-                return false;
-            }
-        );
-
-        $actual = $console->handle(['module' => 'backend']);
-        $this->assertFalse($actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2024-01-01
-     */
-    public function testCliConsoleHandleInvalidModuleDefinition(): void
-    {
-        $this->expectException(InvalidModuleDefinition::class);
-        $this->expectExceptionMessage('Invalid module definition');
-
-        $console = new CliConsole(new DiFactoryDefault());
-
-        // Register a module as a non-array value
-        $console->registerModules(['backend' => 'not-an-array']);
-
-        $console->handle(['module' => 'backend']);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2024-01-01
-     */
-    public function testCliConsoleHandleAfterStartModuleReturnsFalse(): void
-    {
-        $console       = new CliConsole(new DiFactoryDefault());
-        $eventsManager = $console->eventsManager;
-
-        $console->registerModules(
-            [
-                'backend' => [
-                    'className' => BackendModule::class,
-                    'path'      => supportDir('Modules/Backend/Module.php'),
-                ],
-            ]
-        );
-
-        $eventsManager->attach(
-            'console:afterStartModule',
-            function () {
-                return false;
-            }
-        );
-
-        $actual = $console->handle(['module' => 'backend']);
-        $this->assertFalse($actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2024-01-01
-     */
-    public function testCliConsoleHandleBeforeHandleTaskReturnsFalse(): void
-    {
-        $console       = new CliConsole(new DiFactoryDefault());
-        $eventsManager = $console->eventsManager;
-
-        $eventsManager->attach(
-            'console:beforeHandleTask',
-            function () {
-                return false;
-            }
-        );
-
-        $actual = $console->handle([]);
-        $this->assertFalse($actual);
-    }
-
-    /**
-     * @issue https://github.com/phalcon/cphalcon/issues/17013
-     */
-    public function testCliConsoleHandlePropagatesDefaultModuleToDispatcher(): void
-    {
-        $console = new CliConsole(new DiFactoryDefault());
-
-        $console->registerModules(
-            [
-                'backend' => [
-                    'className' => BackendModule::class,
-                    'path'      => supportDir('Modules/Backend/Module.php'),
-                ],
-            ]
-        );
-
-        $console->setDefaultModule('backend');
-
-        $dispatcher = $console->dispatcher;
-        $dispatcher->setNamespaceName('Phalcon\Tests\Support\Modules\Backend\Tasks');
-
-        $console->handle(
-            [
-                'action' => 'noop',
-            ]
-        );
-
-        $this->assertSame('backend', $dispatcher->getModuleName());
     }
 }

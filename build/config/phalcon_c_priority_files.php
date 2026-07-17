@@ -38,6 +38,7 @@ return [
     'kernel/iterator.h',
     'kernel/time.h',
     'kernel/exit.h',
+    'kernel/generator.h',
     'kernel/main.c',
     'kernel/memory.c',
     'kernel/exception.c',
@@ -60,4 +61,5 @@ return [
     'kernel/iterator.c',
     'kernel/time.c',
     'kernel/exit.c',
+    'kernel/generator.c',
 ];

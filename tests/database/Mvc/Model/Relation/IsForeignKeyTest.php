@@ -15,7 +15,11 @@ namespace Phalcon\Tests\Database\Mvc\Model\Relation;
 
 use Phalcon\Mvc\Model\Relation;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
+#[Group('mysql')]
+#[Group('pgsql')]
+#[Group('sqlite')]
 final class IsForeignKeyTest extends AbstractDatabaseTestCase
 {
     /**
@@ -30,23 +34,6 @@ final class IsForeignKeyTest extends AbstractDatabaseTestCase
             'id',
             'robots_id',
             []
-        );
-
-        $this->assertFalse($relation->isForeignKey());
-    }
-
-    /**
-     * @author Sid Roberts <https://github.com/SidRoberts>
-     * @since  2019-04-18
-     */
-    public function testMvcModelRelationIsForeignKeyFalseWhenExplicitlyFalse(): void
-    {
-        $relation = new Relation(
-            Relation::HAS_MANY,
-            'RobotsParts',
-            'id',
-            'robots_id',
-            ['foreignKey' => false]
         );
 
         $this->assertFalse($relation->isForeignKey());
@@ -73,17 +60,17 @@ final class IsForeignKeyTest extends AbstractDatabaseTestCase
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-04-18
      */
-    public function testMvcModelRelationIsForeignKeyTrueWhenTrue(): void
+    public function testMvcModelRelationIsForeignKeyFalseWhenExplicitlyFalse(): void
     {
         $relation = new Relation(
             Relation::HAS_MANY,
             'RobotsParts',
             'id',
             'robots_id',
-            ['foreignKey' => true]
+            ['foreignKey' => false]
         );
 
-        $this->assertTrue($relation->isForeignKey());
+        $this->assertFalse($relation->isForeignKey());
     }
 
     /**
@@ -102,6 +89,23 @@ final class IsForeignKeyTest extends AbstractDatabaseTestCase
                     'message' => 'The part_id does not exist on the Parts model',
                 ],
             ]
+        );
+
+        $this->assertTrue($relation->isForeignKey());
+    }
+
+    /**
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-04-18
+     */
+    public function testMvcModelRelationIsForeignKeyTrueWhenTrue(): void
+    {
+        $relation = new Relation(
+            Relation::HAS_MANY,
+            'RobotsParts',
+            'id',
+            'robots_id',
+            ['foreignKey' => true]
         );
 
         $this->assertTrue($relation->isForeignKey());

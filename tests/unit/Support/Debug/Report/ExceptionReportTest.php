@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Support\Debug\Report;
 
 use Phalcon\Support\Debug\Report\BacktraceItem;
 use Phalcon\Support\Debug\Report\ExceptionReport;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class ExceptionReportTest extends AbstractUnitTestCase
 {

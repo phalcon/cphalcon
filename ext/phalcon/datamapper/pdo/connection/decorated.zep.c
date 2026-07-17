@@ -64,6 +64,11 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_Decorated, __construct)
 	ZVAL_UNDEF(&pdo_sub);
 	ZVAL_UNDEF(&profiler_sub);
 	ZVAL_NULL(&__$null);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("pdo", 3, 1);
+	}
+
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_OBJECT_OF_CLASS(pdo, php_pdo_get_dbh_ce())
@@ -79,11 +84,11 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_Decorated, __construct)
 	} else {
 		ZEPHIR_SEPARATE_PARAM(profiler);
 	}
-	zephir_update_property_zval(this_ptr, ZEND_STRL("pdo"), pdo);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 512, pdo);
 	if (Z_TYPE_P(profiler) == IS_NULL) {
 		ZEPHIR_INIT_NVAR(profiler);
 		object_init_ex(profiler, phalcon_datamapper_pdo_profiler_profiler_ce);
-		ZEPHIR_CALL_METHOD(NULL, profiler, "__construct", NULL, 426);
+		ZEPHIR_CALL_METHOD(NULL, profiler, "__construct", NULL, 445);
 		zephir_check_call_status();
 	}
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setprofiler", NULL, 0, profiler);

@@ -14,11 +14,10 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Image\Adapter\Gd;
 
 use Phalcon\Image\Adapter\Gd;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\Unit\Image\Fake\GdTrait;
 use PHPUnit\Framework\Attributes\DataProvider;
-
-use function supportDir;
 
 final class GetMimeTest extends AbstractUnitTestCase
 {
@@ -31,27 +30,27 @@ final class GetMimeTest extends AbstractUnitTestCase
     {
         return [
             [
-                supportDir('assets/images/example-gif.gif'),
+                Talon::settings()->supportPath('assets/images/example-gif.gif'),
                 'image/gif',
             ],
             [
-                supportDir('assets/images/example-jpg.jpg'),
+                Talon::settings()->supportPath('assets/images/example-jpg.jpg'),
                 'image/jpeg',
             ],
             [
-                supportDir('assets/images/example-png.png'),
+                Talon::settings()->supportPath('assets/images/example-png.png'),
                 'image/png',
             ],
             [
-                supportDir('assets/images/example-wbmp.wbmp'),
+                Talon::settings()->supportPath('assets/images/example-wbmp.wbmp'),
                 'image/vnd.wap.wbmp',
             ],
             [
-                supportDir('assets/images/example-webp.webp'),
+                Talon::settings()->supportPath('assets/images/example-webp.webp'),
                 'image/webp',
             ],
             [
-                supportDir('assets/images/example-xbm.xbm'),
+                Talon::settings()->supportPath('assets/images/example-xbm.xbm'),
                 'image/xbm',
             ],
         ];

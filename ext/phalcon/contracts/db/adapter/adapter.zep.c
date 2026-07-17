@@ -161,16 +161,16 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Adapter_Adapter, fetchAll);
  * Returns the n'th field of first row in a SQL query result
  *
  *```php
- * // Getting count of robots
- * $robotsCount = $connection->fetchColumn("SELECT COUNT(*) FROM robots");
- * print_r($robotsCount);
+ * // Getting count of invoices
+ * $invoicesCount = $connection->fetchColumn("SELECT COUNT(*) FROM co_invoices");
+ * print_r($invoicesCount);
  *
- * // Getting name of last edited robot
- * $robot = $connection->fetchColumn(
- *     "SELECT id, name FROM robots ORDER BY modified DESC",
+ * // Getting the title of the last created invoice
+ * $invoice = $connection->fetchColumn(
+ *     "SELECT inv_id, inv_title FROM co_invoices ORDER BY inv_created_at DESC",
  *     1
  * );
- * print_r($robot);
+ * print_r($invoice);
  *```
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Adapter_Adapter, fetchColumn);
@@ -217,16 +217,16 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Adapter_Adapter, getDefaultIdValue);
  * in the table definition
  *
  *```php
- * // Inserting a new robot with a valid default value for the column 'year'
+ * // Inserting a new invoice with a valid default value for the column 'inv_total'
  * $success = $connection->insert(
- *     "robots",
+ *     "co_invoices",
  *     [
- *         "Astro Boy",
+ *         "Test Invoice",
  *         $connection->getDefaultValue()
  *     ],
  *     [
- *         "name",
- *         "year",
+ *         "inv_title",
+ *         "inv_total",
  *     ]
  * );
  *```
@@ -270,17 +270,17 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Adapter_Adapter, insert);
  * Inserts data into a table using custom RBDM SQL syntax
  *
  * ```php
- * // Inserting a new robot
+ * // Inserting a new invoice
  * $success = $connection->insertAsDict(
- *     "robots",
+ *     "co_invoices",
  *     [
- *         "name" => "Astro Boy",
- *         "year" => 1952,
+ *         "inv_title" => "Test Invoice",
+ *         "inv_total" => 100,
  *     ]
  * );
  *
  * // Next SQL sentence is sent to the database system
- * INSERT INTO `robots` (`name`, `year`) VALUES ("Astro boy", 1952);
+ * INSERT INTO `co_invoices` (`inv_title`, `inv_total`) VALUES ("Test Invoice", 100);
  * ```
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Adapter_Adapter, insertAsDict);
@@ -366,17 +366,17 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Adapter_Adapter, update);
  * Another, more convenient syntax
  *
  * ```php
- * // Updating existing robot
+ * // Updating existing invoice
  * $success = $connection->updateAsDict(
- *     "robots",
+ *     "co_invoices",
  *     [
- *         "name" => "New Astro Boy",
+ *         "inv_title" => "New Test Invoice",
  *     ],
- *     "id = 101"
+ *     "inv_id = 101"
  * );
  *
  * // Next SQL sentence is sent to the database system
- * UPDATE `robots` SET `name` = "Astro boy" WHERE id = 101
+ * UPDATE `co_invoices` SET `inv_title` = "New Test Invoice" WHERE inv_id = 101
  * ```
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Adapter_Adapter, updateAsDict);

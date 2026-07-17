@@ -28,6 +28,16 @@ abstract class AbstractValidator implements ValidatorInterface
     protected template = null;
 
     /**
+     * Whether the template/message has been explicitly assigned on the
+     * instance (constructor `message`/`template` option or setTemplate()).
+     * While false, `template` still holds the validator's class default and a
+     * global default registered via Validation::setDefaultMessages() applies.
+     *
+     * @var bool
+     */
+    protected templateChanged = false;
+
+    /**
      * Message templates
      *
      * @var array
@@ -97,12 +107,26 @@ abstract class AbstractValidator implements ValidatorInterface
      */
     public function getTemplate(string field = null) -> string
     {
+        var defaultMessage;
+
         // there is a template in field
         if field !== null && isset this->templates[field] {
             return this->templates[field];
         }
 
-        // there is a custom template
+        // an explicitly assigned template/message wins over a global default
+        if this->templateChanged && this->template {
+            return this->template;
+        }
+
+        // a global default message registered for this validator class
+        let defaultMessage = Validation::getDefaultMessage(get_class(this));
+
+        if defaultMessage !== "" {
+            return defaultMessage;
+        }
+
+        // custom or class default template
         if this->template {
             return this->template;
         }
@@ -211,7 +235,8 @@ abstract class AbstractValidator implements ValidatorInterface
      */
     public function setTemplate(string template) -> <ValidatorInterface>
     {
-        let this->template = template;
+        let this->template = template,
+            this->templateChanged = true;
 
         return this;
     }

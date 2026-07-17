@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Html\Link\LinkProvider;
 
 use Phalcon\Html\Link\Link;
 use Phalcon\Html\Link\LinkProvider;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 use function spl_object_hash;
 

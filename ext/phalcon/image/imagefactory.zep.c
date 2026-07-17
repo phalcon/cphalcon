@@ -14,11 +14,9 @@
 #include "kernel/main.h"
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
-#include "ext/spl/spl_exceptions.h"
-#include "kernel/exception.h"
+#include "kernel/operators.h"
 #include "kernel/object.h"
 #include "kernel/array.h"
-#include "kernel/operators.h"
 
 
 /**
@@ -62,7 +60,7 @@ PHP_METHOD(Phalcon_Image_ImageFactory, __construct)
 		ZEPHIR_INIT_VAR(&services);
 		array_init(&services);
 	} else {
-	ZEPHIR_OBS_COPY_OR_DUP(&services, services_param);
+		zephir_get_arrval(&services, services_param);
 	}
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "init", NULL, 0, &services);
 	zephir_check_call_status();
@@ -115,7 +113,7 @@ PHP_METHOD(Phalcon_Image_ImageFactory, load)
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(config, &_0);
 	zephir_memory_observe(&name);
-	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Image/ImageFactory.zep", 48);
+	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Image/ImageFactory.zep", 51);
 	zephir_array_unset_string(config, SL("adapter"), PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "file");
@@ -221,38 +219,63 @@ PHP_METHOD(Phalcon_Image_ImageFactory, getServices)
 }
 
 /**
- * @todo Remove this when we get traits
+ * @param array       $collection
+ * @param mixed       $index
+ * @param mixed|null  $defaultValue
+ * @param string|null $cast
+ *
+ * @return mixed|null
  */
 PHP_METHOD(Phalcon_Image_ImageFactory, getArrVal)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval *collection_param = NULL, *index, index_sub, *defaultValue = NULL, defaultValue_sub, __$null, value;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zend_string *cast = NULL;
+	zval *collection_param = NULL, *index, index_sub, *defaultValue = NULL, defaultValue_sub, cast_zv, __$null, value;
 	zval collection;
 
 	ZVAL_UNDEF(&collection);
 	ZVAL_UNDEF(&index_sub);
 	ZVAL_UNDEF(&defaultValue_sub);
+	ZVAL_UNDEF(&cast_zv);
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&value);
 	bool is_null_true = 1;
-	ZEND_PARSE_PARAMETERS_START(2, 3)
+	ZEND_PARSE_PARAMETERS_START(2, 4)
 		ZEPHIR_Z_PARAM_ARRAY(collection, collection_param)
 		Z_PARAM_ZVAL(index)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ZVAL_OR_NULL(defaultValue)
+		Z_PARAM_STR_OR_NULL(cast)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_fetch_params(1, 2, 1, &collection_param, &index, &defaultValue);
-	ZEPHIR_OBS_COPY_OR_DUP(&collection, collection_param);
+	collection_param = ZEND_CALL_ARG(execute_data, 1);
+	index = ZEND_CALL_ARG(execute_data, 2);
+	if (ZEND_NUM_ARGS() > 2) {
+		defaultValue = ZEND_CALL_ARG(execute_data, 3);
+	}
+	zephir_get_arrval(&collection, collection_param);
 	if (!defaultValue) {
 		defaultValue = &defaultValue_sub;
 		defaultValue = &__$null;
 	}
-	zephir_memory_observe(&value);
-	if (UNEXPECTED(!(zephir_array_isset_fetch(&value, &collection, index, 0)))) {
-		RETVAL_ZVAL(defaultValue, 1, 0);
-		RETURN_MM();
+	if (!cast) {
+		ZEPHIR_INIT_VAR(&cast_zv);
+	} else {
+		zephir_memory_observe(&cast_zv);
+	ZVAL_STR_COPY(&cast_zv, cast);
+	}
+	ZEPHIR_CPY_WRT(&value, defaultValue);
+	if (1 == zephir_array_isset_value(&collection, index)) {
+		ZEPHIR_OBS_NVAR(&value);
+		zephir_array_fetch(&value, &collection, index, PH_NOISY, "phalcon/Traits/Support/Helper/Arr/GetTrait.zep", 38);
+	}
+	if (!(ZEPHIR_IS_EMPTY(&cast_zv))) {
+		ZEPHIR_MAKE_REF(&value);
+		ZEPHIR_CALL_FUNCTION(NULL, "settype", NULL, 16, &value, &cast_zv);
+		ZEPHIR_UNREF(&value);
+		zephir_check_call_status();
 	}
 	RETURN_CCTOR(&value);
 }

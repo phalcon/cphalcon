@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Encryption\Crypt\Padding;
 
 use Phalcon\Encryption\Crypt\Padding\Ansi;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 use function chr;
 use function str_repeat;

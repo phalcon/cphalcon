@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Config\Adapter\Ini;
 
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Traits\ConfigTrait;
 
 final class ToArrayTest extends AbstractUnitTestCase

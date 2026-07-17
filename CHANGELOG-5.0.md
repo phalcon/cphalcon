@@ -1,6 +1,86 @@
 # Changelog
 
-## [5.16.0](https://github.com/phalcon/cphalcon/releases/tag/v5.15.1) (2026-06-22)
+All notable changes to `phalcon/debugbar` are documented here. The format is based on [Keep a Changelog][keep_a_changelog] and this project adheres to [Semantic Versioning][semantic_versioning].
+
+## [5.17.0](https://github.com/phalcon/cphalcon/releases/tag/v5.17.0) (2026-07-17)
+
+### Tools
+
+- Zephir 1.1.0 (80d17e6a0)
+ 
+### Changed
+
+- Changed `Phalcon\Acl\Adapter\Memory` so a freshly constructed adapter returns an empty array instead of `null` from `getRoles()`, `getComponents()` and `getInheritedRoles()`. [#17220](https://github.com/phalcon/cphalcon/issues/17220) [[doc]](https://docs.phalcon.io/5.17/acl/)
+- Changed the `Phalcon\Auth` array adapters (`Memory`, `Stream`) to compare non-password credential fields against configured row values as strings, so string input from a request (e.g. `'1'`) matches a typed row value (e.g. `1` or `true`) instead of failing a strict type comparison. [#17220](https://github.com/phalcon/cphalcon/issues/17220) [[doc]](https://docs.phalcon.io/5.17/auth/)
+- Changed the `Phalcon\Auth` layer to throw granular `Phalcon\Auth\Exceptions\*` subclasses instead of the base `Phalcon\Auth\Exception`: `AccessNotRegistered`, `ActiveAccessRequired`, `DefaultGuardNotRegistered` and `GuardNotDefined` (`Phalcon\Auth\Manager`), `UnknownAdapter` and `UnknownGuard` (`Phalcon\Auth\ManagerFactory`), `OptionRequiresArray` and `OptionRequiresString` (`fromOptions()` option parsing), `SessionNamesMustDiffer` (`Phalcon\Auth\Guard\Config\SessionGuardConfig`), and `MissingHandlerContext` (`Phalcon\Auth\Access\Acl`). Each extends `Phalcon\Auth\Exception`, so existing `catch` blocks keep working. [#17220](https://github.com/phalcon/cphalcon/issues/17220) [[doc]](https://docs.phalcon.io/5.17/auth/)
+- Deprecated `Phalcon\Acl\Adapter\Memory::getActiveKey()` (use `getActiveRole()`, `getActiveComponent()` and `getActiveAccess()`) and the legacy ACL interfaces `Phalcon\Acl\Adapter\AdapterInterface`, `Phalcon\Acl\RoleInterface`, `Phalcon\Acl\ComponentInterface`, `Phalcon\Acl\RoleAwareInterface` and `Phalcon\Acl\ComponentAwareInterface` in favour of their `Phalcon\Contracts\Acl\...` equivalents. [#17220](https://github.com/phalcon/cphalcon/issues/17220) [[doc]](https://docs.phalcon.io/5.17/acl/)
+- Note: `Phalcon\Auth\ManagerFactory` validates the required guard configuration up front and throws a `Phalcon\Auth\Exception` subclass on a missing key, where earlier versions emitted a PHP notice followed by a `TypeError`; handlers that caught `TypeError` there should catch `Phalcon\Auth\Exception` instead. [#17220](https://github.com/phalcon/cphalcon/issues/17220) [[doc]](https://docs.phalcon.io/5.17/auth/)
+- Refactored the read path of model hydration by extracting `Phalcon\Mvc\Model::cloneResultMapHydrate()` into the dedicated `Phalcon\Mvc\Model\Hydration\CloneResultMapHydrate` class and the case-insensitive column-map lookup into `Phalcon\Mvc\Model\Hydration\CaseInsensitiveColumnMap`. [#17228](https://github.com/phalcon/cphalcon/issues/17228) [[doc]](https://docs.phalcon.io/5.17/db-models/)
+- `Phalcon\Support\Helper\Str\Concat::__invoke()` was reimplemented as a typed variadic `(string $delimiter, string ...$many)` - previously it declared no parameters and read them through `func_get_args()` - with unchanged behavior. [#17273](https://github.com/phalcon/cphalcon/issues/17273) [[doc]](https://docs.phalcon.io/5.17/traits)
+
+### Added
+
+- Added `@Connect`, `@Head`, `@Purge` and `@Trace` method annotations to `Phalcon\Mvc\Router\Annotations`, matching the existing `@Get`, `@Post`, `@Put`, `@Patch`, `@Delete` and `@Options` shortcuts. [[doc]](https://docs.phalcon.io/5.17/routing/)
+- Added `Phalcon\Acl\Adapter\Storage`, a storage-backed ACL adapter that persists the entire policy as a versioned, serializer-agnostic snapshot to any `Phalcon\Storage` backend (Redis, Apcu, Stream, Memcached) and reloads it on construction, defined by the new `Phalcon\Contracts\Acl\Adapter\Persistable` contract (`save()`/`load()`). Callable (closure) rules are not serializable, so they are persisted as `DENY` (fail closed) and must be re-registered after `load()`; `load()` returns `false` for a snapshot without a version marker and throws `Phalcon\Acl\Exceptions\InvalidSnapshot` on an incompatible version or a malformed structure. Single-writer contract: `save()` writes the whole snapshot (last-write-wins; use external locking for concurrent writers). [#17220](https://github.com/phalcon/cphalcon/issues/17220) [[doc]](https://docs.phalcon.io/5.17/acl/)
+- Added `Phalcon\Acl\Exceptions\InvalidSnapshot`, thrown by `Phalcon\Acl\Adapter\Storage::load()` on an incompatible or malformed policy snapshot. [#17220](https://github.com/phalcon/cphalcon/issues/17220) [[doc]](https://docs.phalcon.io/5.17/acl/)
+- Added `Phalcon\Encryption\Security\JWT\Validator::validateSubject()`, which compares the token's `sub` claim against the expected subject and reports `Validation: incorrect subject` on a mismatch. A `null` subject expresses no expectation and is skipped. [#17361](https://github.com/phalcon/cphalcon/issues/17361) [[doc]](https://docs.phalcon.io/5.17/encryption-security-jwt/)
+- Added `Phalcon\Filter\Validation::setDefaultMessages()` and `Phalcon\Filter\Validation::getDefaultMessage()` for registering global default validator failure messages keyed by validator class name (e.g. `Validation::setDefaultMessages([PresenceOf::class => 'Default message :field is required'])`). A registered default overrides a validator's built-in class default message, while a message set on the validator instance (the constructor `message`/`template` option or `setTemplate()`) still takes precedence; it applies to validators whose message is produced through `getTemplate()`/`messageFactory()`. [#17257](https://github.com/phalcon/cphalcon/issues/17257) [[doc]](https://docs.phalcon.io/5.17/filter-validation/)
+- Added `Phalcon\Filter\Validation\Validator\Files`, a validator for an array of uploaded files (`<input name="files[]" type="file" multiple>`). It accepts the same options as `Phalcon\Filter\Validation\Validator\File`, normalizes a single-file or transposed multi-file `$_FILES` node into individual files, and validates each by delegating to `File`, failing on the first file that violates a rule. [#17259](https://github.com/phalcon/cphalcon/issues/17259) [[doc]](https://docs.phalcon.io/5.17/filter-validation/)
+- Added `Phalcon\Mvc\Model\Query::setResultsetRowClass()` and `Phalcon\Mvc\Model\Query::getResultsetRowClass()` to control the class used to hydrate rows that are not mapped to a model (custom-column `SELECT`s and joins). When set, those result rows are built as the given subclass of `Phalcon\Mvc\Model\Row` instead of `Row` itself - on both the simple (custom columns) and complex (join) resultset paths - so they can carry reusable helper methods. The class is validated when set (it must exist and be a subclass of `Phalcon\Mvc\Model\Row`), throwing the new `Phalcon\Mvc\Model\Query\Exceptions\ResultsetRowClassNotFound` or `Phalcon\Mvc\Model\Query\Exceptions\InvalidResultsetRowClass`. [#17337](https://github.com/phalcon/cphalcon/issues/17337) [[doc]](https://docs.phalcon.io/5.17/db-models/)
+- Added `Phalcon\Mvc\Model\Query\Builder::setResultsetRowClass()` and `Phalcon\Mvc\Model\Query\Builder::getResultsetRowClass()` so the custom resultset row class can be set on a query builder, which forwards it to the `Phalcon\Mvc\Model\Query` it produces in `getQuery()`. Because `Phalcon\Paginator\Adapter\QueryBuilder` builds its query through the builder, `paginate()` now returns the given `Phalcon\Mvc\Model\Row` subclass for its non-model result rows. [#17337](https://github.com/phalcon/cphalcon/issues/17337) [[doc]](https://docs.phalcon.io/5.17/db-models/)
+- Added a set of reusable traits under the `Phalcon\Traits` namespace that framework classes compose instead of carrying duplicated logic. The public traits:
+    - `Phalcon\Traits\Support\Helper\Arr\GetTrait` - read an array element by key with a default value and an optional cast.
+    - `Phalcon\Traits\Support\Helper\Arr\FilterTrait` - filter a collection with `array_filter()` and an optional callable.
+    - `Phalcon\Traits\Support\Helper\Str\DirFromFileTrait` - build a nested directory path from a file name, with an optional path-safety flag.
+    - `Phalcon\Traits\Support\Helper\Str\DirSeparatorTrait` - ensure a directory string ends with exactly one `DIRECTORY_SEPARATOR`.
+    - `Phalcon\Traits\Support\Helper\Str\EndsWithTrait` / `StartsWithTrait` - case-insensitive, multibyte-aware suffix/prefix checks.
+    - `Phalcon\Traits\Support\Helper\Str\InterpolateTrait` - PSR-3 `%placeholder%` message interpolation.
+    - `Phalcon\Traits\Support\Helper\Str\CamelizeTrait` / `UncamelizeTrait` - convert between `CamelCase` and delimited strings.
+    - `Phalcon\Traits\Support\Helper\Str\LowerTrait` / `UpperTrait` - multibyte-safe lower/upper casing.
+    - `Phalcon\Traits\Support\Helper\Json\EncodeTrait` / `DecodeTrait` - `json_encode()`/`json_decode()` wrappers that throw the native `\JsonException`.
+    - `Phalcon\Traits\Php\ApcuTrait` - wrappers for `apcu_*` methods.
+    - `Phalcon\Traits\Php\Base64Trait` - wrappers for `base64_*` methods.
+    - `Phalcon\Traits\Php\FileTrait` - wrappers for `file_*` methods.
+    - `Phalcon\Traits\Php\HashTrait` - wrappers for `hash_*` methods.
+    - `Phalcon\Traits\Php\HeaderTrait` - wrapper for `headers_sent`.
+    - `Phalcon\Traits\Php\IgbinaryTrait` - wrappers for `igbinary_*` methods.
+    - `Phalcon\Traits\Php\InfoTrait` - wrappers for `extension_loaded` and `function_exists.
+    - `Phalcon\Traits\Php\IniTrait` - wrappers for `ini_*` methods.
+    - `Phalcon\Traits\Php\MbCaseTrait` - wrappers for `mb_case_*` methods.
+    - `Phalcon\Traits\Php\MsgpackTrait` - wrappers for `msgpack_*` methods.
+    - `Phalcon\Traits\Php\OpensslTrait` - wrappers for `openssl_*` methods.
+    - `Phalcon\Traits\Php\SerializeTrait` - wrappers for `serialize` and `unserialize`.
+    - `Phalcon\Traits\Php\UrlTrait` - wrappers for `parse_url`, `rawurldecode` and `rawurlencode`.
+    - `Phalcon\Traits\Php\YamlTrait` - - wrappers for `yaml_*` methods. These calls can be substituted in tests. [#17273](https://github.com/phalcon/cphalcon/issues/17273) [[doc]](https://docs.phalcon.io/5.17/traits)
+- Added an opt-in "sticky" read/write connection mode to `Phalcon\Mvc\Model\Manager`. After `Phalcon\Mvc\Model\Manager::setSticky(true)`, once a model has written to its write connection during the current request cycle, any further reads for that write service are served from the write connection, so data written earlier in the request can be read back immediately. Writes are recorded via the new `Phalcon\Mvc\Model\Manager::registerWrite()` (called internally on a successful insert/update/delete), and `Phalcon\Mvc\Model\Manager::resetConnectionState()` clears the per-request tracking for long-running runtimes (e.g. Swoole, RoadRunner) that reuse the manager across requests. Sticky is off by default, preserving the existing read/write split; the transaction connection still takes precedence. The three methods are added to `Phalcon\Mvc\Model\ManagerInterface`. [#17256](https://github.com/phalcon/cphalcon/issues/17256) [[doc]](https://docs.phalcon.io/5.17/db-models/)
+- Added an opt-in `allowWildcards` option to `Phalcon\Filter\Validation\Validator\File\MimeType` (and passed through from `Phalcon\Filter\Validation\Validator\File` via the same key) that, when `true`, matches each configured type against the detected MIME type as an anchored regular expression (e.g. `image/.*`, `video/.*`) in addition to an exact string match; it defaults to `false`, preserving the existing exact-match behavior. [#17254](https://github.com/phalcon/cphalcon/issues/17254) [[doc]](https://docs.phalcon.io/5.17/filter-validation/)
+- Added closure binding to `Phalcon\Filter\Validation\Validator\Callback`: a `Closure` passed as the `callback` option is now bound to the validator instance (`$this`) before it is invoked, so the callback can call the validator's own public methods - for example `$this->setTemplate('...')` to set a per-failure message from inside the callback. Non-closure callables (function-name strings, `[object, method]` arrays) are left unbound, and the callback's return contract is unchanged (`bool`, or a `Phalcon\Filter\Validation\ValidatorInterface` to delegate). [#17255](https://github.com/phalcon/cphalcon/issues/17255) [[doc]](https://docs.phalcon.io/5.17/filter-validation/)
+- Added support for absolute and current-template-relative paths in the Volt `{% extends %}` and `{% include %}` tags (`Phalcon\Mvc\View\Engine\Volt\Compiler`): an absolute path (Unix `/...`, or a Windows drive/UNC path) is now used as-is, and a path beginning with `./` or `../` is resolved against the directory of the template currently being compiled instead of the views directory; every other path keeps the existing views-directory-relative resolution. [#17269](https://github.com/phalcon/cphalcon/issues/17269) [[doc]](https://docs.phalcon.io/5.17/volt/)
+- Added the `Phalcon\Contracts\Acl` contracts - `Phalcon\Contracts\Acl\Adapter\Adapter`, `Phalcon\Contracts\Acl\Adapter\Persistable`, `Phalcon\Contracts\Acl\Role`, `Phalcon\Contracts\Acl\Component`, `Phalcon\Contracts\Acl\RoleAware` and `Phalcon\Contracts\Acl\ComponentAware` - as the canonical homes for the ACL interfaces; the legacy `Phalcon\Acl\...\*Interface` types remain as deprecated bridges that extend them. [#17220](https://github.com/phalcon/cphalcon/issues/17220) [[doc]](https://docs.phalcon.io/5.17/acl/)
+- Added the `Phalcon\Contracts\Queue\Inspectable` contract (`getStats(Queue $queue): array`), implemented by `Phalcon\Queue\Adapter\Beanstalk\BeanstalkContext`, exposing the Beanstalkd `stats-tube` fields (`current-jobs-ready`, `current-jobs-reserved`, `current-jobs-delayed`, `current-jobs-buried`, `current-jobs-urgent`, `total-jobs`, the `cmd-*` counters, ...) for queue backlog/depth monitoring. The returned array is adapter-native; the `current-jobs-*` keys are always present (zero for an unknown tube) and the read runs on its own short-lived connection. Backed by a new `Phalcon\Queue\Adapter\Beanstalk\BeanstalkConnection::statsTube()` wire command. [#17209](https://github.com/phalcon/cphalcon/issues/17209) [[doc]](https://docs.phalcon.io/5.17/queue/)
+- Added the granular `Phalcon\Auth\Exceptions\*` exceptions `AccessNotRegistered`, `ActiveAccessRequired`, `DefaultGuardNotRegistered`, `GuardNotDefined`, `MissingHandlerContext`, `OptionRequiresArray`, `OptionRequiresString`, `SessionNamesMustDiffer`, `UnknownAdapter` and `UnknownGuard`. [#17220](https://github.com/phalcon/cphalcon/issues/17220) [[doc]](https://docs.phalcon.io/5.17/auth/)
+
+### Fixed
+
+- Fixed `Phalcon\Auth` login timing leaking account existence: the credential adapters now perform a throwaway password hash on the user-not-found path, so an attempt for an unknown identifier costs the same as one for a real account with a wrong password (mitigates login-timing user enumeration). [#17220](https://github.com/phalcon/cphalcon/issues/17220) [[doc]](https://docs.phalcon.io/5.17/auth/)
+- Fixed `Phalcon\Db\Dialect::getSqlExpression()` throwing `The argument is not initialized or iterable()` while resolving a `case` expression when the expression array is held as a PHP reference, by fetching the `when-clauses` list through `array_values()` before iterating it. [#17225](https://github.com/phalcon/cphalcon/issues/17225) [[doc]](https://docs.phalcon.io/5.17/db-layer/)
+- Fixed `Phalcon\Encryption\Crypt::encrypt()` to properly capture exceptions thrown by `openssl_random_pseudo_bytes`. [#17326](https://github.com/phalcon/cphalcon/issues/17326) [[doc]](https://docs.phalcon.io/5.17/encryption/)
+- Fixed `Phalcon\Encryption\Security\JWT\Token\Token::validate()` throwing `Phalcon\Encryption\Security\JWT\Exceptions\InvalidAudienceType` when handed a freshly constructed `Phalcon\Encryption\Security\JWT\Validator`, which made a default `Validator` impossible to pass to it. [#17361](https://github.com/phalcon/cphalcon/issues/17361) [[doc]](https://docs.phalcon.io/5.17/encryption-security-jwt/)
+- Fixed `Phalcon\Encryption\Security\JWT\Validator::validateIssuedAt()` and `Phalcon\Encryption\Security\JWT\Validator::validateNotBefore()` rejecting a token whose `iat`/`nbf` claim falls on exactly the validated timestamp. [#17361](https://github.com/phalcon/cphalcon/issues/17361) [[doc]](https://docs.phalcon.io/5.17/encryption-security-jwt/)
+- Fixed `Phalcon\Forms\Element\AbstractElement::render()` to cast a non-`null` element value to `string` before passing it to the input helper, so a numeric default set via `setDefault()` (e.g. `setDefault(10)` or `setDefault(10.5)` on a `Phalcon\Forms\Element\Numeric`) renders as `value="10"` instead of raising a `TypeError` for passing an `int`/`float` to the helper's `string` `$value` parameter. [#17232](https://github.com/phalcon/cphalcon/issues/17232) [[doc]](https://docs.phalcon.io/5.17/forms/)
+- Fixed `Phalcon\Http\Response::getStatusCode()` and `Phalcon\Http\Response::getReasonPhrase()` raising a `TypeError` (`substr(): Argument #1 ($string) must be of type string, bool given`) when no `Status` header had been set (e.g. a response built with only `setContent()`), because `Phalcon\Http\Response\Headers::get('Status')` returns `false` for an absent header; the header value is now cast to string before `substr()`, so both methods return `null` as documented. [#17248](https://github.com/phalcon/cphalcon/issues/17248) [[doc]](https://docs.phalcon.io/5.17/http-response/)
+- Fixed `Phalcon\Image\Adapter\AbstractAdapter::resize()` truncating the scaled master-mode (`Enum::WIDTH`, `Enum::HEIGHT`, `Enum::PRECISE`) dimension to an `int` before rounding, so a value whose fractional part was `>= 0.5` came out one pixel short (e.g. a `1820x694` source resized to height `80` produced width `209` instead of `210`); the scaled width/height are now rounded before the integer cast. [#17225](https://github.com/phalcon/cphalcon/issues/17225) [[doc]](https://docs.phalcon.io/5.17/image/)
+- Fixed `Phalcon\Mvc\Model::cloneResult()` and `Phalcon\Mvc\Model::cloneResultMap()` calling a model setter (or throwing `Phalcon\Mvc\Model\Exceptions\PropertyNotAccessible` when no setter exists) while hydrating a declared `private` property, because the property write from `Model` scope fell back to `__set()` and its `possibleSetter()` routing regardless of the `orm.call_setters_on_hydration` setting. [#16454](https://github.com/phalcon/cphalcon/issues/16454) [[doc]](https://docs.phalcon.io/5.17/db-models/)
+- Fixed `Phalcon\Mvc\Model::create()` and `Phalcon\Mvc\Model::update()` passing `null` to the `field` argument of `Phalcon\Messages\Message` (typed `string` since v5.14), which raised a `Passing null to parameter #2 ($field) of type string is deprecated` warning when calling `create()` on an existing record or `update()` on a non-existent one; they now pass an empty string. [#17224](https://github.com/phalcon/cphalcon/issues/17224) [[doc]](https://docs.phalcon.io/5.17/db-models/)
+- Fixed `Phalcon\Mvc\Model\Query::executeUpdate()` raising a PDO `Invalid parameter number: mixed named and positional parameters` error for a PHQL `UPDATE` whose `SET` clause is an expression carrying a bound placeholder (e.g. `SET col = col + :inc:`): the named placeholder is now resolved from the bind parameters and inlined into the expression before the `Phalcon\Db\RawValue` is built, so it no longer collides with the positional `?` marker of the primary-key `WHERE` clause, and the placeholder is removed from the bind parameters forwarded to the pre-update `SELECT`. [#16976](https://github.com/phalcon/cphalcon/issues/16976) [[doc]](https://docs.phalcon.io/5.17/db-models/)
+- Fixed a segmentation fault when rendering a Volt template that `extends` a parent chain but defines no blocks of its own, where a block declared higher in the chain calls `{{ partial() }}`: `Phalcon\Mvc\View\Engine\Volt\Compiler::compileSource()` passed a `null` `blocks` value to `array_key_exists()`, which read it as an array from an uninitialized pointer; `blocks` is now coerced to an empty array so any inheritance depth is handled. [#17294](https://github.com/phalcon/cphalcon/issues/17294) [[doc]](https://docs.phalcon.io/5.17/volt/)
+- Fixed the PHP 8.4/8.5 deprecation notices raised by the extension: removed the `imagedestroy()` calls in `Phalcon\Image\Adapter\Gd` (a no-op since PHP 8.0), the `finfo_close()` calls in `Phalcon\Http\Request\File` and `Phalcon\Filter\Validation\Validator\File\MimeType` and the `ReflectionProperty::setAccessible()` call in `Phalcon\Support\Debug\Dump` (no-ops since PHP 8.1), clamped the random pad byte in `Phalcon\Encryption\Crypt\Padding\Iso10126` to `chr(rand() % 256)` to avoid the out-of-range `chr()` deprecation on PHP 8.5, and guarded `Phalcon\Messages\Messages::offsetSet()` against an implicit `null` array offset. [#17253](https://github.com/phalcon/cphalcon/issues/17253) [[doc]](https://docs.phalcon.io/5.17/)
+
+### Removed
+
+- Removed the deprecated `Serializable` interface from `Phalcon\Mvc\Model` and `Phalcon\Mvc\Model\Resultset` (deprecated by PHP 8.1); the `__serialize()` and `__unserialize()` magic methods remain, so model and resultset serialization is unchanged. [#17253](https://github.com/phalcon/cphalcon/issues/17253) [[doc]](https://docs.phalcon.io/5.17/db-models/)
+
+## [5.16.0](https://github.com/phalcon/cphalcon/releases/tag/v5.16.0) (2026-06-22)
 
 ### Tools
 
@@ -9,30 +89,30 @@
 
 ### Changed
 
-- Changed `Phalcon\Support\Debug::getVersion()` to return a compact version badge anchor (`v<version>`) instead of the previous "Phalcon Framework" version block. [#17202](https://github.com/phalcon/cphalcon/issues/17202) [[doc]](https://docs.phalcon.io/5.15/support-debug/)
-- Changed `Phalcon\Support\Debug` and `Phalcon\Support\Debug\Dump` to render from named, overridable template strings (the new `Phalcon\Contracts\Support\Debug\TemplateAware` contract with `getTemplate()`/`setTemplate()`) filled by `strtr`, instead of inline string concatenation. [#17202](https://github.com/phalcon/cphalcon/issues/17202) [[doc]](https://docs.phalcon.io/5.15/support-debug/)
-- Changed `Phalcon\Support\Debug` into a thin coordinator that delegates exception-data collection to the new `Phalcon\Support\Debug\ReportBuilder` and HTML rendering to a `Phalcon\Contracts\Support\Debug\Renderer` (default `Phalcon\Support\Debug\Renderer\HtmlRenderer`), and exposes `getRenderer()`/`setRenderer()` to swap the renderer. [#17202](https://github.com/phalcon/cphalcon/issues/17202) [[doc]](https://docs.phalcon.io/5.15/support-debug/)
-- Changed the `Phalcon\Support\Debug` Memory panel to report both real and peak memory usage. [#17202](https://github.com/phalcon/cphalcon/issues/17202) [[doc]](https://docs.phalcon.io/5.15/support-debug/)
-- Changed the `Phalcon\Support\Debug` exception page to a redesigned, asset-driven layout (masthead with the Phalcon logo, error card, tabbed Request/Server/Included Files/Memory/Variables context, and collapsible backtrace frames); `getCssSources()` and `getJsSources()` now reference a single `debug.css` and `debug.js` instead of the bundled jQuery, jQuery-UI and prettify assets. [#17202](https://github.com/phalcon/cphalcon/issues/17202) [[doc]](https://docs.phalcon.io/5.15/support-debug/)
+- Changed `Phalcon\Support\Debug::getVersion()` to return a compact version badge anchor (`v<version>`) instead of the previous "Phalcon Framework" version block. [#17202](https://github.com/phalcon/cphalcon/issues/17202) [[doc]](https://docs.phalcon.io/5.16/support-debug/)
+- Changed `Phalcon\Support\Debug` and `Phalcon\Support\Debug\Dump` to render from named, overridable template strings (the new `Phalcon\Contracts\Support\Debug\TemplateAware` contract with `getTemplate()`/`setTemplate()`) filled by `strtr`, instead of inline string concatenation. [#17202](https://github.com/phalcon/cphalcon/issues/17202) [[doc]](https://docs.phalcon.io/5.16/support-debug/)
+- Changed `Phalcon\Support\Debug` into a thin coordinator that delegates exception-data collection to the new `Phalcon\Support\Debug\ReportBuilder` and HTML rendering to a `Phalcon\Contracts\Support\Debug\Renderer` (default `Phalcon\Support\Debug\Renderer\HtmlRenderer`), and exposes `getRenderer()`/`setRenderer()` to swap the renderer. [#17202](https://github.com/phalcon/cphalcon/issues/17202) [[doc]](https://docs.phalcon.io/5.16/support-debug/)
+- Changed the `Phalcon\Support\Debug` Memory panel to report both real and peak memory usage. [#17202](https://github.com/phalcon/cphalcon/issues/17202) [[doc]](https://docs.phalcon.io/5.16/support-debug/)
+- Changed the `Phalcon\Support\Debug` exception page to a redesigned, asset-driven layout (masthead with the Phalcon logo, error card, tabbed Request/Server/Included Files/Memory/Variables context, and collapsible backtrace frames); `getCssSources()` and `getJsSources()` now reference a single `debug.css` and `debug.js` instead of the bundled jQuery, jQuery-UI and prettify assets. [#17202](https://github.com/phalcon/cphalcon/issues/17202) [[doc]](https://docs.phalcon.io/5.16/support-debug/)
 
 ### Added
 
-- Added `Phalcon\Support\Debug::getRenderer()` and `Phalcon\Support\Debug::setRenderer()`. [#17202](https://github.com/phalcon/cphalcon/issues/17202) [[doc]](https://docs.phalcon.io/5.15/support-debug/)
-- Added connection-liveness and opt-in auto-reconnect support to `Phalcon\Db\Adapter\Pdo\AbstractPdo`: `ping()` (a `SELECT 1` probe), `ensureConnection()` (reconnect in place when the probe fails), and `setAutoReconnect()`/`getAutoReconnect()` (also settable via the `autoReconnect` descriptor key). When auto-reconnect is enabled and a query fails on a lost ("gone away") connection outside a transaction, `execute()` and `query()` fire the new `db:connectionLost` event, reconnect, and retry the statement once; a loss inside a transaction is re-thrown without retry. "Gone away" detection is provided per driver by `Phalcon\Db\Adapter\Pdo\Mysql` (error codes 2006/2013) and `Phalcon\Db\Adapter\Pdo\Postgresql` (SQLSTATE 08003/08006/57P01-03), with a message fallback. [#17204](https://github.com/phalcon/cphalcon/issues/17204) [[doc]](https://docs.phalcon.io/5.15/db-layer/)
-- Added the Beanstalk queue adapter (`Phalcon\Queue\Adapter\Beanstalk\*`) over a dependency-free socket client, with native delivery delay and priority and a `VisibilityAware` consumer (`touch()`). [#17051](https://github.com/phalcon/cphalcon/issues/17051) [[doc]](https://docs.phalcon.io/5.15/queue/)
-- Added the Memory and Stream queue adapters (`Phalcon\Queue\Adapter\Memory\*`, in-process FIFO; `Phalcon\Queue\Adapter\Stream\*`, file-per-queue with `flock`). [#17051](https://github.com/phalcon/cphalcon/issues/17051) [[doc]](https://docs.phalcon.io/5.15/queue/)
-- Added the Redis queue adapter (`Phalcon\Queue\Adapter\Redis\*`) with list-backed FIFO delivery (`LPUSH`/`BRPOP`), sorted-set delivery delay and native blocking receive. [#17051](https://github.com/phalcon/cphalcon/issues/17051) [[doc]](https://docs.phalcon.io/5.15/queue/)
-- Added the `Phalcon\Contracts\Support\Debug\TemplateAware` and `Phalcon\Contracts\Support\Debug\Renderer` contracts, the `Phalcon\Support\Debug\ReportBuilder` and `Phalcon\Support\Debug\Renderer\HtmlRenderer` classes, and the value objects `Phalcon\Support\Debug\Report\ExceptionReport` and `Phalcon\Support\Debug\Report\BacktraceItem`. [#17202](https://github.com/phalcon/cphalcon/issues/17202) [[doc]](https://docs.phalcon.io/5.15/support-debug/)
-- Added the `Phalcon\Queue\AdapterFactory` and `Phalcon\Queue\QueueFactory` factories, and registered the `queueFactory` service in `Phalcon\Di\FactoryDefault` and `Phalcon\Di\FactoryDefault\Cli`. [#17051](https://github.com/phalcon/cphalcon/issues/17051) [[doc]](https://docs.phalcon.io/5.15/queue/)
-- Added the `Phalcon\Queue` component, a first-class queue/messaging layer modeled on the queue-interop contracts, with the `Phalcon\Contracts\Queue\*` interfaces (`ConnectionFactory`, `Context`, `Destination`, `Queue`, `Topic`, `Producer`, `Consumer`, `SubscriptionConsumer`, `Message`, `Processor`, `VisibilityAware`) and the `Phalcon\Queue\Exceptions\*` hierarchy (`QueueThrowable`, `Exception` and the typed `Invalid*` / `*NotSupportedException` exceptions). [#17051](https://github.com/phalcon/cphalcon/issues/17051) [[doc]](https://docs.phalcon.io/5.15/queue/)
-- Added the queue consumer runner (`Phalcon\Queue\Consumer\QueueConsumer`, `Worker`, `WorkerOptions`, `BoundProcessor`, `Events`) and the CLI consumer task `Phalcon\Queue\Cli\ConsumerTask`. [#17051](https://github.com/phalcon/cphalcon/issues/17051) [[doc]](https://docs.phalcon.io/5.15/queue/)
-- Added the same liveness and opt-in auto-reconnect support to `Phalcon\DataMapper\Pdo\Connection` (`ping()`, `ensureConnection()`, `setAutoReconnect()`/`getAutoReconnect()`), wrapping `exec()`, `perform()`, `prepare()`, and `query()` with the single-retry behavior. This connection has no events manager, so no `db:connectionLost` event is fired; "gone away" detection is driver-agnostic and the in-transaction guard uses a locally tracked transaction level. [#17204](https://github.com/phalcon/cphalcon/issues/17204) [[doc]](https://docs.phalcon.io/5.15/db-layer/)
+- Added `Phalcon\Support\Debug::getRenderer()` and `Phalcon\Support\Debug::setRenderer()`. [#17202](https://github.com/phalcon/cphalcon/issues/17202) [[doc]](https://docs.phalcon.io/5.16/support-debug/)
+- Added connection-liveness and opt-in auto-reconnect support to `Phalcon\Db\Adapter\Pdo\AbstractPdo`: `ping()` (a `SELECT 1` probe), `ensureConnection()` (reconnect in place when the probe fails), and `setAutoReconnect()`/`getAutoReconnect()` (also settable via the `autoReconnect` descriptor key). When auto-reconnect is enabled and a query fails on a lost ("gone away") connection outside a transaction, `execute()` and `query()` fire the new `db:connectionLost` event, reconnect, and retry the statement once; a loss inside a transaction is re-thrown without retry. "Gone away" detection is provided per driver by `Phalcon\Db\Adapter\Pdo\Mysql` (error codes 2006/2013) and `Phalcon\Db\Adapter\Pdo\Postgresql` (SQLSTATE 08003/08006/57P01-03), with a message fallback. [#17204](https://github.com/phalcon/cphalcon/issues/17204) [[doc]](https://docs.phalcon.io/5.16/db-layer/)
+- Added the Beanstalk queue adapter (`Phalcon\Queue\Adapter\Beanstalk\*`) over a dependency-free socket client, with native delivery delay and priority and a `VisibilityAware` consumer (`touch()`). [#17051](https://github.com/phalcon/cphalcon/issues/17051) [[doc]](https://docs.phalcon.io/5.16/queue/)
+- Added the Memory and Stream queue adapters (`Phalcon\Queue\Adapter\Memory\*`, in-process FIFO; `Phalcon\Queue\Adapter\Stream\*`, file-per-queue with `flock`). [#17051](https://github.com/phalcon/cphalcon/issues/17051) [[doc]](https://docs.phalcon.io/5.16/queue/)
+- Added the Redis queue adapter (`Phalcon\Queue\Adapter\Redis\*`) with list-backed FIFO delivery (`LPUSH`/`BRPOP`), sorted-set delivery delay and native blocking receive. [#17051](https://github.com/phalcon/cphalcon/issues/17051) [[doc]](https://docs.phalcon.io/5.16/queue/)
+- Added the `Phalcon\Contracts\Support\Debug\TemplateAware` and `Phalcon\Contracts\Support\Debug\Renderer` contracts, the `Phalcon\Support\Debug\ReportBuilder` and `Phalcon\Support\Debug\Renderer\HtmlRenderer` classes, and the value objects `Phalcon\Support\Debug\Report\ExceptionReport` and `Phalcon\Support\Debug\Report\BacktraceItem`. [#17202](https://github.com/phalcon/cphalcon/issues/17202) [[doc]](https://docs.phalcon.io/5.16/support-debug/)
+- Added the `Phalcon\Queue\AdapterFactory` and `Phalcon\Queue\QueueFactory` factories, and registered the `queueFactory` service in `Phalcon\Di\FactoryDefault` and `Phalcon\Di\FactoryDefault\Cli`. [#17051](https://github.com/phalcon/cphalcon/issues/17051) [[doc]](https://docs.phalcon.io/5.16/queue/)
+- Added the `Phalcon\Queue` component, a first-class queue/messaging layer modeled on the queue-interop contracts, with the `Phalcon\Contracts\Queue\*` interfaces (`ConnectionFactory`, `Context`, `Destination`, `Queue`, `Topic`, `Producer`, `Consumer`, `SubscriptionConsumer`, `Message`, `Processor`, `VisibilityAware`) and the `Phalcon\Queue\Exceptions\*` hierarchy (`QueueThrowable`, `Exception` and the typed `Invalid*` / `*NotSupportedException` exceptions). [#17051](https://github.com/phalcon/cphalcon/issues/17051) [[doc]](https://docs.phalcon.io/5.16/queue/)
+- Added the queue consumer runner (`Phalcon\Queue\Consumer\QueueConsumer`, `Worker`, `WorkerOptions`, `BoundProcessor`, `Events`) and the CLI consumer task `Phalcon\Queue\Cli\ConsumerTask`. [#17051](https://github.com/phalcon/cphalcon/issues/17051) [[doc]](https://docs.phalcon.io/5.16/queue/)
+- Added the same liveness and opt-in auto-reconnect support to `Phalcon\DataMapper\Pdo\Connection` (`ping()`, `ensureConnection()`, `setAutoReconnect()`/`getAutoReconnect()`), wrapping `exec()`, `perform()`, `prepare()`, and `query()` with the single-retry behavior. This connection has no events manager, so no `db:connectionLost` event is fired; "gone away" detection is driver-agnostic and the in-transaction guard uses a locally tracked transaction level. [#17204](https://github.com/phalcon/cphalcon/issues/17204) [[doc]](https://docs.phalcon.io/5.16/db-layer/)
 
 ### Fixed
 
-- Fixed `Phalcon\Mvc\Model::cloneResultMap()` calling model setters during ORM hydration unconditionally (introduced in 5.12.0 via [#14810](https://github.com/phalcon/cphalcon/issues/14810)), which ran user setters on every record hydrated by `find()`/`findFirst()`; a setter that issued an ORM query (e.g. `self::findFirstByEmail()`) recursed infinitely, as `findFirst()` re-entered `cloneResultMap()`, which re-invoked the setter, which called `findFirst()` again. Hydration setters are now gated by a dedicated `orm.call_setters_on_hydration` setting (default `false`), decoupled from `orm.disable_assign_setters` (which still governs `assign()`); this restores the pre-5.12.0 hydration behaviour by default and makes setter execution during hydration opt-in. [#17214](https://github.com/phalcon/cphalcon/issues/17214) [[doc]](https://docs.phalcon.io/5.15/db-models/)
-- Fixed `Phalcon\Mvc\Router\Route::compilePattern()` and `Phalcon\Cli\Router\Route::compilePattern()` expanding the `:params` placeholder - and the built-in `/:controller/:action/:params` and `/:task/:action/:params` default routes - to the nested quantifier `(/.*)*`. The group body overlaps itself, so an unmatchable trailing byte made the compiled pattern backtrack catastrophically: a short crafted URI (a run of `/` followed by a byte `.` cannot match) drove the `preg_match()` in `Phalcon\Mvc\Router::handle()` / `Phalcon\Cli\Router::handle()` into exponential time on every request. The trailing group is now compiled to the equivalent `(/.*)?`, which captures the same `params` value in linear time. [[doc]](https://docs.phalcon.io/5.15/routing/)
-- Fixed `Phalcon\Support\Debug` ignoring the `request` entry of `setBlacklist()`: `$_REQUEST` is now filtered against the `request` blacklist, where previously both superglobals were filtered against the `server` blacklist only. [#17202](https://github.com/phalcon/cphalcon/issues/17202) [[doc]](https://docs.phalcon.io/5.15/support-debug/)
+- Fixed `Phalcon\Mvc\Model::cloneResultMap()` calling model setters during ORM hydration unconditionally (introduced in 5.12.0 via [#14810](https://github.com/phalcon/cphalcon/issues/14810)), which ran user setters on every record hydrated by `find()`/`findFirst()`; a setter that issued an ORM query (e.g. `self::findFirstByEmail()`) recursed infinitely, as `findFirst()` re-entered `cloneResultMap()`, which re-invoked the setter, which called `findFirst()` again. Hydration setters are now gated by a dedicated `orm.call_setters_on_hydration` setting (default `false`), decoupled from `orm.disable_assign_setters` (which still governs `assign()`); this restores the pre-5.12.0 hydration behaviour by default and makes setter execution during hydration opt-in. [#17214](https://github.com/phalcon/cphalcon/issues/17214) [[doc]](https://docs.phalcon.io/5.16/db-models/)
+- Fixed `Phalcon\Mvc\Router\Route::compilePattern()` and `Phalcon\Cli\Router\Route::compilePattern()` expanding the `:params` placeholder - and the built-in `/:controller/:action/:params` and `/:task/:action/:params` default routes - to the nested quantifier `(/.*)*`. The group body overlaps itself, so an unmatchable trailing byte made the compiled pattern backtrack catastrophically: a short crafted URI (a run of `/` followed by a byte `.` cannot match) drove the `preg_match()` in `Phalcon\Mvc\Router::handle()` / `Phalcon\Cli\Router::handle()` into exponential time on every request. The trailing group is now compiled to the equivalent `(/.*)?`, which captures the same `params` value in linear time. [[doc]](https://docs.phalcon.io/5.16/routing/)
+- Fixed `Phalcon\Support\Debug` ignoring the `request` entry of `setBlacklist()`: `$_REQUEST` is now filtered against the `request` blacklist, where previously both superglobals were filtered against the `server` blacklist only. [#17202](https://github.com/phalcon/cphalcon/issues/17202) [[doc]](https://docs.phalcon.io/5.16/support-debug/)
 - Fixed `Phalcon\Tag\Select::selectField()` to invoke the resultset `using` render callback only when it is a `Closure` (previously any object), keeping the dynamically invoked callable out of reach of user-controlled data. [#17210](https://github.com/phalcon/cphalcon/issues/17210)
 
 ### Removed
@@ -819,6 +899,11 @@
 
 ## [5.13.0](https://github.com/phalcon/cphalcon/releases/tag/v5.13.0) (2026-05-18)
 
+### Tools
+
+- Zephir Parser v1.8.0
+- Zephir 0.20.1 (development - 6c2a72925)
+
 ### Changed
 
 - Changed `Phalcon\Contracts\Support\Collection` to declare the expanded method surface (`column`, `each`, `filter`, `first`, `getType`, `isEmpty`, `keys`, `last`, `map`, `reduce`, `replace`, `sort`, `values`, `where`) so the contract matches the implementation [#17000](https://github.com/phalcon/cphalcon/issues/17000) [[doc]](https://docs.phalcon.io/5.13/support-collection/)
@@ -845,16 +930,16 @@
 
 ### Added
 
-- Added CHECK-constraint support via new `Phalcon\Db\Check` value object and `Phalcon\Db\CheckInterface`. `Check` takes a constraint name (string; empty string means an unnamed constraint, in which case the dialect omits the `CONSTRAINT <name>` prefix) and a definition array containing the required `expression` key (the boolean SQL predicate). `Phalcon\Db\Dialect\Mysql`, `Phalcon\Db\Dialect\Postgresql`, and `Phalcon\Db\Dialect\Sqlite` all recognize `definition["checks"]` (array of `CheckInterface`) inside `createTable()` and emit an inline `[CONSTRAINT "<name>"] CHECK (<expr>)` line alongside the column/index/reference lines. New dialect methods `addCheck()` and `dropCheck()` emit the equivalent `ALTER TABLE ... ADD CONSTRAINT ... CHECK (...)` and `ALTER TABLE ... DROP CHECK|CONSTRAINT ...` SQL for MySQL 8.0.16+ and PostgreSQL; SQLite throws (CHECK constraints can only be declared at CREATE TABLE time in SQLite, the same limitation that already applies to FK constraints). New adapter methods `Phalcon\Db\Adapter\AbstractAdapter::addCheck()` and `Phalcon\Db\Adapter\AbstractAdapter::dropCheck()` provide the symmetric one-call ergonomics already available for `addForeignKey()` / `dropForeignKey()`. The new dialect and adapter methods are declared as commented-out `@todo v7` stubs on `Phalcon\Db\DialectInterface` and `Phalcon\Db\Adapter\AdapterInterface` to avoid breaking third-party implementors during the v5 line [#14719](https://github.com/phalcon/cphalcon/issues/14719) [[doc]](https://docs.phalcon.io/5.13/db-layer/)
-- Added MySQL 8.0+ `INVISIBLE` index support to `Phalcon\Db\Index`. The constructor's second parameter is now backward-compatibly overloaded: passing a plain list of column names continues to work (legacy positional form), while passing an associative array containing a `columns` key activates the new definition-array form (`["columns" => [...], "type" => "...", "invisible" => true]`). The third positional `type` argument is honored only when the second argument is the legacy list form; in definition-array mode `type` comes from the array. `Index` gains a matching `isInvisible(): bool` accessor and throws a `Phalcon\Db\Exception` if the definition-array path is taken but `columns` is not itself an array. `Phalcon\Db\Dialect\Mysql::addIndex` and `Phalcon\Db\Dialect\Mysql::createTable` emit a trailing ` INVISIBLE` keyword for invisible indexes. `Phalcon\Db\Adapter\Pdo\Mysql::describeIndexes` reverse-engineers the flag from the MySQL 8.0+ `Visible` column of `SHOW INDEXES` (absent on 5.7, which defaults to visible). PostgreSQL and SQLite have no equivalent and their dialects ignore the flag. The new method is declared as a commented `@todo v7` stub on `Phalcon\Contracts\Db\Index` to avoid breaking third-party implementors during the v5 line. This definition-array hook is the path that will be reused by upcoming items #8 (descending indexes), #9 (partial indexes), and #10 (functional indexes) so the constructor stays tidy [#14719](https://github.com/phalcon/cphalcon/issues/14719) [[doc]](https://docs.phalcon.io/5.13/db-layer/)
-- Added MySQL 8.0.23+ `INVISIBLE` column support to `Phalcon\Db\Column`. A new boolean definition-array key `invisible` (default `false`) is parsed by the constructor; a matching `isInvisible(): bool` accessor reports the state at runtime. `Phalcon\Db\Dialect\Mysql::addColumn`, `Phalcon\Db\Dialect\Mysql::createTable`, and `Phalcon\Db\Dialect\Mysql::modifyColumn` emit ` INVISIBLE` after the NOT NULL/NULL clause when the flag is set. PostgreSQL and SQLite have no equivalent and their dialects ignore the flag. `Phalcon\Db\Adapter\Pdo\Mysql::describeColumns` reverse-engineers the flag from the `EXTRA` column of `information_schema.COLUMNS` (already in the result set since item #1's switch from `SHOW FULL COLUMNS`) - substring-matched so the flag is still detected when MySQL concatenates it with other extras like `INVISIBLE STORED GENERATED`. The new method is declared as a commented `@todo v7` stub on `Phalcon\Contracts\Db\Column` to avoid breaking third-party implementors during the v5 line [#14719](https://github.com/phalcon/cphalcon/issues/14719) [[doc]](https://docs.phalcon.io/5.13/db-layer/)
-- Added PostgreSQL `CREATE INDEX CONCURRENTLY` support via a new `concurrently` definition-array key on `Phalcon\Db\Index` (default `false`). `Phalcon\Db\Index::isConcurrent(): bool` exposes the flag at runtime. `Phalcon\Db\Dialect\Postgresql::addIndex` now emits `CONCURRENTLY` between the `INDEX` keyword and the index name when the flag is set (`CREATE INDEX CONCURRENTLY "idx_email" ON "schema"."table" (...)`), so the index can be built without taking the strong lock that normally blocks writers. MySQL and SQLite have no equivalent concept and their dialects ignore the flag. No reverse engineering is meaningful (the option is creation-time only - once built, the index is indistinguishable from one built non-concurrently). The new method is declared as a commented `@todo v7` stub on `Phalcon\Contracts\Db\Index` to avoid breaking third-party implementors during the v5 line [#14719](https://github.com/phalcon/cphalcon/issues/14719) [[doc]](https://docs.phalcon.io/5.13/db-layer/)
+- Added CHECK-constraint support via new `Phalcon\Db\Check` value object and `Phalcon\Db\CheckInterface`. `Check` takes a constraint name (string; empty string means an unnamed constraint, in which case the dialect omits the `CONSTRAINT <name>` prefix) and a definition array containing the required `expression` key (the boolean SQL predicate). `Phalcon\Db\Dialect\Mysql`, `Phalcon\Db\Dialect\Postgresql`, and `Phalcon\Db\Dialect\Sqlite` all recognize `definition["checks"]` (array of `CheckInterface`) inside `createTable()` and emit an inline `[CONSTRAINT "<name>"] CHECK (<expr>)` line alongside the column/index/reference lines. New dialect methods `addCheck()` and `dropCheck()` emit the equivalent `ALTER TABLE ... ADD CONSTRAINT ... CHECK (...)` and `ALTER TABLE ... DROP CHECK|CONSTRAINT ...` SQL for MySQL 8.0.16+ and PostgreSQL; SQLite throws (CHECK constraints can only be declared at CREATE TABLE time in SQLite, the same limitation that already applies to FK constraints). New adapter methods `Phalcon\Db\Adapter\AbstractAdapter::addCheck()` and `Phalcon\Db\Adapter\AbstractAdapter::dropCheck()` provide the symmetric one-call ergonomics already available for `addForeignKey()` / `dropForeignKey()`. [#14719](https://github.com/phalcon/cphalcon/issues/14719) [[doc]](https://docs.phalcon.io/5.13/db-layer/)
+- Added MySQL 8.0+ `INVISIBLE` index support to `Phalcon\Db\Index`. The constructor's second parameter is now backward-compatibly overloaded: passing a plain list of column names continues to work (legacy positional form), while passing an associative array containing a `columns` key activates the new definition-array form (`["columns" => [...], "type" => "...", "invisible" => true]`). The third positional `type` argument is honored only when the second argument is the legacy list form; in definition-array mode `type` comes from the array. `Index` gains a matching `isInvisible(): bool` accessor and throws a `Phalcon\Db\Exception` if the definition-array path is taken but `columns` is not itself an array. `Phalcon\Db\Dialect\Mysql::addIndex` and `Phalcon\Db\Dialect\Mysql::createTable` emit a trailing ` INVISIBLE` keyword for invisible indexes. `Phalcon\Db\Adapter\Pdo\Mysql::describeIndexes` reverse-engineers the flag from the MySQL 8.0+ `Visible` column of `SHOW INDEXES` (absent on 5.7, which defaults to visible). PostgreSQL and SQLite have no equivalent and their dialects ignore the flag. [#14719](https://github.com/phalcon/cphalcon/issues/14719) [[doc]](https://docs.phalcon.io/5.13/db-layer/)
+- Added MySQL 8.0.23+ `INVISIBLE` column support to `Phalcon\Db\Column`. A new boolean definition-array key `invisible` (default `false`) is parsed by the constructor; a matching `isInvisible(): bool` accessor reports the state at runtime. `Phalcon\Db\Dialect\Mysql::addColumn`, `Phalcon\Db\Dialect\Mysql::createTable`, and `Phalcon\Db\Dialect\Mysql::modifyColumn` emit ` INVISIBLE` after the NOT NULL/NULL clause when the flag is set. PostgreSQL and SQLite have no equivalent and their dialects ignore the flag. `Phalcon\Db\Adapter\Pdo\Mysql::describeColumns` reverse-engineers the flag from the `EXTRA` column of `information_schema.COLUMNS` (already in the result set since item #1's switch from `SHOW FULL COLUMNS`) - substring-matched so the flag is still detected when MySQL concatenates it with other extras like `INVISIBLE STORED GENERATED`. [#14719](https://github.com/phalcon/cphalcon/issues/14719) [[doc]](https://docs.phalcon.io/5.13/db-layer/)
+- Added PostgreSQL `CREATE INDEX CONCURRENTLY` support via a new `concurrently` definition-array key on `Phalcon\Db\Index` (default `false`). `Phalcon\Db\Index::isConcurrent(): bool` exposes the flag at runtime. `Phalcon\Db\Dialect\Postgresql::addIndex` now emits `CONCURRENTLY` between the `INDEX` keyword and the index name when the flag is set (`CREATE INDEX CONCURRENTLY "idx_email" ON "schema"."table" (...)`), so the index can be built without taking the strong lock that normally blocks writers. MySQL and SQLite have no equivalent concept and their dialects ignore the flag. No reverse engineering is meaningful (the option is creation-time only - once built, the index is indistinguishable from one built non-concurrently). [#14719](https://github.com/phalcon/cphalcon/issues/14719) [[doc]](https://docs.phalcon.io/5.13/db-layer/)
 - Added PostgreSQL materialized-view support to the Db dialect and adapter layers. Three new methods land on `Phalcon\Db\Dialect`: `createMaterializedView(string $viewName, array $definition, string $schemaName = null): string` (definition takes a required `sql` key, same shape as `createView`), `dropMaterializedView(string $viewName, string $schemaName = null, bool $ifExists = true): string`, and `refreshMaterializedView(string $viewName, string $schemaName = null, bool $concurrent = false): string` (passing `$concurrent = true` emits `REFRESH MATERIALIZED VIEW CONCURRENTLY ...` for non-blocking refresh - requires a unique index on the view). `Phalcon\Db\Dialect\Postgresql` overrides all three to emit the correct SQL; the base implementations throw `Phalcon\Db\Exception`, which is inherited unchanged by `Phalcon\Db\Dialect\Mysql` and `Phalcon\Db\Dialect\Sqlite` (neither engine has a materialized-view concept). `Phalcon\Db\Adapter\AbstractAdapter` gains three matching `createMaterializedView()` / `dropMaterializedView()` / `refreshMaterializedView()` wrappers that execute the dialect-built SQL and return bool.  [#14719](https://github.com/phalcon/cphalcon/issues/14719) [[doc]](https://docs.phalcon.io/5.13/db-layer/)
-- Added PostgreSQL-specific column types and array-column support to `Phalcon\Db\Column` and `Phalcon\Db\Dialect\Postgresql`. Ten new `Column::TYPE_*` constants are introduced: `TYPE_BYTEA` (30), `TYPE_INET` (31), `TYPE_CIDR` (32), `TYPE_MACADDR` (33), `TYPE_INT4RANGE` (34), `TYPE_INT8RANGE` (35), `TYPE_NUMRANGE` (36), `TYPE_TSRANGE` (37), `TYPE_TSTZRANGE` (38), `TYPE_DATERANGE` (39). `Phalcon\Db\Dialect\Postgresql::getColumnDefinition` recognizes the new types and emits the matching keywords (`BYTEA`, `INET`, `CIDR`, `MACADDR`, `INT4RANGE`, `INT8RANGE`, `NUMRANGE`, `TSRANGE`, `TSTZRANGE`, `DATERANGE`). MySQL and SQLite dialects fall through their existing `default` branches for these constants - users targeting those engines should pick a portable base type instead. Additionally, a new boolean definition-array key `array` and a `Phalcon\Db\Column::isArray(): bool` accessor expose array-column intent; when `isArray()` is `true`, the PostgreSQL dialect appends `[]` to the type (`INTEGER[]`, `TEXT[]`, `INET[]`, etc.). MySQL and SQLite ignore the flag. `Phalcon\Db\Adapter\Pdo\Postgresql::describeColumns` reverse-engineers the new types by matching the `data_type` column from `information_schema.columns` and sets `array` when `data_type` reports `ARRAY` or contains `[]`. The new method is declared as a commented `@todo v7` stub on `Phalcon\Contracts\Db\Column` to avoid breaking third-party implementors during the v5 line [#14719](https://github.com/phalcon/cphalcon/issues/14719) [[doc]](https://docs.phalcon.io/5.13/db-layer/)
+- Added PostgreSQL-specific column types and array-column support to `Phalcon\Db\Column` and `Phalcon\Db\Dialect\Postgresql`. Ten new `Column::TYPE_*` constants are introduced: `TYPE_BYTEA` (30), `TYPE_INET` (31), `TYPE_CIDR` (32), `TYPE_MACADDR` (33), `TYPE_INT4RANGE` (34), `TYPE_INT8RANGE` (35), `TYPE_NUMRANGE` (36), `TYPE_TSRANGE` (37), `TYPE_TSTZRANGE` (38), `TYPE_DATERANGE` (39). `Phalcon\Db\Dialect\Postgresql::getColumnDefinition` recognizes the new types and emits the matching keywords (`BYTEA`, `INET`, `CIDR`, `MACADDR`, `INT4RANGE`, `INT8RANGE`, `NUMRANGE`, `TSRANGE`, `TSTZRANGE`, `DATERANGE`). MySQL and SQLite dialects fall through their existing `default` branches for these constants - users targeting those engines should pick a portable base type instead. Additionally, a new boolean definition-array key `array` and a `Phalcon\Db\Column::isArray(): bool` accessor expose array-column intent; when `isArray()` is `true`, the PostgreSQL dialect appends `[]` to the type (`INTEGER[]`, `TEXT[]`, `INET[]`, etc.). MySQL and SQLite ignore the flag. `Phalcon\Db\Adapter\Pdo\Postgresql::describeColumns` reverse-engineers the new types by matching the `data_type` column from `information_schema.columns` and sets `array` when `data_type` reports `ARRAY` or contains `[]`. [#14719](https://github.com/phalcon/cphalcon/issues/14719) [[doc]](https://docs.phalcon.io/5.13/db-layer/)
 - Added `FOR SHARE` shared-lock emission to `Phalcon\Db\Dialect\Postgresql::sharedLock()`; it previously returned the original query unchanged (silent no-op), so callers had no way to express PostgreSQL's row-level shared lock through the cphalcon dialect API. The method now appends `" FOR SHARE"` and also accepts the optional `string $modifier = ""` second argument introduced by item #3, so callers can request `FOR SHARE NOWAIT` / `FOR SHARE SKIP LOCKED` via the `Phalcon\Contracts\Db\Dialect::LOCK_NOWAIT` / `LOCK_SKIP_LOCKED` constants. The signature change is propagated to `Phalcon\Contracts\Db\Dialect::sharedLock`, `Phalcon\Contracts\Db\Adapter\Adapter::sharedLock`, and the SQLite and MySQL impls - SQLite remains a no-op regardless of the modifier (no row-level locking), and MySQL still emits its legacy `LOCK IN SHARE MODE` and silently ignores any modifier (the legacy syntax does not support `NOWAIT` / `SKIP LOCKED`; users on MySQL 8.0+ who need those modifiers can use `forUpdate()` instead). `Phalcon\Db\Adapter\AbstractAdapter::sharedLock` passes the modifier through to the dialect [#14719](https://github.com/phalcon/cphalcon/issues/14719) [[doc]](https://docs.phalcon.io/5.13/db-layer/)
-- Added `NOWAIT` / `SKIP LOCKED` row-lock modifiers to `forUpdate()`. The dialect and adapter `forUpdate()` methods now accept an optional second `string $modifier = ""` argument; pass one of the new contract constants `Phalcon\Contracts\Db\Dialect::LOCK_NONE` (default), `Phalcon\Contracts\Db\Dialect::LOCK_NOWAIT`, or `Phalcon\Contracts\Db\Dialect::LOCK_SKIP_LOCKED` to emit `SELECT … FOR UPDATE`, `SELECT … FOR UPDATE NOWAIT`, or `SELECT … FOR UPDATE SKIP LOCKED` respectively. Recognized by MySQL 8.0+ and PostgreSQL 9.5+; SQLite has no row-level locking and silently ignores the modifier. Signature change is propagated to `Phalcon\Contracts\Db\Dialect::forUpdate`, `Phalcon\Contracts\Db\Adapter\Adapter::forUpdate`, `Phalcon\Db\Dialect::forUpdate` (base), `Phalcon\Db\Dialect\Sqlite::forUpdate` (override remains a no-op), and `Phalcon\Db\Adapter\AbstractAdapter::forUpdate` (pass-through). Existing single-argument call sites are unaffected - the second parameter defaults to `""` [#14719](https://github.com/phalcon/cphalcon/issues/14719) [[doc]](https://docs.phalcon.io/5.13/db-layer/)
-- Added `ON CONFLICT (...) DO UPDATE SET ...` upsert support to the Db dialect and adapter layers. New SQL-transformer method `Phalcon\Db\Dialect::onConflictUpdate(string $sqlQuery, array $conflictColumns, array $updateColumns): string` appends an upsert clause to the supplied INSERT statement using the SQL-standard form recognized by PostgreSQL 9.5+ and SQLite 3.24+: `INSERT INTO ... ON CONFLICT ("col") DO UPDATE SET "other" = excluded."other"`. The base implementation in `Phalcon\Db\Dialect::onConflictUpdate` provides the standard emission (inherited by `Phalcon\Db\Dialect\Postgresql` and `Phalcon\Db\Dialect\Sqlite`); `Phalcon\Db\Dialect\Mysql::onConflictUpdate` overrides to throw because MySQL's `INSERT ... ON DUPLICATE KEY UPDATE` shape is incompatible (deferred to parser item #23). Throws `Phalcon\Db\Exception` when either the `conflictColumns` or `updateColumns` array is empty. `Phalcon\Db\Adapter\AbstractAdapter::onConflictUpdate` provides the symmetric one-call passthrough. The new method is declared as a commented `@todo v7` stub on `Phalcon\Contracts\Db\Dialect` and `Phalcon\Contracts\Db\Adapter\Adapter` to avoid breaking third-party implementors during the v5 line [#14719](https://github.com/phalcon/cphalcon/issues/14719) [[doc]](https://docs.phalcon.io/5.13/db-layer/)
-- Added `Phalcon\Contracts\Db` namespace housing the canonical contracts for the Db layer: `Phalcon\Contracts\Db\Check`, `Phalcon\Contracts\Db\Column`, `Phalcon\Contracts\Db\Dialect`, `Phalcon\Contracts\Db\Index`, `Phalcon\Contracts\Db\Reference`, `Phalcon\Contracts\Db\Result`, and `Phalcon\Contracts\Db\Adapter\Adapter`. The legacy interfaces (`Phalcon\Db\CheckInterface`, `Phalcon\Db\ColumnInterface`, `Phalcon\Db\DialectInterface`, `Phalcon\Db\IndexInterface`, `Phalcon\Db\ReferenceInterface`, `Phalcon\Db\ResultInterface`, `Phalcon\Db\Adapter\AdapterInterface`) are kept as thin extensions of their contract counterparts, marked `@deprecated` (matching the `Phalcon\Support\Collection\CollectionInterface` migration pattern), so existing implementors and typehints continue to work in the v5 line. The `@todo v7` commented-out stubs for the generated-column API (item #1) and CHECK-constraint API (item #2) live in the canonical contract files, which is where they will be uncommented when v7 ships [#14719](https://github.com/phalcon/cphalcon/issues/14719) [[doc]](https://docs.phalcon.io/5.13/db-layer/)
+- Added `NOWAIT` / `SKIP LOCKED` row-lock modifiers to `forUpdate()`. The dialect and adapter `forUpdate()` methods now accept an optional second `string $modifier = ""` argument; pass one of the new contract constants `Phalcon\Contracts\Db\Dialect::LOCK_NONE` (default), `Phalcon\Contracts\Db\Dialect::LOCK_NOWAIT`, or `Phalcon\Contracts\Db\Dialect::LOCK_SKIP_LOCKED` to emit `SELECT ... FOR UPDATE`, `SELECT ... FOR UPDATE NOWAIT`, or `SELECT ... FOR UPDATE SKIP LOCKED` respectively. Recognized by MySQL 8.0+ and PostgreSQL 9.5+; SQLite has no row-level locking and silently ignores the modifier. Signature change is propagated to `Phalcon\Contracts\Db\Dialect::forUpdate`, `Phalcon\Contracts\Db\Adapter\Adapter::forUpdate`, `Phalcon\Db\Dialect::forUpdate` (base), `Phalcon\Db\Dialect\Sqlite::forUpdate` (override remains a no-op), and `Phalcon\Db\Adapter\AbstractAdapter::forUpdate` (pass-through). Existing single-argument call sites are unaffected - the second parameter defaults to `""` [#14719](https://github.com/phalcon/cphalcon/issues/14719) [[doc]](https://docs.phalcon.io/5.13/db-layer/)
+- Added `ON CONFLICT (...) DO UPDATE SET ...` upsert support to the Db dialect and adapter layers. New SQL-transformer method `Phalcon\Db\Dialect::onConflictUpdate(string $sqlQuery, array $conflictColumns, array $updateColumns): string` appends an upsert clause to the supplied INSERT statement using the SQL-standard form recognized by PostgreSQL 9.5+ and SQLite 3.24+: `INSERT INTO ... ON CONFLICT ("col") DO UPDATE SET "other" = excluded."other"`. The base implementation in `Phalcon\Db\Dialect::onConflictUpdate` provides the standard emission (inherited by `Phalcon\Db\Dialect\Postgresql` and `Phalcon\Db\Dialect\Sqlite`); `Phalcon\Db\Dialect\Mysql::onConflictUpdate` overrides to throw because MySQL's `INSERT ... ON DUPLICATE KEY UPDATE` shape is incompatible (deferred to parser item #23). Throws `Phalcon\Db\Exception` when either the `conflictColumns` or `updateColumns` array is empty. `Phalcon\Db\Adapter\AbstractAdapter::onConflictUpdate` provides the symmetric one-call passthrough. [#14719](https://github.com/phalcon/cphalcon/issues/14719) [[doc]](https://docs.phalcon.io/5.13/db-layer/)
+- Added `Phalcon\Contracts\Db` namespace housing the canonical contracts for the Db layer: `Phalcon\Contracts\Db\Check`, `Phalcon\Contracts\Db\Column`, `Phalcon\Contracts\Db\Dialect`, `Phalcon\Contracts\Db\Index`, `Phalcon\Contracts\Db\Reference`, `Phalcon\Contracts\Db\Result`, and `Phalcon\Contracts\Db\Adapter\Adapter`. The legacy interfaces (`Phalcon\Db\CheckInterface`, `Phalcon\Db\ColumnInterface`, `Phalcon\Db\DialectInterface`, `Phalcon\Db\IndexInterface`, `Phalcon\Db\ReferenceInterface`, `Phalcon\Db\ResultInterface`, `Phalcon\Db\Adapter\AdapterInterface`) are kept as thin extensions of their contract counterparts, marked `@deprecated` (matching the `Phalcon\Support\Collection\CollectionInterface` migration pattern), so existing implementors and typehints continue to work in the v5 line. [#14719](https://github.com/phalcon/cphalcon/issues/14719) [[doc]](https://docs.phalcon.io/5.13/db-layer/)
 - Added `Phalcon\Contracts\Events\Stoppable` - a Phalcon-owned mirror of PSR-14's `StoppableEventInterface` with the single `isPropagationStopped(): bool` method. `Phalcon\Events\Event` implements it and routes the call through the same internal `stopped` flag as `isStopped()`, so existing `$event->stop()` callers automatically expose the PSR-14-shaped accessor without changing their code. Keeps PSR types out of the extension while letting a future `phalcon/events-psr14-bridge` package map Phalcon ↔ PSR-14 in PHP land [#17006](https://github.com/phalcon/cphalcon/issues/17006) [[doc]](https://docs.phalcon.io/5.13/events/)
 - Added `Phalcon\Contracts\Events\Subscriber` - a subscriber contract requiring a single static `getSubscribedEvents(): array` method. Supported shapes per entry: `['event:name' => 'methodName']` (plain string), `['event:name' => ['methodName', priority]]` (method with priority), or `['event:name' => [['methodA', priorityA], ['methodB', priorityB]]]` (multiple listeners per event). Replaces the magic-method-only routing as the primary discoverability mechanism while keeping that path intact for BC [#17006](https://github.com/phalcon/cphalcon/issues/17006) [[doc]](https://docs.phalcon.io/5.13/events/)
 - Added `Phalcon\Contracts\Forms\Schema` interface defining a single `load(): array` method for objects that supply a normalized list of form-element definitions [#16996](https://github.com/phalcon/cphalcon/issues/16996) [[doc]](https://docs.phalcon.io/5.13/forms/)
@@ -894,16 +979,16 @@
 - Added `Phalcon\Support\Collection:where(string $propertyOrMethod, mixed $value)` (strict-equality filter via `extractValue`) [#17000](https://github.com/phalcon/cphalcon/issues/17000) [[doc]](https://docs.phalcon.io/5.13/support-collection/)
 - Added `Phalcon\Time\Clock\Exception` with the `invalidModifier()` named constructor; `FrozenClock::adjust()` throws this exception uniformly across PHP versions when the modifier string cannot be parsed (catching `DateMalformedStringException` on PHP 8.3+ and trapping the `E_WARNING` plus `false` return on earlier versions, leaving the clock state untouched on failure) [#16965](https://github.com/phalcon/cphalcon/issues/16965) [[doc]](https://docs.phalcon.io/5.13/time-clock/)
 - Added `Phalcon\Time\Clock` namespace with `ClockInterface`, `SystemClock`, and `FrozenClock` to wrap clock functionality for the application; `SystemClock` returns the current time as a `DateTimeImmutable` in a configurable timezone (with `fromUTC()` and `fromSystemTimezone()` named constructors), while `FrozenClock` returns a fixed instant for deterministic testing and exposes `set()` and `adjust()` to move the clock in place (returning `$this` for fluent chaining) [#16965](https://github.com/phalcon/cphalcon/issues/16965) [[doc]](https://docs.phalcon.io/5.13/time-clock/)
-- Added `RETURNING` clause support to the Db dialect and adapter layers. New SQL-transformer method `Phalcon\Db\Dialect::returning(string $sqlQuery, array $columns): string` appends a `RETURNING` clause to an `INSERT` / `UPDATE` / `DELETE` statement; pass `["*"]` for `RETURNING *` or a list of column identifiers for `RETURNING "col1", "col2"`. `Phalcon\Db\Dialect\Postgresql::returning` and `Phalcon\Db\Dialect\Sqlite::returning` provide the emission (SQLite requires 3.35+). The base implementation in `Phalcon\Db\Dialect::returning` throws `Phalcon\Db\Exception`, which is inherited unchanged by `Phalcon\Db\Dialect\Mysql` since MySQL has no RETURNING construct. An empty `columns` array throws on PgSQL and SQLite. `Phalcon\Db\Adapter\AbstractAdapter::returning` provides the symmetric one-call passthrough so users can do `$connection->query($connection->returning($sql, ["id"]))`. The new method is declared as a commented `@todo v7` stub on `Phalcon\Contracts\Db\Dialect` and `Phalcon\Contracts\Db\Adapter\Adapter` to avoid breaking third-party implementors during the v5 line [#14719](https://github.com/phalcon/cphalcon/issues/14719) [[doc]](https://docs.phalcon.io/5.13/db-layer/)
+- Added `RETURNING` clause support to the Db dialect and adapter layers. New SQL-transformer method `Phalcon\Db\Dialect::returning(string $sqlQuery, array $columns): string` appends a `RETURNING` clause to an `INSERT` / `UPDATE` / `DELETE` statement; pass `["*"]` for `RETURNING *` or a list of column identifiers for `RETURNING "col1", "col2"`. `Phalcon\Db\Dialect\Postgresql::returning` and `Phalcon\Db\Dialect\Sqlite::returning` provide the emission (SQLite requires 3.35+). The base implementation in `Phalcon\Db\Dialect::returning` throws `Phalcon\Db\Exception`, which is inherited unchanged by `Phalcon\Db\Dialect\Mysql` since MySQL has no RETURNING construct. An empty `columns` array throws on PgSQL and SQLite. `Phalcon\Db\Adapter\AbstractAdapter::returning` provides the symmetric one-call passthrough so users can do `$connection->query($connection->returning($sql, ["id"]))`. [#14719](https://github.com/phalcon/cphalcon/issues/14719) [[doc]](https://docs.phalcon.io/5.13/db-layer/)
 - Added `Raw` factory variants `aRaw`, `buttonRaw`, `elementRaw`, `labelRaw`, `olRaw`, and `ulRaw` to `Phalcon\Html\TagFactory`, each backed by a tuple recipe that pins `raw = true` on the constructor of the underlying helper [#16971](https://github.com/phalcon/cphalcon/issues/16971) [[doc]](https://docs.phalcon.io/5.13/html-tagfactory/)
 - Added an opt-in `bool $replaceArgs = false` fifth parameter to `Phalcon\Mvc\Url::get()`; when `true` and the supplied `$uri` already contains a query string, the existing query is parsed via `parse_str()` and merged under `array_merge($existing, (array) $args)` so user-supplied keys override colliding ones (e.g. `$url->get('http://example.com?page=1', ['page' => 5], null, null, true)` now returns `http://example.com?page=5` instead of `http://example.com?page=1&page=5`). The default (flag omitted) preserves the legacy append-with-`&` behavior to keep existing callers working [#16986](https://github.com/phalcon/cphalcon/issues/16986) [[doc]](https://docs.phalcon.io/5.13/mvc-url/)
 - Added back the `generate_pecl` workflow job and `package.xml`, restoring publication of a `phalcon-pecl.tgz` artifact (also attached to GitHub releases) for a few more versions to give downstream users time to migrate to PIE
 - Added functional/expression index support to `Phalcon\Db\Index`. Entries inside the `columns` array can now be `Phalcon\Db\RawValue` instances; string entries continue to be treated as column identifiers and escaped. The base `Phalcon\Db\Dialect::getIndexColumnList()` helper detects `RawValue` entries and per-dialect renders them - MySQL and PostgreSQL wrap each expression in its own parentheses (`KEY idx ((LOWER(col)))` and `CREATE INDEX ON t ((lower(col)))` respectively), while SQLite emits the expression verbatim (its grammar accepts `expr` directly as an `indexed-column`). The helper gains an optional `bool $wrapExpressions = true` flag - defaults are tuned per dialect at the call site so users do not need to think about it. Expressions compose with the descending direction (#8) and partial-index predicate (#9) without any additional API surface. Reverse-engineering of expressions is deferred (PostgreSQL via `pg_get_expr(pg_index.indexprs, ...)`, SQLite via `sqlite_master.sql` parsing - same conservative cutoff used in item #1). No new accessor method is needed - `Index::getColumns()` continues to return the entries (now of mixed string / `RawValue` type) [#14719](https://github.com/phalcon/cphalcon/issues/14719) [[doc]](https://docs.phalcon.io/5.13/db-layer/)
-- Added generated/computed column support to `Phalcon\Db\Column` via two new definition-array keys: `generated` (the SQL expression as a string; `null` keeps the column non-generated) and `generationStored` (`bool`, `false` → `VIRTUAL`, `true` → `STORED`; PostgreSQL ignores the flag and always emits `STORED`). Three new public methods report the state at runtime - `getGenerationExpression(): string | null`, `isGenerated(): bool`, `isGenerationStored(): bool`. The class enforces that a generated column cannot also declare `default` or `autoIncrement`. All three dialects (`Mysql`, `Postgresql`, `Sqlite`) emit `GENERATED ALWAYS AS (<expr>) VIRTUAL\|STORED` from `addColumn()`, `createTable()`, and (where supported) `modifyColumn()`, and skip the `DEFAULT` / `AUTO_INCREMENT` / `AUTOINCREMENT` clauses for generated columns. Reverse-engineering through `describeColumns()` is also wired up: MySQL switches from `SHOW FULL COLUMNS` to an equivalent `information_schema.COLUMNS` query that additionally returns `GENERATION_EXPRESSION`; PostgreSQL extends its `information_schema.columns` query with `is_generated` and `generation_expression`; SQLite switches from `PRAGMA table_info` to `PRAGMA table_xinfo` so the `hidden` flag (`2` → VIRTUAL, `3` → STORED) can populate `isGenerated()` / `isGenerationStored()`. SQLite cannot expose the generation expression through any pragma, so `getGenerationExpression()` round-trips as an empty string for SQLite-introspected generated columns (documented limitation). The new methods are declared as commented `@todo v7` stubs on `Phalcon\Db\ColumnInterface` to avoid breaking third-party implementors during the v5 line [#14719](https://github.com/phalcon/cphalcon/issues/14719) [[doc]](https://docs.phalcon.io/5.13/db-layer/)
+- Added generated/computed column support to `Phalcon\Db\Column` via two new definition-array keys: `generated` (the SQL expression as a string; `null` keeps the column non-generated) and `generationStored` (`bool`, `false` → `VIRTUAL`, `true` → `STORED`; PostgreSQL ignores the flag and always emits `STORED`). Three new public methods report the state at runtime - `getGenerationExpression(): string | null`, `isGenerated(): bool`, `isGenerationStored(): bool`. The class enforces that a generated column cannot also declare `default` or `autoIncrement`. All three dialects (`Mysql`, `Postgresql`, `Sqlite`) emit `GENERATED ALWAYS AS (<expr>) VIRTUAL\|STORED` from `addColumn()`, `createTable()`, and (where supported) `modifyColumn()`, and skip the `DEFAULT` / `AUTO_INCREMENT` / `AUTOINCREMENT` clauses for generated columns. Reverse-engineering through `describeColumns()` is also wired up: MySQL switches from `SHOW FULL COLUMNS` to an equivalent `information_schema.COLUMNS` query that additionally returns `GENERATION_EXPRESSION`; PostgreSQL extends its `information_schema.columns` query with `is_generated` and `generation_expression`; SQLite switches from `PRAGMA table_info` to `PRAGMA table_xinfo` so the `hidden` flag (`2` → VIRTUAL, `3` → STORED) can populate `isGenerated()` / `isGenerationStored()`. SQLite cannot expose the generation expression through any pragma, so `getGenerationExpression()` round-trips as an empty string for SQLite-introspected generated columns (documented limitation). [#14719](https://github.com/phalcon/cphalcon/issues/14719) [[doc]](https://docs.phalcon.io/5.13/db-layer/)
 - Added hostname-aware URL generation to `Phalcon\Mvc\Url::get()`: when a named route carries a `setHostname()` restriction the returned URL is now protocol-relative (`//hostname/path`) so it works transparently under both HTTP and HTTPS [#17007](https://github.com/phalcon/cphalcon/issues/17007) [[doc]](https://docs.phalcon.io/5.13/mvc-url/)
 - Added new Contracts (aka Interfaces) for `Phalcon\Encryption\Security` namely `Phalcon\Contracts\Encryption\Security\Security`, `CryptoUtils`, `CsrfProtection`, and `PasswordSecurity` and tied them to the component [#16991](https://github.com/phalcon/cphalcon/issues/16991) [[doc]](https://docs.phalcon.io/5.13/encryption-security/)
-- Added partial-index support on `Phalcon\Db\Index` via a new `where` definition-array key (string). `Phalcon\Db\Index::getWhere(): string` exposes the configured predicate (empty string when none). `Phalcon\Db\Dialect\Postgresql::addIndex` and `Phalcon\Db\Dialect\Sqlite::addIndex` append `` WHERE <expr>`` to the emitted `CREATE INDEX` statement. MySQL has no partial-index feature and its dialect ignores the value. Reverse-engineering of the predicate is deferred for both PostgreSQL (requires `pg_get_expr(pg_index.indpred, pg_index.indrelid)`) and SQLite (requires `sqlite_master.sql` parsing) - same conservative cutoff used for SQLite generation expressions in item #1. Throws `Phalcon\Db\Exception` if the definition-array `where` key is supplied with a non-string value. The new method is declared as a commented `@todo v7` stub on `Phalcon\Contracts\Db\Index` [#14719](https://github.com/phalcon/cphalcon/issues/14719) [[doc]](https://docs.phalcon.io/5.13/db-layer/)
-- Added per-column sort direction (`ASC` / `DESC`) support on `Phalcon\Db\Index` via a new `directions` definition-array key. The array is parallel to `columns`; trailing positions absent from `directions` default to `ASC` at emission time. `Phalcon\Db\Index::getDirections(): array` exposes the configured list (empty array means "no per-column direction declared" - preserves the legacy plain `(col1, col2)` rendering exactly). A new protected `Phalcon\Db\Dialect::getIndexColumnList(IndexInterface)` helper centralizes the direction-aware emission and is now used by `Phalcon\Db\Dialect\Mysql::addIndex` / `createTable`, `Phalcon\Db\Dialect\Postgresql::addIndex` / `createTable`, and `Phalcon\Db\Dialect\Sqlite::addIndex` / `createTable`. `Phalcon\Db\Adapter\Pdo\Mysql::describeIndexes` reverse-engineers directions from the `Collation` column of `SHOW INDEXES` (`A` = ASC, `D` = DESC, NULL = ASC); the resulting `Index` only carries a non-empty `directions` array when at least one column is DESC, so existing introspection workflows that don't expect direction metadata see no diff. PostgreSQL and SQLite reverse-engineering of directions is deferred (`pg_index.indoption` and `sqlite_master.sql` parsing respectively - same conservative cutoff used for SQLite generation expressions in item #1). The new method is declared as a commented `@todo v7` stub on `Phalcon\Contracts\Db\Index` to avoid breaking third-party implementors during the v5 line [#14719](https://github.com/phalcon/cphalcon/issues/14719) [[doc]](https://docs.phalcon.io/5.13/db-layer/)
+- Added partial-index support on `Phalcon\Db\Index` via a new `where` definition-array key (string). `Phalcon\Db\Index::getWhere(): string` exposes the configured predicate (empty string when none). `Phalcon\Db\Dialect\Postgresql::addIndex` and `Phalcon\Db\Dialect\Sqlite::addIndex` append `` WHERE <expr>`` to the emitted `CREATE INDEX` statement. MySQL has no partial-index feature and its dialect ignores the value. Reverse-engineering of the predicate is deferred for both PostgreSQL (requires `pg_get_expr(pg_index.indpred, pg_index.indrelid)`) and SQLite (requires `sqlite_master.sql` parsing) - same conservative cutoff used for SQLite generation expressions in item #1. Throws `Phalcon\Db\Exception` if the definition-array `where` key is supplied with a non-string value. [#14719](https://github.com/phalcon/cphalcon/issues/14719) [[doc]](https://docs.phalcon.io/5.13/db-layer/)
+- Added per-column sort direction (`ASC` / `DESC`) support on `Phalcon\Db\Index` via a new `directions` definition-array key. The array is parallel to `columns`; trailing positions absent from `directions` default to `ASC` at emission time. `Phalcon\Db\Index::getDirections(): array` exposes the configured list (empty array means "no per-column direction declared" - preserves the legacy plain `(col1, col2)` rendering exactly). A new protected `Phalcon\Db\Dialect::getIndexColumnList(IndexInterface)` helper centralizes the direction-aware emission and is now used by `Phalcon\Db\Dialect\Mysql::addIndex` / `createTable`, `Phalcon\Db\Dialect\Postgresql::addIndex` / `createTable`, and `Phalcon\Db\Dialect\Sqlite::addIndex` / `createTable`. `Phalcon\Db\Adapter\Pdo\Mysql::describeIndexes` reverse-engineers directions from the `Collation` column of `SHOW INDEXES` (`A` = ASC, `D` = DESC, NULL = ASC); the resulting `Index` only carries a non-empty `directions` array when at least one column is DESC, so existing introspection workflows that don't expect direction metadata see no diff. PostgreSQL and SQLite reverse-engineering of directions is deferred (`pg_index.indoption` and `sqlite_master.sql` parsing respectively - same conservative cutoff used for SQLite generation expressions in item #1). [#14719](https://github.com/phalcon/cphalcon/issues/14719) [[doc]](https://docs.phalcon.io/5.13/db-layer/)
 - Added per-option HTML attribute support to the `Phalcon\Html\Helper\Input\Select` data-provider path: `Phalcon\Html\Helper\Input\Select\SelectDataInterface` now also exposes `getAttributes()` returning `[optionValue => [attrName => stringValue, ...]]`; `ArrayData` accepts a second constructor argument with the resolved per-value attribute map, and `ResultsetData` accepts a third `attributesMap` argument (`htmlAttr => string|callable`) whose closures receive the current row. Resolution happens once in the providers (with `false`/`null` results dropped); rendering continues to flow through the existing `AbstractHelper` attribute pipeline [#16983](https://github.com/phalcon/cphalcon/issues/16983) [[doc]](https://docs.phalcon.io/5.13/html-tagfactory/)
 - Added precompiled ARM64 binaries for Linux (`ubuntu-22.04-arm` runner) and macOS (`macos-14`, Apple Silicon) to the release artifacts. The `build_extension` CI matrix now produces `phalcon-php<ver>-<ts>-ubuntu-gcc-arm64.zip` and `phalcon-php<ver>-<ts>-macos-clang-arm64.zip` alongside the existing x64 builds, and the macOS composite action installs `pcre2`/`re2c` via Homebrew, points `CPPFLAGS`/`LDFLAGS` at the keg-only `pcre2` headers, and enables the extension in PHP's `PHP_CONFIG_FILE_SCAN_DIR` so `php --ri phalcon` succeeds [#16553](https://github.com/phalcon/cphalcon/issues/16553)
 - Added spatial / geometry column-type support to `Phalcon\Db\Column` and the MySQL and PostgreSQL dialects. Eight new `Column::TYPE_*` constants land: `TYPE_GEOMETRY` (40), `TYPE_POINT` (41), `TYPE_LINESTRING` (42), `TYPE_POLYGON` (43), `TYPE_MULTIPOINT` (44), `TYPE_MULTILINESTRING` (45), `TYPE_MULTIPOLYGON` (46), `TYPE_GEOMETRYCOLLECTION` (47). `Phalcon\Db\Dialect\Mysql::getColumnDefinition` and `Phalcon\Db\Dialect\Postgresql::getColumnDefinition` emit the matching keywords (MySQL recognizes them natively from 5.7; PostgreSQL needs PostGIS installed, which interprets the keywords). SQLite has no native spatial type and its dialect leaves these constants in the `default` branch. `Phalcon\Db\Adapter\Pdo\Mysql::describeColumns` reverse-engineers the new types by `starts_with`-matching the column type - order in the switch was chosen so the longer multi-* / geometrycollection variants are matched before their shorter prefixes (`linestring` before `polygon`, etc.). PostgreSQL reverse-engineering for spatial types is deferred because `information_schema.data_type` does not consistently expose PostGIS type names without joining `pg_type` - users introspecting PostGIS schemas should query metadata directly until then. **Caveat - read-side WKB hydration is not part of this change.** A `POINT` selected directly with `SELECT location FROM items` still returns raw WKB bytes (cphalcon issues [#14769](https://github.com/phalcon/cphalcon/issues/14769) and [#13670](https://github.com/phalcon/cphalcon/issues/13670)); the workaround is to project `ST_AsText(location)` / `ST_AsBinary(location)` / `ST_AsGeoJSON(location)` server-side. The DDL/describe support shipped here is the schema-level prerequisite for any future result-set hydration helper [#14719](https://github.com/phalcon/cphalcon/issues/14719) [[doc]](https://docs.phalcon.io/5.13/db-layer/)
@@ -944,6 +1029,11 @@
 
 ## [5.12.1](https://github.com/phalcon/cphalcon/releases/tag/v5.12.1) (2026-04-30)
 
+### Tools
+
+- Zephir Parser v1.8.0
+- Zephir 0.19.0 (development - 319eede41)
+
 ### Changed
 
 ### Added
@@ -966,6 +1056,11 @@
 - Fixed `Phalcon\Mvc\Model` - saving a model with multiple fields relations threw `"Not implemented"` [#16029](https://github.com/phalcon/cphalcon/issues/16029) [[doc]](https://docs.phalcon.io/5.12/db-models/)
 
 ## [5.12.0](https://github.com/phalcon/cphalcon/releases/tag/v5.12.0) (2026-04-29)
+
+### Tools
+
+- Zephir Parser v1.8.0
+- Zephir 0.19.0 (development - 319eede41)
 
 ### Changed
 
@@ -1045,6 +1140,11 @@
 
 ## [5.11.1](https://github.com/phalcon/cphalcon/releases/tag/v5.11.1) (2026-04-04)
 
+### Tools
+
+- Zephir Parser v1.8.0
+- Zephir 0.19.0 (development - 1f9b9b0b2)
+
 ### Changed
 
 ### Added
@@ -1060,6 +1160,11 @@
 ### Removed
 
 ## [5.11.0](https://github.com/phalcon/cphalcon/releases/tag/v5.11.0) (2026-04-03)
+
+### Tools
+
+- Zephir Parser v1.8.0
+- Zephir 0.19.0 (development - c5b10f3d4)
 
 ### Changed
 
@@ -1091,6 +1196,11 @@
 
 ## [5.10.0](https://github.com/phalcon/cphalcon/releases/tag/v5.10.0) (2025-12-25)
 
+### Tools
+
+- Zephir Parser v1.8.0
+- Zephir 0.19.0 (development - 337c6f9f8)
+
 ### Changed
 
 - Changed `bind()` and `validate()` method in `Phalcon\Filter\Validation` and `Phalcon\Filter\Validation\ValidationInterface` to accept `$whitelist` array of only allowed fields to be mutated when using entity [#16800](https://github.com/phalcon/cphalcon/issues/16800)
@@ -1117,6 +1227,11 @@
 
 ## [5.9.3](https://github.com/phalcon/cphalcon/releases/tag/v5.9.3) (2025-04-19)
 
+### Tools
+
+- Zephir Parser v1.6.1
+- Zephir 0.18.0 (development - fdf88639b)
+
 ### Changed
 - Added Multi-Stage Dockerfile and Github action for release Docker images to ghcr.io and Docker Hub. [#16752](https://github.com/phalcon/cphalcon/issues/16752)
 
@@ -1136,6 +1251,11 @@
 
 ## [5.9.2](https://github.com/phalcon/cphalcon/releases/tag/v5.9.2) (2025-04-03)
 
+### Tools
+
+- Zephir Parser v1.6.1
+- Zephir 0.18.0 (development - fdf88639b)
+
 ### Changed
 
 ### Added
@@ -1148,6 +1268,11 @@
 ### Removed
 
 ## [5.9.1](https://github.com/phalcon/cphalcon/releases/tag/v5.9.1) (2025-03-31)
+
+### Tools
+
+- Zephir Parser v1.6.1
+- Zephir 0.18.0 (development - fdf88639b)
 
 ### Changed
 
@@ -1164,6 +1289,11 @@
 ### Removed
 
 ## [5.9.0](https://github.com/phalcon/cphalcon/releases/tag/v5.9.0) (2025-03-08)
+
+### Tools
+
+- Zephir Parser v1.6.1
+- Zephir 0.18.0 (development - fdf88639b)
 
 ### Changed
 
@@ -1194,17 +1324,10 @@
 
 ## [5.8.0](https://github.com/phalcon/cphalcon/releases/tag/v5.8.0) (2024-07-09)
 
-### Changed
+### Tools
 
-### Added
-
-### Fixed
-
-- Fixed `Phalcon\Di\Injectable` to reference the correct instance of `Phalcon\Di\Di` in the docblock property [#16634](https://github.com/phalcon/cphalcon/issues/16634)
-
-### Removed
-
-## [5.8.0](https://github.com/phalcon/cphalcon/releases/tag/v5.8.0) (2024-07-09)
+- Zephir Parser v1.6.1
+- Zephir 0.18.0 (development - b0dd977ec)
 
 ### Changed
 
@@ -1230,12 +1353,18 @@
 
 ### Fixed
 
-- Fixed `Phalcon\Support\Helper\PascalCase` causing memory leak by anonymous function [#16593](https://github.com/phalcon/cphalcon/issues/16593)
+- Fixed `Phalcon\Di\Injectable` to reference the correct instance of `Phalcon\Di\Di` in the docblock property [#16634](https://github.com/phalcon/cphalcon/issues/16634)
 - Fixed `Phalcon\Mvc\Model\Query` to rollback failed transactions and re-throw exception for data consistency [#16604](https://github.com/phalcon/cphalcon/issues/16604)
+- Fixed `Phalcon\Support\Helper\PascalCase` causing memory leak by anonymous function [#16593](https://github.com/phalcon/cphalcon/issues/16593)
 
 ### Removed
 
 ## [5.7.0](https://github.com/phalcon/cphalcon/releases/tag/v5.7.0) (2024-05-17)
+
+### Tools
+
+- Zephir Parser v1.6.0
+- Zephir 0.18.0 (development - d1bb90a8b)
 
 ### Changed
 
@@ -1257,6 +1386,11 @@
 
 ## [5.6.2](https://github.com/phalcon/cphalcon/releases/tag/v5.6.1) (2024-03-14)
 
+### Tools
+
+- Zephir Parser v1.6.0
+- Zephir 0.18.0 (development - d1bb90a8b)
+
 ### Changed
 
 - Changed `Phalcon\Mvc\View\Engine\Volt\Compiler::filter` to use the helper with `upper` and `lower` for UTF-8 characters [#16543](https://github.com/phalcon/cphalcon/issues/16543)
@@ -1269,6 +1403,11 @@
 ### Removed
 
 ## [5.6.1](https://github.com/phalcon/cphalcon/releases/tag/v5.6.1) (2024-02-08)
+
+### Tools
+
+- Zephir Parser v1.6.0
+- Zephir 0.18.0 (development - d1bb90a8b)
 
 ### Changed
 
@@ -1287,6 +1426,11 @@
 ### Removed
 
 ## [5.6.0](https://github.com/phalcon/cphalcon/releases/tag/v5.6.0) (2024-01-09)
+
+### Tools
+
+- Zephir Parser v1.6.0
+- Zephir 0.18.0 (development - 254df48dd)
 
 ### Changed
 
@@ -1307,6 +1451,11 @@
 
 ## [5.5.0](https://github.com/phalcon/cphalcon/releases/tag/v5.5.0) (2023-12-25)
 
+### Tools
+
+- Zephir Parser v1.6.0
+- Zephir 0.18.0 (development - 254df48dd)
+
 ### Changed
 
 - Shifted minimal support from PHP 7.4 to PHP 8.0 [#16477](https://github.com/phalcon/cphalcon/issues/16477)
@@ -1326,6 +1475,11 @@
 ### Removed
 
 ## [5.4.0](https://github.com/phalcon/cphalcon/releases/tag/v5.4.0) (2023-10-25)
+
+### Tools
+
+- Zephir Parser v1.5.3
+- Zephir 0.17.0 (development - 9f99da6da)
 
 ### Changed
 
@@ -1348,6 +1502,11 @@
 
 ## [5.3.1](https://github.com/phalcon/cphalcon/releases/tag/v5.3.1) (2023-09-12)
 
+### Tools
+
+- Zephir Parser v1.5.3
+- Zephir 0.17.0 (development - 9f99da6da)
+
 ### Fixed
 
 - Fixed infinite save loop in `Phalcon\Mvc\Model::save()` [#16395](https://github.com/phalcon/cphalcon/issues/16395)
@@ -1355,6 +1514,11 @@
 - Fixed memory leak in `Phalcon\Mvc\Router::handle()` [#16431](https://github.com/phalcon/cphalcon/pull/16431)
 
 ## [5.3.0](https://github.com/phalcon/cphalcon/releases/tag/v5.3.0) (2023-08-15)
+
+### Tools
+
+- Zephir Parser v1.5.3
+- Zephir 0.17.0 (development - 9f99da6da)
 
 ### Changed
 
@@ -1386,6 +1550,11 @@
 
 ## [5.2.3](https://github.com/phalcon/cphalcon/releases/tag/v5.2.3) (2023-07-26)
 
+### Tools
+
+- Zephir Parser v1.5.3
+- Zephir 0.17.0 (development - 9f99da6da)
+
 ### Added
 
 - Added `getAdapter()` in `Phalcon\Mvc\Model\Metadata` to retrieve the internal cache adapter if necessary. [#16244](https://github.com/phalcon/cphalcon/issues/16244)
@@ -1402,6 +1571,11 @@
 
 ## [5.2.2](https://github.com/phalcon/cphalcon/releases/tag/v5.2.2) (2023-06-18)
 
+### Tools
+
+- Zephir Parser v1.5.3
+- Zephir 0.17.0 (development - 9f99da6da)
+
 ### Fixed
 
 - Fixed `Encryption\Crypt::checkCipherHashIsAvailable` to allow proper setting of the hash [#16314](https://github.com/phalcon/cphalcon/issues/16314)
@@ -1411,11 +1585,21 @@
 
 ## [5.2.1](https://github.com/phalcon/cphalcon/releases/tag/v5.2.1) (2023-02-28)
 
+### Tools
+
+- Zephir Parser v1.5.3
+- Zephir 0.17.0 (development - 9f99da6da)
+
 ### Fixed
 
 - Fixed compilation under PHP 8.2 [#16293](https://github.com/phalcon/cphalcon/issues/16293), [#16295](https://github.com/phalcon/cphalcon/issues/16295)
 
 ## [5.2.0](https://github.com/phalcon/cphalcon/releases/tag/v5.2.0) (2023-02-26)
+
+### Tools
+
+- Zephir Parser v1.5.3
+- Zephir 0.17.0 (development - 9f99da6da)
 
 ### Added
 
@@ -1427,11 +1611,21 @@
 
 ## [5.1.4](https://github.com/phalcon/cphalcon/releases/tag/v5.1.4) (2023-01-10)
 
+### Tools
+
+- Zephir Parser v1.5.1
+- Zephir 0.16.3 (development - 5099f3453)
+
 ### Fixed
 
 - Fixed `Phalcon\Acl\Adapter\Memory::isAllowed` to not use the deprecated `ReflectionType::getClass` [#16255](https://github.com/phalcon/cphalcon/issues/16255)
 
 ## [5.1.3](https://github.com/phalcon/cphalcon/releases/tag/v5.1.3) (2022-12-25)
+
+### Tools
+
+- Zephir Parser v1.5.1
+- Zephir 0.16.3 (development - 5099f3453)
 
 ### Fixed
 
@@ -1439,6 +1633,11 @@
 - Fixed `Phalcon\DI\Service::resolve` to not call the `get()` from the container and cause an infinite loop [#15032](https://github.com/phalcon/cphalcon/issues/15032)
 
 ## [5.1.2](https://github.com/phalcon/cphalcon/releases/tag/v5.1.2) (2022-10-30)
+
+### Tools
+
+- Zephir Parser v1.5.1
+- Zephir 0.16.3 (development - 5099f3453)
 
 ### Fixed
 
@@ -1449,12 +1648,22 @@
 
 ## [5.1.1](https://github.com/phalcon/cphalcon/releases/tag/v5.1.1) (2022-11-12)
 
+### Tools
+
+- Zephir Parser v1.5.1
+- Zephir 0.16.3 (development - 5099f3453)
+
 ### Fixed
 
 - Fixed `Phalcon\Filter::sanitize` to return correct data when `noRecursive` is `true` [#16199](https://github.com/phalcon/cphalcon/issues/16199)
 - Fixed `Phalcon\Html\Escaper::html` to not return `null` when a zero string is passed [#16202](https://github.com/phalcon/cphalcon/issues/16202)
 
 ## [5.1.0](https://github.com/phalcon/cphalcon/releases/tag/v5.1.0) (2022-11-01)
+
+### Tools
+
+- Zephir Parser v1.5.1
+- Zephir 0.16.3 (development - 5099f3453)
 
 ### Added
 
@@ -1470,6 +1679,11 @@
 
 ## [5.0.5](https://github.com/phalcon/cphalcon/releases/tag/v5.0.5) (2022-10-24)
 
+### Tools
+
+- Zephir Parser v1.5.1
+- Zephir 0.16.3 (development - 5099f3453)
+
 ### Fixed
 
 - Fixed `Phalcon\Config\Config::setData` to pass the `insensitive` flag to child objects [#16171](https://github.com/phalcon/cphalcon/issues/16171)
@@ -1479,6 +1693,11 @@
 - Fixed `Forms\Form::label` to accept an array as a default variable [#16180](https://github.com/phalcon/cphalcon/issues/16180)
 
 ## [5.0.4](https://github.com/phalcon/cphalcon/releases/tag/v5.0.4) (2022-10-17)
+
+### Tools
+
+- Zephir Parser v1.5.1
+- Zephir 0.16.3 (development - 5099f3453)
 
 ### Fixed
 
@@ -1491,6 +1710,11 @@
 
 ## [5.0.3](https://github.com/phalcon/cphalcon/releases/tag/v5.0.3) (2022-10-06)
 
+### Tools
+
+- Zephir Parser v1.5.1
+- Zephir 0.16.3 (development - 5099f3453)
+
 ### Changed
 
 - Fixed `Phalcon\Filter\Sanitize\StringVal` to accept flags for `htmlspecialchars()` [#16135](https://github.com/phalcon/cphalcon/issues/16135)
@@ -1500,6 +1724,11 @@
 - Fixed `Phalcon\Html\Escaper::attributes()` to honor the `$flags` set for `htmlspecialchars()` [#16134](https://github.com/phalcon/cphalcon/issues/16134)
 
 ## [5.0.2](https://github.com/phalcon/cphalcon/releases/tag/v5.0.2) (2022-09-27)
+
+### Tools
+
+- Zephir Parser v1.5.1
+- Zephir 0.16.3 (development - 5099f3453)
 
 ### Fixed
 
@@ -1517,6 +1746,11 @@
 - Fixed `Phalcon\Encryption\Security\JWT\Token\Token::validate()` to correctly call validator methods [#16115](https://github.com/phalcon/cphalcon/issues/16115)
 
 ## [5.0.0](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0) (2022-09-22)
+
+### Tools
+
+- Zephir Parser v1.5.1
+- Zephir 0.16.3 (development - 5099f3453)
 
 ### Changed
 
@@ -1542,6 +1776,11 @@
 
 ## [5.0.0rc4](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0RC4) (2022-08-08)
 
+### Tools
+
+- Zephir Parser v1.5.0
+- Zephir 0.16.0 (development - 4fac47bac)
+
 ### Fixed
 
 - Reverted to single quotes when volt code generates PHP code.
@@ -1566,6 +1805,11 @@
     - Added better support for webm images [#15977](https://github.com/phalcon/cphalcon/issues/15977)
 
 ## [5.0.0rc3](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0RC3) (2022-07-12)
+
+### Tools
+
+- Zephir Parser v1.5.0
+- Zephir 0.16.0 (development - 4fac47bac)
 
 ### Added
 
@@ -1594,6 +1838,11 @@
 
 ## [5.0.0rc2](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0RC2) (2022-06-09)
 
+### Tools
+
+- Zephir Parser v1.5.0
+- Zephir 0.16.0 (development - 4fac47bac)
+
 ### Changed
 
 - Changed the `StringVal` filter to now use `htmlspecialchars()` [#15978](https://github.com/phalcon/cphalcon/issues/15978)
@@ -1607,6 +1856,11 @@
 - Fixed `Phalcon\Http\Response::getQualityHeader()` to check if the server variable is `null` before performing `preg_split` [#15984](https://github.com/phalcon/cphalcon/issues/15984)
 
 ## [5.0.0rc1](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0RC1) (2022-05-31)
+
+### Tools
+
+- Zephir Parser v1.5.0
+- Zephir 0.16.0 (development - 4fac47bac)
 
 ### Changed
 
@@ -2096,3 +2350,7 @@
 - Changes to the `Phalcon\Annotations\Adapter\AdapterInterface`:
     - Added `getConstant()` method that returns class constant annotations collection
     - Added `getConstants()` method that returns class constants annotations array list
+
+
+[keep_a_changelog]: https://keepachangelog.com/en/1.1.0/
+[semantic_versioning]: https://semver.org/spec/v2.0.0.html

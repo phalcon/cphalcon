@@ -77,6 +77,23 @@ PHP_METHOD(Phalcon_Queue_Consumer_WorkerOptions, __construct)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
+	static zend_string *_zephir_prop_0 = NULL;
+	static zend_string *_zephir_prop_1 = NULL;
+	static zend_string *_zephir_prop_2 = NULL;
+	static zend_string *_zephir_prop_3 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("maxMessages", 11, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_1)) {
+		_zephir_prop_1 = zend_string_init("maxSeconds", 10, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_2)) {
+		_zephir_prop_2 = zend_string_init("maxMemory", 9, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_3)) {
+		_zephir_prop_3 = zend_string_init("jitter", 6, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(0, 4)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_LONG(maxMessages)
@@ -103,16 +120,16 @@ PHP_METHOD(Phalcon_Queue_Consumer_WorkerOptions, __construct)
 		}
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, maxMessages);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("maxMessages"), &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1242, &_0);
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, maxSeconds);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("maxSeconds"), &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1243, &_0);
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, maxMemory);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("maxMemory"), &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 1244, &_0);
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, jitter);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("jitter"), &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 1245, &_0);
 }
 
 PHP_METHOD(Phalcon_Queue_Consumer_WorkerOptions, getJitter)

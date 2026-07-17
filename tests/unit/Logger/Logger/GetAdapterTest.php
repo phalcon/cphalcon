@@ -16,10 +16,10 @@ namespace Phalcon\Tests\Unit\Logger\Logger;
 use Phalcon\Logger\Adapter\Stream;
 use Phalcon\Logger\Exception;
 use Phalcon\Logger\Logger;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 
 use function file_get_contents;
-use function logsDir;
 
 final class GetAdapterTest extends AbstractUnitTestCase
 {
@@ -30,7 +30,7 @@ final class GetAdapterTest extends AbstractUnitTestCase
     public function testLoggerGetAdapter(): void
     {
         $fileName1  = $this->getNewFileName('log', 'log');
-        $outputPath = logsDir();
+        $outputPath = Talon::settings()->outputPath('tests/logs/');
         $adapter1   = new Stream($outputPath . $fileName1);
 
         $logger = new Logger(
@@ -57,7 +57,7 @@ final class GetAdapterTest extends AbstractUnitTestCase
     {
         $fileName1  = $this->getNewFileName('log', 'log');
         $fileName2  = $this->getNewFileName('log', 'log');
-        $outputPath = logsDir();
+        $outputPath = Talon::settings()->outputPath('tests/logs/');
 
         $adapter1 = new Stream($outputPath . $fileName1);
         $adapter2 = new Stream($outputPath . $fileName2);

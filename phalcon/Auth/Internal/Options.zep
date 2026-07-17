@@ -14,6 +14,8 @@
 namespace Phalcon\Auth\Internal;
 
 use Phalcon\Auth\Exception;
+use Phalcon\Auth\Exceptions\OptionRequiresArray;
+use Phalcon\Auth\Exceptions\OptionRequiresString;
 
 /**
  * Internal option-parsing helpers shared by adapter / guard fromOptions()
@@ -54,9 +56,7 @@ final class Options
         fetch value, options[key];
 
         if (typeof value !== "array" || empty(value)) {
-            throw new Exception(
-                sprintf("Auth %s requires '%s' to be a non-empty array", context, key)
-            );
+            throw new OptionRequiresArray(context, key);
         }
 
         return value;
@@ -74,9 +74,7 @@ final class Options
         fetch value, options[key];
 
         if (typeof value !== "string" || value === "") {
-            throw new Exception(
-                sprintf("Auth %s requires '%s' to be a non-empty string", context, key)
-            );
+            throw new OptionRequiresString(context, key);
         }
 
         return value;

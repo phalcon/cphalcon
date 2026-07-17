@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Db\Dialect\Mysql;
 
+use Phalcon\Db\Dialect\Mysql;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use PHPUnit\Framework\Attributes\Group;
 
@@ -29,6 +30,20 @@ final class RegisterCustomFunctionTest extends AbstractDatabaseTestCase
      */
     public function testDbDialectMysqlRegisterCustomFunction(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $dialect = new Mysql();
+
+        $returned = $dialect->registerCustomFunction(
+            'MYFUNC',
+            function ($dialect, $expression) {
+                return 'MYFUNC()';
+            }
+        );
+
+        $this->assertSame($dialect, $returned);
+
+        $functions = $dialect->getCustomFunctions();
+
+        $this->assertArrayHasKey('MYFUNC', $functions);
+        $this->assertIsCallable($functions['MYFUNC']);
     }
 }

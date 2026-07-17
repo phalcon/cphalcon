@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Encryption\Security;
 
 use Phalcon\Encryption\Security;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 final class CheckHashTest extends AbstractUnitTestCase
@@ -66,5 +66,22 @@ final class CheckHashTest extends AbstractUnitTestCase
 
         $actual = $security->checkHash($password, $password, 2);
         $this->assertFalse($actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    public function testEncryptionSecurityCheckHashMaxPassLength(): void
+    {
+        $security = new Security();
+        $password = 'PhalconROCKS!';
+        $hash     = $security->hash($password);
+
+        // within the limit: a valid hash verifies normally
+        $this->assertTrue($security->checkHash($password, $hash, 100));
+
+        // exceeds maxPassLength: short-circuits to false even though the hash matches
+        $this->assertFalse($security->checkHash($password, $hash, 4));
     }
 }

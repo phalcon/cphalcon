@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Forms\Form;
 
 use Phalcon\Filter\Validation;
 use Phalcon\Forms\Form;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class GetValidationTest extends AbstractUnitTestCase
 {

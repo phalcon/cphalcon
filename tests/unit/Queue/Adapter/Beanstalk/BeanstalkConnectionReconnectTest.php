@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Queue\Adapter\Beanstalk;
 
 use Phalcon\Queue\Adapter\Beanstalk\BeanstalkConnection;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use ReflectionMethod;
 
 use function array_slice;
@@ -72,6 +72,12 @@ final class BeanstalkConnectionReconnectTest extends AbstractUnitTestCase
         );
     }
 
+    private function restoreSession(BeanstalkConnection $connection): void
+    {
+        $method = new ReflectionMethod(BeanstalkConnection::class, 'restoreSession');
+        $method->invoke($connection);
+    }
+
     /**
      * Builds a BeanstalkConnection whose socket writes are captured into
      * $commands and whose status reads return $status, so the protocol layer
@@ -98,12 +104,5 @@ final class BeanstalkConnectionReconnectTest extends AbstractUnitTestCase
         $connection->method('readStatus')->willReturn($status);
 
         return $connection;
-    }
-
-    private function restoreSession(BeanstalkConnection $connection): void
-    {
-        $method = new ReflectionMethod(BeanstalkConnection::class, 'restoreSession');
-        $method->setAccessible(true);
-        $method->invoke($connection);
     }
 }

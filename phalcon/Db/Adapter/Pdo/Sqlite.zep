@@ -50,7 +50,7 @@ class Sqlite extends PdoAdapter
     /**
      * Constructor for Phalcon\Db\Adapter\Pdo\Sqlite
      */
-    public function __construct(array! descriptor)
+    public function __construct( array descriptor)
     {
         if isset descriptor["charset"] {
             trigger_error(
@@ -65,7 +65,7 @@ class Sqlite extends PdoAdapter
      * This method is automatically called in Phalcon\Db\Adapter\Pdo
      * constructor. Call it when you need to restore a database connection.
      */
-    public function connect(array! descriptor = []) -> void
+    public function connect( array descriptor = []) -> void
     {
         var dbname;
 
@@ -93,7 +93,7 @@ class Sqlite extends PdoAdapter
      * );
      * ```
      */
-    public function describeColumns(string! table, string! schema = null) -> <ColumnInterface[]>
+    public function describeColumns( string table,  string schema = null) -> <ColumnInterface[]>
     {
         var columns, columnType, fields, field, definition, oldColumn,
             sizePattern, matches, matchOne, matchTwo, columnName, hiddenFlag;
@@ -317,7 +317,7 @@ class Sqlite extends PdoAdapter
                  */
                 if !empty(field[4]) && strcasecmp(field[4], "null") !== 0 {
                     let definition["default"] = preg_replace(
-                        "/^'|'$/",
+                        "/(?:^')|(?:'$)/",
                         "",
                         field[4]
                     );
@@ -340,11 +340,11 @@ class Sqlite extends PdoAdapter
      *
      * ```php
      * print_r(
-     *     $connection->describeIndexes("robots_parts")
+     *     $connection->describeIndexes("co_orders_x_products")
      * );
      * ```
      */
-    public function describeIndexes(string! table, string! schema = null) -> <IndexInterface[]>
+    public function describeIndexes( string table,  string schema = null) -> <IndexInterface[]>
     {
         var indexes, index, keyName, indexObjects, name, columns,
             describeIndexes, describeIndex, indexSql;
@@ -406,7 +406,7 @@ class Sqlite extends PdoAdapter
     /**
      * Lists table references
      */
-    public function describeReferences(string! table, string! schema = null) -> <ReferenceInterface[]>
+    public function describeReferences( string table,  string schema = null) -> <ReferenceInterface[]>
     {
         var references, reference, arrayReference, constraintName,
             referenceObjects, name, referencedSchema, referencedTable, columns,
@@ -462,16 +462,16 @@ class Sqlite extends PdoAdapter
      * in the table definition
      *
      *```php
-     * // Inserting a new robot with a valid default value for the column 'year'
+     * // Inserting a new invoice with a valid default value for the column 'inv_total'
      * $success = $connection->insert(
-     *     "robots",
+     *     "co_invoices",
      *     [
-     *         "Astro Boy",
+     *         "Test Invoice",
      *         $connection->getDefaultValue(),
      *     ],
      *     [
-     *         "name",
-     *         "year",
+     *         "inv_title",
+     *         "inv_total",
      *     ]
      * );
      *```

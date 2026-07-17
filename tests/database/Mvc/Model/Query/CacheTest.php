@@ -16,6 +16,7 @@ namespace Phalcon\Tests\Database\Mvc\Model\Query;
 use Phalcon\Cache\AdapterFactory;
 use Phalcon\Cache\Cache;
 use Phalcon\Storage\SerializerFactory;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Models\Invoices;
@@ -23,12 +24,16 @@ use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 
-use function cacheDir;
-
 #[Group('phql')]
 final class CacheTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
+
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+    }
 
     /**
      * @return string[][]
@@ -51,12 +56,6 @@ final class CacheTest extends AbstractDatabaseTestCase
         ];
     }
 
-    public function setUp(): void
-    {
-        $this->setNewFactoryDefault();
-        $this->setDatabase();
-    }
-
     /**
      * @issue
      * @author       Phalcon Team <team@phalcon.io>
@@ -69,7 +68,7 @@ final class CacheTest extends AbstractDatabaseTestCase
     public function testMvcModelQueryCache(
         string $serializer
     ): void {
-        (new InvoicesMigration(self::getConnection()));
+        (new InvoicesMigration(self::getPdoConnection()));
 
         $this->container->set(
             'modelsCache',
@@ -82,7 +81,7 @@ final class CacheTest extends AbstractDatabaseTestCase
                 $options = [
                     'defaultSerializer' => $serializer,
                     'lifetime'          => $lifetime,
-                    'storageDir'        => cacheDir('mvcModelQueryCache'),
+                    'storageDir'        => Talon::settings()->outputPath('tests/cache/' . 'mvcModelQueryCache'),
                 ];
 
                 $adapter = $adapterFactory->newInstance('stream', $options);

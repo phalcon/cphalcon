@@ -16,8 +16,6 @@
 #include "kernel/array.h"
 #include "kernel/fcall.h"
 #include "kernel/object.h"
-#include "ext/spl/spl_exceptions.h"
-#include "kernel/exception.h"
 #include "kernel/operators.h"
 
 
@@ -70,6 +68,15 @@ PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, __construct)
 	ZVAL_UNDEF(&messageStr);
 	ZVAL_UNDEF(&message);
 	ZVAL_UNDEF(&validationMessages);
+	static zend_string *_zephir_prop_0 = NULL;
+	static zend_string *_zephir_prop_1 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("model", 5, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_1)) {
+		_zephir_prop_1 = zend_string_init("validationMessages", 18, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
 		ZEPHIR_Z_PARAM_ARRAY(validationMessages, validationMessages_param)
@@ -77,7 +84,7 @@ PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, __construct)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &model, &validationMessages_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&validationMessages, validationMessages_param);
+	zephir_get_arrval(&validationMessages, validationMessages_param);
 	if (zephir_fast_count_int(&validationMessages) > 0) {
 		zephir_memory_observe(&message);
 		zephir_array_fetch_long(&message, &validationMessages, 0, PH_NOISY, "phalcon/Mvc/Model/ValidationFailed.zep", 48);
@@ -87,8 +94,8 @@ PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, __construct)
 		ZEPHIR_INIT_NVAR(&messageStr);
 		ZVAL_STRING(&messageStr, "Validation failed");
 	}
-	zephir_update_property_zval(this_ptr, ZEND_STRL("model"), model);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("validationMessages"), &validationMessages);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1070, model);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1071, &validationMessages);
 	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_model_validationfailed_ce, getThis(), "__construct", NULL, 0, &messageStr);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

@@ -53,7 +53,7 @@ final class ExecInsertTest extends AbstractDatabaseTestCase
     #[Group('mysql')]
     public function testDbAdapterPdoInsert(): void
     {
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $migration  = new DialectMigration($connection);
         $sql        = <<<SQL
 insert into co_dialect (

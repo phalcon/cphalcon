@@ -15,8 +15,7 @@
 #include "kernel/object.h"
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
-#include "ext/spl/spl_exceptions.h"
-#include "kernel/exception.h"
+#include "kernel/operators.h"
 #include "kernel/array.h"
 
 
@@ -52,6 +51,11 @@ PHP_METHOD(Phalcon_Storage_AdapterFactory, __construct)
 
 	ZVAL_UNDEF(&factory_sub);
 	ZVAL_UNDEF(&services);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("serializerFactory", 17, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_OBJECT_OF_CLASS(factory, phalcon_storage_serializerfactory_ce)
 		Z_PARAM_OPTIONAL
@@ -64,9 +68,9 @@ PHP_METHOD(Phalcon_Storage_AdapterFactory, __construct)
 		ZEPHIR_INIT_VAR(&services);
 		array_init(&services);
 	} else {
-	ZEPHIR_OBS_COPY_OR_DUP(&services, services_param);
+		zephir_get_arrval(&services, services_param);
 	}
-	zephir_update_property_zval(this_ptr, ZEND_STRL("serializerFactory"), factory);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1268, factory);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "init", NULL, 0, &services);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
@@ -113,6 +117,11 @@ PHP_METHOD(Phalcon_Storage_AdapterFactory, newInstance)
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&options);
 	ZVAL_UNDEF(&_0);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("serializerFactory", 17, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(name)
 		Z_PARAM_OPTIONAL
@@ -129,14 +138,14 @@ PHP_METHOD(Phalcon_Storage_AdapterFactory, newInstance)
 		ZEPHIR_INIT_VAR(&options);
 		array_init(&options);
 	} else {
-	ZEPHIR_OBS_COPY_OR_DUP(&options, options_param);
+		zephir_get_arrval(&options, options_param);
 	}
 	ZEPHIR_CALL_METHOD(&definition, this_ptr, "getservice", NULL, 0, &name_zv);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_create_array(&_0, 2, 0);
 	zephir_memory_observe(&_1);
-	zephir_read_property(&_1, this_ptr, ZEND_STRL("serializerFactory"), PH_NOISY_CC);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 1268, PH_NOISY_CC);
 	zephir_array_fast_append(&_0, &_1);
 	zephir_array_fast_append(&_0, &options);
 	ZEPHIR_LAST_CALL_STATUS = zephir_create_instance_params(return_value, &definition, &_0);

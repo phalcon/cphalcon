@@ -78,6 +78,11 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_Version5, __construct)
 	ZVAL_UNDEF(&_16);
 	ZVAL_UNDEF(&_17);
 	ZVAL_UNDEF(&_18);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("uid", 3, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_STR(namespaceName)
 		Z_PARAM_STR(name)
@@ -126,11 +131,11 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_Version5, __construct)
 	ZEPHIR_CALL_FUNCTION(&_17, "substr_replace", NULL, 0, &hash, &_15, &_14, &_16);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(&hash, &_17);
-	ZEPHIR_CALL_FUNCTION(&_18, "bin2hex", NULL, 326, &hash);
+	ZEPHIR_CALL_FUNCTION(&_18, "bin2hex", NULL, 333, &hash);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_17, this_ptr, "format", NULL, 0, &_18);
 	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, ZEND_STRL("uid"), &_17);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 667, &_17);
 	ZEPHIR_MM_RESTORE();
 }
 

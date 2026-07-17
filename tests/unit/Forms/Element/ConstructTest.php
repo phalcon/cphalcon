@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Forms\Element;
 
 use InvalidArgumentException;
 use Phalcon\Forms\Element\Text;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Forms\Fake\FormsTrait;
 use PHPUnit\Framework\Attributes\DataProvider;
 
@@ -24,6 +24,18 @@ use function uniqid;
 final class ConstructTest extends AbstractUnitTestCase
 {
     use FormsTrait;
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    public function testFormsElementConstructEmptyNameThrows(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Form element name is required');
+
+        new Text('');
+    }
 
     /**
      * @author       Phalcon Team <team@phalcon.io>
@@ -51,17 +63,5 @@ final class ConstructTest extends AbstractUnitTestCase
         $expected = $attributes;
         $actual   = $object->getAttributes();
         $this->assertSame($expected, $actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2024-01-01
-     */
-    public function testFormsElementConstructEmptyNameThrows(): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Form element name is required');
-
-        new Text('');
     }
 }

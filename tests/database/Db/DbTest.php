@@ -49,7 +49,7 @@ final class DbTest extends AbstractDatabaseTestCase
     #[Group('sqlite')]
     public function testDb(): void
     {
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $migration  = new InvoicesMigration($connection);
 
         $db = $this->getService('db');

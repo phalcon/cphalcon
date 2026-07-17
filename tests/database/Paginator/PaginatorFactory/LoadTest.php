@@ -18,7 +18,11 @@ use Phalcon\Paginator\PaginatorFactory;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use Phalcon\Tests\Support\Traits\FactoryTrait;
+use PHPUnit\Framework\Attributes\Group;
 
+#[Group('mysql')]
+#[Group('pgsql')]
+#[Group('sqlite')]
 final class LoadTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -45,7 +49,7 @@ final class LoadTest extends AbstractDatabaseTestCase
         $options['options']['builder'] = $modelsManager
             ->createBuilder()
             ->columns('id,name')
-            ->from('Robots')
+            ->from('Invoices')
             ->orderBy('name')
         ;
 
@@ -71,7 +75,7 @@ final class LoadTest extends AbstractDatabaseTestCase
         $options->options->builder = $modelsManager
             ->createBuilder()
             ->columns('id,name')
-            ->from('Robots')
+            ->from('Invoices')
             ->orderBy('name')
         ;
 

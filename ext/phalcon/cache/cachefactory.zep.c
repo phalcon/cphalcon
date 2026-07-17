@@ -16,8 +16,7 @@
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/array.h"
-#include "ext/spl/spl_exceptions.h"
-#include "kernel/exception.h"
+#include "kernel/operators.h"
 
 
 /**
@@ -51,11 +50,16 @@ PHP_METHOD(Phalcon_Cache_CacheFactory, __construct)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&factory_sub);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("adapterFactory", 14, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT_OF_CLASS(factory, phalcon_cache_adapterfactory_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &factory);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("adapterFactory"), factory);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 432, factory);
 }
 
 /**
@@ -168,6 +172,11 @@ PHP_METHOD(Phalcon_Cache_CacheFactory, newInstance)
 	ZVAL_UNDEF(&adapter);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&options);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("adapterFactory", 14, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(name)
 		Z_PARAM_OPTIONAL
@@ -184,13 +193,13 @@ PHP_METHOD(Phalcon_Cache_CacheFactory, newInstance)
 		ZEPHIR_INIT_VAR(&options);
 		array_init(&options);
 	} else {
-	ZEPHIR_OBS_COPY_OR_DUP(&options, options_param);
+		zephir_get_arrval(&options, options_param);
 	}
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("adapterFactory"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 432, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&adapter, &_0, "newinstance", NULL, 0, &name_zv, &options);
 	zephir_check_call_status();
 	object_init_ex(return_value, phalcon_cache_cache_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 362, &adapter);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 380, &adapter);
 	zephir_check_call_status();
 	RETURN_MM();
 }

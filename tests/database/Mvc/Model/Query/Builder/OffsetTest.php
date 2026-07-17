@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Mvc\Model\Query\Builder;
 
+use Phalcon\Mvc\Model\Query\Builder;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use PHPUnit\Framework\Attributes\Group;
 
@@ -22,11 +23,16 @@ use PHPUnit\Framework\Attributes\Group;
 final class OffsetTest extends AbstractDatabaseTestCase
 {
     /**
+     * Tests Phalcon\Mvc\Model\Query\Builder :: offset()
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2026-06-22
      */
     public function testMvcModelQueryBuilderOffset(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $builder = new Builder();
+        $builder->offset(30);
+
+        $this->assertSame(30, $builder->getOffset());
     }
 }

@@ -43,6 +43,19 @@ final class GetSetStatusCodeTest extends AbstractHttpBase
 
     /**
      * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-29
+     */
+    public function testHttpResponseGetStatusCodeWithoutStatusHeader(): void
+    {
+        $response = $this->getResponseObject();
+        $response->resetHeaders();
+
+        $actual = $response->getStatusCode();
+        $this->assertNull($actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-08
      */
     public function testHttpResponseSetStatusCode(): void
@@ -106,6 +119,19 @@ final class GetSetStatusCodeTest extends AbstractHttpBase
     }
 
     /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    public function testHttpResponseSetStatusCodeUnknownCodeThrows(): void
+    {
+        $response = $this->getResponseObject();
+
+        $this->expectException(\Phalcon\Http\Response\Exception::class);
+        $this->expectExceptionMessage('Non-standard status-code given without a message');
+        $response->setStatusCode(999);
+    }
+
+    /**
      * @issue  https://github.com/phalcon/cphalcon/issues/1892
      * @author Kamil Skowron <git@hedonsoftware.com>
      * @since  2014-05-28
@@ -127,19 +153,6 @@ final class GetSetStatusCodeTest extends AbstractHttpBase
         $expected = Http::MESSAGE_409_CONFLICT;
         $actual   = $headers->get(Http::STATUS);
         $this->assertSame($expected, $actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2024-01-01
-     */
-    public function testHttpResponseSetStatusCodeUnknownCodeThrows(): void
-    {
-        $response = $this->getResponseObject();
-
-        $this->expectException(\Phalcon\Http\Response\Exception::class);
-        $this->expectExceptionMessage('Non-standard status-code given without a message');
-        $response->setStatusCode(999);
     }
 
     public function testSetStatusCodeDefaultMessage(): void

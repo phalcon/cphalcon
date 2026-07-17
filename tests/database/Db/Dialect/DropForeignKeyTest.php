@@ -43,25 +43,6 @@ final class DropForeignKeyTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Db\Dialect :: dropForeignKey - sqlite throws exception
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2020-01-20
-     */
-    #[Group('sqlite')]
-    public function testDbDialectDropForeignKeySqlite(): void
-    {
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage(
-            'Dropping a foreign key constraint is not supported by SQLite'
-        );
-
-        $dialect = new Sqlite();
-
-        $dialect->dropForeignKey('table', 'schema', 'fk_1');
-    }
-
-    /**
      * Tests Phalcon\Db\Dialect :: dropForeignKey
      *
      * @author       Phalcon Team <team@phalcon.io>
@@ -80,5 +61,24 @@ final class DropForeignKeyTest extends AbstractDatabaseTestCase
 
         $actual = $dialect->dropForeignKey('table', 'schema', 'fk_1');
         $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Db\Dialect :: dropForeignKey - sqlite throws exception
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-01-20
+     */
+    #[Group('sqlite')]
+    public function testDbDialectDropForeignKeySqlite(): void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage(
+            'Dropping a foreign key constraint is not supported by SQLite'
+        );
+
+        $dialect = new Sqlite();
+
+        $dialect->dropForeignKey('table', 'schema', 'fk_1');
     }
 }

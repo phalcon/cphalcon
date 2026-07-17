@@ -23,6 +23,17 @@ final class ValidateTypeTest extends AbstractCollectionTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-12
      */
+    public function testSupportCollectionAcceptsValidObjectType(): void
+    {
+        $collection = new Collection([], true, false, stdClass::class);
+        $collection->set('a', new stdClass());
+
+        $this->assertInstanceOf(stdClass::class, $collection->get('a'));
+    }
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-12
+     */
     public function testSupportCollectionAcceptsValidScalarType(): void
     {
         $collection = new Collection([], true, false, 'int');
@@ -35,24 +46,25 @@ final class ValidateTypeTest extends AbstractCollectionTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-12
      */
-    public function testSupportCollectionRejectsInvalidScalarType(): void
+    public function testSupportCollectionFilterPreservesTypeConfiguration(): void
     {
-        $this->expectException(InvalidArgumentException::class);
+        $collection = new Collection(['a' => 1, 'b' => 2], true, false, 'int');
 
-        $collection = new Collection([], true, false, 'int');
-        $collection->set('a', 'not an int');
+        $filtered = $collection->filter(static fn ($v) => $v > 1);
+
+        $this->assertSame('int', $filtered->getType());
     }
 
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-12
      */
-    public function testSupportCollectionAcceptsValidObjectType(): void
+    public function testSupportCollectionRejectsInvalidScalarType(): void
     {
-        $collection = new Collection([], true, false, stdClass::class);
-        $collection->set('a', new stdClass());
+        $this->expectException(InvalidArgumentException::class);
 
-        $this->assertInstanceOf(stdClass::class, $collection->get('a'));
+        $collection = new Collection([], true, false, 'int');
+        $collection->set('a', 'not an int');
     }
 
     /**
@@ -76,18 +88,5 @@ final class ValidateTypeTest extends AbstractCollectionTestCase
         $this->expectException(InvalidArgumentException::class);
 
         new Collection(['a' => 'string-value'], true, false, 'int');
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-05-12
-     */
-    public function testSupportCollectionFilterPreservesTypeConfiguration(): void
-    {
-        $collection = new Collection(['a' => 1, 'b' => 2], true, false, 'int');
-
-        $filtered = $collection->filter(static fn ($v) => $v > 1);
-
-        $this->assertSame('int', $filtered->getType());
     }
 }

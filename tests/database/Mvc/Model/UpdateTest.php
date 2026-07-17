@@ -37,7 +37,7 @@ final class UpdateTest extends AbstractDatabaseTestCase
         $this->setNewFactoryDefault();
         $this->setDatabase();
 
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         (new InvoicesMigration($connection));
     }
 
@@ -51,7 +51,7 @@ final class UpdateTest extends AbstractDatabaseTestCase
     public function testMvcModelSaveAfterWithoutDefaultValues(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
 
         $customersMigration = new CustomersDefaultsMigration($connection);
         $customersMigration->clear();
@@ -115,7 +115,7 @@ final class UpdateTest extends AbstractDatabaseTestCase
     public function testMvcModelSaveViaSettersAndLocalMethod(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
 
         $settersMigration = new SettersMigration($connection);
         $settersMigration->clear();
@@ -206,6 +206,49 @@ final class UpdateTest extends AbstractDatabaseTestCase
             ],
             $record->toArray()
         );
+    }
+
+    /**
+     * Calling update() on a record that does not exist must return false with
+     * an `InvalidUpdateAttempt` message and must not raise a deprecation
+     * warning when constructing the message.
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/17224
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-25
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelUpdateDoesNotExist(): void
+    {
+        $invoice            = new Invoices();
+        $invoice->inv_title = uniqid('inv-');
+
+        $deprecations = [];
+        set_error_handler(
+            static function (int $errno, string $errstr) use (&$deprecations): bool {
+                $deprecations[] = $errstr;
+
+                return true;
+            },
+            E_DEPRECATED
+        );
+
+        $result = $invoice->update();
+
+        restore_error_handler();
+
+        $this->assertFalse($result);
+        $this->assertEmpty($deprecations);
+
+        $messages = $invoice->getMessages();
+        $this->assertCount(1, $messages);
+
+        $expected = 'Record cannot be updated because it does not exist';
+        $this->assertSame($expected, $messages[0]->getMessage());
+        $this->assertSame('', $messages[0]->getField());
+        $this->assertSame('InvalidUpdateAttempt', $messages[0]->getType());
     }
 
     private function setColumn1(ModelInterface $model, string $value): void

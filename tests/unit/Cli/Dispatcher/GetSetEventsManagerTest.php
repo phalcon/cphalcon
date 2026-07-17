@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Cli\Dispatcher;
 
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
 
 final class GetSetEventsManagerTest extends AbstractUnitTestCase
@@ -26,6 +26,8 @@ final class GetSetEventsManagerTest extends AbstractUnitTestCase
      */
     public function testCliDispatcherGetSetEventsManager(): void
     {
+        $this->newDi();
+
         $console = $this->newService('console');
         $manager = $this->newService('eventsManager');
 

@@ -14,12 +14,27 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Events\Manager;
 
 use Phalcon\Events\Manager;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Events\Manager\Fake\MultiListenerSubscriber;
 use Phalcon\Tests\Unit\Events\Manager\Fake\SimpleSubscriber;
 
 final class GetSubscribersTest extends AbstractUnitTestCase
 {
+    public function testGetSubscribersDoesNotIncludeRemoved(): void
+    {
+        $manager          = new Manager();
+        $simpleSubscriber = new SimpleSubscriber();
+        $multiSubscriber  = new MultiListenerSubscriber();
+
+        $manager->addSubscriber($simpleSubscriber);
+        $manager->addSubscriber($multiSubscriber);
+        $manager->removeSubscriber($simpleSubscriber);
+
+        $registered = $manager->getSubscribers();
+
+        $this->assertCount(1, $registered);
+        $this->assertSame($multiSubscriber, $registered[0]);
+    }
     public function testGetSubscribersReturnsRegisteredInstances(): void
     {
         $manager = new Manager();
@@ -37,21 +52,5 @@ final class GetSubscribersTest extends AbstractUnitTestCase
         $this->assertCount(2, $registered);
         $this->assertContains($simpleSubscriber, $registered);
         $this->assertContains($multiSubscriber, $registered);
-    }
-
-    public function testGetSubscribersDoesNotIncludeRemoved(): void
-    {
-        $manager          = new Manager();
-        $simpleSubscriber = new SimpleSubscriber();
-        $multiSubscriber  = new MultiListenerSubscriber();
-
-        $manager->addSubscriber($simpleSubscriber);
-        $manager->addSubscriber($multiSubscriber);
-        $manager->removeSubscriber($simpleSubscriber);
-
-        $registered = $manager->getSubscribers();
-
-        $this->assertCount(1, $registered);
-        $this->assertSame($multiSubscriber, $registered[0]);
     }
 }

@@ -19,5 +19,5 @@ interface Filter
     /**
      * Filters the content returning a string with the filtered content
      */
-    public function filter(string! content) -> string;
+    public function filter( string content) -> string;
 }

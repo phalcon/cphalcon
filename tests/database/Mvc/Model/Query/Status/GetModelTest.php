@@ -13,7 +13,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Mvc\Model\Query\Status;
 
+use Phalcon\Mvc\Model\Query\Status;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use Phalcon\Tests\Support\Models\Invoices;
+use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\Group;
 
 #[Group('mysql')]
@@ -21,12 +24,27 @@ use PHPUnit\Framework\Attributes\Group;
 #[Group('sqlite')]
 final class GetModelTest extends AbstractDatabaseTestCase
 {
+    use DiTrait;
+
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+    }
+
     /**
+     * Tests Phalcon\Mvc\Model\Query\Status :: getModel()
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2026-06-22
      */
     public function testMvcModelQueryStatusGetModel(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $model = new Invoices();
+
+        $this->assertSame($model, (new Status(true, $model))->getModel());
+
+        // No model was provided to the status.
+        $this->assertNull((new Status(true))->getModel());
     }
 }

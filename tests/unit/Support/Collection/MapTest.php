@@ -21,19 +21,6 @@ final class MapTest extends AbstractCollectionTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-12
      */
-    public function testSupportCollectionMapPreservesKeys(): void
-    {
-        $collection = new Collection(['a' => 1, 'b' => 2]);
-
-        $mapped = $collection->map(static fn ($v) => $v * 10);
-
-        $this->assertSame(['a' => 10, 'b' => 20], $mapped->toArray());
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-05-12
-     */
     public function testSupportCollectionMapPassesKeyToCallback(): void
     {
         $collection = new Collection(['a' => 1, 'b' => 2]);
@@ -41,5 +28,17 @@ final class MapTest extends AbstractCollectionTestCase
         $mapped = $collection->map(static fn ($v, $k) => "$k=$v");
 
         $this->assertSame(['a' => 'a=1', 'b' => 'b=2'], $mapped->toArray());
+    }
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-12
+     */
+    public function testSupportCollectionMapPreservesKeys(): void
+    {
+        $collection = new Collection(['a' => 1, 'b' => 2]);
+
+        $mapped = $collection->map(static fn ($v) => $v * 10);
+
+        $this->assertSame(['a' => 10, 'b' => 20], $mapped->toArray());
     }
 }

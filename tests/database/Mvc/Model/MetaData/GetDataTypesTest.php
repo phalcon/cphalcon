@@ -24,6 +24,12 @@ final class GetDataTypesTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
 
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+    }
+
     /**
      * @return array[]
      */
@@ -45,12 +51,6 @@ final class GetDataTypesTest extends AbstractDatabaseTestCase
         ];
     }
 
-    public function setUp(): void
-    {
-        $this->setNewFactoryDefault();
-        $this->setDatabase();
-    }
-
     /**
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-02-01
@@ -62,7 +62,7 @@ final class GetDataTypesTest extends AbstractDatabaseTestCase
     ): void {
         $adapter = $this->newService($service);
         $adapter->setDi($this->container);
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
 
         $adapter->reset();
         $this->assertTrue($adapter->isEmpty());

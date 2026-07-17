@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Db\Dialect\Postgresql;
 
+use Phalcon\Db\Dialect\Postgresql;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use PHPUnit\Framework\Attributes\Group;
 
@@ -29,6 +30,16 @@ final class EscapeSchemaTest extends AbstractDatabaseTestCase
      */
     public function testDbDialectPostgresqlEscapeSchema(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $dialect = new Postgresql();
+
+        $this->assertSame(
+            '"schema"',
+            $dialect->escapeSchema('schema')
+        );
+
+        $this->assertSame(
+            '"schema"',
+            $dialect->escapeSchema('"schema"')
+        );
     }
 }

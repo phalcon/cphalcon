@@ -30,7 +30,7 @@ final class GetMessagesTest extends AbstractDatabaseTestCase
         $this->setDatabase();
 
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $migration  = new ObjectsMigration($connection);
         $migration->clear();
     }

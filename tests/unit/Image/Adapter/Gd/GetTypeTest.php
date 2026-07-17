@@ -14,7 +14,8 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Image\Adapter\Gd;
 
 use Phalcon\Image\Adapter\Gd;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\Unit\Image\Fake\GdTrait;
 use PHPUnit\Framework\Attributes\DataProvider;
 
@@ -36,27 +37,27 @@ final class GetTypeTest extends AbstractUnitTestCase
     {
         return [
             [
-                supportDir('assets/images/example-gif.gif'),
+                Talon::settings()->supportPath('assets/images/example-gif.gif'),
                 IMAGETYPE_GIF,
             ],
             [
-                supportDir('assets/images/example-jpg.jpg'),
+                Talon::settings()->supportPath('assets/images/example-jpg.jpg'),
                 IMAGETYPE_JPEG,
             ],
             [
-                supportDir('assets/images/example-png.png'),
+                Talon::settings()->supportPath('assets/images/example-png.png'),
                 IMAGETYPE_PNG,
             ],
             [
-                supportDir('assets/images/example-wbmp.wbmp'),
+                Talon::settings()->supportPath('assets/images/example-wbmp.wbmp'),
                 IMAGETYPE_WBMP,
             ],
             [
-                supportDir('assets/images/example-webp.webp'),
+                Talon::settings()->supportPath('assets/images/example-webp.webp'),
                 IMAGETYPE_WEBP,
             ],
             [
-                supportDir('assets/images/example-xbm.xbm'),
+                Talon::settings()->supportPath('assets/images/example-xbm.xbm'),
                 IMAGETYPE_XBM,
             ],
         ];

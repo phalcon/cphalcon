@@ -15,7 +15,8 @@ namespace Phalcon\Tests\Unit\Image\Adapter\Gd;
 
 use Phalcon\Image\Adapter\Gd;
 use Phalcon\Image\Enum;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\Unit\Image\Fake\GdTrait;
 
 final class FlipTest extends AbstractUnitTestCase
@@ -61,7 +62,7 @@ final class FlipTest extends AbstractUnitTestCase
         foreach ($this->getImages() as $type => $imagePath) {
             foreach ($params[$type] as [$direction, $hash]) {
                 $resultImage = 'flip-' . $direction . '.' . $type;
-                $output      = outputDir($outputDir . '/' . $resultImage);
+                $output      = Talon::settings()->outputPath($outputDir . '/' . $resultImage);
 
                 $image = new Gd($imagePath);
 
@@ -69,7 +70,7 @@ final class FlipTest extends AbstractUnitTestCase
                       ->save($output)
                 ;
 
-                $this->assertFileExists(outputDir($outputDir) . $resultImage);
+                $this->assertFileExists(Talon::settings()->outputPath($outputDir) . $resultImage);
 
                 $actual = $this->checkImageHash($output, $hash);
                 $this->assertTrue($actual);

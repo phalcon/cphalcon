@@ -46,6 +46,24 @@ final class ForUpdateModifierTest extends AbstractDatabaseTestCase
     }
 
     /**
+     * Passing the explicit `Dialect::LOCK_NONE` constant matches the default.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-15
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    public function testDbDialectForUpdateLockNoneMatchesDefault(): void
+    {
+        $sql = 'SELECT * FROM robots';
+
+        $this->assertSame(
+            $sql . ' FOR UPDATE',
+            (new Mysql())->forUpdate($sql, DialectContract::LOCK_NONE)
+        );
+    }
+
+    /**
      * Passing `Dialect::LOCK_NOWAIT` appends `NOWAIT`.
      *
      * @author Phalcon Team <team@phalcon.io>
@@ -89,24 +107,6 @@ final class ForUpdateModifierTest extends AbstractDatabaseTestCase
                 $sql,
                 DialectContract::LOCK_SKIP_LOCKED
             )
-        );
-    }
-
-    /**
-     * Passing the explicit `Dialect::LOCK_NONE` constant matches the default.
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-05-15
-     */
-    #[Group('mysql')]
-    #[Group('pgsql')]
-    public function testDbDialectForUpdateLockNoneMatchesDefault(): void
-    {
-        $sql = 'SELECT * FROM robots';
-
-        $this->assertSame(
-            $sql . ' FOR UPDATE',
-            (new Mysql())->forUpdate($sql, DialectContract::LOCK_NONE)
         );
     }
 

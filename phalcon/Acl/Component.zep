@@ -15,26 +15,12 @@ use Phalcon\Acl\Exceptions\ForbiddenWildcard;
 /**
  * This class defines component entity and its description
  */
-class Component implements ComponentInterface
+class Component extends AbstractElement implements ComponentInterface
 {
-    /**
-     * Component description
-     *
-     * @var string | null
-     */
-    private description;
-
-    /**
-     * Component name
-     *
-     * @var string
-     */
-    private name;
-
     /**
      * Phalcon\Acl\Component constructor
      */
-    public function __construct(string! name, string description = null)
+    public function __construct( string name, string description = null)
     {
         if unlikely name === "*" {
             throw new ForbiddenWildcard("component");
@@ -42,20 +28,5 @@ class Component implements ComponentInterface
 
         let this->name = name,
             this->description = description;
-    }
-
-    public function __toString() -> string
-    {
-        return this->name;
-    }
-
-    public function getDescription() -> string | null
-    {
-        return this->description;
-    }
-
-    public function getName() -> string
-    {
-        return this->name;
     }
 }

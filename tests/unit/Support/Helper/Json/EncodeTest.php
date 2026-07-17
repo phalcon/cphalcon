@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Support\Helper\Json;
 
 use InvalidArgumentException;
 use Phalcon\Support\Helper\Json\Encode;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 use const JSON_HEX_TAG;
 use const JSON_THROW_ON_ERROR;

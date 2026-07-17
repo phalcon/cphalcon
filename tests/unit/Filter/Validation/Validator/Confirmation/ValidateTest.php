@@ -17,7 +17,7 @@ use Phalcon\Filter\Validation;
 use Phalcon\Filter\Validation\Validator\Confirmation;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class ValidateTest extends AbstractUnitTestCase
 {

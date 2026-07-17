@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Support\Helper\Number;
 
 use Phalcon\Support\Helper\Number\IsBetween;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class IsBetweenTest extends AbstractUnitTestCase
 {

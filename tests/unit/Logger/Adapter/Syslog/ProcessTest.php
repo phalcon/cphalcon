@@ -19,8 +19,8 @@ use Phalcon\Logger\Adapter\Exceptions\SyslogOpenFailed;
 use Phalcon\Logger\Adapter\Syslog;
 use Phalcon\Logger\Enum;
 use Phalcon\Logger\Item;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Logger\Fake\Adapter\FakeSyslogAdapter;
-use Phalcon\Tests\AbstractUnitTestCase;
 
 use function date_default_timezone_get;
 

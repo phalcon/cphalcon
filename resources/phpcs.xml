@@ -1,12 +1,21 @@
 <?xml version="1.0"?>
 <ruleset name="Phalcon">
     <description>Phalcon Coding Standards</description>
-    <arg value="-colors"/>
-    <arg value="s"/>
-    <arg value="p"/>
+
+    <!-- Arguments:
+         p = Show progress
+         s = Show sniff codes in output
+         colors = Force color output (optional, often auto-detected)
+    -->
+    <arg name="colors"/>
+    <arg value="ps"/>
+
+    <!-- Exclude specific PSR2 rule regarding underscore prefixes -->
     <rule ref="PSR12">
         <exclude name="PSR2.Methods.MethodDeclaration.Underscore"/>
     </rule>
+
+    <!-- Files to scan -->
     <file>../tests/database</file>
     <file>../tests/unit</file>
 </ruleset>

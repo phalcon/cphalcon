@@ -16,7 +16,7 @@ namespace Phalcon\Tests\Unit\Forms\Element;
 use Phalcon\Filter\Validation\Validator\Alnum;
 use Phalcon\Filter\Validation\Validator\Digit;
 use Phalcon\Filter\Validation\Validator\StringLength;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Forms\Fake\FormsTrait;
 use PHPUnit\Framework\Attributes\DataProvider;
 
@@ -25,6 +25,30 @@ use function uniqid;
 final class GetAddValidatorsTest extends AbstractUnitTestCase
 {
     use FormsTrait;
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    #[DataProvider('getExamples')]
+    public function testFormsElementAddValidatorsMergeFalseClearsExisting(
+        string $class
+    ): void {
+        $name   = uniqid();
+        $one    = new StringLength();
+        $two    = new Alnum();
+        $three  = new Digit();
+        $object = new $class($name);
+
+        $object->addValidators([$one, $two]);
+
+        // Add $three with merge=false - should discard $one and $two
+        $object->addValidators([$three], false);
+
+        $expected = [$three];
+        $actual   = $object->getValidators();
+        $this->assertSame($expected, $actual);
+    }
 
     /**
      * @author       Phalcon Team <team@phalcon.io>
@@ -57,30 +81,6 @@ final class GetAddValidatorsTest extends AbstractUnitTestCase
         $validators[] = $three;
         $expected     = $validators;
         $actual       = $object->getValidators();
-        $this->assertSame($expected, $actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2024-01-01
-     */
-    #[DataProvider('getExamples')]
-    public function testFormsElementAddValidatorsMergeFalseClearsExisting(
-        string $class
-    ): void {
-        $name   = uniqid();
-        $one    = new StringLength();
-        $two    = new Alnum();
-        $three  = new Digit();
-        $object = new $class($name);
-
-        $object->addValidators([$one, $two]);
-
-        // Add $three with merge=false - should discard $one and $two
-        $object->addValidators([$three], false);
-
-        $expected = [$three];
-        $actual   = $object->getValidators();
         $this->assertSame($expected, $actual);
     }
 }

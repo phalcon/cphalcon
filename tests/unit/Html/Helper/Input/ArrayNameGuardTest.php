@@ -16,7 +16,7 @@ use Phalcon\Html\Helper\Doctype;
 use Phalcon\Html\Helper\Input\Checkbox;
 use Phalcon\Html\Helper\Input\Generic;
 use Phalcon\Html\Helper\Input\Radio;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 /**
  * Covers the id-guard added to AbstractInput.__invoke():
@@ -25,6 +25,15 @@ use Phalcon\Tests\AbstractUnitTestCase;
  */
 final class ArrayNameGuardTest extends AbstractUnitTestCase
 {
+    public function testArrayNameExplicitIdOverridesGuard(): void
+    {
+        $helper = new Checkbox(new Escaper(), new Doctype());
+        $result = $helper('options[]', '1', ['id' => 'opt-1']);
+
+        $rendered = (string) $result;
+
+        $this->assertStringContainsString('id="opt-1"', $rendered);
+    }
     public function testArrayNameSkipsAutoId(): void
     {
         $helper = new Generic(new Escaper(), new Doctype(), 'text');
@@ -45,6 +54,18 @@ final class ArrayNameGuardTest extends AbstractUnitTestCase
 
         $this->assertStringNotContainsString('id=', $rendered);
         $this->assertStringContainsString('name="roles[0]"', $rendered);
+    }
+
+    public function testCheckboxArrayNameSkipsAutoId(): void
+    {
+        $helper = new Checkbox(new Escaper(), new Doctype());
+        $result = $helper('options[]', '1');
+
+        $rendered = (string) $result;
+
+        $this->assertStringNotContainsString('id=', $rendered);
+        $this->assertStringContainsString('name="options[]"', $rendered);
+        $this->assertStringContainsString('value="1"', $rendered);
     }
 
     public function testExplicitIdIsAlwaysRespected(): void
@@ -69,18 +90,6 @@ final class ArrayNameGuardTest extends AbstractUnitTestCase
         $this->assertStringContainsString('name="username"', $rendered);
     }
 
-    public function testCheckboxArrayNameSkipsAutoId(): void
-    {
-        $helper = new Checkbox(new Escaper(), new Doctype());
-        $result = $helper('options[]', '1');
-
-        $rendered = (string) $result;
-
-        $this->assertStringNotContainsString('id=', $rendered);
-        $this->assertStringContainsString('name="options[]"', $rendered);
-        $this->assertStringContainsString('value="1"', $rendered);
-    }
-
     public function testRadioArrayNameSkipsAutoId(): void
     {
         $helper = new Radio(new Escaper(), new Doctype());
@@ -90,15 +99,5 @@ final class ArrayNameGuardTest extends AbstractUnitTestCase
 
         $this->assertStringNotContainsString('id=', $rendered);
         $this->assertStringContainsString('name="choice[]"', $rendered);
-    }
-
-    public function testArrayNameExplicitIdOverridesGuard(): void
-    {
-        $helper = new Checkbox(new Escaper(), new Doctype());
-        $result = $helper('options[]', '1', ['id' => 'opt-1']);
-
-        $rendered = (string) $result;
-
-        $this->assertStringContainsString('id="opt-1"', $rendered);
     }
 }

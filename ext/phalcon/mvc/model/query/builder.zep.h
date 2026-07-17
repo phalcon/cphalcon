@@ -29,6 +29,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getOffset);
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getOrderBy);
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql);
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getQuery);
+PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getResultsetRowClass);
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getWhere);
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, groupBy);
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, having);
@@ -50,6 +51,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, rightJoin);
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, setBindParams);
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, setBindTypes);
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, setDI);
+PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, setResultsetRowClass);
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, where);
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, conditionBetween);
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, conditionIn);
@@ -156,6 +158,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_builder_
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_builder_getquery, 0, 0, Phalcon\\Mvc\\Model\\QueryInterface, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_builder_getresultsetrowclass, 0, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_builder_getwhere, 0, 0, 0)
@@ -274,6 +279,10 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_builder_
 	ZEND_ARG_OBJ_INFO(0, container, Phalcon\\Di\\DiInterface, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_builder_setresultsetrowclass, 0, 1, Phalcon\\Mvc\\Model\\Query\\BuilderInterface, 0)
+	ZEND_ARG_TYPE_INFO(0, resultsetRowClass, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_builder_where, 0, 1, Phalcon\\Mvc\\Model\\Query\\BuilderInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, conditions, IS_STRING, 0)
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, bindParams, IS_ARRAY, 0, "[]")
@@ -340,6 +349,7 @@ PHP_ME(Phalcon_Mvc_Model_Query_Builder, getLimit, arginfo_phalcon_mvc_model_quer
 PHP_ME(Phalcon_Mvc_Model_Query_Builder, getOrderBy, arginfo_phalcon_mvc_model_query_builder_getorderby, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query_Builder, getPhql, arginfo_phalcon_mvc_model_query_builder_getphql, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query_Builder, getQuery, arginfo_phalcon_mvc_model_query_builder_getquery, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Query_Builder, getResultsetRowClass, arginfo_phalcon_mvc_model_query_builder_getresultsetrowclass, ZEND_ACC_PUBLIC)
 PHP_ME(Phalcon_Mvc_Model_Query_Builder, getWhere, arginfo_phalcon_mvc_model_query_builder_getwhere, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query_Builder, groupBy, arginfo_phalcon_mvc_model_query_builder_groupby, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query_Builder, having, arginfo_phalcon_mvc_model_query_builder_having, ZEND_ACC_PUBLIC)
@@ -361,6 +371,7 @@ PHP_ME(Phalcon_Mvc_Model_Query_Builder, getWhere, arginfo_phalcon_mvc_model_quer
 	PHP_ME(Phalcon_Mvc_Model_Query_Builder, setBindParams, arginfo_phalcon_mvc_model_query_builder_setbindparams, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query_Builder, setBindTypes, arginfo_phalcon_mvc_model_query_builder_setbindtypes, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query_Builder, setDI, arginfo_phalcon_mvc_model_query_builder_setdi, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Query_Builder, setResultsetRowClass, arginfo_phalcon_mvc_model_query_builder_setresultsetrowclass, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query_Builder, where, arginfo_phalcon_mvc_model_query_builder_where, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query_Builder, conditionBetween, arginfo_phalcon_mvc_model_query_builder_conditionbetween, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model_Query_Builder, conditionIn, arginfo_phalcon_mvc_model_query_builder_conditionin, ZEND_ACC_PROTECTED)

@@ -20,6 +20,7 @@ use Phalcon\Db\RawValue;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Router;
 use Phalcon\Storage\SerializerFactory;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Migrations\CustomersMigration;
 use Phalcon\Tests\Support\Migrations\InvoicesMigration;
@@ -30,11 +31,9 @@ use Phalcon\Tests\Support\Models\Objects;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\Group;
 
-use function getOptionsRedis;
 use function ob_end_clean;
 use function ob_get_contents;
 use function ob_start;
-use function outputDir;
 use function sleep;
 use function uniqid;
 use function var_dump;
@@ -60,7 +59,7 @@ final class FindTest extends AbstractDatabaseTestCase
     public function testMvcModelFind(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $migration  = new ObjectsMigration($connection);
         $migration->insert(1, 'random data', 1);
 
@@ -83,7 +82,7 @@ final class FindTest extends AbstractDatabaseTestCase
     public function testMvcModelFindDeprecationWarning(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $migration  = new ObjectsMigration($connection);
         $migration->insert(1, 'random data', 1);
         $migration->insert(2, 'random data 2', 1);
@@ -129,7 +128,7 @@ final class FindTest extends AbstractDatabaseTestCase
     public function testMvcModelFindPrivatePropertyWithRedisCache(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $migration  = new InvoicesMigration($connection);
         $migration->insert(1, 1, 1, 'Test', 101);
 
@@ -158,7 +157,7 @@ final class FindTest extends AbstractDatabaseTestCase
         // Models Cache setup
         $serializerFactory = new SerializerFactory();
         $adapterFactory    = new AdapterFactory($serializerFactory);
-        $adapter           = $adapterFactory->newInstance('redis', getOptionsRedis());
+        $adapter           = $adapterFactory->newInstance('redis', Talon::settings()->getServiceOptions('redis'));
         $cache             = new Cache($adapter);
         $this->container->setShared('modelsCache', $cache);
 
@@ -246,7 +245,7 @@ final class FindTest extends AbstractDatabaseTestCase
     public function testMvcModelFindResultsetSecondIteration(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
 
         $customersMigration = new CustomersMigration($connection);
         $customersMigration->clear();
@@ -308,17 +307,17 @@ final class FindTest extends AbstractDatabaseTestCase
     #[Group('sqlite')]
     public function testMvcModelFindWithCache(): void
     {
-        $file = outputDir('data-/my/-c/ac/my-cache');
+        $file = Talon::settings()->outputPath('data-/my/-c/ac/my-cache');
         $this->safeDeleteFile($file);
 
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $migration  = new ObjectsMigration($connection);
         $migration->insert(1, 'random data', 1);
 
         $options = [
             'defaultSerializer' => 'Json',
-            'storageDir'        => outputDir(),
+            'storageDir'        => Talon::settings()->outputPath() . '/',
             'lifetime'          => 172800,
             'prefix'            => 'data-',
         ];
@@ -374,6 +373,43 @@ final class FindTest extends AbstractDatabaseTestCase
     }
 
     /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2021-05-10
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelFindWithCacheException(): void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage(
+            "Cache service must be an object implementing " .
+            "Phalcon\Cache\CacheInterface"
+        );
+
+        $options = [
+            'storageDir' => Talon::settings()->outputPath() . '/',
+            'lifetime'   => 172800,
+            'prefix'     => 'data-',
+        ];
+
+        // Models Cache setup
+        $serializerFactory = new SerializerFactory();
+        $adapterFactory    = new AdapterFactory($serializerFactory);
+        $adapter           = $adapterFactory->newInstance('stream', $options);
+
+        $this->container->setShared('modelsCache', $adapter);
+
+        Objects::find(
+            [
+                'cache' => [
+                    'key' => 'my-cache',
+                ],
+            ]
+        );
+    }
+
+    /**
      * @issue https://github.com/phalcon/cphalcon/issues/16696
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
@@ -384,7 +420,7 @@ final class FindTest extends AbstractDatabaseTestCase
     public function testMvcModelFindWithCacheLifetimeFromCacheService(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $migration  = new ObjectsMigration($connection);
         $migration->insert(1, 'random data', 1);
 
@@ -443,75 +479,6 @@ final class FindTest extends AbstractDatabaseTestCase
 
     /**
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2021-05-10
-     */
-    #[Group('mysql')]
-    #[Group('pgsql')]
-    #[Group('sqlite')]
-    public function testMvcModelFindWithCacheException(): void
-    {
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage(
-            "Cache service must be an object implementing " .
-            "Phalcon\Cache\CacheInterface"
-        );
-
-        $options = [
-            'storageDir' => outputDir(),
-            'lifetime'   => 172800,
-            'prefix'     => 'data-',
-        ];
-
-        // Models Cache setup
-        $serializerFactory = new SerializerFactory();
-        $adapterFactory    = new AdapterFactory($serializerFactory);
-        $adapter           = $adapterFactory->newInstance('stream', $options);
-
-        $this->container->setShared('modelsCache', $adapter);
-
-        Objects::find(
-            [
-                'cache' => [
-                    'key' => 'my-cache',
-                ],
-            ]
-        );
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2023-06-30
-     */
-    #[Group('mysql')]
-    #[Group('pgsql')]
-    #[Group('sqlite')]
-    public function testMvcModelFindWithSpecificColumn(): void
-    {
-        /** @var PDO $connection */
-        $connection = self::getConnection();
-        $migration  = new ObjectsMigration($connection);
-        $migration->insert(1, 'random data', 1);
-        $migration->insert(2, 'random data 2', 1);
-        $migration->insert(4, 'random data 4', 1);
-
-        /**
-         * Get the records (should cache the resultset)
-         */
-        $data = Objects::find(
-            [
-                'columns'    => 'obj_id',
-                'conditions' => 'obj_id IN ({ids:array})',
-                'bind'       => ['ids' => [1, 2, 3]],
-            ]
-        );
-
-        $this->assertEquals(2, count($data));
-        $this->assertEquals(1, $data[0]->obj_id);
-        $this->assertEquals(2, $data[1]->obj_id);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
      * @since  2024-08-02
      */
     #[Group('mysql')]
@@ -519,7 +486,7 @@ final class FindTest extends AbstractDatabaseTestCase
     #[Group('sqlite')]
     public function testMvcModelFindWithCacheOptionsLifetimePriorityOverCacheService(): void
     {
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $migration  = new ObjectsMigration($connection);
         $migration->insert(1, 'random data', 1);
 
@@ -590,7 +557,7 @@ final class FindTest extends AbstractDatabaseTestCase
     #[Group('mysql')]
     public function testMvcModelFindWithRawValueBind(): void
     {
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $migration  = new InvoicesMigration($connection);
         $migration->insert(1, null, 1, 'raw-value-one', 100, '2000-01-01 00:00:00');
         $migration->insert(2, null, 1, 'raw-value-two', 200, '2000-06-01 00:00:00');
@@ -608,5 +575,37 @@ final class FindTest extends AbstractDatabaseTestCase
 
         $this->assertNotNull($invoices);
         $this->assertCount(2, $invoices);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2023-06-30
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelFindWithSpecificColumn(): void
+    {
+        /** @var PDO $connection */
+        $connection = self::getPdoConnection();
+        $migration  = new ObjectsMigration($connection);
+        $migration->insert(1, 'random data', 1);
+        $migration->insert(2, 'random data 2', 1);
+        $migration->insert(4, 'random data 4', 1);
+
+        /**
+         * Get the records (should cache the resultset)
+         */
+        $data = Objects::find(
+            [
+                'columns'    => 'obj_id',
+                'conditions' => 'obj_id IN ({ids:array})',
+                'bind'       => ['ids' => [1, 2, 3]],
+            ]
+        );
+
+        $this->assertEquals(2, count($data));
+        $this->assertEquals(1, $data[0]->obj_id);
+        $this->assertEquals(2, $data[1]->obj_id);
     }
 }

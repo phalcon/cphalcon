@@ -74,7 +74,7 @@ class RedisCluster extends Redis
      *
      * @throws \Phalcon\Support\Exception
      */
-    public function __construct(<SerializerFactory> factory, array! options = [])
+    public function __construct(<SerializerFactory> factory,  array options = [])
     {
         let options["name"]        = this->getArrVal(options, "name", null),
             options["hosts"]       = this->getArrVal(options, "hosts", ["127.0.0.1:6379"]),
@@ -156,7 +156,7 @@ class RedisCluster extends Redis
      *
      * @return array
      */
-    public function getKeys(string! prefix = "") -> array
+    public function getKeys( string prefix = "") -> array
     {
         return this->getFilteredKeys(
             this->getAdapter()->keys("*"),

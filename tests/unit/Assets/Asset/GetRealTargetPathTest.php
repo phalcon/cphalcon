@@ -14,12 +14,11 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Assets\Asset;
 
 use Phalcon\Assets\Asset;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\Unit\Assets\Fake\AssetsTrait;
 use Phalcon\Tests\Unit\Assets\Fake\FakeAssetFileExistsPositive;
 use PHPUnit\Framework\Attributes\DataProvider;
-
-use function supportDir;
 
 final class GetRealTargetPathTest extends AbstractUnitTestCase
 {
@@ -46,15 +45,14 @@ final class GetRealTargetPathTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function testAssetsAssetGetRealTargetPathWithTargetPath(): void
+    public function testAssetsAssetGetRealTargetPath404(): void
     {
-        $path   = 'css/docs.css';
-        $target = 'assets/assets/1198.css';
-        $asset  = new Asset('css', $path);
-        $asset->setTargetPath($target);
+        $file  = 'assets/assets/1198.css';
+        $asset = new FakeAssetFileExistsPositive('css', $file);
 
-        $actual = $asset->getRealTargetPath(supportDir());
-        $this->assertStringContainsString('1198.css', $actual);
+        $expected = Talon::settings()->supportPath($file);
+        $actual   = $asset->getRealTargetPath(Talon::settings()->supportPath() . '/');
+        $this->assertSame($expected, $actual);
     }
 
     /**
@@ -66,7 +64,7 @@ final class GetRealTargetPathTest extends AbstractUnitTestCase
         $file  = 'assets/assets/nonexistent_file.css';
         $asset = new FakeAssetFileExistsPositive('css', $file);
 
-        $actual = $asset->getRealTargetPath(supportDir());
+        $actual = $asset->getRealTargetPath(Talon::settings()->supportPath() . '/');
         $this->assertSame('', $actual);
     }
 
@@ -74,13 +72,14 @@ final class GetRealTargetPathTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function testAssetsAssetGetRealTargetPath404(): void
+    public function testAssetsAssetGetRealTargetPathWithTargetPath(): void
     {
-        $file  = 'assets/assets/1198.css';
-        $asset = new FakeAssetFileExistsPositive('css', $file);
+        $path   = 'css/docs.css';
+        $target = 'assets/assets/1198.css';
+        $asset  = new Asset('css', $path);
+        $asset->setTargetPath($target);
 
-        $expected = supportDir($file);
-        $actual   = $asset->getRealTargetPath(supportDir());
-        $this->assertSame($expected, $actual);
+        $actual = $asset->getRealTargetPath(Talon::settings()->supportPath() . '/');
+        $this->assertStringContainsString('1198.css', $actual);
     }
 }

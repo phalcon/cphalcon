@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Mvc\Model\Query\Builder;
 
+use Phalcon\Mvc\Model\Query\Builder;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use PHPUnit\Framework\Attributes\Group;
 
@@ -22,11 +23,28 @@ use PHPUnit\Framework\Attributes\Group;
 final class SetBindTypesTest extends AbstractDatabaseTestCase
 {
     /**
+     * setBindTypes() replaces the current types, or merges them when the
+     * second argument is true.
+     *
+     * Tests Phalcon\Mvc\Model\Query\Builder :: setBindTypes()
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2026-06-22
      */
     public function testMvcModelQueryBuilderSetBindTypes(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $builder = new Builder();
+
+        $types = ['name' => 2, 'id' => 1];
+        $builder->setBindTypes($types);
+
+        $this->assertSame($types, $builder->getBindTypes());
+
+        $builder->setBindTypes(['status' => 1], true);
+
+        $this->assertSame(
+            ['name' => 2, 'id' => 1, 'status' => 1],
+            $builder->getBindTypes()
+        );
     }
 }

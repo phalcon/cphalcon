@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Forms\Element\Select;
 
 use Phalcon\Forms\Element\ElementInterface;
 use Phalcon\Forms\Element\Select;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class ClearTest extends AbstractUnitTestCase
 {

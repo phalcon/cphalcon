@@ -11,14 +11,16 @@
 namespace Phalcon\Db\Adapter;
 
 use Phalcon\Factory\AbstractFactory;
-use Phalcon\Support\Helper\Arr\Get;
+use Phalcon\Traits\Support\Helper\Arr\GetTrait;
 
 class PdoFactory extends AbstractFactory
 {
+    use GetTrait;
+
     /**
      * Constructor
      */
-    public function __construct(array! services = [])
+    public function __construct( array services = [])
     {
         this->init(services);
     }
@@ -51,7 +53,7 @@ class PdoFactory extends AbstractFactory
 
         unset config["adapter"];
 
-        let options = (new Get())->__invoke(config, "options", []);
+        let options = this->getArrVal(config, "options", []);
 
         return this->newInstance(name, options);
     }
@@ -59,7 +61,7 @@ class PdoFactory extends AbstractFactory
     /**
      * Create a new instance of the adapter
      */
-    public function newInstance(string! name, array! options = []) ->  <AdapterInterface>
+    public function newInstance( string name,  array options = []) ->  <AdapterInterface>
     {
         var definition;
 

@@ -23,7 +23,7 @@ use Phalcon\Auth\Mvc\AuthDispatcherListener;
 use Phalcon\Container\Container;
 use Phalcon\Events\Event;
 use Phalcon\Mvc\Dispatcher;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Auth\Fake\FakeAccess;
 use Phalcon\Tests\Unit\Auth\Fake\FakeGuard;
 use Phalcon\Tests\Unit\Auth\Fake\FakeRedirectAccess;

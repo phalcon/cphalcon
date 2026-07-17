@@ -1,0 +1,21 @@
+
+extern zend_class_entry *phalcon_traits_php_igbinarytrait_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Traits_Php_IgbinaryTrait);
+
+PHP_METHOD(Phalcon_Traits_Php_IgbinaryTrait, phpIgbinarySerialize);
+PHP_METHOD(Phalcon_Traits_Php_IgbinaryTrait, phpIgbinaryUnserialize);
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_traits_php_igbinarytrait_phpigbinaryserialize, 0, 1, IS_STRING, 1)
+	ZEND_ARG_INFO(0, value)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_traits_php_igbinarytrait_phpigbinaryunserialize, 0, 0, 1)
+	ZEND_ARG_INFO(0, value)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_traits_php_igbinarytrait_method_entry) {
+	PHP_ME(Phalcon_Traits_Php_IgbinaryTrait, phpIgbinarySerialize, arginfo_phalcon_traits_php_igbinarytrait_phpigbinaryserialize, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Traits_Php_IgbinaryTrait, phpIgbinaryUnserialize, arginfo_phalcon_traits_php_igbinarytrait_phpigbinaryunserialize, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_FE_END
+};

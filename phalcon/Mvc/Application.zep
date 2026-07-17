@@ -21,6 +21,7 @@ use Phalcon\Mvc\Application\Exceptions\InvalidModuleDefinition;
 use Phalcon\Mvc\Application\Exceptions\ModuleDefinitionPathNotFound;
 use Phalcon\Mvc\ModuleDefinitionInterface;
 use Phalcon\Mvc\Router\RouteInterface;
+use Phalcon\Traits\Php\FileTrait;
 
 /**
  * Phalcon\Mvc\Application
@@ -70,6 +71,8 @@ use Phalcon\Mvc\Router\RouteInterface;
  */
 class Application extends AbstractApplication
 {
+    use FileTrait;
+
     /**
      * @var bool
      */
@@ -88,7 +91,7 @@ class Application extends AbstractApplication
     /**
      * Handles a MVC request
      */
-    public function handle(string! uri) -> <ResponseInterface> | bool
+    public function handle( string uri) -> <ResponseInterface> | bool
     {
         var container, eventsManager, router, dispatcher, response, view,
             module, moduleObject, moduleName, className, path, implicitView,
@@ -216,7 +219,7 @@ class Application extends AbstractApplication
                  * If developer specify a path try to include the file
                  */
                 if fetch path, module["path"] {
-                    if unlikely !file_exists(path) {
+                    if unlikely !this->phpFileExists(path) {
                         throw new ModuleDefinitionPathNotFound(path);
                     }
 

@@ -18,7 +18,7 @@ namespace Phalcon\Tests\Unit\Auth\Guard\Config;
 
 use Phalcon\Auth\Exception;
 use Phalcon\Auth\Guard\Config\SessionGuardConfig;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class SessionGuardConfigTest extends AbstractUnitTestCase
 {

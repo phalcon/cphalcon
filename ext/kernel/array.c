@@ -949,21 +949,30 @@ void zephir_array_update_multi_ex(zval *arr, zval *value, const char *types, int
 			case 's':
 				s = va_arg(ap, char*);
 				l = va_arg(ap, int);
+
+				/*
+				 * Issue #1884: the final offset overwrites its slot regardless of
+				 * the value already there, so skip the redundant isset-fetch and
+				 * store directly. PH_SEPARATE only when the level is actually
+				 * shared (re_update); otherwise SEPARATE_ARRAY would be a no-op.
+				 */
+				if (i == (types_length - 1)) {
+					ZVAL_ARR(&pzv, p);
+					re_update = !Z_REFCOUNTED(pzv) || (Z_REFCOUNT(pzv) > 1 && !Z_ISREF(pzv));
+					zephir_array_update_string(&pzv, s, l, value, PH_COPY | (re_update ? PH_SEPARATE : 0));
+					p = Z_ARRVAL(pzv);
+					break;
+				}
+
 				if (zephir_array_isset_string_fetch(&fetched, &pzv, s, l, 1)) {
 					if (Z_TYPE(fetched) == IS_ARRAY) {
-						if (i == (types_length - 1)) {
-							re_update = !Z_REFCOUNTED(pzv) || (Z_REFCOUNT(pzv) > 1 && !Z_ISREF(pzv));
-							zephir_array_update_string(&pzv, s, l, value, PH_COPY | PH_SEPARATE);
-							p = Z_ARRVAL(pzv);
+						re_update = !Z_REFCOUNTED(fetched) || (Z_REFCOUNT(fetched) > 1 && !Z_ISREF(fetched));
+						if (re_update) {
+							ZVAL_DUP(&tmp, &fetched);
+							zephir_array_update_string(&pzv, s, l, &tmp, 0);
+							p = Z_ARRVAL(tmp);
 						} else {
-							re_update = !Z_REFCOUNTED(fetched) || (Z_REFCOUNT(fetched) > 1 && !Z_ISREF(fetched));
-							if (re_update) {
-								ZVAL_DUP(&tmp, &fetched);
-								zephir_array_update_string(&pzv, s, l, &tmp, 0);
-								p = Z_ARRVAL(tmp);
-							} else {
-								p = Z_ARRVAL(fetched);
-							}
+							p = Z_ARRVAL(fetched);
 						}
 						must_continue = 1;
 					}
@@ -972,39 +981,38 @@ void zephir_array_update_multi_ex(zval *arr, zval *value, const char *types, int
 				if (!must_continue) {
 					ZVAL_ARR(&pzv, p);
 					re_update = !Z_REFCOUNTED(pzv) || (Z_REFCOUNT(pzv) > 1 && !Z_ISREF(pzv));
-					if (i == (types_length - 1)) {
-						zephir_array_update_string(&pzv, s, l, value, PH_COPY | PH_SEPARATE);
-						p = Z_ARRVAL(pzv);
+					array_init(&tmp);
+					zephir_array_update_string(&pzv, s, l, &tmp, PH_SEPARATE);
+					p = Z_ARRVAL(pzv);
+					if (re_update) {
+						wrap_tmp = 1;
 					} else {
-						array_init(&tmp);
-						zephir_array_update_string(&pzv, s, l, &tmp, PH_SEPARATE);
-						p = Z_ARRVAL(pzv);
-						if (re_update) {
-							wrap_tmp = 1;
-						} else {
-							p = Z_ARRVAL(tmp);
-						}
+						p = Z_ARRVAL(tmp);
 					}
 				}
 				break;
 
 			case 'l':
 				ll = va_arg(ap, long);
+
+				/* Issue #1884: final offset always overwrites -> store directly. */
+				if (i == (types_length - 1)) {
+					ZVAL_ARR(&pzv, p);
+					re_update = !Z_REFCOUNTED(pzv) || (Z_REFCOUNT(pzv) > 1 && !Z_ISREF(pzv));
+					zephir_array_update_long(&pzv, ll, value, PH_COPY | (re_update ? PH_SEPARATE : 0) ZEPHIR_DEBUG_PARAMS_DUMMY);
+					p = Z_ARRVAL(pzv);
+					break;
+				}
+
 				if (zephir_array_isset_long_fetch(&fetched, &pzv, ll, 1)) {
 					if (Z_TYPE(fetched) == IS_ARRAY) {
-						if (i == (types_length - 1)) {
-							re_update = !Z_REFCOUNTED(pzv) || (Z_REFCOUNT(pzv) > 1 && !Z_ISREF(pzv));
-							zephir_array_update_long(&pzv, ll, value, PH_COPY | PH_SEPARATE ZEPHIR_DEBUG_PARAMS_DUMMY);
-							p = Z_ARRVAL(pzv);
+						re_update = !Z_REFCOUNTED(fetched) || (Z_REFCOUNT(fetched) > 1 && !Z_ISREF(fetched));
+						if (re_update) {
+							ZVAL_DUP(&tmp, &fetched);
+							zephir_array_update_long(&pzv, ll, &tmp, 0 ZEPHIR_DEBUG_PARAMS_DUMMY);
+							p = Z_ARRVAL(tmp);
 						} else {
-							re_update = !Z_REFCOUNTED(fetched) || (Z_REFCOUNT(fetched) > 1 && !Z_ISREF(fetched));
-							if (re_update) {
-								ZVAL_DUP(&tmp, &fetched);
-								zephir_array_update_long(&pzv, ll, &tmp, 0 ZEPHIR_DEBUG_PARAMS_DUMMY);
-								p = Z_ARRVAL(tmp);
-							} else {
-								p = Z_ARRVAL(fetched);
-							}
+							p = Z_ARRVAL(fetched);
 						}
 						must_continue = 1;
 					}
@@ -1013,39 +1021,38 @@ void zephir_array_update_multi_ex(zval *arr, zval *value, const char *types, int
 				if (!must_continue) {
 					ZVAL_ARR(&pzv, p);
 					re_update = !Z_REFCOUNTED(pzv) || (Z_REFCOUNT(pzv) > 1 && !Z_ISREF(pzv));
-					if (i == (types_length - 1)) {
-						zephir_array_update_long(&pzv, ll, value, PH_COPY | PH_SEPARATE ZEPHIR_DEBUG_PARAMS_DUMMY);
-						p = Z_ARRVAL(pzv);
+					array_init(&tmp);
+					zephir_array_update_long(&pzv, ll, &tmp, PH_SEPARATE ZEPHIR_DEBUG_PARAMS_DUMMY);
+					p = Z_ARRVAL(pzv);
+					if (re_update) {
+						wrap_tmp = 1;
 					} else {
-						array_init(&tmp);
-						zephir_array_update_long(&pzv, ll, &tmp, PH_SEPARATE ZEPHIR_DEBUG_PARAMS_DUMMY);
-						p = Z_ARRVAL(pzv);
-						if (re_update) {
-							wrap_tmp = 1;
-						} else {
-							p = Z_ARRVAL(tmp);
-						}
+						p = Z_ARRVAL(tmp);
 					}
 				}
 				break;
 
 			case 'z':
 				item = va_arg(ap, zval*);
+
+				/* Issue #1884: final offset always overwrites -> store directly. */
+				if (i == (types_length - 1)) {
+					ZVAL_ARR(&pzv, p);
+					re_update = !Z_REFCOUNTED(pzv) || (Z_REFCOUNT(pzv) > 1 && !Z_ISREF(pzv));
+					zephir_array_update_zval(&pzv, item, value, PH_COPY | (re_update ? PH_SEPARATE : 0));
+					p = Z_ARRVAL(pzv);
+					break;
+				}
+
 				if (zephir_array_isset_fetch(&fetched, &pzv, item, 1)) {
 					if (Z_TYPE(fetched) == IS_ARRAY) {
-						if (i == (types_length - 1)) {
-							re_update = !Z_REFCOUNTED(pzv) || (Z_REFCOUNT(pzv) > 1 && !Z_ISREF(pzv));
-							zephir_array_update_zval(&pzv, item, value, PH_COPY | PH_SEPARATE);
-							p = Z_ARRVAL(pzv);
+						re_update = !Z_REFCOUNTED(fetched) || (Z_REFCOUNT(fetched) > 1 && !Z_ISREF(fetched));
+						if (re_update) {
+							ZVAL_DUP(&tmp, &fetched);
+							zephir_array_update_zval(&pzv, item, &tmp, 0);
+							p = Z_ARRVAL(tmp);
 						} else {
-							re_update = !Z_REFCOUNTED(fetched) || (Z_REFCOUNT(fetched) > 1 && !Z_ISREF(fetched));
-							if (re_update) {
-								ZVAL_DUP(&tmp, &fetched);
-								zephir_array_update_zval(&pzv, item, &tmp, 0);
-								p = Z_ARRVAL(tmp);
-							} else {
-								p = Z_ARRVAL(fetched);
-							}
+							p = Z_ARRVAL(fetched);
 						}
 						must_continue = 1;
 					}
@@ -1054,18 +1061,13 @@ void zephir_array_update_multi_ex(zval *arr, zval *value, const char *types, int
 				if (!must_continue) {
 					ZVAL_ARR(&pzv, p);
 					re_update = !Z_REFCOUNTED(pzv) || (Z_REFCOUNT(pzv) > 1 && !Z_ISREF(pzv));
-					if (i == (types_length - 1)) {
-						zephir_array_update_zval(&pzv, item, value, PH_COPY | PH_SEPARATE);
-						p = Z_ARRVAL(pzv);
+					array_init(&tmp);
+					zephir_array_update_zval(&pzv, item, &tmp, PH_SEPARATE);
+					p = Z_ARRVAL(pzv);
+					if (re_update) {
+						wrap_tmp = 1;
 					} else {
-						array_init(&tmp);
-						zephir_array_update_zval(&pzv, item, &tmp, PH_SEPARATE);
-						p = Z_ARRVAL(pzv);
-						if (re_update) {
-							wrap_tmp = 1;
-						} else {
-							p = Z_ARRVAL(tmp);
-						}
+						p = Z_ARRVAL(tmp);
 					}
 				}
 				break;

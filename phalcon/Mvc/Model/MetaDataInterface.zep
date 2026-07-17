@@ -158,7 +158,7 @@ interface MetaDataInterface
     /**
      * Writes meta-data to the adapter
      */
-    public function write(string! key, array data) -> void;
+    public function write( string key, array data) -> void;
 
     /**
      * Writes meta-data for certain model using a MODEL_* constant

@@ -19,21 +19,42 @@ use Phalcon\Storage\Adapter\Stream;
 use Phalcon\Storage\Exception as StorageException;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Support\Exception as HelperException;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
+use PHPUnit\Framework\Attributes\WithoutErrorHandler;
 
 use function array_merge;
 use function file_put_contents;
-use function getOptionsRedis;
-use function getOptionsRedisCluster;
 use function is_dir;
 use function mkdir;
-use function outputDir;
 use function sleep;
 use function uniqid;
 
 final class ExceptionsTest extends AbstractUnitTestCase
 {
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-01
+     */
+    #[RequiresPhpExtension('redis')]
+    public function testStorageAdapterRedisClusterGetAdapterFailedConnection(): void
+    {
+        $this->expectException(StorageException::class);
+        $this->expectExceptionMessage(
+            'Could not connect to the Redis Cluster server due to: '
+        );
+
+        $serializer = new SerializerFactory();
+        $adapter    = new RedisCluster(
+            $serializer,
+            [
+                'hosts' => ['127.0.0.1:19999'],
+            ]
+        );
+
+        $adapter->get('test');
+    }
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
@@ -50,7 +71,7 @@ final class ExceptionsTest extends AbstractUnitTestCase
         $adapter    = new Redis(
             $serializer,
             array_merge(
-                getOptionsRedis(),
+                Talon::settings()->getServiceOptions('redis'),
                 [
                     'auth' => 'something',
                 ]
@@ -65,6 +86,7 @@ final class ExceptionsTest extends AbstractUnitTestCase
      * @since  2020-09-09
      */
     #[RequiresPhpExtension('redis')]
+    #[WithoutErrorHandler]
     public function testStorageAdapterRedisGetSetFailedSslLocalhost(): void
     {
         $this->expectException(StorageException::class);
@@ -73,7 +95,7 @@ final class ExceptionsTest extends AbstractUnitTestCase
 //        );
 
         $serializer      = new SerializerFactory();
-        $options         = getOptionsRedis();
+        $options         = Talon::settings()->getServiceOptions('redis');
         $options['host'] = 'tls://127.0.0.1';
         $options['ssl']  = [
             'verify_peer_name' => '127.0.0.1',
@@ -99,7 +121,7 @@ final class ExceptionsTest extends AbstractUnitTestCase
         $adapter    = new Redis(
             $serializer,
             array_merge(
-                getOptionsRedis(),
+                Talon::settings()->getServiceOptions('redis'),
                 [
                     'index' => 99,
                 ]
@@ -119,11 +141,11 @@ final class ExceptionsTest extends AbstractUnitTestCase
         $adapter    = new Stream(
             $serializer,
             [
-                'storageDir' => outputDir(),
+                'storageDir' => Talon::settings()->outputPath() . '/',
             ]
         );
 
-        $target = outputDir() . 'ph-strm/te/st/-k/';
+        $target = Talon::settings()->outputPath('ph-strm/te/st/-k/');
         if (true !== is_dir($target)) {
             mkdir($target, 0777, true);
         }
@@ -157,28 +179,5 @@ final class ExceptionsTest extends AbstractUnitTestCase
         $this->assertSame($expected, $actual);
 
         $this->safeDeleteFile($target . 'test-key');
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-01
-     */
-    #[RequiresPhpExtension('redis')]
-    public function testStorageAdapterRedisClusterGetAdapterFailedConnection(): void
-    {
-        $this->expectException(StorageException::class);
-        $this->expectExceptionMessage(
-            'Could not connect to the Redis Cluster server due to: '
-        );
-
-        $serializer = new SerializerFactory();
-        $adapter    = new RedisCluster(
-            $serializer,
-            [
-                'hosts' => ['127.0.0.1:19999'],
-            ]
-        );
-
-        $adapter->get('test');
     }
 }

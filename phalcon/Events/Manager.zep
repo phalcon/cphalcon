@@ -746,7 +746,7 @@ class Manager implements ManagerInterface
     /**
      * Check whether certain type of event has listeners
      */
-    public function hasListeners(string! type) -> bool
+    public function hasListeners( string type) -> bool
     {
         return isset this->events[type];
     }

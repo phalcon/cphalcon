@@ -14,7 +14,8 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Mvc\View;
 
 use Phalcon\Mvc\View;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\Unit\Mvc\Fake\ViewTrait;
 
 class GetSetPartialsDirTest extends AbstractUnitTestCase
@@ -29,7 +30,7 @@ class GetSetPartialsDirTest extends AbstractUnitTestCase
         $view = new View();
 
         $view->setBasePath(
-            dataDir()
+            Talon::settings()->dataPath() . '/'
         );
 
         $view->setPartialsDir('views/partials/');

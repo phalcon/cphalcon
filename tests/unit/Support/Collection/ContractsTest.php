@@ -46,9 +46,22 @@ final class ContractsTest extends AbstractCollectionTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-12
      */
-    public function testSupportReadOnlyCollectionImplementsContract(): void
+    public function testSupportContractExtendsArrayAccess(): void
     {
-        $this->assertInstanceOf(CollectionContract::class, new ReadOnlyCollection());
+        $this->assertTrue(
+            is_subclass_of(CollectionContract::class, ArrayAccess::class)
+        );
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-12
+     */
+    public function testSupportContractExtendsIteratorAggregate(): void
+    {
+        $this->assertTrue(
+            is_subclass_of(CollectionContract::class, IteratorAggregate::class)
+        );
     }
 
     /**
@@ -66,21 +79,8 @@ final class ContractsTest extends AbstractCollectionTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-12
      */
-    public function testSupportContractExtendsArrayAccess(): void
+    public function testSupportReadOnlyCollectionImplementsContract(): void
     {
-        $this->assertTrue(
-            is_subclass_of(CollectionContract::class, ArrayAccess::class)
-        );
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-05-12
-     */
-    public function testSupportContractExtendsIteratorAggregate(): void
-    {
-        $this->assertTrue(
-            is_subclass_of(CollectionContract::class, IteratorAggregate::class)
-        );
+        $this->assertInstanceOf(CollectionContract::class, new ReadOnlyCollection());
     }
 }

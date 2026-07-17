@@ -23,7 +23,7 @@ namespace Phalcon\Encryption\Security\Uuid;
  */
 class Version3 extends AbstractUuid
 {
-    public function __construct(string! namespaceName, string! name)
+    public function __construct( string namespaceName,  string name)
     {
         var hash;
 

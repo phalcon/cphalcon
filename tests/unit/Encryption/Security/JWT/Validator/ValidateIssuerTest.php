@@ -12,7 +12,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Encryption\Security\JWT\Validator;
 
 use Phalcon\Encryption\Security\JWT\Validator;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Encryption\Fake\JWTTrait;
 
 final class ValidateIssuerTest extends AbstractUnitTestCase
@@ -32,6 +32,25 @@ final class ValidateIssuerTest extends AbstractUnitTestCase
         $validator->validateIssuer("unknown");
 
         $expected = ["Validation: incorrect issuer"];
+        $actual   = $validator->getErrors();
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * Tests that a null issuer expresses no expectation and is skipped.
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/17361
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-07-15
+     */
+    public function testEncryptionSecurityJWTValidatorValidateIssuerNull(): void
+    {
+        $token     = $this->newToken();
+        $validator = new Validator($token);
+
+        $validator->validateIssuer(null);
+
+        $expected = [];
         $actual   = $validator->getErrors();
         $this->assertSame($expected, $actual);
     }

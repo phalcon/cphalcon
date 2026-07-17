@@ -13,10 +13,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Session\Adapter;
 
-use Phalcon\Tests\AbstractServicesTestCase;
+use Phalcon\Talon\PHPUnit\AbstractServicesTestCase;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\Support\Traits\DiTrait;
 
-use function cacheDir;
 use function clearstatcache;
 use function filemtime;
 use function time;
@@ -97,7 +97,7 @@ final class UpdateTimestampTest extends AbstractServicesTestCase
         $value = uniqid();
         $adapter->write('test1', $value);
 
-        $file = cacheDir('sessions/test1');
+        $file = Talon::settings()->outputPath('tests/cache/' . 'sessions/test1');
         touch($file, time() - 100);
         clearstatcache();
 

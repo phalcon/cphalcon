@@ -13,16 +13,19 @@ namespace Phalcon\Image;
 use Phalcon\Config\ConfigInterface;
 use Phalcon\Factory\AbstractFactory;
 use Phalcon\Image\Adapter\AdapterInterface;
+use Phalcon\Traits\Support\Helper\Arr\GetTrait;
 
 /**
  * Factory to create adapters for image manipulation
  */
 class ImageFactory extends AbstractFactory
 {
+    use GetTrait;
+
     /**
      * Constructor
      */
-    public function __construct(array! services = [])
+    public function __construct( array services = [])
     {
         this->init(services);
     }
@@ -60,8 +63,8 @@ class ImageFactory extends AbstractFactory
      * Creates a new instance
      */
     public function newInstance(
-        string! name,
-        string! file,
+         string name,
+         string file,
         int width = null,
         int height = null
     ) -> <AdapterInterface>
@@ -99,22 +102,5 @@ class ImageFactory extends AbstractFactory
             "gd"      : "Phalcon\\Image\\Adapter\\Gd",
             "imagick" : "Phalcon\\Image\\Adapter\\Imagick"
         ];
-    }
-
-    /**
-     * @todo Remove this when we get traits
-     */
-    private function getArrVal(
-        array! collection,
-        var index,
-        var defaultValue = null
-    ) -> var {
-        var value;
-
-        if unlikely !fetch value, collection[index] {
-            return defaultValue;
-        }
-
-        return value;
     }
 }

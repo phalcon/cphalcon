@@ -16,6 +16,7 @@ use Phalcon\Encryption\Security\JWT\Exceptions\InvalidHeader;
 use Phalcon\Encryption\Security\JWT\Exceptions\MalformedJwtString;
 use Phalcon\Encryption\Security\JWT\Exceptions\MissingJwtTypHeader;
 use Phalcon\Support\Helper\Json\Decode;
+use Phalcon\Traits\Php\Base64Trait;
 
 /**
  * Token Parser class.
@@ -26,6 +27,8 @@ use Phalcon\Support\Helper\Json\Decode;
  */
 class Parser
 {
+    use Base64Trait;
+
     /**
      * @var Decode
      */
@@ -50,7 +53,7 @@ class Parser
      *
      * @return Token
      */
-    public function parse(string! token) -> <Token>
+    public function parse( string token) -> <Token>
     {
         var claims, encodedClaims, encodedHeaders, encodedSignature,
             headers, results, signature;
@@ -77,7 +80,7 @@ class Parser
     {
         var decoded;
 
-        let decoded = this->decode->__invoke(this->decodeUrl(claims), true);
+        let decoded = this->decode->__invoke(this->doDecodeUrl(claims), true);
 
         if typeof decoded !== "array" {
             throw new InvalidClaims();
@@ -104,7 +107,7 @@ class Parser
     {
         var decoded;
 
-        let decoded = this->decode->__invoke(this->decodeUrl(headers), true);
+        let decoded = this->decode->__invoke(this->doDecodeUrl(headers), true);
 
         if typeof decoded !== "array" {
             throw new InvalidHeader();
@@ -125,7 +128,7 @@ class Parser
      *
      * @return Signature
      */
-    private function decodeSignature(<Item> headers, string! signature) -> <Signature>
+    private function decodeSignature(<Item> headers,  string signature) -> <Signature>
     {
         var algo, decoded, encodedSignature;
 
@@ -134,7 +137,7 @@ class Parser
             algo             = headers->get(Enum::ALGO, "none");
 
         if "none" !== algo {
-            let decoded          = (string) this->decodeUrl(signature),
+            let decoded          = (string) this->doDecodeUrl(signature),
                 encodedSignature = signature;
         }
 
@@ -148,7 +151,7 @@ class Parser
      *
      * @return array
      */
-    private function parseToken(string! token) -> array
+    private function parseToken( string token) -> array
     {
         var parts;
 
@@ -161,23 +164,4 @@ class Parser
         return parts;
     }
 
-    /**
-     * @todo This will be removed when traits are introduced
-     */
-    private function decodeUrl(string! input) -> string
-    {
-        var data, remainder;
-
-        let remainder = strlen(input) % 4;
-        if remainder {
-            let input .= str_repeat("=", 4 - remainder);
-        }
-
-        let data = base64_decode(strtr(input, "-_", "+/"));
-        if (false === data) {
-            let data = "";
-        }
-
-        return data;
-    }
 }

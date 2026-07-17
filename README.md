@@ -67,8 +67,8 @@ Steps:
 ### General
 * [Contributing to Phalcon](CONTRIBUTING.md)
 * [Official Documentation](https://docs.phalcon.io/)
-* [Zephir](https://zephir-lang.com/) — the language Phalcon is written in
-* [Incubator](https://phalcon.io/incubator) — community-driven plugins and classes that extend the framework (written in PHP)
+* [Zephir](https://zephir-lang.com/) - the language Phalcon is written in
+* [Incubator](https://phalcon.io/incubator) - community-driven plugins and classes that extend the framework (written in PHP)
 
 ### Support
 * [Discussions](https://phalcon.io/discussions)

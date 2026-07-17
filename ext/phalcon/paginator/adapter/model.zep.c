@@ -15,10 +15,9 @@
 #include "kernel/array.h"
 #include "kernel/exception.h"
 #include "kernel/fcall.h"
-#include "ext/spl/spl_exceptions.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 #include "kernel/object.h"
-#include "kernel/operators.h"
 
 
 /**
@@ -40,7 +39,7 @@
  *
  * $paginator = new Model(
  *     [
- *         "model" => Robots::class,
+ *         "model" => Invoices::class,
  *         "limit" => 25,
  *         "page"  => $currentPage,
  *     ]
@@ -49,9 +48,9 @@
  *
  * $paginator = new Model(
  *     [
- *         "model" => Robots::class,
+ *         "model" => Invoices::class,
  *         "parameters" => [
- *              "columns" => "id, name"
+ *              "columns" => "inv_id, inv_title"
  *         ],
  *         "limit" => 12,
  *         "page"  => $currentPage,
@@ -61,13 +60,13 @@
  *
  * $paginator = new Model(
  *     [
- *         "model" => Robots::class,
+ *         "model" => Invoices::class,
  *         "parameters" => [
- *              "type = :type:",
+ *              "inv_status_flag = :flag:",
  *              "bind" => [
- *                  "type" => "mechanical"
+ *                  "flag" => 1
  *              ],
- *              "order" => "name"
+ *              "order" => "inv_title"
  *         ],
  *         "limit" => 16,
  *         "page"  => $currentPage,
@@ -76,8 +75,8 @@
  *
  * $paginator = new Model(
  *     [
- *         "model" => Robots::class,
- *         "parameters" => "(id % 2) = 0",
+ *         "model" => Invoices::class,
+ *         "parameters" => "(inv_id % 2) = 0",
  *         "limit" => 8,
  *         "page"  => $currentPage,
  *     ]
@@ -86,8 +85,8 @@
  *
  * $paginator = new Model(
  *     [
- *         "model" => Robots::class,
- *         "parameters" => [ "(id % 2) = 0" ],
+ *         "model" => Invoices::class,
+ *         "parameters" => [ "(inv_id % 2) = 0" ],
  *         "limit" => 8,
  *         "page"  => $currentPage,
  *     ]
@@ -126,7 +125,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, __construct)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &config_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&config, config_param);
+	zephir_get_arrval(&config, config_param);
 	if (UNEXPECTED(!(zephir_array_isset_value_string(&config, SL("model"))))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exceptions_missingrequiredparameter_ce, "model", "phalcon/Paginator/Adapter/Model.zep", 100);
 		return;
@@ -167,18 +166,30 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, paginate)
 	ZVAL_UNDEF(&_13);
 	ZVAL_UNDEF(&_4$$4);
 	ZVAL_UNDEF(&_10$$10);
+	static zend_string *_zephir_prop_0 = NULL;
+	static zend_string *_zephir_prop_1 = NULL;
+	static zend_string *_zephir_prop_2 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("limitRows", 9, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_1)) {
+		_zephir_prop_1 = zend_string_init("config", 6, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_2)) {
+		_zephir_prop_2 = zend_string_init("page", 4, 1);
+	}
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	ZEPHIR_INIT_VAR(&pageItems);
 	array_init(&pageItems);
 	zephir_memory_observe(&_0);
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("limitRows"), PH_NOISY_CC);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1162, PH_NOISY_CC);
 	limit = zephir_get_intval(&_0);
-	zephir_read_property(&_1, this_ptr, ZEND_STRL("config"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 1163, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&config, &_1);
 	zephir_memory_observe(&_2);
-	zephir_read_property(&_2, this_ptr, ZEND_STRL("page"), PH_NOISY_CC);
+	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_2, 1164, PH_NOISY_CC);
 	pageNumber = zephir_get_intval(&_2);
 	zephir_array_fetch_string(&_3, &config, SL("model"), PH_NOISY | PH_READONLY, "phalcon/Paginator/Adapter/Model.zep", 119);
 	ZEPHIR_CPY_WRT(&modelClass, &_3);
@@ -200,7 +211,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, paginate)
 	ZEPHIR_INIT_VAR(&_6);
 	ZVAL_STRING(&_6, "count");
 	zephir_array_fast_append(&_5, &_6);
-	ZEPHIR_CALL_FUNCTION(&rowCountResult, "call_user_func", NULL, 81, &_5, &parameters);
+	ZEPHIR_CALL_FUNCTION(&rowCountResult, "call_user_func", NULL, 80, &_5, &parameters);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&rowCountResult) == IS_OBJECT) {
 		ZEPHIR_CALL_METHOD(&_7$$6, &rowCountResult, "count", NULL, 0);
@@ -227,7 +238,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, paginate)
 		ZEPHIR_INIT_VAR(&_11$$10);
 		ZVAL_STRING(&_11$$10, "find");
 		zephir_array_fast_append(&_10$$10, &_11$$10);
-		ZEPHIR_CALL_FUNCTION(&_12$$10, "call_user_func", NULL, 81, &_10$$10, &parameters);
+		ZEPHIR_CALL_FUNCTION(&_12$$10, "call_user_func", NULL, 80, &_10$$10, &parameters);
 		zephir_check_call_status();
 		ZEPHIR_CPY_WRT(&pageItems, &_12$$10);
 	}
@@ -247,7 +258,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, paginate)
 	ZVAL_LONG(&_6, rowcount);
 	zephir_array_update_string(&_13, SL("total_items"), &_6, PH_COPY | PH_SEPARATE);
 	zephir_memory_observe(&_14);
-	zephir_read_property(&_14, this_ptr, ZEND_STRL("limitRows"), PH_NOISY_CC);
+	zephir_read_property_cached(&_14, this_ptr, _zephir_prop_0, 1162, PH_NOISY_CC);
 	zephir_array_update_string(&_13, SL("limit"), &_14, PH_COPY | PH_SEPARATE);
 	add_assoc_long_ex(&_13, SL("first"), 1);
 	ZEPHIR_INIT_NVAR(&_6);

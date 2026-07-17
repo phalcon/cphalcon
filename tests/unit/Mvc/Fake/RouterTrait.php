@@ -21,41 +21,6 @@ use Phalcon\Mvc\Router\Route;
 trait RouterTrait
 {
     /**
-     * get router and set methods
-     */
-    protected function getRouterAndSetRoutes(array $settings, bool $defaultRoutes = true): Router
-    {
-        $router = $this->getRouter($defaultRoutes);
-
-        foreach ($settings as $data) {
-            $this->getRouteAndSetRouteMethod($router, $data);
-        }
-
-        return $router;
-    }
-
-    /**
-     * set new router, params and get it
-     */
-    protected function getRouter(bool $defaultRoutes = true): Router
-    {
-        $router = new Router($defaultRoutes);
-
-        $di = new Di();
-
-        $di->setShared(
-            'request',
-            function () {
-                return new Request();
-            }
-        );
-
-        $router->setDI($di);
-
-        return $router;
-    }
-
-    /**
      * Add method and return route
      *
      * @param Router $router
@@ -80,21 +45,22 @@ trait RouterTrait
     }
 
     /**
-     * get router and set methods and set host name
+     * set new router, params and get it
      */
-    protected function getRouterAndSetRoutesAndHostNames(array $settings, bool $defaultRoutes = true): Router
+    protected function getRouter(bool $defaultRoutes = true): Router
     {
-        $router = $this->getRouter($defaultRoutes);
+        $router = new Router($defaultRoutes);
 
-        foreach ($settings as $data) {
-            $route = $this->getRouteAndSetRouteMethod($router, $data);
+        $di = new Di();
 
-            if (isset($data['hostname'])) {
-                $route->setHostname(
-                    $data['hostname']
-                );
+        $di->setShared(
+            'request',
+            function () {
+                return new Request();
             }
-        }
+        );
+
+        $router->setDI($di);
 
         return $router;
     }
@@ -146,6 +112,39 @@ trait RouterTrait
             }
         )
         ;
+
+        return $router;
+    }
+    /**
+     * get router and set methods
+     */
+    protected function getRouterAndSetRoutes(array $settings, bool $defaultRoutes = true): Router
+    {
+        $router = $this->getRouter($defaultRoutes);
+
+        foreach ($settings as $data) {
+            $this->getRouteAndSetRouteMethod($router, $data);
+        }
+
+        return $router;
+    }
+
+    /**
+     * get router and set methods and set host name
+     */
+    protected function getRouterAndSetRoutesAndHostNames(array $settings, bool $defaultRoutes = true): Router
+    {
+        $router = $this->getRouter($defaultRoutes);
+
+        foreach ($settings as $data) {
+            $route = $this->getRouteAndSetRouteMethod($router, $data);
+
+            if (isset($data['hostname'])) {
+                $route->setHostname(
+                    $data['hostname']
+                );
+            }
+        }
 
         return $router;
     }

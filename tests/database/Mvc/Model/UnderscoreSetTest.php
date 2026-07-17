@@ -273,7 +273,7 @@ final class UnderscoreSetTest extends AbstractDatabaseTestCase
     public function testMvcModelUnderscoreSetWithHasManyRelatedRecords(): void
     {
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
 
         $invoicesMigration = new InvoicesMigration($connection);
         $invoicesMigration->clear();

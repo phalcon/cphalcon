@@ -24,7 +24,7 @@ class AdapterFactory extends AbstractFactory
      *
      * @param array $services
      */
-    public function __construct(array! services = [])
+    public function __construct( array services = [])
     {
         this->init(services);
     }
@@ -40,8 +40,8 @@ class AdapterFactory extends AbstractFactory
      * @throws Exception
      */
     public function newInstance(
-        string! name,
-        string! fileName,
+         string name,
+         string fileName,
         array options = []
     ) -> <AdapterInterface>
     {

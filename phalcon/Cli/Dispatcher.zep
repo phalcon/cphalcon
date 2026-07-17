@@ -66,7 +66,7 @@ class Dispatcher extends CliDispatcher implements DispatcherInterface
      * positional `params` before the call, so a task action receives any
      * options as trailing arguments after its declared parameters.
      */
-    public function callActionMethod(handler, string actionMethod, array! params = []) -> var
+    public function callActionMethod(handler, string actionMethod,  array params = []) -> var
     {
         var localParams;
 

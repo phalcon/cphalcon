@@ -311,11 +311,16 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_ConnectionLocator, setMaster)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&callableObject_sub);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("master", 6, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT_OF_CLASS(callableObject, phalcon_datamapper_pdo_connection_connectioninterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &callableObject);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("master"), callableObject);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 513, callableObject);
 	RETURN_THISW();
 }
 
@@ -401,6 +406,11 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_ConnectionLocator, getConnection)
 	ZVAL_UNDEF(&_3$$5);
 	ZVAL_UNDEF(&_4$$6);
 	ZVAL_UNDEF(&_5$$6);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("instances", 9, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(type)
 		Z_PARAM_OPTIONAL
@@ -421,7 +431,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_ConnectionLocator, getConnection)
 	zephir_memory_observe(&collection);
 	zephir_read_property_zval(&collection, this_ptr, &type_zv, PH_NOISY_CC);
 	ZEPHIR_CPY_WRT(&requested, &name_zv);
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("instances"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 514, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&instances, &_0);
 	if (ZEPHIR_IS_EMPTY(&collection)) {
 		ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getmaster", NULL, 0);
@@ -431,7 +441,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_ConnectionLocator, getConnection)
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "");
 	if (ZEPHIR_IS_IDENTICAL(&_1, &requested)) {
-		ZEPHIR_CALL_FUNCTION(&requested, "array_rand", NULL, 427, &collection);
+		ZEPHIR_CALL_FUNCTION(&requested, "array_rand", NULL, 446, &collection);
 		zephir_check_call_status();
 	}
 	if (!(zephir_array_isset_value(&collection, &requested))) {
@@ -453,7 +463,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_ConnectionLocator, getConnection)
 		ZEPHIR_CALL_USER_FUNC(&_4$$6, &_5$$6);
 		zephir_check_call_status();
 		zephir_array_update_zval(&instances, &instanceName, &_4$$6, PH_COPY | PH_SEPARATE);
-		zephir_update_property_zval(this_ptr, ZEND_STRL("instances"), &instances);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 514, &instances);
 	}
 	zephir_array_fetch(&_6, &instances, &instanceName, PH_NOISY | PH_READONLY, "phalcon/DataMapper/Pdo/ConnectionLocator.zep", 221);
 	RETURN_CTOR(&_6);

@@ -13,11 +13,14 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Support\Controllers;
 
+use Phalcon\Annotations\Router\Get;
+
 class MainController
 {
     /**
      * @Get("/")
      */
+    #[Get("/")]
     public function indexAction()
     {
     }

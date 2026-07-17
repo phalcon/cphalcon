@@ -11,7 +11,6 @@
 namespace Phalcon\Filter\Validation\Validator;
 
 use Phalcon\Messages\Message;
-use Phalcon\Filter\Validation\AbstractValidator;
 use Phalcon\Filter\Validation\AbstractValidatorComposite;
 use Phalcon\Filter\Validation\Validator\StringLength\Max;
 use Phalcon\Filter\Validation\Validator\StringLength\Min;
@@ -95,7 +94,7 @@ class StringLength extends AbstractValidatorComposite
      *     'includedMaximum' => false
      * ]
      */
-    public function __construct(array! options = [])
+    public function __construct( array options = [])
     {
         var included = null, key, message = null, validator, value;
 

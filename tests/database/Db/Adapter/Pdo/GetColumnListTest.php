@@ -17,8 +17,6 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\Group;
 
-use function env;
-
 final class GetColumnListTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -46,7 +44,7 @@ final class GetColumnListTest extends AbstractDatabaseTestCase
             'mysql'  => '`a`, `b`',
             'pgsql'  => '"a", "b"',
             'sqlite' => '"a", "b"',
-        ][env('driver')];
+        ][self::getDatabaseDriver()];
 
         $this->assertSame($expected, $db->getColumnList(['a', 'b']));
     }

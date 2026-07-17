@@ -52,9 +52,9 @@ use Phalcon\Db\Exceptions\InvalidIndexWhere;
  *     ]
  * );
  *
- * $connection->addIndex("robots", null, $unique);
- * $connection->addIndex("robots", null, $primary);
- * $connection->addIndex("robots", null, $hidden);
+ * $connection->addIndex("co_invoices", null, $unique);
+ * $connection->addIndex("co_invoices", null, $primary);
+ * $connection->addIndex("co_invoices", null, $hidden);
  *```
  */
 class Index implements IndexInterface
@@ -129,7 +129,7 @@ class Index implements IndexInterface
      * `columns` key in the second argument; when present, the third
      * positional `type` argument is ignored in favor of the definition.
      */
-    public function __construct(string! name, array! columnsOrDefinition, string type = "")
+    public function __construct( string name,  array columnsOrDefinition, string type = "")
     {
         var definitionType, invisible, directions, where, concurrent;
 

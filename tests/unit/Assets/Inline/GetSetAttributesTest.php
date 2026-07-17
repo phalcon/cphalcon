@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Assets\Inline;
 
 use Phalcon\Assets\Inline;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Assets\Fake\AssetsTrait;
 use PHPUnit\Framework\Attributes\DataProvider;
 

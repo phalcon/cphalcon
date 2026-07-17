@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Di\FactoryDefault\Cli;
 
 use Phalcon\Di\Exception;
 use Phalcon\Di\FactoryDefault\Cli;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Di\Fake\CliTrait;
 use PHPUnit\Framework\Attributes\DataProvider;
 
@@ -56,5 +56,19 @@ final class ConstructTest extends AbstractUnitTestCase
 
         $actual = $container->get($service, $params);
         $this->assertInstanceOf($class, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    #[DataProvider('getServices')]
+    public function testDiFactoryDefaultCliConstructServicesShared(
+        string $service,
+        string $class
+    ): void {
+        $container = new Cli();
+
+        $this->assertTrue($container->getService($service)->isShared());
     }
 }

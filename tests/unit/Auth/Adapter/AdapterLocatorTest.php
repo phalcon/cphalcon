@@ -26,7 +26,7 @@ use Phalcon\Container\Container;
 use Phalcon\Contracts\Auth\Adapter\Adapter;
 use Phalcon\Contracts\Encryption\Security\Security as SecurityContract;
 use Phalcon\Encryption\Security;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use stdClass;
 
 final class AdapterLocatorTest extends AbstractUnitTestCase
@@ -41,6 +41,18 @@ final class AdapterLocatorTest extends AbstractUnitTestCase
         $this->container->set(SecurityContract::class, fn () => $security);
         $this->container->set(MemoryAdapterConfig::class, fn () => new MemoryAdapterConfig());
         $this->container->set(StreamAdapterConfig::class, fn () => new StreamAdapterConfig('unused.json'));
+    }
+
+    public function testCustomMappingHonored(): void
+    {
+        $this->markTestSkipped('Enable after setDI is addressed');
+
+        $factory = new AdapterLocator(
+            $this->container,
+            ['custom' => Memory::class]
+        );
+
+        $this->assertInstanceOf(Memory::class, $factory->newInstance('custom'));
     }
 
     public function testNewInstanceReturnsMemory(): void
@@ -62,18 +74,6 @@ final class AdapterLocatorTest extends AbstractUnitTestCase
         $adapter = $factory->newInstance('stream');
 
         $this->assertInstanceOf(Stream::class, $adapter);
-    }
-
-    public function testCustomMappingHonored(): void
-    {
-        $this->markTestSkipped('Enable after setDI is addressed');
-
-        $factory = new AdapterLocator(
-            $this->container,
-            ['custom' => Memory::class]
-        );
-
-        $this->assertInstanceOf(Memory::class, $factory->newInstance('custom'));
     }
 
     public function testRegisterAddsMapping(): void

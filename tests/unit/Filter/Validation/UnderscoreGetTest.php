@@ -17,7 +17,7 @@ use Phalcon\Di\Di;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Filter\FilterInterface;
 use Phalcon\Filter\Validation;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class UnderscoreGetTest extends AbstractUnitTestCase
 {

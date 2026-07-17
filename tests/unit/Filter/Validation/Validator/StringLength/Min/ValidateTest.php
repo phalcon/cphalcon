@@ -16,7 +16,7 @@ namespace Phalcon\Tests\Unit\Filter\Validation\Validator\StringLength\Min;
 use Phalcon\Filter\Validation;
 use Phalcon\Filter\Validation\Exception;
 use Phalcon\Filter\Validation\Validator\StringLength\Min;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use stdClass;
 
 final class ValidateTest extends AbstractUnitTestCase
@@ -121,5 +121,33 @@ final class ValidateTest extends AbstractUnitTestCase
         $validation->bind($entity, []);
         $result = $validator->validate($validation, 'name');
         $this->assertTrue($result);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    public function testFilterValidationValidatorMinValidateReturnValueBoundary(): void
+    {
+        $validation = new Validation();
+        $validator  = new Min(
+            [
+                'min'      => 9,
+                'included' => true,
+            ]
+        );
+        $validation->add('name', $validator);
+
+        $entity = new stdClass();
+
+        // included = true: a value exactly at the minimum length passes
+        $entity->name = '123456789';
+        $validation->bind($entity, []);
+        $this->assertTrue($validator->validate($validation, 'name'));
+
+        // a value shorter than the minimum fails
+        $entity->name = '12345678';
+        $validation->bind($entity, []);
+        $this->assertFalse($validator->validate($validation, 'name'));
     }
 }

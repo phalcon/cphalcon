@@ -20,8 +20,9 @@ use Phalcon\Mvc\Application;
 use Phalcon\Mvc\Application\Exception;
 use Phalcon\Mvc\Router;
 use Phalcon\Mvc\View;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\Support\Modules\Backend\Module as BackendModule;
-use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Modules\Frontend\Module as FrontendModule;
 
 final class RegisterModulesTest extends AbstractUnitTestCase
@@ -29,54 +30,6 @@ final class RegisterModulesTest extends AbstractUnitTestCase
     public function tearDown(): void
     {
         Di::reset();
-    }
-
-    public function testModulesDefinition(): void
-    {
-        Di::reset();
-
-        $di = new FactoryDefault();
-
-        $di->set(
-            'router',
-            function () {
-                $router = new Router(false);
-
-                $router->add(
-                    '/index',
-                    [
-                        'controller' => 'index',
-                        'module'     => 'frontend',
-                        'namespace'  => 'Phalcon\Tests\Support\Modules\Frontend\Controllers',
-                    ]
-                );
-
-                return $router;
-            }
-        );
-
-        $application = new Application();
-
-        $application->registerModules(
-            [
-                'frontend' => [
-                    'path'      => supportDir('Modules/Frontend/Module.php'),
-                    'className' => FrontendModule::class,
-                ],
-                'backend'  => [
-                    'path'      => supportDir('Modules/Backend/Module.php'),
-                    'className' => BackendModule::class,
-                ],
-            ]
-        );
-
-        $application->setDI($di);
-
-        $response = $application->handle('/index');
-
-        $expected = '<html>here</html>' . PHP_EOL;
-        $actual   = $response->getContent();
-        $this->assertEquals($expected, $actual);
     }
 
     public function testModulesClosure(): void
@@ -122,7 +75,7 @@ final class RegisterModulesTest extends AbstractUnitTestCase
                         'view',
                         function () use ($view) {
                             $view->setViewsDir(
-                                supportDir('Modules/Frontend/views/')
+                                Talon::settings()->supportPath('Modules/Frontend/views/')
                             );
 
                             return $view;
@@ -134,7 +87,7 @@ final class RegisterModulesTest extends AbstractUnitTestCase
                         'view',
                         function () use ($view) {
                             $view->setViewsDir(
-                                supportDir('Modules/Backend/views/')
+                                Talon::settings()->supportPath('Modules/Backend/views/')
                             );
 
                             return $view;
@@ -147,6 +100,54 @@ final class RegisterModulesTest extends AbstractUnitTestCase
         $application->setDI($di);
 
         $response = $application->handle('/login');
+
+        $expected = '<html>here</html>' . PHP_EOL;
+        $actual   = $response->getContent();
+        $this->assertEquals($expected, $actual);
+    }
+
+    public function testModulesDefinition(): void
+    {
+        Di::reset();
+
+        $di = new FactoryDefault();
+
+        $di->set(
+            'router',
+            function () {
+                $router = new Router(false);
+
+                $router->add(
+                    '/index',
+                    [
+                        'controller' => 'index',
+                        'module'     => 'frontend',
+                        'namespace'  => 'Phalcon\Tests\Support\Modules\Frontend\Controllers',
+                    ]
+                );
+
+                return $router;
+            }
+        );
+
+        $application = new Application();
+
+        $application->registerModules(
+            [
+                'frontend' => [
+                    'path'      => Talon::settings()->supportPath('Modules/Frontend/Module.php'),
+                    'className' => FrontendModule::class,
+                ],
+                'backend'  => [
+                    'path'      => Talon::settings()->supportPath('Modules/Backend/Module.php'),
+                    'className' => BackendModule::class,
+                ],
+            ]
+        );
+
+        $application->setDI($di);
+
+        $response = $application->handle('/index');
 
         $expected = '<html>here</html>' . PHP_EOL;
         $actual   = $response->getContent();
@@ -186,7 +187,7 @@ final class RegisterModulesTest extends AbstractUnitTestCase
         $application->registerModules(
             [
                 'frontend' => [
-                    'path'      => supportDir('not-a-real-file.php'),
+                    'path'      => Talon::settings()->supportPath('not-a-real-file.php'),
                     'className' => FrontendModule::class,
                 ],
             ]
@@ -197,7 +198,7 @@ final class RegisterModulesTest extends AbstractUnitTestCase
         $this->expectException(Exception::class);
         $this->expectExceptionMessage(
             "Module definition path '"
-            . supportDir('not-a-real-file.php')
+            . Talon::settings()->supportPath('not-a-real-file.php')
             . "' does not exist"
         );
 

@@ -41,6 +41,14 @@ class FakeAuthUserNoRemember implements AuthUser
      */
     private array $extra = [];
 
+    /**
+     * @param array<string, mixed> $row
+     */
+    public function __construct(array $row = [])
+    {
+        $this->assign($row);
+    }
+
     public function __get(string $name): mixed
     {
         return $this->extra[$name] ?? null;
@@ -54,24 +62,6 @@ class FakeAuthUserNoRemember implements AuthUser
     public function __set(string $name, mixed $value): void
     {
         $this->extra[$name] = $value;
-    }
-
-    /**
-     * @param array<string, mixed> $row
-     */
-    public function __construct(array $row = [])
-    {
-        $this->assign($row);
-    }
-
-    /**
-     * @param array<string, mixed> $row
-     */
-    public function assign(array $row): void
-    {
-        foreach ($row as $key => $value) {
-            $this->{$key} = $value;
-        }
     }
 
     /**
@@ -105,6 +95,16 @@ class FakeAuthUserNoRemember implements AuthUser
         }
 
         return false;
+    }
+
+    /**
+     * @param array<string, mixed> $row
+     */
+    public function assign(array $row): void
+    {
+        foreach ($row as $key => $value) {
+            $this->{$key} = $value;
+        }
     }
 
     public function getAuthIdentifier(): int | string

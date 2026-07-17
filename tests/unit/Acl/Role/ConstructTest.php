@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Acl\Role;
 
 use Phalcon\Acl\Exception;
 use Phalcon\Acl\Role;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class ConstructTest extends AbstractUnitTestCase
 {

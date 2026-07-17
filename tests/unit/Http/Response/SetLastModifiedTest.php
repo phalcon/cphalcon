@@ -16,7 +16,7 @@ namespace Phalcon\Tests\Unit\Http\Response;
 use DateTime;
 use DateTimeZone;
 use Phalcon\Http\Response;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Page\Http;
 
 final class SetLastModifiedTest extends AbstractUnitTestCase

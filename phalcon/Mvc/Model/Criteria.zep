@@ -64,7 +64,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     /**
      * Appends a condition to the current conditions using an AND operator
      */
-    public function andWhere(string! conditions, var bindParams = null, var bindTypes = null) -> <CriteriaInterface>
+    public function andWhere( string conditions, var bindParams = null, var bindTypes = null) -> <CriteriaInterface>
     {
         var currentConditions;
 
@@ -82,7 +82,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      * $criteria->betweenWhere("price", 100.25, 200.50);
      *```
      */
-    public function betweenWhere(string! expr, var minimum, var maximum) -> <CriteriaInterface>
+    public function betweenWhere( string expr, var minimum, var maximum) -> <CriteriaInterface>
     {
         var hiddenParam, minimumKey, nextHiddenParam, maximumKey;
 
@@ -121,7 +121,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      * Sets the bound parameters in the criteria
      * This method replaces all previously set bound parameters
      */
-    public function bind(array! bindParams, bool merge = false) -> <CriteriaInterface>
+    public function bind( array bindParams, bool merge = false) -> <CriteriaInterface>
     {
         if !isset this->params["bind"] {
             let this->params["bind"] = [];
@@ -140,7 +140,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      * Sets the bind types in the criteria
      * This method replaces all previously set bound parameters
      */
-    public function bindTypes(array! bindTypes) -> <CriteriaInterface>
+    public function bindTypes( array bindTypes) -> <CriteriaInterface>
     {
         let this->params["bindTypes"] = bindTypes;
 
@@ -151,7 +151,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      * Sets the cache options in the criteria
      * This method replaces all previously set cache options
      */
-    public function cache(array! cache) -> <CriteriaInterface>
+    public function cache( array cache) -> <CriteriaInterface>
     {
         let this->params["cache"] = cache;
 
@@ -215,7 +215,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     /**
      * Adds the conditions parameter to the criteria
      */
-    public function conditions(string! conditions) -> <CriteriaInterface>
+    public function conditions( string conditions) -> <CriteriaInterface>
     {
         let this->params["conditions"] = conditions;
 
@@ -300,9 +300,9 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      */
     public static function fromInput(
         <DiInterface> container,
-        string! modelName,
-        array! data,
-        string! operator = "AND"
+         string modelName,
+         array data,
+         string operator = "AND"
     ) -> <CriteriaInterface> {
         var attribute, field, value, type, metaData, model, dataTypes,
             criteria, columnMap;
@@ -531,7 +531,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      * $criteria->inWhere("id", [1, 2, 3]);
      * ```
      */
-    public function inWhere(string! expr, array! values) -> <CriteriaInterface>
+    public function inWhere( string expr,  array values) -> <CriteriaInterface>
     {
         var hiddenParam, value;
         array bindParams, bindKeys;
@@ -598,7 +598,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      * );
      *```
      */
-    public function innerJoin(string! model, var conditions = null, var alias = null) -> <CriteriaInterface>
+    public function innerJoin( string model, var conditions = null, var alias = null) -> <CriteriaInterface>
     {
         return this->addJoinClause(model, conditions, alias, "INNER");
     }
@@ -632,7 +632,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      * );
      *```
      */
-    public function join(string! model, var conditions = null, var alias = null, var type = null) -> <CriteriaInterface>
+    public function join( string model, var conditions = null, var alias = null, var type = null) -> <CriteriaInterface>
     {
         return this->addJoinClause(model, conditions, alias, type);
     }
@@ -650,7 +650,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      * );
      *```
      */
-    public function leftJoin(string! model, var conditions = null, var alias = null) -> <CriteriaInterface>
+    public function leftJoin( string model, var conditions = null, var alias = null) -> <CriteriaInterface>
     {
         return this->addJoinClause(model, conditions, alias, "LEFT");
     }
@@ -692,7 +692,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      * $criteria->notBetweenWhere("price", 100.25, 200.50);
      *```
      */
-    public function notBetweenWhere(string! expr, var minimum, var maximum) -> <CriteriaInterface>
+    public function notBetweenWhere( string expr, var minimum, var maximum) -> <CriteriaInterface>
     {
         var hiddenParam, nextHiddenParam;
         string minimumKey, maximumKey;
@@ -737,7 +737,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      * $criteria->notInWhere("id", [1, 2, 3]);
      *```
      */
-    public function notInWhere(string! expr, array! values) -> <CriteriaInterface>
+    public function notInWhere( string expr,  array values) -> <CriteriaInterface>
     {
         var hiddenParam, value;
         array bindParams, bindKeys;
@@ -776,7 +776,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     /**
      * Appends a condition to the current conditions using an OR operator
      */
-    public function orWhere(string! conditions, var bindParams = null, var bindTypes = null) -> <CriteriaInterface>
+    public function orWhere( string conditions, var bindParams = null, var bindTypes = null) -> <CriteriaInterface>
     {
         var currentConditions;
 
@@ -790,7 +790,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     /**
      * Adds the order-by clause to the criteria
      */
-    public function orderBy(string! orderColumns) -> <CriteriaInterface>
+    public function orderBy( string orderColumns) -> <CriteriaInterface>
     {
         let this->params["order"] = orderColumns;
 
@@ -810,7 +810,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      * );
      *```
      */
-    public function rightJoin(string! model, conditions = null, alias = null) -> <CriteriaInterface>
+    public function rightJoin( string model, conditions = null, alias = null) -> <CriteriaInterface>
     {
         return this->addJoinClause(model, conditions, alias, "RIGHT");
     }
@@ -826,7 +826,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     /**
      * Set a model on which the query will be executed
      */
-    public function setModelName(string! modelName) -> <CriteriaInterface>
+    public function setModelName( string modelName) -> <CriteriaInterface>
     {
         let this->model = modelName;
 
@@ -846,7 +846,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     /**
      * Sets the conditions parameter in the criteria
      */
-    public function where(string! conditions, var bindParams = null, var bindTypes = null) -> <CriteriaInterface>
+    public function where( string conditions, var bindParams = null, var bindTypes = null) -> <CriteriaInterface>
     {
         var currentBindParams, currentBindTypes;
 
@@ -890,7 +890,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      * name collision between the public `join()` method and PHP's
      * built-in `join()` function.
      */
-    private function addJoinClause(string! model, var conditions = null, var alias = null, var type = null) -> <CriteriaInterface>
+    private function addJoinClause( string model, var conditions = null, var alias = null, var type = null) -> <CriteriaInterface>
     {
         var mergedJoins, currentJoins;
         array join;

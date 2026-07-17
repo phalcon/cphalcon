@@ -9,6 +9,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkContext, createConsumer);
 PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkContext, createMessage);
 PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkContext, createProducer);
 PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkContext, createSubscriptionConsumer);
+PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkContext, getStats);
 PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkContext, getTtr);
 PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkContext, purgeQueue);
 PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkContext, putMessage);
@@ -42,6 +43,10 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_queue_adapter_beanstalk_beanstalkcontext_createsubscriptionconsumer, 0, 0, Phalcon\\Contracts\\Queue\\SubscriptionConsumer, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_queue_adapter_beanstalk_beanstalkcontext_getstats, 0, 1, IS_ARRAY, 0)
+	ZEND_ARG_OBJ_INFO(0, queue, Phalcon\\Contracts\\Queue\\Queue, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_queue_adapter_beanstalk_beanstalkcontext_getttr, 0, 0, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
@@ -72,6 +77,7 @@ ZEPHIR_INIT_FUNCS(phalcon_queue_adapter_beanstalk_beanstalkcontext_method_entry)
 	PHP_ME(Phalcon_Queue_Adapter_Beanstalk_BeanstalkContext, createMessage, arginfo_phalcon_queue_adapter_beanstalk_beanstalkcontext_createmessage, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Queue_Adapter_Beanstalk_BeanstalkContext, createProducer, arginfo_phalcon_queue_adapter_beanstalk_beanstalkcontext_createproducer, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Queue_Adapter_Beanstalk_BeanstalkContext, createSubscriptionConsumer, arginfo_phalcon_queue_adapter_beanstalk_beanstalkcontext_createsubscriptionconsumer, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Queue_Adapter_Beanstalk_BeanstalkContext, getStats, arginfo_phalcon_queue_adapter_beanstalk_beanstalkcontext_getstats, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Queue_Adapter_Beanstalk_BeanstalkContext, getTtr, arginfo_phalcon_queue_adapter_beanstalk_beanstalkcontext_getttr, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Queue_Adapter_Beanstalk_BeanstalkContext, purgeQueue, arginfo_phalcon_queue_adapter_beanstalk_beanstalkcontext_purgequeue, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Queue_Adapter_Beanstalk_BeanstalkContext, putMessage, arginfo_phalcon_queue_adapter_beanstalk_beanstalkcontext_putmessage, ZEND_ACC_PUBLIC)

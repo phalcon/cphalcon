@@ -119,6 +119,31 @@ final class AddColumnTest extends AbstractDatabaseTestCase
     /**
      * @return array[]
      */
+    public static function getDialectsString(): array
+    {
+
+        return [
+            [
+                Mysql::class,
+                'ALTER TABLE `schema`.`table` ' . 'ADD `field_primary` VARCHAR(10) NOT NULL ' .
+                'DEFAULT "test" AFTER `field_first`',
+
+            ],
+            [
+                Postgresql::class,
+                'ALTER TABLE "schema"."table" ' . 'ADD COLUMN "field_primary" CHARACTER VARYING(10) ' .
+                'DEFAULT \'test\' NOT NULL',
+            ],
+            [
+                Sqlite::class,
+                'ALTER TABLE "schema"."table" ' . 'ADD COLUMN "field_primary" VARCHAR(10) DEFAULT ' . '"test" NOT NULL',
+            ],
+        ];
+    }
+
+    /**
+     * @return array[]
+     */
     public static function getDialectsTimestamp(): array
     {
 
@@ -143,28 +168,36 @@ final class AddColumnTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * @return array[]
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2020-01-20
      */
-    public static function getDialectsString(): array
+    #[Group('mysql')]
+    #[Group('sqlite')]
+    #[DataProvider('getDialects')]
+    public function testDbDialectAddColumn(string $dialectClass, string $expected): void
     {
 
-        return [
-            [
-                Mysql::class,
-                'ALTER TABLE `schema`.`table` ' . 'ADD `field_primary` VARCHAR(10) NOT NULL ' .
-                'DEFAULT "test" AFTER `field_first`',
+        $dialect = new $dialectClass();
 
-            ],
-            [
-                Postgresql::class,
-                'ALTER TABLE "schema"."table" ' . 'ADD COLUMN "field_primary" CHARACTER VARYING(10) ' .
-                'DEFAULT \'test\' NOT NULL',
-            ],
-            [
-                Sqlite::class,
-                'ALTER TABLE "schema"."table" ' . 'ADD COLUMN "field_primary" VARCHAR(10) DEFAULT ' . '"test" NOT NULL',
-            ],
+        $options = [
+            'type'          => Column::TYPE_INTEGER,
+            'isNumeric'     => true,
+            'size'          => 11,
+            'scale'         => 0,
+            'default'       => 13,
+            'unsigned'      => false,
+            'notNull'       => true,
+            'autoIncrement' => true,
+            'primary'       => true,
+            'first'         => true,
+            'after'         => null,
+            'bindType'      => Column::BIND_PARAM_INT,
         ];
+
+        $column = new Column('field_primary', $options);
+
+        $actual = $dialect->addColumn('table', 'schema', $column);
+        $this->assertSame($expected, $actual);
     }
 
     /**
@@ -222,39 +255,6 @@ final class AddColumnTest extends AbstractDatabaseTestCase
             'notNull'       => true,
             'autoIncrement' => false,
             'primary'       => false,
-            'first'         => true,
-            'after'         => null,
-            'bindType'      => Column::BIND_PARAM_INT,
-        ];
-
-        $column = new Column('field_primary', $options);
-
-        $actual = $dialect->addColumn('table', 'schema', $column);
-        $this->assertSame($expected, $actual);
-    }
-
-    /**
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2020-01-20
-     */
-    #[Group('mysql')]
-    #[Group('sqlite')]
-    #[DataProvider('getDialects')]
-    public function testDbDialectAddColumn(string $dialectClass, string $expected): void
-    {
-
-        $dialect = new $dialectClass();
-
-        $options = [
-            'type'          => Column::TYPE_INTEGER,
-            'isNumeric'     => true,
-            'size'          => 11,
-            'scale'         => 0,
-            'default'       => 13,
-            'unsigned'      => false,
-            'notNull'       => true,
-            'autoIncrement' => true,
-            'primary'       => true,
             'first'         => true,
             'after'         => null,
             'bindType'      => Column::BIND_PARAM_INT,

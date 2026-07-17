@@ -16,8 +16,8 @@ namespace Phalcon\Tests\Unit\Session\Manager;
 use Phalcon\Session\Adapter\Noop;
 use Phalcon\Session\Manager;
 use Phalcon\Session\ManagerInterface;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Session\Fake\FakeManager;
-use Phalcon\Tests\AbstractUnitTestCase;
 use SessionHandlerInterface;
 
 final class ConstructTest extends AbstractUnitTestCase

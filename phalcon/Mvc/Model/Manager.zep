@@ -52,7 +52,7 @@ use ReflectionProperty;
  *     }
  * );
  *
- * $robot = new Robots($di);
+ * $invoice = new Invoices($di);
  * ```
  */
 class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareInterface
@@ -97,6 +97,15 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      * @var array
      */
     protected customEventsManager = [];
+
+    /**
+     * Write connection services that have been written to during the current
+     * request cycle. Used by the sticky mechanism to route reads to the write
+     * connection after a write.
+     *
+     * @var array
+     */
+    protected dirtyWriteServices = [];
 
     /**
      * Does the model use dynamic update, instead of updating all rows?
@@ -218,6 +227,14 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     protected schemas = [];
 
     /**
+     * Whether reads should stick to the write connection after a write has
+     * occurred during the current request cycle.
+     *
+     * @var bool
+     */
+    protected sticky = false;
+
+    /**
      * @var array
      */
     protected writeConnectionServices = [];
@@ -277,7 +294,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     public function addBelongsTo(
         <ModelInterface> model,
         var fields,
-        string! referencedModel,
+         string referencedModel,
         var referencedFields,
         array options = []
     ) -> <RelationInterface> {
@@ -370,7 +387,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     public function addHasMany(
         <ModelInterface> model,
         var fields,
-        string! referencedModel,
+         string referencedModel,
         var referencedFields,
         array options = []
     ) -> <RelationInterface> {
@@ -467,10 +484,10 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     public function addHasManyToMany(
         <ModelInterface> model,
         var fields,
-        string! intermediateModel,
+         string intermediateModel,
         var intermediateFields,
         var intermediateReferencedFields,
-        string! referencedModel,
+         string referencedModel,
         var referencedFields,
         array options = []
     ) -> <RelationInterface> {
@@ -591,7 +608,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     public function addHasOne(
         <ModelInterface> model,
         var fields,
-        string! referencedModel,
+         string referencedModel,
         var referencedFields,
         array options = []
     ) -> <RelationInterface> {
@@ -687,10 +704,10 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     public function addHasOneThrough(
         <ModelInterface> model,
         var fields,
-        string! intermediateModel,
+         string intermediateModel,
         var intermediateFields,
         var intermediateReferencedFields,
-        string! referencedModel,
+         string referencedModel,
         var referencedFields,
         array options = []
     ) -> <RelationInterface> {
@@ -841,7 +858,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      *
      * @return QueryInterface
      */
-    public function createQuery(string! phql) -> <QueryInterface>
+    public function createQuery( string phql) -> <QueryInterface>
     {
         var container, query;
 
@@ -868,23 +885,23 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      * Creates a Phalcon\Mvc\Model\Query and execute it
      *
      * ```php
-     * $model = new Robots();
+     * $model = new Invoices();
      * $manager = $model->getModelsManager();
      *
      * // \Phalcon\Mvc\Model\Resultset\Simple
-     * $manager->executeQuery('SELECT * FROM Robots');
+     * $manager->executeQuery('SELECT * FROM Invoices');
      *
      * // \Phalcon\Mvc\Model\Resultset\Complex
-     * $manager->executeQuery('SELECT COUNT(type) FROM Robots GROUP BY type');
+     * $manager->executeQuery('SELECT COUNT(inv_status_flag) FROM Invoices GROUP BY inv_status_flag');
      *
      * // \Phalcon\Mvc\Model\Query\StatusInterface
-     * $manager->executeQuery('INSERT INTO Robots (id) VALUES (1)');
+     * $manager->executeQuery('INSERT INTO Invoices (inv_id) VALUES (1)');
      *
      * // \Phalcon\Mvc\Model\Query\StatusInterface
-     * $manager->executeQuery('UPDATE Robots SET id = 0 WHERE id = :id:', ['id' => 1]);
+     * $manager->executeQuery('UPDATE Invoices SET inv_id = 0 WHERE inv_id = :id:', ['id' => 1]);
      *
      * // \Phalcon\Mvc\Model\Query\StatusInterface
-     * $manager->executeQuery('DELETE FROM Robots WHERE id = :id:', ['id' => 1]);
+     * $manager->executeQuery('DELETE FROM Invoices WHERE inv_id = :id:', ['id' => 1]);
      * ```
      *
      * @param string     $phql
@@ -893,7 +910,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      *
      * @return ResultsetInterface|StatusInterface
      */
-    public function executeQuery(string! phql, var placeholders = null, var types = null) -> var
+    public function executeQuery( string phql, var placeholders = null, var types = null) -> var
     {
         var query;
 
@@ -917,7 +934,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      * Checks whether a model has a belongsTo relation with another model
      * @deprecated
      */
-    public function existsBelongsTo(string! modelName, string! modelRelation) -> bool
+    public function existsBelongsTo( string modelName,  string modelRelation) -> bool
     {
         return this->hasBelongsTo(modelName, modelRelation);
     }
@@ -926,7 +943,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      * Checks whether a model has a hasMany relation with another model
      * @deprecated
      */
-    public function existsHasMany(string! modelName, string! modelRelation) -> bool
+    public function existsHasMany( string modelName,  string modelRelation) -> bool
     {
         return this->hasHasMany(modelName, modelRelation);
     }
@@ -935,7 +952,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      * Checks whether a model has a hasManyToMany relation with another model
      * @deprecated
      */
-    public function existsHasManyToMany(string! modelName, string! modelRelation) -> bool
+    public function existsHasManyToMany( string modelName,  string modelRelation) -> bool
     {
         return this->hasHasManyToMany(modelName, modelRelation);
     }
@@ -944,7 +961,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      * Checks whether a model has a hasOne relation with another model
      * @deprecated
      */
-    public function existsHasOne(string! modelName, string! modelRelation) -> bool
+    public function existsHasOne( string modelName,  string modelRelation) -> bool
     {
         return this->hasHasOne(modelName, modelRelation);
     }
@@ -953,7 +970,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      * Checks whether a model has a hasOneThrough relation with another model
      * @deprecated
      */
-    public function existsHasOneThrough(string! modelName, string! modelRelation) -> bool
+    public function existsHasOneThrough( string modelName,  string modelRelation) -> bool
     {
         return this->hasHasOneThrough(modelName, modelRelation);
     }
@@ -963,7 +980,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      *
      *```php
      * $relations = $modelsManager->getBelongsTo(
-     *     new Robots()
+     *     new Invoices()
      * );
      *```
      *
@@ -994,8 +1011,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      * @return ResultsetInterface | bool
      */
     public function getBelongsToRecords(
-        string! modelName,
-        string! modelRelation,
+         string modelName,
+         string modelRelation,
         <ModelInterface> record,
         parameters = null,
         string method = null
@@ -1108,7 +1125,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     /**
      * Gets hasMany related records from a model
      */
-    public function getHasManyRecords(string! modelName, string! modelRelation, <ModelInterface> record, parameters = null, string method = null)
+    public function getHasManyRecords( string modelName,  string modelRelation, <ModelInterface> record, parameters = null, string method = null)
         -> <ResultsetInterface> | bool
     {
         var relations;
@@ -1177,7 +1194,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     /**
      * Gets belongsTo related records from a model
      */
-    public function getHasOneRecords(string! modelName, string! modelRelation, <ModelInterface> record, parameters = null, string method = null)
+    public function getHasOneRecords( string modelName,  string modelRelation, <ModelInterface> record, parameters = null, string method = null)
         -> <ModelInterface> | bool
     {
         var relations;
@@ -1282,6 +1299,24 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      */
     public function getReadConnection(<ModelInterface> model) -> <AdapterInterface>
     {
+        var writeService;
+
+        /**
+         * When sticky is enabled and the model's write service has been
+         * written to during this request cycle, serve reads from the write
+         * connection so freshly written data can be read back immediately.
+         */
+        if this->sticky {
+            let writeService = this->getConnectionService(
+                model,
+                this->writeConnectionServices
+            );
+
+            if isset this->dirtyWriteServices[writeService] {
+                return this->getConnection(model, this->writeConnectionServices);
+            }
+        }
+
         return this->getConnection(model, this->readConnectionServices);
     }
 
@@ -1304,7 +1339,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      *
      * @return RelationInterface|bool
      */
-    public function getRelationByAlias(string! modelName, string! alias) -> <RelationInterface> | bool
+    public function getRelationByAlias( string modelName,  string alias) -> <RelationInterface> | bool
     {
         var relation;
 
@@ -1585,7 +1620,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      *
      * @return RelationInterface[]
      */
-    public function getRelations(string! modelName) -> <RelationInterface[]>
+    public function getRelations( string modelName) -> <RelationInterface[]>
     {
         var entityName, relations, relation;
         array allRelations;
@@ -1649,7 +1684,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      *
      * @return RelationInterface[] | bool
      */
-    public function getRelationsBetween(string! first, string! second) -> <RelationInterface[]> | bool
+    public function getRelationsBetween( string first,  string second) -> <RelationInterface[]> | bool
     {
         var relations;
         string keyRelation;
@@ -1702,7 +1737,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 *
 	 * @return mixed
      */
-    public function getReusableRecords(string! modelName, string! key)
+    public function getReusableRecords( string modelName,  string key)
     {
         var records;
 
@@ -1748,7 +1783,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      *
      * @return bool
      */
-    public function hasBelongsTo(string! modelName, string! modelRelation) -> bool
+    public function hasBelongsTo( string modelName,  string modelRelation) -> bool
     {
         return this->checkHasRelationship("belongsTo", modelName, modelRelation);
     }
@@ -1761,7 +1796,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      *
      * @return bool
      */
-    public function hasHasMany(string! modelName, string! modelRelation) -> bool
+    public function hasHasMany( string modelName,  string modelRelation) -> bool
     {
         return this->checkHasRelationship("hasMany", modelName, modelRelation);
     }
@@ -1774,7 +1809,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      *
      * @return bool
      */
-    public function hasHasManyToMany(string! modelName, string! modelRelation) -> bool
+    public function hasHasManyToMany( string modelName,  string modelRelation) -> bool
     {
         return this->checkHasRelationship("hasManyToMany", modelName, modelRelation);
     }
@@ -1787,7 +1822,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      *
      * @return bool
      */
-    public function hasHasOne(string! modelName, string! modelRelation) -> bool
+    public function hasHasOne( string modelName,  string modelRelation) -> bool
     {
         return this->checkHasRelationship("hasOne", modelName, modelRelation);
     }
@@ -1800,7 +1835,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      *
      * @return bool
      */
-    public function hasHasOneThrough(string! modelName, string! modelRelation) -> bool
+    public function hasHasOneThrough( string modelName,  string modelRelation) -> bool
     {
         return this->checkHasRelationship("hasOneThrough", modelName, modelRelation);
     }
@@ -1870,7 +1905,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      *
      * @return bool
      */
-    public function isInitialized(string! className) -> bool
+    public function isInitialized( string className) -> bool
     {
         return isset this->initialized[strtolower(className)];
     }
@@ -1924,7 +1959,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      *
      * ```php
      * $isPublic = $manager->isVisibleModelProperty(
-     *     new Robots(),
+     *     new Invoices(),
      *     "name"
      * );
      * ```
@@ -1976,7 +2011,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      *
      * @return ModelInterface
      */
-    public function load(string! modelName) -> <ModelInterface>
+    public function load( string modelName) -> <ModelInterface>
     {
         var model;
 
@@ -2011,7 +2046,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      * @param string         $eventName
      * @param mixed          $data
      */
-    public function missingMethod(<ModelInterface> model, string! eventName, var data)
+    public function missingMethod(<ModelInterface> model,  string eventName, var data)
     {
         var modelsBehaviors, result, eventsManager, behavior;
 
@@ -2055,7 +2090,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      * @param string         $eventName
      * @param ModelInterface $model
      */
-    public function notifyEvent(string! eventName, <ModelInterface> model)
+    public function notifyEvent( string eventName, <ModelInterface> model)
     {
         var status, behavior, modelsBehaviors, eventsManager,
             customEventsManager;
@@ -2112,6 +2147,26 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     }
 
     /**
+     * Marks the model's write connection service as written-to for the
+     * current request cycle. Used by the sticky mechanism to route
+     * subsequent reads to the write connection.
+     *
+     * @param ModelInterface $model
+     *
+     * @return void
+     */
+    public function registerWrite(<ModelInterface> model) -> void
+    {
+        if !this->sticky {
+            return;
+        }
+
+        let this->dirtyWriteServices[
+            this->getConnectionService(model, this->writeConnectionServices)
+        ] = true;
+    }
+
+    /**
      * Removes a behavior from a model
      *
      * @param ModelInterface $model
@@ -2119,7 +2174,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      *
      * @return void
      */
-    public function removeBehavior(<ModelInterface> model, string! behaviorClass) -> void
+    public function removeBehavior(<ModelInterface> model,  string behaviorClass) -> void
     {
         var entityName, key, behavior;
 
@@ -2137,6 +2192,18 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     }
 
     /**
+     * Clears the per-request sticky write tracking. Call this between
+     * requests in long-running runtimes (e.g. Swoole, RoadRunner) where the
+     * manager instance is reused across requests.
+     *
+     * @return void
+     */
+    public function resetConnectionState() -> void
+    {
+        let this->dirtyWriteServices = [];
+    }
+
+    /**
      * Sets both write and read connection service for a model
      *
      * @param ModelInterface $model
@@ -2144,7 +2211,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      *
      * @return void
      */
-    public function setConnectionService(<ModelInterface> model, string! connectionService) -> void
+    public function setConnectionService(<ModelInterface> model,  string connectionService) -> void
     {
         this->setReadConnectionService(model, connectionService);
         this->setWriteConnectionService(model, connectionService);
@@ -2204,16 +2271,16 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      *     }
      * );
      *
-     * $robots = new Robots();
+     * $invoices = new Invoices();
      *
-     * echo $robots->getSource(); // wp_robots
+     * echo $invoices->getSource(); // wp_co_invoices
      * ```
      *
      * $param string $prefix
      *
      * @return void
      */
-    public function setModelPrefix(string! prefix) -> void
+    public function setModelPrefix( string prefix) -> void
     {
         let this->prefix = prefix;
     }
@@ -2226,7 +2293,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      *
      * @return void
      */
-    public function setModelSchema(<ModelInterface> model, string! schema) -> void
+    public function setModelSchema(<ModelInterface> model,  string schema) -> void
     {
         let this->schemas[get_class_lower(model)] = schema;
     }
@@ -2239,7 +2306,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      *
      * @return void
      */
-    public function setModelSource(<ModelInterface> model, string! source) -> void
+    public function setModelSource(<ModelInterface> model,  string source) -> void
     {
         let this->sources[get_class_lower(model)] = source;
     }
@@ -2252,7 +2319,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      *
      * @return void
      */
-    public function setReadConnectionService(<ModelInterface> model, string! connectionService) -> void
+    public function setReadConnectionService(<ModelInterface> model,  string connectionService) -> void
     {
         let this->readConnectionServices[get_class_lower(model)] = connectionService;
     }
@@ -2266,9 +2333,23 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      *
      * @return void
      */
-    public function setReusableRecords(string! modelName, string! key, var records) -> void
+    public function setReusableRecords( string modelName,  string key, var records) -> void
     {
         let this->reusable[key] = records;
+    }
+
+    /**
+     * Enables or disables sticky connections. When enabled, once a model has
+     * written to its write connection during the current request cycle, any
+     * further reads for that write service use the write connection.
+     *
+     * @param bool $sticky
+     *
+     * @return void
+     */
+    public function setSticky(bool sticky) -> void
+    {
+        let this->sticky = sticky;
     }
 
     /**
@@ -2279,7 +2360,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      *
      * @return void
      */
-    public function setWriteConnectionService(<ModelInterface> model, string! connectionService) -> void
+    public function setWriteConnectionService(<ModelInterface> model,  string connectionService) -> void
     {
         let this->writeConnectionServices[get_class_lower(model)] = connectionService;
     }
@@ -2414,8 +2495,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      */
     private function checkHasRelationship(
         string collection,
-        string! modelName,
-        string! modelRelation
+         string modelName,
+         string modelRelation
     ) -> bool {
         var entityName;
         string keyRelation;

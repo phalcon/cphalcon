@@ -17,7 +17,8 @@ use Phalcon\Annotations\Annotation;
 use Phalcon\Annotations\Collection;
 use Phalcon\Annotations\Reader;
 use Phalcon\Annotations\Reflection;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 
 use function dataDir;
 
@@ -30,18 +31,7 @@ final class GetClassAnnotationsTest extends AbstractUnitTestCase
     {
         parent::setUp();
 
-        require_once supportDir('assets/Annotations/TestClass.php');
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2016-01-26
-     */
-    public function testAnnotationsReflectionGetClassAnnotationsEmpty(): void
-    {
-        $reflection = new Reflection();
-
-        $this->assertNull($reflection->getClassAnnotations());
+        require_once Talon::settings()->supportPath('assets/Annotations/TestClass.php');
     }
 
     /**
@@ -66,5 +56,16 @@ final class GetClassAnnotationsTest extends AbstractUnitTestCase
 
         $this->assertEquals(9, $number);
         $this->assertCount(9, $classAnnotations);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2016-01-26
+     */
+    public function testAnnotationsReflectionGetClassAnnotationsEmpty(): void
+    {
+        $reflection = new Reflection();
+
+        $this->assertNull($reflection->getClassAnnotations());
     }
 }

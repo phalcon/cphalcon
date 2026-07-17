@@ -17,6 +17,8 @@ use Phalcon\Image\Exceptions\ImageLoadFailed;
 use Phalcon\Image\Exceptions\TextRenderingFailed;
 use Phalcon\Image\Exceptions\UnsupportedImageType;
 use Phalcon\Image\Exceptions\VersionMismatch;
+use Phalcon\Traits\Php\FileTrait;
+use Phalcon\Traits\Php\InfoTrait;
 
 /**
  * Image manipulation backed by the GD extension.
@@ -37,6 +39,9 @@ use Phalcon\Image\Exceptions\VersionMismatch;
  */
 class Gd extends AbstractAdapter
 {
+    use FileTrait;
+    use InfoTrait;
+
     /**
      * Loads an image from a file, or creates a blank canvas.
      *
@@ -64,7 +69,7 @@ class Gd extends AbstractAdapter
         let this->file = file;
         let this->type = 0;
 
-        if (true === file_exists(this->file)) {
+        if (true === this->phpFileExists(this->file)) {
             let this->realpath = realpath(this->file);
             let imageInfo      = getimagesize(this->file);
 
@@ -131,14 +136,6 @@ class Gd extends AbstractAdapter
      */
     public function __destruct()
     {
-        var image;
-
-        let image = this->image;
-
-        if (null !== image) {
-            imagedestroy(image);
-        }
-
         let this->image = null;
     }
 
@@ -165,7 +162,7 @@ class Gd extends AbstractAdapter
     {
         var info, matches, version;
 
-        if (true !== function_exists("gd_info")) {
+        if (true !== this->phpFunctionExists("gd_info")) {
             throw new ExtensionNotLoaded("GD");
         }
 
@@ -232,8 +229,6 @@ class Gd extends AbstractAdapter
             this->height
         );
         if (false !== copy) {
-            imagedestroy(image);
-
             let this->image = background;
         }
     }
@@ -298,8 +293,6 @@ class Gd extends AbstractAdapter
         ];
 
         let image = imagecrop(this->image, rect);
-
-        imagedestroy(this->image);
 
         let this->image  = image;
         let this->width  = imagesx(image);
@@ -367,8 +360,6 @@ class Gd extends AbstractAdapter
                 maskHeight
             );
 
-            imagedestroy(maskImage);
-
             let maskImage = tempImage;
         }
 
@@ -403,9 +394,6 @@ class Gd extends AbstractAdapter
 
             let x++;
         }
-
-        imagedestroy(this->image);
-        imagedestroy(maskImage);
 
         let this->image = newImage;
     }
@@ -542,8 +530,6 @@ class Gd extends AbstractAdapter
             let offset++;
         }
 
-        imagedestroy(this->image);
-
         let this->image  = reflection;
         let this->width  = imagesx(reflection);
         let this->height = imagesy(reflection);
@@ -604,8 +590,6 @@ class Gd extends AbstractAdapter
         imagesavealpha(image, true);
         imagecopyresampled(image, this->image, 0, 0, 0, 0, width, height, this->width, this->height);
 
-        imagedestroy(this->image);
-
         let this->image  = image;
         let this->width  = imagesx(image);
         let this->height = imagesy(image);
@@ -651,8 +635,6 @@ class Gd extends AbstractAdapter
             100
         );
         if (false !== copy) {
-            imagedestroy(this->image);
-
             let this->image  = image;
             let this->width  = width;
             let this->height = height;
@@ -867,7 +849,7 @@ class Gd extends AbstractAdapter
         int offsetY,
         int opacity
     ) -> void {
-        var color, copy, overlay;
+        var color, overlay;
         int height, width;
 
         let overlay = imagecreatefromstring(watermark->render());
@@ -899,7 +881,7 @@ class Gd extends AbstractAdapter
 
         imagealphablending(this->image, true);
 
-        let copy = imagecopy(
+        imagecopy(
             this->image,
             overlay,
             offsetX,
@@ -909,9 +891,6 @@ class Gd extends AbstractAdapter
             width,
             height
         );
-        if (true === copy) {
-            imagedestroy(overlay);
-        }
     }
 
     /**

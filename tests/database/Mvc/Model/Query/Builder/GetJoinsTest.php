@@ -13,7 +13,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Mvc\Model\Query\Builder;
 
+use Phalcon\Mvc\Model\Query\Builder;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use Phalcon\Tests\Support\Models\Customers;
 use PHPUnit\Framework\Attributes\Group;
 
 #[Group('mysql')]
@@ -22,11 +24,24 @@ use PHPUnit\Framework\Attributes\Group;
 final class GetJoinsTest extends AbstractDatabaseTestCase
 {
     /**
+     * Tests Phalcon\Mvc\Model\Query\Builder :: getJoins()
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2026-06-22
      */
     public function testMvcModelQueryBuilderGetJoins(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $builder = new Builder();
+
+        $this->assertSame([], $builder->getJoins());
+
+        $builder->innerJoin(Customers::class, 'Customers.cst_id = Invoices.inv_cst_id', 'c');
+
+        $this->assertSame(
+            [
+                [Customers::class, 'Customers.cst_id = Invoices.inv_cst_id', 'c', 'INNER'],
+            ],
+            $builder->getJoins()
+        );
     }
 }

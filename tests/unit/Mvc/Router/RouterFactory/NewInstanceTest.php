@@ -15,20 +15,19 @@ namespace Phalcon\Tests\Unit\Mvc\Router\RouterFactory;
 
 use Phalcon\Mvc\Router;
 use Phalcon\Mvc\Router\RouterFactory;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class NewInstanceTest extends AbstractUnitTestCase
 {
+    public function testNewInstanceCanDisableDefaultRoutes(): void
+    {
+        $router = (new RouterFactory())->newInstance(false);
+        $this->assertCount(0, $router->getRoutes());
+    }
     public function testNewInstanceReturnsRouterWithDefaultRoutesByDefault(): void
     {
         $router = (new RouterFactory())->newInstance();
         $this->assertInstanceOf(Router::class, $router);
         $this->assertCount(2, $router->getRoutes());
-    }
-
-    public function testNewInstanceCanDisableDefaultRoutes(): void
-    {
-        $router = (new RouterFactory())->newInstance(false);
-        $this->assertCount(0, $router->getRoutes());
     }
 }

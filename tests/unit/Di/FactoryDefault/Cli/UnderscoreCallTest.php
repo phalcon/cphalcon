@@ -16,7 +16,7 @@ namespace Phalcon\Tests\Unit\Di\FactoryDefault\Cli;
 use Phalcon\Di\Exception;
 use Phalcon\Di\FactoryDefault\Cli as Di;
 use Phalcon\Html\Escaper;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class UnderscoreCallTest extends AbstractUnitTestCase
 {

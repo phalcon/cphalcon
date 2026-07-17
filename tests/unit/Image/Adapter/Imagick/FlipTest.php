@@ -15,11 +15,9 @@ namespace Phalcon\Tests\Unit\Image\Adapter\Imagick;
 
 use Phalcon\Image\Adapter\Imagick;
 use Phalcon\Image\Enum;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\Unit\Image\Fake\ImagickTrait;
-
-use function outputDir;
-use function supportDir;
 
 final class FlipTest extends AbstractUnitTestCase
 {
@@ -32,18 +30,18 @@ final class FlipTest extends AbstractUnitTestCase
     public function testImageAdapterImagickFlip(): void
     {
         $image = new Imagick(
-            supportDir('assets/images/example-jpg.jpg')
+            Talon::settings()->supportPath('assets/images/example-jpg.jpg')
         );
 
         $image->setResourceLimit(6, 1);
 
         // Flip the image from top to bottom
         $image->flip(Enum::HORIZONTAL)
-              ->save(outputDir('tests/image/imagick/flip.jpg'))
+              ->save(Talon::settings()->outputPath('tests/image/imagick/flip.jpg'))
         ;
 
         $this->assertFileExists(
-            outputDir('tests/image/imagick/flip.jpg')
+            Talon::settings()->outputPath('tests/image/imagick/flip.jpg')
         );
 
         $this->assertGreaterThan(

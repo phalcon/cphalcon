@@ -54,7 +54,7 @@ interface RelationInterface
      * Returns an option by the specified name
      * If the option does not exist null is returned
      */
-    public function getOption(string! name);
+    public function getOption( string name);
 
     /**
      * Returns the options
@@ -106,5 +106,5 @@ interface RelationInterface
      * @param string|array intermediateFields
      * @param string|array intermediateReferencedFields
      */
-    public function setIntermediateRelation(var intermediateFields, string! intermediateModel, var intermediateReferencedFields);
+    public function setIntermediateRelation(var intermediateFields,  string intermediateModel, var intermediateReferencedFields);
 }

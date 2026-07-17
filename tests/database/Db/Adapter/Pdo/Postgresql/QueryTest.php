@@ -47,7 +47,7 @@ final class QueryTest extends AbstractDatabaseTestCase
     #[Group('pgsql')]
     public function testDbAdapterPdoPostgresqlQuery(): void
     {
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $db         = $this->container->get('db');
 
         $migration = new InvoicesMigration($connection);

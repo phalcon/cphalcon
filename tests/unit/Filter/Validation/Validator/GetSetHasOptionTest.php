@@ -34,7 +34,7 @@ use Phalcon\Filter\Validation\Validator\StringLength;
 use Phalcon\Filter\Validation\Validator\Uniqueness;
 use Phalcon\Filter\Validation\Validator\Url;
 use Phalcon\Filter\Validation\ValidatorInterface;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 use function uniqid;

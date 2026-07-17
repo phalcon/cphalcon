@@ -16,7 +16,7 @@ namespace Phalcon\Tests\Unit\Forms\Manager;
 use Phalcon\Forms\Exception;
 use Phalcon\Forms\Form;
 use Phalcon\Forms\Manager;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class GetSetTest extends AbstractUnitTestCase
 {

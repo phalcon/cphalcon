@@ -124,7 +124,7 @@ class Messages implements MessagesContract, JsonSerializable
     /**
      * Filters the message collection by field name
      */
-    public function filter(string! fieldName) -> array
+    public function filter( string fieldName) -> array
     {
         var filtered, messages, message;
 
@@ -245,7 +245,11 @@ class Messages implements MessagesContract, JsonSerializable
             throw new MessageNotObject();
         }
 
-        let this->messages[offset] = value;
+        if offset === null {
+            let this->messages[] = value;
+        } else {
+            let this->messages[offset] = value;
+        }
     }
 
     /**

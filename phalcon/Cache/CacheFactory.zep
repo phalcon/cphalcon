@@ -107,7 +107,7 @@ class CacheFactory extends AbstractConfigFactory
      * @return CacheInterface
      * @throws Exception
      */
-    public function newInstance(string! name, array! options = []) -> <CacheInterface>
+    public function newInstance( string name,  array options = []) -> <CacheInterface>
     {
         var adapter;
 

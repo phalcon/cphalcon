@@ -18,8 +18,6 @@
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/array.h"
-#include "ext/spl/spl_exceptions.h"
-#include "kernel/exception.h"
 
 
 /**
@@ -67,6 +65,11 @@ PHP_METHOD(Phalcon_Session_Adapter_AbstractAdapter, destroy)
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3$$3);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("adapter", 7, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(id)
 	ZEND_PARSE_PARAMETERS_END();
@@ -75,13 +78,13 @@ PHP_METHOD(Phalcon_Session_Adapter_AbstractAdapter, destroy)
 	zephir_fetch_params(1, 1, 0, &id);
 	_0 = !(ZEPHIR_IS_EMPTY(id));
 	if (_0) {
-		zephir_read_property(&_1, this_ptr, ZEND_STRL("adapter"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 241, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_METHOD(&_2, &_1, "has", NULL, 0, id);
 		zephir_check_call_status();
 		_0 = zephir_is_true(&_2);
 	}
 	if (_0) {
-		zephir_read_property(&_3$$3, this_ptr, ZEND_STRL("adapter"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_3$$3, this_ptr, _zephir_prop_0, 241, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_RETURN_CALL_METHOD(&_3$$3, "delete", NULL, 0, id);
 		zephir_check_call_status();
 		RETURN_MM();
@@ -138,13 +141,18 @@ PHP_METHOD(Phalcon_Session_Adapter_AbstractAdapter, read)
 	ZVAL_UNDEF(&data);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("adapter", 7, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(id)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &id);
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("adapter"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 241, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&data, &_0, "get", NULL, 0, id);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_1);
@@ -193,13 +201,18 @@ PHP_METHOD(Phalcon_Session_Adapter_AbstractAdapter, validateId)
 
 	ZVAL_UNDEF(&id_sub);
 	ZVAL_UNDEF(&_0);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("adapter", 7, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(id)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &id);
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("adapter"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 241, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_RETURN_CALL_METHOD(&_0, "has", NULL, 0, id);
 	zephir_check_call_status();
 	RETURN_MM();
@@ -218,6 +231,11 @@ PHP_METHOD(Phalcon_Session_Adapter_AbstractAdapter, write)
 	ZVAL_UNDEF(&id_sub);
 	ZVAL_UNDEF(&data_sub);
 	ZVAL_UNDEF(&_0);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("adapter", 7, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_ZVAL(id)
 		Z_PARAM_ZVAL(data)
@@ -225,45 +243,70 @@ PHP_METHOD(Phalcon_Session_Adapter_AbstractAdapter, write)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &id, &data);
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("adapter"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 241, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_RETURN_CALL_METHOD(&_0, "set", NULL, 0, id, data);
 	zephir_check_call_status();
 	RETURN_MM();
 }
 
 /**
- * @todo Remove this when we get traits
+ * @param array       $collection
+ * @param mixed       $index
+ * @param mixed|null  $defaultValue
+ * @param string|null $cast
+ *
+ * @return mixed|null
  */
 PHP_METHOD(Phalcon_Session_Adapter_AbstractAdapter, getArrVal)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval *collection_param = NULL, *index, index_sub, *defaultValue = NULL, defaultValue_sub, __$null, value;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zend_string *cast = NULL;
+	zval *collection_param = NULL, *index, index_sub, *defaultValue = NULL, defaultValue_sub, cast_zv, __$null, value;
 	zval collection;
 
 	ZVAL_UNDEF(&collection);
 	ZVAL_UNDEF(&index_sub);
 	ZVAL_UNDEF(&defaultValue_sub);
+	ZVAL_UNDEF(&cast_zv);
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&value);
 	bool is_null_true = 1;
-	ZEND_PARSE_PARAMETERS_START(2, 3)
+	ZEND_PARSE_PARAMETERS_START(2, 4)
 		ZEPHIR_Z_PARAM_ARRAY(collection, collection_param)
 		Z_PARAM_ZVAL(index)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ZVAL_OR_NULL(defaultValue)
+		Z_PARAM_STR_OR_NULL(cast)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_fetch_params(1, 2, 1, &collection_param, &index, &defaultValue);
-	ZEPHIR_OBS_COPY_OR_DUP(&collection, collection_param);
+	collection_param = ZEND_CALL_ARG(execute_data, 1);
+	index = ZEND_CALL_ARG(execute_data, 2);
+	if (ZEND_NUM_ARGS() > 2) {
+		defaultValue = ZEND_CALL_ARG(execute_data, 3);
+	}
+	zephir_get_arrval(&collection, collection_param);
 	if (!defaultValue) {
 		defaultValue = &defaultValue_sub;
 		defaultValue = &__$null;
 	}
-	zephir_memory_observe(&value);
-	if (UNEXPECTED(!(zephir_array_isset_fetch(&value, &collection, index, 0)))) {
-		RETVAL_ZVAL(defaultValue, 1, 0);
-		RETURN_MM();
+	if (!cast) {
+		ZEPHIR_INIT_VAR(&cast_zv);
+	} else {
+		zephir_memory_observe(&cast_zv);
+	ZVAL_STR_COPY(&cast_zv, cast);
+	}
+	ZEPHIR_CPY_WRT(&value, defaultValue);
+	if (1 == zephir_array_isset_value(&collection, index)) {
+		ZEPHIR_OBS_NVAR(&value);
+		zephir_array_fetch(&value, &collection, index, PH_NOISY, "phalcon/Traits/Support/Helper/Arr/GetTrait.zep", 38);
+	}
+	if (!(ZEPHIR_IS_EMPTY(&cast_zv))) {
+		ZEPHIR_MAKE_REF(&value);
+		ZEPHIR_CALL_FUNCTION(NULL, "settype", NULL, 16, &value, &cast_zv);
+		ZEPHIR_UNREF(&value);
+		zephir_check_call_status();
 	}
 	RETURN_CCTOR(&value);
 }

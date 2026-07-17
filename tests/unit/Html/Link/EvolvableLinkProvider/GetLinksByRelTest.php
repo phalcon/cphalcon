@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Html\Link\EvolvableLinkProvider;
 
 use Phalcon\Html\Link\EvolvableLinkProvider;
 use Phalcon\Html\Link\Link;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class GetLinksByRelTest extends AbstractUnitTestCase
 {

@@ -15,32 +15,10 @@ namespace Phalcon\Tests\Unit\Mvc\Model\Transaction;
 
 use Phalcon\Mvc\Model\Transaction\Failed;
 use Phalcon\Mvc\ModelInterface;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class FailedTest extends AbstractUnitTestCase
 {
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-06-06
-     */
-    public function testGetRecordReturnsNullWhenNoRecord(): void
-    {
-        $failed = new Failed('transaction failed');
-
-        $this->assertNull($failed->getRecord());
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-06-06
-     */
-    public function testGetRecordMessagesFallsBackToMessage(): void
-    {
-        $failed = new Failed('the failure message');
-
-        $this->assertSame('the failure message', $failed->getRecordMessages());
-    }
-
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-06-06
@@ -56,5 +34,26 @@ final class FailedTest extends AbstractUnitTestCase
 
         $this->assertSame($record, $failed->getRecord());
         $this->assertSame($messages, $failed->getRecordMessages());
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-06
+     */
+    public function testGetRecordMessagesFallsBackToMessage(): void
+    {
+        $failed = new Failed('the failure message');
+
+        $this->assertSame('the failure message', $failed->getRecordMessages());
+    }
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-06
+     */
+    public function testGetRecordReturnsNullWhenNoRecord(): void
+    {
+        $failed = new Failed('transaction failed');
+
+        $this->assertNull($failed->getRecord());
     }
 }

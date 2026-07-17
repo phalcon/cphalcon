@@ -26,6 +26,15 @@
 
 #define ZEPHIR_MAX_CACHE_SLOTS 512
 
+/*
+ * Inline property-cache slots (issue #1902 follow-up). Each slot is a
+ * run-time cache region handed to the engine's read_property/write_property
+ * handler: [0]=class entry, [1]=property offset, [2]=property_info (typed).
+ * Stored in per-request-zeroed module globals; index 0 means "uncached".
+ */
+#define ZEPHIR_PROPERTY_CACHE_SLOT_SIZE 3
+#define ZEPHIR_MAX_PROPERTY_CACHE_SLOTS 2048
+
 typedef struct _zephir_function_cache {
 	zend_class_entry *ce;
 	zend_function *func;
@@ -103,11 +112,13 @@ typedef zend_function zephir_fcall_cache_entry;
 
 
 #define PHP_PHALCON_NAME        "phalcon"
-#define PHP_PHALCON_VERSION     "5.16.0"
+#define PHP_PHALCON_VERSION     "5.17.0"
 #define PHP_PHALCON_EXTNAME     "phalcon"
 #define PHP_PHALCON_AUTHOR      "Phalcon Team and contributors"
-#define PHP_PHALCON_ZEPVERSION  "0.23.0-$Id$"
+#define PHP_PHALCON_ZEPVERSION  "1.1.0-$Id$"
 #define PHP_PHALCON_DESCRIPTION "Phalcon is a full stack PHP framework, delivered as a PHP extension, offering lower resource consumption and high performance."
+
+
 
 typedef struct _zephir_struct_db { 
 	zend_bool escape_identifiers;
@@ -158,6 +169,9 @@ ZEND_BEGIN_MODULE_GLOBALS(phalcon)
 	HashTable *fcache;
 
 	zephir_fcall_cache_entry *scache[ZEPHIR_MAX_CACHE_SLOTS];
+
+	/* Inline property cache slots (issue #1902): [ce, offset, prop_info] per site */
+	void *pcache[ZEPHIR_MAX_PROPERTY_CACHE_SLOTS * ZEPHIR_PROPERTY_CACHE_SLOT_SIZE];
 
 	/* Cache enabled */
 	unsigned int cache_enabled;

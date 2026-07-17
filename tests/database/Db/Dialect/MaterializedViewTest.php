@@ -23,6 +23,22 @@ use PHPUnit\Framework\Attributes\Group;
 final class MaterializedViewTest extends AbstractDatabaseTestCase
 {
     /**
+     * MySQL - throws on each materialized-view method.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-15
+     */
+    #[Group('mysql')]
+    public function testDbDialectMysqlMaterializedViewThrows(): void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage(
+            'Materialized views are not supported by this dialect'
+        );
+
+        (new Mysql())->createMaterializedView('v', ['sql' => 'SELECT 1']);
+    }
+    /**
      * PostgreSQL - createMaterializedView.
      *
      * @author Phalcon Team <team@phalcon.io>
@@ -42,6 +58,28 @@ final class MaterializedViewTest extends AbstractDatabaseTestCase
             'CREATE MATERIALIZED VIEW "public"."top_robots"'
             . ' AS SELECT * FROM robots ORDER BY score DESC LIMIT 100',
             $sql
+        );
+    }
+
+    /**
+     * PostgreSQL - dropMaterializedView IF EXISTS by default.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-15
+     */
+    #[Group('pgsql')]
+    public function testDbDialectPostgresqlDropMaterializedView(): void
+    {
+        $dialect = new Postgresql();
+
+        $this->assertSame(
+            'DROP MATERIALIZED VIEW IF EXISTS "public"."top_robots"',
+            $dialect->dropMaterializedView('top_robots', 'public')
+        );
+
+        $this->assertSame(
+            'DROP MATERIALIZED VIEW "public"."top_robots"',
+            $dialect->dropMaterializedView('top_robots', 'public', false)
         );
     }
 
@@ -77,45 +115,6 @@ final class MaterializedViewTest extends AbstractDatabaseTestCase
             'REFRESH MATERIALIZED VIEW CONCURRENTLY "public"."top_robots"',
             $dialect->refreshMaterializedView('top_robots', 'public', true)
         );
-    }
-
-    /**
-     * PostgreSQL - dropMaterializedView IF EXISTS by default.
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-05-15
-     */
-    #[Group('pgsql')]
-    public function testDbDialectPostgresqlDropMaterializedView(): void
-    {
-        $dialect = new Postgresql();
-
-        $this->assertSame(
-            'DROP MATERIALIZED VIEW IF EXISTS "public"."top_robots"',
-            $dialect->dropMaterializedView('top_robots', 'public')
-        );
-
-        $this->assertSame(
-            'DROP MATERIALIZED VIEW "public"."top_robots"',
-            $dialect->dropMaterializedView('top_robots', 'public', false)
-        );
-    }
-
-    /**
-     * MySQL - throws on each materialized-view method.
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-05-15
-     */
-    #[Group('mysql')]
-    public function testDbDialectMysqlMaterializedViewThrows(): void
-    {
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage(
-            'Materialized views are not supported by this dialect'
-        );
-
-        (new Mysql())->createMaterializedView('v', ['sql' => 'SELECT 1']);
     }
 
     /**

@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Filter\Filter;
 
 use Phalcon\Filter\Exception;
 use Phalcon\Filter\Filter;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class ConstructTest extends AbstractUnitTestCase
 {

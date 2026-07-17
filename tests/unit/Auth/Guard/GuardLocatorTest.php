@@ -30,7 +30,7 @@ use Phalcon\Encryption\Security;
 use Phalcon\Http\RequestInterface;
 use Phalcon\Http\Response\CookiesInterface;
 use Phalcon\Session\ManagerInterface as SessionManagerInterface;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Auth\Fake\FakeCookies;
 use Phalcon\Tests\Unit\Auth\Fake\FakeRequest;
 use Phalcon\Tests\Unit\Auth\Fake\FakeSessionManager;
@@ -59,6 +59,16 @@ final class GuardLocatorTest extends AbstractUnitTestCase
         );
     }
 
+    public function testCustomMappingHonored(): void
+    {
+        $factory = new GuardLocator(
+            $this->container,
+            ['custom' => Session::class]
+        );
+
+        $this->assertInstanceOf(Session::class, $factory->newInstance('custom'));
+    }
+
     public function testNewInstanceReturnsSession(): void
     {
         $factory = new GuardLocator($this->container);
@@ -74,16 +84,6 @@ final class GuardLocatorTest extends AbstractUnitTestCase
         $guard   = $factory->newInstance('token');
 
         $this->assertInstanceOf(Token::class, $guard);
-    }
-
-    public function testCustomMappingHonored(): void
-    {
-        $factory = new GuardLocator(
-            $this->container,
-            ['custom' => Session::class]
-        );
-
-        $this->assertInstanceOf(Session::class, $factory->newInstance('custom'));
     }
 
     public function testRegisterRejectsNonGuardClass(): void

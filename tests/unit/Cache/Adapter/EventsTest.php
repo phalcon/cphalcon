@@ -13,8 +13,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Cache\Adapter;
 
-use Phalcon\Events\Event;
-use Phalcon\Events\Manager;
 use Phalcon\Cache\Adapter\Apcu;
 use Phalcon\Cache\Adapter\Libmemcached;
 use Phalcon\Cache\Adapter\Memory;
@@ -22,18 +20,61 @@ use Phalcon\Cache\Adapter\Redis;
 use Phalcon\Cache\Adapter\RedisCluster;
 use Phalcon\Cache\Adapter\Stream;
 use Phalcon\Cache\Adapter\Weak;
+use Phalcon\Events\Event;
+use Phalcon\Events\Manager;
 use Phalcon\Storage\SerializerFactory;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use PHPUnit\Framework\Attributes\DataProvider;
 use RuntimeException;
 
-use function getOptionsLibmemcached;
-use function getOptionsRedis;
-use function getOptionsRedisCluster;
-use function outputDir;
-
 final class EventsTest extends AbstractUnitTestCase
 {
+    /**
+     * @return array[]
+     */
+    public static function getAdapters(): array
+    {
+        return [
+            [
+                Apcu::class,
+                [],
+                'apcu',
+            ],
+            [
+                Libmemcached::class,
+                [
+                    'client' => [],
+                    'servers' => [
+                        Talon::settings()->getServiceOptions('memcached')
+                    ]
+                ],
+                'memcached'
+            ],
+            [
+                Memory::class,
+                [],
+                '',
+            ],
+            [
+                Redis::class,
+                Talon::settings()->getServiceOptions('redis'),
+                'redis',
+            ],
+            [
+                RedisCluster::class,
+                Talon::settings()->getServiceOptions('redisCluster'),
+                'redis',
+            ],
+            [
+                Stream::class,
+                [
+                    'storageDir' => Talon::settings()->outputPath() . '/',
+                ],
+                '',
+            ],
+        ];
+    }
     /**
      * @return array[]
      */
@@ -48,7 +89,7 @@ final class EventsTest extends AbstractUnitTestCase
             [
                 'memcached',
                 Libmemcached::class,
-                getOptionsLibmemcached(),
+                ['client' => [], 'servers' => [Talon::settings()->getServiceOptions('memcached')]],
             ],
             [
                 '',
@@ -58,18 +99,18 @@ final class EventsTest extends AbstractUnitTestCase
             [
                 'redis',
                 Redis::class,
-                getOptionsRedis(),
+                Talon::settings()->getServiceOptions('redis'),
             ],
             [
                 'redis',
                 RedisCluster::class,
-                getOptionsRedisCluster(),
+                Talon::settings()->getServiceOptions('redisCluster'),
             ],
             [
                 '',
                 Stream::class,
                 [
-                    'storageDir' => outputDir(),
+                    'storageDir' => Talon::settings()->outputPath() . '/',
                 ],
             ],
             [
@@ -78,89 +119,6 @@ final class EventsTest extends AbstractUnitTestCase
                 [],
             ],
         ];
-    }
-
-    /**
-     * @return array[]
-     */
-    public static function getAdapters(): array
-    {
-        return [
-            [
-                Apcu::class,
-                [],
-                'apcu',
-            ],
-            [
-                Libmemcached::class,
-                getOptionsLibmemcached(),
-                'memcached'
-            ],
-            [
-                Memory::class,
-                [],
-                '',
-            ],
-            [
-                Redis::class,
-                getOptionsRedis(),
-                'redis',
-            ],
-            [
-                RedisCluster::class,
-                getOptionsRedisCluster(),
-                'redis',
-            ],
-            [
-                Stream::class,
-                [
-                    'storageDir' => outputDir(),
-                ],
-                '',
-            ],
-        ];
-    }
-
-    /**
-     * @author n[oO]ne <lominum@protonmail.com>
-     * @since  2024-06-07
-     */
-    #[DataProvider('getAdapters')]
-    public function testCacheAdapterMemoryGetEventsManagerNotSet(
-        string $adapterClass,
-        array $options,
-        string $extension
-    ): void {
-        if (!empty($extension)) {
-            $this->checkExtensionIsLoaded($extension);
-        }
-
-        $serializer = new SerializerFactory();
-        $adapter    = new $adapterClass($serializer, $options);
-
-        $this->assertNull($adapter->getEventsManager());
-    }
-
-    /**
-     * @author n[oO]ne <lominum@protonmail.com>
-     * @since  2024-06-07
-     */
-    #[DataProvider('getAdapters')]
-    public function testCacheAdapterMemoryGetEventsManagerSet(
-        string $adapterClass,
-        array $options,
-        string $extension
-    ): void {
-        if (!empty($extension)) {
-            $this->checkExtensionIsLoaded($extension);
-        }
-
-        $serializer = new SerializerFactory();
-        $adapter    = new $adapterClass($serializer, $options);
-
-        $adapter->setEventsManager(new Manager());
-
-        $this->assertInstanceOf(Manager::class, $adapter->getEventsManager());
     }
 
     /**
@@ -607,5 +565,47 @@ final class EventsTest extends AbstractUnitTestCase
 
         $expected = 2;
         $this->assertEquals($expected, $counter);
+    }
+
+    /**
+     * @author n[oO]ne <lominum@protonmail.com>
+     * @since  2024-06-07
+     */
+    #[DataProvider('getAdapters')]
+    public function testCacheAdapterMemoryGetEventsManagerNotSet(
+        string $adapterClass,
+        array $options,
+        string $extension
+    ): void {
+        if (!empty($extension)) {
+            $this->checkExtensionIsLoaded($extension);
+        }
+
+        $serializer = new SerializerFactory();
+        $adapter    = new $adapterClass($serializer, $options);
+
+        $this->assertNull($adapter->getEventsManager());
+    }
+
+    /**
+     * @author n[oO]ne <lominum@protonmail.com>
+     * @since  2024-06-07
+     */
+    #[DataProvider('getAdapters')]
+    public function testCacheAdapterMemoryGetEventsManagerSet(
+        string $adapterClass,
+        array $options,
+        string $extension
+    ): void {
+        if (!empty($extension)) {
+            $this->checkExtensionIsLoaded($extension);
+        }
+
+        $serializer = new SerializerFactory();
+        $adapter    = new $adapterClass($serializer, $options);
+
+        $adapter->setEventsManager(new Manager());
+
+        $this->assertInstanceOf(Manager::class, $adapter->getEventsManager());
     }
 }

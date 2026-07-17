@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Filter\Validation;
 
 use Phalcon\Filter\Validation;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use stdClass;
 
@@ -37,32 +37,6 @@ final class GetEntityTest extends AbstractUnitTestCase
         $expected = $user;
         $actual   = $validation->getEntity();
         $this->assertSame($expected, $actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2025-08-12
-     */
-    public function testFilterValidationGetEntityWithFilters(): void
-    {
-        $this->setNewFactoryDefault();
-
-        $user       = new stdClass();
-        $user->name = '';
-
-        $validation = new Validation();
-        $validation->setFilters('name', ['trim', 'striptags']);
-        $validation->validate(['name' => ' John <script>Chris</script>'], $user);
-
-        $this->assertSame(
-            'John Chris',
-            $validation->getEntity()->name
-        );
-
-        $this->assertSame(
-            'John Chris',
-            $validation->getValue('name')
-        );
     }
 
     /**
@@ -159,5 +133,31 @@ final class GetEntityTest extends AbstractUnitTestCase
         $expected = 'new_password';
         $actual   = $validation->getValue('password');
         $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2025-08-12
+     */
+    public function testFilterValidationGetEntityWithFilters(): void
+    {
+        $this->setNewFactoryDefault();
+
+        $user       = new stdClass();
+        $user->name = '';
+
+        $validation = new Validation();
+        $validation->setFilters('name', ['trim', 'striptags']);
+        $validation->validate(['name' => ' John <script>Chris</script>'], $user);
+
+        $this->assertSame(
+            'John Chris',
+            $validation->getEntity()->name
+        );
+
+        $this->assertSame(
+            'John Chris',
+            $validation->getValue('name')
+        );
     }
 }

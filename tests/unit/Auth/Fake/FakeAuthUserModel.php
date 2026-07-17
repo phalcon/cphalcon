@@ -41,19 +41,19 @@ class FakeAuthUserModel implements AuthUser, AuthRemember
     public string $password = '';
 
     /**
+     * Per-instance remember tokens keyed by token value.
+     *
+     * @var array<string, RememberToken>
+     */
+    public array $rememberTokens = [];
+
+    /**
      * Absorbs arbitrary row columns (e.g. email) without triggering
      * dynamic-property deprecation warnings.
      *
      * @var array<string, mixed>
      */
     private array $extra = [];
-
-    /**
-     * Per-instance remember tokens keyed by token value.
-     *
-     * @var array<string, RememberToken>
-     */
-    public array $rememberTokens = [];
 
     public function __get(string $name): mixed
     {
@@ -68,26 +68,6 @@ class FakeAuthUserModel implements AuthUser, AuthRemember
     public function __set(string $name, mixed $value): void
     {
         $this->extra[$name] = $value;
-    }
-
-    /**
-     * @param array<string, mixed> $row
-     */
-    public function assign(array $row): void
-    {
-        foreach ($row as $key => $value) {
-            $this->{$key} = $value;
-        }
-    }
-
-    public function createRememberToken(
-        string $token,
-        ?string $userAgent = null
-    ): RememberToken {
-        $entry                       = new FakeRememberToken($token, $userAgent ?? '');
-        $this->rememberTokens[$token] = $entry;
-
-        return $entry;
     }
 
     /**
@@ -127,6 +107,26 @@ class FakeAuthUserModel implements AuthUser, AuthRemember
         }
 
         return null;
+    }
+
+    /**
+     * @param array<string, mixed> $row
+     */
+    public function assign(array $row): void
+    {
+        foreach ($row as $key => $value) {
+            $this->{$key} = $value;
+        }
+    }
+
+    public function createRememberToken(
+        string $token,
+        ?string $userAgent = null
+    ): RememberToken {
+        $entry                       = new FakeRememberToken($token, $userAgent ?? '');
+        $this->rememberTokens[$token] = $entry;
+
+        return $entry;
     }
 
     public function getAuthIdentifier(): int | string

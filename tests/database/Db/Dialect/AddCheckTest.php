@@ -71,6 +71,28 @@ final class AddCheckTest extends AbstractDatabaseTestCase
     }
 
     /**
+     * MySQL - dropCheck() emits the proper `DROP CHECK` syntax.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-15
+     */
+    #[Group('mysql')]
+    public function testDbDialectMysqlDropCheck(): void
+    {
+        $dialect = new Mysql();
+
+        $expected = 'ALTER TABLE `schema`.`table` '
+            . 'DROP CHECK `chk_price_positive`';
+        $actual   = $dialect->dropCheck(
+            'table',
+            'schema',
+            'chk_price_positive'
+        );
+
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
      * PostgreSQL - named CHECK on existing table.
      *
      * @author Phalcon Team <team@phalcon.io>
@@ -90,6 +112,29 @@ final class AddCheckTest extends AbstractDatabaseTestCase
         $expected = 'ALTER TABLE "schema"."table" '
             . 'ADD CONSTRAINT "chk_price_positive" CHECK (price > 0)';
         $actual   = $dialect->addCheck('table', 'schema', $check);
+
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * PostgreSQL - dropCheck() emits `DROP CONSTRAINT` (PG does not distinguish
+     * CHECK from other constraint kinds in the DROP syntax).
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-15
+     */
+    #[Group('pgsql')]
+    public function testDbDialectPostgresqlDropCheck(): void
+    {
+        $dialect = new Postgresql();
+
+        $expected = 'ALTER TABLE "schema"."table" '
+            . 'DROP CONSTRAINT "chk_price_positive"';
+        $actual   = $dialect->dropCheck(
+            'table',
+            'schema',
+            'chk_price_positive'
+        );
 
         $this->assertSame($expected, $actual);
     }
@@ -117,51 +162,6 @@ final class AddCheckTest extends AbstractDatabaseTestCase
         );
 
         $dialect->addCheck('table', 'schema', $check);
-    }
-
-    /**
-     * MySQL - dropCheck() emits the proper `DROP CHECK` syntax.
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-05-15
-     */
-    #[Group('mysql')]
-    public function testDbDialectMysqlDropCheck(): void
-    {
-        $dialect = new Mysql();
-
-        $expected = 'ALTER TABLE `schema`.`table` '
-            . 'DROP CHECK `chk_price_positive`';
-        $actual   = $dialect->dropCheck(
-            'table',
-            'schema',
-            'chk_price_positive'
-        );
-
-        $this->assertSame($expected, $actual);
-    }
-
-    /**
-     * PostgreSQL - dropCheck() emits `DROP CONSTRAINT` (PG does not distinguish
-     * CHECK from other constraint kinds in the DROP syntax).
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-05-15
-     */
-    #[Group('pgsql')]
-    public function testDbDialectPostgresqlDropCheck(): void
-    {
-        $dialect = new Postgresql();
-
-        $expected = 'ALTER TABLE "schema"."table" '
-            . 'DROP CONSTRAINT "chk_price_positive"';
-        $actual   = $dialect->dropCheck(
-            'table',
-            'schema',
-            'chk_price_positive'
-        );
-
-        $this->assertSame($expected, $actual);
     }
 
     /**

@@ -15,9 +15,8 @@ namespace Phalcon\Tests\Unit\Image\Adapter\Imagick;
 
 use Phalcon\Image\Adapter\Imagick;
 use Phalcon\Image\Exception;
-use Phalcon\Tests\AbstractUnitTestCase;
-
-use function supportDir;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 
 final class SetResourceLimitTest extends AbstractUnitTestCase
 {
@@ -32,7 +31,7 @@ final class SetResourceLimitTest extends AbstractUnitTestCase
             'Cannot set the Resource Type for this image'
         );
 
-        $source = supportDir('assets/images/example-jpg.jpg');
+        $source = Talon::settings()->supportPath('assets/images/example-jpg.jpg');
         $image  = new Imagick($source);
 
         $image->setResourceLimit(100, 1);

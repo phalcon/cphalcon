@@ -15,8 +15,7 @@ namespace Phalcon\Tests\Support\Traits;
 
 use Phalcon\Config\Adapter\Ini;
 use Phalcon\Config\Config;
-use function outputDir;
-use function supportDir;
+use Phalcon\Talon\Talon;
 
 /**
  * Trait FactoryTrait
@@ -40,7 +39,7 @@ trait FactoryTrait
      */
     protected function init(): void
     {
-        $configFile = supportDir('assets/config/factory.ini');
+        $configFile = Talon::settings()->supportPath('assets/config/factory.ini');
 
         $this->config = new Ini($configFile, INI_SCANNER_NORMAL);
 
@@ -60,12 +59,12 @@ trait FactoryTrait
                 'adapters' => [
                     0 => [
                         'adapter' => 'stream',
-                        'name'    => outputDir('tests/logs/factory.log'),
+                        'name'    => Talon::settings()->outputPath('tests/logs/factory.log'),
 
                     ],
                     1 => [
                         'adapter' => 'stream',
-                        'name'    => outputDir('tests/logs/factory.log'),
+                        'name'    => Talon::settings()->outputPath('tests/logs/factory.log'),
 
                     ],
                 ],

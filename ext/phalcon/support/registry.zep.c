@@ -14,10 +14,8 @@
 #include "kernel/main.h"
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
-#include "ext/spl/spl_exceptions.h"
-#include "kernel/exception.h"
-#include "kernel/object.h"
 #include "kernel/operators.h"
+#include "kernel/object.h"
 
 
 /**
@@ -105,7 +103,7 @@ PHP_METHOD(Phalcon_Support_Registry, __construct)
 		ZEPHIR_INIT_VAR(&data);
 		array_init(&data);
 	} else {
-	ZEPHIR_OBS_COPY_OR_DUP(&data, data_param);
+		zephir_get_arrval(&data, data_param);
 	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_support_registry_ce, getThis(), "__construct", NULL, 0, &data);
 	zephir_check_call_status();
@@ -274,7 +272,7 @@ PHP_METHOD(Phalcon_Support_Registry, get)
 	if (!cast) {
 		ZEPHIR_INIT_VAR(&cast_zv);
 	} else {
-	zephir_memory_observe(&cast_zv);
+		zephir_memory_observe(&cast_zv);
 	ZVAL_STR_COPY(&cast_zv, cast);
 	}
 	ZEPHIR_RETURN_CALL_PARENT(phalcon_support_registry_ce, getThis(), "get", NULL, 0, &element_zv, defaultValue, &cast_zv);
@@ -342,7 +340,7 @@ PHP_METHOD(Phalcon_Support_Registry, init)
 		ZEPHIR_INIT_VAR(&data);
 		array_init(&data);
 	} else {
-	ZEPHIR_OBS_COPY_OR_DUP(&data, data_param);
+		zephir_get_arrval(&data, data_param);
 	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_support_registry_ce, getThis(), "init", NULL, 0, &data);
 	zephir_check_call_status();

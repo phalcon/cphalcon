@@ -18,7 +18,7 @@ class PaginatorFactory extends AbstractFactory
     /**
      * AdapterFactory constructor.
      */
-    public function __construct(array! services = [])
+    public function __construct( array services = [])
     {
         this->init(services);
     }
@@ -32,9 +32,9 @@ class PaginatorFactory extends AbstractFactory
      * $builder = $this
      *      ->modelsManager
      *      ->createBuilder()
-     *      ->columns("id, name")
-     *      ->from(Robots::class)
-     *      ->orderBy("name");
+     *      ->columns("inv_id, inv_title")
+     *      ->from(Invoices::class)
+     *      ->orderBy("inv_title");
      *
      * $options = [
      *     "builder" => $builder,
@@ -71,7 +71,7 @@ class PaginatorFactory extends AbstractFactory
     /**
      * Create a new instance of the adapter
      */
-    public function newInstance(string! name, array! options = []) -> <AdapterInterface>
+    public function newInstance( string name,  array options = []) -> <AdapterInterface>
     {
         var definition;
 

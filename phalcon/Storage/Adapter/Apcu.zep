@@ -9,11 +9,11 @@
 
 namespace Phalcon\Storage\Adapter;
 
-use APCUIterator;
 use DateInterval;
 use Exception;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Support\Exception as SupportException;
+use Phalcon\Traits\Php\ApcuTrait;
 
 /**
  * Apcu adapter
@@ -27,6 +27,8 @@ use Phalcon\Support\Exception as SupportException;
  */
 class Apcu extends AbstractAdapter
 {
+    use ApcuTrait;
+
     /**
      * @var string
      */
@@ -40,7 +42,7 @@ class Apcu extends AbstractAdapter
      *
      * @throws SupportException
      */
-    public function __construct(<SerializerFactory> factory, array! options = [])
+    public function __construct(<SerializerFactory> factory,  array options = [])
     {
         parent::__construct(factory, options);
 
@@ -79,7 +81,7 @@ class Apcu extends AbstractAdapter
      *
      * @return array
      */
-    public function getKeys(string! prefix = "") -> array
+    public function getKeys( string prefix = "") -> array
     {
         var item, pattern, apc = null;
         array results;
@@ -108,7 +110,7 @@ class Apcu extends AbstractAdapter
      *
      * @return bool
      */
-    public function setForever(string! key, var value) -> bool
+    public function setForever( string key, var value) -> bool
     {
         var result;
 
@@ -128,7 +130,7 @@ class Apcu extends AbstractAdapter
      *
      * @return bool|int
      */
-    protected function doDecrement(string! key, int value = 1) -> int | bool
+    protected function doDecrement( string key, int value = 1) -> int | bool
     {
         return this->phpApcuDec(this->getPrefixedKey(key), value);
     }
@@ -140,7 +142,7 @@ class Apcu extends AbstractAdapter
      *
      * @return bool
      */
-    protected function doDelete(string! key) -> bool
+    protected function doDelete( string key) -> bool
     {
         return (bool) this->phpApcuDelete(this->getPrefixedKey(key));
     }
@@ -182,7 +184,7 @@ class Apcu extends AbstractAdapter
      *
      * @return bool
      */
-    protected function doHas(string! key) -> bool
+    protected function doHas( string key) -> bool
     {
         var result;
 
@@ -199,7 +201,7 @@ class Apcu extends AbstractAdapter
      *
      * @return bool|int
      */
-    protected function doIncrement(string! key, int value = 1) -> int | bool
+    protected function doIncrement( string key, int value = 1) -> int | bool
     {
         return this->phpApcuInc(this->getPrefixedKey(key), value);
     }
@@ -218,7 +220,7 @@ class Apcu extends AbstractAdapter
      * @return bool
      * @throws Exception
      */
-    protected function doSet(string! key, var value, var ttl = null) -> bool
+    protected function doSet( string key, var value, var ttl = null) -> bool
     {
         var result;
 
@@ -233,43 +235,5 @@ class Apcu extends AbstractAdapter
         );
 
         return typeof result === "bool" ? result : false;
-    }
-
-    /**
-     * @todo Remove the below once we get traits
-     */
-    protected function phpApcuDec(var key, int step = 1) -> bool | int
-    {
-        return apcu_dec(key, step);
-    }
-
-    protected function phpApcuDelete(var key) ->  bool | array
-    {
-        return apcu_delete(key);
-    }
-
-    protected function phpApcuExists(var key) -> bool | array
-    {
-        return apcu_exists(key);
-    }
-
-    protected function phpApcuInc(var key, int step = 1) -> bool | int
-    {
-        return apcu_inc(key, step);
-    }
-
-    protected function phpApcuFetch(var key) -> var
-    {
-        return apcu_fetch(key);
-    }
-
-    protected function phpApcuIterator(string pattern) -> <APCUIterator> | bool
-    {
-        return new APCUIterator(pattern);
-    }
-
-    protected function phpApcuStore(var key, var payload, int ttl = 0) -> bool | array
-    {
-        return apcu_store(key, payload, ttl);
     }
 }

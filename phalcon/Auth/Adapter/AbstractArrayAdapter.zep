@@ -54,6 +54,8 @@ abstract class AbstractArrayAdapter extends AbstractAdapter
             }
         }
 
+        this->burnHash();
+
         return null;
     }
 
@@ -115,9 +117,12 @@ abstract class AbstractArrayAdapter extends AbstractAdapter
         if (modelClass !== null) {
             let instance = new {modelClass}();
 
-            if (!(instance instanceof AuthUserContract)) {
-                throw new DoesNotImplement("User model", "AuthUser");
-            }
+            DoesNotImplement::assert(
+                instance,
+                "Phalcon\\Contracts\\Auth\\AuthUser",
+                "User model",
+                "AuthUser"
+            );
 
             if (method_exists(instance, "assign")) {
                 instance->assign(row);
@@ -152,7 +157,7 @@ abstract class AbstractArrayAdapter extends AbstractAdapter
                 continue;
             }
 
-            if (!isset(row[key]) || row[key] !== value) {
+            if (!isset(row[key]) || (string) row[key] !== (string) value) {
                 return false;
             }
         }

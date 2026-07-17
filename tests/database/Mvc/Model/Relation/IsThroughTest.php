@@ -13,7 +13,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Mvc\Model\Relation;
 
+use Phalcon\Mvc\Model\Relation;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 
 #[Group('mysql')]
@@ -22,11 +24,32 @@ use PHPUnit\Framework\Attributes\Group;
 final class IsThroughTest extends AbstractDatabaseTestCase
 {
     /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * isThrough() is true only for the has-one/has-many through types.
+     *
+     * @return array<string, array{0: int, 1: bool}>
      */
-    public function testMvcModelRelationIsThrough(): void
+    public static function getExamples(): array
     {
-        $this->markTestSkipped('Need implementation');
+        return [
+            'belongsTo'      => [Relation::BELONGS_TO, false],
+            'hasOne'         => [Relation::HAS_ONE, false],
+            'hasMany'        => [Relation::HAS_MANY, false],
+            'hasOneThrough'  => [Relation::HAS_ONE_THROUGH, true],
+            'hasManyThrough' => [Relation::HAS_MANY_THROUGH, true],
+        ];
+    }
+
+    /**
+     * Tests Phalcon\Mvc\Model\Relation :: isThrough()
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-22
+     */
+    #[DataProvider('getExamples')]
+    public function testMvcModelRelationIsThrough(int $type, bool $expected): void
+    {
+        $relation = new Relation($type, 'RefModel', 'id', 'ref', []);
+
+        $this->assertSame($expected, $relation->isThrough());
     }
 }

@@ -16,7 +16,7 @@ namespace Phalcon\Tests\Unit\Forms\Element\Select;
 use Phalcon\Di\Di;
 use Phalcon\Forms\Element\Select;
 use Phalcon\Html\Escaper;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class ToStringTest extends AbstractUnitTestCase
 {

@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Logger\Adapter\Syslog;
 
 use Phalcon\Logger\Adapter\Syslog;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class CloseTest extends AbstractUnitTestCase
 {

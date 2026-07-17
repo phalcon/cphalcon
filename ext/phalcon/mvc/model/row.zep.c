@@ -193,7 +193,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetUnset)
  * Reads an attribute value by its name
  *
  *```php
- * echo $robot->readAttribute("name");
+ * echo $invoice->readAttribute("inv_title");
  *```
  *
  * @return mixed
@@ -247,7 +247,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, toArray)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	ZEPHIR_RETURN_CALL_FUNCTION("get_object_vars", NULL, 0, this_ptr);
+	ZEPHIR_RETURN_CALL_FUNCTION("get_object_vars", NULL, 291, this_ptr);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -256,7 +256,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, toArray)
  * Writes an attribute value by its name
  *
  *```php
- * $robot->writeAttribute("name", "Rosey");
+ * $invoice->writeAttribute("inv_title", "Test Invoice");
  *```
  *
  * @param mixed value

@@ -17,7 +17,7 @@ use Phalcon\Acl\Adapter\Memory;
 use Phalcon\Acl\Component;
 use Phalcon\Acl\Exception;
 use Phalcon\Acl\Role;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class AddInheritTest extends AbstractUnitTestCase
 {
@@ -155,5 +155,20 @@ final class AddInheritTest extends AbstractUnitTestCase
         $acl = new Memory();
         $acl->addRole(new Role('administrator'));
         $acl->addInherit('administrator', 'unknown');
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-25
+     */
+    public function testAclAdapterMemoryAddInheritUnknownRoleName(): void
+    {
+        $this->expectException(Exception::class);
+
+        $acl = new Memory();
+        $acl->addRole(new Role('administrator'));
+
+        // The role *receiving* the inheritance must exist.
+        $acl->addInherit('unknown', 'administrator');
     }
 }

@@ -88,17 +88,17 @@ interface ViewInterface extends ViewBaseInterface
     /**
      * Choose a view different to render than last-controller/last-action
      */
-    public function pick(string! renderView);
+    public function pick( string renderView);
 
     /**
      * Register templating engines
      */
-    public function registerEngines(array! engines);
+    public function registerEngines( array engines);
 
     /**
      * Executes render process from dispatching data
      */
-    public function render(string! controllerName, string! actionName, array params = []) -> <ViewInterface> | bool;
+    public function render( string controllerName,  string actionName, array params = []) -> <ViewInterface> | bool;
 
     /**
      * Resets the view component to its factory default values
@@ -109,33 +109,33 @@ interface ViewInterface extends ViewBaseInterface
      * Sets base path. Depending of your platform, always add a trailing slash
      * or backslash
      */
-    public function setBasePath(string! basePath);
+    public function setBasePath( string basePath);
 
     /**
      * Change the layout to be used instead of using the name of the latest
      * controller name
      */
-    public function setLayout(string! layout);
+    public function setLayout( string layout);
 
     /**
      * Sets the layouts sub-directory. Must be a directory under the views
      * directory. Depending of your platform, always add a trailing slash or
      * backslash
      */
-    public function setLayoutsDir(string! layoutsDir);
+    public function setLayoutsDir( string layoutsDir);
 
     /**
      * Sets default view name. Must be a file without extension in the views
      * directory
      */
-    public function setMainView(string! viewPath);
+    public function setMainView( string viewPath);
 
     /**
      * Sets a partials sub-directory. Must be a directory under the views
      * directory. Depending of your platform, always add a trailing slash or
      * backslash
      */
-    public function setPartialsDir(string! partialsDir);
+    public function setPartialsDir( string partialsDir);
 
     /**
      * Sets the render level for the view

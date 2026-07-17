@@ -34,8 +34,27 @@ final class FormsTest extends AbstractDatabaseTestCase
     {
         $this->setNewFactoryDefault();
         $this->setDatabase();
-        Tag::resetInput();
         Tag::setDocType(Tag::HTML5);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-01
+     */
+    #[Group('mysql')]
+    #[Group('sqlite')]
+    public function testElementAppendMessage(): void
+    {
+        $element = new Select('test-select');
+
+        $element->appendMessage(
+            new Message('sample message')
+        );
+
+        $messages = $element->getMessages();
+
+        $this->assertCount(1, $messages);
+        $this->assertSame('sample message', $messages[0]->getMessage());
     }
 
     /**
@@ -315,25 +334,5 @@ final class FormsTest extends AbstractDatabaseTestCase
             'hello',
             $entity->getAddress()
         );
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-01
-     */
-    #[Group('mysql')]
-    #[Group('sqlite')]
-    public function testElementAppendMessage(): void
-    {
-        $element = new Select('test-select');
-
-        $element->appendMessage(
-            new Message('sample message')
-        );
-
-        $messages = $element->getMessages();
-
-        $this->assertCount(1, $messages);
-        $this->assertSame('sample message', $messages[0]->getMessage());
     }
 }

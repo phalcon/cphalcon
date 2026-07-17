@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Db\Dialect\Mysql;
 
+use Phalcon\Db\Dialect\Mysql;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use PHPUnit\Framework\Attributes\Group;
 
@@ -29,6 +30,11 @@ final class ForUpdateTest extends AbstractDatabaseTestCase
      */
     public function testDbDialectMysqlForUpdate(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $dialect = new Mysql();
+
+        $this->assertSame(
+            'SELECT * FROM robots FOR UPDATE',
+            $dialect->forUpdate('SELECT * FROM robots')
+        );
     }
 }

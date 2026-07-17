@@ -19,6 +19,7 @@ use Phalcon\Mvc\Url\Exceptions\MissingRouteName;
 use Phalcon\Mvc\Url\Exceptions\RouteNotFound;
 use Phalcon\Mvc\Url\Exceptions\RouterServiceUnavailable;
 use Phalcon\Mvc\Url\UrlInterface;
+use Phalcon\Support\Helper\Str\ReduceSlashes;
 
 /**
  * This component helps in the generation of: URIs, URLs and Paths
@@ -203,7 +204,7 @@ class Url extends AbstractInjectionAware implements UrlInterface
 
         if local {
             let strUri = (string) uri;
-            let uri = preg_replace("#(?<!:)//+#", "/", baseUri . strUri);
+            let uri = (new ReduceSlashes())->__invoke(baseUri . strUri);
         }
 
         if arguments {
@@ -329,7 +330,7 @@ class Url extends AbstractInjectionAware implements UrlInterface
      * $url->setBasePath("/var/www/htdocs/");
      *```
      */
-    public function setBasePath(string! basePath) -> <UrlInterface>
+    public function setBasePath( string basePath) -> <UrlInterface>
     {
         let this->basePath = basePath;
 
@@ -345,7 +346,7 @@ class Url extends AbstractInjectionAware implements UrlInterface
      * $url->setBaseUri("/invo/index.php/");
      *```
      */
-    public function setBaseUri(string! baseUri) -> <UrlInterface>
+    public function setBaseUri( string baseUri) -> <UrlInterface>
     {
         let this->baseUri = baseUri;
 
@@ -363,7 +364,7 @@ class Url extends AbstractInjectionAware implements UrlInterface
      * $url->setStaticBaseUri("/invo/");
      *```
      */
-    public function setStaticBaseUri(string! staticBaseUri) -> <UrlInterface>
+    public function setStaticBaseUri( string staticBaseUri) -> <UrlInterface>
     {
         let this->staticBaseUri = staticBaseUri;
 

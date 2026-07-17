@@ -119,8 +119,8 @@ install-php-extensions \
     gmp \
     memcached \
     msgpack \
-    xdebug \
-    zephir_parser
+    xdebug
+#    zephir_parser
 # Locales for gettext/Translate tests
 sed -i -e 's/# de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/' /etc/locale.gen
 sed -i -e 's/# el_GR.UTF-8 UTF-8/el_GR.UTF-8 UTF-8/' /etc/locale.gen
@@ -178,7 +178,7 @@ EOT
 FROM base AS prod
 
 ARG PHP_VERSION=8.4
-ARG PHALCON_VERSION="v5.16.0"
+ARG PHALCON_VERSION="v5.17.0"
 ARG USER=phalcon
 
 ENV PATH=/app/bin:/app:${PATH} \

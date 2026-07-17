@@ -17,7 +17,7 @@ class ValidatorFactory extends AbstractFactory
     /**
      * TagFactory constructor.
      */
-    public function __construct(array! services = [])
+    public function __construct( array services = [])
     {
         this->init(services);
     }
@@ -25,7 +25,7 @@ class ValidatorFactory extends AbstractFactory
     /**
      * Creates a new instance
      */
-    public function newInstance(string! name) -> <ValidatorInterface>
+    public function newInstance( string name) -> <ValidatorInterface>
     {
         var definition;
 

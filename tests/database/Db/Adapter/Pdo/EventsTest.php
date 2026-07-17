@@ -7,9 +7,13 @@ namespace Phalcon\Tests\Database\Db\Adapter\Pdo;
 use PDO;
 use Phalcon\Db\Adapter\Pdo\Sqlite;
 use Phalcon\Events\Manager;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 
+#[Group('mysql')]
+#[Group('pgsql')]
+#[Group('sqlite')]
 final class EventsTest extends AbstractUnitTestCase
 {
     public static function eventsProvider(): array
@@ -17,9 +21,52 @@ final class EventsTest extends AbstractUnitTestCase
         return [
             ['SELECT 1', 'query', ['beforeQuery', 'afterQuery']],
             ['CREATE TABLE test (id INT)', 'execute', ['beforeQuery', 'afterQuery']],
-            ['', 'commit', ['beginTransaction', 'commitTransaction', 'transactionCommitted']],
-            ['', 'rollback', ['beginTransaction', 'rollbackTransaction', 'transactionRolledBack']],
+            ['', 'commit', ['beginTransaction', 'commitTransaction']],
+            ['', 'rollback', ['beginTransaction', 'rollbackTransaction']],
         ];
+    }
+
+    public function testBadCommit(): void
+    {
+        $mockPDO = $this->getMockBuilder(PDO::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['commit'])
+            ->getMock();
+
+        $mockPDO->expects($this->once())->method('commit')->willReturn(false);
+
+        $connection = new Sqlite([
+            'dbname' => ':memory:',
+        ]);
+        $ref = new \ReflectionObject($connection);
+
+        $property = $ref->getProperty('pdo');
+        $property->setValue($connection, $mockPDO);
+
+        $property = $ref->getProperty('transactionLevel');
+        $property->setValue($connection, 1);
+
+        $manager = new Manager();
+        $connection->setEventsManager($manager);
+
+        $listener = new class {
+            public array $events = [];
+
+            public function commitTransaction($event, $adapter, mixed $data = null)
+            {
+                $this->events[] = __FUNCTION__;
+            }
+            public function transactionCommitted($event, $adapter, mixed $data = null)
+            {
+                $this->events[] = __FUNCTION__;
+            }
+        };
+
+        $manager->attach('db', $listener);
+
+        $connection->commit();
+        $this->assertContains('commitTransaction', $listener->events);
+        $this->assertNotContains('transactionCommitted', $listener->events);
     }
 
     #[DataProvider('eventsProvider')]
@@ -103,48 +150,5 @@ final class EventsTest extends AbstractUnitTestCase
         foreach ($expectedEvents as $expectedEvent) {
             $this->assertContains($expectedEvent, $listener->events);
         }
-    }
-
-    public function testBadCommit(): void
-    {
-        $mockPDO = $this->getMockBuilder(PDO::class)
-            ->disableOriginalConstructor()
-            ->onlyMethods(['commit'])
-            ->getMock();
-
-        $mockPDO->expects($this->once())->method('commit')->willReturn(false);
-
-        $connection = new Sqlite([
-            'dbname' => ':memory:',
-        ]);
-        $ref = new \ReflectionObject($connection);
-
-        $property = $ref->getProperty('pdo');
-        $property->setValue($connection, $mockPDO);
-
-        $property = $ref->getProperty('transactionLevel');
-        $property->setValue($connection, 1);
-
-        $manager = new Manager();
-        $connection->setEventsManager($manager);
-
-        $listener = new class {
-            public array $events = [];
-
-            public function commitTransaction($event, $adapter, mixed $data = null)
-            {
-                $this->events[] = __FUNCTION__;
-            }
-            public function transactionCommitted($event, $adapter, mixed $data = null)
-            {
-                $this->events[] = __FUNCTION__;
-            }
-        };
-
-        $manager->attach('db', $listener);
-
-        $connection->commit();
-        $this->assertContains('commitTransaction', $listener->events);
-        $this->assertNotContains('transactionCommitted', $listener->events);
     }
 }

@@ -15,7 +15,8 @@ namespace Phalcon\Tests\Unit\Logger\Adapter\Stream;
 
 use Phalcon\Logger\Adapter\Stream;
 use Phalcon\Logger\Exception;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 
 final class CommitTest extends AbstractUnitTestCase
 {
@@ -26,7 +27,7 @@ final class CommitTest extends AbstractUnitTestCase
     public function testLoggerAdapterStreamCommit(): void
     {
         $fileName   = $this->getNewFileName('log', 'log');
-        $outputPath = logsDir();
+        $outputPath = Talon::settings()->outputPath('tests/logs/');
         $adapter    = new Stream($outputPath . $fileName);
 
         $adapter->begin();
@@ -49,7 +50,7 @@ final class CommitTest extends AbstractUnitTestCase
     public function testLoggerAdapterStreamCommitNoTransaction(): void
     {
         $fileName   = $this->getNewFileName('log', 'log');
-        $outputPath = logsDir();
+        $outputPath = Talon::settings()->outputPath('tests/logs/');
 
         try {
             $adapter = new Stream($outputPath . $fileName);

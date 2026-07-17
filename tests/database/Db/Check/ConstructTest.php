@@ -67,24 +67,6 @@ final class ConstructTest extends AbstractDatabaseTestCase
 
     /**
      * Tests Phalcon\Db\Check :: __construct() - throws when `expression` is
-     * missing from the definition array.
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-05-15
-     */
-    #[Group('mysql')]
-    #[Group('pgsql')]
-    #[Group('sqlite')]
-    public function testDbCheckExpressionRequired(): void
-    {
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage('CHECK expression is required');
-
-        new Check('chk_missing', []);
-    }
-
-    /**
-     * Tests Phalcon\Db\Check :: __construct() - throws when `expression` is
      * an empty string.
      *
      * @author Phalcon Team <team@phalcon.io>
@@ -106,5 +88,23 @@ final class ConstructTest extends AbstractDatabaseTestCase
                 'expression' => '',
             ]
         );
+    }
+
+    /**
+     * Tests Phalcon\Db\Check :: __construct() - throws when `expression` is
+     * missing from the definition array.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-15
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testDbCheckExpressionRequired(): void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('CHECK expression is required');
+
+        new Check('chk_missing', []);
     }
 }

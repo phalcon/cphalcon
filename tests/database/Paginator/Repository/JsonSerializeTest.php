@@ -16,7 +16,11 @@ namespace Phalcon\Tests\Database\Paginator\Repository;
 use Phalcon\Paginator\Adapter\NativeArray;
 use Phalcon\Paginator\Repository;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
+#[Group('mysql')]
+#[Group('pgsql')]
+#[Group('sqlite')]
 final class JsonSerializeTest extends AbstractDatabaseTestCase
 {
     /**

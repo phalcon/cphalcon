@@ -53,7 +53,7 @@ class Postgresql extends PdoAdapter
     /**
      * Constructor for Phalcon\Db\Adapter\Pdo\Postgresql
      */
-    public function __construct(array! descriptor)
+    public function __construct( array descriptor)
     {
         if isset descriptor["charset"] {
             trigger_error(
@@ -68,7 +68,7 @@ class Postgresql extends PdoAdapter
      * This method is automatically called in Phalcon\Db\Adapter\Pdo
      * constructor. Call it when you need to restore a database connection.
      */
-    public function connect(array! descriptor = []) -> void
+    public function connect( array descriptor = []) -> void
     {
         var schema, sql;
 
@@ -100,7 +100,7 @@ class Postgresql extends PdoAdapter
     /**
      * Creates a table
      */
-    public function createTable(string! tableName, string! schemaName, array! definition) -> bool
+    public function createTable( string tableName,  string schemaName,  array definition) -> bool
     {
         var sql, queries, query, exception, columns;
 
@@ -600,7 +600,7 @@ class Postgresql extends PdoAdapter
                  */
                 if field[9] !== null {
                     let definition["default"] = preg_replace(
-                        "/^'|'?::[[:alnum:][:space:]]+$/",
+                        "/(?:^')|(?:'?::[[:alnum:][:space:]]+$)/",
                         "",
                         field[9]
                     );
@@ -634,11 +634,11 @@ class Postgresql extends PdoAdapter
      *
      *```php
      * print_r(
-     *     $connection->describeReferences("robots_parts")
+     *     $connection->describeReferences("co_orders_x_products")
      * );
      *```
      */
-    public function describeReferences(string! table, string! schema = null) -> <ReferenceInterface[]>
+    public function describeReferences( string table,  string schema = null) -> <ReferenceInterface[]>
     {
         var references, reference, arrayReference, constraintName,
             referenceObjects, name, referencedSchema, referencedTable, columns,
@@ -701,18 +701,18 @@ class Postgresql extends PdoAdapter
      * Returns the default identity value to be inserted in an identity column
      *
      *```php
-     * // Inserting a new robot with a valid default value for the column 'id'
+     * // Inserting a new invoice with a valid default value for the column 'inv_id'
      * $success = $connection->insert(
-     *     "robots",
+     *     "co_invoices",
      *     [
      *         $connection->getDefaultIdValue(),
-     *         "Astro Boy",
-     *         1952,
+     *         "Test Invoice",
+     *         100,
      *     ],
      *     [
-     *         "id",
-     *         "name",
-     *         "year",
+     *         "inv_id",
+     *         "inv_title",
+     *         "inv_total",
      *     ]
      * );
      *```
@@ -725,7 +725,7 @@ class Postgresql extends PdoAdapter
     /**
      * Modifies a table column based on a definition
      */
-    public function modifyColumn(string! tableName, string! schemaName, <ColumnInterface> column, <ColumnInterface> currentColumn = null) -> bool
+    public function modifyColumn( string tableName,  string schemaName, <ColumnInterface> column, <ColumnInterface> currentColumn = null) -> bool
     {
         var sql, queries, query, exception;
 

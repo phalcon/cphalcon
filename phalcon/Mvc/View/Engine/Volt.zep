@@ -20,12 +20,15 @@ use Phalcon\Mvc\View\Engine\Volt\Exceptions\InvalidHaystack;
 use Phalcon\Mvc\View\Engine\Volt\Exceptions\MacroNotFound;
 use Phalcon\Mvc\View\Engine\Volt\Exceptions\MbstringRequired;
 use Phalcon\Mvc\View\Exception;
+use Phalcon\Traits\Php\InfoTrait;
 
 /**
  * Designer friendly and fast template engine for PHP written in Zephir/C
  */
 class Volt extends AbstractEngine implements EventsAwareInterface
 {
+    use InfoTrait;
+
     /**
      * @var Compiler
      */
@@ -54,7 +57,7 @@ class Volt extends AbstractEngine implements EventsAwareInterface
      *
      * @return mixed
      */
-    public function callMacro(string! name, array arguments = []) -> var
+    public function callMacro( string name, array arguments = []) -> var
     {
         var macro;
 
@@ -70,9 +73,9 @@ class Volt extends AbstractEngine implements EventsAwareInterface
      *
      * @return string
      */
-    public function convertEncoding(string text, string! from, string! to) -> string
+    public function convertEncoding(string text,  string from,  string to) -> string
     {
-        if unlikely !function_exists("mb_convert_encoding") {
+        if unlikely !this->phpFunctionExists("mb_convert_encoding") {
             throw new MbstringRequired();
         }
 
@@ -156,7 +159,7 @@ class Volt extends AbstractEngine implements EventsAwareInterface
         }
 
         if typeof haystack == "string" {
-            if function_exists("mb_strpos") {
+            if this->phpFunctionExists("mb_strpos") {
                 return mb_strpos(haystack, needle) !== false;
             }
 
@@ -183,7 +186,7 @@ class Volt extends AbstractEngine implements EventsAwareInterface
             return count(item);
         }
 
-        if function_exists("mb_strlen") {
+        if this->phpFunctionExists("mb_strlen") {
             return mb_strlen(item);
         }
 
@@ -249,7 +252,7 @@ class Volt extends AbstractEngine implements EventsAwareInterface
      *
      * @return void
      */
-    public function render(string! path, var params, bool mustClean = false) // TODO: Make params array
+    public function render( string path, var params, bool mustClean = false) // TODO: Make params array
     {
         var compiler, compiledTemplatePath, eventsManager, key, value;
 
@@ -314,7 +317,7 @@ class Volt extends AbstractEngine implements EventsAwareInterface
      *
      * @return void
      */
-    public function setOptions(array! options)
+    public function setOptions( array options)
     {
         let this->options = options;
     }
@@ -373,7 +376,7 @@ class Volt extends AbstractEngine implements EventsAwareInterface
         /**
          * Use mb_substr if available
          */
-        if function_exists("mb_substr") {
+        if this->phpFunctionExists("mb_substr") {
             if length !== null {
                 return mb_substr(value, start, length);
             }

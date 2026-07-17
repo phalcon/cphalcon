@@ -13,7 +13,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Mvc\Model\Transaction\Manager;
 
+use Phalcon\Mvc\Model\Transaction\Manager;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\Group;
 
 #[Group('mysql')]
@@ -21,12 +23,34 @@ use PHPUnit\Framework\Attributes\Group;
 #[Group('sqlite')]
 final class GetRollbackPendentTest extends AbstractDatabaseTestCase
 {
+    use DiTrait;
+
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+    }
+
+    public function tearDown(): void
+    {
+        $this->tearDownDatabase();
+    }
+
     /**
+     * Tests Phalcon\Mvc\Model\Transaction\Manager :: getRollbackPendent()
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2026-06-22
      */
     public function testMvcModelTransactionManagerGetRollbackPendent(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $manager = new Manager($this->container);
+
+        // Registering a shutdown rollback is on by default.
+        $this->assertTrue($manager->getRollbackPendent());
+
+        $manager->setRollbackPendent(false);
+
+        $this->assertFalse($manager->getRollbackPendent());
     }
 }

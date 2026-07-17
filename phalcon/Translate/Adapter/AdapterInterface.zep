@@ -53,5 +53,5 @@ interface AdapterInterface
      *
      * @return string
      */
-    public function t(string! translateKey, array placeholders = []) -> string;
+    public function t( string translateKey, array placeholders = []) -> string;
 }

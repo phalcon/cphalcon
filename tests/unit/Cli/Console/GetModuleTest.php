@@ -16,9 +16,10 @@ namespace Phalcon\Tests\Unit\Cli\Console;
 use Phalcon\Application\Exception;
 use Phalcon\Cli\Console as CliConsole;
 use Phalcon\Di\FactoryDefault\Cli as DiFactoryDefault;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\Support\Modules\Backend\Module as BackendModule;
 use Phalcon\Tests\Support\Modules\Frontend\Module as FrontendModule;
-use Phalcon\Tests\AbstractUnitTestCase;
 
 final class GetModuleTest extends AbstractUnitTestCase
 {
@@ -35,11 +36,11 @@ final class GetModuleTest extends AbstractUnitTestCase
         $definition = [
             'frontend' => [
                 'className' => FrontendModule::class,
-                'path'      => supportDir('Modules/Frontend/Module.php'),
+                'path'      => Talon::settings()->supportPath('Modules/Frontend/Module.php'),
             ],
             'backend'  => [
                 'className' => BackendModule::class,
-                'path'      => supportDir('Modules/Backend/Module.php'),
+                'path'      => Talon::settings()->supportPath('Modules/Backend/Module.php'),
             ],
         ];
 

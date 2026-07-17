@@ -21,13 +21,18 @@ use Phalcon\Http\Cookie\Exceptions\CryptInterfaceRequired;
 use Phalcon\Http\Cookie\Exceptions\CryptServiceUnavailable;
 use Phalcon\Http\Cookie\Exceptions\FilterServiceUnavailable;
 use Phalcon\Http\Response\Exception;
+use Phalcon\Http\Traits\EncryptionAwareTrait;
 use Phalcon\Session\ManagerInterface as SessionManagerInterface;
+use Phalcon\Traits\Support\Helper\Arr\GetTrait;
 
 /**
  * Provide OO wrappers to manage a HTTP cookie.
  */
 class Cookie extends AbstractInjectionAware implements CookieInterface
 {
+    use EncryptionAwareTrait;
+    use GetTrait;
+
     /**
      * @var string
      */
@@ -86,11 +91,6 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
     protected signKey = null;
 
     /**
-     * @var bool
-     */
-    protected useEncryption = false;
-
-    /**
      * @var mixed|null
      */
     protected value = null;
@@ -99,7 +99,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
      * Phalcon\Http\Cookie constructor.
      */
     public function __construct(
-        string! name,
+         string name,
         var value = null,
         int expire = 0,
         string path = "/",
@@ -325,14 +325,6 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
     }
 
     /**
-     * Check if the cookie is using implicit encryption
-     */
-    public function isUsingEncryption() -> bool
-    {
-        return this->useEncryption;
-    }
-
-    /**
      * Reads the cookie-related info from the SESSION to restore the cookie as
      * it was set.
      *
@@ -474,7 +466,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
     /**
      * Sets the domain that the cookie is available to
      */
-    public function setDomain(string! domain) -> <CookieInterface>
+    public function setDomain( string domain) -> <CookieInterface>
     {
         if !this->isRestored {
             this->restore();
@@ -516,7 +508,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
     /**
      * Sets the cookie's options
      */
-    public function setOptions(array! options) -> <CookieInterface>
+    public function setOptions( array options) -> <CookieInterface>
     {
         let this->options = options;
 
@@ -526,7 +518,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
     /**
      * Sets the cookie's path
      */
-    public function setPath(string! path) -> <CookieInterface>
+    public function setPath( string path) -> <CookieInterface>
     {
         if !this->isRestored {
             this->restore();
@@ -601,7 +593,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
      *
      * @throws \Phalcon\Http\Cookie\Exception
      */
-    protected function assertSignKeyIsLongEnough(string! signKey) -> void
+    protected function assertSignKeyIsLongEnough( string signKey) -> void
     {
         var length;
 
@@ -610,23 +602,6 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
         if unlikely length < 32 {
             throw new CookieKeyTooShort(length);
         }
-    }
-
-    /**
-     * @todo Remove this when we get traits
-     */
-    private function getArrVal(
-        array! collection,
-        var index,
-        var defaultValue = null
-    ) -> var {
-        var value;
-
-        if unlikely !fetch value, collection[index] {
-            return defaultValue;
-        }
-
-        return value;
     }
 
     /**

@@ -17,12 +17,9 @@ use Phalcon\Db\Adapter\Pdo\Mysql;
 use Phalcon\Db\Adapter\Pdo\Postgresql;
 use Phalcon\Db\Adapter\Pdo\Sqlite;
 use Phalcon\Db\Adapter\PdoFactory;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use PHPUnit\Framework\Attributes\Group;
-
-use function getOptionsMysql;
-use function getOptionsPostgresql;
-use function getOptionsSqlite;
 
 final class NewInstanceTest extends AbstractDatabaseTestCase
 {
@@ -34,7 +31,7 @@ final class NewInstanceTest extends AbstractDatabaseTestCase
     public function testDbAdapterPdoFactoryNewInstanceMysql(): void
     {
         $factory = new PdoFactory();
-        $adapter = $factory->newInstance('mysql', getOptionsMysql());
+        $adapter = $factory->newInstance('mysql', Talon::settings()->getDatabaseOptions('mysql'));
 
         $this->assertInstanceOf(Mysql::class, $adapter);
     }
@@ -47,7 +44,7 @@ final class NewInstanceTest extends AbstractDatabaseTestCase
     public function testDbAdapterPdoFactoryNewInstancePgsql(): void
     {
         $factory = new PdoFactory();
-        $adapter = $factory->newInstance('postgresql', getOptionsPostgresql());
+        $adapter = $factory->newInstance('postgresql', Talon::settings()->getDatabaseOptions('pgsql'));
 
         $this->assertInstanceOf(Postgresql::class, $adapter);
     }
@@ -60,7 +57,7 @@ final class NewInstanceTest extends AbstractDatabaseTestCase
     public function testDbAdapterPdoFactoryNewInstanceSqlite(): void
     {
         $factory = new PdoFactory();
-        $adapter = $factory->newInstance('sqlite', getOptionsSqlite());
+        $adapter = $factory->newInstance('sqlite', Talon::settings()->getDatabaseOptions('sqlite'));
 
         $this->assertInstanceOf(Sqlite::class, $adapter);
     }

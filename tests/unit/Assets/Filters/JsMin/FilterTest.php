@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Assets\Filters\JsMin;
 
 use Phalcon\Assets\Filters\JsMin;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class FilterTest extends AbstractUnitTestCase
 {

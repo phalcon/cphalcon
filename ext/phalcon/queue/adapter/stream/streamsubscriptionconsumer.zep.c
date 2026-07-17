@@ -36,7 +36,7 @@
  */
 /**
  * Consumes from several filesystem queues at once. The round-robin poll loop
- * lives in AbstractSubscriptionConsumer.
+ * lives in SubscriptionConsumerTrait.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_Stream_StreamSubscriptionConsumer)
 {
@@ -60,6 +60,15 @@ PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamSubscriptionConsumer, __construct)
 
 	ZVAL_UNDEF(&context_sub);
 	ZVAL_UNDEF(&_0);
+	static zend_string *_zephir_prop_0 = NULL;
+	static zend_string *_zephir_prop_1 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("context", 7, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_1)) {
+		_zephir_prop_1 = zend_string_init("pollInterval", 12, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_OBJECT_OF_CLASS(context, phalcon_queue_adapter_stream_streamcontext_ce)
 		Z_PARAM_OPTIONAL
@@ -70,9 +79,9 @@ PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamSubscriptionConsumer, __construct)
 		pollInterval = 200;
 	} else {
 		}
-	zephir_update_property_zval(this_ptr, ZEND_STRL("context"), context);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1225, context);
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, pollInterval);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("pollInterval"), &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1226, &_0);
 }
 

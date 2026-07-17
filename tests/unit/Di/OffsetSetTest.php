@@ -16,7 +16,7 @@ namespace Phalcon\Tests\Unit\Di;
 use Phalcon\Di\Di;
 use Phalcon\Html\Escaper;
 use Phalcon\Support\Collection;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class OffsetSetTest extends AbstractUnitTestCase
 {

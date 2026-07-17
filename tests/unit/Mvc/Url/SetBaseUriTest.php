@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Mvc\Url;
 
 use Phalcon\Mvc\Router;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use Phalcon\Tests\Unit\Mvc\Fake\RouterTrait;
 use PHPUnit\Framework\Attributes\BackupGlobals;
@@ -25,6 +25,16 @@ final class SetBaseUriTest extends AbstractUnitTestCase
 {
     use DiTrait;
     use RouterTrait;
+
+    /**
+     * executed before each test
+     */
+    public function setUp(): void
+    {
+        $this->newDi();
+        $this->setDiService('url');
+        $this->setupRoutes();
+    }
 
     /**
      * @return array
@@ -220,16 +230,6 @@ final class SetBaseUriTest extends AbstractUnitTestCase
                 'https://www.test.com/?_url=/path&params=one',
             ],
         ];
-    }
-
-    /**
-     * executed before each test
-     */
-    public function setUp(): void
-    {
-        $this->newDi();
-        $this->setDiService('url');
-        $this->setupRoutes();
     }
 
     /**

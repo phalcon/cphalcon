@@ -37,7 +37,7 @@ interface Signer
      *
      * @return string
      */
-    public function sign(string! payload, string! passphrase) -> string;
+    public function sign( string payload,  string passphrase) -> string;
 
     /**
      * Verify a passed source with a payload and passphrase

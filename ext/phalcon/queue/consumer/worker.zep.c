@@ -69,6 +69,15 @@ PHP_METHOD(Phalcon_Queue_Consumer_Worker, __construct)
 	ZVAL_UNDEF(&consumer_sub);
 	ZVAL_UNDEF(&options_sub);
 	ZVAL_NULL(&__$null);
+	static zend_string *_zephir_prop_0 = NULL;
+	static zend_string *_zephir_prop_1 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("consumer", 8, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_1)) {
+		_zephir_prop_1 = zend_string_init("options", 7, 1);
+	}
+
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_OBJECT_OF_CLASS(consumer, phalcon_queue_consumer_queueconsumer_ce)
@@ -90,8 +99,8 @@ PHP_METHOD(Phalcon_Queue_Consumer_Worker, __construct)
 		ZEPHIR_CALL_METHOD(NULL, options, "__construct", NULL, 0);
 		zephir_check_call_status();
 	}
-	zephir_update_property_zval(this_ptr, ZEND_STRL("consumer"), consumer);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("options"), options);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1240, consumer);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1241, options);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -106,13 +115,18 @@ PHP_METHOD(Phalcon_Queue_Consumer_Worker, handleSignal)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("consumer", 8, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_LONG(signal)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &signal_param);
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("consumer"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1240, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(NULL, &_0, "stop", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
@@ -150,10 +164,18 @@ PHP_METHOD(Phalcon_Queue_Consumer_Worker, run)
 	ZVAL_UNDEF(&_13$$6);
 	ZVAL_UNDEF(&_16$$6);
 	ZVAL_UNDEF(&_18$$6);
+	static zend_string *_zephir_prop_0 = NULL;
+	static zend_string *_zephir_prop_1 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("options", 7, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_1)) {
+		_zephir_prop_1 = zend_string_init("consumer", 8, 1);
+	}
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("options"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1241, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&options, &_0);
 	processed = 0;
 	ZEPHIR_CALL_METHOD(&_1, &options, "getmaxmessages", NULL, 0);
@@ -168,7 +190,7 @@ PHP_METHOD(Phalcon_Queue_Consumer_Worker, run)
 	ZEPHIR_CALL_METHOD(&_4, &options, "getjitter", NULL, 0);
 	zephir_check_call_status();
 	jitter = zephir_get_intval(&_4);
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("consumer"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_1, 1240, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&_5, &_0, "start", NULL, 0);
 	zephir_check_call_status();
 	if (!(zephir_is_true(&_5))) {
@@ -190,13 +212,13 @@ PHP_METHOD(Phalcon_Queue_Consumer_Worker, run)
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "installsignalhandlers", NULL, 0);
 	zephir_check_call_status();
 	while (1) {
-		zephir_read_property(&_10$$6, this_ptr, ZEND_STRL("consumer"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_10$$6, this_ptr, _zephir_prop_1, 1240, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_METHOD(&_11$$6, &_10$$6, "isstoprequested", NULL, 0);
 		zephir_check_call_status();
 		if (zephir_is_true(&_11$$6)) {
 			break;
 		}
-		zephir_read_property(&_12$$6, this_ptr, ZEND_STRL("consumer"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_12$$6, this_ptr, _zephir_prop_1, 1240, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_METHOD(&_13$$6, &_12$$6, "consumeonce", NULL, 0);
 		zephir_check_call_status();
 		if (zephir_is_true(&_13$$6)) {
@@ -228,7 +250,7 @@ PHP_METHOD(Phalcon_Queue_Consumer_Worker, run)
 			break;
 		}
 	}
-	zephir_read_property(&_20, this_ptr, ZEND_STRL("consumer"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_20, this_ptr, _zephir_prop_1, 1240, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(NULL, &_20, "end", NULL, 0);
 	zephir_check_call_status();
 	RETURN_MM_LONG(processed);
@@ -240,43 +262,39 @@ PHP_METHOD(Phalcon_Queue_Consumer_Worker, run)
  */
 PHP_METHOD(Phalcon_Queue_Consumer_Worker, installSignalHandlers)
 {
-	zval _0, _3, _4;
+	zval _2, _4, _5;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zval __$true, _0, _1, _3;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval __$true, _1, _2;
 	zval *this_ptr = getThis();
 
 	ZVAL_BOOL(&__$true, 1);
-	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_4);
+	ZVAL_UNDEF(&_5);
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	if (!((zephir_function_exists_ex(ZEND_STRL("pcntl_async_signals")) == SUCCESS))) {
+	ZEPHIR_INIT_VAR(&_1);
+	ZVAL_STRING(&_1, "pcntl_async_signals");
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "phpfunctionexists", NULL, 0, &_1);
+	zephir_check_call_status();
+	if (!(zephir_is_true(&_0))) {
 		RETURN_MM_NULL();
 	}
 	ZEPHIR_CALL_FUNCTION(NULL, "pcntl_async_signals", NULL, 0, &__$true);
 	zephir_check_call_status();
-	ZEPHIR_INIT_VAR(&_0);
-	zephir_create_array(&_0, 2, 0);
-	zephir_array_fast_append(&_0, this_ptr);
-	ZEPHIR_INIT_VAR(&_1);
-	ZVAL_STRING(&_1, "handleSignal");
-	zephir_array_fast_append(&_0, &_1);
-	ZVAL_LONG(&_2, 15);
-	ZEPHIR_CALL_FUNCTION(NULL, "pcntl_signal", NULL, 0, &_2, &_0);
-	zephir_check_call_status();
-	ZEPHIR_INIT_VAR(&_3);
-	zephir_create_array(&_3, 2, 0);
-	zephir_array_fast_append(&_3, this_ptr);
+	ZEPHIR_INIT_VAR(&_2);
+	zephir_create_array(&_2, 2, 0);
+	zephir_array_fast_append(&_2, this_ptr);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "handleSignal");
-	zephir_array_fast_append(&_3, &_1);
-	ZVAL_LONG(&_2, 2);
-	ZEPHIR_CALL_FUNCTION(NULL, "pcntl_signal", NULL, 0, &_2, &_3);
+	zephir_array_fast_append(&_2, &_1);
+	ZVAL_LONG(&_3, 15);
+	ZEPHIR_CALL_FUNCTION(NULL, "pcntl_signal", NULL, 0, &_3, &_2);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_4);
 	zephir_create_array(&_4, 2, 0);
@@ -284,9 +302,69 @@ PHP_METHOD(Phalcon_Queue_Consumer_Worker, installSignalHandlers)
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "handleSignal");
 	zephir_array_fast_append(&_4, &_1);
-	ZVAL_LONG(&_2, 3);
-	ZEPHIR_CALL_FUNCTION(NULL, "pcntl_signal", NULL, 0, &_2, &_4);
+	ZVAL_LONG(&_3, 2);
+	ZEPHIR_CALL_FUNCTION(NULL, "pcntl_signal", NULL, 0, &_3, &_4);
+	zephir_check_call_status();
+	ZEPHIR_INIT_VAR(&_5);
+	zephir_create_array(&_5, 2, 0);
+	zephir_array_fast_append(&_5, this_ptr);
+	ZEPHIR_INIT_NVAR(&_1);
+	ZVAL_STRING(&_1, "handleSignal");
+	zephir_array_fast_append(&_5, &_1);
+	ZVAL_LONG(&_3, 3);
+	ZEPHIR_CALL_FUNCTION(NULL, "pcntl_signal", NULL, 0, &_3, &_5);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
+}
+
+/**
+ * Find out whether an extension is loaded
+ *
+ * @param string $name
+ *
+ * @return bool
+ *
+ * @link https://php.net/manual/en/function.extension-loaded.php
+ */
+PHP_METHOD(Phalcon_Queue_Consumer_Worker, phpExtensionLoaded)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval name_zv;
+	zend_string *name = NULL;
+
+	ZVAL_UNDEF(&name_zv);
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(name)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&name_zv);
+	ZVAL_STR_COPY(&name_zv, name);
+	ZEPHIR_RETURN_CALL_FUNCTION("extension_loaded", NULL, 399, &name_zv);
+	zephir_check_call_status();
+	RETURN_MM();
+}
+
+/**
+ * Return true if the given function has been defined
+ *
+ * @param string $functionName
+ *
+ * @return bool
+ *
+ * @link https://php.net/manual/en/function.function-exists.php
+ */
+PHP_METHOD(Phalcon_Queue_Consumer_Worker, phpFunctionExists)
+{
+	zval functionName_zv;
+	zend_string *functionName = NULL;
+
+	ZVAL_UNDEF(&functionName_zv);
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(functionName)
+	ZEND_PARSE_PARAMETERS_END();
+	ZVAL_STR(&functionName_zv, functionName);
+	RETURN_BOOL((zephir_function_exists(&functionName_zv) == SUCCESS));
 }
 

@@ -26,23 +26,12 @@
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
- *
- * Implementation of this component has been inspired by the queue-interop and
- * enqueue projects.
- *
- * @link    https://github.com/queue-interop/queue-interop
- * @license https://github.com/queue-interop/queue-interop/blob/master/LICENSE
- *
- * @link    https://github.com/php-enqueue/enqueue-dev
- * @license https://github.com/php-enqueue/enqueue-dev/blob/master/LICENSE
  */
 /**
- * Shared implementation of every Message getter/setter, plus the
- * correlation-id / message-id / timestamp / reply-to header conveniences.
- * Concrete adapter messages extend this base.
+ * Shared base for the concrete adapter messages.
  *
- * The convenience accessors are stored as transport headers under fixed keys
- * for binary compatibility with the wider interop ecosystem.
+ * @todo Remove in v7. Kept only for backwards compatibility; compose
+ * Phalcon\Queue\Adapter\Traits\MessageTrait directly instead of extending this.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_AbstractMessage)
 {
@@ -54,24 +43,26 @@ ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_AbstractMessage)
 	zend_declare_property_string(phalcon_queue_adapter_abstractmessage_ce, SL("body"), "", ZEND_ACC_PROTECTED);
 	/**
 	 * @var array
+	 *
+	 * @todo Use a default [] once Zephir supports array trait defaults
 	 */
 	zend_declare_property_null(phalcon_queue_adapter_abstractmessage_ce, SL("headers"), ZEND_ACC_PROTECTED);
 	/**
 	 * @var array
+	 *
+	 * @todo Use a default [] once Zephir supports array trait defaults
 	 */
 	zend_declare_property_null(phalcon_queue_adapter_abstractmessage_ce, SL("properties"), ZEND_ACC_PROTECTED);
 	/**
 	 * @var bool
 	 */
 	zend_declare_property_bool(phalcon_queue_adapter_abstractmessage_ce, SL("redelivered"), 0, ZEND_ACC_PROTECTED);
-	phalcon_queue_adapter_abstractmessage_ce->create_object = zephir_init_properties_Phalcon_Queue_Adapter_AbstractMessage;
-
 	zend_class_implements(phalcon_queue_adapter_abstractmessage_ce, 1, phalcon_contracts_queue_message_ce);
 	return SUCCESS;
 }
 
 /**
- * AbstractMessage constructor.
+ * Message constructor.
  */
 PHP_METHOD(Phalcon_Queue_Adapter_AbstractMessage, __construct)
 {
@@ -84,6 +75,19 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractMessage, __construct)
 	ZVAL_UNDEF(&body_zv);
 	ZVAL_UNDEF(&properties);
 	ZVAL_UNDEF(&headers);
+	static zend_string *_zephir_prop_0 = NULL;
+	static zend_string *_zephir_prop_1 = NULL;
+	static zend_string *_zephir_prop_2 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("body", 4, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_1)) {
+		_zephir_prop_1 = zend_string_init("properties", 10, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_2)) {
+		_zephir_prop_2 = zend_string_init("headers", 7, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(0, 3)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_STR(body)
@@ -118,9 +122,9 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractMessage, __construct)
 	} else {
 		zephir_get_arrval(&headers, headers_param);
 	}
-	zephir_update_property_zval(this_ptr, ZEND_STRL("body"), &body_zv);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("properties"), &properties);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("headers"), &headers);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 85, &body_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 86, &properties);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 87, &headers);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -169,6 +173,11 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractMessage, getHeader)
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$3);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("headers", 7, 1);
+	}
+
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(name)
@@ -183,10 +192,10 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractMessage, getHeader)
 		defaultValue = &defaultValue_sub;
 		defaultValue = &__$null;
 	}
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("headers"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 87, PH_NOISY_CC | PH_READONLY);
 	if (zephir_array_key_exists(&_0, &name_zv)) {
-		zephir_read_property(&_1$$3, this_ptr, ZEND_STRL("headers"), PH_NOISY_CC | PH_READONLY);
-		zephir_array_fetch(&_2$$3, &_1$$3, &name_zv, PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/AbstractMessage.zep", 86);
+		zephir_read_property_cached(&_1$$3, this_ptr, _zephir_prop_0, 87, PH_NOISY_CC | PH_READONLY);
+		zephir_array_fetch(&_2$$3, &_1$$3, &name_zv, PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/Traits/MessageTrait.zep", 88);
 		RETURN_CTORW(&_2$$3);
 	}
 	RETVAL_ZVAL(defaultValue, 1, 0);
@@ -198,8 +207,24 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractMessage, getHeader)
  */
 PHP_METHOD(Phalcon_Queue_Adapter_AbstractMessage, getHeaders)
 {
+	zval _1;
+	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zval *this_ptr = getThis();
 
-	RETURN_MEMBER_TYPED(getThis(), "headers", IS_ARRAY);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("headers", 7, 1);
+	}
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+
+	zephir_memory_observe(&_0);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 87, PH_NOISY_CC);
+	zephir_get_arrval(&_1, &_0);
+	RETURN_CTOR(&_1);
 }
 
 /**
@@ -228,8 +253,24 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractMessage, getMessageId)
  */
 PHP_METHOD(Phalcon_Queue_Adapter_AbstractMessage, getProperties)
 {
+	zval _1;
+	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zval *this_ptr = getThis();
 
-	RETURN_MEMBER_TYPED(getThis(), "properties", IS_ARRAY);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("properties", 10, 1);
+	}
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+
+	zephir_memory_observe(&_0);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 86, PH_NOISY_CC);
+	zephir_get_arrval(&_1, &_0);
+	RETURN_CTOR(&_1);
 }
 
 /**
@@ -247,6 +288,11 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractMessage, getProperty)
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$3);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("properties", 10, 1);
+	}
+
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(name)
@@ -261,10 +307,10 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractMessage, getProperty)
 		defaultValue = &defaultValue_sub;
 		defaultValue = &__$null;
 	}
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("properties"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 86, PH_NOISY_CC | PH_READONLY);
 	if (zephir_array_key_exists(&_0, &name_zv)) {
-		zephir_read_property(&_1$$3, this_ptr, ZEND_STRL("properties"), PH_NOISY_CC | PH_READONLY);
-		zephir_array_fetch(&_2$$3, &_1$$3, &name_zv, PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/AbstractMessage.zep", 122);
+		zephir_read_property_cached(&_1$$3, this_ptr, _zephir_prop_0, 86, PH_NOISY_CC | PH_READONLY);
+		zephir_array_fetch(&_2$$3, &_1$$3, &name_zv, PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/Traits/MessageTrait.zep", 124);
 		RETURN_CTORW(&_2$$3);
 	}
 	RETVAL_ZVAL(defaultValue, 1, 0);
@@ -336,11 +382,16 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractMessage, setBody)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&body_zv);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("body", 4, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(body)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&body_zv, body);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("body"), &body_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 85, &body_zv);
 }
 
 /**
@@ -401,6 +452,11 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractMessage, setHeaders)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&headers);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("headers", 7, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		ZEPHIR_Z_PARAM_ARRAY(headers, headers_param)
 	ZEND_PARSE_PARAMETERS_END();
@@ -408,7 +464,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractMessage, setHeaders)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &headers_param);
 	zephir_get_arrval(&headers, headers_param);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("headers"), &headers);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 87, &headers);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -450,6 +506,11 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractMessage, setProperties)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&properties);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("properties", 10, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		ZEPHIR_Z_PARAM_ARRAY(properties, properties_param)
 	ZEND_PARSE_PARAMETERS_END();
@@ -457,7 +518,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractMessage, setProperties)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &properties_param);
 	zephir_get_arrval(&properties, properties_param);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("properties"), &properties);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 86, &properties);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -492,14 +553,19 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractMessage, setRedelivered)
 
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("redelivered", 11, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_BOOL(redelivered)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &redelivered_param);
 	if (redelivered) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("redelivered"), &__$true);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 88, &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("redelivered"), &__$false);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 88, &__$false);
 	}
 }
 
@@ -554,38 +620,5 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractMessage, setTimestamp)
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setheader", NULL, 0, &_0, &_1);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
-}
-
-zend_object *zephir_init_properties_Phalcon_Queue_Adapter_AbstractMessage(zend_class_entry *class_type)
-{
-		zval _0, _2, _1$$3, _3$$4;
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-		ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_1$$3);
-	ZVAL_UNDEF(&_3$$4);
-	
-
-		ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-		zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	
-	{
-		zval local_this_ptr, *this_ptr = &local_this_ptr;
-		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		zephir_read_property_ex(&_0, this_ptr, ZEND_STRL("properties"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_0) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_1$$3);
-			array_init(&_1$$3);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("properties"), &_1$$3);
-		}
-		zephir_read_property_ex(&_2, this_ptr, ZEND_STRL("headers"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_2) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_3$$4);
-			array_init(&_3$$4);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("headers"), &_3$$4);
-		}
-		ZEPHIR_MM_RESTORE();
-		return Z_OBJ_P(this_ptr);
-	}
 }
 

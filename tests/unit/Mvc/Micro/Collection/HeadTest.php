@@ -15,8 +15,8 @@ namespace Phalcon\Tests\Unit\Mvc\Micro\Collection;
 
 use Phalcon\Mvc\Micro;
 use Phalcon\Mvc\Micro\Collection;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Micro\HttpMethodHandler;
-use Phalcon\Tests\AbstractUnitTestCase;
 use PHPUnit\Framework\Attributes\BackupGlobals;
 
 #[BackupGlobals(true)]

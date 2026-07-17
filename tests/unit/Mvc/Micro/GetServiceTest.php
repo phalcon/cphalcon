@@ -21,7 +21,7 @@ use Phalcon\Http\Request;
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\Micro;
 use Phalcon\Mvc\Router;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 use function restore_error_handler;
 use function set_error_handler;

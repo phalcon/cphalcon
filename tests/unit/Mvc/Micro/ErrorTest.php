@@ -16,7 +16,7 @@ namespace Phalcon\Tests\Unit\Mvc\Micro;
 use Exception;
 use Phalcon\Http\Response;
 use Phalcon\Mvc\Micro;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 class ErrorTest extends AbstractUnitTestCase
 {

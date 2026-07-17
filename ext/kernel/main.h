@@ -82,6 +82,22 @@ extern zend_string* i_self;
 		lower_ns## _ ##lcname## _ce->ce_flags |= flags;  \
 	}
 
+/* Registers a real zend trait (ZEND_ACC_TRAIT) so PHP userland can `use` it */
+#define ZEPHIR_REGISTER_TRAIT(ns, class_name, lower_ns, name, methods)				\
+	{																				\
+		zend_class_entry ce;														\
+		memset(&ce, 0, sizeof(zend_class_entry));									\
+		INIT_NS_CLASS_ENTRY(ce, #ns, #class_name, methods);							\
+		lower_ns## _ ##name## _ce = zend_register_internal_class(&ce);				\
+		if (UNEXPECTED(!lower_ns## _ ##name## _ce)) {								\
+			const char *_n = (#ns);													\
+			const char *_c = (#class_name);											\
+			zend_error(E_ERROR, "%s\\%s: trait registration has failed.", _n, _c);	\
+			return FAILURE;															\
+		}																			\
+		lower_ns## _ ##name## _ce->ce_flags |= ZEND_ACC_TRAIT;						\
+	}
+
 #define ZEPHIR_REGISTER_INTERFACE(ns, classname, lower_ns, name, methods) \
 	{ \
 		zend_class_entry ce; \
@@ -381,6 +397,9 @@ int zephir_declare_class_constant_bool(zend_class_entry *ce, const char *name, s
 int zephir_declare_class_constant_double(zend_class_entry *ce, const char *name, size_t name_length, double value);
 int zephir_declare_class_constant_stringl(zend_class_entry *ce, const char *name, size_t name_length, const char *value, size_t value_length);
 int zephir_declare_class_constant_string(zend_class_entry *ce, const char *name, size_t name_length, const char *value);
+
+/* Declare a class property whose default is an array (persisted immutable, e.g. on a trait ce) */
+int zephir_declare_property_array(zend_class_entry *ce, const char *name, size_t name_length, zval *value, int access_type);
 
 int zephir_is_php_version(unsigned int id);
 

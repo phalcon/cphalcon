@@ -127,7 +127,7 @@ class Libmemcached extends AbstractAdapter
      * @return array
      * @throws StorageException
      */
-    public function getKeys(string! prefix = "") -> array
+    public function getKeys( string prefix = "") -> array
     {
         return this->getFilteredKeys(
             this->getAdapter()->getAllKeys(),
@@ -165,7 +165,7 @@ class Libmemcached extends AbstractAdapter
      * @return bool|int
      * @throws StorageException
      */
-    protected function doDecrement(string! key, int value = 1) -> int | bool
+    protected function doDecrement( string key, int value = 1) -> int | bool
     {
         return this->getAdapter()->decrement(key, value);
     }
@@ -178,7 +178,7 @@ class Libmemcached extends AbstractAdapter
      * @return bool
      * @throws StorageException
      */
-    protected function doDelete(string! key) -> bool
+    protected function doDelete( string key) -> bool
     {
         return this->getAdapter()->delete(key, 0);
     }
@@ -222,7 +222,7 @@ class Libmemcached extends AbstractAdapter
      * @return bool
      * @throws StorageException
      */
-    protected function doHas(string! key) -> bool
+    protected function doHas( string key) -> bool
     {
         var connection, code;
 
@@ -242,7 +242,7 @@ class Libmemcached extends AbstractAdapter
      * @return bool|int
      * @throws StorageException
      */
-    protected function doIncrement(string! key, int value = 1) -> int | bool
+    protected function doIncrement( string key, int value = 1) -> int | bool
     {
         return this->getAdapter()->increment(key, value);
     }

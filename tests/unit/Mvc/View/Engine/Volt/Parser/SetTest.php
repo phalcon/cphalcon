@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Mvc\View\Engine\Volt\Parser;
 
 use Phalcon\Mvc\View\Engine\Volt\Compiler;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class SetTest extends AbstractUnitTestCase
 {
@@ -23,6 +23,87 @@ final class SetTest extends AbstractUnitTestCase
     public function setUp(): void
     {
         $this->compiler = new Compiler();
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-10
+     */
+    public function testMvcViewEngineVoltParserSetAddAssign(): void
+    {
+        $source   = '{% set counter += 1 %}';
+        $expected = [
+            [
+                'type' => 306,
+                'assignments' => [
+                    [
+                        'variable' => [
+                            'type' => 265,
+                            'value' => 'counter',
+                            'file' => 'eval code',
+                            'line' => 1,
+                        ],
+                        'op' => 281,
+                        'expr' => [
+                            'type' => 258,
+                            'value' => '1',
+                            'file' => 'eval code',
+                            'line' => 1,
+                        ],
+                        'file' => 'eval code',
+                        'line' => 1,
+                    ],
+                ],
+            ],
+        ];
+        $actual   = $this->compiler->parse($source);
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-10
+     */
+    public function testMvcViewEngineVoltParserSetArrayAccess(): void
+    {
+        $source   = '{% set items[0] = \'first\' %}';
+        $expected = [
+            [
+                'type' => 306,
+                'assignments' => [
+                    [
+                        'variable' => [
+                            'type' => 361,
+                            'left' => [
+                                'type' => 265,
+                                'value' => 'items',
+                                'file' => 'eval code',
+                                'line' => 1,
+                            ],
+                            'right' => [
+                                'type' => 258,
+                                'value' => '0',
+                                'file' => 'eval code',
+                                'line' => 1,
+                            ],
+                            'file' => 'eval code',
+                            'line' => 1,
+                        ],
+                        'op' => 61,
+                        'expr' => [
+                            'type' => 260,
+                            'value' => 'first',
+                            'file' => 'eval code',
+                            'line' => 1,
+                        ],
+                        'file' => 'eval code',
+                        'line' => 1,
+                    ],
+                ],
+            ],
+        ];
+        $actual   = $this->compiler->parse($source);
+        $this->assertSame($expected, $actual);
     }
 
     /**
@@ -110,9 +191,9 @@ final class SetTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-10
      */
-    public function testMvcViewEngineVoltParserSetAddAssign(): void
+    public function testMvcViewEngineVoltParserSetDivAssign(): void
     {
-        $source   = '{% set counter += 1 %}';
+        $source   = '{% set value /= 2 %}';
         $expected = [
             [
                 'type' => 306,
@@ -120,14 +201,14 @@ final class SetTest extends AbstractUnitTestCase
                     [
                         'variable' => [
                             'type' => 265,
-                            'value' => 'counter',
+                            'value' => 'value',
                             'file' => 'eval code',
                             'line' => 1,
                         ],
-                        'op' => 281,
+                        'op' => 284,
                         'expr' => [
                             'type' => 258,
-                            'value' => '1',
+                            'value' => '2',
                             'file' => 'eval code',
                             'line' => 1,
                         ],
@@ -145,9 +226,59 @@ final class SetTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-10
      */
-    public function testMvcViewEngineVoltParserSetSubAssign(): void
+    public function testMvcViewEngineVoltParserSetDotAccess(): void
     {
-        $source   = '{% set counter -= 1 %}';
+        $source   = '{% set user.name = \'John\' %}';
+        $expected = [
+            [
+                'type' => 306,
+                'assignments' => [
+                    [
+                        'variable' => [
+                            'type' => 46,
+                            'left' => [
+                                'type' => 265,
+                                'value' => 'user',
+                                'file' => 'eval code',
+                                'line' => 1,
+                            ],
+                            'right' => [
+                                'type' => 265,
+                                'value' => 'name',
+                                'file' => 'eval code',
+                                'line' => 1,
+                            ],
+                            'file' => 'eval code',
+                            'line' => 1,
+                        ],
+                        'op' => 61,
+                        'expr' => [
+                            'type' => 260,
+                            'value' => 'John',
+                            'file' => 'eval code',
+                            'line' => 1,
+                        ],
+                        'file' => 'eval code',
+                        'line' => 1,
+                    ],
+                ],
+            ],
+        ];
+        $actual   = $this->compiler->parse($source);
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * Using "is" and the ternary operator in the assigned expression
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-07-04
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/14476
+     */
+    public function testMvcViewEngineVoltParserSetIsDefinedTernary(): void
+    {
+        $source   = '{% set myVar = someVar is defined ? \'yes\' : \'no\' %}';
         $expected = [
             [
                 'type' => 306,
@@ -155,14 +286,36 @@ final class SetTest extends AbstractUnitTestCase
                     [
                         'variable' => [
                             'type' => 265,
-                            'value' => 'counter',
+                            'value' => 'myVar',
                             'file' => 'eval code',
                             'line' => 1,
                         ],
-                        'op' => 282,
+                        'op' => 61,
                         'expr' => [
-                            'type' => 258,
-                            'value' => '1',
+                            'type' => 366,
+                            'ternary' => [
+                                'type' => 363,
+                                'left' => [
+                                    'type' => 265,
+                                    'value' => 'someVar',
+                                    'file' => 'eval code',
+                                    'line' => 1,
+                                ],
+                                'file' => 'eval code',
+                                'line' => 1,
+                            ],
+                            'left' => [
+                                'type' => 260,
+                                'value' => 'yes',
+                                'file' => 'eval code',
+                                'line' => 1,
+                            ],
+                            'right' => [
+                                'type' => 260,
+                                'value' => 'no',
+                                'file' => 'eval code',
+                                'line' => 1,
+                            ],
                             'file' => 'eval code',
                             'line' => 1,
                         ],
@@ -195,41 +348,6 @@ final class SetTest extends AbstractUnitTestCase
                             'line' => 1,
                         ],
                         'op' => 283,
-                        'expr' => [
-                            'type' => 258,
-                            'value' => '2',
-                            'file' => 'eval code',
-                            'line' => 1,
-                        ],
-                        'file' => 'eval code',
-                        'line' => 1,
-                    ],
-                ],
-            ],
-        ];
-        $actual   = $this->compiler->parse($source);
-        $this->assertSame($expected, $actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-10
-     */
-    public function testMvcViewEngineVoltParserSetDivAssign(): void
-    {
-        $source   = '{% set value /= 2 %}';
-        $expected = [
-            [
-                'type' => 306,
-                'assignments' => [
-                    [
-                        'variable' => [
-                            'type' => 265,
-                            'value' => 'value',
-                            'file' => 'eval code',
-                            'line' => 1,
-                        ],
-                        'op' => 284,
                         'expr' => [
                             'type' => 258,
                             'value' => '2',
@@ -319,35 +437,24 @@ final class SetTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-10
      */
-    public function testMvcViewEngineVoltParserSetArrayAccess(): void
+    public function testMvcViewEngineVoltParserSetSubAssign(): void
     {
-        $source   = '{% set items[0] = \'first\' %}';
+        $source   = '{% set counter -= 1 %}';
         $expected = [
             [
                 'type' => 306,
                 'assignments' => [
                     [
                         'variable' => [
-                            'type' => 361,
-                            'left' => [
-                                'type' => 265,
-                                'value' => 'items',
-                                'file' => 'eval code',
-                                'line' => 1,
-                            ],
-                            'right' => [
-                                'type' => 258,
-                                'value' => '0',
-                                'file' => 'eval code',
-                                'line' => 1,
-                            ],
+                            'type' => 265,
+                            'value' => 'counter',
                             'file' => 'eval code',
                             'line' => 1,
                         ],
-                        'op' => 61,
+                        'op' => 282,
                         'expr' => [
-                            'type' => 260,
-                            'value' => 'first',
+                            'type' => 258,
+                            'value' => '1',
                             'file' => 'eval code',
                             'line' => 1,
                         ],
@@ -362,38 +469,29 @@ final class SetTest extends AbstractUnitTestCase
     }
 
     /**
+     * Setting a value with whitespace-control delimiters ({%- ... -%})
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-04-10
+     * @since  2026-07-04
      */
-    public function testMvcViewEngineVoltParserSetDotAccess(): void
+    public function testMvcViewEngineVoltParserSetWhitespaceControl(): void
     {
-        $source   = '{% set user.name = \'John\' %}';
+        $source   = '{%- set defaultClass = \'form-control \' -%}';
         $expected = [
             [
                 'type' => 306,
                 'assignments' => [
                     [
                         'variable' => [
-                            'type' => 46,
-                            'left' => [
-                                'type' => 265,
-                                'value' => 'user',
-                                'file' => 'eval code',
-                                'line' => 1,
-                            ],
-                            'right' => [
-                                'type' => 265,
-                                'value' => 'name',
-                                'file' => 'eval code',
-                                'line' => 1,
-                            ],
+                            'type' => 265,
+                            'value' => 'defaultClass',
                             'file' => 'eval code',
                             'line' => 1,
                         ],
                         'op' => 61,
                         'expr' => [
                             'type' => 260,
-                            'value' => 'John',
+                            'value' => 'form-control ',
                             'file' => 'eval code',
                             'line' => 1,
                         ],

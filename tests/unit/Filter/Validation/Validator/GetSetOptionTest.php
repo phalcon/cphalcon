@@ -33,7 +33,7 @@ use Phalcon\Filter\Validation\Validator\Regex;
 use Phalcon\Filter\Validation\Validator\StringLength;
 use Phalcon\Filter\Validation\Validator\Uniqueness;
 use Phalcon\Filter\Validation\Validator\Url;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 use function uniqid;
@@ -75,6 +75,25 @@ final class GetSetOptionTest extends AbstractUnitTestCase
     }
 
     /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-01-01
+     */
+    public function testFilterValidationValidatorGetOptionAttributeNestedArray(): void
+    {
+        $validator = new Uniqueness(['attribute' => ['attribute' => 'fieldName', 'other' => 'value']]);
+
+        $actual = $validator->getOption('attribute');
+
+        $this->assertSame('fieldName', $actual);
+
+        $validator = new Alnum(['attribute' => ['attribute' => 'fieldName', 'other' => 'value']]);
+
+        $actual = $validator->getOption('attribute');
+
+        $this->assertSame(['attribute' => 'fieldName', 'other' => 'value'], $actual);
+    }
+
+    /**
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2018-11-13
      */
@@ -94,24 +113,5 @@ final class GetSetOptionTest extends AbstractUnitTestCase
         $expected = $source;
         $actual   = $validator->getOption('option');
         $this->assertEquals($expected, $actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-01-01
-     */
-    public function testFilterValidationValidatorGetOptionAttributeNestedArray(): void
-    {
-        $validator = new Uniqueness(['attribute' => ['attribute' => 'fieldName', 'other' => 'value']]);
-
-        $actual = $validator->getOption('attribute');
-
-        $this->assertSame('fieldName', $actual);
-
-        $validator = new Alnum(['attribute' => ['attribute' => 'fieldName', 'other' => 'value']]);
-
-        $actual = $validator->getOption('attribute');
-
-        $this->assertSame(['attribute' => 'fieldName', 'other' => 'value'], $actual);
     }
 }

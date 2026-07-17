@@ -17,7 +17,6 @@
 #include "kernel/operators.h"
 #include "kernel/exception.h"
 #include "kernel/file.h"
-#include "ext/spl/spl_exceptions.h"
 #include "kernel/object.h"
 
 
@@ -79,9 +78,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Config_Adapter_Yaml)
 PHP_METHOD(Phalcon_Config_Adapter_Yaml, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long ZEPHIR_LAST_CALL_STATUS, ndocs;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval callbacks;
-	zval filePath_zv, *callbacks_param = NULL, yamlConfig, _0, _1, _2$$3, _3$$5, _4$$5, _5$$7, _6$$7;
+	zval filePath_zv, *callbacks_param = NULL, yamlConfig, _0, _1, _2$$3, _3$$5, _4$$7, _5$$7;
 	zend_string *filePath = NULL;
 	zval *this_ptr = getThis();
 
@@ -91,9 +90,8 @@ PHP_METHOD(Phalcon_Config_Adapter_Yaml, __construct)
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2$$3);
 	ZVAL_UNDEF(&_3$$5);
-	ZVAL_UNDEF(&_4$$5);
+	ZVAL_UNDEF(&_4$$7);
 	ZVAL_UNDEF(&_5$$7);
-	ZVAL_UNDEF(&_6$$7);
 	ZVAL_UNDEF(&callbacks);
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
@@ -111,9 +109,8 @@ PHP_METHOD(Phalcon_Config_Adapter_Yaml, __construct)
 	if (!callbacks_param) {
 		ZEPHIR_INIT_VAR(&callbacks);
 	} else {
-	ZEPHIR_OBS_COPY_OR_DUP(&callbacks, callbacks_param);
+		zephir_get_arrval(&callbacks, callbacks_param);
 	}
-	ndocs = 0;
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "yaml");
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "phpextensionloaded", NULL, 0, &_1);
@@ -121,9 +118,9 @@ PHP_METHOD(Phalcon_Config_Adapter_Yaml, __construct)
 	if (UNEXPECTED(!zephir_is_true(&_0))) {
 		ZEPHIR_INIT_VAR(&_2$$3);
 		object_init_ex(&_2$$3, phalcon_config_exceptions_missingyamlextension_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 379);
+		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 398);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_2$$3, "phalcon/Config/Adapter/Yaml.zep", 66);
+		zephir_throw_exception_debug(&_2$$3, "phalcon/Config/Adapter/Yaml.zep", 70);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -132,8 +129,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Yaml, __construct)
 		zephir_check_call_status();
 	} else {
 		ZVAL_LONG(&_3$$5, 0);
-		ZVAL_LONG(&_4$$5, ndocs);
-		ZEPHIR_CALL_METHOD(&yamlConfig, this_ptr, "phpyamlparsefile", NULL, 0, &filePath_zv, &_3$$5, &_4$$5, &callbacks);
+		ZEPHIR_CALL_METHOD(&yamlConfig, this_ptr, "phpyamlparsefile", NULL, 0, &filePath_zv, &_3$$5, &callbacks);
 		zephir_check_call_status();
 	}
 	if (UNEXPECTED(Z_TYPE_P(&yamlConfig) == IS_NULL)) {
@@ -141,13 +137,13 @@ PHP_METHOD(Phalcon_Config_Adapter_Yaml, __construct)
 		array_init(&yamlConfig);
 	}
 	if (UNEXPECTED(ZEPHIR_IS_FALSE_IDENTICAL(&yamlConfig))) {
+		ZEPHIR_INIT_VAR(&_4$$7);
+		object_init_ex(&_4$$7, phalcon_config_exceptions_cannotloadconfigfile_ce);
 		ZEPHIR_INIT_VAR(&_5$$7);
-		object_init_ex(&_5$$7, phalcon_config_exceptions_cannotloadconfigfile_ce);
-		ZEPHIR_INIT_VAR(&_6$$7);
-		zephir_basename(&_6$$7, &filePath_zv);
-		ZEPHIR_CALL_METHOD(NULL, &_5$$7, "__construct", NULL, 375, &_6$$7);
+		zephir_basename(&_5$$7, &filePath_zv);
+		ZEPHIR_CALL_METHOD(NULL, &_4$$7, "__construct", NULL, 393, &_5$$7);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_5$$7, "phalcon/Config/Adapter/Yaml.zep", 80);
+		zephir_throw_exception_debug(&_4$$7, "phalcon/Config/Adapter/Yaml.zep", 84);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -157,51 +153,14 @@ PHP_METHOD(Phalcon_Config_Adapter_Yaml, __construct)
 }
 
 /**
- * @todo to be removed when we get traits
+ * Find out whether an extension is loaded
+ *
+ * @param string $name
+ *
+ * @return bool
+ *
+ * @link https://php.net/manual/en/function.extension-loaded.php
  */
-PHP_METHOD(Phalcon_Config_Adapter_Yaml, phpYamlParseFile)
-{
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *filename, filename_sub, *pos = NULL, pos_sub, *ndocs = NULL, ndocs_sub, *callbacks = NULL, callbacks_sub, __$null;
-
-	ZVAL_UNDEF(&filename_sub);
-	ZVAL_UNDEF(&pos_sub);
-	ZVAL_UNDEF(&ndocs_sub);
-	ZVAL_UNDEF(&callbacks_sub);
-	ZVAL_NULL(&__$null);
-	bool is_null_true = 1;
-	ZEND_PARSE_PARAMETERS_START(1, 4)
-		Z_PARAM_ZVAL(filename)
-		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(pos)
-		Z_PARAM_ZVAL_OR_NULL(ndocs)
-		Z_PARAM_ZVAL(callbacks)
-	ZEND_PARSE_PARAMETERS_END();
-	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_fetch_params(1, 1, 3, &filename, &pos, &ndocs, &callbacks);
-	if (!pos) {
-		pos = &pos_sub;
-		ZEPHIR_INIT_VAR(pos);
-		ZVAL_LONG(pos, 0);
-	}
-	if (!ndocs) {
-		ndocs = &ndocs_sub;
-		ndocs = &__$null;
-	}
-	if (!callbacks) {
-		callbacks = &callbacks_sub;
-		ZEPHIR_INIT_VAR(callbacks);
-		array_init(callbacks);
-	}
-	ZEPHIR_MAKE_REF(ndocs);
-	ZEPHIR_RETURN_CALL_FUNCTION("yaml_parse_file", NULL, 380, filename, pos, ndocs, callbacks);
-	ZEPHIR_UNREF(ndocs);
-	zephir_check_call_status();
-	RETURN_MM();
-}
-
 PHP_METHOD(Phalcon_Config_Adapter_Yaml, phpExtensionLoaded)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -217,7 +176,88 @@ PHP_METHOD(Phalcon_Config_Adapter_Yaml, phpExtensionLoaded)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
-	ZEPHIR_RETURN_CALL_FUNCTION("extension_loaded", NULL, 381, &name_zv);
+	ZEPHIR_RETURN_CALL_FUNCTION("extension_loaded", NULL, 399, &name_zv);
+	zephir_check_call_status();
+	RETURN_MM();
+}
+
+/**
+ * Return true if the given function has been defined
+ *
+ * @param string $functionName
+ *
+ * @return bool
+ *
+ * @link https://php.net/manual/en/function.function-exists.php
+ */
+PHP_METHOD(Phalcon_Config_Adapter_Yaml, phpFunctionExists)
+{
+	zval functionName_zv;
+	zend_string *functionName = NULL;
+
+	ZVAL_UNDEF(&functionName_zv);
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(functionName)
+	ZEND_PARSE_PARAMETERS_END();
+	ZVAL_STR(&functionName_zv, functionName);
+	RETURN_BOOL((zephir_function_exists(&functionName_zv) == SUCCESS));
+}
+
+/**
+ * Parse a YAML stream from a file
+ *
+ * @param string $filename
+ * @param int    $pos
+ * @param array  $callbacks
+ *
+ * @return mixed
+ *
+ * @link https://php.net/manual/en/function.yaml-parse-file.php
+ */
+PHP_METHOD(Phalcon_Config_Adapter_Yaml, phpYamlParseFile)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zval callbacks;
+	zend_long pos, ZEPHIR_LAST_CALL_STATUS;
+	zval filename_zv, *pos_param = NULL, *callbacks_param = NULL, ndocs, _0;
+	zend_string *filename = NULL;
+
+	ZVAL_UNDEF(&filename_zv);
+	ZVAL_UNDEF(&ndocs);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&callbacks);
+	ZEND_PARSE_PARAMETERS_START(1, 3)
+		Z_PARAM_STR(filename)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_LONG(pos)
+		ZEPHIR_Z_PARAM_ARRAY(callbacks, callbacks_param)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	if (ZEND_NUM_ARGS() > 1) {
+		pos_param = ZEND_CALL_ARG(execute_data, 2);
+	}
+	if (ZEND_NUM_ARGS() > 2) {
+		callbacks_param = ZEND_CALL_ARG(execute_data, 3);
+	}
+	zephir_memory_observe(&filename_zv);
+	ZVAL_STR_COPY(&filename_zv, filename);
+	if (!pos_param) {
+		pos = 0;
+	} else {
+		}
+	if (!callbacks_param) {
+		ZEPHIR_INIT_VAR(&callbacks);
+		array_init(&callbacks);
+	} else {
+		zephir_get_arrval(&callbacks, callbacks_param);
+	}
+	ZEPHIR_INIT_VAR(&ndocs);
+	ZVAL_NULL(&ndocs);
+	ZVAL_LONG(&_0, pos);
+	ZEPHIR_MAKE_REF(&ndocs);
+	ZEPHIR_RETURN_CALL_FUNCTION("yaml_parse_file", NULL, 400, &filename_zv, &_0, &ndocs, &callbacks);
+	ZEPHIR_UNREF(&ndocs);
 	zephir_check_call_status();
 	RETURN_MM();
 }

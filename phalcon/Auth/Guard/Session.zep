@@ -102,34 +102,28 @@ class Session extends AbstractGuard implements GuardStateful, BasicAuth
 
         return new static(
             adapter,
-            ContainerResolver::requireService(
+            ContainerResolver::resolveCandidate(
                 container,
-                ContainerResolver::serviceCandidates(
-                    options,
-                    "request",
-                    "Phalcon\\Http\\RequestInterface",
-                    "request"
-                ),
+                options,
+                "request",
+                "Phalcon\\Http\\RequestInterface",
+                "request",
                 "Session guard"
             ),
-            ContainerResolver::requireService(
+            ContainerResolver::resolveCandidate(
                 container,
-                ContainerResolver::serviceCandidates(
-                    options,
-                    "cookies",
-                    "Phalcon\\Http\\Response\\CookiesInterface",
-                    "cookies"
-                ),
+                options,
+                "cookies",
+                "Phalcon\\Http\\Response\\CookiesInterface",
+                "cookies",
                 "Session guard"
             ),
-            ContainerResolver::requireService(
+            ContainerResolver::resolveCandidate(
                 container,
-                ContainerResolver::serviceCandidates(
-                    options,
-                    "session",
-                    "Phalcon\\Session\\ManagerInterface",
-                    "session"
-                ),
+                options,
+                "session",
+                "Phalcon\\Session\\ManagerInterface",
+                "session",
                 "Session guard"
             ),
             config
@@ -143,18 +137,13 @@ class Session extends AbstractGuard implements GuardStateful, BasicAuth
      */
     public function attempt(array credentials = [], bool remember = false) -> bool
     {
-        var resolved;
-
-        let resolved                = this->adapter->retrieveByCredentials(credentials);
-        let this->lastUserAttempted = resolved;
-
-        if (this->hasValidCredentials(resolved, credentials)) {
-            this->login(resolved, remember);
-
-            return true;
+        if (!this->validate(credentials)) {
+            return false;
         }
 
-        return false;
+        this->login(this->lastUserAttempted, remember);
+
+        return true;
     }
 
     /**
@@ -191,9 +180,12 @@ class Session extends AbstractGuard implements GuardStateful, BasicAuth
         this->session->set(this->getName(), user->getAuthIdentifier());
 
         if (remember) {
-            if (!(this->adapter instanceof RememberAdapter)) {
-                throw new DoesNotImplement("Adapter", "RememberAdapter");
-            }
+            DoesNotImplement::assert(
+                this->adapter,
+                "Phalcon\\Contracts\\Auth\\Adapter\\RememberAdapter",
+                "Adapter",
+                "RememberAdapter"
+            );
             this->rememberUser(user);
         }
 

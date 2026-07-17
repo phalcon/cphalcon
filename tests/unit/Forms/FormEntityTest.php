@@ -18,7 +18,7 @@ use Phalcon\Filter\Validation\Validator\StringLength\Max;
 use Phalcon\Forms\Element\Text;
 use Phalcon\Forms\Form;
 use Phalcon\Support\Settings;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Models\Products;
 use Phalcon\Tests\Support\Traits\DiTrait;
 

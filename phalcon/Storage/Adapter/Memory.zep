@@ -51,7 +51,7 @@ class Memory extends AbstractAdapter
      *
      * @throws SupportException
      */
-    public function __construct(<SerializerFactory> factory, array! options = [])
+    public function __construct(<SerializerFactory> factory,  array options = [])
     {
         parent::__construct(factory, options);
 
@@ -110,7 +110,7 @@ class Memory extends AbstractAdapter
      *
      * @return bool
      */
-    public function setForever(string! key, var value) -> bool
+    public function setForever( string key, var value) -> bool
     {
         return this->set(key, value);
     }
@@ -123,7 +123,7 @@ class Memory extends AbstractAdapter
      *
      * @return bool|int
      */
-    protected function doDecrement(string! key, int value = 1) -> int | bool
+    protected function doDecrement( string key, int value = 1) -> int | bool
     {
         var current, newValue, prefixedKey, result;
 
@@ -148,7 +148,7 @@ class Memory extends AbstractAdapter
      *
      * @return bool
      */
-    protected function doDelete(string! key) -> bool
+    protected function doDelete( string key) -> bool
     {
         var exists, prefixedKey;
 
@@ -177,7 +177,7 @@ class Memory extends AbstractAdapter
      *
      * @return bool
      */
-    protected function doHas(string! key) -> bool
+    protected function doHas( string key) -> bool
     {
         return array_key_exists(this->getPrefixedKey(key), this->data);
     }
@@ -190,7 +190,7 @@ class Memory extends AbstractAdapter
      *
      * @return bool|int
      */
-    protected function doIncrement(string! key, int value = 1) -> int | bool
+    protected function doIncrement( string key, int value = 1) -> int | bool
     {
         var current, newValue, prefixedKey, result;
 
@@ -222,7 +222,7 @@ class Memory extends AbstractAdapter
      * @return bool
      * @throws BaseException
      */
-    protected function doSet(string! key, var value, var ttl = null) -> bool
+    protected function doSet( string key, var value, var ttl = null) -> bool
     {
         var content, firstKey, prefixedKey;
 

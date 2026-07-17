@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Forms\Form;
 
-use Phalcon\Html\Attributes;
 use Phalcon\Forms\Form;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Html\Attributes;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class SetAttributesTest extends AbstractUnitTestCase
 {

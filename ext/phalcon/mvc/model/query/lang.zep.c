@@ -44,7 +44,7 @@
  * use Phalcon\Mvc\Model\Query\Lang;
  *
  * $intermediate = Lang::parsePHQL(
- *     "SELECT r.* FROM Robots r LIMIT 10"
+ *     "SELECT r.* FROM Invoices r LIMIT 10"
  * );
  * ```
  */

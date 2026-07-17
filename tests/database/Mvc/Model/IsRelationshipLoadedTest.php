@@ -44,7 +44,7 @@ final class IsRelationshipLoadedTest extends AbstractDatabaseTestCase
         $this->setDatabase();
 
         /** @var PDO $connection */
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
 
         $artistsMigration = new ArtistsMigration($connection);
         $artistsMigration->insert(1, 'Test Artist');
@@ -55,6 +55,76 @@ final class IsRelationshipLoadedTest extends AbstractDatabaseTestCase
         $songsMigration = new SongsMigration($connection);
         $songsMigration->insert(1, 1, 'Test Song One');
         $songsMigration->insert(2, 1, 'Test Song Two');
+    }
+
+    /**
+     * @author Balázs Németh <https://github.com/zsilbi>
+     * @since  2019-04-26
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelIsRelationshipLoadedViaCallGetters(): void
+    {
+        /** @var Albums $album */
+        $album = Albums::findFirst();
+
+        $this->assertFalse(
+            $album->isRelationshipLoaded('artist')
+        );
+
+        $this->assertFalse(
+            $album->isRelationshipLoaded('songs')
+        );
+
+        /** @var Artists $artist */
+        $artist = $album->getArtist();
+
+        $this->assertTrue(
+            $album->isRelationshipLoaded('artist')
+        );
+
+        /** @var \Phalcon\Mvc\Model\Resultset\Simple $songs */
+        $songs = $album->getSongs();
+
+        $this->assertTrue(
+            $album->isRelationshipLoaded('songs')
+        );
+    }
+
+    /**
+     * @author Balázs Németh <https://github.com/zsilbi>
+     * @since  2019-04-26
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelIsRelationshipLoadedViaGetRelated(): void
+    {
+        /** @var Albums $album */
+        $album = Albums::findFirst();
+
+        $this->assertFalse(
+            $album->isRelationshipLoaded('artist')
+        );
+
+        $this->assertFalse(
+            $album->isRelationshipLoaded('songs')
+        );
+
+        /** @var Artists $artist */
+        $artist = $album->getRelated('artist');
+
+        $this->assertTrue(
+            $album->isRelationshipLoaded('artist')
+        );
+
+        /** @var \Phalcon\Mvc\Model\Resultset\Simple $songs */
+        $songs = $album->getRelated('songs');
+
+        $this->assertTrue(
+            $album->isRelationshipLoaded('songs')
+        );
     }
 
     /**
@@ -124,76 +194,6 @@ final class IsRelationshipLoadedTest extends AbstractDatabaseTestCase
         ];
 
         $this->assertFalse(
-            $album->isRelationshipLoaded('songs')
-        );
-    }
-
-    /**
-     * @author Balázs Németh <https://github.com/zsilbi>
-     * @since  2019-04-26
-     */
-    #[Group('mysql')]
-    #[Group('pgsql')]
-    #[Group('sqlite')]
-    public function testMvcModelIsRelationshipLoadedViaCallGetters(): void
-    {
-        /** @var Albums $album */
-        $album = Albums::findFirst();
-
-        $this->assertFalse(
-            $album->isRelationshipLoaded('artist')
-        );
-
-        $this->assertFalse(
-            $album->isRelationshipLoaded('songs')
-        );
-
-        /** @var Artists $artist */
-        $artist = $album->getArtist();
-
-        $this->assertTrue(
-            $album->isRelationshipLoaded('artist')
-        );
-
-        /** @var \Phalcon\Mvc\Model\Resultset\Simple $songs */
-        $songs = $album->getSongs();
-
-        $this->assertTrue(
-            $album->isRelationshipLoaded('songs')
-        );
-    }
-
-    /**
-     * @author Balázs Németh <https://github.com/zsilbi>
-     * @since  2019-04-26
-     */
-    #[Group('mysql')]
-    #[Group('pgsql')]
-    #[Group('sqlite')]
-    public function testMvcModelIsRelationshipLoadedViaGetRelated(): void
-    {
-        /** @var Albums $album */
-        $album = Albums::findFirst();
-
-        $this->assertFalse(
-            $album->isRelationshipLoaded('artist')
-        );
-
-        $this->assertFalse(
-            $album->isRelationshipLoaded('songs')
-        );
-
-        /** @var Artists $artist */
-        $artist = $album->getRelated('artist');
-
-        $this->assertTrue(
-            $album->isRelationshipLoaded('artist')
-        );
-
-        /** @var \Phalcon\Mvc\Model\Resultset\Simple $songs */
-        $songs = $album->getRelated('songs');
-
-        $this->assertTrue(
             $album->isRelationshipLoaded('songs')
         );
     }

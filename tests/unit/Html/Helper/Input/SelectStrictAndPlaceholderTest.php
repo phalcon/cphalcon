@@ -14,10 +14,24 @@ namespace Phalcon\Tests\Unit\Html\Helper\Input;
 use Phalcon\Html\Escaper;
 use Phalcon\Html\Helper\Doctype;
 use Phalcon\Html\Helper\Input\Select;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class SelectStrictAndPlaceholderTest extends AbstractUnitTestCase
 {
+    public function testPlaceholderRendersDisabledSelectedFirstOption(): void
+    {
+        $select = new Select(new Escaper(), new Doctype());
+        $select('x', null, []);
+        $select->placeholder('Choose…');
+        $select->add('First', '1');
+
+        $rendered = (string) $select;
+
+        $this->assertMatchesRegularExpression(
+            '/<option[^>]*value=""[^>]*disabled="disabled"[^>]*selected="selected"[^>]*>Choose/',
+            $rendered
+        );
+    }
     public function testSelectLooseMatchesAcrossTypesByDefault(): void
     {
         $select = new Select(new Escaper(), new Doctype());
@@ -68,21 +82,6 @@ final class SelectStrictAndPlaceholderTest extends AbstractUnitTestCase
 
         $this->assertMatchesRegularExpression(
             '/<option[^>]*value="1"[^>]*selected="selected"/',
-            $rendered
-        );
-    }
-
-    public function testPlaceholderRendersDisabledSelectedFirstOption(): void
-    {
-        $select = new Select(new Escaper(), new Doctype());
-        $select('x', null, []);
-        $select->placeholder('Choose…');
-        $select->add('First', '1');
-
-        $rendered = (string) $select;
-
-        $this->assertMatchesRegularExpression(
-            '/<option[^>]*value=""[^>]*disabled="disabled"[^>]*selected="selected"[^>]*>Choose/',
             $rendered
         );
     }

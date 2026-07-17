@@ -20,10 +20,10 @@ interface EntityInterface
     /**
      * Reads an attribute value by its name
      */
-    public function readAttribute(string! attribute) -> var | null;
+    public function readAttribute( string attribute) -> var | null;
 
     /**
      * Writes an attribute value by its name
      */
-    public function writeAttribute(string! attribute, var value);
+    public function writeAttribute( string attribute, var value);
 }

@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Http\Fake;
 
+use Phalcon\Talon\Talon;
+
 /**
  * @link https://php.net/manual/en/class.streamwrapper.php
  * @link https://php.net/manual/en/stream.streamwrapper.example-1.php
@@ -29,6 +31,11 @@ class FakePhpStream
     public $context = null;
 
     /**
+     * @var string
+     */
+    protected $data = '';
+
+    /**
      * @var int
      */
     protected $index = 0;
@@ -37,11 +44,6 @@ class FakePhpStream
      * @var int
      */
     protected $length = 0;
-
-    /**
-     * @var string
-     */
-    protected $data = '';
 
     /**
      * Constructor
@@ -167,6 +169,6 @@ class FakePhpStream
 
     protected function getBufferFilename(): string
     {
-        return outputDir('tests/stream/php_input.txt');
+        return Talon::settings()->outputPath('tests/stream/php_input.txt');
     }
 }

@@ -14,10 +14,8 @@
 #include "kernel/main.h"
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
-#include "ext/spl/spl_exceptions.h"
-#include "kernel/exception.h"
-#include "kernel/object.h"
 #include "kernel/operators.h"
+#include "kernel/object.h"
 
 
 /**
@@ -98,7 +96,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_CreditCard, __construct)
 		ZEPHIR_INIT_VAR(&options);
 		array_init(&options);
 	} else {
-	ZEPHIR_OBS_COPY_OR_DUP(&options, options_param);
+		zephir_get_arrval(&options, options_param);
 	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_filter_validation_validator_creditcard_ce, getThis(), "__construct", NULL, 0, &options);
 	zephir_check_call_status();
@@ -189,9 +187,9 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_CreditCard, verifyByLuhnAlgorithm
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&_0)) {
 		RETURN_MM_BOOL(0);
 	}
-	ZEPHIR_CALL_FUNCTION(&_1, "str_split", NULL, 197, &number_zv);
+	ZEPHIR_CALL_FUNCTION(&_1, "str_split", NULL, 203, &number_zv);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&digits, "array_reverse", NULL, 221, &_1);
+	ZEPHIR_CALL_FUNCTION(&digits, "array_reverse", NULL, 251, &_1);
 	zephir_check_call_status();
 	zephir_is_iterable(&digits, 0, "phalcon/Filter/Validation/Validator/CreditCard.zep", 112);
 	if (Z_TYPE_P(&digits) == IS_ARRAY) {
@@ -246,7 +244,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_CreditCard, verifyByLuhnAlgorithm
 	}
 	ZEPHIR_INIT_NVAR(&digit);
 	ZEPHIR_INIT_NVAR(&position);
-	ZEPHIR_CALL_FUNCTION(&_9, "str_split", NULL, 197, &hash);
+	ZEPHIR_CALL_FUNCTION(&_9, "str_split", NULL, 203, &hash);
 	zephir_check_call_status();
 	ZEPHIR_CALL_FUNCTION(&result, "array_sum", NULL, 0, &_9);
 	zephir_check_call_status();

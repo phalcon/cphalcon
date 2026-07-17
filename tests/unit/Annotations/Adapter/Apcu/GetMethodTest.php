@@ -15,7 +15,8 @@ namespace Phalcon\Tests\Unit\Annotations\Adapter\Apcu;
 
 use Phalcon\Annotations\Adapter\Apcu;
 use Phalcon\Annotations\Collection;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use TestClass;
 
 use function dataDir;
@@ -28,7 +29,7 @@ final class GetMethodTest extends AbstractUnitTestCase
      */
     public function testAnnotationsAdapterApcuGetMethod(): void
     {
-        require_once supportDir('assets/Annotations/TestClass.php');
+        require_once Talon::settings()->supportPath('assets/Annotations/TestClass.php');
 
         $adapter = new Apcu(
             [

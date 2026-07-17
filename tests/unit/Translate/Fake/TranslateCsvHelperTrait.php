@@ -99,11 +99,6 @@ trait TranslateCsvHelperTrait
     }
 
     /**
-     * @return array
-     */
-    abstract protected function getCsvConfig(): array;
-
-    /**
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */
@@ -180,4 +175,9 @@ trait TranslateCsvHelperTrait
      * @return string
      */
     abstract protected function func(): string;
+
+    /**
+     * @return array
+     */
+    abstract protected function getCsvConfig(): array;
 }

@@ -10,6 +10,7 @@
 
 namespace Phalcon\Translate\Adapter;
 
+use Phalcon\Traits\Php\FileTrait;
 use Phalcon\Translate\Exception;
 use Phalcon\Translate\Exceptions\MissingRequiredParameter;
 use Phalcon\Translate\Exceptions\FileOpenError;
@@ -25,6 +26,8 @@ use Phalcon\Translate\InterpolatorFactory;
  */
 class Csv extends AbstractAdapter
 {
+    use FileTrait;
+
     /**
      * @var array
      */
@@ -78,7 +81,7 @@ class Csv extends AbstractAdapter
      * @return bool
      * @deprecated
      */
-    public function exists(string! index) -> bool
+    public function exists( string index) -> bool
     {
         return this->has(index);
     }
@@ -90,7 +93,7 @@ class Csv extends AbstractAdapter
      *
      * @return bool
      */
-    public function has(string! index) -> bool
+    public function has( string index) -> bool
     {
         return isset this->translate[index];
     }
@@ -103,7 +106,7 @@ class Csv extends AbstractAdapter
      * @return string
      * @throws Exception
      */
-    public function query(string! translateKey, array placeholders = []) -> string
+    public function query( string translateKey, array placeholders = []) -> string
     {
         var translation;
 
@@ -122,14 +125,6 @@ class Csv extends AbstractAdapter
     public function toArray() -> array
     {
         return this->translate;
-    }
-
-    /**
-     * @todo to be removed when we get traits
-     */
-    protected function phpFopen(string filename, string mode)
-    {
-        return fopen(filename, mode);
     }
 
     /**
@@ -158,7 +153,7 @@ class Csv extends AbstractAdapter
         }
 
         loop {
-            let data = fgetcsv(fileHandler, length, delimiter, enclosure, escape);
+            let data = this->phpFgetCsv(fileHandler, length, delimiter, enclosure, escape);
 
             if data === false {
                 break;
@@ -171,6 +166,6 @@ class Csv extends AbstractAdapter
             let this->translate[data[0]] = data[1];
         }
 
-        fclose(fileHandler);
+        this->phpFclose(fileHandler);
     }
 }

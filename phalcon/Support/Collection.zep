@@ -94,7 +94,7 @@ class Collection implements
      *
      * @return mixed|null
      */
-    public function __get(string! element) -> mixed
+    public function __get( string element) -> mixed
     {
         return this->get(element);
     }

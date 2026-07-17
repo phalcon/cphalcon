@@ -14,7 +14,8 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Assets\Asset;
 
 use Phalcon\Assets\Asset;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\Unit\Assets\Fake\AssetsTrait;
 use PHPUnit\Framework\Attributes\DataProvider;
 
@@ -74,20 +75,6 @@ final class GetRealSourcePathTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    public function testAssetsAssetGetRealSourcePathWithSourcePath(): void
-    {
-        $asset = new Asset('css', 'css/docs.css');
-        $asset->setSourcePath('assets/assets/1198.css');
-
-        $actual = $asset->getRealSourcePath(supportDir());
-        $this->assertNotEmpty($actual);
-        $this->assertStringContainsString('1198.css', $actual);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2020-09-09
-     */
     #[DataProvider('remoteProvider')]
     public function testAssetsAssetGetRealSourcePathRemote(
         string $type,
@@ -98,5 +85,19 @@ final class GetRealSourcePathTest extends AbstractUnitTestCase
         $expected = $path;
         $actual   = $asset->getRealSourcePath();
         $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    public function testAssetsAssetGetRealSourcePathWithSourcePath(): void
+    {
+        $asset = new Asset('css', 'css/docs.css');
+        $asset->setSourcePath('assets/assets/1198.css');
+
+        $actual = $asset->getRealSourcePath(Talon::settings()->supportPath() . '/');
+        $this->assertNotEmpty($actual);
+        $this->assertStringContainsString('1198.css', $actual);
     }
 }

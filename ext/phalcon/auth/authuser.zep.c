@@ -66,6 +66,11 @@ PHP_METHOD(Phalcon_Auth_AuthUser, __construct)
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_4$$3);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("data", 4, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		ZEPHIR_Z_PARAM_ARRAY(data, data_param)
 	ZEND_PARSE_PARAMETERS_END();
@@ -88,13 +93,13 @@ PHP_METHOD(Phalcon_Auth_AuthUser, __construct)
 	if (_0) {
 		ZEPHIR_INIT_VAR(&_4$$3);
 		object_init_ex(&_4$$3, phalcon_auth_exceptions_datamustcontainidkey_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_4$$3, "__construct", NULL, 334);
+		ZEPHIR_CALL_METHOD(NULL, &_4$$3, "__construct", NULL, 342);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_4$$3, "phalcon/Auth/AuthUser.zep", 39);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	zephir_update_property_zval(this_ptr, ZEND_STRL("data"), &data);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 387, &data);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -106,10 +111,14 @@ PHP_METHOD(Phalcon_Auth_AuthUser, getAuthIdentifier)
 
 	ZVAL_UNDEF(&id);
 	ZVAL_UNDEF(&_0);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("data", 4, 1);
+	}
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("data"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 387, PH_NOISY_CC | PH_READONLY);
 	zephir_memory_observe(&id);
 	zephir_array_fetch_string(&id, &_0, SL("id"), PH_NOISY, "phalcon/Auth/AuthUser.zep", 50);
 	RETURN_CCTOR(&id);
@@ -124,11 +133,15 @@ PHP_METHOD(Phalcon_Auth_AuthUser, getAuthPassword)
 	ZVAL_UNDEF(&password);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("data", 4, 1);
+	}
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_memory_observe(&password);
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("data"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 387, PH_NOISY_CC | PH_READONLY);
 	zephir_array_isset_string_fetch(&password, &_0, SL("password"), 0);
 	ZEPHIR_INIT_VAR(&_1);
 	if (Z_TYPE_P(&password) == IS_STRING) {

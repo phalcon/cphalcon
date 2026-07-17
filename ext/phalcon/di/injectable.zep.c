@@ -96,6 +96,15 @@ PHP_METHOD(Phalcon_Di_Injectable, __get)
 	ZVAL_UNDEF(&_5$$5);
 	ZVAL_UNDEF(&_6);
 	ZVAL_UNDEF(&_2$$4);
+	static zend_string *_zephir_prop_0 = NULL;
+	static zend_string *_zephir_prop_1 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("di", 2, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_1)) {
+		_zephir_prop_1 = zend_string_init("persistent", 10, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(propertyName)
 	ZEND_PARSE_PARAMETERS_END();
@@ -107,7 +116,7 @@ PHP_METHOD(Phalcon_Di_Injectable, __get)
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(&container, &_0);
 	if (ZEPHIR_IS_STRING_IDENTICAL(&propertyName_zv, "di")) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("di"), &container);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 14, &container);
 		RETURN_CCTOR(&container);
 	}
 	if (ZEPHIR_IS_STRING_IDENTICAL(&propertyName_zv, "persistent")) {
@@ -121,9 +130,9 @@ PHP_METHOD(Phalcon_Di_Injectable, __get)
 		ZVAL_STRING(&_3$$4, "sessionBag");
 		ZEPHIR_CALL_METHOD(&_1$$4, &container, "get", NULL, 0, &_3$$4, &_2$$4);
 		zephir_check_call_status();
-		zephir_update_property_zval(this_ptr, ZEND_STRL("persistent"), &_1$$4);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 15, &_1$$4);
 		zephir_memory_observe(&_4$$4);
-		zephir_read_property(&_4$$4, this_ptr, ZEND_STRL("persistent"), PH_NOISY_CC);
+		zephir_read_property_cached(&_4$$4, this_ptr, _zephir_prop_1, 15, PH_NOISY_CC);
 		RETURN_CCTOR(&_4$$4);
 	}
 	ZEPHIR_CALL_METHOD(&_0, &container, "has", NULL, 0, &propertyName_zv);
@@ -185,10 +194,14 @@ PHP_METHOD(Phalcon_Di_Injectable, getDI)
 	ZVAL_UNDEF(&container);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$4);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("container", 9, 1);
+	}
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("container"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 16, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&container, &_0);
 	if (Z_TYPE_P(&container) == IS_NULL) {
 		ZEPHIR_CALL_CE_STATIC(&container, phalcon_di_di_ce, "getdefault", NULL, 0);
@@ -217,10 +230,15 @@ PHP_METHOD(Phalcon_Di_Injectable, setDI)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&container_sub);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("container", 9, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT_OF_CLASS(container, phalcon_di_diinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &container);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("container"), container);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 16, container);
 }
 

@@ -39,6 +39,7 @@ use Phalcon\Mvc\Model\Query\Exceptions\InvalidInjectedManager;
 use Phalcon\Mvc\Model\Query\Exceptions\InvalidInjectedMetadata;
 use Phalcon\Mvc\Model\Query\Exceptions\InvalidQueryCacheService;
 use Phalcon\Mvc\Model\Query\Exceptions\InvalidResultsetClass;
+use Phalcon\Mvc\Model\Query\Exceptions\InvalidResultsetRowClass;
 use Phalcon\Mvc\Model\Query\Exceptions\JoinAliasAlreadyUsed;
 use Phalcon\Mvc\Model\Query\Exceptions\JoinFieldCountMismatch;
 use Phalcon\Mvc\Model\Query\Exceptions\MissingCacheKey;
@@ -55,6 +56,7 @@ use Phalcon\Mvc\Model\Query\Exceptions\ReadConnectionMissing;
 use Phalcon\Mvc\Model\Query\Exceptions\RelationshipNotFound;
 use Phalcon\Mvc\Model\Query\Exceptions\ResultsetClassNotFound;
 use Phalcon\Mvc\Model\Query\Exceptions\ResultsetNonCacheable;
+use Phalcon\Mvc\Model\Query\Exceptions\ResultsetRowClassNotFound;
 use Phalcon\Mvc\Model\Query\Exceptions\UnknownBindType;
 use Phalcon\Mvc\Model\Query\Exceptions\UnknownColumnType;
 use Phalcon\Mvc\Model\Query\Exceptions\UnknownJoinType;
@@ -103,17 +105,17 @@ use Phalcon\Support\Settings;
  * // $di needs to have the service "db" registered for this to work
  * $di = Phalcon\Di\FactoryDefault::getDefault();
  *
- * $phql = 'SELECT * FROM robot';
+ * $phql = 'SELECT * FROM Invoices';
  *
  * $myTransaction = new Transaction($di);
  * $myTransaction->begin();
  *
- * $newRobot = new Robot();
- * $newRobot->setTransaction($myTransaction);
- * $newRobot->type = "mechanical";
- * $newRobot->name = "Astro Boy";
- * $newRobot->year = 1952;
- * $newRobot->save();
+ * $newInvoice = new Invoices();
+ * $newInvoice->setTransaction($myTransaction);
+ * $newInvoice->inv_status_flag = 1;
+ * $newInvoice->inv_title = "Test Invoice";
+ * $newInvoice->inv_total = 100;
+ * $newInvoice->save();
  *
  * $queryWithTransaction = new Query($phql, $di);
  * $queryWithTransaction->setTransaction($myTransaction);
@@ -218,6 +220,11 @@ class Query implements QueryInterface, InjectionAwareInterface
      * @var string|null
      */
     protected phql = null;
+
+    /**
+     * @var string
+     */
+    protected resultsetRowClass = "";
 
     /**
      * @var bool
@@ -551,9 +558,9 @@ class Query implements QueryInterface, InjectionAwareInterface
     *
     *```php
     * [
-    *     'sql' => 'SELECT * FROM parts WHERE robot = :robot',
-    *     'bind' => ['robot' => 123],
-    *     'bindTypes => ['robot' => 1] // 1 corresponds to int
+    *     'sql' => 'SELECT * FROM co_invoices WHERE inv_cst_id = :cst_id',
+    *     'bind' => ['cst_id' => 123],
+    *     'bindTypes => ['cst_id' => 1] // 1 corresponds to int
     * ]
     *```
     */
@@ -595,6 +602,16 @@ class Query implements QueryInterface, InjectionAwareInterface
     public function getType() -> int
     {
         return this->type;
+    }
+
+    /**
+     * Returns the class that will be used to hydrate rows that are not mapped
+     * to a model (custom columns/joins). An empty string means the default
+     * Phalcon\Mvc\Model\Row is used.
+     */
+    public function getResultsetRowClass() -> string
+    {
+        return this->resultsetRowClass;
     }
 
     /**
@@ -705,7 +722,7 @@ class Query implements QueryInterface, InjectionAwareInterface
     /**
      * Set default bind parameters
      */
-    public function setBindParams(array! bindParams, bool merge = false) -> <QueryInterface>
+    public function setBindParams( array bindParams, bool merge = false) -> <QueryInterface>
     {
         var currentBindParams;
 
@@ -722,7 +739,7 @@ class Query implements QueryInterface, InjectionAwareInterface
     /**
      * Set default bind parameters
      */
-    public function setBindTypes(array! bindTypes, bool merge = false) -> <QueryInterface>
+    public function setBindTypes( array bindTypes, bool merge = false) -> <QueryInterface>
     {
         var currentBindTypes;
 
@@ -769,7 +786,7 @@ class Query implements QueryInterface, InjectionAwareInterface
     /**
      * Allows to set the IR to be executed
      */
-    public function setIntermediate(array! intermediate) -> <QueryInterface>
+    public function setIntermediate( array intermediate) -> <QueryInterface>
     {
         let this->intermediate = intermediate;
 
@@ -802,6 +819,26 @@ class Query implements QueryInterface, InjectionAwareInterface
     public function setType(int type) -> <QueryInterface>
     {
         let this->type = type;
+
+        return this;
+    }
+
+    /**
+     * Sets the class used to hydrate rows that are not mapped to a model
+     * (custom columns/joins). The class must be a subclass of
+     * Phalcon\Mvc\Model\Row.
+     */
+    public function setResultsetRowClass(string resultsetRowClass) -> <QueryInterface>
+    {
+        if unlikely !class_exists(resultsetRowClass) {
+            throw new ResultsetRowClassNotFound(resultsetRowClass);
+        }
+
+        if unlikely !is_subclass_of(resultsetRowClass, "Phalcon\\Mvc\\Model\\Row") {
+            throw new InvalidResultsetRowClass(resultsetRowClass);
+        }
+
+        let this->resultsetRowClass = resultsetRowClass;
 
         return this;
     }
@@ -1339,9 +1376,13 @@ class Query implements QueryInterface, InjectionAwareInterface
             if isSimpleStd {
                 /**
                  * If the result is a simple standard object use an
-                 * Phalcon\Mvc\Model\Row as base
+                 * Phalcon\Mvc\Model\Row as base (or a custom subclass when set)
                  */
-                let resultObject = new Row();
+                if this->resultsetRowClass !== "" {
+                    let resultObject = create_instance(this->resultsetRowClass);
+                } else {
+                    let resultObject = new Row();
+                }
 
                 /**
                  * Standard objects can't keep snapshots
@@ -1433,7 +1474,8 @@ class Query implements QueryInterface, InjectionAwareInterface
         return new Complex(
             columns1,
             resultData,
-            cache
+            cache,
+            this->resultsetRowClass
         );
     }
 
@@ -1446,7 +1488,7 @@ class Query implements QueryInterface, InjectionAwareInterface
         var models, modelName, model, connection, dialect, fields, values,
             updateValues, fieldName, value, selectBindParams, selectBindTypes,
             number, field, records, exprValue, updateValue, wildcard, record,
-            exception;
+            exception, sqlExpr, namedParams, paramKey, paramKeys, paramValue;
 
         let models = intermediate["models"];
 
@@ -1528,9 +1570,55 @@ class Query implements QueryInterface, InjectionAwareInterface
                     break;
 
                 default:
-                    let updateValue = new RawValue(
-                        dialect->getSqlExpression(exprValue)
-                    );
+                    let sqlExpr = dialect->getSqlExpression(exprValue);
+
+                    /**
+                     * If the expression embeds named placeholders (e.g.
+                     * "col + :inc"), resolve them from bindParams and inline
+                     * them into the expression. A RawValue is emitted as raw
+                     * SQL, so an unresolved ":inc" would mix with the positional
+                     * "?" of the primary-key WHERE clause and trigger a PDO
+                     * "mixed named and positional parameters" error.
+                     */
+                    let namedParams = [];
+
+                    if preg_match_all("/:([a-zA-Z0-9_]+)/", sqlExpr, namedParams) {
+                        /**
+                         * Sort by length descending so a short key like "id"
+                         * does not partially match a longer ":idx".
+                         */
+                        let paramKeys = array_unique(namedParams[1]);
+
+                        usort(
+                            paramKeys,
+                            function (a, b) {
+                                return strlen(b) - strlen(a);
+                            }
+                        );
+
+                        for paramKey in paramKeys {
+                            if fetch paramValue, bindParams[paramKey] {
+                                if typeof paramValue == "integer" || typeof paramValue == "double" {
+                                    let sqlExpr = preg_replace(
+                                        "/:" . preg_quote(paramKey, "/") . "\\b/",
+                                        (string) paramValue,
+                                        sqlExpr
+                                    );
+                                } else {
+                                    let sqlExpr = preg_replace(
+                                        "/:" . preg_quote(paramKey, "/") . "\\b/",
+                                        connection->escapeString((string) paramValue),
+                                        sqlExpr
+                                    );
+                                }
+
+                                unset selectBindParams[paramKey];
+                                unset selectBindTypes[paramKey];
+                            }
+                        }
+                    }
+
+                    let updateValue = new RawValue(sqlExpr);
 
                     break;
             }
@@ -1606,7 +1694,7 @@ class Query implements QueryInterface, InjectionAwareInterface
     /**
      * Resolves an expression in a single call argument
      */
-    final protected function getCallArgument(array! argument) -> array
+    final protected function getCallArgument( array argument) -> array
     {
         if argument["type"] == PHQL_T_STARALL {
             return [
@@ -1620,7 +1708,7 @@ class Query implements QueryInterface, InjectionAwareInterface
     /**
      * Resolves an expression in a single call argument
      */
-    final protected function getCaseExpression(array! expr) -> array
+    final protected function getCaseExpression( array expr) -> array
     {
         var whenClauses, whenExpr;
 
@@ -2340,7 +2428,7 @@ class Query implements QueryInterface, InjectionAwareInterface
     /**
      * Resolves an expression in a single call argument
      */
-    final protected function getFunctionCall(array! expr) -> array
+    final protected function getFunctionCall( array expr) -> array
     {
         var arguments, argument;
         array functionArgs;
@@ -2392,7 +2480,7 @@ class Query implements QueryInterface, InjectionAwareInterface
     /**
      * Returns a processed group clause for a SELECT statement
      */
-    final protected function getGroupClause(array! group) -> array
+    final protected function getGroupClause( array group) -> array
     {
         var groupItem;
         array groupParts;
@@ -2832,7 +2920,7 @@ class Query implements QueryInterface, InjectionAwareInterface
     /**
      * Returns a processed limit clause for a SELECT statement
      */
-    final protected function getLimitClause(array! limitClause) -> array
+    final protected function getLimitClause( array limitClause) -> array
     {
         var number, offset;
         array limit = [];
@@ -2853,7 +2941,7 @@ class Query implements QueryInterface, InjectionAwareInterface
      *
      * @param string joinSource
      */
-    final protected function getMultiJoin(string! joinType, joinSource, string modelAlias, string joinAlias, <RelationInterface> relation) -> array
+    final protected function getMultiJoin( string joinType, joinSource, string modelAlias, string joinAlias, <RelationInterface> relation) -> array
     {
         var fields, referencedFields, intermediateModelName,
             intermediateModel, intermediateSource, intermediateSchema,
@@ -3076,7 +3164,7 @@ class Query implements QueryInterface, InjectionAwareInterface
      * Replaces the model's name to its source name in a qualified-name
      * expression
      */
-    final protected function getQualified(array! expr) -> array
+    final protected function getQualified( array expr) -> array
     {
         var columnName, nestingLevel, sqlColumnAliases, metaData, sqlAliases,
             source, sqlAliasesModelsInstances, realColumnName, columnDomain,
@@ -3324,7 +3412,7 @@ class Query implements QueryInterface, InjectionAwareInterface
      * Resolves a column from its intermediate representation into an array
      * used to determine if the resultset produced is simple or complex
      */
-    final protected function getSelectColumn(array! column) -> array
+    final protected function getSelectColumn( array column) -> array
     {
         var columnType, sqlAliases, modelName, source, columnDomain,
             sqlColumnAlias, preparedAlias, sqlExprColumn, sqlAliasesModels,
@@ -3370,7 +3458,7 @@ class Query implements QueryInterface, InjectionAwareInterface
         }
 
         /**
-         * Check if selected column is qualified.*, ex: robots.*
+         * Check if selected column is qualified.*, ex: invoices.*
          */
         if columnType == PHQL_T_DOMAINALL {
             let sqlAliases = this->sqlAliases;
@@ -3464,7 +3552,7 @@ class Query implements QueryInterface, InjectionAwareInterface
      *
      * @param string joinSource
      */
-    final protected function getSingleJoin(string! joinType, joinSource, string modelAlias, string joinAlias, <RelationInterface> relation) -> array
+    final protected function getSingleJoin( string joinType, joinSource, string modelAlias, string joinAlias, <RelationInterface> relation) -> array
     {
         var fields, referencedFields, sqlJoinConditions = null,
             sqlJoinPartialConditions, position, field, referencedField;

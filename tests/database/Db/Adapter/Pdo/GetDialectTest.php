@@ -21,8 +21,6 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\Group;
 
-use function env;
-
 final class GetDialectTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
@@ -53,7 +51,7 @@ final class GetDialectTest extends AbstractDatabaseTestCase
             'mysql'  => Mysql::class,
             'pgsql'  => Postgresql::class,
             'sqlite' => Sqlite::class,
-        ][env('driver')];
+        ][self::getDatabaseDriver()];
 
         $this->assertInstanceOf($expected, $dialect);
     }

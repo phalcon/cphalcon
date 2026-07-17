@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Translate\Adapter\Gettext;
 
 use ArrayAccess;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Translate\Fake\FakeGettextFunctionExists;
 use Phalcon\Tests\Unit\Translate\Fake\TranslateGettextTrait;
 use Phalcon\Translate\Adapter\AdapterInterface;

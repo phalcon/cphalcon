@@ -437,6 +437,15 @@ PHP_METHOD(Phalcon_Tag_Select, optionsFromResultset)
 	ZVAL_UNDEF(&_11$$19);
 	ZVAL_UNDEF(&_7$$15);
 	ZVAL_UNDEF(&_8$$15);
+	static zend_string *_zephir_prop_0 = NULL;
+	static zend_string *_zephir_prop_1 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("usingZero", 9, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_1)) {
+		_zephir_prop_1 = zend_string_init("usingOne", 8, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(4, 4)
 		Z_PARAM_OBJECT_OF_CLASS(resultset, phalcon_mvc_model_resultsetinterface_ce)
 		Z_PARAM_ZVAL(using)
@@ -483,9 +492,9 @@ PHP_METHOD(Phalcon_Tag_Select, optionsFromResultset)
 					zephir_check_call_status();
 				} else {
 					ZEPHIR_OBS_NVAR(&optionValue);
-					zephir_read_property(&optionValue, &option, ZEND_STRL("usingZero"), PH_NOISY_CC);
+					zephir_read_property_cached(&optionValue, &option, _zephir_prop_0, 0, PH_NOISY_CC);
 					ZEPHIR_OBS_NVAR(&optionText);
-					zephir_read_property(&optionText, &option, ZEND_STRL("usingOne"), PH_NOISY_CC);
+					zephir_read_property_cached(&optionText, &option, _zephir_prop_1, 0, PH_NOISY_CC);
 				}
 			} else {
 				if (UNEXPECTED(Z_TYPE_P(&option) != IS_ARRAY)) {

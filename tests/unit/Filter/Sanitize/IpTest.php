@@ -14,25 +14,10 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Filter\Sanitize;
 
 use Phalcon\Filter\Sanitize\Ip;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class IpTest extends AbstractUnitTestCase
 {
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-01-19
-     */
-    public function testFilterSanitizeIpPlain(): void
-    {
-        $sanitizer = new Ip();
-
-        $this->assertSame('192.168.1.1', $sanitizer('192.168.1.1'));
-        $this->assertSame('10.0.0.1', $sanitizer('  10.0.0.1  '));
-        $this->assertSame('2001:db8::1', $sanitizer('2001:db8::1'));
-        $this->assertFalse($sanitizer('not-an-ip'));
-        $this->assertFalse($sanitizer('999.999.999.999'));
-    }
-
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-01-19
@@ -61,5 +46,19 @@ final class IpTest extends AbstractUnitTestCase
 
         // Invalid: IPv6 mask exceeds 128
         $this->assertFalse($sanitizer('2001:db8::/129'));
+    }
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-01-19
+     */
+    public function testFilterSanitizeIpPlain(): void
+    {
+        $sanitizer = new Ip();
+
+        $this->assertSame('192.168.1.1', $sanitizer('192.168.1.1'));
+        $this->assertSame('10.0.0.1', $sanitizer('  10.0.0.1  '));
+        $this->assertSame('2001:db8::1', $sanitizer('2001:db8::1'));
+        $this->assertFalse($sanitizer('not-an-ip'));
+        $this->assertFalse($sanitizer('999.999.999.999'));
     }
 }

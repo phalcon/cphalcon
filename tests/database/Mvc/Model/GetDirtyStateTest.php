@@ -13,7 +13,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Mvc\Model;
 
+use Phalcon\Mvc\Model;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use Phalcon\Tests\Support\Models\Invoices;
+use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\Group;
 
 #[Group('mysql')]
@@ -21,12 +24,33 @@ use PHPUnit\Framework\Attributes\Group;
 #[Group('sqlite')]
 final class GetDirtyStateTest extends AbstractDatabaseTestCase
 {
+    use DiTrait;
+
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase();
+    }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function testMvcModelGetDirtyState(): void
     {
-        $this->markTestSkipped('Need implementation');
+        $invoice = new Invoices();
+
+        // A freshly created model is transient
+        $this->assertSame(
+            Model::DIRTY_STATE_TRANSIENT,
+            $invoice->getDirtyState()
+        );
+
+        $invoice->setDirtyState(Model::DIRTY_STATE_PERSISTENT);
+
+        $this->assertSame(
+            Model::DIRTY_STATE_PERSISTENT,
+            $invoice->getDirtyState()
+        );
     }
 }

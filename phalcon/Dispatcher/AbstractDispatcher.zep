@@ -184,7 +184,7 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
      */
     protected returnedValue = null;
 
-    public function callActionMethod(handler, string actionMethod, array! params = [])
+    public function callActionMethod(handler, string actionMethod,  array params = [])
     {
         var result, observer, altHandler, altAction, altParams;
 

@@ -66,12 +66,16 @@ PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryContext, close)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("queues", 6, 1);
+	}
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	ZEPHIR_INIT_VAR(&_0);
 	array_init(&_0);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("queues"), &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1205, &_0);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -207,6 +211,11 @@ PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryContext, popMessage)
 	ZVAL_UNDEF(&messages);
 	ZVAL_UNDEF(&message);
 	ZVAL_UNDEF(&_0);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("queues", 6, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(queueName)
 	ZEND_PARSE_PARAMETERS_END();
@@ -215,7 +224,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryContext, popMessage)
 	zephir_memory_observe(&queueName_zv);
 	ZVAL_STR_COPY(&queueName_zv, queueName);
 	zephir_memory_observe(&messages);
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("queues"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1205, PH_NOISY_CC | PH_READONLY);
 	if (!(zephir_array_isset_fetch(&messages, &_0, &queueName_zv, 0))) {
 		RETURN_MM_NULL();
 	}
@@ -223,7 +232,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryContext, popMessage)
 		RETURN_MM_NULL();
 	}
 	ZEPHIR_MAKE_REF(&messages);
-	ZEPHIR_CALL_FUNCTION(&message, "array_shift", NULL, 41, &messages);
+	ZEPHIR_CALL_FUNCTION(&message, "array_shift", NULL, 40, &messages);
 	ZEPHIR_UNREF(&messages);
 	zephir_check_call_status();
 	zephir_update_property_array(this_ptr, SL("queues"), &queueName_zv, &messages);
@@ -272,6 +281,11 @@ PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryContext, pushMessage)
 	ZVAL_UNDEF(&message_sub);
 	ZVAL_UNDEF(&messages);
 	ZVAL_UNDEF(&_0);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("queues", 6, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_STR(queueName)
 		Z_PARAM_OBJECT_OF_CLASS(message, phalcon_contracts_queue_message_ce)
@@ -282,7 +296,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryContext, pushMessage)
 	zephir_memory_observe(&queueName_zv);
 	ZVAL_STR_COPY(&queueName_zv, queueName);
 	zephir_memory_observe(&messages);
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("queues"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1205, PH_NOISY_CC | PH_READONLY);
 	if (!(zephir_array_isset_fetch(&messages, &_0, &queueName_zv, 0))) {
 		ZEPHIR_INIT_NVAR(&messages);
 		array_init(&messages);

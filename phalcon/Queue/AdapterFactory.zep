@@ -31,7 +31,7 @@ class AdapterFactory extends AbstractFactory
     /**
      * AdapterFactory constructor.
      */
-    public function __construct(array! services = [])
+    public function __construct( array services = [])
     {
         this->init(services);
     }
@@ -39,7 +39,7 @@ class AdapterFactory extends AbstractFactory
     /**
      * Creates a new ConnectionFactory for the named adapter.
      */
-    public function newInstance(string! name, array! options = []) -> <ConnectionFactoryInterface>
+    public function newInstance( string name,  array options = []) -> <ConnectionFactoryInterface>
     {
         var definition;
 

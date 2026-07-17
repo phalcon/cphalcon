@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Logger\Logger;
 
 use Phalcon\Logger\Enum;
 use Phalcon\Logger\Logger;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class GetSetLogLevelTest extends AbstractUnitTestCase
 {

@@ -16,7 +16,8 @@ namespace Phalcon\Tests\Unit\Annotations\Reflection;
 use Phalcon\Annotations\Collection;
 use Phalcon\Annotations\Reader;
 use Phalcon\Annotations\Reflection;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 
 use function dataDir;
 
@@ -29,19 +30,7 @@ final class GetMethodsAnnotationsTest extends AbstractUnitTestCase
     {
         parent::setUp();
 
-        require_once supportDir('assets/Annotations/TestClass.php');
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2016-01-26
-     */
-    public function testAnnotationsReflectionGetMethodsAnnotationsEmpty(): void
-    {
-        $reflection = new Reflection();
-
-        $this->assertIsArray($reflection->getMethodsAnnotations());
-        $this->assertEmpty($reflection->getMethodsAnnotations());
+        require_once Talon::settings()->supportPath('assets/Annotations/TestClass.php');
     }
 
     /**
@@ -66,5 +55,17 @@ final class GetMethodsAnnotationsTest extends AbstractUnitTestCase
 
         $this->assertEquals(4, $number);
         $this->assertCount(4, $methodsAnnotations);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2016-01-26
+     */
+    public function testAnnotationsReflectionGetMethodsAnnotationsEmpty(): void
+    {
+        $reflection = new Reflection();
+
+        $this->assertIsArray($reflection->getMethodsAnnotations());
+        $this->assertEmpty($reflection->getMethodsAnnotations());
     }
 }

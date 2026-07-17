@@ -38,7 +38,7 @@ interface ElementInterface
      *
      * @return ElementInterface
      */
-    public function addValidators(array! validators, bool merge = true) -> <ElementInterface>;
+    public function addValidators( array validators, bool merge = true) -> <ElementInterface>;
 
     /**
      * Appends a message to the internal message list
@@ -136,7 +136,7 @@ interface ElementInterface
     /**
      * Sets default attributes for the element
      */
-    public function setAttributes(array! attributes) -> <ElementInterface>;
+    public function setAttributes( array attributes) -> <ElementInterface>;
 
     /**
      * Sets a default value in case the form does not use an entity
@@ -169,7 +169,7 @@ interface ElementInterface
     /**
      * Sets the element's name
      */
-    public function setName(string! name) -> <ElementInterface>;
+    public function setName( string name) -> <ElementInterface>;
 
     /**
      * Sets an option for the element

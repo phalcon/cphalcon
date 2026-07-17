@@ -27,6 +27,11 @@
  * Implementation of this file has been influenced by sinbadxiii/cphalcon-auth
  * @link    https://github.com/sinbadxiii/cphalcon-auth
  */
+/**
+ * @todo Remove in v7. Kept only for backwards compatibility; compose
+ * Phalcon\Auth\Adapter\Config\Traits\ModelConfigTrait directly instead of
+ * extending this.
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Auth_Adapter_Config_AbstractAdapterConfig)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Auth\\Adapter\\Config, AbstractAdapterConfig, phalcon, auth_adapter_config_abstractadapterconfig, phalcon_auth_adapter_config_abstractadapterconfig_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
@@ -47,6 +52,11 @@ PHP_METHOD(Phalcon_Auth_Adapter_Config_AbstractAdapterConfig, __construct)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&model_zv);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("model", 5, 1);
+	}
+
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
@@ -60,7 +70,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Config_AbstractAdapterConfig, __construct)
 		zephir_memory_observe(&model_zv);
 	ZVAL_STR_COPY(&model_zv, model);
 	}
-	zephir_update_property_zval(this_ptr, ZEND_STRL("model"), &model_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 97, &model_zv);
 	ZEPHIR_MM_RESTORE();
 }
 

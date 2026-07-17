@@ -18,7 +18,7 @@ use Phalcon\Queue\Adapter\Memory\MemoryConnectionFactory;
 use Phalcon\Queue\Exceptions\DeliveryDelayNotSupportedException;
 use Phalcon\Queue\Exceptions\PriorityNotSupportedException;
 use Phalcon\Queue\Exceptions\TimeToLiveNotSupportedException;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class MemoryProducerNotSupportedTest extends AbstractUnitTestCase
 {

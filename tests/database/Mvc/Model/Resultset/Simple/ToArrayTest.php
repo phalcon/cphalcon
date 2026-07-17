@@ -33,7 +33,7 @@ final class ToArrayTest extends AbstractDatabaseTestCase
         $this->setNewFactoryDefault();
         $this->setDatabase();
 
-        $connection = self::getConnection();
+        $connection = self::getPdoConnection();
         $migration  = new InvoicesMigration($connection);
         $migration->insert(1, 1, 0, 'Title 1', 10.51, date('Y-m-d H:i:s'));
         $migration->insert(2, 123, 1, 'Title 2', 5.2, date('Y-m-d H:i:s'));

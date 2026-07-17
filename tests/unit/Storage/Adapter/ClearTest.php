@@ -24,7 +24,8 @@ use Phalcon\Storage\Exception as StorageException;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Support\Exception;
 use Phalcon\Support\Exception as HelperException;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\Unit\Storage\Fake\FakeApcuApcuDelete;
 use Phalcon\Tests\Unit\Storage\Fake\FakeStreamUnlink;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -32,10 +33,6 @@ use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use stdClass;
 
 use function array_merge;
-use function getOptionsLibmemcached;
-use function getOptionsRedis;
-use function getOptionsRedisCluster;
-use function outputDir;
 use function uniqid;
 
 final class ClearTest extends AbstractUnitTestCase
@@ -53,7 +50,12 @@ final class ClearTest extends AbstractUnitTestCase
             ],
             [
                 Libmemcached::class,
-                getOptionsLibmemcached(),
+                [
+                    'client' => [],
+                    'servers' => [
+                        Talon::settings()->getServiceOptions('memcached')
+                    ]
+                ],
                 'memcached',
             ],
             [
@@ -63,18 +65,49 @@ final class ClearTest extends AbstractUnitTestCase
             ],
             [
                 Redis::class,
-                getOptionsRedis(),
+                Talon::settings()->getServiceOptions('redis'),
                 'redis',
             ],
             [
                 RedisCluster::class,
-                getOptionsRedisCluster(),
+                Talon::settings()->getServiceOptions('redisCluster'),
                 'redis',
             ],
             [
                 Stream::class,
                 [
-                    'storageDir' => outputDir(),
+                    'storageDir' => Talon::settings()->outputPath() . '/',
+                ],
+                '',
+            ],
+        ];
+    }
+
+    /**
+     * @return array[]
+     */
+    public static function getExamplesClearWithPrefix(): array
+    {
+        return [
+            [
+                Apcu::class,
+                [],
+                'apcu',
+            ],
+            [
+                Memory::class,
+                [],
+                '',
+            ],
+            [
+                Redis::class,
+                Talon::settings()->getServiceOptions('redis'),
+                'redis',
+            ],
+            [
+                Stream::class,
+                [
+                    'storageDir' => Talon::settings()->outputPath() . '/',
                 ],
                 '',
             ],
@@ -173,105 +206,6 @@ final class ClearTest extends AbstractUnitTestCase
     }
 
     /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2020-09-09
-     */
-    public function testStorageAdapterStreamClearCannotDeleteFile(): void
-    {
-        $serializer = new SerializerFactory();
-        $adapter    = new FakeStreamUnlink(
-            $serializer,
-            [
-                'storageDir' => outputDir(),
-            ],
-        );
-
-        $key1 = uniqid();
-        $key2 = uniqid();
-        $adapter->set($key1, 'test');
-        $actual = $adapter->has($key1);
-        $this->assertTrue($actual);
-
-        $adapter->set($key2, 'test');
-        $actual = $adapter->has($key2);
-        $this->assertTrue($actual);
-
-        $actual = $adapter->clear();
-        $this->assertFalse($actual);
-
-        $this->safeDeleteDirectory(outputDir('ph-strm'));
-    }
-
-    /**
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2023-07-17
-     */
-    public function testStorageAdapterWealClear(): void
-    {
-        $serializer = new SerializerFactory();
-        $adapter    = new Weak($serializer);
-
-        $obj1     = new stdClass();
-        $obj1->id = 1;
-        $obj2     = new stdClass();
-        $obj2->id = 2;
-        $key1     = uniqid();
-        $key2     = uniqid();
-        $adapter->set($key1, $obj1);
-        $adapter->set($key2, $obj2);
-
-        $temp = $adapter->get($key1);
-        $this->assertEquals($temp, $adapter->get($key1));
-        $this->assertEquals($temp, $obj1);
-
-        $temp = $adapter->get($key2);
-        $this->assertEquals($temp, $adapter->get($key2));
-        $this->assertEquals($temp, $obj2);
-
-        $actual = $adapter->clear();
-        $this->assertTrue($actual);
-        $actual = $adapter->has($key1);
-        $this->assertFalse($actual);
-
-        $actual = $adapter->has($key2);
-        $this->assertFalse($actual);
-
-        $actual = $adapter->clear();
-        $this->assertTrue($actual);
-    }
-
-    /**
-     * @return array[]
-     */
-    public static function getExamplesClearWithPrefix(): array
-    {
-        return [
-            [
-                Apcu::class,
-                [],
-                'apcu',
-            ],
-            [
-                Memory::class,
-                [],
-                '',
-            ],
-            [
-                Redis::class,
-                getOptionsRedis(),
-                'redis',
-            ],
-            [
-                Stream::class,
-                [
-                    'storageDir' => outputDir(),
-                ],
-                '',
-            ],
-        ];
-    }
-
-    /**
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2024-10-31
      */
@@ -313,8 +247,76 @@ final class ClearTest extends AbstractUnitTestCase
         $adapter2->clear();
 
         if ($class === Stream::class) {
-            $this->safeDeleteDirectory(outputDir('test-one-'));
-            $this->safeDeleteDirectory(outputDir('test-two-'));
+            $this->safeDeleteDirectory(Talon::settings()->outputPath('test-one-'));
+            $this->safeDeleteDirectory(Talon::settings()->outputPath('test-two-'));
         }
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    public function testStorageAdapterStreamClearCannotDeleteFile(): void
+    {
+        $serializer = new SerializerFactory();
+        $adapter    = new FakeStreamUnlink(
+            $serializer,
+            [
+                'storageDir' => Talon::settings()->outputPath() . '/',
+            ],
+        );
+
+        $key1 = uniqid();
+        $key2 = uniqid();
+        $adapter->set($key1, 'test');
+        $actual = $adapter->has($key1);
+        $this->assertTrue($actual);
+
+        $adapter->set($key2, 'test');
+        $actual = $adapter->has($key2);
+        $this->assertTrue($actual);
+
+        $actual = $adapter->clear();
+        $this->assertFalse($actual);
+
+        $this->safeDeleteDirectory(Talon::settings()->outputPath('ph-strm'));
+    }
+
+    /**
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2023-07-17
+     */
+    public function testStorageAdapterWealClear(): void
+    {
+        $serializer = new SerializerFactory();
+        $adapter    = new Weak($serializer);
+
+        $obj1     = new stdClass();
+        $obj1->id = 1;
+        $obj2     = new stdClass();
+        $obj2->id = 2;
+        $key1     = uniqid();
+        $key2     = uniqid();
+        $adapter->set($key1, $obj1);
+        $adapter->set($key2, $obj2);
+
+        $temp = $adapter->get($key1);
+        $this->assertEquals($temp, $adapter->get($key1));
+        $this->assertEquals($temp, $obj1);
+
+        $temp = $adapter->get($key2);
+        $this->assertEquals($temp, $adapter->get($key2));
+        $this->assertEquals($temp, $obj2);
+
+        $actual = $adapter->clear();
+        $this->assertTrue($actual);
+        $actual = $adapter->has($key1);
+        $this->assertFalse($actual);
+
+        $actual = $adapter->has($key2);
+        $this->assertFalse($actual);
+
+        $actual = $adapter->clear();
+        $this->assertTrue($actual);
     }
 }

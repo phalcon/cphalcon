@@ -17,7 +17,7 @@ use Phalcon\Encryption\Crypt;
 use Phalcon\Encryption\Crypt\Exception\Exception;
 use Phalcon\Encryption\Crypt\Exception\InvalidDecryptLength;
 use Phalcon\Encryption\Crypt\Exception\Mismatch;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Encryption\Fake\Crypt\FakeCrypt;
 
 use function str_repeat;

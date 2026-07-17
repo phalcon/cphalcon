@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\View\Engine\Volt;
 
-use Phalcon\Tests\AbstractUnitTestCase;
 use Phalcon\Mvc\View\Engine\Volt\Compiler;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 class CallMacroTest extends AbstractUnitTestCase
 {

@@ -14,7 +14,11 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Database\Mvc\Model\Resultset;
 
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
+#[Group('mysql')]
+#[Group('pgsql')]
+#[Group('sqlite')]
 final class RefactorSimpleTest extends AbstractDatabaseTestCase
 {
     /**
@@ -30,7 +34,7 @@ final class RefactorSimpleTest extends AbstractDatabaseTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-02
      */
-    public function testShouldLoadResultsetWithBindingFromCache(): void
+    public function testShouldLoadResultsetFromLibmemcached(): void
     {
         $this->markTestSkipped('Needs review - tocheck after migration');
     }
@@ -39,7 +43,7 @@ final class RefactorSimpleTest extends AbstractDatabaseTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-02
      */
-    public function testShouldLoadResultsetFromLibmemcached(): void
+    public function testShouldLoadResultsetWithBindingFromCache(): void
     {
         $this->markTestSkipped('Needs review - tocheck after migration');
     }

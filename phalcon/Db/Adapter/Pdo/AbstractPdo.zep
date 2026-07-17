@@ -84,7 +84,7 @@ abstract class AbstractPdo extends AbstractAdapter
      *     'charset' => 'utf8mb4'
      * ]
      */
-    public function __construct(array! descriptor)
+    public function __construct( array descriptor)
     {
         this->connect(descriptor);
 
@@ -97,7 +97,7 @@ abstract class AbstractPdo extends AbstractAdapter
      *
      *```php
      * $connection->execute(
-     *     "DELETE FROM robots"
+     *     "DELETE FROM co_invoices"
      * );
      *
      * echo $connection->affectedRows(), " were deleted";
@@ -251,7 +251,7 @@ abstract class AbstractPdo extends AbstractAdapter
      * $connection->connect();
      * ```
      */
-    public function connect(array! descriptor = []) -> void
+    public function connect( array descriptor = []) -> void
     {
         var username, password, dsnAttributes, dsnAttributesCustomRaw,
             dsnAttributesMap, key, options, persistent, value, autoReconnect;
@@ -341,15 +341,15 @@ abstract class AbstractPdo extends AbstractAdapter
      *```php
      * print_r(
      *     $connection->convertBoundParams(
-     *         "SELECT * FROM robots WHERE name = :name:",
+     *         "SELECT * FROM co_invoices WHERE inv_title = :inv_title:",
      *         [
-     *             "Bender",
+     *             "Test Invoice",
      *         ]
      *     )
      * );
      *```
      */
-    public function convertBoundParams(string! sql, array params = []) -> array
+    public function convertBoundParams( string sql, array params = []) -> array
     {
         var boundSql, placeHolders, bindPattern, matches, setOrder, placeMatch,
             value;
@@ -416,19 +416,19 @@ abstract class AbstractPdo extends AbstractAdapter
      *```php
      * // Inserting data
      * $success = $connection->execute(
-     *     "INSERT INTO robots VALUES (1, 'Astro Boy')"
+     *     "INSERT INTO co_invoices VALUES (1, 'Test Invoice')"
      * );
      *
      * $success = $connection->execute(
-     *     "INSERT INTO robots VALUES (?, ?)",
+     *     "INSERT INTO co_invoices VALUES (?, ?)",
      *     [
      *         1,
-     *         "Astro Boy",
+     *         "Test Invoice",
      *     ]
      * );
      *```
      */
-    public function execute(string! sqlStatement, array! bindParams = [], array! bindTypes = []) -> bool
+    public function execute( string sqlStatement,  array bindParams = [],  array bindTypes = []) -> bool
     {
         var eventsManager, affectedRows, e;
 
@@ -487,21 +487,21 @@ abstract class AbstractPdo extends AbstractAdapter
      * use Phalcon\Db\Column;
      *
      * $statement = $db->prepare(
-     *     "SELECT * FROM robots WHERE name = :name"
+     *     "SELECT * FROM co_invoices WHERE inv_title = :inv_title"
      * );
      *
      * $result = $connection->executePrepared(
      *     $statement,
      *     [
-     *         "name" => "Voltron",
+     *         "inv_title" => "Test Invoice",
      *     ],
      *     [
-     *         "name" => Column::BIND_PARAM_STR,
+     *         "inv_title" => Column::BIND_PARAM_STR,
      *     ]
      * );
      *```
      */
-    public function executePrepared(<\PDOStatement> statement, array! placeholders, array dataTypes = []) -> <\PDOStatement>
+    public function executePrepared(<\PDOStatement> statement,  array placeholders, array dataTypes = []) -> <\PDOStatement>
     {
         var wildcard, value, type, castValue, parameter, position, itemValue;
 
@@ -650,16 +650,16 @@ abstract class AbstractPdo extends AbstractAdapter
      * the latest executed SQL statement
      *
      *```php
-     * // Inserting a new robot
+     * // Inserting a new invoice
      * $success = $connection->insert(
-     *     "robots",
+     *     "co_invoices",
      *     [
-     *         "Astro Boy",
-     *         1952,
+     *         "Test Invoice",
+     *         100,
      *     ],
      *     [
-     *         "name",
-     *         "year",
+     *         "inv_title",
+     *         "inv_total",
      *     ]
      * );
      *
@@ -670,7 +670,7 @@ abstract class AbstractPdo extends AbstractAdapter
      * @param string|null $name
      * @return string|bool
      */
-    public function lastInsertId(string! name = null) -> string | bool
+    public function lastInsertId( string name = null) -> string | bool
     {
         return this->pdo->lastInsertId(name);
     }
@@ -701,21 +701,21 @@ abstract class AbstractPdo extends AbstractAdapter
      * use Phalcon\Db\Column;
      *
      * $statement = $db->prepare(
-     *     "SELECT * FROM robots WHERE name = :name"
+     *     "SELECT * FROM co_invoices WHERE inv_title = :inv_title"
      * );
      *
      * $result = $connection->executePrepared(
      *     $statement,
      *     [
-     *         "name" => "Voltron",
+     *         "inv_title" => "Test Invoice",
      *     ],
      *     [
-     *         "name" => Column::BIND_PARAM_INT,
+     *         "inv_title" => Column::BIND_PARAM_INT,
      *     ]
      * );
      *```
      */
-    public function prepare(string! sqlStatement) -> <\PDOStatement>
+    public function prepare( string sqlStatement) -> <\PDOStatement>
     {
         return this->pdo->prepare(sqlStatement);
     }
@@ -728,18 +728,18 @@ abstract class AbstractPdo extends AbstractAdapter
      *```php
      * // Querying data
      * $resultset = $connection->query(
-     *     "SELECT * FROM robots WHERE type = 'mechanical'"
+     *     "SELECT * FROM co_invoices WHERE inv_status_flag = 1"
      * );
      *
      * $resultset = $connection->query(
-     *     "SELECT * FROM robots WHERE type = ?",
+     *     "SELECT * FROM co_invoices WHERE inv_status_flag = ?",
      *     [
-     *         "mechanical",
+     *         1,
      *     ]
      * );
      *```
      */
-    public function query(string! sqlStatement, array! bindParams = [], array! bindTypes = []) -> <ResultInterface> | bool
+    public function query( string sqlStatement,  array bindParams = [],  array bindTypes = []) -> <ResultInterface> | bool
     {
         var eventsManager, statement, params, types, e;
 

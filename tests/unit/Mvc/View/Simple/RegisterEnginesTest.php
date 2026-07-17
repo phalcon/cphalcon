@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Mvc\View\Simple;
 
 use Phalcon\Mvc\View\Engine\Php;
 use Phalcon\Mvc\View\Simple;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 class RegisterEnginesTest extends AbstractUnitTestCase
 {

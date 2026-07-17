@@ -13,10 +13,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Session\Adapter;
 
-use Phalcon\Tests\AbstractServicesTestCase;
+use Phalcon\Talon\PHPUnit\AbstractServicesTestCase;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\Support\Traits\DiTrait;
 
-use function cacheDir;
 use function file_put_contents;
 use function uniqid;
 
@@ -87,14 +87,14 @@ final class ValidateIdTest extends AbstractServicesTestCase
         $adapter = $this->newService('sessionStream');
 
         file_put_contents(
-            cacheDir('sessions/test1'),
+            Talon::settings()->outputPath('tests/cache/' . 'sessions/test1'),
             uniqid()
         );
 
         $actual = $adapter->validateId('test1');
         $this->assertTrue($actual);
 
-        $this->safeDeleteFile(cacheDir('sessions/test1'));
+        $this->safeDeleteFile(Talon::settings()->outputPath('tests/cache/' . 'sessions/test1'));
 
         $actual = $adapter->validateId('test1');
         $this->assertFalse($actual);

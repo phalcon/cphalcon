@@ -56,15 +56,6 @@ final class FakeSessionManager implements ManagerInterface
         return false;
     }
 
-    public function getDI(): ?object
-    {
-        return null;
-    }
-
-    public function setDI(object $container): void
-    {
-    }
-
     public function get(string $key, mixed $defaultValue = null, bool $remove = false): mixed
     {
         if (!array_key_exists($key, $this->data)) {
@@ -83,6 +74,11 @@ final class FakeSessionManager implements ManagerInterface
     public function getAdapter(): SessionHandlerInterface
     {
         throw new \LogicException('not implemented in test fake');
+    }
+
+    public function getDI(): ?object
+    {
+        return null;
     }
 
     public function getId(): string
@@ -123,6 +119,10 @@ final class FakeSessionManager implements ManagerInterface
     public function setAdapter(SessionHandlerInterface $adapter): ManagerInterface
     {
         throw new \LogicException('not implemented in test fake');
+    }
+
+    public function setDI(object $container): void
+    {
     }
 
     public function setId(string $sessionId): ManagerInterface

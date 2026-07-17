@@ -56,10 +56,15 @@ PHP_METHOD(Phalcon_Storage_Serializer_None, unserialize)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&data_sub);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("data", 4, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(data)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &data);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("data"), data);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 47, data);
 }
 

@@ -16,7 +16,8 @@ namespace Phalcon\Tests\Unit\Logger\Logger;
 use Phalcon\Logger\Adapter\Stream;
 use Phalcon\Logger\Exception;
 use Phalcon\Logger\Logger;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 
 final class RemoveAdapterTest extends AbstractUnitTestCase
 {
@@ -28,7 +29,7 @@ final class RemoveAdapterTest extends AbstractUnitTestCase
     {
         $fileName1  = $this->getNewFileName('log', 'log');
         $fileName2  = $this->getNewFileName('log', 'log');
-        $outputPath = logsDir();
+        $outputPath = Talon::settings()->outputPath('tests/logs/');
         $adapter1   = new Stream($outputPath . $fileName1);
         $adapter2   = new Stream($outputPath . $fileName2);
 
@@ -60,7 +61,7 @@ final class RemoveAdapterTest extends AbstractUnitTestCase
     public function testLoggerRemoveAdapterUnknown(): void
     {
         $fileName1  = $this->getNewFileName('log', 'log');
-        $outputPath = logsDir();
+        $outputPath = Talon::settings()->outputPath('tests/logs/');
 
         try {
             $adapter1 = new Stream($outputPath . $fileName1);

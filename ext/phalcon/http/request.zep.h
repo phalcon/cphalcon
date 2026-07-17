@@ -85,6 +85,15 @@ PHP_METHOD(Phalcon_Http_Request, getServerArray);
 PHP_METHOD(Phalcon_Http_Request, isProxyTrusted);
 PHP_METHOD(Phalcon_Http_Request, isValidPublicIp);
 PHP_METHOD(Phalcon_Http_Request, processFiles);
+PHP_METHOD(Phalcon_Http_Request, phpFclose);
+PHP_METHOD(Phalcon_Http_Request, phpFgetCsv);
+PHP_METHOD(Phalcon_Http_Request, phpFileExists);
+PHP_METHOD(Phalcon_Http_Request, phpFileGetContents);
+PHP_METHOD(Phalcon_Http_Request, phpFilePutContents);
+PHP_METHOD(Phalcon_Http_Request, phpFopen);
+PHP_METHOD(Phalcon_Http_Request, phpFwrite);
+PHP_METHOD(Phalcon_Http_Request, phpIsWritable);
+PHP_METHOD(Phalcon_Http_Request, phpUnlink);
 zend_object *zephir_init_properties_Phalcon_Http_Request(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_request_get, 0, 0, 0)
@@ -432,6 +441,59 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_processfile
 	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_phpfclose, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_INFO(0, handle)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_http_request_phpfgetcsv, 0, 1, MAY_BE_ARRAY|MAY_BE_FALSE)
+	ZEND_ARG_INFO(0, stream)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, length, IS_LONG, 0, "0")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, separator, IS_STRING, 0, "','")
+	ZEND_ARG_INFO(0, enclosure)
+	ZEND_ARG_INFO(0, escape)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_phpfileexists, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_http_request_phpfilegetcontents, 0, 1, MAY_BE_FALSE|MAY_BE_STRING)
+	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, useIncludePath, _IS_BOOL, 0, "false")
+	ZEND_ARG_INFO(0, context)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, offset, IS_LONG, 0, "0")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, length, IS_LONG, 1, "null")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_http_request_phpfileputcontents, 0, 2, MAY_BE_FALSE|MAY_BE_LONG)
+	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+	ZEND_ARG_INFO(0, data)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, flags, IS_LONG, 0, "0")
+	ZEND_ARG_INFO(0, context)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_request_phpfopen, 0, 0, 2)
+	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, mode, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, useIncludePath, _IS_BOOL, 0, "false")
+	ZEND_ARG_INFO(0, context)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_http_request_phpfwrite, 0, 2, MAY_BE_FALSE|MAY_BE_LONG)
+	ZEND_ARG_INFO(0, handle)
+	ZEND_ARG_TYPE_INFO(0, data, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, length, IS_LONG, 1, "null")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_phpiswritable, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_phpunlink, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+	ZEND_ARG_INFO(0, context)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_request_zephir_init_properties_phalcon_http_request, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
@@ -518,5 +580,14 @@ ZEPHIR_INIT_FUNCS(phalcon_http_request_method_entry) {
 	PHP_ME(Phalcon_Http_Request, isProxyTrusted, arginfo_phalcon_http_request_isproxytrusted, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Http_Request, isValidPublicIp, arginfo_phalcon_http_request_isvalidpublicip, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Http_Request, processFiles, arginfo_phalcon_http_request_processfiles, ZEND_ACC_PRIVATE)
+	PHP_ME(Phalcon_Http_Request, phpFclose, arginfo_phalcon_http_request_phpfclose, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Http_Request, phpFgetCsv, arginfo_phalcon_http_request_phpfgetcsv, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Http_Request, phpFileExists, arginfo_phalcon_http_request_phpfileexists, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Http_Request, phpFileGetContents, arginfo_phalcon_http_request_phpfilegetcontents, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Http_Request, phpFilePutContents, arginfo_phalcon_http_request_phpfileputcontents, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Http_Request, phpFopen, arginfo_phalcon_http_request_phpfopen, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Http_Request, phpFwrite, arginfo_phalcon_http_request_phpfwrite, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Http_Request, phpIsWritable, arginfo_phalcon_http_request_phpiswritable, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Http_Request, phpUnlink, arginfo_phalcon_http_request_phpunlink, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_FE_END
 };

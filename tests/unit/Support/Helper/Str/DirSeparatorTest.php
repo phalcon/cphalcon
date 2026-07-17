@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Support\Helper\Str;
 
 use Phalcon\Support\Helper\Str\DirSeparator;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 use const PHP_OS_FAMILY;
 

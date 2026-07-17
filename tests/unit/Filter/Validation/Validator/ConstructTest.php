@@ -35,7 +35,7 @@ use Phalcon\Filter\Validation\Validator\Uniqueness;
 use Phalcon\Filter\Validation\Validator\Url;
 use Phalcon\Filter\Validation\ValidatorCompositeInterface;
 use Phalcon\Filter\Validation\ValidatorInterface;
-use Phalcon\Tests\AbstractUnitTestCase;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 final class ConstructTest extends AbstractUnitTestCase

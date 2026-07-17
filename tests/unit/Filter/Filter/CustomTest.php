@@ -14,8 +14,8 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Filter\Filter;
 
 use Phalcon\Filter\Filter;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Filter\Sanitize\IPv4;
-use Phalcon\Tests\AbstractUnitTestCase;
 
 final class CustomTest extends AbstractUnitTestCase
 {

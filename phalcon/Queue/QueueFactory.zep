@@ -72,7 +72,7 @@ class QueueFactory extends AbstractConfigFactory
     /**
      * Builds a Context for the named adapter.
      */
-    public function newInstance(string! name, array! options = []) -> <ContextInterface>
+    public function newInstance( string name,  array options = []) -> <ContextInterface>
     {
         var connectionFactory;
 
