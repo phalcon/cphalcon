@@ -33,9 +33,10 @@
 /**
  * Generic, string-keyed input bag for an Action.
  *
- * Ships as a convenience; applications typically write their own typed input
- * value objects. `fromRequest()` merges the request query, parsed body and
- * route attributes into a single bag (later sources win).
+ * `fromRequest()` merges the request query, parsed body and route attributes
+ * into a single bag (later sources win). Extend it to build a typed, per-domain
+ * input value object: the factories use late static binding, so a subclass's
+ * `fromRequest()` / `fromArray()` return that subclass.
  */
 ZEPHIR_INIT_CLASS(Phalcon_ADR_Input_Input)
 {
@@ -95,7 +96,7 @@ PHP_METHOD(Phalcon_ADR_Input_Input, fromArray)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &data_param);
 	zephir_get_arrval(&data, data_param);
-	object_init_ex(return_value, phalcon_adr_input_input_ce);
+	object_init_ex(return_value, zend_get_called_scope(execute_data));
 	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 316, &data);
 	zephir_check_call_status();
 	RETURN_MM();
@@ -128,7 +129,7 @@ PHP_METHOD(Phalcon_ADR_Input_Input, fromRequest)
 		ZEPHIR_INIT_NVAR(&json);
 		array_init(&json);
 	}
-	object_init_ex(return_value, phalcon_adr_input_input_ce);
+	object_init_ex(return_value, zend_get_called_scope(execute_data));
 	ZEPHIR_CALL_METHOD(&_1, request, "getquery", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_2, request, "getpost", NULL, 0);
@@ -184,7 +185,7 @@ PHP_METHOD(Phalcon_ADR_Input_Input, get)
 	if (zephir_array_isset_value(&_1, &key_zv)) {
 		zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 343, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_OBS_NVAR(&_0);
-		zephir_array_fetch(&_0, &_2, &key_zv, PH_NOISY, "phalcon/ADR/Input/Input.zep", 64);
+		zephir_array_fetch(&_0, &_2, &key_zv, PH_NOISY, "phalcon/ADR/Input/Input.zep", 65);
 	} else {
 		ZEPHIR_CPY_WRT(&_0, defaultValue);
 	}

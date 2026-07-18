@@ -562,7 +562,6 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/container/resolver/lazy/staticcall.zep.c
 	phalcon/container/resolver/resolver.zep.c
 	phalcon/contracts/adr/action.zep.c
-	phalcon/contracts/adr/domain.zep.c
 	phalcon/contracts/auth/authremember.zep.c
 	phalcon/contracts/auth/remembertoken.zep.c
 	phalcon/contracts/container/ioc/ioctypealiases.zep.c

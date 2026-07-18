@@ -15,11 +15,11 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_adr_input_input___construct, 0, 0, 0)
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, data, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_adr_input_input_fromarray, 0, 1, Phalcon\\ADR\\Input\\Input, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_adr_input_input_fromarray, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_ARRAY_INFO(0, data, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_adr_input_input_fromrequest, 0, 1, Phalcon\\ADR\\Input\\Input, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_adr_input_input_fromrequest, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_OBJ_INFO(0, request, Phalcon\\Contracts\\Http\\AttributeRequestInterface, 0)
 ZEND_END_ARG_INFO()
 

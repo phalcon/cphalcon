@@ -557,7 +557,6 @@
 #include "phalcon/container/resolver/lazy/staticcall.zep.h"
 #include "phalcon/container/resolver/resolver.zep.h"
 #include "phalcon/contracts/adr/action.zep.h"
-#include "phalcon/contracts/adr/domain.zep.h"
 #include "phalcon/contracts/auth/authremember.zep.h"
 #include "phalcon/contracts/auth/remembertoken.zep.h"
 #include "phalcon/contracts/container/ioc/ioctypealiases.zep.h"
