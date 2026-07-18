@@ -30,7 +30,7 @@ class RedirectResponder implements Responder
         var result;
 
         let result = payload->getResult();
-        if result instanceof Redirect {
+        if typeof result == "object" && result instanceof Redirect {
             response
                 ->setStatusCode(result->status())
                 ->setHeader("Location", result->url());

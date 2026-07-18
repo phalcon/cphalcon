@@ -18,16 +18,13 @@ use Phalcon\ADR\Dispatcher;
 use Phalcon\ADR\ErrorResponder;
 use Phalcon\ADR\Responder\JsonResponder;
 use Phalcon\ADR\Router\Router;
-use Phalcon\Contracts\ADR\Action;
 use Phalcon\Contracts\Container\Ioc\IocContainer;
-use Phalcon\Contracts\Http\AttributeRequestInterface;
 use Phalcon\Events\Manager;
 use Phalcon\Http\Request;
-use Phalcon\Http\Response;
-use Phalcon\Http\ResponseInterface;
 use Phalcon\Logger\Adapter\Noop;
 use Phalcon\Logger\Logger;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Tests\Support\ADR\Action\Hello\Get as HelloAction;
 use stdClass;
 
 final class HandleTest extends AbstractUnitTestCase
@@ -47,15 +44,9 @@ final class HandleTest extends AbstractUnitTestCase
         $_SERVER['REQUEST_URI']    = '/hello/world';
         $_SERVER['REQUEST_METHOD'] = 'GET';
 
-        $action = new class implements Action {
-            public function __invoke(AttributeRequestInterface $request): ResponseInterface
-            {
-                return (new Response())->setContent('hello ' . $request->getAttributes()->get('name'));
-            }
-        };
+        $action = new HelloAction();
 
-        $router = new Router();
-        $router->get('/hello/{name}', 'HelloAction');
+        $router = (new Router())->setBaseNamespace('Phalcon\\Tests\\Support\\ADR\\Action');
 
         $app = new Application(
             $router,
@@ -78,7 +69,7 @@ final class HandleTest extends AbstractUnitTestCase
         $_SERVER['REQUEST_METHOD'] = 'GET';
 
         $app = new Application(
-            new Router(),
+            (new Router())->setBaseNamespace('Phalcon\\Tests\\Support\\ADR\\Action'),
             new Dispatcher($this->containerReturning(new stdClass()), new Manager()),
             $this->errorResponder(),
             new Manager()

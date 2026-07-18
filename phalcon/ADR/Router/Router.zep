@@ -13,99 +13,123 @@
 
 namespace Phalcon\ADR\Router;
 
-use Closure;
 use Phalcon\ADR\Router\Exceptions\MethodNotAllowed;
 use Phalcon\Contracts\ADR\Router\Router as RouterInterface;
 use Phalcon\Contracts\ADR\Router\RouterMatch as RouterMatchInterface;
 use Phalcon\Http\RequestInterface;
 
 /**
- * The ADR router. Routes are registered by pattern + HTTP method (verb helpers
- * or `add()`), optionally grouped, and matched against the request. `match()`
- * returns a RouterMatch, `null` when nothing matches, or throws
- * MethodNotAllowed when a path matches but the method does not.
+ * Convention router. `method + static path -> Action class`; the path tail
+ * becomes positional request attributes. Middleware is resolved from a
+ * namespace-prefix map (group semantics); global middleware stays on the
+ * pipeline. No route table.
  */
 final class Router implements RouterInterface
 {
     /**
-     * @var Route[]
+     * @var string
      */
-    protected routes = [];
+    protected baseNamespace = "";
 
-    public function add(string pattern, string actionClass, array methods = []) -> <Route>
-    {
-        var route;
-
-        let route          = new Route(pattern, actionClass, methods),
-            this->routes[] = route;
-
-        return route;
-    }
-
-    public function delete(string pattern, string actionClass) -> <Route>
-    {
-        return this->add(pattern, actionClass, ["DELETE"]);
-    }
-
-    public function get(string pattern, string actionClass) -> <Route>
-    {
-        return this->add(pattern, actionClass, ["GET"]);
-    }
-
-    public function group(string prefix, <Closure> configure) -> <Group>
-    {
-        var group;
-
-        let group = new Group(prefix, this);
-        call_user_func(configure, group);
-
-        return group;
-    }
+    /**
+     * @var array<string, string[]>
+     */
+    protected middlewareMap = [];
 
     public function match(<RequestInterface> request) -> <RouterMatchInterface> | null
     {
-        var uri, method, route, params, methodMismatch;
+        var uri, verb, segments, index, prefix, className, params;
 
-        let uri            = request->getURI(true),
-            method         = request->getMethod(),
-            methodMismatch = false;
+        let uri      = trim(request->getURI(true), "/"),
+            verb     = ucfirst(strtolower(request->getMethod())),
+            segments = uri === "" ? [] : explode("/", uri);
 
-        for route in this->routes {
-            let params = route->matches(uri);
+        let index = count(segments);
+        while index >= 0 {
+            let prefix    = this->baseNamespace . this->toNamespace(array_slice(segments, 0, index)),
+                className = prefix . "\\" . verb;
 
-            if params !== false {
-                if route->allowsMethod(method) {
-                    return new RouterMatch(
-                        route->getAction(),
-                        params,
-                        route->getMiddleware(),
-                        route->getName()
-                    );
-                }
+            if class_exists(className) {
+                let params = array_slice(segments, index);
 
-                let methodMismatch = true;
+                return new RouterMatch(className, params, this->middlewareFor(className));
             }
+
+            let index = index - 1;
         }
 
-        if methodMismatch {
+        if this->routableUnderAnotherVerb(segments) {
             throw new MethodNotAllowed("The request method is not allowed for the matched route.");
         }
 
         return null;
     }
 
-    public function patch(string pattern, string actionClass) -> <Route>
+    public function setBaseNamespace(string baseNamespace) -> <RouterInterface>
     {
-        return this->add(pattern, actionClass, ["PATCH"]);
+        let this->baseNamespace = rtrim(baseNamespace, "\\");
+
+        return this;
     }
 
-    public function post(string pattern, string actionClass) -> <Route>
+    public function setMiddlewareMap(array middlewareMap) -> <RouterInterface>
     {
-        return this->add(pattern, actionClass, ["POST"]);
+        let this->middlewareMap = middlewareMap;
+
+        return this;
     }
 
-    public function put(string pattern, string actionClass) -> <Route>
+    protected function middlewareFor(string className) -> array
     {
-        return this->add(pattern, actionClass, ["PUT"]);
+        var prefix, list, full, stacked;
+
+        let stacked = [];
+        for prefix, list in this->middlewareMap {
+            let full = this->baseNamespace . prefix;
+
+            if strncmp(className, full, strlen(full)) === 0 {
+                let stacked = array_merge(stacked, list);
+            }
+        }
+
+        return stacked;
+    }
+
+    protected function routableUnderAnotherVerb(array segments) -> bool
+    {
+        var index, prefix, verb, verbs;
+
+        let verbs = ["Get", "Post", "Put", "Patch", "Delete"],
+            index = count(segments);
+
+        while index >= 0 {
+            let prefix = this->baseNamespace . this->toNamespace(array_slice(segments, 0, index));
+
+            for verb in verbs {
+                if class_exists(prefix . "\\" . verb) {
+                    return true;
+                }
+            }
+
+            let index = index - 1;
+        }
+
+        return false;
+    }
+
+    protected function toNamespace(array segments) -> string
+    {
+        var segment, parts;
+
+        let parts = [];
+        for segment in segments {
+            let parts[] = str_replace(" ", "", ucwords(str_replace(["-", "_"], " ", segment)));
+        }
+
+        if empty parts {
+            return "";
+        }
+
+        return "\\" . implode("\\", parts);
     }
 }
