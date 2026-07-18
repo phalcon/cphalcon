@@ -13,28 +13,18 @@
 
 namespace Phalcon\Contracts\ADR\Router;
 
-use Closure;
 use Phalcon\Http\RequestInterface;
 
 /**
- * Maps a request to an Action. Routes are registered by pattern and HTTP method
- * and matched against the incoming request.
+ * Maps a request to an Action by convention: the HTTP method and the static
+ * path segments identify the class; trailing segments become positional
+ * request attributes. No route table.
  */
 interface Router
 {
-    public function add(string pattern, string actionClass, array methods = []) -> <Route>;
-
-    public function delete(string pattern, string actionClass) -> <Route>;
-
-    public function get(string pattern, string actionClass) -> <Route>;
-
-    public function group(string prefix, <Closure> configure) -> <Group>;
-
     public function match(<RequestInterface> request) -> <RouterMatch> | null;
 
-    public function patch(string pattern, string actionClass) -> <Route>;
+    public function setBaseNamespace(string baseNamespace) -> <Router>;
 
-    public function post(string pattern, string actionClass) -> <Route>;
-
-    public function put(string pattern, string actionClass) -> <Route>;
+    public function setMiddlewareMap(array middlewareMap) -> <Router>;
 }
