@@ -80,7 +80,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_QueryFactory, __construct)
 		ZEPHIR_INIT_NVAR(&selectClass);
 		ZVAL_STRING(&selectClass, "Phalcon\\DataMapper\\Query\\Select");
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 535, &selectClass);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 562, &selectClass);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -130,7 +130,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_QueryFactory, newDelete)
 	object_init_ex(return_value, phalcon_datamapper_query_delete_ce);
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "newbind", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 458, connection, &_0);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 470, connection, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -160,7 +160,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_QueryFactory, newInsert)
 	object_init_ex(return_value, phalcon_datamapper_query_insert_ce);
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "newbind", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 459, connection, &_0);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 471, connection, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -197,7 +197,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_QueryFactory, newSelect)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &connection);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 535, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 562, PH_NOISY_CC | PH_READONLY);
 	zephir_get_strval(&selectClass, &_0);
 	zephir_fetch_safe_class(&_1, &selectClass);
 	_2 = zephir_fetch_class_str_ex(Z_STRVAL_P(&_1), Z_STRLEN_P(&_1), ZEND_FETCH_CLASS_AUTO);
@@ -242,7 +242,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_QueryFactory, newUpdate)
 	object_init_ex(return_value, phalcon_datamapper_query_update_ce);
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "newbind", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 460, connection, &_0);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 472, connection, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }

@@ -72,10 +72,10 @@ PHP_METHOD(Phalcon_Db_Geometry_LineString, __construct)
 		srid = 0;
 	} else {
 		}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 572, &points);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 599, &points);
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, srid);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 573, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 600, &_0);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -131,7 +131,7 @@ PHP_METHOD(Phalcon_Db_Geometry_LineString, pointsWkt)
 
 	ZEPHIR_INIT_VAR(&parts);
 	array_init(&parts);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 572, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 599, PH_NOISY_CC | PH_READONLY);
 	zephir_is_iterable(&_0, 0, "phalcon/Db/Geometry/LineString.zep", 51);
 	if (Z_TYPE_P(&_0) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_0), _1)

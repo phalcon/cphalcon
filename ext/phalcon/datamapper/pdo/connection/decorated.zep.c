@@ -84,11 +84,11 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_Decorated, __construct)
 	} else {
 		ZEPHIR_SEPARATE_PARAM(profiler);
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 520, pdo);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 547, pdo);
 	if (Z_TYPE_P(profiler) == IS_NULL) {
 		ZEPHIR_INIT_NVAR(profiler);
 		object_init_ex(profiler, phalcon_datamapper_pdo_profiler_profiler_ce);
-		ZEPHIR_CALL_METHOD(NULL, profiler, "__construct", NULL, 453);
+		ZEPHIR_CALL_METHOD(NULL, profiler, "__construct", NULL, 465);
 		zephir_check_call_status();
 	}
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setprofiler", NULL, 0, profiler);
