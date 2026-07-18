@@ -124,7 +124,7 @@ PHP_METHOD(Phalcon_ADR_Middleware_CorsMiddleware, __construct)
 		ZEPHIR_INIT_NVAR(&_0);
 		array_init(&_0);
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 335, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 344, &_0);
 	ZEPHIR_INIT_VAR(&_1);
 	if (zephir_array_isset_value_string(&config, SL("methods"))) {
 		ZEPHIR_OBS_NVAR(&_1);
@@ -152,7 +152,7 @@ PHP_METHOD(Phalcon_ADR_Middleware_CorsMiddleware, __construct)
 		zephir_array_fast_append(&_2, &_3);
 		ZEPHIR_CPY_WRT(&_1, &_2);
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 336, &_1);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 345, &_1);
 	ZEPHIR_INIT_VAR(&_4);
 	if (zephir_array_isset_value_string(&config, SL("headers"))) {
 		ZEPHIR_OBS_NVAR(&_4);
@@ -168,7 +168,7 @@ PHP_METHOD(Phalcon_ADR_Middleware_CorsMiddleware, __construct)
 		zephir_array_fast_append(&_5, &_3);
 		ZEPHIR_CPY_WRT(&_4, &_5);
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 337, &_4);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 346, &_4);
 	ZEPHIR_INIT_VAR(&_6);
 	if (zephir_array_isset_value_string(&config, SL("credentials"))) {
 		zephir_memory_observe(&_7);
@@ -179,7 +179,7 @@ PHP_METHOD(Phalcon_ADR_Middleware_CorsMiddleware, __construct)
 		ZEPHIR_INIT_NVAR(&_6);
 		ZVAL_BOOL(&_6, 0);
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 338, &_6);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 347, &_6);
 	ZEPHIR_INIT_VAR(&_8);
 	if (zephir_array_isset_value_string(&config, SL("maxAge"))) {
 		ZEPHIR_OBS_NVAR(&_7);
@@ -190,7 +190,7 @@ PHP_METHOD(Phalcon_ADR_Middleware_CorsMiddleware, __construct)
 		ZEPHIR_INIT_NVAR(&_8);
 		ZVAL_LONG(&_8, 0);
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_4, 339, &_8);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_4, 348, &_8);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -270,27 +270,27 @@ PHP_METHOD(Phalcon_ADR_Middleware_CorsMiddleware, __invoke)
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "applyheaders", NULL, 0, &response, &origin);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_6$$4);
-		zephir_read_property_cached(&_5$$4, this_ptr, _zephir_prop_0, 336, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_5$$4, this_ptr, _zephir_prop_0, 345, PH_NOISY_CC | PH_READONLY);
 		zephir_fast_join_str(&_6$$4, SL(", "), &_5$$4);
 		ZEPHIR_INIT_VAR(&_7$$4);
 		ZVAL_STRING(&_7$$4, "Access-Control-Allow-Methods");
-		ZEPHIR_CALL_METHOD(NULL, &response, "setheader", NULL, 302, &_7$$4, &_6$$4);
+		ZEPHIR_CALL_METHOD(NULL, &response, "setheader", NULL, 317, &_7$$4, &_6$$4);
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(&_7$$4);
-		zephir_read_property_cached(&_8$$4, this_ptr, _zephir_prop_1, 337, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_8$$4, this_ptr, _zephir_prop_1, 346, PH_NOISY_CC | PH_READONLY);
 		zephir_fast_join_str(&_7$$4, SL(", "), &_8$$4);
 		ZEPHIR_INIT_VAR(&_9$$4);
 		ZVAL_STRING(&_9$$4, "Access-Control-Allow-Headers");
-		ZEPHIR_CALL_METHOD(NULL, &response, "setheader", NULL, 302, &_9$$4, &_7$$4);
+		ZEPHIR_CALL_METHOD(NULL, &response, "setheader", NULL, 317, &_9$$4, &_7$$4);
 		zephir_check_call_status();
-		zephir_read_property_cached(&_10$$4, this_ptr, _zephir_prop_2, 339, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_10$$4, this_ptr, _zephir_prop_2, 348, PH_NOISY_CC | PH_READONLY);
 		if (ZEPHIR_GT_LONG(&_10$$4, 0)) {
 			zephir_memory_observe(&_11$$5);
-			zephir_read_property_cached(&_11$$5, this_ptr, _zephir_prop_2, 339, PH_NOISY_CC);
+			zephir_read_property_cached(&_11$$5, this_ptr, _zephir_prop_2, 348, PH_NOISY_CC);
 			zephir_cast_to_string(&_12$$5, &_11$$5);
 			ZEPHIR_INIT_VAR(&_13$$5);
 			ZVAL_STRING(&_13$$5, "Access-Control-Max-Age");
-			ZEPHIR_CALL_METHOD(NULL, &response, "setheader", NULL, 302, &_13$$5, &_12$$5);
+			ZEPHIR_CALL_METHOD(NULL, &response, "setheader", NULL, 317, &_13$$5, &_12$$5);
 			zephir_check_call_status();
 		}
 		RETURN_CCTOR(&response);
@@ -334,7 +334,7 @@ PHP_METHOD(Phalcon_ADR_Middleware_CorsMiddleware, applyHeaders)
 	ZVAL_STRING(&_0, "Access-Control-Allow-Origin");
 	ZEPHIR_CALL_METHOD(NULL, response, "setheader", NULL, 0, &_0, &origin_zv);
 	zephir_check_call_status();
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 338, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 347, PH_NOISY_CC | PH_READONLY);
 	if (zephir_is_true(&_1)) {
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZVAL_STRING(&_2$$3, "Access-Control-Allow-Credentials");
@@ -372,7 +372,7 @@ PHP_METHOD(Phalcon_ADR_Middleware_CorsMiddleware, isAllowed)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&origin_zv);
 	ZVAL_STR_COPY(&origin_zv, origin);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 335, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 344, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "*");
 	ZEPHIR_CALL_FUNCTION(&_2, "in_array", NULL, 87, &_1, &_0, &__$true);
@@ -380,7 +380,7 @@ PHP_METHOD(Phalcon_ADR_Middleware_CorsMiddleware, isAllowed)
 	if (zephir_is_true(&_2)) {
 		RETURN_MM_BOOL(1);
 	}
-	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_0, 335, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_0, 344, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_RETURN_CALL_FUNCTION("in_array", NULL, 87, &origin_zv, &_3, &__$true);
 	zephir_check_call_status();
 	RETURN_MM();

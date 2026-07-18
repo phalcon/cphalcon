@@ -82,8 +82,8 @@ PHP_METHOD(Phalcon_ADR_Router_Group, __construct)
 	ZEND_PARSE_PARAMETERS_END();
 	router = ZEND_CALL_ARG(execute_data, 2);
 	ZVAL_STR(&prefix_zv, prefix);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 349, &prefix_zv);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 350, router);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 358, &prefix_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 359, router);
 }
 
 PHP_METHOD(Phalcon_ADR_Router_Group, add)
@@ -137,13 +137,13 @@ PHP_METHOD(Phalcon_ADR_Router_Group, add)
 	} else {
 		zephir_get_arrval(&methods, methods_param);
 	}
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 350, PH_NOISY_CC | PH_READONLY);
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 349, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 359, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 358, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_2);
 	ZEPHIR_CONCAT_VV(&_2, &_1, &pattern_zv);
 	ZEPHIR_CALL_METHOD(&route, &_0, "add", NULL, 0, &_2, &actionClass_zv, &methods);
 	zephir_check_call_status();
-	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_2, 351, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_2, 360, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(NULL, &route, "pushmiddleware", NULL, 0, &_3);
 	zephir_check_call_status();
 	RETURN_CCTOR(&route);

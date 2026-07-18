@@ -88,7 +88,7 @@ PHP_METHOD(Phalcon_ADR_Router_Router, add)
 	}
 	ZEPHIR_INIT_VAR(&route);
 	object_init_ex(&route, phalcon_adr_router_route_ce);
-	ZEPHIR_CALL_METHOD(NULL, &route, "__construct", NULL, 308, &pattern_zv, &actionClass_zv, &methods);
+	ZEPHIR_CALL_METHOD(NULL, &route, "__construct", NULL, 320, &pattern_zv, &actionClass_zv, &methods);
 	zephir_check_call_status();
 	zephir_update_property_array_append(this_ptr, SL("routes"), &route);
 	RETURN_CCTOR(&route);
@@ -122,7 +122,7 @@ PHP_METHOD(Phalcon_ADR_Router_Router, delete)
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "DELETE");
 	zephir_array_fast_append(&_0, &_1);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "add", NULL, 309, &pattern_zv, &actionClass_zv, &_0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "add", NULL, 321, &pattern_zv, &actionClass_zv, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -155,7 +155,7 @@ PHP_METHOD(Phalcon_ADR_Router_Router, get)
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "GET");
 	zephir_array_fast_append(&_0, &_1);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "add", NULL, 309, &pattern_zv, &actionClass_zv, &_0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "add", NULL, 321, &pattern_zv, &actionClass_zv, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -182,7 +182,7 @@ PHP_METHOD(Phalcon_ADR_Router_Router, group)
 	ZVAL_STR_COPY(&prefix_zv, prefix);
 	ZEPHIR_INIT_VAR(&group);
 	object_init_ex(&group, phalcon_adr_router_group_ce);
-	ZEPHIR_CALL_METHOD(NULL, &group, "__construct", NULL, 310, &prefix_zv, this_ptr);
+	ZEPHIR_CALL_METHOD(NULL, &group, "__construct", NULL, 322, &prefix_zv, this_ptr);
 	zephir_check_call_status();
 	ZEPHIR_CALL_FUNCTION(NULL, "call_user_func", NULL, 80, configure, &group);
 	zephir_check_call_status();
@@ -230,7 +230,7 @@ PHP_METHOD(Phalcon_ADR_Router_Router, match)
 	ZEPHIR_CALL_METHOD(&method, request, "getmethod", NULL, 0);
 	zephir_check_call_status();
 	methodMismatch = 0;
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 356, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 365, PH_NOISY_CC | PH_READONLY);
 	zephir_is_iterable(&_0, 0, "phalcon/ADR/Router/Router.zep", 90);
 	if (Z_TYPE_P(&_0) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_0), _1)
@@ -250,7 +250,7 @@ PHP_METHOD(Phalcon_ADR_Router_Router, match)
 					zephir_check_call_status();
 					ZEPHIR_CALL_METHOD(&_5$$5, &route, "getname", NULL, 0);
 					zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", &_6, 311, &_3$$5, &params, &_4$$5, &_5$$5);
+					ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", &_6, 323, &_3$$5, &params, &_4$$5, &_5$$5);
 					zephir_check_call_status();
 					RETURN_MM();
 				}
@@ -288,7 +288,7 @@ PHP_METHOD(Phalcon_ADR_Router_Router, match)
 						zephir_check_call_status();
 						ZEPHIR_CALL_METHOD(&_12$$8, &route, "getname", NULL, 0);
 						zephir_check_call_status();
-						ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", &_6, 311, &_10$$8, &params, &_11$$8, &_12$$8);
+						ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", &_6, 323, &_10$$8, &params, &_11$$8, &_12$$8);
 						zephir_check_call_status();
 						RETURN_MM();
 					}
@@ -332,7 +332,7 @@ PHP_METHOD(Phalcon_ADR_Router_Router, patch)
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "PATCH");
 	zephir_array_fast_append(&_0, &_1);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "add", NULL, 309, &pattern_zv, &actionClass_zv, &_0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "add", NULL, 321, &pattern_zv, &actionClass_zv, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -365,7 +365,7 @@ PHP_METHOD(Phalcon_ADR_Router_Router, post)
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "POST");
 	zephir_array_fast_append(&_0, &_1);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "add", NULL, 309, &pattern_zv, &actionClass_zv, &_0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "add", NULL, 321, &pattern_zv, &actionClass_zv, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -398,7 +398,7 @@ PHP_METHOD(Phalcon_ADR_Router_Router, put)
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "PUT");
 	zephir_array_fast_append(&_0, &_1);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "add", NULL, 309, &pattern_zv, &actionClass_zv, &_0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "add", NULL, 321, &pattern_zv, &actionClass_zv, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }

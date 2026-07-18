@@ -115,11 +115,11 @@ PHP_METHOD(Phalcon_ADR_Router_Route, __construct)
 	} else {
 		zephir_get_arrval(&methods, methods_param);
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 352, &action_zv);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 353, &methods);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 361, &action_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 362, &methods);
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "compile", NULL, 0, &pattern_zv);
 	zephir_check_call_status();
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 354, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 363, &_0);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -149,10 +149,10 @@ PHP_METHOD(Phalcon_ADR_Router_Route, allowsMethod)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&method_zv);
 	ZVAL_STR_COPY(&method_zv, method);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 353, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 362, PH_NOISY_CC | PH_READONLY);
 	_1 = ZEPHIR_IS_EMPTY(&_0);
 	if (!(_1)) {
-		zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 353, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 362, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_FUNCTION(&_3, "in_array", NULL, 87, &method_zv, &_2, &__$true);
 		zephir_check_call_status();
 		_1 = zephir_is_true(&_3);
@@ -200,7 +200,7 @@ PHP_METHOD(Phalcon_ADR_Router_Route, matches)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&uri_zv);
 	ZVAL_STR_COPY(&uri_zv, uri);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 354, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 363, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_1);
 	zephir_preg_match(&_1, &_0, &uri_zv, &matches, 0, 0 , 0 );
 	if (!(zephir_is_true(&_1))) {
@@ -263,7 +263,7 @@ PHP_METHOD(Phalcon_ADR_Router_Route, withName)
 		Z_PARAM_STR(name)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&name_zv, name);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 355, &name_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 364, &name_zv);
 	RETURN_THISW();
 }
 

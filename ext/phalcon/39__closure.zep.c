@@ -13,8 +13,8 @@
 
 #include "kernel/main.h"
 #include "kernel/fcall.h"
-#include "kernel/memory.h"
 #include "kernel/object.h"
+#include "kernel/memory.h"
 
 
 ZEPHIR_INIT_CLASS(phalcon_39__closure)
@@ -22,6 +22,7 @@ ZEPHIR_INIT_CLASS(phalcon_39__closure)
 	ZEPHIR_REGISTER_CLASS(phalcon, 39__closure, phalcon, 39__closure, phalcon_39__closure_method_entry, ZEND_ACC_FINAL_CLASS);
 
 	zend_declare_property_null(phalcon_39__closure_ce, SL("escaper"), ZEND_ACC_PUBLIC|ZEND_ACC_STATIC);
+	zend_declare_property_null(phalcon_39__closure_ce, SL("url"), ZEND_ACC_PUBLIC|ZEND_ACC_STATIC);
 	return SUCCESS;
 }
 
@@ -29,24 +30,17 @@ PHP_METHOD(phalcon_39__closure, __invoke)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval escaper, _0, _1, _2;
-	zval *this_ptr = getThis();
+	zval escaper, url;
 
 	ZVAL_UNDEF(&escaper);
-	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&url);
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_read_static_property_ce(&url, phalcon_39__closure_ce, SL("url"), PH_NOISY_CC);
 	zephir_read_static_property_ce(&escaper, phalcon_39__closure_ce, SL("escaper"), PH_NOISY_CC);
 
-	object_init_ex(return_value, phalcon_html_helper_button_ce);
-	ZEPHIR_INIT_VAR(&_1);
-	ZVAL_STRING(&_1, "doctype");
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "newinstance", NULL, 0, &_1);
-	zephir_check_call_status();
-	ZVAL_BOOL(&_2, 1);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &escaper, &_0, &_2);
+	object_init_ex(return_value, phalcon_html_helper_breadcrumbs_ce);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &escaper, &url);
 	zephir_check_call_status();
 	RETURN_MM();
 }
