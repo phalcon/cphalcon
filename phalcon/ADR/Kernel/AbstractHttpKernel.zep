@@ -24,6 +24,9 @@ use Phalcon\Contracts\ADR\Kernel\Kernel;
  */
 abstract class AbstractHttpKernel implements Kernel
 {
+    /**
+     * @var string
+     */
     protected projectRoot;
 
     public function __construct(string projectRoot)

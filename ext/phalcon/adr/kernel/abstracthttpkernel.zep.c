@@ -38,6 +38,9 @@ ZEPHIR_INIT_CLASS(Phalcon_ADR_Kernel_AbstractHttpKernel)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\ADR\\Kernel, AbstractHttpKernel, phalcon, adr_kernel_abstracthttpkernel, phalcon_adr_kernel_abstracthttpkernel_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
+	/**
+	 * @var string
+	 */
 	zend_declare_property_null(phalcon_adr_kernel_abstracthttpkernel_ce, SL("projectRoot"), ZEND_ACC_PROTECTED);
 	zend_class_implements(phalcon_adr_kernel_abstracthttpkernel_ce, 1, phalcon_contracts_adr_kernel_kernel_ce);
 	return SUCCESS;
