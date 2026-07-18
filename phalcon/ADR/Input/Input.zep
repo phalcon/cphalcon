@@ -19,9 +19,10 @@ use Phalcon\Http\Request\Bag\AttributeBag;
 /**
  * Generic, string-keyed input bag for an Action.
  *
- * Ships as a convenience; applications typically write their own typed input
- * value objects. `fromRequest()` merges the request query, parsed body and
- * route attributes into a single bag (later sources win).
+ * `fromRequest()` merges the request query, parsed body and route attributes
+ * into a single bag (later sources win). Extend it to build a typed, per-domain
+ * input value object: the factories use late static binding, so a subclass's
+ * `fromRequest()` / `fromArray()` return that subclass.
  */
 class Input
 {
@@ -35,12 +36,12 @@ class Input
         let this->data = data;
     }
 
-    public static function fromArray(array data) -> <Input>
+    public static function fromArray(array data) -> <static>
     {
-        return new self(data);
+        return new static(data);
     }
 
-    public static function fromRequest(<AttributeRequestInterface> request) -> <Input>
+    public static function fromRequest(<AttributeRequestInterface> request) -> <static>
     {
         var json;
 
@@ -49,7 +50,7 @@ class Input
             let json = [];
         }
 
-        return new self(
+        return new static(
             array_merge(
                 request->getQuery(),
                 request->getPost(),
