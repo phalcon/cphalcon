@@ -66,7 +66,7 @@ PHP_METHOD(Phalcon_Forms_Loader_ArrayLoader, __construct)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &definitions_param);
 	zephir_get_arrval(&definitions, definitions_param);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 745, &definitions);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 772, &definitions);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -98,7 +98,7 @@ PHP_METHOD(Phalcon_Forms_Loader_ArrayLoader, load)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 745, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 772, PH_NOISY_CC | PH_READONLY);
 	zephir_is_iterable(&_0, 0, "phalcon/Forms/Loader/ArrayLoader.zep", 48);
 	if (Z_TYPE_P(&_0) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&_0), _2, _3, _1)

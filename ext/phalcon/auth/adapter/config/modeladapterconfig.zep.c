@@ -92,7 +92,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Config_ModelAdapterConfig, __construct)
 		ZVAL_STRING(&_2$$3, "model");
 		ZEPHIR_INIT_VAR(&_3$$3);
 		ZVAL_STRING(&_3$$3, " class name");
-		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 335, &_1$$3, &_2$$3, &_3$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 349, &_1$$3, &_2$$3, &_3$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_0$$3, "phalcon/Auth/Adapter/Config/ModelAdapterConfig.zep", 36);
 		ZEPHIR_MM_RESTORE();
@@ -105,13 +105,13 @@ PHP_METHOD(Phalcon_Auth_Adapter_Config_ModelAdapterConfig, __construct)
 		ZVAL_STRING(&_5$$4, "Model adapter");
 		ZEPHIR_INIT_VAR(&_6$$4);
 		ZVAL_STRING(&_6$$4, "idColumn");
-		ZEPHIR_CALL_METHOD(NULL, &_4$$4, "__construct", NULL, 335, &_5$$4, &_6$$4);
+		ZEPHIR_CALL_METHOD(NULL, &_4$$4, "__construct", NULL, 349, &_5$$4, &_6$$4);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_4$$4, "phalcon/Auth/Adapter/Config/ModelAdapterConfig.zep", 43);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 389, &idColumn_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 416, &idColumn_zv);
 	ZEPHIR_CALL_PARENT(NULL, phalcon_auth_adapter_config_modeladapterconfig_ce, getThis(), "__construct", NULL, 0, &model_zv);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
