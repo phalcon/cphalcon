@@ -31,22 +31,22 @@
  */
 /**
  * Boots a container, resolves the Application, handles the request and emits the
- * response. Userland kernels override `loadEnvironment()` / `registerProviders()`;
- * bootstrap is `exit((new AppKernel(dirname(__DIR__)))->run());`.
+ * response. Userland front controllers override `loadEnvironment()` /
+ * `registerProviders()`; bootstrap is `exit((new AppFront(dirname(__DIR__)))->run());`.
  */
-ZEPHIR_INIT_CLASS(Phalcon_ADR_Kernel_AbstractHttpKernel)
+ZEPHIR_INIT_CLASS(Phalcon_ADR_Front_AbstractHttpFront)
 {
-	ZEPHIR_REGISTER_CLASS(Phalcon\\ADR\\Kernel, AbstractHttpKernel, phalcon, adr_kernel_abstracthttpkernel, phalcon_adr_kernel_abstracthttpkernel_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\ADR\\Front, AbstractHttpFront, phalcon, adr_front_abstracthttpfront, phalcon_adr_front_abstracthttpfront_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
 	/**
 	 * @var string
 	 */
-	zend_declare_property_null(phalcon_adr_kernel_abstracthttpkernel_ce, SL("projectRoot"), ZEND_ACC_PROTECTED);
-	zend_class_implements(phalcon_adr_kernel_abstracthttpkernel_ce, 1, phalcon_contracts_adr_kernel_kernel_ce);
+	zend_declare_property_null(phalcon_adr_front_abstracthttpfront_ce, SL("projectRoot"), ZEND_ACC_PROTECTED);
+	zend_class_implements(phalcon_adr_front_abstracthttpfront_ce, 1, phalcon_contracts_front_frontcontroller_ce);
 	return SUCCESS;
 }
 
-PHP_METHOD(Phalcon_ADR_Kernel_AbstractHttpKernel, __construct)
+PHP_METHOD(Phalcon_ADR_Front_AbstractHttpFront, __construct)
 {
 	zval projectRoot_zv;
 	zend_string *projectRoot = NULL;
@@ -65,7 +65,7 @@ PHP_METHOD(Phalcon_ADR_Kernel_AbstractHttpKernel, __construct)
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 243, &projectRoot_zv);
 }
 
-PHP_METHOD(Phalcon_ADR_Kernel_AbstractHttpKernel, run)
+PHP_METHOD(Phalcon_ADR_Front_AbstractHttpFront, run)
 {
 	zval container, request, application, response, exception, _2, _0$$3, _1$$3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -125,7 +125,7 @@ PHP_METHOD(Phalcon_ADR_Kernel_AbstractHttpKernel, run)
 	RETURN_MM_LONG(0);
 }
 
-PHP_METHOD(Phalcon_ADR_Kernel_AbstractHttpKernel, buildContainer)
+PHP_METHOD(Phalcon_ADR_Front_AbstractHttpFront, buildContainer)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -138,7 +138,7 @@ PHP_METHOD(Phalcon_ADR_Kernel_AbstractHttpKernel, buildContainer)
 	RETURN_MM();
 }
 
-PHP_METHOD(Phalcon_ADR_Kernel_AbstractHttpKernel, handleBootError)
+PHP_METHOD(Phalcon_ADR_Front_AbstractHttpFront, handleBootError)
 {
 	zval _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -174,7 +174,7 @@ PHP_METHOD(Phalcon_ADR_Kernel_AbstractHttpKernel, handleBootError)
 	RETURN_MM_LONG(1);
 }
 
-PHP_METHOD(Phalcon_ADR_Kernel_AbstractHttpKernel, loadEnvironment)
+PHP_METHOD(Phalcon_ADR_Front_AbstractHttpFront, loadEnvironment)
 {
 	zval *container, container_sub;
 
@@ -185,7 +185,7 @@ PHP_METHOD(Phalcon_ADR_Kernel_AbstractHttpKernel, loadEnvironment)
 	zephir_fetch_params_without_memory_grow(1, 0, &container);
 }
 
-PHP_METHOD(Phalcon_ADR_Kernel_AbstractHttpKernel, registerProviders)
+PHP_METHOD(Phalcon_ADR_Front_AbstractHttpFront, registerProviders)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;

@@ -1,0 +1,12 @@
+
+extern zend_class_entry *phalcon_contracts_front_frontcontroller_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Contracts_Front_FrontController);
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_front_frontcontroller_run, 0, 0, IS_LONG, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_contracts_front_frontcontroller_method_entry) {
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Front_FrontController, run, arginfo_phalcon_contracts_front_frontcontroller_run)
+	PHP_FE_END
+};

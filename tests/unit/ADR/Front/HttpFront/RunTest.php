@@ -11,13 +11,13 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Tests\Unit\ADR\Kernel\HttpKernel;
+namespace Phalcon\Tests\Unit\ADR\Front\HttpFront;
 
-use Phalcon\ADR\Kernel\AbstractHttpKernel;
-use Phalcon\ADR\Kernel\HttpKernel;
+use Phalcon\ADR\Front\AbstractHttpFront;
+use Phalcon\ADR\Front\HttpFront;
 use Phalcon\Container\Container;
 use Phalcon\Contracts\ADR\Emitter\Emitter;
-use Phalcon\Contracts\ADR\Kernel\Kernel;
+use Phalcon\Contracts\Front\FrontController;
 use Phalcon\Http\Response;
 use Phalcon\Http\ResponseInterface;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
@@ -26,22 +26,22 @@ use stdClass;
 final class RunTest extends AbstractUnitTestCase
 {
     /**
-     * Unit Tests Phalcon\ADR\Kernel\HttpKernel :: implements Kernel
+     * Unit Tests Phalcon\ADR\Front\HttpFront :: implements FrontController
      */
-    public function testAdrKernelHttpKernelIsKernel(): void
+    public function testAdrFrontHttpFrontIsFrontController(): void
     {
-        $kernel = new HttpKernel('/project/root');
+        $front = new HttpFront('/project/root');
 
-        $this->assertInstanceOf(Kernel::class, $kernel);
-        $this->assertInstanceOf(AbstractHttpKernel::class, $kernel);
+        $this->assertInstanceOf(FrontController::class, $front);
+        $this->assertInstanceOf(AbstractHttpFront::class, $front);
     }
 
     /**
-     * Unit Tests Phalcon\ADR\Kernel\HttpKernel :: run() - handles and emits
+     * Unit Tests Phalcon\ADR\Front\HttpFront :: run() - handles and emits
      */
-    public function testAdrKernelHttpKernelRunEmitsHandledResponse(): void
+    public function testAdrFrontHttpFrontRunEmitsHandledResponse(): void
     {
-        $kernel = new class ('/project/root') extends AbstractHttpKernel {
+        $front = new class ('/project/root') extends AbstractHttpFront {
             public ?ResponseInterface $emitted = null;
 
             protected function registerProviders(Container $container): void
@@ -54,43 +54,43 @@ final class RunTest extends AbstractUnitTestCase
                     return new class {
                         public function handle($request): ResponseInterface
                         {
-                            return (new Response())->setContent('kernel-body');
+                            return (new Response())->setContent('front-body');
                         }
                     };
                 });
 
-                $kernel = $this;
-                $container->set('Phalcon\\Contracts\\ADR\\Emitter\\Emitter', function ($c) use ($kernel) {
-                    return new class ($kernel) implements Emitter {
-                        private $kernel;
+                $front = $this;
+                $container->set('Phalcon\\Contracts\\ADR\\Emitter\\Emitter', function ($c) use ($front) {
+                    return new class ($front) implements Emitter {
+                        private $front;
 
-                        public function __construct($kernel)
+                        public function __construct($front)
                         {
-                            $this->kernel = $kernel;
+                            $this->front = $front;
                         }
 
                         public function emit(ResponseInterface $response): void
                         {
-                            $this->kernel->emitted = $response;
+                            $this->front->emitted = $response;
                         }
                     };
                 });
             }
         };
 
-        $code = $kernel->run();
+        $code = $front->run();
 
         $this->assertSame(0, $code);
-        $this->assertInstanceOf(Response::class, $kernel->emitted);
-        $this->assertSame('kernel-body', $kernel->emitted->getContent());
+        $this->assertInstanceOf(Response::class, $front->emitted);
+        $this->assertSame('front-body', $front->emitted->getContent());
     }
 
     /**
-     * Unit Tests Phalcon\ADR\Kernel\HttpKernel :: run() - boot failure
+     * Unit Tests Phalcon\ADR\Front\HttpFront :: run() - boot failure
      */
-    public function testAdrKernelHttpKernelRunReturnsErrorCodeOnBootFailure(): void
+    public function testAdrFrontHttpFrontRunReturnsErrorCodeOnBootFailure(): void
     {
-        $kernel = new class ('/project/root') extends AbstractHttpKernel {
+        $front = new class ('/project/root') extends AbstractHttpFront {
             protected function buildContainer(): Container
             {
                 throw new \RuntimeException('boot failed');
@@ -98,7 +98,7 @@ final class RunTest extends AbstractUnitTestCase
         };
 
         ob_start();
-        $code   = $kernel->run();
+        $code   = $front->run();
         $output = (string) ob_get_clean();
 
         $this->assertSame(1, $code);

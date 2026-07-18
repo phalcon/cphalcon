@@ -24,7 +24,7 @@
  * @link    https://pmjones.io/adr/
  */
 /**
- * Sends a response to the client. Called by the Kernel only.
+ * Sends a response to the client. Called by the front controller only.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Contracts_ADR_Emitter_Emitter)
 {

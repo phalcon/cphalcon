@@ -26,13 +26,13 @@
  * @link    https://pmjones.io/adr/
  */
 /**
- * Concrete default HTTP kernel. Boots the ADR provider and runs the application
- * with the framework defaults; subclass to override `loadEnvironment()` or
- * `registerProviders()`.
+ * Concrete default HTTP front controller. Boots the ADR provider and runs the
+ * application with the framework defaults; subclass to override
+ * `loadEnvironment()` or `registerProviders()`.
  */
-ZEPHIR_INIT_CLASS(Phalcon_ADR_Kernel_HttpKernel)
+ZEPHIR_INIT_CLASS(Phalcon_ADR_Front_HttpFront)
 {
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\ADR\\Kernel, HttpKernel, phalcon, adr_kernel_httpkernel, phalcon_adr_kernel_abstracthttpkernel_ce, NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\ADR\\Front, HttpFront, phalcon, adr_front_httpfront, phalcon_adr_front_abstracthttpfront_ce, NULL, 0);
 
 	return SUCCESS;
 }
