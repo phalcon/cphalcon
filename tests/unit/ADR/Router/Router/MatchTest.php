@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\ADR\Router\Router;
 
+use Phalcon\ADR\Middleware\TimingMiddleware;
 use Phalcon\ADR\Router\Exceptions\MethodNotAllowed;
 use Phalcon\ADR\Router\Router;
 use Phalcon\Contracts\ADR\Router\RouterMatch;
@@ -21,6 +22,8 @@ use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class MatchTest extends AbstractUnitTestCase
 {
+    private const BASE = 'Phalcon\\Tests\\Support\\ADR\\Action';
+
     protected function tearDown(): void
     {
         unset($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);
@@ -29,51 +32,66 @@ final class MatchTest extends AbstractUnitTestCase
     }
 
     /**
-     * Unit Tests Phalcon\ADR\Router\Router :: match() returns a match
+     * Unit Tests Phalcon\ADR\Router\Router :: match() resolves a class + positional attributes
      */
-    public function testAdrRouterRouterMatchReturnsMatch(): void
+    public function testAdrRouterRouterMatchResolvesByConvention(): void
     {
         $_SERVER['REQUEST_URI']    = '/posts/42';
         $_SERVER['REQUEST_METHOD'] = 'GET';
 
-        $router = new Router();
-        $router->get('/posts/{id}', 'ShowAction')->withName('posts.show');
+        $router = (new Router())->setBaseNamespace(self::BASE);
 
         $match = $router->match(new Request());
 
         $this->assertInstanceOf(RouterMatch::class, $match);
-        $this->assertSame('ShowAction', $match->getAction());
-        $this->assertSame(['id' => '42'], $match->getAttributes());
-        $this->assertSame('posts.show', $match->getName());
+        $this->assertSame(self::BASE . '\\Posts\\Get', $match->getAction());
+        $this->assertSame([0 => '42'], $match->getAttributes());
+        $this->assertSame([], $match->getMiddleware());
     }
 
     /**
-     * Unit Tests Phalcon\ADR\Router\Router :: match() returns null when nothing matches
+     * Unit Tests Phalcon\ADR\Router\Router :: match() returns null (404) when nothing matches
      */
     public function testAdrRouterRouterMatchReturnsNull(): void
     {
         $_SERVER['REQUEST_URI']    = '/nope';
         $_SERVER['REQUEST_METHOD'] = 'GET';
 
-        $router = new Router();
-        $router->get('/posts/{id}', 'ShowAction');
+        $router = (new Router())->setBaseNamespace(self::BASE);
 
         $this->assertNull($router->match(new Request()));
     }
 
     /**
-     * Unit Tests Phalcon\ADR\Router\Router :: match() throws on a method mismatch
+     * Unit Tests Phalcon\ADR\Router\Router :: match() throws 405 when the path exists under another verb
      */
     public function testAdrRouterRouterMatchThrowsMethodNotAllowed(): void
     {
         $_SERVER['REQUEST_URI']    = '/posts/42';
         $_SERVER['REQUEST_METHOD'] = 'DELETE';
 
-        $router = new Router();
-        $router->get('/posts/{id}', 'ShowAction');
+        $router = (new Router())->setBaseNamespace(self::BASE);
 
         $this->expectException(MethodNotAllowed::class);
 
         $router->match(new Request());
+    }
+
+    /**
+     * Unit Tests Phalcon\ADR\Router\Router :: match() stacks namespace-prefix middleware
+     */
+    public function testAdrRouterRouterMatchStacksNamespaceMiddleware(): void
+    {
+        $_SERVER['REQUEST_URI']    = '/admin';
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+
+        $router = (new Router())
+            ->setBaseNamespace(self::BASE)
+            ->setMiddlewareMap(['\\Admin\\' => [TimingMiddleware::class]]);
+
+        $match = $router->match(new Request());
+
+        $this->assertSame(self::BASE . '\\Admin\\Get', $match->getAction());
+        $this->assertSame([TimingMiddleware::class], $match->getMiddleware());
     }
 }
