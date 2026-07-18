@@ -16,6 +16,7 @@ namespace Phalcon\ADR\Middleware;
 use Phalcon\Contracts\ADR\Handler;
 use Phalcon\Contracts\ADR\Middleware;
 use Phalcon\Contracts\Http\AttributeRequestInterface;
+use Phalcon\Http\Request\Bag\AttributeBag;
 use Phalcon\Http\ResponseInterface;
 
 /**

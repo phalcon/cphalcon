@@ -21,7 +21,7 @@
 
 namespace Phalcon\ADR\Payload;
 
-use Phalcon\Contracts\ADR\Payload\Payload as PayloadInterface;
+use Phalcon\Contracts\ADR\Payload\Payload as PayloadContract;
 use Throwable;
 
 /**
@@ -31,7 +31,7 @@ use Throwable;
  * unchanged. Named factories provide a concise way to create a payload for the
  * commonly used statuses.
  */
-class Payload implements PayloadInterface
+class Payload implements PayloadContract
 {
     /**
      * @var Throwable|null
@@ -66,7 +66,7 @@ class Payload implements PayloadInterface
     /**
      * Creates a payload with the `ACCEPTED` status.
      */
-    public static function accepted(var result = null) -> <PayloadInterface>
+    public static function accepted(var result = null) -> <PayloadContract>
     {
         return (new static())->withStatus(Status::ACCEPTED)->withResult(result);
     }
@@ -74,7 +74,7 @@ class Payload implements PayloadInterface
     /**
      * Creates a payload with the `CREATED` status.
      */
-    public static function created(var result = null) -> <PayloadInterface>
+    public static function created(var result = null) -> <PayloadContract>
     {
         return (new static())->withStatus(Status::CREATED)->withResult(result);
     }
@@ -82,7 +82,7 @@ class Payload implements PayloadInterface
     /**
      * Creates a payload with the `DELETED` status.
      */
-    public static function deleted(var result = null) -> <PayloadInterface>
+    public static function deleted(var result = null) -> <PayloadContract>
     {
         return (new static())->withStatus(Status::DELETED)->withResult(result);
     }
@@ -90,7 +90,7 @@ class Payload implements PayloadInterface
     /**
      * Creates a payload with the `ERROR` status.
      */
-    public static function error(var messages = null) -> <PayloadInterface>
+    public static function error(var messages = null) -> <PayloadContract>
     {
         return (new static())->withStatus(Status::ERROR)->withMessages(messages);
     }
@@ -99,7 +99,7 @@ class Payload implements PayloadInterface
      * Creates a payload with the `NOT_AUTHORIZED` status (authenticated but
      * not allowed - HTTP 403).
      */
-    public static function forbidden(var messages = null) -> <PayloadInterface>
+    public static function forbidden(var messages = null) -> <PayloadContract>
     {
         return (new static())->withStatus(Status::NOT_AUTHORIZED)->withMessages(messages);
     }
@@ -107,7 +107,7 @@ class Payload implements PayloadInterface
     /**
      * Creates a payload with the `FOUND` status.
      */
-    public static function found(var result = null) -> <PayloadInterface>
+    public static function found(var result = null) -> <PayloadContract>
     {
         return (new static())->withStatus(Status::FOUND)->withResult(result);
     }
@@ -163,7 +163,7 @@ class Payload implements PayloadInterface
     /**
      * Creates a payload with the `NOT_VALID` status.
      */
-    public static function invalid(var messages = null) -> <PayloadInterface>
+    public static function invalid(var messages = null) -> <PayloadContract>
     {
         return (new static())->withStatus(Status::NOT_VALID)->withMessages(messages);
     }
@@ -171,7 +171,7 @@ class Payload implements PayloadInterface
     /**
      * Creates a payload with the `NOT_FOUND` status.
      */
-    public static function notFound(var messages = null) -> <PayloadInterface>
+    public static function notFound(var messages = null) -> <PayloadContract>
     {
         return (new static())->withStatus(Status::NOT_FOUND)->withMessages(messages);
     }
@@ -179,7 +179,7 @@ class Payload implements PayloadInterface
     /**
      * Creates a payload with the `PROCESSING` status.
      */
-    public static function processing(var result = null) -> <PayloadInterface>
+    public static function processing(var result = null) -> <PayloadContract>
     {
         return (new static())->withStatus(Status::PROCESSING)->withResult(result);
     }
@@ -187,7 +187,7 @@ class Payload implements PayloadInterface
     /**
      * Creates a payload with the `SUCCESS` status.
      */
-    public static function success(var result = null) -> <PayloadInterface>
+    public static function success(var result = null) -> <PayloadContract>
     {
         return (new static())->withStatus(Status::SUCCESS)->withResult(result);
     }
@@ -196,7 +196,7 @@ class Payload implements PayloadInterface
      * Creates a payload with the `NOT_AUTHENTICATED` status (identity not
      * established - HTTP 401).
      */
-    public static function unauthenticated(var messages = null) -> <PayloadInterface>
+    public static function unauthenticated(var messages = null) -> <PayloadContract>
     {
         return (new static())->withStatus(Status::NOT_AUTHENTICATED)->withMessages(messages);
     }
@@ -204,7 +204,7 @@ class Payload implements PayloadInterface
     /**
      * Creates a payload with the `UPDATED` status.
      */
-    public static function updated(var result = null) -> <PayloadInterface>
+    public static function updated(var result = null) -> <PayloadContract>
     {
         return (new static())->withStatus(Status::UPDATED)->withResult(result);
     }
@@ -212,7 +212,7 @@ class Payload implements PayloadInterface
     /**
      * Returns a copy of the payload with the given exception.
      */
-    public function withException(<Throwable> exception) -> <PayloadInterface>
+    public function withException(<Throwable> exception) -> <PayloadContract>
     {
         var cloned;
 
@@ -225,7 +225,7 @@ class Payload implements PayloadInterface
     /**
      * Returns a copy of the payload with the given extras.
      */
-    public function withExtras(var extras) -> <PayloadInterface>
+    public function withExtras(var extras) -> <PayloadContract>
     {
         var cloned;
 
@@ -238,7 +238,7 @@ class Payload implements PayloadInterface
     /**
      * Returns a copy of the payload with the given input.
      */
-    public function withInput(var input) -> <PayloadInterface>
+    public function withInput(var input) -> <PayloadContract>
     {
         var cloned;
 
@@ -251,7 +251,7 @@ class Payload implements PayloadInterface
     /**
      * Returns a copy of the payload with the given messages.
      */
-    public function withMessages(var messages) -> <PayloadInterface>
+    public function withMessages(var messages) -> <PayloadContract>
     {
         var cloned;
 
@@ -264,7 +264,7 @@ class Payload implements PayloadInterface
     /**
      * Returns a copy of the payload with the given result.
      */
-    public function withResult(var result) -> <PayloadInterface>
+    public function withResult(var result) -> <PayloadContract>
     {
         var cloned;
 
@@ -277,7 +277,7 @@ class Payload implements PayloadInterface
     /**
      * Returns a copy of the payload with the given status.
      */
-    public function withStatus(var status) -> <PayloadInterface>
+    public function withStatus(var status) -> <PayloadContract>
     {
         var cloned;
 
