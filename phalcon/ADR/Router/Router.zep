@@ -26,8 +26,14 @@ use Phalcon\Http\RequestInterface;
  */
 final class Router implements RouterInterface
 {
+    /**
+     * @var string
+     */
     protected baseNamespace = "";
 
+    /**
+     * @var array<string, string>
+     */
     protected middlewareMap = [];
 
     public function match(<RequestInterface> request) -> <RouterMatchInterface> | null
