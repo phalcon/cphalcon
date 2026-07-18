@@ -74,11 +74,11 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Textarea, __toString)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 792, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 798, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&attributes, &_0);
 	ZEPHIR_INIT_VAR(&_1);
 	array_init(&_1);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 792, &_1);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 798, &_1);
 	zephir_memory_observe(&value);
 	if (!(zephir_array_isset_string_fetch(&value, &attributes, SL("value"), 0))) {
 		ZEPHIR_INIT_NVAR(&value);
@@ -86,7 +86,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Textarea, __toString)
 	}
 	zephir_array_unset_string(&attributes, SL("type"), PH_SEPARATE);
 	zephir_array_unset_string(&attributes, SL("value"), PH_SEPARATE);
-	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_1, 793, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_1, 799, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "renderfullelement", NULL, 0, &_2, &value, &attributes);
 	zephir_check_call_status();
 	RETURN_MM();

@@ -79,7 +79,7 @@ PHP_METHOD(Phalcon_Application_AbstractApplication, __construct)
 		container = &__$null;
 	}
 	if (Z_TYPE_P(container) != IS_NULL) {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 135, container);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 136, container);
 	}
 }
 
@@ -133,11 +133,11 @@ PHP_METHOD(Phalcon_Application_AbstractApplication, getModule)
 	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
 	zephir_memory_observe(&module);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 136, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 137, PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(!(zephir_array_isset_fetch(&module, &_0, &name_zv, 0)))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_application_exceptions_modulenotregistered_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 151, &name_zv);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 154, &name_zv);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Application/AbstractApplication.zep", 77);
 		ZEPHIR_MM_RESTORE();
@@ -204,11 +204,11 @@ PHP_METHOD(Phalcon_Application_AbstractApplication, registerModules)
 		}
 	if (merge) {
 		ZEPHIR_INIT_VAR(&_0$$3);
-		zephir_read_property_cached(&_1$$3, this_ptr, _zephir_prop_0, 136, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_1$$3, this_ptr, _zephir_prop_0, 137, PH_NOISY_CC | PH_READONLY);
 		zephir_fast_array_merge(&_0$$3, &_1$$3, &modules);
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 136, &_0$$3);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 137, &_0$$3);
 	} else {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 136, &modules);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 137, &modules);
 	}
 	RETURN_THIS();
 }
@@ -232,7 +232,7 @@ PHP_METHOD(Phalcon_Application_AbstractApplication, setDefaultModule)
 		Z_PARAM_STR(defaultModule)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&defaultModule_zv, defaultModule);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 137, &defaultModule_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 138, &defaultModule_zv);
 	RETURN_THISW();
 }
 
@@ -266,7 +266,7 @@ PHP_METHOD(Phalcon_Application_AbstractApplication, setEventsManager)
 	ZVAL_STRING(&_1, "eventsManager");
 	ZEPHIR_CALL_METHOD(NULL, &_0, "set", NULL, 0, &_1, eventsManager);
 	zephir_check_call_status();
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 138, eventsManager);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 139, eventsManager);
 	ZEPHIR_MM_RESTORE();
 }
 
