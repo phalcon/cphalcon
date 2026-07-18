@@ -85,7 +85,7 @@ PHP_METHOD(Phalcon_Auth_Micro_AuthMicroListener, __construct)
 	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_auth_micro_authmicrolistener_ce, getThis(), "__construct", NULL, 0, manager);
 	zephir_check_call_status();
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 462, &componentName_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 456, &componentName_zv);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -144,7 +144,7 @@ PHP_METHOD(Phalcon_Auth_Micro_AuthMicroListener, beforeExecuteRoute)
 	ZEPHIR_INIT_VAR(&_2);
 	zephir_create_array(&_2, 2, 0);
 	zephir_memory_observe(&_3);
-	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_0, 462, PH_NOISY_CC);
+	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_0, 456, PH_NOISY_CC);
 	zephir_array_update_string(&_2, SL("handler"), &_3, PH_COPY | PH_SEPARATE);
 	ZEPHIR_CALL_METHOD(&_4, &router, "getparams", NULL, 0);
 	zephir_check_call_status();

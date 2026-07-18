@@ -24,8 +24,9 @@
  * @link    https://pmjones.io/adr/
  */
 /**
- * Maps a request to an Action. Routes are registered by pattern and HTTP method
- * and matched against the incoming request.
+ * Maps a request to an Action by convention: the HTTP method and the static
+ * path segments identify the class; trailing segments become positional
+ * request attributes. No route table.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Contracts_ADR_Router_Router)
 {
@@ -34,11 +35,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Contracts_ADR_Router_Router)
 	return SUCCESS;
 }
 
-ZEPHIR_DOC_METHOD(Phalcon_Contracts_ADR_Router_Router, add);
-ZEPHIR_DOC_METHOD(Phalcon_Contracts_ADR_Router_Router, delete);
-ZEPHIR_DOC_METHOD(Phalcon_Contracts_ADR_Router_Router, get);
-ZEPHIR_DOC_METHOD(Phalcon_Contracts_ADR_Router_Router, group);
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_ADR_Router_Router, match);
-ZEPHIR_DOC_METHOD(Phalcon_Contracts_ADR_Router_Router, patch);
-ZEPHIR_DOC_METHOD(Phalcon_Contracts_ADR_Router_Router, post);
-ZEPHIR_DOC_METHOD(Phalcon_Contracts_ADR_Router_Router, put);
+ZEPHIR_DOC_METHOD(Phalcon_Contracts_ADR_Router_Router, setBaseNamespace);
+ZEPHIR_DOC_METHOD(Phalcon_Contracts_ADR_Router_Router, setMiddlewareMap);

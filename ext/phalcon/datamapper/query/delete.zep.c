@@ -145,7 +145,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Delete, returning)
 	zephir_fetch_params(1, 1, 0, &columns_param);
 	zephir_get_arrval(&columns, columns_param);
 	ZEPHIR_INIT_VAR(&_0);
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 567, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 561, PH_NOISY_CC | PH_READONLY);
 	zephir_array_fetch_string(&_2, &_1, SL("RETURNING"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Query/Delete.zep", 63);
 	zephir_fast_array_merge(&_0, &_2, &columns);
 	ZEPHIR_INIT_VAR(&_3);
@@ -179,7 +179,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Delete, getStatement)
 
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "buildflags", NULL, 0);
 	zephir_check_call_status();
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 567, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 561, PH_NOISY_CC | PH_READONLY);
 	zephir_array_fetch_string(&_2, &_1, SL("FROM"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Query/Delete.zep", 78);
 	ZEPHIR_INIT_VAR(&_4);
 	ZVAL_STRING(&_4, "WHERE");
