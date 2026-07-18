@@ -32,7 +32,7 @@ final class Router implements RouterInterface
     protected baseNamespace = "";
 
     /**
-     * @var array<string, string>
+     * @var array<string, string[]>
      */
     protected middlewareMap = [];
 

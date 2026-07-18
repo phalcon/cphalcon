@@ -48,7 +48,7 @@ ZEPHIR_INIT_CLASS(Phalcon_ADR_Router_Router)
 	 */
 	zend_declare_property_string(phalcon_adr_router_router_ce, SL("baseNamespace"), "", ZEND_ACC_PROTECTED);
 	/**
-	 * @var array<string, string>
+	 * @var array<string, string[]>
 	 */
 	zend_declare_property_null(phalcon_adr_router_router_ce, SL("middlewareMap"), ZEND_ACC_PROTECTED);
 	phalcon_adr_router_router_ce->create_object = zephir_init_properties_Phalcon_ADR_Router_Router;
