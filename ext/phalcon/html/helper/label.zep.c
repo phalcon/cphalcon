@@ -90,9 +90,9 @@ PHP_METHOD(Phalcon_Html_Helper_Label, __construct)
 	ZEPHIR_CALL_PARENT(NULL, phalcon_html_helper_label_ce, getThis(), "__construct", NULL, 0, escaper, doctype);
 	zephir_check_call_status();
 	if (forceRaw) {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 827, &__$true);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 836, &__$true);
 	} else {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 827, &__$false);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 836, &__$false);
 	}
 	ZEPHIR_MM_RESTORE();
 }
@@ -156,7 +156,7 @@ PHP_METHOD(Phalcon_Html_Helper_Label, __invoke)
 	_0 = raw;
 	if (!(_0)) {
 		zephir_memory_observe(&_1);
-		zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 827, PH_NOISY_CC);
+		zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 836, PH_NOISY_CC);
 		_0 = zephir_is_true(&_1);
 	}
 	ZEPHIR_INIT_VAR(&_2);
