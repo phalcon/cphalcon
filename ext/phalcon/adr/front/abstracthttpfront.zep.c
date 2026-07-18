@@ -65,6 +65,9 @@ PHP_METHOD(Phalcon_ADR_Front_AbstractHttpFront, __construct)
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 243, &projectRoot_zv);
 }
 
+/**
+ * @return int<0,254>
+ */
 PHP_METHOD(Phalcon_ADR_Front_AbstractHttpFront, run)
 {
 	zval container, request, application, response, exception, _2, _0$$3, _1$$3;

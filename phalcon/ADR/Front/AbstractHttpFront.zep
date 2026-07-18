@@ -34,6 +34,9 @@ abstract class AbstractHttpFront implements FrontController
         let this->projectRoot = projectRoot;
     }
 
+    /**
+     * @return int<0,254>
+     */
     final public function run() -> int
     {
         var container, request, application, response, exception;
