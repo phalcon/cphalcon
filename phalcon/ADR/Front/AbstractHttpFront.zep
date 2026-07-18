@@ -11,18 +11,18 @@
  * @link    https://pmjones.io/adr/
  */
 
-namespace Phalcon\ADR\Kernel;
+namespace Phalcon\ADR\Front;
 
 use Phalcon\ADR\Container\AdrProvider;
 use Phalcon\Container\Container;
-use Phalcon\Contracts\ADR\Kernel\Kernel;
+use Phalcon\Contracts\Front\FrontController;
 
 /**
  * Boots a container, resolves the Application, handles the request and emits the
- * response. Userland kernels override `loadEnvironment()` / `registerProviders()`;
- * bootstrap is `exit((new AppKernel(dirname(__DIR__)))->run());`.
+ * response. Userland front controllers override `loadEnvironment()` /
+ * `registerProviders()`; bootstrap is `exit((new AppFront(dirname(__DIR__)))->run());`.
  */
-abstract class AbstractHttpKernel implements Kernel
+abstract class AbstractHttpFront implements FrontController
 {
     /**
      * @var string

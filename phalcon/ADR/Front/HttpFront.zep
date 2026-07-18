@@ -11,13 +11,13 @@
  * @link    https://pmjones.io/adr/
  */
 
-namespace Phalcon\Contracts\ADR\Kernel;
+namespace Phalcon\ADR\Front;
 
 /**
- * Boots the container, handles the incoming request and emits the response.
- * Returns a process exit code.
+ * Concrete default HTTP front controller. Boots the ADR provider and runs the
+ * application with the framework defaults; subclass to override
+ * `loadEnvironment()` or `registerProviders()`.
  */
-interface Kernel
+class HttpFront extends AbstractHttpFront
 {
-    public function run() -> int;
 }
