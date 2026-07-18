@@ -124,7 +124,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build)
 	if (UNEXPECTED(!(zephir_array_isset_string_fetch(&className, &definition, SL("className"), 0)))) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		object_init_ex(&_0$$3, phalcon_di_exceptions_missingclassnameparameter_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 509);
+		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 0);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_0$$3, "phalcon/Di/Service/Builder.zep", 52);
 		ZEPHIR_MM_RESTORE();
@@ -143,7 +143,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build)
 	} else {
 		zephir_memory_observe(&arguments);
 		if (zephir_array_isset_string_fetch(&arguments, &definition, SL("arguments"), 0)) {
-			ZEPHIR_CALL_METHOD(&_1$$8, this_ptr, "buildparameters", NULL, 510, container, &arguments);
+			ZEPHIR_CALL_METHOD(&_1$$8, this_ptr, "buildparameters", NULL, 0, container, &arguments);
 			zephir_check_call_status();
 			ZEPHIR_INIT_NVAR(&instance);
 			ZEPHIR_LAST_CALL_STATUS = zephir_create_instance_params(&instance, &className, &_1$$8);
@@ -159,7 +159,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build)
 		if (UNEXPECTED(Z_TYPE_P(&instance) != IS_OBJECT)) {
 			ZEPHIR_INIT_VAR(&_2$$11);
 			object_init_ex(&_2$$11, phalcon_di_exceptions_setterinjectionrequiresinstance_ce);
-			ZEPHIR_CALL_METHOD(NULL, &_2$$11, "__construct", NULL, 511);
+			ZEPHIR_CALL_METHOD(NULL, &_2$$11, "__construct", NULL, 0);
 			zephir_check_call_status();
 			zephir_throw_exception_debug(&_2$$11, "phalcon/Di/Service/Builder.zep", 87);
 			ZEPHIR_MM_RESTORE();
@@ -223,7 +223,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build)
 					}
 					if (zephir_fast_count_int(&arguments)) {
 						ZEPHIR_INIT_NVAR(&_14$$18);
-						ZEPHIR_CALL_METHOD(&_15$$18, this_ptr, "buildparameters", NULL, 510, container, &arguments);
+						ZEPHIR_CALL_METHOD(&_15$$18, this_ptr, "buildparameters", NULL, 0, container, &arguments);
 						zephir_check_call_status();
 						ZEPHIR_CALL_USER_FUNC_ARRAY(&_14$$18, &methodCall, &_15$$18);
 						zephir_check_call_status();
@@ -292,7 +292,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build)
 						}
 						if (zephir_fast_count_int(&arguments)) {
 							ZEPHIR_INIT_NVAR(&_24$$24);
-							ZEPHIR_CALL_METHOD(&_25$$24, this_ptr, "buildparameters", NULL, 510, container, &arguments);
+							ZEPHIR_CALL_METHOD(&_25$$24, this_ptr, "buildparameters", NULL, 0, container, &arguments);
 							zephir_check_call_status();
 							ZEPHIR_CALL_USER_FUNC_ARRAY(&_24$$24, &methodCall, &_25$$24);
 							zephir_check_call_status();

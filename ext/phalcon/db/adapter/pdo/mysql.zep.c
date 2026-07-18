@@ -100,7 +100,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, addForeignKey)
 	ZVAL_STR_COPY(&tableName_zv, tableName);
 	zephir_memory_observe(&schemaName_zv);
 	ZVAL_STR_COPY(&schemaName_zv, schemaName);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 537, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 543, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&_1, &_0, "getforeignkeychecks", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&foreignKeyCheck, this_ptr, "prepare", NULL, 0, &_1);
@@ -110,13 +110,13 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, addForeignKey)
 	if (UNEXPECTED(!zephir_is_true(&_2))) {
 		ZEPHIR_INIT_VAR(&_3$$3);
 		object_init_ex(&_3$$3, phalcon_db_exceptions_missingforeignkeychecks_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_3$$3, "__construct", NULL, 460);
+		ZEPHIR_CALL_METHOD(NULL, &_3$$3, "__construct", NULL, 466);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_3$$3, "phalcon/Db/Adapter/Pdo/Mysql.zep", 65);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	zephir_read_property_cached(&_4, this_ptr, _zephir_prop_0, 537, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_4, this_ptr, _zephir_prop_0, 543, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&_5, &_4, "addforeignkey", NULL, 0, &tableName_zv, &schemaName_zv, reference);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "execute", NULL, 0, &_5);
@@ -319,7 +319,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns)
 	ZVAL_STRING(&sizePattern, "#\\(([0-9]+)(?:,\\s*([0-9]+))*\\)#");
 	ZEPHIR_INIT_VAR(&columns);
 	array_init(&columns);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 537, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 543, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&_1, &_0, "describecolumns", NULL, 0, &table_zv, &schema_zv);
 	zephir_check_call_status();
 	ZVAL_LONG(&_2, 3);
@@ -696,7 +696,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns)
 			zephir_array_fetch_long(&columnName, &field, 0, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Mysql.zep", 550);
 			ZEPHIR_INIT_NVAR(&_71$$3);
 			object_init_ex(&_71$$3, phalcon_db_column_ce);
-			ZEPHIR_CALL_METHOD(NULL, &_71$$3, "__construct", &_72, 461, &columnName, &definition);
+			ZEPHIR_CALL_METHOD(NULL, &_71$$3, "__construct", &_72, 467, &columnName, &definition);
 			zephir_check_call_status();
 			zephir_array_append(&columns, &_71$$3, PH_SEPARATE, "phalcon/Db/Adapter/Pdo/Mysql.zep", 551);
 			ZEPHIR_CPY_WRT(&oldColumn, &columnName);
@@ -1086,7 +1086,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns)
 				zephir_array_fetch_long(&columnName, &field, 0, PH_NOISY, "phalcon/Db/Adapter/Pdo/Mysql.zep", 550);
 				ZEPHIR_INIT_NVAR(&_143$$62);
 				object_init_ex(&_143$$62, phalcon_db_column_ce);
-				ZEPHIR_CALL_METHOD(NULL, &_143$$62, "__construct", &_72, 461, &columnName, &definition);
+				ZEPHIR_CALL_METHOD(NULL, &_143$$62, "__construct", &_72, 467, &columnName, &definition);
 				zephir_check_call_status();
 				zephir_array_append(&columns, &_143$$62, PH_SEPARATE, "phalcon/Db/Adapter/Pdo/Mysql.zep", 551);
 				ZEPHIR_CPY_WRT(&oldColumn, &columnName);
@@ -1198,7 +1198,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeIndexes)
 	}
 	ZEPHIR_INIT_VAR(&indexes);
 	array_init(&indexes);
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 537, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 543, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&_2, &_1, "describeindexes", NULL, 0, &table_zv, &schema_zv);
 	zephir_check_call_status();
 	ZVAL_LONG(&_3, 2);
@@ -1561,7 +1561,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeReferences)
 	}
 	ZEPHIR_INIT_VAR(&references);
 	array_init(&references);
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 537, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 543, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&_2, &_1, "describereferences", NULL, 0, &table_zv, &schema_zv);
 	zephir_check_call_status();
 	ZVAL_LONG(&_3, 3);

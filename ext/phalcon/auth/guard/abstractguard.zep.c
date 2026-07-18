@@ -82,8 +82,8 @@ PHP_METHOD(Phalcon_Auth_Guard_AbstractGuard, __construct)
 		Z_PARAM_OBJECT_OF_CLASS(config, phalcon_contracts_auth_guard_guardconfig_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(2, 0, &adapter, &config);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 154, adapter);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 155, config);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 155, adapter);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 156, config);
 }
 
 /**
@@ -151,7 +151,7 @@ PHP_METHOD(Phalcon_Auth_Guard_AbstractGuard, hasUser)
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("user", 4, 1);
 	}
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 156, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 157, PH_NOISY_CC | PH_READONLY);
 	RETURN_BOOL(Z_TYPE_P(&_0) != IS_NULL);
 }
 
@@ -191,7 +191,7 @@ PHP_METHOD(Phalcon_Auth_Guard_AbstractGuard, setAdapter)
 		Z_PARAM_OBJECT_OF_CLASS(adapter, phalcon_contracts_auth_adapter_adapter_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &adapter);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 154, adapter);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 155, adapter);
 	RETURN_THISW();
 }
 
@@ -210,7 +210,7 @@ PHP_METHOD(Phalcon_Auth_Guard_AbstractGuard, setUser)
 		Z_PARAM_OBJECT_OF_CLASS(user, phalcon_contracts_auth_authuser_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &user);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 156, user);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 157, user);
 	RETURN_THISW();
 }
 
@@ -247,7 +247,7 @@ PHP_METHOD(Phalcon_Auth_Guard_AbstractGuard, hasValidCredentials)
 	if (Z_TYPE_P(user) == IS_NULL) {
 		RETURN_MM_BOOL(0);
 	}
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 154, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 155, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_RETURN_CALL_METHOD(&_0, "validatecredentials", NULL, 0, user, &credentials);
 	zephir_check_call_status();
 	RETURN_MM();
