@@ -225,6 +225,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     /**
      * Creates a query builder from criteria.
      *
+     * ```php
      * <?php
      *
      * $invoices = Invoices::query()

@@ -1,0 +1,12 @@
+
+extern zend_class_entry *phalcon_contracts_http_attributerequestinterface_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Contracts_Http_AttributeRequestInterface);
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_contracts_http_attributerequestinterface_getattributes, 0, 0, Phalcon\\Http\\Request\\Bag\\AttributeBag, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_contracts_http_attributerequestinterface_method_entry) {
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Http_AttributeRequestInterface, getAttributes, arginfo_phalcon_contracts_http_attributerequestinterface_getattributes)
+	PHP_FE_END
+};

@@ -94,7 +94,7 @@ PHP_METHOD(Phalcon_Mvc_Url, __construct)
 		router = &router_sub;
 		router = &__$null;
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1094, router);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1097, router);
 }
 
 /**
@@ -290,10 +290,10 @@ PHP_METHOD(Phalcon_Mvc_Url, get)
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
-		zephir_read_property_cached(&_7$$9, this_ptr, _zephir_prop_0, 1094, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_7$$9, this_ptr, _zephir_prop_0, 1097, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CPY_WRT(&router, &_7$$9);
 		if (UNEXPECTED(!zephir_is_true(&router))) {
-			zephir_read_property_cached(&_8$$11, this_ptr, _zephir_prop_1, 1095, PH_NOISY_CC | PH_READONLY);
+			zephir_read_property_cached(&_8$$11, this_ptr, _zephir_prop_1, 1098, PH_NOISY_CC | PH_READONLY);
 			ZEPHIR_CPY_WRT(&container, &_8$$11);
 			if (UNEXPECTED(Z_TYPE_P(&container) != IS_OBJECT)) {
 				ZEPHIR_INIT_VAR(&_9$$12);
@@ -322,7 +322,7 @@ PHP_METHOD(Phalcon_Mvc_Url, get)
 			ZEPHIR_CALL_METHOD(&_13$$11, &container, "getshared", NULL, 0, &_11$$11);
 			zephir_check_call_status();
 			ZEPHIR_CPY_WRT(&router, &_13$$11);
-			zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1094, &router);
+			zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1097, &router);
 		}
 		ZEPHIR_CALL_METHOD(&_14$$9, &router, "getroutebyname", NULL, 0, &routeName);
 		zephir_check_call_status();
@@ -465,7 +465,7 @@ PHP_METHOD(Phalcon_Mvc_Url, getBaseUri)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_get_global(&_SERVER, SL("_SERVER"));
 
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1096, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1099, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&baseUri, &_0);
 	if (Z_TYPE_P(&baseUri) == IS_NULL) {
 		zephir_memory_observe(&phpSelf);
@@ -482,7 +482,7 @@ PHP_METHOD(Phalcon_Mvc_Url, getBaseUri)
 		} else {
 			ZEPHIR_CONCAT_SVS(&baseUri, "/", &uri, "/");
 		}
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1096, &baseUri);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1099, &baseUri);
 	}
 	RETURN_CCTOR(&baseUri);
 }
@@ -557,7 +557,7 @@ PHP_METHOD(Phalcon_Mvc_Url, getStaticBaseUri)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1097, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1100, PH_NOISY_CC | PH_READONLY);
 	if (Z_TYPE_P(&_0) != IS_NULL) {
 		RETURN_MM_MEMBER_TYPED(getThis(), "staticBaseUri", IS_STRING);
 	}
@@ -596,7 +596,7 @@ PHP_METHOD(Phalcon_Mvc_Url, path)
 		zephir_memory_observe(&path_zv);
 	ZVAL_STR_COPY(&path_zv, path);
 	}
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1098, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1101, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CONCAT_VV(return_value, &_0, &path_zv);
 	RETURN_MM();
 }
@@ -624,7 +624,7 @@ PHP_METHOD(Phalcon_Mvc_Url, setBasePath)
 		Z_PARAM_STR(basePath)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&basePath_zv, basePath);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1098, &basePath_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1101, &basePath_zv);
 	RETURN_THISW();
 }
 
@@ -658,10 +658,10 @@ PHP_METHOD(Phalcon_Mvc_Url, setBaseUri)
 		Z_PARAM_STR(baseUri)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&baseUri_zv, baseUri);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1096, &baseUri_zv);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_1, 1097, PH_NOISY_CC | PH_READONLY);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1099, &baseUri_zv);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_1, 1100, PH_NOISY_CC | PH_READONLY);
 	if (Z_TYPE_P(&_0) == IS_NULL) {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1097, &baseUri_zv);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1100, &baseUri_zv);
 	}
 	RETURN_THISW();
 }
@@ -689,7 +689,7 @@ PHP_METHOD(Phalcon_Mvc_Url, setStaticBaseUri)
 		Z_PARAM_STR(staticBaseUri)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&staticBaseUri_zv, staticBaseUri);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1097, &staticBaseUri_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1100, &staticBaseUri_zv);
 	RETURN_THISW();
 }
 

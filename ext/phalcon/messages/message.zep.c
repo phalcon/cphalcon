@@ -145,13 +145,13 @@ PHP_METHOD(Phalcon_Messages_Message, __construct)
 	} else {
 		zephir_get_arrval(&metaData, metaData_param);
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 890, &message_zv);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 891, &field_zv);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 892, &type_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 893, &message_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 894, &field_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 895, &type_zv);
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, code);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 893, &_0);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_4, 894, &metaData);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 896, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_4, 897, &metaData);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -244,19 +244,19 @@ PHP_METHOD(Phalcon_Messages_Message, jsonSerialize)
 
 	zephir_create_array(return_value, 5, 0);
 	zephir_memory_observe(&_0);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 891, PH_NOISY_CC);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 894, PH_NOISY_CC);
 	zephir_array_update_string(return_value, SL("field"), &_0, PH_COPY | PH_SEPARATE);
 	ZEPHIR_OBS_NVAR(&_0);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_1, 890, PH_NOISY_CC);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_1, 893, PH_NOISY_CC);
 	zephir_array_update_string(return_value, SL("message"), &_0, PH_COPY | PH_SEPARATE);
 	ZEPHIR_OBS_NVAR(&_0);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_2, 892, PH_NOISY_CC);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_2, 895, PH_NOISY_CC);
 	zephir_array_update_string(return_value, SL("type"), &_0, PH_COPY | PH_SEPARATE);
 	ZEPHIR_OBS_NVAR(&_0);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_3, 893, PH_NOISY_CC);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_3, 896, PH_NOISY_CC);
 	zephir_array_update_string(return_value, SL("code"), &_0, PH_COPY | PH_SEPARATE);
 	ZEPHIR_OBS_NVAR(&_0);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_4, 894, PH_NOISY_CC);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_4, 897, PH_NOISY_CC);
 	zephir_array_update_string(return_value, SL("metaData"), &_0, PH_COPY | PH_SEPARATE);
 	RETURN_MM();
 }
@@ -282,7 +282,7 @@ PHP_METHOD(Phalcon_Messages_Message, setCode)
 	zephir_fetch_params_without_memory_grow(1, 0, &code_param);
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, code);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 893, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 896, &_0);
 	RETURN_THISW();
 }
 
@@ -305,7 +305,7 @@ PHP_METHOD(Phalcon_Messages_Message, setField)
 		Z_PARAM_STR(field)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&field_zv, field);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 891, &field_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 894, &field_zv);
 	RETURN_THISW();
 }
 
@@ -328,7 +328,7 @@ PHP_METHOD(Phalcon_Messages_Message, setMessage)
 		Z_PARAM_STR(message)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&message_zv, message);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 890, &message_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 893, &message_zv);
 	RETURN_THISW();
 }
 
@@ -355,7 +355,7 @@ PHP_METHOD(Phalcon_Messages_Message, setMetaData)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &metaData_param);
 	zephir_get_arrval(&metaData, metaData_param);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 894, &metaData);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 897, &metaData);
 	RETURN_THIS();
 }
 
@@ -378,7 +378,7 @@ PHP_METHOD(Phalcon_Messages_Message, setType)
 		Z_PARAM_STR(type)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&type_zv, type);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 892, &type_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 895, &type_zv);
 	RETURN_THISW();
 }
 
