@@ -14,14 +14,15 @@
 namespace Phalcon\ADR\Exceptions;
 
 /**
- * Thrown when the dispatcher resolves a class that is not an ADR Action.
+ * Thrown when the emitter is asked to send a response after headers have
+ * already been sent.
  */
-class NotAnAction extends Exception
+class HeadersAlreadySent extends Exception
 {
-    public function __construct(string className = "")
+    public function __construct()
     {
         parent::__construct(
-            "Class '" . className . "' is not an ADR Action."
+            "Headers have already been sent; cannot emit the response."
         );
     }
 }

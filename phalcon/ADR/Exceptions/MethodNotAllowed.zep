@@ -14,14 +14,14 @@
 namespace Phalcon\ADR\Exceptions;
 
 /**
- * Thrown when the dispatcher resolves a class that is not an ADR Action.
+ * Thrown when a route matches the path but not the request method.
  */
-class NotAnAction extends Exception
+class MethodNotAllowed extends Exception
 {
-    public function __construct(string className = "")
+    public function __construct()
     {
         parent::__construct(
-            "Class '" . className . "' is not an ADR Action."
+            "The request method is not allowed for the matched route."
         );
     }
 }
