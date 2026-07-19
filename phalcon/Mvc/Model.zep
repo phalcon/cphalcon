@@ -3114,7 +3114,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                     try {
                         let this->{key} = value;
                     } catch \TypeError {
-                        // Incompatible value for typed property – leave as-is
+                        // Incompatible value for typed property - leave as-is
                     }
                 }
             } else {
