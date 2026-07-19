@@ -27,7 +27,6 @@ use stdClass;
 
 final class DispatchTest extends AbstractUnitTestCase
 {
-
     /**
      * Unit Tests Phalcon\ADR\Dispatcher :: dispatch() rejects a non-Action
      */

@@ -23,7 +23,6 @@ use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class InvokeTest extends AbstractUnitTestCase
 {
-
     /**
      * Unit Tests Phalcon\ADR\Middleware\CorsMiddleware :: __invoke() echoes an allowed origin
      */

@@ -24,7 +24,6 @@ use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class InvokeTest extends AbstractUnitTestCase
 {
-
     /**
      * Unit Tests Phalcon\ADR\Pipeline :: __invoke() a middleware can short-circuit
      */
