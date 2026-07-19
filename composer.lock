@@ -2400,16 +2400,16 @@
         },
         {
             "name": "phalcon/ide-stubs",
-            "version": "v5.16.0",
+            "version": "v5.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phalcon/ide-stubs.git",
-                "reference": "3eea65770216ee93d349802f6e8d8711478d9a5c"
+                "reference": "17c9ae4782a6acf3dfa4fffa22a28db01d21d830"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phalcon/ide-stubs/zipball/3eea65770216ee93d349802f6e8d8711478d9a5c",
-                "reference": "3eea65770216ee93d349802f6e8d8711478d9a5c",
+                "url": "https://api.github.com/repos/phalcon/ide-stubs/zipball/17c9ae4782a6acf3dfa4fffa22a28db01d21d830",
+                "reference": "17c9ae4782a6acf3dfa4fffa22a28db01d21d830",
                 "shasum": ""
             },
             "require": {
@@ -2465,7 +2465,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2026-06-22T18:56:53+00:00"
+            "time": "2026-07-17T21:26:17+00:00"
         },
         {
             "name": "phalcon/talon",
@@ -2549,12 +2549,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/zephir-lang/zephir.git",
-                "reference": "80d17e6a0524ce67b2257940aa6acc26f88bbc6a"
+                "reference": "05ea28bfe7ef0736f744c0a4e9049a5095fb566d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zephir-lang/zephir/zipball/80d17e6a0524ce67b2257940aa6acc26f88bbc6a",
-                "reference": "80d17e6a0524ce67b2257940aa6acc26f88bbc6a",
+                "url": "https://api.github.com/repos/zephir-lang/zephir/zipball/05ea28bfe7ef0736f744c0a4e9049a5095fb566d",
+                "reference": "05ea28bfe7ef0736f744c0a4e9049a5095fb566d",
                 "shasum": ""
             },
             "require": {
@@ -2631,7 +2631,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-07-14T23:10:00+00:00"
+            "time": "2026-07-19T10:38:33+00:00"
         },
         {
             "name": "phar-io/manifest",

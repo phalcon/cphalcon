@@ -59,11 +59,11 @@
  - [#2262](https://github.com/phalcon/cphalcon/issues/2262) `\Phalcon\Logger\Formatter\Json` Wrong number of parameters
  - [#2244](https://github.com/phalcon/cphalcon/issues/2244) add judge conditions in `Phalcon\Mvc\Model\Manager::getRelationRecords`
  - Removed final keyword from Model constructor
- - [#2111](https://github.com/phalcon/cphalcon/issues/2111) – replacing bindParam to bindValue to avoid unexpected reference changes
+ - [#2111](https://github.com/phalcon/cphalcon/issues/2111) - replacing bindParam to bindValue to avoid unexpected reference changes
  - [#2002](https://github.com/phalcon/cphalcon/issues/2002) Tag::linkTo() to allow the addition of query string parameters
  - Added `allowEmpty` option to \Phalcon\Mvc\Model\Validator\*
  - Use phalcon_camelize for namespace Add \Phalcon\Session\Adapter::setId Fixed [#1932](https://github.com/phalcon/cphalcon/issues/1932) Phalcon\Http\…
- - [#2111](https://github.com/phalcon/cphalcon/issues/2111) – replacing bindParam to bindValue to avoid unexpected reference changes
+ - [#2111](https://github.com/phalcon/cphalcon/issues/2111) - replacing bindParam to bindValue to avoid unexpected reference changes
  - Fix wrong issent() call on non Response objects
  - [#2236](https://github.com/phalcon/cphalcon/issues/2236)  - in mysql tinyint(1) is not boolean it's an int between 0 and 127
  - Add \Phalcon\Session\Adapter::setId
