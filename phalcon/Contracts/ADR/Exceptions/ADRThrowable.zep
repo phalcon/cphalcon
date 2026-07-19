@@ -11,7 +11,7 @@
  * @link    https://pmjones.io/adr/
  */
 
-namespace Phalcon\ADR\Exceptions;
+namespace Phalcon\Contracts\ADR\Exceptions;
 
 /**
  * Base throwable contract for the ADR component. Every ADR exception implements

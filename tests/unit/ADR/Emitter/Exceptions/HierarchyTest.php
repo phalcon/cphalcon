@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\ADR\Emitter\Exceptions;
 
 use Phalcon\ADR\Emitter\Exceptions\HeadersAlreadySent;
 use Phalcon\ADR\Emitter\Exceptions\OutputAlreadySent;
-use Phalcon\ADR\Exceptions\ADRThrowable;
+use Phalcon\Contracts\ADR\Exceptions\ADRThrowable;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class HierarchyTest extends AbstractUnitTestCase

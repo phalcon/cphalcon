@@ -14,6 +14,7 @@
 namespace Phalcon\ADR\Exceptions;
 
 use Exception as BaseException;
+use Phalcon\Contracts\ADR\Exceptions\ADRThrowable;
 
 /**
  * Generic exception for the ADR component, and the base for every typed ADR

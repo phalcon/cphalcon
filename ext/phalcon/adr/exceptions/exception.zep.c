@@ -33,7 +33,7 @@ ZEPHIR_INIT_CLASS(Phalcon_ADR_Exceptions_Exception)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\ADR\\Exceptions, Exception, phalcon, adr_exceptions_exception, zend_ce_exception, NULL, 0);
 
-	zend_class_implements(phalcon_adr_exceptions_exception_ce, 1, phalcon_adr_exceptions_adrthrowable_ce);
+	zend_class_implements(phalcon_adr_exceptions_exception_ce, 1, phalcon_contracts_adr_exceptions_adrthrowable_ce);
 	return SUCCESS;
 }
 

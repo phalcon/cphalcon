@@ -1,11 +1,11 @@
 
 #ifdef HAVE_CONFIG_H
-#include "../../../ext_config.h"
+#include "../../../../ext_config.h"
 #endif
 
 #include <php.h>
-#include "../../../php_ext.h"
-#include "../../../ext.h"
+#include "../../../../php_ext.h"
+#include "../../../../ext.h"
 
 #include <Zend/zend_exceptions.h>
 
@@ -27,11 +27,11 @@
  * Base throwable contract for the ADR component. Every ADR exception implements
  * it, so callers can catch all ADR errors with a single type.
  */
-ZEPHIR_INIT_CLASS(Phalcon_ADR_Exceptions_ADRThrowable)
+ZEPHIR_INIT_CLASS(Phalcon_Contracts_ADR_Exceptions_ADRThrowable)
 {
-	ZEPHIR_REGISTER_INTERFACE(Phalcon\\ADR\\Exceptions, ADRThrowable, phalcon, adr_exceptions_adrthrowable, NULL);
+	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Contracts\\ADR\\Exceptions, ADRThrowable, phalcon, contracts_adr_exceptions_adrthrowable, NULL);
 
-	zend_class_implements(phalcon_adr_exceptions_adrthrowable_ce, 1, zend_ce_throwable);
+	zend_class_implements(phalcon_contracts_adr_exceptions_adrthrowable_ce, 1, zend_ce_throwable);
 	return SUCCESS;
 }
 

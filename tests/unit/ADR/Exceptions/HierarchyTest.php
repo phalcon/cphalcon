@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\ADR\Exceptions;
 
-use Phalcon\ADR\Exceptions\ADRThrowable;
 use Phalcon\ADR\Exceptions\Exception;
 use Phalcon\ADR\Exceptions\NotAnAction;
+use Phalcon\Contracts\ADR\Exceptions\ADRThrowable;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Throwable;
 
