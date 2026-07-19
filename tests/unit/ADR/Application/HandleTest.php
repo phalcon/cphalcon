@@ -24,7 +24,7 @@ use Phalcon\Http\Request;
 use Phalcon\Logger\Adapter\Noop;
 use Phalcon\Logger\Logger;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
-use Phalcon\Tests\Support\ADR\Action\Hello\Get as HelloAction;
+use Phalcon\Tests\Support\ADR\Action\Hello\GetHello as HelloAction;
 use stdClass;
 
 final class HandleTest extends AbstractUnitTestCase

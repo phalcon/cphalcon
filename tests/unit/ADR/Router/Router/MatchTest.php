@@ -44,7 +44,7 @@ final class MatchTest extends AbstractUnitTestCase
         $match = $router->match(new Request());
 
         $this->assertInstanceOf(RouterMatch::class, $match);
-        $this->assertSame(self::BASE . '\\Posts\\Get', $match->getAction());
+        $this->assertSame(self::BASE . '\\Posts\\GetPosts', $match->getAction());
         $this->assertSame([0 => '42'], $match->getAttributes());
         $this->assertSame([], $match->getMiddleware());
     }
@@ -91,7 +91,7 @@ final class MatchTest extends AbstractUnitTestCase
 
         $match = $router->match(new Request());
 
-        $this->assertSame(self::BASE . '\\Admin\\Get', $match->getAction());
+        $this->assertSame(self::BASE . '\\Admin\\GetAdmin', $match->getAction());
         $this->assertSame([TimingMiddleware::class], $match->getMiddleware());
     }
 }
