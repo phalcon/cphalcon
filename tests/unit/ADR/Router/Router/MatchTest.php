@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\ADR\Router\Router;
 
+use Phalcon\ADR\Exceptions\MethodNotAllowed;
 use Phalcon\ADR\Middleware\TimingMiddleware;
-use Phalcon\ADR\Router\Exceptions\MethodNotAllowed;
 use Phalcon\ADR\Router\Router;
 use Phalcon\Contracts\ADR\Router\RouterMatch;
 use Phalcon\Http\Request;
@@ -63,21 +63,6 @@ final class MatchTest extends AbstractUnitTestCase
     }
 
     /**
-     * Unit Tests Phalcon\ADR\Router\Router :: match() throws 405 when the path exists under another verb
-     */
-    public function testAdrRouterRouterMatchThrowsMethodNotAllowed(): void
-    {
-        $_SERVER['REQUEST_URI']    = '/posts/42';
-        $_SERVER['REQUEST_METHOD'] = 'DELETE';
-
-        $router = (new Router())->setBaseNamespace(self::BASE);
-
-        $this->expectException(MethodNotAllowed::class);
-
-        $router->match(new Request());
-    }
-
-    /**
      * Unit Tests Phalcon\ADR\Router\Router :: match() stacks namespace-prefix middleware
      */
     public function testAdrRouterRouterMatchStacksNamespaceMiddleware(): void
@@ -93,5 +78,20 @@ final class MatchTest extends AbstractUnitTestCase
 
         $this->assertSame(self::BASE . '\\Admin\\GetAdmin', $match->getAction());
         $this->assertSame([TimingMiddleware::class], $match->getMiddleware());
+    }
+
+    /**
+     * Unit Tests Phalcon\ADR\Router\Router :: match() throws 405 when the path exists under another verb
+     */
+    public function testAdrRouterRouterMatchThrowsMethodNotAllowed(): void
+    {
+        $_SERVER['REQUEST_URI']    = '/posts/42';
+        $_SERVER['REQUEST_METHOD'] = 'DELETE';
+
+        $router = (new Router())->setBaseNamespace(self::BASE);
+
+        $this->expectException(MethodNotAllowed::class);
+
+        $router->match(new Request());
     }
 }

@@ -67,7 +67,7 @@ final class ProvideTest extends AbstractUnitTestCase
             'Phalcon\\Contracts\\ADR\\Responder\\Responder',
             'Phalcon\\Contracts\\ADR\\Router\\Router',
             'Phalcon\\Contracts\\Events\\Manager',
-            'Phalcon\\Contracts\\Http\\AttributeRequestInterface',
+            'Phalcon\\Contracts\\Http\\AttributeRequest',
             'Phalcon\\Contracts\\Logger\\Logger',
             'Phalcon\\Http\\ResponseInterface',
         ];

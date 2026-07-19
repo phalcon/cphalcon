@@ -14,13 +14,13 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Support\ADR\Action\Posts;
 
 use Phalcon\Contracts\ADR\Action;
-use Phalcon\Contracts\Http\AttributeRequestInterface;
+use Phalcon\Contracts\Http\AttributeRequest;
 use Phalcon\Http\Response;
 use Phalcon\Http\ResponseInterface;
 
 final class GetPosts implements Action
 {
-    public function __invoke(AttributeRequestInterface $request): ResponseInterface
+    public function __invoke(AttributeRequest $request): ResponseInterface
     {
         return (new Response())->setContent((string) $request->getAttributes()->get(0));
     }

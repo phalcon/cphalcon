@@ -14,7 +14,11 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\ADR\Exceptions;
 
 use Phalcon\ADR\Exceptions\Exception;
+use Phalcon\ADR\Exceptions\HeadersAlreadySent;
+use Phalcon\ADR\Exceptions\MethodNotAllowed;
 use Phalcon\ADR\Exceptions\NotAnAction;
+use Phalcon\ADR\Exceptions\OutputAlreadySent;
+use Phalcon\ADR\Exceptions\RouteNotFound;
 use Phalcon\Contracts\ADR\Exceptions\ADRThrowable;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Throwable;
@@ -33,13 +37,23 @@ final class HierarchyTest extends AbstractUnitTestCase
     }
 
     /**
-     * Unit Tests Phalcon\ADR\Exceptions\NotAnAction :: extends the base
+     * Unit Tests Phalcon\ADR\Exceptions :: every granular exception extends the
+     * base, implements the contract and carries its own message
      */
     public function testAdrExceptionsGranularExtendBase(): void
     {
-        $exception = new NotAnAction();
+        $exceptions = [
+            new NotAnAction('MyApp\\Action\\Foo'),
+            new RouteNotFound(),
+            new MethodNotAllowed(),
+            new HeadersAlreadySent(),
+            new OutputAlreadySent(),
+        ];
 
-        $this->assertInstanceOf(Exception::class, $exception);
-        $this->assertInstanceOf(ADRThrowable::class, $exception);
+        foreach ($exceptions as $exception) {
+            $this->assertInstanceOf(Exception::class, $exception);
+            $this->assertInstanceOf(ADRThrowable::class, $exception);
+            $this->assertNotSame('', $exception->getMessage());
+        }
     }
 }

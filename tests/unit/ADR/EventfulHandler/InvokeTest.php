@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\ADR\EventfulHandler;
 
 use Phalcon\ADR\EventfulHandler;
 use Phalcon\Contracts\ADR\Action;
-use Phalcon\Contracts\Http\AttributeRequestInterface;
+use Phalcon\Contracts\Http\AttributeRequest;
 use Phalcon\Events\Manager;
 use Phalcon\Http\Request;
 use Phalcon\Http\Response;
@@ -30,7 +30,7 @@ final class InvokeTest extends AbstractUnitTestCase
     public function testAdrEventfulHandlerInvokeFiresEvents(): void
     {
         $action = new class implements Action {
-            public function __invoke(AttributeRequestInterface $request): ResponseInterface
+            public function __invoke(AttributeRequest $request): ResponseInterface
             {
                 return new Response();
             }

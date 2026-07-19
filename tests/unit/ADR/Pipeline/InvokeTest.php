@@ -16,7 +16,7 @@ namespace Phalcon\Tests\Unit\ADR\Pipeline;
 use Phalcon\ADR\Pipeline;
 use Phalcon\Contracts\ADR\Handler;
 use Phalcon\Contracts\ADR\Middleware;
-use Phalcon\Contracts\Http\AttributeRequestInterface;
+use Phalcon\Contracts\Http\AttributeRequest;
 use Phalcon\Http\Request;
 use Phalcon\Http\Response;
 use Phalcon\Http\ResponseInterface;
@@ -24,16 +24,24 @@ use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class InvokeTest extends AbstractUnitTestCase
 {
+
     /**
-     * Unit Tests Phalcon\ADR\Pipeline :: __invoke() runs the terminal handler
+     * Unit Tests Phalcon\ADR\Pipeline :: __invoke() a middleware can short-circuit
      */
-    public function testAdrPipelineInvokeRunsTerminal(): void
+    public function testAdrPipelineInvokeMiddlewareCanShortCircuit(): void
     {
-        $pipeline = new Pipeline([], $this->terminal('terminal'));
+        $shortCircuit = new class implements Middleware {
+            public function __invoke(AttributeRequest $request, Handler $next): ResponseInterface
+            {
+                return (new Response())->setContent('short-circuit');
+            }
+        };
+
+        $pipeline = new Pipeline([$shortCircuit], $this->terminal('terminal-ran'));
 
         $result = $pipeline(new Request());
 
-        $this->assertSame('terminal', $result->getContent());
+        $this->assertSame('short-circuit', $result->getContent());
     }
 
     /**
@@ -42,7 +50,7 @@ final class InvokeTest extends AbstractUnitTestCase
     public function testAdrPipelineInvokeRunsMiddlewareOnion(): void
     {
         $wrap = new class implements Middleware {
-            public function __invoke(AttributeRequestInterface $request, Handler $next): ResponseInterface
+            public function __invoke(AttributeRequest $request, Handler $next): ResponseInterface
             {
                 $response = $next($request);
 
@@ -56,24 +64,16 @@ final class InvokeTest extends AbstractUnitTestCase
 
         $this->assertSame('[[T]]', $result->getContent());
     }
-
     /**
-     * Unit Tests Phalcon\ADR\Pipeline :: __invoke() a middleware can short-circuit
+     * Unit Tests Phalcon\ADR\Pipeline :: __invoke() runs the terminal handler
      */
-    public function testAdrPipelineInvokeMiddlewareCanShortCircuit(): void
+    public function testAdrPipelineInvokeRunsTerminal(): void
     {
-        $shortCircuit = new class implements Middleware {
-            public function __invoke(AttributeRequestInterface $request, Handler $next): ResponseInterface
-            {
-                return (new Response())->setContent('short-circuit');
-            }
-        };
-
-        $pipeline = new Pipeline([$shortCircuit], $this->terminal('terminal-ran'));
+        $pipeline = new Pipeline([], $this->terminal('terminal'));
 
         $result = $pipeline(new Request());
 
-        $this->assertSame('short-circuit', $result->getContent());
+        $this->assertSame('terminal', $result->getContent());
     }
 
     private function terminal(string $body): Handler
@@ -83,7 +83,7 @@ final class InvokeTest extends AbstractUnitTestCase
             {
             }
 
-            public function __invoke(AttributeRequestInterface $request): ResponseInterface
+            public function __invoke(AttributeRequest $request): ResponseInterface
             {
                 return (new Response())->setContent($this->body);
             }

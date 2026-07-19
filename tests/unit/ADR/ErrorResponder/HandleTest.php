@@ -14,9 +14,9 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\ADR\ErrorResponder;
 
 use Phalcon\ADR\ErrorResponder;
+use Phalcon\ADR\Exceptions\MethodNotAllowed;
+use Phalcon\ADR\Exceptions\RouteNotFound;
 use Phalcon\ADR\Responder\JsonResponder;
-use Phalcon\ADR\Router\Exceptions\MethodNotAllowed;
-use Phalcon\ADR\Router\Exceptions\RouteNotFound;
 use Phalcon\Http\Request;
 use Phalcon\Http\Response;
 use Phalcon\Logger\Adapter\Noop;
@@ -27,6 +27,17 @@ use RuntimeException;
 final class HandleTest extends AbstractUnitTestCase
 {
     /**
+     * Unit Tests Phalcon\ADR\ErrorResponder :: handle() exposes details in debug mode
+     */
+    public function testAdrErrorResponderHandleExposesDetailsInDebug(): void
+    {
+        $responder = new ErrorResponder(new JsonResponder(), $this->logger(), true);
+
+        $response = $responder->handle(new Request(), new Response(), new RouteNotFound());
+
+        $this->assertStringContainsString('No route matched the request.', $response->getContent());
+    }
+    /**
      * Unit Tests Phalcon\ADR\ErrorResponder :: handle() hides the exception behind a generic message
      */
     public function testAdrErrorResponderHandleGenericMessage(): void
@@ -34,12 +45,12 @@ final class HandleTest extends AbstractUnitTestCase
         $response = $this->responder()->handle(
             new Request(),
             new Response(),
-            new RouteNotFound('secret detail')
+            new RouteNotFound()
         );
 
         $this->assertSame(404, $response->getStatusCode());
         $this->assertStringContainsString('Internal Server Error', $response->getContent());
-        $this->assertStringNotContainsString('secret detail', $response->getContent());
+        $this->assertStringNotContainsString('No route matched the request.', $response->getContent());
     }
 
     /**
@@ -50,7 +61,7 @@ final class HandleTest extends AbstractUnitTestCase
         $response = $this->responder()->handle(
             new Request(),
             new Response(),
-            new MethodNotAllowed('nope')
+            new MethodNotAllowed()
         );
 
         $this->assertSame(405, $response->getStatusCode());
@@ -68,18 +79,6 @@ final class HandleTest extends AbstractUnitTestCase
         );
 
         $this->assertSame(500, $response->getStatusCode());
-    }
-
-    /**
-     * Unit Tests Phalcon\ADR\ErrorResponder :: handle() exposes details in debug mode
-     */
-    public function testAdrErrorResponderHandleExposesDetailsInDebug(): void
-    {
-        $responder = new ErrorResponder(new JsonResponder(), $this->logger(), true);
-
-        $response = $responder->handle(new Request(), new Response(), new RouteNotFound('the detail'));
-
-        $this->assertStringContainsString('the detail', $response->getContent());
     }
 
     private function logger(): Logger

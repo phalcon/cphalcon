@@ -59,16 +59,6 @@ final class ToHttpCodeTest extends AbstractUnitTestCase
     }
 
     /**
-     * Unit Tests Phalcon\ADR\Responder\StatusMapper :: toHttpCode() unmapped -> 500
-     */
-    public function testAdrResponderStatusMapperToHttpCodeUnmappedReturns500(): void
-    {
-        $mapper = new StatusMapper();
-
-        $this->assertSame(500, $mapper->toHttpCode('NON_EXISTENT'));
-    }
-
-    /**
      * Unit Tests Phalcon\ADR\Responder\StatusMapper :: toHttpCode() overrides
      */
     public function testAdrResponderStatusMapperToHttpCodeHonoursOverrides(): void
@@ -81,5 +71,15 @@ final class ToHttpCodeTest extends AbstractUnitTestCase
 
         $this->assertSame(204, $mapper->toHttpCode(Status::SUCCESS));
         $this->assertSame(201, $mapper->toHttpCode(Status::CREATED));
+    }
+
+    /**
+     * Unit Tests Phalcon\ADR\Responder\StatusMapper :: toHttpCode() unmapped -> 500
+     */
+    public function testAdrResponderStatusMapperToHttpCodeUnmappedReturns500(): void
+    {
+        $mapper = new StatusMapper();
+
+        $this->assertSame(500, $mapper->toHttpCode('NON_EXISTENT'));
     }
 }

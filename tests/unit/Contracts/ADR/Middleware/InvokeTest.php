@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Contracts\ADR\Middleware;
 
 use Phalcon\Contracts\ADR\Handler;
 use Phalcon\Contracts\ADR\Middleware;
-use Phalcon\Contracts\Http\AttributeRequestInterface;
+use Phalcon\Contracts\Http\AttributeRequest;
 use Phalcon\Http\ResponseInterface;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
@@ -27,7 +27,7 @@ final class InvokeTest extends AbstractUnitTestCase
     public function testContractsAdrMiddlewareInvokeShape(): void
     {
         $middleware = new class implements Middleware {
-            public function __invoke(AttributeRequestInterface $request, Handler $next): ResponseInterface
+            public function __invoke(AttributeRequest $request, Handler $next): ResponseInterface
             {
                 return $next($request);
             }

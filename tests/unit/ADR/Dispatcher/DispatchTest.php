@@ -17,7 +17,7 @@ use Phalcon\ADR\Dispatcher;
 use Phalcon\ADR\Exceptions\NotAnAction;
 use Phalcon\Contracts\ADR\Action;
 use Phalcon\Contracts\Container\Ioc\IocContainer;
-use Phalcon\Contracts\Http\AttributeRequestInterface;
+use Phalcon\Contracts\Http\AttributeRequest;
 use Phalcon\Events\Manager;
 use Phalcon\Http\Request;
 use Phalcon\Http\Response;
@@ -27,24 +27,6 @@ use stdClass;
 
 final class DispatchTest extends AbstractUnitTestCase
 {
-    /**
-     * Unit Tests Phalcon\ADR\Dispatcher :: dispatch() resolves and runs the action
-     */
-    public function testAdrDispatcherDispatchRunsAction(): void
-    {
-        $action = new class implements Action {
-            public function __invoke(AttributeRequestInterface $request): ResponseInterface
-            {
-                return (new Response())->setContent('dispatched');
-            }
-        };
-
-        $dispatcher = new Dispatcher($this->containerReturning($action), new Manager());
-
-        $response = $dispatcher->dispatch('SomeAction', new Request());
-
-        $this->assertSame('dispatched', $response->getContent());
-    }
 
     /**
      * Unit Tests Phalcon\ADR\Dispatcher :: dispatch() rejects a non-Action
@@ -56,6 +38,24 @@ final class DispatchTest extends AbstractUnitTestCase
         $this->expectException(NotAnAction::class);
 
         $dispatcher->dispatch('NotAnAction', new Request());
+    }
+    /**
+     * Unit Tests Phalcon\ADR\Dispatcher :: dispatch() resolves and runs the action
+     */
+    public function testAdrDispatcherDispatchRunsAction(): void
+    {
+        $action = new class implements Action {
+            public function __invoke(AttributeRequest $request): ResponseInterface
+            {
+                return (new Response())->setContent('dispatched');
+            }
+        };
+
+        $dispatcher = new Dispatcher($this->containerReturning($action), new Manager());
+
+        $response = $dispatcher->dispatch('SomeAction', new Request());
+
+        $this->assertSame('dispatched', $response->getContent());
     }
 
     private function containerReturning(object $service): IocContainer

@@ -46,7 +46,7 @@ final class RunTest extends AbstractUnitTestCase
 
             protected function registerProviders(Container $container): void
             {
-                $container->set('request', function ($c) {
+                $container->set('Phalcon\\Contracts\\Http\\AttributeRequest', function ($c) {
                     return new stdClass();
                 });
 

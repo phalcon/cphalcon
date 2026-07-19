@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\ADR\Middleware\MethodOverrideMiddleware;
 
 use Phalcon\ADR\Middleware\MethodOverrideMiddleware;
 use Phalcon\Contracts\ADR\Handler;
-use Phalcon\Contracts\Http\AttributeRequestInterface;
+use Phalcon\Contracts\Http\AttributeRequest;
 use Phalcon\Http\Request;
 use Phalcon\Http\Response;
 use Phalcon\Http\ResponseInterface;
@@ -23,6 +23,24 @@ use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class InvokeTest extends AbstractUnitTestCase
 {
+
+    /**
+     * Unit Tests Phalcon\ADR\Middleware\MethodOverrideMiddleware :: __invoke() ignores non-whitelisted verbs
+     */
+    public function testAdrMiddlewareMethodOverrideMiddlewareIgnoresNonWhitelisted(): void
+    {
+        $_SERVER['REQUEST_METHOD'] = 'POST';
+        $_POST['_method']          = 'GET';
+        $_REQUEST['_method']       = 'GET';
+
+        $request = new Request();
+
+        (new MethodOverrideMiddleware())($request, $this->next());
+
+        $this->assertSame('POST', $request->getMethod());
+
+        unset($_SERVER['REQUEST_METHOD'], $_POST['_method'], $_REQUEST['_method']);
+    }
     /**
      * Unit Tests Phalcon\ADR\Middleware\MethodOverrideMiddleware :: __invoke()
      */
@@ -42,28 +60,10 @@ final class InvokeTest extends AbstractUnitTestCase
         unset($_SERVER['REQUEST_METHOD'], $_POST['_method'], $_REQUEST['_method']);
     }
 
-    /**
-     * Unit Tests Phalcon\ADR\Middleware\MethodOverrideMiddleware :: __invoke() ignores non-whitelisted verbs
-     */
-    public function testAdrMiddlewareMethodOverrideMiddlewareIgnoresNonWhitelisted(): void
-    {
-        $_SERVER['REQUEST_METHOD'] = 'POST';
-        $_POST['_method']          = 'GET';
-        $_REQUEST['_method']       = 'GET';
-
-        $request = new Request();
-
-        (new MethodOverrideMiddleware())($request, $this->next());
-
-        $this->assertSame('POST', $request->getMethod());
-
-        unset($_SERVER['REQUEST_METHOD'], $_POST['_method'], $_REQUEST['_method']);
-    }
-
     private function next(): Handler
     {
         return new class implements Handler {
-            public function __invoke(AttributeRequestInterface $request): ResponseInterface
+            public function __invoke(AttributeRequest $request): ResponseInterface
             {
                 return new Response();
             }

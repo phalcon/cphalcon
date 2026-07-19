@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Contracts\ADR\Action;
 
 use Phalcon\Contracts\ADR\Action;
 use Phalcon\Contracts\ADR\Handler;
-use Phalcon\Contracts\Http\AttributeRequestInterface;
+use Phalcon\Contracts\Http\AttributeRequest;
 use Phalcon\Http\Response;
 use Phalcon\Http\ResponseInterface;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
@@ -30,7 +30,7 @@ final class ExtendsHandlerTest extends AbstractUnitTestCase
         $this->assertTrue(is_subclass_of(Action::class, Handler::class));
 
         $action = new class implements Action {
-            public function __invoke(AttributeRequestInterface $request): ResponseInterface
+            public function __invoke(AttributeRequest $request): ResponseInterface
             {
                 return new Response();
             }

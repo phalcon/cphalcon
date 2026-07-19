@@ -14,8 +14,8 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\ADR\Responder\FormatResponder;
 
 use Phalcon\ADR\Payload\Payload;
-use Phalcon\ADR\Responder\Formatter\JsonFormatter;
 use Phalcon\ADR\Responder\FormatResponder;
+use Phalcon\ADR\Responder\Formatter\JsonFormatter;
 use Phalcon\Http\Request;
 use Phalcon\Http\Response;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;

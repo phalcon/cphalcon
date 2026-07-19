@@ -13,19 +13,19 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Http\Request;
 
-use Phalcon\Contracts\Http\AttributeRequestInterface;
+use Phalcon\Contracts\Http\AttributeRequest;
 use Phalcon\Http\Request;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
-final class ImplementsAttributeRequestInterfaceTest extends AbstractUnitTestCase
+final class ImplementsAttributeRequestTest extends AbstractUnitTestCase
 {
     /**
-     * Unit Tests Phalcon\Http\Request :: implements AttributeRequestInterface
+     * Unit Tests Phalcon\Http\Request :: implements AttributeRequest
      */
-    public function testHttpRequestImplementsAttributeRequestInterface(): void
+    public function testHttpRequestImplementsAttributeRequest(): void
     {
         $request = new Request();
 
-        $this->assertInstanceOf(AttributeRequestInterface::class, $request);
+        $this->assertInstanceOf(AttributeRequest::class, $request);
     }
 }
