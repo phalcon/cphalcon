@@ -115,9 +115,9 @@ PHP_METHOD(Phalcon_Assets_Traits_SourceTargetTrait, setIsLocal)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &flag_param);
 	if (flag) {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 371, &__$true);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 408, &__$true);
 	} else {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 371, &__$false);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 408, &__$false);
 	}
 	RETURN_THISW();
 }
@@ -145,7 +145,7 @@ PHP_METHOD(Phalcon_Assets_Traits_SourceTargetTrait, setSourcePath)
 		Z_PARAM_STR(sourcePath)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&sourcePath_zv, sourcePath);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 372, &sourcePath_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 409, &sourcePath_zv);
 	RETURN_THISW();
 }
 
@@ -172,7 +172,7 @@ PHP_METHOD(Phalcon_Assets_Traits_SourceTargetTrait, setTargetPath)
 		Z_PARAM_STR(targetPath)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&targetPath_zv, targetPath);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 373, &targetPath_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 410, &targetPath_zv);
 	RETURN_THISW();
 }
 
@@ -199,7 +199,7 @@ PHP_METHOD(Phalcon_Assets_Traits_SourceTargetTrait, setTargetUri)
 		Z_PARAM_STR(targetUri)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&targetUri_zv, targetUri);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 374, &targetUri_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 411, &targetUri_zv);
 	RETURN_THISW();
 }
 

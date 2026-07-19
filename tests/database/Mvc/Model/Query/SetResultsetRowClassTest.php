@@ -68,6 +68,44 @@ final class SetResultsetRowClassTest extends AbstractDatabaseTestCase
     }
 
     /**
+     * Tests Phalcon\Mvc\Model\Query :: setResultsetRowClass() - complex resultset
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-07-13
+     * @issue  https://github.com/phalcon/cphalcon/issues/17337
+     */
+    public function testMvcModelQuerySetResultsetRowClassComplex(): void
+    {
+        (new CustomersMigration(self::getPdoConnection()))
+            ->insert(1, 1, 'first', 'last');
+        (new InvoicesMigration(self::getPdoConnection()))
+            ->insert(1, 1, 1, 'Title 1');
+
+        $manager = $this->container->get('modelsManager');
+
+        $phql = 'SELECT ' . Customers::class . '.*, ' . Invoices::class . '.* '
+            . 'FROM ' . Customers::class . ' '
+            . 'JOIN ' . Invoices::class . ' '
+            . 'ON ' . Invoices::class . '.inv_cst_id = ' . Customers::class . '.cst_id';
+
+        $query = $manager->createQuery($phql);
+        $query->setResultsetRowClass(CustomResultsetRow::class);
+
+        $result = $query->execute();
+        $row    = $result->getFirst();
+
+        $this->assertInstanceOf(CustomResultsetRow::class, $row);
+        $this->assertInstanceOf(
+            Customers::class,
+            $row->readAttribute(Customers::class)
+        );
+        $this->assertInstanceOf(
+            Invoices::class,
+            $row->readAttribute(Invoices::class)
+        );
+    }
+
+    /**
      * Tests Phalcon\Mvc\Model\Query :: setResultsetRowClass() - unknown class
      *
      * @author Phalcon Team <team@phalcon.io>
@@ -122,43 +160,5 @@ final class SetResultsetRowClassTest extends AbstractDatabaseTestCase
 
         $this->assertInstanceOf(CustomResultsetRow::class, $row);
         $this->assertSame('TITLE 1', $row->getUpperTitle());
-    }
-
-    /**
-     * Tests Phalcon\Mvc\Model\Query :: setResultsetRowClass() - complex resultset
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-07-13
-     * @issue  https://github.com/phalcon/cphalcon/issues/17337
-     */
-    public function testMvcModelQuerySetResultsetRowClassComplex(): void
-    {
-        (new CustomersMigration(self::getPdoConnection()))
-            ->insert(1, 1, 'first', 'last');
-        (new InvoicesMigration(self::getPdoConnection()))
-            ->insert(1, 1, 1, 'Title 1');
-
-        $manager = $this->container->get('modelsManager');
-
-        $phql = 'SELECT ' . Customers::class . '.*, ' . Invoices::class . '.* '
-            . 'FROM ' . Customers::class . ' '
-            . 'JOIN ' . Invoices::class . ' '
-            . 'ON ' . Invoices::class . '.inv_cst_id = ' . Customers::class . '.cst_id';
-
-        $query = $manager->createQuery($phql);
-        $query->setResultsetRowClass(CustomResultsetRow::class);
-
-        $result = $query->execute();
-        $row    = $result->getFirst();
-
-        $this->assertInstanceOf(CustomResultsetRow::class, $row);
-        $this->assertInstanceOf(
-            Customers::class,
-            $row->readAttribute(Customers::class)
-        );
-        $this->assertInstanceOf(
-            Invoices::class,
-            $row->readAttribute(Invoices::class)
-        );
     }
 }

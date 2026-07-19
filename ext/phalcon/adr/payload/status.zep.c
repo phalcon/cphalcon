@@ -1,0 +1,170 @@
+
+#ifdef HAVE_CONFIG_H
+#include "../../../ext_config.h"
+#endif
+
+#include <php.h>
+#include "../../../php_ext.h"
+#include "../../../ext.h"
+
+#include <Zend/zend_operators.h>
+#include <Zend/zend_exceptions.h>
+#include <Zend/zend_interfaces.h>
+
+#include "kernel/main.h"
+#include "kernel/object.h"
+
+
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ *
+ * Based on the Action Domain Responder pattern
+ * @link    https://pmjones.io/adr/
+ *
+ * Implementation of this file has been influenced by phalcon-api and AuraPHP
+ * @link    https://github.com/phalcon/phalcon-api
+ * @license https://github.com/phalcon/phalcon-api/blob/master/LICENSE
+ * @link    https://github.com/auraphp/Aura.Payload
+ * @license https://github.com/auraphp/Aura.Payload/blob/3.x/LICENSE
+ *
+ * @see Original inspiration for the https://github.com/phalcon/phalcon-api
+ */
+/**
+ * Holds the status codes for the payload.
+ *
+ * The two failure-related statuses are distinct, following the Aura.Payload
+ * lineage:
+ *
+ * - `ERROR` means an exception was raised while the domain layer was running.
+ *   By convention, `Payload::withException()` pairs with the `ERROR` status.
+ * - `FAILURE` means the domain layer ran to completion but declined the
+ *   request (for example, a business rule was not satisfied); no exception
+ *   was raised.
+ *
+ * @see Payload
+ */
+ZEPHIR_INIT_CLASS(Phalcon_ADR_Payload_Status)
+{
+	ZEPHIR_REGISTER_CLASS(Phalcon\\ADR\\Payload, Status, phalcon, adr_payload_status, phalcon_adr_payload_status_method_entry, 0);
+
+	/**
+	 * @var string
+	 */
+	zephir_declare_class_constant_string(phalcon_adr_payload_status_ce, SL("ACCEPTED"), "ACCEPTED");
+
+	/**
+	 * @var string
+	 */
+	zephir_declare_class_constant_string(phalcon_adr_payload_status_ce, SL("AUTHENTICATED"), "AUTHENTICATED");
+
+	/**
+	 * @var string
+	 */
+	zephir_declare_class_constant_string(phalcon_adr_payload_status_ce, SL("AUTHORIZED"), "AUTHORIZED");
+
+	/**
+	 * @var string
+	 */
+	zephir_declare_class_constant_string(phalcon_adr_payload_status_ce, SL("CREATED"), "CREATED");
+
+	/**
+	 * @var string
+	 */
+	zephir_declare_class_constant_string(phalcon_adr_payload_status_ce, SL("DELETED"), "DELETED");
+
+	/**
+	 * @var string
+	 */
+	zephir_declare_class_constant_string(phalcon_adr_payload_status_ce, SL("ERROR"), "ERROR");
+
+	/**
+	 * @var string
+	 */
+	zephir_declare_class_constant_string(phalcon_adr_payload_status_ce, SL("FAILURE"), "FAILURE");
+
+	/**
+	 * @var string
+	 */
+	zephir_declare_class_constant_string(phalcon_adr_payload_status_ce, SL("FOUND"), "FOUND");
+
+	/**
+	 * @var string
+	 */
+	zephir_declare_class_constant_string(phalcon_adr_payload_status_ce, SL("METHOD_NOT_ALLOWED"), "METHOD_NOT_ALLOWED");
+
+	/**
+	 * @var string
+	 */
+	zephir_declare_class_constant_string(phalcon_adr_payload_status_ce, SL("NOT_ACCEPTED"), "NOT_ACCEPTED");
+
+	/**
+	 * @var string
+	 */
+	zephir_declare_class_constant_string(phalcon_adr_payload_status_ce, SL("NOT_AUTHENTICATED"), "NOT_AUTHENTICATED");
+
+	/**
+	 * @var string
+	 */
+	zephir_declare_class_constant_string(phalcon_adr_payload_status_ce, SL("NOT_AUTHORIZED"), "NOT_AUTHORIZED");
+
+	/**
+	 * @var string
+	 */
+	zephir_declare_class_constant_string(phalcon_adr_payload_status_ce, SL("NOT_CREATED"), "NOT_CREATED");
+
+	/**
+	 * @var string
+	 */
+	zephir_declare_class_constant_string(phalcon_adr_payload_status_ce, SL("NOT_DELETED"), "NOT_DELETED");
+
+	/**
+	 * @var string
+	 */
+	zephir_declare_class_constant_string(phalcon_adr_payload_status_ce, SL("NOT_FOUND"), "NOT_FOUND");
+
+	/**
+	 * @var string
+	 */
+	zephir_declare_class_constant_string(phalcon_adr_payload_status_ce, SL("NOT_UPDATED"), "NOT_UPDATED");
+
+	/**
+	 * @var string
+	 */
+	zephir_declare_class_constant_string(phalcon_adr_payload_status_ce, SL("NOT_VALID"), "NOT_VALID");
+
+	/**
+	 * @var string
+	 */
+	zephir_declare_class_constant_string(phalcon_adr_payload_status_ce, SL("PROCESSING"), "PROCESSING");
+
+	/**
+	 * @var string
+	 */
+	zephir_declare_class_constant_string(phalcon_adr_payload_status_ce, SL("SUCCESS"), "SUCCESS");
+
+	/**
+	 * @var string
+	 */
+	zephir_declare_class_constant_string(phalcon_adr_payload_status_ce, SL("UPDATED"), "UPDATED");
+
+	/**
+	 * @var string
+	 */
+	zephir_declare_class_constant_string(phalcon_adr_payload_status_ce, SL("VALID"), "VALID");
+
+	return SUCCESS;
+}
+
+/**
+ * Instantiation not allowed.
+ */
+PHP_METHOD(Phalcon_ADR_Payload_Status, __construct)
+{
+
+}
+

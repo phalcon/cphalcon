@@ -78,13 +78,13 @@ PHP_METHOD(Phalcon_Db_Geometry_Point, __construct)
 		}
 	ZVAL_UNDEF(&_0);
 	ZVAL_DOUBLE(&_0, x);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 573, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 610, &_0);
 	ZVAL_UNDEF(&_0);
 	ZVAL_DOUBLE(&_0, y);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 574, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 611, &_0);
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, srid);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 575, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 612, &_0);
 }
 
 PHP_METHOD(Phalcon_Db_Geometry_Point, getType)
@@ -137,8 +137,8 @@ PHP_METHOD(Phalcon_Db_Geometry_Point, coordsWkt)
 	if (UNEXPECTED(!_zephir_prop_1)) {
 		_zephir_prop_1 = zend_string_init("y", 1, 1);
 	}
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 573, PH_NOISY_CC | PH_READONLY);
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 574, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 610, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 611, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CONCAT_VSV(return_value, &_0, " ", &_1);
 	return;
 }

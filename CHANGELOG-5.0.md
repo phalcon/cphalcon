@@ -1,17 +1,28 @@
 # Changelog
 
-All notable changes to `phalcon/cphalcon` are documented here. The format is based on [Keep a Changelog][keep_a_changelog] and this project adheres to [Semantic Versioning][semantic_versioning].
+All notable changes are documented here. The format is based on [Keep a Changelog][keep_a_changelog] and this project adheres to [Semantic Versioning][semantic_versioning].
 
 ## [5.18.0](https://github.com/phalcon/cphalcon/releases/tag/v5.18.0) (2026-xx-xx)
 
 ### Tools
 
-- Zephir 1.1.0 (80d17e6a0)
+- Zephir 1.1.0 (05ea28b)
  
 ### Changed
 
 ### Added
 
+- Added the Action-Domain-Responder (ADR) HTTP stack under `Phalcon\ADR`, an alternative to MVC that splits request handling into three focused roles: an _Action_ (one invokable class per route) drives a _Domain_ (your business logic, which returns a `Phalcon\ADR\Payload\Payload` and never touches HTTP) and hands the result to a _Responder_ that turns it into a response.
+  - `Phalcon\ADR\Container`: registrations for the `Phalcon\Container\Container`
+  - `Phalcon\ADR\Emitter` : `SapiEmitter` to emit response data
+  - `Phalcon\ADR\Events` : events wired to the Events Manager
+  - `Phalcon\ADR\Exceptions` : granular exceptions the namespace throws
+  - `Phalcon\ADR\Front` : One-command class wiring the application and executing it
+  - `Phalcon\ADR\Input` : Bag of request data to be passed to the domain
+  - `Phalcon\ADR\Middleware` : Onion based middleware stack
+  - `Phalcon\ADR\Payload` : VO for transferring data from the domain and the responder
+  - `Phalcon\ADR\Responder` : Chainable responders, handling redirect, json, text, error etc.
+  - `Phalcon\ADR\Router` : Router for the application. [#17341](https://github.com/phalcon/cphalcon/issues/17341) [[doc]](https://docs.phalcon.io/5.18/adr/)
 - Added request attributes support to `Phalcon\Http\Request`. `Phalcon\Http\Request::getAttributes()` returns a `Phalcon\Http\Request\Bag\AttributeBag`, a mutable, string-keyed bag of arbitrary application-defined values attached to the request during its lifecycle (router, dispatcher, security components etc.). Writing with a `null` key (the `$bag[] = ...` append form) throws the new `Phalcon\Http\Request\Exceptions\NullKeyException`, since bag elements are always string-keyed. [#17367](https://github.com/phalcon/cphalcon/issues/17367) [[doc]](https://docs.phalcon.io/5.18/http-request/)
 
 ### Fixed
@@ -1094,7 +1105,7 @@ All notable changes to `phalcon/cphalcon` are documented here. The format is bas
 
 ### Added
 
-- Added `Phalcon\Encryption\Security\Uuid` factory and versioned adapters (`Version1`–`Version7`) with a `UuidInterface` carrying standard RFC 4122 namespace constants; each version is a singleton cached by the factory, invoked via `v1()`–`v7()` [#16326](https://github.com/phalcon/cphalcon/issues/16326) [[doc]](https://docs.phalcon.io/5.12/encryption-security/)
+- Added `Phalcon\Encryption\Security\Uuid` factory and versioned adapters (`Version1`-`Version7`) with a `UuidInterface` carrying standard RFC 4122 namespace constants; each version is a singleton cached by the factory, invoked via `v1()`-`v7()` [#16326](https://github.com/phalcon/cphalcon/issues/16326) [[doc]](https://docs.phalcon.io/5.12/encryption-security/)
 - Added `Phalcon\Html\Helper\FriendlyTitle` - available via `TagFactory` as `friendlyTitle` [#16892(https://github.com/phalcon/cphalcon/issues/16892) [[doc]](https://docs.phalcon.io/5.12/html-tagfactory/)
 - Added `Phalcon\Html\Helper\Input\Select::fromData()` to populate select options from a `SelectDataInterface` provider, with optgroup support [#16894](https://github.com/phalcon/cphalcon/issues/16894) [[doc]](https://docs.phalcon.io/5.12/html-tagfactory/)
 - Added `Phalcon\Html\Helper\Input\Select\SelectDataInterface`, `Phalcon\Html\Helper\Input\Select\ArrayData`, and `Phalcon\Html\Helper\Input\Select\ResultsetData` as data providers for the `Select` helper [#16894](https://github.com/phalcon/cphalcon/issues/16894) [[doc]](https://docs.phalcon.io/5.12/html-tagfactory/)

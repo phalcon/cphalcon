@@ -139,7 +139,7 @@ PHP_METHOD(Phalcon_Container_Provider_Web, provide)
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_0);
 	ZEPHIR_INIT_NVAR(&_0);
-	zephir_create_closure_ex(&_0, NULL, phalcon_12__closure_ce, SL("__invoke"));
+	zephir_create_closure_ex(&_0, NULL, phalcon_14__closure_ce, SL("__invoke"));
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "Phalcon\\Filter\\FilterInterface");
 	ZEPHIR_CALL_METHOD(NULL, services, "set", NULL, 0, &_1, &_0);
@@ -236,7 +236,7 @@ PHP_METHOD(Phalcon_Container_Provider_Web, provide)
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_1);
 	ZEPHIR_INIT_NVAR(&_1);
-	zephir_create_closure_ex(&_1, NULL, phalcon_13__closure_ce, SL("__invoke"));
+	zephir_create_closure_ex(&_1, NULL, phalcon_15__closure_ce, SL("__invoke"));
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "Phalcon\\Auth\\Access\\AccessLocator");
 	ZEPHIR_CALL_METHOD(NULL, services, "set", NULL, 0, &_2, &_1);

@@ -1,0 +1,24 @@
+
+extern zend_class_entry *phalcon_contracts_adr_router_routermatch_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Contracts_ADR_Router_RouterMatch);
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_adr_router_routermatch_getaction, 0, 0, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_adr_router_routermatch_getattributes, 0, 0, IS_ARRAY, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_adr_router_routermatch_getmiddleware, 0, 0, IS_ARRAY, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_adr_router_routermatch_getname, 0, 0, IS_STRING, 1)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_contracts_adr_router_routermatch_method_entry) {
+	PHP_ABSTRACT_ME(Phalcon_Contracts_ADR_Router_RouterMatch, getAction, arginfo_phalcon_contracts_adr_router_routermatch_getaction)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_ADR_Router_RouterMatch, getAttributes, arginfo_phalcon_contracts_adr_router_routermatch_getattributes)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_ADR_Router_RouterMatch, getMiddleware, arginfo_phalcon_contracts_adr_router_routermatch_getmiddleware)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_ADR_Router_RouterMatch, getName, arginfo_phalcon_contracts_adr_router_routermatch_getname)
+	PHP_FE_END
+};

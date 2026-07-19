@@ -1,0 +1,14 @@
+
+extern zend_class_entry *phalcon_adr_payload_status_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_ADR_Payload_Status);
+
+PHP_METHOD(Phalcon_ADR_Payload_Status, __construct);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_adr_payload_status___construct, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_adr_payload_status_method_entry) {
+PHP_ME(Phalcon_ADR_Payload_Status, __construct, arginfo_phalcon_adr_payload_status___construct, ZEND_ACC_FINAL|ZEND_ACC_PRIVATE|ZEND_ACC_CTOR)
+	PHP_FE_END
+};

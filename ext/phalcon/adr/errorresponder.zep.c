@@ -1,0 +1,369 @@
+
+#ifdef HAVE_CONFIG_H
+#include "../../ext_config.h"
+#endif
+
+#include <php.h>
+#include "../../php_ext.h"
+#include "../../ext.h"
+
+#include <Zend/zend_operators.h>
+#include <Zend/zend_exceptions.h>
+#include <Zend/zend_interfaces.h>
+
+#include "kernel/main.h"
+#include "kernel/object.h"
+#include "kernel/memory.h"
+#include "kernel/fcall.h"
+#include "kernel/operators.h"
+#include "kernel/array.h"
+
+
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ *
+ * Based on the Action Domain Responder pattern
+ * @link    https://pmjones.io/adr/
+ */
+/**
+ * Turns a thrown exception into a response through the responder chain.
+ *
+ * The full diagnostic (class, message, file:line and the exception itself) goes
+ * to the log with a correlation reference; the client receives only a generic
+ * message plus that same reference, unless debug mode is on. Exceptions are
+ * mapped to statuses deterministically: an exact class match first, then the
+ * ancestor chain, so map ordering never matters.
+ */
+ZEPHIR_INIT_CLASS(Phalcon_ADR_ErrorResponder)
+{
+	ZEPHIR_REGISTER_CLASS(Phalcon\\ADR, ErrorResponder, phalcon, adr_errorresponder, phalcon_adr_errorresponder_method_entry, ZEND_ACC_FINAL_CLASS);
+
+	/**
+	 * @var Responder
+	 */
+	zend_declare_property_null(phalcon_adr_errorresponder_ce, SL("chain"), ZEND_ACC_PROTECTED);
+	/**
+	 * @var bool
+	 */
+	zend_declare_property_null(phalcon_adr_errorresponder_ce, SL("debug"), ZEND_ACC_PROTECTED);
+	/**
+	 * @var array
+	 */
+	zend_declare_property_null(phalcon_adr_errorresponder_ce, SL("exceptionMap"), ZEND_ACC_PROTECTED);
+	/**
+	 * @var Logger
+	 */
+	zend_declare_property_null(phalcon_adr_errorresponder_ce, SL("logger"), ZEND_ACC_PROTECTED);
+	return SUCCESS;
+}
+
+PHP_METHOD(Phalcon_ADR_ErrorResponder, __construct)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval exceptionMap;
+	zend_bool debug;
+	zval *chain, chain_sub, *logger, logger_sub, *debug_param = NULL, *exceptionMap_param = NULL, __$true, __$false, _0, _1;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&chain_sub);
+	ZVAL_UNDEF(&logger_sub);
+	ZVAL_BOOL(&__$true, 1);
+	ZVAL_BOOL(&__$false, 0);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&exceptionMap);
+	static zend_string *_zephir_prop_0 = NULL;
+	static zend_string *_zephir_prop_1 = NULL;
+	static zend_string *_zephir_prop_2 = NULL;
+	static zend_string *_zephir_prop_3 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("chain", 5, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_1)) {
+		_zephir_prop_1 = zend_string_init("logger", 6, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_2)) {
+		_zephir_prop_2 = zend_string_init("debug", 5, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_3)) {
+		_zephir_prop_3 = zend_string_init("exceptionMap", 12, 1);
+	}
+
+	ZEND_PARSE_PARAMETERS_START(2, 4)
+		Z_PARAM_OBJECT_OF_CLASS(chain, phalcon_contracts_adr_responder_responder_ce)
+		Z_PARAM_OBJECT_OF_CLASS(logger, phalcon_contracts_logger_logger_ce)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_BOOL(debug)
+		ZEPHIR_Z_PARAM_ARRAY(exceptionMap, exceptionMap_param)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_fetch_params(1, 2, 2, &chain, &logger, &debug_param, &exceptionMap_param);
+	if (!debug_param) {
+		debug = 0;
+	} else {
+		}
+	if (!exceptionMap_param) {
+		ZEPHIR_INIT_VAR(&exceptionMap);
+		array_init(&exceptionMap);
+	} else {
+		zephir_get_arrval(&exceptionMap, exceptionMap_param);
+	}
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 337, chain);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 338, logger);
+	if (debug) {
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 339, &__$true);
+	} else {
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 339, &__$false);
+	}
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "defaultmap", NULL, 310);
+	zephir_check_call_status();
+	ZEPHIR_INIT_VAR(&_1);
+	zephir_add_function(&_1, &exceptionMap, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 340, &_1);
+	ZEPHIR_MM_RESTORE();
+}
+
+PHP_METHOD(Phalcon_ADR_ErrorResponder, handle)
+{
+	zval _7;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *request, request_sub, *response, response_sub, *exception, exception_sub, status, ref, payload, _0, _1, _2, _3, _4, _5, _6, _8, _9, _10;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&request_sub);
+	ZVAL_UNDEF(&response_sub);
+	ZVAL_UNDEF(&exception_sub);
+	ZVAL_UNDEF(&status);
+	ZVAL_UNDEF(&ref);
+	ZVAL_UNDEF(&payload);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_4);
+	ZVAL_UNDEF(&_5);
+	ZVAL_UNDEF(&_6);
+	ZVAL_UNDEF(&_8);
+	ZVAL_UNDEF(&_9);
+	ZVAL_UNDEF(&_10);
+	ZVAL_UNDEF(&_7);
+	static zend_string *_zephir_prop_0 = NULL;
+	static zend_string *_zephir_prop_1 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("logger", 6, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_1)) {
+		_zephir_prop_1 = zend_string_init("chain", 5, 1);
+	}
+
+	ZEND_PARSE_PARAMETERS_START(3, 3)
+		Z_PARAM_OBJECT_OF_CLASS(request, phalcon_http_requestinterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(response, phalcon_http_responseinterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(exception, zend_ce_throwable)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_fetch_params(1, 3, 0, &request, &response, &exception);
+	ZEPHIR_CALL_METHOD(&ref, this_ptr, "correlationid", NULL, 311, request);
+	zephir_check_call_status();
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 338, PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_INIT_VAR(&_1);
+	zephir_get_class(&_1, exception, 0);
+	ZEPHIR_CALL_METHOD(&_2, exception, "getmessage", NULL, 0);
+	zephir_check_call_status();
+	ZEPHIR_CALL_METHOD(&_3, exception, "getfile", NULL, 0);
+	zephir_check_call_status();
+	ZEPHIR_CALL_METHOD(&_4, exception, "getline", NULL, 0);
+	zephir_check_call_status();
+	ZEPHIR_INIT_VAR(&_5);
+	ZVAL_STRING(&_5, "%s: %s in %s:%d");
+	ZEPHIR_CALL_FUNCTION(&_6, "sprintf", NULL, 145, &_5, &_1, &_2, &_3, &_4);
+	zephir_check_call_status();
+	ZEPHIR_INIT_VAR(&_7);
+	zephir_create_array(&_7, 2, 0);
+	zephir_array_update_string(&_7, SL("exception"), exception, PH_COPY | PH_SEPARATE);
+	zephir_array_update_string(&_7, SL("ref"), &ref, PH_COPY | PH_SEPARATE);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "error", NULL, 0, &_6, &_7);
+	zephir_check_call_status();
+	ZEPHIR_CALL_METHOD(&status, this_ptr, "resolvestatus", NULL, 312, exception);
+	zephir_check_call_status();
+	ZEPHIR_INIT_NVAR(&_5);
+	object_init_ex(&_5, phalcon_adr_payload_payload_ce);
+	if (zephir_has_constructor(&_5)) {
+		ZEPHIR_CALL_METHOD(NULL, &_5, "__construct", NULL, 0);
+		zephir_check_call_status();
+	}
+
+	ZEPHIR_CALL_METHOD(&_8, &_5, "withstatus", NULL, 313, &status);
+	zephir_check_call_status();
+	ZEPHIR_CALL_METHOD(&_9, this_ptr, "details", NULL, 314, exception, &ref);
+	zephir_check_call_status();
+	ZEPHIR_CALL_METHOD(&payload, &_8, "withresult", NULL, 0, &_9);
+	zephir_check_call_status();
+	zephir_read_property_cached(&_10, this_ptr, _zephir_prop_1, 337, PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_RETURN_CALL_METHOD(&_10, "__invoke", NULL, 0, request, response, &payload);
+	zephir_check_call_status();
+	RETURN_MM();
+}
+
+PHP_METHOD(Phalcon_ADR_ErrorResponder, correlationId)
+{
+	zval _3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *request, request_sub, id, _0, _1$$3, _2$$3;
+
+	ZVAL_UNDEF(&request_sub);
+	ZVAL_UNDEF(&id);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1$$3);
+	ZVAL_UNDEF(&_2$$3);
+	ZVAL_UNDEF(&_3);
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(request, phalcon_http_requestinterface_ce)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_fetch_params(1, 1, 0, &request);
+	ZEPHIR_INIT_VAR(&_0);
+	ZVAL_STRING(&_0, "X-Request-Id");
+	ZEPHIR_CALL_METHOD(&id, request, "getheader", NULL, 0, &_0);
+	zephir_check_call_status();
+	if (ZEPHIR_IS_EMPTY(&id)) {
+		ZVAL_LONG(&_1$$3, 8);
+		ZEPHIR_CALL_FUNCTION(&_2$$3, "random_bytes", NULL, 315, &_1$$3);
+		zephir_check_call_status();
+		ZEPHIR_CALL_FUNCTION(&id, "bin2hex", NULL, 316, &_2$$3);
+		zephir_check_call_status();
+	}
+	zephir_cast_to_string(&_3, &id);
+	RETURN_CTOR(&_3);
+}
+
+PHP_METHOD(Phalcon_ADR_ErrorResponder, defaultMap)
+{
+
+	zephir_create_array(return_value, 2, 0);
+	add_assoc_stringl_ex(return_value, SL("Phalcon\\ADR\\Exceptions\\RouteNotFound"), SL("NOT_FOUND"));
+	add_assoc_stringl_ex(return_value, SL("Phalcon\\ADR\\Exceptions\\MethodNotAllowed"), SL("METHOD_NOT_ALLOWED"));
+	return;
+}
+
+PHP_METHOD(Phalcon_ADR_ErrorResponder, details)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zend_string *ref = NULL;
+	zval *exception, exception_sub, ref_zv, _0, _1$$3;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&exception_sub);
+	ZVAL_UNDEF(&ref_zv);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1$$3);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("debug", 5, 1);
+	}
+
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_OBJECT_OF_CLASS(exception, zend_ce_throwable)
+		Z_PARAM_STR(ref)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	exception = ZEND_CALL_ARG(execute_data, 1);
+	zephir_memory_observe(&ref_zv);
+	ZVAL_STR_COPY(&ref_zv, ref);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 339, PH_NOISY_CC | PH_READONLY);
+	if (zephir_is_true(&_0)) {
+		zephir_create_array(return_value, 3, 0);
+		ZEPHIR_CALL_METHOD(&_1$$3, exception, "getmessage", NULL, 0);
+		zephir_check_call_status();
+		zephir_array_update_string(return_value, SL("message"), &_1$$3, PH_COPY | PH_SEPARATE);
+		ZEPHIR_CALL_METHOD(&_1$$3, exception, "gettraceasstring", NULL, 0);
+		zephir_check_call_status();
+		zephir_array_update_string(return_value, SL("trace"), &_1$$3, PH_COPY | PH_SEPARATE);
+		zephir_array_update_string(return_value, SL("ref"), &ref_zv, PH_COPY | PH_SEPARATE);
+		RETURN_MM();
+	}
+	zephir_create_array(return_value, 2, 0);
+	add_assoc_stringl_ex(return_value, SL("message"), SL("Internal Server Error"));
+	zephir_array_update_string(return_value, SL("ref"), &ref_zv, PH_COPY | PH_SEPARATE);
+	RETURN_MM();
+}
+
+PHP_METHOD(Phalcon_ADR_ErrorResponder, resolveStatus)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *exception, exception_sub, className, ancestor, ancestors, _0, _3, _4, _5, _6, *_7, _1$$3, _2$$3, _8$$4, _9$$5, _10$$5;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&exception_sub);
+	ZVAL_UNDEF(&className);
+	ZVAL_UNDEF(&ancestor);
+	ZVAL_UNDEF(&ancestors);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_4);
+	ZVAL_UNDEF(&_5);
+	ZVAL_UNDEF(&_6);
+	ZVAL_UNDEF(&_1$$3);
+	ZVAL_UNDEF(&_2$$3);
+	ZVAL_UNDEF(&_8$$4);
+	ZVAL_UNDEF(&_9$$5);
+	ZVAL_UNDEF(&_10$$5);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("exceptionMap", 12, 1);
+	}
+
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(exception, zend_ce_throwable)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_fetch_params(1, 1, 0, &exception);
+	ZEPHIR_INIT_VAR(&className);
+	zephir_get_class(&className, exception, 0);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 340, PH_NOISY_CC | PH_READONLY);
+	if (zephir_array_isset_value(&_0, &className)) {
+		zephir_read_property_cached(&_1$$3, this_ptr, _zephir_prop_0, 340, PH_NOISY_CC | PH_READONLY);
+		zephir_array_fetch(&_2$$3, &_1$$3, &className, PH_NOISY | PH_READONLY, "phalcon/ADR/ErrorResponder.zep", 142);
+		RETURN_CTOR(&_2$$3);
+	}
+	ZEPHIR_CALL_FUNCTION(&_3, "class_parents", NULL, 317, exception);
+	zephir_check_call_status();
+	ZEPHIR_CALL_FUNCTION(&_4, "array_values", NULL, 27, &_3);
+	zephir_check_call_status();
+	ZEPHIR_CALL_FUNCTION(&_5, "class_implements", NULL, 318, exception);
+	zephir_check_call_status();
+	ZEPHIR_CALL_FUNCTION(&_6, "array_values", NULL, 27, &_5);
+	zephir_check_call_status();
+	ZEPHIR_INIT_VAR(&ancestors);
+	zephir_fast_array_merge(&ancestors, &_4, &_6);
+	zephir_is_iterable(&ancestors, 0, "phalcon/ADR/ErrorResponder.zep", 156);
+	ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&ancestors), _7)
+	{
+		ZEPHIR_INIT_NVAR(&ancestor);
+		ZVAL_COPY(&ancestor, _7);
+		zephir_read_property_cached(&_8$$4, this_ptr, _zephir_prop_0, 340, PH_NOISY_CC | PH_READONLY);
+		if (zephir_array_isset_value(&_8$$4, &ancestor)) {
+			zephir_read_property_cached(&_9$$5, this_ptr, _zephir_prop_0, 340, PH_NOISY_CC | PH_READONLY);
+			zephir_array_fetch(&_10$$5, &_9$$5, &ancestor, PH_NOISY | PH_READONLY, "phalcon/ADR/ErrorResponder.zep", 152);
+			RETURN_CTOR(&_10$$5);
+		}
+	} ZEND_HASH_FOREACH_END();
+	ZEPHIR_INIT_NVAR(&ancestor);
+	RETURN_MM_STRING("ERROR");
+}
+
