@@ -7,7 +7,7 @@ PHP_METHOD(Phalcon_ADR_Middleware_MethodOverrideMiddleware, __invoke);
 zend_object *zephir_init_properties_Phalcon_ADR_Middleware_MethodOverrideMiddleware(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_adr_middleware_methodoverridemiddleware___invoke, 0, 2, Phalcon\\Http\\ResponseInterface, 0)
-	ZEND_ARG_OBJ_INFO(0, request, Phalcon\\Contracts\\Http\\AttributeRequestInterface, 0)
+	ZEND_ARG_OBJ_INFO(0, request, Phalcon\\Contracts\\Http\\AttributeRequest, 0)
 	ZEND_ARG_OBJ_INFO(0, next, Phalcon\\Contracts\\ADR\\Handler, 0)
 ZEND_END_ARG_INFO()
 

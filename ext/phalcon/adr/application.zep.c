@@ -101,13 +101,13 @@ PHP_METHOD(Phalcon_ADR_Application, __construct)
 
 PHP_METHOD(Phalcon_ADR_Application, handle)
 {
-	zend_bool _13$$3;
-	zend_string *_8$$3;
-	zend_ulong _7$$3;
+	zend_bool _12$$3;
+	zend_string *_7$$3;
+	zend_ulong _6$$3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_10 = NULL, *_11 = NULL, *_15 = NULL;
+	zephir_fcall_cache_entry *_9 = NULL, *_10 = NULL, *_14 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *request, request_sub, match, response, key, value, exception, _0, _1, _26, _27, _2$$3, _5$$3, *_6$$3, _12$$3, _16$$3, _17$$3, _18$$3, _3$$4, _4$$4, _9$$5, _14$$6, _19$$8, _20$$8, _21$$7, _22$$7, _23$$9, _24$$9, _25$$9;
+	zval *request, request_sub, match, response, key, value, exception, _0, _1, _25, _26, _2$$3, _4$$3, *_5$$3, _11$$3, _15$$3, _16$$3, _17$$3, _3$$4, _8$$5, _13$$6, _18$$8, _19$$8, _20$$7, _21$$7, _22$$9, _23$$9, _24$$9;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&request_sub);
@@ -118,25 +118,24 @@ PHP_METHOD(Phalcon_ADR_Application, handle)
 	ZVAL_UNDEF(&exception);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_25);
 	ZVAL_UNDEF(&_26);
-	ZVAL_UNDEF(&_27);
 	ZVAL_UNDEF(&_2$$3);
-	ZVAL_UNDEF(&_5$$3);
-	ZVAL_UNDEF(&_12$$3);
+	ZVAL_UNDEF(&_4$$3);
+	ZVAL_UNDEF(&_11$$3);
+	ZVAL_UNDEF(&_15$$3);
 	ZVAL_UNDEF(&_16$$3);
 	ZVAL_UNDEF(&_17$$3);
-	ZVAL_UNDEF(&_18$$3);
 	ZVAL_UNDEF(&_3$$4);
-	ZVAL_UNDEF(&_4$$4);
-	ZVAL_UNDEF(&_9$$5);
-	ZVAL_UNDEF(&_14$$6);
+	ZVAL_UNDEF(&_8$$5);
+	ZVAL_UNDEF(&_13$$6);
+	ZVAL_UNDEF(&_18$$8);
 	ZVAL_UNDEF(&_19$$8);
-	ZVAL_UNDEF(&_20$$8);
+	ZVAL_UNDEF(&_20$$7);
 	ZVAL_UNDEF(&_21$$7);
-	ZVAL_UNDEF(&_22$$7);
+	ZVAL_UNDEF(&_22$$9);
 	ZVAL_UNDEF(&_23$$9);
 	ZVAL_UNDEF(&_24$$9);
-	ZVAL_UNDEF(&_25$$9);
 	static zend_string *_zephir_prop_0 = NULL;
 	static zend_string *_zephir_prop_1 = NULL;
 	static zend_string *_zephir_prop_2 = NULL;
@@ -155,7 +154,7 @@ PHP_METHOD(Phalcon_ADR_Application, handle)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(request, phalcon_contracts_http_attributerequestinterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(request, phalcon_contracts_http_attributerequest_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
@@ -173,68 +172,66 @@ PHP_METHOD(Phalcon_ADR_Application, handle)
 		zephir_check_call_status_or_jump(try_end_1);
 		if (Z_TYPE_P(&match) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_3$$4);
-			object_init_ex(&_3$$4, phalcon_adr_router_exceptions_routenotfound_ce);
-			ZEPHIR_INIT_VAR(&_4$$4);
-			ZVAL_STRING(&_4$$4, "No route matched the request.");
-			ZEPHIR_CALL_METHOD(NULL, &_3$$4, "__construct", NULL, 8, &_4$$4);
+			object_init_ex(&_3$$4, phalcon_adr_exceptions_routenotfound_ce);
+			ZEPHIR_CALL_METHOD(NULL, &_3$$4, "__construct", NULL, 300);
 			zephir_check_call_status_or_jump(try_end_1);
 			zephir_throw_exception_debug(&_3$$4, "phalcon/ADR/Application.zep", 76);
 			goto try_end_1;
 
 		}
-		ZEPHIR_CALL_METHOD(&_5$$3, &match, "getattributes", NULL, 0);
+		ZEPHIR_CALL_METHOD(&_4$$3, &match, "getattributes", NULL, 0);
 		zephir_check_call_status_or_jump(try_end_1);
-		zephir_is_iterable(&_5$$3, 0, "phalcon/ADR/Application.zep", 83);
-		if (Z_TYPE_P(&_5$$3) == IS_ARRAY) {
-			ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&_5$$3), _7$$3, _8$$3, _6$$3)
+		zephir_is_iterable(&_4$$3, 0, "phalcon/ADR/Application.zep", 83);
+		if (Z_TYPE_P(&_4$$3) == IS_ARRAY) {
+			ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&_4$$3), _6$$3, _7$$3, _5$$3)
 			{
 				ZEPHIR_INIT_NVAR(&key);
-				if (_8$$3 != NULL) { 
-					ZVAL_STR_COPY(&key, _8$$3);
+				if (_7$$3 != NULL) { 
+					ZVAL_STR_COPY(&key, _7$$3);
 				} else {
-					ZVAL_LONG(&key, _7$$3);
+					ZVAL_LONG(&key, _6$$3);
 				}
 				ZEPHIR_INIT_NVAR(&value);
-				ZVAL_COPY(&value, _6$$3);
-				ZEPHIR_CALL_METHOD(&_9$$5, request, "getattributes", &_10, 0);
+				ZVAL_COPY(&value, _5$$3);
+				ZEPHIR_CALL_METHOD(&_8$$5, request, "getattributes", &_9, 0);
 				zephir_check_call_status_or_jump(try_end_1);
-				ZEPHIR_CALL_METHOD(NULL, &_9$$5, "set", &_11, 0, &key, &value);
+				ZEPHIR_CALL_METHOD(NULL, &_8$$5, "set", &_10, 0, &key, &value);
 				zephir_check_call_status_or_jump(try_end_1);
 			} ZEND_HASH_FOREACH_END();
 		} else {
-			ZEPHIR_CALL_METHOD(NULL, &_5$$3, "rewind", NULL, 0);
+			ZEPHIR_CALL_METHOD(NULL, &_4$$3, "rewind", NULL, 0);
 			zephir_check_call_status();
-			_13$$3 = 1;
+			_12$$3 = 1;
 			while (1) {
-				if (_13$$3) {
-					_13$$3 = 0;
+				if (_12$$3) {
+					_12$$3 = 0;
 				} else {
-					ZEPHIR_CALL_METHOD(NULL, &_5$$3, "next", NULL, 0);
+					ZEPHIR_CALL_METHOD(NULL, &_4$$3, "next", NULL, 0);
 					zephir_check_call_status();
 				}
-				ZEPHIR_CALL_METHOD(&_12$$3, &_5$$3, "valid", NULL, 0);
+				ZEPHIR_CALL_METHOD(&_11$$3, &_4$$3, "valid", NULL, 0);
 				zephir_check_call_status();
-				if (!zend_is_true(&_12$$3)) {
+				if (!zend_is_true(&_11$$3)) {
 					break;
 				}
-				ZEPHIR_CALL_METHOD(&key, &_5$$3, "key", NULL, 0);
+				ZEPHIR_CALL_METHOD(&key, &_4$$3, "key", NULL, 0);
 				zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&value, &_5$$3, "current", NULL, 0);
+				ZEPHIR_CALL_METHOD(&value, &_4$$3, "current", NULL, 0);
 				zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(&_14$$6, request, "getattributes", &_15, 0);
+					ZEPHIR_CALL_METHOD(&_13$$6, request, "getattributes", &_14, 0);
 					zephir_check_call_status_or_jump(try_end_1);
-					ZEPHIR_CALL_METHOD(NULL, &_14$$6, "set", &_11, 0, &key, &value);
+					ZEPHIR_CALL_METHOD(NULL, &_13$$6, "set", &_10, 0, &key, &value);
 					zephir_check_call_status_or_jump(try_end_1);
 			}
 		}
 		ZEPHIR_INIT_NVAR(&value);
 		ZEPHIR_INIT_NVAR(&key);
-		zephir_read_property_cached(&_16$$3, this_ptr, _zephir_prop_2, 330, PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_CALL_METHOD(&_17$$3, &match, "getaction", NULL, 0);
+		zephir_read_property_cached(&_15$$3, this_ptr, _zephir_prop_2, 330, PH_NOISY_CC | PH_READONLY);
+		ZEPHIR_CALL_METHOD(&_16$$3, &match, "getaction", NULL, 0);
 		zephir_check_call_status_or_jump(try_end_1);
-		ZEPHIR_CALL_METHOD(&_18$$3, &match, "getmiddleware", NULL, 0);
+		ZEPHIR_CALL_METHOD(&_17$$3, &match, "getmiddleware", NULL, 0);
 		zephir_check_call_status_or_jump(try_end_1);
-		ZEPHIR_CALL_METHOD(&response, &_16$$3, "dispatch", NULL, 0, &_17$$3, request, &_18$$3);
+		ZEPHIR_CALL_METHOD(&response, &_15$$3, "dispatch", NULL, 0, &_16$$3, request, &_17$$3);
 		zephir_check_call_status_or_jump(try_end_1);
 
 	try_end_1:
@@ -249,43 +246,43 @@ PHP_METHOD(Phalcon_ADR_Application, handle)
 
 			/* try_start_2: */
 
-				zephir_read_property_cached(&_19$$8, this_ptr, _zephir_prop_3, 331, PH_NOISY_CC | PH_READONLY);
-				ZEPHIR_INIT_VAR(&_20$$8);
-				object_init_ex(&_20$$8, phalcon_http_response_ce);
-				ZEPHIR_CALL_METHOD(NULL, &_20$$8, "__construct", NULL, 300);
+				zephir_read_property_cached(&_18$$8, this_ptr, _zephir_prop_3, 331, PH_NOISY_CC | PH_READONLY);
+				ZEPHIR_INIT_VAR(&_19$$8);
+				object_init_ex(&_19$$8, phalcon_http_response_ce);
+				ZEPHIR_CALL_METHOD(NULL, &_19$$8, "__construct", NULL, 301);
 				zephir_check_call_status_or_jump(try_end_2);
-				ZEPHIR_CALL_METHOD(&response, &_19$$8, "handle", NULL, 0, request, &_20$$8, &exception);
+				ZEPHIR_CALL_METHOD(&response, &_18$$8, "handle", NULL, 0, request, &_19$$8, &exception);
 				zephir_check_call_status_or_jump(try_end_2);
 
 			try_end_2:
 
 			if (EG(exception)) {
+				ZEPHIR_INIT_VAR(&_20$$7);
+				ZVAL_OBJ(&_20$$7, EG(exception));
+				Z_ADDREF_P(&_20$$7);
 				ZEPHIR_INIT_VAR(&_21$$7);
-				ZVAL_OBJ(&_21$$7, EG(exception));
-				Z_ADDREF_P(&_21$$7);
-				ZEPHIR_INIT_VAR(&_22$$7);
-				if (zephir_is_instance_of(&_21$$7, SL("Throwable"))) {
+				if (zephir_is_instance_of(&_20$$7, SL("Throwable"))) {
 					zend_clear_exception();
-					ZEPHIR_CPY_WRT(&_22$$7, &_21$$7);
+					ZEPHIR_CPY_WRT(&_21$$7, &_20$$7);
 					ZEPHIR_INIT_NVAR(&response);
 					object_init_ex(&response, phalcon_http_response_ce);
-					ZEPHIR_CALL_METHOD(NULL, &response, "__construct", NULL, 300);
+					ZEPHIR_CALL_METHOD(NULL, &response, "__construct", NULL, 301);
 					zephir_check_call_status();
-					ZVAL_LONG(&_24$$9, 500);
-					ZEPHIR_CALL_METHOD(&_23$$9, &response, "setstatuscode", NULL, 301, &_24$$9);
+					ZVAL_LONG(&_23$$9, 500);
+					ZEPHIR_CALL_METHOD(&_22$$9, &response, "setstatuscode", NULL, 302, &_23$$9);
 					zephir_check_call_status();
-					ZEPHIR_INIT_VAR(&_25$$9);
-					ZVAL_STRING(&_25$$9, "Internal Server Error");
-					ZEPHIR_CALL_METHOD(NULL, &_23$$9, "setcontent", NULL, 0, &_25$$9);
+					ZEPHIR_INIT_VAR(&_24$$9);
+					ZVAL_STRING(&_24$$9, "Internal Server Error");
+					ZEPHIR_CALL_METHOD(NULL, &_22$$9, "setcontent", NULL, 0, &_24$$9);
 					zephir_check_call_status();
 				}
 			}
 		}
 	}
-	zephir_read_property_cached(&_26, this_ptr, _zephir_prop_0, 332, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_INIT_VAR(&_27);
-	ZVAL_STRING(&_27, "application:afterHandle");
-	ZEPHIR_CALL_METHOD(NULL, &_26, "fire", NULL, 0, &_27, this_ptr, &response);
+	zephir_read_property_cached(&_25, this_ptr, _zephir_prop_0, 332, PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_INIT_VAR(&_26);
+	ZVAL_STRING(&_26, "application:afterHandle");
+	ZEPHIR_CALL_METHOD(NULL, &_25, "fire", NULL, 0, &_26, this_ptr, &response);
 	zephir_check_call_status();
 	RETURN_CCTOR(&response);
 }

@@ -80,7 +80,7 @@ PHP_METHOD(Phalcon_ADR_Middleware_MethodOverrideMiddleware, __invoke)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(2, 2)
-		Z_PARAM_OBJECT_OF_CLASS(request, phalcon_contracts_http_attributerequestinterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(request, phalcon_contracts_http_attributerequest_ce)
 		Z_PARAM_OBJECT_OF_CLASS(next, phalcon_contracts_adr_handler_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);

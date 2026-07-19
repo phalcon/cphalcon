@@ -136,7 +136,7 @@ PHP_METHOD(Phalcon_ADR_Pipeline, __invoke)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(request, phalcon_contracts_http_attributerequestinterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(request, phalcon_contracts_http_attributerequest_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
@@ -160,7 +160,7 @@ PHP_METHOD(Phalcon_ADR_Pipeline, __invoke)
 	zephir_read_property_cached(&_6, this_ptr, _zephir_prop_2, 351, PH_NOISY_CC | PH_READONLY);
 	zephir_read_property_cached(&_7, this_ptr, _zephir_prop_0, 352, PH_NOISY_CC | PH_READONLY);
 	ZVAL_LONG(&_8, (zephir_get_numberval(&_7) + 1));
-	ZEPHIR_CALL_METHOD(NULL, &next, "__construct", NULL, 305, &_5, &_6, &_8);
+	ZEPHIR_CALL_METHOD(NULL, &next, "__construct", NULL, 307, &_5, &_6, &_8);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(&mw, "__invoke", NULL, 0, request, &next);
 	zephir_check_call_status();

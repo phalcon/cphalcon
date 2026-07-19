@@ -12,8 +12,8 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/object.h"
 #include "kernel/memory.h"
+#include "kernel/object.h"
 #include "kernel/operators.h"
 
 
@@ -59,13 +59,12 @@ PHP_METHOD(Phalcon_ADR_Router_RouterMatch, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval attributes, middleware;
-	zval action_zv, *attributes_param = NULL, *middleware_param = NULL, *name = NULL, name_sub, __$null;
-	zend_string *action = NULL;
+	zval action_zv, *attributes_param = NULL, *middleware_param = NULL, name_zv;
+	zend_string *action = NULL, *name = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&action_zv);
-	ZVAL_UNDEF(&name_sub);
-	ZVAL_NULL(&__$null);
+	ZVAL_UNDEF(&name_zv);
 	ZVAL_UNDEF(&attributes);
 	ZVAL_UNDEF(&middleware);
 	static zend_string *_zephir_prop_0 = NULL;
@@ -91,7 +90,7 @@ PHP_METHOD(Phalcon_ADR_Router_RouterMatch, __construct)
 		Z_PARAM_OPTIONAL
 		ZEPHIR_Z_PARAM_ARRAY(attributes, attributes_param)
 		ZEPHIR_Z_PARAM_ARRAY(middleware, middleware_param)
-		Z_PARAM_ZVAL_OR_NULL(name)
+		Z_PARAM_STR_OR_NULL(name)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
@@ -101,10 +100,8 @@ PHP_METHOD(Phalcon_ADR_Router_RouterMatch, __construct)
 	if (ZEND_NUM_ARGS() > 2) {
 		middleware_param = ZEND_CALL_ARG(execute_data, 3);
 	}
-	if (ZEND_NUM_ARGS() > 3) {
-		name = ZEND_CALL_ARG(execute_data, 4);
-	}
-	ZVAL_STR(&action_zv, action);
+	zephir_memory_observe(&action_zv);
+	ZVAL_STR_COPY(&action_zv, action);
 	if (!attributes_param) {
 		ZEPHIR_INIT_VAR(&attributes);
 		array_init(&attributes);
@@ -118,13 +115,15 @@ PHP_METHOD(Phalcon_ADR_Router_RouterMatch, __construct)
 		zephir_get_arrval(&middleware, middleware_param);
 	}
 	if (!name) {
-		name = &name_sub;
-		name = &__$null;
+		ZEPHIR_INIT_VAR(&name_zv);
+	} else {
+		zephir_memory_observe(&name_zv);
+	ZVAL_STR_COPY(&name_zv, name);
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 360, &action_zv);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 361, &attributes);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 362, &middleware);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 363, name);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 363, &name_zv);
 	ZEPHIR_MM_RESTORE();
 }
 

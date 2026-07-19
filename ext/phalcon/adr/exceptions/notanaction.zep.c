@@ -12,6 +12,10 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/memory.h"
+#include "kernel/fcall.h"
+#include "kernel/concat.h"
+#include "kernel/object.h"
 
 
 /**
@@ -30,8 +34,39 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_ADR_Exceptions_NotAnAction)
 {
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\ADR\\Exceptions, NotAnAction, phalcon, adr_exceptions_notanaction, phalcon_adr_exceptions_exception_ce, NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\ADR\\Exceptions, NotAnAction, phalcon, adr_exceptions_notanaction, phalcon_adr_exceptions_exception_ce, phalcon_adr_exceptions_notanaction_method_entry, 0);
 
 	return SUCCESS;
+}
+
+PHP_METHOD(Phalcon_ADR_Exceptions_NotAnAction, __construct)
+{
+	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval className_zv;
+	zend_string *className = NULL;
+
+	ZVAL_UNDEF(&className_zv);
+	ZVAL_UNDEF(&_0);
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_STR(className)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	if (!className) {
+		className = zend_string_init(ZEND_STRL(""), 0);
+		zephir_memory_observe(&className_zv);
+		ZVAL_STR(&className_zv, className);
+	} else {
+		zephir_memory_observe(&className_zv);
+	ZVAL_STR_COPY(&className_zv, className);
+	}
+	ZEPHIR_INIT_VAR(&_0);
+	ZEPHIR_CONCAT_SVS(&_0, "Class '", &className_zv, "' is not an ADR Action.");
+	ZEPHIR_CALL_PARENT(NULL, phalcon_adr_exceptions_notanaction_ce, getThis(), "__construct", NULL, 0, &_0);
+	zephir_check_call_status();
+	ZEPHIR_MM_RESTORE();
 }
 

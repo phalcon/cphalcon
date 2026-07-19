@@ -41,7 +41,7 @@ PHP_METHOD(phalcon_5__closure, __invoke)
 	zephir_fetch_params(1, 1, 0, &container);
 	object_init_ex(return_value, phalcon_adr_dispatcher_ce);
 	ZEPHIR_INIT_VAR(&_1);
-	ZVAL_STRING(&_1, "eventsManager");
+	ZVAL_STRING(&_1, "Phalcon\\Contracts\\Events\\Manager");
 	ZEPHIR_CALL_METHOD(&_0, container, "get", NULL, 0, &_1);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, container, &_0);

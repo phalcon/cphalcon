@@ -401,6 +401,11 @@ int zephir_declare_class_constant_string(zend_class_entry *ce, const char *name,
 /* Declare a class property whose default is an array (persisted immutable, e.g. on a trait ce) */
 int zephir_declare_property_array(zend_class_entry *ce, const char *name, size_t name_length, zval *value, int access_type);
 
+/* Declare a class property carrying a PHP type (issue #2608). `type_mask` is a
+ * MAY_BE_* bitmask (with MAY_BE_NULL folded in for `?type`); when `class_name`
+ * is non-NULL the property is a class type resolved lazily by the engine. */
+zend_property_info *zephir_declare_typed_property(zend_class_entry *ce, const char *name, size_t name_length, zval *value, int access_type, uint32_t type_mask, const char *class_name, size_t class_name_length);
+
 int zephir_is_php_version(unsigned int id);
 
 /** Method declaration for API generation */

@@ -32,7 +32,8 @@
 /**
  * Boots a container, resolves the Application, handles the request and emits the
  * response. Userland front controllers override `loadEnvironment()` /
- * `registerProviders()`; bootstrap is `exit((new AppFront(dirname(__DIR__)))->run());`.
+ * `registerProviders()`; 
+ * bootstrap is `exit((new AppFront(dirname(__DIR__)))->run());`.
  */
 ZEPHIR_INIT_CLASS(Phalcon_ADR_Front_AbstractHttpFront)
 {
@@ -94,7 +95,7 @@ PHP_METHOD(Phalcon_ADR_Front_AbstractHttpFront, run)
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "registerproviders", NULL, 0, &container);
 		zephir_check_call_status_or_jump(try_end_1);
 		ZEPHIR_INIT_VAR(&_0$$3);
-		ZVAL_STRING(&_0$$3, "request");
+		ZVAL_STRING(&_0$$3, "Phalcon\\Contracts\\Http\\AttributeRequest");
 		ZEPHIR_CALL_METHOD(&request, &container, "get", NULL, 0, &_0$$3);
 		zephir_check_call_status_or_jump(try_end_1);
 		ZEPHIR_INIT_NVAR(&_0$$3);

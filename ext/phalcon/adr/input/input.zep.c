@@ -97,7 +97,7 @@ PHP_METHOD(Phalcon_ADR_Input_Input, fromArray)
 	zephir_fetch_params(1, 1, 0, &data_param);
 	zephir_get_arrval(&data, data_param);
 	object_init_ex(return_value, zend_get_called_scope(execute_data));
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 316, &data);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 319, &data);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -117,7 +117,7 @@ PHP_METHOD(Phalcon_ADR_Input_Input, fromRequest)
 	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_5);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(request, phalcon_contracts_http_attributerequestinterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(request, phalcon_contracts_http_attributerequest_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
@@ -140,7 +140,7 @@ PHP_METHOD(Phalcon_ADR_Input_Input, fromRequest)
 	zephir_check_call_status();
 	ZEPHIR_CALL_FUNCTION(&_5, "array_merge", NULL, 195, &_1, &_2, &json, &_4);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 316, &_5);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 319, &_5);
 	zephir_check_call_status();
 	RETURN_MM();
 }

@@ -13,7 +13,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_adr_router_routermatch___construct, 0, 0,
 	ZEND_ARG_TYPE_INFO(0, action, IS_STRING, 0)
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, attributes, IS_ARRAY, 0, "[]")
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, middleware, IS_ARRAY, 0, "[]")
-	ZEND_ARG_INFO(0, name)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, name, IS_STRING, 1, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_adr_router_routermatch_getaction, 0, 0, IS_STRING, 0)

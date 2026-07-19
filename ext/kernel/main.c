@@ -514,6 +514,39 @@ int zephir_declare_property_array(zend_class_entry *ce, const char *name, size_t
 	return SUCCESS;
 }
 
+/**
+ * Declares a class property with a PHP type (issue #2608).
+ *
+ * Emits the engine's typed-property machinery so Reflection reports the type
+ * and PHP enforces it. `type_mask` is a MAY_BE_* bitmask for builtin/array
+ * types with MAY_BE_NULL folded in for `?type`. When `class_name` is non-NULL
+ * the property is a class type: the name is stored persistently and resolved
+ * lazily by the engine, with nullability taken from the MAY_BE_NULL bit.
+ *
+ * The default zval is made persistent exactly like zephir_declare_property_array
+ * so native trait binding and the immutable default_properties_table carry it.
+ * A default of IS_UNDEF yields an uninitialized typed property, matching PHP.
+ */
+zend_property_info *zephir_declare_typed_property(zend_class_entry *ce, const char *name, size_t name_length, zval *value, int access_type, uint32_t type_mask, const char *class_name, size_t class_name_length)
+{
+	zend_string *key = zend_string_init_interned(name, name_length, 1);
+	zval persisted;
+	zend_type type;
+
+	if (class_name != NULL) {
+		zend_string *cn = zend_string_init(class_name, class_name_length, 1);
+		GC_ADD_FLAGS(cn, IS_STR_PERSISTENT);
+		type = (zend_type) ZEND_TYPE_INIT_CLASS(cn, (type_mask & MAY_BE_NULL) ? 1 : 0, 0);
+	} else {
+		type = (zend_type) ZEND_TYPE_INIT_MASK(type_mask);
+	}
+
+	zephir_persist_constant_zval(&persisted, value);
+	zval_ptr_dtor(value);
+
+	return zend_declare_typed_property(ce, key, &persisted, access_type, NULL, type);
+}
+
 int zephir_declare_class_constant_null(zend_class_entry *ce, const char *name, size_t name_length)
 {
 	zval constant;

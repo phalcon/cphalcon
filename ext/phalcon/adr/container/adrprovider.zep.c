@@ -78,13 +78,13 @@ PHP_METHOD(Phalcon_ADR_Container_AdrProvider, provide)
 	ZEPHIR_CALL_METHOD(NULL, services, "setalias", NULL, 0, &_0, &_1);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_0);
-	ZVAL_STRING(&_0, "Phalcon\\Contracts\\Http\\AttributeRequestInterface");
+	ZVAL_STRING(&_0, "Phalcon\\Contracts\\Http\\AttributeRequest");
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "Phalcon\\Http\\Request");
 	ZEPHIR_CALL_METHOD(NULL, services, "bind", NULL, 0, &_0, &_1);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_0);
-	ZVAL_STRING(&_0, "Phalcon\\Contracts\\Http\\AttributeRequestInterface");
+	ZVAL_STRING(&_0, "Phalcon\\Contracts\\Http\\AttributeRequest");
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "request");
 	ZEPHIR_CALL_METHOD(NULL, services, "setalias", NULL, 0, &_0, &_1);

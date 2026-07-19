@@ -133,7 +133,7 @@ PHP_METHOD(Phalcon_ADR_Responder_FormatResponder, __invoke)
 	ZEPHIR_INIT_VAR(&chosen);
 	ZVAL_NULL(&chosen);
 	zephir_read_property_cached(&_4, this_ptr, _zephir_prop_0, 353, PH_NOISY_CC | PH_READONLY);
-	zephir_is_iterable(&_4, 0, "phalcon/ADR/Responder/FormatResponder.zep", 58);
+	zephir_is_iterable(&_4, 0, "phalcon/ADR/Responder/FormatResponder.zep", 61);
 	if (Z_TYPE_P(&_4) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_4), _5)
 		{
@@ -176,7 +176,7 @@ PHP_METHOD(Phalcon_ADR_Responder_FormatResponder, __invoke)
 	if (Z_TYPE_P(&chosen) == IS_NULL) {
 		zephir_read_property_cached(&_10$$8, this_ptr, _zephir_prop_0, 353, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_OBS_NVAR(&chosen);
-		zephir_array_fetch_long(&chosen, &_10$$8, 0, PH_NOISY, "phalcon/ADR/Responder/FormatResponder.zep", 59);
+		zephir_array_fetch_long(&chosen, &_10$$8, 0, PH_NOISY, "phalcon/ADR/Responder/FormatResponder.zep", 62);
 	}
 	ZEPHIR_CALL_METHOD(&_12, &chosen, "contenttype", NULL, 0);
 	zephir_check_call_status();
