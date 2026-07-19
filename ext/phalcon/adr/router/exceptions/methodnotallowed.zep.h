@@ -1,5 +1,0 @@
-
-extern zend_class_entry *phalcon_adr_router_exceptions_methodnotallowed_ce;
-
-ZEPHIR_INIT_CLASS(Phalcon_ADR_Router_Exceptions_MethodNotAllowed);
-
