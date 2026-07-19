@@ -13,7 +13,7 @@
 
 namespace Phalcon\Contracts\ADR;
 
-use Phalcon\Contracts\Http\AttributeRequestInterface;
+use Phalcon\Contracts\Http\AttributeRequest;
 use Phalcon\Http\ResponseInterface;
 
 /**
@@ -22,5 +22,5 @@ use Phalcon\Http\ResponseInterface;
  */
 interface Dispatcher
 {
-    public function dispatch(string actionClass, <AttributeRequestInterface> request, array routeMiddleware = []) -> <ResponseInterface>;
+    public function dispatch(string actionClass, <AttributeRequest> request, array routeMiddleware = []) -> <ResponseInterface>;
 }

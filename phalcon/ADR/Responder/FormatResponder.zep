@@ -37,8 +37,11 @@ class FormatResponder implements Responder
         let this->formatters = formatters;
     }
 
-    public function __invoke(<RequestInterface> request, <ResponseInterface> response, <Payload> payload) -> <ResponseInterface>
-    {
+    public function __invoke(
+        <RequestInterface> request, 
+        <ResponseInterface> response, 
+        <Payload> payload
+    ) -> <ResponseInterface> {
         var accept, formatter, chosen;
 
         if empty this->formatters {

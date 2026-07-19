@@ -13,14 +13,18 @@
 
 namespace Phalcon\ADR\Front;
 
+use Phalcon\ADR\Application;
 use Phalcon\ADR\Container\AdrProvider;
 use Phalcon\Container\Container;
+use Phalcon\Contracts\ADR\Emitter\Emitter;
 use Phalcon\Contracts\Front\FrontController;
+use Phalcon\Contracts\Http\AttributeRequest;
 
 /**
  * Boots a container, resolves the Application, handles the request and emits the
  * response. Userland front controllers override `loadEnvironment()` /
- * `registerProviders()`; bootstrap is `exit((new AppFront(dirname(__DIR__)))->run());`.
+ * `registerProviders()`; 
+ * bootstrap is `exit((new AppFront(dirname(__DIR__)))->run());`.
  */
 abstract class AbstractHttpFront implements FrontController
 {
@@ -47,11 +51,11 @@ abstract class AbstractHttpFront implements FrontController
             this->loadEnvironment(container);
             this->registerProviders(container);
 
-            let request     = container->get("request"),
-                application = container->get("Phalcon\\ADR\\Application"),
+            let request     = container->get(AttributeRequest::class),
+                application = container->get(Application::class),
                 response    = application->handle(request);
 
-            container->get("Phalcon\\Contracts\\ADR\\Emitter\\Emitter")->emit(response);
+            container->get(Emitter::class)->emit(response);
 
             return 0;
         } catch \Throwable, exception {

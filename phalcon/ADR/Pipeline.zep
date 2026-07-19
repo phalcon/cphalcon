@@ -14,7 +14,7 @@
 namespace Phalcon\ADR;
 
 use Phalcon\Contracts\ADR\Handler;
-use Phalcon\Contracts\Http\AttributeRequestInterface;
+use Phalcon\Contracts\Http\AttributeRequest;
 use Phalcon\Http\ResponseInterface;
 
 /**
@@ -48,7 +48,7 @@ final class Pipeline implements Handler
             this->index      = index;
     }
 
-    public function __invoke(<AttributeRequestInterface> request) -> <ResponseInterface>
+    public function __invoke(<AttributeRequest> request) -> <ResponseInterface>
     {
         var mw, next;
 

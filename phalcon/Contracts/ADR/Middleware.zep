@@ -13,7 +13,7 @@
 
 namespace Phalcon\Contracts\ADR;
 
-use Phalcon\Contracts\Http\AttributeRequestInterface;
+use Phalcon\Contracts\Http\AttributeRequest;
 use Phalcon\Http\ResponseInterface;
 
 /**
@@ -23,5 +23,5 @@ use Phalcon\Http\ResponseInterface;
  */
 interface Middleware
 {
-    public function __invoke(<AttributeRequestInterface> request, <Handler> next) -> <ResponseInterface>;
+    public function __invoke(<AttributeRequest> request, <Handler> next) -> <ResponseInterface>;
 }

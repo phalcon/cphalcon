@@ -15,9 +15,10 @@ namespace Phalcon\ADR\Middleware;
 
 use Phalcon\Contracts\ADR\Handler;
 use Phalcon\Contracts\ADR\Middleware;
-use Phalcon\Contracts\Http\AttributeRequestInterface;
+use Phalcon\Contracts\Http\AttributeRequest;
 use Phalcon\Http\Response;
 use Phalcon\Http\ResponseInterface;
+use Phalcon\Traits\Support\Helper\Arr\GetTrait;
 
 /**
  * CORS middleware. Inert by default: it emits nothing until an origin allowlist
@@ -27,6 +28,8 @@ use Phalcon\Http\ResponseInterface;
  */
 class CorsMiddleware implements Middleware
 {
+    use GetTrait;
+
     /**
      * @var bool
      */
@@ -54,14 +57,14 @@ class CorsMiddleware implements Middleware
 
     public function __construct(array config = [])
     {
-        let this->allowedOrigins   = isset config["origins"] ? config["origins"] : [],
-            this->allowedMethods   = isset config["methods"] ? config["methods"] : ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-            this->allowedHeaders   = isset config["headers"] ? config["headers"] : ["Content-Type", "Authorization"],
-            this->allowCredentials = isset config["credentials"] ? (bool) config["credentials"] : false,
-            this->maxAge           = isset config["maxAge"] ? (int) config["maxAge"] : 0;
+        let this->allowedOrigins   = this->getArrVal(config, "origins", []),
+            this->allowedMethods   = this->getArrVal(config, "methods", ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]),
+            this->allowedHeaders   = this->getArrVal(config, "headers", ["Content-Type", "Authorization"]),
+            this->allowCredentials = this->getArrVal(config, "credentials", false, "bool"),
+            this->maxAge           = this->getArrVal(config, "maxAge", 0, "int");
     }
 
-    public function __invoke(<AttributeRequestInterface> request, <Handler> next) -> <ResponseInterface>
+    public function __invoke(<AttributeRequest> request, <Handler> next) -> <ResponseInterface>
     {
         var origin, response;
 
@@ -75,8 +78,14 @@ class CorsMiddleware implements Middleware
             let response = new Response();
             response->setStatusCode(204);
             this->applyHeaders(response, origin);
-            response->setHeader("Access-Control-Allow-Methods", implode(", ", this->allowedMethods));
-            response->setHeader("Access-Control-Allow-Headers", implode(", ", this->allowedHeaders));
+            response->setHeader(
+                "Access-Control-Allow-Methods", 
+                implode(", ", this->allowedMethods)
+            );
+            response->setHeader(
+                "Access-Control-Allow-Headers", 
+                implode(", ", this->allowedHeaders)
+            );
 
             if this->maxAge > 0 {
                 response->setHeader("Access-Control-Max-Age", (string) this->maxAge);

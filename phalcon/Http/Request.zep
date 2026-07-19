@@ -10,7 +10,7 @@
 
 namespace Phalcon\Http;
 
-use Phalcon\Contracts\Http\AttributeRequestInterface;
+use Phalcon\Contracts\Http\AttributeRequest;
 use Phalcon\Di\AbstractInjectionAware;
 use Phalcon\Di\DiInterface;
 use Phalcon\Events\ManagerInterface;
@@ -55,7 +55,7 @@ use stdClass;
  * $request->getLanguages();
  *```
  */
-class Request extends AbstractInjectionAware implements RequestInterface, RequestMethodInterface, AttributeRequestInterface
+class Request extends AbstractInjectionAware implements RequestInterface, RequestMethodInterface, AttributeRequest
 {
     use FileTrait;
 

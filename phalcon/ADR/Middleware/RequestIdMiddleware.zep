@@ -15,7 +15,7 @@ namespace Phalcon\ADR\Middleware;
 
 use Phalcon\Contracts\ADR\Handler;
 use Phalcon\Contracts\ADR\Middleware;
-use Phalcon\Contracts\Http\AttributeRequestInterface;
+use Phalcon\Contracts\Http\AttributeRequest;
 use Phalcon\Http\Request\Bag\AttributeBag;
 use Phalcon\Http\ResponseInterface;
 
@@ -25,8 +25,10 @@ use Phalcon\Http\ResponseInterface;
  */
 class RequestIdMiddleware implements Middleware
 {
-    public function __invoke(<AttributeRequestInterface> request, <Handler> next) -> <ResponseInterface>
-    {
+    public function __invoke(
+        <AttributeRequest> request, 
+        <Handler> next
+    ) -> <ResponseInterface> {
         var id, response;
 
         let id = request->getHeader("X-Request-Id");

@@ -13,6 +13,8 @@
 
 namespace Phalcon\ADR;
 
+use Phalcon\ADR\Exceptions\MethodNotAllowed;
+use Phalcon\ADR\Exceptions\RouteNotFound;
 use Phalcon\ADR\Payload\Payload;
 use Phalcon\ADR\Payload\Status;
 use Phalcon\Contracts\ADR\Payload\Payload as PayloadContract;
@@ -109,8 +111,8 @@ final class ErrorResponder
     protected function defaultMap() -> array
     {
         return [
-            "Phalcon\\ADR\\Router\\Exceptions\\RouteNotFound"    : Status::NOT_FOUND,
-            "Phalcon\\ADR\\Router\\Exceptions\\MethodNotAllowed" : Status::METHOD_NOT_ALLOWED
+            RouteNotFound::class    : Status::NOT_FOUND,
+            MethodNotAllowed::class : Status::METHOD_NOT_ALLOWED
         ];
     }
 

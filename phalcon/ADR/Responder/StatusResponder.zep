@@ -37,8 +37,11 @@ class StatusResponder implements Responder
         }
     }
 
-    public function __invoke(<RequestInterface> request, <ResponseInterface> response, <Payload> payload) -> <ResponseInterface>
-    {
+    public function __invoke(
+        <RequestInterface> request, 
+        <ResponseInterface> response, 
+        <Payload> payload
+    ) -> <ResponseInterface> {
         var status;
 
         let status = payload->getStatus();

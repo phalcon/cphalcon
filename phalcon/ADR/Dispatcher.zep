@@ -19,7 +19,7 @@ use Phalcon\Contracts\ADR\Action;
 use Phalcon\Contracts\ADR\Dispatcher as DispatcherInterface;
 use Phalcon\Contracts\Container\Ioc\IocContainer;
 use Phalcon\Contracts\Events\Manager;
-use Phalcon\Contracts\Http\AttributeRequestInterface;
+use Phalcon\Contracts\Http\AttributeRequest;
 use Phalcon\Http\ResponseInterface;
 
 /**
@@ -53,20 +53,26 @@ final class Dispatcher implements DispatcherInterface
      */
     protected resolvedGlobal = null;
 
-    public function __construct(<IocContainer> container, <Manager> events, array globalMiddleware = [])
-    {
+    public function __construct(
+        <IocContainer> container, 
+        <Manager> events, 
+        array globalMiddleware = []
+    ) {
         let this->container        = container,
             this->events           = events,
             this->globalMiddleware = globalMiddleware;
     }
 
-    public function dispatch(string actionClass, <AttributeRequestInterface> request, array routeMiddleware = []) -> <ResponseInterface>
-    {
+    public function dispatch(
+        string actionClass, 
+        <AttributeRequest> request, 
+        array routeMiddleware = []
+    ) -> <ResponseInterface> {
         var action, middleware, terminal, pipeline, response;
 
         let action = this->container->getService(actionClass);
         if !(action instanceof Action) {
-            throw new NotAnAction("Class '" . actionClass . "' is not an ADR Action.");
+            throw new NotAnAction(actionClass);
         }
 
         let middleware = array_merge(this->resolveGlobal(), this->resolveAll(routeMiddleware)),

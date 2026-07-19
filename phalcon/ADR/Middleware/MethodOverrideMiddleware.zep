@@ -15,7 +15,7 @@ namespace Phalcon\ADR\Middleware;
 
 use Phalcon\Contracts\ADR\Handler;
 use Phalcon\Contracts\ADR\Middleware;
-use Phalcon\Contracts\Http\AttributeRequestInterface;
+use Phalcon\Contracts\Http\AttributeRequest;
 use Phalcon\Http\ResponseInterface;
 
 /**
@@ -34,8 +34,10 @@ class MethodOverrideMiddleware implements Middleware
      */
     protected allowed = ["DELETE", "PATCH", "PUT"];
 
-    public function __invoke(<AttributeRequestInterface> request, <Handler> next) -> <ResponseInterface>
-    {
+    public function __invoke(
+        <AttributeRequest> request, 
+        <Handler> next
+    ) -> <ResponseInterface> {
         var spoofed;
 
         if "POST" === request->getMethod() {

@@ -21,7 +21,7 @@ use Phalcon\Http\RequestInterface;
  * (adding a method there would break userland implementers). It lets consumers
  * type against the attribute-bearing request without depending on the concrete.
  */
-interface AttributeRequestInterface extends RequestInterface
+interface AttributeRequest extends RequestInterface
 {
     /**
      * Returns the request attribute bag.

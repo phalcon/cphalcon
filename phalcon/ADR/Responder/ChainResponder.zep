@@ -34,8 +34,11 @@ class ChainResponder implements Responder
         let this->links = links;
     }
 
-    public function __invoke(<RequestInterface> request, <ResponseInterface> response, <Payload> payload) -> <ResponseInterface>
-    {
+    public function __invoke(
+        <RequestInterface> request, 
+        <ResponseInterface> response, 
+        <Payload> payload
+    ) -> <ResponseInterface> {
         var link;
 
         for link in this->links {

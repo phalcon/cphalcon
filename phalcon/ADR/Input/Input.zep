@@ -13,7 +13,7 @@
 
 namespace Phalcon\ADR\Input;
 
-use Phalcon\Contracts\Http\AttributeRequestInterface;
+use Phalcon\Contracts\Http\AttributeRequest;
 use Phalcon\Http\Request\Bag\AttributeBag;
 
 /**
@@ -41,7 +41,7 @@ class Input
         return new static(data);
     }
 
-    public static function fromRequest(<AttributeRequestInterface> request) -> <static>
+    public static function fromRequest(<AttributeRequest> request) -> <static>
     {
         var json;
 

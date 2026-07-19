@@ -14,12 +14,12 @@
 namespace Phalcon\ADR;
 
 use Phalcon\ADR\Events\Event;
-use Phalcon\ADR\Router\Exceptions\RouteNotFound;
+use Phalcon\ADR\Exceptions\RouteNotFound;
 use Phalcon\Contracts\ADR\Application as ApplicationInterface;
 use Phalcon\Contracts\ADR\Dispatcher as DispatcherInterface;
 use Phalcon\Contracts\ADR\Router\Router as RouterInterface;
 use Phalcon\Contracts\Events\Manager;
-use Phalcon\Contracts\Http\AttributeRequestInterface;
+use Phalcon\Contracts\Http\AttributeRequest;
 use Phalcon\Http\Request\Bag\AttributeBag;
 use Phalcon\Http\Response;
 use Phalcon\Http\ResponseInterface;
@@ -64,7 +64,7 @@ final class Application implements ApplicationInterface
             this->events         = events;
     }
 
-    public function handle(<AttributeRequestInterface> request) -> <ResponseInterface>
+    public function handle(<AttributeRequest> request) -> <ResponseInterface>
     {
         var match, response, key, value, exception;
 
@@ -73,17 +73,25 @@ final class Application implements ApplicationInterface
         try {
             let match = this->router->match(request);
             if match === null {
-                throw new RouteNotFound("No route matched the request.");
+                throw new RouteNotFound();
             }
 
             for key, value in match->getAttributes() {
                 request->getAttributes()->set(key, value);
             }
 
-            let response = this->dispatcher->dispatch(match->getAction(), request, match->getMiddleware());
+            let response = this->dispatcher->dispatch(
+                match->getAction(), 
+                request, 
+                match->getMiddleware()
+            );
         } catch \Throwable, exception {
             try {
-                let response = this->errorResponder->handle(request, new Response(), exception);
+                let response = this->errorResponder->handle(
+                    request, 
+                    new Response(), 
+                    exception
+                );
             } catch \Throwable {
                 let response = new Response();
 

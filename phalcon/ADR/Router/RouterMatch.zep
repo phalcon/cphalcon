@@ -40,8 +40,12 @@ final class RouterMatch implements RouterMatchInterface
      */
     protected name;
 
-    public function __construct(string action, array attributes = [], array middleware = [], var name = null)
-    {
+    public function __construct(
+        string action, 
+        array attributes = [], 
+        array middleware = [], 
+        string name = null
+    ) {
         let this->action     = action,
             this->attributes = attributes,
             this->middleware = middleware,

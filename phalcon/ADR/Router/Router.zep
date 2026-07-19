@@ -13,7 +13,7 @@
 
 namespace Phalcon\ADR\Router;
 
-use Phalcon\ADR\Router\Exceptions\MethodNotAllowed;
+use Phalcon\ADR\Exceptions\MethodNotAllowed;
 use Phalcon\Contracts\ADR\Router\Router as RouterInterface;
 use Phalcon\Contracts\ADR\Router\RouterMatch as RouterMatchInterface;
 use Phalcon\Http\RequestInterface;
@@ -48,7 +48,11 @@ final class Router implements RouterInterface
             let className = this->baseNamespace . "\\" . verb;
 
             if class_exists(className) {
-                return new RouterMatch(className, [], this->middlewareFor(className));
+                return new RouterMatch(
+                    className, 
+                    [], 
+                    this->middlewareFor(className)
+                );
             }
 
             return null;
@@ -56,15 +60,17 @@ final class Router implements RouterInterface
 
         let located = this->locate(segments, verb);
         if typeof located == "array" {
-            return new RouterMatch(located[0], located[1], this->middlewareFor(located[0]));
+            return new RouterMatch(
+                located[0], 
+                located[1], 
+                this->middlewareFor(located[0])
+            );
         }
 
         let verbs = ["Get", "Post", "Put", "Patch", "Delete"];
         for other in verbs {
             if other !== verb && typeof this->locate(segments, other) == "array" {
-                throw new MethodNotAllowed(
-                    "The request method is not allowed for the matched route."
-                );
+                throw new MethodNotAllowed();
             }
         }
 

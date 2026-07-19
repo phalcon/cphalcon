@@ -25,8 +25,11 @@ use Phalcon\Http\ResponseInterface;
  */
 class RedirectResponder implements Responder
 {
-    public function __invoke(<RequestInterface> request, <ResponseInterface> response, <Payload> payload) -> <ResponseInterface>
-    {
+    public function __invoke(
+        <RequestInterface> request, 
+        <ResponseInterface> response, 
+        <Payload> payload
+    ) -> <ResponseInterface> {
         var result;
 
         let result = payload->getResult();

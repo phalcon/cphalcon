@@ -13,7 +13,7 @@
 
 namespace Phalcon\ADR\Emitter;
 
-use Phalcon\ADR\Emitter\Exceptions\HeadersAlreadySent;
+use Phalcon\ADR\Exceptions\HeadersAlreadySent;
 use Phalcon\Contracts\ADR\Emitter\Emitter;
 use Phalcon\Http\ResponseInterface;
 
@@ -26,7 +26,7 @@ class SapiEmitter implements Emitter
     public function emit(<ResponseInterface> response) -> void
     {
         if headers_sent() {
-            throw new HeadersAlreadySent("Headers have already been sent; cannot emit the response.");
+            throw new HeadersAlreadySent();
         }
 
         response->send();

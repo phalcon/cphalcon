@@ -17,7 +17,7 @@ use Phalcon\ADR\Events\Event;
 use Phalcon\Contracts\ADR\Action;
 use Phalcon\Contracts\ADR\Handler;
 use Phalcon\Contracts\Events\Manager;
-use Phalcon\Contracts\Http\AttributeRequestInterface;
+use Phalcon\Contracts\Http\AttributeRequest;
 use Phalcon\Http\ResponseInterface;
 
 /**
@@ -42,7 +42,7 @@ final class EventfulHandler implements Handler
             this->events = events;
     }
 
-    public function __invoke(<AttributeRequestInterface> request) -> <ResponseInterface>
+    public function __invoke(<AttributeRequest> request) -> <ResponseInterface>
     {
         var response;
 
