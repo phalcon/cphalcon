@@ -38,28 +38,34 @@ final class Router implements RouterInterface
 
     public function match(<RequestInterface> request) -> <RouterMatchInterface> | null
     {
-        var uri, verb, segments, index, prefix, className, params;
+        var uri, verb, segments, located, verbs, other, className;
 
         let uri      = trim(request->getURI(true), "/"),
             verb     = ucfirst(strtolower(request->getMethod())),
             segments = uri === "" ? [] : explode("/", uri);
 
-        let index = count(segments);
-        while index >= 0 {
-            let prefix    = this->baseNamespace . this->toNamespace(array_slice(segments, 0, index)),
-                className = prefix . "\\" . verb;
+        if empty segments {
+            let className = this->baseNamespace . "\\" . verb;
 
             if class_exists(className) {
-                let params = array_slice(segments, index);
-
-                return new RouterMatch(className, params, this->middlewareFor(className));
+                return new RouterMatch(className, [], this->middlewareFor(className));
             }
 
-            let index = index - 1;
+            return null;
         }
 
-        if this->routableUnderAnotherVerb(segments) {
-            throw new MethodNotAllowed("The request method is not allowed for the matched route.");
+        let located = this->locate(segments, verb);
+        if typeof located == "array" {
+            return new RouterMatch(located[0], located[1], this->middlewareFor(located[0]));
+        }
+
+        let verbs = ["Get", "Post", "Put", "Patch", "Delete"];
+        for other in verbs {
+            if other !== verb && typeof this->locate(segments, other) == "array" {
+                throw new MethodNotAllowed(
+                    "The request method is not allowed for the matched route."
+                );
+            }
         }
 
         return null;
@@ -79,6 +85,49 @@ final class Router implements RouterInterface
         return this;
     }
 
+    protected function camelize(string segment) -> string
+    {
+        return str_replace(" ", "", ucwords(str_replace(["-", "_"], " ", segment)));
+    }
+
+    protected function locate(array segments, string verb) -> array | null
+    {
+        var index, last, prev, head, resourceName, operation, className;
+
+        let index = count(segments);
+
+        while index >= 1 {
+            let last = index - 1,
+                head = array_slice(segments, 0, index);
+
+            if index >= 2 {
+                let prev      = index - 2,
+                    resourceName = head[prev],
+                    operation    = head[last],
+                    className    = this->baseNamespace
+                        . this->toNamespace(array_slice(head, 0, last))
+                        . "\\" . verb . this->camelize(resourceName) . this->camelize(operation);
+
+                if class_exists(className) {
+                    return [className, array_slice(segments, index)];
+                }
+            }
+
+            let resourceName = head[last],
+                className    = this->baseNamespace
+                    . this->toNamespace(head)
+                    . "\\" . verb . this->camelize(resourceName);
+
+            if class_exists(className) {
+                return [className, array_slice(segments, index)];
+            }
+
+            let index = index - 1;
+        }
+
+        return null;
+    }
+
     protected function middlewareFor(string className) -> array
     {
         var prefix, list, full, stacked;
@@ -95,35 +144,13 @@ final class Router implements RouterInterface
         return stacked;
     }
 
-    protected function routableUnderAnotherVerb(array segments) -> bool
-    {
-        var index, prefix, verb, verbs;
-
-        let verbs = ["Get", "Post", "Put", "Patch", "Delete"],
-            index = count(segments);
-
-        while index >= 0 {
-            let prefix = this->baseNamespace . this->toNamespace(array_slice(segments, 0, index));
-
-            for verb in verbs {
-                if class_exists(prefix . "\\" . verb) {
-                    return true;
-                }
-            }
-
-            let index = index - 1;
-        }
-
-        return false;
-    }
-
     protected function toNamespace(array segments) -> string
     {
         var segment, parts;
 
         let parts = [];
         for segment in segments {
-            let parts[] = str_replace(" ", "", ucwords(str_replace(["-", "_"], " ", segment)));
+            let parts[] = this->camelize(segment);
         }
 
         if empty parts {
