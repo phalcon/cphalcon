@@ -12,6 +12,9 @@ namespace Phalcon\Logger;
 
 use Phalcon\Factory\AbstractFactory;
 use Phalcon\Logger\Adapter\AdapterInterface;
+use Phalcon\Logger\Adapter\Noop;
+use Phalcon\Logger\Adapter\Stream;
+use Phalcon\Logger\Adapter\Syslog;
 use Phalcon\Logger\Exception;
 
 /**
@@ -63,7 +66,7 @@ class AdapterFactory extends AbstractFactory
      */
     protected function getExceptionClass() -> string
     {
-        return "Phalcon\\Logger\\Exception";
+        return Exception::class;
     }
 
     /**
@@ -74,9 +77,9 @@ class AdapterFactory extends AbstractFactory
     protected function getServices() -> array
     {
         return [
-            "noop"   : "Phalcon\\Logger\\Adapter\\Noop",
-            "stream" : "Phalcon\\Logger\\Adapter\\Stream",
-            "syslog" : "Phalcon\\Logger\\Adapter\\Syslog"
+            "noop"   : Noop::class,
+            "stream" : Stream::class,
+            "syslog" : Syslog::class
         ];
     }
 }

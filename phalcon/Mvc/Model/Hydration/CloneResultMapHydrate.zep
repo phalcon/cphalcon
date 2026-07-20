@@ -10,14 +10,19 @@
 
 namespace Phalcon\Mvc\Model\Hydration;
 
+use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Exceptions\ColumnNotInMap;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Support\Settings;
 
 class CloneResultMapHydrate
 {
-    public static function cloneResultMapHydrate( array data, var columnMap, int hydrationMode, string calledClass = "Phalcon\\Mvc\\Model")
-    {
+    public static function cloneResultMapHydrate(
+        array data, 
+        var columnMap, 
+        int hydrationMode, 
+        string calledClass = "Phalcon\\Mvc\\Model"
+    ) {
         var key, value, attribute, attributeName;
         array hydrateArray;
 

@@ -10,9 +10,22 @@
 
 namespace Phalcon\Di\FactoryDefault;
 
+use Phalcon\Annotations\Adapter\Memory as AnnotationsMemory;
+use Phalcon\Cli\Dispatcher;
+use Phalcon\Cli\Router;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Di\Service;
+use Phalcon\Encryption\Security;
+use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Filter\FilterFactory;
+use Phalcon\Html\Escaper;
+use Phalcon\Html\TagFactory;
+use Phalcon\Mvc\Model\Manager as ModelManager;
+use Phalcon\Mvc\Model\MetaData\Memory as ModelMetaDataMemory;
+use Phalcon\Mvc\Model\Transaction\Manager as TransactionManager;
+use Phalcon\Queue\QueueFactory;
+use Phalcon\Support\HelperFactory;
+use Phalcon\Support\Settings;
 
  /**
  * Phalcon\Di\FactoryDefault\Cli
@@ -36,21 +49,21 @@ class Cli extends FactoryDefault
         let filter = new FilterFactory();
 
         let this->services = [
-            "annotations":        new Service("Phalcon\\Annotations\\Adapter\\Memory", true),
-            "dispatcher":         new Service("Phalcon\\Cli\\Dispatcher", true),
-            "escaper":            new Service("Phalcon\\Html\\Escaper", true),
-            "eventsManager":      new Service("Phalcon\\Events\\Manager", true),
+            "annotations":        new Service(AnnotationsMemory::class, true),
+            "dispatcher":         new Service(Dispatcher::class, true),
+            "escaper":            new Service(Escaper::class, true),
+            "eventsManager":      new Service(EventsManager::class, true),
             "filter":             new Service(filter->newInstance(), true),
-            "helper":             new Service("Phalcon\\Support\\HelperFactory", true),
-            "settings":           new Service("Phalcon\\Support\\Settings", true),
-            "modelsManager":      new Service("Phalcon\\Mvc\\Model\\Manager", true),
-            "modelsMetadata":     new Service("Phalcon\\Mvc\\Model\\MetaData\\Memory", true),
-            "queueFactory":       new Service("Phalcon\\Queue\\QueueFactory", true),
-            "router":             new Service("Phalcon\\Cli\\Router", true),
-            "security":           new Service("Phalcon\\Encryption\\Security", true),
+            "helper":             new Service(HelperFactory::class, true),
+            "settings":           new Service(Settings::class, true),
+            "modelsManager":      new Service(ModelManager::class, true),
+            "modelsMetadata":     new Service(ModelMetaDataMemory::class, true),
+            "queueFactory":       new Service(QueueFactory::class, true),
+            "router":             new Service(Router::class, true),
+            "security":           new Service(Security::class, true),
             "tag"                : new Service(
                 [
-                    "className" : "Phalcon\\Html\\TagFactory",
+                    "className" : TagFactory::class,
                     "arguments" : [
                         [
                             "type" : "service",
@@ -60,7 +73,7 @@ class Cli extends FactoryDefault
                 ],
                 true
             ),
-            "transactionManager": new Service("Phalcon\\Mvc\\Model\\Transaction\\Manager", true)
+            "transactionManager": new Service(TransactionManager::class, true)
         ];
     }
 }

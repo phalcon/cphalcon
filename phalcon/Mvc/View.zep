@@ -539,7 +539,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
 
         if empty engines {
             let engines = [
-                ".phtml": "Phalcon\\Mvc\\View\\Engine\\Php"
+                ".phtml": PhpEngine::class
             ];
 
             this->registerEngines(engines);

@@ -11,6 +11,20 @@
 namespace Phalcon\Storage;
 
 use Phalcon\Factory\AbstractFactory;
+use Phalcon\Storage\Serializer\Base64;
+use Phalcon\Storage\Serializer\Igbinary;
+use Phalcon\Storage\Serializer\Json;
+use Phalcon\Storage\Serializer\MemcachedIgbinary;
+use Phalcon\Storage\Serializer\MemcachedJson;
+use Phalcon\Storage\Serializer\MemcachedPhp;
+use Phalcon\Storage\Serializer\Msgpack;
+use Phalcon\Storage\Serializer\None;
+use Phalcon\Storage\Serializer\Php;
+use Phalcon\Storage\Serializer\RedisIgbinary;
+use Phalcon\Storage\Serializer\RedisJson;
+use Phalcon\Storage\Serializer\RedisMsgpack;
+use Phalcon\Storage\Serializer\RedisNone;
+use Phalcon\Storage\Serializer\RedisPhp;
 use Phalcon\Storage\Serializer\SerializerInterface;
 
 class SerializerFactory extends AbstractFactory
@@ -45,7 +59,7 @@ class SerializerFactory extends AbstractFactory
      */
     protected function getExceptionClass() -> string
     {
-        return "Phalcon\\Storage\\Exception";
+        return Exception::class;
     }
 
     /**
@@ -56,20 +70,20 @@ class SerializerFactory extends AbstractFactory
     protected function getServices() -> array
     {
         return [
-            "base64"             : "Phalcon\\Storage\\Serializer\\Base64",
-            "igbinary"           : "Phalcon\\Storage\\Serializer\\Igbinary",
-            "json"               : "Phalcon\\Storage\\Serializer\\Json",
-            "memcached_igbinary" : "Phalcon\\Storage\\Serializer\\MemcachedIgbinary",
-            "memcached_json"     : "Phalcon\\Storage\\Serializer\\MemcachedJson",
-            "memcached_php"      : "Phalcon\\Storage\\Serializer\\MemcachedPhp",
-            "msgpack"            : "Phalcon\\Storage\\Serializer\\Msgpack",
-            "none"               : "Phalcon\\Storage\\Serializer\\None",
-            "php"                : "Phalcon\\Storage\\Serializer\\Php",
-            "redis_igbinary"     : "Phalcon\\Storage\\Serializer\\RedisIgbinary",
-            "redis_json"         : "Phalcon\\Storage\\Serializer\\RedisJson",
-            "redis_msgpack"      : "Phalcon\\Storage\\Serializer\\RedisMsgpack",
-            "redis_none"         : "Phalcon\\Storage\\Serializer\\RedisNone",
-            "redis_php"          : "Phalcon\\Storage\\Serializer\\RedisPhp"
+            "base64"             : Base64::class,
+            "igbinary"           : Igbinary::class,
+            "json"               : Json::class,
+            "memcached_igbinary" : MemcachedIgbinary::class,
+            "memcached_json"     : MemcachedJson::class,
+            "memcached_php"      : MemcachedPhp::class,
+            "msgpack"            : Msgpack::class,
+            "none"               : None::class,
+            "php"                : Php::class,
+            "redis_igbinary"     : RedisIgbinary::class,
+            "redis_json"         : RedisJson::class,
+            "redis_msgpack"      : RedisMsgpack::class,
+            "redis_none"         : RedisNone::class,
+            "redis_php"          : RedisPhp::class
         ];
     }
 }

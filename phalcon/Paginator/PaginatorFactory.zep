@@ -12,6 +12,10 @@ namespace Phalcon\Paginator;
 
 use Phalcon\Paginator\Adapter\AdapterInterface;
 use Phalcon\Factory\AbstractFactory;
+use Phalcon\Paginator\Adapter\Model;
+use Phalcon\Paginator\Adapter\NativeArray;
+use Phalcon\Paginator\Adapter\QueryBuilder;
+use Phalcon\Paginator\Adapter\QueryBuilderCursor;
 
 class PaginatorFactory extends AbstractFactory
 {
@@ -90,7 +94,7 @@ class PaginatorFactory extends AbstractFactory
      */
     protected function getExceptionClass() -> string
     {
-        return "Phalcon\\Paginator\\Exception";
+        return Exception::class;
     }
 
     /**
@@ -101,10 +105,10 @@ class PaginatorFactory extends AbstractFactory
     protected function getServices() -> array
     {
         return [
-            "model"               : "Phalcon\\Paginator\\Adapter\\Model",
-            "nativeArray"         : "Phalcon\\Paginator\\Adapter\\NativeArray",
-            "queryBuilder"        : "Phalcon\\Paginator\\Adapter\\QueryBuilder",
-            "queryBuilderCursor"  : "Phalcon\\Paginator\\Adapter\\QueryBuilderCursor"
+            "model"               : Model::class,
+            "nativeArray"         : NativeArray::class,
+            "queryBuilder"        : QueryBuilder::class,
+            "queryBuilderCursor"  : QueryBuilderCursor::class
         ];
     }
 }

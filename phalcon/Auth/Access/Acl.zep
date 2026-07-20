@@ -143,7 +143,7 @@ class Acl extends AbstractAccess
 
         throw new DoesNotImplement(
             "Authenticated user",
-            "Phalcon\\Acl\\RoleAwareInterface"
+            RoleAwareInterface::class
         );
     }
 }

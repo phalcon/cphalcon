@@ -12,6 +12,13 @@ namespace Phalcon\Storage;
 
 use Phalcon\Factory\AbstractFactory;
 use Phalcon\Storage\Adapter\AdapterInterface;
+use Phalcon\Storage\Adapter\Apcu;
+use Phalcon\Storage\Adapter\Libmemcached;
+use Phalcon\Storage\Adapter\Memory;
+use Phalcon\Storage\Adapter\Redis;
+use Phalcon\Storage\Adapter\RedisCluster;
+use Phalcon\Storage\Adapter\Stream;
+use Phalcon\Storage\Adapter\Weak;
 
 class AdapterFactory extends AbstractFactory
 {
@@ -77,7 +84,7 @@ class AdapterFactory extends AbstractFactory
      */
     protected function getExceptionClass() -> string
     {
-        return "Phalcon\\Storage\\Exception";
+        return Exception::class;
     }
 
     /**
@@ -88,13 +95,13 @@ class AdapterFactory extends AbstractFactory
     protected function getServices() -> array
     {
         return [
-            "apcu"         : "Phalcon\\Storage\\Adapter\\Apcu",
-            "libmemcached" : "Phalcon\\Storage\\Adapter\\Libmemcached",
-            "memory"       : "Phalcon\\Storage\\Adapter\\Memory",
-            "redis"        : "Phalcon\\Storage\\Adapter\\Redis",
-            "rediscluster" : "Phalcon\\Storage\\Adapter\\RedisCluster",
-            "stream"       : "Phalcon\\Storage\\Adapter\\Stream",
-            "weak"         : "Phalcon\\Storage\\Adapter\\Weak"
+            "apcu"         : Apcu::class,
+            "libmemcached" : Libmemcached::class,
+            "memory"       : Memory::class,
+            "redis"        : Redis::class,
+            "rediscluster" : RedisCluster::class,
+            "stream"       : Stream::class,
+            "weak"         : Weak::class
         ];
     }
 }

@@ -252,7 +252,7 @@ class Complex extends Resultset
                                 if column["instance"] instanceof Model {
                                     let modelName = get_class(column["instance"]);
                                 } else {
-                                    let modelName = "Phalcon\\Mvc\\Model";
+                                    let modelName = Model::class;
                                 }
 
                                 let value = {modelName}::cloneResultMap(

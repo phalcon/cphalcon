@@ -106,6 +106,6 @@ class LoggerFactory extends AbstractConfigFactory
      */
     protected function getExceptionClass() -> string
     {
-        return "Phalcon\\Logger\\Exception";
+        return Exception::class;
     }
 }

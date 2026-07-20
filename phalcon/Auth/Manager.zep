@@ -242,7 +242,7 @@ class Manager implements ManagerContract
 
         DoesNotImplement::assert(
             guard,
-            "Phalcon\\Contracts\\Auth\\Guard\\GuardStateful",
+            GuardStateful::class,
             "Default guard",
             "GuardStateful"
         );

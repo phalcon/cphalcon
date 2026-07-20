@@ -10,6 +10,7 @@
 
 namespace Phalcon\Mvc\Model;
 
+use Phalcon\Cache\CacheInterface;
 use Phalcon\Db\Column;
 use Phalcon\Db\RawValue;
 use Phalcon\Db\ResultInterface;
@@ -355,7 +356,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 
             let cache = this->container->getShared(cacheService);
 
-            if unlikely (true !== is_a(cache,  "Phalcon\\Cache\\CacheInterface")) {
+            if unlikely (true !== is_a(cache,  CacheInterface::class)) {
                 throw new InvalidQueryCacheService();
             }
 
@@ -834,7 +835,7 @@ class Query implements QueryInterface, InjectionAwareInterface
             throw new ResultsetRowClassNotFound(resultsetRowClass);
         }
 
-        if unlikely !is_subclass_of(resultsetRowClass, "Phalcon\\Mvc\\Model\\Row") {
+        if unlikely !is_subclass_of(resultsetRowClass, Row::class) {
             throw new InvalidResultsetRowClass(resultsetRowClass);
         }
 
@@ -1439,7 +1440,7 @@ class Query implements QueryInterface, InjectionAwareInterface
                         throw new ResultsetClassNotFound(resultsetClassName);
                     }
 
-                    if unlikely !is_subclass_of(resultsetClassName, "Phalcon\\Mvc\\Model\\ResultsetInterface") {
+                    if unlikely !is_subclass_of(resultsetClassName, ResultsetInterface::class) {
                         throw new InvalidResultsetClass(resultsetClassName);
                     }
 

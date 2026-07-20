@@ -179,7 +179,7 @@ abstract class Resultset
          */
         if cache !== null {
             if unlikely (
-                true !== is_a(cache,  "Phalcon\\Cache\\CacheInterface") &&
+                true !== is_a(cache,  CacheInterface::class) &&
                 true !== is_a(cache,  "Psr\\SimpleCache\\CacheInterface")
             ) {
                 throw new InvalidResultsetCacheService();

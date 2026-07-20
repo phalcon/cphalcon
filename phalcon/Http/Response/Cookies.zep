@@ -12,6 +12,7 @@ namespace Phalcon\Http\Response;
 
 use Phalcon\Di\AbstractInjectionAware;
 use Phalcon\Di\DiInterface;
+use Phalcon\Http\Cookie;
 use Phalcon\Http\Cookie\CookieInterface;
 use Phalcon\Http\Cookie\Exception;
 use Phalcon\Http\Response\Exceptions\ResponseServiceUnavailable;
@@ -138,7 +139,7 @@ class Cookies extends AbstractInjectionAware implements CookiesInterface
          * to _cookies property, otherwise it will always be resent after get.
          */
         let container = this->checkContainer();
-        let cookie    = <CookieInterface> container->get("Phalcon\\Http\\Cookie", [name]);
+        let cookie    = <CookieInterface> container->get(Cookie::class, [name]);
 
         /**
          * Pass the DI to created cookies
@@ -253,7 +254,7 @@ class Cookies extends AbstractInjectionAware implements CookiesInterface
         if !fetch cookie, this->cookies[name] {
             let cookie =
                 <CookieInterface> this->container->get(
-                    "Phalcon\\Http\\Cookie",
+                    Cookie::class,
                     [name, value, expire, path, secure, domain, httpOnly, options]
                 );
 

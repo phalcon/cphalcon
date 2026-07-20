@@ -841,7 +841,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          * Gets Builder instance from DI container
          */
         let this->builder = <BuilderInterface> container->get(
-            "Phalcon\\Mvc\\Model\\Query\\Builder",
+            Builder::class,
             [
                 params,
                 container
@@ -872,7 +872,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          * Create a query
          */
         let query = <QueryInterface> container->get(
-            "Phalcon\\Mvc\\Model\\Query",
+            Query::class,
             [phql, container]
         );
 
