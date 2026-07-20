@@ -6,9 +6,11 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 
 ### Tools
 
-- Zephir 1.1.0 (05ea28b)
+- Zephir 1.1.0 (258db51)
  
 ### Changed
+
+- Replaced fully-qualified class-name strings with `::class` references (and `use` imports) across factories, service providers and DI containers
 
 ### Added
 
