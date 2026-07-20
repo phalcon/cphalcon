@@ -11,6 +11,29 @@
 namespace Phalcon\Filter;
 
 use Phalcon\Filter\Exceptions\FilterNotRegistered;
+use Phalcon\Filter\Sanitize\AbsInt;
+use Phalcon\Filter\Sanitize\Alnum;
+use Phalcon\Filter\Sanitize\Alpha;
+use Phalcon\Filter\Sanitize\BoolVal;
+use Phalcon\Filter\Sanitize\Email;
+use Phalcon\Filter\Sanitize\FloatVal;
+use Phalcon\Filter\Sanitize\IntVal;
+use Phalcon\Filter\Sanitize\Ip;
+use Phalcon\Filter\Sanitize\Lower;
+use Phalcon\Filter\Sanitize\LowerFirst;
+use Phalcon\Filter\Sanitize\Regex;
+use Phalcon\Filter\Sanitize\Remove;
+use Phalcon\Filter\Sanitize\Replace;
+use Phalcon\Filter\Sanitize\Special;
+use Phalcon\Filter\Sanitize\SpecialFull;
+use Phalcon\Filter\Sanitize\StringVal;
+use Phalcon\Filter\Sanitize\StringValLegacy;
+use Phalcon\Filter\Sanitize\Striptags;
+use Phalcon\Filter\Sanitize\Trim;
+use Phalcon\Filter\Sanitize\Upper;
+use Phalcon\Filter\Sanitize\UpperFirst;
+use Phalcon\Filter\Sanitize\UpperWords;
+use Phalcon\Filter\Sanitize\Url;
 
 /**
  * Lazy loads, stores and exposes sanitizer objects
@@ -210,29 +233,29 @@ class Filter implements FilterInterface
     public static function getDefaultMapper() -> array
     {
         return [
-            self::FILTER_ABSINT        : "Phalcon\\Filter\\Sanitize\\AbsInt",
-            self::FILTER_ALNUM         : "Phalcon\\Filter\\Sanitize\\Alnum",
-            self::FILTER_ALPHA         : "Phalcon\\Filter\\Sanitize\\Alpha",
-            self::FILTER_BOOL          : "Phalcon\\Filter\\Sanitize\\BoolVal",
-            self::FILTER_EMAIL         : "Phalcon\\Filter\\Sanitize\\Email",
-            self::FILTER_FLOAT         : "Phalcon\\Filter\\Sanitize\\FloatVal",
-            self::FILTER_INT           : "Phalcon\\Filter\\Sanitize\\IntVal",
-            self::FILTER_IP            : "Phalcon\\Filter\\Sanitize\\Ip",
-            self::FILTER_LOWER         : "Phalcon\\Filter\\Sanitize\\Lower",
-            self::FILTER_LOWERFIRST    : "Phalcon\\Filter\\Sanitize\\LowerFirst",
-            self::FILTER_REGEX         : "Phalcon\\Filter\\Sanitize\\Regex",
-            self::FILTER_REMOVE        : "Phalcon\\Filter\\Sanitize\\Remove",
-            self::FILTER_REPLACE       : "Phalcon\\Filter\\Sanitize\\Replace",
-            self::FILTER_SPECIAL       : "Phalcon\\Filter\\Sanitize\\Special",
-            self::FILTER_SPECIALFULL   : "Phalcon\\Filter\\Sanitize\\SpecialFull",
-            self::FILTER_STRING        : "Phalcon\\Filter\\Sanitize\\StringVal",
-            self::FILTER_STRING_LEGACY : "Phalcon\\Filter\\Sanitize\\StringValLegacy",
-            self::FILTER_STRIPTAGS     : "Phalcon\\Filter\\Sanitize\\Striptags",
-            self::FILTER_TRIM          : "Phalcon\\Filter\\Sanitize\\Trim",
-            self::FILTER_UPPER         : "Phalcon\\Filter\\Sanitize\\Upper",
-            self::FILTER_UPPERFIRST    : "Phalcon\\Filter\\Sanitize\\UpperFirst",
-            self::FILTER_UPPERWORDS    : "Phalcon\\Filter\\Sanitize\\UpperWords",
-            self::FILTER_URL           : "Phalcon\\Filter\\Sanitize\\Url"
+            self::FILTER_ABSINT        : AbsInt::class,
+            self::FILTER_ALNUM         : Alnum::class,
+            self::FILTER_ALPHA         : Alpha::class,
+            self::FILTER_BOOL          : BoolVal::class,
+            self::FILTER_EMAIL         : Email::class,
+            self::FILTER_FLOAT         : FloatVal::class,
+            self::FILTER_INT           : IntVal::class,
+            self::FILTER_IP            : Ip::class,
+            self::FILTER_LOWER         : Lower::class,
+            self::FILTER_LOWERFIRST    : LowerFirst::class,
+            self::FILTER_REGEX         : Regex::class,
+            self::FILTER_REMOVE        : Remove::class,
+            self::FILTER_REPLACE       : Replace::class,
+            self::FILTER_SPECIAL       : Special::class,
+            self::FILTER_SPECIALFULL   : SpecialFull::class,
+            self::FILTER_STRING        : StringVal::class,
+            self::FILTER_STRING_LEGACY : StringValLegacy::class,
+            self::FILTER_STRIPTAGS     : Striptags::class,
+            self::FILTER_TRIM          : Trim::class,
+            self::FILTER_UPPER         : Upper::class,
+            self::FILTER_UPPERFIRST    : UpperFirst::class,
+            self::FILTER_UPPERWORDS    : UpperWords::class,
+            self::FILTER_URL           : Url::class
         ];
     }
 

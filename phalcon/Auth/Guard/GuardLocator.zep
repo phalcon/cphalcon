@@ -13,6 +13,7 @@
 
 namespace Phalcon\Auth\Guard;
 
+use Phalcon\Auth\Exception;
 use Phalcon\Contracts\Auth\Guard\Guard;
 use Phalcon\Support\AbstractLocator;
 
@@ -30,7 +31,7 @@ class GuardLocator extends AbstractLocator
      */
     protected function getExceptionClass() -> string
     {
-        return "Phalcon\\Auth\\Exception";
+        return Exception::class;
     }
 
     /**
@@ -38,7 +39,7 @@ class GuardLocator extends AbstractLocator
      */
     protected function getInterfaceClass() -> string
     {
-        return "Phalcon\\Contracts\\Auth\\Guard\\Guard";
+        return Guard::class;
     }
 
     /**
@@ -47,8 +48,8 @@ class GuardLocator extends AbstractLocator
     protected function getServices() -> array
     {
         return [
-            "session" : "Phalcon\\Auth\\Guard\\Session",
-            "token"   : "Phalcon\\Auth\\Guard\\Token"
+            "session" : Session::class,
+            "token"   : Token::class
         ];
     }
 }

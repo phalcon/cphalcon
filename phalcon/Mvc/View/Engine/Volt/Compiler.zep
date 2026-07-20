@@ -35,6 +35,7 @@ use Phalcon\Mvc\View\Engine\Volt\Exceptions\UnknownVoltFilterType;
 use Phalcon\Mvc\View\Engine\Volt\Exceptions\UnknownVoltStatement;
 use Phalcon\Mvc\View\Engine\Volt\Exceptions\VoltDirectoryNotWritable;
 use Phalcon\Mvc\ViewBaseInterface;
+use Phalcon\Tag;
 use Phalcon\Traits\Php\FileTrait;
 
 /**
@@ -1935,7 +1936,7 @@ class Compiler implements InjectionAwareInterface
                 "image_input":    true
             ];
 
-            if method_exists("Phalcon\\Tag", method) {
+            if method_exists(Tag::class, method) {
                 if isset arrayHelpers[name] {
                     return "\Phalcon\Tag::" . method . "([" . arguments . "])";
                 }

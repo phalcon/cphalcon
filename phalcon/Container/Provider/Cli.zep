@@ -30,11 +30,33 @@
 
 namespace Phalcon\Container\Provider;
 
+use Phalcon\Annotations\Adapter\Memory as AnnotationsMemory;
 use Phalcon\Auth\Access\AccessLocator;
+use Phalcon\Cli\Dispatcher;
+use Phalcon\Cli\DispatcherInterface;
+use Phalcon\Cli\Router;
+use Phalcon\Cli\RouterInterface;
 use Phalcon\Contracts\Container\Service\Collection;
 use Phalcon\Contracts\Container\Service\Provider;
+use Phalcon\Contracts\Encryption\Security\Security as SecurityContract;
+use Phalcon\Encryption\Security;
+use Phalcon\Events\Manager as EventsManager;
+use Phalcon\Events\ManagerInterface as EventsManagerInterface;
 use Phalcon\Filter\Filter;
 use Phalcon\Filter\FilterFactory;
+use Phalcon\Filter\FilterInterface;
+use Phalcon\Html\Escaper;
+use Phalcon\Html\Escaper\EscaperInterface;
+use Phalcon\Html\TagFactory;
+use Phalcon\Mvc\Model\Manager as ModelManager;
+use Phalcon\Mvc\Model\ManagerInterface as ModelManagerInterface;
+use Phalcon\Mvc\Model\MetaDataInterface;
+use Phalcon\Mvc\Model\MetaData\Memory as ModelMetaDataMemory;
+use Phalcon\Mvc\Model\Transaction\Manager as TransactionManager;
+use Phalcon\Mvc\Model\Transaction\ManagerInterface as TransactionManagerInterface;
+use Phalcon\Storage\SerializerFactory;
+use Phalcon\Support\HelperFactory;
+use Phalcon\Support\Settings;
 
 class Cli implements Provider
 {
@@ -49,60 +71,60 @@ class Cli implements Provider
     {
         // --- Interface bindings (bind + alias) ---
 
-        services->bind("Phalcon\\Cli\\DispatcherInterface", "Phalcon\\Cli\\Dispatcher");
-        services->setAlias("Phalcon\\Cli\\DispatcherInterface", "dispatcher");
+        services->bind(DispatcherInterface::class, Dispatcher::class);
+        services->setAlias(DispatcherInterface::class, "dispatcher");
 
-        services->bind("Phalcon\\Html\\Escaper\\EscaperInterface", "Phalcon\\Html\\Escaper");
-        services->setAlias("Phalcon\\Html\\Escaper\\EscaperInterface", "escaper");
+        services->bind(EscaperInterface::class, Escaper::class);
+        services->setAlias(EscaperInterface::class, "escaper");
 
-        services->bind("Phalcon\\Events\\ManagerInterface", "Phalcon\\Events\\Manager");
-        services->setAlias("Phalcon\\Events\\ManagerInterface", "eventsManager");
+        services->bind(EventsManagerInterface::class, EventsManager::class);
+        services->setAlias(EventsManagerInterface::class, "eventsManager");
 
         services->set(
-            "Phalcon\\Filter\\FilterInterface",
+            FilterInterface::class,
             function (container) {
                 return (new FilterFactory())->newInstance();
             }
         );
-        services->setAlias("Phalcon\\Filter\\FilterInterface", "filter");
+        services->setAlias(FilterInterface::class, "filter");
 
-        services->bind("Phalcon\\Mvc\\Model\\ManagerInterface", "Phalcon\\Mvc\\Model\\Manager");
-        services->setAlias("Phalcon\\Mvc\\Model\\ManagerInterface", "modelsManager");
+        services->bind(ModelManagerInterface::class, ModelManager::class);
+        services->setAlias(ModelManagerInterface::class, "modelsManager");
 
-        services->bind("Phalcon\\Mvc\\Model\\MetaDataInterface", "Phalcon\\Mvc\\Model\\MetaData\\Memory");
-        services->setAlias("Phalcon\\Mvc\\Model\\MetaDataInterface", "modelsMetadata");
+        services->bind(MetaDataInterface::class, ModelMetaDataMemory::class);
+        services->setAlias(MetaDataInterface::class, "modelsMetadata");
 
-        services->bind("Phalcon\\Cli\\RouterInterface", "Phalcon\\Cli\\Router");
-        services->setAlias("Phalcon\\Cli\\RouterInterface", "router");
+        services->bind(RouterInterface::class, Router::class);
+        services->setAlias(RouterInterface::class, "router");
 
-        services->bind("Phalcon\\Mvc\\Model\\Transaction\\ManagerInterface", "Phalcon\\Mvc\\Model\\Transaction\\Manager");
-        services->setAlias("Phalcon\\Mvc\\Model\\Transaction\\ManagerInterface", "transactionManager");
+        services->bind(TransactionManagerInterface::class, TransactionManager::class);
+        services->setAlias(TransactionManagerInterface::class, "transactionManager");
 
         // --- FQCN bindings (set + alias) - no unique interface available ---
 
         services->set(
-            "Phalcon\\Auth\\Access\\AccessLocator",
+            AccessLocator::class,
             function (container) {
                 return new AccessLocator(container);
             }
         );
 
-        services->set("Phalcon\\Annotations\\Adapter\\Memory", "Phalcon\\Annotations\\Adapter\\Memory");
-        services->setAlias("Phalcon\\Annotations\\Adapter\\Memory", "annotationsMemory");
+        services->set(AnnotationsMemory::class, AnnotationsMemory::class);
+        services->setAlias(AnnotationsMemory::class, "annotationsMemory");
 
-        services->set("Phalcon\\Support\\HelperFactory", "Phalcon\\Support\\HelperFactory");
-        services->setAlias("Phalcon\\Support\\HelperFactory", "helper");
+        services->set(HelperFactory::class, HelperFactory::class);
+        services->setAlias(HelperFactory::class, "helper");
 
-        services->bind("Phalcon\\Contracts\\Encryption\\Security\\Security", "Phalcon\\Encryption\\Security");
-        services->setAlias("Phalcon\\Contracts\\Encryption\\Security\\Security", "security");
+        services->bind(SecurityContract::class, Security::class);
+        services->setAlias(SecurityContract::class, "security");
 
-        services->set("Phalcon\\Storage\\SerializerFactory", "Phalcon\\Storage\\SerializerFactory");
-        services->setAlias("Phalcon\\Storage\\SerializerFactory", "storageSerializer");
+        services->set(SerializerFactory::class, SerializerFactory::class);
+        services->setAlias(SerializerFactory::class, "storageSerializer");
 
-        services->set("Phalcon\\Support\\Settings", "Phalcon\\Support\\Settings");
-        services->setAlias("Phalcon\\Support\\Settings", "settings");
+        services->set(Settings::class, Settings::class);
+        services->setAlias(Settings::class, "settings");
 
-        services->set("Phalcon\\Html\\TagFactory", "Phalcon\\Html\\TagFactory");
-        services->setAlias("Phalcon\\Html\\TagFactory", "tag");
+        services->set(TagFactory::class, TagFactory::class);
+        services->setAlias(TagFactory::class, "tag");
     }
 }

@@ -11,6 +11,65 @@
 namespace Phalcon\Support;
 
 use Phalcon\Factory\AbstractFactory;
+use Phalcon\Support\Helper\Arr\Blacklist;
+use Phalcon\Support\Helper\Arr\Chunk;
+use Phalcon\Support\Helper\Arr\Filter;
+use Phalcon\Support\Helper\Arr\First;
+use Phalcon\Support\Helper\Arr\FirstKey;
+use Phalcon\Support\Helper\Arr\Flatten;
+use Phalcon\Support\Helper\Arr\Get;
+use Phalcon\Support\Helper\Arr\Group;
+use Phalcon\Support\Helper\Arr\Has;
+use Phalcon\Support\Helper\Arr\IsUnique;
+use Phalcon\Support\Helper\Arr\Last;
+use Phalcon\Support\Helper\Arr\LastKey;
+use Phalcon\Support\Helper\Arr\Order;
+use Phalcon\Support\Helper\Arr\Pluck;
+use Phalcon\Support\Helper\Arr\Set;
+use Phalcon\Support\Helper\Arr\SliceLeft;
+use Phalcon\Support\Helper\Arr\SliceRight;
+use Phalcon\Support\Helper\Arr\Split;
+use Phalcon\Support\Helper\Arr\ToObject;
+use Phalcon\Support\Helper\Arr\ValidateAll;
+use Phalcon\Support\Helper\Arr\ValidateAny;
+use Phalcon\Support\Helper\Arr\Whitelist;
+use Phalcon\Support\Helper\File\Basename;
+use Phalcon\Support\Helper\Json\Decode;
+use Phalcon\Support\Helper\Json\Encode;
+use Phalcon\Support\Helper\Number\IsBetween;
+use Phalcon\Support\Helper\Str\Camelize;
+use Phalcon\Support\Helper\Str\Concat;
+use Phalcon\Support\Helper\Str\CountVowels;
+use Phalcon\Support\Helper\Str\Decapitalize;
+use Phalcon\Support\Helper\Str\Decrement;
+use Phalcon\Support\Helper\Str\DirFromFile;
+use Phalcon\Support\Helper\Str\DirSeparator;
+use Phalcon\Support\Helper\Str\Dynamic;
+use Phalcon\Support\Helper\Str\EndsWith;
+use Phalcon\Support\Helper\Str\FirstBetween;
+use Phalcon\Support\Helper\Str\Friendly;
+use Phalcon\Support\Helper\Str\Humanize;
+use Phalcon\Support\Helper\Str\Includes;
+use Phalcon\Support\Helper\Str\Increment;
+use Phalcon\Support\Helper\Str\Interpolate;
+use Phalcon\Support\Helper\Str\IsAnagram;
+use Phalcon\Support\Helper\Str\IsLower;
+use Phalcon\Support\Helper\Str\IsPalindrome;
+use Phalcon\Support\Helper\Str\IsUpper;
+use Phalcon\Support\Helper\Str\KebabCase;
+use Phalcon\Support\Helper\Str\Len;
+use Phalcon\Support\Helper\Str\Lower;
+use Phalcon\Support\Helper\Str\PascalCase;
+use Phalcon\Support\Helper\Str\Prefix;
+use Phalcon\Support\Helper\Str\Random;
+use Phalcon\Support\Helper\Str\ReduceSlashes;
+use Phalcon\Support\Helper\Str\SnakeCase;
+use Phalcon\Support\Helper\Str\StartsWith;
+use Phalcon\Support\Helper\Str\Suffix;
+use Phalcon\Support\Helper\Str\Ucwords;
+use Phalcon\Support\Helper\Str\Uncamelize;
+use Phalcon\Support\Helper\Str\Underscore;
+use Phalcon\Support\Helper\Str\Upper;
 
 /**
  * ServiceLocator implementation for helpers
@@ -124,7 +183,7 @@ class HelperFactory extends AbstractFactory
      */
     protected function getExceptionClass() -> string
     {
-        return "Phalcon\\Support\\Exception";
+        return Exception::class;
     }
 
     /**
@@ -135,65 +194,65 @@ class HelperFactory extends AbstractFactory
     protected function getServices() -> array
     {
         return [
-            "blacklist"     : "Phalcon\\Support\\Helper\\Arr\\Blacklist",
-            "chunk"         : "Phalcon\\Support\\Helper\\Arr\\Chunk",
-            "filter"        : "Phalcon\\Support\\Helper\\Arr\\Filter",
-            "first"         : "Phalcon\\Support\\Helper\\Arr\\First",
-            "firstKey"      : "Phalcon\\Support\\Helper\\Arr\\FirstKey",
-            "flatten"       : "Phalcon\\Support\\Helper\\Arr\\Flatten",
-            "get"           : "Phalcon\\Support\\Helper\\Arr\\Get",
-            "group"         : "Phalcon\\Support\\Helper\\Arr\\Group",
-            "has"           : "Phalcon\\Support\\Helper\\Arr\\Has",
-            "isUnique"      : "Phalcon\\Support\\Helper\\Arr\\IsUnique",
-            "last"          : "Phalcon\\Support\\Helper\\Arr\\Last",
-            "lastKey"       : "Phalcon\\Support\\Helper\\Arr\\LastKey",
-            "order"         : "Phalcon\\Support\\Helper\\Arr\\Order",
-            "pluck"         : "Phalcon\\Support\\Helper\\Arr\\Pluck",
-            "set"           : "Phalcon\\Support\\Helper\\Arr\\Set",
-            "sliceLeft"     : "Phalcon\\Support\\Helper\\Arr\\SliceLeft",
-            "sliceRight"    : "Phalcon\\Support\\Helper\\Arr\\SliceRight",
-            "split"         : "Phalcon\\Support\\Helper\\Arr\\Split",
-            "toObject"      : "Phalcon\\Support\\Helper\\Arr\\ToObject",
-            "validateAll"   : "Phalcon\\Support\\Helper\\Arr\\ValidateAll",
-            "validateAny"   : "Phalcon\\Support\\Helper\\Arr\\ValidateAny",
-            "whitelist"     : "Phalcon\\Support\\Helper\\Arr\\Whitelist",
-            "basename"      : "Phalcon\\Support\\Helper\\File\\Basename",
-            "decode"        : "Phalcon\\Support\\Helper\\Json\\Decode",
-            "encode"        : "Phalcon\\Support\\Helper\\Json\\Encode",
-            "isBetween"     : "Phalcon\\Support\\Helper\\Number\\IsBetween",
-            "camelize"      : "Phalcon\\Support\\Helper\\Str\\Camelize",
-            "concat"        : "Phalcon\\Support\\Helper\\Str\\Concat",
-            "countVowels"   : "Phalcon\\Support\\Helper\\Str\\CountVowels",
-            "decapitalize"  : "Phalcon\\Support\\Helper\\Str\\Decapitalize",
-            "decrement"     : "Phalcon\\Support\\Helper\\Str\\Decrement",
-            "dirFromFile"   : "Phalcon\\Support\\Helper\\Str\\DirFromFile",
-            "dirSeparator"  : "Phalcon\\Support\\Helper\\Str\\DirSeparator",
-            "dynamic"       : "Phalcon\\Support\\Helper\\Str\\Dynamic",
-            "endsWith"      : "Phalcon\\Support\\Helper\\Str\\EndsWith",
-            "firstBetween"  : "Phalcon\\Support\\Helper\\Str\\FirstBetween",
-            "friendly"      : "Phalcon\\Support\\Helper\\Str\\Friendly",
-            "humanize"      : "Phalcon\\Support\\Helper\\Str\\Humanize",
-            "includes"      : "Phalcon\\Support\\Helper\\Str\\Includes",
-            "increment"     : "Phalcon\\Support\\Helper\\Str\\Increment",
-            "interpolate"   : "Phalcon\\Support\\Helper\\Str\\Interpolate",
-            "isAnagram"     : "Phalcon\\Support\\Helper\\Str\\IsAnagram",
-            "isLower"       : "Phalcon\\Support\\Helper\\Str\\IsLower",
-            "isPalindrome"  : "Phalcon\\Support\\Helper\\Str\\IsPalindrome",
-            "isUpper"       : "Phalcon\\Support\\Helper\\Str\\IsUpper",
-            "kebabCase"     : "Phalcon\\Support\\Helper\\Str\\KebabCase",
-            "len"           : "Phalcon\\Support\\Helper\\Str\\Len",
-            "lower"         : "Phalcon\\Support\\Helper\\Str\\Lower",
-            "pascalCase"    : "Phalcon\\Support\\Helper\\Str\\PascalCase",
-            "prefix"        : "Phalcon\\Support\\Helper\\Str\\Prefix",
-            "random"        : "Phalcon\\Support\\Helper\\Str\\Random",
-            "reduceSlashes" : "Phalcon\\Support\\Helper\\Str\\ReduceSlashes",
-            "snakeCase"     : "Phalcon\\Support\\Helper\\Str\\SnakeCase",
-            "startsWith"    : "Phalcon\\Support\\Helper\\Str\\StartsWith",
-            "suffix"        : "Phalcon\\Support\\Helper\\Str\\Suffix",
-            "ucwords"       : "Phalcon\\Support\\Helper\\Str\\Ucwords",
-            "uncamelize"    : "Phalcon\\Support\\Helper\\Str\\Uncamelize",
-            "underscore"    : "Phalcon\\Support\\Helper\\Str\\Underscore",
-            "upper"         : "Phalcon\\Support\\Helper\\Str\\Upper"
+            "blacklist"     : Blacklist::class,
+            "chunk"         : Chunk::class,
+            "filter"        : Filter::class,
+            "first"         : First::class,
+            "firstKey"      : FirstKey::class,
+            "flatten"       : Flatten::class,
+            "get"           : Get::class,
+            "group"         : Group::class,
+            "has"           : Has::class,
+            "isUnique"      : IsUnique::class,
+            "last"          : Last::class,
+            "lastKey"       : LastKey::class,
+            "order"         : Order::class,
+            "pluck"         : Pluck::class,
+            "set"           : Set::class,
+            "sliceLeft"     : SliceLeft::class,
+            "sliceRight"    : SliceRight::class,
+            "split"         : Split::class,
+            "toObject"      : ToObject::class,
+            "validateAll"   : ValidateAll::class,
+            "validateAny"   : ValidateAny::class,
+            "whitelist"     : Whitelist::class,
+            "basename"      : Basename::class,
+            "decode"        : Decode::class,
+            "encode"        : Encode::class,
+            "isBetween"     : IsBetween::class,
+            "camelize"      : Camelize::class,
+            "concat"        : Concat::class,
+            "countVowels"   : CountVowels::class,
+            "decapitalize"  : Decapitalize::class,
+            "decrement"     : Decrement::class,
+            "dirFromFile"   : DirFromFile::class,
+            "dirSeparator"  : DirSeparator::class,
+            "dynamic"       : Dynamic::class,
+            "endsWith"      : EndsWith::class,
+            "firstBetween"  : FirstBetween::class,
+            "friendly"      : Friendly::class,
+            "humanize"      : Humanize::class,
+            "includes"      : Includes::class,
+            "increment"     : Increment::class,
+            "interpolate"   : Interpolate::class,
+            "isAnagram"     : IsAnagram::class,
+            "isLower"       : IsLower::class,
+            "isPalindrome"  : IsPalindrome::class,
+            "isUpper"       : IsUpper::class,
+            "kebabCase"     : KebabCase::class,
+            "len"           : Len::class,
+            "lower"         : Lower::class,
+            "pascalCase"    : PascalCase::class,
+            "prefix"        : Prefix::class,
+            "random"        : Random::class,
+            "reduceSlashes" : ReduceSlashes::class,
+            "snakeCase"     : SnakeCase::class,
+            "startsWith"    : StartsWith::class,
+            "suffix"        : Suffix::class,
+            "ucwords"       : Ucwords::class,
+            "uncamelize"    : Uncamelize::class,
+            "underscore"    : Underscore::class,
+            "upper"         : Upper::class
         ];
     }
 }

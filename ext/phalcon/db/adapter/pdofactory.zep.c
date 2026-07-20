@@ -111,7 +111,7 @@ PHP_METHOD(Phalcon_Db_Adapter_PdoFactory, load)
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(config, &_0);
 	zephir_memory_observe(&name);
-	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Db/Adapter/PdoFactory.zep", 52);
+	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Db/Adapter/PdoFactory.zep", 56);
 	zephir_array_unset_string(config, SL("adapter"), PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_1);
 	array_init(&_1);

@@ -13,6 +13,7 @@
 
 namespace Phalcon\Auth\Access;
 
+use Phalcon\Auth\Exception;
 use Phalcon\Auth\Internal\ContainerResolver;
 use Phalcon\Contracts\Auth\Access\Access;
 use Phalcon\Support\AbstractLocator;
@@ -53,7 +54,7 @@ class AccessLocator extends AbstractLocator
      */
     protected function getExceptionClass() -> string
     {
-        return "Phalcon\\Auth\\Exception";
+        return Exception::class;
     }
 
     /**
@@ -61,7 +62,7 @@ class AccessLocator extends AbstractLocator
      */
     protected function getInterfaceClass() -> string
     {
-        return "Phalcon\\Contracts\\Auth\\Access\\Access";
+        return Access::class;
     }
 
     /**
@@ -70,9 +71,9 @@ class AccessLocator extends AbstractLocator
     protected function getServices() -> array
     {
         return [
-            "acl"   : "Phalcon\\Auth\\Access\\Acl",
-            "auth"  : "Phalcon\\Auth\\Access\\Auth",
-            "guest" : "Phalcon\\Auth\\Access\\Guest"
+            "acl"   : Acl::class,
+            "auth"  : Auth::class,
+            "guest" : Guest::class
         ];
     }
 }

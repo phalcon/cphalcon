@@ -35,7 +35,7 @@ class QueryFactory
     public function __construct(string selectClass = "")
     {
         if empty selectClass {
-            let selectClass = "Phalcon\\DataMapper\\Query\\Select";
+            let selectClass = Select::class;
         }
 
         let this->selectClass = selectClass;

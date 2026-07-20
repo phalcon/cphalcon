@@ -11,6 +11,9 @@
 namespace Phalcon\Translate;
 
 use Phalcon\Factory\AbstractFactory;
+use Phalcon\Translate\Exceptions\InterpolatorNotRegistered;
+use Phalcon\Translate\Interpolator\AssociativeArray;
+use Phalcon\Translate\Interpolator\IndexedArray;
 use Phalcon\Translate\Interpolator\InterpolatorInterface;
 
 class InterpolatorFactory extends AbstractFactory
@@ -45,7 +48,7 @@ class InterpolatorFactory extends AbstractFactory
      */
     protected function getExceptionClass() -> string
     {
-        return "Phalcon\\Translate\\Exceptions\\InterpolatorNotRegistered";
+        return InterpolatorNotRegistered::class;
     }
 
     /**
@@ -56,8 +59,8 @@ class InterpolatorFactory extends AbstractFactory
     protected function getServices() -> array
     {
         return [
-            "associativeArray" : "Phalcon\\Translate\\Interpolator\\AssociativeArray",
-            "indexedArray"     : "Phalcon\\Translate\\Interpolator\\IndexedArray"
+            "associativeArray" : AssociativeArray::class,
+            "indexedArray"     : IndexedArray::class
         ];
     }
 }

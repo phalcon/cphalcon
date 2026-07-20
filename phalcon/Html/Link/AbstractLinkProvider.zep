@@ -33,7 +33,7 @@ abstract class AbstractLinkProvider
 
         for link in links {
             if (
-                true === is_a(link, "Phalcon\\Html\\Link\\Interfaces\\LinkInterface") ||
+                true === is_a(link, LinkInterface::class) ||
                 true === is_a(link, "Psr\\Link\\LinkInterface")
             ) {
                 let this->links[this->getKey(link)] = link;

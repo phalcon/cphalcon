@@ -131,6 +131,6 @@ class Cache extends AbstractCache
      */
     protected function getExceptionClass() -> string
     {
-        return "Phalcon\\Cache\\Exception\\InvalidArgumentException";
+        return InvalidArgumentException::class;
     }
 }

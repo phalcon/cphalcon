@@ -11,6 +11,9 @@
 namespace Phalcon\Annotations;
 
 use Phalcon\Annotations\Adapter\AdapterInterface;
+use Phalcon\Annotations\Adapter\Apcu;
+use Phalcon\Annotations\Adapter\Memory;
+use Phalcon\Annotations\Adapter\Stream;
 use Phalcon\Factory\AbstractFactory;
 use Phalcon\Traits\Support\Helper\Arr\GetTrait;
 
@@ -84,7 +87,7 @@ class AnnotationsFactory extends AbstractFactory
      */
     protected function getExceptionClass() -> string
     {
-        return "Phalcon\\Annotations\\Exception";
+        return Exception::class;
     }
 
     /**
@@ -95,9 +98,9 @@ class AnnotationsFactory extends AbstractFactory
     protected function getServices() -> array
     {
         return [
-            "apcu"   : "Phalcon\\Annotations\\Adapter\\Apcu",
-            "memory" : "Phalcon\\Annotations\\Adapter\\Memory",
-            "stream" : "Phalcon\\Annotations\\Adapter\\Stream"
+            "apcu"   : Apcu::class,
+            "memory" : Memory::class,
+            "stream" : Stream::class
         ];
     }
 }

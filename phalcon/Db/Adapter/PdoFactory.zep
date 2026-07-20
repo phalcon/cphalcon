@@ -10,6 +10,10 @@
 
 namespace Phalcon\Db\Adapter;
 
+use Phalcon\Db\Adapter\Pdo\Mysql;
+use Phalcon\Db\Adapter\Pdo\Postgresql;
+use Phalcon\Db\Adapter\Pdo\Sqlite;
+use Phalcon\Db\Exception;
 use Phalcon\Factory\AbstractFactory;
 use Phalcon\Traits\Support\Helper\Arr\GetTrait;
 
@@ -80,7 +84,7 @@ class PdoFactory extends AbstractFactory
      */
     protected function getExceptionClass() -> string
     {
-        return "Phalcon\\Db\\Exception";
+        return Exception::class;
     }
 
     /**
@@ -91,9 +95,9 @@ class PdoFactory extends AbstractFactory
     protected function getServices() -> array
     {
         return [
-            "mysql"      : "Phalcon\\Db\\Adapter\\Pdo\\Mysql",
-            "postgresql" : "Phalcon\\Db\\Adapter\\Pdo\\Postgresql",
-            "sqlite"     : "Phalcon\\Db\\Adapter\\Pdo\\Sqlite"
+            "mysql"      : Mysql::class,
+            "postgresql" : Postgresql::class,
+            "sqlite"     : Sqlite::class
         ];
     }
 }

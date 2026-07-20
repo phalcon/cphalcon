@@ -16,6 +16,7 @@ use Phalcon\Di\DiInterface;
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\Exceptions\ManagerOrmServicesUnavailable;
+use Phalcon\Mvc\Model\Query;
 use Phalcon\Mvc\Model\Query\Exceptions\Builder\BuilderColumnNotInMap;
 use Phalcon\Mvc\Model\Query\Exceptions\Builder\BuilderConditionInvalid;
 use Phalcon\Mvc\Model\Query\Exceptions\Builder\ModelRequired;
@@ -1078,7 +1079,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
          * Gets Query instance from DI container
          */
         let query = <QueryInterface> container->get(
-            "Phalcon\\Mvc\\Model\\Query",
+            Query::class,
             [phql, container]
         );
 

@@ -53,7 +53,7 @@ class Token extends AbstractGuard
                 container,
                 options,
                 "request",
-                "Phalcon\\Http\\RequestInterface",
+                RequestInterface::class,
                 "request",
                 "Token guard"
             ),

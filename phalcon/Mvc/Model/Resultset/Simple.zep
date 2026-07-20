@@ -155,7 +155,7 @@ class Simple extends Resultset
                     if this->model instanceof Model {
                         let modelName = get_class(this->model);
                     } else {
-                        let modelName = "Phalcon\\Mvc\\Model";
+                        let modelName = Model::class;
                     }
 
                     let activeRow = {modelName}::cloneResultMap(

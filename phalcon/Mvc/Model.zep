@@ -2659,7 +2659,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
          */
         if container instanceof DiInterface {
             let criteria = <CriteriaInterface> container->get(
-                "Phalcon\\Mvc\\Model\\Criteria"
+                Criteria::class
             );
         } else {
             let criteria = new Criteria();
