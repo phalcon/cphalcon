@@ -12,10 +12,10 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/fcall.h"
-#include "kernel/memory.h"
-#include "kernel/operators.h"
 #include "kernel/object.h"
+#include "kernel/memory.h"
+#include "kernel/fcall.h"
+#include "kernel/operators.h"
 #include "kernel/array.h"
 #include "kernel/exception.h"
 #include "kernel/concat.h"
@@ -36,10 +36,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Encryption_Crypt_PadFactory)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Encryption\\Crypt, PadFactory, phalcon, encryption_crypt_padfactory, phalcon_factory_abstractfactory_ce, phalcon_encryption_crypt_padfactory_method_entry, 0);
 
-	/**
-	 * @var string
-	 */
-	zend_declare_property_string(phalcon_encryption_crypt_padfactory_ce, SL("exception"), "Phalcon\\Encryption\\Crypt\\Exception\\Exception", ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_STRINGL(&_zc0, "", 0);
+		zephir_declare_typed_property(phalcon_encryption_crypt_padfactory_ce, SL("exception"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
+
 	return SUCCESS;
 }
 
@@ -50,11 +52,17 @@ PHP_METHOD(Phalcon_Encryption_Crypt_PadFactory, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *services_param = NULL;
+	zval *services_param = NULL, _0;
 	zval services;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&services);
+	ZVAL_UNDEF(&_0);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("exception", 9, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
 		ZEPHIR_Z_PARAM_ARRAY(services, services_param)
@@ -68,6 +76,10 @@ PHP_METHOD(Phalcon_Encryption_Crypt_PadFactory, __construct)
 	} else {
 		zephir_get_arrval(&services, services_param);
 	}
+	ZEPHIR_INIT_VAR(&_0);
+	ZEPHIR_INIT_NVAR(&_0);
+	ZVAL_STRING(&_0, "Phalcon\\Encryption\\Crypt\\Exception\\Exception");
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 673, &_0);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "init", NULL, 0, &services);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
@@ -144,11 +156,11 @@ PHP_METHOD(Phalcon_Encryption_Crypt_PadFactory, padNumberToService)
 		ZEPHIR_CONCAT_SV(&_2$$3, "Unknown padding constant ", &_1$$3);
 		ZEPHIR_CALL_METHOD(&_0$$3, this_ptr, "getexception", NULL, 0, &_2$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_0$$3, "phalcon/Encryption/Crypt/PadFactory.zep", 72);
+		zephir_throw_exception_debug(&_0$$3, "phalcon/Encryption/Crypt/PadFactory.zep", 79);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	zephir_array_fetch_long(&_3, &map, number, PH_NOISY | PH_READONLY, "phalcon/Encryption/Crypt/PadFactory.zep", 75);
+	zephir_array_fetch_long(&_3, &map, number, PH_NOISY | PH_READONLY, "phalcon/Encryption/Crypt/PadFactory.zep", 82);
 	RETURN_CTOR(&_3);
 }
 

@@ -547,6 +547,50 @@ zend_property_info *zephir_declare_typed_property(zend_class_entry *ce, const ch
 	return zend_declare_typed_property(ce, key, &persisted, access_type, NULL, type);
 }
 
+zend_property_info *zephir_declare_typed_property_union(zend_class_entry *ce, const char *name, size_t name_length, zval *value, int access_type, uint32_t type_mask, const char **class_names, uint32_t num_classes)
+{
+	zend_string *key = zend_string_init_interned(name, name_length, 1);
+	zval persisted;
+	zend_type type;
+	uint32_t i;
+
+	if (num_classes == 0) {
+		/* Scalar-only union (e.g. int|float|null): a plain OR-ed type mask. */
+		type = (zend_type) ZEND_TYPE_INIT_MASK(type_mask);
+	} else if (num_classes == 1) {
+		/* One class plus optional scalar/null bits (e.g. <Foo>|int, <Foo>|null).
+		 * The scalar/null bits ride along in the class type's extra flags. */
+		zend_string *cn = zend_string_init(class_names[0], strlen(class_names[0]), 1);
+		GC_ADD_FLAGS(cn, IS_STR_PERSISTENT);
+		type = (zend_type) ZEND_TYPE_INIT_CLASS(cn, 0, type_mask);
+	} else {
+		/* Two or more classes (e.g. <A>|<B>|int): a persistent zend_type_list of
+		 * class names, with any scalar/null bits kept in the outer union mask.
+		 * PHP 8.1+ tags the list with _ZEND_TYPE_UNION_BIT (to distinguish it from
+		 * intersection lists); PHP 8.0 has no intersection types and only
+		 * _ZEND_TYPE_LIST_BIT, and lacks ZEND_TYPE_INIT_UNION — so build the type
+		 * via the portable ZEND_TYPE_INIT_PTR and add the union bit only when it
+		 * exists. */
+		uint32_t list_kind   = _ZEND_TYPE_LIST_BIT;
+		zend_type_list *list = pemalloc(ZEND_TYPE_LIST_SIZE(num_classes), 1);
+#ifdef _ZEND_TYPE_UNION_BIT
+		list_kind |= _ZEND_TYPE_UNION_BIT;
+#endif
+		list->num_types = num_classes;
+		for (i = 0; i < num_classes; i++) {
+			zend_string *cn = zend_string_init(class_names[i], strlen(class_names[i]), 1);
+			GC_ADD_FLAGS(cn, IS_STR_PERSISTENT);
+			list->types[i] = (zend_type) ZEND_TYPE_INIT_CLASS(cn, 0, 0);
+		}
+		type = (zend_type) ZEND_TYPE_INIT_PTR(list, list_kind, 0, type_mask);
+	}
+
+	zephir_persist_constant_zval(&persisted, value);
+	zval_ptr_dtor(value);
+
+	return zend_declare_typed_property(ce, key, &persisted, access_type, NULL, type);
+}
+
 int zephir_declare_class_constant_null(zend_class_entry *ce, const char *name, size_t name_length)
 {
 	zval constant;

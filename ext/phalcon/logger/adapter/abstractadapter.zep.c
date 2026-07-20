@@ -42,10 +42,13 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Adapter_AbstractAdapter)
 
 	/**
 	 * Name of the default formatter class
-	 *
-	 * @var string
 	 */
-	zend_declare_property_string(phalcon_logger_adapter_abstractadapter_ce, SL("defaultFormatter"), "Phalcon\\Logger\\Formatter\\Line", ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_STRINGL(&_zc0, "Phalcon\\Logger\\Formatter\\Line", 32);
+		zephir_declare_typed_property(phalcon_logger_adapter_abstractadapter_ce, SL("defaultFormatter"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
+
 	/**
 	 * Formatter
 	 *
@@ -128,7 +131,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, __serialize)
 	object_init_ex(&_0, phalcon_logger_exceptions_serializationfailed_ce);
 	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 134);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(&_0, "phalcon/Logger/Adapter/AbstractAdapter.zep", 90);
+	zephir_throw_exception_debug(&_0, "phalcon/Logger/Adapter/AbstractAdapter.zep", 88);
 	ZEPHIR_MM_RESTORE();
 	return;
 }
@@ -156,7 +159,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, __unserialize)
 	object_init_ex(&_0, phalcon_logger_exceptions_deserializationfailed_ce);
 	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 135);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(&_0, "phalcon/Logger/Adapter/AbstractAdapter.zep", 98);
+	zephir_throw_exception_debug(&_0, "phalcon/Logger/Adapter/AbstractAdapter.zep", 96);
 	ZEPHIR_MM_RESTORE();
 	return;
 }
@@ -249,7 +252,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, begin)
 		object_init_ex(&_1$$3, phalcon_logger_exceptions_transactionalreadyactive_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 136);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Logger/Adapter/AbstractAdapter.zep", 133);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Logger/Adapter/AbstractAdapter.zep", 131);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -300,7 +303,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, commit)
 	zephir_check_call_status();
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 122, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&queue, &_0);
-	zephir_is_iterable(&queue, 0, "phalcon/Logger/Adapter/AbstractAdapter.zep", 170);
+	zephir_is_iterable(&queue, 0, "phalcon/Logger/Adapter/AbstractAdapter.zep", 168);
 	if (Z_TYPE_P(&queue) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&queue), _1)
 		{
@@ -526,7 +529,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, checkTransaction)
 		object_init_ex(&_1$$3, phalcon_logger_exceptions_transactionnotactive_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 139);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Logger/Adapter/AbstractAdapter.zep", 271);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Logger/Adapter/AbstractAdapter.zep", 269);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
