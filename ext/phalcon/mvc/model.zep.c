@@ -8031,7 +8031,7 @@ PHP_METHOD(Phalcon_Mvc_Model, doLowInsert)
 			} else {
 				ZEPHIR_CPY_WRT(&attributeField, &field);
 			}
-			if (!(zephir_array_isset_value(&automaticAttributes, &attributeField))) {
+			if (!(zephir_array_key_exists(&automaticAttributes, &attributeField))) {
 				if (!ZEPHIR_IS_EQUAL(&field, identityField)) {
 					ZEPHIR_OBS_NVAR(&rawValue);
 					if (zephir_array_isset_fetch(&rawValue, &rawValues, &attributeField, 0)) {
@@ -8056,7 +8056,7 @@ PHP_METHOD(Phalcon_Mvc_Model, doLowInsert)
 						if (zephir_fetch_property_zval(&value, this_ptr, &attributeField, PH_SILENT_CC)) {
 							_10$$13 = Z_TYPE_P(&value) == IS_NULL;
 							if (_10$$13) {
-								_10$$13 = zephir_array_isset_value(&defaultValues, &field);
+								_10$$13 = zephir_array_key_exists(&defaultValues, &field);
 							}
 							if (_10$$13) {
 								zephir_array_fetch(&_11$$14, &defaultValues, &field, PH_NOISY | PH_READONLY, "phalcon/Mvc/Model.zep", 4134);
@@ -8089,7 +8089,7 @@ PHP_METHOD(Phalcon_Mvc_Model, doLowInsert)
 							zephir_array_append(&values, &value, PH_SEPARATE, "phalcon/Mvc/Model.zep", 4154);
 							zephir_array_append(&bindTypes, &bindType, PH_SEPARATE, "phalcon/Mvc/Model.zep", 4155);
 						} else {
-							if (zephir_array_isset_value(&defaultValues, &field)) {
+							if (zephir_array_key_exists(&defaultValues, &field)) {
 								zephir_array_fetch(&_18$$19, &defaultValues, &field, PH_NOISY | PH_READONLY, "phalcon/Mvc/Model.zep", 4158);
 								zephir_array_update_zval(&snapshot, &attributeField, &_18$$19, PH_COPY | PH_SEPARATE);
 								zephir_array_fetch(&_19$$19, &defaultValues, &field, PH_NOISY | PH_READONLY, "phalcon/Mvc/Model.zep", 4159);
@@ -8147,7 +8147,7 @@ PHP_METHOD(Phalcon_Mvc_Model, doLowInsert)
 				} else {
 					ZEPHIR_CPY_WRT(&attributeField, &field);
 				}
-				if (!(zephir_array_isset_value(&automaticAttributes, &attributeField))) {
+				if (!(zephir_array_key_exists(&automaticAttributes, &attributeField))) {
 					if (!ZEPHIR_IS_EQUAL(&field, identityField)) {
 						ZEPHIR_OBS_NVAR(&rawValue);
 						if (zephir_array_isset_fetch(&rawValue, &rawValues, &attributeField, 0)) {
@@ -8172,7 +8172,7 @@ PHP_METHOD(Phalcon_Mvc_Model, doLowInsert)
 							if (zephir_fetch_property_zval(&value, this_ptr, &attributeField, PH_SILENT_CC)) {
 								_30$$30 = Z_TYPE_P(&value) == IS_NULL;
 								if (_30$$30) {
-									_30$$30 = zephir_array_isset_value(&defaultValues, &field);
+									_30$$30 = zephir_array_key_exists(&defaultValues, &field);
 								}
 								if (_30$$30) {
 									zephir_array_fetch(&_31$$31, &defaultValues, &field, PH_NOISY | PH_READONLY, "phalcon/Mvc/Model.zep", 4134);
@@ -8205,7 +8205,7 @@ PHP_METHOD(Phalcon_Mvc_Model, doLowInsert)
 								zephir_array_append(&values, &value, PH_SEPARATE, "phalcon/Mvc/Model.zep", 4154);
 								zephir_array_append(&bindTypes, &bindType, PH_SEPARATE, "phalcon/Mvc/Model.zep", 4155);
 							} else {
-								if (zephir_array_isset_value(&defaultValues, &field)) {
+								if (zephir_array_key_exists(&defaultValues, &field)) {
 									zephir_array_fetch(&_38$$36, &defaultValues, &field, PH_NOISY | PH_READONLY, "phalcon/Mvc/Model.zep", 4158);
 									zephir_array_update_zval(&snapshot, &attributeField, &_38$$36, PH_COPY | PH_SEPARATE);
 									zephir_array_fetch(&_39$$36, &defaultValues, &field, PH_NOISY | PH_READONLY, "phalcon/Mvc/Model.zep", 4159);
@@ -8617,7 +8617,7 @@ PHP_METHOD(Phalcon_Mvc_Model, doLowUpdate)
 				} else {
 					ZEPHIR_CPY_WRT(&attributeField, &field);
 				}
-				if (!(zephir_array_isset_value(&automaticAttributes, &attributeField))) {
+				if (!(zephir_array_key_exists(&automaticAttributes, &attributeField))) {
 					ZEPHIR_OBS_NVAR(&bindType);
 					if (UNEXPECTED(!(zephir_array_isset_fetch(&bindType, &bindDataTypes, &field, 0)))) {
 						ZEPHIR_INIT_NVAR(&_11$$12);
@@ -8757,7 +8757,7 @@ PHP_METHOD(Phalcon_Mvc_Model, doLowUpdate)
 					} else {
 						ZEPHIR_CPY_WRT(&attributeField, &field);
 					}
-					if (!(zephir_array_isset_value(&automaticAttributes, &attributeField))) {
+					if (!(zephir_array_key_exists(&automaticAttributes, &attributeField))) {
 						ZEPHIR_OBS_NVAR(&bindType);
 						if (UNEXPECTED(!(zephir_array_isset_fetch(&bindType, &bindDataTypes, &field, 0)))) {
 							ZEPHIR_INIT_NVAR(&_31$$36);
@@ -8891,7 +8891,7 @@ PHP_METHOD(Phalcon_Mvc_Model, doLowUpdate)
 				} else {
 					ZEPHIR_CPY_WRT(&attributeField, &field);
 				}
-				if (!(zephir_array_isset_value(&automaticAttributes, &attributeField))) {
+				if (!(zephir_array_key_exists(&automaticAttributes, &attributeField))) {
 					ZEPHIR_OBS_NVAR(&bindType);
 					if (UNEXPECTED(!(zephir_array_isset_fetch(&bindType, &bindDataTypes, &field, 0)))) {
 						ZEPHIR_INIT_NVAR(&_47$$62);
@@ -8983,7 +8983,7 @@ PHP_METHOD(Phalcon_Mvc_Model, doLowUpdate)
 					} else {
 						ZEPHIR_CPY_WRT(&attributeField, &field);
 					}
-					if (!(zephir_array_isset_value(&automaticAttributes, &attributeField))) {
+					if (!(zephir_array_key_exists(&automaticAttributes, &attributeField))) {
 						ZEPHIR_OBS_NVAR(&bindType);
 						if (UNEXPECTED(!(zephir_array_isset_fetch(&bindType, &bindDataTypes, &field, 0)))) {
 							ZEPHIR_INIT_NVAR(&_59$$73);
@@ -10135,7 +10135,7 @@ PHP_METHOD(Phalcon_Mvc_Model, preSave)
 					} else {
 						ZEPHIR_CPY_WRT(&attributeField, &field);
 					}
-					if (!(zephir_array_isset_value(&automaticAttributes, &attributeField))) {
+					if (!(zephir_array_key_exists(&automaticAttributes, &attributeField))) {
 						isNull = 0;
 						ZEPHIR_OBS_NVAR(&value);
 						if (zephir_fetch_property_zval(&value, this_ptr, &attributeField, PH_SILENT_CC)) {
@@ -10240,7 +10240,7 @@ PHP_METHOD(Phalcon_Mvc_Model, preSave)
 						} else {
 							ZEPHIR_CPY_WRT(&attributeField, &field);
 						}
-						if (!(zephir_array_isset_value(&automaticAttributes, &attributeField))) {
+						if (!(zephir_array_key_exists(&automaticAttributes, &attributeField))) {
 							isNull = 0;
 							ZEPHIR_OBS_NVAR(&value);
 							if (zephir_fetch_property_zval(&value, this_ptr, &attributeField, PH_SILENT_CC)) {

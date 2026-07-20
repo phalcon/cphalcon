@@ -4111,7 +4111,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 let attributeField = field;
             }
 
-            if !isset automaticAttributes[attributeField] {
+            if !array_key_exists(attributeField, automaticAttributes) {
                 /**
                  * Check every attribute in the model except identity field
                  */
@@ -4130,7 +4130,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                             bindTypes[]              = bindType,
                             snapshot[attributeField] = rawValue;
                     } elseif fetch value, this->{attributeField} {
-                        if value === null && isset defaultValues[field] {
+                        if value === null && array_key_exists(field, defaultValues) {
                             let snapshot[attributeField]           = defaultValues[field],
                                 unsetDefaultValues[attributeField] = defaultValues[field];
 
@@ -4154,7 +4154,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                             values[]    = value,
                             bindTypes[] = bindType;
                     } else {
-                        if isset defaultValues[field] {
+                        if array_key_exists(field, defaultValues) {
                             let snapshot[attributeField]           = defaultValues[field],
                                 unsetDefaultValues[attributeField] = defaultValues[field];
 
@@ -4398,7 +4398,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 } else {
                     let attributeField = field;
                 }
-                if !isset automaticAttributes[attributeField] {
+                if !array_key_exists(attributeField, automaticAttributes) {
                     /**
                      * Check a bind type for field to update
                      */
@@ -4521,7 +4521,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                     let attributeField = field;
                 }
 
-                if !isset automaticAttributes[attributeField] {
+                if !array_key_exists(attributeField, automaticAttributes) {
                     /**
                      * Check a bind type for field to update
                      */
@@ -5235,7 +5235,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                     /**
                      * We don't check fields that must be omitted
                      */
-                    if !isset automaticAttributes[attributeField] {
+                    if !array_key_exists(attributeField, automaticAttributes) {
                         let isNull = false;
 
                         /**
