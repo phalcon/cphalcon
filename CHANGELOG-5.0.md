@@ -10,7 +10,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
  
 ### Changed
 
-- Replaced fully-qualified class-name strings with `::class` references (and `use` imports) across factories, service providers and DI containers
+- Replaced fully-qualified class-name strings with `::class` references (and `use` imports) across factories, service providers and DI containers [#17380](https://github.com/phalcon/cphalcon/issues/17380)
 
 ### Added
 
