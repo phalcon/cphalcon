@@ -22,5 +22,5 @@ interface Renderer
     /**
      * Renders the template and returns the output.
      */
-    public function render(string template, array data = []) -> string;
+    public function render(string path, array params = []) -> string;
 }

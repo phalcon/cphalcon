@@ -21,14 +21,14 @@ use Phalcon\Contracts\View\Renderer;
  */
 final class FakeRenderer implements Renderer
 {
-    public array  $data     = [];
+    public array $data = [];
     public string $template = '';
 
-    public function render(string $template, array $data = []): string
+    public function render(string $path, array $params = []): string
     {
-        $this->template = $template;
-        $this->data     = $data;
+        $this->template = $path;
+        $this->data     = $params;
 
-        return '<h1>' . $template . '</h1>';
+        return '<h1>' . $path . '</h1>';
     }
 }
