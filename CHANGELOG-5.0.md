@@ -29,6 +29,8 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 
 ### Fixed
 
+- Fixed `Phalcon\Mvc\Model` ignoring attributes registered with `skipAttributes()`, `skipAttributesOnCreate()` and `skipAttributesOnUpdate()`, so a skipped column was emitted in the generated `INSERT`/`UPDATE` (breaking, for instance, inserts into a table with a MySQL generated column). The skip list is keyed with `null` values, and `isset()` on an array offset now follows PHP semantics (key present *and* value not `null`), which made every skipped attribute read as not registered; the checks in `doLowInsert()`, `doLowUpdate()` and the not-null validation now use `array_key_exists()`. [#17382](https://github.com/phalcon/cphalcon/issues/17382) [[doc]](https://docs.phalcon.io/5.18/db-models/)
+
 ### Removed
 
 ## [5.17.0](https://github.com/phalcon/cphalcon/releases/tag/v5.17.0) (2026-07-17)
