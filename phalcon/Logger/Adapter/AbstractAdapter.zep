@@ -30,8 +30,10 @@ abstract class AbstractAdapter implements AdapterInterface
 {
     /**
      * Name of the default formatter class
+     *
+     * @var string
      */
-    protected string defaultFormatter = "Phalcon\\Logger\\Formatter\\Line";
+    protected defaultFormatter = "Phalcon\\Logger\\Formatter\\Line";
 
     /**
      * Formatter
