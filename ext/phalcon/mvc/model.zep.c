@@ -8056,7 +8056,7 @@ PHP_METHOD(Phalcon_Mvc_Model, doLowInsert)
 						if (zephir_fetch_property_zval(&value, this_ptr, &attributeField, PH_SILENT_CC)) {
 							_10$$13 = Z_TYPE_P(&value) == IS_NULL;
 							if (_10$$13) {
-								_10$$13 = zephir_array_isset_value(&defaultValues, &field);
+								_10$$13 = zephir_array_key_exists(&defaultValues, &field);
 							}
 							if (_10$$13) {
 								zephir_array_fetch(&_11$$14, &defaultValues, &field, PH_NOISY | PH_READONLY, "phalcon/Mvc/Model.zep", 4134);
@@ -8089,7 +8089,7 @@ PHP_METHOD(Phalcon_Mvc_Model, doLowInsert)
 							zephir_array_append(&values, &value, PH_SEPARATE, "phalcon/Mvc/Model.zep", 4154);
 							zephir_array_append(&bindTypes, &bindType, PH_SEPARATE, "phalcon/Mvc/Model.zep", 4155);
 						} else {
-							if (zephir_array_isset_value(&defaultValues, &field)) {
+							if (zephir_array_key_exists(&defaultValues, &field)) {
 								zephir_array_fetch(&_18$$19, &defaultValues, &field, PH_NOISY | PH_READONLY, "phalcon/Mvc/Model.zep", 4158);
 								zephir_array_update_zval(&snapshot, &attributeField, &_18$$19, PH_COPY | PH_SEPARATE);
 								zephir_array_fetch(&_19$$19, &defaultValues, &field, PH_NOISY | PH_READONLY, "phalcon/Mvc/Model.zep", 4159);
@@ -8172,7 +8172,7 @@ PHP_METHOD(Phalcon_Mvc_Model, doLowInsert)
 							if (zephir_fetch_property_zval(&value, this_ptr, &attributeField, PH_SILENT_CC)) {
 								_30$$30 = Z_TYPE_P(&value) == IS_NULL;
 								if (_30$$30) {
-									_30$$30 = zephir_array_isset_value(&defaultValues, &field);
+									_30$$30 = zephir_array_key_exists(&defaultValues, &field);
 								}
 								if (_30$$30) {
 									zephir_array_fetch(&_31$$31, &defaultValues, &field, PH_NOISY | PH_READONLY, "phalcon/Mvc/Model.zep", 4134);
@@ -8205,7 +8205,7 @@ PHP_METHOD(Phalcon_Mvc_Model, doLowInsert)
 								zephir_array_append(&values, &value, PH_SEPARATE, "phalcon/Mvc/Model.zep", 4154);
 								zephir_array_append(&bindTypes, &bindType, PH_SEPARATE, "phalcon/Mvc/Model.zep", 4155);
 							} else {
-								if (zephir_array_isset_value(&defaultValues, &field)) {
+								if (zephir_array_key_exists(&defaultValues, &field)) {
 									zephir_array_fetch(&_38$$36, &defaultValues, &field, PH_NOISY | PH_READONLY, "phalcon/Mvc/Model.zep", 4158);
 									zephir_array_update_zval(&snapshot, &attributeField, &_38$$36, PH_COPY | PH_SEPARATE);
 									zephir_array_fetch(&_39$$36, &defaultValues, &field, PH_NOISY | PH_READONLY, "phalcon/Mvc/Model.zep", 4159);
