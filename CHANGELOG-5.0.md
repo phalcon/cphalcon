@@ -25,6 +25,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
   - `Phalcon\ADR\Payload` : VO for transferring data from the domain and the responder
   - `Phalcon\ADR\Responder` : Chainable responders, handling redirect, json, text, error etc.
   - `Phalcon\ADR\Router` : Router for the application. [#17341](https://github.com/phalcon/cphalcon/issues/17341) [[doc]](https://docs.phalcon.io/5.18/adr/)
+- Added `Phalcon\ADR\Responder\ViewResponder`, which renders a `.phtml` template and returns it as an HTML response. The action picks the template with `withTemplate()`, and the view receives `result`, `messages` and `status`. Any renderer implementing the new `Phalcon\Contracts\View\Renderer` can be used - `Phalcon\Mvc\View\Simple` now does. [#17379](https://github.com/phalcon/cphalcon/issues/17379) [[doc]](https://docs.phalcon.io/5.18/adr/)
 - Added request attributes support to `Phalcon\Http\Request`. `Phalcon\Http\Request::getAttributes()` returns a `Phalcon\Http\Request\Bag\AttributeBag`, a mutable, string-keyed bag of arbitrary application-defined values attached to the request during its lifecycle (router, dispatcher, security components etc.). Writing with a `null` key (the `$bag[] = ...` append form) throws the new `Phalcon\Http\Request\Exceptions\NullKeyException`, since bag elements are always string-keyed. [#17367](https://github.com/phalcon/cphalcon/issues/17367) [[doc]](https://docs.phalcon.io/5.18/http-request/)
 
 ### Fixed

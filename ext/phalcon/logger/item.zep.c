@@ -133,13 +133,13 @@ PHP_METHOD(Phalcon_Logger_Item, __construct)
 	} else {
 		zephir_get_arrval(&context, context_param);
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 924, &message_zv);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 925, &levelName_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 927, &message_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 928, &levelName_zv);
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, level);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 926, &_0);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 927, dateTime);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_4, 928, &context);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 929, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 930, dateTime);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_4, 931, &context);
 	ZEPHIR_MM_RESTORE();
 }
 

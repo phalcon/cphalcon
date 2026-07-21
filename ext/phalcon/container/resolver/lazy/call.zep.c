@@ -74,7 +74,7 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_Call, __construct)
 		Z_PARAM_ZVAL(callableObject)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &callableObject);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 529, callableObject);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 532, callableObject);
 }
 
 /**
@@ -105,7 +105,7 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_Call, resolve)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &ioc);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 529, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 532, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&callableObject, &_0);
 	ZEPHIR_RETURN_CALL_ZVAL_FUNCTION(&callableObject, NULL, 0, ioc);
 	zephir_check_call_status();
