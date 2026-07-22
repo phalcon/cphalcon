@@ -60,7 +60,8 @@ final class InvokeTest extends AbstractUnitTestCase
         $payload   = (new Payload())
             ->withStatus(Status::NOT_FOUND)
             ->withResult(['id' => 7])
-            ->withMessages(['not there']);
+            ->withMessages(['not there'])
+            ->withExtras(['isLoggedIn' => true]);
 
         $responder->withTemplate('users/show')(
             new Request(),
@@ -69,6 +70,7 @@ final class InvokeTest extends AbstractUnitTestCase
         );
 
         $expected = [
+            'extras'   => ['isLoggedIn' => true],
             'result'   => ['id' => 7],
             'messages' => ['not there'],
             'status'   => Status::NOT_FOUND,

@@ -38,7 +38,8 @@ final class HandleTest extends AbstractUnitTestCase
         $this->assertStringContainsString('No route matched the request.', $response->getContent());
     }
     /**
-     * Unit Tests Phalcon\ADR\ErrorResponder :: handle() hides the exception behind a generic message
+     * Unit Tests Phalcon\ADR\ErrorResponder :: handle() hides the exception behind
+     * the message that goes with the status
      */
     public function testAdrErrorResponderHandleGenericMessage(): void
     {
@@ -49,8 +50,25 @@ final class HandleTest extends AbstractUnitTestCase
         );
 
         $this->assertSame(404, $response->getStatusCode());
-        $this->assertStringContainsString('Internal Server Error', $response->getContent());
+        $this->assertStringContainsString('Not Found', $response->getContent());
+        $this->assertStringNotContainsString('Internal Server Error', $response->getContent());
         $this->assertStringNotContainsString('No route matched the request.', $response->getContent());
+    }
+
+    /**
+     * Unit Tests Phalcon\ADR\ErrorResponder :: handle() falls back to the generic
+     * message for an unmapped exception
+     */
+    public function testAdrErrorResponderHandleUnmappedMessage(): void
+    {
+        $response = $this->responder()->handle(
+            new Request(),
+            new Response(),
+            new RuntimeException('boom')
+        );
+
+        $this->assertSame(500, $response->getStatusCode());
+        $this->assertStringContainsString('Internal Server Error', $response->getContent());
     }
 
     /**

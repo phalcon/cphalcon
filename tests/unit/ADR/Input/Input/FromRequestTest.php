@@ -31,4 +31,21 @@ final class FromRequestTest extends AbstractUnitTestCase
 
         $this->assertSame(42, $input->get('id'));
     }
+
+    /**
+     * Unit Tests Phalcon\ADR\Input\Input :: fromRequest() - a form post is not
+     * decoded as JSON
+     */
+    public function testAdrInputInputFromRequestFormPostIsNotJson(): void
+    {
+        $_SERVER['CONTENT_TYPE'] = 'application/x-www-form-urlencoded';
+        $_POST                   = ['email' => 'sarah.connor@skynet.dev'];
+
+        $input = Input::fromRequest(new Request());
+
+        $this->assertSame('sarah.connor@skynet.dev', $input->get('email'));
+
+        unset($_SERVER['CONTENT_TYPE']);
+        $_POST = [];
+    }
 }

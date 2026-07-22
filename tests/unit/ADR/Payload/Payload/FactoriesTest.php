@@ -24,17 +24,24 @@ final class FactoriesTest extends AbstractUnitTestCase
     {
         return [
             ['accepted',        Status::ACCEPTED],
+            ['authenticated',   Status::AUTHENTICATED],
+            ['authorized',      Status::AUTHORIZED],
             ['created',         Status::CREATED],
             ['deleted',         Status::DELETED],
             ['error',           Status::ERROR],
             ['forbidden',       Status::NOT_AUTHORIZED],
             ['found',           Status::FOUND],
             ['invalid',         Status::NOT_VALID],
+            ['notAccepted',     Status::NOT_ACCEPTED],
+            ['notCreated',      Status::NOT_CREATED],
+            ['notDeleted',      Status::NOT_DELETED],
             ['notFound',        Status::NOT_FOUND],
+            ['notUpdated',      Status::NOT_UPDATED],
             ['processing',      Status::PROCESSING],
             ['success',         Status::SUCCESS],
             ['unauthenticated', Status::NOT_AUTHENTICATED],
             ['updated',         Status::UPDATED],
+            ['valid',           Status::VALID],
         ];
     }
 
