@@ -43,11 +43,20 @@ class Input
 
     public static function fromRequest(<AttributeRequest> request) -> <static>
     {
-        var json;
+        var json, decoded;
 
-        let json = request->getJsonRawBody(true);
-        if typeof json !== "array" {
-            let json = [];
+        let json = [];
+
+        /**
+         * Only a request that says it carries JSON is decoded as JSON. A form
+         * post is not, and decoding its body raises a decode error.
+         */
+        if str_contains((string) request->getContentType(), "json") {
+            let decoded = request->getJsonRawBody(true);
+
+            if typeof decoded === "array" {
+                let json = decoded;
+            }
         }
 
         return new static(

@@ -91,11 +91,14 @@ final class ViewResponder implements Responder
     }
 
     /**
-     * Flattens the payload into the variables handed to the template.
+     * Flattens the payload into the variables handed to the template. The
+     * extras travel as they are, so an action can hand the view whatever the
+     * result should not carry.
      */
     protected function viewData(<Payload> payload) -> array
     {
         return [
+            "extras"   : payload->getExtras(),
             "result"   : payload->getResult(),
             "messages" : payload->getMessages(),
             "status"   : payload->getStatus()

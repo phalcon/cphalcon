@@ -27,6 +27,9 @@ use Phalcon\Contracts\Events\Manager as EventsManagerContract;
 use Phalcon\Contracts\Http\AttributeRequest as RequestContract;
 use Phalcon\Contracts\Logger\Logger as LoggerContract;
 use Phalcon\Events\Manager as EventsManager;
+use Phalcon\Html\Escaper;
+use Phalcon\Html\Escaper\EscaperInterface;
+use Phalcon\Html\TagFactory;
 use Phalcon\Http\Request;
 use Phalcon\Http\Response;
 use Phalcon\Http\ResponseInterface;
@@ -59,6 +62,14 @@ class AdrProvider implements Provider
 
         services->bind(ResponseInterface::class, Response::class);
         services->setAlias(ResponseInterface::class, "response");
+
+        // HTML escaper and tag helpers - a view needs them, the container
+        // autowires the factory from the escaper binding
+        services->bind(EscaperInterface::class, Escaper::class);
+        services->setAlias(EscaperInterface::class, "escaper");
+
+        services->set(TagFactory::class, TagFactory::class);
+        services->setAlias(TagFactory::class, "tag");
 
         // Logger default - null sink until the application binds its own
         services->set(

@@ -41,6 +41,22 @@ class PayloadFactory
     }
 
     /**
+     * Creates a payload with the `AUTHENTICATED` status.
+     */
+    public function authenticated(var result = null) -> <PayloadInterface>
+    {
+        return Payload::authenticated(result);
+    }
+
+    /**
+     * Creates a payload with the `AUTHORIZED` status.
+     */
+    public function authorized(var result = null) -> <PayloadInterface>
+    {
+        return Payload::authorized(result);
+    }
+
+    /**
      * Creates a payload with the `CREATED` status.
      */
     public function created(var result = null) -> <PayloadInterface>
@@ -89,11 +105,43 @@ class PayloadFactory
     }
 
     /**
+     * Creates a payload with the `NOT_ACCEPTED` status.
+     */
+    public function notAccepted(var messages = null) -> <PayloadInterface>
+    {
+        return Payload::notAccepted(messages);
+    }
+
+    /**
+     * Creates a payload with the `NOT_CREATED` status.
+     */
+    public function notCreated(var messages = null) -> <PayloadInterface>
+    {
+        return Payload::notCreated(messages);
+    }
+
+    /**
+     * Creates a payload with the `NOT_DELETED` status.
+     */
+    public function notDeleted(var messages = null) -> <PayloadInterface>
+    {
+        return Payload::notDeleted(messages);
+    }
+
+    /**
      * Creates a payload with the `NOT_FOUND` status.
      */
     public function notFound(var messages = null) -> <PayloadInterface>
     {
         return Payload::notFound(messages);
+    }
+
+    /**
+     * Creates a payload with the `NOT_UPDATED` status.
+     */
+    public function notUpdated(var messages = null) -> <PayloadInterface>
+    {
+        return Payload::notUpdated(messages);
     }
 
     /**
@@ -126,5 +174,13 @@ class PayloadFactory
     public function updated(var result = null) -> <PayloadInterface>
     {
         return Payload::updated(result);
+    }
+
+    /**
+     * Creates a payload with the `VALID` status.
+     */
+    public function valid(var result = null) -> <PayloadInterface>
+    {
+        return Payload::valid(result);
     }
 }

@@ -91,7 +91,7 @@ final class ErrorResponder
 
         let payload = (new Payload())
             ->withStatus(status)
-            ->withResult(this->details(exception, ref));
+            ->withResult(this->details(exception, ref, status));
 
         return this->chain->__invoke(request, response, payload);
     }
@@ -116,8 +116,11 @@ final class ErrorResponder
         ];
     }
 
-    protected function details(<Throwable> exception, string ref) -> array
-    {
+    protected function details(
+        <Throwable> exception,
+        string ref,
+        string status = Status::ERROR
+    ) -> array {
         if this->debug {
             return [
                 "message": exception->getMessage(),
@@ -127,9 +130,33 @@ final class ErrorResponder
         }
 
         return [
-            "message": "Internal Server Error",
+            "message": this->reason(status),
             "ref":     ref
         ];
+    }
+
+    /**
+     * The message that goes with the status. Reporting `Internal Server Error`
+     * next to a `404` tells the client the opposite of what happened.
+     */
+    protected function reason(string status) -> string
+    {
+        var reasons;
+
+        let reasons = [
+            Status::FAILURE            : "Bad Request",
+            Status::METHOD_NOT_ALLOWED : "Method Not Allowed",
+            Status::NOT_ACCEPTED       : "Not Acceptable",
+            Status::NOT_AUTHENTICATED  : "Unauthorized",
+            Status::NOT_AUTHORIZED     : "Forbidden",
+            Status::NOT_CREATED        : "Unprocessable Entity",
+            Status::NOT_DELETED        : "Unprocessable Entity",
+            Status::NOT_FOUND          : "Not Found",
+            Status::NOT_UPDATED        : "Unprocessable Entity",
+            Status::NOT_VALID          : "Unprocessable Entity"
+        ];
+
+        return isset reasons[status] ? reasons[status] : "Internal Server Error";
     }
 
     private function resolveStatus(<Throwable> exception) -> string
