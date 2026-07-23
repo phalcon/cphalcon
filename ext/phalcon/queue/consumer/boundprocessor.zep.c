@@ -82,9 +82,9 @@ PHP_METHOD(Phalcon_Queue_Consumer_BoundProcessor, __construct)
 		Z_PARAM_OBJECT_OF_CLASS(consumer, phalcon_contracts_queue_consumer_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(3, 0, &queue, &processor, &consumer);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1276, queue);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1277, processor);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 1278, consumer);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1275, queue);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1276, processor);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 1277, consumer);
 }
 
 PHP_METHOD(Phalcon_Queue_Consumer_BoundProcessor, getConsumer)

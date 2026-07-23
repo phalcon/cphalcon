@@ -38,7 +38,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Encryption_Crypt_PadFactory)
 
 	{
 		zval _zc0;
-		ZVAL_STRINGL(&_zc0, "", 0);
+		ZVAL_STRINGL(&_zc0, "", sizeof("") - 1);
 		zephir_declare_typed_property(phalcon_encryption_crypt_padfactory_ce, SL("exception"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
 	}
 
@@ -79,7 +79,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt_PadFactory, __construct)
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "Phalcon\\Encryption\\Crypt\\Exception\\Exception");
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 676, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 675, &_0);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "init", NULL, 0, &services);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

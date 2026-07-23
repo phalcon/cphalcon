@@ -173,7 +173,7 @@ PHP_METHOD(Phalcon_Db_Reference, __construct)
 	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
 	zephir_get_arrval(&definition, definition_param);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 638, &name_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 637, &name_zv);
 	zephir_memory_observe(&referencedTable);
 	if (UNEXPECTED(!(zephir_array_isset_string_fetch(&referencedTable, &definition, SL("referencedTable"), 0)))) {
 		ZEPHIR_INIT_VAR(&_0$$3);
@@ -184,7 +184,7 @@ PHP_METHOD(Phalcon_Db_Reference, __construct)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 639, &referencedTable);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 638, &referencedTable);
 	zephir_memory_observe(&columns);
 	if (UNEXPECTED(!(zephir_array_isset_string_fetch(&columns, &definition, SL("columns"), 0)))) {
 		ZEPHIR_INIT_VAR(&_1$$4);
@@ -195,7 +195,7 @@ PHP_METHOD(Phalcon_Db_Reference, __construct)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 640, &columns);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 639, &columns);
 	zephir_memory_observe(&referencedColumns);
 	if (UNEXPECTED(!(zephir_array_isset_string_fetch(&referencedColumns, &definition, SL("referencedColumns"), 0)))) {
 		ZEPHIR_INIT_VAR(&_2$$5);
@@ -206,22 +206,22 @@ PHP_METHOD(Phalcon_Db_Reference, __construct)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 641, &referencedColumns);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 640, &referencedColumns);
 	zephir_memory_observe(&schema);
 	if (zephir_array_isset_string_fetch(&schema, &definition, SL("schema"), 0)) {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_4, 642, &schema);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_4, 641, &schema);
 	}
 	zephir_memory_observe(&referencedSchema);
 	if (zephir_array_isset_string_fetch(&referencedSchema, &definition, SL("referencedSchema"), 0)) {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_5, 643, &referencedSchema);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_5, 642, &referencedSchema);
 	}
 	zephir_memory_observe(&onDelete);
 	if (zephir_array_isset_string_fetch(&onDelete, &definition, SL("onDelete"), 0)) {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_6, 644, &onDelete);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_6, 643, &onDelete);
 	}
 	zephir_memory_observe(&onUpdate);
 	if (zephir_array_isset_string_fetch(&onUpdate, &definition, SL("onUpdate"), 0)) {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_7, 645, &onUpdate);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_7, 644, &onUpdate);
 	}
 	if (UNEXPECTED(zephir_fast_count_int(&columns) != zephir_fast_count_int(&referencedColumns))) {
 		ZEPHIR_INIT_VAR(&_3$$10);

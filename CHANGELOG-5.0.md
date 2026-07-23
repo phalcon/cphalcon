@@ -10,6 +10,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
  
 ### Changed
 
+- Changed `Phalcon\ADR\Application` into a self-contained composition root: it owns (or accepts) a `Phalcon\Container\Container` and exposes a small registration surface - `bind()`, `define()`, `factory()`, `set()`, `extend()` and `getContainer()` - plus `setBaseNamespace()` and `secureWith()` for convention-router and namespace-prefix guard configuration. `Phalcon\ADR\Front\AbstractHttpFront` gained a protected `getApplication()` hook returning `Phalcon\Contracts\ADR\Application`, so a front controller can configure the application or wire a different implementation. [#17389](https://github.com/phalcon/cphalcon/issues/17389) [[doc]](https://docs.phalcon.io/5.18/adr/)
 - Replaced fully-qualified class-name strings with `::class` references (and `use` imports) across factories, service providers and DI containers [#17380](https://github.com/phalcon/cphalcon/issues/17380)
 
 ### Added

@@ -30,10 +30,10 @@
  * @link    https://pmjones.io/adr/
  */
 /**
- * Boots a container, resolves the Application, handles the request and emits the
- * response. Userland front controllers override `loadEnvironment()` /
- * `registerProviders()`; 
- * bootstrap is `exit((new AppFront(dirname(__DIR__)))->run());`.
+ * Boots a container, builds the Application, handles the request and emits the
+ * response. Userland front controllers override `loadEnvironment()`,
+ * `registerProviders()` and optionally `getApplication()`; bootstrap is
+ * `exit((new AppFront(dirname(__DIR__)))->run());`.
  */
 ZEPHIR_INIT_CLASS(Phalcon_ADR_Front_AbstractHttpFront)
 {
@@ -98,9 +98,7 @@ PHP_METHOD(Phalcon_ADR_Front_AbstractHttpFront, run)
 		ZVAL_STRING(&_0$$3, "Phalcon\\Contracts\\Http\\AttributeRequest");
 		ZEPHIR_CALL_METHOD(&request, &container, "get", NULL, 0, &_0$$3);
 		zephir_check_call_status_or_jump(try_end_1);
-		ZEPHIR_INIT_NVAR(&_0$$3);
-		ZVAL_STRING(&_0$$3, "Phalcon\\ADR\\Application");
-		ZEPHIR_CALL_METHOD(&application, &container, "get", NULL, 0, &_0$$3);
+		ZEPHIR_CALL_METHOD(&application, this_ptr, "getapplication", NULL, 0, &container);
 		zephir_check_call_status_or_jump(try_end_1);
 		ZEPHIR_CALL_METHOD(&response, &application, "handle", NULL, 0, &request);
 		zephir_check_call_status_or_jump(try_end_1);
@@ -142,6 +140,30 @@ PHP_METHOD(Phalcon_ADR_Front_AbstractHttpFront, buildContainer)
 	RETURN_MM();
 }
 
+/**
+ * Builds the Application the front will hand the request to. Override to
+ * configure it (`setBaseNamespace()`/`secureWith()`) or to wire a different
+ * `Phalcon\Contracts\ADR\Application` implementation.
+ */
+PHP_METHOD(Phalcon_ADR_Front_AbstractHttpFront, getApplication)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *container, container_sub;
+
+	ZVAL_UNDEF(&container_sub);
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(container, phalcon_container_container_ce)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_fetch_params(1, 1, 0, &container);
+	object_init_ex(return_value, phalcon_adr_application_ce);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 214, container);
+	zephir_check_call_status();
+	RETURN_MM();
+}
+
 PHP_METHOD(Phalcon_ADR_Front_AbstractHttpFront, handleBootError)
 {
 	zval _0;
@@ -161,17 +183,17 @@ PHP_METHOD(Phalcon_ADR_Front_AbstractHttpFront, handleBootError)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &exception);
 	zephir_cast_to_string(&_0, exception);
-	ZEPHIR_CALL_FUNCTION(NULL, "error_log", NULL, 214, &_0);
+	ZEPHIR_CALL_FUNCTION(NULL, "error_log", NULL, 215, &_0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_1, "headers_sent", NULL, 215);
+	ZEPHIR_CALL_FUNCTION(&_1, "headers_sent", NULL, 216);
 	zephir_check_call_status();
 	if (!(zephir_is_true(&_1))) {
 		ZVAL_LONG(&_2$$3, 500);
-		ZEPHIR_CALL_FUNCTION(NULL, "http_response_code", NULL, 216, &_2$$3);
+		ZEPHIR_CALL_FUNCTION(NULL, "http_response_code", NULL, 217, &_2$$3);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_3$$3);
 		ZVAL_STRING(&_3$$3, "Content-Type: text/plain; charset=utf-8");
-		ZEPHIR_CALL_FUNCTION(NULL, "header", NULL, 217, &_3$$3);
+		ZEPHIR_CALL_FUNCTION(NULL, "header", NULL, 218, &_3$$3);
 		zephir_check_call_status();
 		php_printf("%s", "Internal Server Error\n");
 	}
@@ -210,7 +232,7 @@ PHP_METHOD(Phalcon_ADR_Front_AbstractHttpFront, registerProviders)
 		zephir_check_call_status();
 	}
 
-	ZEPHIR_CALL_METHOD(NULL, &_0, "provide", NULL, 218, container);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "provide", NULL, 219, container);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }

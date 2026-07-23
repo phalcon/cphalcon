@@ -16,6 +16,7 @@ namespace Phalcon\Tests\Unit\ADR\Front\HttpFront;
 use Phalcon\ADR\Front\AbstractHttpFront;
 use Phalcon\ADR\Front\HttpFront;
 use Phalcon\Container\Container;
+use Phalcon\Contracts\ADR\Application as ApplicationInterface;
 use Phalcon\Contracts\ADR\Emitter\Emitter;
 use Phalcon\Contracts\Front\FrontController;
 use Phalcon\Http\Response;
@@ -44,19 +45,20 @@ final class RunTest extends AbstractUnitTestCase
         $front = new class ('/project/root') extends AbstractHttpFront {
             public ?ResponseInterface $emitted = null;
 
+            protected function getApplication(Container $container): ApplicationInterface
+            {
+                return new class implements ApplicationInterface {
+                    public function handle($request): ResponseInterface
+                    {
+                        return (new Response())->setContent('front-body');
+                    }
+                };
+            }
+
             protected function registerProviders(Container $container): void
             {
                 $container->set('Phalcon\\Contracts\\Http\\AttributeRequest', function ($c) {
                     return new stdClass();
-                });
-
-                $container->set('Phalcon\\ADR\\Application', function ($c) {
-                    return new class {
-                        public function handle($request): ResponseInterface
-                        {
-                            return (new Response())->setContent('front-body');
-                        }
-                    };
                 });
 
                 $front = $this;
