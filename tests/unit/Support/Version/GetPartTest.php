@@ -15,6 +15,7 @@ namespace Phalcon\Tests\Unit\Support\Version;
 
 use Phalcon\Support\Version;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Tests\Unit\Support\Fake\FakeVersion;
 use Phalcon\Tests\Unit\Support\Fake\VersionTrait;
 
 final class GetPartTest extends AbstractUnitTestCase
@@ -32,9 +33,12 @@ final class GetPartTest extends AbstractUnitTestCase
          * where A is the major version, BB is the medium version (2 digits)
          * CC is the minor version (2 digits), D is the release type (see
          * Phalcon\Support\Version) and E is the release number (for example 2 for RC2)
+         *
+         * A fixed FakeVersion is used so this test does not depend on the
+         * library's live version.
          */
 
-        $version = new Version();
+        $version = new FakeVersion();
         $id = $version->getId();
 
         // The major version is the first digit
@@ -57,7 +61,9 @@ final class GetPartTest extends AbstractUnitTestCase
         $actual = $version->getPart(Version::VERSION_SPECIAL);
         $this->assertSame($expected, $actual);
 
-        $special = $this->numberToSpecial((string)$id[6]);
+        // The special number is meaningful only for a special (alpha/beta/RC)
+        // release, which is decided by the release-type digit ($id[5]).
+        $special = $this->numberToSpecial((string)$id[5]);
         $expected = (string)(($special) ? $id[6] : 0);
         $actual = $version->getPart(Version::VERSION_SPECIAL_NUMBER);
         $this->assertSame($expected, $actual);
