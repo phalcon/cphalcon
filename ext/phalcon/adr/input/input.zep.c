@@ -97,50 +97,66 @@ PHP_METHOD(Phalcon_ADR_Input_Input, fromArray)
 	zephir_fetch_params(1, 1, 0, &data_param);
 	zephir_get_arrval(&data, data_param);
 	object_init_ex(return_value, zend_get_called_scope(execute_data));
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 319, &data);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 320, &data);
 	zephir_check_call_status();
 	RETURN_MM();
 }
 
 PHP_METHOD(Phalcon_ADR_Input_Input, fromRequest)
 {
+	zval _1;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *request, request_sub, json, _0, _1, _2, _3, _4, _5;
+	zval *request, request_sub, json, decoded, _0, _2, _3, _5, _6, _7, _8, _9, _4$$3;
 
 	ZVAL_UNDEF(&request_sub);
 	ZVAL_UNDEF(&json);
+	ZVAL_UNDEF(&decoded);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
-	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_5);
+	ZVAL_UNDEF(&_6);
+	ZVAL_UNDEF(&_7);
+	ZVAL_UNDEF(&_8);
+	ZVAL_UNDEF(&_9);
+	ZVAL_UNDEF(&_4$$3);
+	ZVAL_UNDEF(&_1);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT_OF_CLASS(request, phalcon_contracts_http_attributerequest_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &request);
-	ZVAL_BOOL(&_0, 1);
-	ZEPHIR_CALL_METHOD(&json, request, "getjsonrawbody", NULL, 0, &_0);
+	ZEPHIR_INIT_VAR(&json);
+	array_init(&json);
+	ZEPHIR_CALL_METHOD(&_0, request, "getcontenttype", NULL, 0);
 	zephir_check_call_status();
-	if (Z_TYPE_P(&json) != IS_ARRAY) {
-		ZEPHIR_INIT_NVAR(&json);
-		array_init(&json);
+	zephir_cast_to_string(&_1, &_0);
+	ZEPHIR_INIT_VAR(&_2);
+	ZVAL_STRING(&_2, "json");
+	ZEPHIR_CALL_FUNCTION(&_3, "str_contains", NULL, 321, &_1, &_2);
+	zephir_check_call_status();
+	if (zephir_is_true(&_3)) {
+		ZVAL_BOOL(&_4$$3, 1);
+		ZEPHIR_CALL_METHOD(&decoded, request, "getjsonrawbody", NULL, 0, &_4$$3);
+		zephir_check_call_status();
+		if (Z_TYPE_P(&decoded) == IS_ARRAY) {
+			ZEPHIR_CPY_WRT(&json, &decoded);
+		}
 	}
 	object_init_ex(return_value, zend_get_called_scope(execute_data));
-	ZEPHIR_CALL_METHOD(&_1, request, "getquery", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_5, request, "getquery", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_2, request, "getpost", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_6, request, "getpost", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_3, request, "getattributes", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_7, request, "getattributes", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_4, &_3, "all", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_8, &_7, "all", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_5, "array_merge", NULL, 195, &_1, &_2, &json, &_4);
+	ZEPHIR_CALL_FUNCTION(&_9, "array_merge", NULL, 195, &_5, &_6, &json, &_8);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 319, &_5);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 320, &_9);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -185,7 +201,7 @@ PHP_METHOD(Phalcon_ADR_Input_Input, get)
 	if (zephir_array_isset_value(&_1, &key_zv)) {
 		zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 343, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_OBS_NVAR(&_0);
-		zephir_array_fetch(&_0, &_2, &key_zv, PH_NOISY, "phalcon/ADR/Input/Input.zep", 65);
+		zephir_array_fetch(&_0, &_2, &key_zv, PH_NOISY, "phalcon/ADR/Input/Input.zep", 74);
 	} else {
 		ZEPHIR_CPY_WRT(&_0, defaultValue);
 	}

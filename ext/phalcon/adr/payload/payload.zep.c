@@ -118,6 +118,90 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, accepted)
 }
 
 /**
+ * Creates a payload with the `AUTHENTICATED` status.
+ */
+PHP_METHOD(Phalcon_ADR_Payload_Payload, authenticated)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *result = NULL, result_sub, __$null, _0, _1, _2;
+
+	ZVAL_UNDEF(&result_sub);
+	ZVAL_NULL(&__$null);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL_OR_NULL(result)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_fetch_params(1, 0, 1, &result);
+	if (!result) {
+		result = &result_sub;
+		result = &__$null;
+	}
+	ZEPHIR_INIT_VAR(&_0);
+	object_init_ex(&_0, zend_get_called_scope(execute_data));
+	if (zephir_has_constructor(&_0)) {
+		ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 0);
+		zephir_check_call_status();
+	}
+
+	ZEPHIR_INIT_VAR(&_2);
+	ZVAL_STRING(&_2, "AUTHENTICATED");
+	ZEPHIR_CALL_METHOD(&_1, &_0, "withstatus", NULL, 313, &_2);
+	zephir_check_call_status();
+	ZEPHIR_RETURN_CALL_METHOD(&_1, "withresult", NULL, 0, result);
+	zephir_check_call_status();
+	RETURN_MM();
+}
+
+/**
+ * Creates a payload with the `AUTHORIZED` status.
+ */
+PHP_METHOD(Phalcon_ADR_Payload_Payload, authorized)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *result = NULL, result_sub, __$null, _0, _1, _2;
+
+	ZVAL_UNDEF(&result_sub);
+	ZVAL_NULL(&__$null);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL_OR_NULL(result)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_fetch_params(1, 0, 1, &result);
+	if (!result) {
+		result = &result_sub;
+		result = &__$null;
+	}
+	ZEPHIR_INIT_VAR(&_0);
+	object_init_ex(&_0, zend_get_called_scope(execute_data));
+	if (zephir_has_constructor(&_0)) {
+		ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 0);
+		zephir_check_call_status();
+	}
+
+	ZEPHIR_INIT_VAR(&_2);
+	ZVAL_STRING(&_2, "AUTHORIZED");
+	ZEPHIR_CALL_METHOD(&_1, &_0, "withstatus", NULL, 313, &_2);
+	zephir_check_call_status();
+	ZEPHIR_RETURN_CALL_METHOD(&_1, "withresult", NULL, 0, result);
+	zephir_check_call_status();
+	RETURN_MM();
+}
+
+/**
  * Creates a payload with the `CREATED` status.
  */
 PHP_METHOD(Phalcon_ADR_Payload_Payload, created)
@@ -425,6 +509,132 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, invalid)
 }
 
 /**
+ * Creates a payload with the `NOT_ACCEPTED` status.
+ */
+PHP_METHOD(Phalcon_ADR_Payload_Payload, notAccepted)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *messages = NULL, messages_sub, __$null, _0, _1, _2;
+
+	ZVAL_UNDEF(&messages_sub);
+	ZVAL_NULL(&__$null);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL_OR_NULL(messages)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_fetch_params(1, 0, 1, &messages);
+	if (!messages) {
+		messages = &messages_sub;
+		messages = &__$null;
+	}
+	ZEPHIR_INIT_VAR(&_0);
+	object_init_ex(&_0, zend_get_called_scope(execute_data));
+	if (zephir_has_constructor(&_0)) {
+		ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 0);
+		zephir_check_call_status();
+	}
+
+	ZEPHIR_INIT_VAR(&_2);
+	ZVAL_STRING(&_2, "NOT_ACCEPTED");
+	ZEPHIR_CALL_METHOD(&_1, &_0, "withstatus", NULL, 313, &_2);
+	zephir_check_call_status();
+	ZEPHIR_RETURN_CALL_METHOD(&_1, "withmessages", NULL, 0, messages);
+	zephir_check_call_status();
+	RETURN_MM();
+}
+
+/**
+ * Creates a payload with the `NOT_CREATED` status.
+ */
+PHP_METHOD(Phalcon_ADR_Payload_Payload, notCreated)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *messages = NULL, messages_sub, __$null, _0, _1, _2;
+
+	ZVAL_UNDEF(&messages_sub);
+	ZVAL_NULL(&__$null);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL_OR_NULL(messages)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_fetch_params(1, 0, 1, &messages);
+	if (!messages) {
+		messages = &messages_sub;
+		messages = &__$null;
+	}
+	ZEPHIR_INIT_VAR(&_0);
+	object_init_ex(&_0, zend_get_called_scope(execute_data));
+	if (zephir_has_constructor(&_0)) {
+		ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 0);
+		zephir_check_call_status();
+	}
+
+	ZEPHIR_INIT_VAR(&_2);
+	ZVAL_STRING(&_2, "NOT_CREATED");
+	ZEPHIR_CALL_METHOD(&_1, &_0, "withstatus", NULL, 313, &_2);
+	zephir_check_call_status();
+	ZEPHIR_RETURN_CALL_METHOD(&_1, "withmessages", NULL, 0, messages);
+	zephir_check_call_status();
+	RETURN_MM();
+}
+
+/**
+ * Creates a payload with the `NOT_DELETED` status.
+ */
+PHP_METHOD(Phalcon_ADR_Payload_Payload, notDeleted)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *messages = NULL, messages_sub, __$null, _0, _1, _2;
+
+	ZVAL_UNDEF(&messages_sub);
+	ZVAL_NULL(&__$null);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL_OR_NULL(messages)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_fetch_params(1, 0, 1, &messages);
+	if (!messages) {
+		messages = &messages_sub;
+		messages = &__$null;
+	}
+	ZEPHIR_INIT_VAR(&_0);
+	object_init_ex(&_0, zend_get_called_scope(execute_data));
+	if (zephir_has_constructor(&_0)) {
+		ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 0);
+		zephir_check_call_status();
+	}
+
+	ZEPHIR_INIT_VAR(&_2);
+	ZVAL_STRING(&_2, "NOT_DELETED");
+	ZEPHIR_CALL_METHOD(&_1, &_0, "withstatus", NULL, 313, &_2);
+	zephir_check_call_status();
+	ZEPHIR_RETURN_CALL_METHOD(&_1, "withmessages", NULL, 0, messages);
+	zephir_check_call_status();
+	RETURN_MM();
+}
+
+/**
  * Creates a payload with the `NOT_FOUND` status.
  */
 PHP_METHOD(Phalcon_ADR_Payload_Payload, notFound)
@@ -459,6 +669,48 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, notFound)
 
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "NOT_FOUND");
+	ZEPHIR_CALL_METHOD(&_1, &_0, "withstatus", NULL, 313, &_2);
+	zephir_check_call_status();
+	ZEPHIR_RETURN_CALL_METHOD(&_1, "withmessages", NULL, 0, messages);
+	zephir_check_call_status();
+	RETURN_MM();
+}
+
+/**
+ * Creates a payload with the `NOT_UPDATED` status.
+ */
+PHP_METHOD(Phalcon_ADR_Payload_Payload, notUpdated)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *messages = NULL, messages_sub, __$null, _0, _1, _2;
+
+	ZVAL_UNDEF(&messages_sub);
+	ZVAL_NULL(&__$null);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL_OR_NULL(messages)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_fetch_params(1, 0, 1, &messages);
+	if (!messages) {
+		messages = &messages_sub;
+		messages = &__$null;
+	}
+	ZEPHIR_INIT_VAR(&_0);
+	object_init_ex(&_0, zend_get_called_scope(execute_data));
+	if (zephir_has_constructor(&_0)) {
+		ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 0);
+		zephir_check_call_status();
+	}
+
+	ZEPHIR_INIT_VAR(&_2);
+	ZVAL_STRING(&_2, "NOT_UPDATED");
 	ZEPHIR_CALL_METHOD(&_1, &_0, "withstatus", NULL, 313, &_2);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(&_1, "withmessages", NULL, 0, messages);
@@ -628,6 +880,48 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, updated)
 
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "UPDATED");
+	ZEPHIR_CALL_METHOD(&_1, &_0, "withstatus", NULL, 313, &_2);
+	zephir_check_call_status();
+	ZEPHIR_RETURN_CALL_METHOD(&_1, "withresult", NULL, 0, result);
+	zephir_check_call_status();
+	RETURN_MM();
+}
+
+/**
+ * Creates a payload with the `VALID` status.
+ */
+PHP_METHOD(Phalcon_ADR_Payload_Payload, valid)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *result = NULL, result_sub, __$null, _0, _1, _2;
+
+	ZVAL_UNDEF(&result_sub);
+	ZVAL_NULL(&__$null);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL_OR_NULL(result)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_fetch_params(1, 0, 1, &result);
+	if (!result) {
+		result = &result_sub;
+		result = &__$null;
+	}
+	ZEPHIR_INIT_VAR(&_0);
+	object_init_ex(&_0, zend_get_called_scope(execute_data));
+	if (zephir_has_constructor(&_0)) {
+		ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 0);
+		zephir_check_call_status();
+	}
+
+	ZEPHIR_INIT_VAR(&_2);
+	ZVAL_STRING(&_2, "VALID");
 	ZEPHIR_CALL_METHOD(&_1, &_0, "withstatus", NULL, 313, &_2);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(&_1, "withresult", NULL, 0, result);

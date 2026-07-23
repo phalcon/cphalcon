@@ -150,7 +150,7 @@ PHP_METHOD(Phalcon_ADR_Responder_ViewResponder, __invoke)
 	zephir_fetch_params(1, 3, 0, &request, &response, &payload);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 358, PH_NOISY_CC | PH_READONLY);
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 360, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&_2, this_ptr, "viewdata", NULL, 323, payload);
+	ZEPHIR_CALL_METHOD(&_2, this_ptr, "viewdata", NULL, 325, payload);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&html, &_0, "render", NULL, 0, &_1, &_2);
 	zephir_check_call_status();
@@ -206,7 +206,9 @@ PHP_METHOD(Phalcon_ADR_Responder_ViewResponder, withTemplate)
 }
 
 /**
- * Flattens the payload into the variables handed to the template.
+ * Flattens the payload into the variables handed to the template. The
+ * extras travel as they are, so an action can hand the view whatever the
+ * result should not carry.
  */
 PHP_METHOD(Phalcon_ADR_Responder_ViewResponder, viewData)
 {
@@ -222,7 +224,10 @@ PHP_METHOD(Phalcon_ADR_Responder_ViewResponder, viewData)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &payload);
-	zephir_create_array(return_value, 3, 0);
+	zephir_create_array(return_value, 4, 0);
+	ZEPHIR_CALL_METHOD(&_0, payload, "getextras", NULL, 0);
+	zephir_check_call_status();
+	zephir_array_update_string(return_value, SL("extras"), &_0, PH_COPY | PH_SEPARATE);
 	ZEPHIR_CALL_METHOD(&_0, payload, "getresult", NULL, 0);
 	zephir_check_call_status();
 	zephir_array_update_string(return_value, SL("result"), &_0, PH_COPY | PH_SEPARATE);

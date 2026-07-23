@@ -8,6 +8,7 @@ PHP_METHOD(Phalcon_ADR_ErrorResponder, handle);
 PHP_METHOD(Phalcon_ADR_ErrorResponder, correlationId);
 PHP_METHOD(Phalcon_ADR_ErrorResponder, defaultMap);
 PHP_METHOD(Phalcon_ADR_ErrorResponder, details);
+PHP_METHOD(Phalcon_ADR_ErrorResponder, reason);
 PHP_METHOD(Phalcon_ADR_ErrorResponder, resolveStatus);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_adr_errorresponder___construct, 0, 0, 2)
@@ -33,6 +34,11 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_adr_errorresponder_details, 0, 2, IS_ARRAY, 0)
 	ZEND_ARG_OBJ_INFO(0, exception, Throwable, 0)
 	ZEND_ARG_TYPE_INFO(0, ref, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, status, IS_STRING, 0, "'ERROR'")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_adr_errorresponder_reason, 0, 1, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, status, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_adr_errorresponder_resolvestatus, 0, 1, IS_STRING, 0)
@@ -45,6 +51,7 @@ ZEPHIR_INIT_FUNCS(phalcon_adr_errorresponder_method_entry) {
 	PHP_ME(Phalcon_ADR_ErrorResponder, correlationId, arginfo_phalcon_adr_errorresponder_correlationid, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_ADR_ErrorResponder, defaultMap, arginfo_phalcon_adr_errorresponder_defaultmap, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_ADR_ErrorResponder, details, arginfo_phalcon_adr_errorresponder_details, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_ADR_ErrorResponder, reason, arginfo_phalcon_adr_errorresponder_reason, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_ADR_ErrorResponder, resolveStatus, arginfo_phalcon_adr_errorresponder_resolvestatus, ZEND_ACC_PRIVATE)
 	PHP_FE_END
 };

@@ -4,6 +4,8 @@ extern zend_class_entry *phalcon_adr_payload_payload_ce;
 ZEPHIR_INIT_CLASS(Phalcon_ADR_Payload_Payload);
 
 PHP_METHOD(Phalcon_ADR_Payload_Payload, accepted);
+PHP_METHOD(Phalcon_ADR_Payload_Payload, authenticated);
+PHP_METHOD(Phalcon_ADR_Payload_Payload, authorized);
 PHP_METHOD(Phalcon_ADR_Payload_Payload, created);
 PHP_METHOD(Phalcon_ADR_Payload_Payload, deleted);
 PHP_METHOD(Phalcon_ADR_Payload_Payload, error);
@@ -16,11 +18,16 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, getMessages);
 PHP_METHOD(Phalcon_ADR_Payload_Payload, getResult);
 PHP_METHOD(Phalcon_ADR_Payload_Payload, getStatus);
 PHP_METHOD(Phalcon_ADR_Payload_Payload, invalid);
+PHP_METHOD(Phalcon_ADR_Payload_Payload, notAccepted);
+PHP_METHOD(Phalcon_ADR_Payload_Payload, notCreated);
+PHP_METHOD(Phalcon_ADR_Payload_Payload, notDeleted);
 PHP_METHOD(Phalcon_ADR_Payload_Payload, notFound);
+PHP_METHOD(Phalcon_ADR_Payload_Payload, notUpdated);
 PHP_METHOD(Phalcon_ADR_Payload_Payload, processing);
 PHP_METHOD(Phalcon_ADR_Payload_Payload, success);
 PHP_METHOD(Phalcon_ADR_Payload_Payload, unauthenticated);
 PHP_METHOD(Phalcon_ADR_Payload_Payload, updated);
+PHP_METHOD(Phalcon_ADR_Payload_Payload, valid);
 PHP_METHOD(Phalcon_ADR_Payload_Payload, withException);
 PHP_METHOD(Phalcon_ADR_Payload_Payload, withExtras);
 PHP_METHOD(Phalcon_ADR_Payload_Payload, withInput);
@@ -29,6 +36,14 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, withResult);
 PHP_METHOD(Phalcon_ADR_Payload_Payload, withStatus);
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_adr_payload_payload_accepted, 0, 0, Phalcon\\Contracts\\ADR\\Payload\\Payload, 0)
+	ZEND_ARG_INFO(0, result)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_adr_payload_payload_authenticated, 0, 0, Phalcon\\Contracts\\ADR\\Payload\\Payload, 0)
+	ZEND_ARG_INFO(0, result)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_adr_payload_payload_authorized, 0, 0, Phalcon\\Contracts\\ADR\\Payload\\Payload, 0)
 	ZEND_ARG_INFO(0, result)
 ZEND_END_ARG_INFO()
 
@@ -74,7 +89,23 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_adr_payload_payload_inval
 	ZEND_ARG_INFO(0, messages)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_adr_payload_payload_notaccepted, 0, 0, Phalcon\\Contracts\\ADR\\Payload\\Payload, 0)
+	ZEND_ARG_INFO(0, messages)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_adr_payload_payload_notcreated, 0, 0, Phalcon\\Contracts\\ADR\\Payload\\Payload, 0)
+	ZEND_ARG_INFO(0, messages)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_adr_payload_payload_notdeleted, 0, 0, Phalcon\\Contracts\\ADR\\Payload\\Payload, 0)
+	ZEND_ARG_INFO(0, messages)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_adr_payload_payload_notfound, 0, 0, Phalcon\\Contracts\\ADR\\Payload\\Payload, 0)
+	ZEND_ARG_INFO(0, messages)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_adr_payload_payload_notupdated, 0, 0, Phalcon\\Contracts\\ADR\\Payload\\Payload, 0)
 	ZEND_ARG_INFO(0, messages)
 ZEND_END_ARG_INFO()
 
@@ -91,6 +122,10 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_adr_payload_payload_unaut
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_adr_payload_payload_updated, 0, 0, Phalcon\\Contracts\\ADR\\Payload\\Payload, 0)
+	ZEND_ARG_INFO(0, result)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_adr_payload_payload_valid, 0, 0, Phalcon\\Contracts\\ADR\\Payload\\Payload, 0)
 	ZEND_ARG_INFO(0, result)
 ZEND_END_ARG_INFO()
 
@@ -120,6 +155,8 @@ ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_adr_payload_payload_method_entry) {
 	PHP_ME(Phalcon_ADR_Payload_Payload, accepted, arginfo_phalcon_adr_payload_payload_accepted, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_ADR_Payload_Payload, authenticated, arginfo_phalcon_adr_payload_payload_authenticated, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_ADR_Payload_Payload, authorized, arginfo_phalcon_adr_payload_payload_authorized, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_ADR_Payload_Payload, created, arginfo_phalcon_adr_payload_payload_created, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_ADR_Payload_Payload, deleted, arginfo_phalcon_adr_payload_payload_deleted, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_ADR_Payload_Payload, error, arginfo_phalcon_adr_payload_payload_error, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
@@ -132,11 +169,16 @@ PHP_ME(Phalcon_ADR_Payload_Payload, getMessages, arginfo_phalcon_adr_payload_pay
 PHP_ME(Phalcon_ADR_Payload_Payload, getResult, arginfo_phalcon_adr_payload_payload_getresult, ZEND_ACC_PUBLIC)
 PHP_ME(Phalcon_ADR_Payload_Payload, getStatus, arginfo_phalcon_adr_payload_payload_getstatus, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_ADR_Payload_Payload, invalid, arginfo_phalcon_adr_payload_payload_invalid, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_ADR_Payload_Payload, notAccepted, arginfo_phalcon_adr_payload_payload_notaccepted, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_ADR_Payload_Payload, notCreated, arginfo_phalcon_adr_payload_payload_notcreated, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_ADR_Payload_Payload, notDeleted, arginfo_phalcon_adr_payload_payload_notdeleted, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_ADR_Payload_Payload, notFound, arginfo_phalcon_adr_payload_payload_notfound, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_ADR_Payload_Payload, notUpdated, arginfo_phalcon_adr_payload_payload_notupdated, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_ADR_Payload_Payload, processing, arginfo_phalcon_adr_payload_payload_processing, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_ADR_Payload_Payload, success, arginfo_phalcon_adr_payload_payload_success, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_ADR_Payload_Payload, unauthenticated, arginfo_phalcon_adr_payload_payload_unauthenticated, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_ADR_Payload_Payload, updated, arginfo_phalcon_adr_payload_payload_updated, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_ADR_Payload_Payload, valid, arginfo_phalcon_adr_payload_payload_valid, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_ADR_Payload_Payload, withException, arginfo_phalcon_adr_payload_payload_withexception, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_ADR_Payload_Payload, withExtras, arginfo_phalcon_adr_payload_payload_withextras, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_ADR_Payload_Payload, withInput, arginfo_phalcon_adr_payload_payload_withinput, ZEND_ACC_PUBLIC)

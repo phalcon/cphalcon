@@ -1206,7 +1206,7 @@ PHP_METHOD(Phalcon_Http_Response, setFileToSend)
 		} else {
 			ZEPHIR_INIT_VAR(&_7$$8);
 			ZVAL_STRING(&_7$$8, "\15\17\\\"");
-			ZEPHIR_CALL_FUNCTION(&_8$$8, "addcslashes", NULL, 507, &basePath, &_7$$8);
+			ZEPHIR_CALL_FUNCTION(&_8$$8, "addcslashes", NULL, 509, &basePath, &_7$$8);
 			zephir_check_call_status();
 			ZEPHIR_CPY_WRT(&basePath, &_8$$8);
 			ZEPHIR_INIT_VAR(&_9$$8);
@@ -1782,7 +1782,7 @@ PHP_METHOD(Phalcon_Http_Response, phpExtensionLoaded)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
-	ZEPHIR_RETURN_CALL_FUNCTION("extension_loaded", NULL, 438, &name_zv);
+	ZEPHIR_RETURN_CALL_FUNCTION("extension_loaded", NULL, 440, &name_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }

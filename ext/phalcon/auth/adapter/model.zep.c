@@ -111,9 +111,9 @@ PHP_METHOD(Phalcon_Auth_Adapter_Model, fromOptions)
 		ZEPHIR_INIT_NVAR(&_4);
 		ZVAL_STRING(&_4, "id");
 	}
-	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 372, &_1, &_4);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 374, &_1, &_4);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 373, hasher, &_0);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 375, hasher, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -258,7 +258,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Model, retrieveByCredentials)
 	zephir_fast_join_str(&_8, SL(" AND "), &conditions);
 	zephir_array_update_string(&_7, SL("conditions"), &_8, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&_7, SL("bind"), &bind, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CALL_METHOD(&found, this_ptr, "findfirstasauthuser", NULL, 374, &_7);
+	ZEPHIR_CALL_METHOD(&found, this_ptr, "findfirstasauthuser", NULL, 376, &_7);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&found) == IS_NULL) {
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "burnhash", NULL, 0);
@@ -313,7 +313,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Model, retrieveById)
 	zephir_create_array(&_5, 1, 0);
 	zephir_array_update_string(&_5, SL("id"), id, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&_1, SL("bind"), &_5, PH_COPY | PH_SEPARATE);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "findfirstasauthuser", NULL, 374, &_1);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "findfirstasauthuser", NULL, 376, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 }
