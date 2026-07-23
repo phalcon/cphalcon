@@ -70,9 +70,9 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Blacklist, __invoke)
 	zephir_create_closure_ex(&_0, NULL, phalcon_93__closure_ce, SL("__invoke"));
 	ZEPHIR_CALL_METHOD(&blackListed, this_ptr, "tofilter", NULL, 0, &blackList, &_0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_1, "array_flip", NULL, 253, &blackListed);
+	ZEPHIR_CALL_FUNCTION(&_1, "array_flip", NULL, 254, &blackListed);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_FUNCTION("array_diff_key", NULL, 249, &collection, &_1);
+	ZEPHIR_RETURN_CALL_FUNCTION("array_diff_key", NULL, 250, &collection, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 }
