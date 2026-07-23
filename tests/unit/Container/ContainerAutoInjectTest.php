@@ -35,6 +35,7 @@ namespace Phalcon\Tests\Unit\Container;
 
 use Phalcon\Container\Container;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Tests\Unit\Container\Fake\FakeServiceWithContainer;
 use Phalcon\Tests\Unit\Container\Fake\InjectionAwareComponent;
 use stdClass;
 
@@ -68,5 +69,24 @@ final class ContainerAutoInjectTest extends AbstractUnitTestCase
 
         // Container must have injected itself - no Di involved
         $this->assertSame($container, $component->getDI());
+    }
+
+    /**
+     * A service whose constructor receives the container must resolve without
+     * calling the container's private resolve() from ServiceDefinition.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-07-23
+     */
+    public function testResolvesServiceThatReceivesTheContainer(): void
+    {
+        $container = new Container();
+        $container->set(FakeServiceWithContainer::class, FakeServiceWithContainer::class);
+
+        // Must not throw "Call to private method Phalcon\Container\Container::resolve()"
+        $service = $container->get(FakeServiceWithContainer::class);
+
+        $this->assertInstanceOf(FakeServiceWithContainer::class, $service);
+        $this->assertInstanceOf(Container::class, $service->container);
     }
 }

@@ -19,18 +19,6 @@ use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class FromRequestTest extends AbstractUnitTestCase
 {
-    /**
-     * Unit Tests Phalcon\ADR\Input\Input :: fromRequest() merges route attributes
-     */
-    public function testAdrInputInputFromRequestMergesAttributes(): void
-    {
-        $request = new Request();
-        $request->getAttributes()->set('id', 42);
-
-        $input = Input::fromRequest($request);
-
-        $this->assertSame(42, $input->get('id'));
-    }
 
     /**
      * Unit Tests Phalcon\ADR\Input\Input :: fromRequest() - a form post is not
@@ -47,5 +35,17 @@ final class FromRequestTest extends AbstractUnitTestCase
 
         unset($_SERVER['CONTENT_TYPE']);
         $_POST = [];
+    }
+    /**
+     * Unit Tests Phalcon\ADR\Input\Input :: fromRequest() merges route attributes
+     */
+    public function testAdrInputInputFromRequestMergesAttributes(): void
+    {
+        $request = new Request();
+        $request->getAttributes()->set('id', 42);
+
+        $input = Input::fromRequest($request);
+
+        $this->assertSame(42, $input->get('id'));
     }
 }

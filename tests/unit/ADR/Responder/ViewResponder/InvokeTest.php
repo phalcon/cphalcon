@@ -51,6 +51,21 @@ final class InvokeTest extends AbstractUnitTestCase
     }
 
     /**
+     * Unit Tests Phalcon\ADR\Responder\ViewResponder :: __invoke() - unmapped
+     * status
+     */
+    public function testAdrResponderViewResponderInvokeUnmappedStatus(): void
+    {
+        $renderer  = new FakeRenderer();
+        $responder = new ViewResponder($renderer, new StatusMapper());
+        $payload   = (new Payload())->withStatus('unknown-status');
+
+        $result = $responder(new Request(), new Response(), $payload);
+
+        $this->assertSame(500, $result->getStatusCode());
+    }
+
+    /**
      * Unit Tests Phalcon\ADR\Responder\ViewResponder :: __invoke() - view data
      */
     public function testAdrResponderViewResponderInvokeViewData(): void
@@ -77,20 +92,5 @@ final class InvokeTest extends AbstractUnitTestCase
         ];
 
         $this->assertSame($expected, $renderer->data);
-    }
-
-    /**
-     * Unit Tests Phalcon\ADR\Responder\ViewResponder :: __invoke() - unmapped
-     * status
-     */
-    public function testAdrResponderViewResponderInvokeUnmappedStatus(): void
-    {
-        $renderer  = new FakeRenderer();
-        $responder = new ViewResponder($renderer, new StatusMapper());
-        $payload   = (new Payload())->withStatus('unknown-status');
-
-        $result = $responder(new Request(), new Response(), $payload);
-
-        $this->assertSame(500, $result->getStatusCode());
     }
 }
