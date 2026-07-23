@@ -16,15 +16,16 @@ namespace Phalcon\ADR\Front;
 use Phalcon\ADR\Application;
 use Phalcon\ADR\Container\AdrProvider;
 use Phalcon\Container\Container;
+use Phalcon\Contracts\ADR\Application as ApplicationInterface;
 use Phalcon\Contracts\ADR\Emitter\Emitter;
 use Phalcon\Contracts\Front\FrontController;
 use Phalcon\Contracts\Http\AttributeRequest;
 
 /**
- * Boots a container, resolves the Application, handles the request and emits the
- * response. Userland front controllers override `loadEnvironment()` /
- * `registerProviders()`; 
- * bootstrap is `exit((new AppFront(dirname(__DIR__)))->run());`.
+ * Boots a container, builds the Application, handles the request and emits the
+ * response. Userland front controllers override `loadEnvironment()`,
+ * `registerProviders()` and optionally `getApplication()`; bootstrap is
+ * `exit((new AppFront(dirname(__DIR__)))->run());`.
  */
 abstract class AbstractHttpFront implements FrontController
 {
@@ -52,7 +53,7 @@ abstract class AbstractHttpFront implements FrontController
             this->registerProviders(container);
 
             let request     = container->get(AttributeRequest::class),
-                application = container->get(Application::class),
+                application = this->getApplication(container),
                 response    = application->handle(request);
 
             container->get(Emitter::class)->emit(response);
@@ -68,6 +69,16 @@ abstract class AbstractHttpFront implements FrontController
     protected function buildContainer() -> <Container>
     {
         return new Container();
+    }
+
+    /**
+     * Builds the Application the front will hand the request to. Override to
+     * configure it (`setBaseNamespace()`/`secureWith()`) or to wire a different
+     * `Phalcon\Contracts\ADR\Application` implementation.
+     */
+    protected function getApplication(<Container> container) -> <ApplicationInterface>
+    {
+        return new Application(container);
     }
 
     protected function handleBootError(<\Throwable> exception) -> int
