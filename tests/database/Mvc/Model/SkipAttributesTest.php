@@ -52,46 +52,6 @@ final class SkipAttributesTest extends AbstractDatabaseTestCase
 
     /**
      * Tests that an attribute registered with skipAttributes() is not part of
-     * the generated INSERT statement.
-     *
-     * @issue  https://github.com/phalcon/cphalcon/issues/17382
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-07-20
-     */
-    #[Group('mysql')]
-    #[Group('pgsql')]
-    #[Group('sqlite')]
-    public function testMvcModelSkipAttributesOmitsAttributeFromInsert(): void
-    {
-        $connection = $this->recordStatements();
-
-        $invoice                  = new InvoicesSkipCreate();
-        $invoice->inv_cst_id      = 2;
-        $invoice->inv_status_flag = 1;
-        $invoice->inv_title       = uniqid('inv-');
-        $invoice->inv_total       = 100.12;
-        $invoice->inv_created_at  = date('Y-m-d H:i:s');
-
-        $this->assertTrue($invoice->create());
-
-        /**
-         * The skipped attribute must not be part of the INSERT
-         */
-        $actual = $this->getStatement('INSERT');
-        $this->assertStringNotContainsString('inv_created_at', $actual);
-
-        /**
-         * The value assigned to the model must never reach the database
-         */
-        $actual = $connection->fetchOne(
-            'select inv_created_at from co_invoices where inv_id = ' . $invoice->inv_id
-        );
-        $this->assertNull($actual['inv_created_at']);
-    }
-
-    /**
-     * Tests that an attribute registered with skipAttributes() is not part of
      * the generated UPDATE statement when dynamic update is enabled.
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/17382
@@ -137,6 +97,46 @@ final class SkipAttributesTest extends AbstractDatabaseTestCase
             'select inv_created_at from co_invoices where inv_id = 4'
         );
         $this->assertStringStartsWith('2026-07-20 10:00:00', $actual['inv_created_at']);
+    }
+
+    /**
+     * Tests that an attribute registered with skipAttributes() is not part of
+     * the generated INSERT statement.
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/17382
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-07-20
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelSkipAttributesOmitsAttributeFromInsert(): void
+    {
+        $connection = $this->recordStatements();
+
+        $invoice                  = new InvoicesSkipCreate();
+        $invoice->inv_cst_id      = 2;
+        $invoice->inv_status_flag = 1;
+        $invoice->inv_title       = uniqid('inv-');
+        $invoice->inv_total       = 100.12;
+        $invoice->inv_created_at  = date('Y-m-d H:i:s');
+
+        $this->assertTrue($invoice->create());
+
+        /**
+         * The skipped attribute must not be part of the INSERT
+         */
+        $actual = $this->getStatement('INSERT');
+        $this->assertStringNotContainsString('inv_created_at', $actual);
+
+        /**
+         * The value assigned to the model must never reach the database
+         */
+        $actual = $connection->fetchOne(
+            'select inv_created_at from co_invoices where inv_id = ' . $invoice->inv_id
+        );
+        $this->assertNull($actual['inv_created_at']);
     }
 
     /**

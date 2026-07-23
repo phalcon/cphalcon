@@ -60,40 +60,6 @@ final class InsertDefaultValuesTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests that a column the database can supply a value for is inserted with
-     * `DEFAULT` instead of a bound `null`, for a nullable column that carries
-     * no explicit default.
-     *
-     * @issue  https://github.com/phalcon/cphalcon/issues/17382
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-07-20
-     */
-    #[Group('mysql')]
-    #[Group('pgsql')]
-    public function testMvcModelInsertUsesDefaultForNullableColumn(): void
-    {
-        $this->recordStatements();
-
-        $invoice                  = new Invoices();
-        $invoice->inv_cst_id      = 2;
-        $invoice->inv_status_flag = 1;
-        $invoice->inv_title       = uniqid('inv-');
-        $invoice->inv_total       = 100.12;
-
-        $this->assertTrue($invoice->create());
-
-        /**
-         * The column stays in the statement, but as the `DEFAULT` keyword -
-         * never as a literal `null`. `DEFAULT` on its own is not enough of an
-         * assertion: PostgreSQL also emits it for the identity column.
-         */
-        $actual = $this->getStatement('INSERT');
-        $this->assertStringContainsString('inv_created_at', $actual);
-        $this->assertStringNotContainsString('null', $actual);
-    }
-
-    /**
      * Tests that a column the database can supply a value for is left out of
      * the INSERT entirely on an adapter that does not support the `DEFAULT`
      * keyword (SQLite), rather than being bound as `null`.
@@ -157,6 +123,40 @@ final class InsertDefaultValuesTest extends AbstractDatabaseTestCase
             . 'where gen_id = ' . $record->gen_id
         );
         $this->assertSame(strtoupper(md5($url)), $actual['gen_url_hash']);
+    }
+
+    /**
+     * Tests that a column the database can supply a value for is inserted with
+     * `DEFAULT` instead of a bound `null`, for a nullable column that carries
+     * no explicit default.
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/17382
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-07-20
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    public function testMvcModelInsertUsesDefaultForNullableColumn(): void
+    {
+        $this->recordStatements();
+
+        $invoice                  = new Invoices();
+        $invoice->inv_cst_id      = 2;
+        $invoice->inv_status_flag = 1;
+        $invoice->inv_title       = uniqid('inv-');
+        $invoice->inv_total       = 100.12;
+
+        $this->assertTrue($invoice->create());
+
+        /**
+         * The column stays in the statement, but as the `DEFAULT` keyword -
+         * never as a literal `null`. `DEFAULT` on its own is not enough of an
+         * assertion: PostgreSQL also emits it for the identity column.
+         */
+        $actual = $this->getStatement('INSERT');
+        $this->assertStringContainsString('inv_created_at', $actual);
+        $this->assertStringNotContainsString('null', $actual);
     }
 
     /**

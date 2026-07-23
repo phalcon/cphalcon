@@ -31,14 +31,14 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Tests\Unit\Container\Definition\Fake;
+namespace Phalcon\Tests\Unit\Container\Fake;
 
-use Phalcon\Contracts\Container\Resolver\Resolvable;
+use Phalcon\Container\Container;
 
-class FakeServiceWithResolve implements Resolvable
+class FakeServiceWithContainer
 {
-    public function resolve(object $container): mixed
-    {
-        return 'lazy message';
+    public function __construct(
+        public readonly ?Container $container = null
+    ) {
     }
 }

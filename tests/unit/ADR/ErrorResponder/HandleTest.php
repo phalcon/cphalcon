@@ -56,22 +56,6 @@ final class HandleTest extends AbstractUnitTestCase
     }
 
     /**
-     * Unit Tests Phalcon\ADR\ErrorResponder :: handle() falls back to the generic
-     * message for an unmapped exception
-     */
-    public function testAdrErrorResponderHandleUnmappedMessage(): void
-    {
-        $response = $this->responder()->handle(
-            new Request(),
-            new Response(),
-            new RuntimeException('boom')
-        );
-
-        $this->assertSame(500, $response->getStatusCode());
-        $this->assertStringContainsString('Internal Server Error', $response->getContent());
-    }
-
-    /**
      * Unit Tests Phalcon\ADR\ErrorResponder :: handle() maps MethodNotAllowed to 405
      */
     public function testAdrErrorResponderHandleMapsMethodNotAllowed(): void
@@ -97,6 +81,22 @@ final class HandleTest extends AbstractUnitTestCase
         );
 
         $this->assertSame(500, $response->getStatusCode());
+    }
+
+    /**
+     * Unit Tests Phalcon\ADR\ErrorResponder :: handle() falls back to the generic
+     * message for an unmapped exception
+     */
+    public function testAdrErrorResponderHandleUnmappedMessage(): void
+    {
+        $response = $this->responder()->handle(
+            new Request(),
+            new Response(),
+            new RuntimeException('boom')
+        );
+
+        $this->assertSame(500, $response->getStatusCode());
+        $this->assertStringContainsString('Internal Server Error', $response->getContent());
     }
 
     private function logger(): Logger
