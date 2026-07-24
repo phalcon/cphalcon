@@ -29,6 +29,22 @@ final class HandleTest extends AbstractUnitTestCase
     }
 
     /**
+     * Unit Tests Phalcon\ADR\Application :: handle() validates and casts declared parameters
+     */
+    public function testAdrApplicationHandleCastsDeclaredParameters(): void
+    {
+        $_SERVER['REQUEST_URI']    = '/user/42';
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+
+        $app = $this->application()
+                    ->setBaseNamespace('Phalcon\\Tests\\Support\\ADR\\Action');
+
+        $response = $app->handle(new Request());
+
+        $this->assertSame('integer:42', $response->getContent());
+    }
+
+    /**
      * Unit Tests Phalcon\ADR\Application :: handle() dispatches the matched action with its attributes
      */
     public function testAdrApplicationHandleDispatchesMatchedAction(): void
@@ -42,6 +58,22 @@ final class HandleTest extends AbstractUnitTestCase
         $response = $app->handle(new Request());
 
         $this->assertSame('hello world', $response->getContent());
+    }
+
+    /**
+     * Unit Tests Phalcon\ADR\Application :: handle() 404s when a parameter fails its regex
+     */
+    public function testAdrApplicationHandleRejectsInvalidParameter(): void
+    {
+        $_SERVER['REQUEST_URI']    = '/user/abc';
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+
+        $app = $this->application()
+                    ->setBaseNamespace('Phalcon\\Tests\\Support\\ADR\\Action');
+
+        $response = $app->handle(new Request());
+
+        $this->assertSame(404, $response->getStatusCode());
     }
 
     /**
