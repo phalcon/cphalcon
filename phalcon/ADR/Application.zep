@@ -21,6 +21,7 @@ use Phalcon\Container\Container;
 use Phalcon\Container\ContainerFactory;
 use Phalcon\Contracts\ADR\Application as ApplicationInterface;
 use Phalcon\Contracts\ADR\Dispatcher as DispatcherInterface;
+use Phalcon\Contracts\ADR\Router\AttributeFilter as AttributeFilterInterface;
 use Phalcon\Contracts\ADR\Router\Router as RouterInterface;
 use Phalcon\Contracts\Events\Manager;
 use Phalcon\Contracts\Http\AttributeRequest;
@@ -130,7 +131,7 @@ final class Application implements ApplicationInterface
      */
     public function handle(<AttributeRequest> request) -> <ResponseInterface>
     {
-        var router, dispatcher, events, match, response, key, value, exception;
+        var router, dispatcher, events, match, attributes, response, key, value, exception;
 
         let router     = this->container->get(RouterInterface::class),
             dispatcher = this->container->get(DispatcherInterface::class),
@@ -152,7 +153,11 @@ final class Application implements ApplicationInterface
                 throw new RouteNotFound();
             }
 
-            for key, value in match->getAttributes() {
+            let attributes = this->container
+                ->get(AttributeFilterInterface::class)
+                ->filter(match->getAction(), match->getAttributes());
+
+            for key, value in attributes {
                 request->getAttributes()->set(key, value);
             }
 

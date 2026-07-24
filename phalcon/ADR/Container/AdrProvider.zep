@@ -16,10 +16,12 @@ namespace Phalcon\ADR\Container;
 use Phalcon\ADR\Dispatcher;
 use Phalcon\ADR\Emitter\SapiEmitter;
 use Phalcon\ADR\Responder\JsonResponder;
+use Phalcon\ADR\Router\AttributeFilter;
 use Phalcon\ADR\Router\Router;
 use Phalcon\Contracts\ADR\Dispatcher as DispatcherContract;
 use Phalcon\Contracts\ADR\Emitter\Emitter as EmitterContract;
 use Phalcon\Contracts\ADR\Responder\Responder as ResponderContract;
+use Phalcon\Contracts\ADR\Router\AttributeFilter as AttributeFilterContract;
 use Phalcon\Contracts\ADR\Router\Router as RouterContract;
 use Phalcon\Contracts\Container\Service\Collection;
 use Phalcon\Contracts\Container\Service\Provider;
@@ -99,6 +101,10 @@ class AdrProvider implements Provider
             }
         );
         services->setAlias(DispatcherContract::class, "dispatcher");
+
+        // Attribute filter - validates/casts/converts route attributes
+        services->bind(AttributeFilterContract::class, AttributeFilter::class);
+        services->setAlias(AttributeFilterContract::class, "attributeFilter");
 
         // Router
         services->bind(RouterContract::class, Router::class);
