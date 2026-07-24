@@ -156,16 +156,23 @@ long zephir_safe_mod_double_zval(double op1, zval *op2);
 #define zephir_increment(var) increment_function(var)
 #define zephir_decrement(var) decrement_function(var)
 
+/* `z += v`, matching PHP's `+` for every operand type.
+   - array + array: in-place union (SEPARATE_ARRAY for copy-on-write, then merge
+     without overwriting existing keys). This is PHP's own array-union algorithm
+     and stays O(n) amortized when accumulating, instead of duplicating z each step.
+   - anything else: compute into a separate tmp then replace z, so the numeric
+     writeback covers all result types without add_function result==op1 aliasing. */
 #define ZEPHIR_ADD_ASSIGN(z, v)  \
 	{  \
-		zval tmp;  \
-		SEPARATE_ZVAL(z);  \
-		add_function(&tmp, z, v);  \
-		if (Z_TYPE(tmp) == IS_LONG) {  \
-			Z_LVAL_P(z) = Z_LVAL(tmp);  \
+		if (Z_TYPE_P(z) == IS_ARRAY && Z_TYPE_P(v) == IS_ARRAY) {  \
+			SEPARATE_ARRAY(z);  \
+			zend_hash_merge(Z_ARRVAL_P(z), Z_ARRVAL_P(v), (copy_ctor_func_t) zval_add_ref, 0);  \
 		} else {  \
-			if (Z_TYPE(tmp) == IS_DOUBLE) {  \
-				Z_DVAL_P(z) = Z_DVAL(tmp);  \
+			zval tmp;  \
+			ZVAL_NULL(&tmp);  \
+			if (add_function(&tmp, z, v) == SUCCESS) {  \
+				zval_ptr_dtor(z);  \
+				ZVAL_COPY_VALUE(z, &tmp);  \
 			}  \
 		}  \
 	}
