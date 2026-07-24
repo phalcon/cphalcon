@@ -41,6 +41,13 @@ extern zend_string* i_self;
  #define ZEND_ACC_FINAL_CLASS ZEND_ACC_FINAL
 #endif
 
+/* readonly properties (issue #2614) are PHP 8.1+; on 8.0 the flag does not
+ * exist, so it degrades to a no-op (the property compiles as a normal typed
+ * property, without write-once enforcement). Keeps generated C version-uniform. */
+#ifndef ZEND_ACC_READONLY
+ #define ZEND_ACC_READONLY 0
+#endif
+
 #define SL(str) ZEND_STRL(str)
 #define SS(str) ZEND_STRS(str)
 #define ISL(str) (zephir_interned_##str), (sizeof(#str)-1)

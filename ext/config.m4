@@ -261,6 +261,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/contracts/adr/dispatcher.zep.c
 	phalcon/contracts/adr/emitter/emitter.zep.c
 	phalcon/contracts/adr/payload/payload.zep.c
+	phalcon/contracts/adr/router/attributefilter.zep.c
 	phalcon/contracts/adr/router/router.zep.c
 	phalcon/contracts/adr/router/routermatch.zep.c
 	phalcon/contracts/acl/adapter/persistable.zep.c
@@ -389,6 +390,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/adr/responder/statusresponder.zep.c
 	phalcon/adr/responder/textresponder.zep.c
 	phalcon/adr/responder/viewresponder.zep.c
+	phalcon/adr/router/attributefilter.zep.c
 	phalcon/adr/router/router.zep.c
 	phalcon/adr/router/routermatch.zep.c
 	phalcon/acl/adapter/storage.zep.c
