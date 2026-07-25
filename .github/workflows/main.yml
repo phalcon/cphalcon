@@ -563,7 +563,7 @@ jobs:
           extensions: ${{ env.EXTENSIONS }}
           ini-values: apc.enable_cli=on, session.save_path=/tmp, register_argc_argv=on
           tools: phpize, php-config
-          coverage: pcov
+          coverage: xdebug
         env:
           PHPTS: ${{ matrix.ts }}
           COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
