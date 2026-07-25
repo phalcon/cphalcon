@@ -46,6 +46,11 @@ use Phalcon\Tests\Unit\Container\Definition\Fake\FakeServiceWithResolve;
 use Phalcon\Tests\Unit\Container\Fake\FakeContainer;
 use stdClass;
 
+use function restore_error_handler;
+use function set_error_handler;
+
+use const E_WARNING;
+
 final class ServiceDefinitionTest extends AbstractUnitTestCase
 {
     /**
@@ -105,6 +110,44 @@ final class ServiceDefinitionTest extends AbstractUnitTestCase
         $instance = $def->buildService($container);
         $this->assertInstanceOf(Exception::class, $instance);
         $this->assertSame('lazy message', $instance->getMessage());
+    }
+
+    /**
+     * A scalar constructor argument is not a lazy value. Checking it must not
+     * raise "instanceof expects an object instance".
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/17391
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-07-25
+     */
+    public function testContainerDefinitionServiceDefinitionBuildServiceScalarArgRaisesNoWarning(): void
+    {
+        $warnings = [];
+
+        set_error_handler(
+            static function (int $number, string $message) use (&$warnings): bool {
+                $warnings[] = $message;
+
+                return true;
+            },
+            E_WARNING
+        );
+
+        try {
+            $container = new FakeContainer();
+            $def       = new ServiceDefinition(Exception::class, DefinitionType::STRING_TYPE);
+            $def->setClass(Exception::class);
+            $this->setProtectedProperty($def, 'constructorArgs', ['plain message']);
+            $def->freeze($container);
+
+            $instance = $def->buildService($container);
+        } finally {
+            restore_error_handler();
+        }
+
+        $this->assertSame([], $warnings);
+        $this->assertInstanceOf(Exception::class, $instance);
+        $this->assertSame('plain message', $instance->getMessage());
     }
 
     /**
