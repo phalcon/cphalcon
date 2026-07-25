@@ -4,6 +4,7 @@
          bootstrap="../tests/bootstrap.php"
          cacheDirectory="../tests/_output/.phpunit.result.cache"
          colors="true"
+         failOnWarning="true"
 >
     <testsuites>
         <testsuite name="unit and mysql tests">
