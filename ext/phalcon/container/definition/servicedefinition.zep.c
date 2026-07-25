@@ -1216,21 +1216,21 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, checkFrozen)
  */
 PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, resolveArgs)
 {
-	zend_bool _5;
+	zend_bool _6, _3$$3, _7$$6;
 	zend_string *_2;
 	zend_ulong _1;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval args;
-	zval *container, container_sub, *args_param = NULL, resolved, key, argument, *_0, _4, _3$$4, _6$$7;
+	zval *container, container_sub, *args_param = NULL, resolved, key, argument, *_0, _5, _4$$4, _8$$7;
 
 	ZVAL_UNDEF(&container_sub);
 	ZVAL_UNDEF(&resolved);
 	ZVAL_UNDEF(&key);
 	ZVAL_UNDEF(&argument);
-	ZVAL_UNDEF(&_4);
-	ZVAL_UNDEF(&_3$$4);
-	ZVAL_UNDEF(&_6$$7);
+	ZVAL_UNDEF(&_5);
+	ZVAL_UNDEF(&_4$$4);
+	ZVAL_UNDEF(&_8$$7);
 	ZVAL_UNDEF(&args);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_OBJECT(container)
@@ -1254,10 +1254,14 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, resolveArgs)
 			}
 			ZEPHIR_INIT_NVAR(&argument);
 			ZVAL_COPY(&argument, _0);
-			if (zephir_instance_of_ev(&argument, phalcon_contracts_container_resolver_resolvable_ce)) {
-				ZEPHIR_CALL_METHOD(&_3$$4, &argument, "resolve", NULL, 0, container);
+			_3$$3 = Z_TYPE_P(&argument) == IS_OBJECT;
+			if (_3$$3) {
+				_3$$3 = zephir_instance_of_ev(&argument, phalcon_contracts_container_resolver_resolvable_ce);
+			}
+			if (_3$$3) {
+				ZEPHIR_CALL_METHOD(&_4$$4, &argument, "resolve", NULL, 0, container);
 				zephir_check_call_status();
-				zephir_array_update_zval(&resolved, &key, &_3$$4, PH_COPY | PH_SEPARATE);
+				zephir_array_update_zval(&resolved, &key, &_4$$4, PH_COPY | PH_SEPARATE);
 			} else {
 				zephir_array_update_zval(&resolved, &key, &argument, PH_COPY | PH_SEPARATE);
 			}
@@ -1265,27 +1269,31 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, resolveArgs)
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, &args, "rewind", NULL, 0);
 		zephir_check_call_status();
-		_5 = 1;
+		_6 = 1;
 		while (1) {
-			if (_5) {
-				_5 = 0;
+			if (_6) {
+				_6 = 0;
 			} else {
 				ZEPHIR_CALL_METHOD(NULL, &args, "next", NULL, 0);
 				zephir_check_call_status();
 			}
-			ZEPHIR_CALL_METHOD(&_4, &args, "valid", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_5, &args, "valid", NULL, 0);
 			zephir_check_call_status();
-			if (!zend_is_true(&_4)) {
+			if (!zend_is_true(&_5)) {
 				break;
 			}
 			ZEPHIR_CALL_METHOD(&key, &args, "key", NULL, 0);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(&argument, &args, "current", NULL, 0);
 			zephir_check_call_status();
-				if (zephir_instance_of_ev(&argument, phalcon_contracts_container_resolver_resolvable_ce)) {
-					ZEPHIR_CALL_METHOD(&_6$$7, &argument, "resolve", NULL, 0, container);
+				_7$$6 = Z_TYPE_P(&argument) == IS_OBJECT;
+				if (_7$$6) {
+					_7$$6 = zephir_instance_of_ev(&argument, phalcon_contracts_container_resolver_resolvable_ce);
+				}
+				if (_7$$6) {
+					ZEPHIR_CALL_METHOD(&_8$$7, &argument, "resolve", NULL, 0, container);
 					zephir_check_call_status();
-					zephir_array_update_zval(&resolved, &key, &_6$$7, PH_COPY | PH_SEPARATE);
+					zephir_array_update_zval(&resolved, &key, &_8$$7, PH_COPY | PH_SEPARATE);
 				} else {
 					zephir_array_update_zval(&resolved, &key, &argument, PH_COPY | PH_SEPARATE);
 				}

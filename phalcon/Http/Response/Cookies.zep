@@ -108,10 +108,24 @@ class Cookies extends AbstractInjectionAware implements CookiesInterface
         var cookie;
 
         /**
-         * Check the internal bag
+         * Check the internal bag. Cookies that arrived with the request are
+         * not in it, so fall back to the _COOKIE superglobal.
          */
         if !fetch cookie, this->cookies[name] {
-            return false;
+            if !isset _COOKIE[name] {
+                return false;
+            }
+
+            let cookie = new Cookie(name);
+
+            /**
+             * Pass the DI to the created cookie when one is available, so that
+             * the cookie definition stored in the session can be cleared. A
+             * container is not required to delete a cookie.
+             */
+            if this->container !== null {
+                cookie->setDi(this->container);
+            }
         }
 
         cookie->delete();
