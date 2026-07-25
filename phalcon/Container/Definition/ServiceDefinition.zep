@@ -565,7 +565,7 @@ class ServiceDefinition
              * untouched, otherwise that private resolve() would be called from
              * this scope.
              */
-            if (argument instanceof Resolvable) {
+            if (typeof argument == "object" && argument instanceof Resolvable) {
                 let resolved[key] = argument->resolve(container);
             } else {
                 let resolved[key] = argument;
