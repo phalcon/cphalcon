@@ -269,6 +269,33 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      }
 
     /**
+     * Pre-loads the named relations when the criteria is executed
+     *
+     *```php
+     * $invoices = Invoices::query()
+     *     ->eager(["customer"])
+     *     ->where("inv_total > 100")
+     *     ->execute();
+     *```
+     *
+     * execute() forwards the parameters to Model::find(), which owns the
+     * loading, so this is a pass-through and takes the same shape: an array of
+     * dot-delimited relation paths, optionally `path => options`.
+     *
+     * Returns the concrete criteria rather than the interface because the
+     * method is deliberately not part of CriteriaInterface - adding it there
+     * would break every userland implementation.
+     *
+     * @param array $paths relation paths
+     */
+    public function eager(array paths) -> <Criteria>
+    {
+        let this->params["eager"] = paths;
+
+        return this;
+    }
+
+    /**
      * Executes a find using the parameters built with the criteria
      */
     public function execute() -> <ResultsetInterface>

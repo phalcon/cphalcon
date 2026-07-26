@@ -501,6 +501,43 @@ abstract class Resultset
     }
 
     /**
+     * Fetches every remaining row of the underlying cursor into memory,
+     * turning the resultset into TYPE_RESULT_FULL.
+     *
+     * Free when called before the cursor has been advanced: the statement has
+     * already been executed by Model\Query::executeSelect() and no row has been
+     * consumed, so no re-execution takes place. Idempotent.
+     */
+    public function materialize() -> void
+    {
+        var records, result;
+
+        if typeof this->rows == "array" {
+            return;
+        }
+
+        let result = this->result;
+
+        if typeof result != "object" {
+            let this->rows = [];
+
+            return;
+        }
+
+        /**
+         * The cursor has already been advanced, so it has to be replayed
+         */
+        if this->row !== null {
+            result->execute();
+        }
+
+        let records = result->fetchAll();
+
+        let this->row  = null,
+            this->rows = typeof records == "array" ? records : [];
+    }
+
+    /**
      * Moves cursor to next row in the resultset
      */
     public function next() -> void
