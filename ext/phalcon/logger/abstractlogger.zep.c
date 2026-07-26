@@ -833,7 +833,7 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, addMessage)
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 273, PH_NOISY_CC | PH_READONLY);
 	if (ZEPHIR_GE_LONG(&_0, level)) {
 		zephir_read_property_cached(&_1$$3, this_ptr, _zephir_prop_1, 271, PH_NOISY_CC | PH_READONLY);
-		if (zephir_fast_count_int(&_1$$3) == 0) {
+		if (ZEPHIR_IS_EMPTY(&_1$$3)) {
 			ZEPHIR_INIT_VAR(&_2$$4);
 			object_init_ex(&_2$$4, phalcon_logger_exceptions_noadaptersconfigured_ce);
 			ZEPHIR_CALL_METHOD(NULL, &_2$$4, "__construct", NULL, 252);

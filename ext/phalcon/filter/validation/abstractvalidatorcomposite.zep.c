@@ -104,7 +104,7 @@ PHP_METHOD(Phalcon_Filter_Validation_AbstractValidatorComposite, validate)
 	zephir_fetch_params(1, 2, 0, &validation, &field);
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getvalidators", NULL, 0);
 	zephir_check_call_status();
-	if (UNEXPECTED(zephir_fast_count_int(&_0) == 0)) {
+	if (UNEXPECTED(ZEPHIR_IS_EMPTY(&_0))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_filter_validation_exceptions_novalidatorsincomposite_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);

@@ -1534,7 +1534,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, mount)
 	}
 	ZEPHIR_CALL_METHOD(&handlers, collection, "gethandlers", NULL, 0);
 	zephir_check_call_status();
-	if (UNEXPECTED(!(zephir_fast_count_int(&handlers)))) {
+	if (UNEXPECTED(ZEPHIR_IS_EMPTY(&handlers))) {
 		ZEPHIR_INIT_VAR(&_1$$4);
 		object_init_ex(&_1$$4, phalcon_mvc_micro_exceptions_nohandlerstomount_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 0);

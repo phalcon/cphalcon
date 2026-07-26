@@ -667,7 +667,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput)
 	}
 	ZEPHIR_INIT_VAR(&conditions);
 	array_init(&conditions);
-	if (zephir_fast_count_int(&data)) {
+	if (!(ZEPHIR_IS_EMPTY(&data))) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		ZVAL_STRING(&_0$$3, "modelsMetadata");
 		ZEPHIR_CALL_METHOD(&metaData, container, "getshared", NULL, 0, &_0$$3);
@@ -699,7 +699,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput)
 				ZVAL_COPY(&value, _2$$3);
 				_5$$4 = Z_TYPE_P(&columnMap) == IS_ARRAY;
 				if (_5$$4) {
-					_5$$4 = ((zephir_fast_count_int(&columnMap)) ? 1 : 0);
+					_5$$4 = !(ZEPHIR_IS_EMPTY(&columnMap));
 				}
 				if (_5$$4) {
 					ZEPHIR_OBS_NVAR(&attribute);
@@ -752,7 +752,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput)
 				zephir_check_call_status();
 					_12$$10 = Z_TYPE_P(&columnMap) == IS_ARRAY;
 					if (_12$$10) {
-						_12$$10 = ((zephir_fast_count_int(&columnMap)) ? 1 : 0);
+						_12$$10 = !(ZEPHIR_IS_EMPTY(&columnMap));
 					}
 					if (_12$$10) {
 						ZEPHIR_OBS_NVAR(&attribute);
@@ -796,7 +796,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput)
 
 	ZEPHIR_CALL_METHOD(NULL, &criteria, "setdi", NULL, 0, container);
 	zephir_check_call_status();
-	if (zephir_fast_count_int(&conditions)) {
+	if (!(ZEPHIR_IS_EMPTY(&conditions))) {
 		ZEPHIR_INIT_VAR(&_17$$16);
 		ZEPHIR_INIT_VAR(&_18$$16);
 		ZEPHIR_CONCAT_SVS(&_18$$16, " ", &operator_zv, " ");
@@ -1127,7 +1127,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, inWhere)
 	zephir_memory_observe(&expr_zv);
 	ZVAL_STR_COPY(&expr_zv, expr);
 	zephir_get_arrval(&values, values_param);
-	if (!(zephir_fast_count_int(&values))) {
+	if (ZEPHIR_IS_EMPTY(&values)) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		ZEPHIR_CONCAT_VSV(&_0$$3, &expr_zv, " != ", &expr_zv);
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "andwhere", NULL, 0, &_0$$3);

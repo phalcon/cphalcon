@@ -937,7 +937,7 @@ PHP_METHOD(Phalcon_Cli_Router, handle)
 		}
 		zephir_array_unset_string(&parts, SL("params"), PH_SEPARATE);
 	}
-	if (zephir_fast_count_int(&params)) {
+	if (!(ZEPHIR_IS_EMPTY(&params))) {
 		ZEPHIR_INIT_VAR(&_47$$58);
 		zephir_fast_array_merge(&_47$$58, &params, &parts);
 		ZEPHIR_CPY_WRT(&params, &_47$$58);

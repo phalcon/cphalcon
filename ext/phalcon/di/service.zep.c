@@ -258,7 +258,7 @@ PHP_METHOD(Phalcon_Di_Service, resolve)
 		if (zephir_class_exists(&definition, 1)) {
 			_4$$5 = Z_TYPE_P(parameters) == IS_ARRAY;
 			if (_4$$5) {
-				_4$$5 = ((zephir_fast_count_int(parameters)) ? 1 : 0);
+				_4$$5 = !(ZEPHIR_IS_EMPTY(parameters));
 			}
 			if (_4$$5) {
 				ZEPHIR_INIT_NVAR(&instance);

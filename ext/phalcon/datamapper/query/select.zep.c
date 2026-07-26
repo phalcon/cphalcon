@@ -671,7 +671,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, hasColumns)
 	}
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 571, PH_NOISY_CC | PH_READONLY);
 	zephir_array_fetch_string(&_1, &_0, SL("COLUMNS"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Query/Select.zep", 277);
-	RETURN_BOOL(zephir_fast_count_int(&_1) > 0);
+	RETURN_BOOL(!(ZEPHIR_IS_EMPTY(&_1)));
 }
 
 /**

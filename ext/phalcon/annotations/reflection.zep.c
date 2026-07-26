@@ -181,7 +181,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getConstantsAnnotations)
 	if (zephir_array_isset_string_fetch(&reflectionConstants, &_0, SL("constants"), 0)) {
 		_1$$3 = Z_TYPE_P(&reflectionConstants) == IS_ARRAY;
 		if (_1$$3) {
-			_1$$3 = zephir_fast_count_int(&reflectionConstants) > 0;
+			_1$$3 = !(ZEPHIR_IS_EMPTY(&reflectionConstants));
 		}
 		if (_1$$3) {
 			zephir_is_iterable(&reflectionConstants, 0, "phalcon/Annotations/Reflection.zep", 97);
@@ -271,7 +271,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getPropertiesAnnotations)
 	if (zephir_array_isset_string_fetch(&reflectionProperties, &_0, SL("properties"), 0)) {
 		_1$$3 = Z_TYPE_P(&reflectionProperties) == IS_ARRAY;
 		if (_1$$3) {
-			_1$$3 = zephir_fast_count_int(&reflectionProperties) > 0;
+			_1$$3 = !(ZEPHIR_IS_EMPTY(&reflectionProperties));
 		}
 		if (_1$$3) {
 			zephir_is_iterable(&reflectionProperties, 0, "phalcon/Annotations/Reflection.zep", 119);
@@ -361,7 +361,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getMethodsAnnotations)
 	if (zephir_array_isset_string_fetch(&reflectionMethods, &_0, SL("methods"), 0)) {
 		_1$$3 = Z_TYPE_P(&reflectionMethods) == IS_ARRAY;
 		if (_1$$3) {
-			_1$$3 = zephir_fast_count_int(&reflectionMethods) > 0;
+			_1$$3 = !(ZEPHIR_IS_EMPTY(&reflectionMethods));
 		}
 		if (_1$$3) {
 			zephir_is_iterable(&reflectionMethods, 0, "phalcon/Annotations/Reflection.zep", 141);

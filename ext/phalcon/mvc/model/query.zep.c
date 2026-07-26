@@ -2581,7 +2581,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, executeSelect)
 	}
 	ZEPHIR_INIT_NVAR(&value);
 	ZEPHIR_INIT_NVAR(&typeWildcard);
-	if (zephir_fast_count_int(&bindCounts)) {
+	if (!(ZEPHIR_IS_EMPTY(&bindCounts))) {
 		zephir_array_update_string(&intermediate, SL("bindCounts"), &bindCounts, PH_COPY | PH_SEPARATE);
 	}
 	ZEPHIR_CALL_METHOD(&dialect, &connection, "getdialect", NULL, 0);
@@ -4249,7 +4249,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getExpression)
 								ZEPHIR_MM_RESTORE();
 								return;
 							}
-							if (UNEXPECTED(zephir_fast_count_int(&bind) < 1)) {
+							if (UNEXPECTED(ZEPHIR_IS_EMPTY(&bind))) {
 								ZEPHIR_INIT_VAR(&_61$$55);
 								object_init_ex(&_61$$55, phalcon_mvc_model_query_exceptions_emptyarrayplaceholdervalue_ce);
 								ZEPHIR_CALL_METHOD(NULL, &_61$$55, "__construct", NULL, 0, &name);
@@ -8535,8 +8535,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, prepareSelect)
 	}
 	zephir_memory_observe(&joins);
 	zephir_array_isset_string_fetch(&joins, &select, SL("joins"), 0);
-	if (zephir_fast_count_int(&joins)) {
-		if (zephir_fast_count_int(&automaticJoins)) {
+	if (!(ZEPHIR_IS_EMPTY(&joins))) {
+		if (!(ZEPHIR_IS_EMPTY(&automaticJoins))) {
 			if (zephir_array_isset_value_long(&joins, 0)) {
 				ZEPHIR_INIT_VAR(&_89$$61);
 				zephir_fast_array_merge(&_89$$61, &joins, &automaticJoins);
@@ -8549,7 +8549,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, prepareSelect)
 		ZEPHIR_CALL_METHOD(&sqlJoins, this_ptr, "getjoins", NULL, 0, &select);
 		zephir_check_call_status();
 	} else {
-		if (zephir_fast_count_int(&automaticJoins)) {
+		if (!(ZEPHIR_IS_EMPTY(&automaticJoins))) {
 			zephir_array_update_string(&select, SL("joins"), &automaticJoins, PH_COPY | PH_SEPARATE);
 			ZEPHIR_CALL_METHOD(&sqlJoins, this_ptr, "getjoins", NULL, 0, &select);
 			zephir_check_call_status();
@@ -8757,7 +8757,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, prepareSelect)
 	if (zephir_array_isset_string_fetch(&distinct, &select, SL("distinct"), 0)) {
 		zephir_array_update_string(&sqlSelect, SL("distinct"), &distinct, PH_COPY | PH_SEPARATE);
 	}
-	if (zephir_fast_count_int(&sqlJoins)) {
+	if (!(ZEPHIR_IS_EMPTY(&sqlJoins))) {
 		zephir_array_update_string(&sqlSelect, SL("joins"), &sqlJoins, PH_COPY | PH_SEPARATE);
 	}
 	zephir_memory_observe(&where);
@@ -9193,7 +9193,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, prepareUpdate)
 	zephir_array_update_string(&sqlUpdate, SL("models"), &sqlModels, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&sqlUpdate, SL("fields"), &sqlFields, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&sqlUpdate, SL("values"), &sqlValues, PH_COPY | PH_SEPARATE);
-	if (zephir_fast_count_int(&sqlJoins)) {
+	if (!(ZEPHIR_IS_EMPTY(&sqlJoins))) {
 		zephir_array_update_string(&sqlUpdate, SL("joins"), &sqlJoins, PH_COPY | PH_SEPARATE);
 	}
 	zephir_memory_observe(&where);

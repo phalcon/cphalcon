@@ -2397,7 +2397,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, invokeRule)
 		ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", NULL, 10, &_45$$16, &_46$$16);
 		zephir_check_call_status();
 	}
-	if (zephir_fast_count_int(&parametersForFunction) == 0) {
+	if (ZEPHIR_IS_EMPTY(&parametersForFunction)) {
 		if (UNEXPECTED(ZEPHIR_GT_LONG(&numberOfRequiredParameters, 0))) {
 			ZEPHIR_INIT_VAR(&_47$$18);
 			ZEPHIR_CONCAT_SVSVSVS(&_47$$18, "You did not provide any parameters when '", &roleName_zv, "' can '", &access_zv, "' '", &componentName_zv, "'. We will use default action when no arguments.");

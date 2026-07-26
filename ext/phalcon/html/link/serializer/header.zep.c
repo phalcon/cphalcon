@@ -510,7 +510,7 @@ PHP_METHOD(Phalcon_Html_Link_Serializer_Header, serialize)
 		}
 	}
 	ZEPHIR_INIT_NVAR(&link);
-	if (zephir_fast_count_int(&elements) > 0) {
+	if (!(ZEPHIR_IS_EMPTY(&elements))) {
 		ZEPHIR_INIT_NVAR(&result);
 		zephir_fast_join_str(&result, SL(","), &elements);
 	}

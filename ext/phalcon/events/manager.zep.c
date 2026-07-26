@@ -556,7 +556,7 @@ PHP_METHOD(Phalcon_Events_Manager, detach)
 			}
 		}
 		ZEPHIR_INIT_NVAR(&existing);
-		if (zephir_fast_count_int(&newQueue) > 0) {
+		if (!(ZEPHIR_IS_EMPTY(&newQueue))) {
 			zephir_update_property_array(this_ptr, SL("events"), &eventType_zv, &newQueue);
 		} else {
 			zephir_unset_property_array(this_ptr, ZEND_STRL("events"), &eventType_zv);
