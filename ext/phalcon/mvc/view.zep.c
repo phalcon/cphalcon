@@ -538,7 +538,7 @@ PHP_METHOD(Phalcon_Mvc_View, getActiveRenderPath)
 		if (zephir_fast_count_int(&activeRenderPath) == 1) {
 			zephir_array_fetch_long(&_0$$4, &activeRenderPath, 0, PH_NOISY | PH_READONLY, "phalcon/Mvc/View.zep", 346);
 			ZEPHIR_CPY_WRT(&activeRenderPath, &_0$$4);
-		} else if (zephir_fast_count_int(&activeRenderPath) == 0) {
+		} else if (ZEPHIR_IS_EMPTY(&activeRenderPath)) {
 			ZEPHIR_INIT_NVAR(&activeRenderPath);
 			ZVAL_STRING(&activeRenderPath, "");
 		}

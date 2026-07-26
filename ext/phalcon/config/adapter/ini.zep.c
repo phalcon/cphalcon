@@ -222,7 +222,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct)
 				}
 				ZEPHIR_INIT_NVAR(&lastValue);
 				ZEPHIR_INIT_NVAR(&path);
-				if (zephir_fast_count_int(&sections)) {
+				if (!(ZEPHIR_IS_EMPTY(&sections))) {
 					ZEPHIR_INIT_NVAR(&_17$$8);
 					ZEPHIR_INIT_NVAR(&_18$$8);
 					ZVAL_STRING(&_18$$8, "array_replace_recursive");
@@ -304,7 +304,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct)
 					}
 					ZEPHIR_INIT_NVAR(&lastValue);
 					ZEPHIR_INIT_NVAR(&path);
-					if (zephir_fast_count_int(&sections)) {
+					if (!(ZEPHIR_IS_EMPTY(&sections))) {
 						ZEPHIR_INIT_NVAR(&_32$$13);
 						ZEPHIR_INIT_NVAR(&_33$$13);
 						ZVAL_STRING(&_33$$13, "array_replace_recursive");

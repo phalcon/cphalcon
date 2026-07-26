@@ -93,7 +93,7 @@ class Ini extends Config
                     );
                 }
 
-                if count(sections) {
+                if !empty sections {
                     let config[section] = call_user_func_array(
                         "array_replace_recursive",
                         sections

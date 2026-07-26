@@ -405,7 +405,7 @@ PHP_METHOD(Phalcon_Di_Di, get)
 			}
 			_14$$11 = Z_TYPE_P(parameters) == IS_ARRAY;
 			if (_14$$11) {
-				_14$$11 = ((zephir_fast_count_int(parameters)) ? 1 : 0);
+				_14$$11 = !(ZEPHIR_IS_EMPTY(parameters));
 			}
 			if (_14$$11) {
 				ZEPHIR_INIT_NVAR(&instance);

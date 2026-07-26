@@ -4248,7 +4248,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle)
 	if (_11) {
 		zephir_read_property_cached(&_12, this_ptr, _zephir_prop_7, 281, PH_NOISY_CC | PH_READONLY);
 		zephir_array_fetch(&_13, &_12, &requestMethod, PH_NOISY | PH_READONLY, "phalcon/Mvc/Router.zep", 1297);
-		_11 = zephir_fast_count_int(&_13) > 0;
+		_11 = !(ZEPHIR_IS_EMPTY(&_13));
 	}
 	if (_11) {
 		ZEPHIR_CALL_METHOD(&currentHostName, &request, "gethttphost", NULL, 0);
@@ -4259,7 +4259,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle)
 		if (_15) {
 			zephir_read_property_cached(&_16, this_ptr, _zephir_prop_7, 281, PH_NOISY_CC | PH_READONLY);
 			zephir_array_fetch_string(&_17, &_16, SL("*"), PH_NOISY | PH_READONLY, "phalcon/Mvc/Router.zep", 1300);
-			_15 = zephir_fast_count_int(&_17) > 0;
+			_15 = !(ZEPHIR_IS_EMPTY(&_17));
 		}
 		if (_15) {
 			ZEPHIR_CALL_METHOD(&currentHostName, &request, "gethttphost", NULL, 0);
@@ -5368,7 +5368,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle)
 			}
 			zephir_array_unset_string(&parts, SL("params"), PH_SEPARATE);
 		}
-		if (zephir_fast_count_int(&params)) {
+		if (!(ZEPHIR_IS_EMPTY(&params))) {
 			ZEPHIR_INIT_VAR(&_165$$169);
 			zephir_fast_array_merge(&_165$$169, &params, &parts);
 			zephir_update_property_zval_cached(this_ptr, _zephir_prop_25, 307, &_165$$169);
@@ -5634,7 +5634,7 @@ PHP_METHOD(Phalcon_Mvc_Router, mount)
 	}
 	ZEPHIR_CALL_METHOD(&groupRoutes, group, "getroutes", NULL, 0);
 	zephir_check_call_status();
-	if (UNEXPECTED(!(zephir_fast_count_int(&groupRoutes)))) {
+	if (UNEXPECTED(ZEPHIR_IS_EMPTY(&groupRoutes))) {
 		ZEPHIR_INIT_VAR(&_2$$4);
 		object_init_ex(&_2$$4, phalcon_mvc_router_exceptions_emptygroupofroutes_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_2$$4, "__construct", NULL, 264);

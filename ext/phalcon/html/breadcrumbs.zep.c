@@ -335,7 +335,7 @@ PHP_METHOD(Phalcon_Html_Breadcrumbs, render)
 	}
 	ZEPHIR_INIT_NVAR(&element);
 	ZEPHIR_INIT_NVAR(&url);
-	if (0 != zephir_fast_count_int(&elements)) {
+	if (!(ZEPHIR_IS_EMPTY(&elements))) {
 		ZEPHIR_INIT_VAR(&_14$$6);
 		ZEPHIR_CONCAT_SVS(&_14$$6, "<dt>", &lastLabel, "</dt>");
 		zephir_array_append(&output, &_14$$6, PH_SEPARATE, "phalcon/Html/Breadcrumbs.zep", 162);

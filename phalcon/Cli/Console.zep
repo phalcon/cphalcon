@@ -61,7 +61,7 @@ class Console extends AbstractApplication
 
         let router = <Router> this->container->getShared("router");
 
-        if !count(arguments) && this->arguments {
+        if empty arguments && this->arguments {
             router->handle(this->arguments);
         } else {
             router->handle(arguments);
@@ -199,7 +199,7 @@ class Console extends AbstractApplication
             opts = [],
             handleArgs = [];
 
-        if shift && count(arguments) {
+        if shift && !empty arguments {
             array_shift(arguments);
         }
 
@@ -231,15 +231,15 @@ class Console extends AbstractApplication
                 args
             );
         } else {
-            if count(args) {
+            if !empty args {
                 let handleArgs["task"] = array_shift(args);
             }
 
-            if count(args) {
+            if !empty args {
                 let handleArgs["action"] = array_shift(args);
             }
 
-            if count(args) {
+            if !empty args {
                 let handleArgs = array_merge(handleArgs, args);
             }
 

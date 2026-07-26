@@ -1305,7 +1305,7 @@ class Query implements QueryInterface, InjectionAwareInterface
             }
         }
 
-        if count(bindCounts) {
+        if !empty bindCounts {
             let intermediate["bindCounts"] = bindCounts;
         }
 
@@ -2181,7 +2181,7 @@ class Query implements QueryInterface, InjectionAwareInterface
                                     throw new BindTypeRequiresArray(name);
                                 }
 
-                                if unlikely count(bind) < 1 {
+                                if unlikely empty bind {
                                     throw new EmptyArrayPlaceholderValue(name);
                                 }
 
@@ -4152,8 +4152,8 @@ class Query implements QueryInterface, InjectionAwareInterface
         fetch joins, select["joins"];
 
         // Join existing JOINS with automatic Joins
-        if count(joins) {
-            if count(automaticJoins) {
+        if !empty joins {
+            if !empty automaticJoins {
                 if isset joins[0] {
                     let select["joins"] = array_merge(joins, automaticJoins);
                 } else {
@@ -4164,7 +4164,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 
             let sqlJoins = this->getJoins(select);
         } else {
-            if count(automaticJoins) {
+            if !empty automaticJoins {
                 let select["joins"] = automaticJoins,
                     sqlJoins = this->getJoins(select);
             } else {
@@ -4221,7 +4221,7 @@ class Query implements QueryInterface, InjectionAwareInterface
             let sqlSelect["distinct"] = distinct;
         }
 
-        if count(sqlJoins) {
+        if !empty sqlJoins {
             let sqlSelect["joins"] = sqlJoins;
         }
 
@@ -4412,7 +4412,7 @@ class Query implements QueryInterface, InjectionAwareInterface
             "values": sqlValues
         ];
 
-        if count(sqlJoins) {
+        if !empty sqlJoins {
             let sqlUpdate["joins"] = sqlJoins;
         }
 

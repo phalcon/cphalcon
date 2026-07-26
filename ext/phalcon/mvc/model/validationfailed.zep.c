@@ -12,11 +12,11 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 #include "kernel/array.h"
 #include "kernel/fcall.h"
 #include "kernel/object.h"
-#include "kernel/operators.h"
 
 
 /**
@@ -85,7 +85,7 @@ PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, __construct)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &model, &validationMessages_param);
 	zephir_get_arrval(&validationMessages, validationMessages_param);
-	if (zephir_fast_count_int(&validationMessages) > 0) {
+	if (!(ZEPHIR_IS_EMPTY(&validationMessages))) {
 		zephir_memory_observe(&message);
 		zephir_array_fetch_long(&message, &validationMessages, 0, PH_NOISY, "phalcon/Mvc/Model/ValidationFailed.zep", 48);
 		ZEPHIR_CALL_METHOD(&messageStr, &message, "getmessage", NULL, 0);

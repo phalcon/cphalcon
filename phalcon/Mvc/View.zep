@@ -344,7 +344,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
         if typeof activeRenderPath === "array" {
             if count(activeRenderPath) === 1 {
                 let activeRenderPath = activeRenderPath[0];
-            } elseif count(activeRenderPath) === 0 {
+            } elseif empty activeRenderPath {
                 let activeRenderPath = "";
             }
         }

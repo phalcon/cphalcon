@@ -322,7 +322,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamContext, popMessage)
 	ZEPHIR_UNREF(&lines);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&remaining);
-	if (zephir_fast_count_int(&lines) > 0) {
+	if (!(ZEPHIR_IS_EMPTY(&lines))) {
 		ZEPHIR_INIT_VAR(&_6$$7);
 		ZEPHIR_INIT_VAR(&_7$$7);
 		ZEPHIR_GET_CONSTANT(&_7$$7, "PHP_EOL");

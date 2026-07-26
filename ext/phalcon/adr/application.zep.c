@@ -421,7 +421,7 @@ PHP_METHOD(Phalcon_ADR_Application, handle)
 		zephir_check_call_status();
 	}
 	zephir_read_property_cached(&_6, this_ptr, _zephir_prop_2, 331, PH_NOISY_CC | PH_READONLY);
-	if (zephir_fast_count_int(&_6)) {
+	if (!(ZEPHIR_IS_EMPTY(&_6))) {
 		zephir_read_property_cached(&_7$$4, this_ptr, _zephir_prop_2, 331, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_METHOD(NULL, &router, "setmiddlewaremap", NULL, 0, &_7$$4);
 		zephir_check_call_status();

@@ -376,7 +376,7 @@ abstract class AbstractLogger
     ) -> bool {
         var adapter, collection, item, levelName, levels;
         if (this->logLevel >= level) {
-            if (count(this->adapters) === 0) {
+            if empty this->adapters {
                 throw new NoAdaptersConfigured();
             }
 

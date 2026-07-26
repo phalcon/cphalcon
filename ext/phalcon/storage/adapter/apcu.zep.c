@@ -408,7 +408,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Apcu, doDeleteMultiple)
 	zephir_check_call_status();
 	_6 = Z_TYPE_P(&result) == IS_ARRAY;
 	if (_6) {
-		_6 = zephir_fast_count_int(&result) == 0;
+		_6 = ZEPHIR_IS_EMPTY(&result);
 	}
 	RETURN_MM_BOOL(_6);
 }

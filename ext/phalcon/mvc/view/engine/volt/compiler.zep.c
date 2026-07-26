@@ -4593,7 +4593,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, statementList)
 		extendsMode = 0;
 	} else {
 		}
-	if (!(zephir_fast_count_int(&statements))) {
+	if (ZEPHIR_IS_EMPTY(&statements)) {
 		RETURN_MM_STRING("");
 	}
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1175, PH_NOISY_CC | PH_READONLY);

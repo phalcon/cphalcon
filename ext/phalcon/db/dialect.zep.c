@@ -713,7 +713,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression)
 		if (ZEPHIR_IS_STRING(&type, "select")) {
 			zephir_memory_observe(&nestedDefinition);
 			zephir_array_fetch_string(&nestedDefinition, &expression, SL("value"), PH_NOISY, "phalcon/Db/Dialect.zep", 389);
-			if (zephir_fast_count_int(&bindCounts)) {
+			if (!(ZEPHIR_IS_EMPTY(&bindCounts))) {
 				zephir_array_update_string(&nestedDefinition, SL("bindCounts"), &bindCounts, PH_COPY | PH_SEPARATE);
 			}
 			ZEPHIR_CALL_METHOD(&_10$$18, this_ptr, "select", NULL, 0, &nestedDefinition);

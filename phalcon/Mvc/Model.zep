@@ -602,7 +602,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                          * empty array must be able to clear all intermediate rows
                          * when syncing is enabled.
                          */
-                        if count(related) > 0 || relation->getType() === Relation::HAS_MANY_THROUGH {
+                        if !empty related || relation->getType() === Relation::HAS_MANY_THROUGH {
                             let this->dirtyRelated[lowerProperty] = related,
                                 this->dirtyState = self::DIRTY_STATE_TRANSIENT;
                         } else {
@@ -896,7 +896,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             let dataMapped = data;
         }
 
-        if count(dataMapped) === 0 {
+        if empty dataMapped {
             return this;
         }
 
@@ -1542,7 +1542,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         /**
          * We can't create dynamic SQL without a primary key
          */
-        if unlikely !count(primaryKeys) {
+        if unlikely empty primaryKeys {
             throw new PrimaryKeyRequired(get_class(this));
         }
 
@@ -2541,10 +2541,10 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 return intersect == fieldName;
             }
 
-            return count(intersect) > 0;
+            return !empty intersect;
         }
 
-        return count(changedFields) > 0;
+        return !empty changedFields;
     }
 
     /**
@@ -2580,10 +2580,10 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 return intersect == fieldName;
             }
 
-            return count(intersect) > 0;
+            return !empty intersect;
         }
 
-        return count(updatedFields) > 0;
+        return !empty updatedFields;
     }
 
     /**
@@ -2880,7 +2880,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         /**
          * Does it have unsaved related records
          */
-        let hasRelatedToSave = count(relatedToSave) > 0;
+        let hasRelatedToSave = !empty relatedToSave;
 
         if hasRelatedToSave {
             if this->preSaveRelatedRecords(writeConnection, relatedToSave, visited) === false {
@@ -4249,7 +4249,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 if value === null || value === "" {
                     if useExplicitIdentity {
                         let values[] = defaultValue, bindTypes[] = bindSkip;
-                    } elseif !count(values) {
+                    } elseif empty values {
                         /**
                          * Model has only the identity column; force an
                          * explicit default so the underlying adapter does not
@@ -4282,7 +4282,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 if useExplicitIdentity {
                     let values[]    = defaultValue,
                         bindTypes[] = bindSkip;
-                } elseif !count(values) {
+                } elseif empty values {
                     /**
                      * Model has only the identity column; force an explicit
                      * default so the underlying adapter does not reject the
@@ -4538,7 +4538,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             /**
              * If there is no fields to update we return true
              */
-            if !count(fields) {
+            if empty fields {
                 let this->oldSnapshot = snapshot;
                 return true;
             }
@@ -4607,7 +4607,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         /**
          * If there is no fields to update we return true
          */
-        if !count(fields) {
+        if empty fields {
             return true;
         }
 
@@ -4623,7 +4623,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             /**
              * We can't create dynamic SQL without a primary key
              */
-            if unlikely !count(primaryKeys) {
+            if unlikely empty primaryKeys {
                 throw new PrimaryKeyRequired(get_class(this));
             }
 
@@ -6534,7 +6534,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      */
     public function validationHasFailed() -> bool
     {
-        return count(this->errorMessages) > 0;
+        return !empty this->errorMessages;
     }
 
     /**

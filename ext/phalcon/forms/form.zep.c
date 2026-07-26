@@ -1681,7 +1681,7 @@ PHP_METHOD(Phalcon_Forms_Form, isValid)
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(&filters, &element, "getfilters", NULL, 0);
 			zephir_check_call_status();
-			_10$$10 = zephir_fast_count_int(&validators) == 0;
+			_10$$10 = ZEPHIR_IS_EMPTY(&validators);
 			if (_10$$10) {
 				_10$$10 = ZEPHIR_IS_EMPTY(&filters);
 			}
@@ -1749,7 +1749,7 @@ PHP_METHOD(Phalcon_Forms_Form, isValid)
 				zephir_check_call_status();
 				ZEPHIR_CALL_METHOD(&filters, &element, "getfilters", NULL, 0);
 				zephir_check_call_status();
-				_18$$15 = zephir_fast_count_int(&validators) == 0;
+				_18$$15 = ZEPHIR_IS_EMPTY(&validators);
 				if (_18$$15) {
 					_18$$15 = ZEPHIR_IS_EMPTY(&filters);
 				}

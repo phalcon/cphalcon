@@ -1065,7 +1065,7 @@ class Memory extends AbstractAdapter
         }
 
         // We dont have any parameters so check default action
-        if count(parametersForFunction) == 0 {
+        if empty parametersForFunction {
             if unlikely numberOfRequiredParameters > 0 {
                 trigger_error(
                     "You did not provide any parameters when '" . roleName .

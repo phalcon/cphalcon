@@ -1001,7 +1001,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
 
         let superFiles = _FILES;
 
-        if count(superFiles) > 0 {
+        if !empty superFiles {
             for prefix, input in superFiles {
                 if typeof input["name"] == "array" {
                     let smoothInput = this->smoothFiles(
@@ -1439,7 +1439,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     ) -> <static> {
         var filterService, sanitizer, localScope, scopeMethod;
 
-        if unlikely count(filters) < 1 {
+        if unlikely empty filters {
             throw new MissingFilters(name);
         }
 
@@ -1451,7 +1451,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
             }
         }
 
-        if count(scope) < 1 {
+        if empty scope {
             let localScope = [
                 self::METHOD_GET,
                 self::METHOD_PATCH,

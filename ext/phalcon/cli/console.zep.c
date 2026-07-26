@@ -177,7 +177,7 @@ PHP_METHOD(Phalcon_Cli_Console, handle)
 	ZEPHIR_CALL_METHOD(&_7, &_6, "getshared", NULL, 0, &_8);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(&router, &_7);
-	_9 = !(zephir_fast_count_int(&arguments));
+	_9 = ZEPHIR_IS_EMPTY(&arguments);
 	if (_9) {
 		zephir_read_property_cached(&_10, this_ptr, _zephir_prop_2, 475, PH_NOISY_CC | PH_READONLY);
 		_9 = zephir_is_true(&_10);
@@ -444,7 +444,7 @@ PHP_METHOD(Phalcon_Cli_Console, setArgument)
 	array_init(&handleArgs);
 	_0 = shift;
 	if (_0) {
-		_0 = ((zephir_fast_count_int(&arguments)) ? 1 : 0);
+		_0 = !(ZEPHIR_IS_EMPTY(&arguments));
 	}
 	if (_0) {
 		ZEPHIR_MAKE_REF(&arguments);
@@ -587,21 +587,21 @@ PHP_METHOD(Phalcon_Cli_Console, setArgument)
 		zephir_fast_join(&_43$$22, &_44$$22, &args);
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 475, &_43$$22);
 	} else {
-		if (zephir_fast_count_int(&args)) {
+		if (!(ZEPHIR_IS_EMPTY(&args))) {
 			ZEPHIR_MAKE_REF(&args);
 			ZEPHIR_CALL_FUNCTION(&_45$$24, "array_shift", NULL, 40, &args);
 			ZEPHIR_UNREF(&args);
 			zephir_check_call_status();
 			zephir_array_update_string(&handleArgs, SL("task"), &_45$$24, PH_COPY | PH_SEPARATE);
 		}
-		if (zephir_fast_count_int(&args)) {
+		if (!(ZEPHIR_IS_EMPTY(&args))) {
 			ZEPHIR_MAKE_REF(&args);
 			ZEPHIR_CALL_FUNCTION(&_46$$25, "array_shift", NULL, 40, &args);
 			ZEPHIR_UNREF(&args);
 			zephir_check_call_status();
 			zephir_array_update_string(&handleArgs, SL("action"), &_46$$25, PH_COPY | PH_SEPARATE);
 		}
-		if (zephir_fast_count_int(&args)) {
+		if (!(ZEPHIR_IS_EMPTY(&args))) {
 			ZEPHIR_INIT_VAR(&_47$$26);
 			zephir_fast_array_merge(&_47$$26, &handleArgs, &args);
 			ZEPHIR_CPY_WRT(&handleArgs, &_47$$26);

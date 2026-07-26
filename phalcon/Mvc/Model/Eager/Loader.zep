@@ -129,7 +129,7 @@ class Loader
         string modelName,
         array tree
     ) -> void {
-        if count(tree) === 0 || resultset->count() === 0 {
+        if empty tree || resultset->count() === 0 {
             return;
         }
 
@@ -245,7 +245,7 @@ class Loader
          * holding real instances it built itself, so there is no transient
          * hydration to work around.
          */
-        if count(node["children"]) > 0 && count(childModels) > 0 {
+        if !empty node["children"] && !empty childModels {
             let childMap = this->buildMap(
                 childModels,
                 relation->getReferencedModel(),
@@ -325,7 +325,7 @@ class Loader
         let pairMap        = [],
             referencedKeys = [];
 
-        if count(keys) > 0 {
+        if !empty keys {
             /**
              * Step one - the intermediate pairs. Only the two key columns are
              * selected, so these come back as Row objects.
@@ -407,7 +407,7 @@ class Loader
                 }
             }
 
-            if count(tuple) === 0 {
+            if empty tuple {
                 continue;
             }
 
@@ -418,7 +418,7 @@ class Loader
             }
         }
 
-        if count(node["children"]) > 0 && count(childModels) > 0 {
+        if !empty node["children"] && !empty childModels {
             let childMap = this->buildMap(
                 childModels,
                 relation->getReferencedModel(),
@@ -509,7 +509,7 @@ class Loader
         let referencedModel = relation->getReferencedModel(),
             modelInstance   = this->manager->load(referencedModel);
 
-        if count(keys) === 0 {
+        if empty keys {
             return new Simple(null, modelInstance, false);
         }
 
@@ -577,7 +577,7 @@ class Loader
             );
         }
 
-        if count(options) > 0 {
+        if !empty options {
             let findParams = Manager::mergeFindParameters(options, findParams);
         }
 

@@ -1294,10 +1294,10 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
          * lazy fetch.
          */
         if isset this->hostnameByMethod[requestMethod]
-            && count(this->hostnameByMethod[requestMethod]) > 0 {
+            && !empty this->hostnameByMethod[requestMethod] {
             let currentHostName = request->getHttpHost();
         } elseif isset this->hostnameByMethod["*"]
-            && count(this->hostnameByMethod["*"]) > 0 {
+            && !empty this->hostnameByMethod["*"] {
             let currentHostName = request->getHttpHost();
         }
 
@@ -1695,7 +1695,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
                 unset parts["params"];
             }
 
-            if count(params) {
+            if !empty params {
                 let this->params = array_merge(params, parts);
             } else {
                 let this->params = parts;
@@ -1814,7 +1814,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
 
         let groupRoutes = group->getRoutes();
 
-        if unlikely !count(groupRoutes) {
+        if unlikely empty groupRoutes {
             throw new EmptyGroupOfRoutes();
         }
 

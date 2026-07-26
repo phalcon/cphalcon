@@ -1319,7 +1319,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql)
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_1, 1058, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&models, &_0);
 	if (Z_TYPE_P(&models) == IS_ARRAY) {
-		if (UNEXPECTED(!(zephir_fast_count_int(&models)))) {
+		if (UNEXPECTED(ZEPHIR_IS_EMPTY(&models))) {
 			ZEPHIR_INIT_VAR(&_1$$5);
 			object_init_ex(&_1$$5, phalcon_mvc_model_query_exceptions_builder_modelrequired_ce);
 			ZEPHIR_CALL_METHOD(NULL, &_1$$5, "__construct", NULL, 0);
@@ -1371,7 +1371,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql)
 		noPrimary = 1;
 		ZEPHIR_CALL_METHOD(&primaryKeys, &metaData, "getprimarykeyattributes", NULL, 0, &modelInstance);
 		zephir_check_call_status();
-		if (zephir_fast_count_int(&primaryKeys)) {
+		if (!(ZEPHIR_IS_EMPTY(&primaryKeys))) {
 			zephir_memory_observe(&firstPrimaryKey);
 			if (zephir_array_isset_long_fetch(&firstPrimaryKey, &primaryKeys, 0, 0)) {
 				ZEPHIR_INIT_VAR(&_7$$13);
@@ -3350,7 +3350,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, where)
 		zephir_get_arrval(&bindTypes, bindTypes_param);
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1054, &conditions_zv);
-	if (zephir_fast_count_int(&bindParams) > 0) {
+	if (!(ZEPHIR_IS_EMPTY(&bindParams))) {
 		zephir_memory_observe(&currentBindParams);
 		zephir_read_property_cached(&currentBindParams, this_ptr, _zephir_prop_1, 1055, PH_NOISY_CC);
 		if (Z_TYPE_P(&currentBindParams) == IS_ARRAY) {
@@ -3361,8 +3361,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, where)
 			zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1055, &bindParams);
 		}
 	}
-	if (zephir_fast_count_int(&bindTypes) > 0) {
-		zephir_read_property_cached(&currentBindTypes, this_ptr, _zephir_prop_2, 1056, PH_NOISY_CC | PH_READONLY);
+	if (!(ZEPHIR_IS_EMPTY(&bindTypes))) {
+		zephir_memory_observe(&currentBindTypes);
+		zephir_read_property_cached(&currentBindTypes, this_ptr, _zephir_prop_2, 1056, PH_NOISY_CC);
 		if (Z_TYPE_P(&currentBindTypes) == IS_ARRAY) {
 			ZEPHIR_INIT_VAR(&_1$$7);
 			zephir_add_function(&_1$$7, &currentBindTypes, &bindTypes);
@@ -3535,7 +3536,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, conditionIn)
 	ZEPHIR_INIT_VAR(&_2);
 	ZEPHIR_CONCAT_VV(&_2, &operator_zv, &clause_zv);
 	ZEPHIR_CPY_WRT(&operatorMethod, &_2);
-	if (!(zephir_fast_count_int(&values))) {
+	if (ZEPHIR_IS_EMPTY(&values)) {
 		ZEPHIR_INIT_VAR(&_3$$4);
 		ZEPHIR_CONCAT_VSV(&_3$$4, &expr_zv, " != ", &expr_zv);
 		ZEPHIR_CALL_METHOD_ZVAL(NULL, this_ptr, &operatorMethod, NULL, 0, &_3$$4);
@@ -3770,7 +3771,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, conditionNotIn)
 	ZEPHIR_INIT_VAR(&_2);
 	ZEPHIR_CONCAT_VV(&_2, &operator_zv, &clause_zv);
 	ZEPHIR_CPY_WRT(&operatorMethod, &_2);
-	if (!(zephir_fast_count_int(&values))) {
+	if (ZEPHIR_IS_EMPTY(&values)) {
 		ZEPHIR_INIT_VAR(&_3$$4);
 		ZEPHIR_CONCAT_VSV(&_3$$4, &expr_zv, " != ", &expr_zv);
 		ZEPHIR_CALL_METHOD_ZVAL(NULL, this_ptr, &operatorMethod, NULL, 0, &_3$$4);

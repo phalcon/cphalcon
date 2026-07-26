@@ -16,8 +16,8 @@
 #include "kernel/memory.h"
 #include "kernel/exception.h"
 #include "kernel/fcall.h"
-#include "kernel/object.h"
 #include "kernel/operators.h"
+#include "kernel/object.h"
 
 
 /**
@@ -131,7 +131,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build)
 		return;
 	}
 	if (Z_TYPE_P(parameters) == IS_ARRAY) {
-		if (zephir_fast_count_int(parameters)) {
+		if (!(ZEPHIR_IS_EMPTY(parameters))) {
 			ZEPHIR_INIT_VAR(&instance);
 			ZEPHIR_LAST_CALL_STATUS = zephir_create_instance_params(&instance, &className, parameters);
 			zephir_check_call_status();
@@ -221,7 +221,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build)
 						ZEPHIR_MM_RESTORE();
 						return;
 					}
-					if (zephir_fast_count_int(&arguments)) {
+					if (!(ZEPHIR_IS_EMPTY(&arguments))) {
 						ZEPHIR_INIT_NVAR(&_14$$18);
 						ZEPHIR_CALL_METHOD(&_15$$18, this_ptr, "buildparameters", NULL, 0, container, &arguments);
 						zephir_check_call_status();
@@ -290,7 +290,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build)
 							ZEPHIR_MM_RESTORE();
 							return;
 						}
-						if (zephir_fast_count_int(&arguments)) {
+						if (!(ZEPHIR_IS_EMPTY(&arguments))) {
 							ZEPHIR_INIT_NVAR(&_24$$24);
 							ZEPHIR_CALL_METHOD(&_25$$24, this_ptr, "buildparameters", NULL, 0, container, &arguments);
 							zephir_check_call_status();

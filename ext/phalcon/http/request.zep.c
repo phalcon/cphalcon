@@ -2339,7 +2339,7 @@ PHP_METHOD(Phalcon_Http_Request, getUploadedFiles)
 	ZEPHIR_INIT_VAR(&files);
 	array_init(&files);
 	ZEPHIR_CPY_WRT(&superFiles, &_FILES);
-	if (zephir_fast_count_int(&superFiles) > 0) {
+	if (!(ZEPHIR_IS_EMPTY(&superFiles))) {
 		zephir_is_iterable(&superFiles, 0, "phalcon/Http/Request.zep", 1045);
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&superFiles), _1$$3, _2$$3, _0$$3)
 		{
@@ -3396,7 +3396,7 @@ PHP_METHOD(Phalcon_Http_Request, setParameterFilters)
 	} else {
 		zephir_get_arrval(&scope, scope_param);
 	}
-	if (UNEXPECTED(zephir_fast_count_int(&filters) < 1)) {
+	if (UNEXPECTED(ZEPHIR_IS_EMPTY(&filters))) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		object_init_ex(&_0$$3, phalcon_http_request_exceptions_missingfilters_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 0, &name_zv);
@@ -3457,7 +3457,7 @@ PHP_METHOD(Phalcon_Http_Request, setParameterFilters)
 		}
 	}
 	ZEPHIR_INIT_NVAR(&sanitizer);
-	if (zephir_fast_count_int(&scope) < 1) {
+	if (ZEPHIR_IS_EMPTY(&scope)) {
 		ZEPHIR_INIT_VAR(&localScope);
 		zephir_create_array(&localScope, 4, 0);
 		ZEPHIR_INIT_VAR(&_11$$8);
