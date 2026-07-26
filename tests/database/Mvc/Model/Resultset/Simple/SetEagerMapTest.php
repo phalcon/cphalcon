@@ -59,30 +59,6 @@ final class SetEagerMapTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * setRelated() writes through to the same cache getRelated() reads, and
-     * normalizes the alias to lower case.
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-07-25
-     */
-    #[Group('mysql')]
-    #[Group('pgsql')]
-    #[Group('sqlite')]
-    public function testMvcModelSetRelated(): void
-    {
-        $customer = Customers::findFirst('cst_id = 2');
-        $invoice  = InvoicesBelongsToCustomers::findFirst('inv_id = 1');
-
-        $this->assertFalse($invoice->isRelationshipLoaded('customer'));
-
-        $result = $invoice->setRelated('CUSTOMER', $customer);
-
-        $this->assertSame($invoice, $result);
-        $this->assertTrue($invoice->isRelationshipLoaded('customer'));
-        $this->assertSame($customer, $invoice->getRelated('customer'));
-    }
-
-    /**
      * A map placed on the resultset is applied to every record as it hydrates,
      * so getRelated() answers from the cache and issues no query. Rows whose
      * key is absent from the map fall back to the 'empty' default.
@@ -193,5 +169,29 @@ final class SetEagerMapTest extends AbstractDatabaseTestCase
         }
 
         $this->assertSame(2, $stamped);
+    }
+
+    /**
+     * setRelated() writes through to the same cache getRelated() reads, and
+     * normalizes the alias to lower case.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-07-25
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelSetRelated(): void
+    {
+        $customer = Customers::findFirst('cst_id = 2');
+        $invoice  = InvoicesBelongsToCustomers::findFirst('inv_id = 1');
+
+        $this->assertFalse($invoice->isRelationshipLoaded('customer'));
+
+        $result = $invoice->setRelated('CUSTOMER', $customer);
+
+        $this->assertSame($invoice, $result);
+        $this->assertTrue($invoice->isRelationshipLoaded('customer'));
+        $this->assertSame($customer, $invoice->getRelated('customer'));
     }
 }

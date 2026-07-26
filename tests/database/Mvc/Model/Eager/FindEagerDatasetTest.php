@@ -147,34 +147,6 @@ final class FindEagerDatasetTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * The same access pattern without eager loading costs one query for the
-     * invoices plus one per invoice - including the null foreign key, which
-     * still round-trips.
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-07-25
-     */
-    #[Group('mysql')]
-    #[Group('pgsql')]
-    #[Group('sqlite')]
-    public function testMvcModelFindLazyCostsOnePerInvoice(): void
-    {
-        $this->attachQueryCounter($this->getService('db'));
-
-        $actual = [];
-        foreach (InvoicesBelongsToCustomers::find(['order' => 'inv_id']) as $invoice) {
-            $customer = $invoice->getRelated('customer');
-
-            $actual[(int) $invoice->inv_id] = null === $customer
-                ? null
-                : (int) $customer->cst_id;
-        }
-
-        $this->assertSame(self::EXPECTED, $actual);
-        $this->assertQueryCount(1 + count(self::EXPECTED));
-    }
-
-    /**
      * An invoice whose foreign key is null resolves to null without a query.
      *
      * This is the case that motivated using array_key_exists rather than isset
@@ -259,5 +231,33 @@ final class FindEagerDatasetTest extends AbstractDatabaseTestCase
 
         $this->assertSame(18, $seen);
         $this->assertQueryCount(2);
+    }
+
+    /**
+     * The same access pattern without eager loading costs one query for the
+     * invoices plus one per invoice - including the null foreign key, which
+     * still round-trips.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-07-25
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelFindLazyCostsOnePerInvoice(): void
+    {
+        $this->attachQueryCounter($this->getService('db'));
+
+        $actual = [];
+        foreach (InvoicesBelongsToCustomers::find(['order' => 'inv_id']) as $invoice) {
+            $customer = $invoice->getRelated('customer');
+
+            $actual[(int) $invoice->inv_id] = null === $customer
+                ? null
+                : (int) $customer->cst_id;
+        }
+
+        $this->assertSame(self::EXPECTED, $actual);
+        $this->assertQueryCount(1 + count(self::EXPECTED));
     }
 }

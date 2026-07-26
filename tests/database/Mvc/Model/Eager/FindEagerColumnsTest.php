@@ -52,6 +52,52 @@ final class FindEagerColumnsTest extends AbstractDatabaseTestCase
     }
 
     /**
+     * The same rule one level up: a column-restricted parent must select the
+     * local key or the relation cannot be resolved.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-07-25
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelFindEagerRejectsMissingLocalColumn(): void
+    {
+        $this->expectException(MissingEagerKeyColumn::class);
+        $this->expectExceptionMessage("'inv_cst_id'");
+
+        InvoicesBelongsToCustomers::find(
+            [
+                'columns' => 'inv_id, inv_title',
+                'eager'   => ['customer'],
+            ]
+        );
+    }
+
+    /**
+     * Omitting the join key from the relation's columns would leave every row
+     * unattributable, so it throws naming the relation and the column rather
+     * than silently adding a field the caller did not ask for.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-07-25
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelFindEagerRejectsMissingReferencedColumn(): void
+    {
+        $this->expectException(MissingEagerKeyColumn::class);
+        $this->expectExceptionMessage("'cst_id'");
+
+        InvoicesBelongsToCustomers::find(
+            [
+                'eager' => ['customer' => ['columns' => 'cst_name_last']],
+            ]
+        );
+    }
+
+    /**
      * Columns are per-node, so one find can produce both shapes: model parents
      * with Row children.
      *
@@ -141,52 +187,6 @@ final class FindEagerColumnsTest extends AbstractDatabaseTestCase
 
         $this->assertSame(3, $seen);
         $this->assertQueryCount(2);
-    }
-
-    /**
-     * Omitting the join key from the relation's columns would leave every row
-     * unattributable, so it throws naming the relation and the column rather
-     * than silently adding a field the caller did not ask for.
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-07-25
-     */
-    #[Group('mysql')]
-    #[Group('pgsql')]
-    #[Group('sqlite')]
-    public function testMvcModelFindEagerRejectsMissingReferencedColumn(): void
-    {
-        $this->expectException(MissingEagerKeyColumn::class);
-        $this->expectExceptionMessage("'cst_id'");
-
-        InvoicesBelongsToCustomers::find(
-            [
-                'eager' => ['customer' => ['columns' => 'cst_name_last']],
-            ]
-        );
-    }
-
-    /**
-     * The same rule one level up: a column-restricted parent must select the
-     * local key or the relation cannot be resolved.
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-07-25
-     */
-    #[Group('mysql')]
-    #[Group('pgsql')]
-    #[Group('sqlite')]
-    public function testMvcModelFindEagerRejectsMissingLocalColumn(): void
-    {
-        $this->expectException(MissingEagerKeyColumn::class);
-        $this->expectExceptionMessage("'inv_cst_id'");
-
-        InvoicesBelongsToCustomers::find(
-            [
-                'columns' => 'inv_id, inv_title',
-                'eager'   => ['customer'],
-            ]
-        );
     }
 
     /**

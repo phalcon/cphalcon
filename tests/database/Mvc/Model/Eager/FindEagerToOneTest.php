@@ -40,31 +40,6 @@ final class FindEagerToOneTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Without eager loading the fixture costs 1 + N queries: one for the
-     * invoices and one per invoice for its customer, including a repeat of the
-     * same customer, because each iteration hydrates a fresh instance with an
-     * empty relation cache.
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-07-25
-     */
-    #[Group('mysql')]
-    #[Group('pgsql')]
-    #[Group('sqlite')]
-    public function testMvcModelFindLazyCostsOnePlusN(): void
-    {
-        $this->attachQueryCounter($this->getService('db'));
-
-        $names = [];
-        foreach (InvoicesBelongsToCustomers::find(['order' => 'inv_id']) as $invoice) {
-            $names[] = $invoice->getRelated('customer')->cst_name_last;
-        }
-
-        $this->assertCount(3, $names);
-        $this->assertQueryCount(4);
-    }
-
-    /**
      * The same loop with eager loading costs exactly 2 queries and returns
      * identical data.
      *
@@ -100,6 +75,32 @@ final class FindEagerToOneTest extends AbstractDatabaseTestCase
     }
 
     /**
+     * A parent set with no rows short-circuits: the relation query is never
+     * issued, because WHERE IN () is not valid SQL and there is nothing to
+     * stamp.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-07-25
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelFindEagerEmptyParentSet(): void
+    {
+        $this->attachQueryCounter($this->getService('db'));
+
+        $found = InvoicesBelongsToCustomers::find(
+            [
+                'conditions' => 'inv_id < 0',
+                'eager'      => ['customer'],
+            ]
+        );
+
+        $this->assertSame(0, $found->count());
+        $this->assertQueryCount(1);
+    }
+
+    /**
      * Property access goes through the same cache, so the ergonomic form from
      * the issue is covered too.
      *
@@ -128,9 +129,10 @@ final class FindEagerToOneTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * A parent set with no rows short-circuits: the relation query is never
-     * issued, because WHERE IN () is not valid SQL and there is nothing to
-     * stamp.
+     * Without eager loading the fixture costs 1 + N queries: one for the
+     * invoices and one per invoice for its customer, including a repeat of the
+     * same customer, because each iteration hydrates a fresh instance with an
+     * empty relation cache.
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-07-25
@@ -138,18 +140,16 @@ final class FindEagerToOneTest extends AbstractDatabaseTestCase
     #[Group('mysql')]
     #[Group('pgsql')]
     #[Group('sqlite')]
-    public function testMvcModelFindEagerEmptyParentSet(): void
+    public function testMvcModelFindLazyCostsOnePlusN(): void
     {
         $this->attachQueryCounter($this->getService('db'));
 
-        $found = InvoicesBelongsToCustomers::find(
-            [
-                'conditions' => 'inv_id < 0',
-                'eager'      => ['customer'],
-            ]
-        );
+        $names = [];
+        foreach (InvoicesBelongsToCustomers::find(['order' => 'inv_id']) as $invoice) {
+            $names[] = $invoice->getRelated('customer')->cst_name_last;
+        }
 
-        $this->assertSame(0, $found->count());
-        $this->assertQueryCount(1);
+        $this->assertCount(3, $names);
+        $this->assertQueryCount(4);
     }
 }

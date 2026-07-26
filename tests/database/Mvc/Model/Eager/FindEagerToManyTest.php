@@ -78,43 +78,6 @@ final class FindEagerToManyTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Each parent's slice contains only its own children, and a slice is
-     * independently iterable more than once.
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-07-25
-     */
-    #[Group('mysql')]
-    #[Group('pgsql')]
-    #[Group('sqlite')]
-    public function testMvcModelFindEagerHasManySliceContents(): void
-    {
-        $customers = Customers::find(
-            [
-                'conditions' => 'cst_id = 2',
-                'eager'      => ['invoices'],
-            ]
-        );
-
-        $customer = $customers->getFirst();
-        $related  = $customer->getRelated('invoices');
-
-        $first = [];
-        foreach ($related as $invoice) {
-            $this->assertSame(2, (int) $invoice->inv_cst_id);
-            $first[] = $invoice->inv_id;
-        }
-
-        $second = [];
-        foreach ($related as $invoice) {
-            $second[] = $invoice->inv_id;
-        }
-
-        $this->assertCount(2, $first);
-        $this->assertSame($first, $second);
-    }
-
-    /**
      * Eager and lazy return the same data for the same relation.
      *
      * @author Phalcon Team <team@phalcon.io>
@@ -149,5 +112,42 @@ final class FindEagerToManyTest extends AbstractDatabaseTestCase
         }
 
         $this->assertSame($lazy, $eager);
+    }
+
+    /**
+     * Each parent's slice contains only its own children, and a slice is
+     * independently iterable more than once.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-07-25
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelFindEagerHasManySliceContents(): void
+    {
+        $customers = Customers::find(
+            [
+                'conditions' => 'cst_id = 2',
+                'eager'      => ['invoices'],
+            ]
+        );
+
+        $customer = $customers->getFirst();
+        $related  = $customer->getRelated('invoices');
+
+        $first = [];
+        foreach ($related as $invoice) {
+            $this->assertSame(2, (int) $invoice->inv_cst_id);
+            $first[] = $invoice->inv_id;
+        }
+
+        $second = [];
+        foreach ($related as $invoice) {
+            $second[] = $invoice->inv_id;
+        }
+
+        $this->assertCount(2, $first);
+        $this->assertSame($first, $second);
     }
 }

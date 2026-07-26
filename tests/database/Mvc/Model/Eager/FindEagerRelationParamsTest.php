@@ -63,50 +63,6 @@ final class FindEagerRelationParamsTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * A relation declaring an array of params - Customers::paidInvoices, with
-     * 'inv_status_flag = :paid:' - must select the same rows eagerly as it
-     * does lazily.
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-07-25
-     */
-    #[Group('mysql')]
-    #[Group('pgsql')]
-    #[Group('sqlite')]
-    public function testMvcModelFindEagerRelationParamsArray(): void
-    {
-        $lazy = $this->collect('paidInvoices');
-
-        $this->attachQueryCounter($this->getService('db'));
-
-        $eager = $this->collect('paidInvoices', ['paidInvoices']);
-
-        $this->assertSame([1 => [1], 2 => [3, 4], 3 => []], $eager);
-        $this->assertSame($lazy, $eager);
-        $this->assertQueryCount(2);
-    }
-
-    /**
-     * Closure params are supported too. Relation::getParams() invokes the
-     * closure (Relation.zep:206) and it takes no arguments, so evaluating it
-     * once per batch rather than once per record cannot change the result.
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-07-25
-     */
-    #[Group('mysql')]
-    #[Group('pgsql')]
-    #[Group('sqlite')]
-    public function testMvcModelFindEagerRelationParamsClosure(): void
-    {
-        $lazy  = $this->collect('unpaidInvoices');
-        $eager = $this->collect('unpaidInvoices', ['unpaidInvoices']);
-
-        $this->assertSame([1 => [2], 2 => [], 3 => [6]], $eager);
-        $this->assertSame($lazy, $eager);
-    }
-
-    /**
      * Options written on the eager spec merge the same way, so a caller can
      * narrow a relation without declaring a second one.
      *
@@ -156,6 +112,50 @@ final class FindEagerRelationParamsTest extends AbstractDatabaseTestCase
 
         // paid = [1, 3, 4]; inv_id > 3 narrows it to [4]
         $this->assertSame([1 => [], 2 => [4], 3 => []], $eager);
+    }
+
+    /**
+     * A relation declaring an array of params - Customers::paidInvoices, with
+     * 'inv_status_flag = :paid:' - must select the same rows eagerly as it
+     * does lazily.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-07-25
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelFindEagerRelationParamsArray(): void
+    {
+        $lazy = $this->collect('paidInvoices');
+
+        $this->attachQueryCounter($this->getService('db'));
+
+        $eager = $this->collect('paidInvoices', ['paidInvoices']);
+
+        $this->assertSame([1 => [1], 2 => [3, 4], 3 => []], $eager);
+        $this->assertSame($lazy, $eager);
+        $this->assertQueryCount(2);
+    }
+
+    /**
+     * Closure params are supported too. Relation::getParams() invokes the
+     * closure (Relation.zep:206) and it takes no arguments, so evaluating it
+     * once per batch rather than once per record cannot change the result.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-07-25
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelFindEagerRelationParamsClosure(): void
+    {
+        $lazy  = $this->collect('unpaidInvoices');
+        $eager = $this->collect('unpaidInvoices', ['unpaidInvoices']);
+
+        $this->assertSame([1 => [2], 2 => [], 3 => [6]], $eager);
+        $this->assertSame($lazy, $eager);
     }
 
     /**

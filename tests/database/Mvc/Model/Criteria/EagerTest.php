@@ -101,6 +101,35 @@ final class EagerTest extends AbstractDatabaseTestCase
     }
 
     /**
+     * eager() combines with the rest of the criteria rather than replacing it.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-07-25
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelCriteriaEagerWithConditions(): void
+    {
+        $found = InvoicesBelongsToCustomers::query()
+            ->where('inv_cst_id = 2')
+            ->eager(['customer'])
+            ->orderBy('inv_id')
+            ->execute()
+        ;
+
+        $this->assertSame(2, $found->count());
+
+        foreach ($found as $invoice) {
+            $this->assertTrue($invoice->isRelationshipLoaded('customer'));
+            $this->assertSame(
+                'cst-last-2',
+                $invoice->getRelated('customer')->cst_name_last
+            );
+        }
+    }
+
+    /**
      * Per-relation options survive the pass-through unchanged.
      *
      * @author Phalcon Team <team@phalcon.io>
@@ -137,34 +166,5 @@ final class EagerTest extends AbstractDatabaseTestCase
 
         $this->assertSame(3, $seen);
         $this->assertQueryCount(2);
-    }
-
-    /**
-     * eager() combines with the rest of the criteria rather than replacing it.
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-07-25
-     */
-    #[Group('mysql')]
-    #[Group('pgsql')]
-    #[Group('sqlite')]
-    public function testMvcModelCriteriaEagerWithConditions(): void
-    {
-        $found = InvoicesBelongsToCustomers::query()
-            ->where('inv_cst_id = 2')
-            ->eager(['customer'])
-            ->orderBy('inv_id')
-            ->execute()
-        ;
-
-        $this->assertSame(2, $found->count());
-
-        foreach ($found as $invoice) {
-            $this->assertTrue($invoice->isRelationshipLoaded('customer'));
-            $this->assertSame(
-                'cst-last-2',
-                $invoice->getRelated('customer')->cst_name_last
-            );
-        }
     }
 }

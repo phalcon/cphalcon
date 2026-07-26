@@ -147,6 +147,28 @@ final class FindEagerFailuresTest extends AbstractDatabaseTestCase
     }
 
     /**
+     * A path deeper than the cap is refused. An unbounded path is never
+     * intentional, and a to-many hop following a to-one hop can fan out to an
+     * entire table.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-07-25
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelFindEagerRejectsExcessiveDepth(): void
+    {
+        $this->expectException(InvalidEagerPath::class);
+
+        InvoicesBelongsToCustomers::find(
+            [
+                'eager' => ['customer.invoices.customer.invoices.customer.invoices'],
+            ]
+        );
+    }
+
+    /**
      * A per-parent limit needs a window function PHQL cannot express, and
      * applying it to the batch would return N children in total rather than N
      * per parent.
@@ -214,27 +236,5 @@ final class FindEagerFailuresTest extends AbstractDatabaseTestCase
         $this->expectExceptionMessage("alias 'custmoer'");
 
         InvoicesBelongsToCustomers::find(['eager' => ['custmoer']]);
-    }
-
-    /**
-     * A path deeper than the cap is refused. An unbounded path is never
-     * intentional, and a to-many hop following a to-one hop can fan out to an
-     * entire table.
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-07-25
-     */
-    #[Group('mysql')]
-    #[Group('pgsql')]
-    #[Group('sqlite')]
-    public function testMvcModelFindEagerRejectsExcessiveDepth(): void
-    {
-        $this->expectException(InvalidEagerPath::class);
-
-        InvoicesBelongsToCustomers::find(
-            [
-                'eager' => ['customer.invoices.customer.invoices.customer.invoices'],
-            ]
-        );
     }
 }
