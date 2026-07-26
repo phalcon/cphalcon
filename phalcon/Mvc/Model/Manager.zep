@@ -1437,7 +1437,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
              * Create a query builder
              */
             let builder = this->createBuilder(
-                this->mergeFindParameters(extraParameters, parameters)
+                self::mergeFindParameters(extraParameters, parameters)
             );
 
             builder->from(referencedModel);
@@ -1538,10 +1538,10 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
             "di"        : record->{"getDi"}()
         ];
 
-        let findArguments = this->mergeFindParameters(findParams, parameters);
+        let findArguments = self::mergeFindParameters(findParams, parameters);
 
         if typeof extraParameters == "array" {
-            let findParams = this->mergeFindParameters(
+            let findParams = self::mergeFindParameters(
                 extraParameters,
                 findArguments
             );
@@ -2038,6 +2038,83 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     }
 
     /**
+     * Merge two arrays of find parameters
+     *
+     * The order matters. Conditions coming from key 0 or "conditions" are
+     * ANDed in argument order; `bind` and `bindTypes` are merged for the
+     * second argument only and assigned outright for the first. Pass the
+     * parameters whose bindings must survive as the second argument.
+     *
+     * Static because it reads nothing but its arguments, and public so bulk
+     * loaders can reuse the merge instead of duplicating these semantics.
+     *
+     * @param mixed $findParamsOne
+     * @param mixed $findParamsTwo
+     *
+     * @return array
+     */
+    final public static function mergeFindParameters(var findParamsOne, var findParamsTwo) -> array
+    {
+        var key, value;
+        array findParams;
+
+        let findParams = [];
+
+        if typeof findParamsOne == "string" {
+            let findParamsOne = [
+                "conditions": findParamsOne
+            ];
+        }
+
+        if typeof findParamsTwo == "string" {
+            let findParamsTwo = [
+                "conditions": findParamsTwo
+            ];
+        }
+
+        if typeof findParamsOne == "array"  {
+            for key, value in findParamsOne {
+                if key === 0 || key === "conditions" {
+                    if !isset findParams[0] {
+                        let findParams[0] = value;
+                    } else {
+                        let findParams[0] = "(" . findParams[0] . ") AND (" . value . ")";
+                    }
+                } else {
+                    let findParams[key] = value;
+                }
+            }
+        }
+
+        if typeof findParamsTwo == "array"  {
+            for key, value in findParamsTwo {
+                if key === 0 || key === "conditions" {
+                    if !isset findParams[0] {
+                        let findParams[0] = value;
+                    } else {
+                        let findParams[0] = "(" . findParams[0] . ") AND (" . value . ")";
+                    }
+                } elseif key === "bind" || key === "bindTypes" {
+                    if typeof value == "array" {
+                        if !isset findParams[key] {
+                            let findParams[key] = value;
+                        } else {
+                            let findParams[key] = array_merge(
+                                findParams[key],
+                                value
+                            );
+                        }
+                    }
+                } else {
+                    let findParams[key] = value;
+                }
+            }
+        }
+
+        return findParams;
+    }
+
+    /**
      * Dispatch an event to the listeners and behaviors
      * This method expects that the endpoint listeners/behaviors returns true
      * meaning that a least one was implemented
@@ -2415,75 +2492,6 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         }
 
         return connection;
-    }
-
-    /**
-     * Merge two arrays of find parameters
-     *
-     * @param mixed $findParamsOne
-     * @param mixed $findParamsTwo
-     *
-     * @return array
-     */
-    final protected function mergeFindParameters(var findParamsOne, var findParamsTwo) -> array
-    {
-        var key, value;
-        array findParams;
-
-        let findParams = [];
-
-        if typeof findParamsOne == "string" {
-            let findParamsOne = [
-                "conditions": findParamsOne
-            ];
-        }
-
-        if typeof findParamsTwo == "string" {
-            let findParamsTwo = [
-                "conditions": findParamsTwo
-            ];
-        }
-
-        if typeof findParamsOne == "array"  {
-            for key, value in findParamsOne {
-                if key === 0 || key === "conditions" {
-                    if !isset findParams[0] {
-                        let findParams[0] = value;
-                    } else {
-                        let findParams[0] = "(" . findParams[0] . ") AND (" . value . ")";
-                    }
-                } else {
-                    let findParams[key] = value;
-                }
-            }
-        }
-
-        if typeof findParamsTwo == "array"  {
-            for key, value in findParamsTwo {
-                if key === 0 || key === "conditions" {
-                    if !isset findParams[0] {
-                        let findParams[0] = value;
-                    } else {
-                        let findParams[0] = "(" . findParams[0] . ") AND (" . value . ")";
-                    }
-                } elseif key === "bind" || key === "bindTypes" {
-                    if typeof value == "array" {
-                        if !isset findParams[key] {
-                            let findParams[key] = value;
-                        } else {
-                            let findParams[key] = array_merge(
-                                findParams[key],
-                                value
-                            );
-                        }
-                    }
-                } else {
-                    let findParams[key] = value;
-                }
-            }
-        }
-
-        return findParams;
     }
 
     /**

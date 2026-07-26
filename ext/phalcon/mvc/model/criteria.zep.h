@@ -12,6 +12,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, columns);
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, conditions);
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, createBuilder);
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, distinct);
+PHP_METHOD(Phalcon_Mvc_Model_Criteria, eager);
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, execute);
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, forUpdate);
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput);
@@ -82,6 +83,10 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_criteria_distinct, 0, 1, Phalcon\\Mvc\\Model\\CriteriaInterface, 0)
 	ZEND_ARG_INFO(0, distinct)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_criteria_eager, 0, 1, Phalcon\\Mvc\\Model\\Criteria, 0)
+	ZEND_ARG_ARRAY_INFO(0, paths, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_criteria_execute, 0, 0, Phalcon\\Mvc\\Model\\ResultsetInterface, 0)
@@ -231,6 +236,7 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_criteria_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model_Criteria, conditions, arginfo_phalcon_mvc_model_criteria_conditions, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Criteria, createBuilder, arginfo_phalcon_mvc_model_criteria_createbuilder, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Criteria, distinct, arginfo_phalcon_mvc_model_criteria_distinct, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Criteria, eager, arginfo_phalcon_mvc_model_criteria_eager, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Criteria, execute, arginfo_phalcon_mvc_model_criteria_execute, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Criteria, forUpdate, arginfo_phalcon_mvc_model_criteria_forupdate, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Criteria, fromInput, arginfo_phalcon_mvc_model_criteria_frominput, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
