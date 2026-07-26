@@ -49,7 +49,7 @@ SQL;
         }
 
         $params = [
-            ':custId'    => $custId ?? 1,
+            ':custId'    => $custId,
             ':status'    => $status,
             ':title'     => $title ?: uniqid('', true),
             ':total'     => $total,
