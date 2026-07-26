@@ -387,7 +387,7 @@ abstract class Dialect implements DialectInterface
              */
             case "select":
                 let nestedDefinition = expression["value"];
-                if count(bindCounts) {
+                if !empty bindCounts {
                     let nestedDefinition["bindCounts"] = bindCounts;
                 }
                 return "(" . this->select(nestedDefinition) . ")";

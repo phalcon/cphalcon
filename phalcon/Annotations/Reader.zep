@@ -59,7 +59,7 @@ class Reader implements ReaderInterface
          */
         let constants = reflection->getConstants();
 
-        if count(constants) {
+        if !empty constants {
             /**
              * Line declaration for constants isn't available
              */
@@ -89,7 +89,7 @@ class Reader implements ReaderInterface
                 }
             }
 
-            if count(anotationsConstants) {
+            if !empty anotationsConstants {
                 let annotations["constants"] = anotationsConstants;
             }
         }
@@ -99,7 +99,7 @@ class Reader implements ReaderInterface
          */
         let properties = reflection->getProperties();
 
-        if count(properties) {
+        if !empty properties {
             /**
              * Line declaration for properties isn't available
              */
@@ -127,7 +127,7 @@ class Reader implements ReaderInterface
                 }
             }
 
-            if count(annotationsProperties) {
+            if !empty annotationsProperties {
                 let annotations["properties"] = annotationsProperties;
             }
         }
@@ -161,7 +161,7 @@ class Reader implements ReaderInterface
                 }
             }
 
-            if count(annotationsMethods) {
+            if !empty annotationsMethods {
                 let annotations["methods"] = annotationsMethods;
             }
         }

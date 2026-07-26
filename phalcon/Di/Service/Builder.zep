@@ -57,7 +57,7 @@ class Builder
              * Build the instance overriding the definition constructor
              * parameters
              */
-            if count(parameters) {
+            if !empty parameters {
                 let instance = create_instance_params(className, parameters);
             } else {
                 let instance = create_instance(className);
@@ -119,7 +119,7 @@ class Builder
                         throw new CallArgumentsMustBeArray((int) methodPosition);
                     }
 
-                    if count(arguments) {
+                    if !empty arguments {
                         /**
                          * Call the method on the instance
                          */

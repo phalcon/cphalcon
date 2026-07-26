@@ -786,7 +786,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
 
         let handlers = collection->getHandlers();
 
-        if unlikely !count(handlers) {
+        if unlikely empty handlers {
             throw new NoHandlersToMount();
         }
 

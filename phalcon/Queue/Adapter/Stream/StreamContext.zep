@@ -124,7 +124,7 @@ class StreamContext extends AbstractContext
 
         let line = array_shift(lines);
 
-        if count(lines) > 0 {
+        if !empty lines {
             let remaining = implode(PHP_EOL, lines) . PHP_EOL;
         } else {
             let remaining = "";

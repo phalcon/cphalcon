@@ -134,7 +134,7 @@ class Service implements ServiceInterface
              * String definitions can be class names without implicit parameters
              */
             if class_exists(definition) {
-                if typeof parameters == "array" && count(parameters) {
+                if typeof parameters == "array" && !empty parameters {
                     let instance = create_instance_params(
                         definition,
                         parameters

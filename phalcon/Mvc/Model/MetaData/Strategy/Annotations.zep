@@ -48,7 +48,7 @@ class Annotations implements StrategyInterface
          */
         let propertiesAnnotations = reflection->getPropertiesAnnotations();
 
-        if unlikely !count(propertiesAnnotations) {
+        if unlikely empty propertiesAnnotations {
             throw new NoPropertyAnnotationsForClass(className);
         }
 
@@ -125,7 +125,7 @@ class Annotations implements StrategyInterface
          */
         let propertiesAnnotations = reflection->getPropertiesAnnotations();
 
-        if unlikely !count(propertiesAnnotations) {
+        if unlikely empty propertiesAnnotations {
             throw new NoPropertyAnnotationsForClass(className);
         }
 

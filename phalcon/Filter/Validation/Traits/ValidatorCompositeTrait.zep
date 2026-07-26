@@ -38,7 +38,7 @@ trait ValidatorCompositeTrait
     {
         var validator;
 
-        if unlikely count(this->getValidators()) === 0 {
+        if unlikely empty this->getValidators() {
             throw new \Phalcon\Filter\Validation\Exceptions\NoValidatorsInComposite(
                 get_class(this)
             );

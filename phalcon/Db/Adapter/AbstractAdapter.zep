@@ -324,7 +324,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
             throw new TableMustHaveColumn();
         }
 
-        if unlikely !count(columns) {
+        if unlikely empty columns {
             throw new TableMustHaveColumn();
         }
 
@@ -931,7 +931,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
         /**
          * A valid array with more than one element is required
          */
-        if unlikely !count(values) {
+        if unlikely empty values {
             throw new CannotInsertWithoutData(table);
         }
 
@@ -985,7 +985,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
         /**
          * Perform the execution via PDO::execute
          */
-        if !count(bindDataTypes) {
+        if empty bindDataTypes {
             return this->{"execute"}(insertSql, insertValues);
         }
 
@@ -1486,7 +1486,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
         /**
          * Perform the update via PDO::execute
          */
-        if !count(bindDataTypes) {
+        if empty bindDataTypes {
             return this->{"execute"}(updateSql, updateValues);
         }
 

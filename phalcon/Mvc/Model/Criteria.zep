@@ -338,7 +338,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 
         let conditions = [];
 
-        if count(data) {
+        if !empty data {
             let metaData  = container->getShared("modelsMetadata"),
                 model     = create_instance_params(
                     modelName,
@@ -356,7 +356,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
             let bind = [];
 
             for field, value in data {
-                if typeof columnMap == "array" && count(columnMap) {
+                if typeof columnMap == "array" && !empty columnMap {
                     let attribute = columnMap[field];
                 } else {
                     let attribute = field;
@@ -390,7 +390,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
         let criteria = new self();
         criteria->setDI(container);
 
-        if count(conditions) {
+        if !empty conditions {
             criteria->where(
                 join(
                     " " . operator . " ",
@@ -565,7 +565,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
         array bindParams, bindKeys;
         string key, queryKey;
 
-        if !count(values) {
+        if empty values {
             this->andWhere(expr . " != " . expr);
 
             return this;

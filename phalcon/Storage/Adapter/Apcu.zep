@@ -164,7 +164,7 @@ class Apcu extends AbstractAdapter
         let result = this->phpApcuDelete(prefixedKeys);
 
         // apcu_delete with array returns array of keys that could NOT be deleted
-        return typeof result === "array" && count(result) === 0;
+        return typeof result === "array" && empty result;
     }
 
     /**

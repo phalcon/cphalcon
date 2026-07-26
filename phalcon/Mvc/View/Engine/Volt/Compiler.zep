@@ -2631,7 +2631,7 @@ class Compiler implements InjectionAwareInterface
         /**
          * Nothing to compile
          */
-        if !count(statements) {
+        if empty statements {
             return "";
         }
 

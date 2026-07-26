@@ -654,7 +654,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      */
     public function isEmpty() -> bool
     {
-        return count(this->metaData) == 0;
+        return empty this->metaData;
     }
 
     /**

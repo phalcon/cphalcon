@@ -746,7 +746,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
              */
             let filters = element->getFilters();
 
-            if count(validators) == 0 && empty filters {
+            if empty validators && empty filters {
                 continue;
             }
 

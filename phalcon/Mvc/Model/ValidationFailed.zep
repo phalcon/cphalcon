@@ -41,7 +41,7 @@ class ValidationFailed extends Exception
     {
         var messageStr, message;
 
-        if count(validationMessages) > 0 {
+        if !empty validationMessages {
             /**
              * Get the first message in the array
              */

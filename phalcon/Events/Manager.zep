@@ -304,7 +304,7 @@ class Manager implements ManagerInterface
 
             // Drop the key when the last listener is gone so fire() can
             // short-circuit cleanly and hasListeners() tells the truth.
-            if count(newQueue) > 0 {
+            if !empty newQueue {
                 let this->events[eventType] = newQueue;
             } else {
                 unset this->events[eventType];
