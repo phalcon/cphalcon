@@ -31,6 +31,8 @@ class Loader
      * Maximum number of rows a single relation node may return before the load
      * is refused. Guards against a to-many hop that follows a to-one hop, which
      * can fan out to an entire table.
+     *
+     * @var int
      */
     const MAX_ROWS_PER_LEVEL = 100000;
 

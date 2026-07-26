@@ -27,6 +27,8 @@ class PathTree
     /**
      * Longest path accepted. Depth alone is not what makes an eager load
      * expensive, but an unbounded path is never intentional.
+     *
+     * @var int
      */
     const MAX_DEPTH = 5;
 
