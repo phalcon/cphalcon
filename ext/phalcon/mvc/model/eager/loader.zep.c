@@ -908,7 +908,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Eager_Loader, buildThroughNode)
 		ZEPHIR_INIT_VAR(&_12$$3);
 		zephir_create_array(&_12$$3, 1, 0);
 		ZVAL_LONG(&_13$$3, 0);
-		ZEPHIR_CALL_FUNCTION(&_7$$3, "array_column", NULL, 0, &keys, &_13$$3);
+		ZEPHIR_CALL_FUNCTION(&_7$$3, "array_column", NULL, 331, &keys, &_13$$3);
 		zephir_check_call_status();
 		zephir_array_update_string(&_12$$3, SL("phEagerKeys"), &_7$$3, PH_COPY | PH_SEPARATE);
 		zephir_array_update_string(&_10$$3, SL("bind"), &_12$$3, PH_COPY | PH_SEPARATE);
@@ -1472,7 +1472,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Eager_Loader, fetchReferenced)
 		ZEPHIR_INIT_VAR(&_5$$4);
 		zephir_create_array(&_5$$4, 1, 0);
 		ZVAL_LONG(&_6$$4, 0);
-		ZEPHIR_CALL_FUNCTION(&_7$$4, "array_column", NULL, 0, &keys, &_6$$4);
+		ZEPHIR_CALL_FUNCTION(&_7$$4, "array_column", NULL, 331, &keys, &_6$$4);
 		zephir_check_call_status();
 		zephir_array_update_string(&_5$$4, SL("phEagerKeys"), &_7$$4, PH_COPY | PH_SEPARATE);
 		zephir_array_update_string(&findParams, SL("bind"), &_5$$4, PH_COPY | PH_SEPARATE);

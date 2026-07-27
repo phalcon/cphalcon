@@ -278,7 +278,7 @@ PHP_METHOD(Phalcon_Db_Profiler, startProfile)
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, &activeProfile, "setsqlbindtypes", NULL, 0, &sqlBindTypes);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_0, "hrtime", NULL, 491, &__$true);
+	ZEPHIR_CALL_FUNCTION(&_0, "hrtime", NULL, 493, &__$true);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, &activeProfile, "setinitialtime", NULL, 0, &_0);
 	zephir_check_call_status();
@@ -334,7 +334,7 @@ PHP_METHOD(Phalcon_Db_Profiler, stopProfile)
 
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 629, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&activeProfile, &_0);
-	ZEPHIR_CALL_FUNCTION(&_1, "hrtime", NULL, 491, &__$true);
+	ZEPHIR_CALL_FUNCTION(&_1, "hrtime", NULL, 493, &__$true);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, &activeProfile, "setfinaltime", NULL, 0, &_1);
 	zephir_check_call_status();
