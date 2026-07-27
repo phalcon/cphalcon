@@ -50,6 +50,43 @@ final class MatchTest extends AbstractUnitTestCase
     }
 
     /**
+     * Unit Tests Phalcon\ADR\Router\Router :: match() prefers the operation form
+     *
+     * `/posts/archive` resolves to GetPostsArchive even though the resource form
+     * GetPosts also exists - the operation form is tried first.
+     */
+    public function testAdrRouterRouterMatchResolvesOperationForm(): void
+    {
+        $_SERVER['REQUEST_URI']    = '/posts/archive';
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+
+        $router = (new Router())->setBaseNamespace(self::BASE);
+
+        $match = $router->match(new Request());
+
+        $this->assertInstanceOf(RouterMatch::class, $match);
+        $this->assertSame(self::BASE . '\\Posts\\GetPostsArchive', $match->getAction());
+        $this->assertSame([], $match->getAttributes());
+    }
+
+    /**
+     * Unit Tests Phalcon\ADR\Router\Router :: match() resolves the root Action
+     */
+    public function testAdrRouterRouterMatchResolvesRootAction(): void
+    {
+        $_SERVER['REQUEST_URI']    = '/';
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+
+        $router = (new Router())->setBaseNamespace(self::BASE);
+
+        $match = $router->match(new Request());
+
+        $this->assertInstanceOf(RouterMatch::class, $match);
+        $this->assertSame(self::BASE . '\\Get', $match->getAction());
+        $this->assertSame([], $match->getAttributes());
+    }
+
+    /**
      * Unit Tests Phalcon\ADR\Router\Router :: match() returns null (404) when nothing matches
      */
     public function testAdrRouterRouterMatchReturnsNull(): void
