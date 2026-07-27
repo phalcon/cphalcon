@@ -35,6 +35,14 @@ ZEPHIR_INIT_CLASS(Phalcon_Contracts_ADR_Router_Router)
 	return SUCCESS;
 }
 
+/**
+ * Every Action class this router would try for the given method and path,
+ * in the order it tries them. The first that exists wins at match time.
+ * The list is not filtered by existence.
+ *
+ * @return list<class-string>
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Contracts_ADR_Router_Router, candidatesFor);
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_ADR_Router_Router, match);
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_ADR_Router_Router, setBaseNamespace);
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_ADR_Router_Router, setMiddlewareMap);

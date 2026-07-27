@@ -36,40 +36,37 @@ final class Router implements RouterInterface
      */
     protected middlewareMap = [];
 
+    /**
+     * Every Action class this router would try for the given method and path,
+     * in the order it tries them. The first that exists wins at match time.
+     * The list is not filtered by existence.
+     *
+     * @return list<class-string>
+     */
+    public function candidatesFor(string method, string path) -> array
+    {
+        return array_column(this->deriveCandidates(method, path), 0);
+    }
+
     public function match(<RequestInterface> request) -> <RouterMatchInterface> | null
     {
-        var uri, verb, segments, located, verbs, other, className;
+        var path, method, located, verbs, other;
 
-        let uri      = trim(request->getURI(true), "/"),
-            verb     = ucfirst(strtolower(request->getMethod())),
-            segments = uri === "" ? [] : explode("/", uri);
+        let path   = request->getURI(true),
+            method = request->getMethod();
 
-        if empty segments {
-            let className = this->baseNamespace . "\\" . verb;
-
-            if class_exists(className) {
-                return new RouterMatch(
-                    className, 
-                    [], 
-                    this->middlewareFor(className)
-                );
-            }
-
-            return null;
-        }
-
-        let located = this->locate(segments, verb);
+        let located = this->locate(method, path);
         if typeof located == "array" {
             return new RouterMatch(
-                located[0], 
-                located[1], 
+                located[0],
+                located[1],
                 this->middlewareFor(located[0])
             );
         }
 
         let verbs = ["Get", "Post", "Put", "Patch", "Delete"];
         for other in verbs {
-            if other !== verb && typeof this->locate(segments, other) == "array" {
+            if strcasecmp(other, method) !== 0 && typeof this->locate(other, path) == "array" {
                 throw new MethodNotAllowed();
             }
         }
@@ -96,9 +93,28 @@ final class Router implements RouterInterface
         return str_replace(" ", "", ucwords(str_replace(["-", "_"], " ", segment)));
     }
 
-    protected function locate(array segments, string verb) -> array | null
+    /**
+     * The single derivation of the routing convention. Every candidate is
+     * paired with the request attributes it would leave behind, in try order.
+     *
+     * @return array<int, array{0: string, 1: array}>
+     */
+    protected function deriveCandidates(string method, string path) -> array
     {
-        var index, last, prev, head, resourceName, operation, className;
+        var candidates, uri, verb, segments, index, last, prev, head,
+            resourceName, operation, className;
+
+        let candidates = [],
+            uri        = trim(path, "/"),
+            verb       = ucfirst(strtolower(method)),
+            segments   = uri === "" ? [] : explode("/", uri);
+
+        if empty segments {
+            let className    = this->baseNamespace . "\\" . verb,
+                candidates[] = [className, []];
+
+            return candidates;
+        }
 
         let index = count(segments);
 
@@ -107,28 +123,37 @@ final class Router implements RouterInterface
                 head = array_slice(segments, 0, index);
 
             if index >= 2 {
-                let prev      = index - 2,
+                let prev         = index - 2,
                     resourceName = head[prev],
                     operation    = head[last],
                     className    = this->baseNamespace
                         . this->toNamespace(array_slice(head, 0, last))
-                        . "\\" . verb . this->camelize(resourceName) . this->camelize(operation);
-
-                if class_exists(className) {
-                    return [className, array_slice(segments, index)];
-                }
+                        . "\\" . verb . this->camelize(resourceName) . this->camelize(operation),
+                    candidates[] = [className, array_slice(segments, index)];
             }
 
             let resourceName = head[last],
                 className    = this->baseNamespace
                     . this->toNamespace(head)
-                    . "\\" . verb . this->camelize(resourceName);
-
-            if class_exists(className) {
-                return [className, array_slice(segments, index)];
-            }
+                    . "\\" . verb . this->camelize(resourceName),
+                candidates[] = [className, array_slice(segments, index)];
 
             let index = index - 1;
+        }
+
+        return candidates;
+    }
+
+    protected function locate(string method, string path) -> array | null
+    {
+        var candidates, candidate;
+
+        let candidates = this->deriveCandidates(method, path);
+
+        for candidate in candidates {
+            if class_exists(candidate[0]) {
+                return candidate;
+            }
         }
 
         return null;
