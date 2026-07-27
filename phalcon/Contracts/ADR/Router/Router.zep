@@ -22,6 +22,15 @@ use Phalcon\Http\RequestInterface;
  */
 interface Router
 {
+    /**
+     * Every Action class this router would try for the given method and path,
+     * in the order it tries them. The first that exists wins at match time.
+     * The list is not filtered by existence.
+     *
+     * @return list<class-string>
+     */
+    public function candidatesFor(string method, string path) -> array;
+
     public function match(<RequestInterface> request) -> <RouterMatch> | null;
 
     public function setBaseNamespace(string baseNamespace) -> <Router>;
