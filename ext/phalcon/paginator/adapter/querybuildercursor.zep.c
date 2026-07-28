@@ -335,7 +335,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilderCursor, paginate)
 	zephir_check_call_status();
 	if (zephir_fast_count_int(&items) > limit) {
 		ZEPHIR_MAKE_REF(&items);
-		ZEPHIR_CALL_FUNCTION(NULL, "array_pop", NULL, 339, &items);
+		ZEPHIR_CALL_FUNCTION(NULL, "array_pop", NULL, 340, &items);
 		ZEPHIR_UNREF(&items);
 		zephir_check_call_status();
 		zephir_memory_observe(&lastItem);

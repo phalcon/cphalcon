@@ -21,7 +21,13 @@
  * file that was distributed with this source code.
  *
  * Based on the Action Domain Responder pattern
+ *
+ * Implementation of this file has also been heavily influenced by Autoroute.
+ *
  * @link    https://pmjones.io/adr/
+ *
+ * @link    https://github.com/pmjones/AutoRoute
+ * @license https://github.com/pmjones/AutoRoute/blob/2.x/LICENSE.md
  */
 /**
  * Maps a request to an Action by convention: the HTTP method and the static
@@ -44,6 +50,15 @@ ZEPHIR_INIT_CLASS(Phalcon_Contracts_ADR_Router_Router)
  * @return list<class-string>
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_ADR_Router_Router, candidatesFor);
+/**
+ * The class this convention names for a fully static path, derived without
+ * consulting the filesystem - the exact inverse of pathFor().
+ *
+ * For tooling that needs the name before the code exists: generators,
+ * linters, documentation and "no action found; expected X" diagnostics.
+ * Pass the static prefix only; placeholders are the caller's concern.
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Contracts_ADR_Router_Router, classFor);
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_ADR_Router_Router, match);
 /**
  * The canonical static path the given Action class answers, or null when
