@@ -56,13 +56,13 @@ PHP_METHOD(Phalcon_Storage_Serializer_Php, serialize)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 1317, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 1321, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "isserializable", NULL, 0, &_1);
 	zephir_check_call_status();
 	if (!ZEPHIR_IS_TRUE_IDENTICAL(&_0)) {
 		RETURN_MM_MEMBER(getThis(), "data");
 	}
-	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 1317, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 1321, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "phpserialize", NULL, 0, &_2);
 	zephir_check_call_status();
 	RETURN_MM();
@@ -109,7 +109,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_Php, unserialize)
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "isserializable", NULL, 0, data);
 	zephir_check_call_status();
 	if (!ZEPHIR_IS_TRUE_IDENTICAL(&_0)) {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1317, data);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1321, data);
 		RETURN_MM_NULL();
 	}
 	ZEPHIR_INIT_VAR(&_1);
@@ -140,20 +140,20 @@ PHP_METHOD(Phalcon_Storage_Serializer_Php, unserialize)
 	}
 	if (UNEXPECTED(_5)) {
 		if (0) {
-			zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1318, &__$true);
+			zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1322, &__$true);
 		} else {
-			zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1318, &__$false);
+			zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1322, &__$false);
 		}
 		ZEPHIR_INIT_NVAR(&result);
 		ZVAL_STRING(&result, "");
 	} else {
 		if (1) {
-			zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1318, &__$true);
+			zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1322, &__$true);
 		} else {
-			zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1318, &__$false);
+			zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1322, &__$false);
 		}
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1317, &result);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1321, &result);
 	ZEPHIR_MM_RESTORE();
 }
 

@@ -147,14 +147,15 @@ PHP_METHOD(Phalcon_ADR_Responder_ChainResponder, __invoke)
 
 PHP_METHOD(Phalcon_ADR_Responder_ChainResponder, with)
 {
+	zval links;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *link, link_sub, links, _0;
+	zval *link, link_sub, _0;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&link_sub);
-	ZVAL_UNDEF(&links);
 	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&links);
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("links", 5, 1);

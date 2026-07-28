@@ -12,8 +12,9 @@ PHP_METHOD(Phalcon_ADR_Application, getContainer);
 PHP_METHOD(Phalcon_ADR_Application, handle);
 PHP_METHOD(Phalcon_ADR_Application, secureWith);
 PHP_METHOD(Phalcon_ADR_Application, set);
+PHP_METHOD(Phalcon_ADR_Application, setActionDirectory);
 PHP_METHOD(Phalcon_ADR_Application, setBaseNamespace);
-zend_object *zephir_init_properties_Phalcon_ADR_Application(zend_class_entry *class_type);
+PHP_METHOD(Phalcon_ADR_Application, setWordSeparator);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_adr_application___construct, 0, 0, 0)
 	ZEND_ARG_OBJ_TYPE_MASK(0, container, Phalcon\\Container\\Container, MAY_BE_NULL, "null")
@@ -56,11 +57,16 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_adr_application_set, 0, 
 	ZEND_ARG_INFO(0, definition)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_adr_application_setactiondirectory, 0, 1, MAY_BE_STATIC)
+	ZEND_ARG_TYPE_INFO(0, actionDirectory, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_adr_application_setbasenamespace, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, baseNamespace, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_adr_application_zephir_init_properties_phalcon_adr_application, 0, 0, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_adr_application_setwordseparator, 0, 1, MAY_BE_STATIC)
+	ZEND_ARG_TYPE_INFO(0, wordSeparator, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_adr_application_method_entry) {
@@ -73,6 +79,8 @@ ZEPHIR_INIT_FUNCS(phalcon_adr_application_method_entry) {
 	PHP_ME(Phalcon_ADR_Application, handle, arginfo_phalcon_adr_application_handle, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_ADR_Application, secureWith, arginfo_phalcon_adr_application_securewith, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_ADR_Application, set, arginfo_phalcon_adr_application_set, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_ADR_Application, setActionDirectory, arginfo_phalcon_adr_application_setactiondirectory, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_ADR_Application, setBaseNamespace, arginfo_phalcon_adr_application_setbasenamespace, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_ADR_Application, setWordSeparator, arginfo_phalcon_adr_application_setwordseparator, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };

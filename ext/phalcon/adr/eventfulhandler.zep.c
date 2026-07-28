@@ -36,14 +36,18 @@ ZEPHIR_INIT_CLASS(Phalcon_ADR_EventfulHandler)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\ADR, EventfulHandler, phalcon, adr_eventfulhandler, phalcon_adr_eventfulhandler_method_entry, ZEND_ACC_FINAL_CLASS);
 
-	/**
-	 * @var Action
-	 */
-	zend_declare_property_null(phalcon_adr_eventfulhandler_ce, SL("action"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var Manager
-	 */
-	zend_declare_property_null(phalcon_adr_eventfulhandler_ce, SL("events"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_adr_eventfulhandler_ce, SL("action"), &_zc0, ZEND_ACC_PROTECTED, 0, SL("Phalcon\\Contracts\\ADR\\Action"));
+	}
+
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_adr_eventfulhandler_ce, SL("events"), &_zc0, ZEND_ACC_PROTECTED, 0, SL("Phalcon\\Contracts\\Events\\Manager"));
+	}
+
 	zend_class_implements(phalcon_adr_eventfulhandler_ce, 1, phalcon_contracts_adr_handler_ce);
 	return SUCCESS;
 }
@@ -69,8 +73,8 @@ PHP_METHOD(Phalcon_ADR_EventfulHandler, __construct)
 		Z_PARAM_OBJECT_OF_CLASS(events, phalcon_contracts_events_manager_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(2, 0, &action, &events);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 340, action);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 341, events);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 342, action);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 343, events);
 }
 
 PHP_METHOD(Phalcon_ADR_EventfulHandler, __invoke)
@@ -103,17 +107,17 @@ PHP_METHOD(Phalcon_ADR_EventfulHandler, __invoke)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &request);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 341, PH_NOISY_CC | PH_READONLY);
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 340, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 343, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 342, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "adr:beforeExecuteAction");
 	ZEPHIR_CALL_METHOD(NULL, &_0, "fire", NULL, 0, &_2, &_1, request);
 	zephir_check_call_status();
-	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_1, 340, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_1, 342, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&response, &_3, "__invoke", NULL, 0, request);
 	zephir_check_call_status();
-	zephir_read_property_cached(&_4, this_ptr, _zephir_prop_0, 341, PH_NOISY_CC | PH_READONLY);
-	zephir_read_property_cached(&_5, this_ptr, _zephir_prop_1, 340, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_4, this_ptr, _zephir_prop_0, 343, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_5, this_ptr, _zephir_prop_1, 342, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "adr:afterExecuteAction");
 	ZEPHIR_CALL_METHOD(NULL, &_4, "fire", NULL, 0, &_2, &_5, &response);

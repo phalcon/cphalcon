@@ -38,11 +38,29 @@ ZEPHIR_INIT_CLASS(Phalcon_Contracts_ADR_Router_Router)
 /**
  * Every Action class this router would try for the given method and path,
  * in the order it tries them. The first that exists wins at match time.
- * The list is not filtered by existence.
+ * Namespace descent consults the filesystem, so the list depends on the
+ * action directory.
  *
  * @return list<class-string>
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_ADR_Router_Router, candidatesFor);
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_ADR_Router_Router, match);
+/**
+ * The canonical static path the given Action class answers, or null when
+ * the class is not derivable from the base namespace. Positional
+ * attributes are not part of the canonical path.
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Contracts_ADR_Router_Router, pathFor);
+/**
+ * The filesystem root that backs the base namespace. The router uses it to
+ * decide whether a path segment names a sub-namespace.
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Contracts_ADR_Router_Router, setActionDirectory);
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_ADR_Router_Router, setBaseNamespace);
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_ADR_Router_Router, setMiddlewareMap);
+/**
+ * The single delimiter between words in a path segment. Applied
+ * symmetrically when deriving a class name from a path and a path from a
+ * class name. Any other character is literal.
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Contracts_ADR_Router_Router, setWordSeparator);

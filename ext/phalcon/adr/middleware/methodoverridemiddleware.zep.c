@@ -17,7 +17,6 @@
 #include "kernel/operators.h"
 #include "kernel/string.h"
 #include "kernel/object.h"
-#include "kernel/array.h"
 
 
 /**
@@ -45,10 +44,16 @@ ZEPHIR_INIT_CLASS(Phalcon_ADR_Middleware_MethodOverrideMiddleware)
 	ZEPHIR_REGISTER_CLASS(Phalcon\\ADR\\Middleware, MethodOverrideMiddleware, phalcon, adr_middleware_methodoverridemiddleware, phalcon_adr_middleware_methodoverridemiddleware_method_entry, 0);
 
 	/**
-	 * @var array
+	 * @var array<int, string>
 	 */
-	zend_declare_property_null(phalcon_adr_middleware_methodoverridemiddleware_ce, SL("allowed"), ZEND_ACC_PROTECTED);
-	phalcon_adr_middleware_methodoverridemiddleware_ce->create_object = zephir_init_properties_Phalcon_ADR_Middleware_MethodOverrideMiddleware;
+	{
+		zval _zc0;
+		array_init_size(&_zc0, 4);
+		add_next_index_stringl(&_zc0, SL("DELETE"));
+		add_next_index_stringl(&_zc0, SL("PATCH"));
+		add_next_index_stringl(&_zc0, SL("PUT"));
+		zephir_declare_typed_property(phalcon_adr_middleware_methodoverridemiddleware_ce, SL("allowed"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_ARRAY, NULL, 0);
+	}
 
 	zend_class_implements(phalcon_adr_middleware_methodoverridemiddleware_ce, 1, phalcon_contracts_adr_middleware_ce);
 	return SUCCESS;
@@ -98,7 +103,7 @@ PHP_METHOD(Phalcon_ADR_Middleware_MethodOverrideMiddleware, __invoke)
 		zephir_cast_to_string(&_4$$3, &_2$$3);
 		ZEPHIR_INIT_VAR(&spoofed);
 		zephir_fast_strtoupper(&spoofed, &_4$$3);
-		zephir_read_property_cached(&_5$$3, this_ptr, _zephir_prop_0, 348, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_5$$3, this_ptr, _zephir_prop_0, 350, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_FUNCTION(&_6$$3, "in_array", NULL, 87, &spoofed, &_5$$3, &__$true);
 		zephir_check_call_status();
 		if (zephir_is_true(&_6$$3)) {
@@ -110,41 +115,5 @@ PHP_METHOD(Phalcon_ADR_Middleware_MethodOverrideMiddleware, __invoke)
 	ZEPHIR_RETURN_CALL_METHOD(next, "__invoke", NULL, 0, request);
 	zephir_check_call_status();
 	RETURN_MM();
-}
-
-zend_object *zephir_init_properties_Phalcon_ADR_Middleware_MethodOverrideMiddleware(zend_class_entry *class_type)
-{
-		zval _1$$3;
-	zval _0, _2$$3;
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-		ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_2$$3);
-	ZVAL_UNDEF(&_1$$3);
-	
-
-		ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-		zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	
-	{
-		zval local_this_ptr, *this_ptr = &local_this_ptr;
-		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		zephir_read_property_ex(&_0, this_ptr, ZEND_STRL("allowed"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_0) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_1$$3);
-			zephir_create_array(&_1$$3, 3, 0);
-			ZEPHIR_INIT_VAR(&_2$$3);
-			ZVAL_STRING(&_2$$3, "DELETE");
-			zephir_array_fast_append(&_1$$3, &_2$$3);
-			ZEPHIR_INIT_NVAR(&_2$$3);
-			ZVAL_STRING(&_2$$3, "PATCH");
-			zephir_array_fast_append(&_1$$3, &_2$$3);
-			ZEPHIR_INIT_NVAR(&_2$$3);
-			ZVAL_STRING(&_2$$3, "PUT");
-			zephir_array_fast_append(&_1$$3, &_2$$3);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("allowed"), &_1$$3);
-		}
-		ZEPHIR_MM_RESTORE();
-		return Z_OBJ_P(this_ptr);
-	}
 }
 

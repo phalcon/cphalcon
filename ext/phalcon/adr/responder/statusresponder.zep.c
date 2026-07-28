@@ -36,10 +36,12 @@ ZEPHIR_INIT_CLASS(Phalcon_ADR_Responder_StatusResponder)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\ADR\\Responder, StatusResponder, phalcon, adr_responder_statusresponder, phalcon_adr_responder_statusresponder_method_entry, 0);
 
-	/**
-	 * @var StatusMapper
-	 */
-	zend_declare_property_null(phalcon_adr_responder_statusresponder_ce, SL("mapper"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_adr_responder_statusresponder_ce, SL("mapper"), &_zc0, ZEND_ACC_PROTECTED, 0, SL("Phalcon\\ADR\\Responder\\StatusMapper"));
+	}
+
 	zend_class_implements(phalcon_adr_responder_statusresponder_ce, 1, phalcon_contracts_adr_responder_responder_ce);
 	return SUCCESS;
 }
@@ -76,9 +78,9 @@ PHP_METHOD(Phalcon_ADR_Responder_StatusResponder, __construct)
 		object_init_ex(&_0$$3, phalcon_adr_responder_statusmapper_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 326);
 		zephir_check_call_status();
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 356, &_0$$3);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 358, &_0$$3);
 	} else {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 356, mapper);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 358, mapper);
 	}
 	ZEPHIR_MM_RESTORE();
 }
@@ -114,7 +116,7 @@ PHP_METHOD(Phalcon_ADR_Responder_StatusResponder, __invoke)
 	ZEPHIR_CALL_METHOD(&status, payload, "getstatus", NULL, 0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&status) != IS_NULL) {
-		zephir_read_property_cached(&_0$$3, this_ptr, _zephir_prop_0, 356, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_0$$3, this_ptr, _zephir_prop_0, 358, PH_NOISY_CC | PH_READONLY);
 		zephir_cast_to_string(&_2$$3, &status);
 		ZEPHIR_CALL_METHOD(&_1$$3, &_0$$3, "tohttpcode", NULL, 0, &_2$$3);
 		zephir_check_call_status();

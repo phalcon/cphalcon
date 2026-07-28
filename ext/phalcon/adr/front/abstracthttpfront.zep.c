@@ -42,7 +42,12 @@ ZEPHIR_INIT_CLASS(Phalcon_ADR_Front_AbstractHttpFront)
 	/**
 	 * @var string
 	 */
-	zend_declare_property_null(phalcon_adr_front_abstracthttpfront_ce, SL("projectRoot"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_adr_front_abstracthttpfront_ce, SL("projectRoot"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
+
 	zend_class_implements(phalcon_adr_front_abstracthttpfront_ce, 1, phalcon_contracts_front_frontcontroller_ce);
 	return SUCCESS;
 }
@@ -71,16 +76,16 @@ PHP_METHOD(Phalcon_ADR_Front_AbstractHttpFront, __construct)
  */
 PHP_METHOD(Phalcon_ADR_Front_AbstractHttpFront, run)
 {
-	zval container, request, application, response, exception, _2, _0$$3, _1$$3;
+	zval application, container, exception, request, response, _2, _0$$3, _1$$3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&container);
-	ZVAL_UNDEF(&request);
 	ZVAL_UNDEF(&application);
-	ZVAL_UNDEF(&response);
+	ZVAL_UNDEF(&container);
 	ZVAL_UNDEF(&exception);
+	ZVAL_UNDEF(&request);
+	ZVAL_UNDEF(&response);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_0$$3);
 	ZVAL_UNDEF(&_1$$3);
