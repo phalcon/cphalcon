@@ -15,6 +15,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 - Changed `Phalcon\Mvc\Model::getRelated()` and `Phalcon\Mvc\Model::isRelationshipLoaded()` to test the relation cache with `array_key_exists()` instead of `isset()`, so a to-one relation that resolves to no record is no longer re-queried on every access [#17331](https://github.com/phalcon/cphalcon/issues/17331) [[doc]](https://docs.phalcon.io/5.18/db-models-relationships/)
 - Changed `Phalcon\Mvc\Model\Manager::mergeFindParameters()` from `final protected` to `final public static` [#17331](https://github.com/phalcon/cphalcon/issues/17331)
 - Changed `Phalcon\ADR\Router\Router` from a candidate chain to a namespace descent: a path segment becomes a namespace segment only if the matching directory exists, after which at most two Action classes are probed instead of five. An Action can no longer be silently shadowed by an earlier candidate. Requires `setActionDirectory()`. [#17405](https://github.com/phalcon/cphalcon/issues/17405) [[doc]](https://docs.phalcon.io/5.18/adr/)
+- Changed `Phalcon\ADR\Router\Router` to derive exactly one Action class per path: the class name is the verb followed by every static segment concatenated. [#17410](https://github.com/phalcon/cphalcon/issues/17410) [[doc]](https://docs.phalcon.io/5.18/adr/)
 
 ### Added
 
@@ -37,6 +38,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 - Added `pathFor()`, `setActionDirectory()` and `setWordSeparator()` to the `Phalcon\Contracts\ADR\Router\Router` contract and to `Phalcon\ADR\Router\Router`; the two setters are also on `Phalcon\ADR\Application`. `pathFor()` is the inverse of the routing convention, returning the canonical path an Action answers or `null`. Added `Phalcon\ADR\Exceptions\ActionDirectoryNotSet`. [#17405](https://github.com/phalcon/cphalcon/issues/17405) [[doc]](https://docs.phalcon.io/5.18/adr/)
 - Added `Phalcon\Container\Container::getServiceNames()`, returning the names of every registered service definition. [#17406](https://github.com/phalcon/cphalcon/issues/17406) [[doc]](https://docs.phalcon.io/5.18/container/)
 - Added `Phalcon\Events\Manager::getEventTypes()`, returning the event types that currently have at least one listener attached, including those contributed by subscribers. [#17406](https://github.com/phalcon/cphalcon/issues/17406) [[doc]](https://docs.phalcon.io/5.18/events/)
+- Added `classFor()` to the `Phalcon\Contracts\ADR\Router\Router` contract and to `Phalcon\ADR\Router\Router`. It names the Action class the convention would use for a static path. [#17410](https://github.com/phalcon/cphalcon/issues/17410) [[doc]](https://docs.phalcon.io/5.18/adr/)
 
 ### Fixed
 
