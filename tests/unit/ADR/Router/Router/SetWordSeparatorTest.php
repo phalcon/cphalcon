@@ -45,7 +45,8 @@ final class SetWordSeparatorTest extends AbstractUnitTestCase
         $match = $router->match(new Request());
 
         $this->assertSame(
-            self::BASE . '\\UserProfiles\\GetUserProfilesResetPassword',
+            self::BASE
+            . '\\UserProfiles\\ResetPassword\\GetUserProfilesResetPassword',
             $match->getAction()
         );
     }
@@ -67,7 +68,8 @@ final class SetWordSeparatorTest extends AbstractUnitTestCase
         $match = $router->match(new Request());
 
         $this->assertSame(
-            self::BASE . '\\UserProfiles\\GetUserProfilesResetPassword',
+            self::BASE
+            . '\\UserProfiles\\ResetPassword\\GetUserProfilesResetPassword',
             $match->getAction()
         );
 

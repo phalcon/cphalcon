@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Tests\Support\ADR\Action\UserProfiles;
+namespace Phalcon\Tests\Support\ADR\Action\UserProfiles\ResetPassword;
 
 use Phalcon\Contracts\ADR\Action;
 use Phalcon\Contracts\Http\AttributeRequest;

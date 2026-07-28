@@ -31,9 +31,9 @@ final class CandidatesForTest extends AbstractUnitTestCase
     }
 
     /**
-     * The routing convention as a vector list. Two candidates appear only when
-     * exactly one segment remains after the descent: the fused operation form
-     * is probed before the resource form.
+     * The routing convention as a vector list. One path names exactly one
+     * class, so the list holds at most one entry - there is no candidate
+     * ordering and nothing can be shadowed.
      *
      * @return array[]
      */
@@ -89,11 +89,10 @@ final class CandidatesForTest extends AbstractUnitTestCase
                     self::BASE . '\\Posts\\PostPosts',
                 ],
             ],
-            'operation form then resource form' => [
+            'no fused operation form' => [
                 'GET',
                 '/posts/archive',
                 [
-                    self::BASE . '\\Posts\\GetPostsArchive',
                     self::BASE . '\\Posts\\GetPosts',
                 ],
             ],
@@ -101,7 +100,6 @@ final class CandidatesForTest extends AbstractUnitTestCase
                 'GET',
                 '/posts/42',
                 [
-                    self::BASE . '\\Posts\\GetPosts42',
                     self::BASE . '\\Posts\\GetPosts',
                 ],
             ],
@@ -109,7 +107,15 @@ final class CandidatesForTest extends AbstractUnitTestCase
                 'GET',
                 '/reports/daily',
                 [
-                    self::BASE . '\\Reports\\Daily\\GetDaily',
+                    self::BASE . '\\Reports\\Daily\\GetReportsDaily',
+                ],
+            ],
+            'two level descent, multi word' => [
+                'GET',
+                '/user-profiles/reset-password',
+                [
+                    self::BASE
+                    . '\\UserProfiles\\ResetPassword\\GetUserProfilesResetPassword',
                 ],
             ],
             'descent stops, remainder is attributes' => [
@@ -134,7 +140,7 @@ final class CandidatesForTest extends AbstractUnitTestCase
 
     /**
      * Unit Tests Phalcon\ADR\Router\Router :: candidatesFor() agrees with
-     * match() - the first candidate that exists is the one routed to
+     * match() - the single derived class is the one routed to
      */
     public function testAdrRouterRouterCandidatesForAgreesWithMatch(): void
     {
@@ -153,11 +159,11 @@ final class CandidatesForTest extends AbstractUnitTestCase
     }
 
     /**
-     * Unit Tests Phalcon\ADR\Router\Router :: candidatesFor() reports every
-     * Action class the router would try, in try order
+     * Unit Tests Phalcon\ADR\Router\Router :: candidatesFor() derives at most
+     * one Action class for any method and path
      */
     #[DataProvider('getExamples')]
-    public function testAdrRouterRouterCandidatesForReturnsTryOrder(
+    public function testAdrRouterRouterCandidatesForReturnsSingleDerivation(
         string $method,
         string $path,
         array $expected
@@ -166,6 +172,9 @@ final class CandidatesForTest extends AbstractUnitTestCase
             ->setBaseNamespace(self::BASE)
             ->setActionDirectory(self::DIRECTORY);
 
-        $this->assertSame($expected, $router->candidatesFor($method, $path));
+        $candidates = $router->candidatesFor($method, $path);
+
+        $this->assertSame($expected, $candidates);
+        $this->assertLessThanOrEqual(1, count($candidates));
     }
 }

@@ -18,6 +18,12 @@ use Phalcon\Contracts\Http\AttributeRequest;
 use Phalcon\Http\Response;
 use Phalcon\Http\ResponseInterface;
 
+/**
+ * Deliberately unreachable. The class name fuses an operation onto the
+ * resource, but there is no `Posts/Archive` directory, so `/posts/archive`
+ * resolves to GetPosts with `archive` as a positional attribute. Kept as the
+ * negative fixture for the "nothing can be shadowed" guarantee.
+ */
 final class GetPostsArchive implements Action
 {
     public function __invoke(AttributeRequest $request): ResponseInterface

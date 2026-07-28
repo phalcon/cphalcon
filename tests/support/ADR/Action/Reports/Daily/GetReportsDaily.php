@@ -18,7 +18,7 @@ use Phalcon\Contracts\Http\AttributeRequest;
 use Phalcon\Http\Response;
 use Phalcon\Http\ResponseInterface;
 
-final class GetDaily implements Action
+final class GetReportsDaily implements Action
 {
     public function __invoke(AttributeRequest $request): ResponseInterface
     {

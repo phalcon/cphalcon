@@ -34,6 +34,30 @@ final class MatchTest extends AbstractUnitTestCase
     }
 
     /**
+     * Unit Tests Phalcon\ADR\Router\Router :: match() ignores the fused
+     * operation form - nothing can be shadowed
+     *
+     * `Posts\GetPostsArchive` exists but there is no `Posts/Archive` directory,
+     * so `archive` is a positional attribute of `GetPosts`. The class is
+     * unreachable, and that is the guarantee: only the namespace decides.
+     */
+    public function testAdrRouterRouterMatchIgnoresFusedOperationForm(): void
+    {
+        $_SERVER['REQUEST_URI']    = '/posts/archive';
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+
+        $router = (new Router())
+            ->setBaseNamespace(self::BASE)
+            ->setActionDirectory(self::DIRECTORY);
+
+        $match = $router->match(new Request());
+
+        $this->assertInstanceOf(RouterMatch::class, $match);
+        $this->assertSame(self::BASE . '\\Posts\\GetPosts', $match->getAction());
+        $this->assertSame([0 => 'archive'], $match->getAttributes());
+    }
+
+    /**
      * Unit Tests Phalcon\ADR\Router\Router :: match() resolves a class + positional attributes
      */
     public function testAdrRouterRouterMatchResolvesByConvention(): void
@@ -54,14 +78,12 @@ final class MatchTest extends AbstractUnitTestCase
     }
 
     /**
-     * Unit Tests Phalcon\ADR\Router\Router :: match() prefers the operation form
-     *
-     * `/posts/archive` resolves to GetPostsArchive even though the resource form
-     * GetPosts also exists - the operation form is tried first.
+     * Unit Tests Phalcon\ADR\Router\Router :: match() concatenates every static
+     * segment into the class name
      */
-    public function testAdrRouterRouterMatchResolvesOperationForm(): void
+    public function testAdrRouterRouterMatchResolvesNestedNamespace(): void
     {
-        $_SERVER['REQUEST_URI']    = '/posts/archive';
+        $_SERVER['REQUEST_URI']    = '/reports/daily';
         $_SERVER['REQUEST_METHOD'] = 'GET';
 
         $router = (new Router())
@@ -71,7 +93,10 @@ final class MatchTest extends AbstractUnitTestCase
         $match = $router->match(new Request());
 
         $this->assertInstanceOf(RouterMatch::class, $match);
-        $this->assertSame(self::BASE . '\\Posts\\GetPostsArchive', $match->getAction());
+        $this->assertSame(
+            self::BASE . '\\Reports\\Daily\\GetReportsDaily',
+            $match->getAction()
+        );
         $this->assertSame([], $match->getAttributes());
     }
 

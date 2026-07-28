@@ -31,23 +31,35 @@ final class RoundTripTest extends AbstractUnitTestCase
     }
 
     /**
-     * Every Action fixture on disk, as a class-string.
+     * Every reachable Action fixture on disk, paired with the attributes its
+     * canonical path leaves behind. A declared parameter reverses to a
+     * placeholder, so it comes back as one positional attribute.
      *
      * @return array[]
      */
     public static function getExamples(): array
     {
         return [
-            'root'                => [self::BASE . '\\Get'],
-            'admin'               => [self::BASE . '\\Admin\\GetAdmin'],
-            'hello'               => [self::BASE . '\\Hello\\GetHello'],
-            'posts'               => [self::BASE . '\\Posts\\GetPosts'],
-            'posts archive'       => [self::BASE . '\\Posts\\GetPostsArchive'],
-            'reports daily'       => [self::BASE . '\\Reports\\Daily\\GetDaily'],
-            'user'                => [self::BASE . '\\User\\GetUser'],
-            'user profiles'       => [self::BASE . '\\UserProfiles\\GetUserProfiles'],
+            'root'          => [self::BASE . '\\Get', []],
+            'admin'         => [self::BASE . '\\Admin\\GetAdmin', []],
+            'hello'         => [self::BASE . '\\Hello\\GetHello', []],
+            'posts'         => [self::BASE . '\\Posts\\GetPosts', []],
+            'reports daily' => [
+                self::BASE . '\\Reports\\Daily\\GetReportsDaily',
+                [],
+            ],
+            'user' => [
+                self::BASE . '\\User\\GetUser',
+                [0 => '{id}'],
+            ],
+            'user profiles' => [
+                self::BASE . '\\UserProfiles\\GetUserProfiles',
+                [],
+            ],
             'user profiles reset' => [
-                self::BASE . '\\UserProfiles\\GetUserProfilesResetPassword',
+                self::BASE
+                . '\\UserProfiles\\ResetPassword\\GetUserProfilesResetPassword',
+                [],
             ],
         ];
     }
@@ -57,8 +69,10 @@ final class RoundTripTest extends AbstractUnitTestCase
      * returns the class it came from - the reversibility guarantee
      */
     #[DataProvider('getExamples')]
-    public function testAdrRouterRouterRoundTripsEveryAction(string $className): void
-    {
+    public function testAdrRouterRouterRoundTripsEveryAction(
+        string $className,
+        array $expected
+    ): void {
         $router = (new Router())
             ->setBaseNamespace(self::BASE)
             ->setActionDirectory(self::DIRECTORY);
@@ -74,6 +88,6 @@ final class RoundTripTest extends AbstractUnitTestCase
 
         $this->assertNotNull($match, $path . ' does not resolve');
         $this->assertSame($className, $match->getAction(), $path . ' is shadowed');
-        $this->assertSame([], $match->getAttributes());
+        $this->assertSame($expected, $match->getAttributes());
     }
 }

@@ -36,25 +36,26 @@ final class PathForTest extends AbstractUnitTestCase
                 self::BASE . '\\Posts\\GetPosts',
                 '/posts',
             ],
-            'fused operation form' => [
-                self::BASE . '\\Posts\\GetPostsArchive',
-                '/posts/archive',
-            ],
             'two level descent' => [
-                self::BASE . '\\Reports\\Daily\\GetDaily',
+                self::BASE . '\\Reports\\Daily\\GetReportsDaily',
                 '/reports/daily',
             ],
             'multi word resource' => [
                 self::BASE . '\\UserProfiles\\GetUserProfiles',
                 '/user-profiles',
             ],
-            'multi word resource and operation' => [
-                self::BASE . '\\UserProfiles\\GetUserProfilesResetPassword',
+            'multi word, two level descent' => [
+                self::BASE
+                . '\\UserProfiles\\ResetPassword\\GetUserProfilesResetPassword',
                 '/user-profiles/reset-password',
             ],
             'other verb' => [
                 self::BASE . '\\Posts\\PostPosts',
                 '/posts',
+            ],
+            'declared parameter becomes a placeholder' => [
+                self::BASE . '\\User\\GetUser',
+                '/user/{id}',
             ],
             'outside the base namespace' => [
                 'Some\\Other\\Namespace1\\GetThing',
@@ -64,8 +65,16 @@ final class PathForTest extends AbstractUnitTestCase
                 self::BASE . '\\Nonsense',
                 null,
             ],
-            'class name that does not carry its resource' => [
+            'fused operation form is not a convention name' => [
+                self::BASE . '\\Posts\\GetPostsArchive',
+                null,
+            ],
+            'class name that does not carry its namespace' => [
                 self::BASE . '\\Posts\\GetSomethingElse',
+                null,
+            ],
+            'class name carrying only the last segment' => [
+                self::BASE . '\\Reports\\Daily\\GetDaily',
                 null,
             ],
         ];
@@ -84,13 +93,30 @@ final class PathForTest extends AbstractUnitTestCase
 
         $this->assertSame(
             '/user_profiles/reset_password',
-            $router->pathFor(self::BASE . '\\UserProfiles\\GetUserProfilesResetPassword')
+            $router->pathFor(
+                self::BASE
+                . '\\UserProfiles\\ResetPassword\\GetUserProfilesResetPassword'
+            )
+        );
+    }
+
+    /**
+     * Unit Tests Phalcon\ADR\Router\Router :: pathFor() never walks the action
+     * directory - it is not even set here
+     */
+    public function testAdrRouterRouterPathForIgnoresActionDirectory(): void
+    {
+        $router = (new Router())->setBaseNamespace(self::BASE);
+
+        $this->assertSame(
+            '/company/all',
+            $router->pathFor(self::BASE . '\\Company\\All\\GetCompanyAll')
         );
     }
 
     /**
      * Unit Tests Phalcon\ADR\Router\Router :: pathFor() returns the canonical
-     * static path for an Action class
+     * path for an Action class
      */
     #[DataProvider('getExamples')]
     public function testAdrRouterRouterPathForReturnsCanonicalPath(
