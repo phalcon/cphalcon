@@ -20,7 +20,8 @@ use PHPUnit\Framework\Attributes\DataProvider;
 
 final class CandidatesForTest extends AbstractUnitTestCase
 {
-    private const BASE = 'Phalcon\\Tests\\Support\\ADR\\Action';
+    private const BASE      = 'Phalcon\\Tests\\Support\\ADR\\Action';
+    private const DIRECTORY = PATH_SUPPORT . 'ADR/Action';
 
     protected function tearDown(): void
     {
@@ -30,8 +31,9 @@ final class CandidatesForTest extends AbstractUnitTestCase
     }
 
     /**
-     * The routing convention as a vector list. Most of these classes do not
-     * exist - candidatesFor() reports what the router would try, unfiltered.
+     * The routing convention as a vector list. Two candidates appear only when
+     * exactly one segment remains after the descent: the fused operation form
+     * is probed before the resource form.
      *
      * @return array[]
      */
@@ -87,34 +89,45 @@ final class CandidatesForTest extends AbstractUnitTestCase
                     self::BASE . '\\Posts\\PostPosts',
                 ],
             ],
-            'two segments' => [
+            'operation form then resource form' => [
+                'GET',
+                '/posts/archive',
+                [
+                    self::BASE . '\\Posts\\GetPostsArchive',
+                    self::BASE . '\\Posts\\GetPosts',
+                ],
+            ],
+            'attribute tail' => [
                 'GET',
                 '/posts/42',
                 [
                     self::BASE . '\\Posts\\GetPosts42',
-                    self::BASE . '\\Posts\\42\\Get42',
                     self::BASE . '\\Posts\\GetPosts',
                 ],
             ],
-            'camelized segments' => [
+            'two level descent' => [
                 'GET',
-                '/user-profiles/reset_password',
+                '/reports/daily',
                 [
-                    self::BASE . '\\UserProfiles\\GetUserProfilesResetPassword',
-                    self::BASE . '\\UserProfiles\\ResetPassword\\GetResetPassword',
-                    self::BASE . '\\UserProfiles\\GetUserProfiles',
+                    self::BASE . '\\Reports\\Daily\\GetDaily',
                 ],
             ],
-            'three segments' => [
+            'descent stops, remainder is attributes' => [
                 'GET',
                 '/admin/posts/42',
                 [
-                    self::BASE . '\\Admin\\Posts\\GetPosts42',
-                    self::BASE . '\\Admin\\Posts\\42\\Get42',
-                    self::BASE . '\\Admin\\GetAdminPosts',
-                    self::BASE . '\\Admin\\Posts\\GetPosts',
                     self::BASE . '\\Admin\\GetAdmin',
                 ],
+            ],
+            'unknown first segment' => [
+                'GET',
+                '/nope',
+                [],
+            ],
+            'unknown first segment, deeper path' => [
+                'GET',
+                '/nope/deeper',
+                [],
             ],
         ];
     }
@@ -128,7 +141,9 @@ final class CandidatesForTest extends AbstractUnitTestCase
         $_SERVER['REQUEST_URI']    = '/admin/posts/42';
         $_SERVER['REQUEST_METHOD'] = 'GET';
 
-        $router = (new Router())->setBaseNamespace(self::BASE);
+        $router = (new Router())
+            ->setBaseNamespace(self::BASE)
+            ->setActionDirectory(self::DIRECTORY);
 
         $candidates = $router->candidatesFor('GET', '/admin/posts/42');
         $existing   = array_values(array_filter($candidates, 'class_exists'));
@@ -147,7 +162,9 @@ final class CandidatesForTest extends AbstractUnitTestCase
         string $path,
         array $expected
     ): void {
-        $router = (new Router())->setBaseNamespace(self::BASE);
+        $router = (new Router())
+            ->setBaseNamespace(self::BASE)
+            ->setActionDirectory(self::DIRECTORY);
 
         $this->assertSame($expected, $router->candidatesFor($method, $path));
     }

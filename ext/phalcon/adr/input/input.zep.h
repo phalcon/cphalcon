@@ -9,7 +9,6 @@ PHP_METHOD(Phalcon_ADR_Input_Input, fromRequest);
 PHP_METHOD(Phalcon_ADR_Input_Input, get);
 PHP_METHOD(Phalcon_ADR_Input_Input, has);
 PHP_METHOD(Phalcon_ADR_Input_Input, toArray);
-zend_object *zephir_init_properties_Phalcon_ADR_Input_Input(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_adr_input_input___construct, 0, 0, 0)
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, data, IS_ARRAY, 0, "[]")
@@ -33,9 +32,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_adr_input_input_has, 0, 
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_adr_input_input_toarray, 0, 0, IS_ARRAY, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_adr_input_input_zephir_init_properties_phalcon_adr_input_input, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_adr_input_input_method_entry) {

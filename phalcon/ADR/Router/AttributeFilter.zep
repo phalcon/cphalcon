@@ -28,8 +28,9 @@ final class AttributeFilter implements AttributeFilterInterface
 {
     public function filter(string actionClass, array attributes) -> array
     {
-        var convert, index, item, key, name, params, pattern, result, 
-            rule, segment, type, value;
+        var convert, item, key, name, params, pattern, rule, segment, type, value;
+        int index = 0;
+        array result = [];
 
         if !method_exists(actionClass, "params") {
             return attributes;
@@ -39,9 +40,6 @@ final class AttributeFilter implements AttributeFilterInterface
         if typeof params !== "array" {
             return attributes;
         }
-
-        let result = [],
-            index  = 0;
 
         for name, rule in params {
             if isset attributes[index] {

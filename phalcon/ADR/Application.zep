@@ -40,20 +40,15 @@ use Phalcon\Http\ResponseInterface;
  */
 final class Application implements ApplicationInterface
 {
-    /**
-     * @var string
-     */
-    protected baseNamespace = "";
-
-    /**
-     * @var Container
-     */
-    protected container;
+    protected string actionDirectory = "";
+    protected string baseNamespace = "";
+    protected <Container> container;
 
     /**
      * @var array<string, string[]>
      */
-    protected middlewareMap = [];
+    protected array middlewareMap = [];
+    protected string wordSeparator = "";
 
     public function __construct(<Container> container = null)
     {
@@ -131,7 +126,8 @@ final class Application implements ApplicationInterface
      */
     public function handle(<AttributeRequest> request) -> <ResponseInterface>
     {
-        var router, dispatcher, events, match, attributes, response, key, value, exception;
+        var attributes, dispatcher, events, exception, key, match, 
+            response, router, value;
 
         let router     = this->container->get(RouterInterface::class),
             dispatcher = this->container->get(DispatcherInterface::class),
@@ -143,6 +139,14 @@ final class Application implements ApplicationInterface
 
         if !empty this->middlewareMap {
             router->setMiddlewareMap(this->middlewareMap);
+        }
+
+        if this->actionDirectory !== "" {
+            router->setActionDirectory(this->actionDirectory);
+        }
+
+        if this->wordSeparator !== "" {
+            router->setWordSeparator(this->wordSeparator);
         }
 
         events->fire(Event::APPLICATION_BEFORE_HANDLE, this, request);
@@ -190,9 +194,7 @@ final class Application implements ApplicationInterface
      */
     public function secureWith(string guard, string prefix) -> <static>
     {
-        var list;
-
-        let list = [];
+        var list = [];
 
         if isset this->middlewareMap[prefix] {
             let list = this->middlewareMap[prefix];
@@ -215,11 +217,31 @@ final class Application implements ApplicationInterface
     }
 
     /**
+     * Set the filesystem root that backs the base namespace.
+     */
+    public function setActionDirectory(string actionDirectory) -> <static>
+    {
+        let this->actionDirectory = actionDirectory;
+
+        return this;
+    }
+
+    /**
      * Set the base namespace the convention router derives Actions from.
      */
     public function setBaseNamespace(string baseNamespace) -> <static>
     {
         let this->baseNamespace = baseNamespace;
+
+        return this;
+    }
+
+    /**
+     * Set the single delimiter between words in a path segment.
+     */
+    public function setWordSeparator(string wordSeparator) -> <static>
+    {
+        let this->wordSeparator = wordSeparator;
 
         return this;
     }

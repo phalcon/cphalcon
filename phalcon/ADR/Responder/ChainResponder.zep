@@ -50,7 +50,7 @@ class ChainResponder implements Responder
 
     public function with(<Responder> link) -> <ChainResponder>
     {
-        var links;
+        array links;
 
         let links   = this->links,
             links[] = link;

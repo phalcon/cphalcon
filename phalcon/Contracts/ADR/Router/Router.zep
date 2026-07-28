@@ -25,7 +25,8 @@ interface Router
     /**
      * Every Action class this router would try for the given method and path,
      * in the order it tries them. The first that exists wins at match time.
-     * The list is not filtered by existence.
+     * Namespace descent consults the filesystem, so the list depends on the
+     * action directory.
      *
      * @return list<class-string>
      */
@@ -33,7 +34,27 @@ interface Router
 
     public function match(<RequestInterface> request) -> <RouterMatch> | null;
 
+    /**
+     * The canonical static path the given Action class answers, or null when
+     * the class is not derivable from the base namespace. Positional
+     * attributes are not part of the canonical path.
+     */
+    public function pathFor(string className) -> string | null;
+
+    /**
+     * The filesystem root that backs the base namespace. The router uses it to
+     * decide whether a path segment names a sub-namespace.
+     */
+    public function setActionDirectory(string actionDirectory) -> <Router>;
+
     public function setBaseNamespace(string baseNamespace) -> <Router>;
 
     public function setMiddlewareMap(array middlewareMap) -> <Router>;
+
+    /**
+     * The single delimiter between words in a path segment. Applied
+     * symmetrically when deriving a class name from a path and a path from a
+     * class name. Any other character is literal.
+     */
+    public function setWordSeparator(string wordSeparator) -> <Router>;
 }

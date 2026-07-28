@@ -26,15 +26,8 @@ use Phalcon\Http\ResponseInterface;
  */
 final class EventfulHandler implements Handler
 {
-    /**
-     * @var Action
-     */
-    protected action;
-
-    /**
-     * @var Manager
-     */
-    protected events;
+    protected <Action> action;
+    protected <Manager> events;
 
     public function __construct(<Action> action, <Manager> events)
     {

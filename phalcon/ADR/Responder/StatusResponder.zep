@@ -23,10 +23,7 @@ use Phalcon\Http\ResponseInterface;
  */
 class StatusResponder implements Responder
 {
-    /**
-     * @var StatusMapper
-     */
-    protected mapper;
+    protected <StatusMapper> mapper;
 
     public function __construct(<StatusMapper> mapper = null)
     {

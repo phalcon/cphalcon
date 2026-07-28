@@ -21,6 +21,8 @@ use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class HandleTest extends AbstractUnitTestCase
 {
+    private const DIRECTORY = PATH_SUPPORT . 'ADR/Action';
+
     protected function tearDown(): void
     {
         unset($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);
@@ -37,7 +39,8 @@ final class HandleTest extends AbstractUnitTestCase
         $_SERVER['REQUEST_METHOD'] = 'GET';
 
         $app = $this->application()
-                    ->setBaseNamespace('Phalcon\\Tests\\Support\\ADR\\Action');
+                    ->setBaseNamespace('Phalcon\\Tests\\Support\\ADR\\Action')
+                    ->setActionDirectory(self::DIRECTORY);
 
         $response = $app->handle(new Request());
 
@@ -53,7 +56,8 @@ final class HandleTest extends AbstractUnitTestCase
         $_SERVER['REQUEST_METHOD'] = 'GET';
 
         $app = $this->application()
-                    ->setBaseNamespace('Phalcon\\Tests\\Support\\ADR\\Action');
+                    ->setBaseNamespace('Phalcon\\Tests\\Support\\ADR\\Action')
+                    ->setActionDirectory(self::DIRECTORY);
 
         $response = $app->handle(new Request());
 
@@ -69,7 +73,8 @@ final class HandleTest extends AbstractUnitTestCase
         $_SERVER['REQUEST_METHOD'] = 'GET';
 
         $app = $this->application()
-                    ->setBaseNamespace('Phalcon\\Tests\\Support\\ADR\\Action');
+                    ->setBaseNamespace('Phalcon\\Tests\\Support\\ADR\\Action')
+                    ->setActionDirectory(self::DIRECTORY);
 
         $response = $app->handle(new Request());
 
@@ -85,7 +90,8 @@ final class HandleTest extends AbstractUnitTestCase
         $_SERVER['REQUEST_METHOD'] = 'GET';
 
         $app = $this->application()
-                    ->setBaseNamespace('Phalcon\\Tests\\Support\\ADR\\Action');
+                    ->setBaseNamespace('Phalcon\\Tests\\Support\\ADR\\Action')
+                    ->setActionDirectory(self::DIRECTORY);
 
         $response = $app->handle(new Request());
 

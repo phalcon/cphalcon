@@ -37,14 +37,18 @@ ZEPHIR_INIT_CLASS(Phalcon_ADR_Responder_Redirect)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\ADR\\Responder, Redirect, phalcon, adr_responder_redirect, phalcon_adr_responder_redirect_method_entry, 0);
 
-	/**
-	 * @var int
-	 */
-	zend_declare_property_null(phalcon_adr_responder_redirect_ce, SL("status"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var string
-	 */
-	zend_declare_property_null(phalcon_adr_responder_redirect_ce, SL("url"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_adr_responder_redirect_ce, SL("status"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_LONG, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_adr_responder_redirect_ce, SL("url"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
+
 	return SUCCESS;
 }
 
@@ -79,10 +83,10 @@ PHP_METHOD(Phalcon_ADR_Responder_Redirect, __construct)
 		status = 302;
 	} else {
 		}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 353, &url_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 355, &url_zv);
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, status);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 354, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 356, &_0);
 }
 
 PHP_METHOD(Phalcon_ADR_Responder_Redirect, permanent)

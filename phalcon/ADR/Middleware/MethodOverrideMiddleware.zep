@@ -30,9 +30,9 @@ use Phalcon\Http\ResponseInterface;
 class MethodOverrideMiddleware implements Middleware
 {
     /**
-     * @var array
+     * @var array<int, string>
      */
-    protected allowed = ["DELETE", "PATCH", "PUT"];
+    protected array allowed = ["DELETE", "PATCH", "PUT"];
 
     public function __invoke(
         <AttributeRequest> request, 

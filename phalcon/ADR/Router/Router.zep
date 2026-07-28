@@ -13,6 +13,7 @@
 
 namespace Phalcon\ADR\Router;
 
+use Phalcon\ADR\Exceptions\ActionDirectoryNotSet;
 use Phalcon\ADR\Exceptions\MethodNotAllowed;
 use Phalcon\Contracts\ADR\Router\Router as RouterInterface;
 use Phalcon\Contracts\ADR\Router\RouterMatch as RouterMatchInterface;
@@ -26,20 +27,19 @@ use Phalcon\Http\RequestInterface;
  */
 final class Router implements RouterInterface
 {
-    /**
-     * @var string
-     */
-    protected baseNamespace = "";
-
+    protected string actionDirectory = "";
+    protected string baseNamespace = "";
     /**
      * @var array<string, string[]>
      */
-    protected middlewareMap = [];
+    protected array middlewareMap = [];
+    protected string wordSeparator = "-";
 
     /**
      * Every Action class this router would try for the given method and path,
      * in the order it tries them. The first that exists wins at match time.
-     * The list is not filtered by existence.
+     * Namespace descent consults the filesystem, so the list depends on the
+     * action directory.
      *
      * @return list<class-string>
      */
@@ -50,7 +50,11 @@ final class Router implements RouterInterface
 
     public function match(<RequestInterface> request) -> <RouterMatchInterface> | null
     {
-        var path, method, located, verbs, other;
+        var path, method, located, other;
+
+        if this->actionDirectory === "" {
+            throw new ActionDirectoryNotSet();
+        }
 
         let path   = request->getURI(true),
             method = request->getMethod();
@@ -64,14 +68,74 @@ final class Router implements RouterInterface
             );
         }
 
-        let verbs = ["Get", "Post", "Put", "Patch", "Delete"];
-        for other in verbs {
+        for other in this->verbs() {
             if strcasecmp(other, method) !== 0 && typeof this->locate(other, path) == "array" {
                 throw new MethodNotAllowed();
             }
         }
 
         return null;
+    }
+
+    public function pathFor(string className) -> string | null
+    {
+        var last, 
+            operation = null, 
+            part, parts, path, prefix, remainder, resourceName, verb;
+
+        let prefix = this->baseNamespace . "\\";
+
+        if strncmp(className, prefix, strlen(prefix)) !== 0 {
+            return null;
+        }
+
+        let parts = explode("\\", substr(className, strlen(prefix))),
+            last  = array_pop(parts);
+
+        if empty parts {
+            return in_array(last, this->verbs(), true) ? "/" : null;
+        }
+
+        let resourceName = end(parts);
+
+        for verb in this->verbs() {
+            if strncmp(last, verb, strlen(verb)) !== 0 {
+                continue;
+            }
+
+            let remainder = substr(last, strlen(verb));
+
+            if strncmp(remainder, resourceName, strlen(resourceName)) !== 0 {
+                continue;
+            }
+
+            // @todo Drop the cast once zephir_substr() matches PHP 8.0+
+            let operation = (string) substr(last, strlen(verb) + strlen(resourceName));
+
+            break;
+        }
+
+        if null === operation {
+            return null;
+        }
+
+        let path = "";
+        for part in parts {
+            let path = path . "/" . this->decamelize(part);
+        }
+
+        if operation !== "" {
+            let path = path . "/" . this->decamelize(operation);
+        }
+
+        return path;
+    }
+
+    public function setActionDirectory(string actionDirectory) -> <RouterInterface>
+    {
+        let this->actionDirectory = rtrim(actionDirectory, DIRECTORY_SEPARATOR);
+
+        return this;
     }
 
     public function setBaseNamespace(string baseNamespace) -> <RouterInterface>
@@ -88,65 +152,104 @@ final class Router implements RouterInterface
         return this;
     }
 
+    public function setWordSeparator(string wordSeparator) -> <RouterInterface>
+    {
+        let this->wordSeparator = wordSeparator;
+
+        return this;
+    }
+
     protected function camelize(string segment) -> string
     {
-        return str_replace(" ", "", ucwords(str_replace(["-", "_"], " ", segment)));
+        return str_replace(
+            this->wordSeparator,
+            "",
+            ucwords(segment, this->wordSeparator)
+        );
+    }
+
+    protected function decamelize(string part) -> string
+    {
+        return strtolower(
+            preg_replace(
+                "/([a-z0-9])([A-Z])/",
+                "$1" . this->wordSeparator . "$2",
+                part
+            )
+        );
     }
 
     /**
-     * The single derivation of the routing convention. Every candidate is
-     * paired with the request attributes it would leave behind, in try order.
+     * The single derivation of the routing convention. Path segments are
+     * consumed as namespace segments while the matching directory exists; the
+     * class at the stopping depth is probed, preceded by the fused operation
+     * form when exactly one segment remains. Every candidate is paired with the
+     * request attributes it would leave behind.
      *
      * @return array<int, array{0: string, 1: array}>
      */
     protected function deriveCandidates(string method, string path) -> array
     {
-        var candidates, uri, verb, segments, index, last, prev, head,
-            resourceName, operation, className;
+        var candidate, className, parts, resourceName, 
+            subNamespace = "", 
+            segments, uri, verb;
+        int depth = 0;
+        array candidates = [];
 
-        let candidates = [],
-            uri        = trim(path, "/"),
-            verb       = ucfirst(strtolower(method)),
-            segments   = uri === "" ? [] : explode("/", uri);
+        let uri      = trim(path, "/"),
+            verb     = ucfirst(strtolower(method)),
+            segments = uri === "" ? [] : explode("/", uri);
 
         if empty segments {
-            let className    = this->baseNamespace . "\\" . verb,
-                candidates[] = [className, []];
+            let className = this->baseNamespace . "\\" . verb;
 
-            return candidates;
+            return [[className, []]];
         }
 
-        let index = count(segments);
+        while !empty segments {
+            let candidate = subNamespace . "\\" . this->camelize(segments[0]);
 
-        while index >= 1 {
-            let last = index - 1,
-                head = array_slice(segments, 0, index);
-
-            if index >= 2 {
-                let prev         = index - 2,
-                    resourceName = head[prev],
-                    operation    = head[last],
-                    className    = this->baseNamespace
-                        . this->toNamespace(array_slice(head, 0, last))
-                        . "\\" . verb . this->camelize(resourceName) . this->camelize(operation),
-                    candidates[] = [className, array_slice(segments, index)];
+            if !this->hasSubNamespace(candidate) {
+                break;
             }
 
-            let resourceName = head[last],
-                className    = this->baseNamespace
-                    . this->toNamespace(head)
-                    . "\\" . verb . this->camelize(resourceName),
-                candidates[] = [className, array_slice(segments, index)];
+            let subNamespace = candidate,
+                depth        = depth + 1;
 
-            let index = index - 1;
+            array_shift(segments);
         }
+
+        if depth === 0 {
+            return [];
+        }
+
+        let parts        = explode("\\", ltrim(subNamespace, "\\")),
+            resourceName = end(parts),
+            className    = this->baseNamespace . subNamespace . "\\" . verb . resourceName;
+
+        if count(segments) === 1 {
+            let candidates[] = [className . this->camelize(segments[0]), []];
+        }
+
+        let candidates[] = [className, segments];
 
         return candidates;
     }
 
+    protected function hasSubNamespace(string subNamespace) -> bool
+    {
+        if memstr(subNamespace, "..") {
+            return false;
+        }
+
+        return is_dir(
+            this->actionDirectory . str_replace("\\", DIRECTORY_SEPARATOR, subNamespace)
+        );
+    }
+
     protected function locate(string method, string path) -> array | null
     {
-        var candidates, candidate;
+        var candidate, candidates;
 
         let candidates = this->deriveCandidates(method, path);
 
@@ -161,9 +264,9 @@ final class Router implements RouterInterface
 
     protected function middlewareFor(string className) -> array
     {
-        var prefix, list, full, stacked;
+        var full, list, prefix;
+        array stacked = [];
 
-        let stacked = [];
         for prefix, list in this->middlewareMap {
             let full = this->baseNamespace . prefix;
 
@@ -175,19 +278,13 @@ final class Router implements RouterInterface
         return stacked;
     }
 
-    protected function toNamespace(array segments) -> string
+    /**
+     * The HTTP verbs the convention recognises, in class-name form.
+     *
+     * @return list<string>
+     */
+    protected function verbs() -> array
     {
-        var segment, parts;
-
-        let parts = [];
-        for segment in segments {
-            let parts[] = this->camelize(segment);
-        }
-
-        if empty parts {
-            return "";
-        }
-
-        return "\\" . implode("\\", parts);
+        return ["Get", "Post", "Put", "Patch", "Delete"];
     }
 }

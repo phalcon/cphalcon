@@ -33,25 +33,16 @@ use Phalcon\Http\ResponseInterface;
  */
 final class Dispatcher implements DispatcherInterface
 {
-    /**
-     * @var IocContainer
-     */
-    protected container;
-
-    /**
-     * @var Manager
-     */
-    protected events;
-
+    protected <IocContainer> container;
+    protected <Manager> events;
     /**
      * @var array
      */
-    protected globalMiddleware;
-
+    protected array globalMiddleware;
     /**
      * @var array|null
      */
-    protected resolvedGlobal = null;
+    protected ?array resolvedGlobal = null;
 
     public function __construct(
         <IocContainer> container, 
@@ -90,9 +81,9 @@ final class Dispatcher implements DispatcherInterface
 
     protected function resolveAll(array classes) -> array
     {
-        var result, className;
+        var className;
+        array result = [];
 
-        let result = [];
         for className in classes {
             let result[] = this->container->getService(className);
         }

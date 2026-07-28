@@ -69,6 +69,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/storage/serializer/none.zep.c
 	phalcon/cache/adapter/adapterinterface.zep.c
 	phalcon/config/exception.zep.c
+	phalcon/contracts/adr/exceptions/adrthrowable.zep.c
 	phalcon/contracts/assets/asset.zep.c
 	phalcon/contracts/auth/adapter/adapter.zep.c
 	phalcon/db/geometry/abstractgeometry.zep.c
@@ -76,9 +77,9 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/encryption/security/uuid/uuidinterface.zep.c
 	phalcon/paginator/exception.zep.c
 	phalcon/support/exception.zep.c
+	phalcon/adr/exceptions/exception.zep.c
 	phalcon/assets/assetinterface.zep.c
 	phalcon/config/configinterface.zep.c
-	phalcon/contracts/adr/exceptions/adrthrowable.zep.c
 	phalcon/contracts/db/adapter/adapter.zep.c
 	phalcon/contracts/domain/payload/readable.zep.c
 	phalcon/contracts/domain/payload/writeable.zep.c
@@ -88,7 +89,6 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/events/exception.zep.c
 	phalcon/mvc/model/metadatainterface.zep.c
 	phalcon/storage/exception.zep.c
-	phalcon/adr/exceptions/exception.zep.c
 	phalcon/config/config.zep.c
 	phalcon/contracts/db/dialect.zep.c
 	phalcon/contracts/logger/adapter/adapter.zep.c
@@ -365,6 +365,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/adr/errorresponder.zep.c
 	phalcon/adr/eventfulhandler.zep.c
 	phalcon/adr/events/event.zep.c
+	phalcon/adr/exceptions/actiondirectorynotset.zep.c
 	phalcon/adr/exceptions/headersalreadysent.zep.c
 	phalcon/adr/exceptions/methodnotallowed.zep.c
 	phalcon/adr/exceptions/notanaction.zep.c

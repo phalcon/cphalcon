@@ -152,18 +152,18 @@ PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, __construct)
 	ZVAL_STR(&message_zv, message);
 	ZVAL_STR(&file_zv, file);
 	ZVAL_STR(&uri_zv, uri);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1344, &className_zv);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1345, &message_zv);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 1346, &file_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1348, &className_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1349, &message_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 1350, &file_zv);
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, line);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 1347, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 1351, &_0);
 	if (showBackTrace) {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_4, 1348, &__$true);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_4, 1352, &__$true);
 	} else {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_4, 1348, &__$false);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_4, 1352, &__$false);
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_5, 1349, &uri_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_5, 1353, &uri_zv);
 }
 
 /**
@@ -292,7 +292,7 @@ PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, hasVariables)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_memory_observe(&_0);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1350, PH_NOISY_CC);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1354, PH_NOISY_CC);
 	RETURN_MM_BOOL(!(ZEPHIR_IS_EMPTY(&_0)));
 }
 
@@ -330,7 +330,7 @@ PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, setBacktrace)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &backtrace_param);
 	zephir_get_arrval(&backtrace, backtrace_param);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1351, &backtrace);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1355, &backtrace);
 	RETURN_THIS();
 }
 
@@ -359,7 +359,7 @@ PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, setIncludedFiles)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &includedFiles_param);
 	zephir_get_arrval(&includedFiles, includedFiles_param);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1352, &includedFiles);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1356, &includedFiles);
 	RETURN_THIS();
 }
 
@@ -386,7 +386,7 @@ PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, setMemoryUsage)
 	zephir_fetch_params_without_memory_grow(1, 0, &memoryUsage_param);
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, memoryUsage);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1353, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1357, &_0);
 	RETURN_THISW();
 }
 
@@ -413,7 +413,7 @@ PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, setPeakMemoryUsage)
 	zephir_fetch_params_without_memory_grow(1, 0, &peakMemoryUsage_param);
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, peakMemoryUsage);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1354, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1358, &_0);
 	RETURN_THISW();
 }
 
@@ -442,7 +442,7 @@ PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, setRequest)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &request_param);
 	zephir_get_arrval(&request, request_param);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1355, &request);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1359, &request);
 	RETURN_THIS();
 }
 
@@ -471,7 +471,7 @@ PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, setServer)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &server_param);
 	zephir_get_arrval(&server, server_param);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1356, &server);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1360, &server);
 	RETURN_THIS();
 }
 
@@ -500,7 +500,7 @@ PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, setVariables)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &variables_param);
 	zephir_get_arrval(&variables, variables_param);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1350, &variables);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1354, &variables);
 	RETURN_THIS();
 }
 
