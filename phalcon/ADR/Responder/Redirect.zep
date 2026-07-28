@@ -19,15 +19,8 @@ namespace Phalcon\ADR\Responder;
  */
 class Redirect
 {
-    /**
-     * @var int
-     */
-    protected status;
-
-    /**
-     * @var string
-     */
-    protected url;
+    protected int status;
+    protected string url;
 
     public function __construct(string url, int status = 302)
     {

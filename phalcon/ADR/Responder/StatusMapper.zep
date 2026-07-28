@@ -25,9 +25,9 @@ use Phalcon\ADR\Payload\Status;
 final class StatusMapper
 {
     /**
-     * @var array
+     * @var array<int, int>
      */
-    protected map;
+    protected array map;
 
     public function __construct(array overrides = [])
     {

@@ -30,37 +30,47 @@ class CorsMiddleware implements Middleware
 {
     use GetTrait;
 
-    /**
-     * @var bool
-     */
-    protected allowCredentials = false;
+    protected bool allowCredentials = false;
 
     /**
      * @var array
      */
-    protected allowedHeaders;
+    protected array allowedHeaders;
 
     /**
      * @var array
      */
-    protected allowedMethods;
+    protected array allowedMethods;
 
     /**
      * @var array
      */
-    protected allowedOrigins;
+    protected array allowedOrigins;
 
     /**
      * @var int
      */
-    protected maxAge = 0;
+    protected int maxAge = 0;
 
     public function __construct(array config = [])
     {
         let this->allowedOrigins   = this->getArrVal(config, "origins", []),
-            this->allowedMethods   = this->getArrVal(config, "methods", ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]),
-            this->allowedHeaders   = this->getArrVal(config, "headers", ["Content-Type", "Authorization"]),
-            this->allowCredentials = this->getArrVal(config, "credentials", false, "bool"),
+            this->allowedMethods   = this->getArrVal(
+                config, 
+                "methods", 
+                ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
+            ),
+            this->allowedHeaders   = this->getArrVal(
+                config, 
+                "headers", 
+                ["Content-Type", "Authorization"]
+            ),
+            this->allowCredentials = this->getArrVal(
+                config, 
+                "credentials", 
+                false, 
+                "bool"
+            ),
             this->maxAge           = this->getArrVal(config, "maxAge", 0, "int");
     }
 

@@ -29,20 +29,9 @@ use Phalcon\Http\ResponseInterface;
  */
 final class ViewResponder implements Responder
 {
-    /**
-     * @var Renderer
-     */
-    protected renderer;
-
-    /**
-     * @var StatusMapper
-     */
-    protected statusMapper;
-
-    /**
-     * @var string
-     */
-    protected template = "";
+    protected <Renderer> renderer;
+    protected <StatusMapper> statusMapper;
+    protected string template = "";
 
     public function __construct(
         <Renderer> renderer,

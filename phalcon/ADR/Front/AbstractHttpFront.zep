@@ -32,7 +32,7 @@ abstract class AbstractHttpFront implements FrontController
     /**
      * @var string
      */
-    protected projectRoot;
+    protected string projectRoot;
 
     public function __construct(string projectRoot)
     {
@@ -44,7 +44,7 @@ abstract class AbstractHttpFront implements FrontController
      */
     final public function run() -> int
     {
-        var container, request, application, response, exception;
+        var application, container, exception, request, response;
 
         try {
             let container = this->buildContainer();

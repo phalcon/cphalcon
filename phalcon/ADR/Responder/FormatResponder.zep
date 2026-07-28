@@ -30,7 +30,7 @@ class FormatResponder implements Responder
     /**
      * @var array
      */
-    protected formatters;
+    protected array formatters;
 
     public function __construct(array formatters = [])
     {
@@ -42,14 +42,13 @@ class FormatResponder implements Responder
         <ResponseInterface> response, 
         <Payload> payload
     ) -> <ResponseInterface> {
-        var accept, formatter, chosen;
+        var accept, chosen = null, formatter;
 
         if empty this->formatters {
             return response;
         }
 
-        let accept = (string) request->getHeader("Accept"),
-            chosen = null;
+        let accept = (string) request->getHeader("Accept");
 
         for formatter in this->formatters {
             if formatter->accepts(accept) {

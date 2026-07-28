@@ -26,15 +26,11 @@ use Phalcon\Http\ResponseInterface;
  */
 final class Pipeline implements Handler
 {
-    /**
-     * @var int
-     */
-    protected index;
-
+    protected int index;
     /**
      * @var array
      */
-    protected middleware;
+    protected array middleware;
 
     /**
      * @var Handler

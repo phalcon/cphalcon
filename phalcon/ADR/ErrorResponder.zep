@@ -35,25 +35,13 @@ use Throwable;
  */
 final class ErrorResponder
 {
-    /**
-     * @var Responder
-     */
-    protected chain;
-
-    /**
-     * @var bool
-     */
-    protected debug;
-
+    protected <Responder> chain;
+    protected bool debug;
     /**
      * @var array
      */
-    protected exceptionMap;
-
-    /**
-     * @var Logger
-     */
-    protected logger;
+    protected array exceptionMap;
+    protected <Logger> logger;
 
     public function __construct(
         <Responder> chain, 
@@ -141,7 +129,7 @@ final class ErrorResponder
      */
     protected function reason(string status) -> string
     {
-        var reasons;
+        array reasons;
 
         let reasons = [
             Status::FAILURE            : "Bad Request",
