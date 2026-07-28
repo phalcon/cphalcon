@@ -11,17 +11,17 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Tests\Support\ADR\Action\Reports\Daily;
+namespace Phalcon\Tests\Support\ADR\Action\UserProfiles\ResetPassword;
 
 use Phalcon\Contracts\ADR\Action;
 use Phalcon\Contracts\Http\AttributeRequest;
 use Phalcon\Http\Response;
 use Phalcon\Http\ResponseInterface;
 
-final class GetDaily implements Action
+final class GetUserProfilesResetPassword implements Action
 {
     public function __invoke(AttributeRequest $request): ResponseInterface
     {
-        return (new Response())->setContent('daily');
+        return (new Response())->setContent('reset password');
     }
 }
