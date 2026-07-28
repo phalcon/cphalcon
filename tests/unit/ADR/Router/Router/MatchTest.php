@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\ADR\Router\Router;
 
+use Phalcon\ADR\Exceptions\ActionDirectoryNotSet;
 use Phalcon\ADR\Exceptions\MethodNotAllowed;
 use Phalcon\ADR\Middleware\TimingMiddleware;
 use Phalcon\ADR\Router\Router;
@@ -22,7 +23,8 @@ use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class MatchTest extends AbstractUnitTestCase
 {
-    private const BASE = 'Phalcon\\Tests\\Support\\ADR\\Action';
+    private const BASE      = 'Phalcon\\Tests\\Support\\ADR\\Action';
+    private const DIRECTORY = PATH_SUPPORT . 'ADR/Action';
 
     protected function tearDown(): void
     {
@@ -39,7 +41,9 @@ final class MatchTest extends AbstractUnitTestCase
         $_SERVER['REQUEST_URI']    = '/posts/42';
         $_SERVER['REQUEST_METHOD'] = 'GET';
 
-        $router = (new Router())->setBaseNamespace(self::BASE);
+        $router = (new Router())
+            ->setBaseNamespace(self::BASE)
+            ->setActionDirectory(self::DIRECTORY);
 
         $match = $router->match(new Request());
 
@@ -60,7 +64,9 @@ final class MatchTest extends AbstractUnitTestCase
         $_SERVER['REQUEST_URI']    = '/posts/archive';
         $_SERVER['REQUEST_METHOD'] = 'GET';
 
-        $router = (new Router())->setBaseNamespace(self::BASE);
+        $router = (new Router())
+            ->setBaseNamespace(self::BASE)
+            ->setActionDirectory(self::DIRECTORY);
 
         $match = $router->match(new Request());
 
@@ -77,7 +83,9 @@ final class MatchTest extends AbstractUnitTestCase
         $_SERVER['REQUEST_URI']    = '/';
         $_SERVER['REQUEST_METHOD'] = 'GET';
 
-        $router = (new Router())->setBaseNamespace(self::BASE);
+        $router = (new Router())
+            ->setBaseNamespace(self::BASE)
+            ->setActionDirectory(self::DIRECTORY);
 
         $match = $router->match(new Request());
 
@@ -94,7 +102,9 @@ final class MatchTest extends AbstractUnitTestCase
         $_SERVER['REQUEST_URI']    = '/nope';
         $_SERVER['REQUEST_METHOD'] = 'GET';
 
-        $router = (new Router())->setBaseNamespace(self::BASE);
+        $router = (new Router())
+            ->setBaseNamespace(self::BASE)
+            ->setActionDirectory(self::DIRECTORY);
 
         $this->assertNull($router->match(new Request()));
     }
@@ -109,6 +119,7 @@ final class MatchTest extends AbstractUnitTestCase
 
         $router = (new Router())
             ->setBaseNamespace(self::BASE)
+            ->setActionDirectory(self::DIRECTORY)
             ->setMiddlewareMap(['\\Admin\\' => [TimingMiddleware::class]]);
 
         $match = $router->match(new Request());
@@ -125,9 +136,29 @@ final class MatchTest extends AbstractUnitTestCase
         $_SERVER['REQUEST_URI']    = '/posts/42';
         $_SERVER['REQUEST_METHOD'] = 'DELETE';
 
-        $router = (new Router())->setBaseNamespace(self::BASE);
+        $router = (new Router())
+            ->setBaseNamespace(self::BASE)
+            ->setActionDirectory(self::DIRECTORY);
 
         $this->expectException(MethodNotAllowed::class);
+
+        $router->match(new Request());
+    }
+
+    /**
+     * Unit Tests Phalcon\ADR\Router\Router :: match() throws when no action directory is set
+     */
+    public function testAdrRouterRouterMatchThrowsWithoutActionDirectory(): void
+    {
+        $_SERVER['REQUEST_URI']    = '/posts';
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+
+        $router = (new Router())->setBaseNamespace(self::BASE);
+
+        $this->expectException(ActionDirectoryNotSet::class);
+        $this->expectExceptionMessage(
+            'No action directory set; call setActionDirectory().'
+        );
 
         $router->match(new Request());
     }
