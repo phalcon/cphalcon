@@ -3384,7 +3384,7 @@ PHP_METHOD(Phalcon_Mvc_Model, find)
 	} else {
 		ZEPHIR_CPY_WRT(&params, parameters);
 	}
-	ZEPHIR_CALL_STATIC(&query, "getpreparedquery", &_0, 0, &params);
+	ZEPHIR_CALL_SELF(&query, "getpreparedquery", &_0, 0, &params);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&resultset, &query, "execute", NULL, 0);
 	zephir_check_call_status();
@@ -3396,7 +3396,7 @@ PHP_METHOD(Phalcon_Mvc_Model, find)
 		}
 		zephir_memory_observe(&eager);
 		if (zephir_array_isset_string_fetch(&eager, &params, SL("eager"), 0)) {
-			ZEPHIR_CALL_STATIC(NULL, "loadeager", &_1, 0, &resultset, &eager, &params);
+			ZEPHIR_CALL_SELF(NULL, "loadeager", &_1, 0, &resultset, &eager, &params);
 			zephir_check_call_status();
 		}
 	}
@@ -3545,7 +3545,7 @@ PHP_METHOD(Phalcon_Mvc_Model, findFirst)
 		}
 	}
 	ZVAL_LONG(&_5, 1);
-	ZEPHIR_CALL_STATIC(&query, "getpreparedquery", &_4, 0, &params, &_5);
+	ZEPHIR_CALL_SELF(&query, "getpreparedquery", &_4, 0, &params, &_5);
 	zephir_check_call_status();
 	ZVAL_BOOL(&_5, 1);
 	ZEPHIR_CALL_METHOD(NULL, &query, "setuniquerow", NULL, 0, &_5);

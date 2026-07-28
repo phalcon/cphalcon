@@ -1869,7 +1869,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             let params = parameters;
         }
 
-        let query = static::getPreparedQuery(params);
+        let query = self::getPreparedQuery(params);
 
         /**
          * Execute the query passing the bind-params and casting-types
@@ -1890,7 +1890,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
              * cursor has not been advanced, so materializing it is free.
              */
             if fetch eager, params["eager"] {
-                static::loadEager(resultset, eager, params);
+                self::loadEager(resultset, eager, params);
             }
         }
 
@@ -1997,7 +1997,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             throw new InvalidFindParameters(get_called_class());
         }
 
-        let query = static::getPreparedQuery(params, 1);
+        let query = self::getPreparedQuery(params, 1);
 
         /**
          * Return only the first row
