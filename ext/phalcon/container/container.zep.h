@@ -16,6 +16,7 @@ PHP_METHOD(Phalcon_Container_Container, getInstance);
 PHP_METHOD(Phalcon_Container_Container, getParameter);
 PHP_METHOD(Phalcon_Container_Container, getResolver);
 PHP_METHOD(Phalcon_Container_Container, getService);
+PHP_METHOD(Phalcon_Container_Container, getServiceNames);
 PHP_METHOD(Phalcon_Container_Container, has);
 PHP_METHOD(Phalcon_Container_Container, hasAlias);
 PHP_METHOD(Phalcon_Container_Container, hasDefinition);
@@ -95,6 +96,9 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_container_container_getservice, 0, 1, MAY_BE_OBJECT)
 	ZEND_ARG_TYPE_INFO(0, serviceName, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_container_container_getservicenames, 0, 0, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_container_container_has, 0, 1, _IS_BOOL, 0)
@@ -233,6 +237,7 @@ PHP_ME(Phalcon_Container_Container, __construct, arginfo_phalcon_container_conta
 	PHP_ME(Phalcon_Container_Container, getParameter, arginfo_phalcon_container_container_getparameter, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Container_Container, getResolver, arginfo_phalcon_container_container_getresolver, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Container_Container, getService, arginfo_phalcon_container_container_getservice, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Container_Container, getServiceNames, arginfo_phalcon_container_container_getservicenames, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Container_Container, has, arginfo_phalcon_container_container_has, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Container_Container, hasAlias, arginfo_phalcon_container_container_hasalias, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Container_Container, hasDefinition, arginfo_phalcon_container_container_hasdefinition, ZEND_ACC_PUBLIC)
