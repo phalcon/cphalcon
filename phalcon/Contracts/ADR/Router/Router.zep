@@ -8,7 +8,13 @@
  * file that was distributed with this source code.
  *
  * Based on the Action Domain Responder pattern
+ *
+ * Implementation of this file has also been heavily influenced by Autoroute.
+ *
  * @link    https://pmjones.io/adr/
+ *
+ * @link    https://github.com/pmjones/AutoRoute
+ * @license https://github.com/pmjones/AutoRoute/blob/2.x/LICENSE.md
  */
 
 namespace Phalcon\Contracts\ADR\Router;
@@ -31,6 +37,16 @@ interface Router
      * @return list<class-string>
      */
     public function candidatesFor(string method, string path) -> array;
+
+    /**
+     * The class this convention names for a fully static path, derived without
+     * consulting the filesystem - the exact inverse of pathFor().
+     *
+     * For tooling that needs the name before the code exists: generators,
+     * linters, documentation and "no action found; expected X" diagnostics.
+     * Pass the static prefix only; placeholders are the caller's concern.
+     */
+    public function classFor(string method, string path) -> string;
 
     public function match(<RequestInterface> request) -> <RouterMatch> | null;
 
