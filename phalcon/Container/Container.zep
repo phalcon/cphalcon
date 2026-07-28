@@ -321,6 +321,18 @@ class Container implements Collection
     }
 
     /**
+     * Returns the names of every registered service definition. Names that
+     * only exist as an alias, a pre-set instance or a parameter are not
+     * included.
+     *
+     * @return array<int, string>
+     */
+    public function getServiceNames() -> array
+    {
+        return array_keys(this->services);
+    }
+
+    /**
      * Does the container have a particular service
      *
      * @param string $name
