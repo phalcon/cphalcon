@@ -109,7 +109,8 @@ final class Router implements RouterInterface
                 continue;
             }
 
-            let operation = substr(last, strlen(verb) + strlen(resourceName));
+            // @todo Drop the cast once zephir_substr() matches PHP 8.0+
+            let operation = (string) substr(last, strlen(verb) + strlen(resourceName));
 
             break;
         }

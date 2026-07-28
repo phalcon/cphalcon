@@ -82,7 +82,7 @@ final class Dispatcher implements DispatcherInterface
     protected function resolveAll(array classes) -> array
     {
         var className;
-        array result;
+        array result = [];
 
         for className in classes {
             let result[] = this->container->getService(className);
