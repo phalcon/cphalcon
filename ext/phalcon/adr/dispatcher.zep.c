@@ -247,6 +247,8 @@ PHP_METHOD(Phalcon_ADR_Dispatcher, resolveAll)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &classes_param);
 	zephir_get_arrval(&classes, classes_param);
+	ZEPHIR_INIT_VAR(&result);
+	array_init(&result);
 	zephir_is_iterable(&classes, 0, "phalcon/ADR/Dispatcher.zep", 91);
 	if (Z_TYPE_P(&classes) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&classes), _0)
