@@ -108,9 +108,13 @@ abstract class Resultset
     protected cache = null;
 
     /**
-     * @var int
+     * Number of rows, or null while it has not been worked out yet. Resolved
+     * lazily by count() - asking the driver up front costs SQLite an extra
+     * statement on every single result-set.
+     *
+     * @var int|null
      */
-    protected count = 0;
+    protected count = null;
 
     /**
      * @var array
@@ -157,7 +161,7 @@ abstract class Resultset
      */
     public function __construct(var result, var cache = null)
     {
-        var prefetchRecords, rowCount, rows;
+        var prefetchRecords;
 
         /**
          * 'false' is given as result for empty result-sets
@@ -195,35 +199,33 @@ abstract class Resultset
         result->setFetchMode(Enum::FETCH_ASSOC);
 
         /**
-         * Update the row-count
+         * Consume the first row. The statement has already been executed by
+         * `Model\Query::executeSelect()`, so this costs no extra round trip,
+         * and it is the only way to tell an empty result-set from a populated
+         * one without asking the driver for a row count - which SQLite can
+         * only answer by running a second statement.
          */
-        let rowCount    = result->numRows(),
-            this->count = rowCount;
+        let this->row = result->$fetch();
 
         /**
          * Empty result-set
          */
-        if rowCount == 0 {
-            let this->rows = [];
+        if typeof this->row != "array" {
+            let this->count = 0,
+                this->rows  = [];
 
             return;
         }
 
         /**
-         * Small result-sets with less equals 32 rows are fetched at once
+         * Small result-sets with less equals 32 rows are fetched at once.
+         * The count is only worth asking for when the prefetch is switched on,
+         * which it is not by default.
          */
         let prefetchRecords = (int) Settings::get("orm.resultset_prefetch_records");
-        if prefetchRecords > 0 && rowCount <= prefetchRecords {
-            /**
-             * Fetch ALL rows from database
-             */
-            let rows = result->fetchAll();
 
-            if typeof rows == "array" {
-                let this->rows = rows;
-            } else {
-                let this->rows = [];
-            }
+        if prefetchRecords > 0 && this->count() <= prefetchRecords {
+            this->materialize();
         }
     }
 
@@ -232,6 +234,20 @@ abstract class Resultset
      */
     final public function count() -> int
     {
+        var result;
+
+        if this->count === null {
+            let result = this->result;
+
+            if typeof this->rows == "array" {
+                let this->count = count(this->rows);
+            } elseif typeof result == "object" {
+                let this->count = (int) result->numRows();
+            } else {
+                let this->count = 0;
+            }
+        }
+
         return this->count;
     }
 
@@ -393,11 +409,15 @@ abstract class Resultset
      */
     public function getFirst() -> var | null
     {
-        if this->count == 0 {
+        this->seek(0);
+
+        /**
+         * Positioning at the first row already tells us whether there is one,
+         * so there is no need to work out the whole count
+         */
+        if !this->valid() {
             return null;
         }
-
-        this->seek(0);
 
         return this->{"current"}();
     }
@@ -417,7 +437,7 @@ abstract class Resultset
     {
         var count;
 
-        let count = this->count;
+        let count = this->count();
 
         if count == 0 {
             return null;
@@ -505,8 +525,9 @@ abstract class Resultset
      * turning the resultset into TYPE_RESULT_FULL.
      *
      * Free when called before the cursor has been advanced: the statement has
-     * already been executed by Model\Query::executeSelect() and no row has been
-     * consumed, so no re-execution takes place. Idempotent.
+     * already been executed by Model\Query::executeSelect() and only the row
+     * the constructor consumed is missing from the cursor, so no re-execution
+     * takes place. Idempotent.
      */
     public function materialize() -> void
     {
@@ -524,14 +545,29 @@ abstract class Resultset
             return;
         }
 
-        /**
-         * The cursor has already been advanced, so it has to be replayed
-         */
-        if this->row !== null {
+        if this->pointer > 0 {
+            /**
+             * The cursor has been advanced past the first row, so it has to be
+             * replayed from the beginning
+             */
             result->execute();
-        }
 
-        let records = result->fetchAll();
+            let records = result->fetchAll();
+        } else {
+            /**
+             * The cursor sits right behind the row the constructor consumed, so
+             * the whole set is that row followed by whatever is left
+             */
+            let records = result->fetchAll();
+
+            if typeof records != "array" {
+                let records = [];
+            }
+
+            if typeof this->row == "array" {
+                let records = array_merge([this->row], records);
+            }
+        }
 
         let this->row  = null,
             this->rows = typeof records == "array" ? records : [];
@@ -553,7 +589,7 @@ abstract class Resultset
      */
     public function offsetExists(var index) -> bool
     {
-        return index < this->count;
+        return index < this->count();
     }
 
     /**
@@ -561,7 +597,7 @@ abstract class Resultset
      */
     public function offsetGet(mixed index) -> mixed
     {
-        if unlikely index >= this->count {
+        if unlikely index >= this->count() {
             throw new IndexNotInCursor();
         }
 
@@ -615,6 +651,12 @@ abstract class Resultset
                  */
                 if fetch row, this->rows[position] {
                     let this->row = row;
+                } else {
+                    /**
+                     * Past the end - the previous row must not be left behind
+                     * as the current one
+                     */
+                    let this->row = false;
                 }
 
                 let this->pointer = position;
@@ -762,15 +804,27 @@ abstract class Resultset
 
     /**
      * Check whether internal resource has rows to fetch
+     *
+     * Driven by the row the cursor is parked on rather than by the count, so
+     * that a plain traversal never has to ask the driver how many rows there
+     * are - on SQLite that answer costs a second statement.
      */
     public function valid() -> bool
     {
-        return this->pointer < this->count;
+        /**
+         * Nothing has been fetched yet, or the rows have just been pulled into
+         * memory - position the cursor before reporting
+         */
+        if this->row === null {
+            this->seek(this->pointer);
+        }
+
+        return typeof this->row == "array";
     }
 
     public function refresh() -> bool
     {
-        var prefetchRecords, rowCount, rows, result, success;
+        var prefetchRecords, result, success;
 
         /**
          * 'false' is given as result for empty result-sets
@@ -786,18 +840,31 @@ abstract class Resultset
         if false === success {
             return false;
         }
-        let this->isFresh = true;
+
         /**
-         * Update the row-count
+         * The statement has been replayed, so everything derived from the
+         * previous run has to go - including the cursor position
          */
-        let rowCount    = result->numRows(),
-            this->count = rowCount;
+        let this->isFresh   = true,
+            this->count     = null,
+            this->rows      = null,
+            this->row       = null,
+            this->activeRow = null,
+            this->pointer   = 0;
+
+        /**
+         * Consume the first row to tell an empty result-set from a populated
+         * one, the same way the constructor does
+         */
+        let this->row = result->$fetch();
 
         /**
          * Empty result-set
          */
-        if rowCount == 0 {
-            let this->rows = [];
+        if typeof this->row != "array" {
+            let this->count = 0,
+                this->rows  = [];
+
             return true;
         }
 
@@ -805,18 +872,11 @@ abstract class Resultset
          * Small result-sets with less equals 32 rows are fetched at once
          */
         let prefetchRecords = (int) Settings::get("orm.resultset_prefetch_records");
-        if prefetchRecords > 0 && rowCount <= prefetchRecords {
-            /**
-             * Fetch ALL rows from database
-             */
-            let rows = result->fetchAll();
 
-            if typeof rows == "array" {
-                let this->rows = rows;
-            } else {
-                let this->rows = [];
-            }
+        if prefetchRecords > 0 && this->count() <= prefetchRecords {
+            this->materialize();
         }
+
         return true;
     }
 
