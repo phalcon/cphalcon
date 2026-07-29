@@ -363,7 +363,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Random, bytes)
 		len = 16;
 	}
 	ZVAL_LONG(&_0, len);
-	ZEPHIR_RETURN_CALL_FUNCTION("random_bytes", NULL, 317, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("random_bytes", NULL, 318, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
