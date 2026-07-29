@@ -33,9 +33,13 @@ trait QueryCounterTrait
 {
     /**
      * Statement PdoResult::numRows() issues when the adapter cannot report a
-     * row count from the original statement - SQLite and SQL Server. It is an
-     * artefact of asking for the count, not a query the code under test made,
-     * so it is excluded from the total. See PdoResult.zep:317.
+     * row count from the original statement - SQLite. It is an artefact of
+     * asking for the count, not a query the code under test made, so it is
+     * excluded from the total. See PdoResult::numRows().
+     *
+     * Tests that are about the probe itself - rather than about the code that
+     * happens to trigger it - want it counted, and use the "raw" accessors
+     * below instead.
      *
      * A static property rather than a constant: traits cannot declare
      * constants before PHP 8.2 and the suite runs on 8.1.
@@ -69,6 +73,26 @@ trait QueryCounterTrait
     }
 
     /**
+     * Asserts the number of statements issued since the listener was attached,
+     * counting the row-count probe.
+     */
+    protected function assertRawQueryCount(int $expected): void
+    {
+        $queries = $this->getAllQueries();
+
+        $this->assertCount(
+            $expected,
+            $queries,
+            sprintf(
+                "Expected %d statements, got %d:\n%s",
+                $expected,
+                count($queries),
+                implode("\n", $queries)
+            )
+        );
+    }
+
+    /**
      * Starts recording. Discards anything recorded previously.
      *
      * @param AdapterInterface $connection connection to observe
@@ -89,6 +113,16 @@ trait QueryCounterTrait
         );
 
         $connection->setEventsManager($eventsManager);
+    }
+
+    /**
+     * Every statement issued, in order, including the row-count probe.
+     *
+     * @return array<int, string>
+     */
+    protected function getAllQueries(): array
+    {
+        return $this->recordedQueries;
     }
 
     /**
@@ -117,6 +151,14 @@ trait QueryCounterTrait
     protected function getQueryCount(): int
     {
         return count($this->getQueries());
+    }
+
+    /**
+     * Number of row-count probes issued since the listener was attached.
+     */
+    protected function getRowCountProbeCount(): int
+    {
+        return count($this->getAllQueries()) - count($this->getQueries());
     }
 
     /**
