@@ -63,4 +63,52 @@ final class SeekTest extends AbstractDatabaseTestCase
 
         $this->assertSame($expectedKey, $resultset->key());
     }
+
+    /**
+     * Seeking past the end leaves the result-set invalid, whether it is
+     * streaming or held in memory. The in-memory branch used to leave the
+     * previous row in place as the current one, which made valid() keep saying
+     * true and current() hand back a row that is not there.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-07-29
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    #[DataProvider('getExamples')]
+    public function testMvcModelResultsetSeekPastTheEnd(string $type): void
+    {
+        $resultset = $this->getResultset($type);
+
+        $resultset->seek(99);
+
+        $this->assertFalse($resultset->valid());
+        $this->assertNull($resultset->key());
+    }
+
+    /**
+     * Same, once the rows have been pulled into memory - that is the branch
+     * that used to keep the stale row.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-07-29
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    #[DataProvider('getExamples')]
+    public function testMvcModelResultsetSeekPastTheEndWhenMaterialised(
+        string $type
+    ): void {
+        $resultset = $this->getResultset($type);
+
+        $resultset->materialize();
+
+        $resultset->seek(0);
+        $resultset->seek(99);
+
+        $this->assertFalse($resultset->valid());
+        $this->assertNull($resultset->key());
+    }
 }
