@@ -167,7 +167,7 @@ PHP_METHOD(Phalcon_ADR_Pipeline, __invoke)
 	zephir_read_property_cached(&_6, this_ptr, _zephir_prop_2, 353, PH_NOISY_CC | PH_READONLY);
 	zephir_read_property_cached(&_7, this_ptr, _zephir_prop_0, 354, PH_NOISY_CC | PH_READONLY);
 	ZVAL_LONG(&_8, (zephir_get_numberval(&_7) + 1));
-	ZEPHIR_CALL_METHOD(NULL, &next, "__construct", NULL, 310, &_5, &_6, &_8);
+	ZEPHIR_CALL_METHOD(NULL, &next, "__construct", NULL, 311, &_5, &_6, &_8);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(&mw, "__invoke", NULL, 0, request, &next);
 	zephir_check_call_status();

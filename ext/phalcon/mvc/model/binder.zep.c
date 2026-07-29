@@ -451,12 +451,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Binder, getParamsFromReflection)
 		zephir_check_call_status();
 	} else {
 		object_init_ex(&reflection, zephir_get_internal_ce(SL("reflectionfunction")));
-		ZEPHIR_CALL_METHOD(NULL, &reflection, "__construct", NULL, 238, handler);
+		ZEPHIR_CALL_METHOD(NULL, &reflection, "__construct", NULL, 239, handler);
 		zephir_check_call_status();
 	}
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 993, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&cache, &_0);
-	ZEPHIR_CALL_METHOD(&methodParams, &reflection, "getparameters", NULL, 239);
+	ZEPHIR_CALL_METHOD(&methodParams, &reflection, "getparameters", NULL, 240);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&paramsKeys);
 	zephir_array_keys(&paramsKeys, &params);

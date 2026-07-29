@@ -3166,7 +3166,7 @@ PHP_METHOD(Phalcon_Mvc_Model, dump)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	ZEPHIR_RETURN_CALL_FUNCTION("get_object_vars", NULL, 347, this_ptr);
+	ZEPHIR_RETURN_CALL_FUNCTION("get_object_vars", NULL, 348, this_ptr);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -14280,14 +14280,14 @@ PHP_METHOD(Phalcon_Mvc_Model, getPrivateProperties)
 		array_init(&privateProperties);
 		ZEPHIR_INIT_VAR(&reflection);
 		object_init_ex(&reflection, zephir_get_internal_ce(SL("reflectionclass")));
-		ZEPHIR_CALL_METHOD(NULL, &reflection, "__construct", NULL, 241, &className_zv);
+		ZEPHIR_CALL_METHOD(NULL, &reflection, "__construct", NULL, 242, &className_zv);
 		zephir_check_call_status();
 		while (1) {
 			if (!(Z_TYPE_P(&reflection) == IS_OBJECT)) {
 				break;
 			}
 			ZVAL_LONG(&_0$$4, 4);
-			ZEPHIR_CALL_METHOD(&reflectionProperties, &reflection, "getproperties", &_1, 359, &_0$$4);
+			ZEPHIR_CALL_METHOD(&reflectionProperties, &reflection, "getproperties", &_1, 360, &_0$$4);
 			zephir_check_call_status();
 			zephir_is_iterable(&reflectionProperties, 0, "phalcon/Mvc/Model.zep", 6594);
 			if (Z_TYPE_P(&reflectionProperties) == IS_ARRAY) {
