@@ -125,7 +125,7 @@ PHP_METHOD(Phalcon_Auth_Guard_UserRemember, __construct)
 			}
 
 			ZVAL_BOOL(&_2$$4, 1);
-			ZEPHIR_CALL_METHOD(&data, &_1$$4, "__invoke", NULL, 392, payload, &_2$$4);
+			ZEPHIR_CALL_METHOD(&data, &_1$$4, "__invoke", NULL, 393, payload, &_2$$4);
 			zephir_check_call_status_or_jump(try_end_1);
 		} else {
 			ZEPHIR_CPY_WRT(&data, payload);
@@ -167,7 +167,7 @@ PHP_METHOD(Phalcon_Auth_Guard_UserRemember, __construct)
 		ZEPHIR_INIT_NVAR(&_5);
 		ZVAL_NULL(&_5);
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 450, &_5);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 451, &_5);
 	ZEPHIR_INIT_VAR(&_7);
 	if (zephir_array_isset_value_string(&data, SL("token"))) {
 		zephir_memory_observe(&_8);
@@ -178,7 +178,7 @@ PHP_METHOD(Phalcon_Auth_Guard_UserRemember, __construct)
 		ZEPHIR_INIT_NVAR(&_7);
 		ZVAL_STRING(&_7, "");
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 451, &_7);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 452, &_7);
 	ZEPHIR_INIT_VAR(&_10);
 	if (zephir_array_isset_value_string(&data, SL("user_agent"))) {
 		zephir_memory_observe(&_11);
@@ -189,7 +189,7 @@ PHP_METHOD(Phalcon_Auth_Guard_UserRemember, __construct)
 		ZEPHIR_INIT_NVAR(&_10);
 		ZVAL_STRING(&_10, "");
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 452, &_10);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 453, &_10);
 	ZEPHIR_MM_RESTORE();
 }
 

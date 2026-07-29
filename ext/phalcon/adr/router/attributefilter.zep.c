@@ -148,7 +148,7 @@ PHP_METHOD(Phalcon_ADR_Router_AttributeFilter, filter)
 					if (!(zephir_is_true(&_7$$7))) {
 						ZEPHIR_INIT_NVAR(&_8$$8);
 						object_init_ex(&_8$$8, phalcon_adr_exceptions_routenotfound_ce);
-						ZEPHIR_CALL_METHOD(NULL, &_8$$8, "__construct", &_9, 302);
+						ZEPHIR_CALL_METHOD(NULL, &_8$$8, "__construct", &_9, 303);
 						zephir_check_call_status();
 						zephir_throw_exception_debug(&_8$$8, "phalcon/ADR/Router/AttributeFilter.zep", 58);
 						ZEPHIR_MM_RESTORE();
@@ -162,7 +162,7 @@ PHP_METHOD(Phalcon_ADR_Router_AttributeFilter, filter)
 					ZEPHIR_INIT_NVAR(&type);
 					ZVAL_STRING(&type, "string");
 				}
-				ZEPHIR_CALL_METHOD(&value, this_ptr, "cast", &_10, 328, &segment, &type);
+				ZEPHIR_CALL_METHOD(&value, this_ptr, "cast", &_10, 329, &segment, &type);
 				zephir_check_call_status();
 				if (zephir_array_isset_value_string(&rule, SL("convert"))) {
 					ZEPHIR_OBS_NVAR(&convert);
@@ -209,7 +209,7 @@ PHP_METHOD(Phalcon_ADR_Router_AttributeFilter, filter)
 						if (!(zephir_is_true(&_17$$12))) {
 							ZEPHIR_INIT_NVAR(&_18$$13);
 							object_init_ex(&_18$$13, phalcon_adr_exceptions_routenotfound_ce);
-							ZEPHIR_CALL_METHOD(NULL, &_18$$13, "__construct", &_9, 302);
+							ZEPHIR_CALL_METHOD(NULL, &_18$$13, "__construct", &_9, 303);
 							zephir_check_call_status();
 							zephir_throw_exception_debug(&_18$$13, "phalcon/ADR/Router/AttributeFilter.zep", 58);
 							ZEPHIR_MM_RESTORE();
@@ -223,7 +223,7 @@ PHP_METHOD(Phalcon_ADR_Router_AttributeFilter, filter)
 						ZEPHIR_INIT_NVAR(&type);
 						ZVAL_STRING(&type, "string");
 					}
-					ZEPHIR_CALL_METHOD(&value, this_ptr, "cast", &_10, 328, &segment, &type);
+					ZEPHIR_CALL_METHOD(&value, this_ptr, "cast", &_10, 329, &segment, &type);
 					zephir_check_call_status();
 					if (zephir_array_isset_value_string(&rule, SL("convert"))) {
 						ZEPHIR_OBS_NVAR(&convert);
@@ -313,7 +313,7 @@ PHP_METHOD(Phalcon_ADR_Router_AttributeFilter, cast)
 			zephir_check_call_status();
 			RETURN_MM();
 		}
-		ZEPHIR_RETURN_CALL_FUNCTION("strval", NULL, 329, &value_zv);
+		ZEPHIR_RETURN_CALL_FUNCTION("strval", NULL, 330, &value_zv);
 		zephir_check_call_status();
 		RETURN_MM();
 	} while(0);
