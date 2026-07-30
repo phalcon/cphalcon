@@ -58,6 +58,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 - Fixed `Phalcon\Mvc\Model\Resultset` costing two statements for every resultset on SQLite. [#17399](https://github.com/phalcon/cphalcon/issues/17399) [[doc]](https://docs.phalcon.io/5.18/db-models/)
 - Fixed `Phalcon\Db\Result\PdoResult::numRows()` failing on multi-line statements. [#17399](https://github.com/phalcon/cphalcon/issues/17399)
 - Fixed `Phalcon\Mvc\Model\Resultset::seek()` leaving the previous row in place as the current one when seeking past the end of a resultset held in memory. [#17399](https://github.com/phalcon/cphalcon/issues/17399) [[doc]](https://docs.phalcon.io/5.18/db-models/)
+- Fixed `Phalcon\Db\Adapter\Pdo\Mysql::describeColumns()` returning string, date and time defaults still wrapped in quotes on MariaDB, e.g. `'fi'` instead of `fi`. MariaDB reports `COLUMN_DEFAULT` as the DDL source rather than the resolved literal. Expression defaults are unaffected. Note that on MariaDB this changes what `Phalcon\Db\Column::getDefault()` returns and what the model layer writes into an unset `NOT NULL` column on save; if you were stripping the quotes yourself, remove that workaround. MySQL is unaffected. [#17417](https://github.com/phalcon/cphalcon/issues/17417) [[doc]](https://docs.phalcon.io/5.18/db-layer/)
 
 ### Removed
 

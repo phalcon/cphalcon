@@ -16,6 +16,8 @@ namespace Phalcon\Tests\Support\Models;
 use Phalcon\Mvc\Model;
 use Phalcon\Talon\Talon;
 
+use function getenv;
+
 class InvoicesSchemaSwitchable extends Model
 {
     public $inv_id;
@@ -27,8 +29,10 @@ class InvoicesSchemaSwitchable extends Model
 
     public function initialize()
     {
+        $driver = getenv('driver') ?: 'mysql';
+
         $this->setSource('co_invoices');
-        $this->setSchema(Talon::settings()->getDatabaseOptions('mysql')['dbname']);
+        $this->setSchema(Talon::settings()->getDatabaseOptions($driver)['dbname']);
     }
 
     public function switchSchema(string $schema): void
