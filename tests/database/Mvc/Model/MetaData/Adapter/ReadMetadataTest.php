@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Database\Mvc\Model\MetaData\Adapter;
 
 use Phalcon\Mvc\Model\MetaData;
-use Phalcon\Storage\Exception;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Migrations\AlbumMigration;
 use Phalcon\Tests\Support\Migrations\AlbumPhotoMigration;

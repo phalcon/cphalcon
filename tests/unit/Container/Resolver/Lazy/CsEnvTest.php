@@ -9,7 +9,6 @@ use Phalcon\Container\Resolver\Lazy\CsEnv;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Container\Resolver\Fake\FakeNameContainer;
 use PHPUnit\Framework\Attributes\BackupGlobals;
-use stdClass;
 
 #[BackupGlobals(true)]
 final class CsEnvTest extends AbstractUnitTestCase

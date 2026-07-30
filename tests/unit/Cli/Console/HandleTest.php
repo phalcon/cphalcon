@@ -19,7 +19,6 @@ use Phalcon\Cli\Console as CliConsole;
 use Phalcon\Cli\Console\Exception as ConsoleException;
 use Phalcon\Cli\Console\Exceptions\InvalidModuleDefinition;
 use Phalcon\Cli\Dispatcher\Exception as DispatcherException;
-use Phalcon\Cli\Router\Exception as RouterException;
 use Phalcon\Di\FactoryDefault\Cli as DiFactoryDefault;
 use Phalcon\Events\Event;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
@@ -31,7 +30,6 @@ use PHPUnit\Framework\Attributes\DataProvider;
 
 use function ob_end_clean;
 use function ob_start;
-use function rootDir;
 use function shell_exec;
 
 final class HandleTest extends AbstractUnitTestCase

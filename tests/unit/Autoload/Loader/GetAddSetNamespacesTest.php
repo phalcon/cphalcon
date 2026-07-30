@@ -19,7 +19,6 @@ use Phalcon\Autoload\Loader;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Autoload\Fake\LoaderTrait;
 
-use function hash;
 use function uniqid;
 
 final class GetAddSetNamespacesTest extends AbstractUnitTestCase

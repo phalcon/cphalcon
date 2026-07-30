@@ -15,7 +15,6 @@ namespace Phalcon\Tests\Unit\Assets\Inline\Css;
 
 use Phalcon\Assets\Inline\Css;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
-use PHPUnit\Framework\Attributes\Test;
 
 use function hash;
 

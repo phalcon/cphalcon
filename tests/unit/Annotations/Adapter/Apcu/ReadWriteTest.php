@@ -20,7 +20,6 @@ use Phalcon\Talon\Talon;
 use TestClass;
 
 use function apcu_fetch;
-use function dataDir;
 use function strtolower;
 
 final class ReadWriteTest extends AbstractUnitTestCase

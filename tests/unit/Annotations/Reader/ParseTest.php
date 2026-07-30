@@ -19,12 +19,6 @@ use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Talon\Talon;
 use ReflectionException;
 
-use function dataDir;
-use function str_replace;
-
-use const DIRECTORY_SEPARATOR;
-use const PHP_VERSION;
-
 final class ParseTest extends AbstractUnitTestCase
 {
     /**

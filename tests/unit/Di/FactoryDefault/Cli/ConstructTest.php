@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Di\FactoryDefault\Cli;
 
-use Phalcon\Di\Exception;
 use Phalcon\Di\FactoryDefault\Cli;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Di\Fake\CliTrait;

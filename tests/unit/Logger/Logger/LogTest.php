@@ -26,7 +26,6 @@ use Psr\Log\LogLevel;
 
 use function file_get_contents;
 use function sprintf;
-use function strtoupper;
 use function uniqid;
 
 final class LogTest extends AbstractUnitTestCase

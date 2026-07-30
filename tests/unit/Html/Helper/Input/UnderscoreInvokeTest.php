@@ -12,7 +12,6 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Html\Helper\Input;
 
 use Phalcon\Html\Escaper;
-use Phalcon\Html\Exception;
 use Phalcon\Html\Helper\Doctype;
 use Phalcon\Html\Helper\Input\Generic;
 use Phalcon\Html\Helper\Input\Textarea;

@@ -16,7 +16,6 @@ namespace Phalcon\Tests\Unit\Assets\Collection;
 use Phalcon\Assets\Collection;
 use Phalcon\Assets\Inline;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
-use PHPUnit\Framework\Attributes\Test;
 
 final class AddInlineTest extends AbstractUnitTestCase
 {

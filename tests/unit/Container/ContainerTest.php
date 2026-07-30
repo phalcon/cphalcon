@@ -49,10 +49,8 @@ use Phalcon\Contracts\Container\Service\Collection;
 use Phalcon\Contracts\Container\Service\Enumerable;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Container\Fake\FakeService;
-use Phalcon\Tests\Unit\Container\Fake\FakeServiceProvider;
 use Phalcon\Tests\Unit\Container\Fake\FakeServiceWithDependency;
 use PHPUnit\Framework\Attributes\BackupGlobals;
-use stdClass;
 
 #[BackupGlobals(true)]
 final class ContainerTest extends AbstractUnitTestCase

@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Filter\Validation\Validator\Regex;
 
 use Phalcon\Filter\Validation;
-use Phalcon\Filter\Validation\Exception;
 use Phalcon\Filter\Validation\Validator\Regex;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;

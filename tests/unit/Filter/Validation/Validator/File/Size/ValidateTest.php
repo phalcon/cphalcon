@@ -14,16 +14,12 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Filter\Validation\Validator\File\Size;
 
 use Phalcon\Filter\Validation;
-use Phalcon\Filter\Validation\Validator\File\Size\Equal;
-use Phalcon\Filter\Validation\Validator\File\Size\Max;
-use Phalcon\Filter\Validation\Validator\File\Size\Min;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Filter\Validation\Validator\File\Size\Fake\FakeEqual;
 use Phalcon\Tests\Unit\Filter\Validation\Validator\File\Size\Fake\FakeMax;
 use Phalcon\Tests\Unit\Filter\Validation\Validator\File\Size\Fake\FakeMin;
 use PHPUnit\Framework\Attributes\BackupGlobals;
 use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\Attributes\Test;
 
 #[BackupGlobals(true)]
 final class ValidateTest extends AbstractUnitTestCase

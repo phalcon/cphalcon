@@ -20,8 +20,6 @@ use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Talon\Talon;
 use TestClass;
 
-use function dataDir;
-
 final class GetTest extends AbstractUnitTestCase
 {
     /**

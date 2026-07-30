@@ -14,8 +14,6 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Encryption\Crypt;
 
 use Phalcon\Encryption\Crypt;
-use Phalcon\Encryption\Crypt\Exception\Exception;
-use Phalcon\Encryption\Crypt\Exception\Mismatch;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 

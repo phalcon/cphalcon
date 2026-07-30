@@ -7,7 +7,6 @@ namespace Phalcon\Tests\Unit\Container\Resolver\Lazy;
 use Phalcon\Container\Resolver\Lazy\FunctionCall;
 use Phalcon\Container\Resolver\Lazy\Get;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
-use Phalcon\Tests\Unit\Container\Fake\FakeContainer;
 use Phalcon\Tests\Unit\Container\Resolver\Fake\FakeContainerWithServiceResolution;
 use Phalcon\Tests\Unit\Container\Resolver\Fake\FakeNameContainer;
 use stdClass;

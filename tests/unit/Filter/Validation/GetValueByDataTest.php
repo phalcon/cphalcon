@@ -16,7 +16,6 @@ namespace Phalcon\Tests\Unit\Filter\Validation;
 use Phalcon\Filter\Validation;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Models\EntityWithPublic;
-use PHPUnit\Framework\Attributes\Test;
 
 final class GetValueByDataTest extends AbstractUnitTestCase
 {

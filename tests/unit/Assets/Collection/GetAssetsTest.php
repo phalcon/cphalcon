@@ -16,7 +16,6 @@ namespace Phalcon\Tests\Unit\Assets\Collection;
 use Phalcon\Assets\Asset;
 use Phalcon\Assets\Collection;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
-use PHPUnit\Framework\Attributes\Test;
 
 final class GetAssetsTest extends AbstractUnitTestCase
 {

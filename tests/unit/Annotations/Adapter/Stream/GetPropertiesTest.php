@@ -20,7 +20,6 @@ use Phalcon\Talon\Talon;
 use TestClass;
 
 use function array_keys;
-use function dataDir;
 
 final class GetPropertiesTest extends AbstractUnitTestCase
 {

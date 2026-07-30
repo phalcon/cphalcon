@@ -16,7 +16,6 @@ namespace Phalcon\Tests\Unit\Assets\Collection;
 use Phalcon\Assets\Collection;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Talon\Talon;
-use PHPUnit\Framework\Attributes\Test;
 
 final class GetSetSourcePathTest extends AbstractUnitTestCase
 {
