@@ -21,12 +21,23 @@ use Phalcon\Talon\Talon;
 use function date;
 use function getenv;
 use function is_string;
+use function str_contains;
 
 abstract class AbstractDatabaseTestCase extends TalonAbstractDatabaseTestCase
 {
     private static string $password = '';
 
     private static string $username = '';
+
+    /**
+     * The dialect the connection speaks, not the server it points at.
+     */
+    public static function getDatabaseDialect(): string
+    {
+        $driver = self::getDatabaseDriver();
+
+        return $driver === 'mariadb' ? 'mysql' : $driver;
+    }
 
     public static function getDatabaseDsn(): string
     {
@@ -98,5 +109,19 @@ abstract class AbstractDatabaseTestCase extends TalonAbstractDatabaseTestCase
         $driver = getenv('driver');
 
         return $driver !== false ? $driver : 'sqlite';
+    }
+
+    /**
+     * `PDO::ATTR_DRIVER_NAME` reports `mysql` for both engines; only the
+     * version string tells them apart.
+     */
+    public function isMariaDb(): bool
+    {
+        return str_contains(
+            (string) $this
+                ->getPdoConnection()
+                ->getAttribute(PDO::ATTR_SERVER_VERSION),
+            'MariaDB'
+        );
     }
 }

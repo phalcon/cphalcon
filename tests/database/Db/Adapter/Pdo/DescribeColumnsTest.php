@@ -106,7 +106,7 @@ final class DescribeColumnsTest extends AbstractDatabaseTestCase
                 'inv_total'       => Column::TYPE_FLOAT,
                 'inv_created_at'  => Column::TYPE_TEXT,
             ],
-        ][self::getDatabaseDriver()];
+        ][self::getDatabaseDialect()];
 
         foreach ($expectedTypes as $col => $type) {
             $this->assertSame(
@@ -157,6 +157,13 @@ final class DescribeColumnsTest extends AbstractDatabaseTestCase
 
         $columns = $db->describeColumns($migration->getTable());
 
+        if ($this->isMariaDb()) {
+            $this->assertSame('current_timestamp() on update current_timestamp()', $columns[2]->getDefault());
+            $this->assertSame('NULL on update current_timestamp()', $columns[3]->getDefault());
+
+            return;
+        }
+
         $this->assertSame('CURRENT_TIMESTAMP DEFAULT_GENERATED on update CURRENT_TIMESTAMP', $columns[2]->getDefault());
         $this->assertSame('NULL on update CURRENT_TIMESTAMP', $columns[3]->getDefault());
     }
@@ -186,7 +193,12 @@ final class DescribeColumnsTest extends AbstractDatabaseTestCase
 
         foreach ($columns as $index => $column) {
             $expected = $this->getExpected($index);
-            $actual   = $this->getActual($column);
+
+            if ($this->isMariaDb()) {
+                $expected = array_merge($expected, $this->getExpectedMariaDb($index));
+            }
+
+            $actual = $this->getActual($column);
 
             $this->assertSame($expected, $actual);
         }
@@ -1041,6 +1053,33 @@ final class DescribeColumnsTest extends AbstractDatabaseTestCase
                 'isPrimary'        => false,
                 'isUnsigned'       => false,
             ],
+        ];
+
+        return $metadata[$index] ?? [];
+    }
+
+    /**
+     * MariaDB keeps the integer display width MySQL dropped in 8.0.19, and
+     * reports `JSON` columns as `LONGTEXT`.
+     *
+     * @return array<string, int>
+     */
+    private function getExpectedMariaDb(int $index): array
+    {
+        $metadata = [
+            0  => ['getSize' => 11],
+            5  => ['getSize' => 20],
+            6  => ['getSize' => 20],
+            7  => ['getSize' => 1],
+            14 => ['getSize' => 10],
+            15 => ['getSize' => 10],
+            16 => ['getType' => Column::TYPE_LONGTEXT],
+            27 => ['getSize' => 10],
+            28 => ['getSize' => 10],
+            29 => ['getSize' => 10],
+            30 => ['getSize' => 10],
+            31 => ['getSize' => 10],
+            32 => ['getSize' => 10],
         ];
 
         return $metadata[$index] ?? [];

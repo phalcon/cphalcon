@@ -64,9 +64,13 @@ final class ReadMetadataTest extends AbstractDatabaseTestCase
     /**
      * @return array
      */
-    private static function getKeyData(): array
+    private function getKeyData(): array
     {
         $dateUploadedType = ('pgsql' === self::getDatabaseDriver()) ? 17 : 4;
+
+        $dateUploadedDefault = $this->isMariaDb()
+            ? 'current_timestamp()'
+            : 'CURRENT_TIMESTAMP';
 
         return [
         'meta-phalcon\tests\support\models\albumphoto' => [
@@ -238,7 +242,7 @@ final class ReadMetadataTest extends AbstractDatabaseTestCase
             10 => [],
             11 => [],
             12 => [
-                'date_uploaded' => 'CURRENT_TIMESTAMP',
+                'date_uploaded' => $dateUploadedDefault,
                 'filesize' => null,
                 'battles' => '0',
                 'wins' => '0',
@@ -381,7 +385,7 @@ final class ReadMetadataTest extends AbstractDatabaseTestCase
             /**
              * Check if keys exist
              */
-            $keys    = self::getKeyData();
+            $keys    = $this->getKeyData();
             $keyKeys = array_keys($keys);
             foreach ($keyKeys as $key) {
                 $actual = $service->has($key);

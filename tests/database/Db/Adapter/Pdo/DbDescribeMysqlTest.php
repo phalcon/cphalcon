@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Database\Db\Adapter\Pdo;
 
 use Phalcon\Db\Column;
-use Phalcon\Talon\Talon;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\Group;
@@ -52,7 +51,7 @@ final class DbDescribeMysqlTest extends AbstractDatabaseTestCase
             $expected,
             $db->describeColumns(
                 'personas',
-                Talon::settings()->getDatabaseOptions('mysql')['dbname']
+                self::getDatabaseOptions()['dbname']
             )
         );
     }
@@ -108,7 +107,7 @@ final class DbDescribeMysqlTest extends AbstractDatabaseTestCase
         $this->assertTrue(
             $db->tableExists(
                 'co_invoices',
-                Talon::settings()->getDatabaseOptions('mysql')['dbname']
+                self::getDatabaseOptions()['dbname']
             )
         );
         $this->assertFalse($db->tableExists('co_invoices', 'test'));
@@ -159,7 +158,7 @@ final class DbDescribeMysqlTest extends AbstractDatabaseTestCase
                 [
                     'type'          => Column::TYPE_INTEGER,
                     'isNumeric'     => true,
-                    'size'          => 0,
+                    'size'          => $this->isMariaDb() ? 3 : 0,
                     'scale'         => 0,
                     'default'       => null,
                     'unsigned'      => true,

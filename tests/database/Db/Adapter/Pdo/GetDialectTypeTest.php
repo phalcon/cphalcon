@@ -44,7 +44,7 @@ final class GetDialectTypeTest extends AbstractDatabaseTestCase
             'mysql'  => 'mysql',
             'pgsql'  => 'postgresql',
             'sqlite' => 'sqlite',
-        ][self::getDatabaseDriver()];
+        ][self::getDatabaseDialect()];
 
         $this->assertSame($expected, $db->getDialectType());
     }

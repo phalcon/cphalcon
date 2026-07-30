@@ -79,9 +79,13 @@ final class GetScaleTest extends AbstractDatabaseTestCase
 
         $record = FractalDates::findFirst('id = 1');
 
+        // MariaDB truncates the excess fractional digits, MySQL rounds them.
+        $datetime  = $this->isMariaDb() ? '2019-12-25 17:18:19.66' : '2019-12-25 17:18:19.67';
+        $timestamp = $this->isMariaDb() ? '2019-12-25 20:21:22.88' : '2019-12-25 20:21:22.89';
+
         $this->assertSame(1, $record->id);
         $this->assertSame('14:15:16.44', $record->ftime);
-        $this->assertSame('2019-12-25 17:18:19.67', $record->fdatetime);
-        $this->assertSame('2019-12-25 20:21:22.89', $record->ftimestamp);
+        $this->assertSame($datetime, $record->fdatetime);
+        $this->assertSame($timestamp, $record->ftimestamp);
     }
 }

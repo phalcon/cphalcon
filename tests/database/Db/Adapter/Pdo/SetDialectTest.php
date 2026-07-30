@@ -43,7 +43,7 @@ final class SetDialectTest extends AbstractDatabaseTestCase
     {
         $db = $this->container->get('db');
 
-        $newDialect = match (self::getDatabaseDriver()) {
+        $newDialect = match (self::getDatabaseDialect()) {
             'mysql'  => new Mysql(),
             'pgsql'  => new Postgresql(),
             'sqlite' => new Sqlite(),

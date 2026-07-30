@@ -44,7 +44,7 @@ final class GetColumnListTest extends AbstractDatabaseTestCase
             'mysql'  => '`a`, `b`',
             'pgsql'  => '"a", "b"',
             'sqlite' => '"a", "b"',
-        ][self::getDatabaseDriver()];
+        ][self::getDatabaseDialect()];
 
         $this->assertSame($expected, $db->getColumnList(['a', 'b']));
     }

@@ -45,7 +45,7 @@ final class ConnectDisconnectIsConnectedTest extends AbstractDatabaseTestCase
     #[Group('mysql')]
     public function testDMPdoConnectionConnectQueries(): void
     {
-        if ('mysql' === self::getDriver()) {
+        if ('mysql' === self::getDatabaseDialect()) {
             /** @var Connection $connection */
             $connection = new Connection(
                 self::getDatabaseDsn(),
