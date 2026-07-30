@@ -3096,7 +3096,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, executeUpdate)
 				zephir_preg_match(&_16$$12, &_17$$12, &sqlExpr, &namedParams, 1, 0 , 0 );
 				if (zephir_is_true(&_16$$12)) {
 					zephir_array_fetch_long(&_18$$13, &namedParams, 1, PH_NOISY | PH_READONLY, "phalcon/Mvc/Model/Query.zep", 1591);
-					ZEPHIR_CALL_FUNCTION(&paramKeys, "array_unique", &_19, 425, &_18$$13);
+					ZEPHIR_CALL_FUNCTION(&paramKeys, "array_unique", &_19, 426, &_18$$13);
 					zephir_check_call_status();
 					ZEPHIR_INIT_NVAR(&_20$$13);
 					ZEPHIR_INIT_NVAR(&_20$$13);
@@ -3289,7 +3289,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, executeUpdate)
 					zephir_preg_match(&_65$$29, &_66$$29, &sqlExpr, &namedParams, 1, 0 , 0 );
 					if (zephir_is_true(&_65$$29)) {
 						zephir_array_fetch_long(&_67$$30, &namedParams, 1, PH_NOISY | PH_READONLY, "phalcon/Mvc/Model/Query.zep", 1591);
-						ZEPHIR_CALL_FUNCTION(&paramKeys, "array_unique", &_19, 425, &_67$$30);
+						ZEPHIR_CALL_FUNCTION(&paramKeys, "array_unique", &_19, 426, &_67$$30);
 						zephir_check_call_status();
 						ZEPHIR_INIT_NVAR(&_68$$30);
 						ZEPHIR_INIT_NVAR(&_68$$30);
