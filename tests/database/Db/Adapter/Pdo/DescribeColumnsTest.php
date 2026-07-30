@@ -17,6 +17,7 @@ use Phalcon\Db\Adapter\Pdo\Mysql;
 use Phalcon\Db\Column;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Migrations\ComplexDefaultMigration;
+use Phalcon\Tests\Support\Migrations\DefaultEscapesMigration;
 use Phalcon\Tests\Support\Migrations\DialectMigration;
 use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Traits\DiTrait;
@@ -166,6 +167,57 @@ final class DescribeColumnsTest extends AbstractDatabaseTestCase
 
         $this->assertSame('CURRENT_TIMESTAMP DEFAULT_GENERATED on update CURRENT_TIMESTAMP', $columns[2]->getDefault());
         $this->assertSame('NULL on update CURRENT_TIMESTAMP', $columns[3]->getDefault());
+    }
+
+    /**
+     * Tests Phalcon\Db\Adapter\Pdo :: describeColumns() - escaped defaults
+     *
+     * Runs on both engines on purpose: MySQL resolves these literals itself and
+     * so pins the true value, MariaDB has to unquote its way back to the same
+     * answer.
+     *
+     * @return void
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/17417
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-07-30
+     */
+    #[Group('mysql')]
+    public function testDbAdapterPdoDescribeColumnsEscapedDefaults(): void
+    {
+        $db        = $this->container->get('db');
+        $migration = new DefaultEscapesMigration(self::getPdoConnection());
+
+        $columns = [];
+        foreach ($db->describeColumns($migration->getTable()) as $column) {
+            $columns[$column->getName()] = $column->getDefault();
+        }
+
+        $expected = [
+            'field_id'         => null,
+            'field_quote'      => "it's",
+            'field_apostrophe' => "'",
+            'field_backslash'  => 'a\\b',
+            'field_newline'    => "a\nb",
+            'field_tab'        => "a\tb",
+            'field_empty'      => '',
+            'field_bit'        => "b'1'",
+            'field_nullable'   => null,
+        ];
+
+        foreach ($expected as $name => $value) {
+            $this->assertSame($value, $columns[$name], $name);
+        }
+
+        /**
+         * A `DEFAULT 'NULL'` string is indistinguishable from `DEFAULT NULL` on
+         * MySQL, which resolves both to the bare word. MariaDB quotes the
+         * literal and so keeps them apart.
+         */
+        $this->assertSame(
+            $this->isMariaDb() ? 'NULL' : null,
+            $columns['field_null_word']
+        );
     }
 
     /**
