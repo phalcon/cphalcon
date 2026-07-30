@@ -15,7 +15,6 @@ namespace Phalcon\Tests\Unit\Support\Debug\Dump;
 
 use Phalcon\Support\Debug\Dump;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
-use ReflectionException;
 
 final class SetStylesTest extends AbstractUnitTestCase
 {

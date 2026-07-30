@@ -17,7 +17,6 @@ use Phalcon\Di\Di;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Di\InjectableComponent;
 use ReflectionClass;
-use ReflectionException;
 use stdClass;
 
 final class GetDITest extends AbstractUnitTestCase

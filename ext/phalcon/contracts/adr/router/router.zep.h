@@ -17,6 +17,10 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_contracts_adr_router_rout
 	ZEND_ARG_OBJ_INFO(0, request, Phalcon\\Http\\RequestInterface, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_adr_router_router_methodfor, 0, 1, IS_STRING, 1)
+	ZEND_ARG_TYPE_INFO(0, className, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_adr_router_router_pathfor, 0, 1, IS_STRING, 1)
 	ZEND_ARG_TYPE_INFO(0, className, IS_STRING, 0)
 ZEND_END_ARG_INFO()
@@ -41,6 +45,7 @@ ZEPHIR_INIT_FUNCS(phalcon_contracts_adr_router_router_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Contracts_ADR_Router_Router, candidatesFor, arginfo_phalcon_contracts_adr_router_router_candidatesfor)
 	PHP_ABSTRACT_ME(Phalcon_Contracts_ADR_Router_Router, classFor, arginfo_phalcon_contracts_adr_router_router_classfor)
 	PHP_ABSTRACT_ME(Phalcon_Contracts_ADR_Router_Router, match, arginfo_phalcon_contracts_adr_router_router_match)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_ADR_Router_Router, methodFor, arginfo_phalcon_contracts_adr_router_router_methodfor)
 	PHP_ABSTRACT_ME(Phalcon_Contracts_ADR_Router_Router, pathFor, arginfo_phalcon_contracts_adr_router_router_pathfor)
 	PHP_ABSTRACT_ME(Phalcon_Contracts_ADR_Router_Router, setActionDirectory, arginfo_phalcon_contracts_adr_router_router_setactiondirectory)
 	PHP_ABSTRACT_ME(Phalcon_Contracts_ADR_Router_Router, setBaseNamespace, arginfo_phalcon_contracts_adr_router_router_setbasenamespace)

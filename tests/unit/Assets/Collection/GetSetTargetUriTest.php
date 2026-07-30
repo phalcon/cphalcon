@@ -15,7 +15,6 @@ namespace Phalcon\Tests\Unit\Assets\Collection;
 
 use Phalcon\Assets\Collection;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
-use PHPUnit\Framework\Attributes\Test;
 
 final class GetSetTargetUriTest extends AbstractUnitTestCase
 {

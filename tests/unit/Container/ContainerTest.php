@@ -46,12 +46,11 @@ use Phalcon\Container\Exceptions\ServiceNotFound;
 use Phalcon\Container\Exceptions\ServiceNotRegistered;
 use Phalcon\Container\Resolver\Lazy\Env;
 use Phalcon\Contracts\Container\Service\Collection;
+use Phalcon\Contracts\Container\Service\Enumerable;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Container\Fake\FakeService;
-use Phalcon\Tests\Unit\Container\Fake\FakeServiceProvider;
 use Phalcon\Tests\Unit\Container\Fake\FakeServiceWithDependency;
 use PHPUnit\Framework\Attributes\BackupGlobals;
-use stdClass;
 
 #[BackupGlobals(true)]
 final class ContainerTest extends AbstractUnitTestCase
@@ -590,6 +589,17 @@ final class ContainerTest extends AbstractUnitTestCase
         $bucket = new Container();
 
         $this->assertInstanceOf(Collection::class, $bucket);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-07-29
+     */
+    public function testContainerImplementsEnumerable(): void
+    {
+        $bucket = new Container();
+
+        $this->assertInstanceOf(Enumerable::class, $bucket);
     }
 
     /**

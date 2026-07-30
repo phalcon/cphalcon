@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Container\Resolver\Lazy;
 
-use Phalcon\Container\Resolver\Lazy\CallableGet;
 use Phalcon\Container\Resolver\Lazy\CallableNew;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Container\Resolver\Fake\FakeNameContainer;

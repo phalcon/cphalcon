@@ -161,40 +161,32 @@ final class Router implements RouterInterface
         return null;
     }
 
+    public function methodFor(string className) -> string | null
+    {
+        var verb;
+
+        let verb = this->verbOf(className);
+
+        return null === verb ? null : strtoupper(verb);
+    }
+
     public function pathFor(string className) -> string | null
     {
-        var candidate, last, name, names, part, parts, path, prefix,
-            verb = null;
+        var name, names, part, parts, path;
 
-        let prefix = this->baseNamespace . "\\";
-
-        if strncmp(className, prefix, strlen(prefix)) !== 0 {
+        if null === this->verbOf(className) {
             return null;
         }
 
-        let parts = explode("\\", substr(className, strlen(prefix))),
-            last  = array_pop(parts);
+        let parts = explode(
+            "\\",
+            substr(className, strlen(this->baseNamespace) + 1)
+        );
+
+        array_pop(parts);
 
         if empty parts {
-            return in_array(last, this->verbs(), true) ? "/" : null;
-        }
-
-        /**
-         * The class name is the verb followed by every namespace segment, so
-         * the namespace alone reconstructs the static path and the class name
-         * only has to agree with it. Anything that does not agree is not a
-         * class this convention would ever have produced.
-         */
-        for candidate in this->verbs() {
-            if last === candidate . implode("", parts) {
-                let verb = candidate;
-
-                break;
-            }
-        }
-
-        if null === verb {
-            return null;
+            return "/";
         }
 
         /**
@@ -396,6 +388,43 @@ final class Router implements RouterInterface
         }
 
         return stacked;
+    }
+
+    /**
+     * The class-name-form verb the given Action class carries, or null when the
+     * class is not one this convention would have produced.
+     *
+     * The class name is the verb followed by every namespace segment, so the
+     * namespace alone reconstructs the static path and the class name only has
+     * to agree with it. Anything that does not agree is not a class this
+     * convention would ever have produced.
+     *
+     * Shared by pathFor() and methodFor() so that rule is stated once.
+     */
+    protected function verbOf(string className) -> string | null
+    {
+        var candidate, last, parts, prefix;
+
+        let prefix = this->baseNamespace . "\\";
+
+        if strncmp(className, prefix, strlen(prefix)) !== 0 {
+            return null;
+        }
+
+        let parts = explode("\\", substr(className, strlen(prefix))),
+            last  = array_pop(parts);
+
+        if empty parts {
+            return in_array(last, this->verbs(), true) ? last : null;
+        }
+
+        for candidate in this->verbs() {
+            if last === candidate . implode("", parts) {
+                return candidate;
+            }
+        }
+
+        return null;
     }
 
     /**

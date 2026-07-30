@@ -22,8 +22,6 @@ use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use TestClass;
 use User\TestClassNs;
 
-use function dataDir;
-
 #[RequiresPhpExtension('apcu')]
 final class ApcuTest extends AbstractUnitTestCase
 {

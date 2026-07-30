@@ -21,8 +21,6 @@ use Phalcon\Talon\Talon;
 use TestClass;
 use User\TestClassNs;
 
-use function dataDir;
-
 final class MemoryTest extends AbstractUnitTestCase
 {
     /**

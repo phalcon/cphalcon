@@ -18,7 +18,6 @@ use Phalcon\Filter\Validation\Validator\Alpha;
 use Phalcon\Filter\Validation\Validator\Email;
 use Phalcon\Filter\Validation\Validator\PresenceOf;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
-use PHPUnit\Framework\Attributes\Test;
 
 final class AddTest extends AbstractUnitTestCase
 {

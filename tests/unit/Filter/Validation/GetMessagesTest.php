@@ -19,7 +19,6 @@ use Phalcon\Filter\Validation\Validator\PresenceOf;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
-use PHPUnit\Framework\Attributes\Test;
 use stdClass;
 
 final class GetMessagesTest extends AbstractUnitTestCase

@@ -47,10 +47,11 @@ use Phalcon\Container\Exceptions\ServiceNotRegistered;
 use Phalcon\Container\Resolver\Lazy\Lazy;
 use Phalcon\Container\Resolver\Resolver;
 use Phalcon\Contracts\Container\Service\Collection;
+use Phalcon\Contracts\Container\Service\Enumerable;
 use Phalcon\Di\InjectionAwareInterface;
 use ReflectionException;
 
-class Container implements Collection
+class Container implements Collection, Enumerable
 {
     /**
      * @var array<string, string>

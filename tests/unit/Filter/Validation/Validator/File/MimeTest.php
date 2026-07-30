@@ -18,7 +18,6 @@ use Phalcon\Filter\Validation\Validator\File;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Filter\Validation\Validator\File\Fake\FakeMimeType;
 use PHPUnit\Framework\Attributes\BackupGlobals;
-use PHPUnit\Framework\Attributes\Test;
 
 #[BackupGlobals(true)]
 final class MimeTest extends AbstractUnitTestCase

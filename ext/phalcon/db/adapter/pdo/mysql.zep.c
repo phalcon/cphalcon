@@ -110,7 +110,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, addForeignKey)
 	if (UNEXPECTED(!zephir_is_true(&_2))) {
 		ZEPHIR_INIT_VAR(&_3$$3);
 		object_init_ex(&_3$$3, phalcon_db_exceptions_missingforeignkeychecks_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_3$$3, "__construct", NULL, 511);
+		ZEPHIR_CALL_METHOD(NULL, &_3$$3, "__construct", NULL, 0);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_3$$3, "phalcon/Db/Adapter/Pdo/Mysql.zep", 65);
 		ZEPHIR_MM_RESTORE();

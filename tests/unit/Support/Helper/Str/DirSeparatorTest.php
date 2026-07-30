@@ -16,8 +16,6 @@ namespace Phalcon\Tests\Unit\Support\Helper\Str;
 use Phalcon\Support\Helper\Str\DirSeparator;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
-use const PHP_OS_FAMILY;
-
 final class DirSeparatorTest extends AbstractUnitTestCase
 {
     /**

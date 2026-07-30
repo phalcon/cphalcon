@@ -275,7 +275,9 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/contracts/container/ioc/ioccontainerfactory.zep.c
 	phalcon/contracts/container/resolver/resolverservice.zep.c
 	phalcon/contracts/container/service/collection.zep.c
+	phalcon/contracts/container/service/enumerable.zep.c
 	phalcon/contracts/encryption/security/security.zep.c
+	phalcon/contracts/events/enumerable.zep.c
 	phalcon/contracts/events/stoppable.zep.c
 	phalcon/contracts/http/attributerequest.zep.c
 	phalcon/contracts/messages/messages.zep.c

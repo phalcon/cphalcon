@@ -16,7 +16,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Auth;
 
-use Phalcon\Auth\Exception;
 use Phalcon\Auth\Exceptions\AccessDenied;
 use Phalcon\Auth\Exceptions\ConfigRequiresNonEmptyValue;
 use Phalcon\Auth\Exceptions\DataMustContainIdKey;

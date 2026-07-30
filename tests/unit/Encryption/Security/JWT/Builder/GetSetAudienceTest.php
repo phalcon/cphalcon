@@ -12,7 +12,6 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Encryption\Security\JWT\Builder;
 
 use Phalcon\Encryption\Security\JWT\Builder;
-use Phalcon\Encryption\Security\JWT\Exceptions\ValidatorException;
 use Phalcon\Encryption\Security\JWT\Signer\Hmac;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 

@@ -33,8 +33,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Container\Resolver\Fake;
 
-use stdClass;
-
 class FakeContainerResolver
 {
     public function __construct(
