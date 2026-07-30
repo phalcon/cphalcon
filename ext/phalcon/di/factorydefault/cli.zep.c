@@ -200,7 +200,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault_Cli, __construct)
 	ZEPHIR_CALL_METHOD(NULL, &_1, "__construct", NULL, 176, &_2, &_3);
 	zephir_check_call_status();
 	zephir_array_update_string(&_0, SL("transactionManager"), &_1, PH_COPY | PH_SEPARATE);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 657, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 658, &_0);
 	ZEPHIR_MM_RESTORE();
 }
 

@@ -163,7 +163,7 @@ PHP_METHOD(Phalcon_Support_Debug_Renderer_HtmlRenderer, getTemplate)
 	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
 	zephir_memory_observe(&template);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1338, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1339, PH_NOISY_CC | PH_READONLY);
 	if (zephir_array_isset_fetch(&template, &_0, &name_zv, 0)) {
 		RETURN_CCTOR(&template);
 	}

@@ -171,11 +171,11 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Callback, validate)
 			zephir_check_call_status();
 		}
 		zephir_memory_observe(&savedTemplate);
-		zephir_read_property_cached(&savedTemplate, this_ptr, _zephir_prop_0, 746, PH_NOISY_CC);
+		zephir_read_property_cached(&savedTemplate, this_ptr, _zephir_prop_0, 747, PH_NOISY_CC);
 		zephir_memory_observe(&savedChanged);
-		zephir_read_property_cached(&savedChanged, this_ptr, _zephir_prop_1, 747, PH_NOISY_CC);
+		zephir_read_property_cached(&savedChanged, this_ptr, _zephir_prop_1, 748, PH_NOISY_CC);
 		zephir_memory_observe(&savedTemplates);
-		zephir_read_property_cached(&savedTemplates, this_ptr, _zephir_prop_2, 748, PH_NOISY_CC);
+		zephir_read_property_cached(&savedTemplates, this_ptr, _zephir_prop_2, 749, PH_NOISY_CC);
 		if (zephir_is_instance_of(&callback, SL("Closure"))) {
 			_2$$5 = zephir_fetch_class_str_ex(SL("Closure"), ZEND_FETCH_CLASS_AUTO);
 			ZEPHIR_CALL_CE_STATIC(&_1$$5, _2$$5, "bind", NULL, 0, &callback, this_ptr);
@@ -194,9 +194,9 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Callback, validate)
 			ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_4$$6);
 			zephir_check_call_status();
 		}
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 746, &savedTemplate);
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 747, &savedChanged);
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 748, &savedTemplates);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 747, &savedTemplate);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 748, &savedChanged);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 749, &savedTemplates);
 		if (((Z_TYPE_P(&returnedValue) == IS_TRUE || Z_TYPE_P(&returnedValue) == IS_FALSE) == 1)) {
 			RETURN_CCTOR(&returnedValue);
 		}
