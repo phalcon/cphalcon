@@ -1,0 +1,12 @@
+
+extern zend_class_entry *phalcon_contracts_events_enumerable_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Contracts_Events_Enumerable);
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_events_enumerable_getlistenermap, 0, 0, IS_ARRAY, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_contracts_events_enumerable_method_entry) {
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Events_Enumerable, getListenerMap, arginfo_phalcon_contracts_events_enumerable_getlistenermap)
+	PHP_FE_END
+};

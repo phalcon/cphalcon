@@ -16,7 +16,7 @@ PHP_METHOD(Phalcon_Events_Manager, fire);
 PHP_METHOD(Phalcon_Events_Manager, fireAll);
 PHP_METHOD(Phalcon_Events_Manager, fireQueue);
 PHP_METHOD(Phalcon_Events_Manager, halt);
-PHP_METHOD(Phalcon_Events_Manager, getEventTypes);
+PHP_METHOD(Phalcon_Events_Manager, getListenerMap);
 PHP_METHOD(Phalcon_Events_Manager, getListeners);
 PHP_METHOD(Phalcon_Events_Manager, getMethodExistsCacheLimit);
 PHP_METHOD(Phalcon_Events_Manager, getResponses);
@@ -107,7 +107,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_events_manager_halt, 0, 0, IS_VOID, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_events_manager_geteventtypes, 0, 0, IS_ARRAY, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_events_manager_getlistenermap, 0, 0, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_events_manager_getlisteners, 0, 1, IS_ARRAY, 0)
@@ -231,7 +231,7 @@ ZEPHIR_INIT_FUNCS(phalcon_events_manager_method_entry) {
 	PHP_ME(Phalcon_Events_Manager, fireAll, arginfo_phalcon_events_manager_fireall, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Events_Manager, fireQueue, arginfo_phalcon_events_manager_firequeue, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Events_Manager, halt, arginfo_phalcon_events_manager_halt, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Events_Manager, getEventTypes, arginfo_phalcon_events_manager_geteventtypes, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Events_Manager, getListenerMap, arginfo_phalcon_events_manager_getlistenermap, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Events_Manager, getListeners, arginfo_phalcon_events_manager_getlisteners, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Events_Manager, getMethodExistsCacheLimit, arginfo_phalcon_events_manager_getmethodexistscachelimit, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Events_Manager, getResponses, arginfo_phalcon_events_manager_getresponses, ZEND_ACC_PUBLIC)
