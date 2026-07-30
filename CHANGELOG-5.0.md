@@ -18,6 +18,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 - Changed `Phalcon\ADR\Router\Router` to derive exactly one Action class per path: the class name is the verb followed by every static segment concatenated. [#17410](https://github.com/phalcon/cphalcon/issues/17410) [[doc]](https://docs.phalcon.io/5.18/adr/)
 - Changed `Phalcon\Mvc\Model\Resultset::refresh()` to reset the cursor - position, current row, buffered rows and active row - after replaying the statement. [#17399](https://github.com/phalcon/cphalcon/issues/17399) [[doc]](https://docs.phalcon.io/5.18/db-models/)
 - Changed `Phalcon\Events\Manager::getEventTypes()` to `getListenerMap()`, which now returns each event type mapped to its listeners. [#17416](https://github.com/phalcon/cphalcon/issues/17416) [[doc]](https://docs.phalcon.io/5.18/events/)
+- Changed the distribution tarball that Composer and PIE download to ship only the files needed to build the extension; tests, Zephir sources, tooling and the Docker development setup are now excluded through `.gitattributes`. [#17419](https://github.com/phalcon/cphalcon/issues/17419)
 
 ### Added
 
@@ -59,6 +60,8 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 - Fixed `Phalcon\Mvc\Model\Resultset::seek()` leaving the previous row in place as the current one when seeking past the end of a resultset held in memory. [#17399](https://github.com/phalcon/cphalcon/issues/17399) [[doc]](https://docs.phalcon.io/5.18/db-models/)
 
 ### Removed
+
+- Removed `.php_cs.dist`, superseded by `resources/php-cs-fixer.php`. [#17419](https://github.com/phalcon/cphalcon/issues/17419)
 
 ## [5.17.0](https://github.com/phalcon/cphalcon/releases/tag/v5.17.0) (2026-07-17)
 
