@@ -44,6 +44,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 - Added `Phalcon\ADR\Front\AbstractHttpFront::boot()`, which builds the container, loads the environment and registers the providers, then returns the container - for consumers that need it before, or instead of, `run()`. The container is built once and cached, so `boot()` and `run()` share the same instance. A bootstrap file can now be `return (new AppFront(dirname(__DIR__)))->boot();`. [#17413](https://github.com/phalcon/cphalcon/issues/17413) [[doc]](https://docs.phalcon.io/5.18/adr/)
 - Added `Phalcon\Contracts\Container\Service\Enumerable` implemented in `Phalcon\Container\Container`. [#17416](https://github.com/phalcon/cphalcon/issues/17416) [[doc]](https://docs.phalcon.io/5.18/container/)
 - Added `Phalcon\Contracts\Events\Enumerable`, implemented in `Phalcon\Events\Manager`. [#17416](https://github.com/phalcon/cphalcon/issues/17416) [[doc]](https://docs.phalcon.io/5.18/events/)
+- Added `methodFor()` to the `Phalcon\Contracts\ADR\Router\Router` contract and to `Phalcon\ADR\Router\Router`. It names the HTTP method an Action class answers, the counterpart to `pathFor()`. [#17416](https://github.com/phalcon/cphalcon/issues/17416) [[doc]](https://docs.phalcon.io/5.18/adr/)
 
 ### Fixed
 
