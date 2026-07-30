@@ -13,15 +13,16 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Events\Manager;
 
+use Phalcon\Contracts\Events\Enumerable;
 use Phalcon\Events\Manager;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Listener\OneListener;
 use Phalcon\Tests\Support\Listener\TwoListener;
 use Phalcon\Tests\Unit\Events\Manager\Fake\SimpleSubscriber;
 
-final class GetEventTypesTest extends AbstractUnitTestCase
+final class GetListenerMapTest extends AbstractUnitTestCase
 {
-    public function testGetEventTypesDropsTypeWhenLastListenerDetached(): void
+    public function testGetListenerMapDropsTypeWhenLastListenerDetached(): void
     {
         $manager  = new Manager();
         $listener = new OneListener();
@@ -31,14 +32,21 @@ final class GetEventTypesTest extends AbstractUnitTestCase
 
         $manager->detach('log', $listener);
 
-        $this->assertSame(['db'], $manager->getEventTypes());
+        $this->assertSame(['db' => [$listener]], $manager->getListenerMap());
 
         $manager->detachAll('db');
 
-        $this->assertSame([], $manager->getEventTypes());
+        $this->assertSame([], $manager->getListenerMap());
     }
 
-    public function testGetEventTypesIncludesSubscriberTypes(): void
+    public function testGetListenerMapImplementsEnumerable(): void
+    {
+        $manager = new Manager();
+
+        $this->assertInstanceOf(Enumerable::class, $manager);
+    }
+
+    public function testGetListenerMapIncludesSubscriberTypes(): void
     {
         $manager    = new Manager();
         $listener   = new OneListener();
@@ -47,21 +55,14 @@ final class GetEventTypesTest extends AbstractUnitTestCase
         $manager->attach('log', $listener);
         $manager->addSubscriber($subscriber);
 
-        $actual = $manager->getEventTypes();
+        $actual = $manager->getListenerMap();
 
         $this->assertCount(2, $actual);
-        $this->assertContains('log', $actual);
-        $this->assertContains('test:hello', $actual);
+        $this->assertArrayHasKey('log', $actual);
+        $this->assertArrayHasKey('test:hello', $actual);
     }
 
-    public function testGetEventTypesReturnsEmptyArrayWhenNothingAttached(): void
-    {
-        $manager = new Manager();
-
-        $this->assertSame([], $manager->getEventTypes());
-    }
-
-    public function testGetEventTypesReturnsEachTypeOnce(): void
+    public function testGetListenerMapReturnsEachTypeOnce(): void
     {
         $manager = new Manager();
         $first   = new OneListener();
@@ -71,6 +72,15 @@ final class GetEventTypesTest extends AbstractUnitTestCase
         $manager->attach('log', $second);
         $manager->attach('db', $first);
 
-        $this->assertSame(['log', 'db'], $manager->getEventTypes());
+        $actual = $manager->getListenerMap();
+
+        $this->assertSame(['log' => [$first, $second], 'db' => [$first]], $actual);
+    }
+
+    public function testGetListenerMapReturnsEmptyArrayWhenNothingAttached(): void
+    {
+        $manager = new Manager();
+
+        $this->assertSame([], $manager->getListenerMap());
     }
 }
