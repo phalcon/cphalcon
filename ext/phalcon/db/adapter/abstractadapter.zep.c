@@ -575,7 +575,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, createTable)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	if (UNEXPECTED(!(zephir_fast_count_int(&columns)))) {
+	if (UNEXPECTED(ZEPHIR_IS_EMPTY(&columns))) {
 		ZEPHIR_INIT_VAR(&_1$$4);
 		object_init_ex(&_1$$4, phalcon_db_exceptions_tablemusthavecolumn_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 61);
@@ -2125,7 +2125,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, insert)
 		dataTypes = &dataTypes_sub;
 		dataTypes = &__$null;
 	}
-	if (UNEXPECTED(!(zephir_fast_count_int(&values)))) {
+	if (UNEXPECTED(ZEPHIR_IS_EMPTY(&values))) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		object_init_ex(&_0$$3, phalcon_db_exceptions_cannotinsertwithoutdata_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 65, &table_zv);
@@ -2263,7 +2263,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, insert)
 	} else {
 		ZEPHIR_CONCAT_SVSVS(&insertSql, "INSERT INTO ", &escapedTable, " VALUES (", &joinedValues, ")");
 	}
-	if (!(zephir_fast_count_int(&bindDataTypes))) {
+	if (ZEPHIR_IS_EMPTY(&bindDataTypes)) {
 		ZEPHIR_RETURN_CALL_METHOD(this_ptr, "execute", NULL, 0, &insertSql, &insertValues);
 		zephir_check_call_status();
 		RETURN_MM();
@@ -3609,7 +3609,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, update)
 	} else {
 		ZEPHIR_CONCAT_SVSV(&updateSql, "UPDATE ", &escapedTable, " SET ", &setClause);
 	}
-	if (!(zephir_fast_count_int(&bindDataTypes))) {
+	if (ZEPHIR_IS_EMPTY(&bindDataTypes)) {
 		ZEPHIR_RETURN_CALL_METHOD(this_ptr, "execute", NULL, 0, &updateSql, &updateValues);
 		zephir_check_call_status();
 		RETURN_MM();

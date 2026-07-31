@@ -61,7 +61,7 @@ class Model extends AbstractAdapter implements RememberAdapter
     {
         DoesNotImplement::assert(
             user,
-            "Phalcon\\Contracts\\Auth\\AuthRemember",
+            AuthRemember::class,
             "User model",
             "AuthRemember"
         );
@@ -181,7 +181,7 @@ class Model extends AbstractAdapter implements RememberAdapter
 
         DoesNotImplement::assert(
             found,
-            "Phalcon\\Contracts\\Auth\\AuthUser",
+            AuthUser::class,
             "User model",
             "AuthUser"
         );

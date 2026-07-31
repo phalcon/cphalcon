@@ -88,7 +88,7 @@ class Reflection
         var reflectionConstants, constant, reflectionConstant;
 
         if fetch reflectionConstants, this->reflectionData["constants"] {
-            if typeof reflectionConstants === "array" && count(reflectionConstants) > 0 {
+            if typeof reflectionConstants === "array" && !empty reflectionConstants {
                 for constant, reflectionConstant in reflectionConstants {
                     let this->constantAnnotations[constant] = new Collection(
                         reflectionConstant
@@ -110,7 +110,7 @@ class Reflection
         var reflectionProperties, property, reflectionProperty;
 
         if fetch reflectionProperties, this->reflectionData["properties"] {
-            if typeof reflectionProperties === "array" && count(reflectionProperties) > 0 {
+            if typeof reflectionProperties === "array" && !empty reflectionProperties {
                 for property, reflectionProperty in reflectionProperties {
                     let this->propertyAnnotations[property] = new Collection(
                         reflectionProperty
@@ -132,7 +132,7 @@ class Reflection
         var reflectionMethods, methodName, reflectionMethod;
 
         if fetch reflectionMethods, this->reflectionData["methods"] {
-            if typeof reflectionMethods === "array" && count(reflectionMethods) > 0 {
+            if typeof reflectionMethods === "array" && !empty reflectionMethods {
                 for methodName, reflectionMethod in reflectionMethods {
                     let this->methodAnnotations[methodName] = new Collection(
                         reflectionMethod

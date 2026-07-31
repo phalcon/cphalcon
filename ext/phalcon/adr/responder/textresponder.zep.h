@@ -1,0 +1,14 @@
+
+extern zend_class_entry *phalcon_adr_responder_textresponder_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_ADR_Responder_TextResponder);
+
+PHP_METHOD(Phalcon_ADR_Responder_TextResponder, __construct);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_adr_responder_textresponder___construct, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_adr_responder_textresponder_method_entry) {
+PHP_ME(Phalcon_ADR_Responder_TextResponder, __construct, arginfo_phalcon_adr_responder_textresponder___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_FE_END
+};

@@ -16,7 +16,6 @@ namespace Phalcon\Tests\Unit\Assets\Asset\Js;
 use Phalcon\Assets\Asset\Js;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Talon\Talon;
-use PHPUnit\Framework\Attributes\Test;
 
 use function file_get_contents;
 

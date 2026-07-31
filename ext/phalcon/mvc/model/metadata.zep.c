@@ -1104,7 +1104,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, isEmpty)
 		_zephir_prop_0 = zend_string_init("metaData", 8, 1);
 	}
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 64, PH_NOISY_CC | PH_READONLY);
-	RETURN_BOOL(zephir_fast_count_int(&_0) == 0);
+	RETURN_BOOL(ZEPHIR_IS_EMPTY(&_0));
 }
 
 /**

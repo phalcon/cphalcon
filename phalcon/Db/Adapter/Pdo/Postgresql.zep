@@ -108,7 +108,7 @@ class Postgresql extends PdoAdapter
             throw new TableMustHaveColumn();
         }
 
-        if unlikely !count(columns) {
+        if unlikely empty columns {
             throw new TableMustHaveColumn();
         }
 

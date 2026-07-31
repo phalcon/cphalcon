@@ -8,6 +8,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, __serialize);
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, __unserialize);
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, current);
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, serialize);
+PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, setEagerMap);
+PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, sliceRows);
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray);
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, unserialize);
 
@@ -33,6 +35,15 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_resultset_simple_serialize, 0, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_resultset_simple_seteagermap, 0, 1, IS_VOID, 0)
+
+	ZEND_ARG_ARRAY_INFO(0, eagerMap, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_resultset_simple_slicerows, 0, 1, Phalcon\\Mvc\\Model\\Resultset\\Simple, 0)
+	ZEND_ARG_ARRAY_INFO(0, indexes, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_resultset_simple_toarray, 0, 0, IS_ARRAY, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, renameColumns, _IS_BOOL, 0, "true")
 ZEND_END_ARG_INFO()
@@ -48,6 +59,8 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_resultset_simple_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model_Resultset_Simple, __unserialize, arginfo_phalcon_mvc_model_resultset_simple___unserialize, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Resultset_Simple, current, arginfo_phalcon_mvc_model_resultset_simple_current, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Resultset_Simple, serialize, arginfo_phalcon_mvc_model_resultset_simple_serialize, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Resultset_Simple, setEagerMap, arginfo_phalcon_mvc_model_resultset_simple_seteagermap, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Resultset_Simple, sliceRows, arginfo_phalcon_mvc_model_resultset_simple_slicerows, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Resultset_Simple, toArray, arginfo_phalcon_mvc_model_resultset_simple_toarray, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Resultset_Simple, unserialize, arginfo_phalcon_mvc_model_resultset_simple_unserialize, ZEND_ACC_PUBLIC)
 	PHP_FE_END

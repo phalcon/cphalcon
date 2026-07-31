@@ -44,7 +44,7 @@ final class UseExplicitIdValueTest extends AbstractDatabaseTestCase
             'mysql'  => false,
             'pgsql'  => true,
             'sqlite' => true,
-        ][self::getDatabaseDriver()];
+        ][self::getDatabaseDialect()];
 
         $this->assertSame($expected, $db->useExplicitIdValue());
     }

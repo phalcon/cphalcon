@@ -1,0 +1,48 @@
+
+#ifdef HAVE_CONFIG_H
+#include "../../../ext_config.h"
+#endif
+
+#include <php.h>
+#include "../../../php_ext.h"
+#include "../../../ext.h"
+
+#include <Zend/zend_exceptions.h>
+
+#include "kernel/main.h"
+
+
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ *
+ * Implementation of this file has been copied and re-implemented from
+ * front-interop, which cannot be used as a Composer dependency because it
+ * declares a different root namespace. Once that changes, the copy will be
+ * replaced with the actual Composer dependency.
+ *
+ * @link    https://github.com/front-interop/interface
+ * @license https://github.com/front-interop/interface/blob/1.x/LICENSE.md
+ */
+/**
+ * [_FrontTypeAliases_][] provides custom PHPStan types to aid static analysis.
+ *
+ * - ```
+ *   front_exit_status_int int<0,254>
+ *   ```
+ *     - An `int` exit status code: `0` for success, `1` to `254` for
+ *       non-success. The value `255` is reserved by PHP itself.
+ *
+ * @phpstan-type front_exit_status_int int<0,254>
+ */
+ZEPHIR_INIT_CLASS(Phalcon_Contracts_Front_FrontTypeAliases)
+{
+	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Contracts\\Front, FrontTypeAliases, phalcon, contracts_front_fronttypealiases, NULL);
+
+	return SUCCESS;
+}
+

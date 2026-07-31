@@ -63,6 +63,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setDirtyState);
 PHP_METHOD(Phalcon_Mvc_Model, setEventsManager);
 PHP_METHOD(Phalcon_Mvc_Model, setReadConnectionService);
 PHP_METHOD(Phalcon_Mvc_Model, setOldSnapshotData);
+PHP_METHOD(Phalcon_Mvc_Model, setRelated);
 PHP_METHOD(Phalcon_Mvc_Model, setSnapshotData);
 PHP_METHOD(Phalcon_Mvc_Model, setSync);
 PHP_METHOD(Phalcon_Mvc_Model, setTransaction);
@@ -91,6 +92,7 @@ PHP_METHOD(Phalcon_Mvc_Model, postSaveRelatedRecords);
 PHP_METHOD(Phalcon_Mvc_Model, allowEmptyStringValues);
 PHP_METHOD(Phalcon_Mvc_Model, cancelOperation);
 PHP_METHOD(Phalcon_Mvc_Model, belongsTo);
+PHP_METHOD(Phalcon_Mvc_Model, loadEager);
 PHP_METHOD(Phalcon_Mvc_Model, getPreparedQuery);
 PHP_METHOD(Phalcon_Mvc_Model, hasMany);
 PHP_METHOD(Phalcon_Mvc_Model, hasManyToMany);
@@ -349,6 +351,11 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_setoldsnapshotdata, 0, 0, 1)
 	ZEND_ARG_INFO(0, columnMap)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_setrelated, 0, 2, Phalcon\\Mvc\\ModelInterface, 0)
+	ZEND_ARG_TYPE_INFO(0, alias, IS_STRING, 0)
+	ZEND_ARG_INFO(0, records)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_setsnapshotdata, 0, 1, IS_VOID, 0)
 
 	ZEND_ARG_ARRAY_INFO(0, data, 0)
@@ -485,6 +492,13 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_belongsto, 0, 3
 	ZEND_ARG_TYPE_INFO(0, referenceModel, IS_STRING, 0)
 	ZEND_ARG_INFO(0, referencedFields)
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, options, IS_ARRAY, 0, "[]")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_loadeager, 0, 3, IS_VOID, 0)
+
+	ZEND_ARG_INFO(0, resultset)
+	ZEND_ARG_INFO(0, eager)
+	ZEND_ARG_ARRAY_INFO(0, params, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_getpreparedquery, 0, 1, Phalcon\\Mvc\\Model\\QueryInterface, 0)
@@ -647,6 +661,7 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model, setEventsManager, arginfo_phalcon_mvc_model_seteventsmanager, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, setReadConnectionService, arginfo_phalcon_mvc_model_setreadconnectionservice, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, setOldSnapshotData, arginfo_phalcon_mvc_model_setoldsnapshotdata, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model, setRelated, arginfo_phalcon_mvc_model_setrelated, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, setSnapshotData, arginfo_phalcon_mvc_model_setsnapshotdata, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, setSync, arginfo_phalcon_mvc_model_setsync, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, setTransaction, arginfo_phalcon_mvc_model_settransaction, ZEND_ACC_PUBLIC)
@@ -675,6 +690,7 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model, allowEmptyStringValues, arginfo_phalcon_mvc_model_allowemptystringvalues, ZEND_ACC_PROTECTED)
 PHP_ME(Phalcon_Mvc_Model, cancelOperation, arginfo_phalcon_mvc_model_canceloperation, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model, belongsTo, arginfo_phalcon_mvc_model_belongsto, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Model, loadEager, arginfo_phalcon_mvc_model_loadeager, ZEND_ACC_PRIVATE|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_Model, getPreparedQuery, arginfo_phalcon_mvc_model_getpreparedquery, ZEND_ACC_PRIVATE|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_Model, hasMany, arginfo_phalcon_mvc_model_hasmany, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model, hasManyToMany, arginfo_phalcon_mvc_model_hasmanytomany, ZEND_ACC_PROTECTED)

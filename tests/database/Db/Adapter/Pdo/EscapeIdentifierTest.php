@@ -44,7 +44,7 @@ final class EscapeIdentifierTest extends AbstractDatabaseTestCase
             'mysql'  => '`foo`',
             'pgsql'  => '"foo"',
             'sqlite' => '"foo"',
-        ][self::getDatabaseDriver()];
+        ][self::getDatabaseDialect()];
 
         $this->assertSame($expected, $db->escapeIdentifier('foo'));
     }

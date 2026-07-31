@@ -233,7 +233,7 @@ class Di implements DiInterface
                     throw Exception::serviceNotFound(name);
                 }
 
-                if typeof parameters == "array" && count(parameters) {
+                if typeof parameters == "array" && !empty parameters {
                     let instance = create_instance_params(name, parameters);
                 } else {
                     let instance = create_instance(name);

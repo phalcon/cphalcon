@@ -13,6 +13,7 @@ namespace Phalcon\Mvc\Model\Resultset;
 use Phalcon\Di\Di;
 use Phalcon\Di\DiInterface;
 use Phalcon\Mvc\Model;
+use Phalcon\Mvc\Model\Eager\Loader;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\Exceptions\InvalidContainer;
 use Phalcon\Mvc\Model\Exceptions\InvalidSerializationData;
@@ -38,6 +39,11 @@ class Simple extends Resultset
      * @var array|string
      */
     protected columnMap;
+
+    /**
+     * @var array|null
+     */
+    protected eagerMap = null;
 
     /**
      * @var ModelInterface|Row
@@ -155,7 +161,7 @@ class Simple extends Resultset
                     if this->model instanceof Model {
                         let modelName = get_class(this->model);
                     } else {
-                        let modelName = "Phalcon\\Mvc\\Model";
+                        let modelName = Model::class;
                     }
 
                     let activeRow = {modelName}::cloneResultMap(
@@ -175,11 +181,17 @@ class Simple extends Resultset
                     );
                 }
 
+                if this->eagerMap !== null {
+                    Loader::apply(activeRow, this->eagerMap);
+                }
+
                 break;
 
             default:
                 /**
-                 * Other kinds of hydrations
+                 * Other kinds of hydrations. Eagerly loaded relations are
+                 * deliberately not applied here: arrays and standard objects
+                 * have neither a relation cache nor writeAttribute().
                  */
                 let activeRow = Model::cloneResultMapHydrate(
                     row,
@@ -231,6 +243,58 @@ class Simple extends Resultset
     }
 
     /**
+     * Attaches a pre-loaded relation map, applied to every record as it is
+     * hydrated.
+     *
+     * Records in a resultset are transient - seek() clears activeRow on every
+     * move and current() re-hydrates from the raw row - so hydration is the
+     * only durable point at which relations can be stamped.
+     */
+    public function setEagerMap(array eagerMap) -> void
+    {
+        let this->eagerMap = eagerMap;
+    }
+
+    /**
+     * Builds a new resultset of the same concrete class over the rows at the
+     * given positions, preserving the column map, record prototype and
+     * snapshot behavior of this resultset.
+     *
+     * @param array $indexes zero-based row positions, in the desired order
+     */
+    public function sliceRows(array indexes) -> <Simple>
+    {
+        var index, resultset, row;
+        array sliced;
+
+        this->materialize();
+
+        let sliced = [];
+
+        for index in indexes {
+            if fetch row, this->rows[index] {
+                let sliced[] = row;
+            }
+        }
+
+        let resultset = <Simple> create_instance_params(
+            get_class(this),
+            [
+                this->columnMap,
+                this->model,
+                false,
+                null,
+                this->keepSnapshots
+            ]
+        );
+
+        let resultset->rows  = sliced,
+            resultset->count = count(sliced);
+
+        return resultset;
+    }
+
+    /**
      * Returns a complete resultset as an array, if the resultset has a big
      * number of rows it could consume more memory than currently it does.
      * Export the resultset to an array couldn't be faster with a large number
@@ -238,28 +302,16 @@ class Simple extends Resultset
      */
     public function toArray(bool renameColumns = true) -> array
     {
-        var result, records, record, renamedKey, key, value, columnMap;
+        var records, record, renamedKey, key, value, columnMap;
         array renamedRecords, renamed;
 
         /**
-         * If _rows is not present, fetchAll from database
-         * and keep them in memory for further operations
+         * If the rows are not present, fetch them from the database and keep
+         * them in memory for further operations
          */
+        this->materialize();
+
         let records = this->rows;
-
-        if typeof records != "array" {
-            let result = this->result;
-
-            if this->row !== null {
-                // re-execute query if required and fetchAll rows
-                result->execute();
-            }
-
-            let records = result->fetchAll();
-
-            let this->row = null;
-            let this->rows = records; // keep result-set in memory
-        }
 
         /**
          * We need to rename the whole set here, this could be slow

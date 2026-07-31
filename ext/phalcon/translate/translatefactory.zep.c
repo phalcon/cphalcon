@@ -87,7 +87,7 @@ PHP_METHOD(Phalcon_Translate_TranslateFactory, __construct)
 	} else {
 		zephir_get_arrval(&services, services_param);
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1324, interpolator);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1373, interpolator);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "init", NULL, 0, &services);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
@@ -129,7 +129,7 @@ PHP_METHOD(Phalcon_Translate_TranslateFactory, load)
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(config, &_0);
 	zephir_memory_observe(&name);
-	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Translate/TranslateFactory.zep", 67);
+	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Translate/TranslateFactory.zep", 71);
 	zephir_memory_observe(&options);
 	if (!(zephir_array_isset_string_fetch(&options, config, SL("options"), 0))) {
 		ZEPHIR_INIT_NVAR(&options);
@@ -189,7 +189,7 @@ PHP_METHOD(Phalcon_Translate_TranslateFactory, newInstance)
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_create_array(&_0, 2, 0);
 	zephir_memory_observe(&_1);
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 1324, PH_NOISY_CC);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 1373, PH_NOISY_CC);
 	zephir_array_fast_append(&_0, &_1);
 	zephir_array_fast_append(&_0, &options);
 	ZEPHIR_LAST_CALL_STATUS = zephir_create_instance_params(return_value, &definition, &_0);

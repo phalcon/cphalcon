@@ -136,11 +136,17 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
     {
         var domain, httpOnly, name, options, path, secure, session;
 
+        /**
+         * The getters restore the definition stored in the session, so that a
+         * cookie that was not set in this request is expired with the same
+         * attributes it was originally sent with. A path or domain that does
+         * not match leaves the cookie in place.
+         */
         let name     = this->name,
-            domain   = this->domain,
-            path     = this->path,
-            secure   = this->secure,
-            httpOnly = this->httpOnly;
+            domain   = this->getDomain(),
+            path     = this->getPath(),
+            secure   = this->getSecure(),
+            httpOnly = this->getHttpOnly();
 
         let session = this->getStartedSession();
 
@@ -149,7 +155,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
         }
 
         let this->value         = null,
-            options             = this->options,
+            options             = this->getOptions(),
             options["expires"]  = this->getArrVal(options, "expires", time() - 691200),
             options["domain"]   = this->getArrVal(options, "domain", domain),
             options["path"]     = this->getArrVal(options, "path", path),

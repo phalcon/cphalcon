@@ -1,6 +1,68 @@
 # Changelog
 
-All notable changes to `phalcon/debugbar` are documented here. The format is based on [Keep a Changelog][keep_a_changelog] and this project adheres to [Semantic Versioning][semantic_versioning].
+All notable changes are documented here. The format is based on [Keep a Changelog][keep_a_changelog] and this project adheres to [Semantic Versioning][semantic_versioning].
+
+## [5.18.0](https://github.com/phalcon/cphalcon/releases/tag/v5.18.0) (2026-07-31)
+
+### Tools
+
+- Zephir 1.2.0 (83d8f68)
+ 
+### Changed
+
+- Changed `Phalcon\ADR\Application` into a self-contained composition root: it owns (or accepts) a `Phalcon\Container\Container` and exposes a small registration surface - `bind()`, `define()`, `factory()`, `set()`, `extend()` and `getContainer()` - plus `setBaseNamespace()` and `secureWith()` for convention-router and namespace-prefix guard configuration. `Phalcon\ADR\Front\AbstractHttpFront` gained a protected `getApplication()` hook returning `Phalcon\Contracts\ADR\Application`, so a front controller can configure the application or wire a different implementation. [#17389](https://github.com/phalcon/cphalcon/issues/17389) [[doc]](https://docs.phalcon.io/5.18/adr/)
+- Replaced fully-qualified class-name strings with `::class` references (and `use` imports) across factories, service providers and DI containers [#17380](https://github.com/phalcon/cphalcon/issues/17380)
+- Changed `Phalcon\Mvc\Model::getRelated()` and `Phalcon\Mvc\Model::isRelationshipLoaded()` to test the relation cache with `array_key_exists()` instead of `isset()`, so a to-one relation that resolves to no record is no longer re-queried on every access [#17331](https://github.com/phalcon/cphalcon/issues/17331) [[doc]](https://docs.phalcon.io/5.18/db-models-relationships/)
+- Changed `Phalcon\Mvc\Model\Manager::mergeFindParameters()` from `final protected` to `final public static` [#17331](https://github.com/phalcon/cphalcon/issues/17331)
+- Changed `Phalcon\ADR\Router\Router` from a candidate chain to a namespace descent: a path segment becomes a namespace segment only if the matching directory exists, after which at most two Action classes are probed instead of five. An Action can no longer be silently shadowed by an earlier candidate. Requires `setActionDirectory()`. [#17405](https://github.com/phalcon/cphalcon/issues/17405) [[doc]](https://docs.phalcon.io/5.18/adr/)
+- Changed `Phalcon\ADR\Router\Router` to derive exactly one Action class per path: the class name is the verb followed by every static segment concatenated. [#17410](https://github.com/phalcon/cphalcon/issues/17410) [[doc]](https://docs.phalcon.io/5.18/adr/)
+- Changed `Phalcon\Mvc\Model\Resultset::refresh()` to reset the cursor - position, current row, buffered rows and active row - after replaying the statement. [#17399](https://github.com/phalcon/cphalcon/issues/17399) [[doc]](https://docs.phalcon.io/5.18/db-models/)
+- Changed `Phalcon\Events\Manager::getEventTypes()` to `getListenerMap()`, which now returns each event type mapped to its listeners. [#17416](https://github.com/phalcon/cphalcon/issues/17416) [[doc]](https://docs.phalcon.io/5.18/events/)
+- Changed the distribution tarball that Composer and PIE download to ship only the files needed to build the extension; tests, Zephir sources, tooling and the Docker development setup are now excluded through `.gitattributes`. [#17419](https://github.com/phalcon/cphalcon/issues/17419)
+
+### Added
+
+- Added the Action-Domain-Responder (ADR) HTTP stack under `Phalcon\ADR`, an alternative to MVC that splits request handling into three focused roles: an _Action_ (one invokable class per route) drives a _Domain_ (your business logic, which returns a `Phalcon\ADR\Payload\Payload` and never touches HTTP) and hands the result to a _Responder_ that turns it into a response.
+  - `Phalcon\ADR\Container`: registrations for the `Phalcon\Container\Container`
+  - `Phalcon\ADR\Emitter` : `SapiEmitter` to emit response data
+  - `Phalcon\ADR\Events` : events wired to the Events Manager
+  - `Phalcon\ADR\Exceptions` : granular exceptions the namespace throws
+  - `Phalcon\ADR\Front` : One-command class wiring the application and executing it
+  - `Phalcon\ADR\Input` : Bag of request data to be passed to the domain
+  - `Phalcon\ADR\Middleware` : Onion based middleware stack
+  - `Phalcon\ADR\Payload` : VO for transferring data from the domain and the responder
+  - `Phalcon\ADR\Responder` : Chainable responders, handling redirect, json, text, error etc.
+  - `Phalcon\ADR\Router` : Router for the application. [#17341](https://github.com/phalcon/cphalcon/issues/17341) [[doc]](https://docs.phalcon.io/5.18/adr/)
+- Added `Phalcon\ADR\Responder\ViewResponder`, which renders a `.phtml` template and returns it as an HTML response. The action picks the template with `withTemplate()`, and the view receives `result`, `messages` and `status`. Any renderer implementing the new `Phalcon\Contracts\View\Renderer` can be used - `Phalcon\Mvc\View\Simple` now does. [#17379](https://github.com/phalcon/cphalcon/issues/17379) [[doc]](https://docs.phalcon.io/5.18/adr/)
+- Added request attributes support to `Phalcon\Http\Request`. `Phalcon\Http\Request::getAttributes()` returns a `Phalcon\Http\Request\Bag\AttributeBag`, a mutable, string-keyed bag of arbitrary application-defined values attached to the request during its lifecycle (router, dispatcher, security components etc.). Writing with a `null` key (the `$bag[] = ...` append form) throws the new `Phalcon\Http\Request\Exceptions\NullKeyException`, since bag elements are always string-keyed. [#17367](https://github.com/phalcon/cphalcon/issues/17367) [[doc]](https://docs.phalcon.io/5.18/http-request/)
+- Added opt-in route-parameter pre-filtering to the ADR convention router via the new `Phalcon\ADR\Router\AttributeFilter`. An Action that declares a static `params()` method has its positional route segments validated against a regex, cast to a scalar type (`int`, `float`, `string`) and optionally passed through a converter closure, then written to the request as named attributes - all before the Action runs. A regex miss is treated as a route miss (404). [#17393](https://github.com/phalcon/cphalcon/issues/17393) [[doc]](https://docs.phalcon.io/5.18/adr/)
+- Added eager loading of model relations: `Phalcon\Mvc\Model::find()` accepts an `eager` parameter - an array of dot-delimited relation paths, optionally `path => options` - which pre-loads the named relations with one query per relation instead of one per record. `Phalcon\Mvc\Model\Criteria::eager()` exposes the same on the criteria surface. [#17331](https://github.com/phalcon/cphalcon/issues/17331) [[doc]](https://docs.phalcon.io/5.18/db-models-relationships/)
+- Added `candidatesFor()` to the `Phalcon\Contracts\ADR\Router\Router` contract and to `Phalcon\ADR\Router\Router`. It returns every Action class the convention router would try for a given HTTP method and path, in the order it tries them. [#17403](https://github.com/phalcon/cphalcon/issues/17403) [[doc]](https://docs.phalcon.io/5.18/adr/)
+- Added `pathFor()`, `setActionDirectory()` and `setWordSeparator()` to the `Phalcon\Contracts\ADR\Router\Router` contract and to `Phalcon\ADR\Router\Router`; the two setters are also on `Phalcon\ADR\Application`. `pathFor()` is the inverse of the routing convention, returning the canonical path an Action answers or `null`. Added `Phalcon\ADR\Exceptions\ActionDirectoryNotSet`. [#17405](https://github.com/phalcon/cphalcon/issues/17405) [[doc]](https://docs.phalcon.io/5.18/adr/)
+- Added `Phalcon\Container\Container::getServiceNames()`, returning the names of every registered service definition. [#17406](https://github.com/phalcon/cphalcon/issues/17406) [[doc]](https://docs.phalcon.io/5.18/container/)
+- ~~Added `Phalcon\Events\Manager::getEventTypes()`, returning the event types that currently have at least one listener attached, including those contributed by subscribers. [#17406](https://github.com/phalcon/cphalcon/issues/17406) [[doc]](https://docs.phalcon.io/5.18/events/)~~
+- Added `classFor()` to the `Phalcon\Contracts\ADR\Router\Router` contract and to `Phalcon\ADR\Router\Router`. It names the Action class the convention would use for a static path. [#17410](https://github.com/phalcon/cphalcon/issues/17410) [[doc]](https://docs.phalcon.io/5.18/adr/)
+- Added `Phalcon\ADR\Front\AbstractHttpFront::boot()`, which builds the container, loads the environment and registers the providers, then returns the container - for consumers that need it before, or instead of, `run()`. The container is built once and cached, so `boot()` and `run()` share the same instance. A bootstrap file can now be `return (new AppFront(dirname(__DIR__)))->boot();`. [#17413](https://github.com/phalcon/cphalcon/issues/17413) [[doc]](https://docs.phalcon.io/5.18/adr/)
+- Added `Phalcon\Contracts\Container\Service\Enumerable` implemented in `Phalcon\Container\Container`. [#17416](https://github.com/phalcon/cphalcon/issues/17416) [[doc]](https://docs.phalcon.io/5.18/container/)
+- Added `Phalcon\Contracts\Events\Enumerable`, implemented in `Phalcon\Events\Manager`. [#17416](https://github.com/phalcon/cphalcon/issues/17416) [[doc]](https://docs.phalcon.io/5.18/events/)
+- Added `methodFor()` to the `Phalcon\Contracts\ADR\Router\Router` contract and to `Phalcon\ADR\Router\Router`. It names the HTTP method an Action class answers, the counterpart to `pathFor()`. [#17416](https://github.com/phalcon/cphalcon/issues/17416) [[doc]](https://docs.phalcon.io/5.18/adr/)
+
+### Fixed
+
+- Fixed `Phalcon\Container\Definition\ServiceDefinition::resolveArgs()` treating any constructor-argument object that merely exposes a `resolve()` method as a lazy value, using `method_exists()`. Because `Phalcon\Container\Container` defines a private `resolve()`, autowiring a service whose constructor receives the container - i.e. `__construct(?Container $container)` - mistook the injected container for a lazy resolvable. The lazy check is now guarded for non-object arguments. [#17391](https://github.com/phalcon/cphalcon/issues/17391)
+- Fixed `Phalcon\Http\Response\Cookies::delete()` not deleting a cookie that was not set in the same request; it now falls back to the `$_COOKIE` superglobal. `Phalcon\Http\Cookie::delete()` expires the cookie with its stored `path` and `domain` instead of the defaults. [#17395](https://github.com/phalcon/cphalcon/issues/17395) [[doc]](https://docs.phalcon.io/5.18/http-response/)
+- Fixed `Phalcon\Mvc\Model` ignoring attributes registered with `skipAttributes()`, `skipAttributesOnCreate()` and `skipAttributesOnUpdate()`, so a skipped column was emitted in the generated `INSERT`/`UPDATE` (breaking, for instance, inserts into a table with a MySQL generated column). The skip list is keyed with `null` values, and `isset()` on an array offset now follows PHP semantics (key present *and* value not `null`), which made every skipped attribute read as not registered; the checks in `doLowInsert()`, `doLowUpdate()` and the not-null validation now use `array_key_exists()`. [#17382](https://github.com/phalcon/cphalcon/issues/17382) [[doc]](https://docs.phalcon.io/5.18/db-models/)
+- Fixed `Phalcon\Mvc\Model` inserting a literal `null` for a column the database can supply a value for, instead of the `DEFAULT` keyword (or omitting the column on an adapter without `DEFAULT` support, such as SQLite). This restores inserts against a MySQL `GENERATED ALWAYS AS (...) STORED` column, which rejects an explicit `null` with `SQLSTATE[HY000]: General error: 3105` but accepts `DEFAULT`. [#17382](https://github.com/phalcon/cphalcon/issues/17382) [[doc]](https://docs.phalcon.io/5.18/db-models/)
+- Fixed `Phalcon\ADR\Router\Router` treating `-` and `_` as the same delimiter, so `/forgot-password` and `/forgot_password` resolved to the same Action and the path-to-class map had no inverse. A single separator now applies in both directions, default `-` and settable with `setWordSeparator()`; `_` is literal. [#17405](https://github.com/phalcon/cphalcon/issues/17405) [[doc]](https://docs.phalcon.io/5.18/adr/)
+- Fixed `Phalcon\Mvc\Model::find()` and `Phalcon\Mvc\Model::findFirst()` raising an error `Call to undefined method static::getpreparedquery()`. Using `self` vs. 'static` for the internal calls. [#17409](https://github.com/phalcon/cphalcon/issues/17409) [[doc]](https://docs.phalcon.io/5.18/db-models/)
+- Fixed `Phalcon\Mvc\Model\Resultset` costing two statements for every resultset on SQLite. [#17399](https://github.com/phalcon/cphalcon/issues/17399) [[doc]](https://docs.phalcon.io/5.18/db-models/)
+- Fixed `Phalcon\Db\Result\PdoResult::numRows()` failing on multi-line statements. [#17399](https://github.com/phalcon/cphalcon/issues/17399)
+- Fixed `Phalcon\Mvc\Model\Resultset::seek()` leaving the previous row in place as the current one when seeking past the end of a resultset held in memory. [#17399](https://github.com/phalcon/cphalcon/issues/17399) [[doc]](https://docs.phalcon.io/5.18/db-models/)
+- Fixed `Phalcon\Db\Adapter\Pdo\Mysql::describeColumns()` returning string, date and time defaults still wrapped in quotes on MariaDB, e.g. `'fi'` instead of `fi`. MariaDB reports `COLUMN_DEFAULT` as the DDL source rather than the resolved literal. Expression defaults are unaffected. Note that on MariaDB this changes what `Phalcon\Db\Column::getDefault()` returns and what the model layer writes into an unset `NOT NULL` column on save; if you were stripping the quotes yourself, remove that workaround. MySQL is unaffected. [#17417](https://github.com/phalcon/cphalcon/issues/17417) [[doc]](https://docs.phalcon.io/5.18/db-layer/)
+
+### Removed
+
+- Removed `.php_cs.dist`, superseded by `resources/php-cs-fixer.php`. [#17419](https://github.com/phalcon/cphalcon/issues/17419)
 
 ## [5.17.0](https://github.com/phalcon/cphalcon/releases/tag/v5.17.0) (2026-07-17)
 
@@ -1078,7 +1140,7 @@ All notable changes to `phalcon/debugbar` are documented here. The format is bas
 
 ### Added
 
-- Added `Phalcon\Encryption\Security\Uuid` factory and versioned adapters (`Version1`–`Version7`) with a `UuidInterface` carrying standard RFC 4122 namespace constants; each version is a singleton cached by the factory, invoked via `v1()`–`v7()` [#16326](https://github.com/phalcon/cphalcon/issues/16326) [[doc]](https://docs.phalcon.io/5.12/encryption-security/)
+- Added `Phalcon\Encryption\Security\Uuid` factory and versioned adapters (`Version1`-`Version7`) with a `UuidInterface` carrying standard RFC 4122 namespace constants; each version is a singleton cached by the factory, invoked via `v1()`-`v7()` [#16326](https://github.com/phalcon/cphalcon/issues/16326) [[doc]](https://docs.phalcon.io/5.12/encryption-security/)
 - Added `Phalcon\Html\Helper\FriendlyTitle` - available via `TagFactory` as `friendlyTitle` [#16892(https://github.com/phalcon/cphalcon/issues/16892) [[doc]](https://docs.phalcon.io/5.12/html-tagfactory/)
 - Added `Phalcon\Html\Helper\Input\Select::fromData()` to populate select options from a `SelectDataInterface` provider, with optgroup support [#16894](https://github.com/phalcon/cphalcon/issues/16894) [[doc]](https://docs.phalcon.io/5.12/html-tagfactory/)
 - Added `Phalcon\Html\Helper\Input\Select\SelectDataInterface`, `Phalcon\Html\Helper\Input\Select\ArrayData`, and `Phalcon\Html\Helper\Input\Select\ResultsetData` as data providers for the `Select` helper [#16894](https://github.com/phalcon/cphalcon/issues/16894) [[doc]](https://docs.phalcon.io/5.12/html-tagfactory/)

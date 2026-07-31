@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Storage\Adapter;
 
-use ArrayObject;
 use DateInterval;
 use Phalcon\Storage\Adapter\Apcu;
 use Phalcon\Storage\Adapter\Libmemcached;
@@ -26,8 +25,6 @@ use Phalcon\Storage\SerializerFactory;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Talon\Talon;
 use PHPUnit\Framework\Attributes\DataProvider;
-use SplObjectStorage;
-use SplQueue;
 use stdClass;
 
 use function array_merge;

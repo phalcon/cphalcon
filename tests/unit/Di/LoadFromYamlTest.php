@@ -16,7 +16,6 @@ namespace Phalcon\Tests\Unit\Di;
 use Phalcon\Config\Config;
 use Phalcon\Config\ConfigInterface;
 use Phalcon\Di\Di;
-use Phalcon\Di\Exception;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Talon\Talon;
 

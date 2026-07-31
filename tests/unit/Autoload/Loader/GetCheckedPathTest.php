@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Autoload\Loader;
 
-use Phalcon\Autoload\Exception;
 use Phalcon\Autoload\Loader;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Talon\Talon;

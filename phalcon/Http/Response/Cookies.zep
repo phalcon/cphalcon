@@ -12,6 +12,7 @@ namespace Phalcon\Http\Response;
 
 use Phalcon\Di\AbstractInjectionAware;
 use Phalcon\Di\DiInterface;
+use Phalcon\Http\Cookie;
 use Phalcon\Http\Cookie\CookieInterface;
 use Phalcon\Http\Cookie\Exception;
 use Phalcon\Http\Response\Exceptions\ResponseServiceUnavailable;
@@ -107,10 +108,24 @@ class Cookies extends AbstractInjectionAware implements CookiesInterface
         var cookie;
 
         /**
-         * Check the internal bag
+         * Check the internal bag. Cookies that arrived with the request are
+         * not in it, so fall back to the _COOKIE superglobal.
          */
         if !fetch cookie, this->cookies[name] {
-            return false;
+            if !isset _COOKIE[name] {
+                return false;
+            }
+
+            let cookie = new Cookie(name);
+
+            /**
+             * Pass the DI to the created cookie when one is available, so that
+             * the cookie definition stored in the session can be cleared. A
+             * container is not required to delete a cookie.
+             */
+            if this->container !== null {
+                cookie->setDi(this->container);
+            }
         }
 
         cookie->delete();
@@ -138,7 +153,7 @@ class Cookies extends AbstractInjectionAware implements CookiesInterface
          * to _cookies property, otherwise it will always be resent after get.
          */
         let container = this->checkContainer();
-        let cookie    = <CookieInterface> container->get("Phalcon\\Http\\Cookie", [name]);
+        let cookie    = <CookieInterface> container->get(Cookie::class, [name]);
 
         /**
          * Pass the DI to created cookies
@@ -253,7 +268,7 @@ class Cookies extends AbstractInjectionAware implements CookiesInterface
         if !fetch cookie, this->cookies[name] {
             let cookie =
                 <CookieInterface> this->container->get(
-                    "Phalcon\\Http\\Cookie",
+                    Cookie::class,
                     [name, value, expire, path, secure, domain, httpOnly, options]
                 );
 

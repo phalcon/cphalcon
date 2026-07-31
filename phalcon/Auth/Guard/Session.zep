@@ -106,7 +106,7 @@ class Session extends AbstractGuard implements GuardStateful, BasicAuth
                 container,
                 options,
                 "request",
-                "Phalcon\\Http\\RequestInterface",
+                RequestInterface::class,
                 "request",
                 "Session guard"
             ),
@@ -114,7 +114,7 @@ class Session extends AbstractGuard implements GuardStateful, BasicAuth
                 container,
                 options,
                 "cookies",
-                "Phalcon\\Http\\Response\\CookiesInterface",
+                CookiesInterface::class,
                 "cookies",
                 "Session guard"
             ),
@@ -122,7 +122,7 @@ class Session extends AbstractGuard implements GuardStateful, BasicAuth
                 container,
                 options,
                 "session",
-                "Phalcon\\Session\\ManagerInterface",
+                SessionManagerInterface::class,
                 "session",
                 "Session guard"
             ),
@@ -182,7 +182,7 @@ class Session extends AbstractGuard implements GuardStateful, BasicAuth
         if (remember) {
             DoesNotImplement::assert(
                 this->adapter,
-                "Phalcon\\Contracts\\Auth\\Adapter\\RememberAdapter",
+                RememberAdapter::class,
                 "Adapter",
                 "RememberAdapter"
             );

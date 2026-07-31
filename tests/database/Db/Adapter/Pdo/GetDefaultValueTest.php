@@ -48,7 +48,7 @@ final class GetDefaultValueTest extends AbstractDatabaseTestCase
             'mysql'  => 'DEFAULT',
             'pgsql'  => 'DEFAULT',
             'sqlite' => 'NULL',
-        ][self::getDatabaseDriver()];
+        ][self::getDatabaseDialect()];
 
         $this->assertSame($expected, $value->getValue());
     }

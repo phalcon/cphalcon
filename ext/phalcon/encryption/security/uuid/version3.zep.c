@@ -123,11 +123,11 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_Version3, __construct)
 	ZEPHIR_CALL_FUNCTION(&_14, "substr_replace", NULL, 0, &hash, &_12, &_11, &_13);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(&hash, &_14);
-	ZEPHIR_CALL_FUNCTION(&_15, "bin2hex", NULL, 333, &hash);
+	ZEPHIR_CALL_FUNCTION(&_15, "bin2hex", NULL, 320, &hash);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_14, this_ptr, "format", NULL, 0, &_15);
 	zephir_check_call_status();
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 665, &_14);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 712, &_14);
 	ZEPHIR_MM_RESTORE();
 }
 

@@ -46,12 +46,11 @@ use Phalcon\Container\Exceptions\ServiceNotFound;
 use Phalcon\Container\Exceptions\ServiceNotRegistered;
 use Phalcon\Container\Resolver\Lazy\Env;
 use Phalcon\Contracts\Container\Service\Collection;
+use Phalcon\Contracts\Container\Service\Enumerable;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Container\Fake\FakeService;
-use Phalcon\Tests\Unit\Container\Fake\FakeServiceProvider;
 use Phalcon\Tests\Unit\Container\Fake\FakeServiceWithDependency;
 use PHPUnit\Framework\Attributes\BackupGlobals;
-use stdClass;
 
 #[BackupGlobals(true)]
 final class ContainerTest extends AbstractUnitTestCase
@@ -405,6 +404,60 @@ final class ContainerTest extends AbstractUnitTestCase
 
     /**
      * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-07-27
+     */
+    public function testContainerGetServiceNamesExcludesNonDefinitions(): void
+    {
+        $bucket = new Container();
+        $bucket->set('fake', FakeService::class);
+        $bucket->setAlias('fake.alias', 'fake');
+        $bucket->setInstance('preset', new FakeService(), ServiceLifetime::SINGLETON);
+        $bucket->setParameter('db.host', 'localhost');
+
+        $this->assertSame(['fake'], $bucket->getServiceNames());
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-07-27
+     */
+    public function testContainerGetServiceNamesReturnsDefinitionNames(): void
+    {
+        $bucket = new Container();
+        $bucket->set('fake', FakeService::class);
+        $bucket->setDefinition('other', new ServiceDefinition('other', 'string'));
+
+        $this->assertSame(['fake', 'other'], $bucket->getServiceNames());
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-07-27
+     */
+    public function testContainerGetServiceNamesReturnsEmptyArrayWhenNoDefinitions(): void
+    {
+        $bucket = new Container();
+
+        $this->assertSame([], $bucket->getServiceNames());
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-07-27
+     */
+    public function testContainerGetServiceNamesSkipsUnsetDefinition(): void
+    {
+        $bucket = new Container();
+        $bucket->set('fake', FakeService::class);
+        $bucket->set('other', FakeService::class);
+
+        $bucket->unsetDefinition('fake');
+
+        $this->assertSame(['other'], $bucket->getServiceNames());
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-18
      */
     public function testContainerGetServiceReturnsObject(): void
@@ -536,6 +589,17 @@ final class ContainerTest extends AbstractUnitTestCase
         $bucket = new Container();
 
         $this->assertInstanceOf(Collection::class, $bucket);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-07-29
+     */
+    public function testContainerImplementsEnumerable(): void
+    {
+        $bucket = new Container();
+
+        $this->assertInstanceOf(Enumerable::class, $bucket);
     }
 
     /**

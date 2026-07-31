@@ -277,61 +277,54 @@ class PdoResult implements ResultInterface
      */
     public function numRows() -> int
     {
-        var sqlStatement, rowCount, connection, type, pdoStatement, matches,
-            result, row;
+        var connection, pdoStatement, result, row, rowCount, sqlStatement, type;
 
         let rowCount = this->rowCount;
 
-        if rowCount === null {
-            let connection = this->connection,
-                type = connection->getType();
-
-            /**
-             * MySQL and PostgreSQL properly returns the number of records
-             */
-            if type === "mysql" || type === "pgsql" {
-                let pdoStatement = this->pdoStatement,
-                    rowCount = pdoStatement->rowCount();
-            }
-
-            /**
-             * We should get the count using a new statement :(
-             */
-            if rowCount === null {
-                /**
-                 * SQLite/SQLServer returns resultsets that to the client eyes
-                 * (PDO) has an arbitrary number of rows, so we need to perform
-                 * an extra count to know that
-                 */
-                let sqlStatement = this->sqlStatement;
-
-                /**
-                 * If the sql_statement starts with SELECT COUNT(*) we don't
-                 * make the count
-                 */
-                if !starts_with(sqlStatement, "SELECT COUNT(*) ") {
-                    let matches = null;
-
-                    if preg_match("/^SELECT\\s+(.*)/i", sqlStatement, matches) {
-                        let result = connection->query(
-                            "SELECT COUNT(*) \"numrows\" FROM (SELECT " . matches[1] . ")",
-                            this->bindParams,
-                            this->bindTypes
-                        );
-
-                        let row = result->$fetch(),
-                            rowCount = row["numrows"];
-                    }
-                } else {
-                    let rowCount = 1;
-                }
-            }
-
-            /**
-             * Update the value to avoid further calculations
-             */
-            let this->rowCount = rowCount;
+        if rowCount !== null {
+            return rowCount;
         }
+
+        let connection = this->connection,
+            type       = connection->getType();
+
+        /**
+         * MySQL and PostgreSQL properly return the number of records, and keep
+         * doing so once the cursor has been advanced
+         */
+        if type === "mysql" || type === "pgsql" {
+            let pdoStatement   = this->pdoStatement,
+                rowCount       = (int) pdoStatement->rowCount(),
+                this->rowCount = rowCount;
+
+            return rowCount;
+        }
+
+        /**
+         * SQLite returns resultsets that to the client eyes (PDO) have an
+         * arbitrary number of rows - it is a streaming cursor and does not know
+         * the count until the result has been stepped to the end. So the count
+         * costs an extra statement.
+         *
+         * The original statement is wrapped verbatim rather than taken apart
+         * and rebuilt: any SELECT is a valid subquery, which keeps multi-line
+         * statements and common table expressions working, and makes a wrapped
+         * `SELECT COUNT(*) ... GROUP BY` report its number of groups instead of
+         * a hard-coded 1.
+         */
+        let sqlStatement = this->sqlStatement,
+            result       = connection->query(
+                "SELECT COUNT(*) \"numrows\" FROM (" . sqlStatement . ")",
+                this->bindParams,
+                this->bindTypes
+            ),
+            row          = result->$fetch(),
+            rowCount     = (int) row["numrows"];
+
+        /**
+         * Update the value to avoid further calculations
+         */
+        let this->rowCount = rowCount;
 
         return rowCount;
     }

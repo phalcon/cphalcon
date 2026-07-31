@@ -16,6 +16,7 @@ use Phalcon\Di\DiInterface;
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\Exceptions\ManagerOrmServicesUnavailable;
+use Phalcon\Mvc\Model\Query;
 use Phalcon\Mvc\Model\Query\Exceptions\Builder\BuilderColumnNotInMap;
 use Phalcon\Mvc\Model\Query\Exceptions\Builder\BuilderConditionInvalid;
 use Phalcon\Mvc\Model\Query\Exceptions\Builder\ModelRequired;
@@ -709,7 +710,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 
         let models = this->models;
         if typeof models == "array" {
-            if unlikely !count(models) {
+            if unlikely empty models {
                 throw new ModelRequired();
             }
         } else {
@@ -751,7 +752,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
             let noPrimary = true,
                 primaryKeys = metaData->getPrimaryKeyAttributes(modelInstance);
 
-            if count(primaryKeys) {
+            if !empty primaryKeys {
                 if fetch firstPrimaryKey, primaryKeys[0] {
                     /**
                      * The PHQL contains the renamed columns if available
@@ -1078,7 +1079,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
          * Gets Query instance from DI container
          */
         let query = <QueryInterface> container->get(
-            "Phalcon\\Mvc\\Model\\Query",
+            Query::class,
             [phql, container]
         );
 
@@ -1605,7 +1606,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
         /**
          * Merge the bind params to the current ones
          */
-        if count(bindParams) > 0 {
+        if !empty bindParams {
             let currentBindParams = this->bindParams;
 
             if typeof currentBindParams == "array" {
@@ -1618,7 +1619,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
         /**
          * Merge the bind types to the current ones
          */
-        if count(bindTypes) > 0 {
+        if !empty bindTypes {
             let currentBindTypes = this->bindTypes;
 
             if typeof currentBindTypes == "array" {
@@ -1687,7 +1688,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 
         let operatorMethod = operator . clause;
 
-        if !count(values) {
+        if empty values {
             this->{operatorMethod}(expr . " != " . expr);
 
             return this;
@@ -1778,7 +1779,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 
         let operatorMethod = operator . clause;
 
-        if !count(values) {
+        if empty values {
             this->{operatorMethod}(expr . " != " . expr);
 
             return this;

@@ -13,6 +13,7 @@
 
 namespace Phalcon\Auth\Adapter;
 
+use Phalcon\Auth\Exception;
 use Phalcon\Contracts\Auth\Adapter\Adapter;
 use Phalcon\Support\AbstractLocator;
 
@@ -32,7 +33,7 @@ class AdapterLocator extends AbstractLocator
      */
     protected function getExceptionClass() -> string
     {
-        return "Phalcon\\Auth\\Exception";
+        return Exception::class;
     }
 
     /**
@@ -40,7 +41,7 @@ class AdapterLocator extends AbstractLocator
      */
     protected function getInterfaceClass() -> string
     {
-        return "Phalcon\\Contracts\\Auth\\Adapter\\Adapter";
+        return Adapter::class;
     }
 
     /**
@@ -49,9 +50,9 @@ class AdapterLocator extends AbstractLocator
     protected function getServices() -> array
     {
         return [
-            "memory" : "Phalcon\\Auth\\Adapter\\Memory",
-            "model"  : "Phalcon\\Auth\\Adapter\\Model",
-            "stream" : "Phalcon\\Auth\\Adapter\\Stream"
+            "memory" : Memory::class,
+            "model"  : Model::class,
+            "stream" : Stream::class
         ];
     }
 }

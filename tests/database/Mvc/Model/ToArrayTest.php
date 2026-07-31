@@ -16,7 +16,6 @@ namespace Phalcon\Tests\Database\Mvc\Model;
 use PDO;
 use Phalcon\Db\Adapter\PdoFactory;
 use Phalcon\Mvc\Model\Manager;
-use Phalcon\Talon\Talon;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Models\Invoices;
@@ -211,13 +210,13 @@ final class ToArrayTest extends AbstractDatabaseTestCase
         $migration->insert(4, 1, 0, $title, 111.26, $date);
         $migration->insert(5, 2, 1, $title, 222.19, $date);
 
-        $options            = Talon::settings()->getDatabaseOptions('mysql');
+        $options            = self::getDatabaseOptions();
         $options['options'] = [
             PDO::ATTR_EMULATE_PREPARES  => false,
             PDO::ATTR_STRINGIFY_FETCHES => false,
         ];
 
-        $db = (new PdoFactory())->newInstance('mysql', $options);
+        $db = (new PdoFactory())->newInstance(self::getDatabaseDialect(), $options);
         $this->container->set('db', $db);
 
         $invoices = Invoices::findFirst();

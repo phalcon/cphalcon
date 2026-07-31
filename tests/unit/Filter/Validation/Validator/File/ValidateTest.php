@@ -18,7 +18,6 @@ use Phalcon\Filter\Validation\Validator\File;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use PHPUnit\Framework\Attributes\BackupGlobals;
 
-use const UPLOAD_ERR_NO_FILE;
 use const UPLOAD_ERR_OK;
 
 #[BackupGlobals(true)]

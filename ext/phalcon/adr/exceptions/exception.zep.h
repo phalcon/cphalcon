@@ -1,0 +1,5 @@
+
+extern zend_class_entry *phalcon_adr_exceptions_exception_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_ADR_Exceptions_Exception);
+

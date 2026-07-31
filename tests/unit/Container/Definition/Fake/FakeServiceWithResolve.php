@@ -33,7 +33,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Container\Definition\Fake;
 
-class FakeServiceWithResolve
+use Phalcon\Contracts\Container\Resolver\Resolvable;
+
+class FakeServiceWithResolve implements Resolvable
 {
     public function resolve(object $container): mixed
     {

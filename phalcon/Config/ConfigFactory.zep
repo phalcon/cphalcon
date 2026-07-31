@@ -10,6 +10,11 @@
 
 namespace Phalcon\Config;
 
+use Phalcon\Config\Adapter\Grouped;
+use Phalcon\Config\Adapter\Ini;
+use Phalcon\Config\Adapter\Json;
+use Phalcon\Config\Adapter\Php;
+use Phalcon\Config\Adapter\Yaml;
 use Phalcon\Config\Config;
 use Phalcon\Config\ConfigInterface;
 use Phalcon\Config\Exceptions\ConfigNotArrayOrObject;
@@ -135,7 +140,7 @@ class ConfigFactory extends AbstractFactory
      */
     protected function getExceptionClass() -> string
     {
-        return "Phalcon\\Config\\Exception";
+        return Exception::class;
     }
 
     /**
@@ -162,11 +167,11 @@ class ConfigFactory extends AbstractFactory
     protected function getServices() -> array
     {
         return [
-            "grouped" : "Phalcon\\Config\\Adapter\\Grouped",
-            "ini"     : "Phalcon\\Config\\Adapter\\Ini",
-            "json"    : "Phalcon\\Config\\Adapter\\Json",
-            "php"     : "Phalcon\\Config\\Adapter\\Php",
-            "yaml"    : "Phalcon\\Config\\Adapter\\Yaml"
+            "grouped" : Grouped::class,
+            "ini"     : Ini::class,
+            "json"    : Json::class,
+            "php"     : Php::class,
+            "yaml"    : Yaml::class
         ];
     }
 

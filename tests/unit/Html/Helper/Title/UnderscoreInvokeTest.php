@@ -12,7 +12,6 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Html\Helper\Title;
 
 use Phalcon\Html\Escaper;
-use Phalcon\Html\Exception;
 use Phalcon\Html\Helper\Title;
 use Phalcon\Html\TagFactory;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;

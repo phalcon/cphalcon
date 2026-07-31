@@ -94,7 +94,7 @@ class Introspection implements StrategyInterface
          */
         let columns = readConnection->describeColumns(table, schema);
 
-        if unlikely !count(columns) {
+        if unlikely empty columns {
             if schema {
                 let completeTable = schema . "'.'" . table;
             } else {

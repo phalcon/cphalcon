@@ -225,6 +225,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     /**
      * Creates a query builder from criteria.
      *
+     * ```php
      * <?php
      *
      * $invoices = Invoices::query()
@@ -266,6 +267,33 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 
          return this;
      }
+
+    /**
+     * Pre-loads the named relations when the criteria is executed
+     *
+     *```php
+     * $invoices = Invoices::query()
+     *     ->eager(["customer"])
+     *     ->where("inv_total > 100")
+     *     ->execute();
+     *```
+     *
+     * execute() forwards the parameters to Model::find(), which owns the
+     * loading, so this is a pass-through and takes the same shape: an array of
+     * dot-delimited relation paths, optionally `path => options`.
+     *
+     * Returns the concrete criteria rather than the interface because the
+     * method is deliberately not part of CriteriaInterface - adding it there
+     * would break every userland implementation.
+     *
+     * @param array $paths relation paths
+     */
+    public function eager(array paths) -> <Criteria>
+    {
+        let this->params["eager"] = paths;
+
+        return this;
+    }
 
     /**
      * Executes a find using the parameters built with the criteria
@@ -310,7 +338,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 
         let conditions = [];
 
-        if count(data) {
+        if !empty data {
             let metaData  = container->getShared("modelsMetadata"),
                 model     = create_instance_params(
                     modelName,
@@ -328,7 +356,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
             let bind = [];
 
             for field, value in data {
-                if typeof columnMap == "array" && count(columnMap) {
+                if typeof columnMap == "array" && !empty columnMap {
                     let attribute = columnMap[field];
                 } else {
                     let attribute = field;
@@ -362,7 +390,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
         let criteria = new self();
         criteria->setDI(container);
 
-        if count(conditions) {
+        if !empty conditions {
             criteria->where(
                 join(
                     " " . operator . " ",
@@ -537,7 +565,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
         array bindParams, bindKeys;
         string key, queryKey;
 
-        if !count(values) {
+        if empty values {
             this->andWhere(expr . " != " . expr);
 
             return this;

@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Db\Adapter\Pdo\Mysql;
 
-use Phalcon\Talon\Talon;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\Group;
@@ -55,7 +54,7 @@ final class TableExistsTest extends AbstractDatabaseTestCase
         );
 
         $this->assertTrue(
-            $db->tableExists($table, Talon::settings()->getDatabaseOptions('mysql')['dbname'])
+            $db->tableExists($table, self::getDatabaseOptions()['dbname'])
         );
 
         $this->assertFalse(

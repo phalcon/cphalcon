@@ -24,6 +24,6 @@ class ValidateAny extends AbstractArr
      */
     public function __invoke(array collection, var method) -> bool
     {
-        return count(this->toFilter(collection, method)) > 0;
+        return !empty this->toFilter(collection, method);
     }
 }

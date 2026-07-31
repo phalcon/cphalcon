@@ -21,7 +21,6 @@ ZEPHIR_INIT_CLASS(phalcon_5__closure)
 {
 	ZEPHIR_REGISTER_CLASS(phalcon, 5__closure, phalcon, 5__closure, phalcon_5__closure_method_entry, ZEND_ACC_FINAL_CLASS);
 
-	zend_declare_property_null(phalcon_5__closure_ce, SL("dispatcher"), ZEND_ACC_PUBLIC|ZEND_ACC_STATIC);
 	return SUCCESS;
 }
 
@@ -29,19 +28,24 @@ PHP_METHOD(phalcon_5__closure, __invoke)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval dispatcher, *target, target_sub;
+	zval *container, container_sub, _0, _1;
 
-	ZVAL_UNDEF(&dispatcher);
-	ZVAL_UNDEF(&target_sub);
+	ZVAL_UNDEF(&container_sub);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_ZVAL(target)
+		Z_PARAM_ZVAL(container)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_read_static_property_ce(&dispatcher, phalcon_5__closure_ce, SL("dispatcher"), PH_NOISY_CC);
-	zephir_fetch_params(1, 1, 0, &target);
-	ZEPHIR_CALL_METHOD(NULL, &dispatcher, "forward", NULL, 0, target);
+	zephir_fetch_params(1, 1, 0, &container);
+	object_init_ex(return_value, phalcon_adr_dispatcher_ce);
+	ZEPHIR_INIT_VAR(&_1);
+	ZVAL_STRING(&_1, "Phalcon\\Contracts\\Events\\Manager");
+	ZEPHIR_CALL_METHOD(&_0, container, "get", NULL, 0, &_1);
 	zephir_check_call_status();
-	ZEPHIR_MM_RESTORE();
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, container, &_0);
+	zephir_check_call_status();
+	RETURN_MM();
 }
 

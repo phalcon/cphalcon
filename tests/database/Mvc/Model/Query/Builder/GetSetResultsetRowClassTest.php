@@ -42,28 +42,33 @@ final class GetSetResultsetRowClassTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model\Query\Builder :: setResultsetRowClass() - fluent
-     * setter and default value
+     * Tests Phalcon\Mvc\Model\Query\Builder :: getQuery() - validation of the
+     * custom resultset row class is deferred to the produced query
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-07-14
      * @issue  https://github.com/phalcon/cphalcon/pull/17340
      */
-    public function testMvcModelQueryBuilderSetResultsetRowClass(): void
+    public function testMvcModelQueryBuilderResultsetRowClassNotFound(): void
     {
-        $builder = new Builder();
+        $manager = $this->getService('modelsManager');
 
-        $this->assertSame('', $builder->getResultsetRowClass());
+        $builder = $manager
+            ->createBuilder()
+            ->columns('inv_id, inv_title')
+            ->from(Invoices::class)
+        ;
 
-        $this->assertInstanceOf(
-            BuilderInterface::class,
-            $builder->setResultsetRowClass(CustomResultsetRow::class)
+        // The builder stores the value without validation ...
+        $builder->setResultsetRowClass('Not\Existing\Row');
+
+        // ... the underlying query validates it when it is built.
+        $this->expectException(ResultsetRowClassNotFound::class);
+        $this->expectExceptionMessage(
+            "Resultset row class 'Not\\Existing\\Row' not found"
         );
 
-        $this->assertSame(
-            CustomResultsetRow::class,
-            $builder->getResultsetRowClass()
-        );
+        $builder->getQuery();
     }
 
     /**
@@ -96,32 +101,27 @@ final class GetSetResultsetRowClassTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Mvc\Model\Query\Builder :: getQuery() - validation of the
-     * custom resultset row class is deferred to the produced query
+     * Tests Phalcon\Mvc\Model\Query\Builder :: setResultsetRowClass() - fluent
+     * setter and default value
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-07-14
      * @issue  https://github.com/phalcon/cphalcon/pull/17340
      */
-    public function testMvcModelQueryBuilderResultsetRowClassNotFound(): void
+    public function testMvcModelQueryBuilderSetResultsetRowClass(): void
     {
-        $manager = $this->getService('modelsManager');
+        $builder = new Builder();
 
-        $builder = $manager
-            ->createBuilder()
-            ->columns('inv_id, inv_title')
-            ->from(Invoices::class)
-        ;
+        $this->assertSame('', $builder->getResultsetRowClass());
 
-        // The builder stores the value without validation ...
-        $builder->setResultsetRowClass('Not\Existing\Row');
-
-        // ... the underlying query validates it when it is built.
-        $this->expectException(ResultsetRowClassNotFound::class);
-        $this->expectExceptionMessage(
-            "Resultset row class 'Not\\Existing\\Row' not found"
+        $this->assertInstanceOf(
+            BuilderInterface::class,
+            $builder->setResultsetRowClass(CustomResultsetRow::class)
         );
 
-        $builder->getQuery();
+        $this->assertSame(
+            CustomResultsetRow::class,
+            $builder->getResultsetRowClass()
+        );
     }
 }

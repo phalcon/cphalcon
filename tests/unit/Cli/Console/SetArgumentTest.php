@@ -14,11 +14,8 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Cli\Console;
 
 use Phalcon\Cli\Console as CliConsole;
-use Phalcon\Cli\Console\Exception as ConsoleException;
 use Phalcon\Cli\Dispatcher;
 use Phalcon\Cli\Router;
-use Phalcon\Cli\Router\Exception as RouterException;
-use Phalcon\Di\Exception as DiException;
 use Phalcon\Di\FactoryDefault\Cli as DiFactoryDefault;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;

@@ -15,7 +15,6 @@ namespace Phalcon\Tests\Unit\Logger\Formatter\Json;
 
 use DateTimeImmutable;
 use DateTimeZone;
-use Exception;
 use Phalcon\Logger\Enum;
 use Phalcon\Logger\Formatter\Json;
 use Phalcon\Logger\Item;

@@ -12,11 +12,11 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 #include "kernel/array.h"
 #include "kernel/fcall.h"
 #include "kernel/object.h"
-#include "kernel/operators.h"
 
 
 /**
@@ -85,7 +85,7 @@ PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, __construct)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &model, &validationMessages_param);
 	zephir_get_arrval(&validationMessages, validationMessages_param);
-	if (zephir_fast_count_int(&validationMessages) > 0) {
+	if (!(ZEPHIR_IS_EMPTY(&validationMessages))) {
 		zephir_memory_observe(&message);
 		zephir_array_fetch_long(&message, &validationMessages, 0, PH_NOISY, "phalcon/Mvc/Model/ValidationFailed.zep", 48);
 		ZEPHIR_CALL_METHOD(&messageStr, &message, "getmessage", NULL, 0);
@@ -94,8 +94,8 @@ PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, __construct)
 		ZEPHIR_INIT_NVAR(&messageStr);
 		ZVAL_STRING(&messageStr, "Validation failed");
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1070, model);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1071, &validationMessages);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1119, model);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1120, &validationMessages);
 	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_model_validationfailed_ce, getThis(), "__construct", NULL, 0, &messageStr);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

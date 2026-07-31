@@ -44,7 +44,7 @@ final class GetTypeTest extends AbstractDatabaseTestCase
             'mysql'  => 'mysql',
             'pgsql'  => 'pgsql',
             'sqlite' => 'sqlite',
-        ][self::getDatabaseDriver()];
+        ][self::getDatabaseDialect()];
 
         $this->assertSame($expected, $db->getType());
     }

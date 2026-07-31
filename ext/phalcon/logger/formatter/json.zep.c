@@ -101,9 +101,9 @@ PHP_METHOD(Phalcon_Logger_Formatter_Json, __construct)
 		zephir_memory_observe(&interpolatorRight_zv);
 	ZVAL_STR_COPY(&interpolatorRight_zv, interpolatorRight);
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 877, &dateFormat_zv);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 878, &interpolatorLeft_zv);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 879, &interpolatorRight_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 925, &dateFormat_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 926, &interpolatorLeft_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 927, &interpolatorRight_zv);
 	ZEPHIR_MM_RESTORE();
 }
 

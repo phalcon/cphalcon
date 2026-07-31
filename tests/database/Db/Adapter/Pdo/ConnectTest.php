@@ -63,14 +63,14 @@ final class ConnectTest extends AbstractDatabaseTestCase
     #[Group('mysql')]
     public function testDbAdapterPdoConnectPersistentMysql(): void
     {
-        $options               = Talon::settings()->getDatabaseOptions('mysql');
+        $options               = self::getDatabaseOptions();
         $options['persistent'] = true;
         $options['options']    = [
             PDO::ATTR_EMULATE_PREPARES  => false,
             PDO::ATTR_STRINGIFY_FETCHES => false,
         ];
 
-        $connection = (new PdoFactory())->newInstance('mysql', $options);
+        $connection = (new PdoFactory())->newInstance(self::getDatabaseDialect(), $options);
 
         $expected = $options;
         $actual   = $connection->getDescriptor();

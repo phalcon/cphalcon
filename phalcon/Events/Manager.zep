@@ -11,6 +11,7 @@
 namespace Phalcon\Events;
 
 use Closure;
+use Phalcon\Contracts\Events\Enumerable;
 use Phalcon\Contracts\Events\Stoppable;
 use Phalcon\Contracts\Events\Subscriber;
 use Phalcon\Events\Exceptions\InvalidEventHandler;
@@ -24,7 +25,7 @@ use Phalcon\Events\Exceptions\NoListenersForEvent;
  * can create hooks or plugins that will offer monitoring of data, manipulation,
  * conditional execution and much more.
  */
-class Manager implements ManagerInterface
+class Manager implements ManagerInterface, Enumerable
 {
     /**
      * @var bool
@@ -304,7 +305,7 @@ class Manager implements ManagerInterface
 
             // Drop the key when the last listener is gone so fire() can
             // short-circuit cleanly and hasListeners() tells the truth.
-            if count(newQueue) > 0 {
+            if !empty newQueue {
                 let this->events[eventType] = newQueue;
             } else {
                 unset this->events[eventType];
@@ -695,6 +696,29 @@ class Manager implements ManagerInterface
     public function halt() -> void
     {
         let this->halted = true;
+    }
+
+    /**
+     * Returns every event type that currently has at least one listener,
+     * mapped to that type's listeners. Types contributed by subscribers are
+     * included, because addSubscriber() attaches through the regular listener
+     * pipeline.
+     *
+     * Unwrapping is delegated to getListeners() so the internal shape of
+     * this->events is read in exactly one place.
+     */
+    public function getListenerMap() -> array
+    {
+        var type;
+        array map;
+
+        let map = [];
+
+        for type in array_keys(this->events) {
+            let map[type] = this->getListeners(type);
+        }
+
+        return map;
     }
 
     /**

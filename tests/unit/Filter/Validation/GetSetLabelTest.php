@@ -17,7 +17,6 @@ use Phalcon\Di\FactoryDefault;
 use Phalcon\Filter\Validation;
 use Phalcon\Filter\Validation\Validator\PresenceOf;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
-use PHPUnit\Framework\Attributes\Test;
 use stdClass;
 
 use function date;

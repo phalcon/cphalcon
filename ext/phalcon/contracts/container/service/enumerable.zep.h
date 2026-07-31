@@ -1,0 +1,12 @@
+
+extern zend_class_entry *phalcon_contracts_container_service_enumerable_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Contracts_Container_Service_Enumerable);
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_container_service_enumerable_getservicenames, 0, 0, IS_ARRAY, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_contracts_container_service_enumerable_method_entry) {
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Container_Service_Enumerable, getServiceNames, arginfo_phalcon_contracts_container_service_enumerable_getservicenames)
+	PHP_FE_END
+};

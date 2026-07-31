@@ -21,6 +21,11 @@ namespace Phalcon\Queue;
 
 use Phalcon\Contracts\Queue\ConnectionFactory as ConnectionFactoryInterface;
 use Phalcon\Factory\AbstractFactory;
+use Phalcon\Queue\Adapter\Beanstalk\BeanstalkConnectionFactory;
+use Phalcon\Queue\Adapter\Memory\MemoryConnectionFactory;
+use Phalcon\Queue\Adapter\Redis\RedisConnectionFactory;
+use Phalcon\Queue\Adapter\Stream\StreamConnectionFactory;
+use Phalcon\Queue\Exceptions\Exception;
 
 /**
  * Maps an adapter name to its ConnectionFactory. Mirrors
@@ -53,7 +58,7 @@ class AdapterFactory extends AbstractFactory
      */
     protected function getExceptionClass() -> string
     {
-        return "Phalcon\\Queue\\Exceptions\\Exception";
+        return Exception::class;
     }
 
     /**
@@ -64,10 +69,10 @@ class AdapterFactory extends AbstractFactory
     protected function getServices() -> array
     {
         return [
-            "beanstalk" : "Phalcon\\Queue\\Adapter\\Beanstalk\\BeanstalkConnectionFactory",
-            "memory"    : "Phalcon\\Queue\\Adapter\\Memory\\MemoryConnectionFactory",
-            "redis"     : "Phalcon\\Queue\\Adapter\\Redis\\RedisConnectionFactory",
-            "stream"    : "Phalcon\\Queue\\Adapter\\Stream\\StreamConnectionFactory"
+            "beanstalk" : BeanstalkConnectionFactory::class,
+            "memory"    : MemoryConnectionFactory::class,
+            "redis"     : RedisConnectionFactory::class,
+            "stream"    : StreamConnectionFactory::class
         ];
     }
 }

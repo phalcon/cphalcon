@@ -21,12 +21,23 @@ use Phalcon\Talon\Talon;
 use function date;
 use function getenv;
 use function is_string;
+use function str_contains;
 
 abstract class AbstractDatabaseTestCase extends TalonAbstractDatabaseTestCase
 {
     private static string $password = '';
 
     private static string $username = '';
+
+    /**
+     * The dialect the connection speaks, not the server it points at.
+     */
+    public static function getDatabaseDialect(): string
+    {
+        $driver = self::getDatabaseDriver();
+
+        return $driver === 'mariadb' ? 'mysql' : $driver;
+    }
 
     public static function getDatabaseDsn(): string
     {
@@ -77,7 +88,7 @@ abstract class AbstractDatabaseTestCase extends TalonAbstractDatabaseTestCase
 
     /**
      * Named distinctly from Talon's inherited `getConnection(): ConnectionContract`
-     * (not an override — PHP enforces covariant return types on an inherited
+     * (not an override - PHP enforces covariant return types on an inherited
      * method, and `PDO` is unrelated to `ConnectionContract`). Reuses Talon's
      * cached, auto-schema-loaded connection under the hood.
      */
@@ -88,7 +99,7 @@ abstract class AbstractDatabaseTestCase extends TalonAbstractDatabaseTestCase
 
     /**
      * Named distinctly from Talon's inherited, non-static `getDriver()`
-     * (`DatabaseTrait::getDriver()`) — same collision reasoning as
+     * (`DatabaseTrait::getDriver()`) - same collision reasoning as
      * `getPdoConnection()` above, but for a `static`-vs-instance mismatch
      * instead of a return-type mismatch: PHP does not allow an override to
      * change a method from non-static to static.
@@ -98,5 +109,19 @@ abstract class AbstractDatabaseTestCase extends TalonAbstractDatabaseTestCase
         $driver = getenv('driver');
 
         return $driver !== false ? $driver : 'sqlite';
+    }
+
+    /**
+     * `PDO::ATTR_DRIVER_NAME` reports `mysql` for both engines; only the
+     * version string tells them apart.
+     */
+    public function isMariaDb(): bool
+    {
+        return str_contains(
+            (string) $this
+                ->getPdoConnection()
+                ->getAttribute(PDO::ATTR_SERVER_VERSION),
+            'MariaDB'
+        );
     }
 }

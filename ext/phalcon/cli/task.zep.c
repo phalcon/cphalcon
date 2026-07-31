@@ -111,6 +111,6 @@ PHP_METHOD(Phalcon_Cli_Task, setEventsManager)
 		Z_PARAM_OBJECT_OF_CLASS(eventsManager, phalcon_events_managerinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &eventsManager);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 260, eventsManager);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 263, eventsManager);
 }
 

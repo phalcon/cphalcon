@@ -55,4 +55,58 @@ final class CountTest extends AbstractDatabaseTestCase
 
         $this->assertSame($expected, $resultset->count());
     }
+
+    /**
+     * The count is worked out lazily now, so it has to come out the same
+     * whenever it is asked for. The constructor has already taken the first row
+     * off the cursor by the time any of these run, which is exactly the state
+     * the driver has to keep reporting the full total in.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-07-29
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    #[DataProvider('getExamples')]
+    public function testMvcModelResultsetCountMidTraversal(
+        string $type,
+        int $expected
+    ): void {
+        $resultset = $this->getResultset($type);
+
+        $resultset->rewind();
+        $resultset->next();
+
+        $this->assertSame($expected, $resultset->count());
+
+        foreach ($resultset as $row) {
+            $this->assertNotNull($row);
+        }
+
+        $this->assertSame($expected, $resultset->count());
+    }
+
+    /**
+     * Once the rows are in memory the count comes off the array rather than the
+     * driver, and must not disagree with what the driver said.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-07-29
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    #[DataProvider('getExamples')]
+    public function testMvcModelResultsetCountWhenMaterialised(
+        string $type,
+        int $expected
+    ): void {
+        $resultset = $this->getResultset($type);
+
+        $resultset->materialize();
+
+        $this->assertSame($expected, $resultset->count());
+        $this->assertCount($expected, $resultset->toArray());
+    }
 }

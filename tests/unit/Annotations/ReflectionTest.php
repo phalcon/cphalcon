@@ -20,8 +20,6 @@ use Phalcon\Annotations\Reflection;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Talon\Talon;
 
-use function dataDir;
-
 final class ReflectionTest extends AbstractUnitTestCase
 {
     /**

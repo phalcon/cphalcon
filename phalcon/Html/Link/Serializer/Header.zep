@@ -67,7 +67,7 @@ class Header implements SerializerInterface
                            . implode("; ", parts);
         }
 
-        if count(elements) > 0 {
+        if !empty elements {
             let result = implode(",", elements);
         }
 

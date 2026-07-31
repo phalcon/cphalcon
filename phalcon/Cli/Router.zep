@@ -440,7 +440,7 @@ class Router extends AbstractInjectionAware implements RouterInterface
             unset parts["params"];
         }
 
-        if count(params) {
+        if !empty params {
             let params = array_merge(params, parts);
         } else {
             let params = parts;

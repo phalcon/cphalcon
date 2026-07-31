@@ -15,7 +15,6 @@ namespace Phalcon\Tests\Unit\Logger\Formatter\Line;
 
 use DateTimeImmutable;
 use DateTimeZone;
-use Exception;
 use Phalcon\Logger\Enum;
 use Phalcon\Logger\Formatter\Line;
 use Phalcon\Logger\Item;

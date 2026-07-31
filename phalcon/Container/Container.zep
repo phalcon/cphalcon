@@ -47,10 +47,11 @@ use Phalcon\Container\Exceptions\ServiceNotRegistered;
 use Phalcon\Container\Resolver\Lazy\Lazy;
 use Phalcon\Container\Resolver\Resolver;
 use Phalcon\Contracts\Container\Service\Collection;
+use Phalcon\Contracts\Container\Service\Enumerable;
 use Phalcon\Di\InjectionAwareInterface;
 use ReflectionException;
 
-class Container implements Collection
+class Container implements Collection, Enumerable
 {
     /**
      * @var array<string, string>
@@ -318,6 +319,18 @@ class Container implements Collection
         }
 
         return result;
+    }
+
+    /**
+     * Returns the names of every registered service definition. Names that
+     * only exist as an alias, a pre-set instance or a parameter are not
+     * included.
+     *
+     * @return array<int, string>
+     */
+    public function getServiceNames() -> array
+    {
+        return array_keys(this->services);
     }
 
     /**
@@ -713,9 +726,14 @@ class Container implements Collection
 
         let instance = definition->buildService(this);
 
-        if (instance instanceof InjectionAwareInterface) {
-            instance->setDI(this);
-        }
+        /**
+         * `setDI()` only accepts a `Phalcon\Di\DiInterface` and this container
+         * is not one, so this always raised a `TypeError` for an injection
+         * aware service.
+         */
+        // if (instance instanceof InjectionAwareInterface) {
+        //     instance->setDI(this);
+        // }
 
         let lifetime = definition->getLifetime();
 

@@ -13,6 +13,8 @@ namespace Phalcon\Image;
 use Phalcon\Config\ConfigInterface;
 use Phalcon\Factory\AbstractFactory;
 use Phalcon\Image\Adapter\AdapterInterface;
+use Phalcon\Image\Adapter\Gd;
+use Phalcon\Image\Adapter\Imagick;
 use Phalcon\Traits\Support\Helper\Arr\GetTrait;
 
 /**
@@ -88,7 +90,7 @@ class ImageFactory extends AbstractFactory
      */
     protected function getExceptionClass() -> string
     {
-        return "Phalcon\\Image\\Exception";
+        return Exception::class;
     }
 
     /**
@@ -99,8 +101,8 @@ class ImageFactory extends AbstractFactory
     protected function getServices() -> array
     {
         return [
-            "gd"      : "Phalcon\\Image\\Adapter\\Gd",
-            "imagick" : "Phalcon\\Image\\Adapter\\Imagick"
+            "gd"      : Gd::class,
+            "imagick" : Imagick::class
         ];
     }
 }

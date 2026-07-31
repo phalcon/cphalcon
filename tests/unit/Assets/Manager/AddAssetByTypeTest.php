@@ -14,12 +14,10 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Assets\Manager;
 
 use Phalcon\Assets\Asset\Css;
-use Phalcon\Assets\Exception;
 use Phalcon\Assets\Manager;
 use Phalcon\Html\Escaper;
 use Phalcon\Html\TagFactory;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
-use PHPUnit\Framework\Attributes\Test;
 
 final class AddAssetByTypeTest extends AbstractUnitTestCase
 {

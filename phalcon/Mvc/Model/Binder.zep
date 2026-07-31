@@ -13,6 +13,7 @@ namespace Phalcon\Mvc\Model;
 use Closure;
 use Phalcon\Cache\Adapter\AdapterInterface;
 use Phalcon\Mvc\Controller\BindModelInterface;
+use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Binder\BindableInterface;
 use Phalcon\Mvc\Model\Exceptions\HandlerMustImplementBindable;
 use Phalcon\Mvc\Model\Exceptions\InvalidGetModelNameReturn;
@@ -211,7 +212,7 @@ class Binder implements BinderInterface
             let boundModel = null;
             let paramValue = params[paramKey];
 
-            if className == "Phalcon\\Mvc\\Model" {
+            if className == Model::class {
                 if realClasses == null {
                     if handler instanceof BindModelInterface {
                         let handlerClass = get_class(handler);
@@ -235,7 +236,7 @@ class Binder implements BinderInterface
                 } else {
                     throw new InvalidGetModelNameReturn();
                 }
-            } elseif is_subclass_of(className, "Phalcon\\Mvc\\Model") {
+            } elseif is_subclass_of(className, Model::class) {
                 let boundModel = this->findBoundModel(paramValue, className);
             }
 

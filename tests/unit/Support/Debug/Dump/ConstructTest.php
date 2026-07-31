@@ -18,8 +18,6 @@ use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Talon\Talon;
 use Phalcon\Tests\Support\Support\Dump\ClassProperties;
 
-use const PHP_OS_FAMILY;
-
 final class ConstructTest extends AbstractUnitTestCase
 {
     /**

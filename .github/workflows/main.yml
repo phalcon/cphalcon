@@ -17,8 +17,7 @@ on:
 
 env:
   # All versions should be declared here
-  PHALCON_VERSION: 5.17.0
-  ZEPHIR_PARSER_VERSION: 2.0.4
+  PHALCON_VERSION: 5.18.0
   # For tests
   LANG: en_US.UTF-8
   LANGUAGE: en_US.UTF-8
@@ -84,7 +83,6 @@ jobs:
         uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # v2
         with:
           php-version: '8.5'
-          extensions: zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}
 
       - name: Install System Dependencies
         run: |
@@ -129,7 +127,6 @@ jobs:
         uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # v2
         with:
           php-version: '8.5'
-          extensions: zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}
           tools: pecl
         env:
           COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -212,7 +209,6 @@ jobs:
         uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # v2
         with:
           php-version: ${{ matrix.php }}
-          extensions: zephir_parser-${{ env.ZEPHIR_PARSER_VERSION }}
         env:
           COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -563,7 +559,7 @@ jobs:
           extensions: ${{ env.EXTENSIONS }}
           ini-values: apc.enable_cli=on, session.save_path=/tmp, register_argc_argv=on
           tools: phpize, php-config
-          coverage: pcov
+          coverage: xdebug
         env:
           PHPTS: ${{ matrix.ts }}
           COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -628,6 +624,118 @@ jobs:
         run: |
           echo "-- Creating Release Notes"
           ./resources/release-notes.sh ./CHANGELOG-5.0.md
+
+  database_mariadb_test:
+    permissions:
+      contents: read
+
+    name: Db MariaDB / PHP-${{ matrix.php }}
+    needs: [build_extension]
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    services:
+      mariadb:
+        image: mariadb:10.6
+        ports:
+          - "3306:3306"
+        env:
+          MYSQL_ROOT_PASSWORD: secret
+          MYSQL_USER: phalcon
+          MYSQL_DATABASE: phalcon
+          MYSQL_PASSWORD: secret
+        options: >-
+          --health-cmd "mysqladmin ping --silent"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      redis:
+        image: redis:8-alpine
+        ports:
+          - "6379:6379"
+      memcached:
+        image: memcached:1.6-alpine
+        ports:
+          - "11211:11211"
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php:
+          - '8.1'
+          - '8.2'
+          - '8.3'
+          - '8.4'
+          - '8.5'
+
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+          token: ${{ github.token }}
+
+      - name: "Setup platform specific environment"
+        shell: pwsh
+        run: git config --global core.autocrlf false
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: ${{ env.EXTENSIONS }}
+          ini-values: apc.enable_cli=on, session.save_path=/tmp, register_argc_argv=on
+          coverage: pcov
+        env:
+          COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Download compiled Phalcon extension
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          name: phalcon-so-php${{ matrix.php }}-nts-linux-x64
+          path: ./phalcon-so
+
+      - name: Install Phalcon extension
+        shell: bash
+        run: |
+          EXT_DIR=$(php-config --extension-dir)
+          sudo cp ./phalcon-so/phalcon.so "$EXT_DIR/phalcon.so"
+          echo "extension=phalcon" | sudo tee /etc/php/${{ matrix.php }}/cli/conf.d/99-phalcon.ini
+          php --ri phalcon
+
+      - name: Prepare test Environment
+        run: |
+          echo "::group::Set up locales"
+          ./resources/linux-setup-locales.sh
+          echo "::endgroup::"
+
+      - name: Validate composer
+        run: composer validate --no-check-all --no-check-publish
+
+      - name: Install development dependencies with Composer
+        uses: ramsey/composer-install@65e4f84970763564f46a70b8a54b90d033b3bdda # v3
+        with:
+          composer-options: "--prefer-dist --ignore-platform-reqs"
+
+      - name: Setup Tests
+        run: |
+          cp tests/support/_config/.env.default .env
+          php bin/generate-db-schemas.php
+
+      - name: Run Database Tests (MariaDB)
+        env:
+          DATA_MARIADB_PORT: ${{ job.services.mariadb.ports['3306'] }}
+          DATA_MARIADB_USER: root
+          DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
+          DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
+        run: vendor/bin/phpunit -c resources/phpunit.mariadb.xml
+      - name: Upload Database (MariaDB) Coverage
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        if: always()
+        with:
+          name: "db-mariadb-${{ matrix.php }}.coverage"
+          path: "tests/_output/coverage.xml"
+          retention-days: 7
 
   database_mysql_test:
     permissions:
@@ -1058,6 +1166,7 @@ jobs:
       - build_extension
       - build_extension_windows
       - unit_test
+      - database_mariadb_test
       - database_mysql_test
       - database_sqlite_test
       - database_pgsql_test

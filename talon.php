@@ -19,10 +19,11 @@ declare(strict_types=1);
 return [
     'php'     => ['extension=ext/modules/phalcon.so'],
     'suites'  => [
-        'unit'   => ['config' => 'resources/phpunit.xml.dist'],
-        'mysql'  => ['config' => 'resources/phpunit.mysql.xml'],
-        'pgsql'  => ['config' => 'resources/phpunit.pgsql.xml'],
-        'sqlite' => ['config' => 'resources/phpunit.sqlite.xml'],
+        'unit'    => ['config' => 'resources/phpunit.xml.dist'],
+        'mariadb' => ['config' => 'resources/phpunit.mariadb.xml'],
+        'mysql'   => ['config' => 'resources/phpunit.mysql.xml'],
+        'pgsql'   => ['config' => 'resources/phpunit.pgsql.xml'],
+        'sqlite'  => ['config' => 'resources/phpunit.sqlite.xml'],
     ],
     'default' => 'unit',
 ];

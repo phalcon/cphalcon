@@ -11,7 +11,15 @@
 namespace Phalcon\Encryption\Crypt;
 
 use Phalcon\Encryption\Crypt;
+use Phalcon\Encryption\Crypt\Exception\Exception;
+use Phalcon\Encryption\Crypt\Padding\Ansi;
+use Phalcon\Encryption\Crypt\Padding\Iso10126;
+use Phalcon\Encryption\Crypt\Padding\IsoIek;
+use Phalcon\Encryption\Crypt\Padding\Noop;
 use Phalcon\Encryption\Crypt\Padding\PadInterface;
+use Phalcon\Encryption\Crypt\Padding\Pkcs7;
+use Phalcon\Encryption\Crypt\Padding\Space;
+use Phalcon\Encryption\Crypt\Padding\Zero;
 use Phalcon\Factory\AbstractFactory;
 
 /**
@@ -19,16 +27,15 @@ use Phalcon\Factory\AbstractFactory;
  */
 class PadFactory extends AbstractFactory
 {
-    /**
-     * @var string
-     */
-    protected exception = "Phalcon\\Encryption\\Crypt\\Exception\\Exception";
+    protected string exception = "";
 
     /**
      * AdapterFactory constructor.
      */
     public function __construct( array services = [])
     {
+        let this->exception = Exception::class;
+
         this->init(services);
     }
 
@@ -81,14 +88,14 @@ class PadFactory extends AbstractFactory
     protected function getServices() -> array
     {
         return [
-            "ansi"     : "Phalcon\\Encryption\\Crypt\\Padding\\Ansi",
-            "iso10126" : "Phalcon\\Encryption\\Crypt\\Padding\\Iso10126",
-            "isoiek"   : "Phalcon\\Encryption\\Crypt\\Padding\\IsoIek",
-            "noop"     : "Phalcon\\Encryption\\Crypt\\Padding\\Noop",
-            "pjcs7"    : "Phalcon\\Encryption\\Crypt\\Padding\\Pkcs7",
-            "pkcs7"    : "Phalcon\\Encryption\\Crypt\\Padding\\Pkcs7",
-            "space"    : "Phalcon\\Encryption\\Crypt\\Padding\\Space",
-            "zero"     : "Phalcon\\Encryption\\Crypt\\Padding\\Zero"
+            "ansi"     : Ansi::class,
+            "iso10126" : Iso10126::class,
+            "isoiek"   : IsoIek::class,
+            "noop"     : Noop::class,
+            "pjcs7"    : Pkcs7::class,
+            "pkcs7"    : Pkcs7::class,
+            "space"    : Space::class,
+            "zero"     : Zero::class
         ];
     }
 }

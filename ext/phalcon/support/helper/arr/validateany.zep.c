@@ -12,9 +12,9 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
-#include "kernel/operators.h"
 #include "kernel/object.h"
 
 
@@ -64,6 +64,6 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_ValidateAny, __invoke)
 	zephir_get_arrval(&collection, collection_param);
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "tofilter", NULL, 0, &collection, method);
 	zephir_check_call_status();
-	RETURN_MM_BOOL(zephir_fast_count_int(&_0) > 0);
+	RETURN_MM_BOOL(!(ZEPHIR_IS_EMPTY(&_0)));
 }
 

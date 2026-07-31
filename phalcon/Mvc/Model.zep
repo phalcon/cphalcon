@@ -25,6 +25,8 @@ use Phalcon\Messages\MessageInterface;
 use Phalcon\Mvc\Model\BehaviorInterface;
 use Phalcon\Mvc\Model\Criteria;
 use Phalcon\Mvc\Model\CriteriaInterface;
+use Phalcon\Mvc\Model\Eager\Loader;
+use Phalcon\Mvc\Model\Eager\PathTree;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\Exceptions\BelongsToRequiresObject;
 use Phalcon\Mvc\Model\Exceptions\BindTypeNotDefined;
@@ -36,6 +38,7 @@ use Phalcon\Mvc\Model\Exceptions\DataTypeNotDefined;
 use Phalcon\Mvc\Model\Exceptions\IdentityNotInColumnMap;
 use Phalcon\Mvc\Model\Exceptions\IdentityNotInTableColumns;
 use Phalcon\Mvc\Model\Exceptions\InvalidDumpResultKey;
+use Phalcon\Mvc\Model\Exceptions\InvalidEagerParameter;
 use Phalcon\Mvc\Model\Exceptions\InvalidFindParameters;
 use Phalcon\Mvc\Model\Exceptions\InvalidModelsManagerService;
 use Phalcon\Mvc\Model\Exceptions\InvalidModelsMetadataService;
@@ -50,6 +53,8 @@ use Phalcon\Mvc\Model\Exceptions\RelationNotDefined;
 use Phalcon\Mvc\Model\Exceptions\RelationRequiresObjectOrArray;
 use Phalcon\Mvc\Model\Exceptions\SnapshotsDisabled;
 use Phalcon\Mvc\Model\Exceptions\StaticMethodRequiresOneArgument;
+use Phalcon\Mvc\Model\Exceptions\UnsupportedEagerHydration;
+use Phalcon\Mvc\Model\Exceptions\UnsupportedEagerResultset;
 use Phalcon\Mvc\Model\Exceptions\UpdateSnapshotDisabled;
 use Phalcon\Mvc\Model\Hydration\CloneResultMapHydrate;
 use Phalcon\Mvc\Model\ManagerInterface;
@@ -63,6 +68,7 @@ use Phalcon\Mvc\Model\RelationInterface;
 use Phalcon\Mvc\Model\ResultInterface;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
+use Phalcon\Mvc\Model\Resultset\Simple;
 use Phalcon\Mvc\Model\TransactionInterface;
 use Phalcon\Mvc\Model\ValidationFailed;
 use Phalcon\Mvc\ModelInterface;
@@ -596,7 +602,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                          * empty array must be able to clear all intermediate rows
                          * when syncing is enabled.
                          */
-                        if count(related) > 0 || relation->getType() === Relation::HAS_MANY_THROUGH {
+                        if !empty related || relation->getType() === Relation::HAS_MANY_THROUGH {
                             let this->dirtyRelated[lowerProperty] = related,
                                 this->dirtyState = self::DIRTY_STATE_TRANSIENT;
                         } else {
@@ -890,7 +896,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             let dataMapped = data;
         }
 
-        if count(dataMapped) === 0 {
+        if empty dataMapped {
             return this;
         }
 
@@ -1536,7 +1542,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         /**
          * We can't create dynamic SQL without a primary key
          */
-        if unlikely !count(primaryKeys) {
+        if unlikely empty primaryKeys {
             throw new PrimaryKeyRequired(get_class(this));
         }
 
@@ -1851,7 +1857,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      */
     public static function find(var parameters = null) -> <ResultsetInterface>
     {
-        var params, query, resultset, hydration;
+        var eager, params, query, resultset, hydration;
 
         if typeof parameters !== "array" {
             let params = [];
@@ -1863,7 +1869,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             let params = parameters;
         }
 
-        let query = static::getPreparedQuery(params);
+        let query = self::getPreparedQuery(params);
 
         /**
          * Execute the query passing the bind-params and casting-types
@@ -1876,6 +1882,15 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         if typeof resultset === "object" {
             if fetch hydration, params["hydration"] {
                 resultset->setHydrateMode(hydration);
+            }
+
+            /**
+             * Pre-load the requested relations. This has to happen before the
+             * resultset is iterated but after it is built: at this point the
+             * cursor has not been advanced, so materializing it is free.
+             */
+            if fetch eager, params["eager"] {
+                self::loadEager(resultset, eager, params);
             }
         }
 
@@ -1982,7 +1997,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             throw new InvalidFindParameters(get_called_class());
         }
 
-        let query = static::getPreparedQuery(params, 1);
+        let query = self::getPreparedQuery(params, 1);
 
         /**
          * Return only the first row
@@ -2320,7 +2335,15 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             if isset(this->dirtyRelated[lowerAlias]) {
                 return this->dirtyRelated[lowerAlias];
             }
-            if isset(this->related[lowerAlias]) {
+
+            /**
+             * array_key_exists rather than isset: a to-one relation that
+             * resolves to no record caches a null, and isset() would treat
+             * that as "never loaded" and re-query on every access. The
+             * dirtyRelated check above deliberately keeps isset() - clearing a
+             * relation by assigning null must fall through, see #16611.
+             */
+            if array_key_exists(lowerAlias, this->related) {
                 return this->related[lowerAlias];
             }
 
@@ -2370,7 +2393,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      */
     public function isRelationshipLoaded(string relationshipAlias) -> bool
     {
-        return isset this->related[strtolower(relationshipAlias)];
+        return array_key_exists(strtolower(relationshipAlias), this->related);
     }
 
     /**
@@ -2518,10 +2541,10 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 return intersect == fieldName;
             }
 
-            return count(intersect) > 0;
+            return !empty intersect;
         }
 
-        return count(changedFields) > 0;
+        return !empty changedFields;
     }
 
     /**
@@ -2557,10 +2580,10 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 return intersect == fieldName;
             }
 
-            return count(intersect) > 0;
+            return !empty intersect;
         }
 
-        return count(updatedFields) > 0;
+        return !empty updatedFields;
     }
 
     /**
@@ -2659,7 +2682,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
          */
         if container instanceof DiInterface {
             let criteria = <CriteriaInterface> container->get(
-                "Phalcon\\Mvc\\Model\\Criteria"
+                Criteria::class
             );
         } else {
             let criteria = new Criteria();
@@ -2857,7 +2880,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         /**
          * Does it have unsaved related records
          */
-        let hasRelatedToSave = count(relatedToSave) > 0;
+        let hasRelatedToSave = !empty relatedToSave;
 
         if hasRelatedToSave {
             if this->preSaveRelatedRecords(writeConnection, relatedToSave, visited) === false {
@@ -3114,7 +3137,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                     try {
                         let this->{key} = value;
                     } catch \TypeError {
-                        // Incompatible value for typed property – leave as-is
+                        // Incompatible value for typed property - leave as-is
                     }
                 }
             } else {
@@ -3238,6 +3261,23 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         }
 
         let this->oldSnapshot = snapshot;
+    }
+
+    /**
+     * Stores related records in the relation cache, so that a subsequent
+     * getRelated() or property access returns them without querying.
+     *
+     * This is the write side of the cache getRelated() already reads. It does
+     * not mark the record dirty: the value lands in `related`, never in
+     * `dirtyRelated`, so save() is unaffected.
+     *
+     * @param mixed $records ModelInterface, Row, ResultsetInterface or null
+     */
+    public function setRelated(string alias, var records) -> <ModelInterface>
+    {
+        let this->related[strtolower(alias)] = records;
+
+        return this;
     }
 
     /**
@@ -4111,7 +4151,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 let attributeField = field;
             }
 
-            if !isset automaticAttributes[attributeField] {
+            if !array_key_exists(attributeField, automaticAttributes) {
                 /**
                  * Check every attribute in the model except identity field
                  */
@@ -4130,7 +4170,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                             bindTypes[]              = bindType,
                             snapshot[attributeField] = rawValue;
                     } elseif fetch value, this->{attributeField} {
-                        if value === null && isset defaultValues[field] {
+                        if value === null && array_key_exists(field, defaultValues) {
                             let snapshot[attributeField]           = defaultValues[field],
                                 unsetDefaultValues[attributeField] = defaultValues[field];
 
@@ -4154,7 +4194,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                             values[]    = value,
                             bindTypes[] = bindType;
                     } else {
-                        if isset defaultValues[field] {
+                        if array_key_exists(field, defaultValues) {
                             let snapshot[attributeField]           = defaultValues[field],
                                 unsetDefaultValues[attributeField] = defaultValues[field];
 
@@ -4209,7 +4249,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 if value === null || value === "" {
                     if useExplicitIdentity {
                         let values[] = defaultValue, bindTypes[] = bindSkip;
-                    } elseif !count(values) {
+                    } elseif empty values {
                         /**
                          * Model has only the identity column; force an
                          * explicit default so the underlying adapter does not
@@ -4242,7 +4282,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 if useExplicitIdentity {
                     let values[]    = defaultValue,
                         bindTypes[] = bindSkip;
-                } elseif !count(values) {
+                } elseif empty values {
                     /**
                      * Model has only the identity column; force an explicit
                      * default so the underlying adapter does not reject the
@@ -4398,7 +4438,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 } else {
                     let attributeField = field;
                 }
-                if !isset automaticAttributes[attributeField] {
+                if !array_key_exists(attributeField, automaticAttributes) {
                     /**
                      * Check a bind type for field to update
                      */
@@ -4498,7 +4538,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             /**
              * If there is no fields to update we return true
              */
-            if !count(fields) {
+            if empty fields {
                 let this->oldSnapshot = snapshot;
                 return true;
             }
@@ -4521,7 +4561,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                     let attributeField = field;
                 }
 
-                if !isset automaticAttributes[attributeField] {
+                if !array_key_exists(attributeField, automaticAttributes) {
                     /**
                      * Check a bind type for field to update
                      */
@@ -4567,7 +4607,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         /**
          * If there is no fields to update we return true
          */
-        if !count(fields) {
+        if empty fields {
             return true;
         }
 
@@ -4583,7 +4623,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             /**
              * We can't create dynamic SQL without a primary key
              */
-            if unlikely !count(primaryKeys) {
+            if unlikely empty primaryKeys {
                 throw new PrimaryKeyRequired(get_class(this));
             }
 
@@ -5235,7 +5275,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                     /**
                      * We don't check fields that must be omitted
                      */
-                    if !isset automaticAttributes[attributeField] {
+                    if !array_key_exists(attributeField, automaticAttributes) {
                         let isNull = false;
 
                         /**
@@ -5923,6 +5963,38 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     /**
      * shared prepare query logic for find and findFirst method
      */
+    private static function loadEager(
+        var resultset,
+        var eager,
+        array params
+    ) -> void {
+        var container, hydration, loader, manager;
+
+        if unlikely typeof eager !== "array" {
+            throw new InvalidEagerParameter();
+        }
+
+        if unlikely !(resultset instanceof Simple) {
+            throw new UnsupportedEagerResultset(get_class(resultset));
+        }
+
+        if fetch hydration, params["hydration"] {
+            if unlikely hydration !== Resultset::HYDRATE_RECORDS {
+                throw new UnsupportedEagerHydration();
+            }
+        }
+
+        let container = Di::getDefault();
+        let manager   = <ManagerInterface> container->getShared("modelsManager");
+        let loader    = new Loader(manager);
+
+        loader->loadResultset(
+            resultset,
+            get_called_class(),
+            PathTree::parse(eager)
+        );
+    }
+
     private static function getPreparedQuery(var params, var limit = null) -> <QueryInterface>
     {
         var builder, bindParams, bindTypes, transaction, cache, manager, query,
@@ -6462,7 +6534,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      */
     public function validationHasFailed() -> bool
     {
-        return count(this->errorMessages) > 0;
+        return !empty this->errorMessages;
     }
 
     /**

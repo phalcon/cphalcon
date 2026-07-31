@@ -110,10 +110,10 @@ PHP_METHOD(Phalcon_Support_AbstractLocator, __construct)
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(zend_ce_type_error, "The parameter must be an instance of Collection or DiInterface", "phalcon/Support/AbstractLocator.zep", 49);
 		return;
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 128, container);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 129, container);
 	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getservices", NULL, 0);
 	zephir_check_call_status();
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 129, &_1);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 130, &_1);
 	zephir_is_iterable(&services, 0, "phalcon/Support/AbstractLocator.zep", 60);
 	if (Z_TYPE_P(&services) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&services), _3, _4, _2)
@@ -218,7 +218,7 @@ PHP_METHOD(Phalcon_Support_AbstractLocator, has)
 		Z_PARAM_STR(name)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&name_zv, name);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 129, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 130, PH_NOISY_CC | PH_READONLY);
 	RETURN_BOOL(zephir_array_isset_value(&_0, &name_zv));
 }
 
@@ -226,7 +226,7 @@ PHP_METHOD(Phalcon_Support_AbstractLocator, has)
  * Retrieve a service instance from the container.
  *
  * On the `DiInterface` path this returns the container's **shared**
- * instance (`getShared()`) — despite the name, it is not a fresh build.
+ * instance (`getShared()`) - despite the name, it is not a fresh build.
  * Locators whose services carry per-activation state should override this
  * method to resolve a fresh instance; see `Auth\Access\AccessLocator`, which uses
  * `ContainerResolver::resolveFresh` for exactly that reason.
@@ -268,7 +268,7 @@ PHP_METHOD(Phalcon_Support_AbstractLocator, newInstance)
 	ZVAL_STR_COPY(&name_zv, name);
 	ZEPHIR_CALL_METHOD(&definition, this_ptr, "getservice", NULL, 0, &name_zv);
 	zephir_check_call_status();
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 128, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 129, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&_1, &_0, "has", NULL, 0, &definition);
 	zephir_check_call_status();
 	if (!ZEPHIR_IS_TRUE_IDENTICAL(&_1)) {
@@ -295,14 +295,14 @@ PHP_METHOD(Phalcon_Support_AbstractLocator, newInstance)
 		return;
 	}
 	zephir_memory_observe(&_6);
-	zephir_read_property_cached(&_6, this_ptr, _zephir_prop_0, 128, PH_NOISY_CC);
+	zephir_read_property_cached(&_6, this_ptr, _zephir_prop_0, 129, PH_NOISY_CC);
 	if (zephir_instance_of_ev(&_6, phalcon_di_diinterface_ce)) {
-		zephir_read_property_cached(&_7$$4, this_ptr, _zephir_prop_0, 128, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_7$$4, this_ptr, _zephir_prop_0, 129, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_RETURN_CALL_METHOD(&_7$$4, "getshared", NULL, 0, &definition);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
-	zephir_read_property_cached(&_8, this_ptr, _zephir_prop_0, 128, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_8, this_ptr, _zephir_prop_0, 129, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_RETURN_CALL_METHOD(&_8, "get", NULL, 0, &definition);
 	zephir_check_call_status();
 	RETURN_MM();
@@ -344,7 +344,7 @@ PHP_METHOD(Phalcon_Support_AbstractLocator, register)
 	ZVAL_STR_COPY(&definition_zv, definition);
 	ZEPHIR_CALL_METHOD(&interfaceClass, this_ptr, "getinterfaceclass", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_0, "is_subclass_of", NULL, 148, &definition_zv, &interfaceClass);
+	ZEPHIR_CALL_FUNCTION(&_0, "is_subclass_of", NULL, 149, &definition_zv, &interfaceClass);
 	zephir_check_call_status();
 	if (!zephir_is_true(&_0)) {
 		ZEPHIR_CALL_METHOD(&exceptionClass, this_ptr, "getexceptionclass", NULL, 0);
@@ -429,7 +429,7 @@ PHP_METHOD(Phalcon_Support_AbstractLocator, getService)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 129, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 130, PH_NOISY_CC | PH_READONLY);
 	if (!(zephir_array_isset_value(&_0, &name_zv))) {
 		ZEPHIR_CALL_METHOD(&exceptionClass, this_ptr, "getexceptionclass", NULL, 0);
 		zephir_check_call_status();
@@ -453,7 +453,7 @@ PHP_METHOD(Phalcon_Support_AbstractLocator, getService)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	zephir_read_property_cached(&_5, this_ptr, _zephir_prop_0, 129, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_5, this_ptr, _zephir_prop_0, 130, PH_NOISY_CC | PH_READONLY);
 	zephir_array_fetch(&_6, &_5, &name_zv, PH_NOISY | PH_READONLY, "phalcon/Support/AbstractLocator.zep", 185);
 	RETURN_CTOR(&_6);
 }

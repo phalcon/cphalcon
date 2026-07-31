@@ -225,7 +225,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData)
 	}
 	ZEPHIR_CALL_METHOD(&columns, &readConnection, "describecolumns", NULL, 0, &table, &schema);
 	zephir_check_call_status();
-	if (UNEXPECTED(!(zephir_fast_count_int(&columns)))) {
+	if (UNEXPECTED(ZEPHIR_IS_EMPTY(&columns))) {
 		if (zephir_is_true(&schema)) {
 			ZEPHIR_INIT_VAR(&_4$$7);
 			ZEPHIR_CONCAT_VSV(&_4$$7, &schema, "'.'", &table);

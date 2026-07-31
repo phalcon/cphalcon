@@ -13,6 +13,10 @@ namespace Phalcon\Translate;
 use Phalcon\Config\ConfigInterface;
 use Phalcon\Factory\AbstractFactory;
 use Phalcon\Translate\Adapter\AdapterInterface;
+use Phalcon\Translate\Adapter\Csv;
+use Phalcon\Translate\Adapter\Gettext;
+use Phalcon\Translate\Adapter\NativeArray;
+use Phalcon\Translate\Exceptions\TranslatorNotRegistered;
 
 /**
  * @property InterpolatorFactory $interpolator
@@ -100,7 +104,7 @@ class TranslateFactory extends AbstractFactory
      */
     protected function getExceptionClass() -> string
     {
-        return "Phalcon\\Translate\\Exceptions\\TranslatorNotRegistered";
+        return TranslatorNotRegistered::class;
     }
 
     /**
@@ -111,9 +115,9 @@ class TranslateFactory extends AbstractFactory
     protected function getServices() -> array
     {
         return [
-            "csv"     : "Phalcon\\Translate\\Adapter\\Csv",
-            "gettext" : "Phalcon\\Translate\\Adapter\\Gettext",
-            "array"   : "Phalcon\\Translate\\Adapter\\NativeArray"
+            "csv"     : Csv::class,
+            "gettext" : Gettext::class,
+            "array"   : NativeArray::class
         ];
     }
 }

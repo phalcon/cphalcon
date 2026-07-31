@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Session\Manager;
 
 use Phalcon\Session\Manager;
-use Phalcon\Storage\Exception;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use Phalcon\Tests\Support\Traits\SessionTrait;

@@ -110,7 +110,7 @@ class Update extends AbstractConditions
      */
     public function hasColumns() -> bool
     {
-        return count(this->store["COLUMNS"]) > 0;
+        return !empty this->store["COLUMNS"];
     }
 
     /**

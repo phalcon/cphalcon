@@ -119,7 +119,7 @@ abstract class AbstractArrayAdapter extends AbstractAdapter
 
             DoesNotImplement::assert(
                 instance,
-                "Phalcon\\Contracts\\Auth\\AuthUser",
+                AuthUserContract::class,
                 "User model",
                 "AuthUser"
             );

@@ -17,8 +17,6 @@ use Phalcon\Autoload\Loader;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Autoload\Fake\LoaderTrait;
 
-use function hash;
-
 final class GetAddSetFilesTest extends AbstractUnitTestCase
 {
     use LoaderTrait;

@@ -143,6 +143,22 @@ create index co_customers_cst_name_first_index
     on `co_customers` (`cst_name_first`);
             
 
+drop table if exists `co_default_escapes`;
+
+create table co_default_escapes
+(
+    `field_id`         int(10) auto_increment primary key,
+    `field_quote`      varchar(20) not null default 'it''s',
+    `field_apostrophe` varchar(20) not null default '''',
+    `field_backslash`  varchar(20) not null default 'a\\b',
+    `field_newline`    varchar(20) not null default 'a\nb',
+    `field_tab`        varchar(20) not null default 'a\tb',
+    `field_null_word`  varchar(20) not null default 'NULL',
+    `field_empty`      varchar(20) not null default '',
+    `field_bit`        bit(1)      not null default b'1',
+    `field_nullable`   varchar(20)     null default null
+);
+
 
 drop table if exists `co_dialect`;
             
@@ -235,6 +251,19 @@ create table fractal_dates
     `ftime`        time(2)      null,
     `fdatetime`    datetime(2)  null,
     `ftimestamp`   timestamp(2) null
+);
+            
+
+
+drop table if exists `co_generated`;
+            
+
+
+create table co_generated
+(
+    `gen_id`       int(10) auto_increment primary key,
+    `gen_url`      varchar(255) not null,
+    `gen_url_hash` binary(16) generated always as (unhex(md5(gen_url))) stored
 );
             
 

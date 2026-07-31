@@ -34,6 +34,7 @@ use Phalcon\Container\Exceptions\FrozenDefinition;
 use Phalcon\Container\Exceptions\InvalidExtender;
 use Phalcon\Container\Exceptions\NoClassSet;
 use Phalcon\Container\Exceptions\NoFactorySet;
+use Phalcon\Contracts\Container\Resolver\Resolvable;
 use ReflectionClass;
 use ReflectionException;
 
@@ -557,7 +558,14 @@ class ServiceDefinition
         let resolved = [];
 
         for key, argument in args {
-            if (is_object(argument) && method_exists(argument, "resolve")) {
+            /**
+             * Only a genuine lazy value (Resolvable) is resolved here. A plain
+             * object that merely exposes a resolve() method - the container
+             * itself, whose resolve() is private - must be passed through
+             * untouched, otherwise that private resolve() would be called from
+             * this scope.
+             */
+            if (typeof argument == "object" && argument instanceof Resolvable) {
                 let resolved[key] = argument->resolve(container);
             } else {
                 let resolved[key] = argument;
