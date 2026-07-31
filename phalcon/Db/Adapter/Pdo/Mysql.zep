@@ -53,8 +53,11 @@ class Mysql extends PdoAdapter
     /**
      * Adds a foreign key to a table
      */
-    public function addForeignKey( string tableName,  string schemaName, <ReferenceInterface> reference) -> bool
-    {
+    public function addForeignKey(
+        string tableName, 
+        string schemaName, 
+        <ReferenceInterface> reference
+    ) -> bool {
         var foreignKeyCheck;
 
         let foreignKeyCheck = this->{"prepare"}(
@@ -85,14 +88,13 @@ class Mysql extends PdoAdapter
      */
     public function describeColumns(string table, string schema = null) -> <ColumnInterface[]>
     {
-        var columns, columnType, fields, field, oldColumn, sizePattern, matches,
-            matchOne, matchTwo, columnName, extraValue, generationExpression;
-        array definition;
-
-        let oldColumn = null,
-            sizePattern = "#\\(([0-9]+)(?:,\\s*([0-9]+))*\\)#";
-
-        let columns = [];
+        var    columnName, columnType, defaultValue, extraValue, field, fields, 
+               generationExpression, matchOne, matchTwo, matches, 
+               oldColumn   = null; 
+        bool   isMariaDb   = false;
+        string sizePattern = "#\\(([0-9]+)(?:,\\s*([0-9]+))*\\)#";
+        array  columns     = [],
+               definition  = [];
 
         let fields = this->fetchAll(
             this->dialect->describeColumns(table, schema),
@@ -100,11 +102,31 @@ class Mysql extends PdoAdapter
         );
 
         /**
+         * MariaDB stores `COLUMN_DEFAULT` as the DDL source rather than the
+         * resolved literal, so its string defaults arrive quoted. MySQL
+         * resolves them, and a MySQL default may legitimately contain quotes,
+         * so the unquoting below must only run for MariaDB. Both engines report
+         * `mysql` as the PDO driver name; only the version tells them apart.
+         */
+        let isMariaDb = memstr(
+            (string) this->pdo->getAttribute(\PDO::ATTR_SERVER_VERSION),
+            "MariaDB"
+        );
+
+        /**
          * Get the SQL to describe a table
          * We're using FETCH_NUM to fetch the columns.
          * Field Indexes (from `Mysql::describeColumns()`):
-         *   0:Field, 1:Type, 2:Collation, 3:Null, 4:Key, 5:Default, 6:Extra,
-         *   7:Privileges, 8:Comment, 9:GenerationExpression
+         *   0: Field 
+         *   1: Type 
+         *   2: Collation 
+         *   3: Null 
+         *   4: Key 
+         *   5: Default 
+         *   6: Extra
+         *   7: Privileges 
+         *   8: Comment 
+         *   9: GenerationExpression
          */
         for field in fields {
             /**
@@ -525,10 +547,16 @@ class Mysql extends PdoAdapter
                  * issue #17176.
                  */
                 if field[5] !== null && field[5] !== "NULL" {
+                    let defaultValue = field[5];
+
+                    if isMariaDb {
+                        let defaultValue = this->unquoteDefault(defaultValue);
+                    }
+
                     if memstr(extraValue, "on update") {
-                        let definition["default"] = field[5] . " " . extraValue;
+                        let definition["default"] = defaultValue . " " . extraValue;
                     } else {
-                        let definition["default"] = field[5];
+                        let definition["default"] = defaultValue;
                     }
                 } else {
                     if memstr(extraValue, "on update") {
@@ -566,11 +594,10 @@ class Mysql extends PdoAdapter
      */
     public function describeIndexes( string table,  string schema = null) -> <IndexInterface[]>
     {
-        var indexes, index, keyName, indexType, indexObjects, columns, name,
-            directions, collation;
+        var columns, index, keyName, indexType, name, directions, collation;
         bool invisible, anyDirection;
-
-        let indexes = [];
+        array indexes      = [],
+              indexObjects = [];
 
         for index in this->fetchAll(this->dialect->describeIndexes(table, schema), Enum::FETCH_ASSOC) {
             let keyName = index["Key_name"];
@@ -634,8 +661,6 @@ class Mysql extends PdoAdapter
             }
         }
 
-        let indexObjects = [];
-
         for name, index in indexes {
             let invisible = false;
             if isset index["invisible"] {
@@ -685,11 +710,11 @@ class Mysql extends PdoAdapter
      */
     public function describeReferences( string table,  string schema = null) -> <ReferenceInterface[]>
     {
-        var references, reference, arrayReference, constraintName,
-            referenceObjects, name, referencedSchema, referencedTable, columns,
-            referencedColumns, referenceUpdate, referenceDelete;
-
-        let references = [];
+        var arrayReference, columns, constraintName, name, reference, 
+            referenceDelete, referenceUpdate, 
+            referencedColumns, referencedSchema, referencedTable;
+        array references       = [],
+              referenceObjects = [];
 
         for reference in this->fetchAll(this->dialect->describeReferences(table, schema), Enum::FETCH_NUM) {
 
@@ -724,7 +749,6 @@ class Mysql extends PdoAdapter
             ];
         }
 
-        let referenceObjects = [];
         for name, arrayReference in references {
             let referenceObjects[name] = new Reference(
                 name,
@@ -774,5 +798,25 @@ class Mysql extends PdoAdapter
 
         return memstr(message, "server has gone away") ||
             memstr(message, "Lost connection");
+    }
+
+    /**
+     * Resolves a MariaDB `COLUMN_DEFAULT` literal to the value it represents.
+     *
+     * MariaDB quotes literal defaults to tell them apart from the expression
+     * defaults it has supported since 10.2. Expression defaults arrive
+     * unquoted, so an unmatched pair leaves the value untouched.
+     */
+    private function unquoteDefault(string! value) -> string
+    {
+        if strlen(value) < 2 ||
+           substr(value, 0, 1) !== "'" ||
+           substr(value, -1) !== "'" {
+            return value;
+        }
+
+        return stripcslashes(
+            str_replace("''", "'", substr(value, 1, -1))
+        );
     }
 }

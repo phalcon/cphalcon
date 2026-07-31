@@ -36,7 +36,7 @@ final class AddForeignKeyTest extends AbstractDatabaseTestCase
         $db->execute('DROP TABLE IF EXISTS ' . self::CHILD);
         $db->execute('DROP TABLE IF EXISTS ' . self::PARENT);
 
-        $engineSuffix = self::getDatabaseDriver() === 'mysql' ? ' ENGINE=InnoDB' : '';
+        $engineSuffix = self::getDatabaseDialect() === 'mysql' ? ' ENGINE=InnoDB' : '';
         $db->execute(
             'CREATE TABLE ' . self::PARENT
             . ' (id integer primary key, name varchar(50))' . $engineSuffix

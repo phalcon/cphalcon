@@ -44,7 +44,7 @@ final class ForUpdateTest extends AbstractDatabaseTestCase
             'mysql'  => 'SELECT 1 FOR UPDATE',
             'pgsql'  => 'SELECT 1 FOR UPDATE',
             'sqlite' => 'SELECT 1',
-        ][self::getDatabaseDriver()];
+        ][self::getDatabaseDialect()];
 
         $this->assertSame($expected, $db->forUpdate('SELECT 1'));
     }

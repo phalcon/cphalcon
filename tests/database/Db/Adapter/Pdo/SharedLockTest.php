@@ -44,7 +44,7 @@ final class SharedLockTest extends AbstractDatabaseTestCase
             'mysql'  => 'SELECT 1 LOCK IN SHARE MODE',
             'pgsql'  => 'SELECT 1 FOR SHARE',
             'sqlite' => 'SELECT 1',
-        ][self::getDatabaseDriver()];
+        ][self::getDatabaseDialect()];
 
         $this->assertSame($expected, $db->sharedLock('SELECT 1'));
     }

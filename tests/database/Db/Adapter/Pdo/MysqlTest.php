@@ -15,7 +15,6 @@ namespace Phalcon\Tests\Database\Db\Adapter\Pdo;
 
 use PDOException;
 use Phalcon\Db\Adapter\Pdo\Mysql;
-use Phalcon\Talon\Talon;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
@@ -39,7 +38,7 @@ final class MysqlTest extends AbstractDatabaseTestCase
     {
         try {
             $this->connection = new Mysql(
-                Talon::settings()->getDatabaseOptions('mysql')
+                self::getDatabaseOptions()
             );
         } catch (PDOException $e) {
             $this->markTestSkipped(

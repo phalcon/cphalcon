@@ -31,7 +31,7 @@ final class NewInstanceTest extends AbstractDatabaseTestCase
     public function testDbAdapterPdoFactoryNewInstanceMysql(): void
     {
         $factory = new PdoFactory();
-        $adapter = $factory->newInstance('mysql', Talon::settings()->getDatabaseOptions('mysql'));
+        $adapter = $factory->newInstance(self::getDatabaseDialect(), self::getDatabaseOptions());
 
         $this->assertInstanceOf(Mysql::class, $adapter);
     }

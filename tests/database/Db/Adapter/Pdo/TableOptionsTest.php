@@ -47,10 +47,10 @@ final class TableOptionsTest extends AbstractDatabaseTestCase
         $options = $db->tableOptions('co_invoices');
         $this->assertIsArray($options);
 
-        if (self::getDatabaseDriver() === 'mysql') {
+        if (self::getDatabaseDialect() === 'mysql') {
             $this->assertNotEmpty($options);
             $this->assertArrayHasKey('engine', $options);
-        } elseif (self::getDatabaseDriver() === 'pgsql') {
+        } elseif (self::getDatabaseDialect() === 'pgsql') {
             $this->assertSame(['table_comment' => null], $options);
         } else {
             $this->assertSame([], $options);

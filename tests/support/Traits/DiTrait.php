@@ -95,6 +95,10 @@ trait DiTrait
     protected function newDbConnection(string $driver): AdapterInterface
     {
         switch ($driver) {
+            case 'mariadb':
+                $options = Talon::settings()->getDatabaseOptions('mariadb');
+                $driver  = 'mysql';
+                break;
             case 'mysql':
                 $options = Talon::settings()->getDatabaseOptions('mysql');
                 break;
@@ -171,10 +175,9 @@ trait DiTrait
      */
     protected function newDbService(): AdapterInterface
     {
-        $connection = $this->getPdoConnection();
-        $driver     = $connection->getAttribute(PDO::ATTR_DRIVER_NAME);
-
-        return $this->newDbConnection($driver);
+        // Not ATTR_DRIVER_NAME - MariaDB reports `mysql` there, which would
+        // point this at the MySQL server.
+        return $this->newDbConnection(self::getDatabaseDriver());
     }
 
     /**

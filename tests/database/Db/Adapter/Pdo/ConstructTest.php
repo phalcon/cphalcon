@@ -44,10 +44,10 @@ final class ConstructTest extends AbstractDatabaseTestCase
     #[Group('sqlite')]
     public function testDbAdapterPdoConstruct(): void
     {
-        $driver = self::getDatabaseDriver();
+        $driver = self::getDatabaseDialect();
 
         $adapter = match ($driver) {
-            'mysql'  => new Mysql(Talon::settings()->getDatabaseOptions('mysql')),
+            'mysql'  => new Mysql(self::getDatabaseOptions()),
             'pgsql'  => new Postgresql(Talon::settings()->getDatabaseOptions('pgsql')),
             'sqlite' => new Sqlite(Talon::settings()->getDatabaseOptions('sqlite')),
         };

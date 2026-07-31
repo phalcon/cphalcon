@@ -96,7 +96,7 @@ final class GetDataTypesTest extends AbstractDatabaseTestCase
 
     private function getTypes(): array
     {
-        $driver = self::getDriver();
+        $driver = self::getDatabaseDialect();
         switch ($driver) {
             case 'mysql':
                 return [

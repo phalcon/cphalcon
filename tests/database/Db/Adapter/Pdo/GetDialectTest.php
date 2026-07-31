@@ -51,7 +51,7 @@ final class GetDialectTest extends AbstractDatabaseTestCase
             'mysql'  => Mysql::class,
             'pgsql'  => Postgresql::class,
             'sqlite' => Sqlite::class,
-        ][self::getDatabaseDriver()];
+        ][self::getDatabaseDialect()];
 
         $this->assertInstanceOf($expected, $dialect);
     }

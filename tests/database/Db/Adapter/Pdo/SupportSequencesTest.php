@@ -44,7 +44,7 @@ final class SupportSequencesTest extends AbstractDatabaseTestCase
             'mysql'  => false,
             'pgsql'  => true,
             'sqlite' => false,
-        ][self::getDatabaseDriver()];
+        ][self::getDatabaseDialect()];
 
         $this->assertSame($expected, $db->supportSequences());
     }

@@ -9,6 +9,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeIndexes);
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeReferences);
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, getDsnDefaults);
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, isConnectionError);
+PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, unquoteDefault);
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_pdo_mysql_addforeignkey, 0, 3, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, tableName, IS_STRING, 0)
@@ -38,6 +39,10 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_pdo_mysql_isc
 	ZEND_ARG_OBJ_INFO(0, exception, Throwable, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_pdo_mysql_unquotedefault, 0, 1, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, value, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEPHIR_INIT_FUNCS(phalcon_db_adapter_pdo_mysql_method_entry) {
 	PHP_ME(Phalcon_Db_Adapter_Pdo_Mysql, addForeignKey, arginfo_phalcon_db_adapter_pdo_mysql_addforeignkey, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns, arginfo_phalcon_db_adapter_pdo_mysql_describecolumns, ZEND_ACC_PUBLIC)
@@ -45,5 +50,6 @@ ZEPHIR_INIT_FUNCS(phalcon_db_adapter_pdo_mysql_method_entry) {
 	PHP_ME(Phalcon_Db_Adapter_Pdo_Mysql, describeReferences, arginfo_phalcon_db_adapter_pdo_mysql_describereferences, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_Pdo_Mysql, getDsnDefaults, arginfo_phalcon_db_adapter_pdo_mysql_getdsndefaults, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Db_Adapter_Pdo_Mysql, isConnectionError, arginfo_phalcon_db_adapter_pdo_mysql_isconnectionerror, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Db_Adapter_Pdo_Mysql, unquoteDefault, arginfo_phalcon_db_adapter_pdo_mysql_unquotedefault, ZEND_ACC_PRIVATE)
 	PHP_FE_END
 };
