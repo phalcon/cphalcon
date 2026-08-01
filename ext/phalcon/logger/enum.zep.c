@@ -40,6 +40,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Enum)
 	zephir_declare_class_constant_long(phalcon_logger_enum_ce, SL("CRITICAL"), 1);
 
 	/**
+	 * Default threshold and fallback sink. It sits between DEBUG (7) and
+	 * TRACE (9) in the ordering, so the default log level excludes TRACE.
+	 * It is also the fallback for unknown message levels and invalid
+	 * setLogLevel() values.
+	 *
 	 * @var int
 	 */
 	zephir_declare_class_constant_long(phalcon_logger_enum_ce, SL("CUSTOM"), 8);

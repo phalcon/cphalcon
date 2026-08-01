@@ -80,7 +80,7 @@
  * @method string snakeCase(string $text, string $delimiters = null)
  * @method array  split(array $collection)
  * @method bool   startsWith(string $haystack, string $needle, bool $ignoreCase = true)
- * @method string suffix($text, string $suffix)
+ * @method string suffix(string $text, string $suffix)
  * @method object toObject(array $collection)
  * @method bool   validateAll(array $collection, callable $method)
  * @method bool   validateAny(array $collection, callable $method)
@@ -98,7 +98,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_HelperFactory)
 }
 
 /**
- * FactoryTrait constructor.
+ * Constructor.
  *
  * @param array $services
  */

@@ -213,7 +213,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, notFound)
 /**
  * Check whether a translation key exists
  *
- * @param mixed $translateKey
+ * @param mixed $offset
  *
  * @return bool
  */
@@ -221,17 +221,17 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, offsetExists)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *translateKey, translateKey_sub;
+	zval *offset, offset_sub;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&translateKey_sub);
+	ZVAL_UNDEF(&offset_sub);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_ZVAL(translateKey)
+		Z_PARAM_ZVAL(offset)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_fetch_params(1, 1, 0, &translateKey);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "has", NULL, 0, translateKey);
+	zephir_fetch_params(1, 1, 0, &offset);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "has", NULL, 0, offset);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -239,7 +239,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, offsetExists)
 /**
  * Returns the translation related to the given key
  *
- * @param TKey $translateKey
+ * @param TKey $offset
  *
  * @return TValue
  */
@@ -247,18 +247,18 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, offsetGet)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval translateKey_sub;
-	zval *translateKey;
+	zval offset_sub;
+	zval *offset;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&translateKey_sub);
+	ZVAL_UNDEF(&offset_sub);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_ZVAL(translateKey)
+		Z_PARAM_ZVAL(offset)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_fetch_params(1, 1, 0, &translateKey);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "query", NULL, 0, translateKey);
+	zephir_fetch_params(1, 1, 0, &offset);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "query", NULL, 0, offset);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -375,6 +375,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, t)
  * @phpstan-param array<string, string> $placeholders
  *
  * @return string
+ * @throws Exception
  */
 PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, replacePlaceholders)
 {

@@ -366,6 +366,8 @@ PHP_METHOD(Phalcon_Html_Breadcrumbs, render)
 }
 
 /**
+ * Set the separator
+ *
  * @param string $separator
  *
  * @return static

@@ -29,6 +29,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Cache_Adapter_RedisCluster)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Cache\\Adapter, RedisCluster, phalcon, cache_adapter_rediscluster, phalcon_storage_adapter_rediscluster_ce, NULL, 0);
 
+	/**
+	 * EventType prefix.
+	 */
 	zend_declare_property_string(phalcon_cache_adapter_rediscluster_ce, SL("eventType"), "cache", ZEND_ACC_PROTECTED);
 	zend_class_implements(phalcon_cache_adapter_rediscluster_ce, 1, phalcon_cache_adapter_adapterinterface_ce);
 	return SUCCESS;

@@ -205,6 +205,8 @@ PHP_METHOD(Phalcon_Cache_CacheFactory, newInstance)
 }
 
 /**
+ * Returns the exception class for the factory
+ *
  * @return string
  */
 PHP_METHOD(Phalcon_Cache_CacheFactory, getExceptionClass)

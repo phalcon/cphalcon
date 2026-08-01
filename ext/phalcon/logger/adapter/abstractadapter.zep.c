@@ -338,6 +338,8 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, commit)
 }
 
 /**
+ * Return the formatter used
+ *
  * @return FormatterInterface
  */
 PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, getFormatter)
@@ -526,7 +528,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, checkTransaction)
 		object_init_ex(&_1$$3, phalcon_logger_exceptions_transactionnotactive_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 139);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Logger/Adapter/AbstractAdapter.zep", 271);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Logger/Adapter/AbstractAdapter.zep", 273);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

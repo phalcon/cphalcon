@@ -396,7 +396,7 @@ int zephir_isset_property_zval(zval *object, const zval *property)
  * PHP isset() semantics for object properties: the property exists AND its
  * value is not IS_NULL. Delegates to the object's has_property handler with
  * ZEND_PROPERTY_ISSET (mode 0), which is the same path the engine takes for
- * the ZEND_ISSET_ISEMPTY_PROP_OBJ opcode — this gives correct behavior for
+ * the ZEND_ISSET_ISEMPTY_PROP_OBJ opcode — this gives correct behaviour for
  * std objects, __isset magic, typed-uninitialized properties, etc.
  * See https://github.com/zephir-lang/zephir/issues/2385.
  */

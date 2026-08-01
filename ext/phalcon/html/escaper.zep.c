@@ -88,6 +88,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Escaper)
 	return SUCCESS;
 }
 
+/**
+ * Constructor. Accepts the legacy scalar params for backward compatibility
+ * and fans them out to every sub-escaper so existing code keeps working.
+ */
 PHP_METHOD(Phalcon_Html_Escaper, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -297,6 +301,8 @@ PHP_METHOD(Phalcon_Html_Escaper, css)
 }
 
 /**
+ * Detects the character encoding of a string. Delegates to `HtmlEscaper`.
+ *
  * @param string $input
  *
  * @return string|null
@@ -501,6 +507,8 @@ PHP_METHOD(Phalcon_Html_Escaper, getCssEscaper)
 }
 
 /**
+ * Returns the encoding from the HtmlEscaper.
+ *
  * @return string
  */
 PHP_METHOD(Phalcon_Html_Escaper, getEncoding)
@@ -525,6 +533,8 @@ PHP_METHOD(Phalcon_Html_Escaper, getEncoding)
 }
 
 /**
+ * Returns the flags from the HtmlEscaper.
+ *
  * @return int
  */
 PHP_METHOD(Phalcon_Html_Escaper, getFlags)
@@ -652,6 +662,8 @@ PHP_METHOD(Phalcon_Html_Escaper, js)
 }
 
 /**
+ * Normalizes a string's encoding to UTF-32. Delegates to `HtmlEscaper`.
+ *
  * @param string $input
  *
  * @return string
@@ -983,6 +995,12 @@ PHP_METHOD(Phalcon_Html_Escaper, setHtmlEscaper)
 }
 
 /**
+ * Sets the HTML quoting type for htmlspecialchars.
+ *
+ * ```php
+ * $escaper->setHtmlQuoteType(ENT_XHTML);
+ * ```
+ *
  * @param int $flags
  *
  * @deprecated

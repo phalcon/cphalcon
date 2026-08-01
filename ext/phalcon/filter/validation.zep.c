@@ -1218,6 +1218,9 @@ PHP_METHOD(Phalcon_Filter_Validation, setLabels)
 	ZEPHIR_MM_RESTORE();
 }
 
+/**
+ * Sets the validator array
+ */
 PHP_METHOD(Phalcon_Filter_Validation, setValidators)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -1396,7 +1399,7 @@ PHP_METHOD(Phalcon_Filter_Validation, validate)
 		object_init_ex(&_1$$3, phalcon_filter_validation_exceptions_novalidators_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Filter/Validation.zep", 626);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Filter/Validation.zep", 629);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -1418,7 +1421,7 @@ PHP_METHOD(Phalcon_Filter_Validation, validate)
 			object_init_ex(&_5$$5, phalcon_filter_validation_exceptions_invalidvalidationdata_ce);
 			ZEPHIR_CALL_METHOD(NULL, &_5$$5, "__construct", NULL, 0);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_5$$5, "phalcon/Filter/Validation.zep", 641);
+			zephir_throw_exception_debug(&_5$$5, "phalcon/Filter/Validation.zep", 644);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -1444,7 +1447,7 @@ PHP_METHOD(Phalcon_Filter_Validation, validate)
 			RETURN_CCTOR(&status);
 		}
 	}
-	zephir_is_iterable(&validatorData, 0, "phalcon/Filter/Validation.zep", 691);
+	zephir_is_iterable(&validatorData, 0, "phalcon/Filter/Validation.zep", 694);
 	if (Z_TYPE_P(&validatorData) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&validatorData), _9, _10, _8)
 		{
@@ -1456,7 +1459,7 @@ PHP_METHOD(Phalcon_Filter_Validation, validate)
 			}
 			ZEPHIR_INIT_NVAR(&validators);
 			ZVAL_COPY(&validators, _8);
-			zephir_is_iterable(&validators, 0, "phalcon/Filter/Validation.zep", 689);
+			zephir_is_iterable(&validators, 0, "phalcon/Filter/Validation.zep", 692);
 			if (Z_TYPE_P(&validators) == IS_ARRAY) {
 				ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&validators), _11$$10)
 				{
@@ -1467,7 +1470,7 @@ PHP_METHOD(Phalcon_Filter_Validation, validate)
 						object_init_ex(&_12$$12, phalcon_filter_validation_exceptions_invalidvalidator_ce);
 						ZEPHIR_CALL_METHOD(NULL, &_12$$12, "__construct", &_13, 0);
 						zephir_check_call_status();
-						zephir_throw_exception_debug(&_12$$12, "phalcon/Filter/Validation.zep", 669);
+						zephir_throw_exception_debug(&_12$$12, "phalcon/Filter/Validation.zep", 672);
 						ZEPHIR_MM_RESTORE();
 						return;
 					}
@@ -1511,7 +1514,7 @@ PHP_METHOD(Phalcon_Filter_Validation, validate)
 							object_init_ex(&_21$$17, phalcon_filter_validation_exceptions_invalidvalidator_ce);
 							ZEPHIR_CALL_METHOD(NULL, &_21$$17, "__construct", &_13, 0);
 							zephir_check_call_status();
-							zephir_throw_exception_debug(&_21$$17, "phalcon/Filter/Validation.zep", 669);
+							zephir_throw_exception_debug(&_21$$17, "phalcon/Filter/Validation.zep", 672);
 							ZEPHIR_MM_RESTORE();
 							return;
 						}
@@ -1555,7 +1558,7 @@ PHP_METHOD(Phalcon_Filter_Validation, validate)
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(&validators, &validatorData, "current", NULL, 0);
 			zephir_check_call_status();
-				zephir_is_iterable(&validators, 0, "phalcon/Filter/Validation.zep", 689);
+				zephir_is_iterable(&validators, 0, "phalcon/Filter/Validation.zep", 692);
 				if (Z_TYPE_P(&validators) == IS_ARRAY) {
 					ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&validators), _28$$21)
 					{
@@ -1566,7 +1569,7 @@ PHP_METHOD(Phalcon_Filter_Validation, validate)
 							object_init_ex(&_29$$23, phalcon_filter_validation_exceptions_invalidvalidator_ce);
 							ZEPHIR_CALL_METHOD(NULL, &_29$$23, "__construct", &_13, 0);
 							zephir_check_call_status();
-							zephir_throw_exception_debug(&_29$$23, "phalcon/Filter/Validation.zep", 669);
+							zephir_throw_exception_debug(&_29$$23, "phalcon/Filter/Validation.zep", 672);
 							ZEPHIR_MM_RESTORE();
 							return;
 						}
@@ -1610,7 +1613,7 @@ PHP_METHOD(Phalcon_Filter_Validation, validate)
 								object_init_ex(&_36$$28, phalcon_filter_validation_exceptions_invalidvalidator_ce);
 								ZEPHIR_CALL_METHOD(NULL, &_36$$28, "__construct", &_13, 0);
 								zephir_check_call_status();
-								zephir_throw_exception_debug(&_36$$28, "phalcon/Filter/Validation.zep", 669);
+								zephir_throw_exception_debug(&_36$$28, "phalcon/Filter/Validation.zep", 672);
 								ZEPHIR_MM_RESTORE();
 								return;
 							}
@@ -1637,7 +1640,7 @@ PHP_METHOD(Phalcon_Filter_Validation, validate)
 	}
 	ZEPHIR_INIT_NVAR(&validators);
 	ZEPHIR_INIT_NVAR(&field);
-	zephir_is_iterable(&combinedFieldsValidators, 0, "phalcon/Filter/Validation.zep", 724);
+	zephir_is_iterable(&combinedFieldsValidators, 0, "phalcon/Filter/Validation.zep", 727);
 	if (Z_TYPE_P(&combinedFieldsValidators) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&combinedFieldsValidators), _41)
 		{
@@ -1648,20 +1651,20 @@ PHP_METHOD(Phalcon_Filter_Validation, validate)
 				object_init_ex(&_42$$33, phalcon_filter_validation_exceptions_invalidvalidatorscope_ce);
 				ZEPHIR_CALL_METHOD(NULL, &_42$$33, "__construct", &_43, 0);
 				zephir_check_call_status();
-				zephir_throw_exception_debug(&_42$$33, "phalcon/Filter/Validation.zep", 693);
+				zephir_throw_exception_debug(&_42$$33, "phalcon/Filter/Validation.zep", 696);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
 			ZEPHIR_OBS_NVAR(&field);
-			zephir_array_fetch_long(&field, &scope, 0, PH_NOISY, "phalcon/Filter/Validation.zep", 696);
+			zephir_array_fetch_long(&field, &scope, 0, PH_NOISY, "phalcon/Filter/Validation.zep", 699);
 			ZEPHIR_OBS_NVAR(&validator);
-			zephir_array_fetch_long(&validator, &scope, 1, PH_NOISY, "phalcon/Filter/Validation.zep", 697);
+			zephir_array_fetch_long(&validator, &scope, 1, PH_NOISY, "phalcon/Filter/Validation.zep", 700);
 			if (UNEXPECTED(Z_TYPE_P(&validator) != IS_OBJECT)) {
 				ZEPHIR_INIT_NVAR(&_44$$34);
 				object_init_ex(&_44$$34, phalcon_filter_validation_exceptions_invalidvalidator_ce);
 				ZEPHIR_CALL_METHOD(NULL, &_44$$34, "__construct", &_13, 0);
 				zephir_check_call_status();
-				zephir_throw_exception_debug(&_44$$34, "phalcon/Filter/Validation.zep", 700);
+				zephir_throw_exception_debug(&_44$$34, "phalcon/Filter/Validation.zep", 703);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
@@ -1705,20 +1708,20 @@ PHP_METHOD(Phalcon_Filter_Validation, validate)
 					object_init_ex(&_51$$39, phalcon_filter_validation_exceptions_invalidvalidatorscope_ce);
 					ZEPHIR_CALL_METHOD(NULL, &_51$$39, "__construct", &_43, 0);
 					zephir_check_call_status();
-					zephir_throw_exception_debug(&_51$$39, "phalcon/Filter/Validation.zep", 693);
+					zephir_throw_exception_debug(&_51$$39, "phalcon/Filter/Validation.zep", 696);
 					ZEPHIR_MM_RESTORE();
 					return;
 				}
 				ZEPHIR_OBS_NVAR(&field);
-				zephir_array_fetch_long(&field, &scope, 0, PH_NOISY, "phalcon/Filter/Validation.zep", 696);
+				zephir_array_fetch_long(&field, &scope, 0, PH_NOISY, "phalcon/Filter/Validation.zep", 699);
 				ZEPHIR_OBS_NVAR(&validator);
-				zephir_array_fetch_long(&validator, &scope, 1, PH_NOISY, "phalcon/Filter/Validation.zep", 697);
+				zephir_array_fetch_long(&validator, &scope, 1, PH_NOISY, "phalcon/Filter/Validation.zep", 700);
 				if (UNEXPECTED(Z_TYPE_P(&validator) != IS_OBJECT)) {
 					ZEPHIR_INIT_NVAR(&_52$$40);
 					object_init_ex(&_52$$40, phalcon_filter_validation_exceptions_invalidvalidator_ce);
 					ZEPHIR_CALL_METHOD(NULL, &_52$$40, "__construct", &_13, 0);
 					zephir_check_call_status();
-					zephir_throw_exception_debug(&_52$$40, "phalcon/Filter/Validation.zep", 700);
+					zephir_throw_exception_debug(&_52$$40, "phalcon/Filter/Validation.zep", 703);
 					ZEPHIR_MM_RESTORE();
 					return;
 				}
@@ -1817,7 +1820,7 @@ PHP_METHOD(Phalcon_Filter_Validation, preChecking)
 	ZEPHIR_INIT_VAR(&results);
 	array_init(&results);
 	if (Z_TYPE_P(field) == IS_ARRAY) {
-		zephir_is_iterable(field, 0, "phalcon/Filter/Validation.zep", 764);
+		zephir_is_iterable(field, 0, "phalcon/Filter/Validation.zep", 767);
 		if (Z_TYPE_P(field) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(field), _0$$3)
 			{
@@ -1825,7 +1828,7 @@ PHP_METHOD(Phalcon_Filter_Validation, preChecking)
 				ZVAL_COPY(&singleField, _0$$3);
 				ZEPHIR_CALL_METHOD(&_1$$4, this_ptr, "prechecking", &_2, 0, &singleField, validator);
 				zephir_check_call_status();
-				zephir_array_append(&results, &_1$$4, PH_SEPARATE, "phalcon/Filter/Validation.zep", 756);
+				zephir_array_append(&results, &_1$$4, PH_SEPARATE, "phalcon/Filter/Validation.zep", 759);
 				if (zephir_fast_in_array(&__$false, &results)) {
 					RETURN_MM_BOOL(0);
 				}
@@ -1851,7 +1854,7 @@ PHP_METHOD(Phalcon_Filter_Validation, preChecking)
 				zephir_check_call_status();
 					ZEPHIR_CALL_METHOD(&_5$$6, this_ptr, "prechecking", &_2, 0, &singleField, validator);
 					zephir_check_call_status();
-					zephir_array_append(&results, &_5$$6, PH_SEPARATE, "phalcon/Filter/Validation.zep", 756);
+					zephir_array_append(&results, &_5$$6, PH_SEPARATE, "phalcon/Filter/Validation.zep", 759);
 					if (zephir_fast_in_array(&__$false, &results)) {
 						RETURN_MM_BOOL(0);
 					}

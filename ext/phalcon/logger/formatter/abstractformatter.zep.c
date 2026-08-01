@@ -122,6 +122,8 @@ PHP_METHOD(Phalcon_Logger_Formatter_AbstractFormatter, getFormattedDate)
 }
 
 /**
+ * Returns the interpolated message, replacing context placeholders.
+ *
  * @param Item   $item
  * @param string $message
  *

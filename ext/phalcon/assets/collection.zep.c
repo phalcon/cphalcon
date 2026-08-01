@@ -495,6 +495,8 @@ PHP_METHOD(Phalcon_Assets_Collection, count)
 }
 
 /**
+ * Return the stored assets
+ *
  * @return array
  */
 PHP_METHOD(Phalcon_Assets_Collection, getAssets)
@@ -504,6 +506,8 @@ PHP_METHOD(Phalcon_Assets_Collection, getAssets)
 }
 
 /**
+ * Return the stored codes
+ *
  * @return array
  */
 PHP_METHOD(Phalcon_Assets_Collection, getCodes)
@@ -513,6 +517,8 @@ PHP_METHOD(Phalcon_Assets_Collection, getCodes)
 }
 
 /**
+ * Return the stored filters
+ *
  * @return array
  */
 PHP_METHOD(Phalcon_Assets_Collection, getFilters)
@@ -558,6 +564,8 @@ PHP_METHOD(Phalcon_Assets_Collection, getJoin)
 }
 
 /**
+ * Returns the prefix
+ *
  * @return string
  */
 PHP_METHOD(Phalcon_Assets_Collection, getPrefix)
@@ -612,6 +620,8 @@ PHP_METHOD(Phalcon_Assets_Collection, getRealTargetPath)
 }
 
 /**
+ * Returns whether the target is local or not
+ *
  * @return bool
  */
 PHP_METHOD(Phalcon_Assets_Collection, getTargetIsLocal)
@@ -621,6 +631,8 @@ PHP_METHOD(Phalcon_Assets_Collection, getTargetIsLocal)
 }
 
 /**
+ * Returns the version
+ *
  * @return string
  */
 PHP_METHOD(Phalcon_Assets_Collection, getVersion)

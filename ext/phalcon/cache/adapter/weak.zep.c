@@ -29,6 +29,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Cache_Adapter_Weak)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Cache\\Adapter, Weak, phalcon, cache_adapter_weak, phalcon_storage_adapter_weak_ce, NULL, 0);
 
+	/**
+	 * EventType prefix.
+	 */
 	zend_declare_property_string(phalcon_cache_adapter_weak_ce, SL("eventType"), "cache", ZEND_ACC_PROTECTED);
 	zend_class_implements(phalcon_cache_adapter_weak_ce, 1, phalcon_cache_adapter_adapterinterface_ce);
 	return SUCCESS;
