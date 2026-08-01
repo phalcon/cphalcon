@@ -22,7 +22,7 @@ use PHPUnit\Framework\Attributes\Group;
  * refresh() replays the statement, so everything derived from the previous run
  * has to go with it - including the cursor position.
  *
- * NOTE: the cursor reset is a behaviour change. refresh() used to leave the
+ * NOTE: the cursor reset is a behavior change. refresh() used to leave the
  * pointer wherever iteration had abandoned it, which meant a result-set was not
  * traversable again after delete() or update() had run it to the end. valid()
  * is now driven by the row the cursor sits on rather than by a stored count,

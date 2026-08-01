@@ -204,7 +204,7 @@ belongs to the uniqueId or the whole session data
  - `Phalcon\Forms\Form::label` does not share attributes with the ones that belong to the element
  - Added parameter 'params' to set default conditions when retrieving related records
  - Added filters "int!" and "float!" that cast values to the respective type
- - Filter "alphanum" now uses a regular expression instead of internal functions for better behaviour in 64bits
+ - Filter "alphanum" now uses a regular expression instead of internal functions for better behavior in 64bits
  - Added `allowEmpty` option in `Phalcon\Validation` validators to skip validation if the value is empty
  - Added `Phalcon\Validation::setDefaultMessages` to set default values in validators
  - Added `Phalcon\Validation\Validator\Numericality`

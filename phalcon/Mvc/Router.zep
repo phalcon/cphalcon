@@ -2181,6 +2181,10 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
         this->mount(group);
     }
 
+    /**
+     * Rebuilds the HTTP-method index from the current routes array.
+     * Routes with no HTTP method constraint are filed under "*".
+     */
     protected function rebuildMethodIndex() -> void
     {
         var route, methods, method, methodSpecific, starRoutes,

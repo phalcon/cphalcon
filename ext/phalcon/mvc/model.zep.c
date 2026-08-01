@@ -3429,7 +3429,7 @@ PHP_METHOD(Phalcon_Mvc_Model, find)
  *
  * echo "The first virtual invoice name is ", $invoice->inv_title;
  *
- * // behaviour with transaction
+ * // behavior with transaction
  * $myTransaction = new Transaction(\Phalcon\Di\Di::getDefault());
  * $myTransaction->begin();
  *

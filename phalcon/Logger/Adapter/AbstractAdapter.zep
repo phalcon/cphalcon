@@ -173,6 +173,8 @@ abstract class AbstractAdapter implements AdapterInterface
     }
 
     /**
+     * Return the formatter used
+     *
      * @return FormatterInterface
      */
     public function getFormatter() -> <FormatterInterface>

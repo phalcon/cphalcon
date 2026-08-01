@@ -78,6 +78,10 @@ class Escaper implements EscaperInterface
      */
     protected urlEscaper;
 
+    /**
+     * Constructor. Accepts the legacy scalar params for backward compatibility
+     * and fans them out to every sub-escaper so existing code keeps working.
+     */
     public function __construct(
         string encoding = "utf-8",
         int flags = 11,
@@ -128,6 +132,8 @@ class Escaper implements EscaperInterface
     }
 
     /**
+     * Detects the character encoding of a string. Delegates to `HtmlEscaper`.
+     *
      * @param string $input
      *
      * @return string|null
@@ -209,6 +215,8 @@ class Escaper implements EscaperInterface
     }
 
     /**
+     * Returns the encoding from the HtmlEscaper.
+     *
      * @return string
      */
     public function getEncoding() -> string
@@ -217,6 +225,8 @@ class Escaper implements EscaperInterface
     }
 
     /**
+     * Returns the flags from the HtmlEscaper.
+     *
      * @return int
      */
     public function getFlags() -> int
@@ -273,6 +283,8 @@ class Escaper implements EscaperInterface
     }
 
     /**
+     * Normalizes a string's encoding to UTF-32. Delegates to `HtmlEscaper`.
+     *
      * @param string $input
      *
      * @return string
@@ -367,6 +379,12 @@ class Escaper implements EscaperInterface
     }
 
     /**
+     * Sets the HTML quoting type for htmlspecialchars.
+     *
+     * ```php
+     * $escaper->setHtmlQuoteType(ENT_XHTML);
+     * ```
+     *
      * @param int $flags
      *
      * @deprecated

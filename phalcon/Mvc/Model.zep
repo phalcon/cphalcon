@@ -1923,7 +1923,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *
      * echo "The first virtual invoice name is ", $invoice->inv_title;
      *
-     * // behaviour with transaction
+     * // behavior with transaction
      * $myTransaction = new Transaction(\Phalcon\Di\Di::getDefault());
      * $myTransaction->begin();
      *
@@ -5995,6 +5995,9 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         );
     }
 
+    /**
+     * shared prepare query logic for find and findFirst method
+     */
     private static function getPreparedQuery(var params, var limit = null) -> <QueryInterface>
     {
         var builder, bindParams, bindTypes, transaction, cache, manager, query,
@@ -6601,7 +6604,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         return cache[className];
     }
 
-    /***
+    /**
      * Append messages to this model from another Model.
      */
     public inline function appendMessagesFrom(var model) -> void

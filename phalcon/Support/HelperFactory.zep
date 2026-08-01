@@ -124,7 +124,7 @@ use Phalcon\Support\Helper\Str\Upper;
  * @method string snakeCase(string $text, string $delimiters = null)
  * @method array  split(array $collection)
  * @method bool   startsWith(string $haystack, string $needle, bool $ignoreCase = true)
- * @method string suffix($text, string $suffix)
+ * @method string suffix(string $text, string $suffix)
  * @method object toObject(array $collection)
  * @method bool   validateAll(array $collection, callable $method)
  * @method bool   validateAny(array $collection, callable $method)
@@ -137,7 +137,7 @@ use Phalcon\Support\Helper\Str\Upper;
 class HelperFactory extends AbstractFactory
 {
     /**
-     * FactoryTrait constructor.
+     * Constructor.
      *
      * @param array $services
      */

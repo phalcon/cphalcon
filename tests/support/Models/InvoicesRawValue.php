@@ -18,7 +18,7 @@ use Phalcon\Mvc\Model;
 /**
  * Model for testing RawValue bind params in PHQL INSERT/UPDATE.
  *
- * Uses typed properties so that PHP 8 coercion behaviour is exercised,
+ * Uses typed properties so that PHP 8 coercion behavior is exercised,
  * and a nullable PK so that a fresh instance has no uninitialized typed int.
  *
  * @see https://github.com/phalcon/cphalcon/issues/15064

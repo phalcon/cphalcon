@@ -205,6 +205,8 @@ class Collection implements Countable, IteratorAggregate
     }
 
     /**
+     * Return the stored assets
+     *
      * @return array
      */
     public function getAssets() -> array
@@ -213,6 +215,8 @@ class Collection implements Countable, IteratorAggregate
     }
 
     /**
+     * Return the stored codes
+     *
      * @return array
      */
     public function getCodes() -> array
@@ -221,6 +225,8 @@ class Collection implements Countable, IteratorAggregate
     }
 
     /**
+     * Return the stored filters
+     *
      * @return array
      */
     public function getFilters() -> array
@@ -247,6 +253,8 @@ class Collection implements Countable, IteratorAggregate
     }
 
     /**
+     * Returns the prefix
+     *
      * @return string
      */
     public function getPrefix() -> string
@@ -283,6 +291,8 @@ class Collection implements Countable, IteratorAggregate
     }
 
     /**
+     * Returns whether the target is local or not
+     *
      * @return bool
      */
     public function getTargetIsLocal() -> bool
@@ -291,6 +301,8 @@ class Collection implements Countable, IteratorAggregate
     }
 
     /**
+     * Returns the version
+     *
      * @return string
      */
     public function getVersion() -> string

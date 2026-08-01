@@ -139,11 +139,17 @@ class Asset implements AssetInterface
         return content;
     }
 
+    /**
+     * Gets if the asset must be filtered or not.
+     */
     public function getFilter() -> bool
     {
         return this->filter;
     }
 
+    /**
+     * Returns the path for this asset
+     */
     public function getPath() -> string
     {
         return this->path;
@@ -232,6 +238,8 @@ class Asset implements AssetInterface
     }
 
     /**
+     * Gets the asset's type.
+     *
      * @return string
      */
     public function getType() -> string

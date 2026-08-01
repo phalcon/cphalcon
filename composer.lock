@@ -2473,18 +2473,19 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phalcon/scribe.git",
-                "reference": "42a0aa045c385e7829c7339182e788811d62b8c2"
+                "reference": "c66d5a0f816325840289df76d9cc4c761dd93c9f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phalcon/scribe/zipball/42a0aa045c385e7829c7339182e788811d62b8c2",
-                "reference": "42a0aa045c385e7829c7339182e788811d62b8c2",
+                "url": "https://api.github.com/repos/phalcon/scribe/zipball/c66d5a0f816325840289df76d9cc4c761dd93c9f",
+                "reference": "c66d5a0f816325840289df76d9cc4c761dd93c9f",
                 "shasum": ""
             },
             "require": {
                 "php": "^8.1"
             },
             "require-dev": {
+                "nikic/php-parser": "^5.1",
                 "phalcon/talon": "^0.9",
                 "phalcon/zephir": "dev-development",
                 "phpstan/phpstan": "^2",
@@ -2530,7 +2531,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2026-08-01T04:05:31+00:00"
+            "time": "2026-08-01T04:51:25+00:00"
         },
         {
             "name": "phalcon/talon",

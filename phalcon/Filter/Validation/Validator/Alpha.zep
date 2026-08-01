@@ -81,7 +81,7 @@ class Alpha extends AbstractValidator
         /**
          * preg_match on an empty string finds no non-alpha chars and would
          * pass, which is wrong when allowEmpty is explicitly set to false.
-         * When allowEmpty is not set we preserve the previous behaviour.
+         * When allowEmpty is not set we preserve the previous behavior.
          */
         if (string) value === "" && this->getOption("allowEmpty") === false {
             validation->appendMessage(

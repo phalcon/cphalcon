@@ -64,6 +64,8 @@ class Stream extends Noop
     protected prefix = "";
 
     /**
+     * The path of the session files
+     *
      * @var string
      */
     private path = "";

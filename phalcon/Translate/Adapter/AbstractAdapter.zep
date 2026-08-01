@@ -103,25 +103,25 @@ abstract class AbstractAdapter implements AdapterInterface, ArrayAccess
     /**
      * Check whether a translation key exists
      *
-     * @param mixed $translateKey
+     * @param mixed $offset
      *
      * @return bool
      */
-    public function offsetExists(var translateKey) -> bool
+    public function offsetExists(var offset) -> bool
     {
-        return this->has(translateKey);
+        return this->has(offset);
     }
 
     /**
      * Returns the translation related to the given key
      *
-     * @param TKey $translateKey
+     * @param TKey $offset
      *
      * @return TValue
      */
-    public function offsetGet(mixed translateKey) -> string | null
+    public function offsetGet(mixed offset) -> string | null
     {
-        return this->query(translateKey);
+        return this->query(offset);
     }
 
     /**
@@ -169,6 +169,7 @@ abstract class AbstractAdapter implements AdapterInterface, ArrayAccess
      * @phpstan-param array<string, string> $placeholders
      *
      * @return string
+     * @throws BaseException
      */
     protected function replacePlaceholders(
          string translation,

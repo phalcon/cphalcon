@@ -67,6 +67,8 @@ abstract class AbstractFormatter implements FormatterInterface
     }
 
     /**
+     * Returns the interpolated message, replacing context placeholders.
+     *
      * @param Item   $item
      * @param string $message
      *

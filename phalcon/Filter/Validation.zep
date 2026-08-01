@@ -582,6 +582,9 @@ class Validation extends Injectable implements ValidationInterface
         let this->labels = labels;
     }
 
+    /**
+     * Sets the validator array
+     */
     public function setValidators(array validators) -> <static>
     {
         let this->validators = validators;

@@ -911,7 +911,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
     }
 
     /**
-     * Initialize old behaviour for compatability
+     * Initialize old behavior for compatability
      */
     final protected function initialize(<ModelInterface> model, var key, var table, var schema)
     {

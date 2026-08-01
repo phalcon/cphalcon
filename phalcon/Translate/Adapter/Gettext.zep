@@ -56,7 +56,7 @@ class Gettext extends AbstractAdapter
     protected defaultDomain;
 
     /**
-     * @var string|array
+     * @var string|array<string, string>
      */
     protected directory;
 
@@ -75,8 +75,10 @@ class Gettext extends AbstractAdapter
      * @throws MissingGettextExtension
      * @throws MissingRequiredParameter
      */
-    public function __construct(<InterpolatorFactory> interpolator,  array options)
-    {
+    public function __construct(
+        <InterpolatorFactory> interpolator,  
+	array options
+    ) {
         if unlikely !this->phpFunctionExists("gettext") {
             throw new MissingGettextExtension();
         }
@@ -124,7 +126,7 @@ class Gettext extends AbstractAdapter
     }
 
     /**
-     * @return string
+     * @return string|false
      */
     public function getLocale() -> string | false
     {
@@ -153,11 +155,11 @@ class Gettext extends AbstractAdapter
      * @return string
      */
     public function nquery(
-         string msgid1,
-         string msgid2,
-         int count,
-        array placeholders = [],
-         string domain = null
+        string msgid1,
+        string msgid2,
+        int count,
+    	array placeholders = [],
+        string domain = null
     ) -> string {
         var translation;
 

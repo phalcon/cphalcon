@@ -117,6 +117,8 @@ class CacheFactory extends AbstractConfigFactory
     }
 
     /**
+     * Returns the exception class for the factory
+     *
      * @return string
      */
     protected function getExceptionClass() -> string

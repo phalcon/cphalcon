@@ -64,6 +64,8 @@ class $Inline implements AssetInterface
     }
 
     /**
+     * Gets if the asset content
+     *
      * @return string
      */
     public function getContent() -> string
@@ -72,6 +74,8 @@ class $Inline implements AssetInterface
     }
 
     /**
+     * Gets if the asset must be filtered or not.
+     *
      * @return bool
      */
     public function getFilter() -> bool
@@ -80,6 +84,8 @@ class $Inline implements AssetInterface
     }
 
     /**
+     * Gets the asset's type.
+     *
      * @return string
      */
     public function getType() -> string

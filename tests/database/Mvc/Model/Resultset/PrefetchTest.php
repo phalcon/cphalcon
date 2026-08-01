@@ -145,7 +145,7 @@ final class PrefetchTest extends AbstractDatabaseTestCase
 
     /**
      * Settings::set() silently ignores keys outside its whitelist, so a typo
-     * here would quietly test the default-off behaviour instead. This pins the
+     * here would quietly test the default-off behavior instead. This pins the
      * key name so that failure mode cannot happen unnoticed.
      *
      * @author Phalcon Team <team@phalcon.io>
