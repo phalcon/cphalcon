@@ -50,7 +50,46 @@ foreach (collectZepFiles($sourceDir) as $relPath) {
 resolveRegistry($registry);
 
 /*
- * Pass 2 - emit pages
+ * Pass 2 - construct pages
+ */
+$pages = [];
+foreach ($registry as $fqcn => $class) {
+    $pages[$class['page']][] = $fqcn;
+}
+
+ksort($pages);
+
+
+/*
+ * Pass 3 - create toc
+ */
+
+$output = <<<EOT
+---
+hide:
+    - toc
+---
+
+# API Index
+- - -
+
+
+EOT;
+
+foreach ($pages as $page => $fqcns) {
+    if ('' !== $filter && false === stripos($page, strtolower($filter))) {
+        continue;
+    }
+
+    $output .= indexLineFromPage($page);
+}
+
+file_put_contents($outputDir . 'index.md', $output);
+echo 'Done. index.md'. PHP_EOL;
+
+
+/*
+ * Pass 4 - emit pages
  */
 $pages = [];
 foreach ($registry as $fqcn => $class) {
@@ -475,7 +514,7 @@ function extractClass(array $ast, string $relPath): ?array
 
                 $usesMap[$short] = $alias['name'];
             }
-        } elseif ('class' === $type || 'interface' === $type) {
+        } elseif ('class' === $type || 'interface' === $type || 'trait' === $type) {
             $node      = $item;
             $interface = ('interface' === $type);
             break;
@@ -680,6 +719,12 @@ function indentLines(string $text, int $spaces): string
     );
 
     return implode("\n", $lines);
+}
+
+function indexLineFromPage(string $page): string
+{
+    return '- [Phalcon ' . ucfirst(str_replace('phalcon_', '', $page)) . ']'
+        . '(' . $page . '.md)' . PHP_EOL;
 }
 
 /**
