@@ -169,7 +169,7 @@ abstract class AbstractAdapter implements AdapterInterface, ArrayAccess
      * @phpstan-param array<string, string> $placeholders
      *
      * @return string
-     * @throws BaseException
+     * @throws Exception
      */
     protected function replacePlaceholders(
          string translation,
