@@ -2650,17 +2650,18 @@ PHP_METHOD(Phalcon_Mvc_View, getViewsDirs)
  */
 PHP_METHOD(Phalcon_Mvc_View, isAbsolutePath)
 {
-	unsigned char _8, _2$$3, _5$$3;
-	zend_bool _7, _1$$3, _4$$3;
+	zend_bool _1$$3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval path_zv, _0, _9, _3$$3, _6$$3;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval path_zv, _0, _5, _2$$3, _3$$3, _4$$3;
 	zend_string *path = NULL;
 
 	ZVAL_UNDEF(&path_zv);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_9);
+	ZVAL_UNDEF(&_5);
+	ZVAL_UNDEF(&_2$$3);
 	ZVAL_UNDEF(&_3$$3);
-	ZVAL_UNDEF(&_6$$3);
+	ZVAL_UNDEF(&_4$$3);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(path)
 	ZEND_PARSE_PARAMETERS_END();
@@ -2673,28 +2674,19 @@ PHP_METHOD(Phalcon_Mvc_View, isAbsolutePath)
 	if (ZEPHIR_IS_STRING_IDENTICAL(&_0, "WINNT")) {
 		_1$$3 = zephir_fast_strlen_ev(&path_zv) >= 3;
 		if (_1$$3) {
-			_2$$3 = ZEPHIR_STRING_OFFSET(&path_zv, 1);
-			ZEPHIR_INIT_VAR(&_3$$3);
-			ZVAL_STRINGL(&_3$$3, &_2$$3, 1);
-			_1$$3 = ZEPHIR_IS_LONG(&_3$$3, ':');
+			ZVAL_LONG(&_2$$3, 1);
+			ZVAL_LONG(&_3$$3, 2);
+			ZEPHIR_INIT_VAR(&_4$$3);
+			zephir_substr(&_4$$3, &path_zv, 1 , 2 , 0);
+			_1$$3 = ZEPHIR_IS_STRING_IDENTICAL(&_4$$3, ":\\");
 		}
-		_4$$3 = _1$$3;
-		if (_4$$3) {
-			_5$$3 = ZEPHIR_STRING_OFFSET(&path_zv, 2);
-			ZEPHIR_INIT_VAR(&_6$$3);
-			ZVAL_STRINGL(&_6$$3, &_5$$3, 1);
-			_4$$3 = ZEPHIR_IS_LONG(&_6$$3, '\\');
-		}
-		RETURN_MM_BOOL(_4$$3);
+		RETURN_MM_BOOL(_1$$3);
 	}
-	_7 = zephir_fast_strlen_ev(&path_zv) >= 1;
-	if (_7) {
-		_8 = ZEPHIR_STRING_OFFSET(&path_zv, 0);
-		ZEPHIR_INIT_VAR(&_9);
-		ZVAL_STRINGL(&_9, &_8, 1);
-		_7 = ZEPHIR_IS_LONG(&_9, '/');
-	}
-	RETURN_MM_BOOL(_7);
+	ZEPHIR_INIT_VAR(&_5);
+	ZVAL_STRING(&_5, "/");
+	ZEPHIR_RETURN_CALL_FUNCTION("str_starts_with", NULL, 0, &path_zv, &_5);
+	zephir_check_call_status();
+	RETURN_MM();
 }
 
 /**
