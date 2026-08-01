@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e20ad5a3badec11d383c637e48c198da",
+    "content-hash": "4364070fdc8e38525b7471436a4711ee",
     "packages": [],
     "packages-dev": [
         {
@@ -2466,6 +2466,71 @@
                 }
             ],
             "time": "2026-07-17T21:26:17+00:00"
+        },
+        {
+            "name": "phalcon/scribe",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phalcon/scribe.git",
+                "reference": "42a0aa045c385e7829c7339182e788811d62b8c2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phalcon/scribe/zipball/42a0aa045c385e7829c7339182e788811d62b8c2",
+                "reference": "42a0aa045c385e7829c7339182e788811d62b8c2",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "phalcon/talon": "^0.9",
+                "phalcon/zephir": "dev-development",
+                "phpstan/phpstan": "^2",
+                "phpunit/phpunit": "^10.5",
+                "squizlabs/php_codesniffer": "^3 || ^4"
+            },
+            "suggest": {
+                "phalcon/zephir": "Required by ZephirReader to parse .zep sources"
+            },
+            "default-branch": true,
+            "bin": [
+                "bin/scribe"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Phalcon\\Scribe\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "API documentation generator for Zephir and PHP sources",
+            "keywords": [
+                "api",
+                "documentation",
+                "generator",
+                "phalcon",
+                "zephir"
+            ],
+            "support": {
+                "issues": "https://github.com/phalcon/scribe/issues",
+                "source": "https://github.com/phalcon/scribe/tree/master"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/phalcon",
+                    "type": "github"
+                },
+                {
+                    "url": "https://opencollective.com/phalcon",
+                    "type": "open_collective"
+                }
+            ],
+            "time": "2026-08-01T04:05:31+00:00"
         },
         {
             "name": "phalcon/talon",
@@ -7952,6 +8017,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "phalcon/scribe": 20,
         "phalcon/zephir": 20
     },
     "prefer-stable": false,
