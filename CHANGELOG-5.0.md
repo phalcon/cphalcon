@@ -14,6 +14,8 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 
 ### Fixed
 
+- Removed a stray "!" in `Phalcon\Db\Adapter\Pdo\Mysql::unquoteDefault()` to remove the compilation warning [#17428](https://github.com/phalcon/cphalcon/issues/17428)
+
 ### Removed
 
 
