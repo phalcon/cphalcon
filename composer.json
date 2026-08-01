@@ -48,7 +48,7 @@
     "friendsofphp/php-cs-fixer": "^3.95",
     "mustache/mustache": "^3.2",
     "phalcon/ide-stubs": "^5.13.0",
-    "phalcon/scribe": "dev-master",
+    "phalcon/quill": "dev-master",
     "phalcon/talon": "^0.9.0",
     "phalcon/zephir": "dev-development",
     "phpstan/phpstan": "^2.2",
