@@ -807,7 +807,7 @@ class Mysql extends PdoAdapter
      * defaults it has supported since 10.2. Expression defaults arrive
      * unquoted, so an unmatched pair leaves the value untouched.
      */
-    private function unquoteDefault(string! value) -> string
+    private function unquoteDefault(string value) -> string
     {
         if strlen(value) < 2 ||
            substr(value, 0, 1) !== "'" ||
