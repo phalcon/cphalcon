@@ -12,8 +12,8 @@ namespace Phalcon\Translate\Adapter;
 
 use Phalcon\Traits\Php\FileTrait;
 use Phalcon\Translate\Exception;
-use Phalcon\Translate\Exceptions\MissingRequiredParameter;
 use Phalcon\Translate\Exceptions\FileOpenError;
+use Phalcon\Translate\Exceptions\MissingRequiredParameter;
 use Phalcon\Translate\InterpolatorFactory;
 
 /**
