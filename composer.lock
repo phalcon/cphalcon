@@ -2535,22 +2535,22 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phalcon/quill.git",
-                "reference": "2b95dccfce4a04de15fe9d6334f4f700d628b5e9"
+                "reference": "3188f8d383b9e22cfead944e3489390349ea14ed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phalcon/quill/zipball/2b95dccfce4a04de15fe9d6334f4f700d628b5e9",
-                "reference": "2b95dccfce4a04de15fe9d6334f4f700d628b5e9",
+                "url": "https://api.github.com/repos/phalcon/quill/zipball/3188f8d383b9e22cfead944e3489390349ea14ed",
+                "reference": "3188f8d383b9e22cfead944e3489390349ea14ed",
                 "shasum": ""
             },
             "require": {
+                "nikic/php-parser": "^5.1",
                 "pds/composer-script-names": "^1.0",
                 "pds/skeleton": "^1.0",
                 "php": "^8.1"
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^3.95",
-                "nikic/php-parser": "^5.1",
                 "phalcon/talon": "^0.9",
                 "phalcon/zephir": "dev-development",
                 "phpstan/phpstan": "^2",
@@ -2596,7 +2596,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2026-08-01T19:02:44+00:00"
+            "time": "2026-08-02T12:01:50+00:00"
         },
         {
             "name": "phalcon/talon",
