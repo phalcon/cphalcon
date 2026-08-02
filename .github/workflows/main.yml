@@ -1109,7 +1109,7 @@ jobs:
           token: ${{ github.token }}
       - name: Get the extension matrix
         id: extension-matrix
-        uses: php/php-windows-builder/extension-matrix@e03e5d39879adaeb61ed2225f0f4eae7db8c1df8 # v1
+        uses: php/php-windows-builder/extension-matrix@29352c0ef9e8ce65264ea9e287881a6f7758a953 # v1
         with:
           extension-url: https://github.com/phalcon/cphalcon
           extension-ref: ${{ env.PHALCON_VERSION }}
