@@ -1142,7 +1142,7 @@ jobs:
           cp -v build/phalcon/*.* .
 
       - name: Build the extension
-        uses: php/php-windows-builder/extension@e03e5d39879adaeb61ed2225f0f4eae7db8c1df8 # v1
+        uses: php/php-windows-builder/extension@29352c0ef9e8ce65264ea9e287881a6f7758a953 # v1
         env:
           # Drop the PDB debug-symbols file (~21 MB) from the artifact;
           # it is not needed for runtime use of the extension.
