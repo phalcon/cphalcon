@@ -72,6 +72,7 @@ zephir.phar
 zephir-*.phar
 
 
+.php_cs.cache
 .env
 zephir
 tests/_output/*
