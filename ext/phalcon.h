@@ -759,6 +759,7 @@
 #include "phalcon/events/exceptions/invalidsubscriberconfiguration.zep.h"
 #include "phalcon/events/exceptions/nolistenersforevent.zep.h"
 #include "phalcon/events/manager.zep.h"
+#include "phalcon/events/traits/eventsawaretrait.zep.h"
 #include "phalcon/factory/exception.zep.h"
 #include "phalcon/filter/exceptions/filternotregistered.zep.h"
 #include "phalcon/filter/filter.zep.h"
