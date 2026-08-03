@@ -11,9 +11,7 @@
 namespace Phalcon\Messages;
 
 /**
- * Phalcon\Messages\MessageInterface
- *
- * Interface for Phalcon\Messages\MessageInterface
+ * Interface for Phalcon\Messages\Message
  */
 interface MessageInterface
 {

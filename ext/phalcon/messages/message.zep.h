@@ -16,7 +16,6 @@ PHP_METHOD(Phalcon_Messages_Message, setField);
 PHP_METHOD(Phalcon_Messages_Message, setMessage);
 PHP_METHOD(Phalcon_Messages_Message, setMetaData);
 PHP_METHOD(Phalcon_Messages_Message, setType);
-zend_object *zephir_init_properties_Phalcon_Messages_Message(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_messages_message___construct, 0, 0, 1)
 	ZEND_ARG_TYPE_INFO(0, message, IS_STRING, 0)
@@ -65,9 +64,6 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_messages_message_settype, 0, 1, Phalcon\\Messages\\MessageInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, type, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_messages_message_zephir_init_properties_phalcon_messages_message, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_messages_message_method_entry) {

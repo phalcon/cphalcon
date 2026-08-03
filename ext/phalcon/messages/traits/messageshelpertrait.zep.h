@@ -1,0 +1,66 @@
+
+extern zend_class_entry *phalcon_messages_traits_messageshelpertrait_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Messages_Traits_MessagesHelperTrait);
+
+PHP_METHOD(Phalcon_Messages_Traits_MessagesHelperTrait, count);
+PHP_METHOD(Phalcon_Messages_Traits_MessagesHelperTrait, current);
+PHP_METHOD(Phalcon_Messages_Traits_MessagesHelperTrait, key);
+PHP_METHOD(Phalcon_Messages_Traits_MessagesHelperTrait, next);
+PHP_METHOD(Phalcon_Messages_Traits_MessagesHelperTrait, offsetExists);
+PHP_METHOD(Phalcon_Messages_Traits_MessagesHelperTrait, offsetGet);
+PHP_METHOD(Phalcon_Messages_Traits_MessagesHelperTrait, offsetSet);
+PHP_METHOD(Phalcon_Messages_Traits_MessagesHelperTrait, offsetUnset);
+PHP_METHOD(Phalcon_Messages_Traits_MessagesHelperTrait, rewind);
+PHP_METHOD(Phalcon_Messages_Traits_MessagesHelperTrait, valid);
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_messages_traits_messageshelpertrait_count, 0, 0, IS_LONG, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_messages_traits_messageshelpertrait_current, 0, 0, Phalcon\\Messages\\MessageInterface, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_messages_traits_messageshelpertrait_key, 0, 0, IS_LONG, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_messages_traits_messageshelpertrait_next, 0, 0, IS_VOID, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_messages_traits_messageshelpertrait_offsetexists, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_INFO(0, offset)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_messages_traits_messageshelpertrait_offsetget, 0, 1, IS_MIXED, 0)
+	ZEND_ARG_INFO(0, offset)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_messages_traits_messageshelpertrait_offsetset, 0, 2, IS_VOID, 0)
+
+	ZEND_ARG_INFO(0, offset)
+	ZEND_ARG_INFO(0, value)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_messages_traits_messageshelpertrait_offsetunset, 0, 1, IS_VOID, 0)
+
+	ZEND_ARG_INFO(0, offset)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_messages_traits_messageshelpertrait_rewind, 0, 0, IS_VOID, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_messages_traits_messageshelpertrait_valid, 0, 0, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_messages_traits_messageshelpertrait_method_entry) {
+	PHP_ME(Phalcon_Messages_Traits_MessagesHelperTrait, count, arginfo_phalcon_messages_traits_messageshelpertrait_count, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Messages_Traits_MessagesHelperTrait, current, arginfo_phalcon_messages_traits_messageshelpertrait_current, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Messages_Traits_MessagesHelperTrait, key, arginfo_phalcon_messages_traits_messageshelpertrait_key, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Messages_Traits_MessagesHelperTrait, next, arginfo_phalcon_messages_traits_messageshelpertrait_next, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Messages_Traits_MessagesHelperTrait, offsetExists, arginfo_phalcon_messages_traits_messageshelpertrait_offsetexists, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Messages_Traits_MessagesHelperTrait, offsetGet, arginfo_phalcon_messages_traits_messageshelpertrait_offsetget, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Messages_Traits_MessagesHelperTrait, offsetSet, arginfo_phalcon_messages_traits_messageshelpertrait_offsetset, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Messages_Traits_MessagesHelperTrait, offsetUnset, arginfo_phalcon_messages_traits_messageshelpertrait_offsetunset, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Messages_Traits_MessagesHelperTrait, rewind, arginfo_phalcon_messages_traits_messageshelpertrait_rewind, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Messages_Traits_MessagesHelperTrait, valid, arginfo_phalcon_messages_traits_messageshelpertrait_valid, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
