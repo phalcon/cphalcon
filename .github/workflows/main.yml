@@ -669,7 +669,7 @@ jobs:
           - '8.5'
 
     steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           fetch-depth: 1
@@ -1109,7 +1109,7 @@ jobs:
           token: ${{ github.token }}
       - name: Get the extension matrix
         id: extension-matrix
-        uses: php/php-windows-builder/extension-matrix@e03e5d39879adaeb61ed2225f0f4eae7db8c1df8 # v1
+        uses: php/php-windows-builder/extension-matrix@29352c0ef9e8ce65264ea9e287881a6f7758a953 # v1
         with:
           extension-url: https://github.com/phalcon/cphalcon
           extension-ref: ${{ env.PHALCON_VERSION }}
@@ -1142,7 +1142,7 @@ jobs:
           cp -v build/phalcon/*.* .
 
       - name: Build the extension
-        uses: php/php-windows-builder/extension@e03e5d39879adaeb61ed2225f0f4eae7db8c1df8 # v1
+        uses: php/php-windows-builder/extension@29352c0ef9e8ce65264ea9e287881a6f7758a953 # v1
         env:
           # Drop the PDB debug-symbols file (~21 MB) from the artifact;
           # it is not needed for runtime use of the extension.
