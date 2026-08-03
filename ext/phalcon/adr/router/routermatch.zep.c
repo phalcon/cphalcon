@@ -41,22 +41,30 @@ ZEPHIR_INIT_CLASS(Phalcon_ADR_Router_RouterMatch)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\ADR\\Router, RouterMatch, phalcon, adr_router_routermatch, phalcon_adr_router_routermatch_method_entry, ZEND_ACC_FINAL_CLASS);
 
-	/**
-	 * @var string
-	 */
-	zend_declare_property_null(phalcon_adr_router_routermatch_ce, SL("action"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var array
-	 */
-	zend_declare_property_null(phalcon_adr_router_routermatch_ce, SL("attributes"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var array
-	 */
-	zend_declare_property_null(phalcon_adr_router_routermatch_ce, SL("middleware"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var string|null
-	 */
-	zend_declare_property_null(phalcon_adr_router_routermatch_ce, SL("name"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_STRINGL(&_zc0, "", sizeof("") - 1);
+		zephir_declare_typed_property(phalcon_adr_router_routermatch_ce, SL("action"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		array_init_size(&_zc0, 1);
+		zephir_declare_typed_property(phalcon_adr_router_routermatch_ce, SL("attributes"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_ARRAY, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		array_init_size(&_zc0, 1);
+		zephir_declare_typed_property(phalcon_adr_router_routermatch_ce, SL("middleware"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_ARRAY, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_NULL(&_zc0);
+		zephir_declare_typed_property(phalcon_adr_router_routermatch_ce, SL("name"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING|MAY_BE_NULL, NULL, 0);
+	}
+
 	zend_class_implements(phalcon_adr_router_routermatch_ce, 1, phalcon_contracts_adr_router_routermatch_ce);
 	return SUCCESS;
 }

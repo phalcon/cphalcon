@@ -973,13 +973,13 @@ PHP_METHOD(Phalcon_ADR_Router_Router, locate)
 	ZVAL_STR_COPY(&path_zv, path);
 	ZEPHIR_CALL_METHOD(&candidates, this_ptr, "derivecandidates", NULL, 332, &method_zv, &path_zv);
 	zephir_check_call_status();
-	zephir_is_iterable(&candidates, 0, "phalcon/ADR/Router/Router.zep", 374);
+	zephir_is_iterable(&candidates, 0, "phalcon/ADR/Router/Router.zep", 375);
 	if (Z_TYPE_P(&candidates) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&candidates), _0)
 		{
 			ZEPHIR_INIT_NVAR(&candidate);
 			ZVAL_COPY(&candidate, _0);
-			zephir_array_fetch_long(&_1$$3, &candidate, 0, PH_NOISY | PH_READONLY, "phalcon/ADR/Router/Router.zep", 369);
+			zephir_array_fetch_long(&_1$$3, &candidate, 0, PH_NOISY | PH_READONLY, "phalcon/ADR/Router/Router.zep", 370);
 			if (zephir_class_exists(&_1$$3, 1)) {
 				RETURN_CCTOR(&candidate);
 			}
@@ -1002,7 +1002,7 @@ PHP_METHOD(Phalcon_ADR_Router_Router, locate)
 			}
 			ZEPHIR_CALL_METHOD(&candidate, &candidates, "current", NULL, 0);
 			zephir_check_call_status();
-				zephir_array_fetch_long(&_4$$5, &candidate, 0, PH_NOISY | PH_READONLY, "phalcon/ADR/Router/Router.zep", 369);
+				zephir_array_fetch_long(&_4$$5, &candidate, 0, PH_NOISY | PH_READONLY, "phalcon/ADR/Router/Router.zep", 370);
 				if (zephir_class_exists(&_4$$5, 1)) {
 					RETURN_CCTOR(&candidate);
 				}
@@ -1058,7 +1058,7 @@ PHP_METHOD(Phalcon_ADR_Router_Router, middlewareFor)
 	ZEPHIR_INIT_VAR(&stacked);
 	array_init(&stacked);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 365, PH_NOISY_CC | PH_READONLY);
-	zephir_is_iterable(&_0, 0, "phalcon/ADR/Router/Router.zep", 390);
+	zephir_is_iterable(&_0, 0, "phalcon/ADR/Router/Router.zep", 391);
 	if (Z_TYPE_P(&_0) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&_0), _2, _3, _1)
 		{
@@ -1205,7 +1205,7 @@ PHP_METHOD(Phalcon_ADR_Router_Router, verbOf)
 	}
 	ZEPHIR_CALL_METHOD(&_7, this_ptr, "verbs", NULL, 339);
 	zephir_check_call_status();
-	zephir_is_iterable(&_7, 0, "phalcon/ADR/Router/Router.zep", 427);
+	zephir_is_iterable(&_7, 0, "phalcon/ADR/Router/Router.zep", 428);
 	if (Z_TYPE_P(&_7) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_7), _8)
 		{
@@ -1251,7 +1251,7 @@ PHP_METHOD(Phalcon_ADR_Router_Router, verbOf)
 }
 
 /**
- * The HTTP verbs the convention recognises, in class-name form.
+ * The HTTP verbs the convention recognizes, in class-name form.
  *
  * @return list<string>
  */

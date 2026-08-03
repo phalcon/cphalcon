@@ -36,7 +36,7 @@ use Throwable;
 final class ErrorResponder
 {
     protected <Responder> chain;
-    protected bool debug;
+    protected bool debug = false;
     /**
      * @var array
      */

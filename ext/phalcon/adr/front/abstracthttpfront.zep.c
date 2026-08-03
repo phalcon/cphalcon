@@ -42,13 +42,18 @@ ZEPHIR_INIT_CLASS(Phalcon_ADR_Front_AbstractHttpFront)
 	/**
 	 * @var Container|null
 	 */
-	zend_declare_property_null(phalcon_adr_front_abstracthttpfront_ce, SL("container"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_NULL(&_zc0);
+		zephir_declare_typed_property(phalcon_adr_front_abstracthttpfront_ce, SL("container"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_NULL, SL("Phalcon\\Container\\Container"));
+	}
+
 	/**
 	 * @var string
 	 */
 	{
 		zval _zc0;
-		ZVAL_UNDEF(&_zc0);
+		ZVAL_STRINGL(&_zc0, "", sizeof("") - 1);
 		zephir_declare_typed_property(phalcon_adr_front_abstracthttpfront_ce, SL("projectRoot"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
 	}
 

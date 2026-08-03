@@ -52,7 +52,7 @@ ZEPHIR_INIT_CLASS(Phalcon_ADR_Middleware_CorsMiddleware)
 	 */
 	{
 		zval _zc0;
-		ZVAL_UNDEF(&_zc0);
+		array_init_size(&_zc0, 1);
 		zephir_declare_typed_property(phalcon_adr_middleware_corsmiddleware_ce, SL("allowedHeaders"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_ARRAY, NULL, 0);
 	}
 
@@ -61,7 +61,7 @@ ZEPHIR_INIT_CLASS(Phalcon_ADR_Middleware_CorsMiddleware)
 	 */
 	{
 		zval _zc0;
-		ZVAL_UNDEF(&_zc0);
+		array_init_size(&_zc0, 1);
 		zephir_declare_typed_property(phalcon_adr_middleware_corsmiddleware_ce, SL("allowedMethods"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_ARRAY, NULL, 0);
 	}
 
@@ -70,7 +70,7 @@ ZEPHIR_INIT_CLASS(Phalcon_ADR_Middleware_CorsMiddleware)
 	 */
 	{
 		zval _zc0;
-		ZVAL_UNDEF(&_zc0);
+		array_init_size(&_zc0, 1);
 		zephir_declare_typed_property(phalcon_adr_middleware_corsmiddleware_ce, SL("allowedOrigins"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_ARRAY, NULL, 0);
 	}
 

@@ -39,7 +39,7 @@ ZEPHIR_INIT_CLASS(Phalcon_ADR_Responder_Redirect)
 
 	{
 		zval _zc0;
-		ZVAL_UNDEF(&_zc0);
+		ZVAL_LONG(&_zc0, 302);
 		zephir_declare_typed_property(phalcon_adr_responder_redirect_ce, SL("status"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_LONG, NULL, 0);
 	}
 
@@ -135,12 +135,6 @@ PHP_METHOD(Phalcon_ADR_Responder_Redirect, seeOther)
 	RETURN_MM();
 }
 
-PHP_METHOD(Phalcon_ADR_Responder_Redirect, status)
-{
-
-	RETURN_MEMBER_TYPED(getThis(), "status", IS_LONG);
-}
-
 PHP_METHOD(Phalcon_ADR_Responder_Redirect, temporary)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -162,6 +156,12 @@ PHP_METHOD(Phalcon_ADR_Responder_Redirect, temporary)
 	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 327, &url_zv, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
+}
+
+PHP_METHOD(Phalcon_ADR_Responder_Redirect, status)
+{
+
+	RETURN_MEMBER_TYPED(getThis(), "status", IS_LONG);
 }
 
 PHP_METHOD(Phalcon_ADR_Responder_Redirect, url)

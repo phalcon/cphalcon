@@ -26,25 +26,10 @@ use Phalcon\Contracts\ADR\Router\RouterMatch as RouterMatchInterface;
  */
 final class RouterMatch implements RouterMatchInterface
 {
-    /**
-     * @var string
-     */
-    protected action;
-
-    /**
-     * @var array
-     */
-    protected attributes;
-
-    /**
-     * @var array
-     */
-    protected middleware;
-
-    /**
-     * @var string|null
-     */
-    protected name;
+    protected string action = "";
+    protected array attributes = [];
+    protected array middleware = [];
+    protected ?string name = null;
 
     public function __construct(
         string action, 

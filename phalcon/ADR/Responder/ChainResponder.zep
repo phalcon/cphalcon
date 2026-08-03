@@ -27,7 +27,7 @@ class ChainResponder implements Responder
     /**
      * @var Responder[]
      */
-    protected links;
+    protected links = [];
 
     public function __construct(array links = [])
     {

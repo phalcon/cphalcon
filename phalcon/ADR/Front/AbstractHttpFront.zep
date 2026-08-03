@@ -13,6 +13,7 @@
 
 namespace Phalcon\ADR\Front;
 
+use Throwable;
 use Phalcon\ADR\Application;
 use Phalcon\ADR\Container\AdrProvider;
 use Phalcon\Container\Container;
@@ -32,12 +33,12 @@ abstract class AbstractHttpFront implements FrontController
     /**
      * @var Container|null
      */
-    protected container = null;
+    protected ?<Container> container = null;
 
     /**
      * @var string
      */
-    protected string projectRoot;
+    protected string projectRoot = "";
 
     public function __construct(string projectRoot)
     {
@@ -79,7 +80,7 @@ abstract class AbstractHttpFront implements FrontController
             container->get(Emitter::class)->emit(response);
 
             return 0;
-        } catch \Throwable, exception {
+        } catch Throwable, exception {
             return this->handleBootError(exception);
         }
 

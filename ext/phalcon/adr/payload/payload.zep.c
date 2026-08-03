@@ -50,7 +50,12 @@ ZEPHIR_INIT_CLASS(Phalcon_ADR_Payload_Payload)
 	/**
 	 * @var Throwable|null
 	 */
-	zend_declare_property_null(phalcon_adr_payload_payload_ce, SL("exception"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_NULL(&_zc0);
+		zephir_declare_typed_property(phalcon_adr_payload_payload_ce, SL("exception"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_NULL, SL("Throwable"));
+	}
+
 	/**
 	 * @var mixed
 	 */
@@ -410,60 +415,6 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, found)
 	ZEPHIR_RETURN_CALL_METHOD(&_1, "withresult", NULL, 0, result);
 	zephir_check_call_status();
 	RETURN_MM();
-}
-
-/**
- * Gets the exception thrown in the domain layer, if any.
- */
-PHP_METHOD(Phalcon_ADR_Payload_Payload, getException)
-{
-
-	RETURN_MEMBER(getThis(), "exception");
-}
-
-/**
- * Gets the arbitrary extra domain information.
- */
-PHP_METHOD(Phalcon_ADR_Payload_Payload, getExtras)
-{
-
-	RETURN_MEMBER(getThis(), "extras");
-}
-
-/**
- * Gets the domain input.
- */
-PHP_METHOD(Phalcon_ADR_Payload_Payload, getInput)
-{
-
-	RETURN_MEMBER(getThis(), "input");
-}
-
-/**
- * Gets the domain messages.
- */
-PHP_METHOD(Phalcon_ADR_Payload_Payload, getMessages)
-{
-
-	RETURN_MEMBER(getThis(), "messages");
-}
-
-/**
- * Gets the domain result.
- */
-PHP_METHOD(Phalcon_ADR_Payload_Payload, getResult)
-{
-
-	RETURN_MEMBER(getThis(), "result");
-}
-
-/**
- * Gets the payload status.
- */
-PHP_METHOD(Phalcon_ADR_Payload_Payload, getStatus)
-{
-
-	RETURN_MEMBER(getThis(), "status");
 }
 
 /**
@@ -927,6 +878,60 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, valid)
 	ZEPHIR_RETURN_CALL_METHOD(&_1, "withresult", NULL, 0, result);
 	zephir_check_call_status();
 	RETURN_MM();
+}
+
+/**
+ * Gets the exception thrown in the domain layer, if any.
+ */
+PHP_METHOD(Phalcon_ADR_Payload_Payload, getException)
+{
+
+	RETURN_MEMBER(getThis(), "exception");
+}
+
+/**
+ * Gets the arbitrary extra domain information.
+ */
+PHP_METHOD(Phalcon_ADR_Payload_Payload, getExtras)
+{
+
+	RETURN_MEMBER(getThis(), "extras");
+}
+
+/**
+ * Gets the domain input.
+ */
+PHP_METHOD(Phalcon_ADR_Payload_Payload, getInput)
+{
+
+	RETURN_MEMBER(getThis(), "input");
+}
+
+/**
+ * Gets the domain messages.
+ */
+PHP_METHOD(Phalcon_ADR_Payload_Payload, getMessages)
+{
+
+	RETURN_MEMBER(getThis(), "messages");
+}
+
+/**
+ * Gets the domain result.
+ */
+PHP_METHOD(Phalcon_ADR_Payload_Payload, getResult)
+{
+
+	RETURN_MEMBER(getThis(), "result");
+}
+
+/**
+ * Gets the payload status.
+ */
+PHP_METHOD(Phalcon_ADR_Payload_Payload, getStatus)
+{
+
+	RETURN_MEMBER(getThis(), "status");
 }
 
 /**
