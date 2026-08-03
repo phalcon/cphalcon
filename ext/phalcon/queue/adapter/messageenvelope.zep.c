@@ -52,6 +52,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_MessageEnvelope)
 /**
  * Decodes a serialized payload into a normalized {body, properties,
  * headers} array, or null when the payload is not a valid envelope.
+ *
+ * @return array{body: mixed, properties: array, headers: array}|null
  */
 PHP_METHOD(Phalcon_Queue_Adapter_MessageEnvelope, decode)
 {
@@ -91,15 +93,15 @@ PHP_METHOD(Phalcon_Queue_Adapter_MessageEnvelope, decode)
 	array_init(&headers);
 	if (zephir_array_isset_value_string(&data, SL("body"))) {
 		ZEPHIR_OBS_NVAR(&body);
-		zephir_array_fetch_string(&body, &data, SL("body"), PH_NOISY, "phalcon/Queue/Adapter/MessageEnvelope.zep", 52);
+		zephir_array_fetch_string(&body, &data, SL("body"), PH_NOISY, "phalcon/Queue/Adapter/MessageEnvelope.zep", 54);
 	}
 	if (zephir_array_isset_value_string(&data, SL("properties"))) {
 		ZEPHIR_OBS_NVAR(&properties);
-		zephir_array_fetch_string(&properties, &data, SL("properties"), PH_NOISY, "phalcon/Queue/Adapter/MessageEnvelope.zep", 56);
+		zephir_array_fetch_string(&properties, &data, SL("properties"), PH_NOISY, "phalcon/Queue/Adapter/MessageEnvelope.zep", 58);
 	}
 	if (zephir_array_isset_value_string(&data, SL("headers"))) {
 		ZEPHIR_OBS_NVAR(&headers);
-		zephir_array_fetch_string(&headers, &data, SL("headers"), PH_NOISY, "phalcon/Queue/Adapter/MessageEnvelope.zep", 60);
+		zephir_array_fetch_string(&headers, &data, SL("headers"), PH_NOISY, "phalcon/Queue/Adapter/MessageEnvelope.zep", 62);
 	}
 	zephir_create_array(return_value, 3, 0);
 	zephir_array_update_string(return_value, SL("body"), &body, PH_COPY | PH_SEPARATE);

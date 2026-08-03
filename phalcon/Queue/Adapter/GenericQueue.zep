@@ -28,10 +28,7 @@ use Phalcon\Contracts\Queue\Queue as QueueInterface;
  */
 class GenericQueue implements QueueInterface
 {
-    /**
-     * @var string
-     */
-    protected queueName = "";
+    protected string queueName = "";
 
     /**
      * GenericQueue constructor.

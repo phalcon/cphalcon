@@ -32,17 +32,12 @@ use Phalcon\Queue\Adapter\QueueDestinationGuard;
  */
 class RedisProducer extends AbstractProducer
 {
-    /**
-     * @var RedisContext
-     */
-    protected context;
+    protected <RedisContext> context;
 
     /**
      * Delivery delay in milliseconds, or null when not set.
-     *
-     * @var int | null
      */
-    protected deliveryDelay = null;
+    protected int deliveryDelay = null;
 
     public function __construct(<RedisContext> context)
     {

@@ -33,6 +33,8 @@ class MessageEnvelope
     /**
      * Decodes a serialized payload into a normalized {body, properties,
      * headers} array, or null when the payload is not a valid envelope.
+     *
+     * @return array{body: mixed, properties: array, headers: array}|null
      */
     public static function decode(string payload) -> array | null
     {

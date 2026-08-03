@@ -45,10 +45,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_Redis_RedisConsumer)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Queue\\Adapter\\Redis, RedisConsumer, phalcon, queue_adapter_redis_redisconsumer, phalcon_queue_adapter_abstractconsumer_ce, phalcon_queue_adapter_redis_redisconsumer_method_entry, 0);
 
-	/**
-	 * @var RedisContext
-	 */
-	zend_declare_property_null(phalcon_queue_adapter_redis_redisconsumer_ce, SL("context"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_queue_adapter_redis_redisconsumer_ce, SL("context"), &_zc0, ZEND_ACC_PROTECTED, 0, SL("Phalcon\\Queue\\Adapter\\Redis\\RedisContext"));
+	}
+
 	return SUCCESS;
 }
 

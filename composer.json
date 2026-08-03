@@ -93,27 +93,81 @@
     "cs-fix": "php -d extension=ext/modules/phalcon.so ./vendor/bin/phpcbf --standard=resources/phpcs.xml",
     "cs-fixer": "php -d extension=ext/modules/phalcon.so vendor/bin/php-cs-fixer fix --config=resources/php-cs-fixer.php --dry-run --diff",
     "cs-fixer-fix": "php -d extension=ext/modules/phalcon.so vendor/bin/php-cs-fixer fix --config=resources/php-cs-fixer.php",
-    "test-unit": "talon run unit",
-    "test-unit-debug": "talon run unit -- --fail-on-all-issues --display-all-issues",
-    "test-unit-coverage": "talon run unit -- --coverage-clover tests/_output/coverage.xml",
-    "test-unit-coverage-html": "talon run unit -- --coverage-html tests/_output/coverage/",
-    "test-db-mariadb": "talon run mariadb",
-    "test-db-mariadb-debug": "talon run mariadb -- --fail-on-all-issues --display-all-issues",
-    "test-db-mariadb-coverage": "talon run mariadb -- --coverage-clover tests/_output/coverage.xml",
-    "test-db-mysql": "talon run mysql",
-    "test-db-mysql-debug": "talon run mysql -- --fail-on-all-issues --display-all-issues",
-    "test-db-mysql-coverage": "talon run mysql -- --coverage-clover tests/_output/coverage.xml",
-    "test-db-pgsql": "talon run pgsql",
-    "test-db-pgsql-debug": "talon run pgsql -- --fail-on-all-issues --display-all-issues",
-    "test-db-pgsql-coverage": "talon run pgsql -- --coverage-clover tests/_output/coverage.xml",
-    "test-db-sqlite": "talon run sqlite",
-    "test-db-sqlite-debug": "talon run sqlite -- --fail-on-all-issues --display-all-issues",
-    "test-db-sqlite-coverage": "talon run sqlite -- --coverage-clover tests/_output/coverage.xml",
-    "test-db": "talon run mariadb mysql pgsql sqlite",
-    "test-all": "talon run all",
-    "clean-build-stubs": [
-      "./vendor/bin/zephir fullclean",
+    "test-unit": [
       "Composer\\Config::disableProcessTimeout",
+      "talon run unit"
+    ],
+    "test-unit-debug": [
+      "Composer\\Config::disableProcessTimeout",
+      "talon run unit -- --fail-on-all-issues --display-all-issues"
+    ],
+    "test-unit-coverage": [
+      "Composer\\Config::disableProcessTimeout",
+      "talon run unit -- --coverage-clover tests/_output/coverage.xml"
+    ],
+    "test-unit-coverage-html": [
+      "Composer\\Config::disableProcessTimeout",
+      "talon run unit -- --coverage-html tests/_output/coverage/"
+    ],
+    "test-db-mariadb": [
+      "Composer\\Config::disableProcessTimeout",
+      "talon run mariadb"
+    ],
+    "test-db-mariadb-debug": [
+      "Composer\\Config::disableProcessTimeout",
+      "talon run mariadb -- --fail-on-all-issues --display-all-issues"
+    ],
+    "test-db-mariadb-coverage": [
+      "Composer\\Config::disableProcessTimeout",
+      "talon run mariadb -- --coverage-clover tests/_output/coverage.xml"
+    ],
+    "test-db-mysql": [
+      "Composer\\Config::disableProcessTimeout",
+      "talon run mysql"
+    ],
+    "test-db-mysql-debug": [
+      "Composer\\Config::disableProcessTimeout",
+      "talon run mysql -- --fail-on-all-issues --display-all-issues"
+    ],
+    "test-db-mysql-coverage": [
+      "Composer\\Config::disableProcessTimeout",
+      "talon run mysql -- --coverage-clover tests/_output/coverage.xml"
+    ],
+    "test-db-pgsql": [
+      "Composer\\Config::disableProcessTimeout",
+      "talon run pgsql"
+    ],
+    "test-db-pgsql-debug": [
+      "Composer\\Config::disableProcessTimeout",
+      "talon run pgsql -- --fail-on-all-issues --display-all-issues"
+    ],
+    "test-db-pgsql-coverage": [
+      "Composer\\Config::disableProcessTimeout",
+      "talon run pgsql -- --coverage-clover tests/_output/coverage.xml"
+    ],
+    "test-db-sqlite": [
+      "Composer\\Config::disableProcessTimeout",
+      "talon run sqlite"
+    ],
+    "test-db-sqlite-debug": [
+      "Composer\\Config::disableProcessTimeout",
+      "talon run sqlite -- --fail-on-all-issues --display-all-issues"
+    ],
+    "test-db-sqlite-coverage": [
+      "Composer\\Config::disableProcessTimeout",
+      "talon run sqlite -- --coverage-clover tests/_output/coverage.xml"
+    ],
+    "test-db": [
+      "Composer\\Config::disableProcessTimeout",
+      "talon run mariadb mysql pgsql sqlite"
+    ],
+    "test-all": [
+      "Composer\\Config::disableProcessTimeout",
+      "talon run all"
+    ],
+    "clean-build-stubs": [
+      "Composer\\Config::disableProcessTimeout",
+      "./vendor/bin/zephir fullclean",
       "./vendor/bin/zephir build",
       "./vendor/bin/zephir stubs"
     ]

@@ -27,20 +27,16 @@ use Phalcon\Queue\Adapter\AbstractSubscriptionConsumer;
  */
 class BeanstalkSubscriptionConsumer extends AbstractSubscriptionConsumer
 {
-    /**
-     * Retained for transports that may later need it for a native multi-queue
-     * receive; the shared poll loop does not use it.
-     *
-     * @var BeanstalkContext
-     */
-    protected context;
+    protected <BeanstalkContext> context;
 
     /**
      * The context is retained for transports that may later need it for a
      * native multi-queue receive; the shared poll loop does not use it.
      */
-    public function __construct(<BeanstalkContext> context, int pollInterval = 200)
-    {
+    public function __construct(
+        <BeanstalkContext> context, 
+        int pollInterval = 200
+    ) {
         let this->context      = context,
             this->pollInterval = pollInterval;
     }

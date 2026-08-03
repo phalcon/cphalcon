@@ -29,10 +29,7 @@ use Phalcon\Queue\Adapter\AbstractConsumer;
  */
 class StreamConsumer extends AbstractConsumer
 {
-    /**
-     * @var StreamContext
-     */
-    protected context;
+    protected <StreamContext> context;
 
     public function __construct(<StreamContext> context, <QueueInterface> queue, int pollInterval = 200)
     {

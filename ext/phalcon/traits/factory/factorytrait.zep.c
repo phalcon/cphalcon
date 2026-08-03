@@ -1,25 +1,25 @@
 
 #ifdef HAVE_CONFIG_H
-#include "../../ext_config.h"
+#include "../../../ext_config.h"
 #endif
 
 #include <php.h>
-#include "../../php_ext.h"
-#include "../../ext.h"
+#include "../../../php_ext.h"
+#include "../../../ext.h"
 
 #include <Zend/zend_operators.h>
 #include <Zend/zend_exceptions.h>
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/fcall.h"
 #include "kernel/memory.h"
-#include "kernel/operators.h"
-#include "kernel/object.h"
 #include "kernel/array.h"
+#include "kernel/object.h"
+#include "kernel/fcall.h"
 #include "kernel/main.h"
 #include "kernel/exception.h"
 #include "kernel/concat.h"
+#include "kernel/operators.h"
 
 
 /**
@@ -29,23 +29,15 @@
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
- *
- * Implementation of this component has been inspired by the queue-interop and
- * enqueue projects.
- *
- * @link    https://github.com/queue-interop/queue-interop
- * @license https://github.com/queue-interop/queue-interop/blob/master/LICENSE
- *
- * @link    https://github.com/php-enqueue/enqueue-dev
- * @license https://github.com/php-enqueue/enqueue-dev/blob/master/LICENSE
  */
 /**
- * Maps an adapter name to its ConnectionFactory. Mirrors
- * Phalcon\Storage\AdapterFactory.
+ * Methods allowing a mapper based factory to operate. Supports injected
+ * services, getting a service by name (key), initialization and setting of
+ * the exception class (when exceptions are needed to be thrown)
  */
-ZEPHIR_INIT_CLASS(Phalcon_Queue_AdapterFactory)
+ZEPHIR_INIT_CLASS(Phalcon_Traits_Factory_FactoryTrait)
 {
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Queue, AdapterFactory, phalcon, queue_adapterfactory, phalcon_queue_adapterfactory_method_entry, 0);
+	ZEPHIR_REGISTER_TRAIT(Phalcon\\Traits\\Factory, FactoryTrait, phalcon, traits_factory_factorytrait, phalcon_traits_factory_factorytrait_method_entry);
 
 	/**
 	 * @var array<string, object>
@@ -53,7 +45,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Queue_AdapterFactory)
 	{
 		zval _zc0;
 		array_init_size(&_zc0, 1);
-		zephir_declare_typed_property(phalcon_queue_adapterfactory_ce, SL("instances"), &_zc0, ZEND_ACC_PRIVATE, MAY_BE_ARRAY, NULL, 0);
+		zephir_declare_typed_property(phalcon_traits_factory_factorytrait_ce, SL("instances"), &_zc0, ZEND_ACC_PRIVATE, MAY_BE_ARRAY, NULL, 0);
 	}
 
 	/**
@@ -62,115 +54,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Queue_AdapterFactory)
 	{
 		zval _zc0;
 		array_init_size(&_zc0, 1);
-		zephir_declare_typed_property(phalcon_queue_adapterfactory_ce, SL("mapper"), &_zc0, ZEND_ACC_PRIVATE, MAY_BE_ARRAY, NULL, 0);
+		zephir_declare_typed_property(phalcon_traits_factory_factorytrait_ce, SL("mapper"), &_zc0, ZEND_ACC_PRIVATE, MAY_BE_ARRAY, NULL, 0);
 	}
 
 	return SUCCESS;
-}
-
-/**
- * AdapterFactory constructor.
- */
-PHP_METHOD(Phalcon_Queue_AdapterFactory, __construct)
-{
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *services_param = NULL;
-	zval services;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&services);
-	ZEND_PARSE_PARAMETERS_START(0, 1)
-		Z_PARAM_OPTIONAL
-		ZEPHIR_Z_PARAM_ARRAY(services, services_param)
-	ZEND_PARSE_PARAMETERS_END();
-	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_fetch_params(1, 0, 1, &services_param);
-	if (!services_param) {
-		ZEPHIR_INIT_VAR(&services);
-		array_init(&services);
-	} else {
-		zephir_get_arrval(&services, services_param);
-	}
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "init", NULL, 0, &services);
-	zephir_check_call_status();
-	ZEPHIR_MM_RESTORE();
-}
-
-/**
- * Creates a new ConnectionFactory for the named adapter.
- */
-PHP_METHOD(Phalcon_Queue_AdapterFactory, newInstance)
-{
-	zend_class_entry *_1;
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval options;
-	zval name_zv, *options_param = NULL, definition, _0;
-	zend_string *name = NULL;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&name_zv);
-	ZVAL_UNDEF(&definition);
-	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&options);
-	ZEND_PARSE_PARAMETERS_START(1, 2)
-		Z_PARAM_STR(name)
-		Z_PARAM_OPTIONAL
-		ZEPHIR_Z_PARAM_ARRAY(options, options_param)
-	ZEND_PARSE_PARAMETERS_END();
-	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	if (ZEND_NUM_ARGS() > 1) {
-		options_param = ZEND_CALL_ARG(execute_data, 2);
-	}
-	zephir_memory_observe(&name_zv);
-	ZVAL_STR_COPY(&name_zv, name);
-	if (!options_param) {
-		ZEPHIR_INIT_VAR(&options);
-		array_init(&options);
-	} else {
-		zephir_get_arrval(&options, options_param);
-	}
-	ZEPHIR_CALL_METHOD(&definition, this_ptr, "getservice", NULL, 0, &name_zv);
-	zephir_check_call_status();
-	zephir_fetch_safe_class(&_0, &definition);
-	_1 = zephir_fetch_class_str_ex(Z_STRVAL_P(&_0), Z_STRLEN_P(&_0), ZEND_FETCH_CLASS_AUTO);
-	if(!_1) {
-		RETURN_MM_NULL();
-	}
-	object_init_ex(return_value, _1);
-	ZEPHIR_LAST_CALL_STATUS = zephir_check_constructor_access(return_value);
-	zephir_check_call_status();
-	if (zephir_has_constructor(return_value)) {
-		ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &options);
-		zephir_check_call_status();
-	}
-
-	RETURN_MM();
-}
-
-PHP_METHOD(Phalcon_Queue_AdapterFactory, getExceptionClass)
-{
-
-	RETURN_STRING("Phalcon\\Queue\\Exceptions\\Exception");
-}
-
-/**
- * Returns the available adapters.
- *
- * @return string[]
- */
-PHP_METHOD(Phalcon_Queue_AdapterFactory, getServices)
-{
-
-	zephir_create_array(return_value, 4, 0);
-	add_assoc_stringl_ex(return_value, SL("beanstalk"), SL("Phalcon\\Queue\\Adapter\\Beanstalk\\BeanstalkConnectionFactory"));
-	add_assoc_stringl_ex(return_value, SL("memory"), SL("Phalcon\\Queue\\Adapter\\Memory\\MemoryConnectionFactory"));
-	add_assoc_stringl_ex(return_value, SL("redis"), SL("Phalcon\\Queue\\Adapter\\Redis\\RedisConnectionFactory"));
-	add_assoc_stringl_ex(return_value, SL("stream"), SL("Phalcon\\Queue\\Adapter\\Stream\\StreamConnectionFactory"));
-	return;
 }
 
 /**
@@ -178,7 +65,7 @@ PHP_METHOD(Phalcon_Queue_AdapterFactory, getServices)
  *
  * @throws Exception
  */
-PHP_METHOD(Phalcon_Queue_AdapterFactory, getCachedInstance)
+PHP_METHOD(Phalcon_Traits_Factory_FactoryTrait, getCachedInstance)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -207,7 +94,7 @@ PHP_METHOD(Phalcon_Queue_AdapterFactory, getCachedInstance)
 	ZVAL_STR_COPY(&name_zv, name);
 	ZEPHIR_INIT_VAR(&arguments);
 	zephir_get_args_from(&arguments, 1);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1286, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1372, PH_NOISY_CC | PH_READONLY);
 	if (1 != zephir_array_isset_value(&_0, &name_zv)) {
 		ZEPHIR_CALL_METHOD(&definition, this_ptr, "getservice", NULL, 0, &name_zv);
 		zephir_check_call_status();
@@ -216,9 +103,18 @@ PHP_METHOD(Phalcon_Queue_AdapterFactory, getCachedInstance)
 		zephir_check_call_status();
 		zephir_update_property_array(this_ptr, SL("instances"), &name_zv, &_1$$3);
 	}
-	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 1286, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 1372, PH_NOISY_CC | PH_READONLY);
 	zephir_array_fetch(&_3, &_2, &name_zv, PH_NOISY | PH_READONLY, "phalcon/Traits/Factory/FactoryTrait.zep", 46);
 	RETURN_CTOR(&_3);
+}
+
+/**
+ * Returns the exception class for the factory
+ *
+ * @return class-string<\Throwable>
+ */
+PHP_METHOD(Phalcon_Traits_Factory_FactoryTrait, getExceptionClass)
+{
 }
 
 /**
@@ -227,7 +123,7 @@ PHP_METHOD(Phalcon_Queue_AdapterFactory, getCachedInstance)
  *
  * @throws Exception
  */
-PHP_METHOD(Phalcon_Queue_AdapterFactory, getService)
+PHP_METHOD(Phalcon_Traits_Factory_FactoryTrait, getService)
 {
 	zval _4$$3;
 	zend_class_entry *_3$$3;
@@ -257,7 +153,7 @@ PHP_METHOD(Phalcon_Queue_AdapterFactory, getService)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1287, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1373, PH_NOISY_CC | PH_READONLY);
 	if (1 != zephir_array_isset_value(&_0, &name_zv)) {
 		ZEPHIR_CALL_METHOD(&exceptionClass, this_ptr, "getexceptionclass", NULL, 0);
 		zephir_check_call_status();
@@ -281,9 +177,18 @@ PHP_METHOD(Phalcon_Queue_AdapterFactory, getService)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	zephir_read_property_cached(&_5, this_ptr, _zephir_prop_0, 1287, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_5, this_ptr, _zephir_prop_0, 1373, PH_NOISY_CC | PH_READONLY);
 	zephir_array_fetch(&_6, &_5, &name_zv, PH_NOISY | PH_READONLY, "phalcon/Traits/Factory/FactoryTrait.zep", 73);
 	RETURN_CTOR(&_6);
+}
+
+/**
+ * Returns the services for the factory
+ *
+ * @return string[]
+ */
+PHP_METHOD(Phalcon_Traits_Factory_FactoryTrait, getServices)
+{
 }
 
 /**
@@ -291,7 +196,7 @@ PHP_METHOD(Phalcon_Queue_AdapterFactory, getService)
  *
  * @param string[] $services
  */
-PHP_METHOD(Phalcon_Queue_AdapterFactory, init)
+PHP_METHOD(Phalcon_Traits_Factory_FactoryTrait, init)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -324,7 +229,7 @@ PHP_METHOD(Phalcon_Queue_AdapterFactory, init)
 	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getservices", NULL, 0);
 	zephir_check_call_status();
 	zephir_fast_array_merge(&_0, &_1, &services);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1287, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1373, &_0);
 	ZEPHIR_MM_RESTORE();
 }
 

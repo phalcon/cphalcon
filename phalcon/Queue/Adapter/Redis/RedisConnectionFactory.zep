@@ -45,10 +45,7 @@ use Phalcon\Storage\SerializerFactory;
  */
 class RedisConnectionFactory implements ConnectionFactoryInterface
 {
-    /**
-     * @var array
-     */
-    protected options = [];
+    protected array options = [];
 
     public function __construct(array options = [])
     {

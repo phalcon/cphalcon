@@ -45,22 +45,30 @@ ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_Beanstalk_BeanstalkProducer)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Queue\\Adapter\\Beanstalk, BeanstalkProducer, phalcon, queue_adapter_beanstalk_beanstalkproducer, phalcon_queue_adapter_abstractproducer_ce, phalcon_queue_adapter_beanstalk_beanstalkproducer_method_entry, 0);
 
-	/**
-	 * @var BeanstalkContext
-	 */
-	zend_declare_property_null(phalcon_queue_adapter_beanstalk_beanstalkproducer_ce, SL("context"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_queue_adapter_beanstalk_beanstalkproducer_ce, SL("context"), &_zc0, ZEND_ACC_PROTECTED, 0, SL("Phalcon\\Queue\\Adapter\\Beanstalk\\BeanstalkContext"));
+	}
+
 	/**
 	 * Delivery delay in milliseconds, or null when not set.
-	 *
-	 * @var int | null
 	 */
-	zend_declare_property_null(phalcon_queue_adapter_beanstalk_beanstalkproducer_ce, SL("deliveryDelay"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_NULL(&_zc0);
+		zephir_declare_typed_property(phalcon_queue_adapter_beanstalk_beanstalkproducer_ce, SL("deliveryDelay"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_LONG, NULL, 0);
+	}
+
 	/**
 	 * Job priority, or null when not set.
-	 *
-	 * @var int | null
 	 */
-	zend_declare_property_null(phalcon_queue_adapter_beanstalk_beanstalkproducer_ce, SL("priority"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_NULL(&_zc0);
+		zephir_declare_typed_property(phalcon_queue_adapter_beanstalk_beanstalkproducer_ce, SL("priority"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_LONG, NULL, 0);
+	}
+
 	/**
 	 * Default Beanstalkd priority (0 = most urgent).
 	 *

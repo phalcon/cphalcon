@@ -39,7 +39,7 @@
 /**
  * Shared consumer base. Implements the blocking `receive()` as a polling loop
  * on top of the abstract `receiveNoWait()`; concrete consumers provide the
- * transport-specific `receiveNoWait`, `acknowledge` and `reject`.
+ * transport-specific `receiveNoWait`, `acknowledge`, `reject` and `getQueue`.
  *
  * Transports with a native blocking receive (Redis BRPOP, Beanstalk reserve)
  * override `receive()` instead of polling.
@@ -50,16 +50,22 @@ ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_AbstractConsumer)
 
 	/**
 	 * Milliseconds slept between poll attempts.
-	 *
-	 * @var int
 	 */
-	zend_declare_property_long(phalcon_queue_adapter_abstractconsumer_ce, SL("pollInterval"), 200, ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_LONG(&_zc0, 200);
+		zephir_declare_typed_property(phalcon_queue_adapter_abstractconsumer_ce, SL("pollInterval"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_LONG, NULL, 0);
+	}
+
 	/**
 	 * The queue this consumer reads from.
-	 *
-	 * @var QueueInterface
 	 */
-	zend_declare_property_null(phalcon_queue_adapter_abstractconsumer_ce, SL("queue"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_queue_adapter_abstractconsumer_ce, SL("queue"), &_zc0, ZEND_ACC_PROTECTED, 0, SL("Phalcon\\Contracts\\Queue\\Queue"));
+	}
+
 	zend_class_implements(phalcon_queue_adapter_abstractconsumer_ce, 1, phalcon_contracts_queue_consumer_ce);
 	return SUCCESS;
 }

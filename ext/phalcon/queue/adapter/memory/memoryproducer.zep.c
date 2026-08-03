@@ -43,10 +43,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_Memory_MemoryProducer)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Queue\\Adapter\\Memory, MemoryProducer, phalcon, queue_adapter_memory_memoryproducer, phalcon_queue_adapter_abstractproducer_ce, phalcon_queue_adapter_memory_memoryproducer_method_entry, 0);
 
-	/**
-	 * @var MemoryContext
-	 */
-	zend_declare_property_null(phalcon_queue_adapter_memory_memoryproducer_ce, SL("context"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_queue_adapter_memory_memoryproducer_ce, SL("context"), &_zc0, ZEND_ACC_PROTECTED, 0, SL("Phalcon\\Queue\\Adapter\\Memory\\MemoryContext"));
+	}
+
 	return SUCCESS;
 }
 
