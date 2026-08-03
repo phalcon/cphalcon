@@ -1,0 +1,52 @@
+<?php
+
+$finder = PhpCsFixer\Finder::create()
+    ->in('tests/')
+    ->exclude('syntax/volt/')
+    ->exclude('_support/_generated/')
+    ->exclude('_data/fixtures/Annotations/');
+
+return PhpCsFixer\Config::create()
+    ->setRules(
+        [
+            '@PSR2'                                         => true,
+            'array_syntax'                                  => ['syntax' => 'short'],
+            'align_multiline_comment'                       => true,
+            'blank_line_before_statement'                   => true,
+            'combine_consecutive_issets'                    => true,
+            'combine_consecutive_unsets'                    => true,
+            'dir_constant'                                  => true,
+            'fully_qualified_strict_types'                  => true,
+            'include'                                       => true,
+            'new_with_braces'                               => true,
+            'no_blank_lines_after_class_opening'            => true,
+            'no_empty_comment'                              => true,
+            'no_empty_phpdoc'                               => true,
+            'no_empty_statement'                            => true,
+            'no_superfluous_phpdoc_tags'                    => true,
+            'no_trailing_whitespace'                        => true,
+            'no_trailing_whitespace_in_comment'             => true,
+            'no_unused_imports'                             => true,
+            'object_operator_without_whitespace'            => true,
+            'ordered_imports'                               => true,
+            'php_unit_strict'                               => true,
+            'phpdoc_no_access'                              => true,
+            'phpdoc_no_package'                             => true,
+            'phpdoc_single_line_var_spacing'                => true,
+            'phpdoc_scalar'                                 => true,
+            'phpdoc_trim'                                   => true,
+            'phpdoc_trim_consecutive_blank_line_separation' => true,
+            'phpdoc_var_without_name'                       => true,
+            'single_blank_line_at_eof'                      => true,
+            'single_import_per_statement'                   => true,
+            'single_line_after_imports'                     => true,
+            'single_quote'                                  => true,
+            'standardize_not_equals'                        => true,
+            'standardize_increment'                         => true,
+            'strict_param'                                  => true,
+            'ternary_operator_spaces'                       => true,
+            'trailing_comma_in_multiline_array'             => true,
+            'visibility_required'                           => true,
+        ]
+    )
+    ->setFinder($finder);

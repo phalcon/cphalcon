@@ -3,31 +3,10 @@
 *.sql   linguist-language=SQL
 *.w32   linguist-language=JavaScript
 
-ext/*   linguist-vendored
+ext/*        linguist-vendored
+build/php5/* linguist-vendored
+build/php7/* linguist-vendored
 
 *.png   binary
 
 tests/support/assets/*  -text
-
-# `git archive` produces the tarball that Composer and PIE download, so prune
-# everything that is not required to compile the extension. The build only
-# needs build/phalcon: phalcon.zep.c is self contained and already includes the
-# Volt, PHQL and Annotations parsers. This mirrors the payload declared in
-# package.xml for PECL.
-
-/.dockerignore      export-ignore
-/.editorconfig      export-ignore
-/.gitattributes     export-ignore
-/.github            export-ignore
-/.gitignore         export-ignore
-/3rdparty/lemon     export-ignore
-/bin                export-ignore
-/composer.lock      export-ignore
-/config.json        export-ignore
-/docker-compose.yml export-ignore
-/ext                export-ignore
-/optimizers         export-ignore
-/phalcon            export-ignore
-/resources          export-ignore
-/talon.php          export-ignore
-/tests              export-ignore
