@@ -32,10 +32,23 @@ class DoesNotImplement extends Exception
      * "must implement" guard shared across adapters, guards and the manager
      * in one place.
      *
+     * @template TExpected of object
+     *
+     * @param mixed                   $value
+     * @param class-string<TExpected> $interfaceName
+     * @param string                  $type
+     * @param string                  $name
+     *
+     * @phpstan-assert TExpected $value
+     *
      * @throws self
      */
-    public static function assert(var value, var interfaceName, string type, string name) -> void
-    {
+    public static function assert(
+        var value,
+        string interfaceName,
+        string type,
+        string name
+    ) -> void {
         if (!is_object(value) || !(value instanceof interfaceName)) {
             throw new self(type, name);
         }

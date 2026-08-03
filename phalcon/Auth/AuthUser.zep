@@ -24,9 +24,8 @@ class AuthUser implements AuthUserContract
 {
     /**
      * @phpstan-var array<string, mixed>
-     * @var array
      */
-    protected data;
+    protected array data;
 
     /**
      * @param array<string, mixed> $data

@@ -50,7 +50,7 @@ interface Adapter
     /**
      * Find a user by their unique identifier.
      */
-    public function retrieveById(var id) -> <AuthUser> | null;
+    public function retrieveById(int | string id) -> <AuthUser> | null;
 
     /**
      * Validate the provided credentials against the given user.

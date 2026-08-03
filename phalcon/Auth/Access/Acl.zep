@@ -38,20 +38,9 @@ use Phalcon\Contracts\Auth\Guard\Guard;
  */
 class Acl extends AbstractAccess
 {
-    /**
-     * @var AdapterInterface
-     */
-    protected acl;
-
-    /**
-     * @var string
-     */
-    protected guestRole = "guest";
-
-    /**
-     * @var string
-     */
-    protected moduleSeparator = ":";
+    protected <AdapterInterface> acl;
+    protected string guestRole = "guest";
+    protected string moduleSeparator = ":";
 
     /**
      * @phpstan-param array{guestRole?: string, moduleSeparator?: string} $options

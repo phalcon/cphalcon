@@ -97,7 +97,7 @@ class Model extends AbstractAdapter implements RememberAdapter
 
         let found = this->findFirstAsAuthUser(
             [
-                "conditions" : join(" AND ", conditions),
+                "conditions" : implode(" AND ", conditions),
                 "bind"       : bind
             ]
         );
@@ -109,12 +109,8 @@ class Model extends AbstractAdapter implements RememberAdapter
         return found;
     }
 
-    public function retrieveById(var id) -> <AuthUser> | null
+    public function retrieveById(int | string id) -> <AuthUser> | null
     {
-        if (typeof id !== "int" && typeof id !== "string") {
-            throw new \TypeError("The parameter must be 'int' or 'string'");
-        }
-
         return this->findFirstAsAuthUser(
             [
                 "conditions" : "[" . this->config->getIdColumn() . "] = :id:",
@@ -127,7 +123,7 @@ class Model extends AbstractAdapter implements RememberAdapter
      * Retrieve a user by the remember-me cookie payload.
      */
     public function retrieveByToken(
-        var id,
+        int | string id,
         string token,
         string userAgent = null
     ) -> <AuthUser> | null {
@@ -175,7 +171,7 @@ class Model extends AbstractAdapter implements RememberAdapter
 
         let found = {modelClass}::findFirst(parameters);
 
-        if (found === null) {
+        if (found === false || found === null) {
             return null;
         }
 

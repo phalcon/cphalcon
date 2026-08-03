@@ -15,10 +15,7 @@ namespace Phalcon\Auth\Adapter\Config\Traits;
  */
 trait ModelConfigTrait
 {
-    /**
-     * @var string|null
-     */
-    protected model = null;
+    protected ?string model = null;
 
     public function getModel() -> string | null
     {
