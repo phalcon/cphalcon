@@ -162,6 +162,8 @@ PHP_METHOD(Phalcon_Assets_Inline, getAssetKey)
 }
 
 /**
+ * Gets if the asset content
+ *
  * @return string
  */
 PHP_METHOD(Phalcon_Assets_Inline, getContent)
@@ -171,6 +173,8 @@ PHP_METHOD(Phalcon_Assets_Inline, getContent)
 }
 
 /**
+ * Gets if the asset must be filtered or not.
+ *
  * @return bool
  */
 PHP_METHOD(Phalcon_Assets_Inline, getFilter)
@@ -180,6 +184,8 @@ PHP_METHOD(Phalcon_Assets_Inline, getFilter)
 }
 
 /**
+ * Gets the asset's type.
+ *
  * @return string
  */
 PHP_METHOD(Phalcon_Assets_Inline, getType)

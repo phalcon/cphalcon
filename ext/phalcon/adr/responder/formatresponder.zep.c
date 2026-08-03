@@ -46,7 +46,7 @@ ZEPHIR_INIT_CLASS(Phalcon_ADR_Responder_FormatResponder)
 	 */
 	{
 		zval _zc0;
-		ZVAL_UNDEF(&_zc0);
+		array_init_size(&_zc0, 1);
 		zephir_declare_typed_property(phalcon_adr_responder_formatresponder_ce, SL("formatters"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_ARRAY, NULL, 0);
 	}
 

@@ -41,4 +41,31 @@ class PartialTest extends AbstractUnitTestCase
 
         $this->assertSame('Hey, this is a partial, also abcde', $actual);
     }
+
+    /**
+     * An absolute partial path is used as is, ignoring basePath/viewsDir
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/17426
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-08-01
+     */
+    public function testMvcViewPartialAbsolutePath(): void
+    {
+        $container = new Di();
+        $view      = new View();
+
+        $view->setViewsDir(
+            $this->getDirSeparator(Talon::settings()->supportPath('assets/views'))
+        );
+        $view->setDI($container);
+
+        ob_start();
+        $view->partial(
+            Talon::settings()->supportPath('assets/views/partials/partial'),
+            ['cool_var' => 'abcde']
+        );
+        $actual = ob_get_clean();
+
+        $this->assertSame('Hey, this is a partial, also abcde', $actual);
+    }
 }

@@ -79,6 +79,8 @@ class Route implements RouteInterface
     protected static uniqueId = 0;
 
     /**
+     * Constructor
+     *
      * @param array|string paths
      */
     public function __construct( string pattern, paths = null)

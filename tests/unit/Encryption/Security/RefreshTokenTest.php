@@ -31,7 +31,7 @@ final class RefreshTokenTest extends AbstractUnitTestCase
     }
 
     /**
-     * Default behaviour (autoRefresh = true) rotates the token on each new
+     * Default behavior (autoRefresh = true) rotates the token on each new
      * Security instance even when a value already exists in the session.
      *
      * @issue https://github.com/phalcon/cphalcon/issues/14413
@@ -93,7 +93,7 @@ final class RefreshTokenTest extends AbstractUnitTestCase
         $session = $this->container->getShared('session');
         $session->start();
 
-        // Prime the session with a token via the default behaviour.
+        // Prime the session with a token via the default behavior.
         $first = new Security();
         $first->setDI($this->container);
         $tokenSeed = $first->getToken();

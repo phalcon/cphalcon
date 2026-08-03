@@ -51,6 +51,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_Memory_MemorySubscriptionConsumer)
 	return SUCCESS;
 }
 
+/**
+ * The context is retained for transports that may later need it for a
+ * native multi-queue receive; the shared poll loop does not use it.
+ */
 PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemorySubscriptionConsumer, __construct)
 {
 	zval *context, context_sub;

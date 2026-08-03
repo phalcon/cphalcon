@@ -26,16 +26,16 @@ use Phalcon\Http\ResponseInterface;
  */
 final class Pipeline implements Handler
 {
-    protected int index;
+    protected int index = 0;
     /**
      * @var array
      */
-    protected array middleware;
+    protected array middleware = [];
 
     /**
      * @var Handler
      */
-    protected terminal;
+    protected <Handler> terminal;
 
     public function __construct(array middleware, <Handler> terminal, int index = 0)
     {

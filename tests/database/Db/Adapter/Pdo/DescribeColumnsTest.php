@@ -141,35 +141,6 @@ final class DescribeColumnsTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests Phalcon\Db\Adapter\Pdo :: describeColumns()
-     *
-     * @return void
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2020-03-02
-     */
-    #[Group('mysql')]
-    public function testDbAdapterPdoDescribeColumnsOnUpdate(): void
-    {
-        $db        = $this->container->get('db');
-        $now       = date('Y-m-d H:i:s');
-        $migration = new ComplexDefaultMigration(self::getPdoConnection());
-        $migration->insert(1, $now, $now);
-
-        $columns = $db->describeColumns($migration->getTable());
-
-        if ($this->isMariaDb()) {
-            $this->assertSame('current_timestamp() on update current_timestamp()', $columns[2]->getDefault());
-            $this->assertSame('NULL on update current_timestamp()', $columns[3]->getDefault());
-
-            return;
-        }
-
-        $this->assertSame('CURRENT_TIMESTAMP DEFAULT_GENERATED on update CURRENT_TIMESTAMP', $columns[2]->getDefault());
-        $this->assertSame('NULL on update CURRENT_TIMESTAMP', $columns[3]->getDefault());
-    }
-
-    /**
      * Tests Phalcon\Db\Adapter\Pdo :: describeColumns() - escaped defaults
      *
      * Runs on both engines on purpose: MySQL resolves these literals itself and
@@ -218,6 +189,35 @@ final class DescribeColumnsTest extends AbstractDatabaseTestCase
             $this->isMariaDb() ? 'NULL' : null,
             $columns['field_null_word']
         );
+    }
+
+    /**
+     * Tests Phalcon\Db\Adapter\Pdo :: describeColumns()
+     *
+     * @return void
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-03-02
+     */
+    #[Group('mysql')]
+    public function testDbAdapterPdoDescribeColumnsOnUpdate(): void
+    {
+        $db        = $this->container->get('db');
+        $now       = date('Y-m-d H:i:s');
+        $migration = new ComplexDefaultMigration(self::getPdoConnection());
+        $migration->insert(1, $now, $now);
+
+        $columns = $db->describeColumns($migration->getTable());
+
+        if ($this->isMariaDb()) {
+            $this->assertSame('current_timestamp() on update current_timestamp()', $columns[2]->getDefault());
+            $this->assertSame('NULL on update current_timestamp()', $columns[3]->getDefault());
+
+            return;
+        }
+
+        $this->assertSame('CURRENT_TIMESTAMP DEFAULT_GENERATED on update CURRENT_TIMESTAMP', $columns[2]->getDefault());
+        $this->assertSame('NULL on update CURRENT_TIMESTAMP', $columns[3]->getDefault());
     }
 
     /**

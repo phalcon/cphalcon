@@ -73,6 +73,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Session_Adapter_Stream)
 	 */
 	zend_declare_property_string(phalcon_session_adapter_stream_ce, SL("prefix"), "", ZEND_ACC_PROTECTED);
 	/**
+	 * The path of the session files
+	 *
 	 * @var string
 	 */
 	zend_declare_property_string(phalcon_session_adapter_stream_ce, SL("path"), "", ZEND_ACC_PRIVATE);
@@ -154,7 +156,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, __construct)
 		object_init_ex(&_4$$3, phalcon_session_adapter_exceptions_invalidsavepath_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_4$$3, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_4$$3, "phalcon/Session/Adapter/Stream.zep", 93);
+		zephir_throw_exception_debug(&_4$$3, "phalcon/Session/Adapter/Stream.zep", 95);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -165,7 +167,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, __construct)
 		object_init_ex(&_6$$4, phalcon_session_adapter_exceptions_savepathunavailable_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_6$$4, "__construct", NULL, 0, &path);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_6$$4, "phalcon/Session/Adapter/Stream.zep", 97);
+		zephir_throw_exception_debug(&_6$$4, "phalcon/Session/Adapter/Stream.zep", 99);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -281,7 +283,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, gc)
 		ZEPHIR_CALL_FUNCTION(&last, "error_get_last", NULL, 0);
 		zephir_check_call_status();
 		if (zephir_array_isset_value_string(&last, SL("message"))) {
-			zephir_array_fetch_string(&_3$$4, &last, SL("message"), PH_NOISY | PH_READONLY, "phalcon/Session/Adapter/Stream.zep", 133);
+			zephir_array_fetch_string(&_3$$4, &last, SL("message"), PH_NOISY | PH_READONLY, "phalcon/Session/Adapter/Stream.zep", 135);
 			ZEPHIR_CPY_WRT(&last, &_3$$4);
 		} else {
 			ZEPHIR_INIT_NVAR(&last);
@@ -291,12 +293,12 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, gc)
 		object_init_ex(&_4$$3, phalcon_session_adapter_exceptions_adapterruntimeerror_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_4$$3, "__construct", NULL, 8, &last);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_4$$3, "phalcon/Session/Adapter/Stream.zep", 137);
+		zephir_throw_exception_debug(&_4$$3, "phalcon/Session/Adapter/Stream.zep", 139);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	if (!(ZEPHIR_IS_EMPTY(&glob))) {
-		zephir_is_iterable(&glob, 0, "phalcon/Session/Adapter/Stream.zep", 148);
+		zephir_is_iterable(&glob, 0, "phalcon/Session/Adapter/Stream.zep", 150);
 		if (Z_TYPE_P(&glob) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&glob), _5$$6)
 			{

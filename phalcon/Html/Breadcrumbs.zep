@@ -178,6 +178,8 @@ class Breadcrumbs
     }
 
     /**
+     * Set the separator
+     *
      * @param string $separator
      *
      * @return static

@@ -51,7 +51,7 @@ ZEPHIR_INIT_CLASS(Phalcon_ADR_ErrorResponder)
 
 	{
 		zval _zc0;
-		ZVAL_UNDEF(&_zc0);
+		ZVAL_BOOL(&_zc0, 0);
 		zephir_declare_typed_property(phalcon_adr_errorresponder_ce, SL("debug"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_BOOL, NULL, 0);
 	}
 

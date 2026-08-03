@@ -61,7 +61,7 @@ final class ToHttpCodeTest extends AbstractUnitTestCase
     /**
      * Unit Tests Phalcon\ADR\Responder\StatusMapper :: toHttpCode() overrides
      */
-    public function testAdrResponderStatusMapperToHttpCodeHonoursOverrides(): void
+    public function testAdrResponderStatusMapperToHttpCodeHonorsOverrides(): void
     {
         $mapper = new StatusMapper(
             [

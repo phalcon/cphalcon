@@ -12,8 +12,8 @@ namespace Phalcon\Translate\Adapter;
 
 use Phalcon\Traits\Php\FileTrait;
 use Phalcon\Translate\Exception;
-use Phalcon\Translate\Exceptions\MissingRequiredParameter;
 use Phalcon\Translate\Exceptions\FileOpenError;
+use Phalcon\Translate\Exceptions\MissingRequiredParameter;
 use Phalcon\Translate\InterpolatorFactory;
 
 /**
@@ -29,7 +29,7 @@ class Csv extends AbstractAdapter
     use FileTrait;
 
     /**
-     * @var array
+     * @var array<string, string>
      */
     protected translate = [];
 
@@ -120,7 +120,7 @@ class Csv extends AbstractAdapter
     /**
      * Returns the internal array
      *
-     * @return array
+     * @return array<string, string>
      */
     public function toArray() -> array
     {
@@ -142,8 +142,13 @@ class Csv extends AbstractAdapter
      * @return void
      * @throws FileOpenError
      */
-    private function load(string file, int length, string delimiter, string enclosure, string escape) -> void
-    {
+    private function load(
+        string file, 
+	int length, 
+	string delimiter, 
+	string enclosure, 
+	string escape
+    ) -> void {
         var data, fileHandler;
 
         let fileHandler = this->phpFopen(file, "rb");

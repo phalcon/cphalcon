@@ -1687,7 +1687,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, writeMetaDataIndex)
 }
 
 /**
- * Initialize old behaviour for compatability
+ * Initialize old behavior for compatability
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, initialize)
 {

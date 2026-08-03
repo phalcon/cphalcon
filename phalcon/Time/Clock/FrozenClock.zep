@@ -33,6 +33,29 @@ final class FrozenClock implements ClockInterface
     }
 
     /**
+     * Return a new object of now with the current timezone
+     */
+    public static function fromSystemTimezone() -> <FrozenClock>
+    {
+        return new FrozenClock(
+            new DateTimeImmutable(
+                "now",
+                new DateTimeZone(date_default_timezone_get())
+            )
+        );
+    }
+
+    /**
+     * Return a new object of now with UTC
+     */
+    public static function fromUTC() -> <FrozenClock>
+    {
+        return new FrozenClock(
+            new DateTimeImmutable("now", new DateTimeZone("UTC"))
+        );
+    }
+
+    /**
      * Mutates the clock to a new value. All consumers receive the same modification
      *
      * @throws InvalidModifier
@@ -83,29 +106,6 @@ final class FrozenClock implements ClockInterface
         let this->now = modified;
 
         return this;
-    }
-
-    /**
-     * Return a new object of now with the current timezone
-     */
-    public static function fromSystemTimezone() -> <FrozenClock>
-    {
-        return new FrozenClock(
-            new DateTimeImmutable(
-                "now",
-                new DateTimeZone(date_default_timezone_get())
-            )
-        );
-    }
-
-    /**
-     * Return a new object of now with UTC
-     */
-    public static function fromUTC() -> <FrozenClock>
-    {
-        return new FrozenClock(
-            new DateTimeImmutable("now", new DateTimeZone("UTC"))
-        );
     }
 
     /**

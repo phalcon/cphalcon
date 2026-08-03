@@ -30,7 +30,7 @@ class FormatResponder implements Responder
     /**
      * @var array
      */
-    protected array formatters;
+    protected array formatters = [];
 
     public function __construct(array formatters = [])
     {

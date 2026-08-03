@@ -64,6 +64,73 @@ PHP_METHOD(Phalcon_Time_Clock_FrozenClock, __construct)
 }
 
 /**
+ * Return a new object of now with the current timezone
+ */
+PHP_METHOD(Phalcon_Time_Clock_FrozenClock, fromSystemTimezone)
+{
+	zval _0, _1, _2, _3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_3);
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+
+	object_init_ex(return_value, phalcon_time_clock_frozenclock_ce);
+	ZEPHIR_INIT_VAR(&_0);
+	object_init_ex(&_0, php_date_get_immutable_ce());
+	ZEPHIR_INIT_VAR(&_1);
+	object_init_ex(&_1, php_date_get_timezone_ce());
+	ZEPHIR_CALL_FUNCTION(&_2, "date_default_timezone_get", NULL, 250);
+	zephir_check_call_status();
+	ZEPHIR_CALL_METHOD(NULL, &_1, "__construct", NULL, 0, &_2);
+	zephir_check_call_status();
+	ZEPHIR_INIT_VAR(&_3);
+	ZVAL_STRING(&_3, "now");
+	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 0, &_3, &_1);
+	zephir_check_call_status();
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &_0);
+	zephir_check_call_status();
+	RETURN_MM();
+}
+
+/**
+ * Return a new object of now with UTC
+ */
+PHP_METHOD(Phalcon_Time_Clock_FrozenClock, fromUTC)
+{
+	zval _0, _1, _2;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+
+	object_init_ex(return_value, phalcon_time_clock_frozenclock_ce);
+	ZEPHIR_INIT_VAR(&_0);
+	object_init_ex(&_0, php_date_get_immutable_ce());
+	ZEPHIR_INIT_VAR(&_1);
+	object_init_ex(&_1, php_date_get_timezone_ce());
+	ZEPHIR_INIT_VAR(&_2);
+	ZVAL_STRING(&_2, "UTC");
+	ZEPHIR_CALL_METHOD(NULL, &_1, "__construct", NULL, 0, &_2);
+	zephir_check_call_status();
+	ZEPHIR_INIT_NVAR(&_2);
+	ZVAL_STRING(&_2, "now");
+	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 0, &_2, &_1);
+	zephir_check_call_status();
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &_0);
+	zephir_check_call_status();
+	RETURN_MM();
+}
+
+/**
  * Mutates the clock to a new value. All consumers receive the same modification
  *
  * @throws InvalidModifier
@@ -134,7 +201,7 @@ PHP_METHOD(Phalcon_Time_Clock_FrozenClock, adjust)
 				object_init_ex(&_6$$5, phalcon_time_clock_exceptions_invalidmodifier_ce);
 				ZEPHIR_CALL_METHOD(NULL, &_6$$5, "__construct", NULL, 0, &modifier_zv, &ex);
 				zephir_check_call_status();
-				zephir_throw_exception_debug(&_6$$5, "phalcon/Time/Clock/FrozenClock.zep", 51);
+				zephir_throw_exception_debug(&_6$$5, "phalcon/Time/Clock/FrozenClock.zep", 74);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
@@ -166,79 +233,12 @@ PHP_METHOD(Phalcon_Time_Clock_FrozenClock, adjust)
 		object_init_ex(&_10$$7, phalcon_time_clock_exceptions_invalidmodifier_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_10$$7, "__construct", NULL, 0, &modifier_zv);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_10$$7, "phalcon/Time/Clock/FrozenClock.zep", 80);
+		zephir_throw_exception_debug(&_10$$7, "phalcon/Time/Clock/FrozenClock.zep", 103);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1364, &modified);
 	RETURN_THIS();
-}
-
-/**
- * Return a new object of now with the current timezone
- */
-PHP_METHOD(Phalcon_Time_Clock_FrozenClock, fromSystemTimezone)
-{
-	zval _0, _1, _2, _3;
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-
-	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_3);
-	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-
-	object_init_ex(return_value, phalcon_time_clock_frozenclock_ce);
-	ZEPHIR_INIT_VAR(&_0);
-	object_init_ex(&_0, php_date_get_immutable_ce());
-	ZEPHIR_INIT_VAR(&_1);
-	object_init_ex(&_1, php_date_get_timezone_ce());
-	ZEPHIR_CALL_FUNCTION(&_2, "date_default_timezone_get", NULL, 250);
-	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, &_1, "__construct", NULL, 0, &_2);
-	zephir_check_call_status();
-	ZEPHIR_INIT_VAR(&_3);
-	ZVAL_STRING(&_3, "now");
-	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 0, &_3, &_1);
-	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &_0);
-	zephir_check_call_status();
-	RETURN_MM();
-}
-
-/**
- * Return a new object of now with UTC
- */
-PHP_METHOD(Phalcon_Time_Clock_FrozenClock, fromUTC)
-{
-	zval _0, _1, _2;
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-
-	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_2);
-	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-
-	object_init_ex(return_value, phalcon_time_clock_frozenclock_ce);
-	ZEPHIR_INIT_VAR(&_0);
-	object_init_ex(&_0, php_date_get_immutable_ce());
-	ZEPHIR_INIT_VAR(&_1);
-	object_init_ex(&_1, php_date_get_timezone_ce());
-	ZEPHIR_INIT_VAR(&_2);
-	ZVAL_STRING(&_2, "UTC");
-	ZEPHIR_CALL_METHOD(NULL, &_1, "__construct", NULL, 0, &_2);
-	zephir_check_call_status();
-	ZEPHIR_INIT_NVAR(&_2);
-	ZVAL_STRING(&_2, "now");
-	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 0, &_2, &_1);
-	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &_0);
-	zephir_check_call_status();
-	RETURN_MM();
 }
 
 /**

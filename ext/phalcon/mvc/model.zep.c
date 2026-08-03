@@ -3429,7 +3429,7 @@ PHP_METHOD(Phalcon_Mvc_Model, find)
  *
  * echo "The first virtual invoice name is ", $invoice->inv_title;
  *
- * // behaviour with transaction
+ * // behavior with transaction
  * $myTransaction = new Transaction(\Phalcon\Di\Di::getDefault());
  * $myTransaction->begin();
  *
@@ -13234,6 +13234,9 @@ PHP_METHOD(Phalcon_Mvc_Model, loadEager)
 	ZEPHIR_MM_RESTORE();
 }
 
+/**
+ * shared prepare query logic for find and findFirst method
+ */
 PHP_METHOD(Phalcon_Mvc_Model, getPreparedQuery)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -13891,7 +13894,7 @@ PHP_METHOD(Phalcon_Mvc_Model, skipAttributesOnCreate)
 	zephir_get_arrval(&attributes, attributes_param);
 	ZEPHIR_INIT_VAR(&keysAttributes);
 	array_init(&keysAttributes);
-	zephir_is_iterable(&attributes, 0, "phalcon/Mvc/Model.zep", 6381);
+	zephir_is_iterable(&attributes, 0, "phalcon/Mvc/Model.zep", 6384);
 	if (Z_TYPE_P(&attributes) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&attributes), _0)
 		{
@@ -13970,7 +13973,7 @@ PHP_METHOD(Phalcon_Mvc_Model, skipAttributesOnUpdate)
 	zephir_get_arrval(&attributes, attributes_param);
 	ZEPHIR_INIT_VAR(&keysAttributes);
 	array_init(&keysAttributes);
-	zephir_is_iterable(&attributes, 0, "phalcon/Mvc/Model.zep", 6416);
+	zephir_is_iterable(&attributes, 0, "phalcon/Mvc/Model.zep", 6419);
 	if (Z_TYPE_P(&attributes) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&attributes), _0)
 		{
@@ -14214,7 +14217,7 @@ PHP_METHOD(Phalcon_Mvc_Model, caseInsensitiveColumnMap)
 	zephir_fetch_params(1, 2, 0, &columnMap, &key);
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_array_keys(&_0, columnMap);
-	zephir_is_iterable(&_0, 0, "phalcon/Mvc/Model.zep", 6553);
+	zephir_is_iterable(&_0, 0, "phalcon/Mvc/Model.zep", 6556);
 	ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_0), _1)
 	{
 		ZEPHIR_INIT_NVAR(&cmKey);
@@ -14289,7 +14292,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getPrivateProperties)
 			ZVAL_LONG(&_0$$4, 4);
 			ZEPHIR_CALL_METHOD(&reflectionProperties, &reflection, "getproperties", &_1, 361, &_0$$4);
 			zephir_check_call_status();
-			zephir_is_iterable(&reflectionProperties, 0, "phalcon/Mvc/Model.zep", 6594);
+			zephir_is_iterable(&reflectionProperties, 0, "phalcon/Mvc/Model.zep", 6597);
 			if (Z_TYPE_P(&reflectionProperties) == IS_ARRAY) {
 				ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&reflectionProperties), _2$$4)
 				{
@@ -14344,11 +14347,11 @@ PHP_METHOD(Phalcon_Mvc_Model, getPrivateProperties)
 		zephir_array_update_zval(&cache, &className_zv, &privateProperties, PH_COPY | PH_SEPARATE);
 		zephir_update_static_property_ce(phalcon_mvc_model_ce, ZEND_STRL("privatePropertiesCache"), &cache);
 	}
-	zephir_array_fetch(&_9, &cache, &className_zv, PH_NOISY | PH_READONLY, "phalcon/Mvc/Model.zep", 6601);
+	zephir_array_fetch(&_9, &cache, &className_zv, PH_NOISY | PH_READONLY, "phalcon/Mvc/Model.zep", 6604);
 	RETURN_CTOR(&_9);
 }
 
-/***
+/**
  * Append messages to this model from another Model.
  */
 PHP_METHOD(Phalcon_Mvc_Model, appendMessagesFrom)
@@ -14376,7 +14379,7 @@ PHP_METHOD(Phalcon_Mvc_Model, appendMessagesFrom)
 	ZEPHIR_CALL_METHOD(&messages, model, "getmessages", NULL, 0);
 	zephir_check_call_status();
 	if (0 == ZEPHIR_IS_EMPTY(&messages)) {
-		zephir_is_iterable(&messages, 0, "phalcon/Mvc/Model.zep", 6625);
+		zephir_is_iterable(&messages, 0, "phalcon/Mvc/Model.zep", 6628);
 		if (Z_TYPE_P(&messages) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&messages), _0$$3)
 			{

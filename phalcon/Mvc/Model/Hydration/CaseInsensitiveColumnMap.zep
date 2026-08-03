@@ -12,6 +12,9 @@ namespace Phalcon\Mvc\Model\Hydration;
 
 class CaseInsensitiveColumnMap
 {
+    /**
+     * Attempts to find key case-insensitively
+     */
     public static function caseInsensitiveColumnMap(var columnMap, var key) -> string
     {
         var cmKey;

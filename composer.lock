@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e20ad5a3badec11d383c637e48c198da",
+    "content-hash": "0ddb82f9d22f21c65cc5ef26018c5f4c",
     "packages": [],
     "packages-dev": [
         {
@@ -1523,16 +1523,16 @@
         },
         {
             "name": "friendsofphp/php-cs-fixer",
-            "version": "v3.95.17",
+            "version": "v3.95.18",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer.git",
-                "reference": "0ee88422118f3cc59c8c3def222ba7f1493b6d5b"
+                "reference": "a8b4e4216faabf67f4e96110ee99a48c96e4e683"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/0ee88422118f3cc59c8c3def222ba7f1493b6d5b",
-                "reference": "0ee88422118f3cc59c8c3def222ba7f1493b6d5b",
+                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/a8b4e4216faabf67f4e96110ee99a48c96e4e683",
+                "reference": "a8b4e4216faabf67f4e96110ee99a48c96e4e683",
                 "shasum": ""
             },
             "require": {
@@ -1616,7 +1616,7 @@
             ],
             "support": {
                 "issues": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues",
-                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.95.17"
+                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.95.18"
             },
             "funding": [
                 {
@@ -1624,7 +1624,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-07-24T13:54:39+00:00"
+            "time": "2026-07-30T15:46:02+00:00"
         },
         {
             "name": "graham-campbell/result-type",
@@ -2319,6 +2319,68 @@
             "time": "2026-07-04T14:30:18+00:00"
         },
         {
+            "name": "pds/composer-script-names",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-pds/composer-script-names.git",
+                "reference": "e6a78aaeaee7cef82a995718ab2f5d0445ef8073"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-pds/composer-script-names/zipball/e6a78aaeaee7cef82a995718ab2f5d0445ef8073",
+                "reference": "e6a78aaeaee7cef82a995718ab2f5d0445ef8073",
+                "shasum": ""
+            },
+            "type": "standard",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "CC-BY-SA-4.0"
+            ],
+            "description": "Standard for Composer script names.",
+            "homepage": "https://github.com/php-pds/composer-script-names",
+            "support": {
+                "issues": "https://github.com/php-pds/composer-script-names/issues",
+                "source": "https://github.com/php-pds/composer-script-names/tree/1.0.0"
+            },
+            "time": "2023-04-06T13:42:16+00:00"
+        },
+        {
+            "name": "pds/skeleton",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-pds/skeleton.git",
+                "reference": "95e476e5d629eadacbd721c5a9553e537514a231"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-pds/skeleton/zipball/95e476e5d629eadacbd721c5a9553e537514a231",
+                "reference": "95e476e5d629eadacbd721c5a9553e537514a231",
+                "shasum": ""
+            },
+            "bin": [
+                "bin/pds-skeleton"
+            ],
+            "type": "standard",
+            "autoload": {
+                "psr-4": {
+                    "Pds\\Skeleton\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "CC-BY-SA-4.0"
+            ],
+            "description": "Standard for PHP package skeletons.",
+            "homepage": "https://github.com/php-pds/skeleton",
+            "support": {
+                "issues": "https://github.com/php-pds/skeleton/issues",
+                "source": "https://github.com/php-pds/skeleton/tree/1.x"
+            },
+            "time": "2017-01-25T23:30:41+00:00"
+        },
+        {
             "name": "phalcon/cli-options-parser",
             "version": "v2.0.0",
             "source": {
@@ -2400,16 +2462,16 @@
         },
         {
             "name": "phalcon/ide-stubs",
-            "version": "v5.17.0",
+            "version": "v5.18.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phalcon/ide-stubs.git",
-                "reference": "17c9ae4782a6acf3dfa4fffa22a28db01d21d830"
+                "reference": "f51f6ceaa5e8b2de61294ef8f4d8be46fa2d6995"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phalcon/ide-stubs/zipball/17c9ae4782a6acf3dfa4fffa22a28db01d21d830",
-                "reference": "17c9ae4782a6acf3dfa4fffa22a28db01d21d830",
+                "url": "https://api.github.com/repos/phalcon/ide-stubs/zipball/f51f6ceaa5e8b2de61294ef8f4d8be46fa2d6995",
+                "reference": "f51f6ceaa5e8b2de61294ef8f4d8be46fa2d6995",
                 "shasum": ""
             },
             "require": {
@@ -2465,7 +2527,76 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2026-07-17T21:26:17+00:00"
+            "time": "2026-07-31T19:24:29+00:00"
+        },
+        {
+            "name": "phalcon/quill",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phalcon/quill.git",
+                "reference": "e144b2aaf5ee2117f5100d7ba844351764b84e6e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phalcon/quill/zipball/e144b2aaf5ee2117f5100d7ba844351764b84e6e",
+                "reference": "e144b2aaf5ee2117f5100d7ba844351764b84e6e",
+                "shasum": ""
+            },
+            "require": {
+                "nikic/php-parser": "^5.1",
+                "pds/composer-script-names": "^1.0",
+                "pds/skeleton": "^1.0",
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.95",
+                "phalcon/talon": "^0.9",
+                "phalcon/zephir": "dev-development",
+                "phpstan/phpstan": "^2",
+                "phpunit/phpunit": "^10.5",
+                "squizlabs/php_codesniffer": "^3 || ^4"
+            },
+            "suggest": {
+                "phalcon/zephir": "Required by ZephirReader to parse .zep sources"
+            },
+            "default-branch": true,
+            "bin": [
+                "bin/quill"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Phalcon\\Quill\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "API documentation generator for Zephir and PHP sources",
+            "keywords": [
+                "api",
+                "documentation",
+                "generator",
+                "phalcon",
+                "zephir"
+            ],
+            "support": {
+                "issues": "https://github.com/phalcon/quill/issues",
+                "source": "https://github.com/phalcon/quill/tree/master"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/phalcon",
+                    "type": "github"
+                },
+                {
+                    "url": "https://opencollective.com/phalcon",
+                    "type": "open_collective"
+                }
+            ],
+            "time": "2026-08-02T23:50:11+00:00"
         },
         {
             "name": "phalcon/talon",
@@ -7952,6 +8083,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "phalcon/quill": 20,
         "phalcon/zephir": 20
     },
     "prefer-stable": false,

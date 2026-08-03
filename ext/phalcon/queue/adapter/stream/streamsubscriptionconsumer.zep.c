@@ -52,6 +52,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_Stream_StreamSubscriptionConsumer)
 	return SUCCESS;
 }
 
+/**
+ * The context is retained for transports that may later need it for a
+ * native multi-queue receive; the shared poll loop does not use it.
+ */
 PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamSubscriptionConsumer, __construct)
 {
 	zend_long pollInterval;

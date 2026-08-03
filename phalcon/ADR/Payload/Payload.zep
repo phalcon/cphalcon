@@ -36,7 +36,7 @@ class Payload implements PayloadContract
     /**
      * @var Throwable|null
      */
-    protected exception = null;
+    protected ?<Throwable> exception = null;
 
     /**
      * @var mixed
@@ -129,54 +129,6 @@ class Payload implements PayloadContract
     }
 
     /**
-     * Gets the exception thrown in the domain layer, if any.
-     */
-    public function getException() -> <Throwable> | null
-    {
-        return this->exception;
-    }
-
-    /**
-     * Gets the arbitrary extra domain information.
-     */
-    public function getExtras() -> var
-    {
-        return this->extras;
-    }
-
-    /**
-     * Gets the domain input.
-     */
-    public function getInput() -> var
-    {
-        return this->input;
-    }
-
-    /**
-     * Gets the domain messages.
-     */
-    public function getMessages() -> var
-    {
-        return this->messages;
-    }
-
-    /**
-     * Gets the domain result.
-     */
-    public function getResult() -> var
-    {
-        return this->result;
-    }
-
-    /**
-     * Gets the payload status.
-     */
-    public function getStatus() -> var
-    {
-        return this->status;
-    }
-
-    /**
      * Creates a payload with the `NOT_VALID` status.
      */
     public static function invalid(var messages = null) -> <PayloadContract>
@@ -263,6 +215,54 @@ class Payload implements PayloadContract
     public static function valid(var result = null) -> <PayloadContract>
     {
         return (new static())->withStatus(Status::VALID)->withResult(result);
+    }
+
+    /**
+     * Gets the exception thrown in the domain layer, if any.
+     */
+    public function getException() -> <Throwable> | null
+    {
+        return this->exception;
+    }
+
+    /**
+     * Gets the arbitrary extra domain information.
+     */
+    public function getExtras() -> var
+    {
+        return this->extras;
+    }
+
+    /**
+     * Gets the domain input.
+     */
+    public function getInput() -> var
+    {
+        return this->input;
+    }
+
+    /**
+     * Gets the domain messages.
+     */
+    public function getMessages() -> var
+    {
+        return this->messages;
+    }
+
+    /**
+     * Gets the domain result.
+     */
+    public function getResult() -> var
+    {
+        return this->result;
+    }
+
+    /**
+     * Gets the payload status.
+     */
+    public function getStatus() -> var
+    {
+        return this->status;
     }
 
     /**

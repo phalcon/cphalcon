@@ -35,6 +35,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Hydration_CaseInsensitiveColumnMap)
 	return SUCCESS;
 }
 
+/**
+ * Attempts to find key case-insensitively
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Hydration_CaseInsensitiveColumnMap, caseInsensitiveColumnMap)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -56,7 +59,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Hydration_CaseInsensitiveColumnMap, caseInsensitive
 	zephir_fetch_params(1, 2, 0, &columnMap, &key);
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_array_keys(&_0, columnMap);
-	zephir_is_iterable(&_0, 0, "phalcon/Mvc/Model/Hydration/CaseInsensitiveColumnMap.zep", 25);
+	zephir_is_iterable(&_0, 0, "phalcon/Mvc/Model/Hydration/CaseInsensitiveColumnMap.zep", 28);
 	ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_0), _1)
 	{
 		ZEPHIR_INIT_NVAR(&cmKey);

@@ -316,12 +316,18 @@ PHP_METHOD(Phalcon_Assets_Asset, getContent)
 	RETURN_CCTOR(&content);
 }
 
+/**
+ * Gets if the asset must be filtered or not.
+ */
 PHP_METHOD(Phalcon_Assets_Asset, getFilter)
 {
 
 	RETURN_MEMBER(getThis(), "filter");
 }
 
+/**
+ * Returns the path for this asset
+ */
 PHP_METHOD(Phalcon_Assets_Asset, getPath)
 {
 
@@ -521,6 +527,8 @@ PHP_METHOD(Phalcon_Assets_Asset, getRealTargetUri)
 }
 
 /**
+ * Gets the asset's type.
+ *
  * @return string
  */
 PHP_METHOD(Phalcon_Assets_Asset, getType)
@@ -782,7 +790,7 @@ PHP_METHOD(Phalcon_Assets_Asset, throwException)
 	object_init_ex(&_0, phalcon_assets_exceptions_cannotreadasset_ce);
 	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 158, &completePath_zv);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(&_0, "phalcon/Assets/Asset.zep", 365);
+	zephir_throw_exception_debug(&_0, "phalcon/Assets/Asset.zep", 373);
 	ZEPHIR_MM_RESTORE();
 	return;
 }

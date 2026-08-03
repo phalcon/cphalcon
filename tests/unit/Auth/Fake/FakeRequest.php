@@ -38,7 +38,7 @@ final class FakeRequest implements RequestInterface
     private string $userAgent = '';
 
     // -------------------------------------------------------------------------
-    // RequestInterface - methods with real behaviour
+    // RequestInterface - methods with real behavior
     // -------------------------------------------------------------------------
 
     public function get(

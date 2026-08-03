@@ -171,7 +171,7 @@ final class CloneResultMapTest extends AbstractDatabaseTestCase
     /**
      * Tests that cloneResultMap() does NOT call model setters during hydration
      * at default settings (orm.call_setters_on_hydration is false), restoring
-     * the pre-5.12 behaviour and preventing setter side effects on hydration.
+     * the pre-5.12 behavior and preventing setter side effects on hydration.
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/17214
      * @author Phalcon Team <team@phalcon.io>

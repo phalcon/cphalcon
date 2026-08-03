@@ -14,8 +14,8 @@ use ArrayAccess;
 use Phalcon\Translate\Exception;
 use Phalcon\Translate\Exceptions\ImmutableObject;
 use Phalcon\Translate\Exceptions\KeyNotFound;
-use Phalcon\Translate\InterpolatorFactory;
 use Phalcon\Translate\Interpolator\InterpolatorInterface;
+use Phalcon\Translate\InterpolatorFactory;
 
 /**
  * @psalm-type TOptions array{
@@ -28,25 +28,10 @@ use Phalcon\Translate\Interpolator\InterpolatorInterface;
  */
 abstract class AbstractAdapter implements AdapterInterface, ArrayAccess
 {
-    /**
-     * @var string
-     */
-    protected defaultInterpolator = "";
-
-    /**
-     * @var InterpolatorInterface | null
-     */
-    protected interpolator = null;
-
-    /**
-    * @var InterpolatorFactory
-    */
-    protected interpolatorFactory;
-
-    /**
-     * @var bool
-     */
-    protected triggerError = false;
+    protected string defaultInterpolator = "";
+    protected ?<InterpolatorInterface> interpolator = null;
+    protected <InterpolatorFactory> interpolatorFactory;
+    protected bool triggerError = false;
 
     /**
      * AbstractAdapter constructor.
@@ -54,7 +39,7 @@ abstract class AbstractAdapter implements AdapterInterface, ArrayAccess
      * @param TOptions            $options
      */
     public function __construct(
-        <InterpolatorFactory> interpolator,
+        <InterpolatorFactory> interpolatorFactory,
         array options = []
     ) {
         var error, value;
@@ -64,7 +49,7 @@ abstract class AbstractAdapter implements AdapterInterface, ArrayAccess
         }
 
         let this->defaultInterpolator = value,
-            this->interpolatorFactory = interpolator;
+            this->interpolatorFactory = interpolatorFactory;
 
         if fetch error, options["triggerError"] {
             let this->triggerError = (bool) error;
@@ -75,10 +60,8 @@ abstract class AbstractAdapter implements AdapterInterface, ArrayAccess
      * Returns the translation string of the given key (alias of method 't')
      *
      * @phpstan-param array<string, string> $placeholders
-     *
-     * @return string
      */
-    public function _( string translateKey, array placeholders = []) -> string
+    public function _(string translateKey, array placeholders = []) -> string
     {
         return this->query(translateKey, placeholders);
     }
@@ -86,10 +69,7 @@ abstract class AbstractAdapter implements AdapterInterface, ArrayAccess
     /**
      * Whenever a key is not found this method will be called
      *
-     * @param string $index
-     *
-     * @return string
-     * @throws Exception
+     * @throws KeyNotFound
      */
     public function notFound( string index) -> string
     {
@@ -102,35 +82,27 @@ abstract class AbstractAdapter implements AdapterInterface, ArrayAccess
 
     /**
      * Check whether a translation key exists
-     *
-     * @param mixed $translateKey
-     *
-     * @return bool
      */
-    public function offsetExists(var translateKey) -> bool
+    public function offsetExists(var offset) -> bool
     {
-        return this->has(translateKey);
+        return this->has(offset);
     }
 
     /**
      * Returns the translation related to the given key
      *
-     * @param TKey $translateKey
+     * @param TKey $offset
      *
      * @return TValue
      */
-    public function offsetGet(mixed translateKey) -> string | null
+    public function offsetGet(mixed offset) -> string
     {
-        return this->query(translateKey);
+        return this->query(offset);
     }
 
     /**
      * Sets a translation value
      *
-     * @param mixed $offset
-     * @param mixed $value
-     *
-     * @return void
      * @throws ImmutableObject
      */
     public function offsetSet(var offset, var value) -> void
@@ -141,9 +113,6 @@ abstract class AbstractAdapter implements AdapterInterface, ArrayAccess
     /**
      * Unsets a translation from the dictionary
      *
-     * @param mixed $offset
-     *
-     * @return void
      * @throws ImmutableObject
      */
     public function offsetUnset(var offset) -> void
@@ -155,8 +124,6 @@ abstract class AbstractAdapter implements AdapterInterface, ArrayAccess
      * Returns the translation string of the given key
      *
      * @phpstan-param array<string, string> $placeholders
-     *
-     * @return string
      */
     public function t( string translateKey, array placeholders = []) -> string
     {
@@ -168,10 +135,10 @@ abstract class AbstractAdapter implements AdapterInterface, ArrayAccess
      *
      * @phpstan-param array<string, string> $placeholders
      *
-     * @return string
+     * @throws Exception
      */
     protected function replacePlaceholders(
-         string translation,
+        string translation,
         array placeholders = []
     ) -> string {
         if null === this->interpolator {

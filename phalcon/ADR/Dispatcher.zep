@@ -38,7 +38,7 @@ final class Dispatcher implements DispatcherInterface
     /**
      * @var array
      */
-    protected array globalMiddleware;
+    protected array globalMiddleware = [];
     /**
      * @var array|null
      */

@@ -45,23 +45,16 @@ class Gettext extends AbstractAdapter
 {
     use InfoTrait;
 
-    /**
-     * @var int
-     */
-    protected category;
+    protected int category = 6; // LC_ALL
+    protected string defaultDomain = "messages";
 
     /**
-     * @var string
-     */
-    protected defaultDomain;
-
-    /**
-     * @var string|array
+     * @var array<string, string>|string
      */
     protected directory;
 
     /**
-     * @var string | false
+     * @var false|string
      */
     protected locale;
 
@@ -75,8 +68,10 @@ class Gettext extends AbstractAdapter
      * @throws MissingGettextExtension
      * @throws MissingRequiredParameter
      */
-    public function __construct(<InterpolatorFactory> interpolator,  array options)
-    {
+    public function __construct(
+        <InterpolatorFactory> interpolator,  
+        array options
+    ) {
         if unlikely !this->phpFunctionExists("gettext") {
             throw new MissingGettextExtension();
         }
@@ -123,20 +118,13 @@ class Gettext extends AbstractAdapter
         return this->directory;
     }
 
-    /**
-     * @return string
-     */
-    public function getLocale() -> string | false
+    public function getLocale() -> false | string
     {
         return this->locale;
     }
 
     /**
      * Check whether is defined a translation key in the internal array
-     *
-     * @param string $index
-     *
-     * @return bool
      */
     public function has( string index) -> bool
     {
@@ -153,11 +141,11 @@ class Gettext extends AbstractAdapter
      * @return string
      */
     public function nquery(
-         string msgid1,
-         string msgid2,
-         int count,
-        array placeholders = [],
-         string domain = null
+        string msgid1,
+        string msgid2,
+        int count,
+    	array placeholders = [],
+        string domain = null
     ) -> string {
         var translation;
 
@@ -182,7 +170,7 @@ class Gettext extends AbstractAdapter
      * @return string
      * @throws Exception
      */
-    public function query( string translateKey, array placeholders = []) -> string
+    public function query(string translateKey, array placeholders = []) -> string
     {
         var translation;
 
@@ -210,7 +198,7 @@ class Gettext extends AbstractAdapter
      *
      * @param string $domain
      */
-    public function setDefaultDomain( string domain) -> void
+    public function setDefaultDomain(string domain) -> void
     {
         let this->defaultDomain = domain;
     }
@@ -231,7 +219,7 @@ class Gettext extends AbstractAdapter
      * );
      * ```
      *
-     * @param string|array $directory
+     * @param array<string, string>|string $directory
      */
     public function setDirectory(var directory) -> void
     {
@@ -289,7 +277,7 @@ class Gettext extends AbstractAdapter
      *
      * @return false|string
      */
-    public function setLocale( int category, array localeArray = []) -> string | bool
+    public function setLocale(int category, array localeArray = []) -> false | string
     {
         let this->locale   = setlocale(category, localeArray),
             this->category = category;
