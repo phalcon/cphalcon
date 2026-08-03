@@ -81,8 +81,8 @@ final class AttributeFilter implements AttributeFilterInterface
 
         return result;
     }
-
-    protected function cast(string value, string type)
+    
+    protected function cast(string value, string type) -> float | int | string
     {
         switch type {
             case "int":

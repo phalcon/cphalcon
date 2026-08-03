@@ -43,7 +43,7 @@ ZEPHIR_INIT_CLASS(Phalcon_ADR_Pipeline)
 
 	{
 		zval _zc0;
-		ZVAL_UNDEF(&_zc0);
+		ZVAL_LONG(&_zc0, 0);
 		zephir_declare_typed_property(phalcon_adr_pipeline_ce, SL("index"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_LONG, NULL, 0);
 	}
 
@@ -52,14 +52,19 @@ ZEPHIR_INIT_CLASS(Phalcon_ADR_Pipeline)
 	 */
 	{
 		zval _zc0;
-		ZVAL_UNDEF(&_zc0);
+		array_init_size(&_zc0, 1);
 		zephir_declare_typed_property(phalcon_adr_pipeline_ce, SL("middleware"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_ARRAY, NULL, 0);
 	}
 
 	/**
 	 * @var Handler
 	 */
-	zend_declare_property_null(phalcon_adr_pipeline_ce, SL("terminal"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_adr_pipeline_ce, SL("terminal"), &_zc0, ZEND_ACC_PROTECTED, 0, SL("Phalcon\\Contracts\\ADR\\Handler"));
+	}
+
 	zend_class_implements(phalcon_adr_pipeline_ce, 1, phalcon_contracts_adr_handler_ce);
 	return SUCCESS;
 }

@@ -355,7 +355,8 @@ final class Router implements RouterInterface
         }
 
         return is_dir(
-            this->actionDirectory . str_replace("\\", DIRECTORY_SEPARATOR, subNamespace)
+            this->actionDirectory
+            . str_replace("\\", DIRECTORY_SEPARATOR, subNamespace)
         );
     }
 
@@ -428,7 +429,7 @@ final class Router implements RouterInterface
     }
 
     /**
-     * The HTTP verbs the convention recognises, in class-name form.
+     * The HTTP verbs the convention recognizes, in class-name form.
      *
      * @return list<string>
      */

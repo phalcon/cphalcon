@@ -19,7 +19,7 @@ namespace Phalcon\ADR\Responder;
  */
 class Redirect
 {
-    protected int status;
+    protected int status = 302;
     protected string url;
 
     public function __construct(string url, int status = 302)
@@ -38,14 +38,14 @@ class Redirect
         return new self(url, 303);
     }
 
-    public function status() -> int
-    {
-        return this->status;
-    }
-
     public static function temporary(string url) -> <Redirect>
     {
         return new self(url, 302);
+    }
+
+    public function status() -> int
+    {
+        return this->status;
     }
 
     public function url() -> string
