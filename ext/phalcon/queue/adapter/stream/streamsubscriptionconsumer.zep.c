@@ -83,9 +83,9 @@ PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamSubscriptionConsumer, __construct)
 		pollInterval = 200;
 	} else {
 		}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1274, context);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1276, context);
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, pollInterval);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1275, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1277, &_0);
 }
 

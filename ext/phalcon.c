@@ -249,6 +249,7 @@ zend_class_entry *phalcon_contracts_queue_processor_ce;
 zend_class_entry *phalcon_db_traits_elapsedtimetrait_ce;
 zend_class_entry *phalcon_di_initializationawareinterface_ce;
 zend_class_entry *phalcon_di_serviceproviderinterface_ce;
+zend_class_entry *phalcon_events_traits_eventsawaretrait_ce;
 zend_class_entry *phalcon_filter_validation_traits_validatorcompositetrait_ce;
 zend_class_entry *phalcon_html_escaper_traits_escapertrait_ce;
 zend_class_entry *phalcon_http_traits_encryptionawaretrait_ce;
@@ -1823,6 +1824,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Db_Traits_ElapsedTimeTrait);
 	ZEPHIR_INIT(Phalcon_Di_InitializationAwareInterface);
 	ZEPHIR_INIT(Phalcon_Di_ServiceProviderInterface);
+	ZEPHIR_INIT(Phalcon_Events_Traits_EventsAwareTrait);
 	ZEPHIR_INIT(Phalcon_Filter_Validation_Traits_ValidatorCompositeTrait);
 	ZEPHIR_INIT(Phalcon_Html_Escaper_Traits_EscaperTrait);
 	ZEPHIR_INIT(Phalcon_Http_Traits_EncryptionAwareTrait);
