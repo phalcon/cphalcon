@@ -2,6 +2,23 @@
 
 All notable changes are documented here. The format is based on [Keep a Changelog][keep_a_changelog] and this project adheres to [Semantic Versioning][semantic_versioning].
 
+## [5.18.3](https://github.com/phalcon/cphalcon/releases/tag/v5.18.3) (2026-xx-xx)
+
+### Tools
+
+- Zephir 1.2.0 (76a706f)
+ 
+### Changed
+
+- Changed the distribution tarball to ship the generated `ext/` sources again, so downstream packagers can build from them. Only tests, Zephir sources, CI and tooling stay excluded. [#17478](https://github.com/phalcon/cphalcon/issues/17478)
+
+### Added
+
+### Fixed
+
+### Removed
+
+
 ## [5.18.2](https://github.com/phalcon/cphalcon/releases/tag/v5.18.2) (2026-08-03)
 
 ### Tools

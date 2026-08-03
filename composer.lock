@@ -2462,16 +2462,16 @@
         },
         {
             "name": "phalcon/ide-stubs",
-            "version": "v5.18.0",
+            "version": "v5.18.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phalcon/ide-stubs.git",
-                "reference": "f51f6ceaa5e8b2de61294ef8f4d8be46fa2d6995"
+                "reference": "c06e5e4304d5c38e009dbe2f03a7b70cd44fa804"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phalcon/ide-stubs/zipball/f51f6ceaa5e8b2de61294ef8f4d8be46fa2d6995",
-                "reference": "f51f6ceaa5e8b2de61294ef8f4d8be46fa2d6995",
+                "url": "https://api.github.com/repos/phalcon/ide-stubs/zipball/c06e5e4304d5c38e009dbe2f03a7b70cd44fa804",
+                "reference": "c06e5e4304d5c38e009dbe2f03a7b70cd44fa804",
                 "shasum": ""
             },
             "require": {
@@ -2527,7 +2527,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2026-07-31T19:24:29+00:00"
+            "time": "2026-08-03T14:12:56+00:00"
         },
         {
             "name": "phalcon/quill",
@@ -2535,12 +2535,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phalcon/quill.git",
-                "reference": "e144b2aaf5ee2117f5100d7ba844351764b84e6e"
+                "reference": "c25c436463cf1c0e9bcbd8c98f444de1635f8d98"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phalcon/quill/zipball/e144b2aaf5ee2117f5100d7ba844351764b84e6e",
-                "reference": "e144b2aaf5ee2117f5100d7ba844351764b84e6e",
+                "url": "https://api.github.com/repos/phalcon/quill/zipball/c25c436463cf1c0e9bcbd8c98f444de1635f8d98",
+                "reference": "c25c436463cf1c0e9bcbd8c98f444de1635f8d98",
                 "shasum": ""
             },
             "require": {
@@ -2596,7 +2596,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2026-08-02T23:50:11+00:00"
+            "time": "2026-08-03T14:46:53+00:00"
         },
         {
             "name": "phalcon/talon",
@@ -2682,12 +2682,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/zephir-lang/zephir.git",
-                "reference": "83d8f68c67ae5dce03f51abadb697e944c8e9d1c"
+                "reference": "76a706f4685e5a36758e8b58a498422eca6800f5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zephir-lang/zephir/zipball/83d8f68c67ae5dce03f51abadb697e944c8e9d1c",
-                "reference": "83d8f68c67ae5dce03f51abadb697e944c8e9d1c",
+                "url": "https://api.github.com/repos/zephir-lang/zephir/zipball/76a706f4685e5a36758e8b58a498422eca6800f5",
+                "reference": "76a706f4685e5a36758e8b58a498422eca6800f5",
                 "shasum": ""
             },
             "require": {
@@ -2764,7 +2764,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-07-27T19:42:10+00:00"
+            "time": "2026-08-03T14:22:44+00:00"
         },
         {
             "name": "phar-io/manifest",
