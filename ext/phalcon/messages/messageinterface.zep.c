@@ -21,9 +21,7 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Messages\MessageInterface
- *
- * Interface for Phalcon\Messages\MessageInterface
+ * Interface for Phalcon\Messages\Message
  */
 ZEPHIR_INIT_CLASS(Phalcon_Messages_MessageInterface)
 {

@@ -238,6 +238,7 @@ if (PHP_PHALCON != "no") {
 	ADD_SOURCES(configure_module_dirname + "/phalcon/logger/adapter/exceptions", "fileopenfailed.zep.c invalidstreammode.zep.c syslogopenfailed.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/logger/exceptions", "adapternotfound.zep.c deserializationfailed.zep.c noadaptersconfigured.zep.c serializationfailed.zep.c transactionalreadyactive.zep.c transactionnotactive.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/messages/exceptions", "messagenotobject.zep.c messagesnotiterable.zep.c", "phalcon");
+	ADD_SOURCES(configure_module_dirname + "/phalcon/messages/traits", "messageshelpertrait.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/mvc/application/exceptions", "containerrequired.zep.c invalidmoduledefinition.zep.c moduledefinitionpathnotfound.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/mvc/controller", "bindmodelinterface.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/mvc/dispatcher/exceptions", "responseserviceunavailable.zep.c", "phalcon");

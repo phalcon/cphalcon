@@ -13,42 +13,28 @@ namespace Phalcon\Messages;
 use JsonSerializable;
 
 /**
- * Phalcon\Messages\Message
+ * Class Message
  *
  * Stores a message from various components
  */
 class Message implements MessageInterface, JsonSerializable
 {
-    /**
-     * @var int
-     */
-    protected code;
-
-    /**
-     * @var string
-     */
-    protected field;
-
-    /**
-     * @var string
-     */
-    protected message;
-
-    /**
-     * @var array
-     */
-    protected metaData = [];
-
-    /**
-     * @var string
-     */
-    protected type;
+    protected int code = 0;
+    protected string field = "";
+    protected string message;
+    protected array metaData = [];
+    protected string type = "";
 
     /**
      * Phalcon\Messages\Message constructor
      */
-    public function __construct( string message, string field = "", string type = "", int code = 0, array metaData = [])
-    {
+    public function __construct(
+        string message,
+        string field = "",
+        string type = "",
+        int code = 0,
+        array metaData = []
+    ) {
         let this->message  = message,
             this->field    = field,
             this->type     = type,

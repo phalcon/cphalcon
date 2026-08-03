@@ -989,6 +989,7 @@
 #include "phalcon/messages/exceptions/messagesnotiterable.zep.h"
 #include "phalcon/messages/message.zep.h"
 #include "phalcon/messages/messages.zep.h"
+#include "phalcon/messages/traits/messageshelpertrait.zep.h"
 #include "phalcon/mvc/application.zep.h"
 #include "phalcon/mvc/application/exceptions/containerrequired.zep.h"
 #include "phalcon/mvc/application/exceptions/invalidmoduledefinition.zep.h"
