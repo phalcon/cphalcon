@@ -47,7 +47,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_Beanstalk_BeanstalkMessage)
 	{
 		zval _zc0;
 		ZVAL_NULL(&_zc0);
-		zephir_declare_typed_property(phalcon_queue_adapter_beanstalk_beanstalkmessage_ce, SL("jobId"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+		zephir_declare_typed_property(phalcon_queue_adapter_beanstalk_beanstalkmessage_ce, SL("jobId"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING|MAY_BE_NULL, NULL, 0);
 	}
 
 	return SUCCESS;

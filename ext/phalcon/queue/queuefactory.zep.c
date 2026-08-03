@@ -133,7 +133,7 @@ PHP_METHOD(Phalcon_Queue_QueueFactory, load)
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(config, &_0);
 	zephir_memory_observe(&name);
-	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Queue/QueueFactory.zep", 63);
+	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Queue/QueueFactory.zep", 64);
 	zephir_memory_observe(&options);
 	if (!(zephir_array_isset_string_fetch(&options, config, SL("options"), 0))) {
 		ZEPHIR_INIT_NVAR(&options);
@@ -215,7 +215,7 @@ PHP_METHOD(Phalcon_Queue_QueueFactory, checkConfig)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &config);
-	if (zephir_is_instance_of(config, SL("Phalcon\\Queue\\ConfigInterface"))) {
+	if (zephir_instance_of_ev(config, phalcon_config_configinterface_ce)) {
 		ZEPHIR_RETURN_CALL_METHOD(config, "toarray", NULL, 0);
 		zephir_check_call_status();
 		RETURN_MM();

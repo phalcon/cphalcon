@@ -19,6 +19,7 @@
 
 namespace Phalcon\Queue;
 
+use Phalcon\Config\ConfigInterface;
 use Phalcon\Contracts\Queue\ConnectionFactory as ConnectionFactoryInterface;
 use Phalcon\Queue\Adapter\Beanstalk\BeanstalkConnectionFactory;
 use Phalcon\Queue\Adapter\Memory\MemoryConnectionFactory;
@@ -55,6 +56,11 @@ class AdapterFactory
         return new {definition}(options);
     }
 
+    /**
+     * Returns the exception class for the factory
+     *
+     * @return class-string<\Throwable>
+     */
     protected function getExceptionClass() -> string
     {
         return Exception::class;

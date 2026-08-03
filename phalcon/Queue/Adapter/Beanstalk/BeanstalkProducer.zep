@@ -46,11 +46,11 @@ class BeanstalkProducer extends AbstractProducer
     /**
      * Delivery delay in milliseconds, or null when not set.
      */
-    protected int deliveryDelay = null;
+    protected ?int deliveryDelay = null;
     /**
      * Job priority, or null when not set.
      */
-    protected int priority = null;
+    protected ?int priority = null;
 
     public function __construct(<BeanstalkContext> context)
     {

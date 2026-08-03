@@ -19,6 +19,7 @@
 
 namespace Phalcon\Queue;
 
+use Phalcon\Config\ConfigInterface;
 use Phalcon\Contracts\Queue\Context as ContextInterface;
 use Phalcon\Queue\Exceptions\Exception;
 use Phalcon\Traits\Factory\ConfigTrait;
@@ -81,6 +82,11 @@ class QueueFactory
         return connectionFactory->createContext();
     }
 
+    /**
+     * Returns the exception class for the factory
+     *
+     * @return class-string<\Throwable>
+     */
     protected function getExceptionClass() -> string
     {
         return Exception::class;

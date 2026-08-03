@@ -151,6 +151,11 @@ PHP_METHOD(Phalcon_Queue_AdapterFactory, newInstance)
 	RETURN_MM();
 }
 
+/**
+ * Returns the exception class for the factory
+ *
+ * @return class-string<\Throwable>
+ */
 PHP_METHOD(Phalcon_Queue_AdapterFactory, getExceptionClass)
 {
 

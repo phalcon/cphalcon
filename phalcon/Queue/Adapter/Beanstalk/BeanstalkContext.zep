@@ -41,7 +41,7 @@ class BeanstalkContext extends AbstractContext implements Inspectable
     /**
      * Shared connection used by producers and purges.
      */
-    protected <BeanstalkConnection> connection = null;
+    protected ?<BeanstalkConnection> connection = null;
     protected string host = "127.0.0.1";
     protected bool persistent = false;
     protected int pollInterval = 200;

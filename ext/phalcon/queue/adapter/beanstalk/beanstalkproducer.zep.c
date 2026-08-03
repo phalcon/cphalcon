@@ -57,7 +57,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_Beanstalk_BeanstalkProducer)
 	{
 		zval _zc0;
 		ZVAL_NULL(&_zc0);
-		zephir_declare_typed_property(phalcon_queue_adapter_beanstalk_beanstalkproducer_ce, SL("deliveryDelay"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_LONG, NULL, 0);
+		zephir_declare_typed_property(phalcon_queue_adapter_beanstalk_beanstalkproducer_ce, SL("deliveryDelay"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_LONG|MAY_BE_NULL, NULL, 0);
 	}
 
 	/**
@@ -66,7 +66,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_Beanstalk_BeanstalkProducer)
 	{
 		zval _zc0;
 		ZVAL_NULL(&_zc0);
-		zephir_declare_typed_property(phalcon_queue_adapter_beanstalk_beanstalkproducer_ce, SL("priority"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_LONG, NULL, 0);
+		zephir_declare_typed_property(phalcon_queue_adapter_beanstalk_beanstalkproducer_ce, SL("priority"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_LONG|MAY_BE_NULL, NULL, 0);
 	}
 
 	/**
