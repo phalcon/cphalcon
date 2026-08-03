@@ -10,6 +10,7 @@
 
 namespace Phalcon\Application;
 
+use Closure;
 use Phalcon\Application\Exceptions\ModuleNotRegistered;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\Injectable;
