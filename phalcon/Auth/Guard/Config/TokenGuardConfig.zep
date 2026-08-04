@@ -18,32 +18,16 @@ use Phalcon\Auth\Exceptions\ConfigRequiresNonEmptyValue;
 
 class TokenGuardConfig extends AbstractGuardConfig
 {
-    /**
-     * @var string
-     */
-    protected inputKey;
-    /**
-     * @var string
-     */
-    protected storageKey;
+    protected string inputKey;
+    protected string storageKey;
+
     /**
      * @throws Exception
      */
     public function __construct(string inputKey, string storageKey)
     {
-        if (inputKey === "") {
-            throw new ConfigRequiresNonEmptyValue(
-                "Token guard",
-                "inputKey"
-            );
-        }
-
-        if (storageKey === "") {
-            throw new ConfigRequiresNonEmptyValue(
-                "Token guard",
-                "storageKey"
-            );
-        }
+        ConfigRequiresNonEmptyValue::assert(inputKey, "Token guard", "inputKey");
+        ConfigRequiresNonEmptyValue::assert(storageKey, "Token guard", "storageKey");
 
         let this->inputKey   = inputKey;
         let this->storageKey = storageKey;

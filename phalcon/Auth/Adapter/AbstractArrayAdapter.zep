@@ -63,12 +63,8 @@ abstract class AbstractArrayAdapter extends AbstractAdapter
      * Default linear-scan implementation. Memory overrides this for an O(1)
      * id-keyed lookup; Stream uses this as-is.
      */
-    public function retrieveById(var id) -> <AuthUserContract> | null
+    public function retrieveById(int | string id) -> <AuthUserContract> | null
     {
-        if (typeof id !== "int" && typeof id !== "string") {
-            throw new \TypeError("The parameter must be 'int' or 'string'");
-        }
-
         var row;
 
         for row in this->loadUsers() {
@@ -143,7 +139,9 @@ abstract class AbstractArrayAdapter extends AbstractAdapter
     abstract protected function loadUsers() -> array;
 
     /**
-     * Strict per-key match of a row against credentials, skipping 'password'.
+     * Per-key match of a row against credentials, skipping 'password'. Values
+     * are compared as strings so typed row values (e.g. int id, bool active)
+     * match the string input that arrives from an HTTP request.
      *
      * @phpstan-param AuthUserRow     $row
      * @phpstan-param AuthCredentials $credentials

@@ -13,8 +13,6 @@
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-#include "kernel/operators.h"
-#include "kernel/exception.h"
 #include "kernel/fcall.h"
 #include "kernel/object.h"
 
@@ -34,10 +32,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Auth_Adapter_Config_StreamAdapterConfig)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Auth\\Adapter\\Config, StreamAdapterConfig, phalcon, auth_adapter_config_streamadapterconfig, phalcon_auth_adapter_config_abstractadapterconfig_ce, phalcon_auth_adapter_config_streamadapterconfig_method_entry, 0);
 
-	/**
-	 * @var string
-	 */
-	zend_declare_property_null(phalcon_auth_adapter_config_streamadapterconfig_ce, SL("file"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_auth_adapter_config_streamadapterconfig_ce, SL("file"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
+
 	return SUCCESS;
 }
 
@@ -48,16 +48,15 @@ PHP_METHOD(Phalcon_Auth_Adapter_Config_StreamAdapterConfig, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval file_zv, model_zv, _0$$3, _1$$3, _2$$3, _3$$3;
+	zval file_zv, model_zv, _0, _1, _2;
 	zend_string *file = NULL, *model = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&file_zv);
 	ZVAL_UNDEF(&model_zv);
-	ZVAL_UNDEF(&_0$$3);
-	ZVAL_UNDEF(&_1$$3);
-	ZVAL_UNDEF(&_2$$3);
-	ZVAL_UNDEF(&_3$$3);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("file", 4, 1);
@@ -79,22 +78,15 @@ PHP_METHOD(Phalcon_Auth_Adapter_Config_StreamAdapterConfig, __construct)
 		zephir_memory_observe(&model_zv);
 	ZVAL_STR_COPY(&model_zv, model);
 	}
-	if (ZEPHIR_IS_STRING_IDENTICAL(&file_zv, "")) {
-		ZEPHIR_INIT_VAR(&_0$$3);
-		object_init_ex(&_0$$3, phalcon_auth_exceptions_configrequiresnonemptyvalue_ce);
-		ZEPHIR_INIT_VAR(&_1$$3);
-		ZVAL_STRING(&_1$$3, "Stream adapter");
-		ZEPHIR_INIT_VAR(&_2$$3);
-		ZVAL_STRING(&_2$$3, "file");
-		ZEPHIR_INIT_VAR(&_3$$3);
-		ZVAL_STRING(&_3$$3, " path");
-		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 385, &_1$$3, &_2$$3, &_3$$3);
-		zephir_check_call_status();
-		zephir_throw_exception_debug(&_0$$3, "phalcon/Auth/Adapter/Config/StreamAdapterConfig.zep", 36);
-		ZEPHIR_MM_RESTORE();
-		return;
-	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 427, &file_zv);
+	ZEPHIR_INIT_VAR(&_0);
+	ZVAL_STRING(&_0, "Stream adapter");
+	ZEPHIR_INIT_VAR(&_1);
+	ZVAL_STRING(&_1, "file");
+	ZEPHIR_INIT_VAR(&_2);
+	ZVAL_STRING(&_2, " path");
+	ZEPHIR_CALL_CE_STATIC(NULL, phalcon_auth_exceptions_configrequiresnonemptyvalue_ce, "assert", NULL, 0, &file_zv, &_0, &_1, &_2);
+	zephir_check_call_status();
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 429, &file_zv);
 	ZEPHIR_CALL_PARENT(NULL, phalcon_auth_adapter_config_streamadapterconfig_ce, getThis(), "__construct", NULL, 0, &model_zv);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

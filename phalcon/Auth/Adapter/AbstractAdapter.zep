@@ -34,15 +34,8 @@ abstract class AbstractAdapter implements Adapter
      */
     const DUMMY_HASH = "$2y$10$YMmGMSXz.5U3bjjJ2qx45uElzUrlaBiS8L70VaVnmsKYFJVcam8gW";
 
-    /**
-     * @var AdapterConfig
-     */
-    protected config;
-
-    /**
-     * @var Security
-     */
-    protected hasher;
+    protected <AdapterConfig> config;
+    protected <Security> hasher;
 
     /**
      * @phpstan-param TConfig $config

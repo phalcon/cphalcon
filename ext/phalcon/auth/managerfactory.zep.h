@@ -10,14 +10,14 @@ PHP_METHOD(Phalcon_Auth_ManagerFactory, buildGuard);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_auth_managerfactory___construct, 0, 0, 2)
 	ZEND_ARG_OBJ_INFO(0, hasher, Phalcon\\Encryption\\Security, 0)
-	ZEND_ARG_INFO(0, container)
+	ZEND_ARG_OBJ_TYPE_MASK(0, container, Phalcon\\Contracts\\Container\\Service\\Collection|Phalcon\\Di\\DiInterface, 0, NULL)
 	ZEND_ARG_OBJ_TYPE_MASK(0, adapterLocator, Phalcon\\Auth\\Adapter\\AdapterLocator, MAY_BE_NULL, "null")
 	ZEND_ARG_OBJ_TYPE_MASK(0, guardLocator, Phalcon\\Auth\\Guard\\GuardLocator, MAY_BE_NULL, "null")
 	ZEND_ARG_OBJ_TYPE_MASK(0, accessLocator, Phalcon\\Auth\\Access\\AccessLocator, MAY_BE_NULL, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_auth_managerfactory_load, 0, 1, Phalcon\\Auth\\Manager, 0)
-	ZEND_ARG_INFO(0, config)
+	ZEND_ARG_OBJ_TYPE_MASK(0, config, Phalcon\\Config\\ConfigInterface, MAY_BE_ARRAY, NULL)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_auth_managerfactory_buildadapter, 0, 2, Phalcon\\Contracts\\Auth\\Adapter\\Adapter, 0)

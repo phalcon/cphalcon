@@ -37,7 +37,7 @@ interface GuardStateful
      * Logs in the user identified by $id. Returns the resolved user on
      * success or false when no user matches the id.
      */
-    public function loginById(var id, bool remember = false) -> false | <AuthUser>;
+    public function loginById(int | string id, bool remember = false) -> <AuthUser> | false;
 
     public function logout() -> void;
 

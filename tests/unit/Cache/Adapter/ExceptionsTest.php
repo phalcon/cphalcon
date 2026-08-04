@@ -23,11 +23,13 @@ use Phalcon\Talon\Talon;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 
 use function array_merge;
+use function file_get_contents;
 use function file_put_contents;
 use function is_dir;
 use function mkdir;
-use function sleep;
+use function serialize;
 use function uniqid;
+use function unserialize;
 
 final class ExceptionsTest extends AbstractUnitTestCase
 {
@@ -144,7 +146,15 @@ final class ExceptionsTest extends AbstractUnitTestCase
         $actual = $adapter->set('test-key', $data, 1);
         $this->assertTrue($actual);
 
-        sleep(2);
+        /**
+         * `isExpired()` weighs `created + ttl` against `time()`, so backdating
+         * `created` expires the payload with nothing to wait for
+         */
+        $payload = unserialize(file_get_contents($target . 'test-key'));
+        $payload['created'] -= 100;
+
+        $actual = file_put_contents($target . 'test-key', serialize($payload));
+        $this->assertNotFalse($actual);
 
         $expected = 'test';
         $actual   = $adapter->get('test-key', 'test');

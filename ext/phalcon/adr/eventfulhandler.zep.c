@@ -73,8 +73,8 @@ PHP_METHOD(Phalcon_ADR_EventfulHandler, __construct)
 		Z_PARAM_OBJECT_OF_CLASS(events, phalcon_contracts_events_manager_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(2, 0, &action, &events);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 343, action);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 344, events);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 345, action);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 346, events);
 }
 
 PHP_METHOD(Phalcon_ADR_EventfulHandler, __invoke)
@@ -107,17 +107,17 @@ PHP_METHOD(Phalcon_ADR_EventfulHandler, __invoke)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &request);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 344, PH_NOISY_CC | PH_READONLY);
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 343, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 346, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 345, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "adr:beforeExecuteAction");
 	ZEPHIR_CALL_METHOD(NULL, &_0, "fire", NULL, 0, &_2, &_1, request);
 	zephir_check_call_status();
-	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_1, 343, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_1, 345, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&response, &_3, "__invoke", NULL, 0, request);
 	zephir_check_call_status();
-	zephir_read_property_cached(&_4, this_ptr, _zephir_prop_0, 344, PH_NOISY_CC | PH_READONLY);
-	zephir_read_property_cached(&_5, this_ptr, _zephir_prop_1, 343, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_4, this_ptr, _zephir_prop_0, 346, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_5, this_ptr, _zephir_prop_1, 345, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "adr:afterExecuteAction");
 	ZEPHIR_CALL_METHOD(NULL, &_4, "fire", NULL, 0, &_2, &_5, &response);

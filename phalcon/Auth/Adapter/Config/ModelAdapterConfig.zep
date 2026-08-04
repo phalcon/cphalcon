@@ -18,30 +18,15 @@ use Phalcon\Auth\Exceptions\ConfigRequiresNonEmptyValue;
 
 class ModelAdapterConfig extends AbstractAdapterConfig
 {
-    /**
-     * @var string
-     */
-    protected idColumn = "id";
+    protected string idColumn = "id";
 
     /**
      * @throws Exception
      */
     public function __construct(string model, string idColumn = "id")
     {
-        if (model === "") {
-            throw new ConfigRequiresNonEmptyValue(
-                "Model adapter",
-                "model",
-                " class name"
-            );
-        }
-
-        if (idColumn === "") {
-            throw new ConfigRequiresNonEmptyValue(
-                "Model adapter",
-                "idColumn"
-            );
-        }
+        ConfigRequiresNonEmptyValue::assert(model, "Model adapter", "model", " class name");
+        ConfigRequiresNonEmptyValue::assert(idColumn, "Model adapter", "idColumn");
 
         let this->idColumn = idColumn;
 

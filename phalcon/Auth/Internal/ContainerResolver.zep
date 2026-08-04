@@ -14,6 +14,7 @@ use Phalcon\Container\Exceptions\Exception as ContainerException;
 use Phalcon\Contracts\Container\Service\Collection;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\Exception as DiException;
+use TypeError;
 
 /**
  * Internal single source of truth for resolving services from either the
@@ -33,15 +34,68 @@ final class ContainerResolver
     /**
      * Validates that the value is a supported container.
      *
-     * @throws \TypeError
+     * @throws TypeError
      */
     public static function ensureContainer(var container) -> void
     {
         if (!(container instanceof Collection) && !(container instanceof DiInterface)) {
-            throw new \TypeError(
+            throw new TypeError(
                 "The parameter must be an instance of Collection or DiInterface"
             );
         }
+    }
+
+    /**
+     * Resolves the first candidate service name that the container can
+     * provide, as a shared instance. Used for framework services (request,
+     * cookies, session) whose container key may vary between application
+     * setups.
+     *
+     * @param list<string> $candidates
+     *
+     * @throws ContainerException
+     */
+    public static function requireService(var container, array candidates, string context) -> object
+    {
+        self::ensureContainer(container);
+
+        var name;
+
+        for name in candidates {
+            if (container->has(name)) {
+                return self::resolveShared(container, name);
+            }
+        }
+
+        throw new ContainerException(
+            "Auth " . context . " requires service. None of the following are "
+            . "bound in the container: " . implode(", ", candidates)
+        );
+    }
+
+    /**
+     * Convenience composition of serviceCandidates() + requireService():
+     * resolves the first bound candidate for a framework service whose
+     * container key may vary, using the options override or the
+     * [interface FQN, conventional short name] fallback.
+     *
+     * @param array<string, mixed> $options
+     *
+     * @throws ContainerException
+     */
+    public static function resolveCandidate(
+        var container,
+        array options,
+        string key,
+        string fqn,
+        string shortName,
+        string context
+    ) -> object {
+        return self::requireService(
+            container,
+            self::serviceCandidates(options, key, fqn, shortName),
+            context
+        );
     }
 
     /**
@@ -88,34 +142,6 @@ final class ContainerResolver
     }
 
     /**
-     * Resolves the first candidate service name that the container can
-     * provide, as a shared instance. Used for framework services (request,
-     * cookies, session) whose container key may vary between application
-     * setups.
-     *
-     * @param list<string> $candidates
-     *
-     * @throws ContainerException
-     */
-    public static function requireService(var container, array candidates, string context) -> object
-    {
-        self::ensureContainer(container);
-
-        var name;
-
-        for name in candidates {
-            if (container->has(name)) {
-                return self::resolveShared(container, name);
-            }
-        }
-
-        throw new ContainerException(
-            "Auth " . context . " requires service. None of the following are "
-            . "bound in the container: " . implode(", ", candidates)
-        );
-    }
-
-    /**
      * Builds the ordered candidate list for a framework service:
      * an explicit override from options['services'][key] if present,
      * otherwise the interface FQN followed by the conventional short name.
@@ -141,31 +167,6 @@ final class ContainerResolver
         }
 
         return [fqn, shortName];
-    }
-
-    /**
-     * Convenience composition of serviceCandidates() + requireService():
-     * resolves the first bound candidate for a framework service whose
-     * container key may vary, using the options override or the
-     * [interface FQN, conventional short name] fallback.
-     *
-     * @param array<string, mixed> $options
-     *
-     * @throws ContainerException
-     */
-    public static function resolveCandidate(
-        var container,
-        array options,
-        string key,
-        string fqn,
-        string shortName,
-        string context
-    ) -> object {
-        return self::requireService(
-            container,
-            self::serviceCandidates(options, key, fqn, shortName),
-            context
-        );
     }
 
     /**

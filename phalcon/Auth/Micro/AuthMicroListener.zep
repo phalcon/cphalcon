@@ -34,10 +34,7 @@ use Phalcon\Mvc\RouterInterface;
  */
 class AuthMicroListener extends AbstractAuthDispatcherListener
 {
-    /**
-     * @var string
-     */
-    protected componentName;
+    protected string componentName;
 
     public function __construct(<Manager> manager, string componentName = "Micro")
     {

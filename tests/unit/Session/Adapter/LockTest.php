@@ -21,7 +21,6 @@ use Phalcon\Talon\PHPUnit\AbstractServicesTestCase;
 use Phalcon\Talon\Talon;
 
 use function array_merge;
-use function sleep;
 use function uniqid;
 
 final class LockTest extends AbstractServicesTestCase
@@ -81,7 +80,12 @@ final class LockTest extends AbstractServicesTestCase
         $adapterOne->read($id);
         $this->assertTrue($this->hasRedisKey($lockKey));
 
-        sleep(2);
+        /**
+         * Drop the lock instead of waiting out its expiry. What matters below
+         * is that `adapterTwo` holds a lock carrying a different token, not
+         * how `adapterOne` came to lose it
+         */
+        $this->sendRedisCommand('del', $lockKey);
 
         $adapterTwo->read($id);
         $this->assertTrue($this->hasRedisKey($lockKey));

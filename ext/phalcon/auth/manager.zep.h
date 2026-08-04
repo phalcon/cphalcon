@@ -24,7 +24,6 @@ PHP_METHOD(Phalcon_Auth_Manager, user);
 PHP_METHOD(Phalcon_Auth_Manager, validate);
 PHP_METHOD(Phalcon_Auth_Manager, requireActiveAccess);
 PHP_METHOD(Phalcon_Auth_Manager, requireStatefulGuard);
-zend_object *zephir_init_properties_Phalcon_Auth_Manager(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_auth_manager___construct, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, accessFactory, Phalcon\\Auth\\Access\\AccessLocator, 0)
@@ -101,9 +100,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_auth_manager_requireactiv
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_auth_manager_requirestatefulguard, 0, 0, Phalcon\\Contracts\\Auth\\Guard\\GuardStateful, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_auth_manager_zephir_init_properties_phalcon_auth_manager, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_auth_manager_method_entry) {

@@ -31,9 +31,8 @@ class Memory extends AbstractArrayAdapter
      * Map of id => user row for O(1) retrieveById lookup.
      *
      * @phpstan-var array<int|string, AuthUserRow>
-     * @var array
      */
-    private idStore = [];
+    private array idStore = [];
 
     public function __construct(<Security> hasher, <MemoryAdapterConfig> config)
     {
@@ -62,12 +61,8 @@ class Memory extends AbstractArrayAdapter
     /**
      * Overridden for O(1) lookup via the id index built in the constructor.
      */
-    public function retrieveById(var id) -> <AuthUser> | null
+    public function retrieveById(int | string id) -> <AuthUser> | null
     {
-        if (typeof id !== "int" && typeof id !== "string") {
-            throw new \TypeError("The parameter must be 'int' or 'string'");
-        }
-
         if (!isset(this->idStore[id])) {
             return null;
         }

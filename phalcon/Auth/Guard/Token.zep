@@ -27,10 +27,7 @@ use Phalcon\Http\RequestInterface;
  */
 class Token extends AbstractGuard
 {
-    /**
-     * @var RequestInterface
-     */
-    protected request;
+    protected <RequestInterface> request;
 
     public function __construct(
         <Adapter> adapter,
@@ -42,6 +39,9 @@ class Token extends AbstractGuard
         parent::__construct(adapter, config);
     }
 
+    /**
+     * @param array<string, mixed> $options
+     */
     public static function fromOptions(
         <Adapter> adapter,
         var container,

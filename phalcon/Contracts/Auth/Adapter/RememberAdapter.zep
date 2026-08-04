@@ -28,6 +28,8 @@ interface RememberAdapter extends Adapter
 
     /**
      * Retrieve a user by the remember-me cookie payload.
+     *
+     * @param int|string $id
      */
     public function retrieveByToken(
         var id,

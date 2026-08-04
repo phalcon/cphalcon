@@ -18,7 +18,6 @@ use Phalcon\Auth\Adapter\AdapterLocator;
 use Phalcon\Auth\Exceptions\UnknownAdapter;
 use Phalcon\Auth\Exceptions\UnknownGuard;
 use Phalcon\Auth\Guard\GuardLocator;
-use Phalcon\Auth\Internal\ContainerResolver;
 use Phalcon\Auth\Internal\Options;
 use Phalcon\Config\ConfigInterface;
 use Phalcon\Contracts\Auth\Access\Access;
@@ -82,36 +81,19 @@ use Phalcon\Encryption\Security;
  */
 class ManagerFactory
 {
-    /**
-     * @var AccessLocator
-     */
-    protected accessLocator;
-    /**
-     * @var AdapterLocator
-     */
-    protected adapterLocator;
-    /**
-     * @var Collection|DiInterface
-     */
-    protected container;
-    /**
-     * @var GuardLocator
-     */
-    protected guardLocator;
-    /**
-     * @var Security
-     */
-    protected hasher;
+    protected <AccessLocator> accessLocator;
+    protected <AdapterLocator> adapterLocator;
+    protected <Collection> | <DiInterface> container;
+    protected <GuardLocator> guardLocator;
+    protected <Security> hasher;
 
     public function __construct(
         <Security> hasher,
-        var container,
+        <Collection> | <DiInterface> container,
         <AdapterLocator> adapterLocator = null,
         <GuardLocator> guardLocator = null,
         <AccessLocator> accessLocator = null
     ) {
-        ContainerResolver::ensureContainer(container);
-
         let this->container      = container;
         let this->hasher         = hasher;
         let this->adapterLocator = adapterLocator !== null ? adapterLocator : new AdapterLocator(container);
@@ -124,12 +106,8 @@ class ManagerFactory
      *
      * @throws Exception
      */
-    public function load(var config) -> <Manager>
+    public function load(array | <ConfigInterface> config) -> <Manager>
     {
-        if (typeof config !== "array" && !(config instanceof ConfigInterface)) {
-            throw new \TypeError("The parameter must be an array or instance of ConfigInterface");
-        }
-
         var accessList, adapter, gconf, guard, guards, manager, name;
 
         if (typeof config === "object" && config instanceof ConfigInterface) {
@@ -213,7 +191,7 @@ class ManagerFactory
 
         return {className}::fromOptions(
             adapter,
-            this-> container,
+            this->container,
             options
         );
     }
