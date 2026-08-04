@@ -27,8 +27,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Session\Bag
- *
  * This component helps to separate session data into "namespaces". Working by
  * this way you can easily create groups of session variables into the
  * application
@@ -54,14 +52,19 @@ ZEPHIR_INIT_CLASS(Phalcon_Session_Bag)
 	zend_declare_property_null(phalcon_session_bag_ce, SL("container"), ZEND_ACC_PRIVATE);
 	/**
 	 * Session Bag name
-	 *
-	 * @var string
 	 */
-	zend_declare_property_null(phalcon_session_bag_ce, SL("name"), ZEND_ACC_PRIVATE);
-	/**
-	 * @var ManagerInterface
-	 */
-	zend_declare_property_null(phalcon_session_bag_ce, SL("session"), ZEND_ACC_PRIVATE);
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_session_bag_ce, SL("name"), &_zc0, ZEND_ACC_PRIVATE, MAY_BE_STRING, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_session_bag_ce, SL("session"), &_zc0, ZEND_ACC_PRIVATE, 0, SL("Phalcon\\Session\\ManagerInterface"));
+	}
+
 	zend_class_implements(phalcon_session_bag_ce, 1, phalcon_session_baginterface_ce);
 	zend_class_implements(phalcon_session_bag_ce, 1, phalcon_di_injectionawareinterface_ce);
 	return SUCCESS;

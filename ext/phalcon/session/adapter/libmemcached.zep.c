@@ -56,6 +56,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Session_Adapter_Libmemcached)
  *     'prefix' => 'sess-memc-',
  *     'stripPrefix' => false
  * ]
+ *
+ * @throws Exception
  */
 PHP_METHOD(Phalcon_Session_Adapter_Libmemcached, __construct)
 {
