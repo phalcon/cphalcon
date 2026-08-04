@@ -17,7 +17,6 @@
 #include "kernel/array.h"
 #include "kernel/object.h"
 #include "kernel/operators.h"
-#include "kernel/exception.h"
 
 
 /**
@@ -46,10 +45,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Auth_Adapter_Memory)
 	 * Map of id => user row for O(1) retrieveById lookup.
 	 *
 	 * @phpstan-var array<int|string, AuthUserRow>
-	 * @var array
 	 */
-	zend_declare_property_null(phalcon_auth_adapter_memory_ce, SL("idStore"), ZEND_ACC_PRIVATE);
-	phalcon_auth_adapter_memory_ce->create_object = zephir_init_properties_Phalcon_Auth_Adapter_Memory;
+	{
+		zval _zc0;
+		array_init_size(&_zc0, 1);
+		zephir_declare_typed_property(phalcon_auth_adapter_memory_ce, SL("idStore"), &_zc0, ZEND_ACC_PRIVATE, MAY_BE_ARRAY, NULL, 0);
+	}
 
 	return SUCCESS;
 }
@@ -80,7 +81,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Memory, __construct)
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "loadusers", NULL, 0);
 	zephir_check_call_status();
-	zephir_is_iterable(&_0, 0, "phalcon/Auth/Adapter/Memory.zep", 49);
+	zephir_is_iterable(&_0, 0, "phalcon/Auth/Adapter/Memory.zep", 48);
 	if (Z_TYPE_P(&_0) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_0), _1)
 		{
@@ -88,7 +89,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Memory, __construct)
 			ZVAL_COPY(&row, _1);
 			if (zephir_array_isset_value_string(&row, SL("id"))) {
 				ZEPHIR_OBS_NVAR(&_2$$4);
-				zephir_array_fetch_string(&_2$$4, &row, SL("id"), PH_NOISY, "phalcon/Auth/Adapter/Memory.zep", 46);
+				zephir_array_fetch_string(&_2$$4, &row, SL("id"), PH_NOISY, "phalcon/Auth/Adapter/Memory.zep", 45);
 				zephir_update_property_array(this_ptr, SL("idStore"), &_2$$4, &row);
 			}
 		} ZEND_HASH_FOREACH_END();
@@ -112,7 +113,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Memory, __construct)
 			zephir_check_call_status();
 				if (zephir_array_isset_value_string(&row, SL("id"))) {
 					ZEPHIR_OBS_NVAR(&_5$$6);
-					zephir_array_fetch_string(&_5$$6, &row, SL("id"), PH_NOISY, "phalcon/Auth/Adapter/Memory.zep", 46);
+					zephir_array_fetch_string(&_5$$6, &row, SL("id"), PH_NOISY, "phalcon/Auth/Adapter/Memory.zep", 45);
 					zephir_update_property_array(this_ptr, SL("idStore"), &_5$$6, &row);
 				}
 		}
@@ -156,9 +157,9 @@ PHP_METHOD(Phalcon_Auth_Adapter_Memory, fromOptions)
 	ZVAL_STRING(&_3, "model");
 	ZEPHIR_CALL_CE_STATIC(&_4, phalcon_auth_internal_options_ce, "stringornull", NULL, 0, &options, &_3);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 386, &_1, &_4);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 385, &_1, &_4);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 387, hasher, &_0);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 386, hasher, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -168,16 +169,15 @@ PHP_METHOD(Phalcon_Auth_Adapter_Memory, fromOptions)
  */
 PHP_METHOD(Phalcon_Auth_Adapter_Memory, retrieveById)
 {
-	zend_bool _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *id, id_sub, _1, _2, _3;
+	zval *id, id_sub, _0, _1, _2;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&id_sub);
+	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_3);
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("idStore", 7, 1);
@@ -189,21 +189,13 @@ PHP_METHOD(Phalcon_Auth_Adapter_Memory, retrieveById)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &id);
-	_0 = Z_TYPE_P(id) != IS_LONG;
-	if (_0) {
-		_0 = Z_TYPE_P(id) != IS_STRING;
-	}
-	if (_0) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(zend_ce_type_error, "The parameter must be 'int' or 'string'", "phalcon/Auth/Adapter/Memory.zep", 68);
-		return;
-	}
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 428, PH_NOISY_CC | PH_READONLY);
-	if (!(zephir_array_isset_value(&_1, id))) {
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 430, PH_NOISY_CC | PH_READONLY);
+	if (!(zephir_array_isset_value(&_0, id))) {
 		RETURN_MM_NULL();
 	}
-	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 428, PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch(&_3, &_2, id, PH_NOISY | PH_READONLY, "phalcon/Auth/Adapter/Memory.zep", 75);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "hydrate", NULL, 0, &_3);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 430, PH_NOISY_CC | PH_READONLY);
+	zephir_array_fetch(&_2, &_1, id, PH_NOISY | PH_READONLY, "phalcon/Auth/Adapter/Memory.zep", 70);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "hydrate", NULL, 0, &_2);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -226,34 +218,9 @@ PHP_METHOD(Phalcon_Auth_Adapter_Memory, loadUsers)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 429, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 431, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_RETURN_CALL_METHOD(&_0, "getusers", NULL, 0);
 	zephir_check_call_status();
 	RETURN_MM();
-}
-
-zend_object *zephir_init_properties_Phalcon_Auth_Adapter_Memory(zend_class_entry *class_type)
-{
-		zval _0, _1$$3;
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-		ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1$$3);
-	
-
-		ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-		zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	
-	{
-		zval local_this_ptr, *this_ptr = &local_this_ptr;
-		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		zephir_read_property_ex(&_0, this_ptr, ZEND_STRL("idStore"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_0) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_1$$3);
-			array_init(&_1$$3);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("idStore"), &_1$$3);
-		}
-		ZEPHIR_MM_RESTORE();
-		return Z_OBJ_P(this_ptr);
-	}
 }
 

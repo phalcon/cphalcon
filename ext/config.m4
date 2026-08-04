@@ -62,7 +62,6 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/contracts/encryption/crypt/padding/pad.zep.c
 	phalcon/contracts/encryption/security/uuid/uuid.zep.c
 	phalcon/db/geometry/geometryinterface.zep.c
-	phalcon/events/abstracteventsaware.zep.c
 	phalcon/filter/validation/validator/file/abstractfile.zep.c
 	phalcon/queue/exceptions/exception.zep.c
 	phalcon/session/exception.zep.c
@@ -99,6 +98,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/contracts/queue/subscriptionconsumer.zep.c
 	phalcon/datamapper/query/abstractquery.zep.c
 	phalcon/db/adapter/adapterinterface.zep.c
+	phalcon/events/abstracteventsaware.zep.c
 	phalcon/html/escaper/abstractescaper.zep.c
 	phalcon/html/helper/input/abstractinput.zep.c
 	phalcon/http/request/exception.zep.c

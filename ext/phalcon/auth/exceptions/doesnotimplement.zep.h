@@ -14,7 +14,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_auth_exceptions_doesnotimplement_assert, 0, 4, IS_VOID, 0)
 
 	ZEND_ARG_INFO(0, value)
-	ZEND_ARG_INFO(0, interfaceName)
+	ZEND_ARG_TYPE_INFO(0, interfaceName, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, type, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 ZEND_END_ARG_INFO()

@@ -14,7 +14,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_auth_guard_config_sessionguardconfig___co
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, suffix, IS_STRING, 1, "null")
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, name, IS_STRING, 1, "null")
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, rememberName, IS_STRING, 1, "null")
-	ZEND_ARG_INFO(0, rememberTtl)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, rememberTtl, IS_LONG, 1, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_auth_guard_config_sessionguardconfig_getname, 0, 0, IS_STRING, 0)

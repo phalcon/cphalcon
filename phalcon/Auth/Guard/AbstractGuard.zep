@@ -17,6 +17,7 @@ use Phalcon\Contracts\Auth\Adapter\Adapter;
 use Phalcon\Contracts\Auth\AuthUser;
 use Phalcon\Contracts\Auth\Guard\Guard;
 use Phalcon\Contracts\Auth\Guard\GuardConfig;
+use Phalcon\Events\ManagerInterface;
 use Phalcon\Events\Traits\EventsAwareTrait;
 
 /**

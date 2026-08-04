@@ -83,10 +83,10 @@ PHP_METHOD(Phalcon_ADR_Responder_Redirect, __construct)
 		status = 302;
 	} else {
 		}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 356, &url_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 358, &url_zv);
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, status);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 357, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 359, &_0);
 }
 
 PHP_METHOD(Phalcon_ADR_Responder_Redirect, permanent)

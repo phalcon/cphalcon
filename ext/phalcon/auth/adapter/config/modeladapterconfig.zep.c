@@ -13,8 +13,6 @@
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-#include "kernel/operators.h"
-#include "kernel/exception.h"
 #include "kernel/fcall.h"
 #include "kernel/object.h"
 
@@ -34,10 +32,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Auth_Adapter_Config_ModelAdapterConfig)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Auth\\Adapter\\Config, ModelAdapterConfig, phalcon, auth_adapter_config_modeladapterconfig, phalcon_auth_adapter_config_abstractadapterconfig_ce, phalcon_auth_adapter_config_modeladapterconfig_method_entry, 0);
 
-	/**
-	 * @var string
-	 */
-	zend_declare_property_string(phalcon_auth_adapter_config_modeladapterconfig_ce, SL("idColumn"), "id", ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_STRINGL(&_zc0, "id", sizeof("id") - 1);
+		zephir_declare_typed_property(phalcon_auth_adapter_config_modeladapterconfig_ce, SL("idColumn"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
+
 	return SUCCESS;
 }
 
@@ -48,19 +48,15 @@ PHP_METHOD(Phalcon_Auth_Adapter_Config_ModelAdapterConfig, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval model_zv, idColumn_zv, _0$$3, _1$$3, _2$$3, _3$$3, _4$$4, _5$$4, _6$$4;
+	zval model_zv, idColumn_zv, _0, _1, _2;
 	zend_string *model = NULL, *idColumn = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&model_zv);
 	ZVAL_UNDEF(&idColumn_zv);
-	ZVAL_UNDEF(&_0$$3);
-	ZVAL_UNDEF(&_1$$3);
-	ZVAL_UNDEF(&_2$$3);
-	ZVAL_UNDEF(&_3$$3);
-	ZVAL_UNDEF(&_4$$4);
-	ZVAL_UNDEF(&_5$$4);
-	ZVAL_UNDEF(&_6$$4);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("idColumn", 8, 1);
@@ -83,35 +79,21 @@ PHP_METHOD(Phalcon_Auth_Adapter_Config_ModelAdapterConfig, __construct)
 		zephir_memory_observe(&idColumn_zv);
 	ZVAL_STR_COPY(&idColumn_zv, idColumn);
 	}
-	if (ZEPHIR_IS_STRING_IDENTICAL(&model_zv, "")) {
-		ZEPHIR_INIT_VAR(&_0$$3);
-		object_init_ex(&_0$$3, phalcon_auth_exceptions_configrequiresnonemptyvalue_ce);
-		ZEPHIR_INIT_VAR(&_1$$3);
-		ZVAL_STRING(&_1$$3, "Model adapter");
-		ZEPHIR_INIT_VAR(&_2$$3);
-		ZVAL_STRING(&_2$$3, "model");
-		ZEPHIR_INIT_VAR(&_3$$3);
-		ZVAL_STRING(&_3$$3, " class name");
-		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 385, &_1$$3, &_2$$3, &_3$$3);
-		zephir_check_call_status();
-		zephir_throw_exception_debug(&_0$$3, "phalcon/Auth/Adapter/Config/ModelAdapterConfig.zep", 36);
-		ZEPHIR_MM_RESTORE();
-		return;
-	}
-	if (ZEPHIR_IS_STRING_IDENTICAL(&idColumn_zv, "")) {
-		ZEPHIR_INIT_VAR(&_4$$4);
-		object_init_ex(&_4$$4, phalcon_auth_exceptions_configrequiresnonemptyvalue_ce);
-		ZEPHIR_INIT_VAR(&_5$$4);
-		ZVAL_STRING(&_5$$4, "Model adapter");
-		ZEPHIR_INIT_VAR(&_6$$4);
-		ZVAL_STRING(&_6$$4, "idColumn");
-		ZEPHIR_CALL_METHOD(NULL, &_4$$4, "__construct", NULL, 385, &_5$$4, &_6$$4);
-		zephir_check_call_status();
-		zephir_throw_exception_debug(&_4$$4, "phalcon/Auth/Adapter/Config/ModelAdapterConfig.zep", 43);
-		ZEPHIR_MM_RESTORE();
-		return;
-	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 426, &idColumn_zv);
+	ZEPHIR_INIT_VAR(&_0);
+	ZVAL_STRING(&_0, "Model adapter");
+	ZEPHIR_INIT_VAR(&_1);
+	ZVAL_STRING(&_1, "model");
+	ZEPHIR_INIT_VAR(&_2);
+	ZVAL_STRING(&_2, " class name");
+	ZEPHIR_CALL_CE_STATIC(NULL, phalcon_auth_exceptions_configrequiresnonemptyvalue_ce, "assert", NULL, 0, &model_zv, &_0, &_1, &_2);
+	zephir_check_call_status();
+	ZEPHIR_INIT_NVAR(&_0);
+	ZVAL_STRING(&_0, "Model adapter");
+	ZEPHIR_INIT_NVAR(&_1);
+	ZVAL_STRING(&_1, "idColumn");
+	ZEPHIR_CALL_CE_STATIC(NULL, phalcon_auth_exceptions_configrequiresnonemptyvalue_ce, "assert", NULL, 0, &idColumn_zv, &_0, &_1);
+	zephir_check_call_status();
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 428, &idColumn_zv);
 	ZEPHIR_CALL_PARENT(NULL, phalcon_auth_adapter_config_modeladapterconfig_ce, getThis(), "__construct", NULL, 0, &model_zv);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

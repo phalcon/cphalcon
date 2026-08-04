@@ -30,11 +30,11 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_auth_adapter_model_retrie
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_auth_adapter_model_retrievebyid, 0, 1, Phalcon\\Contracts\\Auth\\AuthUser, 1)
-	ZEND_ARG_INFO(0, id)
+	ZEND_ARG_TYPE_MASK(0, id, MAY_BE_LONG|MAY_BE_STRING, NULL)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_auth_adapter_model_retrievebytoken, 0, 2, Phalcon\\Contracts\\Auth\\AuthUser, 1)
-	ZEND_ARG_INFO(0, id)
+	ZEND_ARG_TYPE_MASK(0, id, MAY_BE_LONG|MAY_BE_STRING, NULL)
 	ZEND_ARG_TYPE_INFO(0, token, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, userAgent, IS_STRING, 1, "null")
 ZEND_END_ARG_INFO()

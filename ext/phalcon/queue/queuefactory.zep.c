@@ -93,7 +93,7 @@ PHP_METHOD(Phalcon_Queue_QueueFactory, __construct)
 		ZEPHIR_CALL_METHOD(NULL, factory, "__construct", NULL, 0);
 		zephir_check_call_status();
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1301, factory);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1303, factory);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -183,7 +183,7 @@ PHP_METHOD(Phalcon_Queue_QueueFactory, newInstance)
 	} else {
 		zephir_get_arrval(&options, options_param);
 	}
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1301, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1303, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&connectionFactory, &_0, "newinstance", NULL, 0, &name_zv, &options);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(&connectionFactory, "createcontext", NULL, 0);
@@ -191,6 +191,11 @@ PHP_METHOD(Phalcon_Queue_QueueFactory, newInstance)
 	RETURN_MM();
 }
 
+/**
+ * Returns the exception class for the factory
+ *
+ * @return class-string<\Throwable>
+ */
 PHP_METHOD(Phalcon_Queue_QueueFactory, getExceptionClass)
 {
 

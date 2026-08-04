@@ -10,7 +10,6 @@ PHP_METHOD(Phalcon_Auth_Access_AbstractAccess, redirectTo);
 PHP_METHOD(Phalcon_Auth_Access_AbstractAccess, setExceptActions);
 PHP_METHOD(Phalcon_Auth_Access_AbstractAccess, setOnlyActions);
 PHP_METHOD(Phalcon_Auth_Access_AbstractAccess, allowedIf);
-zend_object *zephir_init_properties_Phalcon_Auth_Access_AbstractAccess(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_auth_access_abstractaccess_getexceptactions, 0, 0, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
@@ -39,9 +38,6 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_auth_access_abstractaccess_allowedif, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_OBJ_INFO(0, guard, Phalcon\\Contracts\\Auth\\Guard\\Guard, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_auth_access_abstractaccess_zephir_init_properties_phalcon_auth_access_abstractaccess, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_auth_access_abstractaccess_method_entry) {

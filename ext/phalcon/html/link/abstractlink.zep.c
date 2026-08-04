@@ -133,18 +133,18 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLink, __construct)
 	object_init_ex(&_0, phalcon_support_collection_ce);
 	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 41, &attributes);
 	zephir_check_call_status();
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 216, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 218, &_0);
 	ZEPHIR_INIT_VAR(&_1);
 	object_init_ex(&_1, phalcon_support_collection_ce);
 	ZEPHIR_CALL_METHOD(NULL, &_1, "__construct", NULL, 41);
 	zephir_check_call_status();
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 217, &_1);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 218, &href_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 219, &_1);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 220, &href_zv);
 	ZEPHIR_CALL_METHOD(&_2, this_ptr, "hrefistemplated", NULL, 0, &href_zv);
 	zephir_check_call_status();
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 219, &_2);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 221, &_2);
 	if (1 != ZEPHIR_IS_EMPTY(&rel_zv)) {
-		zephir_read_property_cached(&_3$$3, this_ptr, _zephir_prop_1, 217, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_3$$3, this_ptr, _zephir_prop_1, 219, PH_NOISY_CC | PH_READONLY);
 		ZVAL_BOOL(&_4$$3, 1);
 		ZEPHIR_CALL_METHOD(NULL, &_3$$3, "set", NULL, 0, &rel_zv, &_4$$3);
 		zephir_check_call_status();
@@ -175,7 +175,7 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLink, doGetAttributes)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 216, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 218, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_RETURN_CALL_METHOD(&_0, "toarray", NULL, 0);
 	zephir_check_call_status();
 	RETURN_MM();
@@ -224,7 +224,7 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLink, doGetRels)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 217, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 219, PH_NOISY_CC | PH_READONLY);
 	ZVAL_BOOL(&_1, 0);
 	ZEPHIR_RETURN_CALL_METHOD(&_0, "getkeys", NULL, 0, &_1);
 	zephir_check_call_status();

@@ -79,7 +79,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt_PadFactory, __construct)
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "Phalcon\\Encryption\\Crypt\\Exception\\Exception");
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 681, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 683, &_0);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "init", NULL, 0, &services);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

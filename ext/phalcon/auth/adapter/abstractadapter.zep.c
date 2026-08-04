@@ -39,14 +39,18 @@ ZEPHIR_INIT_CLASS(Phalcon_Auth_Adapter_AbstractAdapter)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Auth\\Adapter, AbstractAdapter, phalcon, auth_adapter_abstractadapter, phalcon_auth_adapter_abstractadapter_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
-	/**
-	 * @var AdapterConfig
-	 */
-	zend_declare_property_null(phalcon_auth_adapter_abstractadapter_ce, SL("config"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var Security
-	 */
-	zend_declare_property_null(phalcon_auth_adapter_abstractadapter_ce, SL("hasher"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_auth_adapter_abstractadapter_ce, SL("config"), &_zc0, ZEND_ACC_PROTECTED, 0, SL("Phalcon\\Contracts\\Auth\\Adapter\\AdapterConfig"));
+	}
+
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_auth_adapter_abstractadapter_ce, SL("hasher"), &_zc0, ZEND_ACC_PROTECTED, 0, SL("Phalcon\\Contracts\\Encryption\\Security\\Security"));
+	}
+
 	/**
 	 * Dummy bcrypt hash used to equalize timing on the user-not-found path so
 	 * a failed lookup costs the same as a real password check (prevents
