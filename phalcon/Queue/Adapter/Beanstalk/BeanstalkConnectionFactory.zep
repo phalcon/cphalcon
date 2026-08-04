@@ -34,10 +34,7 @@ use Phalcon\Contracts\Queue\Context as ContextInterface;
  */
 class BeanstalkConnectionFactory implements ConnectionFactoryInterface
 {
-    /**
-     * @var array
-     */
-    protected options = [];
+    protected array options = [];
 
     public function __construct(array options = [])
     {

@@ -34,7 +34,7 @@ class StreamProducer extends AbstractProducer
     /**
      * @var StreamContext
      */
-    protected context;
+    protected <StreamContext> context;
 
     public function __construct(<StreamContext> context)
     {

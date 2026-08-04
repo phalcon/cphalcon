@@ -29,29 +29,10 @@ namespace Phalcon\Queue\Adapter\Traits;
  */
 trait MessageTrait
 {
-    /**
-     * @var string
-     */
-    protected body = "";
-
-    /**
-     * @var array
-     *
-     * @todo Use a default [] once Zephir supports array trait defaults
-     */
-    protected headers = null;
-
-    /**
-     * @var array
-     *
-     * @todo Use a default [] once Zephir supports array trait defaults
-     */
-    protected properties = null;
-
-    /**
-     * @var bool
-     */
-    protected redelivered = false;
+    protected string body = "";
+    protected array headers = [];
+    protected array properties = [];
+    protected bool redelivered = false;
 
     /**
      * Message constructor.
@@ -96,7 +77,7 @@ trait MessageTrait
      */
     public function getHeaders() -> array
     {
-        return (array) this->headers;
+        return this->headers;
     }
 
     /**
@@ -112,7 +93,7 @@ trait MessageTrait
      */
     public function getProperties() -> array
     {
-        return (array) this->properties;
+        return this->properties;
     }
 
     /**

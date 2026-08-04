@@ -50,11 +50,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnectionFactory)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Queue\\Adapter\\Beanstalk, BeanstalkConnectionFactory, phalcon, queue_adapter_beanstalk_beanstalkconnectionfactory, phalcon_queue_adapter_beanstalk_beanstalkconnectionfactory_method_entry, 0);
 
-	/**
-	 * @var array
-	 */
-	zend_declare_property_null(phalcon_queue_adapter_beanstalk_beanstalkconnectionfactory_ce, SL("options"), ZEND_ACC_PROTECTED);
-	phalcon_queue_adapter_beanstalk_beanstalkconnectionfactory_ce->create_object = zephir_init_properties_Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnectionFactory;
+	{
+		zval _zc0;
+		array_init_size(&_zc0, 1);
+		zephir_declare_typed_property(phalcon_queue_adapter_beanstalk_beanstalkconnectionfactory_ce, SL("options"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_ARRAY, NULL, 0);
+	}
 
 	zend_class_implements(phalcon_queue_adapter_beanstalk_beanstalkconnectionfactory_ce, 1, phalcon_contracts_queue_connectionfactory_ce);
 	return SUCCESS;
@@ -118,14 +118,14 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnectionFactory, createCon
 	ZEPHIR_CPY_WRT(&options, &_0);
 	if (zephir_array_isset_value_string(&options, SL("host"))) {
 		zephir_memory_observe(&host);
-		zephir_array_fetch_string(&host, &options, SL("host"), PH_NOISY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkConnectionFactory.zep", 52);
+		zephir_array_fetch_string(&host, &options, SL("host"), PH_NOISY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkConnectionFactory.zep", 49);
 	} else {
 		ZEPHIR_INIT_NVAR(&host);
 		ZVAL_STRING(&host, "127.0.0.1");
 	}
 	if (zephir_array_isset_value_string(&options, SL("port"))) {
 		zephir_memory_observe(&_1);
-		zephir_array_fetch_string(&_1, &options, SL("port"), PH_NOISY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkConnectionFactory.zep", 53);
+		zephir_array_fetch_string(&_1, &options, SL("port"), PH_NOISY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkConnectionFactory.zep", 50);
 		ZEPHIR_INIT_VAR(&port);
 		ZVAL_LONG(&port, zephir_get_intval(&_1));
 	} else {
@@ -134,7 +134,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnectionFactory, createCon
 	}
 	if (zephir_array_isset_value_string(&options, SL("persistent"))) {
 		zephir_memory_observe(&_2);
-		zephir_array_fetch_string(&_2, &options, SL("persistent"), PH_NOISY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkConnectionFactory.zep", 54);
+		zephir_array_fetch_string(&_2, &options, SL("persistent"), PH_NOISY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkConnectionFactory.zep", 51);
 		ZEPHIR_INIT_VAR(&persistent);
 		ZVAL_BOOL(&persistent, zephir_get_boolval(&_2));
 	} else {
@@ -143,7 +143,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnectionFactory, createCon
 	}
 	if (zephir_array_isset_value_string(&options, SL("ttr"))) {
 		ZEPHIR_OBS_NVAR(&_2);
-		zephir_array_fetch_string(&_2, &options, SL("ttr"), PH_NOISY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkConnectionFactory.zep", 55);
+		zephir_array_fetch_string(&_2, &options, SL("ttr"), PH_NOISY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkConnectionFactory.zep", 52);
 		ZEPHIR_INIT_VAR(&ttr);
 		ZVAL_LONG(&ttr, zephir_get_intval(&_2));
 	} else {
@@ -152,7 +152,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnectionFactory, createCon
 	}
 	if (zephir_array_isset_value_string(&options, SL("pollInterval"))) {
 		zephir_memory_observe(&_3);
-		zephir_array_fetch_string(&_3, &options, SL("pollInterval"), PH_NOISY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkConnectionFactory.zep", 56);
+		zephir_array_fetch_string(&_3, &options, SL("pollInterval"), PH_NOISY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkConnectionFactory.zep", 53);
 		ZEPHIR_INIT_VAR(&pollInterval);
 		ZVAL_LONG(&pollInterval, zephir_get_intval(&_3));
 	} else {
@@ -163,30 +163,5 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnectionFactory, createCon
 	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &host, &port, &persistent, &ttr, &pollInterval);
 	zephir_check_call_status();
 	RETURN_MM();
-}
-
-zend_object *zephir_init_properties_Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnectionFactory(zend_class_entry *class_type)
-{
-		zval _0, _1$$3;
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-		ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1$$3);
-	
-
-		ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-		zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	
-	{
-		zval local_this_ptr, *this_ptr = &local_this_ptr;
-		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		zephir_read_property_ex(&_0, this_ptr, ZEND_STRL("options"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_0) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_1$$3);
-			array_init(&_1$$3);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("options"), &_1$$3);
-		}
-		ZEPHIR_MM_RESTORE();
-		return Z_OBJ_P(this_ptr);
-	}
 }
 

@@ -26,15 +26,13 @@ use Phalcon\Contracts\Queue\Context as ContextInterface;
  * Builds a StreamContext.
  *
  * Options:
- *   - storageDir:   directory holding the queue files (default: system temp).
+ *   - storageDir:   directory holding the queue files (default: a private
+ *                   "phalcon_queue" subdirectory of the system temp dir).
  *   - pollInterval: milliseconds between consumer poll attempts (default 200).
  */
 class StreamConnectionFactory implements ConnectionFactoryInterface
 {
-    /**
-     * @var array
-     */
-    protected options = [];
+    protected array options = [];
 
     public function __construct(array options = [])
     {

@@ -44,16 +44,21 @@ ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_Redis_RedisProducer)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Queue\\Adapter\\Redis, RedisProducer, phalcon, queue_adapter_redis_redisproducer, phalcon_queue_adapter_abstractproducer_ce, phalcon_queue_adapter_redis_redisproducer_method_entry, 0);
 
-	/**
-	 * @var RedisContext
-	 */
-	zend_declare_property_null(phalcon_queue_adapter_redis_redisproducer_ce, SL("context"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_queue_adapter_redis_redisproducer_ce, SL("context"), &_zc0, ZEND_ACC_PROTECTED, 0, SL("Phalcon\\Queue\\Adapter\\Redis\\RedisContext"));
+	}
+
 	/**
 	 * Delivery delay in milliseconds, or null when not set.
-	 *
-	 * @var int | null
 	 */
-	zend_declare_property_null(phalcon_queue_adapter_redis_redisproducer_ce, SL("deliveryDelay"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_NULL(&_zc0);
+		zephir_declare_typed_property(phalcon_queue_adapter_redis_redisproducer_ce, SL("deliveryDelay"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_LONG|MAY_BE_NULL, NULL, 0);
+	}
+
 	return SUCCESS;
 }
 

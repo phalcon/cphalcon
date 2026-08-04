@@ -29,10 +29,7 @@ use Phalcon\Queue\Adapter\AbstractConsumer;
  */
 class MemoryConsumer extends AbstractConsumer
 {
-    /**
-     * @var MemoryContext
-     */
-    protected context;
+    protected <MemoryContext> context;
 
     /**
      * MemoryConsumer constructor.

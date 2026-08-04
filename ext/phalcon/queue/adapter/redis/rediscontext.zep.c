@@ -50,24 +50,24 @@ ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_Redis_RedisContext)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Queue\\Adapter\\Redis, RedisContext, phalcon, queue_adapter_redis_rediscontext, phalcon_queue_adapter_abstractcontext_ce, phalcon_queue_adapter_redis_rediscontext_method_entry, 0);
 
-	/**
-	 * Milliseconds slept between poll passes by a subscription consumer.
-	 *
-	 * @var int
-	 */
-	zend_declare_property_long(phalcon_queue_adapter_redis_rediscontext_ce, SL("pollInterval"), 200, ZEND_ACC_PROTECTED);
-	/**
-	 * Key prefix applied to every queue (and its delayed companion set).
-	 *
-	 * @var string
-	 */
-	zend_declare_property_string(phalcon_queue_adapter_redis_rediscontext_ce, SL("prefix"), "phalcon_queue:", ZEND_ACC_PROTECTED);
-	/**
-	 * The connected ext-redis client.
-	 *
-	 * @var \Redis
-	 */
-	zend_declare_property_null(phalcon_queue_adapter_redis_rediscontext_ce, SL("redis"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_LONG(&_zc0, 200);
+		zephir_declare_typed_property(phalcon_queue_adapter_redis_rediscontext_ce, SL("pollInterval"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_LONG, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_STRINGL(&_zc0, "phalcon_queue:", sizeof("phalcon_queue:") - 1);
+		zephir_declare_typed_property(phalcon_queue_adapter_redis_rediscontext_ce, SL("prefix"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_queue_adapter_redis_rediscontext_ce, SL("redis"), &_zc0, ZEND_ACC_PROTECTED, 0, SL("Redis"));
+	}
+
 	return SUCCESS;
 }
 
@@ -96,7 +96,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisContext, __construct)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(1, 3)
-		Z_PARAM_ZVAL(redis)
+		Z_PARAM_OBJECT_OF_CLASS(redis, zephir_get_internal_ce(SL("redis")))
 		Z_PARAM_OPTIONAL
 		Z_PARAM_STR(prefix)
 		Z_PARAM_LONG(pollInterval)
@@ -179,7 +179,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisContext, blockingPop)
 		_4 = zephir_fast_count_int(&result) >= 2;
 	}
 	if (_4) {
-		zephir_array_fetch_long(&_5$$3, &result, 1, PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/Redis/RedisContext.zep", 83);
+		zephir_array_fetch_long(&_5$$3, &result, 1, PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/Redis/RedisContext.zep", 70);
 		ZEPHIR_RETURN_CALL_METHOD(this_ptr, "buildmessage", NULL, 0, &_5$$3);
 		zephir_check_call_status();
 		RETURN_MM();
@@ -494,9 +494,9 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisContext, buildMessage)
 		RETURN_MM_NULL();
 	}
 	object_init_ex(return_value, phalcon_queue_adapter_redis_redismessage_ce);
-	zephir_array_fetch_string(&_0, &data, SL("body"), PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/Redis/RedisContext.zep", 179);
-	zephir_array_fetch_string(&_1, &data, SL("properties"), PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/Redis/RedisContext.zep", 179);
-	zephir_array_fetch_string(&_2, &data, SL("headers"), PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/Redis/RedisContext.zep", 179);
+	zephir_array_fetch_string(&_0, &data, SL("body"), PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/Redis/RedisContext.zep", 166);
+	zephir_array_fetch_string(&_1, &data, SL("properties"), PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/Redis/RedisContext.zep", 166);
+	zephir_array_fetch_string(&_2, &data, SL("headers"), PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/Redis/RedisContext.zep", 166);
 	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &_0, &_1, &_2);
 	zephir_check_call_status();
 	RETURN_MM();
@@ -621,7 +621,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisContext, promote)
 	if (Z_TYPE_P(&due) != IS_ARRAY) {
 		RETURN_MM_NULL();
 	}
-	zephir_is_iterable(&due, 0, "phalcon/Queue/Adapter/Redis/RedisContext.zep", 222);
+	zephir_is_iterable(&due, 0, "phalcon/Queue/Adapter/Redis/RedisContext.zep", 209);
 	if (Z_TYPE_P(&due) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&due), _3)
 		{

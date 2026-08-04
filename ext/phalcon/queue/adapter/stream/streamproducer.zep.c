@@ -46,7 +46,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_Stream_StreamProducer)
 	/**
 	 * @var StreamContext
 	 */
-	zend_declare_property_null(phalcon_queue_adapter_stream_streamproducer_ce, SL("context"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_queue_adapter_stream_streamproducer_ce, SL("context"), &_zc0, ZEND_ACC_PROTECTED, 0, SL("Phalcon\\Queue\\Adapter\\Stream\\StreamContext"));
+	}
+
 	return SUCCESS;
 }
 

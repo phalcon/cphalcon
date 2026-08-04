@@ -64,7 +64,7 @@ abstract class AbstractApplication extends Injectable implements EventsAwareInte
      *
      * @return TModule|Closure
      */
-    public function getModule(string name) -> array | object
+    public function getModule(string name) -> mixed
     {
         var module;
 

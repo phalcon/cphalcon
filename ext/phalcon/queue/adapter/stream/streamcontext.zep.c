@@ -51,16 +51,22 @@ ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_Stream_StreamContext)
 
 	/**
 	 * Milliseconds slept between poll attempts by consumers.
-	 *
-	 * @var int
 	 */
-	zend_declare_property_long(phalcon_queue_adapter_stream_streamcontext_ce, SL("pollInterval"), 200, ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_LONG(&_zc0, 200);
+		zephir_declare_typed_property(phalcon_queue_adapter_stream_streamcontext_ce, SL("pollInterval"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_LONG, NULL, 0);
+	}
+
 	/**
 	 * Directory (with trailing separator) that holds the queue files.
-	 *
-	 * @var string
 	 */
-	zend_declare_property_string(phalcon_queue_adapter_stream_streamcontext_ce, SL("storageDir"), "", ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_STRINGL(&_zc0, "", sizeof("") - 1);
+		zephir_declare_typed_property(phalcon_queue_adapter_stream_streamcontext_ce, SL("storageDir"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
+
 	return SUCCESS;
 }
 
@@ -353,9 +359,9 @@ PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamContext, popMessage)
 		RETURN_MM_NULL();
 	}
 	object_init_ex(return_value, phalcon_queue_adapter_stream_streammessage_ce);
-	zephir_array_fetch_string(&_10, &data, SL("body"), PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/Stream/StreamContext.zep", 145);
-	zephir_array_fetch_string(&_11, &data, SL("properties"), PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/Stream/StreamContext.zep", 145);
-	zephir_array_fetch_string(&_12, &data, SL("headers"), PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/Stream/StreamContext.zep", 145);
+	zephir_array_fetch_string(&_10, &data, SL("body"), PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/Stream/StreamContext.zep", 141);
+	zephir_array_fetch_string(&_11, &data, SL("properties"), PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/Stream/StreamContext.zep", 141);
+	zephir_array_fetch_string(&_12, &data, SL("headers"), PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/Stream/StreamContext.zep", 141);
 	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &_10, &_11, &_12);
 	zephir_check_call_status();
 	RETURN_MM();

@@ -30,19 +30,12 @@ trait SubscriptionConsumerTrait
 {
     /**
      * Milliseconds slept between poll passes.
-     *
-     * @var int
      */
-    protected pollInterval = 200;
-
+    protected int pollInterval = 200;
     /**
      * Subscriptions keyed by queue name: [consumer, callback].
-     *
-     * @var array
-     *
-     * @todo Use a default [] once Zephir supports array trait defaults
      */
-    protected subscriptions = null;
+    protected array subscriptions = [];
 
     /**
      * Polls every subscription, dispatching each message to its callback,

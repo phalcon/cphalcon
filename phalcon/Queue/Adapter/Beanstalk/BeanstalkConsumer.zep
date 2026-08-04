@@ -41,13 +41,12 @@ class BeanstalkConsumer extends AbstractConsumer implements VisibilityAware
      */
     const DEFAULT_PRIORITY = 100;
 
-    /**
-     * @var BeanstalkConnection
-     */
-    protected connection;
+    protected <BeanstalkConnection> connection;
 
-    public function __construct(<BeanstalkConnection> connection, <QueueInterface> queue)
-    {
+    public function __construct(
+        <BeanstalkConnection> connection,
+        <QueueInterface> queue
+    ) {
         var tube;
 
         let this->connection = connection,
@@ -107,8 +106,10 @@ class BeanstalkConsumer extends AbstractConsumer implements VisibilityAware
 
     /**
      * Builds a BeanstalkMessage from a reserved [id, body] pair, or null.
+     *
+     * @param array{0: string, 1: false|string}|null $job
      */
-    private function buildMessage(var job) -> <MessageInterface> | null
+    private function buildMessage(array job = null) -> <MessageInterface> | null
     {
         var data, message;
 
@@ -130,12 +131,15 @@ class BeanstalkConsumer extends AbstractConsumer implements VisibilityAware
     }
 
     /**
-     * Resolves a message's Beanstalkd job id. The `message` parameter is typed
-     * `var` so the call is dynamic; this avoids Zephir resolving getJobId()
-     * against the Message interface, which does not declare it.
+     * Resolves a message's Beanstalkd job id. The Message interface does not
+     * declare getJobId(), so the concrete BeanstalkMessage is required.
      */
-    private function resolveJobId(var message) -> string
+    private function resolveJobId(<MessageInterface> message) -> string
     {
-        return message->getJobId();
+        if (message instanceof BeanstalkMessage) {
+            return (string) message->getJobId();
+        }
+	
+        return "";
     }
 }

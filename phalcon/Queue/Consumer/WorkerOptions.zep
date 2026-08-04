@@ -28,31 +28,23 @@ class WorkerOptions
     /**
      * Seconds added to maxSeconds (randomised per worker) so a pool does not
      * restart in lockstep.
-     *
-     * @var int
      */
-    protected jitter = 0;
+    protected int jitter = 0;
 
     /**
      * Memory ceiling in megabytes.
-     *
-     * @var int
      */
-    protected maxMemory = 0;
+    protected int maxMemory = 0;
 
     /**
      * Maximum number of messages to process.
-     *
-     * @var int
      */
-    protected maxMessages = 0;
+    protected int maxMessages = 0;
 
     /**
      * Maximum run time in seconds.
-     *
-     * @var int
      */
-    protected maxSeconds = 0;
+    protected int maxSeconds = 0;
 
     public function __construct(int maxMessages = 0, int maxSeconds = 0, int maxMemory = 0, int jitter = 0)
     {

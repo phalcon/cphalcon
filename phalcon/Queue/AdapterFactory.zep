@@ -19,20 +19,23 @@
 
 namespace Phalcon\Queue;
 
+use Phalcon\Config\ConfigInterface;
 use Phalcon\Contracts\Queue\ConnectionFactory as ConnectionFactoryInterface;
-use Phalcon\Factory\AbstractFactory;
 use Phalcon\Queue\Adapter\Beanstalk\BeanstalkConnectionFactory;
 use Phalcon\Queue\Adapter\Memory\MemoryConnectionFactory;
 use Phalcon\Queue\Adapter\Redis\RedisConnectionFactory;
 use Phalcon\Queue\Adapter\Stream\StreamConnectionFactory;
 use Phalcon\Queue\Exceptions\Exception;
+use Phalcon\Traits\Factory\FactoryTrait;
 
 /**
  * Maps an adapter name to its ConnectionFactory. Mirrors
  * Phalcon\Storage\AdapterFactory.
  */
-class AdapterFactory extends AbstractFactory
+class AdapterFactory
 {
+    use FactoryTrait;
+
     /**
      * AdapterFactory constructor.
      */
@@ -50,11 +53,13 @@ class AdapterFactory extends AbstractFactory
 
         let definition = this->getService(name);
 
-        return create_instance_params(definition, [options]);
+        return new {definition}(options);
     }
 
     /**
-     * @return string
+     * Returns the exception class for the factory
+     *
+     * @return class-string<\Throwable>
      */
     protected function getExceptionClass() -> string
     {
