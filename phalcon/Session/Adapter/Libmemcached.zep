@@ -10,6 +10,7 @@
 
 namespace Phalcon\Session\Adapter;
 
+use Exception;
 use Phalcon\Storage\AdapterFactory;
 
 /**

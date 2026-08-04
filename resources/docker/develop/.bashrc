@@ -69,9 +69,9 @@ alias mv='mv -i'
 # untar
 alias untar='tar xvf'
 
-# Zephir related
-alias untar='tar xvf'
+PATH=$PATH:./vendor/bin
 
+# Zephir related
 NB_CORES=$(grep -c '^processor' /proc/cpuinfo)
 export MAKEFLAGS="-j$((NB_CORES)) -l${NB_CORES}"
 

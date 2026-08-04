@@ -226,7 +226,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Redis, __construct)
 	ZVAL_LONG(&_4, zephir_get_intval(&_7));
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 1308, &_4);
 	zephir_memory_observe(&_8);
-	zephir_array_fetch_string(&_8, &options, SL("prefix"), PH_NOISY, "phalcon/Session/Adapter/Redis.zep", 71);
+	zephir_array_fetch_string(&_8, &options, SL("prefix"), PH_NOISY, "phalcon/Session/Adapter/Redis.zep", 72);
 	zephir_cast_to_string(&_9, &_8);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_4, 1309, &_9);
 	ZEPHIR_INIT_NVAR(&_1);
@@ -329,7 +329,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Redis, read)
 		ZEPHIR_CONCAT_SV(&_5$$3, "Could not acquire the session lock with key: ", &_4$$3);
 		ZEPHIR_CALL_METHOD(NULL, &_3$$3, "__construct", NULL, 8, &_5$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_3$$3, "phalcon/Session/Adapter/Redis.zep", 107);
+		zephir_throw_exception_debug(&_3$$3, "phalcon/Session/Adapter/Redis.zep", 108);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
