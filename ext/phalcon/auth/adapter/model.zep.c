@@ -266,6 +266,9 @@ PHP_METHOD(Phalcon_Auth_Adapter_Model, retrieveByCredentials)
 	RETURN_CCTOR(&found);
 }
 
+/**
+ * @param int|string $id
+ */
 PHP_METHOD(Phalcon_Auth_Adapter_Model, retrieveById)
 {
 	zval _0, _4;
@@ -310,6 +313,8 @@ PHP_METHOD(Phalcon_Auth_Adapter_Model, retrieveById)
 
 /**
  * Retrieve a user by the remember-me cookie payload.
+ *
+ * @param int|string $id
  */
 PHP_METHOD(Phalcon_Auth_Adapter_Model, retrieveByToken)
 {

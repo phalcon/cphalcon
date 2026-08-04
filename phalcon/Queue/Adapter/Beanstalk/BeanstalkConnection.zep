@@ -273,12 +273,12 @@ class BeanstalkConnection
      *
      * @return array{0: string, 1: false|string}|null
      */
-    public function reserve(int timeout = null) -> array | null
+    public function reserve(var timeout = null) -> array | null
     {
         var command, response;
 
         if null !== timeout {
-            let command = "reserve-with-timeout " . timeout;
+            let command = "reserve-with-timeout " . (int) timeout;
         } else {
             let command = "reserve";
         }

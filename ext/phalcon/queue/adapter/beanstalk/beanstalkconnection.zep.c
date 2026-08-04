@@ -645,10 +645,12 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnection, reserve)
 	zval _1$$3;
 	zend_bool _2;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval *timeout_param = NULL, command, response, _3, _4, _5, _6, _0$$3;
-	zend_long timeout, ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *timeout = NULL, timeout_sub, __$null, command, response, _3, _4, _5, _6, _0$$3;
 	zval *this_ptr = getThis();
 
+	ZVAL_UNDEF(&timeout_sub);
+	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&command);
 	ZVAL_UNDEF(&response);
 	ZVAL_UNDEF(&_3);
@@ -660,19 +662,19 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnection, reserve)
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_LONG_OR_NULL(timeout, is_null_true)
+		Z_PARAM_ZVAL_OR_NULL(timeout)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_fetch_params(1, 0, 1, &timeout_param);
-	if (!timeout_param) {
-		timeout = 0;
-	} else {
-		}
+	zephir_fetch_params(1, 0, 1, &timeout);
+	if (!timeout) {
+		timeout = &timeout_sub;
+		timeout = &__$null;
+	}
 	ZEPHIR_INIT_VAR(&command);
-	if (0 != timeout) {
+	if (Z_TYPE_P(timeout) != IS_NULL) {
 		ZEPHIR_INIT_VAR(&_0$$3);
-		ZVAL_LONG(&_0$$3, timeout);
+		ZVAL_LONG(&_0$$3, zephir_get_intval(timeout));
 		ZEPHIR_INIT_VAR(&_1$$3);
 		ZEPHIR_CONCAT_SV(&_1$$3, "reserve-with-timeout ", &_0$$3);
 		ZEPHIR_CPY_WRT(&command, &_1$$3);

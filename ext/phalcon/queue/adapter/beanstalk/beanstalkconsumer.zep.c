@@ -291,10 +291,10 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConsumer, buildMessage)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *job_param = NULL, data, message, _0, _1, _2, _3, _4;
-	zval job;
+	zval *job = NULL, job_sub, __$null, data, message, _0, _1, _2, _3, _4;
 
-	ZVAL_UNDEF(&job);
+	ZVAL_UNDEF(&job_sub);
+	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&data);
 	ZVAL_UNDEF(&message);
 	ZVAL_UNDEF(&_0);
@@ -305,20 +305,19 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConsumer, buildMessage)
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
-		ZEPHIR_Z_PARAM_ARRAY_OR_NULL(job, job_param)
+		Z_PARAM_ZVAL_OR_NULL(job)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_fetch_params(1, 0, 1, &job_param);
-	if (!job_param) {
-		ZEPHIR_INIT_VAR(&job);
-	} else {
-		zephir_get_arrval(&job, job_param);
+	zephir_fetch_params(1, 0, 1, &job);
+	if (!job) {
+		job = &job_sub;
+		job = &__$null;
 	}
-	if (1 != 1) {
+	if (Z_TYPE_P(job) != IS_ARRAY) {
 		RETURN_MM_NULL();
 	}
-	zephir_array_fetch_long(&_0, &job, 1, PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkConsumer.zep", 120);
+	zephir_array_fetch_long(&_0, job, 1, PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkConsumer.zep", 120);
 	ZEPHIR_CALL_CE_STATIC(&data, phalcon_queue_adapter_messageenvelope_ce, "decode", NULL, 0, &_0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&data) == IS_NULL) {
@@ -331,7 +330,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConsumer, buildMessage)
 	zephir_array_fetch_string(&_3, &data, SL("headers"), PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkConsumer.zep", 126);
 	ZEPHIR_CALL_METHOD(NULL, &message, "__construct", NULL, 0, &_1, &_2, &_3);
 	zephir_check_call_status();
-	zephir_array_fetch_long(&_4, &job, 0, PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkConsumer.zep", 128);
+	zephir_array_fetch_long(&_4, job, 0, PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkConsumer.zep", 128);
 	ZEPHIR_CALL_METHOD(NULL, &message, "setjobid", NULL, 0, &_4);
 	zephir_check_call_status();
 	RETURN_CCTOR(&message);

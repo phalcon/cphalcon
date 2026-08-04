@@ -31,17 +31,6 @@ class DoesNotImplement extends Exception
      * Throws when value is not an instance of the given interface. Keeps the
      * "must implement" guard shared across adapters, guards and the manager
      * in one place.
-     *
-     * @template TExpected of object
-     *
-     * @param mixed                   $value
-     * @param class-string<TExpected> $interfaceName
-     * @param string                  $type
-     * @param string                  $name
-     *
-     * @phpstan-assert TExpected $value
-     *
-     * @throws self
      */
     public static function assert(
         var value,

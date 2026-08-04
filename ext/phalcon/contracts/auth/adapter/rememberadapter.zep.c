@@ -40,5 +40,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Contracts_Auth_Adapter_RememberAdapter)
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Auth_Adapter_RememberAdapter, createRememberToken);
 /**
  * Retrieve a user by the remember-me cookie payload.
+ *
+ * @param int|string $id
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Auth_Adapter_RememberAdapter, retrieveByToken);

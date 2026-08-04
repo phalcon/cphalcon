@@ -110,7 +110,7 @@ class ManagerFactory
     {
         var accessList, adapter, gconf, guard, guards, manager, name;
 
-        if (config instanceof ConfigInterface) {
+        if (typeof config === "object" && config instanceof ConfigInterface) {
             /** @var AuthConfig $config */
             let config = config->toArray();
         }
