@@ -22,6 +22,8 @@ use Phalcon\Tests\Unit\Session\Fake\FakeStreamGlob;
 use function file_put_contents;
 use function Phalcon\Tests\Support\Traits\getOptionsSessionStream;
 use function sleep;
+use function time;
+use function touch;
 use function uniqid;
 
 final class GcTest extends AbstractServicesTestCase
@@ -47,8 +49,8 @@ final class GcTest extends AbstractServicesTestCase
         sleep(2);
         $actual = $adapter->gc(1);
         $this->assertNotFalse($actual);
-        $this->doesNotHaveMemcachedKey('sess-memc-gc_1');
-        $this->doesNotHaveRedisKey('sess-memc-gc_2');
+        $this->assertTrue($this->doesNotHaveMemcachedKey('sess-memc-gc_1'));
+        $this->assertTrue($this->doesNotHaveMemcachedKey('sess-memc-gc_2'));
     }
 
     /**
@@ -83,25 +85,30 @@ final class GcTest extends AbstractServicesTestCase
     {
         $adapter = $this->newService('sessionStream');
 
+        $fileOne = Talon::settings()->outputPath('tests/cache/sessions/gc_1');
+        $fileTwo = Talon::settings()->outputPath('tests/cache/sessions/gc_2');
+
         /**
          * Add two session files
          */
-        $actual = file_put_contents(Talon::settings()->outputPath('tests/cache/sessions/gc_1'), uniqid());
+        $actual = file_put_contents($fileOne, uniqid());
         $this->assertNotFalse($actual);
 
-        $actual = file_put_contents(Talon::settings()->outputPath('tests/cache/sessions/gc_2'), uniqid());
+        $actual = file_put_contents($fileTwo, uniqid());
         $this->assertNotFalse($actual);
 
         /**
-         * Sleep to make sure that the time expired
+         * `gc()` collects on `filemtime()`, so backdating the files expires
+         * them with nothing to wait for
          */
-        sleep(2);
+        $this->assertTrue(touch($fileOne, time() - 100));
+        $this->assertTrue(touch($fileTwo, time() - 100));
 
         $actual = $adapter->gc(1);
         $this->assertNotFalse($actual);
 
-        $this->assertFileDoesNotExist(Talon::settings()->outputPath('tests/cache/sessions/gc_1'));
-        $this->assertFileDoesNotExist(Talon::settings()->outputPath('tests/cache/sessions/gc_2'));
+        $this->assertFileDoesNotExist($fileOne);
+        $this->assertFileDoesNotExist($fileTwo);
     }
 
     /**
