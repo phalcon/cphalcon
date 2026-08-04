@@ -19,10 +19,7 @@ abstract class AbstractAdapter implements SessionHandlerInterface, SessionUpdate
 {
     use GetTrait;
 
-    /**
-     * @var AdapterInterface
-     */
-    protected adapter;
+    protected <AdapterInterface> adapter;
 
     /**
      * Close
@@ -35,7 +32,7 @@ abstract class AbstractAdapter implements SessionHandlerInterface, SessionUpdate
     /**
      * Destroy
      */
-    public function destroy(var id) -> bool
+    public function destroy(string id) -> bool
     {
         if !empty(id) && this->adapter->has(id) {
             return this->adapter->delete(id);
@@ -50,7 +47,7 @@ abstract class AbstractAdapter implements SessionHandlerInterface, SessionUpdate
      * @param int $max_lifetime
      * @return false|int
      */
-    public function gc(int max_lifetime) -> int|false
+    public function gc(int max_lifetime) -> false | int
     {
         return 1;
     }
@@ -58,7 +55,7 @@ abstract class AbstractAdapter implements SessionHandlerInterface, SessionUpdate
     /**
      * Open
      */
-    public function open(var path, var name) -> bool
+    public function open(string path, string name) -> bool
     {
         return true;
     }
@@ -66,7 +63,7 @@ abstract class AbstractAdapter implements SessionHandlerInterface, SessionUpdate
     /**
      * Read
      */
-    public function read(var id) -> string
+    public function read(string id) -> string
     {
         var data;
         let data = this->adapter->get(id);
@@ -77,7 +74,7 @@ abstract class AbstractAdapter implements SessionHandlerInterface, SessionUpdate
     /**
      * Refresh the session lifetime without changing the session data
      */
-    public function updateTimestamp(var id, var data) -> bool
+    public function updateTimestamp(string id, string data) -> bool
     {
         return this->write(id, data);
     }
@@ -85,7 +82,7 @@ abstract class AbstractAdapter implements SessionHandlerInterface, SessionUpdate
     /**
      * Validate the session id (used when strict mode is enabled)
      */
-    public function validateId(var id) -> bool
+    public function validateId(string id) -> bool
     {
         return this->adapter->has(id);
     }
@@ -93,7 +90,7 @@ abstract class AbstractAdapter implements SessionHandlerInterface, SessionUpdate
     /**
      * Write
      */
-    public function write(var id, var data) -> bool
+    public function write(string id, string data) -> bool
     {
         return this->adapter->set(id, data);
     }

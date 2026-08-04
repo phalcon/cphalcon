@@ -16,8 +16,6 @@ use Phalcon\Session\ManagerInterface;
 use Phalcon\Support\Collection;
 
 /**
- * Phalcon\Session\Bag
- *
  * This component helps to separate session data into "namespaces". Working by
  * this way you can easily create groups of session variables into the
  * application
@@ -42,15 +40,9 @@ class Bag extends Collection implements BagInterface, InjectionAwareInterface
 
     /**
      * Session Bag name
-     *
-     * @var string
      */
-    private name;
-
-    /**
-     * @var ManagerInterface
-     */
-    private session;
+    private string name;
+    private <ManagerInterface> session;
 
     /**
      * @param ManagerInterface $session

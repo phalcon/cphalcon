@@ -10,8 +10,6 @@
 namespace Phalcon\Session;
 
 /**
- * Phalcon\Session\BagInterface
- *
  * Interface for Phalcon\Session\Bag
  */
 interface BagInterface
@@ -24,15 +22,15 @@ interface BagInterface
 
     public function __unset(string element) -> void;
 
-    public function init(array data = []) -> void;
+    public function clear() -> void;
 
     public function get(string element, var defaultValue = null,  string cast = null) -> var;
 
-    public function set(string element, var value) -> void;
-
     public function has(string element) -> bool;
+
+    public function init(array data = []) -> void;
 
     public function remove(string element) -> void;
 
-    public function clear() -> void;
+    public function set(string element, var value) -> void;
 }
