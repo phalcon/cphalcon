@@ -20,7 +20,7 @@ class Php extends AbstractSerializer
     /**
      * Serializes data
      *
-     * @return mixed
+     * @return bool|float|int|string|null
      */
 	public function serialize() -> mixed
 	{
@@ -33,8 +33,6 @@ class Php extends AbstractSerializer
 
     /**
      * Unserializes data
-     *
-     * @param mixed $data
      */
     public function unserialize(mixed data) -> void
     {

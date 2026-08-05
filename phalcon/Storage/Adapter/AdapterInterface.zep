@@ -10,7 +10,7 @@
 
 namespace Phalcon\Storage\Adapter;
 
-use Phalcon\Storage\Serializer\SerializerInterface;
+use DateInterval;
 
 /**
  * Interface for Phalcon\Logger adapters
@@ -25,7 +25,7 @@ interface AdapterInterface
     /**
      * Decrements a stored number
      */
-    public function decrement( string key, int value = 1) -> int | bool;
+    public function decrement( string key, int value = 1) -> false | int;
 
     /**
      * Deletes data from the adapter
@@ -39,11 +39,6 @@ interface AdapterInterface
 
     /**
      * Reads data from the adapter
-     *
-     * @param string key
-     * @param mixed|null defaultValue
-     *
-     * @return mixed
      */
     public function get( string key, var defaultValue = null) -> var;
 
@@ -71,7 +66,7 @@ interface AdapterInterface
     /**
      * Increments a stored number
      */
-    public function increment( string key, int value = 1) -> int | bool;
+    public function increment( string key, int value = 1) -> false | int;
 
     /**
      * Stores data in the adapter. If the TTL is `null` (default) or not defined
@@ -80,22 +75,15 @@ interface AdapterInterface
      * item has expired. If you need to set this key forever, you should use
      * the `setForever()` method.
      *
-     * @param string                 $key
-     * @param mixed                  $value
-     * @param \DateInterval|int|null $ttl
+     * @param DateInterval|int|null $ttl
      *
      * @return bool
      */
     public function set( string key, var value, var ttl = null) -> bool;
 
     /**
-     * Stores data in the adapter forever. The key needs to manually deleted
+     * Stores data in the adapter forever. The key needs to be manually deleted
      * from the adapter.
-     *
-     * @param string $key
-     * @param mixed  $value
-     *
-     * @return bool
      */
-    public function setForever(string key, value) -> bool;
+    public function setForever(string key, data) -> bool;
 }

@@ -10,7 +10,7 @@
 
 namespace Phalcon\Storage;
 
-use Phalcon\Factory\AbstractFactory;
+use Exception as BaseException;
 use Phalcon\Storage\Adapter\AdapterInterface;
 use Phalcon\Storage\Adapter\Apcu;
 use Phalcon\Storage\Adapter\Libmemcached;
@@ -19,13 +19,13 @@ use Phalcon\Storage\Adapter\Redis;
 use Phalcon\Storage\Adapter\RedisCluster;
 use Phalcon\Storage\Adapter\Stream;
 use Phalcon\Storage\Adapter\Weak;
+use Phalcon\Traits\Factory\FactoryTrait;
 
-class AdapterFactory extends AbstractFactory
+class AdapterFactory
 {
-    /**
-     * @var SerializerFactory
-     */
-    private serializerFactory;
+    use FactoryTrait;
+
+    private <SerializerFactory> serializerFactory;
 
     /**
      * AdapterFactory constructor.
@@ -62,7 +62,7 @@ class AdapterFactory extends AbstractFactory
      * ]
      *
      * @return AdapterInterface
-     * @throws Exception
+     * @throws BaseException
      */
     public function newInstance( string name,  array options = []) -> <AdapterInterface>
     {
