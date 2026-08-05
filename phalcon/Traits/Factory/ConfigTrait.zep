@@ -45,17 +45,14 @@ trait ConfigTrait
         var exceptionClass;
 
         if (!isset(config[element])) {
-            let exceptionClass = this->getExceptionClass();
-            throw new {exceptionClass}(
-                "You must provide the '" . element . "' option in the factory config parameter."
-            );
+            if method_exists(this, "getExceptionClass") {
+            let exceptionClass = this->{"getExceptionClass"}();
+                throw new {exceptionClass}(
+                    "You must provide the '" . element . "' option in the factory config parameter."
+                );
+            }
         }
 
         return config;
     }
-
-    /**
-     * Returns the exception class for the factory
-     */
-    abstract protected function getExceptionClass() -> string;
 }
