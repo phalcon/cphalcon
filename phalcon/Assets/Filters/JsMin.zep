@@ -24,7 +24,7 @@ use Phalcon\Assets\FilterInterface;
  * @deprecated Use Phalcon\Assets\Filters\None, or a custom
  *             Phalcon\Assets\FilterInterface wrapping a real JS minifier.
  */
-class Jsmin implements FilterInterface
+class JsMin implements FilterInterface
 {
     /**
      * Filters the content using JSMIN

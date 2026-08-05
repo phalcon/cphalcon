@@ -17,7 +17,7 @@ use Phalcon\Traits\Php\FileTrait;
 use Phalcon\Traits\Php\HashTrait;
 
 /**
- * Represents an asset
+ * Object representation of an asset
  *
  *```php
  * $asset = new \Phalcon\Assets\Asset("js", "js/jquery.js");
@@ -30,43 +30,16 @@ class Asset implements AssetInterface
     use HashTrait;
     use SourceTargetTrait;
 
-    /**
-     * @var bool
-     */
-    protected isAutoVersion = false;
-
-    /**
-     * @var bool
-     */
-    protected filter;
-
-    /**
-     * @var string
-     */
-    protected path;
-
-    /**
-     * @var string
-     */
-    protected type;
-
-    /**
-     * Version of resource
-     *
-     * @var string|null
-     */
-    protected version;
+    protected bool isAutoVersion = false;
+    protected bool filter = true;
+    protected string path;
+    protected string type;
+    protected ?string version = null;
 
     /**
      * Asset constructor.
      *
-     * @param string      $type
-     * @param string      $path
-     * @param bool        $isLocal
-     * @param bool        $filter
-     * @param array       $attributes
-     * @param string|null $version
-     * @param bool        $isAutoVersion
+     * @param array<string, string> $attributes
      */
     public function __construct(
         string type,
@@ -96,6 +69,16 @@ class Asset implements AssetInterface
         let key = this->getType() . ":" . this->getPath();
 
         return this->phpHash("sha256", key);
+    }
+
+    /**
+     * Gets extra HTML attributes.
+     *
+     * @return array<string, string>
+     */
+    public function getAttributes() -> array
+    {
+        return this->attributes;
     }
 
     /**
@@ -248,7 +231,7 @@ class Asset implements AssetInterface
     }
 
     /**
-     * Version of resource
+     * Gets the asset's version.
      *
      * @return string|null
      */
@@ -270,7 +253,7 @@ class Asset implements AssetInterface
     /**
      * Sets extra HTML attributes
      *
-     * @param array $attributes
+     * @param array<string, string> $attributes
      *
      * @return AssetInterface
      */
@@ -308,20 +291,6 @@ class Asset implements AssetInterface
     }
 
     /**
-     * Sets the asset's type
-     *
-     * @param string $type
-     *
-     * @return AssetInterface
-     */
-    public function setType(string type) -> <AssetInterface>
-    {
-        let this->type = type;
-
-        return this;
-    }
-
-    /**
      * Sets the asset's path
      *
      * @param string $path
@@ -331,6 +300,19 @@ class Asset implements AssetInterface
     public function setPath(string path) -> <AssetInterface>
     {
         let this->path = path;
+
+        return this;
+    }
+    /**
+     * Sets the asset's type
+     *
+     * @param string $type
+     *
+     * @return AssetInterface
+     */
+    public function setType(string type) -> <AssetInterface>
+    {
+        let this->type = type;
 
         return this;
     }

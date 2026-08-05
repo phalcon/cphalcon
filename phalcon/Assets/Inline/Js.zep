@@ -18,7 +18,9 @@ use Phalcon\Assets\Inline as InlineBase;
 class Js extends InlineBase
 {
     /**
-     * Phalcon\Assets\Inline\Js constructor
+     * Js constructor.
+     *
+     * @param array<string, string> $attributes
      */
     public function __construct(
         string content,

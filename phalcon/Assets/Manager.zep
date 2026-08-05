@@ -10,6 +10,7 @@
 
 namespace Phalcon\Assets;
 
+use Exception as BaseException;
 use Phalcon\Assets\Asset\Css as AssetCss;
 use Phalcon\Assets\Asset\Js as AssetJs;
 use Phalcon\Assets\Exceptions\AssetSourceTargetCollision;
@@ -21,8 +22,8 @@ use Phalcon\Assets\Exceptions\InvalidTargetPath;
 use Phalcon\Assets\Exceptions\TargetPathIsDirectory;
 use Phalcon\Assets\Inline\Css as InlineCss;
 use Phalcon\Assets\Inline\Js as InlineJs;
-use Phalcon\Di\AbstractInjectionAware;
-use Phalcon\Html\Helper\Element;
+use Phalcon\Di\InjectionAwareInterface;
+use Phalcon\Di\Traits\InjectionAwareTrait;
 use Phalcon\Html\Helper\Link;
 use Phalcon\Html\Helper\Script;
 use Phalcon\Html\TagFactory;
@@ -30,30 +31,33 @@ use Phalcon\Traits\Php\FileTrait;
 
 /**
  * Manages collections of CSS/JavaScript assets
+ *
+ * @phpstan-type TOptions array{
+ *      sourceBasePath?: string,
+ *      targetBasePath?: string
+ * }
+ *
+ * @phpstan-type TParameters array{
+ *      local?: bool,
+ *      type?: string,
+ *      rel?: string,
+ *      string?: string,
+ *      0?: string,
+ *      1?: string
+ * }
  */
-class Manager extends AbstractInjectionAware
+class Manager implements InjectionAwareInterface
 {
     use FileTrait;
+    use InjectionAwareTrait;
 
     /**
-     * @var array
+     * @var array<string, Collection>
      */
-    protected collections = [];
-
-    /**
-     * @var bool
-     */
-    protected implicitOutput = true;
-
-    /**
-     * @var array
-     */
-    protected options = [];
-
-    /**
-     * @var TagFactory
-     */
-    protected tagFactory;
+    protected array collections = [];
+    protected bool implicitOutput = true;
+    protected array options = [];
+    protected <TagFactory> tagFactory;
 
     /**
      * Manager constructor.
@@ -83,7 +87,7 @@ class Manager extends AbstractInjectionAware
     }
 
     /**
-     * Adds a asset by its type
+     * Adds an asset by its type
      *
      * @param string $type
      * @param Asset  $asset
@@ -102,12 +106,7 @@ class Manager extends AbstractInjectionAware
     /**
      * Adds a CSS asset to the 'css' collection
      *
-     * @param string      $path
-     * @param bool        $local
-     * @param bool        $filter
-     * @param array       $attributes
-     * @param string|null $version
-     * @param bool        $autoVersion
+     * @param array<string, string> $attributes
      */
     public function addCss(
          string path,
@@ -161,9 +160,7 @@ class Manager extends AbstractInjectionAware
     /**
      * Adds an inline CSS to the 'css' collection
      *
-     * @param string $content
-     * @param bool   $filter
-     * @param array  $attributes
+     * @param array<string, string> $attributes
      */
     public function addInlineCss(
         string content,
@@ -181,9 +178,7 @@ class Manager extends AbstractInjectionAware
     /**
      * Adds an inline JavaScript to the 'js' collection
      *
-     * @param string $content
-     * @param bool   $filter
-     * @param array  $attributes
+     * @param array<string, string> $attributes
      */
     public function addInlineJs(
         string content,
@@ -203,15 +198,10 @@ class Manager extends AbstractInjectionAware
      *
      *```php
      * $assets->addJs("scripts/jquery.js");
-     * $assets->addJs("http://jquery.my-cdn.com/jquery.js", false);
+     * $assets->addJs("https://jquery.my-cdn.com/jquery.js", false);
      *```
      *
-     * @param string      $path
-     * @param bool        $local
-     * @param bool        $filter
-     * @param array       $attributes
-     * @param string|null $version
-     * @param bool        $autoVersion
+     * @param array<string, string> $attributes
      */
     public function addJs(
          string path,
@@ -243,8 +233,9 @@ class Manager extends AbstractInjectionAware
     /**
      * Creates/Returns a collection of assets by type
      *
-     * @param array  $assets
-     * @param string $type
+     * @param AssetInterface[] $assets
+     *
+     * @return AssetInterface[]
      */
     public function collectionAssetsByType(array assets, string type) -> array
     {
@@ -334,6 +325,8 @@ class Manager extends AbstractInjectionAware
 
     /**
      * Returns the manager options
+     *
+     * @return TOptions
      */
     public function getOptions() -> array
     {
@@ -349,8 +342,6 @@ class Manager extends AbstractInjectionAware
      *     $collection = $manager->get("jsHeader");
      * }
      * ```
-     *
-     * @param string $name
      */
     public function has( string name) -> bool
     {
@@ -454,23 +445,7 @@ class Manager extends AbstractInjectionAware
             /**
              * Check if the collection have its own target base path
              */
-            let join = collection->getJoin();
-
-            /**
-             * Check for valid target paths if the collection must be joined
-             */
-            if !join {
-                /**
-                 * We need a valid final target path
-                 */
-                if (true === empty(completeTargetPath)) {
-                    throw new InvalidTargetPath(completeTargetPath);
-                }
-
-                if (true === is_dir(completeTargetPath)) {
-                    throw new TargetPathIsDirectory(completeTargetPath);
-                }
-            }
+            let join = this->getJoin(collection, completeTargetPath);
         }
 
         /** @var Asset $asset */
@@ -488,16 +463,7 @@ class Manager extends AbstractInjectionAware
                     /**
                      * Get the complete path
                      */
-                    let sourcePath = asset->getRealSourcePath(completeSourcePath);
-
-                    /**
-                     * We need a valid source path
-                     */
-                    if (true === empty(sourcePath)) {
-                        let sourcePath = asset->getPath();
-
-                        throw new InvalidAssetSourcePath(sourcePath);
-                    }
+                    let sourcePath = this->getSourcePath(asset, completeSourcePath);
                 }
 
                 /**
@@ -513,22 +479,7 @@ class Manager extends AbstractInjectionAware
                     throw new InvalidAssetTargetPath(asset->getPath());
                 }
 
-                if (true === asset->isLocal()) {
-                    /**
-                     * Make sure the target path is not the same source path
-                     */
-                    if (targetPath === sourcePath) {
-                        throw new AssetSourceTargetCollision(targetPath);
-                    }
-
-                    if (true === this->phpFileExists(targetPath)) {
-                        if (filemtime(targetPath) !== filemtime(sourcePath)) {
-                            let filterNeeded = true;
-                        }
-                    } else {
-                        let filterNeeded = true;
-                    }
-                }
+                let filterNeeded = this->isFilterNeeded(asset, targetPath, sourcePath, filterNeeded);
             } else {
                 /**
                  * If there are no filters, just print/buffer the HTML
@@ -631,30 +582,7 @@ class Manager extends AbstractInjectionAware
              */
             this->phpFilePutContents(completeTargetPath, filteredJoinedContent);
 
-            let prefixedPath = this->calculatePrefixedPath(
-                collection,
-                collection->getTargetUri(),
-                completeTargetPath
-            );
-
-            /**
-             * Generate the HTML
-             */
-            let html = this->doCallback(
-                callback,
-                collection->getAttributes(),
-                prefixedPath,
-                collection->getTargetIsLocal()
-            );
-
-            /**
-             * Implicit output prints the content directly
-             */
-            if (true === this->implicitOutput) {
-                echo html;
-            } else {
-                let outputParts[] = html;
-            }
+            let output = this->getOutput(collection, completeTargetPath, callback, output);
         }
 
         let output = implode("", outputParts);
@@ -665,12 +593,9 @@ class Manager extends AbstractInjectionAware
     /**
      * Prints the HTML for CSS assets
      *
-     * @param string|null $name
-     *
-     * @return string
      * @throws Exception
      */
-    public function outputCss(string name = null) -> string
+    public function outputCss(string name = null) -> string 
     {
         var collection;
 
@@ -692,7 +617,7 @@ class Manager extends AbstractInjectionAware
      * @return string
      * @throws Exception
      */
-    public function outputInline(<Collection> collection, type) -> string
+    public function outputInline(<Collection> collection, string type) -> string
     {
         string html, joinedContent, output;
         var attributes, code, codes, content, filters, join;
@@ -753,9 +678,7 @@ class Manager extends AbstractInjectionAware
     /**
      * Prints the HTML for inline CSS
      *
-     * @param string|null $name
-     *
-     * @return string
+     * @throws Exception
      */
     public function outputInlineCss(string name = null) -> string
     {
@@ -772,9 +695,7 @@ class Manager extends AbstractInjectionAware
     /**
      * Prints the HTML for inline JS
      *
-     * @param string|null $name
-     *
-     * @return string
+     * @throws Exception
      */
     public function outputInlineJs(string name = null) -> string
     {
@@ -814,9 +735,6 @@ class Manager extends AbstractInjectionAware
      *```php
      * $assets->set("js", $collection);
      *```
-     *
-     * @param string     $name
-     * @param Collection $collection
      */
     public function set( string name, <Collection> collection) -> <static>
     {
@@ -828,7 +746,7 @@ class Manager extends AbstractInjectionAware
     /**
      * Sets the manager options
      *
-     * @param array $options
+     * @param TOptions $options
      */
     public function setOptions(array options) -> <static>
     {
@@ -839,8 +757,6 @@ class Manager extends AbstractInjectionAware
 
     /**
      * Sets if the HTML generated must be directly printed or returned
-     *
-     * @param bool $implicitOutput
      */
     public function useImplicitOutput(bool implicitOutput) -> <static>
     {
@@ -854,11 +770,6 @@ class Manager extends AbstractInjectionAware
      * when `mustFilter` is true; every filter must be a `FilterInterface`
      * instance.
      *
-     * @param string content
-     * @param array  filters
-     * @param bool   mustFilter
-     *
-     * @return string
      * @throws InvalidFilter
      */
     private function applyFilters(
@@ -892,12 +803,6 @@ class Manager extends AbstractInjectionAware
 
     /**
      * Calculates the prefixed path including the version
-     *
-     * @param Collection $collection
-     * @param string     $path
-     * @param string     $filePath
-     *
-     * @return string
      */
     private function calculatePrefixedPath(
         <Collection> collection,
@@ -924,9 +829,6 @@ class Manager extends AbstractInjectionAware
         return prefixedPath;
     }
 
-    /**
-     * @param string $type
-     */
     private function checkAndCreateCollection(string type) -> <Collection>
     {
         if (true !== isset(this->collections[type])) {
@@ -939,13 +841,9 @@ class Manager extends AbstractInjectionAware
     /**
      * Builds a LINK[rel="stylesheet"] tag
      *
-     * @param mixed $parameters
-     * @param bool  $local
-     *
-     * @return string
-     * @throws Exception
+     * @throws BaseException
      */
-    private function cssLink(parameters = [], bool local = true) -> string
+    private function cssLink(var parameters = [], bool local = true) -> string
     {
         return this->processParameters(
             parameters,
@@ -957,12 +855,8 @@ class Manager extends AbstractInjectionAware
     }
 
     /**
-     * @param mixed  $callback
-     * @param array  $attributes
-     * @param string $prefixedPath
-     * @param bool   $local
-     *
-     * @return string
+     * @param array<Manager|string> $callback
+     * @param array<string, string> $attributes
      */
     private function doCallback(
         var callback,
@@ -990,13 +884,139 @@ class Manager extends AbstractInjectionAware
     }
 
     /**
+     * @param Collection $collection
+     * @param string     $completeTargetPath
+     *
+     * @return bool
+     * @throws Exception
+     */
+    private function getJoin(<Collection> collection, string completeTargetPath) -> bool
+    {
+        var join;
+
+        let join = collection->getJoin();
+
+        /**
+         * Check for valid target paths if the collection must be joined
+         */
+        if (true !== join) {
+            /**
+             * We need a valid final target path
+             */
+            if (empty(completeTargetPath)) {
+                throw new InvalidTargetPath(completeTargetPath);
+            }
+
+            if (is_dir(completeTargetPath)) {
+                throw new TargetPathIsDirectory(completeTargetPath);
+            }
+        }
+
+        return join;
+    }
+
+    /**
+     * @param Collection                       $collection
+     * @param string                           $completeTargetPath
+     * @param array<array-key, Manager|string> $callback
+     * @param string                           $output
+     *
+     * @return string
+     */
+    private function getOutput(
+        <Collection> collection,
+        string completeTargetPath,
+        array callback,
+        string output
+    ) -> string {
+        var html, prefixedPath;
+
+        let prefixedPath = this->calculatePrefixedPath(
+            collection,
+            collection->getTargetUri(),
+            completeTargetPath
+        );
+
+        /**
+         * Generate the HTML
+         */
+        let html = this->doCallback(
+            callback,
+            collection->getAttributes(),
+            prefixedPath,
+            collection->getTargetIsLocal()
+        );
+
+        /**
+         * Implicit output prints the content directly
+         */
+        if (true === this->implicitOutput) {
+            echo html;
+        } else {
+            let output .= html;
+        }
+
+        return output;
+    }
+
+    /**
+     * @throws Exception
+     */
+    private function getSourcePath(<Asset> asset, string completeSourcePath) -> string
+    {
+        var sourcePath;
+
+        let sourcePath = asset->getRealSourcePath(completeSourcePath);
+
+        /**
+         * We need a valid source path
+         */
+        if (empty(sourcePath)) {
+            let sourcePath = asset->getPath();
+
+            throw new InvalidAssetSourcePath(sourcePath);
+        }
+
+        return sourcePath;
+    }
+
+    /**
+     * @throws Exception
+     */
+    private function isFilterNeeded(
+        <Asset> asset,
+        string targetPath,
+        string sourcePath,
+        bool filterNeeded
+    ) -> bool {
+        if (true === $asset->isLocal()) {
+            /**
+             * Make sure the target path is not the same source path
+             */
+            if (targetPath === sourcePath) {
+                throw new AssetSourceTargetCollision(targetPath);
+            }
+
+            if (true === this->phpFileExists(targetPath)) {
+                if (filemtime(targetPath) !== filemtime(sourcePath)) {
+                    return true;
+                }
+            } else {
+                return true;
+            }
+        }
+
+        return filterNeeded;
+    }
+
+    /**
      * @param mixed $parameters
      * @param bool  $local
      *
      * @return string
-     * @throws Exception
+     * @throws BaseException
      */
-    private function jsLink(parameters = [], bool local = true) -> string
+    private function jsLink(var parameters = [], bool local = true) -> string
     {
         return this->processParameters(
             parameters,
@@ -1008,6 +1028,8 @@ class Manager extends AbstractInjectionAware
     }
     /**
      * Processes common parameters for js/css link generation
+     *
+     * @throws BaseException
      */
     private function processParameters(
         var parameters,

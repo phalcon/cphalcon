@@ -23,7 +23,7 @@ use Phalcon\Assets\FilterInterface;
  * @deprecated Use Phalcon\Assets\Filters\None, or a custom
  *             Phalcon\Assets\FilterInterface wrapping a real CSS minifier.
  */
-class Cssmin implements FilterInterface
+class CssMin implements FilterInterface
 {
     /**
      * Filters the content using CSSMIN

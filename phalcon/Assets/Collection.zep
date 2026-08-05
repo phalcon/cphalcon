@@ -16,9 +16,14 @@ use IteratorAggregate;
 use Phalcon\Assets\Traits\AttributesTrait;
 use Phalcon\Assets\Traits\SourceTargetTrait;
 use Phalcon\Traits\Php\FileTrait;
+use Traversable;
 
 /**
  * Collection of asset objects
+ *
+ * @template TKey of array-key
+ * @template TValue of AssetInterface
+ * @implements IteratorAggregate<TKey, TValue>
  */
 class Collection implements Countable, IteratorAggregate
 {
@@ -27,51 +32,30 @@ class Collection implements Countable, IteratorAggregate
     use SourceTargetTrait;
 
     /**
-     * @var array
+     * @var array<string, AssetInterface>
      */
-    protected assets = [];
+    protected array assets = [];
 
     /**
      * Should version be determined from file modification time
-     *
-     * @var bool
      */
-    protected autoVersion = false;
+    protected bool autoVersion = false;
+    /**
+     * @var AssetInterface[]
+     */
+    protected array codes = [];
 
     /**
-     * @var array
+     * @var FilterInterface[]
      */
-    protected codes = [];
-
-    /**
-     * @var array
-     */
-    protected filters = [];
-
-    /**
-     * @var bool
-     */
-    protected join = true;
-
-    /**
-     * @var string
-     */
-    protected prefix = "";
-
-    /**
-     * @var bool
-     */
-    protected targetIsLocal = true;
-
-    /**
-     * @var string
-     */
-    protected version = "";
+    protected array filters = [];
+    protected bool join = true;
+    protected string prefix = "";
+    protected bool targetIsLocal = true;
+    protected string version = "";
 
     /**
      * Adds an asset to the collection
-     *
-     * @param AssetInterface $asset
      */
     public function add(<AssetInterface> asset) -> <static>
     {
@@ -83,12 +67,7 @@ class Collection implements Countable, IteratorAggregate
     /**
      * Adds a CSS asset to the collection
      *
-     * @param string      $path
-     * @param bool|null   $isLocal
-     * @param bool        $filter
-     * @param array       $attributes
-     * @param string|null $version
-     * @param bool        $autoVersion
+     * @param array<string, string> $attributes
      */
     public function addCss(
         string path,
@@ -136,9 +115,7 @@ class Collection implements Countable, IteratorAggregate
     /**
      * Adds an inline CSS to the collection
      *
-     * @param string $content
-     * @param bool   $filter
-     * @param array  $attributes
+     * @param array<string, string> $attributes
      */
     public function addInlineCss(
         string content,
@@ -151,9 +128,7 @@ class Collection implements Countable, IteratorAggregate
     /**
      * Adds an inline JavaScript to the collection
      *
-     * @param string $content
-     * @param bool   $filter
-     * @param array  $attributes
+     * @param array<string, string> $attributes
      */
     public function addInlineJs(
         string content,
@@ -166,12 +141,7 @@ class Collection implements Countable, IteratorAggregate
     /**
      * Adds a JavaScript asset to the collection
      *
-     * @param string      $path
-     * @param bool|null   $isLocal
-     * @param bool        $filter
-     * @param array       $attributes
-     * @param string|null $version
-     * @param bool        $autoVersion
+     * @param array<string, string> $attributes
      */
     public function addJs(
         string path,
@@ -207,7 +177,7 @@ class Collection implements Countable, IteratorAggregate
     /**
      * Return the stored assets
      *
-     * @return array
+     * @return array<string, AssetInterface>
      */
     public function getAssets() -> array
     {
@@ -217,7 +187,7 @@ class Collection implements Countable, IteratorAggregate
     /**
      * Return the stored codes
      *
-     * @return array
+     * @return AssetInterface[]
      */
     public function getCodes() -> array
     {
@@ -227,7 +197,7 @@ class Collection implements Countable, IteratorAggregate
     /**
      * Return the stored filters
      *
-     * @return array
+     * @return FilterInterface[]
      */
     public function getFilters() -> array
     {
@@ -235,11 +205,9 @@ class Collection implements Countable, IteratorAggregate
     }
 
     /**
-     * Returns the generator of the class
-     *
-     * @link https://php.net/manual/en/iteratoraggregate.getiterator.php
+     * Returns the iterator of the class
      */
-    public function getIterator() -> <\Traversable>
+    public function getIterator() -> <Traversable>
     {
         return new ArrayIterator(this->assets);
     }
@@ -366,7 +334,7 @@ class Collection implements Countable, IteratorAggregate
     /**
      * Sets extra HTML attributes
      *
-     * @param array $attributes
+     * @param array<string, string> $attributes
      */
     public function setAttributes(array attributes) -> <static>
     {
@@ -388,7 +356,7 @@ class Collection implements Countable, IteratorAggregate
     /**
      * Sets an array of filters in the collection
      *
-     * @param array $filters
+     * @param FilterInterface[] $filters
      */
     public function setFilters(array filters) -> <static>
     {
@@ -459,6 +427,8 @@ class Collection implements Countable, IteratorAggregate
 
     /**
      * Adds an inline asset
+     *
+     * @param array<string, string> $attributes
      */
     private function processAdd(
         string className,
@@ -489,6 +459,8 @@ class Collection implements Countable, IteratorAggregate
 
     /**
      * Adds an inline asset
+     *
+     * @param array<string, string> $attributes
      */
     private function processAddInline(
         string className,
@@ -512,9 +484,9 @@ class Collection implements Countable, IteratorAggregate
     }
 
     /**
-     * @param array $attributes
+     * @param array<string, string> $attributes
      *
-     * @return array
+     * @return array<string, string>
      */
     private function processAttributes(array attributes) -> array
     {

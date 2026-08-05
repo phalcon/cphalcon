@@ -18,7 +18,9 @@ use Phalcon\Assets\Inline as InlineBase;
 class Css extends InlineBase
 {
     /**
-     * Phalcon\Assets\Inline\Css constructor
+     * Css constructor.
+     *
+     * @param array<string, string> $attributes
      */
     public function __construct(
         string content,

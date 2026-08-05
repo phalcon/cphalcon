@@ -25,26 +25,21 @@ class $Inline implements AssetInterface
     use AttributesTrait;
     use HashTrait;
 
-    /**
-     * @var string
-     */
-    protected content;
+    protected string content;
+    protected bool filter = true;
+    protected string type;
 
     /**
-     * @var bool
+     * Inline constructor.
+     *
+     * @param array<string, string> $attributes
      */
-    protected filter;
-
-    /**
-     * @var string
-     */
-    protected type;
-
-    /**
-     * Phalcon\Assets\Inline constructor
-     */
-    public function __construct(string type, string content, bool filter = true, array attributes = [])
-    {
+    public function __construct(
+        string type,
+        string content,
+        bool filter = true,
+        array attributes = []
+    ) {
         let this->type       = type,
             this->content    = content,
             this->filter     = filter,
@@ -61,6 +56,16 @@ class $Inline implements AssetInterface
         let key = this->getType() . ":" . this->getContent();
 
         return this->phpHash("sha256", key);
+    }
+
+    /**
+     * Gets extra HTML attributes.
+     *
+     * @return array<string, string>
+     */
+    public function getAttributes() -> array
+    {
+        return this->attributes;
     }
 
     /**
@@ -95,6 +100,8 @@ class $Inline implements AssetInterface
 
     /**
      * Sets extra HTML attributes
+     *
+     * @param array<string, string> $attributes
      */
     public function setAttributes(array attributes) -> <AssetInterface>
     {

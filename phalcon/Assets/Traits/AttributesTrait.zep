@@ -20,14 +20,14 @@ namespace Phalcon\Assets\Traits;
 trait AttributesTrait
 {
     /**
-     * @var array
+     * @var array<string, string>
      */
-    protected attributes = null;
+    protected array attributes = [];
 
     /**
      * Gets extra HTML attributes.
      *
-     * @return array
+     * @return array<string, string>
      */
     public function getAttributes() -> array
     {
