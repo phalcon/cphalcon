@@ -21,8 +21,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Session
- *
  * Interface for the Phalcon\Session\Manager
  */
 ZEPHIR_INIT_CLASS(Phalcon_Session_ManagerInterface)

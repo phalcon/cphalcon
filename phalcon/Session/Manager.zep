@@ -21,37 +21,20 @@ use Phalcon\Session\Exceptions\SessionAlreadyStarted;
 use Phalcon\Session\Exceptions\SessionModificationDenied;
 use Phalcon\Traits\Php\HeaderTrait;
 use Phalcon\Traits\Support\Helper\Arr\GetTrait;
+use SessionHandlerInterface;
 
 /**
- * @property SessionHandlerInterface|null $adapter
- * @property string                       $name
- * @property array                        $options
- * @property string                       $uniqueId
+ * Session manager class
  */
 class Manager extends AbstractInjectionAware implements ManagerInterface
 {
     use GetTrait;
     use HeaderTrait;
 
-    /**
-     * @var SessionHandlerInterface|null
-     */
-    private adapter = null;
-
-    /**
-     * @var string
-     */
-    private name = "";
-
-    /**
-     * @var array
-     */
-    private options = [];
-
-    /**
-     * @var string
-     */
-    private uniqueId = "";
+    private ?<SessionHandlerInterface> adapter = null;
+    private string name = "";
+    private array options = [];
+    private string uniqueId = "";
 
     /**
      * Manager constructor.
@@ -141,8 +124,11 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
      *
      * @return mixed|null
      */
-    public function get(string key, var defaultValue = null, bool remove = false) -> var
-    {
+    public function get(
+        string key,
+        var defaultValue = null,
+        bool remove = false
+    ) -> var {
         var value, uniqueKey;
 
         let value = null;
@@ -271,6 +257,10 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
 
     /**
      * Set session Id
+     *
+     * @return ManagerInterface
+     * @throws InvalidSessionId
+     * @throws SessionAlreadyStarted
      */
     public function setId(string sessionId) -> <ManagerInterface>
     {
@@ -293,9 +283,9 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
      *
      * @param string $name
      *
-     * @throws InvalidArgumentException
-     *
-     * @return Manager
+     * @return ManagerInterface
+     * @throws InvalidSessionName
+     * @throws SessionModificationDenied
      */
     public function setName(string name) -> <ManagerInterface>
     {

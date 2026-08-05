@@ -21,8 +21,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Session\BagInterface
- *
  * Interface for Phalcon\Session\Bag
  */
 ZEPHIR_INIT_CLASS(Phalcon_Session_BagInterface)
@@ -36,9 +34,9 @@ ZEPHIR_DOC_METHOD(Phalcon_Session_BagInterface, __get);
 ZEPHIR_DOC_METHOD(Phalcon_Session_BagInterface, __isset);
 ZEPHIR_DOC_METHOD(Phalcon_Session_BagInterface, __set);
 ZEPHIR_DOC_METHOD(Phalcon_Session_BagInterface, __unset);
-ZEPHIR_DOC_METHOD(Phalcon_Session_BagInterface, init);
-ZEPHIR_DOC_METHOD(Phalcon_Session_BagInterface, get);
-ZEPHIR_DOC_METHOD(Phalcon_Session_BagInterface, set);
-ZEPHIR_DOC_METHOD(Phalcon_Session_BagInterface, has);
-ZEPHIR_DOC_METHOD(Phalcon_Session_BagInterface, remove);
 ZEPHIR_DOC_METHOD(Phalcon_Session_BagInterface, clear);
+ZEPHIR_DOC_METHOD(Phalcon_Session_BagInterface, get);
+ZEPHIR_DOC_METHOD(Phalcon_Session_BagInterface, has);
+ZEPHIR_DOC_METHOD(Phalcon_Session_BagInterface, init);
+ZEPHIR_DOC_METHOD(Phalcon_Session_BagInterface, remove);
+ZEPHIR_DOC_METHOD(Phalcon_Session_BagInterface, set);

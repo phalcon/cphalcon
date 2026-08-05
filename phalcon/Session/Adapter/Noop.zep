@@ -42,18 +42,15 @@ class Noop implements SessionHandlerInterface, SessionUpdateTimestampHandlerInte
     /**
      * Destroy
      */
-    public function destroy(var id) -> bool
+    public function destroy(string id) -> bool
     {
         return true;
     }
 
     /**
      * Garbage Collector
-     *
-     * @param int $max_lifetime
-     * @return false|int
      */
-    public function gc(int max_lifetime) -> int|false
+    public function gc(int max_lifetime) -> false | int
     {
         return 1;
     }
@@ -61,7 +58,7 @@ class Noop implements SessionHandlerInterface, SessionUpdateTimestampHandlerInte
     /**
      * Open
      */
-    public function open(var path, var name) -> bool
+    public function open(string path, string name) -> bool
     {
         return true;
     }
@@ -69,7 +66,7 @@ class Noop implements SessionHandlerInterface, SessionUpdateTimestampHandlerInte
     /**
      * Read
      */
-    public function read(var id) -> string
+    public function read(string id) -> string
     {
         return "";
     }
@@ -77,7 +74,7 @@ class Noop implements SessionHandlerInterface, SessionUpdateTimestampHandlerInte
     /**
      * Refresh the session lifetime without changing the session data
      */
-    public function updateTimestamp(var id, var data) -> bool
+    public function updateTimestamp(string id, string data) -> bool
     {
         return true;
     }
@@ -85,7 +82,7 @@ class Noop implements SessionHandlerInterface, SessionUpdateTimestampHandlerInte
     /**
      * Validate the session id (used when strict mode is enabled)
      */
-    public function validateId(var id) -> bool
+    public function validateId(string id) -> bool
     {
         return true;
     }
@@ -93,7 +90,7 @@ class Noop implements SessionHandlerInterface, SessionUpdateTimestampHandlerInte
     /**
      * Write
      */
-    public function write(var id, var data) -> bool
+    public function write(string id, string data) -> bool
     {
         return true;
     }

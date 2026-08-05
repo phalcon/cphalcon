@@ -14,8 +14,6 @@ use InvalidArgumentException;
 use SessionHandlerInterface;
 
 /**
- * Phalcon\Session
- *
  * Interface for the Phalcon\Session\Manager
  */
 interface ManagerInterface

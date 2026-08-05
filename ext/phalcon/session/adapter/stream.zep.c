@@ -62,23 +62,30 @@ ZEPHIR_INIT_CLASS(Phalcon_Session_Adapter_Stream)
 
 	/**
 	 * Session options
-	 *
-	 * @var array
 	 */
-	zend_declare_property_null(phalcon_session_adapter_stream_ce, SL("options"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		array_init_size(&_zc0, 1);
+		zephir_declare_typed_property(phalcon_session_adapter_stream_ce, SL("options"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_ARRAY, NULL, 0);
+	}
+
 	/**
 	 * Session prefix
-	 *
-	 * @var string
 	 */
-	zend_declare_property_string(phalcon_session_adapter_stream_ce, SL("prefix"), "", ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_STRINGL(&_zc0, "", sizeof("") - 1);
+		zephir_declare_typed_property(phalcon_session_adapter_stream_ce, SL("prefix"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
+
 	/**
 	 * The path of the session files
-	 *
-	 * @var string
 	 */
-	zend_declare_property_string(phalcon_session_adapter_stream_ce, SL("path"), "", ZEND_ACC_PRIVATE);
-	phalcon_session_adapter_stream_ce->create_object = zephir_init_properties_Phalcon_Session_Adapter_Stream;
+	{
+		zval _zc0;
+		ZVAL_STRINGL(&_zc0, "", sizeof("") - 1);
+		zephir_declare_typed_property(phalcon_session_adapter_stream_ce, SL("path"), &_zc0, ZEND_ACC_PRIVATE, MAY_BE_STRING, NULL, 0);
+	}
 
 	return SUCCESS;
 }
@@ -90,6 +97,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Session_Adapter_Stream)
  *     'prefix' => '',
  *     'savePath' => ''
  * ]
+ *
+ * @throws InvalidSavePath
+ * @throws SavePathUnavailable
  */
 PHP_METHOD(Phalcon_Session_Adapter_Stream, __construct)
 {
@@ -156,7 +166,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, __construct)
 		object_init_ex(&_4$$3, phalcon_session_adapter_exceptions_invalidsavepath_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_4$$3, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_4$$3, "phalcon/Session/Adapter/Stream.zep", 95);
+		zephir_throw_exception_debug(&_4$$3, "phalcon/Session/Adapter/Stream.zep", 92);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -167,7 +177,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, __construct)
 		object_init_ex(&_6$$4, phalcon_session_adapter_exceptions_savepathunavailable_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_6$$4, "__construct", NULL, 0, &path);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_6$$4, "phalcon/Session/Adapter/Stream.zep", 99);
+		zephir_throw_exception_debug(&_6$$4, "phalcon/Session/Adapter/Stream.zep", 96);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -182,10 +192,11 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, destroy)
 	zend_bool _3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *id, id_sub, file, _0, _1, _2, _4;
+	zval id_zv, file, _0, _1, _2, _4;
+	zend_string *id = NULL;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&id_sub);
+	ZVAL_UNDEF(&id_zv);
 	ZVAL_UNDEF(&file);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
@@ -197,13 +208,14 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, destroy)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_ZVAL(id)
+		Z_PARAM_STR(id)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_fetch_params(1, 1, 0, &id);
+	zephir_memory_observe(&id_zv);
+	ZVAL_STR_COPY(&id_zv, id);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1316, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getprefixedname", NULL, 0, id);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getprefixedname", NULL, 0, &id_zv);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&file);
 	ZEPHIR_CONCAT_VV(&file, &_0, &_1);
@@ -226,7 +238,9 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, destroy)
  * Garbage Collector
  *
  * @param int $max_lifetime
+ *
  * @return false|int
+ * @throws AdapterRuntimeError
  */
 PHP_METHOD(Phalcon_Session_Adapter_Stream, gc)
 {
@@ -283,7 +297,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, gc)
 		ZEPHIR_CALL_FUNCTION(&last, "error_get_last", NULL, 0);
 		zephir_check_call_status();
 		if (zephir_array_isset_value_string(&last, SL("message"))) {
-			zephir_array_fetch_string(&_3$$4, &last, SL("message"), PH_NOISY | PH_READONLY, "phalcon/Session/Adapter/Stream.zep", 135);
+			zephir_array_fetch_string(&_3$$4, &last, SL("message"), PH_NOISY | PH_READONLY, "phalcon/Session/Adapter/Stream.zep", 134);
 			ZEPHIR_CPY_WRT(&last, &_3$$4);
 		} else {
 			ZEPHIR_INIT_NVAR(&last);
@@ -293,12 +307,12 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, gc)
 		object_init_ex(&_4$$3, phalcon_session_adapter_exceptions_adapterruntimeerror_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_4$$3, "__construct", NULL, 8, &last);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_4$$3, "phalcon/Session/Adapter/Stream.zep", 139);
+		zephir_throw_exception_debug(&_4$$3, "phalcon/Session/Adapter/Stream.zep", 138);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	if (!(ZEPHIR_IS_EMPTY(&glob))) {
-		zephir_is_iterable(&glob, 0, "phalcon/Session/Adapter/Stream.zep", 150);
+		zephir_is_iterable(&glob, 0, "phalcon/Session/Adapter/Stream.zep", 149);
 		if (Z_TYPE_P(&glob) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&glob), _5$$6)
 			{
@@ -368,20 +382,20 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, gc)
 
 /**
  * Ignore the savePath and use local defined path
- *
- * @return bool
  */
 PHP_METHOD(Phalcon_Session_Adapter_Stream, open)
 {
-	zval *path, path_sub, *name, name_sub;
+	zval path_zv, name_zv;
+	zend_string *path = NULL, *name = NULL;
 
-	ZVAL_UNDEF(&path_sub);
-	ZVAL_UNDEF(&name_sub);
+	ZVAL_UNDEF(&path_zv);
+	ZVAL_UNDEF(&name_zv);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
-		Z_PARAM_ZVAL(path)
-		Z_PARAM_ZVAL(name)
+		Z_PARAM_STR(path)
+		Z_PARAM_STR(name)
 	ZEND_PARSE_PARAMETERS_END();
-	zephir_fetch_params_without_memory_grow(2, 0, &path, &name);
+	ZVAL_STR(&path_zv, path);
+	ZVAL_STR(&name_zv, name);
 	RETURN_BOOL(1);
 }
 
@@ -392,10 +406,11 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, read)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *id, id_sub, data, name, pointer, _0, _1, _2, _3$$3, _4$$3, _5$$3;
+	zval id_zv, data, name, pointer, _0, _1, _2, _3$$3, _4$$3, _5$$3;
+	zend_string *id = NULL;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&id_sub);
+	ZVAL_UNDEF(&id_zv);
 	ZVAL_UNDEF(&data);
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&pointer);
@@ -411,13 +426,14 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, read)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_ZVAL(id)
+		Z_PARAM_STR(id)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_fetch_params(1, 1, 0, &id);
+	zephir_memory_observe(&id_zv);
+	ZVAL_STR_COPY(&id_zv, id);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1316, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getprefixedname", NULL, 0, id);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getprefixedname", NULL, 0, &id_zv);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&name);
 	ZEPHIR_CONCAT_VV(&name, &_0, &_1);
@@ -453,11 +469,12 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, updateTimestamp)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *id, id_sub, *data, data_sub, name, _0, _1;
+	zval id_zv, data_zv, name, _0, _1;
+	zend_string *id = NULL, *data = NULL;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&id_sub);
-	ZVAL_UNDEF(&data_sub);
+	ZVAL_UNDEF(&id_zv);
+	ZVAL_UNDEF(&data_zv);
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
@@ -467,14 +484,17 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, updateTimestamp)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(2, 2)
-		Z_PARAM_ZVAL(id)
-		Z_PARAM_ZVAL(data)
+		Z_PARAM_STR(id)
+		Z_PARAM_STR(data)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_fetch_params(1, 2, 0, &id, &data);
+	zephir_memory_observe(&id_zv);
+	ZVAL_STR_COPY(&id_zv, id);
+	zephir_memory_observe(&data_zv);
+	ZVAL_STR_COPY(&data_zv, data);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1316, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getprefixedname", NULL, 0, id);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getprefixedname", NULL, 0, &id_zv);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&name);
 	ZEPHIR_CONCAT_VV(&name, &_0, &_1);
@@ -490,10 +510,11 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, validateId)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *id, id_sub, _0, _1, _2;
+	zval id_zv, _0, _1, _2;
+	zend_string *id = NULL;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&id_sub);
+	ZVAL_UNDEF(&id_zv);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
@@ -503,13 +524,14 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, validateId)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_ZVAL(id)
+		Z_PARAM_STR(id)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_fetch_params(1, 1, 0, &id);
+	zephir_memory_observe(&id_zv);
+	ZVAL_STR_COPY(&id_zv, id);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1316, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getprefixedname", NULL, 0, id);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getprefixedname", NULL, 0, &id_zv);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_2);
 	ZEPHIR_CONCAT_VV(&_2, &_0, &_1);
@@ -522,11 +544,12 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, write)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *id, id_sub, *data, data_sub, name, _0, _1, _2, _3;
+	zval id_zv, data_zv, name, _0, _1, _2, _3;
+	zend_string *id = NULL, *data = NULL;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&id_sub);
-	ZVAL_UNDEF(&data_sub);
+	ZVAL_UNDEF(&id_zv);
+	ZVAL_UNDEF(&data_zv);
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
@@ -538,19 +561,22 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, write)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(2, 2)
-		Z_PARAM_ZVAL(id)
-		Z_PARAM_ZVAL(data)
+		Z_PARAM_STR(id)
+		Z_PARAM_STR(data)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_fetch_params(1, 2, 0, &id, &data);
+	zephir_memory_observe(&id_zv);
+	ZVAL_STR_COPY(&id_zv, id);
+	zephir_memory_observe(&data_zv);
+	ZVAL_STR_COPY(&data_zv, data);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1316, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getprefixedname", NULL, 0, id);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getprefixedname", NULL, 0, &id_zv);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&name);
 	ZEPHIR_CONCAT_VV(&name, &_0, &_1);
 	ZVAL_LONG(&_3, 2);
-	ZEPHIR_CALL_METHOD(&_2, this_ptr, "phpfileputcontents", NULL, 0, &name, data, &_3);
+	ZEPHIR_CALL_METHOD(&_2, this_ptr, "phpfileputcontents", NULL, 0, &name, &data_zv, &_3);
 	zephir_check_call_status();
 	RETURN_MM_BOOL(!ZEPHIR_IS_FALSE_IDENTICAL(&_2));
 }
@@ -1351,30 +1377,5 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, phpParseIniFile)
 	ZEPHIR_RETURN_CALL_FUNCTION("parse_ini_file", NULL, 451, &filename_zv, &_0, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
-}
-
-zend_object *zephir_init_properties_Phalcon_Session_Adapter_Stream(zend_class_entry *class_type)
-{
-		zval _0, _1$$3;
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-		ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1$$3);
-	
-
-		ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-		zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	
-	{
-		zval local_this_ptr, *this_ptr = &local_this_ptr;
-		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		zephir_read_property_ex(&_0, this_ptr, ZEND_STRL("options"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_0) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_1$$3);
-			array_init(&_1$$3);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("options"), &_1$$3);
-		}
-		ZEPHIR_MM_RESTORE();
-		return Z_OBJ_P(this_ptr);
-	}
 }
 

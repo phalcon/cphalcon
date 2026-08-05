@@ -10,6 +10,7 @@
 
 namespace Phalcon\Session\Adapter;
 
+use Exception;
 use Phalcon\Session\Adapter\Exceptions\AdapterRuntimeError;
 use Phalcon\Storage\AdapterFactory;
 
@@ -18,51 +19,21 @@ use Phalcon\Storage\AdapterFactory;
  */
  class Redis extends AbstractAdapter
 {
-    /**
-     * @var bool
-     */
-    protected lockAcquired = false;
-
+    protected bool lockAcquired = false;
     /**
      * Lock time-to-live in seconds. The lock is not refreshed during the
      * request: a request that runs longer than this expiry loses its lock
      * silently and a concurrent request may then acquire it (the token-guarded
      * release still avoids deleting the newer lock). Raise this above the
      * longest expected request to retain the lock for the whole request.
-     *
-     * @var int
      */
-    protected lockExpiry = 30;
-
-    /**
-     * @var bool
-     */
-    protected lockingEnabled = false;
-
-    /**
-     * @var string
-     */
-    protected lockKey = "";
-
-    /**
-     * @var int
-     */
-    protected lockRetries = 100;
-
-    /**
-     * @var string
-     */
-    protected lockToken = "";
-
-    /**
-     * @var int
-     */
-    protected lockWaitTime = 50000;
-
-    /**
-     * @var string
-     */
-    protected prefix = "";
+    protected int lockExpiry = 30;
+    protected bool lockingEnabled = false;
+    protected string lockKey = "";
+    protected int lockRetries = 100;
+    protected string lockToken = "";
+    protected int lockWaitTime = 50000;
+    protected string prefix = "";
 
     /**
      * Constructor
@@ -82,6 +53,8 @@ use Phalcon\Storage\AdapterFactory;
      *                                'lockRetries'    => 100,
      *                                'lockWaitTime'   => 50000,
      * ]
+     *
+     * @throws Exception
      */
     public function __construct(<AdapterFactory> factory,  array options = [])
     {
@@ -113,7 +86,7 @@ use Phalcon\Storage\AdapterFactory;
     /**
      * Destroy
      */
-    public function destroy(var id) -> bool
+    public function destroy(string id) -> bool
     {
         var result;
 
@@ -127,7 +100,7 @@ use Phalcon\Storage\AdapterFactory;
     /**
      * Read
      */
-    public function read(var id) -> string
+    public function read(string id) -> string
     {
         if (true === this->lockingEnabled && true !== this->acquireLock(id)) {
             throw new AdapterRuntimeError(
@@ -142,7 +115,7 @@ use Phalcon\Storage\AdapterFactory;
      * Tries to acquire the session lock, pausing `lockWaitTime` microseconds
      * between attempts, up to `lockRetries` times
      */
-    protected function acquireLock(var id) -> bool
+    protected function acquireLock(string id) -> bool
     {
         var client, lockKey, result, token;
         int attempt;

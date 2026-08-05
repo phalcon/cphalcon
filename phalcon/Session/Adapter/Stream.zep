@@ -51,24 +51,18 @@ class Stream extends Noop
 
     /**
      * Session options
-     *
-     * @var array
      */
-    protected options = [];
+    protected array options = [];
 
     /**
      * Session prefix
-     *
-     * @var string
      */
-    protected prefix = "";
+    protected string prefix = "";
 
     /**
      * The path of the session files
-     *
-     * @var string
      */
-    private path = "";
+    private string path = "";
 
     /**
      * Constructor
@@ -77,6 +71,9 @@ class Stream extends Noop
      *     'prefix' => '',
      *     'savePath' => ''
      * ]
+     *
+     * @throws InvalidSavePath
+     * @throws SavePathUnavailable
      */
     public function __construct( array options = [])
     {
@@ -102,7 +99,7 @@ class Stream extends Noop
         let this->path = this->toDirSeparator(path);
     }
 
-    public function destroy(var id) -> bool
+    public function destroy(string id) -> bool
     {
         var file;
 
@@ -119,9 +116,11 @@ class Stream extends Noop
      * Garbage Collector
      *
      * @param int $max_lifetime
+     *
      * @return false|int
+     * @throws AdapterRuntimeError
      */
-    public function gc(int max_lifetime) -> int|false
+    public function gc(int max_lifetime) -> false | int
     {
         var file, glob, last, pattern, time;
 
@@ -154,10 +153,8 @@ class Stream extends Noop
 
     /**
     * Ignore the savePath and use local defined path
-    *
-    * @return bool
     */
-    public function open(var path, var name) -> bool
+    public function open(string path, string name) -> bool
     {
         return true;
     }
@@ -165,7 +162,7 @@ class Stream extends Noop
     /**
      * Reads data from the adapter
      */
-    public function read(var id) -> string
+    public function read(string id) -> string
     {
         var data, name, pointer;
 
@@ -192,7 +189,7 @@ class Stream extends Noop
     /**
      * Refresh the session file modification time without changing its data
      */
-    public function updateTimestamp(var id, var data) -> bool
+    public function updateTimestamp(string id, string data) -> bool
     {
         var name;
 
@@ -204,12 +201,12 @@ class Stream extends Noop
     /**
      * Validate the session id (used when strict mode is enabled)
      */
-    public function validateId(var id) -> bool
+    public function validateId(string id) -> bool
     {
         return this->phpFileExists(this->path . this->getPrefixedName(id));
     }
 
-    public function write(var id, var data) -> bool
+    public function write(string id, string data) -> bool
     {
         var name;
 
