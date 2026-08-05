@@ -21,12 +21,17 @@ trait ConfigTrait
      */
     protected function checkConfig(var config) -> array
     {
-        if (config instanceof ConfigInterface) {
+        var exceptionClass;
+
+        if (typeof config === "object" && config instanceof ConfigInterface) {
             return config->toArray();
         }
 
         if (typeof config !== "array") {
-            return [];
+            let exceptionClass = this->{"getExceptionClass"}();
+            throw new {exceptionClass}(
+                "Config must be array or Phalcon\\Config\\Config object"
+            );
         }
 
         return config;
@@ -45,12 +50,10 @@ trait ConfigTrait
         var exceptionClass;
 
         if (!isset(config[element])) {
-            if method_exists(this, "getExceptionClass") {
             let exceptionClass = this->{"getExceptionClass"}();
-                throw new {exceptionClass}(
-                    "You must provide the '" . element . "' option in the factory config parameter."
-                );
-            }
+            throw new {exceptionClass}(
+                "You must provide the '" . element . "' option in the factory config parameter."
+            );
         }
 
         return config;
