@@ -29,8 +29,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Paginator\Adapter\NativeArray
- *
  * Pagination using a PHP array as source of data
  *
  * ```php
@@ -100,13 +98,13 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, paginate)
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1221, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&config, &_0);
 	zephir_memory_observe(&items);
-	zephir_array_fetch_string(&items, &config, SL("data"), PH_NOISY, "phalcon/Paginator/Adapter/NativeArray.zep", 52);
+	zephir_array_fetch_string(&items, &config, SL("data"), PH_NOISY, "phalcon/Paginator/Adapter/NativeArray.zep", 50);
 	if (UNEXPECTED(Z_TYPE_P(&items) != IS_ARRAY)) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_paginator_exceptions_paginatordatanotarray_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Paginator/Adapter/NativeArray.zep", 55);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Paginator/Adapter/NativeArray.zep", 53);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
