@@ -12,6 +12,7 @@ namespace Phalcon\Storage\Adapter;
 
 use Exception as BaseException;
 use Phalcon\Storage\SerializerFactory;
+use WeakReference;
 
 /**
  * Weak Adapter
@@ -181,7 +182,7 @@ class Weak extends AbstractAdapter
         }
 
         if false === isset this->weakList[key] {
-            let this->weakList[key] = \WeakReference::create(value);
+            let this->weakList[key] = WeakReference::create(value);
         }
 
         return true;
