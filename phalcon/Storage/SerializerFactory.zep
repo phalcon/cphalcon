@@ -27,6 +27,7 @@ use Phalcon\Storage\Serializer\RedisNone;
 use Phalcon\Storage\Serializer\RedisPhp;
 use Phalcon\Storage\Serializer\SerializerInterface;
 use Phalcon\Traits\Factory\FactoryTrait;
+use Throwable;
 
 class SerializerFactory
 {
@@ -54,7 +55,7 @@ class SerializerFactory
     }
 
     /**
-     * @return string
+     * @return class-string<Throwable>
      */
     protected function getExceptionClass() -> string
     {

@@ -20,6 +20,7 @@ use Phalcon\Storage\Adapter\RedisCluster;
 use Phalcon\Storage\Adapter\Stream;
 use Phalcon\Storage\Adapter\Weak;
 use Phalcon\Traits\Factory\FactoryTrait;
+use Throwable;
 
 class AdapterFactory
 {
@@ -80,7 +81,7 @@ class AdapterFactory
     }
 
     /**
-     * @return string
+     * @return class-string<Throwable>
      */
     protected function getExceptionClass() -> string
     {

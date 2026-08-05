@@ -16,7 +16,10 @@ namespace Phalcon\Storage\Serializer;
  */
 abstract class AbstractSerializer implements SerializerInterface
 {
-    protected var data = null;
+    /**
+     * @var mixed
+     */
+    protected data = null;
     protected bool isSuccess = true;
 
     /**

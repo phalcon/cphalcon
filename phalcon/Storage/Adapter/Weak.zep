@@ -87,9 +87,9 @@ class Weak extends AbstractAdapter
     /**
      * For compatiblity only, there is no Forever with WeakReference.
      */
-    public function setForever(string key, var value) -> bool
+    public function setForever(string key, var data) -> bool
     {
-        return this->set(key, value);
+        return this->set(key, data);
     }
 
     /**

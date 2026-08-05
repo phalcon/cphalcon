@@ -35,7 +35,7 @@ class Memory extends AbstractAdapter
      * 0 (default) keeps the original unbounded behavior; a positive
      * value drops the oldest entry FIFO before a new key is stored.
      */
-    protected array maxItems = 0;
+    protected int maxItems = 0;
 
     /**
      * Memory constructor.
