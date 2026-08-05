@@ -9,8 +9,6 @@
 
 namespace Phalcon\Storage\Adapter;
 
-use DateInterval;
-use Exception as BaseException;
 use FilesystemIterator;
 use Iterator;
 use Phalcon\Storage\Exceptions\InvalidConfiguration;

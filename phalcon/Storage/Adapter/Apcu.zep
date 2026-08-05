@@ -10,7 +10,6 @@
 namespace Phalcon\Storage\Adapter;
 
 use APCUIterator;
-use DateInterval;
 use Exception;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Traits\Php\ApcuTrait;

@@ -10,11 +10,8 @@
 namespace Phalcon\Storage\Adapter;
 
 
-use DateInterval;
 use Exception as BaseException;
 use Phalcon\Storage\SerializerFactory;
-use Phalcon\Support\Exception as SupportException;
-use Phalcon\Storage\Serializer\SerializerInterface;
 
 /**
  * Weak Adapter
@@ -31,7 +28,7 @@ class Weak extends AbstractAdapter
     /**
      *
      *
-     * @var int|null
+     * @var string|null
      */
     protected fetching = null;
     protected array weakList = [];
@@ -120,7 +117,7 @@ class Weak extends AbstractAdapter
     /**
      * Reads data from the adapter
      */
-    protected function doGet( string key, var defaultValue = null) -> var
+    protected function doGet(string key, var defaultValue = null) -> var
     {
         var value, wr;
 

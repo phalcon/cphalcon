@@ -9,7 +9,6 @@
 
 namespace Phalcon\Storage\Adapter;
 
-use DateInterval;
 use Exception as BaseException;
 use Phalcon\Storage\SerializerFactory;
 
@@ -140,7 +139,7 @@ class Memory extends AbstractAdapter
         return exists;
     }
 
-    protected function doGetData(string key)
+    protected function doGetData(string key) -> var
     {
         return this->data[this->getPrefixedKey(key)];
     }
