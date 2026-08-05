@@ -16,7 +16,8 @@ use Phalcon\Storage\Exceptions\AuthenticationFailed;
 use Phalcon\Storage\Exceptions\ConnectionFailed;
 use Phalcon\Storage\Exceptions\DatabaseSelectionFailed;
 use Phalcon\Storage\SerializerFactory;
-use Phalcon\Support\Exception as SupportException;
+use Redis as RedisService;
+use RedisException;
 
 /**
  * Redis adapter
@@ -27,15 +28,10 @@ use Phalcon\Support\Exception as SupportException;
  * - Serializers: Phalcon-side, or backend-native via OPT_SERIALIZER. Native
  *   serializers change the bytes at rest and are not interchangeable with
  *   Phalcon-side serializers.
- *
- * @property array $options
  */
 class Redis extends AbstractAdapter
 {
-    /**
-     * @var string
-     */
-    protected prefix = "ph-reds-";
+    protected string prefix = "ph-reds-";
 
     /**
      * Redis constructor.
@@ -55,28 +51,16 @@ class Redis extends AbstractAdapter
      *     "readTimeout"    => 0,
      *     "ssl"            => [],
      * ]
-     *
-     * @throws SupportException
      */
-    public function __construct(<SerializerFactory> factory,  array options = [])
-    {
-        /**
-         * Lets set some defaults and options here
-         */
-        let options["host"]           = this->getArrVal(options, "host", "127.0.0.1"),
-            options["port"]           = this->getArrVal(options, "port", 6379, "int"),
-            options["index"]          = this->getArrVal(options, "index", 0),
-            options["timeout"]        = this->getArrVal(options, "timeout", 0),
-            options["persistent"]     = this->getArrVal(options, "persistent", false, "bool"),
-            options["persistentId"]   = this->getArrVal(options, "persistentId", "", "string"),
-            options["auth"]           = this->getArrVal(options, "auth", []),
-            options["socket"]         = this->getArrVal(options, "socket", ""),
-            options["connectTimeout"] = this->getArrVal(options, "connectTimeout", 0),
-            options["retryInterval"]  = this->getArrVal(options, "retryInterval", 0),
-            options["readTimeout"]    = this->getArrVal(options, "readTimeout", 0),
-            options["ssl"]            = this->getArrVal(options, "ssl", []);
+    public function __construct(
+        <SerializerFactory> factory,
+        array options = []
+    ) {
+        var localOptions;
 
-        parent::__construct(factory, options);
+        let localOptions = this->getDefaultOptions(options);
+
+        parent::__construct(factory, localOptions);
 
         this->initSerializer();
     }
@@ -90,7 +74,7 @@ class Redis extends AbstractAdapter
     public function clear() -> bool
     {
         var keys, key;
-        array strippedKeys;
+        array strippedKeys = [];
         int prefixLength;
 
         let keys = this->getKeys();
@@ -99,8 +83,7 @@ class Redis extends AbstractAdapter
             return true;
         }
 
-        let strippedKeys = [],
-            prefixLength = (int) strlen(this->prefix);
+        let prefixLength = (int) strlen(this->prefix);
 
         for key in keys {
             let strippedKeys[] = substr(key, prefixLength);
@@ -113,7 +96,7 @@ class Redis extends AbstractAdapter
      * Returns the already connected adapter or connects to the Redis
      * server(s)
      *
-     * @return mixed|\Redis
+     * @return mixed|RedisService
      * @throws StorageException
      */
     public function getAdapter() -> var
@@ -139,12 +122,11 @@ class Redis extends AbstractAdapter
     }
 
     /**
-     * Stores data in the adapter
+     * Returns all the keys stored
      *
-     * @param string $prefix
-     *
-     * @return array
-     * @throws StorageException
+     * SCAN replaces the blocking KEYS command. SCAN_NOPREFIX keeps the prefix
+     * handling explicit: the physical prefix is matched and returned unchanged,
+     * so getFilteredKeys() sees exactly what KEYS produced.
      */
     public function getKeys( string prefix = "") -> array
     {
@@ -199,19 +181,17 @@ class Redis extends AbstractAdapter
      * Stores data in the adapter forever. The key needs to manually deleted
      * from the adapter.
      *
-     * @param string $key
-     * @param mixed  $value
-     *
-     * @return bool
+     * @throws StorageException
+     * @throws RedisException
      */
-    public function setForever( string key, var value) -> bool
+    public function setForever( string key, var data) -> bool
     {
         var result;
 
         let key = this->getKeyWithoutPrefix(key);
 
         let result = this->getAdapter()
-                         ->set(key, this->getSerializedData(value));
+                         ->set(key, this->getSerializedData(data));
 
         return typeof result === "bool" ? result : false;
     }
@@ -222,10 +202,10 @@ class Redis extends AbstractAdapter
      * @param string $key
      * @param int    $value
      *
-     * @return bool|false|int
+     * @throws RedisException
      * @throws StorageException
      */
-    protected function doDecrement( string key, int value = 1) -> int | bool
+    protected function doDecrement( string key, int value = 1) -> false | int
     {
         return this->getAdapter()->decrBy(key, value);
     }
@@ -233,9 +213,7 @@ class Redis extends AbstractAdapter
     /**
      * Deletes data from the adapter
      *
-     * @param string $key
-     *
-     * @return bool
+     * @throws RedisException
      * @throws StorageException
      */
     protected function doDelete( string key) -> bool
@@ -246,8 +224,8 @@ class Redis extends AbstractAdapter
     /**
      * Deletes multiple keys from Redis using a single unlink call
      *
-     * @param array $keys
-     * @return bool
+     * @throws RedisException
+     * @throws StorageException
      */
     protected function doDeleteMultiple(array keys) -> bool
     {
@@ -262,9 +240,7 @@ class Redis extends AbstractAdapter
     /**
      * Checks if an element exists in the cache
      *
-     * @param string $key
-     *
-     * @return bool
+     * @throws RedisException
      * @throws StorageException
      */
     protected function doHas( string key) -> bool
@@ -275,13 +251,10 @@ class Redis extends AbstractAdapter
     /**
      * Increments a stored number
      *
-     * @param string $key
-     * @param int    $value
-     *
-     * @return bool|false|int
+     * @throws RedisException
      * @throws StorageException
      */
-    protected function doIncrement( string key, int value = 1) -> int | bool
+    protected function doIncrement( string key, int value = 1) -> false | int
     {
         return this->getAdapter()->incrBy(key, value);
     }
@@ -320,13 +293,33 @@ class Redis extends AbstractAdapter
         return typeof result === "bool" ? result : false;
     }
 
+    protected function getDefaultOptions(array options) -> array
+    {
+        /**
+         * Lets set some defaults and options here
+         */
+        let options["host"]           = this->getArrVal(options, "host", "127.0.0.1"),
+            options["port"]           = this->getArrVal(options, "port", 6379, "int"),
+            options["index"]          = this->getArrVal(options, "index", 0),
+            options["timeout"]        = this->getArrVal(options, "timeout", 0),
+            options["persistent"]     = this->getArrVal(options, "persistent", false, "bool"),
+            options["persistentId"]   = this->getArrVal(options, "persistentId", "", "string"),
+            options["auth"]           = this->getArrVal(options, "auth", []),
+            options["socket"]         = this->getArrVal(options, "socket", ""),
+            options["connectTimeout"] = this->getArrVal(options, "connectTimeout", 0),
+            options["retryInterval"]  = this->getArrVal(options, "retryInterval", 0),
+            options["readTimeout"]    = this->getArrVal(options, "readTimeout", 0),
+            options["ssl"]            = this->getArrVal(options, "ssl", []);
+
+        return options;
+    }
+
     /**
-     * @param \Redis $connection
+     * @param RedisService $connection
      *
-     * @return static
      * @throws AuthenticationFailed
      */
-    private function checkAuth(<\Redis> connection) -> <static>
+    private function checkAuth(<RedisService> connection) -> <static>
     {
         var auth, error;
 
@@ -334,7 +327,7 @@ class Redis extends AbstractAdapter
 
         try {
             let error = (true !== empty(auth) && true !== connection->auth(auth));
-        } catch \Exception {
+        } catch BaseException {
             let error = true;
         }
 
@@ -346,12 +339,9 @@ class Redis extends AbstractAdapter
     }
 
     /**
-     * @param \Redis $connection
-     *
-     * @return static
      * @throws ConnectionFailed
      */
-    private function checkConnect(<\Redis> connection) -> <static>
+    private function checkConnect(<RedisService> connection) -> <static>
     {
         var auth, connectionOptions, ex, host, method, options, parameter,
             persistentId, port, retryInterval, readTimeout, result, ssl, timeout;
@@ -410,12 +400,9 @@ class Redis extends AbstractAdapter
     }
 
     /**
-     * @param \Redis $connection
-     *
-     * @return static
      * @throws DatabaseSelectionFailed
      */
-    private function checkIndex(<\Redis> connection) -> <static>
+    private function checkIndex(<RedisService> connection) -> <static>
     {
         var index;
 
@@ -432,16 +419,16 @@ class Redis extends AbstractAdapter
      * Checks the serializer. If it is a supported one it is set, otherwise
      * the custom one is set.
      *
-     * @param \Redis $connection
+     * @throws BaseException
      */
-    private function setSerializer(<\Redis> connection) -> void
+    private function setSerializer(<RedisService> connection) -> void
     {
         var serializer;
         array map;
 
         let map = [
-            "redis_none" : \Redis::SERIALIZER_NONE,
-            "redis_php"  : \Redis::SERIALIZER_PHP
+            "redis_none" : RedisService::SERIALIZER_NONE,
+            "redis_php"  : RedisService::SERIALIZER_PHP
         ];
 
         /**
@@ -464,7 +451,7 @@ class Redis extends AbstractAdapter
 
         if (true === isset(map[serializer])) {
             let this->defaultSerializer = "";
-            connection->setOption(\Redis::OPT_SERIALIZER, map[serializer]);
+            connection->setOption(RedisService::OPT_SERIALIZER, map[serializer]);
         }
 
         this->initSerializer();

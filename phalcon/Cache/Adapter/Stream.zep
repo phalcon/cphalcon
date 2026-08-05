@@ -21,5 +21,5 @@ class Stream extends StorageStream implements CacheAdapterInterface
     /**
      * EventType prefix.
      */
-    protected eventType = "cache";
+    protected string eventType = "cache";
 }

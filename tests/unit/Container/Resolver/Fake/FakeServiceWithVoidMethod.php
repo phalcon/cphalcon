@@ -35,7 +35,7 @@ namespace Phalcon\Tests\Unit\Container\Resolver\Fake;
 
 class FakeServiceWithVoidMethod
 {
-    public function method(int|string $value): void
+    public function method(int | string $value): void
     {
     }
 }

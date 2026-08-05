@@ -78,8 +78,8 @@ PHP_METHOD(Phalcon_Acl_Role, __construct)
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_acl_exceptions_forbiddenwildcard_ce, "role", "phalcon/Acl/Role.zep", 26);
 		return;
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 386, &name_zv);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 387, &description_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 387, &name_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 388, &description_zv);
 	ZEPHIR_MM_RESTORE();
 }
 

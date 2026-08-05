@@ -9,10 +9,8 @@
 
 namespace Phalcon\Storage\Adapter;
 
-use DateInterval;
 use Exception as BaseException;
 use Phalcon\Storage\SerializerFactory;
-use Phalcon\Support\Exception as SupportException;
 
 /**
  * Memory adapter
@@ -29,19 +27,14 @@ use Phalcon\Support\Exception as SupportException;
  */
 class Memory extends AbstractAdapter
 {
-    /**
-     * @var array
-     */
-    protected data = [];
+    protected array data = [];
 
     /**
      * Maximum number of items retained in the in-memory store.
      * 0 (default) keeps the original unbounded behavior; a positive
      * value drops the oldest entry FIFO before a new key is stored.
-     *
-     * @var int
      */
-    protected maxItems = 0;
+    protected int maxItems = 0;
 
     /**
      * Memory constructor.
@@ -49,9 +42,9 @@ class Memory extends AbstractAdapter
      * @param SerializerFactory $factory
      * @param array             $options
      *
-     * @throws SupportException
+     * @throws BaseException
      */
-    public function __construct(<SerializerFactory> factory,  array options = [])
+    public function __construct(<SerializerFactory> factory, array options = [])
     {
         parent::__construct(factory, options);
 
@@ -89,6 +82,15 @@ class Memory extends AbstractAdapter
     }
 
     /**
+     * Stores data in the adapter forever. The key needs to manually deleted
+     * from the adapter.
+     */
+    public function setForever(string key, var data) -> bool
+    {
+        return $this->set(key, data);
+    }
+
+    /**
      * Caps the number of items retained in the in-memory store.
      * 0 disables the cap (the default; preserves the original
      * unbounded behavior). When the cap is exceeded, the oldest
@@ -102,28 +104,9 @@ class Memory extends AbstractAdapter
     }
 
     /**
-     * Stores data in the adapter forever. The key needs to manually deleted
-     * from the adapter.
-     *
-     * @param string $key
-     * @param mixed  $value
-     *
-     * @return bool
-     */
-    public function setForever( string key, var value) -> bool
-    {
-        return this->set(key, value);
-    }
-
-    /**
      * Decrements a stored number
-     *
-     * @param string $key
-     * @param int    $value
-     *
-     * @return bool|int
      */
-    protected function doDecrement( string key, int value = 1) -> int | bool
+    protected function doDecrement(string key, int value = 1) -> false | int
     {
         var current, newValue, prefixedKey, result;
 
@@ -143,12 +126,8 @@ class Memory extends AbstractAdapter
 
     /**
      * Deletes data from the adapter
-     *
-     * @param string $key
-     *
-     * @return bool
      */
-    protected function doDelete( string key) -> bool
+    protected function doDelete(string key) -> bool
     {
         var exists, prefixedKey;
 
@@ -160,37 +139,23 @@ class Memory extends AbstractAdapter
         return exists;
     }
 
-    /**
-     * @param string $key
-     *
-     * @return mixed
-     */
-    protected function doGetData(string key)
+    protected function doGetData(string key) -> var
     {
         return this->data[this->getPrefixedKey(key)];
     }
 
     /**
      * Checks if an element exists in the cache
-     *
-     * @param string $key
-     *
-     * @return bool
      */
-    protected function doHas( string key) -> bool
+    protected function doHas(string key) -> bool
     {
         return array_key_exists(this->getPrefixedKey(key), this->data);
     }
 
     /**
      * Increments a stored number
-     *
-     * @param string $key
-     * @param int    $value
-     *
-     * @return bool|int
      */
-    protected function doIncrement( string key, int value = 1) -> int | bool
+    protected function doIncrement(string key, int value = 1) -> false | int
     {
         var current, newValue, prefixedKey, result;
 
@@ -214,15 +179,8 @@ class Memory extends AbstractAdapter
      * is `0` or a negative number, a `delete()` will be issued, since this
      * item has expired. If you need to set this key forever, you should use
      * the `setForever()` method.
-     *
-     * @param string                $key
-     * @param mixed                 $value
-     * @param DateInterval|int|null $ttl
-     *
-     * @return bool
-     * @throws BaseException
      */
-    protected function doSet( string key, var value, var ttl = null) -> bool
+    protected function doSet(string key, var value, var ttl = null) -> bool
     {
         var content, firstKey, prefixedKey;
 

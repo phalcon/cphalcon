@@ -9,10 +9,9 @@
 
 namespace Phalcon\Storage\Adapter;
 
-use DateInterval;
+use APCUIterator;
 use Exception;
 use Phalcon\Storage\SerializerFactory;
-use Phalcon\Support\Exception as SupportException;
 use Phalcon\Traits\Php\ApcuTrait;
 
 /**
@@ -29,21 +28,17 @@ class Apcu extends AbstractAdapter
 {
     use ApcuTrait;
 
-    /**
-     * @var string
-     */
-    protected prefix = "ph-apcu-";
+    protected string prefix = "ph-apcu-";
 
     /**
      * Apcu constructor.
      *
-     * @param SerializerFactory $factory
-     * @param array             $options
-     *
-     * @throws SupportException
+     * @throws Exception
      */
-    public function __construct(<SerializerFactory> factory,  array options = [])
-    {
+    public function __construct(
+        <SerializerFactory> factory,
+        array options = []
+    ) {
         parent::__construct(factory, options);
 
         this->initSerializer();
@@ -76,10 +71,6 @@ class Apcu extends AbstractAdapter
 
     /**
      * Stores data in the adapter
-     *
-     * @param string $prefix
-     *
-     * @return array
      */
     public function getKeys( string prefix = "") -> array
     {
@@ -104,19 +95,14 @@ class Apcu extends AbstractAdapter
     /**
      * Stores data in the adapter forever. The key needs to manually deleted
      * from the adapter.
-     *
-     * @param string $key
-     * @param mixed  $value
-     *
-     * @return bool
      */
-    public function setForever( string key, var value) -> bool
+    public function setForever( string key, var data) -> bool
     {
         var result;
 
         let result = this->phpApcuStore(
             this->getPrefixedKey(key),
-            this->getSerializedData(value)
+            this->getSerializedData(data)
         );
 
         return is_bool(result) ? result : false;
@@ -124,23 +110,14 @@ class Apcu extends AbstractAdapter
 
     /**
      * Decrements a stored number
-     *
-     * @param string $key
-     * @param int    $value
-     *
-     * @return bool|int
      */
-    protected function doDecrement( string key, int value = 1) -> int | bool
+    protected function doDecrement( string key, int value = 1) -> false | int
     {
         return this->phpApcuDec(this->getPrefixedKey(key), value);
     }
 
     /**
      * Deletes data from the adapter
-     *
-     * @param string $key
-     *
-     * @return bool
      */
     protected function doDelete( string key) -> bool
     {
@@ -149,9 +126,6 @@ class Apcu extends AbstractAdapter
 
     /**
      * Deletes multiple keys from APCu in a single call
-     *
-     * @param array $keys
-     * @return bool
      */
     protected function doDeleteMultiple(array keys) -> bool
     {
@@ -167,22 +141,13 @@ class Apcu extends AbstractAdapter
         return typeof result === "array" && empty result;
     }
 
-    /**
-     * @param string $key
-     *
-     * @return mixed
-     */
-    protected function doGetData(string key)
+    protected function doGetData(string key) -> var
     {
         return this->phpApcuFetch(this->getPrefixedKey(key));
     }
 
     /**
      * Checks if an element exists in the cache
-     *
-     * @param string $key
-     *
-     * @return bool
      */
     protected function doHas( string key) -> bool
     {
@@ -195,13 +160,8 @@ class Apcu extends AbstractAdapter
 
     /**
      * Increments a stored number
-     *
-     * @param string $key
-     * @param int    $value
-     *
-     * @return bool|int
      */
-    protected function doIncrement( string key, int value = 1) -> int | bool
+    protected function doIncrement( string key, int value = 1) -> false | int
     {
         return this->phpApcuInc(this->getPrefixedKey(key), value);
     }
@@ -213,11 +173,6 @@ class Apcu extends AbstractAdapter
      * item has expired. If you need to set this key forever, you should use
      * the `setForever()` method.
      *
-     * @param string                $key
-     * @param mixed                 $value
-     * @param DateInterval|int|null $ttl
-     *
-     * @return bool
      * @throws Exception
      */
     protected function doSet( string key, var value, var ttl = null) -> bool

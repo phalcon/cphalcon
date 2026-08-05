@@ -106,8 +106,8 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractSeries, __invoke)
 	} else {
 		ZEPHIR_CPY_WRT(&_0, &delimiter_zv);
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 77, &_0);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 78, &indent_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 78, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 79, &indent_zv);
 	RETURN_THIS();
 }
 
@@ -140,12 +140,12 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractSeries, __toString)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_memory_observe(&sorted);
-	zephir_read_property_cached(&sorted, this_ptr, _zephir_prop_0, 79, PH_NOISY_CC);
+	zephir_read_property_cached(&sorted, this_ptr, _zephir_prop_0, 80, PH_NOISY_CC);
 	ZEPHIR_MAKE_REF(&sorted);
 	ZEPHIR_CALL_FUNCTION(NULL, "ksort", NULL, 71, &sorted);
 	ZEPHIR_UNREF(&sorted);
 	zephir_check_call_status();
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_1, 77, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_1, 78, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "renderarrayelements", NULL, 0, &sorted, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
@@ -170,7 +170,7 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractSeries, reset)
 
 	ZEPHIR_INIT_VAR(&_0);
 	array_init(&_0);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 79, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 80, &_0);
 	RETURN_THIS();
 }
 
@@ -220,7 +220,7 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractSeries, pushOrPlace)
 	}
 	key = position;
 	while (1) {
-		zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 79, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 80, PH_NOISY_CC | PH_READONLY);
 		if (!(zephir_array_isset_value_long(&_0, key))) {
 			break;
 		}

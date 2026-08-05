@@ -67,7 +67,7 @@ class FakeAuthUserNoRemember implements AuthUser
     /**
      * @param array{conditions?: string, bind?: array<string, mixed>}|string $parameters
      */
-    public static function findFirst(array | string $parameters = []): static | false
+    public static function findFirst(array | string $parameters = []): false | static
     {
         if (is_string($parameters)) {
             return false;

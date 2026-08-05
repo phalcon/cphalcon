@@ -20,8 +20,6 @@ class Base64 extends AbstractSerializer
 
     /**
      * Serializes data
-     *
-     * @return string
      */
 	public function serialize() -> string
 	{
@@ -34,10 +32,6 @@ class Base64 extends AbstractSerializer
 
     /**
      * Unserializes data
-     *
-     * @param mixed $data
-     *
-     * @retrun void
      */
 	public function unserialize(mixed data) -> void
 	{

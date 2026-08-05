@@ -12,6 +12,10 @@ namespace Phalcon\Storage\Adapter;
 
 use Phalcon\Storage\Exceptions\ClusterConnectionFailed;
 use Phalcon\Storage\SerializerFactory;
+use Phalcon\Support\Exception as SupportException;
+use Redis as RedisConsts;
+use RedisCluster as RedisService;
+use Throwable;
 
 /**
  * RedisCluster adapter
@@ -26,10 +30,7 @@ use Phalcon\Storage\SerializerFactory;
  */
 class RedisCluster extends Redis
 {
-    /**
-     * @var string
-     */
-    protected prefix = "ph-redc-";
+    protected string prefix = "ph-redc-";
 
     /**
      * You can create and connect to a cluster either by passing it one or more
@@ -61,7 +62,6 @@ class RedisCluster extends Redis
      * The `context` is an array of values used for ssl/tls stream context
      * options eg `["verify_peer" => 0, "local_cert" => "file:///path/to/cert.pem"]`
      *
-     * @param SerializerFactory $factory
      * @param array             $options = [
      *     "name"        => null,
      *     "hosts"       => ["127.0.0.1:6379"],
@@ -72,18 +72,10 @@ class RedisCluster extends Redis
      *     "context"     => null,
      * ]
      *
-     * @throws \Phalcon\Support\Exception
+     * @throws SupportException
      */
     public function __construct(<SerializerFactory> factory,  array options = [])
     {
-        let options["name"]        = this->getArrVal(options, "name", null),
-            options["hosts"]       = this->getArrVal(options, "hosts", ["127.0.0.1:6379"]),
-            options["timeout"]     = this->getArrVal(options, "timeout", 0),
-            options["readTimeout"] = this->getArrVal(options, "readTimeout", 0),
-            options["persistent"]  = this->getArrVal(options, "persistent", false, "bool"),
-            options["auth"]        = this->getArrVal(options, "auth", ""),
-            options["context"]     = this->getArrVal(options, "context", null);
-
         parent::__construct(factory, options);
     }
 
@@ -91,7 +83,7 @@ class RedisCluster extends Redis
      * Flushes/clears the cache
      *
      * @return bool
-     * @throws ClusterConnectionFailed
+     * @throws ClusterConnectionFailed|SupportException
      */
     public function clear() -> bool
     {
@@ -108,10 +100,9 @@ class RedisCluster extends Redis
 
     /**
      * Returns the already connected adapter or connects to the Redis
-     * Cluster server(s)
+     * server(s)
      *
-     * @return mixed|\RedisCluster
-     * @throws ClusterConnectionFailed
+     * @throws ClusterConnectionFailed|SupportException
      */
     public function getAdapter() -> var
     {
@@ -121,7 +112,7 @@ class RedisCluster extends Redis
             let options = this->options;
 
             try {
-                let connection = new \RedisCluster(
+                let connection = new RedisService(
                     options["name"],
                     options["hosts"],
                     options["timeout"],
@@ -130,13 +121,16 @@ class RedisCluster extends Redis
                     options["auth"],
                     options["context"]
                 );
-            } catch \Exception, ex {
+            } catch Throwable, ex {
                 throw new ClusterConnectionFailed(
-                    "Could not connect to the Redis Cluster server due to: " . ex->getMessage()
+                    "Could not connect to the Redis Cluster server due to: " 
+                    . ex->getMessage(),
+                    0,
+                    ex
                 );
             }
 
-            connection->setOption(\Redis::OPT_PREFIX, this->prefix);
+            connection->setOption(RedisConsts::OPT_PREFIX, this->prefix);
 
             this->setSerializer(connection);
             let this->adapter = connection;
@@ -152,9 +146,7 @@ class RedisCluster extends Redis
      * command is retained here (phpredis routes it across the masters). The
      * per-node SCAN migration is left to the storage redesign.
      *
-     * @param string $prefix
-     *
-     * @return array
+     * @throws ClusterConnectionFailed|SupportException
      */
     public function getKeys( string prefix = "") -> array
     {
@@ -164,13 +156,29 @@ class RedisCluster extends Redis
         );
     }
 
+    protected function getDefaultOptions(array options) -> array
+    {
+        /**
+         * Lets set some defaults and options here
+         */
+        let options["name"]        = this->getArrVal(options, "name", null),
+            options["hosts"]       = this->getArrVal(options, "hosts", "127.0.0.1:6379"),
+            options["timeout"]     = this->getArrVal(options, "timeout", 0),
+            options["readTimeout"] = this->getArrVal(options, "readTimeout", 0),
+            options["persistent"]  = this->getArrVal(options, "persistent", false, "bool"),
+            options["auth"]        = this->getArrVal(options, "auth", ""),
+            options["context"]     = this->getArrVal(options, "context", null);
+
+        return $options;
+    }
+
     /**
      * Checks the serializer. If it is a supported one it is set, otherwise
      * the custom one is set.
      *
-     * @param \RedisCluster $connection
+     * @throws SupportException
      */
-    private function setSerializer(<\RedisCluster> connection) -> void
+    private function setSerializer(<RedisService> connection) -> void
     {
         var serializer;
         array map;

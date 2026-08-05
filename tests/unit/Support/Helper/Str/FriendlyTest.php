@@ -95,7 +95,7 @@ final class FriendlyTest extends AbstractUnitTestCase
         string $text,
         string $separator,
         bool $lowercase,
-        array|string $replace,
+        array | string $replace,
         string $result,
     ): void {
         $object = new Friendly();

@@ -34,8 +34,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Storage_Serializer_Msgpack)
 
 /**
  * Serializes data
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Storage_Serializer_Msgpack, doSerialize)
 {
@@ -58,8 +56,6 @@ PHP_METHOD(Phalcon_Storage_Serializer_Msgpack, doSerialize)
 
 /**
  * @param mixed $value
- *
- * @return mixed
  */
 PHP_METHOD(Phalcon_Storage_Serializer_Msgpack, doUnserialize)
 {

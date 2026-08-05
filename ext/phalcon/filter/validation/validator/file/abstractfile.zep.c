@@ -612,7 +612,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, setMessageFile
 		Z_PARAM_STR(message)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&message_zv, message);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 43, &message_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 44, &message_zv);
 }
 
 /**
@@ -638,7 +638,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, setMessageIniS
 		Z_PARAM_STR(message)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&message_zv, message);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 44, &message_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 45, &message_zv);
 }
 
 /**
@@ -664,7 +664,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, setMessageVali
 		Z_PARAM_STR(message)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&message_zv, message);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 45, &message_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 46, &message_zv);
 }
 
 /**

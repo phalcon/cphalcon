@@ -35,8 +35,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Storage_Serializer_Igbinary)
 
 /**
  * Serializes data
- *
- * @return mixed
  */
 PHP_METHOD(Phalcon_Storage_Serializer_Igbinary, serialize)
 {
@@ -62,28 +60,28 @@ PHP_METHOD(Phalcon_Storage_Serializer_Igbinary, serialize)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 330, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 331, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "isserializable", NULL, 0, &_1);
 	zephir_check_call_status();
 	if (!ZEPHIR_IS_TRUE_IDENTICAL(&_0)) {
 		RETURN_MM_MEMBER(getThis(), "data");
 	}
-	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 330, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 331, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&result, this_ptr, "doserialize", NULL, 0, &_2);
 	zephir_check_call_status();
 	if (UNEXPECTED(Z_TYPE_P(&result) == IS_NULL)) {
 		if (0) {
-			zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 331, &__$true);
+			zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 332, &__$true);
 		} else {
-			zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 331, &__$false);
+			zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 332, &__$false);
 		}
 		ZEPHIR_INIT_NVAR(&result);
 		ZVAL_STRING(&result, "");
 	} else {
 		if (1) {
-			zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 331, &__$true);
+			zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 332, &__$true);
 		} else {
-			zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 331, &__$false);
+			zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 332, &__$false);
 		}
 	}
 	RETURN_CCTOR(&result);
@@ -91,10 +89,6 @@ PHP_METHOD(Phalcon_Storage_Serializer_Igbinary, serialize)
 
 /**
  * Unserializes data
- *
- * @param mixed $data
- *
- * @return void
  */
 PHP_METHOD(Phalcon_Storage_Serializer_Igbinary, unserialize)
 {
@@ -130,7 +124,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_Igbinary, unserialize)
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "isserializable", NULL, 0, data);
 	zephir_check_call_status();
 	if (!ZEPHIR_IS_TRUE_IDENTICAL(&_0)) {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 330, data);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 331, data);
 	} else {
 		ZEPHIR_GLOBAL(warning).enable = zend_is_true(&__$false);
 		ZEPHIR_INIT_VAR(&_1$$4);
@@ -149,30 +143,26 @@ PHP_METHOD(Phalcon_Storage_Serializer_Igbinary, unserialize)
 		}
 		if (UNEXPECTED(_3$$4)) {
 			if (0) {
-				zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 331, &__$true);
+				zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 332, &__$true);
 			} else {
-				zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 331, &__$false);
+				zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 332, &__$false);
 			}
 			ZEPHIR_INIT_NVAR(&result);
 			ZVAL_STRING(&result, "");
 		} else {
 			if (1) {
-				zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 331, &__$true);
+				zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 332, &__$true);
 			} else {
-				zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 331, &__$false);
+				zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 332, &__$false);
 			}
 		}
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 330, &result);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 331, &result);
 	}
 	ZEPHIR_MM_RESTORE();
 }
 
 /**
  * Serialize
- *
- * @param mixed $value
- *
- * @return string|null
  */
 PHP_METHOD(Phalcon_Storage_Serializer_Igbinary, doSerialize)
 {
@@ -198,7 +188,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_Igbinary, doSerialize)
  *
  * @param string $value
  *
- * @return mixed|false
+ * @return false|mixed
  */
 PHP_METHOD(Phalcon_Storage_Serializer_Igbinary, doUnserialize)
 {

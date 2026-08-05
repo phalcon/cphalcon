@@ -21,7 +21,7 @@ final class FakeCollectionPhpJsonEncode extends Collection
         mixed $value,
         int $flags = 0,
         int $depth = 512,
-    ): false|string {
+    ): false | string {
         return false;
     }
 }

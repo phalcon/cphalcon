@@ -33,8 +33,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Storage_Serializer_None)
 
 /**
  * Serializes data
- *
- * @return mixed
  */
 PHP_METHOD(Phalcon_Storage_Serializer_None, serialize)
 {
@@ -44,10 +42,6 @@ PHP_METHOD(Phalcon_Storage_Serializer_None, serialize)
 
 /**
  * Unserializes data
- *
- * @param mixed $data
- *
- * @retrun void
  */
 PHP_METHOD(Phalcon_Storage_Serializer_None, unserialize)
 {
@@ -65,6 +59,6 @@ PHP_METHOD(Phalcon_Storage_Serializer_None, unserialize)
 		Z_PARAM_ZVAL(data)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &data);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 46, data);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 47, data);
 }
 

@@ -14,8 +14,6 @@ class None extends AbstractSerializer
 {
     /**
      * Serializes data
-     *
-     * @return mixed
      */
 	public function serialize() -> mixed
 	{
@@ -24,10 +22,6 @@ class None extends AbstractSerializer
 
     /**
      * Unserializes data
-     *
-     * @param mixed $data
-     *
-     * @retrun void
      */
 	public function unserialize(mixed data) -> void
 	{

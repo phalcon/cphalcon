@@ -82,9 +82,9 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkSubscriptionConsumer, __cons
 		pollInterval = 200;
 	} else {
 		}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1253, context);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1254, context);
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, pollInterval);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1254, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1255, &_0);
 }
 
