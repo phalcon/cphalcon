@@ -40,7 +40,7 @@ class IsIncludedTest extends AbstractUnitTestCase
      * @since  2018-11-13
      */
     #[DataProvider('provideIsIncluded')]
-    public function testMvcViewEngineVoltIsIncluded(mixed $needle, array|string $haystack, bool $expected): void
+    public function testMvcViewEngineVoltIsIncluded(mixed $needle, array | string $haystack, bool $expected): void
     {
         $volt = new Volt(new View());
         $this->assertSame($expected, $volt->isIncluded($needle, $haystack));

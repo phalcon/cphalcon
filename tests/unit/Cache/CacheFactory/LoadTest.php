@@ -72,7 +72,7 @@ final class LoadTest extends AbstractUnitTestCase
         $cacheFactory->load([]);
     }
 
-    private function runTests(Config | array $options): void
+    private function runTests(array | Config $options): void
     {
         $cacheFactory = new CacheFactory(
             new AdapterFactory(

@@ -20,7 +20,7 @@ final class FakeBase64Decode extends Base64
     protected static function phpBase64Decode(
         string $input,
         bool $strict = false
-    ): string | false {
+    ): false | string {
         return false;
     }
 }
