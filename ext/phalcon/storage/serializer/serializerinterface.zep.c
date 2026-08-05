@@ -27,23 +27,13 @@ ZEPHIR_INIT_CLASS(Phalcon_Storage_Serializer_SerializerInterface)
 	return SUCCESS;
 }
 
-/**
- * @return mixed
- */
 ZEPHIR_DOC_METHOD(Phalcon_Storage_Serializer_SerializerInterface, getData);
 /**
  * Serializes data
- *
- * @return mixed
  */
 ZEPHIR_DOC_METHOD(Phalcon_Storage_Serializer_SerializerInterface, serialize);
-/**
- * @param mixed $data
- */
 ZEPHIR_DOC_METHOD(Phalcon_Storage_Serializer_SerializerInterface, setData);
 /**
  * Unserializes data
- *
- * @param mixed $data
  */
 ZEPHIR_DOC_METHOD(Phalcon_Storage_Serializer_SerializerInterface, unserialize);

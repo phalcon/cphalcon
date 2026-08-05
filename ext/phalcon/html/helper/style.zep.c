@@ -145,9 +145,9 @@ PHP_METHOD(Phalcon_Html_Helper_Style, setStyle)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &flag_param);
 	if (flag) {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 269, &__$true);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 270, &__$true);
 	} else {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 269, &__$false);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 270, &__$false);
 	}
 	RETURN_THISW();
 }
@@ -193,7 +193,7 @@ PHP_METHOD(Phalcon_Html_Helper_Style, getAttributes)
 	zephir_array_update_string(&required, SL("href"), &url_zv, PH_COPY | PH_SEPARATE);
 	add_assoc_stringl_ex(&required, SL("type"), SL("text/css"));
 	add_assoc_stringl_ex(&required, SL("media"), SL("screen"));
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 269, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 270, PH_NOISY_CC | PH_READONLY);
 	if (ZEPHIR_IS_TRUE_IDENTICAL(&_0)) {
 		zephir_array_unset_string(&required, SL("rel"), PH_SEPARATE);
 	}
@@ -221,7 +221,7 @@ PHP_METHOD(Phalcon_Html_Helper_Style, getTag)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	ZEPHIR_INIT_VAR(&_0);
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 269, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 270, PH_NOISY_CC | PH_READONLY);
 	if (ZEPHIR_IS_TRUE_IDENTICAL(&_1)) {
 		ZEPHIR_INIT_NVAR(&_0);
 		ZVAL_STRING(&_0, "style");

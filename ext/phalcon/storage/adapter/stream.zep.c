@@ -43,34 +43,36 @@
  * - getKeys(): recursive directory traversal; cost grows with the entry count.
  * - Serializers: Phalcon-side only.
  *
- * @property string $storageDir
- * @property array  $options
+ * @phpstan-type TOptions array{
+ *     storageDir?: string,
+ *     defaultSerializer?: string,
+ *     lifetime?: int,
+ *     prefix?: string
+ * }
  */
 ZEPHIR_INIT_CLASS(Phalcon_Storage_Adapter_Stream)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Storage\\Adapter, Stream, phalcon, storage_adapter_stream, phalcon_storage_adapter_abstractadapter_ce, phalcon_storage_adapter_stream_method_entry, 0);
 
-	/**
-	 * @var string
-	 */
-	zend_declare_property_string(phalcon_storage_adapter_stream_ce, SL("prefix"), "ph-strm", ZEND_ACC_PROTECTED);
-	/**
-	 * @var string
-	 */
-	zend_declare_property_string(phalcon_storage_adapter_stream_ce, SL("storageDir"), "", ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_STRINGL(&_zc0, "ph-strm", sizeof("ph-strm") - 1);
+		zephir_declare_typed_property(phalcon_storage_adapter_stream_ce, SL("prefix"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_STRINGL(&_zc0, "", sizeof("") - 1);
+		zephir_declare_typed_property(phalcon_storage_adapter_stream_ce, SL("storageDir"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
+
 	return SUCCESS;
 }
 
 /**
  * Stream constructor.
  *
- * @param SerializerFactory $factory
- * @param array             $options = [
- *     'storageDir'        => '',
- *     'defaultSerializer' => 'php',
- *     'lifetime'          => 3600,
- *     'prefix'            => ''
- * ]
+ * @param TOptions          $options
  *
  * @throws InvalidConfiguration
  */
@@ -114,12 +116,12 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, __construct)
 	ZEPHIR_CALL_METHOD(&storageDir, this_ptr, "getarrval", NULL, 0, &options, &_0, &_1);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_EMPTY(&storageDir)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_storage_exceptions_invalidconfiguration_ce, "The 'storageDir' must be specified in the options", "phalcon/Storage/Adapter/Stream.zep", 71);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_storage_exceptions_invalidconfiguration_ce, "The 'storageDir' must be specified in the options", "phalcon/Storage/Adapter/Stream.zep", 66);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&_2, this_ptr, "todirseparator", NULL, 0, &storageDir);
 	zephir_check_call_status();
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 322, &_2);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 323, &_2);
 	ZEPHIR_CALL_PARENT(NULL, phalcon_storage_adapter_stream_ce, getThis(), "__construct", NULL, 0, factory, &options);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "initserializer", NULL, 0);
@@ -163,7 +165,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, clear)
 	}
 	ZEPHIR_CALL_METHOD(&iterator, this_ptr, "getiterator", NULL, 287, &directory);
 	zephir_check_call_status();
-	zephir_is_iterable(&iterator, 0, "phalcon/Storage/Adapter/Stream.zep", 107);
+	zephir_is_iterable(&iterator, 0, "phalcon/Storage/Adapter/Stream.zep", 102);
 	if (Z_TYPE_P(&iterator) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&iterator), _1)
 		{
@@ -222,10 +224,6 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, clear)
 
 /**
  * Stores data in the adapter
- *
- * @param string $prefix
- *
- * @return array
  */
 PHP_METHOD(Phalcon_Storage_Adapter_Stream, getKeys)
 {
@@ -283,7 +281,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, getKeys)
 	}
 	ZEPHIR_CALL_METHOD(&iterator, this_ptr, "getiterator", NULL, 287, &directory);
 	zephir_check_call_status();
-	zephir_is_iterable(&iterator, 0, "phalcon/Storage/Adapter/Stream.zep", 137);
+	zephir_is_iterable(&iterator, 0, "phalcon/Storage/Adapter/Stream.zep", 128);
 	if (Z_TYPE_P(&iterator) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&iterator), _1)
 		{
@@ -292,12 +290,12 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, getKeys)
 			ZEPHIR_CALL_METHOD(&_2$$4, &file, "isfile", NULL, 0);
 			zephir_check_call_status();
 			if (ZEPHIR_IS_TRUE_IDENTICAL(&_2$$4)) {
-				zephir_read_property_cached(&_3$$5, this_ptr, _zephir_prop_0, 323, PH_NOISY_CC | PH_READONLY);
+				zephir_read_property_cached(&_3$$5, this_ptr, _zephir_prop_0, 324, PH_NOISY_CC | PH_READONLY);
 				ZEPHIR_CALL_METHOD(&_4$$5, &file, "getfilename", NULL, 0);
 				zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(&_5$$5);
 				ZEPHIR_CONCAT_VV(&_5$$5, &_3$$5, &_4$$5);
-				zephir_array_append(&files, &_5$$5, PH_SEPARATE, "phalcon/Storage/Adapter/Stream.zep", 133);
+				zephir_array_append(&files, &_5$$5, PH_SEPARATE, "phalcon/Storage/Adapter/Stream.zep", 124);
 			}
 		} ZEND_HASH_FOREACH_END();
 	} else {
@@ -321,12 +319,12 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, getKeys)
 				ZEPHIR_CALL_METHOD(&_8$$6, &file, "isfile", NULL, 0);
 				zephir_check_call_status();
 				if (ZEPHIR_IS_TRUE_IDENTICAL(&_8$$6)) {
-					zephir_read_property_cached(&_9$$7, this_ptr, _zephir_prop_0, 323, PH_NOISY_CC | PH_READONLY);
+					zephir_read_property_cached(&_9$$7, this_ptr, _zephir_prop_0, 324, PH_NOISY_CC | PH_READONLY);
 					ZEPHIR_CALL_METHOD(&_10$$7, &file, "getfilename", NULL, 0);
 					zephir_check_call_status();
 					ZEPHIR_INIT_NVAR(&_11$$7);
 					ZEPHIR_CONCAT_VV(&_11$$7, &_9$$7, &_10$$7);
-					zephir_array_append(&files, &_11$$7, PH_SEPARATE, "phalcon/Storage/Adapter/Stream.zep", 133);
+					zephir_array_append(&files, &_11$$7, PH_SEPARATE, "phalcon/Storage/Adapter/Stream.zep", 124);
 				}
 		}
 	}
@@ -339,33 +337,28 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, getKeys)
 /**
  * Stores data in the adapter forever. The key needs to manually deleted
  * from the adapter.
- *
- * @param string $key
- * @param mixed  $value
- *
- * @return bool
  */
 PHP_METHOD(Phalcon_Storage_Adapter_Stream, setForever)
 {
 	zval payload;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval key_zv, *value, value_sub, _0, _1;
+	zval key_zv, *data, data_sub, _0, _1;
 	zend_string *key = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&key_zv);
-	ZVAL_UNDEF(&value_sub);
+	ZVAL_UNDEF(&data_sub);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&payload);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_STR(key)
-		Z_PARAM_ZVAL(value)
+		Z_PARAM_ZVAL(data)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	value = ZEND_CALL_ARG(execute_data, 2);
+	data = ZEND_CALL_ARG(execute_data, 2);
 	zephir_memory_observe(&key_zv);
 	ZVAL_STR_COPY(&key_zv, key);
 	ZEPHIR_INIT_VAR(&payload);
@@ -374,7 +367,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, setForever)
 	zephir_time(&_0);
 	zephir_array_update_string(&payload, SL("created"), &_0, PH_COPY | PH_SEPARATE);
 	add_assoc_stringl_ex(&payload, SL("ttl"), SL("forever"));
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getserializeddata", NULL, 0, value);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getserializeddata", NULL, 0, data);
 	zephir_check_call_status();
 	zephir_array_update_string(&payload, SL("content"), &_1, PH_COPY | PH_SEPARATE);
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "storepayload", NULL, 288, &payload, &key_zv);
@@ -384,11 +377,6 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, setForever)
 
 /**
  * Decrements a stored number
- *
- * @param string $key
- * @param int    $value
- *
- * @return bool|int
  */
 PHP_METHOD(Phalcon_Storage_Adapter_Stream, doDecrement)
 {
@@ -438,10 +426,6 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, doDecrement)
 
 /**
  * Deletes data from the adapter
- *
- * @param string $key
- *
- * @return bool
  */
 PHP_METHOD(Phalcon_Storage_Adapter_Stream, doDelete)
 {
@@ -475,11 +459,6 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, doDelete)
 
 /**
  * Reads data from the adapter
- *
- * @param string     $key
- * @param mixed|null $defaultValue
- *
- * @return mixed|null
  */
 PHP_METHOD(Phalcon_Storage_Adapter_Stream, doGet)
 {
@@ -547,10 +526,6 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, doGet)
 
 /**
  * Checks if an element exists in the cache and is not expired
- *
- * @param string $key
- *
- * @return bool
  */
 PHP_METHOD(Phalcon_Storage_Adapter_Stream, doHas)
 {
@@ -591,11 +566,6 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, doHas)
 
 /**
  * Increments a stored number
- *
- * @param string $key
- * @param int    $value
- *
- * @return bool|int
  */
 PHP_METHOD(Phalcon_Storage_Adapter_Stream, doIncrement)
 {
@@ -649,12 +619,6 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, doIncrement)
  * is `0` or a negative number, a `delete()` will be issued, since this
  * item has expired. If you need to set this key forever, you should use
  * the `setForever()` method.
- *
- * @param string                $key
- * @param mixed                 $value
- * @param DateInterval|int|null $ttl
- *
- * @return bool
  */
 PHP_METHOD(Phalcon_Storage_Adapter_Stream, doSet)
 {
@@ -719,10 +683,6 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, doSet)
 
 /**
  * Returns the folder based on the storageDir and the prefix
- *
- * @param string $key
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Storage_Adapter_Stream, getDir)
 {
@@ -764,8 +724,8 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, getDir)
 		zephir_memory_observe(&key_zv);
 	ZVAL_STR_COPY(&key_zv, key);
 	}
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 322, PH_NOISY_CC | PH_READONLY);
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 323, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 323, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 324, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_2);
 	ZEPHIR_CONCAT_VV(&_2, &_0, &_1);
 	ZEPHIR_CALL_METHOD(&dirPrefix, this_ptr, "todirseparator", NULL, 0, &_2);
@@ -784,10 +744,6 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, getDir)
 
 /**
  * Returns the full path to the file
- *
- * @param string $key
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Storage_Adapter_Stream, getFilepath)
 {
@@ -817,10 +773,6 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, getFilepath)
 
 /**
  * Returns an iterator for the directory contents
- *
- * @param string $dir
- *
- * @return Iterator
  */
 PHP_METHOD(Phalcon_Storage_Adapter_Stream, getIterator)
 {
@@ -854,10 +806,6 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, getIterator)
 /**
  * Gets the file contents and returns an array or an error if something
  * went wrong
- *
- * @param string $filepath
- *
- * @return array
  */
 PHP_METHOD(Phalcon_Storage_Adapter_Stream, getPayload)
 {
@@ -931,10 +879,6 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, getPayload)
 
 /**
  * Returns if the cache has expired for this item or not
- *
- * @param array $payload
- *
- * @return bool
  */
 PHP_METHOD(Phalcon_Storage_Adapter_Stream, isExpired)
 {
@@ -984,11 +928,6 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, isExpired)
 
 /**
  * Stores an array payload on the file system
- *
- * @param array  $payload
- * @param string $key
- *
- * @return bool
  */
 PHP_METHOD(Phalcon_Storage_Adapter_Stream, storePayload)
 {

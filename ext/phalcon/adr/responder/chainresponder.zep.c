@@ -74,7 +74,7 @@ PHP_METHOD(Phalcon_ADR_Responder_ChainResponder, __construct)
 	} else {
 		zephir_get_arrval(&links, links_param);
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 91, &links);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 92, &links);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -108,7 +108,7 @@ PHP_METHOD(Phalcon_ADR_Responder_ChainResponder, __invoke)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 3, 0, &request, &response, &payload);
 	ZEPHIR_SEPARATE_PARAM(response);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 91, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 92, PH_NOISY_CC | PH_READONLY);
 	zephir_is_iterable(&_0, 0, "phalcon/ADR/Responder/ChainResponder.zep", 48);
 	if (Z_TYPE_P(&_0) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_0), _1)
@@ -169,7 +169,7 @@ PHP_METHOD(Phalcon_ADR_Responder_ChainResponder, with)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &link);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 91, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 92, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&links, &_0);
 	zephir_array_append(&links, link, PH_SEPARATE, "phalcon/ADR/Responder/ChainResponder.zep", 56);
 	object_init_ex(return_value, phalcon_adr_responder_chainresponder_ce);

@@ -14,6 +14,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Redis, doDeleteMultiple);
 PHP_METHOD(Phalcon_Storage_Adapter_Redis, doHas);
 PHP_METHOD(Phalcon_Storage_Adapter_Redis, doIncrement);
 PHP_METHOD(Phalcon_Storage_Adapter_Redis, doSet);
+PHP_METHOD(Phalcon_Storage_Adapter_Redis, getDefaultOptions);
 PHP_METHOD(Phalcon_Storage_Adapter_Redis, checkAuth);
 PHP_METHOD(Phalcon_Storage_Adapter_Redis, checkConnect);
 PHP_METHOD(Phalcon_Storage_Adapter_Redis, checkIndex);
@@ -36,10 +37,10 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_adapter_redis_setforever, 0, 2, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
-	ZEND_ARG_INFO(0, value)
+	ZEND_ARG_INFO(0, data)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_storage_adapter_redis_dodecrement, 0, 1, MAY_BE_LONG|MAY_BE_BOOL)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_storage_adapter_redis_dodecrement, 0, 1, MAY_BE_FALSE|MAY_BE_LONG)
 	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, value, IS_LONG, 0, "1")
 ZEND_END_ARG_INFO()
@@ -56,7 +57,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_adapter_redis_do
 	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_storage_adapter_redis_doincrement, 0, 1, MAY_BE_LONG|MAY_BE_BOOL)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_storage_adapter_redis_doincrement, 0, 1, MAY_BE_FALSE|MAY_BE_LONG)
 	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, value, IS_LONG, 0, "1")
 ZEND_END_ARG_INFO()
@@ -65,6 +66,10 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_adapter_redis_do
 	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
 	ZEND_ARG_INFO(0, value)
 	ZEND_ARG_INFO(0, ttl)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_adapter_redis_getdefaultoptions, 0, 1, IS_ARRAY, 0)
+	ZEND_ARG_ARRAY_INFO(0, options, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_storage_adapter_redis_checkauth, 0, 1, MAY_BE_STATIC)
@@ -96,6 +101,7 @@ PHP_ME(Phalcon_Storage_Adapter_Redis, getAdapter, arginfo_phalcon_storage_adapte
 	PHP_ME(Phalcon_Storage_Adapter_Redis, doHas, arginfo_phalcon_storage_adapter_redis_dohas, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Storage_Adapter_Redis, doIncrement, arginfo_phalcon_storage_adapter_redis_doincrement, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Storage_Adapter_Redis, doSet, arginfo_phalcon_storage_adapter_redis_doset, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Storage_Adapter_Redis, getDefaultOptions, arginfo_phalcon_storage_adapter_redis_getdefaultoptions, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Storage_Adapter_Redis, checkAuth, arginfo_phalcon_storage_adapter_redis_checkauth, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Storage_Adapter_Redis, checkConnect, arginfo_phalcon_storage_adapter_redis_checkconnect, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Storage_Adapter_Redis, checkIndex, arginfo_phalcon_storage_adapter_redis_checkindex, ZEND_ACC_PRIVATE)

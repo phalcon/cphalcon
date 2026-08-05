@@ -107,11 +107,11 @@ PHP_METHOD(Phalcon_ADR_Pipeline, __construct)
 		index = 0;
 	} else {
 		}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 354, &middleware);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 355, terminal);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 355, &middleware);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 356, terminal);
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, index);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 356, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 357, &_0);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -153,24 +153,24 @@ PHP_METHOD(Phalcon_ADR_Pipeline, __invoke)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &request);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 356, PH_NOISY_CC | PH_READONLY);
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 354, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 357, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 355, PH_NOISY_CC | PH_READONLY);
 	if (ZEPHIR_GE_LONG(&_0, zephir_fast_count_int(&_1))) {
-		zephir_read_property_cached(&_2$$3, this_ptr, _zephir_prop_2, 355, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_2$$3, this_ptr, _zephir_prop_2, 356, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_RETURN_CALL_METHOD(&_2$$3, "__invoke", NULL, 0, request);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
-	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_1, 354, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_1, 355, PH_NOISY_CC | PH_READONLY);
 	zephir_memory_observe(&mw);
 	zephir_memory_observe(&_4);
-	zephir_read_property_cached(&_4, this_ptr, _zephir_prop_0, 356, PH_NOISY_CC);
+	zephir_read_property_cached(&_4, this_ptr, _zephir_prop_0, 357, PH_NOISY_CC);
 	zephir_array_fetch(&mw, &_3, &_4, PH_NOISY, "phalcon/ADR/Pipeline.zep", 55);
 	ZEPHIR_INIT_VAR(&next);
 	object_init_ex(&next, phalcon_adr_pipeline_ce);
-	zephir_read_property_cached(&_5, this_ptr, _zephir_prop_1, 354, PH_NOISY_CC | PH_READONLY);
-	zephir_read_property_cached(&_6, this_ptr, _zephir_prop_2, 355, PH_NOISY_CC | PH_READONLY);
-	zephir_read_property_cached(&_7, this_ptr, _zephir_prop_0, 356, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_5, this_ptr, _zephir_prop_1, 355, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_6, this_ptr, _zephir_prop_2, 356, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_7, this_ptr, _zephir_prop_0, 357, PH_NOISY_CC | PH_READONLY);
 	ZVAL_LONG(&_8, (zephir_get_numberval(&_7) + 1));
 	ZEPHIR_CALL_METHOD(NULL, &next, "__construct", NULL, 311, &_5, &_6, &_8);
 	zephir_check_call_status();
