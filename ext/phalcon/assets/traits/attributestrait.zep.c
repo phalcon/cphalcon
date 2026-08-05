@@ -37,16 +37,21 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Traits_AttributesTrait)
 	ZEPHIR_REGISTER_TRAIT(Phalcon\\Assets\\Traits, AttributesTrait, phalcon, assets_traits_attributestrait, phalcon_assets_traits_attributestrait_method_entry);
 
 	/**
-	 * @var array
+	 * @var array<string, string>
 	 */
-	zend_declare_property_null(phalcon_assets_traits_attributestrait_ce, SL("attributes"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		array_init_size(&_zc0, 1);
+		zephir_declare_typed_property(phalcon_assets_traits_attributestrait_ce, SL("attributes"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_ARRAY, NULL, 0);
+	}
+
 	return SUCCESS;
 }
 
 /**
  * Gets extra HTML attributes.
  *
- * @return array
+ * @return array<string, string>
  */
 PHP_METHOD(Phalcon_Assets_Traits_AttributesTrait, getAttributes)
 {

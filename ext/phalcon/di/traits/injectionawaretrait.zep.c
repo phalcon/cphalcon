@@ -1,11 +1,11 @@
 
 #ifdef HAVE_CONFIG_H
-#include "../../ext_config.h"
+#include "../../../ext_config.h"
 #endif
 
 #include <php.h>
-#include "../../php_ext.h"
-#include "../../ext.h"
+#include "../../../php_ext.h"
+#include "../../../ext.h"
 
 #include <Zend/zend_operators.h>
 #include <Zend/zend_exceptions.h>
@@ -30,10 +30,16 @@
  */
 /**
  * This abstract class offers common access to the DI in a class
+ *
+ * Class AbstractInjectionAware
+ *
+ * @package Phalcon\Di
+ *
+ * @property object $container
  */
-ZEPHIR_INIT_CLASS(Phalcon_Di_AbstractInjectionAware)
+ZEPHIR_INIT_CLASS(Phalcon_Di_Traits_InjectionAwareTrait)
 {
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Di, AbstractInjectionAware, phalcon, di_abstractinjectionaware, zend_standard_class_def, phalcon_di_abstractinjectionaware_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
+	ZEPHIR_REGISTER_TRAIT(Phalcon\\Di\\Traits, InjectionAwareTrait, phalcon, di_traits_injectionawaretrait, phalcon_di_traits_injectionawaretrait_method_entry);
 
 	/**
 	 * Dependency Injector
@@ -43,17 +49,16 @@ ZEPHIR_INIT_CLASS(Phalcon_Di_AbstractInjectionAware)
 	{
 		zval _zc0;
 		ZVAL_NULL(&_zc0);
-		zephir_declare_typed_property(phalcon_di_abstractinjectionaware_ce, SL("container"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_NULL, SL("Phalcon\\Di\\DiInterface"));
+		zephir_declare_typed_property(phalcon_di_traits_injectionawaretrait_ce, SL("container"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_NULL, SL("Phalcon\\Di\\DiInterface"));
 	}
 
-	zend_class_implements(phalcon_di_abstractinjectionaware_ce, 1, phalcon_di_injectionawareinterface_ce);
 	return SUCCESS;
 }
 
 /**
  * Returns the internal dependency injector
  */
-PHP_METHOD(Phalcon_Di_AbstractInjectionAware, getDI)
+PHP_METHOD(Phalcon_Di_Traits_InjectionAwareTrait, getDI)
 {
 
 	RETURN_MEMBER(getThis(), "container");
@@ -62,7 +67,7 @@ PHP_METHOD(Phalcon_Di_AbstractInjectionAware, getDI)
 /**
  * Sets the dependency injector
  */
-PHP_METHOD(Phalcon_Di_AbstractInjectionAware, setDI)
+PHP_METHOD(Phalcon_Di_Traits_InjectionAwareTrait, setDI)
 {
 	zval *container, container_sub;
 	zval *this_ptr = getThis();
@@ -77,7 +82,7 @@ PHP_METHOD(Phalcon_Di_AbstractInjectionAware, setDI)
 		Z_PARAM_OBJECT_OF_CLASS(container, phalcon_di_diinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &container);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 11, container);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 665, container);
 }
 
 /**
@@ -85,7 +90,7 @@ PHP_METHOD(Phalcon_Di_AbstractInjectionAware, setDI)
  *
  * @return void
  */
-PHP_METHOD(Phalcon_Di_AbstractInjectionAware, checkContainer)
+PHP_METHOD(Phalcon_Di_Traits_InjectionAwareTrait, checkContainer)
 {
 	zval _4$$3;
 	zend_class_entry *_3$$3;
@@ -126,7 +131,7 @@ PHP_METHOD(Phalcon_Di_AbstractInjectionAware, checkContainer)
 		code = 0;
 	} else {
 		}
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 11, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 665, PH_NOISY_CC | PH_READONLY);
 	if (Z_TYPE_P(&_0) == IS_NULL) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		zephir_fetch_safe_class(&_2$$3, &exceptionClass_zv);

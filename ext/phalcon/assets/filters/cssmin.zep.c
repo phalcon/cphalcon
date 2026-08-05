@@ -34,9 +34,9 @@
  * @deprecated Use Phalcon\Assets\Filters\None, or a custom
  *             Phalcon\Assets\FilterInterface wrapping a real CSS minifier.
  */
-ZEPHIR_INIT_CLASS(Phalcon_Assets_Filters_Cssmin)
+ZEPHIR_INIT_CLASS(Phalcon_Assets_Filters_CssMin)
 {
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Assets\\Filters, Cssmin, phalcon, assets_filters_cssmin, phalcon_assets_filters_cssmin_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Assets\\Filters, CssMin, phalcon, assets_filters_cssmin, phalcon_assets_filters_cssmin_method_entry, 0);
 
 	zend_class_implements(phalcon_assets_filters_cssmin_ce, 1, phalcon_assets_filterinterface_ce);
 	return SUCCESS;
@@ -45,7 +45,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Filters_Cssmin)
 /**
  * Filters the content using CSSMIN
  */
-PHP_METHOD(Phalcon_Assets_Filters_Cssmin, filter)
+PHP_METHOD(Phalcon_Assets_Filters_CssMin, filter)
 {
 	zval content_zv;
 	zend_string *content = NULL;

@@ -35,9 +35,9 @@
  * @deprecated Use Phalcon\Assets\Filters\None, or a custom
  *             Phalcon\Assets\FilterInterface wrapping a real JS minifier.
  */
-ZEPHIR_INIT_CLASS(Phalcon_Assets_Filters_Jsmin)
+ZEPHIR_INIT_CLASS(Phalcon_Assets_Filters_JsMin)
 {
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Assets\\Filters, Jsmin, phalcon, assets_filters_jsmin, phalcon_assets_filters_jsmin_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Assets\\Filters, JsMin, phalcon, assets_filters_jsmin, phalcon_assets_filters_jsmin_method_entry, 0);
 
 	zend_class_implements(phalcon_assets_filters_jsmin_ce, 1, phalcon_assets_filterinterface_ce);
 	return SUCCESS;
@@ -46,7 +46,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Filters_Jsmin)
 /**
  * Filters the content using JSMIN
  */
-PHP_METHOD(Phalcon_Assets_Filters_Jsmin, filter)
+PHP_METHOD(Phalcon_Assets_Filters_JsMin, filter)
 {
 	zval content_zv;
 	zend_string *content = NULL;

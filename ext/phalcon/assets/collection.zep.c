@@ -32,66 +32,107 @@
  */
 /**
  * Collection of asset objects
+ *
+ * @template TKey of array-key
+ * @template TValue of AssetInterface
+ * @implements IteratorAggregate<TKey, TValue>
  */
 ZEPHIR_INIT_CLASS(Phalcon_Assets_Collection)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Assets, Collection, phalcon, assets_collection, phalcon_assets_collection_method_entry, 0);
 
 	/**
-	 * @var array
+	 * @var array<string, AssetInterface>
 	 */
-	zend_declare_property_null(phalcon_assets_collection_ce, SL("assets"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		array_init_size(&_zc0, 1);
+		zephir_declare_typed_property(phalcon_assets_collection_ce, SL("assets"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_ARRAY, NULL, 0);
+	}
+
 	/**
 	 * Should version be determined from file modification time
-	 *
-	 * @var bool
 	 */
-	zend_declare_property_bool(phalcon_assets_collection_ce, SL("autoVersion"), 0, ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_BOOL(&_zc0, 0);
+		zephir_declare_typed_property(phalcon_assets_collection_ce, SL("autoVersion"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_BOOL, NULL, 0);
+	}
+
 	/**
-	 * @var array
+	 * @var AssetInterface[]
 	 */
-	zend_declare_property_null(phalcon_assets_collection_ce, SL("codes"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		array_init_size(&_zc0, 1);
+		zephir_declare_typed_property(phalcon_assets_collection_ce, SL("codes"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_ARRAY, NULL, 0);
+	}
+
 	/**
-	 * @var array
+	 * @var FilterInterface[]
 	 */
-	zend_declare_property_null(phalcon_assets_collection_ce, SL("filters"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		array_init_size(&_zc0, 1);
+		zephir_declare_typed_property(phalcon_assets_collection_ce, SL("filters"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_ARRAY, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_BOOL(&_zc0, 1);
+		zephir_declare_typed_property(phalcon_assets_collection_ce, SL("join"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_BOOL, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_STRINGL(&_zc0, "", sizeof("") - 1);
+		zephir_declare_typed_property(phalcon_assets_collection_ce, SL("prefix"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_BOOL(&_zc0, 1);
+		zephir_declare_typed_property(phalcon_assets_collection_ce, SL("targetIsLocal"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_BOOL, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_STRINGL(&_zc0, "", sizeof("") - 1);
+		zephir_declare_typed_property(phalcon_assets_collection_ce, SL("version"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
+
 	/**
-	 * @var bool
+	 * @var array<string, string>
 	 */
-	zend_declare_property_bool(phalcon_assets_collection_ce, SL("join"), 1, ZEND_ACC_PROTECTED);
-	/**
-	 * @var string
-	 */
-	zend_declare_property_string(phalcon_assets_collection_ce, SL("prefix"), "", ZEND_ACC_PROTECTED);
-	/**
-	 * @var bool
-	 */
-	zend_declare_property_bool(phalcon_assets_collection_ce, SL("targetIsLocal"), 1, ZEND_ACC_PROTECTED);
-	/**
-	 * @var string
-	 */
-	zend_declare_property_string(phalcon_assets_collection_ce, SL("version"), "", ZEND_ACC_PROTECTED);
-	/**
-	 * @var array
-	 */
-	zend_declare_property_null(phalcon_assets_collection_ce, SL("attributes"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var bool
-	 */
-	zend_declare_property_bool(phalcon_assets_collection_ce, SL("isLocal"), 1, ZEND_ACC_PROTECTED);
-	/**
-	 * @var string
-	 */
-	zend_declare_property_string(phalcon_assets_collection_ce, SL("sourcePath"), "", ZEND_ACC_PROTECTED);
-	/**
-	 * @var string
-	 */
-	zend_declare_property_string(phalcon_assets_collection_ce, SL("targetPath"), "", ZEND_ACC_PROTECTED);
-	/**
-	 * @var string
-	 */
-	zend_declare_property_string(phalcon_assets_collection_ce, SL("targetUri"), "", ZEND_ACC_PROTECTED);
-	phalcon_assets_collection_ce->create_object = zephir_init_properties_Phalcon_Assets_Collection;
+	{
+		zval _zc0;
+		array_init_size(&_zc0, 1);
+		zephir_declare_typed_property(phalcon_assets_collection_ce, SL("attributes"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_ARRAY, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_BOOL(&_zc0, 1);
+		zephir_declare_typed_property(phalcon_assets_collection_ce, SL("isLocal"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_BOOL, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_STRINGL(&_zc0, "", sizeof("") - 1);
+		zephir_declare_typed_property(phalcon_assets_collection_ce, SL("sourcePath"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_STRINGL(&_zc0, "", sizeof("") - 1);
+		zephir_declare_typed_property(phalcon_assets_collection_ce, SL("targetPath"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_STRINGL(&_zc0, "", sizeof("") - 1);
+		zephir_declare_typed_property(phalcon_assets_collection_ce, SL("targetUri"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
 
 	zend_class_implements(phalcon_assets_collection_ce, 1, zend_ce_countable);
 	zend_class_implements(phalcon_assets_collection_ce, 1, zend_ce_aggregate);
@@ -100,8 +141,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Collection)
 
 /**
  * Adds an asset to the collection
- *
- * @param AssetInterface $asset
  */
 PHP_METHOD(Phalcon_Assets_Collection, add)
 {
@@ -125,12 +164,7 @@ PHP_METHOD(Phalcon_Assets_Collection, add)
 /**
  * Adds a CSS asset to the collection
  *
- * @param string      $path
- * @param bool|null   $isLocal
- * @param bool        $filter
- * @param array       $attributes
- * @param string|null $version
- * @param bool        $autoVersion
+ * @param array<string, string> $attributes
  */
 PHP_METHOD(Phalcon_Assets_Collection, addCss)
 {
@@ -263,9 +297,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addInline)
 /**
  * Adds an inline CSS to the collection
  *
- * @param string $content
- * @param bool   $filter
- * @param array  $attributes
+ * @param array<string, string> $attributes
  */
 PHP_METHOD(Phalcon_Assets_Collection, addInlineCss)
 {
@@ -322,9 +354,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addInlineCss)
 /**
  * Adds an inline JavaScript to the collection
  *
- * @param string $content
- * @param bool   $filter
- * @param array  $attributes
+ * @param array<string, string> $attributes
  */
 PHP_METHOD(Phalcon_Assets_Collection, addInlineJs)
 {
@@ -381,12 +411,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addInlineJs)
 /**
  * Adds a JavaScript asset to the collection
  *
- * @param string      $path
- * @param bool|null   $isLocal
- * @param bool        $filter
- * @param array       $attributes
- * @param string|null $version
- * @param bool        $autoVersion
+ * @param array<string, string> $attributes
  */
 PHP_METHOD(Phalcon_Assets_Collection, addJs)
 {
@@ -497,7 +522,7 @@ PHP_METHOD(Phalcon_Assets_Collection, count)
 /**
  * Return the stored assets
  *
- * @return array
+ * @return array<string, AssetInterface>
  */
 PHP_METHOD(Phalcon_Assets_Collection, getAssets)
 {
@@ -508,7 +533,7 @@ PHP_METHOD(Phalcon_Assets_Collection, getAssets)
 /**
  * Return the stored codes
  *
- * @return array
+ * @return AssetInterface[]
  */
 PHP_METHOD(Phalcon_Assets_Collection, getCodes)
 {
@@ -519,7 +544,7 @@ PHP_METHOD(Phalcon_Assets_Collection, getCodes)
 /**
  * Return the stored filters
  *
- * @return array
+ * @return FilterInterface[]
  */
 PHP_METHOD(Phalcon_Assets_Collection, getFilters)
 {
@@ -528,9 +553,7 @@ PHP_METHOD(Phalcon_Assets_Collection, getFilters)
 }
 
 /**
- * Returns the generator of the class
- *
- * @link https://php.net/manual/en/iteratoraggregate.getiterator.php
+ * Returns the iterator of the class
  */
 PHP_METHOD(Phalcon_Assets_Collection, getIterator)
 {
@@ -734,7 +757,7 @@ PHP_METHOD(Phalcon_Assets_Collection, join)
 /**
  * Sets extra HTML attributes
  *
- * @param array $attributes
+ * @param array<string, string> $attributes
  */
 PHP_METHOD(Phalcon_Assets_Collection, setAttributes)
 {
@@ -791,7 +814,7 @@ PHP_METHOD(Phalcon_Assets_Collection, setAutoVersion)
 /**
  * Sets an array of filters in the collection
  *
- * @param array $filters
+ * @param FilterInterface[] $filters
  */
 PHP_METHOD(Phalcon_Assets_Collection, setFilters)
 {
@@ -937,6 +960,8 @@ PHP_METHOD(Phalcon_Assets_Collection, addAsset)
 
 /**
  * Adds an inline asset
+ *
+ * @param array<string, string> $attributes
  */
 PHP_METHOD(Phalcon_Assets_Collection, processAdd)
 {
@@ -1064,6 +1089,8 @@ PHP_METHOD(Phalcon_Assets_Collection, processAdd)
 
 /**
  * Adds an inline asset
+ *
+ * @param array<string, string> $attributes
  */
 PHP_METHOD(Phalcon_Assets_Collection, processAddInline)
 {
@@ -1147,9 +1174,9 @@ PHP_METHOD(Phalcon_Assets_Collection, processAddInline)
 }
 
 /**
- * @param array $attributes
+ * @param array<string, string> $attributes
  *
- * @return array
+ * @return array<string, string>
  */
 PHP_METHOD(Phalcon_Assets_Collection, processAttributes)
 {
@@ -1189,7 +1216,7 @@ PHP_METHOD(Phalcon_Assets_Collection, processAttributes)
 /**
  * Gets extra HTML attributes.
  *
- * @return array
+ * @return array<string, string>
  */
 PHP_METHOD(Phalcon_Assets_Collection, getAttributes)
 {
@@ -1653,27 +1680,18 @@ PHP_METHOD(Phalcon_Assets_Collection, phpUnlink)
 	RETURN_MM();
 }
 
-/**
- * @return string
- */
 PHP_METHOD(Phalcon_Assets_Collection, getSourcePath)
 {
 
 	RETURN_MEMBER_TYPED(getThis(), "sourcePath", IS_STRING);
 }
 
-/**
- * @return string
- */
 PHP_METHOD(Phalcon_Assets_Collection, getTargetPath)
 {
 
 	RETURN_MEMBER_TYPED(getThis(), "targetPath", IS_STRING);
 }
 
-/**
- * @return string
- */
 PHP_METHOD(Phalcon_Assets_Collection, getTargetUri)
 {
 
@@ -1682,8 +1700,6 @@ PHP_METHOD(Phalcon_Assets_Collection, getTargetUri)
 
 /**
  * Checks if the asset is local or not
- *
- * @return bool
  */
 PHP_METHOD(Phalcon_Assets_Collection, isLocal)
 {
@@ -1693,10 +1709,6 @@ PHP_METHOD(Phalcon_Assets_Collection, isLocal)
 
 /**
  * Sets if the asset is local or external
- *
- * @param bool $flag
- *
- * @return static
  */
 PHP_METHOD(Phalcon_Assets_Collection, setIsLocal)
 {
@@ -1725,10 +1737,6 @@ PHP_METHOD(Phalcon_Assets_Collection, setIsLocal)
 
 /**
  * Sets the asset's source path
- *
- * @param string $sourcePath
- *
- * @return static
  */
 PHP_METHOD(Phalcon_Assets_Collection, setSourcePath)
 {
@@ -1752,10 +1760,6 @@ PHP_METHOD(Phalcon_Assets_Collection, setSourcePath)
 
 /**
  * Sets the asset's target path
- *
- * @param string $targetPath
- *
- * @return static
  */
 PHP_METHOD(Phalcon_Assets_Collection, setTargetPath)
 {
@@ -1779,10 +1783,6 @@ PHP_METHOD(Phalcon_Assets_Collection, setTargetPath)
 
 /**
  * Sets a target uri for the generated HTML
- *
- * @param string $targetUri
- *
- * @return static
  */
 PHP_METHOD(Phalcon_Assets_Collection, setTargetUri)
 {
@@ -1802,46 +1802,5 @@ PHP_METHOD(Phalcon_Assets_Collection, setTargetUri)
 	ZVAL_STR(&targetUri_zv, targetUri);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 410, &targetUri_zv);
 	RETURN_THISW();
-}
-
-zend_object *zephir_init_properties_Phalcon_Assets_Collection(zend_class_entry *class_type)
-{
-		zval _0, _2, _4, _1$$3, _3$$4, _5$$5;
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-		ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_4);
-	ZVAL_UNDEF(&_1$$3);
-	ZVAL_UNDEF(&_3$$4);
-	ZVAL_UNDEF(&_5$$5);
-	
-
-		ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-		zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	
-	{
-		zval local_this_ptr, *this_ptr = &local_this_ptr;
-		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		zephir_read_property_ex(&_0, this_ptr, ZEND_STRL("filters"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_0) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_1$$3);
-			array_init(&_1$$3);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("filters"), &_1$$3);
-		}
-		zephir_read_property_ex(&_2, this_ptr, ZEND_STRL("codes"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_2) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_3$$4);
-			array_init(&_3$$4);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("codes"), &_3$$4);
-		}
-		zephir_read_property_ex(&_4, this_ptr, ZEND_STRL("assets"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_4) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_5$$5);
-			array_init(&_5$$5);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("assets"), &_5$$5);
-		}
-		ZEPHIR_MM_RESTORE();
-		return Z_OBJ_P(this_ptr);
-	}
 }
 

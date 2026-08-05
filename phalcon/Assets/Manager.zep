@@ -22,6 +22,7 @@ use Phalcon\Assets\Exceptions\InvalidTargetPath;
 use Phalcon\Assets\Exceptions\TargetPathIsDirectory;
 use Phalcon\Assets\Inline\Css as InlineCss;
 use Phalcon\Assets\Inline\Js as InlineJs;
+use Phalcon\Di\DiInterface;
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Di\Traits\InjectionAwareTrait;
 use Phalcon\Html\Helper\Link;

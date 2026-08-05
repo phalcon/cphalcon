@@ -33,46 +33,45 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Traits_SourceTargetTrait)
 {
 	ZEPHIR_REGISTER_TRAIT(Phalcon\\Assets\\Traits, SourceTargetTrait, phalcon, assets_traits_sourcetargettrait, phalcon_assets_traits_sourcetargettrait_method_entry);
 
-	/**
-	 * @var bool
-	 */
-	zend_declare_property_bool(phalcon_assets_traits_sourcetargettrait_ce, SL("isLocal"), 1, ZEND_ACC_PROTECTED);
-	/**
-	 * @var string
-	 */
-	zend_declare_property_string(phalcon_assets_traits_sourcetargettrait_ce, SL("sourcePath"), "", ZEND_ACC_PROTECTED);
-	/**
-	 * @var string
-	 */
-	zend_declare_property_string(phalcon_assets_traits_sourcetargettrait_ce, SL("targetPath"), "", ZEND_ACC_PROTECTED);
-	/**
-	 * @var string
-	 */
-	zend_declare_property_string(phalcon_assets_traits_sourcetargettrait_ce, SL("targetUri"), "", ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_BOOL(&_zc0, 1);
+		zephir_declare_typed_property(phalcon_assets_traits_sourcetargettrait_ce, SL("isLocal"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_BOOL, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_STRINGL(&_zc0, "", sizeof("") - 1);
+		zephir_declare_typed_property(phalcon_assets_traits_sourcetargettrait_ce, SL("sourcePath"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_STRINGL(&_zc0, "", sizeof("") - 1);
+		zephir_declare_typed_property(phalcon_assets_traits_sourcetargettrait_ce, SL("targetPath"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_STRINGL(&_zc0, "", sizeof("") - 1);
+		zephir_declare_typed_property(phalcon_assets_traits_sourcetargettrait_ce, SL("targetUri"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
+
 	return SUCCESS;
 }
 
-/**
- * @return string
- */
 PHP_METHOD(Phalcon_Assets_Traits_SourceTargetTrait, getSourcePath)
 {
 
 	RETURN_MEMBER_TYPED(getThis(), "sourcePath", IS_STRING);
 }
 
-/**
- * @return string
- */
 PHP_METHOD(Phalcon_Assets_Traits_SourceTargetTrait, getTargetPath)
 {
 
 	RETURN_MEMBER_TYPED(getThis(), "targetPath", IS_STRING);
 }
 
-/**
- * @return string
- */
 PHP_METHOD(Phalcon_Assets_Traits_SourceTargetTrait, getTargetUri)
 {
 
@@ -81,8 +80,6 @@ PHP_METHOD(Phalcon_Assets_Traits_SourceTargetTrait, getTargetUri)
 
 /**
  * Checks if the asset is local or not
- *
- * @return bool
  */
 PHP_METHOD(Phalcon_Assets_Traits_SourceTargetTrait, isLocal)
 {
@@ -92,10 +89,6 @@ PHP_METHOD(Phalcon_Assets_Traits_SourceTargetTrait, isLocal)
 
 /**
  * Sets if the asset is local or external
- *
- * @param bool $flag
- *
- * @return static
  */
 PHP_METHOD(Phalcon_Assets_Traits_SourceTargetTrait, setIsLocal)
 {
@@ -124,10 +117,6 @@ PHP_METHOD(Phalcon_Assets_Traits_SourceTargetTrait, setIsLocal)
 
 /**
  * Sets the asset's source path
- *
- * @param string $sourcePath
- *
- * @return static
  */
 PHP_METHOD(Phalcon_Assets_Traits_SourceTargetTrait, setSourcePath)
 {
@@ -151,10 +140,6 @@ PHP_METHOD(Phalcon_Assets_Traits_SourceTargetTrait, setSourcePath)
 
 /**
  * Sets the asset's target path
- *
- * @param string $targetPath
- *
- * @return static
  */
 PHP_METHOD(Phalcon_Assets_Traits_SourceTargetTrait, setTargetPath)
 {
@@ -178,10 +163,6 @@ PHP_METHOD(Phalcon_Assets_Traits_SourceTargetTrait, setTargetPath)
 
 /**
  * Sets a target uri for the generated HTML
- *
- * @param string $targetUri
- *
- * @return static
  */
 PHP_METHOD(Phalcon_Assets_Traits_SourceTargetTrait, setTargetUri)
 {

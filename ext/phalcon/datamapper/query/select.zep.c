@@ -150,7 +150,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, __call)
 	}
 	ZEPHIR_INIT_VAR(&_5);
 	object_init_ex(&_5, phalcon_datamapper_pdo_exception_unknownquerymethod_ce);
-	ZEPHIR_CALL_METHOD(NULL, &_5, "__construct", NULL, 507, &method_zv);
+	ZEPHIR_CALL_METHOD(NULL, &_5, "__construct", NULL, 511, &method_zv);
 	zephir_check_call_status();
 	zephir_throw_exception_debug(&_5, "phalcon/DataMapper/Query/Select.zep", 94);
 	ZEPHIR_MM_RESTORE();
@@ -1000,7 +1000,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, subSelect)
 	object_init_ex(return_value, phalcon_datamapper_query_select_ce);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 575, PH_NOISY_CC | PH_READONLY);
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 577, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 508, &_0, &_1);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &_0, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -1127,9 +1127,9 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, getCurrentStatement)
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_2, this_ptr, "buildlimitearly", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_3, this_ptr, "buildcolumns", NULL, 509);
+	ZEPHIR_CALL_METHOD(&_3, this_ptr, "buildcolumns", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_4, this_ptr, "buildfrom", NULL, 510);
+	ZEPHIR_CALL_METHOD(&_4, this_ptr, "buildfrom", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_6);
 	ZVAL_STRING(&_6, "WHERE");

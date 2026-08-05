@@ -38,7 +38,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Inline_Js)
 }
 
 /**
- * Phalcon\Assets\Inline\Js constructor
+ * Js constructor.
+ *
+ * @param array<string, string> $attributes
  */
 PHP_METHOD(Phalcon_Assets_Inline_Js, __construct)
 {

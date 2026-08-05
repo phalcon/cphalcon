@@ -39,28 +39,41 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Inline)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Assets, Inline, phalcon, assets_inline, phalcon_assets_inline_method_entry, 0);
 
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_assets_inline_ce, SL("content"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_BOOL(&_zc0, 1);
+		zephir_declare_typed_property(phalcon_assets_inline_ce, SL("filter"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_BOOL, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_assets_inline_ce, SL("type"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
+
 	/**
-	 * @var string
+	 * @var array<string, string>
 	 */
-	zend_declare_property_null(phalcon_assets_inline_ce, SL("content"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var bool
-	 */
-	zend_declare_property_null(phalcon_assets_inline_ce, SL("filter"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var string
-	 */
-	zend_declare_property_null(phalcon_assets_inline_ce, SL("type"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var array
-	 */
-	zend_declare_property_null(phalcon_assets_inline_ce, SL("attributes"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		array_init_size(&_zc0, 1);
+		zephir_declare_typed_property(phalcon_assets_inline_ce, SL("attributes"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_ARRAY, NULL, 0);
+	}
+
 	zend_class_implements(phalcon_assets_inline_ce, 1, phalcon_assets_assetinterface_ce);
 	return SUCCESS;
 }
 
 /**
- * Phalcon\Assets\Inline constructor
+ * Inline constructor.
+ *
+ * @param array<string, string> $attributes
  */
 PHP_METHOD(Phalcon_Assets_Inline, __construct)
 {
@@ -162,6 +175,17 @@ PHP_METHOD(Phalcon_Assets_Inline, getAssetKey)
 }
 
 /**
+ * Gets extra HTML attributes.
+ *
+ * @return array<string, string>
+ */
+PHP_METHOD(Phalcon_Assets_Inline, getAttributes)
+{
+
+	RETURN_MEMBER_TYPED(getThis(), "attributes", IS_ARRAY);
+}
+
+/**
  * Gets if the asset content
  *
  * @return string
@@ -196,6 +220,8 @@ PHP_METHOD(Phalcon_Assets_Inline, getType)
 
 /**
  * Sets extra HTML attributes
+ *
+ * @param array<string, string> $attributes
  */
 PHP_METHOD(Phalcon_Assets_Inline, setAttributes)
 {
@@ -270,33 +296,6 @@ PHP_METHOD(Phalcon_Assets_Inline, setType)
 	ZVAL_STR(&type_zv, type);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 150, &type_zv);
 	RETURN_THISW();
-}
-
-/**
- * Gets extra HTML attributes.
- *
- * @return array
- */
-PHP_METHOD(Phalcon_Assets_Inline, getAttributes)
-{
-	zval _1;
-	zval _0;
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1);
-	static zend_string *_zephir_prop_0 = NULL;
-	if (UNEXPECTED(!_zephir_prop_0)) {
-		_zephir_prop_0 = zend_string_init("attributes", 10, 1);
-	}
-	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-
-	zephir_memory_observe(&_0);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 153, PH_NOISY_CC);
-	zephir_get_arrval(&_1, &_0);
-	RETURN_CTOR(&_1);
 }
 
 /**

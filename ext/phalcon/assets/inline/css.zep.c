@@ -38,7 +38,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Inline_Css)
 }
 
 /**
- * Phalcon\Assets\Inline\Css constructor
+ * Css constructor.
+ *
+ * @param array<string, string> $attributes
  */
 PHP_METHOD(Phalcon_Assets_Inline_Css, __construct)
 {
