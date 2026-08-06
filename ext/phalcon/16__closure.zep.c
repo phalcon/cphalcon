@@ -43,7 +43,7 @@ PHP_METHOD(phalcon_16__closure, __invoke)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_read_static_property_ce(&ioc, phalcon_16__closure_ce, SL("ioc"), PH_NOISY_CC);
 
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1395, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1397, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&id, this_ptr, "resolveargument", NULL, 0, &ioc, &_0);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(&ioc, "get", NULL, 0, &id);

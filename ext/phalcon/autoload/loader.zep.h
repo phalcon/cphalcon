@@ -18,6 +18,7 @@ PHP_METHOD(Phalcon_Autoload_Loader, getExtensions);
 PHP_METHOD(Phalcon_Autoload_Loader, getFiles);
 PHP_METHOD(Phalcon_Autoload_Loader, getFoundPath);
 PHP_METHOD(Phalcon_Autoload_Loader, getNamespaces);
+PHP_METHOD(Phalcon_Autoload_Loader, isRegistered);
 PHP_METHOD(Phalcon_Autoload_Loader, loadFiles);
 PHP_METHOD(Phalcon_Autoload_Loader, register);
 PHP_METHOD(Phalcon_Autoload_Loader, setClasses);
@@ -26,7 +27,6 @@ PHP_METHOD(Phalcon_Autoload_Loader, setExtensions);
 PHP_METHOD(Phalcon_Autoload_Loader, setFileCheckingCallback);
 PHP_METHOD(Phalcon_Autoload_Loader, setFiles);
 PHP_METHOD(Phalcon_Autoload_Loader, setNamespaces);
-PHP_METHOD(Phalcon_Autoload_Loader, isRegistered);
 PHP_METHOD(Phalcon_Autoload_Loader, unregister);
 PHP_METHOD(Phalcon_Autoload_Loader, requireFile);
 PHP_METHOD(Phalcon_Autoload_Loader, addDebug);
@@ -35,7 +35,10 @@ PHP_METHOD(Phalcon_Autoload_Loader, autoloadCheckClasses);
 PHP_METHOD(Phalcon_Autoload_Loader, autoloadCheckDirectories);
 PHP_METHOD(Phalcon_Autoload_Loader, autoloadCheckNamespaces);
 PHP_METHOD(Phalcon_Autoload_Loader, checkDirectories);
-zend_object *zephir_init_properties_Phalcon_Autoload_Loader(zend_class_entry *class_type);
+PHP_METHOD(Phalcon_Autoload_Loader, registerAutoload);
+PHP_METHOD(Phalcon_Autoload_Loader, getEventsManager);
+PHP_METHOD(Phalcon_Autoload_Loader, setEventsManager);
+PHP_METHOD(Phalcon_Autoload_Loader, fireManagerEvent);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_autoload_loader___construct, 0, 0, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, isDebug, _IS_BOOL, 0, "false")
@@ -92,6 +95,9 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_autoload_loader_getnamespaces, 0, 0, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_autoload_loader_isregistered, 0, 0, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_autoload_loader_loadfiles, 0, 0, IS_VOID, 0)
 ZEND_END_ARG_INFO()
 
@@ -126,9 +132,6 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_autoload_loader_setnamespaces, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_ARRAY_INFO(0, namespaces, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, merge, _IS_BOOL, 0, "false")
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_autoload_loader_isregistered, 0, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_autoload_loader_unregister, 0, 0, MAY_BE_STATIC)
@@ -170,7 +173,22 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_autoload_loader_checkdir
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, name, IS_STRING, 0, "''")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_autoload_loader_zephir_init_properties_phalcon_autoload_loader, 0, 0, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_autoload_loader_registerautoload, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, prepend, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_autoload_loader_geteventsmanager, 0, 0, Phalcon\\Events\\ManagerInterface, 1)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_autoload_loader_seteventsmanager, 0, 1, IS_VOID, 0)
+
+	ZEND_ARG_OBJ_INFO(0, eventsManager, Phalcon\\Events\\ManagerInterface, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_autoload_loader_firemanagerevent, 0, 1, IS_MIXED, 0)
+	ZEND_ARG_TYPE_INFO(0, eventName, IS_STRING, 0)
+	ZEND_ARG_INFO(0, data)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, cancellable, _IS_BOOL, 0, "true")
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_autoload_loader_method_entry) {
@@ -189,6 +207,7 @@ ZEPHIR_INIT_FUNCS(phalcon_autoload_loader_method_entry) {
 	PHP_ME(Phalcon_Autoload_Loader, getFiles, arginfo_phalcon_autoload_loader_getfiles, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Autoload_Loader, getFoundPath, arginfo_phalcon_autoload_loader_getfoundpath, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Autoload_Loader, getNamespaces, arginfo_phalcon_autoload_loader_getnamespaces, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Autoload_Loader, isRegistered, arginfo_phalcon_autoload_loader_isregistered, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Autoload_Loader, loadFiles, arginfo_phalcon_autoload_loader_loadfiles, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Autoload_Loader, register, arginfo_phalcon_autoload_loader_register, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Autoload_Loader, setClasses, arginfo_phalcon_autoload_loader_setclasses, ZEND_ACC_PUBLIC)
@@ -197,7 +216,6 @@ ZEPHIR_INIT_FUNCS(phalcon_autoload_loader_method_entry) {
 	PHP_ME(Phalcon_Autoload_Loader, setFileCheckingCallback, arginfo_phalcon_autoload_loader_setfilecheckingcallback, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Autoload_Loader, setFiles, arginfo_phalcon_autoload_loader_setfiles, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Autoload_Loader, setNamespaces, arginfo_phalcon_autoload_loader_setnamespaces, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Autoload_Loader, isRegistered, arginfo_phalcon_autoload_loader_isregistered, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Autoload_Loader, unregister, arginfo_phalcon_autoload_loader_unregister, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Autoload_Loader, requireFile, arginfo_phalcon_autoload_loader_requirefile, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Autoload_Loader, addDebug, arginfo_phalcon_autoload_loader_adddebug, ZEND_ACC_PRIVATE)
@@ -206,5 +224,9 @@ ZEPHIR_INIT_FUNCS(phalcon_autoload_loader_method_entry) {
 	PHP_ME(Phalcon_Autoload_Loader, autoloadCheckDirectories, arginfo_phalcon_autoload_loader_autoloadcheckdirectories, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Autoload_Loader, autoloadCheckNamespaces, arginfo_phalcon_autoload_loader_autoloadchecknamespaces, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Autoload_Loader, checkDirectories, arginfo_phalcon_autoload_loader_checkdirectories, ZEND_ACC_PRIVATE)
+	PHP_ME(Phalcon_Autoload_Loader, registerAutoload, arginfo_phalcon_autoload_loader_registerautoload, ZEND_ACC_PRIVATE)
+	PHP_ME(Phalcon_Autoload_Loader, getEventsManager, arginfo_phalcon_autoload_loader_geteventsmanager, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Autoload_Loader, setEventsManager, arginfo_phalcon_autoload_loader_seteventsmanager, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Autoload_Loader, fireManagerEvent, arginfo_phalcon_autoload_loader_firemanagerevent, ZEND_ACC_PROTECTED)
 	PHP_FE_END
 };
