@@ -10,18 +10,23 @@
 
 namespace Phalcon\Image;
 
+use Exception as BaseException;
 use Phalcon\Config\ConfigInterface;
-use Phalcon\Factory\AbstractFactory;
 use Phalcon\Image\Adapter\AdapterInterface;
 use Phalcon\Image\Adapter\Gd;
 use Phalcon\Image\Adapter\Imagick;
+use Phalcon\Traits\Factory\ConfigTrait;
+use Phalcon\Traits\Factory\FactoryTrait;
 use Phalcon\Traits\Support\Helper\Arr\GetTrait;
+use Throwable;
 
 /**
  * Factory to create adapters for image manipulation
  */
-class ImageFactory extends AbstractFactory
+class ImageFactory
 {
+    use ConfigTrait;
+    use FactoryTrait;
     use GetTrait;
 
     /**
@@ -63,6 +68,8 @@ class ImageFactory extends AbstractFactory
 
     /**
      * Creates a new instance
+     *
+     * @throws BaseException
      */
     public function newInstance(
          string name,
@@ -86,7 +93,7 @@ class ImageFactory extends AbstractFactory
     }
 
     /**
-     * @return string
+     * @return class-string<Throwable>
      */
     protected function getExceptionClass() -> string
     {
