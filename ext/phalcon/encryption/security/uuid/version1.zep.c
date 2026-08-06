@@ -171,7 +171,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_Version1, __construct)
 	ZVAL_STRING(&_13, "%08x-%04x-%04x-%02x%02x-%s");
 	ZEPHIR_CALL_FUNCTION(&_14, "sprintf", NULL, 145, &_13, &timeLow, &timeMid, &timeHi, &clockSeqHiRes, &clockSeqLow, &nodeStr);
 	zephir_check_call_status();
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 714, &_14);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 716, &_14);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -202,7 +202,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_Version1, getDateTime)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 714, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 716, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&parts);
 	zephir_fast_explode_str(&parts, SL("-"), &_0, LONG_MAX);
 	zephir_array_fetch_long(&_1, &parts, 0, PH_NOISY | PH_READONLY, "phalcon/Encryption/Security/Uuid/Version1.zep", 82);
@@ -240,7 +240,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_Version1, getNode)
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("uid", 3, 1);
 	}
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 714, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 716, PH_NOISY_CC | PH_READONLY);
 	ZVAL_LONG(&_1, 24);
 	zephir_substr(return_value, &_0, 24 , 0, ZEPHIR_SUBSTR_NO_LENGTH);
 	return;
