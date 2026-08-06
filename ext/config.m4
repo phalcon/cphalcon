@@ -44,14 +44,14 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/encryption/crypt/exception/exception.zep.c
 	phalcon/forms/exception.zep.c
 	phalcon/acl/exception.zep.c
-	phalcon/factory/abstractconfigfactory.zep.c
 	phalcon/image/exception.zep.c
+	phalcon/factory/abstractconfigfactory.zep.c
 	phalcon/contracts/dispatcher/dispatcher.zep.c
-	phalcon/factory/abstractfactory.zep.c
 	phalcon/mvc/micro/exception.zep.c
 	phalcon/support/collection.zep.c
 	phalcon/application/exception.zep.c
 	phalcon/contracts/db/geometry/geometry.zep.c
+	phalcon/factory/abstractfactory.zep.c
 	phalcon/logger/exception.zep.c
 	phalcon/queue/exceptions/queuethrowable.zep.c
 	phalcon/support/helper/arr/abstractarr.zep.c

@@ -99,7 +99,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_image_adapter_gd_process
 	ZEND_ARG_TYPE_INFO(0, fadeIn, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_gd_processrender, 0, 0, 2)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_image_adapter_gd_processrender, 0, 2, MAY_BE_FALSE|MAY_BE_STRING)
 	ZEND_ARG_TYPE_INFO(0, extension, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, quality, IS_LONG, 0)
 ZEND_END_ARG_INFO()

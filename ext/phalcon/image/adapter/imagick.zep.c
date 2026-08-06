@@ -61,10 +61,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Image_Adapter_Imagick)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Image\\Adapter, Imagick, phalcon, image_adapter_imagick, phalcon_image_adapter_abstractadapter_ce, phalcon_image_adapter_imagick_method_entry, 0);
 
-	/**
-	 * @var int
-	 */
-	zend_declare_property_long(phalcon_image_adapter_imagick_ce, SL("version"), 0, ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_LONG(&_zc0, 0);
+		zephir_declare_typed_property(phalcon_image_adapter_imagick_ce, SL("version"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_LONG, NULL, 0);
+	}
+
 	return SUCCESS;
 }
 
@@ -214,7 +216,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, __construct)
 			zephir_read_property_cached(&_9$$4, this_ptr, _zephir_prop_0, 915, PH_NOISY_CC | PH_READONLY);
 			ZEPHIR_CALL_METHOD(NULL, &_8$$4, "__construct", NULL, 0, &_9$$4);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_8$$4, "phalcon/Image/Adapter/Imagick.zep", 96);
+			zephir_throw_exception_debug(&_8$$4, "phalcon/Image/Adapter/Imagick.zep", 93);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -260,7 +262,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, __construct)
 			zephir_read_property_cached(&_24$$8, this_ptr, _zephir_prop_0, 915, PH_NOISY_CC | PH_READONLY);
 			ZEPHIR_CALL_METHOD(NULL, &_23$$8, "__construct", NULL, 0, &_24$$8);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_23$$8, "phalcon/Image/Adapter/Imagick.zep", 119);
+			zephir_throw_exception_debug(&_23$$8, "phalcon/Image/Adapter/Imagick.zep", 116);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -346,10 +348,6 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, __destruct)
  * Creates a blank transparent canvas of the given dimensions, without the
  * load-or-create ambiguity of the constructor.
  *
- * @param int $width
- * @param int $height
- *
- * @return AbstractAdapter
  * @throws Exception
  * @throws ImagickException
  */
@@ -383,14 +381,6 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, create)
  * This method scales the images using liquid rescaling method. Only support
  * Imagick
  *
- * @param int $width    new width
- * @param int $height   new height
- * @param int $deltaX   How much the seam can traverse on x-axis. Passing
- *                      0 causes the seams to be straight.
- * @param int $rigidity Introduces a bias for non-straight seams. This
- *                      parameter is typically 0.
- *
- * @return AbstractAdapter
  * @throws Exception
  * @throws ImagickException
  */
@@ -464,7 +454,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, liquidRescale)
 			object_init_ex(&_6$$4, phalcon_image_exceptions_resizefailed_ce);
 			ZEPHIR_CALL_METHOD(NULL, &_6$$4, "__construct", &_7, 0);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_6$$4, "phalcon/Image/Adapter/Imagick.zep", 203);
+			zephir_throw_exception_debug(&_6$$4, "phalcon/Image/Adapter/Imagick.zep", 188);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -534,7 +524,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, setResourceLimit)
 		object_init_ex(&_4$$4, phalcon_image_exceptions_resourcetypeerror_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_4$$4, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_4$$4, "phalcon/Image/Adapter/Imagick.zep", 237);
+		zephir_throw_exception_debug(&_4$$4, "phalcon/Image/Adapter/Imagick.zep", 222);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -544,12 +534,6 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, setResourceLimit)
 /**
  * Execute a background.
  *
- * @param int $red
- * @param int $green
- * @param int $blue
- * @param int $opacity
- *
- * @return void
  * @throws Exception
  * @throws ImagickException
  * @throws ImagickPixelException
@@ -670,7 +654,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, processBackground)
 			if (zephir_is_instance_of(&_13$$3, SL("ImagickException"))) {
 				zend_clear_exception();
 				ZEPHIR_CPY_WRT(&_14$$3, &_13$$3);
-				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_image_exception_ce, "Imagick::getImageAlphaChannel failed", "phalcon/Image/Adapter/Imagick.zep", 281);
+				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_image_exception_ce, "Imagick::getImageAlphaChannel failed", "phalcon/Image/Adapter/Imagick.zep", 260);
 				return;
 			}
 		}
@@ -706,7 +690,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, processBackground)
 			object_init_ex(&_28$$7, phalcon_image_exceptions_compositefailed_ce);
 			ZEPHIR_CALL_METHOD(NULL, &_28$$7, "__construct", &_29, 0);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_28$$7, "phalcon/Image/Adapter/Imagick.zep", 304);
+			zephir_throw_exception_debug(&_28$$7, "phalcon/Image/Adapter/Imagick.zep", 283);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -730,9 +714,6 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, processBackground)
 /**
  * Blur image
  *
- * @param int $radius Blur radius
- *
- * @return void
  * @throws ImagickException
  */
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, processBlur)
@@ -785,12 +766,6 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, processBlur)
 /**
  * Execute a crop.
  *
- * @param int $width
- * @param int $height
- * @param int $offsetX
- * @param int $offsetY
- *
- * @return void
  * @throws ImagickException
  */
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, processCrop)
@@ -871,9 +846,6 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, processCrop)
 /**
  * Execute a flip.
  *
- * @param int $direction
- *
- * @return void
  * @throws ImagickException
  */
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, processFlip)
@@ -931,9 +903,6 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, processFlip)
 /**
  * Composite one image onto another
  *
- * @param AdapterInterface $image
- *
- * @return void
  * @throws Exception
  * @throws ImagickException
  */
@@ -1004,7 +973,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, processMask)
 			object_init_ex(&_10$$4, phalcon_image_exceptions_compositefailed_ce);
 			ZEPHIR_CALL_METHOD(NULL, &_10$$4, "__construct", &_11, 0);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_10$$4, "phalcon/Image/Adapter/Imagick.zep", 429);
+			zephir_throw_exception_debug(&_10$$4, "phalcon/Image/Adapter/Imagick.zep", 393);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -1025,9 +994,6 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, processMask)
 /**
  * Pixelate image
  *
- * @param int $amount amount to pixelate
- *
- * @return void
  * @throws ImagickException
  */
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, processPixelate)
@@ -1101,11 +1067,6 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, processPixelate)
 /**
  * Execute a reflection.
  *
- * @param int  $height
- * @param int  $opacity
- * @param bool $fadeIn
- *
- * @return void
  * @throws Exception
  * @throws ImagickException
  */
@@ -1281,7 +1242,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, processReflection)
 			object_init_ex(&_24$$8, phalcon_image_exceptions_compositefailed_ce);
 			ZEPHIR_CALL_METHOD(NULL, &_24$$8, "__construct", &_25, 0);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_24$$8, "phalcon/Image/Adapter/Imagick.zep", 536);
+			zephir_throw_exception_debug(&_24$$8, "phalcon/Image/Adapter/Imagick.zep", 492);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -1359,7 +1320,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, processReflection)
 			object_init_ex(&_49$$11, phalcon_image_exceptions_compositefailed_ce);
 			ZEPHIR_CALL_METHOD(NULL, &_49$$11, "__construct", &_25, 0);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_49$$11, "phalcon/Image/Adapter/Imagick.zep", 575);
+			zephir_throw_exception_debug(&_49$$11, "phalcon/Image/Adapter/Imagick.zep", 531);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -1393,7 +1354,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, processReflection)
 			object_init_ex(&_55$$14, phalcon_image_exceptions_compositefailed_ce);
 			ZEPHIR_CALL_METHOD(NULL, &_55$$14, "__construct", &_25, 0);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_55$$14, "phalcon/Image/Adapter/Imagick.zep", 595);
+			zephir_throw_exception_debug(&_55$$14, "phalcon/Image/Adapter/Imagick.zep", 551);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -1432,10 +1393,6 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, processReflection)
 /**
  * Execute a render.
  *
- * @param string $extension
- * @param int    $quality
- *
- * @return string
  * @throws ImagickException
  */
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, processRender)
@@ -1523,10 +1480,6 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, processRender)
 /**
  * Execute a resize.
  *
- * @param int $width
- * @param int $height
- *
- * @return void
  * @throws ImagickException
  */
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, processResize)
@@ -1595,9 +1548,6 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, processResize)
 /**
  * Execute a rotation.
  *
- * @param int $degrees
- *
- * @return void
  * @throws ImagickException
  */
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, processRotate)
@@ -1683,10 +1633,6 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, processRotate)
 /**
  * Execute a save.
  *
- * @param string $file
- * @param int    $quality
- *
- * @return void
  * @throws ImagickException
  */
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, processSave)
@@ -1803,15 +1749,12 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, processSave)
 	zephir_read_property_cached(&_17, this_ptr, _zephir_prop_0, 916, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(NULL, &_17, "writeimage", NULL, 0, &file_zv);
 	zephir_check_call_status();
-	ZEPHIR_MM_RESTORE();
+	RETURN_MM_BOOL(1);
 }
 
 /**
  * Execute a sharpen.
  *
- * @param int $amount
- *
- * @return void
  * @throws ImagickException
  */
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, processSharpen)
@@ -1875,17 +1818,6 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, processSharpen)
 /**
  * Execute a text
  *
- * @param string      $text
- * @param mixed       $offsetX
- * @param mixed       $offsetY
- * @param int         $opacity
- * @param int         $red
- * @param int         $green
- * @param int         $blue
- * @param int         $size
- * @param string|null $fontFile
- *
- * @return void
  * @throws ImagickDrawException
  * @throws ImagickException
  * @throws ImagickPixelException
@@ -2176,12 +2108,6 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, processText)
 /**
  * Add Watermark
  *
- * @param AdapterInterface $image
- * @param int              $offsetX
- * @param int              $offsetY
- * @param int              $opacity
- *
- * @return void
  * @throws Exception
  * @throws ImagickException
  */
@@ -2265,7 +2191,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, processWatermark)
 			object_init_ex(&_11$$4, phalcon_image_exceptions_compositefailed_ce);
 			ZEPHIR_CALL_METHOD(NULL, &_11$$4, "__construct", &_12, 0);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_11$$4, "phalcon/Image/Adapter/Imagick.zep", 934);
+			zephir_throw_exception_debug(&_11$$4, "phalcon/Image/Adapter/Imagick.zep", 857);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -2311,7 +2237,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, check)
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "imagick");
 	if (1 != zephir_class_exists(&_0, 1)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_image_exceptions_extensionnotloaded_ce, "Imagick", "phalcon/Image/Adapter/Imagick.zep", 955);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_image_exceptions_extensionnotloaded_ce, "Imagick", "phalcon/Image/Adapter/Imagick.zep", 878);
 		return;
 	}
 	ZEPHIR_INIT_VAR(&_1);
