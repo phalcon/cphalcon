@@ -22,10 +22,9 @@ declare(strict_types=1);
  *   composer cs-fixer-fix   (applies the changes)
  */
 
-use PhpCsFixer\Finder;
 use PhpCsFixer\Config;
+use PhpCsFixer\Finder;
 use PhpCsFixer\Runner\Parallel\ParallelConfigFactory;
-
 
 $root = dirname(__DIR__);
 
@@ -39,11 +38,13 @@ $finder = Finder::create()
 
 return (new Config())
     ->setParallelConfig(ParallelConfigFactory::detect())
-    ->setRiskyAllowed(false)
+    // declare_strict_types is a risky rule.
+    ->setRiskyAllowed(true)
     ->setUsingCache(true)
     ->setCacheFile($root . '/tests/_output/.php-cs-fixer.cache')
     ->setRules(
         [
+            'declare_strict_types'   => true,
             'no_unused_imports'      => true,
             'ordered_imports'        => [
                 'sort_algorithm' => 'alpha',
@@ -74,6 +75,23 @@ return (new Config())
                     'method_protected',
                     'method_private',
                 ],
+            ],
+            /**
+             * Both sorters default `null_adjustment` to 'always_first', which
+             * would rewrite every `string|null` to `null|string`. Phalcon puts
+             * null last, and so does the model quill builds from both this and
+             * the Zephir source, so last it stays.
+             */
+            'ordered_types'          => [
+                'sort_algorithm'  => 'alpha',
+                'null_adjustment' => 'always_last',
+            ],
+            'phpdoc_types_order'     => [
+                'sort_algorithm'  => 'alpha',
+                'null_adjustment' => 'always_last',
+            ],
+            'types_spaces'           => [
+                'space' => 'single',
             ],
         ]
     )
