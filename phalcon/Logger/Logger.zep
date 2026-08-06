@@ -10,9 +10,6 @@
 
 namespace Phalcon\Logger;
 
-use Exception;
-use Phalcon\Logger\Exception as LoggerException;
-
 /**
  * Phalcon Logger.
  *
@@ -30,16 +27,11 @@ class Logger extends AbstractLogger implements LoggerInterface
      * Example: Entire website down, database unavailable, etc. This should
      * trigger the SMS alerts and wake you up.
      *
-     * @param string $message
-     * @param array  $context
-     *
-     * @return void
      * @throws Exception
-     * @throws LoggerException
      */
     public function alert(string message, array context = []) -> void
     {
-        this->addMessage(self::ALERT, message, context);
+        this->addMessage(Enum::ALERT, message, context);
     }
 
     /**
@@ -47,62 +39,42 @@ class Logger extends AbstractLogger implements LoggerInterface
      *
      * Example: Application component unavailable, unexpected exception.
      *
-     * @param string $message
-     * @param array  $context
-     *
-     * @return void
      * @throws Exception
-     * @throws LoggerException
      */
     public function critical(string message, array context = []) -> void
     {
-        this->addMessage(self::CRITICAL, message, context);
+        this->addMessage(Enum::CRITICAL, message, context);
     }
 
     /**
      * Detailed debug information.
      *
-     * @param string $message
-     * @param array  $context
-     *
-     * @return void
      * @throws Exception
-     * @throws LoggerException
      */
     public function debug(string message, array context = []) -> void
     {
-        this->addMessage(self::DEBUG, message, context);
+        this->addMessage(Enum::DEBUG, message, context);
     }
 
     /**
      * System is unusable.
      *
-     * @param string $message
-     * @param array  $context
-     *
-     * @return void
      * @throws Exception
-     * @throws LoggerException
      */
     public function emergency(string message, array context = []) -> void
     {
-        this->addMessage(self::EMERGENCY, message, context);
+        this->addMessage(Enum::EMERGENCY, message, context);
     }
 
     /**
      * Runtime errors that do not require immediate action but should typically
      * be logged and monitored.
      *
-     * @param string $message
-     * @param array  $context
-     *
-     * @return void
      * @throws Exception
-     * @throws LoggerException
      */
     public function error(string message, array context = []) -> void
     {
-        this->addMessage(self::ERROR, message, context);
+        this->addMessage(Enum::ERROR, message, context);
     }
 
     /**
@@ -110,16 +82,11 @@ class Logger extends AbstractLogger implements LoggerInterface
      *
      * Example: User logs in, SQL logs.
      *
-     * @param string $message
-     * @param array  $context
-     *
-     * @return void
      * @throws Exception
-     * @throws LoggerException
      */
     public function info(string message, array context = []) -> void
     {
-        this->addMessage(self::INFO, message, context);
+        this->addMessage(Enum::INFO, message, context);
     }
 
     /**
@@ -128,13 +95,7 @@ class Logger extends AbstractLogger implements LoggerInterface
      * An unknown level (a typo or an unmapped value) is not rejected; it maps
      * to the CUSTOM level and is logged, rather than raising an exception.
      *
-     * @param mixed  $level
-     * @param string $message
-     * @param array  $context
-     *
-     * @return void
      * @throws Exception
-     * @throws LoggerException
      */
     public function log(var level, string message, array context = []) -> void
     {
@@ -148,16 +109,11 @@ class Logger extends AbstractLogger implements LoggerInterface
     /**
      * Normal but significant events.
      *
-     * @param string $message
-     * @param array  $context
-     *
-     * @return void
      * @throws Exception
-     * @throws LoggerException
      */
     public function notice(string message, array context = []) -> void
     {
-        this->addMessage(self::NOTICE, message, context);
+        this->addMessage(Enum::NOTICE, message, context);
     }
 
     /**
@@ -167,16 +123,11 @@ class Logger extends AbstractLogger implements LoggerInterface
      * HTTP response bodies, or internal state transitions that are too noisy
      * for DEBUG.
      *
-     * @param string $message
-     * @param array  $context
-     *
-     * @return void
      * @throws Exception
-     * @throws LoggerException
      */
     public function trace(string message, array context = []) -> void
     {
-        this->addMessage(self::TRACE, message, context);
+        this->addMessage(Enum::TRACE, message, context);
     }
 
     /**
@@ -185,15 +136,10 @@ class Logger extends AbstractLogger implements LoggerInterface
      * Example: Use of deprecated APIs, poor use of an API, undesirable things
      * that are not necessarily wrong.
      *
-     * @param string $message
-     * @param array  $context
-     *
-     * @return void
      * @throws Exception
-     * @throws LoggerException
      */
     public function warning(string message, array context = []) -> void
     {
-        this->addMessage(self::WARNING, message, context);
+        this->addMessage(Enum::WARNING, message, context);
     }
 }

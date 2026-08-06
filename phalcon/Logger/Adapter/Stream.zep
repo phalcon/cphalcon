@@ -12,6 +12,7 @@ namespace Phalcon\Logger\Adapter;
 
 use Phalcon\Logger\Adapter\Exceptions\FileOpenFailed;
 use Phalcon\Logger\Adapter\Exceptions\InvalidStreamMode;
+use Phalcon\Logger\Exception;
 use Phalcon\Logger\Item;
 use Phalcon\Traits\Php\FileTrait;
 
@@ -47,23 +48,16 @@ class Stream extends AbstractAdapter
 
     /**
      * The file open mode. Defaults to 'ab'
-     *
-     * @var string
      */
-    protected mode = "ab";
+    protected string mode = "ab";
 
     /**
      * Stream name
-     *
-     * @var string
      */
-    protected name;
+    protected string name;
 
     /**
      * Stream constructor.
-     *
-     * @param string $name
-     * @param array  $options
      *
      * @throws InvalidStreamMode
      */
@@ -101,8 +95,6 @@ class Stream extends AbstractAdapter
 
     /**
      * Stream name
-     *
-     * @return string
      */
     public function getName() -> string
     {
@@ -111,8 +103,6 @@ class Stream extends AbstractAdapter
 
     /**
      * Processes the message i.e. writes it to the file
-     *
-     * @param Item $item
      */
     public function process(<Item> item) -> void
     {
