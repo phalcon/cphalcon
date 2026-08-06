@@ -43,7 +43,7 @@
  * @property array              $excluded
  * @property int                $logLevel
  * @property string             $name
- * @property string             $timezone
+ * @property DateTimeZone       $timezone
  */
 ZEPHIR_INIT_CLASS(Phalcon_Logger_AbstractLogger)
 {
@@ -54,34 +54,51 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_AbstractLogger)
 	 *
 	 * @var AdapterInterface[]
 	 */
-	zend_declare_property_null(phalcon_logger_abstractlogger_ce, SL("adapters"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		array_init_size(&_zc0, 1);
+		zephir_declare_typed_property(phalcon_logger_abstractlogger_ce, SL("adapters"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_ARRAY, NULL, 0);
+	}
+
 	/**
 	 * Clock used to timestamp log items
-	 *
-	 * @var ClockInterface
 	 */
-	zend_declare_property_null(phalcon_logger_abstractlogger_ce, SL("clock"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_logger_abstractlogger_ce, SL("clock"), &_zc0, ZEND_ACC_PROTECTED, 0, SL("Phalcon\\Time\\Clock\\ClockInterface"));
+	}
+
 	/**
 	 * The excluded adapters for this log process
-	 *
-	 * @var array
 	 */
-	zend_declare_property_null(phalcon_logger_abstractlogger_ce, SL("excluded"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		array_init_size(&_zc0, 1);
+		zephir_declare_typed_property(phalcon_logger_abstractlogger_ce, SL("excluded"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_ARRAY, NULL, 0);
+	}
+
 	/**
 	 * Minimum log level for the logger
-	 *
-	 * @var int
 	 */
-	zend_declare_property_long(phalcon_logger_abstractlogger_ce, SL("logLevel"), 8, ZEND_ACC_PROTECTED);
-	/**
-	 * @var string
-	 */
-	zend_declare_property_string(phalcon_logger_abstractlogger_ce, SL("name"), "", ZEND_ACC_PROTECTED);
-	/**
-	 * @var DateTimeZone
-	 */
-	zend_declare_property_null(phalcon_logger_abstractlogger_ce, SL("timezone"), ZEND_ACC_PROTECTED);
-	phalcon_logger_abstractlogger_ce->create_object = zephir_init_properties_Phalcon_Logger_AbstractLogger;
+	{
+		zval _zc0;
+		ZVAL_LONG(&_zc0, 8);
+		zephir_declare_typed_property(phalcon_logger_abstractlogger_ce, SL("logLevel"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_LONG, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_STRINGL(&_zc0, "", sizeof("") - 1);
+		zephir_declare_typed_property(phalcon_logger_abstractlogger_ce, SL("name"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_logger_abstractlogger_ce, SL("timezone"), &_zc0, ZEND_ACC_PROTECTED, 0, SL("DateTimeZone"));
+	}
+
 	/**
 	 * @var int
 	 */
@@ -142,15 +159,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_AbstractLogger)
 
 /**
  * Constructor.
- *
- * @param string            $name     The name of the logger
- * @param array             $adapters The collection of adapters to be used
- *                                    for logging (default [])
- * @param DateTimeZone|null   $timezone Timezone. If omitted,
- *                                      date_Default_timezone_get() is used
- * @param ClockInterface|null $clock    Clock used to timestamp log items.
- *                                      Defaults to a SystemClock on the
- *                                      resolved timezone.
  */
 PHP_METHOD(Phalcon_Logger_AbstractLogger, __construct)
 {
@@ -247,11 +255,6 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, __construct)
 
 /**
  * Add an adapter to the stack. For processing we use FIFO
- *
- * @param string           $name    The name of the adapter
- * @param AdapterInterface $adapter The adapter to add to the stack
- *
- * @return static
  */
 PHP_METHOD(Phalcon_Logger_AbstractLogger, addAdapter)
 {
@@ -273,8 +276,6 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, addAdapter)
 
 /**
  * Starts a transaction on every (non-excluded) adapter in the stack.
- *
- * @return static
  */
 PHP_METHOD(Phalcon_Logger_AbstractLogger, begin)
 {
@@ -304,7 +305,7 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, begin)
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 276, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_FUNCTION(&collection, "array_diff_key", NULL, 252, &_0, &_1);
 	zephir_check_call_status();
-	zephir_is_iterable(&collection, 0, "phalcon/Logger/AbstractLogger.zep", 194);
+	zephir_is_iterable(&collection, 0, "phalcon/Logger/AbstractLogger.zep", 160);
 	if (Z_TYPE_P(&collection) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&collection), _2)
 		{
@@ -341,8 +342,6 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, begin)
 
 /**
  * Commits the transaction on every (non-excluded) adapter in the stack.
- *
- * @return static
  */
 PHP_METHOD(Phalcon_Logger_AbstractLogger, commit)
 {
@@ -372,7 +371,7 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, commit)
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 276, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_FUNCTION(&collection, "array_diff_key", NULL, 252, &_0, &_1);
 	zephir_check_call_status();
-	zephir_is_iterable(&collection, 0, "phalcon/Logger/AbstractLogger.zep", 211);
+	zephir_is_iterable(&collection, 0, "phalcon/Logger/AbstractLogger.zep", 175);
 	if (Z_TYPE_P(&collection) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&collection), _2)
 		{
@@ -409,10 +408,6 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, commit)
 
 /**
  * Exclude certain adapters.
- *
- * @param array $adapters
- *
- * @return static
  */
 PHP_METHOD(Phalcon_Logger_AbstractLogger, excludeAdapters)
 {
@@ -448,7 +443,7 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, excludeAdapters)
 	}
 	zephir_memory_observe(&registered);
 	zephir_read_property_cached(&registered, this_ptr, _zephir_prop_0, 275, PH_NOISY_CC);
-	zephir_is_iterable(&adapters, 0, "phalcon/Logger/AbstractLogger.zep", 243);
+	zephir_is_iterable(&adapters, 0, "phalcon/Logger/AbstractLogger.zep", 203);
 	if (Z_TYPE_P(&adapters) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&adapters), _0)
 		{
@@ -488,9 +483,6 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, excludeAdapters)
 /**
  * Returns an adapter from the stack
  *
- * @param string $name The name of the adapter
- *
- * @return AdapterInterface
  * @throws AdapterNotFound
  */
 PHP_METHOD(Phalcon_Logger_AbstractLogger, getAdapter)
@@ -524,12 +516,12 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, getAdapter)
 		object_init_ex(&_1$$3, phalcon_logger_exceptions_adapternotfound_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 253, &name_zv);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Logger/AbstractLogger.zep", 257);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Logger/AbstractLogger.zep", 214);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 275, PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch(&_3, &_2, &name_zv, PH_NOISY | PH_READONLY, "phalcon/Logger/AbstractLogger.zep", 260);
+	zephir_array_fetch(&_3, &_2, &name_zv, PH_NOISY | PH_READONLY, "phalcon/Logger/AbstractLogger.zep", 217);
 	RETURN_CTOR(&_3);
 }
 
@@ -565,9 +557,6 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, getName)
 /**
  * Removes an adapter from the stack
  *
- * @param string $name The name of the adapter
- *
- * @return static
  * @throws AdapterNotFound
  */
 PHP_METHOD(Phalcon_Logger_AbstractLogger, removeAdapter)
@@ -600,7 +589,7 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, removeAdapter)
 		object_init_ex(&_1$$3, phalcon_logger_exceptions_adapternotfound_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 253, &name_zv);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Logger/AbstractLogger.zep", 300);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Logger/AbstractLogger.zep", 254);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -612,8 +601,6 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, removeAdapter)
 
 /**
  * Rolls back the transaction on every (non-excluded) adapter in the stack.
- *
- * @return static
  */
 PHP_METHOD(Phalcon_Logger_AbstractLogger, rollback)
 {
@@ -643,7 +630,7 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, rollback)
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 276, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_FUNCTION(&collection, "array_diff_key", NULL, 252, &_0, &_1);
 	zephir_check_call_status();
-	zephir_is_iterable(&collection, 0, "phalcon/Logger/AbstractLogger.zep", 322);
+	zephir_is_iterable(&collection, 0, "phalcon/Logger/AbstractLogger.zep", 274);
 	if (Z_TYPE_P(&collection) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&collection), _2)
 		{
@@ -680,10 +667,6 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, rollback)
 
 /**
  * Sets the adapters stack overriding what is already there
- *
- * @param array $adapters An array of adapters
- *
- * @return static
  */
 PHP_METHOD(Phalcon_Logger_AbstractLogger, setAdapters)
 {
@@ -715,10 +698,6 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, setAdapters)
  * An unknown level is not rejected: it is stored as CUSTOM, which sits
  * between DEBUG and TRACE in the ordering, so the threshold becomes
  * "everything except TRACE".
- *
- * @param int $level
- *
- * @return static
  */
 PHP_METHOD(Phalcon_Logger_AbstractLogger, setLogLevel)
 {
@@ -757,11 +736,6 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, setLogLevel)
 /**
  * Adds a message to each handler for processing
  *
- * @param int    level
- * @param string $message
- * @param array  $context
- *
- * @return bool
  * @throws Exception
  * @throws NoAdaptersConfigured
  */
@@ -838,7 +812,7 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, addMessage)
 			object_init_ex(&_2$$4, phalcon_logger_exceptions_noadaptersconfigured_ce);
 			ZEPHIR_CALL_METHOD(NULL, &_2$$4, "__construct", NULL, 254);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_2$$4, "phalcon/Logger/AbstractLogger.zep", 380);
+			zephir_throw_exception_debug(&_2$$4, "phalcon/Logger/AbstractLogger.zep", 319);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -846,10 +820,10 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, addMessage)
 		zephir_check_call_status();
 		if (1 == zephir_array_isset_value_long(&levels, level)) {
 			zephir_memory_observe(&levelName);
-			zephir_array_fetch_long(&levelName, &levels, level, PH_NOISY, "phalcon/Logger/AbstractLogger.zep", 384);
+			zephir_array_fetch_long(&levelName, &levels, level, PH_NOISY, "phalcon/Logger/AbstractLogger.zep", 323);
 		} else {
 			ZEPHIR_OBS_NVAR(&levelName);
-			zephir_array_fetch_long(&levelName, &levels, 8, PH_NOISY, "phalcon/Logger/AbstractLogger.zep", 384);
+			zephir_array_fetch_long(&levelName, &levels, 8, PH_NOISY, "phalcon/Logger/AbstractLogger.zep", 323);
 		}
 		ZEPHIR_INIT_VAR(&item);
 		object_init_ex(&item, phalcon_logger_item_ce);
@@ -863,7 +837,7 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, addMessage)
 		zephir_read_property_cached(&_6$$3, this_ptr, _zephir_prop_3, 276, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_FUNCTION(&collection, "array_diff_key", NULL, 252, &_5$$3, &_6$$3);
 		zephir_check_call_status();
-		zephir_is_iterable(&collection, 0, "phalcon/Logger/AbstractLogger.zep", 405);
+		zephir_is_iterable(&collection, 0, "phalcon/Logger/AbstractLogger.zep", 344);
 		if (Z_TYPE_P(&collection) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&collection), _7$$3)
 			{
@@ -918,10 +892,6 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, addMessage)
 
 /**
  * Converts the level from string/word to an integer
- *
- * @param mixed $level
- *
- * @return int
  */
 PHP_METHOD(Phalcon_Logger_AbstractLogger, getLevelNumber)
 {
@@ -949,7 +919,7 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, getLevelNumber)
 		ZEPHIR_CALL_FUNCTION(&levels, "array_flip", NULL, 256, &_0$$3);
 		zephir_check_call_status();
 		if (zephir_array_isset_value(&levels, &levelName)) {
-			zephir_array_fetch(&_1$$4, &levels, &levelName, PH_NOISY | PH_READONLY, "phalcon/Logger/AbstractLogger.zep", 436);
+			zephir_array_fetch(&_1$$4, &levels, &levelName, PH_NOISY | PH_READONLY, "phalcon/Logger/AbstractLogger.zep", 371);
 			RETURN_CTOR(&_1$$4);
 		}
 	} else if (1 == zephir_is_numeric(level)) {
@@ -964,8 +934,6 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, getLevelNumber)
 
 /**
  * Returns an array of log levels with integer to string conversion
- *
- * @return string[]
  */
 PHP_METHOD(Phalcon_Logger_AbstractLogger, getLevels)
 {
@@ -982,38 +950,5 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, getLevels)
 	add_index_stringl(return_value, 8, SL("custom"));
 	add_index_stringl(return_value, 9, SL("trace"));
 	return;
-}
-
-zend_object *zephir_init_properties_Phalcon_Logger_AbstractLogger(zend_class_entry *class_type)
-{
-		zval _0, _2, _1$$3, _3$$4;
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-		ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_1$$3);
-	ZVAL_UNDEF(&_3$$4);
-	
-
-		ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-		zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	
-	{
-		zval local_this_ptr, *this_ptr = &local_this_ptr;
-		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		zephir_read_property_ex(&_0, this_ptr, ZEND_STRL("excluded"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_0) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_1$$3);
-			array_init(&_1$$3);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("excluded"), &_1$$3);
-		}
-		zephir_read_property_ex(&_2, this_ptr, ZEND_STRL("adapters"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_2) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_3$$4);
-			array_init(&_3$$4);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("adapters"), &_3$$4);
-		}
-		ZEPHIR_MM_RESTORE();
-		return Z_OBJ_P(this_ptr);
-	}
 }
 

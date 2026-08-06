@@ -41,22 +41,30 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Adapter_Syslog)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Logger\\Adapter, Syslog, phalcon, logger_adapter_syslog, phalcon_logger_adapter_abstractadapter_ce, phalcon_logger_adapter_syslog_method_entry, 0);
 
-	/**
-	 * @var int
-	 */
-	zend_declare_property_long(phalcon_logger_adapter_syslog_ce, SL("facility"), 0, ZEND_ACC_PROTECTED);
-	/**
-	 * @var string
-	 */
-	zend_declare_property_string(phalcon_logger_adapter_syslog_ce, SL("name"), "", ZEND_ACC_PROTECTED);
-	/**
-	 * @var bool
-	 */
-	zend_declare_property_bool(phalcon_logger_adapter_syslog_ce, SL("opened"), 0, ZEND_ACC_PROTECTED);
-	/**
-	 * @var int
-	 */
-	zend_declare_property_long(phalcon_logger_adapter_syslog_ce, SL("option"), 0, ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_LONG(&_zc0, 0);
+		zephir_declare_typed_property(phalcon_logger_adapter_syslog_ce, SL("facility"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_LONG, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_STRINGL(&_zc0, "", sizeof("") - 1);
+		zephir_declare_typed_property(phalcon_logger_adapter_syslog_ce, SL("name"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_BOOL(&_zc0, 0);
+		zephir_declare_typed_property(phalcon_logger_adapter_syslog_ce, SL("opened"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_BOOL, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_LONG(&_zc0, 0);
+		zephir_declare_typed_property(phalcon_logger_adapter_syslog_ce, SL("option"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_LONG, NULL, 0);
+	}
+
 	return SUCCESS;
 }
 
@@ -155,8 +163,6 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, close)
 /**
  * Processes the message i.e. writes it to the syslog
  *
- * @param Item $item
- *
  * @throws SyslogOpenFailed
  */
 PHP_METHOD(Phalcon_Logger_Adapter_Syslog, process)
@@ -216,7 +222,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, process)
 		zephir_read_property_cached(&_5$$3, this_ptr, _zephir_prop_2, 928, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_METHOD(NULL, &_3$$3, "__construct", NULL, 0, &_4$$3, &_5$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_3$$3, "phalcon/Logger/Adapter/Syslog.zep", 100);
+		zephir_throw_exception_debug(&_3$$3, "phalcon/Logger/Adapter/Syslog.zep", 83);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -236,14 +242,6 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, process)
 
 /**
  * Open connection to system logger
- *
- * @link https://php.net/manual/en/function.openlog.php
- *
- * @param string $ident
- * @param int    $option
- * @param int    $facility
- *
- * @return bool
  */
 PHP_METHOD(Phalcon_Logger_Adapter_Syslog, openlog)
 {
@@ -275,10 +273,6 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, openlog)
 
 /**
  * Translates a Logger level to a Syslog level
- *
- * @param int $level
- *
- * @return int
  */
 PHP_METHOD(Phalcon_Logger_Adapter_Syslog, logLevelToSyslog)
 {

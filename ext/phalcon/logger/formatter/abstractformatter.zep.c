@@ -38,34 +38,35 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Formatter_AbstractFormatter)
 
 	/**
 	 * Default date format
-	 *
-	 * @var string
 	 */
-	zend_declare_property_string(phalcon_logger_formatter_abstractformatter_ce, SL("dateFormat"), "c", ZEND_ACC_PROTECTED);
-	/**
-	 * @var string
-	 */
-	zend_declare_property_string(phalcon_logger_formatter_abstractformatter_ce, SL("interpolatorLeft"), "%", ZEND_ACC_PROTECTED);
-	/**
-	 * @var string
-	 */
-	zend_declare_property_string(phalcon_logger_formatter_abstractformatter_ce, SL("interpolatorRight"), "%", ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_STRINGL(&_zc0, "c", sizeof("c") - 1);
+		zephir_declare_typed_property(phalcon_logger_formatter_abstractformatter_ce, SL("dateFormat"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_STRINGL(&_zc0, "%", sizeof("%") - 1);
+		zephir_declare_typed_property(phalcon_logger_formatter_abstractformatter_ce, SL("interpolatorLeft"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_STRINGL(&_zc0, "%", sizeof("%") - 1);
+		zephir_declare_typed_property(phalcon_logger_formatter_abstractformatter_ce, SL("interpolatorRight"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
+
 	zend_class_implements(phalcon_logger_formatter_abstractformatter_ce, 1, phalcon_logger_formatter_formatterinterface_ce);
 	return SUCCESS;
 }
 
-/**
- * @return string
- */
 PHP_METHOD(Phalcon_Logger_Formatter_AbstractFormatter, getDateFormat)
 {
 
 	RETURN_MEMBER_TYPED(getThis(), "dateFormat", IS_STRING);
 }
 
-/**
- * @param string $format
- */
 PHP_METHOD(Phalcon_Logger_Formatter_AbstractFormatter, setDateFormat)
 {
 	zval format_zv;

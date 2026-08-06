@@ -7,6 +7,8 @@ PHP_METHOD(Phalcon_Logger_LoggerFactory, __construct);
 PHP_METHOD(Phalcon_Logger_LoggerFactory, load);
 PHP_METHOD(Phalcon_Logger_LoggerFactory, newInstance);
 PHP_METHOD(Phalcon_Logger_LoggerFactory, getExceptionClass);
+PHP_METHOD(Phalcon_Logger_LoggerFactory, checkConfig);
+PHP_METHOD(Phalcon_Logger_LoggerFactory, checkConfigElement);
 PHP_METHOD(Phalcon_Logger_LoggerFactory, getArrVal);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_loggerfactory___construct, 0, 0, 1)
@@ -26,6 +28,15 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_loggerfactory_getexceptionclass, 0, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_loggerfactory_checkconfig, 0, 1, IS_ARRAY, 0)
+	ZEND_ARG_INFO(0, config)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_loggerfactory_checkconfigelement, 0, 2, IS_ARRAY, 0)
+	ZEND_ARG_ARRAY_INFO(0, config, 0)
+	ZEND_ARG_TYPE_INFO(0, element, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_loggerfactory_getarrval, 0, 0, 2)
 	ZEND_ARG_ARRAY_INFO(0, collection, 0)
 	ZEND_ARG_INFO(0, index)
@@ -38,6 +49,8 @@ ZEPHIR_INIT_FUNCS(phalcon_logger_loggerfactory_method_entry) {
 	PHP_ME(Phalcon_Logger_LoggerFactory, load, arginfo_phalcon_logger_loggerfactory_load, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_LoggerFactory, newInstance, arginfo_phalcon_logger_loggerfactory_newinstance, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_LoggerFactory, getExceptionClass, arginfo_phalcon_logger_loggerfactory_getexceptionclass, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Logger_LoggerFactory, checkConfig, arginfo_phalcon_logger_loggerfactory_checkconfig, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Logger_LoggerFactory, checkConfigElement, arginfo_phalcon_logger_loggerfactory_checkconfigelement, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Logger_LoggerFactory, getArrVal, arginfo_phalcon_logger_loggerfactory_getarrval, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_FE_END
 };
