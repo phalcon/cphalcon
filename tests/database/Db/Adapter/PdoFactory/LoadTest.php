@@ -18,6 +18,7 @@ use Phalcon\Db\Adapter\Pdo\Mysql;
 use Phalcon\Db\Adapter\Pdo\Postgresql;
 use Phalcon\Db\Adapter\Pdo\Sqlite;
 use Phalcon\Db\Adapter\PdoFactory;
+use Phalcon\Db\Exception;
 use Phalcon\Talon\Talon;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Traits\FactoryTrait;
@@ -32,6 +33,44 @@ final class LoadTest extends AbstractDatabaseTestCase
     public function setUp(): void
     {
         $this->init();
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-08-05
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testDbAdapterPdoFactoryLoadException(): void
+    {
+        $factory = new PdoFactory();
+
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage(
+            "You must provide the 'adapter' option in the factory config parameter."
+        );
+
+        $factory->load([]);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-08-05
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testDbAdapterPdoFactoryLoadExceptionInvalidConfig(): void
+    {
+        $factory = new PdoFactory();
+
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage(
+            'Config must be array or Phalcon\Config\Config object'
+        );
+
+        $factory->load(1234);
     }
 
     /**

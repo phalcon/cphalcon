@@ -20,8 +20,6 @@ use Phalcon\Paginator\Exceptions\MissingRequiredParameter;
 use Phalcon\Paginator\RepositoryInterface;
 
 /**
- * Phalcon\Paginator\Adapter\QueryBuilder
- *
  * Pagination using a PHQL query builder as source of data
  *
  * ```php
@@ -45,10 +43,8 @@ class QueryBuilder extends AbstractAdapter
 {
     /**
      * Paginator's data
-     *
-     * @var Builder
      */
-    protected builder;
+    protected <Builder> builder;
 
     /**
      * Column list used only for COUNT rewriting when the builder carries a
@@ -67,7 +63,7 @@ class QueryBuilder extends AbstractAdapter
      * HAVING or GROUP BY clause (it becomes the column list of the counting
      * subquery). It has no effect on plain queries.
      *
-     * @param array config = [
+     * @param array $config = [
      *     'limit' => 10,
      *     'builder' => null,
      *     'columns' => ''

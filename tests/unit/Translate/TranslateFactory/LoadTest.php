@@ -16,6 +16,7 @@ namespace Phalcon\Tests\Unit\Translate\TranslateFactory;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Traits\FactoryTrait;
 use Phalcon\Translate\Adapter\Gettext;
+use Phalcon\Translate\Exceptions\TranslatorNotRegistered;
 use Phalcon\Translate\InterpolatorFactory;
 use Phalcon\Translate\TranslateFactory;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
@@ -84,5 +85,37 @@ final class LoadTest extends AbstractUnitTestCase
             $this->assertSame($options->options->defaultDomain, $adapter->getDefaultDomain());
             $this->assertSame($options->options->directory, $adapter->getDirectory());
         }
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-08-05
+     */
+    public function testTranslateFactoryLoadException(): void
+    {
+        $factory = new TranslateFactory(new InterpolatorFactory());
+
+        $this->expectException(TranslatorNotRegistered::class);
+        $this->expectExceptionMessage(
+            "You must provide the 'adapter' option in the factory config parameter."
+        );
+
+        $factory->load([]);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-08-05
+     */
+    public function testTranslateFactoryLoadExceptionInvalidConfig(): void
+    {
+        $factory = new TranslateFactory(new InterpolatorFactory());
+
+        $this->expectException(TranslatorNotRegistered::class);
+        $this->expectExceptionMessage(
+            'Config must be array or Phalcon\Config\Config object'
+        );
+
+        $factory->load(1234);
     }
 }

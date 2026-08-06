@@ -32,8 +32,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Paginator\Adapter\QueryBuilder
- *
  * Pagination using a PHQL query builder as source of data
  *
  * ```php
@@ -59,10 +57,13 @@ ZEPHIR_INIT_CLASS(Phalcon_Paginator_Adapter_QueryBuilder)
 
 	/**
 	 * Paginator's data
-	 *
-	 * @var Builder
 	 */
-	zend_declare_property_null(phalcon_paginator_adapter_querybuilder_ce, SL("builder"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_paginator_adapter_querybuilder_ce, SL("builder"), &_zc0, ZEND_ACC_PROTECTED, 0, SL("Phalcon\\Mvc\\Model\\Query\\Builder"));
+	}
+
 	/**
 	 * Column list used only for COUNT rewriting when the builder carries a
 	 * HAVING or GROUP BY clause. It supplies the columns for the subquery
@@ -82,7 +83,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Paginator_Adapter_QueryBuilder)
  * HAVING or GROUP BY clause (it becomes the column list of the counting
  * subquery). It has no effect on plain queries.
  *
- * @param array config = [
+ * @param array $config = [
  *     'limit' => 10,
  *     'builder' => null,
  *     'columns' => ''
@@ -113,12 +114,12 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, __construct)
 	zephir_fetch_params(1, 1, 0, &config_param);
 	zephir_get_arrval(&config, config_param);
 	if (UNEXPECTED(!(zephir_array_isset_value_string(&config, SL("limit"))))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exceptions_missingrequiredparameter_ce, "limit", "phalcon/Paginator/Adapter/QueryBuilder.zep", 81);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exceptions_missingrequiredparameter_ce, "limit", "phalcon/Paginator/Adapter/QueryBuilder.zep", 77);
 		return;
 	}
 	zephir_memory_observe(&builder);
 	if (UNEXPECTED(!(zephir_array_isset_string_fetch(&builder, &config, SL("builder"), 0)))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exceptions_missingrequiredparameter_ce, "builder", "phalcon/Paginator/Adapter/QueryBuilder.zep", 85);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exceptions_missingrequiredparameter_ce, "builder", "phalcon/Paginator/Adapter/QueryBuilder.zep", 81);
 		return;
 	}
 	if (UNEXPECTED(!((zephir_instance_of_ev(&builder, phalcon_mvc_model_query_builder_ce))))) {
@@ -126,7 +127,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, __construct)
 		object_init_ex(&_0$$5, phalcon_paginator_exceptions_invalidbuilderinstance_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_0$$5, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_0$$5, "phalcon/Paginator/Adapter/QueryBuilder.zep", 88);
+		zephir_throw_exception_debug(&_0$$5, "phalcon/Paginator/Adapter/QueryBuilder.zep", 84);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -315,7 +316,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, paginate)
 			object_init_ex(&_4$$9, phalcon_paginator_exceptions_missingcolumnsforhaving_ce);
 			ZEPHIR_CALL_METHOD(NULL, &_4$$9, "__construct", NULL, 0);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_4$$9, "phalcon/Paginator/Adapter/QueryBuilder.zep", 184);
+			zephir_throw_exception_debug(&_4$$9, "phalcon/Paginator/Adapter/QueryBuilder.zep", 180);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -441,14 +442,14 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, paginate)
 			object_init_ex(&_30$$24, phalcon_paginator_exceptions_buildermodelnotdefined_ce);
 			ZEPHIR_CALL_METHOD(NULL, &_30$$24, "__construct", NULL, 0);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_30$$24, "phalcon/Paginator/Adapter/QueryBuilder.zep", 275);
+			zephir_throw_exception_debug(&_30$$24, "phalcon/Paginator/Adapter/QueryBuilder.zep", 271);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
 		if (Z_TYPE_P(&modelClass) == IS_ARRAY) {
 			ZEPHIR_CALL_FUNCTION(&_31$$25, "array_values", NULL, 27, &modelClass);
 			zephir_check_call_status();
-			zephir_array_fetch_long(&_32$$25, &_31$$25, 0, PH_NOISY | PH_READONLY, "phalcon/Paginator/Adapter/QueryBuilder.zep", 279);
+			zephir_array_fetch_long(&_32$$25, &_31$$25, 0, PH_NOISY | PH_READONLY, "phalcon/Paginator/Adapter/QueryBuilder.zep", 275);
 			ZEPHIR_CPY_WRT(&modelClass, &_32$$25);
 		}
 		ZEPHIR_INIT_VAR(&model);
@@ -460,15 +461,15 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, paginate)
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(&db, &_33$$23, "get", NULL, 0, &dbService);
 		zephir_check_call_status();
-		zephir_array_fetch_string(&_34$$23, &sql, SL("sql"), PH_NOISY | PH_READONLY, "phalcon/Paginator/Adapter/QueryBuilder.zep", 287);
+		zephir_array_fetch_string(&_34$$23, &sql, SL("sql"), PH_NOISY | PH_READONLY, "phalcon/Paginator/Adapter/QueryBuilder.zep", 283);
 		ZEPHIR_INIT_VAR(&_35$$23);
 		ZEPHIR_CONCAT_SVS(&_35$$23, "SELECT COUNT(*) as \"rowcount\" FROM (", &_34$$23, ") as T1");
-		zephir_array_fetch_string(&_36$$23, &sql, SL("bind"), PH_NOISY | PH_READONLY, "phalcon/Paginator/Adapter/QueryBuilder.zep", 290);
+		zephir_array_fetch_string(&_36$$23, &sql, SL("bind"), PH_NOISY | PH_READONLY, "phalcon/Paginator/Adapter/QueryBuilder.zep", 286);
 		ZVAL_LONG(&_37$$23, 2);
 		ZEPHIR_CALL_METHOD(&row, &db, "fetchone", NULL, 0, &_35$$23, &_37$$23, &_36$$23);
 		zephir_check_call_status();
 		if (zephir_is_true(&row)) {
-			zephir_array_fetch_string(&_38$$23, &row, SL("rowcount"), PH_NOISY | PH_READONLY, "phalcon/Paginator/Adapter/QueryBuilder.zep", 292);
+			zephir_array_fetch_string(&_38$$23, &row, SL("rowcount"), PH_NOISY | PH_READONLY, "phalcon/Paginator/Adapter/QueryBuilder.zep", 288);
 			ZVAL_LONG(&rowcount, zephir_get_intval(&_38$$23));
 		} else {
 			ZVAL_LONG(&rowcount, 0);

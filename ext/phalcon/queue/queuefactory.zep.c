@@ -93,7 +93,7 @@ PHP_METHOD(Phalcon_Queue_QueueFactory, __construct)
 		ZEPHIR_CALL_METHOD(NULL, factory, "__construct", NULL, 0);
 		zephir_check_call_status();
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1304, factory);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1306, factory);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -183,7 +183,7 @@ PHP_METHOD(Phalcon_Queue_QueueFactory, newInstance)
 	} else {
 		zephir_get_arrval(&options, options_param);
 	}
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1304, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1306, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&connectionFactory, &_0, "newinstance", NULL, 0, &name_zv, &options);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(&connectionFactory, "createcontext", NULL, 0);
@@ -209,25 +209,55 @@ PHP_METHOD(Phalcon_Queue_QueueFactory, getExceptionClass)
  */
 PHP_METHOD(Phalcon_Queue_QueueFactory, checkConfig)
 {
+	zend_class_entry *_3$$4;
+	zend_bool _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *config, config_sub;
+	zval *config, config_sub, exceptionClass, _1$$4, _2$$4, _4$$4;
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&config_sub);
+	ZVAL_UNDEF(&exceptionClass);
+	ZVAL_UNDEF(&_1$$4);
+	ZVAL_UNDEF(&_2$$4);
+	ZVAL_UNDEF(&_4$$4);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(config)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &config);
-	if (zephir_instance_of_ev(config, phalcon_config_configinterface_ce)) {
+	_0 = Z_TYPE_P(config) == IS_OBJECT;
+	if (_0) {
+		_0 = zephir_instance_of_ev(config, phalcon_config_configinterface_ce);
+	}
+	if (_0) {
 		ZEPHIR_RETURN_CALL_METHOD(config, "toarray", NULL, 0);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
 	if (Z_TYPE_P(config) != IS_ARRAY) {
-		array_init(return_value);
-		RETURN_MM();
+		ZEPHIR_CALL_METHOD(&exceptionClass, this_ptr, "getexceptionclass", NULL, 0);
+		zephir_check_call_status();
+		ZEPHIR_INIT_VAR(&_1$$4);
+		zephir_fetch_safe_class(&_2$$4, &exceptionClass);
+		_3$$4 = zephir_fetch_class_str_ex(Z_STRVAL_P(&_2$$4), Z_STRLEN_P(&_2$$4), ZEND_FETCH_CLASS_AUTO);
+		if(!_3$$4) {
+			RETURN_MM_NULL();
+		}
+		object_init_ex(&_1$$4, _3$$4);
+		ZEPHIR_LAST_CALL_STATUS = zephir_check_constructor_access(&_1$$4);
+		zephir_check_call_status();
+		if (zephir_has_constructor(&_1$$4)) {
+			ZEPHIR_INIT_VAR(&_4$$4);
+			ZVAL_STRING(&_4$$4, "Config must be array or Phalcon\\Config\\Config object");
+			ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 0, &_4$$4);
+			zephir_check_call_status();
+		}
+
+		zephir_throw_exception_debug(&_1$$4, "phalcon/Traits/Factory/ConfigTrait.zep", 34);
+		ZEPHIR_MM_RESTORE();
+		return;
 	}
 	RETVAL_ZVAL(config, 1, 0);
 	RETURN_MM();
@@ -287,7 +317,7 @@ PHP_METHOD(Phalcon_Queue_QueueFactory, checkConfigElement)
 			zephir_check_call_status();
 		}
 
-		zephir_throw_exception_debug(&_0$$3, "phalcon/Traits/Factory/ConfigTrait.zep", 51);
+		zephir_throw_exception_debug(&_0$$3, "phalcon/Traits/Factory/ConfigTrait.zep", 56);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

@@ -195,13 +195,13 @@ PHP_METHOD(Phalcon_Storage_Adapter_Weak, getKeys)
 	if (UNEXPECTED(!ZEPHIR_IS_IDENTICAL(&_1, &prefix_zv))) {
 		ZEPHIR_INIT_VAR(&results);
 		array_init(&results);
-		zephir_is_iterable(&keys, 0, "phalcon/Storage/Adapter/Weak.zep", 72);
+		zephir_is_iterable(&keys, 0, "phalcon/Storage/Adapter/Weak.zep", 73);
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&keys), _2$$3)
 		{
 			ZEPHIR_INIT_NVAR(&key);
 			ZVAL_COPY(&key, _2$$3);
 			if (zephir_start_with(&key, &prefix_zv, NULL)) {
-				zephir_array_append(&results, &key, PH_SEPARATE, "phalcon/Storage/Adapter/Weak.zep", 69);
+				zephir_array_append(&results, &key, PH_SEPARATE, "phalcon/Storage/Adapter/Weak.zep", 70);
 			}
 		} ZEND_HASH_FOREACH_END();
 		ZEPHIR_INIT_NVAR(&key);
@@ -374,7 +374,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Weak, doGet)
 	}
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 329, PH_NOISY_CC | PH_READONLY);
 	zephir_memory_observe(&wr);
-	zephir_array_fetch(&wr, &_1, &key_zv, PH_NOISY, "phalcon/Storage/Adapter/Weak.zep", 138);
+	zephir_array_fetch(&wr, &_1, &key_zv, PH_NOISY, "phalcon/Storage/Adapter/Weak.zep", 139);
 	ZEPHIR_CALL_METHOD(&value, &wr, "get", NULL, 0);
 	zephir_check_call_status();
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 330, &__$null);

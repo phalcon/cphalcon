@@ -10,15 +10,30 @@
 
 namespace Phalcon\Paginator;
 
+use Phalcon\Config\Config;
+use Phalcon\Mvc\Model\Query\Builder;
 use Phalcon\Paginator\Adapter\AdapterInterface;
-use Phalcon\Factory\AbstractFactory;
 use Phalcon\Paginator\Adapter\Model;
 use Phalcon\Paginator\Adapter\NativeArray;
 use Phalcon\Paginator\Adapter\QueryBuilder;
 use Phalcon\Paginator\Adapter\QueryBuilderCursor;
+use Phalcon\Traits\Factory\ConfigTrait;
+use Phalcon\Traits\Factory\FactoryTrait;
+use Throwable;
 
-class PaginatorFactory extends AbstractFactory
+/**
+ * @phpstan-type TOptions array{
+ *      adapter: string,
+ *      limit?: int,
+ *      page?: int,
+ *      builder?: Builder
+ * }
+ */
+class PaginatorFactory
 {
+    use ConfigTrait;
+    use FactoryTrait;
+
     /**
      * AdapterFactory constructor.
      */
@@ -50,12 +65,7 @@ class PaginatorFactory extends AbstractFactory
      * $paginator = (new PaginatorFactory())->load($options);
      *```
      *
-     * @param array|\Phalcon\Config\Config config = [
-     *     'adapter' => 'queryBuilder',
-     *     'limit' => 20,
-     *     'page' => 1,
-     *     'builder' => null
-     * ]
+     * @param Config|TOptions $config
      */
     public function load(var config) -> <AdapterInterface>
     {
@@ -90,7 +100,7 @@ class PaginatorFactory extends AbstractFactory
     }
 
     /**
-     * @return string
+     * @return class-string<Throwable>
      */
     protected function getExceptionClass() -> string
     {

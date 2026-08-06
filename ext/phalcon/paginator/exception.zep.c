@@ -23,8 +23,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Paginator\Exception
- *
  * Exceptions thrown in Phalcon\Paginator will use this class
  */
 ZEPHIR_INIT_CLASS(Phalcon_Paginator_Exception)

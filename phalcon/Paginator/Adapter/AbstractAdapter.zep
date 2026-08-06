@@ -23,10 +23,8 @@ abstract class AbstractAdapter implements AdapterInterface
 {
     /**
      * Configuration of paginator
-     *
-     * @var array
      */
-    protected config;
+    protected array config;
 
     /**
      * Number of rows to show in the paginator. By default is null
@@ -44,17 +42,15 @@ abstract class AbstractAdapter implements AdapterInterface
 
     /**
      * Repository for pagination
-     *
-     * @var RepositoryInterface
      */
-    protected repository;
+    protected <RepositoryInterface> repository;
 
     /**
-     * Phalcon\Paginator\Adapter\AbstractAdapter constructor
+     * Constructor
      *
      * @param array $config
      */
-    public function __construct( array config)
+    public function __construct(array config)
     {
         let this->config = config;
 

@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Database\Paginator\PaginatorFactory;
 
 use Phalcon\Paginator\Adapter\QueryBuilder;
+use Phalcon\Paginator\Exception;
 use Phalcon\Paginator\PaginatorFactory;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
@@ -84,5 +85,37 @@ final class LoadTest extends AbstractDatabaseTestCase
         $adapter = $factory->load($options);
 
         $this->assertInstanceOf(QueryBuilder::class, $adapter);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-08-05
+     */
+    public function testPaginatorPaginatorFactoryLoadException(): void
+    {
+        $factory = new PaginatorFactory();
+
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage(
+            "You must provide the 'adapter' option in the factory config parameter."
+        );
+
+        $factory->load([]);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-08-05
+     */
+    public function testPaginatorPaginatorFactoryLoadExceptionInvalidConfig(): void
+    {
+        $factory = new PaginatorFactory();
+
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage(
+            'Config must be array or Phalcon\Config\Config object'
+        );
+
+        $factory->load(1234);
     }
 }
