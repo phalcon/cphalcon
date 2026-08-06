@@ -25,30 +25,11 @@ use DateTimeImmutable;
  */
 class Item
 {
-    /**
-     * @var array
-     */
-    protected context = [];
-
-    /**
-     * @var DateTimeImmutable
-     */
-    protected dateTime;
-
-    /**
-     * @var int
-     */
-    protected level;
-
-    /**
-     * @var string
-     */
-    protected levelName;
-
-    /**
-     * @var string
-     */
-    protected message;
+    protected array context = [];
+    protected <DateTimeImmutable> dateTime;
+    protected int level;
+    protected string levelName;
+    protected string message;
 
     /**
      * Item constructor.
@@ -73,41 +54,26 @@ class Item
             this->context   = context;
     }
 
-    /**
-     * @return array
-     */
     public function getContext() -> array
     {
         return this->context;
     }
 
-    /**
-     * @return DateTimeImmutable
-     */
     public function getDateTime() -> <DateTimeImmutable>
     {
         return this->dateTime;
     }
 
-    /**
-     * @return int
-     */
     public function getLevel() -> int
     {
         return this->level;
     }
 
-    /**
-     * @return string
-     */
     public function getLevelName() -> string
     {
         return this->levelName;
     }
 
-    /**
-     * @return string
-     */
     public function getMessage() -> string
     {
         return this->message;

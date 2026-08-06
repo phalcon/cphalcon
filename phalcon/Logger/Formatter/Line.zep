@@ -20,10 +20,8 @@ class Line extends AbstractFormatter
 {
     /**
      * Format applied to each message
-     *
-     * @var string
      */
-    protected format;
+    protected string format;
 
     /**
      * Line constructor.
@@ -48,9 +46,6 @@ class Line extends AbstractFormatter
     /**
      * Applies a format to a message before sent it to the internal log
      *
-     * @param Item $item
-     *
-     * @return string
      * @throws Exception
      */
     public function format(<Item> item) -> string
@@ -71,8 +66,6 @@ class Line extends AbstractFormatter
 
     /**
      * Return the format applied to each message
-     *
-     * @return string
      */
     public function getFormat() -> string
     {
@@ -81,10 +74,6 @@ class Line extends AbstractFormatter
 
     /**
      * Set the format applied to each message
-     *
-     * @param string $format
-     *
-     * @return static
      */
     public function setFormat(string format) -> <static>
     {

@@ -49,12 +49,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Logger)
  * Example: Entire website down, database unavailable, etc. This should
  * trigger the SMS alerts and wake you up.
  *
- * @param string $message
- * @param array  $context
- *
- * @return void
  * @throws Exception
- * @throws LoggerException
  */
 PHP_METHOD(Phalcon_Logger_Logger, alert)
 {
@@ -97,12 +92,7 @@ PHP_METHOD(Phalcon_Logger_Logger, alert)
  *
  * Example: Application component unavailable, unexpected exception.
  *
- * @param string $message
- * @param array  $context
- *
- * @return void
  * @throws Exception
- * @throws LoggerException
  */
 PHP_METHOD(Phalcon_Logger_Logger, critical)
 {
@@ -143,12 +133,7 @@ PHP_METHOD(Phalcon_Logger_Logger, critical)
 /**
  * Detailed debug information.
  *
- * @param string $message
- * @param array  $context
- *
- * @return void
  * @throws Exception
- * @throws LoggerException
  */
 PHP_METHOD(Phalcon_Logger_Logger, debug)
 {
@@ -189,12 +174,7 @@ PHP_METHOD(Phalcon_Logger_Logger, debug)
 /**
  * System is unusable.
  *
- * @param string $message
- * @param array  $context
- *
- * @return void
  * @throws Exception
- * @throws LoggerException
  */
 PHP_METHOD(Phalcon_Logger_Logger, emergency)
 {
@@ -236,12 +216,7 @@ PHP_METHOD(Phalcon_Logger_Logger, emergency)
  * Runtime errors that do not require immediate action but should typically
  * be logged and monitored.
  *
- * @param string $message
- * @param array  $context
- *
- * @return void
  * @throws Exception
- * @throws LoggerException
  */
 PHP_METHOD(Phalcon_Logger_Logger, error)
 {
@@ -284,12 +259,7 @@ PHP_METHOD(Phalcon_Logger_Logger, error)
  *
  * Example: User logs in, SQL logs.
  *
- * @param string $message
- * @param array  $context
- *
- * @return void
  * @throws Exception
- * @throws LoggerException
  */
 PHP_METHOD(Phalcon_Logger_Logger, info)
 {
@@ -333,13 +303,7 @@ PHP_METHOD(Phalcon_Logger_Logger, info)
  * An unknown level (a typo or an unmapped value) is not rejected; it maps
  * to the CUSTOM level and is logged, rather than raising an exception.
  *
- * @param mixed  $level
- * @param string $message
- * @param array  $context
- *
- * @return void
  * @throws Exception
- * @throws LoggerException
  */
 PHP_METHOD(Phalcon_Logger_Logger, log)
 {
@@ -387,12 +351,7 @@ PHP_METHOD(Phalcon_Logger_Logger, log)
 /**
  * Normal but significant events.
  *
- * @param string $message
- * @param array  $context
- *
- * @return void
  * @throws Exception
- * @throws LoggerException
  */
 PHP_METHOD(Phalcon_Logger_Logger, notice)
 {
@@ -437,12 +396,7 @@ PHP_METHOD(Phalcon_Logger_Logger, notice)
  * HTTP response bodies, or internal state transitions that are too noisy
  * for DEBUG.
  *
- * @param string $message
- * @param array  $context
- *
- * @return void
  * @throws Exception
- * @throws LoggerException
  */
 PHP_METHOD(Phalcon_Logger_Logger, trace)
 {
@@ -486,12 +440,7 @@ PHP_METHOD(Phalcon_Logger_Logger, trace)
  * Example: Use of deprecated APIs, poor use of an API, undesirable things
  * that are not necessarily wrong.
  *
- * @param string $message
- * @param array  $context
- *
- * @return void
  * @throws Exception
- * @throws LoggerException
  */
 PHP_METHOD(Phalcon_Logger_Logger, warning)
 {

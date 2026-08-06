@@ -20,51 +20,35 @@ use Phalcon\Logger\Item;
 
 /**
  * Class AbstractAdapter
- *
- * @property string             $defaultFormatter
- * @property FormatterInterface $formatter
- * @property bool               $inTransaction
- * @property array              $queue
  */
 abstract class AbstractAdapter implements AdapterInterface
 {
     /**
      * Name of the default formatter class
-     *
-     * @var string
      */
-    protected defaultFormatter = "Phalcon\\Logger\\Formatter\\Line";
-
+    protected string defaultFormatter = "Phalcon\\Logger\\Formatter\\Line";
     /**
      * Formatter
-     *
-     * @var FormatterInterface|null
      */
-    protected formatter = null;
+    protected ?<FormatterInterface> formatter = null;
 
     /**
      * Tells if there is an active transaction or not
-     *
-     * @var bool
      */
-    protected inTransaction = false;
+    protected bool inTransaction = false;
 
     /**
      * Array with messages queued in the transaction
-     *
-     * @var array
      */
-    protected queue = [];
+    protected array queue = [];
 
     /**
      * Maximum number of items retained in the transaction queue.
      * 0 (default) keeps the original unbounded behavior; a positive
      * value drops the oldest queued item FIFO before a new one is
      * appended in add().
-     *
-     * @var int
      */
-    protected queueLimit = 0;
+    protected int queueLimit = 0;
 
     /**
      * Destructor cleanup
@@ -174,8 +158,6 @@ abstract class AbstractAdapter implements AdapterInterface
 
     /**
      * Return the formatter used
-     *
-     * @return FormatterInterface
      */
     public function getFormatter() -> <FormatterInterface>
     {
@@ -205,15 +187,12 @@ abstract class AbstractAdapter implements AdapterInterface
 
     /**
      * Processes the message in the adapter
-     *
-     * @param Item $item
      */
     abstract public function process(<Item> item) -> void;
 
     /**
      * Rollbacks the internal transaction
      *
-     * @return AdapterInterface
      * @throws TransactionNotActive
      */
     public function rollback() -> <AdapterInterface>
@@ -226,10 +205,6 @@ abstract class AbstractAdapter implements AdapterInterface
 
     /**
      * Sets the message formatter
-     *
-     * @param FormatterInterface $formatter
-     *
-     * @return AdapterInterface
      */
     public function setFormatter(<FormatterInterface> formatter) -> <AdapterInterface>
     {

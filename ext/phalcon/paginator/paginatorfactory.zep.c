@@ -146,7 +146,7 @@ PHP_METHOD(Phalcon_Paginator_PaginatorFactory, load)
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(config, &_0);
 	zephir_memory_observe(&name);
-	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Paginator/PaginatorFactory.zep", 76);
+	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Paginator/PaginatorFactory.zep", 77);
 	zephir_memory_observe(&options);
 	if (!(zephir_array_isset_string_fetch(&options, config, SL("options"), 0))) {
 		ZEPHIR_INIT_NVAR(&options);
@@ -253,7 +253,7 @@ PHP_METHOD(Phalcon_Paginator_PaginatorFactory, checkConfig)
 	zephir_fetch_params(1, 1, 0, &config);
 	_0 = Z_TYPE_P(config) == IS_OBJECT;
 	if (_0) {
-		_0 = zephir_is_instance_of(config, SL("Phalcon\\Paginator\\ConfigInterface"));
+		_0 = zephir_instance_of_ev(config, phalcon_config_configinterface_ce);
 	}
 	if (_0) {
 		ZEPHIR_RETURN_CALL_METHOD(config, "toarray", NULL, 0);
@@ -382,7 +382,7 @@ PHP_METHOD(Phalcon_Paginator_PaginatorFactory, getCachedInstance)
 	ZVAL_STR_COPY(&name_zv, name);
 	ZEPHIR_INIT_VAR(&arguments);
 	zephir_get_args_from(&arguments, 1);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1233, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1235, PH_NOISY_CC | PH_READONLY);
 	if (1 != zephir_array_isset_value(&_0, &name_zv)) {
 		ZEPHIR_CALL_METHOD(&definition, this_ptr, "getservice", NULL, 0, &name_zv);
 		zephir_check_call_status();
@@ -391,7 +391,7 @@ PHP_METHOD(Phalcon_Paginator_PaginatorFactory, getCachedInstance)
 		zephir_check_call_status();
 		zephir_update_property_array(this_ptr, SL("instances"), &name_zv, &_1$$3);
 	}
-	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 1233, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 1235, PH_NOISY_CC | PH_READONLY);
 	zephir_array_fetch(&_3, &_2, &name_zv, PH_NOISY | PH_READONLY, "phalcon/Traits/Factory/FactoryTrait.zep", 46);
 	RETURN_CTOR(&_3);
 }
@@ -432,7 +432,7 @@ PHP_METHOD(Phalcon_Paginator_PaginatorFactory, getService)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1234, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1236, PH_NOISY_CC | PH_READONLY);
 	if (1 != zephir_array_isset_value(&_0, &name_zv)) {
 		ZEPHIR_CALL_METHOD(&exceptionClass, this_ptr, "getexceptionclass", NULL, 0);
 		zephir_check_call_status();
@@ -456,7 +456,7 @@ PHP_METHOD(Phalcon_Paginator_PaginatorFactory, getService)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	zephir_read_property_cached(&_5, this_ptr, _zephir_prop_0, 1234, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_5, this_ptr, _zephir_prop_0, 1236, PH_NOISY_CC | PH_READONLY);
 	zephir_array_fetch(&_6, &_5, &name_zv, PH_NOISY | PH_READONLY, "phalcon/Traits/Factory/FactoryTrait.zep", 73);
 	RETURN_CTOR(&_6);
 }
@@ -499,7 +499,7 @@ PHP_METHOD(Phalcon_Paginator_PaginatorFactory, init)
 	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getservices", NULL, 0);
 	zephir_check_call_status();
 	zephir_fast_array_merge(&_0, &_1, &services);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1234, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1236, &_0);
 	ZEPHIR_MM_RESTORE();
 }
 

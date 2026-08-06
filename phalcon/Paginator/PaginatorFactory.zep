@@ -11,6 +11,7 @@
 namespace Phalcon\Paginator;
 
 use Phalcon\Config\Config;
+use Phalcon\Config\ConfigInterface;
 use Phalcon\Mvc\Model\Query\Builder;
 use Phalcon\Paginator\Adapter\AdapterInterface;
 use Phalcon\Paginator\Adapter\Model;

@@ -94,8 +94,8 @@ PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, __construct)
 		ZEPHIR_INIT_NVAR(&messageStr);
 		ZVAL_STRING(&messageStr, "Validation failed");
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1126, model);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1127, &validationMessages);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1128, model);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1129, &validationMessages);
 	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_model_validationfailed_ce, getThis(), "__construct", NULL, 0, &messageStr);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

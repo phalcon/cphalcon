@@ -36,7 +36,6 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/container/exceptions/containerthrowable.zep.c
 	phalcon/contracts/container/resolver/resolvable.zep.c
 	phalcon/di/injectable.zep.c
-	phalcon/factory/abstractconfigfactory.zep.c
 	phalcon/forms/element/abstractelement.zep.c
 	phalcon/storage/adapter/abstractadapter.zep.c
 	phalcon/storage/serializer/abstractserializer.zep.c
@@ -45,9 +44,10 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/encryption/crypt/exception/exception.zep.c
 	phalcon/forms/exception.zep.c
 	phalcon/acl/exception.zep.c
+	phalcon/factory/abstractconfigfactory.zep.c
 	phalcon/image/exception.zep.c
-	phalcon/factory/abstractfactory.zep.c
 	phalcon/contracts/dispatcher/dispatcher.zep.c
+	phalcon/factory/abstractfactory.zep.c
 	phalcon/mvc/micro/exception.zep.c
 	phalcon/support/collection.zep.c
 	phalcon/application/exception.zep.c

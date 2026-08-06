@@ -233,20 +233,20 @@ PHP_METHOD(Phalcon_Support_Debug_Report_BacktraceItem, __construct)
 		fragment = &fragment_sub;
 		fragment = &__$null;
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1355, &functionName_zv);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1356, type);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 1357, className);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 1358, classLink);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_4, 1359, functionLink);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1357, &functionName_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1358, type);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 1359, className);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 1360, classLink);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_4, 1361, functionLink);
 	if (hasArgs) {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_5, 1360, &__$true);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_5, 1362, &__$true);
 	} else {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_5, 1360, &__$false);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_5, 1362, &__$false);
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_6, 1361, &args);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_7, 1362, file);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_8, 1363, line);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_9, 1364, fragment);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_6, 1363, &args);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_7, 1364, file);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_8, 1365, line);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_9, 1366, fragment);
 	ZEPHIR_MM_RESTORE();
 }
 
