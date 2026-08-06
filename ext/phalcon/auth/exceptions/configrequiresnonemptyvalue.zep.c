@@ -125,7 +125,7 @@ PHP_METHOD(Phalcon_Auth_Exceptions_ConfigRequiresNonEmptyValue, assert)
 	if (ZEPHIR_IS_STRING_IDENTICAL(value, "")) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		object_init_ex(&_0$$3, phalcon_auth_exceptions_configrequiresnonemptyvalue_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 398, &configName_zv, &configKey_zv, &suffix_zv);
+		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 400, &configName_zv, &configKey_zv, &suffix_zv);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_0$$3, "phalcon/Auth/Exceptions/ConfigRequiresNonEmptyValue.zep", 49);
 		ZEPHIR_MM_RESTORE();

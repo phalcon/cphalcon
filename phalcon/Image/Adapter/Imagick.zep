@@ -56,10 +56,7 @@ class Imagick extends AbstractAdapter
 {
     use FileTrait;
 
-    /**
-     * @var int
-     */
-    protected version = 0;
+    protected int version = 0;
 
     /**
      * Loads an image from a file, or creates a blank canvas.
@@ -152,10 +149,6 @@ class Imagick extends AbstractAdapter
      * Creates a blank transparent canvas of the given dimensions, without the
      * load-or-create ambiguity of the constructor.
      *
-     * @param int $width
-     * @param int $height
-     *
-     * @return AbstractAdapter
      * @throws Exception
      * @throws ImagickException
      */
@@ -168,14 +161,6 @@ class Imagick extends AbstractAdapter
      * This method scales the images using liquid rescaling method. Only support
      * Imagick
      *
-     * @param int $width    new width
-     * @param int $height   new height
-     * @param int $deltaX   How much the seam can traverse on x-axis. Passing
-     *                      0 causes the seams to be straight.
-     * @param int $rigidity Introduces a bias for non-straight seams. This
-     *                      parameter is typically 0.
-     *
-     * @return AbstractAdapter
      * @throws Exception
      * @throws ImagickException
      */
@@ -241,12 +226,6 @@ class Imagick extends AbstractAdapter
     /**
      * Execute a background.
      *
-     * @param int $red
-     * @param int $green
-     * @param int $blue
-     * @param int $opacity
-     *
-     * @return void
      * @throws Exception
      * @throws ImagickException
      * @throws ImagickPixelException
@@ -318,9 +297,6 @@ class Imagick extends AbstractAdapter
     /**
      * Blur image
      *
-     * @param int $radius Blur radius
-     *
-     * @return void
      * @throws ImagickException
      */
     protected function processBlur(int radius) -> void
@@ -339,12 +315,6 @@ class Imagick extends AbstractAdapter
     /**
      * Execute a crop.
      *
-     * @param int $width
-     * @param int $height
-     * @param int $offsetX
-     * @param int $offsetY
-     *
-     * @return void
      * @throws ImagickException
      */
     protected function processCrop(
@@ -375,9 +345,6 @@ class Imagick extends AbstractAdapter
     /**
      * Execute a flip.
      *
-     * @param int $direction
-     *
-     * @return void
      * @throws ImagickException
      */
     protected function processFlip(int direction) -> void
@@ -400,9 +367,6 @@ class Imagick extends AbstractAdapter
     /**
      * Composite one image onto another
      *
-     * @param AdapterInterface $image
-     *
-     * @return void
      * @throws Exception
      * @throws ImagickException
      */
@@ -441,9 +405,6 @@ class Imagick extends AbstractAdapter
     /**
      * Pixelate image
      *
-     * @param int $amount amount to pixelate
-     *
-     * @return void
      * @throws ImagickException
      */
     protected function processPixelate(int amount) -> void
@@ -468,11 +429,6 @@ class Imagick extends AbstractAdapter
     /**
      * Execute a reflection.
      *
-     * @param int  $height
-     * @param int  $opacity
-     * @param bool $fadeIn
-     *
-     * @return void
      * @throws Exception
      * @throws ImagickException
      */
@@ -613,10 +569,6 @@ class Imagick extends AbstractAdapter
     /**
      * Execute a render.
      *
-     * @param string $extension
-     * @param int    $quality
-     *
-     * @return string
      * @throws ImagickException
      */
     protected function processRender(string extension, int quality) -> string
@@ -652,10 +604,6 @@ class Imagick extends AbstractAdapter
     /**
      * Execute a resize.
      *
-     * @param int $width
-     * @param int $height
-     *
-     * @return void
      * @throws ImagickException
      */
     protected function processResize(int width, int height) -> void
@@ -680,9 +628,6 @@ class Imagick extends AbstractAdapter
     /**
      * Execute a rotation.
      *
-     * @param int $degrees
-     *
-     * @return void
      * @throws ImagickException
      */
     protected function processRotate(int degrees) -> void
@@ -715,13 +660,9 @@ class Imagick extends AbstractAdapter
     /**
      * Execute a save.
      *
-     * @param string $file
-     * @param int    $quality
-     *
-     * @return void
      * @throws ImagickException
      */
-    protected function processSave(string file, int quality) -> void
+    protected function processSave(string file, int quality) -> bool
     {
         var extension, fp;
 
@@ -757,14 +698,13 @@ class Imagick extends AbstractAdapter
         }
 
         this->image->writeImage(file);
+
+        return true;
     }
 
     /**
      * Execute a sharpen.
      *
-     * @param int $amount
-     *
-     * @return void
      * @throws ImagickException
      */
     protected function processSharpen(int amount) -> void
@@ -786,17 +726,6 @@ class Imagick extends AbstractAdapter
     /**
      * Execute a text
      *
-     * @param string      $text
-     * @param mixed       $offsetX
-     * @param mixed       $offsetY
-     * @param int         $opacity
-     * @param int         $red
-     * @param int         $green
-     * @param int         $blue
-     * @param int         $size
-     * @param string|null $fontFile
-     *
-     * @return void
      * @throws ImagickDrawException
      * @throws ImagickException
      * @throws ImagickPixelException
@@ -893,12 +822,6 @@ class Imagick extends AbstractAdapter
     /**
      * Add Watermark
      *
-     * @param AdapterInterface $image
-     * @param int              $offsetX
-     * @param int              $offsetY
-     * @param int              $opacity
-     *
-     * @return void
      * @throws Exception
      * @throws ImagickException
      */

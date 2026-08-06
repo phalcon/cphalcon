@@ -10,6 +10,7 @@
 
 namespace Phalcon\Image\Adapter;
 
+use GdImage;
 use Phalcon\Image\Enum;
 use Phalcon\Image\Exception;
 use Phalcon\Image\Exceptions\ExtensionNotLoaded;
@@ -143,10 +144,6 @@ class Gd extends AbstractAdapter
      * Creates a blank true-color canvas of the given dimensions, without the
      * load-or-create ambiguity of the constructor.
      *
-     * @param int $width
-     * @param int $height
-     *
-     * @return AbstractAdapter
      * @throws Exception
      */
     public static function create(int width, int height) -> <AbstractAdapter>
@@ -155,7 +152,6 @@ class Gd extends AbstractAdapter
     }
 
     /**
-     * @return string
      * @throws Exception
      */
     public function getVersion() -> string
@@ -188,14 +184,6 @@ class Gd extends AbstractAdapter
         return version;
     }
 
-    /**
-     * @param int $red
-     * @param int $green
-     * @param int $blue
-     * @param int $opacity
-     *
-     * @return void
-     */
     protected function processBackground(
         int red,
         int green,
@@ -233,11 +221,6 @@ class Gd extends AbstractAdapter
         }
     }
 
-    /**
-     * @param int $radius
-     *
-     * @return void
-     */
     protected function processBlur(int radius) -> void
     {
         var counter;
@@ -251,10 +234,7 @@ class Gd extends AbstractAdapter
     }
 
     /**
-     * @param int $width
-     * @param int $height
-     *
-     * @return false|resource
+     * @return false|GdImage|resource
      */
     protected function processCreate(int width, int height)
     {
@@ -268,14 +248,6 @@ class Gd extends AbstractAdapter
         return image;
     }
 
-    /**
-     * @param int $width
-     * @param int $height
-     * @param int $offsetX
-     * @param int $offsetY
-     *
-     * @return void
-     */
     protected function processCrop(
         int width,
         int height,
@@ -299,11 +271,6 @@ class Gd extends AbstractAdapter
         let this->height = imagesy(image);
     }
 
-    /**
-     * @param int $direction
-     *
-     * @return void
-     */
     protected function processFlip(int direction) -> void
     {
         if (direction === Enum::HORIZONTAL) {
@@ -313,11 +280,6 @@ class Gd extends AbstractAdapter
         }
     }
 
-    /**
-     * @param AdapterInterface $mask
-     *
-     * @return void
-     */
     protected function processMask(<AdapterInterface> mask)
     {
         var alpha, blue, color, index, green, maskHeight, maskImage,
@@ -398,11 +360,6 @@ class Gd extends AbstractAdapter
         let this->image = newImage;
     }
 
-    /**
-     * @param int $amount
-     *
-     * @return void
-     */
     protected function processPixelate(int amount) -> void
     {
         var color, x, x1, x2, y, y1, y2;
@@ -440,13 +397,6 @@ class Gd extends AbstractAdapter
         }
     }
 
-    /**
-     * @param int  $height
-     * @param int  $opacity
-     * @param bool $fadeIn
-     *
-     * @return void
-     */
     protected function processReflection(
         int height,
         int opacity,
@@ -535,14 +485,7 @@ class Gd extends AbstractAdapter
         let this->height = imagesy(reflection);
     }
 
-    /**
-     * @param string $extension
-     * @param int    $quality
-     *
-     * @return false|string
-     * @throws Exception
-     */
-    protected function processRender(string extension, int quality)
+    protected function processRender(string extension, int quality) -> false | string
     {
         let extension = strtolower(extension);
 
@@ -574,12 +517,6 @@ class Gd extends AbstractAdapter
         return ob_get_clean();
     }
 
-    /**
-     * @param int $width
-     * @param int $height
-     *
-     * @return void
-     */
     protected function processResize(int width, int height) -> void
     {
         var image;
@@ -595,11 +532,6 @@ class Gd extends AbstractAdapter
         let this->height = imagesy(image);
     }
 
-    /**
-     * @param int $degrees
-     *
-     * @return void
-     */
     protected function processRotate(int degrees) -> void
     {
         var copy, height, image, transparent, width;
@@ -642,10 +574,6 @@ class Gd extends AbstractAdapter
     }
 
     /**
-     * @param string $file
-     * @param int    $quality
-     *
-     * @return bool
      * @throws Exception
      */
     protected function processSave(string file, int quality) -> bool
@@ -701,11 +629,6 @@ class Gd extends AbstractAdapter
         return true;
     }
 
-    /**
-     * @param int $amount
-     *
-     * @return void
-     */
     protected function processSharpen(int amount) -> void
     {
         var result;
@@ -732,17 +655,6 @@ class Gd extends AbstractAdapter
     }
 
     /**
-     * @param string      $text
-     * @param mixed       $offsetX
-     * @param mixed       $offsetY
-     * @param int         $opacity
-     * @param int         $red
-     * @param int         $green
-     * @param int         $blue
-     * @param int         $size
-     * @param string|null $fontFile
-     *
-     * @return void
      * @throws Exception
      */
     protected function processText(
@@ -896,7 +808,6 @@ class Gd extends AbstractAdapter
     /**
      * Checks the installed version of GD
      *
-     * @return void
      * @throws Exception
      */
     private function check() -> void
