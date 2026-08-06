@@ -13,6 +13,7 @@ namespace Phalcon\Autoload;
 use Phalcon\Autoload\Exceptions\LoaderDirectoriesNotArray;
 use Phalcon\Autoload\Exceptions\LoaderMethodNotCallable;
 use Phalcon\Events\Exception as EventsException;
+use Phalcon\Events\ManagerInterface;
 use Phalcon\Events\Traits\EventsAwareTrait;
 
 /**
