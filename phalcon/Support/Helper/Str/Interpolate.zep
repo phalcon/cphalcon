@@ -23,8 +23,7 @@ class Interpolate
     use InterpolateTrait;
 
     /**
-     * @param string $message
-     * @param array  $context
+     * @param string[] $context
      */
     public function __invoke(
         string message,

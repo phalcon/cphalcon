@@ -15,55 +15,16 @@ namespace Phalcon\Support\Debug\Report;
  */
 final class BacktraceItem
 {
-    /**
-     * @var array
-     */
-    protected args = [];
-
-    /**
-     * @var string|null
-     */
-    protected classLink = null;
-
-    /**
-     * @var string|null
-     */
-    protected className = null;
-
-    /**
-     * @var string|null
-     */
-    protected file = null;
-
-    /**
-     * @var array|null
-     */
-    protected fragment = null;
-
-    /**
-     * @var string|null
-     */
-    protected functionLink = null;
-
-    /**
-     * @var string
-     */
-    protected functionName;
-
-    /**
-     * @var bool
-     */
-    protected hasArgs = false;
-
-    /**
-     * @var int|null
-     */
-    protected line = null;
-
-    /**
-     * @var string|null
-     */
-    protected type = null;
+    protected array args = [];
+    protected ?string classLink = null;
+    protected ?string className = null;
+    protected ?string file = null;
+    protected ?array fragment = null;
+    protected ?string functionLink = null;
+    protected string functionName;
+    protected bool hasArgs = false;
+    protected ?int line = null;
+    protected ?string type = null;
 
     /**
      * @param string      $functionName
@@ -101,81 +62,51 @@ final class BacktraceItem
             this->fragment     = fragment;
     }
 
-    /**
-     * @return array
-     */
     public function getArgs() -> array
     {
         return this->args;
     }
 
-    /**
-     * @return string|null
-     */
     public function getClassLink() -> string | null
     {
         return this->classLink;
     }
 
-    /**
-     * @return string|null
-     */
     public function getClassName() -> string | null
     {
         return this->className;
     }
 
-    /**
-     * @return string|null
-     */
     public function getFile() -> string | null
     {
         return this->file;
     }
 
-    /**
-     * @return array|null
-     */
     public function getFragment() -> array | null
     {
         return this->fragment;
     }
 
-    /**
-     * @return string|null
-     */
     public function getFunctionLink() -> string | null
     {
         return this->functionLink;
     }
 
-    /**
-     * @return string
-     */
     public function getFunctionName() -> string
     {
         return this->functionName;
     }
 
-    /**
-     * @return int|null
-     */
     public function getLine() -> int | null
     {
         return this->line;
     }
 
-    /**
-     * @return string|null
-     */
     public function getType() -> string | null
     {
         return this->type;
     }
 
-    /**
-     * @return bool
-     */
     public function hasArgs() -> bool
     {
         return this->hasArgs;

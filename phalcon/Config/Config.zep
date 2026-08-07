@@ -268,29 +268,26 @@ class Config extends Collection implements ConfigInterface
      */
     protected function setData(var element, var value) -> void
     {
-        var data, key;
+        var key;
 
         if typeof value !== "array" {
             this->validateType(value);
         }
 
-        let data    = this->data,
-            element = (string) element,
+        let element = (string) element,
             key     = (this->insensitive) ? mb_strtolower(element) : element;
 
         let this->lowerKeys[key] = element;
 
         if typeof value === "array" {
-            let data[element] = new Config(
+            let this->data[element] = new Config(
                 value,
                 this->insensitive,
                 this->strictNull,
                 this->type
             );
         } else {
-            let data[element] = value;
+            let this->data[element] = value;
         }
-
-        let this->data = data;
     }
 }

@@ -106,7 +106,7 @@ interface Collection extends ArrayAccess, IteratorAggregate
      */
     public function get(
         string element,
-        mixed defaultValue = null,
+        var defaultValue = null,
         string cast = null
     ) -> mixed;
 
@@ -199,7 +199,7 @@ interface Collection extends ArrayAccess, IteratorAggregate
      *
      * @return mixed
      */
-    public function reduce(callable callback, mixed initial = null) -> mixed;
+    public function reduce(callable callback, var initial = null) -> mixed;
 
     /**
      * Removes the element from the collection.

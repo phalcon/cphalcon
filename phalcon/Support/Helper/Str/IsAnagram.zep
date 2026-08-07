@@ -16,12 +16,6 @@ namespace Phalcon\Support\Helper\Str;
  */
 class IsAnagram
 {
-    /**
-     * @param string $first
-     * @param string $second
-     *
-     * @return bool
-     */
     public function __invoke(string first, string second) -> bool
     {
         return count_chars(first, 1) === count_chars(second, 1);

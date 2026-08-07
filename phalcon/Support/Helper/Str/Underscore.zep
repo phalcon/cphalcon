@@ -15,11 +15,6 @@ namespace Phalcon\Support\Helper\Str;
  */
 class Underscore
 {
-    /**
-     * @param string $text
-     *
-     * @return string
-     */
     public function __invoke(string text) -> string
     {
         var result;

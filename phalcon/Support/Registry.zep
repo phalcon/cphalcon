@@ -10,7 +10,6 @@
 
 namespace Phalcon\Support;
 
-use Phalcon\Support\Collection;
 use Traversable;
 
 /**
@@ -125,9 +124,9 @@ final class Registry extends Collection
      * Get the element from the collection
      */
     final public function get(
-         string element,
+        string element,
         var defaultValue = null,
-         string cast = null
+        string cast = null
     ) -> mixed {
         return parent::get(element, defaultValue, cast);
     }

@@ -17,9 +17,9 @@ namespace Phalcon\Support\Helper\Arr;
 class Split
 {
     /**
-     * @param array $collection
+     * @param array<array-key, mixed> $collection
      *
-     * @return array
+     * @return array<array-key, mixed>
      */
     public function __invoke(array collection) -> array
     {

@@ -10,17 +10,21 @@
 
 namespace Phalcon\Support\Helper\Arr;
 
+use Phalcon\Traits\Support\Helper\Arr\FilterTrait;
+
 /**
  * Returns the key of the last element of the collection. If a callable is
  * passed, the element returned is the first that validates true
  */
-class LastKey extends AbstractArr
+class LastKey
 {
+    use FilterTrait;
+
     /**
-     * @param array         $collection
-     * @param callable|null $method
+     * @param array<array-key, mixed> $collection
+     * @param callable|null           $method
      *
-     * @return mixed
+     * @return int|string|null
      */
     public function __invoke(array collection, var method = null) -> var
     {

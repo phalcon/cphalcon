@@ -11,21 +11,18 @@
 namespace Phalcon\Support\Helper\Str;
 
 use Phalcon\Support\Helper\Str\Exceptions\InvalidReplaceFormat;
+use Phalcon\Traits\Support\Helper\Str\LowerTrait;
 
 /**
  * Changes a text to a URL friendly one. Replaces commonly known accented
  * characters with their Latin equivalents. If a `replace` string or array
  * is passed, it will also be used to replace those characters with a space.
  */
-class Friendly extends AbstractStr
+class Friendly
 {
+    use LowerTrait;
+
     /**
-     * @param string     $text
-     * @param string     $separator
-     * @param bool       $lowercase
-     * @param mixed|null $replace
-     *
-     * @return string
      * @throws InvalidReplaceFormat
      */
     public function __invoke(

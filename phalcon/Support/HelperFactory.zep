@@ -10,7 +10,7 @@
 
 namespace Phalcon\Support;
 
-use Phalcon\Factory\AbstractFactory;
+use Exception as BaseException;
 use Phalcon\Support\Helper\Arr\Blacklist;
 use Phalcon\Support\Helper\Arr\Chunk;
 use Phalcon\Support\Helper\Arr\Filter;
@@ -70,6 +70,8 @@ use Phalcon\Support\Helper\Str\Ucwords;
 use Phalcon\Support\Helper\Str\Uncamelize;
 use Phalcon\Support\Helper\Str\Underscore;
 use Phalcon\Support\Helper\Str\Upper;
+use Phalcon\Traits\Factory\FactoryTrait;
+use Throwable;
 
 /**
  * ServiceLocator implementation for helpers
@@ -134,12 +136,12 @@ use Phalcon\Support\Helper\Str\Upper;
  * @method string upper(string $text, string $encoding = 'UTF-8')
  * @method array  whitelist(array $collection, array $whiteList)
  */
-class HelperFactory extends AbstractFactory
+class HelperFactory
 {
+    use FactoryTrait;
+
     /**
      * Constructor.
-     *
-     * @param array $services
      */
     public function __construct( array services = [])
     {
@@ -147,10 +149,6 @@ class HelperFactory extends AbstractFactory
     }
 
     /**
-     * @param string $name
-     * @param array  $arguments
-     *
-     * @return mixed
      * @throws Exception
      */
     public function __call(string name, array arguments)
@@ -163,23 +161,15 @@ class HelperFactory extends AbstractFactory
     }
 
     /**
-     * @param string $name
-     *
-     * @return mixed
      * @throws Exception
      */
     public function newInstance(string name)
     {
-        if (true !== isset(this->services[name])) {
-            let this->services[name] = create_instance(this->getService(name));
-        }
-
-        return this->services[name];
-
+        return $this->getCachedInstance($name);
     }
 
     /**
-     * @return string
+     * @return class-string<Throwable>
      */
     protected function getExceptionClass() -> string
     {

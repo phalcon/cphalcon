@@ -10,17 +10,15 @@
 
 namespace Phalcon\Support\Helper\Str;
 
+use Phalcon\Traits\Support\Helper\Str\UpperTrait;
+
 /**
  * Returns `true` if the given string is in upper case, `false` otherwise.
  */
-class IsUpper extends AbstractStr
+class IsUpper
 {
-    /**
-     * @param string $text
-     * @param string $encoding
-     *
-     * @return bool
-     */
+    use UpperTrait;
+
     public function __invoke(
         string text,
         string encoding = "UTF-8"

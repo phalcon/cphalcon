@@ -15,6 +15,7 @@ use Phalcon\Support\Debug\Exceptions\RequestHalted;
 use Phalcon\Support\Debug\Exceptions\RuntimeWarning;
 use Phalcon\Support\Debug\Renderer\HtmlRenderer;
 use Phalcon\Support\Debug\ReportBuilder;
+use Phalcon\Support\Helper\Json\Encode;
 use Phalcon\Traits\Support\Helper\Arr\GetTrait;
 use ReflectionException;
 use Throwable;
@@ -27,55 +28,16 @@ class Debug
 {
     use GetTrait;
 
-    /**
-     * @var array
-     */
-    protected blacklist = ["request" : [], "server" : []];
-
-    /**
-     * @var array
-     */
-    protected data = [];
-
-    /**
-     * @var bool
-     */
-    protected hideDocumentRoot = false;
-
-    /**
-     * @var bool
-     */
-    protected static isActive = false;
-
-    /**
-     * @var Renderer
-     */
-    protected renderer;
-
-    /**
-     * @var ReportBuilder
-     */
-    protected reportBuilder;
-
-    /**
-     * @var bool
-     */
-    protected showBackTrace = true;
-
-    /**
-     * @var bool
-     */
-    protected showFileFragment = false;
-
-    /**
-     * @var bool
-     */
-    protected showFiles = true;
-
-    /**
-     * @var string
-    */
-    protected uri = "https://assets.phalcon.io/debug/5.0.x/";
+    protected static bool isActive = false;
+    protected array blacklist = ["request" : [], "server" : []];
+    protected array data = [];
+    protected bool hideDocumentRoot = false;
+    protected <Renderer> renderer;
+    protected <ReportBuilder> reportBuilder;
+    protected bool showBackTrace = true;
+    protected bool showFileFragment = false;
+    protected bool showFiles = true;
+    protected string uri = "https://assets.phalcon.io/debug/5.0.x/";
 
     public function __construct()
     {
@@ -95,8 +57,6 @@ class Debug
 
     /**
      * Adds a variable to the debug output
-     *
-     * @param mixed $variable
      */
     public function debugVar(var varz) -> <static>
     {
@@ -153,9 +113,6 @@ class Debug
 
     /**
      * Listen for uncaught exceptions and non silent notices or warnings
-     *
-     * @param bool $exceptions
-     * @param bool $lowSeverity
      */
     public function listen(bool exceptions = true, bool lowSeverity = false) -> <static>
     {
@@ -245,6 +202,8 @@ class Debug
 
     /**
      * Throws an exception when a notice or warning is raised
+     *
+     * @throws RuntimeWarning
      */
     public function onUncaughtLowSeverity(severity, message, file, line) -> void
     {
@@ -256,9 +215,6 @@ class Debug
     /**
      * Render exception to html format.
      *
-     * @param Throwable $exception
-     *
-     * @return string
      * @throws ReflectionException
      */
     public function renderHtml(<\Throwable> exception) -> string
@@ -311,8 +267,6 @@ class Debug
 
     /**
      * Sets the renderer used to produce the output
-     *
-     * @param Renderer $renderer
      */
     public function setRenderer(<Renderer> renderer) -> <static>
     {
@@ -323,8 +277,6 @@ class Debug
 
     /**
      * Sets if files the exception's backtrace must be showed
-     *
-     * @param bool $showBackTrace
      */
     public function setShowBackTrace(bool showBackTrace) -> <static>
     {
@@ -336,8 +288,6 @@ class Debug
     /**
      * Sets if files must be completely opened and showed in the output
      * or just the fragment related to the exception
-     *
-     * @param bool $showFileFragment
      */
     public function setShowFileFragment(bool showFileFragment) -> <static>
     {
@@ -348,8 +298,6 @@ class Debug
 
     /**
      * Set if files part of the backtrace must be shown in the output
-     *
-     * @param bool $showFiles
      */
     public function setShowFiles(bool showFiles) -> <static>
     {
@@ -360,8 +308,6 @@ class Debug
 
     /**
      * Change the base URI for static resources
-     *
-     * @param string $uri
      */
     public function setUri( string uri) -> <static>
     {

@@ -14,8 +14,4 @@ use Phalcon\Support\Helper\Exception;
 
 class InsufficientArguments extends Exception
 {
-    public function __construct()
-    {
-        parent::__construct("concat needs at least three parameters");
-    }
 }

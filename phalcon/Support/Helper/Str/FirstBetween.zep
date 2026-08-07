@@ -16,13 +16,6 @@ namespace Phalcon\Support\Helper\Str;
  */
 class FirstBetween
 {
-    /**
-     * @param string $text
-     * @param string $start
-     * @param string $end
-     *
-     * @return string
-     */
     public function __invoke(
         string text,
         string start,

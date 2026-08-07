@@ -30,19 +30,11 @@ class ReportBuilder
     use InfoTrait;
 
     /**
-     * @param Throwable $exception
-     * @param array     $blacklist
-     * @param bool      $showBackTrace
-     * @param bool      $showFiles
-     * @param bool      $showFileFragment
-     * @param string    $uri
-     * @param array     $data
-     *
      * @return ExceptionReport
      * @throws ReflectionException
      */
     public function build(
-        <\Throwable> exception,
+        <Throwable> exception,
         array blacklist,
         bool showBackTrace,
         bool showFiles,
@@ -87,13 +79,6 @@ class ReportBuilder
         return report;
     }
 
-    /**
-     * @param string $file
-     * @param int    $line
-     * @param bool   $showFileFragment
-     *
-     * @return array
-     */
     private function buildFragment(string file, int line, bool showFileFragment) -> array
     {
         var lines, numberLines, firstLine, lastLine, mode, beforeLine, afterLine;
@@ -192,12 +177,6 @@ class ReportBuilder
         );
     }
 
-    /**
-     * @param array $source
-     * @param array $blacklist
-     *
-     * @return array
-     */
     private function filter(array source, array blacklist) -> array
     {
         var result, key, value;
@@ -214,9 +193,6 @@ class ReportBuilder
     }
 
     /**
-     * @param string $className
-     *
-     * @return string|null
      * @throws ReflectionException
      */
     private function resolveClassLink(string className) -> string | null
@@ -241,9 +217,6 @@ class ReportBuilder
     }
 
     /**
-     * @param string $functionName
-     *
-     * @return string|null
      * @throws ReflectionException
      */
     private function resolveFunctionLink(string functionName) -> string | null

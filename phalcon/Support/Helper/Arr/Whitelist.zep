@@ -10,17 +10,21 @@
 
 namespace Phalcon\Support\Helper\Arr;
 
+use Phalcon\Traits\Support\Helper\Arr\FilterTrait;
+
 /**
  * White list filter by key: obtain elements of an array filtering by the keys
  * obtained from the elements of a whitelist
  */
-class Whitelist extends AbstractArr
+class Whitelist
 {
+    use FilterTrait;
+
     /**
-     * @param array $collection
-     * @param array $whiteList
+     * @param array<array-key, mixed> $collection
+     * @param array<array-key, mixed> $whiteList
      *
-     * @return array
+     * @return array<array-key, mixed>
      */
     public function __invoke(array collection, array whiteList) -> array
     {
