@@ -39,10 +39,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Arr_Flatten)
 }
 
 /**
- * @param array $collection
- * @param bool  $deep
+ * @param array<array-key, mixed> $collection
+ * @param bool                    $deep
  *
- * @return array
+ * @return array<array-key, mixed>
  */
 PHP_METHOD(Phalcon_Support_Helper_Arr_Flatten, __invoke)
 {
@@ -149,10 +149,9 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Flatten, __invoke)
 }
 
 /**
- * @param array $data
- * @param mixed $item
+ * @param array<array-key, mixed> $data
  *
- * @return array
+ * @return array<array-key, mixed>
  */
 PHP_METHOD(Phalcon_Support_Helper_Arr_Flatten, processArray)
 {
@@ -190,11 +189,9 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Flatten, processArray)
 }
 
 /**
- * @param array $data
- * @param mixed $item
- * @param bool  $deep
+ * @param array<array-key, mixed> $data
  *
- * @return array
+ * @return array<array-key, mixed>
  */
 PHP_METHOD(Phalcon_Support_Helper_Arr_Flatten, processArrayDeep)
 {
@@ -235,10 +232,9 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Flatten, processArrayDeep)
 }
 
 /**
- * @param array $data
- * @param mixed $item
+ * @param array<array-key, mixed> $data
  *
- * @return array
+ * @return array<array-key, mixed>
  */
 PHP_METHOD(Phalcon_Support_Helper_Arr_Flatten, processNotArray)
 {
@@ -257,7 +253,7 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Flatten, processNotArray)
 	zephir_fetch_params(1, 2, 0, &data_param, &item);
 	zephir_get_arrval(&data, data_param);
 	if (Z_TYPE_P(item) != IS_ARRAY) {
-		zephir_array_append(&data, item, PH_SEPARATE, "phalcon/Support/Helper/Arr/Flatten.zep", 80);
+		zephir_array_append(&data, item, PH_SEPARATE, "phalcon/Support/Helper/Arr/Flatten.zep", 76);
 	}
 	RETURN_CTOR(&data);
 }

@@ -50,12 +50,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Arr_Order)
 }
 
 /**
- * @param array $collection
- * @param mixed $attribute
- * @param int   $order
- * @param int   $flags
+ * @param array<array-key, mixed> $collection
  *
- * @return array
+ * @return array<array-key, mixed>
  */
 PHP_METHOD(Phalcon_Support_Helper_Arr_Order, __invoke)
 {
@@ -97,7 +94,7 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Order, __invoke)
 		}
 	ZEPHIR_INIT_VAR(&sorted);
 	array_init(&sorted);
-	zephir_is_iterable(&collection, 0, "phalcon/Support/Helper/Arr/Order.zep", 51);
+	zephir_is_iterable(&collection, 0, "phalcon/Support/Helper/Arr/Order.zep", 48);
 	if (Z_TYPE_P(&collection) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&collection), _0)
 		{
@@ -140,7 +137,7 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Order, __invoke)
 	if (1 == order) {
 		ZVAL_LONG(&_7$$5, flags);
 		ZEPHIR_MAKE_REF(&sorted);
-		ZEPHIR_CALL_FUNCTION(NULL, "ksort", NULL, 71, &sorted, &_7$$5);
+		ZEPHIR_CALL_FUNCTION(NULL, "ksort", NULL, 69, &sorted, &_7$$5);
 		ZEPHIR_UNREF(&sorted);
 		zephir_check_call_status();
 	} else {
@@ -156,68 +153,76 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Order, __invoke)
 }
 
 /**
- * @param array $sorted
- * @param mixed $attribute
- * @param mixed $item
+ * @param array<array-key, mixed> $sorted
+ * @param string                  $attribute
+ * @param mixed                   $item
  *
- * @return array
+ * @return array<array-key, mixed>
  */
 PHP_METHOD(Phalcon_Support_Helper_Arr_Order, checkNonObject)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval *sorted_param = NULL, *attribute, attribute_sub, *item, item_sub, key;
+	zend_string *attribute = NULL;
+	zval *sorted_param = NULL, attribute_zv, *item, item_sub, key;
 	zval sorted;
 
 	ZVAL_UNDEF(&sorted);
-	ZVAL_UNDEF(&attribute_sub);
+	ZVAL_UNDEF(&attribute_zv);
 	ZVAL_UNDEF(&item_sub);
 	ZVAL_UNDEF(&key);
 	ZEND_PARSE_PARAMETERS_START(3, 3)
 		ZEPHIR_Z_PARAM_ARRAY(sorted, sorted_param)
-		Z_PARAM_ZVAL(attribute)
+		Z_PARAM_STR(attribute)
 		Z_PARAM_ZVAL(item)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_fetch_params(1, 3, 0, &sorted_param, &attribute, &item);
+	sorted_param = ZEND_CALL_ARG(execute_data, 1);
+	item = ZEND_CALL_ARG(execute_data, 3);
 	zephir_get_arrval(&sorted, sorted_param);
+	zephir_memory_observe(&attribute_zv);
+	ZVAL_STR_COPY(&attribute_zv, attribute);
 	if (Z_TYPE_P(item) != IS_OBJECT) {
 		zephir_memory_observe(&key);
-		zephir_array_fetch(&key, item, attribute, PH_NOISY, "phalcon/Support/Helper/Arr/Order.zep", 72);
+		zephir_array_fetch(&key, item, &attribute_zv, PH_NOISY, "phalcon/Support/Helper/Arr/Order.zep", 72);
 		zephir_array_update_zval(&sorted, &key, item, PH_COPY | PH_SEPARATE);
 	}
 	RETURN_CTOR(&sorted);
 }
 
 /**
- * @param array $sorted
- * @param mixed $attribute
- * @param mixed $item
+ * @param array<array-key, mixed> $sorted
+ * @param string                  $attribute
+ * @param mixed                   $item
  *
- * @return array
+ * @return array<array-key, mixed>
  */
 PHP_METHOD(Phalcon_Support_Helper_Arr_Order, checkObject)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval *sorted_param = NULL, *attribute, attribute_sub, *item, item_sub, key;
+	zend_string *attribute = NULL;
+	zval *sorted_param = NULL, attribute_zv, *item, item_sub, key;
 	zval sorted;
 
 	ZVAL_UNDEF(&sorted);
-	ZVAL_UNDEF(&attribute_sub);
+	ZVAL_UNDEF(&attribute_zv);
 	ZVAL_UNDEF(&item_sub);
 	ZVAL_UNDEF(&key);
 	ZEND_PARSE_PARAMETERS_START(3, 3)
 		ZEPHIR_Z_PARAM_ARRAY(sorted, sorted_param)
-		Z_PARAM_ZVAL(attribute)
+		Z_PARAM_STR(attribute)
 		Z_PARAM_ZVAL(item)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_fetch_params(1, 3, 0, &sorted_param, &attribute, &item);
+	sorted_param = ZEND_CALL_ARG(execute_data, 1);
+	item = ZEND_CALL_ARG(execute_data, 3);
 	zephir_get_arrval(&sorted, sorted_param);
+	zephir_memory_observe(&attribute_zv);
+	ZVAL_STR_COPY(&attribute_zv, attribute);
 	if (Z_TYPE_P(item) == IS_OBJECT) {
 		zephir_memory_observe(&key);
-		zephir_read_property_zval(&key, item, attribute, PH_NOISY_CC);
+		zephir_read_property_zval(&key, item, &attribute_zv, PH_NOISY_CC);
 		zephir_array_update_zval(&sorted, &key, item, PH_COPY | PH_SEPARATE);
 	}
 	RETURN_CTOR(&sorted);

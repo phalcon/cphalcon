@@ -182,12 +182,12 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, paginate)
 	ZEPHIR_INIT_VAR(&pageItems);
 	array_init(&pageItems);
 	zephir_memory_observe(&_0);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1224, PH_NOISY_CC);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1223, PH_NOISY_CC);
 	limit = zephir_get_intval(&_0);
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 1225, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 1224, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&config, &_1);
 	zephir_memory_observe(&_2);
-	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_2, 1226, PH_NOISY_CC);
+	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_2, 1225, PH_NOISY_CC);
 	pageNumber = zephir_get_intval(&_2);
 	zephir_array_fetch_string(&_3, &config, SL("model"), PH_NOISY | PH_READONLY, "phalcon/Paginator/Adapter/Model.zep", 114);
 	ZEPHIR_CPY_WRT(&modelClass, &_3);
@@ -209,7 +209,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, paginate)
 	ZEPHIR_INIT_VAR(&_6);
 	ZVAL_STRING(&_6, "count");
 	zephir_array_fast_append(&_5, &_6);
-	ZEPHIR_CALL_FUNCTION(&rowCountResult, "call_user_func", NULL, 80, &_5, &parameters);
+	ZEPHIR_CALL_FUNCTION(&rowCountResult, "call_user_func", NULL, 78, &_5, &parameters);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&rowCountResult) == IS_OBJECT) {
 		ZEPHIR_CALL_METHOD(&_7$$6, &rowCountResult, "count", NULL, 0);
@@ -236,7 +236,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, paginate)
 		ZEPHIR_INIT_VAR(&_11$$10);
 		ZVAL_STRING(&_11$$10, "find");
 		zephir_array_fast_append(&_10$$10, &_11$$10);
-		ZEPHIR_CALL_FUNCTION(&_12$$10, "call_user_func", NULL, 80, &_10$$10, &parameters);
+		ZEPHIR_CALL_FUNCTION(&_12$$10, "call_user_func", NULL, 78, &_10$$10, &parameters);
 		zephir_check_call_status();
 		ZEPHIR_CPY_WRT(&pageItems, &_12$$10);
 	}
@@ -256,7 +256,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, paginate)
 	ZVAL_LONG(&_6, rowcount);
 	zephir_array_update_string(&_13, SL("total_items"), &_6, PH_COPY | PH_SEPARATE);
 	zephir_memory_observe(&_14);
-	zephir_read_property_cached(&_14, this_ptr, _zephir_prop_0, 1224, PH_NOISY_CC);
+	zephir_read_property_cached(&_14, this_ptr, _zephir_prop_0, 1223, PH_NOISY_CC);
 	zephir_array_update_string(&_13, SL("limit"), &_14, PH_COPY | PH_SEPARATE);
 	add_assoc_long_ex(&_13, SL("first"), 1);
 	ZEPHIR_INIT_NVAR(&_6);

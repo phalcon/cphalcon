@@ -43,8 +43,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Str_Interpolate)
 }
 
 /**
- * @param string $message
- * @param array  $context
+ * @param string[] $context
  */
 PHP_METHOD(Phalcon_Support_Helper_Str_Interpolate, __invoke)
 {

@@ -32,47 +32,65 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Debug_Report_BacktraceItem)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Support\\Debug\\Report, BacktraceItem, phalcon, support_debug_report_backtraceitem, phalcon_support_debug_report_backtraceitem_method_entry, ZEND_ACC_FINAL_CLASS);
 
-	/**
-	 * @var array
-	 */
-	zend_declare_property_null(phalcon_support_debug_report_backtraceitem_ce, SL("args"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var string|null
-	 */
-	zend_declare_property_null(phalcon_support_debug_report_backtraceitem_ce, SL("classLink"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var string|null
-	 */
-	zend_declare_property_null(phalcon_support_debug_report_backtraceitem_ce, SL("className"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var string|null
-	 */
-	zend_declare_property_null(phalcon_support_debug_report_backtraceitem_ce, SL("file"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var array|null
-	 */
-	zend_declare_property_null(phalcon_support_debug_report_backtraceitem_ce, SL("fragment"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var string|null
-	 */
-	zend_declare_property_null(phalcon_support_debug_report_backtraceitem_ce, SL("functionLink"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var string
-	 */
-	zend_declare_property_null(phalcon_support_debug_report_backtraceitem_ce, SL("functionName"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var bool
-	 */
-	zend_declare_property_bool(phalcon_support_debug_report_backtraceitem_ce, SL("hasArgs"), 0, ZEND_ACC_PROTECTED);
-	/**
-	 * @var int|null
-	 */
-	zend_declare_property_null(phalcon_support_debug_report_backtraceitem_ce, SL("line"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var string|null
-	 */
-	zend_declare_property_null(phalcon_support_debug_report_backtraceitem_ce, SL("type"), ZEND_ACC_PROTECTED);
-	phalcon_support_debug_report_backtraceitem_ce->create_object = zephir_init_properties_Phalcon_Support_Debug_Report_BacktraceItem;
+	{
+		zval _zc0;
+		array_init_size(&_zc0, 1);
+		zephir_declare_typed_property(phalcon_support_debug_report_backtraceitem_ce, SL("args"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_ARRAY, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_NULL(&_zc0);
+		zephir_declare_typed_property(phalcon_support_debug_report_backtraceitem_ce, SL("classLink"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING|MAY_BE_NULL, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_NULL(&_zc0);
+		zephir_declare_typed_property(phalcon_support_debug_report_backtraceitem_ce, SL("className"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING|MAY_BE_NULL, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_NULL(&_zc0);
+		zephir_declare_typed_property(phalcon_support_debug_report_backtraceitem_ce, SL("file"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING|MAY_BE_NULL, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_NULL(&_zc0);
+		zephir_declare_typed_property(phalcon_support_debug_report_backtraceitem_ce, SL("fragment"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_ARRAY|MAY_BE_NULL, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_NULL(&_zc0);
+		zephir_declare_typed_property(phalcon_support_debug_report_backtraceitem_ce, SL("functionLink"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING|MAY_BE_NULL, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_support_debug_report_backtraceitem_ce, SL("functionName"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_BOOL(&_zc0, 0);
+		zephir_declare_typed_property(phalcon_support_debug_report_backtraceitem_ce, SL("hasArgs"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_BOOL, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_NULL(&_zc0);
+		zephir_declare_typed_property(phalcon_support_debug_report_backtraceitem_ce, SL("line"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_LONG|MAY_BE_NULL, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_NULL(&_zc0);
+		zephir_declare_typed_property(phalcon_support_debug_report_backtraceitem_ce, SL("type"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING|MAY_BE_NULL, NULL, 0);
+	}
 
 	return SUCCESS;
 }
@@ -233,135 +251,80 @@ PHP_METHOD(Phalcon_Support_Debug_Report_BacktraceItem, __construct)
 		fragment = &fragment_sub;
 		fragment = &__$null;
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1361, &functionName_zv);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1362, type);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 1363, className);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 1364, classLink);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_4, 1365, functionLink);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1360, &functionName_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1361, type);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 1362, className);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 1363, classLink);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_4, 1364, functionLink);
 	if (hasArgs) {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_5, 1366, &__$true);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_5, 1365, &__$true);
 	} else {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_5, 1366, &__$false);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_5, 1365, &__$false);
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_6, 1367, &args);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_7, 1368, file);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_8, 1369, line);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_9, 1370, fragment);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_6, 1366, &args);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_7, 1367, file);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_8, 1368, line);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_9, 1369, fragment);
 	ZEPHIR_MM_RESTORE();
 }
 
-/**
- * @return array
- */
 PHP_METHOD(Phalcon_Support_Debug_Report_BacktraceItem, getArgs)
 {
 
 	RETURN_MEMBER_TYPED(getThis(), "args", IS_ARRAY);
 }
 
-/**
- * @return string|null
- */
 PHP_METHOD(Phalcon_Support_Debug_Report_BacktraceItem, getClassLink)
 {
 
 	RETURN_MEMBER(getThis(), "classLink");
 }
 
-/**
- * @return string|null
- */
 PHP_METHOD(Phalcon_Support_Debug_Report_BacktraceItem, getClassName)
 {
 
 	RETURN_MEMBER(getThis(), "className");
 }
 
-/**
- * @return string|null
- */
 PHP_METHOD(Phalcon_Support_Debug_Report_BacktraceItem, getFile)
 {
 
 	RETURN_MEMBER(getThis(), "file");
 }
 
-/**
- * @return array|null
- */
 PHP_METHOD(Phalcon_Support_Debug_Report_BacktraceItem, getFragment)
 {
 
 	RETURN_MEMBER(getThis(), "fragment");
 }
 
-/**
- * @return string|null
- */
 PHP_METHOD(Phalcon_Support_Debug_Report_BacktraceItem, getFunctionLink)
 {
 
 	RETURN_MEMBER(getThis(), "functionLink");
 }
 
-/**
- * @return string
- */
 PHP_METHOD(Phalcon_Support_Debug_Report_BacktraceItem, getFunctionName)
 {
 
 	RETURN_MEMBER_TYPED(getThis(), "functionName", IS_STRING);
 }
 
-/**
- * @return int|null
- */
 PHP_METHOD(Phalcon_Support_Debug_Report_BacktraceItem, getLine)
 {
 
 	RETURN_MEMBER(getThis(), "line");
 }
 
-/**
- * @return string|null
- */
 PHP_METHOD(Phalcon_Support_Debug_Report_BacktraceItem, getType)
 {
 
 	RETURN_MEMBER(getThis(), "type");
 }
 
-/**
- * @return bool
- */
 PHP_METHOD(Phalcon_Support_Debug_Report_BacktraceItem, hasArgs)
 {
 
 	RETURN_MEMBER(getThis(), "hasArgs");
-}
-
-zend_object *zephir_init_properties_Phalcon_Support_Debug_Report_BacktraceItem(zend_class_entry *class_type)
-{
-		zval _0, _1$$3;
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-		ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1$$3);
-	
-
-		ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-		zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	
-	{
-		zval local_this_ptr, *this_ptr = &local_this_ptr;
-		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		zephir_read_property_ex(&_0, this_ptr, ZEND_STRL("args"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_0) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_1$$3);
-			array_init(&_1$$3);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("args"), &_1$$3);
-		}
-		ZEPHIR_MM_RESTORE();
-		return Z_OBJ_P(this_ptr);
-	}
 }
 

@@ -143,7 +143,7 @@ PHP_METHOD(Phalcon_Db_Profiler, getNumberTotalStatements)
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("allProfiles", 11, 1);
 	}
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 638, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 637, PH_NOISY_CC | PH_READONLY);
 	RETURN_LONG(zephir_fast_count_int(&_0));
 }
 
@@ -184,7 +184,7 @@ PHP_METHOD(Phalcon_Db_Profiler, reset)
 
 	ZEPHIR_INIT_VAR(&_0);
 	array_init(&_0);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 638, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 637, &_0);
 	RETURN_THIS();
 }
 
@@ -210,7 +210,7 @@ PHP_METHOD(Phalcon_Db_Profiler, setMaxProfiles)
 	zephir_fetch_params_without_memory_grow(1, 0, &maxProfiles_param);
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, maxProfiles);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 639, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 638, &_0);
 	RETURN_THISW();
 }
 
@@ -286,7 +286,7 @@ PHP_METHOD(Phalcon_Db_Profiler, startProfile)
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "beforestartprofile", NULL, 0, &activeProfile);
 		zephir_check_call_status();
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 640, &activeProfile);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 639, &activeProfile);
 	RETURN_THIS();
 }
 
@@ -332,35 +332,35 @@ PHP_METHOD(Phalcon_Db_Profiler, stopProfile)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 640, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 639, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&activeProfile, &_0);
 	ZEPHIR_CALL_FUNCTION(&_1, "hrtime", NULL, 504, &__$true);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, &activeProfile, "setfinaltime", NULL, 0, &_1);
 	zephir_check_call_status();
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_1, 639, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_1, 638, PH_NOISY_CC | PH_READONLY);
 	_2 = ZEPHIR_GT_LONG(&_0, 0);
 	if (_2) {
-		zephir_read_property_cached(&_3, this_ptr, _zephir_prop_2, 638, PH_NOISY_CC | PH_READONLY);
-		zephir_read_property_cached(&_4, this_ptr, _zephir_prop_1, 639, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_3, this_ptr, _zephir_prop_2, 637, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_4, this_ptr, _zephir_prop_1, 638, PH_NOISY_CC | PH_READONLY);
 		_2 = ZEPHIR_LE_LONG(&_4, zephir_fast_count_int(&_3));
 	}
 	if (_2) {
-		zephir_read_property_cached(&_5$$3, this_ptr, _zephir_prop_2, 638, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_5$$3, this_ptr, _zephir_prop_2, 637, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_FUNCTION(&firstKey, "array_key_first", NULL, 17, &_5$$3);
 		zephir_check_call_status();
 		if (Z_TYPE_P(&firstKey) != IS_NULL) {
 			zephir_unset_property_array(this_ptr, ZEND_STRL("allProfiles"), &firstKey);
-			zephir_read_property_cached(&_6$$4, this_ptr, _zephir_prop_2, 638, PH_NOISY_CC | PH_READONLY);
+			zephir_read_property_cached(&_6$$4, this_ptr, _zephir_prop_2, 637, PH_NOISY_CC | PH_READONLY);
 			zephir_array_unset(&_6$$4, &firstKey, PH_SEPARATE);
 		}
 	}
-	zephir_read_property_cached(&_7, this_ptr, _zephir_prop_3, 641, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_7, this_ptr, _zephir_prop_3, 640, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&_8, &activeProfile, "gettotalelapsednanoseconds", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_9);
 	zephir_add_function(&_9, &_7, &_8);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 641, &_9);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 640, &_9);
 	zephir_update_property_array_append(this_ptr, SL("allProfiles"), &activeProfile);
 	if ((zephir_method_exists_ex(this_ptr, ZEND_STRL("afterendprofile")) == SUCCESS)) {
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "afterendprofile", NULL, 0, &activeProfile);

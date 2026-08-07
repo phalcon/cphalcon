@@ -37,11 +37,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Str_CountVowels)
 	return SUCCESS;
 }
 
-/**
- * @param string $text
- *
- * @return int
- */
 PHP_METHOD(Phalcon_Support_Helper_Str_CountVowels, __invoke)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -67,7 +62,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_CountVowels, __invoke)
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "/[aeiouy]/i");
 	zephir_preg_match(&_1, &_2, &text_zv, &matches, 1, 0 , 0 );
-	zephir_array_fetch_long(&_3, &matches, 0, PH_NOISY | PH_READONLY, "phalcon/Support/Helper/Str/CountVowels.zep", 30);
+	zephir_array_fetch_long(&_3, &matches, 0, PH_NOISY | PH_READONLY, "phalcon/Support/Helper/Str/CountVowels.zep", 26);
 	RETURN_MM_LONG(zephir_fast_count_int(&_3));
 }
 

@@ -38,10 +38,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Arr_Group)
 }
 
 /**
- * @param array           $collection
- * @param callable|string $method
+ * @param array<array-key, mixed> $collection
+ * @param callable|string         $method
  *
- * @return array
+ * @return array<array-key, mixed>
  */
 PHP_METHOD(Phalcon_Support_Helper_Arr_Group, __invoke)
 {
@@ -119,11 +119,6 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Group, __invoke)
 	RETURN_CCTOR(&filtered);
 }
 
-/**
- * @param mixed $method
- *
- * @return bool
- */
 PHP_METHOD(Phalcon_Support_Helper_Arr_Group, isCallable)
 {
 	zend_bool _0, _1;
@@ -154,11 +149,28 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Group, isCallable)
 }
 
 /**
- * @param array           $filtered
- * @param callable|string $method
- * @param mixed           $element
+ * @param mixed $element
  *
- * @return array
+ * @return bool
+ */
+PHP_METHOD(Phalcon_Support_Helper_Arr_Group, isObject)
+{
+	zval *element, element_sub;
+
+	ZVAL_UNDEF(&element_sub);
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(element)
+	ZEND_PARSE_PARAMETERS_END();
+	zephir_fetch_params_without_memory_grow(1, 0, &element);
+	RETURN_BOOL(Z_TYPE_P(element) == IS_OBJECT);
+}
+
+/**
+ * @param array<array-key, mixed> $filtered
+ * @param callable|string         $method
+ * @param mixed                   $element
+ *
+ * @return array<array-key, mixed>
  */
 PHP_METHOD(Phalcon_Support_Helper_Arr_Group, processCallable)
 {
@@ -187,7 +199,7 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Group, processCallable)
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "iscallable", NULL, 0, method);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_TRUE_IDENTICAL(&_0)) {
-		ZEPHIR_CALL_FUNCTION(&key, "call_user_func", NULL, 80, method, element);
+		ZEPHIR_CALL_FUNCTION(&key, "call_user_func", NULL, 78, method, element);
 		zephir_check_call_status();
 		zephir_array_update_multi(&output, element, SL("za"), 2, &key);
 	}
@@ -195,18 +207,18 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Group, processCallable)
 }
 
 /**
- * @param array           $filtered
- * @param callable|string $method
- * @param mixed           $element
+ * @param array<array-key, mixed> $filtered
+ * @param callable|string         $method
+ * @param mixed                   $element
  *
- * @return array
+ * @return array<array-key, mixed>
  */
 PHP_METHOD(Phalcon_Support_Helper_Arr_Group, processObject)
 {
 	zend_bool _1;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *filtered_param = NULL, *method, method_sub, *element, element_sub, output, _0, key$$3;
+	zval *filtered_param = NULL, *method, method_sub, *element, element_sub, output, _0, _2, key$$3;
 	zval filtered;
 	zval *this_ptr = getThis();
 
@@ -215,6 +227,7 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Group, processObject)
 	ZVAL_UNDEF(&element_sub);
 	ZVAL_UNDEF(&output);
 	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&key$$3);
 	ZEND_PARSE_PARAMETERS_START(3, 3)
 		ZEPHIR_Z_PARAM_ARRAY(filtered, filtered_param)
@@ -230,7 +243,9 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Group, processObject)
 	zephir_check_call_status();
 	_1 = !ZEPHIR_IS_TRUE_IDENTICAL(&_0);
 	if (_1) {
-		_1 = Z_TYPE_P(element) == IS_OBJECT;
+		ZEPHIR_CALL_METHOD(&_2, this_ptr, "isobject", NULL, 0, element);
+		zephir_check_call_status();
+		_1 = ZEPHIR_IS_TRUE_IDENTICAL(&_2);
 	}
 	if (_1) {
 		zephir_memory_observe(&key$$3);
@@ -242,18 +257,18 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Group, processObject)
 }
 
 /**
- * @param array           $filtered
- * @param callable|string $method
- * @param mixed           $element
+ * @param array<array-key, mixed> $filtered
+ * @param callable|string         $method
+ * @param mixed                   $element
  *
- * @return array
+ * @return array<array-key, mixed>
  */
 PHP_METHOD(Phalcon_Support_Helper_Arr_Group, processOther)
 {
-	zend_bool _1, _2;
+	zend_bool _1, _3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *filtered_param = NULL, *method, method_sub, *element, element_sub, output, _0, key$$3;
+	zval *filtered_param = NULL, *method, method_sub, *element, element_sub, output, _0, _2, key$$3;
 	zval filtered;
 	zval *this_ptr = getThis();
 
@@ -262,6 +277,7 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Group, processOther)
 	ZVAL_UNDEF(&element_sub);
 	ZVAL_UNDEF(&output);
 	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&key$$3);
 	ZEND_PARSE_PARAMETERS_START(3, 3)
 		ZEPHIR_Z_PARAM_ARRAY(filtered, filtered_param)
@@ -277,15 +293,17 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Group, processOther)
 	zephir_check_call_status();
 	_1 = !ZEPHIR_IS_TRUE_IDENTICAL(&_0);
 	if (_1) {
-		_1 = Z_TYPE_P(element) != IS_OBJECT;
+		ZEPHIR_CALL_METHOD(&_2, this_ptr, "isobject", NULL, 0, element);
+		zephir_check_call_status();
+		_1 = !ZEPHIR_IS_TRUE_IDENTICAL(&_2);
 	}
-	_2 = _1;
-	if (_2) {
-		_2 = 1 == zephir_array_isset_value(element, method);
+	_3 = _1;
+	if (_3) {
+		_3 = 1 == zephir_array_isset_value(element, method);
 	}
-	if (_2) {
+	if (_3) {
 		zephir_memory_observe(&key$$3);
-		zephir_array_fetch(&key$$3, element, method, PH_NOISY, "phalcon/Support/Helper/Arr/Group.zep", 120);
+		zephir_array_fetch(&key$$3, element, method, PH_NOISY, "phalcon/Support/Helper/Arr/Group.zep", 125);
 		ZEPHIR_CPY_WRT(&key$$3, &key$$3);
 		zephir_array_update_multi(&output, element, SL("za"), 2, &key$$3);
 	}

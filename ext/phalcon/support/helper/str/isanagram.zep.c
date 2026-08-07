@@ -37,12 +37,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Str_IsAnagram)
 	return SUCCESS;
 }
 
-/**
- * @param string $first
- * @param string $second
- *
- * @return bool
- */
 PHP_METHOD(Phalcon_Support_Helper_Str_IsAnagram, __invoke)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;

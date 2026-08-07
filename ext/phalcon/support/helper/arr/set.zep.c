@@ -38,11 +38,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Arr_Set)
 }
 
 /**
- * @param array $collection
- * @param mixed $value
- * @param mixed $index
+ * @param array<array-key, mixed> $collection
  *
- * @return array
+ * @return array<array-key, mixed>
  */
 PHP_METHOD(Phalcon_Support_Helper_Arr_Set, __invoke)
 {
@@ -80,11 +78,9 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Set, __invoke)
 }
 
 /**
- * @param array $collection
- * @param mixed $value
- * @param mixed $index
+ * @param array<array-key, mixed> $collection
  *
- * @return array
+ * @return array<array-key, mixed>
  */
 PHP_METHOD(Phalcon_Support_Helper_Arr_Set, checkNotNull)
 {
@@ -111,11 +107,9 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Set, checkNotNull)
 }
 
 /**
- * @param array $collection
- * @param mixed $value
- * @param mixed $index
+ * @param array<array-key, mixed> $collection
  *
- * @return array
+ * @return array<array-key, mixed>
  */
 PHP_METHOD(Phalcon_Support_Helper_Arr_Set, checkNull)
 {
@@ -136,7 +130,7 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Set, checkNull)
 	zephir_fetch_params(1, 3, 0, &collection_param, &value, &index);
 	zephir_get_arrval(&collection, collection_param);
 	if (Z_TYPE_P(index) == IS_NULL) {
-		zephir_array_append(&collection, value, PH_SEPARATE, "phalcon/Support/Helper/Arr/Set.zep", 63);
+		zephir_array_append(&collection, value, PH_SEPARATE, "phalcon/Support/Helper/Arr/Set.zep", 57);
 	}
 	RETURN_CTOR(&collection);
 }

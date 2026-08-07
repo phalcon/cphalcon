@@ -119,10 +119,10 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractInput, __invoke)
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_create_array(&_0, 2, 0);
 	zephir_memory_observe(&_1);
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 59, PH_NOISY_CC);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 58, PH_NOISY_CC);
 	zephir_array_update_string(&_0, SL("type"), &_1, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&_0, SL("name"), &name_zv, PH_COPY | PH_SEPARATE);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 60, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 59, &_0);
 	_2 = !(zephir_array_isset_value_string(&attributes, SL("id")));
 	if (_2) {
 		_2 = !(zephir_memnstr_str(&name_zv, SL("["), "phalcon/Html/Helper/Input/AbstractInput.zep", 56));
@@ -135,9 +135,9 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractInput, __invoke)
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setvalue", NULL, 0, &value_zv);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_4);
-	zephir_read_property_cached(&_5, this_ptr, _zephir_prop_1, 60, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_5, this_ptr, _zephir_prop_1, 59, PH_NOISY_CC | PH_READONLY);
 	zephir_fast_array_merge(&_4, &_5, &attributes);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 60, &_4);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 59, &_4);
 	RETURN_THIS();
 }
 
@@ -174,12 +174,12 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractInput, __toString)
 
 	ZEPHIR_INIT_VAR(&closeTag);
 	ZVAL_STRING(&closeTag, "");
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 60, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 59, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&attributes, &_0);
 	ZEPHIR_INIT_VAR(&_1);
 	array_init(&_1);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 60, &_1);
-	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_1, 61, PH_NOISY_CC | PH_READONLY);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 59, &_1);
+	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_1, 60, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&_3, &_2, "gettype", NULL, 0);
 	zephir_check_call_status();
 	if (ZEPHIR_GT_LONG(&_3, 5)) {

@@ -35,12 +35,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Str_Ucwords)
 	return SUCCESS;
 }
 
-/**
- * @param string $text
- * @param string $encoding
- *
- * @return string
- */
 PHP_METHOD(Phalcon_Support_Helper_Str_Ucwords, __invoke)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -69,7 +63,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Ucwords, __invoke)
 	ZVAL_STR_COPY(&encoding_zv, encoding);
 	}
 	ZVAL_LONG(&_0, 2);
-	ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_case", NULL, 31, &text_zv, &_0, &encoding_zv);
+	ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_case", NULL, 304, &text_zv, &_0, &encoding_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }

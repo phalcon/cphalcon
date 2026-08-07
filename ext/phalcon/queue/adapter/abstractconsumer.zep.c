@@ -122,7 +122,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractConsumer, receive)
 		timeout = 0;
 	} else {
 		}
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 85, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 84, PH_NOISY_CC | PH_READONLY);
 	sleep = (zephir_get_numberval(&_0) * 1000);
 	ZEPHIR_INIT_VAR(&_1);
 	zephir_microtime(&_1, &__$true);
@@ -143,7 +143,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractConsumer, receive)
 			RETURN_MM_NULL();
 		}
 		ZVAL_LONG(&_5$$3, sleep);
-		ZEPHIR_CALL_FUNCTION(NULL, "usleep", &_6, 73, &_5$$3);
+		ZEPHIR_CALL_FUNCTION(NULL, "usleep", &_6, 71, &_5$$3);
 		zephir_check_call_status();
 	}
 	RETURN_MM_NULL();
@@ -184,6 +184,6 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractConsumer, setPollInterval)
 	zephir_fetch_params_without_memory_grow(1, 0, &pollInterval_param);
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, pollInterval);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 85, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 84, &_0);
 }
 

@@ -57,7 +57,7 @@ PHP_METHOD(Phalcon_ADR_Emitter_SapiEmitter, emit)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &response);
-	ZEPHIR_CALL_FUNCTION(&_0, "headers_sent", NULL, 220);
+	ZEPHIR_CALL_FUNCTION(&_0, "headers_sent", NULL, 218);
 	zephir_check_call_status();
 	if (zephir_is_true(&_0)) {
 		ZEPHIR_INIT_VAR(&_1$$3);

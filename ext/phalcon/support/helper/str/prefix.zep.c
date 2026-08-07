@@ -28,6 +28,7 @@
  */
 /**
  * Prefixes the text with the supplied prefix
+ * @todo v7 make text string
  */
 ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Str_Prefix)
 {

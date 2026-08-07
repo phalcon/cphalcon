@@ -84,7 +84,7 @@ PHP_METHOD(Phalcon_Traits_Support_Helper_Str_CamelizeTrait, toCamelize)
 	ZEPHIR_INIT_VAR(&result);
 	zephir_camelize(&result, &text_zv, &delimiters_zv);
 	if (lowerFirst == 1) {
-		ZEPHIR_CALL_FUNCTION(&_0$$3, "lcfirst", NULL, 175, &result);
+		ZEPHIR_CALL_FUNCTION(&_0$$3, "lcfirst", NULL, 173, &result);
 		zephir_check_call_status();
 		ZEPHIR_CPY_WRT(&result, &_0$$3);
 	}

@@ -36,12 +36,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Str_Includes)
 	return SUCCESS;
 }
 
-/**
- * @param string $haystack
- * @param string $needle
- *
- * @return bool
- */
 PHP_METHOD(Phalcon_Support_Helper_Str_Includes, __invoke)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -62,7 +56,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Includes, __invoke)
 	ZVAL_STR_COPY(&haystack_zv, haystack);
 	zephir_memory_observe(&needle_zv);
 	ZVAL_STR_COPY(&needle_zv, needle);
-	ZEPHIR_CALL_FUNCTION(&_0, "mb_strpos", NULL, 196, &haystack_zv, &needle_zv);
+	ZEPHIR_CALL_FUNCTION(&_0, "mb_strpos", NULL, 194, &haystack_zv, &needle_zv);
 	zephir_check_call_status();
 	RETURN_MM_BOOL(!ZEPHIR_IS_FALSE_IDENTICAL(&_0));
 }

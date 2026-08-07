@@ -38,11 +38,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Str_DirSeparator)
 	return SUCCESS;
 }
 
-/**
- * @param string $directory
- *
- * @return string
- */
 PHP_METHOD(Phalcon_Support_Helper_Str_DirSeparator, __invoke)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
