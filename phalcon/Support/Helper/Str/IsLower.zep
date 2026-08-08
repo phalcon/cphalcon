@@ -10,15 +10,11 @@
 
 namespace Phalcon\Support\Helper\Str;
 
-use Phalcon\Traits\Support\Helper\Str\LowerTrait;
-
 /**
  * Returns `true` if the given string is in lower case, `false` otherwise.
  */
-class IsLower
+class IsLower extends AbstractStr
 {
-    use LowerTrait;
-
     /**
      * @param string $text
      * @param string $encoding

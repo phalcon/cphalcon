@@ -10,19 +10,15 @@
 
 namespace Phalcon\Support\Helper\Arr;
 
-use Phalcon\Traits\Support\Helper\Arr\FilterTrait;
-
 /**
  * Returns `true` if the provided function returns `true` for all elements of
  * the collection, `false` otherwise.
  */
-class ValidateAll
+class ValidateAll extends AbstractArr
 {
-    use FilterTrait;
-
     /**
-     * @param array<array-key, mixed> $collection
-     * @param callable                $method
+     * @param array    $collection
+     * @param callable $method
      *
      * @return bool
      */

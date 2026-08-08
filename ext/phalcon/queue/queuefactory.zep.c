@@ -17,8 +17,6 @@
 #include "kernel/fcall.h"
 #include "kernel/object.h"
 #include "kernel/array.h"
-#include "kernel/exception.h"
-#include "kernel/concat.h"
 
 
 /**
@@ -44,7 +42,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Queue_QueueFactory)
 {
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Queue, QueueFactory, phalcon, queue_queuefactory, phalcon_queue_queuefactory_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Queue, QueueFactory, phalcon, queue_queuefactory, phalcon_factory_abstractconfigfactory_ce, phalcon_queue_queuefactory_method_entry, 0);
 
 	{
 		zval _zc0;
@@ -93,7 +91,7 @@ PHP_METHOD(Phalcon_Queue_QueueFactory, __construct)
 		ZEPHIR_CALL_METHOD(NULL, factory, "__construct", NULL, 0);
 		zephir_check_call_status();
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1311, factory);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1303, factory);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -133,7 +131,7 @@ PHP_METHOD(Phalcon_Queue_QueueFactory, load)
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(config, &_0);
 	zephir_memory_observe(&name);
-	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Queue/QueueFactory.zep", 64);
+	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Queue/QueueFactory.zep", 62);
 	zephir_memory_observe(&options);
 	if (!(zephir_array_isset_string_fetch(&options, config, SL("options"), 0))) {
 		ZEPHIR_INIT_NVAR(&options);
@@ -183,7 +181,7 @@ PHP_METHOD(Phalcon_Queue_QueueFactory, newInstance)
 	} else {
 		zephir_get_arrval(&options, options_param);
 	}
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1311, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1303, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&connectionFactory, &_0, "newinstance", NULL, 0, &name_zv, &options);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(&connectionFactory, "createcontext", NULL, 0);
@@ -200,127 +198,5 @@ PHP_METHOD(Phalcon_Queue_QueueFactory, getExceptionClass)
 {
 
 	RETURN_STRING("Phalcon\\Queue\\Exceptions\\Exception");
-}
-
-/**
- * @param array<string, mixed>|ConfigInterface $config
- *
- * @return array<string, mixed>
- */
-PHP_METHOD(Phalcon_Queue_QueueFactory, checkConfig)
-{
-	zend_class_entry *_3$$4;
-	zend_bool _0;
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *config, config_sub, exceptionClass, _1$$4, _2$$4, _4$$4;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&config_sub);
-	ZVAL_UNDEF(&exceptionClass);
-	ZVAL_UNDEF(&_1$$4);
-	ZVAL_UNDEF(&_2$$4);
-	ZVAL_UNDEF(&_4$$4);
-	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_ZVAL(config)
-	ZEND_PARSE_PARAMETERS_END();
-	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_fetch_params(1, 1, 0, &config);
-	_0 = Z_TYPE_P(config) == IS_OBJECT;
-	if (_0) {
-		_0 = zephir_instance_of_ev(config, phalcon_config_configinterface_ce);
-	}
-	if (_0) {
-		ZEPHIR_RETURN_CALL_METHOD(config, "toarray", NULL, 0);
-		zephir_check_call_status();
-		RETURN_MM();
-	}
-	if (Z_TYPE_P(config) != IS_ARRAY) {
-		ZEPHIR_CALL_METHOD(&exceptionClass, this_ptr, "getexceptionclass", NULL, 0);
-		zephir_check_call_status();
-		ZEPHIR_INIT_VAR(&_1$$4);
-		zephir_fetch_safe_class(&_2$$4, &exceptionClass);
-		_3$$4 = zephir_fetch_class_str_ex(Z_STRVAL_P(&_2$$4), Z_STRLEN_P(&_2$$4), ZEND_FETCH_CLASS_AUTO);
-		if(!_3$$4) {
-			RETURN_MM_NULL();
-		}
-		object_init_ex(&_1$$4, _3$$4);
-		ZEPHIR_LAST_CALL_STATUS = zephir_check_constructor_access(&_1$$4);
-		zephir_check_call_status();
-		if (zephir_has_constructor(&_1$$4)) {
-			ZEPHIR_INIT_VAR(&_4$$4);
-			ZVAL_STRING(&_4$$4, "Config must be array or Phalcon\\Config\\Config object");
-			ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 0, &_4$$4);
-			zephir_check_call_status();
-		}
-
-		zephir_throw_exception_debug(&_1$$4, "phalcon/Traits/Factory/ConfigTrait.zep", 34);
-		ZEPHIR_MM_RESTORE();
-		return;
-	}
-	RETVAL_ZVAL(config, 1, 0);
-	RETURN_MM();
-}
-
-/**
- * Checks if the config has a specific element
- *
- * @param array  $config
- * @param string $element
- *
- * @return array
- */
-PHP_METHOD(Phalcon_Queue_QueueFactory, checkConfigElement)
-{
-	zval _3$$3;
-	zend_class_entry *_2$$3;
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zend_string *element = NULL;
-	zval *config_param = NULL, element_zv, exceptionClass, _0$$3, _1$$3;
-	zval config;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&config);
-	ZVAL_UNDEF(&element_zv);
-	ZVAL_UNDEF(&exceptionClass);
-	ZVAL_UNDEF(&_0$$3);
-	ZVAL_UNDEF(&_1$$3);
-	ZVAL_UNDEF(&_3$$3);
-	ZEND_PARSE_PARAMETERS_START(2, 2)
-		ZEPHIR_Z_PARAM_ARRAY(config, config_param)
-		Z_PARAM_STR(element)
-	ZEND_PARSE_PARAMETERS_END();
-	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	config_param = ZEND_CALL_ARG(execute_data, 1);
-	zephir_get_arrval(&config, config_param);
-	zephir_memory_observe(&element_zv);
-	ZVAL_STR_COPY(&element_zv, element);
-	if (!(zephir_array_isset_value(&config, &element_zv))) {
-		ZEPHIR_CALL_METHOD(&exceptionClass, this_ptr, "getexceptionclass", NULL, 0);
-		zephir_check_call_status();
-		ZEPHIR_INIT_VAR(&_0$$3);
-		zephir_fetch_safe_class(&_1$$3, &exceptionClass);
-		_2$$3 = zephir_fetch_class_str_ex(Z_STRVAL_P(&_1$$3), Z_STRLEN_P(&_1$$3), ZEND_FETCH_CLASS_AUTO);
-		if(!_2$$3) {
-			RETURN_MM_NULL();
-		}
-		object_init_ex(&_0$$3, _2$$3);
-		ZEPHIR_LAST_CALL_STATUS = zephir_check_constructor_access(&_0$$3);
-		zephir_check_call_status();
-		if (zephir_has_constructor(&_0$$3)) {
-			ZEPHIR_INIT_VAR(&_3$$3);
-			ZEPHIR_CONCAT_SVS(&_3$$3, "You must provide the '", &element_zv, "' option in the factory config parameter.");
-			ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 0, &_3$$3);
-			zephir_check_call_status();
-		}
-
-		zephir_throw_exception_debug(&_0$$3, "phalcon/Traits/Factory/ConfigTrait.zep", 56);
-		ZEPHIR_MM_RESTORE();
-		return;
-	}
-	RETURN_CTOR(&config);
 }
 

@@ -111,10 +111,6 @@ class HtmlRenderer implements Renderer
 
     /**
      * Returns the embedded default template for the given name.
-     *
-     * @param string $name
-     *
-     * @return string
      */
     protected function defaultTemplate(string name) -> string
     {
@@ -231,11 +227,11 @@ class HtmlRenderer implements Renderer
     /**
      * Produces a recursive representation of an array
      */
-    protected function getArrayDump(array argument, int number = 0) -> string | null
+    protected function getArrayDump(array arguments, int number = 0) -> string | null
     {
         var numberArguments, dump, varDump, key, value;
 
-        let numberArguments = count(argument);
+        let numberArguments = count(arguments);
 
         if number >= 3 || numberArguments == 0 {
             return null;
@@ -247,7 +243,7 @@ class HtmlRenderer implements Renderer
 
         let dump = [];
 
-        for key, value in argument {
+        for key, value in arguments {
             if value === "" {
                 let varDump = "(empty string)";
             } elseif is_scalar(value) {
@@ -326,7 +322,7 @@ class HtmlRenderer implements Renderer
     /**
      * Frames whose file lives outside a vendor directory are application code.
      */
-    private function isApp(var file) -> bool
+    private function isApp(string file = null) -> bool
     {
         if null === file {
             return false;

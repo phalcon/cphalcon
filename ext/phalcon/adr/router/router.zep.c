@@ -330,7 +330,7 @@ PHP_METHOD(Phalcon_ADR_Router_Router, match)
 		{
 			ZEPHIR_INIT_NVAR(&other);
 			ZVAL_COPY(&other, _8);
-			ZEPHIR_CALL_FUNCTION(&_9$$5, "strcasecmp", &_10, 83, &other, &method);
+			ZEPHIR_CALL_FUNCTION(&_9$$5, "strcasecmp", &_10, 85, &other, &method);
 			zephir_check_call_status();
 			_11$$5 = !ZEPHIR_IS_LONG_IDENTICAL(&_9$$5, 0);
 			if (_11$$5) {
@@ -366,7 +366,7 @@ PHP_METHOD(Phalcon_ADR_Router_Router, match)
 			}
 			ZEPHIR_CALL_METHOD(&other, &_7, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_CALL_FUNCTION(&_17$$7, "strcasecmp", &_10, 83, &other, &method);
+				ZEPHIR_CALL_FUNCTION(&_17$$7, "strcasecmp", &_10, 85, &other, &method);
 				zephir_check_call_status();
 				_18$$7 = !ZEPHIR_IS_LONG_IDENTICAL(&_17$$7, 0);
 				if (_18$$7) {
@@ -764,7 +764,7 @@ PHP_METHOD(Phalcon_ADR_Router_Router, decamelize)
 	ZEPHIR_CONCAT_SVS(&_1, "$1", &_0, "$2");
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "/([a-z0-9])([A-Z])/");
-	ZEPHIR_CALL_FUNCTION(&_3, "preg_replace", NULL, 88, &_2, &_1, &part_zv);
+	ZEPHIR_CALL_FUNCTION(&_3, "preg_replace", NULL, 90, &_2, &_1, &part_zv);
 	zephir_check_call_status();
 	zephir_fast_strtolower(return_value, &_3);
 	RETURN_MM();
@@ -880,7 +880,7 @@ PHP_METHOD(Phalcon_ADR_Router_Router, deriveCandidates)
 		ZEPHIR_CPY_WRT(&subNamespace, &candidate);
 		zephir_array_append(&parts, &segment, PH_SEPARATE, "phalcon/ADR/Router/Router.zep", 330);
 		ZEPHIR_MAKE_REF(&segments);
-		ZEPHIR_CALL_FUNCTION(NULL, "array_shift", &_9, 38, &segments);
+		ZEPHIR_CALL_FUNCTION(NULL, "array_shift", &_9, 40, &segments);
 		ZEPHIR_UNREF(&segments);
 		zephir_check_call_status();
 	}
@@ -940,7 +940,7 @@ PHP_METHOD(Phalcon_ADR_Router_Router, hasSubNamespace)
 	zephir_fast_str_replace(&_1, &_2, &_3, &subNamespace_zv);
 	ZEPHIR_INIT_VAR(&_4);
 	ZEPHIR_CONCAT_VV(&_4, &_0, &_1);
-	ZEPHIR_RETURN_CALL_FUNCTION("is_dir", NULL, 297, &_4);
+	ZEPHIR_RETURN_CALL_FUNCTION("is_dir", NULL, 299, &_4);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -1193,7 +1193,7 @@ PHP_METHOD(Phalcon_ADR_Router_Router, verbOf)
 		ZEPHIR_INIT_VAR(&_4$$4);
 		ZEPHIR_CALL_METHOD(&_5$$4, this_ptr, "verbs", NULL, 341);
 		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(&_6$$4, "in_array", NULL, 85, &last, &_5$$4, &__$true);
+		ZEPHIR_CALL_FUNCTION(&_6$$4, "in_array", NULL, 87, &last, &_5$$4, &__$true);
 		zephir_check_call_status();
 		if (zephir_is_true(&_6$$4)) {
 			ZEPHIR_CPY_WRT(&_4$$4, &last);

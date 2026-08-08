@@ -1178,7 +1178,7 @@ PHP_METHOD(Phalcon_Http_Response, setFileToSend)
 		if (zephir_is_true(&_1$$5)) {
 			ZEPHIR_CALL_FUNCTION(&_3$$6, "mb_detect_order", NULL, 0);
 			zephir_check_call_status();
-			ZEPHIR_CALL_FUNCTION(&basePathEncoding, "mb_detect_encoding", NULL, 40, &basePath, &_3$$6, &__$true);
+			ZEPHIR_CALL_FUNCTION(&basePathEncoding, "mb_detect_encoding", NULL, 42, &basePath, &_3$$6, &__$true);
 			zephir_check_call_status();
 		}
 		ZEPHIR_INIT_NVAR(&_2$$5);

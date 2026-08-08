@@ -357,7 +357,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_AbstractArrayAdapter, hydrate)
 		RETURN_CCTOR(&instance);
 	}
 	object_init_ex(return_value, phalcon_auth_authuser_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 166, &row);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 168, &row);
 	zephir_check_call_status();
 	RETURN_MM();
 }

@@ -23,6 +23,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/storage/adapter/adapterinterface.zep.c
 	phalcon/di/exception.zep.c
 	phalcon/contracts/support/collection.zep.c
+	phalcon/factory/abstractconfigfactory.zep.c
 	phalcon/filter/validation/exception.zep.c
 	phalcon/auth/exception.zep.c
 	phalcon/support/collection/collectioninterface.zep.c
@@ -31,6 +32,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/contracts/container/ioc/iocthrowable.zep.c
 	phalcon/contracts/container/resolver/resolverthrowable.zep.c
 	phalcon/contracts/container/service/throwable.zep.c
+	phalcon/factory/abstractfactory.zep.c
 	phalcon/forms/element/elementinterface.zep.c
 	phalcon/storage/serializer/serializerinterface.zep.c
 	phalcon/container/exceptions/containerthrowable.zep.c
@@ -46,20 +48,20 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/acl/exception.zep.c
 	phalcon/image/exception.zep.c
 	phalcon/contracts/dispatcher/dispatcher.zep.c
-	phalcon/factory/abstractconfigfactory.zep.c
 	phalcon/mvc/micro/exception.zep.c
 	phalcon/support/collection.zep.c
 	phalcon/application/exception.zep.c
 	phalcon/contracts/db/geometry/geometry.zep.c
 	phalcon/logger/exception.zep.c
 	phalcon/queue/exceptions/queuethrowable.zep.c
+	phalcon/support/helper/arr/abstractarr.zep.c
+	phalcon/support/helper/str/abstractstr.zep.c
 	phalcon/translate/exception.zep.c
 	phalcon/assets/exception.zep.c
 	phalcon/contracts/adr/responder/responder.zep.c
 	phalcon/contracts/encryption/crypt/padding/pad.zep.c
 	phalcon/contracts/encryption/security/uuid/uuid.zep.c
 	phalcon/db/geometry/geometryinterface.zep.c
-	phalcon/factory/abstractfactory.zep.c
 	phalcon/filter/validation/validator/file/abstractfile.zep.c
 	phalcon/queue/exceptions/exception.zep.c
 	phalcon/session/exception.zep.c
@@ -357,8 +359,6 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/storage/serializer/igbinary.zep.c
 	phalcon/support/collection/exception.zep.c
 	phalcon/support/debug/exception.zep.c
-	phalcon/support/helper/arr/abstractarr.zep.c
-	phalcon/support/helper/str/abstractstr.zep.c
 	phalcon/time/clock/exception.zep.c
 	phalcon/adr/application.zep.c
 	phalcon/adr/container/adrprovider.zep.c

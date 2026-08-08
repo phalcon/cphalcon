@@ -196,7 +196,7 @@ PHP_METHOD(Phalcon_ADR_ErrorResponder, handle)
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_5);
 	ZVAL_STRING(&_5, "%s: %s in %s:%d");
-	ZEPHIR_CALL_FUNCTION(&_6, "sprintf", NULL, 143, &_5, &_1, &_2, &_3, &_4);
+	ZEPHIR_CALL_FUNCTION(&_6, "sprintf", NULL, 145, &_5, &_1, &_2, &_3, &_4);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_7);
 	zephir_create_array(&_7, 2, 0);

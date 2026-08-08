@@ -77,7 +77,7 @@ PHP_METHOD(Phalcon_Traits_Php_HashTrait, phpHash)
 	} else {
 		}
 	ZVAL_BOOL(&_0, (binary ? 1 : 0));
-	ZEPHIR_RETURN_CALL_FUNCTION("hash", NULL, 164, &algorithm_zv, &data_zv, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("hash", NULL, 166, &algorithm_zv, &data_zv, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -151,7 +151,7 @@ PHP_METHOD(Phalcon_Traits_Php_HashTrait, phpHashHmac)
 	} else {
 		}
 	ZVAL_BOOL(&_0, (binary ? 1 : 0));
-	ZEPHIR_RETURN_CALL_FUNCTION("hash_hmac", NULL, 165, &algorithm_zv, &data_zv, &key_zv, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("hash_hmac", NULL, 167, &algorithm_zv, &data_zv, &key_zv, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }

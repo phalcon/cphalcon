@@ -30,11 +30,17 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Str_Upper)
 {
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Support\\Helper\\Str, Upper, phalcon, support_helper_str_upper, phalcon_support_helper_str_upper_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Support\\Helper\\Str, Upper, phalcon, support_helper_str_upper, phalcon_support_helper_str_abstractstr_ce, phalcon_support_helper_str_upper_method_entry, 0);
 
 	return SUCCESS;
 }
 
+/**
+ * @param string $text
+ * @param string $encoding
+ *
+ * @return string
+ */
 PHP_METHOD(Phalcon_Support_Helper_Str_Upper, __invoke)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -63,45 +69,6 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Upper, __invoke)
 	ZVAL_STR_COPY(&encoding_zv, encoding);
 	}
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "toupper", NULL, 0, &text_zv, &encoding_zv);
-	zephir_check_call_status();
-	RETURN_MM();
-}
-
-/**
- * @param string $text
- * @param string $encoding
- *
- * @return string
- */
-PHP_METHOD(Phalcon_Support_Helper_Str_Upper, toUpper)
-{
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval text_zv, encoding_zv, _0;
-	zend_string *text = NULL, *encoding = NULL;
-
-	ZVAL_UNDEF(&text_zv);
-	ZVAL_UNDEF(&encoding_zv);
-	ZVAL_UNDEF(&_0);
-	ZEND_PARSE_PARAMETERS_START(1, 2)
-		Z_PARAM_STR(text)
-		Z_PARAM_OPTIONAL
-		Z_PARAM_STR(encoding)
-	ZEND_PARSE_PARAMETERS_END();
-	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_memory_observe(&text_zv);
-	ZVAL_STR_COPY(&text_zv, text);
-	if (!encoding) {
-		encoding = zend_string_init(ZEND_STRL("UTF-8"), 0);
-		zephir_memory_observe(&encoding_zv);
-		ZVAL_STR(&encoding_zv, encoding);
-	} else {
-		zephir_memory_observe(&encoding_zv);
-	ZVAL_STR_COPY(&encoding_zv, encoding);
-	}
-	ZVAL_LONG(&_0, 0);
-	ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_case", NULL, 304, &text_zv, &_0, &encoding_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }

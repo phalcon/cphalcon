@@ -173,7 +173,7 @@ PHP_METHOD(Phalcon_ADR_Responder_ChainResponder, with)
 	ZEPHIR_CPY_WRT(&links, &_0);
 	zephir_array_append(&links, link, PH_SEPARATE, "phalcon/ADR/Responder/ChainResponder.zep", 56);
 	object_init_ex(return_value, phalcon_adr_responder_chainresponder_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 80, &links);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 82, &links);
 	zephir_check_call_status();
 	RETURN_MM();
 }

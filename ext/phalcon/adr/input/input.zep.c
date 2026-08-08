@@ -157,7 +157,7 @@ PHP_METHOD(Phalcon_ADR_Input_Input, fromRequest)
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_8, &_7, "all", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_9, "array_merge", NULL, 193, &_5, &_6, &json, &_8);
+	ZEPHIR_CALL_FUNCTION(&_9, "array_merge", NULL, 195, &_5, &_6, &json, &_8);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 326, &_9);
 	zephir_check_call_status();

@@ -646,7 +646,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, init)
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 703, &_0);
 	ZEPHIR_INIT_NVAR(&_0);
 	object_init_ex(&_0, phalcon_support_collection_ce);
-	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 39);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 41);
 	zephir_check_call_status();
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 702, &_0);
 	ZEPHIR_INIT_VAR(&_1);
@@ -655,7 +655,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, init)
 	zephir_create_array(&_2, 2, 0);
 	add_assoc_stringl_ex(&_2, SL("typ"), SL("JWT"));
 	add_assoc_stringl_ex(&_2, SL("alg"), SL("none"));
-	ZEPHIR_CALL_METHOD(NULL, &_1, "__construct", NULL, 39, &_2);
+	ZEPHIR_CALL_METHOD(NULL, &_1, "__construct", NULL, 41, &_2);
 	zephir_check_call_status();
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 701, &_1);
 	RETURN_THIS();

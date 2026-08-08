@@ -10,19 +10,15 @@
 
 namespace Phalcon\Support\Helper\Arr;
 
-use Phalcon\Traits\Support\Helper\Arr\FilterTrait;
-
 /**
  * Returns the last element of the collection. If a callable is passed, the
  * element returned is the first that validates true
  */
-class Last
+class Last extends AbstractArr
 {
-    use FilterTrait;
-
     /**
-     * @param array<array-key, mixed> $collection
-     * @param callable|null           $method
+     * @param array         $collection
+     * @param callable|null $method
      *
      * @return mixed
      */

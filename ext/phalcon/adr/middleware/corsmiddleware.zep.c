@@ -386,13 +386,13 @@ PHP_METHOD(Phalcon_ADR_Middleware_CorsMiddleware, isAllowed)
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 348, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "*");
-	ZEPHIR_CALL_FUNCTION(&_2, "in_array", NULL, 85, &_1, &_0, &__$true);
+	ZEPHIR_CALL_FUNCTION(&_2, "in_array", NULL, 87, &_1, &_0, &__$true);
 	zephir_check_call_status();
 	if (zephir_is_true(&_2)) {
 		RETURN_MM_BOOL(1);
 	}
 	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_0, 348, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_RETURN_CALL_FUNCTION("in_array", NULL, 85, &origin_zv, &_3, &__$true);
+	ZEPHIR_RETURN_CALL_FUNCTION("in_array", NULL, 87, &origin_zv, &_3, &__$true);
 	zephir_check_call_status();
 	RETURN_MM();
 }

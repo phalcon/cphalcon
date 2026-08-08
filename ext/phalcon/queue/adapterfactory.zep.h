@@ -7,9 +7,6 @@ PHP_METHOD(Phalcon_Queue_AdapterFactory, __construct);
 PHP_METHOD(Phalcon_Queue_AdapterFactory, newInstance);
 PHP_METHOD(Phalcon_Queue_AdapterFactory, getExceptionClass);
 PHP_METHOD(Phalcon_Queue_AdapterFactory, getServices);
-PHP_METHOD(Phalcon_Queue_AdapterFactory, getCachedInstance);
-PHP_METHOD(Phalcon_Queue_AdapterFactory, getService);
-PHP_METHOD(Phalcon_Queue_AdapterFactory, init);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_queue_adapterfactory___construct, 0, 0, 0)
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, services, IS_ARRAY, 0, "[]")
@@ -26,27 +23,10 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_queue_adapterfactory_getservices, 0, 0, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_queue_adapterfactory_getcachedinstance, 0, 1, MAY_BE_OBJECT)
-	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
-	ZEND_ARG_VARIADIC_INFO(0, arguments)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_queue_adapterfactory_getservice, 0, 1, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_queue_adapterfactory_init, 0, 0, IS_VOID, 0)
-
-ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, services, IS_ARRAY, 0, "[]")
-ZEND_END_ARG_INFO()
-
 ZEPHIR_INIT_FUNCS(phalcon_queue_adapterfactory_method_entry) {
 	PHP_ME(Phalcon_Queue_AdapterFactory, __construct, arginfo_phalcon_queue_adapterfactory___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Queue_AdapterFactory, newInstance, arginfo_phalcon_queue_adapterfactory_newinstance, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Queue_AdapterFactory, getExceptionClass, arginfo_phalcon_queue_adapterfactory_getexceptionclass, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Queue_AdapterFactory, getServices, arginfo_phalcon_queue_adapterfactory_getservices, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Queue_AdapterFactory, getCachedInstance, arginfo_phalcon_queue_adapterfactory_getcachedinstance, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Queue_AdapterFactory, getService, arginfo_phalcon_queue_adapterfactory_getservice, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Queue_AdapterFactory, init, arginfo_phalcon_queue_adapterfactory_init, ZEND_ACC_PROTECTED)
 	PHP_FE_END
 };

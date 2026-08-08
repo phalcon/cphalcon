@@ -19,19 +19,19 @@ final class ExceptionReport
     /**
      * @var BacktraceItem[]
      */
-    protected array backtrace = [];
-    protected string className;
-    protected string file;
-    protected array includedFiles = [];
-    protected int line;
-    protected int memoryUsage = 0;
-    protected string message;
-    protected int peakMemoryUsage = 0;
-    protected array request = [];
-    protected array server = [];
-    protected bool showBackTrace;
-    protected string uri;
-    protected array variables = [];
+    private array backtrace = [];
+    private string className;
+    private string file;
+    private array includedFiles = [];
+    private int line;
+    private int memoryUsage = 0;
+    private string message;
+    private int peakMemoryUsage = 0;
+    private array request = [];
+    private array server = [];
+    private bool showBackTrace;
+    private string uri;
+    private array variables = [];
 
     public function __construct(
         string className,

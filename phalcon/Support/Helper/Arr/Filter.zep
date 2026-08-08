@@ -10,23 +10,18 @@
 
 namespace Phalcon\Support\Helper\Arr;
 
-use Phalcon\Traits\Support\Helper\Arr\FilterTrait;
-
 /**
- * Filters an array using array_filter. If a callback is supplied, it will be
- * used.
+ * Filters a collection using array_filter and using the callable (if defined)
  */
-class Filter
+class Filter extends AbstractArr
 {
-    use FilterTrait;
-
     /**
-     * @param array<array-key, mixed> $collection
-     * @param callable|null           $method
+     * @param array         $collection
+     * @param callable|null $method
      *
-     * @return array
+     * @return mixed
      */
-    public function __invoke(array collection, var method = null) -> array
+    public function __invoke(array collection, var method = null) -> var
     {
         return this->toFilter(collection, method);
     }

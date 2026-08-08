@@ -1178,7 +1178,7 @@ PHP_METHOD(Phalcon_Autoload_Loader, requireFile)
 	zephir_memory_observe(&file_zv);
 	ZVAL_STR_COPY(&file_zv, file);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 475, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_FUNCTION(&_1, "call_user_func", NULL, 78, &_0, &file_zv);
+	ZEPHIR_CALL_FUNCTION(&_1, "call_user_func", NULL, 80, &_0, &file_zv);
 	zephir_check_call_status();
 	if (!ZEPHIR_IS_FALSE_IDENTICAL(&_1)) {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 476, &file_zv);

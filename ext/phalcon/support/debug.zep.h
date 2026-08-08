@@ -32,7 +32,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_support_debug_clearvars,
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_support_debug_debugvar, 0, 1, MAY_BE_STATIC)
-	ZEND_ARG_INFO(0, varz)
+	ZEND_ARG_INFO(0, variable)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_debug_getcsssources, 0, 0, IS_STRING, 0)
@@ -67,10 +67,10 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_debug_onuncaughtlowseverity, 0, 4, IS_VOID, 0)
 
-	ZEND_ARG_INFO(0, severity)
-	ZEND_ARG_INFO(0, message)
-	ZEND_ARG_INFO(0, file)
-	ZEND_ARG_INFO(0, line)
+	ZEND_ARG_TYPE_INFO(0, severity, IS_LONG, 0)
+	ZEND_ARG_TYPE_INFO(0, message, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, file, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, line, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_debug_renderhtml, 0, 1, IS_STRING, 0)

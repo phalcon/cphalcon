@@ -104,7 +104,7 @@ PHP_METHOD(Phalcon_ADR_Middleware_MethodOverrideMiddleware, __invoke)
 		ZEPHIR_INIT_VAR(&spoofed);
 		zephir_fast_strtoupper(&spoofed, &_4$$3);
 		zephir_read_property_cached(&_5$$3, this_ptr, _zephir_prop_0, 353, PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_CALL_FUNCTION(&_6$$3, "in_array", NULL, 85, &spoofed, &_5$$3, &__$true);
+		ZEPHIR_CALL_FUNCTION(&_6$$3, "in_array", NULL, 87, &spoofed, &_5$$3, &__$true);
 		zephir_check_call_status();
 		if (zephir_is_true(&_6$$3)) {
 			ZVAL_BOOL(&_7$$4, 1);

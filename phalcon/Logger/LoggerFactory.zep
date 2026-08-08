@@ -13,16 +13,15 @@ namespace Phalcon\Logger;
 use DateTimeZone;
 use Exception as BaseException;
 use Phalcon\Config\ConfigInterface;
+use Phalcon\Factory\AbstractConfigFactory;
 use Phalcon\Traits\Support\Helper\Arr\GetTrait;
-use Phalcon\Traits\Factory\ConfigTrait;
 use Throwable;
 
 /**
  * Factory creating logger objects
  */
-class LoggerFactory
+class LoggerFactory extends AbstractConfigFactory
 {
-    use ConfigTrait;
     use GetTrait;
 
     private <AdapterFactory> adapterFactory;

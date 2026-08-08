@@ -165,7 +165,7 @@ PHP_METHOD(Phalcon_Forms_Form, __construct)
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 776, &userOptions);
 	ZEPHIR_INIT_VAR(&_2);
 	object_init_ex(&_2, phalcon_html_attributes_ce);
-	ZEPHIR_CALL_METHOD(NULL, &_2, "__construct", NULL, 39);
+	ZEPHIR_CALL_METHOD(NULL, &_2, "__construct", NULL, 41);
 	zephir_check_call_status();
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 777, &_2);
 	ZEPHIR_INIT_VAR(&_3);
@@ -1106,7 +1106,7 @@ PHP_METHOD(Phalcon_Forms_Form, getAttributes)
 	if (UNEXPECTED(Z_TYPE_P(&_0) == IS_NULL)) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_html_attributes_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 39);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 41);
 		zephir_check_call_status();
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 777, &_1$$3);
 	}

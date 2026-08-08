@@ -15,39 +15,27 @@ namespace Phalcon\Support\Debug\Report;
  */
 final class BacktraceItem
 {
-    protected array args = [];
-    protected ?string classLink = null;
-    protected ?string className = null;
-    protected ?string file = null;
-    protected ?array fragment = null;
-    protected ?string functionLink = null;
-    protected string functionName;
-    protected bool hasArgs = false;
-    protected ?int line = null;
-    protected ?string type = null;
+    private array args = [];
+    private ?string classLink = null;
+    private ?string className = null;
+    private ?string file = null;
+    private ?array fragment = null;
+    private ?string functionLink = null;
+    private string functionName;
+    private bool hasArgs = false;
+    private ?int line = null;
+    private ?string type = null;
 
-    /**
-     * @param string      $functionName
-     * @param string|null $type
-     * @param string|null $className
-     * @param string|null $classLink
-     * @param string|null $functionLink
-     * @param bool        $hasArgs
-     * @param array       $args
-     * @param string|null $file
-     * @param int|null    $line
-     * @param array|null  $fragment
-     */
     public function __construct(
         string functionName,
-        var type = null,
-        var className = null,
-        var classLink = null,
-        var functionLink = null,
+        string type = null,
+        string className = null,
+        string classLink = null,
+        string functionLink = null,
         bool hasArgs = false,
         array args = [],
-        var file = null,
-        var line = null,
+        string file = null,
+        int line = null,
         var fragment = null
     ) {
         let this->functionName = functionName,

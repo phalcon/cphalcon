@@ -15,7 +15,6 @@ use Phalcon\Support\Debug\Exceptions\RequestHalted;
 use Phalcon\Support\Debug\Exceptions\RuntimeWarning;
 use Phalcon\Support\Debug\Renderer\HtmlRenderer;
 use Phalcon\Support\Debug\ReportBuilder;
-use Phalcon\Support\Helper\Json\Encode;
 use Phalcon\Traits\Support\Helper\Arr\GetTrait;
 use ReflectionException;
 use Throwable;
@@ -58,10 +57,10 @@ class Debug
     /**
      * Adds a variable to the debug output
      */
-    public function debugVar(var varz) -> <static>
+    public function debugVar(var variable) -> <static>
     {
         let this->data[] = [
-            varz,
+            variable,
             debug_backtrace(),
             time()
         ];
@@ -114,8 +113,10 @@ class Debug
     /**
      * Listen for uncaught exceptions and non silent notices or warnings
      */
-    public function listen(bool exceptions = true, bool lowSeverity = false) -> <static>
-    {
+    public function listen(
+        bool exceptions = true,
+        bool lowSeverity = false
+    ) -> <static> {
         if exceptions {
             this->listenExceptions();
         }
@@ -205,9 +206,13 @@ class Debug
      *
      * @throws RuntimeWarning
      */
-    public function onUncaughtLowSeverity(severity, message, file, line) -> void
-    {
-        if unlikely error_reporting() & severity {
+    public function onUncaughtLowSeverity(
+        int severity,
+        string message,
+        string file,
+        int line
+    ) -> void {
+        if error_reporting() & severity {
             throw new RuntimeWarning(message, 0, severity, file, line);
         }
     }

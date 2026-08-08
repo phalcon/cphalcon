@@ -10,22 +10,17 @@
 
 namespace Phalcon\Support\Helper\Arr;
 
-use Phalcon\Traits\Support\Helper\Arr\FilterTrait;
-
-
 /**
  * Black list filter by key: exclude elements of an array
  * by the keys obtained from the elements of a blacklist
  */
-class Blacklist
+class Blacklist extends AbstractArr
 {
-    use FilterTrait;
-
     /**
-     * @param array<array-key, mixed> $collection
-     * @param array<array-key, mixed> $blackList
+     * @param array $collection
+     * @param array $blackList
      *
-     * @return array<array-key, mixed>
+     * @return array
      */
     public function __invoke(array collection, array blackList) -> array
     {
