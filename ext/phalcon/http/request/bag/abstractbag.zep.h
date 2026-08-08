@@ -34,27 +34,27 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_bag_abstrac
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_bag_abstractbag_get, 0, 1, IS_MIXED, 0)
-	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
+	ZEND_ARG_INFO(0, key)
 	ZEND_ARG_INFO(0, defaultValue)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_bag_abstractbag_getarray, 0, 1, IS_ARRAY, 0)
-	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
+	ZEND_ARG_INFO(0, key)
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, defaultValue, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_bag_abstractbag_getbool, 0, 1, _IS_BOOL, 0)
-	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
+	ZEND_ARG_INFO(0, key)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, defaultValue, _IS_BOOL, 0, "false")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_bag_abstractbag_getfloat, 0, 1, IS_DOUBLE, 0)
-	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
+	ZEND_ARG_INFO(0, key)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, defaultValue, IS_DOUBLE, 0, "0.0")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_bag_abstractbag_getint, 0, 1, IS_LONG, 0)
-	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
+	ZEND_ARG_INFO(0, key)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, defaultValue, IS_LONG, 0, "0")
 ZEND_END_ARG_INFO()
 
@@ -62,12 +62,12 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_request_bag_abstract
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_bag_abstractbag_getstring, 0, 1, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
+	ZEND_ARG_INFO(0, key)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, defaultValue, IS_STRING, 0, "''")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_bag_abstractbag_has, 0, 1, _IS_BOOL, 0)
-	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
+	ZEND_ARG_INFO(0, key)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_bag_abstractbag_offsetexists, 0, 1, _IS_BOOL, 0)
@@ -91,12 +91,12 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_bag_abstractbag_remove, 0, 1, IS_VOID, 0)
 
-	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
+	ZEND_ARG_INFO(0, key)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_bag_abstractbag_set, 0, 2, IS_VOID, 0)
 
-	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
+	ZEND_ARG_INFO(0, key)
 	ZEND_ARG_INFO(0, value)
 ZEND_END_ARG_INFO()
 
@@ -105,7 +105,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_bag_abstrac
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_bag_abstractbag_normalizekey, 0, 1, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
+	ZEND_ARG_INFO(0, key)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_http_request_bag_abstractbag_method_entry) {

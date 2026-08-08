@@ -1092,15 +1092,14 @@ PHP_METHOD(Phalcon_Http_Response, setFileToSend)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval filePath_zv, *attachmentName = NULL, attachmentName_sub, *attachment = NULL, attachment_sub, __$true, __$null, basePath, basePathEncoding, _0$$3, _1$$5, _2$$5, _3$$6, _4$$7, _5$$7, _6$$7, _7$$8, _8$$8, _9$$8;
-	zend_string *filePath = NULL;
+	zend_bool attachment;
+	zval filePath_zv, attachmentName_zv, *attachment_param = NULL, __$true, basePath, basePathEncoding, _0$$3, _1$$5, _2$$5, _3$$6, _4$$7, _5$$7, _6$$7, _7$$8, _8$$8, _9$$8;
+	zend_string *filePath = NULL, *attachmentName = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&filePath_zv);
-	ZVAL_UNDEF(&attachmentName_sub);
-	ZVAL_UNDEF(&attachment_sub);
+	ZVAL_UNDEF(&attachmentName_zv);
 	ZVAL_BOOL(&__$true, 1);
-	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&basePath);
 	ZVAL_UNDEF(&basePathEncoding);
 	ZVAL_UNDEF(&_0$$3);
@@ -1122,30 +1121,29 @@ PHP_METHOD(Phalcon_Http_Response, setFileToSend)
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_STR(filePath)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(attachmentName)
-		Z_PARAM_ZVAL(attachment)
+		Z_PARAM_STR_OR_NULL(attachmentName)
+		Z_PARAM_BOOL(attachment)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	if (ZEND_NUM_ARGS() > 1) {
-		attachmentName = ZEND_CALL_ARG(execute_data, 2);
-	}
 	if (ZEND_NUM_ARGS() > 2) {
-		attachment = ZEND_CALL_ARG(execute_data, 3);
+		attachment_param = ZEND_CALL_ARG(execute_data, 3);
 	}
 	zephir_memory_observe(&filePath_zv);
 	ZVAL_STR_COPY(&filePath_zv, filePath);
 	if (!attachmentName) {
-		attachmentName = &attachmentName_sub;
-		attachmentName = &__$null;
+		ZEPHIR_INIT_VAR(&attachmentName_zv);
+	} else {
+		zephir_memory_observe(&attachmentName_zv);
+	ZVAL_STR_COPY(&attachmentName_zv, attachmentName);
 	}
-	if (!attachment) {
-		attachment = &attachment_sub;
-		attachment = &__$true;
-	}
+	if (!attachment_param) {
+		attachment = 1;
+	} else {
+		}
 	ZEPHIR_INIT_VAR(&basePathEncoding);
 	ZVAL_STRING(&basePathEncoding, "ASCII");
-	if (Z_TYPE_P(attachmentName) != IS_STRING) {
+	if (1 != 1) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		object_init_ex(&_0$$3, phalcon_support_helper_file_basename_ce);
 		if (zephir_has_constructor(&_0$$3)) {
@@ -1156,9 +1154,9 @@ PHP_METHOD(Phalcon_Http_Response, setFileToSend)
 		ZEPHIR_CALL_METHOD(&basePath, &_0$$3, "__invoke", NULL, 0, &filePath_zv);
 		zephir_check_call_status();
 	} else {
-		ZEPHIR_CPY_WRT(&basePath, attachmentName);
+		ZEPHIR_CPY_WRT(&basePath, &attachmentName_zv);
 	}
-	if (zephir_is_true(attachment)) {
+	if (attachment) {
 		ZEPHIR_INIT_VAR(&_2$$5);
 		ZVAL_STRING(&_2$$5, "mb_detect_encoding");
 		ZEPHIR_CALL_METHOD(&_1$$5, this_ptr, "phpfunctionexists", NULL, 0, &_2$$5);
@@ -1278,7 +1276,7 @@ PHP_METHOD(Phalcon_Http_Response, setHeaders)
 	zephir_fetch_params(1, 1, 0, &headers);
 	ZEPHIR_CALL_METHOD(&data, headers, "toarray", NULL, 0);
 	zephir_check_call_status();
-	zephir_is_iterable(&data, 0, "phalcon/Http/Response.zep", 585);
+	zephir_is_iterable(&data, 0, "phalcon/Http/Response.zep", 588);
 	if (Z_TYPE_P(&data) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&data), _1, _2, _0)
 		{
@@ -1560,7 +1558,7 @@ PHP_METHOD(Phalcon_Http_Response, setStatusCode)
 	ZEPHIR_CALL_METHOD(&currentHeadersRaw, &_0, "toarray", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_1);
-	zephir_is_iterable(&currentHeadersRaw, 0, "phalcon/Http/Response.zep", 688);
+	zephir_is_iterable(&currentHeadersRaw, 0, "phalcon/Http/Response.zep", 694);
 	if (Z_TYPE_P(&currentHeadersRaw) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&currentHeadersRaw), _3, _4, _2)
 		{
@@ -1631,12 +1629,12 @@ PHP_METHOD(Phalcon_Http_Response, setStatusCode)
 			object_init_ex(&_16$$8, phalcon_http_response_exceptions_nonstandardstatuscoderequiresmessage_ce);
 			ZEPHIR_CALL_METHOD(NULL, &_16$$8, "__construct", NULL, 0);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_16$$8, "phalcon/Http/Response.zep", 693);
+			zephir_throw_exception_debug(&_16$$8, "phalcon/Http/Response.zep", 699);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
 		zephir_memory_observe(&defaultMessage);
-		zephir_array_fetch_long(&defaultMessage, &statusCodes, code, PH_NOISY, "phalcon/Http/Response.zep", 696);
+		zephir_array_fetch_long(&defaultMessage, &statusCodes, code, PH_NOISY, "phalcon/Http/Response.zep", 702);
 		zephir_get_strval(&message, &defaultMessage);
 	}
 	zephir_read_property_cached(&_17, this_ptr, _zephir_prop_0, 894, PH_NOISY_CC | PH_READONLY);

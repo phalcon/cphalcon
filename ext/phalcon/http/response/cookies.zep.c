@@ -81,9 +81,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Response_Cookies)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Http\\Response, Cookies, phalcon, http_response_cookies, phalcon_di_abstractinjectionaware_ce, phalcon_http_response_cookies_method_entry, 0);
 
-	/**
-	 * @var array
-	 */
 	{
 		zval _zc0;
 		array_init_size(&_zc0, 1);
@@ -93,13 +90,13 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Response_Cookies)
 	{
 		zval _zc0;
 		ZVAL_BOOL(&_zc0, 0);
-		zephir_declare_typed_property(phalcon_http_response_cookies_ce, SL("isSent"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_BOOL, NULL, 0);
+		zephir_declare_typed_property(phalcon_http_response_cookies_ce, SL("isRegistered"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_BOOL, NULL, 0);
 	}
 
 	{
 		zval _zc0;
 		ZVAL_BOOL(&_zc0, 0);
-		zephir_declare_typed_property(phalcon_http_response_cookies_ce, SL("isRegistered"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_BOOL, NULL, 0);
+		zephir_declare_typed_property(phalcon_http_response_cookies_ce, SL("isSent"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_BOOL, NULL, 0);
 	}
 
 	/**
@@ -275,7 +272,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, get)
 	if (zephir_array_isset_fetch(&cookie, &_0, &name_zv, 0)) {
 		RETURN_CCTOR(&cookie);
 	}
-	ZEPHIR_CALL_METHOD(&container, this_ptr, "checkcontainer", NULL, 0);
+	ZEPHIR_CALL_METHOD(&container, this_ptr, "checkgetcontainer", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_2);
 	zephir_create_array(&_2, 1, 0);
@@ -414,7 +411,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, send)
 		RETURN_MM_BOOL(0);
 	}
 	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_0, 903, PH_NOISY_CC | PH_READONLY);
-	zephir_is_iterable(&_3, 0, "phalcon/Http/Response/Cookies.zep", 220);
+	zephir_is_iterable(&_3, 0, "phalcon/Http/Response/Cookies.zep", 217);
 	if (Z_TYPE_P(&_3) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_3), _4)
 		{
@@ -667,7 +664,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set)
 	}
 	zephir_read_property_cached(&_10, this_ptr, _zephir_prop_4, 907, PH_NOISY_CC | PH_READONLY);
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&_10)) {
-		ZEPHIR_CALL_METHOD(&container, this_ptr, "checkcontainer", NULL, 0);
+		ZEPHIR_CALL_METHOD(&container, this_ptr, "checkgetcontainer", NULL, 0);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_11$$6);
 		ZVAL_STRING(&_11$$6, "response");
@@ -752,7 +749,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, useEncryption)
 	RETURN_THISW();
 }
 
-PHP_METHOD(Phalcon_Http_Response_Cookies, checkContainer)
+PHP_METHOD(Phalcon_Http_Response_Cookies, checkGetContainer)
 {
 	zval container, _0, _1$$3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -776,7 +773,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, checkContainer)
 		object_init_ex(&_1$$3, phalcon_http_response_exceptions_responseserviceunavailable_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Http/Response/Cookies.zep", 350);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Http/Response/Cookies.zep", 346);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
