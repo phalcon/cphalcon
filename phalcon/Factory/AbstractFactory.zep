@@ -25,13 +25,6 @@ abstract class AbstractFactory extends AbstractConfigFactory
     protected services = [];
 
     /**
-     * Returns the adapters for the factory
-     *
-     * @return string[]
-     */
-    abstract protected function getServices() -> array;
-
-    /**
      * Checks if a service exists and throws an exception
      */
     protected function getService( string name) -> var
@@ -42,6 +35,13 @@ abstract class AbstractFactory extends AbstractConfigFactory
 
         return this->mapper[name];
     }
+
+    /**
+     * Returns the adapters for the factory
+     *
+     * @return string[]
+     */
+    abstract protected function getServices() -> array;
 
     /**
      * Initialize services/add new services

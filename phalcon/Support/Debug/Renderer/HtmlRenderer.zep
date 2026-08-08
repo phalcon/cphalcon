@@ -135,7 +135,9 @@ class HtmlRenderer implements Renderer
 <div class='wrap'>",
             "masthead": "
     <div class='masthead'>
-        <div class='brand'><img class='logo' src='https://assets.phalcon.io/phalcon/images/svg/logo--tablet.svg' alt='Phalcon' /><span>Phalcon Debug</span></div>
+        <div class='brand'><img class='logo'"
+                . " src='https://assets.phalcon.io/phalcon/images/svg/logo--tablet.svg'"
+                . " alt='Phalcon' /><span>Phalcon Debug</span></div>
         <div class='actions-top'>
             <button class='btn' data-action='copy-trace'>Copy trace</button>
             <button class='btn' data-action='toggle-theme' title='Toggle theme'>Theme</button>
@@ -153,7 +155,8 @@ class HtmlRenderer implements Renderer
     </div>",
             "tabs": "
     <div class='tabs' role='tablist'>
-        <button class='tab is-active' data-tab='backtrace'>Backtrace <span class='count'>%backtraceCount%</span></button>
+        <button class='tab is-active' data-tab='backtrace'>Backtrace "
+                . "<span class='count'>%backtraceCount%</span></button>
         <button class='tab' data-tab='request'>Request <span class='count'>%requestCount%</span></button>
         <button class='tab' data-tab='server'>Server <span class='count'>%serverCount%</span></button>
         <button class='tab' data-tab='files'>Included Files <span class='count'>%filesCount%</span></button>
@@ -195,13 +198,16 @@ class HtmlRenderer implements Renderer
             "codeRow": "<tr%hlClass%><td class='ln'>%num%</td><td class='src'>%src%</td></tr>",
             "codeClose": "</table></div>",
             "link": "<a href='%url%' target='_new'>%name%</a>",
-            "tableOpen": "<table class='grid'><thead><tr><th>%headerOne%</th><th>%headerTwo%</th></tr></thead><tbody>",
+            "tableOpen": "<table class='grid'><thead><tr><th>%headerOne%</th><th>%headerTwo%</th></tr>"
+                . "</thead><tbody>",
             "gridRow": "<tr><td class='k'>%key%</td><td class='v'>%value%</td></tr>",
             "tableClose": "</tbody></table>",
             "memory": "
         <div class='stats'>
-            <div class='stat'><div class='label'>Memory usage (real)</div><div class='value'>%memory% <small>MB</small></div></div>
-            <div class='stat'><div class='label'>Peak usage</div><div class='value'>%peak% <small>MB</small></div></div>
+            <div class='stat'><div class='label'>Memory usage (real)</div>"
+                . "<div class='value'>%memory% <small>MB</small></div></div>
+            <div class='stat'><div class='label'>Peak usage</div>"
+                . "<div class='value'>%peak% <small>MB</small></div></div>
         </div>"
         ];
 

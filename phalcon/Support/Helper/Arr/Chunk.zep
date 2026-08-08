@@ -17,8 +17,6 @@ class Chunk
 {
     /**
      * @param array<array-key, mixed> $collection
-     * @param int                     $size
-     * @param bool                    $preserveKeys
      *
      * @return array<array-key, mixed>
      */
