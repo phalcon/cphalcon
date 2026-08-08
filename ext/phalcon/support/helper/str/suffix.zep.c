@@ -28,6 +28,7 @@
  */
 /**
  * Suffixes the text with the supplied suffix
+ * @todo v7 make text string
  */
 ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Str_Suffix)
 {

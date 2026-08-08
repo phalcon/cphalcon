@@ -13,7 +13,6 @@ PHP_METHOD(Phalcon_Support_AbstractLocator, getExceptionClass);
 PHP_METHOD(Phalcon_Support_AbstractLocator, getInterfaceClass);
 PHP_METHOD(Phalcon_Support_AbstractLocator, getService);
 PHP_METHOD(Phalcon_Support_AbstractLocator, getServices);
-zend_object *zephir_init_properties_Phalcon_Support_AbstractLocator(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_support_abstractlocator___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, container)
@@ -51,9 +50,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_abstractlocator_
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_abstractlocator_getservices, 0, 0, IS_ARRAY, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_support_abstractlocator_zephir_init_properties_phalcon_support_abstractlocator, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_support_abstractlocator_method_entry) {

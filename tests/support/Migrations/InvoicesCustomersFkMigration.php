@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Support\Migrations;
 
+use Phalcon\Talon\Database\Schema\AbstractSchema;
+
 /**
  * Class InvoicesCustomersFkMigration
  *
@@ -24,9 +26,9 @@ namespace Phalcon\Tests\Support\Migrations;
  * `create()` in setUp and `drop()` in tearDown to keep the global
  * schema clean.
  */
-class InvoicesCustomersFkMigration extends AbstractMigration
+class InvoicesCustomersFkMigration extends AbstractSchema
 {
-    protected $table = 'co_invoices_fk';
+    protected string $table = 'co_invoices_fk';
 
     public function insert(): int
     {
@@ -39,10 +41,9 @@ class InvoicesCustomersFkMigration extends AbstractMigration
         $this->connection->exec('DROP TABLE IF EXISTS co_customers_fk;');
     }
 
-    protected function getSqlMysql(): array
+    protected function getStatementsMysql(): array
     {
         return [
-            "DROP TABLE IF EXISTS `co_invoices_fk`;",
             "DROP TABLE IF EXISTS `co_customers_fk`;",
             "
 CREATE TABLE `co_customers_fk` (
@@ -67,10 +68,9 @@ CREATE TABLE `co_invoices_fk` (
         ];
     }
 
-    protected function getSqlPgsql(): array
+    protected function getStatementsPgsql(): array
     {
         return [
-            "DROP TABLE IF EXISTS co_invoices_fk;",
             "DROP TABLE IF EXISTS co_customers_fk;",
             "
 CREATE TABLE co_customers_fk (
@@ -92,10 +92,9 @@ CREATE TABLE co_invoices_fk (
         ];
     }
 
-    protected function getSqlSqlite(): array
+    protected function getStatementsSqlite(): array
     {
         return [
-            "DROP TABLE IF EXISTS co_invoices_fk;",
             "DROP TABLE IF EXISTS co_customers_fk;",
             "
 CREATE TABLE co_customers_fk (
@@ -115,10 +114,5 @@ CREATE TABLE co_invoices_fk (
 );
             ",
         ];
-    }
-
-    protected function getSqlSqlsrv(): array
-    {
-        return [];
     }
 }

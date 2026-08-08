@@ -54,6 +54,9 @@ final class RollbackOnExceptionTest extends AbstractDatabaseTestCase
     #[Group('pgsql')]
     public function testMvcModelQueryRollbackOnException(): void
     {
+        // Statement lists are creation-only now, so create() no longer drops
+        // first and the bulk schema load already made this table.
+        $this->migration->drop();
         $this->migration->create();
         $this->migration->clear();
 

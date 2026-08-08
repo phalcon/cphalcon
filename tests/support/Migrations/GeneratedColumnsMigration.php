@@ -13,22 +13,21 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Support\Migrations;
 
+use Phalcon\Talon\Database\Schema\AbstractSchema;
+
 /**
  * Class GeneratedColumnsMigration
  *
  * MySQL only. A stored generated column rejects any explicitly supplied value
  * (error 3105) but accepts the `DEFAULT` keyword.
  */
-class GeneratedColumnsMigration extends AbstractMigration
+class GeneratedColumnsMigration extends AbstractSchema
 {
-    protected $table = 'co_generated';
+    protected string $table = 'co_generated';
 
-    protected function getSqlMysql(): array
+    protected function getStatementsMysql(): array
     {
         return [
-            "
-drop table if exists `co_generated`;
-            ",
             "
 create table co_generated
 (
@@ -40,17 +39,12 @@ create table co_generated
         ];
     }
 
-    protected function getSqlPgsql(): array
+    protected function getStatementsPgsql(): array
     {
         return [];
     }
 
-    protected function getSqlSqlite(): array
-    {
-        return [];
-    }
-
-    protected function getSqlSqlsrv(): array
+    protected function getStatementsSqlite(): array
     {
         return [];
     }

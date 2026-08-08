@@ -39,12 +39,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Str_PascalCase)
 	return SUCCESS;
 }
 
-/**
- * @param string      $text
- * @param string|null $delimiters
- *
- * @return string
- */
 PHP_METHOD(Phalcon_Support_Helper_Str_PascalCase, __invoke)
 {
 	zend_bool _6;
@@ -87,7 +81,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_PascalCase, __invoke)
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&output);
 	ZVAL_STRING(&output, "");
-	zephir_is_iterable(&exploded, 0, "phalcon/Support/Helper/Str/PascalCase.zep", 37);
+	zephir_is_iterable(&exploded, 0, "phalcon/Support/Helper/Str/PascalCase.zep", 31);
 	if (Z_TYPE_P(&exploded) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&exploded), _0)
 		{
@@ -133,10 +127,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_PascalCase, __invoke)
 }
 
 /**
- * @param string      $text
- * @param string|null $delimiters
- *
- * @return array
+ * @return string[]
  */
 PHP_METHOD(Phalcon_Support_Helper_Str_PascalCase, processArray)
 {

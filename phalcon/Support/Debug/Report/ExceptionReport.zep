@@ -19,76 +19,20 @@ final class ExceptionReport
     /**
      * @var BacktraceItem[]
      */
-    protected backtrace = [];
+    private array backtrace = [];
+    private string className;
+    private string file;
+    private array includedFiles = [];
+    private int line;
+    private int memoryUsage = 0;
+    private string message;
+    private int peakMemoryUsage = 0;
+    private array request = [];
+    private array server = [];
+    private bool showBackTrace;
+    private string uri;
+    private array variables = [];
 
-    /**
-     * @var string
-     */
-    protected className;
-
-    /**
-     * @var string
-     */
-    protected file;
-
-    /**
-     * @var array
-     */
-    protected includedFiles = [];
-
-    /**
-     * @var int
-     */
-    protected line;
-
-    /**
-     * @var int
-     */
-    protected memoryUsage = 0;
-
-    /**
-     * @var string
-     */
-    protected message;
-
-    /**
-     * @var int
-     */
-    protected peakMemoryUsage = 0;
-
-    /**
-     * @var array
-     */
-    protected request = [];
-
-    /**
-     * @var array
-     */
-    protected server = [];
-
-    /**
-     * @var bool
-     */
-    protected showBackTrace;
-
-    /**
-     * @var string
-     */
-    protected uri;
-
-    /**
-     * @var array
-     */
-    protected variables = [];
-
-    /**
-     * @param string $className
-     * @param string $message
-     * @param string $file
-     * @param int    $line
-     * @param bool   $showBackTrace
-     * @param string $uri
-     */
     public function __construct(
         string className,
         string message,
@@ -113,105 +57,66 @@ final class ExceptionReport
         return this->backtrace;
     }
 
-    /**
-     * @return string
-     */
     public function getClassName() -> string
     {
         return this->className;
     }
 
-    /**
-     * @return string
-     */
     public function getFile() -> string
     {
         return this->file;
     }
 
-    /**
-     * @return array
-     */
     public function getIncludedFiles() -> array
     {
         return this->includedFiles;
     }
 
-    /**
-     * @return int
-     */
     public function getLine() -> int
     {
         return this->line;
     }
 
-    /**
-     * @return int
-     */
     public function getMemoryUsage() -> int
     {
         return this->memoryUsage;
     }
 
-    /**
-     * @return string
-     */
     public function getMessage() -> string
     {
         return this->message;
     }
 
-    /**
-     * @return int
-     */
     public function getPeakMemoryUsage() -> int
     {
         return this->peakMemoryUsage;
     }
 
-    /**
-     * @return array
-     */
     public function getRequest() -> array
     {
         return this->request;
     }
 
-    /**
-     * @return array
-     */
     public function getServer() -> array
     {
         return this->server;
     }
 
-    /**
-     * @return string
-     */
     public function getUri() -> string
     {
         return this->uri;
     }
 
-    /**
-     * @return array
-     */
     public function getVariables() -> array
     {
         return this->variables;
     }
 
-    /**
-     * @return bool
-     */
     public function hasVariables() -> bool
     {
         return !empty(this->variables);
     }
 
-    /**
-     * @return bool
-     */
     public function isShowBackTrace() -> bool
     {
         return this->showBackTrace;
@@ -219,8 +124,6 @@ final class ExceptionReport
 
     /**
      * @param BacktraceItem[] $backtrace
-     *
-     * @return static
      */
     public function setBacktrace(array backtrace) -> <static>
     {
@@ -229,11 +132,6 @@ final class ExceptionReport
         return this;
     }
 
-    /**
-     * @param array $includedFiles
-     *
-     * @return static
-     */
     public function setIncludedFiles(array includedFiles) -> <static>
     {
         let this->includedFiles = includedFiles;
@@ -241,11 +139,6 @@ final class ExceptionReport
         return this;
     }
 
-    /**
-     * @param int $memoryUsage
-     *
-     * @return static
-     */
     public function setMemoryUsage(int memoryUsage) -> <static>
     {
         let this->memoryUsage = memoryUsage;
@@ -253,11 +146,6 @@ final class ExceptionReport
         return this;
     }
 
-    /**
-     * @param int $peakMemoryUsage
-     *
-     * @return static
-     */
     public function setPeakMemoryUsage(int peakMemoryUsage) -> <static>
     {
         let this->peakMemoryUsage = peakMemoryUsage;
@@ -265,11 +153,6 @@ final class ExceptionReport
         return this;
     }
 
-    /**
-     * @param array $request
-     *
-     * @return static
-     */
     public function setRequest(array request) -> <static>
     {
         let this->request = request;
@@ -277,11 +160,6 @@ final class ExceptionReport
         return this;
     }
 
-    /**
-     * @param array $server
-     *
-     * @return static
-     */
     public function setServer(array server) -> <static>
     {
         let this->server = server;
@@ -289,11 +167,6 @@ final class ExceptionReport
         return this;
     }
 
-    /**
-     * @param array $variables
-     *
-     * @return static
-     */
     public function setVariables(array variables) -> <static>
     {
         let this->variables = variables;

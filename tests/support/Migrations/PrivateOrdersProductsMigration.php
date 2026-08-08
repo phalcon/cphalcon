@@ -13,22 +13,21 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Support\Migrations;
 
+use Phalcon\Talon\Database\Schema\AbstractSchema;
+
 /**
  * Class PrivateOrdersProductsMigration
  *
  * Creates co_orders_x_products in the private schema, used by the
  * OrdersProductsPrivate model for cross-schema relation tests.
  */
-class PrivateOrdersProductsMigration extends AbstractMigration
+class PrivateOrdersProductsMigration extends AbstractSchema
 {
-    protected $table = "private.co_orders_x_products";
+    protected string $table = "private.co_orders_x_products";
 
-    protected function getSqlMysql(): array
+    protected function getStatementsMysql(): array
     {
         return [
-            "
-drop table if exists private.`co_orders_x_products`;
-            ",
             "
 CREATE TABLE private.`co_orders_x_products` (
   `oxp_ord_id` int(10) unsigned NOT NULL,
@@ -40,17 +39,14 @@ CREATE TABLE private.`co_orders_x_products` (
         ];
     }
 
-    protected function getSqlSqlite(): array
+    protected function getStatementsSqlite(): array
     {
         return [];
     }
 
-    protected function getSqlPgsql(): array
+    protected function getStatementsPgsql(): array
     {
         return [
-            "
-drop table if exists private.co_orders_x_products;
-            ",
             "
 create table private.co_orders_x_products
 (
@@ -60,10 +56,5 @@ create table private.co_orders_x_products
 );
             ",
         ];
-    }
-
-    protected function getSqlSqlsrv(): array
-    {
-        return [];
     }
 }

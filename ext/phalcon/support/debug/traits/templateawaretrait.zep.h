@@ -1,0 +1,28 @@
+
+extern zend_class_entry *phalcon_support_debug_traits_templateawaretrait_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Support_Debug_Traits_TemplateAwareTrait);
+
+PHP_METHOD(Phalcon_Support_Debug_Traits_TemplateAwareTrait, getTemplate);
+PHP_METHOD(Phalcon_Support_Debug_Traits_TemplateAwareTrait, setTemplate);
+PHP_METHOD(Phalcon_Support_Debug_Traits_TemplateAwareTrait, defaultTemplate);
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_debug_traits_templateawaretrait_gettemplate, 0, 1, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_support_debug_traits_templateawaretrait_settemplate, 0, 2, MAY_BE_STATIC)
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, template, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_debug_traits_templateawaretrait_defaulttemplate, 0, 1, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_support_debug_traits_templateawaretrait_method_entry) {
+	PHP_ME(Phalcon_Support_Debug_Traits_TemplateAwareTrait, getTemplate, arginfo_phalcon_support_debug_traits_templateawaretrait_gettemplate, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Support_Debug_Traits_TemplateAwareTrait, setTemplate, arginfo_phalcon_support_debug_traits_templateawaretrait_settemplate, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Support_Debug_Traits_TemplateAwareTrait, defaultTemplate, arginfo_phalcon_support_debug_traits_templateawaretrait_defaulttemplate, ZEND_ACC_ABSTRACT|ZEND_ACC_PROTECTED)
+	PHP_FE_END
+};

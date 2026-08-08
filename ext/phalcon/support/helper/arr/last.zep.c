@@ -38,8 +38,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Arr_Last)
 }
 
 /**
- * @param array         $collection
- * @param callable|null $method
+ * @param array<array-key, mixed> $collection
+ * @param callable|null           $method
  *
  * @return mixed
  */

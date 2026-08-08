@@ -33,6 +33,11 @@ final class DescribeReferencesTest extends AbstractDatabaseTestCase
             self::getPdoConnection(),
             false
         );
+
+        // The bulk schema load already created both tables. Statement lists are
+        // creation-only now - create() no longer drops first - so clear them in
+        // FK order before recreating.
+        $this->migration->drop();
         $this->migration->create();
     }
 

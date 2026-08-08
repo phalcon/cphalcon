@@ -11,12 +11,14 @@
 
 namespace Phalcon\Tests\Support\Migrations;
 
+use Phalcon\Talon\Database\Schema\AbstractSchema;
+
 /**
  * Class StuffMigration
  */
-class StuffMigration extends AbstractMigration
+class StuffMigration extends AbstractSchema
 {
-    protected $table = "stuff";
+    protected string $table = "stuff";
 
     /**
      * @param int    $id
@@ -47,12 +49,9 @@ SQL;
         return $result;
     }
 
-    protected function getSqlMysql(): array
+    protected function getStatementsMysql(): array
     {
         return [
-            "
-drop table if exists `stuff`;
-            ",
             "
 create table stuff
 (
@@ -65,12 +64,9 @@ create table stuff
         ];
     }
 
-    protected function getSqlSqlite(): array
+    protected function getStatementsSqlite(): array
     {
         return [
-            "
-drop table if exists stuff;
-            ",
             "
 create table stuff
 (
@@ -82,12 +78,9 @@ create table stuff
         ];
     }
 
-    protected function getSqlPgsql(): array
+    protected function getStatementsPgsql(): array
     {
         return [
-            "
-drop table if exists stuff;
-            ",
             "
 create table stuff
 (
@@ -97,10 +90,5 @@ create table stuff
 );
             ",
         ];
-    }
-
-    protected function getSqlSqlsrv(): array
-    {
-        return [];
     }
 }

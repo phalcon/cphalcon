@@ -22,12 +22,7 @@ class Get
     use GetTrait;
 
     /**
-     * @param array       $collection
-     * @param mixed       $index
-     * @param mixed|null  $defaultValue
-     * @param string|null $cast
-     *
-     * @return mixed|null
+     * @param array<array-key, mixed> $collection
      */
     public function __invoke(
         array collection,

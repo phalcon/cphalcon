@@ -24,7 +24,6 @@ final class ToJsonTest extends AbstractCollectionTestCase
      * @since        2020-09-09
      */
     #[DataProvider('getClasses')]
-    #[DataProvider('getClasses')]
     public function testSupportCollectionToJson(
         string $class,
     ): void {

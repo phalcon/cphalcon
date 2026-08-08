@@ -33,6 +33,15 @@ env:
   # PHP extensions required by Composer
   EXTENSIONS: apcu, gettext, gd, igbinary, imagick, intl, json, mbstring, msgpack, memcached, pcov, sqlite3, yaml, redis, :memcache, openssl
 
+  # Schema fixtures (talon schema). These mirror the entries in
+  # tests/support/_config/.env.default; talon does not load .env, so the
+  # schema command needs them in the process environment.
+  schema_source: tests/support/Migrations
+  schema_namespace: 'Phalcon\Tests\Support\Migrations'
+  schema_output: tests/support/assets/schema
+  schema_pre: 'Phalcon\Tests\Support\Migrations\BootstrapMigration'
+  schema_post: 'Phalcon\Tests\Support\Migrations\FooterMigration'
+
 permissions: {}
 
 concurrency:
@@ -525,7 +534,7 @@ jobs:
           - "11300:11300"
 
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
         php:
           - '8.1'
@@ -549,20 +558,15 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
-          fetch-depth: 1
+          fetch-depth: 0
           token: ${{ github.token }}
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # v2
-        with:
-          php-version: ${{ matrix.php }}
-          extensions: ${{ env.EXTENSIONS }}
-          ini-values: apc.enable_cli=on, session.save_path=/tmp, register_argc_argv=on
-          tools: phpize, php-config
-          coverage: xdebug
-        env:
-          PHPTS: ${{ matrix.ts }}
-          COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Setup platform specific environment
+        shell: pwsh
+        run: |
+          git config --global core.autocrlf false
+          $SessionSavePath = if ("${{ runner.os }}" -eq "Windows") { 'C:\temp' } else { '/tmp' }
+          Write-Output "SESSION_SAVE_PATH=$SessionSavePath" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
       - name: Redis Cluster
         uses: vishnudxb/redis-cluster@e29c352fa58527003afc982e96db437c0c49e6aa # 1.10.0
@@ -574,6 +578,26 @@ jobs:
           slave2-port: 5004
           slave3-port: 5005
           sleep-duration: 5
+
+      - name: Test Redis Cluster
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y redis-tools
+          docker ps -a
+          redis-cli -h 127.0.0.1 -p 5000 ping
+          redis-cli -h 127.0.0.1 -p 5000 cluster nodes
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: ${{ env.EXTENSIONS }}
+          ini-values: apc.enable_cli=on, session.save_path=${{ env.SESSION_SAVE_PATH }}, register_argc_argv=on
+          tools: phpize, php-config
+          coverage: xdebug
+        env:
+          PHPTS: ${{ matrix.ts }}
+          COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Download compiled Phalcon extension
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
@@ -593,7 +617,7 @@ jobs:
         run: composer validate --no-check-all --no-check-publish
 
       - name: Install development dependencies with Composer
-        uses: ramsey/composer-install@65e4f84970763564f46a70b8a54b90d033b3bdda # v3
+        uses: ramsey/composer-install@26d8a556604053a9612623447203a691f406fbe6 # v4
         with:
           composer-options: "--prefer-dist --ignore-platform-reqs"
 
@@ -605,7 +629,7 @@ jobs:
           fi
 
           cp tests/support/_config/.env.default .env
-          php bin/generate-db-schemas.php
+          vendor/bin/talon schema
 
       - name: Run Unit Tests
         if: always()
@@ -703,24 +727,23 @@ jobs:
           echo "extension=phalcon" | sudo tee /etc/php/${{ matrix.php }}/cli/conf.d/99-phalcon.ini
           php --ri phalcon
 
-      - name: Prepare test Environment
-        run: |
-          echo "::group::Set up locales"
-          ./resources/linux-setup-locales.sh
-          echo "::endgroup::"
-
       - name: Validate composer
         run: composer validate --no-check-all --no-check-publish
 
       - name: Install development dependencies with Composer
-        uses: ramsey/composer-install@65e4f84970763564f46a70b8a54b90d033b3bdda # v3
+        uses: ramsey/composer-install@26d8a556604053a9612623447203a691f406fbe6 # v4
         with:
           composer-options: "--prefer-dist --ignore-platform-reqs"
 
       - name: Setup Tests
+        shell: bash
         run: |
+          if [ "${{ runner.os }}" = "Linux" ]; then
+            ./resources/linux-setup-locales.sh
+          fi
+
           cp tests/support/_config/.env.default .env
-          php bin/generate-db-schemas.php
+          vendor/bin/talon schema
 
       - name: Run Database Tests (MariaDB)
         env:
@@ -815,24 +838,23 @@ jobs:
           echo "extension=phalcon" | sudo tee /etc/php/${{ matrix.php }}/cli/conf.d/99-phalcon.ini
           php --ri phalcon
 
-      - name: Prepare test Environment
-        run: |
-          echo "::group::Set up locales"
-          ./resources/linux-setup-locales.sh
-          echo "::endgroup::"
-
       - name: Validate composer
         run: composer validate --no-check-all --no-check-publish
 
       - name: Install development dependencies with Composer
-        uses: ramsey/composer-install@65e4f84970763564f46a70b8a54b90d033b3bdda # v3
+        uses: ramsey/composer-install@26d8a556604053a9612623447203a691f406fbe6 # v4
         with:
           composer-options: "--prefer-dist --ignore-platform-reqs"
 
       - name: Setup Tests
+        shell: bash
         run: |
+          if [ "${{ runner.os }}" = "Linux" ]; then
+            ./resources/linux-setup-locales.sh
+          fi
+
           cp tests/support/_config/.env.default .env
-          php bin/generate-db-schemas.php
+          vendor/bin/talon schema
 
       - name: Run Database Tests (MySQL)
         env:
@@ -913,30 +935,28 @@ jobs:
           echo "extension=phalcon" | sudo tee /etc/php/${{ matrix.php }}/cli/conf.d/99-phalcon.ini
           php --ri phalcon
 
-      - name: Prepare test Environment
-        run: |
-          echo "::group::Set up locales"
-          ./resources/linux-setup-locales.sh
-          echo "::endgroup::"
-
       - name: Validate composer
         run: composer validate --no-check-all --no-check-publish
 
       - name: Install development dependencies with Composer
-        uses: ramsey/composer-install@65e4f84970763564f46a70b8a54b90d033b3bdda # v3
+        uses: ramsey/composer-install@26d8a556604053a9612623447203a691f406fbe6 # v4
         with:
           composer-options: "--prefer-dist --ignore-platform-reqs"
 
       - name: Setup Tests
+        shell: bash
         run: |
+          if [ "${{ runner.os }}" = "Linux" ]; then
+            ./resources/linux-setup-locales.sh
+          fi
+
           cp tests/support/_config/.env.default .env
-          php bin/generate-db-schemas.php
+          vendor/bin/talon schema
 
       - name: Run Database Tests (SQLite)
         env:
           DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
-        if: always()
         run: vendor/bin/phpunit -c resources/phpunit.sqlite.xml
       - name: Upload Database (SQLite) Coverage
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
@@ -1023,24 +1043,23 @@ jobs:
           echo "extension=phalcon" | sudo tee /etc/php/${{ matrix.php }}/cli/conf.d/99-phalcon.ini
           php --ri phalcon
 
-      - name: Prepare test Environment
-        run: |
-          echo "::group::Set up locales"
-          ./resources/linux-setup-locales.sh
-          echo "::endgroup::"
-
       - name: Validate composer
         run: composer validate --no-check-all --no-check-publish
 
       - name: Install development dependencies with Composer
-        uses: ramsey/composer-install@65e4f84970763564f46a70b8a54b90d033b3bdda # v3
+        uses: ramsey/composer-install@26d8a556604053a9612623447203a691f406fbe6 # v4
         with:
           composer-options: "--prefer-dist --ignore-platform-reqs"
 
       - name: Setup Tests
+        shell: bash
         run: |
+          if [ "${{ runner.os }}" = "Linux" ]; then
+            ./resources/linux-setup-locales.sh
+          fi
+
           cp tests/support/_config/.env.default .env
-          php bin/generate-db-schemas.php
+          vendor/bin/talon schema
 
       - name: Run Database Tests (Postgres)
         env:

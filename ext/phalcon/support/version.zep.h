@@ -30,7 +30,7 @@ ZEPHIR_INIT_FUNCS(phalcon_support_version_method_entry) {
 	PHP_ME(Phalcon_Support_Version, get, arginfo_phalcon_support_version_get, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Support_Version, getId, arginfo_phalcon_support_version_getid, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Support_Version, getPart, arginfo_phalcon_support_version_getpart, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Support_Version, getSpecial, arginfo_phalcon_support_version_getspecial, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)
+	PHP_ME(Phalcon_Support_Version, getSpecial, arginfo_phalcon_support_version_getspecial, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Support_Version, getVersion, arginfo_phalcon_support_version_getversion, ZEND_ACC_PROTECTED)
 	PHP_FE_END
 };

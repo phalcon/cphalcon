@@ -13,13 +13,15 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Support\Migrations;
 
+use Phalcon\Talon\Database\Schema\AbstractSchema;
+
 
 /**
  * Class InvoicesMigration
  */
-class InvoicesMigration extends AbstractMigration
+class InvoicesMigration extends AbstractSchema
 {
-    protected $table = 'co_invoices';
+    protected string $table = 'co_invoices';
 
     public function insert(
         int|string|null $id,
@@ -69,12 +71,9 @@ SQL;
         return $result;
     }
 
-    protected function getSqlMysql(): array
+    protected function getStatementsMysql(): array
     {
         return [
-            "
-drop table if exists `co_invoices`;
-            ",
             "
 create table co_invoices
 (
@@ -101,12 +100,9 @@ create index co_invoices_inv_created_at_index
         ];
     }
 
-    protected function getSqlSqlite(): array
+    protected function getStatementsSqlite(): array
     {
         return [
-            "
-drop table if exists co_invoices;
-            ",
             "
 create table co_invoices
     (
@@ -133,12 +129,9 @@ create index co_invoices_inv_created_at_index
         ];
     }
 
-    protected function getSqlPgsql(): array
+    protected function getStatementsPgsql(): array
     {
         return [
-            "
-drop table if exists co_invoices;
-            ",
             "
 create table co_invoices
 (
@@ -163,10 +156,5 @@ create index co_invoices_inv_status_flag_index
     on co_invoices (inv_status_flag);
             ",
         ];
-    }
-
-    protected function getSqlSqlsrv(): array
-    {
-        return [];
     }
 }

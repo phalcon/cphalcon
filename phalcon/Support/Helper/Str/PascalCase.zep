@@ -15,12 +15,6 @@ namespace Phalcon\Support\Helper\Str;
  */
 class PascalCase
 {
-    /**
-     * @param string      $text
-     * @param string|null $delimiters
-     *
-     * @return string
-     */
     public function __invoke(
         string text,
         string delimiters = null
@@ -38,10 +32,7 @@ class PascalCase
     }
 
     /**
-     * @param string      $text
-     * @param string|null $delimiters
-     *
-     * @return array
+     * @return string[]
      */
     protected function processArray(string text, string delimiters = null) -> array
     {

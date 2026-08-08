@@ -11,12 +11,14 @@
 
 namespace Phalcon\Tests\Support\Migrations;
 
+use Phalcon\Talon\Database\Schema\AbstractSchema;
+
 /**
  * Class StringPrimaryMigration
  */
-class StringPrimaryMigration extends AbstractMigration
+class StringPrimaryMigration extends AbstractSchema
 {
-    protected $table = "table_with_uuid_primary";
+    protected string $table = "table_with_uuid_primary";
 
     /**
      * @param string $uuid
@@ -38,12 +40,9 @@ SQL;
         return $this->execute($sql, $params);
     }
 
-    protected function getSqlMysql(): array
+    protected function getStatementsMysql(): array
     {
         return [
-            "
-drop table if exists `table_with_uuid_primary`;
-            ",
             "
 create table table_with_uuid_primary
 (
@@ -54,12 +53,9 @@ create table table_with_uuid_primary
         ];
     }
 
-    protected function getSqlSqlite(): array
+    protected function getStatementsSqlite(): array
     {
         return [
-            "
-drop table if exists table_with_uuid_primary;
-            ",
             "
 create table table_with_uuid_primary
 (
@@ -70,12 +66,9 @@ create table table_with_uuid_primary
         ];
     }
 
-    protected function getSqlPgsql(): array
+    protected function getStatementsPgsql(): array
     {
         return [
-            "
-drop table if exists table_with_uuid_primary;
-            ",
             "
 create table table_with_uuid_primary
 (
@@ -84,10 +77,5 @@ create table table_with_uuid_primary
 );
             "
         ];
-    }
-
-    protected function getSqlSqlsrv(): array
-    {
-        return [];
     }
 }

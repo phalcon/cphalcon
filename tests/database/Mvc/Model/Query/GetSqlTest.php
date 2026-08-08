@@ -15,6 +15,7 @@ namespace Phalcon\Tests\Database\Mvc\Model\Query;
 
 use Phalcon\Mvc\Model\Query;
 use Phalcon\Storage\Exception;
+use Phalcon\Talon\Database\Dialect;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Database\Mvc\RecordsTrait;
 use Phalcon\Tests\Support\Migrations\InvoicesMigration;
@@ -65,7 +66,7 @@ final class GetSqlTest extends AbstractDatabaseTestCase
 
         $query = new Query($phql, $this->container);
 
-        if ('mysql' === $this->invoiceMigration->getDriverName()) {
+        if (Dialect::Mysql === $this->getDialect()) {
             $sql = sprintf(
                 'SELECT `i`.`inv_id` AS `inv_id`, `i`.`inv_cst_id` AS `inv_cst_id` FROM `%s` AS `i`',
                 $this->invoiceMigration->getTable()

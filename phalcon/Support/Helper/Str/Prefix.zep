@@ -12,6 +12,7 @@ namespace Phalcon\Support\Helper\Str;
 
 /**
  * Prefixes the text with the supplied prefix
+ * @todo v7 make text string
  */
 class Prefix
 {

@@ -23,6 +23,6 @@
     </groups>
     <php>
         <env name="driver" value="sqlite"/>
-        <env name="dump_file" value="tests/support/assets/schema/sqlite.sql"/>
+        <env name="dump_file" value="tests/support/assets/schema/sqlite"/>
     </php>
 </phpunit>

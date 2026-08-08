@@ -58,7 +58,7 @@ trait RecordsTrait
 
             if (!$result) {
                 $table  = $migration->getTable();
-                $driver = $migration->getDriverName();
+                $driver = $this->getDialect()->value;
                 Assert::fail(
                     sprintf("Failed to insert row #%d into table '%s' using '%s' driver", $counter, $table, $driver)
                 );

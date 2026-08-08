@@ -13,12 +13,14 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Support\Migrations;
 
+use Phalcon\Talon\Database\Schema\AbstractSchema;
+
 /**
  * Class OrdersProductsMigration
  */
-class OrdersProductsFieldsOneMigration extends AbstractMigration
+class OrdersProductsFieldsOneMigration extends AbstractSchema
 {
-    protected $table = "co_orders_x_products_one";
+    protected string $table = "co_orders_x_products_one";
 
     /**
      * @param int $oxp_ord_id
@@ -55,12 +57,9 @@ SQL;
         return $result;
     }
 
-    protected function getSqlMysql(): array
+    protected function getStatementsMysql(): array
     {
         return [
-            "
-drop table if exists `co_orders_x_products_one`;
-            ",
             "
 CREATE TABLE `co_orders_x_products_one` (
   `oxp_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -73,10 +72,9 @@ CREATE TABLE `co_orders_x_products_one` (
         ];
     }
 
-    protected function getSqlSqlite(): array
+    protected function getStatementsSqlite(): array
     {
         return [
-"drop table if exists co_orders_x_products_one;",
 "create table co_orders_x_products_one (
   `oxp_id` integer constraint co_oxp_one_pk primary key autoincrement,
   `oxp_ord_id` integer NOT NULL,
@@ -86,12 +84,9 @@ CREATE TABLE `co_orders_x_products_one` (
         ];
     }
 
-    protected function getSqlPgsql(): array
+    protected function getStatementsPgsql(): array
     {
         return [
-            "
-drop table if exists co_orders_x_products_one;
-            ",
             "
 create table co_orders_x_products_one
 (
@@ -102,10 +97,5 @@ create table co_orders_x_products_one
 );
             "
         ];
-    }
-
-    protected function getSqlSqlsrv(): array
-    {
-        return [];
     }
 }

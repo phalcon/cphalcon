@@ -70,6 +70,7 @@ use Phalcon\Support\Helper\Str\Ucwords;
 use Phalcon\Support\Helper\Str\Uncamelize;
 use Phalcon\Support\Helper\Str\Underscore;
 use Phalcon\Support\Helper\Str\Upper;
+use Throwable;
 
 /**
  * ServiceLocator implementation for helpers
@@ -138,8 +139,6 @@ class HelperFactory extends AbstractFactory
 {
     /**
      * Constructor.
-     *
-     * @param array $services
      */
     public function __construct( array services = [])
     {
@@ -147,10 +146,6 @@ class HelperFactory extends AbstractFactory
     }
 
     /**
-     * @param string $name
-     * @param array  $arguments
-     *
-     * @return mixed
      * @throws Exception
      */
     public function __call(string name, array arguments)
@@ -163,9 +158,6 @@ class HelperFactory extends AbstractFactory
     }
 
     /**
-     * @param string $name
-     *
-     * @return mixed
      * @throws Exception
      */
     public function newInstance(string name)
@@ -175,11 +167,10 @@ class HelperFactory extends AbstractFactory
         }
 
         return this->services[name];
-
     }
 
     /**
-     * @return string
+     * @return class-string<Throwable>
      */
     protected function getExceptionClass() -> string
     {

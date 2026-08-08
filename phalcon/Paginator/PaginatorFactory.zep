@@ -12,14 +12,13 @@ namespace Phalcon\Paginator;
 
 use Phalcon\Config\Config;
 use Phalcon\Config\ConfigInterface;
+use Phalcon\Factory\AbstractFactory;
 use Phalcon\Mvc\Model\Query\Builder;
 use Phalcon\Paginator\Adapter\AdapterInterface;
 use Phalcon\Paginator\Adapter\Model;
 use Phalcon\Paginator\Adapter\NativeArray;
 use Phalcon\Paginator\Adapter\QueryBuilder;
 use Phalcon\Paginator\Adapter\QueryBuilderCursor;
-use Phalcon\Traits\Factory\ConfigTrait;
-use Phalcon\Traits\Factory\FactoryTrait;
 use Throwable;
 
 /**
@@ -30,11 +29,8 @@ use Throwable;
  *      builder?: Builder
  * }
  */
-class PaginatorFactory
+class PaginatorFactory extends AbstractFactory
 {
-    use ConfigTrait;
-    use FactoryTrait;
-
     /**
      * AdapterFactory constructor.
      */

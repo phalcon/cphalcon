@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
@@ -41,6 +43,19 @@ use function file_put_contents;
  */
 class CompilerTest extends AbstractUnitTestCase
 {
+    /**
+     * Runs regardless of the test outcome, so a failing test cannot leave
+     * compiled `*.volt.php` artifacts behind and poison later runs.
+     *
+     * @return void
+     */
+    protected function tearDown(): void
+    {
+        $this->clearFiles();
+
+        parent::tearDown();
+    }
+
     /**
      * @issue  -
      * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
@@ -277,9 +292,15 @@ class CompilerTest extends AbstractUnitTestCase
 
         $actual = ob_get_clean();
 
-        // Trim xdebug first line (file path)
-        $actual   = substr($actual, strpos($actual, 'class'));
-        $expected = substr($view->getContent(), strpos($view->getContent(), 'class'));
+        // Xdebug's overloaded var_dump() prepends a "<file>:<line>:" header
+        // to the output. Drop it when present, so that the comparison holds
+        // whether or not Xdebug runs in "develop" mode. The ANSI codes have
+        // to go first: with xdebug.cli_color on and a TTY attached, they sit
+        // between the line number and its colon and stop $header matching.
+        $ansi     = '#\e\[[0-9;]*m#';
+        $header   = '#^.+:\d+:\R#';
+        $actual   = preg_replace($header, '', (string) preg_replace($ansi, '', $actual));
+        $expected = preg_replace($header, '', (string) preg_replace($ansi, '', $view->getContent()));
 
         $this->assertEquals($expected, $actual);
 
@@ -308,8 +329,6 @@ FORM;
 
         $actual = $view->getContent();
         $this->assertSame($expected, $actual);
-
-        $this->clearFiles();
     }
 
     /**

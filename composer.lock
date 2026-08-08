@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0ddb82f9d22f21c65cc5ef26018c5f4c",
+    "content-hash": "0d93ca252ecb9b95a9dda7c6b51efcb6",
     "packages": [],
     "packages-dev": [
         {
@@ -2535,12 +2535,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phalcon/quill.git",
-                "reference": "c25c436463cf1c0e9bcbd8c98f444de1635f8d98"
+                "reference": "318a5d1c629ee4e810d7d27d56ba0b1cc96a881f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phalcon/quill/zipball/c25c436463cf1c0e9bcbd8c98f444de1635f8d98",
-                "reference": "c25c436463cf1c0e9bcbd8c98f444de1635f8d98",
+                "url": "https://api.github.com/repos/phalcon/quill/zipball/318a5d1c629ee4e810d7d27d56ba0b1cc96a881f",
+                "reference": "318a5d1c629ee4e810d7d27d56ba0b1cc96a881f",
                 "shasum": ""
             },
             "require": {
@@ -2551,7 +2551,7 @@
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^3.95",
-                "phalcon/talon": "^0.9",
+                "phalcon/talon": "^1.0.0",
                 "phalcon/zephir": "dev-development",
                 "phpstan/phpstan": "^2",
                 "phpunit/phpunit": "^10.5",
@@ -2596,20 +2596,20 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2026-08-03T14:46:53+00:00"
+            "time": "2026-08-08T01:36:19+00:00"
         },
         {
             "name": "phalcon/talon",
-            "version": "v0.9.0",
+            "version": "v1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phalcon/talon.git",
-                "reference": "ca1a825a4b3167802f0987d41122657dc817f259"
+                "reference": "0289a3e0794520269a133fd3a789981329bb612c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phalcon/talon/zipball/ca1a825a4b3167802f0987d41122657dc817f259",
-                "reference": "ca1a825a4b3167802f0987d41122657dc817f259",
+                "url": "https://api.github.com/repos/phalcon/talon/zipball/0289a3e0794520269a133fd3a789981329bb612c",
+                "reference": "0289a3e0794520269a133fd3a789981329bb612c",
                 "shasum": ""
             },
             "require": {
@@ -2626,7 +2626,7 @@
                 "friendsofphp/php-cs-fixer": "^3",
                 "pds/composer-script-names": "^1",
                 "pds/skeleton": "^1",
-                "phalcon/phalcon": "^6.0@alpha || ^6.0 || ^6.0",
+                "phalcon/phalcon": "^6.0@alpha || ^6.0 || ^6.0 || ^6.0",
                 "phpstan/phpstan": "^2",
                 "phpunit/phpcov": "^9",
                 "phpunit/phpunit": "^10.5",
@@ -2662,7 +2662,7 @@
             ],
             "support": {
                 "issues": "https://github.com/phalcon/talon/issues",
-                "source": "https://github.com/phalcon/talon/tree/v0.9.0"
+                "source": "https://github.com/phalcon/talon/tree/v1.0.1"
             },
             "funding": [
                 {
@@ -2674,7 +2674,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2026-07-30T19:51:18+00:00"
+            "time": "2026-08-07T15:49:55+00:00"
         },
         {
             "name": "phalcon/zephir",
@@ -3184,11 +3184,11 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "2.2.7",
+            "version": "2.2.8",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/692db47b9dddb0487934e5236e77d48594aef921",
-                "reference": "692db47b9dddb0487934e5236e77d48594aef921",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/e285254e60f33c21902efef4a926ca0987c06804",
+                "reference": "e285254e60f33c21902efef4a926ca0987c06804",
                 "shasum": ""
             },
             "require": {
@@ -3244,7 +3244,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-07-29T17:39:32+00:00"
+            "time": "2026-08-04T22:21:45+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -5605,19 +5605,20 @@
         },
         {
             "name": "squizlabs/php_codesniffer",
-            "version": "4.0.1",
+            "version": "4.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPCSStandards/PHP_CodeSniffer.git",
-                "reference": "0525c73950de35ded110cffafb9892946d7771b5"
+                "reference": "bbdc3d0532623e21838b7041a4364383a8126f96"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPCSStandards/PHP_CodeSniffer/zipball/0525c73950de35ded110cffafb9892946d7771b5",
-                "reference": "0525c73950de35ded110cffafb9892946d7771b5",
+                "url": "https://api.github.com/repos/PHPCSStandards/PHP_CodeSniffer/zipball/bbdc3d0532623e21838b7041a4364383a8126f96",
+                "reference": "bbdc3d0532623e21838b7041a4364383a8126f96",
                 "shasum": ""
             },
             "require": {
+                "ext-libxml": "*",
                 "ext-simplexml": "*",
                 "ext-tokenizer": "*",
                 "ext-xmlwriter": "*",
@@ -5625,6 +5626,10 @@
             },
             "require-dev": {
                 "phpunit/phpunit": "^8.4.0 || ^9.3.4 || ^10.5.32 || 11.3.3 - 11.5.28 || ^11.5.31"
+            },
+            "suggest": {
+                "ext-iconv": "For accurate character length calculation when the checked files contain multi-byte characters.",
+                "ext-pcntl": "For parallel processing support via the --parallel CLI option."
             },
             "bin": [
                 "bin/phpcbf",
@@ -5680,7 +5685,7 @@
                     "type": "thanks_dev"
                 }
             ],
-            "time": "2025-11-10T16:43:36+00:00"
+            "time": "2026-08-06T02:45:27+00:00"
         },
         {
             "name": "symfony/browser-kit",

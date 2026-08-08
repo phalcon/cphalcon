@@ -15,12 +15,6 @@ namespace Phalcon\Support\Helper\Str;
  */
 class Len
 {
-    /**
-     * @param string $text
-     * @param string $encoding
-     *
-     * @return int
-     */
     public function __invoke(string text, string encoding = "UTF-8") -> int
     {
         return mb_strlen(text, encoding);
