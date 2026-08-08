@@ -31,10 +31,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Traits_EncryptionAwareTrait)
 {
 	ZEPHIR_REGISTER_TRAIT(Phalcon\\Http\\Traits, EncryptionAwareTrait, phalcon, http_traits_encryptionawaretrait, phalcon_http_traits_encryptionawaretrait_method_entry);
 
-	/**
-	 * @var bool
-	 */
-	zend_declare_property_bool(phalcon_http_traits_encryptionawaretrait_ce, SL("useEncryption"), 0, ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_BOOL(&_zc0, 0);
+		zephir_declare_typed_property(phalcon_http_traits_encryptionawaretrait_ce, SL("useEncryption"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_BOOL, NULL, 0);
+	}
+
 	return SUCCESS;
 }
 

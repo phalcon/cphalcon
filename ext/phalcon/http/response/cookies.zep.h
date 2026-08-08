@@ -16,7 +16,6 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, setSignKey);
 PHP_METHOD(Phalcon_Http_Response_Cookies, useEncryption);
 PHP_METHOD(Phalcon_Http_Response_Cookies, checkContainer);
 PHP_METHOD(Phalcon_Http_Response_Cookies, isUsingEncryption);
-zend_object *zephir_init_properties_Phalcon_Http_Response_Cookies(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_cookies___construct, 0, 0, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, useEncryption, _IS_BOOL, 0, "true")
@@ -70,9 +69,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_response_cookies_che
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_response_cookies_isusingencryption, 0, 0, _IS_BOOL, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_cookies_zephir_init_properties_phalcon_http_response_cookies, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_http_response_cookies_method_entry) {

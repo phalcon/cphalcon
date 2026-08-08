@@ -233,7 +233,7 @@ if (PHP_PHALCON != "no") {
 	ADD_SOURCES(configure_module_dirname + "/phalcon/http/cookie/exceptions", "cookiekeytooshort.zep.c cryptinterfacerequired.zep.c cryptserviceunavailable.zep.c filterserviceunavailable.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/http/request/exceptions", "filterserviceunavailable.zep.c invalidhost.zep.c invalidhttpmethod.zep.c missingfilters.zep.c nullkeyexception.zep.c sanitizernotfound.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/http/response/exceptions", "nonstandardstatuscoderequiresmessage.zep.c responsealreadysent.zep.c responseserviceunavailable.zep.c urlserviceunavailable.zep.c", "phalcon");
-	ADD_SOURCES(configure_module_dirname + "/phalcon/http/traits", "encryptionawaretrait.zep.c", "phalcon");
+	ADD_SOURCES(configure_module_dirname + "/phalcon/http/traits", "encryptionawaretrait.zep.c statusphrasestrait.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/image/exceptions", "compositefailed.zep.c extensionnotloaded.zep.c imageloadfailed.zep.c invalidcolor.zep.c missingdimensions.zep.c missingheight.zep.c missingwidth.zep.c resizefailed.zep.c resourcetypeerror.zep.c textrenderingfailed.zep.c unsupportedimagetype.zep.c versionmismatch.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/logger/adapter/exceptions", "fileopenfailed.zep.c invalidstreammode.zep.c syslogopenfailed.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/logger/exceptions", "adapternotfound.zep.c deserializationfailed.zep.c noadaptersconfigured.zep.c serializationfailed.zep.c transactionalreadyactive.zep.c transactionnotactive.zep.c", "phalcon");

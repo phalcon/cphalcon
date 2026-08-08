@@ -1,0 +1,14 @@
+
+extern zend_class_entry *phalcon_http_traits_statusphrasestrait_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Http_Traits_StatusPhrasesTrait);
+
+PHP_METHOD(Phalcon_Http_Traits_StatusPhrasesTrait, getPhrases);
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_traits_statusphrasestrait_getphrases, 0, 0, IS_ARRAY, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_http_traits_statusphrasestrait_method_entry) {
+	PHP_ME(Phalcon_Http_Traits_StatusPhrasesTrait, getPhrases, arginfo_phalcon_http_traits_statusphrasestrait_getphrases, ZEND_ACC_PROTECTED)
+	PHP_FE_END
+};

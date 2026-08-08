@@ -45,11 +45,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Request_Bag_AbstractBag)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Http\\Request\\Bag, AbstractBag, phalcon, http_request_bag_abstractbag, phalcon_http_request_bag_abstractbag_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
-	/**
-	 * @var array
-	 */
-	zend_declare_property_null(phalcon_http_request_bag_abstractbag_ce, SL("items"), ZEND_ACC_PROTECTED);
-	phalcon_http_request_bag_abstractbag_ce->create_object = zephir_init_properties_Phalcon_Http_Request_Bag_AbstractBag;
+	{
+		zval _zc0;
+		array_init_size(&_zc0, 1);
+		zephir_declare_typed_property(phalcon_http_request_bag_abstractbag_ce, SL("items"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_ARRAY, NULL, 0);
+	}
 
 	zend_class_implements(phalcon_http_request_bag_abstractbag_ce, 1, zend_ce_arrayaccess);
 	zend_class_implements(phalcon_http_request_bag_abstractbag_ce, 1, zend_ce_countable);
@@ -109,8 +109,6 @@ PHP_METHOD(Phalcon_Http_Request_Bag_AbstractBag, all)
 
 /**
  * Returns the number of elements in the bag
- *
- * @return int
  */
 PHP_METHOD(Phalcon_Http_Request_Bag_AbstractBag, count)
 {
@@ -128,11 +126,6 @@ PHP_METHOD(Phalcon_Http_Request_Bag_AbstractBag, count)
 
 /**
  * Returns an element of the bag, or the default value if it is not set
- *
- * @param string $key
- * @param mixed  $defaultValue
- *
- * @return mixed
  */
 PHP_METHOD(Phalcon_Http_Request_Bag_AbstractBag, get)
 {
@@ -183,11 +176,6 @@ PHP_METHOD(Phalcon_Http_Request_Bag_AbstractBag, get)
 /**
  * Returns an element of the bag as an array. The default value is
  * returned if the element is not set or is not an array
- *
- * @param string $key
- * @param array  $defaultValue
- *
- * @return array
  */
 PHP_METHOD(Phalcon_Http_Request_Bag_AbstractBag, getArray)
 {
@@ -238,11 +226,6 @@ PHP_METHOD(Phalcon_Http_Request_Bag_AbstractBag, getArray)
 /**
  * Returns an element of the bag cast to bool, or the default value if
  * it is not set
- *
- * @param string $key
- * @param bool   $defaultValue
- *
- * @return bool
  */
 PHP_METHOD(Phalcon_Http_Request_Bag_AbstractBag, getBool)
 {
@@ -290,11 +273,6 @@ PHP_METHOD(Phalcon_Http_Request_Bag_AbstractBag, getBool)
 /**
  * Returns an element of the bag cast to float, or the default value if
  * it is not set
- *
- * @param string $key
- * @param float  $defaultValue
- *
- * @return float
  */
 PHP_METHOD(Phalcon_Http_Request_Bag_AbstractBag, getFloat)
 {
@@ -343,11 +321,6 @@ PHP_METHOD(Phalcon_Http_Request_Bag_AbstractBag, getFloat)
 /**
  * Returns an element of the bag cast to int, or the default value if
  * it is not set
- *
- * @param string $key
- * @param int    $defaultValue
- *
- * @return int
  */
 PHP_METHOD(Phalcon_Http_Request_Bag_AbstractBag, getInt)
 {
@@ -421,11 +394,6 @@ PHP_METHOD(Phalcon_Http_Request_Bag_AbstractBag, getIterator)
 /**
  * Returns an element of the bag cast to string, or the default value if
  * it is not set
- *
- * @param string $key
- * @param string $defaultValue
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Http_Request_Bag_AbstractBag, getString)
 {
@@ -479,10 +447,6 @@ PHP_METHOD(Phalcon_Http_Request_Bag_AbstractBag, getString)
 
 /**
  * Checks whether an element exists in the bag
- *
- * @param string $key
- *
- * @return bool
  */
 PHP_METHOD(Phalcon_Http_Request_Bag_AbstractBag, has)
 {
@@ -515,12 +479,6 @@ PHP_METHOD(Phalcon_Http_Request_Bag_AbstractBag, has)
 
 /**
  * Whether an offset exists
- *
- * @link https://php.net/manual/en/arrayaccess.offsetexists.php
- *
- * @param mixed $offset
- *
- * @return bool
  */
 PHP_METHOD(Phalcon_Http_Request_Bag_AbstractBag, offsetExists)
 {
@@ -547,12 +505,6 @@ PHP_METHOD(Phalcon_Http_Request_Bag_AbstractBag, offsetExists)
 
 /**
  * Offset to retrieve
- *
- * @link https://php.net/manual/en/arrayaccess.offsetget.php
- *
- * @param mixed $offset
- *
- * @return mixed
  */
 PHP_METHOD(Phalcon_Http_Request_Bag_AbstractBag, offsetGet)
 {
@@ -579,12 +531,6 @@ PHP_METHOD(Phalcon_Http_Request_Bag_AbstractBag, offsetGet)
 
 /**
  * Offset to set
- *
- * @link https://php.net/manual/en/arrayaccess.offsetset.php
- *
- * @param mixed $offset
- * @param mixed $value
- *
  * @throws NullKeyException When the offset is null (append form)
  */
 PHP_METHOD(Phalcon_Http_Request_Bag_AbstractBag, offsetSet)
@@ -612,7 +558,7 @@ PHP_METHOD(Phalcon_Http_Request_Bag_AbstractBag, offsetSet)
 		object_init_ex(&_0$$3, phalcon_http_request_exceptions_nullkeyexception_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 251);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_0$$3, "phalcon/Http/Request/Bag/AbstractBag.zep", 275);
+		zephir_throw_exception_debug(&_0$$3, "phalcon/Http/Request/Bag/AbstractBag.zep", 218);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -624,10 +570,6 @@ PHP_METHOD(Phalcon_Http_Request_Bag_AbstractBag, offsetSet)
 
 /**
  * Offset to unset
- *
- * @link https://php.net/manual/en/arrayaccess.offsetunset.php
- *
- * @param mixed $offset
  */
 PHP_METHOD(Phalcon_Http_Request_Bag_AbstractBag, offsetUnset)
 {
@@ -654,8 +596,6 @@ PHP_METHOD(Phalcon_Http_Request_Bag_AbstractBag, offsetUnset)
 
 /**
  * Removes an element from the bag
- *
- * @param string $key
  */
 PHP_METHOD(Phalcon_Http_Request_Bag_AbstractBag, remove)
 {
@@ -691,9 +631,6 @@ PHP_METHOD(Phalcon_Http_Request_Bag_AbstractBag, remove)
 
 /**
  * Sets an element in the bag
- *
- * @param string $key
- * @param mixed  $value
  */
 PHP_METHOD(Phalcon_Http_Request_Bag_AbstractBag, set)
 {
@@ -750,10 +687,6 @@ PHP_METHOD(Phalcon_Http_Request_Bag_AbstractBag, normalizeItems)
 /**
  * Normalizes a key for lookups and writes. Identity in the base;
  * subclasses can override it to change key handling
- *
- * @param string $key
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Http_Request_Bag_AbstractBag, normalizeKey)
 {
@@ -766,30 +699,5 @@ PHP_METHOD(Phalcon_Http_Request_Bag_AbstractBag, normalizeKey)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&key_zv, key);
 	RETURN_STR(zend_string_copy(key));
-}
-
-zend_object *zephir_init_properties_Phalcon_Http_Request_Bag_AbstractBag(zend_class_entry *class_type)
-{
-		zval _0, _1$$3;
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-		ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1$$3);
-	
-
-		ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-		zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	
-	{
-		zval local_this_ptr, *this_ptr = &local_this_ptr;
-		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		zephir_read_property_ex(&_0, this_ptr, ZEND_STRL("items"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_0) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_1$$3);
-			array_init(&_1$$3);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("items"), &_1$$3);
-		}
-		ZEPHIR_MM_RESTORE();
-		return Z_OBJ_P(this_ptr);
-	}
 }
 
