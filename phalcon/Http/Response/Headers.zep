@@ -18,22 +18,14 @@ use Traversable;
  */
 class Headers implements HeadersInterface, IteratorAggregate
 {
-    /**
-     * @var array
-     */
-    protected headers = [];
-
-    /**
-     * @var bool
-     */
-    protected isSent = false;
+    protected array headers = [];
+    protected bool isSent = false;
 
     /**
      * Gets a header value from the internal bag
      *
-     * @param string $name
-     *
-     * @return string|bool|null
+     * @return bool|string|null
+     * @todo change the raw headers not to return null
      */
     public function get(string name) -> string | bool | null
     {
@@ -58,10 +50,6 @@ class Headers implements HeadersInterface, IteratorAggregate
 
     /**
      * Checks if a header exists
-     *
-     * @param string $name
-     *
-     * @return bool
      */
     public function has(string name) -> bool
     {
@@ -92,8 +80,6 @@ class Headers implements HeadersInterface, IteratorAggregate
 
     /**
      * Reset set headers
-     *
-     * @return void
      */
     public function reset() -> void
     {

@@ -14,6 +14,7 @@ use Phalcon\Contracts\Http\AttributeRequest;
 use Phalcon\Di\AbstractInjectionAware;
 use Phalcon\Di\DiInterface;
 use Phalcon\Events\ManagerInterface;
+use Phalcon\Events\Traits\EventsAwareTrait;
 use Phalcon\Filter\FilterInterface;
 use Phalcon\Http\Message\RequestMethodInterface;
 use Phalcon\Http\Request\Bag\AttributeBag;
@@ -57,52 +58,21 @@ use stdClass;
  */
 class Request extends AbstractInjectionAware implements RequestInterface, RequestMethodInterface, AttributeRequest
 {
+    use EventsAwareTrait;
     use FileTrait;
 
-    /**
-     * @var AttributeBag|null
-     */
-    protected attributes = null;
-
-    /**
-     * @var FilterInterface|null
-     */
-    protected filterService = null;
-
-    /**
-     * @var bool
-     */
-    protected methodOverride = false;
-
-    /**
-     * @var array
-     */
-    protected queryFilters = [];
-
+    protected ?<AttributeBag> attributes = null;
+    protected ?<FilterInterface> filterService = null;
+    protected bool methodOverride = false;
     /**
      * @var array|null
      */
     protected postCache = null;
-
-    /**
-     * @var string
-     */
-    protected rawBody = "";
-
-    /**
-     * @var bool
-     */
-    protected strictHostCheck = false;
-
-    /**
-     * @var array
-     */
-    protected trustedProxies = [];
-
-    /**
-     * @var string
-     */
-    protected trustedProxyHeader = "";
+    protected array queryFilters = [];
+    protected string rawBody = "";
+    protected bool strictHostCheck = false;
+    protected array trustedProxies = [];
+    protected string trustedProxyHeader = "";
 
     /**
      * Gets a variable from the $_REQUEST superglobal applying filters if
@@ -115,6 +85,8 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
      * // Returns value from $_REQUEST["user_email"] with sanitizing
      * $userEmail = $request->get("user_email", "email");
      *```
+     *
+     * @todo check the filters
      */
     public function get(
          string name = null,
@@ -207,7 +179,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     }
 
     /**
-     * Gets best language accepted by the browser/client from
+     * Gets the best language accepted by the browser/client from
      * _SERVER["HTTP_ACCEPT_LANGUAGE"]
      */
     public function getBestLanguage() -> string
@@ -235,11 +207,6 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
      *     ->setTrustedProxies($trustedProxies)
      *     ->getClientAddress(true);
      * ```
-     *
-     * @param bool $trustForwardedHeader
-     *
-     * @return string|false
-     * @throws \Exception
      */
     public function getClientAddress(bool trustForwardedHeader = false) -> string | bool
     {
@@ -826,7 +793,8 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
      * "Accept-Language" request HTTP header and returns the
      * base part of it i.e. `en` instead of `en-US`.
      *
-     * Note: This method relies on the `$_SERVER["HTTP_ACCEPT_LANGUAGE"]` header.
+     * Note: This method relies on the `$_SERVER["HTTP_ACCEPT_LANGUAGE"]`
+     * header.
      *
      * @link https://www.iso.org/standard/50707.html
      */
@@ -873,7 +841,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     }
 
     /**
-     * Gets variable from $_GET superglobal applying filters if needed
+     * Gets variable from $_GET superglobal applying filters if needed.
      * If no parameters are given the $_GET superglobal is returned
      *
      *```php
@@ -1057,9 +1025,6 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
      * // Returns /some/path
      * $uri = $request->getURI(true);
      *```
-     *
-     * @param bool onlyPath If true, query part will be omitted
-     * @return string
      */
     public function getURI(bool onlyPath = false) -> string
     {
@@ -1078,7 +1043,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     }
 
     /**
-     * Gets HTTP user agent used to made the request
+     * Gets HTTP user agent used to make the request
      */
     public function getUserAgent() -> string
     {
@@ -1223,8 +1188,6 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
 
     /**
      * Checks whether request content type contains json data
-     *
-     * @return bool
      */
     public function isJson() -> bool
     {
@@ -1235,6 +1198,8 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     /**
      * Check if HTTP method match any of the passed methods
      * When strict is true it checks if validated methods are real HTTP methods
+     *
+     * @todo check the $methods type - refactor this !!
      */
     public function isMethod(var methods, bool strict = false) -> bool
     {
@@ -1416,10 +1381,6 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
 
     /**
      * Set the HTTP method parameter override flag
-     *
-     * @param bool $override
-     *
-     * @return static
      */
     public function setHttpMethodParameterOverride(bool override) -> <static>
     {
@@ -1482,10 +1443,6 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
 
     /**
      * Set a trusted proxy list for X-Forwarded-For header
-     *
-     * @param array $trustedProxies
-     * @return static
-     * @throws Exception
      */
     public function setTrustedProxies(array trustedProxies) -> <static>
     {
@@ -1507,9 +1464,6 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     /**
      * This header takes priority when parsing HTTP headers
      * The header return only 1 single IP address, prefixed with HTTP_ eg. HTTP_CLIENT_IP.
-     *
-     * @param  string $trustedProxyHeader
-     * @return static
      */
     public function setTrustedProxyHeader(string trustedProxyHeader) -> <static>
     {
@@ -1600,7 +1554,8 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     }
 
     /**
-     * Process a request header and return an array of values with their qualities
+     * Process a request header and return an array of values with their
+     * qualities
      */
     protected function getQualityHeader( string serverIndex,  string name) -> array
     {
@@ -1672,10 +1627,6 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
 
     /**
      * Check if an IP address exists in CIDR range
-     *
-     * @param string $ip The IP address to check.
-     * @param string $cidr The CIDR range to compare against.
-     * @return bool True if the IP is in range, false otherwise.
      */
     protected function isIpAddressInCIDR(string ip, string cidr) -> bool
     {
@@ -1812,7 +1763,6 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
             if typeof resolved === "array" {
                 let headers = array_merge(headers, resolved);
             }
-
         }
 
         return headers;
@@ -1821,8 +1771,14 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     /**
      * Smooth out $_FILES to have plain array with all files uploaded
      */
-    protected function smoothFiles( array names,  array types,  array tmp_names,  array sizes,  array errors, string prefix) -> array
-    {
+    protected function smoothFiles(
+        array names,
+        array types,
+        array tmp_names,
+        array sizes,
+        array errors,
+        string prefix
+    ) -> array {
         var idx, name, file, files, parentFiles, p;
 
         let files = [];
@@ -1884,7 +1840,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     }
 
     /**
-     * parse multipart/form-data from raw data
+     * Parses multipart/form-data from the raw body.
      */
     private function getFormData() -> array
     {
@@ -1958,9 +1914,6 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
 
     /**
      * Return post data from rawBody, form data, or urlencoded form data
-     *
-     * @param array|null $data
-     * @return array
      */
     private function getPostData(var data) -> array
     {
@@ -2000,9 +1953,6 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
 
     /**
      * Verify if given IP address is trusted
-     *
-     * @param string $ip
-     * @return bool
      */
     private function isProxyTrusted(string ip) -> bool
     {
@@ -2021,12 +1971,8 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
 
     /**
      * Verify if given IP address is public, eg. not private or reserved IP
-     *
-     * @param string $forwardedIp
-     * @return string|false
-     * @throws \Phalcon\Filter\Exception
      */
-    private function isValidPublicIp(string forwardedIp) -> string | bool
+    private function isValidPublicIp(string forwardedIp) -> false | string
     {
         var filterService, filtered;
 

@@ -16,12 +16,6 @@ use DateTimeImmutable;
  * Phalcon\Logger\Item
  *
  * Represents each item in a logging transaction
- *
- * @property array             $context
- * @property string            $message
- * @property int               $level
- * @property string            $levelName
- * @property DateTimeImmutable $dateTime
  */
 class Item
 {

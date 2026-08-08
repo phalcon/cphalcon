@@ -31,10 +31,7 @@ use Traversable;
  */
 abstract class AbstractBag implements ArrayAccess, Countable, IteratorAggregate
 {
-    /**
-     * @var array
-     */
-    protected items = [];
+    protected array items = [];
 
     /**
      * AbstractBag constructor.
@@ -58,8 +55,6 @@ abstract class AbstractBag implements ArrayAccess, Countable, IteratorAggregate
 
     /**
      * Returns the number of elements in the bag
-     *
-     * @return int
      */
     public function count() -> int
     {
@@ -68,11 +63,6 @@ abstract class AbstractBag implements ArrayAccess, Countable, IteratorAggregate
 
     /**
      * Returns an element of the bag, or the default value if it is not set
-     *
-     * @param string $key
-     * @param mixed  $defaultValue
-     *
-     * @return mixed
      */
     public function get(string key, var defaultValue = null) -> mixed
     {
@@ -92,11 +82,6 @@ abstract class AbstractBag implements ArrayAccess, Countable, IteratorAggregate
     /**
      * Returns an element of the bag as an array. The default value is
      * returned if the element is not set or is not an array
-     *
-     * @param string $key
-     * @param array  $defaultValue
-     *
-     * @return array
      */
     public function getArray(string key, array defaultValue = []) -> array
     {
@@ -116,11 +101,6 @@ abstract class AbstractBag implements ArrayAccess, Countable, IteratorAggregate
     /**
      * Returns an element of the bag cast to bool, or the default value if
      * it is not set
-     *
-     * @param string $key
-     * @param bool   $defaultValue
-     *
-     * @return bool
      */
     public function getBool(string key, bool defaultValue = false) -> bool
     {
@@ -140,11 +120,6 @@ abstract class AbstractBag implements ArrayAccess, Countable, IteratorAggregate
     /**
      * Returns an element of the bag cast to float, or the default value if
      * it is not set
-     *
-     * @param string $key
-     * @param float  $defaultValue
-     *
-     * @return float
      */
     public function getFloat(string key, double defaultValue = 0.0) -> double
     {
@@ -164,11 +139,6 @@ abstract class AbstractBag implements ArrayAccess, Countable, IteratorAggregate
     /**
      * Returns an element of the bag cast to int, or the default value if
      * it is not set
-     *
-     * @param string $key
-     * @param int    $defaultValue
-     *
-     * @return int
      */
     public function getInt(string key, int defaultValue = 0) -> int
     {
@@ -198,11 +168,6 @@ abstract class AbstractBag implements ArrayAccess, Countable, IteratorAggregate
     /**
      * Returns an element of the bag cast to string, or the default value if
      * it is not set
-     *
-     * @param string $key
-     * @param string $defaultValue
-     *
-     * @return string
      */
     public function getString(string key, string defaultValue = "") -> string
     {
@@ -221,10 +186,6 @@ abstract class AbstractBag implements ArrayAccess, Countable, IteratorAggregate
 
     /**
      * Checks whether an element exists in the bag
-     *
-     * @param string $key
-     *
-     * @return bool
      */
     public function has(string key) -> bool
     {
@@ -233,12 +194,6 @@ abstract class AbstractBag implements ArrayAccess, Countable, IteratorAggregate
 
     /**
      * Whether an offset exists
-     *
-     * @link https://php.net/manual/en/arrayaccess.offsetexists.php
-     *
-     * @param mixed $offset
-     *
-     * @return bool
      */
     public function offsetExists(mixed offset) -> bool
     {
@@ -247,12 +202,6 @@ abstract class AbstractBag implements ArrayAccess, Countable, IteratorAggregate
 
     /**
      * Offset to retrieve
-     *
-     * @link https://php.net/manual/en/arrayaccess.offsetget.php
-     *
-     * @param mixed $offset
-     *
-     * @return mixed
      */
     public function offsetGet(mixed offset) -> mixed
     {
@@ -261,12 +210,6 @@ abstract class AbstractBag implements ArrayAccess, Countable, IteratorAggregate
 
     /**
      * Offset to set
-     *
-     * @link https://php.net/manual/en/arrayaccess.offsetset.php
-     *
-     * @param mixed $offset
-     * @param mixed $value
-     *
      * @throws NullKeyException When the offset is null (append form)
      */
     public function offsetSet(mixed offset, mixed value) -> void
@@ -280,10 +223,6 @@ abstract class AbstractBag implements ArrayAccess, Countable, IteratorAggregate
 
     /**
      * Offset to unset
-     *
-     * @link https://php.net/manual/en/arrayaccess.offsetunset.php
-     *
-     * @param mixed $offset
      */
     public function offsetUnset(mixed offset) -> void
     {
@@ -292,8 +231,6 @@ abstract class AbstractBag implements ArrayAccess, Countable, IteratorAggregate
 
     /**
      * Removes an element from the bag
-     *
-     * @param string $key
      */
     public function remove(string key) -> void
     {
@@ -304,9 +241,6 @@ abstract class AbstractBag implements ArrayAccess, Countable, IteratorAggregate
 
     /**
      * Sets an element in the bag
-     *
-     * @param string $key
-     * @param mixed  $value
      */
     public function set(string key, mixed value) -> void
     {
@@ -331,10 +265,6 @@ abstract class AbstractBag implements ArrayAccess, Countable, IteratorAggregate
     /**
      * Normalizes a key for lookups and writes. Identity in the base;
      * subclasses can override it to change key handling
-     *
-     * @param string $key
-     *
-     * @return string
      */
     protected function normalizeKey(string key) -> string
     {
