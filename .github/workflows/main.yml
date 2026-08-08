@@ -561,17 +561,12 @@ jobs:
           fetch-depth: 0
           token: ${{ github.token }}
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # v2
-        with:
-          php-version: ${{ matrix.php }}
-          extensions: ${{ env.EXTENSIONS }}
-          ini-values: apc.enable_cli=on, session.save_path=${{ env.SESSION_SAVE_PATH }}, register_argc_argv=on
-          tools: phpize, php-config
-          coverage: xdebug
-        env:
-          PHPTS: ${{ matrix.ts }}
-          COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Setup platform specific environment
+        shell: pwsh
+        run: |
+          git config --global core.autocrlf false
+          $SessionSavePath = if ("${{ runner.os }}" -eq "Windows") { 'C:\temp' } else { '/tmp' }
+          Write-Output "SESSION_SAVE_PATH=$SessionSavePath" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
       - name: Redis Cluster
         uses: vishnudxb/redis-cluster@e29c352fa58527003afc982e96db437c0c49e6aa # 1.10.0
@@ -591,6 +586,18 @@ jobs:
           docker ps -a
           redis-cli -h 127.0.0.1 -p 5000 ping
           redis-cli -h 127.0.0.1 -p 5000 cluster nodes
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: ${{ env.EXTENSIONS }}
+          ini-values: apc.enable_cli=on, session.save_path=${{ env.SESSION_SAVE_PATH }}, register_argc_argv=on
+          tools: phpize, php-config
+          coverage: xdebug
+        env:
+          PHPTS: ${{ matrix.ts }}
+          COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Download compiled Phalcon extension
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
