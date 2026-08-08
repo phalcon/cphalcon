@@ -329,6 +329,7 @@ PHP_METHOD(Phalcon_Support_Debug_Renderer_HtmlRenderer, render)
  */
 PHP_METHOD(Phalcon_Support_Debug_Renderer_HtmlRenderer, defaultTemplate)
 {
+	zval _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval name_zv, defaults, template;
 	zend_string *name = NULL;
@@ -336,6 +337,7 @@ PHP_METHOD(Phalcon_Support_Debug_Renderer_HtmlRenderer, defaultTemplate)
 	ZVAL_UNDEF(&name_zv);
 	ZVAL_UNDEF(&defaults);
 	ZVAL_UNDEF(&template);
+	ZVAL_UNDEF(&_0);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(name)
 	ZEND_PARSE_PARAMETERS_END();
@@ -349,9 +351,13 @@ PHP_METHOD(Phalcon_Support_Debug_Renderer_HtmlRenderer, defaultTemplate)
 	add_assoc_stringl_ex(&defaults, SL("jsLink"), SL("\n    <script src='%uri%%path%'></script>"));
 	add_assoc_stringl_ex(&defaults, SL("version"), SL("<a class='version-badge' href='%link%' target='_new'><b>v%version%</b></a>"));
 	add_assoc_stringl_ex(&defaults, SL("document"), SL("<!DOCTYPE html>\n<html lang='en' data-theme='light'>\n<head>\n    <meta charset='utf-8'>\n    <meta name='viewport' content='width=device-width, initial-scale=1'>\n    <title>%className%:%escapedMessage%</title>%cssSources%\n</head>\n<body>\n<div class='wrap'>"));
-	add_assoc_stringl_ex(&defaults, SL("masthead"), SL("\n    <div class='masthead'>\n        <div class='brand'><img class='logo' src='https://assets.phalcon.io/phalcon/images/svg/logo--tablet.svg' alt='Phalcon' /><span>Phalcon Debug</span></div>\n        <div class='actions-top'>\n            <button class='btn' data-action='copy-trace'>Copy trace</button>\n            <button class='btn' data-action='toggle-theme' title='Toggle theme'>Theme</button>\n            %version%\n        </div>\n    </div>"));
+	ZEPHIR_INIT_VAR(&_0);
+	ZEPHIR_CONCAT_SSS(&_0, "\n    <div class='masthead'>\n        <div class='brand'><img class='logo'", " src='https://assets.phalcon.io/phalcon/images/svg/logo--tablet.svg'", " alt='Phalcon' /><span>Phalcon Debug</span></div>\n        <div class='actions-top'>\n            <button class='btn' data-action='copy-trace'>Copy trace</button>\n            <button class='btn' data-action='toggle-theme' title='Toggle theme'>Theme</button>\n            %version%\n        </div>\n    </div>");
+	zephir_array_update_string(&defaults, SL("masthead"), &_0, PH_COPY | PH_SEPARATE);
 	add_assoc_stringl_ex(&defaults, SL("errorMain"), SL("\n    <div class='error-card'>\n        <span class='error-type'>%className%</span>\n        <h1 class='error-message'>%escapedMessage%</h1>\n        <div class='meta'>\n            <span class='item'><code>%file%</code> : <code>%line%</code></span>\n            <span class='sep'>|</span><span class='item'>PHP <code>%phpVersion%</code></span>\n        </div>\n    </div>"));
-	add_assoc_stringl_ex(&defaults, SL("tabs"), SL("\n    <div class='tabs' role='tablist'>\n        <button class='tab is-active' data-tab='backtrace'>Backtrace <span class='count'>%backtraceCount%</span></button>\n        <button class='tab' data-tab='request'>Request <span class='count'>%requestCount%</span></button>\n        <button class='tab' data-tab='server'>Server <span class='count'>%serverCount%</span></button>\n        <button class='tab' data-tab='files'>Included Files <span class='count'>%filesCount%</span></button>\n        <button class='tab' data-tab='memory'>Memory</button>%variablesTab%\n    </div>"));
+	ZEPHIR_INIT_NVAR(&_0);
+	ZEPHIR_CONCAT_SS(&_0, "\n    <div class='tabs' role='tablist'>\n        <button class='tab is-active' data-tab='backtrace'>Backtrace ", "<span class='count'>%backtraceCount%</span></button>\n        <button class='tab' data-tab='request'>Request <span class='count'>%requestCount%</span></button>\n        <button class='tab' data-tab='server'>Server <span class='count'>%serverCount%</span></button>\n        <button class='tab' data-tab='files'>Included Files <span class='count'>%filesCount%</span></button>\n        <button class='tab' data-tab='memory'>Memory</button>%variablesTab%\n    </div>");
+	zephir_array_update_string(&defaults, SL("tabs"), &_0, PH_COPY | PH_SEPARATE);
 	add_assoc_stringl_ex(&defaults, SL("variablesTab"), SL("\n        <button class='tab' data-tab='variables'>Variables <span class='count'>%variablesCount%</span></button>"));
 	add_assoc_stringl_ex(&defaults, SL("backtracePanel"), SL("\n    <div class='panel is-active' id='backtrace'>\n        <div class='bt-tools'>\n            <button class='btn' data-action='expand-all'>Expand all</button>\n            <button class='btn' data-action='collapse-all'>Collapse all</button>\n        </div>"));
 	add_assoc_stringl_ex(&defaults, SL("panelOpen"), SL("\n    <div class='panel' id='%id%'>"));
@@ -366,10 +372,14 @@ PHP_METHOD(Phalcon_Support_Debug_Renderer_HtmlRenderer, defaultTemplate)
 	add_assoc_stringl_ex(&defaults, SL("codeRow"), SL("<tr%hlClass%><td class='ln'>%num%</td><td class='src'>%src%</td></tr>"));
 	add_assoc_stringl_ex(&defaults, SL("codeClose"), SL("</table></div>"));
 	add_assoc_stringl_ex(&defaults, SL("link"), SL("<a href='%url%' target='_new'>%name%</a>"));
-	add_assoc_stringl_ex(&defaults, SL("tableOpen"), SL("<table class='grid'><thead><tr><th>%headerOne%</th><th>%headerTwo%</th></tr></thead><tbody>"));
+	ZEPHIR_INIT_NVAR(&_0);
+	ZEPHIR_CONCAT_SS(&_0, "<table class='grid'><thead><tr><th>%headerOne%</th><th>%headerTwo%</th></tr>", "</thead><tbody>");
+	zephir_array_update_string(&defaults, SL("tableOpen"), &_0, PH_COPY | PH_SEPARATE);
 	add_assoc_stringl_ex(&defaults, SL("gridRow"), SL("<tr><td class='k'>%key%</td><td class='v'>%value%</td></tr>"));
 	add_assoc_stringl_ex(&defaults, SL("tableClose"), SL("</tbody></table>"));
-	add_assoc_stringl_ex(&defaults, SL("memory"), SL("\n        <div class='stats'>\n            <div class='stat'><div class='label'>Memory usage (real)</div><div class='value'>%memory% <small>MB</small></div></div>\n            <div class='stat'><div class='label'>Peak usage</div><div class='value'>%peak% <small>MB</small></div></div>\n        </div>"));
+	ZEPHIR_INIT_NVAR(&_0);
+	ZEPHIR_CONCAT_SSS(&_0, "\n        <div class='stats'>\n            <div class='stat'><div class='label'>Memory usage (real)</div>", "<div class='value'>%memory% <small>MB</small></div></div>\n            <div class='stat'><div class='label'>Peak usage</div>", "<div class='value'>%peak% <small>MB</small></div></div>\n        </div>");
+	zephir_array_update_string(&defaults, SL("memory"), &_0, PH_COPY | PH_SEPARATE);
 	zephir_memory_observe(&template);
 	if (zephir_array_isset_fetch(&template, &defaults, &name_zv, 0)) {
 		RETURN_CCTOR(&template);
@@ -474,7 +484,7 @@ PHP_METHOD(Phalcon_Support_Debug_Renderer_HtmlRenderer, getArrayDump)
 	}
 	ZEPHIR_INIT_VAR(&dump);
 	array_init(&dump);
-	zephir_is_iterable(&arguments, 0, "phalcon/Support/Debug/Renderer/HtmlRenderer.zep", 203);
+	zephir_is_iterable(&arguments, 0, "phalcon/Support/Debug/Renderer/HtmlRenderer.zep", 209);
 	if (Z_TYPE_P(&arguments) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&arguments), _3, _4, _2)
 		{
@@ -511,7 +521,7 @@ PHP_METHOD(Phalcon_Support_Debug_Renderer_HtmlRenderer, getArrayDump)
 			}
 			ZEPHIR_INIT_NVAR(&_10$$5);
 			ZEPHIR_CONCAT_SVSV(&_10$$5, "[", &key, "] =&gt; ", &varDump);
-			zephir_array_append(&dump, &_10$$5, PH_SEPARATE, "phalcon/Support/Debug/Renderer/HtmlRenderer.zep", 200);
+			zephir_array_append(&dump, &_10$$5, PH_SEPARATE, "phalcon/Support/Debug/Renderer/HtmlRenderer.zep", 206);
 		} ZEND_HASH_FOREACH_END();
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, &arguments, "rewind", NULL, 0);
@@ -558,7 +568,7 @@ PHP_METHOD(Phalcon_Support_Debug_Renderer_HtmlRenderer, getArrayDump)
 				}
 				ZEPHIR_INIT_NVAR(&_16$$12);
 				ZEPHIR_CONCAT_SVSV(&_16$$12, "[", &key, "] =&gt; ", &varDump);
-				zephir_array_append(&dump, &_16$$12, PH_SEPARATE, "phalcon/Support/Debug/Renderer/HtmlRenderer.zep", 200);
+				zephir_array_append(&dump, &_16$$12, PH_SEPARATE, "phalcon/Support/Debug/Renderer/HtmlRenderer.zep", 206);
 		}
 	}
 	ZEPHIR_INIT_NVAR(&value);
@@ -725,7 +735,7 @@ PHP_METHOD(Phalcon_Support_Debug_Renderer_HtmlRenderer, renderBacktrace)
 	ZVAL_STRING(&_0, "backtracePanel");
 	ZEPHIR_CALL_METHOD(&html, this_ptr, "gettemplate", NULL, 0, &_0);
 	zephir_check_call_status();
-	zephir_is_iterable(&backtrace, 0, "phalcon/Support/Debug/Renderer/HtmlRenderer.zep", 286);
+	zephir_is_iterable(&backtrace, 0, "phalcon/Support/Debug/Renderer/HtmlRenderer.zep", 292);
 	if (Z_TYPE_P(&backtrace) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&backtrace), _2, _3, _1)
 		{
@@ -817,13 +827,13 @@ PHP_METHOD(Phalcon_Support_Debug_Renderer_HtmlRenderer, renderFragment)
 	zephir_fetch_params(1, 1, 0, &fragment_param);
 	zephir_get_arrval(&fragment, fragment_param);
 	zephir_memory_observe(&firstLine);
-	zephir_array_fetch_string(&firstLine, &fragment, SL("firstLine"), PH_NOISY, "phalcon/Support/Debug/Renderer/HtmlRenderer.zep", 293);
+	zephir_array_fetch_string(&firstLine, &fragment, SL("firstLine"), PH_NOISY, "phalcon/Support/Debug/Renderer/HtmlRenderer.zep", 299);
 	zephir_memory_observe(&lastLine);
-	zephir_array_fetch_string(&lastLine, &fragment, SL("lastLine"), PH_NOISY, "phalcon/Support/Debug/Renderer/HtmlRenderer.zep", 294);
+	zephir_array_fetch_string(&lastLine, &fragment, SL("lastLine"), PH_NOISY, "phalcon/Support/Debug/Renderer/HtmlRenderer.zep", 300);
 	zephir_memory_observe(&line);
-	zephir_array_fetch_string(&line, &fragment, SL("line"), PH_NOISY, "phalcon/Support/Debug/Renderer/HtmlRenderer.zep", 295);
+	zephir_array_fetch_string(&line, &fragment, SL("line"), PH_NOISY, "phalcon/Support/Debug/Renderer/HtmlRenderer.zep", 301);
 	zephir_memory_observe(&lines);
-	zephir_array_fetch_string(&lines, &fragment, SL("lines"), PH_NOISY, "phalcon/Support/Debug/Renderer/HtmlRenderer.zep", 296);
+	zephir_array_fetch_string(&lines, &fragment, SL("lines"), PH_NOISY, "phalcon/Support/Debug/Renderer/HtmlRenderer.zep", 302);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "codeOpen");
 	ZEPHIR_CALL_METHOD(&html, this_ptr, "gettemplate", NULL, 0, &_0);
@@ -836,7 +846,7 @@ PHP_METHOD(Phalcon_Support_Debug_Renderer_HtmlRenderer, renderFragment)
 		ZEPHIR_INIT_NVAR(&_1$$3);
 		if (zephir_array_isset_value_long(&lines, (zephir_get_numberval(&counter) - 1))) {
 			ZEPHIR_OBS_NVAR(&_1$$3);
-			zephir_array_fetch_long(&_1$$3, &lines, (zephir_get_numberval(&counter) - 1), PH_NOISY, "phalcon/Support/Debug/Renderer/HtmlRenderer.zep", 302);
+			zephir_array_fetch_long(&_1$$3, &lines, (zephir_get_numberval(&counter) - 1), PH_NOISY, "phalcon/Support/Debug/Renderer/HtmlRenderer.zep", 308);
 		} else {
 			ZEPHIR_INIT_NVAR(&_1$$3);
 			ZVAL_STRING(&_1$$3, "");
@@ -955,7 +965,7 @@ PHP_METHOD(Phalcon_Support_Debug_Renderer_HtmlRenderer, renderIncludedFiles)
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&html);
 	ZEPHIR_CONCAT_VV(&html, &_0, &_4);
-	zephir_is_iterable(&files, 0, "phalcon/Support/Debug/Renderer/HtmlRenderer.zep", 343);
+	zephir_is_iterable(&files, 0, "phalcon/Support/Debug/Renderer/HtmlRenderer.zep", 349);
 	if (Z_TYPE_P(&files) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&files), _8, _9, _7)
 		{
@@ -1205,7 +1215,7 @@ PHP_METHOD(Phalcon_Support_Debug_Renderer_HtmlRenderer, renderSignature)
 		array_init(&arguments);
 		ZEPHIR_CALL_METHOD(&_15$$8, item, "getargs", NULL, 0);
 		zephir_check_call_status();
-		zephir_is_iterable(&_15$$8, 0, "phalcon/Support/Debug/Renderer/HtmlRenderer.zep", 403);
+		zephir_is_iterable(&_15$$8, 0, "phalcon/Support/Debug/Renderer/HtmlRenderer.zep", 409);
 		if (Z_TYPE_P(&_15$$8) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_15$$8), _16$$8)
 			{
@@ -1213,7 +1223,7 @@ PHP_METHOD(Phalcon_Support_Debug_Renderer_HtmlRenderer, renderSignature)
 				ZVAL_COPY(&argument, _16$$8);
 				ZEPHIR_CALL_METHOD(&_17$$9, this_ptr, "getvardump", &_18, 0, &argument);
 				zephir_check_call_status();
-				zephir_array_append(&arguments, &_17$$9, PH_SEPARATE, "phalcon/Support/Debug/Renderer/HtmlRenderer.zep", 400);
+				zephir_array_append(&arguments, &_17$$9, PH_SEPARATE, "phalcon/Support/Debug/Renderer/HtmlRenderer.zep", 406);
 			} ZEND_HASH_FOREACH_END();
 		} else {
 			ZEPHIR_CALL_METHOD(NULL, &_15$$8, "rewind", NULL, 0);
@@ -1235,7 +1245,7 @@ PHP_METHOD(Phalcon_Support_Debug_Renderer_HtmlRenderer, renderSignature)
 				zephir_check_call_status();
 					ZEPHIR_CALL_METHOD(&_21$$10, this_ptr, "getvardump", &_18, 0, &argument);
 					zephir_check_call_status();
-					zephir_array_append(&arguments, &_21$$10, PH_SEPARATE, "phalcon/Support/Debug/Renderer/HtmlRenderer.zep", 400);
+					zephir_array_append(&arguments, &_21$$10, PH_SEPARATE, "phalcon/Support/Debug/Renderer/HtmlRenderer.zep", 406);
 			}
 		}
 		ZEPHIR_INIT_NVAR(&argument);
@@ -1319,7 +1329,7 @@ PHP_METHOD(Phalcon_Support_Debug_Renderer_HtmlRenderer, renderSuperglobal)
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&html);
 	ZEPHIR_CONCAT_VV(&html, &_0, &_4);
-	zephir_is_iterable(&source, 0, "phalcon/Support/Debug/Renderer/HtmlRenderer.zep", 429);
+	zephir_is_iterable(&source, 0, "phalcon/Support/Debug/Renderer/HtmlRenderer.zep", 435);
 	if (Z_TYPE_P(&source) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&source), _8, _9, _7)
 		{
@@ -1685,7 +1695,7 @@ PHP_METHOD(Phalcon_Support_Debug_Renderer_HtmlRenderer, renderVariables)
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&html);
 	ZEPHIR_CONCAT_VV(&html, &_0, &_4);
-	zephir_is_iterable(&variables, 0, "phalcon/Support/Debug/Renderer/HtmlRenderer.zep", 527);
+	zephir_is_iterable(&variables, 0, "phalcon/Support/Debug/Renderer/HtmlRenderer.zep", 533);
 	if (Z_TYPE_P(&variables) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&variables), _8, _9, _7)
 		{
@@ -1707,7 +1717,7 @@ PHP_METHOD(Phalcon_Support_Debug_Renderer_HtmlRenderer, renderVariables)
 			ZEPHIR_CALL_METHOD(&_14$$4, this_ptr, "escapestring", &_16, 0, &_15$$4);
 			zephir_check_call_status();
 			zephir_array_update_string(&_13$$4, SL("key"), &_14$$4, PH_COPY | PH_SEPARATE);
-			zephir_array_fetch_long(&_17$$4, &value, 0, PH_NOISY | PH_READONLY, "phalcon/Support/Debug/Renderer/HtmlRenderer.zep", 522);
+			zephir_array_fetch_long(&_17$$4, &value, 0, PH_NOISY | PH_READONLY, "phalcon/Support/Debug/Renderer/HtmlRenderer.zep", 528);
 			ZEPHIR_CALL_METHOD(&_14$$4, this_ptr, "getvardump", &_18, 0, &_17$$4);
 			zephir_check_call_status();
 			zephir_array_update_string(&_13$$4, SL("value"), &_14$$4, PH_COPY | PH_SEPARATE);
@@ -1745,7 +1755,7 @@ PHP_METHOD(Phalcon_Support_Debug_Renderer_HtmlRenderer, renderVariables)
 				ZEPHIR_CALL_METHOD(&_25$$5, this_ptr, "escapestring", &_16, 0, &_26$$5);
 				zephir_check_call_status();
 				zephir_array_update_string(&_24$$5, SL("key"), &_25$$5, PH_COPY | PH_SEPARATE);
-				zephir_array_fetch_long(&_27$$5, &value, 0, PH_NOISY | PH_READONLY, "phalcon/Support/Debug/Renderer/HtmlRenderer.zep", 522);
+				zephir_array_fetch_long(&_27$$5, &value, 0, PH_NOISY | PH_READONLY, "phalcon/Support/Debug/Renderer/HtmlRenderer.zep", 528);
 				ZEPHIR_CALL_METHOD(&_25$$5, this_ptr, "getvardump", &_18, 0, &_27$$5);
 				zephir_check_call_status();
 				zephir_array_update_string(&_24$$5, SL("value"), &_25$$5, PH_COPY | PH_SEPARATE);
