@@ -16,24 +16,17 @@ namespace Phalcon\Tests\Support\Migrations;
 use Phalcon\Talon\Database\Schema\AbstractSchema;
 
 /**
- * Owns `foreign_key_parent` only - `foreign_key_child` is
- * ForeignKeyChildMigration, which sorts first so its table is dropped and
- * created before this one runs.
+ * Split out of ForeignKeyParentMigration so each class declares exactly one
+ * table, which is what the schema manifest keys on.
  *
- * The pgsql FK constraint is added here rather than by the child, because it
- * needs both tables to exist and this class is the later of the two.
+ * Sorts before ForeignKeyParentMigration by file name, so its generated DROP
+ * runs first - and on pgsql that also removes the FK constraint the parent
+ * would otherwise still be referenced by, which is why the child has to go
+ * first. The constraint itself is added by the parent, once both tables exist.
  */
-class ForeignKeyParentMigration extends AbstractSchema
+class ForeignKeyChildMigration extends AbstractSchema
 {
-    protected string $table = 'foreign_key_parent';
-
-    /**
-     * @return list<string>
-     */
-    public function getDependencies(): array
-    {
-        return ['foreign_key_child'];
-    }
+    protected string $table = 'foreign_key_child';
 
     public function insert(): int
     {
@@ -44,12 +37,12 @@ class ForeignKeyParentMigration extends AbstractSchema
     {
         return [
             "
-CREATE TABLE `foreign_key_parent` (
+CREATE TABLE `foreign_key_child` (
     `id`        int(10) NOT NULL AUTO_INCREMENT,
     `name`      varchar(70) NOT NULL,
-    `refer_int` int NOT NULL,
+    `child_int` int NOT NULL,
     PRIMARY KEY (`id`),
-    UNIQUE KEY `foreign_key_parent_refer_int` (`refer_int`)
+    UNIQUE KEY `foreign_key_child_child_int` (`child_int`)
 ) ENGINE=InnoDB;
             ",
         ];
@@ -59,20 +52,13 @@ CREATE TABLE `foreign_key_parent` (
     {
         return [
             "
-CREATE TABLE foreign_key_parent (
+CREATE TABLE foreign_key_child (
     id        serial      not null,
     name      varchar(70) not null,
-    refer_int integer     not null,
+    child_int integer     not null,
     PRIMARY KEY (id),
-    UNIQUE (refer_int)
+    UNIQUE (child_int)
 );
-            ",
-            "
-ALTER TABLE foreign_key_child
-    ADD CONSTRAINT test_describereferences
-    FOREIGN KEY (child_int)
-    REFERENCES foreign_key_parent (refer_int)
-    ON UPDATE CASCADE ON DELETE RESTRICT;
             ",
         ];
     }
@@ -81,11 +67,11 @@ ALTER TABLE foreign_key_child
     {
         return [
             "
-CREATE TABLE foreign_key_parent (
+CREATE TABLE foreign_key_child (
     id        INTEGER PRIMARY KEY AUTOINCREMENT,
     name      varchar(70) NOT NULL,
-    refer_int INTEGER     NOT NULL,
-    UNIQUE (refer_int)
+    child_int INTEGER     NOT NULL,
+    UNIQUE (child_int)
 );
             ",
         ];

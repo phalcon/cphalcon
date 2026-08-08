@@ -13,36 +13,30 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Support\Migrations;
 
-class RollbackTestMigration extends AbstractMigration
-{
-    protected $table = 'co_rb_test_model';
+use Phalcon\Talon\Database\Schema\AbstractSchema;
 
-    protected function getSqlMysql(): array
+class RollbackTestMigration extends AbstractSchema
+{
+    protected string $table = 'co_rb_test_model';
+
+    protected function getStatementsMysql(): array
     {
         return [
-            'DROP TABLE IF EXISTS co_rb_test_model;',
             'CREATE TABLE co_rb_test_model (id SMALLINT, name VARCHAR(10) NOT NULL);',
         ];
     }
 
-    protected function getSqlSqlite(): array
+    protected function getStatementsSqlite(): array
     {
         return [
-            'DROP TABLE IF EXISTS co_rb_test_model;',
             'CREATE TABLE co_rb_test_model (id integer, name text not null);',
         ];
     }
 
-    protected function getSqlPgsql(): array
+    protected function getStatementsPgsql(): array
     {
         return [
-            'DROP TABLE IF EXISTS co_rb_test_model;',
             'CREATE TABLE co_rb_test_model (id SMALLINT, name VARCHAR(10) NOT NULL);',
         ];
-    }
-
-    protected function getSqlSqlsrv(): array
-    {
-        return [];
     }
 }

@@ -13,12 +13,14 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Support\Migrations;
 
+use Phalcon\Talon\Database\Schema\AbstractSchema;
+
 /**
  * Class PersonasMigration
  */
-class PersonasMigration extends AbstractMigration
+class PersonasMigration extends AbstractSchema
 {
-    protected $table = 'personas';
+    protected string $table = 'personas';
 
     /**
      * @param string $cedula
@@ -52,12 +54,9 @@ SQL;
         return $this->execute($sql, $params);
     }
 
-    protected function getSqlMysql(): array
+    protected function getStatementsMysql(): array
     {
         return [
-            "
-drop table if exists `personas`;
-            ",
             "
 create table `personas`
 (
@@ -73,12 +72,9 @@ create table `personas`
         ];
     }
 
-    protected function getSqlSqlite(): array
+    protected function getStatementsSqlite(): array
     {
         return [
-            "
-drop table if exists personas;
-            ",
             "
 create table personas
 (
@@ -94,12 +90,9 @@ create table personas
         ];
     }
 
-    protected function getSqlPgsql(): array
+    protected function getStatementsPgsql(): array
     {
         return [
-            "
-drop table if exists personas;
-            ",
             "
 create table personas
 (
@@ -113,11 +106,6 @@ create table personas
 );
             ",
         ];
-    }
-
-    protected function getSqlSqlsrv(): array
-    {
-        return [];
     }
 }
 

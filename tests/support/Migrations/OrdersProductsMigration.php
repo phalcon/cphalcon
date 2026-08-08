@@ -13,12 +13,14 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Support\Migrations;
 
+use Phalcon\Talon\Database\Schema\AbstractSchema;
+
 /**
  * Class OrdersProductsMigration
  */
-class OrdersProductsMigration extends AbstractMigration
+class OrdersProductsMigration extends AbstractSchema
 {
-    protected $table = "private.co_orders_x_products";
+    protected string $table = "co_orders_x_products";
 
     /**
      * @param int $oxp_ord_id
@@ -47,12 +49,9 @@ SQL;
         return $this->execute($sql, $params);
     }
 
-    protected function getSqlMysql(): array
+    protected function getStatementsMysql(): array
     {
         return [
-            "
-drop table if exists `co_orders_x_products`;
-            ",
             "
 CREATE TABLE `co_orders_x_products` (
   `oxp_ord_id` int(10) unsigned NOT NULL,
@@ -64,12 +63,9 @@ CREATE TABLE `co_orders_x_products` (
         ];
     }
 
-    protected function getSqlSqlite(): array
+    protected function getStatementsSqlite(): array
     {
         return [
-            "
-drop table if exists co_orders_x_products;
-            ",
             "
 create table co_orders_x_products
 (
@@ -82,25 +78,14 @@ create table co_orders_x_products
         ];
     }
 
-    protected function getSqlPgsql(): array
-    {
-        return [
-            "
-drop table if exists private.co_orders_x_products;
-            ",
-            "
-create table private.co_orders_x_products
-(
-    oxp_ord_id int not null,
-    oxp_prd_id int not null,
-    oxp_quantity int null
-
-);
-            "
-        ];
-    }
-
-    protected function getSqlSqlsrv(): array
+    /**
+     * Absent from pgsql. This class owns the unqualified `co_orders_x_products`,
+     * which only mysql and sqlite have; the schema-qualified
+     * `private.co_orders_x_products` belongs to PrivateOrdersProductsMigration,
+     * which already creates it for both mysql and pgsql. Declaring it here too
+     * created the same table twice in the pgsql dump.
+     */
+    protected function getStatementsPgsql(): array
     {
         return [];
     }

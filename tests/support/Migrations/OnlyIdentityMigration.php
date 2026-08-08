@@ -13,21 +13,20 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Support\Migrations;
 
+use Phalcon\Talon\Database\Schema\AbstractSchema;
+
 /**
  * Class OnlyIdentityMigration
  *
  * Table that has only an auto-increment primary key column.
  */
-class OnlyIdentityMigration extends AbstractMigration
+class OnlyIdentityMigration extends AbstractSchema
 {
-    protected $table = 'co_only_identity';
+    protected string $table = 'co_only_identity';
 
-    protected function getSqlMysql(): array
+    protected function getStatementsMysql(): array
     {
         return [
-            "
-drop table if exists `co_only_identity`;
-            ",
             "
 create table co_only_identity
 (
@@ -37,12 +36,9 @@ create table co_only_identity
         ];
     }
 
-    protected function getSqlPgsql(): array
+    protected function getStatementsPgsql(): array
     {
         return [
-            "
-drop table if exists co_only_identity;
-            ",
             "
 create table co_only_identity
 (
@@ -52,12 +48,9 @@ create table co_only_identity
         ];
     }
 
-    protected function getSqlSqlite(): array
+    protected function getStatementsSqlite(): array
     {
         return [
-            "
-drop table if exists co_only_identity;
-            ",
             "
 create table co_only_identity
 (
@@ -65,10 +58,5 @@ create table co_only_identity
 );
             ",
         ];
-    }
-
-    protected function getSqlSqlsrv(): array
-    {
-        return [];
     }
 }

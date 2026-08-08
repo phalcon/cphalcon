@@ -11,12 +11,14 @@
 
 namespace Phalcon\Tests\Support\Migrations;
 
+use Phalcon\Talon\Database\Schema\AbstractSchema;
+
 /**
  * Class SourcesMigration
  */
-class SourcesMigration extends AbstractMigration
+class SourcesMigration extends AbstractSchema
 {
-    protected $table = "co_sources";
+    protected string $table = "co_sources";
 
     /**
      * @param int    $id
@@ -47,12 +49,9 @@ SQL;
         return $result;
     }
 
-    protected function getSqlMysql(): array
+    protected function getStatementsMysql(): array
     {
         return [
-            "
-drop table if exists `co_sources`;
-            ",
             "
 create table co_sources
 (
@@ -69,12 +68,9 @@ create index co_sources_username_index
         ];
     }
 
-    protected function getSqlSqlite(): array
+    protected function getStatementsSqlite(): array
     {
         return [
-            "
-drop table if exists co_sources;
-            ",
             "
 create table co_sources
     (
@@ -90,12 +86,9 @@ create index co_sources_username_index
         ];
     }
 
-    protected function getSqlPgsql(): array
+    protected function getStatementsPgsql(): array
     {
         return [
-            "
-drop table if exists co_sources;
-            ",
             "
 create table co_sources
 (
@@ -108,10 +101,5 @@ create table co_sources
 create index co_sources_username_index on co_sources (username);
             ",
         ];
-    }
-
-    protected function getSqlSqlsrv(): array
-    {
-        return [];
     }
 }

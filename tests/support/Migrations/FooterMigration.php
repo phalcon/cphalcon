@@ -13,33 +13,30 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Support\Migrations;
 
+use Phalcon\Talon\Database\Schema\AbstractSchema;
+
 /**
  * Outputs the MySQL-only epilogue that must appear at the bottom of every
  * generated schema file, re-enabling foreign key checks after all tables
  * have been created.  Other drivers need no footer statements.
  */
-class FooterMigration extends AbstractMigration
+class FooterMigration extends AbstractSchema
 {
-    protected $table = '';
+    protected string $table = '';
 
-    protected function getSqlMysql(): array
+    protected function getStatementsMysql(): array
     {
         return [
             "SET FOREIGN_KEY_CHECKS=1;",
         ];
     }
 
-    protected function getSqlSqlite(): array
+    protected function getStatementsSqlite(): array
     {
         return [];
     }
 
-    protected function getSqlPgsql(): array
-    {
-        return [];
-    }
-
-    protected function getSqlSqlsrv(): array
+    protected function getStatementsPgsql(): array
     {
         return [];
     }
