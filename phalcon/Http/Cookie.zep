@@ -24,22 +24,23 @@ use Phalcon\Http\Response\Exception;
 use Phalcon\Http\Traits\EncryptionAwareTrait;
 use Phalcon\Session\ManagerInterface as SessionManagerInterface;
 use Phalcon\Traits\Support\Helper\Arr\GetTrait;
+use Stringable;
 
 /**
  * Provide OO wrappers to manage a HTTP cookie.
  */
-class Cookie extends AbstractInjectionAware implements CookieInterface
+class Cookie extends AbstractInjectionAware implements CookieInterface, Stringable
 {
     use EncryptionAwareTrait;
     use GetTrait;
 
-    protected string domain;
-    protected int expire;
+    protected string domain = "";
+    protected int expire = 0;
     protected ?<FilterInterface> filter = null;
-    protected bool httpOnly;
+    protected bool httpOnly = false;
     protected string name;
     protected array options = [];
-    protected string path;
+    protected string path = "/";
     protected bool isRead = false;
     protected bool isRestored = false;
     protected bool secure = true;

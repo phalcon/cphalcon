@@ -71,12 +71,9 @@ class Cookies extends AbstractInjectionAware implements CookiesInterface
 {
     use EncryptionAwareTrait;
 
-    /**
-     * @var array
-     */
     protected array cookies = [];
-    protected bool isSent = false;
     protected bool isRegistered = false;
+    protected bool isSent = false;
     /**
      * The cookie's sign key.
      */
@@ -141,11 +138,11 @@ class Cookies extends AbstractInjectionAware implements CookiesInterface
         }
 
         /**
-         * Create the cookie if the it does not exist.
-         * It's value come from $_COOKIE with request, so it shouldn't be saved
+         * Create the cookie if it does not exist.
+         * Its value comes from $_COOKIE with request, so it shouldn't be saved
          * to _cookies property, otherwise it will always be resent after get.
          */
-        let container = this->checkContainer();
+        let container = this->checkGetContainer();
         let cookie    = <CookieInterface> container->get(Cookie::class, [name]);
 
         /**
@@ -275,7 +272,6 @@ class Cookies extends AbstractInjectionAware implements CookiesInterface
              */
             if encryption {
                 cookie->useEncryption(encryption);
-
                 cookie->setSignKey(this->signKey);
             }
 
@@ -340,7 +336,7 @@ class Cookies extends AbstractInjectionAware implements CookiesInterface
         return this;
     }
 
-    private function checkContainer() -> <DiInterface>
+    private function checkGetContainer() -> <DiInterface>
     {
         var container;
 

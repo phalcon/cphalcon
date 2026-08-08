@@ -1557,7 +1557,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
      * Process a request header and return an array of values with their
      * qualities
      */
-    protected function getQualityHeader( string serverIndex,  string name) -> array
+    protected function getQualityHeader(string serverIndex, string name) -> array
     {
         var headerPart, headerParts, headerSplit, part, parts, returnedParts, serverValue, split;
 

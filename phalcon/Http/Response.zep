@@ -512,8 +512,11 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     /**
      * Sets an attached file to be sent at the end of the request
      */
-    public function setFileToSend(string filePath, attachmentName = null, attachment = true) -> <ResponseInterface>
-    {
+    public function setFileToSend(
+        string filePath,
+        string attachmentName = null,
+        bool attachment = true
+    ) -> <ResponseInterface> {
         var basePath;
         var basePathEncoding = "ASCII";
 
@@ -597,8 +600,11 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
      * );
      *```
      */
-    public function setJsonContent(var content, int jsonOptions = 0, int depth = 512) -> <ResponseInterface>
-    {
+    public function setJsonContent(
+        var content,
+        int jsonOptions = 0,
+        int depth = 512
+    ) -> <ResponseInterface> {
         this->setContentType("application/json");
 
         this->setContent(this->encode->__invoke(content, jsonOptions, depth));
