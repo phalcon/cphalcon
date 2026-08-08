@@ -18,15 +18,15 @@ use Phalcon\Http\Request\Exceptions\NullKeyException;
 use Traversable;
 
 /**
- * Shared base for the HTTP request bags. A bag is a string-keyed value store
- * backed by a raw array, exposing `get/has/set/remove/all` plus typed readers
- * for cast-with-default access.
+ * Shared base for the HTTP request bags. A bag is a string- or integer-keyed
+ * value store backed by a raw array, exposing `get/has/set/remove/all` plus
+ * typed readers for cast-with-default access.
  *
  * Two protected hooks (`normalizeKey`, `normalizeItems`) let subclasses
  * change key handling without restating the surface.
  *
  * The ArrayAccess append form (`$bag[] = $value`) is rejected with a
- * NullKeyException: bags are always string-keyed, so an auto-indexed write
+ * NullKeyException: the append form supplies no explicit key, so the write
  * could never be addressed by the caller.
  */
 abstract class AbstractBag implements ArrayAccess, Countable, IteratorAggregate
@@ -63,8 +63,10 @@ abstract class AbstractBag implements ArrayAccess, Countable, IteratorAggregate
 
     /**
      * Returns an element of the bag, or the default value if it is not set
+     *
+     * @param int|string $key
      */
-    public function get(string key, var defaultValue = null) -> mixed
+    public function get(var key, var defaultValue = null) -> mixed
     {
         var value;
 
@@ -82,8 +84,10 @@ abstract class AbstractBag implements ArrayAccess, Countable, IteratorAggregate
     /**
      * Returns an element of the bag as an array. The default value is
      * returned if the element is not set or is not an array
+     *
+     * @param int|string $key
      */
-    public function getArray(string key, array defaultValue = []) -> array
+    public function getArray(var key, array defaultValue = []) -> array
     {
         var value;
 
@@ -101,8 +105,10 @@ abstract class AbstractBag implements ArrayAccess, Countable, IteratorAggregate
     /**
      * Returns an element of the bag cast to bool, or the default value if
      * it is not set
+     *
+     * @param int|string $key
      */
-    public function getBool(string key, bool defaultValue = false) -> bool
+    public function getBool(var key, bool defaultValue = false) -> bool
     {
         var value;
 
@@ -120,8 +126,10 @@ abstract class AbstractBag implements ArrayAccess, Countable, IteratorAggregate
     /**
      * Returns an element of the bag cast to float, or the default value if
      * it is not set
+     *
+     * @param int|string $key
      */
-    public function getFloat(string key, double defaultValue = 0.0) -> double
+    public function getFloat(var key, float defaultValue = 0.0) -> float
     {
         var value;
 
@@ -139,8 +147,10 @@ abstract class AbstractBag implements ArrayAccess, Countable, IteratorAggregate
     /**
      * Returns an element of the bag cast to int, or the default value if
      * it is not set
+     *
+     * @param int|string $key
      */
-    public function getInt(string key, int defaultValue = 0) -> int
+    public function getInt(var key, int defaultValue = 0) -> int
     {
         var value;
 
@@ -168,8 +178,10 @@ abstract class AbstractBag implements ArrayAccess, Countable, IteratorAggregate
     /**
      * Returns an element of the bag cast to string, or the default value if
      * it is not set
+     *
+     * @param int|string $key
      */
-    public function getString(string key, string defaultValue = "") -> string
+    public function getString(var key, string defaultValue = "") -> string
     {
         var value;
 
@@ -186,8 +198,10 @@ abstract class AbstractBag implements ArrayAccess, Countable, IteratorAggregate
 
     /**
      * Checks whether an element exists in the bag
+     *
+     * @param int|string $key
      */
-    public function has(string key) -> bool
+    public function has(var key) -> bool
     {
         return array_key_exists(this->normalizeKey(key), this->items);
     }
@@ -231,8 +245,10 @@ abstract class AbstractBag implements ArrayAccess, Countable, IteratorAggregate
 
     /**
      * Removes an element from the bag
+     *
+     * @param int|string $key
      */
-    public function remove(string key) -> void
+    public function remove(var key) -> void
     {
         let key = this->normalizeKey(key);
 
@@ -241,8 +257,10 @@ abstract class AbstractBag implements ArrayAccess, Countable, IteratorAggregate
 
     /**
      * Sets an element in the bag
+     *
+     * @param int|string $key
      */
-    public function set(string key, mixed value) -> void
+    public function set(var key, mixed value) -> void
     {
         let key = this->normalizeKey(key);
 
@@ -266,8 +284,12 @@ abstract class AbstractBag implements ArrayAccess, Countable, IteratorAggregate
      * Normalizes a key for lookups and writes. Identity in the base;
      * subclasses can override it to change key handling
      */
-    protected function normalizeKey(string key) -> string
+    protected function normalizeKey(var key) -> string
     {
-        return key;
+        if typeof key === "int" || typeof key === "string" {
+            return key;
+        }
+        
+        return (string) key;
     }
 }

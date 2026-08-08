@@ -294,7 +294,7 @@ class Cookies extends AbstractInjectionAware implements CookiesInterface
          * Register the cookies bag in the response
          */
         if this->isRegistered === false {
-            let container = this->checkContainer();
+            let container = this->checkGetContainer();
             let response  = container->getShared("response");
 
             /**
