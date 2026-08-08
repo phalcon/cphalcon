@@ -748,8 +748,7 @@ PHP_METHOD(Phalcon_Http_Response, sendCookies)
  */
 PHP_METHOD(Phalcon_Http_Response, sendHeaders)
 {
-	zend_bool _3;
-	zval eventsManager, headers, result, _0, _1$$3, _2$$3, _4$$5;
+	zval eventsManager, headers, result, _0, _1, _2, _3$$4;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
@@ -758,9 +757,9 @@ PHP_METHOD(Phalcon_Http_Response, sendHeaders)
 	ZVAL_UNDEF(&headers);
 	ZVAL_UNDEF(&result);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1$$3);
-	ZVAL_UNDEF(&_2$$3);
-	ZVAL_UNDEF(&_4$$5);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_3$$4);
 	static zend_string *_zephir_prop_0 = NULL;
 	static zend_string *_zephir_prop_1 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
@@ -776,25 +775,19 @@ PHP_METHOD(Phalcon_Http_Response, sendHeaders)
 	ZEPHIR_CPY_WRT(&headers, &_0);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_1, 901, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&eventsManager, &_0);
-	if (Z_TYPE_P(&eventsManager) == IS_OBJECT) {
-		ZEPHIR_INIT_VAR(&_2$$3);
-		ZVAL_STRING(&_2$$3, "response:beforeSendHeaders");
-		ZEPHIR_CALL_METHOD(&_1$$3, &eventsManager, "firemanagerevent", NULL, 0, &_2$$3, this_ptr);
-		zephir_check_call_status();
-		if (ZEPHIR_IS_FALSE_IDENTICAL(&_1$$3)) {
-			RETURN_MM_BOOL(0);
-		}
+	ZEPHIR_INIT_VAR(&_2);
+	ZVAL_STRING(&_2, "response:beforeSendHeaders");
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "firemanagerevent", NULL, 0, &_2);
+	zephir_check_call_status();
+	if (ZEPHIR_IS_FALSE_IDENTICAL(&_1)) {
+		RETURN_MM_BOOL(0);
 	}
 	ZEPHIR_CALL_METHOD(&result, &headers, "send", NULL, 0);
 	zephir_check_call_status();
-	_3 = ZEPHIR_IS_TRUE_IDENTICAL(&result);
-	if (_3) {
-		_3 = Z_TYPE_P(&eventsManager) == IS_OBJECT;
-	}
-	if (_3) {
-		ZEPHIR_INIT_VAR(&_4$$5);
-		ZVAL_STRING(&_4$$5, "response:afterSendHeaders");
-		ZEPHIR_CALL_METHOD(NULL, &eventsManager, "firemanagerevent", NULL, 0, &_4$$5, this_ptr);
+	if (ZEPHIR_IS_TRUE_IDENTICAL(&result)) {
+		ZEPHIR_INIT_VAR(&_3$$4);
+		ZVAL_STRING(&_3$$4, "response:afterSendHeaders");
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "firemanagerevent", NULL, 0, &_3$$4);
 		zephir_check_call_status();
 	}
 	RETURN_THIS();
@@ -919,32 +912,34 @@ PHP_METHOD(Phalcon_Http_Response, setContentType)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *contentType_param = NULL, *charset = NULL, charset_sub, __$null, _0$$3, _1;
-	zval contentType;
+	zend_string *charset = NULL;
+	zval *contentType_param = NULL, charset_zv, _1;
+	zval contentType, _0$$3;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&contentType);
-	ZVAL_UNDEF(&charset_sub);
-	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&_0$$3);
+	ZVAL_UNDEF(&charset_zv);
 	ZVAL_UNDEF(&_1);
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_ZVAL(contentType_param)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(charset)
+		Z_PARAM_STR_OR_NULL(charset)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_fetch_params(1, 1, 1, &contentType_param, &charset);
+	contentType_param = ZEND_CALL_ARG(execute_data, 1);
 	zephir_get_strval(&contentType, contentType_param);
 	if (!charset) {
-		charset = &charset_sub;
-		charset = &__$null;
+		ZEPHIR_INIT_VAR(&charset_zv);
+	} else {
+		zephir_memory_observe(&charset_zv);
+	ZVAL_STR_COPY(&charset_zv, charset);
 	}
-	if (Z_TYPE_P(charset) != IS_NULL) {
+	if (!ZEPHIR_IS_NULL(&charset_zv)) {
 		ZEPHIR_INIT_VAR(&_0$$3);
-		ZEPHIR_CONCAT_SV(&_0$$3, "; charset=", charset);
+		ZEPHIR_CONCAT_SV(&_0$$3, "; charset=", &charset_zv);
 		zephir_concat_self(&contentType, &_0$$3);
 	}
 	ZEPHIR_INIT_VAR(&_1);
@@ -1093,13 +1088,14 @@ PHP_METHOD(Phalcon_Http_Response, setFileToSend)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool attachment;
-	zval filePath_zv, attachmentName_zv, *attachment_param = NULL, __$true, basePath, basePathEncoding, _0$$3, _1$$5, _2$$5, _3$$6, _4$$7, _5$$7, _6$$7, _7$$8, _8$$8, _9$$8;
-	zend_string *filePath = NULL, *attachmentName = NULL;
+	zval filePath_zv, *attachmentName = NULL, attachmentName_sub, *attachment_param = NULL, __$true, __$null, basePath, basePathEncoding, _0$$3, _1$$5, _2$$5, _3$$6, _4$$7, _5$$7, _6$$7, _7$$8, _8$$8, _9$$8;
+	zend_string *filePath = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&filePath_zv);
-	ZVAL_UNDEF(&attachmentName_zv);
+	ZVAL_UNDEF(&attachmentName_sub);
 	ZVAL_BOOL(&__$true, 1);
+	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&basePath);
 	ZVAL_UNDEF(&basePathEncoding);
 	ZVAL_UNDEF(&_0$$3);
@@ -1121,21 +1117,22 @@ PHP_METHOD(Phalcon_Http_Response, setFileToSend)
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_STR(filePath)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_STR_OR_NULL(attachmentName)
+		Z_PARAM_ZVAL_OR_NULL(attachmentName)
 		Z_PARAM_BOOL(attachment)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	if (ZEND_NUM_ARGS() > 1) {
+		attachmentName = ZEND_CALL_ARG(execute_data, 2);
+	}
 	if (ZEND_NUM_ARGS() > 2) {
 		attachment_param = ZEND_CALL_ARG(execute_data, 3);
 	}
 	zephir_memory_observe(&filePath_zv);
 	ZVAL_STR_COPY(&filePath_zv, filePath);
 	if (!attachmentName) {
-		ZEPHIR_INIT_VAR(&attachmentName_zv);
-	} else {
-		zephir_memory_observe(&attachmentName_zv);
-	ZVAL_STR_COPY(&attachmentName_zv, attachmentName);
+		attachmentName = &attachmentName_sub;
+		attachmentName = &__$null;
 	}
 	if (!attachment_param) {
 		attachment = 1;
@@ -1143,7 +1140,7 @@ PHP_METHOD(Phalcon_Http_Response, setFileToSend)
 		}
 	ZEPHIR_INIT_VAR(&basePathEncoding);
 	ZVAL_STRING(&basePathEncoding, "ASCII");
-	if (1 != 1) {
+	if (Z_TYPE_P(attachmentName) != IS_STRING) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		object_init_ex(&_0$$3, phalcon_support_helper_file_basename_ce);
 		if (zephir_has_constructor(&_0$$3)) {
@@ -1154,7 +1151,7 @@ PHP_METHOD(Phalcon_Http_Response, setFileToSend)
 		ZEPHIR_CALL_METHOD(&basePath, &_0$$3, "__invoke", NULL, 0, &filePath_zv);
 		zephir_check_call_status();
 	} else {
-		ZEPHIR_CPY_WRT(&basePath, &attachmentName_zv);
+		ZEPHIR_CPY_WRT(&basePath, attachmentName);
 	}
 	if (attachment) {
 		ZEPHIR_INIT_VAR(&_2$$5);

@@ -358,10 +358,8 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
         let headers       = this->headers,
             eventsManager = this->eventsManager;
 
-        if typeof eventsManager === "object" {
-            if eventsManager->fireManagerEvent("response:beforeSendHeaders", this) === false {
-                return false;
-            }
+        if this->fireManagerEvent("response:beforeSendHeaders") === false {
+            return false; 
         }
 
         /**
@@ -369,8 +367,8 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
          */
         let result = headers->send();
 
-        if true === result && typeof eventsManager === "object" {
-            eventsManager->fireManagerEvent("response:afterSendHeaders", this);
+        if true === result  {
+            this->fireManagerEvent("response:afterSendHeaders");
         }
 
         return this;
@@ -433,8 +431,10 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
      * $response->setContentType("text/plain", "UTF-8");
      *```
      */
-    public function setContentType(string contentType, charset = null) -> <ResponseInterface>
-    {
+    public function setContentType(
+        string contentType,
+        string charset = null
+    ) -> <ResponseInterface> {
         if charset !== null {
             let contentType .= "; charset=" . charset;
         }
@@ -514,7 +514,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
      */
     public function setFileToSend(
         string filePath,
-        string attachmentName = null,
+        var attachmentName = null,
         bool attachment = true
     ) -> <ResponseInterface> {
         var basePath;
@@ -541,7 +541,13 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
             // extended one to indicate charset
             if basePathEncoding != "ASCII" {
                 let basePath = this->phpRawUrlEncode(basePath);
-                this->setRawHeader("Content-Disposition: attachment; filename=" . basePath . "; filename*=". strtolower(basePathEncoding) . "''" . basePath);
+                this->setRawHeader(
+                    "Content-Disposition: attachment; filename=" 
+                    . basePath 
+                    . "; filename*="
+                    . strtolower(basePathEncoding) 
+                    . "''" . basePath
+                );
             } else {
                 // According RFC2045 section-5.1, header param value contains
                 // special chars must be as quoted-string. Always quote value
@@ -549,7 +555,10 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
                 // According RFC822 appendix-D, CR "\" <"> must to be quoted
                 // in syntax rule of quoted-string
                 let basePath = addcslashes(basePath, "\15\17\\\"");
-                this->setRawHeader("Content-Disposition: attachment; filename=\"" . basePath . "\"");
+                this->setRawHeader(
+                    "Content-Disposition: attachment; filename=\"" 
+                    . basePath . "\""
+                );
             }
         }
 

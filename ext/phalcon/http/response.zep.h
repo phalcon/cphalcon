@@ -116,7 +116,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_response_setcontenttype, 0, 1, Phalcon\\Http\\ResponseInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, contentType, IS_STRING, 0)
-	ZEND_ARG_INFO(0, charset)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, charset, IS_STRING, 1, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_response_setcookies, 0, 1, Phalcon\\Http\\ResponseInterface, 0)
@@ -138,7 +138,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_response_setfiletosend, 0, 1, Phalcon\\Http\\ResponseInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, filePath, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, attachmentName, IS_STRING, 1, "null")
+	ZEND_ARG_INFO(0, attachmentName)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, attachment, _IS_BOOL, 0, "true")
 ZEND_END_ARG_INFO()
 
