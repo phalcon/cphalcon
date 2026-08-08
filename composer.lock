@@ -2535,12 +2535,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phalcon/quill.git",
-                "reference": "d9ad5336c395f78d7123f395c8b3997ee7743682"
+                "reference": "318a5d1c629ee4e810d7d27d56ba0b1cc96a881f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phalcon/quill/zipball/d9ad5336c395f78d7123f395c8b3997ee7743682",
-                "reference": "d9ad5336c395f78d7123f395c8b3997ee7743682",
+                "url": "https://api.github.com/repos/phalcon/quill/zipball/318a5d1c629ee4e810d7d27d56ba0b1cc96a881f",
+                "reference": "318a5d1c629ee4e810d7d27d56ba0b1cc96a881f",
                 "shasum": ""
             },
             "require": {
@@ -2551,7 +2551,7 @@
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^3.95",
-                "phalcon/talon": "^0.9",
+                "phalcon/talon": "^1.0.0",
                 "phalcon/zephir": "dev-development",
                 "phpstan/phpstan": "^2",
                 "phpunit/phpunit": "^10.5",
@@ -2596,20 +2596,20 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2026-08-05T02:21:28+00:00"
+            "time": "2026-08-08T01:36:19+00:00"
         },
         {
             "name": "phalcon/talon",
-            "version": "v1.0.0",
+            "version": "v1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phalcon/talon.git",
-                "reference": "adaec80ba50deda6621707e2b20ab181aa9e1a01"
+                "reference": "0289a3e0794520269a133fd3a789981329bb612c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phalcon/talon/zipball/adaec80ba50deda6621707e2b20ab181aa9e1a01",
-                "reference": "adaec80ba50deda6621707e2b20ab181aa9e1a01",
+                "url": "https://api.github.com/repos/phalcon/talon/zipball/0289a3e0794520269a133fd3a789981329bb612c",
+                "reference": "0289a3e0794520269a133fd3a789981329bb612c",
                 "shasum": ""
             },
             "require": {
@@ -2662,7 +2662,7 @@
             ],
             "support": {
                 "issues": "https://github.com/phalcon/talon/issues",
-                "source": "https://github.com/phalcon/talon/tree/v1.0.0"
+                "source": "https://github.com/phalcon/talon/tree/v1.0.1"
             },
             "funding": [
                 {
@@ -2674,7 +2674,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2026-08-06T22:19:45+00:00"
+            "time": "2026-08-07T15:49:55+00:00"
         },
         {
             "name": "phalcon/zephir",
