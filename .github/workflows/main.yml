@@ -594,7 +594,6 @@ jobs:
           extensions: ${{ env.EXTENSIONS }}
           ini-values: apc.enable_cli=on, session.save_path=${{ env.SESSION_SAVE_PATH }}, register_argc_argv=on
           tools: phpize, php-config
-          coverage: xdebug
         env:
           PHPTS: ${{ matrix.ts }}
           COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -606,12 +605,14 @@ jobs:
           path: ./phalcon-so
 
       - name: Install Phalcon extension
+        # talon.php loads the extension from ext/modules/phalcon.so, so the
+        # artifact goes there rather than into the system extension dir; CI
+        # then loads it exactly the way local development does.
         shell: bash
         run: |
-          EXT_DIR=$(php-config --extension-dir)
-          sudo cp ./phalcon-so/phalcon.so "$EXT_DIR/phalcon.so"
-          echo "extension=phalcon" | sudo tee /etc/php/${{ matrix.php }}/cli/conf.d/99-phalcon.ini
-          php --ri phalcon
+          mkdir -p ext/modules
+          cp ./phalcon-so/phalcon.so ext/modules/phalcon.so
+          php -d extension=ext/modules/phalcon.so --ri phalcon
 
       - name: Validate composer
         run: composer validate --no-check-all --no-check-publish
@@ -632,16 +633,7 @@ jobs:
           vendor/bin/talon schema
 
       - name: Run Unit Tests
-        if: always()
-        run: vendor/bin/phpunit -c resources/phpunit.xml.dist
-
-      - name: Upload Unit Test Coverage
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
-        if: always()
-        with:
-          name: "unit-${{ matrix.php }}.coverage"
-          path: "tests/_output/coverage.xml"
-          retention-days: 7
+        run: composer test-unit
 
       - name: Check Release notes parser
         shell: bash
@@ -709,7 +701,6 @@ jobs:
           php-version: ${{ matrix.php }}
           extensions: ${{ env.EXTENSIONS }}
           ini-values: apc.enable_cli=on, session.save_path=/tmp, register_argc_argv=on
-          coverage: pcov
         env:
           COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -720,12 +711,14 @@ jobs:
           path: ./phalcon-so
 
       - name: Install Phalcon extension
+        # talon.php loads the extension from ext/modules/phalcon.so, so the
+        # artifact goes there rather than into the system extension dir; CI
+        # then loads it exactly the way local development does.
         shell: bash
         run: |
-          EXT_DIR=$(php-config --extension-dir)
-          sudo cp ./phalcon-so/phalcon.so "$EXT_DIR/phalcon.so"
-          echo "extension=phalcon" | sudo tee /etc/php/${{ matrix.php }}/cli/conf.d/99-phalcon.ini
-          php --ri phalcon
+          mkdir -p ext/modules
+          cp ./phalcon-so/phalcon.so ext/modules/phalcon.so
+          php -d extension=ext/modules/phalcon.so --ri phalcon
 
       - name: Validate composer
         run: composer validate --no-check-all --no-check-publish
@@ -751,14 +744,7 @@ jobs:
           DATA_MARIADB_USER: root
           DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
-        run: vendor/bin/phpunit -c resources/phpunit.mariadb.xml
-      - name: Upload Database (MariaDB) Coverage
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
-        if: always()
-        with:
-          name: "db-mariadb-${{ matrix.php }}.coverage"
-          path: "tests/_output/coverage.xml"
-          retention-days: 7
+        run: composer test-db-mariadb
 
   database_mysql_test:
     permissions:
@@ -820,7 +806,6 @@ jobs:
           php-version: ${{ matrix.php }}
           extensions: ${{ env.EXTENSIONS }}
           ini-values: apc.enable_cli=on, session.save_path=/tmp, register_argc_argv=on
-          coverage: pcov
         env:
           COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -831,12 +816,14 @@ jobs:
           path: ./phalcon-so
 
       - name: Install Phalcon extension
+        # talon.php loads the extension from ext/modules/phalcon.so, so the
+        # artifact goes there rather than into the system extension dir; CI
+        # then loads it exactly the way local development does.
         shell: bash
         run: |
-          EXT_DIR=$(php-config --extension-dir)
-          sudo cp ./phalcon-so/phalcon.so "$EXT_DIR/phalcon.so"
-          echo "extension=phalcon" | sudo tee /etc/php/${{ matrix.php }}/cli/conf.d/99-phalcon.ini
-          php --ri phalcon
+          mkdir -p ext/modules
+          cp ./phalcon-so/phalcon.so ext/modules/phalcon.so
+          php -d extension=ext/modules/phalcon.so --ri phalcon
 
       - name: Validate composer
         run: composer validate --no-check-all --no-check-publish
@@ -862,14 +849,7 @@ jobs:
           DATA_MYSQL_USER: root
           DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
-        run: vendor/bin/phpunit -c resources/phpunit.mysql.xml
-      - name: Upload Database (MySQL) Coverage
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
-        if: always()
-        with:
-          name: "db-mysql-${{ matrix.php }}.coverage"
-          path: "tests/_output/coverage.xml"
-          retention-days: 7
+        run: composer test-db-mysql
 
   database_sqlite_test:
     permissions:
@@ -917,7 +897,6 @@ jobs:
           php-version: ${{ matrix.php }}
           extensions: ${{ env.EXTENSIONS }}
           ini-values: apc.enable_cli=on, session.save_path=/tmp, register_argc_argv=on
-          coverage: pcov
         env:
           COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -928,12 +907,14 @@ jobs:
           path: ./phalcon-so
 
       - name: Install Phalcon extension
+        # talon.php loads the extension from ext/modules/phalcon.so, so the
+        # artifact goes there rather than into the system extension dir; CI
+        # then loads it exactly the way local development does.
         shell: bash
         run: |
-          EXT_DIR=$(php-config --extension-dir)
-          sudo cp ./phalcon-so/phalcon.so "$EXT_DIR/phalcon.so"
-          echo "extension=phalcon" | sudo tee /etc/php/${{ matrix.php }}/cli/conf.d/99-phalcon.ini
-          php --ri phalcon
+          mkdir -p ext/modules
+          cp ./phalcon-so/phalcon.so ext/modules/phalcon.so
+          php -d extension=ext/modules/phalcon.so --ri phalcon
 
       - name: Validate composer
         run: composer validate --no-check-all --no-check-publish
@@ -957,14 +938,7 @@ jobs:
         env:
           DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
-        run: vendor/bin/phpunit -c resources/phpunit.sqlite.xml
-      - name: Upload Database (SQLite) Coverage
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
-        if: always()
-        with:
-          name: "db-sqlite-${{ matrix.php }}.coverage"
-          path: "tests/_output/coverage.xml"
-          retention-days: 7
+        run: composer test-db-sqlite
 
   database_pgsql_test:
     permissions:
@@ -1025,7 +999,6 @@ jobs:
           php-version: ${{ matrix.php }}
           extensions: ${{ env.EXTENSIONS }}
           ini-values: apc.enable_cli=on, session.save_path=/tmp, register_argc_argv=on
-          coverage: pcov
         env:
           COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -1036,12 +1009,14 @@ jobs:
           path: ./phalcon-so
 
       - name: Install Phalcon extension
+        # talon.php loads the extension from ext/modules/phalcon.so, so the
+        # artifact goes there rather than into the system extension dir; CI
+        # then loads it exactly the way local development does.
         shell: bash
         run: |
-          EXT_DIR=$(php-config --extension-dir)
-          sudo cp ./phalcon-so/phalcon.so "$EXT_DIR/phalcon.so"
-          echo "extension=phalcon" | sudo tee /etc/php/${{ matrix.php }}/cli/conf.d/99-phalcon.ini
-          php --ri phalcon
+          mkdir -p ext/modules
+          cp ./phalcon-so/phalcon.so ext/modules/phalcon.so
+          php -d extension=ext/modules/phalcon.so --ri phalcon
 
       - name: Validate composer
         run: composer validate --no-check-all --no-check-publish
@@ -1065,14 +1040,7 @@ jobs:
         env:
           DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
-        run: vendor/bin/phpunit -c resources/phpunit.pgsql.xml
-      - name: Upload Database (Postgres) Coverage
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
-        if: always()
-        with:
-          name: "db-pgsql-${{ matrix.php }}.coverage"
-          path: "tests/_output/coverage.xml"
-          retention-days: 7
+        run: composer test-db-pgsql
 
 # Disabling this from cphalcon because codecov is not finding the sourceset for the coverage report.
 #  upload-coverage:
