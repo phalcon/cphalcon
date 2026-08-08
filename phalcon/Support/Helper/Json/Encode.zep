@@ -10,6 +10,7 @@
 
 namespace Phalcon\Support\Helper\Json;
 
+use JsonException;
 use Phalcon\Support\Helper\Json\Exceptions\JsonEncodeError;
 use Phalcon\Traits\Support\Helper\Json\EncodeTrait;
 
@@ -51,7 +52,7 @@ class Encode
 
         try {
             return this->toEncode(data, options, depth);
-        } catch \JsonException, ex {
+        } catch JsonException, ex {
             throw new JsonEncodeError(ex->getMessage(), ex->getCode(), ex);
         }
     }

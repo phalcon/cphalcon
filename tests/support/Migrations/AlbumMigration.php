@@ -13,10 +13,12 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Support\Migrations;
 
+use Phalcon\Talon\Database\Schema\AbstractSchema;
 
-class AlbumMigration extends AbstractMigration
+
+class AlbumMigration extends AbstractSchema
 {
-    protected $table = 'album';
+    protected string $table = 'album';
 
     /**
      * @param int      $id
@@ -55,12 +57,9 @@ SQL;
         return $result;
     }
 
-    protected function getSqlMysql(): array
+    protected function getStatementsMysql(): array
     {
         return [
-            "
-drop table if exists `album`;
-            ",
             "
 CREATE TABLE `album` (
 	`id`       int(11) UNSIGNED not null AUTO_INCREMENT,
@@ -77,12 +76,9 @@ CREATE TABLE `album` (
         ];
     }
 
-    protected function getSqlSqlite(): array
+    protected function getStatementsSqlite(): array
     {
         return [
-            "
-drop table if exists album;
-            ",
             "
 create table album
 (
@@ -95,17 +91,9 @@ create table album
         ];
     }
 
-    protected function getSqlSqlsrv(): array
-    {
-        return [];
-    }
-
-    protected function getSqlPgsql(): array
+    protected function getStatementsPgsql(): array
     {
         return [
-            "
-drop table if exists album;
-            ",
             "
 create table album
 (

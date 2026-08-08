@@ -134,10 +134,10 @@ PHP_METHOD(Phalcon_ADR_Router_RouterMatch, __construct)
 		zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 370, &action_zv);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 371, &attributes);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 372, &middleware);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 373, &name_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 369, &action_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 370, &attributes);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 371, &middleware);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 372, &name_zv);
 	ZEPHIR_MM_RESTORE();
 }
 

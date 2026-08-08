@@ -92,7 +92,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Generic, __construct)
 	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_html_helper_input_generic_ce, getThis(), "__construct", NULL, 0, escaper, doctype);
 	zephir_check_call_status();
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 830, &type_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 829, &type_zv);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -119,7 +119,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Generic, setType)
 		Z_PARAM_STR(type)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&type_zv, type);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 830, &type_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 829, &type_zv);
 	RETURN_THISW();
 }
 

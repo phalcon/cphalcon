@@ -13,12 +13,14 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Support\Migrations;
 
+use Phalcon\Talon\Database\Schema\AbstractSchema;
+
 /**
  * Class ProductsMigration
  */
-class ProductsMigration extends AbstractMigration
+class ProductsMigration extends AbstractSchema
 {
-    protected $table = "co_products";
+    protected string $table = "co_products";
 
     public function insert(
         ?int $id,
@@ -47,12 +49,9 @@ SQL;
         return $result;
     }
 
-    protected function getSqlMysql(): array
+    protected function getStatementsMysql(): array
     {
         return [
-            "
-drop table if exists `co_products`;
-            ",
             "
 CREATE TABLE `co_products` (
     `prd_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -64,10 +63,9 @@ CREATE TABLE `co_products` (
         ];
     }
 
-    protected function getSqlSqlite(): array
+    protected function getStatementsSqlite(): array
     {
         return [
-"drop table if exists `co_products`;",
 "create table `co_products` (
     `prd_id` integer constraint prd_id_pk primary key autoincrement,
     `prd_name` text NULL,
@@ -76,12 +74,9 @@ CREATE TABLE `co_products` (
         ];
     }
 
-    protected function getSqlPgsql(): array
+    protected function getStatementsPgsql(): array
     {
         return [
-            "
-drop table if exists co_products;
-            ",
             "
 create table co_products
 (
@@ -91,10 +86,5 @@ create table co_products
 );
             "
         ];
-    }
-
-    protected function getSqlSqlsrv(): array
-    {
-        return [];
     }
 }

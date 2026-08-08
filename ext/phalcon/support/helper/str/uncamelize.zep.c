@@ -36,12 +36,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Str_Uncamelize)
 	return SUCCESS;
 }
 
-/**
- * @param string $text
- * @param string $delimiters
- *
- * @return string
- */
 PHP_METHOD(Phalcon_Support_Helper_Str_Uncamelize, __invoke)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;

@@ -21,17 +21,15 @@ namespace Phalcon\Queue;
 
 use Phalcon\Config\ConfigInterface;
 use Phalcon\Contracts\Queue\Context as ContextInterface;
+use Phalcon\Factory\AbstractConfigFactory;
 use Phalcon\Queue\Exceptions\Exception;
-use Phalcon\Traits\Factory\ConfigTrait;
 
 /**
  * Builds a queue Context from the standard Phalcon config shape. Mirrors
  * Phalcon\Cache\CacheFactory.
  */
-class QueueFactory
+class QueueFactory extends AbstractConfigFactory
 {
-    use ConfigTrait;
-
     protected <AdapterFactory> adapterFactory;
 
     /**

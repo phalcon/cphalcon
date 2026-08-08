@@ -11,6 +11,7 @@
 namespace Phalcon\Storage;
 
 use Exception as BaseException;
+use Phalcon\Factory\AbstractFactory;
 use Phalcon\Storage\Serializer\Base64;
 use Phalcon\Storage\Serializer\Igbinary;
 use Phalcon\Storage\Serializer\Json;
@@ -26,13 +27,10 @@ use Phalcon\Storage\Serializer\RedisMsgpack;
 use Phalcon\Storage\Serializer\RedisNone;
 use Phalcon\Storage\Serializer\RedisPhp;
 use Phalcon\Storage\Serializer\SerializerInterface;
-use Phalcon\Traits\Factory\FactoryTrait;
 use Throwable;
 
-class SerializerFactory
+class SerializerFactory extends AbstractFactory
 {
-    use FactoryTrait;
-
     /**
      * SerializerFactory constructor.
      *
@@ -51,7 +49,11 @@ class SerializerFactory
      */
     public function newInstance( string name) -> <SerializerInterface>
     {
-        return $this->getCachedInstance($name);
+        var definition;
+
+        let definition = this->getService(name);
+
+        return create_instance(definition);
     }
 
     /**

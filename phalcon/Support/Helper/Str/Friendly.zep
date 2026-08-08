@@ -20,12 +20,6 @@ use Phalcon\Support\Helper\Str\Exceptions\InvalidReplaceFormat;
 class Friendly extends AbstractStr
 {
     /**
-     * @param string     $text
-     * @param string     $separator
-     * @param bool       $lowercase
-     * @param mixed|null $replace
-     *
-     * @return string
      * @throws InvalidReplaceFormat
      */
     public function __invoke(

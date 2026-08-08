@@ -39,13 +39,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Str_FirstBetween)
 	return SUCCESS;
 }
 
-/**
- * @param string $text
- * @param string $start
- * @param string $end
- *
- * @return string
- */
 PHP_METHOD(Phalcon_Support_Helper_Str_FirstBetween, __invoke)
 {
 	zval _2;

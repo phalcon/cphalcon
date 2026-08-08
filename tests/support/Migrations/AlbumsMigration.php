@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Support\Migrations;
 
+use Phalcon\Talon\Database\Schema\AbstractSchema;
+
 
 /**
  * Class AlbumsMigration
@@ -20,9 +22,9 @@ namespace Phalcon\Tests\Support\Migrations;
  * Manages the `albums` table used by the AlbumORama model fixtures.
  * Note: distinct from AlbumMigration which manages the singular `album` table.
  */
-class AlbumsMigration extends AbstractMigration
+class AlbumsMigration extends AbstractSchema
 {
-    protected $table = 'albums';
+    protected string $table = 'albums';
     /**
      * @param int    $id
      * @param int    $artistsId
@@ -46,12 +48,9 @@ SQL;
 
         return $result;
     }
-    protected function getSqlMysql(): array
+    protected function getStatementsMysql(): array
     {
         return [
-            "
-drop table if exists `albums`;
-            ",
             "
 create table `albums`
 (
@@ -65,12 +64,9 @@ create index albums_artists_id_index on `albums` (`artists_id`);
             ",
         ];
     }
-    protected function getSqlSqlite(): array
+    protected function getStatementsSqlite(): array
     {
         return [
-            "
-drop table if exists albums;
-            ",
             "
 create table albums
 (
@@ -84,12 +80,9 @@ create index albums_artists_id_index on albums (artists_id);
             ",
         ];
     }
-    protected function getSqlPgsql(): array
+    protected function getStatementsPgsql(): array
     {
         return [
-            "
-drop table if exists albums;
-            ",
             "
 create table albums
 (
@@ -102,9 +95,5 @@ create table albums
 create index albums_artists_id_index on albums (artists_id);
             ",
         ];
-    }
-    protected function getSqlSqlsrv(): array
-    {
-        return [];
     }
 }

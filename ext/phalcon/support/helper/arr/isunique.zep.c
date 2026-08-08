@@ -38,7 +38,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Arr_IsUnique)
 }
 
 /**
- * @param array $collection
+ * @param array<array-key, mixed> $collection
  *
  * @return bool
  */

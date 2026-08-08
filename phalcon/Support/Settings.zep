@@ -40,7 +40,7 @@ class Settings
      *
      * @var array
      */
-    protected static overrides;
+    protected static array overrides = [];
 
     /**
      * Returns the value of a known setting.

@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Support\Migrations;
 
+use Phalcon\Talon\Database\Schema\AbstractSchema;
+
 /**
  * Class ManufacturersMigration
  */
-class ManufacturersMigration extends AbstractMigration
+class ManufacturersMigration extends AbstractSchema
 {
-    protected $table = "co_manufacturers";
+    protected string $table = "co_manufacturers";
 
     /**
      * @param int         $id
@@ -48,11 +50,9 @@ SQL;
         return $result;
     }
 
-    protected function getSqlMysql(): array
+    protected function getStatementsMysql(): array
     {
         return [
-            "
-drop table if exists `co_manufacturers`;",
             "
 CREATE TABLE `co_manufacturers` (
     `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -65,11 +65,9 @@ CREATE TABLE `co_manufacturers` (
         ];
     }
 
-    protected function getSqlSqlite(): array
+    protected function getStatementsSqlite(): array
     {
         return [
-            "
-drop table if exists co_manufacturers;",
             "
 create table co_manufacturers (
     id integer constraint co_manufacturers_pk primary key autoincrement,
@@ -81,11 +79,9 @@ create table co_manufacturers (
         ];
     }
 
-    protected function getSqlPgsql(): array
+    protected function getStatementsPgsql(): array
     {
         return [
-            "
-drop table if exists co_manufacturers;",
             "
 create table co_manufacturers
 (
@@ -98,10 +94,5 @@ create table co_manufacturers
 );
             "
         ];
-    }
-
-    protected function getSqlSqlsrv(): array
-    {
-        return [];
     }
 }

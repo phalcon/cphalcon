@@ -39,11 +39,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Str_DirFromFile)
 	return SUCCESS;
 }
 
-/**
- * @param string $file
- *
- * @return string
- */
 PHP_METHOD(Phalcon_Support_Helper_Str_DirFromFile, __invoke)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;

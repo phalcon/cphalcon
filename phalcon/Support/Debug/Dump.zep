@@ -10,11 +10,17 @@
 
 namespace Phalcon\Support\Debug;
 
+use InvalidArgumentException;
+use JsonException;
+use Phalcon\Container\Container;
 use Phalcon\Contracts\Support\Debug\TemplateAware;
 use Phalcon\Di\DiInterface;
+use Phalcon\Support\Debug\Traits\TemplateAwareTrait;
 use Phalcon\Support\Helper\Json\Encode;
+use Phalcon\Traits\Support\Helper\Str\InterpolateTrait;
 use Reflection;
 use ReflectionClass;
+use ReflectionException;
 use ReflectionProperty;
 use stdClass;
 
@@ -37,39 +43,16 @@ use stdClass;
  */
 class Dump implements TemplateAware
 {
-    /**
-     * @var bool
-     */
-    protected detailed = false;
+    use InterpolateTrait;
+    use TemplateAwareTrait;
+
+    protected bool detailed = false;
+    protected array methods = [];
+    protected array styles = [];
+    private <Encode> encode;
 
     /**
-     * @var array
-     */
-    protected methods = [];
-
-    /**
-     * @var array
-     */
-    protected styles = [];
-
-    /**
-     * Template overrides keyed by name.
-     *
-     * @todo Move getTemplate()/setTemplate()/templates into a shared trait once
-     *       Zephir supports traits (mirrors
-     *       Phalcon\Support\Debug\Traits\TemplateAwareTrait in the PHP source).
-     *
-     * @var array
-     */
-    protected templates = [];
-
-    /**
-     * @var Encode
-     */
-    private encode;
-
-    /**
-     * Phalcon\Debug\Dump constructor
+     * Dump constructor.
      */
     public function __construct( array styles = [], bool detailed = false)
     {
@@ -100,26 +83,9 @@ class Dump implements TemplateAware
     }
 
     /**
-     * Returns the template for the given name (override if set, default
-     * otherwise).
-     *
-     * @param string $name
-     *
-     * @return string
-     */
-    public function getTemplate(string name) -> string
-    {
-        var template;
-
-        if fetch template, this->templates[name] {
-            return template;
-        }
-
-        return this->defaultTemplate(name);
-    }
-
-    /**
      * Alias of variable() method
+     *
+     * @throws ReflectionException
      */
     public function one(var variable, string name = null) -> string
     {
@@ -139,7 +105,9 @@ class Dump implements TemplateAware
         var defaultStyles;
 
         let defaultStyles = [
-            "pre"   : "background-color:#f3f3f3; font-size:11px; padding:10px; border:1px solid #ccc; text-align:left; color:#333",
+            "pre"   : "background-color:#f3f3f3; font-size:11px; " .
+                "padding:10px; border:1px solid #ccc; " .
+                "text-align:left; color:#333",
             "arr"   : "color:red",
             "bool"  : "color:green",
             "float" : "color:fuchsia",
@@ -158,21 +126,6 @@ class Dump implements TemplateAware
     }
 
     /**
-     * Overrides the template for the given name.
-     *
-     * @param string $name
-     * @param string $template
-     *
-     * @return static
-     */
-    public function setTemplate(string name, string template) -> <static>
-    {
-        let this->templates[name] = template;
-
-        return this;
-    }
-
-    /**
      * Returns an JSON string of information about a single variable.
      *
      * ```php
@@ -187,6 +140,9 @@ class Dump implements TemplateAware
      *
      * echo (new \Phalcon\Debug\Dump())->toJson($foo);
      * ```
+     *
+     * @throws InvalidArgumentException
+     * @throws JsonException
      */
     public function toJson(var variable) -> string
     {
@@ -202,16 +158,21 @@ class Dump implements TemplateAware
      * ```php
      * echo (new \Phalcon\Debug\Dump())->variable($foo, "foo");
      * ```
+     *
+     * @throws ReflectionException
      */
     public function variable(var variable, string name = null) -> string
     {
-        return strtr(
-            this->getTemplate("pre"),
-            [
-                "%style%":  this->getStyle("pre"),
-                "%output%": this->output(variable, name)
-            ]
-        );
+        var message;
+        array context;
+        
+        let message = this->getTemplate("pre");
+        let context = [
+            "style"  : this->getStyle("pre"),
+            "output" : this->output(variable, name)
+        ];
+
+        return this->toInterpolate(message, context);
     }
 
     /**
@@ -225,6 +186,8 @@ class Dump implements TemplateAware
      *
      * echo (new \Phalcon\Debug\Dump())->variables($foo, $bar, $baz);
      * ```
+     *
+     * @throws ReflectionException
      */
     public function variables() -> string
     {
@@ -292,35 +255,48 @@ class Dump implements TemplateAware
 
     /**
      * Prepare an HTML string of information about a single variable.
+     *
+     * @throws ReflectionException
      */
-    protected function output(var variable, string name = null, int tab = 1) -> string
-    {
-        var key, value, output, space, type, attr, reflect, props, property;
+    protected function output(
+        var variable,
+        string name = null,
+        int tab = 1
+    ) -> string {
+        var attr, key, message, 
+            output = "",
+            property, props, reflect, type, value,vars;
+        array context = [];
+        string space  = "  ";
 
-        let space = "  ",
-            output = "";
-
-        if name {
-            let output = name . " ";
+        if (!empty(name)) {
+            let output .= name . " ";
         }
 
-        if typeof variable == "array" {
-            let output .= strtr(
-                this->getTemplate("arrayHeader"),
-                [
-                    "%style%": this->getStyle("arr"),
-                    "%count%": count(variable)
-                ]
-            );
+        if (typeof variable === "array") {
+            let message = this->getTemplate("arrayHeader");
+            let context = [
+                "style" : this->getStyle("arr"),
+                "count" : count(variable)
+            ];
 
+            let output .= this->toInterpolate(message, context);
             for key, value in variable {
-                let output .= str_repeat(space, tab)
-                    . strtr(
-                        this->getTemplate("arrayKey"),
-                        ["%style%": this->getStyle("arr"), "%key%": key]
-                    );
+                let output .= str_repeat(space, tab);
 
-                if tab == 1 && name != "" && !is_int(key) && name == key {
+                let message = this->getTemplate("arrayKey");
+                let context = [
+                    "style" : this->getStyle("arr"),
+                    "key"   : key
+                ];
+                let output  .= this->toInterpolate(message, context);
+
+                if (
+                    1 === tab &&
+                    !empty(name) &&
+                    typeof key !== "int" &&
+                    name === key
+                ) {
                     continue;
                 }
 
@@ -330,94 +306,106 @@ class Dump implements TemplateAware
             return output . str_repeat(space, tab - 1) . ")";
         }
 
-        if typeof variable == "object" {
-            let output .= strtr(
-                this->getTemplate("objectHeader"),
-                [
-                    "%style%": this->getStyle("obj"),
-                    "%class%": get_class(variable)
-                ]
-            );
+        if (is_object(variable)) {
+            let message = this->getTemplate("objectHeader");
+            let context = [
+                "style" : this->getStyle("obj"),
+                "class" : get_class(variable)
+            ];
+            let output  .= this->toInterpolate(message, context);
 
-            if get_parent_class(variable) {
-                let output .= strtr(
-                    this->getTemplate("objectExtends"),
-                    [
-                        "%style%":  this->getStyle("obj"),
-                        "%parent%": get_parent_class(variable)
-                    ]
-                );
+            if (false !== get_parent_class(variable)) {
+                let message = this->getTemplate("objectExtends");
+                let context = [
+                    "style"  : this->getStyle("obj"),
+                    "parent" : get_parent_class(variable)
+                ];
+                let output  .= this->toInterpolate(message, context);
             }
 
             let output .= " (\n";
 
-            if variable instanceof DiInterface {
-                // Skip debugging di
+            if (
+                typeof variable === "object" &&
+                (variable instanceof DiInterface || variable instanceof Container)
+            ) {
+                // Skip debugging di and container
                 let output .= str_repeat(space, tab) . "[skipped]\n";
-            } elseif !this->detailed || variable instanceof stdClass {
+            } elseif (true !== this->detailed || variable instanceof stdClass) {
                 // Debug only public properties
-                for key, value in get_object_vars(variable) {
+                let vars = get_object_vars(variable);
+                for key, value in vars {
+                    let message = this->getTemplate("objectProperty");
+                    let context = [
+                        "style" : this->getStyle("obj"),
+                        "key"   : key,
+                        "type"  : "public"
+                    ];
+
                     let output .= str_repeat(space, tab)
-                        . strtr(
-                            this->getTemplate("objectProperty"),
-                            ["%style%": this->getStyle("obj"), "%key%": key, "%type%": "public"]
-                        );
-                    let output .= this->output(value, "", tab + 1) . "\n";
+                        . this->toInterpolate(message, context)
+                        . this->output(value, "", tab + 1)
+                        . "\n";
                 }
             } else {
                 // Debug all properties
                 let reflect = new ReflectionClass(variable);
-                let props = reflect->getProperties(
+                let props   = reflect->getProperties(
                     ReflectionProperty::IS_PUBLIC |
                     ReflectionProperty::IS_PROTECTED |
                     ReflectionProperty::IS_PRIVATE
                 );
 
                 for property in props {
-                    let key = property->getName();
-
+                    let key  = property->getName();
                     let type = implode(
                         " ",
-                        Reflection::getModifierNames(
-                            property->getModifiers()
-                        )
+                        Reflection::getModifierNames(property->getModifiers())
                     );
 
+                    let message = this->getTemplate("objectProperty");
+                    let context = [
+                        "style" : this->getStyle("obj"),
+                        "key"   : key,
+                        "type"  : type
+                    ];
+
                     let output .= str_repeat(space, tab)
-                        . strtr(
-                            this->getTemplate("objectProperty"),
-                            ["%style%": this->getStyle("obj"), "%key%": key, "%type%": type]
-                        );
-                    let output .= this->output(property->getValue(variable), "", tab + 1) . "\n";
+                        . this->toInterpolate(message, context)
+                        . this->output(property->getValue(variable), "", tab + 1)
+                        . "\n";
                 }
             }
 
-            let attr = get_class_methods(variable);
-            let output .= str_repeat(space, tab)
-                . strtr(
-                    this->getTemplate("objectMethods"),
-                    ["%style%": this->getStyle("obj"), "%class%": get_class(variable), "%count%": count(attr)]
-                );
+            let attr    = get_class_methods(variable);
+            let message = this->getTemplate("objectMethods");
+            let context = [
+                "style" : this->getStyle("obj"),
+                "class" : get_class(variable),
+                "count" : count(attr)
+            ];
 
-            if in_array(get_class(variable), this->methods) {
+            let output .= str_repeat(space, tab)
+                . this->toInterpolate(message, context);
+
+
+            if (true === in_array(get_class(variable), this->methods)) {
                 let output .= str_repeat(space, tab) . "[already listed]\n";
             } else {
                 for value in attr {
                     let this->methods[] = get_class(variable);
 
-                    if value == "__construct" {
-                        let output .= str_repeat(space, tab + 1)
-                            . strtr(
-                                this->getTemplate("objectMethodConstructor"),
-                                ["%style%": this->getStyle("obj"), "%method%": value]
-                            );
-                    } else {
-                        let output .= str_repeat(space, tab + 1)
-                            . strtr(
-                                this->getTemplate("objectMethod"),
-                                ["%style%": this->getStyle("obj"), "%method%": value]
-                            );
+                    let message = this->getTemplate("objectMethod");
+                    if ("__construct" === value) {
+                        let message = this->getTemplate("objectMethodConstructor");
                     }
+                    let context = [
+                        "style"  : this->getStyle("obj"),
+                        "method" : value
+                    ];
+
+                    let output .= str_repeat(space, tab + 1)
+                        . this->toInterpolate(message, context);
                 }
 
                 let output .= str_repeat(space, tab) . ")\n";
@@ -426,56 +414,74 @@ class Dump implements TemplateAware
             return output . str_repeat(space, tab - 1) . ")";
         }
 
-        if is_int(variable) {
-            return output . strtr(
-                this->getOutputBold("Integer") . " " . this->getTemplate("varParens"),
-                ["%style%": this->getStyle("int"), "%var%": variable]
-            );
+        if (typeof variable === "int") {
+            let message = this->getOutputBold("Integer") . " " . this->getTemplate("varParens");
+            let context = [
+                "style" : this->getStyle("int"),
+                "var"   : variable
+            ];
+
+            return output . this->toInterpolate(message, context);
         }
 
-        if is_float(variable) {
-            return output . strtr(
-                this->getOutputBold("Float") . " " . this->getTemplate("varParens"),
-                ["%style%": this->getStyle("float"), "%var%": variable]
-            );
+        if (typeof variable === "float") {
+            let message = this->getOutputBold("Float") . " " . this->getTemplate("varParens");
+            let context = [
+                "style" : this->getStyle("float"),
+                "var"   : variable
+            ];
+
+            return output . this->toInterpolate(message, context);
         }
 
-        if is_numeric(variable) {
-            return output . strtr(
-                this->getOutputBold("Numeric String") . " " . this->getTemplate("lengthValue"),
-                ["%style%": this->getStyle("num"), "%length%": mb_strlen(variable), "%var%": variable]
-            );
+        if (is_numeric(variable)) {
+            let message = this->getOutputBold("Numeric String") . " " . this->getTemplate("lengthValue");
+            let context = [
+                "style"  : this->getStyle("num"),
+                "length" : mb_strlen((string)variable),
+                "var"    : variable
+            ];
+
+            return output . this->toInterpolate(message, context);
         }
 
-        if is_string(variable) {
-            return output . strtr(
-                this->getOutputBold("String") . " " . this->getTemplate("lengthValue"),
-                [
-                    "%style%":  this->getStyle("str"),
-                    "%length%": mb_strlen(variable),
-                    "%var%":    nl2br(htmlentities(variable, ENT_IGNORE, "utf-8"))
-                ]
-            );
+        if (typeof variable === "string") {
+            let message = this->getOutputBold("String") . " " . this->getTemplate("lengthValue");
+            let context = [
+                "style"  : this->getStyle("str"),
+                "length" : mb_strlen(variable),
+                "var"    : nl2br(htmlentities(variable, ENT_IGNORE, "utf-8"))
+            ];
+
+            return output . this->toInterpolate(message, context);
         }
 
-        if is_bool(variable) {
-            return output . strtr(
-                this->getOutputBold("Boolean") . " " . this->getTemplate("varParens"),
-                ["%style%": this->getStyle("bool"), "%var%": (variable ? "TRUE" : "FALSE")]
-            );
+        if (typeof variable === "bool") {
+            let message = this->getOutputBold("Boolean") . " " . this->getTemplate("varParens");
+            let context = [
+                "style" : this->getStyle("bool"),
+                "var"   : (variable) ? "TRUE" : "FALSE"
+            ];
+
+            return output . this->toInterpolate(message, context);
         }
 
-        if is_null(variable) {
-            return output . strtr(
-                this->getOutputBold("NULL"),
-                ["%style%": this->getStyle("null")]
-            );
+        if (null === variable) {
+            let message = this->getOutputBold("NULL");
+            let context = [
+                "style" : this->getStyle("null")
+            ];
+
+            return output . this->toInterpolate(message, context);
         }
 
-        return output . strtr(
-            this->getTemplate("varParens"),
-            ["%style%": this->getStyle("other"), "%var%": variable]
-        );
+        let message = this->getTemplate("varParens");
+        let context = [
+            "style" : this->getStyle("other"),
+            "var"   : variable
+        ];
+
+        return output . this->toInterpolate(message, context);
     }
 
     /**
@@ -485,9 +491,9 @@ class Dump implements TemplateAware
      */
     private function getOutputBold(string text) -> string
     {
-        return strtr(
+        return this->toInterpolate(
             this->getTemplate("bold"),
-            ["%text%": text]
+            ["text": text]
         );
     }
 }

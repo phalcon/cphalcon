@@ -20,11 +20,6 @@ class DirSeparator
 {
     use DirSeparatorTrait;
 
-    /**
-     * @param string $directory
-     *
-     * @return string
-     */
     public function __invoke(string directory) -> string
     {
         return this->toDirSeparator(directory);

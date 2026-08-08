@@ -114,16 +114,16 @@ PHP_METHOD(Phalcon_Auth_Access_Acl, __construct)
 	} else {
 		zephir_get_arrval(&options, options_param);
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 423, acl);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 422, acl);
 	zephir_memory_observe(&value);
 	if (zephir_array_isset_string_fetch(&value, &options, SL("guestRole"), 0)) {
 		zephir_cast_to_string(&_0$$3, &value);
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 424, &_0$$3);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 423, &_0$$3);
 	}
 	ZEPHIR_OBS_NVAR(&value);
 	if (zephir_array_isset_string_fetch(&value, &options, SL("moduleSeparator"), 0)) {
 		zephir_cast_to_string(&_1$$4, &value);
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 425, &_1$$4);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 424, &_1$$4);
 	}
 	ZEPHIR_MM_RESTORE();
 }
@@ -197,17 +197,17 @@ PHP_METHOD(Phalcon_Auth_Access_Acl, isAllowed)
 	} else {
 		zephir_get_arrval(&context, context_param);
 	}
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 426, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 425, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_FUNCTION(&_1, "in_array", NULL, 87, &actionName_zv, &_0, &__$true);
 	zephir_check_call_status();
 	if (zephir_is_true(&_1)) {
 		RETURN_MM_BOOL(1);
 	}
 	zephir_memory_observe(&_2);
-	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_1, 427, PH_NOISY_CC);
+	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_1, 426, PH_NOISY_CC);
 	_3 = !(ZEPHIR_IS_EMPTY(&_2));
 	if (_3) {
-		zephir_read_property_cached(&_4, this_ptr, _zephir_prop_1, 427, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_4, this_ptr, _zephir_prop_1, 426, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_FUNCTION(&_5, "in_array", NULL, 87, &actionName_zv, &_4, &__$true);
 		zephir_check_call_status();
 		_3 = !zephir_is_true(&_5);
@@ -238,7 +238,7 @@ PHP_METHOD(Phalcon_Auth_Access_Acl, isAllowed)
 		_8 = !ZEPHIR_IS_STRING_IDENTICAL(&module, "");
 	}
 	if (_8) {
-		zephir_read_property_cached(&_9$$6, this_ptr, _zephir_prop_2, 425, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_9$$6, this_ptr, _zephir_prop_2, 424, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_INIT_NVAR(&component);
 		ZEPHIR_CONCAT_VVV(&component, &module, &_9$$6, &handler);
 	}
@@ -250,7 +250,7 @@ PHP_METHOD(Phalcon_Auth_Access_Acl, isAllowed)
 		ZEPHIR_INIT_NVAR(&params);
 		ZVAL_NULL(&params);
 	}
-	zephir_read_property_cached(&_10, this_ptr, _zephir_prop_3, 423, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_10, this_ptr, _zephir_prop_3, 422, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&_11, this_ptr, "resolverole", NULL, 0, guard);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(&_10, "isallowed", NULL, 0, &_11, &component, &actionName_zv, &params);

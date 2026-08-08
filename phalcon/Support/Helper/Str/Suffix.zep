@@ -12,6 +12,7 @@ namespace Phalcon\Support\Helper\Str;
 
 /**
  * Suffixes the text with the supplied suffix
+ * @todo v7 make text string
  */
 class Suffix
 {

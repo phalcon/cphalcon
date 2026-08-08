@@ -13,9 +13,11 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Support\Migrations;
 
-class AlbumPhotoMigration extends AbstractMigration
+use Phalcon\Talon\Database\Schema\AbstractSchema;
+
+class AlbumPhotoMigration extends AbstractSchema
 {
-    protected $table = 'album_photo';
+    protected string $table = 'album_photo';
 
     /**
      * @return int
@@ -25,12 +27,9 @@ class AlbumPhotoMigration extends AbstractMigration
         return 0;
     }
 
-    protected function getSqlMysql(): array
+    protected function getStatementsMysql(): array
     {
         return [
-            "
-drop table if exists `album_photo`;
-            ",
             "
 CREATE TABLE `album_photo` (
 	`id`       int(11) unsigned not null AUTO_INCREMENT,
@@ -48,12 +47,9 @@ CREATE TABLE `album_photo` (
         ];
     }
 
-    protected function getSqlSqlite(): array
+    protected function getStatementsSqlite(): array
     {
         return [
-            "
-drop table if exists album_photo;
-            ",
             "
 create table album_photo
 (
@@ -66,17 +62,9 @@ create table album_photo
         ];
     }
 
-    protected function getSqlSqlsrv(): array
-    {
-        return [];
-    }
-
-    protected function getSqlPgsql(): array
+    protected function getStatementsPgsql(): array
     {
         return [
-            "
-drop table if exists album_photo;
-            ",
             "
 create table album_photo
 (

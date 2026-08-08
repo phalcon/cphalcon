@@ -1,4 +1,8 @@
-<?php // phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
+<?php
+
+declare(strict_types=1);
+
+// phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
 
 use Phalcon\Mvc\Controller;
 

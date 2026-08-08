@@ -19,14 +19,6 @@ use Phalcon\Support\Helper\Str\Exceptions\SyntaxError;
  */
 class Dynamic
 {
-    /**
-     * @param string $text
-     * @param string $leftDelimiter
-     * @param string $rightDelimiter
-     * @param string $separator
-     *
-     * @return string
-     */
     public function __invoke(
         string text,
         string leftDelimiter = "{",

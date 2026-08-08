@@ -15,13 +15,6 @@ namespace Phalcon\Support\Helper\Str;
  */
 class StartsWith extends AbstractStr
 {
-    /**
-     * @param string $haystack
-     * @param string $needle
-     * @param bool   $ignoreCase
-     *
-     * @return bool
-     */
     public function __invoke(
         string haystack,
         string needle,

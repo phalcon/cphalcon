@@ -72,7 +72,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Config_AbstractAdapterConfig, __construct)
 		zephir_memory_observe(&model_zv);
 	ZVAL_STR_COPY(&model_zv, model);
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 99, &model_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 98, &model_zv);
 	ZEPHIR_MM_RESTORE();
 }
 

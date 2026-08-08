@@ -11,12 +11,14 @@
 
 namespace Phalcon\Tests\Support\Migrations;
 
+use Phalcon\Talon\Database\Schema\AbstractSchema;
+
 /**
  * Class SettersMigration
  */
-class SettersMigration extends AbstractMigration
+class SettersMigration extends AbstractSchema
 {
-    protected $table = "co_setters";
+    protected string $table = "co_setters";
 
     /**
      * @param string $column1
@@ -41,12 +43,9 @@ SQL;
         return $this->execute($sql, $params);
     }
 
-    protected function getSqlMysql(): array
+    protected function getStatementsMysql(): array
     {
         return [
-            "
-drop table if exists `co_setters`;
-            ",
             "
 create table co_setters
 (
@@ -60,12 +59,9 @@ create table co_setters
         ];
     }
 
-    protected function getSqlSqlite(): array
+    protected function getStatementsSqlite(): array
     {
         return [
-            "
-drop table if exists co_setters;
-            ",
             "
 create table co_setters
     (
@@ -78,12 +74,9 @@ create table co_setters
         ];
     }
 
-    protected function getSqlPgsql(): array
+    protected function getStatementsPgsql(): array
     {
         return [
-            "
-drop table if exists co_setters;
-            ",
             "
 create table co_setters
 (
@@ -94,10 +87,5 @@ create table co_setters
 );
             ",
         ];
-    }
-
-    protected function getSqlSqlsrv(): array
-    {
-        return [];
     }
 }

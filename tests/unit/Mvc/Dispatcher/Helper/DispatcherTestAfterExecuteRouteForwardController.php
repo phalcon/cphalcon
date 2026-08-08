@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Phalcon\Tests\Unit\Mvc\Dispatcher\Helper;
 
 use Phalcon\Mvc\Controller;

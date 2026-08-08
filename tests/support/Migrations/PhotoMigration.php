@@ -13,10 +13,12 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Support\Migrations;
 
+use Phalcon\Talon\Database\Schema\AbstractSchema;
 
-class PhotoMigration extends AbstractMigration
+
+class PhotoMigration extends AbstractSchema
 {
-    protected $table = 'photo';
+    protected string $table = 'photo';
 
     /**
      * @return int
@@ -26,12 +28,9 @@ class PhotoMigration extends AbstractMigration
         return 0;
     }
 
-    protected function getSqlMysql(): array
+    protected function getStatementsMysql(): array
     {
         return [
-            "
-drop table if exists `photo`;
-            ",
             "
 CREATE TABLE `photo` (
 	`id`                int(10) unsigned not null auto_increment,
@@ -57,12 +56,9 @@ CREATE TABLE `photo` (
         ];
     }
 
-    protected function getSqlSqlite(): array
+    protected function getStatementsSqlite(): array
     {
         return [
-            "
-drop table if exists photo;
-            ",
             "
 create table photo
 (
@@ -88,17 +84,9 @@ create table photo
         ];
     }
 
-    protected function getSqlSqlsrv(): array
-    {
-        return [];
-    }
-
-    protected function getSqlPgsql(): array
+    protected function getStatementsPgsql(): array
     {
         return [
-            "
-drop table if exists photo;
-            ",
             "
 create table photo
 (

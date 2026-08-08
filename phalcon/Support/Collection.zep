@@ -10,12 +10,10 @@
 
 namespace Phalcon\Support;
 
-use ArrayAccess;
 use ArrayIterator;
 use Countable;
-use InvalidArgumentException;
-use IteratorAggregate;
 use JsonSerializable;
+use InvalidArgumentException;
 use Phalcon\Support\Collection\CollectionInterface;
 use Phalcon\Support\Collection\Exceptions\InvalidValueType;
 use Phalcon\Support\Helper\Json\Encode;
@@ -46,29 +44,16 @@ class Collection implements
     JsonSerializable
 {
     /**
-     * @var array
+     * @var array<int|string, mixed>
      */
-    protected data = [];
-
+    protected array data = [];
     /**
-     * @var bool
+     * @var array<int|string, mixed>
      */
-    protected insensitive = true;
-
-    /**
-     * @var array
-     */
-    protected lowerKeys = [];
-
-    /**
-     * @var bool
-     */
-    protected strictNull = false;
-
-    /**
-     * @var string|null
-     */
-    protected type = null;
+    protected array lowerKeys = [];
+    protected bool insensitive = true;
+    protected bool strictNull = false;
+    protected ?string type = null;
 
     /**
      * Collection constructor.
@@ -89,22 +74,14 @@ class Collection implements
 
     /**
      * Magic getter to get an element from the collection
-     *
-     * @param string $element
-     *
-     * @return mixed|null
      */
-    public function __get( string element) -> mixed
+    public function __get(string element) -> mixed
     {
         return this->get(element);
     }
 
     /**
      * Magic isset to check whether an element exists or not
-     *
-     * @param string $element
-     *
-     * @return bool
      */
     public function __isset(string element) -> bool
     {
@@ -129,9 +106,6 @@ class Collection implements
 
     /**
      * Magic setter to assign values to an element
-     *
-     * @param string $element
-     * @param mixed  $value
      */
     public function __set(string element, mixed value) -> void
     {
@@ -164,8 +138,6 @@ class Collection implements
 
     /**
      * Magic unset to remove an element from the collection
-     *
-     * @param string $element
      */
     public function __unset(string element) -> void
     {
@@ -185,8 +157,6 @@ class Collection implements
      * Returns the values from a single property/method extracted from every
      * item in the collection, keyed by the original collection key.
      *
-     * @param string $propertyOrMethod
-     *
      * @return array<int|string, mixed>
      */
     public function column(string propertyOrMethod) -> array
@@ -204,8 +174,6 @@ class Collection implements
 
     /**
      * Count elements of an object
-     *
-     * @return int
      */
     public function count() -> int
     {
@@ -219,8 +187,6 @@ class Collection implements
      * @phpstan-param callable(T, array-key): mixed $callback
      *
      * @param callable $callback
-     *
-     * @return static
      */
     public function each(callable callback) -> <static>
     {
@@ -241,8 +207,6 @@ class Collection implements
      * @phpstan-return static<T>
      *
      * @param callable $callback
-     *
-     * @return static
      */
     public function filter(callable callback) -> <static>
     {
@@ -263,8 +227,6 @@ class Collection implements
      * Returns the first value in the collection, or null if empty.
      *
      * @phpstan-return T|null
-     *
-     * @return mixed
      */
     public function first() -> mixed
     {
@@ -283,12 +245,6 @@ class Collection implements
      * Get the element from the collection
      *
      * @phpstan-return T|mixed
-     *
-     * @param string      $element
-     * @param mixed|null  $defaultValue
-     * @param string|null $cast
-     *
-     * @return mixed
      */
     public function get(
         string element,
@@ -345,8 +301,6 @@ class Collection implements
      *
      * @deprecated Use {@see self::keys()} instead. Will be removed in a future major release.
      *
-     * @param bool $insensitive Case-insensitive keys (default: true)
-     *
      * @return array<int|string, mixed>
      */
     public function getKeys(bool insensitive = true) -> array
@@ -356,8 +310,6 @@ class Collection implements
 
     /**
      * Returns the configured runtime type guard, or null if none.
-     *
-     * @return string|null
      */
     public function getType() -> string | null
     {
@@ -378,10 +330,6 @@ class Collection implements
 
     /**
      * Get the element from the collection
-     *
-     * @param string $element Name of the element
-     *
-     * @return bool
      */
     public function has(string element) -> bool
     {
@@ -406,8 +354,6 @@ class Collection implements
 
     /**
      * Return if the collection is empty
-     *
-     * @return bool
      */
     public function isEmpty() -> bool
     {
@@ -416,8 +362,6 @@ class Collection implements
 
     /**
      * Specify data which should be serialized to JSON
-     *
-     * @link https://php.net/manual/en/jsonserializable.jsonserialize.php
      *
      * @return array<int|string, mixed>
      */
@@ -434,8 +378,6 @@ class Collection implements
     /**
      * Returns the keys (insensitive or not) of the collection.
      *
-     * @param bool $insensitive Case-insensitive keys (default: true)
-     *
      * @return array<int|string, mixed>
      */
     public function keys(bool insensitive = true) -> array
@@ -451,8 +393,6 @@ class Collection implements
      * Returns the last value in the collection, or null if empty.
      *
      * @phpstan-return T|null
-     *
-     * @return mixed
      */
     public function last() -> mixed
     {
@@ -475,8 +415,6 @@ class Collection implements
      * @phpstan-return static<mixed>
      *
      * @param callable $callback
-     *
-     * @return static
      */
     public function map(callable callback) -> <static>
     {
@@ -493,12 +431,6 @@ class Collection implements
 
     /**
      * Whether a offset exists
-     *
-     * @link https://php.net/manual/en/arrayaccess.offsetexists.php
-     *
-     * @param mixed $element
-     *
-     * @return bool
      */
     public function offsetExists(mixed element) -> bool
     {
@@ -509,12 +441,6 @@ class Collection implements
 
     /**
      * Offset to retrieve
-     *
-     * @link https://php.net/manual/en/arrayaccess.offsetget.php
-     *
-     * @param mixed $element
-     *
-     * @return mixed
      */
     public function offsetGet(mixed element) -> mixed
     {
@@ -525,11 +451,6 @@ class Collection implements
 
     /**
      * Offset to set
-     *
-     * @link https://php.net/manual/en/arrayaccess.offsetset.php
-     *
-     * @param mixed $element
-     * @param mixed $value
      */
     public function offsetSet(mixed element, mixed value) -> void
     {
@@ -540,10 +461,6 @@ class Collection implements
 
     /**
      * Offset to unset
-     *
-     * @link https://php.net/manual/en/arrayaccess.offsetunset.php
-     *
-     * @param mixed $element
      */
     public function offsetUnset(mixed element) -> void
     {
@@ -577,8 +494,6 @@ class Collection implements
 
     /**
      * Delete the element from the collection
-     *
-     * @param string $element Name of the element
      */
     public function remove(string element) -> void
     {
@@ -607,8 +522,6 @@ class Collection implements
 
     /**
      * BC - delegate to __serialize()
-     *
-     * @return string|null
      */
     public function serialize() -> string | null
     {
@@ -617,9 +530,6 @@ class Collection implements
 
     /**
      * Set an element in the collection
-     *
-     * @param string $element Name of the element
-     * @param mixed  $value   Value to store for the element
      */
     public function set(string element, mixed value) -> void
     {
@@ -638,8 +548,6 @@ class Collection implements
      * @param int           $order    `SORT_ASC` (4, default) or `SORT_DESC` (3)
      *
      * @return static
-     *
-     * @throws InvalidArgumentException When a non-callable callback is given.
      */
     public function sort(var callback = null, int order = 4) -> <static>
     {
@@ -701,10 +609,6 @@ class Collection implements
 
     /**
      * BC - delegate to __unserialize()
-     *
-     * @param string $data
-     *
-     * @return void
      */
     public function unserialize(string data) -> void
     {
@@ -726,17 +630,11 @@ class Collection implements
      * `propertyOrMethod` strictly equals `$value`.
      *
      * @phpstan-return static<T>
-     *
-     * @param string $propertyOrMethod
-     * @param mixed  $value
-     *
-     * @return static
      */
     public function where(string propertyOrMethod, mixed value) -> <static>
     {
-        var key, result, item;
-
-        let result = [];
+        var key, item;
+        array result = [];
 
         for key, item in this->data {
             if (this->extractValue(item, propertyOrMethod) === value) {
@@ -752,8 +650,6 @@ class Collection implements
      * configuration (insensitivity, strict-null, type) of the current one.
      *
      * @param array<int|string, mixed> $data
-     *
-     * @return static
      */
     protected function cloneEmpty(array data = []) -> <static>
     {
@@ -768,11 +664,6 @@ class Collection implements
      * Extracts a single value from an item. For arrays returns the keyed
      * entry; for objects, prefers a callable method, then a readable
      * property. Returns null when nothing matches.
-     *
-     * @param mixed  $item
-     * @param string $propertyOrMethod
-     *
-     * @return mixed
      */
     protected function extractValue(var item, string propertyOrMethod) -> mixed
     {

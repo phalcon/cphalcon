@@ -26,6 +26,7 @@ use Phalcon\Contracts\Auth\Guard\Guard;
 use Phalcon\Contracts\Container\Service\Collection;
 use Phalcon\Di\DiInterface;
 use Phalcon\Encryption\Security;
+use Phalcon\Traits\Factory\ConfigTrait;
 
 /**
  * Single entry-point factory that builds a fully wired Phalcon\Auth\Manager
@@ -81,6 +82,8 @@ use Phalcon\Encryption\Security;
  */
 class ManagerFactory
 {
+    use ConfigTrait;
+
     protected <AccessLocator> accessLocator;
     protected <AdapterLocator> adapterLocator;
     protected <Collection> | <DiInterface> container;
@@ -106,14 +109,12 @@ class ManagerFactory
      *
      * @throws Exception
      */
-    public function load(array | <ConfigInterface> config) -> <Manager>
+    public function load(var config) -> <Manager>
     {
         var accessList, adapter, gconf, guard, guards, manager, name;
 
-        if (typeof config === "object" && config instanceof ConfigInterface) {
-            /** @var AuthConfig $config */
-            let config = config->toArray();
-        }
+        /** @var AuthConfig $config */
+        let config = this->checkConfig(config);
 
         let manager = new Manager(this->accessLocator);
 
@@ -194,5 +195,13 @@ class ManagerFactory
             this->container,
             options
         );
+    }
+
+    /**
+     * @return string
+     */
+    protected function getExceptionClass() -> string
+    {
+        return Exception::class;
     }
 }

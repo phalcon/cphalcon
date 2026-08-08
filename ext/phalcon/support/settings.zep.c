@@ -59,7 +59,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Settings)
 	 *
 	 * @var array
 	 */
-	zend_declare_property_null(phalcon_support_settings_ce, SL("overrides"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC);
+	{
+		zval _zc0;
+		array_init_size(&_zc0, 1);
+		zephir_declare_typed_property(phalcon_support_settings_ce, SL("overrides"), &_zc0, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC, MAY_BE_ARRAY, NULL, 0);
+	}
+
 	return SUCCESS;
 }
 

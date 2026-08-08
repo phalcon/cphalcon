@@ -37,11 +37,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Arr_Chunk)
 }
 
 /**
- * @param array $collection
- * @param int   $size
- * @param bool  $preserveKeys
+ * @param array<array-key, mixed> $collection
  *
- * @return array<int|string,mixed>
+ * @return array<array-key, mixed>
  */
 PHP_METHOD(Phalcon_Support_Helper_Arr_Chunk, __invoke)
 {

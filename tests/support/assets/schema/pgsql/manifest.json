@@ -1,0 +1,177 @@
+{
+    "dialect": "pgsql",
+    "tables": [
+        {
+            "table": "album",
+            "file": "album.sql",
+            "dependencies": []
+        },
+        {
+            "table": "album_photo",
+            "file": "album_photo.sql",
+            "dependencies": []
+        },
+        {
+            "table": "albums",
+            "file": "albums.sql",
+            "dependencies": []
+        },
+        {
+            "table": "artists",
+            "file": "artists.sql",
+            "dependencies": []
+        },
+        {
+            "table": "complex_default",
+            "file": "complex_default.sql",
+            "dependencies": []
+        },
+        {
+            "table": "co_customers_defaults",
+            "file": "co_customers_defaults.sql",
+            "dependencies": []
+        },
+        {
+            "table": "co_customers",
+            "file": "co_customers.sql",
+            "dependencies": []
+        },
+        {
+            "table": "co_dialect",
+            "file": "co_dialect.sql",
+            "dependencies": []
+        },
+        {
+            "table": "foreign_key_child",
+            "file": "foreign_key_child.sql",
+            "dependencies": []
+        },
+        {
+            "table": "foreign_key_parent",
+            "file": "foreign_key_parent.sql",
+            "dependencies": [
+                "foreign_key_child"
+            ]
+        },
+        {
+            "table": "fractal_dates",
+            "file": "fractal_dates.sql",
+            "dependencies": []
+        },
+        {
+            "table": "co_invoices_fk",
+            "file": "co_invoices_fk.sql",
+            "dependencies": []
+        },
+        {
+            "table": "co_invoices",
+            "file": "co_invoices.sql",
+            "dependencies": []
+        },
+        {
+            "table": "co_manufacturers",
+            "file": "co_manufacturers.sql",
+            "dependencies": []
+        },
+        {
+            "table": "no_primary_key",
+            "file": "no_primary_key.sql",
+            "dependencies": []
+        },
+        {
+            "table": "objects",
+            "file": "objects.sql",
+            "dependencies": []
+        },
+        {
+            "table": "co_only_identity",
+            "file": "co_only_identity.sql",
+            "dependencies": []
+        },
+        {
+            "table": "co_orders",
+            "file": "co_orders.sql",
+            "dependencies": []
+        },
+        {
+            "table": "co_orders_x_products_mult_comp",
+            "file": "co_orders_x_products_mult_comp.sql",
+            "dependencies": []
+        },
+        {
+            "table": "co_orders_x_products_mult",
+            "file": "co_orders_x_products_mult.sql",
+            "dependencies": []
+        },
+        {
+            "table": "co_orders_x_products_one_comp",
+            "file": "co_orders_x_products_one_comp.sql",
+            "dependencies": []
+        },
+        {
+            "table": "co_orders_x_products_one",
+            "file": "co_orders_x_products_one.sql",
+            "dependencies": []
+        },
+        {
+            "table": "personas",
+            "file": "personas.sql",
+            "dependencies": []
+        },
+        {
+            "table": "photo",
+            "file": "photo.sql",
+            "dependencies": []
+        },
+        {
+            "table": "private.co_orders_x_products",
+            "file": "private.co_orders_x_products.sql",
+            "dependencies": []
+        },
+        {
+            "table": "co_products",
+            "file": "co_products.sql",
+            "dependencies": []
+        },
+        {
+            "table": "co_rb_test_model",
+            "file": "co_rb_test_model.sql",
+            "dependencies": []
+        },
+        {
+            "table": "ph_select",
+            "file": "ph_select.sql",
+            "dependencies": []
+        },
+        {
+            "table": "co_setters",
+            "file": "co_setters.sql",
+            "dependencies": []
+        },
+        {
+            "table": "songs",
+            "file": "songs.sql",
+            "dependencies": []
+        },
+        {
+            "table": "co_sources",
+            "file": "co_sources.sql",
+            "dependencies": []
+        },
+        {
+            "table": "table_with_string_field",
+            "file": "table_with_string_field.sql",
+            "dependencies": []
+        },
+        {
+            "table": "table_with_uuid_primary",
+            "file": "table_with_uuid_primary.sql",
+            "dependencies": []
+        },
+        {
+            "table": "stuff",
+            "file": "stuff.sql",
+            "dependencies": []
+        }
+    ]
+}

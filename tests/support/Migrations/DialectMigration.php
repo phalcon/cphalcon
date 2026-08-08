@@ -13,14 +13,16 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Support\Migrations;
 
+use Phalcon\Talon\Database\Schema\AbstractSchema;
+
 use function pack;
 
 /**
  * Class DialectMigration
  */
-class DialectMigration extends AbstractMigration
+class DialectMigration extends AbstractSchema
 {
-    protected $table = 'co_dialect';
+    protected string $table = 'co_dialect';
 
     public function insert(
         int $primary,
@@ -137,12 +139,9 @@ SQL;
         return $this->execute($sql, $params);
     }
 
-    protected function getSqlMysql(): array
+    protected function getStatementsMysql(): array
     {
         return [
-            "
-drop table if exists `co_dialect`;
-            ",
             "
 create table co_dialect
 (
@@ -194,12 +193,9 @@ create table co_dialect
         ];
     }
 
-    protected function getSqlSqlite(): array
+    protected function getStatementsSqlite(): array
     {
         return [
-            "
-drop table if exists co_dialect;
-            ",
             "
 create table co_dialect
 (
@@ -248,12 +244,9 @@ create table co_dialect
         ];
     }
 
-    protected function getSqlPgsql(): array
+    protected function getStatementsPgsql(): array
     {
         return [
-            "
-DROP TABLE IF EXISTS co_dialect;
-            ",
             "
 CREATE TABLE co_dialect (
     field_primary            INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -426,10 +419,5 @@ COMMENT ON COLUMN co_dialect.field_varchar IS 'field_varchar field';
 COMMENT ON COLUMN co_dialect.field_varchar_default IS 'field_varchar_default field';
             ",
         ];
-    }
-
-    protected function getSqlSqlsrv(): array
-    {
-        return [];
     }
 }

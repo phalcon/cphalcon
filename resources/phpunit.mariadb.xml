@@ -24,7 +24,7 @@
     </groups>
     <php>
         <env name="driver" value="mariadb"/>
-        <env name="dump_file" value="tests/support/assets/schema/mysql.sql"/>
+        <env name="dump_file" value="tests/support/assets/schema/mysql"/>
         <env name="initial_queries" value="SET NAMES utf8;"/>
     </php>
 </phpunit>

@@ -24,7 +24,6 @@ PHP_METHOD(Phalcon_Support_Debug, setShowFileFragment);
 PHP_METHOD(Phalcon_Support_Debug, setShowFiles);
 PHP_METHOD(Phalcon_Support_Debug, setUri);
 PHP_METHOD(Phalcon_Support_Debug, getArrVal);
-zend_object *zephir_init_properties_Phalcon_Support_Debug(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_support_debug___construct, 0, 0, 0)
 ZEND_END_ARG_INFO()
@@ -33,7 +32,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_support_debug_clearvars,
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_support_debug_debugvar, 0, 1, MAY_BE_STATIC)
-	ZEND_ARG_INFO(0, varz)
+	ZEND_ARG_INFO(0, variable)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_debug_getcsssources, 0, 0, IS_STRING, 0)
@@ -68,10 +67,10 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_debug_onuncaughtlowseverity, 0, 4, IS_VOID, 0)
 
-	ZEND_ARG_INFO(0, severity)
-	ZEND_ARG_INFO(0, message)
-	ZEND_ARG_INFO(0, file)
-	ZEND_ARG_INFO(0, line)
+	ZEND_ARG_TYPE_INFO(0, severity, IS_LONG, 0)
+	ZEND_ARG_TYPE_INFO(0, message, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, file, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, line, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_debug_renderhtml, 0, 1, IS_STRING, 0)
@@ -107,9 +106,6 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_support_debug_getarrval, 0, 0, 2)
 	ZEND_ARG_INFO(0, index)
 	ZEND_ARG_INFO(0, defaultValue)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, cast, IS_STRING, 1, "null")
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_support_debug_zephir_init_properties_phalcon_support_debug, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_support_debug_method_entry) {

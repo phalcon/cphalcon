@@ -16,11 +16,9 @@ namespace Phalcon\Support\Helper\Arr;
 class Chunk
 {
     /**
-     * @param array $collection
-     * @param int   $size
-     * @param bool  $preserveKeys
+     * @param array<array-key, mixed> $collection
      *
-     * @return array<int|string,mixed>
+     * @return array<array-key, mixed>
      */
     public function __invoke(
         array collection,

@@ -95,7 +95,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Concat, __invoke)
 	if (UNEXPECTED(zephir_fast_count_int(&many) < 2)) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		object_init_ex(&_0$$3, phalcon_support_helper_str_exceptions_insufficientarguments_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 0);
+		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 8);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_0$$3, "phalcon/Support/Helper/Str/Concat.zep", 36);
 		ZEPHIR_MM_RESTORE();

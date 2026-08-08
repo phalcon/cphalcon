@@ -37,10 +37,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Arr_SliceLeft)
 }
 
 /**
- * @param array $collection
- * @param int   $elements
+ * @param array<array-key, mixed> $collection
+ * @param int                     $elements
  *
- * @return array
+ * @return array<array-key, mixed>
  */
 PHP_METHOD(Phalcon_Support_Helper_Arr_SliceLeft, __invoke)
 {
