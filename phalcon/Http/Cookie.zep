@@ -43,7 +43,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface, Stringab
     protected string path = "/";
     protected bool isRead = false;
     protected bool isRestored = false;
-    protected bool secure = true;
+    protected bool secure = false;
     /**
      * The cookie's sign key.
      */
