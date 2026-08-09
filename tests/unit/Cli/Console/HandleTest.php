@@ -574,11 +574,8 @@ final class HandleTest extends AbstractUnitTestCase
     public function testCliConsoleHandleNoAction(): void
     {
         $rootPath = Talon::settings()->rootPath();
-        $module   = '';
-        if (!getenv('GITHUB_RUN_ID')) {
-            $module = '-d extension=' . $rootPath . '/ext/modules/phalcon.so ';
-        }
-        $script = $rootPath . '/tests/testbed/cli.php ';
+        $module   = '-d extension=' . $rootPath . '/ext/modules/phalcon.so ';
+        $script   = $rootPath . '/tests/testbed/cli.php ';
 
         ob_start();
         $actual = shell_exec('php ' . $module . $script . 'print');

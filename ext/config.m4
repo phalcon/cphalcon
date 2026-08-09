@@ -955,6 +955,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/http/response/exceptions/urlserviceunavailable.zep.c
 	phalcon/http/response/headers.zep.c
 	phalcon/http/traits/encryptionawaretrait.zep.c
+	phalcon/http/traits/statusphrasestrait.zep.c
 	phalcon/image/adapter/gd.zep.c
 	phalcon/image/adapter/imagick.zep.c
 	phalcon/image/enum.zep.c

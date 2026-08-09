@@ -38,38 +38,62 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_ResponseInterface)
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, appendContent);
 /**
  * Gets the HTTP response body
+ *
+ * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, getContent);
 /**
  * Returns headers set by the user
+ *
+ * @return HeadersInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, getHeaders);
 /**
  * Returns the status code
+ *
+ * @return int|null
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, getStatusCode);
 /**
  * Checks if a header exists
+ *
+ * @param string $name
+ *
+ * @return bool
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, hasHeader);
 /**
  * Checks if the response was already sent
+ *
+ * @return bool
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, isSent);
 /**
  * Redirect by HTTP to another action or URL
+ *
+ * @param string|null $location
+ * @param bool        $externalRedirect
+ * @param int         $statusCode
+ *
+ * @return ResponseInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, redirect);
 /**
  * Resets all the established headers
+ *
+ * @return ResponseInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, resetHeaders);
 /**
  * Prints out HTTP response to the client
+ *
+ * @return ResponseInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, send);
 /**
  * Sends cookies to the client
+ *
+ * @return ResponseInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, sendCookies);
 /**
@@ -86,6 +110,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, setContent);
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, setContentLength);
 /**
  * Sets the response content-type mime, optionally the charset
+ *
+ * @todo check the null
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, setContentType);
 /**
@@ -94,6 +120,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, setContentType);
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, setExpires);
 /**
  * Sets an attached file to be sent at the end of the request
+ *
+ * @todo check the null
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, setFileToSend);
 /**
@@ -110,6 +138,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, setHeader);
  *     ]
  * );
  *```
+ *
+ * @todo check the parameter type
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, setJsonContent);
 /**
@@ -122,5 +152,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, setNotModified);
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, setRawHeader);
 /**
  * Sets the HTTP response code
+ *
+ * @todo change $message to only string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, setStatusCode);

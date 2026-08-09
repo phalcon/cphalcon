@@ -950,6 +950,7 @@
 #include "phalcon/http/response/exceptions/urlserviceunavailable.zep.h"
 #include "phalcon/http/response/headers.zep.h"
 #include "phalcon/http/traits/encryptionawaretrait.zep.h"
+#include "phalcon/http/traits/statusphrasestrait.zep.h"
 #include "phalcon/image/adapter/gd.zep.h"
 #include "phalcon/image/adapter/imagick.zep.h"
 #include "phalcon/image/enum.zep.h"

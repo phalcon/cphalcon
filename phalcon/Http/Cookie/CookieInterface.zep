@@ -18,7 +18,7 @@ interface CookieInterface
     /**
      * Deletes the cookie
      */
-    public function delete();
+    public function delete() -> void;
 
     /**
      * Returns the domain that the cookie is available to
@@ -58,6 +58,8 @@ interface CookieInterface
 
     /**
      * Returns the cookie's value.
+     *
+     * @todo check if $filters can be more type specific
      */
     public function getValue(var filters = null, var defaultValue = null) -> var;
 
@@ -105,7 +107,7 @@ interface CookieInterface
     /**
      * Sets the cookie's value
      *
-     * @param string value
+     * @todo check if we can make this a string
      */
     public function setValue(var value) -> <CookieInterface>;
 

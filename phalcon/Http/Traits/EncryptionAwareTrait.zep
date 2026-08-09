@@ -16,10 +16,7 @@ namespace Phalcon\Http\Traits;
  */
 trait EncryptionAwareTrait
 {
-    /**
-     * @var bool
-     */
-    protected useEncryption = false;
+    protected bool useEncryption = false;
 
     /**
      * Check if implicit encryption is being used

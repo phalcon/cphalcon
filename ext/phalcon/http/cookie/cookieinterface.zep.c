@@ -65,6 +65,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_Cookie_CookieInterface, getPath);
 ZEPHIR_DOC_METHOD(Phalcon_Http_Cookie_CookieInterface, getSecure);
 /**
  * Returns the cookie's value.
+ *
+ * @todo check if $filters can be more type specific
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_Cookie_CookieInterface, getValue);
 /**
@@ -103,7 +105,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_Cookie_CookieInterface, setSecure);
 /**
  * Sets the cookie's value
  *
- * @param string value
+ * @todo check if we can make this a string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_Cookie_CookieInterface, setValue);
 /**

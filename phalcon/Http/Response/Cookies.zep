@@ -39,8 +39,10 @@ use Phalcon\Http\Traits\EncryptionAwareTrait;
  *     function () {
  *         $crypt = new Crypt();
  *
- *         // The `$key' should have been previously generated in a cryptographically safe way.
- *         $key = "T4\xb1\x8d\xa9\x98\x05\\\x8c\xbe\x1d\x07&[\x99\x18\xa4~Lc1\xbeW\xb3";
+ *         // The `$key' should have been previously generated in a
+ *         // cryptographically safe way.
+ *         $key =
+ *         "T4\xb1\x8d\xa9\x98\x05\\\x8c\xbe\x1d\x07&[\x99\x18\xa4~Lc1\xbeW\xb3";
  *
  *         $crypt->setKey($key);
  *
@@ -53,9 +55,10 @@ use Phalcon\Http\Traits\EncryptionAwareTrait;
  *     function () {
  *         $cookies = new Cookies();
  *
- *         // The `$key' MUST be at least 32 characters long and generated using a
- *         // cryptographically secure pseudo random generator.
- *         $key = "#1dj8$=dp?.ak//j1V$~%*0XaK\xb1\x8d\xa9\x98\x054t7w!z%C*F-Jk\x98\x05\\\x5c";
+ *         // The `$key' MUST be at least 32 characters long and generated
+ *         // using a cryptographically secure pseudo random generator.
+ *         $key =
+ *         "#1dj8$=dp?.ak//j1V$~%*0XaK\xb1\x8d\xa9\x98\x054t7w!z%C*F-Jk\x98\x05\\\x5c";
  *
  *         $cookies->setSignKey($key);
  *
@@ -68,29 +71,16 @@ class Cookies extends AbstractInjectionAware implements CookiesInterface
 {
     use EncryptionAwareTrait;
 
-    /**
-     * @var array
-     */
-    protected cookies = [];
-
-    /**
-     * @var bool
-     */
-    protected isSent = false;
-
-    /**
-     * @var bool
-     */
-    protected isRegistered = false;
-
+    protected array cookies = [];
+    protected bool isRegistered = false;
+    protected bool isSent = false;
     /**
      * The cookie's sign key.
-     * @var string|null
      */
-    protected signKey = null;
+    protected ?string signKey = null;
 
     /**
-     * Phalcon\Http\Response\Cookies constructor
+     * Constructor
      */
     public function __construct(bool useEncryption = true, string signKey = null)
     {
@@ -101,7 +91,7 @@ class Cookies extends AbstractInjectionAware implements CookiesInterface
 
     /**
      * Deletes a cookie by its name
-     * This method does not removes cookies from the _COOKIE superglobal
+     * This method does not remove cookies from the _COOKIE super-global
      */
     public function delete( string name) -> bool
     {
@@ -148,11 +138,11 @@ class Cookies extends AbstractInjectionAware implements CookiesInterface
         }
 
         /**
-         * Create the cookie if the it does not exist.
-         * It's value come from $_COOKIE with request, so it shouldn't be saved
+         * Create the cookie if it does not exist.
+         * Its value comes from $_COOKIE with request, so it shouldn't be saved
          * to _cookies property, otherwise it will always be resent after get.
          */
-        let container = this->checkContainer();
+        let container = this->checkGetContainer();
         let cookie    = <CookieInterface> container->get(Cookie::class, [name]);
 
         /**
@@ -183,7 +173,7 @@ class Cookies extends AbstractInjectionAware implements CookiesInterface
 
     /**
      * Check if a cookie is defined in the bag or exists in the _COOKIE
-     * superglobal
+     * super-global
      */
     public function has( string name) -> bool
     {
@@ -282,7 +272,6 @@ class Cookies extends AbstractInjectionAware implements CookiesInterface
              */
             if encryption {
                 cookie->useEncryption(encryption);
-
                 cookie->setSignKey(this->signKey);
             }
 
@@ -305,7 +294,7 @@ class Cookies extends AbstractInjectionAware implements CookiesInterface
          * Register the cookies bag in the response
          */
         if this->isRegistered === false {
-            let container = this->checkContainer();
+            let container = this->checkGetContainer();
             let response  = container->getShared("response");
 
             /**
@@ -328,7 +317,7 @@ class Cookies extends AbstractInjectionAware implements CookiesInterface
      *
      * Use NULL to disable cookie signing.
      *
-     * @see \Phalcon\Security\Random
+     * @see \Phalcon\Encryption\Security\Random
      */
     public function setSignKey(string signKey = null) -> <CookiesInterface>
     {
@@ -347,7 +336,7 @@ class Cookies extends AbstractInjectionAware implements CookiesInterface
         return this;
     }
 
-    private function checkContainer() -> <DiInterface>
+    private function checkGetContainer() -> <DiInterface>
     {
         var container;
 

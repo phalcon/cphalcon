@@ -41,10 +41,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_RequestInterface)
  * // Returns value from $_REQUEST["user_email"] with sanitizing
  * $userEmail = $request->get("user_email", "email");
  *```
+ *
+ * @todo check the filters here
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, get);
 /**
- * Gets an array with mime/types and their quality accepted by the
+ * Return an array with mime/types and their quality accepted by the
  * browser/client from _SERVER["HTTP_ACCEPT"]
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getAcceptableContent);
@@ -54,42 +56,42 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getAcceptableContent);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getBasicAuth);
 /**
- * Gets best mime/type accepted by the browser/client from
+ * Return the best mime/type accepted by the browser/client from
  * _SERVER["HTTP_ACCEPT"]
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getBestAccept);
 /**
- * Gets best charset accepted by the browser/client from
+ * Return the best charset accepted by the browser/client from
  * _SERVER["HTTP_ACCEPT_CHARSET"]
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getBestCharset);
 /**
- * Gets best language accepted by the browser/client from
+ * Return the best language accepted by the browser/client from
  * _SERVER["HTTP_ACCEPT_LANGUAGE"]
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getBestLanguage);
 /**
- * Gets most possible client IPv4 Address. This method searches in
+ * Return the most possible client IPv4 Address. This method searches in
  * $_SERVER["REMOTE_ADDR"] and optionally in
  * $_SERVER["HTTP_X_FORWARDED_FOR"]
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getClientAddress);
 /**
- * Gets a charsets array and their quality accepted by the browser/client
+ * Return a charset array and their quality accepted by the browser/client
  * from _SERVER["HTTP_ACCEPT_CHARSET"]
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getClientCharsets);
 /**
- * Gets content type which request has been made
+ * Return the content type which request has been made
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getContentType);
 /**
- * Gets auth info accepted by the browser/client from
+ * Return the auth info accepted by the browser/client from
  * $_SERVER["PHP_AUTH_DIGEST"]
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getDigestAuth);
 /**
- * Gets HTTP header from request data
+ * Return the HTTP header from request data
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getHeader);
 /**
@@ -108,7 +110,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getHeader);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getHeaders);
 /**
- * Gets host name used by the request.
+ * Return the host name used by the request.
  *
  * `Request::getHttpHost` trying to find host name in following order:
  *
@@ -117,7 +119,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getHeaders);
  * - `$_SERVER["SERVER_ADDR"]`
  *
  * Optionally `Request::getHttpHost` validates and clean host name.
- * The `Request::$_strictHostCheck` can be used to validate host name.
+ * The `Request::$strictHostCheck` can be used to validate host name.
  *
  * Note: validation and cleaning have a negative performance impact because
  * they use regular expressions.
@@ -143,20 +145,21 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getHeaders);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getHttpHost);
 /**
- * Gets web page that refers active request. ie: http://www.google.com
+ * Return the web page that refers active request. ie: https://phalcon.io
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getHTTPReferer);
 /**
- * Gets decoded JSON HTTP raw request body
+ * Return the decoded JSON HTTP raw request body
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getJsonRawBody);
 /**
- * Gets languages array and their quality accepted by the browser/client
- * from _SERVER["HTTP_ACCEPT_LANGUAGE"]
+ * Return the languages array and their quality accepted by the
+ * browser/client from _SERVER["HTTP_ACCEPT_LANGUAGE"]
+ *
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getLanguages);
 /**
- * Gets HTTP method which request has been made
+ * Return the HTTP method which request has been made
  *
  * If the X-HTTP-Method-Override header is set, and if the method is a POST,
  * then it is used to determine the "real" intended HTTP method.
@@ -168,11 +171,11 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getLanguages);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getMethod);
 /**
- * Gets information about the port on which the request is made
+ * Return the information about the port on which the request is made
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getPort);
 /**
- * Gets a variable from the $_POST superglobal applying filters if needed
+ * Return a variable from the $_POST superglobal applying filters if needed.
  * If no parameters are given the $_POST superglobal is returned
  *
  *```php
@@ -182,10 +185,12 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getPort);
  * // Returns value from $_POST["user_email"] with sanitizing
  * $userEmail = $request->getPost("user_email", "email");
  *```
+ *
+ * @todo check the filters
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getPost);
 /**
- * Gets a variable from the PUT request
+ * Return a variable from put request
  *
  *```php
  * // Returns value from PUT stream without sanitizing
@@ -194,10 +199,12 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getPost);
  * // Returns value from PUT stream with sanitizing
  * $userEmail = $request->getPut("user_email", "email");
  *```
+ *
+ * @todo check the filters
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getPut);
 /**
- * Gets variable from $_GET superglobal applying filters if needed
+ * Return a variable from $_GET superglobal applying filters if needed.
  * If no parameters are given the $_GET superglobal is returned
  *
  *```php
@@ -210,37 +217,39 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getPut);
  * // Returns value from $_GET["id"] with a default value
  * $id = $request->getQuery("id", null, 150);
  *```
+ *
+ * @todo check the filters
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getQuery);
 /**
- * Gets HTTP raw request body
+ * Return the HTTP raw request body
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getRawBody);
 /**
- * Gets HTTP schema (http/https)
+ * Return the HTTP schema (http/https)
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getScheme);
 /**
- * Gets variable from $_SERVER superglobal
+ * Return a variable from $_SERVER superglobal
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getServer);
 /**
- * Gets active server address IP
+ * Return the active server address IP
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getServerAddress);
 /**
- * Gets active server name
+ * Return the active server name
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getServerName);
 /**
- * Gets attached files as Phalcon\Http\Request\FileInterface compatible
- * instances
+ * Return the attached files as Phalcon\Http\Request\FileInterface
+ * compatible instances
  *
  * @return FileInterface[]
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getUploadedFiles);
 /**
- * Gets HTTP URI which request has been made to
+ * Return the HTTP URI which request has been made to
  *
  *```php
  * // Returns /some/path?with=queryParams
@@ -249,95 +258,101 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getUploadedFiles);
  * // Returns /some/path
  * $uri = $request->getURI(true);
  *```
- *
- * @param bool onlyPath If true, query part will be omitted
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getURI);
 /**
- * Gets HTTP user agent used to made the request
+ * Return the HTTP user agent used to make the request
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getUserAgent);
 /**
- * Checks whether $_REQUEST superglobal has certain index
+ * Return whether the $_REQUEST superglobal has certain index
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, has);
 /**
- * Checks whether request include attached files
+ * Return whether the request includes attached files
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, hasFiles);
 /**
- * Checks whether headers has certain index
+ * Return whether the headers have a certain index
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, hasHeader);
 /**
- * Checks whether $_POST superglobal has certain index
+ * Return whether the $_POST superglobal has certain index
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, hasPost);
 /**
- * Checks whether the PUT data has certain index
+ * Return whether the PUT data has certain index
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, hasPut);
 /**
- * Checks whether $_GET superglobal has certain index
+ * Return whether the $_GET superglobal has certain index
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, hasQuery);
 /**
- * Checks whether $_SERVER superglobal has certain index
+ * Return whether the $_SERVER superglobal has certain index
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, hasServer);
 /**
- * Checks whether request has been made using ajax. Checks if $_SERVER["HTTP_X_REQUESTED_WITH"] === "XMLHttpRequest"
+ * Return whether the request has been made using ajax. Checks if
+ * $_SERVER["HTTP_X_REQUESTED_WITH"] === "XMLHttpRequest"
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, isAjax);
 /**
- * Checks whether HTTP method is CONNECT. if $_SERVER["REQUEST_METHOD"] === "CONNECT"
+ * Return whether the HTTP method is CONNECT. if
+ * $_SERVER["REQUEST_METHOD"] === "CONNECT"
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, isConnect);
 /**
- * Checks whether HTTP method is DELETE. if $_SERVER["REQUEST_METHOD"] === "DELETE"
+ * Return whether the HTTP method is DELETE. if
+ * $_SERVER["REQUEST_METHOD"] === "DELETE"
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, isDelete);
 /**
- * Checks whether HTTP method is GET. if $_SERVER["REQUEST_METHOD"] === "GET"
+ * Return whether the HTTP method is GET. if
+ * $_SERVER["REQUEST_METHOD"] === "GET"
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, isGet);
 /**
- * Checks whether HTTP method is HEAD. if $_SERVER["REQUEST_METHOD"] === "HEAD"
+ * Return whether the HTTP method is HEAD. if
+ * $_SERVER["REQUEST_METHOD"] === "HEAD"
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, isHead);
 /**
- * Check if HTTP method match any of the passed methods
+ * Return if the current HTTP method matches any of the passed methods
  *
- * @param string|array methods
+ * @param array|string $methods
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, isMethod);
 /**
- * Checks whether HTTP method is OPTIONS. if $_SERVER["REQUEST_METHOD"] === "OPTIONS"
+ * Return whether the HTTP method is OPTIONS. if
+ * $_SERVER["REQUEST_METHOD"] === "OPTIONS"
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, isOptions);
 /**
- * Checks whether HTTP method is POST. if $_SERVER["REQUEST_METHOD"] === "POST"
+ * Return whether the HTTP method is POST. if
+ * $_SERVER["REQUEST_METHOD"] === "POST"
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, isPost);
 /**
- * Checks whether HTTP method is PURGE (Squid and Varnish support). if $_SERVER["REQUEST_METHOD"] === "PURGE"
+ * Return whether the HTTP method is PURGE (Squid and Varnish support). if
+ * $_SERVER["REQUEST_METHOD"] === "PURGE"
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, isPurge);
 /**
- * Checks whether HTTP method is PUT. if $_SERVER["REQUEST_METHOD"] === "PUT"
+ * Return whether the HTTP method is PUT. if
+ * $_SERVER["REQUEST_METHOD"] === "PUT"
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, isPut);
 /**
- * Checks whether request has been made using any secure layer
+ * Return whether the request has been made using any secure layer
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, isSecure);
 /**
- * Checks whether request has been made using SOAP
+ * Return whether the request has been made using SOAP
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, isSoap);
 /**
- * Checks whether HTTP method is TRACE.
+ * Return whether the HTTP method is TRACE.
  * if $_SERVER["REQUEST_METHOD"] === "TRACE"
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, isTrace);
