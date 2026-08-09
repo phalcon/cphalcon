@@ -10,9 +10,9 @@
 
 namespace Phalcon\Tag;
 
-use Phalcon\Tag as BaseTag;
 use Phalcon\Html\Escaper\EscaperInterface;
 use Phalcon\Mvc\Model\ResultsetInterface;
+use Phalcon\Tag as BaseTag;
 
 /**
  * Phalcon\Tag\Select
@@ -25,7 +25,7 @@ abstract class Select
     /**
      * Generates a SELECT tag
      *
-     * @param array parameters = [
+     * @param array<string, mixed>|string $parameters = [
      *     'id' => '',
      *     'name' => '',
      *     'value' => '',
@@ -35,8 +35,10 @@ abstract class Select
      * ]
      * @param array data
      */
-    public static function selectField(parameters, data = null) -> string
-    {
+    public static function selectField(
+        var parameters,
+        var data = null
+    ) -> string {
         var params, name, id, value, useEmpty, code, emptyValue, emptyText,
             options, using;
 
@@ -116,7 +118,9 @@ abstract class Select
             /**
              * Create an empty value
              */
-            let code .= "\t<option value=\"" . emptyValue . "\">" . emptyText . "</option>" . PHP_EOL;
+            let code .= self::echoOption(emptyValue)
+                . emptyText
+                . "</option>" . PHP_EOL;
         }
 
         if typeof options == "object" {
@@ -147,11 +151,23 @@ abstract class Select
         return code;
     }
 
+    protected static function echoOption(string value, bool$selected = false) -> string
+    {
+    	string extra;
+	
+        let extra = selected ? "selected=\"selected\" " : "";
+
+        return "\t<option " . extra . "value=\"" . value . "\">";
+    }
+
     /**
      * Generate the OPTION tags based on an array
      */
-    private static function optionsFromArray(array data, var value, string closeOption) -> string
-    {
+    private static function optionsFromArray(
+        array data,
+        var value,
+        string closeOption
+    ) -> string {
         var strValue, strOptionValue, code, optionValue, optionText, escaped,
             escapedText, escaper;
 
@@ -175,10 +191,10 @@ abstract class Select
 
             if typeof value == "array" {
                 if in_array(optionValue, value) {
-                    let code .= "\t<option selected=\"selected\" value=\"" . escaped . "\">"
+                    let code .= self::echoOption(escaped, true)
                         . escapedText . closeOption;
                 } else {
-                    let code .= "\t<option value=\"" . escaped . "\">"
+                    let code .= self::echoOption(escaped)
                         . escapedText . closeOption;
                 }
             } else {
@@ -186,10 +202,10 @@ abstract class Select
                     strValue = (string) value;
 
                 if strOptionValue === strValue {
-                    let code .= "\t<option selected=\"selected\" value=\"" . escaped . "\">"
+                    let code .= self::echoOption(escaped, true)
                         . escapedText . closeOption;
                 } else {
-                    let code .= "\t<option value=\"" . escaped . "\">"
+                    let code .= self::echoOption(escaped)
                         . escapedText . closeOption;
                 }
             }
@@ -200,8 +216,6 @@ abstract class Select
 
     /**
      * Generate the OPTION tags based on a resultset
-     *
-     * @param array using
      */
     private static function optionsFromResultset(
         <ResultsetInterface> resultset,
@@ -257,22 +271,28 @@ abstract class Select
                  */
                 if typeof value == "array" {
                     if in_array(optionValue, value) {
-                        let code .= "\t<option selected=\"selected\" value=\"" . optionValue . "\">" . optionText . closeOption;
+                        let code .= self::echoOption(optionValue, true)
+                            . optionText
+			    . closeOption;
                     } else {
-                        let code .= "\t<option value=\"" . optionValue . "\">" . optionText . closeOption;
+                        let code .= self::echoOption(optionValue)
+			    . optionText
+			    . closeOption;
                     }
                 } else {
                     let strOptionValue = (string) optionValue,
                         strValue = (string) value;
 
                     if strOptionValue === strValue {
-                        let code .= "\t<option selected=\"selected\" value=\"" . strOptionValue . "\">" . optionText . closeOption;
+                        let code .= self::echoOption(strOptionValue, true)
+			    . optionText
+			    . closeOption;
                     } else {
-                        let code .= "\t<option value=\"" . strOptionValue . "\">" . optionText . closeOption;
+                        let code .= self::echoOption(strOptionValue)
+			    . optionText . closeOption;
                     }
                 }
             } else {
-
                 /**
                  * Render through the developer-supplied closure. Restricting
                  * this to Closure (rather than any object) keeps the invoked
