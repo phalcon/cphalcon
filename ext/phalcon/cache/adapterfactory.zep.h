@@ -9,7 +9,7 @@ PHP_METHOD(Phalcon_Cache_AdapterFactory, getExceptionClass);
 PHP_METHOD(Phalcon_Cache_AdapterFactory, getServices);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_adapterfactory___construct, 0, 0, 1)
-	ZEND_ARG_OBJ_INFO(0, factory, Phalcon\\Storage\\SerializerFactory, 0)
+	ZEND_ARG_OBJ_INFO(0, serializerFactory, Phalcon\\Storage\\SerializerFactory, 0)
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, services, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 

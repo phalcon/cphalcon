@@ -45,18 +45,18 @@ ZEPHIR_INIT_CLASS(Phalcon_Cache_AbstractCache)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Cache, AbstractCache, phalcon, cache_abstractcache, phalcon_cache_abstractcache_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
-	/**
-	 * The adapter
-	 *
-	 * @var AdapterInterface
-	 */
-	zend_declare_property_null(phalcon_cache_abstractcache_ce, SL("adapter"), ZEND_ACC_PROTECTED);
-	/**
-	 * Event Manager
-	 *
-	 * @var ManagerInterface|null
-	 */
-	zend_declare_property_null(phalcon_cache_abstractcache_ce, SL("eventsManager"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_cache_abstractcache_ce, SL("adapter"), &_zc0, ZEND_ACC_PROTECTED, 0, SL("Phalcon\\Cache\\Adapter\\AdapterInterface"));
+	}
+
+	{
+		zval _zc0;
+		ZVAL_NULL(&_zc0);
+		zephir_declare_typed_property(phalcon_cache_abstractcache_ce, SL("eventsManager"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_NULL, SL("Phalcon\\Events\\ManagerInterface"));
+	}
+
 	zend_class_implements(phalcon_cache_abstractcache_ce, 1, phalcon_cache_cacheinterface_ce);
 	zend_class_implements(phalcon_cache_abstractcache_ce, 1, phalcon_events_eventsawareinterface_ce);
 	return SUCCESS;
@@ -86,9 +86,14 @@ PHP_METHOD(Phalcon_Cache_AbstractCache, __construct)
 }
 
 /**
+ * Fetches a value from the cache.
+ */
+PHP_METHOD(Phalcon_Cache_AbstractCache, get)
+{
+}
+
+/**
  * Returns the current adapter
- *
- * @return AdapterInterface
  */
 PHP_METHOD(Phalcon_Cache_AbstractCache, getAdapter)
 {
@@ -97,67 +102,15 @@ PHP_METHOD(Phalcon_Cache_AbstractCache, getAdapter)
 }
 
 /**
- * Fetches a value from the cache.
- *
- * @param string $key
- * @param mixed  $defaultValue
- *
- * @return mixed
- */
-PHP_METHOD(Phalcon_Cache_AbstractCache, get)
-{
-}
-
-/**
  * Persists data in the cache, uniquely referenced by a key with an
  * optional expiration TTL time.
- *
- * @param string                $key
- * @param mixed                 $value
- * @param null|int|DateInterval $ttl
- *
- * @return bool
  */
 PHP_METHOD(Phalcon_Cache_AbstractCache, set)
 {
 }
 
 /**
- * Sets the event manager
- */
-PHP_METHOD(Phalcon_Cache_AbstractCache, setEventsManager)
-{
-	zval *eventsManager, eventsManager_sub;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&eventsManager_sub);
-	static zend_string *_zephir_prop_0 = NULL;
-	if (UNEXPECTED(!_zephir_prop_0)) {
-		_zephir_prop_0 = zend_string_init("eventsManager", 13, 1);
-	}
-
-	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(eventsManager, phalcon_events_managerinterface_ce)
-	ZEND_PARSE_PARAMETERS_END();
-	zephir_fetch_params_without_memory_grow(1, 0, &eventsManager);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 264, eventsManager);
-}
-
-/**
- * Get the event manager
- */
-PHP_METHOD(Phalcon_Cache_AbstractCache, getEventsManager)
-{
-
-	RETURN_MEMBER(getThis(), "eventsManager");
-}
-
-/**
  * Checks the key. If it contains invalid characters an exception is thrown
- *
- * @param mixed $key
- *
- * @throws InvalidArgumentException
  */
 PHP_METHOD(Phalcon_Cache_AbstractCache, checkKey)
 {
@@ -215,7 +168,7 @@ PHP_METHOD(Phalcon_Cache_AbstractCache, checkKey)
 			zephir_check_call_status();
 		}
 
-		zephir_throw_exception_debug(&_5$$3, "phalcon/Cache/AbstractCache.zep", 121);
+		zephir_throw_exception_debug(&_5$$3, "phalcon/Cache/AbstractCache.zep", 84);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -224,10 +177,6 @@ PHP_METHOD(Phalcon_Cache_AbstractCache, checkKey)
 
 /**
  * Checks the key. If it contains invalid characters an exception is thrown
- *
- * @param mixed $keys
- *
- * @throws InvalidArgumentException
  */
 PHP_METHOD(Phalcon_Cache_AbstractCache, checkKeys)
 {
@@ -272,7 +221,7 @@ PHP_METHOD(Phalcon_Cache_AbstractCache, checkKeys)
 			zephir_check_call_status();
 		}
 
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Cache/AbstractCache.zep", 141);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Cache/AbstractCache.zep", 100);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -281,8 +230,6 @@ PHP_METHOD(Phalcon_Cache_AbstractCache, checkKeys)
 
 /**
  * Wipes clean the entire cache's keys.
- *
- * @return bool True on success and false on failure.
  */
 PHP_METHOD(Phalcon_Cache_AbstractCache, doClear)
 {
@@ -307,14 +254,6 @@ PHP_METHOD(Phalcon_Cache_AbstractCache, doClear)
 
 /**
  * Delete an item from the cache by its unique key.
- *
- * @param string $key The unique cache key of the item to delete.
- *
- * @return bool True if the item was successfully removed. False if there
- *              was an error.
- *
- * @throws InvalidArgumentException MUST be thrown if the $key string is
- *                                  not a legal value.
  */
 PHP_METHOD(Phalcon_Cache_AbstractCache, doDelete)
 {
@@ -344,14 +283,14 @@ PHP_METHOD(Phalcon_Cache_AbstractCache, doDelete)
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "cache:beforeDelete");
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "fire", NULL, 0, &_0, &key_zv);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "firemanagerevent", NULL, 0, &_0, &key_zv);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 263, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&result, &_1, "delete", NULL, 0, &key_zv);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "cache:afterDelete");
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "fire", NULL, 0, &_0, &key_zv);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "firemanagerevent", NULL, 0, &_0, &key_zv);
 	zephir_check_call_status();
 	RETURN_CCTOR(&result);
 }
@@ -390,11 +329,11 @@ PHP_METHOD(Phalcon_Cache_AbstractCache, doDeleteMultiple)
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "cache:beforeDeleteMultiple");
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "fire", NULL, 0, &_0, keys);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "firemanagerevent", NULL, 0, &_0, keys);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&keysArray);
 	array_init(&keysArray);
-	zephir_is_iterable(keys, 0, "phalcon/Cache/AbstractCache.zep", 198);
+	zephir_is_iterable(keys, 0, "phalcon/Cache/AbstractCache.zep", 147);
 	if (Z_TYPE_P(keys) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(keys), _1)
 		{
@@ -402,7 +341,7 @@ PHP_METHOD(Phalcon_Cache_AbstractCache, doDeleteMultiple)
 			ZVAL_COPY(&key, _1);
 			ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkkey", &_2, 0, &key);
 			zephir_check_call_status();
-			zephir_array_append(&keysArray, &key, PH_SEPARATE, "phalcon/Cache/AbstractCache.zep", 195);
+			zephir_array_append(&keysArray, &key, PH_SEPARATE, "phalcon/Cache/AbstractCache.zep", 144);
 		} ZEND_HASH_FOREACH_END();
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, keys, "rewind", NULL, 0);
@@ -424,7 +363,7 @@ PHP_METHOD(Phalcon_Cache_AbstractCache, doDeleteMultiple)
 			zephir_check_call_status();
 				ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkkey", &_2, 0, &key);
 				zephir_check_call_status();
-				zephir_array_append(&keysArray, &key, PH_SEPARATE, "phalcon/Cache/AbstractCache.zep", 195);
+				zephir_array_append(&keysArray, &key, PH_SEPARATE, "phalcon/Cache/AbstractCache.zep", 144);
 		}
 	}
 	ZEPHIR_INIT_NVAR(&key);
@@ -433,22 +372,13 @@ PHP_METHOD(Phalcon_Cache_AbstractCache, doDeleteMultiple)
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "cache:afterDeleteMultiple");
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "fire", NULL, 0, &_0, keys);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "firemanagerevent", NULL, 0, &_0, keys);
 	zephir_check_call_status();
 	RETURN_CCTOR(&result);
 }
 
 /**
  * Fetches a value from the cache.
- *
- * @param string $key          The unique key of this item in the cache.
- * @param mixed  $defaultValue Default value to return if the key does not exist.
- *
- * @return mixed The value of the item from the cache, or $default in case
- * of cache miss.
- *
- * @throws InvalidArgumentException MUST be thrown if the $key string is
- * not a legal value.
  */
 PHP_METHOD(Phalcon_Cache_AbstractCache, doGet)
 {
@@ -490,14 +420,14 @@ PHP_METHOD(Phalcon_Cache_AbstractCache, doGet)
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "cache:beforeGet");
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "fire", NULL, 0, &_0, &key_zv);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "firemanagerevent", NULL, 0, &_0, &key_zv);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 263, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&result, &_1, "get", NULL, 0, &key_zv, defaultValue);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "cache:afterGet");
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "fire", NULL, 0, &_0, &key_zv);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "firemanagerevent", NULL, 0, &_0, &key_zv);
 	zephir_check_call_status();
 	RETURN_CCTOR(&result);
 }
@@ -554,7 +484,7 @@ PHP_METHOD(Phalcon_Cache_AbstractCache, doGetMultiple)
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "cache:beforeGetMultiple");
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "fire", NULL, 0, &_0, keys);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "firemanagerevent", NULL, 0, &_0, keys);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&results);
 	array_init(&results);
@@ -563,7 +493,7 @@ PHP_METHOD(Phalcon_Cache_AbstractCache, doGetMultiple)
 	if (zephir_instance_of_ev(&adapterClass, phalcon_cache_adapter_redis_ce)) {
 		ZEPHIR_INIT_VAR(&keysArray);
 		array_init(&keysArray);
-		zephir_is_iterable(keys, 0, "phalcon/Cache/AbstractCache.zep", 263);
+		zephir_is_iterable(keys, 0, "phalcon/Cache/AbstractCache.zep", 203);
 		if (Z_TYPE_P(keys) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(keys), _1$$3)
 			{
@@ -571,7 +501,7 @@ PHP_METHOD(Phalcon_Cache_AbstractCache, doGetMultiple)
 				ZVAL_COPY(&element, _1$$3);
 				ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkkey", &_2, 0, &element);
 				zephir_check_call_status();
-				zephir_array_append(&keysArray, &element, PH_SEPARATE, "phalcon/Cache/AbstractCache.zep", 260);
+				zephir_array_append(&keysArray, &element, PH_SEPARATE, "phalcon/Cache/AbstractCache.zep", 200);
 			} ZEND_HASH_FOREACH_END();
 		} else {
 			ZEPHIR_CALL_METHOD(NULL, keys, "rewind", NULL, 0);
@@ -593,7 +523,7 @@ PHP_METHOD(Phalcon_Cache_AbstractCache, doGetMultiple)
 				zephir_check_call_status();
 					ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkkey", &_2, 0, &element);
 					zephir_check_call_status();
-					zephir_array_append(&keysArray, &element, PH_SEPARATE, "phalcon/Cache/AbstractCache.zep", 260);
+					zephir_array_append(&keysArray, &element, PH_SEPARATE, "phalcon/Cache/AbstractCache.zep", 200);
 			}
 		}
 		ZEPHIR_INIT_NVAR(&element);
@@ -617,7 +547,7 @@ PHP_METHOD(Phalcon_Cache_AbstractCache, doGetMultiple)
 		zephir_check_call_status();
 		ZEPHIR_CPY_WRT(&results, &_9$$3);
 	} else {
-		zephir_is_iterable(keys, 0, "phalcon/Cache/AbstractCache.zep", 290);
+		zephir_is_iterable(keys, 0, "phalcon/Cache/AbstractCache.zep", 230);
 		if (Z_TYPE_P(keys) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(keys), _10$$6)
 			{
@@ -654,20 +584,13 @@ PHP_METHOD(Phalcon_Cache_AbstractCache, doGetMultiple)
 	}
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "cache:afterGetMultiple");
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "fire", NULL, 0, &_0, keys);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "firemanagerevent", NULL, 0, &_0, keys);
 	zephir_check_call_status();
 	RETURN_CCTOR(&results);
 }
 
 /**
  * Determines whether an item is present in the cache.
- *
- * @param string $key The cache item key.
- *
- * @return bool
- *
- * @throws InvalidArgumentException MUST be thrown if the $key string is
- * not a legal value.
  */
 PHP_METHOD(Phalcon_Cache_AbstractCache, doHas)
 {
@@ -697,14 +620,14 @@ PHP_METHOD(Phalcon_Cache_AbstractCache, doHas)
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "cache:beforeHas");
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "fire", NULL, 0, &_0, &key_zv);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "firemanagerevent", NULL, 0, &_0, &key_zv);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 263, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&result, &_1, "has", NULL, 0, &key_zv);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "cache:afterHas");
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "fire", NULL, 0, &_0, &key_zv);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "firemanagerevent", NULL, 0, &_0, &key_zv);
 	zephir_check_call_status();
 	RETURN_CCTOR(&result);
 }
@@ -712,20 +635,6 @@ PHP_METHOD(Phalcon_Cache_AbstractCache, doHas)
 /**
  * Persists data in the cache, uniquely referenced by a key with an optional
  * expiration TTL time.
- *
- * @param string                $key    The key of the item to store.
- * @param mixed                 $value  The value of the item to store.
- *                                      Must be serializable.
- * @param null|int|DateInterval $ttl    Optional. The TTL value of this
- *                                      item. If no value is sent and the
- *                                      driver supports TTL then the library
- *                                      may set a default value for it or
- *                                      let the driver take care of that.
- *
- * @return bool True on success and false on failure.
- *
- * @throws InvalidArgumentException MUST be thrown if the $key string is not
- * a legal value.
  */
 PHP_METHOD(Phalcon_Cache_AbstractCache, doSet)
 {
@@ -770,14 +679,14 @@ PHP_METHOD(Phalcon_Cache_AbstractCache, doSet)
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "cache:beforeSet");
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "fire", NULL, 0, &_0, &key_zv);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "firemanagerevent", NULL, 0, &_0, &key_zv);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 263, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&result, &_1, "set", NULL, 0, &key_zv, value, ttl);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "cache:afterSet");
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "fire", NULL, 0, &_0, &key_zv);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "firemanagerevent", NULL, 0, &_0, &key_zv);
 	zephir_check_call_status();
 	RETURN_CCTOR(&result);
 }
@@ -823,7 +732,7 @@ PHP_METHOD(Phalcon_Cache_AbstractCache, doSetMultiple)
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&keys);
 	zephir_array_keys(&keys, values);
-	zephir_is_iterable(&keys, 0, "phalcon/Cache/AbstractCache.zep", 369);
+	zephir_is_iterable(&keys, 0, "phalcon/Cache/AbstractCache.zep", 288);
 	ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&keys), _0)
 	{
 		ZEPHIR_INIT_NVAR(&key);
@@ -834,10 +743,10 @@ PHP_METHOD(Phalcon_Cache_AbstractCache, doSetMultiple)
 	ZEPHIR_INIT_NVAR(&key);
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "cache:beforeSetMultiple");
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "fire", NULL, 0, &_2, &keys);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "firemanagerevent", NULL, 0, &_2, &keys);
 	zephir_check_call_status();
 	result = 1;
-	zephir_is_iterable(values, 0, "phalcon/Cache/AbstractCache.zep", 378);
+	zephir_is_iterable(values, 0, "phalcon/Cache/AbstractCache.zep", 297);
 	if (Z_TYPE_P(values) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(values), _4, _5, _3)
 		{
@@ -886,61 +795,147 @@ PHP_METHOD(Phalcon_Cache_AbstractCache, doSetMultiple)
 	ZEPHIR_INIT_NVAR(&key);
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "cache:afterSetMultiple");
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "fire", NULL, 0, &_2, &keys);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "firemanagerevent", NULL, 0, &_2, &keys);
 	zephir_check_call_status();
 	RETURN_MM_BOOL(result);
 }
 
 /**
- * Trigger an event for the eventsManager.
+ * Returns the exception class that will be used for exceptions thrown
  *
- * @var string $eventName
- * @var mixed $keys
+ * @return class-string<Throwable>
  */
-PHP_METHOD(Phalcon_Cache_AbstractCache, fire)
+PHP_METHOD(Phalcon_Cache_AbstractCache, getExceptionClass)
+{
+}
+
+/**
+ * Returns the internal event manager
+ */
+PHP_METHOD(Phalcon_Cache_AbstractCache, getEventsManager)
+{
+
+	RETURN_MEMBER(getThis(), "eventsManager");
+}
+
+/**
+ * Sets the events manager
+ */
+PHP_METHOD(Phalcon_Cache_AbstractCache, setEventsManager)
+{
+	zend_bool _2;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *eventsManager, eventsManager_sub, _0, _1, _3, _4$$3, _5$$3, _6$$3;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&eventsManager_sub);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_4$$3);
+	ZVAL_UNDEF(&_5$$3);
+	ZVAL_UNDEF(&_6$$3);
+	static zend_string *_zephir_prop_0 = NULL;
+	static zend_string *_zephir_prop_1 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("container", 9, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_1)) {
+		_zephir_prop_1 = zend_string_init("eventsManager", 13, 1);
+	}
+
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(eventsManager, phalcon_events_managerinterface_ce)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_fetch_params(1, 1, 0, &eventsManager);
+	ZEPHIR_INIT_VAR(&_0);
+	ZVAL_STRING(&_0, "container");
+	ZEPHIR_CALL_FUNCTION(&_1, "property_exists", NULL, 9, this_ptr, &_0);
+	zephir_check_call_status();
+	_2 = ZEPHIR_IS_TRUE_IDENTICAL(&_1);
+	if (_2) {
+		zephir_memory_observe(&_3);
+		zephir_read_property_cached(&_3, this_ptr, _zephir_prop_0, 264, PH_NOISY_CC);
+		_2 = Z_TYPE_P(&_3) != IS_NULL;
+	}
+	if (_2) {
+		zephir_memory_observe(&_4$$3);
+		zephir_read_property_cached(&_4$$3, this_ptr, _zephir_prop_0, 264, PH_NOISY_CC);
+		ZEPHIR_INIT_VAR(&_5$$3);
+		ZVAL_STRING(&_5$$3, "eventsManager");
+		ZVAL_BOOL(&_6$$3, 1);
+		ZEPHIR_CALL_METHOD(NULL, &_4$$3, "set", NULL, 0, &_5$$3, eventsManager, &_6$$3);
+		zephir_check_call_status();
+	}
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 265, eventsManager);
+	ZEPHIR_MM_RESTORE();
+}
+
+/**
+ * Helper method to fire an event
+ * 
+ * @throws EventsException
+ */
+PHP_METHOD(Phalcon_Cache_AbstractCache, fireManagerEvent)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval eventName_zv, *keys, keys_sub, _0, _1, _2;
+	zend_bool cancellable;
+	zval eventName_zv, *data = NULL, data_sub, *cancellable_param = NULL, __$null, _0, _1$$3, _2$$3;
 	zend_string *eventName = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&eventName_zv);
-	ZVAL_UNDEF(&keys_sub);
+	ZVAL_UNDEF(&data_sub);
+	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_1$$3);
+	ZVAL_UNDEF(&_2$$3);
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("eventsManager", 13, 1);
 	}
 
-	ZEND_PARSE_PARAMETERS_START(2, 2)
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_STR(eventName)
-		Z_PARAM_ZVAL(keys)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL_OR_NULL(data)
+		Z_PARAM_BOOL(cancellable)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	keys = ZEND_CALL_ARG(execute_data, 2);
+	if (ZEND_NUM_ARGS() > 1) {
+		data = ZEND_CALL_ARG(execute_data, 2);
+	}
+	if (ZEND_NUM_ARGS() > 2) {
+		cancellable_param = ZEND_CALL_ARG(execute_data, 3);
+	}
 	zephir_memory_observe(&eventName_zv);
 	ZVAL_STR_COPY(&eventName_zv, eventName);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 264, PH_NOISY_CC | PH_READONLY);
-	if (Z_TYPE_P(&_0) == IS_NULL) {
-		RETURN_MM_NULL();
+	if (!data) {
+		data = &data_sub;
+		data = &__$null;
 	}
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 264, PH_NOISY_CC | PH_READONLY);
-	ZVAL_BOOL(&_2, 0);
-	ZEPHIR_CALL_METHOD(NULL, &_1, "fire", NULL, 0, &eventName_zv, this_ptr, keys, &_2);
-	zephir_check_call_status();
-	ZEPHIR_MM_RESTORE();
-}
-
-/**
- * Returns the exception class that will be used for exceptions thrown
- *
- * @return string
- */
-PHP_METHOD(Phalcon_Cache_AbstractCache, getExceptionClass)
-{
+	if (!cancellable_param) {
+		cancellable = 1;
+	} else {
+		}
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 265, PH_NOISY_CC | PH_READONLY);
+	if (Z_TYPE_P(&_0) != IS_NULL) {
+		zephir_read_property_cached(&_1$$3, this_ptr, _zephir_prop_0, 265, PH_NOISY_CC | PH_READONLY);
+		if (cancellable) {
+			ZVAL_BOOL(&_2$$3, 1);
+		} else {
+			ZVAL_BOOL(&_2$$3, 0);
+		}
+		ZEPHIR_RETURN_CALL_METHOD(&_1$$3, "fire", NULL, 0, &eventName_zv, this_ptr, data, &_2$$3);
+		zephir_check_call_status();
+		RETURN_MM();
+	}
+	RETURN_MM_BOOL(1);
 }
 

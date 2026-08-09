@@ -23,4 +23,3 @@ class RedisCluster extends StorageRedisCluster implements CacheAdapterInterface
      */
     protected string eventType = "cache";
 }
-

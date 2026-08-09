@@ -16,6 +16,8 @@ use Phalcon\Cache\Adapter\Redis;
 use Phalcon\Cache\Exception\InvalidArgumentException;
 use Phalcon\Events\EventsAwareInterface;
 use Phalcon\Events\ManagerInterface;
+use Phalcon\Events\Traits\EventsAwareTrait;
+use Throwable;
 use Traversable;
 
 /**
@@ -32,19 +34,9 @@ use Traversable;
  */
 abstract class AbstractCache implements CacheInterface, EventsAwareInterface
 {
-    /**
-     * The adapter
-     *
-     * @var AdapterInterface
-     */
-    protected adapter;
+    use EventsAwareTrait;
 
-    /**
-     * Event Manager
-     *
-     * @var ManagerInterface|null
-     */
-    protected eventsManager = null;
+    protected <AdapterInterface> adapter;
 
     /**
      * Constructor.
@@ -57,9 +49,12 @@ abstract class AbstractCache implements CacheInterface, EventsAwareInterface
     }
 
     /**
+     * Fetches a value from the cache.
+     */
+    abstract public function get(string key, var defaultValue = null) -> mixed;
+
+    /**
      * Returns the current adapter
-     *
-     * @return AdapterInterface
      */
     public function getAdapter() -> <AdapterInterface>
     {
@@ -67,49 +62,17 @@ abstract class AbstractCache implements CacheInterface, EventsAwareInterface
     }
 
     /**
-     * Fetches a value from the cache.
-     *
-     * @param string $key
-     * @param mixed  $defaultValue
-     *
-     * @return mixed
-     */
-    abstract public function get(string key, var defaultValue = null);
-
-    /**
      * Persists data in the cache, uniquely referenced by a key with an
      * optional expiration TTL time.
-     *
-     * @param string                $key
-     * @param mixed                 $value
-     * @param null|int|DateInterval $ttl
-     *
-     * @return bool
      */
-    abstract public function set(string key, var value, var ttl = null) -> bool;
-
-    /**
-     * Sets the event manager
-     */
-    public function setEventsManager(<ManagerInterface> eventsManager) -> void
-    {
-        let this->eventsManager = eventsManager;
-    }
-
-    /**
-     * Get the event manager
-     */
-    public function getEventsManager() -> <ManagerInterface> | null
-    {
-        return this->eventsManager;
-    }
+    abstract public function set(
+        string key,
+        var value,
+        var ttl = null
+    ) -> bool;
 
     /**
      * Checks the key. If it contains invalid characters an exception is thrown
-     *
-     * @param mixed $key
-     *
-     * @throws InvalidArgumentException
      */
     protected function checkKey(string key) -> void
     {
@@ -124,10 +87,6 @@ abstract class AbstractCache implements CacheInterface, EventsAwareInterface
 
     /**
      * Checks the key. If it contains invalid characters an exception is thrown
-     *
-     * @param mixed $keys
-     *
-     * @throws InvalidArgumentException
      */
     protected function checkKeys(var keys) -> void
     {
@@ -144,8 +103,6 @@ abstract class AbstractCache implements CacheInterface, EventsAwareInterface
 
     /**
      * Wipes clean the entire cache's keys.
-     *
-     * @return bool True on success and false on failure.
      */
     protected function doClear() -> bool
     {
@@ -154,14 +111,6 @@ abstract class AbstractCache implements CacheInterface, EventsAwareInterface
 
     /**
      * Delete an item from the cache by its unique key.
-     *
-     * @param string $key The unique cache key of the item to delete.
-     *
-     * @return bool True if the item was successfully removed. False if there
-     *              was an error.
-     *
-     * @throws InvalidArgumentException MUST be thrown if the $key string is
-     *                                  not a legal value.
      */
     protected function doDelete(string key) -> bool
     {
@@ -169,11 +118,11 @@ abstract class AbstractCache implements CacheInterface, EventsAwareInterface
 
         this->checkKey(key);
 
-        this->fire("cache:beforeDelete", key);
+        this->fireManagerEvent("cache:beforeDelete", key);
 
         let result = this->adapter->delete(key);
 
-        this->fire("cache:afterDelete", key);
+        this->fireManagerEvent("cache:afterDelete", key);
 
         return result;
     }
@@ -187,7 +136,7 @@ abstract class AbstractCache implements CacheInterface, EventsAwareInterface
 
         this->checkKeys(keys);
 
-        this->fire("cache:beforeDeleteMultiple", keys);
+        this->fireManagerEvent("cache:beforeDeleteMultiple", keys);
 
         let keysArray = [];
         for key in keys {
@@ -197,22 +146,13 @@ abstract class AbstractCache implements CacheInterface, EventsAwareInterface
 
         let result = this->adapter->deleteMultiple(keysArray);
 
-        this->fire("cache:afterDeleteMultiple", keys);
+        this->fireManagerEvent("cache:afterDeleteMultiple", keys);
 
         return result;
     }
 
     /**
      * Fetches a value from the cache.
-     *
-     * @param string $key          The unique key of this item in the cache.
-     * @param mixed  $defaultValue Default value to return if the key does not exist.
-     *
-     * @return mixed The value of the item from the cache, or $default in case
-     * of cache miss.
-     *
-     * @throws InvalidArgumentException MUST be thrown if the $key string is
-     * not a legal value.
      */
     protected function doGet(string key, var defaultValue = null) -> var
     {
@@ -220,11 +160,11 @@ abstract class AbstractCache implements CacheInterface, EventsAwareInterface
 
         this->checkKey(key);
 
-        this->fire("cache:beforeGet", key);
+        this->fireManagerEvent("cache:beforeGet", key);
 
         let result = this->adapter->get(key, defaultValue);
 
-        this->fire("cache:afterGet", key);
+        this->fireManagerEvent("cache:afterGet", key);
 
         return result;
     }
@@ -238,7 +178,7 @@ abstract class AbstractCache implements CacheInterface, EventsAwareInterface
 
         this->checkKeys(keys);
 
-        this->fire("cache:beforeGetMultiple", keys);
+        this->fireManagerEvent("cache:beforeGetMultiple", keys);
 
         let results = [];
         let adapterClass = this->adapter;
@@ -289,20 +229,13 @@ abstract class AbstractCache implements CacheInterface, EventsAwareInterface
             }
         }
 
-        this->fire("cache:afterGetMultiple", keys);
+        this->fireManagerEvent("cache:afterGetMultiple", keys);
 
         return results;
     }
 
     /**
      * Determines whether an item is present in the cache.
-     *
-     * @param string $key The cache item key.
-     *
-     * @return bool
-     *
-     * @throws InvalidArgumentException MUST be thrown if the $key string is
-     * not a legal value.
      */
     protected function doHas(string key) -> bool
     {
@@ -310,11 +243,11 @@ abstract class AbstractCache implements CacheInterface, EventsAwareInterface
 
         this->checkKey(key);
 
-        this->fire("cache:beforeHas", key);
+        this->fireManagerEvent("cache:beforeHas", key);
 
         let result = this->adapter->has(key);
 
-        this->fire("cache:afterHas", key);
+        this->fireManagerEvent("cache:afterHas", key);
 
         return result;
     }
@@ -322,20 +255,6 @@ abstract class AbstractCache implements CacheInterface, EventsAwareInterface
     /**
      * Persists data in the cache, uniquely referenced by a key with an optional
      * expiration TTL time.
-     *
-     * @param string                $key    The key of the item to store.
-     * @param mixed                 $value  The value of the item to store.
-     *                                      Must be serializable.
-     * @param null|int|DateInterval $ttl    Optional. The TTL value of this
-     *                                      item. If no value is sent and the
-     *                                      driver supports TTL then the library
-     *                                      may set a default value for it or
-     *                                      let the driver take care of that.
-     *
-     * @return bool True on success and false on failure.
-     *
-     * @throws InvalidArgumentException MUST be thrown if the $key string is not
-     * a legal value.
      */
     protected function doSet(string key, var value, var ttl = null) -> bool
     {
@@ -343,11 +262,11 @@ abstract class AbstractCache implements CacheInterface, EventsAwareInterface
 
         this->checkKey(key);
 
-        this->fire("cache:beforeSet", key);
+        this->fireManagerEvent("cache:beforeSet", key);
 
         let result = this->adapter->set(key, value, ttl);
 
-        this->fire("cache:afterSet", key);
+        this->fireManagerEvent("cache:afterSet", key);
 
         return result;
     }
@@ -366,7 +285,7 @@ abstract class AbstractCache implements CacheInterface, EventsAwareInterface
             this->checkKey(key);
         }
 
-        this->fire("cache:beforeSetMultiple", keys);
+        this->fireManagerEvent("cache:beforeSetMultiple", keys);
 
         let result = true;
         for key, value in values {
@@ -375,30 +294,15 @@ abstract class AbstractCache implements CacheInterface, EventsAwareInterface
             }
         }
 
-        this->fire("cache:afterSetMultiple", keys);
+        this->fireManagerEvent("cache:afterSetMultiple", keys);
 
         return result;
     }
 
     /**
-     * Trigger an event for the eventsManager.
-     *
-     * @var string $eventName
-     * @var mixed $keys
-     */
-    protected function fire(string eventName, var keys) -> void
-    {
-        if (this->eventsManager === null) {
-            return;
-        }
-
-        this->eventsManager->fire(eventName, this, keys, false);
-    }
-
-    /**
      * Returns the exception class that will be used for exceptions thrown
      *
-     * @return string
+     * @return class-string<Throwable>
      */
     abstract protected function getExceptionClass() -> string;
 }

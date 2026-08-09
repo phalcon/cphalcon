@@ -10,21 +10,17 @@
 
 namespace Phalcon\Cache;
 
-use Phalcon\Cache\Adapter\AdapterInterface;
-use Phalcon\Cache\Cache;
 use Phalcon\Cache\Exception\Exception;
 use Phalcon\Config\ConfigInterface;
 use Phalcon\Factory\AbstractConfigFactory;
+use Throwable;
 
 /**
  * Creates a new Cache class
  */
 class CacheFactory extends AbstractConfigFactory
 {
-    /**
-     * @var AdapterFactory
-     */
-    protected adapterFactory;
+    protected <AdapterFactory> adapterFactory;
 
     /**
      * Constructor
@@ -37,7 +33,7 @@ class CacheFactory extends AbstractConfigFactory
     /**
      * Factory to create an instance from a Config object
      *
-     * @param array $config = [
+     * @param array|ConfigInterface $config = [
      *     'adapter' => 'apcu',
      *     'options' => [
      *         'servers' => [
@@ -82,7 +78,6 @@ class CacheFactory extends AbstractConfigFactory
     /**
      * Constructs a new Cache instance.
      *
-     * @param string $name
      * @param array  $options = [
      *      'servers'           => [
      *          [
@@ -119,10 +114,10 @@ class CacheFactory extends AbstractConfigFactory
     /**
      * Returns the exception class for the factory
      *
-     * @return string
+     * @return class-string<Throwable>
      */
     protected function getExceptionClass() -> string
     {
-        return "Phalcon\Cache\Exception\Exception";
+        return Exception::class;
     }
 }

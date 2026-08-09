@@ -4,11 +4,9 @@ extern zend_class_entry *phalcon_cache_abstractcache_ce;
 ZEPHIR_INIT_CLASS(Phalcon_Cache_AbstractCache);
 
 PHP_METHOD(Phalcon_Cache_AbstractCache, __construct);
-PHP_METHOD(Phalcon_Cache_AbstractCache, getAdapter);
 PHP_METHOD(Phalcon_Cache_AbstractCache, get);
+PHP_METHOD(Phalcon_Cache_AbstractCache, getAdapter);
 PHP_METHOD(Phalcon_Cache_AbstractCache, set);
-PHP_METHOD(Phalcon_Cache_AbstractCache, setEventsManager);
-PHP_METHOD(Phalcon_Cache_AbstractCache, getEventsManager);
 PHP_METHOD(Phalcon_Cache_AbstractCache, checkKey);
 PHP_METHOD(Phalcon_Cache_AbstractCache, checkKeys);
 PHP_METHOD(Phalcon_Cache_AbstractCache, doClear);
@@ -19,33 +17,27 @@ PHP_METHOD(Phalcon_Cache_AbstractCache, doGetMultiple);
 PHP_METHOD(Phalcon_Cache_AbstractCache, doHas);
 PHP_METHOD(Phalcon_Cache_AbstractCache, doSet);
 PHP_METHOD(Phalcon_Cache_AbstractCache, doSetMultiple);
-PHP_METHOD(Phalcon_Cache_AbstractCache, fire);
 PHP_METHOD(Phalcon_Cache_AbstractCache, getExceptionClass);
+PHP_METHOD(Phalcon_Cache_AbstractCache, getEventsManager);
+PHP_METHOD(Phalcon_Cache_AbstractCache, setEventsManager);
+PHP_METHOD(Phalcon_Cache_AbstractCache, fireManagerEvent);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_abstractcache___construct, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, adapter, Phalcon\\Cache\\Adapter\\AdapterInterface, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_cache_abstractcache_getadapter, 0, 0, Phalcon\\Cache\\Adapter\\AdapterInterface, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_abstractcache_get, 0, 0, 1)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cache_abstractcache_get, 0, 1, IS_MIXED, 0)
 	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
 	ZEND_ARG_INFO(0, defaultValue)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_cache_abstractcache_getadapter, 0, 0, Phalcon\\Cache\\Adapter\\AdapterInterface, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cache_abstractcache_set, 0, 2, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
 	ZEND_ARG_INFO(0, value)
 	ZEND_ARG_INFO(0, ttl)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cache_abstractcache_seteventsmanager, 0, 1, IS_VOID, 0)
-
-	ZEND_ARG_OBJ_INFO(0, eventsManager, Phalcon\\Events\\ManagerInterface, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_cache_abstractcache_geteventsmanager, 0, 0, Phalcon\\Events\\ManagerInterface, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cache_abstractcache_checkkey, 0, 1, IS_VOID, 0)
@@ -94,22 +86,28 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cache_abstractcache_dose
 	ZEND_ARG_INFO(0, ttl)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cache_abstractcache_fire, 0, 2, IS_VOID, 0)
-
-	ZEND_ARG_TYPE_INFO(0, eventName, IS_STRING, 0)
-	ZEND_ARG_INFO(0, keys)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cache_abstractcache_getexceptionclass, 0, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cache_abstractcache_getexceptionclass, 0, 0, IS_STRING, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_cache_abstractcache_geteventsmanager, 0, 0, Phalcon\\Events\\ManagerInterface, 1)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cache_abstractcache_seteventsmanager, 0, 1, IS_VOID, 0)
+
+	ZEND_ARG_OBJ_INFO(0, eventsManager, Phalcon\\Events\\ManagerInterface, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cache_abstractcache_firemanagerevent, 0, 1, IS_MIXED, 0)
+	ZEND_ARG_TYPE_INFO(0, eventName, IS_STRING, 0)
+	ZEND_ARG_INFO(0, data)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, cancellable, _IS_BOOL, 0, "true")
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_cache_abstractcache_method_entry) {
 	PHP_ME(Phalcon_Cache_AbstractCache, __construct, arginfo_phalcon_cache_abstractcache___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
-	PHP_ME(Phalcon_Cache_AbstractCache, getAdapter, arginfo_phalcon_cache_abstractcache_getadapter, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Cache_AbstractCache, get, arginfo_phalcon_cache_abstractcache_get, ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Cache_AbstractCache, getAdapter, arginfo_phalcon_cache_abstractcache_getadapter, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Cache_AbstractCache, set, arginfo_phalcon_cache_abstractcache_set, ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Cache_AbstractCache, setEventsManager, arginfo_phalcon_cache_abstractcache_seteventsmanager, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Cache_AbstractCache, getEventsManager, arginfo_phalcon_cache_abstractcache_geteventsmanager, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Cache_AbstractCache, checkKey, arginfo_phalcon_cache_abstractcache_checkkey, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Cache_AbstractCache, checkKeys, arginfo_phalcon_cache_abstractcache_checkkeys, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Cache_AbstractCache, doClear, arginfo_phalcon_cache_abstractcache_doclear, ZEND_ACC_PROTECTED)
@@ -120,7 +118,9 @@ ZEPHIR_INIT_FUNCS(phalcon_cache_abstractcache_method_entry) {
 	PHP_ME(Phalcon_Cache_AbstractCache, doHas, arginfo_phalcon_cache_abstractcache_dohas, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Cache_AbstractCache, doSet, arginfo_phalcon_cache_abstractcache_doset, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Cache_AbstractCache, doSetMultiple, arginfo_phalcon_cache_abstractcache_dosetmultiple, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Cache_AbstractCache, fire, arginfo_phalcon_cache_abstractcache_fire, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Cache_AbstractCache, getExceptionClass, arginfo_phalcon_cache_abstractcache_getexceptionclass, ZEND_ACC_ABSTRACT|ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Cache_AbstractCache, getEventsManager, arginfo_phalcon_cache_abstractcache_geteventsmanager, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Cache_AbstractCache, setEventsManager, arginfo_phalcon_cache_abstractcache_seteventsmanager, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Cache_AbstractCache, fireManagerEvent, arginfo_phalcon_cache_abstractcache_firemanagerevent, ZEND_ACC_PROTECTED)
 	PHP_FE_END
 };

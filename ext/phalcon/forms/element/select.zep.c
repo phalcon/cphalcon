@@ -93,7 +93,7 @@ PHP_METHOD(Phalcon_Forms_Element_Select, __construct)
 	} else {
 		zephir_get_arrval(&attributes, attributes_param);
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 772, options);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 773, options);
 	ZEPHIR_CALL_PARENT(NULL, phalcon_forms_element_select_ce, getThis(), "__construct", NULL, 0, &name_zv, &attributes);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
@@ -215,7 +215,7 @@ PHP_METHOD(Phalcon_Forms_Element_Select, render)
 	}
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "prepareattributes", NULL, 0, &attributes);
 	zephir_check_call_status();
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 772, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 773, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_tag_select_ce, "selectfield", NULL, 0, &_0, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
@@ -241,7 +241,7 @@ PHP_METHOD(Phalcon_Forms_Element_Select, setOptions)
 		Z_PARAM_ZVAL(options)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &options);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 772, options);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 773, options);
 	RETURN_THISW();
 }
 
@@ -285,11 +285,11 @@ PHP_METHOD(Phalcon_Forms_Element_Select, prepareAttributes)
 	} else {
 		zephir_get_arrval(&attributes, attributes_param);
 	}
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 773, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 774, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&name, &_0);
 	zephir_array_update_long(&attributes, 0, &name, PH_COPY | PH_SEPARATE ZEPHIR_DEBUG_PARAMS_DUMMY);
 	zephir_memory_observe(&defaultAttributes);
-	zephir_read_property_cached(&defaultAttributes, this_ptr, _zephir_prop_1, 774, PH_NOISY_CC);
+	zephir_read_property_cached(&defaultAttributes, this_ptr, _zephir_prop_1, 775, PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(&mergedAttributes);
 	zephir_fast_array_merge(&mergedAttributes, &defaultAttributes, &attributes);
 	ZEPHIR_CALL_METHOD(&value, this_ptr, "getvalue", NULL, 0);

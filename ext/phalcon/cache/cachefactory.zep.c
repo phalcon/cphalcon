@@ -34,10 +34,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Cache_CacheFactory)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Cache, CacheFactory, phalcon, cache_cachefactory, phalcon_factory_abstractconfigfactory_ce, phalcon_cache_cachefactory_method_entry, 0);
 
-	/**
-	 * @var AdapterFactory
-	 */
-	zend_declare_property_null(phalcon_cache_cachefactory_ce, SL("adapterFactory"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_cache_cachefactory_ce, SL("adapterFactory"), &_zc0, ZEND_ACC_PROTECTED, 0, SL("Phalcon\\Cache\\AdapterFactory"));
+	}
+
 	return SUCCESS;
 }
 
@@ -59,13 +61,13 @@ PHP_METHOD(Phalcon_Cache_CacheFactory, __construct)
 		Z_PARAM_OBJECT_OF_CLASS(factory, phalcon_cache_adapterfactory_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &factory);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 481, factory);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 482, factory);
 }
 
 /**
  * Factory to create an instance from a Config object
  *
- * @param array $config = [
+ * @param array|ConfigInterface $config = [
  *     'adapter' => 'apcu',
  *     'options' => [
  *         'servers' => [
@@ -120,7 +122,7 @@ PHP_METHOD(Phalcon_Cache_CacheFactory, load)
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(config, &_0);
 	zephir_memory_observe(&name);
-	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Cache/CacheFactory.zep", 73);
+	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Cache/CacheFactory.zep", 69);
 	zephir_memory_observe(&options);
 	if (!(zephir_array_isset_string_fetch(&options, config, SL("options"), 0))) {
 		ZEPHIR_INIT_NVAR(&options);
@@ -134,7 +136,6 @@ PHP_METHOD(Phalcon_Cache_CacheFactory, load)
 /**
  * Constructs a new Cache instance.
  *
- * @param string $name
  * @param array  $options = [
  *      'servers'           => [
  *          [
@@ -195,7 +196,7 @@ PHP_METHOD(Phalcon_Cache_CacheFactory, newInstance)
 	} else {
 		zephir_get_arrval(&options, options_param);
 	}
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 481, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 482, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&adapter, &_0, "newinstance", NULL, 0, &name_zv, &options);
 	zephir_check_call_status();
 	object_init_ex(return_value, phalcon_cache_cache_ce);
@@ -207,7 +208,7 @@ PHP_METHOD(Phalcon_Cache_CacheFactory, newInstance)
 /**
  * Returns the exception class for the factory
  *
- * @return string
+ * @return class-string<Throwable>
  */
 PHP_METHOD(Phalcon_Cache_CacheFactory, getExceptionClass)
 {
