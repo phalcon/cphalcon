@@ -93,7 +93,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Cookie)
 
 	{
 		zval _zc0;
-		ZVAL_BOOL(&_zc0, 1);
+		ZVAL_BOOL(&_zc0, 0);
 		zephir_declare_typed_property(phalcon_http_cookie_ce, SL("secure"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_BOOL, NULL, 0);
 	}
 
