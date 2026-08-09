@@ -90,7 +90,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Stream, __construct)
 	}
 	zephir_memory_observe(&annotationsDir);
 	if (zephir_array_isset_string_fetch(&annotationsDir, &options, SL("annotationsDir"), 0)) {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 391, &annotationsDir);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 392, &annotationsDir);
 	}
 	ZEPHIR_MM_RESTORE();
 }
@@ -132,7 +132,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Stream, read)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&key_zv);
 	ZVAL_STR_COPY(&key_zv, key);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 391, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 392, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_1);
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "_");
@@ -210,7 +210,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Stream, write)
 	data = ZEND_CALL_ARG(execute_data, 2);
 	zephir_memory_observe(&key_zv);
 	ZVAL_STR_COPY(&key_zv, key);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 391, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 392, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_1);
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "_");
