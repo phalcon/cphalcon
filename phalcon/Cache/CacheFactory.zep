@@ -13,6 +13,7 @@ namespace Phalcon\Cache;
 use Phalcon\Cache\Exception\Exception;
 use Phalcon\Config\ConfigInterface;
 use Phalcon\Factory\AbstractConfigFactory;
+use Throwable;
 
 /**
  * Creates a new Cache class
@@ -113,7 +114,7 @@ class CacheFactory extends AbstractConfigFactory
     /**
      * Returns the exception class for the factory
      *
-     * @return string
+     * @return class-string<Throwable>
      */
     protected function getExceptionClass() -> string
     {

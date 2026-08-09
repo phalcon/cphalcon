@@ -270,6 +270,8 @@ PHP_METHOD(Phalcon_Cache_Cache, setMultiple)
 
 /**
  * Returns the exception class that will be used for exceptions thrown
+ * 
+ * @return class-string<Throwable>
  */
 PHP_METHOD(Phalcon_Cache_Cache, getExceptionClass)
 {
