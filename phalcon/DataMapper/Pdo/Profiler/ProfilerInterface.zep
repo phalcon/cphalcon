@@ -31,18 +31,18 @@ interface ProfilerInterface
     public function finish(string statement = null, array values = []) -> void;
 
     /**
-     * Returns the underlying logger instance.
-     *
-     * @return LoggerInterface
-     */
-    public function getLogger() -> <LoggerInterface>;
-
-    /**
      * Returns the log message format string, with placeholders.
      *
      * @return string
      */
     public function getLogFormat() -> string;
+
+    /**
+     * Returns the underlying logger instance.
+     *
+     * @return LoggerInterface
+     */
+    public function getLogger() -> <LoggerInterface>;
 
     /**
      * Returns the level at which to log profile messages.

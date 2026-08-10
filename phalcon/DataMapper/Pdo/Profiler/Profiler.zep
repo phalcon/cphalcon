@@ -25,40 +25,19 @@ use Phalcon\Support\Helper\Json\Encode;
  */
 class Profiler implements ProfilerInterface
 {
-    /**
-     * @var bool
-     */
-    protected active = false;
-
-    /**
-     * @var array
-     */
-    protected context = [];
-
-    /**
-     * @var string
-     */
-    protected logFormat = "";
+    protected bool active = false;
+    protected array context = [];
+    protected string logFormat = "";
+    protected <LoggerInterface> logger;
 
     /**
      * @var int|string
      */
     protected logLevel = 0;
-
-    /**
-     * @var LoggerInterface
-     */
-    protected logger;
-
-    /**
-     * @var Encode
-     */
-    private encode;
+    private <Encode> encode;
 
     /**
      * Constructor.
-     *
-     * @param LoggerInterface $logger
      */
     public function __construct(<LoggerInterface> logger = null)
     {
@@ -74,9 +53,6 @@ class Profiler implements ProfilerInterface
 
     /**
      * Finishes and logs a profile entry.
-     *
-     * @param string $statement
-     * @param array  $values
      */
     public function finish(string statement = null, array values = []) -> void
     {
@@ -101,8 +77,6 @@ class Profiler implements ProfilerInterface
 
     /**
      * Returns the log message format string, with placeholders.
-     *
-     * @return string
      */
     public function getLogFormat() -> string
     {
@@ -111,8 +85,6 @@ class Profiler implements ProfilerInterface
 
     /**
      * Returns the underlying logger instance.
-     *
-     * @return LoggerInterface
      */
     public function getLogger() -> <LoggerInterface>
     {
@@ -121,8 +93,6 @@ class Profiler implements ProfilerInterface
 
     /**
      * Returns the level at which to log profile messages.
-     *
-     * @return string
      */
     public function getLogLevel() -> string
     {
@@ -131,8 +101,6 @@ class Profiler implements ProfilerInterface
 
     /**
      * Returns true if logging is active.
-     *
-     * @return bool
      */
     public function isActive() -> bool
     {
@@ -141,10 +109,6 @@ class Profiler implements ProfilerInterface
 
     /**
      * Enable or disable profiler logging.
-     *
-     * @param bool $active
-     *
-     * @return ProfilerInterface
      */
     public function setActive(bool active) -> <ProfilerInterface>
     {
@@ -155,10 +119,6 @@ class Profiler implements ProfilerInterface
 
     /**
      * Sets the log message format string, with placeholders.
-     *
-     * @param string $logFormat
-     *
-     * @return ProfilerInterface
      */
     public function setLogFormat(string logFormat) -> <ProfilerInterface>
     {
@@ -169,10 +129,6 @@ class Profiler implements ProfilerInterface
 
     /**
      * Level at which to log profile messages.
-     *
-     * @param string $logLevel
-     *
-     * @return ProfilerInterface
      */
     public function setLogLevel(string logLevel) -> <ProfilerInterface>
     {
@@ -183,8 +139,6 @@ class Profiler implements ProfilerInterface
 
     /**
      * Starts a profile entry.
-     *
-     * @param string $method
      */
     public function start(string method) -> void
     {

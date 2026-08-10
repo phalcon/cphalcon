@@ -15,61 +15,39 @@
 
 namespace Phalcon\DataMapper\Pdo\Profiler;
 
-use Phalcon\Logger\Enum;
 use Phalcon\Logger\Adapter\AdapterInterface;
 use Phalcon\Logger\Adapter\Noop;
+use Phalcon\Logger\Enum;
 use Phalcon\Logger\LoggerInterface;
+use Stringable;
 
 /**
  * A memory-based logger.
  */
 class MemoryLogger implements LoggerInterface
 {
-    /**
-     * @var array
-     */
-    protected messages = [];
+    protected array messages = [];
 
-    /**
-     * @param string message
-     * @param mixed[] context
-     */
     public function alert(string message, array context = []) -> void
     {
         this->log(Enum::ALERT, message, context);
     }
 
-    /**
-     * @param string message
-     * @param mixed[] context
-     */
     public function critical(string message, array context = []) -> void
     {
         this->log(Enum::CRITICAL, message, context);
     }
 
-    /**
-     * @param string message
-     * @param mixed[] context
-     */
     public function debug(string message, array context = []) -> void
     {
         this->log(Enum::DEBUG, message, context);
     }
 
-    /**
-     * @param string message
-     * @param mixed[] context
-     */
     public function emergency(string message, array context = []) -> void
     {
         this->log(Enum::EMERGENCY, message, context);
     }
 
-    /**
-     * @param string message
-     * @param mixed[] context
-     */
     public function error(string message, array context = []) -> void
     {
         this->log(Enum::ERROR, message, context);
@@ -77,10 +55,6 @@ class MemoryLogger implements LoggerInterface
 
     /**
      * Returns an adapter from the stack
-     *
-     * @param string $name The name of the adapter
-     *
-     * @return AdapterInterface
      */
     public function getAdapter(string name) -> <AdapterInterface>
     {
@@ -89,8 +63,6 @@ class MemoryLogger implements LoggerInterface
 
     /**
      * Returns the adapter stack array
-     *
-     * @return AdapterInterface[]
      */
     public function getAdapters() -> array
     {
@@ -107,8 +79,6 @@ class MemoryLogger implements LoggerInterface
 
     /**
      * Returns the logged messages.
-     *
-     * @return array
      */
     public function getMessages() -> array
     {
@@ -123,48 +93,13 @@ class MemoryLogger implements LoggerInterface
         return "memory logger";
     }
 
-    /**
-     * @param string message
-     * @param mixed[] context
-     */
     public function info(string message, array context = []) -> void
     {
         this->log(Enum::INFO, message, context);
     }
 
     /**
-     * @param string message
-     * @param mixed[] context
-     */
-    public function notice(string message, array context = []) -> void
-    {
-        this->log(Enum::NOTICE, message, context);
-    }
-
-    /**
-     * @param string message
-     * @param mixed[] context
-     */
-    public function trace(string message, array context = []) -> void
-    {
-        this->log(Enum::TRACE, message, context);
-    }
-
-    /**
-     * @param string message
-     * @param mixed[] context
-     */
-    public function warning(string message, array context = []) -> void
-    {
-        this->log(Enum::WARNING, message, context);
-    }
-
-    /**
      * Logs a message.
-     *
-     * @param mixed  $level
-     * @param string $message
-     * @param array  $context
      */
     public function log(var level, string message, array context = []) -> void
     {
@@ -176,5 +111,20 @@ class MemoryLogger implements LoggerInterface
         }
 
         let this->messages[] = strtr(message, replace);
+    }
+
+    public function notice(string message, array context = []) -> void
+    {
+        this->log(Enum::NOTICE, message, context);
+    }
+
+    public function trace(string message, array context = []) -> void
+    {
+        this->log(Enum::TRACE, message, context);
+    }
+
+    public function warning(string message, array context = []) -> void
+    {
+        this->log(Enum::WARNING, message, context);
     }
 }

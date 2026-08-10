@@ -15,6 +15,8 @@
 
 namespace Phalcon\DataMapper\Query;
 
+use PDO;
+use PDOStatement;
 use Phalcon\DataMapper\Pdo\Connection;
 
 /**
@@ -22,26 +24,12 @@ use Phalcon\DataMapper\Pdo\Connection;
  */
 abstract class AbstractQuery
 {
-    /**
-     * @var Bind
-     */
-    protected bind;
-
-    /**
-     * @var Connection
-     */
-    protected connection;
-
-    /**
-     * @var array
-     */
-    protected store = [];
+    protected <Bind> bind;
+    protected <Connection> connection;
+    protected array store = [];
 
     /**
      * AbstractQuery constructor.
-     *
-     * @param Connection $connection
-     * @param Bind       $bind
      */
     public function __construct(<Connection> connection, <Bind> bind)
     {
@@ -54,11 +42,6 @@ abstract class AbstractQuery
 
     /**
      * Binds a value inline
-     *
-     * @param mixed $value
-     * @param int   $type
-     *
-     * @return string
      */
     public function bindInline(var value, int type = -1) -> string
     {
@@ -67,12 +50,6 @@ abstract class AbstractQuery
 
     /**
      * Binds a value - auto-detects the type if necessary
-     *
-     * @param string $key
-     * @param mixed  $value
-     * @param int    $type
-     *
-     * @return AbstractQuery
      */
     public function bindValue(
         string key,
@@ -86,10 +63,6 @@ abstract class AbstractQuery
 
     /**
      * Binds an array of values
-     *
-     * @param array $values
-     *
-     * @return AbstractQuery
      */
     public function bindValues(array values) -> <AbstractQuery>
     {
@@ -100,8 +73,6 @@ abstract class AbstractQuery
 
     /**
      * Returns all the bound values
-     *
-     * @return array
      */
     public function getBindValues() -> array
     {
@@ -110,17 +81,13 @@ abstract class AbstractQuery
 
     /**
      * Return the generated statement
-     *
-     * @return string
      */
     abstract public function getStatement() -> string;
 
     /**
      * Performs a statement in the connection
-     *
-     * @return \PDOStatement
      */
-    public function perform()
+    public function perform() -> <PDOStatement>
     {
         return this->connection->perform(
             this->getStatement(),
@@ -129,33 +96,7 @@ abstract class AbstractQuery
     }
 
     /**
-     * Sets a flag for the query such as "DISTINCT"
-     *
-     * @param string $flag
-     * @param bool   $enable
-     */
-    public function setFlag(string flag, bool enable = true) -> void
-    {
-        var flags;
-
-        if enable {
-            let this->store["FLAGS"][flag] = true;
-        } else {
-            let flags = this->store["FLAGS"];
-
-            unset flags[flag];
-
-            let this->store["FLAGS"] = flags;
-        }
-    }
-
-    /**
      * Quotes the identifier
-     *
-     * @param string $name
-     * @param int    $type
-     *
-     * @return string
      */
     public function quoteIdentifier(
         string name,
@@ -189,19 +130,19 @@ abstract class AbstractQuery
     }
 
     /**
+     * Resets the flags
+     */
+    public function resetFlags() -> void
+    {
+        let this->store["FLAGS"] = [];
+    }
+
+    /**
      * Resets the from
      */
     public function resetFrom() -> void
     {
         let this->store["FROM"] = [];
-    }
-
-    /**
-     * Resets the where
-     */
-    public function resetWhere() -> void
-    {
-        let this->store["WHERE"] = [];
     }
 
     /**
@@ -221,14 +162,6 @@ abstract class AbstractQuery
     }
 
     /**
-     * Resets the order by
-     */
-    public function resetOrderBy() -> void
-    {
-        let this->store["ORDER"] = [];
-    }
-
-    /**
      * Resets the limit and offset
      */
     public function resetLimit() -> void
@@ -238,11 +171,40 @@ abstract class AbstractQuery
     }
 
     /**
-     * Resets the flags
+     * Resets the order by
      */
-    public function resetFlags() -> void
+    public function resetOrderBy() -> void
     {
-        let this->store["FLAGS"] = [];
+        let this->store["ORDER"] = [];
+    }
+
+    /**
+     * Resets the where
+     */
+    public function resetWhere() -> void
+    {
+        let this->store["WHERE"] = [];
+    }
+
+    /**
+     * Sets a flag for the query such as "DISTINCT"
+     *
+     * @param string $flag
+     * @param bool   $enable
+     */
+    public function setFlag(string flag, bool enable = true) -> void
+    {
+        var flags;
+
+        if enable {
+            let this->store["FLAGS"][flag] = true;
+        } else {
+            let flags = this->store["FLAGS"];
+
+            unset flags[flag];
+
+            let this->store["FLAGS"] = flags;
+        }
     }
 
     /**

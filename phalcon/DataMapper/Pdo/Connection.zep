@@ -14,6 +14,7 @@
 
 namespace Phalcon\DataMapper\Pdo;
 
+use PDO;
 use Phalcon\DataMapper\Pdo\Connection\AbstractConnection;
 use Phalcon\DataMapper\Pdo\Exception\DriverNotSupported;
 use Phalcon\DataMapper\Pdo\Profiler\Profiler;
@@ -25,23 +26,13 @@ use Phalcon\DataMapper\Pdo\Profiler\ProfilerInterface;
  */
 class Connection extends AbstractConnection
 {
-    /**
-     * @var array
-     */
-    protected arguments = [];
+    protected array arguments = [];
 
     /**
      * Constructor.
      *
      * This overrides the parent so that it can take connection attributes as a
      * constructor parameter, and set them after connection.
-     *
-     * @param string            $dsn
-     * @param string            $username
-     * @param string            $password
-     * @param array             $options
-     * @param array             $queries
-     * @param ProfilerInterface $profiler
      */
     public function __construct(
         string dsn,
@@ -66,7 +57,6 @@ class Connection extends AbstractConnection
             throw new DriverNotSupported(parts[0]);
         }
 
-
         // if no error mode is specified, use exceptions
         if !isset options[\PDO::ATTR_ERRMODE] {
             let options[\PDO::ATTR_ERRMODE] = \PDO::ERRMODE_EXCEPTION;
@@ -85,13 +75,12 @@ class Connection extends AbstractConnection
         if profiler === null {
             let profiler = new Profiler();
         }
+
         this->setProfiler(profiler);
     }
 
     /**
      * The purpose of this method is to hide sensitive data from stack traces.
-     *
-     * @return array
      */
     public function __debugInfo() -> array
     {

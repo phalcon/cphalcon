@@ -52,11 +52,6 @@ class Select extends AbstractConditions
 
     /**
      * Proxied methods to the connection
-     *
-     * @param string $method
-     * @param array  $params
-     *
-     * @return mixed
      */
     public function __call(string method, array params)
     {
@@ -96,12 +91,6 @@ class Select extends AbstractConditions
 
     /**
      * Sets a `AND` for a `HAVING` condition
-     *
-     * @param string     $condition
-     * @param mixed|null $value
-     * @param int        $type
-     *
-     * @return Select
      */
     public function andHaving(
         string condition,
@@ -114,27 +103,7 @@ class Select extends AbstractConditions
     }
 
     /**
-     * The `AS` statement for the query - useful in sub-queries
-     *
-     * @param string $asAlias
-     *
-     * @return Select
-     */
-    public function asAlias(string asAlias) -> <Select>
-    {
-        let this->asAlias = asAlias;
-
-        return this;
-    }
-
-    /**
      * Concatenates to the most recent `HAVING` clause
-     *
-     * @param string     $condition
-     * @param mixed|null $value
-     * @param int        $type
-     *
-     * @return Select
      */
     public function appendHaving(
         string condition,
@@ -148,12 +117,6 @@ class Select extends AbstractConditions
 
     /**
      * Concatenates to the most recent `JOIN` clause
-     *
-     * @param string     $condition
-     * @param mixed|null $value
-     * @param int        $type
-     *
-     * @return Select
      */
     public function appendJoin(
         string condition,
@@ -175,12 +138,18 @@ class Select extends AbstractConditions
     }
 
     /**
+     * The `AS` statement for the query - useful in sub-queries
+     */
+    public function asAlias(string asAlias) -> <Select>
+    {
+        let this->asAlias = asAlias;
+
+        return this;
+    }
+
+    /**
      * The columns to select from. If a key is set in the array element, the
      * key will be used as the alias
-     *
-     * @param array $columns
-     *
-     * @return Select
      */
     public function columns(array columns) -> <Select>
     {
@@ -203,11 +172,6 @@ class Select extends AbstractConditions
         return this;
     }
 
-    /**
-     * @param bool $enable
-     *
-     * @return Select
-     */
     public function distinct(bool enable = true) -> <Select>
     {
         this->setFlag("DISTINCT", enable);
@@ -216,25 +180,7 @@ class Select extends AbstractConditions
     }
 
     /**
-     * Adds table(s) in the query
-     *
-     * @param string $table
-     *
-     * @return Select
-     */
-    public function from(string table) -> <Select>
-    {
-        let this->store["FROM"][] = [table];
-
-        return this;
-    }
-
-    /**
      * Enable the `FOR UPDATE` for the query
-     *
-     * @param bool $enable
-     *
-     * @return Select
      */
     public function forUpdate(bool enable = true) -> <Select>
     {
@@ -244,9 +190,17 @@ class Select extends AbstractConditions
     }
 
     /**
+     * Adds table(s) in the query
+     */
+    public function from(string table) -> <Select>
+    {
+        let this->store["FROM"][] = [table];
+
+        return this;
+    }
+
+    /**
      * Returns the compiled SQL statement
-     *
-     * @return string
      */
     public function getStatement() -> string
     {
@@ -255,10 +209,6 @@ class Select extends AbstractConditions
 
     /**
      * Sets the `GROUP BY`
-     *
-     * @param array|string $groupBy
-     *
-     * @return Select
      */
     public function groupBy(var groupBy) -> <Select>
     {
@@ -279,12 +229,6 @@ class Select extends AbstractConditions
 
     /**
      * Sets a `HAVING` condition
-     *
-     * @param string     $condition
-     * @param mixed|null $value
-     * @param int        $type
-     *
-     * @return Select
      */
     public function having(
         string condition,
@@ -298,14 +242,6 @@ class Select extends AbstractConditions
 
     /**
      * Sets a 'JOIN' condition
-     *
-     * @param string     $join
-     * @param string     $table
-     * @param string     $condition
-     * @param mixed|null $value
-     * @param int        $type
-     *
-     * @return Select
      */
     public function join(
         string join,
@@ -344,12 +280,6 @@ class Select extends AbstractConditions
 
     /**
      * Sets a `OR` for a `HAVING` condition
-     *
-     * @param string     $condition
-     * @param mixed|null $value
-     * @param int        $type
-     *
-     * @return Select
      */
     public function orHaving(
         string condition,
@@ -374,8 +304,6 @@ class Select extends AbstractConditions
 
     /**
      * Start a sub-select
-     *
-     * @return Select
      */
     public function subSelect() -> <Select>
     {
@@ -384,8 +312,6 @@ class Select extends AbstractConditions
 
     /**
      * Start a `UNION`
-     *
-     * @return Select
      */
     public function union() -> <Select>
     {
@@ -398,8 +324,6 @@ class Select extends AbstractConditions
 
     /**
      * Start a `UNION ALL`
-     *
-     * @return Select
      */
     public function unionAll() -> <Select>
     {
@@ -412,10 +336,6 @@ class Select extends AbstractConditions
 
     /**
      * Statement builder
-     *
-     * @param string $suffix
-     *
-     * @return string
      */
     protected function getCurrentStatement(string suffix = "") -> string
     {
@@ -447,8 +367,6 @@ class Select extends AbstractConditions
 
     /**
      * Builds the columns list
-     *
-     * @return string
      */
     private function buildColumns() -> string
     {
@@ -465,8 +383,6 @@ class Select extends AbstractConditions
 
     /**
      * Builds the from list
-     *
-     * @return string
      */
     private function buildFrom() -> string
     {

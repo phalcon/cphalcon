@@ -35,22 +35,12 @@ interface ConnectionInterface extends PdoInterface
 
     /**
      * Performs a statement and returns the number of affected rows.
-     *
-     * @param string $statement
-     * @param array  $values
-     *
-     * @return int
      */
     public function fetchAffected(string statement, array values = []) -> int;
 
     /**
      * Fetches a sequential array of rows from the database; the rows are
      * returned as associative arrays.
-     *
-     * @param string $statement
-     * @param array  $values
-     *
-     * @return array
      */
     public function fetchAll(string statement, array values = []) -> array;
 
@@ -62,37 +52,28 @@ interface ConnectionInterface extends PdoInterface
      * If multiple rows have the same first column value, the last row with
      * that value will overwrite earlier rows. This method is more resource
      * intensive and should be avoided if possible.
-     *
-     * @param string $statement
-     * @param array  $values
-     *
-     * @return array
      */
     public function fetchAssoc(string statement, array values = []) -> array;
 
     /**
      * Fetches a column of rows as a sequential array (default first one).
-     *
-     * @param string $statement
-     * @param array  $values
-     * @param int    $column
-     *
-     * @return array
      */
-    public function fetchColumn(string statement, array values = [], int column = 0) -> array;
+    public function fetchColumn(
+        string statement,
+        array values = [],
+        int column = 0
+    ) -> array;
 
     /**
      * Fetches multiple from the database as an associative array. The first
      * column will be the index key. The default flags are
      * PDO::FETCH_ASSOC | PDO::FETCH_GROUP
-     *
-     * @param string $statement
-     * @param array  $values
-     * @param int    $flags
-     *
-     * @return array
      */
-    public function fetchGroup(string statement, array values = [], int flags = \PDO::FETCH_ASSOC) -> array;
+    public function fetchGroup(
+        string statement,
+        array values = [],
+        int flags = \PDO::FETCH_ASSOC
+    ) -> array;
 
     /**
      * Fetches one row from the database as an object where the column values
@@ -102,15 +83,13 @@ interface ConnectionInterface extends PdoInterface
      * initializations for defaults that you potentially have in your object's
      * constructor, will override the values that have been injected by
      * `fetchObject`. The default object returned is `\stdClass`
-     *
-     * @param string $statement
-     * @param array  $values
-     * @param string $class
-     * @param array  $arguments
-     *
-     * @return object
      */
-    public function fetchObject(string statement, array values = [], string className = "stdClass", array arguments = []) -> object;
+    public function fetchObject(
+        string statement,
+        array values = [],
+        string className = "stdClass",
+        array arguments = []
+    ) -> object;
 
     /**
      * Fetches a sequential array of rows from the database; the rows are
@@ -121,65 +100,42 @@ interface ConnectionInterface extends PdoInterface
      * initializations for defaults that you potentially have in your object's
      * constructor, will override the values that have been injected by
      * `fetchObject`. The default object returned is `\stdClass`
-     *
-     * @param string $statement
-     * @param array  $values
-     * @param string $class
-     * @param array  $arguments
-     *
-     * @return array
      */
-    public function fetchObjects(string statement, array values = [], string className = "stdClass", array arguments = []) -> array;
+    public function fetchObjects(
+        string statement,
+        array values = [],
+        string className = "stdClass",
+        array arguments = []
+    ) -> array;
 
     /**
      * Fetches one row from the database as an associative array.
-     *
-     * @param string $statement
-     * @param array  $values
-     *
-     * @return array
      */
     public function fetchOne(string statement, array values = []) -> array;
 
     /**
      * Fetches an associative array of rows as key-value pairs (first column is
      * the key, second column is the value).
-     *
-     * @param string $statement
-     * @param array  $values
-     *
-     * @return array
      */
     public function fetchPairs(string statement, array values = []) -> array;
 
     /**
      * Fetches the very first value (i.e., first column of the first row).
-     *
-     * @param string $statement
-     * @param array  $values
-     *
-     * @return mixed
      */
     public function fetchValue(string statement, array values = []) -> var;
 
     /**
      * Return the inner PDO (if any)
-     *
-     * @return \PDO
      */
     public function getAdapter() -> <\PDO>;
 
     /**
      * Returns the Profiler instance.
-     *
-     * @return ProfilerInterface
      */
     public function getProfiler() -> <ProfilerInterface>;
 
     /**
      * Is the PDO connection active?
-     *
-     * @return bool
      */
     public function isConnected() -> bool;
 
@@ -188,18 +144,11 @@ interface ConnectionInterface extends PdoInterface
      * PDOStatement; array values will be passed through `quote()` and their
      * respective placeholders will be replaced in the query string. If the
      * profiler is enabled, the operation will be recorded.
-     *
-     * @param string $statement
-     * @param array  $values
-     *
-     * @return \PDOStatement
      */
     public function perform(string statement, array values = []) -> <\PDOStatement>;
 
     /**
      * Sets the Profiler instance.
-     *
-     * @param ProfilerInterface $profiler The Profiler instance.
      */
     public function setProfiler(<ProfilerInterface> profiler);
 }

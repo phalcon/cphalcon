@@ -3267,9 +3267,15 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * Stores related records in the relation cache, so that a subsequent
      * getRelated() or property access returns them without querying.
      *
-     * This is the write side of the cache getRelated() already reads. It does
-     * not mark the record dirty: the value lands in `related`, never in
-     * `dirtyRelated`, so save() is unaffected.
+     * This is the write side of the cache getRelated() already reads. The value
+     * lands in `related`, never in `dirtyRelated`.
+     *
+     * That is not the same as leaving save() untouched. collectRelatedToSave()
+     * promotes a `related` entry into `dirtyRelated` when the entry is a single
+     * ModelInterface that is new or has changed, so passing such a record here
+     * does cascade on the next save(). Arrays, resultsets, and unchanged
+     * records carrying snapshot data are skipped - which is why eager loading,
+     * the caller this exists for, never triggers a cascade.
      *
      * @param mixed $records ModelInterface, Row, ResultsetInterface or null
      */

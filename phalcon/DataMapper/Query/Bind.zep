@@ -20,22 +20,9 @@ namespace Phalcon\DataMapper\Query;
  */
 class Bind
 {
-    /**
-     * @var int
-     */
-    protected inlineCount = 0;
+    protected int inlineCount = 0;
+    protected array store = [];
 
-    /**
-     * @var array
-     */
-    protected store = [];
-
-    /**
-     * @param mixed $value
-     * @param int   $type
-     *
-     * @return string
-     */
     public function bindInline(var value, int type = -1) -> string
     {
         var key;
@@ -59,8 +46,6 @@ class Bind
 
     /**
      * Removes a value from the store
-     *
-     * @param string $key
      */
     public function remove(string key) -> void
     {
@@ -75,10 +60,6 @@ class Bind
 
     /**
      * Sets a value
-     *
-     * @param string $key
-     * @param mixed  $value
-     * @param int    $type
      */
     public function setValue(string key, var value, int type = -1) -> void
     {
@@ -94,9 +75,6 @@ class Bind
 
     /**
      * Sets values from an array
-     *
-     * @param array $values
-     * @param int   $type
      */
     public function setValues(array values, int type = -1) -> void
     {
@@ -109,8 +87,6 @@ class Bind
 
     /**
      * Returns the internal collection
-     *
-     * @return array
      */
     public function toArray() -> array
     {
@@ -119,10 +95,6 @@ class Bind
 
     /**
      * Auto detects the PDO type
-     *
-     * @param mixed $value
-     *
-     * @return int
      */
     protected function getType(var value) -> int
     {
@@ -143,11 +115,6 @@ class Bind
 
     /**
      * Processes an array - if passed as an `inline` parameter
-     *
-     * @param array $array
-     * @param int   $type
-     *
-     * @return string
      */
     protected function inlineArray(array data, int type) -> string
     {
