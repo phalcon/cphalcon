@@ -43,17 +43,17 @@ ZEPHIR_INIT_CLASS(Phalcon_DataMapper_Pdo_Profiler_ProfilerInterface)
  */
 ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Profiler_ProfilerInterface, finish);
 /**
- * Returns the underlying logger instance.
- *
- * @return LoggerInterface
- */
-ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Profiler_ProfilerInterface, getLogger);
-/**
  * Returns the log message format string, with placeholders.
  *
  * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Profiler_ProfilerInterface, getLogFormat);
+/**
+ * Returns the underlying logger instance.
+ *
+ * @return LoggerInterface
+ */
+ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Profiler_ProfilerInterface, getLogger);
 /**
  * Returns the level at which to log profile messages.
  *

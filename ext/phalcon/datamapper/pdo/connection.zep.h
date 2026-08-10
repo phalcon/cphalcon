@@ -7,7 +7,6 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection, __construct);
 PHP_METHOD(Phalcon_DataMapper_Pdo_Connection, __debugInfo);
 PHP_METHOD(Phalcon_DataMapper_Pdo_Connection, connect);
 PHP_METHOD(Phalcon_DataMapper_Pdo_Connection, disconnect);
-zend_object *zephir_init_properties_Phalcon_DataMapper_Pdo_Connection(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_datamapper_pdo_connection___construct, 0, 0, 1)
 	ZEND_ARG_TYPE_INFO(0, dsn, IS_STRING, 0)
@@ -25,9 +24,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_pdo_connectio
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_pdo_connection_disconnect, 0, 0, IS_VOID, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_datamapper_pdo_connection_zephir_init_properties_phalcon_datamapper_pdo_connection, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_datamapper_pdo_connection_method_entry) {

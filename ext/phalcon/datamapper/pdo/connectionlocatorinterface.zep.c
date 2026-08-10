@@ -37,53 +37,29 @@ ZEPHIR_INIT_CLASS(Phalcon_DataMapper_Pdo_ConnectionLocatorInterface)
 
 /**
  * Returns the default connection object.
- *
- * @return ConnectionInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_ConnectionLocatorInterface, getMaster);
 /**
  * Returns a read connection by name; if no name is given, picks a
  * random connection; if no read connections are present, returns the
  * default connection.
- *
- * @param string $name
- *
- * @return ConnectionInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_ConnectionLocatorInterface, getRead);
 /**
  * Returns a write connection by name; if no name is given, picks a
  * random connection; if no write connections are present, returns the
  * default connection.
- *
- * @param string $name
- *
- * @return ConnectionInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_ConnectionLocatorInterface, getWrite);
 /**
  * Sets the default connection registry entry.
- *
- * @param ConnectionInterface $callable
- *
- * @return ConnectionLocatorInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_ConnectionLocatorInterface, setMaster);
 /**
  * Sets a read connection registry entry by name.
- *
- * @param string   $name
- * @param callable $callable
- *
- * @return ConnectionLocatorInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_ConnectionLocatorInterface, setRead);
 /**
  * Sets a write connection registry entry by name.
- *
- * @param string   $name
- * @param callable $callable
- *
- * @return ConnectionLocatorInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_ConnectionLocatorInterface, setWrite);

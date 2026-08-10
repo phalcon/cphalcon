@@ -15,9 +15,9 @@
 #include "kernel/fcall.h"
 #include "kernel/object.h"
 #include "kernel/memory.h"
+#include "kernel/concat.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
-#include "kernel/concat.h"
 
 
 /**
@@ -45,9 +45,6 @@ ZEPHIR_INIT_CLASS(Phalcon_DataMapper_Query_Delete)
 
 /**
  * Delete constructor.
- *
- * @param Connection $connection
- * @param Bind       $bind
  */
 PHP_METHOD(Phalcon_DataMapper_Query_Delete, __construct)
 {
@@ -86,10 +83,6 @@ PHP_METHOD(Phalcon_DataMapper_Query_Delete, __construct)
 
 /**
  * Adds table(s) in the query
- *
- * @param string $table
- *
- * @return Delete
  */
 PHP_METHOD(Phalcon_DataMapper_Query_Delete, from)
 {
@@ -113,50 +106,6 @@ PHP_METHOD(Phalcon_DataMapper_Query_Delete, from)
 	RETURN_THIS();
 }
 
-/**
- * Adds the `RETURNING` clause
- *
- * @param array $columns
- *
- * @return Delete
- */
-PHP_METHOD(Phalcon_DataMapper_Query_Delete, returning)
-{
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval *columns_param = NULL, _0, _1, _2, _3;
-	zval columns;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&columns);
-	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_3);
-	static zend_string *_zephir_prop_0 = NULL;
-	if (UNEXPECTED(!_zephir_prop_0)) {
-		_zephir_prop_0 = zend_string_init("store", 5, 1);
-	}
-
-	ZEND_PARSE_PARAMETERS_START(1, 1)
-		ZEPHIR_Z_PARAM_ARRAY(columns, columns_param)
-	ZEND_PARSE_PARAMETERS_END();
-	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_fetch_params(1, 1, 0, &columns_param);
-	zephir_get_arrval(&columns, columns_param);
-	ZEPHIR_INIT_VAR(&_0);
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 573, PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch_string(&_2, &_1, SL("RETURNING"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Query/Delete.zep", 63);
-	zephir_fast_array_merge(&_0, &_2, &columns);
-	ZEPHIR_INIT_VAR(&_3);
-	ZVAL_STRING(&_3, "RETURNING");
-	zephir_update_property_array(this_ptr, SL("store"), &_3, &_0);
-	RETURN_THIS();
-}
-
-/**
- * @return string
- */
 PHP_METHOD(Phalcon_DataMapper_Query_Delete, getStatement)
 {
 	zval _0, _1, _2, _3, _4, _5;
@@ -180,7 +129,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Delete, getStatement)
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "buildflags", NULL, 0);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 573, PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch_string(&_2, &_1, SL("FROM"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Query/Delete.zep", 78);
+	zephir_array_fetch_string(&_2, &_1, SL("FROM"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Query/Delete.zep", 51);
 	ZEPHIR_INIT_VAR(&_4);
 	ZVAL_STRING(&_4, "WHERE");
 	ZEPHIR_CALL_METHOD(&_3, this_ptr, "buildcondition", NULL, 0, &_4);
@@ -221,5 +170,42 @@ PHP_METHOD(Phalcon_DataMapper_Query_Delete, reset)
 	ZVAL_STRING(&_3, "RETURNING");
 	zephir_update_property_array(this_ptr, SL("store"), &_3, &_2);
 	ZEPHIR_MM_RESTORE();
+}
+
+/**
+ * Adds the `RETURNING` clause
+ */
+PHP_METHOD(Phalcon_DataMapper_Query_Delete, returning)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zval *columns_param = NULL, _0, _1, _2, _3;
+	zval columns;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&columns);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_3);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("store", 5, 1);
+	}
+
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		ZEPHIR_Z_PARAM_ARRAY(columns, columns_param)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_fetch_params(1, 1, 0, &columns_param);
+	zephir_get_arrval(&columns, columns_param);
+	ZEPHIR_INIT_VAR(&_0);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 573, PH_NOISY_CC | PH_READONLY);
+	zephir_array_fetch_string(&_2, &_1, SL("RETURNING"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Query/Delete.zep", 72);
+	zephir_fast_array_merge(&_0, &_2, &columns);
+	ZEPHIR_INIT_VAR(&_3);
+	ZVAL_STRING(&_3, "RETURNING");
+	zephir_update_property_array(this_ptr, SL("store"), &_3, &_0);
+	RETURN_THIS();
 }
 

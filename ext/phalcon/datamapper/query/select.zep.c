@@ -75,11 +75,6 @@ ZEPHIR_INIT_CLASS(Phalcon_DataMapper_Query_Select)
 
 /**
  * Proxied methods to the connection
- *
- * @param string $method
- * @param array  $params
- *
- * @return mixed
  */
 PHP_METHOD(Phalcon_DataMapper_Query_Select, __call)
 {
@@ -152,19 +147,13 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, __call)
 	object_init_ex(&_5, phalcon_datamapper_pdo_exception_unknownquerymethod_ce);
 	ZEPHIR_CALL_METHOD(NULL, &_5, "__construct", NULL, 510, &method_zv);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(&_5, "phalcon/DataMapper/Query/Select.zep", 94);
+	zephir_throw_exception_debug(&_5, "phalcon/DataMapper/Query/Select.zep", 89);
 	ZEPHIR_MM_RESTORE();
 	return;
 }
 
 /**
  * Sets a `AND` for a `HAVING` condition
- *
- * @param string     $condition
- * @param mixed|null $value
- * @param int        $type
- *
- * @return Select
  */
 PHP_METHOD(Phalcon_DataMapper_Query_Select, andHaving)
 {
@@ -210,40 +199,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, andHaving)
 }
 
 /**
- * The `AS` statement for the query - useful in sub-queries
- *
- * @param string $asAlias
- *
- * @return Select
- */
-PHP_METHOD(Phalcon_DataMapper_Query_Select, asAlias)
-{
-	zval asAlias_zv;
-	zend_string *asAlias = NULL;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&asAlias_zv);
-	static zend_string *_zephir_prop_0 = NULL;
-	if (UNEXPECTED(!_zephir_prop_0)) {
-		_zephir_prop_0 = zend_string_init("asAlias", 7, 1);
-	}
-
-	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_STR(asAlias)
-	ZEND_PARSE_PARAMETERS_END();
-	ZVAL_STR(&asAlias_zv, asAlias);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 579, &asAlias_zv);
-	RETURN_THISW();
-}
-
-/**
  * Concatenates to the most recent `HAVING` clause
- *
- * @param string     $condition
- * @param mixed|null $value
- * @param int        $type
- *
- * @return Select
  */
 PHP_METHOD(Phalcon_DataMapper_Query_Select, appendHaving)
 {
@@ -293,12 +249,6 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, appendHaving)
 
 /**
  * Concatenates to the most recent `JOIN` clause
- *
- * @param string     $condition
- * @param mixed|null $value
- * @param int        $type
- *
- * @return Select
  */
 PHP_METHOD(Phalcon_DataMapper_Query_Select, appendJoin)
 {
@@ -355,25 +305,25 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, appendJoin)
 	} else {
 		}
 	if (!(ZEPHIR_IS_EMPTY(value))) {
-		zephir_read_property_cached(&_0$$3, this_ptr, _zephir_prop_0, 580, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_0$$3, this_ptr, _zephir_prop_0, 579, PH_NOISY_CC | PH_READONLY);
 		ZVAL_LONG(&_2$$3, type);
 		ZEPHIR_CALL_METHOD(&_1$$3, &_0$$3, "bindinline", NULL, 0, value, &_2$$3);
 		zephir_check_call_status();
 		zephir_concat_self(&condition, &_1$$3);
 	}
-	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_1, 581, PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch_string(&_4, &_3, SL("FROM"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Query/Select.zep", 169);
+	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_1, 580, PH_NOISY_CC | PH_READONLY);
+	zephir_array_fetch_string(&_4, &_3, SL("FROM"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Query/Select.zep", 132);
 	ZEPHIR_CALL_FUNCTION(&end, "array_key_last", NULL, 20, &_4);
 	zephir_check_call_status();
-	zephir_read_property_cached(&_5, this_ptr, _zephir_prop_1, 581, PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch_string(&_6, &_5, SL("FROM"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Query/Select.zep", 170);
-	zephir_array_fetch(&_7, &_6, &end, PH_NOISY | PH_READONLY, "phalcon/DataMapper/Query/Select.zep", 170);
+	zephir_read_property_cached(&_5, this_ptr, _zephir_prop_1, 580, PH_NOISY_CC | PH_READONLY);
+	zephir_array_fetch_string(&_6, &_5, SL("FROM"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Query/Select.zep", 133);
+	zephir_array_fetch(&_7, &_6, &end, PH_NOISY | PH_READONLY, "phalcon/DataMapper/Query/Select.zep", 133);
 	ZEPHIR_CALL_FUNCTION(&key, "array_key_last", NULL, 20, &_7);
 	zephir_check_call_status();
-	zephir_read_property_cached(&_8, this_ptr, _zephir_prop_1, 581, PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch_string(&_9, &_8, SL("FROM"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Query/Select.zep", 172);
-	zephir_array_fetch(&_10, &_9, &end, PH_NOISY | PH_READONLY, "phalcon/DataMapper/Query/Select.zep", 172);
-	zephir_array_fetch(&_11, &_10, &key, PH_NOISY | PH_READONLY, "phalcon/DataMapper/Query/Select.zep", 172);
+	zephir_read_property_cached(&_8, this_ptr, _zephir_prop_1, 580, PH_NOISY_CC | PH_READONLY);
+	zephir_array_fetch_string(&_9, &_8, SL("FROM"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Query/Select.zep", 135);
+	zephir_array_fetch(&_10, &_9, &end, PH_NOISY | PH_READONLY, "phalcon/DataMapper/Query/Select.zep", 135);
+	zephir_array_fetch(&_11, &_10, &key, PH_NOISY | PH_READONLY, "phalcon/DataMapper/Query/Select.zep", 135);
 	ZEPHIR_INIT_VAR(&_12);
 	ZEPHIR_CONCAT_VV(&_12, &_11, &condition);
 	zephir_update_property_array_multi(this_ptr, SL("store"), &_12, SL("szz"), 4, SL("FROM"), &end, &key);
@@ -381,12 +331,31 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, appendJoin)
 }
 
 /**
+ * The `AS` statement for the query - useful in sub-queries
+ */
+PHP_METHOD(Phalcon_DataMapper_Query_Select, asAlias)
+{
+	zval asAlias_zv;
+	zend_string *asAlias = NULL;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&asAlias_zv);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("asAlias", 7, 1);
+	}
+
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(asAlias)
+	ZEND_PARSE_PARAMETERS_END();
+	ZVAL_STR(&asAlias_zv, asAlias);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 581, &asAlias_zv);
+	RETURN_THISW();
+}
+
+/**
  * The columns to select from. If a key is set in the array element, the
  * key will be used as the alias
- *
- * @param array $columns
- *
- * @return Select
  */
 PHP_METHOD(Phalcon_DataMapper_Query_Select, columns)
 {
@@ -424,7 +393,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, columns)
 	zephir_get_arrval(&columns, columns_param);
 	ZEPHIR_INIT_VAR(&localColumns);
 	array_init(&localColumns);
-	zephir_is_iterable(&columns, 0, "phalcon/DataMapper/Query/Select.zep", 198);
+	zephir_is_iterable(&columns, 0, "phalcon/DataMapper/Query/Select.zep", 167);
 	if (Z_TYPE_P(&columns) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&columns), _1, _2, _0)
 		{
@@ -437,11 +406,11 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, columns)
 			ZEPHIR_INIT_NVAR(&value);
 			ZVAL_COPY(&value, _0);
 			if (Z_TYPE_P(&key) == IS_LONG) {
-				zephir_array_append(&localColumns, &value, PH_SEPARATE, "phalcon/DataMapper/Query/Select.zep", 192);
+				zephir_array_append(&localColumns, &value, PH_SEPARATE, "phalcon/DataMapper/Query/Select.zep", 161);
 			} else {
 				ZEPHIR_INIT_NVAR(&_3$$5);
 				ZEPHIR_CONCAT_VSV(&_3$$5, &value, " AS ", &key);
-				zephir_array_append(&localColumns, &_3$$5, PH_SEPARATE, "phalcon/DataMapper/Query/Select.zep", 194);
+				zephir_array_append(&localColumns, &_3$$5, PH_SEPARATE, "phalcon/DataMapper/Query/Select.zep", 163);
 			}
 		} ZEND_HASH_FOREACH_END();
 	} else {
@@ -465,19 +434,19 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, columns)
 			ZEPHIR_CALL_METHOD(&value, &columns, "current", NULL, 0);
 			zephir_check_call_status();
 				if (Z_TYPE_P(&key) == IS_LONG) {
-					zephir_array_append(&localColumns, &value, PH_SEPARATE, "phalcon/DataMapper/Query/Select.zep", 192);
+					zephir_array_append(&localColumns, &value, PH_SEPARATE, "phalcon/DataMapper/Query/Select.zep", 161);
 				} else {
 					ZEPHIR_INIT_NVAR(&_6$$8);
 					ZEPHIR_CONCAT_VSV(&_6$$8, &value, " AS ", &key);
-					zephir_array_append(&localColumns, &_6$$8, PH_SEPARATE, "phalcon/DataMapper/Query/Select.zep", 194);
+					zephir_array_append(&localColumns, &_6$$8, PH_SEPARATE, "phalcon/DataMapper/Query/Select.zep", 163);
 				}
 		}
 	}
 	ZEPHIR_INIT_NVAR(&value);
 	ZEPHIR_INIT_NVAR(&key);
 	ZEPHIR_INIT_VAR(&_7);
-	zephir_read_property_cached(&_8, this_ptr, _zephir_prop_0, 581, PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch_string(&_9, &_8, SL("COLUMNS"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Query/Select.zep", 199);
+	zephir_read_property_cached(&_8, this_ptr, _zephir_prop_0, 580, PH_NOISY_CC | PH_READONLY);
+	zephir_array_fetch_string(&_9, &_8, SL("COLUMNS"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Query/Select.zep", 168);
 	zephir_fast_array_merge(&_7, &_9, &localColumns);
 	ZEPHIR_INIT_VAR(&_10);
 	ZVAL_STRING(&_10, "COLUMNS");
@@ -485,11 +454,6 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, columns)
 	RETURN_THIS();
 }
 
-/**
- * @param bool $enable
- *
- * @return Select
- */
 PHP_METHOD(Phalcon_DataMapper_Query_Select, distinct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -524,42 +488,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, distinct)
 }
 
 /**
- * Adds table(s) in the query
- *
- * @param string $table
- *
- * @return Select
- */
-PHP_METHOD(Phalcon_DataMapper_Query_Select, from)
-{
-	zval _0;
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval table_zv;
-	zend_string *table = NULL;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&table_zv);
-	ZVAL_UNDEF(&_0);
-	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_STR(table)
-	ZEND_PARSE_PARAMETERS_END();
-	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_memory_observe(&table_zv);
-	ZVAL_STR_COPY(&table_zv, table);
-	ZEPHIR_INIT_VAR(&_0);
-	zephir_create_array(&_0, 1, 0);
-	zephir_array_fast_append(&_0, &table_zv);
-	zephir_update_property_array_multi(this_ptr, SL("store"), &_0, SL("sa"), 3, SL("FROM"));
-	RETURN_THIS();
-}
-
-/**
  * Enable the `FOR UPDATE` for the query
- *
- * @param bool $enable
- *
- * @return Select
  */
 PHP_METHOD(Phalcon_DataMapper_Query_Select, forUpdate)
 {
@@ -592,9 +521,34 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, forUpdate)
 }
 
 /**
+ * Adds table(s) in the query
+ */
+PHP_METHOD(Phalcon_DataMapper_Query_Select, from)
+{
+	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zval table_zv;
+	zend_string *table = NULL;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&table_zv);
+	ZVAL_UNDEF(&_0);
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(table)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&table_zv);
+	ZVAL_STR_COPY(&table_zv, table);
+	ZEPHIR_INIT_VAR(&_0);
+	zephir_create_array(&_0, 1, 0);
+	zephir_array_fast_append(&_0, &table_zv);
+	zephir_update_property_array_multi(this_ptr, SL("store"), &_0, SL("sa"), 3, SL("FROM"));
+	RETURN_THIS();
+}
+
+/**
  * Returns the compiled SQL statement
- *
- * @return string
  */
 PHP_METHOD(Phalcon_DataMapper_Query_Select, getStatement)
 {
@@ -615,8 +569,8 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, getStatement)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	ZEPHIR_INIT_VAR(&_0);
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 581, PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch_string(&_2, &_1, SL("UNION"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Query/Select.zep", 253);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 580, PH_NOISY_CC | PH_READONLY);
+	zephir_array_fetch_string(&_2, &_1, SL("UNION"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Query/Select.zep", 207);
 	zephir_fast_join_str(&_0, SL(""), &_2);
 	ZEPHIR_CALL_METHOD(&_3, this_ptr, "getcurrentstatement", NULL, 0);
 	zephir_check_call_status();
@@ -626,10 +580,6 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, getStatement)
 
 /**
  * Sets the `GROUP BY`
- *
- * @param array|string $groupBy
- *
- * @return Select
  */
 PHP_METHOD(Phalcon_DataMapper_Query_Select, groupBy)
 {
@@ -669,19 +619,13 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, hasColumns)
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("store", 5, 1);
 	}
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 581, PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch_string(&_1, &_0, SL("COLUMNS"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Query/Select.zep", 277);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 580, PH_NOISY_CC | PH_READONLY);
+	zephir_array_fetch_string(&_1, &_0, SL("COLUMNS"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Query/Select.zep", 227);
 	RETURN_BOOL(!(ZEPHIR_IS_EMPTY(&_1)));
 }
 
 /**
  * Sets a `HAVING` condition
- *
- * @param string     $condition
- * @param mixed|null $value
- * @param int        $type
- *
- * @return Select
  */
 PHP_METHOD(Phalcon_DataMapper_Query_Select, having)
 {
@@ -734,14 +678,6 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, having)
 
 /**
  * Sets a 'JOIN' condition
- *
- * @param string     $join
- * @param string     $table
- * @param string     $condition
- * @param mixed|null $value
- * @param int        $type
- *
- * @return Select
  */
 PHP_METHOD(Phalcon_DataMapper_Query_Select, join)
 {
@@ -860,14 +796,14 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, join)
 		ZEPHIR_CPY_WRT(&condition, &_15$$4);
 	}
 	if (!(ZEPHIR_IS_EMPTY(value))) {
-		zephir_read_property_cached(&_16$$5, this_ptr, _zephir_prop_0, 580, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_16$$5, this_ptr, _zephir_prop_0, 579, PH_NOISY_CC | PH_READONLY);
 		ZVAL_LONG(&_18$$5, type);
 		ZEPHIR_CALL_METHOD(&_17$$5, &_16$$5, "bindinline", NULL, 0, value, &_18$$5);
 		zephir_check_call_status();
 		zephir_concat_self(&condition, &_17$$5);
 	}
-	zephir_read_property_cached(&_19, this_ptr, _zephir_prop_1, 581, PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch_string(&_20, &_19, SL("FROM"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Query/Select.zep", 338);
+	zephir_read_property_cached(&_19, this_ptr, _zephir_prop_1, 580, PH_NOISY_CC | PH_READONLY);
+	zephir_array_fetch_string(&_20, &_19, SL("FROM"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Query/Select.zep", 274);
 	ZEPHIR_CALL_FUNCTION(&key, "array_key_last", NULL, 20, &_20);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_21);
@@ -878,12 +814,6 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, join)
 
 /**
  * Sets a `OR` for a `HAVING` condition
- *
- * @param string     $condition
- * @param mixed|null $value
- * @param int        $type
- *
- * @return Select
  */
 PHP_METHOD(Phalcon_DataMapper_Query_Select, orHaving)
 {
@@ -963,7 +893,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, reset)
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "");
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 579, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 581, &_0);
 	if (0) {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 582, &__$true);
 	} else {
@@ -974,8 +904,6 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, reset)
 
 /**
  * Start a sub-select
- *
- * @return Select
  */
 PHP_METHOD(Phalcon_DataMapper_Query_Select, subSelect)
 {
@@ -999,7 +927,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, subSelect)
 
 	object_init_ex(return_value, phalcon_datamapper_query_select_ce);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 578, PH_NOISY_CC | PH_READONLY);
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 580, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 579, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 511, &_0, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
@@ -1007,8 +935,6 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, subSelect)
 
 /**
  * Start a `UNION`
- *
- * @return Select
  */
 PHP_METHOD(Phalcon_DataMapper_Query_Select, union)
 {
@@ -1034,8 +960,6 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, union)
 
 /**
  * Start a `UNION ALL`
- *
- * @return Select
  */
 PHP_METHOD(Phalcon_DataMapper_Query_Select, unionAll)
 {
@@ -1061,10 +985,6 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, unionAll)
 
 /**
  * Statement builder
- *
- * @param string $suffix
- *
- * @return string
  */
 PHP_METHOD(Phalcon_DataMapper_Query_Select, getCurrentStatement)
 {
@@ -1151,11 +1071,11 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, getCurrentStatement)
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&statement);
 	ZEPHIR_CONCAT_SVVVVVVVVVV(&statement, "SELECT", &_1, &_2, &_3, &_4, &_5, &_7, &_8, &_9, &_10, &forUpdate);
-	zephir_read_property_cached(&_11, this_ptr, _zephir_prop_1, 579, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_11, this_ptr, _zephir_prop_1, 581, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_12);
 	ZVAL_STRING(&_12, "");
 	if (UNEXPECTED(!ZEPHIR_IS_IDENTICAL(&_12, &_11))) {
-		zephir_read_property_cached(&_13$$4, this_ptr, _zephir_prop_1, 579, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_13$$4, this_ptr, _zephir_prop_1, 581, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_INIT_VAR(&_14$$4);
 		ZEPHIR_CONCAT_SVSV(&_14$$4, "(", &statement, ") AS ", &_13$$4);
 		ZEPHIR_CPY_WRT(&statement, &_14$$4);
@@ -1166,8 +1086,6 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, getCurrentStatement)
 
 /**
  * Builds the columns list
- *
- * @return string
  */
 PHP_METHOD(Phalcon_DataMapper_Query_Select, buildColumns)
 {
@@ -1197,9 +1115,9 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, buildColumns)
 		ZVAL_STRING(&_1$$3, "*");
 		zephir_array_fast_append(&columns, &_1$$3);
 	} else {
-		zephir_read_property_cached(&_2$$4, this_ptr, _zephir_prop_0, 581, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_2$$4, this_ptr, _zephir_prop_0, 580, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_OBS_NVAR(&columns);
-		zephir_array_fetch_string(&columns, &_2$$4, SL("COLUMNS"), PH_NOISY, "phalcon/DataMapper/Query/Select.zep", 460);
+		zephir_array_fetch_string(&columns, &_2$$4, SL("COLUMNS"), PH_NOISY, "phalcon/DataMapper/Query/Select.zep", 378);
 	}
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, ",");
@@ -1210,8 +1128,6 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, buildColumns)
 
 /**
  * Builds the from list
- *
- * @return string
  */
 PHP_METHOD(Phalcon_DataMapper_Query_Select, buildFrom)
 {
@@ -1247,14 +1163,14 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, buildFrom)
 
 	ZEPHIR_INIT_VAR(&from);
 	array_init(&from);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 581, PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch_string(&_1, &_0, SL("FROM"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Query/Select.zep", 476);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 580, PH_NOISY_CC | PH_READONLY);
+	zephir_array_fetch_string(&_1, &_0, SL("FROM"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Query/Select.zep", 392);
 	if (ZEPHIR_IS_EMPTY(&_1)) {
 		RETURN_MM_STRING("");
 	}
-	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 581, PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch_string(&_3, &_2, SL("FROM"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Query/Select.zep", 480);
-	zephir_is_iterable(&_3, 0, "phalcon/DataMapper/Query/Select.zep", 484);
+	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 580, PH_NOISY_CC | PH_READONLY);
+	zephir_array_fetch_string(&_3, &_2, SL("FROM"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Query/Select.zep", 396);
+	zephir_is_iterable(&_3, 0, "phalcon/DataMapper/Query/Select.zep", 400);
 	if (Z_TYPE_P(&_3) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_3), _4)
 		{
@@ -1268,7 +1184,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, buildFrom)
 			zephir_check_call_status();
 			ZEPHIR_INIT_NVAR(&_9$$4);
 			ZEPHIR_CONCAT_VV(&_9$$4, &_5$$4, &_7$$4);
-			zephir_array_append(&from, &_9$$4, PH_SEPARATE, "phalcon/DataMapper/Query/Select.zep", 481);
+			zephir_array_append(&from, &_9$$4, PH_SEPARATE, "phalcon/DataMapper/Query/Select.zep", 397);
 		} ZEND_HASH_FOREACH_END();
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, &_3, "rewind", NULL, 0);
@@ -1296,7 +1212,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, buildFrom)
 				zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(&_14$$5);
 				ZEPHIR_CONCAT_VV(&_14$$5, &_12$$5, &_13$$5);
-				zephir_array_append(&from, &_14$$5, PH_SEPARATE, "phalcon/DataMapper/Query/Select.zep", 481);
+				zephir_array_append(&from, &_14$$5, PH_SEPARATE, "phalcon/DataMapper/Query/Select.zep", 397);
 		}
 	}
 	ZEPHIR_INIT_NVAR(&table);

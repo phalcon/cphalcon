@@ -3,6 +3,9 @@ extern zend_class_entry *phalcon_datamapper_pdo_connection_pdointerface_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_DataMapper_Pdo_Connection_PdoInterface);
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_pdo_connection_pdointerface_getavailabledrivers, 0, 0, IS_ARRAY, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_pdo_connection_pdointerface_begintransaction, 0, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
@@ -23,9 +26,6 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_datamapper_pdo_connection_pdointerface_ge
 	ZEND_ARG_TYPE_INFO(0, attribute, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_pdo_connection_pdointerface_getavailabledrivers, 0, 0, IS_ARRAY, 0)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_pdo_connection_pdointerface_intransaction, 0, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
@@ -33,12 +33,12 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_pdo_connectio
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, name, IS_STRING, 1, "null")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_TYPE_MASK_EX(arginfo_phalcon_datamapper_pdo_connection_pdointerface_prepare, 0, 1, PDOStatement, MAY_BE_BOOL)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_TYPE_MASK_EX(arginfo_phalcon_datamapper_pdo_connection_pdointerface_prepare, 0, 1, PDOStatement, MAY_BE_FALSE)
 	ZEND_ARG_TYPE_INFO(0, statement, IS_STRING, 0)
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, options, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_TYPE_MASK_EX(arginfo_phalcon_datamapper_pdo_connection_pdointerface_query, 0, 1, PDOStatement, MAY_BE_BOOL)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_TYPE_MASK_EX(arginfo_phalcon_datamapper_pdo_connection_pdointerface_query, 0, 1, PDOStatement, MAY_BE_FALSE)
 	ZEND_ARG_TYPE_INFO(0, statement, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
@@ -56,13 +56,13 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_pdo_connectio
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_datamapper_pdo_connection_pdointerface_method_entry) {
+	ZEND_FENTRY(getAvailableDrivers, NULL, arginfo_phalcon_datamapper_pdo_connection_pdointerface_getavailabledrivers, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
 	PHP_ABSTRACT_ME(Phalcon_DataMapper_Pdo_Connection_PdoInterface, beginTransaction, arginfo_phalcon_datamapper_pdo_connection_pdointerface_begintransaction)
 	PHP_ABSTRACT_ME(Phalcon_DataMapper_Pdo_Connection_PdoInterface, commit, arginfo_phalcon_datamapper_pdo_connection_pdointerface_commit)
 	PHP_ABSTRACT_ME(Phalcon_DataMapper_Pdo_Connection_PdoInterface, errorCode, arginfo_phalcon_datamapper_pdo_connection_pdointerface_errorcode)
 	PHP_ABSTRACT_ME(Phalcon_DataMapper_Pdo_Connection_PdoInterface, errorInfo, arginfo_phalcon_datamapper_pdo_connection_pdointerface_errorinfo)
 	PHP_ABSTRACT_ME(Phalcon_DataMapper_Pdo_Connection_PdoInterface, exec, arginfo_phalcon_datamapper_pdo_connection_pdointerface_exec)
 	PHP_ABSTRACT_ME(Phalcon_DataMapper_Pdo_Connection_PdoInterface, getAttribute, arginfo_phalcon_datamapper_pdo_connection_pdointerface_getattribute)
-	ZEND_FENTRY(getAvailableDrivers, NULL, arginfo_phalcon_datamapper_pdo_connection_pdointerface_getavailabledrivers, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
 	PHP_ABSTRACT_ME(Phalcon_DataMapper_Pdo_Connection_PdoInterface, inTransaction, arginfo_phalcon_datamapper_pdo_connection_pdointerface_intransaction)
 	PHP_ABSTRACT_ME(Phalcon_DataMapper_Pdo_Connection_PdoInterface, lastInsertId, arginfo_phalcon_datamapper_pdo_connection_pdointerface_lastinsertid)
 	PHP_ABSTRACT_ME(Phalcon_DataMapper_Pdo_Connection_PdoInterface, prepare, arginfo_phalcon_datamapper_pdo_connection_pdointerface_prepare)

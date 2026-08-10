@@ -9,8 +9,8 @@ PHP_METHOD(Phalcon_DataMapper_Query_Update, columns);
 PHP_METHOD(Phalcon_DataMapper_Query_Update, from);
 PHP_METHOD(Phalcon_DataMapper_Query_Update, getStatement);
 PHP_METHOD(Phalcon_DataMapper_Query_Update, hasColumns);
-PHP_METHOD(Phalcon_DataMapper_Query_Update, returning);
 PHP_METHOD(Phalcon_DataMapper_Query_Update, reset);
+PHP_METHOD(Phalcon_DataMapper_Query_Update, returning);
 PHP_METHOD(Phalcon_DataMapper_Query_Update, set);
 PHP_METHOD(Phalcon_DataMapper_Query_Update, buildColumns);
 
@@ -39,11 +39,11 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_update_hascolumns, 0, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_update_returning, 0, 1, Phalcon\\DataMapper\\Query\\Update, 0)
-	ZEND_ARG_ARRAY_INFO(0, columns, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_update_reset, 0, 0, IS_VOID, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_update_reset, 0, 0, IS_VOID, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_update_returning, 0, 1, Phalcon\\DataMapper\\Query\\Update, 0)
+	ZEND_ARG_ARRAY_INFO(0, columns, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_update_set, 0, 1, Phalcon\\DataMapper\\Query\\Update, 0)
@@ -61,8 +61,8 @@ ZEPHIR_INIT_FUNCS(phalcon_datamapper_query_update_method_entry) {
 	PHP_ME(Phalcon_DataMapper_Query_Update, from, arginfo_phalcon_datamapper_query_update_from, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Query_Update, getStatement, arginfo_phalcon_datamapper_query_update_getstatement, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Query_Update, hasColumns, arginfo_phalcon_datamapper_query_update_hascolumns, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_DataMapper_Query_Update, returning, arginfo_phalcon_datamapper_query_update_returning, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Query_Update, reset, arginfo_phalcon_datamapper_query_update_reset, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_DataMapper_Query_Update, returning, arginfo_phalcon_datamapper_query_update_returning, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Query_Update, set, arginfo_phalcon_datamapper_query_update_set, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Query_Update, buildColumns, arginfo_phalcon_datamapper_query_update_buildcolumns, ZEND_ACC_PRIVATE)
 	PHP_FE_END

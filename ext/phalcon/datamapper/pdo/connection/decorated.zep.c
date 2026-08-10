@@ -49,10 +49,6 @@ ZEPHIR_INIT_CLASS(Phalcon_DataMapper_Pdo_Connection_Decorated)
  *
  * This overrides the parent so that it can take an existing PDO instance
  * and decorate it with the extended methods.
- *
- * @param \PDO                   $pdo
- * @param ProfilerInterface|null $profiler
- *
  */
 PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_Decorated, __construct)
 {
@@ -112,7 +108,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_Decorated, connect)
 PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_Decorated, disconnect)
 {
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_datamapper_pdo_exception_cannotdisconnect_ce, "Cannot disconnect a Decorated connection instance", "phalcon/DataMapper/Pdo/Connection/Decorated.zep", 66);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_datamapper_pdo_exception_cannotdisconnect_ce, "Cannot disconnect a Decorated connection instance", "phalcon/DataMapper/Pdo/Connection/Decorated.zep", 62);
 	return;
 }
 

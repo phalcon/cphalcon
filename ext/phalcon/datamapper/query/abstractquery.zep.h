@@ -10,21 +10,20 @@ PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, bindValues);
 PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, getBindValues);
 PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, getStatement);
 PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, perform);
-PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, setFlag);
 PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, quoteIdentifier);
 PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, reset);
 PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, resetColumns);
+PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, resetFlags);
 PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, resetFrom);
-PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, resetWhere);
 PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, resetGroupBy);
 PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, resetHaving);
-PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, resetOrderBy);
 PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, resetLimit);
-PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, resetFlags);
+PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, resetOrderBy);
+PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, resetWhere);
+PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, setFlag);
 PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, buildFlags);
 PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, buildReturning);
 PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, indent);
-zend_object *zephir_init_properties_Phalcon_DataMapper_Query_AbstractQuery(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_datamapper_query_abstractquery___construct, 0, 0, 2)
 	ZEND_ARG_OBJ_INFO(0, connection, Phalcon\\DataMapper\\Pdo\\Connection, 0)
@@ -52,13 +51,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_abstractquery_getstatement, 0, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_datamapper_query_abstractquery_perform, 0, 0, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_abstractquery_setflag, 0, 1, IS_VOID, 0)
-
-	ZEND_ARG_TYPE_INFO(0, flag, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, enable, _IS_BOOL, 0, "true")
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_abstractquery_perform, 0, 0, PDOStatement, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_abstractquery_quoteidentifier, 0, 1, IS_STRING, 0)
@@ -72,10 +65,10 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_abstractquery_resetcolumns, 0, 0, IS_VOID, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_abstractquery_resetfrom, 0, 0, IS_VOID, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_abstractquery_resetflags, 0, 0, IS_VOID, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_abstractquery_resetwhere, 0, 0, IS_VOID, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_abstractquery_resetfrom, 0, 0, IS_VOID, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_abstractquery_resetgroupby, 0, 0, IS_VOID, 0)
@@ -84,13 +77,19 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_abstractquery_resethaving, 0, 0, IS_VOID, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_abstractquery_resetorderby, 0, 0, IS_VOID, 0)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_abstractquery_resetlimit, 0, 0, IS_VOID, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_abstractquery_resetflags, 0, 0, IS_VOID, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_abstractquery_resetorderby, 0, 0, IS_VOID, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_abstractquery_resetwhere, 0, 0, IS_VOID, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_abstractquery_setflag, 0, 1, IS_VOID, 0)
+
+	ZEND_ARG_TYPE_INFO(0, flag, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, enable, _IS_BOOL, 0, "true")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_datamapper_query_abstractquery_buildflags, 0, 0, 0)
@@ -104,9 +103,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_abstrac
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, glue, IS_STRING, 0, "''")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_datamapper_query_abstractquery_zephir_init_properties_phalcon_datamapper_query_abstractquery, 0, 0, 0)
-ZEND_END_ARG_INFO()
-
 ZEPHIR_INIT_FUNCS(phalcon_datamapper_query_abstractquery_method_entry) {
 	PHP_ME(Phalcon_DataMapper_Query_AbstractQuery, __construct, arginfo_phalcon_datamapper_query_abstractquery___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_DataMapper_Query_AbstractQuery, bindInline, arginfo_phalcon_datamapper_query_abstractquery_bindinline, ZEND_ACC_PUBLIC)
@@ -114,18 +110,18 @@ ZEPHIR_INIT_FUNCS(phalcon_datamapper_query_abstractquery_method_entry) {
 	PHP_ME(Phalcon_DataMapper_Query_AbstractQuery, bindValues, arginfo_phalcon_datamapper_query_abstractquery_bindvalues, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Query_AbstractQuery, getBindValues, arginfo_phalcon_datamapper_query_abstractquery_getbindvalues, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Query_AbstractQuery, getStatement, arginfo_phalcon_datamapper_query_abstractquery_getstatement, ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
-PHP_ME(Phalcon_DataMapper_Query_AbstractQuery, perform, arginfo_phalcon_datamapper_query_abstractquery_perform, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_DataMapper_Query_AbstractQuery, setFlag, arginfo_phalcon_datamapper_query_abstractquery_setflag, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_DataMapper_Query_AbstractQuery, perform, arginfo_phalcon_datamapper_query_abstractquery_perform, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Query_AbstractQuery, quoteIdentifier, arginfo_phalcon_datamapper_query_abstractquery_quoteidentifier, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Query_AbstractQuery, reset, arginfo_phalcon_datamapper_query_abstractquery_reset, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Query_AbstractQuery, resetColumns, arginfo_phalcon_datamapper_query_abstractquery_resetcolumns, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_DataMapper_Query_AbstractQuery, resetFlags, arginfo_phalcon_datamapper_query_abstractquery_resetflags, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Query_AbstractQuery, resetFrom, arginfo_phalcon_datamapper_query_abstractquery_resetfrom, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_DataMapper_Query_AbstractQuery, resetWhere, arginfo_phalcon_datamapper_query_abstractquery_resetwhere, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Query_AbstractQuery, resetGroupBy, arginfo_phalcon_datamapper_query_abstractquery_resetgroupby, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Query_AbstractQuery, resetHaving, arginfo_phalcon_datamapper_query_abstractquery_resethaving, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_DataMapper_Query_AbstractQuery, resetOrderBy, arginfo_phalcon_datamapper_query_abstractquery_resetorderby, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Query_AbstractQuery, resetLimit, arginfo_phalcon_datamapper_query_abstractquery_resetlimit, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_DataMapper_Query_AbstractQuery, resetFlags, arginfo_phalcon_datamapper_query_abstractquery_resetflags, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_DataMapper_Query_AbstractQuery, resetOrderBy, arginfo_phalcon_datamapper_query_abstractquery_resetorderby, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_DataMapper_Query_AbstractQuery, resetWhere, arginfo_phalcon_datamapper_query_abstractquery_resetwhere, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_DataMapper_Query_AbstractQuery, setFlag, arginfo_phalcon_datamapper_query_abstractquery_setflag, ZEND_ACC_PUBLIC)
 PHP_ME(Phalcon_DataMapper_Query_AbstractQuery, buildFlags, arginfo_phalcon_datamapper_query_abstractquery_buildflags, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_DataMapper_Query_AbstractQuery, buildReturning, arginfo_phalcon_datamapper_query_abstractquery_buildreturning, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_DataMapper_Query_AbstractQuery, indent, arginfo_phalcon_datamapper_query_abstractquery_indent, ZEND_ACC_PROTECTED)
