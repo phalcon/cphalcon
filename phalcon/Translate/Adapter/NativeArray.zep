@@ -10,6 +10,7 @@
 
 namespace Phalcon\Translate\Adapter;
 
+use Phalcon\Contracts\Translate\TranslateTypes;
 use Phalcon\Translate\Exception;
 use Phalcon\Translate\Exceptions\InvalidDataType;
 use Phalcon\Translate\Exceptions\MissingContent;
@@ -18,23 +19,22 @@ use Phalcon\Translate\InterpolatorFactory;
 /**
  * Defines translation lists using PHP arrays
  *
- * @phpstan-type TOptions array{
- *      content?: array<string, string>,
- *      triggerError?: bool
- * }
+ * @phpstan-import-type translate_array_options from TranslateTypes
+ * @phpstan-import-type translate_data from TranslateTypes
+ * @phpstan-import-type translate_placeholders from TranslateTypes
  */
 class NativeArray extends AbstractAdapter
 {
     /**
-     * @var array<string, string>
+     * @phpstan-var translate_data
      */
-    private translate = [];
+    private array translate = [];
 
     /**
      * NativeArray constructor.
      *
-     * @param InterpolatorFactory $interpolator
-     * @param TOptions            $options
+     * @param InterpolatorFactory        $interpolator
+     * @phpstan-param translate_array_options $options
      *
      * @throws InvalidDataType
      * @throws MissingContent
@@ -86,7 +86,7 @@ class NativeArray extends AbstractAdapter
     /**
      * Returns the translation related to the given key
      *
-     * @phpstan-param array<string, string> $placeholders
+     * @phpstan-param translate_placeholders $placeholders
      *
      * @return string
      * @throws Exception
@@ -105,7 +105,7 @@ class NativeArray extends AbstractAdapter
     /**
      * Returns the internal array
      *
-     * @phpstan-return array<string, string>
+     * @phpstan-return translate_data
      */
     public function toArray() -> array
     {

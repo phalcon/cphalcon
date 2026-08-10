@@ -11,6 +11,7 @@
 namespace Phalcon\Translate\Adapter;
 
 use ArrayAccess;
+use Phalcon\Contracts\Translate\TranslateTypes;
 use Phalcon\Translate\Exception;
 use Phalcon\Translate\Exceptions\ImmutableObject;
 use Phalcon\Translate\Exceptions\KeyNotFound;
@@ -18,13 +19,10 @@ use Phalcon\Translate\Interpolator\InterpolatorInterface;
 use Phalcon\Translate\InterpolatorFactory;
 
 /**
- * @psalm-type TOptions array{
- *     defaultInterpolator?: string
- * }
+ * @phpstan-import-type translate_adapter_options from TranslateTypes
+ * @phpstan-import-type translate_placeholders from TranslateTypes
  *
- * @template TKey of string
- * @template TValue of string
- * @implements ArrayAccess<TKey, TValue>
+ * @implements ArrayAccess<string, string>
  */
 abstract class AbstractAdapter implements AdapterInterface, ArrayAccess
 {
@@ -36,7 +34,7 @@ abstract class AbstractAdapter implements AdapterInterface, ArrayAccess
     /**
      * AbstractAdapter constructor.
      *
-     * @param TOptions            $options
+     * @phpstan-param translate_adapter_options $options
      */
     public function __construct(
         <InterpolatorFactory> interpolatorFactory,
@@ -59,7 +57,7 @@ abstract class AbstractAdapter implements AdapterInterface, ArrayAccess
     /**
      * Returns the translation string of the given key (alias of method 't')
      *
-     * @phpstan-param array<string, string> $placeholders
+     * @phpstan-param translate_placeholders $placeholders
      */
     public function _(string translateKey, array placeholders = []) -> string
     {
@@ -123,7 +121,7 @@ abstract class AbstractAdapter implements AdapterInterface, ArrayAccess
     /**
      * Returns the translation string of the given key
      *
-     * @phpstan-param array<string, string> $placeholders
+     * @phpstan-param translate_placeholders $placeholders
      */
     public function t( string translateKey, array placeholders = []) -> string
     {
@@ -133,7 +131,7 @@ abstract class AbstractAdapter implements AdapterInterface, ArrayAccess
     /**
      * Replaces placeholders by the values passed
      *
-     * @phpstan-param array<string, string> $placeholders
+     * @phpstan-param translate_placeholders $placeholders
      *
      * @throws Exception
      */
