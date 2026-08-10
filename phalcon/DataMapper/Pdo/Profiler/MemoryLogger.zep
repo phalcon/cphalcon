@@ -15,6 +15,7 @@
 
 namespace Phalcon\DataMapper\Pdo\Profiler;
 
+use Phalcon\Contracts\Logger\Adapter\Adapter;
 use Phalcon\Logger\Adapter\AdapterInterface;
 use Phalcon\Logger\Adapter\Noop;
 use Phalcon\Logger\Enum;
@@ -63,6 +64,8 @@ class MemoryLogger implements LoggerInterface
 
     /**
      * Returns the adapter stack array
+     *
+     * @return Adapter[]
      */
     public function getAdapters() -> array
     {
