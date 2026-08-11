@@ -31,20 +31,22 @@
 /**
  * Defines translation lists using PHP arrays
  *
- * @phpstan-type TOptions array{
- *      content?: array<string, string>,
- *      triggerError?: bool
- * }
+ * @phpstan-import-type translate_array_options from TranslateTypes
+ * @phpstan-import-type translate_data from TranslateTypes
+ * @phpstan-import-type translate_placeholders from TranslateTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Translate_Adapter_NativeArray)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Translate\\Adapter, NativeArray, phalcon, translate_adapter_nativearray, phalcon_translate_adapter_abstractadapter_ce, phalcon_translate_adapter_nativearray_method_entry, 0);
 
 	/**
-	 * @var array<string, string>
+	 * @phpstan-var translate_data
 	 */
-	zend_declare_property_null(phalcon_translate_adapter_nativearray_ce, SL("translate"), ZEND_ACC_PRIVATE);
-	phalcon_translate_adapter_nativearray_ce->create_object = zephir_init_properties_Phalcon_Translate_Adapter_NativeArray;
+	{
+		zval _zc0;
+		array_init_size(&_zc0, 1);
+		zephir_declare_typed_property(phalcon_translate_adapter_nativearray_ce, SL("translate"), &_zc0, ZEND_ACC_PRIVATE, MAY_BE_ARRAY, NULL, 0);
+	}
 
 	return SUCCESS;
 }
@@ -52,8 +54,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Translate_Adapter_NativeArray)
 /**
  * NativeArray constructor.
  *
- * @param InterpolatorFactory $interpolator
- * @param TOptions            $options
+ * @param InterpolatorFactory        $interpolator
+ * @phpstan-param translate_array_options $options
  *
  * @throws InvalidDataType
  * @throws MissingContent
@@ -169,7 +171,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, has)
 /**
  * Returns the translation related to the given key
  *
- * @phpstan-param array<string, string> $placeholders
+ * @phpstan-param translate_placeholders $placeholders
  *
  * @return string
  * @throws Exception
@@ -225,36 +227,11 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query)
 /**
  * Returns the internal array
  *
- * @phpstan-return array<string, string>
+ * @phpstan-return translate_data
  */
 PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, toArray)
 {
 
 	RETURN_MEMBER_TYPED(getThis(), "translate", IS_ARRAY);
-}
-
-zend_object *zephir_init_properties_Phalcon_Translate_Adapter_NativeArray(zend_class_entry *class_type)
-{
-		zval _0, _1$$3;
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-		ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1$$3);
-	
-
-		ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-		zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	
-	{
-		zval local_this_ptr, *this_ptr = &local_this_ptr;
-		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		zephir_read_property_ex(&_0, this_ptr, ZEND_STRL("translate"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_0) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_1$$3);
-			array_init(&_1$$3);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("translate"), &_1$$3);
-		}
-		ZEPHIR_MM_RESTORE();
-		return Z_OBJ_P(this_ptr);
-	}
 }
 

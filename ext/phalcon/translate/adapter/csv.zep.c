@@ -31,19 +31,16 @@
  * file that was distributed with this source code.
  */
 /**
- * @phpstan-type TOptions array{
- *      content?: string,
- *      delimiter?: string,
- *      enclosure?: string,
- *      escape?: string
- * }
+ * @phpstan-import-type translate_csv_options from TranslateTypes
+ * @phpstan-import-type translate_data from TranslateTypes
+ * @phpstan-import-type translate_placeholders from TranslateTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Translate_Adapter_Csv)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Translate\\Adapter, Csv, phalcon, translate_adapter_csv, phalcon_translate_adapter_abstractadapter_ce, phalcon_translate_adapter_csv_method_entry, 0);
 
 	/**
-	 * @var array<string, string>
+	 * @phpstan-var translate_data
 	 */
 	zend_declare_property_null(phalcon_translate_adapter_csv_ce, SL("translate"), ZEND_ACC_PROTECTED);
 	phalcon_translate_adapter_csv_ce->create_object = zephir_init_properties_Phalcon_Translate_Adapter_Csv;
@@ -54,7 +51,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Translate_Adapter_Csv)
 /**
  * Csv constructor.
  *
- * @phpstan-param TOptions            $options
+ * @phpstan-param translate_csv_options $options
  *
  * @throws Exception
  */
@@ -84,31 +81,31 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, __construct)
 	ZEPHIR_CALL_PARENT(NULL, phalcon_translate_adapter_csv_ce, getThis(), "__construct", NULL, 0, interpolator, &options);
 	zephir_check_call_status();
 	if (UNEXPECTED(!(zephir_array_isset_value_string(&options, SL("content"))))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_translate_exceptions_missingrequiredparameter_ce, "content", "phalcon/Translate/Adapter/Csv.zep", 52);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_translate_exceptions_missingrequiredparameter_ce, "content", "phalcon/Translate/Adapter/Csv.zep", 50);
 		return;
 	}
 	if (zephir_array_isset_value_string(&options, SL("delimiter"))) {
 		zephir_memory_observe(&delimiter);
-		zephir_array_fetch_string(&delimiter, &options, SL("delimiter"), PH_NOISY, "phalcon/Translate/Adapter/Csv.zep", 56);
+		zephir_array_fetch_string(&delimiter, &options, SL("delimiter"), PH_NOISY, "phalcon/Translate/Adapter/Csv.zep", 54);
 	} else {
 		ZEPHIR_INIT_NVAR(&delimiter);
 		ZVAL_STRING(&delimiter, ";");
 	}
 	if (zephir_array_isset_value_string(&options, SL("enclosure"))) {
 		zephir_memory_observe(&enclosure);
-		zephir_array_fetch_string(&enclosure, &options, SL("enclosure"), PH_NOISY, "phalcon/Translate/Adapter/Csv.zep", 62);
+		zephir_array_fetch_string(&enclosure, &options, SL("enclosure"), PH_NOISY, "phalcon/Translate/Adapter/Csv.zep", 60);
 	} else {
 		ZEPHIR_INIT_NVAR(&enclosure);
 		ZVAL_STRING(&enclosure, "\"");
 	}
 	if (zephir_array_isset_value_string(&options, SL("escape"))) {
 		zephir_memory_observe(&escape);
-		zephir_array_fetch_string(&escape, &options, SL("escape"), PH_NOISY, "phalcon/Translate/Adapter/Csv.zep", 68);
+		zephir_array_fetch_string(&escape, &options, SL("escape"), PH_NOISY, "phalcon/Translate/Adapter/Csv.zep", 66);
 	} else {
 		ZEPHIR_INIT_NVAR(&escape);
 		ZVAL_STRING(&escape, "\\");
 	}
-	zephir_array_fetch_string(&_0, &options, SL("content"), PH_NOISY | PH_READONLY, "phalcon/Translate/Adapter/Csv.zep", 73);
+	zephir_array_fetch_string(&_0, &options, SL("content"), PH_NOISY | PH_READONLY, "phalcon/Translate/Adapter/Csv.zep", 71);
 	ZVAL_LONG(&_1, 0);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "load", NULL, 0, &_0, &_1, &delimiter, &enclosure, &escape);
 	zephir_check_call_status();
@@ -175,7 +172,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, has)
 /**
  * Returns the translation related to the given key
  *
- * @phpstan-param array<string, string> $placeholders
+ * @phpstan-param translate_placeholders $placeholders
  *
  * @return string
  * @throws Exception
@@ -230,7 +227,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, query)
 /**
  * Returns the internal array
  *
- * @return array<string, string>
+ * @phpstan-return translate_data
  */
 PHP_METHOD(Phalcon_Translate_Adapter_Csv, toArray)
 {
@@ -244,11 +241,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, toArray)
  * Lines whose first column begins with a `#` are treated as comments
  * and skipped.
  *
- * @param string $file
- * @param int    $length
- * @param string $separator
- * @param string $enclosure
- * @param string $escape
+ * @phpstan-param int<0, max> $length
  *
  * @return void
  * @throws FileOpenError
@@ -304,7 +297,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, load)
 		object_init_ex(&_1$$3, phalcon_translate_exceptions_fileopenerror_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 0, &file_zv);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Translate/Adapter/Csv.zep", 157);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Translate/Adapter/Csv.zep", 151);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -315,7 +308,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, load)
 		if (ZEPHIR_IS_FALSE_IDENTICAL(&data)) {
 			break;
 		}
-		zephir_array_fetch_long(&_4$$4, &data, 0, PH_NOISY | PH_READONLY, "phalcon/Translate/Adapter/Csv.zep", 167);
+		zephir_array_fetch_long(&_4$$4, &data, 0, PH_NOISY | PH_READONLY, "phalcon/Translate/Adapter/Csv.zep", 161);
 		ZVAL_LONG(&_2$$4, 0);
 		ZVAL_LONG(&_5$$4, 1);
 		ZEPHIR_INIT_NVAR(&_6$$4);
@@ -327,9 +320,9 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, load)
 		if (_7$$4) {
 			continue;
 		}
-		zephir_array_fetch_long(&_8$$4, &data, 1, PH_NOISY | PH_READONLY, "phalcon/Translate/Adapter/Csv.zep", 171);
+		zephir_array_fetch_long(&_8$$4, &data, 1, PH_NOISY | PH_READONLY, "phalcon/Translate/Adapter/Csv.zep", 165);
 		ZEPHIR_OBS_NVAR(&_9$$4);
-		zephir_array_fetch_long(&_9$$4, &data, 0, PH_NOISY, "phalcon/Translate/Adapter/Csv.zep", 171);
+		zephir_array_fetch_long(&_9$$4, &data, 0, PH_NOISY, "phalcon/Translate/Adapter/Csv.zep", 165);
 		zephir_update_property_array(this_ptr, SL("translate"), &_9$$4, &_8$$4);
 	}
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "phpfclose", NULL, 0, &fileHandler);

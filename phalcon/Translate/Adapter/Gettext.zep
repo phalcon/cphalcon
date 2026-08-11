@@ -39,8 +39,6 @@ use Phalcon\Translate\InterpolatorFactory;
  * @phpstan-import-type translate_gettext_defaults from TranslateTypes
  * @phpstan-import-type translate_gettext_options from TranslateTypes
  * @phpstan-import-type translate_placeholders from TranslateTypes
- *
- * @extends AbstractAdapter<string, string>
  */
 class Gettext extends AbstractAdapter
 {

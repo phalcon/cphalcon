@@ -34,10 +34,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Translate_Adapter_AdapterInterface)
 
 /**
  * Check whether is defined a translation key in the internal array
- *
- * @param string $index
- *
- * @return bool
  */
 ZEPHIR_DOC_METHOD(Phalcon_Translate_Adapter_AdapterInterface, has);
 /**
@@ -55,15 +51,11 @@ ZEPHIR_DOC_METHOD(Phalcon_Translate_Adapter_AdapterInterface, has);
  * throws `KeyNotFound` instead of falling back.
  *
  * @phpstan-param array<string, string> $placeholders
- *
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Translate_Adapter_AdapterInterface, query);
 /**
  * Returns the translation string of the given key
  *
  * @phpstan-param array<string, string> $placeholders
- *
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Translate_Adapter_AdapterInterface, t);

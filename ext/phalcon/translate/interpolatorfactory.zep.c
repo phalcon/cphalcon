@@ -66,11 +66,6 @@ PHP_METHOD(Phalcon_Translate_InterpolatorFactory, __construct)
 
 /**
  * Create a new instance of the adapter
- *
- * @param string $name
- *
- * @return InterpolatorInterface
- * @throws Exception
  */
 PHP_METHOD(Phalcon_Translate_InterpolatorFactory, newInstance)
 {
@@ -97,7 +92,7 @@ PHP_METHOD(Phalcon_Translate_InterpolatorFactory, newInstance)
 }
 
 /**
- * @return string
+ * @return class-string<Throwable>
  */
 PHP_METHOD(Phalcon_Translate_InterpolatorFactory, getExceptionClass)
 {

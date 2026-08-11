@@ -573,6 +573,7 @@
 #include "phalcon/contracts/front/fronttypealiases.zep.h"
 #include "phalcon/contracts/mvc/model/relation/cachekeyprovider.zep.h"
 #include "phalcon/contracts/queue/processor.zep.h"
+#include "phalcon/contracts/translate/translatetypes.zep.h"
 #include "phalcon/datamapper/pdo/connection.zep.h"
 #include "phalcon/datamapper/pdo/connection/decorated.zep.h"
 #include "phalcon/datamapper/pdo/connectionlocator.zep.h"

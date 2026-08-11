@@ -14,7 +14,7 @@ use Phalcon\Translate\Exception;
 
 class MissingRequiredParameter extends Exception
 {
-    private parameter;
+    private string parameter;
 
     public function __construct(string parameter)
     {

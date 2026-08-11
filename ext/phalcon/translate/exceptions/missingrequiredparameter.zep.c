@@ -30,10 +30,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Translate_Exceptions_MissingRequiredParameter)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Translate\\Exceptions, MissingRequiredParameter, phalcon, translate_exceptions_missingrequiredparameter, phalcon_translate_exception_ce, phalcon_translate_exceptions_missingrequiredparameter_method_entry, 0);
 
-	/**
-	 * @var string
-	 */
-	zend_declare_property_null(phalcon_translate_exceptions_missingrequiredparameter_ce, SL("parameter"), ZEND_ACC_PRIVATE);
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_translate_exceptions_missingrequiredparameter_ce, SL("parameter"), &_zc0, ZEND_ACC_PRIVATE, MAY_BE_STRING, NULL, 0);
+	}
+
 	return SUCCESS;
 }
 
