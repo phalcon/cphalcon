@@ -21,6 +21,7 @@ namespace Phalcon\Queue;
 
 use Phalcon\Config\ConfigInterface;
 use Phalcon\Contracts\Queue\Context as ContextInterface;
+use Phalcon\Contracts\Queue\QueueTypes;
 use Phalcon\Factory\AbstractConfigFactory;
 use Phalcon\Queue\Exceptions\Exception;
 

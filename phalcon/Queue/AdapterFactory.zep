@@ -21,6 +21,7 @@ namespace Phalcon\Queue;
 
 use Phalcon\Config\ConfigInterface;
 use Phalcon\Contracts\Queue\ConnectionFactory as ConnectionFactoryInterface;
+use Phalcon\Contracts\Queue\QueueTypes;
 use Phalcon\Factory\AbstractFactory;
 use Phalcon\Queue\Adapter\Beanstalk\BeanstalkConnectionFactory;
 use Phalcon\Queue\Adapter\Memory\MemoryConnectionFactory;

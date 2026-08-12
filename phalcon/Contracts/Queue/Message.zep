@@ -22,6 +22,9 @@ namespace Phalcon\Contracts\Queue;
 /**
  * A message exchanged through the transport. Carries a body, application
  * properties, transport headers and the standard messaging metadata.
+ *
+ * @phpstan-import-type queue_message_headers from QueueTypes
+ * @phpstan-import-type queue_message_properties from QueueTypes
  */
 interface Message
 {
@@ -42,6 +45,8 @@ interface Message
 
     /**
      * Returns all transport headers.
+     *
+     * @phpstan-return queue_message_headers
      */
     public function getHeaders() -> array;
 
@@ -52,6 +57,8 @@ interface Message
 
     /**
      * Returns all application properties.
+     *
+     * @phpstan-return queue_message_properties
      */
     public function getProperties() -> array;
 
@@ -92,6 +99,8 @@ interface Message
 
     /**
      * Replaces all transport headers.
+     *
+     * @phpstan-param queue_message_headers $headers
      */
     public function setHeaders(array headers) -> void;
 
@@ -102,6 +111,8 @@ interface Message
 
     /**
      * Replaces all application properties.
+     *
+     * @phpstan-param queue_message_properties $properties
      */
     public function setProperties(array properties) -> void;
 
