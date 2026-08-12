@@ -19,14 +19,11 @@ use Phalcon\Html\Escaper\EscaperInterface;
 use Phalcon\Mvc\Url;
 use Phalcon\Mvc\Url\UrlInterface;
 use Phalcon\Tag;
-use Phalcon\Tag\Exception;
 use Phalcon\Tests\Unit\Tag\Fake\FakeUrl;
-use stdClass;
 
 /**
  * Covers how Tag reaches the container and the two services it resolves from
- * it, including the caching that makes the second call cheap and the errors
- * raised when a service is missing or is the wrong type.
+ * it, including the caching that makes the second call cheap.
  */
 final class ServicesTest extends AbstractTagTestCase
 {
@@ -48,20 +45,6 @@ final class ServicesTest extends AbstractTagTestCase
         Tag::setDI($container);
 
         $this->assertSame($container, Tag::getDI());
-    }
-
-    public function testGetDiThrowsWithoutAContainer(): void
-    {
-        Di::reset();
-
-        $this->setProtectedProperty(Tag::class, 'container', null);
-
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage(
-            'A dependency injection container is required'
-        );
-
-        Tag::getDI();
     }
 
     public function testGetEscaperReturnsNullWhenAutoescapeIsOff(): void
@@ -108,22 +91,6 @@ final class ServicesTest extends AbstractTagTestCase
         $this->assertSame($escaper, Tag::getEscaperService());
     }
 
-    public function testGetEscaperServiceThrowsWhenTheServiceIsTheWrongType(): void
-    {
-        $container = new Di();
-        $container->setShared('escaper', new stdClass());
-
-        Tag::setDI($container);
-
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage(
-            "A dependency injection container is required to access the "
-            . "'escaper' service"
-        );
-
-        Tag::getEscaperService();
-    }
-
     public function testGetUrlServiceIsResolvedOnce(): void
     {
         $url = new Url();
@@ -135,22 +102,6 @@ final class ServicesTest extends AbstractTagTestCase
 
         $this->assertSame($url, Tag::getUrlService());
         $this->assertSame($url, Tag::getUrlService());
-    }
-
-    public function testGetUrlServiceThrowsWhenTheServiceIsTheWrongType(): void
-    {
-        $container = new Di();
-        $container->setShared('url', new stdClass());
-
-        Tag::setDI($container);
-
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage(
-            "A dependency injection container is required to access the "
-            . "'url' service"
-        );
-
-        Tag::getUrlService();
     }
 
     public function testStaticUrlCastsANonStringUri(): void

@@ -13,6 +13,7 @@ namespace Phalcon\Tag;
 use Phalcon\Html\Escaper\EscaperInterface;
 use Phalcon\Mvc\Model\ResultsetInterface;
 use Phalcon\Tag as BaseTag;
+use Stringable;
 
 /**
  * Phalcon\Tag\Select
@@ -274,8 +275,8 @@ abstract class Select
                         let optionValue = option->readAttribute(usingZero);
                         let optionText = option->readAttribute(usingOne);
                     } else {
-                        let optionValue = option->usingZero;
-                        let optionText = option->usingOne;
+                        let optionValue = option->{usingZero};
+                        let optionText = option->{usingOne};
                     }
                 } else {
                     if unlikely typeof option != "array" {

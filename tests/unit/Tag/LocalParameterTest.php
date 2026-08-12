@@ -149,46 +149,32 @@ final class LocalParameterTest extends AbstractUnitTestCase
         );
     }
 
-    public function testLinkToLocalKeyFalse(): void
+    public function testLinkToIgnoresEveryLocalChannel(): void
     {
         /**
-         * `local` is read from the "local" key, which is also removed from the
+         * None of the `local` channels reaches the generated URL. linkTo()
+         * hands `local` to Url::get(), where the parameter cannot tell an
+         * explicit false from an omitted argument, so it is always resolved
+         * from the URI instead. The "local" key is still removed from the
          * rendered attributes.
          */
-        $this->assertSame(
-            '<a href="admin/products">Products</a>',
-            Tag::linkTo(['admin/products', 'Products', 'local' => false])
-        );
-    }
+        $expected = '<a href="https://phalcon.io/admin/products">Products</a>';
 
-    public function testLinkToMethodArgFalseArrayIsIgnored(): void
-    {
-        /**
-         * For array input the `$local` method argument is ignored; `local`
-         * defaults to true unless overridden inside the array.
-         */
         $this->assertSame(
-            '<a href="https://phalcon.io/admin/products">Products</a>',
-            Tag::linkTo(['admin/products', 'Products'], null, false)
-        );
-    }
-
-    public function testLinkToMethodArgFalseString(): void
-    {
-        $this->assertSame(
-            '<a href="admin/products">Products</a>',
+            $expected,
             Tag::linkTo('admin/products', 'Products', false)
         );
-    }
-
-    public function testLinkToPositionalLocalFalse(): void
-    {
-        /**
-         * `local` is read from the positional index 2 of the array.
-         */
         $this->assertSame(
-            '<a href="admin/products">Products</a>',
+            $expected,
             Tag::linkTo(['admin/products', 'Products', false])
+        );
+        $this->assertSame(
+            $expected,
+            Tag::linkTo(['admin/products', 'Products', 'local' => false])
+        );
+        $this->assertSame(
+            $expected,
+            Tag::linkTo(['admin/products', 'Products'], null, false)
         );
     }
 
@@ -212,14 +198,14 @@ final class LocalParameterTest extends AbstractUnitTestCase
         );
     }
 
-    public function testStylesheetLinkMethodArgFalseArrayIsIgnored(): void
+    public function testStylesheetLinkMethodArgFalseArray(): void
     {
         /**
-         * For array input the `$local` method argument is ignored because the
-         * method resets `local` to true before inspecting the array.
+         * For array input the `$local` method argument still applies, because
+         * nothing in the array overrides it - the same as javascriptInclude().
          */
         $this->assertSame(
-            '<link rel="stylesheet" type="text/css" href="https://phalcon.io/css/style.css">' . PHP_EOL,
+            '<link rel="stylesheet" type="text/css" href="css/style.css">' . PHP_EOL,
             Tag::stylesheetLink(['css/style.css'], false)
         );
     }

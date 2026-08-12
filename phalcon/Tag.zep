@@ -20,6 +20,7 @@ use Phalcon\Mvc\Url\UrlInterface;
 use Phalcon\Support\Helper\Str\Friendly;
 use Phalcon\Tag\Exception;
 use Phalcon\Tag\Select;
+use Stringable;
 
 /**
  * Phalcon\Tag is designed to simplify building of HTML tags.
@@ -487,7 +488,7 @@ class Tag
      */
     public static function getTitleSeparator() -> string
     {
-        return self::documentTitleSeparator;
+        return (string) self::documentTitleSeparator;
     }
 
     /**
@@ -610,7 +611,7 @@ class Tag
          * Use the "url" service if the URI is local
          */
         if local {
-            let params["src"] = self::getUrlService()->getStatic(params["src"]);
+            let params["src"] = self::getStaticUrl(params["src"]);
         }
 
         let code = self::renderAttributes("<img", params);
@@ -692,7 +693,7 @@ class Tag
          * URLs are generated through the "url" service
          */
         if local {
-            let params["src"] = self::getUrlService()->getStatic(params["src"]);
+            let params["src"] = self::getStaticUrl(params["src"]);
         }
 
         let code = self::renderAttributes("<script", params),
@@ -757,10 +758,17 @@ class Tag
             let query = null;
         }
 
+        /**
+         * Only an array can be turned into a query string
+         */
+        if typeof query != "array" {
+            let query = null;
+        }
+
         let url = self::getUrlService(),
             params["href"] = url->get(action, query, local),
             code = self::renderAttributes("<a", params),
-            code .= ">" . text . "</a>";
+            code .= ">" . self::toStringValue(text) . "</a>";
 
         return code;
     }
@@ -850,6 +858,13 @@ class Tag
             if isset params[1] {
                 let attributes = params[1];
             } else {
+                let attributes = ["as" : "style"];
+            }
+
+            /**
+             * Only an array can be handed to the Link element
+             */
+            if typeof attributes != "array" {
                 let attributes = ["as" : "style"];
             }
 
@@ -1195,9 +1210,7 @@ class Tag
          * URLs are generated through the "url" service
          */
         if local {
-            let params["href"] = self::getUrlService()->getStatic(
-                params["href"]
-            );
+            let params["href"] = self::getStaticUrl(params["href"]);
         }
 
         if !isset params["rel"] {
@@ -1504,9 +1517,11 @@ class Tag
         }
 
         if asValue == false {
-            if !fetch id, params[0] {
+            if !isset params[0] {
                 let params[0] = params["id"];
             }
+
+            let id = self::toStringValue(params[0]);
 
             if fetch name, params["name"] {
                 if empty name {
@@ -1519,10 +1534,8 @@ class Tag
             /**
              * Automatically assign the id if the name is not an array
              */
-            if typeof id == "string" {
-                if !memstr(id, "[") && !isset params["id"] {
-                    let params["id"] = id;
-                }
+            if !memstr(id, "[") && !isset params["id"] {
+                let params["id"] = id;
             }
 
             let params["value"] = self::getValue(id, params);

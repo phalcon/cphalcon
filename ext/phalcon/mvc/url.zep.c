@@ -122,7 +122,9 @@ PHP_METHOD(Phalcon_Mvc_Url, __construct)
  *     ]
  * );
  *
- * // Generate an absolute URL by setting the third parameter as false.
+ * // A URI that already carries a scheme is detected as remote and is
+ * // returned untouched. The third parameter is only honored when it is
+ * // explicitly true - a false reads the same as leaving it out.
  * echo $url->get(
  *     "https://phalcon.io/",
  *     null,
@@ -252,9 +254,9 @@ PHP_METHOD(Phalcon_Mvc_Url, get)
 	if (local == 0) {
 		_0$$3 = Z_TYPE_P(uri) == IS_STRING;
 		if (_0$$3) {
-			_1$$3 = zephir_memnstr_str(uri, SL("//"), "phalcon/Mvc/Url.zep", 128);
+			_1$$3 = zephir_memnstr_str(uri, SL("//"), "phalcon/Mvc/Url.zep", 130);
 			if (!(_1$$3)) {
-				_1$$3 = zephir_memnstr_str(uri, SL(":"), "phalcon/Mvc/Url.zep", 128);
+				_1$$3 = zephir_memnstr_str(uri, SL(":"), "phalcon/Mvc/Url.zep", 130);
 			}
 			_0$$3 = _1$$3;
 		}
@@ -286,7 +288,7 @@ PHP_METHOD(Phalcon_Mvc_Url, get)
 			object_init_ex(&_6$$10, phalcon_mvc_url_exceptions_missingroutename_ce);
 			ZEPHIR_CALL_METHOD(NULL, &_6$$10, "__construct", NULL, 0);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_6$$10, "phalcon/Mvc/Url.zep", 145);
+			zephir_throw_exception_debug(&_6$$10, "phalcon/Mvc/Url.zep", 147);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -300,7 +302,7 @@ PHP_METHOD(Phalcon_Mvc_Url, get)
 				object_init_ex(&_9$$12, phalcon_mvc_url_exceptions_routerserviceunavailable_ce);
 				ZEPHIR_CALL_METHOD(NULL, &_9$$12, "__construct", NULL, 0);
 				zephir_check_call_status();
-				zephir_throw_exception_debug(&_9$$12, "phalcon/Mvc/Url.zep", 157);
+				zephir_throw_exception_debug(&_9$$12, "phalcon/Mvc/Url.zep", 159);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
@@ -313,7 +315,7 @@ PHP_METHOD(Phalcon_Mvc_Url, get)
 				object_init_ex(&_12$$13, phalcon_mvc_url_exceptions_routerserviceunavailable_ce);
 				ZEPHIR_CALL_METHOD(NULL, &_12$$13, "__construct", NULL, 0);
 				zephir_check_call_status();
-				zephir_throw_exception_debug(&_12$$13, "phalcon/Mvc/Url.zep", 161);
+				zephir_throw_exception_debug(&_12$$13, "phalcon/Mvc/Url.zep", 163);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
@@ -332,7 +334,7 @@ PHP_METHOD(Phalcon_Mvc_Url, get)
 			object_init_ex(&_15$$14, phalcon_mvc_url_exceptions_routenotfound_ce);
 			ZEPHIR_CALL_METHOD(NULL, &_15$$14, "__construct", NULL, 0, &routeName);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_15$$14, "phalcon/Mvc/Url.zep", 174);
+			zephir_throw_exception_debug(&_15$$14, "phalcon/Mvc/Url.zep", 176);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}

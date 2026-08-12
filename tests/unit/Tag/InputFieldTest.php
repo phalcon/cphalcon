@@ -111,10 +111,10 @@ final class InputFieldTest extends AbstractTagTestCase
     {
         /**
          * With no positional index the `id` key becomes the first parameter,
-         * but the local id used for `name` is never filled in from it.
+         * and `name` is derived from it - the same as checkField().
          */
         $this->assertSame(
-            '<input type="text" id="name" name="">',
+            '<input type="text" id="name" name="name">',
             Tag::textField(['id' => 'name'])
         );
     }
