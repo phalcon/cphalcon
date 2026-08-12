@@ -19,13 +19,18 @@ use Phalcon\Tag as BaseTag;
  *
  * Generates a SELECT HTML tag using a static array of values or a
  * Phalcon\Mvc\Model resultset
+ *
+ * @phpstan-import-type tag_parameters from BaseTag
+ * @phpstan-import-type tag_select_data from BaseTag
  */
 abstract class Select
 {
     /**
      * Generates a SELECT tag
      *
-     * @param array<string, mixed>|string $parameters = [
+     * @phpstan-param tag_parameters|string $parameters
+     *
+     * @param array|string $parameters = [
      *     'id' => '',
      *     'name' => '',
      *     'value' => '',
@@ -33,7 +38,9 @@ abstract class Select
      *     'emptyValue' => '',
      *     'emptyText' => '',
      * ]
-     * @param array data
+     *
+     * @return string
+     * @throws Exception
      */
     public static function selectField(
         var parameters,
@@ -51,6 +58,8 @@ abstract class Select
         if !fetch id, params[0] {
             let params[0] = params["id"];
         }
+
+        let id = self::toStringValue(params[0]);
 
         /**
          * Automatically assign the id if the name is not an array
@@ -151,10 +160,25 @@ abstract class Select
         return code;
     }
 
-    protected static function echoOption(string value, bool$selected = false) -> string
+    /**
+     * Reduces an arbitrary option value to the string the markup needs.
+     * Option data is user supplied, so anything that cannot be expressed as
+     * a string reads back as an empty string rather than aborting the tag.
+     */
+    protected static function toStringValue(var value) -> string
+    {
+        if (is_scalar(value)
+            || (typeof value === "object" && value instanceof Stringable)) {
+            return (string) value;
+        }
+
+        return "";
+    }
+
+    protected static function echoOption(string value, bool selected = false) -> string
     {
     	string extra;
-	
+
         let extra = selected ? "selected=\"selected\" " : "";
 
         return "\t<option " . extra . "value=\"" . value . "\">";
@@ -162,6 +186,8 @@ abstract class Select
 
     /**
      * Generate the OPTION tags based on an array
+     *
+     * @phpstan-param tag_select_data $data
      */
     private static function optionsFromArray(
         array data,
@@ -175,7 +201,7 @@ abstract class Select
             escaper = <EscaperInterface> BaseTag::getEscaperService();
 
         for optionValue, optionText in data {
-            let escaped = escaper->escapeHtmlAttr(optionValue);
+            let escaped = escaper->attributes(optionValue);
 
             if typeof optionText == "array" {
                 let code .= "\t<optgroup label=\"" . escaped . "\">"
@@ -187,7 +213,7 @@ abstract class Select
                 continue;
             }
 
-            let escapedText = escaper->escapeHtml(optionText);
+            let escapedText = escaper->html(self::toStringValue(optionText));
 
             if typeof value == "array" {
                 if in_array(optionValue, value) {
@@ -262,8 +288,8 @@ abstract class Select
                     let optionText = option[usingOne];
                 }
 
-                let optionValue = escaper->escapeHtmlAttr(optionValue);
-                let optionText = escaper->escapeHtml(optionText);
+                let optionValue = escaper->attributes(optionValue);
+                let optionText = escaper->html(optionText);
 
                 /**
                  * If the value is equal to the option's value we mark it as

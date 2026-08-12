@@ -198,7 +198,7 @@ PHP_METHOD(Phalcon_Auth_Access_Acl, isAllowed)
 		zephir_get_arrval(&context, context_param);
 	}
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 426, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_FUNCTION(&_1, "in_array", NULL, 87, &actionName_zv, &_0, &__$true);
+	ZEPHIR_CALL_FUNCTION(&_1, "in_array", NULL, 88, &actionName_zv, &_0, &__$true);
 	zephir_check_call_status();
 	if (zephir_is_true(&_1)) {
 		RETURN_MM_BOOL(1);
@@ -208,7 +208,7 @@ PHP_METHOD(Phalcon_Auth_Access_Acl, isAllowed)
 	_3 = !(ZEPHIR_IS_EMPTY(&_2));
 	if (_3) {
 		zephir_read_property_cached(&_4, this_ptr, _zephir_prop_1, 427, PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_CALL_FUNCTION(&_5, "in_array", NULL, 87, &actionName_zv, &_4, &__$true);
+		ZEPHIR_CALL_FUNCTION(&_5, "in_array", NULL, 88, &actionName_zv, &_4, &__$true);
 		zephir_check_call_status();
 		_3 = !zephir_is_true(&_5);
 	}
@@ -224,7 +224,7 @@ PHP_METHOD(Phalcon_Auth_Access_Acl, isAllowed)
 	if (_6) {
 		ZEPHIR_INIT_VAR(&_7$$5);
 		object_init_ex(&_7$$5, phalcon_auth_exceptions_missinghandlercontext_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_7$$5, "__construct", NULL, 385);
+		ZEPHIR_CALL_METHOD(NULL, &_7$$5, "__construct", NULL, 386);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_7$$5, "phalcon/Auth/Access/Acl.zep", 82);
 		ZEPHIR_MM_RESTORE();
@@ -310,7 +310,7 @@ PHP_METHOD(Phalcon_Auth_Access_Acl, resolveRole)
 	ZVAL_STRING(&_1, "Authenticated user");
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "Phalcon\\Acl\\RoleAwareInterface");
-	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 386, &_1, &_2);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 387, &_1, &_2);
 	zephir_check_call_status();
 	zephir_throw_exception_debug(&_0, "phalcon/Auth/Access/Acl.zep", 136);
 	ZEPHIR_MM_RESTORE();

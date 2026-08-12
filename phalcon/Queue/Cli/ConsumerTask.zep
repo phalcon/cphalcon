@@ -19,11 +19,16 @@
 
 namespace Phalcon\Queue\Cli;
 
-use Phalcon\Di\DiInterface;
+use Phalcon\Cli\Dispatcher;
 use Phalcon\Cli\Task;
+use Phalcon\Config\Config;
+use Phalcon\Config\ConfigInterface;
+use Phalcon\Contracts\Queue\Processor as ProcessorInterface;
+use Phalcon\Di\DiInterface;
 use Phalcon\Queue\Consumer\QueueConsumer;
 use Phalcon\Queue\Consumer\Worker;
 use Phalcon\Queue\Consumer\WorkerOptions;
+use Phalcon\Queue\QueueFactory;
 
 /**
  * Optional CLI runner for a queue worker - the only class coupled to
@@ -44,38 +49,75 @@ class ConsumerTask extends Task
 {
     public function mainAction() -> int
     {
-        var consumer, context, di, dispatcher, options, params, processor,
-            queueName, worker;
+        var config, context, consumer, di, dispatcher,
+            queueConfig, queueName, queueFactory, options,
+            params, processor, processorService;
 
-        let di         = this->getDI(),
-            dispatcher = di->get("dispatcher"),
-            params     = dispatcher->getParams();
+        /** @var DiInterface $di */
+        let di = this->getDI();
 
-        let queueName = isset params[0] ? params[0] : "",
-            processor = isset params[1] ? params[1] : "";
+        /** @var Dispatcher $dispatcher */
+        let dispatcher = di->get("dispatcher");
+        /** @var QueueFactory $queueFactory */
+        let queueFactory = di->get("queueFactory");
+        /** @var Config $config */
+        let config = di->get("config");
 
-        let context = di->get("queueFactory")->load(
-            di->get("config")->queue
-        );
+        let params    = dispatcher->getParams();
+        let queueName = this->stringParam(params, 0);
+        let processor = this->stringParam(params, 1);
 
+        /** @var array<string, mixed>|ConfigInterface $queueConfig */
+        let queueConfig = config->get("queue");
+
+        let context  = $queueFactory->load(queueConfig);
         let consumer = new QueueConsumer(context);
+
+        /** @var ProcessorInterface $processorService */
+        let processorService = di->get(processor);
 
         consumer->bind(
             context->createQueue(queueName),
-            di->get(processor)
+            processorService
         );
 
         let options = new WorkerOptions(
-            (int) dispatcher->getOption("max-messages", null, 0),
-            (int) dispatcher->getOption("max-time", null, 0),
-            (int) dispatcher->getOption("max-memory", null, 0),
-            (int) dispatcher->getOption("jitter", null, 0)
+            this->intOption(dispatcher, "max-messages"),
+            this->intOption(dispatcher, "max-time"),
+            this->intOption(dispatcher, "max-memory"),
+            this->intOption(dispatcher, "jitter")
         );
 
-        let worker = new Worker(consumer, options);
-
-        worker->run();
+        (new Worker(consumer, options))->run();
 
         return 0;
+    }
+
+    /**
+     * Reads a CLI option as an int, defaulting to 0 when it is absent or
+     * cannot be expressed as a number.
+     */
+    private function intOption(<Dispatcher> dispatcher, string name) -> int
+    {
+        var value;
+
+        let value = dispatcher->getOption(name, null, 0);
+
+        return is_scalar(value) ? (int) value : 0;
+    }
+
+    /**
+     * Reads a positional CLI argument as a string, defaulting to an empty
+     * string when it is absent or cannot be expressed as one.
+     *
+     * @param array<int|string, mixed> $params
+     */
+    private function stringParam(array params, int index) -> string
+    {
+        var value;
+
+        let value = isset(params[index]) ? params[index] : "";
+
+        return is_scalar(value) ? (string) value : "";
     }
 }

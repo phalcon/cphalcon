@@ -37,11 +37,16 @@
  */
 /**
  * Builds a MemoryContext. The Memory transport takes no options.
+ *
+ * @phpstan-import-type queue_connection_options from QueueTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_Memory_MemoryConnectionFactory)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Queue\\Adapter\\Memory, MemoryConnectionFactory, phalcon, queue_adapter_memory_memoryconnectionfactory, phalcon_queue_adapter_memory_memoryconnectionfactory_method_entry, 0);
 
+	/**
+	 * @phpstan-param queue_connection_options $options
+	 */
 	{
 		zval _zc0;
 		array_init_size(&_zc0, 1);
@@ -54,6 +59,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_Memory_MemoryConnectionFactory)
 
 /**
  * MemoryConnectionFactory constructor.
+ *
+ * @phpstan-param queue_connection_options $options
  */
 PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryConnectionFactory, __construct)
 {

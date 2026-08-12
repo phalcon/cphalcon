@@ -22,10 +22,7 @@ use Throwable;
 
 final class FrozenClock implements ClockInterface
 {
-    /**
-     * @var DateTimeImmutable
-     */
-    private now;
+    private <DateTimeImmutable> now;
 
     public function __construct(<DateTimeImmutable> now)
     {

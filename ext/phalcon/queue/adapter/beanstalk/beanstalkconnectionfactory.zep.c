@@ -45,11 +45,16 @@
  *   - persistent:   use a persistent socket (default false).
  *   - ttr:          default time-to-run in seconds for every job (default 86400).
  *   - pollInterval: milliseconds between subscription poll passes (default 200).
+ *
+ * @phpstan-import-type queue_beanstalk_options from QueueTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnectionFactory)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Queue\\Adapter\\Beanstalk, BeanstalkConnectionFactory, phalcon, queue_adapter_beanstalk_beanstalkconnectionfactory, phalcon_queue_adapter_beanstalk_beanstalkconnectionfactory_method_entry, 0);
 
+	/**
+	 * @phpstan-param queue_beanstalk_options $options
+	 */
 	{
 		zval _zc0;
 		array_init_size(&_zc0, 1);
@@ -60,6 +65,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnectionFactory)
 	return SUCCESS;
 }
 
+/**
+ * @phpstan-param queue_beanstalk_options $options
+ */
 PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnectionFactory, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -118,14 +126,14 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnectionFactory, createCon
 	ZEPHIR_CPY_WRT(&options, &_0);
 	if (zephir_array_isset_value_string(&options, SL("host"))) {
 		zephir_memory_observe(&host);
-		zephir_array_fetch_string(&host, &options, SL("host"), PH_NOISY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkConnectionFactory.zep", 49);
+		zephir_array_fetch_string(&host, &options, SL("host"), PH_NOISY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkConnectionFactory.zep", 58);
 	} else {
 		ZEPHIR_INIT_NVAR(&host);
 		ZVAL_STRING(&host, "127.0.0.1");
 	}
 	if (zephir_array_isset_value_string(&options, SL("port"))) {
 		zephir_memory_observe(&_1);
-		zephir_array_fetch_string(&_1, &options, SL("port"), PH_NOISY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkConnectionFactory.zep", 50);
+		zephir_array_fetch_string(&_1, &options, SL("port"), PH_NOISY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkConnectionFactory.zep", 59);
 		ZEPHIR_INIT_VAR(&port);
 		ZVAL_LONG(&port, zephir_get_intval(&_1));
 	} else {
@@ -134,7 +142,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnectionFactory, createCon
 	}
 	if (zephir_array_isset_value_string(&options, SL("persistent"))) {
 		zephir_memory_observe(&_2);
-		zephir_array_fetch_string(&_2, &options, SL("persistent"), PH_NOISY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkConnectionFactory.zep", 51);
+		zephir_array_fetch_string(&_2, &options, SL("persistent"), PH_NOISY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkConnectionFactory.zep", 60);
 		ZEPHIR_INIT_VAR(&persistent);
 		ZVAL_BOOL(&persistent, zephir_get_boolval(&_2));
 	} else {
@@ -143,7 +151,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnectionFactory, createCon
 	}
 	if (zephir_array_isset_value_string(&options, SL("ttr"))) {
 		ZEPHIR_OBS_NVAR(&_2);
-		zephir_array_fetch_string(&_2, &options, SL("ttr"), PH_NOISY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkConnectionFactory.zep", 52);
+		zephir_array_fetch_string(&_2, &options, SL("ttr"), PH_NOISY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkConnectionFactory.zep", 61);
 		ZEPHIR_INIT_VAR(&ttr);
 		ZVAL_LONG(&ttr, zephir_get_intval(&_2));
 	} else {
@@ -152,7 +160,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnectionFactory, createCon
 	}
 	if (zephir_array_isset_value_string(&options, SL("pollInterval"))) {
 		zephir_memory_observe(&_3);
-		zephir_array_fetch_string(&_3, &options, SL("pollInterval"), PH_NOISY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkConnectionFactory.zep", 53);
+		zephir_array_fetch_string(&_3, &options, SL("pollInterval"), PH_NOISY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkConnectionFactory.zep", 62);
 		ZEPHIR_INIT_VAR(&pollInterval);
 		ZVAL_LONG(&pollInterval, zephir_get_intval(&_3));
 	} else {

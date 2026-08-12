@@ -20,10 +20,7 @@ use DateTimeZone;
 
 final class SystemClock implements ClockInterface
 {
-    /**
-     * @var DateTimeZone
-     */
-    private timezone;
+    private <DateTimeZone> timezone;
 
     public function __construct(<DateTimeZone> timezone)
     {

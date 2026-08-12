@@ -39,6 +39,8 @@
 /**
  * Maps an adapter name to its ConnectionFactory. Mirrors
  * Phalcon\Storage\AdapterFactory.
+ *
+ * @phpstan-import-type queue_connection_options from QueueTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Queue_AdapterFactory)
 {
@@ -49,6 +51,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Queue_AdapterFactory)
 
 /**
  * AdapterFactory constructor.
+ *
+ * @phpstan-param array<string, class-string<ConnectionFactoryInterface>> $services
  */
 PHP_METHOD(Phalcon_Queue_AdapterFactory, __construct)
 {
@@ -79,6 +83,8 @@ PHP_METHOD(Phalcon_Queue_AdapterFactory, __construct)
 
 /**
  * Creates a new ConnectionFactory for the named adapter.
+ *
+ * @phpstan-param queue_connection_options $options
  */
 PHP_METHOD(Phalcon_Queue_AdapterFactory, newInstance)
 {

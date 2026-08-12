@@ -73,10 +73,6 @@ class NativeArray extends AbstractAdapter
 
     /**
      * Check whether is defined a translation key in the internal array
-     *
-     * @param string $index
-     *
-     * @return bool
      */
     public function has( string index) -> bool
     {

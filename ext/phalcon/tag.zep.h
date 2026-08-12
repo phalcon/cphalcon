@@ -59,6 +59,8 @@ PHP_METHOD(Phalcon_Tag, textField);
 PHP_METHOD(Phalcon_Tag, timeField);
 PHP_METHOD(Phalcon_Tag, urlField);
 PHP_METHOD(Phalcon_Tag, weekField);
+PHP_METHOD(Phalcon_Tag, toStringValue);
+PHP_METHOD(Phalcon_Tag, getStaticUrl);
 PHP_METHOD(Phalcon_Tag, inputField);
 PHP_METHOD(Phalcon_Tag, inputFieldChecked);
 
@@ -139,7 +141,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_tag_geturlservice, 0, 0, Phalcon\\Mvc\\Url\\UrlInterface, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_tag_getvalue, 0, 0, 1)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_tag_getvalue, 0, 1, IS_MIXED, 0)
 	ZEND_ARG_INFO(0, name)
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, params, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
@@ -311,6 +313,14 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_tag_weekfield, 0, 1, IS_
 	ZEND_ARG_INFO(0, parameters)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_tag_tostringvalue, 0, 1, IS_STRING, 0)
+	ZEND_ARG_INFO(0, value)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_tag_getstaticurl, 0, 1, IS_STRING, 0)
+	ZEND_ARG_INFO(0, uri)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_tag_inputfield, 0, 2, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, type, IS_STRING, 0)
 	ZEND_ARG_INFO(0, parameters)
@@ -379,6 +389,8 @@ ZEPHIR_INIT_FUNCS(phalcon_tag_method_entry) {
 	PHP_ME(Phalcon_Tag, timeField, arginfo_phalcon_tag_timefield, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Tag, urlField, arginfo_phalcon_tag_urlfield, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Tag, weekField, arginfo_phalcon_tag_weekfield, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Tag, toStringValue, arginfo_phalcon_tag_tostringvalue, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Tag, getStaticUrl, arginfo_phalcon_tag_getstaticurl, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Tag, inputField, arginfo_phalcon_tag_inputfield, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Tag, inputFieldChecked, arginfo_phalcon_tag_inputfieldchecked, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_FE_END

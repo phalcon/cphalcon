@@ -182,7 +182,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Callback, validate)
 			zephir_check_call_status();
 			ZEPHIR_CPY_WRT(&callback, &_1$$5);
 		}
-		ZEPHIR_CALL_FUNCTION(&returnedValue, "call_user_func", NULL, 80, &callback, &data);
+		ZEPHIR_CALL_FUNCTION(&returnedValue, "call_user_func", NULL, 81, &callback, &data);
 		zephir_check_call_status();
 		_3$$3 = ((Z_TYPE_P(&returnedValue) == IS_TRUE || Z_TYPE_P(&returnedValue) == IS_FALSE) == 1);
 		if (_3$$3) {

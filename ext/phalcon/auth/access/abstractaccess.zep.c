@@ -138,7 +138,7 @@ PHP_METHOD(Phalcon_Auth_Access_AbstractAccess, isAllowed)
 		_1$$3 = zephir_is_true(&allowed);
 		if (!(_1$$3)) {
 			zephir_read_property_cached(&_2$$3, this_ptr, _zephir_prop_0, 96, PH_NOISY_CC | PH_READONLY);
-			ZEPHIR_CALL_FUNCTION(&_3$$3, "in_array", NULL, 87, &actionName_zv, &_2$$3, &__$true);
+			ZEPHIR_CALL_FUNCTION(&_3$$3, "in_array", NULL, 88, &actionName_zv, &_2$$3, &__$true);
 			zephir_check_call_status();
 			_1$$3 = zephir_is_true(&_3$$3);
 		}
@@ -150,7 +150,7 @@ PHP_METHOD(Phalcon_Auth_Access_AbstractAccess, isAllowed)
 		_5$$4 = zephir_is_true(&allowed);
 		if (_5$$4) {
 			zephir_read_property_cached(&_6$$4, this_ptr, _zephir_prop_1, 97, PH_NOISY_CC | PH_READONLY);
-			ZEPHIR_CALL_FUNCTION(&_7$$4, "in_array", NULL, 87, &actionName_zv, &_6$$4, &__$true);
+			ZEPHIR_CALL_FUNCTION(&_7$$4, "in_array", NULL, 88, &actionName_zv, &_6$$4, &__$true);
 			zephir_check_call_status();
 			_5$$4 = zephir_is_true(&_7$$4);
 		}

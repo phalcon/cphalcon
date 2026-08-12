@@ -988,7 +988,7 @@ PHP_METHOD(Phalcon_Support_Debug_Dump, output)
 				_43$$9 = zephir_is_instance_of(variable, SL("stdClass"));
 			}
 			if (_43$$9) {
-				ZEPHIR_CALL_FUNCTION(&vars, "get_object_vars", NULL, 351, variable);
+				ZEPHIR_CALL_FUNCTION(&vars, "get_object_vars", NULL, 352, variable);
 				zephir_check_call_status();
 				zephir_is_iterable(&vars, 0, "phalcon/Support/Debug/Dump.zep", 350);
 				if (Z_TYPE_P(&vars) == IS_ARRAY) {
@@ -1084,10 +1084,10 @@ PHP_METHOD(Phalcon_Support_Debug_Dump, output)
 			} else {
 				ZEPHIR_INIT_VAR(&reflect);
 				object_init_ex(&reflect, zephir_get_internal_ce(SL("reflectionclass")));
-				ZEPHIR_CALL_METHOD(NULL, &reflect, "__construct", NULL, 244, variable);
+				ZEPHIR_CALL_METHOD(NULL, &reflect, "__construct", NULL, 245, variable);
 				zephir_check_call_status();
 				ZVAL_LONG(&_66$$15, ((1 | 2) | 4));
-				ZEPHIR_CALL_METHOD(&props, &reflect, "getproperties", NULL, 363, &_66$$15);
+				ZEPHIR_CALL_METHOD(&props, &reflect, "getproperties", NULL, 364, &_66$$15);
 				zephir_check_call_status();
 				zephir_is_iterable(&props, 0, "phalcon/Support/Debug/Dump.zep", 378);
 				if (Z_TYPE_P(&props) == IS_ARRAY) {

@@ -41,7 +41,7 @@ class QueueConsumer extends AbstractEventsAware implements EventsAwareInterface
     /**
      * Bound processors keyed by queue name.
      *
-     * @var array
+     * @var array<string, BoundProcessor>
      */
     protected array bindings = [];
     protected <ContextInterface> context;

@@ -25,6 +25,12 @@ use Phalcon\Tag\Select;
  * Phalcon\Tag is designed to simplify building of HTML tags.
  * It provides a set of helpers to generate HTML in a dynamic way.
  * This component is a class that you can extend to add more helpers.
+ *
+ * @phpstan-type tag_parameters array<array-key, mixed>
+ * @phpstan-type tag_attributes array<array-key, mixed>
+ * @phpstan-type tag_display_values array<array-key, scalar|null>
+ * @phpstan-type tag_title_parts array<array-key, string>
+ * @phpstan-type tag_select_data array<array-key, mixed>
  */
 class Tag
 {
@@ -75,8 +81,17 @@ class Tag
 
     protected static bool autoEscape = true;
     protected static ?<DiInterface> container = null;
+    /**
+     * @phpstan-var tag_display_values
+     */
     protected static array displayValues = [];
+    /**
+     * @phpstan-var tag_title_parts
+     */
     protected static array documentAppendTitle = [];
+    /**
+     * @phpstan-var tag_title_parts
+     */
     protected static array documentPrependTitle = [];
     protected static ?string documentTitle = null;
     protected static ?string documentTitleSeparator = null;
@@ -87,7 +102,7 @@ class Tag
     /**
      * Appends a text to current document title
      *
-     * @param array|string title
+     * @phpstan-param tag_title_parts|string $title
      */
     public static function appendTitle(var title) -> void
     {
@@ -100,6 +115,8 @@ class Tag
 
     /**
      * Builds an HTML input[type="check"] tag
+     *
+     * @phpstan-param tag_parameters|string $parameters
      *
      * @param array|string $parameters = [
      *     'class' => '',
@@ -116,6 +133,8 @@ class Tag
     /**
      * Builds an HTML input[type="color"] tag
      *
+     * @phpstan-param tag_parameters|string $parameters
+     *
      * @param array|string $parameters = [
      *     'class' => '',
      *     'id' => '',
@@ -130,6 +149,8 @@ class Tag
 
     /**
      * Builds an HTML input[type="date"] tag
+     *
+     * @phpstan-param tag_parameters|string $parameters
      *
      * @param array|string $parameters = [
      *     'class' => '',
@@ -146,6 +167,8 @@ class Tag
     /**
      * Builds an HTML input[type="datetime"] tag
      *
+     * @phpstan-param tag_parameters|string $parameters
+     *
      * @param array|string $parameters = [
      *     'class' => '',
      *     'id' => '',
@@ -160,6 +183,8 @@ class Tag
 
     /**
      * Builds an HTML input[type="datetime-local"] tag
+     *
+     * @phpstan-param tag_parameters|string $parameters
      *
      * @param array|string $parameters = [
      *     'class' => '',
@@ -184,6 +209,8 @@ class Tag
     /**
      * Builds an HTML input[type="email"] tag
      *
+     * @phpstan-param tag_parameters|string $parameters
+     *
      * @param array|string $parameters = [
      *     'class' => '',
      *     'id' => '',
@@ -207,6 +234,8 @@ class Tag
     /**
      * Builds an HTML input[type="file"] tag
      *
+     * @phpstan-param tag_parameters|string $parameters
+     *
      * @param array|string $parameters = [
      *     'class' => '',
      *     'id' => '',
@@ -221,6 +250,8 @@ class Tag
 
     /**
      * Builds an HTML FORM tag
+     *
+     * @phpstan-param tag_parameters|string $parameters
      *
      * @param array|string $parameters = [
      *     'method' => 'post',
@@ -277,6 +308,8 @@ class Tag
 
     /**
      * Converts texts into URL-friendly titles
+     *
+     * @phpstan-param array<array-key, string>|string $replace
      */
     public static function friendlyTitle(
         string text,
@@ -305,7 +338,7 @@ class Tag
 
         return self::container;
     }
-    
+
     /**
      * Get the document type declaration of content
      */
@@ -350,6 +383,8 @@ class Tag
 
     /**
      * Obtains the 'escaper' service if required
+     *
+     * @phpstan-param tag_parameters $parameters
      */
     public static function getEscaper(array params) -> <EscaperInterface> | null
     {
@@ -483,8 +518,10 @@ class Tag
     /**
      * Every helper calls this function to check whether a component has a
      * predefined value using Phalcon\Tag::setDefault() or value from $_POST
+     *
+     * @phpstan-param tag_parameters $parameters
      */
-    public static function getValue(var name, array params = [])
+    public static function getValue(var name, array params = []) -> mixed
     {
         var value;
 
@@ -520,6 +557,8 @@ class Tag
     /**
      * Builds a HTML input[type="hidden"] tag
      *
+     * @phpstan-param tag_parameters|string $parameters
+     *
      * @param array|string $parameters = [
      *     'class' => '',
      *     'name' => '',
@@ -535,6 +574,8 @@ class Tag
 
     /**
      * Builds HTML IMG tags
+     *
+     * @phpstan-param tag_parameters|string $parameters
      *
      * @param array|string $parameters = [
      *     'src' => '',
@@ -589,6 +630,8 @@ class Tag
     /**
      * Builds an HTML input[type="image"] tag
      *
+     * @phpstan-param tag_parameters|string $parameters
+     *
      * @param array|string $parameters = [
      *     'class' => '',
      *     'name' => '',
@@ -603,6 +646,8 @@ class Tag
 
     /**
      * Builds a SCRIPT[type="javascript"] tag
+     *
+     * @phpstan-param tag_parameters|string $parameters
      *
      * @param array|string $parameters = [
      *     'local' => false,
@@ -658,6 +703,8 @@ class Tag
 
     /**
      * Builds an HTML A tag using framework conventions
+     *
+     * @phpstan-param tag_parameters|string $parameters
      *
      * @param array|string $parameters = [
      *     'action' => '',
@@ -721,6 +768,8 @@ class Tag
     /**
      * Builds an HTML input[type="month"] tag
      *
+     * @phpstan-param tag_parameters|string $parameters
+     *
      * @param array|string $parameters = [
      *     'class' => '',
      *     'name' => '',
@@ -736,6 +785,8 @@ class Tag
 
     /**
      * Builds an HTML input[type="number"] tag
+     *
+     * @phpstan-param tag_parameters|string $parameters
      *
      * @param array|string $parameters = [
      *     'class' => '',
@@ -753,6 +804,8 @@ class Tag
     /**
      * Builds a HTML input[type="password"] tag
      *
+     * @phpstan-param tag_parameters|string $parameters
+     *
      * @param array|string $parameters = [
      *     'class' => '',
      *     'name' => '',
@@ -768,6 +821,8 @@ class Tag
 
     /**
      * Parses the preload element passed and sets the necessary link headers
+     *
+     * @phpstan-param tag_parameters|string $parameters
      */
     public static function preload(var parameters) -> string
     {
@@ -817,6 +872,8 @@ class Tag
 
     /**
      * Prepends a text to current document title
+     *
+     * @phpstan-param tag_title_parts|string $title
      */
     public static function prependTitle(var title) -> void
     {
@@ -829,6 +886,8 @@ class Tag
 
     /**
      * Builds an HTML input[type="radio"] tag
+     *
+     * @phpstan-param tag_parameters|string $parameters
      *
      * @param array|string $parameters = [
      *     'class' => '',
@@ -845,6 +904,8 @@ class Tag
 
     /**
      * Builds an HTML input[type="range"] tag
+     *
+     * @phpstan-param tag_parameters|string $parameters
      *
      * @param array|string $parameters = [
      *     'class' => '',
@@ -874,6 +935,8 @@ class Tag
      *     'value' => null,
      *     'class' => null
      * ]
+     *
+     * @phpstan-param tag_attributes $attributes
      */
     public static function renderAttributes( string code,  array attributes) -> string
     {
@@ -964,6 +1027,8 @@ class Tag
     /**
      * Builds a HTML input[type="search"] tag
      *
+     * @phpstan-param tag_parameters|string $parameters
+     *
      * @param array|string $parameters = [
      *     'class' => '',
      *     'name' => '',
@@ -979,6 +1044,8 @@ class Tag
 
     /**
      * Builds a HTML SELECT tag using a Phalcon\Mvc\Model resultset as options
+     *
+     * @phpstan-param tag_parameters|string $parameters
      *
      * @param array|string $parameters = [
      *     'id' => '',
@@ -996,6 +1063,8 @@ class Tag
 
     /**
      * Builds an HTML SELECT tag using a PHP array for options
+     *
+     * @phpstan-param tag_parameters|string $parameters
      *
      * @param array|string $parameters = [
      *     'id' => '',
@@ -1037,6 +1106,8 @@ class Tag
 
     /**
      * Assigns default values to generated tags by helpers
+     *
+     * @phpstan-param tag_display_values $values
      */
     public static function setDefaults( array values, bool merge = false) -> void
     {
@@ -1085,6 +1156,8 @@ class Tag
 
     /**
      * Builds a LINK[rel="stylesheet"] tag
+     *
+     * @phpstan-param tag_parameters|string|null $parameters
      */
     public static function stylesheetLink(var parameters = null, bool local = true) -> string
     {
@@ -1147,6 +1220,8 @@ class Tag
 
     /**
      * Builds an HTML input[type="submit"] tag
+     *
+     * @phpstan-param tag_parameters|string $parameters
      */
     public static function submitButton(var parameters) -> string
     {
@@ -1155,6 +1230,8 @@ class Tag
 
     /**
      * Builds a HTML tag
+     *
+     * @phpstan-param tag_parameters|string $parameters
      */
     public static function tagHtml(
         string tagName,
@@ -1213,6 +1290,8 @@ class Tag
     /**
      * Builds an HTML input[type="tel"] tag
      *
+     * @phpstan-param tag_parameters|string $parameters
+     *
      * @param array|string $parameters = [
      *     'id' => '',
      *     'name' => '',
@@ -1227,6 +1306,8 @@ class Tag
 
     /**
      * Builds an HTML TEXTAREA tag
+     *
+     * @phpstan-param tag_parameters|string $parameters
      *
      * @param array|string $parameters = [
      *     'id' => '',
@@ -1291,6 +1372,8 @@ class Tag
     /**
      * Builds an HTML input[type="text"] tag
      *
+     * @phpstan-param tag_parameters|string $parameters
+     *
      * @param array|string $parameters = [
      *     'id' => '',
      *     'name' => '',
@@ -1305,6 +1388,8 @@ class Tag
 
     /**
      * Builds an HTML input[type="time"] tag
+     *
+     * @phpstan-param tag_parameters|string $parameters
      *
      * @param array|string $parameters = [
      *     'id' => '',
@@ -1321,6 +1406,8 @@ class Tag
     /**
      * Builds an HTML input[type="url"] tag
      *
+     * @phpstan-param tag_parameters|string $parameters
+     *
      * @param array|string $parameters = [
      *     'id' => '',
      *     'name' => '',
@@ -1336,6 +1423,8 @@ class Tag
     /**
      * Builds an HTML input[type="week"] tag
      *
+     * @phpstan-param tag_parameters|string $parameters
+     *
      * @param array|string $parameters = [
      *     'id' => '',
      *     'name' => '',
@@ -1349,7 +1438,50 @@ class Tag
     }
 
     /**
+     * Reduces an arbitrary helper value to the string a tag attribute, id or
+     * URI needs. Parameter bags are user supplied, so a value that cannot be
+     * expressed as a string - an array, an object without `__toString()` -
+     * reads back as an empty string rather than aborting the helper.
+     */
+    final protected static function toStringValue(var value) -> string
+    {
+        if (is_scalar(value)
+            || (typeof value === "object" && value instanceof Stringable)) {
+            return (string) value;
+        }
+
+        return "";
+    }
+
+    /**
+     * Resolves a static (asset) URL through the `url` service.
+     *
+     * `getStatic()` lives on Phalcon\Mvc\Url but is absent from
+     * Phalcon\Mvc\Url\UrlInterface, which is what getUrlService() is typed
+     * to return. A service that does not carry it falls back to `get()`
+     * rather than aborting the helper.
+     */
+    final protected static function getStaticUrl(var uri) -> string
+    {
+        var url;
+
+        let url = self::getUrlService();
+
+        if (typeof uri !== "string" && typeof uri !== "array") {
+            let uri = self::toStringValue(uri);
+        }
+
+        if (method_exists(url, "getStatic")) {
+            return self::toStringValue(url->getStatic(uri));
+        }
+
+        return url->get(uri);
+    }
+
+    /**
      * Builds generic INPUT tags
+     *
+     * @phpstan-param tag_parameters|string $parameters
      *
      * @param array|string $parameters = [
      *     'id' => '',
@@ -1422,6 +1554,8 @@ class Tag
 
     /**
      * Builds INPUT tags that implements the checked attribute
+     *
+     * @phpstan-param tag_parameters|string $parameters
      */
     final protected static function inputFieldChecked(string type, var parameters) -> string
     {

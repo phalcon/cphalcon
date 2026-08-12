@@ -142,10 +142,6 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, exists)
 
 /**
  * Check whether is defined a translation key in the internal array
- *
- * @param string $index
- *
- * @return bool
  */
 PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, has)
 {

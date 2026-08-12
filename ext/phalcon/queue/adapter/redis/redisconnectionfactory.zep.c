@@ -53,11 +53,16 @@
  *   - index:        database index to SELECT (default 0).
  *   - prefix:       key prefix for every queue (default "phalcon_queue:").
  *   - pollInterval: milliseconds between subscription poll passes (default 200).
+ *
+ * @phpstan-import-type queue_redis_options from QueueTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_Redis_RedisConnectionFactory)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Queue\\Adapter\\Redis, RedisConnectionFactory, phalcon, queue_adapter_redis_redisconnectionfactory, phalcon_queue_adapter_redis_redisconnectionfactory_method_entry, 0);
 
+	/**
+	 * @phpstan-param queue_redis_options $options
+	 */
 	{
 		zval _zc0;
 		array_init_size(&_zc0, 1);
@@ -68,6 +73,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_Redis_RedisConnectionFactory)
 	return SUCCESS;
 }
 
+/**
+ * @phpstan-param queue_redis_options $options
+ */
 PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisConnectionFactory, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -133,14 +141,14 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisConnectionFactory, createContext)
 	ZEPHIR_CPY_WRT(&options, &_0);
 	if (zephir_array_isset_value_string(&options, SL("prefix"))) {
 		zephir_memory_observe(&prefix);
-		zephir_array_fetch_string(&prefix, &options, SL("prefix"), PH_NOISY, "phalcon/Queue/Adapter/Redis/RedisConnectionFactory.zep", 60);
+		zephir_array_fetch_string(&prefix, &options, SL("prefix"), PH_NOISY, "phalcon/Queue/Adapter/Redis/RedisConnectionFactory.zep", 69);
 	} else {
 		ZEPHIR_INIT_NVAR(&prefix);
 		ZVAL_STRING(&prefix, "phalcon_queue:");
 	}
 	if (zephir_array_isset_value_string(&options, SL("pollInterval"))) {
 		zephir_memory_observe(&_1);
-		zephir_array_fetch_string(&_1, &options, SL("pollInterval"), PH_NOISY, "phalcon/Queue/Adapter/Redis/RedisConnectionFactory.zep", 61);
+		zephir_array_fetch_string(&_1, &options, SL("pollInterval"), PH_NOISY, "phalcon/Queue/Adapter/Redis/RedisConnectionFactory.zep", 70);
 		ZEPHIR_INIT_VAR(&pollInterval);
 		ZVAL_LONG(&pollInterval, zephir_get_intval(&_1));
 	} else {
@@ -185,7 +193,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisConnectionFactory, createContext)
 			ZVAL_LONG(&_9$$4, zephir_get_intval(&_8$$4));
 			ZEPHIR_CALL_METHOD(NULL, &_6$$4, "__construct", NULL, 8, &_7$$4, &_9$$4, &e);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_6$$4, "phalcon/Queue/Adapter/Redis/RedisConnectionFactory.zep", 88);
+			zephir_throw_exception_debug(&_6$$4, "phalcon/Queue/Adapter/Redis/RedisConnectionFactory.zep", 97);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}

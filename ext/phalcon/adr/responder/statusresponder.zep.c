@@ -76,7 +76,7 @@ PHP_METHOD(Phalcon_ADR_Responder_StatusResponder, __construct)
 	if (Z_TYPE_P(mapper) == IS_NULL) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		object_init_ex(&_0$$3, phalcon_adr_responder_statusmapper_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 330);
+		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 331);
 		zephir_check_call_status();
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 362, &_0$$3);
 	} else {

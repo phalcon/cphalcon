@@ -179,7 +179,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Eager_Loader, apply)
 			zephir_array_fetch_string(&records, &node, SL("records"), PH_NOISY, "phalcon/Mvc/Model/Eager/Loader.zep", 74);
 			ZEPHIR_OBS_NVAR(&related);
 			zephir_array_fetch_string(&related, &node, SL("empty"), PH_NOISY, "phalcon/Mvc/Model/Eager/Loader.zep", 75);
-			ZEPHIR_CALL_FUNCTION(&_10$$3, "in_array", &_11, 87, &__$null, &values, &__$true);
+			ZEPHIR_CALL_FUNCTION(&_10$$3, "in_array", &_11, 88, &__$null, &values, &__$true);
 			zephir_check_call_status();
 			if (!(zephir_is_true(&_10$$3))) {
 				ZEPHIR_CALL_SELF(&lookup, "buildkey", &_12, 0, &values);
@@ -259,7 +259,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Eager_Loader, apply)
 				zephir_array_fetch_string(&records, &node, SL("records"), PH_NOISY, "phalcon/Mvc/Model/Eager/Loader.zep", 74);
 				ZEPHIR_OBS_NVAR(&related);
 				zephir_array_fetch_string(&related, &node, SL("empty"), PH_NOISY, "phalcon/Mvc/Model/Eager/Loader.zep", 75);
-				ZEPHIR_CALL_FUNCTION(&_24$$10, "in_array", &_11, 87, &__$null, &values, &__$true);
+				ZEPHIR_CALL_FUNCTION(&_24$$10, "in_array", &_11, 88, &__$null, &values, &__$true);
 				zephir_check_call_status();
 				if (!(zephir_is_true(&_24$$10))) {
 					ZEPHIR_CALL_SELF(&lookup, "buildkey", &_12, 0, &values);
@@ -410,7 +410,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Eager_Loader, loadResultset)
 	zephir_get_arrval(&tree, tree_param);
 	_0 = ZEPHIR_IS_EMPTY(&tree);
 	if (!(_0)) {
-		ZEPHIR_CALL_METHOD(&_1, resultset, "count", NULL, 210);
+		ZEPHIR_CALL_METHOD(&_1, resultset, "count", NULL, 211);
 		zephir_check_call_status();
 		_0 = ZEPHIR_IS_LONG_IDENTICAL(&_1, 0);
 	}
@@ -643,7 +643,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Eager_Loader, buildNode)
 	ZEPHIR_INIT_VAR(&index);
 	array_init(&index);
 	position = 0;
-	ZEPHIR_CALL_METHOD(NULL, &children, "rewind", NULL, 211);
+	ZEPHIR_CALL_METHOD(NULL, &children, "rewind", NULL, 212);
 	zephir_check_call_status();
 	while (1) {
 		ZEPHIR_CALL_METHOD(&_4, &children, "valid", &_5, 0);
@@ -908,7 +908,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Eager_Loader, buildThroughNode)
 		ZEPHIR_INIT_VAR(&_12$$3);
 		zephir_create_array(&_12$$3, 1, 0);
 		ZVAL_LONG(&_13$$3, 0);
-		ZEPHIR_CALL_FUNCTION(&_7$$3, "array_column", NULL, 335, &keys, &_13$$3);
+		ZEPHIR_CALL_FUNCTION(&_7$$3, "array_column", NULL, 336, &keys, &_13$$3);
 		zephir_check_call_status();
 		zephir_array_update_string(&_12$$3, SL("phEagerKeys"), &_7$$3, PH_COPY | PH_SEPARATE);
 		zephir_array_update_string(&_10$$3, SL("bind"), &_12$$3, PH_COPY | PH_SEPARATE);
@@ -961,7 +961,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Eager_Loader, buildThroughNode)
 	ZEPHIR_INIT_VAR(&index);
 	array_init(&index);
 	position = 0;
-	ZEPHIR_CALL_METHOD(NULL, &referenced, "rewind", NULL, 211);
+	ZEPHIR_CALL_METHOD(NULL, &referenced, "rewind", NULL, 212);
 	zephir_check_call_status();
 	while (1) {
 		ZEPHIR_CALL_METHOD(&_23, &referenced, "valid", &_24, 0);
@@ -1234,7 +1234,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Eager_Loader, collectKeys)
 				}
 			}
 			ZEPHIR_INIT_NVAR(&field);
-			ZEPHIR_CALL_FUNCTION(&_7$$3, "in_array", &_8, 87, &__$null, &values, &__$true);
+			ZEPHIR_CALL_FUNCTION(&_7$$3, "in_array", &_8, 88, &__$null, &values, &__$true);
 			zephir_check_call_status();
 			if (zephir_is_true(&_7$$3)) {
 				continue;
@@ -1325,7 +1325,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Eager_Loader, collectKeys)
 					}
 				}
 				ZEPHIR_INIT_NVAR(&field);
-				ZEPHIR_CALL_FUNCTION(&_18$$13, "in_array", &_8, 87, &__$null, &values, &__$true);
+				ZEPHIR_CALL_FUNCTION(&_18$$13, "in_array", &_8, 88, &__$null, &values, &__$true);
 				zephir_check_call_status();
 				if (zephir_is_true(&_18$$13)) {
 					continue;
@@ -1472,7 +1472,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Eager_Loader, fetchReferenced)
 		ZEPHIR_INIT_VAR(&_5$$4);
 		zephir_create_array(&_5$$4, 1, 0);
 		ZVAL_LONG(&_6$$4, 0);
-		ZEPHIR_CALL_FUNCTION(&_7$$4, "array_column", NULL, 335, &keys, &_6$$4);
+		ZEPHIR_CALL_FUNCTION(&_7$$4, "array_column", NULL, 336, &keys, &_6$$4);
 		zephir_check_call_status();
 		zephir_array_update_string(&_5$$4, SL("phEagerKeys"), &_7$$4, PH_COPY | PH_SEPARATE);
 		zephir_array_update_string(&findParams, SL("bind"), &_5$$4, PH_COPY | PH_SEPARATE);

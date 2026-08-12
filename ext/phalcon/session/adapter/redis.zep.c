@@ -428,9 +428,9 @@ PHP_METHOD(Phalcon_Session_Adapter_Redis, acquireLock)
 	ZEPHIR_CALL_METHOD(&client, &_4, "getadapter", NULL, 0);
 	zephir_check_call_status();
 	ZVAL_LONG(&_5, 16);
-	ZEPHIR_CALL_FUNCTION(&_6, "random_bytes", NULL, 321, &_5);
+	ZEPHIR_CALL_FUNCTION(&_6, "random_bytes", NULL, 322, &_5);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&token, "bin2hex", NULL, 322, &_6);
+	ZEPHIR_CALL_FUNCTION(&token, "bin2hex", NULL, 323, &_6);
 	zephir_check_call_status();
 	attempt = 0;
 	while (1) {

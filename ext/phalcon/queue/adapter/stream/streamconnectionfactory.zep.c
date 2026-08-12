@@ -43,11 +43,16 @@
  *   - storageDir:   directory holding the queue files (default: a private
  *                   "phalcon_queue" subdirectory of the system temp dir).
  *   - pollInterval: milliseconds between consumer poll attempts (default 200).
+ *
+ * @phpstan-import-type queue_stream_options from QueueTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_Stream_StreamConnectionFactory)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Queue\\Adapter\\Stream, StreamConnectionFactory, phalcon, queue_adapter_stream_streamconnectionfactory, phalcon_queue_adapter_stream_streamconnectionfactory_method_entry, 0);
 
+	/**
+	 * @phpstan-param queue_stream_options $options
+	 */
 	{
 		zval _zc0;
 		array_init_size(&_zc0, 1);
@@ -58,6 +63,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_Stream_StreamConnectionFactory)
 	return SUCCESS;
 }
 
+/**
+ * @phpstan-param queue_stream_options $options
+ */
 PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamConnectionFactory, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -115,14 +123,14 @@ PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamConnectionFactory, createContext)
 	if (zephir_array_isset_value_string(&_0, SL("storageDir"))) {
 		zephir_read_property_cached(&_1$$3, this_ptr, _zephir_prop_0, 1277, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_OBS_NVAR(&storageDir);
-		zephir_array_fetch_string(&storageDir, &_1$$3, SL("storageDir"), PH_NOISY, "phalcon/Queue/Adapter/Stream/StreamConnectionFactory.zep", 49);
+		zephir_array_fetch_string(&storageDir, &_1$$3, SL("storageDir"), PH_NOISY, "phalcon/Queue/Adapter/Stream/StreamConnectionFactory.zep", 58);
 	}
 	pollInterval = 200;
 	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 1277, PH_NOISY_CC | PH_READONLY);
 	if (zephir_array_isset_value_string(&_2, SL("pollInterval"))) {
 		zephir_read_property_cached(&_3$$4, this_ptr, _zephir_prop_0, 1277, PH_NOISY_CC | PH_READONLY);
 		zephir_memory_observe(&_4$$4);
-		zephir_array_fetch_string(&_4$$4, &_3$$4, SL("pollInterval"), PH_NOISY, "phalcon/Queue/Adapter/Stream/StreamConnectionFactory.zep", 55);
+		zephir_array_fetch_string(&_4$$4, &_3$$4, SL("pollInterval"), PH_NOISY, "phalcon/Queue/Adapter/Stream/StreamConnectionFactory.zep", 64);
 		pollInterval = zephir_get_intval(&_4$$4);
 	}
 	object_init_ex(return_value, phalcon_queue_adapter_stream_streamcontext_ce);

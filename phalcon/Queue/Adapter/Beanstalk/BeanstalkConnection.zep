@@ -19,6 +19,7 @@
 
 namespace Phalcon\Queue\Adapter\Beanstalk;
 
+use Phalcon\Contracts\Queue\QueueTypes;
 use Phalcon\Queue\Exceptions\Exception;
 use Phalcon\Traits\Php\FileTrait;
 
@@ -27,6 +28,9 @@ use Phalcon\Traits\Php\FileTrait;
  * the subset of the 1.2 protocol the adapter needs (use/watch/ignore, put,
  * reserve-with-timeout, delete/release/bury/touch). Recovered and trimmed
  * from the original Phalcon\Queue\Beanstalk transport.
+ *
+ * @phpstan-import-type queue_beanstalk_job from QueueTypes
+ * @phpstan-import-type queue_beanstalk_status from QueueTypes
  */
 class BeanstalkConnection
 {
@@ -52,7 +56,7 @@ class BeanstalkConnection
      *
      * @var array<string, bool>
      */
-    protected watchedTubes = [];
+    protected array watchedTubes = [];
 
     public function __construct(
         string host = "127.0.0.1", 
@@ -242,6 +246,8 @@ class BeanstalkConnection
 
     /**
      * Reads the latest status line and splits it into tokens.
+     *
+     * @phpstan-return queue_beanstalk_status
      */
     public function readStatus() -> array
     {
@@ -271,7 +277,7 @@ class BeanstalkConnection
      * job is available; otherwise it blocks up to timeout seconds. Returns
      * [id, body] or null when none is reserved.
      *
-     * @return array{0: string, 1: false|string}|null
+     * @phpstan-return queue_beanstalk_job|null
      */
     public function reserve(var timeout = null) -> array | null
     {

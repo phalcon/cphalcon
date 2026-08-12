@@ -578,6 +578,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/contracts/front/fronttypealiases.zep.c
 	phalcon/contracts/mvc/model/relation/cachekeyprovider.zep.c
 	phalcon/contracts/queue/processor.zep.c
+	phalcon/contracts/queue/queuetypes.zep.c
 	phalcon/contracts/translate/translatetypes.zep.c
 	phalcon/datamapper/pdo/connection.zep.c
 	phalcon/datamapper/pdo/connection/decorated.zep.c

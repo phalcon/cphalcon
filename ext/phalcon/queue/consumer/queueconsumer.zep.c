@@ -51,7 +51,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Queue_Consumer_QueueConsumer)
 	/**
 	 * Bound processors keyed by queue name.
 	 *
-	 * @var array
+	 * @var array<string, BoundProcessor>
 	 */
 	{
 		zval _zc0;
