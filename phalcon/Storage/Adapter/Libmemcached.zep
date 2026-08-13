@@ -12,6 +12,7 @@ namespace Phalcon\Storage\Adapter;
 use DateInterval;
 use Exception as BaseException;
 use Memcached;
+use Phalcon\Contracts\Storage\StorageTypes;
 use Phalcon\Storage\Exception as StorageException;
 use Phalcon\Storage\Exceptions\ConnectionFailed;
 use Phalcon\Storage\Exceptions\InvalidConfiguration;
@@ -26,6 +27,16 @@ use Phalcon\Support\Exception as SupportException;
  * - getKeys(): Memcached::getAllKeys(), which is server-dependent and may be
  *   incomplete or unavailable on modern memcached builds.
  * - Serializers: Phalcon-side plus libmemcached's own options.
+ *
+ * @phpstan-import-type storage_keys from StorageTypes
+ * @phpstan-import-type storage_libmemcached_client from StorageTypes
+ * @phpstan-import-type storage_libmemcached_options from StorageTypes
+ * @phpstan-import-type storage_libmemcached_sasl from StorageTypes
+ * @phpstan-import-type storage_libmemcached_servers from StorageTypes
+ * @phpstan-import-type storage_libmemcached_settings from StorageTypes
+ *
+ * @phpstan-property Memcached|null $adapter
+ * @phpstan-property storage_libmemcached_settings $options
  */
 class Libmemcached extends AbstractAdapter
 {
@@ -33,6 +44,8 @@ class Libmemcached extends AbstractAdapter
 
     /**
      * Libmemcached constructor.
+     *
+     * @phpstan-param storage_libmemcached_options $options
      */
     public function __construct(<SerializerFactory> factory, array options = [])
     {
@@ -65,6 +78,7 @@ class Libmemcached extends AbstractAdapter
      * Returns the already connected adapter or connects to the Memcached
      * server(s)
      *
+     * @return Memcached
      * @throws StorageException
      */
     public function getAdapter() -> var
@@ -113,14 +127,18 @@ class Libmemcached extends AbstractAdapter
     /**
      * Stores data in the adapter
      *
+     * @phpstan-return storage_keys
+     *
      * @throws StorageException
      */
     public function getKeys( string prefix = "") -> array
     {
-        return this->getFilteredKeys(
-            this->getAdapter()->getAllKeys(),
-            prefix
-        );
+        var keys;
+
+        /** @var storage_keys|false $keys */
+        let keys = this->getAdapter()->getAllKeys();
+
+        return this->getFilteredKeys(keys, prefix);
     }
 
     /**
@@ -131,14 +149,10 @@ class Libmemcached extends AbstractAdapter
      */
     public function setForever(string key, var data) -> bool
     {
-        var result;
-
         let key = this->getKeyWithoutPrefix(key);
 
-        let result = this->getAdapter()
-                         ->set(key, this->getSerializedData(data), 0);
-
-        return typeof result === "bool" ? result : false;
+        return this->getAdapter()
+                   ->set(key, this->getSerializedData(data), 0);
     }
 
     /**
@@ -163,6 +177,8 @@ class Libmemcached extends AbstractAdapter
 
     /**
      * Deletes multiple keys from Memcached using a single deleteMulti call
+     *
+     * @phpstan-param storage_keys $keys
      *
      * @throws StorageException
      */
@@ -234,24 +250,22 @@ class Libmemcached extends AbstractAdapter
      */
     protected function doSet(string key, var value, var ttl = null) -> bool
     {
-        var result;
-
         if (typeof ttl === "integer" && ttl < 1) {
             return this->delete(key);
         }
 
-        let result = this->getAdapter()
-                         ->set(
-                             key,
-                             this->getSerializedData(value),
-                             this->getTtl(ttl)
-                         )
+        return this->getAdapter()
+                   ->set(
+                       key,
+                       this->getSerializedData(value),
+                       this->getTtl(ttl)
+                   )
         ;
-
-        return typeof result === "bool" ? result : false;
     }
 
     /**
+     * @phpstan-param storage_libmemcached_client $client
+     *
      * @throws InvalidConfiguration
      */
     private function setOptions(<\Memcached> connection, array client) -> <static>
@@ -305,6 +319,8 @@ class Libmemcached extends AbstractAdapter
     }
 
     /**
+     * @phpstan-param storage_libmemcached_servers $servers
+     *
      * @throws ConnectionFailed
      */
     private function setServers(<\Memcached> connection, array servers) -> <static>

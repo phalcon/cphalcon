@@ -11,6 +11,7 @@ namespace Phalcon\Storage\Adapter;
 
 use DateInterval;
 use Exception as BaseException;
+use Phalcon\Contracts\Storage\StorageTypes;
 use Phalcon\Storage\Exception as StorageException;
 use Phalcon\Storage\Exceptions\AuthenticationFailed;
 use Phalcon\Storage\Exceptions\ConnectionFailed;
@@ -28,6 +29,15 @@ use RedisException;
  * - Serializers: Phalcon-side, or backend-native via OPT_SERIALIZER. Native
  *   serializers change the bytes at rest and are not interchangeable with
  *   Phalcon-side serializers.
+ *
+ * @phpstan-import-type storage_keys from StorageTypes
+ * @phpstan-import-type storage_options from StorageTypes
+ * @phpstan-import-type storage_redis_context from StorageTypes
+ * @phpstan-import-type storage_redis_options from StorageTypes
+ * @phpstan-import-type storage_redis_settings from StorageTypes
+ *
+ * @phpstan-property RedisService|null $adapter
+ * @phpstan-property storage_redis_settings $options
  */
 class Redis extends AbstractAdapter
 {
@@ -51,6 +61,8 @@ class Redis extends AbstractAdapter
      *     "readTimeout"    => 0,
      *     "ssl"            => [],
      * ]
+     *
+     * @phpstan-param storage_redis_options $options
      */
     public function __construct(
         <SerializerFactory> factory,
@@ -73,7 +85,7 @@ class Redis extends AbstractAdapter
      */
     public function clear() -> bool
     {
-        var keys, key;
+        var adapter, keys, key;
         array strippedKeys = [];
         int prefixLength;
 
@@ -89,12 +101,19 @@ class Redis extends AbstractAdapter
             let strippedKeys[] = substr(key, prefixLength);
         }
 
-        return false !== this->getAdapter()->del(strippedKeys);
+        /** @var RedisService $adapter */
+        let adapter = this->getAdapter();
+
+        return false !== adapter->del(strippedKeys);
     }
 
     /**
      * Returns the already connected adapter or connects to the Redis
      * server(s)
+     *
+     * The return type is deliberately left wide: RedisCluster extends this
+     * adapter and hands back a `RedisCluster` client, which is not a `Redis`.
+     * Callers inside this class narrow it to `RedisService` locally.
      *
      * @return mixed|RedisService
      * @throws StorageException
@@ -127,11 +146,14 @@ class Redis extends AbstractAdapter
      * SCAN replaces the blocking KEYS command. SCAN_NOPREFIX keeps the prefix
      * handling explicit: the physical prefix is matched and returned unchanged,
      * so getFilteredKeys() sees exactly what KEYS produced.
+     *
+     * @phpstan-return storage_keys
      */
     public function getKeys( string prefix = "") -> array
     {
         var adapter, cursor, keys, pattern, result, scanKeys;
 
+        /** @var RedisService $adapter */
         let adapter = this->getAdapter(),
             keys    = [],
             cursor  = "0",
@@ -174,6 +196,7 @@ class Redis extends AbstractAdapter
             }
         }
 
+        /** @var storage_keys $keys */
         return this->getFilteredKeys(keys, prefix);
     }
 
@@ -186,12 +209,13 @@ class Redis extends AbstractAdapter
      */
     public function setForever( string key, var data) -> bool
     {
-        var result;
+        var adapter, result;
 
         let key = this->getKeyWithoutPrefix(key);
 
-        let result = this->getAdapter()
-                         ->set(key, this->getSerializedData(data));
+        /** @var RedisService $adapter */
+        let adapter = this->getAdapter(),
+            result  = adapter->set(key, this->getSerializedData(data));
 
         return typeof result === "bool" ? result : false;
     }
@@ -207,7 +231,12 @@ class Redis extends AbstractAdapter
      */
     protected function doDecrement( string key, int value = 1) -> false | int
     {
-        return this->getAdapter()->decrBy(key, value);
+        var adapter;
+
+        /** @var RedisService $adapter */
+        let adapter = this->getAdapter();
+
+        return adapter->decrBy(key, value);
     }
 
     /**
@@ -218,20 +247,29 @@ class Redis extends AbstractAdapter
      */
     protected function doDelete( string key) -> bool
     {
-        return (bool) this->getAdapter()->unlink(key);
+        var adapter;
+
+        /** @var RedisService $adapter */
+        let adapter = this->getAdapter();
+
+        return (bool) adapter->unlink(key);
     }
 
     /**
      * Deletes multiple keys from Redis using a single unlink call
+     *
+     * @phpstan-param storage_keys $keys
      *
      * @throws RedisException
      * @throws StorageException
      */
     protected function doDeleteMultiple(array keys) -> bool
     {
-        var result;
+        var adapter, result;
 
-        let result = this->getAdapter()->unlink(keys);
+        /** @var RedisService $adapter */
+        let adapter = this->getAdapter(),
+            result  = adapter->unlink(keys);
 
         // unlink returns the number of keys deleted; all must be deleted
         return typeof result === "integer" && result === count(keys);
@@ -245,7 +283,12 @@ class Redis extends AbstractAdapter
      */
     protected function doHas( string key) -> bool
     {
-        return (bool) this->getAdapter()->exists(key);
+        var adapter;
+
+        /** @var RedisService $adapter */
+        let adapter = this->getAdapter();
+
+        return (bool) adapter->exists(key);
     }
 
     /**
@@ -256,7 +299,12 @@ class Redis extends AbstractAdapter
      */
     protected function doIncrement( string key, int value = 1) -> false | int
     {
-        return this->getAdapter()->incrBy(key, value);
+        var adapter;
+
+        /** @var RedisService $adapter */
+        let adapter = this->getAdapter();
+
+        return adapter->incrBy(key, value);
     }
 
     /**
@@ -275,24 +323,33 @@ class Redis extends AbstractAdapter
      */
     protected function doSet( string key, var value, var ttl = null) -> bool
     {
-        var result;
+        var adapter, result;
 
         if (typeof ttl === "integer" && ttl < 1) {
             return this->delete(key);
         }
 
-        let result = this->getAdapter()
-                         ->set(
-                             key,
-                             this->getSerializedData(value),
-                             this->getTtl(ttl)
-                         )
+        /** @var RedisService $adapter */
+        let adapter = this->getAdapter(),
+            result  = adapter->set(
+                key,
+                this->getSerializedData(value),
+                this->getTtl(ttl)
+            )
         ;
 
-
-        return typeof result === "bool" ? result : false;
+        return result;
     }
 
+    /**
+     * The parameter is the raw, user supplied options array; `RedisCluster`
+     * overrides this method with its own set of keys, so the two signatures
+     * have to agree on the wider type.
+     *
+     * @phpstan-param storage_options $options
+     *
+     * @phpstan-return storage_options
+     */
     protected function getDefaultOptions(array options) -> array
     {
         /**
@@ -372,6 +429,7 @@ class Redis extends AbstractAdapter
                 parameter    = !empty(persistentId) ? persistentId : "persistentId" . options["index"];
         }
 
+        /** @var storage_redis_context $connectionOptions */
         try {
             let result = connection->{method}(
                 host,

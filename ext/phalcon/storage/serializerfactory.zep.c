@@ -27,6 +27,9 @@
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+/**
+ * @phpstan-import-type storage_services from StorageTypes
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Storage_SerializerFactory)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Storage, SerializerFactory, phalcon, storage_serializerfactory, phalcon_factory_abstractfactory_ce, phalcon_storage_serializerfactory_method_entry, 0);
@@ -109,6 +112,8 @@ PHP_METHOD(Phalcon_Storage_SerializerFactory, getExceptionClass)
  * Returns the available adapters
  *
  * @return string[]
+ *
+ * @phpstan-return storage_services
  */
 PHP_METHOD(Phalcon_Storage_SerializerFactory, getServices)
 {

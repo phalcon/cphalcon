@@ -57,6 +57,7 @@ class Igbinary extends AbstractSerializer
                 E_WARNING
             );
 
+            /** @var string $data */
             let result = this->doUnserialize(data);
 
             restore_error_handler();

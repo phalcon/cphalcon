@@ -27,6 +27,10 @@
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+/**
+ * @phpstan-import-type storage_options from StorageTypes
+ * @phpstan-import-type storage_services from StorageTypes
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Storage_AdapterFactory)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Storage, AdapterFactory, phalcon, storage_adapterfactory, phalcon_factory_abstractfactory_ce, phalcon_storage_adapterfactory_method_entry, 0);
@@ -42,6 +46,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Storage_AdapterFactory)
 
 /**
  * AdapterFactory constructor.
+ *
+ * @param string[] $services
  */
 PHP_METHOD(Phalcon_Storage_AdapterFactory, __construct)
 {
@@ -81,7 +87,7 @@ PHP_METHOD(Phalcon_Storage_AdapterFactory, __construct)
 /**
  * Create a new instance of the adapter
  *
- * @param array options = [
+ * @param array $options = [
  *     'servers' => [
  *         [
  *             'host' => '127.0.0.1',
@@ -101,6 +107,8 @@ PHP_METHOD(Phalcon_Storage_AdapterFactory, __construct)
  *     'socket' => '',
  *     'storageDir' => '',
  * ]
+ *
+ * @phpstan-param storage_options $options
  *
  * @return AdapterInterface
  * @throws BaseException
@@ -168,6 +176,8 @@ PHP_METHOD(Phalcon_Storage_AdapterFactory, getExceptionClass)
  * Returns the available adapters
  *
  * @return string[]
+ *
+ * @phpstan-return storage_services
  */
 PHP_METHOD(Phalcon_Storage_AdapterFactory, getServices)
 {

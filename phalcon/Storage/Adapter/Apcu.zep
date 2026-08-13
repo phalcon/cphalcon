@@ -11,6 +11,7 @@ namespace Phalcon\Storage\Adapter;
 
 use APCUIterator;
 use Exception;
+use Phalcon\Contracts\Storage\StorageTypes;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Traits\Php\ApcuTrait;
 
@@ -22,7 +23,10 @@ use Phalcon\Traits\Php\ApcuTrait;
  * - getKeys(): APCUIterator regex scan over the shared APCu store.
  * - Serializers: Phalcon-side only; no backend-native serializer.
  *
- * @property array $options
+ * @phpstan-import-type storage_adapter_options from StorageTypes
+ * @phpstan-import-type storage_keys from StorageTypes
+ *
+ * @phpstan-property storage_adapter_options $options
  */
 class Apcu extends AbstractAdapter
 {
@@ -32,6 +36,8 @@ class Apcu extends AbstractAdapter
 
     /**
      * Apcu constructor.
+     *
+     * @phpstan-param storage_adapter_options $options
      *
      * @throws Exception
      */
@@ -71,6 +77,8 @@ class Apcu extends AbstractAdapter
 
     /**
      * Stores data in the adapter
+     *
+     * @phpstan-return storage_keys
      */
     public function getKeys( string prefix = "") -> array
     {
@@ -85,6 +93,7 @@ class Apcu extends AbstractAdapter
             return results;
         }
 
+        /** @var array{key: string} $item */
         for item in iterator(apc) {
             let results[] = item["key"];
         }
@@ -113,7 +122,11 @@ class Apcu extends AbstractAdapter
      */
     protected function doDecrement( string key, int value = 1) -> false | int
     {
-        return this->phpApcuDec(this->getPrefixedKey(key), value);
+        var result;
+
+        let result = this->phpApcuDec(this->getPrefixedKey(key), value);
+
+        return is_int(result) ? result : false;
     }
 
     /**
@@ -126,6 +139,8 @@ class Apcu extends AbstractAdapter
 
     /**
      * Deletes multiple keys from APCu in a single call
+     *
+     * @phpstan-param storage_keys $keys
      */
     protected function doDeleteMultiple(array keys) -> bool
     {
@@ -163,7 +178,11 @@ class Apcu extends AbstractAdapter
      */
     protected function doIncrement( string key, int value = 1) -> false | int
     {
-        return this->phpApcuInc(this->getPrefixedKey(key), value);
+        var result;
+
+        let result = this->phpApcuInc(this->getPrefixedKey(key), value);
+
+        return is_int(result) ? result : false;
     }
 
     /**

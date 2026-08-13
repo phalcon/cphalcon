@@ -574,6 +574,7 @@
 #include "phalcon/contracts/mvc/model/relation/cachekeyprovider.zep.h"
 #include "phalcon/contracts/queue/processor.zep.h"
 #include "phalcon/contracts/queue/queuetypes.zep.h"
+#include "phalcon/contracts/storage/storagetypes.zep.h"
 #include "phalcon/contracts/translate/translatetypes.zep.h"
 #include "phalcon/datamapper/pdo/connection.zep.h"
 #include "phalcon/datamapper/pdo/connection/decorated.zep.h"

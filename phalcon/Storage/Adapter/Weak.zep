@@ -11,6 +11,7 @@ namespace Phalcon\Storage\Adapter;
 
 
 use Exception as BaseException;
+use Phalcon\Contracts\Storage\StorageTypes;
 use Phalcon\Storage\SerializerFactory;
 use WeakReference;
 
@@ -23,6 +24,10 @@ use WeakReference;
  * - TTL is ignored; no serializer is used (none/no-op).
  * - Counters unsupported: increment()/decrement() return false.
  * - setForever() is equivalent to set(); getKeys() reads the in-memory list.
+ *
+ * @phpstan-import-type storage_adapter_options from StorageTypes
+ * @phpstan-import-type storage_keys from StorageTypes
+ * @phpstan-import-type storage_weak_list from StorageTypes
  */
 class Weak extends AbstractAdapter
 {
@@ -32,11 +37,18 @@ class Weak extends AbstractAdapter
      * @var string|null
      */
     protected fetching = null;
+
+    /**
+     * @var array<string, WeakReference<object>>
+     *
+     * @phpstan-var storage_weak_list
+     */
     protected array weakList = [];
-    protected array options = [];
 
     /**
      * Constructor, there are no options
+     *
+     * @phpstan-param storage_adapter_options $options
      */
     public function __construct(<SerializerFactory> factory, array options = [])
     {
@@ -57,6 +69,8 @@ class Weak extends AbstractAdapter
 
     /**
      * Stores data in the adapter
+     *
+     * @phpstan-return storage_keys
      */
     public function getKeys(string prefix = "") -> array
     {

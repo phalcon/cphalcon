@@ -25,7 +25,7 @@ class Msgpack extends Igbinary
     }
 
     /**
-     * @param mixed $value
+     * @param string $value
      */
     protected function doUnserialize(value)
     {

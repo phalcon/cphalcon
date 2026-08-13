@@ -247,6 +247,7 @@ zend_class_entry *phalcon_contracts_front_fronttypealiases_ce;
 zend_class_entry *phalcon_contracts_mvc_model_relation_cachekeyprovider_ce;
 zend_class_entry *phalcon_contracts_queue_processor_ce;
 zend_class_entry *phalcon_contracts_queue_queuetypes_ce;
+zend_class_entry *phalcon_contracts_storage_storagetypes_ce;
 zend_class_entry *phalcon_contracts_translate_translatetypes_ce;
 zend_class_entry *phalcon_db_traits_elapsedtimetrait_ce;
 zend_class_entry *phalcon_di_initializationawareinterface_ce;
@@ -1829,6 +1830,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Contracts_Mvc_Model_Relation_CacheKeyProvider);
 	ZEPHIR_INIT(Phalcon_Contracts_Queue_Processor);
 	ZEPHIR_INIT(Phalcon_Contracts_Queue_QueueTypes);
+	ZEPHIR_INIT(Phalcon_Contracts_Storage_StorageTypes);
 	ZEPHIR_INIT(Phalcon_Contracts_Translate_TranslateTypes);
 	ZEPHIR_INIT(Phalcon_Db_Traits_ElapsedTimeTrait);
 	ZEPHIR_INIT(Phalcon_Di_InitializationAwareInterface);

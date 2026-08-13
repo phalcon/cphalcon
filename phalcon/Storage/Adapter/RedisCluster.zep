@@ -10,6 +10,7 @@
 
 namespace Phalcon\Storage\Adapter;
 
+use Phalcon\Contracts\Storage\StorageTypes;
 use Phalcon\Storage\Exceptions\ClusterConnectionFailed;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Support\Exception as SupportException;
@@ -26,7 +27,13 @@ use Throwable;
  *   the redesign); clear() flushes every master.
  * - Serializers: Phalcon-side, or backend-native via OPT_SERIALIZER.
  *
- * @property array $options
+ * @phpstan-import-type storage_keys from StorageTypes
+ * @phpstan-import-type storage_options from StorageTypes
+ * @phpstan-import-type storage_rediscluster_options from StorageTypes
+ * @phpstan-import-type storage_rediscluster_settings from StorageTypes
+ *
+ * @phpstan-property RedisService|null $adapter
+ * @phpstan-property storage_rediscluster_settings $options
  */
 class RedisCluster extends Redis
 {
@@ -72,6 +79,8 @@ class RedisCluster extends Redis
      *     "context"     => null,
      * ]
      *
+     * @phpstan-param storage_rediscluster_options $options
+     *
      * @throws SupportException
      */
     public function __construct(<SerializerFactory> factory,  array options = [])
@@ -102,6 +111,7 @@ class RedisCluster extends Redis
      * Returns the already connected adapter or connects to the Redis
      * server(s)
      *
+     * @return RedisService
      * @throws ClusterConnectionFailed|SupportException
      */
     public function getAdapter() -> var
@@ -146,16 +156,25 @@ class RedisCluster extends Redis
      * command is retained here (phpredis routes it across the masters). The
      * per-node SCAN migration is left to the storage redesign.
      *
+     * @phpstan-return storage_keys
+     *
      * @throws ClusterConnectionFailed|SupportException
      */
     public function getKeys( string prefix = "") -> array
     {
-        return this->getFilteredKeys(
-            this->getAdapter()->keys("*"),
-            prefix
-        );
+        var keys;
+
+        /** @var storage_keys $keys */
+        let keys = this->getAdapter()->keys("*");
+
+        return this->getFilteredKeys(keys, prefix);
     }
 
+    /**
+     * @phpstan-param storage_options $options
+     *
+     * @phpstan-return storage_options
+     */
     protected function getDefaultOptions(array options) -> array
     {
         /**

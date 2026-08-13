@@ -11,6 +11,7 @@
 namespace Phalcon\Storage;
 
 use Exception as BaseException;
+use Phalcon\Contracts\Storage\StorageTypes;
 use Phalcon\Factory\AbstractFactory;
 use Phalcon\Storage\Serializer\Base64;
 use Phalcon\Storage\Serializer\Igbinary;
@@ -29,6 +30,9 @@ use Phalcon\Storage\Serializer\RedisPhp;
 use Phalcon\Storage\Serializer\SerializerInterface;
 use Throwable;
 
+/**
+ * @phpstan-import-type storage_services from StorageTypes
+ */
 class SerializerFactory extends AbstractFactory
 {
     /**
@@ -51,6 +55,7 @@ class SerializerFactory extends AbstractFactory
     {
         var definition;
 
+        /** @var class-string<SerializerInterface> $definition */
         let definition = this->getService(name);
 
         return create_instance(definition);
@@ -68,6 +73,8 @@ class SerializerFactory extends AbstractFactory
      * Returns the available adapters
      *
      * @return string[]
+     *
+     * @phpstan-return storage_services
      */
     protected function getServices() -> array
     {

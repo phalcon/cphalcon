@@ -29,6 +29,8 @@
 /**
  * @property mixed $data
  * @property bool  $isSuccess
+ *
+ * @phpstan-import-type storage_serializer_data from StorageTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Storage_Serializer_AbstractSerializer)
 {
@@ -50,6 +52,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Storage_Serializer_AbstractSerializer)
 
 /**
  * AbstractSerializer constructor.
+ *
+ * @param mixed $data
  */
 PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, __construct)
 {
@@ -79,6 +83,10 @@ PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, __construct)
 
 /**
  * Serialize data
+ *
+ * @return array
+ *
+ * @phpstan-return storage_serializer_data
  */
 PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, __serialize)
 {
@@ -105,6 +113,8 @@ PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, __serialize)
 
 /**
  * Unserialize data
+ *
+ * @phpstan-param storage_serializer_data $data
  */
 PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, __unserialize)
 {
@@ -146,6 +156,9 @@ PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, isSuccess)
 	RETURN_MEMBER(getThis(), "isSuccess");
 }
 
+/**
+ * @param mixed $data
+ */
 PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, setData)
 {
 	zval *data, data_sub;
@@ -166,6 +179,10 @@ PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, setData)
 
 /**
  * If this returns true, then the data is returned as is
+ *
+ * @param mixed $data
+ *
+ * @phpstan-assert-if-false bool|float|int|numeric-string|null $data
  */
 PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, isSerializable)
 {

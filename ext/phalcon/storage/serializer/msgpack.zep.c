@@ -55,7 +55,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_Msgpack, doSerialize)
 }
 
 /**
- * @param mixed $value
+ * @param string $value
  */
 PHP_METHOD(Phalcon_Storage_Serializer_Msgpack, doUnserialize)
 {

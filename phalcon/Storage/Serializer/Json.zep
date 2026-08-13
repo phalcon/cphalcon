@@ -49,6 +49,7 @@ class Json extends AbstractSerializer
         if (true !== this->isSerializable(data)) {
             let this->data = data;
         } else {
+            /** @var string $data */
             let this->data = this->decode->__invoke(data);
         }
     }

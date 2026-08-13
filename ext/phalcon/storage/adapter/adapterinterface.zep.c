@@ -22,6 +22,8 @@
  */
 /**
  * Interface for Phalcon\Logger adapters
+ *
+ * @phpstan-import-type storage_keys from StorageTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Storage_Adapter_AdapterInterface)
 {
@@ -44,6 +46,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Storage_Adapter_AdapterInterface, decrement);
 ZEPHIR_DOC_METHOD(Phalcon_Storage_Adapter_AdapterInterface, delete);
 /**
  * Deletes multiple data from the adapter
+ *
+ * @phpstan-param storage_keys $keys
  */
 ZEPHIR_DOC_METHOD(Phalcon_Storage_Adapter_AdapterInterface, deleteMultiple);
 /**
@@ -57,6 +61,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Storage_Adapter_AdapterInterface, get);
 ZEPHIR_DOC_METHOD(Phalcon_Storage_Adapter_AdapterInterface, getAdapter);
 /**
  * Returns all the keys stored
+ *
+ * @phpstan-return storage_keys
  */
 ZEPHIR_DOC_METHOD(Phalcon_Storage_Adapter_AdapterInterface, getKeys);
 /**
