@@ -40,6 +40,7 @@
  *
  * @phpstan-import-type storage_adapter_options from StorageTypes
  * @phpstan-import-type storage_keys from StorageTypes
+ * @phpstan-import-type storage_options from StorageTypes
  * @phpstan-import-type storage_weak_list from StorageTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Storage_Adapter_Weak)
@@ -61,6 +62,17 @@ ZEPHIR_INIT_CLASS(Phalcon_Storage_Adapter_Weak)
 		zval _zc0;
 		array_init_size(&_zc0, 1);
 		zephir_declare_typed_property(phalcon_storage_adapter_weak_ce, SL("weakList"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_ARRAY, NULL, 0);
+	}
+
+	/**
+	 * @var array<string, mixed>
+	 *
+	 * @phpstan-var storage_options
+	 */
+	{
+		zval _zc0;
+		array_init_size(&_zc0, 1);
+		zephir_declare_typed_property(phalcon_storage_adapter_weak_ce, SL("options"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_ARRAY, NULL, 0);
 	}
 
 	return SUCCESS;
@@ -202,13 +214,13 @@ PHP_METHOD(Phalcon_Storage_Adapter_Weak, getKeys)
 	if (UNEXPECTED(!ZEPHIR_IS_IDENTICAL(&_1, &prefix_zv))) {
 		ZEPHIR_INIT_VAR(&results);
 		array_init(&results);
-		zephir_is_iterable(&keys, 0, "phalcon/Storage/Adapter/Weak.zep", 87);
+		zephir_is_iterable(&keys, 0, "phalcon/Storage/Adapter/Weak.zep", 95);
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&keys), _2$$3)
 		{
 			ZEPHIR_INIT_NVAR(&key);
 			ZVAL_COPY(&key, _2$$3);
 			if (zephir_start_with(&key, &prefix_zv, NULL)) {
-				zephir_array_append(&results, &key, PH_SEPARATE, "phalcon/Storage/Adapter/Weak.zep", 84);
+				zephir_array_append(&results, &key, PH_SEPARATE, "phalcon/Storage/Adapter/Weak.zep", 92);
 			}
 		} ZEND_HASH_FOREACH_END();
 		ZEPHIR_INIT_NVAR(&key);
@@ -381,7 +393,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Weak, doGet)
 	}
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 329, PH_NOISY_CC | PH_READONLY);
 	zephir_memory_observe(&wr);
-	zephir_array_fetch(&wr, &_1, &key_zv, PH_NOISY, "phalcon/Storage/Adapter/Weak.zep", 153);
+	zephir_array_fetch(&wr, &_1, &key_zv, PH_NOISY, "phalcon/Storage/Adapter/Weak.zep", 161);
 	ZEPHIR_CALL_METHOD(&value, &wr, "get", NULL, 0);
 	zephir_check_call_status();
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 330, &__$null);

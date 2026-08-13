@@ -444,9 +444,13 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
 
     /**
      * Returns the key requested, prefixed
+     *
+     * @param float|int|string $key
      */
-    protected function getPrefixedKey(string key) -> string
+    protected function getPrefixedKey(var key) -> string
     {
+        let key = (string) key;
+
         return this->prefix . this->getKeyWithoutPrefix(key);
     }
 

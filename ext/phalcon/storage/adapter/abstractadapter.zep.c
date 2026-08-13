@@ -1077,34 +1077,39 @@ PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, getKeyWithoutPrefix)
 
 /**
  * Returns the key requested, prefixed
+ *
+ * @param float|int|string $key
  */
 PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, getPrefixedKey)
 {
+	zval _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval key_zv, _0, _1;
-	zend_string *key = NULL;
+	zval *key = NULL, key_sub, _1, _2;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&key_zv);
-	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&key_sub);
 	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_0);
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("prefix", 6, 1);
 	}
 
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_STR(key)
+		Z_PARAM_ZVAL(key)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_memory_observe(&key_zv);
-	ZVAL_STR_COPY(&key_zv, key);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 33, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getkeywithoutprefix", NULL, 0, &key_zv);
+	zephir_fetch_params(1, 1, 0, &key);
+	ZEPHIR_SEPARATE_PARAM(key);
+	zephir_cast_to_string(&_0, key);
+	ZEPHIR_CPY_WRT(key, &_0);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 33, PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_CALL_METHOD(&_2, this_ptr, "getkeywithoutprefix", NULL, 0, key);
 	zephir_check_call_status();
-	ZEPHIR_CONCAT_VV(return_value, &_0, &_1);
+	ZEPHIR_CONCAT_VV(return_value, &_1, &_2);
 	RETURN_MM();
 }
 

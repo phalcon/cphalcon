@@ -27,6 +27,7 @@ use WeakReference;
  *
  * @phpstan-import-type storage_adapter_options from StorageTypes
  * @phpstan-import-type storage_keys from StorageTypes
+ * @phpstan-import-type storage_options from StorageTypes
  * @phpstan-import-type storage_weak_list from StorageTypes
  */
 class Weak extends AbstractAdapter
@@ -44,6 +45,13 @@ class Weak extends AbstractAdapter
      * @phpstan-var storage_weak_list
      */
     protected array weakList = [];
+
+    /**
+     * @var array<string, mixed>
+     *
+     * @phpstan-var storage_options
+     */
+    protected array options = [];
 
     /**
      * Constructor, there are no options
