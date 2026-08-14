@@ -33,6 +33,8 @@
  */
 /**
  * Session manager class
+ *
+ * @phpstan-import-type session_options from SessionTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Session_Manager)
 {
@@ -50,6 +52,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Session_Manager)
 		zephir_declare_typed_property(phalcon_session_manager_ce, SL("name"), &_zc0, ZEND_ACC_PRIVATE, MAY_BE_STRING, NULL, 0);
 	}
 
+	/**
+	 * @var array<string, mixed>
+	 *
+	 * @phpstan-var session_options
+	 */
 	{
 		zval _zc0;
 		array_init_size(&_zc0, 1);
@@ -69,9 +76,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Session_Manager)
 /**
  * Manager constructor.
  *
- * @param array $options = [
- *     'uniqueId' => null
- * ]
+ * @phpstan-param session_options $options
  */
 PHP_METHOD(Phalcon_Session_Manager, __construct)
 {
@@ -384,6 +389,8 @@ PHP_METHOD(Phalcon_Session_Manager, getName)
 
 /**
  * Get internal options
+ *
+ * @phpstan-return session_options
  */
 PHP_METHOD(Phalcon_Session_Manager, getOptions)
 {
@@ -588,7 +595,7 @@ PHP_METHOD(Phalcon_Session_Manager, setId)
 		object_init_ex(&_1$$3, phalcon_session_exceptions_sessionalreadystarted_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Session/Manager.zep", 268);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Session/Manager.zep", 275);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -604,7 +611,7 @@ PHP_METHOD(Phalcon_Session_Manager, setId)
 		object_init_ex(&_6$$4, phalcon_session_exceptions_invalidsessionid_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_6$$4, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_6$$4, "phalcon/Session/Manager.zep", 272);
+		zephir_throw_exception_debug(&_6$$4, "phalcon/Session/Manager.zep", 279);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -663,7 +670,7 @@ PHP_METHOD(Phalcon_Session_Manager, setName)
 		object_init_ex(&_1$$3, phalcon_session_exceptions_sessionmodificationdenied_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Session/Manager.zep", 293);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Session/Manager.zep", 300);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -690,7 +697,7 @@ PHP_METHOD(Phalcon_Session_Manager, setName)
 		object_init_ex(&_11$$4, phalcon_session_exceptions_invalidsessionname_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_11$$4, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_11$$4, "phalcon/Session/Manager.zep", 300);
+		zephir_throw_exception_debug(&_11$$4, "phalcon/Session/Manager.zep", 307);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -702,6 +709,8 @@ PHP_METHOD(Phalcon_Session_Manager, setName)
 
 /**
  * Sets session's options
+ *
+ * @phpstan-param session_options $options
  */
 PHP_METHOD(Phalcon_Session_Manager, setOptions)
 {
@@ -805,7 +814,7 @@ PHP_METHOD(Phalcon_Session_Manager, start)
 		object_init_ex(&_7$$7, phalcon_session_exceptions_invalidsessionadapter_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_7$$7, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_7$$7, "phalcon/Session/Manager.zep", 356);
+		zephir_throw_exception_debug(&_7$$7, "phalcon/Session/Manager.zep", 365);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

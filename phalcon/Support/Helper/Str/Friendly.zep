@@ -20,6 +20,8 @@ use Phalcon\Support\Helper\Str\Exceptions\InvalidReplaceFormat;
 class Friendly extends AbstractStr
 {
     /**
+     * @param array<array-key, string>|string|null $replace
+     *
      * @throws InvalidReplaceFormat
      */
     public function __invoke(
@@ -55,12 +57,12 @@ class Friendly extends AbstractStr
     }
 
     /**
-     * @param mixed $replace
+     * @param array<array-key, string>|string $replace
      *
-     * @return array
+     * @return array<array-key, string>
      * @throws InvalidReplaceFormat
      */
-    private function checkReplace(replace) -> array
+    private function checkReplace(var replace) -> array
     {
         if typeof replace !== "array" && typeof replace !== "string" {
             throw new InvalidReplaceFormat(
@@ -76,9 +78,9 @@ class Friendly extends AbstractStr
     }
 
     /**
-     * @param mixed $replace
+     * @param array<array-key, string> $replace
      *
-     * @return array
+     * @return array<string, string>
      */
     private function getMatrix(array replace) -> array
     {

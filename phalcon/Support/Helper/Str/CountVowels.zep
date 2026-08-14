@@ -16,7 +16,6 @@ namespace Phalcon\Support\Helper\Str;
  */
 class CountVowels
 {
-
     public function __invoke(string text) -> int
     {
         var matches;

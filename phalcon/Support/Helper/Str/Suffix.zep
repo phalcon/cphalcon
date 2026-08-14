@@ -10,6 +10,8 @@
 
 namespace Phalcon\Support\Helper\Str;
 
+use Stringable;
+
 /**
  * Suffixes the text with the supplied suffix
  * @todo v7 make text string
@@ -17,10 +19,7 @@ namespace Phalcon\Support\Helper\Str;
 class Suffix
 {
     /**
-     * @param mixed  $text
-     * @param string $suffix
-     *
-     * @return string
+     * @param scalar|Stringable|null $text
      */
     public function __invoke(var text, string suffix) -> string
     {

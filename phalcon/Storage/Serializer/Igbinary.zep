@@ -42,9 +42,9 @@ class Igbinary extends AbstractSerializer
     /**
      * Unserializes data
      */
-	public function unserialize(mixed data) -> void
-	{
-	    var result;
+    public function unserialize(mixed data) -> void
+    {
+        var result;
 
         if (true !== this->isSerializable(data)) {
             let this->data = data;

@@ -7,10 +7,8 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 ### Tools
 
 - Zephir 1.2.0 (76a706f)
- 
-### Changed
 
-- Changed the distribution tarball to ship the generated `ext/` sources again, so downstream packagers can build from them. Only tests, Zephir sources, CI and tooling stay excluded. [#17478](https://github.com/phalcon/cphalcon/issues/17478)
+### Changed
 
 ### Added
 
@@ -24,7 +22,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 ### Tools
 
 - Zephir 1.2.0 (83d8f68)
- 
+
 ### Changed
 
 - Changed the distribution tarball to ship the generated `ext/` sources again, so downstream packagers can build from them. Only tests, Zephir sources, CI and tooling stay excluded. [#17478](https://github.com/phalcon/cphalcon/issues/17478)
@@ -41,7 +39,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 ### Tools
 
 - Zephir 1.2.0 (83d8f68)
- 
+
 ### Changed
 
 ### Added
@@ -60,7 +58,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 ### Tools
 
 - Zephir 1.2.0 (83d8f68)
- 
+
 ### Changed
 
 - Changed `Phalcon\ADR\Application` into a self-contained composition root: it owns (or accepts) a `Phalcon\Container\Container` and exposes a small registration surface - `bind()`, `define()`, `factory()`, `set()`, `extend()` and `getContainer()` - plus `setBaseNamespace()` and `secureWith()` for convention-router and namespace-prefix guard configuration. `Phalcon\ADR\Front\AbstractHttpFront` gained a protected `getApplication()` hook returning `Phalcon\Contracts\ADR\Application`, so a front controller can configure the application or wire a different implementation. [#17389](https://github.com/phalcon/cphalcon/issues/17389) [[doc]](https://docs.phalcon.io/5.18/adr/)
@@ -122,7 +120,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 ### Tools
 
 - Zephir 1.1.0 (80d17e6a0)
- 
+
 ### Changed
 
 - Changed `Phalcon\Acl\Adapter\Memory` so a freshly constructed adapter returns an empty array instead of `null` from `getRoles()`, `getComponents()` and `getInheritedRoles()`. [#17220](https://github.com/phalcon/cphalcon/issues/17220) [[doc]](https://docs.phalcon.io/5.17/acl/)

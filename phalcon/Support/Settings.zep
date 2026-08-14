@@ -49,9 +49,6 @@ class Settings
      *   1. PHP-level override (set via Settings::set())
      *   2. globals_get() - the C-level value, honoring php.ini / .htaccess
      *   3. null - for unknown keys
-     *
-     * @param string $key
-     * @return mixed
      */
     public static function get(string key) -> mixed
     {
@@ -79,9 +76,6 @@ class Settings
      * no other project sharing this PHP process is affected.
      *
      * Unknown keys are silently ignored.
-     *
-     * @param string $key
-     * @param mixed  $value
      */
     public static function set(string key, var value) -> void
     {
@@ -123,9 +117,6 @@ class Settings
      *
      * globals_get() requires a string literal, so each key is read
      * explicitly rather than by a variable lookup.
-     *
-     * @param string $key
-     * @return mixed
      */
     private static function readGlobal(string key) -> mixed
     {

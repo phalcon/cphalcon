@@ -10,6 +10,7 @@
 
 namespace Phalcon\Paginator\Adapter;
 
+use Phalcon\Contracts\Paginator\PaginatorTypes;
 use Phalcon\Mvc\Model\Query\Builder;
 use Phalcon\Paginator\Exceptions\InvalidBuilderInstance;
 use Phalcon\Paginator\Exceptions\InvalidCursorColumn;
@@ -56,6 +57,9 @@ use Phalcon\Paginator\RepositoryInterface;
  * // $page->getNext()    - cursor value to pass for the next page (0 means no more pages)
  * // $page->getCurrent() - cursor value used for this page (0 on first page)
  * ```
+ *
+ * @phpstan-import-type paginator_config from PaginatorTypes
+ * @phpstan-import-type paginator_cursor_items from PaginatorTypes
  */
 class QueryBuilderCursor extends AbstractAdapter
 {
@@ -79,7 +83,7 @@ class QueryBuilderCursor extends AbstractAdapter
     /**
      * Phalcon\Paginator\Adapter\QueryBuilderCursor
      *
-     * @param array $config = [
+     * @param paginator_config $config = [
      *     'limit'        => 10,
      *     'builder'      => null,
      *     'cursorColumn' => 'id',

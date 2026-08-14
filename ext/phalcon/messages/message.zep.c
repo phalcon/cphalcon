@@ -31,6 +31,9 @@
  * Class Message
  *
  * Stores a message from various components
+ *
+ * @phpstan-import-type messages_message from MessagesTypes
+ * @phpstan-import-type messages_metadata from MessagesTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Messages_Message)
 {
@@ -73,6 +76,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Messages_Message)
 
 /**
  * Phalcon\Messages\Message constructor
+ *
+ * @param messages_metadata $metaData
  */
 PHP_METHOD(Phalcon_Messages_Message, __construct)
 {
@@ -200,7 +205,7 @@ PHP_METHOD(Phalcon_Messages_Message, getMessage)
 }
 
 /**
- * @return array
+ * @return messages_metadata
  */
 PHP_METHOD(Phalcon_Messages_Message, getMetaData)
 {
@@ -219,6 +224,8 @@ PHP_METHOD(Phalcon_Messages_Message, getType)
 
 /**
  * Serializes the object for json_encode
+ *
+ * @return messages_message
  */
 PHP_METHOD(Phalcon_Messages_Message, jsonSerialize)
 {
@@ -342,6 +349,8 @@ PHP_METHOD(Phalcon_Messages_Message, setMessage)
 
 /**
  * Sets message metadata
+ *
+ * @param messages_metadata $metaData
  */
 PHP_METHOD(Phalcon_Messages_Message, setMetaData)
 {

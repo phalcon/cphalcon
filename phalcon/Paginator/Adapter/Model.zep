@@ -10,6 +10,7 @@
 
 namespace Phalcon\Paginator\Adapter;
 
+use Phalcon\Contracts\Paginator\PaginatorTypes;
 use Phalcon\Paginator\Exceptions\MissingRequiredParameter;
 use Phalcon\Paginator\RepositoryInterface;
 
@@ -77,13 +78,15 @@ use Phalcon\Paginator\RepositoryInterface;
  *
  * $paginate = $paginator->paginate();
  *```
+ *
+ * @phpstan-import-type paginator_config from PaginatorTypes
  */
 class Model extends AbstractAdapter
 {
     /**
      * Phalcon\Paginator\Adapter\Model constructor
      *
-     * @param array $config = [
+     * @param paginator_config $config = [
      *     'model'  => null,
      *     'limit'  => 10,
      *     'page'   => 1

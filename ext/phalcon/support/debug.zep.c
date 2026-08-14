@@ -32,6 +32,10 @@
 /**
  * Listens for uncaught exceptions and renders them. Acts as a thin coordinator
  * delegating data collection to ReportBuilder and presentation to a Renderer.
+ *
+ * @phpstan-import-type support_debug_blacklist from SupportTypes
+ * @phpstan-import-type support_debug_blacklist_input from SupportTypes
+ * @phpstan-import-type support_debug_variables from SupportTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Support_Debug)
 {
@@ -43,6 +47,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Debug)
 		zephir_declare_typed_property(phalcon_support_debug_ce, SL("isActive"), &_zc0, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC, MAY_BE_BOOL, NULL, 0);
 	}
 
+	/**
+	 * @phpstan-var support_debug_blacklist
+	 */
 	{
 		zval _zc0;
 		array_init_size(&_zc0, 3);
@@ -55,6 +62,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Debug)
 		zephir_declare_typed_property(phalcon_support_debug_ce, SL("blacklist"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_ARRAY, NULL, 0);
 	}
 
+	/**
+	 * @phpstan-var support_debug_variables
+	 */
 	{
 		zval _zc0;
 		array_init_size(&_zc0, 1);
@@ -314,7 +324,7 @@ PHP_METHOD(Phalcon_Support_Debug, halt)
 	object_init_ex(&_0, phalcon_support_debug_exceptions_requesthalted_ce);
 	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 0);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(&_0, "phalcon/Support/Debug.zep", 110);
+	zephir_throw_exception_debug(&_0, "phalcon/Support/Debug.zep", 121);
 	ZEPHIR_MM_RESTORE();
 	return;
 }
@@ -509,7 +519,7 @@ PHP_METHOD(Phalcon_Support_Debug, onUncaughtLowSeverity)
 		ZVAL_LONG(&_4$$3, line);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 0, &message_zv, &_2$$3, &_3$$3, &file_zv, &_4$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Support/Debug.zep", 216);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Support/Debug.zep", 227);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -595,7 +605,7 @@ PHP_METHOD(Phalcon_Support_Debug, renderHtml)
 /**
  * Sets if files the exception's backtrace must be showed
  *
- * @param array $blacklist
+ * @phpstan-param support_debug_blacklist_input $blacklist
  */
 PHP_METHOD(Phalcon_Support_Debug, setBlacklist)
 {
@@ -647,7 +657,7 @@ PHP_METHOD(Phalcon_Support_Debug, setBlacklist)
 	array_init(&subArray);
 	ZEPHIR_INIT_VAR(&result);
 	array_init(&result);
-	zephir_is_iterable(&area, 0, "phalcon/Support/Debug.zep", 258);
+	zephir_is_iterable(&area, 0, "phalcon/Support/Debug.zep", 269);
 	if (Z_TYPE_P(&area) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&area), _2)
 		{
@@ -696,7 +706,7 @@ PHP_METHOD(Phalcon_Support_Debug, setBlacklist)
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&subArray);
 	array_init(&subArray);
-	zephir_is_iterable(&area, 0, "phalcon/Support/Debug.zep", 267);
+	zephir_is_iterable(&area, 0, "phalcon/Support/Debug.zep", 278);
 	if (Z_TYPE_P(&area) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&area), _11)
 		{

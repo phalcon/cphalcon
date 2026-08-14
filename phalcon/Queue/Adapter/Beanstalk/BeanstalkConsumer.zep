@@ -139,7 +139,7 @@ class BeanstalkConsumer extends AbstractConsumer implements VisibilityAware
         if (message instanceof BeanstalkMessage) {
             return (string) message->getJobId();
         }
-	
+
         return "";
     }
 }

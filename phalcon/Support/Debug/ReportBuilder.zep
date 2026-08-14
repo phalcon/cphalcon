@@ -10,6 +10,7 @@
 
 namespace Phalcon\Support\Debug;
 
+use Phalcon\Contracts\Support\SupportTypes;
 use Phalcon\Support\Debug\Report\BacktraceItem;
 use Phalcon\Support\Debug\Report\ExceptionReport;
 use Phalcon\Traits\Php\InfoTrait;
@@ -23,6 +24,12 @@ use Throwable;
  * Collects the runtime data for an exception (backtrace, superglobals, included
  * files, memory, variables) into an ExceptionReport. Holds no presentation
  * logic.
+ *
+ * @phpstan-import-type support_debug_blacklist from SupportTypes
+ * @phpstan-import-type support_debug_fragment from SupportTypes
+ * @phpstan-import-type support_debug_superglobal from SupportTypes
+ * @phpstan-import-type support_debug_trace from SupportTypes
+ * @phpstan-import-type support_debug_variables from SupportTypes
  */
 class ReportBuilder
 {
@@ -30,6 +37,9 @@ class ReportBuilder
     use InfoTrait;
 
     /**
+     * @phpstan-param support_debug_blacklist $blacklist
+     * @phpstan-param support_debug_variables $data
+     *
      * @return ExceptionReport
      * @throws ReflectionException
      */
@@ -79,6 +89,9 @@ class ReportBuilder
         return report;
     }
 
+    /**
+     * @phpstan-return support_debug_fragment
+     */
     private function buildFragment(string file, int line, bool showFileFragment) -> array
     {
         var lines, numberLines, firstLine, lastLine, mode, beforeLine, afterLine;
@@ -112,9 +125,11 @@ class ReportBuilder
     }
 
     /**
-     * @param array $trace
-     * @param bool  $showFiles
-     * @param bool  $showFileFragment
+     * @phpstan-param support_debug_trace $trace
+     *
+     * @param array<array-key, mixed> $trace
+     * @param bool                    $showFiles
+     * @param bool                    $showFileFragment
      *
      * @return BacktraceItem
      * @throws ReflectionException
@@ -177,6 +192,11 @@ class ReportBuilder
         );
     }
 
+    /**
+     * @phpstan-param  support_debug_superglobal $source
+     * @phpstan-param  array<string, int>        $blacklist
+     * @phpstan-return support_debug_superglobal
+     */
     private function filter(array source, array blacklist) -> array
     {
         var result, key, value;
@@ -193,6 +213,8 @@ class ReportBuilder
     }
 
     /**
+     * @phpstan-param class-string $className
+     *
      * @throws ReflectionException
      */
     private function resolveClassLink(string className) -> string | null

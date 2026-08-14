@@ -10,6 +10,8 @@
 
 namespace Phalcon\Paginator\Adapter;
 
+use Phalcon\Contracts\Db\Adapter\Adapter as DbAdapter;
+use Phalcon\Contracts\Paginator\PaginatorTypes;
 use Phalcon\Db\Enum;
 use Phalcon\Mvc\Model\Query\Builder;
 use Phalcon\Paginator\Exception;
@@ -38,6 +40,13 @@ use Phalcon\Paginator\RepositoryInterface;
  *     ]
  * );
  *```
+ *
+ * @phpstan-import-type paginator_columns from PaginatorTypes
+ * @phpstan-import-type paginator_config from PaginatorTypes
+ * @phpstan-import-type paginator_count_object from PaginatorTypes
+ * @phpstan-import-type paginator_count_row from PaginatorTypes
+ * @phpstan-import-type paginator_group_by from PaginatorTypes
+ * @phpstan-import-type paginator_query_sql from PaginatorTypes
  */
 class QueryBuilder extends AbstractAdapter
 {
@@ -51,7 +60,7 @@ class QueryBuilder extends AbstractAdapter
      * HAVING or GROUP BY clause. It supplies the columns for the subquery
      * that counts the grouped/having result set and is ignored otherwise.
      *
-     * @var array|string
+     * @var paginator_columns|null
      */
     protected columns;
 
@@ -63,7 +72,7 @@ class QueryBuilder extends AbstractAdapter
      * HAVING or GROUP BY clause (it becomes the column list of the counting
      * subquery). It has no effect on plain queries.
      *
-     * @param array $config = [
+     * @param paginator_config $config = [
      *     'limit' => 10,
      *     'builder' => null,
      *     'columns' => ''
@@ -208,13 +217,8 @@ class QueryBuilder extends AbstractAdapter
          * Change 'COUNT()' parameters, when the query contains 'GROUP BY'
          */
         if hasGroup {
-            if typeof groups == "array" {
-                let groupColumn = implode(", ", groups);
-                let hasMultipleGroups = count(groups) > 1;
-            } else {
-                let groupColumn = groups;
-                let hasMultipleGroups = false;
-            }
+            let groupColumn = implode(", ", groups);
+            let hasMultipleGroups = count(groups) > 1;
 
             if !hasHaving {
                 if !empty columns {

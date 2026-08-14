@@ -11,6 +11,7 @@
 namespace Phalcon\Support\Debug\Renderer;
 
 use Phalcon\Contracts\Support\Debug\Renderer;
+use Phalcon\Contracts\Support\SupportTypes;
 use Phalcon\Support\Debug\Report\BacktraceItem;
 use Phalcon\Support\Debug\Report\ExceptionReport;
 use Phalcon\Support\Debug\Traits\TemplateAwareTrait;
@@ -22,6 +23,12 @@ use Phalcon\Traits\Support\Helper\Str\InterpolateTrait;
  * template strings filled by the interpolator. All styling and interactivity
  * (theme, tabs, syntax highlighting, copy/editor links) are provided by the
  * external debug.css / debug.js assets.
+ *
+ * @phpstan-import-type support_debug_args from SupportTypes
+ * @phpstan-import-type support_debug_fragment from SupportTypes
+ * @phpstan-import-type support_debug_included_files from SupportTypes
+ * @phpstan-import-type support_debug_superglobal from SupportTypes
+ * @phpstan-import-type support_debug_variables from SupportTypes
  */
 class HtmlRenderer implements Renderer
 {
@@ -232,6 +239,8 @@ class HtmlRenderer implements Renderer
 
     /**
      * Produces a recursive representation of an array
+     *
+     * @phpstan-param support_debug_args $arguments
      */
     protected function getArrayDump(array arguments, int number = 0) -> string | null
     {
@@ -353,6 +362,9 @@ class HtmlRenderer implements Renderer
         return html . this->getTemplate("panelClose");
     }
 
+    /**
+     * @phpstan-param support_debug_fragment $fragment
+     */
     private function renderFragment(array fragment) -> string
     {
         var firstLine, lastLine, line, lines, html, counter, currentLine;
@@ -387,6 +399,9 @@ class HtmlRenderer implements Renderer
         return html . this->getTemplate("codeClose");
     }
 
+    /**
+     * @phpstan-param support_debug_included_files $files
+     */
     private function renderIncludedFiles(array files) -> string
     {
         var html, key, value;
@@ -473,6 +488,9 @@ class HtmlRenderer implements Renderer
         return html;
     }
 
+    /**
+     * @phpstan-param support_debug_superglobal $source
+     */
     private function renderSuperglobal(string div, array source) -> string
     {
         var html, key, value;
@@ -567,6 +585,9 @@ class HtmlRenderer implements Renderer
         return html . this->getTemplate("frameClose");
     }
 
+    /**
+     * @phpstan-param support_debug_variables $variables
+     */
     private function renderVariables(array variables) -> string
     {
         var html, key, value;

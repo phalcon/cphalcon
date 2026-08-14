@@ -33,7 +33,6 @@ class NativeArray extends AbstractAdapter
     /**
      * NativeArray constructor.
      *
-     * @param InterpolatorFactory        $interpolator
      * @phpstan-param translate_array_options $options
      *
      * @throws InvalidDataType
@@ -41,7 +40,7 @@ class NativeArray extends AbstractAdapter
      */
     public function __construct(
         <InterpolatorFactory> interpolator,
-	array options
+        array options
     ) {
         var data;
 
@@ -61,12 +60,9 @@ class NativeArray extends AbstractAdapter
     /**
      * Check whether is defined a translation key in the internal array
      *
-     * @param string $index
-     *
-     * @return bool
      * @deprecated
      */
-    public function exists( string index) -> bool
+    public function exists(string index) -> bool
     {
         return this->has(index);
     }
@@ -74,7 +70,7 @@ class NativeArray extends AbstractAdapter
     /**
      * Check whether is defined a translation key in the internal array
      */
-    public function has( string index) -> bool
+    public function has(string index) -> bool
     {
         return isset this->translate[index];
     }
@@ -84,10 +80,9 @@ class NativeArray extends AbstractAdapter
      *
      * @phpstan-param translate_placeholders $placeholders
      *
-     * @return string
      * @throws Exception
      */
-    public function query( string translateKey, array placeholders = []) -> string
+    public function query(string translateKey, array placeholders = []) -> string
     {
         var translation;
 

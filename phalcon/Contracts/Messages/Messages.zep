@@ -22,6 +22,11 @@ use Phalcon\Messages\MessageInterface;
  * iterated by integer position. An entry added under a string key through the
  * ArrayAccess interface stays reachable by that offset but is not visited
  * during iteration (`foreach`), which walks the integer sequence only.
+ *
+ * @extends ArrayAccess<array-key, mixed>
+ * @extends Iterator<int, MessageInterface>
+ *
+ * @phpstan-import-type messages_list from MessagesTypes
  */
 interface Messages extends ArrayAccess, Countable, Iterator
 {
@@ -33,12 +38,16 @@ interface Messages extends ArrayAccess, Countable, Iterator
     /**
      * Appends an array of messages to the collection
      *
-     * @param \Phalcon\Messages\MessageInterface[] messages
+     * @param mixed $messages
+     *
+     * @return void
      */
     public function appendMessages(messages);
 
     /**
      * Filters the message collection by field name
+     *
+     * @return messages_list
      */
     public function filter( string fieldName) -> array;
 }

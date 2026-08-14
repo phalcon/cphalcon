@@ -54,7 +54,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Translate_Adapter_NativeArray)
 /**
  * NativeArray constructor.
  *
- * @param InterpolatorFactory        $interpolator
  * @phpstan-param translate_array_options $options
  *
  * @throws InvalidDataType
@@ -94,7 +93,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, __construct)
 		object_init_ex(&_0$$3, phalcon_translate_exceptions_missingcontent_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_0$$3, "phalcon/Translate/Adapter/NativeArray.zep", 51);
+		zephir_throw_exception_debug(&_0$$3, "phalcon/Translate/Adapter/NativeArray.zep", 50);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -103,7 +102,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, __construct)
 		object_init_ex(&_1$$4, phalcon_translate_exceptions_invaliddatatype_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$4, "phalcon/Translate/Adapter/NativeArray.zep", 55);
+		zephir_throw_exception_debug(&_1$$4, "phalcon/Translate/Adapter/NativeArray.zep", 54);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -114,9 +113,6 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, __construct)
 /**
  * Check whether is defined a translation key in the internal array
  *
- * @param string $index
- *
- * @return bool
  * @deprecated
  */
 PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, exists)
@@ -169,7 +165,6 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, has)
  *
  * @phpstan-param translate_placeholders $placeholders
  *
- * @return string
  * @throws Exception
  */
 PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query)

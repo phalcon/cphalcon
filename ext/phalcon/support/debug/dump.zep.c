@@ -46,6 +46,8 @@
  *
  * echo (new \Phalcon\Debug\Dump())->variables($foo, $bar, $baz);
  * ```
+ *
+ * @phpstan-import-type support_debug_styles from SupportTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Support_Debug_Dump)
 {
@@ -57,12 +59,18 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Debug_Dump)
 		zephir_declare_typed_property(phalcon_support_debug_dump_ce, SL("detailed"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_BOOL, NULL, 0);
 	}
 
+	/**
+	 * @var array<array-key, class-string>
+	 */
 	{
 		zval _zc0;
 		array_init_size(&_zc0, 1);
 		zephir_declare_typed_property(phalcon_support_debug_dump_ce, SL("methods"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_ARRAY, NULL, 0);
 	}
 
+	/**
+	 * @phpstan-var support_debug_styles
+	 */
 	{
 		zval _zc0;
 		array_init_size(&_zc0, 1);
@@ -87,6 +95,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Debug_Dump)
 
 /**
  * Dump constructor.
+ *
+ * @phpstan-param support_debug_styles $styles
  */
 PHP_METHOD(Phalcon_Support_Debug_Dump, __construct)
 {
@@ -242,6 +252,9 @@ PHP_METHOD(Phalcon_Support_Debug_Dump, setDetailed)
 
 /**
  * Set styles for vars type
+ *
+ * @phpstan-param  support_debug_styles $styles
+ * @phpstan-return support_debug_styles
  */
 PHP_METHOD(Phalcon_Support_Debug_Dump, setStyles)
 {
@@ -441,7 +454,7 @@ PHP_METHOD(Phalcon_Support_Debug_Dump, variables)
 	ZVAL_STRING(&output, "");
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_get_args(&_0);
-	zephir_is_iterable(&_0, 0, "phalcon/Support/Debug/Dump.zep", 206);
+	zephir_is_iterable(&_0, 0, "phalcon/Support/Debug/Dump.zep", 220);
 	if (Z_TYPE_P(&_0) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&_0), _2, _3, _1)
 		{
@@ -795,7 +808,7 @@ PHP_METHOD(Phalcon_Support_Debug_Dump, output)
 		ZEPHIR_CALL_METHOD(&_3$$4, this_ptr, "tointerpolate", NULL, 0, &message, &context);
 		zephir_check_call_status();
 		zephir_concat_self(&output, &_3$$4);
-		zephir_is_iterable(variable, 0, "phalcon/Support/Debug/Dump.zep", 306);
+		zephir_is_iterable(variable, 0, "phalcon/Support/Debug/Dump.zep", 320);
 		if (Z_TYPE_P(variable) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(variable), _5$$4, _6$$4, _4$$4)
 			{
@@ -990,7 +1003,7 @@ PHP_METHOD(Phalcon_Support_Debug_Dump, output)
 			if (_43$$9) {
 				ZEPHIR_CALL_FUNCTION(&vars, "get_object_vars", NULL, 352, variable);
 				zephir_check_call_status();
-				zephir_is_iterable(&vars, 0, "phalcon/Support/Debug/Dump.zep", 350);
+				zephir_is_iterable(&vars, 0, "phalcon/Support/Debug/Dump.zep", 364);
 				if (Z_TYPE_P(&vars) == IS_ARRAY) {
 					ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&vars), _48$$12, _49$$12, _47$$12)
 					{
@@ -1089,7 +1102,7 @@ PHP_METHOD(Phalcon_Support_Debug_Dump, output)
 				ZVAL_LONG(&_66$$15, ((1 | 2) | 4));
 				ZEPHIR_CALL_METHOD(&props, &reflect, "getproperties", NULL, 364, &_66$$15);
 				zephir_check_call_status();
-				zephir_is_iterable(&props, 0, "phalcon/Support/Debug/Dump.zep", 378);
+				zephir_is_iterable(&props, 0, "phalcon/Support/Debug/Dump.zep", 392);
 				if (Z_TYPE_P(&props) == IS_ARRAY) {
 					ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&props), _67$$15)
 					{
@@ -1232,7 +1245,7 @@ PHP_METHOD(Phalcon_Support_Debug_Dump, output)
 			ZEPHIR_CONCAT_VS(&_100$$18, &_99$$18, "[already listed]\n");
 			zephir_concat_self(&output, &_100$$18);
 		} else {
-			zephir_is_iterable(&attr, 0, "phalcon/Support/Debug/Dump.zep", 411);
+			zephir_is_iterable(&attr, 0, "phalcon/Support/Debug/Dump.zep", 425);
 			if (Z_TYPE_P(&attr) == IS_ARRAY) {
 				ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&attr), _101$$19)
 				{

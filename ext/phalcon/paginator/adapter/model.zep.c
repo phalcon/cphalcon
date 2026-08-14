@@ -92,6 +92,8 @@
  *
  * $paginate = $paginator->paginate();
  *```
+ *
+ * @phpstan-import-type paginator_config from PaginatorTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Paginator_Adapter_Model)
 {
@@ -103,7 +105,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Paginator_Adapter_Model)
 /**
  * Phalcon\Paginator\Adapter\Model constructor
  *
- * @param array $config = [
+ * @param paginator_config $config = [
  *     'model'  => null,
  *     'limit'  => 10,
  *     'page'   => 1
@@ -125,7 +127,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, __construct)
 	zephir_fetch_params(1, 1, 0, &config_param);
 	zephir_get_arrval(&config, config_param);
 	if (UNEXPECTED(!(zephir_array_isset_value_string(&config, SL("model"))))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exceptions_missingrequiredparameter_ce, "model", "phalcon/Paginator/Adapter/Model.zep", 95);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exceptions_missingrequiredparameter_ce, "model", "phalcon/Paginator/Adapter/Model.zep", 98);
 		return;
 	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_paginator_adapter_model_ce, getThis(), "__construct", NULL, 0, &config);
@@ -189,7 +191,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, paginate)
 	zephir_memory_observe(&_2);
 	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_2, 1223, PH_NOISY_CC);
 	pageNumber = zephir_get_intval(&_2);
-	zephir_array_fetch_string(&_3, &config, SL("model"), PH_NOISY | PH_READONLY, "phalcon/Paginator/Adapter/Model.zep", 114);
+	zephir_array_fetch_string(&_3, &config, SL("model"), PH_NOISY | PH_READONLY, "phalcon/Paginator/Adapter/Model.zep", 117);
 	ZEPHIR_CPY_WRT(&modelClass, &_3);
 	zephir_memory_observe(&parameters);
 	if (!(zephir_array_isset_string_fetch(&parameters, &config, SL("parameters"), 0))) {

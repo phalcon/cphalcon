@@ -27,11 +27,17 @@
  */
 /**
  * Represents a single resolved frame of an exception backtrace.
+ *
+ * @phpstan-import-type support_debug_args from SupportTypes
+ * @phpstan-import-type support_debug_fragment from SupportTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Support_Debug_Report_BacktraceItem)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Support\\Debug\\Report, BacktraceItem, phalcon, support_debug_report_backtraceitem, phalcon_support_debug_report_backtraceitem_method_entry, ZEND_ACC_FINAL_CLASS);
 
+	/**
+	 * @phpstan-param support_debug_args          $args
+	 */
 	{
 		zval _zc0;
 		array_init_size(&_zc0, 1);
@@ -56,6 +62,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Debug_Report_BacktraceItem)
 		zephir_declare_typed_property(phalcon_support_debug_report_backtraceitem_ce, SL("file"), &_zc0, ZEND_ACC_PRIVATE, MAY_BE_STRING|MAY_BE_NULL, NULL, 0);
 	}
 
+	/**
+	 * @phpstan-param support_debug_fragment|null $fragment
+	 */
 	{
 		zval _zc0;
 		ZVAL_NULL(&_zc0);
@@ -255,6 +264,9 @@ PHP_METHOD(Phalcon_Support_Debug_Report_BacktraceItem, __construct)
 	ZEPHIR_MM_RESTORE();
 }
 
+/**
+ * @phpstan-return support_debug_args
+ */
 PHP_METHOD(Phalcon_Support_Debug_Report_BacktraceItem, getArgs)
 {
 
@@ -279,6 +291,9 @@ PHP_METHOD(Phalcon_Support_Debug_Report_BacktraceItem, getFile)
 	RETURN_MEMBER(getThis(), "file");
 }
 
+/**
+ * @phpstan-return support_debug_fragment|null
+ */
 PHP_METHOD(Phalcon_Support_Debug_Report_BacktraceItem, getFragment)
 {
 

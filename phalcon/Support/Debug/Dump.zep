@@ -14,6 +14,7 @@ use InvalidArgumentException;
 use JsonException;
 use Phalcon\Container\Container;
 use Phalcon\Contracts\Support\Debug\TemplateAware;
+use Phalcon\Contracts\Support\SupportTypes;
 use Phalcon\Di\DiInterface;
 use Phalcon\Support\Debug\Traits\TemplateAwareTrait;
 use Phalcon\Support\Helper\Json\Encode;
@@ -40,6 +41,8 @@ use stdClass;
  *
  * echo (new \Phalcon\Debug\Dump())->variables($foo, $bar, $baz);
  * ```
+ *
+ * @phpstan-import-type support_debug_styles from SupportTypes
  */
 class Dump implements TemplateAware
 {
@@ -47,12 +50,20 @@ class Dump implements TemplateAware
     use TemplateAwareTrait;
 
     protected bool detailed = false;
+    /**
+     * @var array<array-key, class-string>
+     */
     protected array methods = [];
+    /**
+     * @phpstan-var support_debug_styles
+     */
     protected array styles = [];
     private <Encode> encode;
 
     /**
      * Dump constructor.
+     *
+     * @phpstan-param support_debug_styles $styles
      */
     public function __construct( array styles = [], bool detailed = false)
     {
@@ -99,6 +110,9 @@ class Dump implements TemplateAware
 
     /**
      * Set styles for vars type
+     *
+     * @phpstan-param  support_debug_styles $styles
+     * @phpstan-return support_debug_styles
      */
     public function setStyles( array styles = []) -> array
     {

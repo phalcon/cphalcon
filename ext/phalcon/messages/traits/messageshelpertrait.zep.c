@@ -30,11 +30,16 @@
  */
 /**
  * Trait MessagesHelperTrait
+ *
+ * @phpstan-import-type messages_list from MessagesTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Messages_Traits_MessagesHelperTrait)
 {
 	ZEPHIR_REGISTER_TRAIT(Phalcon\\Messages\\Traits, MessagesHelperTrait, phalcon, messages_traits_messageshelpertrait, phalcon_messages_traits_messageshelpertrait_method_entry);
 
+	/**
+	 * @var messages_list
+	 */
 	{
 		zval _zc0;
 		array_init_size(&_zc0, 1);
@@ -95,7 +100,7 @@ PHP_METHOD(Phalcon_Messages_Traits_MessagesHelperTrait, current)
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 953, PH_NOISY_CC | PH_READONLY);
 	zephir_memory_observe(&_2);
 	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_1, 954, PH_NOISY_CC);
-	zephir_array_fetch(&_1, &_0, &_2, PH_NOISY | PH_READONLY, "phalcon/Messages/Traits/MessagesHelperTrait.zep", 40);
+	zephir_array_fetch(&_1, &_0, &_2, PH_NOISY | PH_READONLY, "phalcon/Messages/Traits/MessagesHelperTrait.zep", 46);
 	RETURN_CTOR(&_1);
 }
 
@@ -192,8 +197,6 @@ PHP_METHOD(Phalcon_Messages_Traits_MessagesHelperTrait, offsetGet)
  * $messages[0] = new \Phalcon\Messages\Message("This is a message");
  *```
  *
- * @param Message $value
- *
  * @throws MessageNotObject
  */
 PHP_METHOD(Phalcon_Messages_Traits_MessagesHelperTrait, offsetSet)
@@ -224,7 +227,7 @@ PHP_METHOD(Phalcon_Messages_Traits_MessagesHelperTrait, offsetSet)
 		object_init_ex(&_1$$3, phalcon_messages_exceptions_messagenotobject_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Messages/Traits/MessagesHelperTrait.zep", 107);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Messages/Traits/MessagesHelperTrait.zep", 111);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

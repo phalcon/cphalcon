@@ -29,6 +29,8 @@
  */
 /**
  * Phalcon\Session\Adapter\Libmemcached
+ *
+ * @phpstan-import-type session_libmemcached_options from SessionTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Session_Adapter_Libmemcached)
 {
@@ -56,6 +58,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Session_Adapter_Libmemcached)
  *     'prefix' => 'sess-memc-',
  *     'stripPrefix' => false
  * ]
+ *
+ * @phpstan-param session_libmemcached_options $options
  *
  * @throws Exception
  */

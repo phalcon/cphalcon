@@ -11,6 +11,7 @@
 namespace Phalcon\Support;
 
 use Phalcon\Contracts\Support\Debug\Renderer;
+use Phalcon\Contracts\Support\SupportTypes;
 use Phalcon\Support\Debug\Exceptions\RequestHalted;
 use Phalcon\Support\Debug\Exceptions\RuntimeWarning;
 use Phalcon\Support\Debug\Renderer\HtmlRenderer;
@@ -22,13 +23,23 @@ use Throwable;
 /**
  * Listens for uncaught exceptions and renders them. Acts as a thin coordinator
  * delegating data collection to ReportBuilder and presentation to a Renderer.
+ *
+ * @phpstan-import-type support_debug_blacklist from SupportTypes
+ * @phpstan-import-type support_debug_blacklist_input from SupportTypes
+ * @phpstan-import-type support_debug_variables from SupportTypes
  */
 class Debug
 {
     use GetTrait;
 
     protected static bool isActive = false;
+    /**
+     * @phpstan-var support_debug_blacklist
+     */
     protected array blacklist = ["request" : [], "server" : []];
+    /**
+     * @phpstan-var support_debug_variables
+     */
     protected array data = [];
     protected bool hideDocumentRoot = false;
     protected <Renderer> renderer;
@@ -240,7 +251,7 @@ class Debug
     /**
      * Sets if files the exception's backtrace must be showed
      *
-     * @param array $blacklist
+     * @phpstan-param support_debug_blacklist_input $blacklist
      */
     public function setBlacklist(array blacklist) -> <static>
     {

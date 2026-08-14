@@ -32,17 +32,26 @@
  */
 /**
  * Repository of current state Phalcon\Paginator\AdapterInterface::paginate()
+ *
+ * @phpstan-import-type paginator_aliases from PaginatorTypes
+ * @phpstan-import-type paginator_properties from PaginatorTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Paginator_Repository)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Paginator, Repository, phalcon, paginator_repository, phalcon_paginator_repository_method_entry, 0);
 
+	/**
+	 * @var paginator_aliases
+	 */
 	{
 		zval _zc0;
 		array_init_size(&_zc0, 1);
 		zephir_declare_typed_property(phalcon_paginator_repository_ce, SL("aliases"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_ARRAY, NULL, 0);
 	}
 
+	/**
+	 * @var paginator_properties
+	 */
 	{
 		zval _zc0;
 		array_init_size(&_zc0, 1);
@@ -95,6 +104,9 @@ PHP_METHOD(Phalcon_Paginator_Repository, __get)
 	RETURN_MM_NULL();
 }
 
+/**
+ * @return paginator_aliases
+ */
 PHP_METHOD(Phalcon_Paginator_Repository, getAliases)
 {
 
@@ -261,12 +273,18 @@ PHP_METHOD(Phalcon_Paginator_Repository, getTotalItems)
 	RETURN_MM();
 }
 
+/**
+ * @return paginator_properties
+ */
 PHP_METHOD(Phalcon_Paginator_Repository, jsonSerialize)
 {
 
 	RETURN_MEMBER_TYPED(getThis(), "properties", IS_ARRAY);
 }
 
+/**
+ * @param paginator_aliases $aliases
+ */
 PHP_METHOD(Phalcon_Paginator_Repository, setAliases)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -291,6 +309,9 @@ PHP_METHOD(Phalcon_Paginator_Repository, setAliases)
 	RETURN_THIS();
 }
 
+/**
+ * @param paginator_properties $properties
+ */
 PHP_METHOD(Phalcon_Paginator_Repository, setProperties)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -317,6 +338,12 @@ PHP_METHOD(Phalcon_Paginator_Repository, setProperties)
 
 /**
  * Gets value of property by name
+ *
+ * The repository is filled by the adapters, which store an int under every
+ * property that has an int default, so callers passing one are handed an
+ * int back.
+ *
+ * @phpstan-return ($defaultValue is int ? int : mixed)
  */
 PHP_METHOD(Phalcon_Paginator_Repository, getProperty)
 {

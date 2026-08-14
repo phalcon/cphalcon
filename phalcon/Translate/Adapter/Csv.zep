@@ -74,12 +74,9 @@ class Csv extends AbstractAdapter
     /**
      * Check whether is defined a translation key in the internal array
      *
-     * @param string $index
-     *
-     * @return bool
      * @deprecated
      */
-    public function exists( string index) -> bool
+    public function exists(string index) -> bool
     {
         return this->has(index);
     }
@@ -87,7 +84,7 @@ class Csv extends AbstractAdapter
     /**
      * Check whether is defined a translation key in the internal array
      */
-    public function has( string index) -> bool
+    public function has(string index) -> bool
     {
         return isset this->translate[index];
     }
@@ -97,7 +94,7 @@ class Csv extends AbstractAdapter
      *
      * @phpstan-param translate_placeholders $placeholders
      */
-    public function query( string translateKey, array placeholders = []) -> string
+    public function query(string translateKey, array placeholders = []) -> string
     {
         var translation;
 
@@ -126,15 +123,14 @@ class Csv extends AbstractAdapter
      *
      * @phpstan-param int<0, max> $length
      *
-     * @return void
      * @throws FileOpenError
      */
     private function load(
-        string file, 
-	int length, 
-	string delimiter, 
-	string enclosure, 
-	string escape
+        string file,
+        int length,
+        string delimiter,
+        string enclosure,
+        string escape
     ) -> void {
         var data, fileHandler;
 

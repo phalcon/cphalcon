@@ -41,7 +41,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Arr_Group)
  * @param array<array-key, mixed> $collection
  * @param callable|string         $method
  *
- * @return array<array-key, mixed>
+ * @return array<array-key, list<mixed>>
  */
 PHP_METHOD(Phalcon_Support_Helper_Arr_Group, __invoke)
 {

@@ -10,16 +10,22 @@
 
 namespace Phalcon\Messages\Traits;
 
+use Phalcon\Contracts\Messages\MessagesTypes;
 use Phalcon\Messages\Exceptions\MessageNotObject;
-use Phalcon\Messages\Message;
 use Phalcon\Messages\MessageInterface;
 
 /**
  * Trait MessagesHelperTrait
+ *
+ * @phpstan-import-type messages_list from MessagesTypes
  */
 trait MessagesHelperTrait
 {
+    /**
+     * @var messages_list
+     */
     protected array messages = [];
+
     protected int position = 0;
 
     /**
@@ -96,8 +102,6 @@ trait MessagesHelperTrait
      *```php
      * $messages[0] = new \Phalcon\Messages\Message("This is a message");
      *```
-     *
-     * @param Message $value
      *
      * @throws MessageNotObject
      */

@@ -21,25 +21,25 @@ class Base64 extends AbstractSerializer
     /**
      * Serializes data
      */
-	public function serialize() -> string
-	{
-	    if typeof this->data !== "string" {
-	        throw new InvalidSerializationInput();
-	    }
+    public function serialize() -> string
+    {
+        if typeof this->data !== "string" {
+            throw new InvalidSerializationInput();
+        }
 
-		return this->phpBase64Encode(this->data);
-	}
+        return this->phpBase64Encode(this->data);
+    }
 
     /**
      * Unserializes data
      */
-	public function unserialize(mixed data) -> void
-	{
-	    var result;
+    public function unserialize(mixed data) -> void
+    {
+        var result;
 
-	    if typeof data !== "string" {
-	        throw new InvalidUnserializationInput();
-	    }
+        if typeof data !== "string" {
+            throw new InvalidUnserializationInput();
+        }
 
         let result = this->phpBase64Decode(data, true);
 

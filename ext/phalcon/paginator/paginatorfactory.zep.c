@@ -28,12 +28,9 @@
  * file that was distributed with this source code.
  */
 /**
- * @phpstan-type TOptions array{
- *      adapter: string,
- *      limit?: int,
- *      page?: int,
- *      builder?: Builder
- * }
+ * @phpstan-import-type paginator_config from PaginatorTypes
+ * @phpstan-import-type paginator_factory_options from PaginatorTypes
+ * @phpstan-import-type paginator_services from PaginatorTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Paginator_PaginatorFactory)
 {
@@ -44,6 +41,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Paginator_PaginatorFactory)
 
 /**
  * AdapterFactory constructor.
+ *
+ * @param paginator_services $services
  */
 PHP_METHOD(Phalcon_Paginator_PaginatorFactory, __construct)
 {
@@ -95,7 +94,7 @@ PHP_METHOD(Phalcon_Paginator_PaginatorFactory, __construct)
  * $paginator = (new PaginatorFactory())->load($options);
  *```
  *
- * @param Config|TOptions $config
+ * @param Config|paginator_factory_options $config
  */
 PHP_METHOD(Phalcon_Paginator_PaginatorFactory, load)
 {
@@ -125,7 +124,7 @@ PHP_METHOD(Phalcon_Paginator_PaginatorFactory, load)
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(config, &_0);
 	zephir_memory_observe(&name);
-	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Paginator/PaginatorFactory.zep", 73);
+	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Paginator/PaginatorFactory.zep", 72);
 	zephir_memory_observe(&options);
 	if (!(zephir_array_isset_string_fetch(&options, config, SL("options"), 0))) {
 		ZEPHIR_INIT_NVAR(&options);
@@ -138,6 +137,8 @@ PHP_METHOD(Phalcon_Paginator_PaginatorFactory, load)
 
 /**
  * Create a new instance of the adapter
+ *
+ * @param paginator_config $options
  */
 PHP_METHOD(Phalcon_Paginator_PaginatorFactory, newInstance)
 {
@@ -192,7 +193,7 @@ PHP_METHOD(Phalcon_Paginator_PaginatorFactory, getExceptionClass)
 /**
  * Returns the available adapters
  *
- * @return string[]
+ * @return paginator_services
  */
 PHP_METHOD(Phalcon_Paginator_PaginatorFactory, getServices)
 {

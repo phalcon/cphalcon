@@ -55,16 +55,10 @@ class Apcu extends AbstractAdapter
      */
     public function clear() -> bool
     {
-        var item, pattern, apc = null;
-        bool result;
+        var item, apc = null;
+        bool result = true;
 
-        let pattern = "/^" . this->prefix . "/",
-            apc     = this->phpApcuIterator(pattern),
-            result  = true;
-
-        if typeof apc !== "object" {
-            return false;
-        }
+        let apc = this->getKeys();
 
         for item in iterator(apc) {
             if (true !== this->phpApcuDelete(item["key"])) {

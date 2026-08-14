@@ -22,14 +22,14 @@ class Php extends AbstractSerializer
      *
      * @return bool|float|int|string|null
      */
-	public function serialize() -> mixed
-	{
+    public function serialize() -> mixed
+    {
         if (true !== this->isSerializable(this->data)) {
             return this->data;
         }
 
-		return this->phpSerialize(this->data);
-	}
+        return this->phpSerialize(this->data);
+    }
 
     /**
      * Unserializes data

@@ -38,6 +38,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Arr_Chunk)
 
 /**
  * @param array<array-key, mixed> $collection
+ * @param int<1, max>             $size
  *
  * @return array<array-key, mixed>
  */

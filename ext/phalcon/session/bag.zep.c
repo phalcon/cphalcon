@@ -41,6 +41,10 @@
  * @property DiInterface|null $container
  * @property string           $name
  * @property ManagerInterface $session;
+ *
+ * @extends Collection<mixed>
+ *
+ * @phpstan-import-type session_bag_data from SessionTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Session_Bag)
 {
@@ -50,9 +54,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Session_Bag)
 	 * @var DiInterface|null
 	 */
 	zend_declare_property_null(phalcon_session_bag_ce, SL("container"), ZEND_ACC_PRIVATE);
-	/**
-	 * Session Bag name
-	 */
 	{
 		zval _zc0;
 		ZVAL_UNDEF(&_zc0);
@@ -171,6 +172,8 @@ PHP_METHOD(Phalcon_Session_Bag, getDI)
 
 /**
  * Initialize internal array
+ *
+ * @phpstan-param session_bag_data $data
  */
 PHP_METHOD(Phalcon_Session_Bag, init)
 {

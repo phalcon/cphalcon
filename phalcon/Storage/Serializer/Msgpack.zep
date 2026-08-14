@@ -21,7 +21,7 @@ class Msgpack extends Igbinary
      */
     protected function doSerialize(var value) -> string
     {
-		return this->phpMsgpackPack(value);
+        return this->phpMsgpackPack(value);
     }
 
     /**

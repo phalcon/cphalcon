@@ -10,6 +10,7 @@
 
 namespace Phalcon\Session\Adapter;
 
+use Phalcon\Contracts\Session\SessionTypes;
 use Phalcon\Session\Adapter\Exceptions\AdapterRuntimeError;
 use Phalcon\Session\Adapter\Exceptions\InvalidSavePath;
 use Phalcon\Session\Adapter\Exceptions\SavePathUnavailable;
@@ -38,9 +39,11 @@ use Phalcon\Traits\Support\Helper\Str\DirSeparatorTrait;
  * $session->setAdapter($files);
  * ```
  *
- * @property array  $options
- * @property string $prefix
- * @property string $path
+ *
+ * @phpstan-import-type session_files from SessionTypes
+ * @phpstan-import-type session_stream_options from SessionTypes
+ *
+ * @phpstan-property session_stream_options $options
  */
 class Stream extends Noop
 {
@@ -51,6 +54,8 @@ class Stream extends Noop
 
     /**
      * Session options
+     *
+     * @phpstan-var session_stream_options
      */
     protected array options = [];
 
@@ -67,10 +72,7 @@ class Stream extends Noop
     /**
      * Constructor
      *
-     * @param array $options = [
-     *     'prefix' => '',
-     *     'savePath' => ''
-     * ]
+     * @phpstan-param session_stream_options $options
      *
      * @throws InvalidSavePath
      * @throws SavePathUnavailable
@@ -221,6 +223,8 @@ class Stream extends Noop
      * @param string $pattern
      *
      * @return array|false
+     *
+     * @phpstan-return session_files|false
      */
     protected function getGlobFiles(string pattern) -> array | false
     {
@@ -236,6 +240,8 @@ class Stream extends Noop
 
     /**
      * Helper method to get the name prefixed
+     *
+     * @param float|int|string $name
      */
     protected function getPrefixedName(var name) -> string
     {

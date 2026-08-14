@@ -75,9 +75,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Settings)
  *   1. PHP-level override (set via Settings::set())
  *   2. globals_get() - the C-level value, honoring php.ini / .htaccess
  *   3. null - for unknown keys
- *
- * @param string $key
- * @return mixed
  */
 PHP_METHOD(Phalcon_Support_Settings, get)
 {
@@ -104,7 +101,7 @@ PHP_METHOD(Phalcon_Support_Settings, get)
 		array_init(&localOverrides);
 	}
 	if (zephir_array_isset_value(&localOverrides, &key_zv)) {
-		zephir_array_fetch(&_0$$4, &localOverrides, &key_zv, PH_NOISY | PH_READONLY, "phalcon/Support/Settings.zep", 68);
+		zephir_array_fetch(&_0$$4, &localOverrides, &key_zv, PH_NOISY | PH_READONLY, "phalcon/Support/Settings.zep", 65);
 		RETURN_CTOR(&_0$$4);
 	}
 	ZEPHIR_RETURN_CALL_SELF("readglobal", &_1, 0, &key_zv);
@@ -119,9 +116,6 @@ PHP_METHOD(Phalcon_Support_Settings, get)
  * no other project sharing this PHP process is affected.
  *
  * Unknown keys are silently ignored.
- *
- * @param string $key
- * @param mixed  $value
  */
 PHP_METHOD(Phalcon_Support_Settings, set)
 {
@@ -187,9 +181,6 @@ PHP_METHOD(Phalcon_Support_Settings, reset)
  *
  * globals_get() requires a string literal, so each key is read
  * explicitly rather than by a variable lookup.
- *
- * @param string $key
- * @return mixed
  */
 PHP_METHOD(Phalcon_Support_Settings, readGlobal)
 {

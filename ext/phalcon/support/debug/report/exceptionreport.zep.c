@@ -28,6 +28,10 @@
 /**
  * Carries all data collected for an exception, ready to be rendered. Holds no
  * presentation logic.
+ *
+ * @phpstan-import-type support_debug_included_files from SupportTypes
+ * @phpstan-import-type support_debug_superglobal from SupportTypes
+ * @phpstan-import-type support_debug_variables from SupportTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Support_Debug_Report_ExceptionReport)
 {
@@ -54,6 +58,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Debug_Report_ExceptionReport)
 		zephir_declare_typed_property(phalcon_support_debug_report_exceptionreport_ce, SL("file"), &_zc0, ZEND_ACC_PRIVATE, MAY_BE_STRING, NULL, 0);
 	}
 
+	/**
+	 * @phpstan-var support_debug_included_files
+	 */
 	{
 		zval _zc0;
 		array_init_size(&_zc0, 1);
@@ -84,12 +91,18 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Debug_Report_ExceptionReport)
 		zephir_declare_typed_property(phalcon_support_debug_report_exceptionreport_ce, SL("peakMemoryUsage"), &_zc0, ZEND_ACC_PRIVATE, MAY_BE_LONG, NULL, 0);
 	}
 
+	/**
+	 * @phpstan-var support_debug_superglobal
+	 */
 	{
 		zval _zc0;
 		array_init_size(&_zc0, 1);
 		zephir_declare_typed_property(phalcon_support_debug_report_exceptionreport_ce, SL("request"), &_zc0, ZEND_ACC_PRIVATE, MAY_BE_ARRAY, NULL, 0);
 	}
 
+	/**
+	 * @phpstan-var support_debug_superglobal
+	 */
 	{
 		zval _zc0;
 		array_init_size(&_zc0, 1);
@@ -108,6 +121,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Debug_Report_ExceptionReport)
 		zephir_declare_typed_property(phalcon_support_debug_report_exceptionreport_ce, SL("uri"), &_zc0, ZEND_ACC_PRIVATE, MAY_BE_STRING, NULL, 0);
 	}
 
+	/**
+	 * @phpstan-var support_debug_variables
+	 */
 	{
 		zval _zc0;
 		array_init_size(&_zc0, 1);
@@ -206,6 +222,9 @@ PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, getFile)
 	RETURN_MEMBER_TYPED(getThis(), "file", IS_STRING);
 }
 
+/**
+ * @phpstan-return support_debug_included_files
+ */
 PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, getIncludedFiles)
 {
 
@@ -236,12 +255,18 @@ PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, getPeakMemoryUsage)
 	RETURN_MEMBER_TYPED(getThis(), "peakMemoryUsage", IS_LONG);
 }
 
+/**
+ * @phpstan-return support_debug_superglobal
+ */
 PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, getRequest)
 {
 
 	RETURN_MEMBER_TYPED(getThis(), "request", IS_ARRAY);
 }
 
+/**
+ * @phpstan-return support_debug_superglobal
+ */
 PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, getServer)
 {
 
@@ -254,6 +279,9 @@ PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, getUri)
 	RETURN_MEMBER_TYPED(getThis(), "uri", IS_STRING);
 }
 
+/**
+ * @phpstan-return support_debug_variables
+ */
 PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, getVariables)
 {
 
@@ -312,6 +340,9 @@ PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, setBacktrace)
 	RETURN_THIS();
 }
 
+/**
+ * @phpstan-param support_debug_included_files $includedFiles
+ */
 PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, setIncludedFiles)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -380,6 +411,9 @@ PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, setPeakMemoryUsage)
 	RETURN_THISW();
 }
 
+/**
+ * @phpstan-param support_debug_superglobal $request
+ */
 PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, setRequest)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -404,6 +438,9 @@ PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, setRequest)
 	RETURN_THIS();
 }
 
+/**
+ * @phpstan-param support_debug_superglobal $server
+ */
 PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, setServer)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -428,6 +465,9 @@ PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, setServer)
 	RETURN_THIS();
 }
 
+/**
+ * @phpstan-param support_debug_variables $variables
+ */
 PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, setVariables)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;

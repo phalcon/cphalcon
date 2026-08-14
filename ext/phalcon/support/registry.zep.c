@@ -73,6 +73,8 @@
  * Internally all the magic methods (and interfaces except JsonSerializable)
  * are implemented using object handlers or similar techniques: this allows to
  * bypass relatively slow method calls.
+ *
+ * @extends Collection<mixed>
  */
 ZEPHIR_INIT_CLASS(Phalcon_Support_Registry)
 {
@@ -222,8 +224,6 @@ PHP_METHOD(Phalcon_Support_Registry, clear)
 
 /**
  * Count elements of an object
- *
- * @link https://php.net/manual/en/countable.count.php
  */
 PHP_METHOD(Phalcon_Support_Registry, count)
 {
@@ -282,6 +282,8 @@ PHP_METHOD(Phalcon_Support_Registry, get)
 
 /**
  * Returns the iterator of the class
+ *
+ * @return Traversable<int|string, mixed>
  */
 PHP_METHOD(Phalcon_Support_Registry, getIterator)
 {
@@ -349,8 +351,6 @@ PHP_METHOD(Phalcon_Support_Registry, init)
 
 /**
  * Specify data which should be serialized to JSON
- *
- * @link https://php.net/manual/en/jsonserializable.jsonserialize.php
  */
 PHP_METHOD(Phalcon_Support_Registry, jsonSerialize)
 {
@@ -366,8 +366,6 @@ PHP_METHOD(Phalcon_Support_Registry, jsonSerialize)
 
 /**
  * Whether a offset exists
- *
- * @link https://php.net/manual/en/arrayaccess.offsetexists.php
  */
 PHP_METHOD(Phalcon_Support_Registry, offsetExists)
 {
@@ -389,8 +387,6 @@ PHP_METHOD(Phalcon_Support_Registry, offsetExists)
 
 /**
  * Offset to retrieve
- *
- * @link https://php.net/manual/en/arrayaccess.offsetget.php
  */
 PHP_METHOD(Phalcon_Support_Registry, offsetGet)
 {
@@ -413,8 +409,6 @@ PHP_METHOD(Phalcon_Support_Registry, offsetGet)
 
 /**
  * Offset to set
- *
- * @link https://php.net/manual/en/arrayaccess.offsetset.php
  */
 PHP_METHOD(Phalcon_Support_Registry, offsetSet)
 {
@@ -438,8 +432,6 @@ PHP_METHOD(Phalcon_Support_Registry, offsetSet)
 
 /**
  * Offset to unset
- *
- * @link https://php.net/manual/en/arrayaccess.offsetunset.php
  */
 PHP_METHOD(Phalcon_Support_Registry, offsetUnset)
 {
@@ -484,8 +476,6 @@ PHP_METHOD(Phalcon_Support_Registry, remove)
 
 /**
  * String representation of object
- *
- * @link https://php.net/manual/en/serializable.serialize.php
  */
 PHP_METHOD(Phalcon_Support_Registry, serialize)
 {
@@ -546,8 +536,6 @@ PHP_METHOD(Phalcon_Support_Registry, toArray)
  * The default string uses the following options for json_encode
  *
  * JSON_HEX_TAG, JSON_HEX_APOS, JSON_HEX_AMP, JSON_HEX_QUOT, JSON_UNESCAPED_SLASHES
- *
- * @see https://www.ietf.org/rfc/rfc4627.txt
  */
 PHP_METHOD(Phalcon_Support_Registry, toJson)
 {
@@ -574,9 +562,7 @@ PHP_METHOD(Phalcon_Support_Registry, toJson)
 }
 
 /**
- * Constructs the object
- *
- * @link https://php.net/manual/en/serializable.unserialize.php
+ * Unserializes the object
  */
 PHP_METHOD(Phalcon_Support_Registry, unserialize)
 {

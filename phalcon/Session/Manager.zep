@@ -11,7 +11,7 @@
 namespace Phalcon\Session;
 
 use InvalidArgumentException;
-use SessionHandlerInterface;
+use Phalcon\Contracts\Session\SessionTypes;
 use Phalcon\Di\AbstractInjectionAware;
 use Phalcon\Di\DiInterface;
 use Phalcon\Session\Exceptions\InvalidSessionAdapter;
@@ -25,6 +25,8 @@ use SessionHandlerInterface;
 
 /**
  * Session manager class
+ *
+ * @phpstan-import-type session_options from SessionTypes
  */
 class Manager extends AbstractInjectionAware implements ManagerInterface
 {
@@ -33,15 +35,18 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
 
     private ?<SessionHandlerInterface> adapter = null;
     private string name = "";
+    /**
+     * @var array<string, mixed>
+     *
+     * @phpstan-var session_options
+     */
     private array options = [];
     private string uniqueId = "";
 
     /**
      * Manager constructor.
      *
-     * @param array $options = [
-     *     'uniqueId' => null
-     * ]
+     * @phpstan-param session_options $options
      */
     public function __construct(array options = [])
     {
@@ -178,6 +183,8 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
 
     /**
      * Get internal options
+     *
+     * @phpstan-return session_options
      */
     public function getOptions() -> array
     {
@@ -309,6 +316,8 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
 
     /**
      * Sets session's options
+     *
+     * @phpstan-param session_options $options
      */
     public function setOptions(array options) -> void
     {

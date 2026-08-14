@@ -33,8 +33,6 @@ use WeakReference;
 class Weak extends AbstractAdapter
 {
     /**
-     *
-     *
      * @var string|null
      */
     protected fetching = null;

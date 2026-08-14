@@ -585,8 +585,10 @@ class Tag
      *     'name' => ''
      * ]
      */
-    public static function image(var parameters = null, bool local = true) -> string
-    {
+    public static function image(
+        var parameters = null,
+        bool local = true
+    ) -> string {
         var params, code, src;
 
         if typeof parameters != "array" {
@@ -657,8 +659,10 @@ class Tag
      *     'rel' => ''
      * ]
      */
-    public static function javascriptInclude(var parameters = null, bool local = true) -> string
-    {
+    public static function javascriptInclude(
+        var parameters = null,
+        bool local = true
+    ) -> string {
         var params, code;
 
         if typeof parameters != "array" {
@@ -718,8 +722,11 @@ class Tag
      *     'id' => ''
      * ]
      */
-    public static function linkTo(parameters, text = null, local = true) -> string
-    {
+    public static function linkTo(
+        var parameters,
+        var text = null,
+        var local = true
+    ) -> string {
         var params, action, query, url, code;
 
         if typeof parameters != "array" {
@@ -1019,8 +1026,10 @@ class Tag
     /**
      * Renders the title with title tags. The title is automatically escaped
      */
-    public static function renderTitle(bool prepend = true, bool append = true) -> string
-    {
+    public static function renderTitle(
+        bool prepend = true,
+        bool append = true
+    ) -> string {
         return "<title>" . self::getTitle(prepend, append) . "</title>" . PHP_EOL;
     }
 
@@ -1174,8 +1183,10 @@ class Tag
      *
      * @phpstan-param tag_parameters|string|null $parameters
      */
-    public static function stylesheetLink(var parameters = null, bool local = true) -> string
-    {
+    public static function stylesheetLink(
+        var parameters = null,
+        bool local = true
+    ) -> string {
         var params, code;
 
         if typeof parameters != "array" {
@@ -1451,22 +1462,6 @@ class Tag
     }
 
     /**
-     * Reduces an arbitrary helper value to the string a tag attribute, id or
-     * URI needs. Parameter bags are user supplied, so a value that cannot be
-     * expressed as a string - an array, an object without `__toString()` -
-     * reads back as an empty string rather than aborting the helper.
-     */
-    final protected static function toStringValue(var value) -> string
-    {
-        if (is_scalar(value)
-            || (typeof value === "object" && value instanceof Stringable)) {
-            return (string) value;
-        }
-
-        return "";
-    }
-
-    /**
      * Resolves a static (asset) URL through the `url` service.
      *
      * `getStatic()` lives on Phalcon\Mvc\Url but is absent from
@@ -1504,8 +1499,11 @@ class Tag
      *     'type' => ''
      * ]
      */
-    final protected static function inputField(string type, parameters, bool asValue = false) -> string
-    {
+    final protected static function inputField(
+        string type,
+        var parameters,
+        bool asValue = false
+    ) -> string {
         var params, id, value, code, name;
 
         let params = [];
@@ -1570,8 +1568,10 @@ class Tag
      *
      * @phpstan-param tag_parameters|string $parameters
      */
-    final protected static function inputFieldChecked(string type, var parameters) -> string
-    {
+    final protected static function inputFieldChecked(
+        string type,
+        var parameters
+    ) -> string {
         var params, value, id, code, name, currentValue;
 
         if  typeof parameters != "array" {
@@ -1647,5 +1647,21 @@ class Tag
         }
 
         return code;
+    }
+
+    /**
+     * Reduces an arbitrary helper value to the string a tag attribute, id or
+     * URI needs. Parameter bags are user supplied, so a value that cannot be
+     * expressed as a string - an array, an object without `__toString()` -
+     * reads back as an empty string rather than aborting the helper.
+     */
+    final protected static function toStringValue(var value) -> string
+    {
+        if (is_scalar(value)
+            || (typeof value === "object" && value instanceof Stringable)) {
+            return (string) value;
+        }
+
+        return "";
     }
 }

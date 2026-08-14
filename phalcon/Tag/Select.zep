@@ -161,6 +161,15 @@ abstract class Select
         return code;
     }
 
+    protected static function echoOption(string value, bool selected = false) -> string
+    {
+        string extra;
+
+        let extra = selected ? "selected=\"selected\" " : "";
+
+        return "\t<option " . extra . "value=\"" . value . "\">";
+    }
+
     /**
      * Reduces an arbitrary option value to the string the markup needs.
      * Option data is user supplied, so anything that cannot be expressed as
@@ -174,15 +183,6 @@ abstract class Select
         }
 
         return "";
-    }
-
-    protected static function echoOption(string value, bool selected = false) -> string
-    {
-    	string extra;
-
-        let extra = selected ? "selected=\"selected\" " : "";
-
-        return "\t<option " . extra . "value=\"" . value . "\">";
     }
 
     /**
@@ -226,7 +226,7 @@ abstract class Select
                 }
             } else {
                 let strOptionValue = (string) optionValue,
-                    strValue = (string) value;
+                    strValue = self::toStringValue(value);
 
                 if strOptionValue === strValue {
                     let code .= self::echoOption(escaped, true)
@@ -251,8 +251,8 @@ abstract class Select
         string closeOption
     ) -> string
     {
-        var code, params, option, usingZero, usingOne, escaper, optionValue,
-            optionText, strValue, strOptionValue;
+        var code, escaper, executed, params, option, usingZero, usingOne,
+            optionValue, optionText, strValue, strOptionValue;
 
         let code = "";
         let params = null;
@@ -262,8 +262,8 @@ abstract class Select
                 throw new Exception("Parameter 'using' requires two values");
             }
 
-            let usingZero = using[0],
-                usingOne = using[1];
+            let usingZero = self::toStringValue(using[0]),
+                usingOne  = self::toStringValue(using[1]);
         }
 
         let escaper = <EscaperInterface> BaseTag::getEscaperService();
@@ -289,8 +289,8 @@ abstract class Select
                     let optionText = option[usingOne];
                 }
 
-                let optionValue = escaper->attributes(optionValue);
-                let optionText = escaper->html(optionText);
+                let optionValue = escaper->attributes(self::toStringValue(optionValue));
+                let optionText = escaper->html(self::toStringValue(optionText));
 
                 /**
                  * If the value is equal to the option's value we mark it as
@@ -300,23 +300,23 @@ abstract class Select
                     if in_array(optionValue, value) {
                         let code .= self::echoOption(optionValue, true)
                             . optionText
-			    . closeOption;
+                            . closeOption;
                     } else {
                         let code .= self::echoOption(optionValue)
-			    . optionText
-			    . closeOption;
+                            . optionText
+                            . closeOption;
                     }
                 } else {
-                    let strOptionValue = (string) optionValue,
-                        strValue = (string) value;
+                    let strOptionValue = optionValue,
+                        strValue = self::toStringValue(value);
 
                     if strOptionValue === strValue {
                         let code .= self::echoOption(strOptionValue, true)
-			    . optionText
-			    . closeOption;
+                            . optionText
+                            . closeOption;
                     } else {
                         let code .= self::echoOption(strOptionValue)
-			    . optionText . closeOption;
+                            . optionText . closeOption;
                     }
                 }
             } else {
@@ -333,7 +333,8 @@ abstract class Select
                     }
 
                     let params[0] = option;
-                    let code .= call_user_func_array(using, params);
+                    let executed  = call_user_func_array(using, params);
+                    let code .= self::toStringValue(executed);
                 }
             }
         }

@@ -32,12 +32,7 @@ class Decode
     use DecodeTrait;
 
     /**
-     * @param string $data        JSON data to parse
-     * @param bool   $associative When `true`, objects are converted to arrays
-     * @param int    $depth       Recursion depth.
-     * @param int    $options     Bitmask of JSON decode options.
-     *
-     * @return mixed
+     * @param int<1, max> $depth       Recursion depth.
      *
      * @throws JsonDecodeError if the JSON cannot be decoded.
      * @link https://www.php.net/manual/en/function.json-decode.php

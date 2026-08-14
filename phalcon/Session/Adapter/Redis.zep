@@ -11,11 +11,14 @@
 namespace Phalcon\Session\Adapter;
 
 use Exception;
+use Phalcon\Contracts\Session\SessionTypes;
 use Phalcon\Session\Adapter\Exceptions\AdapterRuntimeError;
 use Phalcon\Storage\AdapterFactory;
 
 /**
  * Phalcon\Session\Adapter\Redis
+ *
+ * @phpstan-import-type session_redis_options from SessionTypes
  */
  class Redis extends AbstractAdapter
 {
@@ -53,6 +56,8 @@ use Phalcon\Storage\AdapterFactory;
      *                                'lockRetries'    => 100,
      *                                'lockWaitTime'   => 50000,
      * ]
+     *
+     * @phpstan-param session_redis_options $options
      *
      * @throws Exception
      */

@@ -1,0 +1,5 @@
+
+extern zend_class_entry *phalcon_contracts_session_sessiontypes_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Contracts_Session_SessionTypes);
+

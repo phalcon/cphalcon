@@ -42,6 +42,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Str_Friendly)
 }
 
 /**
+ * @param array<array-key, string>|string|null $replace
+ *
  * @throws InvalidReplaceFormat
  */
 PHP_METHOD(Phalcon_Support_Helper_Str_Friendly, __invoke)
@@ -142,9 +144,9 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Friendly, __invoke)
 }
 
 /**
- * @param mixed $replace
+ * @param array<array-key, string>|string $replace
  *
- * @return array
+ * @return array<array-key, string>
  * @throws InvalidReplaceFormat
  */
 PHP_METHOD(Phalcon_Support_Helper_Str_Friendly, checkReplace)
@@ -167,7 +169,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Friendly, checkReplace)
 		_0 = Z_TYPE_P(replace) != IS_STRING;
 	}
 	if (_0) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_support_helper_str_exceptions_invalidreplaceformat_ce, "Parameter replace must be an array or a string", "phalcon/Support/Helper/Str/Friendly.zep", 68);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_support_helper_str_exceptions_invalidreplaceformat_ce, "Parameter replace must be an array or a string", "phalcon/Support/Helper/Str/Friendly.zep", 70);
 		return;
 	}
 	if (Z_TYPE_P(replace) == IS_STRING) {
@@ -181,9 +183,9 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Friendly, checkReplace)
 }
 
 /**
- * @param mixed $replace
+ * @param array<array-key, string> $replace
  *
- * @return array
+ * @return array<string, string>
  */
 PHP_METHOD(Phalcon_Support_Helper_Str_Friendly, getMatrix)
 {
@@ -286,7 +288,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Friendly, getMatrix)
 	add_assoc_stringl_ex(&matrix, SL("&"), SL(" and "));
 	add_assoc_stringl_ex(&matrix, SL("\r\n"), SL(" "));
 	add_assoc_stringl_ex(&matrix, SL("\n"), SL(" "));
-	zephir_is_iterable(&replace, 0, "phalcon/Support/Helper/Str/Friendly.zep", 115);
+	zephir_is_iterable(&replace, 0, "phalcon/Support/Helper/Str/Friendly.zep", 117);
 	if (Z_TYPE_P(&replace) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&replace), _0)
 		{

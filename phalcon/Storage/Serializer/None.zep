@@ -15,16 +15,16 @@ class None extends AbstractSerializer
     /**
      * Serializes data
      */
-	public function serialize() -> mixed
-	{
-		return this->data;
-	}
+    public function serialize() -> mixed
+    {
+        return this->data;
+    }
 
     /**
      * Unserializes data
      */
-	public function unserialize(mixed data) -> void
-	{
-		let this->data = data;
-	}
+    public function unserialize(mixed data) -> void
+    {
+        let this->data = data;
+    }
 }

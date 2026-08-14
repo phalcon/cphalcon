@@ -19,6 +19,9 @@ use Phalcon\Support\Helper\Str\Exceptions\SyntaxError;
  */
 class Dynamic
 {
+    /**
+     * @phpstan-param non-empty-string $separator
+     */
     public function __invoke(
         string text,
         string leftDelimiter = "{",

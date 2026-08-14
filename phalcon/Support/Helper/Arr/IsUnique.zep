@@ -10,6 +10,8 @@
 
 namespace Phalcon\Support\Helper\Arr;
 
+use Stringable;
+
 /**
  * Checks a flat list for duplicate values. Returns true if duplicate
  * values exist and false if values are all unique.
@@ -17,7 +19,7 @@ namespace Phalcon\Support\Helper\Arr;
 class IsUnique
 {
     /**
-     * @param array<array-key, mixed> $collection
+     * @param array<array-key, scalar|Stringable|null> $collection
      *
      * @return bool
      */

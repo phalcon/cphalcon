@@ -60,7 +60,6 @@ class Gettext extends AbstractAdapter
     /**
      * Gettext constructor.
      *
-     * @param InterpolatorFactory $interpolator
      * @phpstan-param translate_gettext_options $options
      *
      * @throws Exception
@@ -68,7 +67,7 @@ class Gettext extends AbstractAdapter
      * @throws MissingRequiredParameter
      */
     public function __construct(
-        <InterpolatorFactory> interpolator,  
+        <InterpolatorFactory> interpolator,
         array options
     ) {
         if unlikely !this->phpFunctionExists("gettext") {
@@ -83,12 +82,9 @@ class Gettext extends AbstractAdapter
     /**
      * Check whether is defined a translation key in the internal array
      *
-     * @param string $index
-     *
-     * @return bool
      * @deprecated
      */
-    public function exists( string index) -> bool
+    public function exists(string index) -> bool
     {
         return this->has(index);
     }
@@ -119,7 +115,7 @@ class Gettext extends AbstractAdapter
     /**
      * Check whether is defined a translation key in the internal array
      */
-    public function has( string index) -> bool
+    public function has(string index) -> bool
     {
         return gettext(index) !== index;
     }
@@ -135,7 +131,7 @@ class Gettext extends AbstractAdapter
         string msgid1,
         string msgid2,
         int count,
-    	array placeholders = [],
+        array placeholders = [],
         string domain = null
     ) -> string {
         var translation;
@@ -158,7 +154,6 @@ class Gettext extends AbstractAdapter
      *
      * @phpstan-param translate_placeholders $placeholders
      *
-     * @return string
      * @throws Exception
      */
     public function query(string translateKey, array placeholders = []) -> string

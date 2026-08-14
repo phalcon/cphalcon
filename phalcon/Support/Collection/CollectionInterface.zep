@@ -15,6 +15,10 @@ use Phalcon\Contracts\Support\Collection as CollectionContract;
 /**
  * Phalcon\Support\Collection\CollectionInterface
  *
+ * @phpstan-template T
+ *
+ * @extends CollectionContract<T>
+ *
  * @psalm-suppress DeprecatedInterface
  * @deprecated Will be removed in a future major release.
  *             Use {@see \Phalcon\Contracts\Support\Collection} instead.

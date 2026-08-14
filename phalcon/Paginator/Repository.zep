@@ -11,13 +11,24 @@
 namespace Phalcon\Paginator;
 
 use JsonSerializable;
+use Phalcon\Contracts\Paginator\PaginatorTypes;
 
 /**
  * Repository of current state Phalcon\Paginator\AdapterInterface::paginate()
+ *
+ * @phpstan-import-type paginator_aliases from PaginatorTypes
+ * @phpstan-import-type paginator_properties from PaginatorTypes
  */
 class Repository implements RepositoryInterface, JsonSerializable
 {
+    /**
+     * @var paginator_aliases
+     */
     protected array aliases = [];
+
+    /**
+     * @var paginator_properties
+     */
     protected array properties = [];
 
     public function __get(string property) -> var | null
@@ -42,6 +53,9 @@ class Repository implements RepositoryInterface, JsonSerializable
         return null;
     }
 
+    /**
+     * @return paginator_aliases
+     */
     public function getAliases() -> array
     {
         return this->aliases;
@@ -87,11 +101,17 @@ class Repository implements RepositoryInterface, JsonSerializable
         return this->getProperty(self::PROPERTY_TOTAL_ITEMS, 0);
     }
 
+    /**
+     * @return paginator_properties
+     */
     public function jsonSerialize() -> array
     {
         return this->properties;
     }
 
+    /**
+     * @param paginator_aliases $aliases
+     */
     public function setAliases(array aliases) -> <RepositoryInterface>
     {
         let this->aliases = aliases;
@@ -99,6 +119,9 @@ class Repository implements RepositoryInterface, JsonSerializable
         return this;
     }
 
+    /**
+     * @param paginator_properties $properties
+     */
     public function setProperties(array properties) -> <RepositoryInterface>
     {
         let this->properties = properties;
@@ -108,6 +131,12 @@ class Repository implements RepositoryInterface, JsonSerializable
 
     /**
      * Gets value of property by name
+     *
+     * The repository is filled by the adapters, which store an int under every
+     * property that has an int default, so callers passing one are handed an
+     * int back.
+     *
+     * @phpstan-return ($defaultValue is int ? int : mixed)
      */
     protected function getProperty(string property, var defaultValue = null) -> var
     {

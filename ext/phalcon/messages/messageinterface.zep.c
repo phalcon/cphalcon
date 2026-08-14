@@ -22,6 +22,8 @@
  */
 /**
  * Interface for Phalcon\Messages\Message
+ *
+ * @phpstan-import-type messages_metadata from MessagesTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Messages_MessageInterface)
 {
@@ -52,6 +54,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Messages_MessageInterface, getField);
 ZEPHIR_DOC_METHOD(Phalcon_Messages_MessageInterface, getMessage);
 /**
  * Returns message metadata
+ *
+ * @return messages_metadata
  */
 ZEPHIR_DOC_METHOD(Phalcon_Messages_MessageInterface, getMetaData);
 /**
@@ -72,6 +76,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Messages_MessageInterface, setField);
 ZEPHIR_DOC_METHOD(Phalcon_Messages_MessageInterface, setMessage);
 /**
  * Sets message metadata
+ *
+ * @param messages_metadata $metaData
  */
 ZEPHIR_DOC_METHOD(Phalcon_Messages_MessageInterface, setMetaData);
 /**

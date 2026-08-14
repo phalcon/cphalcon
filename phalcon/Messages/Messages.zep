@@ -13,6 +13,7 @@ namespace Phalcon\Messages;
 use Iterator;
 use JsonSerializable;
 use Phalcon\Contracts\Messages\Messages as MessagesContract;
+use Phalcon\Contracts\Messages\MessagesTypes;
 use Phalcon\Messages\Exceptions\MessageNotObject;
 use Phalcon\Messages\Exceptions\MessagesNotIterable;
 use Phalcon\Messages\Traits\MessagesHelperTrait;
@@ -27,6 +28,9 @@ use Traversable;
  * visited during iteration (`foreach`), which walks the integer sequence only.
  * Use the append methods (`appendMessage()` / `appendMessages()`) when entries
  * must take part in iteration.
+ *
+ * @phpstan-import-type messages_list from MessagesTypes
+ * @phpstan-import-type messages_serialized from MessagesTypes
  */
 class Messages implements MessagesContract, JsonSerializable
 {
@@ -34,6 +38,8 @@ class Messages implements MessagesContract, JsonSerializable
 
     /**
      * Phalcon\Messages\Messages constructor
+     *
+     * @param messages_list $messages
      */
     public function __construct(array messages = [])
     {
@@ -61,8 +67,14 @@ class Messages implements MessagesContract, JsonSerializable
      * $messages->appendMessages($messagesArray);
      *```
      *
-     * @param Iterator|MessageInterface[] $messages
+     * Accepts an array of MessageInterface objects or an Iterator yielding
+     * them. The parameter stays untyped so that a non-iterable argument
+     * reaches the guard below and raises MessagesNotIterable rather than a
+     * TypeError.
      *
+     * @param mixed $messages
+     *
+     * @return void
      * @throws MessagesNotIterable
      */
     public function appendMessages(var messages)
@@ -79,11 +91,7 @@ class Messages implements MessagesContract, JsonSerializable
             /**
              * An array of messages is simply merged into the current one
              */
-            if typeof currentMessages == "array" {
-                let finalMessages = array_merge(currentMessages, messages);
-            } else {
-                let finalMessages = messages;
-            }
+            let finalMessages = array_merge(currentMessages, messages);
 
             let this->messages = finalMessages;
         } else {
@@ -103,6 +111,8 @@ class Messages implements MessagesContract, JsonSerializable
 
     /**
      * Filters the message collection by field name
+     *
+     * @return messages_list
      */
     public function filter(string fieldName) -> array
     {
@@ -111,19 +121,17 @@ class Messages implements MessagesContract, JsonSerializable
         let filtered = [],
             messages = this->messages;
 
-        if typeof messages == "array" {
+        /**
+         * A collection of messages is iterated and appended one-by-one to
+         * the current list
+         */
+        for message in messages {
             /**
-             * A collection of messages is iterated and appended one-by-one to
-             * the current list
+             * Get the field name
              */
-            for message in messages {
-                /**
-                 * Get the field name
-                 */
-                if method_exists(message, "getField") {
-                    if fieldName == message->getField() {
-                        let filtered[] = message;
-                    }
+            if method_exists(message, "getField") {
+                if fieldName == message->getField() {
+                    let filtered[] = message;
                 }
             }
         }
@@ -139,6 +147,8 @@ class Messages implements MessagesContract, JsonSerializable
      * $data = $messages->jsonSerialize();
      * echo json_encode($data);
      *```
+     *
+     * @return messages_serialized
      */
     public function jsonSerialize() -> array
     {

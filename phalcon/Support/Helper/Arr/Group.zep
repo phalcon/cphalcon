@@ -23,7 +23,7 @@ class Group
      * @param array<array-key, mixed> $collection
      * @param callable|string         $method
      *
-     * @return array<array-key, mixed>
+     * @return array<array-key, list<mixed>>
      */
     public function __invoke(array collection, var method) -> array
     {
