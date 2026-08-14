@@ -10,11 +10,17 @@
 
 namespace Phalcon\Http;
 
+use Phalcon\Contracts\Http\HttpTypes;
 use Phalcon\Http\Request\FileInterface;
 use stdClass;
 
 /**
  * Interface for Phalcon\Http\Request
+ *
+ * @phpstan-import-type http_basic_auth from HttpTypes
+ * @phpstan-import-type http_digest_auth from HttpTypes
+ * @phpstan-import-type http_quality_part from HttpTypes
+ * @phpstan-import-type http_request_headers from HttpTypes
  */
 interface RequestInterface
 {
@@ -43,12 +49,16 @@ interface RequestInterface
     /**
      * Return an array with mime/types and their quality accepted by the
      * browser/client from _SERVER["HTTP_ACCEPT"]
+     *
+     * @phpstan-return list<http_quality_part>
      */
     public function getAcceptableContent() -> array;
 
     /**
      * Gets auth info accepted by the browser/client from
      * $_SERVER["PHP_AUTH_USER"]
+     *
+     * @phpstan-return http_basic_auth|null
      */
     public function getBasicAuth() -> array | null;
 
@@ -80,6 +90,8 @@ interface RequestInterface
     /**
      * Return a charset array and their quality accepted by the browser/client
      * from _SERVER["HTTP_ACCEPT_CHARSET"]
+     *
+     * @phpstan-return list<http_quality_part>
      */
     public function getClientCharsets() -> array;
 
@@ -91,6 +103,8 @@ interface RequestInterface
     /**
      * Return the auth info accepted by the browser/client from
      * $_SERVER["PHP_AUTH_DIGEST"]
+     *
+     * @phpstan-return http_digest_auth
      */
     public function getDigestAuth() -> array;
 
@@ -112,6 +126,8 @@ interface RequestInterface
      *
      * echo $headers["Authorization"]; // Basic cGhhbGNvbjpzZWNyZXQ=
      * ```
+     *
+     * @phpstan-return http_request_headers
      */
     public function getHeaders() -> array;
 
@@ -158,6 +174,8 @@ interface RequestInterface
 
     /**
      * Return the decoded JSON HTTP raw request body
+     *
+     * @phpstan-return array<array-key, mixed>|bool|stdClass
      */
     public function getJsonRawBody(bool associative = false) -> array | bool | <stdClass>;
 
@@ -165,6 +183,7 @@ interface RequestInterface
      * Return the languages array and their quality accepted by the
      * browser/client from _SERVER["HTTP_ACCEPT_LANGUAGE"]
      *
+     * @phpstan-return list<http_quality_part>
      */
     public function getLanguages() -> array;
 
@@ -376,7 +395,7 @@ interface RequestInterface
     /**
      * Return if the current HTTP method matches any of the passed methods
      *
-     * @param array|string $methods
+     * @param array<array-key, mixed>|string $methods
      */
     public function isMethod(var methods, bool strict = false) -> bool;
 

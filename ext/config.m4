@@ -576,6 +576,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/contracts/container/service/definition.zep.c
 	phalcon/contracts/events/subscriber.zep.c
 	phalcon/contracts/front/fronttypealiases.zep.c
+	phalcon/contracts/http/httptypes.zep.c
 	phalcon/contracts/image/imagetypes.zep.c
 	phalcon/contracts/messages/messagestypes.zep.c
 	phalcon/contracts/mvc/model/relation/cachekeyprovider.zep.c

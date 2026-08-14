@@ -10,6 +10,7 @@
 
 namespace Phalcon\Http\Response;
 
+use Phalcon\Contracts\Http\HttpTypes;
 use Phalcon\Di\AbstractInjectionAware;
 use Phalcon\Di\DiInterface;
 use Phalcon\Http\Cookie;
@@ -66,11 +67,17 @@ use Phalcon\Http\Traits\EncryptionAwareTrait;
  *     }
  * );
  * ```
+ *
+ * @phpstan-import-type http_cookie_bag from HttpTypes
+ * @phpstan-import-type http_cookie_options from HttpTypes
  */
 class Cookies extends AbstractInjectionAware implements CookiesInterface
 {
     use EncryptionAwareTrait;
 
+    /**
+     * @phpstan-var http_cookie_bag
+     */
     protected array cookies = [];
     protected bool isRegistered = false;
     protected bool isSent = false;
@@ -165,6 +172,8 @@ class Cookies extends AbstractInjectionAware implements CookiesInterface
 
     /**
      * Gets all cookies from the bag
+     *
+     * @phpstan-return http_cookie_bag
      */
     public function getCookies() -> array
     {
@@ -237,6 +246,8 @@ class Cookies extends AbstractInjectionAware implements CookiesInterface
      *     (int) $tomorrow->format('U'),
      * );
      * ```
+     *
+     * @phpstan-param http_cookie_options $options
      */
     public function set(
          string name,

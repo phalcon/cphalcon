@@ -22,6 +22,11 @@
  */
 /**
  * Interface for Phalcon\Http\Request
+ *
+ * @phpstan-import-type http_basic_auth from HttpTypes
+ * @phpstan-import-type http_digest_auth from HttpTypes
+ * @phpstan-import-type http_quality_part from HttpTypes
+ * @phpstan-import-type http_request_headers from HttpTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Http_RequestInterface)
 {
@@ -48,11 +53,15 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, get);
 /**
  * Return an array with mime/types and their quality accepted by the
  * browser/client from _SERVER["HTTP_ACCEPT"]
+ *
+ * @phpstan-return list<http_quality_part>
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getAcceptableContent);
 /**
  * Gets auth info accepted by the browser/client from
  * $_SERVER["PHP_AUTH_USER"]
+ *
+ * @phpstan-return http_basic_auth|null
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getBasicAuth);
 /**
@@ -79,6 +88,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getClientAddress);
 /**
  * Return a charset array and their quality accepted by the browser/client
  * from _SERVER["HTTP_ACCEPT_CHARSET"]
+ *
+ * @phpstan-return list<http_quality_part>
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getClientCharsets);
 /**
@@ -88,6 +99,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getContentType);
 /**
  * Return the auth info accepted by the browser/client from
  * $_SERVER["PHP_AUTH_DIGEST"]
+ *
+ * @phpstan-return http_digest_auth
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getDigestAuth);
 /**
@@ -107,6 +120,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getHeader);
  *
  * echo $headers["Authorization"]; // Basic cGhhbGNvbjpzZWNyZXQ=
  * ```
+ *
+ * @phpstan-return http_request_headers
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getHeaders);
 /**
@@ -150,12 +165,15 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getHttpHost);
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getHTTPReferer);
 /**
  * Return the decoded JSON HTTP raw request body
+ *
+ * @phpstan-return array<array-key, mixed>|bool|stdClass
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getJsonRawBody);
 /**
  * Return the languages array and their quality accepted by the
  * browser/client from _SERVER["HTTP_ACCEPT_LANGUAGE"]
  *
+ * @phpstan-return list<http_quality_part>
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getLanguages);
 /**
@@ -320,7 +338,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, isHead);
 /**
  * Return if the current HTTP method matches any of the passed methods
  *
- * @param array|string $methods
+ * @param array<array-key, mixed>|string $methods
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, isMethod);
 /**

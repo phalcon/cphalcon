@@ -14,6 +14,7 @@ use ArrayAccess;
 use ArrayIterator;
 use Countable;
 use IteratorAggregate;
+use Phalcon\Contracts\Http\HttpTypes;
 use Phalcon\Http\Request\Exceptions\NullKeyException;
 use Traversable;
 
@@ -28,15 +29,23 @@ use Traversable;
  * The ArrayAccess append form (`$bag[] = $value`) is rejected with a
  * NullKeyException: the append form supplies no explicit key, so the write
  * could never be addressed by the caller.
+ *
+ * @phpstan-import-type http_bag_items from HttpTypes
+ *
+ * @implements ArrayAccess<int|string, mixed>
+ * @implements IteratorAggregate<int|string, mixed>
  */
 abstract class AbstractBag implements ArrayAccess, Countable, IteratorAggregate
 {
+    /**
+     * @phpstan-var http_bag_items
+     */
     protected array items = [];
 
     /**
      * AbstractBag constructor.
      *
-     * @param array $items
+     * @phpstan-param http_bag_items $items
      */
     public function __construct(array items = [])
     {
@@ -46,7 +55,7 @@ abstract class AbstractBag implements ArrayAccess, Countable, IteratorAggregate
     /**
      * Returns all the elements of the bag
      *
-     * @return array
+     * @phpstan-return http_bag_items
      */
     public function all() -> array
     {
@@ -86,6 +95,9 @@ abstract class AbstractBag implements ArrayAccess, Countable, IteratorAggregate
      * returned if the element is not set or is not an array
      *
      * @param int|string $key
+     *
+     * @phpstan-param  http_bag_items $defaultValue
+     * @phpstan-return http_bag_items
      */
     public function getArray(var key, array defaultValue = []) -> array
     {
@@ -168,7 +180,7 @@ abstract class AbstractBag implements ArrayAccess, Countable, IteratorAggregate
     /**
      * Returns the iterator of the bag
      *
-     * @return Traversable
+     * @return Traversable<int|string, mixed>
      */
     public function getIterator() -> <Traversable>
     {
@@ -271,9 +283,8 @@ abstract class AbstractBag implements ArrayAccess, Countable, IteratorAggregate
      * Normalizes the items at construction time. Identity in the base;
      * subclasses can override it to normalize keys
      *
-     * @param array $items
-     *
-     * @return array
+     * @phpstan-param  http_bag_items $items
+     * @phpstan-return http_bag_items
      */
     protected function normalizeItems(array items) -> array
     {

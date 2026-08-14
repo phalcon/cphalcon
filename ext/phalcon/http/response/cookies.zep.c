@@ -76,11 +76,17 @@
  *     }
  * );
  * ```
+ *
+ * @phpstan-import-type http_cookie_bag from HttpTypes
+ * @phpstan-import-type http_cookie_options from HttpTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Http_Response_Cookies)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Http\\Response, Cookies, phalcon, http_response_cookies, phalcon_di_abstractinjectionaware_ce, phalcon_http_response_cookies_method_entry, 0);
 
+	/**
+	 * @phpstan-var http_cookie_bag
+	 */
 	{
 		zval _zc0;
 		array_init_size(&_zc0, 1);
@@ -298,6 +304,8 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, get)
 
 /**
  * Gets all cookies from the bag
+ *
+ * @phpstan-return http_cookie_bag
  */
 PHP_METHOD(Phalcon_Http_Response_Cookies, getCookies)
 {
@@ -411,7 +419,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, send)
 		RETURN_MM_BOOL(0);
 	}
 	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_0, 904, PH_NOISY_CC | PH_READONLY);
-	zephir_is_iterable(&_3, 0, "phalcon/Http/Response/Cookies.zep", 217);
+	zephir_is_iterable(&_3, 0, "phalcon/Http/Response/Cookies.zep", 226);
 	if (Z_TYPE_P(&_3) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_3), _4)
 		{
@@ -469,6 +477,8 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, send)
  *     (int) $tomorrow->format('U'),
  * );
  * ```
+ *
+ * @phpstan-param http_cookie_options $options
  */
 PHP_METHOD(Phalcon_Http_Response_Cookies, set)
 {
@@ -773,7 +783,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, checkGetContainer)
 		object_init_ex(&_1$$3, phalcon_http_response_exceptions_responseserviceunavailable_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Http/Response/Cookies.zep", 346);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Http/Response/Cookies.zep", 357);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

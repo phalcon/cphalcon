@@ -571,6 +571,7 @@
 #include "phalcon/contracts/container/service/definition.zep.h"
 #include "phalcon/contracts/events/subscriber.zep.h"
 #include "phalcon/contracts/front/fronttypealiases.zep.h"
+#include "phalcon/contracts/http/httptypes.zep.h"
 #include "phalcon/contracts/image/imagetypes.zep.h"
 #include "phalcon/contracts/messages/messagestypes.zep.h"
 #include "phalcon/contracts/mvc/model/relation/cachekeyprovider.zep.h"

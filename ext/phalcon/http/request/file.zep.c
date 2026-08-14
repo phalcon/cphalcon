@@ -49,6 +49,8 @@
  *     }
  * }
  *```
+ *
+ * @phpstan-import-type http_uploaded_file from HttpTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Http_Request_File)
 {
@@ -108,6 +110,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Request_File)
 
 /**
  * Constructor
+ *
+ * @phpstan-param http_uploaded_file $file
  */
 PHP_METHOD(Phalcon_Http_Request_File, __construct)
 {
@@ -279,7 +283,9 @@ PHP_METHOD(Phalcon_Http_Request_File, getRealType)
 			zephir_read_property_cached(&_2$$4, this_ptr, _zephir_prop_1, 889, PH_NOISY_CC | PH_READONLY);
 			ZEPHIR_CALL_FUNCTION(&mime, "finfo_file", NULL, 0, &finfo, &_2$$4);
 			zephir_check_call_status();
-			zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 894, &mime);
+			if (!ZEPHIR_IS_FALSE_IDENTICAL(&mime)) {
+				zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 894, &mime);
+			}
 		}
 	}
 	RETURN_MM_MEMBER_TYPED(getThis(), "realType", IS_STRING);

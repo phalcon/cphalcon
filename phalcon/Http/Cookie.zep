@@ -10,6 +10,7 @@
 
 namespace Phalcon\Http;
 
+use Phalcon\Contracts\Http\HttpTypes;
 use Phalcon\Di\AbstractInjectionAware;
 use Phalcon\Di\DiInterface;
 use Phalcon\Encryption\Crypt\CryptInterface;
@@ -28,6 +29,10 @@ use Stringable;
 
 /**
  * Provide OO wrappers to manage a HTTP cookie.
+ *
+ * @phpstan-import-type http_cookie_definition from HttpTypes
+ * @phpstan-import-type http_cookie_options from HttpTypes
+ * @phpstan-import-type http_setcookie_options from HttpTypes
  */
 class Cookie extends AbstractInjectionAware implements CookieInterface, Stringable
 {
@@ -55,6 +60,8 @@ class Cookie extends AbstractInjectionAware implements CookieInterface, Stringab
 
     /**
      * Phalcon\Http\Cookie constructor.
+     *
+     * @phpstan-param http_cookie_options $options
      */
     public function __construct(
          string name,
@@ -146,6 +153,8 @@ class Cookie extends AbstractInjectionAware implements CookieInterface, Stringab
 
     /**
      * Returns the current cookie's options
+     *
+     * @phpstan-return http_cookie_options
      */
     public function getOptions() -> array
     {
@@ -434,6 +443,8 @@ class Cookie extends AbstractInjectionAware implements CookieInterface, Stringab
 
     /**
      * Sets the cookie's options
+     *
+     * @phpstan-param http_cookie_options $options
      */
     public function setOptions( array options) -> <CookieInterface>
     {
@@ -535,6 +546,9 @@ class Cookie extends AbstractInjectionAware implements CookieInterface, Stringab
         }
     }
 
+    /**
+     * @phpstan-return http_setcookie_options
+     */
     private function getCookieOptions(int expiresDefault) -> array
     {
         array options;

@@ -32,11 +32,18 @@
  */
 /**
  * This class is a bag to manage the response headers
+ *
+ * @phpstan-import-type http_response_headers from HttpTypes
+ *
+ * @implements IteratorAggregate<string, string|null>
  */
 ZEPHIR_INIT_CLASS(Phalcon_Http_Response_Headers)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Http\\Response, Headers, phalcon, http_response_headers, phalcon_http_response_headers_method_entry, 0);
 
+	/**
+	 * @phpstan-var http_response_headers
+	 */
 	{
 		zval _zc0;
 		array_init_size(&_zc0, 1);
@@ -93,7 +100,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, get)
 }
 
 /**
- * @return Traversable
+ * @return Traversable<string, string|null>
  */
 PHP_METHOD(Phalcon_Http_Response_Headers, getIterator)
 {
@@ -259,7 +266,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, send)
 		RETURN_MM_BOOL(0);
 	}
 	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_1, 909, PH_NOISY_CC | PH_READONLY);
-	zephir_is_iterable(&_3, 0, "phalcon/Http/Response/Headers.zep", 112);
+	zephir_is_iterable(&_3, 0, "phalcon/Http/Response/Headers.zep", 120);
 	if (Z_TYPE_P(&_3) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&_3), _5, _6, _4)
 		{
@@ -277,7 +284,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, send)
 				ZEPHIR_CALL_FUNCTION(NULL, "header", &_8, 223, &_7$$5, &__$true);
 				zephir_check_call_status();
 			} else {
-				_9$$6 = zephir_memnstr_str(&header, SL(":"), "phalcon/Http/Response/Headers.zep", 104);
+				_9$$6 = zephir_memnstr_str(&header, SL(":"), "phalcon/Http/Response/Headers.zep", 112);
 				if (!(_9$$6)) {
 					ZVAL_LONG(&_10$$6, 0);
 					ZVAL_LONG(&_11$$6, 5);
@@ -322,7 +329,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, send)
 					ZEPHIR_CALL_FUNCTION(NULL, "header", &_8, 223, &_16$$10, &__$true);
 					zephir_check_call_status();
 				} else {
-					_17$$11 = zephir_memnstr_str(&header, SL(":"), "phalcon/Http/Response/Headers.zep", 104);
+					_17$$11 = zephir_memnstr_str(&header, SL(":"), "phalcon/Http/Response/Headers.zep", 112);
 					if (!(_17$$11)) {
 						ZVAL_LONG(&_18$$11, 0);
 						ZVAL_LONG(&_19$$11, 5);
@@ -394,6 +401,8 @@ PHP_METHOD(Phalcon_Http_Response_Headers, setRaw)
 
 /**
  * Returns the current headers as an array
+ *
+ * @phpstan-return http_response_headers
  */
 PHP_METHOD(Phalcon_Http_Response_Headers, toArray)
 {

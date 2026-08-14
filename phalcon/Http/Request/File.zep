@@ -10,6 +10,7 @@
 
 namespace Phalcon\Http\Request;
 
+use Phalcon\Contracts\Http\HttpTypes;
 use Phalcon\Traits\Support\Helper\Arr\GetTrait;
 
 /**
@@ -34,6 +35,8 @@ use Phalcon\Traits\Support\Helper\Arr\GetTrait;
  *     }
  * }
  *```
+ *
+ * @phpstan-import-type http_uploaded_file from HttpTypes
  */
 class File implements FileInterface
 {
@@ -50,6 +53,8 @@ class File implements FileInterface
 
     /**
      * Constructor
+     *
+     * @phpstan-param http_uploaded_file $file
      */
     public function __construct( array file, string key = "")
     {
@@ -109,7 +114,9 @@ class File implements FileInterface
             if finfo !== false {
                 let mime = finfo_file(finfo, this->tmpName);
 
-                let this->realType = mime;
+                if mime !== false {
+                    let this->realType = mime;
+                }
             }
         }
 

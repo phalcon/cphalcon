@@ -591,7 +591,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
         let data = headers->toArray();
 
         for name, value in data {
-            this->headers->set(name, value);
+            this->headers->set(name, (string) value);
         }
 
         return this;

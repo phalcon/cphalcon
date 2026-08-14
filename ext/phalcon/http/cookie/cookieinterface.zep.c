@@ -22,6 +22,8 @@
  */
 /**
  * Interface for Phalcon\Http\Cookie
+ *
+ * @phpstan-import-type http_cookie_options from HttpTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Http_Cookie_CookieInterface)
 {
@@ -52,6 +54,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_Cookie_CookieInterface, getHttpOnly);
 ZEPHIR_DOC_METHOD(Phalcon_Http_Cookie_CookieInterface, getName);
 /**
  * Returns the current cookie's options
+ *
+ * @phpstan-return http_cookie_options
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_Cookie_CookieInterface, getOptions);
 /**
@@ -91,6 +95,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_Cookie_CookieInterface, setExpiration);
 ZEPHIR_DOC_METHOD(Phalcon_Http_Cookie_CookieInterface, setHttpOnly);
 /**
  * Sets the cookie's options
+ *
+ * @phpstan-param http_cookie_options $options
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_Cookie_CookieInterface, setOptions);
 /**

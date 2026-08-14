@@ -32,6 +32,10 @@
  */
 /**
  * Provide OO wrappers to manage a HTTP cookie.
+ *
+ * @phpstan-import-type http_cookie_definition from HttpTypes
+ * @phpstan-import-type http_cookie_options from HttpTypes
+ * @phpstan-import-type http_setcookie_options from HttpTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Http_Cookie)
 {
@@ -123,6 +127,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Cookie)
 
 /**
  * Phalcon\Http\Cookie constructor.
+ *
+ * @phpstan-param http_cookie_options $options
  */
 PHP_METHOD(Phalcon_Http_Cookie, __construct)
 {
@@ -396,6 +402,8 @@ PHP_METHOD(Phalcon_Http_Cookie, getName)
 
 /**
  * Returns the current cookie's options
+ *
+ * @phpstan-return http_cookie_options
  */
 PHP_METHOD(Phalcon_Http_Cookie, getOptions)
 {
@@ -540,7 +548,7 @@ PHP_METHOD(Phalcon_Http_Cookie, getValue)
 				object_init_ex(&_3$$6, phalcon_http_cookie_exceptions_cryptserviceunavailable_ce);
 				ZEPHIR_CALL_METHOD(NULL, &_3$$6, "__construct", NULL, 0);
 				zephir_check_call_status();
-				zephir_throw_exception_debug(&_3$$6, "phalcon/Http/Cookie.zep", 199);
+				zephir_throw_exception_debug(&_3$$6, "phalcon/Http/Cookie.zep", 208);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
@@ -554,7 +562,7 @@ PHP_METHOD(Phalcon_Http_Cookie, getValue)
 				object_init_ex(&_6$$7, phalcon_http_cookie_exceptions_cryptinterfacerequired_ce);
 				ZEPHIR_CALL_METHOD(NULL, &_6$$7, "__construct", NULL, 0);
 				zephir_check_call_status();
-				zephir_throw_exception_debug(&_6$$7, "phalcon/Http/Cookie.zep", 205);
+				zephir_throw_exception_debug(&_6$$7, "phalcon/Http/Cookie.zep", 214);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
@@ -583,7 +591,7 @@ PHP_METHOD(Phalcon_Http_Cookie, getValue)
 						object_init_ex(&_9$$14, phalcon_http_cookie_exceptions_filterserviceunavailable_ce);
 						ZEPHIR_CALL_METHOD(NULL, &_9$$14, "__construct", NULL, 0);
 						zephir_check_call_status();
-						zephir_throw_exception_debug(&_9$$14, "phalcon/Http/Cookie.zep", 244);
+						zephir_throw_exception_debug(&_9$$14, "phalcon/Http/Cookie.zep", 253);
 						ZEPHIR_MM_RESTORE();
 						return;
 					}
@@ -834,7 +842,7 @@ PHP_METHOD(Phalcon_Http_Cookie, send)
 			object_init_ex(&_4$$6, phalcon_http_cookie_exceptions_filterserviceunavailable_ce);
 			ZEPHIR_CALL_METHOD(NULL, &_4$$6, "__construct", NULL, 0);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_4$$6, "phalcon/Http/Cookie.zep", 360);
+			zephir_throw_exception_debug(&_4$$6, "phalcon/Http/Cookie.zep", 369);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -848,7 +856,7 @@ PHP_METHOD(Phalcon_Http_Cookie, send)
 			object_init_ex(&_7$$7, phalcon_http_cookie_exceptions_cryptinterfacerequired_ce);
 			ZEPHIR_CALL_METHOD(NULL, &_7$$7, "__construct", NULL, 0);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_7$$7, "phalcon/Http/Cookie.zep", 366);
+			zephir_throw_exception_debug(&_7$$7, "phalcon/Http/Cookie.zep", 375);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -970,6 +978,8 @@ PHP_METHOD(Phalcon_Http_Cookie, setHttpOnly)
 
 /**
  * Sets the cookie's options
+ *
+ * @phpstan-param http_cookie_options $options
  */
 PHP_METHOD(Phalcon_Http_Cookie, setOptions)
 {
@@ -1195,7 +1205,7 @@ PHP_METHOD(Phalcon_Http_Cookie, assertSignKeyIsLongEnough)
 		object_init_ex(&_0$$3, phalcon_http_cookie_exceptions_cookiekeytooshort_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 0, &length);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_0$$3, "phalcon/Http/Cookie.zep", 524);
+		zephir_throw_exception_debug(&_0$$3, "phalcon/Http/Cookie.zep", 535);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -1228,6 +1238,9 @@ PHP_METHOD(Phalcon_Http_Cookie, checkRestored)
 	ZEPHIR_MM_RESTORE();
 }
 
+/**
+ * @phpstan-return http_setcookie_options
+ */
 PHP_METHOD(Phalcon_Http_Cookie, getCookieOptions)
 {
 	zval options;

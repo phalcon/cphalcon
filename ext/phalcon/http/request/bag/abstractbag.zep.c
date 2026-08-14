@@ -40,11 +40,19 @@
  * The ArrayAccess append form (`$bag[] = $value`) is rejected with a
  * NullKeyException: the append form supplies no explicit key, so the write
  * could never be addressed by the caller.
+ *
+ * @phpstan-import-type http_bag_items from HttpTypes
+ *
+ * @implements ArrayAccess<int|string, mixed>
+ * @implements IteratorAggregate<int|string, mixed>
  */
 ZEPHIR_INIT_CLASS(Phalcon_Http_Request_Bag_AbstractBag)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Http\\Request\\Bag, AbstractBag, phalcon, http_request_bag_abstractbag, phalcon_http_request_bag_abstractbag_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
+	/**
+	 * @phpstan-var http_bag_items
+	 */
 	{
 		zval _zc0;
 		array_init_size(&_zc0, 1);
@@ -60,7 +68,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Request_Bag_AbstractBag)
 /**
  * AbstractBag constructor.
  *
- * @param array $items
+ * @phpstan-param http_bag_items $items
  */
 PHP_METHOD(Phalcon_Http_Request_Bag_AbstractBag, __construct)
 {
@@ -99,7 +107,7 @@ PHP_METHOD(Phalcon_Http_Request_Bag_AbstractBag, __construct)
 /**
  * Returns all the elements of the bag
  *
- * @return array
+ * @phpstan-return http_bag_items
  */
 PHP_METHOD(Phalcon_Http_Request_Bag_AbstractBag, all)
 {
@@ -179,6 +187,9 @@ PHP_METHOD(Phalcon_Http_Request_Bag_AbstractBag, get)
  * returned if the element is not set or is not an array
  *
  * @param int|string $key
+ *
+ * @phpstan-param  http_bag_items $defaultValue
+ * @phpstan-return http_bag_items
  */
 PHP_METHOD(Phalcon_Http_Request_Bag_AbstractBag, getArray)
 {
@@ -372,7 +383,7 @@ PHP_METHOD(Phalcon_Http_Request_Bag_AbstractBag, getInt)
 /**
  * Returns the iterator of the bag
  *
- * @return Traversable
+ * @return Traversable<int|string, mixed>
  */
 PHP_METHOD(Phalcon_Http_Request_Bag_AbstractBag, getIterator)
 {
@@ -565,7 +576,7 @@ PHP_METHOD(Phalcon_Http_Request_Bag_AbstractBag, offsetSet)
 		object_init_ex(&_0$$3, phalcon_http_request_exceptions_nullkeyexception_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 252);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_0$$3, "phalcon/Http/Request/Bag/AbstractBag.zep", 232);
+		zephir_throw_exception_debug(&_0$$3, "phalcon/Http/Request/Bag/AbstractBag.zep", 244);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -672,9 +683,8 @@ PHP_METHOD(Phalcon_Http_Request_Bag_AbstractBag, set)
  * Normalizes the items at construction time. Identity in the base;
  * subclasses can override it to normalize keys
  *
- * @param array $items
- *
- * @return array
+ * @phpstan-param  http_bag_items $items
+ * @phpstan-return http_bag_items
  */
 PHP_METHOD(Phalcon_Http_Request_Bag_AbstractBag, normalizeItems)
 {
