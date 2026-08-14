@@ -66,7 +66,7 @@ final class PlainManager implements ManagerInterface
         return $this->started;
     }
 
-    public function get(string $key, $defaultValue = null, bool $remove = false)
+    public function get(string $key, mixed $defaultValue = null, bool $remove = false): mixed
     {
         $value = $this->data[$key] ?? $defaultValue;
 
