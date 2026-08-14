@@ -244,6 +244,7 @@ zend_class_entry *phalcon_contracts_container_resolver_reflectionmethodresolver_
 zend_class_entry *phalcon_contracts_container_service_definition_ce;
 zend_class_entry *phalcon_contracts_events_subscriber_ce;
 zend_class_entry *phalcon_contracts_front_fronttypealiases_ce;
+zend_class_entry *phalcon_contracts_image_imagetypes_ce;
 zend_class_entry *phalcon_contracts_messages_messagestypes_ce;
 zend_class_entry *phalcon_contracts_mvc_model_relation_cachekeyprovider_ce;
 zend_class_entry *phalcon_contracts_paginator_paginatortypes_ce;
@@ -1831,6 +1832,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Contracts_Container_Service_Definition);
 	ZEPHIR_INIT(Phalcon_Contracts_Events_Subscriber);
 	ZEPHIR_INIT(Phalcon_Contracts_Front_FrontTypeAliases);
+	ZEPHIR_INIT(Phalcon_Contracts_Image_ImageTypes);
 	ZEPHIR_INIT(Phalcon_Contracts_Messages_MessagesTypes);
 	ZEPHIR_INIT(Phalcon_Contracts_Mvc_Model_Relation_CacheKeyProvider);
 	ZEPHIR_INIT(Phalcon_Contracts_Paginator_PaginatorTypes);

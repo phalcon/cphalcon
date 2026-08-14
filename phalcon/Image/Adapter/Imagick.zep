@@ -51,6 +51,8 @@ use Phalcon\Traits\Php\FileTrait;
  * Visual semantics differ from the Gd adapter: blur() maps the radius to a
  * blur sigma, while sharpen and reflection use ImageMagick's own scales.
  * Switching the factory backend can change the rendered output.
+ *
+ * @extends AbstractAdapter<ImagickNative>
  */
 class Imagick extends AbstractAdapter
 {
@@ -87,7 +89,7 @@ class Imagick extends AbstractAdapter
         let this->image = new ImagickNative();
 
         if (true === this->phpFileExists(this->file)) {
-            let this->realpath = realpath(this->file);
+            let this->realpath = (string) realpath(this->file);
 
             if (true !== this->image->readImage(this->realpath)) {
                 throw new ImageLoadFailed(this->file);
@@ -149,6 +151,7 @@ class Imagick extends AbstractAdapter
      * Creates a blank transparent canvas of the given dimensions, without the
      * load-or-create ambiguity of the constructor.
      *
+     * @phpstan-return AbstractAdapter<ImagickNative>
      * @throws Exception
      * @throws ImagickException
      */
@@ -161,6 +164,7 @@ class Imagick extends AbstractAdapter
      * This method scales the images using liquid rescaling method. Only support
      * Imagick
      *
+     * @phpstan-return AbstractAdapter<ImagickNative>
      * @throws Exception
      * @throws ImagickException
      */
@@ -172,6 +176,7 @@ class Imagick extends AbstractAdapter
     ) -> <AbstractAdapter> {
         var image, result;
 
+        /** @var ImagickNative $image */
         let image = this->image;
 
         image->setIteratorIndex(0);
@@ -213,11 +218,16 @@ class Imagick extends AbstractAdapter
      */
     public function setResourceLimit(int type, int limit) -> void
     {
+        var image;
+
+        /** @var ImagickNative $image */
+        let image = this->image;
+
         /**
          * The constants are all integers and are 0-6
          */
         if (type >= 0 && type <= 6) {
-            this->image->setResourceLimit(type, limit);
+            image->setResourceLimit(type, limit);
         } else {
             throw new ResourceTypeError();
         }
@@ -236,7 +246,7 @@ class Imagick extends AbstractAdapter
         int blue,
         int opacity
     ) -> void {
-        var background, color, localOpacity, pixel1, pixel2, result;
+        var background, color, image, localOpacity, pixel1, pixel2, result;
 
         let localOpacity  = opacity;
         let localOpacity /= 100;
@@ -245,7 +255,10 @@ class Imagick extends AbstractAdapter
         let pixel2        = new ImagickPixel("transparent");
         let background    = new ImagickNative();
 
-        this->image->setIteratorIndex(0);
+        /** @var ImagickNative $image */
+        let image = this->image;
+
+        image->setIteratorIndex(0);
 
         while (true) {
             background->newImage(this->width, this->height, pixel1);
@@ -269,11 +282,11 @@ class Imagick extends AbstractAdapter
             );
 
             background->setColorspace(
-                this->image->getColorspace()
+                image->getColorspace()
             );
 
             let result = background->compositeImage(
-                this->image,
+                image,
                 constant("Imagick::COMPOSITE_DISSOLVE"),
                 0,
                 0
@@ -283,13 +296,13 @@ class Imagick extends AbstractAdapter
                 throw new CompositeFailed();
             }
 
-            if (true !== this->image->nextImage()) {
+            if (true !== image->nextImage()) {
                 break;
             }
         }
 
-        this->image->clear();
-        this->image->destroy();
+        image->clear();
+        image->destroy();
 
         let this->image = background;
     }
@@ -301,12 +314,17 @@ class Imagick extends AbstractAdapter
      */
     protected function processBlur(int radius) -> void
     {
-        this->image->setIteratorIndex(0);
+        var image;
+
+        /** @var ImagickNative $image */
+        let image = this->image;
+
+        image->setIteratorIndex(0);
 
         while (true) {
-            this->image->blurImage(radius, 100);
+            image->blurImage(radius, 100);
 
-            if (true !== this->image->nextImage()) {
+            if (true !== image->nextImage()) {
                 break;
             }
         }
@@ -325,6 +343,7 @@ class Imagick extends AbstractAdapter
     ) -> void {
         var image;
 
+        /** @var ImagickNative $image */
         let image = this->image;
 
         image->setIteratorIndex(0);
@@ -349,16 +368,19 @@ class Imagick extends AbstractAdapter
      */
     protected function processFlip(int direction) -> void
     {
-        var method;
+        var image, method;
 
         let method = (direction === Enum::HORIZONTAL) ? "flipImage" : "flopImage";
 
-        this->image->setIteratorIndex(0);
+        /** @var ImagickNative $image */
+        let image = this->image;
+
+        image->setIteratorIndex(0);
 
         while (true) {
-            this->image->{method}();
+            image->{method}();
 
-            if (true !== this->image->nextImage()) {
+            if (true !== image->nextImage()) {
                 break;
             }
         }
@@ -372,17 +394,20 @@ class Imagick extends AbstractAdapter
      */
     protected function processMask(<AdapterInterface> mask) -> void
     {
-        var image, result;
+        var current, image, result;
 
         let image = new ImagickNative();
 
+        /** @var ImagickNative $current */
+        let current = this->image;
+
         image->readImageBlob(mask->render());
-        this->image->setIteratorIndex(0);
+        current->setIteratorIndex(0);
 
         while (true) {
-            this->image->setImageMatte(true);
+            current->setImageMatte(true);
 
-            let result = this->image->compositeImage(
+            let result = current->compositeImage(
                 image,
                 constant("Imagick::COMPOSITE_DSTIN"),
                 0,
@@ -393,7 +418,7 @@ class Imagick extends AbstractAdapter
                 throw new CompositeFailed();
             }
 
-            if (true !== this->image->nextImage()) {
+            if (true !== current->nextImage()) {
                 break;
             }
         }
@@ -409,18 +434,21 @@ class Imagick extends AbstractAdapter
      */
     protected function processPixelate(int amount) -> void
     {
-        var height, width;
+        var height, image, width;
 
         let width  = (int) (this->width / amount);
         let height = (int) (this->height / amount);
 
-        this->image->setIteratorIndex(0);
+        /** @var ImagickNative $image */
+        let image = this->image;
+
+        image->setIteratorIndex(0);
 
         while (true) {
-            this->image->scaleImage(width, height);
-            this->image->scaleImage(this->width, this->height);
+            image->scaleImage(width, height);
+            image->scaleImage(this->width, this->height);
 
-            if (true !== this->image->nextImage()) {
+            if (true !== image->nextImage()) {
                 break;
             }
         }
@@ -437,11 +465,15 @@ class Imagick extends AbstractAdapter
         int opacity,
         bool fadeIn
     ) -> void {
-        var fade, image, pixel, pseudo, reflection, result;
+        var current, fade, image, pixel, pseudo, reflection, result;
+
+        /** @var ImagickNative $current */
+        let current = this->image;
+
         if (this->version >= 30100) {
-            let reflection = clone this->image;
+            let reflection = clone current;
         } else {
-            let reflection = clone this->image->$clone();
+            let reflection = clone current->$clone();
         }
 
         reflection->setIteratorIndex(0);
@@ -463,7 +495,7 @@ class Imagick extends AbstractAdapter
                 0
             );
 
-            if (true !== this->image->nextImage()) {
+            if (true !== current->nextImage()) {
                 break;
             }
         }
@@ -498,7 +530,8 @@ class Imagick extends AbstractAdapter
                 constant("Imagick::CHANNEL_ALPHA")
             );
 
-            if (true !== this->image->nextImage()) {
+            // @phpstan-ignore notIdentical.alwaysTrue (the frame cursor is internal to Imagick)
+            if (true !== current->nextImage()) {
                 break;
             }
         }
@@ -507,9 +540,9 @@ class Imagick extends AbstractAdapter
 
         let image  = new ImagickNative();
         let pixel  = new ImagickPixel();
-        let height = this->image->getImageHeight() + height;
+        let height = current->getImageHeight() + height;
 
-        this->image->setIteratorIndex(0);
+        current->setIteratorIndex(0);
 
         while (true) {
             image->newImage(this->width, height, pixel);
@@ -518,10 +551,10 @@ class Imagick extends AbstractAdapter
                 constant("Imagick::ALPHACHANNEL_SET")
             );
 
-            image->setColorspace(this->image->getColorspace());
-            image->setImageDelay(this->image->getImageDelay());
+            image->setColorspace(current->getColorspace());
+            image->setImageDelay(current->getImageDelay());
             let result = image->compositeImage(
-                this->image,
+                current,
                 constant("Imagick::COMPOSITE_SRC"),
                 0,
                 0
@@ -531,7 +564,8 @@ class Imagick extends AbstractAdapter
                 throw new CompositeFailed();
             }
 
-            if (true !== this->image->nextImage()) {
+            // @phpstan-ignore notIdentical.alwaysTrue (the frame cursor is internal to Imagick)
+            if (true !== current->nextImage()) {
                 break;
             }
         }
@@ -558,12 +592,12 @@ class Imagick extends AbstractAdapter
 
         reflection->destroy();
 
-        this->image->clear();
-        this->image->destroy();
+        current->clear();
+        current->destroy();
 
         let this->image  = image;
-        let this->width  = this->image->getImageWidth();
-        let this->height = this->image->getImageHeight();
+        let this->width  = image->getImageWidth();
+        let this->height = image->getImageHeight();
     }
 
     /**
@@ -575,6 +609,7 @@ class Imagick extends AbstractAdapter
     {
         var image;
 
+        /** @var ImagickNative $image */
         let image = this->image;
 
         image->setFormat(extension);
@@ -610,7 +645,9 @@ class Imagick extends AbstractAdapter
     {
         var image;
 
+        /** @var ImagickNative $image */
         let image = this->image;
+
         image->setIteratorIndex(0);
 
         while (true) {
@@ -632,29 +669,32 @@ class Imagick extends AbstractAdapter
      */
     protected function processRotate(int degrees) -> void
     {
-        var pixel;
+        var image, pixel;
 
-        this->image->setIteratorIndex(0);
+        /** @var ImagickNative $image */
+        let image = this->image;
+
+        image->setIteratorIndex(0);
 
         let pixel = new ImagickPixel();
 
         while (true) {
-            this->image->rotateImage(pixel, degrees);
+            image->rotateImage(pixel, degrees);
 
-            this->image->setImagePage(
+            image->setImagePage(
                 this->width,
                 this->height,
                 0,
                 0
             );
 
-            if (true !== this->image->nextImage()) {
+            if (true !== image->nextImage()) {
                 break;
             }
         }
 
-        let this->width  = this->image->getImageWidth();
-        let this->height = this->image->getImageHeight();
+        let this->width  = image->getImageWidth();
+        let this->height = image->getImageHeight();
     }
 
     /**
@@ -664,40 +704,45 @@ class Imagick extends AbstractAdapter
      */
     protected function processSave(string file, int quality) -> bool
     {
-        var extension, fp;
+        var extension, fp, image;
+
+        /** @var ImagickNative $image */
+        let image = this->image;
 
         let extension = pathinfo(file, PATHINFO_EXTENSION);
 
-        this->image->setFormat(extension);
-        this->image->setImageFormat(extension);
+        image->setFormat(extension);
+        image->setImageFormat(extension);
 
-        let this->type = this->image->getImageType();
-        let this->mime = "image/" . this->image->getImageFormat();
+        let this->type = image->getImageType();
+        let this->mime = "image/" . image->getImageFormat();
 
         let extension = strtolower(extension);
         switch (extension) {
             case "gif":
-                this->image->optimizeImageLayers();
+                image->optimizeImageLayers();
+
+                /** @var resource $fp */
                 let fp = this->phpFopen(file, "w");
 
-                this->image->writeImagesFile(fp);
+                image->writeImagesFile(fp);
 
                 this->phpFclose(fp);
 
                 return;
             case "jpg":
             case "jpeg":
-                this->image->setImageCompression(
+                image->setImageCompression(
                     constant("Imagick::COMPRESSION_JPEG")
                 );
         }
 
         if (quality >= 0) {
             let quality = this->checkHighLow(quality, 1);
-            this->image->setImageCompressionQuality(quality);
+            image->setImageCompressionQuality(quality);
         }
 
-        this->image->writeImage(file);
+        image->writeImage(file);
 
         return true;
     }
@@ -709,15 +754,20 @@ class Imagick extends AbstractAdapter
      */
     protected function processSharpen(int amount) -> void
     {
+        var image;
+
         let amount = (amount < 5) ? 5 : amount;
         let amount = (amount * 3.0) / 100;
 
-        this->image->setIteratorIndex(0);
+        /** @var ImagickNative $image */
+        let image = this->image;
+
+        image->setIteratorIndex(0);
 
         while (true) {
-            this->image->sharpenImage(0, amount);
+            image->sharpenImage(0, amount);
 
-            if (true !== this->image->nextImage()) {
+            if (true !== image->nextImage()) {
                 break;
             }
         }
@@ -741,7 +791,7 @@ class Imagick extends AbstractAdapter
         int size,
         string fontFile = null
     ) -> void {
-        var color, draw, gravity, x, y;
+        var color, draw, gravity, image, x, y;
 
         let opacity = opacity / 100;
         let draw    = new ImagickDraw();
@@ -806,12 +856,16 @@ class Imagick extends AbstractAdapter
             draw->setGravity(gravity);
         }
 
-        this->image->setIteratorIndex(0);
+        /** @var ImagickNative $image */
+        let image = this->image;
+
+        image->setIteratorIndex(0);
 
         while (true) {
-            this->image->annotateImage(draw, offsetX, offsetY, 0, text);
+            // @phpstan-ignore argument.type (offsetY stays boolean when offsetX is 0)
+            image->annotateImage(draw, offsetX, offsetY, 0, text);
 
-            if (true !== this->image->nextImage()) {
+            if (true !== image->nextImage()) {
                 break;
             }
         }
@@ -831,7 +885,7 @@ class Imagick extends AbstractAdapter
         int offsetY,
         int opacity
     ) -> void {
-        var image, result;
+        var current, image, result;
 
         let opacity = opacity / 100;
         let image   = new ImagickNative();
@@ -843,10 +897,13 @@ class Imagick extends AbstractAdapter
             constant("Imagick::CHANNEL_ALPHA")
         );
 
-        this->image->setIteratorIndex(0);
+        /** @var ImagickNative $current */
+        let current = this->image;
+
+        current->setIteratorIndex(0);
 
         while (true) {
-            let result = this->image->compositeImage(
+            let result = current->compositeImage(
                 image,
                 constant("Imagick::COMPOSITE_OVER"),
                 offsetX,
@@ -857,7 +914,7 @@ class Imagick extends AbstractAdapter
                 throw new CompositeFailed();
             }
 
-            if (true !== this->image->nextImage()) {
+            if (true !== current->nextImage()) {
                 break;
             }
         }

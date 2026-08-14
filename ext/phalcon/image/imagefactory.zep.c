@@ -29,6 +29,9 @@
  */
 /**
  * Factory to create adapters for image manipulation
+ *
+ * @phpstan-import-type image_factory_config from ImageTypes
+ * @phpstan-import-type image_factory_services from ImageTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Image_ImageFactory)
 {
@@ -39,6 +42,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Image_ImageFactory)
 
 /**
  * Constructor
+ *
+ * @phpstan-param image_factory_services $services
  */
 PHP_METHOD(Phalcon_Image_ImageFactory, __construct)
 {
@@ -69,6 +74,8 @@ PHP_METHOD(Phalcon_Image_ImageFactory, __construct)
 
 /**
  * Factory to create an instance from a Config object
+ *
+ * @phpstan-param ConfigInterface|image_factory_config $config
  *
  * @param array|ConfigInterface config = [
  *     'adapter' => 'gd',
@@ -113,7 +120,7 @@ PHP_METHOD(Phalcon_Image_ImageFactory, load)
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(config, &_0);
 	zephir_memory_observe(&name);
-	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Image/ImageFactory.zep", 55);
+	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Image/ImageFactory.zep", 64);
 	zephir_array_unset_string(config, SL("adapter"), PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "file");
@@ -208,6 +215,8 @@ PHP_METHOD(Phalcon_Image_ImageFactory, getExceptionClass)
 
 /**
  * Returns the available adapters
+ *
+ * @phpstan-return image_factory_services
  *
  * @return string[]
  */
