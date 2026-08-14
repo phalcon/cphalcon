@@ -29,6 +29,8 @@
  */
 /**
  * Factory to create Cache adapters
+ *
+ * @phpstan-import-type storage_adapter_options from StorageTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Cache_AdapterFactory)
 {
@@ -106,6 +108,8 @@ PHP_METHOD(Phalcon_Cache_AdapterFactory, __construct)
  *     'prefix'            => 'phalcon',
  *     'storageDir'        => ''
  * ]
+ *
+ * @phpstan-param storage_adapter_options $options
  *
  * @return AdapterInterface
  * @throws Exception

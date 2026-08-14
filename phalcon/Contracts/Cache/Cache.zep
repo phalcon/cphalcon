@@ -40,6 +40,8 @@ interface Cache
 
     /**
      * Deletes multiple cache items in a single operation.
+     *
+     * @phpstan-param iterable<array-key, string> $keys
      */
     public function deleteMultiple(var keys) -> bool;
 
@@ -50,6 +52,8 @@ interface Cache
 
     /**
      * Obtains multiple cache items by their unique keys.
+     *
+     * @phpstan-param iterable<array-key, string> $keys
      */
     public function getMultiple(var keys, var defaultValue = null);
 
@@ -66,6 +70,8 @@ interface Cache
 
     /**
      * Persists a set of key => value pairs in the cache, with an optional TTL.
+     *
+     * @phpstan-param iterable<string, mixed> $values
      */
     public function setMultiple(var values, var ttl = null) -> bool;
 }

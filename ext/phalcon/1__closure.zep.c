@@ -50,6 +50,10 @@ PHP_METHOD(phalcon_1__closure, __invoke)
 		RETVAL_ZVAL(&defaultValue, 1, 0);
 		RETURN_MM();
 	}
+	if (Z_TYPE_P(&serializer) == IS_NULL) {
+		RETVAL_ZVAL(element, 1, 0);
+		RETURN_MM();
+	}
 	ZEPHIR_CALL_METHOD(NULL, &serializer, "unserialize", NULL, 0, element);
 	zephir_check_call_status();
 	_0 = 1 == (zephir_method_exists_ex(&serializer, ZEND_STRL("issuccess")) == SUCCESS);

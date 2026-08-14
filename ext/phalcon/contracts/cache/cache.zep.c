@@ -50,6 +50,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Cache_Cache, clear);
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Cache_Cache, delete);
 /**
  * Deletes multiple cache items in a single operation.
+ *
+ * @phpstan-param iterable<array-key, string> $keys
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Cache_Cache, deleteMultiple);
 /**
@@ -58,6 +60,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Cache_Cache, deleteMultiple);
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Cache_Cache, get);
 /**
  * Obtains multiple cache items by their unique keys.
+ *
+ * @phpstan-param iterable<array-key, string> $keys
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Cache_Cache, getMultiple);
 /**
@@ -71,5 +75,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Cache_Cache, has);
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Cache_Cache, set);
 /**
  * Persists a set of key => value pairs in the cache, with an optional TTL.
+ *
+ * @phpstan-param iterable<string, mixed> $values
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Cache_Cache, setMultiple);

@@ -19,12 +19,15 @@ use Phalcon\Cache\Adapter\RedisCluster;
 use Phalcon\Cache\Adapter\Stream;
 use Phalcon\Cache\Adapter\Weak;
 use Phalcon\Cache\Exception\Exception;
+use Phalcon\Contracts\Storage\StorageTypes;
 use Phalcon\Factory\AbstractFactory;
 use Phalcon\Storage\SerializerFactory;
 use Throwable;
 
 /**
  * Factory to create Cache adapters
+ *
+ * @phpstan-import-type storage_adapter_options from StorageTypes
  */
 class AdapterFactory extends AbstractFactory
 {
@@ -65,6 +68,8 @@ class AdapterFactory extends AbstractFactory
      *     'prefix'            => 'phalcon',
      *     'storageDir'        => ''
      * ]
+     *
+     * @phpstan-param storage_adapter_options $options
      *
      * @return AdapterInterface
      * @throws Exception

@@ -29,6 +29,8 @@
  */
 /**
  * Creates a new Cache class
+ *
+ * @phpstan-import-type storage_adapter_options from StorageTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Cache_CacheFactory)
 {
@@ -67,7 +69,7 @@ PHP_METHOD(Phalcon_Cache_CacheFactory, __construct)
 /**
  * Factory to create an instance from a Config object
  *
- * @param array|ConfigInterface $config = [
+ * @param array<string, mixed>|ConfigInterface $config = [
  *     'adapter' => 'apcu',
  *     'options' => [
  *         'servers' => [
@@ -122,9 +124,13 @@ PHP_METHOD(Phalcon_Cache_CacheFactory, load)
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(config, &_0);
 	zephir_memory_observe(&name);
-	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Cache/CacheFactory.zep", 69);
+	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Cache/CacheFactory.zep", 72);
 	zephir_memory_observe(&options);
 	if (!(zephir_array_isset_string_fetch(&options, config, SL("options"), 0))) {
+		ZEPHIR_INIT_NVAR(&options);
+		array_init(&options);
+	}
+	if (Z_TYPE_P(&options) != IS_ARRAY) {
 		ZEPHIR_INIT_NVAR(&options);
 		array_init(&options);
 	}
@@ -156,6 +162,8 @@ PHP_METHOD(Phalcon_Cache_CacheFactory, load)
  *      'prefix'            => 'phalcon',
  *      'storageDir'        => '',
  * ]
+ *
+ * @phpstan-param storage_adapter_options $options
  *
  * @return CacheInterface
  * @throws Exception

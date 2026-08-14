@@ -129,6 +129,8 @@ abstract class AbstractCache implements CacheInterface, EventsAwareInterface
 
     /**
      * Deletes multiple cache items in a single operation.
+     *
+     * @phpstan-param iterable<array-key, string> $keys
      */
     protected function doDeleteMultiple(var keys) -> bool
     {
@@ -171,10 +173,14 @@ abstract class AbstractCache implements CacheInterface, EventsAwareInterface
 
     /**
      * Obtains multiple cache items by their unique keys.
+     *
+     * @phpstan-param iterable<array-key, string> $keys
+     *
+     * @phpstan-return array<string, mixed>
      */
     protected function doGetMultiple(var keys, var defaultValue = null) -> array
     {
-        var adapterClass, element, keysArray, results, serializer;
+        var adapterClass, connection, element, keysArray, results, serializer;
 
         this->checkKeys(keys);
 
@@ -200,12 +206,21 @@ abstract class AbstractCache implements CacheInterface, EventsAwareInterface
                 let keysArray[] = element;
             }
 
-            let serializer = this->adapter->getSerializer();
-            let results    = this->adapter->getAdapter()->mget(keysArray);
+            let serializer = adapterClass->getSerializer();
+            let connection = adapterClass->getAdapter();
+            let results    = connection->mget(keysArray);
             let results    = array_map(
                 function (element) use (serializer, defaultValue) {
                     if (false === element) {
                         return defaultValue;
+                    }
+
+                    /**
+                     * No serializer means the raw value is returned, the same
+                     * as the Storage adapters do.
+                     */
+                    if (null === serializer) {
+                        return element;
                     }
 
                     serializer->unserialize(element);
@@ -273,6 +288,9 @@ abstract class AbstractCache implements CacheInterface, EventsAwareInterface
 
     /**
      * Persists a set of key => value pairs in the cache, with an optional TTL.
+     *
+     * @phpstan-param iterable<string, mixed> $values
+     * @phpstan-param DateInterval|int|null   $ttl
      */
     protected function doSetMultiple(values, var ttl = null) -> bool
     {

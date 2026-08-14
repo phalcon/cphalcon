@@ -86,6 +86,8 @@ PHP_METHOD(Phalcon_Cache_Cache, delete)
 
 /**
  * Deletes multiple cache items in a single operation.
+ *
+ * @phpstan-param iterable<array-key, string> $keys
  */
 PHP_METHOD(Phalcon_Cache_Cache, deleteMultiple)
 {
@@ -144,6 +146,10 @@ PHP_METHOD(Phalcon_Cache_Cache, get)
 
 /**
  * Obtains multiple cache items by their unique keys.
+ *
+ * @phpstan-param iterable<array-key, string> $keys
+ *
+ * @phpstan-return array<string, mixed>
  */
 PHP_METHOD(Phalcon_Cache_Cache, getMultiple)
 {
@@ -239,6 +245,8 @@ PHP_METHOD(Phalcon_Cache_Cache, set)
 
 /**
  * Persists a set of key => value pairs in the cache, with an optional TTL.
+ *
+ * @phpstan-param iterable<string, mixed> $values
  */
 PHP_METHOD(Phalcon_Cache_Cache, setMultiple)
 {
