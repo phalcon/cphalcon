@@ -201,6 +201,7 @@ if (PHP_PHALCON != "no") {
 	ADD_SOURCES(configure_module_dirname + "/phalcon/container/definition", "definitiontype.zep.c servicedefinition.zep.c servicelifetime.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/container/provider", "cli.zep.c web.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/container/resolver", "resolver.zep.c", "phalcon");
+	ADD_SOURCES(configure_module_dirname + "/phalcon/contracts/autoload", "autoloadtypes.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/contracts/image", "imagetypes.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/contracts/mvc/model/relation", "cachekeyprovider.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/contracts/session", "sessiontypes.zep.c", "phalcon");
