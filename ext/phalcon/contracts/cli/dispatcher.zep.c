@@ -22,6 +22,8 @@
  */
 /**
  * Canonical contract for Phalcon\Cli\Dispatcher.
+ *
+ * @phpstan-import-type cli_options from CliTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Contracts_Cli_Dispatcher)
 {
@@ -41,6 +43,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Cli_Dispatcher, getActiveTask);
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Cli_Dispatcher, getLastTask);
 /**
  * Get dispatched options
+ *
+ * @phpstan-return cli_options
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Cli_Dispatcher, getOptions);
 /**
@@ -57,6 +61,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Cli_Dispatcher, getTaskSuffix);
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Cli_Dispatcher, setDefaultTask);
 /**
  * Set the options to be dispatched
+ *
+ * @phpstan-param cli_options $options
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Cli_Dispatcher, setOptions);
 /**

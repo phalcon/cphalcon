@@ -140,8 +140,8 @@ PHP_METHOD(Phalcon_Db_Check, __construct)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 591, &name_zv);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 592, &expression);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 592, &name_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 593, &expression);
 	ZEPHIR_MM_RESTORE();
 }
 

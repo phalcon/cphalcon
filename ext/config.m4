@@ -574,9 +574,11 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/contracts/auth/authremember.zep.c
 	phalcon/contracts/auth/remembertoken.zep.c
 	phalcon/contracts/autoload/autoloadtypes.zep.c
+	phalcon/contracts/cli/clitypes.zep.c
 	phalcon/contracts/container/ioc/ioctypealiases.zep.c
 	phalcon/contracts/container/resolver/reflectionmethodresolver.zep.c
 	phalcon/contracts/container/service/definition.zep.c
+	phalcon/contracts/dispatcher/dispatchertypes.zep.c
 	phalcon/contracts/events/subscriber.zep.c
 	phalcon/contracts/front/fronttypealiases.zep.c
 	phalcon/contracts/http/httptypes.zep.c

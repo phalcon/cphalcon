@@ -10,6 +10,7 @@
 
 namespace Phalcon\Mvc;
 
+use Phalcon\Contracts\Dispatcher\DispatcherTypes;
 use Phalcon\Dispatcher\AbstractDispatcher as BaseDispatcher;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Http\ResponseInterface;
@@ -35,14 +36,16 @@ use Phalcon\Mvc\Dispatcher\Exceptions\ResponseServiceUnavailable;
  *
  * $controller = $dispatcher->dispatch();
  *```
+ *
+ * @phpstan-import-type dispatcher_forward from DispatcherTypes
  */
 class Dispatcher extends BaseDispatcher implements DispatcherInterface
 {
-    protected defaultAction = "index";
+    protected string defaultAction = "index";
 
-    protected defaultHandler = "index";
+    protected string defaultHandler = "index";
 
-    protected handlerSuffix = "Controller";
+    protected string handlerSuffix = "Controller";
 
     /**
      * Forwards the execution flow to another controller/action.
@@ -101,7 +104,7 @@ class Dispatcher extends BaseDispatcher implements DispatcherInterface
      * );
      * ```
      *
-     * @param array forward
+     * @phpstan-param dispatcher_forward $forward
      */
     public function forward(array forward) -> void
     {

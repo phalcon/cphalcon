@@ -85,11 +85,11 @@ PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamConsumer, __construct)
 		pollInterval = 200;
 	} else {
 		}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1278, context);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1279, queue);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1279, context);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1280, queue);
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, pollInterval);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 1280, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 1281, &_0);
 }
 
 /**
@@ -127,8 +127,8 @@ PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamConsumer, receiveNoWait)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1278, PH_NOISY_CC | PH_READONLY);
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 1279, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1279, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 1280, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&_2, &_1, "getqueuename", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(&_0, "popmessage", NULL, 0, &_2);
@@ -170,8 +170,8 @@ PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamConsumer, reject)
 	} else {
 		}
 	if (requeue) {
-		zephir_read_property_cached(&_0$$3, this_ptr, _zephir_prop_0, 1278, PH_NOISY_CC | PH_READONLY);
-		zephir_read_property_cached(&_1$$3, this_ptr, _zephir_prop_1, 1279, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_0$$3, this_ptr, _zephir_prop_0, 1279, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_1$$3, this_ptr, _zephir_prop_1, 1280, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_METHOD(&_2$$3, &_1$$3, "getqueuename", NULL, 0);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "pushmessage", NULL, 0, &_2$$3, message);

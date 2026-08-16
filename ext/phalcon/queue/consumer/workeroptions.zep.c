@@ -132,16 +132,16 @@ PHP_METHOD(Phalcon_Queue_Consumer_WorkerOptions, __construct)
 		}
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, maxMessages);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1301, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1302, &_0);
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, maxSeconds);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1302, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1303, &_0);
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, maxMemory);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 1303, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 1304, &_0);
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, jitter);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 1304, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 1305, &_0);
 }
 
 PHP_METHOD(Phalcon_Queue_Consumer_WorkerOptions, getJitter)
