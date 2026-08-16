@@ -25,32 +25,32 @@ use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class ValidateTest extends AbstractUnitTestCase
 {
+    private array $allowedStatuses = ['pending', 'confirmed'];
+
     /**
+     * A closure that is created in a class keeps the object that made it as
+     * its `$this`. The validator must not replace it.
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/17499
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-07-06
+     * @since  2026-08-15
      */
-    public function testFilterValidationValidatorCallbackValidateBoundClosure(): void
+    public function testFilterValidationValidatorCallbackValidateClosureKeepsOwnThis(): void
     {
         $validation = new Validation();
 
         $validation->add(
-            'title',
+            'status',
             new Callback(
                 [
+                    'message'  => 'Invalid status.',
                     'callback' => function ($data) {
-                        if (!is_string($data['title'])) {
-                            $this->setTemplate('Title is not a string');
-
-                            return false;
-                        }
-
-                        if (strlen($data['title']) > 10) {
-                            $this->setTemplate('Title too long');
-
-                            return false;
-                        }
-
-                        return true;
+                        return in_array(
+                            $data['status'],
+                            $this->allowedStatuses,
+                            true
+                        );
                     },
                 ]
             )
@@ -59,107 +59,24 @@ final class ValidateTest extends AbstractUnitTestCase
 
         $messages = $validation->validate(
             [
-                'title' => 123,
-            ]
-        );
-
-        $this->assertCount(1, $messages);
-        $this->assertSame(
-            'Title is not a string',
-            $messages[0]->getMessage()
-        );
-
-
-        $messages = $validation->validate(
-            [
-                'title' => 'This title is way too long',
-            ]
-        );
-
-        $this->assertCount(1, $messages);
-        $this->assertSame(
-            'Title too long',
-            $messages[0]->getMessage()
-        );
-
-
-        $messages = $validation->validate(
-            [
-                'title' => 'Short',
+                'status' => 'confirmed',
             ]
         );
 
         $this->assertCount(0, $messages);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-07-06
-     */
-    public function testFilterValidationValidatorCallbackValidateBoundClosureTemplateIsolation(): void
-    {
-        $validation = new Validation();
-
-        $validation->add(
-            'amount',
-            new Callback(
-                [
-                    'message'  => 'DEFAULT failure message',
-                    'callback' => function ($data) {
-                        if ($data['amount'] > 100) {
-                            $this->setTemplate('Amount too big');
-
-                            return false;
-                        }
-
-                        return $data['amount'] >= 0;
-                    },
-                ]
-            )
-        );
 
 
-        /**
-         * The branch that calls setTemplate() must use that template.
-         */
         $messages = $validation->validate(
             [
-                'amount' => 200,
+                'status' => 'unknown',
             ]
         );
 
         $this->assertCount(1, $messages);
         $this->assertSame(
-            'Amount too big',
+            'Invalid status.',
             $messages[0]->getMessage()
         );
-
-
-        /**
-         * A later branch that does NOT call setTemplate() must fall back to
-         * the configured 'message' option, not leak the template set on the
-         * previous call.
-         */
-        $messages = $validation->validate(
-            [
-                'amount' => -5,
-            ]
-        );
-
-        $this->assertCount(1, $messages);
-        $this->assertSame(
-            'DEFAULT failure message',
-            $messages[0]->getMessage()
-        );
-
-
-        $messages = $validation->validate(
-            [
-                'amount' => 50,
-            ]
-        );
-
-        $this->assertCount(0, $messages);
     }
 
     /**
@@ -545,5 +462,201 @@ final class ValidateTest extends AbstractUnitTestCase
         );
 
         $this->assertEquals($expected, $messages);
+    }
+
+    /**
+     * A static closure cannot take a `$this`. It must still run, and it must
+     * still get the validator as a second argument.
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/17499
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-08-15
+     */
+    public function testFilterValidationValidatorCallbackValidateStaticClosure(): void
+    {
+        $validation = new Validation();
+
+        $validation->add(
+            'amount',
+            new Callback(
+                [
+                    'message'  => 'DEFAULT failure message',
+                    'callback' => static function ($data, $validator) {
+                        if ($data['amount'] > 100) {
+                            $validator->setTemplate('Amount too big');
+
+                            return false;
+                        }
+
+                        return true;
+                    },
+                ]
+            )
+        );
+
+
+        $messages = $validation->validate(
+            [
+                'amount' => 200,
+            ]
+        );
+
+        $this->assertCount(1, $messages);
+        $this->assertSame(
+            'Amount too big',
+            $messages[0]->getMessage()
+        );
+
+
+        $messages = $validation->validate(
+            [
+                'amount' => 50,
+            ]
+        );
+
+        $this->assertCount(0, $messages);
+    }
+
+    /**
+     * A closure that declares a second parameter gets the validator, so it can
+     * change the message from inside the callback.
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/17255
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-07-06
+     */
+    public function testFilterValidationValidatorCallbackValidateValidatorArgument(): void
+    {
+        $validation = new Validation();
+
+        $validation->add(
+            'title',
+            new Callback(
+                [
+                    'callback' => function ($data, $validator) {
+                        if (!is_string($data['title'])) {
+                            $validator->setTemplate('Title is not a string');
+
+                            return false;
+                        }
+
+                        if (strlen($data['title']) > 10) {
+                            $validator->setTemplate('Title too long');
+
+                            return false;
+                        }
+
+                        return true;
+                    },
+                ]
+            )
+        );
+
+
+        $messages = $validation->validate(
+            [
+                'title' => 123,
+            ]
+        );
+
+        $this->assertCount(1, $messages);
+        $this->assertSame(
+            'Title is not a string',
+            $messages[0]->getMessage()
+        );
+
+
+        $messages = $validation->validate(
+            [
+                'title' => 'This title is way too long',
+            ]
+        );
+
+        $this->assertCount(1, $messages);
+        $this->assertSame(
+            'Title too long',
+            $messages[0]->getMessage()
+        );
+
+
+        $messages = $validation->validate(
+            [
+                'title' => 'Short',
+            ]
+        );
+
+        $this->assertCount(0, $messages);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-07-06
+     */
+    public function testFilterValidationValidatorCallbackValidateValidatorArgumentTemplateIsolation(): void
+    {
+        $validation = new Validation();
+
+        $validation->add(
+            'amount',
+            new Callback(
+                [
+                    'message'  => 'DEFAULT failure message',
+                    'callback' => function ($data, $validator) {
+                        if ($data['amount'] > 100) {
+                            $validator->setTemplate('Amount too big');
+
+                            return false;
+                        }
+
+                        return $data['amount'] >= 0;
+                    },
+                ]
+            )
+        );
+
+
+        /**
+         * The branch that calls setTemplate() must use that template.
+         */
+        $messages = $validation->validate(
+            [
+                'amount' => 200,
+            ]
+        );
+
+        $this->assertCount(1, $messages);
+        $this->assertSame(
+            'Amount too big',
+            $messages[0]->getMessage()
+        );
+
+
+        /**
+         * A later branch that does NOT call setTemplate() must fall back to
+         * the configured 'message' option, not leak the template set on the
+         * previous call.
+         */
+        $messages = $validation->validate(
+            [
+                'amount' => -5,
+            ]
+        );
+
+        $this->assertCount(1, $messages);
+        $this->assertSame(
+            'DEFAULT failure message',
+            $messages[0]->getMessage()
+        );
+
+
+        $messages = $validation->validate(
+            [
+                'amount' => 50,
+            ]
+        );
+
+        $this->assertCount(0, $messages);
     }
 }
