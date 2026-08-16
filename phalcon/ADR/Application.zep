@@ -19,6 +19,7 @@ use Phalcon\ADR\Events\Event;
 use Phalcon\ADR\Exceptions\RouteNotFound;
 use Phalcon\Container\Container;
 use Phalcon\Container\ContainerFactory;
+use Phalcon\Contracts\ADR\ADRTypes;
 use Phalcon\Contracts\ADR\Application as ApplicationInterface;
 use Phalcon\Contracts\ADR\Dispatcher as DispatcherInterface;
 use Phalcon\Contracts\ADR\Router\AttributeFilter as AttributeFilterInterface;
@@ -37,6 +38,9 @@ use Phalcon\Http\ResponseInterface;
  * When no container is supplied one is created with the ADR defaults
  * (`AdrProvider`) registered. Type-hinted dependencies autowire; only scalar
  * parameters need to be declared via `define()`.
+ *
+ * @phpstan-import-type adr_definition_params from ADRTypes
+ * @phpstan-import-type adr_middleware_map from ADRTypes
  */
 final class Application implements ApplicationInterface
 {
@@ -45,7 +49,7 @@ final class Application implements ApplicationInterface
     protected <Container> container;
 
     /**
-     * @var array<string, string[]>
+     * @phpstan-var adr_middleware_map
      */
     protected array middlewareMap = [];
     protected string wordSeparator = "";
@@ -76,6 +80,8 @@ final class Application implements ApplicationInterface
      * parameters. Type-hinted dependencies autowire; only the supplied
      * (usually scalar) parameters are declared. Lazy values (e.g.
      * `new Phalcon\Container\Resolver\Lazy\Env(...)`) may be passed as values.
+     *
+     * @phpstan-param adr_definition_params $parameters
      */
     public function define(string className, array parameters = []) -> <static>
     {

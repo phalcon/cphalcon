@@ -21,6 +21,7 @@ namespace Phalcon\ADR\Router;
 
 use Phalcon\ADR\Exceptions\ActionDirectoryNotSet;
 use Phalcon\ADR\Exceptions\MethodNotAllowed;
+use Phalcon\Contracts\ADR\ADRTypes;
 use Phalcon\Contracts\ADR\Router\Router as RouterInterface;
 use Phalcon\Contracts\ADR\Router\RouterMatch as RouterMatchInterface;
 use Phalcon\Http\RequestInterface;
@@ -74,13 +75,19 @@ use Phalcon\Http\RequestInterface;
  * is a spelling difference, not a capability one - and it is not a deviation
  * from any standard. REST is Fielding's dissertation, not an RFC; RFC 3986 and
  * RFC 9110 both leave path structure entirely to the origin server.
+ *
+ * @phpstan-import-type adr_action_params from ADRTypes
+ * @phpstan-import-type adr_located_route from ADRTypes
+ * @phpstan-import-type adr_middleware_map from ADRTypes
+ * @phpstan-import-type adr_middleware_names from ADRTypes
+ * @phpstan-import-type adr_route_candidate from ADRTypes
  */
 final class Router implements RouterInterface
 {
     protected string actionDirectory = "";
     protected string baseNamespace = "";
     /**
-     * @var array<string, string[]>
+     * @phpstan-var adr_middleware_map
      */
     protected array middlewareMap = [];
     protected string wordSeparator = "-";
@@ -227,6 +234,9 @@ final class Router implements RouterInterface
         return this;
     }
 
+    /**
+     * @phpstan-param adr_middleware_map $middlewareMap
+     */
     public function setMiddlewareMap(array middlewareMap) -> <RouterInterface>
     {
         let this->middlewareMap = middlewareMap;
@@ -251,7 +261,7 @@ final class Router implements RouterInterface
      * and casting, so nothing new is asked of an Action - but declaring it now
      * decides routing, not just validation.
      *
-     * @return array<string, array<string, mixed>>
+     * @phpstan-return adr_action_params
      */
     protected function actionParams(string className) -> array
     {
@@ -299,7 +309,7 @@ final class Router implements RouterInterface
      * dynamic begins - it no longer chooses between competing class shapes,
      * because there is only one.
      *
-     * @return array<int, array{0: string, 1: array}>
+     * @phpstan-return list<adr_route_candidate>
      */
     protected function deriveCandidates(string method, string path) -> array
     {
@@ -360,6 +370,9 @@ final class Router implements RouterInterface
         );
     }
 
+    /**
+     * @phpstan-return adr_located_route|null
+     */
     protected function locate(string method, string path) -> array | null
     {
         var candidate, candidates;
@@ -375,6 +388,9 @@ final class Router implements RouterInterface
         return null;
     }
 
+    /**
+     * @phpstan-return adr_middleware_names
+     */
     protected function middlewareFor(string className) -> array
     {
         var full, list, prefix;

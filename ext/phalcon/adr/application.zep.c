@@ -40,6 +40,9 @@
  * When no container is supplied one is created with the ADR defaults
  * (`AdrProvider`) registered. Type-hinted dependencies autowire; only scalar
  * parameters need to be declared via `define()`.
+ *
+ * @phpstan-import-type adr_definition_params from ADRTypes
+ * @phpstan-import-type adr_middleware_map from ADRTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_ADR_Application)
 {
@@ -64,7 +67,7 @@ ZEPHIR_INIT_CLASS(Phalcon_ADR_Application)
 	}
 
 	/**
-	 * @var array<string, string[]>
+	 * @phpstan-var adr_middleware_map
 	 */
 	{
 		zval _zc0;
@@ -177,6 +180,8 @@ PHP_METHOD(Phalcon_ADR_Application, bind)
  * parameters. Type-hinted dependencies autowire; only the supplied
  * (usually scalar) parameters are declared. Lazy values (e.g.
  * `new Phalcon\Container\Resolver\Lazy\Env(...)`) may be passed as values.
+ *
+ * @phpstan-param adr_definition_params $parameters
  */
 PHP_METHOD(Phalcon_ADR_Application, define)
 {
@@ -223,7 +228,7 @@ PHP_METHOD(Phalcon_ADR_Application, define)
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 333, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&definition, &_0, "set", NULL, 0, &className_zv, &className_zv);
 	zephir_check_call_status();
-	zephir_is_iterable(&parameters, 0, "phalcon/ADR/Application.zep", 90);
+	zephir_is_iterable(&parameters, 0, "phalcon/ADR/Application.zep", 96);
 	if (Z_TYPE_P(&parameters) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&parameters), _2, _3, _1)
 		{
@@ -483,7 +488,7 @@ PHP_METHOD(Phalcon_ADR_Application, handle)
 			object_init_ex(&_12$$8, phalcon_adr_exceptions_routenotfound_ce);
 			ZEPHIR_CALL_METHOD(NULL, &_12$$8, "__construct", NULL, 307);
 			zephir_check_call_status_or_jump(try_end_1);
-			zephir_throw_exception_debug(&_12$$8, "phalcon/ADR/Application.zep", 157);
+			zephir_throw_exception_debug(&_12$$8, "phalcon/ADR/Application.zep", 163);
 			goto try_end_1;
 
 		}
@@ -498,7 +503,7 @@ PHP_METHOD(Phalcon_ADR_Application, handle)
 		zephir_check_call_status_or_jump(try_end_1);
 		ZEPHIR_CALL_METHOD(&attributes, &_14$$7, "filter", NULL, 0, &_16$$7, &_17$$7);
 		zephir_check_call_status_or_jump(try_end_1);
-		zephir_is_iterable(&attributes, 0, "phalcon/ADR/Application.zep", 168);
+		zephir_is_iterable(&attributes, 0, "phalcon/ADR/Application.zep", 174);
 		if (Z_TYPE_P(&attributes) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&attributes), _19$$7, _20$$7, _18$$7)
 			{
@@ -642,9 +647,9 @@ PHP_METHOD(Phalcon_ADR_Application, secureWith)
 	if (zephir_array_isset_value(&_0, &prefix_zv)) {
 		zephir_read_property_cached(&_1$$3, this_ptr, _zephir_prop_0, 335, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_OBS_NVAR(&list);
-		zephir_array_fetch(&list, &_1$$3, &prefix_zv, PH_NOISY, "phalcon/ADR/Application.zep", 200);
+		zephir_array_fetch(&list, &_1$$3, &prefix_zv, PH_NOISY, "phalcon/ADR/Application.zep", 206);
 	}
-	zephir_array_append(&list, &guard_zv, PH_SEPARATE, "phalcon/ADR/Application.zep", 203);
+	zephir_array_append(&list, &guard_zv, PH_SEPARATE, "phalcon/ADR/Application.zep", 209);
 	zephir_update_property_array(this_ptr, SL("middlewareMap"), &prefix_zv, &list);
 	RETURN_THIS();
 }

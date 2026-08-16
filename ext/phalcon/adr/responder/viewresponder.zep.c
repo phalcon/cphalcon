@@ -37,6 +37,8 @@
  * the status mapping and the `Responder` contract stay the same. It depends on
  * the neutral `Renderer` contract only, so the ADR component never imports the
  * MVC view.
+ *
+ * @phpstan-import-type adr_view_data from ADRTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_ADR_Responder_ViewResponder)
 {
@@ -215,6 +217,8 @@ PHP_METHOD(Phalcon_ADR_Responder_ViewResponder, withTemplate)
  * Flattens the payload into the variables handed to the template. The
  * extras travel as they are, so an action can hand the view whatever the
  * result should not carry.
+ *
+ * @phpstan-return adr_view_data
  */
 PHP_METHOD(Phalcon_ADR_Responder_ViewResponder, viewData)
 {

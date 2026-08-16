@@ -84,7 +84,7 @@ if (PHP_PHALCON != "no") {
 	ADD_SOURCES(configure_module_dirname + "/phalcon/annotations/adapter", "adapterinterface.zep.c abstractadapter.zep.c apcu.zep.c memory.zep.c stream.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/auth/adapter", "abstractadapter.zep.c abstractarrayadapter.zep.c adapterlocator.zep.c memory.zep.c model.zep.c stream.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/container/definition/processor", "processor.zep.c closureprocessor.zep.c objectprocessor.zep.c parameterprocessor.zep.c stringprocessor.zep.c", "phalcon");
-	ADD_SOURCES(configure_module_dirname + "/phalcon/contracts/adr", "middleware.zep.c handler.zep.c application.zep.c dispatcher.zep.c action.zep.c", "phalcon");
+	ADD_SOURCES(configure_module_dirname + "/phalcon/contracts/adr", "middleware.zep.c handler.zep.c application.zep.c dispatcher.zep.c adrtypes.zep.c action.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/contracts/acl/adapter", "adapter.zep.c persistable.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/contracts/auth/access", "access.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/contracts/encryption/security/jwt/signer", "signer.zep.c", "phalcon");
@@ -201,6 +201,7 @@ if (PHP_PHALCON != "no") {
 	ADD_SOURCES(configure_module_dirname + "/phalcon/container/definition", "definitiontype.zep.c servicedefinition.zep.c servicelifetime.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/container/provider", "cli.zep.c web.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/container/resolver", "resolver.zep.c", "phalcon");
+	ADD_SOURCES(configure_module_dirname + "/phalcon/contracts/application", "applicationtypes.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/contracts/autoload", "autoloadtypes.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/contracts/image", "imagetypes.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/contracts/mvc/model/relation", "cachekeyprovider.zep.c", "phalcon");

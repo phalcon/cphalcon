@@ -14,6 +14,7 @@
 namespace Phalcon\ADR\Responder;
 
 use Phalcon\ADR\Payload\Status;
+use Phalcon\Contracts\ADR\ADRTypes;
 
 /**
  * Maps a domain `Status` to an HTTP status code.
@@ -21,14 +22,19 @@ use Phalcon\ADR\Payload\Status;
  * `Status` is the single source of truth: the default map covers every
  * `Status` constant. Any status that is not mapped resolves to 500, never a
  * silent 200. Every entry can be overridden through the constructor.
+ *
+ * @phpstan-import-type adr_status_map from ADRTypes
  */
 final class StatusMapper
 {
     /**
-     * @var array<int, int>
+     * @phpstan-var adr_status_map
      */
     protected array map;
 
+    /**
+     * @phpstan-param adr_status_map $overrides
+     */
     public function __construct(array overrides = [])
     {
         let this->map = overrides + [

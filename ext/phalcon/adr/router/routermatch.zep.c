@@ -36,6 +36,9 @@
  */
 /**
  * Immutable result of a successful route match.
+ *
+ * @phpstan-import-type adr_middleware_names from ADRTypes
+ * @phpstan-import-type adr_route_attributes from ADRTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_ADR_Router_RouterMatch)
 {
@@ -69,6 +72,11 @@ ZEPHIR_INIT_CLASS(Phalcon_ADR_Router_RouterMatch)
 	return SUCCESS;
 }
 
+/**
+ * @phpstan-param class-string          $action
+ * @phpstan-param adr_route_attributes  $attributes
+ * @phpstan-param adr_middleware_names  $middleware
+ */
 PHP_METHOD(Phalcon_ADR_Router_RouterMatch, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -141,18 +149,27 @@ PHP_METHOD(Phalcon_ADR_Router_RouterMatch, __construct)
 	ZEPHIR_MM_RESTORE();
 }
 
+/**
+ * @phpstan-return class-string
+ */
 PHP_METHOD(Phalcon_ADR_Router_RouterMatch, getAction)
 {
 
 	RETURN_MEMBER_TYPED(getThis(), "action", IS_STRING);
 }
 
+/**
+ * @phpstan-return adr_route_attributes
+ */
 PHP_METHOD(Phalcon_ADR_Router_RouterMatch, getAttributes)
 {
 
 	RETURN_MEMBER_TYPED(getThis(), "attributes", IS_ARRAY);
 }
 
+/**
+ * @phpstan-return adr_middleware_names
+ */
 PHP_METHOD(Phalcon_ADR_Router_RouterMatch, getMiddleware)
 {
 

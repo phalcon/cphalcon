@@ -12,6 +12,7 @@ namespace Phalcon\Application;
 
 use Closure;
 use Phalcon\Application\Exceptions\ModuleNotRegistered;
+use Phalcon\Contracts\Application\ApplicationTypes;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\Injectable;
 use Phalcon\Events\EventsAwareInterface;
@@ -21,12 +22,8 @@ use Phalcon\Events\Traits\EventsAwareTrait;
 /**
  * Base class for Phalcon\Cli\Console and Phalcon\Mvc\Application.
  *
- * @phpstan-type TModule array{
- *     string: array{
- *          className: string,
- *          path: string,
- *     }
- * }
+ * @phpstan-import-type application_module_definition from ApplicationTypes
+ * @phpstan-import-type application_modules from ApplicationTypes
  */
 abstract class AbstractApplication extends Injectable implements EventsAwareInterface
 {
@@ -35,7 +32,7 @@ abstract class AbstractApplication extends Injectable implements EventsAwareInte
     protected string defaultModule = "";
 
     /**
-     * @var TModule[]
+     * @phpstan-var application_modules
      */
     protected array modules = [];
 
@@ -62,7 +59,7 @@ abstract class AbstractApplication extends Injectable implements EventsAwareInte
      *
      * @param string name
      *
-     * @return TModule|Closure
+     * @phpstan-return Closure|application_module_definition
      */
     public function getModule(string name) -> mixed
     {
@@ -78,7 +75,7 @@ abstract class AbstractApplication extends Injectable implements EventsAwareInte
     /**
      * Return the modules registered in the application
      *
-     * @return TModule[]
+     * @phpstan-return application_modules
      */
     public function getModules() -> array
     {
@@ -103,7 +100,7 @@ abstract class AbstractApplication extends Injectable implements EventsAwareInte
      * );
      * ```
      *
-     * @param TModule[] $modules
+     * @phpstan-param application_modules $modules
      */
     public function registerModules(
         array modules,
@@ -134,7 +131,12 @@ abstract class AbstractApplication extends Injectable implements EventsAwareInte
      */
     public function setEventsManager(<ManagerInterface> eventsManager) -> void
     {
-        this->getDI()->set("eventsManager", eventsManager);
+        var container;
+
+        /** @var DiInterface $container */
+        let container = this->getDI();
+
+        container->set("eventsManager", eventsManager);
 
         let this->eventsManager = eventsManager;
     }

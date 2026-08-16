@@ -36,6 +36,8 @@
  * is configured, and only for requests whose `Origin` is on it. The allowed
  * origin is always echoed back explicitly, so credentials are never paired with
  * a wildcard origin. Preflight `OPTIONS` requests are answered directly.
+ *
+ * @phpstan-import-type adr_cors_config from ADRTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_ADR_Middleware_CorsMiddleware)
 {
@@ -48,7 +50,7 @@ ZEPHIR_INIT_CLASS(Phalcon_ADR_Middleware_CorsMiddleware)
 	}
 
 	/**
-	 * @var array
+	 * @var list<string>
 	 */
 	{
 		zval _zc0;
@@ -57,7 +59,7 @@ ZEPHIR_INIT_CLASS(Phalcon_ADR_Middleware_CorsMiddleware)
 	}
 
 	/**
-	 * @var array
+	 * @var list<string>
 	 */
 	{
 		zval _zc0;
@@ -66,7 +68,7 @@ ZEPHIR_INIT_CLASS(Phalcon_ADR_Middleware_CorsMiddleware)
 	}
 
 	/**
-	 * @var array
+	 * @var list<string>
 	 */
 	{
 		zval _zc0;
@@ -87,6 +89,9 @@ ZEPHIR_INIT_CLASS(Phalcon_ADR_Middleware_CorsMiddleware)
 	return SUCCESS;
 }
 
+/**
+ * @phpstan-param adr_cors_config $config
+ */
 PHP_METHOD(Phalcon_ADR_Middleware_CorsMiddleware, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;

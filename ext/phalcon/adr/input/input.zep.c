@@ -37,13 +37,15 @@
  * into a single bag (later sources win). Extend it to build a typed, per-domain
  * input value object: the factories use late static binding, so a subclass's
  * `fromRequest()` / `fromArray()` return that subclass.
+ *
+ * @phpstan-import-type adr_input_data from ADRTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_ADR_Input_Input)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\ADR\\Input, Input, phalcon, adr_input_input, phalcon_adr_input_input_method_entry, 0);
 
 	/**
-	 * @var array
+	 * @phpstan-var adr_input_data
 	 */
 	{
 		zval _zc0;
@@ -54,6 +56,9 @@ ZEPHIR_INIT_CLASS(Phalcon_ADR_Input_Input)
 	return SUCCESS;
 }
 
+/**
+ * @phpstan-param adr_input_data $data
+ */
 PHP_METHOD(Phalcon_ADR_Input_Input, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -84,6 +89,9 @@ PHP_METHOD(Phalcon_ADR_Input_Input, __construct)
 	ZEPHIR_MM_RESTORE();
 }
 
+/**
+ * @phpstan-param adr_input_data $data
+ */
 PHP_METHOD(Phalcon_ADR_Input_Input, fromArray)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -204,7 +212,7 @@ PHP_METHOD(Phalcon_ADR_Input_Input, get)
 	if (zephir_array_isset_value(&_1, &key_zv)) {
 		zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 348, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_OBS_NVAR(&_0);
-		zephir_array_fetch(&_0, &_2, &key_zv, PH_NOISY, "phalcon/ADR/Input/Input.zep", 74);
+		zephir_array_fetch(&_0, &_2, &key_zv, PH_NOISY, "phalcon/ADR/Input/Input.zep", 83);
 	} else {
 		ZEPHIR_CPY_WRT(&_0, defaultValue);
 	}
@@ -232,6 +240,9 @@ PHP_METHOD(Phalcon_ADR_Input_Input, has)
 	RETURN_BOOL(zephir_array_isset_value(&_0, &key_zv));
 }
 
+/**
+ * @phpstan-return adr_input_data
+ */
 PHP_METHOD(Phalcon_ADR_Input_Input, toArray)
 {
 

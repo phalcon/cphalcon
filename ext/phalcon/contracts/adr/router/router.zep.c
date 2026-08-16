@@ -33,6 +33,8 @@
  * Maps a request to an Action by convention: the HTTP method and the static
  * path segments identify the class; trailing segments become positional
  * request attributes. No route table.
+ *
+ * @phpstan-import-type adr_middleware_map from ADRTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Contracts_ADR_Router_Router)
 {
@@ -81,6 +83,9 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_ADR_Router_Router, pathFor);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_ADR_Router_Router, setActionDirectory);
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_ADR_Router_Router, setBaseNamespace);
+/**
+ * @phpstan-param adr_middleware_map $middlewareMap
+ */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_ADR_Router_Router, setMiddlewareMap);
 /**
  * The single delimiter between words in a path segment. Applied

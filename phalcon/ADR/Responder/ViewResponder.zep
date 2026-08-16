@@ -13,6 +13,7 @@
 
 namespace Phalcon\ADR\Responder;
 
+use Phalcon\Contracts\ADR\ADRTypes;
 use Phalcon\Contracts\ADR\Payload\Payload;
 use Phalcon\Contracts\ADR\Responder\Responder;
 use Phalcon\Contracts\View\Renderer;
@@ -26,6 +27,8 @@ use Phalcon\Http\ResponseInterface;
  * the status mapping and the `Responder` contract stay the same. It depends on
  * the neutral `Renderer` contract only, so the ADR component never imports the
  * MVC view.
+ *
+ * @phpstan-import-type adr_view_data from ADRTypes
  */
 final class ViewResponder implements Responder
 {
@@ -83,6 +86,8 @@ final class ViewResponder implements Responder
      * Flattens the payload into the variables handed to the template. The
      * extras travel as they are, so an action can hand the view whatever the
      * result should not carry.
+     *
+     * @phpstan-return adr_view_data
      */
     protected function viewData(<Payload> payload) -> array
     {

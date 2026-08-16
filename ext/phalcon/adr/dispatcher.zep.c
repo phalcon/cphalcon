@@ -39,6 +39,8 @@
  * The container resolution is the one deliberate Service Locator: it uses the
  * resolve-only `IocContainer` contract, so a container swap is a two-method
  * adapter. Everything else is constructor-injected.
+ *
+ * @phpstan-import-type adr_middleware_names from ADRTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_ADR_Dispatcher)
 {
@@ -57,7 +59,7 @@ ZEPHIR_INIT_CLASS(Phalcon_ADR_Dispatcher)
 	}
 
 	/**
-	 * @var array
+	 * @phpstan-var adr_middleware_names
 	 */
 	{
 		zval _zc0;
@@ -66,7 +68,7 @@ ZEPHIR_INIT_CLASS(Phalcon_ADR_Dispatcher)
 	}
 
 	/**
-	 * @var array|null
+	 * @var list<Middleware>|null
 	 */
 	{
 		zval _zc0;
@@ -78,6 +80,9 @@ ZEPHIR_INIT_CLASS(Phalcon_ADR_Dispatcher)
 	return SUCCESS;
 }
 
+/**
+ * @phpstan-param adr_middleware_names $globalMiddleware
+ */
 PHP_METHOD(Phalcon_ADR_Dispatcher, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -122,6 +127,10 @@ PHP_METHOD(Phalcon_ADR_Dispatcher, __construct)
 	ZEPHIR_MM_RESTORE();
 }
 
+/**
+ * @phpstan-param class-string          $actionClass
+ * @phpstan-param adr_middleware_names  $routeMiddleware
+ */
 PHP_METHOD(Phalcon_ADR_Dispatcher, dispatch)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -184,7 +193,7 @@ PHP_METHOD(Phalcon_ADR_Dispatcher, dispatch)
 		object_init_ex(&_1$$3, phalcon_adr_exceptions_notanaction_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 310, &actionClass_zv);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/ADR/Dispatcher.zep", 66);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/ADR/Dispatcher.zep", 77);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -249,7 +258,7 @@ PHP_METHOD(Phalcon_ADR_Dispatcher, resolveAll)
 	zephir_get_arrval(&classes, classes_param);
 	ZEPHIR_INIT_VAR(&result);
 	array_init(&result);
-	zephir_is_iterable(&classes, 0, "phalcon/ADR/Dispatcher.zep", 91);
+	zephir_is_iterable(&classes, 0, "phalcon/ADR/Dispatcher.zep", 102);
 	if (Z_TYPE_P(&classes) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&classes), _0)
 		{
@@ -258,7 +267,7 @@ PHP_METHOD(Phalcon_ADR_Dispatcher, resolveAll)
 			zephir_read_property_cached(&_1$$3, this_ptr, _zephir_prop_0, 338, PH_NOISY_CC | PH_READONLY);
 			ZEPHIR_CALL_METHOD(&_2$$3, &_1$$3, "getservice", NULL, 0, &className);
 			zephir_check_call_status();
-			zephir_array_append(&result, &_2$$3, PH_SEPARATE, "phalcon/ADR/Dispatcher.zep", 88);
+			zephir_array_append(&result, &_2$$3, PH_SEPARATE, "phalcon/ADR/Dispatcher.zep", 99);
 		} ZEND_HASH_FOREACH_END();
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, &classes, "rewind", NULL, 0);
@@ -281,7 +290,7 @@ PHP_METHOD(Phalcon_ADR_Dispatcher, resolveAll)
 				zephir_read_property_cached(&_5$$4, this_ptr, _zephir_prop_0, 338, PH_NOISY_CC | PH_READONLY);
 				ZEPHIR_CALL_METHOD(&_6$$4, &_5$$4, "getservice", NULL, 0, &className);
 				zephir_check_call_status();
-				zephir_array_append(&result, &_6$$4, PH_SEPARATE, "phalcon/ADR/Dispatcher.zep", 88);
+				zephir_array_append(&result, &_6$$4, PH_SEPARATE, "phalcon/ADR/Dispatcher.zep", 99);
 		}
 	}
 	ZEPHIR_INIT_NVAR(&className);

@@ -19,12 +19,15 @@
 
 namespace Phalcon\Contracts\ADR\Router;
 
+use Phalcon\Contracts\ADR\ADRTypes;
 use Phalcon\Http\RequestInterface;
 
 /**
  * Maps a request to an Action by convention: the HTTP method and the static
  * path segments identify the class; trailing segments become positional
  * request attributes. No route table.
+ *
+ * @phpstan-import-type adr_middleware_map from ADRTypes
  */
 interface Router
 {
@@ -75,6 +78,9 @@ interface Router
 
     public function setBaseNamespace(string baseNamespace) -> <Router>;
 
+    /**
+     * @phpstan-param adr_middleware_map $middlewareMap
+     */
     public function setMiddlewareMap(array middlewareMap) -> <Router>;
 
     /**

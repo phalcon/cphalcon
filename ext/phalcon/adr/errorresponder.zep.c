@@ -38,6 +38,9 @@
  * message plus that same reference, unless debug mode is on. Exceptions are
  * mapped to statuses deterministically: an exact class match first, then the
  * ancestor chain, so map ordering never matters.
+ *
+ * @phpstan-import-type adr_error_details from ADRTypes
+ * @phpstan-import-type adr_exception_map from ADRTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_ADR_ErrorResponder)
 {
@@ -56,7 +59,7 @@ ZEPHIR_INIT_CLASS(Phalcon_ADR_ErrorResponder)
 	}
 
 	/**
-	 * @var array
+	 * @phpstan-var adr_exception_map
 	 */
 	{
 		zval _zc0;
@@ -73,6 +76,9 @@ ZEPHIR_INIT_CLASS(Phalcon_ADR_ErrorResponder)
 	return SUCCESS;
 }
 
+/**
+ * @phpstan-param adr_exception_map $exceptionMap
+ */
 PHP_METHOD(Phalcon_ADR_ErrorResponder, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -259,6 +265,9 @@ PHP_METHOD(Phalcon_ADR_ErrorResponder, correlationId)
 	RETURN_CTOR(&_3);
 }
 
+/**
+ * @phpstan-return adr_exception_map
+ */
 PHP_METHOD(Phalcon_ADR_ErrorResponder, defaultMap)
 {
 
@@ -268,6 +277,9 @@ PHP_METHOD(Phalcon_ADR_ErrorResponder, defaultMap)
 	return;
 }
 
+/**
+ * @phpstan-return adr_error_details
+ */
 PHP_METHOD(Phalcon_ADR_ErrorResponder, details)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -364,7 +376,7 @@ PHP_METHOD(Phalcon_ADR_ErrorResponder, reason)
 	ZEPHIR_INIT_VAR(&_0);
 	if (zephir_array_isset_value(&reasons, &status_zv)) {
 		ZEPHIR_OBS_NVAR(&_0);
-		zephir_array_fetch(&_0, &reasons, &status_zv, PH_NOISY, "phalcon/ADR/ErrorResponder.zep", 147);
+		zephir_array_fetch(&_0, &reasons, &status_zv, PH_NOISY, "phalcon/ADR/ErrorResponder.zep", 160);
 	} else {
 		ZEPHIR_INIT_NVAR(&_0);
 		ZVAL_STRING(&_0, "Internal Server Error");
@@ -409,7 +421,7 @@ PHP_METHOD(Phalcon_ADR_ErrorResponder, resolveStatus)
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 345, PH_NOISY_CC | PH_READONLY);
 	if (zephir_array_isset_value(&_0, &className)) {
 		zephir_read_property_cached(&_1$$3, this_ptr, _zephir_prop_0, 345, PH_NOISY_CC | PH_READONLY);
-		zephir_array_fetch(&_2$$3, &_1$$3, &className, PH_NOISY | PH_READONLY, "phalcon/ADR/ErrorResponder.zep", 157);
+		zephir_array_fetch(&_2$$3, &_1$$3, &className, PH_NOISY | PH_READONLY, "phalcon/ADR/ErrorResponder.zep", 170);
 		RETURN_CTOR(&_2$$3);
 	}
 	ZEPHIR_CALL_FUNCTION(&_3, "class_parents", NULL, 325, exception);
@@ -422,7 +434,7 @@ PHP_METHOD(Phalcon_ADR_ErrorResponder, resolveStatus)
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&ancestors);
 	zephir_fast_array_merge(&ancestors, &_4, &_6);
-	zephir_is_iterable(&ancestors, 0, "phalcon/ADR/ErrorResponder.zep", 171);
+	zephir_is_iterable(&ancestors, 0, "phalcon/ADR/ErrorResponder.zep", 184);
 	ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&ancestors), _7)
 	{
 		ZEPHIR_INIT_NVAR(&ancestor);
@@ -430,7 +442,7 @@ PHP_METHOD(Phalcon_ADR_ErrorResponder, resolveStatus)
 		zephir_read_property_cached(&_8$$4, this_ptr, _zephir_prop_0, 345, PH_NOISY_CC | PH_READONLY);
 		if (zephir_array_isset_value(&_8$$4, &ancestor)) {
 			zephir_read_property_cached(&_9$$5, this_ptr, _zephir_prop_0, 345, PH_NOISY_CC | PH_READONLY);
-			zephir_array_fetch(&_10$$5, &_9$$5, &ancestor, PH_NOISY | PH_READONLY, "phalcon/ADR/ErrorResponder.zep", 167);
+			zephir_array_fetch(&_10$$5, &_9$$5, &ancestor, PH_NOISY | PH_READONLY, "phalcon/ADR/ErrorResponder.zep", 180);
 			RETURN_CTOR(&_10$$5);
 		}
 	} ZEND_HASH_FOREACH_END();

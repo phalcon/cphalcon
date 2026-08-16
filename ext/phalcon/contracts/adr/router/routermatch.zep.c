@@ -26,6 +26,9 @@
 /**
  * The result of matching a request against the router: the Action class, the
  * extracted route attributes, the route's middleware and its optional name.
+ *
+ * @phpstan-import-type adr_middleware_names from ADRTypes
+ * @phpstan-import-type adr_route_attributes from ADRTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Contracts_ADR_Router_RouterMatch)
 {
@@ -34,7 +37,16 @@ ZEPHIR_INIT_CLASS(Phalcon_Contracts_ADR_Router_RouterMatch)
 	return SUCCESS;
 }
 
+/**
+ * @phpstan-return class-string
+ */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_ADR_Router_RouterMatch, getAction);
+/**
+ * @phpstan-return adr_route_attributes
+ */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_ADR_Router_RouterMatch, getAttributes);
+/**
+ * @phpstan-return adr_middleware_names
+ */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_ADR_Router_RouterMatch, getMiddleware);
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_ADR_Router_RouterMatch, getName);

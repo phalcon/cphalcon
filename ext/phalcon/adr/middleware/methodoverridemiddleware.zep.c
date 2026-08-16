@@ -38,13 +38,15 @@
  * turns that flag on, and only for a `POST` request whose `_method` names a
  * safe verb (`PUT`/`PATCH`/`DELETE`), so `_method` cannot spoof an arbitrary
  * method.
+ *
+ * @phpstan-import-type adr_allowed_methods from ADRTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_ADR_Middleware_MethodOverrideMiddleware)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\ADR\\Middleware, MethodOverrideMiddleware, phalcon, adr_middleware_methodoverridemiddleware, phalcon_adr_middleware_methodoverridemiddleware_method_entry, 0);
 
 	/**
-	 * @var array<int, string>
+	 * @phpstan-var adr_allowed_methods
 	 */
 	{
 		zval _zc0;

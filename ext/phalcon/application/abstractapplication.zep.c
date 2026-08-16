@@ -31,12 +31,8 @@
 /**
  * Base class for Phalcon\Cli\Console and Phalcon\Mvc\Application.
  *
- * @phpstan-type TModule array{
- *     string: array{
- *          className: string,
- *          path: string,
- *     }
- * }
+ * @phpstan-import-type application_module_definition from ApplicationTypes
+ * @phpstan-import-type application_modules from ApplicationTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Application_AbstractApplication)
 {
@@ -49,7 +45,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Application_AbstractApplication)
 	}
 
 	/**
-	 * @var TModule[]
+	 * @phpstan-var application_modules
 	 */
 	{
 		zval _zc0;
@@ -111,7 +107,7 @@ PHP_METHOD(Phalcon_Application_AbstractApplication, getDefaultModule)
  *
  * @param string name
  *
- * @return TModule|Closure
+ * @phpstan-return Closure|application_module_definition
  */
 PHP_METHOD(Phalcon_Application_AbstractApplication, getModule)
 {
@@ -144,7 +140,7 @@ PHP_METHOD(Phalcon_Application_AbstractApplication, getModule)
 		object_init_ex(&_1$$3, phalcon_application_exceptions_modulenotregistered_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 155, &name_zv);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Application/AbstractApplication.zep", 72);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Application/AbstractApplication.zep", 69);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -154,7 +150,7 @@ PHP_METHOD(Phalcon_Application_AbstractApplication, getModule)
 /**
  * Return the modules registered in the application
  *
- * @return TModule[]
+ * @phpstan-return application_modules
  */
 PHP_METHOD(Phalcon_Application_AbstractApplication, getModules)
 {
@@ -180,7 +176,7 @@ PHP_METHOD(Phalcon_Application_AbstractApplication, getModules)
  * );
  * ```
  *
- * @param TModule[] $modules
+ * @phpstan-param application_modules $modules
  */
 PHP_METHOD(Phalcon_Application_AbstractApplication, registerModules)
 {
@@ -253,12 +249,12 @@ PHP_METHOD(Phalcon_Application_AbstractApplication, setEventsManager)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *eventsManager, eventsManager_sub, _0, _1;
+	zval *eventsManager, eventsManager_sub, container, _0;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&eventsManager_sub);
+	ZVAL_UNDEF(&container);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1);
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("eventsManager", 13, 1);
@@ -270,11 +266,11 @@ PHP_METHOD(Phalcon_Application_AbstractApplication, setEventsManager)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &eventsManager);
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getdi", NULL, 0);
+	ZEPHIR_CALL_METHOD(&container, this_ptr, "getdi", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_INIT_VAR(&_1);
-	ZVAL_STRING(&_1, "eventsManager");
-	ZEPHIR_CALL_METHOD(NULL, &_0, "set", NULL, 0, &_1, eventsManager);
+	ZEPHIR_INIT_VAR(&_0);
+	ZVAL_STRING(&_0, "eventsManager");
+	ZEPHIR_CALL_METHOD(NULL, &container, "set", NULL, 0, &_0, eventsManager);
 	zephir_check_call_status();
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 139, eventsManager);
 	ZEPHIR_MM_RESTORE();
