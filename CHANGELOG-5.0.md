@@ -10,9 +10,13 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 
 ### Changed
 
+- Changed `Phalcon\Filter\Validation\Validator\Callback` to stop binding the callback closure to the validator; to set the message from inside the callback ([#17255](https://github.com/phalcon/cphalcon/issues/17255)), declare a second parameter and call `$validator->setTemplate()` instead of `$this->setTemplate()` [#17499](https://github.com/phalcon/cphalcon/issues/17499) [[doc]](https://docs.phalcon.io/5.18/filter-validation/)
+
 ### Added
 
 ### Fixed
+
+- Fixed `Phalcon\Filter\Validation\Validator\Callback` rebinding `$this` in callback closures; the validator is now passed as a second argument to closures that declare one [#17499](https://github.com/phalcon/cphalcon/issues/17499) [[doc]](https://docs.phalcon.io/5.18/filter-validation/)
 
 ### Removed
 
