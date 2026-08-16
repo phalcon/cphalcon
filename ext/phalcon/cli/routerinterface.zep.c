@@ -22,6 +22,9 @@
  */
 /**
  * Interface for Phalcon\Cli\Router
+ *
+ * @phpstan-import-type cli_parameters from CliTypes
+ * @phpstan-import-type cli_router_defaults from CliTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Cli_RouterInterface)
 {
@@ -33,7 +36,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Cli_RouterInterface)
 /**
  * Adds a route to the router on any HTTP method
  *
- * @phpstan-param array|string|null $paths
+ * @phpstan-param mixed $paths
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cli_RouterInterface, add);
 /**
@@ -46,6 +49,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Cli_RouterInterface, getActionName);
 ZEPHIR_DOC_METHOD(Phalcon_Cli_RouterInterface, getMatchedRoute);
 /**
  * Return the sub expressions in the regular expression matched
+ *
+ * @return array<array-key, string>
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cli_RouterInterface, getMatches);
 /**
@@ -55,13 +60,17 @@ ZEPHIR_DOC_METHOD(Phalcon_Cli_RouterInterface, getModuleName);
 /**
  * Returns processed extra params
  *
- * @deprecated Use {@see getParameters()} instead.
- */
-ZEPHIR_DOC_METHOD(Phalcon_Cli_RouterInterface, getParams);
-/**
- * Returns processed extra params
+ * @phpstan-return cli_parameters
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cli_RouterInterface, getParameters);
+/**
+ * Returns processed extra params
+ *
+ * @deprecated Use getParameters() instead
+ *
+ * @phpstan-return cli_parameters
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Cli_RouterInterface, getParams);
 /**
  * Returns a route object by its id
  *
@@ -103,6 +112,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Cli_RouterInterface, setDefaultAction);
 ZEPHIR_DOC_METHOD(Phalcon_Cli_RouterInterface, setDefaultModule);
 /**
  * Sets an array of default paths
+ *
+ * @phpstan-param cli_router_defaults $defaults
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cli_RouterInterface, setDefaults);
 /**

@@ -27,6 +27,9 @@
  * `setParams()` spellings are still declared for backwards compatibility and
  * are scheduled to be removed in the next major version in favor of their
  * `*Parameter` counterparts.
+ *
+ * @phpstan-import-type dispatcher_forward from DispatcherTypes
+ * @phpstan-import-type dispatcher_params from DispatcherTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Contracts_Dispatcher_Dispatcher)
 {
@@ -43,6 +46,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Contracts_Dispatcher_Dispatcher)
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Dispatcher_Dispatcher, dispatch);
 /**
  * Forwards the execution flow to another controller/action
+ *
+ * @phpstan-param dispatcher_forward $forward
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Dispatcher_Dispatcher, forward);
 /**
@@ -60,7 +65,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Dispatcher_Dispatcher, getHandlerSuffix);
 /**
  * Gets a param by its name or numeric index
  *
- * @param  string|array filters
+ * @phpstan-param array-key $param
+ * @phpstan-param mixed $filters
  *
  * @deprecated Use getParameter() instead
  *
@@ -71,17 +77,22 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Dispatcher_Dispatcher, getParam);
 /**
  * Gets a param by its name or numeric index
  *
- * @param  string|array filters
+ * @phpstan-param array-key $param
+ * @phpstan-param mixed $filters
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Dispatcher_Dispatcher, getParameter);
 /**
  * Gets action params
  *
  * @deprecated Use getParameters() instead
+ *
+ * @phpstan-return dispatcher_params
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Dispatcher_Dispatcher, getParams);
 /**
  * Gets action params
+ *
+ * @phpstan-return dispatcher_params
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Dispatcher_Dispatcher, getParameters);
 /**
@@ -92,6 +103,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Dispatcher_Dispatcher, getReturnedValue);
  * Check if a param exists
  *
  * @deprecated Use hasParameter() instead
+ *
+ * @phpstan-param array-key $param
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Dispatcher_Dispatcher, hasParam);
 /**
@@ -130,6 +143,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Dispatcher_Dispatcher, setNamespaceName);
 /**
  * Set a param by its name or numeric index
  *
+ * @phpstan-param array-key $param
  * @param  mixed value
  *
  * @deprecated Use setParameter() instead
@@ -139,5 +153,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Dispatcher_Dispatcher, setParam);
  * Sets action params to be dispatched
  *
  * @deprecated Use setParameters() instead
+ *
+ * @phpstan-param dispatcher_params $params
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Dispatcher_Dispatcher, setParams);
