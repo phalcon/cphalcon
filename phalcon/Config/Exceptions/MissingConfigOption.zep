@@ -14,10 +14,7 @@ use Phalcon\Config\Exception;
 
 class MissingConfigOption extends Exception
 {
-    /**
-     * @var string
-     */
-    private option;
+    private string option;
 
     public function __construct(string option)
     {

@@ -10,12 +10,17 @@
 
 namespace Phalcon\Config;
 
+use Phalcon\Contracts\Config\ConfigTypes;
 use Phalcon\Support\Collection\CollectionInterface;
 
 /**
  * Phalcon\Config\ConfigInterface
  *
  * Interface for Phalcon\Config\Config class
+ *
+ * @extends CollectionInterface<mixed>
+ *
+ * @phpstan-import-type config_data from ConfigTypes
  */
 interface ConfigInterface extends CollectionInterface
 {
@@ -25,7 +30,7 @@ interface ConfigInterface extends CollectionInterface
     public function getPathDelimiter() -> string;
 
     /**
-     * @param array|ConfigInterface $toMerge
+     * @phpstan-param config_data|ConfigInterface $toMerge
      *
      * @return ConfigInterface
      */
