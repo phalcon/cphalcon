@@ -14,7 +14,10 @@ use Phalcon\Config\Exception;
 
 class CannotLoadConfigFile extends Exception
 {
-    private string fileName;
+    /**
+     * @var string
+     */
+    private fileName;
 
     public function __construct(string fileName)
     {

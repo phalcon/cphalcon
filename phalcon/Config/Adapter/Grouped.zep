@@ -15,7 +15,6 @@ use Phalcon\Config\ConfigFactory;
 use Phalcon\Config\ConfigInterface;
 use Phalcon\Config\Exception;
 use Phalcon\Config\Exceptions\GroupedAdapterRequiresArray;
-use Phalcon\Contracts\Config\ConfigTypes;
 use Phalcon\Factory\Exception as FactoryException;
 
 /**
@@ -68,17 +67,13 @@ use Phalcon\Factory\Exception as FactoryException;
  *     ],
  * );
  * ```
- *
- * @phpstan-import-type config_grouped_entries from ConfigTypes
- * @phpstan-import-type config_options from ConfigTypes
  */
 class Grouped extends Config
 {
     /**
-     * Grouped constructor.
+     * Phalcon\Config\Adapter\Grouped constructor
      *
-     * @phpstan-param config_grouped_entries $arrayConfig
-     *
+     * @param array              $arrayConfig
      * @param string             $defaultAdapter
      * @param ConfigFactory|null $factory        Factory used to load file
      *                                           based fragments; a default

@@ -12,7 +12,6 @@ namespace Phalcon\Config\Adapter;
 
 use Phalcon\Config\Config;
 use Phalcon\Config\Exceptions\CannotLoadConfigFile;
-use Phalcon\Contracts\Config\ConfigTypes;
 use Phalcon\Support\Helper\Json\Decode;
 use Phalcon\Traits\Php\FileTrait;
 
@@ -35,21 +34,19 @@ use Phalcon\Traits\Php\FileTrait;
  * echo $config->phalcon->baseuri;
  * echo $config->models->metadata;
  *```
- *
- * @phpstan-import-type config_data from ConfigTypes
  */
 class Json extends Config
 {
     use FileTrait;
 
     /**
-     * Json constructor.
+     * Phalcon\Config\Adapter\Json constructor
      *
      * @throws CannotLoadConfigFile
      */
     public function __construct( string filePath)
     {
-        var content, data;
+        var content;
 
         let content = this->phpFileGetContents(filePath);
 
@@ -57,8 +54,8 @@ class Json extends Config
             throw new CannotLoadConfigFile(basename(filePath));
         }
 
-        let data = (new Decode())->__invoke(content, true);
-
-        parent::__construct(data);
+        parent::__construct(
+            (new Decode())->__invoke(content, true)
+        );
     }
 }

@@ -12,7 +12,6 @@ namespace Phalcon\Config\Adapter;
 
 use Phalcon\Config\Config;
 use Phalcon\Config\Exceptions\CannotLoadConfigFile;
-use Phalcon\Contracts\Config\ConfigTypes;
 
 /**
  * Reads php files and converts them to Phalcon\Config\Config objects.
@@ -48,26 +47,22 @@ use Phalcon\Contracts\Config\ConfigTypes;
  * echo $config->phalcon->controllersDir;
  * echo $config->database->username;
  *```
- *
- * @phpstan-import-type config_data from ConfigTypes
  */
 class Php extends Config
 {
     /**
-     * Php constructor.
+     * Phalcon\Config\Adapter\Php constructor
      *
      * @throws CannotLoadConfigFile
      */
     public function __construct( string filePath)
     {
-        var data;
-
         if unlikely true !== is_file(filePath) {
             throw new CannotLoadConfigFile(basename(filePath));
         }
 
-        let data = require filePath;
-
-        parent::__construct(data);
+        parent::__construct(
+            require filePath
+        );
     }
 }

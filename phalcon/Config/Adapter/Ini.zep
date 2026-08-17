@@ -13,7 +13,6 @@ namespace Phalcon\Config\Adapter;
 use Phalcon\Config\Config;
 use Phalcon\Config\Exception;
 use Phalcon\Config\Exceptions\CannotLoadConfigFile;
-use Phalcon\Contracts\Config\ConfigTypes;
 use Phalcon\Traits\Php\IniTrait;
 
 /**
@@ -57,8 +56,6 @@ use Phalcon\Traits\Php\IniTrait;
  *     INI_SCANNER_NORMAL
  * );
  * ```
- *
- * @phpstan-import-type config_data from ConfigTypes
  */
 class Ini extends Config
 {
@@ -160,7 +157,7 @@ class Ini extends Config
         // Decode float/int
         if is_numeric(ini) {
             if preg_match("/[.]+/", ini) {
-                return (float) ini;
+                return (double) ini;
             }
 
             return (int) ini;
@@ -170,9 +167,9 @@ class Ini extends Config
     }
 
     /**
-     * @phpstan-param config_data $ini
+     * @param array $ini
      *
-     * @phpstan-return config_data
+     * @return array
      */
     protected function castArray(array ini) -> array
     {
@@ -191,7 +188,7 @@ class Ini extends Config
      * @param string $path
      * @param mixed  $value
      *
-     * @phpstan-return config_data
+     * @return array
      */
     protected function parseIniString(string path, var value) -> array
     {

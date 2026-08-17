@@ -10,16 +10,16 @@
 
 namespace Phalcon\Config;
 
-use Exception as BaseException;
 use Phalcon\Config\Adapter\Grouped;
 use Phalcon\Config\Adapter\Ini;
 use Phalcon\Config\Adapter\Json;
 use Phalcon\Config\Adapter\Php;
 use Phalcon\Config\Adapter\Yaml;
+use Phalcon\Config\Config;
+use Phalcon\Config\ConfigInterface;
 use Phalcon\Config\Exceptions\ConfigNotArrayOrObject;
 use Phalcon\Config\Exceptions\MissingConfigOption;
 use Phalcon\Config\Exceptions\MissingFileExtension;
-use Phalcon\Contracts\Config\ConfigTypes;
 use Phalcon\Factory\AbstractFactory;
 
 /**
@@ -36,18 +36,11 @@ use Phalcon\Factory\AbstractFactory;
  *
  * $config = (new ConfigFactory())->load($options);
  *```
- *
- * @phpstan-import-type config_callbacks from ConfigTypes
- * @phpstan-import-type config_extra_arguments from ConfigTypes
- * @phpstan-import-type config_options from ConfigTypes
- * @phpstan-import-type config_options_resolved from ConfigTypes
  */
 class ConfigFactory extends AbstractFactory
 {
     /**
      * ConfigFactory constructor.
-     *
-     * @param array<string, string> $services
      */
     public function __construct(array services = [])
     {
@@ -57,7 +50,12 @@ class ConfigFactory extends AbstractFactory
     /**
      * Load a config to create a new instance
      *
-     * @phpstan-param ConfigInterface|config_options|string $config
+     * @param string|array|\Phalcon\Config\Config config = [
+     *                                    'adapter'   => 'ini',
+     *                                    'filePath'  => 'config.ini',
+     *                                    'mode'      => null,
+     *                                    'callbacks' => null
+     *                                    ]
      *
      * @return ConfigInterface
      * @throws Exception
@@ -98,13 +96,12 @@ class ConfigFactory extends AbstractFactory
     /**
      * Returns a new Config instance
      *
-     * @phpstan-param config_callbacks|int|string|null $params
-     *
-     * @param string $name
-     * @param string $fileName
+     * @param string     $name
+     * @param string     $fileName
+     * @param mixed|null $params
      *
      * @return ConfigInterface
-     * @throws BaseException
+     * @throws Exception
      */
     public function newInstance(
         string name,
@@ -151,7 +148,7 @@ class ConfigFactory extends AbstractFactory
      * option carrying it and its default value. Single source for the
      * parameter-forwarding knowledge used by `load()` and `newInstance()`.
      *
-     * @phpstan-return config_extra_arguments
+     * @return array<string, array>
      */
     protected function getExtraArguments() -> array
     {
@@ -179,9 +176,9 @@ class ConfigFactory extends AbstractFactory
     }
 
     /**
-     * @phpstan-param ConfigInterface|config_options|string $config
+     * @param mixed $config
      *
-     * @phpstan-return config_options_resolved
+     * @return array
      * @throws Exception
      */
     protected function parseConfig(var config) -> array
@@ -216,7 +213,7 @@ class ConfigFactory extends AbstractFactory
     }
 
     /**
-     * @phpstan-param config_options $config
+     * @param array $config
      *
      * @throws Exception
      */
