@@ -30,12 +30,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Config_Exceptions_CannotLoadConfigFile)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Config\\Exceptions, CannotLoadConfigFile, phalcon, config_exceptions_cannotloadconfigfile, phalcon_config_exception_ce, phalcon_config_exceptions_cannotloadconfigfile_method_entry, 0);
 
-	{
-		zval _zc0;
-		ZVAL_UNDEF(&_zc0);
-		zephir_declare_typed_property(phalcon_config_exceptions_cannotloadconfigfile_ce, SL("fileName"), &_zc0, ZEND_ACC_PRIVATE, MAY_BE_STRING, NULL, 0);
-	}
-
+	/**
+	 * @var string
+	 */
+	zend_declare_property_null(phalcon_config_exceptions_cannotloadconfigfile_ce, SL("fileName"), ZEND_ACC_PRIVATE);
 	return SUCCESS;
 }
 

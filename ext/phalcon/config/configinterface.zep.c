@@ -24,10 +24,6 @@
  * Phalcon\Config\ConfigInterface
  *
  * Interface for Phalcon\Config\Config class
- *
- * @extends CollectionInterface<mixed>
- *
- * @phpstan-import-type config_data from ConfigTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Config_ConfigInterface)
 {
@@ -42,7 +38,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Config_ConfigInterface)
  */
 ZEPHIR_DOC_METHOD(Phalcon_Config_ConfigInterface, getPathDelimiter);
 /**
- * @phpstan-param config_data|ConfigInterface $toMerge
+ * @param array|ConfigInterface $toMerge
  *
  * @return ConfigInterface
  */

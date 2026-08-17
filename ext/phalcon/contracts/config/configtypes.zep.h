@@ -1,5 +1,0 @@
-
-extern zend_class_entry *phalcon_contracts_config_configtypes_ce;
-
-ZEPHIR_INIT_CLASS(Phalcon_Contracts_Config_ConfigTypes);
-

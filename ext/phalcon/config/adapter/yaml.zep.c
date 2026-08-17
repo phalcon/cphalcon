@@ -73,12 +73,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Config_Adapter_Yaml)
 }
 
 /**
- * Yaml constructor.
- *
- * @param string                       $filePath
- * @param array<string, callable>|null $callbacks
- *
- * @throws Exception
+ * Phalcon\Config\Adapter\Yaml constructor
  */
 PHP_METHOD(Phalcon_Config_Adapter_Yaml, __construct)
 {
@@ -125,7 +120,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Yaml, __construct)
 		object_init_ex(&_2$$3, phalcon_config_exceptions_missingyamlextension_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 457);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_2$$3, "phalcon/Config/Adapter/Yaml.zep", 75);
+		zephir_throw_exception_debug(&_2$$3, "phalcon/Config/Adapter/Yaml.zep", 70);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -148,7 +143,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Yaml, __construct)
 		zephir_basename(&_5$$7, &filePath_zv);
 		ZEPHIR_CALL_METHOD(NULL, &_4$$7, "__construct", NULL, 452, &_5$$7);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_4$$7, "phalcon/Config/Adapter/Yaml.zep", 89);
+		zephir_throw_exception_debug(&_4$$7, "phalcon/Config/Adapter/Yaml.zep", 84);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
