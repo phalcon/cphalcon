@@ -47,6 +47,8 @@
  * echo $config->phalcon->baseuri;
  * echo $config->models->metadata;
  *```
+ *
+ * @phpstan-import-type config_data from ConfigTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Config_Adapter_Json)
 {
@@ -56,7 +58,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Config_Adapter_Json)
 }
 
 /**
- * Phalcon\Config\Adapter\Json constructor
+ * Json constructor.
  *
  * @throws CannotLoadConfigFile
  */
@@ -64,15 +66,15 @@ PHP_METHOD(Phalcon_Config_Adapter_Json, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval filePath_zv, content, _2, _3, _4, _0$$3, _1$$3;
+	zval filePath_zv, content, data, _2, _3, _0$$3, _1$$3;
 	zend_string *filePath = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&filePath_zv);
 	ZVAL_UNDEF(&content);
+	ZVAL_UNDEF(&data);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
-	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_0$$3);
 	ZVAL_UNDEF(&_1$$3);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
@@ -91,7 +93,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Json, __construct)
 		zephir_basename(&_1$$3, &filePath_zv);
 		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 452, &_1$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_0$$3, "phalcon/Config/Adapter/Json.zep", 54);
+		zephir_throw_exception_debug(&_0$$3, "phalcon/Config/Adapter/Json.zep", 57);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -102,10 +104,10 @@ PHP_METHOD(Phalcon_Config_Adapter_Json, __construct)
 		zephir_check_call_status();
 	}
 
-	ZVAL_BOOL(&_4, 1);
-	ZEPHIR_CALL_METHOD(&_3, &_2, "__invoke", NULL, 397, &content, &_4);
+	ZVAL_BOOL(&_3, 1);
+	ZEPHIR_CALL_METHOD(&data, &_2, "__invoke", NULL, 397, &content, &_3);
 	zephir_check_call_status();
-	ZEPHIR_CALL_PARENT(NULL, phalcon_config_adapter_json_ce, getThis(), "__construct", NULL, 0, &_3);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_config_adapter_json_ce, getThis(), "__construct", NULL, 0, &data);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
