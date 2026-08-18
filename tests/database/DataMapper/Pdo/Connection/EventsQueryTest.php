@@ -91,104 +91,6 @@ final class EventsQueryTest extends AbstractDatabaseTestCase
         $this->assertEquals(2, $fired['after']['affectedRows']);
     }
 
-    public function testDMPdoConnectionQueryCancelled(): void
-    {
-        $manager = new Manager();
-        $manager->attach(
-            Events::BEFORE_QUERY,
-            function ($event) {
-                $event->stop();
-
-                return false;
-            }
-        );
-
-        /** @var Connection $connection */
-        $connection = self::getDataMapperConnection();
-        $connection->setEventsManager($manager);
-
-        $this->expectException(OperationCancelled::class);
-        $this->expectExceptionMessage(
-            "Operation cancelled by a listener of 'dm:beforeQuery'"
-        );
-
-        $connection->query('select * from co_invoices');
-    }
-
-    public function testDMPdoConnectionQueryFiresEvents(): void
-    {
-        $migration = new InvoicesMigration(self::getPdoConnection());
-        $migration->clear();
-        $migration->insert(1);
-
-        $fired   = [];
-        $manager = new Manager();
-
-        $manager->attach(
-            Events::BEFORE_QUERY,
-            function ($event, $source, $data) use (&$fired) {
-                $fired['before'] = $data;
-            }
-        );
-        $manager->attach(
-            Events::AFTER_QUERY,
-            function ($event, $source, $data) use (&$fired) {
-                $fired['after'] = $data;
-            }
-        );
-
-        /** @var Connection $connection */
-        $connection = self::getDataMapperConnection();
-        $connection->setEventsManager($manager);
-
-        $connection->query('select * from co_invoices');
-
-        $this->assertSame(
-            'select * from co_invoices',
-            $fired['before']['statement']
-        );
-        $this->assertSame(
-            ['select * from co_invoices'],
-            $fired['before']['arguments']
-        );
-        $this->assertSame(
-            'select * from co_invoices',
-            $fired['after']['statement']
-        );
-    }
-
-    public function testDMPdoConnectionPrepareFiresNoOperationEvents(): void
-    {
-        $fired   = [];
-        $manager = new Manager();
-
-        foreach (
-            [
-                Events::BEFORE_QUERY,
-                Events::AFTER_QUERY,
-                Events::BEFORE_PERFORM,
-                Events::AFTER_PERFORM,
-                Events::BEFORE_EXEC,
-                Events::AFTER_EXEC,
-            ] as $name
-        ) {
-            $manager->attach(
-                $name,
-                function () use (&$fired, $name) {
-                    $fired[] = $name;
-                }
-            );
-        }
-
-        /** @var Connection $connection */
-        $connection = self::getDataMapperConnection();
-        $connection->setEventsManager($manager);
-
-        $connection->prepare('select * from co_invoices');
-
-        $this->assertSame([], $fired);
-    }
-
     public function testDMPdoConnectionPerformCancelled(): void
     {
         $manager = new Manager();
@@ -254,6 +156,104 @@ final class EventsQueryTest extends AbstractDatabaseTestCase
         $this->assertSame([0 => 1], $fired['before']['values']);
         $this->assertSame(
             'select * from co_invoices where inv_id = ?',
+            $fired['after']['statement']
+        );
+    }
+
+    public function testDMPdoConnectionPrepareFiresNoOperationEvents(): void
+    {
+        $fired   = [];
+        $manager = new Manager();
+
+        foreach (
+            [
+                Events::BEFORE_QUERY,
+                Events::AFTER_QUERY,
+                Events::BEFORE_PERFORM,
+                Events::AFTER_PERFORM,
+                Events::BEFORE_EXEC,
+                Events::AFTER_EXEC,
+            ] as $name
+        ) {
+            $manager->attach(
+                $name,
+                function () use (&$fired, $name) {
+                    $fired[] = $name;
+                }
+            );
+        }
+
+        /** @var Connection $connection */
+        $connection = self::getDataMapperConnection();
+        $connection->setEventsManager($manager);
+
+        $connection->prepare('select * from co_invoices');
+
+        $this->assertSame([], $fired);
+    }
+
+    public function testDMPdoConnectionQueryCancelled(): void
+    {
+        $manager = new Manager();
+        $manager->attach(
+            Events::BEFORE_QUERY,
+            function ($event) {
+                $event->stop();
+
+                return false;
+            }
+        );
+
+        /** @var Connection $connection */
+        $connection = self::getDataMapperConnection();
+        $connection->setEventsManager($manager);
+
+        $this->expectException(OperationCancelled::class);
+        $this->expectExceptionMessage(
+            "Operation cancelled by a listener of 'dm:beforeQuery'"
+        );
+
+        $connection->query('select * from co_invoices');
+    }
+
+    public function testDMPdoConnectionQueryFiresEvents(): void
+    {
+        $migration = new InvoicesMigration(self::getPdoConnection());
+        $migration->clear();
+        $migration->insert(1);
+
+        $fired   = [];
+        $manager = new Manager();
+
+        $manager->attach(
+            Events::BEFORE_QUERY,
+            function ($event, $source, $data) use (&$fired) {
+                $fired['before'] = $data;
+            }
+        );
+        $manager->attach(
+            Events::AFTER_QUERY,
+            function ($event, $source, $data) use (&$fired) {
+                $fired['after'] = $data;
+            }
+        );
+
+        /** @var Connection $connection */
+        $connection = self::getDataMapperConnection();
+        $connection->setEventsManager($manager);
+
+        $connection->query('select * from co_invoices');
+
+        $this->assertSame(
+            'select * from co_invoices',
+            $fired['before']['statement']
+        );
+        $this->assertSame(
+            ['select * from co_invoices'],
+            $fired['before']['arguments']
+        );
+        $this->assertSame(
+            'select * from co_invoices',
             $fired['after']['statement']
         );
     }
