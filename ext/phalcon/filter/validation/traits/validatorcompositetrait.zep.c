@@ -64,7 +64,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Traits_ValidatorCompositeTrait, getValidato
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_memory_observe(&_0);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 754, PH_NOISY_CC);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 758, PH_NOISY_CC);
 	zephir_get_arrval(&_1, &_0);
 	RETURN_CTOR(&_1);
 }
@@ -104,7 +104,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Traits_ValidatorCompositeTrait, validate)
 		object_init_ex(&_1$$3, phalcon_filter_validation_exceptions_novalidatorsincomposite_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		zephir_get_class(&_2$$3, this_ptr, 0);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 189, &_2$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 190, &_2$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Filter/Validation/Traits/ValidatorCompositeTrait.zep", 44);
 		ZEPHIR_MM_RESTORE();

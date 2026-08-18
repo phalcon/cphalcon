@@ -155,6 +155,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/contracts/logger/logger.zep.c
 	phalcon/contracts/support/debug/templateaware.zep.c
 	phalcon/datamapper/pdo/connection/connectioninterface.zep.c
+	phalcon/datamapper/pdo/exception/exception.zep.c
 	phalcon/datamapper/query/abstractconditions.zep.c
 	phalcon/db/adapter/pdo/abstractpdo.zep.c
 	phalcon/db/dialect.zep.c
@@ -215,7 +216,6 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/contracts/mvc/dispatcher.zep.c
 	phalcon/contracts/paginator/repository.zep.c
 	phalcon/datamapper/pdo/connection/abstractconnection.zep.c
-	phalcon/datamapper/pdo/exception/exception.zep.c
 	phalcon/di/di.zep.c
 	phalcon/dispatcher/abstractdispatcher.zep.c
 	phalcon/domain/payload/readableinterface.zep.c
@@ -595,9 +595,11 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/datamapper/pdo/connection.zep.c
 	phalcon/datamapper/pdo/connection/decorated.zep.c
 	phalcon/datamapper/pdo/connectionlocator.zep.c
+	phalcon/datamapper/pdo/events.zep.c
 	phalcon/datamapper/pdo/exception/cannotdisconnect.zep.c
 	phalcon/datamapper/pdo/exception/connectionnotfound.zep.c
 	phalcon/datamapper/pdo/exception/drivernotsupported.zep.c
+	phalcon/datamapper/pdo/exception/operationcancelled.zep.c
 	phalcon/datamapper/pdo/exception/unknowndrivermethod.zep.c
 	phalcon/datamapper/pdo/exception/unknownquerymethod.zep.c
 	phalcon/datamapper/pdo/profiler/memorylogger.zep.c
