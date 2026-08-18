@@ -16,15 +16,27 @@
 namespace Phalcon\DataMapper\Pdo\Connection;
 
 use BadMethodCallException;
+use Phalcon\Contracts\Events\EventsAware;
+use Phalcon\DataMapper\Pdo\Events;
+use Phalcon\DataMapper\Pdo\Exception\OperationCancelled;
 use Phalcon\DataMapper\Pdo\Exception\UnknownDriverMethod;
 use Phalcon\DataMapper\Pdo\Profiler\ProfilerInterface;
+use Phalcon\Events\ManagerInterface;
+use Phalcon\Events\Traits\EventsAwareTrait;
 
 /**
  * Provides array quoting, profiling, a new `perform()` method, new `fetch*()`
  * methods
+ *
+ * Connections fire the lifecycle events in Phalcon\DataMapper\Pdo\Events when
+ * an events manager is set. ConnectionInterface does not declare the events
+ * manager methods; the EventsAware contract is applied here so that existing
+ * implementations of the interface keep working.
  */
-abstract class AbstractConnection implements ConnectionInterface
+abstract class AbstractConnection implements ConnectionInterface, EventsAware
 {
+    use EventsAwareTrait;
+
     /**
      * Whether to transparently reconnect and retry once when a statement fails
      * because the connection was lost. Opt-in; off by default.
@@ -96,6 +108,7 @@ abstract class AbstractConnection implements ConnectionInterface
         var result;
 
         this->connect();
+        this->fireBefore(Events::BEFORE_BEGIN_TRANSACTION);
         this->profiler->start(__FUNCTION__);
 
         let result = this->pdo->beginTransaction();
@@ -103,6 +116,8 @@ abstract class AbstractConnection implements ConnectionInterface
         this->profiler->finish();
 
         let this->transactionLevel++;
+
+        this->fireManagerEvent(Events::AFTER_BEGIN_TRANSACTION, null, false);
 
         return result;
     }
@@ -118,6 +133,7 @@ abstract class AbstractConnection implements ConnectionInterface
         var result;
 
         this->connect();
+        this->fireBefore(Events::BEFORE_COMMIT);
         this->profiler->start(__FUNCTION__);
 
         let result = this->pdo->commit();
@@ -127,6 +143,8 @@ abstract class AbstractConnection implements ConnectionInterface
         if this->transactionLevel > 0 {
             let this->transactionLevel--;
         }
+
+        this->fireManagerEvent(Events::AFTER_COMMIT, null, false);
 
         return result;
     }
@@ -191,6 +209,7 @@ abstract class AbstractConnection implements ConnectionInterface
         var affectedRows, e;
 
         this->connect();
+        this->fireBefore(Events::BEFORE_EXEC, ["statement" : statement]);
         this->profiler->start(__FUNCTION__);
 
         try {
@@ -206,6 +225,15 @@ abstract class AbstractConnection implements ConnectionInterface
         }
 
         this->profiler->finish(statement);
+
+        this->fireManagerEvent(
+            Events::AFTER_EXEC,
+            [
+                "statement"    : statement,
+                "affectedRows" : affectedRows
+            ],
+            false
+        );
 
         return affectedRows;
     }
@@ -624,6 +652,13 @@ abstract class AbstractConnection implements ConnectionInterface
         var sth, e;
 
         this->connect();
+        this->fireBefore(
+            Events::BEFORE_PERFORM,
+            [
+                "statement" : statement,
+                "values"    : values
+            ]
+        );
 
         this->profiler->start(__FUNCTION__);
 
@@ -640,6 +675,15 @@ abstract class AbstractConnection implements ConnectionInterface
         }
 
         this->profiler->finish(statement, values);
+
+        this->fireManagerEvent(
+            Events::AFTER_PERFORM,
+            [
+                "statement" : statement,
+                "values"    : values
+            ],
+            false
+        );
 
         return sth;
     }
@@ -780,6 +824,7 @@ abstract class AbstractConnection implements ConnectionInterface
         var result;
 
         this->connect();
+        this->fireBefore(Events::BEFORE_ROLLBACK);
 
         this->profiler->start(__FUNCTION__);
 
@@ -790,6 +835,8 @@ abstract class AbstractConnection implements ConnectionInterface
         if this->transactionLevel > 0 {
             let this->transactionLevel--;
         }
+
+        this->fireManagerEvent(Events::AFTER_ROLLBACK, null, false);
 
         return result;
     }
@@ -831,6 +878,23 @@ abstract class AbstractConnection implements ConnectionInterface
         let this->profiler = profiler;
 
         return this;
+    }
+
+    /**
+     * Fires a cancellable "before" event. A listener cancels by stopping the
+     * event and returning false; see Phalcon\DataMapper\Pdo\Events for the
+     * required idiom. The operation does not run when it is cancelled.
+     *
+     * @param string     $eventName
+     * @param mixed|null $data
+     *
+     * @throws OperationCancelled
+     */
+    protected function fireBefore(string eventName, var data = null) -> void
+    {
+        if this->fireManagerEvent(eventName, data, true) === false {
+            throw new OperationCancelled(eventName);
+        }
     }
 
     /**
@@ -993,6 +1057,8 @@ abstract class AbstractConnection implements ConnectionInterface
      */
     private function reconnect() -> void
     {
+        this->fireManagerEvent(Events::CONNECTION_LOST, null, false);
+
         this->disconnect();
         this->connect();
     }
