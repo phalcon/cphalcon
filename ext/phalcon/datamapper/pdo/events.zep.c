@@ -47,6 +47,15 @@
  *
  * The `after*` events are not cancellable. The operation is complete when
  * they fire.
+ *
+ * There are two groups of events. The operation events - perform, exec,
+ * query and the three transaction events - belong to one operation each.
+ * `prepare()` has no operation events because `perform()` calls it, and
+ * nested events for one logical operation give listeners two counts of the
+ * same work. The connection events - connect, disconnect and connectionLost
+ * - report a change of the connection state. They fire each time the state
+ * changes, whichever method causes it. An automatic reconnect from any
+ * method therefore reports the lost connection and the new one.
  */
 ZEPHIR_INIT_CLASS(Phalcon_DataMapper_Pdo_Events)
 {
@@ -85,6 +94,11 @@ ZEPHIR_INIT_CLASS(Phalcon_DataMapper_Pdo_Events)
 	/**
 	 * @var string
 	 */
+	zephir_declare_class_constant_string(phalcon_datamapper_pdo_events_ce, SL("AFTER_QUERY"), "dm:afterQuery");
+
+	/**
+	 * @var string
+	 */
 	zephir_declare_class_constant_string(phalcon_datamapper_pdo_events_ce, SL("AFTER_ROLLBACK"), "dm:afterRollBack");
 
 	/**
@@ -116,6 +130,11 @@ ZEPHIR_INIT_CLASS(Phalcon_DataMapper_Pdo_Events)
 	 * @var string
 	 */
 	zephir_declare_class_constant_string(phalcon_datamapper_pdo_events_ce, SL("BEFORE_PERFORM"), "dm:beforePerform");
+
+	/**
+	 * @var string
+	 */
+	zephir_declare_class_constant_string(phalcon_datamapper_pdo_events_ce, SL("BEFORE_QUERY"), "dm:beforeQuery");
 
 	/**
 	 * @var string

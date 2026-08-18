@@ -757,9 +757,17 @@ abstract class AbstractConnection implements ConnectionInterface, EventsAware
 
         this->connect();
 
-        this->profiler->start(__FUNCTION__);
-
         let arguments = func_get_args();
+
+        this->fireBefore(
+            Events::BEFORE_QUERY,
+            [
+                "statement" : statement,
+                "arguments" : arguments
+            ]
+        );
+
+        this->profiler->start(__FUNCTION__);
 
         try {
             let sth = call_user_func_array([this->pdo, "query"], arguments);
@@ -774,6 +782,15 @@ abstract class AbstractConnection implements ConnectionInterface, EventsAware
         }
 
         this->profiler->finish(sth->queryString);
+
+        this->fireManagerEvent(
+            Events::AFTER_QUERY,
+            [
+                "statement" : statement,
+                "arguments" : arguments
+            ],
+            false
+        );
 
         return sth;
     }
