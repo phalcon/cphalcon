@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Tag;
 
 use Phalcon\Tag;
+use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 
 use const PHP_EOL;
 
@@ -71,7 +72,9 @@ final class TitleTest extends AbstractTagTestCase
 
     public function testGetTitleSeparatorWhenNullIsEmpty(): void
     {
-        Tag::resetInput();
+        // the property is nulled directly rather than through the deprecated
+        // Tag::resetInput(); only the null state matters here
+        $this->setProtectedProperty(Tag::class, 'documentTitleSeparator', null);
 
         $this->assertSame('', Tag::getTitleSeparator());
     }
@@ -83,7 +86,9 @@ final class TitleTest extends AbstractTagTestCase
 
     public function testGetTitleWithNullTitleIsEmpty(): void
     {
-        Tag::resetInput();
+        // the property is nulled directly rather than through the deprecated
+        // Tag::resetInput(); only the null state matters here
+        $this->setProtectedProperty(Tag::class, 'documentTitle', null);
 
         $this->assertSame('', Tag::getTitle());
     }
@@ -179,6 +184,11 @@ final class TitleTest extends AbstractTagTestCase
         );
     }
 
+    /**
+     * Tag::resetInput() is deprecated, and this test covers that method, so
+     * the deprecation it raises is expected.
+     */
+    #[IgnoreDeprecations]
     public function testResetInputClearsTheTitleAndTheValues(): void
     {
         Tag::setDefault('name', 'Phalcon');
