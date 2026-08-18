@@ -11,7 +11,6 @@
 namespace Phalcon\Config;
 
 use Phalcon\Config\Exceptions\InvalidMergeData;
-use Phalcon\Contracts\Config\ConfigTypes;
 use Phalcon\Support\Collection;
 
 /**
@@ -38,10 +37,6 @@ use Phalcon\Support\Collection;
  *     ]
  * );
  *```
- *
- * @extends Collection<mixed>
- *
- * @phpstan-import-type config_data from ConfigTypes
  */
 class Config extends Collection implements ConfigInterface
 {
@@ -80,7 +75,7 @@ class Config extends Collection implements ConfigInterface
      * $globalConfig->merge($appConfig);
      *```
      *
-     * @phpstan-param config_data|ConfigInterface $toMerge
+     * @param array|ConfigInterface $toMerge
      *
      * @return ConfigInterface
      * @throws Exception
@@ -140,12 +135,7 @@ class Config extends Collection implements ConfigInterface
         let config = clone this,
             keys   = explode(pathDelimiter, path);
 
-        /**
-         * `explode()` always yields at least one key, and the `empty(keys)`
-         * test below returns before the list can run out. The loop therefore
-         * only leaves through a `break` or a `return`.
-         */
-        loop {
+        while (true !== empty(keys)) {
             let key = array_shift(keys);
 
             if (true !== config->has(key)) {
@@ -175,7 +165,7 @@ class Config extends Collection implements ConfigInterface
      */
     public function setPathDelimiter(string delimiter = null) -> <ConfigInterface>
     {
-        let this->pathDelimiter = (string) delimiter;
+        let this->pathDelimiter = delimiter;
 
         return this;
     }
@@ -189,7 +179,7 @@ class Config extends Collection implements ConfigInterface
      * );
      *```
      *
-     * @return array<array-key, mixed>
+     * @return array
      */
     public function toArray() -> array
     {
@@ -218,7 +208,7 @@ class Config extends Collection implements ConfigInterface
      * configuration of the current one. Clone-based instead of
      * constructor-based: adapter subclasses (Ini, Json, Php, Yaml, Grouped)
      * define file-loading constructors that are incompatible with the
-     * parent's `(array $data, ...)` signature, so `filter()`, `map()`,
+     * parent's `(array data, ...)` signature, so `filter()`, `map()`,
      * `sort()` and `where()` would otherwise fail on any adapter instance.
      *
      * @param array<int|string, mixed> $data
@@ -239,10 +229,10 @@ class Config extends Collection implements ConfigInterface
     /**
      * Performs a merge recursively
      *
-     * @param array<array-key, mixed> $source
-     * @param array<array-key, mixed> $target
+     * @param array $source
+     * @param array $target
      *
-     * @return array<array-key, mixed>
+     * @return array
      */
     final protected function internalMerge(array source, array target) -> array
     {

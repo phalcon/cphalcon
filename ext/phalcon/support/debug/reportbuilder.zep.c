@@ -544,7 +544,7 @@ PHP_METHOD(Phalcon_Support_Debug_ReportBuilder, resolveClassLink)
 	}
 	ZEPHIR_INIT_VAR(&reflection);
 	object_init_ex(&reflection, zephir_get_internal_ce(SL("reflectionclass")));
-	ZEPHIR_CALL_METHOD(NULL, &reflection, "__construct", NULL, 245, &className_zv);
+	ZEPHIR_CALL_METHOD(NULL, &reflection, "__construct", NULL, 246, &className_zv);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_4, &reflection, "isinternal", NULL, 0);
 	zephir_check_call_status();
@@ -595,7 +595,7 @@ PHP_METHOD(Phalcon_Support_Debug_ReportBuilder, resolveFunctionLink)
 	}
 	ZEPHIR_INIT_VAR(&reflection);
 	object_init_ex(&reflection, zephir_get_internal_ce(SL("reflectionfunction")));
-	ZEPHIR_CALL_METHOD(NULL, &reflection, "__construct", NULL, 242, &functionName_zv);
+	ZEPHIR_CALL_METHOD(NULL, &reflection, "__construct", NULL, 243, &functionName_zv);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_1, &reflection, "isinternal", NULL, 0);
 	zephir_check_call_status();
@@ -698,7 +698,7 @@ PHP_METHOD(Phalcon_Support_Debug_ReportBuilder, phpExtensionLoaded)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
-	ZEPHIR_RETURN_CALL_FUNCTION("extension_loaded", NULL, 458, &name_zv);
+	ZEPHIR_RETURN_CALL_FUNCTION("extension_loaded", NULL, 459, &name_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }

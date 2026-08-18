@@ -30,12 +30,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Config_Exceptions_MissingConfigOption)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Config\\Exceptions, MissingConfigOption, phalcon, config_exceptions_missingconfigoption, phalcon_config_exception_ce, phalcon_config_exceptions_missingconfigoption_method_entry, 0);
 
-	{
-		zval _zc0;
-		ZVAL_UNDEF(&_zc0);
-		zephir_declare_typed_property(phalcon_config_exceptions_missingconfigoption_ce, SL("option"), &_zc0, ZEND_ACC_PRIVATE, MAY_BE_STRING, NULL, 0);
-	}
-
+	/**
+	 * @var string
+	 */
+	zend_declare_property_null(phalcon_config_exceptions_missingconfigoption_ce, SL("option"), ZEND_ACC_PRIVATE);
 	return SUCCESS;
 }
 
@@ -62,7 +60,7 @@ PHP_METHOD(Phalcon_Config_Exceptions_MissingConfigOption, __construct)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&option_zv);
 	ZVAL_STR_COPY(&option_zv, option);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 517, &option_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 519, &option_zv);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SVS(&_0, "You must provide '", &option_zv, "' option in factory config parameter.");
 	ZEPHIR_CALL_PARENT(NULL, phalcon_config_exceptions_missingconfigoption_ce, getThis(), "__construct", NULL, 0, &_0);

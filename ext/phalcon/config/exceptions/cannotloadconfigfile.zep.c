@@ -30,12 +30,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Config_Exceptions_CannotLoadConfigFile)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Config\\Exceptions, CannotLoadConfigFile, phalcon, config_exceptions_cannotloadconfigfile, phalcon_config_exception_ce, phalcon_config_exceptions_cannotloadconfigfile_method_entry, 0);
 
-	{
-		zval _zc0;
-		ZVAL_UNDEF(&_zc0);
-		zephir_declare_typed_property(phalcon_config_exceptions_cannotloadconfigfile_ce, SL("fileName"), &_zc0, ZEND_ACC_PRIVATE, MAY_BE_STRING, NULL, 0);
-	}
-
+	/**
+	 * @var string
+	 */
+	zend_declare_property_null(phalcon_config_exceptions_cannotloadconfigfile_ce, SL("fileName"), ZEND_ACC_PRIVATE);
 	return SUCCESS;
 }
 
@@ -62,7 +60,7 @@ PHP_METHOD(Phalcon_Config_Exceptions_CannotLoadConfigFile, __construct)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&fileName_zv);
 	ZVAL_STR_COPY(&fileName_zv, fileName);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 516, &fileName_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 518, &fileName_zv);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SVS(&_0, "Configuration file ", &fileName_zv, " cannot be loaded");
 	ZEPHIR_CALL_PARENT(NULL, phalcon_config_exceptions_cannotloadconfigfile_ce, getThis(), "__construct", NULL, 0, &_0);
