@@ -22,6 +22,11 @@ use Phalcon\Filter\Validation\Exception;
  * be at least min, and at most max.
  * Since Phalcon v4.0 this validator works like a container
  *
+ * The "includedMinimum" and "includedMaximum" options are true by
+ * default. Set an option to false to exclude that boundary. The two
+ * options are independent of each other. The "included" option sets
+ * the two boundaries together and has precedence.
+ *
  * ```php
  * use Phalcon\Filter\Validation;
  * use Phalcon\Filter\Validation\Validator\StringLength as StringLength;
@@ -87,39 +92,54 @@ class StringLength extends AbstractValidatorComposite
      *     'min' => 100,
      *     'message' => '',
      *     'messageMinimum' => '',
-     *     'included' => '',
-     *     'includedMinimum' => false,
+     *     'included' => true,
+     *     'includedMinimum' => true,
      *     'max' => 1000,
      *     'messageMaximum' => '',
-     *     'includedMaximum' => false
+     *     'includedMaximum' => true
      * ]
      */
     public function __construct( array options = [])
     {
-        var included = null, key, message = null, validator, value;
+        var hasIncluded = false, hasMessage = false, included = null,
+            includedMaximum, includedMinimum, key, message = null,
+            messageMaximum, messageMinimum, validator, value;
+
+        // the generic options apply to both validators. Read them before the
+        // loop, because each branch removes them from the options
+        let hasIncluded = isset options["included"],
+            hasMessage  = isset options["message"];
+
+        if hasIncluded {
+            let included = options["included"];
+        }
+
+        if hasMessage {
+            let message = options["message"];
+        }
 
         // create individual validators
         for key, value in options {
             if strcasecmp(key, "min") === 0 {
                 // get custom message
-                if isset options["message"] {
-                    let message = options["message"];
-                } elseif isset options["messageMinimum"] {
-                    let message = options["messageMinimum"];
+                let messageMinimum = message;
+
+                if !hasMessage && isset options["messageMinimum"] {
+                    let messageMinimum = options["messageMinimum"];
                 }
 
                 // get included option
-                if isset options["included"] {
-                    let included = options["included"];
-                } elseif isset options["includedMinimum"] {
-                    let included = options["includedMinimum"];
+                let includedMinimum = included;
+
+                if !hasIncluded && isset options["includedMinimum"] {
+                    let includedMinimum = options["includedMinimum"];
                 }
 
                 let validator = new Min(
                     [
                         "min" : value,
-                        "message" : message,
-                        "included" : included
+                        "message" : messageMinimum,
+                        "included" : includedMinimum
                     ]
                 );
 
@@ -130,24 +150,24 @@ class StringLength extends AbstractValidatorComposite
                 unset options["includedMinimum"];
             } elseif strcasecmp(key, "max") === 0 {
                 // get custom message
-                if isset options["message"] {
-                    let message = options["message"];
-                } elseif isset options["messageMaximum"] {
-                    let message = options["messageMaximum"];
+                let messageMaximum = message;
+
+                if !hasMessage && isset options["messageMaximum"] {
+                    let messageMaximum = options["messageMaximum"];
                 }
 
                 // get included option
-                if isset options["included"] {
-                    let included = options["included"];
-                } elseif isset options["includedMaximum"] {
-                    let included = options["includedMaximum"];
+                let includedMaximum = included;
+
+                if !hasIncluded && isset options["includedMaximum"] {
+                    let includedMaximum = options["includedMaximum"];
                 }
 
                 let validator = new Max(
                     [
                         "max" : value,
-                        "message" : message,
-                        "included" : included
+                        "message" : messageMaximum,
+                        "included" : includedMaximum
                     ]
                 );
 
