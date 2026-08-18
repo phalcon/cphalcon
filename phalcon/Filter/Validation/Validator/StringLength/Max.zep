@@ -21,6 +21,11 @@ use Phalcon\Traits\Php\InfoTrait;
  * The test is passed if for a string's length L, L<=max, i.e. L must
  * be at most max.
  *
+ * The "included" option is true by default. Set the option to false
+ * for L<max, i.e. L must be less than max. The "includedMaximum" option
+ * is an alias of "included". If you set the two options, "included" has
+ * precedence.
+ *
  * ```php
  * use Phalcon\Filter\Validation;
  * use Phalcon\Filter\Validation\Validator\StringLength\Max;
@@ -76,7 +81,8 @@ class Max extends AbstractValidator
      *     'template' => '',
      *     'allowEmpty' => false,
      *     'max' => 1000,
-     *     'included' => false
+     *     'included' => true,
+     *     'includedMaximum' => true
      * ]
      */
     public function __construct( array options = [])
@@ -109,7 +115,16 @@ class Max extends AbstractValidator
             let maximum = maximum[field];
         }
 
-        let included = this->getOption("included");
+        // "includedMaximum" is an alias of "included". The maximum is
+        // inclusive if no option is set. hasOption() uses isset(), thus a
+        // null value also counts as not set
+        let included = true;
+
+        if this->hasOption("included") {
+            let included = this->getOption("included");
+        } elseif this->hasOption("includedMaximum") {
+            let included = this->getOption("includedMaximum");
+        }
 
         if typeof included == "array" {
             let included = (bool) included[field];
