@@ -2,11 +2,11 @@
 
 All notable changes are documented here. The format is based on [Keep a Changelog][keep_a_changelog] and this project adheres to [Semantic Versioning][semantic_versioning].
 
-## [5.19.0](https://github.com/phalcon/cphalcon/releases/tag/v5.19.0) (2026-xx-xx)
+## [5.19.0](https://github.com/phalcon/cphalcon/releases/tag/v5.19.0) (2026-08-19)
 
 ### Tools
 
-- Zephir 1.2.0 (afa3bf3)
+- Zephir 1.2.0 (a09648c)
 
 ### Changed
 
