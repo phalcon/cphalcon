@@ -9,10 +9,10 @@
 
 namespace Phalcon\Storage\Adapter;
 
-use DateInterval;
+use APCUIterator;
 use Exception;
+use Phalcon\Contracts\Storage\StorageTypes;
 use Phalcon\Storage\SerializerFactory;
-use Phalcon\Support\Exception as SupportException;
 use Phalcon\Traits\Php\ApcuTrait;
 
 /**
@@ -23,27 +23,28 @@ use Phalcon\Traits\Php\ApcuTrait;
  * - getKeys(): APCUIterator regex scan over the shared APCu store.
  * - Serializers: Phalcon-side only; no backend-native serializer.
  *
- * @property array $options
+ * @phpstan-import-type storage_adapter_options from StorageTypes
+ * @phpstan-import-type storage_keys from StorageTypes
+ *
+ * @phpstan-property storage_adapter_options $options
  */
 class Apcu extends AbstractAdapter
 {
     use ApcuTrait;
 
-    /**
-     * @var string
-     */
-    protected prefix = "ph-apcu-";
+    protected string prefix = "ph-apcu-";
 
     /**
      * Apcu constructor.
      *
-     * @param SerializerFactory $factory
-     * @param array             $options
+     * @phpstan-param storage_adapter_options $options
      *
-     * @throws SupportException
+     * @throws Exception
      */
-    public function __construct(<SerializerFactory> factory,  array options = [])
-    {
+    public function __construct(
+        <SerializerFactory> factory,
+        array options = []
+    ) {
         parent::__construct(factory, options);
 
         this->initSerializer();
@@ -55,11 +56,10 @@ class Apcu extends AbstractAdapter
     public function clear() -> bool
     {
         var item, pattern, apc = null;
-        bool result;
+        bool result = true;
 
         let pattern = "/^" . this->prefix . "/",
-            apc     = this->phpApcuIterator(pattern),
-            result  = true;
+            apc     = this->phpApcuIterator(pattern);
 
         if typeof apc !== "object" {
             return false;
@@ -77,9 +77,7 @@ class Apcu extends AbstractAdapter
     /**
      * Stores data in the adapter
      *
-     * @param string $prefix
-     *
-     * @return array
+     * @phpstan-return storage_keys
      */
     public function getKeys( string prefix = "") -> array
     {
@@ -94,6 +92,7 @@ class Apcu extends AbstractAdapter
             return results;
         }
 
+        /** @var array{key: string} $item */
         for item in iterator(apc) {
             let results[] = item["key"];
         }
@@ -104,19 +103,14 @@ class Apcu extends AbstractAdapter
     /**
      * Stores data in the adapter forever. The key needs to manually deleted
      * from the adapter.
-     *
-     * @param string $key
-     * @param mixed  $value
-     *
-     * @return bool
      */
-    public function setForever( string key, var value) -> bool
+    public function setForever( string key, var data) -> bool
     {
         var result;
 
         let result = this->phpApcuStore(
             this->getPrefixedKey(key),
-            this->getSerializedData(value)
+            this->getSerializedData(data)
         );
 
         return is_bool(result) ? result : false;
@@ -124,23 +118,18 @@ class Apcu extends AbstractAdapter
 
     /**
      * Decrements a stored number
-     *
-     * @param string $key
-     * @param int    $value
-     *
-     * @return bool|int
      */
-    protected function doDecrement( string key, int value = 1) -> int | bool
+    protected function doDecrement( string key, int value = 1) -> false | int
     {
-        return this->phpApcuDec(this->getPrefixedKey(key), value);
+        var result;
+
+        let result = this->phpApcuDec(this->getPrefixedKey(key), value);
+
+        return is_int(result) ? result : false;
     }
 
     /**
      * Deletes data from the adapter
-     *
-     * @param string $key
-     *
-     * @return bool
      */
     protected function doDelete( string key) -> bool
     {
@@ -150,8 +139,7 @@ class Apcu extends AbstractAdapter
     /**
      * Deletes multiple keys from APCu in a single call
      *
-     * @param array $keys
-     * @return bool
+     * @phpstan-param storage_keys $keys
      */
     protected function doDeleteMultiple(array keys) -> bool
     {
@@ -167,22 +155,13 @@ class Apcu extends AbstractAdapter
         return typeof result === "array" && empty result;
     }
 
-    /**
-     * @param string $key
-     *
-     * @return mixed
-     */
-    protected function doGetData(string key)
+    protected function doGetData(string key) -> var
     {
         return this->phpApcuFetch(this->getPrefixedKey(key));
     }
 
     /**
      * Checks if an element exists in the cache
-     *
-     * @param string $key
-     *
-     * @return bool
      */
     protected function doHas( string key) -> bool
     {
@@ -195,15 +174,14 @@ class Apcu extends AbstractAdapter
 
     /**
      * Increments a stored number
-     *
-     * @param string $key
-     * @param int    $value
-     *
-     * @return bool|int
      */
-    protected function doIncrement( string key, int value = 1) -> int | bool
+    protected function doIncrement( string key, int value = 1) -> false | int
     {
-        return this->phpApcuInc(this->getPrefixedKey(key), value);
+        var result;
+
+        let result = this->phpApcuInc(this->getPrefixedKey(key), value);
+
+        return is_int(result) ? result : false;
     }
 
     /**
@@ -213,11 +191,6 @@ class Apcu extends AbstractAdapter
      * item has expired. If you need to set this key forever, you should use
      * the `setForever()` method.
      *
-     * @param string                $key
-     * @param mixed                 $value
-     * @param DateInterval|int|null $ttl
-     *
-     * @return bool
      * @throws Exception
      */
     protected function doSet( string key, var value, var ttl = null) -> bool

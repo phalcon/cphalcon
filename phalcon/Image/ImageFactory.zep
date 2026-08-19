@@ -10,15 +10,21 @@
 
 namespace Phalcon\Image;
 
+use Exception as BaseException;
 use Phalcon\Config\ConfigInterface;
+use Phalcon\Contracts\Image\ImageTypes;
 use Phalcon\Factory\AbstractFactory;
 use Phalcon\Image\Adapter\AdapterInterface;
 use Phalcon\Image\Adapter\Gd;
 use Phalcon\Image\Adapter\Imagick;
 use Phalcon\Traits\Support\Helper\Arr\GetTrait;
+use Throwable;
 
 /**
  * Factory to create adapters for image manipulation
+ *
+ * @phpstan-import-type image_factory_config from ImageTypes
+ * @phpstan-import-type image_factory_services from ImageTypes
  */
 class ImageFactory extends AbstractFactory
 {
@@ -26,6 +32,8 @@ class ImageFactory extends AbstractFactory
 
     /**
      * Constructor
+     *
+     * @phpstan-param image_factory_services $services
      */
     public function __construct( array services = [])
     {
@@ -34,6 +42,8 @@ class ImageFactory extends AbstractFactory
 
     /**
      * Factory to create an instance from a Config object
+     *
+     * @phpstan-param ConfigInterface|image_factory_config $config
      *
      * @param array|ConfigInterface config = [
      *     'adapter' => 'gd',
@@ -46,6 +56,7 @@ class ImageFactory extends AbstractFactory
     {
         var height, file, name, width;
 
+        /** @phpstan-var image_factory_config $config */
         let config = this->checkConfig(config),
             config = this->checkConfigElement(config, "adapter"),
             config = this->checkConfigElement(config, "file");
@@ -63,6 +74,8 @@ class ImageFactory extends AbstractFactory
 
     /**
      * Creates a new instance
+     *
+     * @throws BaseException
      */
     public function newInstance(
          string name,
@@ -86,7 +99,7 @@ class ImageFactory extends AbstractFactory
     }
 
     /**
-     * @return string
+     * @return class-string<Throwable>
      */
     protected function getExceptionClass() -> string
     {
@@ -95,6 +108,8 @@ class ImageFactory extends AbstractFactory
 
     /**
      * Returns the available adapters
+     *
+     * @phpstan-return image_factory_services
      *
      * @return string[]
      */

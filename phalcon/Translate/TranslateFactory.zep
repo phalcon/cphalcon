@@ -11,36 +11,23 @@
 namespace Phalcon\Translate;
 
 use Phalcon\Config\ConfigInterface;
+use Phalcon\Contracts\Translate\TranslateTypes;
 use Phalcon\Factory\AbstractFactory;
 use Phalcon\Translate\Adapter\AdapterInterface;
 use Phalcon\Translate\Adapter\Csv;
 use Phalcon\Translate\Adapter\Gettext;
 use Phalcon\Translate\Adapter\NativeArray;
 use Phalcon\Translate\Exceptions\TranslatorNotRegistered;
+use Throwable;
 
 /**
  * @property InterpolatorFactory $interpolator
  *
- * @psalm-type TConfig array{
- *      adapter: string,
- *      options?: array{
- *          content: string,
- *          delimiter: string,
- *          enclosure: string,
- *          locale: string,
- *          defaultDomain: string,
- *          directory: string,
- *          category: string,
- *          triggerError: bool,
- *      }
- *  }
+ * @phpstan-import-type translate_factory_config from TranslateTypes
  */
 class TranslateFactory extends AbstractFactory
 {
-    /**
-     * @var InterpolatorFactory
-     */
-    private interpolator;
+    private <InterpolatorFactory> interpolator;
 
     /**
      * @phpstan-param array<string, string> $services
@@ -57,7 +44,7 @@ class TranslateFactory extends AbstractFactory
     /**
      * Factory to create an instance from a Config object
      *
-     * @param ConfigInterface|TConfig $config
+     * @phpstan-param ConfigInterface|translate_factory_config $config
      *
      * @return AdapterInterface
      * @throws Exception
@@ -100,7 +87,7 @@ class TranslateFactory extends AbstractFactory
     }
 
     /**
-     * @return string
+     * @return class-string<Throwable>
      */
     protected function getExceptionClass() -> string
     {

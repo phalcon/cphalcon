@@ -10,16 +10,14 @@
 
 namespace Phalcon\Paginator\Adapter;
 
+use Phalcon\Contracts\Paginator\PaginatorTypes;
 use Phalcon\Mvc\Model\Query\Builder;
-use Phalcon\Paginator\Exception;
 use Phalcon\Paginator\Exceptions\InvalidBuilderInstance;
 use Phalcon\Paginator\Exceptions\InvalidCursorColumn;
 use Phalcon\Paginator\Exceptions\MissingRequiredParameter;
 use Phalcon\Paginator\RepositoryInterface;
 
 /**
- * Phalcon\Paginator\Adapter\QueryBuilderCursor
- *
  * Cursor-based (keyset) pagination using a PHQL query builder as source of
  * data.
  *
@@ -59,15 +57,16 @@ use Phalcon\Paginator\RepositoryInterface;
  * // $page->getNext()    - cursor value to pass for the next page (0 means no more pages)
  * // $page->getCurrent() - cursor value used for this page (0 on first page)
  * ```
+ *
+ * @phpstan-import-type paginator_config from PaginatorTypes
+ * @phpstan-import-type paginator_cursor_items from PaginatorTypes
  */
 class QueryBuilderCursor extends AbstractAdapter
 {
     /**
      * Paginator's data
-     *
-     * @var Builder
      */
-    protected builder;
+    protected <Builder> builder;
 
     /**
      * The cursor value for the current page (null = first page)
@@ -78,15 +77,13 @@ class QueryBuilderCursor extends AbstractAdapter
 
     /**
      * The column used as the cursor (must be unique and indexed)
-     *
-     * @var string
      */
-    protected cursorColumn;
+    protected string cursorColumn;
 
     /**
      * Phalcon\Paginator\Adapter\QueryBuilderCursor
      *
-     * @param array config = [
+     * @param paginator_config $config = [
      *     'limit'        => 10,
      *     'builder'      => null,
      *     'cursorColumn' => 'id',
@@ -129,6 +126,21 @@ class QueryBuilderCursor extends AbstractAdapter
     }
 
     /**
+     * Get the current page number
+     *
+     * Returns the cursor value used for this page cast to int, or 0 for the
+     * first page. Use getCursor() to retrieve the raw cursor value.
+     */
+    public function getCurrentPage() -> int
+    {
+        if this->cursor === null {
+            return 0;
+        }
+
+        return (int) this->cursor;
+    }
+
+    /**
      * Get the cursor value for the current page (null on first page)
      */
     public function getCursor() -> var
@@ -142,21 +154,6 @@ class QueryBuilderCursor extends AbstractAdapter
     public function getCursorColumn() -> string
     {
         return this->cursorColumn;
-    }
-
-    /**
-     * Get the current page number
-     *
-     * Returns the cursor value used for this page cast to int, or 0 for the
-     * first page. Use getCursor() to retrieve the raw cursor value.
-     */
-    public function getCurrentPage() -> int
-    {
-        if this->cursor === null {
-            return 0;
-        }
-
-        return (int) this->cursor;
     }
 
     /**

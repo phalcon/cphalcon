@@ -32,6 +32,9 @@
 /**
  * A session with the transport. Factory for messages, destinations,
  * producers and consumers.
+ *
+ * @phpstan-import-type queue_message_headers from QueueTypes
+ * @phpstan-import-type queue_message_properties from QueueTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Contracts_Queue_Context)
 {
@@ -50,6 +53,9 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Queue_Context, close);
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Queue_Context, createConsumer);
 /**
  * Creates a message with an optional body, properties and headers.
+ *
+ * @phpstan-param queue_message_properties $properties
+ * @phpstan-param queue_message_headers    $headers
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Queue_Context, createMessage);
 /**

@@ -30,6 +30,9 @@
  */
 /**
  * Phalcon\Paginator\Adapter\AbstractAdapter
+ *
+ * @phpstan-import-type paginator_config from PaginatorTypes
+ * @phpstan-import-type paginator_properties from PaginatorTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Paginator_Adapter_AbstractAdapter)
 {
@@ -37,10 +40,13 @@ ZEPHIR_INIT_CLASS(Phalcon_Paginator_Adapter_AbstractAdapter)
 
 	/**
 	 * Configuration of paginator
-	 *
-	 * @var array
 	 */
-	zend_declare_property_null(phalcon_paginator_adapter_abstractadapter_ce, SL("config"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_paginator_adapter_abstractadapter_ce, SL("config"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_ARRAY, NULL, 0);
+	}
+
 	/**
 	 * Number of rows to show in the paginator. By default is null
 	 *
@@ -55,18 +61,21 @@ ZEPHIR_INIT_CLASS(Phalcon_Paginator_Adapter_AbstractAdapter)
 	zend_declare_property_null(phalcon_paginator_adapter_abstractadapter_ce, SL("page"), ZEND_ACC_PROTECTED);
 	/**
 	 * Repository for pagination
-	 *
-	 * @var RepositoryInterface
 	 */
-	zend_declare_property_null(phalcon_paginator_adapter_abstractadapter_ce, SL("repository"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_paginator_adapter_abstractadapter_ce, SL("repository"), &_zc0, ZEND_ACC_PROTECTED, 0, SL("Phalcon\\Paginator\\RepositoryInterface"));
+	}
+
 	zend_class_implements(phalcon_paginator_adapter_abstractadapter_ce, 1, phalcon_paginator_adapter_adapterinterface_ce);
 	return SUCCESS;
 }
 
 /**
- * Phalcon\Paginator\Adapter\AbstractAdapter constructor
+ * Constructor
  *
- * @param array $config
+ * @param paginator_config $config
  */
 PHP_METHOD(Phalcon_Paginator_Adapter_AbstractAdapter, __construct)
 {
@@ -209,6 +218,8 @@ PHP_METHOD(Phalcon_Paginator_Adapter_AbstractAdapter, setRepository)
 
 /**
  * Gets current repository for pagination
+ *
+ * @param paginator_properties|null $properties
  */
 PHP_METHOD(Phalcon_Paginator_Adapter_AbstractAdapter, getRepository)
 {

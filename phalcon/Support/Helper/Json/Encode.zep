@@ -10,6 +10,7 @@
 
 namespace Phalcon\Support\Helper\Json;
 
+use JsonException;
 use Phalcon\Support\Helper\Json\Exceptions\JsonEncodeError;
 use Phalcon\Traits\Support\Helper\Json\EncodeTrait;
 
@@ -33,11 +34,7 @@ class Encode
     use EncodeTrait;
 
     /**
-     * @param mixed $data    JSON data to parse
-     * @param int   $options Bitmask of JSON encode options.
-     * @param int   $depth   Recursion depth.
-     *
-     * @return string
+     * @param int<1, max> $depth   Recursion depth.
      *
      * @throws JsonEncodeError if the JSON cannot be encoded.
      * @link https://www.php.net/manual/en/function.json-encode.php
@@ -51,7 +48,7 @@ class Encode
 
         try {
             return this->toEncode(data, options, depth);
-        } catch \JsonException, ex {
+        } catch JsonException, ex {
             throw new JsonEncodeError(ex->getMessage(), ex->getCode(), ex);
         }
     }

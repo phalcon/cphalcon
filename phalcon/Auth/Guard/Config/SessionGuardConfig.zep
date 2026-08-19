@@ -27,25 +27,15 @@ use Phalcon\Auth\Exceptions\SessionNamesMustDiffer;
 class SessionGuardConfig extends AbstractGuardConfig
 {
     /**
-     * Default remember-me cookie lifetime,
-     * in seconds (365 days).
+     * Default remember-me cookie lifetime, in seconds (365 days).
      *
      * @var int
      */
     const DEFAULT_REMEMBER_TTL = 31536000;
 
-    /**
-     * @var string
-     */
-    private name;
-    /**
-     * @var string
-     */
-    private rememberName;
-    /**
-     * @var int
-     */
-    private rememberTtl;
+    private string name;
+    private string rememberName;
+    private int rememberTtl;
 
     /**
      * @throws Exception
@@ -54,7 +44,7 @@ class SessionGuardConfig extends AbstractGuardConfig
         string suffix = null,
         string name = null,
         string rememberName = null,
-        var rememberTtl = null
+        int rememberTtl = null
     ) {
         this->validateNonEmpty("suffix", suffix);
         this->validateNonEmpty("name", name);
@@ -62,7 +52,7 @@ class SessionGuardConfig extends AbstractGuardConfig
 
         let this->name         = null !== name ? name : this->derive("auth", suffix);
         let this->rememberName = null !== rememberName ? rememberName : this->derive("remember", suffix);
-        let this->rememberTtl  = null !== rememberTtl ? (int) rememberTtl : self::DEFAULT_REMEMBER_TTL;
+        let this->rememberTtl  = null !== rememberTtl ? rememberTtl : self::DEFAULT_REMEMBER_TTL;
 
         if (this->name === this->rememberName) {
             throw new SessionNamesMustDiffer();
@@ -94,12 +84,6 @@ class SessionGuardConfig extends AbstractGuardConfig
      */
     private function validateNonEmpty(string param, string value = null) -> void
     {
-        if (value === null) {
-            return;
-        }
-
-        if (value === "") {
-            throw new ConfigRequiresNonEmptyValue("Session guard", param);
-        }
+        ConfigRequiresNonEmptyValue::assert(value, "Session guard", param);
     }
 }

@@ -10,10 +10,13 @@
 
 namespace Phalcon\Messages;
 
+use Iterator;
 use JsonSerializable;
 use Phalcon\Contracts\Messages\Messages as MessagesContract;
+use Phalcon\Contracts\Messages\MessagesTypes;
 use Phalcon\Messages\Exceptions\MessageNotObject;
 use Phalcon\Messages\Exceptions\MessagesNotIterable;
+use Phalcon\Messages\Traits\MessagesHelperTrait;
 use Traversable;
 
 /**
@@ -25,21 +28,18 @@ use Traversable;
  * visited during iteration (`foreach`), which walks the integer sequence only.
  * Use the append methods (`appendMessage()` / `appendMessages()`) when entries
  * must take part in iteration.
+ *
+ * @phpstan-import-type messages_list from MessagesTypes
+ * @phpstan-import-type messages_serialized from MessagesTypes
  */
 class Messages implements MessagesContract, JsonSerializable
 {
-    /**
-     * @var int
-     */
-    protected position = 0;
-
-    /**
-     * @var array
-     */
-    protected messages;
+    use MessagesHelperTrait;
 
     /**
      * Phalcon\Messages\Messages constructor
+     *
+     * @param messages_list $messages
      */
     public function __construct(array messages = [])
     {
@@ -67,9 +67,17 @@ class Messages implements MessagesContract, JsonSerializable
      * $messages->appendMessages($messagesArray);
      *```
      *
-     * @param \Phalcon\Messages\MessageInterface[] messages
+     * Accepts an array of MessageInterface objects or an Iterator yielding
+     * them. The parameter stays untyped so that a non-iterable argument
+     * reaches the guard below and raises MessagesNotIterable rather than a
+     * TypeError.
+     *
+     * @param mixed $messages
+     *
+     * @return void
+     * @throws MessagesNotIterable
      */
-    public function appendMessages(messages)
+    public function appendMessages(var messages)
     {
         var currentMessages, finalMessages, message;
 
@@ -83,11 +91,7 @@ class Messages implements MessagesContract, JsonSerializable
             /**
              * An array of messages is simply merged into the current one
              */
-            if typeof currentMessages == "array" {
-                let finalMessages = array_merge(currentMessages, messages);
-            } else {
-                let finalMessages = messages;
-            }
+            let finalMessages = array_merge(currentMessages, messages);
 
             let this->messages = finalMessages;
         } else {
@@ -106,44 +110,28 @@ class Messages implements MessagesContract, JsonSerializable
     }
 
     /**
-     * Returns the number of messages in the list
-     */
-    public function count() -> int
-    {
-        return count(this->messages);
-    }
-
-    /**
-     * Returns the current message in the iterator
-     */
-    public function current() -> <MessageInterface>
-    {
-        return this->messages[this->position];
-    }
-
-    /**
      * Filters the message collection by field name
+     *
+     * @return messages_list
      */
-    public function filter( string fieldName) -> array
+    public function filter(string fieldName) -> array
     {
         var filtered, messages, message;
 
         let filtered = [],
             messages = this->messages;
 
-        if typeof messages == "array" {
+        /**
+         * A collection of messages is iterated and appended one-by-one to
+         * the current list
+         */
+        for message in messages {
             /**
-             * A collection of messages is iterated and appended one-by-one to
-             * the current list
+             * Get the field name
              */
-            for message in messages {
-                /**
-                 * Get the field name
-                 */
-                if method_exists(message, "getField") {
-                    if fieldName == message->getField() {
-                        let filtered[] = message;
-                    }
+            if method_exists(message, "getField") {
+                if fieldName == message->getField() {
+                    let filtered[] = message;
                 }
             }
         }
@@ -159,126 +147,33 @@ class Messages implements MessagesContract, JsonSerializable
      * $data = $messages->jsonSerialize();
      * echo json_encode($data);
      *```
+     *
+     * @return messages_serialized
      */
     public function jsonSerialize() -> array
     {
         var message;
-        array records;
-
-        let records = [];
+        array records = [];
 
         for message in this->messages {
-            if typeof message == "object" && method_exists(message, "jsonSerialize") {
-                let records[] = message->{"jsonSerialize"}();
-            } else {
-                let records[] = message;
-            }
+            let records[] = this->checkSerializable(message);
         }
 
         return records;
     }
 
     /**
-     * Returns the current position/key in the iterator
+     * @param mixed $value
      */
-    public function key() -> int
+    private function checkSerializable(var value) -> mixed
     {
-        return this->position;
-    }
-
-    /**
-     * Moves the internal iteration pointer to the next position
-     */
-    public function next() -> void
-    {
-        let this->position++;
-    }
-
-    /**
-     * Checks if an index exists
-     *
-     *```php
-     * var_dump(
-     *     isset($message["database"])
-     * );
-     *```
-     *
-     * @param int index
-     */
-    public function offsetExists(mixed index) -> bool
-    {
-        return isset this->messages[index];
-    }
-
-    /**
-     * Gets an attribute a message using the array syntax
-     *
-     *```php
-     * print_r(
-     *     $messages[0]
-     * );
-     *```
-     */
-    public function offsetGet(mixed index) -> mixed
-    {
-        var message, returnValue = null;
-
-        if fetch message, this->messages[index] {
-            let returnValue = message;
+        if (
+            typeof value === "object" &&
+            true === method_exists(value, "jsonSerialize")
+        ) {
+            return value->jsonSerialize();
         }
 
-        return returnValue;
-    }
-
-    /**
-     * Sets an attribute using the array-syntax
-     *
-     *```php
-     * $messages[0] = new \Phalcon\Messages\Message("This is a message");
-     *```
-     *
-     * @param \Phalcon\Messages\Message message
-     */
-    public function offsetSet(mixed offset, var value) -> void
-    {
-        if typeof value !== "object" || !(value instanceof MessageInterface) {
-            throw new MessageNotObject();
-        }
-
-        if offset === null {
-            let this->messages[] = value;
-        } else {
-            let this->messages[offset] = value;
-        }
-    }
-
-    /**
-     * Removes a message from the list
-     *
-     *```php
-     * unset($message["database"]);
-     *```
-     */
-    public function offsetUnset(mixed index) -> void
-    {
-        if isset this->messages[index] {
-            array_splice(this->messages, index, 1);
-        }
-    }
-
-    /**
-     * Rewinds the internal iterator
-     */
-    public function rewind() -> void
-    {
-        let this->position = 0;
-    }
-
-    /**
-     * Check if the current message in the iterator is valid
-     */
-    public function valid() -> bool
-    {
-        return isset this->messages[this->position];
+        return value;
     }
 }

@@ -38,8 +38,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Arr_ValidateAny)
 }
 
 /**
- * @param array    $collection
- * @param callable $method
+ * @param array<array-key, mixed> $collection
+ * @param callable                $method
  *
  * @return bool
  */

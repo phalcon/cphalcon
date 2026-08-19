@@ -50,10 +50,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_AbstractLocator)
 	zend_declare_property_null(phalcon_support_abstractlocator_ce, SL("container"), ZEND_ACC_PROTECTED);
 	/**
 	 * @phpstan-var array<string, class-string<T>>
-	 * @var array
 	 */
-	zend_declare_property_null(phalcon_support_abstractlocator_ce, SL("services"), ZEND_ACC_PROTECTED);
-	phalcon_support_abstractlocator_ce->create_object = zephir_init_properties_Phalcon_Support_AbstractLocator;
+	{
+		zval _zc0;
+		array_init_size(&_zc0, 1);
+		zephir_declare_typed_property(phalcon_support_abstractlocator_ce, SL("services"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_ARRAY, NULL, 0);
+	}
 
 	return SUCCESS;
 }
@@ -107,14 +109,14 @@ PHP_METHOD(Phalcon_Support_AbstractLocator, __construct)
 		_0 = !((zephir_instance_of_ev(container, phalcon_di_diinterface_ce)));
 	}
 	if (_0) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(zend_ce_type_error, "The parameter must be an instance of Collection or DiInterface", "phalcon/Support/AbstractLocator.zep", 49);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(zend_ce_type_error, "The parameter must be an instance of Collection or DiInterface", "phalcon/Support/AbstractLocator.zep", 48);
 		return;
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 129, container);
 	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getservices", NULL, 0);
 	zephir_check_call_status();
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 130, &_1);
-	zephir_is_iterable(&services, 0, "phalcon/Support/AbstractLocator.zep", 60);
+	zephir_is_iterable(&services, 0, "phalcon/Support/AbstractLocator.zep", 59);
 	if (Z_TYPE_P(&services) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&services), _3, _4, _2)
 		{
@@ -290,7 +292,7 @@ PHP_METHOD(Phalcon_Support_AbstractLocator, newInstance)
 			zephir_check_call_status();
 		}
 
-		zephir_throw_exception_debug(&_2$$3, "phalcon/Support/AbstractLocator.zep", 114);
+		zephir_throw_exception_debug(&_2$$3, "phalcon/Support/AbstractLocator.zep", 113);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -344,7 +346,7 @@ PHP_METHOD(Phalcon_Support_AbstractLocator, register)
 	ZVAL_STR_COPY(&definition_zv, definition);
 	ZEPHIR_CALL_METHOD(&interfaceClass, this_ptr, "getinterfaceclass", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_0, "is_subclass_of", NULL, 149, &definition_zv, &interfaceClass);
+	ZEPHIR_CALL_FUNCTION(&_0, "is_subclass_of", NULL, 150, &definition_zv, &interfaceClass);
 	zephir_check_call_status();
 	if (!zephir_is_true(&_0)) {
 		ZEPHIR_CALL_METHOD(&exceptionClass, this_ptr, "getexceptionclass", NULL, 0);
@@ -365,7 +367,7 @@ PHP_METHOD(Phalcon_Support_AbstractLocator, register)
 			zephir_check_call_status();
 		}
 
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Support/AbstractLocator.zep", 144);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Support/AbstractLocator.zep", 143);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -449,12 +451,12 @@ PHP_METHOD(Phalcon_Support_AbstractLocator, getService)
 			zephir_check_call_status();
 		}
 
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Support/AbstractLocator.zep", 182);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Support/AbstractLocator.zep", 181);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	zephir_read_property_cached(&_5, this_ptr, _zephir_prop_0, 130, PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch(&_6, &_5, &name_zv, PH_NOISY | PH_READONLY, "phalcon/Support/AbstractLocator.zep", 185);
+	zephir_array_fetch(&_6, &_5, &name_zv, PH_NOISY | PH_READONLY, "phalcon/Support/AbstractLocator.zep", 184);
 	RETURN_CTOR(&_6);
 }
 
@@ -465,30 +467,5 @@ PHP_METHOD(Phalcon_Support_AbstractLocator, getService)
  */
 PHP_METHOD(Phalcon_Support_AbstractLocator, getServices)
 {
-}
-
-zend_object *zephir_init_properties_Phalcon_Support_AbstractLocator(zend_class_entry *class_type)
-{
-		zval _0, _1$$3;
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-		ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1$$3);
-	
-
-		ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-		zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	
-	{
-		zval local_this_ptr, *this_ptr = &local_this_ptr;
-		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		zephir_read_property_ex(&_0, this_ptr, ZEND_STRL("services"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_0) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_1$$3);
-			array_init(&_1$$3);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("services"), &_1$$3);
-		}
-		ZEPHIR_MM_RESTORE();
-		return Z_OBJ_P(this_ptr);
-	}
 }
 

@@ -13,6 +13,7 @@
 
 namespace Phalcon\ADR\Middleware;
 
+use Phalcon\Contracts\ADR\ADRTypes;
 use Phalcon\Contracts\ADR\Handler;
 use Phalcon\Contracts\ADR\Middleware;
 use Phalcon\Contracts\Http\AttributeRequest;
@@ -25,6 +26,8 @@ use Phalcon\Traits\Support\Helper\Arr\GetTrait;
  * is configured, and only for requests whose `Origin` is on it. The allowed
  * origin is always echoed back explicitly, so credentials are never paired with
  * a wildcard origin. Preflight `OPTIONS` requests are answered directly.
+ *
+ * @phpstan-import-type adr_cors_config from ADRTypes
  */
 class CorsMiddleware implements Middleware
 {
@@ -33,17 +36,17 @@ class CorsMiddleware implements Middleware
     protected bool allowCredentials = false;
 
     /**
-     * @var array
+     * @var list<string>
      */
     protected array allowedHeaders = [];
 
     /**
-     * @var array
+     * @var list<string>
      */
     protected array allowedMethods = [];
 
     /**
-     * @var array
+     * @var list<string>
      */
     protected array allowedOrigins = [];
 
@@ -52,6 +55,9 @@ class CorsMiddleware implements Middleware
      */
     protected int maxAge = 0;
 
+    /**
+     * @phpstan-param adr_cors_config $config
+     */
     public function __construct(array config = [])
     {
         let this->allowedOrigins   = this->getArrVal(config, "origins", []),

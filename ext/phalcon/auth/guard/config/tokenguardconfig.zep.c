@@ -12,10 +12,8 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/operators.h"
-#include "kernel/exception.h"
-#include "kernel/memory.h"
 #include "kernel/fcall.h"
+#include "kernel/memory.h"
 #include "kernel/object.h"
 
 
@@ -34,14 +32,18 @@ ZEPHIR_INIT_CLASS(Phalcon_Auth_Guard_Config_TokenGuardConfig)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Auth\\Guard\\Config, TokenGuardConfig, phalcon, auth_guard_config_tokenguardconfig, phalcon_auth_guard_config_abstractguardconfig_ce, phalcon_auth_guard_config_tokenguardconfig_method_entry, 0);
 
-	/**
-	 * @var string
-	 */
-	zend_declare_property_null(phalcon_auth_guard_config_tokenguardconfig_ce, SL("inputKey"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var string
-	 */
-	zend_declare_property_null(phalcon_auth_guard_config_tokenguardconfig_ce, SL("storageKey"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_auth_guard_config_tokenguardconfig_ce, SL("inputKey"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_auth_guard_config_tokenguardconfig_ce, SL("storageKey"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
+
 	return SUCCESS;
 }
 
@@ -52,18 +54,14 @@ PHP_METHOD(Phalcon_Auth_Guard_Config_TokenGuardConfig, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval inputKey_zv, storageKey_zv, _0$$3, _1$$3, _2$$3, _3$$4, _4$$4, _5$$4;
+	zval inputKey_zv, storageKey_zv, _0, _1;
 	zend_string *inputKey = NULL, *storageKey = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&inputKey_zv);
 	ZVAL_UNDEF(&storageKey_zv);
-	ZVAL_UNDEF(&_0$$3);
-	ZVAL_UNDEF(&_1$$3);
-	ZVAL_UNDEF(&_2$$3);
-	ZVAL_UNDEF(&_3$$4);
-	ZVAL_UNDEF(&_4$$4);
-	ZVAL_UNDEF(&_5$$4);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
 	static zend_string *_zephir_prop_0 = NULL;
 	static zend_string *_zephir_prop_1 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
@@ -83,34 +81,20 @@ PHP_METHOD(Phalcon_Auth_Guard_Config_TokenGuardConfig, __construct)
 	ZVAL_STR_COPY(&inputKey_zv, inputKey);
 	zephir_memory_observe(&storageKey_zv);
 	ZVAL_STR_COPY(&storageKey_zv, storageKey);
-	if (ZEPHIR_IS_STRING_IDENTICAL(&inputKey_zv, "")) {
-		ZEPHIR_INIT_VAR(&_0$$3);
-		object_init_ex(&_0$$3, phalcon_auth_exceptions_configrequiresnonemptyvalue_ce);
-		ZEPHIR_INIT_VAR(&_1$$3);
-		ZVAL_STRING(&_1$$3, "Token guard");
-		ZEPHIR_INIT_VAR(&_2$$3);
-		ZVAL_STRING(&_2$$3, "inputKey");
-		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 385, &_1$$3, &_2$$3);
-		zephir_check_call_status();
-		zephir_throw_exception_debug(&_0$$3, "phalcon/Auth/Guard/Config/TokenGuardConfig.zep", 38);
-		ZEPHIR_MM_RESTORE();
-		return;
-	}
-	if (ZEPHIR_IS_STRING_IDENTICAL(&storageKey_zv, "")) {
-		ZEPHIR_INIT_VAR(&_3$$4);
-		object_init_ex(&_3$$4, phalcon_auth_exceptions_configrequiresnonemptyvalue_ce);
-		ZEPHIR_INIT_VAR(&_4$$4);
-		ZVAL_STRING(&_4$$4, "Token guard");
-		ZEPHIR_INIT_VAR(&_5$$4);
-		ZVAL_STRING(&_5$$4, "storageKey");
-		ZEPHIR_CALL_METHOD(NULL, &_3$$4, "__construct", NULL, 385, &_4$$4, &_5$$4);
-		zephir_check_call_status();
-		zephir_throw_exception_debug(&_3$$4, "phalcon/Auth/Guard/Config/TokenGuardConfig.zep", 45);
-		ZEPHIR_MM_RESTORE();
-		return;
-	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 436, &inputKey_zv);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 437, &storageKey_zv);
+	ZEPHIR_INIT_VAR(&_0);
+	ZVAL_STRING(&_0, "Token guard");
+	ZEPHIR_INIT_VAR(&_1);
+	ZVAL_STRING(&_1, "inputKey");
+	ZEPHIR_CALL_CE_STATIC(NULL, phalcon_auth_exceptions_configrequiresnonemptyvalue_ce, "assert", NULL, 0, &inputKey_zv, &_0, &_1);
+	zephir_check_call_status();
+	ZEPHIR_INIT_NVAR(&_0);
+	ZVAL_STRING(&_0, "Token guard");
+	ZEPHIR_INIT_NVAR(&_1);
+	ZVAL_STRING(&_1, "storageKey");
+	ZEPHIR_CALL_CE_STATIC(NULL, phalcon_auth_exceptions_configrequiresnonemptyvalue_ce, "assert", NULL, 0, &storageKey_zv, &_0, &_1);
+	zephir_check_call_status();
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 442, &inputKey_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 443, &storageKey_zv);
 	ZEPHIR_MM_RESTORE();
 }
 

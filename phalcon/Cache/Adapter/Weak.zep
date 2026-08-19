@@ -21,5 +21,5 @@ class Weak extends StorageWeak implements CacheAdapterInterface
     /**
      * EventType prefix.
      */
-    protected eventType = "cache";
+    protected string eventType = "cache";
 }

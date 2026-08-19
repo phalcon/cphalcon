@@ -23,8 +23,6 @@ class AssociativeArray implements InterpolatorInterface
      * Replaces placeholders by the values passed
      *
      * @phpstan-param array<string, string> $placeholders
-     *
-     * @return string
      */
     public function replacePlaceholders(
          string translation,

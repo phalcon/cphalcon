@@ -17,13 +17,16 @@ use Phalcon\Di\DiInterface;
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Events\EventsAwareInterface;
 use Phalcon\Events\ManagerInterface;
+use Phalcon\Events\Traits\EventsAwareTrait;
 use Phalcon\Http\Message\ResponseStatusCodeInterface;
 use Phalcon\Http\Response\CookiesInterface;
+use Phalcon\Http\Response\Exception;
 use Phalcon\Http\Response\Exceptions\NonStandardStatusCodeRequiresMessage;
 use Phalcon\Http\Response\Exceptions\ResponseAlreadySent;
 use Phalcon\Http\Response\Exceptions\UrlServiceUnavailable;
 use Phalcon\Http\Response\Headers;
 use Phalcon\Http\Response\HeadersInterface;
+use Phalcon\Http\Traits\StatusPhrasesTrait;
 use Phalcon\Mvc\Url\UrlInterface;
 use Phalcon\Mvc\ViewInterface;
 use Phalcon\Support\Helper\File\Basename;
@@ -33,8 +36,8 @@ use Phalcon\Traits\Php\UrlTrait;
 
 /**
  * Part of the HTTP cycle is return responses to the clients.
- * Phalcon\HTTP\Response is the Phalcon component responsible to achieve this task.
- * HTTP responses are usually composed by headers and body.
+ * Phalcon\HTTP\Response is the Phalcon component responsible to achieve this
+ * task. HTTP responses are usually composed by headers and body.
  *
  *```php
  * $response = new \Phalcon\Http\Response();
@@ -47,56 +50,25 @@ use Phalcon\Traits\Php\UrlTrait;
  */
 class Response implements ResponseInterface, InjectionAwareInterface, EventsAwareInterface, ResponseStatusCodeInterface
 {
+    use EventsAwareTrait;
     use InfoTrait;
+    use StatusPhrasesTrait;
     use UrlTrait;
 
+    protected ?<DiInterface> container = null;
+    protected ?string content = null;
+    protected ?<CookiesInterface> cookies = null;
+    protected <Encode> encode;
+    protected ?string file = null;
+    protected <Headers> headers;
+    protected bool sent = false;
     /**
-     * @var DiInterface|null
+     * Constructor
+     *
+     * @throws Exception
      */
-    protected container = null;
-
-    /**
-     * @var string|null
-     */
-    protected content = null;
-
-    /**
-     * @var CookiesInterface|null
-     */
-    protected cookies = null;
-
-    /**
-     * @var ManagerInterface|null
-     */
-    protected eventsManager = null;
-
-    /**
-     * @var string|null
-     */
-    protected file = null;
-
-    /**
-     * @var Headers
-     */
-    protected headers;
-
-    /**
-     * @var bool
-     */
-    protected sent = false;
-
-    /**
-     * @var Encode
-     */
-    protected encode;
-
-    /**
-     * Phalcon\Http\Response constructor
-     */
-    public function __construct( string content = null, code = null, status = null)
+    public function __construct(string content = null, code = null, status = null)
     {
-        // Note: Don't remove exclamation mark above otherwise NULL will be coerced.
-
         // A Phalcon\Http\Response\Headers bag is temporary used to manage
         // the headers before sent them to the client
         let this->headers = new Headers(),
@@ -158,14 +130,6 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
         }
 
         return container;
-    }
-
-    /**
-     * Returns the internal event manager
-     */
-    public function getEventsManager() -> <ManagerInterface> | null
-    {
-        return this->eventsManager;
     }
 
     /**
@@ -238,7 +202,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
      *```php
      * // Using a string redirect (internal/external)
      * $response->redirect("posts/index");
-     * $response->redirect("http://en.wikipedia.org", true);
+     * $response->redirect("https://en.wikipedia.org", true);
      * $response->redirect("http://www.example.com/new-location", true, 301);
      *
      * // Making a redirection based on a named route
@@ -323,6 +287,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
 
         return this;
     }
+
     /**
      * Resets all the established headers
      */
@@ -345,7 +310,6 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
         }
 
         this->sendHeaders();
-
         this->sendCookies();
 
         /**
@@ -394,10 +358,8 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
         let headers       = this->headers,
             eventsManager = this->eventsManager;
 
-        if typeof eventsManager === "object" {
-            if eventsManager->fire("response:beforeSendHeaders", this) === false {
-                return false;
-            }
+        if this->fireManagerEvent("response:beforeSendHeaders") === false {
+            return false; 
         }
 
         /**
@@ -405,8 +367,8 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
          */
         let result = headers->send();
 
-        if true === result && typeof eventsManager === "object" {
-            eventsManager->fire("response:afterSendHeaders", this);
+        if true === result  {
+            this->fireManagerEvent("response:afterSendHeaders");
         }
 
         return this;
@@ -469,8 +431,10 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
      * $response->setContentType("text/plain", "UTF-8");
      *```
      */
-    public function setContentType(string contentType, charset = null) -> <ResponseInterface>
-    {
+    public function setContentType(
+        string contentType,
+        string charset = null
+    ) -> <ResponseInterface> {
         if charset !== null {
             let contentType .= "; charset=" . charset;
         }
@@ -517,14 +481,6 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     }
 
     /**
-     * Sets the events manager
-     */
-    public function setEventsManager(<ManagerInterface> eventsManager) -> void
-    {
-        let this->eventsManager = eventsManager;
-    }
-
-    /**
      * Sets an Expires header in the response that allows to use the HTTP cache
      *
      *```php
@@ -556,8 +512,11 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     /**
      * Sets an attached file to be sent at the end of the request
      */
-    public function setFileToSend(string filePath, attachmentName = null, attachment = true) -> <ResponseInterface>
-    {
+    public function setFileToSend(
+        string filePath,
+        var attachmentName = null,
+        bool attachment = true
+    ) -> <ResponseInterface> {
         var basePath;
         var basePathEncoding = "ASCII";
 
@@ -582,7 +541,13 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
             // extended one to indicate charset
             if basePathEncoding != "ASCII" {
                 let basePath = this->phpRawUrlEncode(basePath);
-                this->setRawHeader("Content-Disposition: attachment; filename=" . basePath . "; filename*=". strtolower(basePathEncoding) . "''" . basePath);
+                this->setRawHeader(
+                    "Content-Disposition: attachment; filename=" 
+                    . basePath 
+                    . "; filename*="
+                    . strtolower(basePathEncoding) 
+                    . "''" . basePath
+                );
             } else {
                 // According RFC2045 section-5.1, header param value contains
                 // special chars must be as quoted-string. Always quote value
@@ -590,7 +555,10 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
                 // According RFC822 appendix-D, CR "\" <"> must to be quoted
                 // in syntax rule of quoted-string
                 let basePath = addcslashes(basePath, "\15\17\\\"");
-                this->setRawHeader("Content-Disposition: attachment; filename=\"" . basePath . "\"");
+                this->setRawHeader(
+                    "Content-Disposition: attachment; filename=\"" 
+                    . basePath . "\""
+                );
             }
         }
 
@@ -623,7 +591,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
         let data = headers->toArray();
 
         for name, value in data {
-            this->headers->set(name, value);
+            this->headers->set(name, (string) value);
         }
 
         return this;
@@ -641,8 +609,11 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
      * );
      *```
      */
-    public function setJsonContent(var content, int jsonOptions = 0, int depth = 512) -> <ResponseInterface>
-    {
+    public function setJsonContent(
+        var content,
+        int jsonOptions = 0,
+        int depth = 512
+    ) -> <ResponseInterface> {
         this->setContentType("application/json");
 
         this->setContent(this->encode->__invoke(content, jsonOptions, depth));
@@ -731,107 +702,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
         // status code. If a default does not exist, stop here.
         if message === null {
             // See: https://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml
-            let statusCodes = [
-                // Informational 1xx
-                self::STATUS_CONTINUE                             : "Continue",                                           // Information - RFC 7231, 6.2.1
-                self::STATUS_SWITCHING_PROTOCOLS                  : "Switching Protocols",                                // Information - RFC 7231, 6.2.2
-                self::STATUS_PROCESSING                           : "Processing",                                         // Information - RFC 2518, 10.1
-                self::STATUS_EARLY_HINTS                          : "Early Hints",
-
-                // Successful 2xx
-                self::STATUS_OK                                   : "OK",                                               // Success - RFC 7231, 6.3.1
-                self::STATUS_CREATED                              : "Created",                                          // Success - RFC 7231, 6.3.2
-                self::STATUS_ACCEPTED                             : "Accepted",                                         // Success - RFC 7231, 6.3.3
-                self::STATUS_NON_AUTHORITATIVE_INFORMATION        : "Non-Authoritative Information",                    // Success - RFC 7231, 6.3.4
-                self::STATUS_NO_CONTENT                           : "No Content",                                       // Success - RFC 7231, 6.3.5
-                self::STATUS_RESET_CONTENT                        : "Reset Content",                                    // Success - RFC 7231, 6.3.6
-                self::STATUS_PARTIAL_CONTENT                      : "Partial Content",                                  // Success - RFC 7233, 4.1
-                self::STATUS_MULTI_STATUS                         : "Multi-status",                                     // Success - RFC 4918, 11.1
-                self::STATUS_ALREADY_REPORTED                     : "Already Reported",                                 // Success - RFC 5842, 7.1
-                self::STATUS_IM_USED                              : "IM Used",                                          // Success - RFC 3229, 10.4.1
-
-                // Redirection 3xx
-                self::STATUS_MULTIPLE_CHOICES                     : "Multiple Choices",                                 // Redirection - RFC 7231, 6.4.1
-                self::STATUS_MOVED_PERMANENTLY                    : "Moved Permanently",                                // Redirection - RFC 7231, 6.4.2
-                self::STATUS_FOUND                                : "Found",                                            // Redirection - RFC 7231, 6.4.3
-                self::STATUS_SEE_OTHER                            : "See Other",                                        // Redirection - RFC 7231, 6.4.4
-                self::STATUS_NOT_MODIFIED                         : "Not Modified",                                     // Redirection - RFC 7232, 4.1
-                self::STATUS_USE_PROXY                            : "Use Proxy",                                        // Redirection - RFC 7231, 6.4.5
-                self::STATUS_RESERVED                             : "Switch Proxy",                                     // Redirection - RFC 7231, 6.4.6 (Deprecated)
-                self::STATUS_TEMPORARY_REDIRECT                   : "Temporary Redirect",                               // Redirection - RFC 7231, 6.4.7
-                self::STATUS_PERMANENT_REDIRECT                   : "Permanent Redirect",                               // Redirection - RFC 7538, 3
-
-                // Client Errors 4xx
-                self::STATUS_BAD_REQUEST                          : "Bad Request",                                      // Client Error - RFC 7231, 6.5.1
-                self::STATUS_UNAUTHORIZED                         : "Unauthorized",                                     // Client Error - RFC 7235, 3.1
-                self::STATUS_PAYMENT_REQUIRED                     : "Payment Required",                                 // Client Error - RFC 7231, 6.5.2
-                self::STATUS_FORBIDDEN                            : "Forbidden",                                        // Client Error - RFC 7231, 6.5.3
-                self::STATUS_NOT_FOUND                            : "Not Found",                                        // Client Error - RFC 7231, 6.5.4
-                self::STATUS_METHOD_NOT_ALLOWED                   : "Method Not Allowed",                               // Client Error - RFC 7231, 6.5.5
-                self::STATUS_NOT_ACCEPTABLE                       : "Not Acceptable",                                   // Client Error - RFC 7231, 6.5.6
-                self::STATUS_PROXY_AUTHENTICATION_REQUIRED        : "Proxy Authentication Required",                    // Client Error - RFC 7235, 3.2
-                self::STATUS_REQUEST_TIMEOUT                      : "Request Time-out",                                 // Client Error - RFC 7231, 6.5.7
-                self::STATUS_CONFLICT                             : "Conflict",                                         // Client Error - RFC 7231, 6.5.8
-                self::STATUS_GONE                                 : "Gone",                                             // Client Error - RFC 7231, 6.5.9
-                self::STATUS_LENGTH_REQUIRED                      : "Length Required",                                  // Client Error - RFC 7231, 6.5.10
-                self::STATUS_PRECONDITION_FAILED                  : "Precondition Failed",                              // Client Error - RFC 7232, 4.2
-                self::STATUS_PAYLOAD_TOO_LARGE                    : "Request Entity Too Large",                         // Client Error - RFC 7231, 6.5.11
-                self::STATUS_URI_TOO_LONG                         : "Request-URI Too Large",                            // Client Error - RFC 7231, 6.5.12
-                self::STATUS_UNSUPPORTED_MEDIA_TYPE               : "Unsupported Media Type",                           // Client Error - RFC 7231, 6.5.13
-                self::STATUS_RANGE_NOT_SATISFIABLE                : "Requested range not satisfiable",                  // Client Error - RFC 7233, 4.4
-                self::STATUS_EXPECTATION_FAILED                   : "Expectation Failed",                               // Client Error - RFC 7231, 6.5.14
-                self::STATUS_IM_A_TEAPOT                          : "I'm a teapot",                                     // Client Error - RFC 7168, 2.3.3
-                self::STATUS_MISDIRECTED_REQUEST                  : "Misdirected Request",
-                self::STATUS_UNPROCESSABLE_ENTITY                 : "Unprocessable Entity",                             // Client Error - RFC 4918, 11.2
-                self::STATUS_LOCKED                               : "Locked",                                           // Client Error - RFC 4918, 11.3
-                self::STATUS_FAILED_DEPENDENCY                    : "Failed Dependency",                                // Client Error - RFC 4918, 11.4
-                self::STATUS_TOO_EARLY                            : "Unordered Collection",
-                self::STATUS_UPGRADE_REQUIRED                     : "Upgrade Required",                                 // Client Error - RFC 7231, 6.5.15
-                self::STATUS_PRECONDITION_REQUIRED                : "Precondition Required",                            // Client Error - RFC 6585, 3
-                self::STATUS_TOO_MANY_REQUESTS                    : "Too Many Requests",                                // Client Error - RFC 6585, 4
-                self::STATUS_REQUEST_HEADER_FIELDS_TOO_LARGE      : "Request Header Fields Too Large",                  // Client Error - RFC 6585, 5
-                self::STATUS_UNAVAILABLE_FOR_LEGAL_REASONS        : "Unavailable For Legal Reasons",                    // Client Error - RFC 7725, 3
-
-                // Server Errors 5xx
-                self::STATUS_INTERNAL_SERVER_ERROR                : "Internal Server Error",                            // Server Error - RFC 7231, 6.6.1
-                self::STATUS_NOT_IMPLEMENTED                      : "Not Implemented",                                  // Server Error - RFC 7231, 6.6.2
-                self::STATUS_BAD_GATEWAY                          : "Bad Gateway",                                      // Server Error - RFC 7231, 6.6.3
-                self::STATUS_SERVICE_UNAVAILABLE                  : "Service Unavailable",                              // Server Error - RFC 7231, 6.6.4
-                self::STATUS_GATEWAY_TIMEOUT                      : "Gateway Time-out",                                 // Server Error - RFC 7231, 6.6.5
-                self::STATUS_VERSION_NOT_SUPPORTED                : "HTTP Version not supported",                       // Server Error - RFC 7231, 6.6.6
-                self::STATUS_VARIANT_ALSO_NEGOTIATES              : "Variant Also Negotiates",                          // Server Error - RFC 2295, 8.1
-                self::STATUS_INSUFFICIENT_STORAGE                 : "Insufficient Storage",                             // Server Error - RFC 4918, 11.5
-                self::STATUS_LOOP_DETECTED                        : "Loop Detected",                                    // Server Error - RFC 5842, 7.2
-                self::STATUS_NOT_EXTENDED                         : "Not Extended",                                     // Server Error - RFC 2774, 7
-                self::STATUS_NETWORK_AUTHENTICATION_REQUIRED      : "Network Authentication Required",                  // Server Error - RFC 6585, 6
-
-                // Unofficial
-                self::STATUS_THIS_IS_FINE                         : "This is fine",                                     // Unofficial - Apache Web Server
-                self::STATUS_PAGE_EXPIRED                         : "Page Expired",                                     // Unofficial - Laravel Framework
-                self::STATUS_METHOD_FAILURE                       : "Method Failure",                                   // Unofficial - Spring Framework
-                self::STATUS_LOGIN_TIMEOUT                        : "Login Time-out",                                   // Unofficial - IIS
-                self::STATUS_NO_RESPONSE                          : "No Response",                                      // Unofficial - nginx
-                self::STATUS_RETRY_WITH                           : "Retry With",                                       // Unofficial - IIS
-                self::STATUS_BLOCKED_BY_WINDOWS_PARENTAL_CONTROLS : "Blocked by Windows Parental Controls (Microsoft)", // Unofficial - nginx
-                self::STATUS_REQUEST_HEADER_TOO_LARGE             : "Request header too large",                         // Unofficial - nginx
-                self::STATUS_SSL_CERTIFICATE_ERROR                : "SSL Certificate Error",                            // Unofficial - nginx
-                self::STATUS_SSL_CERTIFICATE_REQUIRED             : "SSL Certificate Required",                         // Unofficial - nginx
-                self::STATUS_HTTP_REQUEST_SENT_TO_HTTPS_PORT      : "HTTP Request Sent to HTTPS Port",                  // Unofficial - nginx
-                self::STATUS_INVALID_TOKEN_ESRI                   : "Invalid Token (Esri)",                             // Unofficial - ESRI
-                self::STATUS_CLIENT_CLOSED_REQUEST                : "Client Closed Request",                            // Unofficial - nginx
-                self::STATUS_BANDWIDTH_LIMIT_EXCEEDED             : "Bandwidth Limit Exceeded",                         // Unofficial - Apache/cPanel
-                self::STATUS_UNKNOWN_ERROR                        : "Unknown Error",                                    // Unofficial - Cloudflare
-                self::STATUS_WEB_SERVER_IS_DOWN                   : "Web Server Is Down",                               // Unofficial - Cloudflare
-                self::STATUS_CONNECTION_TIMEOUT                   : "Connection Timed Out",                             // Unofficial - Cloudflare
-                self::STATUS_ORIGIN_IS_UNREACHABLE                : "Origin Is Unreachable",                            // Unofficial - Cloudflare
-                self::STATUS_TIMEOUT_OCCURRED                     : "A Timeout Occurred",                               // Unofficial - Cloudflare
-                self::STATUS_SSL_HANDSHAKE_FAILED                 : "SSL Handshake Failed",                             // Unofficial - Cloudflare
-                self::STATUS_INVALID_SSL_CERTIFICATE              : "Invalid SSL Certificate",                          // Unofficial - Cloudflare
-                self::STATUS_RAILGUN_ERROR                        : "Railgun Error",                                    // Unofficial - Cloudflare
-                self::STATUS_ORIGIN_DNS_ERROR                     : "Origin DNS Error",                                 // Unofficial - Cloudflare
-                self::STATUS_NETWORK_READ_TIMEOUT_ERROR           : "Network read timeout error",                       // Unofficial
-                self::STATUS_NETWORK_CONNECT_TIMEOUT_ERROR        : "Network Connect Timeout Error"                     // Unofficial
-            ];
+            let statusCodes = this->getPhrases();
 
             if unlikely !isset statusCodes[code] {
                 throw new NonStandardStatusCodeRequiresMessage();

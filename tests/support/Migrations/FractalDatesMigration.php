@@ -11,12 +11,14 @@
 
 namespace Phalcon\Tests\Support\Migrations;
 
+use Phalcon\Talon\Database\Schema\AbstractSchema;
+
 /**
  * Class FractalDatesMigration
  */
-class FractalDatesMigration extends AbstractMigration
+class FractalDatesMigration extends AbstractSchema
 {
-    protected $table = "fractal_dates";
+    protected string $table = "fractal_dates";
 
     /**
      * @param int              $id
@@ -50,12 +52,9 @@ SQL;
         return $result;
     }
 
-    protected function getSqlMysql(): array
+    protected function getStatementsMysql(): array
     {
         return [
-            "
-drop table if exists `fractal_dates`;
-            ",
             "
 create table fractal_dates
 (
@@ -68,17 +67,14 @@ create table fractal_dates
         ];
     }
 
-    protected function getSqlSqlite(): array
+    protected function getStatementsSqlite(): array
     {
         return [];
     }
 
-    protected function getSqlPgsql(): array
+    protected function getStatementsPgsql(): array
     {
         return [
-            "
-drop table if exists fractal_dates;
-            ",
             "
 CREATE TABLE fractal_dates (
     id           serial       constraint fractal_dates_pk primary key,
@@ -89,10 +85,5 @@ CREATE TABLE fractal_dates (
 );
             ",
         ];
-    }
-
-    protected function getSqlSqlsrv(): array
-    {
-        return [];
     }
 }

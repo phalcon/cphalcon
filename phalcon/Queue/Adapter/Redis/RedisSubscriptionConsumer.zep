@@ -27,13 +27,7 @@ use Phalcon\Queue\Adapter\AbstractSubscriptionConsumer;
  */
 class RedisSubscriptionConsumer extends AbstractSubscriptionConsumer
 {
-    /**
-     * Retained for transports that may later need it for a native multi-queue
-     * receive; the shared poll loop does not use it.
-     *
-     * @var RedisContext
-     */
-    protected context;
+    protected <RedisContext> context;
 
     /**
      * The context is retained for transports that may later need it for a

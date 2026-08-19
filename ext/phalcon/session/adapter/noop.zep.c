@@ -14,8 +14,8 @@
 #include "kernel/main.h"
 #include "ext/session/php_session.h"
 #include "kernel/object.h"
-#include "kernel/memory.h"
 #include "kernel/operators.h"
+#include "kernel/memory.h"
 
 
 /**
@@ -65,21 +65,19 @@ PHP_METHOD(Phalcon_Session_Adapter_Noop, close)
  */
 PHP_METHOD(Phalcon_Session_Adapter_Noop, destroy)
 {
-	zval *id, id_sub;
+	zval id_zv;
+	zend_string *id = NULL;
 
-	ZVAL_UNDEF(&id_sub);
+	ZVAL_UNDEF(&id_zv);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_ZVAL(id)
+		Z_PARAM_STR(id)
 	ZEND_PARSE_PARAMETERS_END();
-	zephir_fetch_params_without_memory_grow(1, 0, &id);
+	ZVAL_STR(&id_zv, id);
 	RETURN_BOOL(1);
 }
 
 /**
  * Garbage Collector
- *
- * @param int $max_lifetime
- * @return false|int
  */
 PHP_METHOD(Phalcon_Session_Adapter_Noop, gc)
 {
@@ -98,15 +96,17 @@ PHP_METHOD(Phalcon_Session_Adapter_Noop, gc)
  */
 PHP_METHOD(Phalcon_Session_Adapter_Noop, open)
 {
-	zval *path, path_sub, *name, name_sub;
+	zval path_zv, name_zv;
+	zend_string *path = NULL, *name = NULL;
 
-	ZVAL_UNDEF(&path_sub);
-	ZVAL_UNDEF(&name_sub);
+	ZVAL_UNDEF(&path_zv);
+	ZVAL_UNDEF(&name_zv);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
-		Z_PARAM_ZVAL(path)
-		Z_PARAM_ZVAL(name)
+		Z_PARAM_STR(path)
+		Z_PARAM_STR(name)
 	ZEND_PARSE_PARAMETERS_END();
-	zephir_fetch_params_without_memory_grow(2, 0, &path, &name);
+	ZVAL_STR(&path_zv, path);
+	ZVAL_STR(&name_zv, name);
 	RETURN_BOOL(1);
 }
 
@@ -115,13 +115,14 @@ PHP_METHOD(Phalcon_Session_Adapter_Noop, open)
  */
 PHP_METHOD(Phalcon_Session_Adapter_Noop, read)
 {
-	zval *id, id_sub;
+	zval id_zv;
+	zend_string *id = NULL;
 
-	ZVAL_UNDEF(&id_sub);
+	ZVAL_UNDEF(&id_zv);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_ZVAL(id)
+		Z_PARAM_STR(id)
 	ZEND_PARSE_PARAMETERS_END();
-	zephir_fetch_params_without_memory_grow(1, 0, &id);
+	ZVAL_STR(&id_zv, id);
 	RETURN_STRING("");
 }
 
@@ -130,15 +131,17 @@ PHP_METHOD(Phalcon_Session_Adapter_Noop, read)
  */
 PHP_METHOD(Phalcon_Session_Adapter_Noop, updateTimestamp)
 {
-	zval *id, id_sub, *data, data_sub;
+	zval id_zv, data_zv;
+	zend_string *id = NULL, *data = NULL;
 
-	ZVAL_UNDEF(&id_sub);
-	ZVAL_UNDEF(&data_sub);
+	ZVAL_UNDEF(&id_zv);
+	ZVAL_UNDEF(&data_zv);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
-		Z_PARAM_ZVAL(id)
-		Z_PARAM_ZVAL(data)
+		Z_PARAM_STR(id)
+		Z_PARAM_STR(data)
 	ZEND_PARSE_PARAMETERS_END();
-	zephir_fetch_params_without_memory_grow(2, 0, &id, &data);
+	ZVAL_STR(&id_zv, id);
+	ZVAL_STR(&data_zv, data);
 	RETURN_BOOL(1);
 }
 
@@ -147,13 +150,14 @@ PHP_METHOD(Phalcon_Session_Adapter_Noop, updateTimestamp)
  */
 PHP_METHOD(Phalcon_Session_Adapter_Noop, validateId)
 {
-	zval *id, id_sub;
+	zval id_zv;
+	zend_string *id = NULL;
 
-	ZVAL_UNDEF(&id_sub);
+	ZVAL_UNDEF(&id_zv);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_ZVAL(id)
+		Z_PARAM_STR(id)
 	ZEND_PARSE_PARAMETERS_END();
-	zephir_fetch_params_without_memory_grow(1, 0, &id);
+	ZVAL_STR(&id_zv, id);
 	RETURN_BOOL(1);
 }
 
@@ -162,15 +166,17 @@ PHP_METHOD(Phalcon_Session_Adapter_Noop, validateId)
  */
 PHP_METHOD(Phalcon_Session_Adapter_Noop, write)
 {
-	zval *id, id_sub, *data, data_sub;
+	zval id_zv, data_zv;
+	zend_string *id = NULL, *data = NULL;
 
-	ZVAL_UNDEF(&id_sub);
-	ZVAL_UNDEF(&data_sub);
+	ZVAL_UNDEF(&id_zv);
+	ZVAL_UNDEF(&data_zv);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
-		Z_PARAM_ZVAL(id)
-		Z_PARAM_ZVAL(data)
+		Z_PARAM_STR(id)
+		Z_PARAM_STR(data)
 	ZEND_PARSE_PARAMETERS_END();
-	zephir_fetch_params_without_memory_grow(2, 0, &id, &data);
+	ZVAL_STR(&id_zv, id);
+	ZVAL_STR(&data_zv, data);
 	RETURN_BOOL(1);
 }
 

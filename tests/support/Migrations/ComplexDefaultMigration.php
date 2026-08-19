@@ -13,9 +13,11 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Support\Migrations;
 
-class ComplexDefaultMigration extends AbstractMigration
+use Phalcon\Talon\Database\Schema\AbstractSchema;
+
+class ComplexDefaultMigration extends AbstractSchema
 {
-    protected $table = 'complex_default';
+    protected string $table = 'complex_default';
 
     /**
      * @param int|null $id
@@ -50,12 +52,9 @@ SQL;
         return $result;
     }
 
-    protected function getSqlMysql(): array
+    protected function getStatementsMysql(): array
     {
         return [
-            "
-drop table if exists `complex_default`;
-            ",
             "
 create table complex_default
 (
@@ -68,12 +67,9 @@ create table complex_default
         ];
     }
 
-    protected function getSqlSqlite(): array
+    protected function getStatementsSqlite(): array
     {
         return [
-            "
-drop table if exists complex_default;
-            ",
             "
 create table complex_default
 (
@@ -86,12 +82,9 @@ create table complex_default
         ];
     }
 
-    protected function getSqlPgsql(): array
+    protected function getStatementsPgsql(): array
     {
         return [
-            "
-drop table if exists complex_default;
-            ",
             "
 create table complex_default
 (
@@ -117,10 +110,5 @@ ON complex_default FOR EACH ROW EXECUTE PROCEDURE
 update_timestamp();
             "
         ];
-    }
-
-    protected function getSqlSqlsrv(): array
-    {
-        return [];
     }
 }

@@ -7,7 +7,6 @@ PHP_METHOD(Phalcon_Auth_Adapter_Memory, __construct);
 PHP_METHOD(Phalcon_Auth_Adapter_Memory, fromOptions);
 PHP_METHOD(Phalcon_Auth_Adapter_Memory, retrieveById);
 PHP_METHOD(Phalcon_Auth_Adapter_Memory, loadUsers);
-zend_object *zephir_init_properties_Phalcon_Auth_Adapter_Memory(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_auth_adapter_memory___construct, 0, 0, 2)
 	ZEND_ARG_OBJ_INFO(0, hasher, Phalcon\\Contracts\\Encryption\\Security\\Security, 0)
@@ -20,13 +19,10 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_auth_adapter_memory_from
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_auth_adapter_memory_retrievebyid, 0, 1, Phalcon\\Contracts\\Auth\\AuthUser, 1)
-	ZEND_ARG_INFO(0, id)
+	ZEND_ARG_TYPE_MASK(0, id, MAY_BE_LONG|MAY_BE_STRING, NULL)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_auth_adapter_memory_loadusers, 0, 0, IS_ARRAY, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_auth_adapter_memory_zephir_init_properties_phalcon_auth_adapter_memory, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_auth_adapter_memory_method_entry) {

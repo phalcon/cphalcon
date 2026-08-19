@@ -36,13 +36,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Str_StartsWith)
 	return SUCCESS;
 }
 
-/**
- * @param string $haystack
- * @param string $needle
- * @param bool   $ignoreCase
- *
- * @return bool
- */
 PHP_METHOD(Phalcon_Support_Helper_Str_StartsWith, __invoke)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;

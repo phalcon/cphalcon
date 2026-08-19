@@ -59,7 +59,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Settings)
 	 *
 	 * @var array
 	 */
-	zend_declare_property_null(phalcon_support_settings_ce, SL("overrides"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC);
+	{
+		zval _zc0;
+		array_init_size(&_zc0, 1);
+		zephir_declare_typed_property(phalcon_support_settings_ce, SL("overrides"), &_zc0, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC, MAY_BE_ARRAY, NULL, 0);
+	}
+
 	return SUCCESS;
 }
 
@@ -70,9 +75,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Settings)
  *   1. PHP-level override (set via Settings::set())
  *   2. globals_get() - the C-level value, honoring php.ini / .htaccess
  *   3. null - for unknown keys
- *
- * @param string $key
- * @return mixed
  */
 PHP_METHOD(Phalcon_Support_Settings, get)
 {
@@ -99,7 +101,7 @@ PHP_METHOD(Phalcon_Support_Settings, get)
 		array_init(&localOverrides);
 	}
 	if (zephir_array_isset_value(&localOverrides, &key_zv)) {
-		zephir_array_fetch(&_0$$4, &localOverrides, &key_zv, PH_NOISY | PH_READONLY, "phalcon/Support/Settings.zep", 68);
+		zephir_array_fetch(&_0$$4, &localOverrides, &key_zv, PH_NOISY | PH_READONLY, "phalcon/Support/Settings.zep", 65);
 		RETURN_CTOR(&_0$$4);
 	}
 	ZEPHIR_RETURN_CALL_SELF("readglobal", &_1, 0, &key_zv);
@@ -114,9 +116,6 @@ PHP_METHOD(Phalcon_Support_Settings, get)
  * no other project sharing this PHP process is affected.
  *
  * Unknown keys are silently ignored.
- *
- * @param string $key
- * @param mixed  $value
  */
 PHP_METHOD(Phalcon_Support_Settings, set)
 {
@@ -182,15 +181,11 @@ PHP_METHOD(Phalcon_Support_Settings, reset)
  *
  * globals_get() requires a string literal, so each key is read
  * explicitly rather than by a variable lookup.
- *
- * @param string $key
- * @return mixed
  */
 PHP_METHOD(Phalcon_Support_Settings, readGlobal)
 {
-	zval _0$$22;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval key_zv;
+	zval key_zv, _0$$22;
 	zend_string *key = NULL;
 
 	ZVAL_UNDEF(&key_zv);
@@ -262,9 +257,8 @@ PHP_METHOD(Phalcon_Support_Settings, readGlobal)
 		}
 		if (ZEPHIR_IS_STRING(&key_zv, "orm.resultset_prefetch_records")) {
 			ZEPHIR_INIT_VAR(&_0$$22);
-			ZEPHIR_INIT_NVAR(&_0$$22);
 			ZVAL_STRING(&_0$$22, "ZEPHIR_GLOBAL(orm).resultset_prefetch_records");
-			RETURN_MM_LONG(zephir_get_intval_ex(&_0$$22));
+			RETURN_MM_LONG(zephir_get_intval(&_0$$22));
 		}
 		if (ZEPHIR_IS_STRING(&key_zv, "orm.update_snapshot_on_save")) {
 			RETURN_MM_BOOL(ZEPHIR_GLOBAL(orm).update_snapshot_on_save);

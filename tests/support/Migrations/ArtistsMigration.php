@@ -13,13 +13,15 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Support\Migrations;
 
+use Phalcon\Talon\Database\Schema\AbstractSchema;
+
 
 /**
  * Class ArtistsMigration
  */
-class ArtistsMigration extends AbstractMigration
+class ArtistsMigration extends AbstractSchema
 {
-    protected $table = 'artists';
+    protected string $table = 'artists';
 
     /**
      * @param int    $id
@@ -43,12 +45,9 @@ SQL;
         return $result;
     }
 
-    protected function getSqlMysql(): array
+    protected function getStatementsMysql(): array
     {
         return [
-            "
-drop table if exists `artists`;
-            ",
             "
 create table `artists`
 (
@@ -59,12 +58,9 @@ create table `artists`
         ];
     }
 
-    protected function getSqlSqlite(): array
+    protected function getStatementsSqlite(): array
     {
         return [
-            "
-drop table if exists artists;
-            ",
             "
 create table artists
 (
@@ -75,12 +71,9 @@ create table artists
         ];
     }
 
-    protected function getSqlPgsql(): array
+    protected function getStatementsPgsql(): array
     {
         return [
-            "
-drop table if exists artists;
-            ",
             "
 create table artists
 (
@@ -89,10 +82,5 @@ create table artists
 );
             ",
         ];
-    }
-
-    protected function getSqlSqlsrv(): array
-    {
-        return [];
     }
 }

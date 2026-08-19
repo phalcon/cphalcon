@@ -114,6 +114,8 @@ class Connection extends AbstractConnection
         var dsn, options, password, query, queries, username;
 
         if !this->pdo {
+            this->fireBefore(Events::BEFORE_CONNECT);
+
             // connect
             this->profiler->start(__FUNCTION__);
 
@@ -127,6 +129,8 @@ class Connection extends AbstractConnection
 
             this->profiler->finish();
 
+            this->fireManagerEvent(Events::AFTER_CONNECT, null, false);
+
             // connection-time queries
             for query in queries {
                 this->exec(query);
@@ -139,10 +143,14 @@ class Connection extends AbstractConnection
      */
     public function disconnect() -> void
     {
+        this->fireBefore(Events::BEFORE_DISCONNECT);
+
         this->profiler->start(__FUNCTION__);
 
         let this->pdo = null;
 
         this->profiler->finish();
+
+        this->fireManagerEvent(Events::AFTER_DISCONNECT, null, false);
     }
 }

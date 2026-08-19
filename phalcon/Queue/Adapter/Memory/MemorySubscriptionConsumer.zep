@@ -27,13 +27,7 @@ use Phalcon\Queue\Adapter\AbstractSubscriptionConsumer;
  */
 class MemorySubscriptionConsumer extends AbstractSubscriptionConsumer
 {
-    /**
-     * Retained for transports that may later need it for a native multi-queue
-     * receive; the shared poll loop does not use it.
-     *
-     * @var MemoryContext
-     */
-    protected context;
+    protected <MemoryContext> context;
 
     /**
      * The context is retained for transports that may later need it for a

@@ -41,12 +41,16 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, rollBack);
 PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, setAttribute);
 PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, setAutoReconnect);
 PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, setProfiler);
+PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, fireBefore);
 PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, performBind);
 PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, fetchData);
 PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, isConnectionError);
 PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, canReconnect);
 PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, performStatement);
 PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, reconnect);
+PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, getEventsManager);
+PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, setEventsManager);
+PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, fireManagerEvent);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_datamapper_pdo_connection_abstractconnection___call, 0, 0, 2)
 	ZEND_ARG_INFO(0, name)
@@ -205,6 +209,12 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_datamapper_pdo_connectio
 	ZEND_ARG_OBJ_INFO(0, profiler, Phalcon\\DataMapper\\Pdo\\Profiler\\ProfilerInterface, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_pdo_connection_abstractconnection_firebefore, 0, 1, IS_VOID, 0)
+
+	ZEND_ARG_TYPE_INFO(0, eventName, IS_STRING, 0)
+	ZEND_ARG_INFO(0, data)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_pdo_connection_abstractconnection_performbind, 0, 3, IS_VOID, 0)
 
 	ZEND_ARG_OBJ_INFO(0, statement, PDOStatement, 0)
@@ -233,6 +243,20 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_pdo_connection
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_pdo_connection_abstractconnection_reconnect, 0, 0, IS_VOID, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_pdo_connection_abstractconnection_geteventsmanager, 0, 0, Phalcon\\Events\\ManagerInterface, 1)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_pdo_connection_abstractconnection_seteventsmanager, 0, 1, IS_VOID, 0)
+
+	ZEND_ARG_OBJ_INFO(0, eventsManager, Phalcon\\Events\\ManagerInterface, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_pdo_connection_abstractconnection_firemanagerevent, 0, 1, IS_MIXED, 0)
+	ZEND_ARG_TYPE_INFO(0, eventName, IS_STRING, 0)
+	ZEND_ARG_INFO(0, data)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, cancellable, _IS_BOOL, 0, "true")
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_datamapper_pdo_connection_abstractconnection_method_entry) {
@@ -274,11 +298,15 @@ ZEPHIR_INIT_FUNCS(phalcon_datamapper_pdo_connection_abstractconnection_method_en
 	PHP_ME(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, setAttribute, arginfo_phalcon_datamapper_pdo_connection_abstractconnection_setattribute, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, setAutoReconnect, arginfo_phalcon_datamapper_pdo_connection_abstractconnection_setautoreconnect, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, setProfiler, arginfo_phalcon_datamapper_pdo_connection_abstractconnection_setprofiler, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, fireBefore, arginfo_phalcon_datamapper_pdo_connection_abstractconnection_firebefore, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, performBind, arginfo_phalcon_datamapper_pdo_connection_abstractconnection_performbind, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, fetchData, arginfo_phalcon_datamapper_pdo_connection_abstractconnection_fetchdata, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, isConnectionError, arginfo_phalcon_datamapper_pdo_connection_abstractconnection_isconnectionerror, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, canReconnect, arginfo_phalcon_datamapper_pdo_connection_abstractconnection_canreconnect, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, performStatement, arginfo_phalcon_datamapper_pdo_connection_abstractconnection_performstatement, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, reconnect, arginfo_phalcon_datamapper_pdo_connection_abstractconnection_reconnect, ZEND_ACC_PRIVATE)
+	PHP_ME(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, getEventsManager, arginfo_phalcon_datamapper_pdo_connection_abstractconnection_geteventsmanager, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, setEventsManager, arginfo_phalcon_datamapper_pdo_connection_abstractconnection_seteventsmanager, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, fireManagerEvent, arginfo_phalcon_datamapper_pdo_connection_abstractconnection_firemanagerevent, ZEND_ACC_PROTECTED)
 	PHP_FE_END
 };

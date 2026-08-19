@@ -104,7 +104,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractChecked, __construct)
 	add_assoc_stringl_ex(&_0, SL("start"), SL(""));
 	add_assoc_stringl_ex(&_0, SL("text"), SL(""));
 	add_assoc_stringl_ex(&_0, SL("end"), SL(""));
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 208, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 212, &_0);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -144,14 +144,14 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractChecked, __toString)
 	zephir_check_call_status();
 	ZEPHIR_CALL_PARENT(&element, phalcon_html_helper_input_abstractchecked_ce, getThis(), "__tostring", NULL, 0);
 	zephir_check_call_status();
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 208, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 212, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&label, &_0);
 	ZEPHIR_INIT_VAR(&_1);
 	zephir_create_array(&_1, 3, 0);
 	add_assoc_stringl_ex(&_1, SL("start"), SL(""));
 	add_assoc_stringl_ex(&_1, SL("text"), SL(""));
 	add_assoc_stringl_ex(&_1, SL("end"), SL(""));
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 208, &_1);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 212, &_1);
 	zephir_array_fetch_string(&_2, &label, SL("start"), PH_NOISY | PH_READONLY, "phalcon/Html/Helper/Input/AbstractChecked.zep", 84);
 	zephir_array_fetch_string(&_3, &label, SL("text"), PH_NOISY | PH_READONLY, "phalcon/Html/Helper/Input/AbstractChecked.zep", 86);
 	zephir_array_fetch_string(&_4, &label, SL("end"), PH_NOISY | PH_READONLY, "phalcon/Html/Helper/Input/AbstractChecked.zep", 86);
@@ -217,7 +217,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractChecked, label)
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_INIT_VAR(&_1);
 	zephir_create_array(&_1, 1, 0);
-	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 209, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 213, PH_NOISY_CC | PH_READONLY);
 	zephir_memory_observe(&_3);
 	zephir_array_fetch_string(&_3, &_2, SL("id"), PH_NOISY, "phalcon/Html/Helper/Input/AbstractChecked.zep", 112);
 	zephir_array_update_string(&_1, SL("for"), &_3, PH_COPY | PH_SEPARATE);
@@ -232,7 +232,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractChecked, label)
 	zephir_array_update_string(&_4, SL("start"), &_5, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&_4, SL("text"), &text, PH_COPY | PH_SEPARATE);
 	add_assoc_stringl_ex(&_4, SL("end"), SL("</label>"));
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 208, &_4);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 212, &_4);
 	RETURN_THIS();
 }
 
@@ -270,9 +270,9 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractChecked, strict)
 	} else {
 		}
 	if (flag) {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 210, &__$true);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 214, &__$true);
 	} else {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 210, &__$false);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 214, &__$false);
 	}
 	RETURN_THISW();
 }
@@ -310,7 +310,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractChecked, processChecked)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 209, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 213, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&attributes, &_0);
 	zephir_memory_observe(&checked);
 	if (!(zephir_array_isset_string_fetch(&checked, &attributes, SL("checked"), 0))) {
@@ -337,7 +337,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractChecked, processChecked)
 					ZEPHIR_INIT_NVAR(&value);
 					ZVAL_NULL(&value);
 				}
-				zephir_read_property_cached(&_3$$7, this_ptr, _zephir_prop_1, 210, PH_NOISY_CC | PH_READONLY);
+				zephir_read_property_cached(&_3$$7, this_ptr, _zephir_prop_1, 214, PH_NOISY_CC | PH_READONLY);
 				if (zephir_is_true(&_3$$7)) {
 					matched = ZEPHIR_IS_IDENTICAL(&checked, &value);
 				} else {
@@ -351,7 +351,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractChecked, processChecked)
 			zephir_array_update_string(&attributes, SL("checked"), &_4$$11, PH_COPY | PH_SEPARATE);
 		}
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 209, &attributes);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 213, &attributes);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -383,7 +383,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractChecked, processUnchecked)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 209, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 213, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&attributes, &_0);
 	zephir_memory_observe(&unchecked);
 	if (!(zephir_array_isset_string_fetch(&unchecked, &attributes, SL("unchecked"), 0))) {
@@ -394,7 +394,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractChecked, processUnchecked)
 	if (!(ZEPHIR_IS_EMPTY(&unchecked))) {
 		ZEPHIR_INIT_VAR(&_1$$4);
 		zephir_create_array(&_1$$4, 2, 0);
-		zephir_read_property_cached(&_2$$4, this_ptr, _zephir_prop_0, 209, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_2$$4, this_ptr, _zephir_prop_0, 213, PH_NOISY_CC | PH_READONLY);
 		zephir_memory_observe(&_3$$4);
 		zephir_array_fetch_string(&_3$$4, &_2$$4, SL("name"), PH_NOISY, "phalcon/Html/Helper/Input/AbstractChecked.zep", 211);
 		zephir_array_update_string(&_1$$4, SL("name"), &_3$$4, PH_COPY | PH_SEPARATE);
@@ -404,7 +404,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractChecked, processUnchecked)
 		ZEPHIR_CALL_METHOD(&unchecked, this_ptr, "rendertag", NULL, 0, &_4$$4, &_1$$4);
 		zephir_check_call_status();
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 209, &attributes);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 213, &attributes);
 	RETURN_CCTOR(&unchecked);
 }
 

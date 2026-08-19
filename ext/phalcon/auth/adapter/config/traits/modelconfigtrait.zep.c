@@ -30,10 +30,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Auth_Adapter_Config_Traits_ModelConfigTrait)
 {
 	ZEPHIR_REGISTER_TRAIT(Phalcon\\Auth\\Adapter\\Config\\Traits, ModelConfigTrait, phalcon, auth_adapter_config_traits_modelconfigtrait, phalcon_auth_adapter_config_traits_modelconfigtrait_method_entry);
 
-	/**
-	 * @var string|null
-	 */
-	zend_declare_property_null(phalcon_auth_adapter_config_traits_modelconfigtrait_ce, SL("model"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_NULL(&_zc0);
+		zephir_declare_typed_property(phalcon_auth_adapter_config_traits_modelconfigtrait_ce, SL("model"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING|MAY_BE_NULL, NULL, 0);
+	}
+
 	return SUCCESS;
 }
 

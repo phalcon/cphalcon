@@ -19,6 +19,7 @@
 
 namespace Phalcon\Queue\Adapter\Beanstalk;
 
+use Phalcon\Contracts\Queue\QueueTypes;
 use Phalcon\Queue\Exceptions\Exception;
 use Phalcon\Traits\Php\FileTrait;
 
@@ -27,6 +28,9 @@ use Phalcon\Traits\Php\FileTrait;
  * the subset of the 1.2 protocol the adapter needs (use/watch/ignore, put,
  * reserve-with-timeout, delete/release/bury/touch). Recovered and trimmed
  * from the original Phalcon\Queue\Beanstalk transport.
+ *
+ * @phpstan-import-type queue_beanstalk_job from QueueTypes
+ * @phpstan-import-type queue_beanstalk_status from QueueTypes
  */
 class BeanstalkConnection
 {
@@ -35,42 +39,30 @@ class BeanstalkConnection
     /**
      * Connection resource.
      *
-     * @var resource
+     * @var resource|null
      */
-    protected connection;
-
-    /**
-     * @var string
-     */
-    protected host = "127.0.0.1";
-
-    /**
-     * @var bool
-     */
-    protected persistent = false;
-
-    /**
-     * @var int
-     */
-    protected port = 11300;
-
+    protected connection = null;
+    protected string host = "127.0.0.1";
+    protected bool persistent = false;
+    protected int port = 11300;
     /**
      * Tube currently selected with `use`. A fresh connection uses "default".
-     *
-     * @var string
      */
-    protected usedTube = "default";
+    protected string usedTube = "default";
 
     /**
      * Tubes currently on the watch list, keyed by tube name. A fresh
      * connection watches "default".
      *
-     * @var array
+     * @var array<string, bool>
      */
-    protected watchedTubes = [];
+    protected array watchedTubes = [];
 
-    public function __construct(string host = "127.0.0.1", int port = 11300, bool persistent = false)
-    {
+    public function __construct(
+        string host = "127.0.0.1", 
+        int port = 11300, 
+        bool persistent = false
+    ) {
         let this->host         = host,
             this->port         = port,
             this->persistent   = persistent,
@@ -180,7 +172,7 @@ class BeanstalkConnection
      * Puts a job on the queue using the currently used tube. Returns the new
      * job id, or false when the server did not accept it.
      */
-    public function put(string data, int priority, int delay, int ttr) -> int | bool
+    public function put(string data, int priority, int delay, int ttr) -> false | int
     {
         var response, status;
         int length;
@@ -208,7 +200,7 @@ class BeanstalkConnection
      * Reads a packet from the socket. Verifies the connection is available
      * first.
      */
-    public function read(int length = 0) -> bool | string
+    public function read(int length = 0) -> false | string
     {
         var connection, data, meta;
 
@@ -254,6 +246,8 @@ class BeanstalkConnection
 
     /**
      * Reads the latest status line and splits it into tokens.
+     *
+     * @phpstan-return queue_beanstalk_status
      */
     public function readStatus() -> array
     {
@@ -282,13 +276,15 @@ class BeanstalkConnection
      * Reserves a ready job from a watched tube. A null timeout blocks until a
      * job is available; otherwise it blocks up to timeout seconds. Returns
      * [id, body] or null when none is reserved.
+     *
+     * @phpstan-return queue_beanstalk_job|null
      */
     public function reserve(var timeout = null) -> array | null
     {
         var command, response;
 
-        if timeout !== null {
-            let command = "reserve-with-timeout " . timeout;
+        if null !== timeout {
+            let command = "reserve-with-timeout " . (int) timeout;
         } else {
             let command = "reserve";
         }
@@ -307,8 +303,10 @@ class BeanstalkConnection
     /**
      * Returns the Beanstalkd statistics for a tube as an associative array, or
      * false when the tube does not exist.
+     *
+     * @return array<string, int|string>|false
      */
-    public function statsTube(string tube) -> array | bool
+    public function statsTube(string tube) -> array | false
     {
         var response, body;
 
@@ -374,7 +372,7 @@ class BeanstalkConnection
     /**
      * Writes data to the socket, connecting first when needed.
      */
-    public function write(string data) -> bool | int
+    public function write(string data) -> false | int
     {
         var connection, packet;
 
@@ -395,6 +393,8 @@ class BeanstalkConnection
      * `name` field, which is always kept as a string (a tube may be named
      * numerically). Avoids the yaml extension; the payload format is a fixed,
      * flat map.
+     *
+     * @return array<string, int|string>
      */
     private function parseDictionary(string payload) -> array
     {

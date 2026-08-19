@@ -18,10 +18,7 @@ namespace Phalcon\Auth\Adapter\Config;
  */
 class MemoryAdapterConfig extends AbstractAdapterConfig
 {
-    /**
-     * @var array
-     */
-    protected users = [];
+    protected array users = [];
 
     /**
      * @phpstan-param list<AuthUserRow> $users

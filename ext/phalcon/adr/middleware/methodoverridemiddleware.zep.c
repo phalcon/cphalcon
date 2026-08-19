@@ -38,13 +38,15 @@
  * turns that flag on, and only for a `POST` request whose `_method` names a
  * safe verb (`PUT`/`PATCH`/`DELETE`), so `_method` cannot spoof an arbitrary
  * method.
+ *
+ * @phpstan-import-type adr_allowed_methods from ADRTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_ADR_Middleware_MethodOverrideMiddleware)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\ADR\\Middleware, MethodOverrideMiddleware, phalcon, adr_middleware_methodoverridemiddleware, phalcon_adr_middleware_methodoverridemiddleware_method_entry, 0);
 
 	/**
-	 * @var array<int, string>
+	 * @phpstan-var adr_allowed_methods
 	 */
 	{
 		zval _zc0;
@@ -103,8 +105,8 @@ PHP_METHOD(Phalcon_ADR_Middleware_MethodOverrideMiddleware, __invoke)
 		zephir_cast_to_string(&_4$$3, &_2$$3);
 		ZEPHIR_INIT_VAR(&spoofed);
 		zephir_fast_strtoupper(&spoofed, &_4$$3);
-		zephir_read_property_cached(&_5$$3, this_ptr, _zephir_prop_0, 351, PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_CALL_FUNCTION(&_6$$3, "in_array", NULL, 87, &spoofed, &_5$$3, &__$true);
+		zephir_read_property_cached(&_5$$3, this_ptr, _zephir_prop_0, 357, PH_NOISY_CC | PH_READONLY);
+		ZEPHIR_CALL_FUNCTION(&_6$$3, "in_array", NULL, 88, &spoofed, &_5$$3, &__$true);
 		zephir_check_call_status();
 		if (zephir_is_true(&_6$$3)) {
 			ZVAL_BOOL(&_7$$4, 1);

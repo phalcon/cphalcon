@@ -30,38 +30,40 @@
  * Phalcon\Logger\Item
  *
  * Represents each item in a logging transaction
- *
- * @property array             $context
- * @property string            $message
- * @property int               $level
- * @property string            $levelName
- * @property DateTimeImmutable $dateTime
  */
 ZEPHIR_INIT_CLASS(Phalcon_Logger_Item)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Logger, Item, phalcon, logger_item, phalcon_logger_item_method_entry, 0);
 
-	/**
-	 * @var array
-	 */
-	zend_declare_property_null(phalcon_logger_item_ce, SL("context"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var DateTimeImmutable
-	 */
-	zend_declare_property_null(phalcon_logger_item_ce, SL("dateTime"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var int
-	 */
-	zend_declare_property_null(phalcon_logger_item_ce, SL("level"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var string
-	 */
-	zend_declare_property_null(phalcon_logger_item_ce, SL("levelName"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var string
-	 */
-	zend_declare_property_null(phalcon_logger_item_ce, SL("message"), ZEND_ACC_PROTECTED);
-	phalcon_logger_item_ce->create_object = zephir_init_properties_Phalcon_Logger_Item;
+	{
+		zval _zc0;
+		array_init_size(&_zc0, 1);
+		zephir_declare_typed_property(phalcon_logger_item_ce, SL("context"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_ARRAY, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_logger_item_ce, SL("dateTime"), &_zc0, ZEND_ACC_PROTECTED, 0, SL("DateTimeImmutable"));
+	}
+
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_logger_item_ce, SL("level"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_LONG, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_logger_item_ce, SL("levelName"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_logger_item_ce, SL("message"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
 
 	return SUCCESS;
 }
@@ -133,83 +135,43 @@ PHP_METHOD(Phalcon_Logger_Item, __construct)
 	} else {
 		zephir_get_arrval(&context, context_param);
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 932, &message_zv);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 933, &levelName_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 945, &message_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 946, &levelName_zv);
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, level);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 934, &_0);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 935, dateTime);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_4, 936, &context);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 947, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 948, dateTime);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_4, 949, &context);
 	ZEPHIR_MM_RESTORE();
 }
 
-/**
- * @return array
- */
 PHP_METHOD(Phalcon_Logger_Item, getContext)
 {
 
 	RETURN_MEMBER_TYPED(getThis(), "context", IS_ARRAY);
 }
 
-/**
- * @return DateTimeImmutable
- */
 PHP_METHOD(Phalcon_Logger_Item, getDateTime)
 {
 
 	RETURN_MEMBER(getThis(), "dateTime");
 }
 
-/**
- * @return int
- */
 PHP_METHOD(Phalcon_Logger_Item, getLevel)
 {
 
 	RETURN_MEMBER_TYPED(getThis(), "level", IS_LONG);
 }
 
-/**
- * @return string
- */
 PHP_METHOD(Phalcon_Logger_Item, getLevelName)
 {
 
 	RETURN_MEMBER_TYPED(getThis(), "levelName", IS_STRING);
 }
 
-/**
- * @return string
- */
 PHP_METHOD(Phalcon_Logger_Item, getMessage)
 {
 
 	RETURN_MEMBER_TYPED(getThis(), "message", IS_STRING);
-}
-
-zend_object *zephir_init_properties_Phalcon_Logger_Item(zend_class_entry *class_type)
-{
-		zval _0, _1$$3;
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-		ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1$$3);
-	
-
-		ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-		zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	
-	{
-		zval local_this_ptr, *this_ptr = &local_this_ptr;
-		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		zephir_read_property_ex(&_0, this_ptr, ZEND_STRL("context"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_0) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_1$$3);
-			array_init(&_1$$3);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("context"), &_1$$3);
-		}
-		ZEPHIR_MM_RESTORE();
-		return Z_OBJ_P(this_ptr);
-	}
 }
 

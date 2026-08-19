@@ -12,120 +12,93 @@ namespace Phalcon\Storage\Adapter;
 use DateInterval;
 use DateTime;
 use Exception;
+use Phalcon\Contracts\Storage\StorageTypes;
 use Phalcon\Events\EventsAwareInterface;
 use Phalcon\Events\ManagerInterface;
+use Phalcon\Events\Traits\EventsAwareTrait;
 use Phalcon\Storage\Serializer\SerializerInterface;
 use Phalcon\Storage\SerializerFactory;
-use Phalcon\Support\Exception as SupportException;
 use Phalcon\Traits\Support\Helper\Arr\GetTrait;
 
 /**
- * Class AbstractAdapter
+ * Storage AbstractAdapter
  *
- * @package Phalcon\Storage\Adapter
- *
- * @property mixed               $adapter
- * @property string              $defaultSerializer
- * @property int                 $lifetime
- * @property array               $options
- * @property string              $prefix
- * @property SerializerInterface $serializer
- * @property SerializerFactory   $serializerFactory
+ * @phpstan-import-type storage_keys from StorageTypes
+ * @phpstan-import-type storage_options from StorageTypes
  */
 abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
 {
+    use EventsAwareTrait;
     use GetTrait;
 
     /**
      * @var mixed
      */
-    protected adapter;
+    protected var adapter;
 
     /**
      * Name of the default serializer class
-     *
-     * @var string
      */
-    protected defaultSerializer = "php";
+    protected string defaultSerializer = "php";
+
+    /**
+     * EventType prefix.
+     */
+    protected string eventType = "storage";
 
     /**
      * Name of the default TTL (time to live)
+     */
+    protected int lifetime = 3600;
+
+    /**
+     * @var array<string, mixed>
      *
-     * @var int
+     * @phpstan-var storage_options
      */
-    protected lifetime = 3600;
-
-    /**
-     * @var array
-     */
-    protected options = [];
-
-    /**
-     * @var string
-     */
-    protected prefix = "ph-memo-";
-
-    /**
-     * Serializer
-     *
-     * @var SerializerInterface|null
-     */
-    protected serializer;
-
-    /**
-     * Serializer Factory
-     *
-     * @var SerializerFactory
-     */
-    protected serializerFactory;
-
+    protected array options = [];
+    protected string prefix = "ph-memo-";
+    protected ?<SerializerInterface> serializer = null;
+    protected <SerializerFactory> serializerFactory;
     /**
      * Whether a leading prefix is stripped from incoming keys before the
      * adapter prefix is applied. Disable when keys are externally
      * generated identifiers that may legitimately start with the prefix
      * text (e.g. session ids).
-     *
-     * @var bool
      */
-    protected stripPrefix = true;
-
-    /**
-     * Event Manager
-     *
-     * @var ManagerInterface|null
-     */
-    protected eventsManager = null;
-
-    /**
-     * EventType prefix.
-     *
-     * @var string
-     */
-    protected eventType = "storage";
+    protected bool stripPrefix = true;
 
     /**
      * AbstractAdapter constructor.
      *
-     * @param SerializerFactory $factory
-     * @param array             $options
+     * @phpstan-param storage_options $options
      */
     protected function __construct(
-        <SerializerFactory> factory,
+        <SerializerFactory> serializerFactory,
         array options = []
     ) {
+        var defaultSerializer, lifetime, prefix, serializer;
+
+        /** @var string $defaultSerializer */
+        let defaultSerializer = this->getArrVal(options, "defaultSerializer", "php");
+        /** @var int $lifetime */
+        let lifetime = this->getArrVal(options, "lifetime", 3600);
+        /** @var SerializerInterface|null $serializer */
+        let serializer = this->getArrVal(options, "serializer", null);
+
         /**
          * Lets set some defaults and options here
          */
-        let this->serializerFactory = factory,
-            this->defaultSerializer = mb_strtolower(
-                this->getArrVal(options, "defaultSerializer", "php")
-            ),
-            this->lifetime    = this->getArrVal(options, "lifetime", 3600),
-            this->serializer  = this->getArrVal(options, "serializer", null),
-            this->stripPrefix = (bool) this->getArrVal(options, "stripPrefix", true);
+        let this->serializerFactory = serializerFactory,
+            this->defaultSerializer = mb_strtolower(defaultSerializer),
+            this->lifetime          = lifetime,
+            this->serializer        = serializer,
+            this->stripPrefix       = (bool) this->getArrVal(options, "stripPrefix", true);
 
         if isset options["prefix"] {
-            let this->prefix = options["prefix"];
+            /** @var string $prefix */
+            let prefix       = options["prefix"],
+                this->prefix = prefix;
         }
 
         unset options["defaultSerializer"];
@@ -139,62 +112,49 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
 
     /**
      * Flushes/clears the cache
-     *
-     * @return bool
      */
     abstract public function clear() -> bool;
 
     /**
      * Decrements a stored number
-     *
-     * @param string $key
-     * @param int    $value
-     *
-     * @return int | bool
      */
-    public function decrement( string key, int value = 1) -> int | bool
+    public function decrement(string key, int value = 1) -> false | int
     {
         var result;
 
         let key = this->getKeyWithoutPrefix(key);
 
-        this->fire(this->eventType . ":beforeDecrement", key);
+        this->fireManagerEvent(this->eventType . ":beforeDecrement", key);
 
         let result = this->doDecrement(key, value);
 
-        this->fire(this->eventType . ":afterDecrement", key);
+        this->fireManagerEvent(this->eventType . ":afterDecrement", key);
 
         return result;
     }
 
     /**
      * Deletes data from the adapter
-     *
-     * @param string $key
-     *
-     * @return bool
      */
-    public function delete( string key) -> bool
+    public function delete(string key) -> bool
     {
         var result;
 
         let key = this->getKeyWithoutPrefix(key);
 
-        this->fire(this->eventType . ":beforeDelete", key);
+        this->fireManagerEvent(this->eventType . ":beforeDelete", key);
 
         let result = this->doDelete(key);
 
-        this->fire(this->eventType . ":afterDelete", key);
+        this->fireManagerEvent(this->eventType . ":afterDelete", key);
 
         return result;
     }
 
     /**
-     * Deletes data from the adapter
+     * Deletes multiple data from the adapter
      *
-     * @param string $key
-     *
-     * @return bool
+     * @phpstan-param storage_keys $keys
      */
     public function deleteMultiple(array keys) -> bool
     {
@@ -208,59 +168,35 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
 
         let keys = filteredKeys;
 
-        this->fire(this->eventType . ":beforeDeleteMultiple", keys);
+        this->fireManagerEvent(this->eventType . ":beforeDeleteMultiple", keys);
 
         let result = this->doDeleteMultiple(keys);
 
-        this->fire(this->eventType . ":afterDeleteMultiple", keys);
+        this->fireManagerEvent(this->eventType . ":afterDeleteMultiple", keys);
 
         return result;
     }
 
     /**
-     * Deletes multiple keys from the adapter
-     *
-     * @param array $keys
-     * @return bool
-     */
-    protected function doDeleteMultiple(array keys) -> bool
-    {
-        var key, allOk = true;
-        for key in keys {
-            if (!this->doDelete(key)) {
-                let allOk = false;
-            }
-        }
-        return allOk;
-    }
-
-    /**
      * Reads data from the adapter
-     *
-     * @param string     $key
-     * @param mixed|null $defaultValue
-     *
-     * @return mixed
      */
-    public function get(string key, defaultValue = null) -> var
+    public function get(string key, var defaultValue = null) -> var
     {
         var result;
 
         let key = this->getKeyWithoutPrefix(key);
 
-        this->fire(this->eventType . ":beforeGet", key);
+        this->fireManagerEvent(this->eventType . ":beforeGet", key);
 
         let result = this->doGet(key, defaultValue);
 
-        this->fire(this->eventType . ":afterGet", key);
+        this->fireManagerEvent(this->eventType . ":afterGet", key);
 
         return result;
     }
 
     /**
      * Returns the adapter - connects to the storage if not connected
-     *
-     * @return mixed
      */
     public function getAdapter() -> var
     {
@@ -269,8 +205,6 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
 
     /**
      * Name of the default serializer class
-     *
-     * @return string
      */
     public function getDefaultSerializer() -> string
     {
@@ -280,16 +214,12 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     /**
      * Returns all the keys stored
      *
-     * @param string $prefix
-     *
-     * @return array
+     * @phpstan-return storage_keys
      */
     abstract public function getKeys(string prefix = "") -> array;
 
     /**
      * Returns the lifetime
-     *
-     * @return int
      */
     public function getLifetime() -> int
     {
@@ -298,8 +228,6 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
 
     /**
      * Returns the prefix
-     *
-     * @return string
      */
     public function getPrefix() -> string
     {
@@ -308,55 +236,44 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
 
     /**
      * Get the serializer
-     *
-     * @return SerializerInterface
      */
-    public function getSerializer() -> <SerializerInterface>
+    public function getSerializer() -> <SerializerInterface> | null
     {
         return this->serializer;
     }
 
     /**
      * Checks if an element exists in the cache
-     *
-     * @param string $key
-     *
-     * @return bool
      */
-    public function has( string key) -> bool
+    public function has(string key) -> bool
     {
         var result;
 
         let key = this->getKeyWithoutPrefix(key);
 
-        this->fire(this->eventType . ":beforeHas", key);
+        this->fireManagerEvent(this->eventType . ":beforeHas", key);
 
         let result = this->doHas(key);
 
-        this->fire(this->eventType . ":afterHas", key);
+        this->fireManagerEvent(this->eventType . ":afterHas", key);
 
         return result;
     }
 
     /**
      * Increments a stored number
-     *
-     * @param string $key
-     * @param int    $value
-     *
-     * @return int | bool
      */
-    public function increment( string key, int value = 1) -> int | bool
+    public function increment(string key, int value = 1) -> false | int
     {
         var result;
 
         let key = this->getKeyWithoutPrefix(key);
 
-        this->fire(this->eventType . ":beforeIncrement", key);
+        this->fireManagerEvent(this->eventType . ":beforeIncrement", key);
 
         let result = this->doIncrement(key, value);
 
-        this->fire(this->eventType . ":afterIncrement", key);
+        this->fireManagerEvent(this->eventType . ":afterIncrement", key);
 
         return result;
     }
@@ -367,24 +284,18 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      * is `0` or a negative number, a `delete()` will be issued, since this
      * item has expired. If you need to set this key forever, you should use
      * the `setForever()` method.
-     *
-     * @param string                $key
-     * @param mixed                 $value
-     * @param DateInterval|int|null $ttl
-     *
-     * @return bool
      */
-    public function set( string key, var value, var ttl = null) -> bool
+    public function set(string key, var value, var ttl = null) -> bool
     {
         var result;
 
         let key = this->getKeyWithoutPrefix(key);
 
-        this->fire(this->eventType . ":beforeSet", key);
+        this->fireManagerEvent(this->eventType . ":beforeSet", key);
 
         let result = this->doSet(key, value, ttl);
 
-        this->fire(this->eventType . ":afterSet", key);
+        this->fireManagerEvent(this->eventType . ":afterSet", key);
 
         return result;
     }
@@ -395,6 +306,35 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     public function setDefaultSerializer(string serializer) -> void
     {
         let this->defaultSerializer = mb_strtolower(serializer);
+    }
+
+    /**
+     * Decrements a stored number
+     */
+    abstract protected function doDecrement(string key, int value = 1) -> false | int;
+
+    /**
+     * Deletes data from the adapter
+     */
+    abstract protected function doDelete(string key) -> bool;
+
+    /**
+     * Deletes multiple data from the adapter
+     *
+     * @phpstan-param storage_keys $keys
+     */
+    protected function doDeleteMultiple(array keys) -> bool
+    {
+        var key;
+        bool result = true;
+        
+        for key in keys {
+            if (true !== this->doDelete(key)) {
+                let result = false;
+            }
+        }
+
+        return result;
     }
 
     /**
@@ -422,27 +362,18 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      */
     protected function doGetData(string key) -> var
     {
-        return this->getAdapter()->get(key);
+        var adapter;
+
+        /**
+         * Every adapter that relies on this implementation is backed by a
+         * client exposing `get()`; the rest override `doGet()`/`doGetData()`.
+         *
+         * @var \Memcached|\Redis|\RedisCluster $adapter
+         */
+        let adapter = this->getAdapter();
+
+        return adapter->get(key);
     }
-
-    /**
-     * Decrements a stored number
-     *
-     * @param string $key
-     * @param int    $value
-     *
-     * @return int | bool
-     */
-    abstract protected function doDecrement( string key, int value = 1) -> int | bool;
-
-    /**
-     * Deletes data from the adapter
-     *
-     * @param string $key
-     *
-     * @return bool
-     */
-    abstract protected function doDelete( string key) -> bool;
 
     /**
      * Checks if an element exists in the cache
@@ -451,17 +382,12 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      *
      * @return bool
      */
-    abstract protected function doHas( string key) -> bool;
+    abstract protected function doHas(string key) -> bool;
 
     /**
      * Increments a stored number
-     *
-     * @param string $key
-     * @param int    $value
-     *
-     * @return int | bool
      */
-    abstract protected function doIncrement( string key, int value = 1) -> int | bool;
+    abstract protected function doIncrement(string key, int value = 1) -> false | int;
 
     /**
      * Stores data in the adapter. If the TTL is `null` (default) or not defined
@@ -476,23 +402,21 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      *
      * @return bool
      */
-    abstract protected function doSet( string key, var value, var ttl = null) -> bool;
+    abstract protected function doSet(string key, var value, var ttl = null) -> bool;
 
     /**
      * Filters the keys array based on global and passed prefix
      *
-     * @param mixed  $keys
-     * @param string $prefix
+     * @phpstan-param storage_keys|false $keys
      *
-     * @return array
+     * @phpstan-return storage_keys
      */
     protected function getFilteredKeys(var keys,  string prefix) -> array
     {
         var key, pattern;
-        array results;
+        array results = [];
 
-        let results = [],
-            pattern = this->prefix . prefix,
+        let pattern = this->prefix . prefix,
             keys    = !keys ? [] : keys;
 
         for key in keys {
@@ -508,10 +432,6 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      * Check if the key has the prefix and remove it, otherwise just return the
      * key unaltered. When the `stripPrefix` option is `false` the key is
      * always returned unaltered.
-     *
-     * @param string $key
-     *
-     * @return string
      */
     protected function getKeyWithoutPrefix(string key) -> string
     {
@@ -525,9 +445,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     /**
      * Returns the key requested, prefixed
      *
-     * @param string $key
-     *
-     * @return string
+     * @param float|int|string $key
      */
     protected function getPrefixedKey(var key) -> string
     {
@@ -539,9 +457,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     /**
      * Returns serialized data
      *
-     * @param mixed $content
-     *
-     * @return mixed
+     * @throws Exception
      */
     protected function getSerializedData(var content) -> var
     {
@@ -556,9 +472,6 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     /**
      * Calculates the TTL for a cache item
      *
-     * @param DateInterval|int|null $ttl
-     *
-     * @return int
      * @throws Exception
      */
     protected function getTtl(var ttl) -> int
@@ -574,19 +487,17 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
             return dateTime->add(ttl)->getTimestamp();
         }
 
+        /** @var float|int|string $ttl */
         return (int) ttl;
     }
 
     /**
      * Returns unserialized data
-     *
-     * @param mixed      $content
-     * @param mixed|null $defaultValue
-     *
-     * @return mixed
      */
-    protected function getUnserializedData(var content, var defaultValue = null) -> var
-    {
+    protected function getUnserializedData(
+        var content,
+        var defaultValue = null
+    ) -> var {
         if (null !== this->serializer) {
             this->serializer->unserialize(content);
 
@@ -606,7 +517,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     /**
      * Initializes the serializer
      *
-     * @throws SupportException
+     * @throws Exception
      */
     protected function initSerializer() -> void
     {
@@ -619,36 +530,5 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
             let className        = this->defaultSerializer,
                 this->serializer = this->serializerFactory->newInstance(className);
         }
-    }
-
-    /**
-     * Sets the event manager
-     */
-    public function setEventsManager(<ManagerInterface> eventsManager) -> void
-    {
-        let this->eventsManager = eventsManager;
-    }
-
-    /**
-     * Get the event manager
-     */
-    public function getEventsManager() -> <ManagerInterface> | null
-    {
-        return this->eventsManager;
-    }
-
-    /**
-     * Trigger an event for the eventsManager.
-     *
-     * @var string $eventName
-     * @var mixed $keys
-     */
-    protected function fire(string eventName, var keys) -> void
-    {
-        if (this->eventsManager === null) {
-            return;
-        }
-
-        this->eventsManager->fire(eventName, this, keys, false);
     }
 }

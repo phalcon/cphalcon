@@ -10,26 +10,16 @@
 
 namespace Phalcon\Storage\Serializer;
 
-use InvalidArgumentException;
 use Phalcon\Support\Helper\Json\Decode;
 use Phalcon\Support\Helper\Json\Encode;
 
 class Json extends AbstractSerializer
 {
-    /**
-     * @var Decode
-     */
-    private decode;
-
-    /**
-     * @var Encode
-     */
-    private encode;
+    private <Decode> decode;
+    private <Encode> encode;
 
     /**
      * AbstractSerializer constructor.
-     *
-     * @param mixed|null $data
      */
     public function __construct(var data = null)
     {
@@ -41,8 +31,6 @@ class Json extends AbstractSerializer
 
     /**
      * Serializes data
-     *
-     * @return mixed|string
      */
     public function serialize() -> mixed
     {
@@ -55,16 +43,13 @@ class Json extends AbstractSerializer
 
     /**
      * Unserializes data
-     *
-     * @param mixed $data
-     *
-     * @return void
      */
     public function unserialize(mixed data) -> void
     {
         if (true !== this->isSerializable(data)) {
             let this->data = data;
         } else {
+            /** @var string $data */
             let this->data = this->decode->__invoke(data);
         }
     }

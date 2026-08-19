@@ -72,7 +72,27 @@ final class LoadTest extends AbstractUnitTestCase
         $cacheFactory->load([]);
     }
 
-    private function runTests(Config | array $options): void
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-08-05
+     */
+    public function testCacheCacheFactoryLoadExceptionInvalidConfig(): void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage(
+            'Config must be array or Phalcon\Config\Config object'
+        );
+
+        $cacheFactory = new CacheFactory(
+            new AdapterFactory(
+                new SerializerFactory()
+            )
+        );
+
+        $cacheFactory->load(1234);
+    }
+
+    private function runTests(array | Config $options): void
     {
         $cacheFactory = new CacheFactory(
             new AdapterFactory(

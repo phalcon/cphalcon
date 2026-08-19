@@ -9,16 +9,19 @@
 
 namespace Phalcon\Storage\Adapter;
 
-use DateInterval;
 use Exception as BaseException;
+use Phalcon\Contracts\Storage\StorageTypes;
 use Phalcon\Storage\SerializerFactory;
-use Phalcon\Support\Exception as SupportException;
 
 /**
  * Memory adapter
  *
- * @property array $data
- * @property array $options
+ * @phpstan-import-type storage_adapter_options from StorageTypes
+ * @phpstan-import-type storage_keys from StorageTypes
+ * @phpstan-import-type storage_memory_data from StorageTypes
+ *
+ * @phpstan-property storage_memory_data $data
+ * @phpstan-property storage_adapter_options $options
  *
  * Capabilities:
  * - Scope: per-request, in-process; nothing is shared across requests or
@@ -30,18 +33,18 @@ use Phalcon\Support\Exception as SupportException;
 class Memory extends AbstractAdapter
 {
     /**
-     * @var array
+     * @var array<string, mixed>
+     *
+     * @phpstan-var storage_memory_data
      */
-    protected data = [];
+    protected array data = [];
 
     /**
      * Maximum number of items retained in the in-memory store.
      * 0 (default) keeps the original unbounded behavior; a positive
      * value drops the oldest entry FIFO before a new key is stored.
-     *
-     * @var int
      */
-    protected maxItems = 0;
+    protected int maxItems = 0;
 
     /**
      * Memory constructor.
@@ -49,9 +52,11 @@ class Memory extends AbstractAdapter
      * @param SerializerFactory $factory
      * @param array             $options
      *
-     * @throws SupportException
+     * @phpstan-param storage_adapter_options $options
+     *
+     * @throws BaseException
      */
-    public function __construct(<SerializerFactory> factory,  array options = [])
+    public function __construct(<SerializerFactory> factory, array options = [])
     {
         parent::__construct(factory, options);
 
@@ -74,6 +79,8 @@ class Memory extends AbstractAdapter
      * @param string $prefix
      *
      * @return array
+     *
+     * @phpstan-return storage_keys
      */
     public function getKeys(string prefix = "") -> array
     {
@@ -86,6 +93,15 @@ class Memory extends AbstractAdapter
     public function getMaxItems() -> int
     {
         return this->maxItems;
+    }
+
+    /**
+     * Stores data in the adapter forever. The key needs to manually deleted
+     * from the adapter.
+     */
+    public function setForever(string key, var data) -> bool
+    {
+        return $this->set(key, data);
     }
 
     /**
@@ -102,28 +118,9 @@ class Memory extends AbstractAdapter
     }
 
     /**
-     * Stores data in the adapter forever. The key needs to manually deleted
-     * from the adapter.
-     *
-     * @param string $key
-     * @param mixed  $value
-     *
-     * @return bool
-     */
-    public function setForever( string key, var value) -> bool
-    {
-        return this->set(key, value);
-    }
-
-    /**
      * Decrements a stored number
-     *
-     * @param string $key
-     * @param int    $value
-     *
-     * @return bool|int
      */
-    protected function doDecrement( string key, int value = 1) -> int | bool
+    protected function doDecrement(string key, int value = 1) -> false | int
     {
         var current, newValue, prefixedKey, result;
 
@@ -131,6 +128,7 @@ class Memory extends AbstractAdapter
             result      = array_key_exists(prefixedKey, this->data);
 
         if likely true === result {
+            /** @var float|int|string $current */
             let current  = this->data[prefixedKey],
                 newValue = (int) current - value,
                 result   = newValue;
@@ -143,12 +141,8 @@ class Memory extends AbstractAdapter
 
     /**
      * Deletes data from the adapter
-     *
-     * @param string $key
-     *
-     * @return bool
      */
-    protected function doDelete( string key) -> bool
+    protected function doDelete(string key) -> bool
     {
         var exists, prefixedKey;
 
@@ -160,37 +154,23 @@ class Memory extends AbstractAdapter
         return exists;
     }
 
-    /**
-     * @param string $key
-     *
-     * @return mixed
-     */
-    protected function doGetData(string key)
+    protected function doGetData(string key) -> var
     {
         return this->data[this->getPrefixedKey(key)];
     }
 
     /**
      * Checks if an element exists in the cache
-     *
-     * @param string $key
-     *
-     * @return bool
      */
-    protected function doHas( string key) -> bool
+    protected function doHas(string key) -> bool
     {
         return array_key_exists(this->getPrefixedKey(key), this->data);
     }
 
     /**
      * Increments a stored number
-     *
-     * @param string $key
-     * @param int    $value
-     *
-     * @return bool|int
      */
-    protected function doIncrement( string key, int value = 1) -> int | bool
+    protected function doIncrement(string key, int value = 1) -> false | int
     {
         var current, newValue, prefixedKey, result;
 
@@ -198,6 +178,7 @@ class Memory extends AbstractAdapter
             result      = array_key_exists(prefixedKey, this->data);
 
         if likely true === result {
+            /** @var float|int|string $current */
             let current  = this->data[prefixedKey],
                 newValue = (int) current + value,
                 result   = newValue;
@@ -214,15 +195,8 @@ class Memory extends AbstractAdapter
      * is `0` or a negative number, a `delete()` will be issued, since this
      * item has expired. If you need to set this key forever, you should use
      * the `setForever()` method.
-     *
-     * @param string                $key
-     * @param mixed                 $value
-     * @param DateInterval|int|null $ttl
-     *
-     * @return bool
-     * @throws BaseException
      */
-    protected function doSet( string key, var value, var ttl = null) -> bool
+    protected function doSet(string key, var value, var ttl = null) -> bool
     {
         var content, firstKey, prefixedKey;
 
@@ -237,9 +211,8 @@ class Memory extends AbstractAdapter
             && !array_key_exists(prefixedKey, this->data)
             && count(this->data) >= this->maxItems {
             let firstKey = array_key_first(this->data);
-            if firstKey !== null {
-                unset(this->data[firstKey]);
-            }
+
+            unset(this->data[firstKey]);
         }
 
         let this->data[prefixedKey] = content;

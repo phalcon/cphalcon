@@ -10,6 +10,7 @@
 
 namespace Phalcon\Support\Debug;
 
+use Phalcon\Contracts\Support\SupportTypes;
 use Phalcon\Support\Debug\Report\BacktraceItem;
 use Phalcon\Support\Debug\Report\ExceptionReport;
 use Phalcon\Traits\Php\InfoTrait;
@@ -23,6 +24,12 @@ use Throwable;
  * Collects the runtime data for an exception (backtrace, superglobals, included
  * files, memory, variables) into an ExceptionReport. Holds no presentation
  * logic.
+ *
+ * @phpstan-import-type support_debug_blacklist from SupportTypes
+ * @phpstan-import-type support_debug_fragment from SupportTypes
+ * @phpstan-import-type support_debug_superglobal from SupportTypes
+ * @phpstan-import-type support_debug_trace from SupportTypes
+ * @phpstan-import-type support_debug_variables from SupportTypes
  */
 class ReportBuilder
 {
@@ -30,19 +37,14 @@ class ReportBuilder
     use InfoTrait;
 
     /**
-     * @param Throwable $exception
-     * @param array     $blacklist
-     * @param bool      $showBackTrace
-     * @param bool      $showFiles
-     * @param bool      $showFileFragment
-     * @param string    $uri
-     * @param array     $data
+     * @phpstan-param support_debug_blacklist $blacklist
+     * @phpstan-param support_debug_variables $data
      *
      * @return ExceptionReport
      * @throws ReflectionException
      */
     public function build(
-        <\Throwable> exception,
+        <Throwable> exception,
         array blacklist,
         bool showBackTrace,
         bool showFiles,
@@ -88,11 +90,7 @@ class ReportBuilder
     }
 
     /**
-     * @param string $file
-     * @param int    $line
-     * @param bool   $showFileFragment
-     *
-     * @return array
+     * @phpstan-return support_debug_fragment
      */
     private function buildFragment(string file, int line, bool showFileFragment) -> array
     {
@@ -127,9 +125,11 @@ class ReportBuilder
     }
 
     /**
-     * @param array $trace
-     * @param bool  $showFiles
-     * @param bool  $showFileFragment
+     * @phpstan-param support_debug_trace $trace
+     *
+     * @param array<array-key, mixed> $trace
+     * @param bool                    $showFiles
+     * @param bool                    $showFileFragment
      *
      * @return BacktraceItem
      * @throws ReflectionException
@@ -193,10 +193,9 @@ class ReportBuilder
     }
 
     /**
-     * @param array $source
-     * @param array $blacklist
-     *
-     * @return array
+     * @phpstan-param  support_debug_superglobal $source
+     * @phpstan-param  array<string, int>        $blacklist
+     * @phpstan-return support_debug_superglobal
      */
     private function filter(array source, array blacklist) -> array
     {
@@ -214,9 +213,8 @@ class ReportBuilder
     }
 
     /**
-     * @param string $className
+     * @phpstan-param class-string $className
      *
-     * @return string|null
      * @throws ReflectionException
      */
     private function resolveClassLink(string className) -> string | null
@@ -241,9 +239,6 @@ class ReportBuilder
     }
 
     /**
-     * @param string $functionName
-     *
-     * @return string|null
      * @throws ReflectionException
      */
     private function resolveFunctionLink(string functionName) -> string | null

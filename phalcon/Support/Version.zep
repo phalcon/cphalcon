@@ -81,8 +81,6 @@ class Version
      * ```php
      * echo (new Phalcon\Version())->get();
      * ```
-     *
-     * @return string
      */
     public function get() -> string
     {
@@ -122,8 +120,6 @@ class Version
      * ```php
      * echo (new Phalcon\Version())->getId();
      * ```
-     *
-     * @return string
      */
     public function getId() -> string
     {
@@ -151,10 +147,6 @@ class Version
      * ```php
      * echo (new Phalcon\Version())->getPart(Phalcon\Version::VERSION_MAJOR);
      * ```
-     *
-     * @param int $part
-     *
-     * @return string
      */
     public function getPart(int part) -> string
     {
@@ -178,12 +170,8 @@ class Version
 
     /**
      * Translates a number to a special release.
-     *
-     * @param int $special
-     *
-     * @return string
      */
-    protected final function getSpecial(int special) -> string
+    final protected function getSpecial(int special) -> string
     {
         var suffix;
 
@@ -219,6 +207,6 @@ class Version
      */
     protected function getVersion() -> array
     {
-        return [5, 18, 1, 4, 0];
+        return [5, 19, 0, 4, 0];
     }
 }

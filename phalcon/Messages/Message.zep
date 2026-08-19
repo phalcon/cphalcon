@@ -11,44 +11,36 @@
 namespace Phalcon\Messages;
 
 use JsonSerializable;
+use Phalcon\Contracts\Messages\MessagesTypes;
 
 /**
- * Phalcon\Messages\Message
+ * Class Message
  *
  * Stores a message from various components
+ *
+ * @phpstan-import-type messages_message from MessagesTypes
+ * @phpstan-import-type messages_metadata from MessagesTypes
  */
 class Message implements MessageInterface, JsonSerializable
 {
-    /**
-     * @var int
-     */
-    protected code;
-
-    /**
-     * @var string
-     */
-    protected field;
-
-    /**
-     * @var string
-     */
-    protected message;
-
-    /**
-     * @var array
-     */
-    protected metaData = [];
-
-    /**
-     * @var string
-     */
-    protected type;
+    protected int code = 0;
+    protected string field = "";
+    protected string message;
+    protected array metaData = [];
+    protected string type = "";
 
     /**
      * Phalcon\Messages\Message constructor
+     *
+     * @param messages_metadata $metaData
      */
-    public function __construct( string message, string field = "", string type = "", int code = 0, array metaData = [])
-    {
+    public function __construct(
+        string message,
+        string field = "",
+        string type = "",
+        int code = 0,
+        array metaData = []
+    ) {
         let this->message  = message,
             this->field    = field,
             this->type     = type,
@@ -89,7 +81,7 @@ class Message implements MessageInterface, JsonSerializable
     }
 
     /**
-     * @return array
+     * @return messages_metadata
      */
     public function getMetaData() -> array
     {
@@ -106,6 +98,8 @@ class Message implements MessageInterface, JsonSerializable
 
     /**
      * Serializes the object for json_encode
+     *
+     * @return messages_message
      */
     public function jsonSerialize() -> array
     {
@@ -150,6 +144,8 @@ class Message implements MessageInterface, JsonSerializable
 
     /**
      * Sets message metadata
+     *
+     * @param messages_metadata $metaData
      */
     public function setMetaData( array metaData) -> <MessageInterface>
     {

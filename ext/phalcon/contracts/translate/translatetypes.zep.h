@@ -1,0 +1,5 @@
+
+extern zend_class_entry *phalcon_contracts_translate_translatetypes_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Contracts_Translate_TranslateTypes);
+

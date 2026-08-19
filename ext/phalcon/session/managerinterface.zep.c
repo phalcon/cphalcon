@@ -21,9 +21,9 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Session
- *
  * Interface for the Phalcon\Session\Manager
+ *
+ * @phpstan-import-type session_options from SessionTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Session_ManagerInterface)
 {
@@ -89,6 +89,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Session_ManagerInterface, getId);
 ZEPHIR_DOC_METHOD(Phalcon_Session_ManagerInterface, getName);
 /**
  * Get internal options
+ *
+ * @phpstan-return session_options
  */
 ZEPHIR_DOC_METHOD(Phalcon_Session_ManagerInterface, getOptions);
 /**
@@ -124,6 +126,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Session_ManagerInterface, setId);
 ZEPHIR_DOC_METHOD(Phalcon_Session_ManagerInterface, setName);
 /**
  * Sets session's options
+ *
+ * @phpstan-param session_options $options
  */
 ZEPHIR_DOC_METHOD(Phalcon_Session_ManagerInterface, setOptions);
 /**

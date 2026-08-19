@@ -77,7 +77,7 @@ PHP_METHOD(Phalcon_Logger_AdapterFactory, __construct)
  * @param array  $options
  *
  * @return AdapterInterface
- * @throws Exception
+ * @throws BaseException
  */
 PHP_METHOD(Phalcon_Logger_AdapterFactory, newInstance)
 {
@@ -126,7 +126,7 @@ PHP_METHOD(Phalcon_Logger_AdapterFactory, newInstance)
 }
 
 /**
- * @return string
+ * @return class-string<Throwable>
  */
 PHP_METHOD(Phalcon_Logger_AdapterFactory, getExceptionClass)
 {

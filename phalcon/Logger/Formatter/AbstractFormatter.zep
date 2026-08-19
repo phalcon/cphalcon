@@ -23,32 +23,16 @@ abstract class AbstractFormatter implements FormatterInterface
 
     /**
      * Default date format
-     *
-     * @var string
      */
-    protected dateFormat = "c";
+    protected string dateFormat = "c";
+    protected string interpolatorLeft = "%";
+    protected string interpolatorRight = "%";
 
-    /**
-     * @var string
-     */
-    protected interpolatorLeft = "%";
-
-    /**
-     * @var string
-     */
-    protected interpolatorRight = "%";
-
-    /**
-     * @return string
-     */
     public function getDateFormat() -> string
     {
         return this->dateFormat;
     }
 
-    /**
-     * @param string $format
-     */
     public function setDateFormat(string format) -> void
     {
         let this->dateFormat = format;

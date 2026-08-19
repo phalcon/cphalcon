@@ -13,7 +13,6 @@
 
 namespace Phalcon\Auth\Guard;
 
-use DateTimeImmutable;
 use Phalcon\Auth\Exception;
 use Phalcon\Auth\Exceptions\DoesNotImplement;
 use Phalcon\Auth\Guard\Config\SessionGuardConfig;
@@ -40,26 +39,11 @@ use Phalcon\Time\Clock\SystemClock;
  */
 class Session extends AbstractGuard implements GuardStateful, BasicAuth
 {
-    /**
-     * @var ClockInterface
-     */
-    protected clock;
-    /**
-     * @var CookiesInterface
-     */
-    protected cookies;
-    /**
-     * @var RequestInterface
-     */
-    protected request;
-    /**
-     * @var SessionManagerInterface
-     */
-    protected session;
-    /**
-     * @var bool
-     */
-    protected viaRemember = false;
+    protected <ClockInterface> clock;
+    protected <CookiesInterface> cookies;
+    protected <RequestInterface> request;
+    protected <SessionManagerInterface> session;
+    protected bool viaRemember = false;
 
     public function __construct(
         <Adapter> adapter,
@@ -86,6 +70,9 @@ class Session extends AbstractGuard implements GuardStateful, BasicAuth
         parent::__construct(adapter, config);
     }
 
+    /**
+     * @param array<string, mixed> $options
+     */
     public static function fromOptions(
         <Adapter> adapter,
         var container,
@@ -97,7 +84,7 @@ class Session extends AbstractGuard implements GuardStateful, BasicAuth
             Options::stringOrNull(options, "suffix"),
             Options::stringOrNull(options, "name"),
             Options::stringOrNull(options, "rememberName"),
-            isset(options["rememberTtl"]) ? options["rememberTtl"] : null
+            isset(options["rememberTtl"]) ? (int) options["rememberTtl"] : null
         );
 
         return new static(
@@ -197,12 +184,8 @@ class Session extends AbstractGuard implements GuardStateful, BasicAuth
     /**
      * @throws Exception
      */
-    public function loginById(var id, bool remember = false) -> false | <AuthUser>
+    public function loginById(int | string id, bool remember = false) -> <AuthUser> | false
     {
-        if (typeof id !== "int" && typeof id !== "string") {
-            throw new \TypeError("The parameter must be 'int' or 'string'");
-        }
-
         var resolved;
 
         let resolved = this->adapter->retrieveById(id);
@@ -266,7 +249,7 @@ class Session extends AbstractGuard implements GuardStateful, BasicAuth
     public function onceBasic(
         string field = "email",
         array extraConditions = []
-    ) -> false | <AuthUser> {
+    ) -> <AuthUser> | false {
         var credentials, user;
 
         let credentials = this->basicCredentials(field);

@@ -20,12 +20,12 @@ class Group
     use InfoTrait;
 
     /**
-     * @param array           $collection
-     * @param callable|string $method
+     * @param array<array-key, mixed> $collection
+     * @param callable|string         $method
      *
-     * @return array
+     * @return array<array-key, list<mixed>>
      */
-    public function __invoke(array collection, method) -> array
+    public function __invoke(array collection, var method) -> array
     {
         var element, filtered;
 
@@ -40,11 +40,6 @@ class Group
         return filtered;
     }
 
-    /**
-     * @param mixed $method
-     *
-     * @return bool
-     */
     private function isCallable(var method) -> bool
     {
         return (
@@ -54,11 +49,21 @@ class Group
     }
 
     /**
-     * @param array           $filtered
-     * @param callable|string $method
-     * @param mixed           $element
+     * @param mixed $element
      *
-     * @return array
+     * @return bool
+     */
+    private function isObject(var element) -> bool
+    {
+        return typeof element === "object";
+    }
+
+    /**
+     * @param array<array-key, mixed> $filtered
+     * @param callable|string         $method
+     * @param mixed                   $element
+     *
+     * @return array<array-key, mixed>
      */
     private function processCallable(array filtered, var method, var element) -> array
     {
@@ -74,11 +79,11 @@ class Group
     }
 
     /**
-     * @param array           $filtered
-     * @param callable|string $method
-     * @param mixed           $element
+     * @param array<array-key, mixed> $filtered
+     * @param callable|string         $method
+     * @param mixed                   $element
      *
-     * @return array
+     * @return array<array-key, mixed>
      */
     private function processObject(array filtered, var method, var element) -> array
     {
@@ -87,7 +92,7 @@ class Group
         let output = filtered;
         if (
             true !== this->isCallable(method) &&
-            typeof element === "object"
+            true === this->isObject(element)
         ) {
             var key;
 
@@ -99,11 +104,11 @@ class Group
     }
 
     /**
-     * @param array           $filtered
-     * @param callable|string $method
-     * @param mixed           $element
+     * @param array<array-key, mixed> $filtered
+     * @param callable|string         $method
+     * @param mixed                   $element
      *
-     * @return array
+     * @return array<array-key, mixed>
      */
     private function processOther(array filtered, var method, var element) -> array
     {
@@ -112,7 +117,7 @@ class Group
         let output = filtered;
         if (
             true !== this->isCallable(method) &&
-            typeof element !== "object" &&
+            true !== this->isObject(element) &&
             true === isset(element[method])
         ) {
             var key;

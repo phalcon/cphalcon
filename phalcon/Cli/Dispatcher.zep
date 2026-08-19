@@ -11,6 +11,7 @@
 namespace Phalcon\Cli;
 
 use Phalcon\Cli\Dispatcher\Exception;
+use Phalcon\Contracts\Cli\CliTypes;
 use Phalcon\Dispatcher\AbstractDispatcher as CliDispatcher;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Filter\FilterInterface;
@@ -36,38 +37,31 @@ use Phalcon\Filter\FilterInterface;
  *
  * $handle = $dispatcher->dispatch();
  * ```
+ *
+ * @phpstan-import-type cli_options from CliTypes
  */
 class Dispatcher extends CliDispatcher implements DispatcherInterface
 {
+    protected string defaultAction = "main";
+    protected string defaultHandler = "main";
+    protected string handlerSuffix = "Task";
     /**
-     * @var string
+     * @phpstan-var cli_options
      */
-    protected defaultHandler = "main";
-
-    /**
-     * @var string
-     */
-    protected defaultAction = "main";
-
-    /**
-     * @var string
-     */
-    protected handlerSuffix = "Task";
-
-    /**
-     * @var array
-     */
-    protected options = [];
+    protected array options = [];
 
     /**
      * Calls the action method.
      *
      * The CLI options collected by the dispatcher are appended to the
-     * positional `params` before the call, so a task action receives any
+     * positional `parameters` before the call, so a task action receives any
      * options as trailing arguments after its declared parameters.
      */
-    public function callActionMethod(handler, string actionMethod,  array params = []) -> var
-    {
+    public function callActionMethod(
+        handler,
+        string actionMethod,
+        array params = []
+    ) -> var {
         var localParams;
 
         // This is to make sure that the parameters are zero-indexed and
@@ -100,12 +94,19 @@ class Dispatcher extends CliDispatcher implements DispatcherInterface
     /**
      * Gets an option by its name or numeric index
      *
-     * @param  mixed $option
-     * @param  string|array $filters
-     * @param  mixed $defaultValue
+     * @param int|string   $option
+     * @param array|string $filters
+     * @param mixed        $defaultValue
+     *
+     * @phpstan-param array-key $option
+     * @phpstan-param mixed     $filters
+     * @phpstan-param mixed     $defaultValue
      */
-    public function getOption(option, filters = null, defaultValue = null) -> var
-    {
+    public function getOption(
+        option,
+        filters = null,
+        defaultValue = null
+    ) -> var {
         var options, filter, optionValue, container;
 
         let options = this->options;
@@ -134,6 +135,8 @@ class Dispatcher extends CliDispatcher implements DispatcherInterface
 
     /**
      * Get dispatched options
+     *
+     * @phpstan-return cli_options
      */
     public function getOptions() -> array
     {
@@ -158,6 +161,8 @@ class Dispatcher extends CliDispatcher implements DispatcherInterface
 
     /**
      * Check if an option exists
+     *
+     * @phpstan-param array-key $option
      */
     public function hasOption(var option) -> bool
     {
@@ -174,6 +179,8 @@ class Dispatcher extends CliDispatcher implements DispatcherInterface
 
     /**
      * Set the options to be dispatched
+     *
+     * @phpstan-param cli_options $options
      */
     public function setOptions(array options) -> void
     {

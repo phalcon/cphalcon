@@ -30,10 +30,13 @@
 /**
  * ServiceLocator implementation for helpers
  *
+ * @phpstan-import-type support_collection from SupportTypes
+ * @phpstan-import-type support_helper_services from SupportTypes
+ *
  * @method string basename(string $uri, string $suffix = null)
- * @method array  blacklist(array $collection, array $blackList)
+ * @method support_collection blacklist(support_collection $collection, support_collection $blackList)
  * @method string camelize(string $text, string $delimiters = null, bool $lowerFirst = false)
- * @method array  chunk(array $collection, int $size, bool $preserveKeys = false)
+ * @method support_collection chunk(support_collection $collection, int $size, bool $preserveKeys = false)
  * @method string concat(string $delimiter, string $first, string $second, string ...$arguments)
  * @method int    countVowels(string $text)
  * @method string decapitalize(string $text, bool $upperRest = false, string $encoding = 'UTF-8')
@@ -44,51 +47,51 @@
  * @method string dynamic(string $text, string $leftDel = "{", string $rightDel = "}", string $separator = "|")
  * @method string encode($data, int $options = 0, int $depth = 512)
  * @method bool   endsWith(string $haystack, string $needle, bool $ignoreCase = true)
- * @method mixed  filter(array $collection, callable|null $method)
- * @method mixed  first(array $collection, callable $method = null)
+ * @method mixed  filter(support_collection $collection, callable|null $method)
+ * @method mixed  first(support_collection $collection, callable $method = null)
  * @method string firstBetween(string $text, string $start, string $end)
- * @method mixed  firstKey(array $collection, callable $method = null)
+ * @method mixed  firstKey(support_collection $collection, callable $method = null)
  * @method string friendly(string $text, string $separator = '-', bool $lowercase = true, $replace = null)
- * @method array  flatten(array $collection, bool $deep = false)
- * @method mixed  get(array $collection, $index, $defaultValue = null, string $cast = null)
- * @method array  group(array $collection, $method)
- * @method bool   has(array $collection, $index)
+ * @method support_collection flatten(support_collection $collection, bool $deep = false)
+ * @method mixed  get(support_collection $collection, $index, $defaultValue = null, string $cast = null)
+ * @method array<array-key, list<mixed>> group(support_collection $collection, $method)
+ * @method bool   has(support_collection $collection, $index)
  * @method string humanize(string $text)
  * @method bool   includes(string $haystack, string $needle)
  * @method string increment(string $text, string $separator = '_')
- * @method string interpolate(string $message, array $context = [], string $leftToken = "%", string $rightToken = "%")
+ * @method string interpolate(string $message, string[] $context=[], string $leftToken="%", string $rightToken="%")
  * @method bool   isAnagram(string $first, string $second)
  * @method bool   isBetween(int $value, int $start, int $end)
  * @method bool   isLower(string $text, string $encoding = 'UTF-8')
  * @method bool   isPalindrome(string $text)
- * @method bool   isUnique(array $collection)
+ * @method bool   isUnique(support_collection $collection)
  * @method bool   isUpper(string $text, string $encoding = 'UTF-8')
  * @method string kebabCase(string $text, string $delimiters = null)
- * @method mixed  last(array $collection, callable $method = null)
- * @method mixed  lastKey(array $collection, callable $method = null)
+ * @method mixed  last(support_collection $collection, callable $method = null)
+ * @method mixed  lastKey(support_collection $collection, callable $method = null)
  * @method int    len(string $text, string $encoding = 'UTF-8')
  * @method string lower(string $text, string $encoding = 'UTF-8')
- * @method array  order(array $collection, $attribute, string $order = 'asc')
+ * @method support_collection order(support_collection $collection, $attribute, string $order = 'asc')
  * @method string pascalCase(string $text, string $delimiters = null)
- * @method array  pluck(array $collection, string $element)
+ * @method support_collection pluck(support_collection $collection, string $element)
  * @method string prefix(string $text, string $prefix)
  * @method string random(int $type = 0, int $length = 8)
  * @method string reduceSlashes(string $text)
- * @method array  set(array $collection, $value, $index = null)
- * @method array  sliceLeft(array $collection, int $elements = 1)
- * @method array  sliceRight(array $collection, int $elements = 1)
+ * @method support_collection set(support_collection $collection, $value, $index = null)
+ * @method support_collection sliceLeft(support_collection $collection, int $elements = 1)
+ * @method support_collection sliceRight(support_collection $collection, int $elements = 1)
  * @method string snakeCase(string $text, string $delimiters = null)
- * @method array  split(array $collection)
+ * @method support_collection split(support_collection $collection)
  * @method bool   startsWith(string $haystack, string $needle, bool $ignoreCase = true)
  * @method string suffix(string $text, string $suffix)
- * @method object toObject(array $collection)
- * @method bool   validateAll(array $collection, callable $method)
- * @method bool   validateAny(array $collection, callable $method)
+ * @method object toObject(support_collection $collection)
+ * @method bool   validateAll(support_collection $collection, callable $method)
+ * @method bool   validateAny(support_collection $collection, callable $method)
  * @method string ucwords(string $text, string $encoding = 'UTF-8')
  * @method string uncamelize(string $text, string $delimiters = '_')
  * @method string underscore(string $text)
  * @method string upper(string $text, string $encoding = 'UTF-8')
- * @method array  whitelist(array $collection, array $whiteList)
+ * @method support_collection whitelist(support_collection $collection, support_collection $whiteList)
  */
 ZEPHIR_INIT_CLASS(Phalcon_Support_HelperFactory)
 {
@@ -100,7 +103,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_HelperFactory)
 /**
  * Constructor.
  *
- * @param array $services
+ * @phpstan-param support_helper_services $services
  */
 PHP_METHOD(Phalcon_Support_HelperFactory, __construct)
 {
@@ -130,10 +133,8 @@ PHP_METHOD(Phalcon_Support_HelperFactory, __construct)
 }
 
 /**
- * @param string $name
- * @param array  $arguments
+ * @phpstan-param array<array-key, mixed> $arguments
  *
- * @return mixed
  * @throws Exception
  */
 PHP_METHOD(Phalcon_Support_HelperFactory, __call)
@@ -174,9 +175,8 @@ PHP_METHOD(Phalcon_Support_HelperFactory, __call)
 }
 
 /**
- * @param string $name
+ * @return object
  *
- * @return mixed
  * @throws Exception
  */
 PHP_METHOD(Phalcon_Support_HelperFactory, newInstance)
@@ -205,7 +205,7 @@ PHP_METHOD(Phalcon_Support_HelperFactory, newInstance)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1363, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1379, PH_NOISY_CC | PH_READONLY);
 	if (1 != zephir_array_isset_value(&_0, &name_zv)) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		ZEPHIR_CALL_METHOD(&_2$$3, this_ptr, "getservice", NULL, 0, &name_zv);
@@ -214,13 +214,13 @@ PHP_METHOD(Phalcon_Support_HelperFactory, newInstance)
 		zephir_check_call_status();
 		zephir_update_property_array(this_ptr, SL("services"), &name_zv, &_1$$3);
 	}
-	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_0, 1363, PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch(&_4, &_3, &name_zv, PH_NOISY | PH_READONLY, "phalcon/Support/HelperFactory.zep", 177);
+	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_0, 1379, PH_NOISY_CC | PH_READONLY);
+	zephir_array_fetch(&_4, &_3, &name_zv, PH_NOISY | PH_READONLY, "phalcon/Support/HelperFactory.zep", 179);
 	RETURN_CTOR(&_4);
 }
 
 /**
- * @return string
+ * @return class-string<Throwable>
  */
 PHP_METHOD(Phalcon_Support_HelperFactory, getExceptionClass)
 {
@@ -230,6 +230,8 @@ PHP_METHOD(Phalcon_Support_HelperFactory, getExceptionClass)
 
 /**
  * Returns the available adapters
+ *
+ * @phpstan-return support_helper_services
  *
  * @return string[]
  */

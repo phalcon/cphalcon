@@ -40,12 +40,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Arr_Get)
 }
 
 /**
- * @param array       $collection
- * @param mixed       $index
- * @param mixed|null  $defaultValue
- * @param string|null $cast
- *
- * @return mixed|null
+ * @phpstan-param array<array-key, mixed> $collection
+ * @phpstan-param array-key               $index
  */
 PHP_METHOD(Phalcon_Support_Helper_Arr_Get, __invoke)
 {

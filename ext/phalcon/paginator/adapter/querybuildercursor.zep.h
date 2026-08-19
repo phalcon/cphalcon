@@ -4,9 +4,9 @@ extern zend_class_entry *phalcon_paginator_adapter_querybuildercursor_ce;
 ZEPHIR_INIT_CLASS(Phalcon_Paginator_Adapter_QueryBuilderCursor);
 
 PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilderCursor, __construct);
+PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilderCursor, getCurrentPage);
 PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilderCursor, getCursor);
 PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilderCursor, getCursorColumn);
-PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilderCursor, getCurrentPage);
 PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilderCursor, getQueryBuilder);
 PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilderCursor, paginate);
 PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilderCursor, setCursor);
@@ -16,13 +16,13 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_paginator_adapter_querybuildercursor___co
 	ZEND_ARG_ARRAY_INFO(0, config, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_paginator_adapter_querybuildercursor_getcurrentpage, 0, 0, IS_LONG, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_paginator_adapter_querybuildercursor_getcursor, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_paginator_adapter_querybuildercursor_getcursorcolumn, 0, 0, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_paginator_adapter_querybuildercursor_getcurrentpage, 0, 0, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_paginator_adapter_querybuildercursor_getquerybuilder, 0, 0, Phalcon\\Mvc\\Model\\Query\\Builder, 0)
@@ -41,9 +41,9 @@ ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_paginator_adapter_querybuildercursor_method_entry) {
 	PHP_ME(Phalcon_Paginator_Adapter_QueryBuilderCursor, __construct, arginfo_phalcon_paginator_adapter_querybuildercursor___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Paginator_Adapter_QueryBuilderCursor, getCurrentPage, arginfo_phalcon_paginator_adapter_querybuildercursor_getcurrentpage, ZEND_ACC_PUBLIC)
 PHP_ME(Phalcon_Paginator_Adapter_QueryBuilderCursor, getCursor, arginfo_phalcon_paginator_adapter_querybuildercursor_getcursor, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Paginator_Adapter_QueryBuilderCursor, getCursorColumn, arginfo_phalcon_paginator_adapter_querybuildercursor_getcursorcolumn, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Paginator_Adapter_QueryBuilderCursor, getCurrentPage, arginfo_phalcon_paginator_adapter_querybuildercursor_getcurrentpage, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Paginator_Adapter_QueryBuilderCursor, getQueryBuilder, arginfo_phalcon_paginator_adapter_querybuildercursor_getquerybuilder, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Paginator_Adapter_QueryBuilderCursor, paginate, arginfo_phalcon_paginator_adapter_querybuildercursor_paginate, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Paginator_Adapter_QueryBuilderCursor, setCursor, arginfo_phalcon_paginator_adapter_querybuildercursor_setcursor, ZEND_ACC_PUBLIC)

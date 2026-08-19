@@ -10,9 +10,13 @@
 
 namespace Phalcon\Storage\Serializer;
 
+use Phalcon\Contracts\Storage\StorageTypes;
+
 /**
  * @property mixed $data
  * @property bool  $isSuccess
+ *
+ * @phpstan-import-type storage_serializer_data from StorageTypes
  */
 abstract class AbstractSerializer implements SerializerInterface
 {
@@ -20,16 +24,12 @@ abstract class AbstractSerializer implements SerializerInterface
      * @var mixed
      */
     protected data = null;
-
-    /**
-     * @var bool
-     */
-    protected isSuccess = true;
+    protected bool isSuccess = true;
 
     /**
      * AbstractSerializer constructor.
      *
-     * @param mixed|null $data
+     * @param mixed $data
      */
     public function __construct(var data = null)
     {
@@ -38,6 +38,10 @@ abstract class AbstractSerializer implements SerializerInterface
 
     /**
      * Serialize data
+     *
+     * @return array
+     *
+     * @phpstan-return storage_serializer_data
      */
     public function __serialize() -> array
     {
@@ -50,15 +54,14 @@ abstract class AbstractSerializer implements SerializerInterface
 
     /**
      * Unserialize data
+     *
+     * @phpstan-param storage_serializer_data $data
      */
     public function __unserialize(array data) -> void
     {
         let this->data = data;
     }
 
-    /**
-     * @return mixed
-     */
     public function getData() -> mixed
     {
         return this->data;
@@ -67,8 +70,6 @@ abstract class AbstractSerializer implements SerializerInterface
     /**
      * Returns `true` if the serialize/unserialize operation was successful;
      * `false` otherwise
-     *
-     * @return bool
      */
     public function isSuccess() -> bool
     {
@@ -88,7 +89,7 @@ abstract class AbstractSerializer implements SerializerInterface
      *
      * @param mixed $data
      *
-     * @return bool
+     * @phpstan-assert-if-false bool|float|int|numeric-string|null $data
      */
     protected function isSerializable(data) -> bool
     {

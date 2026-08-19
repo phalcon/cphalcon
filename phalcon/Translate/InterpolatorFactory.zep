@@ -15,6 +15,7 @@ use Phalcon\Translate\Exceptions\InterpolatorNotRegistered;
 use Phalcon\Translate\Interpolator\AssociativeArray;
 use Phalcon\Translate\Interpolator\IndexedArray;
 use Phalcon\Translate\Interpolator\InterpolatorInterface;
+use Throwable;
 
 class InterpolatorFactory extends AbstractFactory
 {
@@ -28,11 +29,6 @@ class InterpolatorFactory extends AbstractFactory
 
     /**
      * Create a new instance of the adapter
-     *
-     * @param string $name
-     *
-     * @return InterpolatorInterface
-     * @throws Exception
      */
     public function newInstance( string name) -> <InterpolatorInterface>
     {
@@ -44,7 +40,7 @@ class InterpolatorFactory extends AbstractFactory
     }
 
     /**
-     * @return string
+     * @return class-string<Throwable>
      */
     protected function getExceptionClass() -> string
     {

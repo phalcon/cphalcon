@@ -37,13 +37,15 @@
  * into a single bag (later sources win). Extend it to build a typed, per-domain
  * input value object: the factories use late static binding, so a subclass's
  * `fromRequest()` / `fromArray()` return that subclass.
+ *
+ * @phpstan-import-type adr_input_data from ADRTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_ADR_Input_Input)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\ADR\\Input, Input, phalcon, adr_input_input, phalcon_adr_input_input_method_entry, 0);
 
 	/**
-	 * @var array
+	 * @phpstan-var adr_input_data
 	 */
 	{
 		zval _zc0;
@@ -54,6 +56,9 @@ ZEPHIR_INIT_CLASS(Phalcon_ADR_Input_Input)
 	return SUCCESS;
 }
 
+/**
+ * @phpstan-param adr_input_data $data
+ */
 PHP_METHOD(Phalcon_ADR_Input_Input, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -80,10 +85,13 @@ PHP_METHOD(Phalcon_ADR_Input_Input, __construct)
 	} else {
 		zephir_get_arrval(&data, data_param);
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 345, &data);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 351, &data);
 	ZEPHIR_MM_RESTORE();
 }
 
+/**
+ * @phpstan-param adr_input_data $data
+ */
 PHP_METHOD(Phalcon_ADR_Input_Input, fromArray)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -100,7 +108,7 @@ PHP_METHOD(Phalcon_ADR_Input_Input, fromArray)
 	zephir_fetch_params(1, 1, 0, &data_param);
 	zephir_get_arrval(&data, data_param);
 	object_init_ex(return_value, zend_get_called_scope(execute_data));
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 324, &data);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 328, &data);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -138,7 +146,7 @@ PHP_METHOD(Phalcon_ADR_Input_Input, fromRequest)
 	zephir_cast_to_string(&_1, &_0);
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "json");
-	ZEPHIR_CALL_FUNCTION(&_3, "str_contains", NULL, 325, &_1, &_2);
+	ZEPHIR_CALL_FUNCTION(&_3, "str_contains", NULL, 329, &_1, &_2);
 	zephir_check_call_status();
 	if (zephir_is_true(&_3)) {
 		ZVAL_BOOL(&_4$$3, 1);
@@ -157,9 +165,9 @@ PHP_METHOD(Phalcon_ADR_Input_Input, fromRequest)
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_8, &_7, "all", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_9, "array_merge", NULL, 195, &_5, &_6, &json, &_8);
+	ZEPHIR_CALL_FUNCTION(&_9, "array_merge", NULL, 197, &_5, &_6, &json, &_8);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 324, &_9);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 328, &_9);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -200,11 +208,11 @@ PHP_METHOD(Phalcon_ADR_Input_Input, get)
 		defaultValue = &__$null;
 	}
 	ZEPHIR_INIT_VAR(&_0);
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 345, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 351, PH_NOISY_CC | PH_READONLY);
 	if (zephir_array_isset_value(&_1, &key_zv)) {
-		zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 345, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 351, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_OBS_NVAR(&_0);
-		zephir_array_fetch(&_0, &_2, &key_zv, PH_NOISY, "phalcon/ADR/Input/Input.zep", 74);
+		zephir_array_fetch(&_0, &_2, &key_zv, PH_NOISY, "phalcon/ADR/Input/Input.zep", 83);
 	} else {
 		ZEPHIR_CPY_WRT(&_0, defaultValue);
 	}
@@ -228,10 +236,13 @@ PHP_METHOD(Phalcon_ADR_Input_Input, has)
 		Z_PARAM_STR(key)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&key_zv, key);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 345, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 351, PH_NOISY_CC | PH_READONLY);
 	RETURN_BOOL(zephir_array_isset_value(&_0, &key_zv));
 }
 
+/**
+ * @phpstan-return adr_input_data
+ */
 PHP_METHOD(Phalcon_ADR_Input_Input, toArray)
 {
 

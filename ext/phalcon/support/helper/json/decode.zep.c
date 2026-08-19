@@ -49,12 +49,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Json_Decode)
 }
 
 /**
- * @param string $data        JSON data to parse
- * @param bool   $associative When `true`, objects are converted to arrays
- * @param int    $depth       Recursion depth.
- * @param int    $options     Bitmask of JSON decode options.
- *
- * @return mixed
+ * @param int<1, max> $depth       Recursion depth.
  *
  * @throws JsonDecodeError if the JSON cannot be decoded.
  * @link https://www.php.net/manual/en/function.json-decode.php
@@ -139,7 +134,7 @@ PHP_METHOD(Phalcon_Support_Helper_Json_Decode, __invoke)
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(NULL, &_4$$4, "__construct", NULL, 0, &_5$$4, &_6$$4, &ex);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_4$$4, "phalcon/Support/Helper/Json/Decode.zep", 55);
+			zephir_throw_exception_debug(&_4$$4, "phalcon/Support/Helper/Json/Decode.zep", 51);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}

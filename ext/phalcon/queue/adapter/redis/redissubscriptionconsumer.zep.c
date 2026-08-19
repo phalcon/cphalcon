@@ -42,13 +42,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_Redis_RedisSubscriptionConsumer)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Queue\\Adapter\\Redis, RedisSubscriptionConsumer, phalcon, queue_adapter_redis_redissubscriptionconsumer, phalcon_queue_adapter_abstractsubscriptionconsumer_ce, phalcon_queue_adapter_redis_redissubscriptionconsumer_method_entry, 0);
 
-	/**
-	 * Retained for transports that may later need it for a native multi-queue
-	 * receive; the shared poll loop does not use it.
-	 *
-	 * @var RedisContext
-	 */
-	zend_declare_property_null(phalcon_queue_adapter_redis_redissubscriptionconsumer_ce, SL("context"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_queue_adapter_redis_redissubscriptionconsumer_ce, SL("context"), &_zc0, ZEND_ACC_PROTECTED, 0, SL("Phalcon\\Queue\\Adapter\\Redis\\RedisContext"));
+	}
+
 	return SUCCESS;
 }
 
@@ -83,9 +82,9 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisSubscriptionConsumer, __construct)
 		pollInterval = 200;
 	} else {
 		}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1265, context);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1280, context);
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, pollInterval);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1266, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1281, &_0);
 }
 

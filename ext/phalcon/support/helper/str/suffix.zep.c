@@ -28,6 +28,7 @@
  */
 /**
  * Suffixes the text with the supplied suffix
+ * @todo v7 make text string
  */
 ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Str_Suffix)
 {
@@ -37,10 +38,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Str_Suffix)
 }
 
 /**
- * @param mixed  $text
- * @param string $suffix
- *
- * @return string
+ * @param scalar|Stringable|null $text
  */
 PHP_METHOD(Phalcon_Support_Helper_Str_Suffix, __invoke)
 {

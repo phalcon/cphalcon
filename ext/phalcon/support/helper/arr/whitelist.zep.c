@@ -38,10 +38,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Arr_Whitelist)
 }
 
 /**
- * @param array $collection
- * @param array $whiteList
+ * @param array<array-key, mixed> $collection
+ * @param array<array-key, mixed> $whiteList
  *
- * @return array
+ * @return array<array-key, mixed>
  */
 PHP_METHOD(Phalcon_Support_Helper_Arr_Whitelist, __invoke)
 {
@@ -70,7 +70,7 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Whitelist, __invoke)
 	zephir_create_closure_ex(&_0, NULL, phalcon_94__closure_ce, SL("__invoke"));
 	ZEPHIR_CALL_METHOD(&filtered, this_ptr, "tofilter", NULL, 0, &whiteList, &_0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_1, "array_flip", NULL, 256, &filtered);
+	ZEPHIR_CALL_FUNCTION(&_1, "array_flip", NULL, 260, &filtered);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_FUNCTION("array_intersect_key", NULL, 7, &collection, &_1);
 	zephir_check_call_status();

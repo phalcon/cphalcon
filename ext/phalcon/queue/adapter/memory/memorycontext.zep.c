@@ -48,10 +48,13 @@ ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_Memory_MemoryContext)
 	/**
 	 * Named queues: queue name => list of messages (FIFO).
 	 *
-	 * @var array
+	 * @var array<string, list<MessageInterface>>
 	 */
-	zend_declare_property_null(phalcon_queue_adapter_memory_memorycontext_ce, SL("queues"), ZEND_ACC_PROTECTED);
-	phalcon_queue_adapter_memory_memorycontext_ce->create_object = zephir_init_properties_Phalcon_Queue_Adapter_Memory_MemoryContext;
+	{
+		zval _zc0;
+		array_init_size(&_zc0, 1);
+		zephir_declare_typed_property(phalcon_queue_adapter_memory_memorycontext_ce, SL("queues"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_ARRAY, NULL, 0);
+	}
 
 	return SUCCESS;
 }
@@ -75,7 +78,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryContext, close)
 
 	ZEPHIR_INIT_VAR(&_0);
 	array_init(&_0);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1254, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1269, &_0);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -224,7 +227,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryContext, popMessage)
 	zephir_memory_observe(&queueName_zv);
 	ZVAL_STR_COPY(&queueName_zv, queueName);
 	zephir_memory_observe(&messages);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1254, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1269, PH_NOISY_CC | PH_READONLY);
 	if (!(zephir_array_isset_fetch(&messages, &_0, &queueName_zv, 0))) {
 		RETURN_MM_NULL();
 	}
@@ -296,7 +299,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryContext, pushMessage)
 	zephir_memory_observe(&queueName_zv);
 	ZVAL_STR_COPY(&queueName_zv, queueName);
 	zephir_memory_observe(&messages);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1254, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1269, PH_NOISY_CC | PH_READONLY);
 	if (!(zephir_array_isset_fetch(&messages, &_0, &queueName_zv, 0))) {
 		ZEPHIR_INIT_NVAR(&messages);
 		array_init(&messages);
@@ -304,30 +307,5 @@ PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryContext, pushMessage)
 	zephir_array_append(&messages, message, PH_SEPARATE, "phalcon/Queue/Adapter/Memory/MemoryContext.zep", 129);
 	zephir_update_property_array(this_ptr, SL("queues"), &queueName_zv, &messages);
 	ZEPHIR_MM_RESTORE();
-}
-
-zend_object *zephir_init_properties_Phalcon_Queue_Adapter_Memory_MemoryContext(zend_class_entry *class_type)
-{
-		zval _0, _1$$3;
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-		ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1$$3);
-	
-
-		ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-		zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	
-	{
-		zval local_this_ptr, *this_ptr = &local_this_ptr;
-		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		zephir_read_property_ex(&_0, this_ptr, ZEND_STRL("queues"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_0) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_1$$3);
-			array_init(&_1$$3);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("queues"), &_1$$3);
-		}
-		ZEPHIR_MM_RESTORE();
-		return Z_OBJ_P(this_ptr);
-	}
 }
 

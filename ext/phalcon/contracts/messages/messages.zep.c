@@ -27,6 +27,11 @@
  * iterated by integer position. An entry added under a string key through the
  * ArrayAccess interface stays reachable by that offset but is not visited
  * during iteration (`foreach`), which walks the integer sequence only.
+ *
+ * @extends ArrayAccess<array-key, mixed>
+ * @extends Iterator<int, MessageInterface>
+ *
+ * @phpstan-import-type messages_list from MessagesTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Contracts_Messages_Messages)
 {
@@ -45,10 +50,14 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Messages_Messages, appendMessage);
 /**
  * Appends an array of messages to the collection
  *
- * @param \Phalcon\Messages\MessageInterface[] messages
+ * @param mixed $messages
+ *
+ * @return void
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Messages_Messages, appendMessages);
 /**
  * Filters the message collection by field name
+ *
+ * @return messages_list
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Messages_Messages, filter);

@@ -18,23 +18,14 @@ use Phalcon\Auth\Exceptions\ConfigRequiresNonEmptyValue;
 
 class StreamAdapterConfig extends AbstractAdapterConfig
 {
-    /**
-     * @var string
-     */
-    protected file;
+    protected string file;
 
     /**
      * @throws Exception
      */
     public function __construct(string file, string model = null)
     {
-        if (file === "") {
-            throw new ConfigRequiresNonEmptyValue(
-                "Stream adapter",
-                "file",
-                " path"
-            );
-        }
+        ConfigRequiresNonEmptyValue::assert(file, "Stream adapter", "file", " path");
 
         let this->file = file;
 

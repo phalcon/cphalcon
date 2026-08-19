@@ -30,10 +30,7 @@ use Phalcon\Queue\Adapter\AbstractConsumer;
  */
 class RedisConsumer extends AbstractConsumer
 {
-    /**
-     * @var RedisContext
-     */
-    protected context;
+    protected <RedisContext> context;
 
     public function __construct(<RedisContext> context, <QueueInterface> queue)
     {

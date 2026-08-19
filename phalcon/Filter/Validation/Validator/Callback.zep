@@ -15,6 +15,7 @@ use Phalcon\Filter\Validation\AbstractValidator;
 use Phalcon\Filter\Validation\Exceptions\InvalidCallbackReturn;
 use Phalcon\Filter\Validation\ValidatorInterface;
 use Phalcon\Messages\Message;
+use ReflectionFunction;
 
 /**
  * Calls user function for validation
@@ -83,7 +84,8 @@ class Callback extends AbstractValidator
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var callback, returnedValue, data, savedTemplate, savedChanged, savedTemplates;
+        var arguments, callback, returnedValue, data, reflection, savedTemplate,
+            savedChanged, savedTemplates;
 
         let callback = this->getOption("callback");
 
@@ -96,19 +98,31 @@ class Callback extends AbstractValidator
 
             /**
              * Snapshot the message state so a setTemplate()/setTemplates()
-             * call inside the bound closure cannot leak into later
-             * validations that reuse this validator instance. Restored below
-             * once the failure message (if any) has been built.
+             * call inside the callback cannot leak into later validations
+             * that reuse this validator instance. Restored below once the
+             * failure message (if any) has been built.
              */
             let savedTemplate  = this->template,
                 savedChanged   = this->templateChanged,
                 savedTemplates = this->templates;
 
+            /**
+             * Send this validator to the closure as a second argument, but
+             * only if the closure accepts it. The `$this` of the closure does
+             * not change. Thus a closure that you write in a class keeps the
+             * object that made it.
+             */
+            let arguments = [data];
+
             if callback instanceof \Closure {
-                let callback = \Closure::bind(callback, this);
+                let reflection = new ReflectionFunction(callback);
+
+                if reflection->getNumberOfParameters() > 1 {
+                    let arguments[] = this;
+                }
             }
 
-            let returnedValue = call_user_func(callback, data);
+            let returnedValue = call_user_func_array(callback, arguments);
 
             if typeof returnedValue == "boolean" && !returnedValue {
                 validation->appendMessage(

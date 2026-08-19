@@ -28,6 +28,7 @@ use Phalcon\Contracts\Queue\SubscriptionConsumer as SubscriptionConsumerInterfac
 use Phalcon\Queue\Adapter\AbstractContext;
 use Phalcon\Queue\Adapter\MessageEnvelope;
 use Phalcon\Queue\Adapter\QueueDestinationGuard;
+use Redis as RedisService;
 
 /**
  * Redis transport session (ext-redis). Each queue is a Redis list; messages
@@ -38,29 +39,15 @@ use Phalcon\Queue\Adapter\QueueDestinationGuard;
  */
 class RedisContext extends AbstractContext
 {
-    /**
-     * Milliseconds slept between poll passes by a subscription consumer.
-     *
-     * @var int
-     */
-    protected pollInterval = 200;
+    protected int pollInterval = 200;
+    protected string prefix = "phalcon_queue:";
+    protected <RedisService> redis;
 
-    /**
-     * Key prefix applied to every queue (and its delayed companion set).
-     *
-     * @var string
-     */
-    protected prefix = "phalcon_queue:";
-
-    /**
-     * The connected ext-redis client.
-     *
-     * @var \Redis
-     */
-    protected redis;
-
-    public function __construct(var redis, string prefix = "phalcon_queue:", int pollInterval = 200)
-    {
+    public function __construct(
+        <RedisService> redis,
+        string prefix = "phalcon_queue:",
+        int pollInterval = 200
+    ) {
         let this->redis        = redis,
             this->prefix       = prefix,
             this->pollInterval = pollInterval;

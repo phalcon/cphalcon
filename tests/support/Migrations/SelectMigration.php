@@ -13,12 +13,14 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Support\Migrations;
 
+use Phalcon\Talon\Database\Schema\AbstractSchema;
+
 /**
  * Class SelectMigration
  */
-class SelectMigration extends AbstractMigration
+class SelectMigration extends AbstractSchema
 {
-    protected $table = 'ph_select';
+    protected string $table = 'ph_select';
 
     /**
      * @param string      $name
@@ -40,12 +42,9 @@ SQL;
         return $this->execute($sql, $params);
     }
 
-    protected function getSqlMysql(): array
+    protected function getStatementsMysql(): array
     {
         return [
-            "
-drop table if exists `ph_select`;
-            ",
             "
 create table `ph_select`
 (
@@ -58,12 +57,9 @@ create table `ph_select`
         ];
     }
 
-    protected function getSqlSqlite(): array
+    protected function getStatementsSqlite(): array
     {
         return [
-            "
-drop table if exists ph_select;
-            ",
             "
 create table ph_select
 (
@@ -76,12 +72,9 @@ create table ph_select
         ];
     }
 
-    protected function getSqlPgsql(): array
+    protected function getStatementsPgsql(): array
     {
         return [
-            "
-drop table if exists ph_select;
-            ",
             "
 create table ph_select
 (
@@ -91,11 +84,6 @@ create table ph_select
 );
             ",
         ];
-    }
-
-    protected function getSqlSqlsrv(): array
-    {
-        return [];
     }
 }
 

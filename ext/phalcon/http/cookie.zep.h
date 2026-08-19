@@ -26,11 +26,12 @@ PHP_METHOD(Phalcon_Http_Cookie, setSignKey);
 PHP_METHOD(Phalcon_Http_Cookie, setValue);
 PHP_METHOD(Phalcon_Http_Cookie, useEncryption);
 PHP_METHOD(Phalcon_Http_Cookie, assertSignKeyIsLongEnough);
+PHP_METHOD(Phalcon_Http_Cookie, checkRestored);
+PHP_METHOD(Phalcon_Http_Cookie, getCookieOptions);
 PHP_METHOD(Phalcon_Http_Cookie, getSessionKey);
 PHP_METHOD(Phalcon_Http_Cookie, getStartedSession);
 PHP_METHOD(Phalcon_Http_Cookie, isUsingEncryption);
 PHP_METHOD(Phalcon_Http_Cookie, getArrVal);
-zend_object *zephir_init_properties_Phalcon_Http_Cookie(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_cookie___construct, 0, 0, 1)
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
@@ -46,7 +47,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_cookie___tostring, 0, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_cookie_delete, 0, 0, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_cookie_delete, 0, 0, IS_VOID, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_cookie_getdomain, 0, 0, IS_STRING, 0)
@@ -122,6 +123,13 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_cookie_assertsignke
 	ZEND_ARG_TYPE_INFO(0, signKey, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_cookie_checkrestored, 0, 0, IS_VOID, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_cookie_getcookieoptions, 0, 1, IS_ARRAY, 0)
+	ZEND_ARG_TYPE_INFO(0, expiresDefault, IS_LONG, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_cookie_getsessionkey, 0, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
@@ -138,13 +146,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_cookie_getarrval, 0, 0, 2)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, cast, IS_STRING, 1, "null")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_cookie_zephir_init_properties_phalcon_http_cookie, 0, 0, 0)
-ZEND_END_ARG_INFO()
-
 ZEPHIR_INIT_FUNCS(phalcon_http_cookie_method_entry) {
 	PHP_ME(Phalcon_Http_Cookie, __construct, arginfo_phalcon_http_cookie___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Http_Cookie, __toString, arginfo_phalcon_http_cookie___tostring, ZEND_ACC_PUBLIC)
-PHP_ME(Phalcon_Http_Cookie, delete, arginfo_phalcon_http_cookie_delete, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Cookie, delete, arginfo_phalcon_http_cookie_delete, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Cookie, getDomain, arginfo_phalcon_http_cookie_getdomain, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Cookie, getExpiration, arginfo_phalcon_http_cookie_getexpiration, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Cookie, getHttpOnly, arginfo_phalcon_http_cookie_gethttponly, ZEND_ACC_PUBLIC)
@@ -165,6 +170,8 @@ PHP_ME(Phalcon_Http_Cookie, delete, arginfo_phalcon_http_cookie_delete, ZEND_ACC
 	PHP_ME(Phalcon_Http_Cookie, setValue, arginfo_phalcon_http_cookie_setvalue, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Cookie, useEncryption, arginfo_phalcon_http_cookie_useencryption, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Cookie, assertSignKeyIsLongEnough, arginfo_phalcon_http_cookie_assertsignkeyislongenough, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Http_Cookie, checkRestored, arginfo_phalcon_http_cookie_checkrestored, ZEND_ACC_PRIVATE)
+	PHP_ME(Phalcon_Http_Cookie, getCookieOptions, arginfo_phalcon_http_cookie_getcookieoptions, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Http_Cookie, getSessionKey, arginfo_phalcon_http_cookie_getsessionkey, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Http_Cookie, getStartedSession, arginfo_phalcon_http_cookie_getstartedsession, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Http_Cookie, isUsingEncryption, arginfo_phalcon_http_cookie_isusingencryption, ZEND_ACC_PUBLIC)

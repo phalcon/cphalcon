@@ -19,7 +19,6 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, setLogLevel);
 PHP_METHOD(Phalcon_Logger_AbstractLogger, addMessage);
 PHP_METHOD(Phalcon_Logger_AbstractLogger, getLevelNumber);
 PHP_METHOD(Phalcon_Logger_AbstractLogger, getLevels);
-zend_object *zephir_init_properties_Phalcon_Logger_AbstractLogger(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_abstractlogger___construct, 0, 0, 1)
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
@@ -82,9 +81,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_abstractlogger_ge
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_abstractlogger_getlevels, 0, 0, IS_ARRAY, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_abstractlogger_zephir_init_properties_phalcon_logger_abstractlogger, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_logger_abstractlogger_method_entry) {

@@ -30,28 +30,18 @@
 /**
  * @property InterpolatorFactory $interpolator
  *
- * @psalm-type TConfig array{
- *      adapter: string,
- *      options?: array{
- *          content: string,
- *          delimiter: string,
- *          enclosure: string,
- *          locale: string,
- *          defaultDomain: string,
- *          directory: string,
- *          category: string,
- *          triggerError: bool,
- *      }
- *  }
+ * @phpstan-import-type translate_factory_config from TranslateTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Translate_TranslateFactory)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Translate, TranslateFactory, phalcon, translate_translatefactory, phalcon_factory_abstractfactory_ce, phalcon_translate_translatefactory_method_entry, 0);
 
-	/**
-	 * @var InterpolatorFactory
-	 */
-	zend_declare_property_null(phalcon_translate_translatefactory_ce, SL("interpolator"), ZEND_ACC_PRIVATE);
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_translate_translatefactory_ce, SL("interpolator"), &_zc0, ZEND_ACC_PRIVATE, 0, SL("Phalcon\\Translate\\InterpolatorFactory"));
+	}
+
 	return SUCCESS;
 }
 
@@ -87,7 +77,7 @@ PHP_METHOD(Phalcon_Translate_TranslateFactory, __construct)
 	} else {
 		zephir_get_arrval(&services, services_param);
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1373, interpolator);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1391, interpolator);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "init", NULL, 0, &services);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
@@ -96,7 +86,7 @@ PHP_METHOD(Phalcon_Translate_TranslateFactory, __construct)
 /**
  * Factory to create an instance from a Config object
  *
- * @param ConfigInterface|TConfig $config
+ * @phpstan-param ConfigInterface|translate_factory_config $config
  *
  * @return AdapterInterface
  * @throws Exception
@@ -129,7 +119,7 @@ PHP_METHOD(Phalcon_Translate_TranslateFactory, load)
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(config, &_0);
 	zephir_memory_observe(&name);
-	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Translate/TranslateFactory.zep", 71);
+	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Translate/TranslateFactory.zep", 58);
 	zephir_memory_observe(&options);
 	if (!(zephir_array_isset_string_fetch(&options, config, SL("options"), 0))) {
 		ZEPHIR_INIT_NVAR(&options);
@@ -189,7 +179,7 @@ PHP_METHOD(Phalcon_Translate_TranslateFactory, newInstance)
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_create_array(&_0, 2, 0);
 	zephir_memory_observe(&_1);
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 1373, PH_NOISY_CC);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 1391, PH_NOISY_CC);
 	zephir_array_fast_append(&_0, &_1);
 	zephir_array_fast_append(&_0, &options);
 	ZEPHIR_LAST_CALL_STATUS = zephir_create_instance_params(return_value, &definition, &_0);
@@ -198,7 +188,7 @@ PHP_METHOD(Phalcon_Translate_TranslateFactory, newInstance)
 }
 
 /**
- * @return string
+ * @return class-string<Throwable>
  */
 PHP_METHOD(Phalcon_Translate_TranslateFactory, getExceptionClass)
 {

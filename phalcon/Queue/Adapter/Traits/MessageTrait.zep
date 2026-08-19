@@ -19,6 +19,8 @@
 
 namespace Phalcon\Queue\Adapter\Traits;
 
+use Phalcon\Contracts\Queue\QueueTypes;
+
 /**
  * Shared implementation of every Message getter/setter, plus the
  * correlation-id / message-id / timestamp / reply-to header conveniences.
@@ -26,35 +28,28 @@ namespace Phalcon\Queue\Adapter\Traits;
  *
  * The convenience accessors are stored as transport headers under fixed keys
  * for binary compatibility with the wider interop ecosystem.
+ *
+ * @phpstan-import-type queue_message_headers from QueueTypes
+ * @phpstan-import-type queue_message_properties from QueueTypes
  */
 trait MessageTrait
 {
+    protected string body = "";
     /**
-     * @var string
+     * @phpstan-var queue_message_headers
      */
-    protected body = "";
-
+    protected array headers = [];
     /**
-     * @var array
-     *
-     * @todo Use a default [] once Zephir supports array trait defaults
+     * @phpstan-var queue_message_properties
      */
-    protected headers = null;
-
-    /**
-     * @var array
-     *
-     * @todo Use a default [] once Zephir supports array trait defaults
-     */
-    protected properties = null;
-
-    /**
-     * @var bool
-     */
-    protected redelivered = false;
+    protected array properties = [];
+    protected bool redelivered = false;
 
     /**
      * Message constructor.
+     *
+     * @phpstan-param queue_message_properties $properties
+     * @phpstan-param queue_message_headers    $headers
      */
     public function __construct(string body = "", array properties = [], array headers = [])
     {
@@ -76,7 +71,7 @@ trait MessageTrait
      */
     public function getCorrelationId() -> string | null
     {
-        return this->getHeader("correlation_id");
+        return this->getHeaderAsString("correlation_id");
     }
 
     /**
@@ -93,10 +88,12 @@ trait MessageTrait
 
     /**
      * Returns all transport headers.
+     *
+     * @phpstan-return queue_message_headers
      */
     public function getHeaders() -> array
     {
-        return (array) this->headers;
+        return this->headers;
     }
 
     /**
@@ -109,10 +106,12 @@ trait MessageTrait
 
     /**
      * Returns all application properties.
+     *
+     * @phpstan-return queue_message_properties
      */
     public function getProperties() -> array
     {
-        return (array) this->properties;
+        return this->properties;
     }
 
     /**
@@ -132,7 +131,7 @@ trait MessageTrait
      */
     public function getReplyTo() -> string | null
     {
-        return this->getHeader("reply_to");
+        return this->getHeaderAsString("reply_to");
     }
 
     /**
@@ -144,7 +143,7 @@ trait MessageTrait
 
         let value = this->getHeader("timestamp");
 
-        if value === null {
+        if (!is_scalar($value)) {
             return null;
         }
 
@@ -185,6 +184,8 @@ trait MessageTrait
 
     /**
      * Replaces all transport headers.
+     *
+     * @phpstan-param queue_message_headers $headers
      */
     public function setHeaders(array headers) -> void
     {
@@ -201,6 +202,8 @@ trait MessageTrait
 
     /**
      * Replaces all application properties.
+     *
+     * @phpstan-param queue_message_properties $properties
      */
     public function setProperties(array properties) -> void
     {
@@ -237,5 +240,23 @@ trait MessageTrait
     public function setTimestamp(int timestamp) -> void
     {
         this->setHeader("timestamp", timestamp);
+    }
+
+    /**
+     * Reads a header that is declared as a nullable string. Headers arrive
+     * from the transport as arbitrary values, so anything that cannot be
+     * expressed as a string (an array, an object) reads back as null.
+     */
+    private function getHeaderAsString(string name) -> string | null
+    {
+        var value;
+
+        let value = this->getHeader(name);
+
+        if (!is_scalar(value)) {
+            return null;
+        }
+
+        return (string) value;
     }
 }

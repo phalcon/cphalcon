@@ -23,9 +23,9 @@ class InvalidModifier extends Exception
     public function __construct(string modifier, <Throwable> ex = null)
     {
         parent::__construct(
-	    "Invalid modifier: \"" . modifier . "\"", 
-	    0, 
-	    ex
+            "Invalid modifier: \"" . modifier . "\"",
+            0,
+            ex
         );
     }
 }

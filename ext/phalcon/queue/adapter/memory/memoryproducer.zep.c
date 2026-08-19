@@ -43,10 +43,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_Memory_MemoryProducer)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Queue\\Adapter\\Memory, MemoryProducer, phalcon, queue_adapter_memory_memoryproducer, phalcon_queue_adapter_abstractproducer_ce, phalcon_queue_adapter_memory_memoryproducer_method_entry, 0);
 
-	/**
-	 * @var MemoryContext
-	 */
-	zend_declare_property_null(phalcon_queue_adapter_memory_memoryproducer_ce, SL("context"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_queue_adapter_memory_memoryproducer_ce, SL("context"), &_zc0, ZEND_ACC_PROTECTED, 0, SL("Phalcon\\Queue\\Adapter\\Memory\\MemoryContext"));
+	}
+
 	return SUCCESS;
 }
 
@@ -65,7 +67,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryProducer, __construct)
 		Z_PARAM_OBJECT_OF_CLASS(context, phalcon_queue_adapter_memory_memorycontext_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &context);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1255, context);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1270, context);
 }
 
 PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryProducer, send)
@@ -96,7 +98,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryProducer, send)
 	ZVAL_STRING(&_0, "send to");
 	ZEPHIR_CALL_CE_STATIC(NULL, phalcon_queue_adapter_queuedestinationguard_ce, "assertqueue", NULL, 0, destination, &_0);
 	zephir_check_call_status();
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 1255, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 1270, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&_2, destination, "getqueuename", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, &_1, "pushmessage", NULL, 0, &_2, message);

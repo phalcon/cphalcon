@@ -11,7 +11,7 @@
 namespace Phalcon\Session;
 
 use InvalidArgumentException;
-use SessionHandlerInterface;
+use Phalcon\Contracts\Session\SessionTypes;
 use Phalcon\Di\AbstractInjectionAware;
 use Phalcon\Di\DiInterface;
 use Phalcon\Session\Exceptions\InvalidSessionAdapter;
@@ -21,44 +21,32 @@ use Phalcon\Session\Exceptions\SessionAlreadyStarted;
 use Phalcon\Session\Exceptions\SessionModificationDenied;
 use Phalcon\Traits\Php\HeaderTrait;
 use Phalcon\Traits\Support\Helper\Arr\GetTrait;
+use SessionHandlerInterface;
 
 /**
- * @property SessionHandlerInterface|null $adapter
- * @property string                       $name
- * @property array                        $options
- * @property string                       $uniqueId
+ * Session manager class
+ *
+ * @phpstan-import-type session_options from SessionTypes
  */
 class Manager extends AbstractInjectionAware implements ManagerInterface
 {
     use GetTrait;
     use HeaderTrait;
 
+    private ?<SessionHandlerInterface> adapter = null;
+    private string name = "";
     /**
-     * @var SessionHandlerInterface|null
+     * @var array<string, mixed>
+     *
+     * @phpstan-var session_options
      */
-    private adapter = null;
-
-    /**
-     * @var string
-     */
-    private name = "";
-
-    /**
-     * @var array
-     */
-    private options = [];
-
-    /**
-     * @var string
-     */
-    private uniqueId = "";
+    private array options = [];
+    private string uniqueId = "";
 
     /**
      * Manager constructor.
      *
-     * @param array $options = [
-     *     'uniqueId' => null
-     * ]
+     * @phpstan-param session_options $options
      */
     public function __construct(array options = [])
     {
@@ -141,8 +129,11 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
      *
      * @return mixed|null
      */
-    public function get(string key, var defaultValue = null, bool remove = false) -> var
-    {
+    public function get(
+        string key,
+        var defaultValue = null,
+        bool remove = false
+    ) -> var {
         var value, uniqueKey;
 
         let value = null;
@@ -192,6 +183,8 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
 
     /**
      * Get internal options
+     *
+     * @phpstan-return session_options
      */
     public function getOptions() -> array
     {
@@ -271,6 +264,10 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
 
     /**
      * Set session Id
+     *
+     * @return ManagerInterface
+     * @throws InvalidSessionId
+     * @throws SessionAlreadyStarted
      */
     public function setId(string sessionId) -> <ManagerInterface>
     {
@@ -293,9 +290,9 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
      *
      * @param string $name
      *
-     * @throws InvalidArgumentException
-     *
-     * @return Manager
+     * @return ManagerInterface
+     * @throws InvalidSessionName
+     * @throws SessionModificationDenied
      */
     public function setName(string name) -> <ManagerInterface>
     {
@@ -319,6 +316,8 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
 
     /**
      * Sets session's options
+     *
+     * @phpstan-param session_options $options
      */
     public function setOptions(array options) -> void
     {

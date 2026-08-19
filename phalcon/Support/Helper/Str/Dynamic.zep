@@ -20,12 +20,7 @@ use Phalcon\Support\Helper\Str\Exceptions\SyntaxError;
 class Dynamic
 {
     /**
-     * @param string $text
-     * @param string $leftDelimiter
-     * @param string $rightDelimiter
-     * @param string $separator
-     *
-     * @return string
+     * @phpstan-param non-empty-string $separator
      */
     public function __invoke(
         string text,

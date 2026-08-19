@@ -32,6 +32,9 @@
 /**
  * A message exchanged through the transport. Carries a body, application
  * properties, transport headers and the standard messaging metadata.
+ *
+ * @phpstan-import-type queue_message_headers from QueueTypes
+ * @phpstan-import-type queue_message_properties from QueueTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Contracts_Queue_Message)
 {
@@ -54,6 +57,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Queue_Message, getCorrelationId);
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Queue_Message, getHeader);
 /**
  * Returns all transport headers.
+ *
+ * @phpstan-return queue_message_headers
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Queue_Message, getHeaders);
 /**
@@ -62,6 +67,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Queue_Message, getHeaders);
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Queue_Message, getMessageId);
 /**
  * Returns all application properties.
+ *
+ * @phpstan-return queue_message_properties
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Queue_Message, getProperties);
 /**
@@ -94,6 +101,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Queue_Message, setCorrelationId);
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Queue_Message, setHeader);
 /**
  * Replaces all transport headers.
+ *
+ * @phpstan-param queue_message_headers $headers
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Queue_Message, setHeaders);
 /**
@@ -102,6 +111,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Queue_Message, setHeaders);
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Queue_Message, setMessageId);
 /**
  * Replaces all application properties.
+ *
+ * @phpstan-param queue_message_properties $properties
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Queue_Message, setProperties);
 /**

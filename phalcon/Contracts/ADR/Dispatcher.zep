@@ -19,8 +19,14 @@ use Phalcon\Http\ResponseInterface;
 /**
  * Resolves an Action by class name, builds the middleware pipeline around it and
  * runs it to produce a response.
+ *
+ * @phpstan-import-type adr_middleware_names from ADRTypes
  */
 interface Dispatcher
 {
+    /**
+     * @phpstan-param class-string          $actionClass
+     * @phpstan-param adr_middleware_names  $routeMiddleware
+     */
     public function dispatch(string actionClass, <AttributeRequest> request, array routeMiddleware = []) -> <ResponseInterface>;
 }

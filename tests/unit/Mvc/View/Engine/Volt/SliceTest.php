@@ -37,7 +37,7 @@ class SliceTest extends AbstractUnitTestCase
      * @since  2018-11-13
      */
     #[DataProvider('provideSlice')]
-    public function testMvcViewEngineVoltSlice(mixed $value, int $start, int|null $end, mixed $expected): void
+    public function testMvcViewEngineVoltSlice(mixed $value, int $start, int | null $end, mixed $expected): void
     {
         $volt = new Volt(new View());
         $this->assertSame($expected, $volt->slice($value, $start, $end));

@@ -30,10 +30,8 @@ class BeanstalkMessage extends AbstractMessage
 {
     /**
      * The reserved Beanstalkd job id, or null before it is reserved.
-     *
-     * @var string | null
      */
-    protected jobId = null;
+    protected ?string jobId = null;
 
     public function getJobId() -> string | null
     {

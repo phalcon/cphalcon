@@ -76,7 +76,7 @@ PHP_METHOD(Phalcon_ADR_Middleware_TimingMiddleware, __invoke)
 	ZVAL_DOUBLE(&elapsed, (zephir_get_numberval(&_1) * 1000.0));
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "%.2fms");
-	ZEPHIR_CALL_FUNCTION(&_2, "sprintf", NULL, 145, &_0, &elapsed);
+	ZEPHIR_CALL_FUNCTION(&_2, "sprintf", NULL, 146, &_0, &elapsed);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "X-Response-Time");

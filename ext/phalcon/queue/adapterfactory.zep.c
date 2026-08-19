@@ -39,6 +39,8 @@
 /**
  * Maps an adapter name to its ConnectionFactory. Mirrors
  * Phalcon\Storage\AdapterFactory.
+ *
+ * @phpstan-import-type queue_connection_options from QueueTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Queue_AdapterFactory)
 {
@@ -49,6 +51,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Queue_AdapterFactory)
 
 /**
  * AdapterFactory constructor.
+ *
+ * @phpstan-param array<string, class-string<ConnectionFactoryInterface>> $services
  */
 PHP_METHOD(Phalcon_Queue_AdapterFactory, __construct)
 {
@@ -79,20 +83,23 @@ PHP_METHOD(Phalcon_Queue_AdapterFactory, __construct)
 
 /**
  * Creates a new ConnectionFactory for the named adapter.
+ *
+ * @phpstan-param queue_connection_options $options
  */
 PHP_METHOD(Phalcon_Queue_AdapterFactory, newInstance)
 {
+	zend_class_entry *_1;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval options, _0;
-	zval name_zv, *options_param = NULL, definition;
+	zval options;
+	zval name_zv, *options_param = NULL, definition, _0;
 	zend_string *name = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name_zv);
 	ZVAL_UNDEF(&definition);
-	ZVAL_UNDEF(&options);
 	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&options);
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(name)
 		Z_PARAM_OPTIONAL
@@ -113,16 +120,26 @@ PHP_METHOD(Phalcon_Queue_AdapterFactory, newInstance)
 	}
 	ZEPHIR_CALL_METHOD(&definition, this_ptr, "getservice", NULL, 0, &name_zv);
 	zephir_check_call_status();
-	ZEPHIR_INIT_VAR(&_0);
-	zephir_create_array(&_0, 1, 0);
-	zephir_array_fast_append(&_0, &options);
-	ZEPHIR_LAST_CALL_STATUS = zephir_create_instance_params(return_value, &definition, &_0);
+	zephir_fetch_safe_class(&_0, &definition);
+	_1 = zephir_fetch_class_str_ex(Z_STRVAL_P(&_0), Z_STRLEN_P(&_0), ZEND_FETCH_CLASS_AUTO);
+	if(!_1) {
+		RETURN_MM_NULL();
+	}
+	object_init_ex(return_value, _1);
+	ZEPHIR_LAST_CALL_STATUS = zephir_check_constructor_access(return_value);
 	zephir_check_call_status();
+	if (zephir_has_constructor(return_value)) {
+		ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &options);
+		zephir_check_call_status();
+	}
+
 	RETURN_MM();
 }
 
 /**
- * @return string
+ * Returns the exception class for the factory
+ *
+ * @return class-string<\Throwable>
  */
 PHP_METHOD(Phalcon_Queue_AdapterFactory, getExceptionClass)
 {

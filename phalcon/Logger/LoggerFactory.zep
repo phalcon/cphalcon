@@ -11,9 +11,11 @@
 namespace Phalcon\Logger;
 
 use DateTimeZone;
+use Exception as BaseException;
 use Phalcon\Config\ConfigInterface;
 use Phalcon\Factory\AbstractConfigFactory;
 use Phalcon\Traits\Support\Helper\Arr\GetTrait;
+use Throwable;
 
 /**
  * Factory creating logger objects
@@ -22,13 +24,10 @@ class LoggerFactory extends AbstractConfigFactory
 {
     use GetTrait;
 
-    /**
-     * @var AdapterFactory
-     */
-    private adapterFactory;
+    private <AdapterFactory> adapterFactory;
 
     /**
-     * @param AdapterFactory $factory
+     * Constructor
      */
     public function __construct(<AdapterFactory> factory)
     {
@@ -57,10 +56,9 @@ class LoggerFactory extends AbstractConfigFactory
     {
         var adapter, adapterClass, adapterFileName, adapterName, adapterOptions,
             adapters, name, timezone, options;
-        array data;
+        array data = [];
 
-        let data     = [],
-            config   = this->checkConfig(config),
+        let config   = this->checkConfig(config),
             config   = this->checkConfigElement(config, "name"),
             name     = config["name"],
             timezone = this->getArrVal(config, "timezone"),
@@ -87,11 +85,6 @@ class LoggerFactory extends AbstractConfigFactory
     /**
      * Returns a Logger object
      *
-     * @param string            $name
-     * @param array             $adapters
-     * @param DateTimeZone|null $timezone
-     *
-     * @return Logger
      */
     public function newInstance(
         string name,
@@ -102,7 +95,7 @@ class LoggerFactory extends AbstractConfigFactory
     }
 
     /**
-     * @return string
+     * @return class-string<Throwable>
      */
     protected function getExceptionClass() -> string
     {

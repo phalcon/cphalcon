@@ -28,6 +28,10 @@
 /**
  * Carries all data collected for an exception, ready to be rendered. Holds no
  * presentation logic.
+ *
+ * @phpstan-import-type support_debug_included_files from SupportTypes
+ * @phpstan-import-type support_debug_superglobal from SupportTypes
+ * @phpstan-import-type support_debug_variables from SupportTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Support_Debug_Report_ExceptionReport)
 {
@@ -36,68 +40,99 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Debug_Report_ExceptionReport)
 	/**
 	 * @var BacktraceItem[]
 	 */
-	zend_declare_property_null(phalcon_support_debug_report_exceptionreport_ce, SL("backtrace"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		array_init_size(&_zc0, 1);
+		zephir_declare_typed_property(phalcon_support_debug_report_exceptionreport_ce, SL("backtrace"), &_zc0, ZEND_ACC_PRIVATE, MAY_BE_ARRAY, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_support_debug_report_exceptionreport_ce, SL("className"), &_zc0, ZEND_ACC_PRIVATE, MAY_BE_STRING, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_support_debug_report_exceptionreport_ce, SL("file"), &_zc0, ZEND_ACC_PRIVATE, MAY_BE_STRING, NULL, 0);
+	}
+
 	/**
-	 * @var string
+	 * @phpstan-var support_debug_included_files
 	 */
-	zend_declare_property_null(phalcon_support_debug_report_exceptionreport_ce, SL("className"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		array_init_size(&_zc0, 1);
+		zephir_declare_typed_property(phalcon_support_debug_report_exceptionreport_ce, SL("includedFiles"), &_zc0, ZEND_ACC_PRIVATE, MAY_BE_ARRAY, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_support_debug_report_exceptionreport_ce, SL("line"), &_zc0, ZEND_ACC_PRIVATE, MAY_BE_LONG, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_LONG(&_zc0, 0);
+		zephir_declare_typed_property(phalcon_support_debug_report_exceptionreport_ce, SL("memoryUsage"), &_zc0, ZEND_ACC_PRIVATE, MAY_BE_LONG, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_support_debug_report_exceptionreport_ce, SL("message"), &_zc0, ZEND_ACC_PRIVATE, MAY_BE_STRING, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_LONG(&_zc0, 0);
+		zephir_declare_typed_property(phalcon_support_debug_report_exceptionreport_ce, SL("peakMemoryUsage"), &_zc0, ZEND_ACC_PRIVATE, MAY_BE_LONG, NULL, 0);
+	}
+
 	/**
-	 * @var string
+	 * @phpstan-var support_debug_superglobal
 	 */
-	zend_declare_property_null(phalcon_support_debug_report_exceptionreport_ce, SL("file"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		array_init_size(&_zc0, 1);
+		zephir_declare_typed_property(phalcon_support_debug_report_exceptionreport_ce, SL("request"), &_zc0, ZEND_ACC_PRIVATE, MAY_BE_ARRAY, NULL, 0);
+	}
+
 	/**
-	 * @var array
+	 * @phpstan-var support_debug_superglobal
 	 */
-	zend_declare_property_null(phalcon_support_debug_report_exceptionreport_ce, SL("includedFiles"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		array_init_size(&_zc0, 1);
+		zephir_declare_typed_property(phalcon_support_debug_report_exceptionreport_ce, SL("server"), &_zc0, ZEND_ACC_PRIVATE, MAY_BE_ARRAY, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_support_debug_report_exceptionreport_ce, SL("showBackTrace"), &_zc0, ZEND_ACC_PRIVATE, MAY_BE_BOOL, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_support_debug_report_exceptionreport_ce, SL("uri"), &_zc0, ZEND_ACC_PRIVATE, MAY_BE_STRING, NULL, 0);
+	}
+
 	/**
-	 * @var int
+	 * @phpstan-var support_debug_variables
 	 */
-	zend_declare_property_null(phalcon_support_debug_report_exceptionreport_ce, SL("line"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var int
-	 */
-	zend_declare_property_long(phalcon_support_debug_report_exceptionreport_ce, SL("memoryUsage"), 0, ZEND_ACC_PROTECTED);
-	/**
-	 * @var string
-	 */
-	zend_declare_property_null(phalcon_support_debug_report_exceptionreport_ce, SL("message"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var int
-	 */
-	zend_declare_property_long(phalcon_support_debug_report_exceptionreport_ce, SL("peakMemoryUsage"), 0, ZEND_ACC_PROTECTED);
-	/**
-	 * @var array
-	 */
-	zend_declare_property_null(phalcon_support_debug_report_exceptionreport_ce, SL("request"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var array
-	 */
-	zend_declare_property_null(phalcon_support_debug_report_exceptionreport_ce, SL("server"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var bool
-	 */
-	zend_declare_property_null(phalcon_support_debug_report_exceptionreport_ce, SL("showBackTrace"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var string
-	 */
-	zend_declare_property_null(phalcon_support_debug_report_exceptionreport_ce, SL("uri"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var array
-	 */
-	zend_declare_property_null(phalcon_support_debug_report_exceptionreport_ce, SL("variables"), ZEND_ACC_PROTECTED);
-	phalcon_support_debug_report_exceptionreport_ce->create_object = zephir_init_properties_Phalcon_Support_Debug_Report_ExceptionReport;
+	{
+		zval _zc0;
+		array_init_size(&_zc0, 1);
+		zephir_declare_typed_property(phalcon_support_debug_report_exceptionreport_ce, SL("variables"), &_zc0, ZEND_ACC_PRIVATE, MAY_BE_ARRAY, NULL, 0);
+	}
 
 	return SUCCESS;
 }
 
-/**
- * @param string $className
- * @param string $message
- * @param string $file
- * @param int    $line
- * @param bool   $showBackTrace
- * @param string $uri
- */
 PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, __construct)
 {
 	zend_bool showBackTrace;
@@ -152,18 +187,18 @@ PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, __construct)
 	ZVAL_STR(&message_zv, message);
 	ZVAL_STR(&file_zv, file);
 	ZVAL_STR(&uri_zv, uri);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1350, &className_zv);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1351, &message_zv);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 1352, &file_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1365, &className_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1366, &message_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 1367, &file_zv);
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, line);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 1353, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 1368, &_0);
 	if (showBackTrace) {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_4, 1354, &__$true);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_4, 1369, &__$true);
 	} else {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_4, 1354, &__$false);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_4, 1369, &__$false);
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_5, 1355, &uri_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_5, 1370, &uri_zv);
 }
 
 /**
@@ -175,18 +210,12 @@ PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, getBacktrace)
 	RETURN_MEMBER_TYPED(getThis(), "backtrace", IS_ARRAY);
 }
 
-/**
- * @return string
- */
 PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, getClassName)
 {
 
 	RETURN_MEMBER_TYPED(getThis(), "className", IS_STRING);
 }
 
-/**
- * @return string
- */
 PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, getFile)
 {
 
@@ -194,7 +223,7 @@ PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, getFile)
 }
 
 /**
- * @return array
+ * @phpstan-return support_debug_included_files
  */
 PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, getIncludedFiles)
 {
@@ -202,36 +231,24 @@ PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, getIncludedFiles)
 	RETURN_MEMBER_TYPED(getThis(), "includedFiles", IS_ARRAY);
 }
 
-/**
- * @return int
- */
 PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, getLine)
 {
 
 	RETURN_MEMBER_TYPED(getThis(), "line", IS_LONG);
 }
 
-/**
- * @return int
- */
 PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, getMemoryUsage)
 {
 
 	RETURN_MEMBER_TYPED(getThis(), "memoryUsage", IS_LONG);
 }
 
-/**
- * @return string
- */
 PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, getMessage)
 {
 
 	RETURN_MEMBER_TYPED(getThis(), "message", IS_STRING);
 }
 
-/**
- * @return int
- */
 PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, getPeakMemoryUsage)
 {
 
@@ -239,7 +256,7 @@ PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, getPeakMemoryUsage)
 }
 
 /**
- * @return array
+ * @phpstan-return support_debug_superglobal
  */
 PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, getRequest)
 {
@@ -248,7 +265,7 @@ PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, getRequest)
 }
 
 /**
- * @return array
+ * @phpstan-return support_debug_superglobal
  */
 PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, getServer)
 {
@@ -256,9 +273,6 @@ PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, getServer)
 	RETURN_MEMBER_TYPED(getThis(), "server", IS_ARRAY);
 }
 
-/**
- * @return string
- */
 PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, getUri)
 {
 
@@ -266,7 +280,7 @@ PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, getUri)
 }
 
 /**
- * @return array
+ * @phpstan-return support_debug_variables
  */
 PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, getVariables)
 {
@@ -274,9 +288,6 @@ PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, getVariables)
 	RETURN_MEMBER_TYPED(getThis(), "variables", IS_ARRAY);
 }
 
-/**
- * @return bool
- */
 PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, hasVariables)
 {
 	zval _0;
@@ -292,13 +303,10 @@ PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, hasVariables)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_memory_observe(&_0);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1356, PH_NOISY_CC);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1371, PH_NOISY_CC);
 	RETURN_MM_BOOL(!(ZEPHIR_IS_EMPTY(&_0)));
 }
 
-/**
- * @return bool
- */
 PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, isShowBackTrace)
 {
 
@@ -307,8 +315,6 @@ PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, isShowBackTrace)
 
 /**
  * @param BacktraceItem[] $backtrace
- *
- * @return static
  */
 PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, setBacktrace)
 {
@@ -330,14 +336,12 @@ PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, setBacktrace)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &backtrace_param);
 	zephir_get_arrval(&backtrace, backtrace_param);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1357, &backtrace);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1372, &backtrace);
 	RETURN_THIS();
 }
 
 /**
- * @param array $includedFiles
- *
- * @return static
+ * @phpstan-param support_debug_included_files $includedFiles
  */
 PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, setIncludedFiles)
 {
@@ -359,15 +363,10 @@ PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, setIncludedFiles)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &includedFiles_param);
 	zephir_get_arrval(&includedFiles, includedFiles_param);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1358, &includedFiles);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1373, &includedFiles);
 	RETURN_THIS();
 }
 
-/**
- * @param int $memoryUsage
- *
- * @return static
- */
 PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, setMemoryUsage)
 {
 	zval *memoryUsage_param = NULL, _0;
@@ -386,15 +385,10 @@ PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, setMemoryUsage)
 	zephir_fetch_params_without_memory_grow(1, 0, &memoryUsage_param);
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, memoryUsage);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1359, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1374, &_0);
 	RETURN_THISW();
 }
 
-/**
- * @param int $peakMemoryUsage
- *
- * @return static
- */
 PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, setPeakMemoryUsage)
 {
 	zval *peakMemoryUsage_param = NULL, _0;
@@ -413,14 +407,12 @@ PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, setPeakMemoryUsage)
 	zephir_fetch_params_without_memory_grow(1, 0, &peakMemoryUsage_param);
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, peakMemoryUsage);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1360, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1375, &_0);
 	RETURN_THISW();
 }
 
 /**
- * @param array $request
- *
- * @return static
+ * @phpstan-param support_debug_superglobal $request
  */
 PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, setRequest)
 {
@@ -442,14 +434,12 @@ PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, setRequest)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &request_param);
 	zephir_get_arrval(&request, request_param);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1361, &request);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1376, &request);
 	RETURN_THIS();
 }
 
 /**
- * @param array $server
- *
- * @return static
+ * @phpstan-param support_debug_superglobal $server
  */
 PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, setServer)
 {
@@ -471,14 +461,12 @@ PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, setServer)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &server_param);
 	zephir_get_arrval(&server, server_param);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1362, &server);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1377, &server);
 	RETURN_THIS();
 }
 
 /**
- * @param array $variables
- *
- * @return static
+ * @phpstan-param support_debug_variables $variables
  */
 PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, setVariables)
 {
@@ -500,64 +488,7 @@ PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, setVariables)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &variables_param);
 	zephir_get_arrval(&variables, variables_param);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1356, &variables);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1371, &variables);
 	RETURN_THIS();
-}
-
-zend_object *zephir_init_properties_Phalcon_Support_Debug_Report_ExceptionReport(zend_class_entry *class_type)
-{
-		zval _0, _2, _4, _6, _8, _1$$3, _3$$4, _5$$5, _7$$6, _9$$7;
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-		ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_4);
-	ZVAL_UNDEF(&_6);
-	ZVAL_UNDEF(&_8);
-	ZVAL_UNDEF(&_1$$3);
-	ZVAL_UNDEF(&_3$$4);
-	ZVAL_UNDEF(&_5$$5);
-	ZVAL_UNDEF(&_7$$6);
-	ZVAL_UNDEF(&_9$$7);
-	
-
-		ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-		zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	
-	{
-		zval local_this_ptr, *this_ptr = &local_this_ptr;
-		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		zephir_read_property_ex(&_0, this_ptr, ZEND_STRL("variables"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_0) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_1$$3);
-			array_init(&_1$$3);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("variables"), &_1$$3);
-		}
-		zephir_read_property_ex(&_2, this_ptr, ZEND_STRL("server"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_2) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_3$$4);
-			array_init(&_3$$4);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("server"), &_3$$4);
-		}
-		zephir_read_property_ex(&_4, this_ptr, ZEND_STRL("request"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_4) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_5$$5);
-			array_init(&_5$$5);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("request"), &_5$$5);
-		}
-		zephir_read_property_ex(&_6, this_ptr, ZEND_STRL("includedFiles"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_6) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_7$$6);
-			array_init(&_7$$6);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("includedFiles"), &_7$$6);
-		}
-		zephir_read_property_ex(&_8, this_ptr, ZEND_STRL("backtrace"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_8) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_9$$7);
-			array_init(&_9$$7);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("backtrace"), &_9$$7);
-		}
-		ZEPHIR_MM_RESTORE();
-		return Z_OBJ_P(this_ptr);
-	}
 }
 

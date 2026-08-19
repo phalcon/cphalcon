@@ -10,6 +10,7 @@
 
 namespace Phalcon\Translate\Adapter;
 
+use Phalcon\Contracts\Translate\TranslateTypes;
 use Phalcon\Traits\Php\FileTrait;
 use Phalcon\Translate\Exception;
 use Phalcon\Translate\Exceptions\FileOpenError;
@@ -17,26 +18,23 @@ use Phalcon\Translate\Exceptions\MissingRequiredParameter;
 use Phalcon\Translate\InterpolatorFactory;
 
 /**
- * @phpstan-type TOptions array{
- *      content?: string,
- *      delimiter?: string,
- *      enclosure?: string,
- *      escape?: string
- * }
+ * @phpstan-import-type translate_csv_options from TranslateTypes
+ * @phpstan-import-type translate_data from TranslateTypes
+ * @phpstan-import-type translate_placeholders from TranslateTypes
  */
 class Csv extends AbstractAdapter
 {
     use FileTrait;
 
     /**
-     * @var array<string, string>
+     * @phpstan-var translate_data
      */
-    protected translate = [];
+    protected array translate = [];
 
     /**
      * Csv constructor.
      *
-     * @phpstan-param TOptions            $options
+     * @phpstan-param translate_csv_options $options
      *
      * @throws Exception
      */
@@ -76,24 +74,17 @@ class Csv extends AbstractAdapter
     /**
      * Check whether is defined a translation key in the internal array
      *
-     * @param string $index
-     *
-     * @return bool
      * @deprecated
      */
-    public function exists( string index) -> bool
+    public function exists(string index) -> bool
     {
         return this->has(index);
     }
 
     /**
      * Check whether is defined a translation key in the internal array
-     *
-     * @param string $index
-     *
-     * @return bool
      */
-    public function has( string index) -> bool
+    public function has(string index) -> bool
     {
         return isset this->translate[index];
     }
@@ -101,12 +92,9 @@ class Csv extends AbstractAdapter
     /**
      * Returns the translation related to the given key
      *
-     * @phpstan-param array<string, string> $placeholders
-     *
-     * @return string
-     * @throws Exception
+     * @phpstan-param translate_placeholders $placeholders
      */
-    public function query( string translateKey, array placeholders = []) -> string
+    public function query(string translateKey, array placeholders = []) -> string
     {
         var translation;
 
@@ -120,7 +108,7 @@ class Csv extends AbstractAdapter
     /**
      * Returns the internal array
      *
-     * @return array<string, string>
+     * @phpstan-return translate_data
      */
     public function toArray() -> array
     {
@@ -133,21 +121,16 @@ class Csv extends AbstractAdapter
      * Lines whose first column begins with a `#` are treated as comments
      * and skipped.
      *
-     * @param string $file
-     * @param int    $length
-     * @param string $separator
-     * @param string $enclosure
-     * @param string $escape
+     * @phpstan-param int<0, max> $length
      *
-     * @return void
      * @throws FileOpenError
      */
     private function load(
-        string file, 
-	int length, 
-	string delimiter, 
-	string enclosure, 
-	string escape
+        string file,
+        int length,
+        string delimiter,
+        string enclosure,
+        string escape
     ) -> void {
         var data, fileHandler;
 

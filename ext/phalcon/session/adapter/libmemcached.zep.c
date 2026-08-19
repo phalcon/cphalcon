@@ -29,6 +29,8 @@
  */
 /**
  * Phalcon\Session\Adapter\Libmemcached
+ *
+ * @phpstan-import-type session_libmemcached_options from SessionTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Session_Adapter_Libmemcached)
 {
@@ -56,6 +58,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Session_Adapter_Libmemcached)
  *     'prefix' => 'sess-memc-',
  *     'stripPrefix' => false
  * ]
+ *
+ * @phpstan-param session_libmemcached_options $options
+ *
+ * @throws Exception
  */
 PHP_METHOD(Phalcon_Session_Adapter_Libmemcached, __construct)
 {
@@ -109,7 +115,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Libmemcached, __construct)
 	ZVAL_STRING(&_1, "libmemcached");
 	ZEPHIR_CALL_METHOD(&_5, factory, "newinstance", NULL, 0, &_1, &options);
 	zephir_check_call_status();
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1296, &_5);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1311, &_5);
 	ZEPHIR_MM_RESTORE();
 }
 

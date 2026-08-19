@@ -16,13 +16,13 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_helper_arr_order_checknonobject, 0, 3, IS_ARRAY, 0)
 	ZEND_ARG_ARRAY_INFO(0, sorted, 0)
-	ZEND_ARG_INFO(0, attribute)
+	ZEND_ARG_TYPE_INFO(0, attribute, IS_STRING, 0)
 	ZEND_ARG_INFO(0, item)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_helper_arr_order_checkobject, 0, 3, IS_ARRAY, 0)
 	ZEND_ARG_ARRAY_INFO(0, sorted, 0)
-	ZEND_ARG_INFO(0, attribute)
+	ZEND_ARG_TYPE_INFO(0, attribute, IS_STRING, 0)
 	ZEND_ARG_INFO(0, item)
 ZEND_END_ARG_INFO()
 

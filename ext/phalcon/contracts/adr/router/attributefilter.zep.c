@@ -27,6 +27,9 @@
  * Validates, casts and converts a router match's positional tail segments into
  * named request attributes, driven by the matched Action's optional static
  * `params()` declaration.
+ *
+ * @phpstan-import-type adr_filtered_attributes from ADRTypes
+ * @phpstan-import-type adr_route_attributes from ADRTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Contracts_ADR_Router_AttributeFilter)
 {
@@ -35,4 +38,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Contracts_ADR_Router_AttributeFilter)
 	return SUCCESS;
 }
 
+/**
+ * @phpstan-param class-string          $actionClass
+ * @phpstan-param adr_route_attributes  $attributes
+ *
+ * @phpstan-return adr_filtered_attributes
+ */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_ADR_Router_AttributeFilter, filter);

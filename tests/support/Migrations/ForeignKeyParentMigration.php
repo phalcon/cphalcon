@@ -13,24 +13,36 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Support\Migrations;
 
-class ForeignKeyParentMigration extends AbstractMigration
+use Phalcon\Talon\Database\Schema\AbstractSchema;
+
+/**
+ * Owns `foreign_key_parent` only - `foreign_key_child` is
+ * ForeignKeyChildMigration, which sorts first so its table is dropped and
+ * created before this one runs.
+ *
+ * The pgsql FK constraint is added here rather than by the child, because it
+ * needs both tables to exist and this class is the later of the two.
+ */
+class ForeignKeyParentMigration extends AbstractSchema
 {
-    protected $table = 'foreign_key_parent';
+    protected string $table = 'foreign_key_parent';
+
+    /**
+     * @return list<string>
+     */
+    public function getDependencies(): array
+    {
+        return ['foreign_key_child'];
+    }
 
     public function insert(): int
     {
         return 0;
     }
 
-    protected function getSqlMysql(): array
+    protected function getStatementsMysql(): array
     {
         return [
-            "
-DROP TABLE IF EXISTS `foreign_key_child`;
-            ",
-            "
-DROP TABLE IF EXISTS `foreign_key_parent`;
-            ",
             "
 CREATE TABLE `foreign_key_parent` (
     `id`        int(10) NOT NULL AUTO_INCREMENT,
@@ -40,55 +52,12 @@ CREATE TABLE `foreign_key_parent` (
     UNIQUE KEY `foreign_key_parent_refer_int` (`refer_int`)
 ) ENGINE=InnoDB;
             ",
-            "
-CREATE TABLE `foreign_key_child` (
-    `id`        int(10) NOT NULL AUTO_INCREMENT,
-    `name`      varchar(70) NOT NULL,
-    `child_int` int NOT NULL,
-    PRIMARY KEY (`id`),
-    UNIQUE KEY `foreign_key_child_child_int` (`child_int`)
-) ENGINE=InnoDB;
-            ",
         ];
     }
 
-    protected function getSqlSqlite(): array
+    protected function getStatementsPgsql(): array
     {
         return [
-            "
-DROP TABLE IF EXISTS foreign_key_child;
-            ",
-            "
-DROP TABLE IF EXISTS foreign_key_parent;
-            ",
-            "
-CREATE TABLE foreign_key_parent (
-    id        INTEGER PRIMARY KEY AUTOINCREMENT,
-    name      varchar(70) NOT NULL,
-    refer_int INTEGER     NOT NULL,
-    UNIQUE (refer_int)
-);
-            ",
-            "
-CREATE TABLE foreign_key_child (
-    id        INTEGER PRIMARY KEY AUTOINCREMENT,
-    name      varchar(70) NOT NULL,
-    child_int INTEGER     NOT NULL,
-    UNIQUE (child_int)
-);
-            ",
-        ];
-    }
-
-    protected function getSqlPgsql(): array
-    {
-        return [
-            "
-DROP TABLE IF EXISTS foreign_key_child;
-            ",
-            "
-DROP TABLE IF EXISTS foreign_key_parent;
-            ",
             "
 CREATE TABLE foreign_key_parent (
     id        serial      not null,
@@ -96,15 +65,6 @@ CREATE TABLE foreign_key_parent (
     refer_int integer     not null,
     PRIMARY KEY (id),
     UNIQUE (refer_int)
-);
-            ",
-            "
-CREATE TABLE foreign_key_child (
-    id        serial      not null,
-    name      varchar(70) not null,
-    child_int integer     not null,
-    PRIMARY KEY (id),
-    UNIQUE (child_int)
 );
             ",
             "
@@ -117,8 +77,17 @@ ALTER TABLE foreign_key_child
         ];
     }
 
-    protected function getSqlSqlsrv(): array
+    protected function getStatementsSqlite(): array
     {
-        return [];
+        return [
+            "
+CREATE TABLE foreign_key_parent (
+    id        INTEGER PRIMARY KEY AUTOINCREMENT,
+    name      varchar(70) NOT NULL,
+    refer_int INTEGER     NOT NULL,
+    UNIQUE (refer_int)
+);
+            ",
+        ];
     }
 }

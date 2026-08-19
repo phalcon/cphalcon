@@ -10,50 +10,53 @@
 namespace Phalcon\Storage\Adapter;
 
 
-use DateInterval;
 use Exception as BaseException;
+use Phalcon\Contracts\Storage\StorageTypes;
 use Phalcon\Storage\SerializerFactory;
-use Phalcon\Support\Exception as SupportException;
-use Phalcon\Storage\Serializer\SerializerInterface;
+use WeakReference;
 
 /**
-* Weak Adapter
-*
-* Capabilities:
-* - Stores objects only, as WeakReferences; entries vanish when the referenced
-*   object is garbage-collected.
-* - TTL is ignored; no serializer is used (none/no-op).
-* - Counters unsupported: increment()/decrement() return false.
-* - setForever() is equivalent to set(); getKeys() reads the in-memory list.
-*/
+ * Weak Adapter
+ *
+ * Capabilities:
+ * - Stores objects only, as WeakReferences; entries vanish when the referenced
+ *   object is garbage-collected.
+ * - TTL is ignored; no serializer is used (none/no-op).
+ * - Counters unsupported: increment()/decrement() return false.
+ * - setForever() is equivalent to set(); getKeys() reads the in-memory list.
+ *
+ * @phpstan-import-type storage_adapter_options from StorageTypes
+ * @phpstan-import-type storage_keys from StorageTypes
+ * @phpstan-import-type storage_options from StorageTypes
+ * @phpstan-import-type storage_weak_list from StorageTypes
+ */
 class Weak extends AbstractAdapter
 {
-
     /**
-     *
-     *
-     * @var int|null
+     * @var string|null
      */
     protected fetching = null;
 
     /**
-     * @var array
+     * @var array<string, WeakReference<object>>
+     *
+     * @phpstan-var storage_weak_list
      */
-
-    protected weakList = [];
+    protected array weakList = [];
 
     /**
-     * @var array
+     * @var array<string, mixed>
+     *
+     * @phpstan-var storage_options
      */
-    protected options = [];
+    protected array options = [];
 
     /**
      * Constructor, there are no options
      *
-     * @param array options = []
-     * @throws SupportException
+     * @phpstan-param storage_adapter_options $options
      */
-    public function __construct(<SerializerFactory> factory,  array options = [])
+    public function __construct(<SerializerFactory> factory, array options = [])
     {
         let this->defaultSerializer = "none",
             this->lifetime           = this->getArrVal(options, "lifetime", 3600),
@@ -61,7 +64,7 @@ class Weak extends AbstractAdapter
             this->options            = options;
     }
 
-     /**
+    /**
      * Flushes/clears the cache
      */
     public function clear() -> bool
@@ -73,9 +76,7 @@ class Weak extends AbstractAdapter
     /**
      * Stores data in the adapter
      *
-     * @param string $prefix
-     *
-     * @return array
+     * @phpstan-return storage_keys
      */
     public function getKeys(string prefix = "") -> array
     {
@@ -95,45 +96,30 @@ class Weak extends AbstractAdapter
     }
 
     /**
-     * For compatiblity only, there is no Forever with WeakReference.
-     *
-     * @param string $key
-     * @param mixed  $value
-     *
-     * @return bool
-     */
-    public function setForever(string key, value) -> bool
-    {
-        return this->set(key, value);
-    }
-
-    /**
-     * will never set a serializer, WeakReference cannot be serialized
-     * @param string $serializer
+     * Will never set a serializer, WeakReference cannot be serialized
      */
     public function setDefaultSerializer(string serializer) -> void
     {
     }
 
     /**
-     * Decrements a stored number - not supported for WeakReference
-     *
-     * @param string $key
-     * @param int    $value
-     *
-     * @return bool|int
+     * For compatiblity only, there is no Forever with WeakReference.
      */
-    protected function doDecrement( string key, int value = 1) -> int | bool
+    public function setForever(string key, var data) -> bool
+    {
+        return this->set(key, data);
+    }
+
+    /**
+     * Decrements a stored number - not supported for WeakReference
+     */
+    protected function doDecrement( string key, int value = 1) -> false | int
     {
         return false;
     }
 
     /**
      * Deletes data from the adapter
-     *
-     * @param string $key
-     *
-     * @return bool
      */
     protected function doDelete( string key) -> bool
     {
@@ -151,13 +137,8 @@ class Weak extends AbstractAdapter
 
     /**
      * Reads data from the adapter
-     *
-     * @param string     $key
-     * @param mixed|null $defaultValue
-     *
-     * @return mixed
      */
-    protected function doGet( string key, var defaultValue = null) -> var
+    protected function doGet(string key, var defaultValue = null) -> var
     {
         var value, wr;
 
@@ -175,8 +156,8 @@ class Weak extends AbstractAdapter
             return defaultValue;
         }
 
-        let wr    = this->weakList[key];
-        let value = wr->get();
+        let wr             = this->weakList[key];
+        let value          = wr->get();
         let this->fetching = null;
 
         /**
@@ -191,10 +172,6 @@ class Weak extends AbstractAdapter
 
     /**
      * Checks if an element exists in the cache
-     *
-     * @param string $key
-     *
-     * @return bool
      */
     protected function doHas( string key) -> bool
     {
@@ -203,13 +180,8 @@ class Weak extends AbstractAdapter
 
     /**
      * Increments a stored number - not supported for WeakReference
-     *
-     * @param string $key
-     * @param int    $value
-     *
-     * @return bool|int
      */
-    protected function doIncrement( string key, int value = 1) -> int | bool
+    protected function doIncrement( string key, int value = 1) -> false | int
     {
         return false;
     }
@@ -221,11 +193,6 @@ class Weak extends AbstractAdapter
      * item has expired. If you need to set this key forever, you should use
      * the `setForever()` method.
      *
-     * @param string                $key
-     * @param mixed                 $value
-     * @param DateInterval|int|null $ttl
-     *
-     * @return bool
      * @throws BaseException
      */
     protected function doSet( string key, var value, var ttl = null) -> bool
@@ -235,7 +202,7 @@ class Weak extends AbstractAdapter
         }
 
         if false === isset this->weakList[key] {
-            let this->weakList[key] = \WeakReference::create(value);
+            let this->weakList[key] = WeakReference::create(value);
         }
 
         return true;

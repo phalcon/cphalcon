@@ -311,7 +311,7 @@ PHP_METHOD(Phalcon_Filter_Filter, get)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 735, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 747, PH_NOISY_CC | PH_READONLY);
 	if (1 != zephir_array_isset_value(&_0, &name_zv)) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_filter_exceptions_filternotregistered_ce);
@@ -321,16 +321,16 @@ PHP_METHOD(Phalcon_Filter_Filter, get)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_1, 736, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_1, 748, PH_NOISY_CC | PH_READONLY);
 	if (1 != zephir_array_isset_value(&_2, &name_zv)) {
-		zephir_read_property_cached(&_3$$4, this_ptr, _zephir_prop_0, 735, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_3$$4, this_ptr, _zephir_prop_0, 747, PH_NOISY_CC | PH_READONLY);
 		zephir_memory_observe(&definition);
 		zephir_array_fetch(&definition, &_3$$4, &name_zv, PH_NOISY, "phalcon/Filter/Filter.zep", 219);
 		ZEPHIR_CALL_METHOD(&_4$$4, this_ptr, "createinstance", NULL, 0, &definition);
 		zephir_check_call_status();
 		zephir_update_property_array(this_ptr, SL("services"), &name_zv, &_4$$4);
 	}
-	zephir_read_property_cached(&_5, this_ptr, _zephir_prop_1, 736, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_5, this_ptr, _zephir_prop_1, 748, PH_NOISY_CC | PH_READONLY);
 	zephir_array_fetch(&_6, &_5, &name_zv, PH_NOISY | PH_READONLY, "phalcon/Filter/Filter.zep", 223);
 	RETURN_CTOR(&_6);
 }
@@ -396,7 +396,7 @@ PHP_METHOD(Phalcon_Filter_Filter, has)
 		Z_PARAM_STR(name)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&name_zv, name);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 735, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 747, PH_NOISY_CC | PH_READONLY);
 	RETURN_BOOL(zephir_array_isset_value(&_0, &name_zv));
 }
 
@@ -494,7 +494,7 @@ PHP_METHOD(Phalcon_Filter_Filter, set)
 	ZVAL_STR(&name_zv, name);
 	zephir_update_property_array(this_ptr, SL("mapper"), &name_zv, service);
 	zephir_unset_property_array(this_ptr, ZEND_STRL("services"), &name_zv);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 736, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 748, PH_NOISY_CC | PH_READONLY);
 	zephir_array_unset(&_0, &name_zv, PH_SEPARATE);
 }
 

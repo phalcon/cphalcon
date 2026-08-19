@@ -27,6 +27,11 @@
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+/**
+ * @phpstan-import-type paginator_config from PaginatorTypes
+ * @phpstan-import-type paginator_factory_options from PaginatorTypes
+ * @phpstan-import-type paginator_services from PaginatorTypes
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Paginator_PaginatorFactory)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Paginator, PaginatorFactory, phalcon, paginator_paginatorfactory, phalcon_factory_abstractfactory_ce, phalcon_paginator_paginatorfactory_method_entry, 0);
@@ -36,6 +41,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Paginator_PaginatorFactory)
 
 /**
  * AdapterFactory constructor.
+ *
+ * @param paginator_services $services
  */
 PHP_METHOD(Phalcon_Paginator_PaginatorFactory, __construct)
 {
@@ -87,12 +94,7 @@ PHP_METHOD(Phalcon_Paginator_PaginatorFactory, __construct)
  * $paginator = (new PaginatorFactory())->load($options);
  *```
  *
- * @param array|\Phalcon\Config\Config config = [
- *     'adapter' => 'queryBuilder',
- *     'limit' => 20,
- *     'page' => 1,
- *     'builder' => null
- * ]
+ * @param Config|paginator_factory_options $config
  */
 PHP_METHOD(Phalcon_Paginator_PaginatorFactory, load)
 {
@@ -122,7 +124,7 @@ PHP_METHOD(Phalcon_Paginator_PaginatorFactory, load)
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(config, &_0);
 	zephir_memory_observe(&name);
-	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Paginator/PaginatorFactory.zep", 66);
+	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Paginator/PaginatorFactory.zep", 72);
 	zephir_memory_observe(&options);
 	if (!(zephir_array_isset_string_fetch(&options, config, SL("options"), 0))) {
 		ZEPHIR_INIT_NVAR(&options);
@@ -135,6 +137,8 @@ PHP_METHOD(Phalcon_Paginator_PaginatorFactory, load)
 
 /**
  * Create a new instance of the adapter
+ *
+ * @param paginator_config $options
  */
 PHP_METHOD(Phalcon_Paginator_PaginatorFactory, newInstance)
 {
@@ -178,7 +182,7 @@ PHP_METHOD(Phalcon_Paginator_PaginatorFactory, newInstance)
 }
 
 /**
- * @return string
+ * @return class-string<Throwable>
  */
 PHP_METHOD(Phalcon_Paginator_PaginatorFactory, getExceptionClass)
 {
@@ -189,7 +193,7 @@ PHP_METHOD(Phalcon_Paginator_PaginatorFactory, getExceptionClass)
 /**
  * Returns the available adapters
  *
- * @return string[]
+ * @return paginator_services
  */
 PHP_METHOD(Phalcon_Paginator_PaginatorFactory, getServices)
 {

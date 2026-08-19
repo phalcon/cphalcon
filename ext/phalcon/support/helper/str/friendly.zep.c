@@ -42,12 +42,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Str_Friendly)
 }
 
 /**
- * @param string     $text
- * @param string     $separator
- * @param bool       $lowercase
- * @param mixed|null $replace
+ * @param array<array-key, string>|string|null $replace
  *
- * @return string
  * @throws InvalidReplaceFormat
  */
 PHP_METHOD(Phalcon_Support_Helper_Str_Friendly, __invoke)
@@ -131,7 +127,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Friendly, __invoke)
 	ZVAL_STRING(&_4, "/[^a-zA-Z0-9\\/_|+ -]/");
 	ZEPHIR_INIT_VAR(&_5);
 	ZVAL_STRING(&_5, "");
-	ZEPHIR_CALL_FUNCTION(&friendly, "preg_replace", NULL, 90, &_4, &_5, &text);
+	ZEPHIR_CALL_FUNCTION(&friendly, "preg_replace", NULL, 91, &_4, &_5, &text);
 	zephir_check_call_status();
 	if (lowercase) {
 		ZEPHIR_CALL_METHOD(&_6$$5, this_ptr, "tolower", NULL, 0, &friendly);
@@ -140,7 +136,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Friendly, __invoke)
 	}
 	ZEPHIR_INIT_NVAR(&_4);
 	ZVAL_STRING(&_4, "/[\\/_|+ -]+/");
-	ZEPHIR_CALL_FUNCTION(&_7, "preg_replace", NULL, 90, &_4, &separator_zv, &friendly);
+	ZEPHIR_CALL_FUNCTION(&_7, "preg_replace", NULL, 91, &_4, &separator_zv, &friendly);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(&friendly, &_7);
 	zephir_fast_trim(return_value, &friendly, &separator_zv, ZEPHIR_TRIM_BOTH);
@@ -148,9 +144,9 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Friendly, __invoke)
 }
 
 /**
- * @param mixed $replace
+ * @param array<array-key, string>|string $replace
  *
- * @return array
+ * @return array<array-key, string>
  * @throws InvalidReplaceFormat
  */
 PHP_METHOD(Phalcon_Support_Helper_Str_Friendly, checkReplace)
@@ -173,7 +169,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Friendly, checkReplace)
 		_0 = Z_TYPE_P(replace) != IS_STRING;
 	}
 	if (_0) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_support_helper_str_exceptions_invalidreplaceformat_ce, "Parameter replace must be an array or a string", "phalcon/Support/Helper/Str/Friendly.zep", 74);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_support_helper_str_exceptions_invalidreplaceformat_ce, "Parameter replace must be an array or a string", "phalcon/Support/Helper/Str/Friendly.zep", 70);
 		return;
 	}
 	if (Z_TYPE_P(replace) == IS_STRING) {
@@ -187,9 +183,9 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Friendly, checkReplace)
 }
 
 /**
- * @param mixed $replace
+ * @param array<array-key, string> $replace
  *
- * @return array
+ * @return array<string, string>
  */
 PHP_METHOD(Phalcon_Support_Helper_Str_Friendly, getMatrix)
 {
@@ -292,7 +288,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Friendly, getMatrix)
 	add_assoc_stringl_ex(&matrix, SL("&"), SL(" and "));
 	add_assoc_stringl_ex(&matrix, SL("\r\n"), SL(" "));
 	add_assoc_stringl_ex(&matrix, SL("\n"), SL(" "));
-	zephir_is_iterable(&replace, 0, "phalcon/Support/Helper/Str/Friendly.zep", 121);
+	zephir_is_iterable(&replace, 0, "phalcon/Support/Helper/Str/Friendly.zep", 117);
 	if (Z_TYPE_P(&replace) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&replace), _0)
 		{

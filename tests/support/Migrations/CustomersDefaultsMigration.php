@@ -13,13 +13,15 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Support\Migrations;
 
+use Phalcon\Talon\Database\Schema\AbstractSchema;
+
 
 /**
  * Class CustomersMigration
  */
-class CustomersDefaultsMigration extends AbstractMigration
+class CustomersDefaultsMigration extends AbstractSchema
 {
-    protected $table = 'co_customers_defaults';
+    protected string $table = 'co_customers_defaults';
 
     /**
      * @param int|null    $id
@@ -58,12 +60,9 @@ SQL;
         return $result;
     }
 
-    protected function getSqlMysql(): array
+    protected function getStatementsMysql(): array
     {
         return [
-            "
-drop table if exists `co_customers_defaults`;
-            ",
             "
 create table co_customers_defaults
 (
@@ -88,12 +87,9 @@ create index co_customers_defaults_cst_name_first_index
         ];
     }
 
-    protected function getSqlSqlite(): array
+    protected function getStatementsSqlite(): array
     {
         return [
-            "
-drop table if exists co_customers_defaults;
-            ",
             "
 create table co_customers_defaults
 (
@@ -118,12 +114,9 @@ create index co_customers_defaults_cst_name_first_index
         ];
     }
 
-    protected function getSqlPgsql(): array
+    protected function getStatementsPgsql(): array
     {
         return [
-            "
-drop table if exists co_customers_defaults;
-            ",
             "
 create table co_customers_defaults
 (
@@ -146,10 +139,5 @@ create index co_customers_defaults_cst_name_first_index
     on co_customers_defaults (cst_name_first);
             ",
         ];
-    }
-
-    protected function getSqlSqlsrv(): array
-    {
-        return [];
     }
 }

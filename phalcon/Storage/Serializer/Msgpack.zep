@@ -18,18 +18,14 @@ class Msgpack extends Igbinary
 
     /**
      * Serializes data
-     *
-     * @return string
      */
     protected function doSerialize(var value) -> string
     {
-		return this->phpMsgpackPack(value);
-	}
+        return this->phpMsgpackPack(value);
+    }
 
     /**
-     * @param mixed $value
-     *
-     * @return mixed
+     * @param string $value
      */
     protected function doUnserialize(value)
     {

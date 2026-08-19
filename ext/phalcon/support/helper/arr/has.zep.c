@@ -38,8 +38,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Arr_Has)
 }
 
 /**
- * @param array      $collection
- * @param string|int $index
+ * @param array<array-key, mixed> $collection
+ * @param int|string              $index
  *
  * @return bool
  */

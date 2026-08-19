@@ -10,83 +10,43 @@
 
 namespace Phalcon\Support\Debug\Report;
 
+use Phalcon\Contracts\Support\SupportTypes;
+
 /**
  * Represents a single resolved frame of an exception backtrace.
+ *
+ * @phpstan-import-type support_debug_args from SupportTypes
+ * @phpstan-import-type support_debug_fragment from SupportTypes
  */
 final class BacktraceItem
 {
     /**
-     * @var array
+     * @phpstan-param support_debug_args          $args
      */
-    protected args = [];
-
+    private array args = [];
+    private ?string classLink = null;
+    private ?string className = null;
+    private ?string file = null;
     /**
-     * @var string|null
+     * @phpstan-param support_debug_fragment|null $fragment
      */
-    protected classLink = null;
+    private ?array fragment = null;
+    private ?string functionLink = null;
+    private string functionName;
+    private bool hasArgs = false;
+    private ?int line = null;
+    private ?string type = null;
 
-    /**
-     * @var string|null
-     */
-    protected className = null;
-
-    /**
-     * @var string|null
-     */
-    protected file = null;
-
-    /**
-     * @var array|null
-     */
-    protected fragment = null;
-
-    /**
-     * @var string|null
-     */
-    protected functionLink = null;
-
-    /**
-     * @var string
-     */
-    protected functionName;
-
-    /**
-     * @var bool
-     */
-    protected hasArgs = false;
-
-    /**
-     * @var int|null
-     */
-    protected line = null;
-
-    /**
-     * @var string|null
-     */
-    protected type = null;
-
-    /**
-     * @param string      $functionName
-     * @param string|null $type
-     * @param string|null $className
-     * @param string|null $classLink
-     * @param string|null $functionLink
-     * @param bool        $hasArgs
-     * @param array       $args
-     * @param string|null $file
-     * @param int|null    $line
-     * @param array|null  $fragment
-     */
     public function __construct(
         string functionName,
-        var type = null,
-        var className = null,
-        var classLink = null,
-        var functionLink = null,
+        string type = null,
+        string className = null,
+        string classLink = null,
+        string functionLink = null,
         bool hasArgs = false,
         array args = [],
-        var file = null,
-        var line = null,
+        string file = null,
+        int line = null,
         var fragment = null
     ) {
         let this->functionName = functionName,
@@ -102,80 +62,56 @@ final class BacktraceItem
     }
 
     /**
-     * @return array
+     * @phpstan-return support_debug_args
      */
     public function getArgs() -> array
     {
         return this->args;
     }
 
-    /**
-     * @return string|null
-     */
     public function getClassLink() -> string | null
     {
         return this->classLink;
     }
 
-    /**
-     * @return string|null
-     */
     public function getClassName() -> string | null
     {
         return this->className;
     }
 
-    /**
-     * @return string|null
-     */
     public function getFile() -> string | null
     {
         return this->file;
     }
 
     /**
-     * @return array|null
+     * @phpstan-return support_debug_fragment|null
      */
     public function getFragment() -> array | null
     {
         return this->fragment;
     }
 
-    /**
-     * @return string|null
-     */
     public function getFunctionLink() -> string | null
     {
         return this->functionLink;
     }
 
-    /**
-     * @return string
-     */
     public function getFunctionName() -> string
     {
         return this->functionName;
     }
 
-    /**
-     * @return int|null
-     */
     public function getLine() -> int | null
     {
         return this->line;
     }
 
-    /**
-     * @return string|null
-     */
     public function getType() -> string | null
     {
         return this->type;
     }
 
-    /**
-     * @return bool
-     */
     public function hasArgs() -> bool
     {
         return this->hasArgs;

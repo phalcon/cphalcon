@@ -23,6 +23,6 @@
     </groups>
     <php>
         <env name="driver" value="pgsql"/>
-        <env name="dump_file" value="tests/support/assets/schema/pgsql.sql"/>
+        <env name="dump_file" value="tests/support/assets/schema/pgsql"/>
     </php>
 </phpunit>

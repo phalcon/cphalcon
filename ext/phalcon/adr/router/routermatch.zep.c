@@ -36,6 +36,9 @@
  */
 /**
  * Immutable result of a successful route match.
+ *
+ * @phpstan-import-type adr_middleware_names from ADRTypes
+ * @phpstan-import-type adr_route_attributes from ADRTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_ADR_Router_RouterMatch)
 {
@@ -69,6 +72,11 @@ ZEPHIR_INIT_CLASS(Phalcon_ADR_Router_RouterMatch)
 	return SUCCESS;
 }
 
+/**
+ * @phpstan-param class-string          $action
+ * @phpstan-param adr_route_attributes  $attributes
+ * @phpstan-param adr_middleware_names  $middleware
+ */
 PHP_METHOD(Phalcon_ADR_Router_RouterMatch, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -134,25 +142,34 @@ PHP_METHOD(Phalcon_ADR_Router_RouterMatch, __construct)
 		zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 367, &action_zv);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 368, &attributes);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 369, &middleware);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 370, &name_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 373, &action_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 374, &attributes);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 375, &middleware);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 376, &name_zv);
 	ZEPHIR_MM_RESTORE();
 }
 
+/**
+ * @phpstan-return class-string
+ */
 PHP_METHOD(Phalcon_ADR_Router_RouterMatch, getAction)
 {
 
 	RETURN_MEMBER_TYPED(getThis(), "action", IS_STRING);
 }
 
+/**
+ * @phpstan-return adr_route_attributes
+ */
 PHP_METHOD(Phalcon_ADR_Router_RouterMatch, getAttributes)
 {
 
 	RETURN_MEMBER_TYPED(getThis(), "attributes", IS_ARRAY);
 }
 
+/**
+ * @phpstan-return adr_middleware_names
+ */
 PHP_METHOD(Phalcon_ADR_Router_RouterMatch, getMiddleware)
 {
 

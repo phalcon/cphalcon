@@ -11,7 +11,6 @@ PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryContext, createSubscriptionConsume
 PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryContext, popMessage);
 PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryContext, purgeQueue);
 PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryContext, pushMessage);
-zend_object *zephir_init_properties_Phalcon_Queue_Adapter_Memory_MemoryContext(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_queue_adapter_memory_memorycontext_close, 0, 0, IS_VOID, 0)
 ZEND_END_ARG_INFO()
@@ -45,9 +44,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_queue_adapter_memory_mem
 
 	ZEND_ARG_TYPE_INFO(0, queueName, IS_STRING, 0)
 	ZEND_ARG_OBJ_INFO(0, message, Phalcon\\Contracts\\Queue\\Message, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_queue_adapter_memory_memorycontext_zephir_init_properties_phalcon_queue_adapter_memory_memorycontext, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_queue_adapter_memory_memorycontext_method_entry) {

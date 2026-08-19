@@ -9,6 +9,7 @@
 
 namespace Phalcon\Session;
 
+use Phalcon\Contracts\Session\SessionTypes;
 use Phalcon\Di\Di;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\InjectionAwareInterface;
@@ -16,8 +17,6 @@ use Phalcon\Session\ManagerInterface;
 use Phalcon\Support\Collection;
 
 /**
- * Phalcon\Session\Bag
- *
  * This component helps to separate session data into "namespaces". Working by
  * this way you can easily create groups of session variables into the
  * application
@@ -32,6 +31,10 @@ use Phalcon\Support\Collection;
  * @property DiInterface|null $container
  * @property string           $name
  * @property ManagerInterface $session;
+ *
+ * @extends Collection<mixed>
+ *
+ * @phpstan-import-type session_bag_data from SessionTypes
  */
 class Bag extends Collection implements BagInterface, InjectionAwareInterface
 {
@@ -39,18 +42,8 @@ class Bag extends Collection implements BagInterface, InjectionAwareInterface
      * @var DiInterface|null
      */
     private container;
-
-    /**
-     * Session Bag name
-     *
-     * @var string
-     */
-    private name;
-
-    /**
-     * @var ManagerInterface
-     */
-    private session;
+    private string name;
+    private <ManagerInterface> session;
 
     /**
      * @param ManagerInterface $session
@@ -100,6 +93,8 @@ class Bag extends Collection implements BagInterface, InjectionAwareInterface
 
     /**
      * Initialize internal array
+     *
+     * @phpstan-param session_bag_data $data
      */
     public function init( array data = []) -> void
     {

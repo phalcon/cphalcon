@@ -14,18 +14,17 @@ PHP_METHOD(Phalcon_Support_Debug_Report_BacktraceItem, getFunctionName);
 PHP_METHOD(Phalcon_Support_Debug_Report_BacktraceItem, getLine);
 PHP_METHOD(Phalcon_Support_Debug_Report_BacktraceItem, getType);
 PHP_METHOD(Phalcon_Support_Debug_Report_BacktraceItem, hasArgs);
-zend_object *zephir_init_properties_Phalcon_Support_Debug_Report_BacktraceItem(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_support_debug_report_backtraceitem___construct, 0, 0, 1)
 	ZEND_ARG_TYPE_INFO(0, functionName, IS_STRING, 0)
-	ZEND_ARG_INFO(0, type)
-	ZEND_ARG_INFO(0, className)
-	ZEND_ARG_INFO(0, classLink)
-	ZEND_ARG_INFO(0, functionLink)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, type, IS_STRING, 1, "null")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, className, IS_STRING, 1, "null")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, classLink, IS_STRING, 1, "null")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, functionLink, IS_STRING, 1, "null")
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, hasArgs, _IS_BOOL, 0, "false")
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, args, IS_ARRAY, 0, "[]")
-	ZEND_ARG_INFO(0, file)
-	ZEND_ARG_INFO(0, line)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, file, IS_STRING, 1, "null")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, line, IS_LONG, 1, "null")
 	ZEND_ARG_INFO(0, fragment)
 ZEND_END_ARG_INFO()
 
@@ -57,9 +56,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_debug_report_bac
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_debug_report_backtraceitem_hasargs, 0, 0, _IS_BOOL, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_support_debug_report_backtraceitem_zephir_init_properties_phalcon_support_debug_report_backtraceitem, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_support_debug_report_backtraceitem_method_entry) {

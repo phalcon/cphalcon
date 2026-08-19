@@ -35,13 +35,15 @@
  * `Status` is the single source of truth: the default map covers every
  * `Status` constant. Any status that is not mapped resolves to 500, never a
  * silent 200. Every entry can be overridden through the constructor.
+ *
+ * @phpstan-import-type adr_status_map from ADRTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_ADR_Responder_StatusMapper)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\ADR\\Responder, StatusMapper, phalcon, adr_responder_statusmapper, phalcon_adr_responder_statusmapper_method_entry, ZEND_ACC_FINAL_CLASS);
 
 	/**
-	 * @var array<int, int>
+	 * @phpstan-var adr_status_map
 	 */
 	{
 		zval _zc0;
@@ -52,6 +54,9 @@ ZEPHIR_INIT_CLASS(Phalcon_ADR_Responder_StatusMapper)
 	return SUCCESS;
 }
 
+/**
+ * @phpstan-param adr_status_map $overrides
+ */
 PHP_METHOD(Phalcon_ADR_Responder_StatusMapper, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -105,7 +110,7 @@ PHP_METHOD(Phalcon_ADR_Responder_StatusMapper, __construct)
 	add_assoc_long_ex(&_0, SL("VALID"), 200);
 	ZEPHIR_INIT_VAR(&_1);
 	zephir_add_function(&_1, &overrides, &_0);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 358, &_1);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 364, &_1);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -138,11 +143,11 @@ PHP_METHOD(Phalcon_ADR_Responder_StatusMapper, toHttpCode)
 	zephir_memory_observe(&status_zv);
 	ZVAL_STR_COPY(&status_zv, status);
 	ZEPHIR_INIT_VAR(&_0);
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 358, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 364, PH_NOISY_CC | PH_READONLY);
 	if (zephir_array_isset_value(&_1, &status_zv)) {
-		zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 358, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 364, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_OBS_NVAR(&_0);
-		zephir_array_fetch(&_0, &_2, &status_zv, PH_NOISY, "phalcon/ADR/Responder/StatusMapper.zep", 66);
+		zephir_array_fetch(&_0, &_2, &status_zv, PH_NOISY, "phalcon/ADR/Responder/StatusMapper.zep", 72);
 	} else {
 		ZEPHIR_INIT_NVAR(&_0);
 		ZVAL_LONG(&_0, 500);

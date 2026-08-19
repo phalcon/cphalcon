@@ -86,6 +86,9 @@ PHP_METHOD(Phalcon_Http_Request, getServerArray);
 PHP_METHOD(Phalcon_Http_Request, isProxyTrusted);
 PHP_METHOD(Phalcon_Http_Request, isValidPublicIp);
 PHP_METHOD(Phalcon_Http_Request, processFiles);
+PHP_METHOD(Phalcon_Http_Request, getEventsManager);
+PHP_METHOD(Phalcon_Http_Request, setEventsManager);
+PHP_METHOD(Phalcon_Http_Request, fireManagerEvent);
 PHP_METHOD(Phalcon_Http_Request, phpFclose);
 PHP_METHOD(Phalcon_Http_Request, phpFgetCsv);
 PHP_METHOD(Phalcon_Http_Request, phpFileExists);
@@ -95,7 +98,6 @@ PHP_METHOD(Phalcon_Http_Request, phpFopen);
 PHP_METHOD(Phalcon_Http_Request, phpFwrite);
 PHP_METHOD(Phalcon_Http_Request, phpIsWritable);
 PHP_METHOD(Phalcon_Http_Request, phpUnlink);
-zend_object *zephir_init_properties_Phalcon_Http_Request(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_request_get, 0, 0, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, name, IS_STRING, 1, "null")
@@ -434,7 +436,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_isproxytrus
 	ZEND_ARG_TYPE_INFO(0, ip, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_http_request_isvalidpublicip, 0, 1, MAY_BE_STRING|MAY_BE_BOOL)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_http_request_isvalidpublicip, 0, 1, MAY_BE_FALSE|MAY_BE_STRING)
 	ZEND_ARG_TYPE_INFO(0, forwardedIp, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
@@ -443,6 +445,20 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_processfile
 	ZEND_ARG_TYPE_INFO(0, namedKeys, _IS_BOOL, 0)
 	ZEND_ARG_ARRAY_INFO(0, input, 0)
 	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_request_geteventsmanager, 0, 0, Phalcon\\Events\\ManagerInterface, 1)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_seteventsmanager, 0, 1, IS_VOID, 0)
+
+	ZEND_ARG_OBJ_INFO(0, eventsManager, Phalcon\\Events\\ManagerInterface, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_firemanagerevent, 0, 1, IS_MIXED, 0)
+	ZEND_ARG_TYPE_INFO(0, eventName, IS_STRING, 0)
+	ZEND_ARG_INFO(0, data)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, cancellable, _IS_BOOL, 0, "true")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_phpfclose, 0, 1, _IS_BOOL, 0)
@@ -496,9 +512,6 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_phpunlink, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
 	ZEND_ARG_INFO(0, context)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_request_zephir_init_properties_phalcon_http_request, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_http_request_method_entry) {
@@ -585,6 +598,9 @@ ZEPHIR_INIT_FUNCS(phalcon_http_request_method_entry) {
 	PHP_ME(Phalcon_Http_Request, isProxyTrusted, arginfo_phalcon_http_request_isproxytrusted, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Http_Request, isValidPublicIp, arginfo_phalcon_http_request_isvalidpublicip, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Http_Request, processFiles, arginfo_phalcon_http_request_processfiles, ZEND_ACC_PRIVATE)
+	PHP_ME(Phalcon_Http_Request, getEventsManager, arginfo_phalcon_http_request_geteventsmanager, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request, setEventsManager, arginfo_phalcon_http_request_seteventsmanager, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request, fireManagerEvent, arginfo_phalcon_http_request_firemanagerevent, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Http_Request, phpFclose, arginfo_phalcon_http_request_phpfclose, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Http_Request, phpFgetCsv, arginfo_phalcon_http_request_phpfgetcsv, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Http_Request, phpFileExists, arginfo_phalcon_http_request_phpfileexists, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)

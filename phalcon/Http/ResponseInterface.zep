@@ -27,53 +27,77 @@ interface ResponseInterface
 
     /**
      * Gets the HTTP response body
+     *
+     * @return string
      */
     public function getContent() -> string;
 
     /**
      * Returns headers set by the user
+     *
+     * @return HeadersInterface
      */
     public function getHeaders() -> <HeadersInterface>;
 
     /**
      * Returns the status code
+     *
+     * @return int|null
      */
     public function getStatusCode() -> int | null;
 
     /**
      * Checks if a header exists
+     *
+     * @param string $name
+     *
+     * @return bool
      */
     public function hasHeader(string name) -> bool;
 
     /**
      * Checks if the response was already sent
+     *
+     * @return bool
      */
     public function isSent() -> bool;
 
     /**
      * Redirect by HTTP to another action or URL
+     *
+     * @param string|null $location
+     * @param bool        $externalRedirect
+     * @param int         $statusCode
+     *
+     * @return ResponseInterface
      */
     public function redirect(string location = null, bool externalRedirect = false, int statusCode = 302) -> <ResponseInterface>;
 
     /**
      * Resets all the established headers
+     *
+     * @return ResponseInterface
      */
     public function resetHeaders() -> <ResponseInterface>;
 
     /**
      * Prints out HTTP response to the client
+     *
+     * @return ResponseInterface
      */
     public function send() -> <ResponseInterface>;
 
     /**
      * Sends cookies to the client
+     *
+     * @return ResponseInterface
      */
     public function sendCookies() -> <ResponseInterface>;
 
     /**
      * Sends headers to the client
      */
-    public function sendHeaders() -> <ResponseInterface> | bool;
+    public function sendHeaders() -> bool | <ResponseInterface>;
 
     /**
      * Sets HTTP response body
@@ -87,6 +111,8 @@ interface ResponseInterface
 
     /**
      * Sets the response content-type mime, optionally the charset
+     *
+     * @todo check the null
      */
     public function setContentType(string contentType, string charset = null) -> <ResponseInterface>;
 
@@ -97,6 +123,8 @@ interface ResponseInterface
 
     /**
      * Sets an attached file to be sent at the end of the request
+     *
+     * @todo check the null
      */
     public function setFileToSend(string filePath, string attachmentName = null) -> <ResponseInterface>;
 
@@ -115,6 +143,8 @@ interface ResponseInterface
      *     ]
      * );
      *```
+     *
+     * @todo check the parameter type
      */
     public function setJsonContent(var content) -> <ResponseInterface>;
 
@@ -130,6 +160,8 @@ interface ResponseInterface
 
     /**
      * Sets the HTTP response code
+     *
+     * @todo change $message to only string
      */
     public function setStatusCode(int code, string message = null) -> <ResponseInterface>;
 }

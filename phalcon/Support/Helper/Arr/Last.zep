@@ -17,8 +17,8 @@ namespace Phalcon\Support\Helper\Arr;
 class Last extends AbstractArr
 {
     /**
-     * @param array         $collection
-     * @param callable|null $method
+     * @param array<array-key, mixed> $collection
+     * @param callable|null           $method
      *
      * @return mixed
      */

@@ -13,6 +13,7 @@
 
 namespace Phalcon\ADR\Middleware;
 
+use Phalcon\Contracts\ADR\ADRTypes;
 use Phalcon\Contracts\ADR\Handler;
 use Phalcon\Contracts\ADR\Middleware;
 use Phalcon\Contracts\Http\AttributeRequest;
@@ -26,11 +27,13 @@ use Phalcon\Http\ResponseInterface;
  * turns that flag on, and only for a `POST` request whose `_method` names a
  * safe verb (`PUT`/`PATCH`/`DELETE`), so `_method` cannot spoof an arbitrary
  * method.
+ *
+ * @phpstan-import-type adr_allowed_methods from ADRTypes
  */
 class MethodOverrideMiddleware implements Middleware
 {
     /**
-     * @var array<int, string>
+     * @phpstan-var adr_allowed_methods
      */
     protected array allowed = ["DELETE", "PATCH", "PUT"];
 

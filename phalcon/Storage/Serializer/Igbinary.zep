@@ -18,8 +18,6 @@ class Igbinary extends AbstractSerializer
 
     /**
      * Serializes data
-     *
-     * @return mixed
      */
     public function serialize() -> mixed
     {
@@ -43,14 +41,10 @@ class Igbinary extends AbstractSerializer
 
     /**
      * Unserializes data
-     *
-     * @param mixed $data
-     *
-     * @return void
      */
-	public function unserialize(mixed data) -> void
-	{
-	    var result;
+    public function unserialize(mixed data) -> void
+    {
+        var result;
 
         if (true !== this->isSerializable(data)) {
             let this->data = data;
@@ -63,6 +57,7 @@ class Igbinary extends AbstractSerializer
                 E_WARNING
             );
 
+            /** @var string $data */
             let result = this->doUnserialize(data);
 
             restore_error_handler();
@@ -80,10 +75,6 @@ class Igbinary extends AbstractSerializer
 
     /**
      * Serialize
-     *
-     * @param mixed $value
-     *
-     * @return string|null
      */
     protected function doSerialize(var value) -> string | null
     {
@@ -95,11 +86,10 @@ class Igbinary extends AbstractSerializer
      *
      * @param string $value
      *
-     * @return mixed|false
+     * @return false|mixed
      */
     protected function doUnserialize(value)
     {
         return this->phpIgbinaryUnserialize(value);
     }
-
 }

@@ -27,7 +27,7 @@ trait CookieTrait
      *
      * @param string $name
      *
-     * @return string|array|null
+     * @return array|string|null
      *
      * @throws RuntimeException
      */

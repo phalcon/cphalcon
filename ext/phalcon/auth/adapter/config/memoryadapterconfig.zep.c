@@ -36,11 +36,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Auth_Adapter_Config_MemoryAdapterConfig)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Auth\\Adapter\\Config, MemoryAdapterConfig, phalcon, auth_adapter_config_memoryadapterconfig, phalcon_auth_adapter_config_abstractadapterconfig_ce, phalcon_auth_adapter_config_memoryadapterconfig_method_entry, 0);
 
-	/**
-	 * @var array
-	 */
-	zend_declare_property_null(phalcon_auth_adapter_config_memoryadapterconfig_ce, SL("users"), ZEND_ACC_PROTECTED);
-	phalcon_auth_adapter_config_memoryadapterconfig_ce->create_object = zephir_init_properties_Phalcon_Auth_Adapter_Config_MemoryAdapterConfig;
+	{
+		zval _zc0;
+		array_init_size(&_zc0, 1);
+		zephir_declare_typed_property(phalcon_auth_adapter_config_memoryadapterconfig_ce, SL("users"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_ARRAY, NULL, 0);
+	}
 
 	return SUCCESS;
 }
@@ -87,7 +87,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Config_MemoryAdapterConfig, __construct)
 		zephir_memory_observe(&model_zv);
 	ZVAL_STR_COPY(&model_zv, model);
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 425, &users);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 431, &users);
 	ZEPHIR_CALL_PARENT(NULL, phalcon_auth_adapter_config_memoryadapterconfig_ce, getThis(), "__construct", NULL, 0, &model_zv);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
@@ -100,30 +100,5 @@ PHP_METHOD(Phalcon_Auth_Adapter_Config_MemoryAdapterConfig, getUsers)
 {
 
 	RETURN_MEMBER_TYPED(getThis(), "users", IS_ARRAY);
-}
-
-zend_object *zephir_init_properties_Phalcon_Auth_Adapter_Config_MemoryAdapterConfig(zend_class_entry *class_type)
-{
-		zval _0, _1$$3;
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-		ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1$$3);
-	
-
-		ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-		zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	
-	{
-		zval local_this_ptr, *this_ptr = &local_this_ptr;
-		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		zephir_read_property_ex(&_0, this_ptr, ZEND_STRL("users"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_0) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_1$$3);
-			array_init(&_1$$3);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("users"), &_1$$3);
-		}
-		ZEPHIR_MM_RESTORE();
-		return Z_OBJ_P(this_ptr);
-	}
 }
 

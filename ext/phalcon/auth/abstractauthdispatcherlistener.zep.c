@@ -47,10 +47,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Auth_AbstractAuthDispatcherListener)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Auth, AbstractAuthDispatcherListener, phalcon, auth_abstractauthdispatcherlistener, phalcon_auth_abstractauthdispatcherlistener_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
-	/**
-	 * @var Manager
-	 */
-	zend_declare_property_null(phalcon_auth_abstractauthdispatcherlistener_ce, SL("manager"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_auth_abstractauthdispatcherlistener_ce, SL("manager"), &_zc0, ZEND_ACC_PROTECTED, 0, SL("Phalcon\\Contracts\\Auth\\Manager"));
+	}
+
 	return SUCCESS;
 }
 
@@ -73,14 +75,6 @@ PHP_METHOD(Phalcon_Auth_AbstractAuthDispatcherListener, __construct)
 }
 
 /**
- * Returns the kind label used by AccessDenied (e.g. 'task', 'action',
- * 'route').
- */
-PHP_METHOD(Phalcon_Auth_AbstractAuthDispatcherListener, getActionType)
-{
-}
-
-/**
  * Runs the access check for the given action name. Returns true when
  * the dispatch should proceed, false when a forward was issued, and
  * throws when access is denied without a redirect target.
@@ -89,7 +83,7 @@ PHP_METHOD(Phalcon_Auth_AbstractAuthDispatcherListener, getActionType)
  * path works without a default guard.
  *
  * @phpstan-param AccessContext $context
- * @phpstan-param callable|null $forwardHandler
+ * @phpstan-param (callable(array<string, mixed>): void)|null $forwardHandler
  *
  * @throws Exception
  */
@@ -173,10 +167,18 @@ PHP_METHOD(Phalcon_Auth_AbstractAuthDispatcherListener, enforce)
 	object_init_ex(&_4, phalcon_auth_exceptions_accessdenied_ce);
 	ZEPHIR_CALL_METHOD(&_5, this_ptr, "getactiontype", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, &_4, "__construct", NULL, 86, &_5, &actionName_zv);
+	ZEPHIR_CALL_METHOD(NULL, &_4, "__construct", NULL, 87, &_5, &actionName_zv);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(&_4, "phalcon/Auth/AbstractAuthDispatcherListener.zep", 89);
+	zephir_throw_exception_debug(&_4, "phalcon/Auth/AbstractAuthDispatcherListener.zep", 80);
 	ZEPHIR_MM_RESTORE();
 	return;
+}
+
+/**
+ * Returns the kind label used by AccessDenied (e.g. 'task', 'action',
+ * 'route').
+ */
+PHP_METHOD(Phalcon_Auth_AbstractAuthDispatcherListener, getActionType)
+{
 }
 

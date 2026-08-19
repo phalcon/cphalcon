@@ -29,6 +29,8 @@
 /**
  * @property mixed $data
  * @property bool  $isSuccess
+ *
+ * @phpstan-import-type storage_serializer_data from StorageTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Storage_Serializer_AbstractSerializer)
 {
@@ -38,10 +40,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Storage_Serializer_AbstractSerializer)
 	 * @var mixed
 	 */
 	zend_declare_property_null(phalcon_storage_serializer_abstractserializer_ce, SL("data"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var bool
-	 */
-	zend_declare_property_bool(phalcon_storage_serializer_abstractserializer_ce, SL("isSuccess"), 1, ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_BOOL(&_zc0, 1);
+		zephir_declare_typed_property(phalcon_storage_serializer_abstractserializer_ce, SL("isSuccess"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_BOOL, NULL, 0);
+	}
+
 	zend_class_implements(phalcon_storage_serializer_abstractserializer_ce, 1, phalcon_storage_serializer_serializerinterface_ce);
 	return SUCCESS;
 }
@@ -49,7 +53,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Storage_Serializer_AbstractSerializer)
 /**
  * AbstractSerializer constructor.
  *
- * @param mixed|null $data
+ * @param mixed $data
  */
 PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, __construct)
 {
@@ -79,6 +83,10 @@ PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, __construct)
 
 /**
  * Serialize data
+ *
+ * @return array
+ *
+ * @phpstan-return storage_serializer_data
  */
 PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, __serialize)
 {
@@ -95,7 +103,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, __serialize)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_memory_observe(&_0);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 37, PH_NOISY_CC);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 38, PH_NOISY_CC);
 	if (Z_TYPE_P(&_0) == IS_ARRAY) {
 		RETURN_MM_MEMBER_TYPED(getThis(), "data", IS_ARRAY);
 	}
@@ -105,6 +113,8 @@ PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, __serialize)
 
 /**
  * Unserialize data
+ *
+ * @phpstan-param storage_serializer_data $data
  */
 PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, __unserialize)
 {
@@ -126,13 +136,10 @@ PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, __unserialize)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &data_param);
 	zephir_get_arrval(&data, data_param);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 37, &data);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 38, &data);
 	ZEPHIR_MM_RESTORE();
 }
 
-/**
- * @return mixed
- */
 PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, getData)
 {
 
@@ -142,8 +149,6 @@ PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, getData)
 /**
  * Returns `true` if the serialize/unserialize operation was successful;
  * `false` otherwise
- *
- * @return bool
  */
 PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, isSuccess)
 {
@@ -169,7 +174,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, setData)
 		Z_PARAM_ZVAL(data)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &data);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 37, data);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 38, data);
 }
 
 /**
@@ -177,7 +182,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, setData)
  *
  * @param mixed $data
  *
- * @return bool
+ * @phpstan-assert-if-false bool|float|int|numeric-string|null $data
  */
 PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, isSerializable)
 {

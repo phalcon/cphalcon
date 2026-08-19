@@ -19,12 +19,14 @@
 
 namespace Phalcon\Queue\Consumer;
 
+use Phalcon\Contracts\Queue\Consumer as ConsumerInterface;
 use Phalcon\Contracts\Queue\Context as ContextInterface;
 use Phalcon\Contracts\Queue\Message as MessageInterface;
 use Phalcon\Contracts\Queue\Processor as ProcessorInterface;
 use Phalcon\Contracts\Queue\Queue as QueueInterface;
 use Phalcon\Events\AbstractEventsAware;
 use Phalcon\Events\EventsAwareInterface;
+use Throwable;
 
 /**
  * Lean consumption runner. Binds processors to queues, polls each bound queue
@@ -39,26 +41,16 @@ class QueueConsumer extends AbstractEventsAware implements EventsAwareInterface
     /**
      * Bound processors keyed by queue name.
      *
-     * @var array
+     * @var array<string, BoundProcessor>
      */
-    protected bindings = [];
-
-    /**
-     * @var ContextInterface
-     */
-    protected context;
+    protected array bindings = [];
+    protected <ContextInterface> context;
 
     /**
      * Milliseconds slept between poll passes when nothing was received.
-     *
-     * @var int
      */
-    protected pollInterval = 200;
-
-    /**
-     * @var bool
-     */
-    protected shouldStop = false;
+    protected int pollInterval = 200;
+    protected bool shouldStop = false;
 
     public function __construct(<ContextInterface> context)
     {
@@ -109,16 +101,16 @@ class QueueConsumer extends AbstractEventsAware implements EventsAwareInterface
     }
 
     /**
-     * Polls every bound queue once, processing up to one message from each.
-     * Returns true if any message was handled. Sleeps the poll interval when
-     * nothing was received so callers can loop tightly.
+     * Polls every bound queue once, dispatching any messages found. Returns
+     * the number of messages processed in this pass, so callers (the Worker)
+     * can apply a message-count limit across several bound queues.
      */
-    public function consumeOnce() -> bool
+    public function consumeOnce() -> int
     {
         var binding, consumer, message;
-        bool handled;
+        int processed;
 
-        let handled = false;
+        let processed = 0;
 
         for binding in this->bindings {
             if this->fireManagerEvent(Events::BEFORE_RECEIVE, binding) === false {
@@ -128,24 +120,26 @@ class QueueConsumer extends AbstractEventsAware implements EventsAwareInterface
             let consumer = binding->getConsumer(),
                 message  = consumer->receiveNoWait();
 
+            if message === null {
+                continue;
+            }
+
             if this->fireManagerEvent(Events::AFTER_RECEIVE, message) === false {
                 let this->shouldStop = true;
 
-                return handled;
+                return processed;
             }
 
-            if message !== null {
-                this->process(binding, message);
+            this->process(binding, message);
 
-                let handled = true;
-            }
+            let processed++;
         }
 
-        if !handled {
+        if processed === 0 {
             usleep(this->pollInterval * 1000);
         }
 
-        return handled;
+        return processed;
     }
 
     /**
@@ -195,7 +189,7 @@ class QueueConsumer extends AbstractEventsAware implements EventsAwareInterface
     /**
      * Applies a processor result (ACK / REJECT / REQUEUE) to the message.
      */
-    private function handleResult(var consumer, <MessageInterface> message, var result) -> void
+    private function handleResult(<ConsumerInterface> consumer, <MessageInterface> message, var result) -> void
     {
         string outcome;
 
@@ -215,7 +209,7 @@ class QueueConsumer extends AbstractEventsAware implements EventsAwareInterface
      * applying the outcome. A processor exception fires
      * `queue:processorException` and rejects the message.
      */
-    private function process(var binding, <MessageInterface> message) -> void
+    private function process(<BoundProcessor> binding, <MessageInterface> message) -> void
     {
         var consumer, processor, result, exception;
 
@@ -232,7 +226,7 @@ class QueueConsumer extends AbstractEventsAware implements EventsAwareInterface
             this->handleResult(consumer, message, result);
 
             this->fireManagerEvent(Events::AFTER_PROCESS, message, false);
-        } catch \Throwable, exception {
+        } catch Throwable, exception {
             this->fireManagerEvent(Events::PROCESSOR_EXCEPTION, exception, false);
 
             consumer->reject(message, false);

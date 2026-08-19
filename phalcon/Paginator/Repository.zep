@@ -11,27 +11,26 @@
 namespace Phalcon\Paginator;
 
 use JsonSerializable;
+use Phalcon\Contracts\Paginator\PaginatorTypes;
 
 /**
- * Phalcon\Paginator\Repository
- *
  * Repository of current state Phalcon\Paginator\AdapterInterface::paginate()
+ *
+ * @phpstan-import-type paginator_aliases from PaginatorTypes
+ * @phpstan-import-type paginator_properties from PaginatorTypes
  */
 class Repository implements RepositoryInterface, JsonSerializable
 {
     /**
-     * @var array
+     * @var paginator_aliases
      */
-    protected aliases = [];
+    protected array aliases = [];
 
     /**
-     * @var array
+     * @var paginator_properties
      */
-    protected properties = [];
+    protected array properties = [];
 
-    /**
-     * {@inheritdoc}
-     */
     public function __get(string property) -> var | null
     {
         var method;
@@ -55,79 +54,55 @@ class Repository implements RepositoryInterface, JsonSerializable
     }
 
     /**
-     * {@inheritdoc}
+     * @return paginator_aliases
      */
     public function getAliases() -> array
     {
         return this->aliases;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getCurrent() -> int
     {
         return this->getProperty(self::PROPERTY_CURRENT_PAGE, 0);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getFirst() -> int
     {
         return this->getProperty(self::PROPERTY_FIRST_PAGE, 0);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getItems() -> var
     {
         return this->getProperty(self::PROPERTY_ITEMS, null);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getLast() -> int
     {
         return this->getProperty(self::PROPERTY_LAST_PAGE, 0);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getLimit() -> int
     {
         return this->getProperty(self::PROPERTY_LIMIT, 0);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getNext() -> int
     {
         return this->getProperty(self::PROPERTY_NEXT_PAGE, 0);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getPrevious() -> int
     {
         return this->getProperty(self::PROPERTY_PREVIOUS_PAGE, 0);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getTotalItems() -> int
     {
         return this->getProperty(self::PROPERTY_TOTAL_ITEMS, 0);
     }
 
     /**
-     * See [jsonSerialize](https://php.net/manual/en/jsonserializable.jsonserialize.php)
+     * @return paginator_properties
      */
     public function jsonSerialize() -> array
     {
@@ -135,7 +110,7 @@ class Repository implements RepositoryInterface, JsonSerializable
     }
 
     /**
-     * {@inheritdoc}
+     * @param paginator_aliases $aliases
      */
     public function setAliases(array aliases) -> <RepositoryInterface>
     {
@@ -145,7 +120,7 @@ class Repository implements RepositoryInterface, JsonSerializable
     }
 
     /**
-     * {@inheritdoc}
+     * @param paginator_properties $properties
      */
     public function setProperties(array properties) -> <RepositoryInterface>
     {
@@ -156,6 +131,12 @@ class Repository implements RepositoryInterface, JsonSerializable
 
     /**
      * Gets value of property by name
+     *
+     * The repository is filled by the adapters, which store an int under every
+     * property that has an int default, so callers passing one are handed an
+     * int back.
+     *
+     * @phpstan-return ($defaultValue is int ? int : mixed)
      */
     protected function getProperty(string property, var defaultValue = null) -> var
     {

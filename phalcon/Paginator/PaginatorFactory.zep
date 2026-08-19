@@ -10,17 +10,28 @@
 
 namespace Phalcon\Paginator;
 
-use Phalcon\Paginator\Adapter\AdapterInterface;
+use Phalcon\Config\Config;
+use Phalcon\Config\ConfigInterface;
+use Phalcon\Contracts\Paginator\PaginatorTypes;
 use Phalcon\Factory\AbstractFactory;
+use Phalcon\Paginator\Adapter\AdapterInterface;
 use Phalcon\Paginator\Adapter\Model;
 use Phalcon\Paginator\Adapter\NativeArray;
 use Phalcon\Paginator\Adapter\QueryBuilder;
 use Phalcon\Paginator\Adapter\QueryBuilderCursor;
+use Throwable;
 
+/**
+ * @phpstan-import-type paginator_config from PaginatorTypes
+ * @phpstan-import-type paginator_factory_options from PaginatorTypes
+ * @phpstan-import-type paginator_services from PaginatorTypes
+ */
 class PaginatorFactory extends AbstractFactory
 {
     /**
      * AdapterFactory constructor.
+     *
+     * @param paginator_services $services
      */
     public function __construct( array services = [])
     {
@@ -50,12 +61,7 @@ class PaginatorFactory extends AbstractFactory
      * $paginator = (new PaginatorFactory())->load($options);
      *```
      *
-     * @param array|\Phalcon\Config\Config config = [
-     *     'adapter' => 'queryBuilder',
-     *     'limit' => 20,
-     *     'page' => 1,
-     *     'builder' => null
-     * ]
+     * @param Config|paginator_factory_options $config
      */
     public function load(var config) -> <AdapterInterface>
     {
@@ -74,6 +80,8 @@ class PaginatorFactory extends AbstractFactory
 
     /**
      * Create a new instance of the adapter
+     *
+     * @param paginator_config $options
      */
     public function newInstance( string name,  array options = []) -> <AdapterInterface>
     {
@@ -90,7 +98,7 @@ class PaginatorFactory extends AbstractFactory
     }
 
     /**
-     * @return string
+     * @return class-string<Throwable>
      */
     protected function getExceptionClass() -> string
     {
@@ -100,7 +108,7 @@ class PaginatorFactory extends AbstractFactory
     /**
      * Returns the available adapters
      *
-     * @return string[]
+     * @return paginator_services
      */
     protected function getServices() -> array
     {

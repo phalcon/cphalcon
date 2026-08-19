@@ -39,21 +39,25 @@
 /**
  * Builds a queue Context from the standard Phalcon config shape. Mirrors
  * Phalcon\Cache\CacheFactory.
+ *
+ * @phpstan-import-type queue_connection_options from QueueTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Queue_QueueFactory)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Queue, QueueFactory, phalcon, queue_queuefactory, phalcon_factory_abstractconfigfactory_ce, phalcon_queue_queuefactory_method_entry, 0);
 
-	/**
-	 * @var AdapterFactory
-	 */
-	zend_declare_property_null(phalcon_queue_queuefactory_ce, SL("adapterFactory"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_queue_queuefactory_ce, SL("adapterFactory"), &_zc0, ZEND_ACC_PROTECTED, 0, SL("Phalcon\\Queue\\AdapterFactory"));
+	}
+
 	return SUCCESS;
 }
 
 /**
- * QueueFactory constructor. A default AdapterFactory is created when none
- * is supplied, so the factory is usable straight from the DI container.
+ * A default AdapterFactory is created when none is supplied, so the
+ * factory is usable straight from the DI container.
  */
 PHP_METHOD(Phalcon_Queue_QueueFactory, __construct)
 {
@@ -89,16 +93,16 @@ PHP_METHOD(Phalcon_Queue_QueueFactory, __construct)
 		ZEPHIR_CALL_METHOD(NULL, factory, "__construct", NULL, 0);
 		zephir_check_call_status();
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1295, factory);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1310, factory);
 	ZEPHIR_MM_RESTORE();
 }
 
 /**
  * Builds a Context from a config array/object.
  *
- * @param array $config = [
+ * @param array<string, mixed>|ConfigInterface $config = [
  *     'adapter' => 'memory',
- *     'options' => []
+ *     'options' => [],
  * ]
  */
 PHP_METHOD(Phalcon_Queue_QueueFactory, load)
@@ -129,7 +133,7 @@ PHP_METHOD(Phalcon_Queue_QueueFactory, load)
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(config, &_0);
 	zephir_memory_observe(&name);
-	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Queue/QueueFactory.zep", 64);
+	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Queue/QueueFactory.zep", 65);
 	zephir_memory_observe(&options);
 	if (!(zephir_array_isset_string_fetch(&options, config, SL("options"), 0))) {
 		ZEPHIR_INIT_NVAR(&options);
@@ -142,6 +146,8 @@ PHP_METHOD(Phalcon_Queue_QueueFactory, load)
 
 /**
  * Builds a Context for the named adapter.
+ *
+ * @phpstan-param queue_connection_options $options
  */
 PHP_METHOD(Phalcon_Queue_QueueFactory, newInstance)
 {
@@ -179,7 +185,7 @@ PHP_METHOD(Phalcon_Queue_QueueFactory, newInstance)
 	} else {
 		zephir_get_arrval(&options, options_param);
 	}
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1295, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1310, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&connectionFactory, &_0, "newinstance", NULL, 0, &name_zv, &options);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(&connectionFactory, "createcontext", NULL, 0);
@@ -188,7 +194,9 @@ PHP_METHOD(Phalcon_Queue_QueueFactory, newInstance)
 }
 
 /**
- * @return string
+ * Returns the exception class for the factory
+ *
+ * @return class-string<\Throwable>
  */
 PHP_METHOD(Phalcon_Queue_QueueFactory, getExceptionClass)
 {

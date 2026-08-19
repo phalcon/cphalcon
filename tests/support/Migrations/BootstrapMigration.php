@@ -13,15 +13,17 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Support\Migrations;
 
+use Phalcon\Talon\Database\Schema\AbstractSchema;
+
 /**
  * Outputs the MySQL-only preamble that must appear at the top of every
  * generated schema file.  Other drivers need no bootstrap statements.
  */
-class BootstrapMigration extends AbstractMigration
+class BootstrapMigration extends AbstractSchema
 {
-    protected $table = '';
+    protected string $table = '';
 
-    protected function getSqlMysql(): array
+    protected function getStatementsMysql(): array
     {
         return [
             "SET NAMES utf8;",
@@ -30,20 +32,15 @@ class BootstrapMigration extends AbstractMigration
         ];
     }
 
-    protected function getSqlSqlite(): array
+    protected function getStatementsSqlite(): array
     {
         return [];
     }
 
-    protected function getSqlPgsql(): array
+    protected function getStatementsPgsql(): array
     {
         return [
             "CREATE SCHEMA IF NOT EXISTS private;",
         ];
-    }
-
-    protected function getSqlSqlsrv(): array
-    {
-        return [];
     }
 }

@@ -10,16 +10,16 @@
 
 namespace Phalcon\Support\Helper\Str;
 
+use Stringable;
+
 /**
  * Prefixes the text with the supplied prefix
+ * @todo v7 make text string
  */
 class Prefix
 {
     /**
-     * @param mixed  $text
-     * @param string $prefix
-     *
-     * @return string
+     * @param scalar|Stringable|null $text
      */
     public function __invoke(var text, string prefix) -> string
     {

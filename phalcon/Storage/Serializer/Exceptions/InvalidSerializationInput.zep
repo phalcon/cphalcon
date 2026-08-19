@@ -10,7 +10,9 @@
 
 namespace Phalcon\Storage\Serializer\Exceptions;
 
-class InvalidSerializationInput extends \InvalidArgumentException
+use InvalidArgumentException;
+
+class InvalidSerializationInput extends InvalidArgumentException
 {
     public function __construct()
     {

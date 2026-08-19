@@ -15,12 +15,6 @@ namespace Phalcon\Support\Helper\Str;
  */
 class Includes
 {
-    /**
-     * @param string $haystack
-     * @param string $needle
-     *
-     * @return bool
-     */
     public function __invoke(
         string haystack,
         string needle

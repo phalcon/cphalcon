@@ -17,10 +17,7 @@ namespace Phalcon\Support\Helper\Str;
 class Increment
 {
     /**
-     * @param string $text
-     * @param string $separator
-     *
-     * @return string
+     * @phpstan-param non-empty-string $separator
      */
     public function __invoke(
         string text,

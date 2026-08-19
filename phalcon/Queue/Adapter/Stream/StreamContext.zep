@@ -42,17 +42,13 @@ class StreamContext extends AbstractContext
 
     /**
      * Milliseconds slept between poll attempts by consumers.
-     *
-     * @var int
      */
-    protected pollInterval = 200;
+    protected int pollInterval = 200;
 
     /**
      * Directory (with trailing separator) that holds the queue files.
-     *
-     * @var string
      */
-    protected storageDir = "";
+    protected string storageDir = "";
 
     public function __construct(string storageDir, int pollInterval = 200)
     {
@@ -182,6 +178,8 @@ class StreamContext extends AbstractContext
 
     private function getFilepath(string queueName) -> string
     {
-        return this->storageDir . preg_replace("/[^a-zA-Z0-9_-]/", "_", queueName) . ".queue";
+        return this->storageDir 
+            . preg_replace("/[^a-zA-Z0-9_-]/", "_", queueName)
+            . ".queue";
     }
 }

@@ -43,36 +43,52 @@
  *
  * The convenience accessors are stored as transport headers under fixed keys
  * for binary compatibility with the wider interop ecosystem.
+ *
+ * @phpstan-import-type queue_message_headers from QueueTypes
+ * @phpstan-import-type queue_message_properties from QueueTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_Traits_MessageTrait)
 {
 	ZEPHIR_REGISTER_TRAIT(Phalcon\\Queue\\Adapter\\Traits, MessageTrait, phalcon, queue_adapter_traits_messagetrait, phalcon_queue_adapter_traits_messagetrait_method_entry);
 
+	{
+		zval _zc0;
+		ZVAL_STRINGL(&_zc0, "", sizeof("") - 1);
+		zephir_declare_typed_property(phalcon_queue_adapter_traits_messagetrait_ce, SL("body"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
+
 	/**
-	 * @var string
+	 * @phpstan-var queue_message_headers
 	 */
-	zend_declare_property_string(phalcon_queue_adapter_traits_messagetrait_ce, SL("body"), "", ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		array_init_size(&_zc0, 1);
+		zephir_declare_typed_property(phalcon_queue_adapter_traits_messagetrait_ce, SL("headers"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_ARRAY, NULL, 0);
+	}
+
 	/**
-	 * @var array
-	 *
-	 * @todo Use a default [] once Zephir supports array trait defaults
+	 * @phpstan-var queue_message_properties
 	 */
-	zend_declare_property_null(phalcon_queue_adapter_traits_messagetrait_ce, SL("headers"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var array
-	 *
-	 * @todo Use a default [] once Zephir supports array trait defaults
-	 */
-	zend_declare_property_null(phalcon_queue_adapter_traits_messagetrait_ce, SL("properties"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var bool
-	 */
-	zend_declare_property_bool(phalcon_queue_adapter_traits_messagetrait_ce, SL("redelivered"), 0, ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		array_init_size(&_zc0, 1);
+		zephir_declare_typed_property(phalcon_queue_adapter_traits_messagetrait_ce, SL("properties"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_ARRAY, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_BOOL(&_zc0, 0);
+		zephir_declare_typed_property(phalcon_queue_adapter_traits_messagetrait_ce, SL("redelivered"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_BOOL, NULL, 0);
+	}
+
 	return SUCCESS;
 }
 
 /**
  * Message constructor.
+ *
+ * @phpstan-param queue_message_properties $properties
+ * @phpstan-param queue_message_headers    $headers
  */
 PHP_METHOD(Phalcon_Queue_Adapter_Traits_MessageTrait, __construct)
 {
@@ -132,9 +148,9 @@ PHP_METHOD(Phalcon_Queue_Adapter_Traits_MessageTrait, __construct)
 	} else {
 		zephir_get_arrval(&headers, headers_param);
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1276, &body_zv);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1277, &properties);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 1278, &headers);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1291, &body_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1292, &properties);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 1293, &headers);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -163,7 +179,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Traits_MessageTrait, getCorrelationId)
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "correlation_id");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getheader", NULL, 0, &_0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getheaderasstring", NULL, 0, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -202,10 +218,10 @@ PHP_METHOD(Phalcon_Queue_Adapter_Traits_MessageTrait, getHeader)
 		defaultValue = &defaultValue_sub;
 		defaultValue = &__$null;
 	}
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1278, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1293, PH_NOISY_CC | PH_READONLY);
 	if (zephir_array_key_exists(&_0, &name_zv)) {
-		zephir_read_property_cached(&_1$$3, this_ptr, _zephir_prop_0, 1278, PH_NOISY_CC | PH_READONLY);
-		zephir_array_fetch(&_2$$3, &_1$$3, &name_zv, PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/Traits/MessageTrait.zep", 88);
+		zephir_read_property_cached(&_1$$3, this_ptr, _zephir_prop_0, 1293, PH_NOISY_CC | PH_READONLY);
+		zephir_array_fetch(&_2$$3, &_1$$3, &name_zv, PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/Traits/MessageTrait.zep", 83);
 		RETURN_CTORW(&_2$$3);
 	}
 	RETVAL_ZVAL(defaultValue, 1, 0);
@@ -214,27 +230,13 @@ PHP_METHOD(Phalcon_Queue_Adapter_Traits_MessageTrait, getHeader)
 
 /**
  * Returns all transport headers.
+ *
+ * @phpstan-return queue_message_headers
  */
 PHP_METHOD(Phalcon_Queue_Adapter_Traits_MessageTrait, getHeaders)
 {
-	zval _1;
-	zval _0;
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1);
-	static zend_string *_zephir_prop_0 = NULL;
-	if (UNEXPECTED(!_zephir_prop_0)) {
-		_zephir_prop_0 = zend_string_init("headers", 7, 1);
-	}
-	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-
-	zephir_memory_observe(&_0);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1278, PH_NOISY_CC);
-	zephir_get_arrval(&_1, &_0);
-	RETURN_CTOR(&_1);
+	RETURN_MEMBER_TYPED(getThis(), "headers", IS_ARRAY);
 }
 
 /**
@@ -260,27 +262,13 @@ PHP_METHOD(Phalcon_Queue_Adapter_Traits_MessageTrait, getMessageId)
 
 /**
  * Returns all application properties.
+ *
+ * @phpstan-return queue_message_properties
  */
 PHP_METHOD(Phalcon_Queue_Adapter_Traits_MessageTrait, getProperties)
 {
-	zval _1;
-	zval _0;
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1);
-	static zend_string *_zephir_prop_0 = NULL;
-	if (UNEXPECTED(!_zephir_prop_0)) {
-		_zephir_prop_0 = zend_string_init("properties", 10, 1);
-	}
-	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-
-	zephir_memory_observe(&_0);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1277, PH_NOISY_CC);
-	zephir_get_arrval(&_1, &_0);
-	RETURN_CTOR(&_1);
+	RETURN_MEMBER_TYPED(getThis(), "properties", IS_ARRAY);
 }
 
 /**
@@ -317,10 +305,10 @@ PHP_METHOD(Phalcon_Queue_Adapter_Traits_MessageTrait, getProperty)
 		defaultValue = &defaultValue_sub;
 		defaultValue = &__$null;
 	}
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1277, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1292, PH_NOISY_CC | PH_READONLY);
 	if (zephir_array_key_exists(&_0, &name_zv)) {
-		zephir_read_property_cached(&_1$$3, this_ptr, _zephir_prop_0, 1277, PH_NOISY_CC | PH_READONLY);
-		zephir_array_fetch(&_2$$3, &_1$$3, &name_zv, PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/Traits/MessageTrait.zep", 124);
+		zephir_read_property_cached(&_1$$3, this_ptr, _zephir_prop_0, 1292, PH_NOISY_CC | PH_READONLY);
+		zephir_array_fetch(&_2$$3, &_1$$3, &name_zv, PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/Traits/MessageTrait.zep", 123);
 		RETURN_CTORW(&_2$$3);
 	}
 	RETVAL_ZVAL(defaultValue, 1, 0);
@@ -343,7 +331,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Traits_MessageTrait, getReplyTo)
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "reply_to");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getheader", NULL, 0, &_0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getheaderasstring", NULL, 0, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -367,7 +355,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Traits_MessageTrait, getTimestamp)
 	ZVAL_STRING(&_0, "timestamp");
 	ZEPHIR_CALL_METHOD(&value, this_ptr, "getheader", NULL, 0, &_0);
 	zephir_check_call_status();
-	if (Z_TYPE_P(&value) == IS_NULL) {
+	if (!(zephir_is_scalar(&value))) {
 		RETURN_MM_NULL();
 	}
 	RETURN_MM_LONG(zephir_get_intval(&value));
@@ -401,7 +389,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Traits_MessageTrait, setBody)
 		Z_PARAM_STR(body)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&body_zv, body);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1276, &body_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1291, &body_zv);
 }
 
 /**
@@ -453,6 +441,8 @@ PHP_METHOD(Phalcon_Queue_Adapter_Traits_MessageTrait, setHeader)
 
 /**
  * Replaces all transport headers.
+ *
+ * @phpstan-param queue_message_headers $headers
  */
 PHP_METHOD(Phalcon_Queue_Adapter_Traits_MessageTrait, setHeaders)
 {
@@ -474,7 +464,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Traits_MessageTrait, setHeaders)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &headers_param);
 	zephir_get_arrval(&headers, headers_param);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1278, &headers);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1293, &headers);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -507,6 +497,8 @@ PHP_METHOD(Phalcon_Queue_Adapter_Traits_MessageTrait, setMessageId)
 
 /**
  * Replaces all application properties.
+ *
+ * @phpstan-param queue_message_properties $properties
  */
 PHP_METHOD(Phalcon_Queue_Adapter_Traits_MessageTrait, setProperties)
 {
@@ -528,7 +520,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Traits_MessageTrait, setProperties)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &properties_param);
 	zephir_get_arrval(&properties, properties_param);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1277, &properties);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1292, &properties);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -573,9 +565,9 @@ PHP_METHOD(Phalcon_Queue_Adapter_Traits_MessageTrait, setRedelivered)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &redelivered_param);
 	if (redelivered) {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1279, &__$true);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1294, &__$true);
 	} else {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1279, &__$false);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1294, &__$false);
 	}
 }
 
@@ -630,5 +622,38 @@ PHP_METHOD(Phalcon_Queue_Adapter_Traits_MessageTrait, setTimestamp)
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setheader", NULL, 0, &_0, &_1);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
+}
+
+/**
+ * Reads a header that is declared as a nullable string. Headers arrive
+ * from the transport as arbitrary values, so anything that cannot be
+ * expressed as a string (an array, an object) reads back as null.
+ */
+PHP_METHOD(Phalcon_Queue_Adapter_Traits_MessageTrait, getHeaderAsString)
+{
+	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval name_zv, value;
+	zend_string *name = NULL;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&name_zv);
+	ZVAL_UNDEF(&value);
+	ZVAL_UNDEF(&_0);
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(name)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&name_zv);
+	ZVAL_STR_COPY(&name_zv, name);
+	ZEPHIR_CALL_METHOD(&value, this_ptr, "getheader", NULL, 0, &name_zv);
+	zephir_check_call_status();
+	if (!(zephir_is_scalar(&value))) {
+		RETURN_MM_NULL();
+	}
+	zephir_cast_to_string(&_0, &value);
+	RETURN_CTOR(&_0);
 }
 

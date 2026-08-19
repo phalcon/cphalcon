@@ -33,6 +33,8 @@ class QueueDestinationGuard
 {
     /**
      * Throws InvalidDestinationException unless the destination is a queue.
+     *
+     * @phpstan-assert QueueInterface $destination
      */
     public static function assertQueue(<DestinationInterface> destination, string action) -> void
     {

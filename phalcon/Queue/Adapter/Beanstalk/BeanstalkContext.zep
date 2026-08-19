@@ -40,39 +40,13 @@ class BeanstalkContext extends AbstractContext implements Inspectable
 {
     /**
      * Shared connection used by producers and purges.
-     *
-     * @var BeanstalkConnection | null
      */
-    protected connection = null;
-
-    /**
-     * @var string
-     */
-    protected host = "127.0.0.1";
-
-    /**
-     * @var bool
-     */
-    protected persistent = false;
-
-    /**
-     * Milliseconds slept between poll passes by a subscription consumer.
-     *
-     * @var int
-     */
-    protected pollInterval = 200;
-
-    /**
-     * @var int
-     */
-    protected port = 11300;
-
-    /**
-     * Default time-to-run (seconds) applied to every put.
-     *
-     * @var int
-     */
-    protected ttr = 86400;
+    protected ?<BeanstalkConnection> connection = null;
+    protected string host = "127.0.0.1";
+    protected bool persistent = false;
+    protected int pollInterval = 200;
+    protected int port = 11300;
+    protected int ttr = 86400;
 
     public function __construct(
         string host,
@@ -131,6 +105,8 @@ class BeanstalkContext extends AbstractContext implements Inspectable
      * returned at zero. This keeps the backlog shape independent of transient
      * watcher state. Runs on a fresh short-lived connection (like purgeQueue)
      * so the read never shares the producer's socket.
+     *
+     * @return array<string, int|string>
      */
     public function getStats(<QueueInterface> queue) -> array
     {

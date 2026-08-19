@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Image\Adapter\Imagick;
 
+use Imagick as NativeImagick;
 use Phalcon\Image\Adapter\Imagick;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Talon\Talon;
@@ -36,5 +37,32 @@ final class SaveTest extends AbstractUnitTestCase
             Talon::settings()->outputPath('tests/image/imagick/new.jpg')
         );
         $this->safeDeleteFile('new.jpg');
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-08-19
+     */
+    public function testImageAdapterImagickSaveAnimatedGif(): void
+    {
+        $image = new Imagick(
+            Talon::settings()->supportPath('assets/images/example-gif-animated-horse.gif')
+        );
+
+        $target = Talon::settings()->outputPath('tests/image/imagick/animated.gif');
+
+        // reflection() rebuilds the wand, which is where the format was lost
+        $image->reflection(50)
+              ->save($target)
+        ;
+
+        $this->assertFileExists($target);
+
+        // Saving must keep every frame, not flatten the animation
+        $saved = new NativeImagick($target);
+
+        $this->assertSame(15, $saved->getNumberImages());
+
+        $this->safeDeleteFile('animated.gif');
     }
 }

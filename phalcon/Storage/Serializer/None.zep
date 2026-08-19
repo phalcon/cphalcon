@@ -14,23 +14,17 @@ class None extends AbstractSerializer
 {
     /**
      * Serializes data
-     *
-     * @return mixed
      */
-	public function serialize() -> mixed
-	{
-		return this->data;
-	}
+    public function serialize() -> mixed
+    {
+        return this->data;
+    }
 
     /**
      * Unserializes data
-     *
-     * @param mixed $data
-     *
-     * @retrun void
      */
-	public function unserialize(mixed data) -> void
-	{
-		let this->data = data;
-	}
+    public function unserialize(mixed data) -> void
+    {
+        let this->data = data;
+    }
 }

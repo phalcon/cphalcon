@@ -26,6 +26,8 @@
 /**
  * Resolves an Action by class name, builds the middleware pipeline around it and
  * runs it to produce a response.
+ *
+ * @phpstan-import-type adr_middleware_names from ADRTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Contracts_ADR_Dispatcher)
 {
@@ -34,4 +36,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Contracts_ADR_Dispatcher)
 	return SUCCESS;
 }
 
+/**
+ * @phpstan-param class-string          $actionClass
+ * @phpstan-param adr_middleware_names  $routeMiddleware
+ */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_ADR_Dispatcher, dispatch);

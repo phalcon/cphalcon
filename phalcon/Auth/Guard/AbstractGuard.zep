@@ -17,31 +17,22 @@ use Phalcon\Contracts\Auth\Adapter\Adapter;
 use Phalcon\Contracts\Auth\AuthUser;
 use Phalcon\Contracts\Auth\Guard\Guard;
 use Phalcon\Contracts\Auth\Guard\GuardConfig;
-use Phalcon\Events\AbstractEventsAware;
+use Phalcon\Events\ManagerInterface;
+use Phalcon\Events\Traits\EventsAwareTrait;
 
 /**
  * @phpstan-import-type AuthCredentials from Adapter
  *
  * @template TConfig of GuardConfig
  */
-abstract class AbstractGuard extends AbstractEventsAware implements Guard
+abstract class AbstractGuard implements Guard
 {
-    /**
-     * @var Adapter
-     */
-    protected adapter;
-    /**
-     * @var GuardConfig
-     */
-    protected config;
-    /**
-     * @var AuthUser | null
-     */
-    protected lastUserAttempted = null;
-    /**
-     * @var AuthUser | null
-     */
-    protected user = null;
+    use EventsAwareTrait;
+    
+    protected <Adapter> adapter;
+    protected <GuardConfig> config;
+    protected ?<AuthUser> lastUserAttempted = null;
+    protected ?<AuthUser> user = null;
 
     /**
      * @phpstan-param TConfig $config
@@ -50,6 +41,16 @@ abstract class AbstractGuard extends AbstractEventsAware implements Guard
     {
         let this->adapter = adapter;
         let this->config  = config;
+    }
+
+    public function check() -> bool
+    {
+        return this->user() !== null;
+    }
+
+    public function getAdapter() -> <Adapter>
+    {
+        return this->adapter;
     }
 
     /**
@@ -62,15 +63,6 @@ abstract class AbstractGuard extends AbstractEventsAware implements Guard
         return this->config;
     }
 
-    public function check() -> bool
-    {
-        return this->user() !== null;
-    }
-
-    public function getAdapter() -> <Adapter>
-    {
-        return this->adapter;
-    }
 
     public function getLastUserAttempted() -> <AuthUser> | null
     {

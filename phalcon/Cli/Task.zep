@@ -13,6 +13,7 @@ namespace Phalcon\Cli;
 use Phalcon\Di\Injectable;
 use Phalcon\Events\EventsAwareInterface;
 use Phalcon\Events\ManagerInterface;
+use Phalcon\Events\Traits\EventsAwareTrait;
 /**
  * Every command-line task should extend this class that encapsulates all the
  * task functionality
@@ -43,10 +44,7 @@ use Phalcon\Events\ManagerInterface;
  */
 class Task extends Injectable implements TaskInterface, EventsAwareInterface
 {
-    /**
-     * @var ManagerInterface
-     */
-    protected eventsManager;
+    use EventsAwareTrait;
 
     /**
      * Phalcon\Cli\Task constructor
@@ -56,21 +54,5 @@ class Task extends Injectable implements TaskInterface, EventsAwareInterface
         if method_exists(this, "onConstruct") {
             this->{"onConstruct"}();
         }
-    }
-
-     /**
-     * Returns the internal event manager
-     */
-    public function getEventsManager() -> <ManagerInterface> | null
-    {
-        return this->eventsManager;
-    }
-
-    /**
-     * Sets the events manager
-     */
-    public function setEventsManager(<ManagerInterface> eventsManager) -> void
-    {
-        let this->eventsManager = eventsManager;
     }
 }

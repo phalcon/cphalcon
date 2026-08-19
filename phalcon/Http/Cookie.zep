@@ -10,6 +10,7 @@
 
 namespace Phalcon\Http;
 
+use Phalcon\Contracts\Http\HttpTypes;
 use Phalcon\Di\AbstractInjectionAware;
 use Phalcon\Di\DiInterface;
 use Phalcon\Encryption\Crypt\CryptInterface;
@@ -24,79 +25,43 @@ use Phalcon\Http\Response\Exception;
 use Phalcon\Http\Traits\EncryptionAwareTrait;
 use Phalcon\Session\ManagerInterface as SessionManagerInterface;
 use Phalcon\Traits\Support\Helper\Arr\GetTrait;
+use Stringable;
 
 /**
  * Provide OO wrappers to manage a HTTP cookie.
+ *
+ * @phpstan-import-type http_cookie_definition from HttpTypes
+ * @phpstan-import-type http_cookie_options from HttpTypes
+ * @phpstan-import-type http_setcookie_options from HttpTypes
  */
-class Cookie extends AbstractInjectionAware implements CookieInterface
+class Cookie extends AbstractInjectionAware implements CookieInterface, Stringable
 {
     use EncryptionAwareTrait;
     use GetTrait;
 
-    /**
-     * @var string
-     */
-    protected domain;
-
-    /**
-     * @var int
-     */
-    protected expire;
-
-    /**
-     * @var FilterInterface|null
-     */
-    protected filter = null;
-
-    /**
-     * @var bool
-     */
-    protected httpOnly;
-
-    /**
-     * @var string
-     */
-    protected name;
-
-    /**
-     * @var array
-     */
-    protected options = [];
-
-    /**
-     * @var string
-     */
-    protected path;
-
-    /**
-     * @var bool
-     */
-    protected isRead = false;
-
-    /**
-     * @var bool
-     */
-    protected isRestored = false;
-
-    /**
-     * @var bool
-     */
-    protected secure = true;
-
+    protected string domain = "";
+    protected int expire = 0;
+    protected ?<FilterInterface> filter = null;
+    protected bool httpOnly = false;
+    protected string name;
+    protected array options = [];
+    protected string path = "/";
+    protected bool isRead = false;
+    protected bool isRestored = false;
+    protected bool secure = false;
     /**
      * The cookie's sign key.
-     *
-     * @var string|null
      */
-    protected signKey = null;
-
+    protected ?string signKey = null;
     /**
-     * @var mixed|null
+     * @var mixed
      */
     protected value = null;
 
     /**
      * Phalcon\Http\Cookie constructor.
+     *
+     * @phpstan-param http_cookie_options $options
      */
     public function __construct(
          string name,
@@ -130,23 +95,11 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
     }
 
     /**
-     * Deletes the cookie by setting an expire time in the past
+     * Deletes the cookie by setting an expiration time in the past
      */
-    public function delete()
+    public function delete() -> void
     {
-        var domain, httpOnly, name, options, path, secure, session;
-
-        /**
-         * The getters restore the definition stored in the session, so that a
-         * cookie that was not set in this request is expired with the same
-         * attributes it was originally sent with. A path or domain that does
-         * not match leaves the cookie in place.
-         */
-        let name     = this->name,
-            domain   = this->getDomain(),
-            path     = this->getPath(),
-            secure   = this->getSecure(),
-            httpOnly = this->getHttpOnly();
+        var options, session;
 
         let session = this->getStartedSession();
 
@@ -154,15 +107,10 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
             session->remove(this->getSessionKey());
         }
 
-        let this->value         = null,
-            options             = this->getOptions(),
-            options["expires"]  = this->getArrVal(options, "expires", time() - 691200),
-            options["domain"]   = this->getArrVal(options, "domain", domain),
-            options["path"]     = this->getArrVal(options, "path", path),
-            options["secure"]   = this->getArrVal(options, "secure", secure),
-            options["httponly"] = this->getArrVal(options, "httponly", httpOnly);
+        let this->value = null,
+            options     = this->getCookieOptions(time() - 691200);
 
-        setcookie(name, "", options);
+        setcookie(this->name, "", options);
     }
 
     /**
@@ -170,9 +118,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
      */
     public function getDomain() -> string
     {
-        if !this->isRestored {
-            this->restore();
-        }
+        this->checkRestored();
 
         return this->domain;
     }
@@ -182,9 +128,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
      */
     public function getExpiration() -> int
     {
-        if !this->isRestored {
-            this->restore();
-        }
+        this->checkRestored();
 
         return this->expire;
     }
@@ -194,9 +138,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
      */
     public function getHttpOnly() -> bool
     {
-        if !this->isRestored {
-            this->restore();
-        }
+        this->checkRestored();
 
         return this->httpOnly;
     }
@@ -211,6 +153,8 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
 
     /**
      * Returns the current cookie's options
+     *
+     * @phpstan-return http_cookie_options
      */
     public function getOptions() -> array
     {
@@ -222,9 +166,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
      */
     public function getPath() -> string
     {
-        if !this->isRestored {
-            this->restore();
-        }
+        this->checkRestored();
 
         return this->path;
     }
@@ -235,23 +177,21 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
      */
     public function getSecure() -> bool
     {
-        if !this->isRestored {
-            this->restore();
-        }
+        this->checkRestored();
 
         return this->secure;
     }
 
     /**
      * Returns the cookie's value.
+     *
+     * @todo filters needs to be array/string
      */
     public function getValue(var filters = null, var defaultValue = null) -> var
     {
         var container, value, crypt, decryptedValue, filter, signKey, name;
 
-        if !this->isRestored {
-            this->restore();
-        }
+        this->checkRestored();
 
         let container = null,
             name = this->name;
@@ -458,11 +398,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
         /**
          * Sets the cookie using the standard 'setcookie' function
          */
-        let options["expires"]  = this->getArrVal(options, "expires", expire),
-            options["domain"]   = this->getArrVal(options, "domain", domain),
-            options["path"]     = this->getArrVal(options, "path", path),
-            options["secure"]   = this->getArrVal(options, "secure", secure),
-            options["httponly"] = this->getArrVal(options, "httponly", httpOnly);
+        let options = this->getCookieOptions(this->expire);
 
         setcookie(name, encryptValue, options);
 
@@ -474,9 +410,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
      */
     public function setDomain( string domain) -> <CookieInterface>
     {
-        if !this->isRestored {
-            this->restore();
-        }
+        this->checkRestored();
 
         let this->domain = domain;
 
@@ -488,9 +422,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
      */
     public function setExpiration(int expire) -> <CookieInterface>
     {
-        if !this->isRestored {
-            this->restore();
-        }
+        this->checkRestored();
 
         let this->expire = expire;
 
@@ -502,9 +434,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
      */
     public function setHttpOnly(bool httpOnly) -> <CookieInterface>
     {
-        if !this->isRestored {
-            this->restore();
-        }
+        this->checkRestored();
 
         let this->httpOnly = httpOnly;
 
@@ -513,6 +443,8 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
 
     /**
      * Sets the cookie's options
+     *
+     * @phpstan-param http_cookie_options $options
      */
     public function setOptions( array options) -> <CookieInterface>
     {
@@ -526,9 +458,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
      */
     public function setPath( string path) -> <CookieInterface>
     {
-        if !this->isRestored {
-            this->restore();
-        }
+        this->checkRestored();
 
         let this->path = path;
 
@@ -536,13 +466,12 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
     }
 
     /**
-     * Sets if the cookie must only be sent when the connection is secure (HTTPS)
+     * Sets if the cookie must only be sent when the connection is secure
+     * (HTTPS)
      */
     public function setSecure(bool secure) -> <CookieInterface>
     {
-        if !this->isRestored {
-            this->restore();
-        }
+        this->checkRestored();
 
         let this->secure = secure;
 
@@ -558,7 +487,6 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
      * Use NULL to disable cookie signing.
      *
      * @see \Phalcon\Encryption\Security\Random
-     * @throws \Phalcon\Http\Cookie\Exception
      */
     public function setSignKey(string signKey = null) -> <CookieInterface>
     {
@@ -573,8 +501,6 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
 
     /**
      * Sets the cookie's value
-     *
-     * @param string value
      */
     public function setValue(value) -> <CookieInterface>
     {
@@ -608,6 +534,33 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
         if unlikely length < 32 {
             throw new CookieKeyTooShort(length);
         }
+    }
+
+    /**
+     * Check if the cookie is restored and restore it if not
+     */
+    private function checkRestored() -> void
+    {
+        if (true !== this->isRestored) {
+            this->restore();
+        }
+    }
+
+    /**
+     * @phpstan-return http_setcookie_options
+     */
+    private function getCookieOptions(int expiresDefault) -> array
+    {
+        array options;
+        
+        let options             = this->options;
+        let options["expires"]  = this->getArrVal(options, "expires", expiresDefault);
+        let options["domain"]   = this->getArrVal(options, "domain", this->domain);
+        let options["path"]     = this->getArrVal(options, "path", this->path);
+        let options["secure"]   = this->getArrVal(options, "secure", this->secure);
+        let options["httponly"] = this->getArrVal(options, "httponly", this->httpOnly);
+
+        return options;
     }
 
     /**

@@ -36,11 +36,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Str_ReduceSlashes)
 	return SUCCESS;
 }
 
-/**
- * @param string $text
- *
- * @return string
- */
 PHP_METHOD(Phalcon_Support_Helper_Str_ReduceSlashes, __invoke)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -63,7 +58,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_ReduceSlashes, __invoke)
 	ZVAL_STRING(&_0, "#(?<!:)//+#");
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "/");
-	ZEPHIR_CALL_FUNCTION(&result, "preg_replace", NULL, 90, &_0, &_1, &text_zv);
+	ZEPHIR_CALL_FUNCTION(&result, "preg_replace", NULL, 91, &_0, &_1, &text_zv);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_0);
 	if (Z_TYPE_P(&result) == IS_NULL) {

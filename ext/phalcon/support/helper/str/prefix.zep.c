@@ -28,6 +28,7 @@
  */
 /**
  * Prefixes the text with the supplied prefix
+ * @todo v7 make text string
  */
 ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Str_Prefix)
 {
@@ -37,10 +38,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Str_Prefix)
 }
 
 /**
- * @param mixed  $text
- * @param string $prefix
- *
- * @return string
+ * @param scalar|Stringable|null $text
  */
 PHP_METHOD(Phalcon_Support_Helper_Str_Prefix, __invoke)
 {

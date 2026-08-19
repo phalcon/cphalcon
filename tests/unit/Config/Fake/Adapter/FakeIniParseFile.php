@@ -32,7 +32,7 @@ class FakeIniParseFile extends Ini
         string $filename,
         bool $processSections = false,
         int $scannerMode = 0
-    ): array|false {
+    ): array | false {
         return false;
     }
 }

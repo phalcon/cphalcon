@@ -39,9 +39,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Arr_Split)
 }
 
 /**
- * @param array $collection
+ * @param array<array-key, mixed> $collection
  *
- * @return array
+ * @return array<array-key, mixed>
  */
 PHP_METHOD(Phalcon_Support_Helper_Arr_Split, __invoke)
 {

@@ -13,13 +13,15 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Support\Migrations;
 
+use Phalcon\Talon\Database\Schema\AbstractSchema;
+
 
 /**
  * Class SongsMigration
  */
-class SongsMigration extends AbstractMigration
+class SongsMigration extends AbstractSchema
 {
-    protected $table = 'songs';
+    protected string $table = 'songs';
     /**
      * @param int    $id
      * @param int    $albumsId
@@ -43,12 +45,9 @@ SQL;
 
         return $result;
     }
-    protected function getSqlMysql(): array
+    protected function getStatementsMysql(): array
     {
         return [
-            "
-drop table if exists `songs`;
-            ",
             "
 create table `songs`
 (
@@ -62,12 +61,9 @@ create index songs_albums_id_index on `songs` (`albums_id`);
             ",
         ];
     }
-    protected function getSqlSqlite(): array
+    protected function getStatementsSqlite(): array
     {
         return [
-            "
-drop table if exists songs;
-            ",
             "
 create table songs
 (
@@ -81,12 +77,9 @@ create index songs_albums_id_index on songs (albums_id);
             ",
         ];
     }
-    protected function getSqlPgsql(): array
+    protected function getStatementsPgsql(): array
     {
         return [
-            "
-drop table if exists songs;
-            ",
             "
 create table songs
 (
@@ -99,9 +92,5 @@ create table songs
 create index songs_albums_id_index on songs (albums_id);
             ",
         ];
-    }
-    protected function getSqlSqlsrv(): array
-    {
-        return [];
     }
 }

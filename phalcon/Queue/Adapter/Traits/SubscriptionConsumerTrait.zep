@@ -19,30 +19,29 @@
 
 namespace Phalcon\Queue\Adapter\Traits;
 
+use Phalcon\Contracts\Queue\QueueTypes;
+
 /**
  * Shared subscription-consumer implementation. Implements the round-robin poll
  * loop that dispatches each subscribed consumer's messages to its callback; a
  * callback returning false stops consumption. The loop relies only on the
  * consumer's `receiveNoWait()`, so it is transport-agnostic. Concrete adapters
  * keep just the constructor that captures their context and poll interval.
+ *
+ * @phpstan-import-type queue_subscriptions from QueueTypes
  */
 trait SubscriptionConsumerTrait
 {
     /**
      * Milliseconds slept between poll passes.
-     *
-     * @var int
      */
-    protected pollInterval = 200;
-
+    protected int pollInterval = 200;
     /**
      * Subscriptions keyed by queue name: [consumer, callback].
      *
-     * @var array
-     *
-     * @todo Use a default [] once Zephir supports array trait defaults
+     * @phpstan-var queue_subscriptions
      */
-    protected subscriptions = null;
+    protected array subscriptions = [];
 
     /**
      * Polls every subscription, dispatching each message to its callback,

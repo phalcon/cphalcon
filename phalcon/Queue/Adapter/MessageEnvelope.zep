@@ -20,6 +20,7 @@
 namespace Phalcon\Queue\Adapter;
 
 use Phalcon\Contracts\Queue\Message as MessageInterface;
+use Phalcon\Contracts\Queue\QueueTypes;
 
 /**
  * Encodes and decodes the {body, properties, headers} envelope shared by every
@@ -27,12 +28,18 @@ use Phalcon\Contracts\Queue\Message as MessageInterface;
  * Beanstalk). Centralizes the wire shape, the object-injection-safe
  * `allowed_classes => false` guard, and the missing-key defaults, so each
  * adapter only supplies its own concrete message factory around `decode()`.
+ *
+ * @phpstan-import-type queue_message_envelope from QueueTypes
+ * @phpstan-import-type queue_message_headers from QueueTypes
+ * @phpstan-import-type queue_message_properties from QueueTypes
  */
 class MessageEnvelope
 {
     /**
      * Decodes a serialized payload into a normalized {body, properties,
      * headers} array, or null when the payload is not a valid envelope.
+     *
+     * @phpstan-return queue_message_envelope|null
      */
     public static function decode(string payload) -> array | null
     {

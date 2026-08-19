@@ -13,12 +13,14 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Support\Migrations;
 
+use Phalcon\Talon\Database\Schema\AbstractSchema;
+
 /**
  * Class ObjectsMigration
  */
-class ObjectsMigration extends AbstractMigration
+class ObjectsMigration extends AbstractSchema
 {
-    protected $table = "objects";
+    protected string $table = "objects";
 
     /**
      * @param int    $id
@@ -49,12 +51,9 @@ SQL;
         return $result;
     }
 
-    protected function getSqlMysql(): array
+    protected function getStatementsMysql(): array
     {
         return [
-            "
-drop table if exists objects;
-            ",
             "
 create table objects
 (
@@ -67,12 +66,9 @@ create table objects
         ];
     }
 
-    protected function getSqlSqlite(): array
+    protected function getStatementsSqlite(): array
     {
         return [
-            "
-drop table if exists `objects`;
-            ",
             "
 create table objects
     (
@@ -84,12 +80,9 @@ create table objects
         ];
     }
 
-    protected function getSqlPgsql(): array
+    protected function getStatementsPgsql(): array
     {
         return [
-            "
-drop table if exists objects;
-            ",
             "
 create table objects
 (
@@ -99,10 +92,5 @@ create table objects
 );
             "
         ];
-    }
-
-    protected function getSqlSqlsrv(): array
-    {
-        return [];
     }
 }

@@ -102,6 +102,10 @@ final class InsertDefaultValuesTest extends AbstractDatabaseTestCase
         /** @var PDO $connection */
         $pdo             = self::getPdoConnection();
         $this->migration = new GeneratedColumnsMigration($pdo, false);
+
+        // Statement lists are creation-only now, so create() no longer drops
+        // first and the bulk schema load already made this table.
+        $this->migration->drop();
         $this->migration->create();
 
         $connection = $this->recordStatements();

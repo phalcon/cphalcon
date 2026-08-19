@@ -10,6 +10,7 @@
 
 namespace Phalcon\Http\Request;
 
+use Phalcon\Contracts\Http\HttpTypes;
 use Phalcon\Traits\Support\Helper\Arr\GetTrait;
 
 /**
@@ -34,53 +35,26 @@ use Phalcon\Traits\Support\Helper\Arr\GetTrait;
  *     }
  * }
  *```
+ *
+ * @phpstan-import-type http_uploaded_file from HttpTypes
  */
 class File implements FileInterface
 {
     use GetTrait;
 
-    /**
-     * @var int
-     */
-    protected error = 0;
+    protected int error = 0;
+    protected string extension = "";
+    protected string key = "";
+    protected string name = "";
+    protected string realType;
+    protected int size = 0;
+    protected string tmpName = "";
+    protected string type = "";
 
     /**
-     * @var string
-     */
-    protected extension = "";
-
-    /**
-     * @var string
-     */
-    protected key = "";
-
-    /**
-     * @var string
-     */
-    protected name = "";
-
-    /**
-     * @var string
-     */
-    protected realType;
-
-    /**
-     * @var int
-     */
-    protected size = 0;
-
-    /**
-     * @var string
-     */
-    protected tmpName = "";
-
-    /**
-     * @var string
-     */
-    protected type = "";
-
-    /**
-     * Phalcon\Http\Request\File constructor
+     * Constructor
+     *
+     * @phpstan-param http_uploaded_file $file
      */
     public function __construct( array file, string key = "")
     {
@@ -104,25 +78,16 @@ class File implements FileInterface
         }
     }
 
-    /**
-     * @return int
-     */
     public function getError() -> int
     {
         return this->error;
     }
 
-    /**
-     * @return string
-     */
     public function getExtension() -> string
     {
         return this->extension;
     }
 
-    /**
-     * @return string
-     */
     public function getKey() -> string
     {
         return this->key;
@@ -138,8 +103,6 @@ class File implements FileInterface
 
     /**
      * Gets the real mime type of the upload file using finfo
-     *
-     * @return string
      */
     public function getRealType() -> string
     {
@@ -151,7 +114,9 @@ class File implements FileInterface
             if finfo !== false {
                 let mime = finfo_file(finfo, this->tmpName);
 
-                let this->realType = mime;
+                if mime !== false {
+                    let this->realType = mime;
+                }
             }
         }
 

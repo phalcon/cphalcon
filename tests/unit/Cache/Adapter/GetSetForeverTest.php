@@ -23,14 +23,19 @@ use Phalcon\Cache\Adapter\Weak;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Talon\Talon;
-use PHPUnit\Framework\Attributes\DataProvider;
 use stdClass;
 
+use function extension_loaded;
+use function sleep;
 use function uniqid;
 
 final class GetSetForeverTest extends AbstractUnitTestCase
 {
     /**
+     * Adapters, their options, the extension they need and whether they honor
+     * a TTL. Memory keeps entries for the life of the process, so there is no
+     * expiring key to contrast a "forever" one against.
+     *
      * @return array[]
      */
     public static function getExamples(): array
@@ -40,6 +45,7 @@ final class GetSetForeverTest extends AbstractUnitTestCase
                 Apcu::class,
                 [],
                 'apcu',
+                true,
             ],
             [
                 Libmemcached::class,
@@ -50,21 +56,25 @@ final class GetSetForeverTest extends AbstractUnitTestCase
                     ]
                 ],
                 'memcached',
+                true,
             ],
             [
                 Memory::class,
                 [],
                 '',
+                false,
             ],
             [
                 Redis::class,
                 Talon::settings()->getServiceOptions('redis'),
                 'redis',
+                true,
             ],
             [
                 RedisCluster::class,
                 Talon::settings()->getServiceOptions('redisCluster'),
                 'redis',
+                true,
             ],
             [
                 Stream::class,
@@ -72,41 +82,61 @@ final class GetSetForeverTest extends AbstractUnitTestCase
                     'storageDir' => Talon::settings()->outputPath() . '/',
                 ],
                 '',
+                true,
             ],
         ];
     }
 
     /**
+     * Every adapter is primed first, then a single wait covers all of them.
+     * Each adapter that honors a TTL also stores a key that expires during
+     * that wait, so the surviving "forever" key is shown to have outlived an
+     * entry that did expire.
+     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
-    #[DataProvider('getExamples')]
-    public function testCacheAdapterGetSetForever(
-        string $class,
-        array $options,
-        string $extension
-    ): void {
-        if (!empty($extension)) {
-            $this->checkExtensionIsLoaded($extension);
+    public function testCacheAdapterGetSetForever(): void
+    {
+        $serializer = new SerializerFactory();
+        $primed     = [];
+
+        foreach (self::getExamples() as [$class, $options, $extension, $honorsTtl]) {
+            if (!empty($extension) && !extension_loaded($extension)) {
+                continue;
+            }
+
+            $adapter    = new $class($serializer, $options);
+            $foreverKey = uniqid();
+            $shortKey   = uniqid();
+
+            $this->assertTrue($adapter->setForever($foreverKey, "test"), $class);
+
+            if ($honorsTtl) {
+                $this->assertTrue($adapter->set($shortKey, "test", 1), $class);
+            }
+
+            $primed[] = [$class, $adapter, $foreverKey, $shortKey, $honorsTtl];
         }
 
-        $serializer = new SerializerFactory();
-        $adapter    = new $class($serializer, $options);
-
-        $key = uniqid();
-
-        $result = $adapter->setForever($key, "test");
-        $this->assertTrue($result);
+        if ([] === $primed) {
+            $this->markTestSkipped('No cache adapters available');
+        }
 
         sleep(2);
-        $result = $adapter->has($key);
-        $this->assertTrue($result);
 
-        /**
-         * Delete it
-         */
-        $result = $adapter->delete($key);
-        $this->assertTrue($result);
+        foreach ($primed as [$class, $adapter, $foreverKey, $shortKey, $honorsTtl]) {
+            if ($honorsTtl) {
+                $this->assertFalse($adapter->has($shortKey), $class);
+            }
+
+            $this->assertTrue($adapter->has($foreverKey), $class);
+
+            /**
+             * Delete it
+             */
+            $this->assertTrue($adapter->delete($foreverKey), $class);
+        }
     }
 
     /**
@@ -124,7 +154,6 @@ final class GetSetForeverTest extends AbstractUnitTestCase
         $this->assertFalse($result);
         $result = $adapter->setForever($key, $obj);
         $this->assertTrue($result);
-        sleep(2);
         $result = $adapter->has($key);
         $this->assertTrue($result);
         /**

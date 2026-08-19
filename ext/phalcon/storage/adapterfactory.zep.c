@@ -27,19 +27,27 @@
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+/**
+ * @phpstan-import-type storage_options from StorageTypes
+ * @phpstan-import-type storage_services from StorageTypes
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Storage_AdapterFactory)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Storage, AdapterFactory, phalcon, storage_adapterfactory, phalcon_factory_abstractfactory_ce, phalcon_storage_adapterfactory_method_entry, 0);
 
-	/**
-	 * @var SerializerFactory
-	 */
-	zend_declare_property_null(phalcon_storage_adapterfactory_ce, SL("serializerFactory"), ZEND_ACC_PRIVATE);
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_storage_adapterfactory_ce, SL("serializerFactory"), &_zc0, ZEND_ACC_PRIVATE, 0, SL("Phalcon\\Storage\\SerializerFactory"));
+	}
+
 	return SUCCESS;
 }
 
 /**
  * AdapterFactory constructor.
+ *
+ * @param string[] $services
  */
 PHP_METHOD(Phalcon_Storage_AdapterFactory, __construct)
 {
@@ -70,7 +78,7 @@ PHP_METHOD(Phalcon_Storage_AdapterFactory, __construct)
 	} else {
 		zephir_get_arrval(&services, services_param);
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1317, factory);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1332, factory);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "init", NULL, 0, &services);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
@@ -79,7 +87,7 @@ PHP_METHOD(Phalcon_Storage_AdapterFactory, __construct)
 /**
  * Create a new instance of the adapter
  *
- * @param array options = [
+ * @param array $options = [
  *     'servers' => [
  *         [
  *             'host' => '127.0.0.1',
@@ -100,8 +108,10 @@ PHP_METHOD(Phalcon_Storage_AdapterFactory, __construct)
  *     'storageDir' => '',
  * ]
  *
+ * @phpstan-param storage_options $options
+ *
  * @return AdapterInterface
- * @throws Exception
+ * @throws BaseException
  */
 PHP_METHOD(Phalcon_Storage_AdapterFactory, newInstance)
 {
@@ -145,7 +155,7 @@ PHP_METHOD(Phalcon_Storage_AdapterFactory, newInstance)
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_create_array(&_0, 2, 0);
 	zephir_memory_observe(&_1);
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 1317, PH_NOISY_CC);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 1332, PH_NOISY_CC);
 	zephir_array_fast_append(&_0, &_1);
 	zephir_array_fast_append(&_0, &options);
 	ZEPHIR_LAST_CALL_STATUS = zephir_create_instance_params(return_value, &definition, &_0);
@@ -154,7 +164,7 @@ PHP_METHOD(Phalcon_Storage_AdapterFactory, newInstance)
 }
 
 /**
- * @return string
+ * @return class-string<Throwable>
  */
 PHP_METHOD(Phalcon_Storage_AdapterFactory, getExceptionClass)
 {
@@ -166,6 +176,8 @@ PHP_METHOD(Phalcon_Storage_AdapterFactory, getExceptionClass)
  * Returns the available adapters
  *
  * @return string[]
+ *
+ * @phpstan-return storage_services
  */
 PHP_METHOD(Phalcon_Storage_AdapterFactory, getServices)
 {

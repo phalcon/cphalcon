@@ -2,12 +2,44 @@
 
 All notable changes are documented here. The format is based on [Keep a Changelog][keep_a_changelog] and this project adheres to [Semantic Versioning][semantic_versioning].
 
+## [5.19.0](https://github.com/phalcon/cphalcon/releases/tag/v5.19.0) (2026-08-19)
+
+### Tools
+
+- Zephir 1.2.0 (a09648c)
+
+### Changed
+
+- Changed `Phalcon\Filter\Validation\Validator\Callback` to stop binding the callback closure to the validator; to set the message from inside the callback ([#17255](https://github.com/phalcon/cphalcon/issues/17255)), declare a second parameter and call `$validator->setTemplate()` instead of `$this->setTemplate()` [#17499](https://github.com/phalcon/cphalcon/issues/17499) [[doc]](https://docs.phalcon.io/5.19/filter-validation/)
+- Changed `Phalcon\Filter\Validation\Validator\StringLength`, `Phalcon\Filter\Validation\Validator\StringLength\Min` and `Phalcon\Filter\Validation\Validator\StringLength\Max` to treat `min` and `max` as inclusive when the `included` option is not set, matching the class documentation and the behavior before 5.7.0; set `included` to `false` for exclusive boundaries [#17503](https://github.com/phalcon/cphalcon/issues/17503) [[doc]](https://docs.phalcon.io/5.19/filter-validation/)
+
+### Added
+
+- Added `includedMinimum` and `includedMaximum` as aliases of the `included` option in `Phalcon\Filter\Validation\Validator\StringLength\Min` and `Phalcon\Filter\Validation\Validator\StringLength\Max`, so the option names of the `StringLength` container also work on the two validators directly. `included` has precedence if you set both [#17503](https://github.com/phalcon/cphalcon/issues/17503) [[doc]](https://docs.phalcon.io/5.19/filter-validation/)
+- Added lifecycle events to the DataMapper connections, fired through `Phalcon\Events\Manager` and named on the new `Phalcon\DataMapper\Pdo\Events` class: `dm:beforeConnect`/`dm:afterConnect`, `dm:beforeDisconnect`/`dm:afterDisconnect`, `dm:beforePerform`/`dm:afterPerform`, `dm:beforeExec`/`dm:afterExec`, `dm:beforeQuery`/`dm:afterQuery`, `dm:beforeBeginTransaction`/`dm:afterBeginTransaction`, `dm:beforeCommit`/`dm:afterCommit`, `dm:beforeRollBack`/`dm:afterRollBack` and `dm:connectionLost`. `prepare()` has no events of its own because `perform()` calls it, which would report one operation twice. The connect, disconnect and connectionLost events report a change of the connection state and fire whichever method causes it, so an automatic reconnect reports the lost connection and the new one. `Phalcon\DataMapper\Pdo\Connection\Decorated` does not fire the connect and disconnect events because it never connects and cannot disconnect. [#17501](https://github.com/phalcon/cphalcon/issues/17501) [[doc]](https://docs.phalcon.io/5.19/datamapper/)
+- Added `getEventsManager()` and `setEventsManager()` to `Phalcon\DataMapper\Pdo\Connection\AbstractConnection`, and therefore to `Phalcon\DataMapper\Pdo\Connection` and `Phalcon\DataMapper\Pdo\Connection\Decorated`, and to `Phalcon\DataMapper\Pdo\ConnectionLocator`, which gives its events manager to every connection it returns, including the ones it builds on demand. The two classes now carry the `Phalcon\Contracts\Events\EventsAware` contract. `Phalcon\DataMapper\Pdo\Connection\ConnectionInterface` is unchanged, so classes that implement it directly keep working [#17501](https://github.com/phalcon/cphalcon/issues/17501) [[doc]](https://docs.phalcon.io/5.19/datamapper/)
+- Added `Phalcon\DataMapper\Pdo\Exception\OperationCancelled`, thrown when a listener cancels one of the `before*` events. The operation does not run. To cancel, a listener must call `$event->stop()` and also return `false`: `stop()` alone returns the value of the listener, which the connection cannot tell apart from "no listeners", and `false` alone is replaced by any later listener that returns a value while the events manager is not in `stopOnFalse` mode. The `after*` events are not cancellable [#17501](https://github.com/phalcon/cphalcon/issues/17501) [[doc]](https://docs.phalcon.io/5.19/datamapper/)
+
+### Fixed
+
+- Fixed `Phalcon\Filter\Validation\Validator\Callback` rebinding `$this` in callback closures; the validator is now passed as a second argument to closures that declare one [#17499](https://github.com/phalcon/cphalcon/issues/17499) [[doc]](https://docs.phalcon.io/5.19/filter-validation/)
+- Fixed `Phalcon\Filter\Validation\Validator\StringLength\Min` and `Phalcon\Filter\Validation\Validator\StringLength\Max` rejecting a string with a length exactly equal to `min` or `max` when the `included` option was not set, a regression introduced in 5.7.0 [#17503](https://github.com/phalcon/cphalcon/issues/17503) [[doc]](https://docs.phalcon.io/5.19/filter-validation/)
+- Fixed `Phalcon\Filter\Validation\Validator\StringLength` giving the `includedMinimum`/`includedMaximum` and `messageMinimum`/`messageMaximum` option of one boundary to the validator of the other boundary [#17503](https://github.com/phalcon/cphalcon/issues/17503) [[doc]](https://docs.phalcon.io/5.19/filter-validation/)
+- Fixed `Phalcon\Html\Helper\Input\Generic`, `Phalcon\Html\Helper\Input\Checkbox` and `Phalcon\Html\Helper\Input\Radio` throwing an error when you build them directly without a `Phalcon\Html\Helper\Doctype`. [#17507](https://github.com/phalcon/cphalcon/issues/17507) [[doc]](https://docs.phalcon.io/5.19/html-tagfactory/)
+- Fixed `Phalcon\Image\Adapter\Imagick::processReflection()` applying the reflection to the first frame only of a multi-frame image, because the first two loops changed the `reflection` clone but moved the frame cursor of `this->image` [#17510](https://github.com/phalcon/cphalcon/issues/17510) [[doc]](https://docs.phalcon.io/5.19/image/)
+- Fixed `Phalcon\Image\Adapter\Imagick::background()`, `reflection()`, `text()` and `watermark()` discarding any opacity below 100, and `sharpen()` rounding its amount down, because the division by 100 was stored back in the integer parameter; `watermark()` left the image unchanged for every opacity except 100 [#17510](https://github.com/phalcon/cphalcon/issues/17510) [[doc]](https://docs.phalcon.io/5.19/image/)
+- Fixed `Phalcon\Image\Adapter\Imagick` never coalescing the frames of a GIF, because the constructor compared `getImageType()`, an Imagick `IMGTYPE_*` value, against `IMAGETYPE_GIF`; the width and the height of an animated GIF now describe the canvas instead of whichever sub frame the cursor was on [#17510](https://github.com/phalcon/cphalcon/issues/17510) [[doc]](https://docs.phalcon.io/5.19/image/)
+- Fixed `Phalcon\Image\Adapter\Imagick::render()` returning the current frame alone for a GIF, and `save()` failing with `no encode delegate for this image format` after an operation that rebuilds the image; both now mark every frame with the format, which `setImageFormat()` applies to the current frame only [#17510](https://github.com/phalcon/cphalcon/issues/17510) [[doc]](https://docs.phalcon.io/5.19/image/)
+
+### Removed
+
+
 ## [5.18.2](https://github.com/phalcon/cphalcon/releases/tag/v5.18.2) (2026-08-03)
 
 ### Tools
 
 - Zephir 1.2.0 (83d8f68)
- 
+
 ### Changed
 
 - Changed the distribution tarball to ship the generated `ext/` sources again, so downstream packagers can build from them. Only tests, Zephir sources, CI and tooling stay excluded. [#17478](https://github.com/phalcon/cphalcon/issues/17478)
@@ -24,7 +56,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 ### Tools
 
 - Zephir 1.2.0 (83d8f68)
- 
+
 ### Changed
 
 ### Added
@@ -43,7 +75,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 ### Tools
 
 - Zephir 1.2.0 (83d8f68)
- 
+
 ### Changed
 
 - Changed `Phalcon\ADR\Application` into a self-contained composition root: it owns (or accepts) a `Phalcon\Container\Container` and exposes a small registration surface - `bind()`, `define()`, `factory()`, `set()`, `extend()` and `getContainer()` - plus `setBaseNamespace()` and `secureWith()` for convention-router and namespace-prefix guard configuration. `Phalcon\ADR\Front\AbstractHttpFront` gained a protected `getApplication()` hook returning `Phalcon\Contracts\ADR\Application`, so a front controller can configure the application or wire a different implementation. [#17389](https://github.com/phalcon/cphalcon/issues/17389) [[doc]](https://docs.phalcon.io/5.18/adr/)
@@ -105,7 +137,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 ### Tools
 
 - Zephir 1.1.0 (80d17e6a0)
- 
+
 ### Changed
 
 - Changed `Phalcon\Acl\Adapter\Memory` so a freshly constructed adapter returns an empty array instead of `null` from `getRoles()`, `getComponents()` and `getInheritedRoles()`. [#17220](https://github.com/phalcon/cphalcon/issues/17220) [[doc]](https://docs.phalcon.io/5.17/acl/)

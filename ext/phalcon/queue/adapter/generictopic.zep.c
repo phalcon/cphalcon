@@ -41,10 +41,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_GenericTopic)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Queue\\Adapter, GenericTopic, phalcon, queue_adapter_generictopic, phalcon_queue_adapter_generictopic_method_entry, 0);
 
-	/**
-	 * @var string
-	 */
-	zend_declare_property_string(phalcon_queue_adapter_generictopic_ce, SL("topicName"), "", ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_STRINGL(&_zc0, "", sizeof("") - 1);
+		zephir_declare_typed_property(phalcon_queue_adapter_generictopic_ce, SL("topicName"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
+
 	zend_class_implements(phalcon_queue_adapter_generictopic_ce, 1, phalcon_contracts_queue_topic_ce);
 	return SUCCESS;
 }
@@ -68,7 +70,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_GenericTopic, __construct)
 		Z_PARAM_STR(topicName)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&topicName_zv, topicName);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1250, &topicName_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1265, &topicName_zv);
 }
 
 /**

@@ -32,15 +32,8 @@ class Worker
 {
     use InfoTrait;
 
-    /**
-     * @var QueueConsumer
-     */
-    protected consumer;
-
-    /**
-     * @var WorkerOptions
-     */
-    protected options;
+    protected <QueueConsumer> consumer;
+    protected <WorkerOptions> options;
 
     public function __construct(<QueueConsumer> consumer, <WorkerOptions> options = null)
     {
@@ -97,12 +90,10 @@ class Worker
                 break;
             }
 
-            if this->consumer->consumeOnce() {
-                let processed++;
+            let processed += this->consumer->consumeOnce();
 
-                if maxMessages > 0 && processed >= maxMessages {
-                    break;
-                }
+            if maxMessages > 0 && processed >= maxMessages {
+                break;
             }
 
             if deadline > 0 && time() >= deadline {

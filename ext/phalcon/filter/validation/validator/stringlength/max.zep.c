@@ -33,6 +33,11 @@
  * The test is passed if for a string's length L, L<=max, i.e. L must
  * be at most max.
  *
+ * The "included" option is true by default. Set the option to false
+ * for L<max, i.e. L must be less than max. The "includedMaximum" option
+ * is an alias of "included". If you set the two options, "included" has
+ * precedence.
+ *
  * ```php
  * use Phalcon\Filter\Validation;
  * use Phalcon\Filter\Validation\Validator\StringLength\Max;
@@ -90,7 +95,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Validation_Validator_StringLength_Max)
  *     'template' => '',
  *     'allowEmpty' => false,
  *     'max' => 1000,
- *     'included' => false
+ *     'included' => true,
+ *     'includedMaximum' => true
  * ]
  */
 PHP_METHOD(Phalcon_Filter_Validation_Validator_StringLength_Max, __construct)
@@ -124,12 +130,12 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_StringLength_Max, __construct)
  */
 PHP_METHOD(Phalcon_Filter_Validation_Validator_StringLength_Max, validate)
 {
-	double _7$$7, _8$$8;
+	double _11$$9, _12$$10;
 	zval _3$$4, _4$$5;
 	zend_bool failed = 0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *validation, validation_sub, *field, field_sub, included, length, maximum, replacePairs, value, _0, _1, _2, _5$$6, _6$$7, _9$$11;
+	zval *validation, validation_sub, *field, field_sub, included, length, maximum, replacePairs, value, _0, _1, _2, _6, _7, _5$$6, _8$$7, _9$$8, _10$$9, _13$$13;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&validation_sub);
@@ -142,9 +148,13 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_StringLength_Max, validate)
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_6);
+	ZVAL_UNDEF(&_7);
 	ZVAL_UNDEF(&_5$$6);
-	ZVAL_UNDEF(&_6$$7);
-	ZVAL_UNDEF(&_9$$11);
+	ZVAL_UNDEF(&_8$$7);
+	ZVAL_UNDEF(&_9$$8);
+	ZVAL_UNDEF(&_10$$9);
+	ZVAL_UNDEF(&_13$$13);
 	ZVAL_UNDEF(&_3$$4);
 	ZVAL_UNDEF(&_4$$5);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
@@ -179,23 +189,42 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_StringLength_Max, validate)
 	ZEPHIR_CALL_METHOD(&maximum, this_ptr, "getoption", NULL, 0, &_2);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&maximum) == IS_ARRAY) {
-		zephir_array_fetch(&_5$$6, &maximum, field, PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/StringLength/Max.zep", 109);
+		zephir_array_fetch(&_5$$6, &maximum, field, PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/StringLength/Max.zep", 115);
 		ZEPHIR_CPY_WRT(&maximum, &_5$$6);
 	}
+	ZEPHIR_INIT_VAR(&included);
+	ZVAL_BOOL(&included, 1);
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "included");
-	ZEPHIR_CALL_METHOD(&included, this_ptr, "getoption", NULL, 0, &_2);
+	ZEPHIR_CALL_METHOD(&_6, this_ptr, "hasoption", NULL, 0, &_2);
 	zephir_check_call_status();
-	if (Z_TYPE_P(&included) == IS_ARRAY) {
-		zephir_memory_observe(&_6$$7);
-		zephir_array_fetch(&_6$$7, &included, field, PH_NOISY, "phalcon/Filter/Validation/Validator/StringLength/Max.zep", 115);
-		_7$$7 = zephir_get_boolval(&_6$$7);
-		ZEPHIR_INIT_NVAR(&included);
-		ZVAL_BOOL(&included, _7$$7);
+	if (zephir_is_true(&_6)) {
+		ZEPHIR_INIT_VAR(&_8$$7);
+		ZVAL_STRING(&_8$$7, "included");
+		ZEPHIR_CALL_METHOD(&included, this_ptr, "getoption", NULL, 0, &_8$$7);
+		zephir_check_call_status();
 	} else {
-		_8$$8 = zephir_get_boolval(&included);
+		ZEPHIR_INIT_NVAR(&_2);
+		ZVAL_STRING(&_2, "includedMaximum");
+		ZEPHIR_CALL_METHOD(&_7, this_ptr, "hasoption", NULL, 0, &_2);
+		zephir_check_call_status();
+		if (zephir_is_true(&_7)) {
+			ZEPHIR_INIT_VAR(&_9$$8);
+			ZVAL_STRING(&_9$$8, "includedMaximum");
+			ZEPHIR_CALL_METHOD(&included, this_ptr, "getoption", NULL, 0, &_9$$8);
+			zephir_check_call_status();
+		}
+	}
+	if (Z_TYPE_P(&included) == IS_ARRAY) {
+		zephir_memory_observe(&_10$$9);
+		zephir_array_fetch(&_10$$9, &included, field, PH_NOISY, "phalcon/Filter/Validation/Validator/StringLength/Max.zep", 130);
+		_11$$9 = zephir_get_boolval(&_10$$9);
 		ZEPHIR_INIT_NVAR(&included);
-		ZVAL_BOOL(&included, _8$$8);
+		ZVAL_BOOL(&included, _11$$9);
+	} else {
+		_12$$10 = zephir_get_boolval(&included);
+		ZEPHIR_INIT_NVAR(&included);
+		ZVAL_BOOL(&included, _12$$10);
 	}
 	if (zephir_is_true(&included)) {
 		failed = ZEPHIR_GT(&length, &maximum);
@@ -206,9 +235,9 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_StringLength_Max, validate)
 		ZEPHIR_INIT_VAR(&replacePairs);
 		zephir_create_array(&replacePairs, 1, 0);
 		zephir_array_update_string(&replacePairs, SL(":max"), &maximum, PH_COPY | PH_SEPARATE);
-		ZEPHIR_CALL_METHOD(&_9$$11, this_ptr, "messagefactory", NULL, 0, validation, field, &replacePairs);
+		ZEPHIR_CALL_METHOD(&_13$$13, this_ptr, "messagefactory", NULL, 0, validation, field, &replacePairs);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_9$$11);
+		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_13$$13);
 		zephir_check_call_status();
 		RETURN_MM_BOOL(0);
 	}
@@ -239,7 +268,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_StringLength_Max, phpExtensionLoa
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
-	ZEPHIR_RETURN_CALL_FUNCTION("extension_loaded", NULL, 454, &name_zv);
+	ZEPHIR_RETURN_CALL_FUNCTION("extension_loaded", NULL, 459, &name_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }

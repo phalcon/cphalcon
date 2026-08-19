@@ -20,7 +20,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisContext, now);
 PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisContext, promote);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_queue_adapter_redis_rediscontext___construct, 0, 0, 1)
-	ZEND_ARG_INFO(0, redis)
+	ZEND_ARG_OBJ_INFO(0, redis, Redis, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, prefix, IS_STRING, 0, "'phalcon_queue:'")
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, pollInterval, IS_LONG, 0, "200")
 ZEND_END_ARG_INFO()

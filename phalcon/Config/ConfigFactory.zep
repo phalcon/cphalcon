@@ -60,7 +60,7 @@ class ConfigFactory extends AbstractFactory
      * @return ConfigInterface
      * @throws Exception
      */
-    public function load(config) -> <ConfigInterface>
+    public function load(var config) -> <ConfigInterface>
     {
         var adapter, aliases, configArray, filePath, param, spec;
 

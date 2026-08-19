@@ -17,52 +17,31 @@ interface HeadersInterface
 {
     /**
      * Gets a header value from the internal bag
-     *
-     * @param string $name
-     *
-     * @return string|bool|null
      */
-    public function get(string name) -> string | bool | null;
+    public function get(string name) -> bool | string | null;
 
     /**
      * Checks if a header exists
-     *
-     * @param string $name
-     *
-     * @return bool
      */
     public function has(string name) -> bool;
 
     /**
      * Reset set headers
-     *
-     * @return void
      */
     public function reset() -> void;
 
     /**
      * Sends the headers to the client
-     *
-     * @return bool
      */
     public function send() -> bool;
 
     /**
      * Sets a header to be sent at the end of the request
-     *
-     * @param string $name
-     * @param string $value
-     *
-     * @return HeadersInterface
      */
     public function set(string name, string value) -> <HeadersInterface>;
 
     /**
      * Sets a raw header to be sent at the end of the request
-     *
-     * @param string $header
-     *
-     * @return HeadersInterface
      */
     public function setRaw(string header) -> <HeadersInterface>;
 }

@@ -13,14 +13,15 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Support\Migrations;
 
-class StringFieldMigration extends AbstractMigration
-{
-    protected $table = 'table_with_string_field';
+use Phalcon\Talon\Database\Schema\AbstractSchema;
 
-    protected function getSqlMysql(): array
+class StringFieldMigration extends AbstractSchema
+{
+    protected string $table = 'table_with_string_field';
+
+    protected function getStatementsMysql(): array
     {
         return [
-            "drop table if exists `table_with_string_field`;",
             "create table `table_with_string_field`
             (
                 `id`    int(10) unsigned not null auto_increment primary key,
@@ -29,10 +30,9 @@ class StringFieldMigration extends AbstractMigration
         ];
     }
 
-    protected function getSqlSqlite(): array
+    protected function getStatementsSqlite(): array
     {
         return [
-            "drop table if exists table_with_string_field;",
             "create table table_with_string_field
             (
                 id    integer constraint table_with_string_field_pk primary key autoincrement not null,
@@ -41,20 +41,14 @@ class StringFieldMigration extends AbstractMigration
         ];
     }
 
-    protected function getSqlPgsql(): array
+    protected function getStatementsPgsql(): array
     {
         return [
-            "drop table if exists table_with_string_field;",
             "create table table_with_string_field
             (
                 id    serial       constraint table_with_string_field_pk primary key,
                 field varchar(255) not null
             );",
         ];
-    }
-
-    protected function getSqlSqlsrv(): array
-    {
-        return [];
     }
 }

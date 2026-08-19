@@ -84,7 +84,7 @@ final class FakeRequest implements RequestInterface
         throw new \LogicException('not implemented in test fake');
     }
 
-    public function getClientAddress(bool $trustForwardedHeader = false): string|bool
+    public function getClientAddress(bool $trustForwardedHeader = false): bool | string
     {
         throw new \LogicException('not implemented in test fake');
     }
@@ -124,7 +124,7 @@ final class FakeRequest implements RequestInterface
         throw new \LogicException('not implemented in test fake');
     }
 
-    public function getJsonRawBody(bool $associative = false): \stdClass|array|bool
+    public function getJsonRawBody(bool $associative = false): array | bool | \stdClass
     {
         throw new \LogicException('not implemented in test fake');
     }

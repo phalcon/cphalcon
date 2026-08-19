@@ -10,6 +10,7 @@
 
 namespace Phalcon\Image\Adapter;
 
+use Phalcon\Contracts\Image\ImageTypes;
 use Phalcon\Image\Enum;
 use Phalcon\Image\Exception;
 use Phalcon\Image\Exceptions\InvalidColor;
@@ -19,61 +20,43 @@ use Phalcon\Image\Exceptions\MissingWidth;
 
 /**
  * All image adapters must use this class
+ *
+ * @template TImage of object
+ *
+ * @phpstan-import-type image_channel from ImageTypes
+ * @phpstan-import-type image_color_channels from ImageTypes
  */
 abstract class AbstractAdapter implements AdapterInterface
 {
-    /**
-     * @var string
-     */
-    protected file;
+    protected string file;
+    protected int height;
 
     /**
-     * Image height
+     * The handle of the underlying backend. Every adapter assigns it in its
+     * constructor and releases it in its destructor.
      *
-     * @var int
-     */
-    protected height;
-
-    /**
-     * @var mixed|null
+     * @var TImage|null
      */
     protected image = null;
-
-    /**
-     * Image mime type
-     *
-     * @var string
-     */
-    protected mime;
-
-    /**
-     * @var string
-     */
-    protected realpath;
+    protected string mime;
+    protected string realpath;
 
     /**
      * Image type
      *
      * Driver dependent
-     *
-     * @var int
      */
-    protected type;
+    protected int type;
 
     /**
      * Image width
-     *
-     * @var int
      */
-    protected width;
+    protected int width;
 
     /**
      * Set the background color of an image
      *
-     * @param string $color
-     * @param int    $opacity
-     *
-     * @return AdapterInterface
+     * @throws Exception
      */
     public function background(
         string color,
@@ -90,10 +73,6 @@ abstract class AbstractAdapter implements AdapterInterface
 
     /**
      * Blur image
-     *
-     * @param int $radius
-     *
-     * @return AdapterInterface
      */
     public function blur(int radius) -> <AdapterInterface>
     {
@@ -106,13 +85,6 @@ abstract class AbstractAdapter implements AdapterInterface
 
     /**
      * Crop an image to the given size
-     *
-     * @param int      $width
-     * @param int      $height
-     * @param int|null $offsetX
-     * @param int|null $offsetY
-     *
-     * @return AdapterInterface
      */
     public function crop(
         int width,
@@ -157,10 +129,6 @@ abstract class AbstractAdapter implements AdapterInterface
 
     /**
      * Flip the image along the horizontal or vertical axis
-     *
-     * @param int $direction
-     *
-     * @return AdapterInterface
      */
     public function flip(int direction) -> <AdapterInterface>
     {
@@ -173,49 +141,34 @@ abstract class AbstractAdapter implements AdapterInterface
         return this;
     }
 
-    /**
-     * @return int
-     */
     public function getHeight() -> int
     {
         return this->height;
     }
 
     /**
-     * @return object|null
+     * @return TImage|null
      */
     public function getImage()
     {
         return this->image;
     }
 
-    /**
-     * @return string
-     */
     public function getMime() -> string
     {
         return this->mime;
     }
 
-    /**
-     * @return string
-     */
     public function getRealpath() -> string
     {
         return this->realpath;
     }
 
-    /**
-     * @return int
-     */
     public function getType() -> int
     {
         return this->type;
     }
 
-    /**
-     * @return int
-     */
     public function getWidth() -> int
     {
         return this->width;
@@ -228,10 +181,6 @@ abstract class AbstractAdapter implements AdapterInterface
      * internal handle, so a mask created with a different backend composites
      * correctly. The cost is one encode/decode round trip per call, which is
      * worth knowing inside loops.
-     *
-     * @param AdapterInterface $mask
-     *
-     * @return AdapterInterface
      */
     public function mask(<AdapterInterface> mask) -> <AdapterInterface>
     {
@@ -242,10 +191,6 @@ abstract class AbstractAdapter implements AdapterInterface
 
     /**
      * Pixelate image
-     *
-     * @param int $amount
-     *
-     * @return AdapterInterface
      */
     public function pixelate(int amount) -> <AdapterInterface>
     {
@@ -260,12 +205,6 @@ abstract class AbstractAdapter implements AdapterInterface
 
     /**
      * Add a reflection to an image
-     *
-     * @param int  $height
-     * @param int  $opacity
-     * @param bool $fadeIn
-     *
-     * @return AdapterInterface
      */
     public function reflection(
         int height,
@@ -286,13 +225,12 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
      * Render the image and return the binary string
      *
-     * @param string|null $extension
-     * @param int         $quality
-     *
-     * @return string
+     * @throws Exception
      */
     public function render(string extension = null, int quality = 100) -> string
     {
+        var rendered;
+
         if (null === extension) {
             let extension = (string) pathinfo(this->file, PATHINFO_EXTENSION);
         }
@@ -303,17 +241,15 @@ abstract class AbstractAdapter implements AdapterInterface
 
         let quality = this->checkHighLow(quality, 1);
 
-        return this->processRender(extension, quality);
+        /** @var string $rendered */
+        let rendered = this->processRender(extension, quality);
+
+        return rendered;
     }
 
     /**
      * Resize the image to the given size
      *
-     * @param int|null $width
-     * @param int|null $height
-     * @param int      $master
-     *
-     * @return AdapterInterface
      * @throws Exception
      */
     public function resize(
@@ -323,35 +259,10 @@ abstract class AbstractAdapter implements AdapterInterface
     ) -> <AdapterInterface> {
         var ratio;
 
-        switch (master) {
-            case Enum::TENSILE:
-            case Enum::AUTO:
-            case Enum::INVERSE:
-            case Enum::PRECISE:
-                if (null === width || null === height) {
-                    throw new MissingDimensions();
-                }
-                break;
-            case Enum::WIDTH:
-                if (null === width) {
-                    throw new MissingWidth();
-                }
-                break;
-            case Enum::HEIGHT:
-                if (null === height) {
-                    throw new MissingHeight();
-                }
-                break;
-        }
+        this->checkResizeInput(width, height, master);
 
         if (master !== Enum::TENSILE) {
-            if (master === Enum::AUTO) {
-                let master = (this->width / width) > (this->height / height) ? Enum::WIDTH : Enum::HEIGHT;
-            }
-
-            if (master === Enum::INVERSE) {
-                let master = (this->width / width) > (this->height / height) ? Enum::HEIGHT : Enum::WIDTH;
-            }
+            let master = this->checkResizeMaster(width, height, master);
 
             switch (master) {
                 case Enum::WIDTH:
@@ -389,10 +300,6 @@ abstract class AbstractAdapter implements AdapterInterface
 
     /**
      * Rotate the image by a given amount
-     *
-     * @param int $degrees
-     *
-     * @return AdapterInterface
      */
     public function rotate(int degrees) -> <AdapterInterface>
     {
@@ -415,11 +322,6 @@ abstract class AbstractAdapter implements AdapterInterface
 
     /**
      * Save the image
-     *
-     * @param string|null $file
-     * @param int         $quality
-     *
-     * @return AdapterInterface
      */
     public function save(string file = null, int quality = -1) -> <AdapterInterface>
     {
@@ -434,10 +336,6 @@ abstract class AbstractAdapter implements AdapterInterface
 
     /**
      * Sharpen the image by a given amount
-     *
-     * @param int $amount
-     *
-     * @return AdapterInterface
      */
     public function sharpen(int amount) -> <AdapterInterface>
     {
@@ -451,15 +349,13 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
      * Add a text to an image with a specified opacity
      *
-     * @param string      $text
-     * @param mixed       $offsetX
-     * @param mixed       $offsetY
-     * @param int         $opacity
-     * @param string      $color
-     * @param int         $size
-     * @param string|null $fontFile
+     * The offsets accept `false` to centre the text on that axis, so they are
+     * wider than the `int` the interface documents.
      *
-     * @return AdapterInterface
+     * @phpstan-param bool|int $offsetX
+     * @phpstan-param bool|int $offsetY
+     *
+     * @throws Exception
      */
     public function text(
         string text,
@@ -498,13 +394,6 @@ abstract class AbstractAdapter implements AdapterInterface
      * internal handle, so a watermark created with a different backend
      * composites correctly. The cost is one encode/decode round trip per call,
      * which is worth knowing inside loops.
-     *
-     * @param AdapterInterface $watermark
-     * @param int              $offsetX
-     * @param int              $offsetY
-     * @param int              $opacity
-     *
-     * @return AdapterInterface
      */
     public function watermark(
         <AdapterInterface> watermark,
@@ -533,13 +422,6 @@ abstract class AbstractAdapter implements AdapterInterface
         return this;
     }
 
-    /**
-     * @param int $value
-     * @param int $min
-     * @param int $max
-     *
-     * @return int
-     */
     protected function checkHighLow(int value, int min = 0, int max = 100) -> int
     {
         return min(max, max(value, min));
@@ -548,6 +430,10 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
      * Renders the supplied colour onto the image as the background. Channels
      * are 0-255; the opacity is the validated 0-100 value.
+     *
+     * @phpstan-param image_channel $red
+     * @phpstan-param image_channel $green
+     * @phpstan-param image_channel $blue
      */
     abstract protected function processBackground(
         int red,
@@ -581,6 +467,8 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
      * Composites the supplied image as a mask onto this one. The mask is read
      * through its public render() output, so it may be any adapter backend.
+     *
+     * @phpstan-return void
      */
     abstract protected function processMask(<AdapterInterface> mask);
 
@@ -602,6 +490,9 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
      * Renders the image to a binary string. The extension is non-empty and the
      * quality is already clamped to 1-100. Returns the encoded bytes.
+     *
+     * @phpstan-return false|string
+     * @throws Exception
      */
     abstract protected function processRender(string extension, int quality);
 
@@ -618,8 +509,10 @@ abstract class AbstractAdapter implements AdapterInterface
 
     /**
      * Saves the image to the supplied file path.
+     *
+     * @throws Exception
      */
-    abstract protected function processSave(string file, int quality);
+    abstract protected function processSave(string file, int quality) -> bool;
 
     /**
      * Sharpens the image. The amount is already clamped to 1-100.
@@ -629,6 +522,14 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
      * Renders text onto the image. The opacity is clamped to 0-100 and the
      * colour is supplied as separate 0-255 channels.
+     *
+     * @phpstan-param bool|int $offsetX
+     * @phpstan-param bool|int $offsetY
+     * @phpstan-param image_channel $red
+     * @phpstan-param image_channel $green
+     * @phpstan-param image_channel $blue
+     *
+     * @throws Exception
      */
     abstract protected function processText(
         string text,
@@ -653,18 +554,71 @@ abstract class AbstractAdapter implements AdapterInterface
         int offsetY,
         int opacity
     ) -> void;
+    /**
+     * Resize the image to the given size
+     *
+     * @throws Exception
+     */
+    private function checkResizeInput(
+        int width = null,
+        int height = null,
+        int master = Enum::AUTO
+    ) -> void {
+        switch master {
+            case Enum::TENSILE:
+            case Enum::AUTO:
+            case Enum::INVERSE:
+            case Enum::PRECISE:
+                if (null === width || null === height) {
+                    throw new MissingDimensions();
+                }
+                break;
+            case Enum::WIDTH:
+                if (null === width) {
+                    throw new MissingWidth();
+                }
+                break;
+            case Enum::HEIGHT:
+                if (null === height) {
+                    throw new MissingHeight();
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    private function checkResizeMaster(
+        int width = null,
+        int height = null,
+        int master = Enum::AUTO
+    ) -> int {
+        if (master === Enum::AUTO) {
+            return (this->width / width) > (this->height / height)
+                ? Enum::WIDTH
+                : Enum::HEIGHT;
+        }
+
+        if (master === Enum::INVERSE) {
+            return (this->width / width) > (this->height / height)
+                ? Enum::HEIGHT
+                : Enum::WIDTH;
+        }
+
+        return master;
+    }
 
     /**
      * Parses a hex color ("#rgb", "rgb", "#rrggbb" or "rrggbb") into an array
      * of three integer channels [red, green, blue].
      *
-     * @param string $color
-     *
-     * @return array
+     * @phpstan-return image_color_channels
      * @throws InvalidColor
      */
     private function parseColor(string color) -> array
     {
+        var channels;
+
         if (
             strlen(color) > 1 &&
             substr(color, 0, 1) === "#"
@@ -673,16 +627,19 @@ abstract class AbstractAdapter implements AdapterInterface
         }
 
         if (strlen(color) === 3) {
-            let color = preg_replace("/./", "$0$0", color);
+            let color = (string) preg_replace("/./", "$0$0", color);
         }
 
         if (1 !== preg_match("/^[0-9a-fA-F]{6}$/", color)) {
             throw new InvalidColor(color);
         }
 
-        return array_map(
+        /** @var image_color_channels $channels */
+        let channels = array_map(
             "hexdec",
             str_split(color, 2)
         );
+
+        return channels;
     }
 }

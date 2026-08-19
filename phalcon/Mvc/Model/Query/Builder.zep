@@ -1144,7 +1144,10 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      * );
      *```
      *
-     * @param array|string group
+     * Passing null (or an empty array) clears the clause; the PHQL generator
+     * treats both as "no GROUP BY".
+     *
+     * @param array|string|null group
      */
     public function groupBy(var group) -> <BuilderInterface>
     {

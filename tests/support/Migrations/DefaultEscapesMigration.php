@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Support\Migrations;
 
+use Phalcon\Talon\Database\Schema\AbstractSchema;
+
 /**
  * Defaults whose literals need escaping. MariaDB reports `COLUMN_DEFAULT` as
  * the quoted DDL source, so these exercise the unquoting in
@@ -22,16 +24,13 @@ namespace Phalcon\Tests\Support\Migrations;
  * mysql/mariadb only - the behavior under test is specific to their
  * `INFORMATION_SCHEMA`.
  */
-class DefaultEscapesMigration extends AbstractMigration
+class DefaultEscapesMigration extends AbstractSchema
 {
-    protected $table = 'co_default_escapes';
+    protected string $table = 'co_default_escapes';
 
-    protected function getSqlMysql(): array
+    protected function getStatementsMysql(): array
     {
         return [
-            <<<'SQL'
-drop table if exists `co_default_escapes`;
-SQL,
             <<<'SQL'
 create table co_default_escapes
 (
@@ -50,17 +49,12 @@ SQL,
         ];
     }
 
-    protected function getSqlPgsql(): array
+    protected function getStatementsPgsql(): array
     {
         return [];
     }
 
-    protected function getSqlSqlite(): array
-    {
-        return [];
-    }
-
-    protected function getSqlSqlsrv(): array
+    protected function getStatementsSqlite(): array
     {
         return [];
     }

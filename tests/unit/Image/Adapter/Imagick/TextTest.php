@@ -60,4 +60,29 @@ final class TextTest extends AbstractUnitTestCase
 
         $this->safeDeleteFile('text.jpg');
     }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-08-19
+     */
+    public function testImageAdapterImagickTextOpacity(): void
+    {
+        $font = Talon::settings()->supportPath('assets/fonts/Roboto-Thin.ttf');
+        $half = new Imagick(Talon::settings()->supportPath('assets/images/example-jpg.jpg'));
+        $full = new Imagick(Talon::settings()->supportPath('assets/images/example-jpg.jpg'));
+
+        $half->text('Phalcon', 10, 10, 50, '000099', 12, $font);
+        $full->text('Phalcon', 10, 10, 100, '000099', 12, $font);
+
+        // A partly transparent text must not render as fully opaque
+        $this->assertNotSame(
+            $this->imageSignature($full),
+            $this->imageSignature($half)
+        );
+    }
+
+    private function imageSignature(Imagick $image): string
+    {
+        return $image->getImage()->getImageSignature();
+    }
 }

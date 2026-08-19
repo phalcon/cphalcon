@@ -29,15 +29,21 @@
  */
 /**
  * A read only Collection object
+ *
+ * @phpstan-template T
+ *
+ * @extends Collection<T>
  */
 ZEPHIR_INIT_CLASS(Phalcon_Support_Collection_ReadOnlyCollection)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Support\\Collection, ReadOnlyCollection, phalcon, support_collection_readonlycollection, phalcon_support_collection_ce, phalcon_support_collection_readonlycollection_method_entry, 0);
 
-	/**
-	 * @var bool
-	 */
-	zend_declare_property_bool(phalcon_support_collection_readonlycollection_ce, SL("constructed"), 0, ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_BOOL(&_zc0, 0);
+		zephir_declare_typed_property(phalcon_support_collection_readonlycollection_ce, SL("constructed"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_BOOL, NULL, 0);
+	}
+
 	return SUCCESS;
 }
 
@@ -45,9 +51,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Collection_ReadOnlyCollection)
  * ReadOnlyCollection constructor.
  *
  * @param array<int|string, mixed> $data
- * @param bool                     $insensitive
- * @param bool                     $strictNull
- * @param string|null              $type
  */
 PHP_METHOD(Phalcon_Support_Collection_ReadOnlyCollection, __construct)
 {
@@ -122,9 +125,9 @@ PHP_METHOD(Phalcon_Support_Collection_ReadOnlyCollection, __construct)
 	ZEPHIR_CALL_PARENT(NULL, phalcon_support_collection_readonlycollection_ce, getThis(), "__construct", NULL, 0, &data, &_0, &_1, &type_zv);
 	zephir_check_call_status();
 	if (1) {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1325, &__$true);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1340, &__$true);
 	} else {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1325, &__$false);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1340, &__$false);
 	}
 	ZEPHIR_MM_RESTORE();
 }
@@ -135,7 +138,7 @@ PHP_METHOD(Phalcon_Support_Collection_ReadOnlyCollection, __construct)
  * Temporarily disables the read-only guard so the parent class can restore
  * the collection state. The guard is re-enabled before the method returns.
  *
- * @param array $data
+ * @param array<array-key, mixed> $data
  */
 PHP_METHOD(Phalcon_Support_Collection_ReadOnlyCollection, __unserialize)
 {
@@ -163,9 +166,9 @@ PHP_METHOD(Phalcon_Support_Collection_ReadOnlyCollection, __unserialize)
 	zephir_fetch_params(1, 1, 0, &data_param);
 	zephir_get_arrval(&data, data_param);
 	if (0) {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1325, &__$true);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1340, &__$true);
 	} else {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1325, &__$false);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1340, &__$false);
 	}
 
 	/* try_start_1: */
@@ -183,19 +186,19 @@ PHP_METHOD(Phalcon_Support_Collection_ReadOnlyCollection, __unserialize)
 			zend_clear_exception();
 			ZEPHIR_CPY_WRT(&ex, &_0);
 			if (1) {
-				zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1325, &__$true);
+				zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1340, &__$true);
 			} else {
-				zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1325, &__$false);
+				zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1340, &__$false);
 			}
-			zephir_throw_exception_debug(&ex, "phalcon/Support/Collection/ReadOnlyCollection.zep", 64);
+			zephir_throw_exception_debug(&ex, "phalcon/Support/Collection/ReadOnlyCollection.zep", 62);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
 	}
 	if (1) {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1325, &__$true);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1340, &__$true);
 	} else {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1325, &__$false);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1340, &__$false);
 	}
 	ZEPHIR_MM_RESTORE();
 }
@@ -217,7 +220,7 @@ PHP_METHOD(Phalcon_Support_Collection_ReadOnlyCollection, clear)
 	object_init_ex(&_0, phalcon_support_collection_exceptions_readonlyviolation_ce);
 	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 0);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(&_0, "phalcon/Support/Collection/ReadOnlyCollection.zep", 75);
+	zephir_throw_exception_debug(&_0, "phalcon/Support/Collection/ReadOnlyCollection.zep", 73);
 	ZEPHIR_MM_RESTORE();
 	return;
 }
@@ -254,13 +257,13 @@ PHP_METHOD(Phalcon_Support_Collection_ReadOnlyCollection, init)
 	} else {
 		zephir_get_arrval(&data, data_param);
 	}
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1325, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1340, PH_NOISY_CC | PH_READONLY);
 	if (zephir_is_true(&_0)) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_support_collection_exceptions_readonlyviolation_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Support/Collection/ReadOnlyCollection.zep", 84);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Support/Collection/ReadOnlyCollection.zep", 82);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -271,8 +274,6 @@ PHP_METHOD(Phalcon_Support_Collection_ReadOnlyCollection, init)
 
 /**
  * Delete the element from the collection
- *
- * @param string $element Name of the element
  *
  * @throws ReadOnlyViolation
  */
@@ -296,7 +297,7 @@ PHP_METHOD(Phalcon_Support_Collection_ReadOnlyCollection, remove)
 	object_init_ex(&_0, phalcon_support_collection_exceptions_readonlyviolation_ce);
 	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 0);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(&_0, "phalcon/Support/Collection/ReadOnlyCollection.zep", 99);
+	zephir_throw_exception_debug(&_0, "phalcon/Support/Collection/ReadOnlyCollection.zep", 95);
 	ZEPHIR_MM_RESTORE();
 	return;
 }
@@ -328,16 +329,13 @@ PHP_METHOD(Phalcon_Support_Collection_ReadOnlyCollection, replace)
 	object_init_ex(&_0, phalcon_support_collection_exceptions_readonlyviolation_ce);
 	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 0);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(&_0, "phalcon/Support/Collection/ReadOnlyCollection.zep", 111);
+	zephir_throw_exception_debug(&_0, "phalcon/Support/Collection/ReadOnlyCollection.zep", 107);
 	ZEPHIR_MM_RESTORE();
 	return;
 }
 
 /**
  * Set an element in the collection
- *
- * @param string $element Name of the element
- * @param mixed  $value   Value to store for the element
  *
  * @throws ReadOnlyViolation
  */
@@ -364,7 +362,7 @@ PHP_METHOD(Phalcon_Support_Collection_ReadOnlyCollection, set)
 	object_init_ex(&_0, phalcon_support_collection_exceptions_readonlyviolation_ce);
 	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 0);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(&_0, "phalcon/Support/Collection/ReadOnlyCollection.zep", 124);
+	zephir_throw_exception_debug(&_0, "phalcon/Support/Collection/ReadOnlyCollection.zep", 117);
 	ZEPHIR_MM_RESTORE();
 	return;
 }

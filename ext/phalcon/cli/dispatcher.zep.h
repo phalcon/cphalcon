@@ -17,7 +17,6 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, setTaskName);
 PHP_METHOD(Phalcon_Cli_Dispatcher, setTaskSuffix);
 PHP_METHOD(Phalcon_Cli_Dispatcher, handleException);
 PHP_METHOD(Phalcon_Cli_Dispatcher, throwDispatchException);
-zend_object *zephir_init_properties_Phalcon_Cli_Dispatcher(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_dispatcher_callactionmethod, 0, 0, 2)
 	ZEND_ARG_INFO(0, handler)
@@ -77,9 +76,6 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_dispatcher_throwdispatchexception, 0, 0, 1)
 	ZEND_ARG_TYPE_INFO(0, message, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, exceptionCode, IS_LONG, 0, "0")
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_dispatcher_zephir_init_properties_phalcon_cli_dispatcher, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_cli_dispatcher_method_entry) {

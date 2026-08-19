@@ -41,13 +41,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_Memory_MemorySubscriptionConsumer)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Queue\\Adapter\\Memory, MemorySubscriptionConsumer, phalcon, queue_adapter_memory_memorysubscriptionconsumer, phalcon_queue_adapter_abstractsubscriptionconsumer_ce, phalcon_queue_adapter_memory_memorysubscriptionconsumer_method_entry, 0);
 
-	/**
-	 * Retained for transports that may later need it for a native multi-queue
-	 * receive; the shared poll loop does not use it.
-	 *
-	 * @var MemoryContext
-	 */
-	zend_declare_property_null(phalcon_queue_adapter_memory_memorysubscriptionconsumer_ce, SL("context"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_queue_adapter_memory_memorysubscriptionconsumer_ce, SL("context"), &_zc0, ZEND_ACC_PROTECTED, 0, SL("Phalcon\\Queue\\Adapter\\Memory\\MemoryContext"));
+	}
+
 	return SUCCESS;
 }
 
@@ -70,6 +69,6 @@ PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemorySubscriptionConsumer, __construct)
 		Z_PARAM_OBJECT_OF_CLASS(context, phalcon_queue_adapter_memory_memorycontext_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &context);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1256, context);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1271, context);
 }
 

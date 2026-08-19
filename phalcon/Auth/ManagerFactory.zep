@@ -18,7 +18,6 @@ use Phalcon\Auth\Adapter\AdapterLocator;
 use Phalcon\Auth\Exceptions\UnknownAdapter;
 use Phalcon\Auth\Exceptions\UnknownGuard;
 use Phalcon\Auth\Guard\GuardLocator;
-use Phalcon\Auth\Internal\ContainerResolver;
 use Phalcon\Auth\Internal\Options;
 use Phalcon\Config\ConfigInterface;
 use Phalcon\Contracts\Auth\Access\Access;
@@ -27,6 +26,7 @@ use Phalcon\Contracts\Auth\Guard\Guard;
 use Phalcon\Contracts\Container\Service\Collection;
 use Phalcon\Di\DiInterface;
 use Phalcon\Encryption\Security;
+use Phalcon\Traits\Factory\ConfigTrait;
 
 /**
  * Single entry-point factory that builds a fully wired Phalcon\Auth\Manager
@@ -82,36 +82,21 @@ use Phalcon\Encryption\Security;
  */
 class ManagerFactory
 {
-    /**
-     * @var AccessLocator
-     */
-    protected accessLocator;
-    /**
-     * @var AdapterLocator
-     */
-    protected adapterLocator;
-    /**
-     * @var Collection|DiInterface
-     */
-    protected container;
-    /**
-     * @var GuardLocator
-     */
-    protected guardLocator;
-    /**
-     * @var Security
-     */
-    protected hasher;
+    use ConfigTrait;
+
+    protected <AccessLocator> accessLocator;
+    protected <AdapterLocator> adapterLocator;
+    protected <Collection> | <DiInterface> container;
+    protected <GuardLocator> guardLocator;
+    protected <Security> hasher;
 
     public function __construct(
         <Security> hasher,
-        var container,
+        <Collection> | <DiInterface> container,
         <AdapterLocator> adapterLocator = null,
         <GuardLocator> guardLocator = null,
         <AccessLocator> accessLocator = null
     ) {
-        ContainerResolver::ensureContainer(container);
-
         let this->container      = container;
         let this->hasher         = hasher;
         let this->adapterLocator = adapterLocator !== null ? adapterLocator : new AdapterLocator(container);
@@ -126,16 +111,10 @@ class ManagerFactory
      */
     public function load(var config) -> <Manager>
     {
-        if (typeof config !== "array" && !(config instanceof ConfigInterface)) {
-            throw new \TypeError("The parameter must be an array or instance of ConfigInterface");
-        }
-
         var accessList, adapter, gconf, guard, guards, manager, name;
 
-        if (typeof config === "object" && config instanceof ConfigInterface) {
-            /** @var AuthConfig $config */
-            let config = config->toArray();
-        }
+        /** @var AuthConfig $config */
+        let config = this->checkConfig(config);
 
         let manager = new Manager(this->accessLocator);
 
@@ -213,8 +192,16 @@ class ManagerFactory
 
         return {className}::fromOptions(
             adapter,
-            this-> container,
+            this->container,
             options
         );
+    }
+
+    /**
+     * @return string
+     */
+    protected function getExceptionClass() -> string
+    {
+        return Exception::class;
     }
 }

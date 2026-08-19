@@ -6,11 +6,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Debug_Dump);
 PHP_METHOD(Phalcon_Support_Debug_Dump, __construct);
 PHP_METHOD(Phalcon_Support_Debug_Dump, all);
 PHP_METHOD(Phalcon_Support_Debug_Dump, getDetailed);
-PHP_METHOD(Phalcon_Support_Debug_Dump, getTemplate);
 PHP_METHOD(Phalcon_Support_Debug_Dump, one);
 PHP_METHOD(Phalcon_Support_Debug_Dump, setDetailed);
 PHP_METHOD(Phalcon_Support_Debug_Dump, setStyles);
-PHP_METHOD(Phalcon_Support_Debug_Dump, setTemplate);
 PHP_METHOD(Phalcon_Support_Debug_Dump, toJson);
 PHP_METHOD(Phalcon_Support_Debug_Dump, variable);
 PHP_METHOD(Phalcon_Support_Debug_Dump, variables);
@@ -18,7 +16,9 @@ PHP_METHOD(Phalcon_Support_Debug_Dump, defaultTemplate);
 PHP_METHOD(Phalcon_Support_Debug_Dump, getStyle);
 PHP_METHOD(Phalcon_Support_Debug_Dump, output);
 PHP_METHOD(Phalcon_Support_Debug_Dump, getOutputBold);
-zend_object *zephir_init_properties_Phalcon_Support_Debug_Dump(zend_class_entry *class_type);
+PHP_METHOD(Phalcon_Support_Debug_Dump, toInterpolate);
+PHP_METHOD(Phalcon_Support_Debug_Dump, getTemplate);
+PHP_METHOD(Phalcon_Support_Debug_Dump, setTemplate);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_support_debug_dump___construct, 0, 0, 0)
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, styles, IS_ARRAY, 0, "[]")
@@ -29,10 +29,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_debug_dump_all, 
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_debug_dump_getdetailed, 0, 0, _IS_BOOL, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_debug_dump_gettemplate, 0, 1, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_debug_dump_one, 0, 1, IS_STRING, 0)
@@ -47,11 +43,6 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_debug_dump_setstyles, 0, 0, IS_ARRAY, 0)
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, styles, IS_ARRAY, 0, "[]")
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_support_debug_dump_settemplate, 0, 2, MAY_BE_STATIC)
-	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, template, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_debug_dump_tojson, 0, 1, IS_STRING, 0)
@@ -84,18 +75,29 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_debug_dump_getou
 	ZEND_ARG_TYPE_INFO(0, text, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_support_debug_dump_zephir_init_properties_phalcon_support_debug_dump, 0, 0, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_debug_dump_tointerpolate, 0, 1, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, input, IS_STRING, 0)
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, context, IS_ARRAY, 0, "[]")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, left, IS_STRING, 0, "'%'")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, right, IS_STRING, 0, "'%'")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_debug_dump_gettemplate, 0, 1, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_support_debug_dump_settemplate, 0, 2, MAY_BE_STATIC)
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, template, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_support_debug_dump_method_entry) {
 	PHP_ME(Phalcon_Support_Debug_Dump, __construct, arginfo_phalcon_support_debug_dump___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Support_Debug_Dump, all, arginfo_phalcon_support_debug_dump_all, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Support_Debug_Dump, getDetailed, arginfo_phalcon_support_debug_dump_getdetailed, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Support_Debug_Dump, getTemplate, arginfo_phalcon_support_debug_dump_gettemplate, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Support_Debug_Dump, one, arginfo_phalcon_support_debug_dump_one, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Support_Debug_Dump, setDetailed, arginfo_phalcon_support_debug_dump_setdetailed, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Support_Debug_Dump, setStyles, arginfo_phalcon_support_debug_dump_setstyles, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Support_Debug_Dump, setTemplate, arginfo_phalcon_support_debug_dump_settemplate, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Support_Debug_Dump, toJson, arginfo_phalcon_support_debug_dump_tojson, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Support_Debug_Dump, variable, arginfo_phalcon_support_debug_dump_variable, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Support_Debug_Dump, variables, arginfo_phalcon_support_debug_dump_variables, ZEND_ACC_PUBLIC)
@@ -103,5 +105,8 @@ ZEPHIR_INIT_FUNCS(phalcon_support_debug_dump_method_entry) {
 	PHP_ME(Phalcon_Support_Debug_Dump, getStyle, arginfo_phalcon_support_debug_dump_getstyle, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Support_Debug_Dump, output, arginfo_phalcon_support_debug_dump_output, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Support_Debug_Dump, getOutputBold, arginfo_phalcon_support_debug_dump_getoutputbold, ZEND_ACC_PRIVATE)
+	PHP_ME(Phalcon_Support_Debug_Dump, toInterpolate, arginfo_phalcon_support_debug_dump_tointerpolate, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Support_Debug_Dump, getTemplate, arginfo_phalcon_support_debug_dump_gettemplate, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Support_Debug_Dump, setTemplate, arginfo_phalcon_support_debug_dump_settemplate, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
