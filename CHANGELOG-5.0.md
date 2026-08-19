@@ -26,6 +26,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 - Fixed `Phalcon\Filter\Validation\Validator\StringLength\Min` and `Phalcon\Filter\Validation\Validator\StringLength\Max` rejecting a string with a length exactly equal to `min` or `max` when the `included` option was not set, a regression introduced in 5.7.0 [#17503](https://github.com/phalcon/cphalcon/issues/17503) [[doc]](https://docs.phalcon.io/5.19/filter-validation/)
 - Fixed `Phalcon\Filter\Validation\Validator\StringLength` giving the `includedMinimum`/`includedMaximum` and `messageMinimum`/`messageMaximum` option of one boundary to the validator of the other boundary [#17503](https://github.com/phalcon/cphalcon/issues/17503) [[doc]](https://docs.phalcon.io/5.19/filter-validation/)
 - Fixed `Phalcon\Html\Helper\Input\Generic`, `Phalcon\Html\Helper\Input\Checkbox` and `Phalcon\Html\Helper\Input\Radio` throwing an error when you build them directly without a `Phalcon\Html\Helper\Doctype`. [#17507](https://github.com/phalcon/cphalcon/issues/17507) [[doc]](https://docs.phalcon.io/5.19/html-tagfactory/)
+- Fixed `Phalcon\Image\Adapter\Imagick::processReflection()` applying the reflection to the first frame only of a multi-frame image, because the first two loops changed the `reflection` clone but moved the frame cursor of `this->image` [#17510](https://github.com/phalcon/cphalcon/issues/17510) [[doc]](https://docs.phalcon.io/5.19/image/)
 
 ### Removed
 
