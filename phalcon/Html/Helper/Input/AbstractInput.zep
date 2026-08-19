@@ -71,22 +71,22 @@ abstract class AbstractInput extends AbstractHelper
      */
     public function __toString()
     {
-        array attributes;
-        var closeTag;
+        var closeTag, output;
 
-        let closeTag         = "",
-            attributes       = this->attributes,
-            this->attributes = [];
-
-        if (this->doctype->getType() > Doctype::HTML5) {
+        let closeTag = "";
+        if null !== this->doctype && this->doctype->getType() > Doctype::HTML5 {
             let closeTag = "/";
         }
 
-        return this->renderTag(
+        let output = this->renderTag(
             "input",
-            attributes,
+            this->attributes,
             closeTag
         );
+
+        let this->attributes = [];
+
+        return output;
     }
 
     /**

@@ -148,49 +148,53 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractInput, __invoke)
  */
 PHP_METHOD(Phalcon_Html_Helper_Input_AbstractInput, __toString)
 {
-	zval closeTag, _0, _1, _2, _3, _4;
-	zval attributes;
+	zend_bool _1;
+	zval closeTag, output, _0, _2, _3, _4, _5;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&attributes);
 	ZVAL_UNDEF(&closeTag);
+	ZVAL_UNDEF(&output);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_4);
+	ZVAL_UNDEF(&_5);
 	static zend_string *_zephir_prop_0 = NULL;
 	static zend_string *_zephir_prop_1 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
-		_zephir_prop_0 = zend_string_init("attributes", 10, 1);
+		_zephir_prop_0 = zend_string_init("doctype", 7, 1);
 	}
 	if (UNEXPECTED(!_zephir_prop_1)) {
-		_zephir_prop_1 = zend_string_init("doctype", 7, 1);
+		_zephir_prop_1 = zend_string_init("attributes", 10, 1);
 	}
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	ZEPHIR_INIT_VAR(&closeTag);
 	ZVAL_STRING(&closeTag, "");
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 59, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CPY_WRT(&attributes, &_0);
-	ZEPHIR_INIT_VAR(&_1);
-	array_init(&_1);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 59, &_1);
-	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_1, 60, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&_3, &_2, "gettype", NULL, 0);
-	zephir_check_call_status();
-	if (ZEPHIR_GT_LONG(&_3, 5)) {
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 60, PH_NOISY_CC | PH_READONLY);
+	_1 = Z_TYPE_P(&_0) != IS_NULL;
+	if (_1) {
+		zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 60, PH_NOISY_CC | PH_READONLY);
+		ZEPHIR_CALL_METHOD(&_3, &_2, "gettype", NULL, 0);
+		zephir_check_call_status();
+		_1 = ZEPHIR_GT_LONG(&_3, 5);
+	}
+	if (_1) {
 		ZEPHIR_INIT_NVAR(&closeTag);
 		ZVAL_STRING(&closeTag, "/");
 	}
-	ZEPHIR_INIT_VAR(&_4);
-	ZVAL_STRING(&_4, "input");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "rendertag", NULL, 0, &_4, &attributes, &closeTag);
+	zephir_read_property_cached(&_4, this_ptr, _zephir_prop_1, 59, PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_INIT_VAR(&_5);
+	ZVAL_STRING(&_5, "input");
+	ZEPHIR_CALL_METHOD(&output, this_ptr, "rendertag", NULL, 0, &_5, &_4, &closeTag);
 	zephir_check_call_status();
-	RETURN_MM();
+	ZEPHIR_INIT_NVAR(&_5);
+	array_init(&_5);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 59, &_5);
+	RETURN_CCTOR(&output);
 }
 
 /**
