@@ -122,7 +122,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, paginate)
 	ZEPHIR_CALL_FUNCTION(&_4, "floatval", NULL, 32, &_0);
 	zephir_check_call_status();
 	roundedTotal =  (zephir_safe_div_long_zval(number, &_4));
-	totalPages = (int) (roundedTotal);
+	totalPages = (int) roundedTotal;
 	if (totalPages != roundedTotal) {
 		totalPages++;
 	}

@@ -184,9 +184,8 @@ PHP_METHOD(Phalcon_Support_Settings, reset)
  */
 PHP_METHOD(Phalcon_Support_Settings, readGlobal)
 {
-	zval _0$$22;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval key_zv;
+	zval key_zv, _0$$22;
 	zend_string *key = NULL;
 
 	ZVAL_UNDEF(&key_zv);
@@ -258,9 +257,8 @@ PHP_METHOD(Phalcon_Support_Settings, readGlobal)
 		}
 		if (ZEPHIR_IS_STRING(&key_zv, "orm.resultset_prefetch_records")) {
 			ZEPHIR_INIT_VAR(&_0$$22);
-			ZEPHIR_INIT_NVAR(&_0$$22);
 			ZVAL_STRING(&_0$$22, "ZEPHIR_GLOBAL(orm).resultset_prefetch_records");
-			RETURN_MM_LONG(zephir_get_intval_ex(&_0$$22));
+			RETURN_MM_LONG(zephir_get_intval(&_0$$22));
 		}
 		if (ZEPHIR_IS_STRING(&key_zv, "orm.update_snapshot_on_save")) {
 			RETURN_MM_BOOL(ZEPHIR_GLOBAL(orm).update_snapshot_on_save);

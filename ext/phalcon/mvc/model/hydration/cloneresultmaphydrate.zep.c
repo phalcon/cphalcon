@@ -46,7 +46,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Hydration_CloneResultMapHydrate, cloneResultMapHydr
 	zephir_fcall_cache_entry *_5 = NULL, *_8 = NULL, *_12 = NULL;
 	zend_string *calledClass = NULL, *_2;
 	zend_long hydrationMode, ZEPHIR_LAST_CALL_STATUS;
-	zval *data_param = NULL, *columnMap, columnMap_sub, *hydrationMode_param = NULL, calledClass_zv, key, value, attribute, attributeName, *_0, _13, _4$$7, _6$$7, _7$$8, _9$$9, _10$$9, _11$$10, _16$$16, _17$$16, _18$$17, _19$$18, _20$$18, _21$$19;
+	zval *data_param = NULL, *columnMap, columnMap_sub, *hydrationMode_param = NULL, calledClass_zv, key, value, attribute, attributeName, *_0, _13, _4$$7, _6$$7, _7$$8, _9$$9, _10$$9, _11$$10, _16$$16, _17$$16, _18$$17, _19$$18, _20$$18, _21$$19, _22$$23;
 	zval data, hydrateArray;
 
 	ZVAL_UNDEF(&data);
@@ -70,6 +70,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Hydration_CloneResultMapHydrate, cloneResultMapHydr
 	ZVAL_UNDEF(&_19$$18);
 	ZVAL_UNDEF(&_20$$18);
 	ZVAL_UNDEF(&_21$$19);
+	ZVAL_UNDEF(&_22$$23);
 	ZEND_PARSE_PARAMETERS_START(3, 4)
 		ZEPHIR_Z_PARAM_ARRAY(data, data_param)
 		Z_PARAM_ZVAL(columnMap)
@@ -224,8 +225,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Hydration_CloneResultMapHydrate, cloneResultMapHydr
 	ZEPHIR_INIT_NVAR(&value);
 	ZEPHIR_INIT_NVAR(&key);
 	if (hydrationMode != 1) {
-		zephir_convert_to_object(&hydrateArray);
-		RETURN_CTOR(&hydrateArray);
+		ZEPHIR_CPY_WRT(&_22$$23, &hydrateArray);
+		zephir_convert_to_object(&_22$$23);
+		RETURN_CCTOR(&_22$$23);
 	}
 	RETURN_CTOR(&hydrateArray);
 }
