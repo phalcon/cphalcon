@@ -103,9 +103,10 @@ class Imagick extends AbstractAdapter
             let this->type = this->image->getImageType();
 
             /**
-             * GIF
+             * GIF. The format, not the image type: getImageType() reports an
+             * Imagick IMGTYPE_* value, which never equals an IMAGETYPE_* one.
              */
-            if (this->image->getImageType() == IMAGETYPE_GIF) {
+            if ("GIF" === strtoupper(this->image->getImageFormat())) {
                 let image = this->image->coalesceImages();
 
                 this->image->clear();
@@ -620,8 +621,14 @@ class Imagick extends AbstractAdapter
         let extension = strtolower(extension);
         switch (extension) {
             case "gif":
+                this->setFramesFormat(image, extension);
+
                 image->optimizeImageLayers();
-                break;
+
+                /**
+                 * A blob of the current frame alone loses the animation
+                 */
+                return image->getImagesBlob();
             case "jpg":
             case "jpeg":
                 image->setImageCompression(
@@ -718,6 +725,8 @@ class Imagick extends AbstractAdapter
         let extension = strtolower(extension);
         switch (extension) {
             case "gif":
+                this->setFramesFormat(image, extension);
+
                 image->optimizeImageLayers();
 
                 /** @var resource $fp */
@@ -942,5 +951,28 @@ class Imagick extends AbstractAdapter
         if (defined("Imagick::IMAGICK_EXTNUM")) {
             let this->version = constant("Imagick::IMAGICK_EXTNUM");
         }
+    }
+
+    /**
+     * Marks every frame with the format.
+     *
+     * setImageFormat() marks the current frame only, and a wand built with
+     * newImage() carries no format at all, which stops a multi frame write.
+     *
+     * @throws ImagickException
+     */
+    private function setFramesFormat(var image, string extension) -> void
+    {
+        image->setIteratorIndex(0);
+
+        while (true) {
+            image->setImageFormat(extension);
+
+            if (true !== image->nextImage()) {
+                break;
+            }
+        }
+
+        image->setFormat(extension);
     }
 }
