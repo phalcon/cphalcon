@@ -55,4 +55,31 @@ final class BackgroundTest extends AbstractUnitTestCase
 
         $this->safeDeleteFile('background.jpg');
     }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-08-19
+     */
+    public function testImageAdapterImagickBackgroundOpacity(): void
+    {
+        // The source needs an alpha channel; an opaque JPEG has nothing to dissolve
+        $file = Talon::settings()->supportPath('assets/images/example-png.png');
+
+        $half = new Imagick($file);
+        $full = new Imagick($file);
+
+        $half->background('#ff0000', 50);
+        $full->background('#ff0000', 100);
+
+        // A percentage below 100 must not collapse onto the opaque result
+        $this->assertNotSame(
+            $this->imageSignature($full),
+            $this->imageSignature($half)
+        );
+    }
+
+    private function imageSignature(Imagick $image): string
+    {
+        return $image->getImage()->getImageSignature();
+    }
 }

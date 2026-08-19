@@ -23,6 +23,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, processSharpen);
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, processText);
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, processWatermark);
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, check);
+PHP_METHOD(Phalcon_Image_Adapter_Imagick, setFramesFormat);
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, phpFclose);
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, phpFgetCsv);
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, phpFileExists);
@@ -153,6 +154,12 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_image_adapter_imagick_check, 0, 0, IS_VOID, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_image_adapter_imagick_setframesformat, 0, 2, IS_VOID, 0)
+
+	ZEND_ARG_INFO(0, image)
+	ZEND_ARG_TYPE_INFO(0, extension, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_image_adapter_imagick_phpfclose, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_INFO(0, handle)
 ZEND_END_ARG_INFO()
@@ -227,6 +234,7 @@ PHP_ME(Phalcon_Image_Adapter_Imagick, __destruct, arginfo_phalcon_image_adapter_
 	PHP_ME(Phalcon_Image_Adapter_Imagick, processText, arginfo_phalcon_image_adapter_imagick_processtext, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Image_Adapter_Imagick, processWatermark, arginfo_phalcon_image_adapter_imagick_processwatermark, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Image_Adapter_Imagick, check, arginfo_phalcon_image_adapter_imagick_check, ZEND_ACC_PRIVATE)
+	PHP_ME(Phalcon_Image_Adapter_Imagick, setFramesFormat, arginfo_phalcon_image_adapter_imagick_setframesformat, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Image_Adapter_Imagick, phpFclose, arginfo_phalcon_image_adapter_imagick_phpfclose, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Image_Adapter_Imagick, phpFgetCsv, arginfo_phalcon_image_adapter_imagick_phpfgetcsv, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Image_Adapter_Imagick, phpFileExists, arginfo_phalcon_image_adapter_imagick_phpfileexists, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
