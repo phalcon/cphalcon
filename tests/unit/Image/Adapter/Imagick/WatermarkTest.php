@@ -59,4 +59,27 @@ final class WatermarkTest extends AbstractUnitTestCase
 
         $this->safeDeleteFile('watermark.jpg');
     }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-08-19
+     */
+    public function testImageAdapterImagickWatermarkOpacity(): void
+    {
+        $plain  = new Imagick(Talon::settings()->supportPath('assets/images/example-jpg.jpg'));
+        $marked = new Imagick(Talon::settings()->supportPath('assets/images/example-jpg.jpg'));
+
+        $marked->watermark(new Imagick(Talon::settings()->supportPath('assets/images/example-png.png')), 10, 10, 50);
+
+        // A partly transparent watermark must still change the image
+        $this->assertNotSame(
+            $this->imageSignature($plain),
+            $this->imageSignature($marked)
+        );
+    }
+
+    private function imageSignature(Imagick $image): string
+    {
+        return $image->getImage()->getImageSignature();
+    }
 }

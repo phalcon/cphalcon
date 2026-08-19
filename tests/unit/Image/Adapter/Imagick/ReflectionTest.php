@@ -109,4 +109,28 @@ final class ReflectionTest extends AbstractUnitTestCase
 
         $this->assertSame($expected, $actual);
     }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-08-19
+     */
+    public function testImageAdapterImagickReflectionOpacity(): void
+    {
+        $light = new Imagick(Talon::settings()->supportPath('assets/images/example-jpg.jpg'));
+        $heavy = new Imagick(Talon::settings()->supportPath('assets/images/example-jpg.jpg'));
+
+        $light->reflection(50, 25);
+        $heavy->reflection(50, 50);
+
+        // Two different opacities must fade the reflection differently
+        $this->assertNotSame(
+            $this->imageSignature($light),
+            $this->imageSignature($heavy)
+        );
+    }
+
+    private function imageSignature(Imagick $image): string
+    {
+        return $image->getImage()->getImageSignature();
+    }
 }

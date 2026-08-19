@@ -248,12 +248,11 @@ class Imagick extends AbstractAdapter
     ) -> void {
         var background, color, image, localOpacity, pixel1, pixel2, result;
 
-        let localOpacity  = opacity;
-        let localOpacity /= 100;
-        let color         = sprintf("rgb(%d, %d, %d)", red, green, blue);
-        let pixel1        = new ImagickPixel(color);
-        let pixel2        = new ImagickPixel("transparent");
-        let background    = new ImagickNative();
+        let localOpacity = (float) opacity / 100;
+        let color        = sprintf("rgb(%d, %d, %d)", red, green, blue);
+        let pixel1       = new ImagickPixel(color);
+        let pixel2       = new ImagickPixel("transparent");
+        let background   = new ImagickNative();
 
         /** @var ImagickNative $image */
         let image = this->image;
@@ -465,7 +464,7 @@ class Imagick extends AbstractAdapter
         int opacity,
         bool fadeIn
     ) -> void {
-        var current, fade, image, pixel, pseudo, reflection, result;
+        var current, fade, fadeOpacity, image, pixel, pseudo, reflection, result;
 
         /** @var ImagickNative $current */
         let current = this->image;
@@ -509,7 +508,7 @@ class Imagick extends AbstractAdapter
             pseudo
         );
 
-        let opacity /= 100;
+        let fadeOpacity = (float) opacity / 100;
         reflection->setIteratorIndex(0);
 
         while (true) {
@@ -526,7 +525,7 @@ class Imagick extends AbstractAdapter
 
             reflection->evaluateImage(
                 constant("Imagick::EVALUATE_MULTIPLY"),
-                opacity,
+                fadeOpacity,
                 constant("Imagick::CHANNEL_ALPHA")
             );
 
@@ -753,10 +752,10 @@ class Imagick extends AbstractAdapter
      */
     protected function processSharpen(int amount) -> void
     {
-        var image;
+        var image, sigma;
 
         let amount = (amount < 5) ? 5 : amount;
-        let amount = (amount * 3.0) / 100;
+        let sigma  = (float) amount * 3.0 / 100;
 
         /** @var ImagickNative $image */
         let image = this->image;
@@ -764,7 +763,7 @@ class Imagick extends AbstractAdapter
         image->setIteratorIndex(0);
 
         while (true) {
-            image->sharpenImage(0, amount);
+            image->sharpenImage(0, sigma);
 
             if (true !== image->nextImage()) {
                 break;
@@ -790,11 +789,11 @@ class Imagick extends AbstractAdapter
         int size,
         string fontFile = null
     ) -> void {
-        var color, draw, gravity, image, x, y;
+        var color, draw, gravity, image, textOpacity, x, y;
 
-        let opacity = opacity / 100;
-        let draw    = new ImagickDraw();
-        let color   = sprintf("rgb(%d, %d, %d)", red, green, blue);
+        let textOpacity = (float) opacity / 100;
+        let draw        = new ImagickDraw();
+        let color       = sprintf("rgb(%d, %d, %d)", red, green, blue);
 
         draw->setFillColor(new ImagickPixel(color));
 
@@ -806,8 +805,8 @@ class Imagick extends AbstractAdapter
             draw->setFontSize(size);
         }
 
-        if (opacity) {
-            draw->setfillopacity(opacity);
+        if (textOpacity) {
+            draw->setfillopacity(textOpacity);
         }
 
         let gravity = null;
@@ -890,15 +889,15 @@ class Imagick extends AbstractAdapter
         int offsetY,
         int opacity
     ) -> void {
-        var current, image, result;
+        var current, image, result, watermarkOpacity;
 
-        let opacity = opacity / 100;
-        let image   = new ImagickNative();
+        let watermarkOpacity = (float) opacity / 100;
+        let image            = new ImagickNative();
 
         image->readImageBlob(watermark->render());
         image->evaluateImage(
             constant("Imagick::EVALUATE_MULTIPLY"),
-            opacity,
+            watermarkOpacity,
             constant("Imagick::CHANNEL_ALPHA")
         );
 
