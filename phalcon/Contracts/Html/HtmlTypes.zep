@@ -31,13 +31,13 @@ use Closure;
  * }
  * @phpstan-type html_element_store array<int, html_element_entry>
  * @phpstan-type html_breadcrumb_attributes array<string, string>
- * @phpstan-type html_breadcrumb_data array<int, html_breadcrumb_element>
  * @phpstan-type html_breadcrumb_element array{
  *     attributes: html_breadcrumb_attributes,
  *     icon: string,
  *     link: string,
  *     text: string,
  * }
+ * @phpstan-type html_breadcrumb_data array<int, html_breadcrumb_element>
  * @phpstan-type html_breadcrumb_elements array<string, string>
  * @phpstan-type html_breadcrumb_template array{
  *     main: string,

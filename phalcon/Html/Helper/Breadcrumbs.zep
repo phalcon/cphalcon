@@ -40,7 +40,7 @@ class Breadcrumbs extends AbstractHelper
     /**
      * Keeps all the breadcrumbs.
      *
-     * @phpstan-var html_breadcrumb_data
+     * @var html_breadcrumb_data
      */
     private array data = [];
     /**
@@ -76,9 +76,6 @@ class Breadcrumbs extends AbstractHelper
 
     /**
      * AbstractHelper constructor.
-     *
-     * @param EscaperInterface  $escaper
-     * @param UrlInterface|null $url
      */
     public function __construct(
         <EscaperInterface> escaper,

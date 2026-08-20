@@ -29,6 +29,9 @@
  *
  * Return format: [value => label] for flat options;
  * [groupLabel => [value => label, ...]] for optgroups.
+ *
+ * @phpstan-import-type html_select_attributes from HtmlTypes
+ * @phpstan-import-type html_select_options from HtmlTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Contracts_Html_Helper_Input_SelectData)
 {
@@ -43,6 +46,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Contracts_Html_Helper_Input_SelectData)
  * Format: [optionValue => [attrName => stringValue, ...]].
  * Implementations must return resolved string values; no escaping,
  * ordering, or rendering is performed here.
+ *
+ * @phpstan-return html_select_attributes
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Html_Helper_Input_SelectData, getAttributes);
+/**
+ * @phpstan-return html_select_options
+ */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Html_Helper_Input_SelectData, getOptions);
