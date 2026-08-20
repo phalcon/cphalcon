@@ -14,43 +14,27 @@
 
 namespace Phalcon\Html\Helper\Input;
 
-use Phalcon\Html\Helper\AbstractList;
 use Phalcon\Contracts\Html\Helper\Input\SelectData;
+use Phalcon\Contracts\Html\HtmlTypes;
+use Phalcon\Html\Helper\AbstractList;
 
 /**
  * Class Select
+ *
+ * @phpstan-import-type html_attributes from HtmlTypes
+ * @phpstan-import-type html_select_attributes from HtmlTypes
  */
 class Select extends AbstractList
 {
-    /**
-     * @var string
-     */
-    protected elementTag = "option";
-
-    /**
-     * @var bool
-     */
-    protected inOptGroup = false;
-
-    /**
-     * @var string
-     */
-    protected selected = "";
-
-    /**
-     * @var bool
-     */
-    protected strict = false;
+    protected string elementTag = "option";
+    protected bool inOptGroup = false;
+    protected string selected = "";
+    protected bool strict = false;
 
     /**
      * Add an element to the list
      *
-     * @param string      $text
-     * @param string|null $value
-     * @param array       $attributes
-     * @param bool        $raw
-     *
-     * @return static
+     * @phpstan-param html_attributes $attributes
      */
     public function add(
         string text,
@@ -77,12 +61,7 @@ class Select extends AbstractList
     /**
      * Add a placeholder to the element
      *
-     * @param string $text
-     * @param string $value
-     * @param array  $attributes
-     * @param bool   $raw
-     *
-     * @return static
+     * @phpstan-param html_attributes $attributes
      */
     public function addPlaceholder(
         string text,
@@ -114,9 +93,6 @@ class Select extends AbstractList
      * Flat entries: key = option value, value = label string.
      * Optgroup entries: key = group label, value = [value => label] array.
      *
-     * @param SelectData data
-     *
-     * @return static
      */
     public function fromData(<SelectData> data) -> <static>
     {
@@ -148,10 +124,7 @@ class Select extends AbstractList
     /**
      * Creates an option group
      *
-     * @param string $label
-     * @param array  $attributes
-     *
-     * @return static
+     * @phpstan-param html_attributes $attributes
      */
     public function optGroup(
         string label = null,
@@ -186,9 +159,6 @@ class Select extends AbstractList
      * as `<option value="" disabled selected>$text</option>`, matching the
      * common HTML idiom for "Choose..."-style prompts.
      *
-     * @param string $text
-     *
-     * @return static
      */
     public function placeholder(string text) -> <static>
     {
@@ -210,11 +180,6 @@ class Select extends AbstractList
         return this;
     }
 
-    /**
-     * @param string $selected
-     *
-     * @return static
-     */
     public function selected(string selected) -> <static>
     {
         let this->selected = selected;
@@ -227,10 +192,6 @@ class Select extends AbstractList
      * the previously stored `selected` value. Defaults to loose (`==`),
      * matching the round-tripping fix in `AbstractChecked` so mixed
      * int/string form data marks the right option as selected.
-     *
-     * @param bool $flag
-     *
-     * @return static
      */
     public function strict(bool flag = true) -> <static>
     {
@@ -239,27 +200,18 @@ class Select extends AbstractList
         return this;
     }
 
-    /**
-     * @return string
-     */
     protected function getTag() -> string
     {
         return "select";
     }
 
-    /**
-     * @return string
-     */
     protected function optGroupEnd() -> string
     {
         return "</optgroup>";
     }
 
     /**
-     * @param string $label
-     * @param array  $attributes
-     *
-     * @return string
+     * @phpstan-param html_attributes $attributes
      */
     protected function optGroupStart(
         string label,
@@ -274,10 +226,9 @@ class Select extends AbstractList
      * Checks if the value has been passed and if it is the same as the
      * value stored in the object
      *
-     * @param array  $attributes
-     * @param string $value
+     * @phpstan-param html_attributes $attributes
      *
-     * @return array
+     * @phpstan-return html_attributes
      */
     private function processValue(
         array attributes,

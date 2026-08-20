@@ -22,17 +22,10 @@ namespace Phalcon\Html\Helper\Input;
  */
 class RadioGroup extends AbstractGroup
 {
-    /**
-     * @var string
-     */
-    protected type = "radio";
+    protected string type = "radio";
 
     /**
      * Returns true when $value loosely equals the checked scalar.
-     *
-     * @param string $value
-     *
-     * @return bool
      */
     protected function isChecked(string value) -> bool
     {

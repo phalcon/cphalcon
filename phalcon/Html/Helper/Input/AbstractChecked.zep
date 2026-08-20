@@ -14,8 +14,7 @@
 
 namespace Phalcon\Html\Helper\Input;
 
-use Phalcon\Html\Escaper\EscaperInterface;
-use Phalcon\Html\Helper\Doctype;
+use Phalcon\Contracts\Html\HtmlTypes;
 
 /**
  * Shared base for inputs that can be checked: `<input type="checkbox">` and
@@ -27,42 +26,25 @@ use Phalcon\Html\Helper\Doctype;
  * mixed int/string form input round-trips correctly (e.g. `value=0` against
  * `checked="0"`). Strict (`===`) matching is available via `strict(true)`.
  *
- * @property array $label
- * @property bool  $strict
+ * @phpstan-import-type html_attributes from HtmlTypes
+ * @phpstan-import-type html_checked_label from HtmlTypes
  */
 abstract class AbstractChecked extends AbstractInput
 {
     /**
-     * @var array
+     * @phpstan-var html_checked_label
      */
-    protected label = [];
-
-    /**
-     * @var bool
-     */
-    protected strict = false;
-
-    /**
-     * @param EscaperInterface $escaper
-     * @param Doctype          $doctype
-     */
-    public function __construct(<EscaperInterface> escaper, <Doctype> doctype = null)
-    {
-        parent::__construct(escaper, doctype);
-
-        let this->label = [
-            "start" : "",
-            "text"  : "",
-            "end"   : ""
-        ];
-    }
+    protected array label = [
+        "start" : "",
+        "text"  : "",
+        "end"   : ""
+    ];
+    protected bool strict = false;
 
     /**
      * Returns the HTML for the input, optionally surrounded by the label
      * fragment configured via `label()` and preceded by the hidden companion
      * input emitted when an `unchecked` attribute is supplied.
-     *
-     * @return string
      */
     public function __toString()
     {
@@ -92,9 +74,7 @@ abstract class AbstractChecked extends AbstractInput
      * pseudo-attribute, if present, becomes the label text and is stripped
      * from the rendered attributes.
      *
-     * @param array $attributes
-     *
-     * @return static
+     * @phpstan-param html_attributes $attributes
      */
     public function label(array attributes = []) -> <static>
     {
@@ -128,10 +108,6 @@ abstract class AbstractChecked extends AbstractInput
      * checked. Defaults to loose (`==`), which matches typical form-input
      * round-tripping where types may differ between the source data and the
      * value rendered into the markup.
-     *
-     * @param bool $flag
-     *
-     * @return static
      */
     public function strict(bool flag = true) -> <static>
     {
@@ -189,8 +165,6 @@ abstract class AbstractChecked extends AbstractInput
     /**
      * Returns the markup for the optional hidden companion input that lets
      * a checkbox/radio submit a value when unchecked.
-     *
-     * @return string
      */
     protected function processUnchecked() -> string
     {

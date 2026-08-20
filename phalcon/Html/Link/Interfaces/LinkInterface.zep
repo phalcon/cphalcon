@@ -10,18 +10,24 @@
 
 namespace Phalcon\Html\Link\Interfaces;
 
+use Phalcon\Contracts\Html\Link\LinkTypes;
+
 /**
  * A readable link object.
+ *
+ * @phpstan-import-type link_attributes from LinkTypes
+ * @phpstan-import-type link_rels from LinkTypes
  */
 interface LinkInterface
 {
     /**
      * Returns a list of attributes that describe the target URI.
      *
-     * @return array
-     *   A key-value list of attributes, where the key is a string and the value
-     *  is either a PHP primitive or an array of PHP strings. If no values are
-     *  found an empty array MUST be returned.
+     * A key-value list of attributes, where the key is a string and the value
+     * is either a PHP primitive or an array of PHP strings. If no values are
+     * found an empty array MUST be returned.
+     *
+     * @phpstan-return link_attributes
      */
     public function getAttributes() -> array;
 
@@ -46,7 +52,7 @@ interface LinkInterface
      * This method returns 0 or more relationship types for a link, expressed
      * as an array of strings.
      *
-     * @return string[]
+     * @phpstan-return link_rels
      */
     public function getRels() -> array;
 

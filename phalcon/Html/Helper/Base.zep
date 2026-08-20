@@ -14,21 +14,19 @@
 
 namespace Phalcon\Html\Helper;
 
-use Phalcon\Html\Exception;
+use Phalcon\Contracts\Html\HtmlTypes;
 
 /**
  * Class Base
+ *
+ * @phpstan-import-type html_attributes from HtmlTypes
  */
 class Base extends AbstractHelper
 {
     /**
      * Produce a `<base/>` tag.
      *
-     * @param string $href
-     * @param array  $attributes
-     *
-     * @return string
-     * @throws Exception
+     * @phpstan-param html_attributes $attributes
      */
     public function __invoke(string href = null, array attributes = []) -> string
     {

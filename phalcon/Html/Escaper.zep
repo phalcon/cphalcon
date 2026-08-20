@@ -14,6 +14,7 @@
 
 namespace Phalcon\Html;
 
+use Phalcon\Contracts\Html\HtmlTypes;
 use Phalcon\Html\Escaper\AttributeEscaper;
 use Phalcon\Html\Escaper\CssEscaper;
 use Phalcon\Html\Escaper\EscaperInterface;
@@ -45,38 +46,15 @@ use Phalcon\Html\Escaper\UrlEscaper;
  * echo $escaped; // font\2D family\3A \20 \3C Verdana\3E
  *```
  *
- * @property AttributeEscaper $attributeEscaper
- * @property CssEscaper       $cssEscaper
- * @property HtmlEscaper      $htmlEscaper
- * @property JsEscaper        $jsEscaper
- * @property UrlEscaper       $urlEscaper
+ * @phpstan-import-type html_escaper_input from HtmlTypes
  */
 class Escaper implements EscaperInterface
 {
-    /**
-     * @var AttributeEscaper
-     */
-    protected attributeEscaper;
-
-    /**
-     * @var CssEscaper
-     */
-    protected cssEscaper;
-
-    /**
-     * @var HtmlEscaper
-     */
-    protected htmlEscaper;
-
-    /**
-     * @var JsEscaper
-     */
-    protected jsEscaper;
-
-    /**
-     * @var UrlEscaper
-     */
-    protected urlEscaper;
+    protected <AttributeEscaper> attributeEscaper;
+    protected <CssEscaper> cssEscaper;
+    protected <HtmlEscaper> htmlEscaper;
+    protected <JsEscaper> jsEscaper;
+    protected <UrlEscaper> urlEscaper;
 
     /**
      * Constructor. Accepts the legacy scalar params for backward compatibility
@@ -107,12 +85,9 @@ class Escaper implements EscaperInterface
     }
 
     /**
-     * Escapes a HTML attribute string or array. Delegates to the configured
-     * `AttributeEscaper`.
+     * Escapes a HTML attribute string or array. Delegates to `AttributeEscaper`.
      *
-     * @param array|string $input
-     *
-     * @return string
+     * @phpstan-param html_escaper_input $input
      */
     public function attributes(var input = null) -> string
     {
@@ -120,11 +95,7 @@ class Escaper implements EscaperInterface
     }
 
     /**
-     * Escape CSS strings. Delegates to the configured `CssEscaper`.
-     *
-     * @param string $input
-     *
-     * @return string
+     * Escape CSS strings. Delegates to `CssEscaper`.
      */
     public function css(string input) -> string
     {
@@ -133,10 +104,6 @@ class Escaper implements EscaperInterface
 
     /**
      * Detects the character encoding of a string. Delegates to `HtmlEscaper`.
-     *
-     * @param string $input
-     *
-     * @return string|null
      */
     final public function detectEncoding(string input) -> string | null
     {
@@ -144,9 +111,6 @@ class Escaper implements EscaperInterface
     }
 
     /**
-     * @param string $input
-     *
-     * @return string
      * @deprecated
      */
     public function escapeCss(string input) -> string
@@ -155,9 +119,6 @@ class Escaper implements EscaperInterface
     }
 
     /**
-     * @param string|null $input
-     *
-     * @return string
      * @deprecated
      */
     public function escapeHtml(string input = null) -> string
@@ -166,9 +127,6 @@ class Escaper implements EscaperInterface
     }
 
     /**
-     * @param string|null $input
-     *
-     * @return string
      * @deprecated
      */
     public function escapeHtmlAttr(string input = null) -> string
@@ -177,9 +135,6 @@ class Escaper implements EscaperInterface
     }
 
     /**
-     * @param string $input
-     *
-     * @return string
      * @deprecated
      */
     public function escapeJs(string input) -> string
@@ -188,9 +143,6 @@ class Escaper implements EscaperInterface
     }
 
     /**
-     * @param string $input
-     *
-     * @return string
      * @deprecated
      */
     public function escapeUrl(string input) -> string
@@ -216,8 +168,6 @@ class Escaper implements EscaperInterface
 
     /**
      * Returns the encoding from the HtmlEscaper.
-     *
-     * @return string
      */
     public function getEncoding() -> string
     {
@@ -226,8 +176,6 @@ class Escaper implements EscaperInterface
 
     /**
      * Returns the flags from the HtmlEscaper.
-     *
-     * @return int
      */
     public function getFlags() -> int
     {
@@ -259,7 +207,7 @@ class Escaper implements EscaperInterface
     }
 
     /**
-     * Escapes a HTML string. Delegates to the configured `HtmlEscaper`.
+     * Escapes a HTML string. Delegates to `HtmlEscaper`.
      *
      * @param string|null $input
      *
@@ -271,11 +219,7 @@ class Escaper implements EscaperInterface
     }
 
     /**
-     * Escape javascript strings. Delegates to the configured `JsEscaper`.
-     *
-     * @param string $input
-     *
-     * @return string
+     * Escape javascript strings. Delegates to `JsEscaper`.
      */
     public function js(string input) -> string
     {
@@ -284,10 +228,6 @@ class Escaper implements EscaperInterface
 
     /**
      * Normalizes a string's encoding to UTF-32. Delegates to `HtmlEscaper`.
-     *
-     * @param string $input
-     *
-     * @return string
      */
     final public function normalizeEncoding(string input) -> string
     {
@@ -296,8 +236,6 @@ class Escaper implements EscaperInterface
 
     /**
      * @param AttributeEscaper $escaper
-     *
-     * @return static
      */
     public function setAttributeEscaper(<AttributeEscaper> escaper) -> <static>
     {
@@ -308,8 +246,6 @@ class Escaper implements EscaperInterface
 
     /**
      * @param CssEscaper $escaper
-     *
-     * @return static
      */
     public function setCssEscaper(<CssEscaper> escaper) -> <static>
     {
@@ -319,9 +255,7 @@ class Escaper implements EscaperInterface
     }
 
     /**
-     * Sets the double_encode flag. Fans out to all sub-objects.
-     *
-     * @param bool $doubleEncode
+     * Sets the double_encode flag. Fans out to all sub-escapers.
      */
     public function setDoubleEncode(bool doubleEncode) -> <static>
     {
@@ -335,9 +269,7 @@ class Escaper implements EscaperInterface
     }
 
     /**
-     * Sets the encoding. Fans out to all sub-objects.
-     *
-     * @param string $encoding
+     * Sets the encoding. Fans out to all sub-escapers.
      */
     public function setEncoding(string encoding) -> <static>
     {
@@ -351,9 +283,7 @@ class Escaper implements EscaperInterface
     }
 
     /**
-     * Sets the htmlspecialchars flags. Fans out to all sub-objects.
-     *
-     * @param int $flags
+     * Sets the htmlspecialchars flags. Fans out to all sub-escapers.
      */
     public function setFlags(int flags) -> <static>
     {
@@ -368,8 +298,6 @@ class Escaper implements EscaperInterface
 
     /**
      * @param HtmlEscaper $escaper
-     *
-     * @return static
      */
     public function setHtmlEscaper(<HtmlEscaper> escaper) -> <static>
     {
@@ -381,12 +309,6 @@ class Escaper implements EscaperInterface
     /**
      * Sets the HTML quoting type for htmlspecialchars.
      *
-     * ```php
-     * $escaper->setHtmlQuoteType(ENT_XHTML);
-     * ```
-     *
-     * @param int $flags
-     *
      * @deprecated
      */
     public function setHtmlQuoteType(int flags) -> <static>
@@ -396,8 +318,6 @@ class Escaper implements EscaperInterface
 
     /**
      * @param JsEscaper $escaper
-     *
-     * @return static
      */
     public function setJsEscaper(<JsEscaper> escaper) -> <static>
     {
@@ -408,8 +328,6 @@ class Escaper implements EscaperInterface
 
     /**
      * @param UrlEscaper $escaper
-     *
-     * @return static
      */
     public function setUrlEscaper(<UrlEscaper> escaper) -> <static>
     {
@@ -419,11 +337,7 @@ class Escaper implements EscaperInterface
     }
 
     /**
-     * Escapes a URL. Delegates to the configured `UrlEscaper`.
-     *
-     * @param string $input
-     *
-     * @return string
+     * Escapes a URL. Delegates to `UrlEscaper`.
      */
     public function url(string input) -> string
     {

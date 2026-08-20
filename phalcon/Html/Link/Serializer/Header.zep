@@ -10,13 +10,19 @@
 
 namespace Phalcon\Html\Link\Serializer;
 
+use Phalcon\Contracts\Html\Link\LinkTypes;
+
 /**
  * Class Phalcon\Http\Link\Serializer\Header
+ *
+ * @phpstan-import-type link_collection from LinkTypes
  */
 class Header implements SerializerInterface
 {
     /**
      * Serializes all the passed links to a HTTP link header
+     *
+     * @phpstan-param link_collection $links
      */
     public function serialize(array links) -> string | null
     {
@@ -78,10 +84,6 @@ class Header implements SerializerInterface
      * Escapes a quoted-string attribute value per RFC 8288 section 3: a
      * backslash and a double quote are each prefixed with a backslash so the
      * value cannot terminate or corrupt the header field.
-     *
-     * @param string $value
-     *
-     * @return string
      */
     private function quote(string value) -> string
     {

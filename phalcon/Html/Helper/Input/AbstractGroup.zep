@@ -14,6 +14,7 @@
 
 namespace Phalcon\Html\Helper\Input;
 
+use Phalcon\Contracts\Html\HtmlTypes;
 use Phalcon\Html\Helper\AbstractHelper;
 
 /**
@@ -27,6 +28,10 @@ use Phalcon\Html\Helper\AbstractHelper;
  * The $checked parameter is resolved by the concrete subclass:
  *   - CheckboxGroup compares against an array of selected values
  *   - RadioGroup compares against a single scalar value
+ *
+ * @phpstan-import-type html_attributes from HtmlTypes
+ * @phpstan-import-type html_group_definition from HtmlTypes
+ * @phpstan-import-type html_group_options from HtmlTypes
  */
 abstract class AbstractGroup extends AbstractHelper
 {
@@ -34,34 +39,20 @@ abstract class AbstractGroup extends AbstractHelper
      * @var mixed
      */
     protected checked = null;
-
+    protected string name = "";
     /**
-     * @var string
+     * @phpstan-var html_group_options
      */
-    protected name = "";
-
+    protected array options = [];
     /**
-     * @var array
+     * @phpstan-var html_attributes
      */
-    protected options = [];
+    protected array sharedAttributes = [];
+    protected string type = "checkbox";
 
     /**
-     * @var array
-     */
-    protected sharedAttributes = [];
-
-    /**
-     * @var string
-     */
-    protected type = "checkbox";
-
-    /**
-     * @param string $name
-     * @param array  $options
-     * @param mixed  $checked
-     * @param array  $attributes
-     *
-     * @return static
+     * @phpstan-param html_group_options $options
+     * @phpstan-param html_attributes     $attributes
      */
     public function __invoke(
         string name,
@@ -79,8 +70,6 @@ abstract class AbstractGroup extends AbstractHelper
 
     /**
      * Renders the group of inputs as a string.
-     *
-     * @return string
      */
     public function __toString() -> string
     {
@@ -116,10 +105,7 @@ abstract class AbstractGroup extends AbstractHelper
     /**
      * Renders a single input + optional label pair.
      *
-     * @param string       $value
-     * @param string|array $definition
-     *
-     * @return string
+     * @phpstan-param html_group_definition $definition
      */
     protected function renderItem(string value, var definition) -> string
     {
