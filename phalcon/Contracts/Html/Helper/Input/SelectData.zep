@@ -14,11 +14,16 @@
 
 namespace Phalcon\Contracts\Html\Helper\Input;
 
+use Phalcon\Contracts\Html\HtmlTypes;
+
 /**
  * Interface for SELECT option data providers.
  *
  * Return format: [value => label] for flat options;
  * [groupLabel => [value => label, ...]] for optgroups.
+ *
+ * @phpstan-import-type html_select_attributes from HtmlTypes
+ * @phpstan-import-type html_select_options from HtmlTypes
  */
 interface SelectData
 {
@@ -28,8 +33,13 @@ interface SelectData
      * Format: [optionValue => [attrName => stringValue, ...]].
      * Implementations must return resolved string values; no escaping,
      * ordering, or rendering is performed here.
+     *
+     * @phpstan-return html_select_attributes
      */
     public function getAttributes() -> array;
 
+    /**
+     * @phpstan-return html_select_options
+     */
     public function getOptions() -> array;
 }

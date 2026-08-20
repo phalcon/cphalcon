@@ -22,6 +22,9 @@
  */
 /**
  * A readable link object.
+ *
+ * @phpstan-import-type link_attributes from LinkTypes
+ * @phpstan-import-type link_rels from LinkTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Html_Link_Interfaces_LinkInterface)
 {
@@ -33,10 +36,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Link_Interfaces_LinkInterface)
 /**
  * Returns a list of attributes that describe the target URI.
  *
- * @return array
- *   A key-value list of attributes, where the key is a string and the value
- *  is either a PHP primitive or an array of PHP strings. If no values are
- *  found an empty array MUST be returned.
+ * A key-value list of attributes, where the key is a string and the value
+ * is either a PHP primitive or an array of PHP strings. If no values are
+ * found an empty array MUST be returned.
+ *
+ * @phpstan-return link_attributes
  */
 ZEPHIR_DOC_METHOD(Phalcon_Html_Link_Interfaces_LinkInterface, getAttributes);
 /**
@@ -59,7 +63,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Html_Link_Interfaces_LinkInterface, getHref);
  * This method returns 0 or more relationship types for a link, expressed
  * as an array of strings.
  *
- * @return string[]
+ * @phpstan-return link_rels
  */
 ZEPHIR_DOC_METHOD(Phalcon_Html_Link_Interfaces_LinkInterface, getRels);
 /**

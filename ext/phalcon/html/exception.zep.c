@@ -27,9 +27,7 @@
  * @license https://github.com/auraphp/Aura.Html/blob/2.x/LICENSE
  */
 /**
- * Phalcon\Html\Exception
- *
- * Exceptions thrown in Phalcon\Html will use this class
+ * Class Exception
  */
 ZEPHIR_INIT_CLASS(Phalcon_Html_Exception)
 {

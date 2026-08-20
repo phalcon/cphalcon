@@ -21,17 +21,11 @@ use Phalcon\Support\Collection;
 
 /**
  * This class helps to work with HTML Attributes
+ *
+ * @extends Collection<mixed>
  */
 class Attributes extends Collection implements RenderInterface
 {
-    /**
-     * Render attributes as HTML attributes
-     */
-    public function render() -> string
-    {
-        return this->renderAttributes(this->toArray());
-    }
-
     /**
      * Alias of the render method
      */
@@ -41,7 +35,17 @@ class Attributes extends Collection implements RenderInterface
     }
 
     /**
+     * Render attributes as HTML attributes
+     */
+    public function render() -> string
+    {
+        return this->renderAttributes(this->toArray());
+    }
+
+    /**
      * @todo remove this when we refactor forms. Maybe remove this class? Put it into traits
+     *
+     * @phpstan-param array<array-key, mixed> $attributes
      */
     protected function renderAttributes(array attributes) -> string
     {

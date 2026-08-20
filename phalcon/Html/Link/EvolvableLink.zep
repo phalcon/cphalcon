@@ -10,10 +10,13 @@
 
 namespace Phalcon\Html\Link;
 
+use Phalcon\Contracts\Html\Link\LinkTypes;
 use Phalcon\Html\Link\Interfaces\EvolvableLinkInterface;
 
 /**
  * Class Phalcon\Html\Link\EvolvableLink
+ *
+ * @phpstan-import-type link_attribute_value from LinkTypes
  */
 class EvolvableLink extends Link implements EvolvableLinkInterface
 {
@@ -23,8 +26,7 @@ class EvolvableLink extends Link implements EvolvableLinkInterface
      * If the specified attribute is already present, it will be overwritten
      * with the new value.
      *
-     * @param string       $attribute The attribute to include.
-     * @param string|array $value     The value of the attribute to set.
+     * @phpstan-param link_attribute_value $value
      */
     public function withAttribute(var attribute, var value) -> <static>
     {
@@ -45,8 +47,6 @@ class EvolvableLink extends Link implements EvolvableLinkInterface
      *
      * An implementing library SHOULD evaluate a passed object to a string
      * immediately rather than waiting for it to be returned later.
-     *
-     * @param string $rel The relationship value to add.
      */
     public function withHref(string href) -> <static>
     {
@@ -54,25 +54,10 @@ class EvolvableLink extends Link implements EvolvableLinkInterface
     }
 
     /**
-     * Returns an instance with the specified relationship included.
-     *
-     * If the specified rel is already present, this method MUST return
-     * normally without errors, but without adding the rel a second time.
-     *
-     * @param string $rel The relationship value to add.
-     */
-    public function withRel(string rel) -> <static>
-    {
-        return this->doWithRel(rel);
-    }
-
-    /**
      * Returns an instance with the specified attribute excluded.
      *
      * If the specified attribute is not present, this method MUST return
      * normally without errors.
-     *
-     * @param string $attribute The attribute to remove.
      */
     public function withoutAttribute(string attribute) -> <static>
     {
@@ -84,11 +69,20 @@ class EvolvableLink extends Link implements EvolvableLinkInterface
      *
      * If the specified rel is not present, this method MUST return
      * normally without errors.
-     *
-     * @param string $rel The relationship value to exclude.
      */
     public function withoutRel(string rel) -> <static>
     {
         return this->doWithoutRel(rel);
+    }
+
+    /**
+     * Returns an instance with the specified relationship included.
+     *
+     * If the specified rel is already present, this method MUST return
+     * normally without errors, but without adding the rel a second time.
+     */
+    public function withRel(string rel) -> <static>
+    {
+        return this->doWithRel(rel);
     }
 }

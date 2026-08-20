@@ -32,6 +32,8 @@
  */
 /**
  * Class Img
+ *
+ * @phpstan-import-type html_attributes from HtmlTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Img)
 {
@@ -43,11 +45,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Img)
 /**
  * Produce a <img> tag.
  *
- * @param string $src
- * @param array  $attributes
- *
- * @return string
- * @throws Exception
+ * @phpstan-param html_attributes $attributes
  */
 PHP_METHOD(Phalcon_Html_Helper_Img, __invoke)
 {

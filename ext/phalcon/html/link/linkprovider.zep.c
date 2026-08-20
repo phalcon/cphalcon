@@ -26,7 +26,10 @@
  * file that was distributed with this source code.
  */
 /**
- * @property LinkInterface[] links
+ * @phpstan-import-type link_collection from LinkTypes
+ * @phpstan-import-type link_list from LinkTypes
+ *
+ * @phpstan-property link_collection $links
  */
 ZEPHIR_INIT_CLASS(Phalcon_Html_Link_LinkProvider)
 {
@@ -41,6 +44,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Link_LinkProvider)
  *
  * The iterable may be an array or any PHP \Traversable object. If no links
  * are available, an empty array or \Traversable MUST be returned.
+ *
+ * @phpstan-return link_collection
  */
 PHP_METHOD(Phalcon_Html_Link_LinkProvider, getLinks)
 {
@@ -62,6 +67,10 @@ PHP_METHOD(Phalcon_Html_Link_LinkProvider, getLinks)
  * The iterable may be an array or any PHP \Traversable object. If no links
  * with that relationship are available, an empty array or \Traversable
  * MUST be returned.
+ *
+ * @phpstan-param string $rel
+ *
+ * @phpstan-return link_list
  */
 PHP_METHOD(Phalcon_Html_Link_LinkProvider, getLinksByRel)
 {

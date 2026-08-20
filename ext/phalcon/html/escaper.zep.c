@@ -54,36 +54,42 @@
  * echo $escaped; // font\2D family\3A \20 \3C Verdana\3E
  *```
  *
- * @property AttributeEscaper $attributeEscaper
- * @property CssEscaper       $cssEscaper
- * @property HtmlEscaper      $htmlEscaper
- * @property JsEscaper        $jsEscaper
- * @property UrlEscaper       $urlEscaper
+ * @phpstan-import-type html_escaper_input from HtmlTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Html_Escaper)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Html, Escaper, phalcon, html_escaper, phalcon_html_escaper_method_entry, 0);
 
-	/**
-	 * @var AttributeEscaper
-	 */
-	zend_declare_property_null(phalcon_html_escaper_ce, SL("attributeEscaper"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var CssEscaper
-	 */
-	zend_declare_property_null(phalcon_html_escaper_ce, SL("cssEscaper"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var HtmlEscaper
-	 */
-	zend_declare_property_null(phalcon_html_escaper_ce, SL("htmlEscaper"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var JsEscaper
-	 */
-	zend_declare_property_null(phalcon_html_escaper_ce, SL("jsEscaper"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var UrlEscaper
-	 */
-	zend_declare_property_null(phalcon_html_escaper_ce, SL("urlEscaper"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_html_escaper_ce, SL("attributeEscaper"), &_zc0, ZEND_ACC_PROTECTED, 0, SL("Phalcon\\Html\\Escaper\\AttributeEscaper"));
+	}
+
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_html_escaper_ce, SL("cssEscaper"), &_zc0, ZEND_ACC_PROTECTED, 0, SL("Phalcon\\Html\\Escaper\\CssEscaper"));
+	}
+
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_html_escaper_ce, SL("htmlEscaper"), &_zc0, ZEND_ACC_PROTECTED, 0, SL("Phalcon\\Html\\Escaper\\HtmlEscaper"));
+	}
+
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_html_escaper_ce, SL("jsEscaper"), &_zc0, ZEND_ACC_PROTECTED, 0, SL("Phalcon\\Html\\Escaper\\JsEscaper"));
+	}
+
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_html_escaper_ce, SL("urlEscaper"), &_zc0, ZEND_ACC_PROTECTED, 0, SL("Phalcon\\Html\\Escaper\\UrlEscaper"));
+	}
+
 	zend_class_implements(phalcon_html_escaper_ce, 1, phalcon_html_escaper_escaperinterface_ce);
 	return SUCCESS;
 }
@@ -225,12 +231,9 @@ PHP_METHOD(Phalcon_Html_Escaper, __construct)
 }
 
 /**
- * Escapes a HTML attribute string or array. Delegates to the configured
- * `AttributeEscaper`.
+ * Escapes a HTML attribute string or array. Delegates to `AttributeEscaper`.
  *
- * @param array|string $input
- *
- * @return string
+ * @phpstan-param html_escaper_input $input
  */
 PHP_METHOD(Phalcon_Html_Escaper, attributes)
 {
@@ -266,11 +269,7 @@ PHP_METHOD(Phalcon_Html_Escaper, attributes)
 }
 
 /**
- * Escape CSS strings. Delegates to the configured `CssEscaper`.
- *
- * @param string $input
- *
- * @return string
+ * Escape CSS strings. Delegates to `CssEscaper`.
  */
 PHP_METHOD(Phalcon_Html_Escaper, css)
 {
@@ -302,10 +301,6 @@ PHP_METHOD(Phalcon_Html_Escaper, css)
 
 /**
  * Detects the character encoding of a string. Delegates to `HtmlEscaper`.
- *
- * @param string $input
- *
- * @return string|null
  */
 PHP_METHOD(Phalcon_Html_Escaper, detectEncoding)
 {
@@ -336,9 +331,6 @@ PHP_METHOD(Phalcon_Html_Escaper, detectEncoding)
 }
 
 /**
- * @param string $input
- *
- * @return string
  * @deprecated
  */
 PHP_METHOD(Phalcon_Html_Escaper, escapeCss)
@@ -363,9 +355,6 @@ PHP_METHOD(Phalcon_Html_Escaper, escapeCss)
 }
 
 /**
- * @param string|null $input
- *
- * @return string
  * @deprecated
  */
 PHP_METHOD(Phalcon_Html_Escaper, escapeHtml)
@@ -399,9 +388,6 @@ PHP_METHOD(Phalcon_Html_Escaper, escapeHtml)
 }
 
 /**
- * @param string|null $input
- *
- * @return string
  * @deprecated
  */
 PHP_METHOD(Phalcon_Html_Escaper, escapeHtmlAttr)
@@ -435,9 +421,6 @@ PHP_METHOD(Phalcon_Html_Escaper, escapeHtmlAttr)
 }
 
 /**
- * @param string $input
- *
- * @return string
  * @deprecated
  */
 PHP_METHOD(Phalcon_Html_Escaper, escapeJs)
@@ -462,9 +445,6 @@ PHP_METHOD(Phalcon_Html_Escaper, escapeJs)
 }
 
 /**
- * @param string $input
- *
- * @return string
  * @deprecated
  */
 PHP_METHOD(Phalcon_Html_Escaper, escapeUrl)
@@ -508,8 +488,6 @@ PHP_METHOD(Phalcon_Html_Escaper, getCssEscaper)
 
 /**
  * Returns the encoding from the HtmlEscaper.
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Html_Escaper, getEncoding)
 {
@@ -534,8 +512,6 @@ PHP_METHOD(Phalcon_Html_Escaper, getEncoding)
 
 /**
  * Returns the flags from the HtmlEscaper.
- *
- * @return int
  */
 PHP_METHOD(Phalcon_Html_Escaper, getFlags)
 {
@@ -586,7 +562,7 @@ PHP_METHOD(Phalcon_Html_Escaper, getUrlEscaper)
 }
 
 /**
- * Escapes a HTML string. Delegates to the configured `HtmlEscaper`.
+ * Escapes a HTML string. Delegates to `HtmlEscaper`.
  *
  * @param string|null $input
  *
@@ -627,11 +603,7 @@ PHP_METHOD(Phalcon_Html_Escaper, html)
 }
 
 /**
- * Escape javascript strings. Delegates to the configured `JsEscaper`.
- *
- * @param string $input
- *
- * @return string
+ * Escape javascript strings. Delegates to `JsEscaper`.
  */
 PHP_METHOD(Phalcon_Html_Escaper, js)
 {
@@ -663,10 +635,6 @@ PHP_METHOD(Phalcon_Html_Escaper, js)
 
 /**
  * Normalizes a string's encoding to UTF-32. Delegates to `HtmlEscaper`.
- *
- * @param string $input
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Html_Escaper, normalizeEncoding)
 {
@@ -698,8 +666,6 @@ PHP_METHOD(Phalcon_Html_Escaper, normalizeEncoding)
 
 /**
  * @param AttributeEscaper $escaper
- *
- * @return static
  */
 PHP_METHOD(Phalcon_Html_Escaper, setAttributeEscaper)
 {
@@ -722,8 +688,6 @@ PHP_METHOD(Phalcon_Html_Escaper, setAttributeEscaper)
 
 /**
  * @param CssEscaper $escaper
- *
- * @return static
  */
 PHP_METHOD(Phalcon_Html_Escaper, setCssEscaper)
 {
@@ -745,9 +709,7 @@ PHP_METHOD(Phalcon_Html_Escaper, setCssEscaper)
 }
 
 /**
- * Sets the double_encode flag. Fans out to all sub-objects.
- *
- * @param bool $doubleEncode
+ * Sets the double_encode flag. Fans out to all sub-escapers.
  */
 PHP_METHOD(Phalcon_Html_Escaper, setDoubleEncode)
 {
@@ -838,9 +800,7 @@ PHP_METHOD(Phalcon_Html_Escaper, setDoubleEncode)
 }
 
 /**
- * Sets the encoding. Fans out to all sub-objects.
- *
- * @param string $encoding
+ * Sets the encoding. Fans out to all sub-escapers.
  */
 PHP_METHOD(Phalcon_Html_Escaper, setEncoding)
 {
@@ -903,9 +863,7 @@ PHP_METHOD(Phalcon_Html_Escaper, setEncoding)
 }
 
 /**
- * Sets the htmlspecialchars flags. Fans out to all sub-objects.
- *
- * @param int $flags
+ * Sets the htmlspecialchars flags. Fans out to all sub-escapers.
  */
 PHP_METHOD(Phalcon_Html_Escaper, setFlags)
 {
@@ -972,8 +930,6 @@ PHP_METHOD(Phalcon_Html_Escaper, setFlags)
 
 /**
  * @param HtmlEscaper $escaper
- *
- * @return static
  */
 PHP_METHOD(Phalcon_Html_Escaper, setHtmlEscaper)
 {
@@ -996,12 +952,6 @@ PHP_METHOD(Phalcon_Html_Escaper, setHtmlEscaper)
 
 /**
  * Sets the HTML quoting type for htmlspecialchars.
- *
- * ```php
- * $escaper->setHtmlQuoteType(ENT_XHTML);
- * ```
- *
- * @param int $flags
  *
  * @deprecated
  */
@@ -1027,8 +977,6 @@ PHP_METHOD(Phalcon_Html_Escaper, setHtmlQuoteType)
 
 /**
  * @param JsEscaper $escaper
- *
- * @return static
  */
 PHP_METHOD(Phalcon_Html_Escaper, setJsEscaper)
 {
@@ -1051,8 +999,6 @@ PHP_METHOD(Phalcon_Html_Escaper, setJsEscaper)
 
 /**
  * @param UrlEscaper $escaper
- *
- * @return static
  */
 PHP_METHOD(Phalcon_Html_Escaper, setUrlEscaper)
 {
@@ -1074,11 +1020,7 @@ PHP_METHOD(Phalcon_Html_Escaper, setUrlEscaper)
 }
 
 /**
- * Escapes a URL. Delegates to the configured `UrlEscaper`.
- *
- * @param string $input
- *
- * @return string
+ * Escapes a URL. Delegates to `UrlEscaper`.
  */
 PHP_METHOD(Phalcon_Html_Escaper, url)
 {

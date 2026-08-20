@@ -3,18 +3,11 @@ extern zend_class_entry *phalcon_html_helper_input_abstractchecked_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Input_AbstractChecked);
 
-PHP_METHOD(Phalcon_Html_Helper_Input_AbstractChecked, __construct);
 PHP_METHOD(Phalcon_Html_Helper_Input_AbstractChecked, __toString);
 PHP_METHOD(Phalcon_Html_Helper_Input_AbstractChecked, label);
 PHP_METHOD(Phalcon_Html_Helper_Input_AbstractChecked, strict);
 PHP_METHOD(Phalcon_Html_Helper_Input_AbstractChecked, processChecked);
 PHP_METHOD(Phalcon_Html_Helper_Input_AbstractChecked, processUnchecked);
-zend_object *zephir_init_properties_Phalcon_Html_Helper_Input_AbstractChecked(zend_class_entry *class_type);
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_html_helper_input_abstractchecked___construct, 0, 0, 1)
-	ZEND_ARG_OBJ_INFO(0, escaper, Phalcon\\Html\\Escaper\\EscaperInterface, 0)
-	ZEND_ARG_OBJ_TYPE_MASK(0, doctype, Phalcon\\Html\\Helper\\Doctype, MAY_BE_NULL, "null")
-ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_helper_input_abstractchecked___tostring, 0, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
@@ -33,11 +26,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_helper_input_abstractchecked_processunchecked, 0, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_html_helper_input_abstractchecked_zephir_init_properties_phalcon_html_helper_input_abstractchecked, 0, 0, 0)
-ZEND_END_ARG_INFO()
-
 ZEPHIR_INIT_FUNCS(phalcon_html_helper_input_abstractchecked_method_entry) {
-	PHP_ME(Phalcon_Html_Helper_Input_AbstractChecked, __construct, arginfo_phalcon_html_helper_input_abstractchecked___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 PHP_ME(Phalcon_Html_Helper_Input_AbstractChecked, __toString, arginfo_phalcon_html_helper_input_abstractchecked___tostring, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Html_Helper_Input_AbstractChecked, label, arginfo_phalcon_html_helper_input_abstractchecked_label, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Html_Helper_Input_AbstractChecked, strict, arginfo_phalcon_html_helper_input_abstractchecked_strict, ZEND_ACC_PUBLIC)

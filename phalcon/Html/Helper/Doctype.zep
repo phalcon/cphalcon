@@ -80,9 +80,6 @@ class Doctype
 
     /**
      * Produce a <doctype> tag
-     *
-     * @param int    $type
-     * @param string $delimiter
      */
     public function __invoke(
         int type = self::HTML5,
@@ -94,9 +91,6 @@ class Doctype
         return this;
     }
 
-    /**
-     * @return string
-     */
     public function __toString() -> string
     {
         switch this->type {
@@ -148,9 +142,6 @@ class Doctype
         return "<!DOCTYPE html>" . this->delimiter;
     }
 
-    /**
-     * @return int
-     */
     public function getType() -> int
     {
         return this->type;

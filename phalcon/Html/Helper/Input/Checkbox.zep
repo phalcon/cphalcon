@@ -20,8 +20,5 @@ namespace Phalcon\Html\Helper\Input;
  */
 class Checkbox extends AbstractChecked
 {
-    /**
-     * @var string
-     */
-    protected type = "checkbox";
+    protected string type = "checkbox";
 }

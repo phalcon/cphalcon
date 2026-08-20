@@ -39,19 +39,17 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Input_RadioGroup)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Html\\Helper\\Input, RadioGroup, phalcon, html_helper_input_radiogroup, phalcon_html_helper_input_abstractgroup_ce, phalcon_html_helper_input_radiogroup_method_entry, 0);
 
-	/**
-	 * @var string
-	 */
-	zend_declare_property_string(phalcon_html_helper_input_radiogroup_ce, SL("type"), "radio", ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_STRINGL(&_zc0, "radio", sizeof("radio") - 1);
+		zephir_declare_typed_property(phalcon_html_helper_input_radiogroup_ce, SL("type"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
+
 	return SUCCESS;
 }
 
 /**
  * Returns true when $value loosely equals the checked scalar.
- *
- * @param string $value
- *
- * @return bool
  */
 PHP_METHOD(Phalcon_Html_Helper_Input_RadioGroup, isChecked)
 {
@@ -77,12 +75,12 @@ PHP_METHOD(Phalcon_Html_Helper_Input_RadioGroup, isChecked)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&value_zv);
 	ZVAL_STR_COPY(&value_zv, value);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 836, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 835, PH_NOISY_CC | PH_READONLY);
 	if (Z_TYPE_P(&_0) == IS_NULL) {
 		RETURN_MM_BOOL(0);
 	}
 	zephir_memory_observe(&_1);
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 836, PH_NOISY_CC);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 835, PH_NOISY_CC);
 	zephir_cast_to_string(&_2, &_1);
 	RETURN_MM_BOOL(ZEPHIR_IS_IDENTICAL(&_2, &value_zv));
 }

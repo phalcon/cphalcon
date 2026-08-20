@@ -15,11 +15,8 @@
 namespace Phalcon\Html;
 
 /**
- * Phalcon\Html\Exception
- *
- * Exceptions thrown in Phalcon\Html will use this class
+ * Class Exception
  */
 class Exception extends \Exception
 {
-
 }

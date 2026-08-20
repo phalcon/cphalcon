@@ -41,19 +41,17 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Input_CheckboxGroup)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Html\\Helper\\Input, CheckboxGroup, phalcon, html_helper_input_checkboxgroup, phalcon_html_helper_input_abstractgroup_ce, phalcon_html_helper_input_checkboxgroup_method_entry, 0);
 
-	/**
-	 * @var string
-	 */
-	zend_declare_property_string(phalcon_html_helper_input_checkboxgroup_ce, SL("type"), "checkbox", ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_STRINGL(&_zc0, "checkbox", sizeof("checkbox") - 1);
+		zephir_declare_typed_property(phalcon_html_helper_input_checkboxgroup_ce, SL("type"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
+
 	return SUCCESS;
 }
 
 /**
  * Returns true when $value appears in the checked list.
- *
- * @param string $value
- *
- * @return bool
  */
 PHP_METHOD(Phalcon_Html_Helper_Input_CheckboxGroup, isChecked)
 {
@@ -82,20 +80,20 @@ PHP_METHOD(Phalcon_Html_Helper_Input_CheckboxGroup, isChecked)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&value_zv);
 	ZVAL_STR_COPY(&value_zv, value);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 834, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 833, PH_NOISY_CC | PH_READONLY);
 	if (Z_TYPE_P(&_0) == IS_NULL) {
 		RETURN_MM_BOOL(0);
 	}
 	zephir_memory_observe(&_1);
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 834, PH_NOISY_CC);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 833, PH_NOISY_CC);
 	if (Z_TYPE_P(&_1) == IS_ARRAY) {
 		zephir_memory_observe(&selected);
-		zephir_read_property_cached(&selected, this_ptr, _zephir_prop_0, 834, PH_NOISY_CC);
+		zephir_read_property_cached(&selected, this_ptr, _zephir_prop_0, 833, PH_NOISY_CC);
 	} else {
 		ZEPHIR_INIT_VAR(&_2$$5);
 		zephir_create_array(&_2$$5, 1, 0);
 		zephir_memory_observe(&_3$$5);
-		zephir_read_property_cached(&_3$$5, this_ptr, _zephir_prop_0, 834, PH_NOISY_CC);
+		zephir_read_property_cached(&_3$$5, this_ptr, _zephir_prop_0, 833, PH_NOISY_CC);
 		zephir_array_fast_append(&_2$$5, &_3$$5);
 		ZEPHIR_CPY_WRT(&selected, &_2$$5);
 	}

@@ -33,6 +33,8 @@
  */
 /**
  * Class Base
+ *
+ * @phpstan-import-type html_attributes from HtmlTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Base)
 {
@@ -44,11 +46,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Base)
 /**
  * Produce a `<base/>` tag.
  *
- * @param string $href
- * @param array  $attributes
- *
- * @return string
- * @throws Exception
+ * @phpstan-param html_attributes $attributes
  */
 PHP_METHOD(Phalcon_Html_Helper_Base, __invoke)
 {

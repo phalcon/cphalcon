@@ -41,22 +41,6 @@ final class RenderTest extends AbstractUnitTestCase
 
     /**
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2022-08-02
-     */
-    public function testImageAdapterImagickRenderDefaultExtension(): void
-    {
-        $source = Talon::settings()->supportPath('assets/images/example-jpg.jpg');
-        $image  = new Imagick($source);
-        $image->setResourceLimit(6, 1);
-
-        $result = $image->render();
-
-        $this->assertNotEmpty($result);
-        $this->assertIsString($result);
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
      * @since  2026-08-19
      */
     public function testImageAdapterImagickRenderAnimatedGif(): void
@@ -78,5 +62,21 @@ final class RenderTest extends AbstractUnitTestCase
         $reflected->readImageBlob($image->render('gif'));
 
         $this->assertSame(15, $reflected->getNumberImages());
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2022-08-02
+     */
+    public function testImageAdapterImagickRenderDefaultExtension(): void
+    {
+        $source = Talon::settings()->supportPath('assets/images/example-jpg.jpg');
+        $image  = new Imagick($source);
+        $image->setResourceLimit(6, 1);
+
+        $result = $image->render();
+
+        $this->assertNotEmpty($result);
+        $this->assertIsString($result);
     }
 }

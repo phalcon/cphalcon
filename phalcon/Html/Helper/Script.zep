@@ -14,20 +14,18 @@
 
 namespace Phalcon\Html\Helper;
 
-use Phalcon\Html\Exception;
+use Phalcon\Contracts\Html\HtmlTypes;
 /**
  * Class Script
+ *
+ * @phpstan-import-type html_attributes from HtmlTypes
  */
 class Script extends AbstractSeries
 {
     /**
      * Add an element to the list
      *
-     * @param string $url
-     * @param array  $attributes
-     *
-     * @return static
-     * @throws Exception
+     * @phpstan-param html_attributes $attributes
      */
     public function add(string url, array attributes = [], int position = -1) -> <static>
     {
@@ -63,10 +61,7 @@ class Script extends AbstractSeries
      * attributes supplied are placed on the wrapping tag. The script body
      * is treated as raw HTML (it is JavaScript, not user-supplied text).
      *
-     * @param array $attributes
-     * @param int   $position
-     *
-     * @return static
+     * @phpstan-param html_attributes $attributes
      */
     public function endInternal(array attributes = [], int position = -1) -> <static>
     {
@@ -94,10 +89,9 @@ class Script extends AbstractSeries
     /**
      * Returns the necessary attributes
      *
-     * @param string $url
-     * @param array  $attributes
+     * @phpstan-param html_attributes $attributes
      *
-     * @return array
+     * @phpstan-return html_attributes
      */
     protected function getAttributes(string url, array attributes) -> array
     {
@@ -113,9 +107,6 @@ class Script extends AbstractSeries
         return array_merge(required, attributes);
     }
 
-    /**
-     * @return string
-     */
     protected function getTag() -> string
     {
         return "script";

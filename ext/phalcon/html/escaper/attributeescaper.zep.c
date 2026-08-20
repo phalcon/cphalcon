@@ -36,6 +36,8 @@
  * Escapes either a single attribute value (string) or an associative array
  * of attribute pairs. Boolean `true` becomes a bare key (e.g. `disabled`);
  * `false` and `null` skip the entry; arrays are joined with a space.
+ *
+ * @phpstan-import-type html_escaper_input from HtmlTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Html_Escaper_AttributeEscaper)
 {
@@ -45,9 +47,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Escaper_AttributeEscaper)
 }
 
 /**
- * @param array|string|null $input
- *
- * @return string
+ * @phpstan-param html_escaper_input $input
  */
 PHP_METHOD(Phalcon_Html_Escaper_AttributeEscaper, __invoke)
 {
@@ -76,9 +76,7 @@ PHP_METHOD(Phalcon_Html_Escaper_AttributeEscaper, __invoke)
 }
 
 /**
- * @param array|string|null $input
- *
- * @return string
+ * @phpstan-param html_escaper_input $input
  */
 PHP_METHOD(Phalcon_Html_Escaper_AttributeEscaper, escape)
 {
@@ -234,10 +232,6 @@ PHP_METHOD(Phalcon_Html_Escaper_AttributeEscaper, escape)
 
 /**
  * Encodes a single key/value via `htmlspecialchars`.
- *
- * @param string $input
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Html_Escaper_AttributeEscaper, escapeValue)
 {

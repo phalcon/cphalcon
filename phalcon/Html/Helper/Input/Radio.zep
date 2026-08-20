@@ -20,8 +20,5 @@ namespace Phalcon\Html\Helper\Input;
  */
 class Radio extends AbstractChecked
 {
-    /**
-     * @var string
-     */
-    protected type = "radio";
+    protected string type = "radio";
 }

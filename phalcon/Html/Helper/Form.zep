@@ -14,20 +14,21 @@
 
 namespace Phalcon\Html\Helper;
 
-use Phalcon\Html\Exception;
+use Phalcon\Contracts\Html\HtmlTypes;
 
 /**
  * Class Form
+ *
+ * @phpstan-import-type html_attributes from HtmlTypes
  */
 class Form extends AbstractHelper
 {
     /**
-     * Produce a `<form>` tag.
+     * Produce a <form> tag.
      *
-     * @param array $attributes
+     * @phpstan-param html_attributes $attributes
      *
      * @return string
-     * @throws Exception
      */
     public function __invoke(array attributes = []) -> string
     {

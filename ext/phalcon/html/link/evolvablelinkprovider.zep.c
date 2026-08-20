@@ -28,7 +28,9 @@
 /**
  * Class Phalcon\Html\Link\EvolvableLinkProvider
  *
- * @property LinkInterface[] $links
+ * @phpstan-import-type link_collection from LinkTypes
+ *
+ * @phpstan-property link_collection $links
  */
 ZEPHIR_INIT_CLASS(Phalcon_Html_Link_EvolvableLinkProvider)
 {
@@ -42,13 +44,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Link_EvolvableLinkProvider)
  * Returns an instance with the specified link included.
  *
  * If the specified link is already present, this method MUST return
- * normally without errors. The link is present if link is === identical
+ * normally without errors. The link is present if $link is === identical
  * to a link object already in the collection.
- *
- * @param LinkInterface link
- *   A link object that should be included in this collection.
- *
- * @return static
  */
 PHP_METHOD(Phalcon_Html_Link_EvolvableLinkProvider, withLink)
 {
@@ -73,13 +70,8 @@ PHP_METHOD(Phalcon_Html_Link_EvolvableLinkProvider, withLink)
  * Returns an instance with the specified link removed.
  *
  * If the specified link is not present, this method MUST return normally
- * without errors. The link is present if link is === identical to a link
+ * without errors. The link is present if $link is === identical to a link
  * object already in the collection.
- *
- * @param LinkInterface link
- *   The link to remove.
- *
- * @return static
  */
 PHP_METHOD(Phalcon_Html_Link_EvolvableLinkProvider, withoutLink)
 {

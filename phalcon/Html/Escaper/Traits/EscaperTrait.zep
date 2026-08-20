@@ -18,29 +18,15 @@ namespace Phalcon\Html\Escaper\Traits;
  * Shared encoding/flags state and the encoding detection/normalization
  * utilities used by the per-context escaper objects (`HtmlEscaper`,
  * `AttributeEscaper`, `CssEscaper`, `JsEscaper`, `UrlEscaper`).
- *
- * @property bool   $doubleEncode
- * @property string $encoding
- * @property int    $flags
  */
 trait EscaperTrait
 {
-    /**
-     * @var bool
-     */
-    protected doubleEncode = true;
-
-    /**
-     * @var string
-     */
-    protected encoding = "utf-8";
-
+    protected bool doubleEncode = true;
+    protected string encoding = "utf-8";
     /**
      * ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401
-     *
-     * @var int
      */
-    protected flags = 11;
+    protected int flags = 11;
 
     /**
      * Detects the character encoding of a string. Special-handling for
@@ -73,25 +59,16 @@ trait EscaperTrait
         return mb_detect_encoding(input);
     }
 
-    /**
-     * @return bool
-     */
     public function getDoubleEncode() -> bool
     {
         return this->doubleEncode;
     }
 
-    /**
-     * @return string
-     */
     public function getEncoding() -> string
     {
         return this->encoding;
     }
 
-    /**
-     * @return int
-     */
     public function getFlags() -> int
     {
         return this->flags;
@@ -100,10 +77,6 @@ trait EscaperTrait
     /**
      * Normalizes a string's encoding to UTF-32, used by the CSS and JS
      * escapers before invoking the C-level escape routines.
-     *
-     * @param string $input
-     *
-     * @return string
      */
     final public function normalizeEncoding(string input) -> string
     {

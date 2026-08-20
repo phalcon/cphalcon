@@ -34,10 +34,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Input_Checkbox)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Html\\Helper\\Input, Checkbox, phalcon, html_helper_input_checkbox, phalcon_html_helper_input_abstractchecked_ce, NULL, 0);
 
-	/**
-	 * @var string
-	 */
-	zend_declare_property_string(phalcon_html_helper_input_checkbox_ce, SL("type"), "checkbox", ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_STRINGL(&_zc0, "checkbox", sizeof("checkbox") - 1);
+		zephir_declare_typed_property(phalcon_html_helper_input_checkbox_ce, SL("type"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
+
 	return SUCCESS;
 }
 

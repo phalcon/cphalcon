@@ -33,6 +33,8 @@
  */
 /**
  * Class Meta
+ *
+ * @phpstan-import-type html_attributes from HtmlTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Meta)
 {
@@ -44,9 +46,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Meta)
 /**
  * Add an element to the list
  *
- * @param array $attributes
- *
- * @return static
+ * @phpstan-param html_attributes $attributes
  */
 PHP_METHOD(Phalcon_Html_Helper_Meta, add)
 {
@@ -101,14 +101,6 @@ PHP_METHOD(Phalcon_Html_Helper_Meta, add)
 	RETURN_THIS();
 }
 
-/**
- * @param string $httpEquiv
- * @param string $content
- * @param int    $position
- *
- * @return static
- * @throws Exception
- */
 PHP_METHOD(Phalcon_Html_Helper_Meta, addHttp)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -148,14 +140,6 @@ PHP_METHOD(Phalcon_Html_Helper_Meta, addHttp)
 	RETURN_MM();
 }
 
-/**
- * @param string $name
- * @param string $content
- * @param int    $position
- *
- * @return static
- * @throws Exception
- */
 PHP_METHOD(Phalcon_Html_Helper_Meta, addName)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -195,14 +179,6 @@ PHP_METHOD(Phalcon_Html_Helper_Meta, addName)
 	RETURN_THIS();
 }
 
-/**
- * @param string $name
- * @param string $content
- * @param int    $position
- *
- * @return static
- * @throws Exception
- */
 PHP_METHOD(Phalcon_Html_Helper_Meta, addProperty)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -242,24 +218,12 @@ PHP_METHOD(Phalcon_Html_Helper_Meta, addProperty)
 	RETURN_THIS();
 }
 
-/**
- * @return string
- */
 PHP_METHOD(Phalcon_Html_Helper_Meta, getTag)
 {
 
 	RETURN_STRING("meta");
 }
 
-/**
- * @param string $element
- * @param string $value
- * @param string $content
- * @param int    $position
- *
- * @return static
- * @throws Exception
- */
 PHP_METHOD(Phalcon_Html_Helper_Meta, addElement)
 {
 	zval attributes;

@@ -21,6 +21,7 @@ PHP_METHOD(Phalcon_Html_Helper_Breadcrumbs, setTemplate);
 PHP_METHOD(Phalcon_Html_Helper_Breadcrumbs, toArray);
 PHP_METHOD(Phalcon_Html_Helper_Breadcrumbs, getLink);
 PHP_METHOD(Phalcon_Html_Helper_Breadcrumbs, processAttributes);
+PHP_METHOD(Phalcon_Html_Helper_Breadcrumbs, toInterpolate);
 zend_object *zephir_init_properties_Phalcon_Html_Helper_Breadcrumbs(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_html_helper_breadcrumbs___construct, 0, 0, 1)
@@ -96,6 +97,13 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_helper_breadcrumbs_
 	ZEND_ARG_ARRAY_INFO(0, attributes, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_helper_breadcrumbs_tointerpolate, 0, 1, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, input, IS_STRING, 0)
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, context, IS_ARRAY, 0, "[]")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, left, IS_STRING, 0, "'%'")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, right, IS_STRING, 0, "'%'")
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_html_helper_breadcrumbs_zephir_init_properties_phalcon_html_helper_breadcrumbs, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
@@ -118,5 +126,6 @@ ZEPHIR_INIT_FUNCS(phalcon_html_helper_breadcrumbs_method_entry) {
 	PHP_ME(Phalcon_Html_Helper_Breadcrumbs, toArray, arginfo_phalcon_html_helper_breadcrumbs_toarray, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Html_Helper_Breadcrumbs, getLink, arginfo_phalcon_html_helper_breadcrumbs_getlink, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Html_Helper_Breadcrumbs, processAttributes, arginfo_phalcon_html_helper_breadcrumbs_processattributes, ZEND_ACC_PRIVATE)
+	PHP_ME(Phalcon_Html_Helper_Breadcrumbs, toInterpolate, arginfo_phalcon_html_helper_breadcrumbs_tointerpolate, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_FE_END
 };

@@ -39,6 +39,15 @@ final class DetectEncodingTest extends AbstractUnitTestCase
                 '\0\0\0H\0\0\0i',
                 'UTF-8',
             ],
+
+            /**
+             * An empty string is a basic charset. Strict detection reports it
+             * as UTF-32, so the basic-charset check must come first.
+             */
+            [
+                '',
+                'ASCII',
+            ],
         ];
     }
 

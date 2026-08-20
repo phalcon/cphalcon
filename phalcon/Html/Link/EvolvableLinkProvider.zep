@@ -10,13 +10,16 @@
 
 namespace Phalcon\Html\Link;
 
+use Phalcon\Contracts\Html\Link\LinkTypes;
 use Phalcon\Html\Link\Interfaces\EvolvableLinkProviderInterface;
 use Phalcon\Html\Link\Interfaces\LinkInterface;
 
 /**
  * Class Phalcon\Html\Link\EvolvableLinkProvider
  *
- * @property LinkInterface[] $links
+ * @phpstan-import-type link_collection from LinkTypes
+ *
+ * @phpstan-property link_collection $links
  */
 class EvolvableLinkProvider extends LinkProvider implements EvolvableLinkProviderInterface
 {
@@ -24,13 +27,8 @@ class EvolvableLinkProvider extends LinkProvider implements EvolvableLinkProvide
      * Returns an instance with the specified link included.
      *
      * If the specified link is already present, this method MUST return
-     * normally without errors. The link is present if link is === identical
+     * normally without errors. The link is present if $link is === identical
      * to a link object already in the collection.
-     *
-     * @param LinkInterface link
-     *   A link object that should be included in this collection.
-     *
-     * @return static
      */
     public function withLink(<LinkInterface> link) -> <static>
     {
@@ -41,13 +39,8 @@ class EvolvableLinkProvider extends LinkProvider implements EvolvableLinkProvide
      * Returns an instance with the specified link removed.
      *
      * If the specified link is not present, this method MUST return normally
-     * without errors. The link is present if link is === identical to a link
+     * without errors. The link is present if $link is === identical to a link
      * object already in the collection.
-     *
-     * @param LinkInterface link
-     *   The link to remove.
-     *
-     * @return static
      */
     public function withoutLink(<LinkInterface> link) -> <static>
     {

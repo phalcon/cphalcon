@@ -32,31 +32,36 @@
  * @license https://github.com/auraphp/Aura.Html/blob/2.x/LICENSE
  */
 /**
- * @property array $attributes
- * @property array $store
+ * @phpstan-import-type html_attributes from HtmlTypes
+ * @phpstan-import-type html_element_entry from HtmlTypes
+ * @phpstan-import-type html_element_store from HtmlTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_AbstractSeries)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Html\\Helper, AbstractSeries, phalcon, html_helper_abstractseries, phalcon_html_helper_abstracthelper_ce, phalcon_html_helper_abstractseries_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
 	/**
-	 * @var array
+	 * @phpstan-var html_attributes
 	 */
-	zend_declare_property_null(phalcon_html_helper_abstractseries_ce, SL("attributes"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		array_init_size(&_zc0, 1);
+		zephir_declare_typed_property(phalcon_html_helper_abstractseries_ce, SL("attributes"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_ARRAY, NULL, 0);
+	}
+
 	/**
-	 * @var array
+	 * @phpstan-var html_element_store
 	 */
-	zend_declare_property_null(phalcon_html_helper_abstractseries_ce, SL("store"), ZEND_ACC_PROTECTED);
-	phalcon_html_helper_abstractseries_ce->create_object = zephir_init_properties_Phalcon_Html_Helper_AbstractSeries;
+	{
+		zval _zc0;
+		array_init_size(&_zc0, 1);
+		zephir_declare_typed_property(phalcon_html_helper_abstractseries_ce, SL("store"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_ARRAY, NULL, 0);
+	}
 
 	return SUCCESS;
 }
 
 /**
- * @param string $indent
- * @param string $delimiter
- *
- * @return static
  */
 PHP_METHOD(Phalcon_Html_Helper_AbstractSeries, __invoke)
 {
@@ -116,8 +121,6 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractSeries, __invoke)
  * their integer key first, so an asset registered with a lower position
  * renders before one registered with a higher position regardless of
  * registration order.
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Html_Helper_AbstractSeries, __toString)
 {
@@ -175,15 +178,23 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractSeries, reset)
 }
 
 /**
+ * Returns the tag name.
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Html_Helper_AbstractSeries, getTag)
+{
+}
+
+/**
  * Appends an entry to the store, optionally at a specific integer
- * position. When `position` is negative the entry is pushed onto the next
- * available auto-increment slot. When `position` is non-negative the entry
+ * position. When `$pos` is negative the entry is pushed onto the next
+ * available auto-increment slot. When `$pos` is non-negative the entry
  * is placed at that key, advancing past any already-occupied slots so
  * existing entries are not overwritten. The store is ksort()ed in
  * `__toString`, so positions act as a sort key, not a strict address.
  *
- * @param array $entry
- * @param int   $position
+ * @phpstan-param html_element_entry $entry
  */
 PHP_METHOD(Phalcon_Html_Helper_AbstractSeries, pushOrPlace)
 {
@@ -230,47 +241,5 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractSeries, pushOrPlace)
 	ZVAL_LONG(&_1, key);
 	zephir_update_property_array(this_ptr, SL("store"), &_1, &entry);
 	ZEPHIR_MM_RESTORE();
-}
-
-/**
- * Returns the tag name.
- *
- * @return string
- */
-PHP_METHOD(Phalcon_Html_Helper_AbstractSeries, getTag)
-{
-}
-
-zend_object *zephir_init_properties_Phalcon_Html_Helper_AbstractSeries(zend_class_entry *class_type)
-{
-		zval _0, _2, _1$$3, _3$$4;
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-		ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_1$$3);
-	ZVAL_UNDEF(&_3$$4);
-	
-
-		ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-		zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	
-	{
-		zval local_this_ptr, *this_ptr = &local_this_ptr;
-		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		zephir_read_property_ex(&_0, this_ptr, ZEND_STRL("store"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_0) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_1$$3);
-			array_init(&_1$$3);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("store"), &_1$$3);
-		}
-		zephir_read_property_ex(&_2, this_ptr, ZEND_STRL("attributes"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_2) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_3$$4);
-			array_init(&_3$$4);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("attributes"), &_3$$4);
-		}
-		ZEPHIR_MM_RESTORE();
-		return Z_OBJ_P(this_ptr);
-	}
 }
 
