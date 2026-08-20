@@ -26,9 +26,13 @@ class Title extends AbstractHelper
      */
     protected array append = [];
     /**
+     * Untyped on purpose. A typed `array` default is shared by all instances
+     * and `prepend()` mutates it in place, which corrupts the heap. See
+     * team/Planning/2026-08-20-zephir-typed-array-property-shared-default.md
+     *
      * @phpstan-var list<string>
      */
-    protected array prepend = [];
+    protected prepend = [];
     protected string title = "";
     protected string separator = "";
 
