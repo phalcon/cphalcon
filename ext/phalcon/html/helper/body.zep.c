@@ -32,6 +32,8 @@
  */
 /**
  * Class Body
+ *
+ * @phpstan-import-type html_attributes from HtmlTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Body)
 {
@@ -43,10 +45,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Body)
 /**
  * Produce a `<body>` tag.
  *
- * @param array $attributes
- *
- * @return string
- * @throws Exception
+ * @phpstan-param html_attributes $attributes
  */
 PHP_METHOD(Phalcon_Html_Helper_Body, __invoke)
 {

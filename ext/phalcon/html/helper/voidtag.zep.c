@@ -34,6 +34,8 @@
  * Generic void-tag escape hatch. Renders a self-closing tag for any name
  * without a dedicated helper. The trailing `/` is emitted only for XHTML
  * doctypes, matching the `Input/AbstractInput::__toString` convention.
+ *
+ * @phpstan-import-type html_attributes from HtmlTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_VoidTag)
 {
@@ -43,11 +45,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_VoidTag)
 }
 
 /**
- * @param string $name
- * @param array  $attributes
- *
- * @return string
- * @throws Exception
+ * @phpstan-param html_attributes $attributes
  */
 PHP_METHOD(Phalcon_Html_Helper_VoidTag, __invoke)
 {
@@ -90,10 +88,10 @@ PHP_METHOD(Phalcon_Html_Helper_VoidTag, __invoke)
 	}
 	ZEPHIR_INIT_VAR(&closeTag);
 	ZVAL_STRING(&closeTag, "");
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 860, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 859, PH_NOISY_CC | PH_READONLY);
 	_1 = Z_TYPE_P(&_0) != IS_NULL;
 	if (_1) {
-		zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 860, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 859, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_METHOD(&_3, &_2, "gettype", NULL, 0);
 		zephir_check_call_status();
 		_1 = ZEPHIR_GT_LONG(&_3, 5);

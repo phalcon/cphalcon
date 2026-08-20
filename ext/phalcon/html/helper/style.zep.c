@@ -33,26 +33,26 @@
  */
 /**
  * Class Style
+ *
+ * @phpstan-import-type html_attributes from HtmlTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Style)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Html\\Helper, Style, phalcon, html_helper_style, phalcon_html_helper_abstractseries_ce, phalcon_html_helper_style_method_entry, 0);
 
-	/**
-	 * @var bool
-	 */
-	zend_declare_property_bool(phalcon_html_helper_style_ce, SL("isStyle"), 0, ZEND_ACC_PRIVATE);
+	{
+		zval _zc0;
+		ZVAL_BOOL(&_zc0, 0);
+		zephir_declare_typed_property(phalcon_html_helper_style_ce, SL("isStyle"), &_zc0, ZEND_ACC_PRIVATE, MAY_BE_BOOL, NULL, 0);
+	}
+
 	return SUCCESS;
 }
 
 /**
  * Add an element to the list
  *
- * @param string $url
- * @param array  $attributes
- *
- * @return static
- * @throws Exception
+ * @phpstan-param html_attributes $attributes
  */
 PHP_METHOD(Phalcon_Html_Helper_Style, add)
 {
@@ -124,8 +124,6 @@ PHP_METHOD(Phalcon_Html_Helper_Style, add)
 
 /**
  * Sets if this is a style or link tag
- *
- * @param bool $flag
  */
 PHP_METHOD(Phalcon_Html_Helper_Style, setStyle)
 {
@@ -155,10 +153,9 @@ PHP_METHOD(Phalcon_Html_Helper_Style, setStyle)
 /**
  * Returns the necessary attributes
  *
- * @param string $url
- * @param array  $attributes
+ * @phpstan-param html_attributes $attributes
  *
- * @return array
+ * @phpstan-return html_attributes
  */
 PHP_METHOD(Phalcon_Html_Helper_Style, getAttributes)
 {
@@ -202,9 +199,6 @@ PHP_METHOD(Phalcon_Html_Helper_Style, getAttributes)
 	RETURN_MM();
 }
 
-/**
- * @return string
- */
 PHP_METHOD(Phalcon_Html_Helper_Style, getTag)
 {
 	zval _0, _1;

@@ -40,11 +40,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Escaper_HtmlEscaper)
 	return SUCCESS;
 }
 
-/**
- * @param string|null $input
- *
- * @return string
- */
 PHP_METHOD(Phalcon_Html_Escaper_HtmlEscaper, __invoke)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -72,11 +67,6 @@ PHP_METHOD(Phalcon_Html_Escaper_HtmlEscaper, __invoke)
 	RETURN_MM();
 }
 
-/**
- * @param string|null $input
- *
- * @return string
- */
 PHP_METHOD(Phalcon_Html_Escaper_HtmlEscaper, escape)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;

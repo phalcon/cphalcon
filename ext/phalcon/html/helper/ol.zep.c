@@ -34,24 +34,21 @@
 /**
  * Class Ol
  *
- * @property bool $forceRaw
+ * @phpstan-import-type html_attributes from HtmlTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Ol)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Html\\Helper, Ol, phalcon, html_helper_ol, phalcon_html_helper_abstractlist_ce, phalcon_html_helper_ol_method_entry, 0);
 
-	/**
-	 * @var bool
-	 */
-	zend_declare_property_bool(phalcon_html_helper_ol_ce, SL("forceRaw"), 0, ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_BOOL(&_zc0, 0);
+		zephir_declare_typed_property(phalcon_html_helper_ol_ce, SL("forceRaw"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_BOOL, NULL, 0);
+	}
+
 	return SUCCESS;
 }
 
-/**
- * @param EscaperInterface $escaper
- * @param Doctype          $doctype
- * @param bool             $forceRaw
- */
 PHP_METHOD(Phalcon_Html_Helper_Ol, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -101,11 +98,7 @@ PHP_METHOD(Phalcon_Html_Helper_Ol, __construct)
 /**
  * Add an element to the list
  *
- * @param string $text
- * @param array  $attributes
- * @param bool   $raw
- *
- * @return static
+ * @phpstan-param html_attributes $attributes
  */
 PHP_METHOD(Phalcon_Html_Helper_Ol, add)
 {
@@ -188,9 +181,6 @@ PHP_METHOD(Phalcon_Html_Helper_Ol, add)
 	RETURN_THIS();
 }
 
-/**
- * @return string
- */
 PHP_METHOD(Phalcon_Html_Helper_Ol, getTag)
 {
 

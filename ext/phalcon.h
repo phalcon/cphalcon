@@ -576,6 +576,8 @@
 #include "phalcon/contracts/dispatcher/dispatchertypes.zep.h"
 #include "phalcon/contracts/events/subscriber.zep.h"
 #include "phalcon/contracts/front/fronttypealiases.zep.h"
+#include "phalcon/contracts/html/htmltypes.zep.h"
+#include "phalcon/contracts/html/link/linktypes.zep.h"
 #include "phalcon/contracts/http/httptypes.zep.h"
 #include "phalcon/contracts/image/imagetypes.zep.h"
 #include "phalcon/contracts/messages/messagestypes.zep.h"

@@ -1,0 +1,5 @@
+
+extern zend_class_entry *phalcon_contracts_html_link_linktypes_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Contracts_Html_Link_LinkTypes);
+

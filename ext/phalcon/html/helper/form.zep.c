@@ -33,6 +33,8 @@
  */
 /**
  * Class Form
+ *
+ * @phpstan-import-type html_attributes from HtmlTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Form)
 {
@@ -42,12 +44,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Form)
 }
 
 /**
- * Produce a `<form>` tag.
+ * Produce a <form> tag.
  *
- * @param array $attributes
+ * @phpstan-param html_attributes $attributes
  *
  * @return string
- * @throws Exception
  */
 PHP_METHOD(Phalcon_Html_Helper_Form, __invoke)
 {

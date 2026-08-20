@@ -48,25 +48,15 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Escaper_EscaperInterface)
  * `key="value"` pairs, `null` and `false` values are skipped, and `true`
  * renders as a bare key. Callers typed against this interface pass a
  * string. The widened signature lands in the next major.
- *
- * @param string $input
- *
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Html_Escaper_EscaperInterface, attributes);
 /**
  * Escape CSS strings by replacing non-alphanumeric chars by their
  * hexadecimal representation
- *
- * @param string $input
- *
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Html_Escaper_EscaperInterface, css);
 /**
  * Returns the internal encoding used by the escaper
- *
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Html_Escaper_EscaperInterface, getEncoding);
 /**
@@ -74,38 +64,22 @@ ZEPHIR_DOC_METHOD(Phalcon_Html_Escaper_EscaperInterface, getEncoding);
  *
  * The concrete {@see \Phalcon\Html\Escaper} tolerates `null`, returning an
  * empty string for it. The nullable signature lands in the next major.
- *
- * @param string $input
- *
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Html_Escaper_EscaperInterface, html);
 /**
  * Escape Javascript strings by replacing non-alphanumeric chars by their
  * hexadecimal representation
- *
- * @param string $input
- *
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Html_Escaper_EscaperInterface, js);
 /**
  * Sets the encoding to be used by the escaper
- *
- * @param string $encoding
  */
 ZEPHIR_DOC_METHOD(Phalcon_Html_Escaper_EscaperInterface, setEncoding);
 /**
  * Sets the HTML quoting type for htmlspecialchars
- *
- * @param int $flags
  */
 ZEPHIR_DOC_METHOD(Phalcon_Html_Escaper_EscaperInterface, setFlags);
 /**
  * Escapes a URL. Internally uses rawurlencode
- *
- * @param string $input
- *
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Html_Escaper_EscaperInterface, url);

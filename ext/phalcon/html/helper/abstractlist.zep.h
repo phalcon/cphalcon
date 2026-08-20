@@ -6,7 +6,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_AbstractList);
 PHP_METHOD(Phalcon_Html_Helper_AbstractList, __invoke);
 PHP_METHOD(Phalcon_Html_Helper_AbstractList, __toString);
 PHP_METHOD(Phalcon_Html_Helper_AbstractList, getTag);
-zend_object *zephir_init_properties_Phalcon_Html_Helper_AbstractList(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_html_helper_abstractlist___invoke, 0, 0, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, indent, IS_STRING, 0, "'    '")
@@ -18,9 +17,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_helper_abstractlist
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_helper_abstractlist_gettag, 0, 0, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_html_helper_abstractlist_zephir_init_properties_phalcon_html_helper_abstractlist, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_html_helper_abstractlist_method_entry) {

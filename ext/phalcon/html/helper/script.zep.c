@@ -33,6 +33,8 @@
  */
 /**
  * Class Script
+ *
+ * @phpstan-import-type html_attributes from HtmlTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Script)
 {
@@ -44,11 +46,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Script)
 /**
  * Add an element to the list
  *
- * @param string $url
- * @param array  $attributes
- *
- * @return static
- * @throws Exception
+ * @phpstan-param html_attributes $attributes
  */
 PHP_METHOD(Phalcon_Html_Helper_Script, add)
 {
@@ -141,10 +139,7 @@ PHP_METHOD(Phalcon_Html_Helper_Script, beginInternal)
  * attributes supplied are placed on the wrapping tag. The script body
  * is treated as raw HTML (it is JavaScript, not user-supplied text).
  *
- * @param array $attributes
- * @param int   $position
- *
- * @return static
+ * @phpstan-param html_attributes $attributes
  */
 PHP_METHOD(Phalcon_Html_Helper_Script, endInternal)
 {
@@ -213,10 +208,9 @@ PHP_METHOD(Phalcon_Html_Helper_Script, endInternal)
 /**
  * Returns the necessary attributes
  *
- * @param string $url
- * @param array  $attributes
+ * @phpstan-param html_attributes $attributes
  *
- * @return array
+ * @phpstan-return html_attributes
  */
 PHP_METHOD(Phalcon_Html_Helper_Script, getAttributes)
 {
@@ -247,9 +241,6 @@ PHP_METHOD(Phalcon_Html_Helper_Script, getAttributes)
 	RETURN_MM();
 }
 
-/**
- * @return string
- */
 PHP_METHOD(Phalcon_Html_Helper_Script, getTag)
 {
 

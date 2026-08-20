@@ -34,42 +34,48 @@
  * @license https://github.com/auraphp/Aura.Html/blob/2.x/LICENSE
  */
 /**
- * @property string           $delimiter
- * @property EscaperInterface $escaper
- * @property string           $indent
- * @property int              $indentLevel
+ * @phpstan-import-type html_attributes from HtmlTypes
+ * @phpstan-import-type html_element_store from HtmlTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_AbstractHelper)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Html\\Helper, AbstractHelper, phalcon, html_helper_abstracthelper, phalcon_html_helper_abstracthelper_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
-	/**
-	 * @var string
-	 */
-	zend_declare_property_string(phalcon_html_helper_abstracthelper_ce, SL("delimiter"), "", ZEND_ACC_PROTECTED);
-	/**
-	 * @var Doctype|null
-	 */
-	zend_declare_property_null(phalcon_html_helper_abstracthelper_ce, SL("doctype"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var EscaperInterface
-	 */
-	zend_declare_property_null(phalcon_html_helper_abstracthelper_ce, SL("escaper"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var string
-	 */
-	zend_declare_property_string(phalcon_html_helper_abstracthelper_ce, SL("indent"), "    ", ZEND_ACC_PROTECTED);
-	/**
-	 * @var int
-	 */
-	zend_declare_property_long(phalcon_html_helper_abstracthelper_ce, SL("indentLevel"), 1, ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_STRINGL(&_zc0, "", sizeof("") - 1);
+		zephir_declare_typed_property(phalcon_html_helper_abstracthelper_ce, SL("delimiter"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_NULL(&_zc0);
+		zephir_declare_typed_property(phalcon_html_helper_abstracthelper_ce, SL("doctype"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_NULL, SL("Phalcon\\Html\\Helper\\Doctype"));
+	}
+
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_html_helper_abstracthelper_ce, SL("escaper"), &_zc0, ZEND_ACC_PROTECTED, 0, SL("Phalcon\\Html\\Escaper\\EscaperInterface"));
+	}
+
+	{
+		zval _zc0;
+		ZVAL_STRINGL(&_zc0, "    ", sizeof("    ") - 1);
+		zephir_declare_typed_property(phalcon_html_helper_abstracthelper_ce, SL("indent"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_LONG(&_zc0, 1);
+		zephir_declare_typed_property(phalcon_html_helper_abstracthelper_ce, SL("indentLevel"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_LONG, NULL, 0);
+	}
+
 	return SUCCESS;
 }
 
 /**
  * AbstractHelper constructor.
- *
- * @param EscaperInterface $escaper
  */
 PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, __construct)
 {
@@ -117,11 +123,6 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, __construct)
 
 /**
  * Produces a closing tag
- *
- * @param string $tag
- * @param bool   $raw
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, close)
 {
@@ -167,16 +168,45 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, close)
 }
 
 /**
- * Forces a single key into the attribute array, stripping any user-supplied
- * value for that key first. Used by helpers whose first positional argument
- * is itself an attribute (`href` for Anchor, `src` for Img, etc.) to make
- * sure that argument always wins.
+ * Replicates the indent x times as per indentLevel
  *
- * @param string $key
- * @param string $value
- * @param array  $attributes
+ * @return string
+ */
+PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, indent)
+{
+	zval _0, _1;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	static zend_string *_zephir_prop_0 = NULL;
+	static zend_string *_zephir_prop_1 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("indent", 6, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_1)) {
+		_zephir_prop_1 = zend_string_init("indentLevel", 11, 1);
+	}
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 8, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 9, PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_RETURN_CALL_FUNCTION("str_repeat", NULL, 6, &_0, &_1);
+	zephir_check_call_status();
+	RETURN_MM();
+}
+
+/**
+ * Forces `$key => $value` to the front of the attributes array,
+ * removing any existing entry for that key. This guarantees the
+ * attribute is always present and appears first in the rendered output.
  *
- * @return array
+ * @phpstan-param html_attributes $attributes
+ *
+ * @phpstan-return html_attributes
  */
 PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, injectAttribute)
 {
@@ -211,44 +241,12 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, injectAttribute)
 }
 
 /**
- * Replicates the indent x times as per indentLevel
- *
- * @return string
- */
-PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, indent)
-{
-	zval _0, _1;
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1);
-	static zend_string *_zephir_prop_0 = NULL;
-	static zend_string *_zephir_prop_1 = NULL;
-	if (UNEXPECTED(!_zephir_prop_0)) {
-		_zephir_prop_0 = zend_string_init("indent", 6, 1);
-	}
-	if (UNEXPECTED(!_zephir_prop_1)) {
-		_zephir_prop_1 = zend_string_init("indentLevel", 11, 1);
-	}
-	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 8, PH_NOISY_CC | PH_READONLY);
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 9, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_RETURN_CALL_FUNCTION("str_repeat", NULL, 6, &_0, &_1);
-	zephir_check_call_status();
-	RETURN_MM();
-}
-
-/**
  * Keeps all the attributes sorted - same order all the time
  *
- * @param array $overrides
- * @param array $attributes
+ * @phpstan-param html_attributes $overrides
+ * @phpstan-param html_attributes $attributes
  *
- * @return array
+ * @phpstan-return html_attributes
  */
 PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, orderAttributes)
 {
@@ -300,10 +298,7 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, orderAttributes)
  * Traverses an array and calls the method defined in the first element
  * with attributes as the second, returning the resulting string
  *
- * @param array  $elements
- * @param string $delimiter
- *
- * @return string
+ * @phpstan-param html_element_store $elements
  */
 PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, renderArrayElements)
 {
@@ -344,21 +339,21 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, renderArrayElements)
 	ZVAL_STR_COPY(&delimiter_zv, delimiter);
 	ZEPHIR_INIT_VAR(&result);
 	ZVAL_STRING(&result, "");
-	zephir_is_iterable(&elements, 0, "phalcon/Html/Helper/AbstractHelper.zep", 172);
+	zephir_is_iterable(&elements, 0, "phalcon/Html/Helper/AbstractHelper.zep", 146);
 	if (Z_TYPE_P(&elements) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&elements), _0)
 		{
 			ZEPHIR_INIT_NVAR(&item);
 			ZVAL_COPY(&item, _0);
-			zephir_array_fetch_long(&_1$$3, &item, 2, PH_NOISY | PH_READONLY, "phalcon/Html/Helper/AbstractHelper.zep", 168);
+			zephir_array_fetch_long(&_1$$3, &item, 2, PH_NOISY | PH_READONLY, "phalcon/Html/Helper/AbstractHelper.zep", 142);
 			ZEPHIR_INIT_NVAR(&_2$$3);
 			ZEPHIR_INIT_NVAR(&_3$$3);
 			zephir_create_array(&_3$$3, 2, 0);
 			zephir_array_fast_append(&_3$$3, this_ptr);
 			ZEPHIR_OBS_NVAR(&_4$$3);
-			zephir_array_fetch_long(&_4$$3, &item, 0, PH_NOISY, "phalcon/Html/Helper/AbstractHelper.zep", 168);
+			zephir_array_fetch_long(&_4$$3, &item, 0, PH_NOISY, "phalcon/Html/Helper/AbstractHelper.zep", 142);
 			zephir_array_fast_append(&_3$$3, &_4$$3);
-			zephir_array_fetch_long(&_5$$3, &item, 1, PH_NOISY | PH_READONLY, "phalcon/Html/Helper/AbstractHelper.zep", 168);
+			zephir_array_fetch_long(&_5$$3, &item, 1, PH_NOISY | PH_READONLY, "phalcon/Html/Helper/AbstractHelper.zep", 142);
 			ZEPHIR_CALL_USER_FUNC_ARRAY(&_2$$3, &_3$$3, &_5$$3);
 			zephir_check_call_status();
 			ZEPHIR_INIT_NVAR(&_6$$3);
@@ -383,15 +378,15 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, renderArrayElements)
 			}
 			ZEPHIR_CALL_METHOD(&item, &elements, "current", NULL, 0);
 			zephir_check_call_status();
-				zephir_array_fetch_long(&_9$$4, &item, 2, PH_NOISY | PH_READONLY, "phalcon/Html/Helper/AbstractHelper.zep", 168);
+				zephir_array_fetch_long(&_9$$4, &item, 2, PH_NOISY | PH_READONLY, "phalcon/Html/Helper/AbstractHelper.zep", 142);
 				ZEPHIR_INIT_NVAR(&_10$$4);
 				ZEPHIR_INIT_NVAR(&_11$$4);
 				zephir_create_array(&_11$$4, 2, 0);
 				zephir_array_fast_append(&_11$$4, this_ptr);
 				ZEPHIR_OBS_NVAR(&_12$$4);
-				zephir_array_fetch_long(&_12$$4, &item, 0, PH_NOISY, "phalcon/Html/Helper/AbstractHelper.zep", 168);
+				zephir_array_fetch_long(&_12$$4, &item, 0, PH_NOISY, "phalcon/Html/Helper/AbstractHelper.zep", 142);
 				zephir_array_fast_append(&_11$$4, &_12$$4);
-				zephir_array_fetch_long(&_13$$4, &item, 1, PH_NOISY | PH_READONLY, "phalcon/Html/Helper/AbstractHelper.zep", 168);
+				zephir_array_fetch_long(&_13$$4, &item, 1, PH_NOISY | PH_READONLY, "phalcon/Html/Helper/AbstractHelper.zep", 142);
 				ZEPHIR_CALL_USER_FUNC_ARRAY(&_10$$4, &_11$$4, &_13$$4);
 				zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(&_14$$4);
@@ -406,9 +401,7 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, renderArrayElements)
 /**
  * Renders all the attributes
  *
- * @param array $attributes
- *
- * @return string
+ * @phpstan-param html_attributes $attributes
  */
 PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, renderAttributes)
 {
@@ -448,7 +441,7 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, renderAttributes)
 	zephir_get_arrval(&attributes, attributes_param);
 	ZEPHIR_INIT_VAR(&result);
 	ZVAL_STRING(&result, "");
-	zephir_is_iterable(&attributes, 0, "phalcon/Html/Helper/AbstractHelper.zep", 197);
+	zephir_is_iterable(&attributes, 0, "phalcon/Html/Helper/AbstractHelper.zep", 169);
 	if (Z_TYPE_P(&attributes) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&attributes), _1, _2, _0)
 		{
@@ -527,11 +520,7 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, renderAttributes)
 /**
  * Renders an element
  *
- * @param string $tag
- * @param array  $attributes
- *
- * @return string
- * @throws Exception
+ * @phpstan-param html_attributes $attributes
  */
 PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, renderElement)
 {
@@ -570,13 +559,7 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, renderElement)
 /**
  * Renders an element
  *
- * @param string $tag
- * @param string $text
- * @param array  $attributes
- * @param bool   $raw
- *
- * @return string
- * @throws Exception
+ * @phpstan-param html_attributes $attributes
  */
 PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, renderFullElement)
 {
@@ -653,11 +636,7 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, renderFullElement)
 /**
  * Renders a tag
  *
- * @param string $tag
- * @param array  $attributes
- * @param string $close
- *
- * @return string
+ * @phpstan-param html_attributes $attributes
  */
 PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, renderTag)
 {
@@ -738,10 +717,7 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, renderTag)
 /**
  * Produces a self close tag i.e. <img />
  *
- * @param string $tag
- * @param array  $attributes
- *
- * @return string
+ * @phpstan-param html_attributes $attributes
  */
 PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, selfClose)
 {

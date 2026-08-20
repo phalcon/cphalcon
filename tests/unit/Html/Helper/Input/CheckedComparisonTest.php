@@ -40,6 +40,17 @@ final class CheckedComparisonTest extends AbstractUnitTestCase
         ];
     }
 
+    public static function getNullCheckedExamples(): array
+    {
+        return [
+            // value supplied to the helper
+            'no value'     => [null],
+            'empty value'  => [''],
+            'zero value'   => ['0'],
+            'string value' => ['yes'],
+        ];
+    }
+
     public static function getStrictMatchExamples(): array
     {
         return [
@@ -85,6 +96,26 @@ final class CheckedComparisonTest extends AbstractUnitTestCase
         } else {
             $this->assertStringNotContainsString('checked="checked"', $rendered);
         }
+    }
+
+    /**
+     * A `null` checked attribute is not an opt-in. It must never be compared
+     * against `value` - a loose `null == null` compare would otherwise mark
+     * the element as checked. The attribute is dropped from the output.
+     */
+    #[DataProvider('getNullCheckedExamples')]
+    public function testCheckboxNullCheckedIsNotAnOptIn(mixed $value): void
+    {
+        $helper = new Checkbox(new Escaper(), new Doctype());
+        $result = $helper(
+            'x',
+            $value,
+            [
+                'checked' => null,
+            ]
+        );
+
+        $this->assertStringNotContainsString('checked', (string) $result);
     }
 
     #[DataProvider('getStrictMatchExamples')]
@@ -192,6 +223,24 @@ final class CheckedComparisonTest extends AbstractUnitTestCase
         } else {
             $this->assertStringNotContainsString('checked="checked"', $rendered);
         }
+    }
+
+    /**
+     * Same rule as the checkbox: a `null` checked attribute is dropped.
+     */
+    #[DataProvider('getNullCheckedExamples')]
+    public function testRadioNullCheckedIsNotAnOptIn(mixed $value): void
+    {
+        $helper = new Radio(new Escaper(), new Doctype());
+        $result = $helper(
+            'x',
+            $value,
+            [
+                'checked' => null,
+            ]
+        );
+
+        $this->assertStringNotContainsString('checked', (string) $result);
     }
 
     #[DataProvider('getUnconditionalCheckedExamples')]

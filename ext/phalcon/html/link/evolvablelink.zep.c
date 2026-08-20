@@ -27,6 +27,8 @@
  */
 /**
  * Class Phalcon\Html\Link\EvolvableLink
+ *
+ * @phpstan-import-type link_attribute_value from LinkTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Html_Link_EvolvableLink)
 {
@@ -42,8 +44,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Link_EvolvableLink)
  * If the specified attribute is already present, it will be overwritten
  * with the new value.
  *
- * @param string       $attribute The attribute to include.
- * @param string|array $value     The value of the attribute to set.
+ * @phpstan-param link_attribute_value $value
  */
 PHP_METHOD(Phalcon_Html_Link_EvolvableLink, withAttribute)
 {
@@ -80,8 +81,6 @@ PHP_METHOD(Phalcon_Html_Link_EvolvableLink, withAttribute)
  *
  * An implementing library SHOULD evaluate a passed object to a string
  * immediately rather than waiting for it to be returned later.
- *
- * @param string $rel The relationship value to add.
  */
 PHP_METHOD(Phalcon_Html_Link_EvolvableLink, withHref)
 {
@@ -105,41 +104,10 @@ PHP_METHOD(Phalcon_Html_Link_EvolvableLink, withHref)
 }
 
 /**
- * Returns an instance with the specified relationship included.
- *
- * If the specified rel is already present, this method MUST return
- * normally without errors, but without adding the rel a second time.
- *
- * @param string $rel The relationship value to add.
- */
-PHP_METHOD(Phalcon_Html_Link_EvolvableLink, withRel)
-{
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval rel_zv;
-	zend_string *rel = NULL;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&rel_zv);
-	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_STR(rel)
-	ZEND_PARSE_PARAMETERS_END();
-	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_memory_observe(&rel_zv);
-	ZVAL_STR_COPY(&rel_zv, rel);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "dowithrel", NULL, 0, &rel_zv);
-	zephir_check_call_status();
-	RETURN_MM();
-}
-
-/**
  * Returns an instance with the specified attribute excluded.
  *
  * If the specified attribute is not present, this method MUST return
  * normally without errors.
- *
- * @param string $attribute The attribute to remove.
  */
 PHP_METHOD(Phalcon_Html_Link_EvolvableLink, withoutAttribute)
 {
@@ -167,8 +135,6 @@ PHP_METHOD(Phalcon_Html_Link_EvolvableLink, withoutAttribute)
  *
  * If the specified rel is not present, this method MUST return
  * normally without errors.
- *
- * @param string $rel The relationship value to exclude.
  */
 PHP_METHOD(Phalcon_Html_Link_EvolvableLink, withoutRel)
 {
@@ -187,6 +153,33 @@ PHP_METHOD(Phalcon_Html_Link_EvolvableLink, withoutRel)
 	zephir_memory_observe(&rel_zv);
 	ZVAL_STR_COPY(&rel_zv, rel);
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "dowithoutrel", NULL, 0, &rel_zv);
+	zephir_check_call_status();
+	RETURN_MM();
+}
+
+/**
+ * Returns an instance with the specified relationship included.
+ *
+ * If the specified rel is already present, this method MUST return
+ * normally without errors, but without adding the rel a second time.
+ */
+PHP_METHOD(Phalcon_Html_Link_EvolvableLink, withRel)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval rel_zv;
+	zend_string *rel = NULL;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&rel_zv);
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(rel)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&rel_zv);
+	ZVAL_STR_COPY(&rel_zv, rel);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "dowithrel", NULL, 0, &rel_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }

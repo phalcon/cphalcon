@@ -33,34 +33,43 @@
  */
 /**
  * Class AbstractList
+ *
+ * @phpstan-import-type html_attributes from HtmlTypes
+ * @phpstan-import-type html_element_store from HtmlTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_AbstractList)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Html\\Helper, AbstractList, phalcon, html_helper_abstractlist, phalcon_html_helper_abstracthelper_ce, phalcon_html_helper_abstractlist_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
 	/**
-	 * @var array
+	 * @phpstan-var html_attributes
 	 */
-	zend_declare_property_null(phalcon_html_helper_abstractlist_ce, SL("attributes"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		array_init_size(&_zc0, 1);
+		zephir_declare_typed_property(phalcon_html_helper_abstractlist_ce, SL("attributes"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_ARRAY, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_STRINGL(&_zc0, "li", sizeof("li") - 1);
+		zephir_declare_typed_property(phalcon_html_helper_abstractlist_ce, SL("elementTag"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
+
 	/**
-	 * @var string
+	 * @phpstan-var html_element_store
 	 */
-	zend_declare_property_string(phalcon_html_helper_abstractlist_ce, SL("elementTag"), "li", ZEND_ACC_PROTECTED);
-	/**
-	 * @var array
-	 */
-	zend_declare_property_null(phalcon_html_helper_abstractlist_ce, SL("store"), ZEND_ACC_PROTECTED);
-	phalcon_html_helper_abstractlist_ce->create_object = zephir_init_properties_Phalcon_Html_Helper_AbstractList;
+	{
+		zval _zc0;
+		array_init_size(&_zc0, 1);
+		zephir_declare_typed_property(phalcon_html_helper_abstractlist_ce, SL("store"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_ARRAY, NULL, 0);
+	}
 
 	return SUCCESS;
 }
 
 /**
- * @param string $indent
- * @param string $delimiter
- * @param array  $attributes
- *
- * @return static
+ * @phpstan-param html_attributes $attributes
  */
 PHP_METHOD(Phalcon_Html_Helper_AbstractList, __invoke)
 {
@@ -142,9 +151,6 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractList, __invoke)
 
 /**
  * Generates and returns the HTML for the list.
- *
- * @return string
- * @throws Exception
  */
 PHP_METHOD(Phalcon_Html_Helper_AbstractList, __toString)
 {
@@ -200,44 +206,8 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractList, __toString)
 /**
  *
  * Returns the tag name.
- *
- * @return string
- *
  */
 PHP_METHOD(Phalcon_Html_Helper_AbstractList, getTag)
 {
-}
-
-zend_object *zephir_init_properties_Phalcon_Html_Helper_AbstractList(zend_class_entry *class_type)
-{
-		zval _0, _2, _1$$3, _3$$4;
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-		ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_1$$3);
-	ZVAL_UNDEF(&_3$$4);
-	
-
-		ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-		zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	
-	{
-		zval local_this_ptr, *this_ptr = &local_this_ptr;
-		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		zephir_read_property_ex(&_0, this_ptr, ZEND_STRL("store"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_0) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_1$$3);
-			array_init(&_1$$3);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("store"), &_1$$3);
-		}
-		zephir_read_property_ex(&_2, this_ptr, ZEND_STRL("attributes"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_2) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_3$$4);
-			array_init(&_3$$4);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("attributes"), &_3$$4);
-		}
-		ZEPHIR_MM_RESTORE();
-		return Z_OBJ_P(this_ptr);
-	}
 }
 

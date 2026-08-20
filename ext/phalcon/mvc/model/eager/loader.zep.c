@@ -70,7 +70,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Eager_Loader, __construct)
 		Z_PARAM_OBJECT_OF_CLASS(manager, phalcon_mvc_model_managerinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &manager);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1016, manager);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1015, manager);
 }
 
 /**
@@ -494,7 +494,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Eager_Loader, buildMap)
 			}
 			ZEPHIR_INIT_NVAR(&node);
 			ZVAL_COPY(&node, _0);
-			zephir_read_property_cached(&_3$$3, this_ptr, _zephir_prop_0, 1016, PH_NOISY_CC | PH_READONLY);
+			zephir_read_property_cached(&_3$$3, this_ptr, _zephir_prop_0, 1015, PH_NOISY_CC | PH_READONLY);
 			ZEPHIR_CALL_METHOD(&relation, &_3$$3, "getrelationbyalias", NULL, 0, &modelName_zv, &alias);
 			zephir_check_call_status();
 			if (UNEXPECTED(Z_TYPE_P(&relation) != IS_OBJECT)) {
@@ -532,7 +532,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Eager_Loader, buildMap)
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(&node, &tree, "current", NULL, 0);
 			zephir_check_call_status();
-				zephir_read_property_cached(&_11$$5, this_ptr, _zephir_prop_0, 1016, PH_NOISY_CC | PH_READONLY);
+				zephir_read_property_cached(&_11$$5, this_ptr, _zephir_prop_0, 1015, PH_NOISY_CC | PH_READONLY);
 				ZEPHIR_CALL_METHOD(&relation, &_11$$5, "getrelationbyalias", NULL, 0, &modelName_zv, &alias);
 				zephir_check_call_status();
 				if (UNEXPECTED(Z_TYPE_P(&relation) != IS_OBJECT)) {
@@ -888,7 +888,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Eager_Loader, buildThroughNode)
 	if (!(ZEPHIR_IS_EMPTY(&keys))) {
 		ZEPHIR_INIT_VAR(&_5$$3);
 		zephir_create_array(&_5$$3, 2, 0);
-		zephir_read_property_cached(&_6$$3, this_ptr, _zephir_prop_0, 1016, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_6$$3, this_ptr, _zephir_prop_0, 1015, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_METHOD(&_7$$3, &_6$$3, "load", NULL, 0, &intermediateModel);
 		zephir_check_call_status();
 		zephir_array_fast_append(&_5$$3, &_7$$3);
@@ -1446,7 +1446,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Eager_Loader, fetchReferenced)
 	zephir_get_arrval(&options, options_param);
 	ZEPHIR_CALL_METHOD(&referencedModel, relation, "getreferencedmodel", NULL, 0);
 	zephir_check_call_status();
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1016, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1015, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&modelInstance, &_0, "load", NULL, 0, &referencedModel);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_EMPTY(&keys)) {

@@ -31,6 +31,8 @@
  */
 /**
  * Class Phalcon\Http\Link\Serializer\Header
+ *
+ * @phpstan-import-type link_collection from LinkTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Html_Link_Serializer_Header)
 {
@@ -42,6 +44,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Link_Serializer_Header)
 
 /**
  * Serializes all the passed links to a HTTP link header
+ *
+ * @phpstan-param link_collection $links
  */
 PHP_METHOD(Phalcon_Html_Link_Serializer_Header, serialize)
 {
@@ -131,7 +135,7 @@ PHP_METHOD(Phalcon_Html_Link_Serializer_Header, serialize)
 	ZVAL_NULL(&result);
 	ZEPHIR_INIT_VAR(&elements);
 	array_init(&elements);
-	zephir_is_iterable(&links, 0, "phalcon/Html/Link/Serializer/Header.zep", 70);
+	zephir_is_iterable(&links, 0, "phalcon/Html/Link/Serializer/Header.zep", 76);
 	if (Z_TYPE_P(&links) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&links), _0)
 		{
@@ -156,7 +160,7 @@ PHP_METHOD(Phalcon_Html_Link_Serializer_Header, serialize)
 			ZEPHIR_INIT_NVAR(&_3$$3);
 			ZEPHIR_CONCAT_SVS(&_3$$3, "rel=\"", &_2$$3, "\"");
 			zephir_array_fast_append(&parts, &_3$$3);
-			zephir_is_iterable(&attributes, 0, "phalcon/Html/Link/Serializer/Header.zep", 64);
+			zephir_is_iterable(&attributes, 0, "phalcon/Html/Link/Serializer/Header.zep", 70);
 			if (Z_TYPE_P(&attributes) == IS_ARRAY) {
 				ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&attributes), _5$$3, _6$$3, _4$$3)
 				{
@@ -169,7 +173,7 @@ PHP_METHOD(Phalcon_Html_Link_Serializer_Header, serialize)
 					ZEPHIR_INIT_NVAR(&value);
 					ZVAL_COPY(&value, _4$$3);
 					if (Z_TYPE_P(&value) == IS_ARRAY) {
-						zephir_is_iterable(&value, 0, "phalcon/Html/Link/Serializer/Header.zep", 50);
+						zephir_is_iterable(&value, 0, "phalcon/Html/Link/Serializer/Header.zep", 56);
 						if (Z_TYPE_P(&value) == IS_ARRAY) {
 							ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&value), _7$$6)
 							{
@@ -180,7 +184,7 @@ PHP_METHOD(Phalcon_Html_Link_Serializer_Header, serialize)
 								zephir_check_call_status();
 								ZEPHIR_INIT_NVAR(&_11$$7);
 								ZEPHIR_CONCAT_VSVS(&_11$$7, &key, "=\"", &_8$$7, "\"");
-								zephir_array_append(&parts, &_11$$7, PH_SEPARATE, "phalcon/Html/Link/Serializer/Header.zep", 48);
+								zephir_array_append(&parts, &_11$$7, PH_SEPARATE, "phalcon/Html/Link/Serializer/Header.zep", 54);
 							} ZEND_HASH_FOREACH_END();
 						} else {
 							ZEPHIR_CALL_METHOD(NULL, &value, "rewind", NULL, 0);
@@ -205,7 +209,7 @@ PHP_METHOD(Phalcon_Html_Link_Serializer_Header, serialize)
 									zephir_check_call_status();
 									ZEPHIR_INIT_NVAR(&_16$$8);
 									ZEPHIR_CONCAT_VSVS(&_16$$8, &key, "=\"", &_14$$8, "\"");
-									zephir_array_append(&parts, &_16$$8, PH_SEPARATE, "phalcon/Html/Link/Serializer/Header.zep", 48);
+									zephir_array_append(&parts, &_16$$8, PH_SEPARATE, "phalcon/Html/Link/Serializer/Header.zep", 54);
 							}
 						}
 						ZEPHIR_INIT_NVAR(&subValue);
@@ -217,11 +221,11 @@ PHP_METHOD(Phalcon_Html_Link_Serializer_Header, serialize)
 						zephir_check_call_status();
 						ZEPHIR_INIT_NVAR(&_19$$9);
 						ZEPHIR_CONCAT_VSVS(&_19$$9, &key, "=\"", &_17$$9, "\"");
-						zephir_array_append(&parts, &_19$$9, PH_SEPARATE, "phalcon/Html/Link/Serializer/Header.zep", 54);
+						zephir_array_append(&parts, &_19$$9, PH_SEPARATE, "phalcon/Html/Link/Serializer/Header.zep", 60);
 						continue;
 					}
 					if (ZEPHIR_IS_TRUE_IDENTICAL(&value)) {
-						zephir_array_append(&parts, &key, PH_SEPARATE, "phalcon/Html/Link/Serializer/Header.zep", 59);
+						zephir_array_append(&parts, &key, PH_SEPARATE, "phalcon/Html/Link/Serializer/Header.zep", 65);
 						continue;
 					}
 				} ZEND_HASH_FOREACH_END();
@@ -246,7 +250,7 @@ PHP_METHOD(Phalcon_Html_Link_Serializer_Header, serialize)
 					ZEPHIR_CALL_METHOD(&value, &attributes, "current", NULL, 0);
 					zephir_check_call_status();
 						if (Z_TYPE_P(&value) == IS_ARRAY) {
-							zephir_is_iterable(&value, 0, "phalcon/Html/Link/Serializer/Header.zep", 50);
+							zephir_is_iterable(&value, 0, "phalcon/Html/Link/Serializer/Header.zep", 56);
 							if (Z_TYPE_P(&value) == IS_ARRAY) {
 								ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&value), _22$$12)
 								{
@@ -257,7 +261,7 @@ PHP_METHOD(Phalcon_Html_Link_Serializer_Header, serialize)
 									zephir_check_call_status();
 									ZEPHIR_INIT_NVAR(&_25$$13);
 									ZEPHIR_CONCAT_VSVS(&_25$$13, &key, "=\"", &_23$$13, "\"");
-									zephir_array_append(&parts, &_25$$13, PH_SEPARATE, "phalcon/Html/Link/Serializer/Header.zep", 48);
+									zephir_array_append(&parts, &_25$$13, PH_SEPARATE, "phalcon/Html/Link/Serializer/Header.zep", 54);
 								} ZEND_HASH_FOREACH_END();
 							} else {
 								ZEPHIR_CALL_METHOD(NULL, &value, "rewind", NULL, 0);
@@ -282,7 +286,7 @@ PHP_METHOD(Phalcon_Html_Link_Serializer_Header, serialize)
 										zephir_check_call_status();
 										ZEPHIR_INIT_NVAR(&_30$$14);
 										ZEPHIR_CONCAT_VSVS(&_30$$14, &key, "=\"", &_28$$14, "\"");
-										zephir_array_append(&parts, &_30$$14, PH_SEPARATE, "phalcon/Html/Link/Serializer/Header.zep", 48);
+										zephir_array_append(&parts, &_30$$14, PH_SEPARATE, "phalcon/Html/Link/Serializer/Header.zep", 54);
 								}
 							}
 							ZEPHIR_INIT_NVAR(&subValue);
@@ -294,11 +298,11 @@ PHP_METHOD(Phalcon_Html_Link_Serializer_Header, serialize)
 							zephir_check_call_status();
 							ZEPHIR_INIT_NVAR(&_33$$15);
 							ZEPHIR_CONCAT_VSVS(&_33$$15, &key, "=\"", &_31$$15, "\"");
-							zephir_array_append(&parts, &_33$$15, PH_SEPARATE, "phalcon/Html/Link/Serializer/Header.zep", 54);
+							zephir_array_append(&parts, &_33$$15, PH_SEPARATE, "phalcon/Html/Link/Serializer/Header.zep", 60);
 							continue;
 						}
 						if (ZEPHIR_IS_TRUE_IDENTICAL(&value)) {
-							zephir_array_append(&parts, &key, PH_SEPARATE, "phalcon/Html/Link/Serializer/Header.zep", 59);
+							zephir_array_append(&parts, &key, PH_SEPARATE, "phalcon/Html/Link/Serializer/Header.zep", 65);
 							continue;
 						}
 				}
@@ -311,7 +315,7 @@ PHP_METHOD(Phalcon_Html_Link_Serializer_Header, serialize)
 			zephir_fast_join_str(&_35$$3, SL("; "), &parts);
 			ZEPHIR_INIT_NVAR(&_3$$3);
 			ZEPHIR_CONCAT_SVSV(&_3$$3, "<", &_34$$3, ">", &_35$$3);
-			zephir_array_append(&elements, &_3$$3, PH_SEPARATE, "phalcon/Html/Link/Serializer/Header.zep", 67);
+			zephir_array_append(&elements, &_3$$3, PH_SEPARATE, "phalcon/Html/Link/Serializer/Header.zep", 73);
 		} ZEND_HASH_FOREACH_END();
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, &links, "rewind", NULL, 0);
@@ -351,7 +355,7 @@ PHP_METHOD(Phalcon_Html_Link_Serializer_Header, serialize)
 				ZEPHIR_CONCAT_SVS(&_41$$17, "rel=\"", &_40$$17, "\"");
 				zephir_array_fast_append(&_39$$17, &_41$$17);
 				ZEPHIR_CPY_WRT(&parts, &_39$$17);
-				zephir_is_iterable(&attributes, 0, "phalcon/Html/Link/Serializer/Header.zep", 64);
+				zephir_is_iterable(&attributes, 0, "phalcon/Html/Link/Serializer/Header.zep", 70);
 				if (Z_TYPE_P(&attributes) == IS_ARRAY) {
 					ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&attributes), _43$$17, _44$$17, _42$$17)
 					{
@@ -364,7 +368,7 @@ PHP_METHOD(Phalcon_Html_Link_Serializer_Header, serialize)
 						ZEPHIR_INIT_NVAR(&value);
 						ZVAL_COPY(&value, _42$$17);
 						if (Z_TYPE_P(&value) == IS_ARRAY) {
-							zephir_is_iterable(&value, 0, "phalcon/Html/Link/Serializer/Header.zep", 50);
+							zephir_is_iterable(&value, 0, "phalcon/Html/Link/Serializer/Header.zep", 56);
 							if (Z_TYPE_P(&value) == IS_ARRAY) {
 								ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&value), _45$$20)
 								{
@@ -375,7 +379,7 @@ PHP_METHOD(Phalcon_Html_Link_Serializer_Header, serialize)
 									zephir_check_call_status();
 									ZEPHIR_INIT_NVAR(&_48$$21);
 									ZEPHIR_CONCAT_VSVS(&_48$$21, &key, "=\"", &_46$$21, "\"");
-									zephir_array_append(&parts, &_48$$21, PH_SEPARATE, "phalcon/Html/Link/Serializer/Header.zep", 48);
+									zephir_array_append(&parts, &_48$$21, PH_SEPARATE, "phalcon/Html/Link/Serializer/Header.zep", 54);
 								} ZEND_HASH_FOREACH_END();
 							} else {
 								ZEPHIR_CALL_METHOD(NULL, &value, "rewind", NULL, 0);
@@ -400,7 +404,7 @@ PHP_METHOD(Phalcon_Html_Link_Serializer_Header, serialize)
 										zephir_check_call_status();
 										ZEPHIR_INIT_NVAR(&_53$$22);
 										ZEPHIR_CONCAT_VSVS(&_53$$22, &key, "=\"", &_51$$22, "\"");
-										zephir_array_append(&parts, &_53$$22, PH_SEPARATE, "phalcon/Html/Link/Serializer/Header.zep", 48);
+										zephir_array_append(&parts, &_53$$22, PH_SEPARATE, "phalcon/Html/Link/Serializer/Header.zep", 54);
 								}
 							}
 							ZEPHIR_INIT_NVAR(&subValue);
@@ -412,11 +416,11 @@ PHP_METHOD(Phalcon_Html_Link_Serializer_Header, serialize)
 							zephir_check_call_status();
 							ZEPHIR_INIT_NVAR(&_56$$23);
 							ZEPHIR_CONCAT_VSVS(&_56$$23, &key, "=\"", &_54$$23, "\"");
-							zephir_array_append(&parts, &_56$$23, PH_SEPARATE, "phalcon/Html/Link/Serializer/Header.zep", 54);
+							zephir_array_append(&parts, &_56$$23, PH_SEPARATE, "phalcon/Html/Link/Serializer/Header.zep", 60);
 							continue;
 						}
 						if (ZEPHIR_IS_TRUE_IDENTICAL(&value)) {
-							zephir_array_append(&parts, &key, PH_SEPARATE, "phalcon/Html/Link/Serializer/Header.zep", 59);
+							zephir_array_append(&parts, &key, PH_SEPARATE, "phalcon/Html/Link/Serializer/Header.zep", 65);
 							continue;
 						}
 					} ZEND_HASH_FOREACH_END();
@@ -441,7 +445,7 @@ PHP_METHOD(Phalcon_Html_Link_Serializer_Header, serialize)
 						ZEPHIR_CALL_METHOD(&value, &attributes, "current", NULL, 0);
 						zephir_check_call_status();
 							if (Z_TYPE_P(&value) == IS_ARRAY) {
-								zephir_is_iterable(&value, 0, "phalcon/Html/Link/Serializer/Header.zep", 50);
+								zephir_is_iterable(&value, 0, "phalcon/Html/Link/Serializer/Header.zep", 56);
 								if (Z_TYPE_P(&value) == IS_ARRAY) {
 									ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&value), _59$$26)
 									{
@@ -452,7 +456,7 @@ PHP_METHOD(Phalcon_Html_Link_Serializer_Header, serialize)
 										zephir_check_call_status();
 										ZEPHIR_INIT_NVAR(&_62$$27);
 										ZEPHIR_CONCAT_VSVS(&_62$$27, &key, "=\"", &_60$$27, "\"");
-										zephir_array_append(&parts, &_62$$27, PH_SEPARATE, "phalcon/Html/Link/Serializer/Header.zep", 48);
+										zephir_array_append(&parts, &_62$$27, PH_SEPARATE, "phalcon/Html/Link/Serializer/Header.zep", 54);
 									} ZEND_HASH_FOREACH_END();
 								} else {
 									ZEPHIR_CALL_METHOD(NULL, &value, "rewind", NULL, 0);
@@ -477,7 +481,7 @@ PHP_METHOD(Phalcon_Html_Link_Serializer_Header, serialize)
 											zephir_check_call_status();
 											ZEPHIR_INIT_NVAR(&_67$$28);
 											ZEPHIR_CONCAT_VSVS(&_67$$28, &key, "=\"", &_65$$28, "\"");
-											zephir_array_append(&parts, &_67$$28, PH_SEPARATE, "phalcon/Html/Link/Serializer/Header.zep", 48);
+											zephir_array_append(&parts, &_67$$28, PH_SEPARATE, "phalcon/Html/Link/Serializer/Header.zep", 54);
 									}
 								}
 								ZEPHIR_INIT_NVAR(&subValue);
@@ -489,11 +493,11 @@ PHP_METHOD(Phalcon_Html_Link_Serializer_Header, serialize)
 								zephir_check_call_status();
 								ZEPHIR_INIT_NVAR(&_70$$29);
 								ZEPHIR_CONCAT_VSVS(&_70$$29, &key, "=\"", &_68$$29, "\"");
-								zephir_array_append(&parts, &_70$$29, PH_SEPARATE, "phalcon/Html/Link/Serializer/Header.zep", 54);
+								zephir_array_append(&parts, &_70$$29, PH_SEPARATE, "phalcon/Html/Link/Serializer/Header.zep", 60);
 								continue;
 							}
 							if (ZEPHIR_IS_TRUE_IDENTICAL(&value)) {
-								zephir_array_append(&parts, &key, PH_SEPARATE, "phalcon/Html/Link/Serializer/Header.zep", 59);
+								zephir_array_append(&parts, &key, PH_SEPARATE, "phalcon/Html/Link/Serializer/Header.zep", 65);
 								continue;
 							}
 					}
@@ -506,7 +510,7 @@ PHP_METHOD(Phalcon_Html_Link_Serializer_Header, serialize)
 				zephir_fast_join_str(&_72$$17, SL("; "), &parts);
 				ZEPHIR_INIT_NVAR(&_41$$17);
 				ZEPHIR_CONCAT_SVSV(&_41$$17, "<", &_71$$17, ">", &_72$$17);
-				zephir_array_append(&elements, &_41$$17, PH_SEPARATE, "phalcon/Html/Link/Serializer/Header.zep", 67);
+				zephir_array_append(&elements, &_41$$17, PH_SEPARATE, "phalcon/Html/Link/Serializer/Header.zep", 73);
 		}
 	}
 	ZEPHIR_INIT_NVAR(&link);
@@ -521,10 +525,6 @@ PHP_METHOD(Phalcon_Html_Link_Serializer_Header, serialize)
  * Escapes a quoted-string attribute value per RFC 8288 section 3: a
  * backslash and a double quote are each prefixed with a backslash so the
  * value cannot terminate or corrupt the header field.
- *
- * @param string $value
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Html_Link_Serializer_Header, quote)
 {

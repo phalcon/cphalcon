@@ -44,6 +44,10 @@
  * The $checked parameter is resolved by the concrete subclass:
  *   - CheckboxGroup compares against an array of selected values
  *   - RadioGroup compares against a single scalar value
+ *
+ * @phpstan-import-type html_attributes from HtmlTypes
+ * @phpstan-import-type html_group_definition from HtmlTypes
+ * @phpstan-import-type html_group_options from HtmlTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Input_AbstractGroup)
 {
@@ -53,34 +57,42 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Input_AbstractGroup)
 	 * @var mixed
 	 */
 	zend_declare_property_null(phalcon_html_helper_input_abstractgroup_ce, SL("checked"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_STRINGL(&_zc0, "", sizeof("") - 1);
+		zephir_declare_typed_property(phalcon_html_helper_input_abstractgroup_ce, SL("name"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
+
 	/**
-	 * @var string
+	 * @phpstan-var html_group_options
 	 */
-	zend_declare_property_string(phalcon_html_helper_input_abstractgroup_ce, SL("name"), "", ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		array_init_size(&_zc0, 1);
+		zephir_declare_typed_property(phalcon_html_helper_input_abstractgroup_ce, SL("options"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_ARRAY, NULL, 0);
+	}
+
 	/**
-	 * @var array
+	 * @phpstan-var html_attributes
 	 */
-	zend_declare_property_null(phalcon_html_helper_input_abstractgroup_ce, SL("options"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var array
-	 */
-	zend_declare_property_null(phalcon_html_helper_input_abstractgroup_ce, SL("sharedAttributes"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var string
-	 */
-	zend_declare_property_string(phalcon_html_helper_input_abstractgroup_ce, SL("type"), "checkbox", ZEND_ACC_PROTECTED);
-	phalcon_html_helper_input_abstractgroup_ce->create_object = zephir_init_properties_Phalcon_Html_Helper_Input_AbstractGroup;
+	{
+		zval _zc0;
+		array_init_size(&_zc0, 1);
+		zephir_declare_typed_property(phalcon_html_helper_input_abstractgroup_ce, SL("sharedAttributes"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_ARRAY, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_STRINGL(&_zc0, "checkbox", sizeof("checkbox") - 1);
+		zephir_declare_typed_property(phalcon_html_helper_input_abstractgroup_ce, SL("type"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
 
 	return SUCCESS;
 }
 
 /**
- * @param string $name
- * @param array  $options
- * @param mixed  $checked
- * @param array  $attributes
- *
- * @return static
+ * @phpstan-param html_group_options $options
+ * @phpstan-param html_attributes     $attributes
  */
 PHP_METHOD(Phalcon_Html_Helper_Input_AbstractGroup, __invoke)
 {
@@ -150,8 +162,6 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractGroup, __invoke)
 
 /**
  * Renders the group of inputs as a string.
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Html_Helper_Input_AbstractGroup, __toString)
 {
@@ -197,7 +207,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractGroup, __toString)
 	ZEPHIR_INIT_VAR(&lines);
 	array_init(&lines);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 216, PH_NOISY_CC | PH_READONLY);
-	zephir_is_iterable(&_0, 0, "phalcon/Html/Helper/Input/AbstractGroup.zep", 100);
+	zephir_is_iterable(&_0, 0, "phalcon/Html/Helper/Input/AbstractGroup.zep", 89);
 	if (Z_TYPE_P(&_0) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&_0), _2, _3, _1)
 		{
@@ -219,7 +229,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractGroup, __toString)
 			zephir_cast_to_string(&_6$$3, &value);
 			ZEPHIR_CALL_METHOD(&_5$$3, this_ptr, "renderitem", &_7, 0, &_6$$3, &definition);
 			zephir_check_call_status();
-			zephir_array_append(&lines, &_5$$3, PH_SEPARATE, "phalcon/Html/Helper/Input/AbstractGroup.zep", 97);
+			zephir_array_append(&lines, &_5$$3, PH_SEPARATE, "phalcon/Html/Helper/Input/AbstractGroup.zep", 86);
 		} ZEND_HASH_FOREACH_END();
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, &_0, "rewind", NULL, 0);
@@ -251,7 +261,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractGroup, __toString)
 				zephir_cast_to_string(&_12$$5, &value);
 				ZEPHIR_CALL_METHOD(&_11$$5, this_ptr, "renderitem", &_7, 0, &_12$$5, &definition);
 				zephir_check_call_status();
-				zephir_array_append(&lines, &_11$$5, PH_SEPARATE, "phalcon/Html/Helper/Input/AbstractGroup.zep", 97);
+				zephir_array_append(&lines, &_11$$5, PH_SEPARATE, "phalcon/Html/Helper/Input/AbstractGroup.zep", 86);
 		}
 	}
 	ZEPHIR_INIT_NVAR(&definition);
@@ -283,10 +293,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractGroup, isChecked)
 /**
  * Renders a single input + optional label pair.
  *
- * @param string       $value
- * @param string|array $definition
- *
- * @return string
+ * @phpstan-param html_group_definition $definition
  */
 PHP_METHOD(Phalcon_Html_Helper_Input_AbstractGroup, renderItem)
 {
@@ -350,12 +357,12 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractGroup, renderItem)
 		_0$$3 = zephir_array_isset_value_string(definition, SL("label"));
 		if (_0$$3) {
 			zephir_memory_observe(&_1$$3);
-			zephir_array_fetch_string(&_1$$3, definition, SL("label"), PH_NOISY, "phalcon/Html/Helper/Input/AbstractGroup.zep", 129);
+			zephir_array_fetch_string(&_1$$3, definition, SL("label"), PH_NOISY, "phalcon/Html/Helper/Input/AbstractGroup.zep", 115);
 			_0$$3 = Z_TYPE_P(&_1$$3) == IS_STRING;
 		}
 		if (_0$$3) {
 			zephir_memory_observe(&labelText);
-			zephir_array_fetch_string(&labelText, definition, SL("label"), PH_NOISY, "phalcon/Html/Helper/Input/AbstractGroup.zep", 130);
+			zephir_array_fetch_string(&labelText, definition, SL("label"), PH_NOISY, "phalcon/Html/Helper/Input/AbstractGroup.zep", 116);
 		} else {
 			ZEPHIR_CPY_WRT(&labelText, &value_zv);
 		}
@@ -398,7 +405,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractGroup, renderItem)
 	ZEPHIR_INIT_VAR(&_11);
 	if (zephir_array_isset_value_string(&itemExtras, SL("id"))) {
 		ZEPHIR_OBS_NVAR(&_11);
-		zephir_array_fetch_string(&_11, &itemExtras, SL("id"), PH_NOISY, "phalcon/Html/Helper/Input/AbstractGroup.zep", 148);
+		zephir_array_fetch_string(&_11, &itemExtras, SL("id"), PH_NOISY, "phalcon/Html/Helper/Input/AbstractGroup.zep", 134);
 	} else {
 		ZEPHIR_CPY_WRT(&_11, &baseId);
 	}
@@ -433,7 +440,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractGroup, renderItem)
 	ZEPHIR_INIT_VAR(&_17);
 	zephir_create_array(&_17, 1, 0);
 	ZEPHIR_OBS_NVAR(&_12);
-	zephir_array_fetch_string(&_12, &inputAttrs, SL("id"), PH_NOISY, "phalcon/Html/Helper/Input/AbstractGroup.zep", 163);
+	zephir_array_fetch_string(&_12, &inputAttrs, SL("id"), PH_NOISY, "phalcon/Html/Helper/Input/AbstractGroup.zep", 149);
 	zephir_array_update_string(&_17, SL("for"), &_12, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_15);
 	ZVAL_STRING(&_15, "label");
@@ -441,38 +448,5 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractGroup, renderItem)
 	zephir_check_call_status();
 	ZEPHIR_CONCAT_VV(return_value, &input, &label);
 	RETURN_MM();
-}
-
-zend_object *zephir_init_properties_Phalcon_Html_Helper_Input_AbstractGroup(zend_class_entry *class_type)
-{
-		zval _0, _2, _1$$3, _3$$4;
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-		ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_1$$3);
-	ZVAL_UNDEF(&_3$$4);
-	
-
-		ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-		zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	
-	{
-		zval local_this_ptr, *this_ptr = &local_this_ptr;
-		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		zephir_read_property_ex(&_0, this_ptr, ZEND_STRL("sharedAttributes"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_0) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_1$$3);
-			array_init(&_1$$3);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("sharedAttributes"), &_1$$3);
-		}
-		zephir_read_property_ex(&_2, this_ptr, ZEND_STRL("options"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_2) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_3$$4);
-			array_init(&_3$$4);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("options"), &_3$$4);
-		}
-		ZEPHIR_MM_RESTORE();
-		return Z_OBJ_P(this_ptr);
-	}
 }
 

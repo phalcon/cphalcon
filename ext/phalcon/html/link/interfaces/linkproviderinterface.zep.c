@@ -22,6 +22,9 @@
  */
 /**
  * A link provider object.
+ *
+ * @phpstan-import-type link_collection from LinkTypes
+ * @phpstan-import-type link_list from LinkTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Html_Link_Interfaces_LinkProviderInterface)
 {
@@ -32,10 +35,14 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Link_Interfaces_LinkProviderInterface)
 
 /**
  * Returns an array of LinkInterface objects.
+ *
+ * @phpstan-return link_collection
  */
 ZEPHIR_DOC_METHOD(Phalcon_Html_Link_Interfaces_LinkProviderInterface, getLinks);
 /**
  * Returns an array of LinkInterface objects that have a specific
  * relationship.
+ *
+ * @phpstan-return link_list
  */
 ZEPHIR_DOC_METHOD(Phalcon_Html_Link_Interfaces_LinkProviderInterface, getLinksByRel);

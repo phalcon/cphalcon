@@ -28,17 +28,21 @@
  * file that was distributed with this source code.
  */
 /**
- * @property array $links
+ * @phpstan-import-type link_collection from LinkTypes
+ * @phpstan-import-type link_list from LinkTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Html_Link_AbstractLinkProvider)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Html\\Link, AbstractLinkProvider, phalcon, html_link_abstractlinkprovider, phalcon_html_link_abstractlinkprovider_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
 	/**
-	 * @var array
+	 * @phpstan-var link_collection
 	 */
-	zend_declare_property_null(phalcon_html_link_abstractlinkprovider_ce, SL("links"), ZEND_ACC_PROTECTED);
-	phalcon_html_link_abstractlinkprovider_ce->create_object = zephir_init_properties_Phalcon_Html_Link_AbstractLinkProvider;
+	{
+		zval _zc0;
+		array_init_size(&_zc0, 1);
+		zephir_declare_typed_property(phalcon_html_link_abstractlinkprovider_ce, SL("links"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_ARRAY, NULL, 0);
+	}
 
 	return SUCCESS;
 }
@@ -46,7 +50,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Link_AbstractLinkProvider)
 /**
  * LinkProvider constructor.
  *
- * @param array $links
+ * The guard keeps foreign objects out of the collection. It stays live in
+ * the Zephir implementation, where the array is untyped.
+ *
+ * @phpstan-param array<array-key, object> $links
  */
 PHP_METHOD(Phalcon_Html_Link_AbstractLinkProvider, __construct)
 {
@@ -82,7 +89,7 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLinkProvider, __construct)
 	} else {
 		zephir_get_arrval(&links, links_param);
 	}
-	zephir_is_iterable(&links, 0, "phalcon/Html/Link/AbstractLinkProvider.zep", 42);
+	zephir_is_iterable(&links, 0, "phalcon/Html/Link/AbstractLinkProvider.zep", 47);
 	if (Z_TYPE_P(&links) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&links), _0)
 		{
@@ -153,7 +160,7 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLinkProvider, __construct)
  * The iterable may be an array or any PHP \Traversable object. If no links
  * are available, an empty array or \Traversable MUST be returned.
  *
- * @return array
+ * @phpstan-return link_collection
  */
 PHP_METHOD(Phalcon_Html_Link_AbstractLinkProvider, doGetLinks)
 {
@@ -169,7 +176,7 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLinkProvider, doGetLinks)
  * with that relationship are available, an empty array or \Traversable
  * MUST be returned.
  *
- * @return array
+ * @phpstan-return link_list
  */
 PHP_METHOD(Phalcon_Html_Link_AbstractLinkProvider, doGetLinksByRel)
 {
@@ -202,7 +209,7 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLinkProvider, doGetLinksByRel)
 	ZEPHIR_INIT_VAR(&filtered);
 	array_init(&filtered);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 224, PH_NOISY_CC | PH_READONLY);
-	zephir_is_iterable(&_0, 0, "phalcon/Html/Link/AbstractLinkProvider.zep", 80);
+	zephir_is_iterable(&_0, 0, "phalcon/Html/Link/AbstractLinkProvider.zep", 85);
 	if (Z_TYPE_P(&_0) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_0), _1)
 		{
@@ -211,7 +218,7 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLinkProvider, doGetLinksByRel)
 			ZEPHIR_CALL_METHOD(&rels, &link, "getrels", NULL, 0);
 			zephir_check_call_status();
 			if (1 == zephir_fast_in_array(&rel_zv, &rels)) {
-				zephir_array_append(&filtered, &link, PH_SEPARATE, "phalcon/Html/Link/AbstractLinkProvider.zep", 76);
+				zephir_array_append(&filtered, &link, PH_SEPARATE, "phalcon/Html/Link/AbstractLinkProvider.zep", 81);
 			}
 		} ZEND_HASH_FOREACH_END();
 	} else {
@@ -235,7 +242,7 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLinkProvider, doGetLinksByRel)
 				ZEPHIR_CALL_METHOD(&rels, &link, "getrels", NULL, 0);
 				zephir_check_call_status();
 				if (1 == zephir_fast_in_array(&rel_zv, &rels)) {
-					zephir_array_append(&filtered, &link, PH_SEPARATE, "phalcon/Html/Link/AbstractLinkProvider.zep", 76);
+					zephir_array_append(&filtered, &link, PH_SEPARATE, "phalcon/Html/Link/AbstractLinkProvider.zep", 81);
 				}
 		}
 	}
@@ -250,10 +257,7 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLinkProvider, doGetLinksByRel)
  * normally without errors. The link is present if $link is === identical
  * to a link object already in the collection.
  *
- * @param mixed $link A link object that should be included in this
- *                    collection.
- *
- * @return static
+ * @phpstan-param LinkInterface $link
  */
 PHP_METHOD(Phalcon_Html_Link_AbstractLinkProvider, doWithLink)
 {
@@ -288,9 +292,7 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLinkProvider, doWithLink)
  * without errors. The link is present if $link is === identical to a link
  * object already in the collection.
  *
- * @param mixed $link The link to remove.
- *
- * @return static
+ * @phpstan-param LinkInterface $link
  */
 PHP_METHOD(Phalcon_Html_Link_AbstractLinkProvider, doWithoutLink)
 {
@@ -329,9 +331,7 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLinkProvider, doWithoutLink)
 /**
  * Returns the object hash key
  *
- * @param mixed link
- *
- * @return string
+ * @phpstan-param object $link
  */
 PHP_METHOD(Phalcon_Html_Link_AbstractLinkProvider, getKey)
 {
@@ -349,30 +349,5 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLinkProvider, getKey)
 	ZEPHIR_RETURN_CALL_FUNCTION("spl_object_hash", NULL, 187, link);
 	zephir_check_call_status();
 	RETURN_MM();
-}
-
-zend_object *zephir_init_properties_Phalcon_Html_Link_AbstractLinkProvider(zend_class_entry *class_type)
-{
-		zval _0, _1$$3;
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-		ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1$$3);
-	
-
-		ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-		zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	
-	{
-		zval local_this_ptr, *this_ptr = &local_this_ptr;
-		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		zephir_read_property_ex(&_0, this_ptr, ZEND_STRL("links"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_0) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_1$$3);
-			array_init(&_1$$3);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("links"), &_1$$3);
-		}
-		ZEPHIR_MM_RESTORE();
-		return Z_OBJ_P(this_ptr);
-	}
 }
 

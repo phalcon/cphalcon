@@ -41,90 +41,115 @@
  *
  * Helpers are cached per name after first construction.
  *
- * @method string      a(string $href, string $text, array $attributes = [], bool $raw = false)
- * @method string      aRaw(string $href, string $text, array $attributes = [])
- * @method string      base(string $href, array $attributes = [])
- * @method string      body(array $attributes = [])
- * @method Breadcrumbs breadcrumbs(string $indent = '    ', string $delimiter = "\n")
- * @method string      button(string $text, array $attributes = [], bool $raw = false)
- * @method string      buttonRaw(string $text, array $attributes = [])
- * @method string      close(string $tag, bool $raw = false)
- * @method Doctype     doctype(int $type = Doctype::HTML5, string $delimiter = "\n")
- * @method string      element(string $tag, string $text, array $attributes = [], bool $raw = false)
- * @method string      elementRaw(string $tag, string $text, array $attributes = [])
- * @method string      form(array $attributes = [])
- * @method string      friendlyTitle(string $text, string $separator = '-', bool $lowercase = true, mixed $replace = null)
- * @method string      img(string $src, array $attributes = [])
- * @method Checkbox    inputCheckbox(string $name, string $value = null, array $attributes = [])
+ * `__call()` resolves the named helper and dispatches to its `__invoke()`,
+ * so each entry in the @method block below describes the result of calling
+ * `$factory->serviceName(...)` rather than `newInstance("serviceName")`.
+ *
+ * @phpstan-import-type html_attributes from HtmlTypes
+ * @phpstan-import-type html_group_options from HtmlTypes
+ * @phpstan-import-type html_factory_instances from HtmlTypes
+ * @phpstan-import-type html_factory_services from HtmlTypes
+ *
+ * @method string        a(string $href, string $text, html_attributes $attributes = [], bool $raw = false)
+ * @method string        aRaw(string $href, string $text, html_attributes $attributes = [])
+ * @method string        base(string $href, html_attributes $attributes = [])
+ * @method string        body(html_attributes $attributes = [])
+ * @method Breadcrumbs   breadcrumbs(string $indent = '    ', string $delimiter = "\n")
+ * @method string        button(string $text, html_attributes $attributes = [], bool $raw = false)
+ * @method string        buttonRaw(string $text, html_attributes $attributes = [])
+ * @method string        close(string $tag, bool $raw = false)
+ * @method Doctype       doctype(int $type = Doctype::HTML5, string $delimiter = "\n")
+ * @method string        element(string $tag, string $text, html_attributes $attributes = [], bool $raw = false)
+ * @method string        elementRaw(string $tag, string $text, html_attributes $attributes = [])
+ * @method string        form(html_attributes $attributes = [])
+ * @method string        friendlyTitle(string $text, string $separator = '-', bool $lower = true, mixed $replace = null)
+ * @method string        img(string $src, html_attributes $attributes = [])
+ * @method Checkbox      inputCheckbox(string $name, string $value = null, html_attributes $attributes = [])
  * @method CheckboxGroup inputCheckboxGroup(string $name, array $options, mixed $checked = null, array $attributes = [])
- * @method Generic     inputColor(string $name, string $value = null, array $attributes = [])
- * @method Generic     inputDate(string $name, string $value = null, array $attributes = [])
- * @method Generic     inputDateTime(string $name, string $value = null, array $attributes = [])
- * @method Generic     inputDateTimeLocal(string $name, string $value = null, array $attributes = [])
- * @method Generic     inputEmail(string $name, string $value = null, array $attributes = [])
- * @method Generic     inputFile(string $name, string $value = null, array $attributes = [])
- * @method Generic     inputHidden(string $name, string $value = null, array $attributes = [])
- * @method Generic     inputImage(string $name, string $value = null, array $attributes = [])
- * @method Generic     inputInput(string $name, string $value = null, array $attributes = [])
- * @method Generic     inputMonth(string $name, string $value = null, array $attributes = [])
- * @method Generic     inputNumeric(string $name, string $value = null, array $attributes = [])
- * @method Generic     inputPassword(string $name, string $value = null, array $attributes = [])
- * @method Radio       inputRadio(string $name, string $value = null, array $attributes = [])
+ * @method Generic       inputColor(string $name, string $value = null, html_attributes $attributes = [])
+ * @method Generic       inputDate(string $name, string $value = null, html_attributes $attributes = [])
+ * @method Generic       inputDateTime(string $name, string $value = null, html_attributes $attributes = [])
+ * @method Generic       inputDateTimeLocal(string $name, string $value = null, html_attributes $attributes = [])
+ * @method Generic       inputEmail(string $name, string $value = null, html_attributes $attributes = [])
+ * @method Generic       inputFile(string $name, string $value = null, html_attributes $attributes = [])
+ * @method Generic       inputHidden(string $name, string $value = null, html_attributes $attributes = [])
+ * @method Generic       inputImage(string $name, string $value = null, html_attributes $attributes = [])
+ * @method Generic       inputInput(string $name, string $value = null, html_attributes $attributes = [])
+ * @method Generic       inputMonth(string $name, string $value = null, html_attributes $attributes = [])
+ * @method Generic       inputNumeric(string $name, string $value = null, html_attributes $attributes = [])
+ * @method Generic       inputPassword(string $name, string $value = null, html_attributes $attributes = [])
+ * @method Radio         inputRadio(string $name, string $value = null, html_attributes $attributes = [])
  * @method RadioGroup    inputRadioGroup(string $name, array $options, mixed $checked = null, array $attributes = [])
- * @method Generic     inputRange(string $name, string $value = null, array $attributes = [])
- * @method Generic     inputSearch(string $name, string $value = null, array $attributes = [])
- * @method Select      inputSelect(string $name, string $value = null, array $attributes = [])
- * @method Generic     inputSubmit(string $name, string $value = null, array $attributes = [])
- * @method Generic     inputTel(string $name, string $value = null, array $attributes = [])
- * @method Generic     inputText(string $name, string $value = null, array $attributes = [])
- * @method Textarea    inputTextarea(string $name, string $value = null, array $attributes = [])
- * @method Generic     inputTime(string $name, string $value = null, array $attributes = [])
- * @method Generic     inputUrl(string $name, string $value = null, array $attributes = [])
- * @method Generic     inputWeek(string $name, string $value = null, array $attributes = [])
- * @method string      label(string $label, array $attributes = [], bool $raw = false)
- * @method string      labelRaw(string $label, array $attributes = [])
- * @method Link        link(string $indent = '    ', string $delimiter = "\n")
- * @method Meta        meta(string $indent = '    ', string $delimiter = "\n")
- * @method Ol          ol(string $indent = '    ', string $delimiter = null, array $attributes = [])
- * @method Ol          olRaw(string $indent = '    ', string $delimiter = null, array $attributes = [])
- * @method string      preload(string $href, string $type = 'style', array $attributes = [])
- * @method Script      script(string $indent = '    ', string $delimiter = "\n")
- * @method Style       style(string $indent = '    ', string $delimiter = "\n")
- * @method string      tag(string $name, array $attributes = [])
- * @method Title       title(string $indent = '    ', string $delimiter = "\n")
- * @method Ul          ul(string $indent = '    ', string $delimiter = null, array $attributes = [])
- * @method Ul          ulRaw(string $indent = '    ', string $delimiter = null, array $attributes = [])
- * @method string      voidTag(string $name, array $attributes = [])
+ * @method Generic       inputRange(string $name, string $value = null, html_attributes $attributes = [])
+ * @method Generic       inputSearch(string $name, string $value = null, html_attributes $attributes = [])
+ * @method Select        inputSelect(string $name, string $value = null, html_attributes $attributes = [])
+ * @method Generic       inputSubmit(string $name, string $value = null, html_attributes $attributes = [])
+ * @method Generic       inputTel(string $name, string $value = null, html_attributes $attributes = [])
+ * @method Generic       inputText(string $name, string $value = null, html_attributes $attributes = [])
+ * @method Textarea      inputTextarea(string $name, string $value = null, html_attributes $attributes = [])
+ * @method Generic       inputTime(string $name, string $value = null, html_attributes $attributes = [])
+ * @method Generic       inputUrl(string $name, string $value = null, html_attributes $attributes = [])
+ * @method Generic       inputWeek(string $name, string $value = null, html_attributes $attributes = [])
+ * @method string        label(string $label, html_attributes $attributes = [], bool $raw = false)
+ * @method string        labelRaw(string $label, html_attributes $attributes = [])
+ * @method Link          link(string $indent = '    ', string $delimiter = "\n")
+ * @method Meta          meta(string $indent = '    ', string $delimiter = "\n")
+ * @method Ol            ol(string $indent = '    ', string $delimiter = null, html_attributes $attributes = [])
+ * @method Ol            olRaw(string $indent = '    ', string $delimiter = null, html_attributes $attributes = [])
+ * @method string        preload(string $href, string $type = 'style', html_attributes $attributes = [])
+ * @method Script        script(string $indent = '    ', string $delimiter = "\n")
+ * @method Style         style(string $indent = '    ', string $delimiter = "\n")
+ * @method string        tag(string $name, html_attributes $attributes = [])
+ * @method Title         title(string $indent = '    ', string $delimiter = "\n")
+ * @method Ul            ul(string $indent = '    ', string $delimiter = null, html_attributes $attributes = [])
+ * @method Ul            ulRaw(string $indent = '    ', string $delimiter = null, html_attributes $attributes = [])
+ * @method string        voidTag(string $name, html_attributes $attributes = [])
  */
 ZEPHIR_INIT_CLASS(Phalcon_Html_TagFactory)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Html, TagFactory, phalcon, html_tagfactory, phalcon_html_tagfactory_method_entry, 0);
 
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_html_tagfactory_ce, SL("doctype"), &_zc0, ZEND_ACC_PRIVATE, 0, SL("Phalcon\\Html\\Helper\\Doctype"));
+	}
+
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_html_tagfactory_ce, SL("escaper"), &_zc0, ZEND_ACC_PRIVATE, 0, SL("Phalcon\\Html\\Escaper\\EscaperInterface"));
+	}
+
+	{
+		zval _zc0;
+		ZVAL_NULL(&_zc0);
+		zephir_declare_typed_property(phalcon_html_tagfactory_ce, SL("response"), &_zc0, ZEND_ACC_PRIVATE, MAY_BE_NULL, SL("Phalcon\\Http\\ResponseInterface"));
+	}
+
+	{
+		zval _zc0;
+		ZVAL_NULL(&_zc0);
+		zephir_declare_typed_property(phalcon_html_tagfactory_ce, SL("url"), &_zc0, ZEND_ACC_PRIVATE, MAY_BE_NULL, SL("Phalcon\\Mvc\\Url\\UrlInterface"));
+	}
+
 	/**
-	 * @var Doctype
+	 * @phpstan-var html_factory_services
 	 */
-	zend_declare_property_null(phalcon_html_tagfactory_ce, SL("doctype"), ZEND_ACC_PRIVATE);
+	{
+		zval _zc0;
+		array_init_size(&_zc0, 1);
+		zephir_declare_typed_property(phalcon_html_tagfactory_ce, SL("factories"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_ARRAY, NULL, 0);
+	}
+
 	/**
-	 * @var EscaperInterface
+	 * @phpstan-var html_factory_instances
 	 */
-	zend_declare_property_null(phalcon_html_tagfactory_ce, SL("escaper"), ZEND_ACC_PRIVATE);
-	/**
-	 * @var ResponseInterface|null
-	 */
-	zend_declare_property_null(phalcon_html_tagfactory_ce, SL("response"), ZEND_ACC_PRIVATE);
-	/**
-	 * @var UrlInterface|null
-	 */
-	zend_declare_property_null(phalcon_html_tagfactory_ce, SL("url"), ZEND_ACC_PRIVATE);
-	/**
-	 * @var array
-	 */
-	zend_declare_property_null(phalcon_html_tagfactory_ce, SL("factories"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var array
-	 */
-	zend_declare_property_null(phalcon_html_tagfactory_ce, SL("instances"), ZEND_ACC_PROTECTED);
-	phalcon_html_tagfactory_ce->create_object = zephir_init_properties_Phalcon_Html_TagFactory;
+	{
+		zval _zc0;
+		array_init_size(&_zc0, 1);
+		zephir_declare_typed_property(phalcon_html_tagfactory_ce, SL("instances"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_ARRAY, NULL, 0);
+	}
 
 	return SUCCESS;
 }
@@ -132,7 +157,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_TagFactory)
 /**
  * TagFactory constructor.
  *
- * @phpstan-param array<string, Closure> $services
+ * `$services` maps a service name to a zero-arg Closure that returns the
+ * helper instance.
+ *
+ * @phpstan-param html_factory_services $services
  */
 PHP_METHOD(Phalcon_Html_TagFactory, __construct)
 {
@@ -202,18 +230,18 @@ PHP_METHOD(Phalcon_Html_TagFactory, __construct)
 		url = &url_sub;
 		url = &__$null;
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 861, escaper);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 862, response);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 863, url);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 860, escaper);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 861, response);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 862, url);
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, phalcon_html_helper_doctype_ce);
 	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 0);
 	zephir_check_call_status();
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 864, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 863, &_0);
 	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getdefaultservices", NULL, 0);
 	zephir_check_call_status();
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_4, 865, &_1);
-	zephir_is_iterable(&services, 0, "phalcon/Html/TagFactory.zep", 169);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_4, 864, &_1);
+	zephir_is_iterable(&services, 0, "phalcon/Html/TagFactory.zep", 166);
 	if (Z_TYPE_P(&services) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&services), _3, _4, _2)
 		{
@@ -260,10 +288,8 @@ PHP_METHOD(Phalcon_Html_TagFactory, __construct)
 /**
  * Magic call to make the helper objects available as methods.
  *
- * @param string $name
- * @param array  $arguments
+ * @phpstan-param array<int, mixed> $arguments
  *
- * @return mixed
  * @throws \Phalcon\Html\Exception
  */
 PHP_METHOD(Phalcon_Html_TagFactory, __call)
@@ -304,9 +330,6 @@ PHP_METHOD(Phalcon_Html_TagFactory, __call)
 }
 
 /**
- * @param string $name
- *
- * @return bool
  */
 PHP_METHOD(Phalcon_Html_TagFactory, has)
 {
@@ -325,17 +348,16 @@ PHP_METHOD(Phalcon_Html_TagFactory, has)
 		Z_PARAM_STR(name)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&name_zv, name);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 865, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 864, PH_NOISY_CC | PH_READONLY);
 	RETURN_BOOL(zephir_array_isset_value(&_0, &name_zv));
 }
 
 /**
  * Create or return a cached instance of the helper.
  *
- * @param string $name
- *
- * @return object
  * @throws \Phalcon\Html\Exception
+ *
+ * @phpstan-return ($name is 'doctype' ? Doctype : object)
  */
 PHP_METHOD(Phalcon_Html_TagFactory, newInstance)
 {
@@ -370,28 +392,28 @@ PHP_METHOD(Phalcon_Html_TagFactory, newInstance)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 865, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 864, PH_NOISY_CC | PH_READONLY);
 	if (!(zephir_array_isset_value(&_0, &name_zv))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_html_exceptions_servicenotregistered_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 0, &name_zv);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Html/TagFactory.zep", 212);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Html/TagFactory.zep", 203);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_1, 866, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_1, 865, PH_NOISY_CC | PH_READONLY);
 	if (!(zephir_array_isset_value(&_2, &name_zv))) {
-		zephir_read_property_cached(&_3$$4, this_ptr, _zephir_prop_0, 865, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_3$$4, this_ptr, _zephir_prop_0, 864, PH_NOISY_CC | PH_READONLY);
 		zephir_memory_observe(&factory);
-		zephir_array_fetch(&factory, &_3$$4, &name_zv, PH_NOISY, "phalcon/Html/TagFactory.zep", 216);
+		zephir_array_fetch(&factory, &_3$$4, &name_zv, PH_NOISY, "phalcon/Html/TagFactory.zep", 207);
 		ZEPHIR_INIT_VAR(&_4$$4);
 		ZEPHIR_CALL_USER_FUNC(&_4$$4, &factory);
 		zephir_check_call_status();
 		zephir_update_property_array(this_ptr, SL("instances"), &name_zv, &_4$$4);
 	}
-	zephir_read_property_cached(&_5, this_ptr, _zephir_prop_1, 866, PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch(&_6, &_5, &name_zv, PH_NOISY | PH_READONLY, "phalcon/Html/TagFactory.zep", 220);
+	zephir_read_property_cached(&_5, this_ptr, _zephir_prop_1, 865, PH_NOISY_CC | PH_READONLY);
+	zephir_array_fetch(&_6, &_5, &name_zv, PH_NOISY | PH_READONLY, "phalcon/Html/TagFactory.zep", 211);
 	RETURN_CTOR(&_6);
 }
 
@@ -400,9 +422,6 @@ PHP_METHOD(Phalcon_Html_TagFactory, newInstance)
  * the first matching `newInstance()` call and its return value is cached.
  * Passing a new definition clears any cached instance so the next call to
  * `newInstance()` rebuilds it.
- *
- * @param string  $name
- * @param Closure $definition
  */
 PHP_METHOD(Phalcon_Html_TagFactory, set)
 {
@@ -426,15 +445,15 @@ PHP_METHOD(Phalcon_Html_TagFactory, set)
 	ZVAL_STR(&name_zv, name);
 	zephir_update_property_array(this_ptr, SL("factories"), &name_zv, definition);
 	zephir_unset_property_array(this_ptr, ZEND_STRL("instances"), &name_zv);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 866, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 865, PH_NOISY_CC | PH_READONLY);
 	zephir_array_unset(&_0, &name_zv, PH_SEPARATE);
 }
 
 /**
- * Default service recipes. Every entry is a Closure that returns a
+ * Default service recipes. Every entry is a callable that returns a
  * fully-constructed helper instance. Services are built lazily and cached.
  *
- * @return array
+ * @phpstan-return html_factory_services
  */
 PHP_METHOD(Phalcon_Html_TagFactory, getDefaultServices)
 {
@@ -462,11 +481,11 @@ PHP_METHOD(Phalcon_Html_TagFactory, getDefaultServices)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 861, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 860, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&escaper, &_0);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_1, 862, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_1, 861, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&response, &_0);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_2, 863, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_2, 862, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&url, &_0);
 	zephir_create_array(return_value, 59, 0);
 	ZEPHIR_INIT_VAR(&_1);
@@ -741,38 +760,5 @@ PHP_METHOD(Phalcon_Html_TagFactory, getDefaultServices)
 	zephir_update_static_property_ce(phalcon_88__closure_ce, ZEND_STRL("escaper"), &escaper);
 	zephir_array_update_string(return_value, SL("voidTag"), &_1, PH_COPY | PH_SEPARATE);
 	RETURN_MM();
-}
-
-zend_object *zephir_init_properties_Phalcon_Html_TagFactory(zend_class_entry *class_type)
-{
-		zval _0, _2, _1$$3, _3$$4;
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-		ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_1$$3);
-	ZVAL_UNDEF(&_3$$4);
-	
-
-		ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-		zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	
-	{
-		zval local_this_ptr, *this_ptr = &local_this_ptr;
-		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		zephir_read_property_ex(&_0, this_ptr, ZEND_STRL("instances"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_0) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_1$$3);
-			array_init(&_1$$3);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("instances"), &_1$$3);
-		}
-		zephir_read_property_ex(&_2, this_ptr, ZEND_STRL("factories"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_2) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_3$$4);
-			array_init(&_3$$4);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("factories"), &_3$$4);
-		}
-		ZEPHIR_MM_RESTORE();
-		return Z_OBJ_P(this_ptr);
-	}
 }
 

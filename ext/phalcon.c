@@ -249,6 +249,8 @@ zend_class_entry *phalcon_contracts_container_service_definition_ce;
 zend_class_entry *phalcon_contracts_dispatcher_dispatchertypes_ce;
 zend_class_entry *phalcon_contracts_events_subscriber_ce;
 zend_class_entry *phalcon_contracts_front_fronttypealiases_ce;
+zend_class_entry *phalcon_contracts_html_htmltypes_ce;
+zend_class_entry *phalcon_contracts_html_link_linktypes_ce;
 zend_class_entry *phalcon_contracts_http_httptypes_ce;
 zend_class_entry *phalcon_contracts_image_imagetypes_ce;
 zend_class_entry *phalcon_contracts_messages_messagestypes_ce;
@@ -1845,6 +1847,8 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Contracts_Dispatcher_DispatcherTypes);
 	ZEPHIR_INIT(Phalcon_Contracts_Events_Subscriber);
 	ZEPHIR_INIT(Phalcon_Contracts_Front_FrontTypeAliases);
+	ZEPHIR_INIT(Phalcon_Contracts_Html_HtmlTypes);
+	ZEPHIR_INIT(Phalcon_Contracts_Html_Link_LinkTypes);
 	ZEPHIR_INIT(Phalcon_Contracts_Http_HttpTypes);
 	ZEPHIR_INIT(Phalcon_Contracts_Image_ImageTypes);
 	ZEPHIR_INIT(Phalcon_Contracts_Messages_MessagesTypes);
