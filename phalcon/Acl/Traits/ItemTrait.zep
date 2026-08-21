@@ -18,7 +18,7 @@ trait ItemTrait
     /**
      * Role/Component description
      */
-    protected string description = null;
+    protected ?string description = null;
 
     /**
      * Role/Component name

@@ -22,6 +22,13 @@
  */
 /**
  * Canonical contract for Phalcon\Acl adapters
+ *
+ * @phpstan-import-type acl_access_list from AclTypes
+ * @phpstan-import-type acl_component_name from AclTypes
+ * @phpstan-import-type acl_components from AclTypes
+ * @phpstan-import-type acl_role_name from AclTypes
+ * @phpstan-import-type acl_role_to_inherit from AclTypes
+ * @phpstan-import-type acl_roles from AclTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Contracts_Acl_Adapter_Adapter)
 {
@@ -32,11 +39,16 @@ ZEPHIR_INIT_CLASS(Phalcon_Contracts_Acl_Adapter_Adapter)
 
 /**
  * Do a role inherit from another existing role
+ *
+ * @phpstan-param acl_role_to_inherit $roleToInherits
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Acl_Adapter_Adapter, addInherit);
 /**
  * Adds a role to the ACL list. Second parameter lets to inherit access data
  * from other existing role
+ *
+ * @phpstan-param RoleInterface|string     $role
+ * @phpstan-param acl_role_to_inherit|null $accessInherits
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Acl_Adapter_Adapter, addRole);
 /**
@@ -44,22 +56,33 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Acl_Adapter_Adapter, addRole);
  *
  * Access names can be a particular action, by example
  * search, update, delete, etc. or a list of them
+ *
+ * @phpstan-param ComponentInterface|string $componentValue
+ * @phpstan-param acl_access_list           $accessList
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Acl_Adapter_Adapter, addComponent);
 /**
  * Adds access to components
+ *
+ * @phpstan-param acl_access_list $accessList
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Acl_Adapter_Adapter, addComponentAccess);
 /**
  * Allow access to a role on a component
+ *
+ * @phpstan-param acl_access_list $access
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Acl_Adapter_Adapter, allow);
 /**
  * Deny access to a role on a component
+ *
+ * @phpstan-param acl_access_list $access
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Acl_Adapter_Adapter, deny);
 /**
  * Removes access from a component
+ *
+ * @phpstan-param acl_access_list $accessList
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Acl_Adapter_Adapter, dropComponentAccess);
 /**
@@ -78,6 +101,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Acl_Adapter_Adapter, getActiveRole);
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Acl_Adapter_Adapter, getActiveComponent);
 /**
  * Return an array with every component registered in the list
+ *
+ * @phpstan-return acl_components
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Acl_Adapter_Adapter, getComponents);
 /**
@@ -97,10 +122,15 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Acl_Adapter_Adapter, getInheritedRoles);
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Acl_Adapter_Adapter, getNoArgumentsDefaultAction);
 /**
  * Return an array with every role registered in the list
+ *
+ * @phpstan-return acl_roles
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Acl_Adapter_Adapter, getRoles);
 /**
  * Check whether a role is allowed to access an action from a component
+ *
+ * @phpstan-param acl_role_name      $roleName
+ * @phpstan-param acl_component_name $componentName
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Acl_Adapter_Adapter, isAllowed);
 /**
