@@ -15,5 +15,4 @@ namespace Phalcon\Acl;
  */
 class Exception extends \Exception
 {
-
 }

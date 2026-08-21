@@ -18,7 +18,7 @@ use Phalcon\Acl\Exceptions\ForbiddenWildcard;
 class Component extends AbstractElement implements ComponentInterface
 {
     /**
-     * Phalcon\Acl\Component constructor
+     * Component constructor.
      */
     public function __construct( string name, string description = null)
     {
