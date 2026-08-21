@@ -24,24 +24,30 @@
  * file that was distributed with this source code.
  */
 /**
- * Shared name/description state for ACL Role and Component entities.
+ * This class defines role/component names and their descriptions
  */
 ZEPHIR_INIT_CLASS(Phalcon_Acl_Traits_ItemTrait)
 {
 	ZEPHIR_REGISTER_TRAIT(Phalcon\\Acl\\Traits, ItemTrait, phalcon, acl_traits_itemtrait, phalcon_acl_traits_itemtrait_method_entry);
 
 	/**
-	 * Element description
-	 *
-	 * @var string | null
+	 * Role/Component description
 	 */
-	zend_declare_property_null(phalcon_acl_traits_itemtrait_ce, SL("description"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_NULL(&_zc0);
+		zephir_declare_typed_property(phalcon_acl_traits_itemtrait_ce, SL("description"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING|MAY_BE_NULL, NULL, 0);
+	}
+
 	/**
-	 * Element name
-	 *
-	 * @var string
+	 * Role/Component name
 	 */
-	zend_declare_property_null(phalcon_acl_traits_itemtrait_ce, SL("name"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_acl_traits_itemtrait_ce, SL("name"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
+
 	return SUCCESS;
 }
 

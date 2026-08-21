@@ -11,23 +11,19 @@
 namespace Phalcon\Acl\Traits;
 
 /**
- * Shared name/description state for ACL Role and Component entities.
+ * This class defines role/component names and their descriptions
  */
 trait ItemTrait
 {
     /**
-     * Element description
-     *
-     * @var string | null
+     * Role/Component description
      */
-    protected description;
+    protected ?string description = null;
 
     /**
-     * Element name
-     *
-     * @var string
+     * Role/Component name
      */
-    protected name;
+    protected string name;
 
     public function __toString() -> string
     {

@@ -14,6 +14,7 @@ use Phalcon\Acl\Component;
 use Phalcon\Acl\Enum;
 use Phalcon\Acl\Exceptions\InvalidSnapshot;
 use Phalcon\Acl\Role;
+use Phalcon\Contracts\Acl\AclTypes;
 use Phalcon\Contracts\Acl\Adapter\Persistable;
 use Phalcon\Storage\Adapter\AdapterInterface as StorageInterface;
 
@@ -34,6 +35,8 @@ use Phalcon\Storage\Adapter\AdapterInterface as StorageInterface;
  * Use external locking when multiple processes write the same key.
  *
  * @see Persistable
+ *
+ * @phpstan-import-type acl_snapshot from AclTypes
  */
 class Storage extends Memory implements Persistable
 {
@@ -42,22 +45,13 @@ class Storage extends Memory implements Persistable
      */
     const SNAPSHOT_VERSION = 1;
 
-    /**
-     * @var string
-     */
-    protected key;
-
-    /**
-     * @var StorageInterface
-     */
-    protected storage;
+    protected string key;
+    protected <StorageInterface> storage;
 
     public function __construct(<StorageInterface> storage, string key = "acl-data")
     {
         let this->storage = storage,
             this->key     = key;
-
-        parent::__construct();
 
         this->load();
     }
@@ -86,6 +80,7 @@ class Storage extends Memory implements Persistable
             return false;
         }
 
+        /** @var int|string $version */
         let version = data["version"];
 
         if version != self::SNAPSHOT_VERSION {
@@ -106,6 +101,7 @@ class Storage extends Memory implements Persistable
             throw new InvalidSnapshot("Malformed ACL snapshot structure");
         }
 
+        /** @var acl_snapshot $data */
         let rebuiltRoles = [];
         for name, description in data["roles"] {
             let rebuiltRoles[name] = new Role(name, description);

@@ -12,20 +12,33 @@ namespace Phalcon\Contracts\Acl\Adapter;
 
 use Phalcon\Acl\ComponentInterface;
 use Phalcon\Acl\RoleInterface;
+use Phalcon\Contracts\Acl\AclTypes;
 
 /**
  * Canonical contract for Phalcon\Acl adapters
+ *
+ * @phpstan-import-type acl_access_list from AclTypes
+ * @phpstan-import-type acl_component_name from AclTypes
+ * @phpstan-import-type acl_components from AclTypes
+ * @phpstan-import-type acl_role_name from AclTypes
+ * @phpstan-import-type acl_role_to_inherit from AclTypes
+ * @phpstan-import-type acl_roles from AclTypes
  */
 interface Adapter
 {
     /**
      * Do a role inherit from another existing role
+     *
+     * @phpstan-param acl_role_to_inherit $roleToInherits
      */
     public function addInherit(string roleName, roleToInherits) -> bool;
 
     /**
      * Adds a role to the ACL list. Second parameter lets to inherit access data
      * from other existing role
+     *
+     * @phpstan-param RoleInterface|string     $role
+     * @phpstan-param acl_role_to_inherit|null $accessInherits
      */
     public function addRole(role, accessInherits = null) -> bool;
 
@@ -34,26 +47,37 @@ interface Adapter
      *
      * Access names can be a particular action, by example
      * search, update, delete, etc. or a list of them
+     *
+     * @phpstan-param ComponentInterface|string $componentValue
+     * @phpstan-param acl_access_list           $accessList
      */
     public function addComponent(componentValue, accessList) -> bool;
 
     /**
      * Adds access to components
+     *
+     * @phpstan-param acl_access_list $accessList
      */
     public function addComponentAccess(string componentName, accessList) -> bool;
 
     /**
      * Allow access to a role on a component
+     *
+     * @phpstan-param acl_access_list $access
      */
     public function allow(string roleName, string componentName, access, func = null) -> void;
 
     /**
      * Deny access to a role on a component
+     *
+     * @phpstan-param acl_access_list $access
      */
     public function deny(string roleName, string componentName, access, func = null) -> void;
 
     /**
      * Removes access from a component
+     *
+     * @phpstan-param acl_access_list $accessList
      */
     public function dropComponentAccess(string componentName, accessList) -> void;
 
@@ -76,6 +100,8 @@ interface Adapter
 
     /**
      * Return an array with every component registered in the list
+     *
+     * @phpstan-return acl_components
      */
     public function getComponents() -> <ComponentInterface[]>;
 
@@ -99,12 +125,17 @@ interface Adapter
 
     /**
      * Return an array with every role registered in the list
+     *
+     * @phpstan-return acl_roles
      */
     public function getRoles() -> <RoleInterface[]>;
 
 
     /**
      * Check whether a role is allowed to access an action from a component
+     *
+     * @phpstan-param acl_role_name      $roleName
+     * @phpstan-param acl_component_name $componentName
      */
     public function isAllowed(roleName, componentName, string access, array parameters = null) -> bool;
 

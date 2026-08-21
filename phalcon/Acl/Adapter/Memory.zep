@@ -10,10 +10,10 @@
 
 namespace Phalcon\Acl\Adapter;
 
-use Phalcon\Acl\Enum;
-use Phalcon\Acl\Role;
-use Phalcon\Acl\RoleInterface;
 use Phalcon\Acl\Component;
+use Phalcon\Acl\ComponentAwareInterface;
+use Phalcon\Acl\ComponentInterface;
+use Phalcon\Acl\Enum;
 use Phalcon\Acl\Exceptions\AccessRuleNotFound;
 use Phalcon\Acl\Exceptions\CircularInheritanceError;
 use Phalcon\Acl\Exceptions\ElementNotFound;
@@ -24,10 +24,12 @@ use Phalcon\Acl\Exceptions\InvalidRoleType;
 use Phalcon\Acl\Exceptions\MissingFunctionParameters;
 use Phalcon\Acl\Exceptions\ParameterTypeMismatch;
 use Phalcon\Acl\Exceptions\RoleNotFoundException;
+use Phalcon\Acl\Role;
 use Phalcon\Acl\RoleAwareInterface;
-use Phalcon\Acl\ComponentAwareInterface;
-use Phalcon\Acl\ComponentInterface;
+use Phalcon\Acl\RoleInterface;
+use Phalcon\Contracts\Acl\AclTypes;
 use ReflectionClass;
+use ReflectionException;
 use ReflectionFunction;
 use ReflectionNamedType;
 
@@ -93,105 +95,82 @@ use ReflectionNamedType;
  *     }
  * }
  *```
+ *
+ * @phpstan-import-type acl_access_list from AclTypes
+ * @phpstan-import-type acl_component_name from AclTypes
+ * @phpstan-import-type acl_components from AclTypes
+ * @phpstan-import-type acl_role_name from AclTypes
+ * @phpstan-import-type acl_role_to_inherit from AclTypes
  */
 class Memory extends AbstractAdapter
 {
     /**
      * Access
-     *
-     * @var array
      */
-    protected access;
-
+    protected array access = [];
     /**
      * Access List
-     *
-     * @var array
      */
-    protected accessList;
-
+    protected array accessList = ["*!*": true];
     /**
      * Returns the latest function used to acquire access
      *
      * @var mixed
      */
     protected activeFunction;
-
     /**
-     * Returns number of additional arguments(excluding role and resource) for active function
-     *
-     * @var int
+     * Returns number of additional arguments(excluding role and resource) for
+     * active function
      */
-    protected activeFunctionCustomArgumentsCount = 0;
-
+    protected int activeFunctionCustomArgumentsCount = 0;
     /**
      * Returns the latest key used to acquire access
      *
      * @var string|null
      */
     protected activeKey = null;
-
     /**
      * Components
      *
-     * @var array
+     * @phpstan-var acl_components
      */
-    protected components;
-
+    protected array components = [];
     /**
      * Component Names
      *
-     * @var array
+     * @phpstan-var array<string, bool>
      */
-    protected componentsNames;
-
+    protected array componentsNames = ["*": true];
     /**
      * Function List
      *
-     * @var array
+     * @phpstan-var array<string, callable|string>
      */
-    protected functions;
-
+    protected array functions = [];
     /**
-     * Default action for no arguments is `allow`
+     * Default action for no arguments is `deny`
      *
      * @var int
      */
     protected noArgumentsDefaultAction = Enum::DENY;
-
-    /**
-     * Roles
-     *
-     * @var array
-     */
-    protected roles;
-
     /**
      * Role Inherits
      *
-     * @var array
+     * @phpstan-var array<string, array<int, string>>
      */
-    protected roleInherits;
-
+    protected array roleInherits = [];
     /**
-     * Phalcon\Acl\Adapter\Memory constructor
+     * Roles
+     *
+     * @phpstan-var array<string, RoleInterface>
      */
-    public function __construct()
-    {
-        let this->access          = [];
-        let this->components      = [];
-        let this->componentsNames = ["*": true];
-        let this->functions       = [];
-        let this->roleInherits    = [];
-        let this->roles           = [];
-        let this->accessList      = ["*!*": true];
-    }
+    protected array roles = [];
 
     /**
      * Adds a component to the ACL list
      *
-     * Access names can be a particular action, by example
-     * search, update, delete, etc. or a list of them
+     * Access names can be a particular action, for instance `search`, `update`
+     * `delete` etc. or a list of them.
      *
      * Example:
      * ```php
@@ -220,6 +199,9 @@ class Memory extends AbstractAdapter
      *     ]
      * );
      * ```
+     *
+     * @phpstan-param ComponentInterface|string $componentValue
+     * @phpstan-param acl_access_list           $accessList
      */
     public function addComponent(var componentValue, var accessList) -> bool
     {
@@ -258,6 +240,7 @@ class Memory extends AbstractAdapter
         let exists = true;
 
         if typeof accessList === "array" {
+            /** @var array<int|string, string> $accessList */
             for accessName in accessList {
                 let accessKey = this->buildAccessKey(componentName, accessName);
 
@@ -277,12 +260,14 @@ class Memory extends AbstractAdapter
     }
 
     /**
-     * Do a role inherit from another existing role
+     * Add a role which inherits from an existing role
      *
      * ```php
      * $acl->addRole("administrator", "consultant");
      * $acl->addRole("administrator", ["consultant", "consultant2"]);
      * ```
+     *
+     * @phpstan-param acl_role_to_inherit $roleToInherits
      */
     public function addInherit(string roleName, var roleToInherits) -> bool
     {
@@ -386,11 +371,8 @@ class Memory extends AbstractAdapter
     }
 
     /**
-     * Adds a role to the ACL list. Second parameter allows inheriting access data from other existing role
-     *
-     * If the role already exists this method returns `false` and the
-     * `accessInherits` argument is ignored; the existing role is left
-     * unchanged.
+     * Adds a role to the ACL list. The second parameter lets to inherit access
+     * from an existing role
      *
      * ```php
      * $acl->addRole(
@@ -401,6 +383,9 @@ class Memory extends AbstractAdapter
      * $acl->addRole("administrator", "consultant");
      * $acl->addRole("administrator", ["consultant", "consultant2"]);
      * ```
+     *
+     * @phpstan-param RoleInterface|string     $role
+     * @phpstan-param acl_role_to_inherit|null $accessInherits
      */
     public function addRole(role, accessInherits = null) -> bool
     {
@@ -449,8 +434,12 @@ class Memory extends AbstractAdapter
      * $acl->allow("*", "*", "*");
      * ```
      */
-    public function allow(string roleName, string componentName, var access, var func = null) -> void
-    {
+    public function allow(
+        string roleName,
+        string componentName,
+        var access,
+        var func = null
+    ) -> void {
         var role, rolesArray;
 
         let rolesArray = [roleName];
@@ -489,8 +478,12 @@ class Memory extends AbstractAdapter
      * $acl->deny("*", "*", "*");
      * ```
      */
-    public function deny(string roleName, string componentName, var access, var func = null) -> void
-    {
+    public function deny(
+        string roleName,
+        string componentName,
+        var access,
+        var func = null
+    ) -> void {
         var role, rolesArray;
 
         let rolesArray = [roleName];
@@ -511,6 +504,8 @@ class Memory extends AbstractAdapter
 
     /**
      * Removes access from a component
+     *
+     * @param array<string>|string $accessList
      */
     public function dropComponentAccess(string componentName, var accessList) -> void
     {
@@ -551,7 +546,7 @@ class Memory extends AbstractAdapter
     }
 
     /**
-     * Returns the latest key used to acquire access
+     * Returns the last composite key used to acquire access.
      *
      * @deprecated Relies on the internal "role!component!access" encoding,
      *             which will be removed in v7. Use getActiveRole(),
@@ -564,6 +559,8 @@ class Memory extends AbstractAdapter
 
     /**
      * Return an array with every component registered in the list
+     *
+     * @phpstan-return array<string, ComponentInterface>
      */
     public function getComponents() -> <ComponentInterface[]>
     {
@@ -574,6 +571,8 @@ class Memory extends AbstractAdapter
      * Returns the inherited roles for a passed role name. If no role name
      * has been specified it will return the whole array. If the role has not
      * been found it returns an empty array
+     *
+     * @return array<int|string, array<int, string>|string>
      */
     public function getInheritedRoles(string roleName = "") -> array
     {
@@ -601,6 +600,8 @@ class Memory extends AbstractAdapter
 
     /**
      * Return an array with every role registered in the list
+     *
+     * @return array<string, RoleInterface>
      */
     public function getRoles() -> <RoleInterface[]>
     {
@@ -617,9 +618,16 @@ class Memory extends AbstractAdapter
      * // Do guests have access to any component to edit?
      * $acl->isAllowed("guests", "*", "edit");
      * ```
+     *
+     * @phpstan-param acl_role_name      $roleName
+     * @phpstan-param acl_component_name $componentName
      */
-    public function isAllowed(var roleName, var componentName, string access, array parameters = null) -> bool
-    {
+    public function isAllowed(
+        var roleName,
+        var componentName,
+        string access,
+        array parameters = null
+    ) -> bool {
         var accessKey, accessList, componentObject = null,
             haveAccess = null, funcAccess = null, funcList,
             roleObject = null;
@@ -689,7 +697,7 @@ class Memory extends AbstractAdapter
             ]
         );
 
-        let this->activeKey      = accessKey,
+        let this->activeKey      = (accessKey === false) ? null : accessKey,
             this->activeFunction = funcAccess;
 
         if haveAccess == null {
@@ -722,14 +730,6 @@ class Memory extends AbstractAdapter
     }
 
     /**
-     * Check whether role exist in the roles list
-     */
-    public function isRole(string roleName) -> bool
-    {
-        return isset this->roles[roleName];
-    }
-
-    /**
      * Check whether component exist in the components list
      */
     public function isComponent(string componentName) -> bool
@@ -738,9 +738,17 @@ class Memory extends AbstractAdapter
     }
 
     /**
-     * Sets the default access level (`Phalcon\Enum::ALLOW` or `Phalcon\Enum::DENY`)
-     * for no arguments provided in isAllowed action if there exists func for
-     * accessKey
+     * Check whether role exist in the roles list
+     */
+    public function isRole(string roleName) -> bool
+    {
+        return isset this->roles[roleName];
+    }
+
+    /**
+     * Sets the default access level (`Phalcon\Enum::ALLOW` or
+     * `Phalcon\Enum::DENY`) for no arguments provided in isAllowed action if
+     * there exists func for accessKey
      */
     public function setNoArgumentsDefaultAction(int defaultAccess) -> void
     {
@@ -749,9 +757,16 @@ class Memory extends AbstractAdapter
 
     /**
      * Checks if a role has access to a component
+     * @phpstan-param array<string>|string $access
+     * @phpstan-param callable|null        $function
      */
-    private function allowOrDeny(string roleName, string componentName, var access, var action, var func = null) -> void
-    {
+    private function allowOrDeny(
+        string roleName,
+        string componentName,
+        var access,
+        var action,
+        var func = null
+    ) -> void {
         var accessList, accessName, accessKey;
 
         this->checkExists(this->roles, roleName, "Role");
@@ -764,8 +779,8 @@ class Memory extends AbstractAdapter
                 let accessKey = this->buildAccessKey(componentName, accessName);
 
                 if unlikely !isset accessList[accessKey] {
-                        throw new AccessRuleNotFound(accessName, componentName);
-                    }
+                    throw new AccessRuleNotFound(accessName, componentName);
+                }
             }
 
             for accessName in access {
@@ -791,7 +806,6 @@ class Memory extends AbstractAdapter
              * Define the access action for the specified accessKey
              */
             let this->access[accessKey] = action;
-
             if func != null {
                 let this->functions[accessKey] = func;
             }
@@ -816,9 +830,17 @@ class Memory extends AbstractAdapter
 
     /**
      * Check whether a role is allowed to access an action from a component
+     *
+     * Returns the rule key that grants the access, or `false` when no rule
+     * matches. The native type is the wider `string | bool`.
+     *
+     * @return string|false
      */
-    private function canAccess(string roleName, string componentName, string access) -> string | bool
-    {
+    private function canAccess(
+        string roleName,
+        string componentName,
+        string access
+    ) -> bool | string {
         var accessList, checkRoleToInherit, usedRoleToInherit;
         array usedRoleToInherits, checkRoleToInherits;
         string accessKey, roleComponentPrefix, inheritPrefix;
@@ -933,10 +955,7 @@ class Memory extends AbstractAdapter
     }
 
     /**
-     * @param array  $collection
-     * @param string $element
-     * @param string $elementName
-     * @param string $suffix
+     * @phstan-param array<string, mixed>|null $collection
      *
      * @throws ElementNotFound
      */
@@ -957,6 +976,15 @@ class Memory extends AbstractAdapter
     /**
      * Invokes a callable rule, binding the role/component/user objects to the
      * closure parameters by type and enforcing its arity.
+     *
+     * @phpstan-param callable                      $funcAccess
+     * @phpstan-param array<int|string, mixed>|null $parameters
+     * @phpstan-param object|null                   $roleObject
+     * @phpstan-param object|null                   $componentObject
+     *
+     * @throws ParameterTypeMismatch
+     * @throws MissingFunctionParameters
+     * @throws ReflectionException
      */
     private function invokeRule(
         var funcAccess,
@@ -1098,6 +1126,10 @@ class Memory extends AbstractAdapter
 
     /**
      * Resolves a component identifier (object or string) to its name
+     *
+     * @phpstan-param object|string $component
+     *
+     * @throws InvalidComponentImplementation
      */
     private function toComponentName(var component)
     {
@@ -1118,6 +1150,10 @@ class Memory extends AbstractAdapter
 
     /**
      * Resolves a role identifier (object or string) to its name
+     *
+     * @phpstan-param object|string $role
+     *
+     * @throws InvalidRoleImplementation
      */
     private function toRoleName(var role)
     {
