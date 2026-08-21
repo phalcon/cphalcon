@@ -125,8 +125,10 @@ class Memory extends AbstractAdapter
     protected int activeFunctionCustomArgumentsCount = 0;
     /**
      * Returns the latest key used to acquire access
+     *
+     * @var string|null
      */
-    protected ?string activeKey = null;
+    protected activeKey = null;
     /**
      * Components
      *
@@ -695,7 +697,7 @@ class Memory extends AbstractAdapter
             ]
         );
 
-        let this->activeKey      = accessKey,
+        let this->activeKey      = (accessKey === false) ? null : accessKey,
             this->activeFunction = funcAccess;
 
         if haveAccess == null {
@@ -828,6 +830,11 @@ class Memory extends AbstractAdapter
 
     /**
      * Check whether a role is allowed to access an action from a component
+     *
+     * Returns the rule key that grants the access, or `false` when no rule
+     * matches. The native type is the wider `string | bool`.
+     *
+     * @return string|false
      */
     private function canAccess(
         string roleName,
