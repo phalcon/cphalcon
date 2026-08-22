@@ -16,14 +16,14 @@
 #include "kernel/object.h"
 
 
-ZEPHIR_INIT_CLASS(phalcon_96__closure)
+ZEPHIR_INIT_CLASS(phalcon_99__closure)
 {
-	ZEPHIR_REGISTER_CLASS(phalcon, 96__closure, phalcon, 96__closure, phalcon_96__closure_method_entry, ZEND_ACC_FINAL_CLASS);
+	ZEPHIR_REGISTER_CLASS(phalcon, 99__closure, phalcon, 99__closure, phalcon_99__closure_method_entry, ZEND_ACC_FINAL_CLASS);
 
 	return SUCCESS;
 }
 
-PHP_METHOD(phalcon_96__closure, __invoke)
+PHP_METHOD(phalcon_99__closure, __invoke)
 {
 	zval *number, number_sub, *message, message_sub, *file, file_sub, *line, line_sub, __$true;
 

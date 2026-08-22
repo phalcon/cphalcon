@@ -589,6 +589,33 @@ class CompileStringTest extends AbstractUnitTestCase
                 '{{ [\'it\\\'s\': 1] }}',
                 '<?= [\'it\\\'s\' => 1] ?>',
             ],
+            // Advisory: single quoted echo string - a quote must not close the
+            // string and inject code (an even number of backslashes before a
+            // quote bypasses the old lookbehind escaping)
+            [
+                '{{ "x\\\\\'.injected();//" }}',
+                '<?= \'x\\\\\\\'.injected();//\' ?>',
+            ],
+            // Advisory: single quoted echo string - even backslashes then quote
+            [
+                '{{ "x\\\\\'" }}',
+                '<?= \'x\\\\\\\'\' ?>',
+            ],
+            // Advisory: single quoted echo string - an apostrophe gives valid php
+            [
+                '{{ "it\'s" }}',
+                '<?= \'it\\\'s\' ?>',
+            ],
+            // Advisory: single quoted echo string - an escape sequence stays literal
+            [
+                '{{ "\\t" }}',
+                '<?= \'\\t\' ?>',
+            ],
+            // Advisory: single quoted echo string - an escaped backslash stays literal
+            [
+                '{{ "\\\\t" }}',
+                '<?= \'\\\\t\' ?>',
+            ],
         ];
     }
 

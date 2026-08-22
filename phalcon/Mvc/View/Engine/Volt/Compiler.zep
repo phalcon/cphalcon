@@ -1549,8 +1549,21 @@ class Compiler implements InjectionAwareInterface
 
                 case PHVOLT_T_STRING:
                     if likely doubleQuotes === false {
+                        /**
+                         * Escape the quotes that are not part of an escape
+                         * sequence. This prevents the value from closing the
+                         * string and adding code to the compiled template.
+                         */
                         let exprCode = "'"
-                            . preg_replace("/(?<!\\\\)'/", "\\\\'", expr["value"])
+                            . preg_replace_callback(
+                                "/\\\\.|'/s",
+                                function(matches) {
+                                    return "\\" === substr(matches[0], 0, 1)
+                                        ? matches[0]
+                                        : "\\" . matches[0];
+                                },
+                                expr["value"]
+                            )
                             . "'";
                     } else {
                         /**

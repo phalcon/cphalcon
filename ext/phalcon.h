@@ -1571,5 +1571,6 @@
 #include "phalcon/96__closure.zep.h"
 #include "phalcon/97__closure.zep.h"
 #include "phalcon/98__closure.zep.h"
+#include "phalcon/99__closure.zep.h"
 
 #endif
