@@ -106,10 +106,14 @@ class Memory extends AbstractAdapter
 {
     /**
      * Access
+     *
+     * @phpstan-var array<string, int>
      */
     protected array access = [];
     /**
      * Access List
+     *
+     * @phpstan-var array<string, bool>
      */
     protected array accessList = ["*!*": true];
     /**
@@ -225,6 +229,11 @@ class Memory extends AbstractAdapter
 
     /**
      * Adds access to components
+     *
+     * The guard below is the validation, so the parameter stays `var` here.
+     * The accepted values are documented on the contract.
+     *
+     * @phpstan-param mixed $accessList
      */
     public function addComponentAccess(string componentName, var accessList) -> bool
     {
@@ -757,8 +766,10 @@ class Memory extends AbstractAdapter
 
     /**
      * Checks if a role has access to a component
+     *
      * @phpstan-param array<string>|string $access
-     * @phpstan-param callable|null        $function
+     * @phpstan-param int                  $action
+     * @phpstan-param callable|null        $func
      */
     private function allowOrDeny(
         string roleName,
@@ -955,7 +966,7 @@ class Memory extends AbstractAdapter
     }
 
     /**
-     * @phstan-param array<string, mixed>|null $collection
+     * @phpstan-param array<string, mixed> $collection
      *
      * @throws ElementNotFound
      */
@@ -1127,7 +1138,8 @@ class Memory extends AbstractAdapter
     /**
      * Resolves a component identifier (object or string) to its name
      *
-     * @phpstan-param object|string $component
+     * @phpstan-param  object|string $component
+     * @phpstan-return string
      *
      * @throws InvalidComponentImplementation
      */
@@ -1151,7 +1163,8 @@ class Memory extends AbstractAdapter
     /**
      * Resolves a role identifier (object or string) to its name
      *
-     * @phpstan-param object|string $role
+     * @phpstan-param  object|string $role
+     * @phpstan-return string
      *
      * @throws InvalidRoleImplementation
      */

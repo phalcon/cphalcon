@@ -11,14 +11,19 @@
 namespace Phalcon\Assets\Inline;
 
 use Phalcon\Assets\Inline as InlineBase;
+use Phalcon\Contracts\Assets\AssetsTypes;
 
 /**
  * Represents an inline JavaScript
+ *
+ * @phpstan-import-type assets_attributes from AssetsTypes
  */
 class Js extends InlineBase
 {
     /**
-     * Phalcon\Assets\Inline\Js constructor
+     * Js constructor.
+     *
+     * @param assets_attributes $attributes
      */
     public function __construct(
         string content,

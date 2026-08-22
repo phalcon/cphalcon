@@ -18,7 +18,7 @@ use Phalcon\Assets\Asset as AssetBase;
 class Css extends AssetBase
 {
     /**
-     * Phalcon\Assets\Asset\Css constructor
+     * Css constructor.
      */
     public function __construct(
          string path,
