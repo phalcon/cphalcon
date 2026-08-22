@@ -13,6 +13,7 @@ namespace Phalcon\Mvc;
 use JsonSerializable;
 use Phalcon\Db\Adapter\AdapterInterface;
 use Phalcon\Db\Column;
+use Phalcon\Db\DialectInterface;
 use Phalcon\Db\Enum;
 use Phalcon\Db\Geometry\WkbParser;
 use Phalcon\Db\RawValue;
