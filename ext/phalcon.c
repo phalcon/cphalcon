@@ -551,6 +551,9 @@ zend_class_entry *phalcon_92__closure_ce;
 zend_class_entry *phalcon_93__closure_ce;
 zend_class_entry *phalcon_94__closure_ce;
 zend_class_entry *phalcon_95__closure_ce;
+zend_class_entry *phalcon_96__closure_ce;
+zend_class_entry *phalcon_97__closure_ce;
+zend_class_entry *phalcon_98__closure_ce;
 zend_class_entry *phalcon_9__closure_ce;
 zend_class_entry *phalcon_acl_adapter_storage_ce;
 zend_class_entry *phalcon_acl_component_ce;
@@ -3188,6 +3191,9 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(phalcon_93__closure);
 	ZEPHIR_INIT(phalcon_94__closure);
 	ZEPHIR_INIT(phalcon_95__closure);
+	ZEPHIR_INIT(phalcon_96__closure);
+	ZEPHIR_INIT(phalcon_97__closure);
+	ZEPHIR_INIT(phalcon_98__closure);
 	ZEPHIR_INIT(phalcon_9__closure);
 	
 	return SUCCESS;
