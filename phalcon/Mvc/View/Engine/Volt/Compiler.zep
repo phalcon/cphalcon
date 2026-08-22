@@ -1410,7 +1410,22 @@ class Compiler implements InjectionAwareInterface
                     );
 
                     if fetch name, singleExpr["name"] {
-                        let items[] = "'" . name . "' => " . singleExprCode;
+                        /**
+                         * Escape the quotes that are not part of an escape
+                         * sequence. This prevents the key from closing the
+                         * string and adding code to the compiled template.
+                         */
+                        let items[] = "'"
+                            . preg_replace_callback(
+                                "/\\\\.|'/s",
+                                function(matches) {
+                                    return "\\" === substr(matches[0], 0, 1)
+                                        ? matches[0]
+                                        : "\\" . matches[0];
+                                },
+                                name
+                            )
+                            . "' => " . singleExprCode;
                     } else {
                         let items[] = singleExprCode;
                     }
