@@ -526,6 +526,44 @@ class CompileStringTest extends AbstractUnitTestCase
                 '{% set x = "it\'s" %}',
                 "<?php \$x = 'it\\'s'; ?>",
             ],
+            // GHSA-fq2j-m2c4-gfhg - a quote must not close the php string
+            [
+                '{{ tag.textField(\'x".system("id")."\') }}',
+                '<?= $this->tag->textField("x\\".system(\\"id\\").\\"") ?>',
+            ],
+            // GHSA-fq2j-m2c4-gfhg - no interpolation of the value
+            [
+                '{{ tag.textField(\'{${system(chr(105).chr(100))}}\') }}',
+                '<?= $this->tag->textField("{\\${system(chr(105).chr(100))}}") ?>',
+            ],
+            // GHSA-fq2j-m2c4-gfhg - an even number of backslashes before a quote
+            [
+                '{{ tag.textField(\'x\\\\"\') }}',
+                '<?= $this->tag->textField("x\\\\\\"") ?>',
+            ],
+            // Issue: 16005 - escape sequences go through to php
+            [
+                '{{ tag.textField(\'\\t\') }}',
+                '<?= $this->tag->textField("\\t") ?>',
+            ],
+            // Issue: 16005 - an escaped backslash stays literal
+            [
+                '{{ tag.textField(\'\\\\t\') }}',
+                '<?= $this->tag->textField("\\\\t") ?>',
+            ],
+            // Issue: 16005 - plain arguments do not change
+            [
+                '{{ tag.textField(\'-\') }}',
+                '<?= $this->tag->textField("-") ?>',
+            ],
+            [
+                '{{ tag.textField(\'+\') }}',
+                '<?= $this->tag->textField("+") ?>',
+            ],
+            [
+                "{{ tag.textField('\t') }}",
+                "<?= \$this->tag->textField(\"\t\") ?>",
+            ],
         ];
     }
 
