@@ -564,6 +564,31 @@ class CompileStringTest extends AbstractUnitTestCase
                 "{{ tag.textField('\t') }}",
                 "<?= \$this->tag->textField(\"\t\") ?>",
             ],
+            // GHSA-vxr9-x5jh-r4rw - a quote must not close the array key
+            [
+                '{{ ["x\' => system(\'id\'), \'y": 1] }}',
+                '<?= [\'x\\\' => system(\\\'id\\\'), \\\'y\' => 1] ?>',
+            ],
+            // GHSA-vxr9-x5jh-r4rw - the same sink through set
+            [
+                '{% set x = ["a\' => system(\'id\'), \'b": 1] %}',
+                '<?php $x = [\'a\\\' => system(\\\'id\\\'), \\\'b\' => 1]; ?>',
+            ],
+            // GHSA-vxr9-x5jh-r4rw - an even number of backslashes before a quote
+            [
+                '{{ ["x\\\\\'": 1] }}',
+                '<?= [\'x\\\\\\\'\' => 1] ?>',
+            ],
+            // GHSA-vxr9-x5jh-r4rw - an apostrophe in a key gives valid php
+            [
+                '{{ ["it\'s": 1] }}',
+                '<?= [\'it\\\'s\' => 1] ?>',
+            ],
+            // GHSA-vxr9-x5jh-r4rw - a single quoted key does not change
+            [
+                '{{ [\'it\\\'s\': 1] }}',
+                '<?= [\'it\\\'s\' => 1] ?>',
+            ],
         ];
     }
 
