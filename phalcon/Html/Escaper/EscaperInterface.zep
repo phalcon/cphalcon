@@ -33,27 +33,17 @@ interface EscaperInterface
      * `key="value"` pairs, `null` and `false` values are skipped, and `true`
      * renders as a bare key. Callers typed against this interface pass a
      * string. The widened signature lands in the next major.
-     *
-     * @param string $input
-     *
-     * @return string
      */
     public function attributes(string input) -> string;
 
     /**
      * Escape CSS strings by replacing non-alphanumeric chars by their
      * hexadecimal representation
-     *
-     * @param string $input
-     *
-     * @return string
      */
     public function css(string input) -> string;
 
     /**
      * Returns the internal encoding used by the escaper
-     *
-     * @return string
      */
     public function getEncoding() -> string;
 
@@ -62,43 +52,27 @@ interface EscaperInterface
      *
      * The concrete {@see \Phalcon\Html\Escaper} tolerates `null`, returning an
      * empty string for it. The nullable signature lands in the next major.
-     *
-     * @param string $input
-     *
-     * @return string
      */
     public function html(string input) -> string;
 
     /**
      * Escape Javascript strings by replacing non-alphanumeric chars by their
      * hexadecimal representation
-     *
-     * @param string $input
-     *
-     * @return string
      */
     public function js(string input) -> string;
 
     /**
      * Sets the encoding to be used by the escaper
-     *
-     * @param string $encoding
      */
     public function setEncoding(string encoding) -> <EscaperInterface>;
 
     /**
      * Sets the HTML quoting type for htmlspecialchars
-     *
-     * @param int $flags
      */
     public function setFlags(int flags) -> <EscaperInterface>;
 
     /**
      * Escapes a URL. Internally uses rawurlencode
-     *
-     * @param string $input
-     *
-     * @return string
      */
     public function url(string input) -> string;
 }

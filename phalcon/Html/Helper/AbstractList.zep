@@ -14,34 +14,28 @@
 
 namespace Phalcon\Html\Helper;
 
-use Phalcon\Html\Exception;
+use Phalcon\Contracts\Html\HtmlTypes;
 
 /**
  * Class AbstractList
+ *
+ * @phpstan-import-type html_attributes from HtmlTypes
+ * @phpstan-import-type html_element_store from HtmlTypes
  */
 abstract class AbstractList extends AbstractHelper
 {
     /**
-     * @var array
+     * @phpstan-var html_attributes
      */
-    protected attributes = [];
+    protected array attributes = [];
+    protected string elementTag = "li";
+    /**
+     * @phpstan-var html_element_store
+     */
+    protected array store = [];
 
     /**
-     * @var string
-     */
-    protected elementTag = "li";
-
-    /**
-     * @var array
-     */
-    protected store = [];
-
-    /**
-     * @param string $indent
-     * @param string $delimiter
-     * @param array  $attributes
-     *
-     * @return static
+     * @phpstan-param html_attributes $attributes
      */
     public function __invoke(
         string indent = "    ",
@@ -58,9 +52,6 @@ abstract class AbstractList extends AbstractHelper
 
     /**
      * Generates and returns the HTML for the list.
-     *
-     * @return string
-     * @throws Exception
      */
     public function __toString()
     {
@@ -87,9 +78,6 @@ abstract class AbstractList extends AbstractHelper
     /**
      *
      * Returns the tag name.
-     *
-     * @return string
-     *
      */
     abstract protected function getTag() -> string;
 }

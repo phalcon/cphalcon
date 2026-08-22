@@ -86,7 +86,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Config_StreamAdapterConfig, __construct)
 	ZVAL_STRING(&_2, " path");
 	ZEPHIR_CALL_CE_STATIC(NULL, phalcon_auth_exceptions_configrequiresnonemptyvalue_ce, "assert", NULL, 0, &file_zv, &_0, &_1, &_2);
 	zephir_check_call_status();
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 433, &file_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 432, &file_zv);
 	ZEPHIR_CALL_PARENT(NULL, phalcon_auth_adapter_config_streamadapterconfig_ce, getThis(), "__construct", NULL, 0, &model_zv);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

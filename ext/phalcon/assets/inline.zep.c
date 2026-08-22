@@ -34,25 +34,33 @@
  *```php
  * $inline = new \Phalcon\Assets\Inline("js", "alert('hello world');");
  *```
+ *
+ * @phpstan-import-type assets_attributes from AssetsTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Assets_Inline)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Assets, Inline, phalcon, assets_inline, phalcon_assets_inline_method_entry, 0);
 
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_assets_inline_ce, SL("content"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_assets_inline_ce, SL("filter"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_BOOL, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_assets_inline_ce, SL("type"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
+
 	/**
-	 * @var string
-	 */
-	zend_declare_property_null(phalcon_assets_inline_ce, SL("content"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var bool
-	 */
-	zend_declare_property_null(phalcon_assets_inline_ce, SL("filter"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var string
-	 */
-	zend_declare_property_null(phalcon_assets_inline_ce, SL("type"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var array
+	 * @var assets_attributes|null
 	 */
 	zend_declare_property_null(phalcon_assets_inline_ce, SL("attributes"), ZEND_ACC_PROTECTED);
 	zend_class_implements(phalcon_assets_inline_ce, 1, phalcon_assets_assetinterface_ce);
@@ -60,7 +68,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Inline)
 }
 
 /**
- * Phalcon\Assets\Inline constructor
+ * Inline constructor.
+ *
+ * @param assets_attributes $attributes
  */
 PHP_METHOD(Phalcon_Assets_Inline, __construct)
 {
@@ -196,6 +206,8 @@ PHP_METHOD(Phalcon_Assets_Inline, getType)
 
 /**
  * Sets extra HTML attributes
+ *
+ * @param assets_attributes $attributes
  */
 PHP_METHOD(Phalcon_Assets_Inline, setAttributes)
 {
@@ -275,7 +287,7 @@ PHP_METHOD(Phalcon_Assets_Inline, setType)
 /**
  * Gets extra HTML attributes.
  *
- * @return array
+ * @return assets_attributes
  */
 PHP_METHOD(Phalcon_Assets_Inline, getAttributes)
 {

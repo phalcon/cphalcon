@@ -97,13 +97,13 @@ PHP_METHOD(Phalcon_Auth_AuthUser, __construct)
 	if (_0) {
 		ZEPHIR_INIT_VAR(&_4$$3);
 		object_init_ex(&_4$$3, phalcon_auth_exceptions_datamustcontainidkey_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_4$$3, "__construct", NULL, 401);
+		ZEPHIR_CALL_METHOD(NULL, &_4$$3, "__construct", NULL, 405);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_4$$3, "phalcon/Auth/AuthUser.zep", 38);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 438, &data);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 437, &data);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -122,7 +122,7 @@ PHP_METHOD(Phalcon_Auth_AuthUser, getAuthIdentifier)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 438, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 437, PH_NOISY_CC | PH_READONLY);
 	zephir_memory_observe(&id);
 	zephir_array_fetch_string(&id, &_0, SL("id"), PH_NOISY, "phalcon/Auth/AuthUser.zep", 49);
 	RETURN_CCTOR(&id);
@@ -145,7 +145,7 @@ PHP_METHOD(Phalcon_Auth_AuthUser, getAuthPassword)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_memory_observe(&password);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 438, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 437, PH_NOISY_CC | PH_READONLY);
 	zephir_array_isset_string_fetch(&password, &_0, SL("password"), 0);
 	ZEPHIR_INIT_VAR(&_1);
 	if (Z_TYPE_P(&password) == IS_STRING) {

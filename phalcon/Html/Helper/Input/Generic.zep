@@ -26,11 +26,6 @@ use Phalcon\Html\Helper\Doctype;
  */
 class Generic extends AbstractInput
 {
-    /**
-     * @param EscaperInterface $escaper
-     * @param Doctype          $doctype
-     * @param string           $type
-     */
     public function __construct(
         <EscaperInterface> escaper,
         <Doctype> doctype = null,
@@ -43,10 +38,6 @@ class Generic extends AbstractInput
 
     /**
      * Sets the type of the input.
-     *
-     * @param string $type
-     *
-     * @return AbstractInput
      */
     public function setType(string type) -> <AbstractInput>
     {

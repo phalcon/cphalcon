@@ -13,7 +13,7 @@ namespace Phalcon\Acl;
 use Phalcon\Contracts\Acl\ComponentAware as ComponentAwareContract;
 
 /**
- * Interface for classes which could be used in allow method as RESOURCE
+ * Interface for ACL Component aware objects
  *
  * @psalm-suppress DeprecatedInterface
  * @deprecated Will be removed in a future major release.

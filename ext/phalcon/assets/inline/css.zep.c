@@ -29,6 +29,8 @@
  */
 /**
  * Represents an inlined CSS
+ *
+ * @phpstan-import-type assets_attributes from AssetsTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Assets_Inline_Css)
 {
@@ -38,7 +40,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Inline_Css)
 }
 
 /**
- * Phalcon\Assets\Inline\Css constructor
+ * Css constructor.
+ *
+ * @param assets_attributes $attributes
  */
 PHP_METHOD(Phalcon_Assets_Inline_Css, __construct)
 {

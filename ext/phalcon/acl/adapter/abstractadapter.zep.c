@@ -26,7 +26,7 @@
  * LICENSE.txt file that was distributed with this source code.
  */
 /**
- * Adapter for Phalcon\Acl adapters
+ * Functionality common to all adapters
  */
 ZEPHIR_INIT_CLASS(Phalcon_Acl_Adapter_AbstractAdapter)
 {
@@ -40,23 +40,32 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_Adapter_AbstractAdapter)
 	zend_declare_property_long(phalcon_acl_adapter_abstractadapter_ce, SL("accessGranted"), 0, ZEND_ACC_PROTECTED);
 	/**
 	 * Active access which the list is checking if some role can access it
-	 *
-	 * @var string|null
 	 */
-	zend_declare_property_null(phalcon_acl_adapter_abstractadapter_ce, SL("activeAccess"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_NULL(&_zc0);
+		zephir_declare_typed_property(phalcon_acl_adapter_abstractadapter_ce, SL("activeAccess"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING|MAY_BE_NULL, NULL, 0);
+	}
+
 	/**
 	 * Component which the list is checking if some role can access it
-	 *
-	 * @var string|null
 	 */
-	zend_declare_property_null(phalcon_acl_adapter_abstractadapter_ce, SL("activeComponent"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_NULL(&_zc0);
+		zephir_declare_typed_property(phalcon_acl_adapter_abstractadapter_ce, SL("activeComponent"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING|MAY_BE_NULL, NULL, 0);
+	}
+
 	/**
 	 * Role which the list is checking if it's allowed to certain
 	 * component/access
-	 *
-	 * @var string|null
 	 */
-	zend_declare_property_null(phalcon_acl_adapter_abstractadapter_ce, SL("activeRole"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_NULL(&_zc0);
+		zephir_declare_typed_property(phalcon_acl_adapter_abstractadapter_ce, SL("activeRole"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING|MAY_BE_NULL, NULL, 0);
+	}
+
 	/**
 	 * Default access
 	 *
@@ -69,7 +78,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_Adapter_AbstractAdapter)
 }
 
 /**
- * Active access which the list is checking if some role can access it
+ * Returns the access which the list is checking if a role can access it
  */
 PHP_METHOD(Phalcon_Acl_Adapter_AbstractAdapter, getActiveAccess)
 {
@@ -78,7 +87,8 @@ PHP_METHOD(Phalcon_Acl_Adapter_AbstractAdapter, getActiveAccess)
 }
 
 /**
- * Component which the list is checking if some role can access it
+ * Returns the component which the list is checking if some role can access
+ * it
  */
 PHP_METHOD(Phalcon_Acl_Adapter_AbstractAdapter, getActiveComponent)
 {
@@ -87,7 +97,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_AbstractAdapter, getActiveComponent)
 }
 
 /**
- * Role which the list is checking if it's allowed to certain
+ * Returns the role which the list is checking if it's allowed to certain
  * component/access
  */
 PHP_METHOD(Phalcon_Acl_Adapter_AbstractAdapter, getActiveRole)
@@ -97,7 +107,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_AbstractAdapter, getActiveRole)
 }
 
 /**
- * Returns the default ACL access level
+ * Returns the default action
  */
 PHP_METHOD(Phalcon_Acl_Adapter_AbstractAdapter, getDefaultAction)
 {
@@ -106,7 +116,8 @@ PHP_METHOD(Phalcon_Acl_Adapter_AbstractAdapter, getDefaultAction)
 }
 
 /**
- * Sets the default access level (Phalcon\Acl\Enum::ALLOW or Phalcon\Acl\Enum::DENY)
+ * Sets the default access level
+ * (Phalcon\Acl\Enum::ALLOW or Phalcon\Acl\Enum::DENY)
  */
 PHP_METHOD(Phalcon_Acl_Adapter_AbstractAdapter, setDefaultAction)
 {

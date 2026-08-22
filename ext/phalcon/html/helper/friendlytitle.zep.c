@@ -38,16 +38,15 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_FriendlyTitle)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Html\\Helper, FriendlyTitle, phalcon, html_helper_friendlytitle, phalcon_html_helper_abstracthelper_ce, phalcon_html_helper_friendlytitle_method_entry, 0);
 
-	/**
-	 * @var Friendly
-	 */
-	zend_declare_property_null(phalcon_html_helper_friendlytitle_ce, SL("friendly"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_html_helper_friendlytitle_ce, SL("friendly"), &_zc0, ZEND_ACC_PROTECTED, 0, SL("Phalcon\\Support\\Helper\\Str\\Friendly"));
+	}
+
 	return SUCCESS;
 }
 
-/**
- * @param EscaperInterface $escaper
- */
 PHP_METHOD(Phalcon_Html_Helper_FriendlyTitle, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -77,18 +76,12 @@ PHP_METHOD(Phalcon_Html_Helper_FriendlyTitle, __construct)
 		zephir_check_call_status();
 	}
 
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 833, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 831, &_0);
 	ZEPHIR_MM_RESTORE();
 }
 
 /**
- * @param string     $text
- * @param string     $separator
- * @param bool       $lowercase
- * @param mixed|null $replace
- *
- * @return string
- * @throws Exception
+ * @phpstan-param array<array-key, string>|string|null $replace
  */
 PHP_METHOD(Phalcon_Html_Helper_FriendlyTitle, __invoke)
 {
@@ -150,7 +143,7 @@ PHP_METHOD(Phalcon_Html_Helper_FriendlyTitle, __invoke)
 	}
 	/* try_start_1: */
 
-		zephir_read_property_cached(&_0$$3, this_ptr, _zephir_prop_0, 833, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_0$$3, this_ptr, _zephir_prop_0, 831, PH_NOISY_CC | PH_READONLY);
 		if (lowercase) {
 			ZVAL_BOOL(&_1$$3, 1);
 		} else {
@@ -175,7 +168,7 @@ PHP_METHOD(Phalcon_Html_Helper_FriendlyTitle, __invoke)
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(NULL, &_3$$4, "__construct", NULL, 0, &_4$$4);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_3$$4, "phalcon/Html/Helper/FriendlyTitle.zep", 62);
+			zephir_throw_exception_debug(&_3$$4, "phalcon/Html/Helper/FriendlyTitle.zep", 50);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}

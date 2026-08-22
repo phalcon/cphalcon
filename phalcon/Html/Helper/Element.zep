@@ -14,26 +14,18 @@
 
 namespace Phalcon\Html\Helper;
 
+use Phalcon\Contracts\Html\HtmlTypes;
 use Phalcon\Html\Escaper\EscaperInterface;
-use Phalcon\Html\Exception;
 
 /**
  * Class Element
  *
- * @property bool $forceRaw
+ * @phpstan-import-type html_attributes from HtmlTypes
  */
 class Element extends AbstractHelper
 {
-    /**
-     * @var bool
-     */
-    protected forceRaw = false;
+    protected bool forceRaw = false;
 
-    /**
-     * @param EscaperInterface $escaper
-     * @param Doctype          $doctype
-     * @param bool             $forceRaw
-     */
     public function __construct(
         <EscaperInterface> escaper,
         <Doctype> doctype = null,
@@ -47,13 +39,7 @@ class Element extends AbstractHelper
     /**
      * Produce a tag.
      *
-     * @param string $tag
-     * @param string $text
-     * @param array  $attributes
-     * @param bool   $raw
-     *
-     * @return string
-     * @throws Exception
+     * @phpstan-param html_attributes $attributes
      */
     public function __invoke(
         string tag,

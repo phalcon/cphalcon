@@ -14,20 +14,19 @@
 
 namespace Phalcon\Html\Helper;
 
-use Phalcon\Html\Exception;
+use Phalcon\Contracts\Html\HtmlTypes;
 
 /**
  * Class Body
+ *
+ * @phpstan-import-type html_attributes from HtmlTypes
  */
 class Body extends AbstractHelper
 {
     /**
      * Produce a `<body>` tag.
      *
-     * @param array $attributes
-     *
-     * @return string
-     * @throws Exception
+     * @phpstan-param html_attributes $attributes
      */
     public function __invoke(array attributes = []) -> string
     {

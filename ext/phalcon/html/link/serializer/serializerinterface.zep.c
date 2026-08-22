@@ -22,6 +22,8 @@
  */
 /**
  * Class Phalcon\Http\Link\Serializer\SerializerInterface
+ *
+ * @phpstan-import-type link_collection from LinkTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Html_Link_Serializer_SerializerInterface)
 {
@@ -32,5 +34,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Link_Serializer_SerializerInterface)
 
 /**
  * Serializer method
+ *
+ * @phpstan-param link_collection $links
  */
 ZEPHIR_DOC_METHOD(Phalcon_Html_Link_Serializer_SerializerInterface, serialize);

@@ -29,6 +29,8 @@
  */
 /**
  * Represents an inline JavaScript
+ *
+ * @phpstan-import-type assets_attributes from AssetsTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Assets_Inline_Js)
 {
@@ -38,7 +40,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Inline_Js)
 }
 
 /**
- * Phalcon\Assets\Inline\Js constructor
+ * Js constructor.
+ *
+ * @param assets_attributes $attributes
  */
 PHP_METHOD(Phalcon_Assets_Inline_Js, __construct)
 {

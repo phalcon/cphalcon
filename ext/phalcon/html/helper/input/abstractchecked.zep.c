@@ -13,9 +13,9 @@
 
 #include "kernel/main.h"
 #include "kernel/fcall.h"
+#include "kernel/object.h"
 #include "kernel/memory.h"
 #include "kernel/array.h"
-#include "kernel/object.h"
 #include "kernel/concat.h"
 #include "kernel/operators.h"
 #include "kernel/string.h"
@@ -43,77 +43,38 @@
  * mixed int/string form input round-trips correctly (e.g. `value=0` against
  * `checked="0"`). Strict (`===`) matching is available via `strict(true)`.
  *
- * @property array $label
- * @property bool  $strict
+ * @phpstan-import-type html_attributes from HtmlTypes
+ * @phpstan-import-type html_checked_label from HtmlTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Input_AbstractChecked)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Html\\Helper\\Input, AbstractChecked, phalcon, html_helper_input_abstractchecked, phalcon_html_helper_input_abstractinput_ce, phalcon_html_helper_input_abstractchecked_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
 	/**
-	 * @var array
+	 * @phpstan-var html_checked_label
 	 */
-	zend_declare_property_null(phalcon_html_helper_input_abstractchecked_ce, SL("label"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var bool
-	 */
-	zend_declare_property_bool(phalcon_html_helper_input_abstractchecked_ce, SL("strict"), 0, ZEND_ACC_PROTECTED);
-	phalcon_html_helper_input_abstractchecked_ce->create_object = zephir_init_properties_Phalcon_Html_Helper_Input_AbstractChecked;
+	{
+		zval _zc0;
+		array_init_size(&_zc0, 4);
+		add_assoc_stringl_ex(&_zc0, SL("start"), SL(""));
+		add_assoc_stringl_ex(&_zc0, SL("text"), SL(""));
+		add_assoc_stringl_ex(&_zc0, SL("end"), SL(""));
+		zephir_declare_typed_property(phalcon_html_helper_input_abstractchecked_ce, SL("label"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_ARRAY, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_BOOL(&_zc0, 0);
+		zephir_declare_typed_property(phalcon_html_helper_input_abstractchecked_ce, SL("strict"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_BOOL, NULL, 0);
+	}
 
 	return SUCCESS;
-}
-
-/**
- * @param EscaperInterface $escaper
- * @param Doctype          $doctype
- */
-PHP_METHOD(Phalcon_Html_Helper_Input_AbstractChecked, __construct)
-{
-	zval _0;
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *escaper, escaper_sub, *doctype = NULL, doctype_sub, __$null;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&escaper_sub);
-	ZVAL_UNDEF(&doctype_sub);
-	ZVAL_NULL(&__$null);
-	ZVAL_UNDEF(&_0);
-	static zend_string *_zephir_prop_0 = NULL;
-	if (UNEXPECTED(!_zephir_prop_0)) {
-		_zephir_prop_0 = zend_string_init("label", 5, 1);
-	}
-
-	bool is_null_true = 1;
-	ZEND_PARSE_PARAMETERS_START(1, 2)
-		Z_PARAM_OBJECT_OF_CLASS(escaper, phalcon_html_escaper_escaperinterface_ce)
-		Z_PARAM_OPTIONAL
-		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(doctype, phalcon_html_helper_doctype_ce)
-	ZEND_PARSE_PARAMETERS_END();
-	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_fetch_params(1, 1, 1, &escaper, &doctype);
-	if (!doctype) {
-		doctype = &doctype_sub;
-		doctype = &__$null;
-	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_html_helper_input_abstractchecked_ce, getThis(), "__construct", NULL, 0, escaper, doctype);
-	zephir_check_call_status();
-	ZEPHIR_INIT_VAR(&_0);
-	zephir_create_array(&_0, 3, 0);
-	add_assoc_stringl_ex(&_0, SL("start"), SL(""));
-	add_assoc_stringl_ex(&_0, SL("text"), SL(""));
-	add_assoc_stringl_ex(&_0, SL("end"), SL(""));
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 212, &_0);
-	ZEPHIR_MM_RESTORE();
 }
 
 /**
  * Returns the HTML for the input, optionally surrounded by the label
  * fragment configured via `label()` and preceded by the hidden companion
  * input emitted when an `unchecked` attribute is supplied.
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Html_Helper_Input_AbstractChecked, __toString)
 {
@@ -152,9 +113,9 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractChecked, __toString)
 	add_assoc_stringl_ex(&_1, SL("text"), SL(""));
 	add_assoc_stringl_ex(&_1, SL("end"), SL(""));
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 212, &_1);
-	zephir_array_fetch_string(&_2, &label, SL("start"), PH_NOISY | PH_READONLY, "phalcon/Html/Helper/Input/AbstractChecked.zep", 84);
-	zephir_array_fetch_string(&_3, &label, SL("text"), PH_NOISY | PH_READONLY, "phalcon/Html/Helper/Input/AbstractChecked.zep", 86);
-	zephir_array_fetch_string(&_4, &label, SL("end"), PH_NOISY | PH_READONLY, "phalcon/Html/Helper/Input/AbstractChecked.zep", 86);
+	zephir_array_fetch_string(&_2, &label, SL("start"), PH_NOISY | PH_READONLY, "phalcon/Html/Helper/Input/AbstractChecked.zep", 66);
+	zephir_array_fetch_string(&_3, &label, SL("text"), PH_NOISY | PH_READONLY, "phalcon/Html/Helper/Input/AbstractChecked.zep", 68);
+	zephir_array_fetch_string(&_4, &label, SL("end"), PH_NOISY | PH_READONLY, "phalcon/Html/Helper/Input/AbstractChecked.zep", 68);
 	ZEPHIR_CONCAT_VVVVV(return_value, &unchecked, &_2, &element, &_3, &_4);
 	RETURN_MM();
 }
@@ -165,9 +126,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractChecked, __toString)
  * pseudo-attribute, if present, becomes the label text and is stripped
  * from the rendered attributes.
  *
- * @param array $attributes
- *
- * @return static
+ * @phpstan-param html_attributes $attributes
  */
 PHP_METHOD(Phalcon_Html_Helper_Input_AbstractChecked, label)
 {
@@ -219,7 +178,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractChecked, label)
 	zephir_create_array(&_1, 1, 0);
 	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 213, PH_NOISY_CC | PH_READONLY);
 	zephir_memory_observe(&_3);
-	zephir_array_fetch_string(&_3, &_2, SL("id"), PH_NOISY, "phalcon/Html/Helper/Input/AbstractChecked.zep", 112);
+	zephir_array_fetch_string(&_3, &_2, SL("id"), PH_NOISY, "phalcon/Html/Helper/Input/AbstractChecked.zep", 92);
 	zephir_array_update_string(&_1, SL("for"), &_3, PH_COPY | PH_SEPARATE);
 	zephir_fast_array_merge(&_0, &_1, &attributes);
 	ZEPHIR_CPY_WRT(&attributes, &_0);
@@ -242,10 +201,6 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractChecked, label)
  * checked. Defaults to loose (`==`), which matches typical form-input
  * round-tripping where types may differ between the source data and the
  * value rendered into the markup.
- *
- * @param bool $flag
- *
- * @return static
  */
 PHP_METHOD(Phalcon_Html_Helper_Input_AbstractChecked, strict)
 {
@@ -358,8 +313,6 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractChecked, processChecked)
 /**
  * Returns the markup for the optional hidden companion input that lets
  * a checkbox/radio submit a value when unchecked.
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Html_Helper_Input_AbstractChecked, processUnchecked)
 {
@@ -396,7 +349,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractChecked, processUnchecked)
 		zephir_create_array(&_1$$4, 2, 0);
 		zephir_read_property_cached(&_2$$4, this_ptr, _zephir_prop_0, 213, PH_NOISY_CC | PH_READONLY);
 		zephir_memory_observe(&_3$$4);
-		zephir_array_fetch_string(&_3$$4, &_2$$4, SL("name"), PH_NOISY, "phalcon/Html/Helper/Input/AbstractChecked.zep", 211);
+		zephir_array_fetch_string(&_3$$4, &_2$$4, SL("name"), PH_NOISY, "phalcon/Html/Helper/Input/AbstractChecked.zep", 185);
 		zephir_array_update_string(&_1$$4, SL("name"), &_3$$4, PH_COPY | PH_SEPARATE);
 		zephir_array_update_string(&_1$$4, SL("value"), &unchecked, PH_COPY | PH_SEPARATE);
 		ZEPHIR_INIT_VAR(&_4$$4);
@@ -406,38 +359,5 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractChecked, processUnchecked)
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 213, &attributes);
 	RETURN_CCTOR(&unchecked);
-}
-
-zend_object *zephir_init_properties_Phalcon_Html_Helper_Input_AbstractChecked(zend_class_entry *class_type)
-{
-		zval _0, _2, _1$$3, _3$$4;
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-		ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_1$$3);
-	ZVAL_UNDEF(&_3$$4);
-	
-
-		ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-		zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	
-	{
-		zval local_this_ptr, *this_ptr = &local_this_ptr;
-		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		zephir_read_property_ex(&_0, this_ptr, ZEND_STRL("attributes"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_0) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_1$$3);
-			array_init(&_1$$3);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("attributes"), &_1$$3);
-		}
-		zephir_read_property_ex(&_2, this_ptr, ZEND_STRL("label"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_2) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_3$$4);
-			array_init(&_3$$4);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("label"), &_3$$4);
-		}
-		ZEPHIR_MM_RESTORE();
-		return Z_OBJ_P(this_ptr);
-	}
 }
 

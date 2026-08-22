@@ -14,8 +14,8 @@
 
 namespace Phalcon\Html\Helper;
 
+use Exception;
 use Phalcon\Html\Escaper\EscaperInterface;
-use Phalcon\Html\Exception;
 use Phalcon\Html\Exceptions\FriendlyTitleConversionFailed;
 use Phalcon\Support\Helper\Str\Friendly;
 
@@ -24,14 +24,8 @@ use Phalcon\Support\Helper\Str\Friendly;
  */
 class FriendlyTitle extends AbstractHelper
 {
-    /**
-     * @var Friendly
-     */
-    protected friendly;
+    protected <Friendly> friendly;
 
-    /**
-     * @param EscaperInterface $escaper
-     */
     public function __construct(<EscaperInterface> escaper)
     {
         parent::__construct(escaper);
@@ -40,13 +34,7 @@ class FriendlyTitle extends AbstractHelper
     }
 
     /**
-     * @param string     $text
-     * @param string     $separator
-     * @param bool       $lowercase
-     * @param mixed|null $replace
-     *
-     * @return string
-     * @throws Exception
+     * @phpstan-param array<array-key, string>|string|null $replace
      */
     public function __invoke(
         string text,
@@ -58,7 +46,7 @@ class FriendlyTitle extends AbstractHelper
 
         try {
             return this->friendly->__invoke(text, separator, lowercase, replace);
-        } catch \Exception, ex {
+        } catch Exception, ex {
             throw new FriendlyTitleConversionFailed(ex->getMessage());
         }
     }

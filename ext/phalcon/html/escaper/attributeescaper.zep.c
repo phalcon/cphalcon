@@ -36,6 +36,8 @@
  * Escapes either a single attribute value (string) or an associative array
  * of attribute pairs. Boolean `true` becomes a bare key (e.g. `disabled`);
  * `false` and `null` skip the entry; arrays are joined with a space.
+ *
+ * @phpstan-import-type html_escaper_input from HtmlTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Html_Escaper_AttributeEscaper)
 {
@@ -45,9 +47,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Escaper_AttributeEscaper)
 }
 
 /**
- * @param array|string|null $input
- *
- * @return string
+ * @phpstan-param html_escaper_input $input
  */
 PHP_METHOD(Phalcon_Html_Escaper_AttributeEscaper, __invoke)
 {
@@ -76,9 +76,7 @@ PHP_METHOD(Phalcon_Html_Escaper_AttributeEscaper, __invoke)
 }
 
 /**
- * @param array|string|null $input
- *
- * @return string
+ * @phpstan-param html_escaper_input $input
  */
 PHP_METHOD(Phalcon_Html_Escaper_AttributeEscaper, escape)
 {
@@ -234,10 +232,6 @@ PHP_METHOD(Phalcon_Html_Escaper_AttributeEscaper, escape)
 
 /**
  * Encodes a single key/value via `htmlspecialchars`.
- *
- * @param string $input
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Html_Escaper_AttributeEscaper, escapeValue)
 {
@@ -271,9 +265,9 @@ PHP_METHOD(Phalcon_Html_Escaper_AttributeEscaper, escapeValue)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&input_zv);
 	ZVAL_STR_COPY(&input_zv, input);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 809, PH_NOISY_CC | PH_READONLY);
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 810, PH_NOISY_CC | PH_READONLY);
-	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_2, 811, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 808, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 809, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_2, 810, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_RETURN_CALL_FUNCTION("htmlspecialchars", NULL, 0, &input_zv, &_0, &_1, &_2);
 	zephir_check_call_status();
 	RETURN_MM();

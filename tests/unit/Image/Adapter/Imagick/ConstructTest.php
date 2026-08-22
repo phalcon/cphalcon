@@ -38,6 +38,35 @@ final class ConstructTest extends AbstractUnitTestCase
 
     /**
      * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-08-19
+     */
+    public function testImageAdapterImagickConstructCoalescesGif(): void
+    {
+        $image = new Imagick(
+            Talon::settings()->supportPath('assets/images/example-gif.gif')
+        );
+
+        $native     = $image->getImage();
+        $geometries = [];
+
+        $native->setIteratorIndex(0);
+
+        do {
+            $geometries[] = $native->getImageWidth() . 'x' . $native->getImageHeight();
+        } while ($native->nextImage());
+
+        // Coalescing lifts every sub frame back to the full canvas
+        $this->assertSame(
+            ['960x640'],
+            array_values(array_unique($geometries))
+        );
+
+        $this->assertSame(960, $image->getWidth());
+        $this->assertSame(640, $image->getHeight());
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2022-08-02
      */
     public function testImageAdapterImagickConstructNewImage(): void
@@ -65,34 +94,5 @@ final class ConstructTest extends AbstractUnitTestCase
         $this->expectExceptionMessage('Failed to create image from file non-existing.png');
 
         new Imagick('non-existing.png');
-    }
-
-    /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-08-19
-     */
-    public function testImageAdapterImagickConstructCoalescesGif(): void
-    {
-        $image = new Imagick(
-            Talon::settings()->supportPath('assets/images/example-gif.gif')
-        );
-
-        $native     = $image->getImage();
-        $geometries = [];
-
-        $native->setIteratorIndex(0);
-
-        do {
-            $geometries[] = $native->getImageWidth() . 'x' . $native->getImageHeight();
-        } while ($native->nextImage());
-
-        // Coalescing lifts every sub frame back to the full canvas
-        $this->assertSame(
-            ['960x640'],
-            array_values(array_unique($geometries))
-        );
-
-        $this->assertSame(960, $image->getWidth());
-        $this->assertSame(640, $image->getHeight());
     }
 }

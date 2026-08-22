@@ -35,33 +35,32 @@
 /**
  * Class AbstractInput
  *
- * @property array  $attributes
- * @property string $type
- * @property string $value
+ * @phpstan-import-type html_attributes from HtmlTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Input_AbstractInput)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Html\\Helper\\Input, AbstractInput, phalcon, html_helper_input_abstractinput, phalcon_html_helper_abstracthelper_ce, phalcon_html_helper_input_abstractinput_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
 	/**
-	 * @var string
+	 * @phpstan-var html_attributes
 	 */
-	zend_declare_property_string(phalcon_html_helper_input_abstractinput_ce, SL("type"), "text", ZEND_ACC_PROTECTED);
-	/**
-	 * @var array
-	 */
-	zend_declare_property_null(phalcon_html_helper_input_abstractinput_ce, SL("attributes"), ZEND_ACC_PROTECTED);
-	phalcon_html_helper_input_abstractinput_ce->create_object = zephir_init_properties_Phalcon_Html_Helper_Input_AbstractInput;
+	{
+		zval _zc0;
+		array_init_size(&_zc0, 1);
+		zephir_declare_typed_property(phalcon_html_helper_input_abstractinput_ce, SL("attributes"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_ARRAY, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_STRINGL(&_zc0, "text", sizeof("text") - 1);
+		zephir_declare_typed_property(phalcon_html_helper_input_abstractinput_ce, SL("type"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
 
 	return SUCCESS;
 }
 
 /**
- * @param string      $name
- * @param string|null $value
- * @param array       $attributes
- *
- * @return static
+ * @phpstan-param html_attributes $attributes
  */
 PHP_METHOD(Phalcon_Html_Helper_Input_AbstractInput, __invoke)
 {
@@ -125,7 +124,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractInput, __invoke)
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 59, &_0);
 	_2 = !(zephir_array_isset_value_string(&attributes, SL("id")));
 	if (_2) {
-		_2 = !(zephir_memnstr_str(&name_zv, SL("["), "phalcon/Html/Helper/Input/AbstractInput.zep", 56));
+		_2 = !(zephir_memnstr_str(&name_zv, SL("["), "phalcon/Html/Helper/Input/AbstractInput.zep", 47));
 	}
 	if (_2) {
 		ZEPHIR_INIT_VAR(&_3$$3);
@@ -143,8 +142,6 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractInput, __invoke)
 
 /**
  * Returns the HTML for the input.
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Html_Helper_Input_AbstractInput, __toString)
 {
@@ -199,10 +196,6 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractInput, __toString)
 
 /**
  * Sets the value of the element
- *
- * @param string|null $value
- *
- * @return static
  */
 PHP_METHOD(Phalcon_Html_Helper_Input_AbstractInput, setValue)
 {
@@ -232,30 +225,5 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractInput, setValue)
 		zephir_update_property_array(this_ptr, SL("attributes"), &_0$$3, &value_zv);
 	}
 	RETURN_THIS();
-}
-
-zend_object *zephir_init_properties_Phalcon_Html_Helper_Input_AbstractInput(zend_class_entry *class_type)
-{
-		zval _0, _1$$3;
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-		ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1$$3);
-	
-
-		ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-		zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	
-	{
-		zval local_this_ptr, *this_ptr = &local_this_ptr;
-		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		zephir_read_property_ex(&_0, this_ptr, ZEND_STRL("attributes"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_0) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_1$$3);
-			array_init(&_1$$3);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("attributes"), &_1$$3);
-		}
-		ZEPHIR_MM_RESTORE();
-		return Z_OBJ_P(this_ptr);
-	}
 }
 

@@ -14,21 +14,19 @@
 
 namespace Phalcon\Html\Helper;
 
-use Phalcon\Html\Exception;
+use Phalcon\Contracts\Html\HtmlTypes;
 
 /**
  * Generic void-tag escape hatch. Renders a self-closing tag for any name
  * without a dedicated helper. The trailing `/` is emitted only for XHTML
  * doctypes, matching the `Input/AbstractInput::__toString` convention.
+ *
+ * @phpstan-import-type html_attributes from HtmlTypes
  */
 class VoidTag extends AbstractHelper
 {
     /**
-     * @param string $name
-     * @param array  $attributes
-     *
-     * @return string
-     * @throws Exception
+     * @phpstan-param html_attributes $attributes
      */
     public function __invoke(string name, array attributes = []) -> string
     {

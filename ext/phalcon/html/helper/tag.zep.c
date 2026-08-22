@@ -35,6 +35,8 @@
  * tag name without a dedicated helper. For an open + content + close tag
  * use `Element` instead. For self-closing void tags (img, br, hr, etc.)
  * use `VoidTag`.
+ *
+ * @phpstan-import-type html_attributes from HtmlTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Tag)
 {
@@ -44,11 +46,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Tag)
 }
 
 /**
- * @param string $name
- * @param array  $attributes
- *
- * @return string
- * @throws Exception
+ * @phpstan-param html_attributes $attributes
  */
 PHP_METHOD(Phalcon_Html_Helper_Tag, __invoke)
 {

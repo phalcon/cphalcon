@@ -58,15 +58,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Html_Link_Interfaces_EvolvableLinkInterface, withAttri
  */
 ZEPHIR_DOC_METHOD(Phalcon_Html_Link_Interfaces_EvolvableLinkInterface, withHref);
 /**
- * Returns an instance with the specified relationship included.
- *
- * If the specified rel is already present, this method MUST return
- * normally without errors, but without adding the rel a second time.
- *
- * @param string $rel The relationship value to add.
- */
-ZEPHIR_DOC_METHOD(Phalcon_Html_Link_Interfaces_EvolvableLinkInterface, withRel);
-/**
  * Returns an instance with the specified attribute excluded.
  *
  * If the specified attribute is not present, this method MUST return
@@ -84,3 +75,12 @@ ZEPHIR_DOC_METHOD(Phalcon_Html_Link_Interfaces_EvolvableLinkInterface, withoutAt
  * @param string $rel The relationship value to exclude.
  */
 ZEPHIR_DOC_METHOD(Phalcon_Html_Link_Interfaces_EvolvableLinkInterface, withoutRel);
+/**
+ * Returns an instance with the specified relationship included.
+ *
+ * If the specified rel is already present, this method MUST return
+ * normally without errors, but without adding the rel a second time.
+ *
+ * @param string $rel The relationship value to add.
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Html_Link_Interfaces_EvolvableLinkInterface, withRel);

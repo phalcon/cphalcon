@@ -526,6 +526,96 @@ class CompileStringTest extends AbstractUnitTestCase
                 '{% set x = "it\'s" %}',
                 "<?php \$x = 'it\\'s'; ?>",
             ],
+            // GHSA-fq2j-m2c4-gfhg - a quote must not close the php string
+            [
+                '{{ tag.textField(\'x".system("id")."\') }}',
+                '<?= $this->tag->textField("x\\".system(\\"id\\").\\"") ?>',
+            ],
+            // GHSA-fq2j-m2c4-gfhg - no interpolation of the value
+            [
+                '{{ tag.textField(\'{${system(chr(105).chr(100))}}\') }}',
+                '<?= $this->tag->textField("{\\${system(chr(105).chr(100))}}") ?>',
+            ],
+            // GHSA-fq2j-m2c4-gfhg - an even number of backslashes before a quote
+            [
+                '{{ tag.textField(\'x\\\\"\') }}',
+                '<?= $this->tag->textField("x\\\\\\"") ?>',
+            ],
+            // Issue: 16005 - escape sequences go through to php
+            [
+                '{{ tag.textField(\'\\t\') }}',
+                '<?= $this->tag->textField("\\t") ?>',
+            ],
+            // Issue: 16005 - an escaped backslash stays literal
+            [
+                '{{ tag.textField(\'\\\\t\') }}',
+                '<?= $this->tag->textField("\\\\t") ?>',
+            ],
+            // Issue: 16005 - plain arguments do not change
+            [
+                '{{ tag.textField(\'-\') }}',
+                '<?= $this->tag->textField("-") ?>',
+            ],
+            [
+                '{{ tag.textField(\'+\') }}',
+                '<?= $this->tag->textField("+") ?>',
+            ],
+            [
+                "{{ tag.textField('\t') }}",
+                "<?= \$this->tag->textField(\"\t\") ?>",
+            ],
+            // GHSA-vxr9-x5jh-r4rw - a quote must not close the array key
+            [
+                '{{ ["x\' => system(\'id\'), \'y": 1] }}',
+                '<?= [\'x\\\' => system(\\\'id\\\'), \\\'y\' => 1] ?>',
+            ],
+            // GHSA-vxr9-x5jh-r4rw - the same sink through set
+            [
+                '{% set x = ["a\' => system(\'id\'), \'b": 1] %}',
+                '<?php $x = [\'a\\\' => system(\\\'id\\\'), \\\'b\' => 1]; ?>',
+            ],
+            // GHSA-vxr9-x5jh-r4rw - an even number of backslashes before a quote
+            [
+                '{{ ["x\\\\\'": 1] }}',
+                '<?= [\'x\\\\\\\'\' => 1] ?>',
+            ],
+            // GHSA-vxr9-x5jh-r4rw - an apostrophe in a key gives valid php
+            [
+                '{{ ["it\'s": 1] }}',
+                '<?= [\'it\\\'s\' => 1] ?>',
+            ],
+            // GHSA-vxr9-x5jh-r4rw - a single quoted key does not change
+            [
+                '{{ [\'it\\\'s\': 1] }}',
+                '<?= [\'it\\\'s\' => 1] ?>',
+            ],
+            // Advisory: single quoted echo string - a quote must not close the
+            // string and inject code (an even number of backslashes before a
+            // quote bypasses the old lookbehind escaping)
+            [
+                '{{ "x\\\\\'.injected();//" }}',
+                '<?= \'x\\\\\\\'.injected();//\' ?>',
+            ],
+            // Advisory: single quoted echo string - even backslashes then quote
+            [
+                '{{ "x\\\\\'" }}',
+                '<?= \'x\\\\\\\'\' ?>',
+            ],
+            // Advisory: single quoted echo string - an apostrophe gives valid php
+            [
+                '{{ "it\'s" }}',
+                '<?= \'it\\\'s\' ?>',
+            ],
+            // Advisory: single quoted echo string - an escape sequence stays literal
+            [
+                '{{ "\\t" }}',
+                '<?= \'\\t\' ?>',
+            ],
+            // Advisory: single quoted echo string - an escaped backslash stays literal
+            [
+                '{{ "\\\\t" }}',
+                '<?= \'\\\\t\' ?>',
+            ],
         ];
     }
 

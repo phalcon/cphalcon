@@ -33,26 +33,26 @@
  */
 /**
  * Class Style
+ *
+ * @phpstan-import-type html_attributes from HtmlTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Style)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Html\\Helper, Style, phalcon, html_helper_style, phalcon_html_helper_abstractseries_ce, phalcon_html_helper_style_method_entry, 0);
 
-	/**
-	 * @var bool
-	 */
-	zend_declare_property_bool(phalcon_html_helper_style_ce, SL("isStyle"), 0, ZEND_ACC_PRIVATE);
+	{
+		zval _zc0;
+		ZVAL_BOOL(&_zc0, 0);
+		zephir_declare_typed_property(phalcon_html_helper_style_ce, SL("isStyle"), &_zc0, ZEND_ACC_PRIVATE, MAY_BE_BOOL, NULL, 0);
+	}
+
 	return SUCCESS;
 }
 
 /**
  * Add an element to the list
  *
- * @param string $url
- * @param array  $attributes
- *
- * @return static
- * @throws Exception
+ * @phpstan-param html_attributes $attributes
  */
 PHP_METHOD(Phalcon_Html_Helper_Style, add)
 {
@@ -124,8 +124,6 @@ PHP_METHOD(Phalcon_Html_Helper_Style, add)
 
 /**
  * Sets if this is a style or link tag
- *
- * @param bool $flag
  */
 PHP_METHOD(Phalcon_Html_Helper_Style, setStyle)
 {
@@ -145,9 +143,9 @@ PHP_METHOD(Phalcon_Html_Helper_Style, setStyle)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &flag_param);
 	if (flag) {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 273, &__$true);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 272, &__$true);
 	} else {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 273, &__$false);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 272, &__$false);
 	}
 	RETURN_THISW();
 }
@@ -155,10 +153,9 @@ PHP_METHOD(Phalcon_Html_Helper_Style, setStyle)
 /**
  * Returns the necessary attributes
  *
- * @param string $url
- * @param array  $attributes
+ * @phpstan-param html_attributes $attributes
  *
- * @return array
+ * @phpstan-return html_attributes
  */
 PHP_METHOD(Phalcon_Html_Helper_Style, getAttributes)
 {
@@ -193,7 +190,7 @@ PHP_METHOD(Phalcon_Html_Helper_Style, getAttributes)
 	zephir_array_update_string(&required, SL("href"), &url_zv, PH_COPY | PH_SEPARATE);
 	add_assoc_stringl_ex(&required, SL("type"), SL("text/css"));
 	add_assoc_stringl_ex(&required, SL("media"), SL("screen"));
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 273, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 272, PH_NOISY_CC | PH_READONLY);
 	if (ZEPHIR_IS_TRUE_IDENTICAL(&_0)) {
 		zephir_array_unset_string(&required, SL("rel"), PH_SEPARATE);
 	}
@@ -202,9 +199,6 @@ PHP_METHOD(Phalcon_Html_Helper_Style, getAttributes)
 	RETURN_MM();
 }
 
-/**
- * @return string
- */
 PHP_METHOD(Phalcon_Html_Helper_Style, getTag)
 {
 	zval _0, _1;
@@ -221,7 +215,7 @@ PHP_METHOD(Phalcon_Html_Helper_Style, getTag)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	ZEPHIR_INIT_VAR(&_0);
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 273, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 272, PH_NOISY_CC | PH_READONLY);
 	if (ZEPHIR_IS_TRUE_IDENTICAL(&_1)) {
 		ZEPHIR_INIT_NVAR(&_0);
 		ZVAL_STRING(&_0, "style");

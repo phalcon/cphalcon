@@ -33,24 +33,21 @@
 /**
  * Class Anchor
  *
- * @property bool $forceRaw
+ * @phpstan-import-type html_attributes from HtmlTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Anchor)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Html\\Helper, Anchor, phalcon, html_helper_anchor, phalcon_html_helper_abstracthelper_ce, phalcon_html_helper_anchor_method_entry, 0);
 
-	/**
-	 * @var bool
-	 */
-	zend_declare_property_bool(phalcon_html_helper_anchor_ce, SL("forceRaw"), 0, ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_BOOL(&_zc0, 0);
+		zephir_declare_typed_property(phalcon_html_helper_anchor_ce, SL("forceRaw"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_BOOL, NULL, 0);
+	}
+
 	return SUCCESS;
 }
 
-/**
- * @param EscaperInterface $escaper
- * @param Doctype          $doctype
- * @param bool             $forceRaw
- */
 PHP_METHOD(Phalcon_Html_Helper_Anchor, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -90,9 +87,9 @@ PHP_METHOD(Phalcon_Html_Helper_Anchor, __construct)
 	ZEPHIR_CALL_PARENT(NULL, phalcon_html_helper_anchor_ce, getThis(), "__construct", NULL, 0, escaper, doctype);
 	zephir_check_call_status();
 	if (forceRaw) {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 818, &__$true);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 817, &__$true);
 	} else {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 818, &__$false);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 817, &__$false);
 	}
 	ZEPHIR_MM_RESTORE();
 }
@@ -100,13 +97,7 @@ PHP_METHOD(Phalcon_Html_Helper_Anchor, __construct)
 /**
  * Produce a <a> tag
  *
- * @param string $href
- * @param string $text
- * @param array  $attributes
- * @param bool   $raw
- *
- * @return string
- * @throws Exception
+ * @phpstan-param html_attributes $attributes
  */
 PHP_METHOD(Phalcon_Html_Helper_Anchor, __invoke)
 {
@@ -166,7 +157,7 @@ PHP_METHOD(Phalcon_Html_Helper_Anchor, __invoke)
 	_2 = raw;
 	if (!(_2)) {
 		zephir_memory_observe(&_3);
-		zephir_read_property_cached(&_3, this_ptr, _zephir_prop_0, 818, PH_NOISY_CC);
+		zephir_read_property_cached(&_3, this_ptr, _zephir_prop_0, 817, PH_NOISY_CC);
 		_2 = zephir_is_true(&_3);
 	}
 	ZEPHIR_INIT_NVAR(&_1);

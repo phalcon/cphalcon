@@ -18,43 +18,26 @@ use Phalcon\Html\Exception;
 
 /**
  * Class Title
- *
- * @property array  $append
- * @property string $delimiter
- * @property string $indent
- * @property array  $prepend
- * @property string $title
- * @property string $separator
  */
 class Title extends AbstractHelper
 {
     /**
-     * @var array
+     * @phpstan-var list<string>
      */
-    protected append = [];
-
+    protected array append = [];
     /**
-     * @var array
+     * Untyped on purpose. A typed `array` default is shared by all instances
+     * and `prepend()` mutates it in place, which corrupts the heap. See
+     * team/Planning/2026-08-20-zephir-typed-array-property-shared-default.md
+     *
+     * @phpstan-var list<string>
      */
     protected prepend = [];
-
-    /**
-     * @var string
-     */
-    protected title = "";
-
-    /**
-     * @var string
-     */
-    protected separator = "";
+    protected string title = "";
+    protected string separator = "";
 
     /**
      * Sets the separator and returns the object back
-     *
-     * @param string      $indent
-     * @param string|null $delimiter
-     *
-     * @return static
      */
     public function __invoke(
         string indent = "    ",
@@ -68,9 +51,6 @@ class Title extends AbstractHelper
 
     /**
      * Returns the title tags
-     *
-     * @return string
-     * @throws Exception
      */
     public function __toString()
     {
@@ -98,11 +78,6 @@ class Title extends AbstractHelper
 
     /**
      * Appends text to current document title
-     *
-     * @param string $text
-     * @param bool   $raw
-     *
-     * @return static
      */
     public function append(string text, bool raw = false) -> <static>
     {
@@ -115,8 +90,6 @@ class Title extends AbstractHelper
 
     /**
      * Returns the title
-     *
-     * @return string
      */
     public function get() -> string
     {
@@ -124,44 +97,7 @@ class Title extends AbstractHelper
     }
 
     /**
-     * Sets the title
-     *
-     * @param string $text
-     * @param bool   $raw
-     *
-     * @return static
-     */
-    public function set(string text, bool raw = false) -> <static>
-    {
-        let text = raw ? text : this->escaper->html(text);
-
-        let this->title = text;
-
-        return this;
-    }
-
-    /**
-     * Sets the separator
-     *
-     * @param string $separator
-     * @param bool   $raw
-     *
-     * @return static
-     */
-    public function setSeparator(string separator, bool raw = false) -> <static>
-    {
-        let this->separator = raw ? separator : this->escaper->html(separator);
-
-        return this;
-    }
-
-    /**
      * Prepends text to current document title
-     *
-     * @param string $text
-     * @param bool   $raw
-     *
-     * @return static
      */
     public function prepend(string text, bool raw = false) -> <static>
     {
@@ -174,6 +110,28 @@ class Title extends AbstractHelper
         array_unshift(prepend, text);
 
         let this->prepend = prepend;
+
+        return this;
+    }
+
+    /**
+     * Sets the title
+     */
+    public function set(string text, bool raw = false) -> <static>
+    {
+        let text = raw ? text : this->escaper->html(text);
+
+        let this->title = text;
+
+        return this;
+    }
+
+    /**
+     * Sets the separator
+     */
+    public function setSeparator(string separator, bool raw = false) -> <static>
+    {
+        let this->separator = raw ? separator : this->escaper->html(separator);
 
         return this;
     }

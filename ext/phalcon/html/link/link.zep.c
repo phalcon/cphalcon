@@ -27,6 +27,9 @@
  */
 /**
  * Class Phalcon\Html\Link\Link
+ *
+ * @phpstan-import-type link_attributes from LinkTypes
+ * @phpstan-import-type link_rels from LinkTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Html_Link_Link)
 {
@@ -39,10 +42,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Link_Link)
 /**
  * Returns a list of attributes that describe the target URI.
  *
- * @return array
- *   A key-value list of attributes, where the key is a string and the value
- *  is either a PHP primitive or an array of PHP strings. If no values are
- *  found an empty array MUST be returned.
+ * A key-value list of attributes, where the key is a string and the value
+ * is either a PHP primitive or an array of PHP strings. If no values are
+ * found an empty array MUST be returned.
+ *
+ * @phpstan-return link_attributes
  */
 PHP_METHOD(Phalcon_Html_Link_Link, getAttributes)
 {
@@ -67,8 +71,6 @@ PHP_METHOD(Phalcon_Html_Link_Link, getAttributes)
  * - A URI template as defined by RFC 6570.
  *
  * If a URI template is returned, isTemplated() MUST return True.
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Html_Link_Link, getHref)
 {
@@ -89,7 +91,7 @@ PHP_METHOD(Phalcon_Html_Link_Link, getHref)
  * This method returns 0 or more relationship types for a link, expressed
  * as an array of strings.
  *
- * @return string[]
+ * @phpstan-return link_rels
  */
 PHP_METHOD(Phalcon_Html_Link_Link, getRels)
 {
@@ -105,9 +107,7 @@ PHP_METHOD(Phalcon_Html_Link_Link, getRels)
 }
 
 /**
- * Returns whether or not this is a templated link.
- *
- * @return bool True if this link object is templated, False otherwise.
+ * Returns whether this is a templated link.
  */
 PHP_METHOD(Phalcon_Html_Link_Link, isTemplated)
 {

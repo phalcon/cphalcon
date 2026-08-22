@@ -8,7 +8,6 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select_ResultsetData, getAttributes);
 PHP_METHOD(Phalcon_Html_Helper_Input_Select_ResultsetData, getOptions);
 PHP_METHOD(Phalcon_Html_Helper_Input_Select_ResultsetData, readField);
 PHP_METHOD(Phalcon_Html_Helper_Input_Select_ResultsetData, resolve);
-zend_object *zephir_init_properties_Phalcon_Html_Helper_Input_Select_ResultsetData(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_html_helper_input_select_resultsetdata___construct, 0, 0, 2)
 	ZEND_ARG_OBJ_INFO(0, resultset, Phalcon\\Mvc\\Model\\ResultsetInterface, 0)
@@ -28,9 +27,6 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_html_helper_input_select_resultsetdata_re
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_helper_input_select_resultsetdata_resolve, 0, 0, IS_VOID, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_html_helper_input_select_resultsetdata_zephir_init_properties_phalcon_html_helper_input_select_resultsetdata, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_html_helper_input_select_resultsetdata_method_entry) {

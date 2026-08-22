@@ -38,7 +38,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_Component)
 }
 
 /**
- * Phalcon\Acl\Component constructor
+ * Component constructor.
  */
 PHP_METHOD(Phalcon_Acl_Component, __construct)
 {
@@ -78,8 +78,8 @@ PHP_METHOD(Phalcon_Acl_Component, __construct)
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_acl_exceptions_forbiddenwildcard_ce, "component", "phalcon/Acl/Component.zep", 26);
 		return;
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 388, &name_zv);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 389, &description_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 387, &name_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 388, &description_zv);
 	ZEPHIR_MM_RESTORE();
 }
 

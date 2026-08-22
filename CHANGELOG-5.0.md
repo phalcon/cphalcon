@@ -2,6 +2,25 @@
 
 All notable changes are documented here. The format is based on [Keep a Changelog][keep_a_changelog] and this project adheres to [Semantic Versioning][semantic_versioning].
 
+## [5.20.0](https://github.com/phalcon/cphalcon/releases/tag/v5.20.0) (2026-08-22)
+
+### Tools
+
+- Zephir 1.2.0 (32d04d5)
+
+### Changed
+
+### Added
+
+### Fixed
+
+- Single-quoted string emission in Volt Compiler.
+- Quoted parameters in PHQL/Query
+- Fixed warnings when compiling from sources when Memcached, Redis etc. are not present [17517](https://github.com/phalcon/cphalcon/issues/17517)
+
+### Removed
+
+
 ## [5.19.0](https://github.com/phalcon/cphalcon/releases/tag/v5.19.0) (2026-08-19)
 
 ### Tools

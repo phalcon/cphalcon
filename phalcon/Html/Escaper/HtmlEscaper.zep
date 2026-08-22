@@ -19,21 +19,11 @@ namespace Phalcon\Html\Escaper;
  */
 class HtmlEscaper extends AbstractEscaper
 {
-    /**
-     * @param string|null $input
-     *
-     * @return string
-     */
     public function __invoke(string input = null) -> string
     {
         return this->escape(input);
     }
 
-    /**
-     * @param string|null $input
-     *
-     * @return string
-     */
     public function escape(string input = null) -> string
     {
         if null === input {

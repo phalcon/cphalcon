@@ -13,7 +13,7 @@ namespace Phalcon\Acl;
 use Phalcon\Contracts\Acl\RoleAware as RoleAwareContract;
 
 /**
- * Interface for classes which could be used in allow method as ROLE
+ * Interface for ACL Role aware objects
  *
  * @psalm-suppress DeprecatedInterface
  * @deprecated Will be removed in a future major release.

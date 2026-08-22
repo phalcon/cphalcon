@@ -37,7 +37,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Asset_Css)
 }
 
 /**
- * Phalcon\Assets\Asset\Css constructor
+ * Css constructor.
  */
 PHP_METHOD(Phalcon_Assets_Asset_Css, __construct)
 {

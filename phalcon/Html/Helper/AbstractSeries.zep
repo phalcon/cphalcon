@@ -14,27 +14,25 @@
 
 namespace Phalcon\Html\Helper;
 
+use Phalcon\Contracts\Html\HtmlTypes;
+
 /**
- * @property array $attributes
- * @property array $store
+ * @phpstan-import-type html_attributes from HtmlTypes
+ * @phpstan-import-type html_element_entry from HtmlTypes
+ * @phpstan-import-type html_element_store from HtmlTypes
  */
 abstract class AbstractSeries extends AbstractHelper
 {
     /**
-     * @var array
+     * @phpstan-var html_attributes
      */
-    protected attributes = [];
+    protected array attributes = [];
+    /**
+     * @phpstan-var html_element_store
+     */
+    protected array store = [];
 
     /**
-     * @var array
-     */
-    protected store = [];
-
-    /**
-     * @param string $indent
-     * @param string $delimiter
-     *
-     * @return static
      */
     public function __invoke(
         string indent = "    ",
@@ -51,8 +49,6 @@ abstract class AbstractSeries extends AbstractHelper
      * their integer key first, so an asset registered with a lower position
      * renders before one registered with a higher position regardless of
      * registration order.
-     *
-     * @return string
      */
     public function __toString()
     {
@@ -78,15 +74,21 @@ abstract class AbstractSeries extends AbstractHelper
     }
 
     /**
+     * Returns the tag name.
+     *
+     * @return string
+     */
+    abstract protected function getTag() -> string;
+
+    /**
      * Appends an entry to the store, optionally at a specific integer
-     * position. When `position` is negative the entry is pushed onto the next
-     * available auto-increment slot. When `position` is non-negative the entry
+     * position. When `$pos` is negative the entry is pushed onto the next
+     * available auto-increment slot. When `$pos` is non-negative the entry
      * is placed at that key, advancing past any already-occupied slots so
      * existing entries are not overwritten. The store is ksort()ed in
      * `__toString`, so positions act as a sort key, not a strict address.
      *
-     * @param array $entry
-     * @param int   $position
+     * @phpstan-param html_element_entry $entry
      */
     protected function pushOrPlace(array entry, int position = -1) -> void
     {
@@ -105,11 +107,4 @@ abstract class AbstractSeries extends AbstractHelper
 
         let this->store[key] = entry;
     }
-
-    /**
-     * Returns the tag name.
-     *
-     * @return string
-     */
-    abstract protected function getTag() -> string;
 }

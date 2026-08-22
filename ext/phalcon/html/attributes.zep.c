@@ -13,8 +13,8 @@
 
 #include "kernel/main.h"
 #include "kernel/fcall.h"
-#include "kernel/memory.h"
 #include "kernel/object.h"
+#include "kernel/memory.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
 #include "kernel/exception.h"
@@ -35,6 +35,8 @@
  */
 /**
  * This class helps to work with HTML Attributes
+ *
+ * @extends Collection<mixed>
  */
 ZEPHIR_INIT_CLASS(Phalcon_Html_Attributes)
 {
@@ -42,6 +44,22 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Attributes)
 
 	zend_class_implements(phalcon_html_attributes_ce, 1, phalcon_html_attributes_renderinterface_ce);
 	return SUCCESS;
+}
+
+/**
+ * Alias of the render method
+ */
+PHP_METHOD(Phalcon_Html_Attributes, __toString)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *this_ptr = getThis();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "render", NULL, 0);
+	zephir_check_call_status();
+	RETURN_MM();
 }
 
 /**
@@ -66,23 +84,9 @@ PHP_METHOD(Phalcon_Html_Attributes, render)
 }
 
 /**
- * Alias of the render method
- */
-PHP_METHOD(Phalcon_Html_Attributes, __toString)
-{
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *this_ptr = getThis();
-	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "render", NULL, 0);
-	zephir_check_call_status();
-	RETURN_MM();
-}
-
-/**
  * @todo remove this when we refactor forms. Maybe remove this class? Put it into traits
+ *
+ * @phpstan-param array<array-key, mixed> $attributes
  */
 PHP_METHOD(Phalcon_Html_Attributes, renderAttributes)
 {
@@ -145,7 +149,7 @@ PHP_METHOD(Phalcon_Html_Attributes, renderAttributes)
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&result);
 	ZVAL_STRING(&result, "");
-	zephir_is_iterable(&results, 0, "phalcon/Html/Attributes.zep", 94);
+	zephir_is_iterable(&results, 0, "phalcon/Html/Attributes.zep", 98);
 	ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&results), _2, _3, _1)
 	{
 		ZEPHIR_INIT_NVAR(&key);
@@ -172,7 +176,7 @@ PHP_METHOD(Phalcon_Html_Attributes, renderAttributes)
 				zephir_gettype(&_7$$5, &value);
 				ZEPHIR_CALL_METHOD(NULL, &_6$$5, "__construct", &_8, 0, &key, &_7$$5);
 				zephir_check_call_status();
-				zephir_throw_exception_debug(&_6$$5, "phalcon/Html/Attributes.zep", 85);
+				zephir_throw_exception_debug(&_6$$5, "phalcon/Html/Attributes.zep", 89);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}

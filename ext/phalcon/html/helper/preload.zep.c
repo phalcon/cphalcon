@@ -35,22 +35,22 @@
 /**
  * Generates a <link rel="preload"> tag for resource hinting.
  * If a ResponseInterface is provided, also sets the HTTP Link header.
+ *
+ * @phpstan-import-type html_attributes from HtmlTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Preload)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Html\\Helper, Preload, phalcon, html_helper_preload, phalcon_html_helper_abstracthelper_ce, phalcon_html_helper_preload_method_entry, 0);
 
-	/**
-	 * @var ResponseInterface|null
-	 */
-	zend_declare_property_null(phalcon_html_helper_preload_ce, SL("response"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_NULL(&_zc0);
+		zephir_declare_typed_property(phalcon_html_helper_preload_ce, SL("response"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_NULL, SL("Phalcon\\Http\\ResponseInterface"));
+	}
+
 	return SUCCESS;
 }
 
-/**
- * @param EscaperInterface      $escaper
- * @param ResponseInterface|null $response
- */
 PHP_METHOD(Phalcon_Html_Helper_Preload, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -81,16 +81,12 @@ PHP_METHOD(Phalcon_Html_Helper_Preload, __construct)
 	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_html_helper_preload_ce, getThis(), "__construct", NULL, 0, escaper);
 	zephir_check_call_status();
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 852, response);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 850, response);
 	ZEPHIR_MM_RESTORE();
 }
 
 /**
- * @param string $href
- * @param string $type
- * @param array  $attributes
- *
- * @return string
+ * @phpstan-param html_attributes $attributes
  */
 PHP_METHOD(Phalcon_Html_Helper_Preload, __invoke)
 {
@@ -157,7 +153,7 @@ PHP_METHOD(Phalcon_Html_Helper_Preload, __invoke)
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_fast_array_merge(&_0, &overrides, &attributes);
 	ZEPHIR_CPY_WRT(&overrides, &_0);
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 852, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 850, PH_NOISY_CC | PH_READONLY);
 	if (Z_TYPE_P(&_1) != IS_NULL) {
 		ZEPHIR_INIT_VAR(&link);
 		object_init_ex(&link, phalcon_html_link_link_ce);
@@ -182,7 +178,7 @@ PHP_METHOD(Phalcon_Html_Helper_Preload, __invoke)
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&header);
 		ZEPHIR_CONCAT_SV(&header, "Link: ", &_4$$3);
-		zephir_read_property_cached(&_6$$3, this_ptr, _zephir_prop_0, 852, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_6$$3, this_ptr, _zephir_prop_0, 850, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_METHOD(NULL, &_6$$3, "setrawheader", NULL, 0, &header);
 		zephir_check_call_status();
 	}

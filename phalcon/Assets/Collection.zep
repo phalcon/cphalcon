@@ -15,10 +15,17 @@ use Countable;
 use IteratorAggregate;
 use Phalcon\Assets\Traits\AttributesTrait;
 use Phalcon\Assets\Traits\SourceTargetTrait;
+use Phalcon\Contracts\Assets\AssetsTypes;
 use Phalcon\Traits\Php\FileTrait;
+use Traversable;
 
 /**
  * Collection of asset objects
+ *
+ * @phpstan-import-type assets_asset_map from AssetsTypes
+ * @phpstan-import-type assets_codes from AssetsTypes
+ * @phpstan-import-type assets_attributes from AssetsTypes
+ * @phpstan-import-type assets_filters from AssetsTypes
  */
 class Collection implements Countable, IteratorAggregate
 {
@@ -27,51 +34,28 @@ class Collection implements Countable, IteratorAggregate
     use SourceTargetTrait;
 
     /**
-     * @var array
+     * @var assets_asset_map
      */
-    protected assets = [];
-
+    protected array assets = [];
     /**
      * Should version be determined from file modification time
-     *
-     * @var bool
      */
-    protected autoVersion = false;
-
+    protected bool autoVersion = false;
     /**
-     * @var array
+     * @var assets_codes
      */
-    protected codes = [];
-
+    protected array codes = [];
     /**
-     * @var array
+     * @var assets_filters
      */
-    protected filters = [];
-
-    /**
-     * @var bool
-     */
-    protected join = true;
-
-    /**
-     * @var string
-     */
-    protected prefix = "";
-
-    /**
-     * @var bool
-     */
-    protected targetIsLocal = true;
-
-    /**
-     * @var string
-     */
-    protected version = "";
+    protected array filters = [];
+    protected bool join = true;
+    protected string prefix = "";
+    protected bool targetIsLocal = true;
+    protected string version = "";
 
     /**
      * Adds an asset to the collection
-     *
-     * @param AssetInterface $asset
      */
     public function add(<AssetInterface> asset) -> <static>
     {
@@ -83,12 +67,8 @@ class Collection implements Countable, IteratorAggregate
     /**
      * Adds a CSS asset to the collection
      *
-     * @param string      $path
      * @param bool|null   $isLocal
-     * @param bool        $filter
-     * @param array       $attributes
-     * @param string|null $version
-     * @param bool        $autoVersion
+     * @param assets_attributes $attributes
      */
     public function addCss(
         string path,
@@ -111,8 +91,6 @@ class Collection implements Countable, IteratorAggregate
 
     /**
      * Adds a filter to the collection
-     *
-     * @param FilterInterface $filter
      */
     public function addFilter(<FilterInterface> filter) -> <static>
     {
@@ -123,8 +101,6 @@ class Collection implements Countable, IteratorAggregate
 
     /**
      * Adds an inline code to the collection
-     *
-     * @param Inline $code
      */
     public function addInline(<$Inline> code) -> <static>
     {
@@ -136,9 +112,7 @@ class Collection implements Countable, IteratorAggregate
     /**
      * Adds an inline CSS to the collection
      *
-     * @param string $content
-     * @param bool   $filter
-     * @param array  $attributes
+     * @param assets_attributes $attributes
      */
     public function addInlineCss(
         string content,
@@ -151,9 +125,7 @@ class Collection implements Countable, IteratorAggregate
     /**
      * Adds an inline JavaScript to the collection
      *
-     * @param string $content
-     * @param bool   $filter
-     * @param array  $attributes
+     * @param assets_attributes $attributes
      */
     public function addInlineJs(
         string content,
@@ -166,12 +138,8 @@ class Collection implements Countable, IteratorAggregate
     /**
      * Adds a JavaScript asset to the collection
      *
-     * @param string      $path
      * @param bool|null   $isLocal
-     * @param bool        $filter
-     * @param array       $attributes
-     * @param string|null $version
-     * @param bool        $autoVersion
+     * @param assets_attributes $attributes
      */
     public function addJs(
         string path,
@@ -194,10 +162,6 @@ class Collection implements Countable, IteratorAggregate
 
     /**
      * Return the count of the assets
-     *
-     * @return int
-     *
-     * @link https://php.net/manual/en/countable.count.php
      */
     public function count() -> int
     {
@@ -207,7 +171,7 @@ class Collection implements Countable, IteratorAggregate
     /**
      * Return the stored assets
      *
-     * @return array
+     * @return assets_asset_map
      */
     public function getAssets() -> array
     {
@@ -217,7 +181,7 @@ class Collection implements Countable, IteratorAggregate
     /**
      * Return the stored codes
      *
-     * @return array
+     * @return assets_codes
      */
     public function getCodes() -> array
     {
@@ -227,7 +191,7 @@ class Collection implements Countable, IteratorAggregate
     /**
      * Return the stored filters
      *
-     * @return array
+     * @return assets_filters
      */
     public function getFilters() -> array
     {
@@ -235,11 +199,9 @@ class Collection implements Countable, IteratorAggregate
     }
 
     /**
-     * Returns the generator of the class
-     *
-     * @link https://php.net/manual/en/iteratoraggregate.getiterator.php
+     * Returns the iterator of the class
      */
-    public function getIterator() -> <\Traversable>
+    public function getIterator() -> <Traversable>
     {
         return new ArrayIterator(this->assets);
     }
@@ -265,10 +227,6 @@ class Collection implements Countable, IteratorAggregate
     /**
      * Returns the complete location where the joined/filtered collection must
      * be written
-     *
-     * @param string $basePath
-     *
-     * @return string
      */
     public function getRealTargetPath( string basePath) -> string
     {
@@ -292,8 +250,6 @@ class Collection implements Countable, IteratorAggregate
 
     /**
      * Returns whether the target is local or not
-     *
-     * @return bool
      */
     public function getTargetIsLocal() -> bool
     {
@@ -302,8 +258,6 @@ class Collection implements Countable, IteratorAggregate
 
     /**
      * Returns the version
-     *
-     * @return string
      */
     public function getVersion() -> string
     {
@@ -324,10 +278,6 @@ class Collection implements Countable, IteratorAggregate
      * $collection->add($asset);
      * $collection->has($asset); // true
      * ```
-     *
-     * @param AssetInterface $asset
-     *
-     * @return bool
      */
     public function has(<AssetInterface> asset) -> bool
     {
@@ -340,8 +290,6 @@ class Collection implements Countable, IteratorAggregate
 
     /**
      * Checks if collection is using auto version
-     *
-     * @return bool
      */
     public function isAutoVersion() -> bool
     {
@@ -351,10 +299,6 @@ class Collection implements Countable, IteratorAggregate
     /**
      * Sets if all filtered assets in the collection must be joined in a single
      * result file
-     *
-     * @param bool $flag
-     *
-     * @return static
      */
     public function join(bool flag) -> <static>
     {
@@ -366,7 +310,7 @@ class Collection implements Countable, IteratorAggregate
     /**
      * Sets extra HTML attributes
      *
-     * @param array $attributes
+     * @param assets_attributes $attributes
      */
     public function setAttributes(array attributes) -> <static>
     {
@@ -375,9 +319,6 @@ class Collection implements Countable, IteratorAggregate
         return this;
     }
 
-    /**
-     * @param bool $flag
-     */
     public function setAutoVersion(bool flag) -> <static>
     {
         let this->autoVersion = flag;
@@ -388,7 +329,7 @@ class Collection implements Countable, IteratorAggregate
     /**
      * Sets an array of filters in the collection
      *
-     * @param array $filters
+     * @param assets_filters $filters
      */
     public function setFilters(array filters) -> <static>
     {
@@ -399,8 +340,6 @@ class Collection implements Countable, IteratorAggregate
 
     /**
      * Sets a common prefix for all the assets
-     *
-     * @param string $prefix
      */
     public function setPrefix(string prefix) -> <static>
     {
@@ -411,8 +350,6 @@ class Collection implements Countable, IteratorAggregate
 
     /**
      * Sets if the target local or not
-     *
-     * @param bool $flag
      */
     public function setTargetIsLocal(bool flag) -> <static>
     {
@@ -423,8 +360,6 @@ class Collection implements Countable, IteratorAggregate
 
     /**
      * Sets the version
-     *
-     * @param string $version
      */
     public function setVersion(string version) -> <static>
     {
@@ -435,10 +370,6 @@ class Collection implements Countable, IteratorAggregate
 
     /**
      * Adds an asset or inline-code to the collection
-     *
-     * @param AssetInterface $asset
-     *
-     * @return bool
      */
     final protected function addAsset(<AssetInterface> asset) -> bool
     {
@@ -459,6 +390,8 @@ class Collection implements Countable, IteratorAggregate
 
     /**
      * Adds an inline asset
+     *
+     * @param assets_attributes $attributes
      */
     private function processAdd(
         string className,
@@ -489,6 +422,8 @@ class Collection implements Countable, IteratorAggregate
 
     /**
      * Adds an inline asset
+     *
+     * @param assets_attributes $attributes
      */
     private function processAddInline(
         string className,
@@ -512,9 +447,9 @@ class Collection implements Countable, IteratorAggregate
     }
 
     /**
-     * @param array $attributes
+     * @param assets_attributes $attributes
      *
-     * @return array
+     * @return assets_attributes
      */
     private function processAttributes(array attributes) -> array
     {

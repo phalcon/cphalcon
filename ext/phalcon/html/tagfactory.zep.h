@@ -9,7 +9,6 @@ PHP_METHOD(Phalcon_Html_TagFactory, has);
 PHP_METHOD(Phalcon_Html_TagFactory, newInstance);
 PHP_METHOD(Phalcon_Html_TagFactory, set);
 PHP_METHOD(Phalcon_Html_TagFactory, getDefaultServices);
-zend_object *zephir_init_properties_Phalcon_Html_TagFactory(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_html_tagfactory___construct, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, escaper, Phalcon\\Html\\Escaper\\EscaperInterface, 0)
@@ -38,9 +37,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_tagfactory_set, 0, 
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_tagfactory_getdefaultservices, 0, 0, IS_ARRAY, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_html_tagfactory_zephir_init_properties_phalcon_html_tagfactory, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_html_tagfactory_method_entry) {

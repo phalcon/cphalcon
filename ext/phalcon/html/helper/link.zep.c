@@ -31,6 +31,8 @@
  */
 /**
  * Creates <link> tags
+ *
+ * @phpstan-import-type html_attributes from HtmlTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Link)
 {
@@ -42,8 +44,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Link)
 /**
  * Add an element to the list
  *
- * @param string $url
- * @param array  $attributes
+ * @phpstan-param html_attributes $attributes
  */
 PHP_METHOD(Phalcon_Html_Helper_Link, add)
 {
@@ -116,10 +117,9 @@ PHP_METHOD(Phalcon_Html_Helper_Link, add)
 /**
  * Returns the necessary attributes
  *
- * @param string $url
- * @param array  $attributes
+ * @phpstan-param html_attributes $attributes
  *
- * @return array
+ * @phpstan-return html_attributes
  */
 PHP_METHOD(Phalcon_Html_Helper_Link, getAttributes)
 {

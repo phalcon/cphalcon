@@ -43,11 +43,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Input_Generic)
 	return SUCCESS;
 }
 
-/**
- * @param EscaperInterface $escaper
- * @param Doctype          $doctype
- * @param string           $type
- */
 PHP_METHOD(Phalcon_Html_Helper_Input_Generic, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -92,16 +87,12 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Generic, __construct)
 	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_html_helper_input_generic_ce, getThis(), "__construct", NULL, 0, escaper, doctype);
 	zephir_check_call_status();
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 835, &type_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 833, &type_zv);
 	ZEPHIR_MM_RESTORE();
 }
 
 /**
  * Sets the type of the input.
- *
- * @param string $type
- *
- * @return AbstractInput
  */
 PHP_METHOD(Phalcon_Html_Helper_Input_Generic, setType)
 {
@@ -119,7 +110,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Generic, setType)
 		Z_PARAM_STR(type)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&type_zv, type);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 835, &type_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 833, &type_zv);
 	RETURN_THISW();
 }
 

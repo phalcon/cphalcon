@@ -21,7 +21,7 @@
  * file that was distributed with this source code.
  */
 /**
- * Interface for classes which could be used in allow method as RESOURCE
+ * Interface for ACL Component aware objects
  *
  * @psalm-suppress DeprecatedInterface
  * @deprecated Will be removed in a future major release.
