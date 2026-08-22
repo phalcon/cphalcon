@@ -132,9 +132,9 @@ PHP_METHOD(Phalcon_Auth_Guard_Token, fromOptions)
 	ZVAL_STRING(&_3, "token guard");
 	ZEPHIR_CALL_CE_STATIC(&_6, phalcon_auth_internal_options_ce, "requirestring", NULL, 0, &options, &_2, &_3);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, &_1, "__construct", NULL, 412, &_5, &_6);
+	ZEPHIR_CALL_METHOD(NULL, &_1, "__construct", NULL, 416, &_5, &_6);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 413, adapter, &_0, &_1);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 417, adapter, &_0, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 }

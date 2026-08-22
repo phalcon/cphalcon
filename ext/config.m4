@@ -572,6 +572,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/contracts/adr/action.zep.c
 	phalcon/contracts/acl/acltypes.zep.c
 	phalcon/contracts/application/applicationtypes.zep.c
+	phalcon/contracts/assets/assetstypes.zep.c
 	phalcon/contracts/auth/authremember.zep.c
 	phalcon/contracts/auth/remembertoken.zep.c
 	phalcon/contracts/autoload/autoloadtypes.zep.c

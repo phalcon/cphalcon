@@ -567,6 +567,7 @@
 #include "phalcon/contracts/adr/action.zep.h"
 #include "phalcon/contracts/acl/acltypes.zep.h"
 #include "phalcon/contracts/application/applicationtypes.zep.h"
+#include "phalcon/contracts/assets/assetstypes.zep.h"
 #include "phalcon/contracts/auth/authremember.zep.h"
 #include "phalcon/contracts/auth/remembertoken.zep.h"
 #include "phalcon/contracts/autoload/autoloadtypes.zep.h"
