@@ -1538,7 +1538,25 @@ class Compiler implements InjectionAwareInterface
                             . preg_replace("/(?<!\\\\)'/", "\\\\'", expr["value"])
                             . "'";
                     } else {
-                        let exprCode = "\"" . expr["value"] . "\"";
+                        /**
+                         * Read the value as escape sequences and single
+                         * characters. Keep the escape sequences as they are,
+                         * so that PHP can interpret them. Escape the quotes
+                         * and the dollar signs that are not part of an escape
+                         * sequence. This prevents the value from closing the
+                         * string and adding code to the compiled template.
+                         */
+                        let exprCode = "\""
+                            . preg_replace_callback(
+                                "/\\\\.|[\"$]/s",
+                                function(matches) {
+                                    return "\\" === substr(matches[0], 0, 1)
+                                        ? matches[0]
+                                        : "\\" . matches[0];
+                                },
+                                expr["value"]
+                            )
+                            . "\"";
                     }
                     break;
 
