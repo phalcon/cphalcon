@@ -1032,6 +1032,20 @@ class Mysql extends Dialect
     }
 
     /**
+     * Escape a string literal for a single quoted SQL string. MySQL treats the
+     * backslash as an escape character, so it must be doubled together with the
+     * single quote.
+     */
+    protected function escapeStringLiteral(string value) -> string
+    {
+        return str_replace(
+            ["\\", "'"],
+            ["\\\\", "''"],
+            value
+        );
+    }
+
+    /**
      * Generates SQL to add the table creation options
      */
     protected function getTableOptions( array definition) -> string

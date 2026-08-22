@@ -1173,6 +1173,7 @@
 #include "phalcon/mvc/model/query/exceptions/unknownphqlexpression.zep.h"
 #include "phalcon/mvc/model/query/exceptions/unknownphqlexpressiontype.zep.h"
 #include "phalcon/mvc/model/query/exceptions/unknownphqlstatement.zep.h"
+#include "phalcon/mvc/model/query/exceptions/unsafeidentifier.zep.h"
 #include "phalcon/mvc/model/query/exceptions/updatemultiplenotsupported.zep.h"
 #include "phalcon/mvc/model/query/exceptions/writeconnectionmissing.zep.h"
 #include "phalcon/mvc/model/query/lang.zep.h"

@@ -1178,6 +1178,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/mvc/model/query/exceptions/unknownphqlexpression.zep.c
 	phalcon/mvc/model/query/exceptions/unknownphqlexpressiontype.zep.c
 	phalcon/mvc/model/query/exceptions/unknownphqlstatement.zep.c
+	phalcon/mvc/model/query/exceptions/unsafeidentifier.zep.c
 	phalcon/mvc/model/query/exceptions/updatemultiplenotsupported.zep.c
 	phalcon/mvc/model/query/exceptions/writeconnectionmissing.zep.c
 	phalcon/mvc/model/query/lang.zep.c

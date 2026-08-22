@@ -15,6 +15,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 ### Fixed
 
 - Single-quoted string emission in Volt Compiler.
+- Quoted parameters in PHQL/Query
 - Fixed warnings when compiling from sources when Memcached, Redis etc. are not present [17517](https://github.com/phalcon/cphalcon/issues/17517)
 
 ### Removed
