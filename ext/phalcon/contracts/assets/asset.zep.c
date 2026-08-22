@@ -26,6 +26,8 @@
  * Covers collection membership: an asset's key, type, HTML attributes, and
  * filter flag. The file-output pipeline (Phalcon\Assets\Manager::output())
  * requires the concrete Phalcon\Assets\Asset class.
+ *
+ * @phpstan-import-type assets_attributes from AssetsTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Contracts_Assets_Asset)
 {
@@ -40,6 +42,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Contracts_Assets_Asset)
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Assets_Asset, getAssetKey);
 /**
  * Gets extra HTML attributes.
+ *
+ * @return assets_attributes|null
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Assets_Asset, getAttributes);
 /**
@@ -52,6 +56,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Assets_Asset, getFilter);
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Assets_Asset, getType);
 /**
  * Sets extra HTML attributes.
+ *
+ * @param assets_attributes $attributes
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Assets_Asset, setAttributes);
 /**

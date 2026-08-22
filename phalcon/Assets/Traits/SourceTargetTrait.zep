@@ -16,45 +16,21 @@ namespace Phalcon\Assets\Traits;
  */
 trait SourceTargetTrait
 {
-    /**
-     * @var bool
-     */
-    protected isLocal = true;
+    protected bool isLocal = true;
+    protected string sourcePath = "";
+    protected string targetPath = "";
+    protected string targetUri = "";
 
-    /**
-     * @var string
-     */
-    protected sourcePath = "";
-
-    /**
-     * @var string
-     */
-    protected targetPath = "";
-
-    /**
-     * @var string
-     */
-    protected targetUri = "";
-
-    /**
-     * @return string
-     */
     public function getSourcePath() -> string
     {
         return this->sourcePath;
     }
 
-    /**
-     * @return string
-     */
     public function getTargetPath() -> string
     {
         return this->targetPath;
     }
 
-    /**
-     * @return string
-     */
     public function getTargetUri() -> string
     {
         return this->targetUri;
@@ -62,8 +38,6 @@ trait SourceTargetTrait
 
     /**
      * Checks if the asset is local or not
-     *
-     * @return bool
      */
     public function isLocal() -> bool
     {
@@ -72,10 +46,6 @@ trait SourceTargetTrait
 
     /**
      * Sets if the asset is local or external
-     *
-     * @param bool $flag
-     *
-     * @return static
      */
     public function setIsLocal(bool flag) -> <static>
     {
@@ -86,10 +56,6 @@ trait SourceTargetTrait
 
     /**
      * Sets the asset's source path
-     *
-     * @param string $sourcePath
-     *
-     * @return static
      */
     public function setSourcePath(string sourcePath) -> <static>
     {
@@ -100,10 +66,6 @@ trait SourceTargetTrait
 
     /**
      * Sets the asset's target path
-     *
-     * @param string $targetPath
-     *
-     * @return static
      */
     public function setTargetPath(string targetPath) -> <static>
     {
@@ -114,10 +76,6 @@ trait SourceTargetTrait
 
     /**
      * Sets a target uri for the generated HTML
-     *
-     * @param string $targetUri
-     *
-     * @return static
      */
     public function setTargetUri(string targetUri) -> <static>
     {

@@ -37,7 +37,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Asset_Js)
 }
 
 /**
- * Phalcon\Assets\Asset\Js constructor
+ * Js constructor.
  */
 PHP_METHOD(Phalcon_Assets_Asset_Js, __construct)
 {

@@ -51,7 +51,6 @@ PHP_METHOD(Phalcon_Assets_Collection, setIsLocal);
 PHP_METHOD(Phalcon_Assets_Collection, setSourcePath);
 PHP_METHOD(Phalcon_Assets_Collection, setTargetPath);
 PHP_METHOD(Phalcon_Assets_Collection, setTargetUri);
-zend_object *zephir_init_properties_Phalcon_Assets_Collection(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_assets_collection_add, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_OBJ_INFO(0, asset, Phalcon\\Assets\\AssetInterface, 0)
@@ -268,9 +267,6 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_assets_collection_settargeturi, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, targetUri, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_collection_zephir_init_properties_phalcon_assets_collection, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_assets_collection_method_entry) {

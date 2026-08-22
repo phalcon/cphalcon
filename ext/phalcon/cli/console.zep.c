@@ -165,7 +165,7 @@ PHP_METHOD(Phalcon_Cli_Console, handle)
 	if (Z_TYPE_P(&_0) == IS_NULL) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_cli_console_exceptions_containerrequired_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 442);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 446);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Cli/Console.zep", 55);
 		ZEPHIR_MM_RESTORE();
@@ -230,7 +230,7 @@ PHP_METHOD(Phalcon_Cli_Console, handle)
 			object_init_ex(&_17$$12, phalcon_cli_console_exceptions_invalidmoduledefinition_ce);
 			ZEPHIR_INIT_VAR(&_18$$12);
 			ZVAL_STRING(&_18$$12, "The module definition must be an array or an object");
-			ZEPHIR_CALL_METHOD(NULL, &_17$$12, "__construct", NULL, 443, &moduleName, &_18$$12);
+			ZEPHIR_CALL_METHOD(NULL, &_17$$12, "__construct", NULL, 447, &moduleName, &_18$$12);
 			zephir_check_call_status();
 			zephir_throw_exception_debug(&_17$$12, "phalcon/Cli/Console.zep", 104);
 			ZEPHIR_MM_RESTORE();
@@ -249,7 +249,7 @@ PHP_METHOD(Phalcon_Cli_Console, handle)
 				if (UNEXPECTED(!zephir_is_true(&_19$$15))) {
 					ZEPHIR_INIT_VAR(&_20$$16);
 					object_init_ex(&_20$$16, phalcon_cli_console_exceptions_moduledefinitionpathnotfound_ce);
-					ZEPHIR_CALL_METHOD(NULL, &_20$$16, "__construct", NULL, 444, &path);
+					ZEPHIR_CALL_METHOD(NULL, &_20$$16, "__construct", NULL, 448, &path);
 					zephir_check_call_status();
 					zephir_throw_exception_debug(&_20$$16, "phalcon/Cli/Console.zep", 124);
 					ZEPHIR_MM_RESTORE();
@@ -277,7 +277,7 @@ PHP_METHOD(Phalcon_Cli_Console, handle)
 				object_init_ex(&_25$$19, phalcon_cli_console_exceptions_invalidmoduledefinition_ce);
 				ZEPHIR_INIT_VAR(&_26$$19);
 				ZVAL_STRING(&_26$$19, "The module definition object must be a Closure");
-				ZEPHIR_CALL_METHOD(NULL, &_25$$19, "__construct", NULL, 443, &moduleName, &_26$$19);
+				ZEPHIR_CALL_METHOD(NULL, &_25$$19, "__construct", NULL, 447, &moduleName, &_26$$19);
 				zephir_check_call_status();
 				zephir_throw_exception_debug(&_25$$19, "phalcon/Cli/Console.zep", 148);
 				ZEPHIR_MM_RESTORE();
