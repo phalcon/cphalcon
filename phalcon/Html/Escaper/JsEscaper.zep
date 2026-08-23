@@ -17,6 +17,9 @@ namespace Phalcon\Html\Escaper;
 /**
  * Escapes a string for use inside a JavaScript context by replacing
  * non-alphanumeric characters with their hexadecimal escape sequence.
+ *
+ * Security: the C escaper keeps a backslash. This class doubles it first, so
+ * a backslash cannot break out of the surrounding JavaScript string.
  */
 class JsEscaper extends AbstractEscaper
 {
