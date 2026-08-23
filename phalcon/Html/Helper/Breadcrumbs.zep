@@ -343,7 +343,7 @@ class Breadcrumbs extends AbstractHelper
                     "attributes" : this->processAttributes(element["attributes"]),
                     "icon"       : element["icon"],
                     "text"       : this->escaper->html(element["text"]),
-                    "link"       : link
+                    "link"       : this->escaper->attributes(link)
                 ]
             )
             .this->delimiter;
