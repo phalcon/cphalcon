@@ -252,4 +252,14 @@ final class CheckboxUnderscoreInvokeTest extends AbstractUnitTestCase
         $actual   = (string) $result;
         $this->assertSame($expected, $actual);
     }
+
+    public function testLabelTextIsEscaped(): void
+    {
+        $checkbox = new Checkbox(new Escaper());
+
+        $html = (string) $checkbox('agree', '1', [])
+            ->label(['text' => '<script>alert(1)</script>']);
+
+        $this->assertStringNotContainsString('<script>', $html);
+    }
 }

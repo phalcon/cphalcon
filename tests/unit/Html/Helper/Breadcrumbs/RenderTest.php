@@ -132,4 +132,16 @@ final class RenderTest extends AbstractUnitTestCase
         $actual   = $breadcrumbs->render();
         $this->assertSame($expected, $actual);
     }
+
+    public function testLinkCannotBreakOutOfHref(): void
+    {
+        $breadcrumbs = (new TagFactory(new Escaper()))->breadcrumbs();
+        $breadcrumbs->add('Home', '"><script>alert(1)</script>');
+        $breadcrumbs->add('Current');
+
+        $this->assertStringNotContainsString(
+            '<script>',
+            $breadcrumbs->render()
+        );
+    }
 }
