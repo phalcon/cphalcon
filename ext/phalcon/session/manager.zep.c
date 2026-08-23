@@ -376,13 +376,13 @@ PHP_METHOD(Phalcon_Session_Manager, getName)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1326, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1327, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "");
 	if (ZEPHIR_IS_IDENTICAL(&_1, &_0)) {
 		ZEPHIR_CALL_FUNCTION(&_2$$3, "session_name", NULL, 0);
 		zephir_check_call_status();
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1326, &_2$$3);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1327, &_2$$3);
 	}
 	RETURN_MM_MEMBER_TYPED(getThis(), "name", IS_STRING);
 }
@@ -554,7 +554,7 @@ PHP_METHOD(Phalcon_Session_Manager, setAdapter)
 		Z_PARAM_OBJECT_OF_CLASS(adapter, php_session_iface_entry)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &adapter);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1327, adapter);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1328, adapter);
 	RETURN_THISW();
 }
 
@@ -701,7 +701,7 @@ PHP_METHOD(Phalcon_Session_Manager, setName)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1326, &name_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1327, &name_zv);
 	ZEPHIR_CALL_FUNCTION(NULL, "session_name", NULL, 0, &name_zv);
 	zephir_check_call_status();
 	RETURN_THIS();
@@ -746,8 +746,8 @@ PHP_METHOD(Phalcon_Session_Manager, setOptions)
 	ZVAL_STRING(&_2, "");
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getarrval", NULL, 0, &options, &_1, &_2);
 	zephir_check_call_status();
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1328, &_0);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1329, &options);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1329, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1330, &options);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -808,7 +808,7 @@ PHP_METHOD(Phalcon_Session_Manager, start)
 		}
 	}
 	zephir_memory_observe(&_6);
-	zephir_read_property_cached(&_6, this_ptr, _zephir_prop_0, 1327, PH_NOISY_CC);
+	zephir_read_property_cached(&_6, this_ptr, _zephir_prop_0, 1328, PH_NOISY_CC);
 	if (UNEXPECTED(!(zephir_is_instance_of(&_6, SL("SessionHandlerInterface"))))) {
 		ZEPHIR_INIT_VAR(&_7$$7);
 		object_init_ex(&_7$$7, phalcon_session_exceptions_invalidsessionadapter_ce);
@@ -818,7 +818,7 @@ PHP_METHOD(Phalcon_Session_Manager, start)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	zephir_read_property_cached(&_8, this_ptr, _zephir_prop_0, 1327, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_8, this_ptr, _zephir_prop_0, 1328, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_FUNCTION(NULL, "session_set_save_handler", NULL, 0, &_8);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_FUNCTION("session_start", NULL, 0);
@@ -884,9 +884,9 @@ PHP_METHOD(Phalcon_Session_Manager, getUniqueKey)
 	zephir_memory_observe(&key_zv);
 	ZVAL_STR_COPY(&key_zv, key);
 	zephir_memory_observe(&_0);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1328, PH_NOISY_CC);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1329, PH_NOISY_CC);
 	if (1 != ZEPHIR_IS_EMPTY(&_0)) {
-		zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 1328, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 1329, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_INIT_VAR(&prefix);
 		ZEPHIR_CONCAT_VS(&prefix, &_1, "#");
 	} else {
@@ -952,7 +952,7 @@ PHP_METHOD(Phalcon_Session_Manager, getArrVal)
 	}
 	if (!(ZEPHIR_IS_EMPTY(&cast_zv))) {
 		ZEPHIR_MAKE_REF(&value);
-		ZEPHIR_CALL_FUNCTION(NULL, "settype", NULL, 16, &value, &cast_zv);
+		ZEPHIR_CALL_FUNCTION(NULL, "settype", NULL, 17, &value, &cast_zv);
 		ZEPHIR_UNREF(&value);
 		zephir_check_call_status();
 	}

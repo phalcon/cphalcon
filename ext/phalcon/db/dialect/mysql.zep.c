@@ -155,7 +155,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, addColumn)
 				}
 				_14$$9 = _13$$9;
 				if (!(_14$$9)) {
-					ZEPHIR_CALL_FUNCTION(&_15$$9, "is_float", NULL, 28, &defaultValue);
+					ZEPHIR_CALL_FUNCTION(&_15$$9, "is_float", NULL, 29, &defaultValue);
 					zephir_check_call_status();
 					_14$$9 = zephir_is_true(&_15$$9);
 				}
@@ -656,7 +656,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable)
 						}
 						_17$$14 = _16$$14;
 						if (!(_17$$14)) {
-							ZEPHIR_CALL_FUNCTION(&_18$$14, "is_float", &_19, 28, &defaultValue);
+							ZEPHIR_CALL_FUNCTION(&_18$$14, "is_float", &_19, 29, &defaultValue);
 							zephir_check_call_status();
 							_17$$14 = zephir_is_true(&_18$$14);
 						}
@@ -766,7 +766,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable)
 							}
 							_44$$27 = _43$$27;
 							if (!(_44$$27)) {
-								ZEPHIR_CALL_FUNCTION(&_45$$27, "is_float", &_19, 28, &defaultValue);
+								ZEPHIR_CALL_FUNCTION(&_45$$27, "is_float", &_19, 29, &defaultValue);
 								zephir_check_call_status();
 								_44$$27 = zephir_is_true(&_45$$27);
 							}
@@ -2179,7 +2179,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, modifyColumn)
 				}
 				_20$$12 = _19$$12;
 				if (!(_20$$12)) {
-					ZEPHIR_CALL_FUNCTION(&_21$$12, "is_float", NULL, 28, &defaultValue);
+					ZEPHIR_CALL_FUNCTION(&_21$$12, "is_float", NULL, 29, &defaultValue);
 					zephir_check_call_status();
 					_20$$12 = zephir_is_true(&_21$$12);
 				}

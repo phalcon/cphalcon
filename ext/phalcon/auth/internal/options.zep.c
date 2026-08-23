@@ -82,7 +82,7 @@ PHP_METHOD(Phalcon_Auth_Internal_Options, arrayOption)
 	if (!(Z_TYPE_P(&value) == IS_ARRAY)) {
 		RETURN_CTOR(&defaultValue);
 	}
-	ZEPHIR_RETURN_CALL_FUNCTION("array_values", NULL, 27, &value);
+	ZEPHIR_RETURN_CALL_FUNCTION("array_values", NULL, 28, &value);
 	zephir_check_call_status();
 	RETURN_MM();
 }

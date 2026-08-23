@@ -966,7 +966,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Redis, checkConnect)
 			object_init_ex(&_5$$8, phalcon_storage_exceptions_connectionfailed_ce);
 			ZEPHIR_CALL_METHOD(&_6$$8, &ex, "getmessage", NULL, 0);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(NULL, &_5$$8, "__construct", NULL, 8, &_6$$8);
+			ZEPHIR_CALL_METHOD(NULL, &_5$$8, "__construct", NULL, 9, &_6$$8);
 			zephir_check_call_status();
 			zephir_throw_exception_debug(&_5$$8, "phalcon/Storage/Adapter/Redis.zep", 444);
 			ZEPHIR_MM_RESTORE();
@@ -980,7 +980,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Redis, checkConnect)
 		ZVAL_STRING(&_8$$9, "Could not connect to the Redis server [%s:%s]");
 		ZEPHIR_CALL_FUNCTION(&_9$$9, "sprintf", NULL, 146, &_8$$9, &host, &port);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, &_7$$9, "__construct", NULL, 8, &_9$$9);
+		ZEPHIR_CALL_METHOD(NULL, &_7$$9, "__construct", NULL, 9, &_9$$9);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_7$$9, "phalcon/Storage/Adapter/Redis.zep", 454);
 		ZEPHIR_MM_RESTORE();

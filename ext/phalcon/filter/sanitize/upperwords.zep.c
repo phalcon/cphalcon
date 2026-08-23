@@ -99,7 +99,7 @@ PHP_METHOD(Phalcon_Filter_Sanitize_UpperWords, phpMbConvertCase)
 	ZVAL_LONG(&_0, mode);
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "UTF-8");
-	ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_case", NULL, 31, &input_zv, &_0, &_1);
+	ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_case", NULL, 32, &input_zv, &_0, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 }

@@ -114,10 +114,10 @@ PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamContext, __construct)
 	zephir_fast_trim(&_0, &storageDir_zv, &_1, ZEPHIR_TRIM_RIGHT);
 	ZEPHIR_INIT_VAR(&_2);
 	ZEPHIR_CONCAT_VS(&_2, &_0, "/");
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1284, &_2);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1285, &_2);
 	ZVAL_UNDEF(&_3);
 	ZVAL_LONG(&_3, pollInterval);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1285, &_3);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1286, &_3);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -152,7 +152,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamContext, createConsumer)
 	ZEPHIR_CALL_CE_STATIC(NULL, phalcon_queue_adapter_queuedestinationguard_ce, "assertqueue", NULL, 0, destination, &_0);
 	zephir_check_call_status();
 	object_init_ex(return_value, phalcon_queue_adapter_stream_streamconsumer_ce);
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 1285, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 1286, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, this_ptr, destination, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
@@ -239,7 +239,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamContext, createSubscriptionConsume
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	object_init_ex(return_value, phalcon_queue_adapter_stream_streamsubscriptionconsumer_ce);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1285, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1286, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, this_ptr, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
@@ -313,7 +313,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamContext, popMessage)
 	ZEPHIR_INIT_VAR(&_4);
 	ZEPHIR_GET_CONSTANT(&_4, "PHP_EOL");
 	zephir_fast_explode(&_1, &_4, &contents, LONG_MAX);
-	ZEPHIR_CALL_FUNCTION(&lines, "array_filter", NULL, 30, &_1);
+	ZEPHIR_CALL_FUNCTION(&lines, "array_filter", NULL, 31, &_1);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_EMPTY(&lines)) {
 		ZVAL_LONG(&_5$$6, 3);
@@ -324,7 +324,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamContext, popMessage)
 		RETURN_MM_NULL();
 	}
 	ZEPHIR_MAKE_REF(&lines);
-	ZEPHIR_CALL_FUNCTION(&line, "array_shift", NULL, 40, &lines);
+	ZEPHIR_CALL_FUNCTION(&line, "array_shift", NULL, 41, &lines);
 	ZEPHIR_UNREF(&lines);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&remaining);
@@ -463,11 +463,11 @@ PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamContext, ensureDir)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1284, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1285, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_FUNCTION(&_1, "is_dir", NULL, 301, &_0);
 	zephir_check_call_status();
 	if (!(zephir_is_true(&_1))) {
-		zephir_read_property_cached(&_2$$3, this_ptr, _zephir_prop_0, 1284, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_2$$3, this_ptr, _zephir_prop_0, 1285, PH_NOISY_CC | PH_READONLY);
 		ZVAL_LONG(&_3$$3, 0777);
 		ZEPHIR_CALL_FUNCTION(NULL, "mkdir", NULL, 302, &_2$$3, &_3$$3, &__$true);
 		zephir_check_call_status();
@@ -500,12 +500,12 @@ PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamContext, getFilepath)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&queueName_zv);
 	ZVAL_STR_COPY(&queueName_zv, queueName);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1284, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1285, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "/[^a-zA-Z0-9_-]/");
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "_");
-	ZEPHIR_CALL_FUNCTION(&_3, "preg_replace", NULL, 91, &_1, &_2, &queueName_zv);
+	ZEPHIR_CALL_FUNCTION(&_3, "preg_replace", NULL, 6, &_1, &_2, &queueName_zv);
 	zephir_check_call_status();
 	ZEPHIR_CONCAT_VVS(return_value, &_0, &_3, ".queue");
 	RETURN_MM();

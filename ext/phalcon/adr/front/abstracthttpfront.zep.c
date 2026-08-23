@@ -77,7 +77,7 @@ PHP_METHOD(Phalcon_ADR_Front_AbstractHttpFront, __construct)
 		Z_PARAM_STR(projectRoot)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&projectRoot_zv, projectRoot);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 247, &projectRoot_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 248, &projectRoot_zv);
 }
 
 /**
@@ -104,15 +104,15 @@ PHP_METHOD(Phalcon_ADR_Front_AbstractHttpFront, boot)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 248, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 249, PH_NOISY_CC | PH_READONLY);
 	if (Z_TYPE_P(&_0) == IS_NULL) {
 		ZEPHIR_CALL_METHOD(&_1$$3, this_ptr, "buildcontainer", NULL, 0);
 		zephir_check_call_status();
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 248, &_1$$3);
-		zephir_read_property_cached(&_2$$3, this_ptr, _zephir_prop_0, 248, PH_NOISY_CC | PH_READONLY);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 249, &_1$$3);
+		zephir_read_property_cached(&_2$$3, this_ptr, _zephir_prop_0, 249, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "loadenvironment", NULL, 0, &_2$$3);
 		zephir_check_call_status();
-		zephir_read_property_cached(&_3$$3, this_ptr, _zephir_prop_0, 248, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_3$$3, this_ptr, _zephir_prop_0, 249, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "registerproviders", NULL, 0, &_3$$3);
 		zephir_check_call_status();
 	}

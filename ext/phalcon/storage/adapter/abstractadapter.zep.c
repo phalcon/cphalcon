@@ -209,7 +209,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, __construct)
 	ZEPHIR_CALL_METHOD(&serializer, this_ptr, "getarrval", NULL, 0, &options, &_0, &_2);
 	zephir_check_call_status();
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 28, serializerFactory);
-	ZEPHIR_CALL_FUNCTION(&_3, "mb_strtolower", NULL, 15, &defaultSerializer);
+	ZEPHIR_CALL_FUNCTION(&_3, "mb_strtolower", NULL, 16, &defaultSerializer);
 	zephir_check_call_status();
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 29, &_3);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 30, &lifetime);
@@ -739,7 +739,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, setDefaultSerializer)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&serializer_zv);
 	ZVAL_STR_COPY(&serializer_zv, serializer);
-	ZEPHIR_CALL_FUNCTION(&_0, "mb_strtolower", NULL, 15, &serializer_zv);
+	ZEPHIR_CALL_FUNCTION(&_0, "mb_strtolower", NULL, 16, &serializer_zv);
 	zephir_check_call_status();
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 29, &_0);
 	ZEPHIR_MM_RESTORE();
@@ -1359,7 +1359,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, setEventsManager)
 	zephir_fetch_params(1, 1, 0, &eventsManager);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "container");
-	ZEPHIR_CALL_FUNCTION(&_1, "property_exists", NULL, 9, this_ptr, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "property_exists", NULL, 10, this_ptr, &_0);
 	zephir_check_call_status();
 	_2 = ZEPHIR_IS_TRUE_IDENTICAL(&_1);
 	if (_2) {
@@ -1500,7 +1500,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, getArrVal)
 	}
 	if (!(ZEPHIR_IS_EMPTY(&cast_zv))) {
 		ZEPHIR_MAKE_REF(&value);
-		ZEPHIR_CALL_FUNCTION(NULL, "settype", NULL, 16, &value, &cast_zv);
+		ZEPHIR_CALL_FUNCTION(NULL, "settype", NULL, 17, &value, &cast_zv);
 		ZEPHIR_UNREF(&value);
 		zephir_check_call_status();
 	}

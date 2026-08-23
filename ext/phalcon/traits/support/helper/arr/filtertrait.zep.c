@@ -76,7 +76,7 @@ PHP_METHOD(Phalcon_Traits_Support_Helper_Arr_FilterTrait, toFilter)
 	if (_0) {
 		RETURN_CTOR(&collection);
 	}
-	ZEPHIR_RETURN_CALL_FUNCTION("array_filter", NULL, 30, &collection, method);
+	ZEPHIR_RETURN_CALL_FUNCTION("array_filter", NULL, 31, &collection, method);
 	zephir_check_call_status();
 	RETURN_MM();
 }

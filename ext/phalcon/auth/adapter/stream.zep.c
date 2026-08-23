@@ -147,7 +147,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Stream, loadUsers)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 436, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 437, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&path, &_0, "getfile", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_1, this_ptr, "phpfileexists", NULL, 0, &path);
@@ -213,7 +213,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Stream, loadUsers)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_CALL_FUNCTION(&rows, "array_values", NULL, 27, &data);
+	ZEPHIR_CALL_FUNCTION(&rows, "array_values", NULL, 28, &data);
 	zephir_check_call_status();
 	RETURN_CCTOR(&rows);
 }

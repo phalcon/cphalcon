@@ -37,9 +37,6 @@
  * of attribute pairs. Boolean `true` becomes a bare key (e.g. `disabled`);
  * `false` and `null` skip the entry; arrays are joined with a space.
  *
- * Security: attribute names remove white space, "/" and "=", so a crafted
- * key cannot add extra attributes.
- *
  * @phpstan-import-type html_escaper_input from HtmlTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Html_Escaper_AttributeEscaper)
@@ -139,7 +136,7 @@ PHP_METHOD(Phalcon_Html_Escaper_AttributeEscaper, escape)
 	}
 	ZEPHIR_INIT_VAR(&result);
 	ZVAL_STRING(&result, "");
-	zephir_is_iterable(input, 0, "phalcon/Html/Escaper/AttributeEscaper.zep", 84);
+	zephir_is_iterable(input, 0, "phalcon/Html/Escaper/AttributeEscaper.zep", 81);
 	if (Z_TYPE_P(input) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(input), _2, _3, _1)
 		{
@@ -165,7 +162,7 @@ PHP_METHOD(Phalcon_Html_Escaper_AttributeEscaper, escape)
 			ZVAL_STRING(&_5$$5, "~[\\s/=]~");
 			ZEPHIR_INIT_NVAR(&_6$$5);
 			ZVAL_STRING(&_6$$5, "");
-			ZEPHIR_CALL_FUNCTION(&_7$$5, "preg_replace", &_8, 91, &_5$$5, &_6$$5, &key);
+			ZEPHIR_CALL_FUNCTION(&_7$$5, "preg_replace", &_8, 6, &_5$$5, &_6$$5, &key);
 			zephir_check_call_status();
 			ZEPHIR_CPY_WRT(&key, &_7$$5);
 			if (Z_TYPE_P(&value) == IS_ARRAY) {
@@ -221,7 +218,7 @@ PHP_METHOD(Phalcon_Html_Escaper_AttributeEscaper, escape)
 				ZVAL_STRING(&_17$$9, "~[\\s/=]~");
 				ZEPHIR_INIT_NVAR(&_18$$9);
 				ZVAL_STRING(&_18$$9, "");
-				ZEPHIR_CALL_FUNCTION(&_19$$9, "preg_replace", &_8, 91, &_17$$9, &_18$$9, &key);
+				ZEPHIR_CALL_FUNCTION(&_19$$9, "preg_replace", &_8, 6, &_17$$9, &_18$$9, &key);
 				zephir_check_call_status();
 				ZEPHIR_CPY_WRT(&key, &_19$$9);
 				if (Z_TYPE_P(&value) == IS_ARRAY) {
@@ -285,9 +282,9 @@ PHP_METHOD(Phalcon_Html_Escaper_AttributeEscaper, escapeValue)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&input_zv);
 	ZVAL_STR_COPY(&input_zv, input);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 808, PH_NOISY_CC | PH_READONLY);
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 809, PH_NOISY_CC | PH_READONLY);
-	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_2, 810, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 809, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 810, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_2, 811, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_RETURN_CALL_FUNCTION("htmlspecialchars", NULL, 0, &input_zv, &_0, &_1, &_2);
 	zephir_check_call_status();
 	RETURN_MM();
