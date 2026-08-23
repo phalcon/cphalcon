@@ -16,6 +16,9 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 
 - Backslash breakout in the Html Escaper `js()` output.
 - Attribute name splitting in the Html Escaper `attributes()` array keys.
+- Attribute name and tag name injection in the Html Tag helpers.
+- Unescaped label text in the Html checkbox and radio helpers.
+- Unescaped link in the Html breadcrumbs helper.
 
 ### Removed
 
