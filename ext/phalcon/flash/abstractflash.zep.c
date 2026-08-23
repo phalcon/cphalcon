@@ -911,10 +911,10 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, prepareEscapedMessage)
  */
 PHP_METHOD(Phalcon_Flash_AbstractFlash, prepareHtmlMessage)
 {
-	zval _5;
+	zval _8;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval type_zv, message_zv, cssClasses, cssIconClasses, _0, _1, _2, _3, _4;
+	zval type_zv, message_zv, cssClasses, cssIconClasses, _0, _1, _2, _3, _4, _5, _6, _7;
 	zend_string *type = NULL, *message = NULL;
 	zval *this_ptr = getThis();
 
@@ -928,6 +928,9 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, prepareHtmlMessage)
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_5);
+	ZVAL_UNDEF(&_6);
+	ZVAL_UNDEF(&_7);
+	ZVAL_UNDEF(&_8);
 	static zend_string *_zephir_prop_0 = NULL;
 	static zend_string *_zephir_prop_1 = NULL;
 	static zend_string *_zephir_prop_2 = NULL;
@@ -959,21 +962,31 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, prepareHtmlMessage)
 	if (!ZEPHIR_IS_TRUE_IDENTICAL(&_0)) {
 		RETURN_STR(zend_string_copy(message));
 	}
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 204, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&cssClasses, this_ptr, "checkclasses", NULL, 195, &_1, &type_zv);
+	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_1, 204, PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "checkclasses", NULL, 195, &_2, &type_zv);
 	zephir_check_call_status();
-	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_2, 209, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&cssIconClasses, this_ptr, "checkclasses", NULL, 195, &_2, &type_zv);
+	ZVAL_LONG(&_3, 3);
+	ZEPHIR_INIT_VAR(&_4);
+	ZVAL_STRING(&_4, "utf-8");
+	ZEPHIR_CALL_FUNCTION(&cssClasses, "htmlspecialchars", NULL, 196, &_1, &_3, &_4);
 	zephir_check_call_status();
-	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_3, 203, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&_4, this_ptr, "gettemplate", NULL, 196, &cssClasses, &cssIconClasses);
+	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_2, 209, PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_CALL_METHOD(&_5, this_ptr, "checkclasses", NULL, 195, &_3, &type_zv);
 	zephir_check_call_status();
-	ZEPHIR_INIT_VAR(&_5);
-	zephir_create_array(&_5, 3, 0);
-	zephir_array_update_string(&_5, SL("cssClass"), &cssClasses, PH_COPY | PH_SEPARATE);
-	zephir_array_update_string(&_5, SL("cssIconClass"), &cssIconClasses, PH_COPY | PH_SEPARATE);
-	zephir_array_update_string(&_5, SL("message"), &message_zv, PH_COPY | PH_SEPARATE);
-	ZEPHIR_RETURN_CALL_METHOD(&_3, "__invoke", NULL, 0, &_4, &_5);
+	ZVAL_LONG(&_6, 3);
+	ZEPHIR_INIT_NVAR(&_4);
+	ZVAL_STRING(&_4, "utf-8");
+	ZEPHIR_CALL_FUNCTION(&cssIconClasses, "htmlspecialchars", NULL, 196, &_5, &_6, &_4);
+	zephir_check_call_status();
+	zephir_read_property_cached(&_6, this_ptr, _zephir_prop_3, 203, PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_CALL_METHOD(&_7, this_ptr, "gettemplate", NULL, 197, &cssClasses, &cssIconClasses);
+	zephir_check_call_status();
+	ZEPHIR_INIT_VAR(&_8);
+	zephir_create_array(&_8, 3, 0);
+	zephir_array_update_string(&_8, SL("cssClass"), &cssClasses, PH_COPY | PH_SEPARATE);
+	zephir_array_update_string(&_8, SL("cssIconClass"), &cssIconClasses, PH_COPY | PH_SEPARATE);
+	zephir_array_update_string(&_8, SL("message"), &message_zv, PH_COPY | PH_SEPARATE);
+	ZEPHIR_RETURN_CALL_METHOD(&_6, "__invoke", NULL, 0, &_7, &_8);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -1013,7 +1026,7 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, checkClasses)
 	ZVAL_STRING(&content, "");
 	if (zephir_array_isset_value(&collection, &type_zv)) {
 		ZEPHIR_OBS_NVAR(&content);
-		zephir_array_fetch(&content, &collection, &type_zv, PH_NOISY, "phalcon/Flash/AbstractFlash.zep", 500);
+		zephir_array_fetch(&content, &collection, &type_zv, PH_NOISY, "phalcon/Flash/AbstractFlash.zep", 504);
 	}
 	if (1 != ZEPHIR_IS_EMPTY(&content)) {
 		if (Z_TYPE_P(&content) != IS_ARRAY) {

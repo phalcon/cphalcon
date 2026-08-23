@@ -110,9 +110,9 @@ PHP_METHOD(Phalcon_Auth_Adapter_Model, fromOptions)
 		ZEPHIR_INIT_NVAR(&_4);
 		ZVAL_STRING(&_4, "id");
 	}
-	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 395, &_1, &_4);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 396, &_1, &_4);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 396, hasher, &_0);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 397, hasher, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -150,9 +150,9 @@ PHP_METHOD(Phalcon_Auth_Adapter_Model, createRememberToken)
 	ZEPHIR_CALL_CE_STATIC(NULL, phalcon_auth_exceptions_doesnotimplement_ce, "assert", NULL, 0, user, &_0, &_1, &_2);
 	zephir_check_call_status();
 	ZVAL_LONG(&_3, 30);
-	ZEPHIR_CALL_FUNCTION(&_4, "random_bytes", NULL, 323, &_3);
+	ZEPHIR_CALL_FUNCTION(&_4, "random_bytes", NULL, 324, &_3);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_5, "bin2hex", NULL, 324, &_4);
+	ZEPHIR_CALL_FUNCTION(&_5, "bin2hex", NULL, 325, &_4);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(user, "createremembertoken", NULL, 0, &_5);
 	zephir_check_call_status();
@@ -257,7 +257,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Model, retrieveByCredentials)
 	zephir_fast_join_str(&_8, SL(" AND "), &conditions);
 	zephir_array_update_string(&_7, SL("conditions"), &_8, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&_7, SL("bind"), &bind, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CALL_METHOD(&found, this_ptr, "findfirstasauthuser", NULL, 397, &_7);
+	ZEPHIR_CALL_METHOD(&found, this_ptr, "findfirstasauthuser", NULL, 398, &_7);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&found) == IS_NULL) {
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "burnhash", NULL, 0);
@@ -306,7 +306,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Model, retrieveById)
 	zephir_create_array(&_4, 1, 0);
 	zephir_array_update_string(&_4, SL("id"), id, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&_0, SL("bind"), &_4, PH_COPY | PH_SEPARATE);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "findfirstasauthuser", NULL, 397, &_0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "findfirstasauthuser", NULL, 398, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }

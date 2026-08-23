@@ -184,7 +184,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Callback, validate)
 		if (zephir_is_instance_of(&callback, SL("Closure"))) {
 			ZEPHIR_INIT_VAR(&reflection);
 			object_init_ex(&reflection, zephir_get_internal_ce(SL("reflectionfunction")));
-			ZEPHIR_CALL_METHOD(NULL, &reflection, "__construct", NULL, 243, &callback);
+			ZEPHIR_CALL_METHOD(NULL, &reflection, "__construct", NULL, 244, &callback);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(&_1$$5, &reflection, "getnumberofparameters", NULL, 0);
 			zephir_check_call_status();

@@ -108,7 +108,7 @@ PHP_METHOD(Phalcon_ADR_Input_Input, fromArray)
 	zephir_fetch_params(1, 1, 0, &data_param);
 	zephir_get_arrval(&data, data_param);
 	object_init_ex(return_value, zend_get_called_scope(execute_data));
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 328, &data);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 329, &data);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -146,7 +146,7 @@ PHP_METHOD(Phalcon_ADR_Input_Input, fromRequest)
 	zephir_cast_to_string(&_1, &_0);
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "json");
-	ZEPHIR_CALL_FUNCTION(&_3, "str_contains", NULL, 329, &_1, &_2);
+	ZEPHIR_CALL_FUNCTION(&_3, "str_contains", NULL, 330, &_1, &_2);
 	zephir_check_call_status();
 	if (zephir_is_true(&_3)) {
 		ZVAL_BOOL(&_4$$3, 1);
@@ -165,9 +165,9 @@ PHP_METHOD(Phalcon_ADR_Input_Input, fromRequest)
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_8, &_7, "all", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_9, "array_merge", NULL, 197, &_5, &_6, &json, &_8);
+	ZEPHIR_CALL_FUNCTION(&_9, "array_merge", NULL, 198, &_5, &_6, &json, &_8);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 328, &_9);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 329, &_9);
 	zephir_check_call_status();
 	RETURN_MM();
 }
