@@ -1012,6 +1012,13 @@ class Tag
                     let escaped = value;
                 }
 
+                /**
+                 * The key is an attribute name. Remove the characters that end
+                 * a name so a crafted key cannot add more attributes or close
+                 * the tag.
+                 */
+                let key = preg_replace("~[\\s/=<>\"']~", "", key);
+
                 let attrParts[] = key . "=\"" . escaped . "\"";
             }
         }
