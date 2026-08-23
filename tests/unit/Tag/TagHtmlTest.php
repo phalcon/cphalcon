@@ -31,11 +31,27 @@ final class TagHtmlTest extends AbstractTagTestCase
         $this->assertSame('</aside>', Tag::tagHtmlClose('aside'));
     }
 
+    public function testTagHtmlCloseStripsTagNameInjection(): void
+    {
+        $this->assertSame(
+            '</xscript>',
+            Tag::tagHtmlClose('x"><script>')
+        );
+    }
+
     public function testTagHtmlCloseWithEol(): void
     {
         $this->assertSame(
             '</aside>' . PHP_EOL,
             Tag::tagHtmlClose('aside', true)
+        );
+    }
+
+    public function testTagHtmlStripsTagNameInjection(): void
+    {
+        $this->assertSame(
+            '<xscript></xscript>',
+            Tag::tagHtml('x"><script>')
         );
     }
 

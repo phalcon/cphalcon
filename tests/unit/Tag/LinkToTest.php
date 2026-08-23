@@ -25,6 +25,29 @@ use Phalcon\Tag;
  */
 final class LinkToTest extends AbstractTagTestCase
 {
+    public function testLinkToEscapesText(): void
+    {
+        $this->assertSame(
+            '<a href="https://phalcon.io/admin/users">'
+            . '&lt;script&gt;alert(1)&lt;/script&gt;</a>',
+            Tag::linkTo(['admin/users', '<script>alert(1)</script>'])
+        );
+    }
+
+    public function testLinkToEscapesTextThatClosesTheAnchor(): void
+    {
+        $this->assertSame(
+            '<a href="https://phalcon.io/admin/users">'
+            . '&lt;/a&gt;&lt;img src=x onerror=alert(1)&gt;</a>',
+            Tag::linkTo(
+                [
+                    'action' => 'admin/users',
+                    'text'   => '</a><img src=x onerror=alert(1)>',
+                ]
+            )
+        );
+    }
+
     public function testLinkToWithExtraAttributes(): void
     {
         $this->assertSame(
