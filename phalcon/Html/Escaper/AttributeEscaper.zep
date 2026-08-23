@@ -21,9 +21,6 @@ use Phalcon\Contracts\Html\HtmlTypes;
  * of attribute pairs. Boolean `true` becomes a bare key (e.g. `disabled`);
  * `false` and `null` skip the entry; arrays are joined with a space.
  *
- * Security: attribute names remove white space, "/" and "=", so a crafted
- * key cannot add extra attributes.
- *
  * @phpstan-import-type html_escaper_input from HtmlTypes
  */
 class AttributeEscaper extends AbstractEscaper

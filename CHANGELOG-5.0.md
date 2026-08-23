@@ -2,6 +2,24 @@
 
 All notable changes are documented here. The format is based on [Keep a Changelog][keep_a_changelog] and this project adheres to [Semantic Versioning][semantic_versioning].
 
+## [5.20.1](https://github.com/phalcon/cphalcon/releases/tag/v5.20.1) (2026-xx-xx)
+
+### Tools
+
+- Zephir 1.2.0 (32d04d5)
+
+### Changed
+
+### Added
+
+### Fixed
+
+- Backslash breakout in the Html Escaper `js()` output.
+- Attribute name splitting in the Html Escaper `attributes()` array keys.
+
+### Removed
+
+
 ## [5.20.0](https://github.com/phalcon/cphalcon/releases/tag/v5.20.0) (2026-08-22)
 
 ### Tools

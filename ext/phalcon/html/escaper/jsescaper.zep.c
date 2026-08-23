@@ -16,6 +16,7 @@
 #include "kernel/object.h"
 #include "kernel/memory.h"
 #include "kernel/operators.h"
+#include "kernel/string.h"
 #include "kernel/filter.h"
 
 
@@ -34,6 +35,9 @@
 /**
  * Escapes a string for use inside a JavaScript context by replacing
  * non-alphanumeric characters with their hexadecimal escape sequence.
+ *
+ * Security: the C escaper keeps a backslash. This class doubles it first, so
+ * a backslash cannot break out of the surrounding JavaScript string.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Html_Escaper_JsEscaper)
 {
@@ -77,13 +81,16 @@ PHP_METHOD(Phalcon_Html_Escaper_JsEscaper, escape)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval input_zv, result, _0;
+	zval input_zv, result, _0, _1, _2, _3;
 	zend_string *input = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&input_zv);
 	ZVAL_UNDEF(&result);
 	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_3);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(input)
 	ZEND_PARSE_PARAMETERS_END();
@@ -94,7 +101,13 @@ PHP_METHOD(Phalcon_Html_Escaper_JsEscaper, escape)
 	if (UNEXPECTED(ZEPHIR_IS_EMPTY(&input_zv))) {
 		RETURN_MM_STRING("");
 	}
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "normalizeencoding", NULL, 0, &input_zv);
+	ZEPHIR_INIT_VAR(&_1);
+	ZEPHIR_INIT_VAR(&_2);
+	ZVAL_STRING(&_2, "\\");
+	ZEPHIR_INIT_VAR(&_3);
+	ZVAL_STRING(&_3, "\\\\");
+	zephir_fast_str_replace(&_1, &_2, &_3, &input_zv);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "normalizeencoding", NULL, 0, &_1);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&result, this_ptr, "doescapejs", NULL, 0, &_0);
 	zephir_check_call_status();
