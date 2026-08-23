@@ -468,8 +468,12 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
             return message;
         }
 
-        let cssClasses     = this->checkClasses(this->cssClasses, type),
-            cssIconClasses = this->checkClasses(this->cssIconClasses, type);
+        /**
+         * The class lands in a `class="…"` attribute. Escape it so a crafted
+         * class cannot break out of the attribute.
+         */
+        let cssClasses     = htmlspecialchars(this->checkClasses(this->cssClasses, type), ENT_QUOTES, "utf-8"),
+            cssIconClasses = htmlspecialchars(this->checkClasses(this->cssIconClasses, type), ENT_QUOTES, "utf-8");
 
         return this->interpolator->__invoke(
             this->getTemplate(cssClasses, cssIconClasses),
