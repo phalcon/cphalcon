@@ -19,6 +19,9 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 - Attribute name and tag name injection in the Html Tag helpers.
 - Unescaped label text in the Html checkbox and radio helpers.
 - Unescaped link in the Html breadcrumbs helper.
+- Attribute name and empty-option injection in the legacy Tag / Forms Select element.
+- Reflected XSS via unescaped array keys in the Debug dump and exception renderer.
+- Unescaped CSS class in Flash messages.
 
 ### Removed
 
