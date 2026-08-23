@@ -56,6 +56,13 @@ class AttributeEscaper extends AbstractEscaper
 
             let key = trim(key);
 
+            /**
+             * The key is an attribute name. Remove the characters that end an
+             * attribute name (white space, "/", "=") so a crafted key cannot
+             * add more attributes.
+             */
+            let key = preg_replace("~[\\s/=]~", "", key);
+
             if (typeof value === "array") {
                 let value = implode(" ", value);
             }
