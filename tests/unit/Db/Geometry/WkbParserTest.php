@@ -28,13 +28,6 @@ final class WkbParserTest extends AbstractUnitTestCase
     private const D1 = "000000000000F03F"; // 1.0
     private const D2 = "0000000000000040"; // 2.0
 
-    public function testInvalidThrows(): void
-    {
-        $this->expectException(InvalidWkb::class);
-
-        (new WkbParser())->parse("zz"); // not hex, too short for MySQL prefix
-    }
-
     /**
      * A GeometryCollection nested past the depth cap must fail loudly instead
      * of exhausting the native C stack and crashing the worker (CWE-674).
@@ -50,6 +43,13 @@ final class WkbParserTest extends AbstractUnitTestCase
         $this->expectException(InvalidWkb::class);
 
         (new WkbParser())->parse($raw);
+    }
+
+    public function testInvalidThrows(): void
+    {
+        $this->expectException(InvalidWkb::class);
+
+        (new WkbParser())->parse("zz"); // not hex, too short for MySQL prefix
     }
 
     public function testMysqlGeometryCollection(): void

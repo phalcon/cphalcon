@@ -109,34 +109,6 @@ final class FormatTest extends AbstractUnitTestCase
     }
 
     /**
-     * A message or context value carrying CR/LF must not forge extra log
-     * lines (CWE-117); control characters are escaped, tab is preserved.
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-08-24
-     */
-    public function testLoggerFormatterLineFormatEscapesControlCharacters(): void
-    {
-        $timezone  = date_default_timezone_get();
-        $datetime  = new DateTimeImmutable('now', new DateTimeZone($timezone));
-        $formatter = new Line('%message%');
-        $item      = new Item(
-            "hello\r\nCRITICAL forged\tkeep",
-            'debug',
-            Enum::DEBUG,
-            $datetime
-        );
-
-        $actual = $formatter->format($item);
-
-        // No raw newline survives to start a forged line.
-        $this->assertStringNotContainsString("\n", $actual);
-        $this->assertStringNotContainsString("\r", $actual);
-        // The control bytes are escaped visibly; tab is kept.
-        $this->assertSame('hello\x0D\x0ACRITICAL forged' . "\t" . 'keep', $actual);
-    }
-
-    /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -171,5 +143,33 @@ final class FormatTest extends AbstractUnitTestCase
         $expected = 0;
         $actual   = (int)$parts[1];
         $this->assertGreaterThan($expected, $actual);
+    }
+
+    /**
+     * A message or context value carrying CR/LF must not forge extra log
+     * lines (CWE-117); control characters are escaped, tab is preserved.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-08-24
+     */
+    public function testLoggerFormatterLineFormatEscapesControlCharacters(): void
+    {
+        $timezone  = date_default_timezone_get();
+        $datetime  = new DateTimeImmutable('now', new DateTimeZone($timezone));
+        $formatter = new Line('%message%');
+        $item      = new Item(
+            "hello\r\nCRITICAL forged\tkeep",
+            'debug',
+            Enum::DEBUG,
+            $datetime
+        );
+
+        $actual = $formatter->format($item);
+
+        // No raw newline survives to start a forged line.
+        $this->assertStringNotContainsString("\n", $actual);
+        $this->assertStringNotContainsString("\r", $actual);
+        // The control bytes are escaped visibly; tab is kept.
+        $this->assertSame('hello\x0D\x0ACRITICAL forged' . "\t" . 'keep', $actual);
     }
 }

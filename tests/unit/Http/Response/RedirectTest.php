@@ -70,6 +70,43 @@ final class RedirectTest extends AbstractHttpBase
     }
 
     /**
+     * An absolute URL must not be honored without the externalRedirect flag
+     * (open redirect, CWE-601).
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     */
+    public function testHttpResponseRedirectRefusesAbsoluteWithoutExternalFlag(): void
+    {
+        $response = $this->getResponseObject();
+
+        $response->resetHeaders();
+        $response->redirect('http://evil.example.com/phish');
+
+        $location = (string) $response->getHeaders()->get(Http::LOCATION);
+
+        $this->assertStringNotContainsString('evil.example.com', $location);
+    }
+
+    /**
+     * A protocol-relative target must not be honored on a local redirect, or
+     * it becomes an open redirect (CWE-601).
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     */
+    public function testHttpResponseRedirectRefusesProtocolRelative(): void
+    {
+        $response = $this->getResponseObject();
+
+        $response->resetHeaders();
+        $response->redirect('//evil.example.com/phish');
+
+        $location = (string) $response->getHeaders()->get(Http::LOCATION);
+
+        $this->assertStringNotContainsString('evil.example.com', $location);
+        $this->assertStringStartsNotWith('//', $location);
+    }
+
+    /**
      * @issue  https://github.com/phalcon/cphalcon/issues/1182
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-08
@@ -122,42 +159,5 @@ final class RedirectTest extends AbstractHttpBase
 
         $actual = $headers->get(Http::HTTP_302_FOUND);
         $this->assertNull($actual);
-    }
-
-    /**
-     * A protocol-relative target must not be honored on a local redirect, or
-     * it becomes an open redirect (CWE-601).
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     */
-    public function testHttpResponseRedirectRefusesProtocolRelative(): void
-    {
-        $response = $this->getResponseObject();
-
-        $response->resetHeaders();
-        $response->redirect('//evil.example.com/phish');
-
-        $location = (string) $response->getHeaders()->get(Http::LOCATION);
-
-        $this->assertStringNotContainsString('evil.example.com', $location);
-        $this->assertStringStartsNotWith('//', $location);
-    }
-
-    /**
-     * An absolute URL must not be honored without the externalRedirect flag
-     * (open redirect, CWE-601).
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     */
-    public function testHttpResponseRedirectRefusesAbsoluteWithoutExternalFlag(): void
-    {
-        $response = $this->getResponseObject();
-
-        $response->resetHeaders();
-        $response->redirect('http://evil.example.com/phish');
-
-        $location = (string) $response->getHeaders()->get(Http::LOCATION);
-
-        $this->assertStringNotContainsString('evil.example.com', $location);
     }
 }

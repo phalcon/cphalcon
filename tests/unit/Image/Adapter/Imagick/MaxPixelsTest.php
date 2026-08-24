@@ -24,22 +24,6 @@ final class MaxPixelsTest extends AbstractUnitTestCase
     use ImagickTrait;
 
     /**
-     * An image whose header dimensions exceed the configured pixel limit is
-     * rejected before readImage() decodes the pixel buffer (CWE-409).
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-08-24
-     */
-    public function testImageAdapterImagickMaxPixelsRejectsOversizedImage(): void
-    {
-        $source = Talon::settings()->supportPath('assets/images/example-jpg.jpg');
-        $source = str_replace('/', DIRECTORY_SEPARATOR, $source);
-
-        $this->expectException(ImageTooLarge::class);
-        new Imagick($source, null, null, 100);
-    }
-
-    /**
      * A generous default still loads normal images.
      *
      * @author Phalcon Team <team@phalcon.io>
@@ -53,5 +37,21 @@ final class MaxPixelsTest extends AbstractUnitTestCase
         $image = new Imagick($source);
 
         $this->assertInstanceOf(Imagick::class, $image);
+    }
+
+    /**
+     * An image whose header dimensions exceed the configured pixel limit is
+     * rejected before readImage() decodes the pixel buffer (CWE-409).
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-08-24
+     */
+    public function testImageAdapterImagickMaxPixelsRejectsOversizedImage(): void
+    {
+        $source = Talon::settings()->supportPath('assets/images/example-jpg.jpg');
+        $source = str_replace('/', DIRECTORY_SEPARATOR, $source);
+
+        $this->expectException(ImageTooLarge::class);
+        new Imagick($source, null, null, 100);
     }
 }

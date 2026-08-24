@@ -13,10 +13,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Translate\Adapter\Csv;
 
-use Phalcon\Translate\Adapter\Csv;
-use Phalcon\Translate\InterpolatorFactory;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Talon\Talon;
+use Phalcon\Translate\Adapter\Csv;
+use Phalcon\Translate\InterpolatorFactory;
 
 final class MissingKeyFormatTest extends AbstractUnitTestCase
 {

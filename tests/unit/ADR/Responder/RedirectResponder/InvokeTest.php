@@ -23,17 +23,21 @@ use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 final class InvokeTest extends AbstractUnitTestCase
 {
     /**
-     * Unit Tests Phalcon\ADR\Responder\RedirectResponder :: __invoke()
+     * An explicit external redirect opts out of the gate.
      */
-    public function testAdrResponderRedirectResponderInvoke(): void
+    public function testAdrResponderRedirectResponderAllowsExplicitExternal(): void
     {
         $responder = new RedirectResponder();
-        $payload   = (new Payload())->withResult(new Redirect('/login', 303));
+        $payload   = (new Payload())->withResult(
+            new Redirect('https://payments.example.com', 303, true)
+        );
 
         $result = $responder(new Request(), new Response(), $payload);
 
-        $this->assertSame(303, $result->getStatusCode());
-        $this->assertSame('/login', $result->getHeaders()->get('Location'));
+        $this->assertSame(
+            'https://payments.example.com',
+            $result->getHeaders()->get('Location')
+        );
     }
 
     /**
@@ -51,22 +55,17 @@ final class InvokeTest extends AbstractUnitTestCase
             $this->assertSame('/', $result->getHeaders()->get('Location'));
         }
     }
-
     /**
-     * An explicit external redirect opts out of the gate.
+     * Unit Tests Phalcon\ADR\Responder\RedirectResponder :: __invoke()
      */
-    public function testAdrResponderRedirectResponderAllowsExplicitExternal(): void
+    public function testAdrResponderRedirectResponderInvoke(): void
     {
         $responder = new RedirectResponder();
-        $payload   = (new Payload())->withResult(
-            new Redirect('https://payments.example.com', 303, true)
-        );
+        $payload   = (new Payload())->withResult(new Redirect('/login', 303));
 
         $result = $responder(new Request(), new Response(), $payload);
 
-        $this->assertSame(
-            'https://payments.example.com',
-            $result->getHeaders()->get('Location')
-        );
+        $this->assertSame(303, $result->getStatusCode());
+        $this->assertSame('/login', $result->getHeaders()->get('Location'));
     }
 }

@@ -23,6 +23,21 @@ final class MaxPixelsTest extends AbstractUnitTestCase
     use GdTrait;
 
     /**
+     * A generous default still loads normal images.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-08-24
+     */
+    public function testImageAdapterGdMaxPixelsAllowsNormalImage(): void
+    {
+        $image = $this->getImages()['png'];
+
+        $gd = new Gd($image);
+
+        $this->assertInstanceOf(Gd::class, $gd);
+    }
+
+    /**
      * An image whose header dimensions exceed the configured pixel limit is
      * rejected before the pixel buffer is allocated (CWE-409).
      *
@@ -36,20 +51,5 @@ final class MaxPixelsTest extends AbstractUnitTestCase
         $this->expectException(ImageTooLarge::class);
         // The example image is 82x82 = 6724 pixels; cap at 100.
         new Gd($image, null, null, 100);
-    }
-
-    /**
-     * A generous default still loads normal images.
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-08-24
-     */
-    public function testImageAdapterGdMaxPixelsAllowsNormalImage(): void
-    {
-        $image = $this->getImages()['png'];
-
-        $gd = new Gd($image);
-
-        $this->assertInstanceOf(Gd::class, $gd);
     }
 }
