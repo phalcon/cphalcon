@@ -13,6 +13,7 @@ namespace Phalcon\Image\Adapter;
 use Phalcon\Contracts\Image\ImageTypes;
 use Phalcon\Image\Enum;
 use Phalcon\Image\Exception;
+use Phalcon\Image\Exceptions\ImageTooLarge;
 use Phalcon\Image\Exceptions\InvalidColor;
 use Phalcon\Image\Exceptions\MissingDimensions;
 use Phalcon\Image\Exceptions\MissingHeight;
@@ -28,6 +29,14 @@ use Phalcon\Image\Exceptions\MissingWidth;
  */
 abstract class AbstractAdapter implements AdapterInterface
 {
+    /**
+     * Default cap on the pixel count (width * height) of a loaded image, used
+     * when the constructor is not given an explicit limit. Bounds the memory a
+     * crafted image (decompression bomb / pixel flood) can force the backend to
+     * allocate (CWE-409). Generous by default; override per instance.
+     */
+    const DEFAULT_MAX_PIXELS = 50000000;
+
     protected string file;
     protected int height;
 
@@ -38,6 +47,12 @@ abstract class AbstractAdapter implements AdapterInterface
      * @var TImage|null
      */
     protected image = null;
+
+    /**
+     * Maximum allowed pixel count (width * height) for a loaded image. Zero
+     * disables the check.
+     */
+    protected int maxPixels = 0;
     protected string mime;
     protected string realpath;
 
@@ -420,6 +435,25 @@ abstract class AbstractAdapter implements AdapterInterface
         this->processWatermark(watermark, x, y, op);
 
         return this;
+    }
+
+    /**
+     * Rejects an image whose pixel count exceeds the configured limit before
+     * the backend allocates it, bounding decompression-bomb / pixel-flood
+     * memory use (CWE-409). A zero limit disables the check.
+     */
+    protected function assertPixelLimit(int width, int height) -> void
+    {
+        var pixels;
+
+        if this->maxPixels <= 0 {
+            return;
+        }
+
+        let pixels = width * height;
+        if pixels > this->maxPixels {
+            throw new ImageTooLarge(pixels, this->maxPixels);
+        }
     }
 
     protected function checkHighLow(int value, int min = 0, int max = 100) -> int

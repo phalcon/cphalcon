@@ -76,7 +76,7 @@ class Mysql extends Dialect
                     if memstr(upperDefaultValue, "CURRENT_TIMESTAMP") || memstr(upperDefaultValue, "NULL") || is_int(defaultValue) || is_float(defaultValue) {
                         let sql .= " DEFAULT " . defaultValue;
                     } else {
-                        let sql .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
+                        let sql .= " DEFAULT '" . this->escapeStringLiteral(defaultValue) . "'";
                     }
                 }
             }
@@ -242,7 +242,7 @@ class Mysql extends Dialect
                         if memstr(upperDefaultValue, "CURRENT_TIMESTAMP") || memstr(upperDefaultValue, "NULL") || is_int(defaultValue) || is_float(defaultValue) {
                             let columnLine .= " DEFAULT " . defaultValue;
                         } else {
-                            let columnLine .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
+                            let columnLine .= " DEFAULT '" . this->escapeStringLiteral(defaultValue) . "'";
                         }
                     }
                 }
@@ -796,12 +796,12 @@ class Mysql extends Dialect
                         let valueSql = "";
 
                         for value in typeValues {
-                            let valueSql .= "\"" . addcslashes(value, "\"") . "\", ";
+                            let valueSql .= "'" . this->escapeStringLiteral(value) . "', ";
                         }
 
                         let columnSql .= "(" . substr(valueSql, 0, -2) . ")";
                     } else {
-                        let columnSql .= "(\"" . addcslashes(typeValues, "\"") . "\")";
+                        let columnSql .= "('" . this->escapeStringLiteral(typeValues) . "')";
                     }
                 }
         }
@@ -894,7 +894,7 @@ class Mysql extends Dialect
                     if memstr(upperDefaultValue, "CURRENT_TIMESTAMP") || memstr(upperDefaultValue, "NULL") || is_int(defaultValue) || is_float(defaultValue) {
                         let sql .= " DEFAULT " . defaultValue;
                     }  else {
-                        let sql .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
+                        let sql .= " DEFAULT '" . this->escapeStringLiteral(defaultValue) . "'";
                     }
                 }
             }
