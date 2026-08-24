@@ -19,6 +19,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_db_geometry_wkbparser_readgeometry, 0, 1, Phalcon\\Db\\Geometry\\GeometryInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, outerSrid, IS_LONG, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, depth, IS_LONG, 0, "0")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_db_geometry_wkbparser_readpoint, 0, 4, Phalcon\\Db\\Geometry\\Point, 0)

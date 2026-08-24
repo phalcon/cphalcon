@@ -38,6 +38,13 @@
  *
  * $subscriber->save();
  *```
+ *
+ * WARNING: a RawValue is emitted into the SQL verbatim, with no quoting or
+ * escaping - including a RawValue passed as a query bind-parameter value, which
+ * is spliced into the compiled SQL string rather than bound. Never wrap
+ * request-derived or otherwise untrusted data in a RawValue; use ordinary bind
+ * parameters for those. RawValue is only for developer-authored SQL fragments
+ * (for example database functions such as now()).
  */
 ZEPHIR_INIT_CLASS(Phalcon_Db_RawValue)
 {

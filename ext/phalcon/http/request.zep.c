@@ -5687,22 +5687,24 @@ PHP_METHOD(Phalcon_Http_Request, getServerArray)
  */
 PHP_METHOD(Phalcon_Http_Request, isProxyTrusted)
 {
-	zend_bool _6;
+	zend_bool _7;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_4 = NULL;
+	zephir_fcall_cache_entry *_5 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval ip_zv, trusted, _0, *_1, _5, _2$$3, _3$$3, _7$$6, _8$$6;
+	zval ip_zv, trusted, _0, *_1, _6, _2$$3, _3$$3, _4$$4, _8$$8, _9$$8, _10$$9;
 	zend_string *ip = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&ip_zv);
 	ZVAL_UNDEF(&trusted);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_5);
+	ZVAL_UNDEF(&_6);
 	ZVAL_UNDEF(&_2$$3);
 	ZVAL_UNDEF(&_3$$3);
-	ZVAL_UNDEF(&_7$$6);
-	ZVAL_UNDEF(&_8$$6);
+	ZVAL_UNDEF(&_4$$4);
+	ZVAL_UNDEF(&_8$$8);
+	ZVAL_UNDEF(&_9$$8);
+	ZVAL_UNDEF(&_10$$9);
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("trustedProxies", 14, 1);
@@ -5716,7 +5718,7 @@ PHP_METHOD(Phalcon_Http_Request, isProxyTrusted)
 	zephir_memory_observe(&ip_zv);
 	ZVAL_STR_COPY(&ip_zv, ip);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 882, PH_NOISY_CC | PH_READONLY);
-	zephir_is_iterable(&_0, 0, "phalcon/Http/Request.zep", 2042);
+	zephir_is_iterable(&_0, 0, "phalcon/Http/Request.zep", 2046);
 	if (Z_TYPE_P(&_0) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_0), _1)
 		{
@@ -5727,41 +5729,49 @@ PHP_METHOD(Phalcon_Http_Request, isProxyTrusted)
 			ZEPHIR_INIT_NVAR(&_3$$3);
 			zephir_fast_strpos(&_3$$3, &trusted, &_2$$3, 0 );
 			if (!ZEPHIR_IS_FALSE_IDENTICAL(&_3$$3)) {
-				ZEPHIR_RETURN_CALL_METHOD(this_ptr, "isipaddressincidr", &_4, 0, &ip_zv, &trusted);
+				ZEPHIR_CALL_METHOD(&_4$$4, this_ptr, "isipaddressincidr", &_5, 0, &ip_zv, &trusted);
 				zephir_check_call_status();
-				RETURN_MM();
+				if (zephir_is_true(&_4$$4)) {
+					RETURN_MM_BOOL(1);
+				}
 			} else {
-				RETURN_MM_BOOL(ZEPHIR_IS_IDENTICAL(&ip_zv, &trusted));
+				if (ZEPHIR_IS_IDENTICAL(&ip_zv, &trusted)) {
+					RETURN_MM_BOOL(1);
+				}
 			}
 		} ZEND_HASH_FOREACH_END();
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, &_0, "rewind", NULL, 0);
 		zephir_check_call_status();
-		_6 = 1;
+		_7 = 1;
 		while (1) {
-			if (_6) {
-				_6 = 0;
+			if (_7) {
+				_7 = 0;
 			} else {
 				ZEPHIR_CALL_METHOD(NULL, &_0, "next", NULL, 0);
 				zephir_check_call_status();
 			}
-			ZEPHIR_CALL_METHOD(&_5, &_0, "valid", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_6, &_0, "valid", NULL, 0);
 			zephir_check_call_status();
-			if (!zend_is_true(&_5)) {
+			if (!zend_is_true(&_6)) {
 				break;
 			}
 			ZEPHIR_CALL_METHOD(&trusted, &_0, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_INIT_NVAR(&_7$$6);
-				ZVAL_STRING(&_7$$6, "/");
-				ZEPHIR_INIT_NVAR(&_8$$6);
-				zephir_fast_strpos(&_8$$6, &trusted, &_7$$6, 0 );
-				if (!ZEPHIR_IS_FALSE_IDENTICAL(&_8$$6)) {
-					ZEPHIR_RETURN_CALL_METHOD(this_ptr, "isipaddressincidr", &_4, 0, &ip_zv, &trusted);
+				ZEPHIR_INIT_NVAR(&_8$$8);
+				ZVAL_STRING(&_8$$8, "/");
+				ZEPHIR_INIT_NVAR(&_9$$8);
+				zephir_fast_strpos(&_9$$8, &trusted, &_8$$8, 0 );
+				if (!ZEPHIR_IS_FALSE_IDENTICAL(&_9$$8)) {
+					ZEPHIR_CALL_METHOD(&_10$$9, this_ptr, "isipaddressincidr", &_5, 0, &ip_zv, &trusted);
 					zephir_check_call_status();
-					RETURN_MM();
+					if (zephir_is_true(&_10$$9)) {
+						RETURN_MM_BOOL(1);
+					}
 				} else {
-					RETURN_MM_BOOL(ZEPHIR_IS_IDENTICAL(&ip_zv, &trusted));
+					if (ZEPHIR_IS_IDENTICAL(&ip_zv, &trusted)) {
+						RETURN_MM_BOOL(1);
+					}
 				}
 		}
 	}
@@ -5853,7 +5863,7 @@ PHP_METHOD(Phalcon_Http_Request, processFiles)
 		object_init_ex(&_1$$4, phalcon_http_request_file_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 0, &input, &key_zv);
 		zephir_check_call_status();
-		zephir_array_append(&files, &_1$$4, PH_SEPARATE, "phalcon/Http/Request.zep", 2078);
+		zephir_array_append(&files, &_1$$4, PH_SEPARATE, "phalcon/Http/Request.zep", 2082);
 	}
 	RETURN_CTOR(&files);
 }

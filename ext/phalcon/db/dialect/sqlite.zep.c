@@ -962,11 +962,14 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, createView)
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, describeColumns)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval table_zv, schema_zv;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval table_zv, schema_zv, _0;
 	zend_string *table = NULL, *schema = NULL;
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&table_zv);
 	ZVAL_UNDEF(&schema_zv);
+	ZVAL_UNDEF(&_0);
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(table)
@@ -983,7 +986,9 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, describeColumns)
 		zephir_memory_observe(&schema_zv);
 	ZVAL_STR_COPY(&schema_zv, schema);
 	}
-	ZEPHIR_CONCAT_SVS(return_value, "PRAGMA table_xinfo('", &table_zv, "')");
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "escapestringliteral", NULL, 0, &table_zv);
+	zephir_check_call_status();
+	ZEPHIR_CONCAT_SVS(return_value, "PRAGMA table_xinfo('", &_0, "')");
 	RETURN_MM();
 }
 
@@ -992,16 +997,25 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, describeColumns)
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, describeIndex)
 {
-	zval index_zv;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval index_zv, _0;
 	zend_string *index = NULL;
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&index_zv);
+	ZVAL_UNDEF(&_0);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(index)
 	ZEND_PARSE_PARAMETERS_END();
-	ZVAL_STR(&index_zv, index);
-	ZEPHIR_CONCAT_SVS(return_value, "PRAGMA index_info('", &index_zv, "')");
-	return;
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&index_zv);
+	ZVAL_STR_COPY(&index_zv, index);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "escapestringliteral", NULL, 0, &index_zv);
+	zephir_check_call_status();
+	ZEPHIR_CONCAT_SVS(return_value, "PRAGMA index_info('", &_0, "')");
+	RETURN_MM();
 }
 
 /**
@@ -1010,11 +1024,14 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, describeIndex)
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, describeIndexes)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval table_zv, schema_zv;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval table_zv, schema_zv, _0;
 	zend_string *table = NULL, *schema = NULL;
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&table_zv);
 	ZVAL_UNDEF(&schema_zv);
+	ZVAL_UNDEF(&_0);
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(table)
@@ -1031,7 +1048,9 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, describeIndexes)
 		zephir_memory_observe(&schema_zv);
 	ZVAL_STR_COPY(&schema_zv, schema);
 	}
-	ZEPHIR_CONCAT_SVS(return_value, "PRAGMA index_list('", &table_zv, "')");
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "escapestringliteral", NULL, 0, &table_zv);
+	zephir_check_call_status();
+	ZEPHIR_CONCAT_SVS(return_value, "PRAGMA index_list('", &_0, "')");
 	RETURN_MM();
 }
 
@@ -1041,11 +1060,14 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, describeIndexes)
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, describeReferences)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval table_zv, schema_zv;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval table_zv, schema_zv, _0;
 	zend_string *table = NULL, *schema = NULL;
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&table_zv);
 	ZVAL_UNDEF(&schema_zv);
+	ZVAL_UNDEF(&_0);
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(table)
@@ -1062,7 +1084,9 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, describeReferences)
 		zephir_memory_observe(&schema_zv);
 	ZVAL_STR_COPY(&schema_zv, schema);
 	}
-	ZEPHIR_CONCAT_SVS(return_value, "PRAGMA foreign_key_list('", &table_zv, "')");
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "escapestringliteral", NULL, 0, &table_zv);
+	zephir_check_call_status();
+	ZEPHIR_CONCAT_SVS(return_value, "PRAGMA foreign_key_list('", &_0, "')");
 	RETURN_MM();
 }
 
@@ -1907,11 +1931,14 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, sharedLock)
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, tableExists)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval tableName_zv, schemaName_zv;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval tableName_zv, schemaName_zv, _0;
 	zend_string *tableName = NULL, *schemaName = NULL;
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&tableName_zv);
 	ZVAL_UNDEF(&schemaName_zv);
+	ZVAL_UNDEF(&_0);
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(tableName)
@@ -1928,7 +1955,9 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, tableExists)
 		zephir_memory_observe(&schemaName_zv);
 	ZVAL_STR_COPY(&schemaName_zv, schemaName);
 	}
-	ZEPHIR_CONCAT_SVS(return_value, "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM sqlite_master WHERE type='table' AND tbl_name='", &tableName_zv, "'");
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "escapestringliteral", NULL, 0, &tableName_zv);
+	zephir_check_call_status();
+	ZEPHIR_CONCAT_SVS(return_value, "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM sqlite_master WHERE type='table' AND tbl_name='", &_0, "'");
 	RETURN_MM();
 }
 
@@ -2002,11 +2031,14 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, truncateTable)
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, viewExists)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval viewName_zv, schemaName_zv;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval viewName_zv, schemaName_zv, _0;
 	zend_string *viewName = NULL, *schemaName = NULL;
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&viewName_zv);
 	ZVAL_UNDEF(&schemaName_zv);
+	ZVAL_UNDEF(&_0);
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(viewName)
@@ -2023,7 +2055,9 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, viewExists)
 		zephir_memory_observe(&schemaName_zv);
 	ZVAL_STR_COPY(&schemaName_zv, schemaName);
 	}
-	ZEPHIR_CONCAT_SVS(return_value, "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM sqlite_master WHERE type='view' AND tbl_name='", &viewName_zv, "'");
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "escapestringliteral", NULL, 0, &viewName_zv);
+	zephir_check_call_status();
+	ZEPHIR_CONCAT_SVS(return_value, "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM sqlite_master WHERE type='view' AND tbl_name='", &_0, "'");
 	RETURN_MM();
 }
 

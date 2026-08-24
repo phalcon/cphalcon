@@ -20,10 +20,10 @@
 #include "kernel/concat.h"
 #include "kernel/array.h"
 #include "kernel/time.h"
+#include "kernel/file.h"
 #include "ext/spl/spl_iterators.h"
 #include "ext/spl/spl_directory.h"
 #include "kernel/string.h"
-#include "kernel/file.h"
 
 
 /**
@@ -748,13 +748,15 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, getFilepath)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval key_zv, _0, _1;
+	zval key_zv, _0, _1, _2, _3;
 	zend_string *key = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&key_zv);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_3);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(key)
 	ZEND_PARSE_PARAMETERS_END();
@@ -764,8 +766,12 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, getFilepath)
 	ZVAL_STR_COPY(&key_zv, key);
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getdir", NULL, 291, &key_zv);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getkeywithoutprefix", NULL, 0, &key_zv);
+	ZEPHIR_INIT_VAR(&_1);
+	ZEPHIR_CALL_METHOD(&_2, this_ptr, "getkeywithoutprefix", NULL, 0, &key_zv);
 	zephir_check_call_status();
+	ZEPHIR_INIT_VAR(&_3);
+	ZVAL_STRING(&_3, "_");
+	zephir_prepare_virtual_path(&_1, &_2, &_3);
 	ZEPHIR_CONCAT_VV(return_value, &_0, &_1);
 	RETURN_MM();
 }
@@ -810,10 +816,11 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, getIterator)
  */
 PHP_METHOD(Phalcon_Storage_Adapter_Stream, getPayload)
 {
-	zend_bool _4;
+	zend_bool _5;
+	zval _3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval filepath_zv, __$false, payload, pointer, _0, _1, _2, _3;
+	zval filepath_zv, __$false, payload, pointer, _0, _1, _2, _4;
 	zend_string *filepath = NULL;
 	zval *this_ptr = getThis();
 
@@ -824,6 +831,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, getPayload)
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_3);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(filepath)
@@ -862,16 +870,19 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, getPayload)
 	ZVAL_LONG(&_1, 8);
 	ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 300, &_0, &_1);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_3, "unserialize", NULL, 27, &payload);
+	ZEPHIR_INIT_VAR(&_3);
+	zephir_create_array(&_3, 1, 0);
+	zephir_array_update_string(&_3, SL("allowed_classes"), &__$false, PH_COPY | PH_SEPARATE);
+	ZEPHIR_CALL_FUNCTION(&_4, "unserialize", NULL, 27, &payload, &_3);
 	zephir_check_call_status();
-	ZEPHIR_CPY_WRT(&payload, &_3);
+	ZEPHIR_CPY_WRT(&payload, &_4);
 	ZEPHIR_CALL_FUNCTION(NULL, "restore_error_handler", NULL, 301);
 	zephir_check_call_status();
-	_4 = ZEPHIR_GLOBAL(warning).enable;
-	if (!(_4)) {
-		_4 = Z_TYPE_P(&payload) != IS_ARRAY;
+	_5 = ZEPHIR_GLOBAL(warning).enable;
+	if (!(_5)) {
+		_5 = Z_TYPE_P(&payload) != IS_ARRAY;
 	}
-	if (UNEXPECTED(_4)) {
+	if (UNEXPECTED(_5)) {
 		array_init(return_value);
 		RETURN_MM();
 	}

@@ -210,12 +210,14 @@ PHP_METHOD(Phalcon_Html_Breadcrumbs, remove)
  */
 PHP_METHOD(Phalcon_Html_Breadcrumbs, render)
 {
-	zval _5$$4, _7$$4, _11$$5, _13$$5, _16$$7, _18$$7;
-	zend_bool _9;
+	zval _8$$4, _11$$4, _18$$5, _20$$5, _21$$6, _28$$7, _30$$7;
+	zval _5$$4, _7$$4, _15$$5, _17$$5, _25$$7, _27$$7;
+	zend_bool _13;
 	zend_string *_3;
 	zend_ulong _2;
-	zval element, elements, lastLabel, lastUrl, output, template, url, urls, _0, *_1, _8, _19, _20, _4$$4, _6$$4, _10$$5, _12$$5, _14$$6, _15$$7, _17$$7;
+	zval element, elements, lastLabel, lastUrl, output, template, url, urls, _0, *_1, _12, _31, _32, _4$$4, _6$$4, _9$$4, _14$$5, _16$$5, _19$$5, _22$$6, _23$$6, _24$$7, _26$$7, _29$$7;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zephir_fcall_cache_entry *_10 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -228,22 +230,33 @@ PHP_METHOD(Phalcon_Html_Breadcrumbs, render)
 	ZVAL_UNDEF(&url);
 	ZVAL_UNDEF(&urls);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_8);
-	ZVAL_UNDEF(&_19);
-	ZVAL_UNDEF(&_20);
+	ZVAL_UNDEF(&_12);
+	ZVAL_UNDEF(&_31);
+	ZVAL_UNDEF(&_32);
 	ZVAL_UNDEF(&_4$$4);
 	ZVAL_UNDEF(&_6$$4);
-	ZVAL_UNDEF(&_10$$5);
-	ZVAL_UNDEF(&_12$$5);
-	ZVAL_UNDEF(&_14$$6);
-	ZVAL_UNDEF(&_15$$7);
-	ZVAL_UNDEF(&_17$$7);
+	ZVAL_UNDEF(&_9$$4);
+	ZVAL_UNDEF(&_14$$5);
+	ZVAL_UNDEF(&_16$$5);
+	ZVAL_UNDEF(&_19$$5);
+	ZVAL_UNDEF(&_22$$6);
+	ZVAL_UNDEF(&_23$$6);
+	ZVAL_UNDEF(&_24$$7);
+	ZVAL_UNDEF(&_26$$7);
+	ZVAL_UNDEF(&_29$$7);
 	ZVAL_UNDEF(&_5$$4);
 	ZVAL_UNDEF(&_7$$4);
-	ZVAL_UNDEF(&_11$$5);
-	ZVAL_UNDEF(&_13$$5);
-	ZVAL_UNDEF(&_16$$7);
-	ZVAL_UNDEF(&_18$$7);
+	ZVAL_UNDEF(&_15$$5);
+	ZVAL_UNDEF(&_17$$5);
+	ZVAL_UNDEF(&_25$$7);
+	ZVAL_UNDEF(&_27$$7);
+	ZVAL_UNDEF(&_8$$4);
+	ZVAL_UNDEF(&_11$$4);
+	ZVAL_UNDEF(&_18$$5);
+	ZVAL_UNDEF(&_20$$5);
+	ZVAL_UNDEF(&_21$$6);
+	ZVAL_UNDEF(&_28$$7);
+	ZVAL_UNDEF(&_30$$7);
 	static zend_string *_zephir_prop_0 = NULL;
 	static zend_string *_zephir_prop_1 = NULL;
 	static zend_string *_zephir_prop_2 = NULL;
@@ -300,77 +313,98 @@ PHP_METHOD(Phalcon_Html_Breadcrumbs, render)
 			zephir_array_fast_append(&_5$$4, &_6$$4);
 			ZEPHIR_INIT_NVAR(&_7$$4);
 			zephir_create_array(&_7$$4, 2, 0);
-			zephir_array_fast_append(&_7$$4, &element);
-			zephir_array_fast_append(&_7$$4, &url);
+			zephir_cast_to_string(&_8$$4, &element);
+			ZEPHIR_CALL_FUNCTION(&_9$$4, "htmlspecialchars", &_10, 196, &_8$$4);
+			zephir_check_call_status();
+			zephir_array_fast_append(&_7$$4, &_9$$4);
+			zephir_cast_to_string(&_11$$4, &url);
+			ZEPHIR_CALL_FUNCTION(&_9$$4, "htmlspecialchars", &_10, 196, &_11$$4);
+			zephir_check_call_status();
+			zephir_array_fast_append(&_7$$4, &_9$$4);
 			zephir_fast_str_replace(&_4$$4, &_5$$4, &_7$$4, &template);
 			zephir_array_append(&output, &_4$$4, PH_SEPARATE, "phalcon/Html/Breadcrumbs.zep", 151);
 		} ZEND_HASH_FOREACH_END();
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, &elements, "rewind", NULL, 0);
 		zephir_check_call_status();
-		_9 = 1;
+		_13 = 1;
 		while (1) {
-			if (_9) {
-				_9 = 0;
+			if (_13) {
+				_13 = 0;
 			} else {
 				ZEPHIR_CALL_METHOD(NULL, &elements, "next", NULL, 0);
 				zephir_check_call_status();
 			}
-			ZEPHIR_CALL_METHOD(&_8, &elements, "valid", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_12, &elements, "valid", NULL, 0);
 			zephir_check_call_status();
-			if (!zend_is_true(&_8)) {
+			if (!zend_is_true(&_12)) {
 				break;
 			}
 			ZEPHIR_CALL_METHOD(&url, &elements, "key", NULL, 0);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(&element, &elements, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_INIT_NVAR(&_10$$5);
-				ZEPHIR_INIT_NVAR(&_11$$5);
-				zephir_create_array(&_11$$5, 2, 0);
-				ZEPHIR_INIT_NVAR(&_12$$5);
-				ZVAL_STRING(&_12$$5, "%label%");
-				zephir_array_fast_append(&_11$$5, &_12$$5);
-				ZEPHIR_INIT_NVAR(&_12$$5);
-				ZVAL_STRING(&_12$$5, "%link%");
-				zephir_array_fast_append(&_11$$5, &_12$$5);
-				ZEPHIR_INIT_NVAR(&_13$$5);
-				zephir_create_array(&_13$$5, 2, 0);
-				zephir_array_fast_append(&_13$$5, &element);
-				zephir_array_fast_append(&_13$$5, &url);
-				zephir_fast_str_replace(&_10$$5, &_11$$5, &_13$$5, &template);
-				zephir_array_append(&output, &_10$$5, PH_SEPARATE, "phalcon/Html/Breadcrumbs.zep", 151);
+				ZEPHIR_INIT_NVAR(&_14$$5);
+				ZEPHIR_INIT_NVAR(&_15$$5);
+				zephir_create_array(&_15$$5, 2, 0);
+				ZEPHIR_INIT_NVAR(&_16$$5);
+				ZVAL_STRING(&_16$$5, "%label%");
+				zephir_array_fast_append(&_15$$5, &_16$$5);
+				ZEPHIR_INIT_NVAR(&_16$$5);
+				ZVAL_STRING(&_16$$5, "%link%");
+				zephir_array_fast_append(&_15$$5, &_16$$5);
+				ZEPHIR_INIT_NVAR(&_17$$5);
+				zephir_create_array(&_17$$5, 2, 0);
+				zephir_cast_to_string(&_18$$5, &element);
+				ZEPHIR_CALL_FUNCTION(&_19$$5, "htmlspecialchars", &_10, 196, &_18$$5);
+				zephir_check_call_status();
+				zephir_array_fast_append(&_17$$5, &_19$$5);
+				zephir_cast_to_string(&_20$$5, &url);
+				ZEPHIR_CALL_FUNCTION(&_19$$5, "htmlspecialchars", &_10, 196, &_20$$5);
+				zephir_check_call_status();
+				zephir_array_fast_append(&_17$$5, &_19$$5);
+				zephir_fast_str_replace(&_14$$5, &_15$$5, &_17$$5, &template);
+				zephir_array_append(&output, &_14$$5, PH_SEPARATE, "phalcon/Html/Breadcrumbs.zep", 151);
 		}
 	}
 	ZEPHIR_INIT_NVAR(&element);
 	ZEPHIR_INIT_NVAR(&url);
 	if (!(ZEPHIR_IS_EMPTY(&elements))) {
-		ZEPHIR_INIT_VAR(&_14$$6);
-		ZEPHIR_CONCAT_SVS(&_14$$6, "<dt>", &lastLabel, "</dt>");
-		zephir_array_append(&output, &_14$$6, PH_SEPARATE, "phalcon/Html/Breadcrumbs.zep", 158);
+		zephir_cast_to_string(&_21$$6, &lastLabel);
+		ZEPHIR_CALL_FUNCTION(&_22$$6, "htmlspecialchars", &_10, 196, &_21$$6);
+		zephir_check_call_status();
+		ZEPHIR_INIT_VAR(&_23$$6);
+		ZEPHIR_CONCAT_SVS(&_23$$6, "<dt>", &_22$$6, "</dt>");
+		zephir_array_append(&output, &_23$$6, PH_SEPARATE, "phalcon/Html/Breadcrumbs.zep", 158);
 	} else {
-		ZEPHIR_INIT_VAR(&_15$$7);
-		ZEPHIR_INIT_VAR(&_16$$7);
-		zephir_create_array(&_16$$7, 2, 0);
-		ZEPHIR_INIT_VAR(&_17$$7);
-		ZVAL_STRING(&_17$$7, "%label%");
-		zephir_array_fast_append(&_16$$7, &_17$$7);
-		ZEPHIR_INIT_NVAR(&_17$$7);
-		ZVAL_STRING(&_17$$7, "%link%");
-		zephir_array_fast_append(&_16$$7, &_17$$7);
-		ZEPHIR_INIT_VAR(&_18$$7);
-		zephir_create_array(&_18$$7, 2, 0);
-		zephir_array_fast_append(&_18$$7, &lastLabel);
-		zephir_array_fast_append(&_18$$7, &lastUrl);
-		zephir_fast_str_replace(&_15$$7, &_16$$7, &_18$$7, &template);
-		zephir_array_append(&output, &_15$$7, PH_SEPARATE, "phalcon/Html/Breadcrumbs.zep", 170);
+		ZEPHIR_INIT_VAR(&_24$$7);
+		ZEPHIR_INIT_VAR(&_25$$7);
+		zephir_create_array(&_25$$7, 2, 0);
+		ZEPHIR_INIT_VAR(&_26$$7);
+		ZVAL_STRING(&_26$$7, "%label%");
+		zephir_array_fast_append(&_25$$7, &_26$$7);
+		ZEPHIR_INIT_NVAR(&_26$$7);
+		ZVAL_STRING(&_26$$7, "%link%");
+		zephir_array_fast_append(&_25$$7, &_26$$7);
+		ZEPHIR_INIT_VAR(&_27$$7);
+		zephir_create_array(&_27$$7, 2, 0);
+		zephir_cast_to_string(&_28$$7, &lastLabel);
+		ZEPHIR_CALL_FUNCTION(&_29$$7, "htmlspecialchars", &_10, 196, &_28$$7);
+		zephir_check_call_status();
+		zephir_array_fast_append(&_27$$7, &_29$$7);
+		zephir_cast_to_string(&_30$$7, &lastUrl);
+		ZEPHIR_CALL_FUNCTION(&_29$$7, "htmlspecialchars", &_10, 196, &_30$$7);
+		zephir_check_call_status();
+		zephir_array_fast_append(&_27$$7, &_29$$7);
+		zephir_fast_str_replace(&_24$$7, &_25$$7, &_27$$7, &template);
+		zephir_array_append(&output, &_24$$7, PH_SEPARATE, "phalcon/Html/Breadcrumbs.zep", 170);
 	}
-	ZEPHIR_INIT_VAR(&_19);
+	ZEPHIR_INIT_VAR(&_31);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_2, 803, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_INIT_VAR(&_20);
-	ZEPHIR_CONCAT_SVS(&_20, "<dt>", &_0, "</dt>");
-	zephir_fast_join(&_19, &_20, &output);
-	ZEPHIR_CONCAT_SVS(return_value, "<dl>", &_19, "</dl>");
+	ZEPHIR_INIT_VAR(&_32);
+	ZEPHIR_CONCAT_SVS(&_32, "<dt>", &_0, "</dt>");
+	zephir_fast_join(&_31, &_32, &output);
+	ZEPHIR_CONCAT_SVS(return_value, "<dl>", &_31, "</dl>");
 	RETURN_MM();
 }
 

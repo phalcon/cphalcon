@@ -1117,11 +1117,17 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, describeColumns)
 {
 	zval sql, schemaClause;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval table_zv, schema_zv;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval table_zv, schema_zv, _2, _3, _0$$3, _1$$3;
 	zend_string *table = NULL, *schema = NULL;
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&table_zv);
 	ZVAL_UNDEF(&schema_zv);
+	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_0$$3);
+	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&sql);
 	ZVAL_UNDEF(&schemaClause);
 	bool is_null_true = 1;
@@ -1141,14 +1147,20 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, describeColumns)
 	ZVAL_STR_COPY(&schema_zv, schema);
 	}
 	if (!(ZEPHIR_IS_EMPTY(&schema_zv))) {
-		ZEPHIR_INIT_VAR(&schemaClause);
-		ZEPHIR_CONCAT_SVS(&schemaClause, "'", &schema_zv, "'");
+		ZEPHIR_CALL_METHOD(&_0$$3, this_ptr, "escapestringliteral", NULL, 0, &schema_zv);
+		zephir_check_call_status();
+		ZEPHIR_INIT_VAR(&_1$$3);
+		ZEPHIR_CONCAT_SVS(&_1$$3, "'", &_0$$3, "'");
+		zephir_get_strval(&schemaClause, &_1$$3);
 	} else {
-		ZEPHIR_INIT_NVAR(&schemaClause);
+		ZEPHIR_INIT_VAR(&schemaClause);
 		ZVAL_STRING(&schemaClause, "DATABASE()");
 	}
-	ZEPHIR_INIT_VAR(&sql);
-	ZEPHIR_CONCAT_SSSSSSSSVSSVSS(&sql, "SELECT COLUMN_NAME AS `Field`, COLUMN_TYPE AS `Type`, ", "COLLATION_NAME AS `Collation`, IS_NULLABLE AS `Null`, ", "COLUMN_KEY AS `Key`, COLUMN_DEFAULT AS `Default`, ", "EXTRA AS `Extra`, PRIVILEGES AS `Privileges`, ", "COLUMN_COMMENT AS `Comment`, ", "GENERATION_EXPRESSION AS `GenerationExpression` ", "FROM `INFORMATION_SCHEMA`.`COLUMNS` ", "WHERE `TABLE_SCHEMA` = ", &schemaClause, " ", "AND `TABLE_NAME` = '", &table_zv, "' ", "ORDER BY `ORDINAL_POSITION`");
+	ZEPHIR_CALL_METHOD(&_2, this_ptr, "escapestringliteral", NULL, 0, &table_zv);
+	zephir_check_call_status();
+	ZEPHIR_INIT_VAR(&_3);
+	ZEPHIR_CONCAT_SSSSSSSSVSSVSS(&_3, "SELECT COLUMN_NAME AS `Field`, COLUMN_TYPE AS `Type`, ", "COLLATION_NAME AS `Collation`, IS_NULLABLE AS `Null`, ", "COLUMN_KEY AS `Key`, COLUMN_DEFAULT AS `Default`, ", "EXTRA AS `Extra`, PRIVILEGES AS `Privileges`, ", "COLUMN_COMMENT AS `Comment`, ", "GENERATION_EXPRESSION AS `GenerationExpression` ", "FROM `INFORMATION_SCHEMA`.`COLUMNS` ", "WHERE `TABLE_SCHEMA` = ", &schemaClause, " ", "AND `TABLE_NAME` = '", &_2, "' ", "ORDER BY `ORDINAL_POSITION`");
+	zephir_get_strval(&sql, &_3);
 	RETURN_CTOR(&sql);
 }
 
@@ -1193,16 +1205,21 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, describeIndexes)
  */
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, describeReferences)
 {
-	zval sql, _0$$3, _1$$4;
+	zval sql;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval table_zv, schema_zv;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval table_zv, schema_zv, _0$$3, _1$$3, _2$$3, _3$$4, _4$$4;
 	zend_string *table = NULL, *schema = NULL;
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&table_zv);
 	ZVAL_UNDEF(&schema_zv);
-	ZVAL_UNDEF(&sql);
 	ZVAL_UNDEF(&_0$$3);
-	ZVAL_UNDEF(&_1$$4);
+	ZVAL_UNDEF(&_1$$3);
+	ZVAL_UNDEF(&_2$$3);
+	ZVAL_UNDEF(&_3$$4);
+	ZVAL_UNDEF(&_4$$4);
+	ZVAL_UNDEF(&sql);
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(table)
@@ -1222,13 +1239,19 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, describeReferences)
 	ZEPHIR_INIT_VAR(&sql);
 	ZVAL_STRING(&sql, "SELECT DISTINCT KCU.TABLE_NAME, KCU.COLUMN_NAME, KCU.CONSTRAINT_NAME, KCU.REFERENCED_TABLE_SCHEMA, KCU.REFERENCED_TABLE_NAME, KCU.REFERENCED_COLUMN_NAME, RC.UPDATE_RULE, RC.DELETE_RULE FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE AS KCU LEFT JOIN INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS AS RC ON RC.CONSTRAINT_NAME = KCU.CONSTRAINT_NAME AND RC.CONSTRAINT_SCHEMA = KCU.CONSTRAINT_SCHEMA WHERE KCU.REFERENCED_TABLE_NAME IS NOT NULL AND ");
 	if (!(ZEPHIR_IS_EMPTY(&schema_zv))) {
-		ZEPHIR_INIT_VAR(&_0$$3);
-		ZEPHIR_CONCAT_SVSVS(&_0$$3, "KCU.CONSTRAINT_SCHEMA = '", &schema_zv, "' AND KCU.TABLE_NAME = '", &table_zv, "'");
-		zephir_concat_self(&sql, &_0$$3);
+		ZEPHIR_CALL_METHOD(&_0$$3, this_ptr, "escapestringliteral", NULL, 0, &schema_zv);
+		zephir_check_call_status();
+		ZEPHIR_CALL_METHOD(&_1$$3, this_ptr, "escapestringliteral", NULL, 0, &table_zv);
+		zephir_check_call_status();
+		ZEPHIR_INIT_VAR(&_2$$3);
+		ZEPHIR_CONCAT_SVSVS(&_2$$3, "KCU.CONSTRAINT_SCHEMA = '", &_0$$3, "' AND KCU.TABLE_NAME = '", &_1$$3, "'");
+		zephir_concat_self(&sql, &_2$$3);
 	} else {
-		ZEPHIR_INIT_VAR(&_1$$4);
-		ZEPHIR_CONCAT_SVS(&_1$$4, "KCU.CONSTRAINT_SCHEMA = DATABASE() AND KCU.TABLE_NAME = '", &table_zv, "'");
-		zephir_concat_self(&sql, &_1$$4);
+		ZEPHIR_CALL_METHOD(&_3$$4, this_ptr, "escapestringliteral", NULL, 0, &table_zv);
+		zephir_check_call_status();
+		ZEPHIR_INIT_VAR(&_4$$4);
+		ZEPHIR_CONCAT_SVS(&_4$$4, "KCU.CONSTRAINT_SCHEMA = DATABASE() AND KCU.TABLE_NAME = '", &_3$$4, "'");
+		zephir_concat_self(&sql, &_4$$4);
 	}
 	RETURN_CTOR(&sql);
 }
@@ -1974,10 +1997,13 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, getForeignKeyChecks)
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, listTables)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval schemaName_zv;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval schemaName_zv, _0$$3;
 	zend_string *schemaName = NULL;
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&schemaName_zv);
+	ZVAL_UNDEF(&_0$$3);
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
@@ -1992,7 +2018,9 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, listTables)
 	ZVAL_STR_COPY(&schemaName_zv, schemaName);
 	}
 	if (!(ZEPHIR_IS_EMPTY(&schemaName_zv))) {
-		ZEPHIR_CONCAT_SVS(return_value, "SHOW TABLES FROM `", &schemaName_zv, "`");
+		ZEPHIR_CALL_METHOD(&_0$$3, this_ptr, "escape", NULL, 115, &schemaName_zv);
+		zephir_check_call_status();
+		ZEPHIR_CONCAT_SV(return_value, "SHOW TABLES FROM ", &_0$$3);
 		RETURN_MM();
 	}
 	RETURN_MM_STRING("SHOW TABLES");
@@ -2004,10 +2032,13 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, listTables)
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, listViews)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval schemaName_zv;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval schemaName_zv, _0$$3;
 	zend_string *schemaName = NULL;
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&schemaName_zv);
+	ZVAL_UNDEF(&_0$$3);
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
@@ -2022,7 +2053,9 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, listViews)
 	ZVAL_STR_COPY(&schemaName_zv, schemaName);
 	}
 	if (!(ZEPHIR_IS_EMPTY(&schemaName_zv))) {
-		ZEPHIR_CONCAT_SVS(return_value, "SELECT `TABLE_NAME` AS view_name FROM `INFORMATION_SCHEMA`.`VIEWS` WHERE `TABLE_SCHEMA` = '", &schemaName_zv, "' ORDER BY view_name");
+		ZEPHIR_CALL_METHOD(&_0$$3, this_ptr, "escapestringliteral", NULL, 0, &schemaName_zv);
+		zephir_check_call_status();
+		ZEPHIR_CONCAT_SVS(return_value, "SELECT `TABLE_NAME` AS view_name FROM `INFORMATION_SCHEMA`.`VIEWS` WHERE `TABLE_SCHEMA` = '", &_0$$3, "' ORDER BY view_name");
 		RETURN_MM();
 	}
 	RETURN_MM_STRING("SELECT `TABLE_NAME` AS view_name FROM `INFORMATION_SCHEMA`.`VIEWS` WHERE `TABLE_SCHEMA` = DATABASE() ORDER BY view_name");
@@ -2334,11 +2367,16 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, sharedLock)
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, tableExists)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval tableName_zv, schemaName_zv;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval tableName_zv, schemaName_zv, _0$$3, _1$$3, _2;
 	zend_string *tableName = NULL, *schemaName = NULL;
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&tableName_zv);
 	ZVAL_UNDEF(&schemaName_zv);
+	ZVAL_UNDEF(&_0$$3);
+	ZVAL_UNDEF(&_1$$3);
+	ZVAL_UNDEF(&_2);
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(tableName)
@@ -2356,10 +2394,16 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, tableExists)
 	ZVAL_STR_COPY(&schemaName_zv, schemaName);
 	}
 	if (!(ZEPHIR_IS_EMPTY(&schemaName_zv))) {
-		ZEPHIR_CONCAT_SVSVS(return_value, "SELECT IF(COUNT(*) > 0, 1, 0) FROM `INFORMATION_SCHEMA`.`TABLES` WHERE `TABLE_NAME`= '", &tableName_zv, "' AND `TABLE_SCHEMA` = '", &schemaName_zv, "'");
+		ZEPHIR_CALL_METHOD(&_0$$3, this_ptr, "escapestringliteral", NULL, 0, &tableName_zv);
+		zephir_check_call_status();
+		ZEPHIR_CALL_METHOD(&_1$$3, this_ptr, "escapestringliteral", NULL, 0, &schemaName_zv);
+		zephir_check_call_status();
+		ZEPHIR_CONCAT_SVSVS(return_value, "SELECT IF(COUNT(*) > 0, 1, 0) FROM `INFORMATION_SCHEMA`.`TABLES` WHERE `TABLE_NAME`= '", &_0$$3, "' AND `TABLE_SCHEMA` = '", &_1$$3, "'");
 		RETURN_MM();
 	}
-	ZEPHIR_CONCAT_SVS(return_value, "SELECT IF(COUNT(*) > 0, 1, 0) FROM `INFORMATION_SCHEMA`.`TABLES` WHERE `TABLE_NAME` = '", &tableName_zv, "' AND `TABLE_SCHEMA` = DATABASE()");
+	ZEPHIR_CALL_METHOD(&_2, this_ptr, "escapestringliteral", NULL, 0, &tableName_zv);
+	zephir_check_call_status();
+	ZEPHIR_CONCAT_SVS(return_value, "SELECT IF(COUNT(*) > 0, 1, 0) FROM `INFORMATION_SCHEMA`.`TABLES` WHERE `TABLE_NAME` = '", &_2, "' AND `TABLE_SCHEMA` = DATABASE()");
 	RETURN_MM();
 }
 
@@ -2370,11 +2414,16 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, tableOptions)
 {
 	zval sql;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval table_zv, schema_zv;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval table_zv, schema_zv, _2, _0$$3, _1$$3;
 	zend_string *table = NULL, *schema = NULL;
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&table_zv);
 	ZVAL_UNDEF(&schema_zv);
+	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_0$$3);
+	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&sql);
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
@@ -2395,10 +2444,16 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, tableOptions)
 	ZEPHIR_INIT_VAR(&sql);
 	ZEPHIR_CONCAT_SSS(&sql, "SELECT TABLES.TABLE_TYPE AS table_type,TABLES.AUTO_INCREMENT AS auto_increment,", "TABLES.ENGINE AS engine,TABLES.TABLE_COLLATION AS table_collation,", "TABLES.TABLE_COMMENT AS table_comment FROM INFORMATION_SCHEMA.TABLES WHERE ");
 	if (!(ZEPHIR_IS_EMPTY(&schema_zv))) {
-		ZEPHIR_CONCAT_VSVSVS(return_value, &sql, "TABLES.TABLE_SCHEMA = '", &schema_zv, "' AND TABLES.TABLE_NAME = '", &table_zv, "'");
+		ZEPHIR_CALL_METHOD(&_0$$3, this_ptr, "escapestringliteral", NULL, 0, &schema_zv);
+		zephir_check_call_status();
+		ZEPHIR_CALL_METHOD(&_1$$3, this_ptr, "escapestringliteral", NULL, 0, &table_zv);
+		zephir_check_call_status();
+		ZEPHIR_CONCAT_VSVSVS(return_value, &sql, "TABLES.TABLE_SCHEMA = '", &_0$$3, "' AND TABLES.TABLE_NAME = '", &_1$$3, "'");
 		RETURN_MM();
 	}
-	ZEPHIR_CONCAT_VSVS(return_value, &sql, "TABLES.TABLE_SCHEMA = DATABASE() AND TABLES.TABLE_NAME = '", &table_zv, "'");
+	ZEPHIR_CALL_METHOD(&_2, this_ptr, "escapestringliteral", NULL, 0, &table_zv);
+	zephir_check_call_status();
+	ZEPHIR_CONCAT_VSVS(return_value, &sql, "TABLES.TABLE_SCHEMA = DATABASE() AND TABLES.TABLE_NAME = '", &_2, "'");
 	RETURN_MM();
 }
 
@@ -2442,11 +2497,16 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, truncateTable)
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, viewExists)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval viewName_zv, schemaName_zv;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval viewName_zv, schemaName_zv, _0$$3, _1$$3, _2;
 	zend_string *viewName = NULL, *schemaName = NULL;
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&viewName_zv);
 	ZVAL_UNDEF(&schemaName_zv);
+	ZVAL_UNDEF(&_0$$3);
+	ZVAL_UNDEF(&_1$$3);
+	ZVAL_UNDEF(&_2);
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(viewName)
@@ -2464,10 +2524,16 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, viewExists)
 	ZVAL_STR_COPY(&schemaName_zv, schemaName);
 	}
 	if (!(ZEPHIR_IS_EMPTY(&schemaName_zv))) {
-		ZEPHIR_CONCAT_SVSVS(return_value, "SELECT IF(COUNT(*) > 0, 1, 0) FROM `INFORMATION_SCHEMA`.`VIEWS` WHERE `TABLE_NAME`= '", &viewName_zv, "' AND `TABLE_SCHEMA`='", &schemaName_zv, "'");
+		ZEPHIR_CALL_METHOD(&_0$$3, this_ptr, "escapestringliteral", NULL, 0, &viewName_zv);
+		zephir_check_call_status();
+		ZEPHIR_CALL_METHOD(&_1$$3, this_ptr, "escapestringliteral", NULL, 0, &schemaName_zv);
+		zephir_check_call_status();
+		ZEPHIR_CONCAT_SVSVS(return_value, "SELECT IF(COUNT(*) > 0, 1, 0) FROM `INFORMATION_SCHEMA`.`VIEWS` WHERE `TABLE_NAME`= '", &_0$$3, "' AND `TABLE_SCHEMA`='", &_1$$3, "'");
 		RETURN_MM();
 	}
-	ZEPHIR_CONCAT_SVS(return_value, "SELECT IF(COUNT(*) > 0, 1, 0) FROM `INFORMATION_SCHEMA`.`VIEWS` WHERE `TABLE_NAME`='", &viewName_zv, "' AND `TABLE_SCHEMA` = DATABASE()");
+	ZEPHIR_CALL_METHOD(&_2, this_ptr, "escapestringliteral", NULL, 0, &viewName_zv);
+	zephir_check_call_status();
+	ZEPHIR_CONCAT_SVS(return_value, "SELECT IF(COUNT(*) > 0, 1, 0) FROM `INFORMATION_SCHEMA`.`VIEWS` WHERE `TABLE_NAME`='", &_2, "' AND `TABLE_SCHEMA` = DATABASE()");
 	RETURN_MM();
 }
 

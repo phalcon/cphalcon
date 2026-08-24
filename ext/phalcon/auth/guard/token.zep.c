@@ -139,6 +139,16 @@ PHP_METHOD(Phalcon_Auth_Guard_Token, fromOptions)
 	RETURN_MM();
 }
 
+/**
+ * Returns the bearer token for the request.
+ *
+ * Security: for backward compatibility the configured input key is also
+ * read from the query string / request body, and is checked before the
+ * Authorization header. A token placed in a URL leaks through access logs,
+ * browser history and the Referer header (CWE-598) - always send it in the
+ * "Authorization: Bearer <token>" header and never as a query parameter.
+ * A header-only opt-in is planned for a future major version.
+ */
 PHP_METHOD(Phalcon_Auth_Guard_Token, getTokenForRequest)
 {
 	zval _8;
@@ -334,7 +344,7 @@ PHP_METHOD(Phalcon_Auth_Guard_Token, validate)
 		RETURN_MM_BOOL(0);
 	}
 	zephir_memory_observe(&token);
-	zephir_array_fetch(&token, &credentials, &inputKey, PH_NOISY, "phalcon/Auth/Guard/Token.zep", 134);
+	zephir_array_fetch(&token, &credentials, &inputKey, PH_NOISY, "phalcon/Auth/Guard/Token.zep", 144);
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 456, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_3);
 	zephir_create_array(&_3, 1, 0);
