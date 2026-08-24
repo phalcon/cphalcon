@@ -34,6 +34,8 @@ abstract class AbstractAdapter implements AdapterInterface
      * when the constructor is not given an explicit limit. Bounds the memory a
      * crafted image (decompression bomb / pixel flood) can force the backend to
      * allocate (CWE-409). Generous by default; override per instance.
+     *
+     * @var int
      */
     const DEFAULT_MAX_PIXELS = 50000000;
 
