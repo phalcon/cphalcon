@@ -43,4 +43,23 @@ final class UrlTest extends AbstractUnitTestCase
 
         $this->assertSame('', $sanitizer(''));
     }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-08-24
+     */
+    public function testFilterSanitizeUrlBlocksDangerousScheme(): void
+    {
+        $sanitizer = new Url();
+
+        // Dangerous schemes survive FILTER_SANITIZE_URL and must be dropped.
+        $this->assertSame('', $sanitizer('javascript:alert(1)'));
+        $this->assertSame('', $sanitizer('data:text/html,<script>alert(1)</script>'));
+        $this->assertSame('', $sanitizer('vbscript:msgbox(1)'));
+
+        // Safe schemes and relative URLs pass through.
+        $this->assertSame('https://phalcon.io', $sanitizer('https://phalcon.io'));
+        $this->assertSame('mailto:team@phalcon.io', $sanitizer('mailto:team@phalcon.io'));
+        $this->assertSame('/relative/path', $sanitizer('/relative/path'));
+    }
 }
