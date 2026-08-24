@@ -12,7 +12,6 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/string.h"
 #include "kernel/memory.h"
 #include "kernel/object.h"
 
@@ -21,20 +20,22 @@ ZEPHIR_INIT_CLASS(phalcon_91__closure)
 {
 	ZEPHIR_REGISTER_CLASS(phalcon, 91__closure, phalcon, 91__closure, phalcon_91__closure_method_entry, ZEND_ACC_FINAL_CLASS);
 
+	zend_declare_property_null(phalcon_91__closure_ce, SL("rawValue"), ZEND_ACC_PUBLIC|ZEND_ACC_STATIC);
 	return SUCCESS;
 }
 
 PHP_METHOD(phalcon_91__closure, __invoke)
 {
-	zval *a, a_sub, *b, b_sub;
+	zval rawValue, *matches, matches_sub;
 
-	ZVAL_UNDEF(&a_sub);
-	ZVAL_UNDEF(&b_sub);
-	ZEND_PARSE_PARAMETERS_START(2, 2)
-		Z_PARAM_ZVAL(a)
-		Z_PARAM_ZVAL(b)
+	ZVAL_UNDEF(&rawValue);
+	ZVAL_UNDEF(&matches_sub);
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(matches)
 	ZEND_PARSE_PARAMETERS_END();
-	zephir_fetch_params_without_memory_grow(2, 0, &a, &b);
-	RETURN_LONG((zephir_fast_strlen_ev(b) - zephir_fast_strlen_ev(a)));
+	zephir_read_static_property_ce(&rawValue, phalcon_91__closure_ce, SL("rawValue"), PH_NOISY_CC);
+	zephir_fetch_params_without_memory_grow(1, 0, &matches);
+	RETVAL_ZVAL(&rawValue, 1, 0);
+	return;
 }
 

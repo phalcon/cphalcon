@@ -2419,7 +2419,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, expression)
 					if (zephir_array_isset_string_fetch(&name, &singleExpr, SL("name"), 0)) {
 						ZEPHIR_INIT_NVAR(&_8$$8);
 						ZEPHIR_INIT_NVAR(&_8$$8);
-						zephir_create_closure_ex(&_8$$8, NULL, phalcon_93__closure_ce, SL("__invoke"));
+						zephir_create_closure_ex(&_8$$8, NULL, phalcon_96__closure_ce, SL("__invoke"));
 						ZEPHIR_INIT_NVAR(&_9$$8);
 						ZVAL_STRING(&_9$$8, "/\\\\.|'/s");
 						ZEPHIR_CALL_FUNCTION(&_10$$8, "preg_replace_callback", &_11, 0, &_9$$8, &_8$$8, &name);
@@ -2461,7 +2461,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, expression)
 						if (zephir_array_isset_string_fetch(&name, &singleExpr, SL("name"), 0)) {
 							ZEPHIR_INIT_NVAR(&_17$$11);
 							ZEPHIR_INIT_NVAR(&_17$$11);
-							zephir_create_closure_ex(&_17$$11, NULL, phalcon_94__closure_ce, SL("__invoke"));
+							zephir_create_closure_ex(&_17$$11, NULL, phalcon_97__closure_ce, SL("__invoke"));
 							ZEPHIR_INIT_NVAR(&_18$$11);
 							ZVAL_STRING(&_18$$11, "/\\\\.|'/s");
 							ZEPHIR_CALL_FUNCTION(&_19$$11, "preg_replace_callback", &_11, 0, &_18$$11, &_17$$11, &name);
@@ -2598,7 +2598,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, expression)
 				if (EXPECTED(doubleQuotes == 0)) {
 					ZEPHIR_INIT_NVAR(&_28$$35);
 					ZEPHIR_INIT_NVAR(&_28$$35);
-					zephir_create_closure_ex(&_28$$35, NULL, phalcon_95__closure_ce, SL("__invoke"));
+					zephir_create_closure_ex(&_28$$35, NULL, phalcon_98__closure_ce, SL("__invoke"));
 					zephir_array_fetch_string(&_29$$35, &expr, SL("value"), PH_NOISY | PH_READONLY, "phalcon/Mvc/View/Engine/Volt/Compiler.zep", 1566);
 					ZEPHIR_INIT_NVAR(&_30$$35);
 					ZVAL_STRING(&_30$$35, "/\\\\.|'/s");
@@ -2608,7 +2608,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, expression)
 				} else {
 					ZEPHIR_INIT_NVAR(&_32$$36);
 					ZEPHIR_INIT_NVAR(&_32$$36);
-					zephir_create_closure_ex(&_32$$36, NULL, phalcon_96__closure_ce, SL("__invoke"));
+					zephir_create_closure_ex(&_32$$36, NULL, phalcon_99__closure_ce, SL("__invoke"));
 					zephir_array_fetch_string(&_33$$36, &expr, SL("value"), PH_NOISY | PH_READONLY, "phalcon/Mvc/View/Engine/Volt/Compiler.zep", 1586);
 					ZEPHIR_INIT_NVAR(&_34$$36);
 					ZVAL_STRING(&_34$$36, "/\\\\.|[\"$]/s");
