@@ -39,6 +39,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_gd___construct, 0, 0, 1)
 	ZEND_ARG_TYPE_INFO(0, file, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, width, IS_LONG, 1, "null")
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, height, IS_LONG, 1, "null")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, maxPixels, IS_LONG, 0, "0")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_gd___destruct, 0, 0, 0)

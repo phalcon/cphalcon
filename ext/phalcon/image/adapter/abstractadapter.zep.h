@@ -23,6 +23,7 @@ PHP_METHOD(Phalcon_Image_Adapter_AbstractAdapter, save);
 PHP_METHOD(Phalcon_Image_Adapter_AbstractAdapter, sharpen);
 PHP_METHOD(Phalcon_Image_Adapter_AbstractAdapter, text);
 PHP_METHOD(Phalcon_Image_Adapter_AbstractAdapter, watermark);
+PHP_METHOD(Phalcon_Image_Adapter_AbstractAdapter, assertPixelLimit);
 PHP_METHOD(Phalcon_Image_Adapter_AbstractAdapter, checkHighLow);
 PHP_METHOD(Phalcon_Image_Adapter_AbstractAdapter, processBackground);
 PHP_METHOD(Phalcon_Image_Adapter_AbstractAdapter, processBlur);
@@ -133,6 +134,12 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_image_adapter_abstractada
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, offsetX, IS_LONG, 0, "0")
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, offsetY, IS_LONG, 0, "0")
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, opacity, IS_LONG, 0, "100")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_image_adapter_abstractadapter_assertpixellimit, 0, 2, IS_VOID, 0)
+
+	ZEND_ARG_TYPE_INFO(0, width, IS_LONG, 0)
+	ZEND_ARG_TYPE_INFO(0, height, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_image_adapter_abstractadapter_checkhighlow, 0, 1, IS_LONG, 0)
@@ -268,6 +275,7 @@ PHP_ME(Phalcon_Image_Adapter_AbstractAdapter, getImage, arginfo_phalcon_image_ad
 	PHP_ME(Phalcon_Image_Adapter_AbstractAdapter, sharpen, arginfo_phalcon_image_adapter_abstractadapter_sharpen, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Image_Adapter_AbstractAdapter, text, arginfo_phalcon_image_adapter_abstractadapter_text, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Image_Adapter_AbstractAdapter, watermark, arginfo_phalcon_image_adapter_abstractadapter_watermark, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Image_Adapter_AbstractAdapter, assertPixelLimit, arginfo_phalcon_image_adapter_abstractadapter_assertpixellimit, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Image_Adapter_AbstractAdapter, checkHighLow, arginfo_phalcon_image_adapter_abstractadapter_checkhighlow, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Image_Adapter_AbstractAdapter, processBackground, arginfo_phalcon_image_adapter_abstractadapter_processbackground, ZEND_ACC_ABSTRACT|ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Image_Adapter_AbstractAdapter, processBlur, arginfo_phalcon_image_adapter_abstractadapter_processblur, ZEND_ACC_ABSTRACT|ZEND_ACC_PROTECTED)

@@ -185,12 +185,12 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, paginate)
 	ZEPHIR_INIT_VAR(&pageItems);
 	array_init(&pageItems);
 	zephir_memory_observe(&_0);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1225, PH_NOISY_CC);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1229, PH_NOISY_CC);
 	limit = zephir_get_intval(&_0);
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 1226, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 1230, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&config, &_1);
 	zephir_memory_observe(&_2);
-	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_2, 1227, PH_NOISY_CC);
+	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_2, 1231, PH_NOISY_CC);
 	pageNumber = zephir_get_intval(&_2);
 	zephir_array_fetch_string(&_3, &config, SL("model"), PH_NOISY | PH_READONLY, "phalcon/Paginator/Adapter/Model.zep", 117);
 	ZEPHIR_CPY_WRT(&modelClass, &_3);
@@ -260,7 +260,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, paginate)
 	ZVAL_LONG(&_7, rowcount);
 	zephir_array_update_string(&_14, SL("total_items"), &_7, PH_COPY | PH_SEPARATE);
 	zephir_memory_observe(&_15);
-	zephir_read_property_cached(&_15, this_ptr, _zephir_prop_0, 1225, PH_NOISY_CC);
+	zephir_read_property_cached(&_15, this_ptr, _zephir_prop_0, 1229, PH_NOISY_CC);
 	zephir_array_update_string(&_14, SL("limit"), &_15, PH_COPY | PH_SEPARATE);
 	add_assoc_long_ex(&_14, SL("first"), 1);
 	ZEPHIR_INIT_NVAR(&_7);

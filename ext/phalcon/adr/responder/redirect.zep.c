@@ -39,6 +39,12 @@ ZEPHIR_INIT_CLASS(Phalcon_ADR_Responder_Redirect)
 
 	{
 		zval _zc0;
+		ZVAL_BOOL(&_zc0, 0);
+		zephir_declare_typed_property(phalcon_adr_responder_redirect_ce, SL("external"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_BOOL, NULL, 0);
+	}
+
+	{
+		zval _zc0;
 		ZVAL_LONG(&_zc0, 302);
 		zephir_declare_typed_property(phalcon_adr_responder_redirect_ce, SL("status"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_LONG, NULL, 0);
 	}
@@ -54,39 +60,70 @@ ZEPHIR_INIT_CLASS(Phalcon_ADR_Responder_Redirect)
 
 PHP_METHOD(Phalcon_ADR_Responder_Redirect, __construct)
 {
+	zend_bool external;
 	zend_long status;
-	zval url_zv, *status_param = NULL, _0;
+	zval url_zv, *status_param = NULL, *external_param = NULL, __$true, __$false, _0;
 	zend_string *url = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&url_zv);
+	ZVAL_BOOL(&__$true, 1);
+	ZVAL_BOOL(&__$false, 0);
 	ZVAL_UNDEF(&_0);
 	static zend_string *_zephir_prop_0 = NULL;
 	static zend_string *_zephir_prop_1 = NULL;
+	static zend_string *_zephir_prop_2 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("url", 3, 1);
 	}
 	if (UNEXPECTED(!_zephir_prop_1)) {
 		_zephir_prop_1 = zend_string_init("status", 6, 1);
 	}
+	if (UNEXPECTED(!_zephir_prop_2)) {
+		_zephir_prop_2 = zend_string_init("external", 8, 1);
+	}
 
-	ZEND_PARSE_PARAMETERS_START(1, 2)
+	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_STR(url)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_LONG(status)
+		Z_PARAM_BOOL(external)
 	ZEND_PARSE_PARAMETERS_END();
 	if (ZEND_NUM_ARGS() > 1) {
 		status_param = ZEND_CALL_ARG(execute_data, 2);
+	}
+	if (ZEND_NUM_ARGS() > 2) {
+		external_param = ZEND_CALL_ARG(execute_data, 3);
 	}
 	ZVAL_STR(&url_zv, url);
 	if (!status_param) {
 		status = 302;
 	} else {
 		}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 362, &url_zv);
+	if (!external_param) {
+		external = 0;
+	} else {
+		}
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 363, &url_zv);
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, status);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 363, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 364, &_0);
+	if (external) {
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 365, &__$true);
+	} else {
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 365, &__$false);
+	}
+}
+
+/**
+ * Whether the target is an explicit external redirect. Internal (the
+ * default) redirects refuse an absolute or protocol-relative target so a
+ * request-derived value cannot become an open redirect (CWE-601).
+ */
+PHP_METHOD(Phalcon_ADR_Responder_Redirect, external)
+{
+
+	RETURN_MEMBER(getThis(), "external");
 }
 
 PHP_METHOD(Phalcon_ADR_Responder_Redirect, permanent)
@@ -107,7 +144,7 @@ PHP_METHOD(Phalcon_ADR_Responder_Redirect, permanent)
 	ZVAL_STR_COPY(&url_zv, url);
 	object_init_ex(return_value, phalcon_adr_responder_redirect_ce);
 	ZVAL_LONG(&_0, 301);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 332, &url_zv, &_0);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 333, &url_zv, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -130,7 +167,7 @@ PHP_METHOD(Phalcon_ADR_Responder_Redirect, seeOther)
 	ZVAL_STR_COPY(&url_zv, url);
 	object_init_ex(return_value, phalcon_adr_responder_redirect_ce);
 	ZVAL_LONG(&_0, 303);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 332, &url_zv, &_0);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 333, &url_zv, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -153,7 +190,7 @@ PHP_METHOD(Phalcon_ADR_Responder_Redirect, temporary)
 	ZVAL_STR_COPY(&url_zv, url);
 	object_init_ex(return_value, phalcon_adr_responder_redirect_ce);
 	ZVAL_LONG(&_0, 302);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 332, &url_zv, &_0);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 333, &url_zv, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }

@@ -157,9 +157,9 @@ PHP_METHOD(Phalcon_Auth_Adapter_Memory, fromOptions)
 	ZVAL_STRING(&_3, "model");
 	ZEPHIR_CALL_CE_STATIC(&_4, phalcon_auth_internal_options_ce, "stringornull", NULL, 0, &options, &_3);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 394, &_1, &_4);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 395, &_1, &_4);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 395, hasher, &_0);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 396, hasher, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -189,11 +189,11 @@ PHP_METHOD(Phalcon_Auth_Adapter_Memory, retrieveById)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &id);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 434, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 436, PH_NOISY_CC | PH_READONLY);
 	if (!(zephir_array_isset_value(&_0, id))) {
 		RETURN_MM_NULL();
 	}
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 434, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 436, PH_NOISY_CC | PH_READONLY);
 	zephir_array_fetch(&_2, &_1, id, PH_NOISY | PH_READONLY, "phalcon/Auth/Adapter/Memory.zep", 70);
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "hydrate", NULL, 0, &_2);
 	zephir_check_call_status();
@@ -218,7 +218,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Memory, loadUsers)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 435, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 437, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_RETURN_CALL_METHOD(&_0, "getusers", NULL, 0);
 	zephir_check_call_status();
 	RETURN_MM();
