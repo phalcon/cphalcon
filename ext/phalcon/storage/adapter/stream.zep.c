@@ -20,10 +20,10 @@
 #include "kernel/concat.h"
 #include "kernel/array.h"
 #include "kernel/time.h"
-#include "kernel/file.h"
+#include "kernel/string.h"
 #include "ext/spl/spl_iterators.h"
 #include "ext/spl/spl_directory.h"
-#include "kernel/string.h"
+#include "kernel/file.h"
 
 
 /**
@@ -746,17 +746,19 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, getDir)
  */
 PHP_METHOD(Phalcon_Storage_Adapter_Stream, getFilepath)
 {
+	zval _2;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval key_zv, _0, _1, _2, _3;
+	zval key_zv, _0, _1, _3, _4;
 	zend_string *key = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&key_zv);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_4);
+	ZVAL_UNDEF(&_2);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(key)
 	ZEND_PARSE_PARAMETERS_END();
@@ -767,11 +769,22 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, getFilepath)
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getdir", NULL, 291, &key_zv);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_1);
-	ZEPHIR_CALL_METHOD(&_2, this_ptr, "getkeywithoutprefix", NULL, 0, &key_zv);
-	zephir_check_call_status();
+	ZEPHIR_INIT_VAR(&_2);
+	zephir_create_array(&_2, 3, 0);
 	ZEPHIR_INIT_VAR(&_3);
+	ZVAL_STRING(&_3, "/");
+	zephir_array_fast_append(&_2, &_3);
+	ZEPHIR_INIT_NVAR(&_3);
+	ZVAL_STRING(&_3, "\\");
+	zephir_array_fast_append(&_2, &_3);
+	ZEPHIR_INIT_NVAR(&_3);
+	ZVAL_STRING(&_3, ":");
+	zephir_array_fast_append(&_2, &_3);
+	ZEPHIR_CALL_METHOD(&_4, this_ptr, "getkeywithoutprefix", NULL, 0, &key_zv);
+	zephir_check_call_status();
+	ZEPHIR_INIT_NVAR(&_3);
 	ZVAL_STRING(&_3, "_");
-	zephir_prepare_virtual_path(&_1, &_2, &_3);
+	zephir_fast_str_replace(&_1, &_2, &_3, &_4);
 	ZEPHIR_CONCAT_VV(return_value, &_0, &_1);
 	RETURN_MM();
 }
@@ -985,8 +998,8 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, storePayload)
 		ZEPHIR_CALL_FUNCTION(NULL, "mkdir", NULL, 303, &directory, &_1$$3, &__$true);
 		zephir_check_call_status();
 	}
-	ZEPHIR_INIT_VAR(&_3);
-	ZEPHIR_CONCAT_VV(&_3, &directory, &key_zv);
+	ZEPHIR_CALL_METHOD(&_3, this_ptr, "getfilepath", NULL, 294, &key_zv);
+	zephir_check_call_status();
 	ZVAL_LONG(&_4, 2);
 	ZEPHIR_CALL_METHOD(&_2, this_ptr, "phpfileputcontents", NULL, 0, &_3, &localPayload, &_4);
 	zephir_check_call_status();
