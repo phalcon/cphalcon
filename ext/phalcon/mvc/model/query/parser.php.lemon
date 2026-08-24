@@ -99,6 +99,12 @@
 	status->status = PHQL_PARSING_FAILED;
 }
 
+%stack_overflow {
+	status->status = PHQL_PARSING_FAILED;
+	status->syntax_error_len = strlen("Parsing failed, the PHQL statement is nested too deeply");
+	status->syntax_error = estrndup("Parsing failed, the PHQL statement is nested too deeply", status->syntax_error_len);
+}
+
 %token_destructor {
 	if ($$) {
 		if ($$->free_flag) {

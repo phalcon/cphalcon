@@ -367,7 +367,7 @@ static void yy_destructor(YYCODETYPE yymajor, YYMINORTYPE *yypminor){
     case 15:
     case 16:
     case 17:
-#line 67 "parser.php.lemon"
+#line 72 "parser.php.lemon"
 {
 	if ((yypminor->yy0)) {
 		if ((yypminor->yy0)->free_flag) {
@@ -384,7 +384,7 @@ static void yy_destructor(YYCODETYPE yymajor, YYMINORTYPE *yypminor){
     case 23:
     case 24:
     case 25:
-#line 80 "parser.php.lemon"
+#line 85 "parser.php.lemon"
 {
     zval_ptr_dtor(&(yypminor->yy8));
 }
@@ -538,6 +538,12 @@ static void yy_shift(
      while( yypParser->yyidx>=0 ) yy_pop_parser_stack(yypParser);
      /* Here code is inserted which will execute if the parser
      ** stack every overflows */
+#line 67 "parser.php.lemon"
+
+	status->status = PHANNOT_PARSING_FAILED;
+	spprintf(&status->syntax_error, 0, "Parsing failed, the annotation is nested too deeply in %s on line %d", status->scanner_state->active_file, status->scanner_state->active_line);
+
+#line 547 "parser.php.c"
      phannot_ARG_STORE; /* Suppress warning about unused %extra_argument var */
      return;
   }
@@ -626,166 +632,166 @@ static void yy_reduce(
   **     break;
   */
       case 0:
-#line 76 "parser.php.lemon"
+#line 81 "parser.php.lemon"
 {
 	ZVAL_ZVAL(&status->ret, &yymsp[0].minor.yy8, 1, 1);
 }
-#line 634 "parser.php.c"
+#line 640 "parser.php.c"
         break;
       case 1:
       case 14:
       case 15:
-#line 84 "parser.php.lemon"
+#line 89 "parser.php.lemon"
 {
 	yygotominor.yy8 = yymsp[0].minor.yy8;
 }
-#line 643 "parser.php.c"
+#line 649 "parser.php.c"
         break;
       case 2:
-#line 92 "parser.php.lemon"
+#line 97 "parser.php.lemon"
 {
 	phannot_ret_zval_list(&yygotominor.yy8, &yymsp[-1].minor.yy8, &yymsp[0].minor.yy8);
 }
-#line 650 "parser.php.c"
+#line 656 "parser.php.c"
         break;
       case 3:
       case 8:
-#line 96 "parser.php.lemon"
+#line 101 "parser.php.lemon"
 {
 	phannot_ret_zval_list(&yygotominor.yy8, NULL, &yymsp[0].minor.yy8);
 }
-#line 658 "parser.php.c"
+#line 664 "parser.php.c"
         break;
       case 4:
-#line 104 "parser.php.lemon"
+#line 109 "parser.php.lemon"
 {
 	phannot_ret_annotation(&yygotominor.yy8, yymsp[-3].minor.yy0, &yymsp[-1].minor.yy8, status->scanner_state);
   yy_destructor(2,&yymsp[-4].minor);
   yy_destructor(4,&yymsp[-2].minor);
   yy_destructor(5,&yymsp[0].minor);
 }
-#line 668 "parser.php.c"
+#line 674 "parser.php.c"
         break;
       case 5:
-#line 108 "parser.php.lemon"
+#line 113 "parser.php.lemon"
 {
 	phannot_ret_annotation(&yygotominor.yy8, yymsp[-2].minor.yy0, NULL, status->scanner_state);
   yy_destructor(2,&yymsp[-3].minor);
   yy_destructor(4,&yymsp[-1].minor);
   yy_destructor(5,&yymsp[0].minor);
 }
-#line 678 "parser.php.c"
+#line 684 "parser.php.c"
         break;
       case 6:
-#line 112 "parser.php.lemon"
+#line 117 "parser.php.lemon"
 {
 	phannot_ret_annotation(&yygotominor.yy8, yymsp[0].minor.yy0, NULL, status->scanner_state);
   yy_destructor(2,&yymsp[-1].minor);
 }
-#line 686 "parser.php.c"
+#line 692 "parser.php.c"
         break;
       case 7:
-#line 120 "parser.php.lemon"
+#line 125 "parser.php.lemon"
 {
 	phannot_ret_zval_list(&yygotominor.yy8, &yymsp[-2].minor.yy8, &yymsp[0].minor.yy8);
   yy_destructor(1,&yymsp[-1].minor);
 }
-#line 694 "parser.php.c"
+#line 700 "parser.php.c"
         break;
       case 9:
-#line 132 "parser.php.lemon"
+#line 137 "parser.php.lemon"
 {
 	phannot_ret_named_item(&yygotominor.yy8, NULL, &yymsp[0].minor.yy8);
 }
-#line 701 "parser.php.c"
+#line 707 "parser.php.c"
         break;
       case 10:
       case 12:
-#line 136 "parser.php.lemon"
+#line 141 "parser.php.lemon"
 {
 	phannot_ret_named_item(&yygotominor.yy8, yymsp[-2].minor.yy0, &yymsp[0].minor.yy8);
   yy_destructor(7,&yymsp[-1].minor);
 }
-#line 710 "parser.php.c"
+#line 716 "parser.php.c"
         break;
       case 11:
       case 13:
-#line 140 "parser.php.lemon"
+#line 145 "parser.php.lemon"
 {
 	phannot_ret_named_item(&yygotominor.yy8, yymsp[-2].minor.yy0, &yymsp[0].minor.yy8);
   yy_destructor(8,&yymsp[-1].minor);
 }
-#line 719 "parser.php.c"
+#line 725 "parser.php.c"
         break;
       case 16:
-#line 164 "parser.php.lemon"
+#line 169 "parser.php.lemon"
 {
 	phannot_ret_literal_zval(&yygotominor.yy8, PHANNOT_T_IDENTIFIER, yymsp[0].minor.yy0);
 }
-#line 726 "parser.php.c"
+#line 732 "parser.php.c"
         break;
       case 17:
-#line 168 "parser.php.lemon"
+#line 173 "parser.php.lemon"
 {
 	phannot_ret_literal_zval(&yygotominor.yy8, PHANNOT_T_INTEGER, yymsp[0].minor.yy0);
 }
-#line 733 "parser.php.c"
+#line 739 "parser.php.c"
         break;
       case 18:
-#line 172 "parser.php.lemon"
+#line 177 "parser.php.lemon"
 {
 	phannot_ret_literal_zval(&yygotominor.yy8, PHANNOT_T_STRING, yymsp[0].minor.yy0);
 }
-#line 740 "parser.php.c"
+#line 746 "parser.php.c"
         break;
       case 19:
-#line 176 "parser.php.lemon"
+#line 181 "parser.php.lemon"
 {
 	phannot_ret_literal_zval(&yygotominor.yy8, PHANNOT_T_DOUBLE, yymsp[0].minor.yy0);
 }
-#line 747 "parser.php.c"
+#line 753 "parser.php.c"
         break;
       case 20:
-#line 180 "parser.php.lemon"
+#line 185 "parser.php.lemon"
 {
 	phannot_ret_literal_zval(&yygotominor.yy8, PHANNOT_T_NULL, NULL);
   yy_destructor(11,&yymsp[0].minor);
 }
-#line 755 "parser.php.c"
+#line 761 "parser.php.c"
         break;
       case 21:
-#line 184 "parser.php.lemon"
+#line 189 "parser.php.lemon"
 {
 	phannot_ret_literal_zval(&yygotominor.yy8, PHANNOT_T_FALSE, NULL);
   yy_destructor(12,&yymsp[0].minor);
 }
-#line 763 "parser.php.c"
+#line 769 "parser.php.c"
         break;
       case 22:
-#line 188 "parser.php.lemon"
+#line 193 "parser.php.lemon"
 {
 	phannot_ret_literal_zval(&yygotominor.yy8, PHANNOT_T_TRUE, NULL);
   yy_destructor(13,&yymsp[0].minor);
 }
-#line 771 "parser.php.c"
+#line 777 "parser.php.c"
         break;
       case 23:
-#line 192 "parser.php.lemon"
+#line 197 "parser.php.lemon"
 {
 	phannot_ret_array(&yygotominor.yy8, &yymsp[-1].minor.yy8);
   yy_destructor(14,&yymsp[-2].minor);
   yy_destructor(15,&yymsp[0].minor);
 }
-#line 780 "parser.php.c"
+#line 786 "parser.php.c"
         break;
       case 24:
-#line 196 "parser.php.lemon"
+#line 201 "parser.php.lemon"
 {
 	phannot_ret_array(&yygotominor.yy8, &yymsp[-1].minor.yy8);
   yy_destructor(16,&yymsp[-2].minor);
   yy_destructor(17,&yymsp[0].minor);
 }
-#line 789 "parser.php.c"
+#line 795 "parser.php.c"
         break;
   };
   yygoto = yyRuleInfo[yyruleno].lhs;
@@ -872,7 +878,7 @@ static void yy_syntax_error(
 
 	status->status = PHANNOT_PARSING_FAILED;
 
-#line 876 "parser.php.c"
+#line 882 "parser.php.c"
   phannot_ARG_STORE; /* Suppress warning about unused %extra_argument variable */
 }
 

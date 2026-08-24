@@ -205,6 +205,12 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, getToken)
  * Only claims that have a value in the validator are checked. A claim left
  * as null expresses no expectation and is skipped.
  *
+ * Security note: this method checks the claims only. It does not verify
+ * the signature. A token accepted by validate() alone is unauthenticated.
+ * Always also call verify() (or Validator::validateSignature()) and treat
+ * an empty error array as valid only after the signature check passes.
+ * A signature-aware default is planned for a future major version.
+ *
  * @param Validator $validator
  *
  * @return array
@@ -267,7 +273,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, validate)
 	ZEPHIR_CALL_METHOD(&_0, validator, "get", NULL, 0, &_1);
 	zephir_check_call_status();
 	zephir_array_update_string(&methods, SL("validateSubject"), &_0, PH_COPY | PH_SEPARATE);
-	zephir_is_iterable(&methods, 0, "phalcon/Encryption/Security/JWT/Token/Token.zep", 143);
+	zephir_is_iterable(&methods, 0, "phalcon/Encryption/Security/JWT/Token/Token.zep", 149);
 	ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&methods), _3, _4, _2)
 	{
 		ZEPHIR_INIT_NVAR(&method);

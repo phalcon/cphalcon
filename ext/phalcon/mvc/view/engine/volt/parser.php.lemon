@@ -155,6 +155,12 @@
 	status->status = PHVOLT_PARSING_FAILED;
 }
 
+%stack_overflow {
+	status->status = PHVOLT_PARSING_FAILED;
+	status->syntax_error_len = strlen("Parsing failed, the template expression is nested too deeply");
+	status->syntax_error = estrndup("Parsing failed, the template expression is nested too deeply", status->syntax_error_len);
+}
+
 %token_destructor {
 	if ($$) {
 		if ($$->free_flag) {
