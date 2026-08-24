@@ -299,10 +299,12 @@ class Stream extends AbstractAdapter
     {
         /**
          * Remove path separators from the key so a crafted key cannot climb
-         * out of the storage directory (CWE-22).
+         * out of the storage directory (CWE-22). str_replace is used rather
+         * than prepare_virtual_path because the latter also lower-cases the
+         * key, which would no longer match the stored file name.
          */
         return this->getDir(key)
-            . prepare_virtual_path(this->getKeyWithoutPrefix(key), "_");
+            . str_replace(["/", "\\", ":"], "_", this->getKeyWithoutPrefix(key));
     }
 
     /**
@@ -414,7 +416,7 @@ class Stream extends AbstractAdapter
         }
 
         return false !== this->phpFilePutContents(
-            directory . key,
+            this->getFilepath(key),
             localPayload,
             LOCK_EX
         );
