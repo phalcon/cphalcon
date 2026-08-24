@@ -188,4 +188,30 @@ final class GetClientAddressTest extends AbstractHttpBase
         $actual   = $request->getTrustedProxies();
         $this->assertSame($expected, $actual);
     }
+
+    /**
+     * Every configured trusted proxy must be checked, not only the first one
+     * (the peer can match any entry) (CWE-290).
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     */
+    public function testHttpRequestGetClientAddressTrustsSecondProxy(): void
+    {
+        $container = new FactoryDefault();
+
+        // REMOTE_ADDR matches the SECOND trusted proxy, not the first.
+        $_SERVER['REMOTE_ADDR']          = '25.25.25.1';
+        $_SERVER['HTTP_X_FORWARDED_FOR'] = '8.8.8.8,25.25.25.1';
+
+        $request = new Request();
+        $request->setDI($container);
+        $request->setTrustedProxies([
+            '198.51.100.0/24',
+            '25.25.25.0/24',
+        ]);
+
+        $expected = '8.8.8.8';
+        $actual   = $request->getClientAddress(true);
+        $this->assertSame($expected, $actual);
+    }
 }
